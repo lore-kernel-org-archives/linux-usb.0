@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE985C7619D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99689C7619C
 	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 17:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9C4DF2086A
+	by mail.kernel.org (Postfix) with ESMTP id 5D26222522
 	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 17:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728530AbgBPR1I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 Feb 2020 12:27:08 -0500
-Received: from asav22.altibox.net ([109.247.116.9]:50668 "EHLO
+        id S1728527AbgBPR1H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 Feb 2020 12:27:07 -0500
+Received: from asav22.altibox.net ([109.247.116.9]:50690 "EHLO
         asav22.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728495AbgBPR1H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Feb 2020 12:27:07 -0500
+        with ESMTP id S1728499AbgBPR1G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Feb 2020 12:27:06 -0500
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav22.altibox.net (Postfix) with ESMTPSA id F18AA2006F;
-        Sun, 16 Feb 2020 18:21:38 +0100 (CET)
+        by asav22.altibox.net (Postfix) with ESMTPSA id 25A9D200F1;
+        Sun, 16 Feb 2020 18:21:41 +0100 (CET)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     broonie@kernel.org, balbi@kernel.org, lee.jones@linaro.org
 Cc:     linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
         =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [RFC 1/9] regmap: Add USB support
-Date:   Sun, 16 Feb 2020 18:21:09 +0100
-Message-Id: <20200216172117.49832-2-noralf@tronnes.org>
+Subject: [RFC 7/9] drm: Add Multifunction USB Device display driver
+Date:   Sun, 16 Feb 2020 18:21:15 +0100
+Message-Id: <20200216172117.49832-8-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200216172117.49832-1-noralf@tronnes.org>
 References: <20200216172117.49832-1-noralf@tronnes.org>
@@ -41,320 +41,493 @@ X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=ZvHD1ezG c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
         a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10
-        a=SJz97ENfAAAA:8 a=mUNDW0rc9m-72unTMGQA:9 a=qPv1qALXyqbN-t20:21
-        a=3pyz2qYhOZPv3Z7M:21 a=m1hsav1n4tjLVwml:21 a=QEXdDO2ut3YA:10
-        a=vFet0B0WnEQeilDPIY6i:22
+        a=SJz97ENfAAAA:8 a=9BuUX6pRhsC96qv7cPsA:9 a=7yrdoAaASxDrdOGF:21
+        a=1pP-XCHQzciLwiWz:21 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for regmap over USB for use with the Multifunction USB Device.
-Two endpoints IN/OUT are used. Up to 255 regmaps are supported on one USB
-interface. The register index width is always 32-bit, but the register
-value can be 8, 16 or 32 bits wide. LZ4 compression is supported on bulk
-transfers.
+The Multifunction USB Device has optional support for displays.
+LZ4 compression is used if the device supports it.
+
+The driver is MIT licensed in the hope that parts of it can be used on
+the BSD's.
 
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/base/regmap/Kconfig      |    8 +-
- drivers/base/regmap/Makefile     |    1 +
- drivers/base/regmap/regmap-usb.c | 1026 ++++++++++++++++++++++++++++++
- include/linux/regmap.h           |   23 +
- include/linux/regmap_usb.h       |   97 +++
- 5 files changed, 1154 insertions(+), 1 deletion(-)
- create mode 100644 drivers/base/regmap/regmap-usb.c
- create mode 100644 include/linux/regmap_usb.h
+ drivers/gpu/drm/Kconfig       |    2 +
+ drivers/gpu/drm/Makefile      |    1 +
+ drivers/gpu/drm/mud/Kconfig   |   15 +
+ drivers/gpu/drm/mud/Makefile  |    3 +
+ drivers/gpu/drm/mud/mud_drm.c | 1198 +++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/mud/mud_drm.h |  137 ++++
+ 6 files changed, 1356 insertions(+)
+ create mode 100644 drivers/gpu/drm/mud/Kconfig
+ create mode 100644 drivers/gpu/drm/mud/Makefile
+ create mode 100644 drivers/gpu/drm/mud/mud_drm.c
+ create mode 100644 drivers/gpu/drm/mud/mud_drm.h
 
-diff --git a/drivers/base/regmap/Kconfig b/drivers/base/regmap/Kconfig
-index 0fd6f97ee523..6c937c196825 100644
---- a/drivers/base/regmap/Kconfig
-+++ b/drivers/base/regmap/Kconfig
-@@ -4,7 +4,7 @@
- # subsystems should select the appropriate symbols.
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index bfdadc3667e0..8ddc0d0e82cc 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -387,6 +387,8 @@ source "drivers/gpu/drm/aspeed/Kconfig"
  
- config REGMAP
--	default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_SCCB || REGMAP_I3C)
-+	default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_SCCB || REGMAP_I3C || REGMAP_USB)
- 	select IRQ_DOMAIN if REGMAP_IRQ
- 	bool
+ source "drivers/gpu/drm/mcde/Kconfig"
  
-@@ -53,3 +53,9 @@ config REGMAP_SCCB
- config REGMAP_I3C
- 	tristate
- 	depends on I3C
++source "drivers/gpu/drm/mud/Kconfig"
 +
-+config REGMAP_USB
-+	tristate
-+	depends on USB
-+	select LZ4_COMPRESS
-+	select LZ4_DECOMPRESS
-diff --git a/drivers/base/regmap/Makefile b/drivers/base/regmap/Makefile
-index ff6c7d8ec1cd..7e6932f100ea 100644
---- a/drivers/base/regmap/Makefile
-+++ b/drivers/base/regmap/Makefile
-@@ -17,3 +17,4 @@ obj-$(CONFIG_REGMAP_W1) += regmap-w1.o
- obj-$(CONFIG_REGMAP_SOUNDWIRE) += regmap-sdw.o
- obj-$(CONFIG_REGMAP_SCCB) += regmap-sccb.o
- obj-$(CONFIG_REGMAP_I3C) += regmap-i3c.o
-+obj-$(CONFIG_REGMAP_USB) += regmap-usb.o
-diff --git a/drivers/base/regmap/regmap-usb.c b/drivers/base/regmap/regmap-usb.c
+ # Keep legacy drivers last
+ 
+ menuconfig DRM_LEGACY
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 9f1c7c486f88..5a5eab598d39 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -122,3 +122,4 @@ obj-$(CONFIG_DRM_LIMA)  += lima/
+ obj-$(CONFIG_DRM_PANFROST) += panfrost/
+ obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
+ obj-$(CONFIG_DRM_MCDE) += mcde/
++obj-y			+= mud/
+diff --git a/drivers/gpu/drm/mud/Kconfig b/drivers/gpu/drm/mud/Kconfig
 new file mode 100644
-index 000000000000..bb4f0df44d1d
+index 000000000000..440e994ca0a2
 --- /dev/null
-+++ b/drivers/base/regmap/regmap-usb.c
-@@ -0,0 +1,1026 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
++++ b/drivers/gpu/drm/mud/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++config DRM_MUD
++	tristate "Multifunction USB Device Display"
++	depends on DRM && USB && MFD_MUD
++	select LZ4_COMPRESS
++	select DRM_KMS_HELPER
++
++	select DRM_GEM_CMA_HELPER
++	select DRM_GEM_SHMEM_HELPER
++
++	select BACKLIGHT_CLASS_DEVICE
++	help
++	 This is a KMS driver for Multifunction USB Device displays or display
++	 adapters.
+diff --git a/drivers/gpu/drm/mud/Makefile b/drivers/gpu/drm/mud/Makefile
+new file mode 100644
+index 000000000000..d5941d33bcd9
+--- /dev/null
++++ b/drivers/gpu/drm/mud/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++obj-$(CONFIG_DRM_MUD)			+= mud_drm.o
+diff --git a/drivers/gpu/drm/mud/mud_drm.c b/drivers/gpu/drm/mud/mud_drm.c
+new file mode 100644
+index 000000000000..51ba756940fd
+--- /dev/null
++++ b/drivers/gpu/drm/mud/mud_drm.c
+@@ -0,0 +1,1198 @@
++// SPDX-License-Identifier: MIT
 +/*
-+ * Register map access API - USB support
-+ *
 + * Copyright 2020 Noralf Trønnes
 + */
 +
-+#include <linux/debugfs.h>
-+#include <linux/mm.h>
++#include <linux/dma-buf.h>
++#include <linux/mfd/mud.h>
 +#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/list.h>
-+#include <linux/lz4.h>
++#include <linux/platform_device.h>
 +#include <linux/regmap.h>
-+#include <linux/regmap_usb.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
 +#include <linux/usb.h>
++#include <linux/wait.h>
++#include <linux/workqueue.h>
 +
-+#include "internal.h"
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_damage_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_encoder.h>
++#include <drm/drm_fb_helper.h>
++#include <drm/drm_file.h>
++#include <drm/drm_format_helper.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_cma_helper.h>
++//#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_rect.h>
++#include <drm/drm_simple_kms_helper.h>
++#include <drm/drm_vblank.h>
 +
-+/**
-+ * DOC: overview
++#include "mud_drm.h"
++
++/*
++ * freerun: Userspace is told that the flush happended immediately, before the worker has begun.
++ *          Useful if the rendering loop handles several displays one after the other.
++ * steady:  Notify userspace at a fixed interval (FPS).
++ * inline:  Do flushing before returning to userspace from the update function.
 + *
-+ * This regmap over USB supports multiple regmaps over a single USB interface.
-+ * Two endpoints are needed and the first IN and OUT endpoints are used.
-+ * A REGMAP_USB_DT_INTERFACE descriptor request is issued to get the number of
-+ * regmaps supported on the interface. A REGMAP_USB_DT_MAP descriptor request is
-+ * issued to get details about a specific regmap. This is done when
-+ * devm_regmap_init_usb() is called to get access to a regmap.
++ * Rationale:
++ * In a worst case scenario a full buffer update can take 1 second.
 + *
-+ * A regmap transfer begins with the host sending OUT a &regmap_usb_header which
-+ * contains info about the index of the regmap, the register address etc. Next
-+ * it does an IN or OUT transfer of the register value(s) depending on if it's a
-+ * read or write. This transfer can be compressed using lz4 if the device
-+ * supports it. Finally a &regmap_usb_status IN request is issued to receive the
-+ * status of the transfer.
++ * I believe Wayland/Weston has one rendering loop per display/device and if so doesn't need any special treatment.
++ * For Xorg I got the impression that it runs everything in one loop and one slow device will slow everything down.
++ * For games on embedded I believe maybe a fixed rate is best.
 + *
-+ * If a transfer fails with the error code -EPIPE, a reset control request
-+ * (REGMAP_USB_REQ_PROTOCOL_RESET) is issued. The device should reset it's state
-+ * machine and return its previous error code if any. The device can halt its
-+ * IN/OUT endpoints to force the host to perform a reset if it fails to
-+ * understand a transfer.
++ * I'd appreciate any insight into how userspace operates in this regard.
 + */
++static int pageflip;
++module_param(pageflip, int, 0644);
++MODULE_PARM_DESC(pageflip, "pageflip strategy: 0=freerun, 1=steady, 2=inline [default=0]");
 +
-+/* Provides exclusive interface access */
-+struct regmap_usb_interface {
-+	struct usb_interface *interface;
-+	struct mutex lock; /* Ensures exclusive interface access */
-+	unsigned int refcount;
-+	struct list_head link;
++#define MUD_DRM_PAGEFLIP_FREERUN    0
++#define MUD_DRM_PAGEFLIP_STEADY     1
++#define MUD_DRM_PAGEFLIP_INLINE     2
 +
-+	u32 tag;
++struct mud_drm_damage {
++	struct list_head list;
++	struct drm_rect rect;
++	ktime_t time;
 +};
 +
-+struct regmap_usb_context;
-+
-+struct regmap_usb_transfer {
-+	struct regmap_usb_context *ctx;
-+	struct usb_anchor anchor;
-+	struct urb *header_urb;
-+	struct urb *buf_out_urb;
-+	struct urb *buf_in_urb;
-+	void *buf;
-+	size_t bufsize;
-+	struct urb *status_urb;
-+	spinlock_t lock; /* Protect dynamic values */
-+	u32 tag;
-+	int status;
-+
-+	u8 compression;
-+	void *buf_in_dest;
-+	unsigned int length;
-+	unsigned int actual_length;
-+
-+	ktime_t start; /* FIXME: Temporary debug/perf aid */
-+};
-+
-+struct regmap_usb_context {
++struct mud_drm_device {
++	struct drm_device drm;
++	struct drm_simple_display_pipe pipe;
 +	struct usb_device *usb;
-+	struct regmap_usb_interface *ruif;
-+	u8 ifnum;
-+	unsigned int in_pipe;
-+	unsigned int out_pipe;
-+	u16 index;
-+	unsigned int val_bytes;
-+	void *lz4_comp_mem;
-+	u8 compression;
-+	unsigned int max_transfer_size;
-+	struct regmap_usb_transfer *transfers[2];
-+#ifdef CONFIG_DEBUG_FS
-+	u64 stats_length;
-+	u64 stats_actual_length;
-+	unsigned int num_resets;
-+	unsigned int num_errors;
-+#endif
++	struct regmap *regmap;
++
++	void *buf;
++	size_t buf_len;
++
++	struct mutex lock;
++
++	bool run;
++	struct workqueue_struct	*workq;
++	struct work_struct work;
++	wait_queue_head_t waitq;
++	struct drm_framebuffer *fb;
++	struct list_head damagelist;
++	unsigned int average_pageflip_ms;
 +};
 +
-+/* FIXME: Temporary debugging aid */
-+static unsigned int debug = 8;
-+
-+#define udebug(level, fmt, ...)				\
-+do {							\
-+	if ((level) <= debug)				\
-+		pr_debug(fmt, ##__VA_ARGS__);		\
-+} while (0)
-+
-+static LIST_HEAD(regmap_usb_interfaces);
-+static DEFINE_MUTEX(regmap_usb_interfaces_lock);
-+
-+static struct regmap_usb_interface *regmap_usb_interface_get(struct usb_interface *interface)
++static inline struct mud_drm_device *to_mud_drm_device(struct drm_device *drm)
 +{
-+	struct regmap_usb_interface *ruif, *entry;
-+
-+	mutex_lock(&regmap_usb_interfaces_lock);
-+	list_for_each_entry(entry, &regmap_usb_interfaces, link)
-+		if (entry->interface == interface) {
-+			ruif = entry;
-+			ruif->refcount++;
-+			goto out_unlock;
-+		}
-+
-+	ruif = kzalloc(sizeof(*ruif), GFP_KERNEL);
-+	if (!ruif) {
-+		ruif = ERR_PTR(-ENOMEM);
-+		goto out_unlock;
-+	}
-+
-+	mutex_init(&ruif->lock);
-+	ruif->interface = interface;
-+	ruif->refcount++;
-+	list_add(&ruif->link, &regmap_usb_interfaces);
-+out_unlock:
-+	mutex_unlock(&regmap_usb_interfaces_lock);
-+
-+	return ruif;
++	return container_of(drm, struct mud_drm_device, drm);
 +}
 +
-+static void regmap_usb_interface_put(struct regmap_usb_interface *ruif)
-+{
-+	mutex_lock(&regmap_usb_interfaces_lock);
-+	if (--ruif->refcount)
-+		goto out_unlock;
++/*----------------------------------------------------------------------------*/
++/* TODO: Move to drm_encoder.c */
 +
-+	list_del(&ruif->link);
-+	mutex_destroy(&ruif->lock);
-+	kfree(ruif);
-+out_unlock:
-+	mutex_unlock(&regmap_usb_interfaces_lock);
++static void drm_encoder_dummy_cleanup(struct drm_encoder *encoder)
++{
++	drm_encoder_cleanup(encoder);
++	kfree(encoder);
 +}
 +
-+#ifdef CONFIG_DEBUG_FS
-+static void regmap_usb_stats_add_length(struct regmap_usb_context *ctx, unsigned int len)
-+{
-+	ctx->stats_length += len;
-+	/* Did it wrap around? */
-+	if (ctx->stats_length <= len && ctx->stats_actual_length) {
-+		ctx->stats_length = len;
-+		ctx->stats_actual_length = 0;
-+	}
-+}
++static const struct drm_encoder_funcs drm_encoder_dummy_funcs = {
++	.destroy = drm_encoder_dummy_cleanup,
++};
 +
-+#define regmap_usb_stats_add(c, v) \
-+	(c) += v
-+#else
-+static void regmap_usb_stats_add_length(struct regmap_usb_context *ctx, unsigned int len)
++static struct drm_encoder *drm_encoder_create_dummy(struct drm_device *dev, int encoder_type)
 +{
-+}
-+
-+#define regmap_usb_stats_add(c, v)
-+#endif
-+
-+static int regmap_usb_protocol_reset(struct regmap_usb_context *ctx)
-+{
-+	u8 *prev_errno;
++	struct drm_encoder *encoder;
 +	int ret;
 +
-+	regmap_usb_stats_add(ctx->num_resets, 1);
++	encoder = kzalloc(sizeof(*encoder), GFP_KERNEL);
++	if (!encoder)
++		return ERR_PTR(-ENOMEM);
 +
-+	prev_errno = kmalloc(1, GFP_ATOMIC);
-+	if (!prev_errno)
++	ret = drm_encoder_init(dev, encoder, &drm_encoder_dummy_funcs,
++			       encoder_type, NULL);
++	if (ret) {
++		kfree(encoder);
++		return ERR_PTR(ret);
++	}
++
++	return encoder;
++}
++
++/*----------------------------------------------------------------------------*/
++/* TODO: Move to drm_simple_kms_helper.c */
++
++static void drm_simple_connector_cleanup(struct drm_connector *connector)
++{
++	drm_connector_cleanup(connector);
++	kfree(connector);
++}
++
++static const struct drm_connector_funcs drm_simple_connector_funcs = {
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_simple_connector_cleanup,
++	.reset = drm_atomic_helper_connector_reset,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static struct drm_connector *
++drm_simple_connector_create(struct drm_device *dev, const struct drm_connector_helper_funcs *funcs, int connector_type)
++{
++	struct drm_connector *connector;
++	int ret;
++
++	connector = kzalloc(sizeof(*connector), GFP_KERNEL);
++	if (!connector)
++		return ERR_PTR(-ENOMEM);
++
++	drm_connector_helper_add(connector, funcs);
++	ret = drm_connector_init(dev, connector, &drm_simple_connector_funcs, connector_type);
++	if (ret) {
++		kfree(connector);
++		return ERR_PTR(ret);
++	}
++
++	return connector;
++}
++
++/*----------------------------------------------------------------------------*/
++
++static int mud_drm_read(struct mud_drm_device *mdrm, unsigned int regnr,
++			u32 *vals, size_t val_count)
++{
++	size_t val_len = val_count * sizeof(u32);
++	u32 *val_buf;
++	int ret;
++
++	val_buf = kmalloc(val_len, GFP_KERNEL);
++	if (!val_buf)
 +		return -ENOMEM;
 +
-+	usb_clear_halt(ctx->usb, ctx->out_pipe);
-+	usb_clear_halt(ctx->usb, ctx->in_pipe);
++	ret = regmap_bulk_read(mdrm->regmap, regnr, val_buf, val_count);
++	if (!ret)
++		memcpy(vals, val_buf, val_len);
++	kfree(val_buf);
 +
-+	ret = usb_control_msg(ctx->usb, usb_rcvctrlpipe(ctx->usb, 0),
-+			      REGMAP_USB_REQ_PROTOCOL_RESET,
-+			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_INTERFACE,
-+			      0, ctx->ifnum, prev_errno, 1,
-+			      USB_CTRL_SET_TIMEOUT);
-+	udebug(0, "%s: ret=%d, prev_errno=%u\n", __func__, ret, *prev_errno);
-+	if (ret < 0 || ret != 1) {
-+		/* FIXME: Try a USB port reset? */
-+		ret = -EPIPE;
++	return ret;
++}
++
++static int mud_drm_write(struct mud_drm_device *mdrm, unsigned int regnr,
++			 const u32 *vals, size_t val_count)
++{
++	const u32 *val_buf;
++	int ret;
++
++	if (val_count == 1)
++		return regmap_write(mdrm->regmap, regnr, *vals);
++
++	val_buf = kmemdup(vals, val_count * sizeof(*val_buf), GFP_KERNEL);
++	if (!val_buf)
++		return -ENOMEM;
++
++	ret = regmap_bulk_write(mdrm->regmap, regnr, val_buf, val_count);
++	kfree(val_buf);
++
++	return ret;
++}
++
++static int mud_drm_connector_detect(struct drm_connector *connector,
++				    struct drm_modeset_acquire_ctx *ctx,
++				    bool force)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(connector->dev);
++	unsigned int status, regnr;
++	int ret;
++
++	regnr = MUD_DRM_REG_CONNECTOR_STATUS + connector->index;
++	ret = regmap_read(mdrm->regmap, regnr, &status);
++	printk("%s: index=%u, status=%u, ret=%d\n", __func__, connector->index, status, ret);
++	if (ret || status > connector_status_unknown)
++		status = connector_status_disconnected;
++
++	return status;
++}
++
++static void *mud_drm_connector_get_edid(struct drm_connector *connector)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(connector->dev);
++	unsigned int edid_len, regnr;
++	void *edid = NULL;
++	int ret;
++
++	regnr = MUD_DRM_REG_CONNECTOR_EDID_LEN + connector->index;
++	ret = regmap_read(mdrm->regmap, regnr, &edid_len);
++	printk("%s: index=%u, edid_len=%u, ret=%d\n", __func__,
++		connector->index, edid_len, ret);
++	if (ret || !edid_len)
++		return NULL;
++
++	edid = kmalloc(edid_len, GFP_KERNEL);
++	if (!edid)
++		return NULL;
++
++	regnr = MUD_DRM_REG_CONNECTOR_EDID + (connector->index * MUD_DRM_CONNECTOR_EDID_BLOCK_MAX);
++	ret = regmap_raw_read(mdrm->regmap, regnr, edid, edid_len);
++	if (ret) {
++		kfree(edid);
++		return NULL;
++	}
++
++	return edid;
++}
++
++static int mud_drm_connector_get_modes(struct drm_connector *connector)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(connector->dev);
++	struct mud_drm_display_mode *modes = NULL;
++	struct regmap *regmap = mdrm->regmap;
++	unsigned int i, reg_num_modes, regnr;
++	int ret, num_modes = 0;
++	void *edid = NULL;
++
++	printk("%s: index=%u\n", __func__, connector->index);
++
++	// FIXME: gadget side has: mconn->capabilities |= MUD_DRM_CONNECTOR_CAP_EDID;
++	if (connector->connector_type != DRM_MODE_CONNECTOR_VIRTUAL) {
++		edid = mud_drm_connector_get_edid(connector);
++		drm_connector_update_edid_property(connector, edid);
++	}
++
++	regnr = MUD_DRM_REG_CONNECTOR_MODES_COUNT + connector->index;
++	ret = regmap_read(regmap, regnr, &reg_num_modes);
++	printk("    num_modes=%d, ret=%d\n", reg_num_modes, ret);
++	if (ret) {
++		if (edid)
++			num_modes = drm_add_edid_modes(connector, edid);
++	} else if (reg_num_modes) {
++		modes = kmalloc_array(reg_num_modes, sizeof(*modes), GFP_KERNEL);
++		if (!modes)
++			goto free;
++
++		regnr = MUD_DRM_REG_CONNECTOR_MODES + connector->index;
++		ret = regmap_bulk_read(regmap, regnr, modes,
++				       reg_num_modes * MUD_DRM_DISPLAY_MODE_FIELDS);
++		if (ret)
++			goto free;
++
++		for (i = 0; i < reg_num_modes; i++) {
++			struct drm_display_mode *mode;
++
++			mode = drm_mode_create(connector->dev);
++			if (!mode)
++				goto free;
++
++			mud_drm_to_display_mode(mode, &modes[i]);
++			drm_mode_probed_add(connector, mode);
++			printk("    Modeline " DRM_MODE_FMT "\n", DRM_MODE_ARG(mode));
++			num_modes++;
++		}
++	}
++free:
++	kfree(edid);
++	kfree(modes);
++
++	/* Prevent drm_helper_probe_single_connector_modes() from adding modes */
++	if (!num_modes && connector->status == connector_status_connected)
++		connector->status = connector_status_unknown;
++
++	return num_modes;
++}
++
++static const struct drm_connector_helper_funcs mud_drm_connector_funcs = {
++	.detect_ctx = mud_drm_connector_detect,
++	.get_modes = mud_drm_connector_get_modes,
++};
++
++static int mud_drm_create_tv_properties(struct mud_drm_device *mdrm, struct drm_connector *connector)
++{
++	unsigned int i, num_modes, defval;
++	const char **modes;
++	size_t buf_len;
++	char *buf;
++	int ret;
++
++	ret = regmap_read(mdrm->regmap, MUD_DRM_REG_TV_MODES_COUNT, &num_modes);
++	printk("    MUD_DRM_REG_TV_MODES_COUNT=%u, ret=%d\n", num_modes, ret);
++	if (ret)
++		return ret;
++	if (!num_modes)
++		return -EINVAL;
++
++	buf_len = num_modes * DRM_PROP_NAME_LEN;
++	modes = kmalloc_array(num_modes, sizeof(*modes), GFP_KERNEL);
++	buf = kmalloc(buf_len, GFP_KERNEL);
++	if (!modes || !buf) {
++		ret = -ENOMEM;
 +		goto free;
 +	}
 +
-+	ret = *prev_errno;
++	ret = regmap_raw_read(mdrm->regmap, MUD_DRM_REG_TV_MODES, buf, buf_len);
++	if (ret)
++		goto free;
++
++	for (i = 0; i < num_modes; i++) {
++		modes[i] = &buf[i * DRM_PROP_NAME_LEN];
++		printk("    names[%u]=%s\n", i, modes[i]);
++	}
++
++	ret = regmap_read(mdrm->regmap, MUD_DRM_REG_CONNECTOR_TV_MODE + connector->index, &defval);
++	printk("    MUD_DRM_REG_CONNECTOR_TV_MODE: %u\n", defval);
++
++	ret = drm_mode_create_tv_properties(connector->dev, num_modes, modes);
++	if (ret)
++		goto free;
++
++	drm_object_attach_property(&connector->base,
++				   connector->dev->mode_config.tv_mode_property,
++				   defval);
 +free:
-+	kfree(prev_errno);
++	kfree(modes);
++	kfree(buf);
 +
-+	return ret ? -ret : -EPIPE;
++	return ret;
 +}
 +
-+static void regmap_usb_header_urb_completion(struct urb *urb)
++static int mud_drm_connector_create(struct mud_drm_device *mdrm, int connector_type)
 +{
-+	struct regmap_usb_transfer *transfer = urb->context;
-+	unsigned long flags;
++	struct drm_device *drm = &mdrm->drm;
++	struct drm_connector *connector;
++	struct drm_encoder *encoder;
++	unsigned int val;
++	int ret;
 +
-+	spin_lock_irqsave(&transfer->lock, flags);
-+	if (urb->status)
-+		transfer->status = urb->status;
-+	else if (urb->actual_length != urb->transfer_buffer_length)
-+		transfer->status = -EREMOTEIO;
-+	transfer->start = ktime_get();
-+	spin_unlock_irqrestore(&transfer->lock, flags);
++	connector = drm_simple_connector_create(drm, &mud_drm_connector_funcs, connector_type);
++	if (IS_ERR(connector))
++		return PTR_ERR(connector);
 +
-+	udebug(4, "%s: transfer: status=%d (%d), tag=%u\n",
-+	       __func__, urb->status, transfer->status, transfer->tag);
++	connector->polled = (DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT);
++
++	printk("%s: index=%u\n", __func__, connector->index);
++
++	ret = regmap_read(mdrm->regmap, MUD_DRM_REG_CONNECTOR_CAPS + connector->index, &val);
++	printk("    MUD_DRM_REG_CONNECTOR_CAPS: %x\n", val);
++	if (ret)
++		return ret;
++
++	if (!(val & (MUD_DRM_CONNECTOR_CAP_MODE | MUD_DRM_CONNECTOR_CAP_EDID))) {
++		printk("\n\nNEED MODE or EDID\n");
++	}
++
++	if (val & MUD_DRM_CONNECTOR_CAP_TV) {
++		ret = mud_drm_create_tv_properties(mdrm, connector);
++		if (ret)
++			printk("FAILED to create tv props, ret=%d\n", ret);
++	}
++
++	/* The first connector is attached to the simple pipe encoder */
++	if (!connector->index) {
++		encoder = &mdrm->pipe.encoder;
++	} else {
++		encoder = drm_encoder_create_dummy(drm, DRM_MODE_ENCODER_NONE);
++		if (IS_ERR(encoder))
++			return PTR_ERR(encoder);
++
++		encoder->possible_crtcs = 1;
++	}
++
++	return drm_connector_attach_encoder(connector, encoder);
 +}
 +
-+static void regmap_usb_status_urb_completion(struct urb *urb)
-+{
-+	struct regmap_usb_status *status = urb->transfer_buffer;
-+	struct regmap_usb_transfer *transfer = urb->context;
-+	unsigned long flags;
-+	int stat;
-+
-+	udebug(4, "%s: urb->status=%d, signature=0x%x, tag=%u (expected %u)\n",
-+	       __func__, urb->status, le32_to_cpu(status->signature),
-+	       le16_to_cpu(status->tag), transfer->tag);
-+
-+	if (urb->status)
-+		stat = urb->status;
-+	else if (urb->actual_length != urb->transfer_buffer_length)
-+		stat = -EREMOTEIO;
-+	else if (le32_to_cpu(status->signature) != REGMAP_USB_STATUS_SIGNATURE ||
-+		 le16_to_cpu(status->tag) != transfer->tag)
-+		stat = -EBADMSG;
-+	else
-+		stat = -status->status;
-+
-+	spin_lock_irqsave(&transfer->lock, flags);
-+	if (!transfer->status)
-+		transfer->status = stat;
-+	spin_unlock_irqrestore(&transfer->lock, flags);
-+}
-+
-+static long mud_drm_throughput(ktime_t begin, ktime_t end, size_t len)
++static long mud_drm_throughput(ktime_t end, ktime_t begin, size_t len)
 +{
 +	long throughput;
 +
@@ -365,920 +538,933 @@ index 000000000000..bb4f0df44d1d
 +	return throughput;
 +}
 +
-+static void regmap_usb_buf_in_urb_completion(struct urb *urb)
++static int mud_drm_fb_copy(struct mud_drm_device *mdrm, struct drm_rect *rect, size_t *len)
 +{
-+	struct regmap_usb_transfer *transfer = urb->context;
-+	unsigned long flags;
-+	ktime_t start, end;
++	struct dma_buf_attachment *import_attach;
++	struct mud_drm_damage *damage = NULL;
++	struct drm_framebuffer *fb;
++	ktime_t start = 0;
++	int ret = 0;
++	void *vmap;
++	ktime_t t1, t2;
 +
-+	spin_lock_irqsave(&transfer->lock, flags);
-+	if (urb->status && !transfer->status)
-+		transfer->status = urb->status;
-+	transfer->actual_length = urb->actual_length;
-+	start = transfer->start;
-+	spin_unlock_irqrestore(&transfer->lock, flags);
++	mutex_lock(&mdrm->lock);
 +
-+	end = ktime_get();
++	if (pageflip == MUD_DRM_PAGEFLIP_STEADY)
++		start = ktime_get();
 +
-+	udebug(4, "%s: IN: status=%d, tag=%u, %ld kB/s (%lld ms), len=%u\n",
-+	       __func__, urb->status, transfer->tag,
-+	       mud_drm_throughput(start, end, urb->actual_length),
-+	       ktime_ms_delta(end, start), urb->actual_length);
-+}
-+
-+static void regmap_usb_buf_out_urb_completion(struct urb *urb)
-+{
-+	struct regmap_usb_transfer *transfer = urb->context;
-+	unsigned long flags;
-+	ktime_t start, end;
-+
-+	spin_lock_irqsave(&transfer->lock, flags);
-+	if (!transfer->status) {
-+		if (urb->status)
-+			transfer->status = urb->status;
-+		else if (urb->actual_length != urb->transfer_buffer_length)
-+			transfer->status = -EREMOTEIO;
++	fb = mdrm->fb;
++	if (!fb) {
++		ret = -ENOENT;
++		goto unlock;
 +	}
-+	start = transfer->start;
-+	spin_unlock_irqrestore(&transfer->lock, flags);
 +
-+	end = ktime_get();
++	damage = list_first_entry_or_null(&mdrm->damagelist, struct mud_drm_damage, list);
++	if (!damage)
++		goto put_fb;
 +
-+	udebug(4, "%s: OUT: status=%d, tag=%u, %ld kB/s (%lld ms), len=%u\n",
-+	       __func__, transfer->status, transfer->tag,
-+	       mud_drm_throughput(start, end, urb->transfer_buffer_length),
-+	       ktime_ms_delta(end, start), urb->transfer_buffer_length);
-+}
++	list_del(&damage->list);
 +
-+static struct urb *regmap_usb_alloc_urb(struct usb_device *usb, unsigned int pipe,
-+					size_t size, usb_complete_t complete_fn,
-+					struct regmap_usb_transfer *transfer)
-+{
-+	void *buf = NULL;
-+	struct urb *urb;
++	*rect = damage->rect;
 +
-+	urb = usb_alloc_urb(0, GFP_KERNEL);
-+	if (!urb)
-+		return NULL;
++	printk("Flushing [FB:%d] " DRM_RECT_FMT " dt=%lld ms\n", fb->base.id,
++		DRM_RECT_ARG(rect), ktime_ms_delta(ktime_get(), damage->time));
 +
-+	if (size) {
-+		buf = usb_alloc_coherent(usb, size, GFP_KERNEL, &urb->transfer_dma);
-+		if (!buf) {
-+			usb_free_urb(urb);
-+			return NULL;
++	*len = drm_rect_width(rect) * drm_rect_height(rect) * fb->format->cpp[0];
++
++	/* Regmap restriction, the register value is 32-bit */
++	if (*len % sizeof(u32)) {
++		int adj_x = drm_rect_width(rect) % sizeof(u32);
++		int adj_y = drm_rect_height(rect) % sizeof(u32);
++		struct drm_rect adj_rect = *rect;
++
++		if (adj_x) {
++			adj_x = sizeof(u32) - adj_x;
++			if (adj_rect.x1 - adj_x >= 0)
++				adj_rect.x1 -= adj_x;
++			else if (adj_rect.x2 + adj_x <= fb->width)
++				adj_rect.x2 += adj_x;
 +		}
++
++		if (adj_y) {
++			adj_y = sizeof(u32) - adj_y;
++			if (adj_rect.y1 - adj_y >= 0)
++				adj_rect.y1 -= adj_y;
++			else if (adj_rect.y2 + adj_y <= fb->height)
++				adj_rect.y2 += adj_y;
++		}
++
++		if (drm_rect_width(&adj_rect) % sizeof(u32) || drm_rect_height(&adj_rect) % sizeof(u32))
++			drm_rect_init(rect, 0, 0, fb->width, fb->height);
++		else
++			*rect = adj_rect;
++
++		*len = drm_rect_width(rect) * drm_rect_height(rect) * fb->format->cpp[0];
++		printk("    ADJUSTED " DRM_RECT_FMT "\n", DRM_RECT_ARG(rect));
 +	}
 +
-+	usb_fill_bulk_urb(urb, usb, pipe, buf, size, complete_fn, transfer);
-+	if (size)
-+		urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
++	if (*len > mdrm->buf_len) {
++		ret = -E2BIG;
++		goto put_fb;
++	}
 +
-+	return urb;
++	t1 = ktime_get();
++	// FIXME: Kconfig: select DRM_KMS_CMA_HELPER
++	vmap = to_drm_gem_cma_obj(fb->obj[0])->vaddr;
++//	vmap = drm_gem_shmem_vmap(fb->obj[0]);
++	t2 = ktime_get();
++	if (IS_ERR(vmap)) {
++		ret = PTR_ERR(vmap);
++		goto put_fb;
++	}
++
++	printk("  vmap: %lld ms\n", ktime_ms_delta(t2, t1));
++
++	import_attach = fb->obj[0]->import_attach;
++
++	if (import_attach) {
++		ret = dma_buf_begin_cpu_access(import_attach->dmabuf, DMA_FROM_DEVICE);
++		if (ret)
++			goto unmap;
++	}
++
++	/*
++	 * Always copy since we can't pass the shmem buffer straight in since it
++	 * results in sloow uncached reads in the compressor. AND there's src buf stride to consider...
++	 *
++	 * Speed up copy if update is full and stride matches.
++	 */
++	// FIXME: Big endian host
++	if (*len == fb->height * fb->pitches[0])
++		memcpy(mdrm->buf, vmap, *len);
++	else
++		drm_fb_memcpy(mdrm->buf, vmap, fb, rect);
++
++	if (import_attach)
++		ret = dma_buf_end_cpu_access(import_attach->dmabuf, DMA_FROM_DEVICE);
++unmap:
++//	drm_gem_shmem_vunmap(fb->obj[0], vmap);
++
++	if (pageflip == MUD_DRM_PAGEFLIP_STEADY && !ret &&
++	    drm_rect_width(rect) == fb->width && drm_rect_height(rect) == fb->height) {
++		unsigned int duration = ktime_ms_delta(ktime_get(), start);
++		unsigned int old = mdrm->average_pageflip_ms;
++
++		if (!mdrm->average_pageflip_ms)
++			mdrm->average_pageflip_ms = duration;
++		else
++			mdrm->average_pageflip_ms = (duration * 3 / 10) + (mdrm->average_pageflip_ms * 7 / 10);
++		if (old != mdrm->average_pageflip_ms)
++			printk("average_pageflip_ms=%u (%u)\n", mdrm->average_pageflip_ms, old);
++	}
++
++put_fb:
++	if (list_empty(&mdrm->damagelist)) {
++		drm_framebuffer_put(fb);
++		mdrm->fb = NULL;
++	}
++unlock:
++	mutex_unlock(&mdrm->lock);
++
++	kfree(damage);
++
++	return ret;
 +}
 +
-+static void regmap_usb_free_transfer(struct regmap_usb_transfer *transfer)
++static int mud_drm_write_rect(struct mud_drm_device *mdrm, struct drm_rect *rect)
 +{
-+	struct urb *urb;
++	u32 drect[4];
 +
-+	if (!transfer)
++	drect[0] = rect->x1;
++	drect[1] = rect->y1;
++	drect[2] = drm_rect_width(rect);
++	drect[3] = drm_rect_height(rect);
++
++	return mud_drm_write(mdrm, MUD_DRM_REG_RECT_X, drect, 4);
++}
++
++static void mud_drm_fb_dirty(struct mud_drm_device *mdrm)
++{
++	struct drm_rect rect;
++	size_t len = 0;
++	int ret, idx;
++	bool debug = true;
++	ktime_t t1, t2, t3, t4;
++
++	if (!drm_dev_enter(&mdrm->drm, &idx))
 +		return;
 +
-+	urb = transfer->header_urb;
-+	if (urb)
-+		usb_free_coherent(urb->dev, urb->transfer_buffer_length,
-+				  urb->transfer_buffer, urb->transfer_dma);
-+	usb_free_urb(urb);
++	if (debug)
++		t1 = ktime_get();
 +
-+	urb = transfer->status_urb;
-+	if (urb)
-+		usb_free_coherent(urb->dev, urb->transfer_buffer_length,
-+				  urb->transfer_buffer, urb->transfer_dma);
-+	usb_free_urb(urb);
-+
-+	usb_free_urb(transfer->buf_in_urb);
-+	usb_free_urb(transfer->buf_out_urb);
-+	kfree(transfer->buf);
-+	kfree(transfer);
-+}
-+
-+static struct regmap_usb_transfer *regmap_usb_alloc_transfer(struct regmap_usb_context *ctx)
-+{
-+	struct regmap_usb_transfer *transfer;
-+
-+	transfer = kzalloc(sizeof(*transfer), GFP_KERNEL);
-+	if (!transfer)
-+		return NULL;
-+
-+	init_usb_anchor(&transfer->anchor);
-+	spin_lock_init(&transfer->lock);
-+	transfer->ctx = ctx;
-+
-+	transfer->header_urb = regmap_usb_alloc_urb(ctx->usb, ctx->out_pipe,
-+						    sizeof(struct regmap_usb_header),
-+						    regmap_usb_header_urb_completion,
-+						    transfer);
-+	if (!transfer->header_urb)
-+		goto error;
-+
-+	transfer->status_urb = regmap_usb_alloc_urb(ctx->usb, ctx->in_pipe,
-+						    sizeof(struct regmap_usb_status),
-+						    regmap_usb_status_urb_completion,
-+						    transfer);
-+	if (!transfer->status_urb)
-+		goto error;
-+
-+	transfer->buf_in_urb = regmap_usb_alloc_urb(ctx->usb, ctx->in_pipe, 0,
-+						    regmap_usb_buf_in_urb_completion,
-+						    transfer);
-+	if (!transfer->buf_in_urb)
-+		goto error;
-+
-+	transfer->buf_out_urb = regmap_usb_alloc_urb(ctx->usb, ctx->out_pipe, 0,
-+						     regmap_usb_buf_out_urb_completion,
-+						     transfer);
-+	if (!transfer->buf_out_urb)
-+		goto error;
-+
-+	transfer->bufsize = ctx->max_transfer_size;
-+retry:
-+	transfer->buf = kmalloc(transfer->bufsize, GFP_KERNEL);
-+	if (!transfer->buf) {
-+		if (transfer->bufsize < 32) /* Give up */
-+			goto error;
-+
-+		transfer->bufsize /= 2;
-+		goto retry;
-+	}
-+
-+	return transfer;
-+
-+error:
-+	regmap_usb_free_transfer(transfer);
-+
-+	return NULL;
-+}
-+
-+static void regmap_usb_free_transfers(struct regmap_usb_context *ctx)
-+{
-+	regmap_usb_free_transfer(ctx->transfers[0]);
-+	regmap_usb_free_transfer(ctx->transfers[1]);
-+}
-+
-+static int regmap_usb_alloc_transfers(struct regmap_usb_context *ctx)
-+{
-+	ctx->transfers[0] = regmap_usb_alloc_transfer(ctx);
-+	ctx->transfers[1] = regmap_usb_alloc_transfer(ctx);
-+	if (!ctx->transfers[0] || !ctx->transfers[1]) {
-+		regmap_usb_free_transfers(ctx);
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
-+static int regmap_usb_submit_urb(struct urb *urb, struct regmap_usb_transfer *transfer)
-+{
-+	int ret;
-+
-+	usb_anchor_urb(urb, &transfer->anchor);
-+	ret = usb_submit_urb(urb, GFP_KERNEL);
++	ret = mud_drm_fb_copy(mdrm, &rect, &len);
 +	if (ret)
-+		usb_unanchor_urb(urb);
++		goto out_exit;
 +
-+	return ret;
-+}
++	if (debug)
++		t2 = ktime_get();
 +
-+static void regmap_usb_kill_transfers(struct regmap_usb_context *ctx)
-+{
-+	usb_kill_anchored_urbs(&ctx->transfers[0]->anchor);
-+	usb_kill_anchored_urbs(&ctx->transfers[1]->anchor);
-+}
-+
-+static int regmap_usb_submit_transfer(struct regmap_usb_transfer *transfer,
-+				      unsigned int regnr, u32 flags, void *buf, size_t len)
-+{
-+	struct regmap_usb_context *ctx = transfer->ctx;
-+	struct regmap_usb_header *header;
-+	struct urb *urb;
-+	int ret;
-+
-+	spin_lock_irq(&transfer->lock);
-+	transfer->actual_length = 0;
-+	transfer->status = 0;
-+	transfer->tag = ++ctx->ruif->tag;
-+	spin_unlock_irq(&transfer->lock);
-+
-+	udebug(3, "%s: regnr=0x%x, in=%u flags=0x%x, len=%zu, transfer->buf=%s, tag=%u\n",
-+	       __func__, regnr, !!(flags & REGMAP_USB_HEADER_FLAG_IN), flags, len,
-+	       buf == transfer->buf ? "yes" : "no", ctx->ruif->tag);
-+
-+	header = transfer->header_urb->transfer_buffer;
-+	header->signature = cpu_to_le32(REGMAP_USB_HEADER_SIGNATURE);
-+	header->index = cpu_to_le16(ctx->index);
-+	header->tag = cpu_to_le16(ctx->ruif->tag);
-+	header->flags = cpu_to_le32(flags);
-+	header->regnr = cpu_to_le32(regnr);
-+	header->length = cpu_to_le32(len);
-+
-+	ret = regmap_usb_submit_urb(transfer->header_urb, transfer);
++	ret = mud_drm_write_rect(mdrm, &rect);
 +	if (ret)
-+		goto error;
++		goto out_exit;
 +
-+	if (flags & REGMAP_USB_HEADER_FLAG_IN)
-+		urb = transfer->buf_in_urb;
-+	else
-+		urb = transfer->buf_out_urb;
++	if (debug)
++		t3 = ktime_get();
 +
-+	urb->transfer_buffer = buf;
-+	urb->transfer_buffer_length = len;
++	ret = regmap_raw_write(mdrm->regmap, MUD_DRM_REG_BUFFER, mdrm->buf, len);
 +
-+	ret = regmap_usb_submit_urb(urb, transfer);
-+	if (ret)
-+		goto error;
++	if (debug) {
++		t4 = ktime_get();
 +
-+	ret = regmap_usb_submit_urb(transfer->status_urb, transfer);
-+	if (ret)
-+		goto error;
++		if (len >= SZ_64K)
++			printk("   SZ_64K: %lld ms len=%zu\n", ktime_ms_delta(t4, t3), len);
 +
-+	return 0;
-+
-+error:
-+	regmap_usb_kill_transfers(ctx);
-+
-+	return ret;
++		printk("   out, ret=%d: total %ld kB/s (%lld ms), memcpy %ld kB/s (%lld ms), transfer %ld kB/s (%lld ms)\n",
++			ret,
++			mud_drm_throughput(t4, t1, len),
++			ktime_ms_delta(t4, t1),
++			mud_drm_throughput(t2, t1, len),
++			ktime_ms_delta(t2, t1),
++			mud_drm_throughput(t4, t3, len),
++			ktime_ms_delta(t4, t3)
++			);
++	}
++out_exit:
++	drm_dev_exit(idx);
 +}
 +
-+static int regmap_usb_wait_anchor(struct regmap_usb_transfer *transfer)
++static void mud_drm_work(struct work_struct *work)
 +{
-+	int remain;
++	struct mud_drm_device *mdrm = container_of(work, struct mud_drm_device, work);
 +
-+	remain = usb_wait_anchor_empty_timeout(&transfer->anchor, 5000);
-+	if (!remain) {
-+		/* Kill pending first */
-+		if (transfer == transfer->ctx->transfers[0])
-+			usb_kill_anchored_urbs(&transfer->ctx->transfers[1]->anchor);
-+		else
-+			usb_kill_anchored_urbs(&transfer->ctx->transfers[0]->anchor);
-+		usb_kill_anchored_urbs(&transfer->anchor);
++	printk("%s: IN\n", __func__);
 +
-+		return -ETIMEDOUT;
++	while (mdrm->run) {
++		mud_drm_fb_dirty(mdrm);
++
++		wait_event(mdrm->waitq, !mdrm->run || mdrm->fb);
++
++		printk("%s: LOOP: mdrm->run=%u, mdrm->fb=%px\n", __func__, mdrm->run, mdrm->fb);
 +	}
-+
-+	return 0;
++	printk("%s: OUT\n", __func__);
 +}
 +
-+static int regmap_usb_transfer_decompress(struct regmap_usb_transfer *transfer)
++static bool drm_rect_include(struct drm_rect *r1, const struct drm_rect *r2)
 +{
-+	unsigned int length, actual_length;
-+	u8 compression;
-+	void *dest;
-+	int ret;
-+
-+	spin_lock_irq(&transfer->lock);
-+	length = transfer->buf_in_urb->transfer_buffer_length;
-+	actual_length = transfer->actual_length;
-+	compression = transfer->compression;
-+	transfer->compression = 0;
-+	dest = transfer->buf_in_dest;
-+	spin_unlock_irq(&transfer->lock);
-+
-+	udebug(3, "%s: dest=%px length=%u actual_length=%u\n",
-+	       __func__, dest, length, actual_length);
-+
-+	if (!actual_length) /* This transfer has not been used */
-+		return 0;
-+
-+	if (!length) /* FIXME: necessary? */
-+		return -EINVAL;
-+
-+	regmap_usb_stats_add(transfer->ctx->stats_actual_length, actual_length);
-+
-+	if (!compression) {
-+		if (actual_length != length)
-+			return -EREMOTEIO;
-+
-+		return 0;
-+	}
-+
-+	if (actual_length == length) { /* Device did not compress */
-+		memcpy(dest, transfer->buf, length);
-+		return 0;
-+	}
-+
-+	if (compression & REGMAP_USB_COMPRESSION_LZ4) {
-+		ret = LZ4_decompress_safe(transfer->buf, dest,
-+					  actual_length, transfer->bufsize);
-+		udebug(3, "    decompress: ret=%d\n", ret);
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	if (ret < 0 || ret != length)
-+		return -EREMOTEIO;
-+
-+	return 0;
++	return r1->x1 >= r2->x1 && r1->x2 <= r2->x2 && r1->y1 >= r2->y1 && r1->y2 <= r2->y2;
 +}
 +
-+static int regmap_usb_transfer(struct regmap_usb_context *ctx, bool in,
-+			       const void *reg, void *buf, size_t len)
++static void mud_drm_fb_mark_dirty(struct mud_drm_device *mdrm,
++				  struct drm_plane_state *old_state,
++				  struct drm_plane_state *state)
 +{
-+	struct regmap_usb_transfer *transfer = NULL;
-+	unsigned int i, regnr, actual_length;
-+	size_t chunk, trlen, complen = 0;
-+	size_t orglen = len;
-+	ktime_t start, end;
-+	void *trbuf;
-+	u32 flags;
-+	int ret;
++	struct drm_atomic_helper_damage_iter iter;
++	struct drm_framebuffer *old_fb = NULL;
++	struct mud_drm_damage *damage;
++	ktime_t time = ktime_get();
++	struct drm_rect rect;
++	bool wakeup = false;
++	bool debug = true;
++	unsigned int num = 0;
 +
-+	regnr = *(u32 *)reg;
++	mutex_lock(&mdrm->lock);
 +
-+	for (i = 0; i < 2; i++) {
-+		struct regmap_usb_transfer *transfer = ctx->transfers[i];
++	if (debug) {
++		if (!list_empty(&mdrm->damagelist)) {
++			struct list_head *pos;
 +
-+		spin_lock_irq(&transfer->lock);
-+		transfer->actual_length = 0;
-+		transfer->compression = 0;
-+		transfer->status = 0;
-+		spin_unlock_irq(&transfer->lock);
-+	}
-+
-+	/* FIXME: This did not work */
-+	/* Use 2 transfers to maximize compressed transfers */
-+	if (0 && ctx->compression &&
-+	    ctx->transfers[0]->bufsize == ctx->transfers[1]->bufsize &&
-+	    len > 128 && len <= ctx->transfers[0]->bufsize)
-+		complen = len / 2;
-+
-+	mutex_lock(&ctx->ruif->lock);
-+
-+	udebug(2, "\n%s: regnr=0x%x, in=%u len=%zu, buf=%px, is_vmalloc=%u\n",
-+	       __func__, regnr, in, len, buf, is_vmalloc_addr(buf));
-+
-+	start = ktime_get();
-+
-+	i = 0;
-+	while (len) {
-+		transfer = ctx->transfers[i];
-+		i = !i;
-+
-+		chunk = min(complen ? complen : transfer->bufsize, len);
-+		trlen = chunk;
-+		flags = 0;
-+
-+		regmap_usb_stats_add_length(ctx, chunk);
-+
-+		ret = regmap_usb_wait_anchor(transfer);
-+		if (ret) {
-+			udebug(0, "FAIL first wait %d\n", ret);
-+			goto error;
++			list_for_each(pos, &mdrm->damagelist)
++				num++;
 +		}
++	}
 +
-+		spin_lock_irq(&transfer->lock);
-+		ret = transfer->status;
-+		actual_length = transfer->actual_length;
-+		spin_unlock_irq(&transfer->lock);
-+		if (ret) {
-+			udebug(0, "FAIL transfer %d\n", ret);
-+			goto error;
-+		}
++	wakeup = !mdrm->fb;
 +
-+		if (in && ctx->compression && actual_length) {
-+			ret = regmap_usb_transfer_decompress(transfer);
-+			if (ret)
-+				goto error;
-+		}
++	if (mdrm->fb != state->fb) {
++		old_fb = mdrm->fb;
++		drm_framebuffer_get(state->fb);
++		mdrm->fb = state->fb;
++	}
 +
-+		trbuf = buf;
++	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
++	drm_atomic_for_each_plane_damage(&iter, &rect) {
++		if (!list_empty(&mdrm->damagelist)) {
++			struct mud_drm_damage *tmp;
++			bool found;
 +
-+		if (!in) {
-+			ret = 0;
-+			/* LZ4_minLength = 13, use the next power of two value */
-+			if (ctx->compression & REGMAP_USB_COMPRESSION_LZ4 && chunk >= 16) {
-+				ret = LZ4_compress_default(buf, transfer->buf, chunk,
-+							   chunk, ctx->lz4_comp_mem);
-+				udebug(3, "    compress[%u](chunk=%zu): ret=%d\n", !i, chunk, ret);
++			/* Is the rectangle already covered? */
++			found = false;
++			list_for_each_entry(damage, &mdrm->damagelist, list) {
++				if (drm_rect_include(&rect, &damage->rect)) {
++					found = true;
++					break;
++				}
 +			}
-+			if (ret > 0) {
-+				flags |= REGMAP_USB_COMPRESSION_LZ4;
-+				trbuf = transfer->buf;
-+				trlen = ret;
-+			} else if (is_vmalloc_addr(buf)) {
-+				memcpy(transfer->buf, buf, chunk);
-+				trbuf = transfer->buf;
++			if (found)
++				continue;
++
++			/* Does the rectangle cover existing ones? */
++			found = false;
++			list_for_each_entry_safe(damage, tmp, &mdrm->damagelist, list) {
++				if (drm_rect_include(&damage->rect, &rect)) {
++					if (!found) {
++						damage->rect = rect;
++						found = true;
++					} else {
++						list_del(&damage->list);
++						kfree(damage);
++					}
++				}
 +			}
-+			regmap_usb_stats_add(ctx->stats_actual_length, trlen);
++			if (found)
++				continue;
++
++			/* Is the rectangle adjacent to an existing one? */
++			found = false;
++			list_for_each_entry_safe(damage, tmp, &mdrm->damagelist, list) {
++				struct drm_rect box = {
++					.x1 = damage->rect.x1 - drm_rect_width(&rect),
++					.x2 = damage->rect.x2 + drm_rect_width(&rect),
++					.y1 = damage->rect.y1 - drm_rect_height(&rect),
++					.y2 = damage->rect.y2 + drm_rect_height(&rect),
++				};
++
++				if (rect.x1 >= box.x1 && rect.x2 <= box.x2 &&
++				    rect.y1 >= box.y1 && rect.y2 <= box.y2) {
++					damage->rect.x1 = min(damage->rect.x1, rect.x1);
++					damage->rect.x2 = max(damage->rect.x2, rect.x2);
++					damage->rect.y1 = min(damage->rect.y1, rect.y1);
++					damage->rect.y2 = max(damage->rect.y2, rect.y2);
++					found = true;
++					break;
++				}
++			}
++			if (found)
++				continue;
++		}
++
++		damage = kzalloc(sizeof(*damage), GFP_KERNEL);
++		if (!damage)
++			break;
++
++		damage->time = time;
++		damage->rect = rect;
++		list_add_tail(&damage->list, &mdrm->damagelist);
++	}
++
++	printk("%s: wakeup=%u, fb=[FB:%d], old_fb=[FB:%d]\n", __func__,
++		wakeup, state->fb->base.id, old_fb ? old_fb->base.id : -1);
++
++	if (debug) {
++		if (!list_empty(&mdrm->damagelist)) {
++			struct list_head *pos;
++			unsigned int num2 = 0;
++
++			list_for_each(pos, &mdrm->damagelist)
++				num2++;
++
++			if (num != num2) {
++				ktime_t t = ktime_get();
++
++				printk("    damagelist: num=%u num2=%u\n", num, num2);
++				list_for_each_entry(damage, &mdrm->damagelist, list)
++					printk("        " DRM_RECT_FMT " dt=%lld ms\n",
++						DRM_RECT_ARG(&damage->rect),
++						ktime_ms_delta(t, damage->time));
++			}
 +		} else {
-+			flags |= REGMAP_USB_HEADER_FLAG_IN;
-+			if (ctx->compression & REGMAP_USB_COMPRESSION_LZ4 && trlen >= 16) {
-+				flags |= REGMAP_USB_COMPRESSION_LZ4;
-+				trbuf = transfer->buf;
++			printk("    damagelist is empty: num=%u\n", num);
++		}
++	}
 +
-+				spin_lock_irq(&transfer->lock);
-+				transfer->compression = REGMAP_USB_COMPRESSION_LZ4;
-+				transfer->buf_in_dest = buf;
-+				spin_unlock_irq(&transfer->lock);
++	mutex_unlock(&mdrm->lock);
++
++	if (pageflip != MUD_DRM_PAGEFLIP_INLINE && wakeup)
++		wake_up(&mdrm->waitq);
++
++	if (old_fb)
++		drm_framebuffer_put(old_fb);
++}
++
++static int mud_drm_pipe_check(struct drm_simple_display_pipe *pipe,
++			      struct drm_plane_state *plane_state,
++			      struct drm_crtc_state *crtc_state)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(pipe->crtc.dev);
++	struct drm_framebuffer *old_fb = pipe->plane.state->fb;
++	struct drm_framebuffer *fb = plane_state->fb;
++	bool check = false;
++	int ret;
++
++	printk("%s:\n", __func__);
++
++	/* FIXME: Should we be flexible and let the device decide this? */
++	/* Only one connector is supported */
++	if (hweight32(crtc_state->connector_mask) > 1)
++		return -EINVAL;
++
++	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
++		const struct drm_display_mode *mode = &crtc_state->mode;
++		int connector_idx = ffs(crtc_state->connector_mask) - 1;
++		struct mud_drm_display_mode dmode;
++
++		printk("    mode_changed=%u, active_changed=%u, connectors_changed=%u",
++			crtc_state->mode_changed, crtc_state->active_changed,
++			crtc_state->connectors_changed);
++		printk("    connector_idx=%d\n", connector_idx);
++
++		if (connector_idx < 0)
++			return -EINVAL;
++
++		/* Regmap restriction */
++		if (fb && (fb->width * fb->height * fb->format->cpp[0]) % sizeof(u32)) {
++			DRM_DEV_DEBUG_KMS(fb->dev->dev,
++				"[FB:%d] Unsupported width(%u)/height(%u)/format(0x%x) combo\n",
++				fb->base.id, fb->width, fb->height, fb->format->format);
++			return -EINVAL;
++		}
++
++		ret = regmap_write(mdrm->regmap, MUD_DRM_REG_SET_CONNECTOR, connector_idx);
++		if (ret) {
++			printk("    MUD_DRM_REG_SET_CONNECTOR: ret=%d\n", ret);
++			return ret;
++		}
++
++		printk("    Modeline " DRM_MODE_FMT "\n", DRM_MODE_ARG(mode));
++
++		mud_drm_from_display_mode(&dmode, mode);
++		ret = mud_drm_write(mdrm, MUD_DRM_REG_SET_MODE, (u32 *)&dmode,
++				    MUD_DRM_DISPLAY_MODE_FIELDS);
++		if (ret) {
++			printk("    MUD_DRM_REG_SET_MODE: ret=%d\n", ret);
++			return ret;
++		}
++
++		check = true;
++	}
++
++	printk("    old_fb=[FB:%d], fb=[FB:%d]\n", old_fb ? old_fb->base.id : -1,
++		fb ? fb->base.id : -1);
++
++	if (fb) {
++		if (!old_fb || old_fb->width != fb->width || old_fb->height != fb->height ||
++		    old_fb->format->format != fb->format->format) {
++			printk("    CREATE FB\n");
++
++			ret = regmap_write(mdrm->regmap, MUD_DRM_REG_SET_FORMAT, fb->format->format);
++			if (ret) {
++				printk("    MUD_DRM_REG_SET_FORMAT: ret=%d\n", ret);
++				return ret;
++			}
++
++			check = true;
++		}
++	}
++
++	if (check) {
++		printk("    RUN CHECK\n");
++
++		ret = regmap_write(mdrm->regmap, MUD_DRM_REG_SET_COMMIT, MUD_DRM_COMMIT_CHECK);
++		if (ret) {
++			printk("    MUD_DRM_REG_SET_COMMIT CHECK: ret=%d\n", ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static void mud_drm_pipe_update(struct drm_simple_display_pipe *pipe,
++				struct drm_plane_state *old_state)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(pipe->crtc.dev);
++	struct drm_plane_state *state = pipe->plane.state;
++	struct drm_framebuffer *fb = state->fb;
++	struct drm_crtc *crtc = &pipe->crtc;
++	ktime_t start = 0, end = 0;
++	int idx, ret = 0;
++
++	if (fb)
++		printk("%s: [FB:%d] flip=%s event=%s\n", __func__,
++			fb->base.id, old_state->fb && fb != old_state->fb ? "yes" : "no",
++			crtc->state->event ? "yes" : "no");
++	else
++		printk("%s: [NOFB] event=%s\n", __func__, crtc->state->event ? "yes" : "no");
++
++	if (!drm_dev_enter(crtc->dev, &idx))
++		goto send_event;
++
++	if (!old_state->fb) {
++		printk("    ENABLE CRTC\n");
++		ret = regmap_write(mdrm->regmap, MUD_DRM_REG_PIPE_ENABLE, 1);
++		if (ret)
++			printk("    MUD_DRM_REG_PIPE_ENABLE=1: ret=%d\n", ret);
++	}
++
++	if (pageflip == MUD_DRM_PAGEFLIP_STEADY)
++		start = ktime_get();
++
++	if (fb)
++		mud_drm_fb_mark_dirty(mdrm, old_state, state);
++
++	if (pageflip == MUD_DRM_PAGEFLIP_STEADY)
++		end = ktime_get();
++
++	if (pageflip == MUD_DRM_PAGEFLIP_INLINE)
++		mud_drm_fb_dirty(mdrm);
++
++	if (fb && drm_atomic_crtc_needs_modeset(crtc->state)) {
++		ret = regmap_write(mdrm->regmap, MUD_DRM_REG_SET_COMMIT, MUD_DRM_COMMIT_APPLY);
++		if (ret)
++			printk("    MUD_DRM_REG_SET_COMMIT: ret=%d\n", ret);
++	}
++
++	if (!fb) {
++		printk("    DISABLE CRTC\n");
++		ret = regmap_write(mdrm->regmap, MUD_DRM_REG_PIPE_ENABLE, 0);
++		if (ret)
++			printk("    MUD_DRM_REG_PIPE_ENABLE=0: ret=%d\n", ret);
++	}
++
++	drm_dev_exit(idx);
++
++send_event:
++	if (crtc->state->event) {
++		if (pageflip == MUD_DRM_PAGEFLIP_STEADY) {
++			unsigned int duration = ktime_ms_delta(end, start);
++
++			if (duration < mdrm->average_pageflip_ms) {
++				printk("pageflip wait %u ms\n", mdrm->average_pageflip_ms - duration);
++				msleep(mdrm->average_pageflip_ms - duration);
++			} else {
++				printk("pageflip nowait -%u ms\n", duration - mdrm->average_pageflip_ms);
 +			}
 +		}
 +
-+		ret = regmap_usb_submit_transfer(transfer, regnr, flags, trbuf, trlen);
-+		if (ret) {
-+			udebug(0, "FAIL submit %d\n", ret);
-+			goto error;
-+		}
-+
-+		len -= chunk;
-+		buf += chunk;
-+		regnr += chunk / ctx->val_bytes;
++		spin_lock_irq(&crtc->dev->event_lock);
++		drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++		spin_unlock_irq(&crtc->dev->event_lock);
 +	}
-+
-+	ret = regmap_usb_wait_anchor(transfer);
-+	if (ret) {
-+		udebug(0, "FAIL second wait%d\n", ret);
-+		goto error;
-+	}
-+
-+	for (i = 0; i < 2; i++) {
-+		struct regmap_usb_transfer *transfer = ctx->transfers[i];
-+
-+		spin_lock_irq(&transfer->lock);
-+		ret = transfer->status;
-+		spin_unlock_irq(&transfer->lock);
-+		if (ret) {
-+			udebug(0, "FAIL transfer2[%u] %d\n", i, ret);
-+			goto error;
-+		}
-+	}
-+
-+	if (in && ctx->compression) {
-+		ret = regmap_usb_transfer_decompress(ctx->transfers[0]);
-+		if (ret)
-+			goto error;
-+		ret = regmap_usb_transfer_decompress(ctx->transfers[1]);
-+	}
-+
-+error:
-+	/*
-+	 * FIXME: What errors should warrant a reset?
-+	 *        Verify that the DOC section is correct.
-+	 */
-+	if (ret == -EPIPE || ret == -ETIMEDOUT)
-+		ret = regmap_usb_protocol_reset(ctx);
 +
 +	if (ret)
-+		regmap_usb_stats_add(ctx->num_errors, 1);
++		printk("%s: Failed to UPDATE: %d\n", __func__, ret);
++}
 +
-+	if (debug >= 2) {
-+		end = ktime_get();
-+		pr_debug("%s: ret=%d %ld kB/s (%lld ms)\n", __func__, ret,
-+			 mud_drm_throughput(start, end, orglen),
-+			 ktime_ms_delta(end, start));
++static void mud_drm_pipe_enable(struct drm_simple_display_pipe *pipe,
++				struct drm_crtc_state *crtc_state,
++				struct drm_plane_state *plane_state)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(pipe->crtc.dev);
++
++	printk("%s:\n", __func__);
++
++	mutex_lock(&mdrm->lock);
++	mdrm->run = true;
++	mutex_unlock(&mdrm->lock);
++
++	queue_work(mdrm->workq, &mdrm->work);
++}
++
++static void mud_drm_pipe_disable(struct drm_simple_display_pipe *pipe)
++{
++	struct mud_drm_device *mdrm = to_mud_drm_device(pipe->crtc.dev);
++
++	printk("%s:\n", __func__);
++
++	mutex_lock(&mdrm->lock);
++	mdrm->run = false;
++	mutex_unlock(&mdrm->lock);
++
++	wake_up(&mdrm->waitq);
++	cancel_work_sync(&mdrm->work);
++
++	mutex_lock(&mdrm->lock);
++
++	if (mdrm->fb) {
++		drm_framebuffer_put(mdrm->fb);
++		mdrm->fb = NULL;
 +	}
 +
-+	mutex_unlock(&ctx->ruif->lock);
++	if (!list_empty(&mdrm->damagelist)) {
++		struct mud_drm_damage *damage, *tmp;
 +
-+	return ret;
++		list_for_each_entry_safe(damage, tmp, &mdrm->damagelist, list) {
++			list_del(&damage->list);
++			kfree(damage);
++		}
++	}
++
++	mutex_unlock(&mdrm->lock);
 +}
 +
-+static int regmap_usb_gather_write(void *context,
-+				   const void *reg, size_t reg_len,
-+				   const void *val, size_t val_len)
-+{
-+	return regmap_usb_transfer(context, false, reg, (void *)val, val_len);
-+}
-+
-+static int regmap_usb_write(void *context, const void *data, size_t count)
-+{
-+	struct regmap_usb_context *ctx = context;
-+	size_t val_len = count - sizeof(u32);
-+	void *val;
-+	int ret;
-+
-+	/* buffer needs to be properly aligned for DMA use */
-+	val = kmemdup(data + sizeof(u32), val_len, GFP_KERNEL);
-+	if (!val)
-+		return -ENOMEM;
-+
-+	ret = regmap_usb_gather_write(ctx, data, sizeof(u32), val, val_len);
-+	kfree(val);
-+
-+	return ret;
-+}
-+
-+static int regmap_usb_read(void *context, const void *reg_buf, size_t reg_size,
-+			   void *val_buf, size_t val_size)
-+{
-+	return regmap_usb_transfer(context, true, reg_buf, val_buf, val_size);
-+}
-+
-+static void regmap_usb_free_context(void *context)
-+{
-+	struct regmap_usb_context *ctx = context;
-+
-+	udebug(1, "%s:\n", __func__);
-+
-+	regmap_usb_interface_put(ctx->ruif);
-+	regmap_usb_free_transfers(ctx);
-+	kfree(ctx->lz4_comp_mem);
-+	kfree(ctx);
-+}
-+
-+static const struct regmap_bus regmap_usb = {
-+	.write = regmap_usb_write,
-+	.gather_write = regmap_usb_gather_write,
-+	.read = regmap_usb_read,
-+	.free_context = regmap_usb_free_context,
-+	/* regmap_usb_transfer() handles reg_format: */
-+	.reg_format_endian_default = REGMAP_ENDIAN_NATIVE,
-+	.val_format_endian_default = REGMAP_ENDIAN_LITTLE,
++static const struct drm_simple_display_pipe_funcs mud_drm_pipe_funcs = {
++	.check      = mud_drm_pipe_check,
++	.update	    = mud_drm_pipe_update,
++	.enable	    = mud_drm_pipe_enable,
++	.disable    = mud_drm_pipe_disable,
++	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
 +};
 +
-+#ifdef CONFIG_DEBUG_FS
-+static int regmap_usb_debugfs_usbinfo_show(struct seq_file *s, void *ignored)
++static const struct drm_mode_config_funcs mud_drm_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create_with_dirty,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static const uint64_t mud_drm_pipe_modifiers[] = {
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID
++};
++
++static void mud_drm_driver_release(struct drm_device *drm)
 +{
-+	struct regmap_usb_context *ctx = s->private;
++	struct mud_drm_device *mdrm = to_mud_drm_device(drm);
 +
-+	mutex_lock(&ctx->ruif->lock);
++	printk("%s:\n", __func__);
 +
-+	seq_printf(s, "USB interface:     %s\n", dev_name(&ctx->ruif->interface->dev));
-+	seq_printf(s, "Regmap index:      %u\n", ctx->index);
-+	seq_printf(s, "Max transfer size: %u\n", ctx->max_transfer_size);
-+	seq_printf(s, "Tag:               %u\n", ctx->ruif->tag);
-+	seq_printf(s, "Number of errors:  %u\n", ctx->num_errors);
-+	seq_printf(s, "Number of resets:  %u\n", ctx->num_resets);
++	drm_mode_config_cleanup(drm);
++	drm_dev_fini(drm);
++	vfree(mdrm->buf);
 +
-+	seq_puts(s, "Compression:      ");
-+	if (ctx->compression & REGMAP_USB_COMPRESSION_LZ4)
-+		seq_puts(s, " lz4");
-+	seq_puts(s, "\n");
++	if (mdrm->workq)
++		destroy_workqueue(mdrm->workq);
 +
-+	if (ctx->compression) {
-+		u64 remainder;
-+		u64 ratio = div64_u64_rem(ctx->stats_length, ctx->stats_actual_length,
-+					  &remainder);
-+		u64 ratio_frac = div64_u64(remainder * 10, ctx->stats_actual_length);
++	mutex_destroy(&mdrm->lock);
 +
-+		seq_printf(s, "Compression ratio: %llu.%llu\n", ratio, ratio_frac);
-+	}
-+
-+	mutex_unlock(&ctx->ruif->lock);
-+
-+	return 0;
++	kfree(mdrm);
 +}
 +
-+DEFINE_SHOW_ATTRIBUTE(regmap_usb_debugfs_usbinfo);
++DEFINE_DRM_GEM_CMA_FOPS(mud_drm_fops);
++//DEFINE_DRM_GEM_SHMEM_FOPS(mud_drm_fops);
 +
-+static void regmap_usb_debugfs_init(struct regmap *map)
++static struct drm_driver mud_drm_drm_driver = {
++	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
++
++	.name			= "mud_drm",
++	.desc			= "Multifunction USB Device Display",
++	.date			= "20190826",
++	.major			= 1,
++	.minor			= 0,
++
++	.release		= mud_drm_driver_release,
++	.fops			= &mud_drm_fops,
++	DRM_GEM_CMA_VMAP_DRIVER_OPS,
++//	DRM_GEM_SHMEM_DRIVER_OPS,
++};
++
++static int mud_drm_probe(struct platform_device *pdev)
 +{
-+	if (!map->debugfs)
-+		return;
++	struct device *dev = &pdev->dev;
++	struct mud_cell_pdata *pdata = dev_get_platdata(dev);
++	unsigned int num_connectors, num_formats;
++	struct mud_drm_device *mdrm;
++	struct drm_device *drm;
++	struct regmap *regmap;
++	u32 vals[4], *formats;
++	int ret, i;
++	struct regmap_config mud_drm_regmap_config = {
++		.reg_bits = 32,
++		.val_bits = 32,
++		.cache_type = REGCACHE_NONE,
++	};
 +
-+	debugfs_create_file("usbinfo", 0400, map->debugfs, map->bus_context,
-+			    &regmap_usb_debugfs_usbinfo_fops);
-+}
-+#else
-+static void regmap_usb_debugfs_init(struct regmap *map) {}
-+#endif
-+
-+static struct regmap_usb_context *
-+regmap_usb_gen_context(struct usb_interface *interface, unsigned int index,
-+		       const struct regmap_config *config)
-+{
-+	struct usb_host_interface *alt = interface->cur_altsetting;
-+	struct usb_device *usb = interface_to_usbdev(interface);
-+	struct usb_endpoint_descriptor *ep_in, *ep_out;
-+	unsigned int num_regmaps, max_transfer_size;
-+	struct regmap_usb_map_descriptor map_desc;
-+	struct regmap_usb_context *ctx;
-+	int ret;
-+
-+	ret = regmap_usb_get_interface_descriptor(interface, &num_regmaps);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (!num_regmaps)
-+		return ERR_PTR(-EINVAL);
-+
-+	if (index >= num_regmaps)
-+		return ERR_PTR(-ENOENT);
-+
-+	ret = regmap_usb_get_map_descriptor(interface, index, &map_desc);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (config->reg_bits != 32 ||
-+	    config->val_bits != map_desc.bRegisterValueBits)
-+		return ERR_PTR(-EINVAL);
-+
-+	max_transfer_size = 1 << map_desc.bMaxTransferSizeOrder;
-+	if (max_transfer_size < (config->val_bits / 8))
-+		return ERR_PTR(-EINVAL);
-+
-+	max_transfer_size = min_t(unsigned long, max_transfer_size, KMALLOC_MAX_SIZE);
-+
-+	ret = usb_find_common_endpoints(alt, &ep_in, &ep_out, NULL, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ctx->usb = usb;
-+	ctx->index = index;
-+	ctx->ifnum = alt->desc.bInterfaceNumber;
-+	ctx->val_bytes = config->val_bits / 8;
-+	ctx->compression = map_desc.bCompression;
-+	ctx->max_transfer_size = max_transfer_size;
-+	ctx->in_pipe = usb_rcvbulkpipe(usb, usb_endpoint_num(ep_in));
-+	ctx->out_pipe = usb_sndbulkpipe(usb, usb_endpoint_num(ep_out));
-+
-+	if (ctx->compression & REGMAP_USB_COMPRESSION_LZ4) {
-+		ctx->lz4_comp_mem = kmalloc(LZ4_MEM_COMPRESS, GFP_KERNEL);
-+		if (!ctx->lz4_comp_mem) {
-+			ret = -ENOMEM;
-+			goto err_free;
++	/* FIXME: Remove if CMA is not used */
++	if (!dev->coherent_dma_mask) {
++		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
++		if (ret) {
++			dev_warn(dev, "Failed to set dma mask %d\n", ret);
++			return ret;
 +		}
 +	}
 +
-+	ret = regmap_usb_alloc_transfers(ctx);
-+	if (ret)
-+		goto err_free;
-+
-+	ctx->ruif = regmap_usb_interface_get(interface);
-+	if (IS_ERR(ctx->ruif)) {
-+		ret = PTR_ERR(ctx->ruif);
-+		goto err_free_transfers;
-+	}
-+
-+	return ctx;
-+
-+err_free_transfers:
-+	regmap_usb_free_transfers(ctx);
-+err_free:
-+	kfree(ctx->lz4_comp_mem);
-+	kfree(ctx);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+struct regmap *__devm_regmap_init_usb(struct device *dev,
-+				      struct usb_interface *interface,
-+				      unsigned int index,
-+				      const struct regmap_config *config,
-+				      struct lock_class_key *lock_key,
-+				      const char *lock_name)
-+{
-+	struct regmap_usb_context *ctx;
-+	struct regmap *map;
-+
-+	ctx = regmap_usb_gen_context(interface, index, config);
-+	if (IS_ERR(ctx))
-+		return ERR_CAST(ctx);
-+
-+	map = __devm_regmap_init(dev, &regmap_usb, ctx, config,
-+				 lock_key, lock_name);
-+	if (!IS_ERR(map))
-+		regmap_usb_debugfs_init(map);
-+
-+	return map;
-+}
-+EXPORT_SYMBOL(__devm_regmap_init_usb);
-+
-+static int regmap_usb_get_descriptor(struct usb_interface *interface, u8 type,
-+				     u8 index, void *desc, size_t size)
-+{
-+	u8 ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
-+	struct usb_device *usb = interface_to_usbdev(interface);
-+	u8 *buf;
-+	int ret;
-+
-+	buf = kmalloc(size, GFP_KERNEL);
-+	if (!buf)
++	mdrm = kzalloc(sizeof(*mdrm), GFP_KERNEL);
++	if (!mdrm)
 +		return -ENOMEM;
 +
-+	ret = usb_control_msg(usb, usb_rcvctrlpipe(usb, 0),
-+			      USB_REQ_GET_DESCRIPTOR,
-+			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_INTERFACE,
-+			      (type << 8) + index, ifnum, buf, size,
-+			      USB_CTRL_GET_TIMEOUT);
-+	if (ret < 0)
-+		goto free;
-+
-+	if (ret != size || buf[0] != size || buf[1] != type) {
-+		ret = -ENODATA;
-+		goto free;
++	drm = &mdrm->drm;
++	ret = devm_drm_dev_init(dev, drm, &mud_drm_drm_driver);
++	if (ret) {
++		kfree(mdrm);
++		return ret;
 +	}
 +
-+	memcpy(desc, buf, size);
-+free:
-+	kfree(buf);
++	drm_mode_config_init(drm);
++	drm->mode_config.funcs = &mud_drm_mode_config_funcs;
 +
-+	return ret;
-+}
++	mdrm->usb = interface_to_usbdev(pdata->interface);
 +
-+/**
-+ * regmap_usb_get_interface_descriptor() - Get regmap interface descriptor
-+ * @interface: USB interface
-+ * @num_regmaps: Returns the number of regmaps supported on this interface
-+ *
-+ * Returns:
-+ * Zero on success, negative error code on failure.
-+ */
-+int regmap_usb_get_interface_descriptor(struct usb_interface *interface,
-+					unsigned int *num_regmaps)
-+{
-+	struct regmap_usb_interface_descriptor desc;
-+	int ret;
++	mutex_init(&mdrm->lock);
 +
-+	ret = regmap_usb_get_descriptor(interface, REGMAP_USB_DT_INTERFACE, 0,
-+					&desc, sizeof(desc));
-+	if (ret < 0)
++	INIT_LIST_HEAD(&mdrm->damagelist);
++
++	INIT_WORK(&mdrm->work, mud_drm_work);
++	init_waitqueue_head(&mdrm->waitq);
++
++	mdrm->workq = alloc_workqueue("mud_drm", 0, 0);
++	if (!mdrm->workq)
++		return -ENOMEM;
++
++	regmap = devm_regmap_init_usb(dev, pdata->interface, pdata->index,
++				      &mud_drm_regmap_config);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
++
++	mdrm->regmap = regmap;
++
++	mdrm->buf_len = SZ_8M;
++	mdrm->buf = vmalloc(mdrm->buf_len);
++	if (!mdrm->buf)
++		return -ENOMEM;
++
++	ret = mud_drm_read(mdrm, MUD_DRM_REG_MIN_WIDTH, vals, 4);
++	if (ret)
 +		return ret;
 +
-+	*num_regmaps = desc.bNumRegmaps;
++	drm->mode_config.min_width = vals[0];
++	drm->mode_config.max_width = vals[1];
++	drm->mode_config.min_height = vals[2];
++	drm->mode_config.max_height = vals[3];
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL(regmap_usb_get_interface_descriptor);
++	printk("min_width=%u, max_width=%u, min_height=%u, max_height=%u\n",
++		drm->mode_config.min_width, drm->mode_config.max_width,
++		drm->mode_config.min_height, drm->mode_config.max_height);
 +
-+/**
-+ * regmap_usb_get_map_descriptor() - Get regmap descriptor
-+ * @interface: USB interface
-+ * @index: Index of register
-+ * @desc: Returned descriptor (little endian representation)
-+ *
-+ * Returns:
-+ * Zero on success, negative error code on failure.
-+ */
-+int regmap_usb_get_map_descriptor(struct usb_interface *interface,
-+				  unsigned int index,
-+				  struct regmap_usb_map_descriptor *desc)
-+{
-+	int ret;
-+
-+	ret = regmap_usb_get_descriptor(interface, REGMAP_USB_DT_MAP, index,
-+					desc, sizeof(*desc));
-+	if (ret < 0)
++	ret = regmap_read(regmap, MUD_DRM_REG_FORMATS_COUNT, &num_formats);
++	printk("    MUD_DRM_REG_FORMATS_COUNT=%u, ret=%d\n", num_formats, ret);
++	if (ret)
 +		return ret;
 +
-+	if (desc->name[31] != '\0')
++	if (!num_formats || num_formats > (MUD_DRM_REG_FORMATS_MAX - MUD_DRM_REG_FORMATS))
 +		return -EINVAL;
 +
++	formats = devm_kmalloc_array(dev, num_formats, sizeof(u32), GFP_KERNEL);
++	if (!formats)
++		return -ENOMEM;
++
++	ret = regmap_bulk_read(regmap, MUD_DRM_REG_FORMATS, formats, num_formats);
++	printk("    MUD_DRM_REG_FORMATS: ret=%d\n", ret);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < num_formats; i++)
++		printk("      0x%08x\n", formats[i]);
++
++	ret = drm_simple_display_pipe_init(drm, &mdrm->pipe, &mud_drm_pipe_funcs,
++					   formats, num_formats,
++					   mud_drm_pipe_modifiers, NULL);
++	if (ret)
++		return ret;
++
++	drm_plane_enable_fb_damage_clips(&mdrm->pipe.plane);
++
++	devm_kfree(dev, formats);
++
++	ret = regmap_read(regmap, MUD_DRM_REG_NUM_CONNECTORS, &num_connectors);
++	if (ret)
++		return ret;
++
++	printk("MUD_DRM_REG_NUM_CONNECTORS=%u\n", num_connectors);
++
++	if (!num_connectors || num_connectors > 16)
++		return -EINVAL;
++
++	for (i = 0; i < num_connectors; i++) {
++		unsigned int conn_type;
++
++		ret = regmap_read(regmap, MUD_DRM_REG_CONNECTOR_TYPE + i, &conn_type);
++		if (ret)
++			return ret;
++
++		/* REVISIT: This needs to be updated as new types are added */
++		if (conn_type > DRM_MODE_CONNECTOR_SPI)
++			return -EINVAL;
++
++		ret = mud_drm_connector_create(mdrm, conn_type);
++		if (ret)
++			return ret;
++	}
++
++	drm_mode_config_reset(drm);
++
++	drm_kms_helper_poll_init(drm);
++
++	platform_set_drvdata(pdev, drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret)
++		return ret;
++
++//	drm_fbdev_generic_setup(drm, 16);
++
 +	return 0;
 +}
-+EXPORT_SYMBOL(regmap_usb_get_map_descriptor);
 +
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index dfe493ac692d..c25ae1a98538 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -32,6 +32,7 @@ struct regmap_range_cfg;
- struct regmap_field;
- struct snd_ac97;
- struct sdw_slave;
-+struct usb_interface;
- 
- /* An enum of all the supported cache types */
- enum regcache_type {
-@@ -618,6 +619,12 @@ struct regmap *__devm_regmap_init_sdw(struct sdw_slave *sdw,
- 				 const struct regmap_config *config,
- 				 struct lock_class_key *lock_key,
- 				 const char *lock_name);
-+struct regmap *__devm_regmap_init_usb(struct device *dev,
-+				      struct usb_interface *interface,
-+				      unsigned int index,
-+				      const struct regmap_config *config,
-+				      struct lock_class_key *lock_key,
-+				      const char *lock_name);
- struct regmap *__devm_regmap_init_slimbus(struct slim_device *slimbus,
- 				 const struct regmap_config *config,
- 				 struct lock_class_key *lock_key,
-@@ -971,6 +978,22 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
- 	__regmap_lockdep_wrapper(__devm_regmap_init_sdw, #config,	\
- 				sdw, config)
- 
-+/**
-+ * devm_regmap_init_usb() - Initialise managed register map
-+ *
-+ * @dev: Parent device
-+ * @interface: USB interface
-+ * @index: Index of register
-+ * @config: Configuration for register map
-+ *
-+ * The return value will be an ERR_PTR() on error or a valid pointer
-+ * to a struct regmap. The regmap will be automatically freed by the
-+ * device management code.
-+ */
-+#define devm_regmap_init_usb(dev, interface, index, config)		\
-+	__regmap_lockdep_wrapper(__devm_regmap_init_usb, #config,	\
-+				dev, interface, index, config)
++static int mud_drm_remove(struct platform_device *pdev)
++{
++	struct drm_device *drm = platform_get_drvdata(pdev);
 +
- /**
-  * devm_regmap_init_slimbus() - Initialise managed register map
-  *
-diff --git a/include/linux/regmap_usb.h b/include/linux/regmap_usb.h
++	printk("%s:\n", __func__);
++
++	drm_kms_helper_poll_fini(drm);
++	drm_dev_unplug(drm);
++	drm_atomic_helper_shutdown(drm);
++
++	return 0;
++}
++
++static struct platform_driver mud_drm_driver = {
++	.driver.name	= "mud-drm",
++	.probe		= mud_drm_probe,
++	.remove		= mud_drm_remove,
++};
++
++module_platform_driver(mud_drm_driver);
++
++MODULE_ALIAS("platform:mud-drm");
++MODULE_AUTHOR("Noralf Trønnes");
++MODULE_LICENSE("Dual MIT/GPL");
+diff --git a/drivers/gpu/drm/mud/mud_drm.h b/drivers/gpu/drm/mud/mud_drm.h
 new file mode 100644
-index 000000000000..e28d5139a53c
+index 000000000000..8ace63ed2d42
 --- /dev/null
-+++ b/include/linux/regmap_usb.h
-@@ -0,0 +1,97 @@
++++ b/drivers/gpu/drm/mud/mud_drm.h
+@@ -0,0 +1,137 @@
 +/* SPDX-License-Identifier: MIT */
 +/*
 + * Copyright 2020 Noralf Trønnes
 + */
 +
-+#ifndef __LINUX_REGMAP_USB_H
-+#define __LINUX_REGMAP_USB_H
++#ifndef __LINUX_MUD_DRM_H
++#define __LINUX_MUD_DRM_H
 +
-+#include <linux/types.h>
-+#include <uapi/linux/usb/ch9.h>
++#include <drm/drm_modes.h>
 +
-+struct usb_interface;
++#define MUD_DRM_DISPLAY_MODE_FIELDS	15
 +
-+#define REGMAP_USB_MAX_MAPS	255
++struct mud_drm_display_mode {
++	u32 clock;
++	u32 hdisplay;
++	u32 hsync_start;
++	u32 hsync_end;
++	u32 htotal;
++	u32 hskew;
++	u32 vdisplay;
++	u32 vsync_start;
++	u32 vsync_end;
++	u32 vtotal;
++	u32 vscan;
 +
-+#define REGMAP_USB_DT_INTERFACE		(USB_TYPE_VENDOR | 0x01)
-+#define REGMAP_USB_DT_MAP		(USB_TYPE_VENDOR | 0x02)
++	u32 vrefresh;
 +
-+/**
-+ * struct regmap_usb_interface_descriptor - Regmap interface descriptor
-+ * @bLength: Size of descriptor in bytes
-+ * @bDescriptorType: DescriptorType (REGMAP_USB_DT_INTERFACE)
-+ * @wNumRegmaps: Number of regmaps on this interface
-+ */
-+struct regmap_usb_interface_descriptor {
-+	__u8 bLength;
-+	__u8 bDescriptorType;
++	u32 flags;
++	u32 type;
 +
-+	__u8 bNumRegmaps;
++	u32 picture_aspect_ratio;
 +} __packed;
 +
-+/**
-+ * struct regmap_usb_map_descriptor - Regmap descriptor
-+ * @bLength: Size of descriptor in bytes
-+ * @bDescriptorType: DescriptorType (REGMAP_USB_DT_MAP)
-+ * @name: Register name (NUL terminated)
-+ * @bRegisterValueBits: Number of bits in the register value
-+ * @bCompression: Supported compression types
-+ * @bMaxTransferSizeOrder: Maximum transfer size the device can handle as log2.
-+ */
-+struct regmap_usb_map_descriptor {
-+	__u8 bLength;
-+	__u8 bDescriptorType;
++static inline void mud_drm_from_display_mode(struct mud_drm_display_mode *dst,
++					     const struct drm_display_mode *src)
++{
++	dst->clock = src->clock;
++	dst->hdisplay = src->hdisplay;
++	dst->hsync_start = src->hsync_start;
++	dst->hsync_end = src->hsync_end;
++	dst->htotal = src->htotal;
++	dst->hskew = src->hskew;
++	dst->vdisplay = src->vdisplay;
++	dst->vsync_start = src->vsync_start;
++	dst->vsync_end = src->vsync_end;
++	dst->vtotal = src->vtotal;
++	dst->vscan = src->vscan;
++	dst->vrefresh = src->vrefresh;
++	dst->flags = src->flags;
++	dst->type = src->type;
++	dst->picture_aspect_ratio = src->picture_aspect_ratio;
++}
 +
-+	__u8 name[32];
-+	__u8 bRegisterValueBits;
-+	__u8 bCompression;
-+#define REGMAP_USB_COMPRESSION_LZ4	BIT(0)
-+	__u8 bMaxTransferSizeOrder;
-+} __packed;
++static inline void mud_drm_to_display_mode(struct drm_display_mode *dst,
++					   const struct mud_drm_display_mode *src)
++{
++	dst->clock = src->clock;
++	dst->hdisplay = src->hdisplay;
++	dst->hsync_start = src->hsync_start;
++	dst->hsync_end = src->hsync_end;
++	dst->htotal = src->htotal;
++	dst->hskew = src->hskew;
++	dst->vdisplay = src->vdisplay;
++	dst->vsync_start = src->vsync_start;
++	dst->vsync_end = src->vsync_end;
++	dst->vtotal = src->vtotal;
++	dst->vscan = src->vscan;
++	dst->vrefresh = src->vrefresh;
++	dst->flags = src->flags;
++	dst->type = src->type;
++	dst->picture_aspect_ratio = src->picture_aspect_ratio;
++	drm_mode_set_name(dst);
++}
 +
-+#define REGMAP_USB_REQ_PROTOCOL_RESET	0xff	/* Returns previous error code as u8 */
++#define MUD_DRM_REG_MIN_WIDTH			0x0001
++#define MUD_DRM_REG_MAX_WIDTH			0x0002
++#define MUD_DRM_REG_MIN_HEIGHT			0x0003
++#define MUD_DRM_REG_MAX_HEIGHT			0x0004
 +
-+/**
-+ * struct regmap_usb_header - Transfer header
-+ * @signature: Magic value (0x2389abc2)
-+ * @index: Index of adressed register
-+ * @tag: Sequential transfer number
-+ * @flags: Transfer flags
-+ * @regnr: Register number
-+ * @length: Transfer length
-+ */
-+struct regmap_usb_header {
-+#define REGMAP_USB_HEADER_SIGNATURE	0x2389abc2
-+	__le32 signature;
-+	__le16 index;
-+	__le16 tag;
-+	__le32 flags;
-+#define REGMAP_USB_HEADER_FLAG_IN	BIT(31)
-+/* First 8 bits are the same as the descriptor compression bits */
-+#define REGMAP_USB_HEADER_FLAG_COMPRESSION_MASK	0xff
-+	__le32 regnr;
-+	__le32 length;
-+} __packed;
++#define MUD_DRM_REG_NUM_CONNECTORS		0x0005
 +
-+/**
-+ * struct regmap_usb_status - Transfer status
-+ * @signature: Magic value (0x83e7b803)
-+ * @index: Index of adressed register
-+ * @tag: Sequential transfer number (the same as the one received in the header)
-+ * @status: Status value of the transfer (Zero on success or a Linux errno on failure)
-+ */
-+struct regmap_usb_status {
-+#define REGMAP_USB_STATUS_SIGNATURE	0x83e7b803
-+	__le32 signature;
-+	__le16 index;
-+	__le16 tag;
-+	__u8 status;
-+} __packed;
++#define MUD_DRM_REG_TV_MODES_COUNT		0x0010
++#define MUD_DRM_REG_TV_MODES			0x0011
 +
-+int regmap_usb_get_interface_descriptor(struct usb_interface *interface,
-+					unsigned int *num_regmaps);
-+int regmap_usb_get_map_descriptor(struct usb_interface *interface,
-+				  unsigned int index,
-+				  struct regmap_usb_map_descriptor *desc);
++#define MUD_DRM_REG_PIPE_ENABLE			0x0070
++
++#define MUD_DRM_REG_RECT_X			0x0071
++#define MUD_DRM_REG_RECT_Y			0x0072
++#define MUD_DRM_REG_RECT_WIDTH			0x0073
++#define MUD_DRM_REG_RECT_HEIGHT			0x0074
++
++#define MUD_DRM_REG_SET_CONNECTOR		0x0050
++#define MUD_DRM_REG_SET_MODE			0x0051
++#define MUD_DRM_REG_SET_MODE_MAX		0x005f
++#define MUD_DRM_REG_SET_FORMAT			0x0060
++#define MUD_DRM_REG_SET_COMMIT			0x0061
++  #define MUD_DRM_COMMIT_CHECK			1
++  #define MUD_DRM_COMMIT_APPLY			2
++
++#define MUD_DRM_REG_FORMATS_COUNT		0x0100
++#define MUD_DRM_REG_FORMATS			0x0101
++#define MUD_DRM_REG_FORMATS_MAX			0x01ff
++
++#define MUD_DRM_MAX_CONNECTORS			16
++
++#define MUD_DRM_REG_CONNECTOR_TYPE		0x1000
++#define MUD_DRM_REG_CONNECTOR_CAPS		0x1010
++  #define MUD_DRM_CONNECTOR_CAP_MODE		BIT(0)
++  #define MUD_DRM_CONNECTOR_CAP_EDID		BIT(1)
++  #define MUD_DRM_CONNECTOR_CAP_TV		BIT(2)
++#define MUD_DRM_REG_CONNECTOR_STATUS		0x1020
++#define MUD_DRM_REG_CONNECTOR_EDID_LEN		0x1030
++#define MUD_DRM_REG_CONNECTOR_MODES_COUNT	0x1050
++#define MUD_DRM_REG_CONNECTOR_TV_MODE		0x1070
++#define MUD_DRM_REG_CONNECTOR_EDID		0x2000
++  #define MUD_DRM_CONNECTOR_EDID_BLOCK_MAX	4096
++#define MUD_DRM_REG_CONNECTOR_EDID_MAX		0x5fff // 16 * 4096 / 4 = 16384 = 0x4000
++#define MUD_DRM_REG_CONNECTOR_MODES		0x6000
++  #define MUD_DRM_CONNECTOR_MODES_COUNT_MAX	64
++  #define MUD_DRM_CONNECTOR_MODES_BLOCK_MAX	(MUD_DRM_CONNECTOR_MODES_COUNT_MAX * MUD_DRM_DISPLAY_MODE_FIELDS)
++#define MUD_DRM_REG_CONNECTOR_MODES_MAX		0x14fff // 16 * 64 * (15 * 4) = 61440 = 0xf000
++#define MUD_DRM_REG_CONNECTOR_MAX		0x14fff
++
++#define MUD_DRM_REG_BUFFER			0x10000000
++
++struct mud_drm_gadget;
++
++int mud_drm_gadget_writereg(struct mud_drm_gadget *mdg, unsigned int regnr,
++			    const void *buf, size_t len, u8 compression);
++int mud_drm_gadget_readreg(struct mud_drm_gadget *mdg, unsigned int regnr,
++			   void *buf, size_t *len, u8 compression);
++void mud_drm_gadget_enable(struct mud_drm_gadget *mdg);
++void mud_drm_gadget_disable(struct mud_drm_gadget *mdg);
++struct mud_drm_gadget *mud_drm_gadget_init(unsigned int minor_id,
++					   size_t max_transfer_size);
 +
 +#endif
 -- 
