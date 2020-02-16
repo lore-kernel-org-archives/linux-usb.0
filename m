@@ -2,196 +2,151 @@ Return-Path: <SRS0=AcSx=4E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6303EC76199
-	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 17:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC1FC2BA83
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 17:27:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 47C3120857
-	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 17:27:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D275222B48
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 17:27:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728511AbgBPR1C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 Feb 2020 12:27:02 -0500
-Received: from asav22.altibox.net ([109.247.116.9]:50656 "EHLO
+        id S1728514AbgBPR1G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 Feb 2020 12:27:06 -0500
+Received: from asav22.altibox.net ([109.247.116.9]:50780 "EHLO
         asav22.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728370AbgBPR1C (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Feb 2020 12:27:02 -0500
+        with ESMTP id S1728370AbgBPR1G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Feb 2020 12:27:06 -0500
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav22.altibox.net (Postfix) with ESMTPSA id 8D66F200F4;
-        Sun, 16 Feb 2020 18:21:41 +0100 (CET)
+        by asav22.altibox.net (Postfix) with ESMTPSA id 43359200E1;
+        Sun, 16 Feb 2020 18:21:38 +0100 (CET)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     broonie@kernel.org, balbi@kernel.org, lee.jones@linaro.org
 Cc:     linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
         =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [RFC 8/9] drm/client: Add drm_client_init_from_id() and drm_client_modeset_set()
-Date:   Sun, 16 Feb 2020 18:21:16 +0100
-Message-Id: <20200216172117.49832-9-noralf@tronnes.org>
+Subject: [RFC 0/9] Regmap over USB for Multifunction USB Device (gpio, display, ...)
+Date:   Sun, 16 Feb 2020 18:21:08 +0100
+Message-Id: <20200216172117.49832-1-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200216172117.49832-1-noralf@tronnes.org>
-References: <20200216172117.49832-1-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=ZvHD1ezG c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10
-        a=SJz97ENfAAAA:8 a=MRF-nNKL37wAc8rothMA:9 a=QEXdDO2ut3YA:10
-        a=vFet0B0WnEQeilDPIY6i:22
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=0GFqvFEQP_9VLyYywQIA:9
+        a=QEXdDO2ut3YA:10
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-drm_client_init_from_id() provides a way for clients to add a client based
-on the minor. drm_client_modeset_set() provides a way to set the modeset
-for clients that handles connectors and display mode on their own.
+Hi,
 
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- drivers/gpu/drm/drm_client.c         | 37 ++++++++++++++++++++
- drivers/gpu/drm/drm_client_modeset.c | 52 ++++++++++++++++++++++++++++
- include/drm/drm_client.h             |  4 +++
- 3 files changed, 93 insertions(+)
+A while back I had the idea to turn a Raspberry Pi Zero into a $5
+USB to HDMI/SDTV/DSI/DPI display adapter.
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index d9a2e3695525..dbd73fe8d987 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -112,6 +112,43 @@ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
- }
- EXPORT_SYMBOL(drm_client_init);
- 
-+/**
-+ * drm_client_init_from_id - Initialise a DRM client
-+ * @minor_id: DRM minor id
-+ * @client: DRM client
-+ * @name: Client name
-+ * @funcs: DRM client functions (optional)
-+ *
-+ * This function looks up the drm_device using the minor id and initializes the client.
-+ * It also registeres the client to avoid a possible race with DRM device unregister.
-+ *
-+ * See drm_client_init() and drm_client_register().
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
-+ */
-+int drm_client_init_from_id(unsigned int minor_id, struct drm_client_dev *client,
-+			    const char *name, const struct drm_client_funcs *funcs)
-+{
-+	struct drm_minor *minor;
-+	int ret;
-+
-+	minor = drm_minor_acquire(minor_id);
-+	if (IS_ERR(minor))
-+		return PTR_ERR(minor);
-+
-+	mutex_lock(&minor->dev->clientlist_mutex);
-+	ret = drm_client_init(minor->dev, client, name, funcs);
-+	if (!ret)
-+		list_add(&client->list, &minor->dev->clientlist);
-+	mutex_unlock(&minor->dev->clientlist_mutex);
-+
-+	drm_minor_release(minor);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_client_init_from_id);
-+
- /**
-  * drm_client_register - Register client
-  * @client: DRM client
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 895b73f23079..9396267e646c 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -807,6 +807,58 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
- }
- EXPORT_SYMBOL(drm_client_modeset_probe);
- 
-+/**
-+ * drm_client_modeset_set() - Set modeset
-+ * @client: DRM client
-+ * @connector: Connector
-+ * @mode: Display mode
-+ * @fb: Framebuffer
-+ *
-+ * This function releases any current modeset info and sets the new modeset in
-+ * the client's modeset array.
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
-+ */
-+int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
-+			   struct drm_display_mode *mode, struct drm_framebuffer *fb)
-+{
-+	struct drm_mode_set *modeset;
-+	int ret = -ENOENT;
-+
-+	mutex_lock(&client->modeset_mutex);
-+
-+	drm_client_modeset_release(client);
-+
-+	if (!connector || !mode || !fb) {
-+		ret = 0;
-+		goto unlock;
-+	}
-+
-+	drm_client_for_each_modeset(modeset, client) {
-+		if (!connector_has_possible_crtc(connector, modeset->crtc))
-+			continue;
-+
-+		modeset->mode = drm_mode_duplicate(client->dev, mode);
-+		if (!modeset->mode) {
-+			ret = -ENOMEM;
-+			break;
-+		}
-+
-+		drm_connector_get(connector);
-+		modeset->connectors[modeset->num_connectors++] = connector;
-+
-+		modeset->fb = fb;
-+		ret = 0;
-+		break;
-+	}
-+unlock:
-+	mutex_unlock(&client->modeset_mutex);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_client_modeset_set);
-+
- /**
-  * drm_client_rotation() - Check the initial rotation value
-  * @modeset: DRM modeset
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index 5cf2c5dd8b1e..97e4157d07c5 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -104,6 +104,8 @@ struct drm_client_dev {
- 
- int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
- 		    const char *name, const struct drm_client_funcs *funcs);
-+int drm_client_init_from_id(unsigned int minor_id, struct drm_client_dev *client,
-+			    const char *name, const struct drm_client_funcs *funcs);
- void drm_client_release(struct drm_client_dev *client);
- void drm_client_register(struct drm_client_dev *client);
- 
-@@ -155,6 +157,8 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
- int drm_client_modeset_create(struct drm_client_dev *client);
- void drm_client_modeset_free(struct drm_client_dev *client);
- int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
-+int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
-+			   struct drm_display_mode *mode, struct drm_framebuffer *fb);
- bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
- int drm_client_modeset_commit_force(struct drm_client_dev *client);
- int drm_client_modeset_commit(struct drm_client_dev *client);
+Thinking about how to represent the display to the driver I realised
+that hardware use registers as API. And Linux does have a generic
+register abstraction: regmap. Furthermore this means that if I can do a
+regmap over USB implementation, it will be easy to do other functions
+like gpio, adc and others. After a few iterations trying to understand
+the USB subsystem and satisfying driver requirements, I now have
+something that looks promising.
+
+I'm sending out an early version hoping to get feedback especially on
+the core parts that handles regmap and interrupts.
+
+Overview:
+
+          USB Host          :         USB Device
+                            :
+            --------------  :  ------------------
+----------  | mfd: mud   |  :  | f_mud          |  ----------
+| Driver |  --------------  :  |                |  | Driver |
+----------  | regmap-usb |  :  | (mud_regmap)   |  ----------
+            --------------  :  ------------------
+
+
+I've attached 2 drivers:
+- gpio/pinctrl: is more or less finished
+- display: needs a lot more work
+
+
+USB3 device
+I've only tested this with usb2 devices (Pi, BBB) so I should get myself
+a usb3 gadget capable board. My searching didn't turn up much, so this
+seems to be quite rare. ROCK960 has USB 3.0 type C OTG but the price is
+$139 which is a bit expensive for this hobby project. Does anyone know
+of a cheap board?
+
+Noralf.
+
+
+Noralf Trønnes (9):
+  regmap: Add USB support
+  mfd: Add driver for Multifunction USB Device
+  usb: gadget: function: Add Multifunction USB Device support
+  pinctrl: Add Multifunction USB Device pinctrl driver
+  usb: gadget: function: mud: Add gpio support
+  regmap: Speed up _regmap_raw_write_impl() for large buffers
+  drm: Add Multifunction USB Device display driver
+  drm/client: Add drm_client_init_from_id() and drm_client_modeset_set()
+  usb: gadget: function: mud: Add display support
+
+ drivers/base/regmap/Kconfig              |    8 +-
+ drivers/base/regmap/Makefile             |    1 +
+ drivers/base/regmap/regmap-usb.c         | 1026 ++++++++++++++++++
+ drivers/base/regmap/regmap.c             |   10 +-
+ drivers/gpu/drm/Kconfig                  |    2 +
+ drivers/gpu/drm/Makefile                 |    1 +
+ drivers/gpu/drm/drm_client.c             |   37 +
+ drivers/gpu/drm/drm_client_modeset.c     |   52 +
+ drivers/gpu/drm/mud/Kconfig              |   18 +
+ drivers/gpu/drm/mud/Makefile             |    4 +
+ drivers/gpu/drm/mud/mud_drm.c            | 1198 ++++++++++++++++++++++
+ drivers/gpu/drm/mud/mud_drm.h            |  137 +++
+ drivers/gpu/drm/mud/mud_drm_gadget.c     |  889 ++++++++++++++++
+ drivers/mfd/Kconfig                      |    8 +
+ drivers/mfd/Makefile                     |    1 +
+ drivers/mfd/mud.c                        |  580 +++++++++++
+ drivers/pinctrl/Kconfig                  |    9 +
+ drivers/pinctrl/Makefile                 |    1 +
+ drivers/pinctrl/pinctrl-mud.c            |  657 ++++++++++++
+ drivers/pinctrl/pinctrl-mud.h            |   89 ++
+ drivers/usb/gadget/Kconfig               |   36 +
+ drivers/usb/gadget/function/Makefile     |    6 +
+ drivers/usb/gadget/function/f_mud.c      |  913 +++++++++++++++++
+ drivers/usb/gadget/function/f_mud.h      |  210 ++++
+ drivers/usb/gadget/function/f_mud_drm.c  |  181 ++++
+ drivers/usb/gadget/function/f_mud_pins.c |  962 +++++++++++++++++
+ drivers/usb/gadget/function/mud_regmap.c |  936 +++++++++++++++++
+ include/drm/drm_client.h                 |    4 +
+ include/linux/mfd/mud.h                  |   16 +
+ include/linux/regmap.h                   |   23 +
+ include/linux/regmap_usb.h               |   97 ++
+ 31 files changed, 8107 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/base/regmap/regmap-usb.c
+ create mode 100644 drivers/gpu/drm/mud/Kconfig
+ create mode 100644 drivers/gpu/drm/mud/Makefile
+ create mode 100644 drivers/gpu/drm/mud/mud_drm.c
+ create mode 100644 drivers/gpu/drm/mud/mud_drm.h
+ create mode 100644 drivers/gpu/drm/mud/mud_drm_gadget.c
+ create mode 100644 drivers/mfd/mud.c
+ create mode 100644 drivers/pinctrl/pinctrl-mud.c
+ create mode 100644 drivers/pinctrl/pinctrl-mud.h
+ create mode 100644 drivers/usb/gadget/function/f_mud.c
+ create mode 100644 drivers/usb/gadget/function/f_mud.h
+ create mode 100644 drivers/usb/gadget/function/f_mud_drm.c
+ create mode 100644 drivers/usb/gadget/function/f_mud_pins.c
+ create mode 100644 drivers/usb/gadget/function/mud_regmap.c
+ create mode 100644 include/linux/mfd/mud.h
+ create mode 100644 include/linux/regmap_usb.h
+
 -- 
 2.23.0
 
