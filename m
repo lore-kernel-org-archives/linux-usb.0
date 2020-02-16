@@ -1,330 +1,161 @@
-Return-Path: <SRS0=58uH=4D=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=AcSx=4E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4002CC7114E
-	for <linux-usb@archiver.kernel.org>; Sat, 15 Feb 2020 21:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F0EC7619C
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 13:12:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 162D72083B
-	for <linux-usb@archiver.kernel.org>; Sat, 15 Feb 2020 21:31:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C20922086A
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Feb 2020 13:12:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="iHPFy/hl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgBOVbV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 15 Feb 2020 16:31:21 -0500
-Received: from mga09.intel.com ([134.134.136.24]:14365 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726275AbgBOVbV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 15 Feb 2020 16:31:21 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Feb 2020 13:31:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,446,1574150400"; 
-   d="scan'208";a="253004117"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 15 Feb 2020 13:31:19 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1j351y-000FNP-Um; Sun, 16 Feb 2020 05:31:18 +0800
-Date:   Sun, 16 Feb 2020 05:30:26 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-next] BUILD SUCCESS
- ca065bf12771078571dec758300631624edc19a2
-Message-ID: <5e4862f2.kOCLIp0SqAvP3rOz%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1728226AbgBPNMD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 Feb 2020 08:12:03 -0500
+Received: from mail26.static.mailgun.info ([104.130.122.26]:60667 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728222AbgBPNMD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Feb 2020 08:12:03 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1581858722; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=A5ZI/g7WWcSZehWepKEyAPPOsuiaR/FmCfcQVi4vYPQ=; b=iHPFy/hlBBgewZ/ol6Z3sKwvIy+od3ZVIYlotcVpRKR8NXBsFt3LcnNSacdBQSBTQk356A43
+ nIkBkFBk/fvPZG3KgwrFnfIgIWmEFr7OiXiRe5M3NzCUrNMLyxiHBim9LduGor6LC0AaQWaP
+ nPqj56OkzH2qI5tzRrhtwW+PLls=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e493f9e.7f63ed18d5e0-smtp-out-n01;
+ Sun, 16 Feb 2020 13:11:58 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 370FDC4479C; Sun, 16 Feb 2020 13:11:58 +0000 (UTC)
+Received: from [192.168.0.100] (unknown [103.140.231.108])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: akdwived)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C2E0AC43383;
+        Sun, 16 Feb 2020 13:11:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C2E0AC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=akdwived@codeaurora.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: Documentation for qcom,eud
+To:     Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, ckadabi@codeaurora.org,
+        tsoni@codeaurora.org, bryanh@codeaurora.org,
+        psodagud@codeaurora.org, rnayak@codeaurora.org,
+        satyap@codeaurora.org, pheragu@codeaurora.org
+References: <1580445811-15948-1-git-send-email-akdwived@codeaurora.org>
+ <1580445811-15948-2-git-send-email-akdwived@codeaurora.org>
+ <9483dfa0-15ea-e9ed-79ee-3dcf97e98136@nexus-software.ie>
+From:   "Dwivedi, Avaneesh Kumar (avani)" <akdwived@codeaurora.org>
+Message-ID: <4f19fe93-3af2-1050-4d80-ed568865d825@codeaurora.org>
+Date:   Sun, 16 Feb 2020 18:41:30 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <9483dfa0-15ea-e9ed-79ee-3dcf97e98136@nexus-software.ie>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-next
-branch HEAD: ca065bf12771078571dec758300631624edc19a2  USB: apple-mfi-fastcharge: fix endianess issue in probe
+Thank you very much Bryan for your review comments, will be working on 
+your and other maintainers comment on this patchset and will be posting 
+new patchset soon.
 
-elapsed time: 3263m
-
-configs tested: 267
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-sparc                            allyesconfig
-c6x                              allyesconfig
-xtensa                          iss_defconfig
-parisc                           allyesconfig
-csky                                defconfig
-nds32                               defconfig
-um                                  defconfig
-i386                                defconfig
-riscv                            allmodconfig
-sparc                               defconfig
-riscv                            allyesconfig
-s390                                defconfig
-powerpc                           allnoconfig
-i386                              allnoconfig
-parisc                generic-32bit_defconfig
-riscv                    nommu_virt_defconfig
-mips                             allyesconfig
-m68k                           sun3_defconfig
-nios2                         3c120_defconfig
-powerpc                             defconfig
-i386                             allyesconfig
-mips                      malta_kvm_defconfig
-sh                                allnoconfig
-parisc                            allnoconfig
-powerpc                       ppc64_defconfig
-parisc                generic-64bit_defconfig
-m68k                       m5475evb_defconfig
-microblaze                      mmu_defconfig
-ia64                                defconfig
-riscv                             allnoconfig
-alpha                               defconfig
-h8300                       h8s-sim_defconfig
-mips                             allmodconfig
-openrisc                    or1ksim_defconfig
-riscv                               defconfig
-ia64                              allnoconfig
-mips                              allnoconfig
-nds32                             allnoconfig
-s390                             alldefconfig
-sh                  sh7785lcr_32bit_defconfig
-s390                          debug_defconfig
-m68k                          multi_defconfig
-s390                             allmodconfig
-s390                              allnoconfig
-h8300                    h8300h-sim_defconfig
-i386                             alldefconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-h8300                     edosk2674_defconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                    nommu_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                      fuloong2e_defconfig
-x86_64               randconfig-a001-20200215
-x86_64               randconfig-a002-20200215
-x86_64               randconfig-a003-20200215
-i386                 randconfig-a001-20200215
-i386                 randconfig-a002-20200215
-i386                 randconfig-a003-20200215
-x86_64               randconfig-a001-20200214
-x86_64               randconfig-a002-20200214
-x86_64               randconfig-a003-20200214
-i386                 randconfig-a001-20200214
-i386                 randconfig-a002-20200214
-i386                 randconfig-a003-20200214
-i386                 randconfig-a003-20200213
-x86_64               randconfig-a003-20200213
-i386                 randconfig-a001-20200213
-x86_64               randconfig-a002-20200213
-i386                 randconfig-a002-20200213
-x86_64               randconfig-a001-20200213
-alpha                randconfig-a001-20200214
-m68k                 randconfig-a001-20200214
-mips                 randconfig-a001-20200214
-nds32                randconfig-a001-20200214
-parisc               randconfig-a001-20200214
-alpha                randconfig-a001-20200213
-m68k                 randconfig-a001-20200213
-mips                 randconfig-a001-20200213
-nds32                randconfig-a001-20200213
-parisc               randconfig-a001-20200213
-riscv                randconfig-a001-20200213
-c6x                  randconfig-a001-20200213
-h8300                randconfig-a001-20200213
-microblaze           randconfig-a001-20200213
-nios2                randconfig-a001-20200213
-sparc64              randconfig-a001-20200213
-c6x                  randconfig-a001-20200214
-h8300                randconfig-a001-20200214
-microblaze           randconfig-a001-20200214
-nios2                randconfig-a001-20200214
-sparc64              randconfig-a001-20200214
-c6x                  randconfig-a001-20200215
-h8300                randconfig-a001-20200215
-microblaze           randconfig-a001-20200215
-nios2                randconfig-a001-20200215
-sparc64              randconfig-a001-20200215
-csky                 randconfig-a001-20200214
-openrisc             randconfig-a001-20200214
-s390                 randconfig-a001-20200214
-sh                   randconfig-a001-20200214
-xtensa               randconfig-a001-20200214
-csky                 randconfig-a001-20200213
-openrisc             randconfig-a001-20200213
-s390                 randconfig-a001-20200213
-sh                   randconfig-a001-20200213
-xtensa               randconfig-a001-20200213
-csky                 randconfig-a001-20200215
-openrisc             randconfig-a001-20200215
-s390                 randconfig-a001-20200215
-sh                   randconfig-a001-20200215
-xtensa               randconfig-a001-20200215
-x86_64               randconfig-b001-20200213
-x86_64               randconfig-b002-20200213
-x86_64               randconfig-b003-20200213
-i386                 randconfig-b001-20200213
-i386                 randconfig-b002-20200213
-i386                 randconfig-b003-20200213
-x86_64               randconfig-b001-20200214
-x86_64               randconfig-b002-20200214
-x86_64               randconfig-b003-20200214
-i386                 randconfig-b001-20200214
-i386                 randconfig-b002-20200214
-i386                 randconfig-b003-20200214
-x86_64               randconfig-c001-20200213
-x86_64               randconfig-c002-20200213
-x86_64               randconfig-c003-20200213
-i386                 randconfig-c001-20200213
-i386                 randconfig-c002-20200213
-i386                 randconfig-c003-20200213
-x86_64               randconfig-c001-20200214
-x86_64               randconfig-c002-20200214
-x86_64               randconfig-c003-20200214
-i386                 randconfig-c001-20200214
-i386                 randconfig-c002-20200214
-i386                 randconfig-c003-20200214
-x86_64               randconfig-c001-20200215
-x86_64               randconfig-c002-20200215
-x86_64               randconfig-c003-20200215
-i386                 randconfig-c001-20200215
-i386                 randconfig-c002-20200215
-i386                 randconfig-c003-20200215
-x86_64               randconfig-d001-20200213
-x86_64               randconfig-d002-20200213
-x86_64               randconfig-d003-20200213
-i386                 randconfig-d001-20200213
-i386                 randconfig-d002-20200213
-i386                 randconfig-d003-20200213
-x86_64               randconfig-d001-20200214
-x86_64               randconfig-d002-20200214
-x86_64               randconfig-d003-20200214
-i386                 randconfig-d001-20200214
-i386                 randconfig-d002-20200214
-i386                 randconfig-d003-20200214
-x86_64               randconfig-e001-20200213
-x86_64               randconfig-e002-20200213
-x86_64               randconfig-e003-20200213
-i386                 randconfig-e001-20200213
-i386                 randconfig-e002-20200213
-i386                 randconfig-e003-20200213
-x86_64               randconfig-e001-20200214
-x86_64               randconfig-e002-20200214
-x86_64               randconfig-e003-20200214
-i386                 randconfig-e001-20200214
-i386                 randconfig-e002-20200214
-i386                 randconfig-e003-20200214
-x86_64               randconfig-f001-20200214
-x86_64               randconfig-f002-20200214
-x86_64               randconfig-f003-20200214
-i386                 randconfig-f001-20200214
-i386                 randconfig-f002-20200214
-i386                 randconfig-f003-20200214
-x86_64               randconfig-f001-20200213
-x86_64               randconfig-f002-20200213
-x86_64               randconfig-f003-20200213
-i386                 randconfig-f001-20200213
-i386                 randconfig-f002-20200213
-i386                 randconfig-f003-20200213
-x86_64               randconfig-g001-20200213
-x86_64               randconfig-g002-20200213
-x86_64               randconfig-g003-20200213
-i386                 randconfig-g001-20200213
-i386                 randconfig-g002-20200213
-i386                 randconfig-g003-20200213
-x86_64               randconfig-g001-20200214
-x86_64               randconfig-g002-20200214
-x86_64               randconfig-g003-20200214
-i386                 randconfig-g001-20200214
-i386                 randconfig-g002-20200214
-i386                 randconfig-g003-20200214
-x86_64               randconfig-g001-20200215
-x86_64               randconfig-g002-20200215
-x86_64               randconfig-g003-20200215
-i386                 randconfig-g001-20200215
-i386                 randconfig-g002-20200215
-i386                 randconfig-g003-20200215
-x86_64               randconfig-h001-20200214
-x86_64               randconfig-h002-20200214
-x86_64               randconfig-h003-20200214
-i386                 randconfig-h001-20200214
-i386                 randconfig-h002-20200214
-i386                 randconfig-h003-20200214
-x86_64               randconfig-h001-20200213
-x86_64               randconfig-h002-20200213
-x86_64               randconfig-h003-20200213
-i386                 randconfig-h001-20200213
-i386                 randconfig-h002-20200213
-i386                 randconfig-h003-20200213
-arc                  randconfig-a001-20200213
-arm                  randconfig-a001-20200213
-arm64                randconfig-a001-20200213
-ia64                 randconfig-a001-20200213
-powerpc              randconfig-a001-20200213
-sparc                randconfig-a001-20200213
-arc                  randconfig-a001-20200215
-arm                  randconfig-a001-20200215
-arm64                randconfig-a001-20200215
-ia64                 randconfig-a001-20200215
-powerpc              randconfig-a001-20200215
-sparc                randconfig-a001-20200215
-arc                  randconfig-a001-20200214
-arm                  randconfig-a001-20200214
-arm64                randconfig-a001-20200214
-ia64                 randconfig-a001-20200214
-powerpc              randconfig-a001-20200214
-sparc                randconfig-a001-20200214
-riscv                          rv32_defconfig
-s390                             allyesconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                          rsk7269_defconfig
-sh                            titan_defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+On 2/4/2020 8:21 AM, Bryan O'Donoghue wrote:
+> On 31/01/2020 04:43, Avaneesh Kumar Dwivedi wrote:
+>> Documentation for Embedded USB Debugger (EUD) device tree bindings.
+>>
+>> Signed-off-by: Satya Durga Srinivasu Prabhala <satyap@codeaurora.org>
+>> Signed-off-by: Prakruthi Deepak Heragu <pheragu@codeaurora.org>
+>> Signed-off-by: Avaneesh Kumar Dwivedi <akdwived@codeaurora.org>
+>> ---
+>>   .../devicetree/bindings/soc/qcom/qcom,msm-eud.txt  | 43 
+>> ++++++++++++++++++++++
+>>   1 file changed, 43 insertions(+)
+>>   create mode 100644 
+>> Documentation/devicetree/bindings/soc/qcom/qcom,msm-eud.txt
+>>
+>> diff --git 
+>> a/Documentation/devicetree/bindings/soc/qcom/qcom,msm-eud.txt 
+>> b/Documentation/devicetree/bindings/soc/qcom/qcom,msm-eud.txt
+>> new file mode 100644
+>> index 0000000..57476ce
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,msm-eud.txt
+>> @@ -0,0 +1,43 @@
+>> +* Qualcomm Technologies Inc Embedded USB Debugger (EUD)
+>> +
+>> +The EUD (Embedded USB Debugger) is a mini-USB hub implemented
+>> +on chip to support the USB-based debug and trace capabilities.
+>
+> on chip to support USB-based debug and trace capabilities.
+OK
+>
+>> +
+>> +Required properties:
+>> +
+>> + - compatible:  Should be "qcom,msm-eud"
+>> + - interrupts:  Interrupt number
+>> + - reg: Should be address and size of EUD register space
+>> +
+>> +EUD notifies clients for VBUS attach/detach and charger enable/disable
+>> +events. The link between event consumer(i.e.USB controller for vbus
+> missing space
+> consumer (i.e.
+Ok
+>
+>> +attach/detach event) and EUD is established via a directed graph. EUD
+>> +act 
+> The EUD acts
+OK
+>
+>> as an output link and clients of EUD as input link of this directed
+>> +graph. Events flows through the directed graph only during debug mode.
+>
+> Probably this is a very obvious question but, you mean debug and trace 
+> events or do you mean VBUS/charger events?
+Directed graph is to show VBUS and charger events flow.
+>
+>> +
+>> +An example for EUD device node:
+>> +
+>> +    eud: qcom,msm-eud@88e0000 {
+>> +        compatible = "qcom,msm-eud";
+>> +        interrupts = <GIC_SPI 492 IRQ_TYPE_LEVEL_HIGH>;
+>> +        reg = <0x88e0000 0x4000>;
+>> +        usb_con: connector {
+>> +            compatible = "usb-c-connector";
+>> +            label = "USB-C";
+>> +            port {
+>> +                eud_usb_output: endpoint {
+>> +                    remote-endpoint = <&eud_usb3_input>;
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> +
+>> +An example for EUD client:
+>> +
+>> +    usb3 {
+>> +        port {
+>> +            eud_usb3_input: endpoint {
+>> +                remote-endpoint = <&eud_usb_output>;
+>> +            };
+>> +        };
+>> +    };
+>>
+-- 
+Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project.
