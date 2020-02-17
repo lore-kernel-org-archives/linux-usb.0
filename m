@@ -2,61 +2,58 @@ Return-Path: <SRS0=+xQD=4F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D647C34022
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 16:37:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D331C34021
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 17:09:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 195D5215A4
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 16:37:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8532214D8
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 17:09:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="UekJ+WJ3"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="nbKgLHwC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728854AbgBQQhV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:37:21 -0500
-Received: from gateway20.websitewelcome.com ([192.185.67.41]:19057 "EHLO
-        gateway20.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726781AbgBQQhV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Feb 2020 11:37:21 -0500
-X-Greylist: delayed 1485 seconds by postgrey-1.27 at vger.kernel.org; Mon, 17 Feb 2020 11:37:20 EST
+        id S1729504AbgBQRJe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Feb 2020 12:09:34 -0500
+Received: from gateway21.websitewelcome.com ([192.185.45.133]:17803 "EHLO
+        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728054AbgBQRJe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Feb 2020 12:09:34 -0500
 Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway20.websitewelcome.com (Postfix) with ESMTP id 82AD7400C3193
-        for <linux-usb@vger.kernel.org>; Mon, 17 Feb 2020 08:58:42 -0600 (CST)
+        by gateway21.websitewelcome.com (Postfix) with ESMTP id 7BE7A400D1869
+        for <linux-usb@vger.kernel.org>; Mon, 17 Feb 2020 11:09:33 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22])
         by cmsmtp with SMTP
-        id 3j0cjFJRMEfyq3j0cjNfo6; Mon, 17 Feb 2020 10:12:34 -0600
+        id 3jtkjGcZDEfyq3jtljOyHW; Mon, 17 Feb 2020 11:09:33 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:Subject:From:References:Cc:To:Sender
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ScN3bMyy7sTcFEKUX5/uMYcE/tKZwKQNGzkdoWRfZsw=; b=UekJ+WJ3EJvy9nahNjzBgqk10T
-        /xgl9Wt6RH7YvMMsjYCSljuD2Y2G+O+OAUPbkTiweNMCEDuW5zZrIBLaqtQW6IYEjdxSDWoKjoM3u
-        p2SVJeWKdg7yRkW4FKwjJBRXHeJ4KhRj+Vh0LfvmLE+P9ezdOfAqSWjfMgZ4d+pSxSkmGw5F+nsa4
-        jKaOBWdtblbbkVHe7JoeZxvfitNObaAB6gdFVOwc8BBCVXv9KXejg+oVdeKHtLLZHTwzz6slyYPUk
-        qCbebWIcvZvOXBWqcKVwNKHBJpYbgUlXblJIxD8fSyRkp27Hn3wP3nhFAFX3AQaygZkrINLhiK6ad
-        BSEeFmYg==;
-Received: from [200.68.140.26] (port=12252 helo=[192.168.43.131])
+        bh=pExjigbiFyjiC9TT47KCL7or17+KCvUqoQghFIlPoAs=; b=nbKgLHwCiI5ltyzH6CpQqFfavg
+        WCLlVIfIZnNmtMG0ACTZ0osdgDORdo3Flgi7cnKr5c4R0lKAQiXlgd5DSXK6DidVGi9tyYB/5k0/5
+        0FUtRSxUYlSdqO2huPE5lZmumXaiDkhs8QLqymQrcwbv5rxcCY4BMKVOtiEMlUS9fO3Oek1/LfnaZ
+        yBng5gzq8NmN+WETLxjiZnFrBzN2LqJeiDRCvorwkFoN2EWHPZn67daLSriGbejOqhxYeDEUipdSu
+        qQHFi2iGO7fEDj+CHiem/NTWMbwT5OTNrMrf1+8A5kt7cu0uYtCmWcAbd2beaSw70zfV02KcF2uL9
+        cvmlPIQA==;
+Received: from [200.68.140.26] (port=1590 helo=[192.168.43.131])
         by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
         (Exim 4.92)
         (envelope-from <gustavo@embeddedor.com>)
-        id 1j3j0b-002r5t-PS; Mon, 17 Feb 2020 10:12:33 -0600
+        id 1j3jtk-003Lt8-Cn; Mon, 17 Feb 2020 11:09:32 -0600
+Subject: Re: [PATCH] usb: host: fhci-hcd: annotate PIPE_CONTROL switch case
+ with fallthrough
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Cc:     Timur Tabi <timur@kernel.org>, Li Yang <leoyang.li@nxp.com>,
         Anton Vorontsov <avorontsov@ru.mvista.com>,
         kbuild test robot <lkp@intel.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Joe Perches <joe@perches.com>
+        linux-kernel@vger.kernel.org
 References: <20200213085401.27862-1-linux@rasmusvillemoes.dk>
  <20200213125659.GB3325929@kroah.com>
- <6ab68169-dde6-b5ba-0909-fa685bd24aac@rasmusvillemoes.dk>
- <20200217093836.GA37937@kroah.com>
- <a1f0f024-c1e5-8ff5-f717-f5098b4eb78d@rasmusvillemoes.dk>
- <20200217141831.GA1123892@kroah.com>
 From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Autocrypt: addr=gustavo@embeddedor.com; keydata=
  xsFNBFssHAwBEADIy3ZoPq3z5UpsUknd2v+IQud4TMJnJLTeXgTf4biSDSrXn73JQgsISBwG
@@ -101,17 +98,15 @@ Autocrypt: addr=gustavo@embeddedor.com; keydata=
  YJWH93PN+ZUh6i6Rd2U/i8jH5WvzR57UeWxE4P8bQc0hNGrUsHQH6bpHV2lbuhDdqo+cM9eh
  GZEO3+gCDFmKrjspZjkJbB5Gadzvts5fcWGOXEvuT8uQSvl+vEL0g6vczsyPBtqoBLa9SNrS
  VtSixD1uOgytAP7RWS474w==
-Subject: Re: [PATCH] usb: host: fhci-hcd: annotate PIPE_CONTROL switch case
- with fallthrough
-Message-ID: <298629e3-40bb-9530-8292-7e2a9432cd4a@embeddedor.com>
-Date:   Mon, 17 Feb 2020 10:15:09 -0600
+Message-ID: <4fa8a8e9-934d-2962-1daa-fdeea6017ea1@embeddedor.com>
+Date:   Mon, 17 Feb 2020 11:12:13 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200217141831.GA1123892@kroah.com>
+In-Reply-To: <20200213125659.GB3325929@kroah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
 X-AntiAbuse: Original Domain - vger.kernel.org
@@ -120,11 +115,11 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 200.68.140.26
 X-Source-L: No
-X-Exim-ID: 1j3j0b-002r5t-PS
+X-Exim-ID: 1j3jtk-003Lt8-Cn
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: ([192.168.43.131]) [200.68.140.26]:12252
+X-Source-Sender: ([192.168.43.131]) [200.68.140.26]:1590
 X-Source-Auth: gustavo@embeddedor.com
 X-Email-Count: 7
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
@@ -134,55 +129,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi!
 
-Sorry for the late reply. I wasn't aware of this thread until now.
 
-Please, see my comments below...
-
-On 2/17/20 08:18, Greg Kroah-Hartman wrote:
-> On Mon, Feb 17, 2020 at 03:12:21PM +0100, Rasmus Villemoes wrote:
->> On 17/02/2020 10.38, Greg Kroah-Hartman wrote:
->>> On Thu, Feb 13, 2020 at 02:35:18PM +0100, Rasmus Villemoes wrote:
->>>> On 13/02/2020 13.56, Greg Kroah-Hartman wrote:
->>>>
->>>>> Shouldn't this be /* fall through */ instead?
->>>>>
->>>>> Gustavo, what's the best practice here, I count only a few
->>>>> "fallthrough;" instances in the kernel, although one is in our coding
->>>>> style document, and thousands of the /* */ version.
->>>>
->>>> Yes, I went with the attribute/macro due to that, and the history is
->>>> that Linus applied Joe's patches directly
->>>> (https://lore.kernel.org/lkml/CAHk-=whOF8heTGz5tfzYUBp_UQQzSWNJ_50M7-ECXkfFRDQWFA@mail.gmail.com/),
->>>> so I assumed that meant the Penguin decided that the attribute/macro is
->>>> the right thing to do for new code, while existing comment annotations
->>>> can be left alone or changed piecemeal as code gets refactored anyway.
->>>
->>> But, to be fair, Gustavo went and fixed up thousands of these, with the
->>> /* */ version, not the attribute.
->>>
->>> Gustavo, can coverity notice the "fallthrough;" attribute properly?  I
->>> don't want to start adding things that end up triggering
->>> false-positives.
+On 2/13/20 06:56, Greg Kroah-Hartman wrote:
+> On Thu, Feb 13, 2020 at 09:54:00AM +0100, Rasmus Villemoes wrote:
+>> After this was made buildable for something other than PPC32, kbuild
+>> starts warning
 >>
->> I'm not Gustavo, and I don't know the answer, but 1.5 years ago some guy
->> named greg k-h suggested that coverity does grok the fallthrough attribute:
+>> drivers/usb/host/fhci-hcd.c:398:8: warning: this statement may fall
+>> through [-Wimplicit-fallthrough=]
 >>
->> https://patchwork.kernel.org/cover/10651357/#22279095
-> 
-> I wouldn't trust anything that bum says :)
-> 
-> Ok, I don't remember saying that at all, but I'll wait a day or two to
-> get Gustavo's opinion befor applying the patch.
-> 
+>> I don't know this code, but from the construction (initializing size
+>> with 0 and explicitly using "size +=" in the PIPE_BULK case) I assume
+>> that fallthrough is indeed intended.
+>>
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>> Fixes: 5a35435ef4e6 (soc: fsl: qe: remove PPC32 dependency from CONFIG_QUICC_ENGINE)
+>> Fixes: a035d552a93b (Makefile: Globally enable fall-through warning)
 
-We are good to go with the 'fallthrough' pseudo keyword. Linus is OK with
-that.
-
-The comment annotations will eventually be transformed to "fallthrough;"
+By the way, the "Fixes" tag above makes no sense. There is nothing wrong about
+that commit. It just enabled the fall-through warning globally. Why would you
+"fix" that?
 
 Thanks
 --
 Gustavo
-
