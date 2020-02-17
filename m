@@ -2,72 +2,76 @@ Return-Path: <SRS0=+xQD=4F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8971C34025
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 16:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8C5C34021
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 16:07:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 908C9215A4
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 16:00:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0BA020718
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 16:07:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728820AbgBQQAZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:00:25 -0500
-Received: from 5.mo69.mail-out.ovh.net ([46.105.43.105]:34116 "EHLO
-        5.mo69.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727277AbgBQQAY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Feb 2020 11:00:24 -0500
-Received: from player794.ha.ovh.net (unknown [10.110.103.76])
-        by mo69.mail-out.ovh.net (Postfix) with ESMTP id 556D382FE7
-        for <linux-usb@vger.kernel.org>; Mon, 17 Feb 2020 16:21:54 +0100 (CET)
+        id S1728651AbgBQQHa convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:07:30 -0500
+Received: from 8.mo69.mail-out.ovh.net ([46.105.56.233]:60056 "EHLO
+        8.mo69.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728489AbgBQQHa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Feb 2020 11:07:30 -0500
+X-Greylist: delayed 2227 seconds by postgrey-1.27 at vger.kernel.org; Mon, 17 Feb 2020 11:07:29 EST
+Received: from player157.ha.ovh.net (unknown [10.108.42.192])
+        by mo69.mail-out.ovh.net (Postfix) with ESMTP id 4F1E2830BB
+        for <linux-usb@vger.kernel.org>; Mon, 17 Feb 2020 17:07:28 +0100 (CET)
 Received: from mattea.info (host221-23-dynamic.248-95-r.retail.telecomitalia.it [95.248.23.221])
         (Authenticated sender: relay@mattea.info)
-        by player794.ha.ovh.net (Postfix) with ESMTPSA id DEB5BC73F1A2;
-        Mon, 17 Feb 2020 15:21:52 +0000 (UTC)
-Received: from alby.localnet (unknown [IPv6:fc00::fd04:4cb0:8b91:50])
-        by i-m-services.net (Postfix) with ESMTP id D033A2CE3EF;
-        Mon, 17 Feb 2020 16:21:50 +0100 (CET)
+        by player157.ha.ovh.net (Postfix) with ESMTPSA id 03022F7842B5;
+        Mon, 17 Feb 2020 16:07:26 +0000 (UTC)
+Received: from alby.localnet (unknown [IPv6:fc00::9dc0:b1ba:2995:58a5])
+        by i-m-services.net (Postfix) with ESMTP id C61A22CE3EF;
+        Mon, 17 Feb 2020 17:07:17 +0100 (CET)
 From:   Alberto Mattea <alberto@mattea.info>
 To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH] usb: xhci: apply XHCI_SUSPEND_DELAY to AMD XHCI controller 1022:145c
-Date:   Mon, 17 Feb 2020 16:21:50 +0100
-Message-ID: <5340061.DvuYhMxLoT@alby>
+Subject: Re: [PATCH] usb: xhci: apply XHCI_SUSPEND_DELAY to AMD XHCI controller 1022:145c
+Date:   Mon, 17 Feb 2020 17:07:17 +0100
+Message-ID: <5575017.lOV4Wx5bFT@alby>
+In-Reply-To: <20200217154538.GA1457504@kroah.com>
+References: <5340061.DvuYhMxLoT@alby> <20200217154538.GA1457504@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Ovh-Tracer-Id: 12651174307050553205
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
+X-Ovh-Tracer-Id: 13420726889642327925
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrjeeigdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkggfgtgesthfuredttddtvdenucfhrhhomheptehlsggvrhhtohcuofgrthhtvggruceorghlsggvrhhtohesmhgrthhtvggrrdhinhhfoheqnecukfhppedtrddtrddtrddtpdhftgdttdemmehfugdtgeemgegtsgdtmeeksgeludemhedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrlhgsvghrthhosehmrghtthgvrgdrihhnfhhopdhrtghpthhtoheplhhinhhugidquhhssgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrjeeigdekhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkjghfggfgtgesthhqredttddtudenucfhrhhomheptehlsggvrhhtohcuofgrthhtvggruceorghlsggvrhhtohesmhgrthhtvggrrdhinhhfoheqnecukfhppedtrddtrddtrddtpdhftgdttdemmeeluggttdemsgdusggrmedvleelheemheekrgehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrlhgsvghrthhosehmrghtthgvrgdrihhnfhhopdhrtghpthhtoheplhhinhhugidquhhssgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes suspend/resume
+In data lunedì 17 febbraio 2020 16:45:38 CET, hai scritto:
+> On Mon, Feb 17, 2020 at 04:21:50PM +0100, Alberto Mattea wrote:
+> > Fixes suspend/resume
+> 
+> We are going to need a lot more information here, sorry.  Please be
+> explicit as to what you are doing and why.
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-Signed-off-by: Alberto Mattea <alberto@mattea.info>
----
- drivers/usb/host/xhci-pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Sure, what about
+"This controller timeouts during suspend (S3) with 
+[  240.521724] xhci_hcd 0000:30:00.3: WARN: xHC save state timeout
+[  240.521729] xhci_hcd 0000:30:00.3: ERROR mismatched command completion event
+thus preventing the system from entering S3. Moreover it remains in an undefined state
+where some connected devices stop working until a reboot.
+Apply the XHCI_SUSPEND_DELAY quirk to make it suspend properly."
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 4917c5b033fa..1533310b3d6b 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -135,7 +135,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 		xhci->quirks |= XHCI_AMD_PLL_FIX;
- 
- 	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
--		(pdev->device == 0x15e0 ||
-+		(pdev->device == 0x145c ||
-+		 pdev->device == 0x15e0 ||
- 		 pdev->device == 0x15e1 ||
- 		 pdev->device == 0x43bb))
- 		xhci->quirks |= XHCI_SUSPEND_DELAY;
--- 
-2.17.1
+Thanks,
+
+Alberto
 
 
