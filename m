@@ -2,75 +2,64 @@ Return-Path: <SRS0=+xQD=4F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B79C0C34021
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 14:49:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3537EC34022
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 15:45:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9A1AF20801
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 14:49:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D1992467B
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Feb 2020 15:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581954343;
+	bh=XBKqJFlnK+hwA8EBW9oHavc3Dnpyz2uxRM9vAwRyATI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=D9V8YEMBKCV1mPc0u9C78fXn+qd6LEgvEdXr0LvFoX/KLUZu0A+4We8qU0ODaZ1VT
+	 qjV/8tE29Hnox4QMhuZkup14F1JCN2SfcJGxx85tRWY6cMkyTSSKa3fNoLQSp8kVZC
+	 6egWTbJKCREhig11qd2sBDgJ+zeYoOHGX8MBJZy0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729202AbgBQOtW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Feb 2020 09:49:22 -0500
-Received: from mga03.intel.com ([134.134.136.65]:14573 "EHLO mga03.intel.com"
+        id S1729452AbgBQPpm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Feb 2020 10:45:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48732 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728841AbgBQOtW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Feb 2020 09:49:22 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Feb 2020 06:49:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,453,1574150400"; 
-   d="scan'208";a="348510142"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2020 06:49:20 -0800
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ajay Gupta <ajayg@nvidia.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 3/3] usb: typec: ucsi: remove redundant assignment to variable num
-Date:   Mon, 17 Feb 2020 17:49:13 +0300
-Message-Id: <20200217144913.55330-4-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200217144913.55330-1-heikki.krogerus@linux.intel.com>
-References: <20200217144913.55330-1-heikki.krogerus@linux.intel.com>
+        id S1727553AbgBQPpm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Feb 2020 10:45:42 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5206422B48;
+        Mon, 17 Feb 2020 15:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581954341;
+        bh=XBKqJFlnK+hwA8EBW9oHavc3Dnpyz2uxRM9vAwRyATI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2ZkK98lHx0sA4S+YpoNljQIlkATgvQztGcSwSdsDgZkbv8KlwX96P6p3O0gTdUJEe
+         9b2cD2HOR7WiKll0dpwo3+t5EFL7wAQudMHYt+XVc9jXb8M/JBzWsSTuiaD3j7IBB4
+         uVb1EKmSy1sknebRZXdMGsf/H9DFInQlCiz6XaaI=
+Date:   Mon, 17 Feb 2020 16:45:38 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alberto Mattea <alberto@mattea.info>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: xhci: apply XHCI_SUSPEND_DELAY to AMD XHCI
+ controller 1022:145c
+Message-ID: <20200217154538.GA1457504@kroah.com>
+References: <5340061.DvuYhMxLoT@alby>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5340061.DvuYhMxLoT@alby>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+On Mon, Feb 17, 2020 at 04:21:50PM +0100, Alberto Mattea wrote:
+> Fixes suspend/resume
 
-Variable num is being assigned with a value that is never read, it is
-assigned a new value later in a for-loop. The assignment is redundant
-and can be removed.
+We are going to need a lot more information here, sorry.  Please be
+explicit as to what you are doing and why.
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index eca9d598a42f..ddf2ad3752de 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -407,7 +407,7 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
- 	struct typec_altmode_desc desc;
- 	struct ucsi_altmode alt[2];
- 	u64 command;
--	int num = 1;
-+	int num;
- 	int ret;
- 	int len;
- 	int j;
--- 
-2.25.0
-
+greg k-h
