@@ -2,169 +2,69 @@ Return-Path: <SRS0=9g+w=4G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1305C34047
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 18:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D079C34026
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:17:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BD61122B48
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 18:54:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mhl+g3cD"
+	by mail.kernel.org (Postfix) with ESMTP id 6CC5222B48
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:17:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgBRSy0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Feb 2020 13:54:26 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41523 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726318AbgBRSy0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 13:54:26 -0500
-Received: by mail-wr1-f68.google.com with SMTP id c9so25288618wrw.8;
-        Tue, 18 Feb 2020 10:54:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r+BjQ+2qeHRzwq563xO8WHAunXFGHBK9xvOKVsSVi74=;
-        b=mhl+g3cDhkTh8cc47iq87t0C9LHE681ndAKjC4TcbgXItv3EV1BNGcZxW5ApFu+dRD
-         rNmdhehJtbaguOOf2RdAwyBVCEGKnm1Ab+s4SScl3ZcEQ5v5P+SBZNsFqmJGVkX+39XZ
-         I+R8zvVLwGieoR+97B6rq2CJ6eL3TEgU9aUzu1j7uP/tcCLucNEqtlhiZ3vM7/sRTmks
-         f8aHHnPf5e4qDI1bdZ3x7w7kbT80hZoNEWa4iVISvQtJxdd6QUuQ0k71XHOsyWqQZeAs
-         CKAaG3WvJwmT3tDBXTiwdX57NNHHjDF7wrWkHr/RSQu/O5xfh4SxCdgkHp2ectLBNeE/
-         F3dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r+BjQ+2qeHRzwq563xO8WHAunXFGHBK9xvOKVsSVi74=;
-        b=r1fl9jFNGBXR0Af3v22D4ruQPFmxRTW1mgQNoUsZugbTYWzaVnndI4YMHU43shHAUi
-         Vj2tZTXXtPkY6Y9VZ74NHSw4Wsf8Hh6fJj+ZLHysnOWP0tzr5zUrwjqydrAy+JdI8p1z
-         I6ZTv1q09nwZGNCUp8PL35JZUMhlYoUWoSeE1Lhh4V3reoaFNNupgmf6VemvYC2Kw+Vj
-         cTm1X1+kNjrm8seEMxc2PGta3FKKN/8OAfrs73lHyTYgu3CtX6rvRhyB2moeKZ4tyDH3
-         8m2KY0i94wtEg/hR2km7CO8/TD8b/A1WExhKu0sgNVD1Isb7EQmJmZ6a7fafoAc9riTr
-         CUqA==
-X-Gm-Message-State: APjAAAV59woFsZMiDsUvBvbJ8c0iMw2gy06Ngy6hjylIjsvHcPRHwmmr
-        Bnr92SlVj9BZ3eDMLEaVhC0AbbyT9lo=
-X-Google-Smtp-Source: APXvYqzABYNfk9UgM05SPcBk6+APE0YnacggzTdBt6Oqs3cqUS9GbNk32+DfkE8bsypZSm0XV9Cwyw==
-X-Received: by 2002:adf:e88f:: with SMTP id d15mr29211606wrm.186.1582052063505;
-        Tue, 18 Feb 2020 10:54:23 -0800 (PST)
-Received: from ?IPv6:2003:ea:8f29:6000:5cb0:582f:968:ec00? (p200300EA8F2960005CB0582F0968EC00.dip0.t-ipconnect.de. [2003:ea:8f29:6000:5cb0:582f:968:ec00])
-        by smtp.googlemail.com with ESMTPSA id c141sm4251997wme.41.2020.02.18.10.54.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 10:54:23 -0800 (PST)
-Subject: Re: [PATCH net-next 2/3] r8169: use new helper tcp_v6_gso_csum_prep
-To:     Alexander Duyck <alexander.duyck@gmail.com>
-Cc:     David Miller <davem@davemloft.net>,
-        Realtek linux nic maintainers <nic_swsd@realtek.com>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Rasesh Mody <rmody@marvell.com>,
-        Sudarsana Kalluru <skalluru@marvell.com>,
-        GR-Linux-NIC-Dev@marvell.com,
-        Christian Benvenuti <benve@cisco.com>,
-        Govindarajulu Varadarajan <_govind@gmx.com>,
-        Parvi Kaustubhi <pkaustub@cisco.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Guo-Fu Tseng <cooldavid@cooldavid.org>,
-        Shannon Nelson <snelson@pensando.io>,
-        Pensando Drivers <drivers@pensando.io>,
-        Timur Tabi <timur@kernel.org>,
-        Jassi Brar <jaswinder.singh@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Ronak Doshi <doshir@vmware.com>,
-        "VMware, Inc." <pv-drivers@vmware.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        intel-wired-lan <intel-wired-lan@lists.osuosl.org>,
-        linux-hyperv@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-References: <76cd6cfc-f4f3-ece7-203a-0266b7f02a12@gmail.com>
- <02ea88e7-1a79-f779-d58c-bb1dced0b3b4@gmail.com>
- <CAKgT0UfaBpLxWQZO55-KE8QKJD9XgC2SCPAtzo=PA_MAwRxtuw@mail.gmail.com>
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <5dacf5fb-873b-79d5-326f-f30feb1ac645@gmail.com>
-Date:   Tue, 18 Feb 2020 19:45:53 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726415AbgBRTRV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Feb 2020 14:17:21 -0500
+Received: from mga03.intel.com ([134.134.136.65]:32750 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726318AbgBRTRU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Feb 2020 14:17:20 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Feb 2020 11:17:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,457,1574150400"; 
+   d="scan'208";a="315157513"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 18 Feb 2020 11:17:19 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 5B3BB73; Tue, 18 Feb 2020 21:17:18 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2] usb: core: Use ACPI_SUCCESS() at appropriate places
+Date:   Tue, 18 Feb 2020 21:17:17 +0200
+Message-Id: <20200218191717.73512-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <CAKgT0UfaBpLxWQZO55-KE8QKJD9XgC2SCPAtzo=PA_MAwRxtuw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 18.02.2020 19:37, Alexander Duyck wrote:
-> On Mon, Feb 17, 2020 at 1:42 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
->>
->> Simplify the code by using new helper tcp_v6_gso_csum_prep.
->>
->> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
->> ---
->>  drivers/net/ethernet/realtek/r8169_main.c | 26 ++---------------------
->>  1 file changed, 2 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/net/ethernet/realtek/r8169_main.c b/drivers/net/ethernet/realtek/r8169_main.c
->> index 5a9143b50..75ba10069 100644
->> --- a/drivers/net/ethernet/realtek/r8169_main.c
->> +++ b/drivers/net/ethernet/realtek/r8169_main.c
->> @@ -4108,29 +4108,6 @@ static bool rtl_test_hw_pad_bug(struct rtl8169_private *tp, struct sk_buff *skb)
->>         return skb->len < ETH_ZLEN && tp->mac_version == RTL_GIGA_MAC_VER_34;
->>  }
->>
->> -/* msdn_giant_send_check()
->> - * According to the document of microsoft, the TCP Pseudo Header excludes the
->> - * packet length for IPv6 TCP large packets.
->> - */
->> -static int msdn_giant_send_check(struct sk_buff *skb)
->> -{
->> -       const struct ipv6hdr *ipv6h;
->> -       struct tcphdr *th;
->> -       int ret;
->> -
->> -       ret = skb_cow_head(skb, 0);
->> -       if (ret)
->> -               return ret;
->> -
->> -       ipv6h = ipv6_hdr(skb);
->> -       th = tcp_hdr(skb);
->> -
->> -       th->check = 0;
->> -       th->check = ~tcp_v6_check(0, &ipv6h->saddr, &ipv6h->daddr, 0);
->> -
->> -       return ret;
->> -}
->> -
->>  static void rtl8169_tso_csum_v1(struct sk_buff *skb, u32 *opts)
->>  {
->>         u32 mss = skb_shinfo(skb)->gso_size;
->> @@ -4163,9 +4140,10 @@ static bool rtl8169_tso_csum_v2(struct rtl8169_private *tp,
->>                         break;
->>
->>                 case htons(ETH_P_IPV6):
->> -                       if (msdn_giant_send_check(skb))
->> +                       if (skb_cow_head(skb, 0))
->>                                 return false;
->>
->> +                       tcp_v6_gso_csum_prep(skb, false);
->>                         opts[0] |= TD1_GTSENV6;
->>                         break;
->>
-> 
-> This change looks more or less identical to the one you made in
-> "drivers/net/usb/r8152.c" for patch 3. If you have to resubmit it
-> might make sense to pull that change out and include it here since
-> they are both essentially the same change.
-> 
-Right, it's the same change. I just treated r8169 separately because
-I happen to be maintainer of it.
+Use ACPI_SUCCESS() to replace !ACPI_FAILURE(), this avoids additional operation.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: Fix subject line FAILURE -> SUCCESS
+ drivers/usb/core/usb-acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+index 99d41dc26e08..50b2fc7fcc0e 100644
+--- a/drivers/usb/core/usb-acpi.c
++++ b/drivers/usb/core/usb-acpi.c
+@@ -187,7 +187,7 @@ usb_acpi_find_companion_for_port(struct usb_port *port_dev)
+ 
+ 	handle = adev->handle;
+ 	status = acpi_get_physical_device_location(handle, &pld);
+-	if (!ACPI_FAILURE(status) && pld) {
++	if (ACPI_SUCCESS(status) && pld) {
+ 		port_dev->location = USB_ACPI_LOCATION_VALID
+ 			| pld->group_token << 8 | pld->group_position;
+ 		port_dev->connect_type = usb_acpi_get_connect_type(handle, pld);
+-- 
+2.25.0
+
