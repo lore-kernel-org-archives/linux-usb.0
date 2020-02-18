@@ -2,92 +2,74 @@ Return-Path: <SRS0=9g+w=4G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5673FC34049
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBDD4C34049
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 20:16:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3033121D56
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:55:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94AD72176D
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 20:16:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vUohnzwH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOSx8qaa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbgBRTz2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Feb 2020 14:55:28 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43191 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgBRTz2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 14:55:28 -0500
-Received: by mail-wr1-f67.google.com with SMTP id r11so25424056wrq.10;
-        Tue, 18 Feb 2020 11:55:25 -0800 (PST)
+        id S1727069AbgBRUQY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Feb 2020 15:16:24 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51737 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726996AbgBRUQX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 15:16:23 -0500
+Received: by mail-wm1-f65.google.com with SMTP id t23so4100778wmi.1;
+        Tue, 18 Feb 2020 12:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=2XbnpJ3DCsRKiHe1DaCKVtnJE9/aeVVRESQe3D8Emz0=;
-        b=vUohnzwHM6ww95pQT57+3W9rF4ypv0oi9Sr2c9p3s83ysEDCy4B8i7wA2YEjpx4o7O
-         NcjBuJOYJT3TkV38cAxuxjb+GQg+/EGWFW7GqjNTqfN9IXB1ujD8cfSNj805Eqi9UL3J
-         sVm9BCtuHEfxKEPYZxsEhZJn7fhEIQrGxl+bbVqNYURgddAdzTdXM+0zuWbYJmPrQY59
-         wKP2rd4F6kVeZdGKvosiHVzXPskpRcN+Ld9zlmdZfT1pXW9Pmgt5x9Wmmq76Ugw2uFx1
-         kRSPDlv37YJUGIgNKnCM8XV/FSdiTFZJzGUDuK+ZYgrIDM8RGYpeMxkNLm4rW2QysL8S
-         aFaw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=j9++cZ/IP+wbbDCQ64mmb3OUnzsqMjEjsl1uqLXQ9Hc=;
+        b=WOSx8qaaGWz+JOaf5TSGTQ1tPjayIZ97VF3VmkCbwIm2Q0NJ8Ai7xUpq1PRwlGi9UH
+         bluLaY8ZYv50q0quvdJCyLERldS3GSXemhexxoRNuZkwGiKy1vfXHTWpzJ3HMA1cKszL
+         EnfhyuHkx37MwBFiN6qQA+kA8Kc13B1NeYrpv+G4Gl3Gq/UIwrCDc7xN1VejAF4ib2Ba
+         K8uy4p87L3lUsxTTeJP4RSFlGQnA2IUlO40lqt1FBw9AaMRdMCcqxP3R8eQ25nRfQf0I
+         haPjy6FFzIPgMK/QOdYA94GU9qoSnU+TveQ6hN1RqyVHPjvXNM8g5AXEFrYV4vERxVqG
+         kD9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=2XbnpJ3DCsRKiHe1DaCKVtnJE9/aeVVRESQe3D8Emz0=;
-        b=G99VNtUeZnAbiQpqH+h+WNaENDsKM/BH/9xIe9NHnD0vTTShat8nl5vgNFzFoIx435
-         6AYY6Ty3gU+tagblMyluJCiS/tGnROjp0kY/xMsHxQ0/umTw2qAXySp4p9uKJJvQn/oM
-         g/loia1ZNRfhlzuZPx3Rhr4IFpwjKc04Apnyptu4o8Xv0O0EpEMWWtf6JBPgCVXuzgsQ
-         NiDK0GaXO83SQWzRZuTiEyxtIH2BNXBGax4ZZOxWv1lt7jIssMNWPXwqMHldTF3I2CEm
-         a8gQp+6HtA8w/NE306hSIx4iSTKQ+k8S4qNt9CEQgINwjpMO0F21l9Wp5ndjQzBZAMG9
-         4oQQ==
-X-Gm-Message-State: APjAAAXEnkIb9Lj2ZrXMmEc6i//VLL+ii3YKufknS+CJByYbAehP7s+c
-        J66mFT8Nk0AcURHiUEHV1nCThg+dCRo=
-X-Google-Smtp-Source: APXvYqxgH2Zy4SF7Ru6OgX1SQtM0GsOax0n4VqsktL36jANdSqE9ij6StXtgtan9ISXSA9S4DFix+Q==
-X-Received: by 2002:a5d:438c:: with SMTP id i12mr30082796wrq.51.1582055724084;
-        Tue, 18 Feb 2020 11:55:24 -0800 (PST)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=j9++cZ/IP+wbbDCQ64mmb3OUnzsqMjEjsl1uqLXQ9Hc=;
+        b=sqS5483YEwaEJEzLYN9G0M2OUIWrIuC7mSA5zbPARpW4Y95EP93sNDCU5pv653F+A3
+         KjONvx2pdoPXWY3SdRpHN20L61dPGKjOHaPJJIV5rW+79qJBu1ojqZn0JMYC91oO/3fJ
+         aGGC8EEeVaxRdhmNNc/0T1/7UGcuV+LoZT9+vHbBrMF9fQJmi8YXSEoSPUeHwHaYY3D2
+         6lGn6ThyxYEtYBShOOeO0WAnOjhnXtf13GmyHb/0p3P6qY0KejgFbjXvQ6CkrPkKaMcP
+         n3dKKa0p7BuEfT3sgFUSXhDOAHz715/alxbwmwYES9Af4ucwEMOMqjFMFg6EX32Ya/D5
+         q37w==
+X-Gm-Message-State: APjAAAXfI/GMtguvZ6YNxQ+8esB05d8oZt72TP8u8KAqAZZtcugZsQZY
+        AndNyMaZx3KkralWme+0lPHPd/V7
+X-Google-Smtp-Source: APXvYqwssbUYngfobHc+Zd32PF8GyLWgR88HwW/3rHhOxchbGNWeIvyapBtxQhYHOPHxemQgyUkLhg==
+X-Received: by 2002:a1c:1f56:: with SMTP id f83mr4832027wmf.93.1582056980798;
+        Tue, 18 Feb 2020 12:16:20 -0800 (PST)
 Received: from ?IPv6:2003:ea:8f29:6000:5cb0:582f:968:ec00? (p200300EA8F2960005CB0582F0968EC00.dip0.t-ipconnect.de. [2003:ea:8f29:6000:5cb0:582f:968:ec00])
-        by smtp.googlemail.com with ESMTPSA id t187sm4914865wmt.25.2020.02.18.11.55.22
+        by smtp.googlemail.com with ESMTPSA id j15sm8120513wrp.9.2020.02.18.12.16.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 11:55:23 -0800 (PST)
+        Tue, 18 Feb 2020 12:16:20 -0800 (PST)
+Subject: [PATCH net-next v2 12/13] r8152: use new helper tcp_v6_gso_csum_prep
 From:   Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH net-next v2 0/13] net: core: add helper tcp_v6_gso_csum_prep
 To:     David Miller <davem@davemloft.net>,
-        Realtek linux nic maintainers <nic_swsd@realtek.com>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Rasesh Mody <rmody@marvell.com>,
-        Sudarsana Kalluru <skalluru@marvell.com>,
-        GR-Linux-NIC-Dev@marvell.com,
-        Christian Benvenuti <benve@cisco.com>,
-        Govindarajulu Varadarajan <_govind@gmx.com>,
-        Parvi Kaustubhi <pkaustub@cisco.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Guo-Fu Tseng <cooldavid@cooldavid.org>,
-        Shannon Nelson <snelson@pensando.io>,
-        Pensando Drivers <drivers@pensando.io>,
-        Timur Tabi <timur@kernel.org>,
-        Jassi Brar <jaswinder.singh@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Ronak Doshi <doshir@vmware.com>,
-        "VMware, Inc." <pv-drivers@vmware.com>
+        Realtek linux nic maintainers <nic_swsd@realtek.com>
 Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        intel-wired-lan@lists.osuosl.org, linux-hyperv@vger.kernel.org,
         Linux USB Mailing List <linux-usb@vger.kernel.org>
-Message-ID: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
-Date:   Tue, 18 Feb 2020 20:55:18 +0100
+References: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
+Message-ID: <1dd1668a-b3c6-d441-681d-6cbe3ab22fa4@gmail.com>
+Date:   Tue, 18 Feb 2020 21:12:52 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -96,44 +78,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Several network drivers for chips that support TSO6 share the same code
-for preparing the TCP header, so let's factor it out to a helper.
-A difference is that some drivers reset the payload_len whilst others
-don't do this. This value is overwritten by TSO anyway, therefore
-the new helper resets it in general.
+Use new helper tcp_v6_gso_csum_prep in additional network drivers.
 
-Heiner Kallweit (13):
-  net: core: add helper tcp_v6_gso_csum_prep
-  r8169: use new helper tcp_v6_gso_csum_prep
-  net: atheros: use new helper tcp_v6_gso_csum_prep
-  bna: use new helper tcp_v6_gso_csum_prep
-  enic: use new helper tcp_v6_gso_csum_prep
-  e1000(e): use new helper tcp_v6_gso_csum_prep
-  jme: use new helper tcp_v6_gso_csum_prep
-  ionic: use new helper tcp_v6_gso_csum_prep
-  net: qcom/emac: use new helper tcp_v6_gso_csum_prep
-  net: socionext: use new helper tcp_v6_gso_csum_prep
-  hv_netvsc: use new helper tcp_v6_gso_csum_prep
-  r8152: use new helper tcp_v6_gso_csum_prep
-  vmxnet3: use new helper tcp_v6_gso_csum_prep
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/net/usb/r8152.c | 26 ++------------------------
+ 1 file changed, 2 insertions(+), 24 deletions(-)
 
- drivers/net/ethernet/atheros/alx/main.c       |  5 +---
- .../net/ethernet/atheros/atl1c/atl1c_main.c   |  6 ++---
- drivers/net/ethernet/brocade/bna/bnad.c       |  7 +----
- drivers/net/ethernet/cisco/enic/enic_main.c   |  3 +--
- drivers/net/ethernet/intel/e1000/e1000_main.c |  6 +----
- drivers/net/ethernet/intel/e1000e/netdev.c    |  5 +---
- drivers/net/ethernet/jme.c                    |  7 +----
- .../net/ethernet/pensando/ionic/ionic_txrx.c  |  5 +---
- drivers/net/ethernet/qualcomm/emac/emac-mac.c |  7 ++---
- drivers/net/ethernet/realtek/r8169_main.c     | 26 ++-----------------
- drivers/net/ethernet/socionext/netsec.c       |  6 +----
- drivers/net/hyperv/netvsc_drv.c               |  5 +---
- drivers/net/usb/r8152.c                       | 26 ++-----------------
- drivers/net/vmxnet3/vmxnet3_drv.c             |  5 +---
- include/net/ip6_checksum.h                    |  9 +++++++
- 15 files changed, 27 insertions(+), 101 deletions(-)
-
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 78ddbaf64..709578f4d 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -1948,29 +1948,6 @@ static void r8152_csum_workaround(struct r8152 *tp, struct sk_buff *skb,
+ 	}
+ }
+ 
+-/* msdn_giant_send_check()
+- * According to the document of microsoft, the TCP Pseudo Header excludes the
+- * packet length for IPv6 TCP large packets.
+- */
+-static int msdn_giant_send_check(struct sk_buff *skb)
+-{
+-	const struct ipv6hdr *ipv6h;
+-	struct tcphdr *th;
+-	int ret;
+-
+-	ret = skb_cow_head(skb, 0);
+-	if (ret)
+-		return ret;
+-
+-	ipv6h = ipv6_hdr(skb);
+-	th = tcp_hdr(skb);
+-
+-	th->check = 0;
+-	th->check = ~tcp_v6_check(0, &ipv6h->saddr, &ipv6h->daddr, 0);
+-
+-	return ret;
+-}
+-
+ static inline void rtl_tx_vlan_tag(struct tx_desc *desc, struct sk_buff *skb)
+ {
+ 	if (skb_vlan_tag_present(skb)) {
+@@ -2016,10 +1993,11 @@ static int r8152_tx_csum(struct r8152 *tp, struct tx_desc *desc,
+ 			break;
+ 
+ 		case htons(ETH_P_IPV6):
+-			if (msdn_giant_send_check(skb)) {
++			if (skb_cow_head(skb, 0)) {
+ 				ret = TX_CSUM_TSO;
+ 				goto unavailable;
+ 			}
++			tcp_v6_gso_csum_prep(skb);
+ 			opts1 |= GTSENDV6;
+ 			break;
+ 
 -- 
 2.25.1
+
 
