@@ -2,72 +2,94 @@ Return-Path: <SRS0=9g+w=4G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 354B6C34026
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 18:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA39C34026
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 18:52:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 09FCB24656
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 18:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582051229;
-	bh=QN8PvGUmdnqwqUO1DNccUDIaJziDm03uGotO+WGlbV0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ryv+Rxqt/yAW+cxc+eIKzz8pqbh6vbXdKfDJXCkcnhN86pgGTaWt3yuBHUW0CW186
-	 Lf4oJgSaWYlcBeldfN+WYOi7R+MAwkzqa8OaaH9YeiZ3hiMgSn5g5PHMe/oSZfqXBX
-	 SG0HtUKGkJ2AlBXJPn3jR8QvnxsmO3pwq4xmvi4g=
+	by mail.kernel.org (Postfix) with ESMTP id 013DC208C4
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 18:52:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbgBRSk1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Feb 2020 13:40:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60164 "EHLO mail.kernel.org"
+        id S1726620AbgBRSwL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Feb 2020 13:52:11 -0500
+Received: from mga06.intel.com ([134.134.136.31]:19050 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726548AbgBRSk0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 Feb 2020 13:40:26 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BAD4E24654;
-        Tue, 18 Feb 2020 18:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582051226;
-        bh=QN8PvGUmdnqwqUO1DNccUDIaJziDm03uGotO+WGlbV0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ty7m6i5u/BkSWuFB0dlC1gd+6AcTgjrmAz5gZQEN7xWkDQFurltJCpHnIzIVtkWW1
-         RAZKHKAwN7ot6Mblf98rmTw8ezTh22FQDEAFKRsi1BgNhhnKsuJHRNSzDzBM5RzaAj
-         2n5d+gLqHxDRr29Ce2o65vOi+PW9xRpKJOGQyajA=
-Date:   Tue, 18 Feb 2020 19:40:24 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>, linux-usb@vger.kernel.org
-Subject: Re: [GIT PULL] Thunderbolt/USB4 fix for v5.6-rc3
-Message-ID: <20200218184024.GA2667292@kroah.com>
-References: <20200218122900.GC2667@lahna.fi.intel.com>
+        id S1726415AbgBRSwL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Feb 2020 13:52:11 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Feb 2020 10:52:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,457,1574150400"; 
+   d="scan'208";a="224231754"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga007.jf.intel.com with ESMTP; 18 Feb 2020 10:52:08 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id BF2F273; Tue, 18 Feb 2020 20:52:07 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2] usb: core: Make use of acpi_evaluate_object() status
+Date:   Tue, 18 Feb 2020 20:52:07 +0200
+Message-Id: <20200218185207.62527-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200218122900.GC2667@lahna.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 02:29:00PM +0200, Mika Westerberg wrote:
-> Hi Greg,
-> 
-> The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
-> 
->   Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-fix-for-v5.6-rc3
+Compiler is not happy about dangling variable:
 
-Pulled and pushed out, thanks.
+.../core/usb-acpi.c: In function ‘usb_acpi_get_connect_type’:
+.../core/usb-acpi.c:90:14: warning: variable ‘status’ set but not used [-Wunused-but-set-variable]
+   90 |  acpi_status status;
+      |              ^~~~~~
 
-greg k-h
+Make use of it by checking the status and bail out in case of error.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: Drop unneded {} (Sergei)
+ drivers/usb/core/usb-acpi.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+index 9043d7242d67..99d41dc26e08 100644
+--- a/drivers/usb/core/usb-acpi.c
++++ b/drivers/usb/core/usb-acpi.c
+@@ -86,7 +86,7 @@ static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+ {
+ 	enum usb_port_connect_type connect_type = USB_PORT_CONNECT_TYPE_UNKNOWN;
+ 	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+-	union acpi_object *upc;
++	union acpi_object *upc = NULL;
+ 	acpi_status status;
+ 
+ 	/*
+@@ -98,11 +98,12 @@ static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+ 	 * no connectable, the port would be not used.
+ 	 */
+ 	status = acpi_evaluate_object(handle, "_UPC", NULL, &buffer);
++	if (ACPI_FAILURE(status))
++		goto out;
++
+ 	upc = buffer.pointer;
+-	if (!upc || (upc->type != ACPI_TYPE_PACKAGE)
+-		|| upc->package.count != 4) {
++	if (!upc || (upc->type != ACPI_TYPE_PACKAGE) || upc->package.count != 4)
+ 		goto out;
+-	}
+ 
+ 	if (upc->package.elements[0].integer.value)
+ 		if (pld->user_visible)
+-- 
+2.25.0
+
