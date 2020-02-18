@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FEFC34047
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:33:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC329C34049
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:33:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3175324125
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:33:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9313D24125
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:33:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="xQkcyhd9"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="b2RmJ6Es"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbgBRTdm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726858AbgBRTdm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 18 Feb 2020 14:33:42 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39755 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726786AbgBRTdd (ORCPT
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40957 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbgBRTdd (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 14:33:33 -0500
-Received: by mail-wm1-f67.google.com with SMTP id c84so4203224wme.4
-        for <linux-usb@vger.kernel.org>; Tue, 18 Feb 2020 11:33:32 -0800 (PST)
+Received: by mail-wr1-f65.google.com with SMTP id t3so25386355wru.7
+        for <linux-usb@vger.kernel.org>; Tue, 18 Feb 2020 11:33:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Ayr0vaOngDA+VkwhWRpdM5V1skhfB+el5GXKIwRxryc=;
-        b=xQkcyhd9mpgYZo1ph9KEAbwqPZXD3q7Xx5fqMyOGprcnJ5fdXq73iZaS/fQ+qrso1T
-         93FKEqFyelBvQVLjeti8uHKmxCdP6zeXqoOY2zzLQwEp70BQpaxuSVk2MX2WQX0X1RAL
-         LNGQp9YBsRwrdCdhh9ydHE2VSaL1o55fVz0ewVwRo77qpyBXCDcmiWtTL0qt2HWJxkAS
-         P/WJq0lsxEAdVunCc3N3MuNJuc1li4p4oR7/7MTzD4VmeL/gPVf+4LTEH6AYGqnv9bDD
-         CDk+mzo5puPYxdtlOs+lXn0zoA/zKsvce2heh37g6R46RZFknCfkbRmrFAR1tVfc3L9l
-         ze6Q==
+        bh=qzVfbuv0UjeSRxXKHRypGoNUSRzZLS4IAN1hM5sqaJM=;
+        b=b2RmJ6EscimjzdPIeQMGlNOE4c/kSwwDXzjFpT9RxdJzz318ILKJhMkg6QrMFR0nVT
+         tFCoRk2E5fZon4mA7P4wb5e6IogwT36Djrcsn7zGVF3e2VjWzkhzrBx2Ee7UfHciiOnD
+         HU9ghibHnMFM7bQo7oSdFRSUae0XsP3gEvC04j02rspxuH3mr2uI9VDDeL4G25uvFpPD
+         Nb8QfZtvIwKT4equH3p4U0eT9y3BSfS5l6+zYrfusAIwVf0Sa7dst+ZO3GUtfrKsACc1
+         QzhYsAN+bh9z/XCICTACYF5XYq+HAPExPvgf9oNd3ZjmVqzVG7/u3zo/eTgX/tLMI5ig
+         wSRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Ayr0vaOngDA+VkwhWRpdM5V1skhfB+el5GXKIwRxryc=;
-        b=Q4z82YPcg3joDN+VN2F4nMv0F/khSLm/wzaQz/Ode1621KJm0vJWANwQlBRnPDL5S3
-         Ffs0Q9QRvAZ5pjiqJ9UlibdPBAwMcS81eU5jJ+kqmavYcREx/scTb3l48pqwq69QtQVv
-         2uVDng/YT0r6wp7Z1nbYXpYcRiRIjijQZFCgncf9scF9m3MwhNKhxIfN1gTQRELinSvG
-         Idxno0H/cKvVO5XwC8dS3jWc9YnWhAw/s72mYjNolk8Rle5cu4/PZC+hvDZ9l+XW+HsU
-         Bwm4xwSkhlbVetnTntneQIhtvP7Mso0rI3VK+ZFD/tOSO14GixnPEP5NQAz3wEUgiRIQ
-         YrPA==
-X-Gm-Message-State: APjAAAXZJo7VyMjXV7gW+r2h+HzyZjkKrwTRUs03beZgxxsRFFMU03Dc
-        qeqQRQYnJzVt5isKoH7VozUK/Q==
-X-Google-Smtp-Source: APXvYqzDsjJ38h0gWD0g2s11Gr1Lmz6VBAIYHUJDGPLQPQMDv1f+ZTd+/40BghBPL7gZYdi1jG1GBg==
-X-Received: by 2002:a1c:1d13:: with SMTP id d19mr4920253wmd.163.1582054411665;
-        Tue, 18 Feb 2020 11:33:31 -0800 (PST)
+        bh=qzVfbuv0UjeSRxXKHRypGoNUSRzZLS4IAN1hM5sqaJM=;
+        b=VgwUKF8guqGpkSQD1d0/iT5u1ye2dFKfiWIVp0KueWxHkEsX/XyUqzLe02BOheDjjH
+         uFaT2qU+POZD0bIlokmaFtqMloS0KAaM9fskqbFj1wCxoPP8ITaKECD5/EhHUq+hFA4u
+         BEIMWzkirMcvUIfkIDl16ZtIYV/uu1zeZFLPGBrtFa9hu5/gywRkoMf8bifdfQ9GodSi
+         gGqHjIrYGXSsSl5XAMoB3xGvULlmE55cFq06DBQRyBxoN57yaWrTFYW3tP/77p2vKKmZ
+         FZwZXBPv8z8XsKEJIoUp2HNRmKCFt7UL6z/Bdma0O/5ENMsAt2h/O3TqaHUrFjxNpJzG
+         CbSQ==
+X-Gm-Message-State: APjAAAVggF7/tPsZv7RaRDtVxxZQDFwav0B0kQhkyLe/Y9wdDX5h5dBe
+        b/CSs0Xvm3qlJaBqlymNlVb27q58lto=
+X-Google-Smtp-Source: APXvYqxVlIzlOPJ7GmA76MZihm63jDa0r+jAX7yBzPP+MPh9N+W+3wG8JHfgGtdpK1wwbvTmNBLnKw==
+X-Received: by 2002:a5d:6646:: with SMTP id f6mr32681840wrw.276.1582054409814;
+        Tue, 18 Feb 2020 11:33:29 -0800 (PST)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id k16sm7649266wru.0.2020.02.18.11.33.30
+        by smtp.googlemail.com with ESMTPSA id k16sm7649266wru.0.2020.02.18.11.33.28
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 18 Feb 2020 11:33:31 -0800 (PST)
+        Tue, 18 Feb 2020 11:33:29 -0800 (PST)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     alexandre.belloni@bootlin.com, b-liu@ti.com, balbi@kernel.org,
         gregkh@linuxfoundation.org, ludovic.desroches@microchip.com,
@@ -60,9 +60,9 @@ To:     alexandre.belloni@bootlin.com, b-liu@ti.com, balbi@kernel.org,
         slemieux.tyco@gmail.com, stern@rowland.harvard.edu, vz@mleia.com
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 18/20] usb: host: uhci-pci: remove useless cast for driver.name
-Date:   Tue, 18 Feb 2020 19:33:01 +0000
-Message-Id: <1582054383-35760-19-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH 16/20] usb: host: ohci-pci: remove useless cast for driver.name
+Date:   Tue, 18 Feb 2020 19:32:59 +0000
+Message-Id: <1582054383-35760-17-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1582054383-35760-1-git-send-email-clabbe@baylibre.com>
 References: <1582054383-35760-1-git-send-email-clabbe@baylibre.com>
@@ -76,20 +76,20 @@ hcd_name (which is already const char).
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/usb/host/uhci-pci.c | 2 +-
+ drivers/usb/host/ohci-pci.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/uhci-pci.c b/drivers/usb/host/uhci-pci.c
-index 0fa3d72bae26..957c87efc746 100644
---- a/drivers/usb/host/uhci-pci.c
-+++ b/drivers/usb/host/uhci-pci.c
-@@ -294,7 +294,7 @@ static const struct pci_device_id uhci_pci_ids[] = { {
- MODULE_DEVICE_TABLE(pci, uhci_pci_ids);
+diff --git a/drivers/usb/host/ohci-pci.c b/drivers/usb/host/ohci-pci.c
+index f4e13a3fddee..22117a6aeb4a 100644
+--- a/drivers/usb/host/ohci-pci.c
++++ b/drivers/usb/host/ohci-pci.c
+@@ -288,7 +288,7 @@ MODULE_DEVICE_TABLE (pci, pci_ids);
  
- static struct pci_driver uhci_pci_driver = {
--	.name =		(char *)hcd_name,
+ /* pci driver glue; this is a "new style" PCI driver module */
+ static struct pci_driver ohci_pci_driver = {
+-	.name =		(char *) hcd_name,
 +	.name =		hcd_name,
- 	.id_table =	uhci_pci_ids,
+ 	.id_table =	pci_ids,
  
  	.probe =	usb_hcd_pci_probe,
 -- 
