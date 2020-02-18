@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39CD9C34047
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE560C34026
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:34:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 13F0724125
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:34:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA71524654
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 19:34:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="x0+U/skH"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="106kcsSZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727206AbgBRTeF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Feb 2020 14:34:05 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36899 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbgBRTd3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 14:33:29 -0500
-Received: by mail-wm1-f68.google.com with SMTP id a6so4208915wme.2
-        for <linux-usb@vger.kernel.org>; Tue, 18 Feb 2020 11:33:27 -0800 (PST)
+        id S1726739AbgBRTd2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Feb 2020 14:33:28 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41727 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726705AbgBRTd2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 14:33:28 -0500
+Received: by mail-wr1-f68.google.com with SMTP id c9so25421042wrw.8
+        for <linux-usb@vger.kernel.org>; Tue, 18 Feb 2020 11:33:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Fhwn2ZW4+Oeu69BMvqd1Amzh30rqArEOAoeVg6PmOWg=;
-        b=x0+U/skHhXnfbCeAgDwjQ8qJmDqyWtwDQlK7yFyQgERkVEMatsfBRZLy22osPctvse
-         3q/bu1g2a1LEB3zjxbu3vETUdfOTugPNK76akGMUrub/BXHMFAG4ytSUwarKnCwwvjpO
-         JNM05lNSHeykBpxAZFmqERzbfjrpwHZUTPKfErl5MFcDqYgeXfT6Hy1uikV6IJG94m1v
-         T8xnTTvkJoN5gpQom6SHVyZUlLtuo21m58D+APxd1ixlpSXrkhOiD1q5u9XfEJr0ySDX
-         aEhqNTVRPMUET3PRSWjME5kMLFoH2qjYOGYOSIk2kfBHDdi+UxjnyTNb6Ch5+SEw8wnD
-         XXWg==
+        bh=K6WHmT1Q8HUElfvFbGW9Dh3Pw5PPNoHiq3K4083/U04=;
+        b=106kcsSZ4LU/10R3o2p3osg/GDCO9WirwxTaO3LgTuMSCiG6apeUuthE3ZI9gItity
+         u3rzE4mWwKv5n+cW9tmSB7Ljv+JXMY7bKTrWbRycZSmP5ElaRG6v8N9oPitXuBHcCySp
+         +NtWaIFwwI2D2ajZEPiV1vAf4U9PlAdEVAVPs7xXnu1LVK7OhvEbrD8Hahoczg9oGCsH
+         EebqJfPXqOrchabWBFKUzzw7WwpKStIUtPc63sCOdzDmYqOrv0HhZFxD6vaG5KMAsD4u
+         UQwtvBDEDgMYHK7UQ1hV+wnAB8qJkk6PjAyK4MEvTJz5X5AXC+emiuSSYN+EsbVu6yWS
+         hXLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Fhwn2ZW4+Oeu69BMvqd1Amzh30rqArEOAoeVg6PmOWg=;
-        b=aj/C1mortFh2dkIZa9kX4xjZV4J3mvqv4sBcAiAr5jR38IgkJlioRE/nMZ2iYLDM0x
-         3esch/mzoRGqXGIHaftJ2knUxmegmjv1Vhsq6nF7MyIc2t+QzHXkX4x/wWhGG3+jxKB0
-         hwZXHyPDRIO8mcVHo4cjCOgReoLQnr8goiovD9Xsw9c67LI6YV/AN57s5WqA6Jet7raQ
-         rt6sxD5R/4ffDNmXRlYT0g/rn188gpPcKPElFrH9pd8XFsWdt10a6V7EzyLw83Z2wXPv
-         2xMqy4gYMpq2kGvZdU3JGHQopgzCm3Eg9rQrAMI/YniesSzlbqRsGdwBsN+cx6RkqA3t
-         R7BQ==
-X-Gm-Message-State: APjAAAVJZeW1muGc2ii9CMCpq+4Oymqvq4y9FdsCBHt0KM99vYM9Yljc
-        ub5mPtf+DmaX00wlNqbfEAGeMg==
-X-Google-Smtp-Source: APXvYqwU6LtJ+4yda1ST5mI7xKccXgYcyuYDViGv3r6yI47nRAJx8KQ7bO49LiFdYcP4+WBJfA7+AQ==
-X-Received: by 2002:a1c:1b93:: with SMTP id b141mr4945747wmb.114.1582054407086;
-        Tue, 18 Feb 2020 11:33:27 -0800 (PST)
-Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id k16sm7649266wru.0.2020.02.18.11.33.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        bh=K6WHmT1Q8HUElfvFbGW9Dh3Pw5PPNoHiq3K4083/U04=;
+        b=KzbOOYbwXY7zGsESlv5+zhUuFmLY5UPNh3WiptrCwyOh1kevN2NAamoBHpOpf6iof1
+         UFndiPlWKMHdUY355Q0xTTeziITfpTEAErRDHi94/GDUu7NV+tZ4AnZ3PUqmxAZ2vTB1
+         NiPkJXAiLqsDP4oitl61I+iv/RnfNhWRgGZcKSU70iqcPiWw8kZQA2tsfTRkYmeSmpVt
+         nlQnGr7cKSFp1RkMQSQ4uh3rNTNkWw1XvwbZfP5AJgTP6EnHUR1PA9fnLTVx88qam1w4
+         GTJT+ZHzbvnpsQyj1JUeuipkHZo/p6ZfdTNrr0QaNfgwobbg/UktWUYHroZB1EqgW0dq
+         iXeQ==
+X-Gm-Message-State: APjAAAVKoF3xDGu7pWejSEJYEO6P3quge9JWlXn8X3jRhp/oxuKbEA9f
+        PDBQXZfPCklVByPmcTQ9HeVvbA==
+X-Google-Smtp-Source: APXvYqzvoP4MSFReUflySE73Nx02NzCW0jknJD3OEVLpu7rFICnkripQt1AiTb5uiiwG9a8GPfXtEA==
+X-Received: by 2002:a5d:55c1:: with SMTP id i1mr32971190wrw.347.1582054406291;
         Tue, 18 Feb 2020 11:33:26 -0800 (PST)
+Received: from localhost.localdomain ([51.15.160.169])
+        by smtp.googlemail.com with ESMTPSA id k16sm7649266wru.0.2020.02.18.11.33.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 18 Feb 2020 11:33:25 -0800 (PST)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     alexandre.belloni@bootlin.com, b-liu@ti.com, balbi@kernel.org,
         gregkh@linuxfoundation.org, ludovic.desroches@microchip.com,
@@ -60,9 +60,9 @@ To:     alexandre.belloni@bootlin.com, b-liu@ti.com, balbi@kernel.org,
         slemieux.tyco@gmail.com, stern@rowland.harvard.edu, vz@mleia.com
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 13/20] usb: gadget: r8a66597-udc: remove useless cast for driver.name
-Date:   Tue, 18 Feb 2020 19:32:56 +0000
-Message-Id: <1582054383-35760-14-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH 12/20] usb: gadget: omap_udc: remove useless cast for driver.name
+Date:   Tue, 18 Feb 2020 19:32:55 +0000
+Message-Id: <1582054383-35760-13-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1582054383-35760-1-git-send-email-clabbe@baylibre.com>
 References: <1582054383-35760-1-git-send-email-clabbe@baylibre.com>
@@ -72,23 +72,23 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 device_driver name is const char pointer, so it not useful to cast
-udc_name (which is already const char).
+driver_name (which is already const char).
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/usb/gadget/udc/r8a66597-udc.c | 2 +-
+ drivers/usb/gadget/udc/omap_udc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/r8a66597-udc.c b/drivers/usb/gadget/udc/r8a66597-udc.c
-index 582a16165ea9..537094b485bf 100644
---- a/drivers/usb/gadget/udc/r8a66597-udc.c
-+++ b/drivers/usb/gadget/udc/r8a66597-udc.c
-@@ -1968,7 +1968,7 @@ static int r8a66597_probe(struct platform_device *pdev)
- static struct platform_driver r8a66597_driver = {
- 	.remove =	r8a66597_remove,
+diff --git a/drivers/usb/gadget/udc/omap_udc.c b/drivers/usb/gadget/udc/omap_udc.c
+index bd12417996db..bf87c6c0d7f6 100644
+--- a/drivers/usb/gadget/udc/omap_udc.c
++++ b/drivers/usb/gadget/udc/omap_udc.c
+@@ -3001,7 +3001,7 @@ static struct platform_driver udc_driver = {
+ 	.suspend	= omap_udc_suspend,
+ 	.resume		= omap_udc_resume,
  	.driver		= {
--		.name =	(char *) udc_name,
-+		.name =	udc_name,
+-		.name	= (char *) driver_name,
++		.name	= driver_name,
  	},
  };
  
