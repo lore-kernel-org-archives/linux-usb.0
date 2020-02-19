@@ -2,92 +2,97 @@ Return-Path: <SRS0=1WfG=4H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9630EC34047
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 12:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE48EC34050
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 13:38:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6DE5724654
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 12:40:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE8AB24654
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 13:38:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727421AbgBSMjo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Feb 2020 07:39:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:52796 "EHLO mx2.suse.de"
+        id S1727740AbgBSNiV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Feb 2020 08:38:21 -0500
+Received: from mga01.intel.com ([192.55.52.88]:10095 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726530AbgBSMjn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 19 Feb 2020 07:39:43 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id AFA58B442;
-        Wed, 19 Feb 2020 12:39:41 +0000 (UTC)
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com, f.fainelli@gmail.com,
-        gregkh@linuxfoundation.org, tim.gover@raspberrypi.org,
-        linux-pci@vger.kernel.org, wahrenst@gmx.net,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>
-Subject: [PATCH v2 0/4] Raspberry Pi 4 VL805 firmware load support
-Date:   Wed, 19 Feb 2020 13:39:29 +0100
-Message-Id: <20200219123933.2792-1-nsaenzjulienne@suse.de>
-X-Mailer: git-send-email 2.25.0
+        id S1727263AbgBSNiV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 19 Feb 2020 08:38:21 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2020 05:38:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,459,1574150400"; 
+   d="scan'208";a="348943003"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 19 Feb 2020 05:38:16 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 19 Feb 2020 15:38:15 +0200
+Date:   Wed, 19 Feb 2020 15:38:15 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Bin Liu <b-liu@ti.com>, Benson Leung <bleung@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 5/9] usb: roles: Provide the switch drivers handle to the
+ switch in the API
+Message-ID: <20200219133815.GH28776@kuha.fi.intel.com>
+References: <20200213132428.53374-1-heikki.krogerus@linux.intel.com>
+ <20200213132428.53374-6-heikki.krogerus@linux.intel.com>
+ <20200213133239.GN1498@kuha.fi.intel.com>
+ <20200218072341.GA30350@b29397-desktop>
+ <20200218122545.GF28776@kuha.fi.intel.com>
+ <20200219015840.GC8602@b29397-desktop>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200219015840.GC8602@b29397-desktop>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On the Raspberry Pi 4, after a PCI reset, VL805's firmware may either be
-loaded directly from an EEPROM or, if not present, by the SoC's
-VideCore. This series adds support for the later.
+On Wed, Feb 19, 2020 at 01:58:38AM +0000, Peter Chen wrote:
+> On 20-02-18 14:25:45, Heikki Krogerus wrote:
+> > Hi,
+> > 
+> > On Tue, Feb 18, 2020 at 07:23:41AM +0000, Peter Chen wrote:
+> > > > > @@ -1118,6 +1119,7 @@ static int ci_hdrc_probe(struct platform_device *pdev)
+> > > > >  	}
+> > > > >  
+> > > > >  	if (ci_role_switch.fwnode) {
+> > > > > +		ci_role_switch.driver_data = ci;
+> > > > >  		ci->role_switch = usb_role_switch_register(dev,
+> > > > >  					&ci_role_switch);
+> > > 
+> > > Why the struct usb_role_switch_desc needs drvdata, the struct
+> > > usb_role_switch has already one?
+> > 
+> > I'm assuming that you are asking why not just register the switch,
+> > and then call usb_role_switch_set_drvdata(), right?
+> 
+> Yes.
+> 
+> > 
+> > That may create a race condition where the switch is accessed before
+> > the driver data is available. That can happen for example if the
+> > switch is exposed to the user space.
+> > 
+> > To play it safe, supplying the driver data as part of the descriptor.
+> > That way we can be sure that the driver data is always available
+> > the moment the switch is registered.
+> > 
+> 
+> Then, you may use the uniform way for the driver. Some may have
+> race condition like you said.
 
-Note that there are a set of constraints we have to consider (some of
-them I missed on v1):
- - We need to make sure the VideoCore firmware interface is up and
-   running before running the VL805 firmware load call.
-
- - There is no way to discern RPi4's VL805 chip from other platforms',
-   so we need the firmware load to happen *before* running
-   quirk_usb_handoff_xhci(). Failure to do so results in an unwarranted
-   5 second wait while the fixup code polls xHC's unexisting state.
-
-As per Stefan Wahren's comments I tested the behaviour on outdated
-firmware. Boards dependent on this will not boot if firmware is not
-up-to-date. Older boards with outdated firmware will fail to execute the
-VideoCore firmware call, but xHCI will perform reliably. I added a
-warning printout in case of failure.
-
-I'm aware that Florian Fianelli noted on the previous revision that
-waiting on the VideoCore firmware interface during PCIe's probe is far
-from ideal. But this was before taking into account the second
-constraint mentioned above. Impact on non RPi4 boards is minimal.
-
----
-
-Changes since v1:
- - Split things into their own patches
- - Wait for mailbox interface in pcie-brcmstb
- - Move firmware load code into RPi4 platform code
- - Move firmware load to usb/pci-quirks.c
- - Fix behaviour on outdated firmware
-
-Nicolas Saenz Julienne (4):
-  soc: bcm2835: Sync xHCI reset firmware property with downstream
-  firmware: raspberrypi: Introduce vl805 init routine
-  PCI: brcmstb: Wait for Raspberry Pi's firmware when present
-  USB: pci-quirks: Add Raspberry Pi 4 quirk
-
- drivers/firmware/raspberrypi.c             | 37 ++++++++++++++++++++++
- drivers/pci/controller/pcie-brcmstb.c      | 15 +++++++++
- drivers/usb/host/pci-quirks.c              | 18 +++++++++++
- include/soc/bcm2835/raspberrypi-firmware.h |  9 +++++-
- 4 files changed, 78 insertions(+), 1 deletion(-)
+Uniform way for the driver?
 
 -- 
-2.25.0
-
+heikki
