@@ -2,135 +2,403 @@ Return-Path: <SRS0=1WfG=4H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0FAC34056
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 19:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9616C34056
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 21:11:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7B8FF24654
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 19:22:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 890E0208C4
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 21:11:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="F4dKmYn3"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHfNuJ3O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgBSTWC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Feb 2020 14:22:02 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39662 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726648AbgBSTWC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Feb 2020 14:22:02 -0500
-Received: by mail-pl1-f196.google.com with SMTP id g6so466718plp.6
-        for <linux-usb@vger.kernel.org>; Wed, 19 Feb 2020 11:22:01 -0800 (PST)
+        id S1727421AbgBSVK7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Feb 2020 16:10:59 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:35303 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726739AbgBSVK7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Feb 2020 16:10:59 -0500
+Received: by mail-pf1-f195.google.com with SMTP id i19so706655pfa.2
+        for <linux-usb@vger.kernel.org>; Wed, 19 Feb 2020 13:10:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fNyeUEKMDXco+f5Gr/DTD6fZuo/Z/fNiUWmps4qVNiM=;
-        b=F4dKmYn37998FSEwAVJIJ13HtzqZYxYanNuNVDOrckCAcCzDalwmtvEv8eaCwU4JWc
-         OaD/TGnYeN3c5kqTQIoYIteZH4/lOpo0EFTRLfLVEiPjDsuQr3NaCwpNW7gpcNPipdxD
-         yspz+StYfhcin6GNXfngrYioGCvryRYNr+w5w=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=NwYJiFPNk3IIl8GuXgZSQBTo2QqHZ4IdHN61pYXpoJ4=;
+        b=MHfNuJ3Oh6jh4jsekjLUU7uR5v1gmNtv6u/z28QKMFmbBAYv/93L1xdTokpsLfbEjk
+         Wz61IbGXu7vZ5hAVxFb03qBI1bFDD4kfWk/EGIbgB20F3Qa2E70CuZPIRJyUZm9yD6BM
+         X6SZkc0JGO5l4zkWggnwSI4UJY4bbKood6LmET5T9MVOl5Jj/m0jA8WNms1MFDxgV2FD
+         qG6qE2fJ24Iw/8RVg7LtxnL32FN8aM+o1mSomwCy5Oz1Wt3GlYdreZvRcKQjbf7rwzu0
+         IPSddo1SG583xo7A47vaL2bcGwfrdXAJfErFT3na3+PcCKQUgiCbaIWifrQNec2ys9uK
+         hypg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=fNyeUEKMDXco+f5Gr/DTD6fZuo/Z/fNiUWmps4qVNiM=;
-        b=MVQLZc8aHxjEGGZS6UkbhK9jrC5Y1VFV5pjm0uooX7IgO+KWhSbnTfI91yUow0lxcl
-         pxhSuk9CFrZzD6NRt8LjQiY2IVsHhTk+fY3lMCD7I7hJJM+Kn7RtDw0oUuiRa6aoYNN9
-         8m2RmEc189ivi8VY1uOhZw8XYeS4PtpueUZAoPc8LUS5hIygyv823Tstr30vBwzgNPxO
-         hbJsq/OBlA7065uCeZw29sjeVQr33pftJHpRyjuHEQRGyiymGEjgOZwKenKjDIZM8QX8
-         +PEKhqDY8JTAPQUjFtcUXFJBlWiDlIrG5BvCi61IQcqAYIU++4VLpmySVENZ/bHZUe+Y
-         u9NQ==
-X-Gm-Message-State: APjAAAX/mIuKeSp26T4L4pTVNvLVwaJzYgkd2dxepxibMmbMfpnTLy/z
-        peKEwu3/JUwQtZf9JR7IgA/wkw==
-X-Google-Smtp-Source: APXvYqxvLSqbL57XLB1HSQgzv+lSozrrOo3DLhYYy8Kx2J4x0eKq0ai0JH+f3c0UJxa1T7sQ83OEtQ==
-X-Received: by 2002:a17:902:b909:: with SMTP id bf9mr26106967plb.96.1582140121379;
-        Wed, 19 Feb 2020 11:22:01 -0800 (PST)
-Received: from [10.67.49.41] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id z19sm390351pfn.49.2020.02.19.11.21.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2020 11:22:00 -0800 (PST)
-Subject: Re: [PATCH v2 3/4] PCI: brcmstb: Wait for Raspberry Pi's firmware
- when present
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
-        tim.gover@raspberrypi.org, linux-pci@vger.kernel.org,
-        wahrenst@gmx.net, Bjorn Helgaas <bhelgaas@google.com>
-References: <20200219123933.2792-1-nsaenzjulienne@suse.de>
- <20200219123933.2792-4-nsaenzjulienne@suse.de>
-From:   Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; prefer-encrypt=mutual; keydata=
- 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
- OXY+VnhOn2EcREN7qdAKw0j9Sw==
-Message-ID: <10a53db8-960e-eea7-1e8d-790de9a79e71@broadcom.com>
-Date:   Wed, 19 Feb 2020 11:21:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=NwYJiFPNk3IIl8GuXgZSQBTo2QqHZ4IdHN61pYXpoJ4=;
+        b=WVEJUZ7fFUYQCJczEt34p196CtadLDoJg9Fd7by4O2mcisBAmJrbZQj0d5wv4oz/4M
+         Vl6WuL9PPlf10g9Ei0MkMwAQLMzMFF0UdDBBZiWNJEYKRHWIahvQZaxzXv3By59QKSLp
+         pJrGYqraR0GbB0wfOpcZQzJa5Ry+6C95kjYpWwf0/tJ+MX4RGkuHeLfHhT4NUKxYxtuZ
+         lI6MXAqaLHlB4DhaSZ+MVEnvok/I1voSmyhcR33ClKV5k+dJ/iSKFvzXycyrKlhjsXow
+         8Vbgb3P9qQXlFzvLb077LBtz0SRSefmvJFrSP3qx5s4wenNGbAMzO2X73P/xokLoNuI/
+         PYoQ==
+X-Gm-Message-State: APjAAAU8Dc63aSWZjuY+0b5/v+jTiUyN5ad7FwOfefceC5F2z21/Zl/n
+        vzkSLliBNM7ehLJxn8VFcUQ=
+X-Google-Smtp-Source: APXvYqysOr8AnhirFKQof9hVCv4RKjZiydTudQ1n77ZzCMXUA0fw5zEn3Fx1PSE8rTKBB5pZ9ZwDhA==
+X-Received: by 2002:aa7:95b0:: with SMTP id a16mr27305756pfk.253.1582146657987;
+        Wed, 19 Feb 2020 13:10:57 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id h26sm569454pfr.9.2020.02.19.13.10.56
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 19 Feb 2020 13:10:56 -0800 (PST)
+Date:   Wed, 19 Feb 2020 13:10:56 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Boris ARZUR <boris@konbu.org>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        William Wu <william.wu@rock-chips.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] usb: dwc2: extend treatment for incomplete transfer
+Message-ID: <20200219211056.GA829@roeck-us.net>
+References: <20200210213906.GA24079@roeck-us.net>
+ <20200211054953.GA2401@tungsten>
+ <20200211161522.GA1894@roeck-us.net>
+ <20200215053647.GA10345@tungsten>
 MIME-Version: 1.0
-In-Reply-To: <20200219123933.2792-4-nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="zYM0uCDKw75PZbzx"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200215053647.GA10345@tungsten>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2/19/20 4:39 AM, Nicolas Saenz Julienne wrote:
-> xHCI's PCI fixup, run at the end of pcie-brcmstb's probe, depends on
-> RPi4's VideoCore firmware interface to be up and running. It's possible
-> for both initializations to race, so make sure it's available prior
-> starting.
+
+--zYM0uCDKw75PZbzx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, Feb 15, 2020 at 02:36:47PM +0900, Boris ARZUR wrote:
+> Hi Guenter,
 > 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> >> The first time around I was 0/ changing fonts 1/ trimming the dump message
+> >> in the kernel 2/ filming my screen. That's not practical at all...
+> Mmm, pstore does seem to work on my machine. CHROME_PSTORE is not available
+> to me because I'm not on x86, I just enabled the rest and nothing pops up
+> in /sys/fs/pstore...
+> 
+> So I took pictures (OCR did not help):
+> - https://funyu.konbu.org/pQUF2P08etcpVxuKZ0A720%2b0/IMG_20200215_134343.jpg.webp
+>   is a stack trace for your earlier patch "min_t", in
+>   https://www.spinics.net/lists/linux-usb/msg191019.html ;
+> - https://funyu.konbu.org/pQUF2P08etcpVxuKZ0A720%2b0/IMG_20200215_135816.jpg.webp
+>   is a stack trace for your later patch "container_of", in
+>   https://www.spinics.net/lists/linux-usb/msg191074.html .
+> 
+> Both patches crash (without even loading the machine), but "container_of" is
+> a bit more resilient.
+> 
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Yes, those patches didn't address the core problem. Can you test with the
+attached two patches ?
 
-It does not look like there is something making sure that
-CONFIG_RASPBERRYPI_FIRMWARE is being selected or depended on, should we
-have a "default XHCI_PCI" added to drivers/firmware/Kconfig?
+Thanks,
+Guenter
+
+--zYM0uCDKw75PZbzx
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="0001-usb-dwc2-Simplify-DMA-alignment-code.patch"
+
+From a1c0551b62b038b495177737828f986961184110 Mon Sep 17 00:00:00 2001
+From: Guenter Roeck <linux@roeck-us.net>
+Date: Mon, 10 Feb 2020 14:04:06 -0800
+Subject: [PATCH 1/2] usb: dwc2: Simplify DMA alignment code
+
+The code to align buffers for DMA was first introduced with commit
+3bc04e28a030 ("usb: dwc2: host: Get aligned DMA in a more supported way").
+It was updated with commit 56406e017a88 ("usb: dwc2: Fix DMA alignment
+to start at allocated boundary") because it did not really align buffers to
+DMA boundaries but to DWC2_USB_DMA_ALIGN. This was then optimized in commit
+1e111e885238 ("usb: dwc2: Fix inefficient copy of unaligned buffers")
+to only copy actual data rather than the whole buffer. Commit 4a4863bf2e79
+("usb: dwc2: Fix DMA cache alignment issues") changed this further to add
+a padding at the end of the buffer to ensure that the old data pointer is
+not in the same cache line as the buffer.
+
+This last commit states "Otherwise, the stored_xfer_buffer gets corrupted
+for IN URBs on non-cache-coherent systems". However, such corruptions are
+still observed. Either case, DMA is not expected to overwrite more memory
+than it is supposed to do, suggesting that the commit may have been hiding
+a problem rather than fixing it.
+
+On top of that, DMA alignment is still not guaranteed since it only happens
+if the original buffer is not aligned to DWC2_USB_DMA_ALIGN, which is still
+a constant of 4 and not really associated with DMA alignment.
+
+Move the old data pointer back to the beginning of the new buffer,
+restoring most of the original commit and to simplify the code. Define
+DWC2_USB_DMA_ALIGN to dma_get_cache_alignment() to fix the DMA alignment
+for real this time.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/usb/dwc2/hcd.c | 50 +++++++++++++++++++-----------------------
+ 1 file changed, 22 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index b90f858af960..b5841197165a 100644
+--- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -2469,21 +2469,24 @@ static int dwc2_alloc_split_dma_aligned_buf(struct dwc2_hsotg *hsotg,
+ 	return 0;
+ }
+ 
+-#define DWC2_USB_DMA_ALIGN 4
++#define DWC2_USB_DMA_ALIGN	dma_get_cache_alignment()
++
++struct dma_aligned_buffer {
++	void *kmalloc_ptr;
++	void *old_xfer_buffer;
++	u8 data[0];
++};
+ 
+ static void dwc2_free_dma_aligned_buffer(struct urb *urb)
+ {
+-	void *stored_xfer_buffer;
++	struct dma_aligned_buffer *temp;
+ 	size_t length;
+ 
+ 	if (!(urb->transfer_flags & URB_ALIGNED_TEMP_BUFFER))
+ 		return;
+ 
+-	/* Restore urb->transfer_buffer from the end of the allocated area */
+-	memcpy(&stored_xfer_buffer,
+-	       PTR_ALIGN(urb->transfer_buffer + urb->transfer_buffer_length,
+-			 dma_get_cache_alignment()),
+-	       sizeof(urb->transfer_buffer));
++	temp = container_of(urb->transfer_buffer,
++			    struct dma_aligned_buffer, data);
+ 
+ 	if (usb_urb_dir_in(urb)) {
+ 		if (usb_pipeisoc(urb->pipe))
+@@ -2491,17 +2494,17 @@ static void dwc2_free_dma_aligned_buffer(struct urb *urb)
+ 		else
+ 			length = urb->actual_length;
+ 
+-		memcpy(stored_xfer_buffer, urb->transfer_buffer, length);
++		memcpy(temp->old_xfer_buffer, temp->data, length);
+ 	}
+-	kfree(urb->transfer_buffer);
+-	urb->transfer_buffer = stored_xfer_buffer;
++	urb->transfer_buffer = temp->old_xfer_buffer;
++	kfree(temp->kmalloc_ptr);
+ 
+ 	urb->transfer_flags &= ~URB_ALIGNED_TEMP_BUFFER;
+ }
+ 
+ static int dwc2_alloc_dma_aligned_buffer(struct urb *urb, gfp_t mem_flags)
+ {
+-	void *kmalloc_ptr;
++	struct dma_aligned_buffer *temp, *kmalloc_ptr;
+ 	size_t kmalloc_size;
+ 
+ 	if (urb->num_sgs || urb->sg ||
+@@ -2509,31 +2512,22 @@ static int dwc2_alloc_dma_aligned_buffer(struct urb *urb, gfp_t mem_flags)
+ 	    !((uintptr_t)urb->transfer_buffer & (DWC2_USB_DMA_ALIGN - 1)))
+ 		return 0;
+ 
+-	/*
+-	 * Allocate a buffer with enough padding for original transfer_buffer
+-	 * pointer. This allocation is guaranteed to be aligned properly for
+-	 * DMA
+-	 */
++	/* Allocate a buffer with enough padding for alignment */
+ 	kmalloc_size = urb->transfer_buffer_length +
+-		(dma_get_cache_alignment() - 1) +
+-		sizeof(urb->transfer_buffer);
++		sizeof(struct dma_aligned_buffer) + DWC2_USB_DMA_ALIGN - 1;
+ 
+ 	kmalloc_ptr = kmalloc(kmalloc_size, mem_flags);
+ 	if (!kmalloc_ptr)
+ 		return -ENOMEM;
+ 
+-	/*
+-	 * Position value of original urb->transfer_buffer pointer to the end
+-	 * of allocation for later referencing
+-	 */
+-	memcpy(PTR_ALIGN(kmalloc_ptr + urb->transfer_buffer_length,
+-			 dma_get_cache_alignment()),
+-	       &urb->transfer_buffer, sizeof(urb->transfer_buffer));
+-
++	/* Position our struct dma_aligned_buffer such that data is aligned */
++	temp = PTR_ALIGN(kmalloc_ptr + 1, DWC2_USB_DMA_ALIGN) - 1;
++	temp->kmalloc_ptr = kmalloc_ptr;
++	temp->old_xfer_buffer = urb->transfer_buffer;
+ 	if (usb_urb_dir_out(urb))
+-		memcpy(kmalloc_ptr, urb->transfer_buffer,
++		memcpy(temp->data, urb->transfer_buffer,
+ 		       urb->transfer_buffer_length);
+-	urb->transfer_buffer = kmalloc_ptr;
++	urb->transfer_buffer = temp->data;
+ 
+ 	urb->transfer_flags |= URB_ALIGNED_TEMP_BUFFER;
+ 
 -- 
-Florian
+2.17.1
+
+
+--zYM0uCDKw75PZbzx
+Content-Type: text/x-diff; charset=iso-8859-1
+Content-Disposition: attachment; filename="0002-usb-dwc2-Allocate-input-buffers-as-multiples-of-wMax.patch"
+Content-Transfer-Encoding: 8bit
+
+From 9df13854b3717f8c16a2012dec614f737bb8c15d Mon Sep 17 00:00:00 2001
+From: Guenter Roeck <linux@roeck-us.net>
+Date: Mon, 10 Feb 2020 13:11:00 -0800
+Subject: [PATCH 2/2] usb: dwc2: Allocate input buffers as multiples of
+ wMaxPacketSize
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The following messages are seen on Veyron Chromebooks running v4.19 or
+later kernels.
+
+dwc2 ff580000.usb: dwc2_update_urb_state(): trimming xfer length
+dwc2 ff580000.usb: dwc2_hc_chhltd_intr_dma: Channel 7 - ChHltd set, but reason is unknown
+dwc2 ff580000.usb: hcint 0x00000002, intsts 0x04600021
+
+This is typically followed by a crash.
+
+Unable to handle kernel paging request at virtual address 29f9d9fc
+pgd = 4797dac9
+[29f9d9fc] *pgd=80000000004003, *pmd=00000000
+Internal error: Oops: a06 [#1] PREEMPT SMP ARM
+Modules linked in: ip6t_REJECT rfcomm i2c_dev uinput hci_uart btbcm ...
+CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W         4.19.87-07825-g4ab3515f6e4d #1
+Hardware name: Rockchip (Device Tree)
+PC is at memcpy+0x50/0x330
+LR is at 0xdd9ac94
+...
+[<c0a89f50>] (memcpy) from [<c0783b94>] (dwc2_free_dma_aligned_buffer+0x5c/0x7c)
+[<c0783b94>] (dwc2_free_dma_aligned_buffer) from [<c0765dcc>] (__usb_hcd_giveback_urb+0x78/0x130)
+[<c0765dcc>] (__usb_hcd_giveback_urb) from [<c07678fc>] (usb_giveback_urb_bh+0xa0/0xe4)
+[<c07678fc>] (usb_giveback_urb_bh) from [<c023a164>] (tasklet_action_common+0xc0/0xdc)
+[<c023a164>] (tasklet_action_common) from [<c02021f0>] (__do_softirq+0x1b8/0x434)
+[<c02021f0>] (__do_softirq) from [<c0239a14>] (irq_exit+0xdc/0xe0)
+[<c0239a14>] (irq_exit) from [<c029f260>] (__handle_domain_irq+0x94/0xd0)
+[<c029f260>] (__handle_domain_irq) from [<c05da780>] (gic_handle_irq+0x74/0xb0)
+[<c05da780>] (gic_handle_irq) from [<c02019f8>] (__irq_svc+0x58/0x8c)
+
+The crash suggests that the memory after the end of a temporary DMA-aligned
+buffer is overwritten.
+
+The problem is typically only seen in kernels which include commit
+56406e017a88 ("usb: dwc2: Fix DMA alignment to start at allocated
+boundary"), presumably because that commit moves the pointer to the old
+buffer to the end of the newly allocated buffer, where it is more likely
+to be overwritten.
+
+Code analysis shows that the transfer size programmed into the chip for
+input transfers is a multiple of an endpoint's maximum packet size
+(wMaxPacketSize). In the observed situation, the transfer size and thus
+the size of the input buffer is 1522 bytes. With a maximum packet size
+of 64 bytes, the chip is programmed to receive up to 1536 bytes of data.
+This overwrites the end of the buffer.
+
+To work around the problem, always allocate a multiple of wMaxPacketSize
+bytes for receive buffers. Do this even for DMA-aligned buffers if the
+receive buffer size is not a multiple of wMaxPacketSize. At the same time,
+do not update chan->xfer_len if the transfer size is 0.
+
+Reported-by: Boris ARZUR <boris@konbu.org>
+Cc: Boris ARZUR <boris@konbu.org>
+Cc: Jonathan Bell <jonathan@raspberrypi.org>
+Cc: Antti Seppälä <a.seppala@gmail.com>
+Fixes: 56406e017a88 ("usb: dwc2: Fix DMA alignment to start at allocated boundary")
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/usb/dwc2/hcd.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index b5841197165a..f27dc11e409c 100644
+--- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -1313,18 +1313,20 @@ static void dwc2_hc_start_transfer(struct dwc2_hsotg *hsotg,
+ 			if (num_packets > max_hc_pkt_count) {
+ 				num_packets = max_hc_pkt_count;
+ 				chan->xfer_len = num_packets * chan->max_packet;
++			} else if (chan->ep_is_in) {
++				/*
++				 * Always program an integral # of max packets for IN
++				 * transfers.
++				 * Note: This assumes that the input buffer is
++				 * aligned accordingly.
++				 */
++				chan->xfer_len = num_packets * chan->max_packet;
+ 			}
+ 		} else {
+ 			/* Need 1 packet for transfer length of 0 */
+ 			num_packets = 1;
+ 		}
+ 
+-		if (chan->ep_is_in)
+-			/*
+-			 * Always program an integral # of max packets for IN
+-			 * transfers
+-			 */
+-			chan->xfer_len = num_packets * chan->max_packet;
+ 
+ 		if (chan->ep_type == USB_ENDPOINT_XFER_INT ||
+ 		    chan->ep_type == USB_ENDPOINT_XFER_ISOC)
+@@ -2505,16 +2507,31 @@ static void dwc2_free_dma_aligned_buffer(struct urb *urb)
+ static int dwc2_alloc_dma_aligned_buffer(struct urb *urb, gfp_t mem_flags)
+ {
+ 	struct dma_aligned_buffer *temp, *kmalloc_ptr;
++	struct usb_host_endpoint *ep = urb->ep;
++	int maxp = usb_endpoint_maxp(&ep->desc);
+ 	size_t kmalloc_size;
+ 
+-	if (urb->num_sgs || urb->sg ||
+-	    urb->transfer_buffer_length == 0 ||
++	if (urb->num_sgs || urb->sg || urb->transfer_buffer_length == 0)
++		return 0;
++
++	/*
++	 * Input transfer buffer size must be a multiple of the endpoint's
++	 * maximum packet size to match the transfer limit programmed into
++	 * the chip.
++	 * See calculation of chan->xfer_len in dwc2_hc_start_transfer().
++	 */
++	if (usb_urb_dir_out(urb))
++		kmalloc_size = urb->transfer_buffer_length;
++	else
++		kmalloc_size = roundup(urb->transfer_buffer_length, maxp);
++
++	if (kmalloc_size == urb->transfer_buffer_length &&
+ 	    !((uintptr_t)urb->transfer_buffer & (DWC2_USB_DMA_ALIGN - 1)))
+ 		return 0;
+ 
+ 	/* Allocate a buffer with enough padding for alignment */
+-	kmalloc_size = urb->transfer_buffer_length +
+-		sizeof(struct dma_aligned_buffer) + DWC2_USB_DMA_ALIGN - 1;
++	kmalloc_size += sizeof(struct dma_aligned_buffer) +
++		DWC2_USB_DMA_ALIGN - 1;
+ 
+ 	kmalloc_ptr = kmalloc(kmalloc_size, mem_flags);
+ 	if (!kmalloc_ptr)
+-- 
+2.17.1
+
+
+--zYM0uCDKw75PZbzx--
