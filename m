@@ -1,230 +1,155 @@
-Return-Path: <SRS0=9g+w=4G=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=1WfG=4H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D43C3404F
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 23:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 381D9C3404C
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 00:07:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E7402068F
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Feb 2020 23:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09F812467E
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Feb 2020 00:07:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S347hVOm"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="kN8jV5vw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727916AbgBRX4N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Feb 2020 18:56:13 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:54210 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726749AbgBRX4L (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 18:56:11 -0500
-Received: by mail-pj1-f68.google.com with SMTP id n96so1754284pjc.3;
-        Tue, 18 Feb 2020 15:56:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=gIZmq38PDK8maDWrzZ6tzbZwLb/TzUBYIhY9CLrQkGc=;
-        b=S347hVOmVw9Nc2voSueUVI1ZhoqJ6pSLRS+4GIwZL68we0JXUeXVwwxpnLZVwXvPtY
-         KKAWtrggxw6FDwj89J70/2Ulcf11cxM9ZxDdBWZriDovu+P9pku6AI4WfFWmZexBMrkN
-         bU8nJbVHfImE/JyRThhMbO+RqWYDVke2ENRahA7mXxt+UTR04uRzEdVNpu2GIxjYjs3y
-         2E9uVPiWPyK/P3yB6nTHi+iKCvFvfWfOuqM/aMvgeoQPWo80w1LO9BcVC4t/hguNVRSc
-         JKRXGSoROm/YheQVqbCftn8Jx+3seScjKAGEdK19LORWSxPkkBbs2O+M8b3Hi6PYlxsz
-         JXnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=gIZmq38PDK8maDWrzZ6tzbZwLb/TzUBYIhY9CLrQkGc=;
-        b=bfyJKhLCQlJm0Rmz4DUmLMU5Te4bPqENyiQjysVydS9pSSn2AyjZEn/yUoAI/iSw5h
-         41BT6EHKhc99P9C6r270siMb3DK7oSuYfXB4jEiZi5NAoEX9o5jYD30xdycTUeyPbJwF
-         jwPh4oeV2AvB42eFpXdfpBeI52N7m2ICSdewDtgLX9rQwRi6LTy0JdX1ODC7dow2GlWn
-         g4wve40SAF2ri14tA/IG9bvhG+cMoAPtI0KujnZrIU7csC20l4G+bQ8ZJ4469jeYdCjR
-         YH4sT21i9lx59Q0Mg6DVPw5BmzOOekaIUhWOR8b991mHEuoOhOup6swEZ/Lfi65qVYWN
-         c/HA==
-X-Gm-Message-State: APjAAAWM+SHf9hg0Wt+FSznRGStXQ/XizQF+tnDmSb6MHodTpSDrb1WM
-        SYyjTjDzINJjzgEVa1lEA/FLQb5dm2Q=
-X-Google-Smtp-Source: APXvYqzu4kvt7c3D3fRouLnWb2bYfjUGbMXHN7cCvhLj8uE6HlJhHfa9o51uKfKMk/X5+9whB0WoQQ==
-X-Received: by 2002:a17:902:b611:: with SMTP id b17mr23055633pls.23.1582070170385;
-        Tue, 18 Feb 2020 15:56:10 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com ([2620:10d:c090:500::5:1718])
-        by smtp.gmail.com with ESMTPSA id d3sm80558pjx.10.2020.02.18.15.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2020 15:56:09 -0800 (PST)
-From:   rentao.bupt@gmail.com
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        taoren@fb.com
-Cc:     Tao Ren <rentao.bupt@gmail.com>
-Subject: [PATCH 1/2] usb: gadget: aspeed: allow to customize vhub device IDs/strings
-Date:   Tue, 18 Feb 2020 15:55:59 -0800
-Message-Id: <20200218235600.6763-2-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200218235600.6763-1-rentao.bupt@gmail.com>
-References: <20200218235600.6763-1-rentao.bupt@gmail.com>
+        id S1727020AbgBSAHp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Feb 2020 19:07:45 -0500
+Received: from mail26.static.mailgun.info ([104.130.122.26]:58080 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726488AbgBSAHo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Feb 2020 19:07:44 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1582070864; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=ix4I8HGZpni8gwUgc++/jUAdQuDMXvzl5RoCu8Kns8U=; b=kN8jV5vwEglgU45OGdq53CeeJXT9aPYLgjUEA+v2eG0aKQ1Ax6lWL7MB2vpvMZgnrxT4UdBE
+ 5MGMsuqL9puJWU+KLdF8Nda2kNMJR+leiAdq3R1ydsfEgRpZVYkWCPrCrGdgXKOf6iSO3zRn
+ T9L1b9DAimwm+bjgymSc8ZWdHRQ=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e4c7c4e.7f6364d45688-smtp-out-n03;
+ Wed, 19 Feb 2020 00:07:42 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id F0DBCC447A4; Wed, 19 Feb 2020 00:07:41 +0000 (UTC)
+Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jackp)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 616A8C43383;
+        Wed, 19 Feb 2020 00:07:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 616A8C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jackp@codeaurora.org
+Date:   Tue, 18 Feb 2020 16:07:36 -0800
+From:   Jack Pham <jackp@codeaurora.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Pratham Pratap <prathampratap@codeaurora.org>,
+        Felipe Balbi <balbi@kernel.org>, Yang Fei <fei.yang@intel.com>,
+        Thinh Nguyen <thinhn@synopsys.com>,
+        Tejas Joglekar <tejas.joglekar@synopsys.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Todd Kjos <tkjos@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: Re: [PATCH] usb: dwc3: gadget: Update chain bit correctly when using
+ sg list
+Message-ID: <20200219000736.GA5511@jackp-linux.qualcomm.com>
+References: <20200218235104.112323-1-john.stultz@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200218235104.112323-1-john.stultz@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tao Ren <rentao.bupt@gmail.com>
+Hi John,
 
-This patch allows people to customize vendor/product/device IDs and
-manufacture/product/serial strings in vhub's device descriptor through
-device tree properties.
+Thanks for following-up with this! While you're doing minor tweaks
+anyway, I hope you don't mind me picking some nits below.
 
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/hub.c | 73 +++++++++++++++++++-----
- 1 file changed, 59 insertions(+), 14 deletions(-)
+On Tue, Feb 18, 2020 at 11:51:04PM +0000, John Stultz wrote:
+> From: Pratham Pratap <prathampratap@codeaurora.org>
+> 
+> If scatter-gather operation is allowed, a large USB request is split
+> into multiple TRBs. For preparing TRBs for sg list, driver iterates
+> over the list and creates TRB for each sg and mark the chain bit to
+> false for the last sg. The current IOMMU driver is clubbing the list
+> of sgs which shares a page boundary into one and giving it to USB driver.
+> With this the number of sgs mapped it not equal to the the number of sgs
+> passed. Because of this USB driver is not marking the chain bit to false
+> since it couldn't iterate to the last sg. This patch addresses this issue
+> by marking the chain bit to false if it is the last mapped sg.
+> 
+> At a practical level, this patch resolves USB transfer stalls
+> seen with adb on dwc3 based db845c, pixel3 and other qcom
+> hardware after functionfs gadget added scatter-gather support
+> around v4.20.
+> 
+> Credit also to Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+> who implemented a very similar fix to this issue.
+> 
+> Cc: Felipe Balbi <balbi@kernel.org>
+> Cc: Yang Fei <fei.yang@intel.com>
+> Cc: Thinh Nguyen <thinhn@synopsys.com>
+> Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
+> Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> Cc: Jack Pham <jackp@codeaurora.org>
+> Cc: Todd Kjos <tkjos@google.com>
+> Cc: Greg KH <gregkh@linuxfoundation.org>
+> Cc: Linux USB List <linux-usb@vger.kernel.org>
+> Cc: stable <stable@vger.kernel.org>
+> Signed-off-by: Pratham Pratap <prathampratap@codeaurora.org>
+> [jstultz: Slight tweak to remove sg_is_last() usage, reworked
+>           commit message, minor comment tweak]
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> ---
+>  drivers/usb/dwc3/gadget.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index 1b8014ab0b25..10aa511051e8 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -1071,7 +1071,14 @@ static void dwc3_prepare_one_trb_sg(struct dwc3_ep *dep,
+>  		unsigned int rem = length % maxp;
+>  		unsigned chain = true;
+>  
+> -		if (sg_is_last(s))
+> +		/*
+> +		 * IOMMU driver is coalescing the list of sgs which shares a
+> +		 * page boundary into one and giving it to USB driver. With
+> +		 * this the number of sgs mapped it not equal to the the number
+                                                 ^^ s/it/is/     ^^^ /d
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index 9c7e57fbd8ef..4e3ef83283a6 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -43,19 +43,23 @@
-  *    - We may need to indicate TT support
-  *    - We may need a device qualifier descriptor
-  *	as devices can pretend to be usb1 or 2
-- *    - Make vid/did overridable
-  *    - make it look like usb1 if usb1 mode forced
-  */
- #define KERNEL_REL	bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
- #define KERNEL_VER	bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
- 
- enum {
-+	AST_VHUB_STR_INDEX_MAX = 4,
- 	AST_VHUB_STR_MANUF = 3,
- 	AST_VHUB_STR_PRODUCT = 2,
- 	AST_VHUB_STR_SERIAL = 1,
- };
- 
--static const struct usb_device_descriptor ast_vhub_dev_desc = {
-+/*
-+ * Below is the default Device Descriptor of the vhub device. Some fields
-+ * may be updated in "ast_vhub_fixup_dev_desc" function.
-+ */
-+static struct usb_device_descriptor ast_vhub_dev_desc = {
- 	.bLength		= USB_DT_DEVICE_SIZE,
- 	.bDescriptorType	= USB_DT_DEVICE,
- 	.bcdUSB			= cpu_to_le16(0x0200),
-@@ -148,10 +152,14 @@ static struct usb_hub_descriptor ast_vhub_hub_desc = {
- };
- 
- /*
-- * These strings converted to UTF-16 must be smaller than
-- * our EP0 buffer.
-+ * Below tables define the default Language ID and String Descriptors of
-+ * the vhub. Language ID and strings may be overridden if according device
-+ * tree properties are defined. Refer to "ast_vhub_fixup_dev_desc" function
-+ * for details.
-+ * Note: these strings converted to UTF-16 must be smaller than vhub EP0
-+ * buffer size.
-  */
--static const struct usb_string ast_vhub_str_array[] = {
-+static struct usb_string ast_vhub_str_array[] = {
- 	{
- 		.id = AST_VHUB_STR_SERIAL,
- 		.s = "00000000"
-@@ -167,7 +175,7 @@ static const struct usb_string ast_vhub_str_array[] = {
- 	{ }
- };
- 
--static const struct usb_gadget_strings ast_vhub_strings = {
-+static struct usb_gadget_strings ast_vhub_strings = {
- 	.language = 0x0409,
- 	.strings = (struct usb_string *)ast_vhub_str_array
- };
-@@ -320,18 +328,15 @@ static int ast_vhub_rep_string(struct ast_vhub_ep *ep,
- 			       u8 string_id, u16 lang_id,
- 			       u16 len)
- {
--	int rc = usb_gadget_get_string (&ast_vhub_strings, string_id, ep->buf);
--
--	/*
--	 * This should never happen unless we put too big strings in
--	 * the array above
--	 */
--	BUG_ON(rc >= AST_VHUB_EP0_MAX_PACKET);
-+	int rc;
-+	u8 buf[256]; /* buffer size required by usb_gadget_get_string */
- 
--	if (rc < 0)
-+	rc = usb_gadget_get_string(&ast_vhub_strings, string_id, buf);
-+	if (rc < 0 || rc >= AST_VHUB_EP0_MAX_PACKET)
- 		return std_req_stall;
- 
- 	/* Shoot it from the EP buffer */
-+	memcpy(ep->buf, buf, rc);
- 	return ast_vhub_reply(ep, NULL, min_t(u16, rc, len));
- }
- 
-@@ -837,11 +842,51 @@ void ast_vhub_hub_reset(struct ast_vhub *vhub)
- 	writel(0, vhub->regs + AST_VHUB_EP1_STS_CHG);
- }
- 
-+static void ast_vhub_fixup_dev_desc(struct ast_vhub *vhub)
-+{
-+	int i;
-+	u8 id;
-+	u16 of_id;
-+	const char *of_str[AST_VHUB_STR_INDEX_MAX] = {NULL};
-+	struct device_node *np = vhub->pdev->dev.of_node;
-+
-+	/*
-+	 * Update IDs in device descriptor if according properties are
-+	 * defined in device tree.
-+	 */
-+	if (!of_property_read_u16(np, "vendor-id", &of_id))
-+		ast_vhub_dev_desc.idVendor = cpu_to_le16(of_id);
-+	if (!of_property_read_u16(np, "product-id", &of_id))
-+		ast_vhub_dev_desc.idProduct = cpu_to_le16(of_id);
-+	if (!of_property_read_u16(np, "device-id", &of_id))
-+		ast_vhub_dev_desc.bcdDevice = cpu_to_le16(of_id);
-+
-+	/*
-+	 * Update string descriptors if according properties are defined
-+	 * in device tree.
-+	 */
-+	if (!of_property_read_u16(np, "language-id", &of_id))
-+		ast_vhub_strings.language = of_id;
-+
-+	of_str[AST_VHUB_STR_MANUF] = of_get_property(np, "manufacturer", NULL);
-+	of_str[AST_VHUB_STR_PRODUCT] = of_get_property(np, "product", NULL);
-+	of_str[AST_VHUB_STR_SERIAL] = of_get_property(np, "serial-number",
-+						      NULL);
-+
-+	for (i = 0; ast_vhub_str_array[i].s != NULL; i++) {
-+		id = ast_vhub_str_array[i].id;
-+		if (of_str[id])
-+			ast_vhub_str_array[i].s = of_str[id];
-+	}
-+}
-+
- void ast_vhub_init_hub(struct ast_vhub *vhub)
- {
- 	vhub->speed = USB_SPEED_UNKNOWN;
- 	INIT_WORK(&vhub->wake_work, ast_vhub_wake_work);
- 
-+	ast_vhub_fixup_dev_desc(vhub);
-+
- 	/*
- 	 * Fixup number of ports in hub descriptor.
- 	 */
+Or could we more specifically say "number of sgs mapped could be less
+than number passed"?
+
+> +		 * of sgs passed. Mark the chain bit to false if it is the last
+> +		 * mapped sg.
+> +		 */
+> +		if ((i == remaining - 1))
+
+These outer parens are superfluous.
+
+Also wondering if it would be more or less clear to just set the
+variable once (and awkwardly move the comment to appear above the
+local var declaration):
+
+		unsigned chain = (i < remaining - 1);
+
+>  			chain = false;
+>  
+>  		if (rem && usb_endpoint_dir_out(dep->endpoint.desc) && !chain) {
+
+Jack
 -- 
-2.17.1
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
