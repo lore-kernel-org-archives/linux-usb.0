@@ -1,68 +1,104 @@
-Return-Path: <SRS0=om4N=4J=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=8Lr9=4K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2868C35666
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Feb 2020 21:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27123C35671
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Feb 2020 09:50:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C9BC5208C4
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Feb 2020 21:10:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFD532192A
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Feb 2020 09:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582319429;
-	bh=RJG0TSRKzyC7kRGCrxojQiF793bYRDTokqGS9BfGs1M=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=kMrDT/8DGz5yHENEsEBjJQ2DAjw96snfS4E2RqGSkLzvxtbe5t2u9ncgcNlR8mIfc
-	 dhrmAdG2UmPjCeV/S+k52mLP5PW/I4GqtnPYNC6NQSrFTituuY4xrMD9bqho/uI+IQ
-	 f7/jDa84mjoNQ0DRX8JQX5T8wFo3lDj3qc122KY0=
+	s=default; t=1582365057;
+	bh=UL1Xdu9dmuNVZrJ1YukT6wcCXzVKAIarXVVHdYWCcuY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=zBgjD9LIV7QWOp/wUCetuIymm2G5x2S+P9bm5SQOQNVB31lonzfxPVTkNg3VNF1yD
+	 vDj1WP0yk0meQev6GZv0eNcn/S2Ak+b3H7j6GL7nWXkGHAJvXjTmXOpIRYv2Q+WqBW
+	 HHG7AJ7i+4WtATuGARKyO2+1YlOrG85HKJr8CTIc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729651AbgBUVKT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Feb 2020 16:10:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35814 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729638AbgBUVKT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 21 Feb 2020 16:10:19 -0500
-Subject: Re: [GIT PULL] USB/Thunderbolt fixes for 5.6-rc3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582319419;
-        bh=RJG0TSRKzyC7kRGCrxojQiF793bYRDTokqGS9BfGs1M=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=povoyYXprkxf60m2R4KJfUC6yD2py6GVFV7JyKfP2nCLg7oMqBGsOymp9uYi3nwPS
-         OZFPny8nK0uLjXfezDtuj7+qq1B9GZrH+0pmV/ZvFTEd+XsTjGJmNsRztvi8Yk2pWT
-         sUa3LB5cdvy+a5muS77E20eHjQ7k7D7OTmir09Kc=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200221113901.GA114136@kroah.com>
-References: <20200221113901.GA114136@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200221113901.GA114136@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.6-rc3
-X-PR-Tracked-Commit-Id: 8b978be8d067f58b29cbbf0579e88bb4a2d4350a
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: cee853e825a9ab64b54bd53f991e98f832c47317
-Message-Id: <158231941895.18249.3540869557924097071.pr-tracker-bot@kernel.org>
-Date:   Fri, 21 Feb 2020 21:10:18 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        id S1727100AbgBVJu4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 22 Feb 2020 04:50:56 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38835 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726689AbgBVJuz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Feb 2020 04:50:55 -0500
+Received: by mail-lj1-f194.google.com with SMTP id w1so4828887ljh.5
+        for <linux-usb@vger.kernel.org>; Sat, 22 Feb 2020 01:50:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZVAz8tsmnaaGDm8d9x4IkaPdOmiSKX5km1NUX8CVrrc=;
+        b=hrOJcGvQSBrNVeppwHZ9k51LXKmidO6GDVdQE4Ex+1LDpkTV+0u4T8nTEKqGrdnwxU
+         4YG+xGc6b84JEByGNy9lkV7g93nThCmjO1rdPdS+U7r8S1NXwZ6HCSuVv3+JhVAfyzT6
+         RV1Y2UqBf47SR+nj3mY+6B47Q3wtayo/OMRHVPZR7DP4O3BK7qcxqdlSUNg87NzZL7aB
+         eQyz6aHWZZYwOXfc031Wjt1YYuDmCPkfj8Irkzwo8UzEl5TD8XBrfNp+Mtp1aJCX3Bnw
+         QpJrnfPyWrfahNuZ4IEtUwtbr4Q/wZnlxTNTLR9nUaye+3uaqAJwwnU0dRfLFmbrfxY3
+         oU/g==
+X-Gm-Message-State: APjAAAWIQJQ0+U6UKKPFBJfynCQB7vdHockiU/mz/6CV32Mu7Xwoad0P
+        FzSQM39+YjWlQ4k+RZFwIp0=
+X-Google-Smtp-Source: APXvYqzj6vyW0ryCVDROB825aUTr+ALzXYNmtDt1FmYBDeJFsTbaS/rgMZO6zgooBzRjPEaSZV+xUw==
+X-Received: by 2002:a2e:8145:: with SMTP id t5mr25014577ljg.144.1582365053892;
+        Sat, 22 Feb 2020 01:50:53 -0800 (PST)
+Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
+        by smtp.gmail.com with ESMTPSA id s10sm1404709ljp.35.2020.02.22.01.50.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Feb 2020 01:50:52 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@kernel.org>)
+        id 1j5RQt-0001o9-Sv; Sat, 22 Feb 2020 10:50:47 +0100
+Date:   Sat, 22 Feb 2020 10:50:47 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Michael Hanselmann <public@hansmi.ch>
+Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] ch341: Replace memory allocations with stack storage
+Message-ID: <20200222095047.GJ32540@localhost>
+References: <bdf7db0e0e133f55ac81d39ce9564653e0b5d9ed.1582312740.git.public@hansmi.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bdf7db0e0e133f55ac81d39ce9564653e0b5d9ed.1582312740.git.public@hansmi.ch>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Fri, 21 Feb 2020 12:39:01 +0100:
+On Fri, Feb 21, 2020 at 07:23:41PM +0000, Michael Hanselmann wrote:
+> Storing a memory pointer consumes 4 or 8 bytes, depending on the
+> architecture. The replaced buffers are 2 bytes, so this change not only
+> avoids the overhead of memory allocation, but it also saves a small
+> amount of stack storage.
+> 
+> Signed-off-by: Michael Hanselmann <public@hansmi.ch>
+> ---
+>  drivers/usb/serial/ch341.c | 32 ++++++++------------------------
+>  1 file changed, 8 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
+> index c5ecdcd51ffc..6875da6e746c 100644
+> --- a/drivers/usb/serial/ch341.c
+> +++ b/drivers/usb/serial/ch341.c
+> @@ -255,16 +255,11 @@ static int ch341_set_handshake(struct usb_device *dev, u8 control)
+>  
+>  static int ch341_get_status(struct usb_device *dev, struct ch341_private *priv)
+>  {
+> -	const unsigned int size = 2;
+> -	char *buffer;
+> +	char buffer[2];
+>  	int r;
+>  	unsigned long flags;
+>  
+> -	buffer = kmalloc(size, GFP_KERNEL);
+> -	if (!buffer)
+> -		return -ENOMEM;
+> -
+> -	r = ch341_control_in(dev, CH341_REQ_READ_REG, 0x0706, 0, buffer, size);
+> +	r = ch341_control_in(dev, CH341_REQ_READ_REG, 0x0706, 0, buffer, sizeof(buffer));
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.6-rc3
+These buffers cannot be stack allocated as they need to be DMA-able on
+all platforms.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/cee853e825a9ab64b54bd53f991e98f832c47317
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+Johan
