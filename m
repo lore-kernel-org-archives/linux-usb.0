@@ -2,112 +2,70 @@ Return-Path: <SRS0=8Lr9=4K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BB3C35666
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Feb 2020 15:38:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 484CDC35669
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Feb 2020 23:41:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ECEB3206ED
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Feb 2020 15:38:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C8FF206EF
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Feb 2020 23:41:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=megous.com header.i=@megous.com header.b="MU6t6luD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbgBVPht (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 22 Feb 2020 10:37:49 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:39421 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727266AbgBVPht (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Feb 2020 10:37:49 -0500
-Received: (qmail 27503 invoked by uid 500); 22 Feb 2020 10:37:48 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 22 Feb 2020 10:37:48 -0500
-Date:   Sat, 22 Feb 2020 10:37:48 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     jerry willson <Mywifiextsetupus@gmail.com>
-cc:     USB list <linux-usb@vger.kernel.org>
-Subject: Re: [Bug 11159] reset high speed USB device using ehci_hcd
-In-Reply-To: <bug-11159-1728-jCcXkBT7CO@https.bugzilla.kernel.org/>
-Message-ID: <Pine.LNX.4.44L0.2002221033300.26570-100000@netrider.rowland.org>
+        id S1726908AbgBVXlz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 22 Feb 2020 18:41:55 -0500
+Received: from vps.xff.cz ([195.181.215.36]:34294 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726881AbgBVXlz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 22 Feb 2020 18:41:55 -0500
+X-Greylist: delayed 582 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 Feb 2020 18:41:54 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1582414331; bh=IxjYsKuZde7SyqZ/SuCk3wb/xdZPGdl9V7ADWU7YqlM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MU6t6luDIt1l6QHL4PTsN72GySLrOmLilLguUWlKy9fX39bngBYaIR1Hq53GIXCSQ
+         v21eevbB0PMRplPJbKyT4bQXB8gJ/FUFkkMJW7q2gQtvKpCQinTUfkNZaGOjJ4HLq0
+         PN/s4/b/TXDhYbKNXTJsvqnMOVvIM+A0dNGZlQfg=
+From:   Ondrej Jirman <megous@megous.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Ondrej Jirman <megous@megous.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] Support Castles Vega5000 PoS terminal USB
+Date:   Sun, 23 Feb 2020 00:32:02 +0100
+Message-Id: <20200222233202.237967-1-megous@megous.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 22 Feb 2020 bugzilla-daemon@bugzilla.kernel.org wrote:
+This terminal's USB port needs NO_UNION_NORMAL quirk to work with
+cdc-acm driver.
 
-> https://bugzilla.kernel.org/show_bug.cgi?id=11159
-> 
-> jerry willson (Mywifiextsetupus@gmail.com) changed:
-> 
->            What    |Removed                     |Added
-> ----------------------------------------------------------------------------
->                  CC|                            |Mywifiextsetupus@gmail.com
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+---
+ drivers/usb/class/cdc-acm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-This bug report has been closed for 5 years.  Are you really sure you 
-want to start referring to it onw?
-
-> --- Comment #108 from jerry willson (Mywifiextsetupus@gmail.com) ---
-> log files of different OSes caused and not caused by this problem
-> 
-> The OSes:
-> 1. Windows 7
-> 2. Windows XP
-> 3. FreeBSD 9.3
-> are not affected by "new high-speed USB device number" problem. They works
-> fine.
-> The FreeBSD 9.3 just report about some error for umass:
-> 
-> Oct 18 00:30:23  kernel: (probe0:umass-sim0:0:0:0): INQUIRY. CDB: 12 00 00 00
-> 24 00 
-> Oct 18 00:30:23  kernel: (probe0:umass-sim0:0:0:0): CAM status: CCB request
-> completed with an error
-> Oct 18 00:30:23  kernel: (probe0:umass-sim0:0:0:0): Retrying command
-> Oct 18 00:30:23  kernel: (probe0:umass-sim0:0:0:0): INQUIRY. CDB: 12 00 00 00
-> 24 00 
-> Oct 18 00:30:23  kernel: (probe0:umass-sim0:0:0:0): CAM status: CCB request
-> completed with an error
-> Oct 18 00:30:23  kernel: (probe0:umass-sim0:0:0:0): Error 5, Retries exhausted
-> 
-> 
-> 4. cinnamon mint 15 (3.8.0-19-generic) works fine, but kern.log file is spamed
-> by this messages:
-> 
-> Oct 21 13:54:17 kes-desktop kernel: [ 4260.504011] usb 1-2: new high-speed USB
-> device number 34 using ehci-pci
-> Oct 21 13:54:17 kes-desktop kernel: [ 4260.572330] hub 1-0:1.0: unable to
-> enumerate USB device on port 2
-> Oct 21 13:54:17 kes-desktop kernel: [ 4260.788218] hub 1-0:1.0: unable to
-> enumerate USB device on port 2
-> 
-> 5. ubuntu 12.04 also is not affected.
-> 
-> These has problems:
-> 1. ubuntu 14.04. It is loading too slow and after loading I can not visit sites
-> that uses adobe_flash plugin. The browser is halted (see print_screen:
-> ubuntu-14.04-ishalted.png).
-> 
-> 2. cinnamon-mint-16
-> 3. Fresh installation of 17.1
-> 
-> I also want to check how work mint 14 and 13, but I can not install them due to
-> the installer error
-> 
-> The detailed log messages for those systems see at attachment
-> 
-> It seems some bug is introduced to the new kernels. If someone give me detaided
-> instructions how to use bisect and how to compile/install kernels from source I
-> can complete that.
-
-You put so many different things into this message that I can't tell 
-what your main point is.  If you want to report a problem in the 
-kernel, please give details and include the kernel log in your bug 
-report.
-
-Information on how to use git-bisect and build kernels is readily 
-available on the web.  All you have to do is ask Google.
-
-Alan Stern
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 62f4fb9b362f1..8577441c81a4d 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1739,6 +1739,9 @@ static const struct usb_device_id acm_ids[] = {
+ 	{ USB_DEVICE(0x22b8, 0x2d9a),   /* modem + AT port + diagnostics + NMEA */
+ 	.driver_info = NO_UNION_NORMAL, /* handle only modem interface          */
+ 	},
++	{ USB_DEVICE(0x0ca6, 0xa050), /* Castles Technology VEGA 5000 */
++	.driver_info = NO_UNION_NORMAL, /* reports zero length descriptor */
++	},
+ 
+ 	{ USB_DEVICE(0x0572, 0x1329), /* Hummingbird huc56s (Conexant) */
+ 	.driver_info = NO_UNION_NORMAL, /* union descriptor misplaced on
+-- 
+2.25.1
 
