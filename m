@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D88C35673
-	for <linux-usb@archiver.kernel.org>; Sun, 23 Feb 2020 02:28:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8545EC35673
+	for <linux-usb@archiver.kernel.org>; Sun, 23 Feb 2020 02:30:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EC42521741
-	for <linux-usb@archiver.kernel.org>; Sun, 23 Feb 2020 02:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D92920707
+	for <linux-usb@archiver.kernel.org>; Sun, 23 Feb 2020 02:30:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582424915;
-	bh=zwqvGnTZQXuLQfs4bETDMXy9wOSAfwlHiP0Ase33big=;
+	s=default; t=1582425005;
+	bh=jdtBSaRnKwccMpAXvj6ku0+MOgE7Z+PuriNC5fpmV6E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AxNgHJwLW9u5galzuGxio52cZRNwaz1SsPIMbovOysMg4BHliKDI2KvrTiIpHwAOl
-	 FRdVUryjQemiUxOaV9ENekY3LtN3yp3XP0tN2ojN8Vogj5AtBS7XK8yAN/nr7MncA3
-	 oaa2Yeo11m7cxVTkXlsyP1xpg0bTOq+1UlyH91OU=
+	b=UvdsB01JGQ9MMrMzwJYBnXuYLRK2KSXibcfrhFpVUYnPL/NJXLTV9HhrtTluydQU5
+	 p0cHyuCk9Tzd09PoarguXvOa6uKILL26ZhmnsrGZ2ZV4+w5CQPL9eO2DIHS9GVse46
+	 qrmpCYTtqHT0/FZXDBXD2M7dX+CkDswqX8O/2usA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728732AbgBWC2a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 22 Feb 2020 21:28:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54292 "EHLO mail.kernel.org"
+        id S1728220AbgBWCXw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 22 Feb 2020 21:23:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53556 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727803AbgBWCYU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 22 Feb 2020 21:24:20 -0500
+        id S1728842AbgBWCXu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 22 Feb 2020 21:23:50 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D1C8E21741;
-        Sun, 23 Feb 2020 02:24:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1066020707;
+        Sun, 23 Feb 2020 02:23:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582424659;
-        bh=zwqvGnTZQXuLQfs4bETDMXy9wOSAfwlHiP0Ase33big=;
+        s=default; t=1582424630;
+        bh=jdtBSaRnKwccMpAXvj6ku0+MOgE7Z+PuriNC5fpmV6E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2YaNbXluKUoMmcNqYt4W1YeLjoB8DOqe/UlJIv3zCWQUvN/TKCAgYo7BXqyY2GnmY
-         vLwEkNF03N9YmTCUpfE9Ek9ThjL0kBHI9GdUgls5uhb6ACwnEyQ+jSXVzU5QayuhML
-         PfH9yJ8VDgewN8RW0yRUD67OjLwRUmi81oEuMb/8=
+        b=OZoJPWsyNklqTW3o4uFegQsuZGg2vhR1YpIPcCf/He2Pu64QvlIc29UeML8HzJ+Jm
+         P3xBOvSl8sG16zHEN1M7IGG8DXDn2GHU1oUXzYFw4DAdxb9JIpoicio4JdVQoeHNv/
+         lmXcLuRq6GfuXkpCRCX56MSV07oIEt0jCrNIBUCQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
@@ -46,12 +46,12 @@ Cc:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 06/21] qmi_wwan: re-add DW5821e pre-production variant
-Date:   Sat, 22 Feb 2020 21:23:56 -0500
-Message-Id: <20200223022411.2159-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 08/25] qmi_wwan: re-add DW5821e pre-production variant
+Date:   Sat, 22 Feb 2020 21:23:22 -0500
+Message-Id: <20200223022339.1885-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200223022411.2159-1-sashal@kernel.org>
-References: <20200223022411.2159-1-sashal@kernel.org>
+In-Reply-To: <20200223022339.1885-1-sashal@kernel.org>
+References: <20200223022339.1885-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -119,10 +119,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index db70d4c5778a6..08215a9f61454 100644
+index 13c8788e3b6b2..f489df377f5d2 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1287,6 +1287,7 @@ static const struct usb_device_id products[] = {
+@@ -1298,6 +1298,7 @@ static const struct usb_device_id products[] = {
  	{QMI_FIXED_INTF(0x413c, 0x81b6, 8)},	/* Dell Wireless 5811e */
  	{QMI_FIXED_INTF(0x413c, 0x81b6, 10)},	/* Dell Wireless 5811e */
  	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
