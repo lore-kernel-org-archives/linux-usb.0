@@ -2,107 +2,124 @@ Return-Path: <SRS0=P3SF=4M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9120CC11D2F
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED65C35671
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:51:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6B48220838
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:14:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2930220836
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:51:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JFdRPu4Y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727393AbgBXMOK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Feb 2020 07:14:10 -0500
-Received: from mga03.intel.com ([134.134.136.65]:3613 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727183AbgBXMOK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Feb 2020 07:14:10 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Feb 2020 04:14:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,480,1574150400"; 
-   d="scan'208";a="349909408"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2020 04:14:06 -0800
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Benson Leung <bleung@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 0/9] usb: typec: Driver for Intel PMC Mux-Agent
-Date:   Mon, 24 Feb 2020 15:13:57 +0300
-Message-Id: <20200224121406.2419-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.25.0
+        id S1727302AbgBXMvF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Feb 2020 07:51:05 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39061 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727290AbgBXMvF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Feb 2020 07:51:05 -0500
+Received: by mail-wr1-f68.google.com with SMTP id y17so1442014wrn.6;
+        Mon, 24 Feb 2020 04:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=xOoYcG+N4+4l53Wn2k4999dEy1zUb0WdX2MPvZTx+ss=;
+        b=JFdRPu4Y+aYlf9azjYkAQ9J4dtN/mvJv8KTGujlnEy1QuCB2B8V13GuzmnlLRibLfh
+         bolvFMuVX8tKd1AUSkXa/8JnnoikHujVAylZlhk6iOJr80Q2IpqbDy9VY74vPxlHWD3v
+         2hvrxo+MXbXM8i51YCzOdqe36o4KJ/BdbvZ+F+L8QYmpw51RJv4KOxZimCuswbDwmslD
+         fxSzYMwEHbr1FrUuK1qBnHoZt5+j7Wk2+vzoGAyVrrVU2WLNmv2hdaL6df0nr2M4vAlq
+         7Aj5Sy4d/8bMjmutFWCH/nrbzxFMYJULlTjfvDtZLyXuVaz6q5lK3/6lsVCvHlHcm23v
+         VqJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xOoYcG+N4+4l53Wn2k4999dEy1zUb0WdX2MPvZTx+ss=;
+        b=mbJiAm5Qlnah2fpHV1V3MFT+FMWi/EiSHsLGJi45z3gKsY9XaS6xvYJn1MTeaA0bsV
+         LoKr7UBBCkx5DqCUUDeVmuqa/NvpL1ZQ9esv0xbpcG61iwMkm/cDHGsrKAhXXkObwQoT
+         9Tfl1ZGcnnx+tpMp2FRwnmO7fa8pbsVLX47BqAuw97llL8TywH7aUc7JHxz3vPkf3IMc
+         zSoW78NOwH/atVD8ySzhQOPKR5a6Q0ivoln/Pwm1aTkOKHXBVG/cja2mlnxepjXMcsha
+         bq+6JduMVwA5e7p3JHXyBIdKwSOpH+VtNx7BQiH5nEBrv6RUKXKiJr/6HDCmK3dNGPgW
+         R1xg==
+X-Gm-Message-State: APjAAAXcFWNWmfKst7lYLZVF+2YwHwv5/aPABNfULBk2OP1z1FspylfA
+        4F1X/1zhOnz+0cH10/EKXCY=
+X-Google-Smtp-Source: APXvYqxUXizEvELPQRXJr94wcEMHuuFDaQhAkpQ+VPOlqCExUBP88HA9GaJhg7wIVWi131xWyrJA0g==
+X-Received: by 2002:a5d:534b:: with SMTP id t11mr66060918wrv.120.1582548663273;
+        Mon, 24 Feb 2020 04:51:03 -0800 (PST)
+Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
+        by smtp.gmail.com with ESMTPSA id y17sm18299539wrs.82.2020.02.24.04.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2020 04:51:01 -0800 (PST)
+Date:   Mon, 24 Feb 2020 13:51:00 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     mathias.nyman@linux.intel.com, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, nkristam@nvidia.com
+Subject: Re: [PATCH] usb: host: xhci-tegra: Tegra186/Tegra194 LPM
+Message-ID: <20200224125100.GA2108060@ulmo>
+References: <20200224062145.25785-1-jckuo@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+Content-Disposition: inline
+In-Reply-To: <20200224062145.25785-1-jckuo@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
 
-I've unified the driver data handling in all drivers in patch 5/9 as
-requested by Peter, and also now using consistently dev_set_drvdata()
-in patch 4/9 as requested by Chunfeng Yun. Those were the only
-changes in this version.
+--+HP7ph2BbKc20aGI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The original (v1) commit message:
+On Mon, Feb 24, 2020 at 02:21:45PM +0800, JC Kuo wrote:
+> Tegra186 and Tegra194 xHC supports USB 3.0 LPM. This commit enables
+> XHCI_LPM_SUPPORT quirk for Tegra186 and Tegra194.
+>=20
+> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+> ---
+>  drivers/usb/host/xhci-tegra.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-The Intel PMC (Power Management Controller) microcontroller, which is
-available on most SOCs from Intel, has a function called mux-agent.
-The mux-agent, when visible to the operating system, makes it possible
-to control the various USB muxes on the system.
+I see that Mathias has already queued this up, but for the record:
 
-In practice the mux-agent is a device that controls multiple muxes.
-Unfortunately both the USB Type-C Class and the USB Role Class don't
-have proper support for that kind of devices that handle multiple
-muxes, which is why I had to tweak the APIs a bit.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-On top of the API changes, and the driver of course, I'm adding a
-header for the Thunderbolt 3 alt mode since the "mux-agent" supports
-it.
+JC, is there some way that we can test this? I see that there are some
+sysfs files that can control LPM enablement on a per-device basis, but
+is there some way to check that this works as expected? Or do we just
+assume everything is fine as long as all the devices continue to operate
+properly? Perhaps there are some state transition counters or something
+that would indicate that devices are properly transitioning?
 
-thanks,
+Thierry
 
+--+HP7ph2BbKc20aGI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Heikki Krogerus (9):
-  usb: typec: mux: Allow the muxes to be named
-  usb: typec: mux: Add helpers for setting the mux state
-  usb: typec: mux: Allow the mux handles to be requested with fwnode
-  usb: roles: Leave the private driver data pointer to the drivers
-  usb: roles: Provide the switch drivers handle to the switch in the API
-  usb: roles: Allow the role switches to be named
-  device property: Export fwnode_get_name()
-  usb: typec: Add definitions for Thunderbolt 3 Alternate Mode
-  usb: typec: driver for Intel PMC mux control
+-----BEGIN PGP SIGNATURE-----
 
- drivers/base/property.c                       |   1 +
- drivers/usb/cdns3/core.c                      |  22 +-
- drivers/usb/chipidea/core.c                   |  10 +-
- drivers/usb/dwc3/dwc3-meson-g12a.c            |  10 +-
- drivers/usb/gadget/udc/renesas_usb3.c         |  26 +-
- drivers/usb/gadget/udc/tegra-xudc.c           |   8 +-
- drivers/usb/mtu3/mtu3_dr.c                    |   9 +-
- drivers/usb/musb/mediatek.c                   |  16 +-
- drivers/usb/roles/class.c                     |  29 +-
- .../usb/roles/intel-xhci-usb-role-switch.c    |  26 +-
- drivers/usb/typec/class.c                     |  10 +-
- drivers/usb/typec/mux.c                       |  47 +-
- drivers/usb/typec/mux/Kconfig                 |   9 +
- drivers/usb/typec/mux/Makefile                |   1 +
- drivers/usb/typec/mux/intel_pmc_mux.c         | 434 ++++++++++++++++++
- include/linux/usb/role.h                      |  23 +-
- include/linux/usb/typec_mux.h                 |  25 +-
- include/linux/usb/typec_tbt.h                 |  53 +++
- 18 files changed, 677 insertions(+), 82 deletions(-)
- create mode 100644 drivers/usb/typec/mux/intel_pmc_mux.c
- create mode 100644 include/linux/usb/typec_tbt.h
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5TxrAACgkQ3SOs138+
+s6HBvg/+JM4X5jwAIB8LBR3PfROxqVLlxVwGE+pixWhI7HgPOhdWH4O+DXM43vpk
+JOYvOuVQGtT4I2IMlO4fUJTUoJxLORidr/6yLitVYlizwPrv5CR/BufR3mclEm3z
+Jcr1W9ljDrupb+xsisrCmN5MlMUXTvJVhGNuRYrE01LebPkHTCabko1TCVP8Zup7
+JZ+FGI3XSgqWn0/+TyrDSiV+RYvT7moE30fIP8jFi3ML50htn9mHt1yNwE2scDM2
+JxSkSYGt0SRmq4WFSDcK4vlO2R9PBJpbXz5Gn6ym3mdqxRqPgCpWMYuqV4z3BKvR
+mEcXlFGAFecwhk97gSfD5ykbaetceWDjsOTUkYlFZPC+Fx7AwIdLh1/NMq6hg8I2
+FZ+zCnnFpO7q/uziqeUBBqteAoEFi094TJ9SlWTfm4esudxPNvU7r3TJZipqiqom
+aq9yof+0f9uz4y8uKYk8z7OVWq3w6onXa0/VjqsDCucRPqQnfdxBctRcFFKzUHBH
+PqRXRPWAjWVJriqWhWW4+Hl+NsnGbA7SnHN0XNZDQRjPQmgEyz3jFX5hQ04HFhLA
+PL8J2WLxcTjkesYO5sadp/3h715v7zpXmlgG9AewN+BZGv964qIfWD93dNBdYy7s
+2xiwhqhLI0TN+vhtsFGJARVr8FAGuAKSBAl/lR/u8EA9mw+aPck=
+=obLV
+-----END PGP SIGNATURE-----
 
--- 
-2.25.0
-
+--+HP7ph2BbKc20aGI--
