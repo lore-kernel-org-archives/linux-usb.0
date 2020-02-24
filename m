@@ -6,36 +6,36 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E64C11D30
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B34DFC35671
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:14:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E8F7320836
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:14:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9469F20836
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Feb 2020 12:14:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727584AbgBXMOS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Feb 2020 07:14:18 -0500
+        id S1727495AbgBXMOO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Feb 2020 07:14:14 -0500
 Received: from mga03.intel.com ([134.134.136.65]:3613 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727539AbgBXMOR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Feb 2020 07:14:17 -0500
+        id S1727486AbgBXMON (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 24 Feb 2020 07:14:13 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Feb 2020 04:14:17 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Feb 2020 04:14:12 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,480,1574150400"; 
-   d="scan'208";a="349909432"
+   d="scan'208";a="349909419"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2020 04:14:15 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2020 04:14:11 -0800
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Benson Leung <bleung@chromium.org>,
         Prashant Malani <pmalani@chromium.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 4/9] usb: roles: Leave the private driver data pointer to the drivers
-Date:   Mon, 24 Feb 2020 15:14:01 +0300
-Message-Id: <20200224121406.2419-5-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v2 2/9] usb: typec: mux: Add helpers for setting the mux state
+Date:   Mon, 24 Feb 2020 15:13:59 +0300
+Message-Id: <20200224121406.2419-3-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200224121406.2419-1-heikki.krogerus@linux.intel.com>
 References: <20200224121406.2419-1-heikki.krogerus@linux.intel.com>
@@ -46,104 +46,106 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding usb_role_switch_get/set_drvdata() functions that the
-switch drivers can use for setting and getting private data
-pointer that is associated with the switch.
+Adding helpers typec_switch_set() and typec_mux_set() that
+simply call the ->set callback function of the mux. These
+functions make it possible to set the mux states also from
+outside the class code.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/roles/class.c | 22 ++++++++++++++++++++++
- include/linux/usb/role.h  | 16 ++++++++++++++++
- 2 files changed, 38 insertions(+)
+ drivers/usb/typec/class.c     | 10 ++++------
+ drivers/usb/typec/mux.c       | 19 +++++++++++++++++++
+ include/linux/usb/typec_mux.h |  5 +++++
+ 3 files changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index 63a00ff26655..49511d446410 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -329,6 +329,7 @@ usb_role_switch_register(struct device *parent,
- 	sw->dev.fwnode = desc->fwnode;
- 	sw->dev.class = role_class;
- 	sw->dev.type = &usb_role_dev_type;
-+	dev_set_drvdata(&sw->dev, desc->driver_data);
- 	dev_set_name(&sw->dev, "%s-role-switch", dev_name(parent));
- 
- 	ret = device_register(&sw->dev);
-@@ -356,6 +357,27 @@ void usb_role_switch_unregister(struct usb_role_switch *sw)
- }
- EXPORT_SYMBOL_GPL(usb_role_switch_unregister);
- 
-+/**
-+ * usb_role_switch_set_drvdata - Assign private data pointer to a switch
-+ * @sw: USB Role Switch
-+ * @data: Private data pointer
-+ */
-+void usb_role_switch_set_drvdata(struct usb_role_switch *sw, void *data)
-+{
-+	dev_set_drvdata(&sw->dev, data);
-+}
-+EXPORT_SYMBOL_GPL(usb_role_switch_set_drvdata);
-+
-+/**
-+ * usb_role_switch_get_drvdata - Get the private data pointer of a switch
-+ * @sw: USB Role Switch
-+ */
-+void *usb_role_switch_get_drvdata(struct usb_role_switch *sw)
-+{
-+	return dev_get_drvdata(&sw->dev);
-+}
-+EXPORT_SYMBOL_GPL(usb_role_switch_get_drvdata);
-+
- static int __init usb_roles_init(void)
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 7c44e930602f..57ef8b91864b 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1495,11 +1495,9 @@ int typec_set_orientation(struct typec_port *port,
  {
- 	role_class = class_create(THIS_MODULE, "usb_role");
-diff --git a/include/linux/usb/role.h b/include/linux/usb/role.h
-index efac3af83d6b..02dae936cebd 100644
---- a/include/linux/usb/role.h
-+++ b/include/linux/usb/role.h
-@@ -25,6 +25,7 @@ typedef enum usb_role (*usb_role_switch_get_t)(struct device *dev);
-  * @set: Callback for setting the role
-  * @get: Callback for getting the role (optional)
-  * @allow_userspace_control: If true userspace may change the role through sysfs
-+ * @driver_data: Private data pointer
-  *
-  * @usb2_port and @usb3_port will point to the USB host port and @udc to the USB
-  * device controller behind the USB connector with the role switch. If
-@@ -40,6 +41,7 @@ struct usb_role_switch_desc {
- 	usb_role_switch_set_t set;
- 	usb_role_switch_get_t get;
- 	bool allow_userspace_control;
-+	void *driver_data;
- };
+ 	int ret;
  
+-	if (port->sw) {
+-		ret = port->sw->set(port->sw, orientation);
+-		if (ret)
+-			return ret;
+-	}
++	ret = typec_switch_set(port->sw, orientation);
++	if (ret)
++		return ret;
  
-@@ -57,6 +59,9 @@ struct usb_role_switch *
- usb_role_switch_register(struct device *parent,
- 			 const struct usb_role_switch_desc *desc);
- void usb_role_switch_unregister(struct usb_role_switch *sw);
-+
-+void usb_role_switch_set_drvdata(struct usb_role_switch *sw, void *data);
-+void *usb_role_switch_get_drvdata(struct usb_role_switch *sw);
- #else
- static inline int usb_role_switch_set_role(struct usb_role_switch *sw,
- 		enum usb_role role)
-@@ -90,6 +95,17 @@ usb_role_switch_register(struct device *parent,
+ 	port->orientation = orientation;
+ 
+@@ -1533,7 +1531,7 @@ int typec_set_mode(struct typec_port *port, int mode)
+ 
+ 	state.mode = mode;
+ 
+-	return port->mux ? port->mux->set(port->mux, &state) : 0;
++	return typec_mux_set(port->mux, &state);
  }
+ EXPORT_SYMBOL_GPL(typec_set_mode);
  
- static inline void usb_role_switch_unregister(struct usb_role_switch *sw) { }
-+
-+static inline void
-+usb_role_switch_set_drvdata(struct usb_role_switch *sw, void *data)
-+{
-+}
-+
-+static inline void *usb_role_switch_get_drvdata(struct usb_role_switch *sw)
-+{
-+	return NULL;
-+}
-+
- #endif
+diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+index 3a9970d1d1c0..2b10869f0abd 100644
+--- a/drivers/usb/typec/mux.c
++++ b/drivers/usb/typec/mux.c
+@@ -151,6 +151,16 @@ typec_switch_register(struct device *parent,
+ }
+ EXPORT_SYMBOL_GPL(typec_switch_register);
  
- #endif /* __LINUX_USB_ROLE_H */
++int typec_switch_set(struct typec_switch *sw,
++		     enum typec_orientation orientation)
++{
++	if (IS_ERR_OR_NULL(sw))
++		return 0;
++
++	return sw->set(sw, orientation);
++}
++EXPORT_SYMBOL_GPL(typec_switch_set);
++
+ /**
+  * typec_switch_unregister - Unregister USB Type-C orientation switch
+  * @sw: USB Type-C orientation switch
+@@ -286,6 +296,15 @@ void typec_mux_put(struct typec_mux *mux)
+ }
+ EXPORT_SYMBOL_GPL(typec_mux_put);
+ 
++int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
++{
++	if (IS_ERR_OR_NULL(mux))
++		return 0;
++
++	return mux->set(mux, state);
++}
++EXPORT_SYMBOL_GPL(typec_mux_set);
++
+ static void typec_mux_release(struct device *dev)
+ {
+ 	kfree(to_typec_mux(dev));
+diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
+index 47ab5a828b07..4991c93df5d0 100644
+--- a/include/linux/usb/typec_mux.h
++++ b/include/linux/usb/typec_mux.h
+@@ -23,6 +23,9 @@ struct typec_switch_desc {
+ 
+ struct typec_switch *typec_switch_get(struct device *dev);
+ void typec_switch_put(struct typec_switch *sw);
++int typec_switch_set(struct typec_switch *sw,
++		     enum typec_orientation orientation);
++
+ struct typec_switch *
+ typec_switch_register(struct device *parent,
+ 		      const struct typec_switch_desc *desc);
+@@ -50,6 +53,8 @@ struct typec_mux_desc {
+ struct typec_mux *
+ typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc);
+ void typec_mux_put(struct typec_mux *mux);
++int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state);
++
+ struct typec_mux *
+ typec_mux_register(struct device *parent, const struct typec_mux_desc *desc);
+ void typec_mux_unregister(struct typec_mux *mux);
 -- 
 2.25.0
 
