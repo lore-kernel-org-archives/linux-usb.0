@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31945C35DF5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 893C0C35DFB
 	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:25:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F362920714
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:25:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6028920714
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1582626303;
-	bh=C4DtCe2lUkv7VtatMcXxK+iaxeexO35g1/tbc4OMpUY=;
+	bh=BmUHtE0QJUMORjD2rDae3e0JtgmnV3vt2hoWaNWG7FE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZgXsfOC8fPIljIfopFJFFQpTQQJlFP30yWEQmYT6dcf+q81sUzQAtS9G65dSENlxb
-	 ZyndJkQmsW4ZIsUxQbrJLthD1FOvkFPmPjXw1k5bodPJurwrs+pONArhJRHWurEGYO
-	 YgAIdek8IIHv0kVmSm3OzG+jkGXv3yq3RJjPujhI=
+	b=XyAe3DIVy8P6y63jFpUek87B/6g2MYZAV+ZjNALvlDTmussb76ICzHUreX/CYZFDC
+	 doEMxPYfoQPIWiYAdxTy3dY7grXqZn4DO5OepEB45oAcp3xN4wBbxN3jILffdyWohd
+	 Jt5b/i1GT2xKO1yhUgZ8nOX0bl0V2L50sso6/MT8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730224AbgBYKZC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1730225AbgBYKZC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 25 Feb 2020 05:25:02 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:39472 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730134AbgBYKZB (ORCPT
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:38736 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730139AbgBYKZB (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Feb 2020 05:25:01 -0500
-Received: by mail-lf1-f66.google.com with SMTP id n30so8549434lfh.6
+Received: by mail-lf1-f67.google.com with SMTP id r14so9349864lfm.5
         for <linux-usb@vger.kernel.org>; Tue, 25 Feb 2020 02:25:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gfbXFO3iENyGLqYi+8aXQsJx1LifTAVxGdAwdRvtwfA=;
-        b=kLecr29KIK5Kh1iqfHxLZcDGnQ+nM84KQ3i5leDtu6wC1bkIt4JlQUunwP32EGJBQF
-         4r1QpJX7LFGo0GBp+i5DcwrYX71aKeIMMixA/te5a5nPnNWvNg2UGpET2/nCVLA3v57k
-         CbUe+S1VuZwRwNyzWgcxAlZ56B+B4nA90Zk1PthVXF3qocnEUrAi78WYEn5JvXrfJxiq
-         QIANHNWj6UCbasgTllk0Vr1VtjSFCCKzpfdkePncDR96rl+/VXpZPhiImKh1+01Er25S
-         PchrbtKQNvbjHVBz1ebMaoD6UvjtRLo0aJmeeC+ojwk/7vRBZxifcPiu2NEHmA5YhYVm
-         n5Yg==
-X-Gm-Message-State: APjAAAVILbE91eRpCentMnx4ETrFr0IAewpvXNhXtjLIRcFOQ0EyK69F
-        mnUUxwE35PlW137MVkb3gdQ=
-X-Google-Smtp-Source: APXvYqy1Sguizz/Hk+ZiDr3Gg0EjwGAIOshyWExxmJY5D64rF6AXNVwpvHjXcLP3SR7U++KuSHUZsA==
-X-Received: by 2002:a19:6459:: with SMTP id b25mr1938725lfj.115.1582626299737;
+        bh=Nqc1T3tLFwl6/n8IE17fY+ZfysXPyqEYknzDgr5/DKI=;
+        b=lPO1GsrtsLh3VdoNo73XAS6uCWxXNfpftVZunkxFrGHxPOHBAPcMlrC2bY/PQkKBPd
+         w13da2u5jmlRl+sSkHTovAzbLnjKSsKSZAChwI8bs75LfEU89HbxNA3kDdCz19usOar6
+         GO9nGjriinqh0zexqbHw9diLwzDRqVZGC545eRxx3aev4GyPImFs8AzBsQANe/HaoV0J
+         KYf72YVbVPGOFSLIFAenB7kOg6j6hmmeeil6ZFzQmTRT3iiPWa3BHljst+/dUcIzJ+st
+         U7I5euram77Oc/12mnw4eoGX1JDdUa03CgXA6NfsOgBrC4F9EI2/28AvRm/pNup9xR1H
+         A/QA==
+X-Gm-Message-State: APjAAAXnFH6U75b/FI0HjgbwEyAjy+tINbInzlraSAMiu1qE11SmtUJB
+        hJmA3tHwvlWzG2UuU7gP6Fc=
+X-Google-Smtp-Source: APXvYqyTIkagtsxpBxf3CUyPPvUYhCGkpg+kdsjpyJdPEuQLRTZTFeHhfgo+lcHOrLddH1e0kQLTyQ==
+X-Received: by 2002:ac2:5ca5:: with SMTP id e5mr9379981lfq.122.1582626299399;
         Tue, 25 Feb 2020 02:24:59 -0800 (PST)
 Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
-        by smtp.gmail.com with ESMTPSA id n11sm7609393ljg.15.2020.02.25.02.24.58
+        by smtp.gmail.com with ESMTPSA id y18sm7432546ljm.93.2020.02.25.02.24.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 25 Feb 2020 02:24:58 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1j6XOY-0004op-P5; Tue, 25 Feb 2020 11:24:54 +0100
+        id 1j6XOY-0004ok-MI; Tue, 25 Feb 2020 11:24:54 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 2/2] USB: serial: fix tty cleanup op kernel-doc
-Date:   Tue, 25 Feb 2020 11:24:21 +0100
-Message-Id: <20200225102421.18262-3-johan@kernel.org>
+Subject: [PATCH 1/2] USB: serial: clean up carrier-detect helper
+Date:   Tue, 25 Feb 2020 11:24:20 +0100
+Message-Id: <20200225102421.18262-2-johan@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200225102421.18262-1-johan@kernel.org>
 References: <20200225102421.18262-1-johan@kernel.org>
@@ -67,27 +67,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The tty cleanup operation is called with a struct tty as it's sole
-parameter.
+Drop the struct tty_port pointer and rename the struct usb_serial_port
+pointer "port", which is the named used throughout the subsystem and
+incidentally also matches the kernel-doc comment.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/usb-serial.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/serial/generic.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-index dc7a65b9ec98..27e3bb58c872 100644
---- a/drivers/usb/serial/usb-serial.c
-+++ b/drivers/usb/serial/usb-serial.c
-@@ -288,7 +288,7 @@ static void serial_close(struct tty_struct *tty, struct file *filp)
+diff --git a/drivers/usb/serial/generic.c b/drivers/usb/serial/generic.c
+index 546a1c2ce2f2..5cdf180cda23 100644
+--- a/drivers/usb/serial/generic.c
++++ b/drivers/usb/serial/generic.c
+@@ -609,12 +609,10 @@ EXPORT_SYMBOL_GPL(usb_serial_handle_break);
+  * @tty: tty for the port
+  * @status: new carrier detect status, nonzero if active
+  */
+-void usb_serial_handle_dcd_change(struct usb_serial_port *usb_port,
++void usb_serial_handle_dcd_change(struct usb_serial_port *port,
+ 				struct tty_struct *tty, unsigned int status)
+ {
+-	struct tty_port *port = &usb_port->port;
+-
+-	dev_dbg(&usb_port->dev, "%s - status %d\n", __func__, status);
++	dev_dbg(&port->dev, "%s - status %d\n", __func__, status);
  
- /**
-  * serial_cleanup - free resources post close/hangup
-- * @port: port to free up
-+ * @tty: tty to clean up
-  *
-  * Do the resource freeing and refcount dropping for the port.
-  * Avoid freeing the console.
+ 	if (tty) {
+ 		struct tty_ldisc *ld = tty_ldisc_ref(tty);
+@@ -627,7 +625,7 @@ void usb_serial_handle_dcd_change(struct usb_serial_port *usb_port,
+ 	}
+ 
+ 	if (status)
+-		wake_up_interruptible(&port->open_wait);
++		wake_up_interruptible(&port->port.open_wait);
+ 	else if (tty && !C_CLOCAL(tty))
+ 		tty_hangup(tty);
+ }
 -- 
 2.24.1
 
