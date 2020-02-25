@@ -2,108 +2,76 @@ Return-Path: <SRS0=xlHB=4N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893C0C35DFB
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAD9C35DF9
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:27:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6028920714
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:25:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8AA020714
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Feb 2020 10:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582626303;
-	bh=BmUHtE0QJUMORjD2rDae3e0JtgmnV3vt2hoWaNWG7FE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XyAe3DIVy8P6y63jFpUek87B/6g2MYZAV+ZjNALvlDTmussb76ICzHUreX/CYZFDC
-	 doEMxPYfoQPIWiYAdxTy3dY7grXqZn4DO5OepEB45oAcp3xN4wBbxN3jILffdyWohd
-	 Jt5b/i1GT2xKO1yhUgZ8nOX0bl0V2L50sso6/MT8=
+	s=default; t=1582626468;
+	bh=lbzZWQunTi9MD+ZgPB4Io+JSc9p53FVTTStQ3ejc8XA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=GEkVEYIEGuC+e8Uw+5E6lhDvNBs13YCK37dHuXkkZ6RqmH1gjCXBOwtqlcGuUtW6K
+	 OFdRnGr53bQP5qoReHPECRucoJgdrFFjXIaeIXwDZTN4S/ErbH5sBcWtAbOp9eCaXg
+	 UGTnrAajsQVoUTzuSbVju4XcpzJ7qbkNps/Z5UWc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730225AbgBYKZC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Feb 2020 05:25:02 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:38736 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730139AbgBYKZB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Feb 2020 05:25:01 -0500
-Received: by mail-lf1-f67.google.com with SMTP id r14so9349864lfm.5
-        for <linux-usb@vger.kernel.org>; Tue, 25 Feb 2020 02:25:00 -0800 (PST)
+        id S1730232AbgBYK1r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Feb 2020 05:27:47 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38345 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730126AbgBYK1r (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Feb 2020 05:27:47 -0500
+Received: by mail-lj1-f193.google.com with SMTP id w1so13405601ljh.5
+        for <linux-usb@vger.kernel.org>; Tue, 25 Feb 2020 02:27:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Nqc1T3tLFwl6/n8IE17fY+ZfysXPyqEYknzDgr5/DKI=;
-        b=lPO1GsrtsLh3VdoNo73XAS6uCWxXNfpftVZunkxFrGHxPOHBAPcMlrC2bY/PQkKBPd
-         w13da2u5jmlRl+sSkHTovAzbLnjKSsKSZAChwI8bs75LfEU89HbxNA3kDdCz19usOar6
-         GO9nGjriinqh0zexqbHw9diLwzDRqVZGC545eRxx3aev4GyPImFs8AzBsQANe/HaoV0J
-         KYf72YVbVPGOFSLIFAenB7kOg6j6hmmeeil6ZFzQmTRT3iiPWa3BHljst+/dUcIzJ+st
-         U7I5euram77Oc/12mnw4eoGX1JDdUa03CgXA6NfsOgBrC4F9EI2/28AvRm/pNup9xR1H
-         A/QA==
-X-Gm-Message-State: APjAAAXnFH6U75b/FI0HjgbwEyAjy+tINbInzlraSAMiu1qE11SmtUJB
-        hJmA3tHwvlWzG2UuU7gP6Fc=
-X-Google-Smtp-Source: APXvYqyTIkagtsxpBxf3CUyPPvUYhCGkpg+kdsjpyJdPEuQLRTZTFeHhfgo+lcHOrLddH1e0kQLTyQ==
-X-Received: by 2002:ac2:5ca5:: with SMTP id e5mr9379981lfq.122.1582626299399;
-        Tue, 25 Feb 2020 02:24:59 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lbzZWQunTi9MD+ZgPB4Io+JSc9p53FVTTStQ3ejc8XA=;
+        b=Noxb0wPF3gE62pDXypRuncOU2I5tQbuvsDPYzkkXqtZ/pAQDIvdT2xhj9lCZVWzOY0
+         oVRxeOctTzZiyuaG6eP7eidfCAqyQvI8idWmbFHqNJHPx0RdFN6OXsM4Yp+DlnotRarD
+         GiwalQElmu+jcc5lLbnKOF19KV6dDR1FOEzAZ1L9XcMtajo9F/zh0b8ygOhY5wYetKj/
+         JMpDzE8zw8j+wWEsl7i/9UaLth2FFQkNPpgIJBEWSq6eVLbhWT06+ku2H5objHkAe2T/
+         RM0Hy5gq+tQeqavlkIFADvgBXddX6O7d7bVy9iSKzDW5z6O7mwKZmVt4fBCSp3GqepUi
+         GMiA==
+X-Gm-Message-State: APjAAAV2TvzOmfG1jyBH5yZCe3Pv+e+dMKM5Gm2Yq5FnUVL1wBpPJpSx
+        03lndG1GlHDczxEYzVHfRwSOSJsO
+X-Google-Smtp-Source: APXvYqwqRXIjHbqOEOtPaKBGRSMfPa2t47D01tEiP1Brb9E6t5Wo0IzeRoHXhHl6110DtteccPBqug==
+X-Received: by 2002:a2e:9dc3:: with SMTP id x3mr33963671ljj.257.1582626465536;
+        Tue, 25 Feb 2020 02:27:45 -0800 (PST)
 Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
-        by smtp.gmail.com with ESMTPSA id y18sm7432546ljm.93.2020.02.25.02.24.58
+        by smtp.gmail.com with ESMTPSA id j6sm408126lfk.88.2020.02.25.02.27.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 02:24:58 -0800 (PST)
+        Tue, 25 Feb 2020 02:27:44 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@xi.terra>)
-        id 1j6XOY-0004ok-MI; Tue, 25 Feb 2020 11:24:54 +0100
+        (envelope-from <johan@kernel.org>)
+        id 1j6XRF-0004sG-5O; Tue, 25 Feb 2020 11:27:41 +0100
+Date:   Tue, 25 Feb 2020 11:27:41 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 1/2] USB: serial: clean up carrier-detect helper
-Date:   Tue, 25 Feb 2020 11:24:20 +0100
-Message-Id: <20200225102421.18262-2-johan@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200225102421.18262-1-johan@kernel.org>
+Subject: Re: [PATCH 2/2] USB: serial: fix tty cleanup op kernel-doc
+Message-ID: <20200225102741.GR32540@localhost>
 References: <20200225102421.18262-1-johan@kernel.org>
+ <20200225102421.18262-3-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200225102421.18262-3-johan@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop the struct tty_port pointer and rename the struct usb_serial_port
-pointer "port", which is the named used throughout the subsystem and
-incidentally also matches the kernel-doc comment.
+On Tue, Feb 25, 2020 at 11:24:21AM +0100, Johan Hovold wrote:
+> The tty cleanup operation is called with a struct tty as it's sole
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/generic.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+I'll fix the 'its' typo when applying...
 
-diff --git a/drivers/usb/serial/generic.c b/drivers/usb/serial/generic.c
-index 546a1c2ce2f2..5cdf180cda23 100644
---- a/drivers/usb/serial/generic.c
-+++ b/drivers/usb/serial/generic.c
-@@ -609,12 +609,10 @@ EXPORT_SYMBOL_GPL(usb_serial_handle_break);
-  * @tty: tty for the port
-  * @status: new carrier detect status, nonzero if active
-  */
--void usb_serial_handle_dcd_change(struct usb_serial_port *usb_port,
-+void usb_serial_handle_dcd_change(struct usb_serial_port *port,
- 				struct tty_struct *tty, unsigned int status)
- {
--	struct tty_port *port = &usb_port->port;
--
--	dev_dbg(&usb_port->dev, "%s - status %d\n", __func__, status);
-+	dev_dbg(&port->dev, "%s - status %d\n", __func__, status);
- 
- 	if (tty) {
- 		struct tty_ldisc *ld = tty_ldisc_ref(tty);
-@@ -627,7 +625,7 @@ void usb_serial_handle_dcd_change(struct usb_serial_port *usb_port,
- 	}
- 
- 	if (status)
--		wake_up_interruptible(&port->open_wait);
-+		wake_up_interruptible(&port->port.open_wait);
- 	else if (tty && !C_CLOCAL(tty))
- 		tty_hangup(tty);
- }
--- 
-2.24.1
+> parameter.
 
+Johan
