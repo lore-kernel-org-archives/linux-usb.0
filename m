@@ -5,55 +5,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7FECC4BA24
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 23:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBBEC4BA34
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 23:04:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE2B824670
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 23:04:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB66B2467F
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 23:04:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNQku0uc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3pWRVK8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728091AbgBZXER (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Feb 2020 18:04:17 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:39491 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728056AbgBZXEQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Feb 2020 18:04:16 -0500
-Received: by mail-pg1-f196.google.com with SMTP id j15so391940pgm.6;
-        Wed, 26 Feb 2020 15:04:14 -0800 (PST)
+        id S1728012AbgBZXEJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Feb 2020 18:04:09 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:35960 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726413AbgBZXEI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Feb 2020 18:04:08 -0500
+Received: by mail-pj1-f68.google.com with SMTP id gv17so295823pjb.1;
+        Wed, 26 Feb 2020 15:04:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=tCAa6W32aZ6QEKpToe4fyzvDQPNVxEnlp17UdPCzM6s=;
-        b=CNQku0uc3KAdlVn5+f/fITVzFDBSHYXMdo+LQ+8BVaz5Ht/O9aBWdkHEyNAVEACBKV
-         uICQYcmmIle6na4NfMwdwB+RIKkkOVmrN7OkS11Bji2m331jj6F3aYPwDOvGGNUHye3I
-         mGRlKp62czjkuztPiHmWW+KkfYVJlg1iQdnTVUk+C37gPgHC7ghJ58Xpj4KGjGKMqVYv
-         gDLWHwfkFWFqP7TYdRDYPDqxSTkiqnFKRFSuIwghiWJyyWL1t4ZQ7lVfpEkYKXj91wIE
-         fBqi7TVT7I9r0FamqmLRcL1Ff4vCvLqYAQGY1ns0Ka9X9xeIi/tO/w0jnj6l1bjC62wc
-         9RKA==
+        bh=zsjurGtPTTibpkqzKjZm8jUnRch17NXPwWPKWmJ+Vuc=;
+        b=A3pWRVK82v74q7UE2Rowuqoj20xjR8Mvj89W3wT9EDgeuXzRfmvWvl9JYkLV2f3oxj
+         ThtPjoNzAwWH3yFTnubIDFn8iefjWOJU9ztIyqxi213kz9HE763WZkEfuXgbXhNN5/tc
+         /L5AGr/IeOB2hwwMRc/BKh5OLLrmlIYOQDBYzDXyVasQJjpvdy3OzSBckd0fdBDpHIQD
+         rmkAdtXMyS/kEpQJI9xb6eaM93sQHySDaef4E/az0oJFwuYahBsd2hhz9jWMfwf9F1nR
+         VQWYB/BBXqkbj3f2CqqxX+0oYKLknlfkUv8mxvOT8YeVcDqgrE9RkkWYogJZYMj14RCA
+         52rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=tCAa6W32aZ6QEKpToe4fyzvDQPNVxEnlp17UdPCzM6s=;
-        b=SUeWJyiQm71Luifyu3a2obcMVacaPMmCnRnVkk+pWhsHq5vQ87lHrAwr73TaDo1H3O
-         6qq159DUIKqQRhOf81d7hM+wuWOhdqmkpoq5uYpHEc1jPI2OLVKLR+HgTK3hWtlcr41/
-         CjOkNxxzbyLMvpK7lKH7k2P89/arUgSIUJQvm0sJZm/CqEYUE7tkHD2906GzbTzgjK3Q
-         ZwuBEEeR3tLWDg2KMLVFv9hcoO5xijucqCIuYCj3eR7M0F+hQEBqwZ9AF+mZRoogFIzs
-         WR3/2XIH6neTfDDLk8fTvKvIIihIPKSYohEcAor/amnLEu88KzX6WyS7LGu6IVl5kmbM
-         jL4Q==
-X-Gm-Message-State: APjAAAV8PQvkraAGR9RN53MPml9GQv0L8Kzr+Dal27bcqX1Rd0/KV/28
-        +bfeYdwJsZ5ZNmShV5InTCY=
-X-Google-Smtp-Source: APXvYqxhOPuxfNONXmDQxDXVEgm8yFWi7DxNNyLfDQf3TB7RUJQjT+qTeMMjNtBejIG2YsmlSgqcvA==
-X-Received: by 2002:aa7:9f90:: with SMTP id z16mr1025096pfr.161.1582758254295;
-        Wed, 26 Feb 2020 15:04:14 -0800 (PST)
+        bh=zsjurGtPTTibpkqzKjZm8jUnRch17NXPwWPKWmJ+Vuc=;
+        b=jhWbQ4dA2I4hTAx1bWphrByLuu77EqXfrjozO6uFFitS5QWU9ObjdFR+O9KG4WWNFj
+         MH987Xj5xaKAn83w8iNa4zTZiPek7h+juHMxA1xaEmOIwJITQN9P+c71IT6ExCSxt8ab
+         LnTC7QZQk8X7lvM9GpA40i/GO0CAukGEmEh1Ix+K8/z1mYUhNIy955pPEg8bbDD8456v
+         6C7JheGGe0wU9Pdb9CmUu8dZPg+bJS9NfL6H6JazeYIBOO7DrIXWeDI1/w6TPGV8p0/9
+         hIMZVe36UngePI5cKhV4m9Dvceb7ANsPr5fWdzHY6em0vKsb+M2xivh6BHq0FunF12hg
+         drzw==
+X-Gm-Message-State: APjAAAV8ggSNZmw9AbAYybmqVCNSTQ2fNm6z9/OZPkx4cvQ/jJs+ryeP
+        Wxy1yYlVOX5HWOGwOsnR5xw=
+X-Google-Smtp-Source: APXvYqyRYW0slf7hnoyWPRWJzidVwkAK8H8EWbA/08e8qmnHPg65wYda6/tRhFcbKEdUJFZQpqF4hQ==
+X-Received: by 2002:a17:90a:fd85:: with SMTP id cx5mr1533764pjb.80.1582758245243;
+        Wed, 26 Feb 2020 15:04:05 -0800 (PST)
 Received: from taoren-ubuntu-R90MNF91.thefacebook.com ([2620:10d:c090:500::7:5ebf])
-        by smtp.gmail.com with ESMTPSA id 3sm3912621pjg.27.2020.02.26.15.04.10
+        by smtp.gmail.com with ESMTPSA id 3sm3912621pjg.27.2020.02.26.15.04.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 15:04:12 -0800 (PST)
+        Wed, 26 Feb 2020 15:04:04 -0800 (PST)
 From:   rentao.bupt@gmail.com
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -70,9 +70,9 @@ To:     Felipe Balbi <balbi@kernel.org>,
         linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
         taoren@fb.com
 Cc:     Tao Ren <rentao.bupt@gmail.com>
-Subject: [PATCH v4 7/7] dt-bindings: usb: add documentation for aspeed usb-vhub
-Date:   Wed, 26 Feb 2020 15:03:46 -0800
-Message-Id: <20200226230346.672-8-rentao.bupt@gmail.com>
+Subject: [PATCH v4 3/7] usb: gadget: aspeed: add ast2600 vhub support
+Date:   Wed, 26 Feb 2020 15:03:42 -0800
+Message-Id: <20200226230346.672-4-rentao.bupt@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200226230346.672-1-rentao.bupt@gmail.com>
 References: <20200226230346.672-1-rentao.bupt@gmail.com>
@@ -83,94 +83,50 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Tao Ren <rentao.bupt@gmail.com>
 
-Add device tree binding documentation for aspeed usb-vhub driver.
+Add AST2600 support in aspeed-vhub driver. There are 3 major differences
+between AST2500 and AST2600 vhub:
+  - AST2600 supports 7 downstream ports while AST2500 supports 5.
+  - AST2600 supports 21 generic endpoints while AST2500 supports 15.
+  - EP0 data buffer's 8-byte DMA alignment restriction is removed from
+    AST2600.
 
 Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- No change in v2/v3/v4:
-   - the patch is added to the patch series since v4.
+ No Change in v3/v4.
+ Changes in v2:
+   - removed "ast_vhub_config" related logic.
 
- .../bindings/usb/aspeed,usb-vhub.yaml         | 71 +++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+ drivers/usb/gadget/udc/aspeed-vhub/Kconfig | 4 ++--
+ drivers/usb/gadget/udc/aspeed-vhub/core.c  | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-new file mode 100644
-index 000000000000..6ebae46641e5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-@@ -0,0 +1,71 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+# Copyright (c) 2020 Facebook Inc.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/aspeed,usb-vhub.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED USB 2.0 Virtual Hub Controller
-+
-+maintainers:
-+  - Felipe Balbi <balbi@kernel.org>
-+
-+description: |+
-+  The ASPEED USB 2.0 Virtual Hub Controller implements 1 set of USB Hub
-+  register and several sets of Device and Endpoint registers to support
-+  the Virtual Hub's downstream USB devices.
-+
-+  Supported number of devices and endpoints vary depending on hardware
-+  revisions. AST2400 and AST2500 Virtual Hub supports 5 downstream devices
-+  and 15 generic endpoints, while AST2600 Virtual Hub supports 7 downstream
-+  devices and 21 generic endpoints.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2400-usb-vhub
-+      - aspeed,ast2500-usb-vhub
-+      - aspeed,ast2600-usb-vhub
-+
-+  reg:
-+    maxItems: 1
-+    description: Common configuration registers
-+
-+  clocks:
-+    maxItems: 1
-+    description: The Virtual Hub Controller clock gate
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  aspeed,vhub-downstream-ports:
-+    description: Number of downstream ports supported by the Virtual Hub
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+
-+  aspeed,vhub-generic-endpoints:
-+    description: Number of generic endpoints supported by the Virtual Hub
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - interrupts
-+  - aspeed,vhub-downstream-ports
-+  - aspeed,vhub-generic-endpoints
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/aspeed-clock.h>
-+    vhub: usb-vhub@1e6a0000 {
-+            compatible = "aspeed,ast2500-usb-vhub";
-+            reg = <0x1e6a0000 0x300>;
-+            interrupts = <5>;
-+            clocks = <&syscon ASPEED_CLK_GATE_USBPORT1CLK>;
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&pinctrl_usb2ad_default>;
-+    };
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/Kconfig b/drivers/usb/gadget/udc/aspeed-vhub/Kconfig
+index 83ba8a2eb6af..605500b19cf3 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/Kconfig
++++ b/drivers/usb/gadget/udc/aspeed-vhub/Kconfig
+@@ -4,5 +4,5 @@ config USB_ASPEED_VHUB
+ 	depends on ARCH_ASPEED || COMPILE_TEST
+ 	depends on USB_LIBCOMPOSITE
+ 	help
+-	  USB peripheral controller for the Aspeed AST2500 family
+-	  SoCs supporting the "vHub" functionality and USB2.0
++	  USB peripheral controller for the Aspeed AST2400, AST2500 and
++	  AST2600 family SoCs supporting the "vHub" functionality and USB2.0
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+index f8ab8e012f34..f8d35dd60c34 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+@@ -423,6 +423,9 @@ static const struct of_device_id ast_vhub_dt_ids[] = {
+ 	{
+ 		.compatible = "aspeed,ast2500-usb-vhub",
+ 	},
++	{
++		.compatible = "aspeed,ast2600-usb-vhub",
++	},
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, ast_vhub_dt_ids);
 -- 
 2.17.1
 
