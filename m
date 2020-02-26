@@ -2,55 +2,57 @@ Return-Path: <SRS0=qKei=4O=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D7CAC4BA21
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 21:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C88D1C4BA24
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 21:04:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F8D421D7E
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 21:04:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DE6C21D7E
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 21:04:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acrcB6MR"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i/MIoEkI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727479AbgBZVEY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Feb 2020 16:04:24 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:45592 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727387AbgBZVEX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Feb 2020 16:04:23 -0500
-Received: by mail-pf1-f195.google.com with SMTP id 2so379350pfg.12;
-        Wed, 26 Feb 2020 13:04:23 -0800 (PST)
+        id S1727719AbgBZVEb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Feb 2020 16:04:31 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:33411 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727701AbgBZVE3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Feb 2020 16:04:29 -0500
+Received: by mail-pl1-f196.google.com with SMTP id ay11so200361plb.0;
+        Wed, 26 Feb 2020 13:04:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=gDsflhmxZUet6FKoOUpr1JgLOWOX8WhZiLBsohFkxw4=;
-        b=acrcB6MRU4Vb+1UvCWhvmsKBEWp9AzYFdxsrjAxGAXMricxbBVcvVRjtB8sb+XAv/g
-         /EcMeUSBRFB7mZKbAERFfbdTtob+4kZddu5LEW+wU2RBokveGqtRF5UxgEImkxRQHIch
-         4dSz8t2TuPrGRBx+s0+d++UMIwWzp4pqmFzt9KnWq1kC6O0RKuSuHuObgMk2X3rm2Att
-         NfHTw6KemCIUaIn5ulaiJq2cjRvAkkehV7whg4fPD9ZKM9gXUyC3+V97s636cGPyFSHv
-         RncKBmoS0L2Zl6Fwsir+/8qpx2uPNtQnQ+1beKvOqloclFnvhFuBz309dwfCjWpWEQQn
-         DKRQ==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=xAl1x+LpHJ0/VGX33EY28LK5EWDI6zzFinArxJkf/Us=;
+        b=i/MIoEkIkUelCWWx6h02qcZVRrQclgV7C5pVM14h6peF/Ryl4gGu6eXes/xJT1aE6E
+         mq+oM2W8jWqREiUFdm5SsrqNGQ8hnfXOZP2MrZxKwP9bCwAMoROzYXl2H6/XHKP6PZpj
+         FsBlJyU97lfwxT0sxx+SwL0eYdtK4+ZuFrT2mBVSHAov8oi4NKrG4jwLQJmYEvLqqsdf
+         6eaJhdFFEVINUGhxVi/AkY09abXyerQ9GcwFjRUUIA1DGA110o3rqtIsvbG2O0AesPWo
+         5NClYjADavsoI9fj6GiVslYvq1mASMgXVTJIA5lT0G800a3UNXGVqOEKnq7y/Kg2XpKb
+         Wt+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=gDsflhmxZUet6FKoOUpr1JgLOWOX8WhZiLBsohFkxw4=;
-        b=IXrTWGr3kVi+cFBqWk2Q07H5UUDvJiIg6u4ILLUd1U0OOMuVbztFWQedYQmBP8vjZX
-         EZR1ShPpcCUzXCOWmk9+3V206I2OHCwHaXNJJhstXmleTwhbw0A3KphIDWPqeNeHMKmi
-         wUYoB+OhhI906xPomTBn/cdqlt1D4RWooZ48CQHYVsj1Jb54+2fAm+rcFuQmpdg4dB6E
-         e5Bl5oe64yODtHNAj7j1doYiXle/vzneZXqhj67CadYFKF3hAC0KJ4+a9x8ZAZxUUQmN
-         Zfuk2LMsT2bc3yCniocLBbdwBk03OQC7Sxmptyt8ZyS1ESQeEZVgLeTEiDSUBYAMwVcf
-         qtfg==
-X-Gm-Message-State: APjAAAUZysuwlV1kITkxc+R1QedmxKbTa23I7tO66n38rF1XJE+G+EE5
-        HeXKLVrEoxbGBtcPt2ynEhj2VEit
-X-Google-Smtp-Source: APXvYqywZQrSHz3IYuE8wT2/U6jhtr4OyqcE66q1EJEIl5in9BFBqRKlhV8bRuJ5+aZ16YmZ77Qmeg==
-X-Received: by 2002:a63:f450:: with SMTP id p16mr692547pgk.211.1582751062824;
-        Wed, 26 Feb 2020 13:04:22 -0800 (PST)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references;
+        bh=xAl1x+LpHJ0/VGX33EY28LK5EWDI6zzFinArxJkf/Us=;
+        b=OUS0nIlp1cjVKTQhZ1h7EYiI36cedIz/FKom6wt3Jk4jWuV7dpHYezvApR5dvXWFed
+         8lfE/LsrWclmtljd6hD5sp0E/RBu0ZhuZGPjiIpLZm/93wDfm414eeHCgjHkV21rGlWd
+         jpCHuW14+4AXlKGoChmyltyhbyxpX3+g6N6pqDNBO9bne8+omuu+6MjbmflkP00CH5yq
+         ma06dbZ08skoo/6qsDpQQ7aSmOM3ajMkEMXoIcl5YkWqmoga+pTmrsKL6NlRSxZmxQYP
+         cdn51FODVavVHG5oweYSGk00+XYiNVYolcecKnQaHOPd6P9qe+PLPpdrQJmdi0FdRGrP
+         nivQ==
+X-Gm-Message-State: APjAAAV2iRI3XrDkdEky/Y8ftkgQZsvulE9DXUwvWk3tnF9PqSqmz2c3
+        NWgUfGzG2590YiWt4aclPXA=
+X-Google-Smtp-Source: APXvYqzmRD/mrN418qWZD5WexJgskKTDafa05gVsZZkbQReTFmVojqc2qHVQsWNNEWytgCR8y1/gLA==
+X-Received: by 2002:a17:902:7589:: with SMTP id j9mr1169794pll.312.1582751068697;
+        Wed, 26 Feb 2020 13:04:28 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t189sm3977606pfd.168.2020.02.26.13.04.21
+        by smtp.gmail.com with ESMTPSA id q8sm3966221pfs.161.2020.02.26.13.04.27
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 26 Feb 2020 13:04:21 -0800 (PST)
+        Wed, 26 Feb 2020 13:04:28 -0800 (PST)
 From:   Guenter Roeck <linux@roeck-us.net>
 To:     Minas Harutyunyan <hminas@synopsys.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,38 +61,46 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Douglas Anderson <dianders@chromium.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Guenter Roeck <linux@roeck-us.net>
-Subject: [RFT PATCH 0/4] usb: dwc2: Fixes and improvements
-Date:   Wed, 26 Feb 2020 13:04:10 -0800
-Message-Id: <20200226210414.28133-1-linux@roeck-us.net>
+Subject: [RFT PATCH 4/4] usb: dwc2: Make "trimming xfer length" a debug message
+Date:   Wed, 26 Feb 2020 13:04:14 -0800
+Message-Id: <20200226210414.28133-5-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200226210414.28133-1-linux@roeck-us.net>
+References: <20200226210414.28133-1-linux@roeck-us.net>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series addresses the following problems:
+With some USB network adapters, such as DM96xx, the following message
+is seen for each maximum size receive packet.
 
-- Fix receive buffer corruptions
-- Fix receive transfers with 0 byte transfer length
-- Abort transactions after unknown receive errors
-  if the receive buffer is full
-- Reduce "trimming xfer length" logging noise
+dwc2 ff540000.usb: dwc2_update_urb_state(): trimming xfer length
 
-The problems fixed with this series were observed when connecting
-a DM9600 Ethernet adapter to Veyron Chromebooks such as the ASUS
-Chromebook C201PA. The series was tested extensively with this and
-other adapters.
+This happens because the packet size requested by the driver is 1522
+bytes, wMaxPacketSize is 64, the dwc2 driver configures the chip to
+receive 24*64 = 1536 bytes, and the chip does indeed send more than
+1522 bytes of data. Since the event does not indicate an error condition,
+the message is just noise. Demote it to debug level.
 
-The observed problems are also reported when tethering various
-phones, so test coverage with such phones would be very appreciated.
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/usb/dwc2/hcd_intr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Guenter Roeck (4):
-      usb: dwc2: Simplify and fix DMA alignment code
-      usb: dwc2: Do not update data length if it is 0 on inbound transfers
-      usb: dwc2: Abort transaction after errors with unknown reason
-      usb: dwc2: Make "trimming xfer length" a debug message
+diff --git a/drivers/usb/dwc2/hcd_intr.c b/drivers/usb/dwc2/hcd_intr.c
+index 12819e019e13..d5f4ec1b73b1 100644
+--- a/drivers/usb/dwc2/hcd_intr.c
++++ b/drivers/usb/dwc2/hcd_intr.c
+@@ -500,7 +500,7 @@ static int dwc2_update_urb_state(struct dwc2_hsotg *hsotg,
+ 						      &short_read);
+ 
+ 	if (urb->actual_length + xfer_length > urb->length) {
+-		dev_warn(hsotg->dev, "%s(): trimming xfer length\n", __func__);
++		dev_dbg(hsotg->dev, "%s(): trimming xfer length\n", __func__);
+ 		xfer_length = urb->length - urb->actual_length;
+ 	}
+ 
+-- 
+2.17.1
 
- drivers/usb/dwc2/hcd.c      | 82 ++++++++++++++++++++++++---------------------
- drivers/usb/dwc2/hcd_intr.c | 14 +++++++-
- 2 files changed, 56 insertions(+), 40 deletions(-)
