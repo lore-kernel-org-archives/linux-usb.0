@@ -2,158 +2,286 @@ Return-Path: <SRS0=zE7s=4P=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E059EC35E1E
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 13:59:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0AAC3F364
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:02:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AA8992469F
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 13:59:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="e2Y/qKdl"
+	by mail.kernel.org (Postfix) with ESMTP id 3FA9220801
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732364AbgB0N7k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Feb 2020 08:59:40 -0500
-Received: from mail-am6eur05on2067.outbound.protection.outlook.com ([40.107.22.67]:28769
-        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732616AbgB0N7i (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 27 Feb 2020 08:59:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RP+q8ZoI9bZTI/fHFtVao7kph6zQUa0vAd3S8JunyhB0Bsvgj6LKYDe8mHaaXAkQKnzU0Rd2MM3pfcz+Ppwlze5528iVa+100LZklVFuVNz/rxDTfga80A7Ezgrn0UfjWLz4NNJIIZa4flezmXRkN28VSnRqZbkihn0n0Z+MBjdwtFGCM/lmDNEiqOEcJYiU2sq5m6kMsSh5D8lZ0frtpY27vzIfL6/IePj5KDUr/s82/U0CvHwnpUbEFucUywlvkAglhaXU1BuUUMLxIXWEaKJTtbN4Jp+N9LKDrmLqcTNetpjhamkF0UQ1WiAUMNcNg4ERpUlo0v7Vn3mzzoLTzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u+OoXlv+5DJUilBFUVJMtUVmrZEhnsO/2uccgrm8+qk=;
- b=bQoR/dEX7ujo5nzQ9Z/jbKQpWV/+xTUppyUTBNUypf8ausG4gt2T+WSyTobwQ6G4lhgfzdDsPTh/j5rodNO0ShPKXIHB0bPsngwWpziZW9nlcDvmyYUeoMStDIbviA2/L05IwjRxmzg6HNAI83m/hU5ZFjs6klsMR6KhrMrDxJjqZfl77w9XUAnSaZFZpfvAhdqxW4+FQdqddARYlfGer2/GLhqM1vX9mbn0Z8h1jxHFK1BxeL8vsiX3DL/4Dnqix3pmsILDIsKvQJQixdr+wuxEcJbIBG8UtUcETdpHyNlj0+9mp/CkQr/emKudeJZVB6Oy4/2ltFz8Q51ymvbb8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u+OoXlv+5DJUilBFUVJMtUVmrZEhnsO/2uccgrm8+qk=;
- b=e2Y/qKdlpT3khrExaa+sv+5twXTfwcFTy5ciSdhSv5oXwznzRVknUOY+3eHIUsZHEu43UGeF6RDReTBsVIkPxCuaDT+aPrsN6wGCn0yjB6k+aHCcHJmQdLmKUbrQXIIlOcx6Rs4EYg9RwY3xSBVz5hqnCzTFz0FIBUcYS2IjgvY=
-Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.51.23) by
- VI1PR04MB6958.eurprd04.prod.outlook.com (52.133.246.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.21; Thu, 27 Feb 2020 13:59:36 +0000
-Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
- ([fe80::9547:9dfa:76b8:71b1]) by VI1PR04MB5327.eurprd04.prod.outlook.com
- ([fe80::9547:9dfa:76b8:71b1%7]) with mapi id 15.20.2750.021; Thu, 27 Feb 2020
- 13:59:36 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jun.li@freescale.com" <jun.li@freescale.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH 0/3] USB IMX Chipidea fix gpio vbus control
-Thread-Topic: [PATCH 0/3] USB IMX Chipidea fix gpio vbus control
-Thread-Index: AQHV7VqVZ4BeDr6e5UuTM5ZPfBO9kqgu5JsAgAAEwYCAAAyagIAABoeAgAAFTBCAAA4DIA==
-Date:   Thu, 27 Feb 2020 13:59:35 +0000
-Message-ID: <VI1PR04MB532766F9451C419409CC0B358BEB0@VI1PR04MB5327.eurprd04.prod.outlook.com>
-References: <20200227104212.12562-1-m.felsch@pengutronix.de>
- <20200227111838.GA24071@b29397-desktop>
- <20200227113539.gcx3nfwm2fbm3ukv@pengutronix.de>
- <20200227122045.GB24071@b29397-desktop>
- <20200227124406.6kbgu3dbru4qmews@pengutronix.de>
- <VI1PR04MB53270541BB66CAB1EB8F00008BEB0@VI1PR04MB5327.eurprd04.prod.outlook.com>
-In-Reply-To: <VI1PR04MB53270541BB66CAB1EB8F00008BEB0@VI1PR04MB5327.eurprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peter.chen@nxp.com; 
-x-originating-ip: [222.65.251.82]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 43af10b0-342f-4100-8230-08d7bb8d4783
-x-ms-traffictypediagnostic: VI1PR04MB6958:|VI1PR04MB6958:|VI1PR04MB6958:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR04MB69589C95D7CFFE6D279397388BEB0@VI1PR04MB6958.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 03264AEA72
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(39860400002)(396003)(366004)(136003)(376002)(199004)(189003)(6506007)(316002)(26005)(54906003)(71200400001)(186003)(2906002)(6916009)(8676002)(81166006)(81156014)(44832011)(2940100002)(52536014)(8936002)(4326008)(33656002)(9686003)(66556008)(76116006)(66446008)(66476007)(66946007)(55016002)(478600001)(5660300002)(7696005)(86362001)(64756008);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB6958;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3rH7Z9+yC5niupsYEljmr0QnU4mKaN50uPh6ktI4EYD75YiVm033OpW3UzysjJNViK7dfqocJk9PoOrgD8gIYFCJnzYQTCysHWgDqY0EPbp5+8dK7isfI7fvyC5hwQnTFY6ThcG/2ijadud6U4aT1Xri9bQ6iNIuVdrKEsQUFZs0ookWxaSVQ1+BTHAdK2RJBvqVN7K2YbskNGFNtLqt64oO6kekVP0JpBLmSgRXJVbS/YPjIeBn1yTq/M13dc69MJS0Hggo98IWfJ/18MBcLpWWGB51sJ2NRNBY86wniCJLneuoqdIsRwqioFCTxFPFB5C1TJMez+IpyRHFkHOHRpBW3CtWj7ZRHj6qFNwLncKkDkrJCh6ElNoijtkFrINDwkTAf/qYNhv029PUubUV57k3789p8BE6Jt5mAhE4X0LG85CxpP1q4c2Dp7ZffmOH
-x-ms-exchange-antispam-messagedata: ibXyapL6WOvpCQGIgvFDEHMQM3B1o39lPmNOJfAm2YegFmA1571iFWni4YT0Xdbn3JkIxPiIeR9zkfRTuaAVLHtTu8eH9/KfzeKpO7HXON67GbHkc4xg8NCWAi38FFGoCAs2RuzLyj6Mzy+80TPXVA==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1733065AbgB0OCI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Feb 2020 09:02:08 -0500
+Received: from mga04.intel.com ([192.55.52.120]:59515 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733057AbgB0OCH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Feb 2020 09:02:07 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Feb 2020 06:02:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,492,1574150400"; 
+   d="diff'?scan'208";a="350690315"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 27 Feb 2020 06:02:04 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 27 Feb 2020 16:02:04 +0200
+Date:   Thu, 27 Feb 2020 16:02:04 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Ajay Gupta <ajaykuee@gmail.com>
+Cc:     linux-usb@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
+Subject: Re: [PATCH] usb: typec: ucsi_ccg: workaround for NVIDIA test device
+Message-ID: <20200227140204.GD10532@kuha.fi.intel.com>
+References: <20200218231520.12208-1-ajayg@nvidia.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43af10b0-342f-4100-8230-08d7bb8d4783
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2020 13:59:35.9688
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6UfMtFopeeCVCkon4OYUeKmCwkOjmkehryE/8rHP+hhpOBf01z5pWkwYYdwttSPIAufUKpaVo8Y0tbJpskR9Pg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6958
+Content-Type: multipart/mixed; boundary="K8nIJk4ghYZn606h"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200218231520.12208-1-ajayg@nvidia.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-=20
-> > I had the problem that the vbus regulator wasn't turned off during a
-> > suspend/resume logic. The first issue within the usb-core should be
-> > fixed by [1] (v2 RFC is on the way). You never run in that case if you
-> > don't fix this. After I fixed it the port-power is called during
-> > suspend but obviously the regulator didn't get turned off because we do=
-n't add it
-> to the priv->reg_vbus.
-> >
-> > This patchset should fix this and get rid of the
-> > CI_HDRC_TURN_VBUS_EARLY_ON flag.
-> >
->=20
-> Hi Marco,
->=20
-> I may understand your case now. At old USB port design, the VBUS is never
-> allowed to turned off to response the USB wakeup event. But the expected =
-behavior
-> has changed after pm_qos_no_power_off is introduced for USB port, it is a=
-llowed
-> the port is powered off.
->=20
-> PORTSC.PP could be controlled by USB core, but USB VBUS's power is not
-> controlled by this bit if the VBUS power enable pin is configured as GPIO=
- function,
-> that is your case.
->=20
-> CI_HDRC_TURN_VBUS_EARLY_ON is introduced by fixing a bug that some i.mx
-> USB controllers PHY's power is sourced from VBUS, the PHY's power need to=
- be
-> on before touch some ehci registers, otherwise, the USB signal will be wr=
-ong at
-> some low speed devices use case. So, this flag can't be deleted, it may c=
-ause
-> regression.
->=20
-> The solution I see is your may need to implement chipidea VBUS control fl=
-ow by
-> considering pm_qos_no_power_off at suspend situation. You may add .suspen=
-d
-> API for ci_role_driver, and called by ci_controller_suspend/ci_controller=
-_resume, of
-> cos, better solution is welcome.
->=20
 
-Or you keep refcount for VBUS regulator on/off, if VBUS is already on, don'=
-t re-turn on
-again. Do not consider CI_HDRC_TURN_VBUS_EARLY_ON after probe, and let
-the USB core handle pm_qos_no_power_off, and call .ehci_ci_portpower accord=
-ingly.
+--K8nIJk4ghYZn606h
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Peter
+Hi Ajay,
+
+On Tue, Feb 18, 2020 at 03:15:20PM -0800, Ajay Gupta wrote:
+> From: Ajay Gupta <ajayg@nvidia.com>
+> 
+> NVIDIA VirtualLink (svid 0x955) has two altmode, vdo=0x1 for
+> VirtualLink DP mode and vdo=0x3 for NVIDIA test mode. NVIDIA
+> test device FTB (Function Test Board) reports altmode list with
+> vdo=0x3 first and then vdo=0x1. The list is:
+>  SVID   VDO
+> 0xff01  0xc05
+> 0x28de  0x8085
+> 0x955   0x3
+> 0x955   0x1
+> 
+> Current logic to assign mode value is based on order
+> in altmode list. This causes a mismatch of CON and SOP altmodes
+> since NVIDIA GPU connector has order of vdo=0x1 first and then
+> vdo=0x3. Fixing this by changing the order of vdo values
+> reported by NVIDIA test device. the new list will be:
+> 
+>  SVID   VDO
+> 0xff01  0xc05
+> 0x28de  0x8085
+> 0x955   0x1085
+> 0x955   0x3
+> 
+> Also NVIDIA VirtualLink (svid 0x955) uses pin E for display mode.
+> NVIDIA test device reports vdo of 0x1 so make sure vdo values
+> always have pin E assignement.
+> 
+> Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.h     |  2 ++
+>  drivers/usb/typec/ucsi/ucsi_ccg.c | 27 +++++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+> index a89112b69cd5..8e831108f481 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.h
+> +++ b/drivers/usb/typec/ucsi/ucsi.h
+> @@ -119,12 +119,14 @@ void ucsi_connector_change(struct ucsi *ucsi, u8 num);
+>  #define UCSI_SET_PDR_ACCEPT_ROLE_SWAPS		BIT(25)
+>  
+>  /* GET_ALTERNATE_MODES command bits */
+> +#define UCSI_ALTMODE_RECIPIENT(_r_)		(((_r_) >> 16) & 0x7)
+>  #define UCSI_GET_ALTMODE_RECIPIENT(_r_)		((u64)(_r_) << 16)
+>  #define   UCSI_RECIPIENT_CON			0
+>  #define   UCSI_RECIPIENT_SOP			1
+>  #define   UCSI_RECIPIENT_SOP_P			2
+>  #define   UCSI_RECIPIENT_SOP_PP			3
+>  #define UCSI_GET_ALTMODE_CONNECTOR_NUMBER(_r_)	((u64)(_r_) << 24)
+> +#define UCSI_ALTMODE_OFFSET(_r_)		(((_r_) >> 32) & 0xff)
+>  #define UCSI_GET_ALTMODE_OFFSET(_r_)		((u64)(_r_) << 32)
+>  #define UCSI_GET_ALTMODE_NUM_ALTMODES(_r_)	((u64)(_r_) << 40)
+>  
+> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> index 2658cda5da11..b421b0045448 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> @@ -125,6 +125,10 @@ struct version_format {
+>  #define CCG_FW_BUILD_NVIDIA	(('n' << 8) | 'v')
+>  #define CCG_OLD_FW_VERSION	(CCG_VERSION(0x31) | CCG_VERSION_PATCH(10))
+>  
+> +/* Altmode offset for NVIDIA Function Test Board (FTB) */
+> +#define USB_TYPEC_NVIDIA_FTB_DP_OFFSET	(2)
+> +#define USB_TYPEC_NVIDIA_FTB_DBG_OFFSET	(3)
+> +
+>  struct version_info {
+>  	struct version_format base;
+>  	struct version_format app;
+> @@ -489,6 +493,29 @@ static int ucsi_ccg_read(struct ucsi *ucsi, unsigned int offset,
+>  		return ret;
+>  
+>  	if (offset == UCSI_MESSAGE_IN) {
+> +		if (UCSI_COMMAND(uc->last_cmd_sent) ==
+> +		    UCSI_GET_ALTERNATE_MODES &&
+> +		    UCSI_ALTMODE_RECIPIENT(uc->last_cmd_sent) ==
+> +		    UCSI_RECIPIENT_SOP) {
+> +			struct ucsi_altmode *alt = (struct ucsi_altmode *)val;
+> +
+> +			if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+> +			    UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) ==
+> +			    USB_TYPEC_NVIDIA_FTB_DP_OFFSET &&
+> +			    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO) {
+> +				alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
+> +						DP_CAP_DP_SIGNALING |
+> +						DP_CAP_USB |
+> +						DP_CONF_SET_PIN_ASSIGN(BIT
+> +							(DP_PIN_ASSIGN_E));
+> +			}
+> +			if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+> +			    UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) ==
+> +			    USB_TYPEC_NVIDIA_FTB_DBG_OFFSET &&
+> +			    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DP_VDO) {
+> +				alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DBG_VDO;
+> +			}
+> +		}
+>  		if (UCSI_COMMAND(uc->last_cmd_sent) == UCSI_GET_CURRENT_CAM &&
+>  		    uc->has_multiple_dp) {
+>  			ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)val);
+
+This did not compile:
+
+drivers/usb/typec/ucsi/ucsi_ccg.c: In function ‘ucsi_ccg_read’:
+drivers/usb/typec/ucsi/ucsi_ccg.c:505:22: error: ‘USB_TYPEC_NVIDIA_VLINK_DBG_VDO’ undeclared (first use in this function); did you mean ‘USB_TYPEC_NVIDIA_VLINK_SID’?
+  505 |        alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO) {
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                      USB_TYPEC_NVIDIA_VLINK_SID
+drivers/usb/typec/ucsi/ucsi_ccg.c:505:22: note: each undeclared identifier is reported only once for each function it appears in
+drivers/usb/typec/ucsi/ucsi_ccg.c:506:18: error: ‘USB_TYPEC_NVIDIA_VLINK_DP_VDO’ undeclared (first use in this function); did you mean ‘USB_TYPEC_NVIDIA_VLINK_SID’?
+  506 |     alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                  USB_TYPEC_NVIDIA_VLINK_SID
+
+
+All those nested conditions make the code a bit difficult to read for
+me. You could handle the NVIDIA alt mode in its own function. I'm
+attaching a diff that you should be able to apply on top of your patch
+that should make the code a bit easier to read.
+
+thanks,
+
+-- 
+heikki
+
+--K8nIJk4ghYZn606h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="ucsi_ccg_nvidia_altmode.diff"
+
+diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+index d2bc5681fe8e..4c8c799181b9 100644
+--- a/drivers/usb/typec/ucsi/ucsi_ccg.c
++++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+@@ -126,8 +126,8 @@ struct version_format {
+ #define CCG_OLD_FW_VERSION	(CCG_VERSION(0x31) | CCG_VERSION_PATCH(10))
+ 
+ /* Altmode offset for NVIDIA Function Test Board (FTB) */
+-#define USB_TYPEC_NVIDIA_FTB_DP_OFFSET	(2)
+-#define USB_TYPEC_NVIDIA_FTB_DBG_OFFSET	(3)
++#define NVIDIA_FTB_DP_OFFSET	(2)
++#define NVIDIA_FTB_DBG_OFFSET	(3)
+ 
+ struct version_info {
+ 	struct version_format base;
+@@ -481,49 +481,55 @@ static void ucsi_ccg_update_set_new_cam_cmd(struct ucsi_ccg *uc,
+ 	*cmd |= UCSI_SET_NEW_CAM_SET_AM(cam);
+ }
+ 
++/*
++ * FIXME: A short explanation what this function does.
++ */
++static int ucsi_ccg_nvidia_altmode(struct ucsi_ccg *uc,
++				   struct ucsi_altmode *alt)
++{
++	if (UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) == NVIDIA_FTB_DP_OFFSET &&
++	    alt[0].mid == NVIDIA_VLINK_DBG_VDO)
++		alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
++		             DP_CAP_DP_SIGNALING | DP_CAP_USB |
++			     DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_E));
++
++	if (UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) == NVIDIA_FTB_DBG_OFFSET &&
++	    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DP_VDO)
++		alt[0].mid = NVIDIA_VLINK_DBG_VDO;
++
++	return 0;
++}
++
+ static int ucsi_ccg_read(struct ucsi *ucsi, unsigned int offset,
+ 			 void *val, size_t val_len)
+ {
+ 	struct ucsi_ccg *uc = ucsi_get_drvdata(ucsi);
+-	int ret;
+ 	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(offset);
++	struct ucsi_altmode *alt;
++	int ret;
+ 
+ 	ret = ccg_read(uc, reg, val, val_len);
+ 	if (ret)
+ 		return ret;
+ 
+-	if (offset == UCSI_MESSAGE_IN) {
+-		if (UCSI_COMMAND(uc->last_cmd_sent) ==
+-		    UCSI_GET_ALTERNATE_MODES &&
+-		    UCSI_ALTMODE_RECIPIENT(uc->last_cmd_sent) ==
+-		    UCSI_RECIPIENT_SOP) {
+-			struct ucsi_altmode *alt = (struct ucsi_altmode *)val;
+-
+-			if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+-			    UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) ==
+-			    USB_TYPEC_NVIDIA_FTB_DP_OFFSET &&
+-			    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO) {
+-				alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
+-						DP_CAP_DP_SIGNALING |
+-						DP_CAP_USB |
+-						DP_CONF_SET_PIN_ASSIGN(BIT
+-							(DP_PIN_ASSIGN_E));
+-			}
+-			if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+-			    UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) ==
+-			    USB_TYPEC_NVIDIA_FTB_DBG_OFFSET &&
+-			    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DP_VDO) {
+-				alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DBG_VDO;
+-			}
+-		}
+-		if (UCSI_COMMAND(uc->last_cmd_sent) == UCSI_GET_CURRENT_CAM &&
+-		    uc->has_multiple_dp) {
++	if (offset != UCSI_MESSAGE_IN)
++		return 0;
++
++	switch (UCSI_COMMAND(uc->last_cmd_sent)) {
++	case UCSI_GET_CURRENT_CAM:
++		if (uc->has_multiple_dp)
+ 			ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)val);
+-		}
+-		uc->last_cmd_sent = 0;
++		break;
++	case UCSI_GET_ALTERNATE_MODES:
++		alt = val;
++		if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID)
++			return ucsi_ccg_nvidia_altmode(uc, alt);
++		break;
++	default:
++		break;
+ 	}
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int ucsi_ccg_async_write(struct ucsi *ucsi, unsigned int offset,
+
+--K8nIJk4ghYZn606h--
