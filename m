@@ -1,127 +1,87 @@
-Return-Path: <SRS0=qKei=4O=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=zE7s=4P=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE9DC4BA2D
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 23:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8BB1C4BA35
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 01:27:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9064D24650
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Feb 2020 23:04:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8E0C24672
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 01:27:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iiIqG1tK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kVtx9Jk1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbgBZXED (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Feb 2020 18:04:03 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:35962 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726413AbgBZXED (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Feb 2020 18:04:03 -0500
-Received: by mail-pf1-f194.google.com with SMTP id i13so391549pfe.3;
-        Wed, 26 Feb 2020 15:04:01 -0800 (PST)
+        id S1728114AbgB0B1B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Feb 2020 20:27:01 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:40918 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727964AbgB0B1B (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Feb 2020 20:27:01 -0500
+Received: by mail-il1-f194.google.com with SMTP id i7so917772ilr.7
+        for <linux-usb@vger.kernel.org>; Wed, 26 Feb 2020 17:27:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Bk/8S/Z3TX6gpAJL/01qav03pWjPrUS9+WLbM4tWfRA=;
-        b=iiIqG1tKiFmSLw8ypVAFtG0a/VX8gxPi1TjGNgkgCIZ5Z7qjWdPW9+8K3J2U1skLnT
-         XriD3Zl2Sxh5mVPXYsOttA2tMrRBEKKQxeTDuVOrlhQiU6sySvO9bd8fq52EStONOHlq
-         C52UbmdpekyXeSt/SIj6TUrMBDVWXxhXdzSm+uaDVzREEtUjyyLy2AyWdJpSvRgR6Lnb
-         6Ilh/TDwkwoYBgXez0mR4sZfU+EELlY/vwrUDkjPmHy0LTkn0AHP+zGzsBQ3JchD8hmQ
-         oH6cSIRBmiA6O31pnf9/q4rzMBFON1tzp8jO/Rx/QxqMaWVEZdp5K7TaNqlwL6fuWZ1g
-         vrEw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=niYJTFK4DpkkpGrI6D79gsEsDkTbl1WvT765RVC9gGs=;
+        b=kVtx9Jk1F3w9czXm+f7r8hkFgwrxacYVFgZx2K/ioFQ+pmUHG1YZbiIAQubSUQYwER
+         zHrORMngJjXj02N0VfpI7RWEnAHq6XLMxicdQYjjrXQzI2pXhWDwdFsTKcr+It7VtBDJ
+         1UvCUhjpiM263g7KxiNuzH6Oaxjhqun8fY92psiW0IWkoBbjbSdQKv1O6cyu9Pwgxo/C
+         HqnIEMJdJ4ngnk5g1majM6zBnxC/vsZdvUN4AsKVt7NBeTqPUPyQzRhiEpupv7WoDj7Q
+         lS20/gDTFBcBtJ5LB9fuiEOgvwKdsHxz0+wo3ZX5BOFjsqgJWDJih2bsKexwVu1Dh46B
+         Bgcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Bk/8S/Z3TX6gpAJL/01qav03pWjPrUS9+WLbM4tWfRA=;
-        b=W2/sxuUNNaPZ5g+nN/HqTSM8nN8iYgpDztKxDWPVYP3LApHzBcliB6kgJt3ShhDAbF
-         AsikI8a+owQ5GLFCl7eHAaypbth9/2hp0QFvoJsRNXnsOp0b7KVNTVA7HkUnp8q2l2qs
-         5P5YvCQ707D4JOZD9KCQ8Qk4ZVlC8pbXXvTLzi6lHVwLML094r4aztxkmAtYzvdPBb4I
-         CSAMIEGTgWgghU/R4Ium4ml+rlgfxXqrWCe2IBT74H2EeOMsUlY71gWmUYBVdF33GB6T
-         q0Y/oItSM1lnzAE5BpZc6EPMAED4IAijqB0vFe3zDkGuGNUyMGstiW6PmSGdnfCyPFvG
-         aGrA==
-X-Gm-Message-State: APjAAAWw5usw9Lg8WydqipnmR9w7+yifi/DDqHnSNQx5fUUpI51HfHOx
-        VGG/KDNQruUfQq0MTmpCKpg=
-X-Google-Smtp-Source: APXvYqxd8CY0HsAxhIMeDYkypalVr2YKiVsFuVI43/dN5ulZeTbimHEV3k5WocbbHPlR9VinUUrMDQ==
-X-Received: by 2002:a63:b347:: with SMTP id x7mr1087976pgt.275.1582758240225;
-        Wed, 26 Feb 2020 15:04:00 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com ([2620:10d:c090:500::7:5ebf])
-        by smtp.gmail.com with ESMTPSA id 3sm3912621pjg.27.2020.02.26.15.03.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 15:03:59 -0800 (PST)
-From:   rentao.bupt@gmail.com
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        taoren@fb.com
-Cc:     Tao Ren <rentao.bupt@gmail.com>
-Subject: [PATCH v4 0/7] aspeed-g6: enable usb support
-Date:   Wed, 26 Feb 2020 15:03:39 -0800
-Message-Id: <20200226230346.672-1-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=niYJTFK4DpkkpGrI6D79gsEsDkTbl1WvT765RVC9gGs=;
+        b=OT9Z0ETZqzFSFExDgSzJRBzCoOyebHHe/eoY4fcCrvB0caLrbFZq5OVZlxsqKKzchM
+         Y3+ZLiOYCvVsgMSBfkEyl5eKb5ZO52CNSNHfOtgIVjVqCmxKKFQYxAQZojlLA8PW9P8l
+         aaxdUIuovcSa0Jn0BwmkqicpOi5mCw0S9fx089cprTeVWrLs7dC9PoQKZw6yaurwSVVc
+         /M+hhL/jc8byXce3j1lMG+kFsLbjDNr8EfRrkcY+P72Xrx7DanZpTbLeT8vKAqaoAuap
+         mGzAhwrJE+kSUO/uU7K8oSJ594XSpPZrFgEmz1SiRblS/yNrVB5kv/gc5pBdSigOkS6K
+         nLdg==
+X-Gm-Message-State: APjAAAWxciH1XEOcJ+OTy+mKlCJtaFsOIsAuugwlrtRZUX3qygrnvZXW
+        gALAbaqeRbzzJ27T6dEhJCM9d1VIn0xElZ6HwcRDUNUj
+X-Google-Smtp-Source: APXvYqzRXj5Hq9w+KLRXaH+GF0oiU9cdldIa9VJ90IEW34rjRZXgM4QZ+0RHQJfJnAW8mCEBtkmInMEpeWEPWJ2xySw=
+X-Received: by 2002:a92:dac3:: with SMTP id o3mr2052185ilq.237.1582766820236;
+ Wed, 26 Feb 2020 17:27:00 -0800 (PST)
+MIME-Version: 1.0
+References: <20200219141455.23257-1-peter.chen@nxp.com>
+In-Reply-To: <20200219141455.23257-1-peter.chen@nxp.com>
+From:   Peter Chen <hzpeterchen@gmail.com>
+Date:   Thu, 27 Feb 2020 09:26:49 +0800
+Message-ID: <CAL411-o_nGQ3VkvLt-brffjOk8YjDYLyxmN6_6jnpW3NkRhbQw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] usb: cdns3: two fixes for gadget
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     balbi@kernel.org, USB list <linux-usb@vger.kernel.org>,
+        linux-imx@nxp.com, pawell@cadence.com, rogerq@ti.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, jun.li@nxp.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tao Ren <rentao.bupt@gmail.com>
+On Wed, Feb 19, 2020 at 10:16 PM Peter Chen <peter.chen@nxp.com> wrote:
+>
+> These two issues are found during run "Error Recovery Test"
+> for the latest USB CV MSC test, the TRB doesn't advance correctly
+> after dequeue and clear halt. With these two fixes, the test
+> can be passed.
+>
+> Peter Chen (2):
+>   usb: cdns3: gadget: link trb should point to next request
+>   usb: cdns3: gadget: toggle cycle bit before reset endpoint
+>
+>  drivers/usb/cdns3/gadget.c | 19 +++++++++++++++----
+>  1 file changed, 15 insertions(+), 4 deletions(-)
+>
 
-The patch series aims at enabling USB Host and Gadget support on AST2600
-platforms.
+A gentle ping...
 
-Patch #1 includes vhub's usb descriptors in struct "ast_vhub": all usb
-descriptor changes will go to the per-vhub instance instead of touching
-the global default descriptors.
-
-Patch #2 replaces hardcoded vhub port/endpoint number with device tree
-properties, so that it's more convenient to add support for ast2600-vhub
-which provides more downstream ports and endpoints.
-
-Patch #3 enables ast2600 support in aspeed-vhub usb gadget driver.
-
-Patch #4 adds USB devices and according pin groups in aspeed-g6 dtsi.
-
-Patch #5 and #6 add vhub port/endpoint properties into aspeed-g4 and
-aspeed-g5 dtsi.
-
-Patch #7 adds device tree binding document for aspeed usb-vhub driver.
-
-Tao Ren (7):
-  usb: gadget: aspeed: support per-vhub usb descriptors
-  usb: gadget: aspeed: read vhub properties from device tree
-  usb: gadget: aspeed: add ast2600 vhub support
-  ARM: dts: aspeed-g6: add usb functions
-  ARM: dts: aspeed-g5: add vhub port and endpoint properties
-  ARM: dts: aspeed-g4: add vhub port and endpoint properties
-  dt-bindings: usb: add documentation for aspeed usb-vhub
-
- .../bindings/usb/aspeed,usb-vhub.yaml         | 71 +++++++++++++++++++
- arch/arm/boot/dts/aspeed-g4.dtsi              |  2 +
- arch/arm/boot/dts/aspeed-g5.dtsi              |  2 +
- arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi      | 25 +++++++
- arch/arm/boot/dts/aspeed-g6.dtsi              | 45 ++++++++++++
- drivers/usb/gadget/udc/aspeed-vhub/Kconfig    |  4 +-
- drivers/usb/gadget/udc/aspeed-vhub/core.c     | 71 ++++++++++++-------
- drivers/usb/gadget/udc/aspeed-vhub/dev.c      | 30 +++++---
- drivers/usb/gadget/udc/aspeed-vhub/epn.c      |  4 +-
- drivers/usb/gadget/udc/aspeed-vhub/hub.c      | 58 ++++++++++-----
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h     | 43 +++++++----
- 11 files changed, 284 insertions(+), 71 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-
--- 
-2.17.1
-
+Peter
