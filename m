@@ -2,133 +2,191 @@ Return-Path: <SRS0=zE7s=4P=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE50C52D29
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED178C35E1C
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:15:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 50A8D246A0
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582812860;
-	bh=Dqe8peYwQwuHYE4wE7HzqKcEV4TelEPWey30f3hiVvk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TvR3AB5vul3HGBJIhT7C3a9/4p2iiL1QNHBHtUGoacyLyDatTe28cfLAU2y1EqRjg
-	 5/tnMHr94SdJy5Q7+mmb+rVtVgbYsUN7vhnmCTKdzF+YAzahqjGw/PNGTHFYjk2awo
-	 uxJymRkkd1oJNEsgtswYX6oIoa4B8YmL6ABMRK+c=
+	by mail.kernel.org (Postfix) with ESMTP id CAF5224691
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389111AbgB0OOT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Feb 2020 09:14:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53462 "EHLO mail.kernel.org"
+        id S2389349AbgB0OPo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Feb 2020 09:15:44 -0500
+Received: from mga14.intel.com ([192.55.52.115]:55255 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389105AbgB0OOT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 27 Feb 2020 09:14:19 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D740B24697;
-        Thu, 27 Feb 2020 14:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582812857;
-        bh=Dqe8peYwQwuHYE4wE7HzqKcEV4TelEPWey30f3hiVvk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VaYxrrnUVztyfLYJ/Dhq4e7af7CMcAnaCqrHofBQmf5YokhRNO1SHDERZ9kQgwzyK
-         o8YYHlt0x+ztB4jTQQ3R+ZwCE/jdJxSqSGABOKb6SXjBz7egLUVzM/BbAiPNcrR8vx
-         9bc+7D0JlMDJIQMlYSQiSunSVkxeyBjk9eWoeteQ=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
-        Yang Fei <fei.yang@intel.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Tejas Joglekar <tejas.joglekar@synopsys.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Jack Pham <jackp@codeaurora.org>, Todd Kjos <tkjos@google.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
-        John Stultz <john.stultz@linaro.org>
-Subject: [PATCH 5.5 042/150] usb: dwc3: gadget: Check for IOC/LST bit in TRB->ctrl fields
-Date:   Thu, 27 Feb 2020 14:36:19 +0100
-Message-Id: <20200227132239.087998024@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200227132232.815448360@linuxfoundation.org>
-References: <20200227132232.815448360@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S2389137AbgB0OPj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Feb 2020 09:15:39 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Feb 2020 06:15:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,492,1574150400"; 
+   d="diff'?scan'208";a="350692022"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 27 Feb 2020 06:15:37 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 27 Feb 2020 16:15:36 +0200
+Date:   Thu, 27 Feb 2020 16:15:36 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Ajay Gupta <ajaykuee@gmail.com>
+Cc:     linux-usb@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
+Subject: Re: [PATCH] usb: typec: ucsi_ccg: workaround for NVIDIA test device
+Message-ID: <20200227141536.GE10532@kuha.fi.intel.com>
+References: <20200218231520.12208-1-ajayg@nvidia.com>
+ <20200227140204.GD10532@kuha.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/mixed; boundary="CblX+4bnyfN0pR09"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200227140204.GD10532@kuha.fi.intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
 
-commit 5ee858975b13a9b40db00f456989a689fdbb296c upstream.
+--CblX+4bnyfN0pR09
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The current code in dwc3_gadget_ep_reclaim_completed_trb() will
-check for IOC/LST bit in the event->status and returns if
-IOC/LST bit is set. This logic doesn't work if multiple TRBs
-are queued per request and the IOC/LST bit is set on the last
-TRB of that request.
+On Thu, Feb 27, 2020 at 04:02:07PM +0200, Heikki Krogerus wrote:
+> This did not compile:
+> 
+> drivers/usb/typec/ucsi/ucsi_ccg.c: In function ‘ucsi_ccg_read’:
+> drivers/usb/typec/ucsi/ucsi_ccg.c:505:22: error: ‘USB_TYPEC_NVIDIA_VLINK_DBG_VDO’ undeclared (first use in this function); did you mean ‘USB_TYPEC_NVIDIA_VLINK_SID’?
+>   505 |        alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO) {
+>       |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                      USB_TYPEC_NVIDIA_VLINK_SID
+> drivers/usb/typec/ucsi/ucsi_ccg.c:505:22: note: each undeclared identifier is reported only once for each function it appears in
+> drivers/usb/typec/ucsi/ucsi_ccg.c:506:18: error: ‘USB_TYPEC_NVIDIA_VLINK_DP_VDO’ undeclared (first use in this function); did you mean ‘USB_TYPEC_NVIDIA_VLINK_SID’?
+>   506 |     alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                  USB_TYPEC_NVIDIA_VLINK_SID
 
-Consider an example where a queued request has multiple queued
-TRBs and IOC/LST bit is set only for the last TRB. In this case,
-the core generates XferComplete/XferInProgress events only for
-the last TRB (since IOC/LST are set only for the last TRB). As
-per the logic in dwc3_gadget_ep_reclaim_completed_trb()
-event->status is checked for IOC/LST bit and returns on the
-first TRB. This leaves the remaining TRBs left unhandled.
+Sorry, I was working on top of the wrong branch. The patch does
+compile fine...
 
-Similarly, if the gadget function enqueues an unaligned request
-with sglist already in it, it should fail the same way, since we
-will append another TRB to something that already uses more than
-one TRB.
+> All those nested conditions make the code a bit difficult to read for
+> me. You could handle the NVIDIA alt mode in its own function. I'm
+> attaching a diff that you should be able to apply on top of your patch
+> that should make the code a bit easier to read.
 
-To aviod this, this patch changes the code to check for IOC/LST
-bits in TRB->ctrl instead.
+I attached a fixed version of the diff.
 
-At a practical level, this patch resolves USB transfer stalls seen
-with adb on dwc3 based HiKey960 after functionfs gadget added
-scatter-gather support around v4.20.
 
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Yang Fei <fei.yang@intel.com>
-Cc: Thinh Nguyen <thinhn@synopsys.com>
-Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
-Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Jack Pham <jackp@codeaurora.org>
-Cc: Todd Kjos <tkjos@google.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linux USB List <linux-usb@vger.kernel.org>
-Cc: stable <stable@vger.kernel.org>
-Tested-by: Tejas Joglekar <tejas.joglekar@synopsys.com>
-Reviewed-by: Thinh Nguyen <thinhn@synopsys.com>
-Signed-off-by: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-[jstultz: forward ported to mainline, reworded commit log, reworked
- to only check trb->ctrl as suggested by Felipe]
-Signed-off-by: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+thanks,
 
----
- drivers/usb/dwc3/gadget.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+-- 
+heikki
 
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2426,7 +2426,8 @@ static int dwc3_gadget_ep_reclaim_comple
- 	if (event->status & DEPEVT_STATUS_SHORT && !chain)
- 		return 1;
+--CblX+4bnyfN0pR09
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="ucsi_ccg_nvidia_altmode.diff"
+
+diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+index b421b0045448..65fa648eea19 100644
+--- a/drivers/usb/typec/ucsi/ucsi_ccg.c
++++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+@@ -126,8 +126,8 @@ struct version_format {
+ #define CCG_OLD_FW_VERSION	(CCG_VERSION(0x31) | CCG_VERSION_PATCH(10))
  
--	if (event->status & DEPEVT_STATUS_IOC)
-+	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-+	    (trb->ctrl & DWC3_TRB_CTRL_LST))
- 		return 1;
+ /* Altmode offset for NVIDIA Function Test Board (FTB) */
+-#define USB_TYPEC_NVIDIA_FTB_DP_OFFSET	(2)
+-#define USB_TYPEC_NVIDIA_FTB_DBG_OFFSET	(3)
++#define NVIDIA_FTB_DP_OFFSET	(2)
++#define NVIDIA_FTB_DBG_OFFSET	(3)
  
- 	return 0;
+ struct version_info {
+ 	struct version_format base;
+@@ -481,49 +481,55 @@ static void ucsi_ccg_update_set_new_cam_cmd(struct ucsi_ccg *uc,
+ 	*cmd |= UCSI_SET_NEW_CAM_SET_AM(cam);
+ }
+ 
++/*
++ * FIXME: A short explanation what this function does.
++ */
++static int ucsi_ccg_nvidia_altmode(struct ucsi_ccg *uc,
++				   struct ucsi_altmode *alt)
++{
++	if (UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) == NVIDIA_FTB_DP_OFFSET &&
++	    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO)
++		alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
++		             DP_CAP_DP_SIGNALING | DP_CAP_USB |
++			     DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_E));
++
++	if (UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) == NVIDIA_FTB_DBG_OFFSET &&
++	    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DP_VDO)
++		alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DBG_VDO;
++
++	return 0;
++}
++
+ static int ucsi_ccg_read(struct ucsi *ucsi, unsigned int offset,
+ 			 void *val, size_t val_len)
+ {
+ 	struct ucsi_ccg *uc = ucsi_get_drvdata(ucsi);
+-	int ret;
+ 	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(offset);
++	struct ucsi_altmode *alt;
++	int ret;
+ 
+ 	ret = ccg_read(uc, reg, val, val_len);
+ 	if (ret)
+ 		return ret;
+ 
+-	if (offset == UCSI_MESSAGE_IN) {
+-		if (UCSI_COMMAND(uc->last_cmd_sent) ==
+-		    UCSI_GET_ALTERNATE_MODES &&
+-		    UCSI_ALTMODE_RECIPIENT(uc->last_cmd_sent) ==
+-		    UCSI_RECIPIENT_SOP) {
+-			struct ucsi_altmode *alt = (struct ucsi_altmode *)val;
+-
+-			if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+-			    UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) ==
+-			    USB_TYPEC_NVIDIA_FTB_DP_OFFSET &&
+-			    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO) {
+-				alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
+-						DP_CAP_DP_SIGNALING |
+-						DP_CAP_USB |
+-						DP_CONF_SET_PIN_ASSIGN(BIT
+-							(DP_PIN_ASSIGN_E));
+-			}
+-			if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+-			    UCSI_ALTMODE_OFFSET(uc->last_cmd_sent) ==
+-			    USB_TYPEC_NVIDIA_FTB_DBG_OFFSET &&
+-			    alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DP_VDO) {
+-				alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DBG_VDO;
+-			}
+-		}
+-		if (UCSI_COMMAND(uc->last_cmd_sent) == UCSI_GET_CURRENT_CAM &&
+-		    uc->has_multiple_dp) {
++	if (offset != UCSI_MESSAGE_IN)
++		return 0;
++
++	switch (UCSI_COMMAND(uc->last_cmd_sent)) {
++	case UCSI_GET_CURRENT_CAM:
++		if (uc->has_multiple_dp)
+ 			ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)val);
+-		}
+-		uc->last_cmd_sent = 0;
++		break;
++	case UCSI_GET_ALTERNATE_MODES:
++		alt = val;
++		if (alt[0].svid == USB_TYPEC_NVIDIA_VLINK_SID)
++			return ucsi_ccg_nvidia_altmode(uc, alt);
++		break;
++	default:
++		break;
+ 	}
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int ucsi_ccg_async_write(struct ucsi *ucsi, unsigned int offset,
 
-
+--CblX+4bnyfN0pR09--
