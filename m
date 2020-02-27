@@ -2,133 +2,165 @@ Return-Path: <SRS0=zE7s=4P=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ACEDC52D2D
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88456C34022
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:39:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5240024688
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:31:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582813897;
-	bh=VOdujmpR/Y7+yCEJKg2C2pz0Nbpaw3BSbaFvsqkw/VU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=g44mhlWAQcNAyvvJNh9inektZsyPkicRXCCEN4U0KqK1ZF+KBv51FxmjMdpWrFlHg
-	 A/XU88Q+zhWgAf1l5mfdzt46GFnIL9aXeDdtsml+O+zSEw+Nnn38Vox9ODn7R/BjB2
-	 Nece7+63dGybeYwMrSIlNm6ZCEG0cRcG0THHsag0=
+	by mail.kernel.org (Postfix) with ESMTP id 62A5F24656
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Feb 2020 14:39:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733023AbgB0ODk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Feb 2020 09:03:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39034 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732995AbgB0ODh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 27 Feb 2020 09:03:37 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3383B2469B;
-        Thu, 27 Feb 2020 14:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582812216;
-        bh=VOdujmpR/Y7+yCEJKg2C2pz0Nbpaw3BSbaFvsqkw/VU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HxPBtVpkTJTF/UYwfdNvmAOQtE5D8Pd1baFVuc9LXtp9PSMn+eFg8m8y2+WCZbu+6
-         pHPMnuzo5iORAUGke0Mlre30zKKzSshKQZEvJycn9+VMZkI6igGJDSIgM3aHpfML8a
-         LBBmo7kJQRFZIYj38e8tyl7OqBqG4x5RqhYV+Ytc=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
-        Yang Fei <fei.yang@intel.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Tejas Joglekar <tejas.joglekar@synopsys.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Jack Pham <jackp@codeaurora.org>, Todd Kjos <tkjos@google.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
-        John Stultz <john.stultz@linaro.org>
-Subject: [PATCH 4.19 30/97] usb: dwc3: gadget: Check for IOC/LST bit in TRB->ctrl fields
-Date:   Thu, 27 Feb 2020 14:36:38 +0100
-Message-Id: <20200227132219.513967393@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200227132214.553656188@linuxfoundation.org>
-References: <20200227132214.553656188@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S1732524AbgB0OjT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Feb 2020 09:39:19 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:59863 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731954AbgB0OjT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Feb 2020 09:39:19 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1j7KJo-0007I7-MA; Thu, 27 Feb 2020 15:39:16 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1j7KJm-0001SU-GJ; Thu, 27 Feb 2020 15:39:14 +0100
+Date:   Thu, 27 Feb 2020 15:39:14 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     "jun.li@freescale.com" <jun.li@freescale.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 0/3] USB IMX Chipidea fix gpio vbus control
+Message-ID: <20200227143914.mi3vsltrtyo5sqed@pengutronix.de>
+References: <20200227104212.12562-1-m.felsch@pengutronix.de>
+ <20200227111838.GA24071@b29397-desktop>
+ <20200227113539.gcx3nfwm2fbm3ukv@pengutronix.de>
+ <20200227122045.GB24071@b29397-desktop>
+ <20200227124406.6kbgu3dbru4qmews@pengutronix.de>
+ <VI1PR04MB53270541BB66CAB1EB8F00008BEB0@VI1PR04MB5327.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <VI1PR04MB53270541BB66CAB1EB8F00008BEB0@VI1PR04MB5327.eurprd04.prod.outlook.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:01:27 up 104 days,  5:20, 122 users,  load average: 0.24, 0.16,
+ 0.07
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Hi Peter,
 
-commit 5ee858975b13a9b40db00f456989a689fdbb296c upstream.
+On 20-02-27 13:30, Peter Chen wrote:
+>   
+> > > >
+> > > > Note, I'm using a imx6q which has the CI_HDRC_TURN_VBUS_EARLY_ON set.
+> > > >
+> > >
+> > > Do you have a VBUS regulator at your dts, and add it at controller's
+> > > node? See: arch/arm/boot/dts/imx6qdl-sabresd.dtsi as an example please?
+> > 
+> > Yes, that's my use case too.
+> > 
+> > > If you have set CI_HDRC_TURN_VBUS_EARLY_ON, the VBUS is controlled by
+> > > chipidea driver, not by USB core through PORTSC.PP (ehci_ci_portpower).
+> > 
+> > I know, pls have a look my the patches.
+> > 
+> > I had the problem that the vbus regulator wasn't turned off during a
+> > suspend/resume logic. The first issue within the usb-core should be fixed by [1] (v2
+> > RFC is on the way). You never run in that case if you don't fix this. After I fixed it
+> > the port-power is called during suspend but obviously the regulator didn't get turned
+> > off because we don't add it to the priv->reg_vbus.
+> > 
+> > This patchset should fix this and get rid of the CI_HDRC_TURN_VBUS_EARLY_ON
+> > flag.
+> > 
+>  
+> Hi Marco,
+> 
+> I may understand your case now. At old USB port design, the VBUS is never allowed to
+> turned off to response the USB wakeup event. But the expected behavior has changed
+> after pm_qos_no_power_off is introduced for USB port, it is allowed the port is powered off.
 
-The current code in dwc3_gadget_ep_reclaim_completed_trb() will
-check for IOC/LST bit in the event->status and returns if
-IOC/LST bit is set. This logic doesn't work if multiple TRBs
-are queued per request and the IOC/LST bit is set on the last
-TRB of that request.
+Luckily we have git :) and I my archeological findings are:
 
-Consider an example where a queued request has multiple queued
-TRBs and IOC/LST bit is set only for the last TRB. In this case,
-the core generates XferComplete/XferInProgress events only for
-the last TRB (since IOC/LST are set only for the last TRB). As
-per the logic in dwc3_gadget_ep_reclaim_completed_trb()
-event->status is checked for IOC/LST bit and returns on the
-first TRB. This leaves the remaining TRBs left unhandled.
+ 0ero Patch 2012-07-07) 1530280084c3 usb: chipidea: add imx platform driver
+ 1st  Patch 2012-10-23) ae0fb4b72c8d PM / QoS: Introduce PM QoS device flags support
+ 2nd  Patch 2013-01-23) ad493e5e5805 usb: add usb port auto power off mechanism
+ 3th  Patch 2014-10-13) 11a7e5940514 usb: ehci: add ehci_port_power interface
+ 4th  Patch 2014-10-13) c8679a2fb8de usb: chipidea: host: add portpower override
+ 5th  Patch 2015-02-11) 6adb9b7b5fb6 usb: chipidea: add a flag for turn on vbus early for host
+ 6th  Patch 2015-02-11) 659459174188 usb: chipidea: host: turn on vbus before add hcd if early vbus on is required
 
-Similarly, if the gadget function enqueues an unaligned request
-with sglist already in it, it should fail the same way, since we
-will append another TRB to something that already uses more than
-one TRB.
+A few more details:
+- Since day 0 the imx chipidea driver supports the regulator but it was
+  only used to turn it on (0ero Patch). Later the regulator support was
+  shifted to the core and optional.
+- 1-2 Patch added the pm_qos_no_power_off support
+- 3-4 Patch adds the support to disable the regulator
+- 5-6 Patch adding a workaround for patches 3-4 which breaks the
+  regulator power-off support.
 
-To aviod this, this patch changes the code to check for IOC/LST
-bits in TRB->ctrl instead.
+So as you can see the pm_qos_no_power_off was introduced before the gpio
+regulator vbus power-off support was added.
 
-At a practical level, this patch resolves USB transfer stalls seen
-with adb on dwc3 based HiKey960 after functionfs gadget added
-scatter-gather support around v4.20.
+> PORTSC.PP could be controlled by USB core, but USB VBUS's power is not controlled
+> by this bit if the VBUS power enable pin is configured as GPIO function, that is your case.
 
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Yang Fei <fei.yang@intel.com>
-Cc: Thinh Nguyen <thinhn@synopsys.com>
-Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
-Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Jack Pham <jackp@codeaurora.org>
-Cc: Todd Kjos <tkjos@google.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linux USB List <linux-usb@vger.kernel.org>
-Cc: stable <stable@vger.kernel.org>
-Tested-by: Tejas Joglekar <tejas.joglekar@synopsys.com>
-Reviewed-by: Thinh Nguyen <thinhn@synopsys.com>
-Signed-off-by: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-[jstultz: forward ported to mainline, reworded commit log, reworked
- to only check trb->ctrl as suggested by Felipe]
-Signed-off-by: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Yep I know :)
 
----
- drivers/usb/dwc3/gadget.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> CI_HDRC_TURN_VBUS_EARLY_ON is introduced by fixing a bug that some i.mx USB
+> controllers PHY's power is sourced from VBUS, the PHY's power need to be on before
+> touch some ehci registers, otherwise, the USB signal will be wrong at some low speed
+> devices use case. So, this flag can't be deleted, it may cause regression.
 
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2224,7 +2224,8 @@ static int dwc3_gadget_ep_reclaim_comple
- 	if (event->status & DEPEVT_STATUS_SHORT && !chain)
- 		return 1;
- 
--	if (event->status & DEPEVT_STATUS_IOC)
-+	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-+	    (trb->ctrl & DWC3_TRB_CTRL_LST))
- 		return 1;
- 
- 	return 0;
+Pls check my archeological findings and again pls check my patches. I
+deleted the flag because isn't required anymore afterwards.
 
+> The solution I see is your may need to implement chipidea VBUS control flow by considering
+> pm_qos_no_power_off at suspend situation. You may add .suspend API for ci_role_driver,
+> and called by ci_controller_suspend/ci_controller_resume, of cos, better solution is welcome.
 
+I fixed it within the core [1] and here at the chipidea side.
+
+[1] https://lkml.org/lkml/2020/2/27/669
+
+You will never enter the ehci_ci_portpower() during suspend without [1]
+if you are using a vanilla kernel. So IMHO this case can't be tested,
+sorry.
+
+Kind regards,
+  Marco
+
+> Peter
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
