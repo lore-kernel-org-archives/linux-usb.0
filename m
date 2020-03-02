@@ -2,113 +2,104 @@ Return-Path: <SRS0=4yIQ=4T=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02569C3F2D1
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Mar 2020 13:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6169C3F2D2
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Mar 2020 14:21:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D855520656
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Mar 2020 13:54:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 769AE214DB
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Mar 2020 14:21:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="dlZBkYhv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727178AbgCBNx4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Mar 2020 08:53:56 -0500
-Received: from mga11.intel.com ([192.55.52.93]:22884 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727083AbgCBNx4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 2 Mar 2020 08:53:56 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Mar 2020 05:53:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; 
-   d="scan'208";a="351544499"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2020 05:53:54 -0800
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Benson Leung <bleung@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v3 0/9] usb: typec: Driver for Intel PMC Mux-Agent
-Date:   Mon,  2 Mar 2020 16:53:44 +0300
-Message-Id: <20200302135353.56659-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.25.0
+        id S1727113AbgCBOVt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Mar 2020 09:21:49 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3371 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726953AbgCBOVs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Mar 2020 09:21:48 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e5d16540001>; Mon, 02 Mar 2020 06:21:08 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 02 Mar 2020 06:21:48 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 02 Mar 2020 06:21:48 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 2 Mar
+ 2020 14:21:47 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 2 Mar 2020 14:21:47 +0000
+Received: from jilin-desktop.nvidia.com (Not Verified[10.19.120.101]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e5d167a0006>; Mon, 02 Mar 2020 06:21:47 -0800
+From:   Jim Lin <jilin@nvidia.com>
+To:     <stern@rowland.harvard.edu>, <linux-usb@vger.kernel.org>
+CC:     <usb-storage@lists.one-eyed-alien.net>, Jim Lin <jilin@nvidia.com>
+Subject: [PATCH 1/1] usb: storage: Add quirk for Samsung Fit flash
+Date:   Mon, 2 Mar 2020 22:21:35 +0800
+Message-ID: <1583158895-31342-1-git-send-email-jilin@nvidia.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1583158868; bh=Ug+SL8BpPUbsHay9ECIf12zMrZ7uPxOUUQ7ibuliW/E=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=dlZBkYhvJtf53G1DbhdpWcmOsHAgwbUwLmyPvVRJ5JPXs/5IYdmrmLzLsXnHpPVjM
+         oiEnivli+eBRDAq/Sk+3J928AzuKtssJFqJ+F/dMWWHCnSRZjQnThoMtvbJA7mr6Wv
+         J5wBx6flalbL9/MEd0TDKbYbtxaHdo6bl6IM+EVEMWOBg3ApIGewAtVtdCGbOnX6XX
+         /7fevFzDB4vCGA3oELJ5qODCLxws2Bst5fF3CIqV89h796ZzBjnxkRdv1b9uwEYVRb
+         yseq+yqYhYVGd9l+t3zl2TeHaI/BoCht3SLe6ofZWP0xAwltndd5BsMWyIe810wd1V
+         TaJ2QyI85WlvA==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Current driver has 240 (USB2.0) and 2048 (USB3.0) as max_sectors,
+e.g., /sys/bus/scsi/devices/0:0:0:0/max_sectors
 
-The statements were ended incorrectly with comma instead of semicolon
-in drivers/usb/cdns3/core.c (PATCH 5/9) as pointed out by Peter. I've
-fixed that in this version. There are no other changes.
+If data access times out, driver error handling will issue a port
+reset.
+Sometimes Samsung Fit (090C:1000) flash disk will not respond to
+later Set Address or Get Descriptor command.
 
-v2 commit message:
+Adding this quirk to limit max_sectors to 64 sectors to avoid issue
+occurring.
 
-I've unified the driver data handling in all drivers in patch 5/9 as
-requested by Peter, and also now using consistently dev_set_drvdata()
-in patch 4/9 as requested by Chunfeng Yun. Those were the only
-changes in this version.
+Signed-off-by: Jim Lin <jilin@nvidia.com>
+---
+ drivers/usb/storage/unusual_devs.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-The original (v1) commit message:
-
-The Intel PMC (Power Management Controller) microcontroller, which is
-available on most SOCs from Intel, has a function called mux-agent.
-The mux-agent, when visible to the operating system, makes it possible
-to control the various USB muxes on the system.
-
-In practice the mux-agent is a device that controls multiple muxes.
-Unfortunately both the USB Type-C Class and the USB Role Class don't
-have proper support for that kind of devices that handle multiple
-muxes, which is why I had to tweak the APIs a bit.
-
-On top of the API changes, and the driver of course, I'm adding a
-header for the Thunderbolt 3 alt mode since the "mux-agent" supports
-it.
-
-thanks,
-
-
-Heikki Krogerus (9):
-  usb: typec: mux: Allow the muxes to be named
-  usb: typec: mux: Add helpers for setting the mux state
-  usb: typec: mux: Allow the mux handles to be requested with fwnode
-  usb: roles: Leave the private driver data pointer to the drivers
-  usb: roles: Provide the switch drivers handle to the switch in the API
-  usb: roles: Allow the role switches to be named
-  device property: Export fwnode_get_name()
-  usb: typec: Add definitions for Thunderbolt 3 Alternate Mode
-  usb: typec: driver for Intel PMC mux control
-
- drivers/base/property.c                       |   1 +
- drivers/usb/cdns3/core.c                      |  22 +-
- drivers/usb/chipidea/core.c                   |  10 +-
- drivers/usb/dwc3/dwc3-meson-g12a.c            |  10 +-
- drivers/usb/gadget/udc/renesas_usb3.c         |  26 +-
- drivers/usb/gadget/udc/tegra-xudc.c           |   8 +-
- drivers/usb/mtu3/mtu3_dr.c                    |   9 +-
- drivers/usb/musb/mediatek.c                   |  16 +-
- drivers/usb/roles/class.c                     |  29 +-
- .../usb/roles/intel-xhci-usb-role-switch.c    |  26 +-
- drivers/usb/typec/class.c                     |  10 +-
- drivers/usb/typec/mux.c                       |  47 +-
- drivers/usb/typec/mux/Kconfig                 |   9 +
- drivers/usb/typec/mux/Makefile                |   1 +
- drivers/usb/typec/mux/intel_pmc_mux.c         | 434 ++++++++++++++++++
- include/linux/usb/role.h                      |  23 +-
- include/linux/usb/typec_mux.h                 |  25 +-
- include/linux/usb/typec_tbt.h                 |  53 +++
- 18 files changed, 677 insertions(+), 82 deletions(-)
- create mode 100644 drivers/usb/typec/mux/intel_pmc_mux.c
- create mode 100644 include/linux/usb/typec_tbt.h
-
+diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+index 1cd9b6305b06..1880f3e13f57 100644
+--- a/drivers/usb/storage/unusual_devs.h
++++ b/drivers/usb/storage/unusual_devs.h
+@@ -1258,6 +1258,12 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
+ 		USB_SC_RBC, USB_PR_BULK, NULL,
+ 		0 ),
+ 
++UNUSUAL_DEV(0x090c, 0x1000, 0x1100, 0x1100,
++		"Samsung",
++		"Flash Drive FIT",
++		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
++		US_FL_MAX_SECTORS_64),
++
+ /* aeb */
+ UNUSUAL_DEV( 0x090c, 0x1132, 0x0000, 0xffff,
+ 		"Feiya",
 -- 
-2.25.0
+2.1.4
 
+
+-----------------------------------------------------------------------------------
+This email message is for the sole use of the intended recipient(s) and may contain
+confidential information.  Any unauthorized review, use, disclosure or distribution
+is prohibited.  If you are not the intended recipient, please contact the sender by
+reply email and destroy all copies of the original message.
+-----------------------------------------------------------------------------------
