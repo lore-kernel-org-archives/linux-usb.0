@@ -1,209 +1,104 @@
-Return-Path: <SRS0=4yIQ=4T=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=/TRH=4U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F6DC3F2D1
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Mar 2020 23:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 308B3C3F2D2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 02:49:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 770E424680
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Mar 2020 23:47:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F21C324684
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 02:49:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583192872;
-	bh=ur8ZwHkyldfeXitGtL6gWFIjE4yJTQYaVaTWrtYij4k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=mZE83+MYwaGrBE8KqVVYcoXn8uUKJ0TioKuzj9zqBnGcuEbjSQDRFfvgObo3Y2omt
-	 fdlcsieXmbTCYzruqO/k5nOujdE6RLrk26DHT6Gc3QzD+RqEyj0DYpjDQJS1574qtE
-	 15zVkSTPqUZNeXDF3cJYLGuOJmnQlHJ+eg4h/yug=
+	s=default; t=1583203745;
+	bh=1Ab1FCoddUe1BX9XPSIJ0DoL+dXn+oXOQ+sECh6PTO0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=Q8JracOlbIn5Y5YFHIXh/DB43Bn/ueK0Bt1rfukIv7pSaxpS5lS8+glKYDmwYiLfk
+	 TMNVTac9duECbD9yWN+H+/gx3r/t4ZIz6jNx/LmMKlys8WEJZO8fzD/IwP0vQ42fJo
+	 8D09/hPGmlTtY8uIL2r4cXQ1gw9RGCD84APqX2GY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726783AbgCBXrt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Mar 2020 18:47:49 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38308 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726728AbgCBXrt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Mar 2020 18:47:49 -0500
-Received: by mail-ot1-f65.google.com with SMTP id i14so1193729otp.5;
-        Mon, 02 Mar 2020 15:47:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=d/RkNcxyLqUX/+PgUpkEl7v2Jd0JMvdb/wExbaQt108=;
-        b=nomFvKa1NStZwFm9mb7CBUdadrt7KBsNYC3ksZ7JcqRRB9R/4x5fKKh3i/ORttsIiX
-         W+f0LM9VcldQBPn46IikXgpv9/ApP9h5qwkx9KxkjTAIKNTP51GbKQ8rJns6MA4M0Mpz
-         eHUhUBRwP6y7lEiE3moKzE/X/ylUktohbtzsHu6MMM8XSZ+A43FIQOW3oU/37D9h7Nxb
-         Q3+55uaucAQb0C8TpCBs3LM8wa47qESaUtTyA9pD1Ia0mmfBUTUv4lCpZ9AxisS0zNJJ
-         HgSO96T9dyIx+TxFdiyLO30cYAIByFHxqOMTJ/FSfMmpoYcYHSt7UY4Um/beVCRYi69B
-         0kpw==
-X-Gm-Message-State: ANhLgQ3rsjkfJt6JaKZG8PNgcJVmAW4emPtJz99NU7aAsL8QpwvAeLqT
-        BotsVsRfxIlRORSK4/9QLQ==
-X-Google-Smtp-Source: ADFU+vuxpmnJMb8DOFdRXd1/mWLsgWVNrXdVa77SguBZ7LSbwMPbChW5+xbwnEeE1XzjzZTeiYahoQ==
-X-Received: by 2002:a9d:7509:: with SMTP id r9mr1274145otk.270.1583192866512;
-        Mon, 02 Mar 2020 15:47:46 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id m23sm3457031otq.37.2020.03.02.15.47.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 15:47:45 -0800 (PST)
-Received: (nullmailer pid 30642 invoked by uid 1000);
-        Mon, 02 Mar 2020 23:47:44 -0000
-Date:   Mon, 2 Mar 2020 17:47:44 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     rentao.bupt@gmail.com
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        taoren@fb.com
-Subject: Re: [PATCH v6 7/7] dt-bindings: usb: add documentation for aspeed
- usb-vhub
-Message-ID: <20200302234744.GA21778@bogus>
-References: <20200228020757.10513-1-rentao.bupt@gmail.com>
- <20200228020757.10513-8-rentao.bupt@gmail.com>
+        id S1728645AbgCCCtC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Mar 2020 21:49:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44948 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728637AbgCCCtB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 2 Mar 2020 21:49:01 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EFF4F246BB;
+        Tue,  3 Mar 2020 02:48:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583203740;
+        bh=1Ab1FCoddUe1BX9XPSIJ0DoL+dXn+oXOQ+sECh6PTO0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GRSNiAb0NXPkFVZqAIqhk6CY8uaOnyYxDtYA/qgLr2V2AEsvgN6S6+JBjqrwcy6nL
+         fhJqEuYrOvRDVAb7uCu4yA2gNvDdDZgfTX+dqBe1poGHaG6Gf0546eAn99iti8rQYd
+         zQUbkq5XKy0YJ05DCH8SEDWtZo9vWFHE3fP1AbRI=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sergey Organov <sorganov@gmail.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 07/32] usb: gadget: serial: fix Tx stall after buffer overflow
+Date:   Mon,  2 Mar 2020 21:48:26 -0500
+Message-Id: <20200303024851.10054-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200303024851.10054-1-sashal@kernel.org>
+References: <20200303024851.10054-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200228020757.10513-8-rentao.bupt@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 06:07:57PM -0800, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> Add device tree binding documentation for the Aspeed USB 2.0 Virtual HUb
-> Controller.
-> 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> ---
->  Changes in v6:
->    - added 2 required properties into example and passed "make
->      dt_binding_check".
->  Changes in v5:
->    - updated maintainer to Ben.
->    - refined patch description per Joel's suggestion.
->  No change in v2/v3/v4:
->    - the patch is added to the patch series since v4.
-> 
->  .../bindings/usb/aspeed,usb-vhub.yaml         | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> new file mode 100644
-> index 000000000000..b9f33310e9a2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
+From: Sergey Organov <sorganov@gmail.com>
 
-Dual license new bindings please.
+[ Upstream commit e4bfded56cf39b8d02733c1e6ef546b97961e18a ]
 
-(GPL-2.0-only OR BSD-2-Clause)
+Symptom: application opens /dev/ttyGS0 and starts sending (writing) to
+it while either USB cable is not connected, or nobody listens on the
+other side of the cable. If driver circular buffer overflows before
+connection is established, no data will be written to the USB layer
+until/unless /dev/ttyGS0 is closed and re-opened again by the
+application (the latter besides having no means of being notified about
+the event of establishing of the connection.)
 
-> +# Copyright (c) 2020 Facebook Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/aspeed,usb-vhub.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED USB 2.0 Virtual Hub Controller
-> +
-> +maintainers:
-> +  - Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> +
-> +description: |+
-> +  The ASPEED USB 2.0 Virtual Hub Controller implements 1 set of USB Hub
-> +  register and several sets of Device and Endpoint registers to support
-> +  the Virtual Hub's downstream USB devices.
-> +
-> +  Supported number of devices and endpoints vary depending on hardware
-> +  revisions. AST2400 and AST2500 Virtual Hub supports 5 downstream devices
-> +  and 15 generic endpoints, while AST2600 Virtual Hub supports 7 downstream
-> +  devices and 21 generic endpoints.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2400-usb-vhub
-> +      - aspeed,ast2500-usb-vhub
-> +      - aspeed,ast2600-usb-vhub
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: Common configuration registers
+Fix: on open and/or connect, kick Tx to flush circular buffer data to
+USB layer.
 
-If 'Common' means something specific to this block, then keep. 
-Otherwise, you can drop ti.
+Signed-off-by: Sergey Organov <sorganov@gmail.com>
+Reviewed-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/gadget/function/u_serial.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: The Virtual Hub Controller clock gate
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index d4d317db89df5..38afe96c5cd26 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -567,8 +567,10 @@ static int gs_start_io(struct gs_port *port)
+ 	port->n_read = 0;
+ 	started = gs_start_rx(port);
+ 
+-	/* unblock any pending writes into our circular buffer */
+ 	if (started) {
++		gs_start_tx(port);
++		/* Unblock any pending writes into our circular buffer, in case
++		 * we didn't in gs_start_tx() */
+ 		tty_wakeup(port->port.tty);
+ 	} else {
+ 		gs_free_requests(ep, head, &port->read_allocated);
+-- 
+2.20.1
 
-Drop this.
-
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  aspeed,vhub-downstream-ports:
-> +    description: Number of downstream ports supported by the Virtual Hub
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-
-Constraints?
-
-'maximum: 5' ?
-
-default?
-
-> +
-> +  aspeed,vhub-generic-endpoints:
-> +    description: Number of generic endpoints supported by the Virtual Hub
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-
-Constraints?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - interrupts
-> +  - aspeed,vhub-downstream-ports
-> +  - aspeed,vhub-generic-endpoints
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    vhub: usb-vhub@1e6a0000 {
-> +            compatible = "aspeed,ast2500-usb-vhub";
-> +            reg = <0x1e6a0000 0x300>;
-> +            interrupts = <5>;
-> +            clocks = <&syscon ASPEED_CLK_GATE_USBPORT1CLK>;
-> +            aspeed,vhub-downstream-ports = <5>;
-> +            aspeed,vhub-generic-endpoints = <15>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pinctrl_usb2ad_default>;
-> +    };
-> -- 
-> 2.17.1
-> 
