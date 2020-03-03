@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B97EC3F2D1
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 21:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77947C3F2D1
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 21:13:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A9FB21556
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 21:11:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44DE320848
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 21:13:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732415AbgCCVK4 convert rfc822-to-8bit (ORCPT
+        id S1732062AbgCCVNd convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Mar 2020 16:10:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46896 "EHLO mail.kernel.org"
+        Tue, 3 Mar 2020 16:13:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47828 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732347AbgCCVK4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 3 Mar 2020 16:10:56 -0500
+        id S1731676AbgCCVNd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 3 Mar 2020 16:13:33 -0500
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 206747] Logitech K400 Plus touchpad is incorrectly recognized
  as a mouse
-Date:   Tue, 03 Mar 2020 21:10:55 +0000
+Date:   Tue, 03 Mar 2020 21:13:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206747-208809-DYqGv8QWdT@https.bugzilla.kernel.org/>
+Message-ID: <bug-206747-208809-kidyjG7ARc@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206747-208809@https.bugzilla.kernel.org/>
 References: <bug-206747-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,10 +53,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206747
 
---- Comment #2 from Ettore Atalan (atalanttore@googlemail.com) ---
-Created attachment 287785
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287785&action=edit
-X.org log
+--- Comment #4 from Ettore Atalan (atalanttore@googlemail.com) ---
+Created attachment 287789
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287789&action=edit
+xinput output for the touchpad of this device
 
 -- 
 You are receiving this mail because:
