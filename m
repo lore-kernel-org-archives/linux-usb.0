@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C01C3F2C6
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:12:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0C3C3F2D8
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:12:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D2E120873
+	by mail.kernel.org (Postfix) with ESMTP id E9CBF20873
 	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:12:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UoMsmD2K"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lGaWE277"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730760AbgCCRM0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Mar 2020 12:12:26 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40788 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730709AbgCCRMP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Mar 2020 12:12:15 -0500
-Received: by mail-wr1-f65.google.com with SMTP id r17so5349097wrj.7
-        for <linux-usb@vger.kernel.org>; Tue, 03 Mar 2020 09:12:14 -0800 (PST)
+        id S1730723AbgCCRMO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Mar 2020 12:12:14 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45773 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730676AbgCCRMN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Mar 2020 12:12:13 -0500
+Received: by mail-wr1-f66.google.com with SMTP id v2so5275289wrp.12
+        for <linux-usb@vger.kernel.org>; Tue, 03 Mar 2020 09:12:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4eKDP7GIf+zMnjkDG/qEX7ZCeXhKuF5qg6jgn8C2ADk=;
-        b=UoMsmD2K5l9WOiVbpbiNEApd8TeFTaUt+r74URs727/5CQahPph0IlN5iHxzmlYleA
-         K8DGF7JbzczsqyTfShgKNkPFWUI1QK8DEtAcRMC8Ifz6sIooSWOds9GbDcL1A32giGXm
-         Ooc043vOOXj6RmGQdVbkYsu2b0ZpFISbBAGZC7bPCKkkxQyjJceuOpt/RrV55/uuotLM
-         mDKL3QMf1piLEakwgsGa/zq6MqplOdSbyFVYMiGrNdTWDr4fV2OmHUoUKbQaOSXHKThj
-         jXKmRl5FXw8mUF4XJ3Xn5SDcN318iXX/4Dhm46gdtiV8N3GwVoq5ATTgFKLunQ5HMSkk
-         zPKA==
+        bh=QTnLUqWFBpyvzwpVTBm89O8eiqTgQtA9qR2QiZEc26U=;
+        b=lGaWE277H8XcdYwgtTfFH2tb9CSGbygtic32Z57TPhFArHTX+Yh/AJINcTL+sR5ohN
+         SyW9FHO9a/JP3Tbi8Jur/QHJsiZx9S2NjMf/hV8X7jHpVn755In/oZ0cxcbjaKkSjyBs
+         baF1UxtdXtY0AoABG+2r7LbMdHLcl9wGaM4eOKO0m9/HGrzo3QNsu9OBLvM8xGWyMwTv
+         kqaaW2N4Y2S2Ndtkdq3SAtM3eBTqI+92ohNkDstDtNOiP3R09SBL89pheduAnO2CHlBY
+         u6NbAyV9TD6c7SPoah2RoM+sBaXjNjUyumcUBIo8lFnY9G9cxUjvJiAi1bmzPSVYomtM
+         OyOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4eKDP7GIf+zMnjkDG/qEX7ZCeXhKuF5qg6jgn8C2ADk=;
-        b=YtExYWUbgEeB8TO8BRKEkfzcp3ZLc7kVLaj+1bgL/WEkYRkaFRVIyymkb22Xzbllhv
-         B04iJwzJjwBkPMvjenHN5h3c+5pSYTR+dZSdUkW4Zmdayh4/EdN3RLdZxDBOhFs0B2um
-         OUZ3HbGCYib/ihbUjhiOdTVcZ8mNmwt6yx6U/jPEbNsYZOlvMu9rRo63FHEg5yaV7cwh
-         svvGQeeC/MKlV6PBYdIVkvKjoX1tgB92LnknWwuuLDGBrs0HTLdOAamv8tggcGozuouH
-         /XN1i6HGIA1FTdMGRfKvC6nLZ+cTj/iyaQREP8qnRylFIt0JEoN5bmzeI9dimlMyNIxS
-         sZRQ==
-X-Gm-Message-State: ANhLgQ062gwmVDApe0JMXwEOoYO4UefWRiolaZXfuqPnCexxp9kWbxKF
-        655FIEKuLsy3mRb+Mi2HDWka2g==
-X-Google-Smtp-Source: ADFU+vtowteZz9CpXpsbjOfaHjhOJCySXoxhaR2Fyaeq3bRDnMOuZZsolsAaC2cGNhFWGhyXYkGoKg==
-X-Received: by 2002:adf:f686:: with SMTP id v6mr6156728wrp.176.1583255533633;
-        Tue, 03 Mar 2020 09:12:13 -0800 (PST)
+        bh=QTnLUqWFBpyvzwpVTBm89O8eiqTgQtA9qR2QiZEc26U=;
+        b=nAogaNwdiVydYCAcoWPURqkxsIuNSFgPDBsoTyHCj2HWOD0fnOrFQgFPs1vQQPmqEi
+         WXSHnB3SGmdPA4zA3qMOgMDNb+p+TgAdCNo00kVoVgABPz4BEqjpAue4t/91vBYLMqEy
+         MktHdpmtHz7ruSi9TYfb0rzx3t8AR9oov5f2PADvKe9xKAODrEg/A0hAL3xYysUE2dVY
+         tGNVc0aaOWFDA/CSiGNYlGoeR8jcTJrdQyeV16jSNE2NuvSEGK+dfSIb+IlpK0yXlhMn
+         h8BDf1dnFkjbLre4YZQKXRfgesooeuABWQnBM5KVmbEXMsxslIYaQkKUX+N8DWa3nMmq
+         iCrQ==
+X-Gm-Message-State: ANhLgQ2UWPaAd7Pvwxi0rboj087DWZQbxZ4s8/TkiizBiHMGLNkyjJ3a
+        rYP/RbqBUckQHs5LwHVmMgyakw==
+X-Google-Smtp-Source: ADFU+vu+2MIALvRP3/YG7FgAq8QTTJwY8E2jeOrziUGeyqcqEgxAb5nrJcHlcTK9t1UYDDmZdRVluQ==
+X-Received: by 2002:adf:d086:: with SMTP id y6mr6114796wrh.387.1583255531155;
+        Tue, 03 Mar 2020 09:12:11 -0800 (PST)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id z13sm5425319wrw.88.2020.03.03.09.12.12
+        by smtp.gmail.com with ESMTPSA id z13sm5425319wrw.88.2020.03.03.09.12.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 09:12:12 -0800 (PST)
+        Tue, 03 Mar 2020 09:12:10 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
@@ -63,9 +63,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Andy Gross <agross@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Subject: [PATCH v7 17/18] arm64: dts: qcom: qcs404-evb: Raise vreg_l12_3p3 minimum voltage
-Date:   Tue,  3 Mar 2020 17:11:58 +0000
-Message-Id: <20200303171159.246992-18-bryan.odonoghue@linaro.org>
+Subject: [PATCH v7 15/18] arm64: dts: qcom: qcs404-evb: Define USB ID pin
+Date:   Tue,  3 Mar 2020 17:11:56 +0000
+Message-Id: <20200303171159.246992-16-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200303171159.246992-1-bryan.odonoghue@linaro.org>
 References: <20200303171159.246992-1-bryan.odonoghue@linaro.org>
@@ -76,11 +76,13 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rather than set the minimum microvolt for this regulator in the USB SS PHY
-driver, set it in the DTS.
+The USB ID pin is used to tell if a system is a Host or a Device. For our
+purposes we will bind this pin into gpio-usb-conn later.
 
-Suggested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+For now define the pin with its pinmux.
+
 Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: linux-arm-msm@vger.kernel.org
@@ -88,22 +90,34 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-index 4b529a6077d2..44c7dda1e1fc 100644
+index 62ef9c34b04e..cb893ca76901 100644
 --- a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-@@ -200,7 +200,7 @@ vreg_l11_sdc2: l11 {
+@@ -271,6 +271,20 @@ rclk {
+ 			bias-pull-down;
  		};
+ 	};
++
++	usb3_id_pin: usb3-id-pin {
++		pinmux {
++			pins = "gpio116";
++			function = "gpio";
++		};
++
++		pinconf {
++			pins = "gpio116";
++			drive-strength = <2>;
++			bias-pull-up;
++			input-enable;
++		};
++	};
+ };
  
- 		vreg_l12_3p3: l12 {
--			regulator-min-microvolt = <2968000>;
-+			regulator-min-microvolt = <3050000>;
- 			regulator-max-microvolt = <3300000>;
- 		};
- 
+ &pms405_gpios {
 -- 
 2.25.1
 
