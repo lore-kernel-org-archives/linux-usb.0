@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 997BDC3F2DA
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 02:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC3EC3F2D8
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 02:55:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 63317246EC
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 02:53:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B0452166E
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 02:55:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583204009;
-	bh=f+smNxhL2OfdgV7oDdGzlTppEvpqzeaeqjamekC+ckE=;
+	s=default; t=1583204144;
+	bh=K31iMwjFwLUoebf/5KGPliRCLwbi/8nGPhXzK8pMlGs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CH+ZiWgjmmMQubXeiaZkUKWZTns/nmtEVrMRazhDqp2+lPsvsPr9UYwS6Swh1eiNg
-	 L3Nqh04xf3qAtWx//283pwHEEchYZNPdF5NNPyIe0N9nqGpwNYHpaaRK8o7cNngJ3h
-	 fC15B9zLMZ0Ytq/JEY8uHm8//JSqLzU36xybE5TU=
+	b=OMsRHMKqpqTSR481i2mzFA9j3G47rpTkNLxD04YG4K1Pe++XhFG/d4YBrkMhs3BKF
+	 OWnsu4HHJux3YnyalE14puLAMtrQjtUgp4/Hl+uLD2eoovmGPsQJ9TzyMaFIEQUYeB
+	 5R1ND2FEbjR13vVbm5rMaqd1zVL/EAvtPYXcm6dc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgCCCtn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Mar 2020 21:49:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45990 "EHLO mail.kernel.org"
+        id S1728634AbgCCCtA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Mar 2020 21:49:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44932 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728929AbgCCCtm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 2 Mar 2020 21:49:42 -0500
+        id S1728630AbgCCCtA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 2 Mar 2020 21:49:00 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ABA1F2468D;
-        Tue,  3 Mar 2020 02:49:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B736C24680;
+        Tue,  3 Mar 2020 02:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583203781;
-        bh=f+smNxhL2OfdgV7oDdGzlTppEvpqzeaeqjamekC+ckE=;
+        s=default; t=1583203739;
+        bh=K31iMwjFwLUoebf/5KGPliRCLwbi/8nGPhXzK8pMlGs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=icIt4muG1fGkYyzzx22l9ZSWlfJKr7TldSX1wy/tZBM6UE1mu+oaQif45kMpx8U4k
-         XL70twANYWbyYH7/ZuBeTI5IFgio+lNMAEJySuTcbVuIJJw2NneJYjt0ptOCppKxWl
-         VDxmakOBSS6y1GY1LRZ6FFtahVHrEPIc4VvAeipY=
+        b=qzZp6XLFF8dJMR74NJrPB2j1rLgKCjBKVgu3c0lXXrnb5uwwrbbEkRT49D0a8j5xd
+         M33c3UGmUntVpE3x9vdcgwc411+182NzbPKhKqYVdOjwx/9y8wxMgja0wjHStshX6d
+         4YOIXTzPOSdPm4rvNB1FVPZpPuOIkMTAUVZyepUs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sergey Organov <sorganov@gmail.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Michal Nazarewicz <mina86@mina86.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 06/22] usb: gadget: serial: fix Tx stall after buffer overflow
-Date:   Mon,  2 Mar 2020 21:49:17 -0500
-Message-Id: <20200303024933.10371-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 06/32] usb: gadget: ffs: ffs_aio_cancel(): Save/restore IRQ flags
+Date:   Mon,  2 Mar 2020 21:48:25 -0500
+Message-Id: <20200303024851.10054-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200303024933.10371-1-sashal@kernel.org>
-References: <20200303024933.10371-1-sashal@kernel.org>
+In-Reply-To: <20200303024851.10054-1-sashal@kernel.org>
+References: <20200303024851.10054-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -60,45 +60,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sergey Organov <sorganov@gmail.com>
+From: Lars-Peter Clausen <lars@metafoo.de>
 
-[ Upstream commit e4bfded56cf39b8d02733c1e6ef546b97961e18a ]
+[ Upstream commit 43d565727a3a6fd24e37c7c2116475106af71806 ]
 
-Symptom: application opens /dev/ttyGS0 and starts sending (writing) to
-it while either USB cable is not connected, or nobody listens on the
-other side of the cable. If driver circular buffer overflows before
-connection is established, no data will be written to the USB layer
-until/unless /dev/ttyGS0 is closed and re-opened again by the
-application (the latter besides having no means of being notified about
-the event of establishing of the connection.)
+ffs_aio_cancel() can be called from both interrupt and thread context. Make
+sure that the current IRQ state is saved and restored by using
+spin_{un,}lock_irq{save,restore}().
 
-Fix: on open and/or connect, kick Tx to flush circular buffer data to
-USB layer.
+Otherwise undefined behavior might occur.
 
-Signed-off-by: Sergey Organov <sorganov@gmail.com>
-Reviewed-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Acked-by: Michal Nazarewicz <mina86@mina86.com>
+Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
+Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/u_serial.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_fs.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index 520ace49f91d9..942d2977797d7 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -715,8 +715,10 @@ static int gs_start_io(struct gs_port *port)
- 	port->n_read = 0;
- 	started = gs_start_rx(port);
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 2050993fb58b7..a9239455eb6d8 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -1077,18 +1077,19 @@ static int ffs_aio_cancel(struct kiocb *kiocb)
+ {
+ 	struct ffs_io_data *io_data = kiocb->private;
+ 	struct ffs_epfile *epfile = kiocb->ki_filp->private_data;
++	unsigned long flags;
+ 	int value;
  
--	/* unblock any pending writes into our circular buffer */
- 	if (started) {
-+		gs_start_tx(port);
-+		/* Unblock any pending writes into our circular buffer, in case
-+		 * we didn't in gs_start_tx() */
- 		tty_wakeup(port->port.tty);
- 	} else {
- 		gs_free_requests(ep, head, &port->read_allocated);
+ 	ENTER();
+ 
+-	spin_lock_irq(&epfile->ffs->eps_lock);
++	spin_lock_irqsave(&epfile->ffs->eps_lock, flags);
+ 
+ 	if (likely(io_data && io_data->ep && io_data->req))
+ 		value = usb_ep_dequeue(io_data->ep, io_data->req);
+ 	else
+ 		value = -EINVAL;
+ 
+-	spin_unlock_irq(&epfile->ffs->eps_lock);
++	spin_unlock_irqrestore(&epfile->ffs->eps_lock, flags);
+ 
+ 	return value;
+ }
 -- 
 2.20.1
 
