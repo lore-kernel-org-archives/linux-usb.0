@@ -2,168 +2,113 @@ Return-Path: <SRS0=/TRH=4U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10745C3F2D2
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 03:03:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 351FAC3F2CD
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 06:23:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DAC2A2465E
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 03:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583204603;
-	bh=s2g0LRWX6H7MbcPgU/o429p+TqB9XRPEgt3LrYpmpyI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=MWid2q4C1ee0iJm7LaRa2VIrcnXwP3DOR3hzvCFMGb/f67NF9Hg21KnvsgbnnmiFp
-	 T3ua4H8HFvK+r2r/w1YbNXprvTEUh6ziAHt5xxatbDeFCr8Mdun8YYGDrk+Z1t8U67
-	 D5qQb1n4gNcy6s04mSMcjCwq5hcdLsmwb2r0fEuk=
+	by mail.kernel.org (Postfix) with ESMTP id 0577220828
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 06:23:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APn8RafP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbgCCCqZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Mar 2020 21:46:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40640 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727368AbgCCCqY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 2 Mar 2020 21:46:24 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B84C724673;
-        Tue,  3 Mar 2020 02:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583203583;
-        bh=s2g0LRWX6H7MbcPgU/o429p+TqB9XRPEgt3LrYpmpyI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=y6oiXa/ikS1DF+UhyTsBApviv0+Nr5Ay69sEXg2YiXsFfNgOfEqCGFuvGpPC4iNxn
-         VulTHWwXYVnacrrahLAOIldjGOV2eXvldCzCBuBgYpV6LcyMmC7R/DgzGJEMaz0JLC
-         7XoBg9V7BJPZL0QJOgXUTA1R2qd1Tj132fNBj5pk=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jack Pham <jackp@codeaurora.org>, Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 06/66] usb: gadget: composite: Support more than 500mA MaxPower
-Date:   Mon,  2 Mar 2020 21:45:15 -0500
-Message-Id: <20200303024615.8889-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200303024615.8889-1-sashal@kernel.org>
-References: <20200303024615.8889-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S1727530AbgCCGXz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Mar 2020 01:23:55 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:51841 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727518AbgCCGXy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Mar 2020 01:23:54 -0500
+Received: by mail-pj1-f65.google.com with SMTP id l8so888460pjy.1;
+        Mon, 02 Mar 2020 22:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=AJWVhyWnEHa+16Vui1urxy6sASoDRCYbuAsm+q77gXs=;
+        b=APn8RafPWLC33RJLX6TCTiGRb/43wtYEQOud3T6k/8l5hLjc08tRx5C2qRpMKAeAnA
+         ZPB2XlcQcSz9uRgyvmkWsVWp0jwp1wCNBPnad6vFVDVgsCX7qWcBNGDtydlsYjgG13Q+
+         JPV+xK6HbibTroJ3PMREqbZCjC2J3dM2lgB5dIEzYSPexKJsny6YxFQDl4qg4QY8BST3
+         rHz4Oc+wu/2kDQkW2NZYRd2BfOC2YUuymHLrN3DmnonUFyvtJXl59/oS/JHfUjlQE7xS
+         mNtZFeAbRKyTFr7R2IqrYDyjfq/sqh8R3AhV/pFlCnjw23rnbfifPejKh/05DDLnH7v+
+         WkjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=AJWVhyWnEHa+16Vui1urxy6sASoDRCYbuAsm+q77gXs=;
+        b=O6eoARwEra95LI3POqrSevGCQBfR+Gtt8s3oR1aRlBZyPSdDiVo5SFrGwgMfDw48js
+         /XrXDmRpOOgB/ei7wy1AbKLXyDf95R1Q6cU3mYuwVgHzyMildV5uZ6Lm9woUduohOKIs
+         ZI/hkRdAaPYma7He+s3ykshc6i+ohAqlUbZyvduIIV3JnF8JuDrWzlFlJyj2bN8GBvqZ
+         lNsPYIjNbFLSRgZ9YsQDDEFiFGwhB4/3U0ewuKyHsyhVtQKOsgXxSuTaJWTK7KYv6GQu
+         8yQx1Ytnj8jdrJOnyhYfWcB0v3wwr4TD/l3ejcfQ8rfnWZsEzBb0yB27jLrsVdFHVDk2
+         4EVw==
+X-Gm-Message-State: ANhLgQ3amvWJFtWA+KBX1mKxrng5YXyHCq6vEglFRJbwTwlPA5/0SpJs
+        MVxeRqHVnOuQsx59UnbSIH8=
+X-Google-Smtp-Source: ADFU+vu9XHZAPJ11uio30zd0ulJFBhMoXCNmPsvqw6amAMfXgqEAt3txRdMXOBF/hDXaXINhU1En/w==
+X-Received: by 2002:a17:90a:fb4d:: with SMTP id iq13mr2332424pjb.165.1583216632735;
+        Mon, 02 Mar 2020 22:23:52 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com (c-24-4-25-55.hsd1.ca.comcast.net. [24.4.25.55])
+        by smtp.gmail.com with ESMTPSA id k5sm7453526pfp.66.2020.03.02.22.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 22:23:52 -0800 (PST)
+From:   rentao.bupt@gmail.com
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        taoren@fb.com
+Cc:     Tao Ren <rentao.bupt@gmail.com>
+Subject: [PATCH v7 5/7] ARM: dts: aspeed-g5: add vhub port and endpoint properties
+Date:   Mon,  2 Mar 2020 22:23:34 -0800
+Message-Id: <20200303062336.7361-6-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200303062336.7361-1-rentao.bupt@gmail.com>
+References: <20200303062336.7361-1-rentao.bupt@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jack Pham <jackp@codeaurora.org>
+From: Tao Ren <rentao.bupt@gmail.com>
 
-[ Upstream commit a2035411fa1d1206cea7d5dfe833e78481844a76 ]
+Add "aspeed,vhub-downstream-ports" and "aspeed,vhub-generic-endpoints"
+properties to describe supported number of vhub ports and endpoints.
 
-USB 3.x SuperSpeed peripherals can draw up to 900mA of VBUS power
-when in configured state. However, if a configuration wanting to
-take advantage of this is added with MaxPower greater than 500
-(currently possible if using a ConfigFS gadget) the composite
-driver fails to accommodate this for a couple reasons:
-
- - usb_gadget_vbus_draw() when called from set_config() and
-   composite_resume() will be passed the MaxPower value without
-   regard for the current connection speed, resulting in a
-   violation for USB 2.0 since the max is 500mA.
-
- - the bMaxPower of the configuration descriptor would be
-   incorrectly encoded, again if the connection speed is only
-   at USB 2.0 or below, likely wrapping around U8_MAX since
-   the 2mA multiplier corresponds to a maximum of 510mA.
-
-Fix these by adding checks against the current gadget->speed
-when the c->MaxPower value is used (set_config() and
-composite_resume()) and appropriately limit based on whether
-it is currently at a low-/full-/high- or super-speed connection.
-
-Because 900 is not divisible by 8, with the round-up division
-currently used in encode_bMaxPower() a MaxPower of 900mA will
-result in an encoded value of 0x71. When a host stack (including
-Linux and Windows) enumerates this on a single port root hub, it
-reads this value back and decodes (multiplies by 8) to get 904mA
-which is strictly greater than 900mA that is typically budgeted
-for that port, causing it to reject the configuration. Instead,
-we should be using the round-down behavior of normal integral
-division so that 900 / 8 -> 0x70 or 896mA to stay within range.
-And we might as well change it for the high/full/low case as well
-for consistency.
-
-N.B. USB 3.2 Gen N x 2 allows for up to 1500mA but there doesn't
-seem to be any any peripheral controller supported by Linux that
-does two lane operation, so for now keeping the clamp at 900
-should be fine.
-
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 ---
- drivers/usb/gadget/composite.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ No change in v2/v3/v4/v5/v6/v7.
+   - It's given v7 to align with the version of the patch series.
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index cd303a3ea6802..223f72d4d9edd 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -438,9 +438,13 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
- 	if (!val)
- 		return 0;
- 	if (speed < USB_SPEED_SUPER)
--		return DIV_ROUND_UP(val, 2);
-+		return min(val, 500U) / 2;
- 	else
--		return DIV_ROUND_UP(val, 8);
-+		/*
-+		 * USB 3.x supports up to 900mA, but since 900 isn't divisible
-+		 * by 8 the integral division will effectively cap to 896mA.
-+		 */
-+		return min(val, 900U) / 8;
- }
- 
- static int config_buf(struct usb_configuration *config,
-@@ -852,6 +856,10 @@ static int set_config(struct usb_composite_dev *cdev,
- 
- 	/* when we return, be sure our power usage is valid */
- 	power = c->MaxPower ? c->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
-+	if (gadget->speed < USB_SPEED_SUPER)
-+		power = min(power, 500U);
-+	else
-+		power = min(power, 900U);
- done:
- 	usb_gadget_vbus_draw(gadget, power);
- 	if (result >= 0 && cdev->delayed_status)
-@@ -2278,7 +2286,7 @@ void composite_resume(struct usb_gadget *gadget)
- {
- 	struct usb_composite_dev	*cdev = get_gadget_data(gadget);
- 	struct usb_function		*f;
--	u16				maxpower;
-+	unsigned			maxpower;
- 
- 	/* REVISIT:  should we have config level
- 	 * suspend/resume callbacks?
-@@ -2292,10 +2300,14 @@ void composite_resume(struct usb_gadget *gadget)
- 				f->resume(f);
- 		}
- 
--		maxpower = cdev->config->MaxPower;
-+		maxpower = cdev->config->MaxPower ?
-+			cdev->config->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
-+		if (gadget->speed < USB_SPEED_SUPER)
-+			maxpower = min(maxpower, 500U);
-+		else
-+			maxpower = min(maxpower, 900U);
- 
--		usb_gadget_vbus_draw(gadget, maxpower ?
--			maxpower : CONFIG_USB_GADGET_VBUS_DRAW);
-+		usb_gadget_vbus_draw(gadget, maxpower);
- 	}
- 
- 	cdev->suspended = 0;
+ arch/arm/boot/dts/aspeed-g5.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index ebec0fa8baa7..f12ec04d3cbc 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -195,6 +195,8 @@
+ 			reg = <0x1e6a0000 0x300>;
+ 			interrupts = <5>;
+ 			clocks = <&syscon ASPEED_CLK_GATE_USBPORT1CLK>;
++			aspeed,vhub-downstream-ports = <5>;
++			aspeed,vhub-generic-endpoints = <15>;
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&pinctrl_usb2ad_default>;
+ 			status = "disabled";
 -- 
-2.20.1
+2.17.1
 
