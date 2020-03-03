@@ -2,67 +2,72 @@ Return-Path: <SRS0=/TRH=4U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C45C3F2D1
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:11:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD65C3F2C6
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:12:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3757F20863
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:11:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4456D20863
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Mar 2020 17:12:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A3QSDnce"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JESZm0OD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729824AbgCCRLu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Mar 2020 12:11:50 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39884 "EHLO
+        id S1730653AbgCCRMD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Mar 2020 12:12:03 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44083 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727198AbgCCRLt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Mar 2020 12:11:49 -0500
-Received: by mail-wr1-f67.google.com with SMTP id y17so5346648wrn.6
-        for <linux-usb@vger.kernel.org>; Tue, 03 Mar 2020 09:11:47 -0800 (PST)
+        with ESMTP id S1730635AbgCCRMC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Mar 2020 12:12:02 -0500
+Received: by mail-wr1-f67.google.com with SMTP id n7so5283030wrt.11
+        for <linux-usb@vger.kernel.org>; Tue, 03 Mar 2020 09:12:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2lcwv+mahaDg/rAeUp7B12geaf+9wu8BKPl18AURuzM=;
-        b=A3QSDncesnOKYshserpIcK2YANMHRLRx8GW9RSUMkvzZjE9jcSlhrHVhhSkp4wAySM
-         NqI1vgrx8r8pqpuJW0o0MtRHDQcS4LalV3NxxSQa8AGVDsA5RdVRqT20T4iQgKau6Tkh
-         YDa088oGFlIssHK0mHfwVOKYLLZLx55D+RPQNbR4cwZmY/m7me+NfGUFdGFczFV6uUY6
-         zVmZ731SYEo8TKL/r3o3e44v7Gf/iNTTQiHbV6PhD66VVfN6ef/BmSiun9nGyKyZqVbY
-         ElrFVNWL+f2n5r646XGOSYbLShbr004A27PYkSBPnnvJIS0l9kVcCO2eHpW2awHKakxJ
-         PC7Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=M9ph+jxDzGgiRBaVZmmvpJl00qLHRlJZThV1uDOFG5s=;
+        b=JESZm0ODS2Wm7MZiY4M3IuSgt7PNoSjHXo837QenUUOzfHs/QHUj/jR17XCEOiVJ+a
+         tQMteKC3CnrOfDP/skWKbp9W0o99P636IhP6hA3XhoiZ3h4Hy5fqpRr0c30ZklkAquWk
+         pnxskvkCkqW7EXKxJot4f6oqRt8J2NThyVUlJflJ9iSVr+TQf/APq6nXzLYk1RMl6iAU
+         dB/EAuFG9Ikdw3FWAgCftX/CnFHu+3zQgabJXAR3IqRqKxeiYan8bbtlo8HDzu+lOckp
+         +GhECXgGpvEWsk0lB5JfQ81SikrfkfvaTzcSSOXDPObqdz7f9p58gkZ7yrxYEBs+QeCy
+         mb3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2lcwv+mahaDg/rAeUp7B12geaf+9wu8BKPl18AURuzM=;
-        b=cFnKhjrbutuzs9fauiq9HFlkmY4YmG2QNZpk1ZczISqxL7DUaZdWXFKSBHWpY2llYP
-         hKVEUZe+3TdrO9jfqSkhopEhf6lgDUUaCJ0xj+2PTKyQVrG8rKYtuty9dcQ2/DUW7wzC
-         Bgs7ALDGZ8oCmP8ZWeTXS7DO13biz/3AnXp74FNxf9PX6BCJdGZQJXOIKhfzcj+ZFpFv
-         aDGh0uzVAgqFp+BSaRcaSynvZT4TexVnGsDmUX2Cfl+3kUbCDBZQtcXcR/IUUZE6YYhE
-         9XZznNDu7Cm4SYTpdZZ/A6X8l5mhQ+2dtKhM0OO2W9O5zSb3kQZuK158GT8YQlcoJGbm
-         2tsw==
-X-Gm-Message-State: ANhLgQ3qoBG+qNi5iLis7HwSAofx0NmNjRn69WYue3YCJ1FBCDVtDarU
-        8sqxIwFvE1c7S6Nm0+nZKhZ27Q==
-X-Google-Smtp-Source: ADFU+vuk7w/+dbuT6xfNIte+qgXtkS9wHD8Z5rcQlBAi9uWqC7EZhEVH4rpu7NUdSdHgS729LjFY3Q==
-X-Received: by 2002:adf:b345:: with SMTP id k5mr2885740wrd.55.1583255506937;
-        Tue, 03 Mar 2020 09:11:46 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=M9ph+jxDzGgiRBaVZmmvpJl00qLHRlJZThV1uDOFG5s=;
+        b=LQIRYHcWmF+jnixj0e87LIkvglGKF9H2gh02+xADaoxf7YdWNwJHQvZFWDvraJJY8H
+         1W+XSfhJBuVyYjV3ir6M6XwfIy0kjxhD8FJE7wIt7H0FJq8d3f2bO2k6jmU99zL5qT2g
+         eR481Sy7lLrGDJHXHf6xpaWZ5Sd4R5M6v/3fjut/Zq4sAY+tPaM+mgREOVgCJf3gDJir
+         QEQ6HG0rR4ul/cRLovTIIfZBfv4nsQFKXRrIUgSLTie8Uk1xue0D7A97bO5NVtyUvBYs
+         77GH4zbpyQxxC2oLw6o3pkj6NnCxxgxQA2wI9IGaF5tLoDgczSuBdr8Dn0ZR48MGA8d8
+         4TLg==
+X-Gm-Message-State: ANhLgQ0DS8YnX/Hfzh0zvEA6IlPubny4qAilkrLOUAL19ZAMUPTpEjwi
+        VqLhu8nrfbqLhhJU/8vPbtFt3A==
+X-Google-Smtp-Source: ADFU+vvIlGOYOSdxmZ7huKTi44WJjdKX+SA2RUsm5n1QYKm9tOTrG8aeAJXsYMbwIDZOTphtucsoEQ==
+X-Received: by 2002:adf:fd08:: with SMTP id e8mr6166791wrr.43.1583255520866;
+        Tue, 03 Mar 2020 09:12:00 -0800 (PST)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id z13sm5425319wrw.88.2020.03.03.09.11.45
+        by smtp.gmail.com with ESMTPSA id z13sm5425319wrw.88.2020.03.03.09.11.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 09:11:46 -0800 (PST)
+        Tue, 03 Mar 2020 09:12:00 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
         bjorn.andersson@linaro.org, robh@kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v7 00/18] Enable Qualcomm QCS 404 HS/SS USB
-Date:   Tue,  3 Mar 2020 17:11:41 +0000
-Message-Id: <20200303171159.246992-1-bryan.odonoghue@linaro.org>
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+Subject: [PATCH v7 07/18] dt-bindings: usb: dwc3: Add a gpio-usb-connector example
+Date:   Tue,  3 Mar 2020 17:11:48 +0000
+Message-Id: <20200303171159.246992-8-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200303171159.246992-1-bryan.odonoghue@linaro.org>
+References: <20200303171159.246992-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -70,195 +75,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-V1:
-This series enables the Primary and Secondary USB controllers on the
-QCS404, associated PHYs, role-switching and DTS descriptions.
+A USB connector should be a child node of the USB controller
+connector/usb-connector.txt. This patch adds an example of how to do this
+to the dwc3 binding descriptions.
 
-The series takes in a number of patches worked on by a number of people
-over the past few years from downstream, through to previous upstream
-submissions for both of these interfaces. Additional work has been done to
-enable USB role-switching.
+It is necessary to declare a connector as a child-node of a USB controller
+for role-switching to work, so this example should be helpful to others
+implementing that.
 
-1. USB SS
-   - extcon has been dropped in favour of gpio-usb-conn as discussed and
-     agreed previously by Jorge, Bjorn, Stephen Boyd and Jack Pham [1].
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-usb@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Acked-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ Documentation/devicetree/bindings/usb/dwc3.txt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-   - Regulator API has been updated following suggestions from Bjorn.
-   
-   - Sanitzation of the DT compatible name - dropped "snps" entirely
-     from the name - it made almost no sense to me and doesn't appear
-     consistent with similar naming conventions for Snopsys based IP.
-
-2. USB HS
-   - Regulator API changes here.
-   - Dropped "snps" from the namespace for similar reasons as above.
-   - Dropped "28nm" from the namespace, looked superfluous.
-   - Changed "High-Speed" to "Hi-Speed".
-   - [2]
-
-3. DWC3 Role switching
-   - At the time usb-gpio-conn was discussed it was mentioned that
-     role-switching was absent from the DWC3 driver.
-   - John Stultz has some patches in-flight for that, that I've included in
-     this series for completeness.
-   - Adds my SoB to relevant patches.
-   - Drops gerrit ChangeId.
-
-4. DWC3 usb-gpio-conn
-   Needs to be a child node of the DWC3 driver so some code and DT binding
-   is required for that.
-
-5. QCOM-DWC3
-   Since we are role-switching with an external PMIC supplying VBUS we want
-   to skip past toggling VBUS from QCOM-DWC3 controlled registers, so a
-   patch is added to the qcom-dwc3 driver to do that.
-
-References:
-
-1: USB SS PHY for Qualcomm's QCS404
-https://lwn.net/ml/devicetree/20190207111734.24171-1-jorge.ramirez-ortiz@linaro.org/
-
-2: Add Synopsys High-Speed USB PHY driver for Qualcomm SoCs
-https://lore.kernel.org/linux-arm-msm/20181127100722.9993-3-shawn.guo@linaro.org/
-
-https://www.spinics.net/lists/linux-usb/msg190003.html
-
-V2:
-- Fixes yaml error - Rob's YAML robot
-- Exclusive control of reset in PHY drivers - Philipp Zabel
-
-V3:
-- Fixes typo generating YAML warning - Rob's YAML robot
-
-V4:
-
-https://lore.kernel.org/linux-arm-msm/20200122185610.131930-1-bryan.odonoghue@linaro.org/
-
-- Churn names of PHYs - Rob Herring
-  Rob questioned the name of the SuperSpeed PHY in V3.
-  Looking at available data 
-
-  usb-hs-28nm - There are two possible PHYs on 28nm litho node
-		so it makes sense to name the PHY relating to its relevant
-		litho node.
-
-  usb-ss - This is not litho node dependent and is used on  multiple SoCs
-	   and litho nodes.
-
-- Drop default mode for role switching - Felipe Balbi
-  Felipe asked if the default mode for role switching was
-  required and the answer is no. It makes no difference
-  becuase the USB ID pin ultimately dictates the mode of operation.
-
-- Change "gpio_usb_connector" to "connector" - Rob
-  This was a minor change in terms of DTS but, means I need to look for the
-  DTS compatible string as opposed to a label given in the DTS.
-  No matter what the name of the label, this is he right thing to do.
-
-- Used IS_ENABLED() - Felipe
-  The logic is the same but IS_ENABLED() is used now.
-
-- Retained example of USB connector in dwc.txt - Rob, Felipe
-  Rob pointed out adding the connector was redundant as the documentation
-  already implies it.
-  Felipe seemed in favour of I think adding the example.
-  I've dropped the documentation of the connector and kept the example.
-  https://lore.kernel.org/linux-arm-msm/20200122185610.131930-7-bryan.odonoghue@linaro.org/
-
-- Added example of usb-role-switch in dwc3.txt - BOD
-  
-- Incorporated various inputs from Rob on DTS/YAML
-  - Added required:
-  - Added additionalProperties:
-  - Renamed "phy" clock to "ahb"
-  - maxItems dropped as indicated
-
-V5:
-- https://lkml.org/lkml/2020/2/6/913
-
-- Adds a notifier to DWC3 - BOD
-  This is done in order to allow propagation of role-switch events from the
-  DWC3 core to an associated binding layer.
-
-- Re-use the existent EXTCON VBUS power lane toggle logic - Jack Pham
-  Jack flagged this for inclusion and as a result we need to make a
-  small change to the qcom binding layer.
-
-- Squash DTS changes - BOD
-  I've squashed down some of the DTS changes to stop the patch count in
-  this series going  up any further.
-
-V6:
-- https://lkml.org/lkml/2020/2/7/632
-
-- Add RB Jack Pham patch # 11
-
-- Fix a stale description in git log patch # 10
-
-V7:
-- https://lkml.org/lkml/2020/2/10/258
-
-- Adds RB Rob Herring as indicated
-
-- Updates the naming of the USB SS PHY for the particular SoC.
-  The name of the driver is maintained, as previously mentioned, this
-  IP appears to be in use on the 20nm and 28nm nodes. However taking
-  Rob's feedback on the naming of the SoC specific bit the code being added
-  is specified @ 28nm.
-  If/when we come to add in 20nm for this IP we can add a new compatible
-  for 20nm.
-  Rob Herring
-
-Bjorn Andersson (1):
-  arm64: dts: qcom: qcs404: Add USB devices and PHYs
-
-Bryan O'Donoghue (11):
-  dt-bindings: usb: dwc3: Add a gpio-usb-connector example
-  dt-bindings: usb: dwc3: Add a usb-role-switch to the example
-  usb: dwc3: qcom: Add support for usb-conn-gpio connectors
-  usb: dwc3: Add support for usb-conn-gpio connectors
-  usb: dwc3: Add support for a role-switch notifier
-  usb: dwc3: qcom: Enable gpio-usb-conn based role-switching
-  arm64: dts: qcom: qcs404-evb: Define VBUS pins
-  arm64: dts: qcom: qcs404-evb: Define USB ID pin
-  arm64: dts: qcom: qcs404-evb: Describe external VBUS regulator
-  arm64: dts: qcom: qcs404-evb: Raise vreg_l12_3p3 minimum voltage
-  arm64: dts: qcom: qcs404-evb: Enable USB controllers
-
-Jorge Ramirez-Ortiz (3):
-  dt-bindings: phy: remove qcom-dwc3-usb-phy
-  dt-bindings: Add Qualcomm USB SuperSpeed PHY bindings
-  phy: qualcomm: usb: Add SuperSpeed PHY driver
-
-Shawn Guo (1):
-  phy: qualcomm: Add Synopsys 28nm Hi-Speed USB PHY driver
-
-Sriharsha Allenki (1):
-  dt-bindings: phy: Add Qualcomm Synopsys Hi-Speed USB PHY binding
-
-Yu Chen (1):
-  usb: dwc3: Registering a role switch in the DRD code.
-
- .../bindings/phy/qcom,usb-hs-28nm.yaml        |  90 ++++
- .../devicetree/bindings/phy/qcom,usb-ss.yaml  |  83 ++++
- .../bindings/phy/qcom-dwc3-usb-phy.txt        |  37 --
- .../devicetree/bindings/usb/dwc3.txt          |   9 +
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi      |  90 +++-
- arch/arm64/boot/dts/qcom/qcs404.dtsi          | 100 +++++
- drivers/phy/qualcomm/Kconfig                  |  20 +
- drivers/phy/qualcomm/Makefile                 |   2 +
- drivers/phy/qualcomm/phy-qcom-usb-hs-28nm.c   | 415 ++++++++++++++++++
- drivers/phy/qualcomm/phy-qcom-usb-ss.c        | 246 +++++++++++
- drivers/usb/dwc3/core.h                       |  22 +
- drivers/usb/dwc3/drd.c                        | 119 ++++-
- drivers/usb/dwc3/dwc3-qcom.c                  |  31 +-
- 13 files changed, 1223 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,usb-hs-28nm.yaml
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,usb-ss.yaml
- delete mode 100644 Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
- create mode 100644 drivers/phy/qualcomm/phy-qcom-usb-hs-28nm.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-usb-ss.c
-
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index 66780a47ad85..4e1e4afccee6 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -121,4 +121,12 @@ dwc3@4a030000 {
+ 	interrupts = <0 92 4>
+ 	usb-phy = <&usb2_phy>, <&usb3,phy>;
+ 	snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
++
++	usb_con: connector {
++		compatible = "gpio-usb-b-connector";
++		id-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
++		vbus-supply = <&usb3_vbus_reg>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&usb3_id_pin>, <&usb3_vbus_pin>;
++	};
+ };
 -- 
 2.25.1
 
