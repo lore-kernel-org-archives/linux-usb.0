@@ -2,78 +2,141 @@ Return-Path: <SRS0=WGqK=4V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB973C3F2CD
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Mar 2020 08:55:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E16EC3F2D1
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Mar 2020 09:01:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AADC821739
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Mar 2020 08:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583312144;
-	bh=s93NcPbQpzzREmZBWdZdqJ+3gnicEka7PxgC64WPN2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=pMPBMoAHxs5il1PMMdXfYxA7s2nJTsZnFdB/TtKqZEifadxfr5bpwAnTcwtbO+482
-	 b2YE5eqQVF6SuzDV2pkkdVz2UP3PvVpCePFOv+AEmjoZ6gDWxR0r0K1YCpwhQ9nq9t
-	 qVEZSL3WWzfjuzRllYv/mXcmojdFGZNxIc/qJdfo=
+	by mail.kernel.org (Postfix) with ESMTP id 5814D214D8
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Mar 2020 09:01:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="mmeiLrD6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="llyjKAsA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728642AbgCDIzo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Mar 2020 03:55:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728301AbgCDIzo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 4 Mar 2020 03:55:44 -0500
+        id S2387398AbgCDJB1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Mar 2020 04:01:27 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:48307 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728387AbgCDJB1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Mar 2020 04:01:27 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id 7AC8C37D;
+        Wed,  4 Mar 2020 04:01:26 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 04 Mar 2020 04:01:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=7HYZBF3dnJeAmCYfyptewgSm8Yb
+        Wu7Y2F+flq1v4eRA=; b=mmeiLrD67Lnn7QzZi3w6iagtqFwHcT0i7AcEnJVf9Jx
+        m3Xza1DrOOWx91JtSRZQaEZ8uXiKAafwqC/fwAIFMF8M9pw0bznbyxLk2SgMMkG2
+        /U34y0Wpgshog8mfy+Nf+moO4xaJ7XLLWAk8GO3kneFMSjVdt6T+tUuIAyD2UNtH
+        gwjgp0aMy3VJS8NfL65egXjFgr49jfUXstI4mR85J3N277ysoIdTP20MUO3FpldE
+        w2J07kOOzJmS00zyxdu7ch2LMg3kKdjZCn+YzDEowalhHg0JpSDJbx3uePsXdOqp
+        bYZUh5kx/qoTf05i4EgMyBeRxDQNslO/ge4iyUhCSLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7HYZBF
+        3dnJeAmCYfyptewgSm8YbWu7Y2F+flq1v4eRA=; b=llyjKAsAqc0VvqjlXSNCJ/
+        UoD32k4kbs/ISoIHxpCl00KYhXuSteHeenOT1aLW3j7LyWebjxP26gPANmQpOQKO
+        2Ht/SPOpdwOuYVDYkc0OH5Z8I28o/F4xTT8jT6yA1NIs09PY8G1Xc8liEKaBpV6u
+        laqgvconMUVL4RTf+vs0B0Wi0rWdrBK1JBqof05nwsRAlkPXg35EeLLp6eddcwFM
+        HwGXhJ7sfip1hdAcbwuE/GaSwWHzXBMh6kN32xaWuCBRbuTsIQ3eH/4PAANW3So4
+        gh4+0AQdm1remwsPgHZRIl9JcqIkcFhO+sCPwieYZ3kHLuKM6I2yhkuFgNYjAeAg
+        ==
+X-ME-Sender: <xms:ZW5fXqDrMlX1vTacvtT0lHhabg7T1UZ8Qos34HxfQoEHwtWzhPCRrA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedruddtjedguddviecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuffhomhgrihhnpehgihhthhhusg
+    drtghomhenucfkphepkeefrdekiedrkeelrddutdejnecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:ZW5fXpP6bmyEKu5jAhtiM-OrKZtr9w0fovArXPYSd-onyBFMJ7-72Q>
+    <xmx:ZW5fXlelVZWHWhrdnqjZJq10uJ_v3vsIjFZsqAaaZJMjy3v6gMJTfQ>
+    <xmx:ZW5fXsi86pjhaMyKE8rFX4d0wMA3cMbDlkaID9LblnoOxcrrXlJ8IQ>
+    <xmx:Zm5fXvro550b_4TP1nc0iG74WKV76axdq9qNaM_ru0Mezon1WLIClQ>
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9BAA92166E;
-        Wed,  4 Mar 2020 08:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583312142;
-        bh=s93NcPbQpzzREmZBWdZdqJ+3gnicEka7PxgC64WPN2s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nw7Xol3TmlsJ8oHFig/9+krQXrAALyhdKnaG7HgAQtwuQvNgfmGcaU/EdxDfJZL7R
-         kq12v1Q6LGYEIRJRiJuUnxVxCsofWVac+nHarlQUayKB251kG87e57HEZ2PT8UD6Ik
-         hgfy2TspAY7VNeXklnSbBAnPoSzQ1VRVpyk+URdQ=
-Date:   Wed, 4 Mar 2020 09:55:39 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Chen <hzpeterchen@gmail.com>
-Cc:     Peter Chen <peter.chen@nxp.com>, balbi@kernel.org,
-        USB list <linux-usb@vger.kernel.org>, linux-imx@nxp.com,
-        pawell@cadence.com, rogerq@ti.com, jun.li@nxp.com
-Subject: Re: [PATCH v2 0/2] usb: cdns3: two fixes for gadget
-Message-ID: <20200304085539.GA1428695@kroah.com>
-References: <20200219141455.23257-1-peter.chen@nxp.com>
- <CAL411-o_nGQ3VkvLt-brffjOk8YjDYLyxmN6_6jnpW3NkRhbQw@mail.gmail.com>
+        by mail.messagingengine.com (Postfix) with ESMTPA id 44B7B3061363;
+        Wed,  4 Mar 2020 04:01:25 -0500 (EST)
+Date:   Wed, 4 Mar 2020 10:01:20 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Anthony Mallet <anthony.mallet@laas.fr>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
+Subject: Re: usb cdc-acm TIOCSSERIAL may wrongly report EPERM
+Message-ID: <20200304090120.GA1429273@kroah.com>
+References: <24140.5498.228141.264272@beetle.laas.fr>
+ <1582106185.9787.9.camel@suse.com>
+ <24141.6739.313167.448875@beetle.laas.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAL411-o_nGQ3VkvLt-brffjOk8YjDYLyxmN6_6jnpW3NkRhbQw@mail.gmail.com>
+In-Reply-To: <24141.6739.313167.448875@beetle.laas.fr>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 09:26:49AM +0800, Peter Chen wrote:
-> On Wed, Feb 19, 2020 at 10:16 PM Peter Chen <peter.chen@nxp.com> wrote:
-> >
-> > These two issues are found during run "Error Recovery Test"
-> > for the latest USB CV MSC test, the TRB doesn't advance correctly
-> > after dequeue and clear halt. With these two fixes, the test
-> > can be passed.
-> >
-> > Peter Chen (2):
-> >   usb: cdns3: gadget: link trb should point to next request
-> >   usb: cdns3: gadget: toggle cycle bit before reset endpoint
-> >
-> >  drivers/usb/cdns3/gadget.c | 19 +++++++++++++++----
-> >  1 file changed, 15 insertions(+), 4 deletions(-)
-> >
+On Wed, Feb 19, 2020 at 12:21:55PM +0100, Anthony Mallet wrote:
+> On Wednesday 19 Feb 2020, at 10:56, Oliver Neukum wrote:
+> > thank you for the detailed report about an unusual bug. Could you
+> > test the attached patch?
 > 
-> A gentle ping...
+> I did not actually run it yet, but at first sight it seems that it will
+> mishandle the ASYNC_CLOSING_WAIT_NONE case.
+> 
+> I attach patch 0002 which should handle all cases. I also inverted the
+> logic of the CAP_SYS_ADMIN test, so that the delays are changed only
+> if the rounded values (in 1/100th of seconds) are actually changed.
+> 
+> While I was there, I checked what other drivers do (it seems that many
+> have the same issue). Something I also noticed is that the units are
+> also maybe mishandled: internally the values seem to be in 'jiffies',
+> not in msecs. See for instance:
+> https://github.com/torvalds/linux/blob/701a9c8092ddf299d7f90ab2d66b19b4526d1186/drivers/tty/serial/serial_core.c#L780
+> 
+> So I added patch 0001 that uses the jiffies conversion functions. If
+> you prefer to discuss this in a separate thread please tell me, I will
+> redo just patch 0002 without this change.
+> 
+> 
+> > I have taken the liberty of presuming to add your 'Reported-and-tested-by'.
+> 
+> Yes, no problem. Thank you.
+> I hope my patches follow the required format, I'm not sure about all
+> the details.
 
-I can take these now, thanks.
 
-greg k-h
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch was attached, please place it inline so that it can be
+  applied directly from the email message itself.
+
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/SubmittingPatches and resend it after
+  adding that line.  Note, the line needs to be in the body of the
+  email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
