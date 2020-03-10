@@ -6,31 +6,30 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB11C10F27
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Mar 2020 13:57:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0464FC10F27
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Mar 2020 14:03:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0E3AB24684
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Mar 2020 13:57:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC02124680
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Mar 2020 14:03:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726822AbgCJN5C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Mar 2020 09:57:02 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:37854 "HELO
+        id S1726882AbgCJODq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Mar 2020 10:03:46 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:37868 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726676AbgCJN5B (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Mar 2020 09:57:01 -0400
-Received: (qmail 1774 invoked by uid 2102); 10 Mar 2020 09:57:00 -0400
+        with SMTP id S1726462AbgCJODq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Mar 2020 10:03:46 -0400
+Received: (qmail 1809 invoked by uid 2102); 10 Mar 2020 10:03:45 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 10 Mar 2020 09:57:00 -0400
-Date:   Tue, 10 Mar 2020 09:57:00 -0400 (EDT)
+  by localhost with SMTP; 10 Mar 2020 10:03:45 -0400
+Date:   Tue, 10 Mar 2020 10:03:45 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Peter Chen <peter.chen@kernel.org>
-cc:     gregkh@linuxfoundation.org, <linux-usb@vger.kernel.org>,
-        Peter Chen <peter.chen@nxp.com>, <stable@vger.kernel.org>
-Subject: Re: [PATCH 1/1] usb: chipidea: udc: fix sleeping function called
- from invalid context
-In-Reply-To: <20200310065926.17746-2-peter.chen@kernel.org>
-Message-ID: <Pine.LNX.4.44L0.2003100952060.1651-100000@iolanthe.rowland.org>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] USB: EHCI: ehci-mv: switch the HSIC HCI to HSIC mode
+In-Reply-To: <20200309130014.548168-1-lkundrak@v3.sk>
+Message-ID: <Pine.LNX.4.44L0.2003101003280.1651-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -38,52 +37,52 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 10 Mar 2020, Peter Chen wrote:
+On Mon, 9 Mar 2020, Lubomir Rintel wrote:
 
-> From: Peter Chen <peter.chen@nxp.com>
+> Turns out the undocumented and reserved bits of port status/control
+> register of the root port need to be set to use the HCI in HSIC mode.
 > 
-> The code calls pm_runtime_get_sync with irq disabled, it causes below
-> warning:
+> Typically the firmware does this, but that is not always good enough,
+> because the bits get lost if the HSIC clock is disabled (e.g. when
+> ehci-mv is build as a module).
 > 
-> BUG: sleeping function called from invalid context at
-> wer/runtime.c:1075
-> in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid:
-> er/u8:1
+> This supplements commit 7b104f890ade ("USB: EHCI: ehci-mv: add HSIC
+> support").
+> 
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 
-...
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-> Tested-by: Dmitry Osipenko <digetx@gmail.com>
-> Cc: <stable@vger.kernel.org> #v5.5
-> Fixes: 72dc8df7920f ("usb: chipidea: udc: protect usb interrupt enable")
-> Reported-by: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Peter Chen <peter.chen@nxp.com>
 > ---
->  drivers/usb/chipidea/udc.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/usb/host/ehci-mv.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
-> index ffaf46f5d062..1fa587ec52fc 100644
-> --- a/drivers/usb/chipidea/udc.c
-> +++ b/drivers/usb/chipidea/udc.c
-> @@ -1539,9 +1539,11 @@ static void ci_hdrc_gadget_connect(struct usb_gadget *_gadget, int is_active)
->  		if (ci->driver) {
->  			hw_device_state(ci, ci->ep0out->qh.dma);
->  			usb_gadget_set_state(_gadget, USB_STATE_POWERED);
-> +			spin_unlock_irqrestore(&ci->lock, flags);
->  			usb_udc_vbus_handler(_gadget, true);
-> +		} else {
-> +			spin_unlock_irqrestore(&ci->lock, flags);
->  		}
-> -		spin_unlock_irqrestore(&ci->lock, flags);
-
-There's something strange about this patch.
-
-Do you really know that interrupts will be enabled following the 
-spin_unlock_irqrestore()?  In other words, do you know that interrupts 
-were enabled upon entry to this routine?
-
-If they were, then why use spin_lock_irqsave/spin_unlock_irqrestore?  
-Why not use spin_lock_irq and spin_unlock_irq?
-
-Alan Stern
+> diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
+> index bd4f6ef534d96..ddb668963955f 100644
+> --- a/drivers/usb/host/ehci-mv.c
+> +++ b/drivers/usb/host/ehci-mv.c
+> @@ -110,6 +110,7 @@ static int mv_ehci_probe(struct platform_device *pdev)
+>  	struct resource *r;
+>  	int retval = -ENODEV;
+>  	u32 offset;
+> +	u32 status;
+>  
+>  	if (usb_disabled())
+>  		return -ENODEV;
+> @@ -213,6 +214,14 @@ static int mv_ehci_probe(struct platform_device *pdev)
+>  		device_wakeup_enable(hcd->self.controller);
+>  	}
+>  
+> +	if (of_usb_get_phy_mode(pdev->dev.of_node) == USBPHY_INTERFACE_MODE_HSIC) {
+> +		status = ehci_readl(ehci, &ehci->regs->port_status[0]);
+> +		/* These "reserved" bits actually enable HSIC mode. */
+> +		status |= BIT(25);
+> +		status &= ~GENMASK(31, 30);
+> +		ehci_writel(ehci, status, &ehci->regs->port_status[0]);
+> +	}
+> +
+>  	dev_info(&pdev->dev,
+>  		 "successful find EHCI device with regs 0x%p irq %d"
+>  		 " working in %s mode\n", hcd->regs, hcd->irq,
+> 
 
