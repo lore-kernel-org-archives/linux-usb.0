@@ -2,105 +2,98 @@ Return-Path: <SRS0=KSfo=44=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C17C5ACC0
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4C0C0044D
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:17:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1606120749
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:16:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D537F20578
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:17:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YLNdyNmK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qty98XX/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731105AbgCKTOu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Mar 2020 15:14:50 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39912 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730944AbgCKTOu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 15:14:50 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r15so4125146wrx.6
-        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 12:14:48 -0700 (PDT)
+        id S1731056AbgCKTRg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Mar 2020 15:17:36 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:37141 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730944AbgCKTRe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 15:17:34 -0400
+Received: by mail-ed1-f66.google.com with SMTP id b23so4287156edx.4
+        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 12:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zzGl1lTjjJuRxMAbBftuxtB9MJjgk6x+oviFOcjaDys=;
-        b=YLNdyNmK2vyfKxMOCS7HWp6d4XQsMWdvOQEcKN1faOdUM2BCv2B+GumqHRkGR0Z7Js
-         2/B4v+VZA/N1+wiDPZi47q69b2OQKgEaNkP0tciXHqiRB/UU5yFqXfKC2+YoVK20U4Yn
-         yhabALLKRaYhGdX9h/D6CI2KsWUpj+hlbOzApfQUKj1U0OD1RU1H1ACq8vM9ZmFS7Au5
-         b6WU4OqMN+skDeiX0bE1bbtSjF3bqz1d7r6dKLe3ILE9QgBzVaz2Ca0j9a1J91FtVAg8
-         M/2acCXJCJl6t147QLWaKT3nd4ZlcuQK7kNBVHZTSGfTg1PPjuLF75otBYKsa8UopN4N
-         t9kg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IoGQYT+rchnYF2zG5DEg3NeiNAoLKHCeyEY/yuvUhRg=;
+        b=Qty98XX/5cZd1xLOpIdrTlHmSOxWrvAJPpba33iF+RhyOUDdezy7/AvSYh58mnyJK6
+         UjTrcRQsHNLdkJSG4Rw3egxSyRm+NO5u/ziM5sEJ4syzSi/ofv//CVi/NySuuemFXjvN
+         ZeoLd5zBi2yI+dJQt1ARKHz//BShoSnycvkQPPAa0mD1VCftEOwQPOKdsBjzXtMib2am
+         BCC6ytK1fgh3Zw+e4CK/xxJ4RSHoAl0xoSWbEHV74NfcywU4Sr8i4XQ/fpmXYceMyRQA
+         DMasFvXlCVaYwJH6VlOT0huN4mo+9H8IzPTNwLw8MkGeLZ+H01zkXm4mEPrOf4DnyaJj
+         BcDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=zzGl1lTjjJuRxMAbBftuxtB9MJjgk6x+oviFOcjaDys=;
-        b=n6wuVtRtOwvuLUa6xhdbBLcVt8C22enxBdZzQkVD+A5LbaJVAxKMyY3wdJuEmDOLBl
-         yKLOLJvDJiBzav2OZuYSyT80ZomRPd83EaZo60NrrgEeTG3x8ANf8xj6bhabi8SblOsv
-         iUcxioKJSMMcTJeOwBxT3AK4e8jnhjR28lAMvZkepKjKleU+dO9yBqrqV6CtpTPn38Ow
-         Qm0l72kc6TlfFcvzXwjlHi1zVKVMw1YHZxA3gRt4EZFEhTyaMYR9SivXu6jP4/pNpbtR
-         kYmUXZjXsb8aq849vUi9mca9+5N1twwpbbp8dfwe1AR27BPBgUbWDstbD67jftUpI/p7
-         9BuQ==
-X-Gm-Message-State: ANhLgQ03A9VlGbeVkuS84FYDlz2Wzbpy/7I+vXPa9MTL7Cd/PI5TceM4
-        ZBaUoa/+QaFT92o2mEDS0rel+YtikHU=
-X-Google-Smtp-Source: ADFU+vte2EmnA1VGXLC/3ngkjZwkIu3t0fo0J77SleUTZo+UYnOJ7Q0A4UxmnD3gJhE3NfCOt6QUNA==
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr1494872wrs.96.1583954088160;
-        Wed, 11 Mar 2020 12:14:48 -0700 (PDT)
-Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id n24sm32958496wra.61.2020.03.11.12.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 12:14:47 -0700 (PDT)
+        bh=IoGQYT+rchnYF2zG5DEg3NeiNAoLKHCeyEY/yuvUhRg=;
+        b=AULGPqujCIVqGK3icxcjLnVbfq5gyY5QHD8wfpvqB4414Rk0NP01VepTuTbV5mewrm
+         BAk4P9AcuQWBxsCpDwKnfNelQsdOjXISGBKSOZ25zDxvelRKrUiv29n2594rxNVd+Dp+
+         +RahMisMaZ45VgBEY6aoK8nn7lZWd8xgGSFfS9RIcV/zLRYWrf6+yNrmosR6YiTyII+T
+         AswDOuys4WTcapqAC8smon7WlsoS+7rvMJ2ElK2dev6D7no1+bhbOzwXr+jlNZdghq/f
+         QIeDEdv2JHGPQM8HBmrRaHflBDOHElLzQ90OmqqZthr4Yhnmt5CkNTRBITAzOkjPd6Jy
+         OC8A==
+X-Gm-Message-State: ANhLgQ31Nre124WOBTMxa4SKU2LIzDVvsFz3TvefvVP6xpsnOUJVeC3/
+        bAEaeDxKXowWl/AHSNsnjT0eUw==
+X-Google-Smtp-Source: ADFU+vvqObpUv4yT5hu9m1ZZe/ETe+eJynYIwhQ0IE0wZjybZQc/WQoS5nOBi4wA7jf1jEJxVN6wFw==
+X-Received: by 2002:a50:ed97:: with SMTP id h23mr3364514edr.197.1583954252557;
+        Wed, 11 Mar 2020 12:17:32 -0700 (PDT)
+Received: from [192.168.0.38] ([176.61.57.127])
+        by smtp.gmail.com with ESMTPSA id k11sm482932ejr.92.2020.03.11.12.17.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2020 12:17:31 -0700 (PDT)
+Subject: Re: [RESEND][PATCH v8 1/6] usb: dwc3: Registering a role switch in
+ the DRD code.
+To:     John Stultz <john.stultz@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Cc:     Yu Chen <chenyu56@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        ShuFan Lee <shufan_lee@richtek.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Jun Li <lijun.kernel@gmail.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Guillaume Gardet <Guillaume.Gardet@arm.com>,
+        Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20200311172109.45134-1-john.stultz@linaro.org>
+ <20200311172109.45134-2-john.stultz@linaro.org>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bjorn.andersson@linaro.org, jackp@codeaurora.org, robh@kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 0/7] DWC3/Qualcomm connector based role-switching
-Date:   Wed, 11 Mar 2020 19:14:54 +0000
-Message-Id: <20200311191501.8165-1-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Message-ID: <7337bea7-1449-e6e3-4c65-1bb802a2c316@linaro.org>
+Date:   Wed, 11 Mar 2020 19:17:48 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200311172109.45134-2-john.stultz@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This set of patches adds the ability to use usb-gpio-connectors with
-role-switching to the DWC3 controller.
+> +static int dwc3_usb_role_switch_set(struct device *dev, enum usb_role role)
 
-Additional Qualcomm specific logic is included in the Qualcomm DWC3 wrapper
-to facilitate PHY related updates on role-switch and thus VBUS state
-toggle.
+@bjorn found an API change that explodes this one.
 
-These patches have been through seven review cycles already and have a
-number of Review-by and Ack-by. For the pusposes of making it easier to
-merge this set focuses on the USB role-switching related stuff alone.
-
-The last set for can be found here:
-https://lkml.org/lkml/2020/3/3/807
-
-Bryan O'Donoghue (6):
-  dt-bindings: usb: dwc3: Add a gpio-usb-connector example
-  dt-bindings: usb: dwc3: Add a usb-role-switch to the example
-  usb: dwc3: qcom: Add support for usb-conn-gpio connectors
-  usb: dwc3: Add support for usb-conn-gpio connectors
-  usb: dwc3: Add support for a role-switch notifier
-  usb: dwc3: qcom: Enable gpio-usb-conn based role-switching
-
-Yu Chen (1):
-  usb: dwc3: Registering a role switch in the DRD code.
-
- .../devicetree/bindings/usb/dwc3.txt          |   9 ++
- drivers/usb/dwc3/core.h                       |  22 ++++
- drivers/usb/dwc3/drd.c                        | 120 +++++++++++++++++-
- drivers/usb/dwc3/dwc3-qcom.c                  |  31 ++++-
- 4 files changed, 179 insertions(+), 3 deletions(-)
-
--- 
-2.25.1
-
+Fixed here: https://lkml.org/lkml/2020/3/11/1034
