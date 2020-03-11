@@ -5,54 +5,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E68C4CEC0
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 17:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A042C4CC9E
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 17:21:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 599D22074E
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 17:21:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0CE120756
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 17:21:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wzs9yWYI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TfYJfPNX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730573AbgCKRVa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Mar 2020 13:21:30 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:35399 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730564AbgCKRV3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 13:21:29 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 7so1568090pgr.2
-        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 10:21:28 -0700 (PDT)
+        id S1730608AbgCKRVu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Mar 2020 13:21:50 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36976 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730516AbgCKRVV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 13:21:21 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f16so1404720plj.4
+        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 10:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=EGHWPlxApQjuktMa4xDP9Q063H+hJfu1b6AJ+NVENyk=;
-        b=wzs9yWYIHxuZrh+l83G2npKrDy1oqKA1xypVVS2U3HsnbNYgw41X9lhRBnp5I2yzT1
-         g5VgsJUrdt4LeNiaK2vJ/mH7MyOeWmpLGprY3DMJa9CbNM0R9zNZPcoJYAiL9T2Rdcj9
-         +LcoDzpvuTgfkwpvij9j9ByGn7+WdlzBB7svWaFuqsRzYYOtH7AnAG602VatDxsx6EF9
-         594VtuNPghhGM6IC4h6UAS0/ANrg2roTguqX5Lx8EvmYVVJDXFkKA9wFpYUK84uDLvjJ
-         Qk+4ms1LaPNgumDoE2yBA9ihADez2A0VyLMvk8/f567jxhIes7jevL9y497QVZCU0BzV
-         poOw==
+        bh=BvrsPeqWN8PtkcsNQt8nmKsbCOyaPIU6nwAu5WHHWq8=;
+        b=TfYJfPNXDyg7iWT/Fd3jB7IH6WKr/zMsvJ/gTE5hEguO2A3zg+wjjQxZg/cPmIojfA
+         cKBJKHCfLfAOqFDrSuM+KQ84YqXozsJ4LwtT2mAB+ZD/OV8kyP9AjFfazLce0v7E3izJ
+         ahAYskc18sFP0iYb4bjjdG8tGkrP+TAGNuBEZgqnSoTjI0V2ne6LozkbFwwd0OkiBgnu
+         X9bkB45h5OHWLGqTkTrjIrd5KxXIz/Yp7uxPgNG5fKiF/3BqXF18pKQjTptae8oVVDrl
+         2HQF5kcQrEfjYyz8ZyG9TIkgKrAENB+1UgeqD5AanPNV3wtDt7B3CGTD6W/O+nwhgHCo
+         W9IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=EGHWPlxApQjuktMa4xDP9Q063H+hJfu1b6AJ+NVENyk=;
-        b=PtE8pMdB5zN2oJK+HQaIruzizeQJDA6Pojia6NrVF1zcKsSHJYoslw1deGIho4jrlX
-         ktK2euX/pm0U+UOBF6FtW6pBGF9UiIK+A8T/pYeAw60vN8+Oe5DVRe/TBsivxy/Ir56X
-         YtnKB43KKW6FjS37sv5N8VvBdxOTeIUtnzpAfDGF64OJY5j/IildiiipHppqq1WzabT9
-         d2IkrQseFSZkWgXCLf+CZ+UvGzQbXc1HGKLvWpH1B+0ITxcJwqYP2ogQEfTu6DQKDIja
-         YUa6DhMykmTkxm+g7YjAFHKHlinqPG7vyXpqZc48LvLyOcQCxG2cIrvrgio22YiiLMPe
-         d0Sg==
-X-Gm-Message-State: ANhLgQ0x7MzZVVVS8FWSG7eaOHjury1nTAPSVKB1hHvBEKOAfWfaN2Fz
-        CKpEGZvGwKFqsStUvsnjIDUXvw==
-X-Google-Smtp-Source: ADFU+vsIQvS6vI9A6/ZJeX7p5NOAE/vGwSitovbBlSU6A/ubzt4w/w/19x/VN1rAPQPkC6KZ7bZHVw==
-X-Received: by 2002:a62:382:: with SMTP id 124mr3867452pfd.11.1583947287937;
-        Wed, 11 Mar 2020 10:21:27 -0700 (PDT)
+        bh=BvrsPeqWN8PtkcsNQt8nmKsbCOyaPIU6nwAu5WHHWq8=;
+        b=nhqdpfQPlyMdO8j80VLSX26NPzomc+XrnxFcJywdWrUyXeXjD3Qgpp+rhHWfQirDoG
+         2l5pQ1ytd8PAPOz8JyVEF+rBLjYIm8dp4PzRRhJzLTk6/R12YB5Uxp5JBJ1iHGJnVGtb
+         KcHuSPWzG+Iv0QpMuTM4oVvUYwjXgQ/vcWTWZbbdNUuccc7F0rkmlr28XBWmd5ZTTMMK
+         PLk0onFWYPU47CUgr4lt9mUhWkJehNrPpEyf5DtH92+ZnnjFCleVl2AkM96I/YuLifXy
+         +rLahuJQSYMTicgvj2RoWk1Ejnv9RSLPDsu4tFOiexb1GOQAWJfLT0TWncmE/qKNK7IB
+         tVEA==
+X-Gm-Message-State: ANhLgQ2MldF4JtLGiN5T5qKNDI9PNZ1JavPCpvuTC6zlGmqGkGKNYBFh
+        WghhatG7e3yK9hKS3nI7B76DpA==
+X-Google-Smtp-Source: ADFU+vtC1b03FsBk1BpWenvotET0rYCstf8uvZMELbv4ZkHpP4tW/T/5xcVCLk7efl+kVQr7Studug==
+X-Received: by 2002:a17:90a:b10d:: with SMTP id z13mr4563816pjq.132.1583947280382;
+        Wed, 11 Mar 2020 10:21:20 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id b24sm14914053pfi.52.2020.03.11.10.21.26
+        by smtp.gmail.com with ESMTPSA id b24sm14914053pfi.52.2020.03.11.10.21.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 10:21:27 -0700 (PDT)
+        Wed, 11 Mar 2020 10:21:19 -0700 (PDT)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
 Cc:     John Stultz <john.stultz@linaro.org>,
@@ -69,11 +69,12 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         Jun Li <lijun.kernel@gmail.com>,
         Valentin Schneider <valentin.schneider@arm.com>,
         Guillaume Gardet <Guillaume.Gardet@arm.com>,
-        Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [RESEND][PATCH v8 6/6] usb: dwc3: Rework resets initialization to be more flexible
-Date:   Wed, 11 Mar 2020 17:21:09 +0000
-Message-Id: <20200311172109.45134-7-john.stultz@linaro.org>
+        Jack Pham <jackp@codeaurora.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [RESEND][PATCH v8 2/6] dt-bindings: usb: generic: Add role-switch-default-mode binding
+Date:   Wed, 11 Mar 2020 17:21:05 +0000
+Message-Id: <20200311172109.45134-3-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200311172109.45134-1-john.stultz@linaro.org>
 References: <20200311172109.45134-1-john.stultz@linaro.org>
@@ -82,20 +83,8 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The dwc3 core binding specifies one reset.
-
-However some variants of the hardware may have more. Previously
-this was handled by using the dwc3-of-simple glue driver, but
-that resulted in a proliferation of bindings for for every
-variant, when the only difference was the clocks and resets
-lists.
-
-So this patch reworks the reading of the resets to fetch all the
-resets specified in the dts together.
-
-This patch was recommended by Rob Herring <robh@kernel.org>
-as an alternative to creating multiple bindings for each variant
-of hardware.
+Add binding to configure the default role the controller
+assumes is host mode when the usb role is USB_ROLE_NONE.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Rob Herring <robh+dt@kernel.org>
@@ -112,30 +101,33 @@ Cc: Jun Li <lijun.kernel@gmail.com>
 Cc: Valentin Schneider <valentin.schneider@arm.com>
 Cc: Guillaume Gardet <Guillaume.Gardet@arm.com>
 Cc: Jack Pham <jackp@codeaurora.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: linux-usb@vger.kernel.org
 Cc: devicetree@vger.kernel.org
-Suggested-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
-v3: Rework dwc3 core rather then adding another dwc-of-simple
-    binding.
-v6: Re-introduce this patch, on Rob's suggestion
+v5: Switch to string rather then a bool
 ---
- drivers/usb/dwc3/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/generic.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index ba21af5c1204..2afcc04da338 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1465,7 +1465,7 @@ static int dwc3_probe(struct platform_device *pdev)
+diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
+index e6790d2a4da9..67c51759a642 100644
+--- a/Documentation/devicetree/bindings/usb/generic.txt
++++ b/Documentation/devicetree/bindings/usb/generic.txt
+@@ -35,6 +35,12 @@ Optional properties:
+ 			the USB data role (USB host or USB device) for a given
+ 			USB connector, such as Type-C, Type-B(micro).
+ 			see connector/usb-connector.txt.
++ - role-switch-default-mode: indicating if usb-role-switch is enabled, the
++			device default operation mode of controller while usb
++			role is USB_ROLE_NONE. Valid arguments are "host" and
++			"peripheral". Defaults to "peripheral" if not
++			specified.
++
  
- 	dwc3_get_properties(dwc);
- 
--	dwc->reset = devm_reset_control_get_optional_shared(dev, NULL);
-+	dwc->reset = devm_reset_control_array_get(dev, true, true);
- 	if (IS_ERR(dwc->reset))
- 		return PTR_ERR(dwc->reset);
+ This is an attribute to a USB controller such as:
  
 -- 
 2.17.1
