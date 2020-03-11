@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2515C2BB1D
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D25FC4CECE
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D9D9620578
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52E1B20575
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lydMUqD/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PRRcxJMX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731290AbgCKTPQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Mar 2020 15:15:16 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38284 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731280AbgCKTPM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 15:15:12 -0400
-Received: by mail-wr1-f67.google.com with SMTP id t11so4138876wrw.5
-        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 12:15:10 -0700 (PDT)
+        id S1731269AbgCKTPJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Mar 2020 15:15:09 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44119 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731250AbgCKTPI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 15:15:08 -0400
+Received: by mail-wr1-f66.google.com with SMTP id l18so4091300wru.11
+        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 12:15:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7bRjcqFkN2E/+4KIrK48jV+JLqx1FghcnIorb93T/eA=;
-        b=lydMUqD/qQqb4NmEt19y3aDFglH7QjMpDZK4mSJnhH8fBLFNA0WVXA53okYhiBBk4L
-         +EEJIE8SGvoBIABALTjx0NyYQV1iKWEBlnFVU/bia9DhSi/mQmXrHHwffILepWEwsdzd
-         uevzMDFNOC8qV3GFBCs/fKtphnd2fuwV/QKcR3wY3S67pJBfG9jDVVc2mkVdS/4zAd6k
-         xl7GI+Br2jiA7sZi1Kdo03MOCWbRKVdygHLYVjY2Wb6FUatpXClFSKqsu/hc3S23BxaE
-         B/m+fugry0/oN0sZWsWmuF9j6NWF1lfrAj20p3aczRGDAnAVxhQSDQzx+yXYgK3OYXns
-         Ln9Q==
+        bh=X9f/RMIcWlgabS9DXbbWR0nDB/AmM5zj7IJkKsoXLIU=;
+        b=PRRcxJMXrJh7fbewIVca185JzZpd7vdSgFAU0gqvfH8cMn0pzWO28SI1VHH4IwZlY9
+         0FE//oe7MYBljUmcWIktdo5ZWRduy5JQuIbmRNydhSly5iK232PPtQt0QDZhXuRKEu4C
+         CEWliCnk3VuuUpdIledRZZ3ovKiLHDms4T2tQ8UR27SsFOMsWU0EEQazP3pPtKxWKj5y
+         wmh4AacYJzF9kESt/KvxCS6PFLAoVoieFaOs8GtWoZDSx7jRAODkEoYhz3WSPP8JTtGe
+         71swFQcqs1QXEqA0yZwJ8glgBotEWnvgXFESFo4ZEtz/8hEpi829xzbGI8fP+Phhaxlh
+         AbcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7bRjcqFkN2E/+4KIrK48jV+JLqx1FghcnIorb93T/eA=;
-        b=n2cAAYwdZW/NMrqUbHiS8T0pQRK1DF5BbgL6Op/MJat1pxjLpe0qQ/wozVOCNR2a94
-         BA0Z2kwUzWt0s7/wiy4Fztpp4ZDxoA+mOxM18bkkQ46z5wG3c3jRd4e97eI/lRq3nNFv
-         SaiCwUJ8zCMUTNzHRuM2abZB0hHqQz5lpQEQkld8zll8uyYY1C+s46uJ6AfiXnWgqLZK
-         KcA5HUA5yjFPXPDuADeLzw46Tm2gPv49ybOgW9JvrE7FN+MyR3q9EytK0Ot5DGjcQrCD
-         +avvBrxa/TBZkQ3GbwL1p052NSaVb7/rFZOD9oFFqpr2/YkgBHsbvYwJxihjufnJynW6
-         UH6Q==
-X-Gm-Message-State: ANhLgQ2dK2yyFuZrhc5tToiegzspRUgkCBayERX3Fc3xdIWYo28Pug+4
-        sqhfYvenb6cKlzEFuDgKmJjUXg==
-X-Google-Smtp-Source: ADFU+vtvAOkVEpVHj6kBiwJ5k7QJBkvLfgLVjEBQpl2Hx3I0Gy9j8faRiHWcgsgTVtDYnMGAAfxWEg==
-X-Received: by 2002:adf:f504:: with SMTP id q4mr5772708wro.28.1583954109743;
-        Wed, 11 Mar 2020 12:15:09 -0700 (PDT)
+        bh=X9f/RMIcWlgabS9DXbbWR0nDB/AmM5zj7IJkKsoXLIU=;
+        b=YK/y+VJo0i5wJthaz9DKKZjdtzK0KK6aNasUWH/Z/4IymUUQsFEOzYgU+NKra1TXPh
+         diqzx8u8HEMd5CJOVsxfIKXUXn2Oy5h7DTEIDML8gu6f74IYVSahD1uKHU191YLa8uMt
+         SIX19Ss9S8ZfVQcOWsvYQztLI0Cpfif9rfxDTJPfKiq5/oQJ/fTluvhCHkdvNhE7sPp/
+         TAwtdB2msZWQqw/2UKStNYMQ6v2OxurZaeZHQP0UCv8tmo8HEDoF86+qZ9d0OPBNeTn0
+         cnDGdQEOhYHSVpul5P2NMGqtAv1i2neOAFaoDYIFdsylKz0uwAg+ptAOexVPaoXY8BNy
+         DvEQ==
+X-Gm-Message-State: ANhLgQ2T1Gi1lkmM4Et2gZ/y3fH8+GWUrB6eGzpj0QS0QWCTHiMEtgUQ
+        TtFldbIRgJnosnWEisMLNAmiFQ==
+X-Google-Smtp-Source: ADFU+vsNESGH2R0MWraSUxtoXYOPanK+N4SyHx/YW970exsdRbl2fb83FXgcCYN4IisEFn6Ku+ChQA==
+X-Received: by 2002:adf:a419:: with SMTP id d25mr6270727wra.210.1583954106153;
+        Wed, 11 Mar 2020 12:15:06 -0700 (PDT)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id c85sm9687437wmd.48.2020.03.11.12.15.08
+        by smtp.gmail.com with ESMTPSA id c85sm9687437wmd.48.2020.03.11.12.15.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 12:15:09 -0700 (PDT)
+        Wed, 11 Mar 2020 12:15:05 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     agross@kernel.org, bjorn.andersson@linaro.org,
         linux-usb@vger.kernel.org
@@ -62,9 +62,9 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Subject: [PATCH 6/6] arm64: dts: qcom: qcs404-evb: Enable USB controllers
-Date:   Wed, 11 Mar 2020 19:15:17 +0000
-Message-Id: <20200311191517.8221-7-bryan.odonoghue@linaro.org>
+Subject: [PATCH 3/6] arm64: dts: qcom: qcs404-evb: Define USB ID pin
+Date:   Wed, 11 Mar 2020 19:15:14 +0000
+Message-Id: <20200311191517.8221-4-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311191517.8221-1-bryan.odonoghue@linaro.org>
 References: <20200311191517.8221-1-bryan.odonoghue@linaro.org>
@@ -75,18 +75,10 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch enables the primary and secondary USB controllers on the
-qcs404-evb.
+The USB ID pin is used to tell if a system is a Host or a Device. For our
+purposes we will bind this pin into gpio-usb-conn later.
 
-Primary:
-The primary USB controller has
-
-- One USB3 SS PHY using gpio-usb-conn
-- One USB2 HS PHY in device mode only and no connector driver
-  associated.
-
-Secondary:
-The second DWC3 controller which has one USB Hi-Speed PHY attached to it.
+For now define the pin with its pinmux.
 
 Cc: Andy Gross <agross@kernel.org>
 Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
@@ -98,60 +90,34 @@ Cc: linux-kernel@vger.kernel.org
 Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 40 ++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-index 44c7dda1e1fc..4dc3f45282fe 100644
+index 62ef9c34b04e..cb893ca76901 100644
 --- a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-@@ -319,6 +319,46 @@ pinconf {
+@@ -271,6 +271,20 @@ rclk {
+ 			bias-pull-down;
+ 		};
  	};
- };
- 
-+&usb2 {
-+	status = "okay";
-+};
 +
-+&usb2_phy_sec {
-+	vdd-supply = <&vreg_l4_1p2>;
-+	vdda1p8-supply = <&vreg_l5_1p8>;
-+	vdda3p3-supply = <&vreg_l12_3p3>;
-+	status = "okay";
-+};
++	usb3_id_pin: usb3-id-pin {
++		pinmux {
++			pins = "gpio116";
++			function = "gpio";
++		};
 +
-+&usb3 {
-+	status = "okay";
-+	dwc3@7580000 {
-+		usb-role-switch;
-+		usb_con: connector {
-+			compatible = "gpio-usb-b-connector";
-+			label = "USB-C";
-+			id-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
-+			vbus-supply = <&usb3_vbus_reg>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&usb3_id_pin>, <&usb3_vbus_pin>;
-+			status = "okay";
++		pinconf {
++			pins = "gpio116";
++			drive-strength = <2>;
++			bias-pull-up;
++			input-enable;
 +		};
 +	};
-+};
-+
-+&usb2_phy_prim {
-+	vdd-supply = <&vreg_l4_1p2>;
-+	vdda1p8-supply = <&vreg_l5_1p8>;
-+	vdda3p3-supply = <&vreg_l12_3p3>;
-+	status = "okay";
-+};
-+
-+&usb3_phy {
-+	vdd-supply = <&vreg_l3_1p05>;
-+	vdda1p8-supply = <&vreg_l5_1p8>;
-+	status = "okay";
-+};
-+
- &wifi {
- 	status = "okay";
- 	vdd-0.8-cx-mx-supply = <&vreg_l2_1p275>;
+ };
+ 
+ &pms405_gpios {
 -- 
 2.25.1
 
