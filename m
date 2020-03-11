@@ -2,68 +2,72 @@ Return-Path: <SRS0=KSfo=44=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A01B6C5ACC0
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 802B6C0044D
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 87F6920749
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65CD720749
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Mar 2020 19:15:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LtWHzBiy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r6VLu240"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731025AbgCKTPF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Mar 2020 15:15:05 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:34037 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730827AbgCKTPE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 15:15:04 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z15so4138806wrl.1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 12:15:02 -0700 (PDT)
+        id S1731251AbgCKTPG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Mar 2020 15:15:06 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45832 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731237AbgCKTPG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Mar 2020 15:15:06 -0400
+Received: by mail-wr1-f65.google.com with SMTP id m9so4091426wro.12
+        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2020 12:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kbRrkAeJHyKBfoxhtaOStXipnG/Sgu+7cKCsLovVUec=;
-        b=LtWHzBiyI50M/8tTfrptPo7mD56R1D87P168cheHi6NnxFnl1grqBHKpMnUK56FTaP
-         c7SnLF5S+Mk14346cBOXCOJIehCTy8HXr7HMSEieTKYxnyvS6d+Q4MPajC18WDTeOUdZ
-         knZux5cIa9ubxh6vMW8AsXNBEUvmygdkvpsM78I9HzvCJNZM6yjZd0ukWXDPZM6ckyI5
-         8hVAYBd+cZ/TBgk4IsnvHLnt5pKhrOHeKKZYLOTW2853FJbsSyxEebRSD/8U4QnzA0QM
-         iJ3g/KOZAzdYMDWh40iMETC8cn9dKXpA33EjWsErNO1jXi2TcsNP4LhdP7dAs5lvTyq3
-         PrbQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=3BfHSzn4UCeA2FP5LolQzAR+/B6SLs4bxqX8bC/4tNE=;
+        b=r6VLu240RNeUWsOOl/nPDVFRYxuT3S+GA+WHQHy7Qk7RE4h3c4+0YKO6YBXyDbZzT4
+         Xz22tvQTRnWpAe8YTCxuecuzAiFNpSQT+6MYPQROStcQB93+7tvEpPZ/0sl75U4kFQRl
+         +LoQAG0h1kPrR0dq4ibDKX0pDuuwordljTWwhmhiFijm17jrT49Fb+k9dFDsvYefArYT
+         iWKoffTcpa83MvIOUi93QzR4aXISdImP1AY/3D5XBgkNbyTyswnpkK1+fIGBUSeoMxYH
+         3FNQWn3r9lSIig4ZamF8nFb7j67hYLU38XyBMeAZL+mRwKIrJfKmmLZCFI+gjnoNX89R
+         Q6MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kbRrkAeJHyKBfoxhtaOStXipnG/Sgu+7cKCsLovVUec=;
-        b=hjFJKnCHEjwcM9w47UPhNrITRJFooDsRHVW8TISFlpZi3+CTPb3ZqcKA+yg+9cMGuQ
-         tnvX9Y3QsQP3JhXFuTLvKNl3TNt9Nb9MRqtGSuD+U0hAsbFnnXZFj82z8fxQQx1kuqce
-         QptLkb2D2atrIJqsCM//cHolSIPDqIh+BRsP4xcyRAJztsPO4X5hPmmYfYbAUSFQyZA9
-         OpaSGarP60HHTzrC35IfjNeSSLLQMdfBDtmoI9/27AUCUD8rzW4fLnU/WldTqkMEW8l5
-         Z2GdVyrZ7lJ7ncVqtDt1dEk4/l+p5Mz38N40I2+AK9CYeVZ3RfW59TmDnLSKEduv1+1p
-         6uMw==
-X-Gm-Message-State: ANhLgQ1IcfCdAhED+d+TJo/q0+OAtS3T8LYNvMB91u4eAW9MutwGbDTJ
-        XU7ZLEexsUkhP8WQLMLPmstkOQ==
-X-Google-Smtp-Source: ADFU+vsD2ZqK4dtZKHh/wIu3OCvgAU1ewymHvX1gnWzG3Cmh50v327zeKOhmUotyxi/hMvs30e/Mzg==
-X-Received: by 2002:adf:eb51:: with SMTP id u17mr6293762wrn.29.1583954102179;
-        Wed, 11 Mar 2020 12:15:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=3BfHSzn4UCeA2FP5LolQzAR+/B6SLs4bxqX8bC/4tNE=;
+        b=QXJIPFq8VmRwVMYk2I3EkYYwBRd/GRaUeHbYlKAC016TQToc6W/0rzzMij3LIjErJk
+         DPTUirEVhO4wWIpZTTyOb1lTA6mVqbiEucfanIVhud8Tb9GC2u4mbQ9PVwFCDGgbVGYA
+         Z6OUlQvbs+TDYuffKASzqcO5wOYd7aKg/4JgvvnE041oT+PL2ZY3tM7SvmtB1thjsBzo
+         pk957WLNzHcHuwVxjgIRikik3SJ7RQp5/oNZVqp4TDs9L8KD1MvgkyAlWgCMzLH5NxMn
+         Icms49y6zch1J1NIxQrUUom8LvcjHYlymjzKhoxdPrnfOuKztNKXk/SGbXj1Ir3XvmTw
+         Mm2g==
+X-Gm-Message-State: ANhLgQ1IrtdLAgyzyaLemqArpGZYYItZ+WpBcTyesZsTFZMzKT6iJFr0
+        JjCZ9pw4UQ3IaeJl03GOWjRFucKtAqU=
+X-Google-Smtp-Source: ADFU+vuGmQZPjPDr1rIXs8EjGenquDs/gL0Bo11Ca0LpJc0B56nEbdNtKiu0Ui9qgntKs9aBD/Kq4g==
+X-Received: by 2002:a5d:4d48:: with SMTP id a8mr6094375wru.246.1583954104420;
+        Wed, 11 Mar 2020 12:15:04 -0700 (PDT)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id c85sm9687437wmd.48.2020.03.11.12.15.01
+        by smtp.gmail.com with ESMTPSA id c85sm9687437wmd.48.2020.03.11.12.15.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 12:15:01 -0700 (PDT)
+        Wed, 11 Mar 2020 12:15:03 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     agross@kernel.org, bjorn.andersson@linaro.org,
         linux-usb@vger.kernel.org
 Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         jackp@codeaurora.org, robh@kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 0/6] Add DT bindings for USB HS/SS in QCS404
-Date:   Wed, 11 Mar 2020 19:15:11 +0000
-Message-Id: <20200311191517.8221-1-bryan.odonoghue@linaro.org>
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+Subject: [PATCH 2/6] arm64: dts: qcom: qcs404-evb: Define VBUS pins
+Date:   Wed, 11 Mar 2020 19:15:13 +0000
+Message-Id: <20200311191517.8221-3-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200311191517.8221-1-bryan.odonoghue@linaro.org>
+References: <20200311191517.8221-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -71,35 +75,69 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This set adds DT entries for the Primary and Secondary DWC3 controllers on
-QCS404 and the PHYs attached to those controllers.
+Defines VBUS detect and VBUS boost for the QCS404 EVB.
 
-Additional board-specific bindings are required to make the SoC change
-functional on the EVBs as on the EVB a type-c connector interfaces with the
-SoC which is responsible to toggle VBUS via a regulator interface directly.
+Detect:
+VBUS present/absent is presented to the SoC via a GPIO on the EVB. Define
+the pin mapping for later use by gpio-usb-conn.
 
-These patches have been through seven review cycles already and have a
-number of Review-by and Ack-by. For the pusposes of making it easier to
-merge this set focuses on the SoC DT bindings and target board bindings
-alone.
+Boost:
+An external regulator is used to trigger VBUS on/off via GPIO. This patch
+defines the relevant GPIO in the EVB dts.
 
-The last set for can be found here:
-https://lkml.org/lkml/2020/3/3/807
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-Bjorn Andersson (1):
-  arm64: dts: qcom: qcs404: Add USB devices and PHYs
-
-Bryan O'Donoghue (5):
-  arm64: dts: qcom: qcs404-evb: Define VBUS pins
-  arm64: dts: qcom: qcs404-evb: Define USB ID pin
-  arm64: dts: qcom: qcs404-evb: Describe external VBUS regulator
-  arm64: dts: qcom: qcs404-evb: Raise vreg_l12_3p3 minimum voltage
-  arm64: dts: qcom: qcs404-evb: Enable USB controllers
-
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi |  90 +++++++++++++++++++-
- arch/arm64/boot/dts/qcom/qcs404.dtsi     | 100 +++++++++++++++++++++++
- 2 files changed, 189 insertions(+), 1 deletion(-)
-
+diff --git a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
+index 522d3ef72df5..62ef9c34b04e 100644
+--- a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
+@@ -4,6 +4,8 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include "qcs404.dtsi"
+ #include "pms405.dtsi"
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+ 
+ / {
+ 	aliases {
+@@ -271,6 +273,26 @@ rclk {
+ 	};
+ };
+ 
++&pms405_gpios {
++	usb_vbus_boost_pin: usb-vbus-boost-pin {
++		pinconf {
++			pins = "gpio3";
++			function = PMIC_GPIO_FUNC_NORMAL;
++			output-low;
++			power-source = <1>;
++		};
++	};
++	usb3_vbus_pin: usb3-vbus-pin {
++		pinconf {
++			pins = "gpio12";
++			function = PMIC_GPIO_FUNC_NORMAL;
++			input-enable;
++			bias-pull-down;
++			power-source = <1>;
++		};
++	};
++};
++
+ &wifi {
+ 	status = "okay";
+ 	vdd-0.8-cx-mx-supply = <&vreg_l2_1p275>;
 -- 
 2.25.1
 
