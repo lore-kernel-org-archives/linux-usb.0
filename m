@@ -2,102 +2,209 @@ Return-Path: <SRS0=mFup=5A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1278C4CECE
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 02:23:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B46A3C0044D
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 02:42:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 96F3F20724
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 02:23:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E8D1205F4
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 02:42:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B8W0+FWW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OWQQM+Es"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727770AbgCOCXx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 14 Mar 2020 22:23:53 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:35291 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727222AbgCOCXw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 14 Mar 2020 22:23:52 -0400
-Received: by mail-il1-f196.google.com with SMTP id v6so1926964ilq.2;
-        Sat, 14 Mar 2020 19:23:52 -0700 (PDT)
+        id S1727212AbgCOCmu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 14 Mar 2020 22:42:50 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:43439 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbgCOCmt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 14 Mar 2020 22:42:49 -0400
+Received: by mail-qk1-f194.google.com with SMTP id x1so15210515qkx.10;
+        Sat, 14 Mar 2020 19:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bolGqQxhWdWgpU69XRMnXiz0W60KCuDWQ2z7xXlvj8E=;
-        b=B8W0+FWWYJN6WqgwttmprjGZlMBoY9aBQyq3jJHauz+tUTSsJhMYccjD+haAXovvGZ
-         uYXGReUyVM1xMUHz3ikiugYUTqM/xfrZ7UL0yCorZWLbFGaH1aDbuLd42pj/acAqqMB3
-         +eyDeQGvDxDBAdHnGnSwSzVdxtyO6/Qy0AXC4tzz8LhVC7Am4Xx0/oUj9yy1JVdgwa+7
-         +2QuCA5Ui1x6YchRfuADgUBNsIM//sAEWH+2qGt6yybMQkivhoWBT9qJtu4qrPx99D2V
-         rEomakD2K2od0Yj6D2pmWeA7JINHnwt6y3bumHe65bYWQFO7MLY2xnoJSt3/nIt0y3zh
-         AXCg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Vc8LwrIaU40nI0L9rZtv7zvcU+o5GuwsQBOLTCK4qFI=;
+        b=OWQQM+EsX/WIldwdhGjM06LV5RrRYgpfmsg0veXZ5b1TbRwxXPK0G+WQbH1j1/L2e3
+         WVMPJDIpZH/IDd7nWjzggg03LB0+pgKuXyrM4YWKU83RqpkFLv4osM0SP36Yd9ttHUXY
+         Dveio6C8RFtOJ0nK3G1m6dGNn+ENhlyrEANU4viuG3hPzXpHAHcCOLm7mvyfoatCpxg5
+         Sp1pJoOdqMCYSFFy6f4AjVPkEtY933eukKKpmug2SRaZqoGbIF0WvkHyIMMzyrgMaYIh
+         ZzJxraxHiqWPV0u9qPQFucNts0nSW6OxBu8CGX6h4lxaE/5KvpRH2JAvjnHXM8nCLg1s
+         MXpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bolGqQxhWdWgpU69XRMnXiz0W60KCuDWQ2z7xXlvj8E=;
-        b=HjKgulUOENWpZZq+XviiRaQl7WV+JHPQFznUdb6hhmCx5THRDmdTuetzcZh9NTyGDV
-         V0Vz5AgTsj7GdGYjGQ/oOoDby2I11DxhBdNAJo7gQudYqpKYUQrsBnvGhQTgnhCfUEMN
-         Ux3LnZ/IQ+AWytnXzbAtiyqeZA1zWplVQKS1VPEJxRBjUenMd/hX0qbStDVzKuNc++mg
-         nAxLJyYLdT7cK3puT3hE3iOV6MVm94gaj4N6UUFxAE/9333B3jkp2etyUWWhr2RQCJGj
-         fR3QLYdVEJns3e511VGY97GUkxGHuVRN9EI0gmgQlZzCAJeuPcyuDne3R2Cs863Mr/Fe
-         S8DQ==
-X-Gm-Message-State: ANhLgQ3KuhoxN682wS6XUZ936V28UtF8XiGj15gxW/vJXAflm1MM0HQl
-        R74NePzBv72r+8uU4KZ/1VjtAUO5
-X-Google-Smtp-Source: ADFU+vv29Ok1TmkzoC9UWO3LDApVs8zw0AH3uafkrwoNY+zDHYFb5jJpLgUc2dBlZokjE3JuF1U5yg==
-X-Received: by 2002:a63:f243:: with SMTP id d3mr16185919pgk.254.1584163628426;
-        Fri, 13 Mar 2020 22:27:08 -0700 (PDT)
-Received: from localhost ([216.24.188.11])
-        by smtp.gmail.com with ESMTPSA id z20sm29316118pge.62.2020.03.13.22.27.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 13 Mar 2020 22:27:08 -0700 (PDT)
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     gregkh@linuxfoundation.org, rafael@kernel.org, hminas@synopsys.com,
-        mathias.nyman@intel.com, bgolaszewski@baylibre.com, arnd@arndb.de,
-        geert@linux-m68k.org, mchehab+samsung@kernel.org,
-        treding@nvidia.com, tglx@linutronix.de, suzuki.poulose@arm.com,
-        hdegoede@redhat.com, linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH v2 4/4] usb: dwc2: convert to devm_platform_ioremap_and_get_resource
-Date:   Sat, 14 Mar 2020 13:26:38 +0800
-Message-Id: <20200314052638.6008-5-zhengdejin5@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200314052638.6008-1-zhengdejin5@gmail.com>
-References: <20200314052638.6008-1-zhengdejin5@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Vc8LwrIaU40nI0L9rZtv7zvcU+o5GuwsQBOLTCK4qFI=;
+        b=NVhea6Ed0yAqP9ufxC82kq3x5AZWSiT31UCiLUbv2OMJgIDG/G+ZKnSNsmNE7qUeZW
+         KdRohrY/9Q3xnpV5Hsd9ZB5jud/biFFLNCns+5H56fjC0ZC63OZCe7DZksN87eY49fTd
+         kzc1xF32VC1+MyA2M1aPaCCG3IKMgSgxNn61QdCNOk8oqCRME4qzbW5tDpXl12zj74Ji
+         EkgfHsGqnMTm+ng6Fk6pz8YwPRNoPFHqnhCJoPjUqnCrWhwfGGhpMkV0pql0jKx03s+M
+         /2El1zNvMPOA1DLo+yiyuPT+FcWPN6BnPSN5B2EsMgOUFY/N0NtEnKWbKCauO8+3tJmm
+         OIcw==
+X-Gm-Message-State: ANhLgQ1IAqsmTNMTDOElPgNQi2Lf8OqSYurorlinp5CrzMzTaCWV/Cjs
+        IiRH1QsjFH8reraW95+E9jYyrg2iVEjaGjTJhhDQlebC
+X-Google-Smtp-Source: ADFU+vvqbJcRXoy8MLoV6dVlKl4R88lrkt8lrWmZMrkz8gdnvH1wWUt998hcX+ARQdd6OcDsbFBEZdJVYtnNc81xZ1Q=
+X-Received: by 2002:a02:8795:: with SMTP id t21mr13779924jai.126.1584192765365;
+ Sat, 14 Mar 2020 06:32:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200310194854.831-1-linux.amoon@gmail.com> <20200310194854.831-3-linux.amoon@gmail.com>
+In-Reply-To: <20200310194854.831-3-linux.amoon@gmail.com>
+From:   Anand Moon <linux.amoon@gmail.com>
+Date:   Sat, 14 Mar 2020 19:02:33 +0530
+Message-ID: <CANAwSgR4fJK0uVANv-x-=iSL_hAKD8kvazACUsY9Meu5xonuqQ@mail.gmail.com>
+Subject: Re: [PATCHv3 2/5] ARM: dts: exynos: Add missing usbdrd3 suspend clk
+To:     Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use devm_platform_ioremap_and_get_resource() to simplify code, which
-contains platform_get_resource() and devm_ioremap_resource(), it also
-get the resource for use by the following code.
+Hi Krzysztof,
 
-Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
----
- drivers/usb/dwc2/platform.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Wed, 11 Mar 2020 at 01:19, Anand Moon <linux.amoon@gmail.com> wrote:
+>
+> Add new compatible strings for USBDRD3 for adding missing
+> suspend clk, exynos5422 usbdrd3 support two clk USBD300 and
+> SCLK_USBD300, so add missing suspemd_clk for Exynos542x DWC3 nodes.
+>
+> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index 3c6ce09a6db5..56eec2b95eaf 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
-@@ -392,8 +392,7 @@ static int dwc2_driver_probe(struct platform_device *dev)
- 		return retval;
- 	}
- 
--	res = platform_get_resource(dev, IORESOURCE_MEM, 0);
--	hsotg->regs = devm_ioremap_resource(&dev->dev, res);
-+	hsotg->regs = devm_platform_ioremap_and_get_resource(dev, 0, &res);
- 	if (IS_ERR(hsotg->regs))
- 		return PTR_ERR(hsotg->regs);
- 
--- 
-2.25.0
+My assumption based on the FSYS clock source diagram below was bit wrong.
+[0] https://imgur.com/gallery/zAiBoyh
 
+And again re-looking into the driver source code, it turn out their
+are *6 clock*
+Here is the correct mapping as per the Exynos5420 clock driver.
+
+USB-(phy@12100000)
+|___________________CLK_SCLK_USBD300
+|___________________CLK_SCLK_USBPHY300
+
+USB-(phy@12500000)
+|___________________CLK_SCLK_USBD301
+|___________________CLK_SCLK_USBPHY301
+
+USB-(dwc3@12000000)
+|___________________CLK_USBD300
+USB-(dwc3@12400000)
+|___________________CLK_USBD301
+
+Note: As per Exynos 5422 user manual, There are some more USB CLK
+configuration missing in GATE_IP_FSYS. So we could enable another dwc3 clk,
+If needed I would like too add this missing clk code and enable this
+clk for dwc3 driver.
+
+For some reason we already use CLK_USBD300 and CLK_USBD301
+for PHY nodes, which lead to this confusion. So we need to update PHY clock
+CLK_USBD300 with CLK_SCLK_USBD300 and clock CLK_USBD301 with CLK_SCLK_USBD301.
+
+Please share your thought on linking PHY nodes above and add new DWC3 clock
+and enable this clock.
+
+-Anand
+
+> ---
+> fix the commit message
+> ---
+>  arch/arm/boot/dts/exynos5410.dtsi | 8 ++++----
+>  arch/arm/boot/dts/exynos5420.dtsi | 8 ++++----
+>  arch/arm/boot/dts/exynos54xx.dtsi | 4 ++--
+>  3 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/arch/arm/boot/dts/exynos5410.dtsi b/arch/arm/boot/dts/exynos5410.dtsi
+> index 2eab80bf5f3a..19845dcd528f 100644
+> --- a/arch/arm/boot/dts/exynos5410.dtsi
+> +++ b/arch/arm/boot/dts/exynos5410.dtsi
+> @@ -396,8 +396,8 @@ &trng {
+>  };
+>
+>  &usbdrd3_0 {
+> -       clocks = <&clock CLK_USBD300>;
+> -       clock-names = "usbdrd30";
+> +       clocks = <&clock CLK_USBD300>, <&clock CLK_SCLK_USBD300>;
+> +       clock-names = "usbdrd30", "usbdrd30_susp_clk";
+>  };
+>
+>  &usbdrd_phy0 {
+> @@ -407,8 +407,8 @@ &usbdrd_phy0 {
+>  };
+>
+>  &usbdrd3_1 {
+> -       clocks = <&clock CLK_USBD301>;
+> -       clock-names = "usbdrd30";
+> +       clocks = <&clock CLK_USBD301>, <&clock CLK_SCLK_USBD301>;
+> +       clock-names = "usbdrd30", "usbdrd30_susp_clk";
+>  };
+>
+>  &usbdrd_dwc3_1 {
+> diff --git a/arch/arm/boot/dts/exynos5420.dtsi b/arch/arm/boot/dts/exynos5420.dtsi
+> index b672080e7469..bd505256a223 100644
+> --- a/arch/arm/boot/dts/exynos5420.dtsi
+> +++ b/arch/arm/boot/dts/exynos5420.dtsi
+> @@ -1372,8 +1372,8 @@ &trng {
+>  };
+>
+>  &usbdrd3_0 {
+> -       clocks = <&clock CLK_USBD300>;
+> -       clock-names = "usbdrd30";
+> +       clocks = <&clock CLK_USBD300>, <&clock CLK_SCLK_USBD300>;
+> +       clock-names = "usbdrd30", "usbdrd30_susp_clk";
+>  };
+>
+>  &usbdrd_phy0 {
+> @@ -1383,8 +1383,8 @@ &usbdrd_phy0 {
+>  };
+>
+>  &usbdrd3_1 {
+> -       clocks = <&clock CLK_USBD301>;
+> -       clock-names = "usbdrd30";
+> +       clocks = <&clock CLK_USBD301>, <&clock CLK_SCLK_USBD301>;
+> +       clock-names = "usbdrd30", "usbdrd30_susp_clk";
+>  };
+>
+>  &usbdrd_dwc3_1 {
+> diff --git a/arch/arm/boot/dts/exynos54xx.dtsi b/arch/arm/boot/dts/exynos54xx.dtsi
+> index 8aa5117e58ce..0aac6255de5d 100644
+> --- a/arch/arm/boot/dts/exynos54xx.dtsi
+> +++ b/arch/arm/boot/dts/exynos54xx.dtsi
+> @@ -143,7 +143,7 @@ hsi2c_7: i2c@12cd0000 {
+>                 };
+>
+>                 usbdrd3_0: usb3-0 {
+> -                       compatible = "samsung,exynos5250-dwusb3";
+> +                       compatible = "samsung,exynos5420-dwusb3";
+>                         #address-cells = <1>;
+>                         #size-cells = <1>;
+>                         ranges;
+> @@ -165,7 +165,7 @@ usbdrd_phy0: phy@12100000 {
+>                 };
+>
+>                 usbdrd3_1: usb3-1 {
+> -                       compatible = "samsung,exynos5250-dwusb3";
+> +                       compatible = "samsung,exynos5420-dwusb3";
+>                         #address-cells = <1>;
+>                         #size-cells = <1>;
+>                         ranges;
+> --
+> 2.25.1
+>
