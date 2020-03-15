@@ -2,56 +2,58 @@ Return-Path: <SRS0=mFup=5A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 087C1C10F29
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 19:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF1FC10F29
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 19:17:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D10F4206B1
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 19:16:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D341120722
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 19:17:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4yLSbp0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLGpToUO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729040AbgCOTQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 15 Mar 2020 15:16:41 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:40836 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728608AbgCOTQl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 15 Mar 2020 15:16:41 -0400
-Received: by mail-pl1-f195.google.com with SMTP id h11so6891994plk.7;
-        Sun, 15 Mar 2020 12:16:40 -0700 (PDT)
+        id S1729124AbgCOTQy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 15 Mar 2020 15:16:54 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:44309 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729112AbgCOTQv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 15 Mar 2020 15:16:51 -0400
+Received: by mail-pl1-f194.google.com with SMTP id d9so6882365plo.11;
+        Sun, 15 Mar 2020 12:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=CN9k9v/8yanEjvR23mTlz7kA9CFHoWHmloWkKBS3Xfc=;
-        b=S4yLSbp0ndcNFd6XrNeRW3x72H5xjX1PGggO6RKE2KMhHWTPIOarIaOzSnkPqdkmmu
-         3KcSCod7vNk9ClFu4pv4qhzNy3vKgg+BoMvzpq//eBCfQQW4355FWsYReXn5WsJVK5UZ
-         R3JbLN8UQ3esw79Bpw6sVrXK7shFgDQUUVdlss81RJfudRMrz6W6dHMkJfNdYJvemb1q
-         URIMNQzOx73yinju9GRZId5tQAtB19vJryHOAxpXzVsJZ7JnU42zFeBNiSIoOOIsstCQ
-         0YYBxYBdtaxX66HCSplM2ksq7Ba4JTzDHkDMQN2EAUjbzmYlqyPbA+sDYRo1NmMqaEAl
-         W9iQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=QWPsdEuJoivN766vayf9ZE52PL5bRfQfO8yDnpnpf80=;
+        b=YLGpToUOVh3x/T3ca5Ku8LUvtlGg/mn9uDKg38pRDzUwGgZXJb8tGa0GGOPvsWFdMf
+         mZd5tqxB422axuWgaufL7EmQEjw5RQwVD9s3NzGvyfqMA4krbmIvAClbW2HX3kKJ2JMm
+         CVP6iXWti5VDFOYIT2elJBcf8xMrAaIg2ufWPnwKfoXTjUiM/up7rMEJYlidVPjy5UEu
+         QyKoKUR06GJ0assWVYuG8pjwzWQ7oMkR5ldrFRSvE4KL3Bfh/aoHmVkvEixds7fQQawa
+         rqGIrCK9BOyWlfI61kycfL7SJvjPxBdD7XNhyOwOV4TcJsZIZeobTAKULDIoXyCBZYSi
+         pSGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=CN9k9v/8yanEjvR23mTlz7kA9CFHoWHmloWkKBS3Xfc=;
-        b=KQqkaXxj7D8a21xgtbXSe9JTlKC3GV/Sux8VISIn6LrQzh/dlXD4ceYEcUoCGXNgzB
-         jAG2J4WEV3qwiG7RWg4mFYMtGJEk6kRjEjEN/xSPQnjTgDXaxPXAGyUGsScrgyij+qUM
-         3R0mIVTgdgyEiYWD51UYHHgibNHXnkvj1U6TitZ5lHY/8ks7mqzNRp02FncphCyH28yf
-         O4QxX7f6jttBZ1s8DEJr8aXEV0AUC+qUJGIyjq5thdiOlHrvtVRc74JttxCHRH6UjyOc
-         y/b8DJMuVkA1URu3f4PErJwAZXQejAqNgwSIVm7xqn3G+mSH6MSD2VJvyizLRSIrL3Xr
-         iC3Q==
-X-Gm-Message-State: ANhLgQ2VbFII1MLHyy08a4djkNxwMPhislMNDUzxNSsaaEMrO3xT5VE4
-        4QEOosuFPivmGKY//wz8cEI=
-X-Google-Smtp-Source: ADFU+vsjhDVjjDl11WUJvFRigf5KGVcQfKwnZ9/KJdInHA9LulswWg4d2VO7LJ3xsEd9l0h9798aqQ==
-X-Received: by 2002:a17:90a:191:: with SMTP id 17mr20937506pjc.88.1584299799816;
-        Sun, 15 Mar 2020 12:16:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=QWPsdEuJoivN766vayf9ZE52PL5bRfQfO8yDnpnpf80=;
+        b=QRu6PbrwYF7OWHgzQJ71DsyjFRuDp0QE7Q772ZjK+4naqKRKMNxYODzd4i9PlIqQea
+         JtdJpouS5b3P8MLgrqZaFlZUlJiYvCSRUcymvzubYtQMPcKvOoH+KSill/3DRqMB8bw+
+         N+L1dQ13G7zHq5s+3ztUJiBbwxeeJ83ZJcDy9pWC9KYA+Qy7NuimOjSRTWfzO1fZFsCw
+         f3HeAx48TZbm4o8cx/6H9UIBhpmP4EqWi3OLGI69ujNu4g05sJbPwFXpMGwW/qMoF9XI
+         vy+q+YnMBaOzpR7wFUYhWPE+aC6ceW20DURcuxwsFvvFk68X0hZE9leer/bg4n4KH+L8
+         Nc8w==
+X-Gm-Message-State: ANhLgQ3R+ntZ4VvmRMpETDYaKQYKCWHBicPisWt53GLXmg8BgKp7KLRN
+        Frrv0ECOu6parRc0gaaqnZU=
+X-Google-Smtp-Source: ADFU+vvc/zMCOFtXWvlFmafRLLAhKGqwy8p4BQG+HR/PLdDqKpEPagGalL4+6egi+jCXG4xF5oyHvA==
+X-Received: by 2002:a17:90b:3742:: with SMTP id ne2mr21417380pjb.144.1584299809762;
+        Sun, 15 Mar 2020 12:16:49 -0700 (PDT)
 Received: from taoren-ubuntu-R90MNF91.thefacebook.com (c-24-4-25-55.hsd1.ca.comcast.net. [24.4.25.55])
-        by smtp.gmail.com with ESMTPSA id 13sm61431882pgo.13.2020.03.15.12.16.38
+        by smtp.gmail.com with ESMTPSA id 13sm61431882pgo.13.2020.03.15.12.16.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2020 12:16:39 -0700 (PDT)
+        Sun, 15 Mar 2020 12:16:49 -0700 (PDT)
 From:   rentao.bupt@gmail.com
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,10 +70,12 @@ To:     Felipe Balbi <balbi@kernel.org>,
         linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
         taoren@fb.com
 Cc:     Tao Ren <rentao.bupt@gmail.com>
-Subject: [PATCH v2 0/6] usb: gadget: aspeed: allow to customize vhub device
-Date:   Sun, 15 Mar 2020 12:16:26 -0700
-Message-Id: <20200315191632.12536-1-rentao.bupt@gmail.com>
+Subject: [PATCH v2 6/6] dt-bindings: usb: document aspeed vhub device ID/string properties
+Date:   Sun, 15 Mar 2020 12:16:32 -0700
+Message-Id: <20200315191632.12536-7-rentao.bupt@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200315191632.12536-1-rentao.bupt@gmail.com>
+References: <20200315191632.12536-1-rentao.bupt@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -79,44 +83,101 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Tao Ren <rentao.bupt@gmail.com>
 
-This patch series allows people to customize aspeed-usb-vhub device IDs
-and strings via device tree.
+Update device tree binding document for aspeed vhub's device IDs and
+string properties.
 
-Patch #1 converts the single "usb_gadget_strings" instance to a list of
-"usb_gadget_strings" so it's more convenient to support miltiple
-languages.
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+---
+ No change in v2:
+   - the patch is added into the series since v2.
 
-Patch #2 moves LANGID validation code from configfs.c to usbstring.c so
-it can be used by aspeed-vhub driver.
+ .../bindings/usb/aspeed,usb-vhub.yaml         | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
-Patch #3 initializes aspeed-vhub strings with default, or from device
-tree if according device tree properties are defined.
-
-Patch #4 overrides aspeed-vhub's device IDs if according properties are
-defined in device tree.
-
-Patch #5 moves fixup-usb1-dev-desc logic from get-descriptor handler to
-vhub-init time so the descriptor is patched only once.
-
-Patch #6 documents new device tree properties in dt-binding document.
-
-Tao Ren (6):
-  usb: gadget: aspeed: support multiple language strings
-  usb: gadget: add "usb_validate_langid" function
-  usb: gadget: aspeed: allow to set usb strings in device tree
-  usb: gadget: aspeed: allow to set device IDs in device tree
-  usb: gadget: aspeed: fixup usb1 device descriptor at init time
-  dt-bindings: usb: document aspeed vhub device ID/string properties
-
- .../bindings/usb/aspeed,usb-vhub.yaml         |  68 +++++
- drivers/usb/gadget/configfs.c                 |  14 +-
- drivers/usb/gadget/udc/aspeed-vhub/core.c     |   4 +-
- drivers/usb/gadget/udc/aspeed-vhub/hub.c      | 236 ++++++++++++++++--
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h     |   4 +-
- drivers/usb/gadget/usbstring.c                |  24 ++
- include/linux/usb/gadget.h                    |   3 +
- 7 files changed, 312 insertions(+), 41 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+index 06399ba0d9e4..5b2e8d867219 100644
+--- a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
++++ b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+@@ -52,6 +52,59 @@ properties:
+         minimum: 1
+         maximum: 21
+ 
++  vhub-vendor-id:
++    description: vhub Vendor ID
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - maximum: 65535
++
++  vhub-product-id:
++    description: vhub Product ID
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - maximum: 65535
++
++  vhub-device-revision:
++    description: vhub Device Revision in binary-coded decimal
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - maximum: 65535
++
++  vhub-strings:
++    type: object
++
++    properties:
++      '#address-cells':
++        const: 1
++
++      '#size-cells':
++        const: 0
++
++    patternProperties:
++      '^string@[0-9a-f]+$':
++        type: object
++        description: string descriptors of the specific language
++
++        properties:
++          reg:
++            maxItems: 1
++            description: 16-bit Language Identifier defined by USB-IF
++
++          manufacturer:
++            description: vhub manufacturer
++            allOf:
++              - $ref: /schemas/types.yaml#/definitions/string
++
++          product:
++            description: vhub product name
++            allOf:
++              - $ref: /schemas/types.yaml#/definitions/string
++
++          serial-number:
++            description: vhub device serial number
++            allOf:
++              - $ref: /schemas/types.yaml#/definitions/string
++
+ required:
+   - compatible
+   - reg
+@@ -74,4 +127,19 @@ examples:
+             aspeed,vhub-generic-endpoints = <15>;
+             pinctrl-names = "default";
+             pinctrl-0 = <&pinctrl_usb2ad_default>;
++
++            vhub-vendor-id = <0x1d6b>;
++            vhub-product-id = <0x0107>;
++            vhub-device-revision = <0x0100>;
++            vhub-strings {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                string@0409 {
++                        reg = <0x0409>;
++                        manufacturer = "ASPEED";
++                        product = "USB Virtual Hub";
++                        serial-number = "0000";
++                };
++            };
+     };
 -- 
 2.17.1
 
