@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB603C2BB1D
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 14:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FDAC10DCE
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 14:06:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 915EB20663
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 14:05:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D01D7206B1
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Mar 2020 14:06:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBedh0QA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QtK/IMCo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728288AbgCOOFu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 15 Mar 2020 10:05:50 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36481 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728230AbgCOOFu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 15 Mar 2020 10:05:50 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z4so2260241pgu.3;
-        Sun, 15 Mar 2020 07:05:49 -0700 (PDT)
+        id S1728525AbgCOOGB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 15 Mar 2020 10:06:01 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36486 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728226AbgCOOGA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 15 Mar 2020 10:06:00 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z4so2260391pgu.3;
+        Sun, 15 Mar 2020 07:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Q1NO2efRkLGYPR76ekDfvuJ7owLWS/S6CfB6+tacJQU=;
-        b=HBedh0QAPcIc7fw5Iw2GNTyXkGKPVHOBDQwbSC7+zA9heVlZgbYbc/f+2Sk5vSMGrS
-         /RaiYpSkZwIuuJyh5GRj69/oBYKTX0qL1iYtbyiJRwoPBLckp4Q7hnXxzswfJY5aymc8
-         EnL6aeP0pJUyxIiaJzN0eRZCtlpjAG4SZ6ojK7cOo12TQwi/6nME/Dq6JyhbkLp0iOgE
-         Eet8eIxz2QDTN5yaMpVY6zNVgD1e6k62711ySSYGY93aGNH1uI2rbo5B4XnULUBWnTAx
-         T00VbrkglZvwUfmiqkenkTESbE8BZ/bVgc+0jsWhPUJCVOP+eKS+jISuKt6V1SFvhUrd
-         5sIQ==
+        bh=8KoDzKzTJ/RhQEVM8AR3TnFL37SwdP66Jc4nSkLB9Rg=;
+        b=QtK/IMCoFPirrqAqgZIQFECGWUXVcv49njtBVLg/kFW1DDcaGTXWc6YyYtmX8lNZ2f
+         lfKLyRQqDOvn3u1lpOFUbf1XjyTmAilemOxXD8pm8VSlE6vymiMYeHKGexXBrvn/mazM
+         ve/SoNGZVHsoHVjTq1RSXtyEbF40FGYILg7eYrmQX1QZlAIREZK53KToPgCAjk1OSctF
+         iot4UrfBBXAmeuz6gcQNiCWSnoaoQ4n154WAXKYX2Qmrn50IAj6/LWIffMFK4b/6vDj1
+         KClu04U4jqWVXKq1Q7kz/GUXU9XeY/1BN7f+qzqPf0zid7kVzy7quZcPzx3i+d3oH+c4
+         2qJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Q1NO2efRkLGYPR76ekDfvuJ7owLWS/S6CfB6+tacJQU=;
-        b=sDntlm5TMmA4gmdMmYW+JfvVod1xmtUP/Ptbe1hrPZDHMBh49bl5yCEaD8h4O0ndyW
-         m6zWJFLOewHGhUxguok5lMPmZX7Mbkm0NjtZdz+hJzKHNsJkahxPgxDPARMuf0UiMuYG
-         W+KAou/naNWsLK84Z0TBdPYqR+uUwLZpF79gbkZAPBeZLokF4X0XujsdUbsl8unqaZes
-         rIFjKCiLJIf6N5hwNzqrxrSnyR9qumhbMCfSjs5FWqVOO+SGrKB7GCigO2UeUd2clyty
-         PUUTN9BS+tYLhrdVRQrQktTHsDMNdWgqdJYiti17h6QRkGYhhwaUzvomrRPey8G42JFp
-         58iQ==
-X-Gm-Message-State: ANhLgQ0Rwjpu4XsbelB6ioY08NHWCZkTKM1a8T4mfCFeHyuJxnKawW+a
-        XtWDNz8ZINLWAcgR3Nslfvg=
-X-Google-Smtp-Source: ADFU+vsNCiesR2BiYbL3uuH7kaZKiP1cuGcKFX/WXLpk6Nm5bh67qFEu3VkjlwBItXW+hN007oRHIQ==
-X-Received: by 2002:aa7:8195:: with SMTP id g21mr22760286pfi.153.1584281149207;
-        Sun, 15 Mar 2020 07:05:49 -0700 (PDT)
+        bh=8KoDzKzTJ/RhQEVM8AR3TnFL37SwdP66Jc4nSkLB9Rg=;
+        b=UY7keN9rtYZRSZ3y0jc/W2yvVn6kOViNQDNLMrdnWCx4Mm1WhXseMDMjMlIivBxovJ
+         36Ecrd8+VwMqGtH/NaSxov6Bc++Ub8atL2ICwWgEk3A3Ymev5EoGFCtxvjYUNBML27vI
+         EBBwjizR7xQiSkBlcUb2PP0HTkc5pifEcIphtcioa0MC385zeDcWN3CBwmVsq3f1rBeJ
+         NF6iE0gz1y7zVlN9Hv+Xlc8kPYz4btgCyhxWBeFPMV30HRutYxZAZN0I8ATO0+z1J4b5
+         MGbZODTCo2w7Owru8H1OfwbyGtWGgFsH3h+Vg3oe7UTjOhCvPSapqEPbPDm62MnPaHyT
+         NpSw==
+X-Gm-Message-State: ANhLgQ0RCqnMWAirB8T/zCRK/eLjEq9+wp7lfSzXuwI0q2erXIXSUE0d
+        JMK2o8O3GqQRcrk2emBfClw=
+X-Google-Smtp-Source: ADFU+vv7HnMCncwCL++7z3PEppaS2b5DxX8EG+D4N1W0mQt2ckBTiFQ0mGwM2uHV7m1WNxEha2AlFg==
+X-Received: by 2002:a63:1b22:: with SMTP id b34mr21857698pgb.415.1584281158350;
+        Sun, 15 Mar 2020 07:05:58 -0700 (PDT)
 Received: from localhost (216.24.188.11.16clouds.com. [216.24.188.11])
-        by smtp.gmail.com with ESMTPSA id t66sm4528341pjb.45.2020.03.15.07.05.48
+        by smtp.gmail.com with ESMTPSA id c190sm24066567pfa.66.2020.03.15.07.05.57
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 15 Mar 2020 07:05:48 -0700 (PDT)
+        Sun, 15 Mar 2020 07:05:58 -0700 (PDT)
 From:   Dejin Zheng <zhengdejin5@gmail.com>
 To:     gregkh@linuxfoundation.org, rafael@kernel.org, hminas@synopsys.com,
         mathias.nyman@intel.com, bgolaszewski@baylibre.com, arnd@arndb.de,
@@ -63,9 +63,9 @@ To:     gregkh@linuxfoundation.org, rafael@kernel.org, hminas@synopsys.com,
         suzuki.poulose@arm.com, sergei.shtylyov@cogentembedded.com,
         geert@linux-m68k.org, linux-usb@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH v3 3/5] usb: host: hisilicon: convert to devm_platform_get_and_ioremap_resource
-Date:   Sun, 15 Mar 2020 22:05:23 +0800
-Message-Id: <20200315140525.21780-4-zhengdejin5@gmail.com>
+Subject: [PATCH v3 5/5] driver core: platform: Reimplement devm_platform_ioremap_resource
+Date:   Sun, 15 Mar 2020 22:05:25 +0800
+Message-Id: <20200315140525.21780-6-zhengdejin5@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200315140525.21780-1-zhengdejin5@gmail.com>
 References: <20200315140525.21780-1-zhengdejin5@gmail.com>
@@ -76,34 +76,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use devm_platform_get_and_ioremap_resource() to simplify code, which
-contains platform_get_resource() and devm_ioremap_resource(), it also
-get the resource for use by the following code.
+Reimplement devm_platform_ioremap_resource() by calling
+devm_platform_ioremap_and_get_resource() with res = NULL for
+simplify the code.
 
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
 ---
 v2 -> v3:
-	- call the rename function devm_platform_get_and_ioremap_resource()
+	- add this patch to simplify the code by Geert's suggestion.
 
-v1 -> v2:
-	- add this patch for add some real users of this function. 
- 
- drivers/usb/host/xhci-histb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/base/platform.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-histb.c b/drivers/usb/host/xhci-histb.c
-index 3c4abb5a1c3f..5546e7e013a8 100644
---- a/drivers/usb/host/xhci-histb.c
-+++ b/drivers/usb/host/xhci-histb.c
-@@ -219,8 +219,7 @@ static int xhci_histb_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	histb->ctrl = devm_ioremap_resource(&pdev->dev, res);
-+	histb->ctrl = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(histb->ctrl))
- 		return PTR_ERR(histb->ctrl);
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 9f6a78f79235..b83b789c8e34 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -95,10 +95,7 @@ EXPORT_SYMBOL_GPL(devm_platform_get_and_ioremap_resource);
+ void __iomem *devm_platform_ioremap_resource(struct platform_device *pdev,
+ 					     unsigned int index)
+ {
+-	struct resource *res;
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, index);
+-	return devm_ioremap_resource(&pdev->dev, res);
++	return devm_platform_get_and_ioremap_resource(pdev, index, NULL);
+ }
+ EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource);
  
 -- 
 2.25.0
