@@ -7,51 +7,50 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F9A9C18E5B
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 21:11:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABF4C3F2CE
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 21:11:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 42D3A20658
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 21:11:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 517EB205ED
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 21:11:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JOxYOmv/"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="D4KK/aNy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732668AbgCPVLp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Mar 2020 17:11:45 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:48418 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732656AbgCPVLp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Mar 2020 17:11:45 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02GLBbTC052382;
+        id S1732671AbgCPVLr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Mar 2020 17:11:47 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:37300 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732669AbgCPVLr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Mar 2020 17:11:47 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02GLBbxW043488;
         Mon, 16 Mar 2020 16:11:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1584393097;
-        bh=1KBh4DoM6jfc2UTXBoUUdKcbbc740CIcdm2uBWclaFg=;
+        bh=bOYFaETYWJVVuVd1WAFYcBndYT1yP3V30xHNURp1E7k=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=JOxYOmv/KThifYjLFlbgd7aSkLkcbw+ca/jdgLM2A8tVauGVLm8K/t03WH4ep6mUa
-         t+To+AmxfobpA6/4GlALYnSZnfkPW66bzjo/hCO8Mm1RcqvQeN+AgeoHOplP+7eluk
-         BKsYfYmpLJJaA+RBoJLU6uSqoJGrS2TenQilreb4=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02GLBbmt024275
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        b=D4KK/aNyclgcjyVBS9PXkctMkJMmYg8rGOwgXRgSenHJIi1YC+UeI+3+ooMLUWCqX
+         ciOB0kLP4wi8Kxq2BAW5HlR6t1n8GUw5exoCPHdDTobrRSDB7kDwVzu2hbml7jzIKi
+         UevTtxmUgMwM3f7uLGCQLfTqY5JBOuYuH56LSJ6A=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02GLBbPa028885;
         Mon, 16 Mar 2020 16:11:37 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
  Mar 2020 16:11:37 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
  Frontend Transport; Mon, 16 Mar 2020 16:11:37 -0500
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02GLBbLg119954;
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02GLBbLe119954;
         Mon, 16 Mar 2020 16:11:37 -0500
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 4/8] usb: musb: jz4740: Register USB role switch
-Date:   Mon, 16 Mar 2020 16:11:32 -0500
-Message-ID: <20200316211136.2274-5-b-liu@ti.com>
+Subject: [PATCH 2/8] dt-bindings: usb: Convert jz4740-musb doc to YAML
+Date:   Mon, 16 Mar 2020 16:11:30 -0500
+Message-ID: <20200316211136.2274-3-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200316211136.2274-1-b-liu@ti.com>
 References: <20200316211136.2274-1-b-liu@ti.com>
@@ -65,125 +64,140 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Paul Cercueil <paul@crapouillou.net>
 
-Register a USB role switch, in order to get notified by the connector
-driver when the USB role changes. The notification is then transmitted
-to the PHY.
+Convert ingenic,jz4740-musb.txt to ingenic,musb.yaml, and add the
+new ingenic,jz4770-musb and ingenic,jz4725b-musb compatible strings
+in the process.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/Kconfig  |  1 +
- drivers/usb/musb/jz4740.c | 48 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ .../bindings/usb/ingenic,jz4740-musb.txt      | 32 --------
+ .../devicetree/bindings/usb/ingenic,musb.yaml | 76 +++++++++++++++++++
+ 2 files changed, 76 insertions(+), 32 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/ingenic,musb.yaml
 
-diff --git a/drivers/usb/musb/Kconfig b/drivers/usb/musb/Kconfig
-index c4b349e074c1..3268adb7d7cf 100644
---- a/drivers/usb/musb/Kconfig
-+++ b/drivers/usb/musb/Kconfig
-@@ -113,6 +113,7 @@ config USB_MUSB_JZ4740
- 	depends on MIPS || COMPILE_TEST
- 	depends on USB_MUSB_GADGET
- 	depends on USB=n || USB_OTG_BLACKLIST_HUB
-+	select USB_ROLE_SWITCH
- 
- config USB_MUSB_MEDIATEK
- 	tristate "MediaTek platforms"
-diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-index aa32b5af0c1f..7f813bdaf1d1 100644
---- a/drivers/usb/musb/jz4740.c
-+++ b/drivers/usb/musb/jz4740.c
-@@ -12,13 +12,16 @@
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/usb/role.h>
- #include <linux/usb/usb_phy_generic.h>
- 
- #include "musb_core.h"
- 
- struct jz4740_glue {
- 	struct platform_device	*pdev;
-+	struct musb		*musb;
- 	struct clk		*clk;
-+	struct usb_role_switch	*role_sw;
- };
- 
- static irqreturn_t jz4740_musb_interrupt(int irq, void *__hci)
-@@ -72,11 +75,40 @@ static const struct musb_hdrc_config jz4740_musb_config = {
- 	.fifo_cfg_size	= ARRAY_SIZE(jz4740_musb_fifo_cfg),
- };
- 
-+static int jz4740_musb_role_switch_set(struct usb_role_switch *sw,
-+				       enum usb_role role)
-+{
-+	struct jz4740_glue *glue = usb_role_switch_get_drvdata(sw);
-+	struct usb_phy *phy = glue->musb->xceiv;
+diff --git a/Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt b/Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt
+deleted file mode 100644
+index 16808721f3ff..000000000000
+--- a/Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Ingenic JZ4740 MUSB driver
+-
+-Required properties:
+-
+-- compatible: Must be "ingenic,jz4740-musb"
+-- reg: Address range of the UDC register set
+-- interrupts: IRQ number related to the UDC hardware
+-- interrupt-names: must be "mc"
+-- clocks: phandle to the "udc" clock
+-- clock-names: must be "udc"
+-- phys: phandle to the USB PHY
+-
+-Example:
+-
+-usb_phy: usb-phy@0 {
+-	compatible = "usb-nop-xceiv";
+-	#phy-cells = <0>;
+-};
+-
+-udc: usb@13040000 {
+-	compatible = "ingenic,jz4740-musb";
+-	reg = <0x13040000 0x10000>;
+-
+-	interrupt-parent = <&intc>;
+-	interrupts = <24>;
+-	interrupt-names = "mc";
+-
+-	clocks = <&cgu JZ4740_CLK_UDC>;
+-	clock-names = "udc";
+-
+-	phys = <&usb_phy>;
+-};
+diff --git a/Documentation/devicetree/bindings/usb/ingenic,musb.yaml b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
+new file mode 100644
+index 000000000000..1d6877875077
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/ingenic,musb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	switch (role) {
-+	case USB_ROLE_NONE:
-+		atomic_notifier_call_chain(&phy->notifier, USB_EVENT_NONE, phy);
-+		break;
-+	case USB_ROLE_DEVICE:
-+		atomic_notifier_call_chain(&phy->notifier, USB_EVENT_VBUS, phy);
-+		break;
-+	case USB_ROLE_HOST:
-+		atomic_notifier_call_chain(&phy->notifier, USB_EVENT_ID, phy);
-+		break;
-+	}
++title: Ingenic JZ47xx USB IP DT bindings
 +
-+	return 0;
-+}
++maintainers:
++  - Paul Cercueil <paul@crapouillou.net>
 +
- static int jz4740_musb_init(struct musb *musb)
- {
- 	struct device *dev = musb->controller->parent;
-+	struct jz4740_glue *glue = dev_get_drvdata(dev);
-+	struct usb_role_switch_desc role_sw_desc = {
-+		.set = jz4740_musb_role_switch_set,
-+		.driver_data = glue,
-+		.fwnode = dev_fwnode(dev),
-+	};
- 	int err;
- 
-+	glue->musb = musb;
++properties:
++  $nodename:
++    pattern: '^usb@.*'
 +
- 	if (dev->of_node)
- 		musb->xceiv = devm_usb_get_phy_by_phandle(dev, "phys", 0);
- 	else
-@@ -88,6 +120,12 @@ static int jz4740_musb_init(struct musb *musb)
- 		return err;
- 	}
- 
-+	glue->role_sw = usb_role_switch_register(dev, &role_sw_desc);
-+	if (IS_ERR(glue->role_sw)) {
-+		dev_err(dev, "Failed to register USB role switch");
-+		return PTR_ERR(glue->role_sw);
-+	}
++  compatible:
++    oneOf:
++      - enum:
++        - ingenic,jz4770-musb
++        - ingenic,jz4740-musb
++      - items:
++        - const: ingenic,jz4725b-musb
++        - const: ingenic,jz4740-musb
 +
- 	/*
- 	 * Silicon does not implement ConfigData register.
- 	 * Set dyn_fifo to avoid reading EP config from hardware.
-@@ -99,10 +137,20 @@ static int jz4740_musb_init(struct musb *musb)
- 	return 0;
- }
- 
-+static int jz4740_musb_exit(struct musb *musb)
-+{
-+	struct jz4740_glue *glue = dev_get_drvdata(musb->controller->parent);
++  reg:
++    maxItems: 1
 +
-+	usb_role_switch_unregister(glue->role_sw);
++  clocks:
++    maxItems: 1
 +
-+	return 0;
-+}
++  clock-names:
++    items:
++      - const: udc
 +
- static const struct musb_platform_ops jz4740_musb_ops = {
- 	.quirks		= MUSB_DMA_INVENTRA | MUSB_INDEXED_EP,
- 	.fifo_mode	= 2,
- 	.init		= jz4740_musb_init,
-+	.exit		= jz4740_musb_exit,
- #ifdef CONFIG_USB_INVENTRA_DMA
- 	.dma_init	= musbhs_dma_controller_create_noirq,
- 	.dma_exit	= musbhs_dma_controller_destroy,
++  interrupts:
++    maxItems: 1
++
++  interrupt-names:
++    items:
++      - const: mc
++
++  phys:
++    description: PHY specifier for the USB PHY
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - interrupt-names
++  - phys
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/jz4740-cgu.h>
++    usb_phy: usb-phy@0 {
++      compatible = "usb-nop-xceiv";
++      #phy-cells = <0>;
++    };
++
++    udc: usb@13040000 {
++      compatible = "ingenic,jz4740-musb";
++      reg = <0x13040000 0x10000>;
++
++      interrupt-parent = <&intc>;
++      interrupts = <24>;
++      interrupt-names = "mc";
++
++      clocks = <&cgu JZ4740_CLK_UDC>;
++      clock-names = "udc";
++
++      phys = <&usb_phy>;
++    };
 -- 
 2.17.1
 
