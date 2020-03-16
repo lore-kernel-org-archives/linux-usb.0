@@ -2,27 +2,26 @@ Return-Path: <SRS0=ibeH=5B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73780C0044D
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 11:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C774C0044D
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 11:32:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 51F852051A
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 11:32:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0875E2051A
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 11:32:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730801AbgCPLcK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Mar 2020 07:32:10 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47634 "EHLO
+        id S1730828AbgCPLcZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Mar 2020 07:32:25 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47640 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730759AbgCPLcK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Mar 2020 07:32:10 -0400
+        with ESMTP id S1730759AbgCPLcZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Mar 2020 07:32:25 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 4A396291A6E
-Subject: Re: [PATCH 1/2] Staging: media: rkisp1: reduce comments width bellow
+        with ESMTPSA id CE076291A6E
+Subject: Re: [PATCH 0/2] Staging: media: rkisp1: trim diagram in comments to
  80 chars
 To:     Enrique Vargas <jevargas@seas.upenn.edu>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -30,14 +29,13 @@ To:     Enrique Vargas <jevargas@seas.upenn.edu>,
         outreachy-kernel@googlegroups.com
 Cc:     linux-usb@vger.kernel.org
 References: <cover.1584298430.git.jevargas@seas.upenn.edu>
- <5e08334eae9ca864dbb09c02291fd72687681c39.1584298430.git.jevargas@seas.upenn.edu>
 From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <6a89e7a9-6571-1925-f312-26687fec7ca1@collabora.com>
-Date:   Mon, 16 Mar 2020 08:32:02 -0300
+Message-ID: <c4e2ce5d-848c-3a97-9260-57c67d94cd6e@collabora.com>
+Date:   Mon, 16 Mar 2020 08:32:18 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <5e08334eae9ca864dbb09c02291fd72687681c39.1584298430.git.jevargas@seas.upenn.edu>
+In-Reply-To: <cover.1584298430.git.jevargas@seas.upenn.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -46,99 +44,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Enric,
+Hi Enrique,
 
-On 3/15/20 4:00 PM, Enrique Vargas wrote:
-> Make 'Main Picture Path' part of block diagram on separate rows to avoid
-> 80 chars WARNING found with checkpatch.
-> 
-> Signed-off-by: Enrique Vargas <jevargas@seas.upenn.edu>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-dev.c | 57 ++++++++++++++++-------
->  1 file changed, 39 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> index 558126e66465..194fc33941f0 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> @@ -37,26 +37,47 @@
->   *
->   * ISP Block Diagram
->   * -----------------
-> - *                                                             rkisp1-resizer.c          rkisp1-capture.c
-> - *                                                          |====================|  |=======================|
-> - *                                rkisp1-isp.c                              Main Picture Path
-> - *                        |==========================|      |===============================================|
-> - *                        +-----------+  +--+--+--+--+      +--------+  +--------+              +-----------+
-> - *                        |           |  |  |  |  |  |      |        |  |        |              |           |
-> - * +--------+    |\       |           |  |  |  |  |  |   -->|  Crop  |->|  RSZ   |------------->|           |
-> - * |  MIPI  |--->|  \     |           |  |  |  |  |  |   |  |        |  |        |              |           |
-> - * +--------+    |   |    |           |  |IE|IE|IE|IE|   |  +--------+  +--------+              |  Memory   |
-> - *               |MUX|--->|    ISP    |->|0 |1 |2 |3 |---+                                      | Interface |
-> - * +--------+    |   |    |           |  |  |  |  |  |   |  +--------+  +--------+  +--------+  |           |
-> - * |Parallel|--->|  /     |           |  |  |  |  |  |   |  |        |  |        |  |        |  |           |
-> - * +--------+    |/       |           |  |  |  |  |  |   -->|  Crop  |->|  RSZ   |->|  RGB   |->|           |
-> - *                        |           |  |  |  |  |  |      |        |  |        |  | Rotate |  |           |
-> - *                        +-----------+  +--+--+--+--+      +--------+  +--------+  +--------+  +-----------+
+On 3/15/20 3:59 PM, Enrique Vargas wrote:
+> *** BLURB HERE ***
 
-To be honest, I prefer the old way, I think it is easier to visualize.
-But lets see what others think.
+I think you forgot to fill out the cover letter.
 
+Please, see more information on https://kernelnewbies.org/PatchSeries
 
-> + *                                                          
-> + *                                                          
-> + *                                rkisp1-isp.c              
-> + *                        |==========================|      
-> + *                        +-----------+  +--+--+--+--+   
-> + *                        |           |  |  |  |  |  |   
-> + * +--------+    |\       |           |  |  |  |  |  |   
-> + * |  MIPI  |--->|  \     |           |  |  |  |  |  |   
-> + * +--------+    |   |    |           |  |IE|IE|IE|IE|   
-> + *               |MUX|--->|    ISP    |->|0 |1 |2 |3 |--[A]--
-> + * +--------+    |   |    |           |  |  |  |  |  |   
-> + * |Parallel|--->|  /     |           |  |  |  |  |  |   
-> + * +--------+    |/       |           |  |  |  |  |  |   
-> + *                        |           |  |  |  |  |  |   
-> + *                        +-----------+  +--+--+--+--+   
-
-You can eliminate the trailing spaces in this patch, since it was generated due to this
-line break, so you don't need the second patch.
+Let me know if you have any questions.
 
 Regards,
 Helen
 
->   *                                               ^
-> - * +--------+                                    |          |===============================================|
-> - * |  DMA   |------------------------------------+                          Self Picture Path
-> + * +--------+                                    |       
-> + * |  DMA   |------------------------------------+       
->   * +--------+
-> - *
-> + * 
-> + * 
-> + *              rkisp1-resizer.c          rkisp1-capture.c
-> + *            |====================|  |=======================|
-> + *                         Main Picture Path
-> + *            |===============================================|
-> + *            +--------+  +--------+              +-----------+
-> + *            |        |  |        |              |           |
-> + *         -->|  Crop  |->|  RSZ   |------------->|           |
-> + *         |  |        |  |        |              |           |
-> + *         |  +--------+  +--------+              |  Memory   |
-> + * --[A]---+                                      | Interface |
-> + *         |  +--------+  +--------+  +--------+  |           |
-> + *         |  |        |  |        |  |        |  |           |
-> + *         -->|  Crop  |->|  RSZ   |->|  RGB   |->|           |
-> + *            |        |  |        |  | Rotate |  |           |
-> + *            +--------+  +--------+  +--------+  +-----------+
-> + *  
-> + *            |===============================================|
-> + *                          Self Picture Path
-> + * 
-> + * 
->   *         rkisp1-stats.c        rkisp1-params.c
->   *       |===============|      |===============|
->   *       +---------------+      +---------------+
 > 
-
-
+> Enrique Vargas (2):
+>   reduce comments width bellow 80 chars
+>   eliminate trailing whitespaces on comments
+> 
+>  drivers/staging/media/rkisp1/rkisp1-dev.c | 54 ++++++++++++++++-------
+>  1 file changed, 37 insertions(+), 17 deletions(-)
+> 
