@@ -3,44 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4971C3F2CE
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 13:26:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44BEC18E5B
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 15:42:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7EF9020719
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 13:26:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 883A820679
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Mar 2020 15:42:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731310AbgCPN0u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Mar 2020 09:26:50 -0400
-Received: from mga04.intel.com ([192.55.52.120]:27296 "EHLO mga04.intel.com"
+        id S1731751AbgCPPmZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Mar 2020 11:42:25 -0400
+Received: from mga18.intel.com ([134.134.136.126]:42368 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731234AbgCPN0u (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 16 Mar 2020 09:26:50 -0400
-IronPort-SDR: 8M2pXAUUs+2CLyjV4tFtr820/wuOm8ZwSzsc4AMHAjpEP71I39EQU6Uad0ruCh1xT7LAD7WGrE
- CjEQl2L1J1Fg==
+        id S1731564AbgCPPmZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Mar 2020 11:42:25 -0400
+IronPort-SDR: JaVg8BmJz193D/JCcs7vF+No5Chck0XQzacevqzq/ccx/xT6SE8BWDwf4cckIvmP1WNKlZG8qn
+ WE13qxL27yhQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 06:26:49 -0700
-IronPort-SDR: FFqXo5TF/9EWT5ycDFUjD94uCIU/vGYVmV4epI+S7vwusZQV1qNHv+nBr76fI9MpSqtL44e+O/
- VqWnOEDk7SLw==
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 08:42:24 -0700
+IronPort-SDR: uGXKDpL2qvSzVars+dUGDfT7gA/qYJ6zm5PnOvxJ3e8MlwYJp4B8nLfKtiMqCn99CgPaQhM9nH
+ Em0EA64pbM0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,560,1574150400"; 
-   d="scan'208";a="233164040"
+   d="scan'208";a="279069352"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 16 Mar 2020 06:26:47 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 16 Mar 2020 08:42:23 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1jDplW-000570-FG; Mon, 16 Mar 2020 21:26:46 +0800
-Date:   Mon, 16 Mar 2020 21:25:51 +0800
+        id 1jDrsk-000FXR-E7; Mon, 16 Mar 2020 23:42:22 +0800
+Date:   Mon, 16 Mar 2020 23:42:07 +0800
 From:   kbuild test robot <lkp@intel.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     linux-omap@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [balbi-usb:testing/fixes] BUILD SUCCESS
- 8e11a977c8eb02aa06604b11cfb4e43eb8287537
-Message-ID: <5e6f7e5f.oPUL0wusm4ukMqOi%lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ df8df5e4bc37e39010cfdf5d50cf726fe08aae5b
+Message-ID: <5e6f9e4f.xzdYCL1kCL81XQp+%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -50,12 +50,12 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git  testing/fixes
-branch HEAD: 8e11a977c8eb02aa06604b11cfb4e43eb8287537  usb: dwc2: Silence warning about supplies during deferred probe
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
+branch HEAD: df8df5e4bc37e39010cfdf5d50cf726fe08aae5b  usb: get rid of 'choice' for legacy gadget drivers
 
-elapsed time: 485m
+elapsed time: 483m
 
-configs tested: 129
+configs tested: 140
 configs skipped: 0
 
 The following configs have been built successfully.
@@ -67,21 +67,34 @@ arm                              allyesconfig
 arm64                            allmodconfig
 arm64                             allnoconfig
 arm64                            allyesconfig
-sparc                            allyesconfig
-mips                             allyesconfig
-riscv                    nommu_virt_defconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
 arm                        multi_v5_defconfig
-s390                             allyesconfig
-sparc64                             defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+riscv                               defconfig
+mips                      malta_kvm_defconfig
+m68k                           sun3_defconfig
+parisc                           allyesconfig
+sh                            titan_defconfig
+sh                                allnoconfig
+um                                  defconfig
+sparc                               defconfig
+microblaze                      mmu_defconfig
+parisc                            allnoconfig
 i386                              allnoconfig
-i386                             allyesconfig
 i386                             alldefconfig
+i386                             allyesconfig
 i386                                defconfig
-ia64                             alldefconfig
 ia64                             allmodconfig
+ia64                                defconfig
 ia64                              allnoconfig
 ia64                             allyesconfig
-ia64                                defconfig
+ia64                             alldefconfig
 c6x                              allyesconfig
 c6x                        evmc6678_defconfig
 nios2                         10m50_defconfig
@@ -90,29 +103,29 @@ openrisc                    or1ksim_defconfig
 openrisc                 simple_smp_defconfig
 xtensa                       common_defconfig
 xtensa                          iss_defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
 h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
+h8300                     edosk2674_defconfig
 m68k                       m5475evb_defconfig
+m68k                             allmodconfig
+h8300                    h8300h-sim_defconfig
 m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                                 defconfig
 arc                              allyesconfig
+arc                                 defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
 powerpc                             defconfig
 powerpc                       ppc64_defconfig
 powerpc                          rhel-kconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
 mips                           32r2_defconfig
 mips                         64r6el_defconfig
 mips                             allmodconfig
 mips                              allnoconfig
+mips                             allyesconfig
 mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
 parisc                generic-32bit_defconfig
 parisc                generic-64bit_defconfig
 alpha                randconfig-a001-20200316
@@ -137,12 +150,6 @@ x86_64               randconfig-b003-20200316
 i386                 randconfig-b001-20200316
 i386                 randconfig-b002-20200316
 i386                 randconfig-b003-20200316
-x86_64               randconfig-d001-20200316
-x86_64               randconfig-d002-20200316
-x86_64               randconfig-d003-20200316
-i386                 randconfig-d001-20200316
-i386                 randconfig-d002-20200316
-i386                 randconfig-d003-20200316
 x86_64               randconfig-e001-20200316
 x86_64               randconfig-e002-20200316
 x86_64               randconfig-e003-20200316
@@ -161,29 +168,33 @@ x86_64               randconfig-h003-20200316
 i386                 randconfig-h001-20200316
 i386                 randconfig-h002-20200316
 i386                 randconfig-h003-20200316
+arc                  randconfig-a001-20200316
+arm                  randconfig-a001-20200316
+arm64                randconfig-a001-20200316
+ia64                 randconfig-a001-20200316
+powerpc              randconfig-a001-20200316
+sparc                randconfig-a001-20200316
 riscv                            allmodconfig
 riscv                             allnoconfig
 riscv                            allyesconfig
-riscv                               defconfig
+riscv                    nommu_virt_defconfig
 riscv                          rv32_defconfig
 s390                             alldefconfig
 s390                             allmodconfig
 s390                              allnoconfig
+s390                             allyesconfig
 s390                          debug_defconfig
 s390                                defconfig
 s390                       zfcpdump_defconfig
 sh                               allmodconfig
-sh                                allnoconfig
 sh                          rsk7269_defconfig
 sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-sparc                               defconfig
 sparc64                          allmodconfig
 sparc64                           allnoconfig
 sparc64                          allyesconfig
-um                                  defconfig
-um                             i386_defconfig
+sparc64                             defconfig
 um                           x86_64_defconfig
+um                             i386_defconfig
 x86_64                              fedora-25
 x86_64                                  kexec
 x86_64                                    lkp
