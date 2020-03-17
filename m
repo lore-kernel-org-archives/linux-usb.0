@@ -6,21 +6,21 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74CE8C10F29
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:40:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F38BAC2BB1D
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:40:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 540D420724
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:40:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4DB920714
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726903AbgCQJk3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Mar 2020 05:40:29 -0400
-Received: from v6.sk ([167.172.42.174]:50380 "EHLO v6.sk"
+        id S1726979AbgCQJkh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Mar 2020 05:40:37 -0400
+Received: from v6.sk ([167.172.42.174]:50448 "EHLO v6.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726872AbgCQJk1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 17 Mar 2020 05:40:27 -0400
+        id S1726917AbgCQJkf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 17 Mar 2020 05:40:35 -0400
 Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id 00A2C6108D;
-        Tue, 17 Mar 2020 09:40:25 +0000 (UTC)
+        by v6.sk (Postfix) with ESMTP id 2B9D16108F;
+        Tue, 17 Mar 2020 09:40:33 +0000 (UTC)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
@@ -47,9 +47,9 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
         Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH 13/28] dt-bindings: serial: move Marvell compatible string to 8250 binding doc
-Date:   Tue, 17 Mar 2020 10:39:07 +0100
-Message-Id: <20200317093922.20785-14-lkundrak@v3.sk>
+Subject: [PATCH 15/28] dt-bindings: arm: mrvl: Add missing compatible strings
+Date:   Tue, 17 Mar 2020 10:39:09 +0100
+Message-Id: <20200317093922.20785-16-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317093922.20785-1-lkundrak@v3.sk>
 References: <20200317093922.20785-1-lkundrak@v3.sk>
@@ -60,40 +60,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-These ports are compatible with NS8250 and handled by the same driver.
-Get rid of the extra document that fails to document the properties that
-are actually supported.
+Add compatible strings for the boards we have in tree. At the same time,
+fix the MMP3 compatible string: the preferred vendor name for Marvell is
+"marvell", not "mrvl", and indeed "marvell,mmp3" has been actively used,
+not "mrvl,mmp3".
 
+Fixes: 95aecb71b84e ("dt-bindings: arm: mrvl: Document MMP3 compatible string")
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 ---
- Documentation/devicetree/bindings/serial/8250.txt        | 2 ++
- Documentation/devicetree/bindings/serial/mrvl-serial.txt | 4 ----
- 2 files changed, 2 insertions(+), 4 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/serial/mrvl-serial.txt
+ Documentation/devicetree/bindings/arm/mrvl/mrvl.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/serial/8250.txt b/Documentation/devicetree/bindings/serial/8250.txt
-index 55700f20f6ee8..a543702859e2f 100644
---- a/Documentation/devicetree/bindings/serial/8250.txt
-+++ b/Documentation/devicetree/bindings/serial/8250.txt
-@@ -26,6 +26,8 @@ Required properties:
- 	- "aspeed,ast2400-vuart"
- 	- "aspeed,ast2500-vuart"
- 	- "nuvoton,npcm750-uart"
-+	- "mrvl,mmp-uart"
-+	- "mrvl,pxa-uart"
- 	- "serial" if the port type is unknown.
- - reg : offset and length of the register set for the device.
- - interrupts : should contain uart interrupt.
-diff --git a/Documentation/devicetree/bindings/serial/mrvl-serial.txt b/Documentation/devicetree/bindings/serial/mrvl-serial.txt
-deleted file mode 100644
-index d744340de887c..0000000000000
---- a/Documentation/devicetree/bindings/serial/mrvl-serial.txt
-+++ /dev/null
-@@ -1,4 +0,0 @@
--PXA UART controller
--
--Required properties:
--- compatible : should be "mrvl,mmp-uart" or "mrvl,pxa-uart".
+diff --git a/Documentation/devicetree/bindings/arm/mrvl/mrvl.yaml b/Documentation/devicetree/bindings/arm/mrvl/mrvl.yaml
+index 818dfe6de5120..3235ec9e9bad1 100644
+--- a/Documentation/devicetree/bindings/arm/mrvl/mrvl.yaml
++++ b/Documentation/devicetree/bindings/arm/mrvl/mrvl.yaml
+@@ -28,8 +28,11 @@ properties:
+         items:
+           - enum:
+               - mrvl,mmp2-brownstone
++              - olpc,xo-1.75
+           - const: mrvl,mmp2
+       - description: MMP3 based boards
+         items:
+-          - const: mrvl,mmp3
++          - enum:
++              - dell,wyse-ariel
++          - const: marvell,mmp3
+ ...
 -- 
 2.25.1
 
