@@ -6,21 +6,21 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BEAC5ACD7
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B74D4C5ACC2
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:42:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 76CB720736
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:42:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97E8D20736
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 09:42:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbgCQJke (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Mar 2020 05:40:34 -0400
-Received: from v6.sk ([167.172.42.174]:50412 "EHLO v6.sk"
+        id S1726838AbgCQJkU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Mar 2020 05:40:20 -0400
+Received: from v6.sk ([167.172.42.174]:50272 "EHLO v6.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726905AbgCQJkc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 17 Mar 2020 05:40:32 -0400
+        id S1726736AbgCQJkP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 17 Mar 2020 05:40:15 -0400
 Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id F2DE56108E;
-        Tue, 17 Mar 2020 09:40:28 +0000 (UTC)
+        by v6.sk (Postfix) with ESMTP id 3A2E261008;
+        Tue, 17 Mar 2020 09:40:13 +0000 (UTC)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
@@ -47,9 +47,9 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
         Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH 14/28] dt-bindings: arm: l2x0: Tauros 3 is PL310 compatible
-Date:   Tue, 17 Mar 2020 10:39:08 +0100
-Message-Id: <20200317093922.20785-15-lkundrak@v3.sk>
+Subject: [PATCH 10/28] ARM: dts: mmp3: fix USB & USB PHY node names
+Date:   Tue, 17 Mar 2020 10:39:04 +0100
+Message-Id: <20200317093922.20785-11-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317093922.20785-1-lkundrak@v3.sk>
 References: <20200317093922.20785-1-lkundrak@v3.sk>
@@ -60,77 +60,76 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The validation is unhappy about mmp3-dell-ariel declaring its
-marvell,tauros3-cache node to be compatible with arm,pl310-cache:
+There are better generic ones and the validation is going to complain:
 
-  mmp3-dell-ariel.dt.yaml: cache-controller@d0020000: compatible:
-       Additional items are not allowed ('arm,pl310-cache' was unexpected)
-  mmp3-dell-ariel.dt.yaml: cache-controller@d0020000: compatible:
-       ['marvell,tauros3-cache', 'arm,pl310-cache'] is too long
-
-Let's allow this -- Tauros 3 is designed to be compatible with PL310.
+  mmp3-dell-ariel.dt.yaml: hsic@f0001000: $nodename:0: 'hsic@f0001000'
+      does not match '^usb(@.*)?'
+  mmp3-dell-ariel.dt.yaml: hsic@f0002000: $nodename:0: 'hsic@f0002000'
+      does not match '^usb(@.*)?'
+  ...
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 ---
- .../devicetree/bindings/arm/l2c2x0.yaml       | 45 ++++++++++---------
- 1 file changed, 24 insertions(+), 21 deletions(-)
+ arch/arm/boot/dts/mmp3.dtsi | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/l2c2x0.yaml b/Documentation/devicetree/bindings/arm/l2c2x0.yaml
-index 913a8cd8b2c00..7e39088a9bed2 100644
---- a/Documentation/devicetree/bindings/arm/l2c2x0.yaml
-+++ b/Documentation/devicetree/bindings/arm/l2c2x0.yaml
-@@ -29,27 +29,30 @@ allOf:
+diff --git a/arch/arm/boot/dts/mmp3.dtsi b/arch/arm/boot/dts/mmp3.dtsi
+index eaff9b1bc1d9f..fc75f96106351 100644
+--- a/arch/arm/boot/dts/mmp3.dtsi
++++ b/arch/arm/boot/dts/mmp3.dtsi
+@@ -183,14 +183,14 @@ hsi0_mux: interrupt-controller@d42821d0 {
+ 				mrvl,intc-nr-irqs = <5>;
+ 			};
  
- properties:
-   compatible:
--    enum:
--      - arm,pl310-cache
--      - arm,l220-cache
--      - arm,l210-cache
--        # DEPRECATED by "brcm,bcm11351-a2-pl310-cache"
--      - bcm,bcm11351-a2-pl310-cache
--        # For Broadcom bcm11351 chipset where an
--        # offset needs to be added to the address before passing down to the L2
--        # cache controller
--      - brcm,bcm11351-a2-pl310-cache
--        # Marvell Controller designed to be
--        # compatible with the ARM one, with system cache mode (meaning
--        # maintenance operations on L1 are broadcasted to the L2 and L2
--        # performs the same operation).
--      - marvell,aurora-system-cache
--        # Marvell Controller designed to be
--        # compatible with the ARM one with outer cache mode.
--      - marvell,aurora-outer-cache
--        # Marvell Tauros3 cache controller, compatible
--        # with arm,pl310-cache controller.
--      - marvell,tauros3-cache
-+    oneOf:
-+      - enum:
-+        - arm,pl310-cache
-+        - arm,l220-cache
-+        - arm,l210-cache
-+          # DEPRECATED by "brcm,bcm11351-a2-pl310-cache"
-+        - bcm,bcm11351-a2-pl310-cache
-+          # For Broadcom bcm11351 chipset where an
-+          # offset needs to be added to the address before passing down to the L2
-+          # cache controller
-+        - brcm,bcm11351-a2-pl310-cache
-+          # Marvell Controller designed to be
-+          # compatible with the ARM one, with system cache mode (meaning
-+          # maintenance operations on L1 are broadcasted to the L2 and L2
-+          # performs the same operation).
-+        - marvell,aurora-system-cache
-+          # Marvell Controller designed to be
-+          # compatible with the ARM one with outer cache mode.
-+        - marvell,aurora-outer-cache
-+      - items:
-+         # Marvell Tauros3 cache controller, compatible
-+         # with arm,pl310-cache controller.
-+        - const: marvell,tauros3-cache
-+        - const: arm,pl310-cache
+-			usb_otg_phy0: usb-otg-phy@d4207000 {
++			usb_otg_phy0: usb-phy@d4207000 {
+ 				compatible = "marvell,mmp3-usb-phy";
+ 				reg = <0xd4207000 0x40>;
+ 				#phy-cells = <0>;
+ 				status = "disabled";
+ 			};
  
-   cache-level:
-     const: 2
+-			usb_otg0: usb-otg@d4208000 {
++			usb_otg0: usb@d4208000 {
+ 				compatible = "marvell,pxau2o-ehci";
+ 				reg = <0xd4208000 0x200>;
+ 				interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+@@ -201,7 +201,7 @@ usb_otg0: usb-otg@d4208000 {
+ 				status = "disabled";
+ 			};
+ 
+-			hsic_phy0: hsic-phy@f0001800 {
++			hsic_phy0: usb-phy@f0001800 {
+ 				compatible = "marvell,mmp3-hsic-phy",
+ 					     "usb-nop-xceiv";
+ 				reg = <0xf0001800 0x40>;
+@@ -209,7 +209,7 @@ hsic_phy0: hsic-phy@f0001800 {
+ 				status = "disabled";
+ 			};
+ 
+-			hsic0: hsic@f0001000 {
++			hsic0: usb@f0001000 {
+ 				compatible = "marvell,pxau2o-ehci";
+ 				reg = <0xf0001000 0x200>;
+ 				interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
+@@ -223,7 +223,7 @@ hsic0: hsic@f0001000 {
+ 				status = "disabled";
+ 			};
+ 
+-			hsic_phy1: hsic-phy@f0002800 {
++			hsic_phy1: usb-phy@f0002800 {
+ 				compatible = "marvell,mmp3-hsic-phy",
+ 					     "usb-nop-xceiv";
+ 				reg = <0xf0002800 0x40>;
+@@ -231,7 +231,7 @@ hsic_phy1: hsic-phy@f0002800 {
+ 				status = "disabled";
+ 			};
+ 
+-			hsic1: hsic@f0002000 {
++			hsic1: usb@f0002000 {
+ 				compatible = "marvell,pxau2o-ehci";
+ 				reg = <0xf0002000 0x200>;
+ 				interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.25.1
 
