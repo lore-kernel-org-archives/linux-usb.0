@@ -2,122 +2,140 @@ Return-Path: <SRS0=UB4R=5C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5140DC18E5B
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 10:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE9AC18E5B
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 12:24:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 12E9320714
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 10:05:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 584322076E
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 12:24:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="hsHzKaLO"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="nyJ5GfF4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbgCQKFJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Mar 2020 06:05:09 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35563 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgCQKFH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Mar 2020 06:05:07 -0400
-Received: by mail-lj1-f194.google.com with SMTP id u12so22096514ljo.2
-        for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2020 03:05:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=n09seZt9zQSEmn7PnJzgCcHPTYjmqdsKfcWkGxOyoSw=;
-        b=hsHzKaLO8KEYIAs97rD1AMV6mMcqn8KvHqg4ovsIqvIqJsmunKOt1qYqCT5n50NIxg
-         5W5zLGTss9f2hdJk1xumbMBaQMEDyvjcEyPZ3jrVx+WFRbtYyH8TPSgzOsF/O0ZDV+R+
-         YjoSBTZStIUKJShmEh3hEBHRdVxm1SY6SdsdZnyJxUDVSUVZF76uON1MxQVFXMBzq7je
-         dlg8JkAxS2yIyOnnmUE/68pzDOxpbgCvnSFoZcOm6vs6rcpTxYbjby1S67f7NF/Fv36c
-         IE9PiIrFyxQp03l/Q0rCM6x04ylSD3FBrTKVotFLkqpNP2woyYPVF4wSIq4KiiZs1osm
-         q5YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=n09seZt9zQSEmn7PnJzgCcHPTYjmqdsKfcWkGxOyoSw=;
-        b=FruI11Ee4YBcTlCDUG9OUCiz9rt1dYETYVDsapxXRmWz1XCYVBr0CJr86F70gJV7nv
-         6g9hd2Aouoec9RzxlH2Lxcpvr6vzGIqJMqsG+hrYiAQwBd6j0mU5oDV8IHMCJ9p4JoGH
-         77jd2eC44CoqqPP79f2vjMIwraxuI9Udix2NXLKC20K1v8P+wFm8cF8oFBhHDpSirgZe
-         9V1Fqv3HdRYX/mB8jcdm0gf1PLi/aPFn4BlLPKCJatJDGXNkD9lk8x1nXFVlIjRsHJz7
-         71S/xAOFslM05saY/XKY6VRtMLGDa2sGMfLINdHsohKysNhW/sYLu0NWtNXbOjYL6/dS
-         /1Cg==
-X-Gm-Message-State: ANhLgQ0rw6yxt6yShIWpBoRRKxkjrR4ibZoTHjdEfB+hTYDjKWM2Hey2
-        mKSOSLJyeryZgV3IH4dsWOPSpqbvXl4=
-X-Google-Smtp-Source: ADFU+vvDFgn0Sv1qdBbtE4XeAKrxupkPbSjYz/5IJ9Z1M/fD+IB/2XXNoyEDPpVkBc5aUWJYf1e6nA==
-X-Received: by 2002:a2e:8119:: with SMTP id d25mr2329766ljg.39.1584439502560;
-        Tue, 17 Mar 2020 03:05:02 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:48ef:94a3:a481:5e62:4324:124b? ([2a00:1fa0:48ef:94a3:a481:5e62:4324:124b])
-        by smtp.gmail.com with ESMTPSA id r7sm1932099ljc.3.2020.03.17.03.05.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Mar 2020 03:05:01 -0700 (PDT)
-Subject: Re: [PATCH 17/28] dt-bindings: mmc: Fix up clk-phase-sd-hs in an
- example
-To:     Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20200317093922.20785-1-lkundrak@v3.sk>
- <20200317093922.20785-18-lkundrak@v3.sk>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <d7ccf5c1-4bfa-2fd2-b32d-a520e96bdd1e@cogentembedded.com>
-Date:   Tue, 17 Mar 2020 13:04:55 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200317093922.20785-18-lkundrak@v3.sk>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1727270AbgCQMYA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Mar 2020 08:24:00 -0400
+Received: from mail-eopbgr40077.outbound.protection.outlook.com ([40.107.4.77]:46551
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727290AbgCQMX7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 17 Mar 2020 08:23:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ai8Hy9uuLh/pg47Z2ZSWweaT8AgPrFLmMbo6mr5jO84LdgQlGOXL5fKvRmTPil4rjjFzxS670KF3tcq05cCJ5uZPQOtfOI50rf/i5IFS8yI5E1sDXUVCAejTGbJpEe79Mn77SnJ7qSMymRQ026lozmRmASVxFwJhATXIwbiej+RnwYVGHYKcU4+pB89gRM0yr3vLm3paQ1F6RTbB6gN5pBX21AqwgM/v5euu1IdwZMU+Tlz3IxxRwb7CS2GFHZBBVDwwjW+RHV52R6R0mwFSGCCBL7zvQBioP6p8hEdxxQYmaYZ8c+m0sL/Tihot1JCCVm5NYAxSkQmy1xyTEhHmrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U2MEo8BINt+p/Vw9kO0SCR2Co2F6+CXUZ5xlzSzlS5c=;
+ b=FmicudZ7007nw2Sw/+sLgFyKQ5AGdgU8em5C4QXH+ULb0vZypLu3BYk82EiGX9322C86sbMMwvNCnXw3RfT2lpw8JyCt+F+f6Q082xn8nfh0h12l3YjVLxICOTiEKKOpOUEGbCVZr5O5IJ/cEfVcsqA4SumopGsY4pGdE53KEQ5kmTTXfbE27B8Q6kymcjfLJu7dlJwYILvoQpFVX/m8f5hLwuC9sj7hsXVp6LchG+QRfzfKc7T9NotdzJpNSLVoHqWfogXs9L8i5kx8/zgNnyLhv4rksI93rUvhsVN6fSlSHzB1lDVeibg834bwbxRWlFUGCcwc2gLjOrqn2R9Niw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U2MEo8BINt+p/Vw9kO0SCR2Co2F6+CXUZ5xlzSzlS5c=;
+ b=nyJ5GfF47tHlzvuaiWSnwndiq9oByIbfJ3isJrPK4GhmCkOfGUBYDcv8Wdo/DrpSYXMYpRvVMhd+5GUjIhXon7qupebOERA3q0EzG5thDxMX227NMoD2LIr8mN8ndI5ZERm0JIxByVThkWonKY0nXwHCN40oD6orpTUxYyOQzig=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.51.23) by
+ VI1PR04MB5856.eurprd04.prod.outlook.com (20.178.204.210) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.18; Tue, 17 Mar 2020 12:23:57 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::9547:9dfa:76b8:71b1]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::9547:9dfa:76b8:71b1%7]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
+ 12:23:56 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: [GIT PULL] usb: chipidea: changes for v5.7-rc1
+Thread-Topic: [GIT PULL] usb: chipidea: changes for v5.7-rc1
+Thread-Index: AQHV/Fbt143Qmbnl6EChFL8TjUAw1g==
+Date:   Tue, 17 Mar 2020 12:23:56 +0000
+Message-ID: <20200317122414.GA11834@b29397-desktop>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 0ab7c625-db0f-4218-fbc7-08d7ca6e1089
+x-ms-traffictypediagnostic: VI1PR04MB5856:
+x-microsoft-antispam-prvs: <VI1PR04MB58567BFC62937595BD76B12A8BF60@VI1PR04MB5856.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:849;
+x-forefront-prvs: 0345CFD558
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(7916004)(4636009)(39860400002)(396003)(136003)(366004)(346002)(376002)(199004)(71200400001)(5660300002)(478600001)(2906002)(8936002)(33656002)(186003)(1076003)(8676002)(26005)(44832011)(33716001)(81166006)(6916009)(86362001)(81156014)(66556008)(66476007)(66946007)(6486002)(64756008)(66446008)(6512007)(91956017)(76116006)(9686003)(6506007)(316002)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB5856;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: b5ttih7FLvSLxYlC7cvkKTn5h+PJaDPa8XmTNIP9M4erdl2hcFuA+7lWAHQatraboyVTi7XPLE8ck2r8m0h8lQ9Tn0RvyNs2ICc0aKiD4UzLYDrpxM9gU0CUrl8vQkhujPNBDQsAl5qvX86Zxckca98CNW7xGIJEEkQWvYBzXdDdd4z2m5QnoVJUQBQ/V+bb55d+E7yxBE21OhzZ9bCDGnVFkG0WgPdjv0NA8xKbtHLivx0+nUPw29/dFbYGx336RdZPISPHsL/LsOBGHDtZUolR2HS+I1gO1LgRPDTEAfsIzzvHhaySrKjB1ekCMoi5NjXD1bCBWQVLoj+NseySx0//TbY9nX+7z1qVHqRIu2GLSS+C76EpAO8ZBvIoOYqKJx237q1rsDv9kfB0UrolX41lwXxYQtvJBKYMX6ck7FR/mSNntc85CoXZDrkVYtt3
+x-ms-exchange-antispam-messagedata: 2vgx8A1nyEx6xgGor3VYlr0xTA3bmUAibhjhYo69JqdHxZSJy19WSE+rfTbgNyeR47MSyk6bcyehoJ0EPeYrkfJDUxpx8YSqDLQJ0mPyoQwuc57T1qa1mpCx8gxFQYty0mpiNfAGC3f+2WQvpHxsLw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <30A4B9AC845BAD4BBB4EBD91A9B584ED@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ab7c625-db0f-4218-fbc7-08d7ca6e1089
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2020 12:23:56.7656
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5W99JV5OKZUyvmpFuS/mpOxtf8HyzFCf53QuRbk5zL/8gXZyM3jwZwFk+WnFMrdg/v8uojI33Iojv2b8xMaiGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5856
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
+The following changes since commit 6a7c533d4a1854f54901a065d8c672e890400d8a=
+:
 
-On 17.03.2020 12:39, Lubomir Rintel wrote:
+  xhci-pci: Allow host runtime PM as default for Intel Tiger Lake xHCI (202=
+0-03-12 17:34:49 +0100)
 
-> This way the validator can know that the two cells constitute a singlej
+are available in the Git repository at:
 
-    Single?
+  git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git/ tags/us=
+b-ci-v5.7-rc1
 
-> pair of clock phase degrees value, not separate items Otherwise it is
+for you to fetch changes up to d9958306d4be14f4c7466242b38ed3893a7b1386:
 
-    Forgot a period after "items"?
+  USB: chipidea: Use the correct style for SPDX License Identifier (2020-03=
+-16 11:13:47 +0800)
 
-> unhappy:
-> 
->    mmc-controller.example.dt.yaml: mmc@ab000000: clk-phase-sd-hs:0:
->        [63] is too short
->    mmc-controller.example.dt.yaml: mmc@ab000000: clk-phase-sd-hs:1:
->        [72] is too short
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-[...]
+----------------------------------------------------------------
+- Improve the runtime pm
+- Cover one cover case during suspend/resume
+- Some SPDX License changes
 
-MBR, Sergei
+The code changes are at my ci-for-usb-next many days,
+no issue is reported.
+
+----------------------------------------------------------------
+Nishad Kamdar (1):
+      USB: chipidea: Use the correct style for SPDX License Identifier
+
+Peter Chen (2):
+      usb: chipidea: udc: using structure ci_hdrc device for runtime PM
+      usb: chipidea: otg: handling vbus disconnect event occurred during sy=
+stem suspend
+
+ drivers/usb/chipidea/bits.h        |  2 +-
+ drivers/usb/chipidea/ci.h          |  2 +-
+ drivers/usb/chipidea/ci_hdrc_imx.h |  2 +-
+ drivers/usb/chipidea/otg.c         |  7 +++++++
+ drivers/usb/chipidea/otg.h         |  2 +-
+ drivers/usb/chipidea/otg_fsm.h     |  2 +-
+ drivers/usb/chipidea/udc.c         | 13 +++++--------
+ drivers/usb/chipidea/udc.h         |  2 +-
+ 8 files changed, 18 insertions(+), 14 deletions(-)
+
+--=20
+
+Thanks,
+Peter Chen=
