@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D09C4332E
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8E6C4332D
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:48:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3820F20775
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:47:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F101208DB
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727314AbgCRUri (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Mar 2020 16:47:38 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:58414 "EHLO
+        id S1727356AbgCRUrz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Mar 2020 16:47:55 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:58412 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727290AbgCRUrh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Mar 2020 16:47:37 -0400
+        with ESMTP id S1727225AbgCRUrc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Mar 2020 16:47:32 -0400
 Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1jEfaO-0006BC-A3; Wed, 18 Mar 2020 21:46:44 +0100
+        id 1jEfaK-000669-59; Wed, 18 Mar 2020 21:46:40 +0100
 Received: from nanos.tec.linutronix.de (localhost [IPv6:::1])
-        by nanos.tec.linutronix.de (Postfix) with ESMTP id 13D7C1040D1;
-        Wed, 18 Mar 2020 21:46:37 +0100 (CET)
-Message-Id: <20200318204408.319891308@linutronix.de>
+        by nanos.tec.linutronix.de (Postfix) with ESMTP id 9A0B91040CD;
+        Wed, 18 Mar 2020 21:46:36 +0100 (CET)
+Message-Id: <20200318204408.102694393@linutronix.de>
 User-Agent: quilt/0.65
-Date:   Wed, 18 Mar 2020 21:43:11 +0100
+Date:   Wed, 18 Mar 2020 21:43:09 +0100
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -38,6 +38,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Randy Dunlap <rdunlap@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Logan Gunthorpe <logang@deltatee.com>,
         Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
@@ -48,10 +50,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         "David S. Miller" <davem@davemloft.net>,
         linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         Oleg Nesterov <oleg@redhat.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org
-Subject: [patch V2 09/15] timekeeping: Split jiffies seqlock
+        Davidlohr Bueso <dave@stgolabs.net>
+Subject: [patch V2 07/15] powerpc/ps3: Convert half completion to rcuwait
 References: <20200318204302.693307984@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -63,169 +63,84 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+The PS3 notification interrupt and kthread use a hacked up completion to
+communicate. Since we're wanting to change the completion implementation and
+this is abuse anyway, replace it with a simple rcuwait since there is only ever
+the one waiter.
 
-seqlock consists of a sequence counter and a spinlock_t which is used to
-serialize the writers. spinlock_t is substituted by a "sleeping" spinlock
-on PREEMPT_RT enabled kernels which breaks the usage in the timekeeping
-code as the writers are executed in hard interrupt and therefore
-non-preemptible context even on PREEMPT_RT.
+AFAICT the kthread uses TASK_INTERRUPTIBLE to not increase loadavg, kthreads
+cannot receive signals by default and this one doesn't look different. Use
+TASK_IDLE instead.
 
-The spinlock in seqlock cannot be unconditionally replaced by a
-raw_spinlock_t as many seqlock users have nesting spinlock sections or
-other code which is not suitable to run in truly atomic context on RT.
-
-Instead of providing a raw_seqlock API for a single use case, open code the
-seqlock for the jiffies use case and implement it with a raw_spinlock_t and
-a sequence counter.
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linuxppc-dev@lists.ozlabs.org
 ---
- kernel/time/jiffies.c     |    7 ++++---
- kernel/time/tick-common.c |   10 ++++++----
- kernel/time/tick-sched.c  |   19 ++++++++++++-------
- kernel/time/timekeeping.c |    6 ++++--
- kernel/time/timekeeping.h |    3 ++-
- 5 files changed, 28 insertions(+), 17 deletions(-)
+V2: New patch to avoid the magic completion wait variant
+---
+ arch/powerpc/platforms/ps3/device-init.c |   17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
---- a/kernel/time/jiffies.c
-+++ b/kernel/time/jiffies.c
-@@ -58,7 +58,8 @@ static struct clocksource clocksource_ji
- 	.max_cycles	= 10,
+--- a/arch/powerpc/platforms/ps3/device-init.c
++++ b/arch/powerpc/platforms/ps3/device-init.c
+@@ -13,6 +13,7 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/reboot.h>
++#include <linux/rcuwait.h>
+ 
+ #include <asm/firmware.h>
+ #include <asm/lv1call.h>
+@@ -670,7 +671,8 @@ struct ps3_notification_device {
+ 	spinlock_t lock;
+ 	u64 tag;
+ 	u64 lv1_status;
+-	struct completion done;
++	struct rcuwait wait;
++	bool done;
  };
  
--__cacheline_aligned_in_smp DEFINE_SEQLOCK(jiffies_lock);
-+__cacheline_aligned_in_smp DEFINE_RAW_SPINLOCK(jiffies_lock);
-+__cacheline_aligned_in_smp seqcount_t jiffies_seq;
- 
- #if (BITS_PER_LONG < 64)
- u64 get_jiffies_64(void)
-@@ -67,9 +68,9 @@ u64 get_jiffies_64(void)
- 	u64 ret;
- 
- 	do {
--		seq = read_seqbegin(&jiffies_lock);
-+		seq = read_seqcount_begin(&jiffies_seq);
- 		ret = jiffies_64;
--	} while (read_seqretry(&jiffies_lock, seq));
-+	} while (read_seqcount_retry(&jiffies_seq, seq));
- 	return ret;
- }
- EXPORT_SYMBOL(get_jiffies_64);
---- a/kernel/time/tick-common.c
-+++ b/kernel/time/tick-common.c
-@@ -84,13 +84,15 @@ int tick_is_oneshot_available(void)
- static void tick_periodic(int cpu)
- {
- 	if (tick_do_timer_cpu == cpu) {
--		write_seqlock(&jiffies_lock);
-+		raw_spin_lock(&jiffies_lock);
-+		write_seqcount_begin(&jiffies_seq);
- 
- 		/* Keep track of the next tick event */
- 		tick_next_period = ktime_add(tick_next_period, tick_period);
- 
- 		do_timer(1);
--		write_sequnlock(&jiffies_lock);
-+		write_seqcount_end(&jiffies_seq);
-+		raw_spin_unlock(&jiffies_lock);
- 		update_wall_time();
+ enum ps3_notify_type {
+@@ -712,7 +714,8 @@ static irqreturn_t ps3_notification_inte
+ 		pr_debug("%s:%u: completed, status 0x%llx\n", __func__,
+ 			 __LINE__, status);
+ 		dev->lv1_status = status;
+-		complete(&dev->done);
++		dev->done = true;
++		rcuwait_wake_up(&dev->wait);
  	}
+ 	spin_unlock(&dev->lock);
+ 	return IRQ_HANDLED;
+@@ -725,12 +728,12 @@ static int ps3_notification_read_write(s
+ 	unsigned long flags;
+ 	int res;
  
-@@ -162,9 +164,9 @@ void tick_setup_periodic(struct clock_ev
- 		ktime_t next;
- 
- 		do {
--			seq = read_seqbegin(&jiffies_lock);
-+			seq = read_seqcount_begin(&jiffies_seq);
- 			next = tick_next_period;
--		} while (read_seqretry(&jiffies_lock, seq));
-+		} while (read_seqcount_retry(&jiffies_seq, seq));
- 
- 		clockevents_switch_state(dev, CLOCK_EVT_STATE_ONESHOT);
- 
---- a/kernel/time/tick-sched.c
-+++ b/kernel/time/tick-sched.c
-@@ -65,7 +65,8 @@ static void tick_do_update_jiffies64(kti
- 		return;
- 
- 	/* Reevaluate with jiffies_lock held */
--	write_seqlock(&jiffies_lock);
-+	raw_spin_lock(&jiffies_lock);
-+	write_seqcount_begin(&jiffies_seq);
- 
- 	delta = ktime_sub(now, last_jiffies_update);
- 	if (delta >= tick_period) {
-@@ -91,10 +92,12 @@ static void tick_do_update_jiffies64(kti
- 		/* Keep the tick_next_period variable up to date */
- 		tick_next_period = ktime_add(last_jiffies_update, tick_period);
- 	} else {
--		write_sequnlock(&jiffies_lock);
-+		write_seqcount_end(&jiffies_seq);
-+		raw_spin_unlock(&jiffies_lock);
- 		return;
+-	init_completion(&dev->done);
+ 	spin_lock_irqsave(&dev->lock, flags);
+ 	res = write ? lv1_storage_write(dev->sbd.dev_id, 0, 0, 1, 0, lpar,
+ 					&dev->tag)
+ 		    : lv1_storage_read(dev->sbd.dev_id, 0, 0, 1, 0, lpar,
+ 				       &dev->tag);
++	dev->done = false;
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 	if (res) {
+ 		pr_err("%s:%u: %s failed %d\n", __func__, __LINE__, op, res);
+@@ -738,14 +741,10 @@ static int ps3_notification_read_write(s
  	}
--	write_sequnlock(&jiffies_lock);
-+	write_seqcount_end(&jiffies_seq);
-+	raw_spin_unlock(&jiffies_lock);
- 	update_wall_time();
- }
+ 	pr_debug("%s:%u: notification %s issued\n", __func__, __LINE__, op);
  
-@@ -105,12 +108,14 @@ static ktime_t tick_init_jiffy_update(vo
- {
- 	ktime_t period;
+-	res = wait_event_interruptible(dev->done.wait,
+-				       dev->done.done || kthread_should_stop());
++	rcuwait_wait_event(&dev->wait, dev->done || kthread_should_stop(), TASK_IDLE);
++
+ 	if (kthread_should_stop())
+ 		res = -EINTR;
+-	if (res) {
+-		pr_debug("%s:%u: interrupted %s\n", __func__, __LINE__, op);
+-		return res;
+-	}
  
--	write_seqlock(&jiffies_lock);
-+	raw_spin_lock(&jiffies_lock);
-+	write_seqcount_begin(&jiffies_seq);
- 	/* Did we start the jiffies update yet ? */
- 	if (last_jiffies_update == 0)
- 		last_jiffies_update = tick_next_period;
- 	period = last_jiffies_update;
--	write_sequnlock(&jiffies_lock);
-+	write_seqcount_end(&jiffies_seq);
-+	raw_spin_unlock(&jiffies_lock);
- 	return period;
- }
- 
-@@ -676,10 +681,10 @@ static ktime_t tick_nohz_next_event(stru
- 
- 	/* Read jiffies and the time when jiffies were updated last */
- 	do {
--		seq = read_seqbegin(&jiffies_lock);
-+		seq = read_seqcount_begin(&jiffies_seq);
- 		basemono = last_jiffies_update;
- 		basejiff = jiffies;
--	} while (read_seqretry(&jiffies_lock, seq));
-+	} while (read_seqcount_retry(&jiffies_seq, seq));
- 	ts->last_jiffies = basejiff;
- 	ts->timer_expires_base = basemono;
- 
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -2397,8 +2397,10 @@ EXPORT_SYMBOL(hardpps);
-  */
- void xtime_update(unsigned long ticks)
- {
--	write_seqlock(&jiffies_lock);
-+	raw_spin_lock(&jiffies_lock);
-+	write_seqcount_begin(&jiffies_seq);
- 	do_timer(ticks);
--	write_sequnlock(&jiffies_lock);
-+	write_seqcount_end(&jiffies_seq);
-+	raw_spin_unlock(&jiffies_lock);
- 	update_wall_time();
- }
---- a/kernel/time/timekeeping.h
-+++ b/kernel/time/timekeeping.h
-@@ -25,7 +25,8 @@ static inline void sched_clock_resume(vo
- extern void do_timer(unsigned long ticks);
- extern void update_wall_time(void);
- 
--extern seqlock_t jiffies_lock;
-+extern raw_spinlock_t jiffies_lock;
-+extern seqcount_t jiffies_seq;
- 
- #define CS_NAME_LEN	32
- 
+ 	if (dev->lv1_status) {
+ 		pr_err("%s:%u: %s not completed, status 0x%llx\n", __func__,
 
