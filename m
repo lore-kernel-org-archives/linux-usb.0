@@ -1,140 +1,258 @@
-Return-Path: <SRS0=UB4R=5C=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=mrYY=5D=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E62DC5ACD6
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 19:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 613D5C1975A
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 03:01:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 82FB420738
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Mar 2020 19:35:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29ADB20738
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 03:01:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbgCQTfa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Mar 2020 15:35:30 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39881 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726452AbgCQTfa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Mar 2020 15:35:30 -0400
-Received: by mail-ot1-f65.google.com with SMTP id r2so7558454otn.6;
-        Tue, 17 Mar 2020 12:35:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0OwDkuCyaDPj4qBgiFSCBZ9Jnd8fSLCfC5Lfyemz1Lw=;
-        b=PFiXdktFE0mUgj95i+1zrko+S1kur3PPvz0kBc+soci2QKY3K/OeouCO/92YoAMVtJ
-         MbDmgmFeKE7kYwbXc9cR2ieU19GJNvCn3zLUk8NN7/fOYQbCnbvMSPamLMkGeR3VjSrQ
-         4rZlh8wCVXU8sIMXh3fIaCv7skjc6y0XwGb2zgdQlruWmbbbmxVx0qLdtUaEKa0VqBh+
-         cWWLHyDLZqStKZ4R/fTcx44kNpMEdi8cQKjaZi99DTrvo4agdolhSPlKsM1KTB6Ff5Ev
-         iLb0PYxHPVb7feSbj+huBbK4oC9RjOPETfd7n/EuKJn0MT69AaIHwGv9hLm9zsXFdoIj
-         zqaA==
-X-Gm-Message-State: ANhLgQ2SykB0Aquzx+wBpBed8rfMx3hq01hv7f2NeMEUeUX2BSY2ooxE
-        oVMWfE9Yqr16+MSYRfD3Xcfj+GYRxuBlSpNqLDY=
-X-Google-Smtp-Source: ADFU+vveQh0hjmPLfqNeMrif7aOhs4Y/DBS2xMfAkRSxNp6usTED9mrvCwcYGr0Znv4OgUXxXOKdLSR4tAKH2lY4oVA=
-X-Received: by 2002:a9d:1708:: with SMTP id i8mr792014ota.250.1584473728102;
- Tue, 17 Mar 2020 12:35:28 -0700 (PDT)
+        id S1726733AbgCRDBk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Mar 2020 23:01:40 -0400
+Received: from mga06.intel.com ([134.134.136.31]:24415 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726229AbgCRDBk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 17 Mar 2020 23:01:40 -0400
+IronPort-SDR: 0LuaeM+AKgMcJ026z4q4iM4w+5tx9YBKJ5F68GHFX+30V5BfEIOGNqaDl5e0Kr/UYmXMCtU/kY
+ vgxuwA9hdGvw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2020 20:01:39 -0700
+IronPort-SDR: dIKp8bUfvDvFowmUMNopiocQT5F7MrTIsOes6dtdfOkmx5IK2Me+SbYgU7OuT0OxXhP9B/56Vd
+ SZHIiNYxSgGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,566,1574150400"; 
+   d="scan'208";a="248035317"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2020 20:01:38 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jEOxd-000FUJ-IP; Wed, 18 Mar 2020 11:01:37 +0800
+Date:   Wed, 18 Mar 2020 11:01:29 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-next] BUILD SUCCESS
+ b80e3e813b3a502e04ed79e2301577fa3e5719ff
+Message-ID: <5e718f09.8UZ5Psg4k6Ve5OyM%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200315140525.21780-1-zhengdejin5@gmail.com> <20200315140525.21780-2-zhengdejin5@gmail.com>
- <20200317192051.GA1520272@kroah.com>
-In-Reply-To: <20200317192051.GA1520272@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Mar 2020 20:35:16 +0100
-Message-ID: <CAMuHMdVK0Gpw6A=CfF+5nw4hHz9UCtSoXwF9_UThAK4E+mQBWg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] drivers: provide devm_platform_get_and_ioremap_resource()
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Dejin Zheng <zhengdejin5@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Winkler, Tomas" <tomas.winkler@intel.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-next
+branch HEAD: b80e3e813b3a502e04ed79e2301577fa3e5719ff  Merge tag 'usb-ci-v5.7-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb into usb-next
 
-On Tue, Mar 17, 2020 at 8:20 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> On Sun, Mar 15, 2020 at 10:05:21PM +0800, Dejin Zheng wrote:
-> > Since commit "drivers: provide devm_platform_ioremap_resource()",
-> > it was wrap platform_get_resource() and devm_ioremap_resource() as
-> > single helper devm_platform_ioremap_resource(). but now, many drivers
-> > still used platform_get_resource() and devm_ioremap_resource()
-> > together in the kernel tree. The reason can not be replaced is they
-> > still need use the resource variables obtained by platform_get_resource().
-> > so provide this helper.
-> >
-> > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Suggested-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> > Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> > ---
-> > v2 -> v3:
-> >       - rename the function to
-> >         devm_platform_get_and_ioremap_resource() by Sergei's suggestion.
-> >       - make the last parameter res as optional by Geert's suggestion.
-> >
-> > v1 -> v2:
-> >       - No change.
-> >
-> >  drivers/base/platform.c         | 22 ++++++++++++++++++++++
-> >  include/linux/platform_device.h |  3 +++
-> >  2 files changed, 25 insertions(+)
-> >
-> > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> > index 7fa654f1288b..9f6a78f79235 100644
-> > --- a/drivers/base/platform.c
-> > +++ b/drivers/base/platform.c
-> > @@ -62,6 +62,28 @@ struct resource *platform_get_resource(struct platform_device *dev,
-> >  EXPORT_SYMBOL_GPL(platform_get_resource);
-> >
-> >  #ifdef CONFIG_HAS_IOMEM
-> > +/**
-> > + * devm_platform_get_and_ioremap_resource - call devm_ioremap_resource() for a
-> > + *                                       platform device and get resource
-> > + *
-> > + * @pdev: platform device to use both for memory resource lookup as well as
-> > + *        resource management
-> > + * @index: resource index
-> > + * @res: get the resource
-> > + */
-> > +void __iomem *
-> > +devm_platform_get_and_ioremap_resource(struct platform_device *pdev,
-> > +                             unsigned int index, struct resource **res)
-> > +{
-> > +     struct resource *r;
-> > +
-> > +     r = platform_get_resource(pdev, IORESOURCE_MEM, index);
-> > +     if (res)
-> > +             *res = r;
->
-> What happens if that call fails?  Shouldn't that be checked?
+elapsed time: 485m
 
-Then devm_ioremap_resource() will print an error message, and return
-an error.
-It's designed to be pipelined that way, so you have to check for an error
-only once.
+configs tested: 191
+configs skipped: 0
 
-Gr{oetje,eeting}s,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-                        Geert
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+ia64                                defconfig
+sparc64                           allnoconfig
+openrisc                 simple_smp_defconfig
+riscv                             allnoconfig
+openrisc                    or1ksim_defconfig
+h8300                       h8s-sim_defconfig
+parisc                            allnoconfig
+i386                              allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                                defconfig
+alpha                               defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arc                                 defconfig
+arc                              allyesconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+parisc                generic-64bit_defconfig
+parisc                generic-32bit_defconfig
+parisc                           allyesconfig
+x86_64               randconfig-a001-20200317
+x86_64               randconfig-a002-20200317
+x86_64               randconfig-a003-20200317
+i386                 randconfig-a001-20200317
+i386                 randconfig-a002-20200317
+i386                 randconfig-a003-20200317
+alpha                randconfig-a001-20200318
+m68k                 randconfig-a001-20200318
+mips                 randconfig-a001-20200318
+nds32                randconfig-a001-20200318
+parisc               randconfig-a001-20200318
+riscv                randconfig-a001-20200318
+alpha                randconfig-a001-20200317
+m68k                 randconfig-a001-20200317
+mips                 randconfig-a001-20200317
+nds32                randconfig-a001-20200317
+parisc               randconfig-a001-20200317
+c6x                  randconfig-a001-20200317
+h8300                randconfig-a001-20200317
+microblaze           randconfig-a001-20200317
+nios2                randconfig-a001-20200317
+sparc64              randconfig-a001-20200317
+c6x                  randconfig-a001-20200318
+h8300                randconfig-a001-20200318
+microblaze           randconfig-a001-20200318
+nios2                randconfig-a001-20200318
+sparc64              randconfig-a001-20200318
+csky                 randconfig-a001-20200318
+openrisc             randconfig-a001-20200318
+s390                 randconfig-a001-20200318
+sh                   randconfig-a001-20200318
+xtensa               randconfig-a001-20200318
+csky                 randconfig-a001-20200317
+openrisc             randconfig-a001-20200317
+s390                 randconfig-a001-20200317
+sh                   randconfig-a001-20200317
+xtensa               randconfig-a001-20200317
+x86_64               randconfig-b001-20200317
+x86_64               randconfig-b002-20200317
+x86_64               randconfig-b003-20200317
+i386                 randconfig-b001-20200317
+i386                 randconfig-b002-20200317
+i386                 randconfig-b003-20200317
+x86_64               randconfig-b001-20200318
+x86_64               randconfig-b002-20200318
+x86_64               randconfig-b003-20200318
+i386                 randconfig-b001-20200318
+i386                 randconfig-b002-20200318
+i386                 randconfig-b003-20200318
+x86_64               randconfig-c001-20200317
+x86_64               randconfig-c002-20200317
+x86_64               randconfig-c003-20200317
+i386                 randconfig-c001-20200317
+i386                 randconfig-c002-20200317
+i386                 randconfig-c003-20200317
+x86_64               randconfig-d001-20200317
+x86_64               randconfig-d002-20200317
+x86_64               randconfig-d003-20200317
+i386                 randconfig-d001-20200317
+i386                 randconfig-d002-20200317
+i386                 randconfig-d003-20200317
+x86_64               randconfig-e001-20200317
+x86_64               randconfig-e002-20200317
+x86_64               randconfig-e003-20200317
+i386                 randconfig-e001-20200317
+i386                 randconfig-e002-20200317
+i386                 randconfig-e003-20200317
+x86_64               randconfig-f001-20200317
+x86_64               randconfig-f002-20200317
+x86_64               randconfig-f003-20200317
+i386                 randconfig-f001-20200317
+i386                 randconfig-f002-20200317
+i386                 randconfig-f003-20200317
+x86_64               randconfig-g001-20200317
+x86_64               randconfig-g002-20200317
+x86_64               randconfig-g003-20200317
+i386                 randconfig-g001-20200317
+i386                 randconfig-g002-20200317
+i386                 randconfig-g003-20200317
+x86_64               randconfig-h001-20200317
+x86_64               randconfig-h002-20200317
+x86_64               randconfig-h003-20200317
+i386                 randconfig-h001-20200317
+i386                 randconfig-h002-20200317
+i386                 randconfig-h003-20200317
+arc                  randconfig-a001-20200317
+arm                  randconfig-a001-20200317
+arm64                randconfig-a001-20200317
+ia64                 randconfig-a001-20200317
+powerpc              randconfig-a001-20200317
+sparc                randconfig-a001-20200317
+arc                  randconfig-a001-20200318
+arm                  randconfig-a001-20200318
+arm64                randconfig-a001-20200318
+ia64                 randconfig-a001-20200318
+powerpc              randconfig-a001-20200318
+sparc                randconfig-a001-20200318
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
