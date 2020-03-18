@@ -2,230 +2,153 @@ Return-Path: <SRS0=mrYY=5D=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A346C10F29
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 17:49:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA43C4332B
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:47:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5883520768
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 17:49:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F6502071C
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:47:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbgCRRtm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Mar 2020 13:49:42 -0400
-Received: from mga12.intel.com ([192.55.52.136]:30663 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726619AbgCRRtm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 18 Mar 2020 13:49:42 -0400
-IronPort-SDR: 1Fw1dxVXTUjWOop9E6gP3ThrsYIMv+Yc2NZ7E3VmTUs8cmRBc7Nq0oSFL8D5rWg2NTVNPjTu42
- 8dFpD2WZTmEg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2020 10:49:39 -0700
-IronPort-SDR: MmouI4a/jUpsBKH3v4VMVwmh5ailnajT2s5LA2J0rOznNmuYai3HLhH6xTFxpoBbY8qE5J/RAk
- hBChiyfAIk5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,568,1574150400"; 
-   d="scan'208";a="355777406"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2020 10:49:38 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jEcp0-000IiW-42; Thu, 19 Mar 2020 01:49:38 +0800
-Date:   Thu, 19 Mar 2020 01:48:53 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- 2866ce8696167de300e27d50d521b5f671bab5d4
-Message-ID: <5e725f05.5nEmdfRXFzBPU5KW%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726975AbgCRUrS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Mar 2020 16:47:18 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:58399 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbgCRUrS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Mar 2020 16:47:18 -0400
+Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1jEfaJ-000666-4B; Wed, 18 Mar 2020 21:46:39 +0100
+Received: from nanos.tec.linutronix.de (localhost [IPv6:::1])
+        by nanos.tec.linutronix.de (Postfix) with ESMTP id E74691040C9;
+        Wed, 18 Mar 2020 21:46:35 +0100 (CET)
+Message-Id: <20200318204407.793899611@linutronix.de>
+User-Agent: quilt/0.65
+Date:   Wed, 18 Mar 2020 21:43:06 +0100
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org
+Subject: [patch V2 04/15] orinoco_usb: Use the regular completion interfaces
+References: <20200318204302.693307984@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
-branch HEAD: 2866ce8696167de300e27d50d521b5f671bab5d4  Merge tag 'usb-serial-5.6-rc7' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
+From: Thomas Gleixner <tglx@linutronix.de>
 
-elapsed time: 484m
+The completion usage in this driver is interesting:
 
-configs tested: 164
-configs skipped: 0
+  - it uses a magic complete function which according to the comment was
+    implemented by invoking complete() four times in a row because
+    complete_all() was not exported at that time.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  - it uses an open coded wait/poll which checks completion:done. Only one wait
+    side (device removal) uses the regular wait_for_completion() interface.
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-nios2                         3c120_defconfig
-s390                             allmodconfig
-i386                              allnoconfig
-mips                             allyesconfig
-nios2                         10m50_defconfig
-sh                          rsk7269_defconfig
-sh                            titan_defconfig
-mips                      fuloong2e_defconfig
-m68k                             allmodconfig
-riscv                    nommu_virt_defconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-c6x                              allyesconfig
-xtensa                       common_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-alpha                               defconfig
-csky                                defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-h8300                       h8s-sim_defconfig
-h8300                     edosk2674_defconfig
-m68k                       m5475evb_defconfig
-h8300                    h8300h-sim_defconfig
-m68k                           sun3_defconfig
-m68k                          multi_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                              allnoconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-mips                         64r6el_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-x86_64               randconfig-a001-20200318
-x86_64               randconfig-a002-20200318
-x86_64               randconfig-a003-20200318
-i386                 randconfig-a001-20200318
-i386                 randconfig-a002-20200318
-i386                 randconfig-a003-20200318
-alpha                randconfig-a001-20200318
-m68k                 randconfig-a001-20200318
-mips                 randconfig-a001-20200318
-nds32                randconfig-a001-20200318
-parisc               randconfig-a001-20200318
-riscv                randconfig-a001-20200318
-h8300                randconfig-a001-20200318
-sparc64              randconfig-a001-20200318
-c6x                  randconfig-a001-20200318
-nios2                randconfig-a001-20200318
-microblaze           randconfig-a001-20200318
-xtensa               randconfig-a001-20200318
-csky                 randconfig-a001-20200318
-openrisc             randconfig-a001-20200318
-sh                   randconfig-a001-20200318
-s390                 randconfig-a001-20200318
-x86_64               randconfig-b001-20200318
-x86_64               randconfig-b002-20200318
-x86_64               randconfig-b003-20200318
-i386                 randconfig-b001-20200318
-i386                 randconfig-b002-20200318
-i386                 randconfig-b003-20200318
-x86_64               randconfig-c001-20200318
-x86_64               randconfig-c002-20200318
-x86_64               randconfig-c003-20200318
-i386                 randconfig-c001-20200318
-i386                 randconfig-c002-20200318
-i386                 randconfig-c003-20200318
-x86_64               randconfig-d001-20200318
-x86_64               randconfig-d002-20200318
-x86_64               randconfig-d003-20200318
-i386                 randconfig-d001-20200318
-i386                 randconfig-d002-20200318
-i386                 randconfig-d003-20200318
-x86_64               randconfig-e001-20200318
-x86_64               randconfig-e002-20200318
-x86_64               randconfig-e003-20200318
-i386                 randconfig-e001-20200318
-i386                 randconfig-e002-20200318
-i386                 randconfig-e003-20200318
-x86_64               randconfig-f001-20200318
-x86_64               randconfig-f002-20200318
-x86_64               randconfig-f003-20200318
-i386                 randconfig-f001-20200318
-i386                 randconfig-f002-20200318
-i386                 randconfig-f003-20200318
-x86_64               randconfig-g001-20200318
-x86_64               randconfig-g002-20200318
-x86_64               randconfig-g003-20200318
-i386                 randconfig-g001-20200318
-i386                 randconfig-g002-20200318
-i386                 randconfig-g003-20200318
-x86_64               randconfig-h001-20200318
-x86_64               randconfig-h002-20200318
-x86_64               randconfig-h003-20200318
-i386                 randconfig-h001-20200318
-i386                 randconfig-h002-20200318
-i386                 randconfig-h003-20200318
-arc                  randconfig-a001-20200318
-arm                  randconfig-a001-20200318
-arm64                randconfig-a001-20200318
-ia64                 randconfig-a001-20200318
-powerpc              randconfig-a001-20200318
-sparc                randconfig-a001-20200318
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                  sh7785lcr_32bit_defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
+The rationale behind this is to prevent that wait_for_completion() consumes
+completion::done which would prevent that all waiters are woken. This is not
+necessary with complete_all() as that sets completion::done to UINT_MAX which
+is left unmodified by the woken waiters.
 
+Replace the magic complete function with complete_all() and convert the
+open coded wait/poll to regular completion interfaces.
+
+This changes the wait to exclusive wait mode. But that does not make any
+difference because the wakers use complete_all() which ignores the
+exclusive mode.
+
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+V2: New patch to avoid conversion to swait functions later.
+---
+ drivers/net/wireless/intersil/orinoco/orinoco_usb.c |   21 ++++----------------
+ 1 file changed, 5 insertions(+), 16 deletions(-)
+
+--- a/drivers/net/wireless/intersil/orinoco/orinoco_usb.c
++++ b/drivers/net/wireless/intersil/orinoco/orinoco_usb.c
+@@ -365,17 +365,6 @@ static struct request_context *ezusb_all
+ 	return ctx;
+ }
+ 
+-
+-/* Hopefully the real complete_all will soon be exported, in the mean
+- * while this should work. */
+-static inline void ezusb_complete_all(struct completion *comp)
+-{
+-	complete(comp);
+-	complete(comp);
+-	complete(comp);
+-	complete(comp);
+-}
+-
+ static void ezusb_ctx_complete(struct request_context *ctx)
+ {
+ 	struct ezusb_priv *upriv = ctx->upriv;
+@@ -409,7 +398,7 @@ static void ezusb_ctx_complete(struct re
+ 
+ 			netif_wake_queue(dev);
+ 		}
+-		ezusb_complete_all(&ctx->done);
++		complete_all(&ctx->done);
+ 		ezusb_request_context_put(ctx);
+ 		break;
+ 
+@@ -419,7 +408,7 @@ static void ezusb_ctx_complete(struct re
+ 			/* This is normal, as all request contexts get flushed
+ 			 * when the device is disconnected */
+ 			err("Called, CTX not terminating, but device gone");
+-			ezusb_complete_all(&ctx->done);
++			complete_all(&ctx->done);
+ 			ezusb_request_context_put(ctx);
+ 			break;
+ 		}
+@@ -690,11 +679,11 @@ static void ezusb_req_ctx_wait(struct ez
+ 			 * get the chance to run themselves. So we make sure
+ 			 * that we don't sleep for ever */
+ 			int msecs = DEF_TIMEOUT * (1000 / HZ);
+-			while (!ctx->done.done && msecs--)
++
++			while (!try_wait_for_completion(&ctx->done) && msecs--)
+ 				udelay(1000);
+ 		} else {
+-			wait_event_interruptible(ctx->done.wait,
+-						 ctx->done.done);
++			wait_for_completion(&ctx->done);
+ 		}
+ 		break;
+ 	default:
+
