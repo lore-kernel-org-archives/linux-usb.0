@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E00DC4332D
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:55:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6364C43333
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 21:02:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3059F208FE
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 20:55:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A45720775
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Mar 2020 21:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584564921;
-	bh=uCf8Xa5e1EZfg3pH3wDYjbpMZWFlxudDFng9dlNucZk=;
+	s=default; t=1584565340;
+	bh=QF/GYMkHLxXCI0oXGqXah6iopHeOKnwoPfvv7v33fx8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=v0UCotCm4AY2CxK7pr3xk+F94jXni9l6b0Ls3wvS0n19I6jH8n2m9yVMoZNC3ip13
-	 c910g6AYa4kHsiFX4tAouhGcxO32h01hbqmxddtg1w7NaRhUKkyiwkHVXkI28mHDQX
-	 hQ9roNPpOsZa0Z6pxcb2IfLPZ98Z91aWyq0g/8i8=
+	b=Sv32avdkyt3AUG6GLciauKCIyWUZHkdAnWdj2T4FOl0XlqKWHLzc9fTgig3eRQ9ld
+	 vPeSW4z3DGBXp1upH/QHCe4MiEPt6QhxAyxGiElUktmZsbA7XAd+2byCct7ljWNbWB
+	 GfAF2PRcGmQWRORng3so0fdhocd5bSer7LK9fohw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728275AbgCRUzU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Mar 2020 16:55:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55638 "EHLO mail.kernel.org"
+        id S1727163AbgCRU4D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Mar 2020 16:56:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56732 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728266AbgCRUzT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 18 Mar 2020 16:55:19 -0400
+        id S1726961AbgCRU4C (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 18 Mar 2020 16:56:02 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F41420BED;
-        Wed, 18 Mar 2020 20:55:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 103A420A8B;
+        Wed, 18 Mar 2020 20:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584564918;
-        bh=uCf8Xa5e1EZfg3pH3wDYjbpMZWFlxudDFng9dlNucZk=;
+        s=default; t=1584564961;
+        bh=QF/GYMkHLxXCI0oXGqXah6iopHeOKnwoPfvv7v33fx8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fgHKXBlkt3+shwpPd8vC0q8c0G8YS7UGG2ZVFhVJkakxU28/BrgWOTtFtCuyUe11r
-         Zl77C5SXSHqpIB8ar73Mwo0FnB/QpLWS7WVGAPNhwEjPUzsdZQg8Zi0v1IM2mJhUix
-         C66hZ/j0Djqhotvxvlj50cG+H1DFx4iFSHWaFxwo=
+        b=jkSiSj/Sg18f6YKXn7JRz8KdjAYvl9n6ujYjy8lkUmcThvpz8txi5H/YqeGpU51VO
+         21BddRA8dH+XMzFXNjZNNWMLeDuV8JWUM53DMLQm2PYWmuf+d+owI9FRvW8iuj8L/S
+         RGkKaGwOEv3Ovl4nHl9ehFXYFaND+/pzmqLuZjQg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     You-Sheng Yang <vicamo.yang@canonical.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 07/37] r8152: check disconnect status after long sleep
-Date:   Wed, 18 Mar 2020 16:54:39 -0400
-Message-Id: <20200318205509.17053-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 05/28] r8152: check disconnect status after long sleep
+Date:   Wed, 18 Mar 2020 16:55:32 -0400
+Message-Id: <20200318205555.17447-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200318205509.17053-1-sashal@kernel.org>
-References: <20200318205509.17053-1-sashal@kernel.org>
+In-Reply-To: <20200318205555.17447-1-sashal@kernel.org>
+References: <20200318205555.17447-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -146,10 +146,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index c5c188dc66268..0639178cb0096 100644
+index a7f9c1886bd4c..cadf5ded45a9b 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -2701,6 +2701,8 @@ static u16 r8153_phy_status(struct r8152 *tp, u16 desired)
+@@ -2696,6 +2696,8 @@ static u16 r8153_phy_status(struct r8152 *tp, u16 desired)
  		}
  
  		msleep(20);
@@ -158,7 +158,7 @@ index c5c188dc66268..0639178cb0096 100644
  	}
  
  	return data;
-@@ -4062,7 +4064,10 @@ static void r8153_init(struct r8152 *tp)
+@@ -4055,7 +4057,10 @@ static void r8153_init(struct r8152 *tp)
  		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
  		    AUTOLOAD_DONE)
  			break;
@@ -169,7 +169,7 @@ index c5c188dc66268..0639178cb0096 100644
  	}
  
  	data = r8153_phy_status(tp, 0);
-@@ -4180,7 +4185,10 @@ static void r8153b_init(struct r8152 *tp)
+@@ -4170,7 +4175,10 @@ static void r8153b_init(struct r8152 *tp)
  		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
  		    AUTOLOAD_DONE)
  			break;
