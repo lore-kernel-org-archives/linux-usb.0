@@ -2,115 +2,141 @@ Return-Path: <SRS0=L2GO=5E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4616FC4332D
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Mar 2020 20:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 522A7C4332B
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Mar 2020 22:11:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1B07D2072D
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Mar 2020 20:30:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FEAE2076E
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Mar 2020 22:11:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lWmsiQ6L"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JPG7XzZa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727435AbgCSUaG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Mar 2020 16:30:06 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:44353 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725817AbgCSUaG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Mar 2020 16:30:06 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 37so1864188pgm.11
-        for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2020 13:30:05 -0700 (PDT)
+        id S1727192AbgCSWLr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 19 Mar 2020 18:11:47 -0400
+Received: from mail-qt1-f201.google.com ([209.85.160.201]:54401 "EHLO
+        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbgCSWLr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Mar 2020 18:11:47 -0400
+Received: by mail-qt1-f201.google.com with SMTP id r3so2742785qtp.21
+        for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2020 15:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=jWRRL5fJU84goaEEMPwzMKuUagdNByNPY2GPzz3BqUo=;
-        b=lWmsiQ6Lb12qslAwJviWPgtxxPbMSrg+pf/z7L753FhqBwUjeQBLJhoTf8/lddF/he
-         xOvVxA7tlABxLQiOJrogLhHZqlWH9NMdQK6z4QFWYrq0WhNVbIDT1NPcMDNKDlbpBIGY
-         esQgYzmhVXZOC2O6GW91aUxmqMwf/hxeKNtH4=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=VTNvjGbtv+rJdA49QP9OyHSdusD/AeN0IX2HvMc3zR0=;
+        b=JPG7XzZaHH0XjWC/90MErvGgNicxMfN2BDKtuLKjuszT+tRxUY2YABTeDguPgaBN9M
+         DMKB6n1tM89aVbQ8q2RZRR4N3ZmIfYKKzG6YoHSZ9WCSmhqX00SvrBaRL4kDz+ANvq/N
+         V1a5qCaVDBlo9IvmIxGxbGglxSuLvPvKS0E0dSGDjuiMacGU/pbocygtX5/sUbxFqWDs
+         ler0qrBpCVk9pOVfaq+7Vxf1/X9t38YJ4EUcrukaFz56Kx5pCFa7q5rKH7Zwy6mnZsXn
+         fqKBcgjlgHBojyaXr8cvhMRr3l8DZza8FNqZiNxLlk/ICGwFCVpekKJe5QlLYhwN8oNi
+         pgGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=jWRRL5fJU84goaEEMPwzMKuUagdNByNPY2GPzz3BqUo=;
-        b=Rray9/5Is444VYVMlzXYqimxYmeivSwnhm1+1ywgovFBJW9O0ege9/J+95M+c/rN0q
-         8F7cxZZos/ThBNnjkf3iJ6KHaUkOiwywf+7fYA2l1SgdbXDgphfZwZma6bZLmL9iJANY
-         OVECfgMUVVWvVhcaWa1CsDVhPWqXnwfqTHqEyOkN7Qkc7UaUjig6EFkvyRThy4Ox8fZf
-         mAQrGdI1/xTuWMikfbK9v9xvjdBiX9h/Gb+DSekYm/zb+jvRVHXLPQl2xzyZBmPQCCB2
-         QbS5qhQc2rhV3RZYEhqp8krP1i7JkbMQ/8bFoSqWrnXy+NYo0cPlGTYukjGuiq+BsT6F
-         NHrw==
-X-Gm-Message-State: ANhLgQ2IX1P3UeDbws0LZpHwZ9giX66ngh2hwhZD5iOQp+knVPfO6lA1
-        V+MH0uJN3avFZodxg5FbZrVaQw==
-X-Google-Smtp-Source: ADFU+vvXN5rPoEsslES8Yzt/IbFnT4RPQKMhfYMmFrcParmX/mJcnSp+G095zu6wuQaOYpmLGqW8Lw==
-X-Received: by 2002:a62:7a88:: with SMTP id v130mr5681312pfc.129.1584649804565;
-        Thu, 19 Mar 2020 13:30:04 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id z16sm3343326pfr.138.2020.03.19.13.30.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 13:30:03 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <f6e948cb-7d3f-72b6-b153-58afb1304c49@linaro.org>
-References: <20200311191501.8165-1-bryan.odonoghue@linaro.org> <20200311191501.8165-3-bryan.odonoghue@linaro.org> <158458013177.152100.17920784952083533825@swboyd.mtv.corp.google.com> <aa6aa234-e2d1-bdcd-0f0e-64b2a7e497d3@linaro.org> <158463604559.152100.9219030962819234620@swboyd.mtv.corp.google.com> <f6e948cb-7d3f-72b6-b153-58afb1304c49@linaro.org>
-Subject: Re: [PATCH 2/7] dt-bindings: usb: dwc3: Add a gpio-usb-connector example
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bjorn.andersson@linaro.org, jackp@codeaurora.org, robh@kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, balbi@kernel.org,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Date:   Thu, 19 Mar 2020 13:30:02 -0700
-Message-ID: <158464980279.152100.13680630167113607572@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=VTNvjGbtv+rJdA49QP9OyHSdusD/AeN0IX2HvMc3zR0=;
+        b=UXO7TmxurQ8m4krB+EklmIrdL4vb7GW3K6brHqXM6p2bOKoBbHvqNXuLHwc0zkglQZ
+         LHqIltbMEu45JXWmelFuSiQMiCxDCYqDYloqjN2soGT9Pjc1KJtkQc530ncUkiAq0r1Y
+         UuIKi3K/Yw3pejO+IEEhhfRRjOUQcc1ELNtu0ChAZREEarJ9+BwHdKzvrJzQYtBKqIzf
+         rffvNLp5tLMUAZYbcl4HPEcCzxus+9uBKDFYpZT0Bx9wX6rgnaOemSB58KmEjc3lx6wP
+         9mf/JInDsRv/QkBCn+8hGvcWjRzer5xAmReE/Ic6W61s35N15inY0fBrKbBpAotkgm4+
+         jySA==
+X-Gm-Message-State: ANhLgQ2wgwDAgdh/XgP0wTFL7ws5JYZ96gU45XkbT4ibqa8Al5JuVklR
+        VUcrR0skLDefiSp65cAV0BOHzqcoPS8WFnIv
+X-Google-Smtp-Source: ADFU+vtDDVSGNtLbDlpY7K187U2l/dbvf5RSvskr4+U8bogD2dnap7fb4A9wUqSbvEnrh3MFPuHaY9syO9SqrEIx
+X-Received: by 2002:a0c:e88d:: with SMTP id b13mr5421478qvo.219.1584655905980;
+ Thu, 19 Mar 2020 15:11:45 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 23:11:33 +0100
+Message-Id: <cover.1584655448.git.andreyknvl@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
+Subject: [PATCH v3 0/7] kcov: collect coverage from usb soft interrupts
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Quoting Bryan O'Donoghue (2020-03-19 11:03:58)
-> On 19/03/2020 16:40, Stephen Boyd wrote:
-> > the gpio for the connector?
->=20
-> Previous version of the PHY from 2019 had extcon toggling vbus.
->=20
-> Since extcon is going away, we moved go usb-gpio
->=20
-> https://lwn.net/ml/devicetree/20190905175802.GA19599@jackp-linux.qualcomm=
-.com/
->=20
-> https://lwn.net/ml/devicetree/5d71edf5.1c69fb81.1f307.fdd6@mx.google.com/
->=20
-> usb-gpio-conn handle VBUS and notifies via the USB role switch API.
->=20
-> Which if the connector is a child of the controller "just works" but,=20
-> maybe with a little bit of work DT <port> references could do the same=20
-> thing and the connector wouldn't need to be declared as a child.
->=20
-> > We (ChromeOS) need to integrate the type-c connector class, etc. on
-> > sc7180 with the dwc3 driver and the current thinking has the type-c
-> > connectors underneath the cros_ec node because the EC is the type-c
-> > manager. The EC will have a type-c driver associated with it.
->=20
-> right and you don't want, doesn't work or doesn't make sense, to declare =
+This patchset extends kcov to allow collecting coverage from soft
+interrupts and then uses the new functionality to collect coverage from
+USB code.
 
-> cros_ec as a child of DWC3, fair enough.
->=20
-> I guess a DT remote-endpoint{} will do the job.
->=20
-> Something like:
-> arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi
->=20
+This has allowed to find at least one new HID bug [1], which was recently
+fixed by Alan [2].
 
-Yes something like that, but it looks like that dtsi file has the usb
-host controller connected through a remote-endpoint to the type-c
-connector. I was under the impression that it would only be the phy that
-is connected this way because it's possible for there to be multiple
-different phys that drive data out through one connector. For example,
-in type-c the DP phy can be different from the USB2 phy or USB3 phy and
-there could even be other things like an HDMI phy too that all go to the
-same connector.
+[1] https://syzkaller.appspot.com/bug?extid=09ef48aa58261464b621
+[2] https://patchwork.kernel.org/patch/11283319/
+
+Any subsystem that uses softirqs (e.g. timers) can make use of this in
+the future. Looking at the recent syzbot reports, an obvious candidate
+is the networking subsystem [3, 4, 5 and many more].
+
+[3] https://syzkaller.appspot.com/bug?extid=522ab502c69badc66ab7
+[4] https://syzkaller.appspot.com/bug?extid=57f89d05946c53dbbb31
+[5] https://syzkaller.appspot.com/bug?extid=df358e65d9c1b9d3f5f4
+
+This patchset has been pushed to the public Linux kernel Gerrit instance:
+
+https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/2225
+
+Changes v2 -> v3:
+- New patch: "kcov: fix potential use-after-free in kcov_remote_start".
+- New patch: "kcov: move t->kcov assignments into kcov_start/stop".
+- New patch: "kcov: move t->kcov_sequence assignment".
+- New patch: "kcov: use t->kcov_mode as enabled indicator".
+- Dropped out-of-memory error message from kcov_init() as checkpatch
+  complains.
+- Use a single local_irq_disable section when accessing per-task kcov
+  variables in kcov_remote_start/stop().
+
+Changes v1 -> v2:
+- Add local_irq_save/restore() critical sections to simplify dealing with
+  softirqs happening during kcov_remote_start/stop().
+- Set kcov_softirq after flag kcov_start() in kcov_remote_start().
+
+Changes RFC -> v1:
+- Don't support hardirq or nmi, only softirq, to avoid issues with nested
+  interrupts.
+- Combined multiple per-cpu variables into one.
+- Used plain accesses and kcov_start/stop() instead of xchg()'s.
+- Simplified handling of per-cpu variables.
+- Avoid disabling interrupts for the whole kcov_remote_start/stop()
+  region.
+- Avoid overwriting t->kcov_sequence when saving/restoring state.
+- Move kcov_remote_start/stop_usb() annotations into
+  __usb_hcd_giveback_urb() to cover all urb complete() callbacks at once.
+- Drop unneeded Dummy HCD changes.
+- Split out a patch that removed debug messages.
+
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+
+Andrey Konovalov (7):
+  kcov: cleanup debug messages
+  kcov: fix potential use-after-free in kcov_remote_start
+  kcov: move t->kcov assignments into kcov_start/stop
+  kcov: move t->kcov_sequence assignment
+  kcov: use t->kcov_mode as enabled indicator
+  kcov: collect coverage from interrupts
+  usb: core: kcov: collect coverage from usb complete callback
+
+ Documentation/dev-tools/kcov.rst |  17 +-
+ drivers/usb/core/hcd.c           |   3 +
+ include/linux/sched.h            |   3 +
+ kernel/kcov.c                    | 266 ++++++++++++++++++++++---------
+ lib/Kconfig.debug                |   9 ++
+ 5 files changed, 213 insertions(+), 85 deletions(-)
+
+-- 
+2.25.1.696.g5e7596f4ac-goog
+
