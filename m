@@ -2,175 +2,137 @@ Return-Path: <SRS0=yMQS=5F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77A10C4332D
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 14:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC7AC4332E
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 14:27:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40F5E2072D
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 14:06:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rl4J89/p"
+	by mail.kernel.org (Postfix) with ESMTP id 8546A2070A
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 14:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584714465;
+	bh=ZMV8PC35BsbyE5rkXVZ62gtO1IW15NGYTzww9GsH/Aw=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=1MZ+7c4in3ZcSwZ6wAIt3gy/eXCmAGrB0wswEbIA2sommrD/D50EZ6Dtf0D7IXHVw
+	 PVIiJTgCAc22f8TTK2QKNIvc4jy63IUV13Y7uF6s+UulnJ7JN1EQsroKbzEUA8gqRV
+	 2zAN044+xdrgUXhO0X6/IbTA0j3cmnXRPXyU1Dy8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbgCTOGe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Mar 2020 10:06:34 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:40047 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726774AbgCTOGe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Mar 2020 10:06:34 -0400
-Received: by mail-pf1-f194.google.com with SMTP id l184so3272958pfl.7;
-        Fri, 20 Mar 2020 07:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4ihYQan0P4nWkVNyVJPOhzYTUV259o58ZK/2SPGi9As=;
-        b=Rl4J89/p1LOJdj4P3wPRoi6GNprlWR4beZ4xSymUUxHi5DRLqx7Oig6MXmrDJbdKCv
-         v4szf5lQHVGeEU8PRLjQi3GGG2J9wkok+MStHyQD4wPi2hCqPDRhWV0JcGD3/vkAsEIP
-         c9rH5uihA1gUZHHuEGQ6JjZT5M/Iwl7WeW+bxj0rD9p1h3Stpj2HB98J4GIfav1qYk2R
-         1gSmkCDJJsOZZl7bON32Z/jDjY/P2/fESCjFYl8DS7yXo2+MmYwXG5c1aX3gjJ8Al6Uw
-         /hx67QHwEyKQLwwkIJvAYFyCBJWms29iGSheGxwUy0SbPuJ51Wpu8w3NtMUs8nn6ZCTc
-         nlUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4ihYQan0P4nWkVNyVJPOhzYTUV259o58ZK/2SPGi9As=;
-        b=uYMiZQMuI/olAosIGwg43nU/tW23O8pVQOxjIvl/jNFQXq3fj0A5/gJvXwZ9zvQqIT
-         72XtWwgihfaqHfMhYE850uimamfx26qzn+93LVwv8cEABT1s+s/4SK8hzYCvrdOTdNBt
-         H30+v2W9wWjxbUo99Qa8s2cUvxRkQla3J+k2fcfjnGJRnhSLPcg0IUAB72PR9lV91wdk
-         R7LiSd7tp+NpeBy059vaLc957vP7+6CelmMRNUOjwudt4YQmxRsfHU//PM2df2ze6ltr
-         LPXiHXqKPOcNlR8OVldwlX8QSNxmOvAHrs4RO6YAIOx21VMs8tBKlcrnrfTQNgKiFkdT
-         ySwg==
-X-Gm-Message-State: ANhLgQ1QUcwREIez0znNVqUMPR4tFAjvf8jEOKJWWHx2ToOJ0PJX7IaS
-        8xku50iDllkPd/2iPjnrV8E=
-X-Google-Smtp-Source: ADFU+vugQP+2zgDQI1MUAUObEaVq5eBs5Q56th+PsuIFJ4sGn825r3RzJNcqTC8XoLWUcZd+zDv8VA==
-X-Received: by 2002:a63:6841:: with SMTP id d62mr8515773pgc.86.1584713191662;
-        Fri, 20 Mar 2020 07:06:31 -0700 (PDT)
-Received: from localhost (216.24.188.11.16clouds.com. [216.24.188.11])
-        by smtp.gmail.com with ESMTPSA id p9sm5316431pgs.50.2020.03.20.07.06.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 20 Mar 2020 07:06:31 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 22:06:28 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Minas Harutyunyan <hminas@synopsys.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Winkler, Tomas" <tomas.winkler@intel.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/5] drivers: provide
- devm_platform_get_and_ioremap_resource()
-Message-ID: <20200320140628.GA9529@nuc8i5>
-References: <20200315140525.21780-1-zhengdejin5@gmail.com>
- <20200315140525.21780-2-zhengdejin5@gmail.com>
- <20200317192051.GA1520272@kroah.com>
- <CAMuHMdVK0Gpw6A=CfF+5nw4hHz9UCtSoXwF9_UThAK4E+mQBWg@mail.gmail.com>
- <20200318101010.GA2061266@kroah.com>
+        id S1727316AbgCTO1m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Mar 2020 10:27:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51368 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726896AbgCTO1m (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 20 Mar 2020 10:27:42 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 074EA2070A;
+        Fri, 20 Mar 2020 14:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584714461;
+        bh=ZMV8PC35BsbyE5rkXVZ62gtO1IW15NGYTzww9GsH/Aw=;
+        h=Date:From:To:Cc:Subject:From;
+        b=QcAH3tuD3oD4fJDXPwdP+1Cu9Jb6gEGSBZFIsvE9kfeMm4du2wd9wl/OsXf2wlmn7
+         Ma15ocxuYyO+yqFmqRFUyNTd9uzgQlqoT65wEk/3DC7Uzp38lflDeRN+4Yw6yPUO0M
+         TAHWEmPsNtYO5Ta0NNe7S8Dp3IBlCf2I+pYev2DU=
+Date:   Fri, 20 Mar 2020 15:27:39 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for 5.6-rc7
+Message-ID: <20200320142739.GA760409@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200318101010.GA2061266@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 11:10:10AM +0100, Greg KH wrote:
-> On Tue, Mar 17, 2020 at 08:35:16PM +0100, Geert Uytterhoeven wrote:
-> > Hi Greg,
-> > 
-> > On Tue, Mar 17, 2020 at 8:20 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > On Sun, Mar 15, 2020 at 10:05:21PM +0800, Dejin Zheng wrote:
-> > > > Since commit "drivers: provide devm_platform_ioremap_resource()",
-> > > > it was wrap platform_get_resource() and devm_ioremap_resource() as
-> > > > single helper devm_platform_ioremap_resource(). but now, many drivers
-> > > > still used platform_get_resource() and devm_ioremap_resource()
-> > > > together in the kernel tree. The reason can not be replaced is they
-> > > > still need use the resource variables obtained by platform_get_resource().
-> > > > so provide this helper.
-> > > >
-> > > > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > Suggested-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> > > > Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> > > > ---
-> > > > v2 -> v3:
-> > > >       - rename the function to
-> > > >         devm_platform_get_and_ioremap_resource() by Sergei's suggestion.
-> > > >       - make the last parameter res as optional by Geert's suggestion.
-> > > >
-> > > > v1 -> v2:
-> > > >       - No change.
-> > > >
-> > > >  drivers/base/platform.c         | 22 ++++++++++++++++++++++
-> > > >  include/linux/platform_device.h |  3 +++
-> > > >  2 files changed, 25 insertions(+)
-> > > >
-> > > > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> > > > index 7fa654f1288b..9f6a78f79235 100644
-> > > > --- a/drivers/base/platform.c
-> > > > +++ b/drivers/base/platform.c
-> > > > @@ -62,6 +62,28 @@ struct resource *platform_get_resource(struct platform_device *dev,
-> > > >  EXPORT_SYMBOL_GPL(platform_get_resource);
-> > > >
-> > > >  #ifdef CONFIG_HAS_IOMEM
-> > > > +/**
-> > > > + * devm_platform_get_and_ioremap_resource - call devm_ioremap_resource() for a
-> > > > + *                                       platform device and get resource
-> > > > + *
-> > > > + * @pdev: platform device to use both for memory resource lookup as well as
-> > > > + *        resource management
-> > > > + * @index: resource index
-> > > > + * @res: get the resource
-> > > > + */
-> > > > +void __iomem *
-> > > > +devm_platform_get_and_ioremap_resource(struct platform_device *pdev,
-> > > > +                             unsigned int index, struct resource **res)
-> > > > +{
-> > > > +     struct resource *r;
-> > > > +
-> > > > +     r = platform_get_resource(pdev, IORESOURCE_MEM, index);
-> > > > +     if (res)
-> > > > +             *res = r;
-> > >
-> > > What happens if that call fails?  Shouldn't that be checked?
-> > 
-> > Then devm_ioremap_resource() will print an error message, and return
-> > an error.
-> > It's designed to be pipelined that way, so you have to check for an error
-> > only once.
-> 
-> Ok, thanks.  Can I get an ack/reviewed-by for this series then?
-> 
-> thanks,
-> 
-> greg k-h
+The following changes since commit 2c523b344dfa65a3738e7039832044aa133c75fb:
 
-Hi Geert:
+  Linux 5.6-rc5 (2020-03-08 17:44:44 -0700)
 
-Could you help me review these patches if you have free time? Your comments and
-suggestions will be of great help to me. It is important to me and thanks
-again for your help.
+are available in the Git repository at:
 
-Hi Greg, Mathias and Minas:
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.6-rc7
 
-Thank you very much for taking your time to help me review my code.
+for you to fetch changes up to 2866ce8696167de300e27d50d521b5f671bab5d4:
 
-BR,
-Dejin
+  Merge tag 'usb-serial-5.6-rc7' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus (2020-03-18 10:42:57 +0100)
 
+----------------------------------------------------------------
+USB fixes for 5.6-rc7
+
+Here are some small USB fixes for 5.6-rc7.  And there's a thunderbolt
+driver fix thrown in for good measure as well.
+
+These fixes are:
+	- new device ids for usb-serial drivers
+	- thunderbolt error code fix
+	- xhci driver fixes
+	- typec fixes
+	- cdc-acm driver fixes
+	- chipidea driver fix
+	- more USB quirks added for devices that need them.
+
+All of these have been in linux-next with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Alberto Mattea (1):
+      usb: xhci: apply XHCI_SUSPEND_DELAY to AMD XHCI controller 1022:145c
+
+Anthony Mallet (2):
+      USB: cdc-acm: fix close_delay and closing_wait units in TIOCSSERIAL
+      USB: cdc-acm: fix rounding error in TIOCSSERIAL
+
+Dan Carpenter (1):
+      thunderbolt: Fix error code in tb_port_is_width_supported()
+
+Daniele Palmas (1):
+      USB: serial: option: add ME910G1 ECM composition 0x110b
+
+Greg Kroah-Hartman (2):
+      Merge tag 'thunderbolt-fix-for-v5.6-rc6' of git://git.kernel.org/.../westeri/thunderbolt into usb-linus
+      Merge tag 'usb-serial-5.6-rc7' of https://git.kernel.org/.../johan/usb-serial into usb-linus
+
+Hans de Goede (1):
+      usb: quirks: add NO_LPM quirk for RTL8153 based ethernet adapters
+
+Heikki Krogerus (2):
+      usb: typec: ucsi: displayport: Fix NULL pointer dereference
+      usb: typec: ucsi: displayport: Fix a potential race during registration
+
+Kai-Heng Feng (1):
+      USB: Disable LPM on WD19's Realtek Hub
+
+Peter Chen (1):
+      usb: chipidea: udc: fix sleeping function called from invalid context
+
+Ran Wang (1):
+      usb: host: xhci-plat: add a shutdown
+
+Scott Chen (1):
+      USB: serial: pl2303: add device-id for HP LD381
+
+Steven Rostedt (VMware) (1):
+      xhci: Do not open code __print_symbolic() in xhci trace events
+
+ drivers/thunderbolt/switch.c         |  2 +-
+ drivers/usb/chipidea/udc.c           |  7 ++++---
+ drivers/usb/class/cdc-acm.c          | 34 +++++++++++++++++++++-------------
+ drivers/usb/core/quirks.c            |  6 ++++++
+ drivers/usb/host/xhci-pci.c          |  3 ++-
+ drivers/usb/host/xhci-plat.c         |  1 +
+ drivers/usb/host/xhci-trace.h        | 23 ++++++-----------------
+ drivers/usb/serial/option.c          |  2 ++
+ drivers/usb/serial/pl2303.c          |  1 +
+ drivers/usb/serial/pl2303.h          |  1 +
+ drivers/usb/typec/ucsi/displayport.c | 12 +++++++++++-
+ 11 files changed, 56 insertions(+), 36 deletions(-)
