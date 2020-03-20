@@ -2,107 +2,95 @@ Return-Path: <SRS0=yMQS=5F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C50A0C4332D
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 09:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D96BBC4332D
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 09:49:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3D2920752
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 09:25:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE84420722
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Mar 2020 09:49:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgCTJY7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Mar 2020 05:24:59 -0400
-Received: from mail.v3.sk ([167.172.186.51]:37792 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727000AbgCTJY6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 20 Mar 2020 05:24:58 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id A9501DFC45;
-        Fri, 20 Mar 2020 09:25:15 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id CB3O09jGeY6v; Fri, 20 Mar 2020 09:25:15 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id D57D7E0028;
-        Fri, 20 Mar 2020 09:25:14 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id vyhPJH_CqW6F; Fri, 20 Mar 2020 09:25:14 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 6BB7CDFC45;
-        Fri, 20 Mar 2020 09:25:14 +0000 (UTC)
-Date:   Fri, 20 Mar 2020 10:24:52 +0100
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
-        <linux-rtc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 13/28] dt-bindings: serial: move Marvell compatible
- string to 8250 binding doc
-Message-ID: <20200320092452.GA24507@furthur.local>
-References: <20200317093922.20785-1-lkundrak@v3.sk>
- <20200317093922.20785-14-lkundrak@v3.sk>
- <CAL_Jsq+wG+DTZ8Vxcw=NR2isABGrkoDiBt-uG9+NF6qdWuU62Q@mail.gmail.com>
+        id S1727259AbgCTJta (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Mar 2020 05:49:30 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:35047 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727120AbgCTJtZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Mar 2020 05:49:25 -0400
+Received: from localhost ([127.0.0.1] helo=flow.W.breakpoint.cc)
+        by Galois.linutronix.de with esmtp (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1jFEH3-0000vL-DT; Fri, 20 Mar 2020 10:49:05 +0100
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     tglx@linutronix.de
+Cc:     arnd@arndb.de, balbi@kernel.org, bhelgaas@google.com,
+        bigeasy@linutronix.de, dave@stgolabs.net, davem@davemloft.net,
+        gregkh@linuxfoundation.org, joel@joelfernandes.org,
+        kurt.schwemmer@microsemi.com, kvalo@codeaurora.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, logang@deltatee.com,
+        mingo@kernel.org, mpe@ellerman.id.au, netdev@vger.kernel.org,
+        oleg@redhat.com, paulmck@kernel.org, peterz@infradead.org,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        torvalds@linux-foundation.org, will@kernel.org,
+        Michal Simek <monstr@monstr.eu>,
+        kbuild test robot <lkp@intel.com>
+Subject: [PATCH 5/5] microblaze: Remove mm.h from asm/uaccess.h
+Date:   Fri, 20 Mar 2020 10:48:56 +0100
+Message-Id: <20200320094856.3453859-6-bigeasy@linutronix.de>
+X-Mailer: git-send-email 2.26.0.rc2
+In-Reply-To: <20200320094856.3453859-1-bigeasy@linutronix.de>
+References: <20200318204408.010461877@linutronix.de>
+ <20200320094856.3453859-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+wG+DTZ8Vxcw=NR2isABGrkoDiBt-uG9+NF6qdWuU62Q@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 10:11:02AM -0600, Rob Herring wrote:
-> On Tue, Mar 17, 2020 at 3:40 AM Lubomir Rintel <lkundrak@v3.sk> wrote:
-> >
-> > These ports are compatible with NS8250 and handled by the same driver.
-> > Get rid of the extra document that fails to document the properties that
-> > are actually supported.
-> >
-> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> > ---
-> >  Documentation/devicetree/bindings/serial/8250.txt        | 2 ++
-> >  Documentation/devicetree/bindings/serial/mrvl-serial.txt | 4 ----
-> >  2 files changed, 2 insertions(+), 4 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/serial/mrvl-serial.txt
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
-> I'd really like to see 8250.txt converted to schema.
+The defconfig compiles without linux/mm.h. With mm.h included the
+include chain leands to:
+|   CC      kernel/locking/percpu-rwsem.o
+| In file included from include/linux/huge_mm.h:8,
+|                  from include/linux/mm.h:567,
+|                  from arch/microblaze/include/asm/uaccess.h:,
+|                  from include/linux/uaccess.h:11,
+|                  from include/linux/sched/task.h:11,
+|                  from include/linux/sched/signal.h:9,
+|                  from include/linux/rcuwait.h:6,
+|                  from include/linux/percpu-rwsem.h:8,
+|                  from kernel/locking/percpu-rwsem.c:6:
+| include/linux/fs.h:1422:29: error: array type has incomplete element type=
+ 'struct percpu_rw_semaphore'
+|  1422 |  struct percpu_rw_semaphore rw_sem[SB_FREEZE_LEVELS];
 
-I'll follow up just with that.
+once rcuwait.h includes linux/sched/signal.h.
 
-Thanks quarantine.
+Remove the linux/mm.h include.
 
-> Rob
+Cc: Michal Simek <monstr@monstr.eu>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ arch/microblaze/include/asm/uaccess.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-Lubo
+diff --git a/arch/microblaze/include/asm/uaccess.h b/arch/microblaze/includ=
+e/asm/uaccess.h
+index a1f206b90753a..4916d5fbea5e3 100644
+--- a/arch/microblaze/include/asm/uaccess.h
++++ b/arch/microblaze/include/asm/uaccess.h
+@@ -12,7 +12,6 @@
+ #define _ASM_MICROBLAZE_UACCESS_H
+=20
+ #include <linux/kernel.h>
+-#include <linux/mm.h>
+=20
+ #include <asm/mmu.h>
+ #include <asm/page.h>
+--=20
+2.26.0.rc2
+
