@@ -2,79 +2,56 @@ Return-Path: <SRS0=WbhS=5G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E9BC4332B
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 11:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3C9BC4332D
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 12:09:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1166D2077D
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 11:37:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB97C20757
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 12:09:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728530AbgCULez (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 Mar 2020 07:34:55 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:38431 "EHLO
+        id S1727052AbgCUMI6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 Mar 2020 08:08:58 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:38570 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726834AbgCULey (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Mar 2020 07:34:54 -0400
+        with ESMTP id S1726192AbgCUMI5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Mar 2020 08:08:57 -0400
 Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1jFcOU-0001zl-4v; Sat, 21 Mar 2020 12:34:22 +0100
-Received: from nanos.tec.linutronix.de (localhost [IPv6:::1])
-        by nanos.tec.linutronix.de (Postfix) with ESMTP id 53DF71039FD;
-        Sat, 21 Mar 2020 12:34:20 +0100 (CET)
-Message-Id: <20200321113241.930037873@linutronix.de>
-User-Agent: quilt/0.65
-Date:   Sat, 21 Mar 2020 12:25:56 +0100
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Sebastian Siewior <bigeasy@linutronix.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geoff Levand <geoff@infradead.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-        linux-pci@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Zhang Rui <rui.zhang@intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-pm@vger.kernel.org, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, kbuild test robot <lkp@intel.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
-        Michal Simek <monstr@monstr.eu>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id 1jFcvN-00035h-He; Sat, 21 Mar 2020 13:08:21 +0100
+Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
+        id E1F47FFC8D; Sat, 21 Mar 2020 13:08:20 +0100 (CET)
+To:     Guo Ren <guoren@kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, balbi@kernel.org,
+        bhelgaas@google.com, dave@stgolabs.net,
+        David Miller <davem@davemloft.net>, gregkh@linuxfoundation.org,
+        joel@joelfernandes.org, kurt.schwemmer@microsemi.com,
+        kvalo@codeaurora.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        logang@deltatee.com, mingo@kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>, netdev@vger.kernel.org,
+        oleg@redhat.com, paulmck@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Davidlohr Bueso <dbueso@suse.de>
-Subject: [patch V3 12/20] powerpc/ps3: Convert half completion to rcuwait
-References: <20200321112544.878032781@linutronix.de>
+        Steven Rostedt <rostedt@goodmis.org>,
+        torvalds@linux-foundation.org, Will Deacon <will@kernel.org>,
+        linux-csky@vger.kernel.org, kbuild test robot <lkp@intel.com>
+Subject: Re: [PATCH 2/5] csky: Remove mm.h from asm/uaccess.h
+In-Reply-To: <CAJF2gTQDvmSdJB3R0By0Q6d9ganVBV1FBm3urL8Jf1fyiEi+1A@mail.gmail.com>
+References: <20200318204408.010461877@linutronix.de> <20200320094856.3453859-1-bigeasy@linutronix.de> <20200320094856.3453859-3-bigeasy@linutronix.de> <CAJF2gTQDvmSdJB3R0By0Q6d9ganVBV1FBm3urL8Jf1fyiEi+1A@mail.gmail.com>
+ From: Thomas Gleixner <tglx@linutronix.de>
+From:   Thomas Gleixner <tglx@linutronix.de>
+Date:   Sat, 21 Mar 2020 13:08:20 +0100
+Message-ID: <87zhc9rjuz.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8-bit
+Content-Type: text/plain
 X-Linutronix-Spam-Score: -1.0
 X-Linutronix-Spam-Level: -
 X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
@@ -83,97 +60,15 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+Guo Ren <guoren@kernel.org> writes:
 
-The PS3 notification interrupt and kthread use a hacked up completion to
-communicate. Since we're wanting to change the completion implementation and
-this is abuse anyway, replace it with a simple rcuwait since there is only ever
-the one waiter.
+> Tested and Acked by me.
+>
+> Queued for next pull request, thx
 
-AFAICT the kthread uses TASK_INTERRUPTIBLE to not increase loadavg, kthreads
-cannot receive signals by default and this one doesn't look different. Use
-TASK_IDLE instead.
+Can we please route that with the rcuwait changes to avoid breakage
+unless you ship it to Linus right away?
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Geoff Levand <geoff@infradead.org>
-Cc: linuxppc-dev@lists.ozlabs.org
----
-V3: Folded the init fix from bigeasy
-V2: New patch to avoid the magic completion wait variant
----
- arch/powerpc/platforms/ps3/device-init.c |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Thanks,
 
---- a/arch/powerpc/platforms/ps3/device-init.c
-+++ b/arch/powerpc/platforms/ps3/device-init.c
-@@ -13,6 +13,7 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/reboot.h>
-+#include <linux/rcuwait.h>
- 
- #include <asm/firmware.h>
- #include <asm/lv1call.h>
-@@ -670,7 +671,8 @@ struct ps3_notification_device {
- 	spinlock_t lock;
- 	u64 tag;
- 	u64 lv1_status;
--	struct completion done;
-+	struct rcuwait wait;
-+	bool done;
- };
- 
- enum ps3_notify_type {
-@@ -712,7 +714,8 @@ static irqreturn_t ps3_notification_inte
- 		pr_debug("%s:%u: completed, status 0x%llx\n", __func__,
- 			 __LINE__, status);
- 		dev->lv1_status = status;
--		complete(&dev->done);
-+		dev->done = true;
-+		rcuwait_wake_up(&dev->wait);
- 	}
- 	spin_unlock(&dev->lock);
- 	return IRQ_HANDLED;
-@@ -725,12 +728,12 @@ static int ps3_notification_read_write(s
- 	unsigned long flags;
- 	int res;
- 
--	init_completion(&dev->done);
- 	spin_lock_irqsave(&dev->lock, flags);
- 	res = write ? lv1_storage_write(dev->sbd.dev_id, 0, 0, 1, 0, lpar,
- 					&dev->tag)
- 		    : lv1_storage_read(dev->sbd.dev_id, 0, 0, 1, 0, lpar,
- 				       &dev->tag);
-+	dev->done = false;
- 	spin_unlock_irqrestore(&dev->lock, flags);
- 	if (res) {
- 		pr_err("%s:%u: %s failed %d\n", __func__, __LINE__, op, res);
-@@ -738,14 +741,10 @@ static int ps3_notification_read_write(s
- 	}
- 	pr_debug("%s:%u: notification %s issued\n", __func__, __LINE__, op);
- 
--	res = wait_event_interruptible(dev->done.wait,
--				       dev->done.done || kthread_should_stop());
-+	rcuwait_wait_event(&dev->wait, dev->done || kthread_should_stop(), TASK_IDLE);
-+
- 	if (kthread_should_stop())
- 		res = -EINTR;
--	if (res) {
--		pr_debug("%s:%u: interrupted %s\n", __func__, __LINE__, op);
--		return res;
--	}
- 
- 	if (dev->lv1_status) {
- 		pr_err("%s:%u: %s not completed, status 0x%llx\n", __func__,
-@@ -810,6 +809,7 @@ static int ps3_probe_thread(void *data)
- 	}
- 
- 	spin_lock_init(&dev.lock);
-+	rcuwait_init(&dev.wait);
- 
- 	res = request_irq(irq, ps3_notification_interrupt, 0,
- 			  "ps3_notification", &dev);
-
+        tglx
