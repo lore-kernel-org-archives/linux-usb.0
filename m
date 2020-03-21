@@ -2,33 +2,33 @@ Return-Path: <SRS0=WbhS=5G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4796C54FCA
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 11:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91014C4332D
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 11:36:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C52EB20658
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 11:36:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6967120780
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 11:36:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728626AbgCULe6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 Mar 2020 07:34:58 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:38449 "EHLO
+        id S1728702AbgCULgS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 Mar 2020 07:36:18 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:38497 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726995AbgCULez (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Mar 2020 07:34:55 -0400
+        with ESMTP id S1728526AbgCULe6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Mar 2020 07:34:58 -0400
 Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1jFcOW-0001zV-KV; Sat, 21 Mar 2020 12:34:24 +0100
+        id 1jFcOb-0002LP-6D; Sat, 21 Mar 2020 12:34:29 +0100
 Received: from nanos.tec.linutronix.de (localhost [IPv6:::1])
-        by nanos.tec.linutronix.de (Postfix) with ESMTP id 0A1D2FFC8D;
-        Sat, 21 Mar 2020 12:34:19 +0100 (CET)
-Message-Id: <20200321113241.434999165@linutronix.de>
+        by nanos.tec.linutronix.de (Postfix) with ESMTP id E04FC1040C9;
+        Sat, 21 Mar 2020 12:34:21 +0100 (CET)
+Message-Id: <20200321113242.534508206@linutronix.de>
 User-Agent: quilt/0.65
-Date:   Sat, 21 Mar 2020 12:25:51 +0100
+Date:   Sat, 21 Mar 2020 12:26:02 +0100
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -38,8 +38,6 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Oleg Nesterov <oleg@redhat.com>,
         Davidlohr Bueso <dave@stgolabs.net>,
-        kbuild test robot <lkp@intel.com>,
-        Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
         Logan Gunthorpe <logang@deltatee.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
@@ -55,9 +53,11 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Zhang Rui <rui.zhang@intel.com>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         linux-pm@vger.kernel.org, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
+        linux-acpi@vger.kernel.org, kbuild test robot <lkp@intel.com>,
+        Nick Hu <nickhu@andestech.com>,
         Greentime Hu <green.hu@gmail.com>,
         Vincent Chen <deanbo422@gmail.com>,
+        Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
         Brian Cain <bcain@codeaurora.org>,
         linux-hexagon@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
         Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
@@ -70,7 +70,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Davidlohr Bueso <dbueso@suse.de>
-Subject: [patch V3 07/20] csky: Remove mm.h from asm/uaccess.h
+Subject: [patch V3 18/20] lockdep: Add hrtimer context tracing bits
 References: <20200321112544.878032781@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -85,49 +85,98 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The defconfig compiles without linux/mm.h. With mm.h included the
-include chain leands to:
-|   CC      kernel/locking/percpu-rwsem.o
-| In file included from include/linux/huge_mm.h:8,
-|                  from include/linux/mm.h:567,
-|                  from arch/csky/include/asm/uaccess.h:,
-|                  from include/linux/uaccess.h:11,
-|                  from include/linux/sched/task.h:11,
-|                  from include/linux/sched/signal.h:9,
-|                  from include/linux/rcuwait.h:6,
-|                  from include/linux/percpu-rwsem.h:8,
-|                  from kernel/locking/percpu-rwsem.c:6:
-| include/linux/fs.h:1422:29: error: array type has incomplete element type 'struct percpu_rw_semaphore'
-|  1422 |  struct percpu_rw_semaphore rw_sem[SB_FREEZE_LEVELS];
+Set current->irq_config = 1 for hrtimers which are not marked to expire in
+hard interrupt context during hrtimer_init(). These timers will expire in
+softirq context on PREEMPT_RT.
 
-once rcuwait.h includes linux/sched/signal.h.
+Setting this allows lockdep to differentiate these timers. If a timer is
+marked to expire in hard interrupt context then the timer callback is not
+supposed to acquire a regular spinlock instead of a raw_spinlock in the
+expiry callback.
 
-Remove the linux/mm.h include.
-
-Reported-by: kbuild test robot <lkp@intel.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Guo Ren <guoren@kernel.org>
-Cc: linux-csky@vger.kernel.org
 ---
-V3: New patch
----
- arch/csky/include/asm/uaccess.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/linux/irqflags.h |   15 +++++++++++++++
+ include/linux/sched.h    |    1 +
+ kernel/locking/lockdep.c |    2 +-
+ kernel/time/hrtimer.c    |    6 +++++-
+ 4 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/arch/csky/include/asm/uaccess.h b/arch/csky/include/asm/uaccess.h
-index eaa1c3403a424..abefa125b93cf 100644
---- a/arch/csky/include/asm/uaccess.h
-+++ b/arch/csky/include/asm/uaccess.h
-@@ -11,7 +11,6 @@
- #include <linux/errno.h>
- #include <linux/types.h>
- #include <linux/sched.h>
--#include <linux/mm.h>
- #include <linux/string.h>
- #include <linux/version.h>
- #include <asm/segment.h>
--- 
-2.26.0.rc2
+--- a/include/linux/irqflags.h
++++ b/include/linux/irqflags.h
+@@ -56,6 +56,19 @@ do {						\
+ do {						\
+ 	current->softirq_context--;		\
+ } while (0)
++
++# define lockdep_hrtimer_enter(__hrtimer)		\
++	  do {						\
++		  if (!__hrtimer->is_hard)		\
++			current->irq_config = 1;	\
++	  } while (0)
++
++# define lockdep_hrtimer_exit(__hrtimer)		\
++	  do {						\
++		  if (!__hrtimer->is_hard)		\
++			current->irq_config = 0;	\
++	  } while (0)
++
+ #else
+ # define trace_hardirqs_on()		do { } while (0)
+ # define trace_hardirqs_off()		do { } while (0)
+@@ -68,6 +81,8 @@ do {						\
+ # define trace_hardirq_exit()		do { } while (0)
+ # define lockdep_softirq_enter()	do { } while (0)
+ # define lockdep_softirq_exit()		do { } while (0)
++# define lockdep_hrtimer_enter(__hrtimer)		do { } while (0)
++# define lockdep_hrtimer_exit(__hrtimer)		do { } while (0)
+ #endif
+ 
+ #if defined(CONFIG_IRQSOFF_TRACER) || \
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -983,6 +983,7 @@ struct task_struct {
+ 	unsigned int			softirq_enable_event;
+ 	int				softirqs_enabled;
+ 	int				softirq_context;
++	int				irq_config;
+ #endif
+ 
+ #ifdef CONFIG_LOCKDEP
+--- a/kernel/locking/lockdep.c
++++ b/kernel/locking/lockdep.c
+@@ -3759,7 +3759,7 @@ static int check_wait_context(struct tas
+ 		/*
+ 		 * Check if force_irqthreads will run us threaded.
+ 		 */
+-		if (curr->hardirq_threaded)
++		if (curr->hardirq_threaded || curr->irq_config)
+ 			curr_inner = LD_WAIT_CONFIG;
+ 		else
+ 			curr_inner = LD_WAIT_SPIN;
+--- a/kernel/time/hrtimer.c
++++ b/kernel/time/hrtimer.c
+@@ -1404,7 +1404,7 @@ static void __hrtimer_init(struct hrtime
+ 	base = softtimer ? HRTIMER_MAX_CLOCK_BASES / 2 : 0;
+ 	base += hrtimer_clockid_to_base(clock_id);
+ 	timer->is_soft = softtimer;
+-	timer->is_hard = !softtimer;
++	timer->is_hard = !!(mode & HRTIMER_MODE_HARD);
+ 	timer->base = &cpu_base->clock_base[base];
+ 	timerqueue_init(&timer->node);
+ }
+@@ -1514,7 +1514,11 @@ static void __run_hrtimer(struct hrtimer
+ 	 */
+ 	raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
+ 	trace_hrtimer_expire_entry(timer, now);
++	lockdep_hrtimer_enter(timer);
++
+ 	restart = fn(timer);
++
++	lockdep_hrtimer_exit(timer);
+ 	trace_hrtimer_expire_exit(timer);
+ 	raw_spin_lock_irq(&cpu_base->lock);
+ 
 
 
