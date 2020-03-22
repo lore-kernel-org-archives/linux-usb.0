@@ -2,89 +2,142 @@ Return-Path: <SRS0=ql6g=5H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 987CAC4332B
-	for <linux-usb@archiver.kernel.org>; Sun, 22 Mar 2020 16:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E14DDC54FCF
+	for <linux-usb@archiver.kernel.org>; Sun, 22 Mar 2020 21:03:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6F8E42072E
-	for <linux-usb@archiver.kernel.org>; Sun, 22 Mar 2020 16:34:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B47AD20658
+	for <linux-usb@archiver.kernel.org>; Sun, 22 Mar 2020 21:03:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C65FRSUn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbgCVQe2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 22 Mar 2020 12:34:28 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52958 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726502AbgCVQe2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 22 Mar 2020 12:34:28 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 93574AC24;
-        Sun, 22 Mar 2020 16:34:24 +0000 (UTC)
-Date:   Sun, 22 Mar 2020 09:33:17 -0700
-From:   Davidlohr Bueso <dave@stgolabs.net>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     tglx@linutronix.de, arnd@arndb.de, balbi@kernel.org,
-        bhelgaas@google.com, bigeasy@linutronix.de, davem@davemloft.net,
-        gregkh@linuxfoundation.org, joel@joelfernandes.org,
-        kurt.schwemmer@microsemi.com, kvalo@codeaurora.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, logang@deltatee.com,
-        mingo@kernel.org, mpe@ellerman.id.au, netdev@vger.kernel.org,
-        oleg@redhat.com, paulmck@kernel.org, rdunlap@infradead.org,
-        rostedt@goodmis.org, torvalds@linux-foundation.org,
-        will@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Davidlohr Bueso <dbueso@suse.de>
-Subject: Re: [PATCH 18/15] kvm: Replace vcpu->swait with rcuwait
-Message-ID: <20200322163317.mh4sygr7xcjptmjp@linux-p48b>
-References: <20200318204302.693307984@linutronix.de>
- <20200320085527.23861-1-dave@stgolabs.net>
- <20200320085527.23861-3-dave@stgolabs.net>
- <20200320125455.GE20696@hirez.programming.kicks-ass.net>
+        id S1726836AbgCVVDz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 22 Mar 2020 17:03:55 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45744 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726623AbgCVVDy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 22 Mar 2020 17:03:54 -0400
+Received: by mail-pg1-f196.google.com with SMTP id m15so6071537pgv.12;
+        Sun, 22 Mar 2020 14:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tIQRWeGBWUxyXabzpdtg+h5FwOjl7zanXR55nlwRkHI=;
+        b=C65FRSUnZW8YgeHep/cksVgsbA9HwkVg7bgIbJ3eHCBNj6FVH9OsYJd9uNfrF46fvd
+         hbTTz56T1BujVjtukonPP1zIzOb4vwDiZ8Be2NEHIX0Qd1yf/A++VXQJkNGel2i/eGyF
+         zxI3/YD4kDqhV7D9IuSWYnVkJAhXEp4iqnmb9vb3rJzpJPL3af8X33xmcMii+vva0oa0
+         KxzfoKZhZN1tho5hTNMFAM1M3hzb3ZAfOKzy39n8WIehvrjCSJEfPjUTvYPQXm0sV/yf
+         KgMyiQIF+vDeMifqfyNBYBqgJeUpIQcQOTFgJ/HSd7cDnZ1CpEmQkzMaPVo0SBkNQ21v
+         6iKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=tIQRWeGBWUxyXabzpdtg+h5FwOjl7zanXR55nlwRkHI=;
+        b=V7yaI/YCUe4HjY0NM+cNKcnnyZlbrPebmixqKBhmGGfmtDwFf6ilJ8tb9Z292Ry6N7
+         erj920FLkD3WcjpGB8puIv2hvF9D53DvzS8YT6yqV8UR+f66XZXrrQedD2XxKX7jqQvM
+         EVMe/hl5L/nxo8NYsenRfMpLh6SebECRDApgdQAxqc12hFiKVDQQfOEbvwAeMlNGTOPA
+         Z/i99r/4gWs2BSV864MbVcAFagUI/KqkUspAc8IxHhQ0ZaxHIcLvK8tCJDRtlHKqLr5S
+         JmcGItArkWHmrGG6sIWzrFfyDDikYDqiq94xlhVMh6s1//vRKRB93lFjNYGIl/7oxoQO
+         beiQ==
+X-Gm-Message-State: ANhLgQ3dH6VtNqVEdRqa3nd7bNLKyZdSrQsyg7lubpxp/PsK0xToOthX
+        koqNWR4Ua8Mc8eDHHPThYLHitvxP
+X-Google-Smtp-Source: ADFU+vuP/3Wgl/7V4YZndoGNsLAPQPGxqmBSTj+1w60JUzqE1+a+ZPiL08o+V5JGhgl1XwGhN7MsuQ==
+X-Received: by 2002:aa7:96f8:: with SMTP id i24mr20993832pfq.321.1584911032969;
+        Sun, 22 Mar 2020 14:03:52 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
+        by smtp.gmail.com with ESMTPSA id j21sm3077959pff.39.2020.03.22.14.03.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Mar 2020 14:03:52 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] dt-bindings: net: add marvell usb to mdio bindings
+To:     Tobias Waldekranz <tobias@waldekranz.com>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, andrew@lunn.ch, hkallweit1@gmail.com,
+        linux-usb@vger.kernel.org
+References: <20200321202443.15352-1-tobias@waldekranz.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Autocrypt: addr=f.fainelli@gmail.com; keydata=
+ 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
+ M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
+Message-ID: <6a7fed40-b609-6f01-cd5f-cfda6aeb202e@gmail.com>
+Date:   Sun, 22 Mar 2020 14:03:51 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200320125455.GE20696@hirez.programming.kicks-ass.net>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20200321202443.15352-1-tobias@waldekranz.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 20 Mar 2020, Peter Zijlstra wrote:
 
->On Fri, Mar 20, 2020 at 01:55:26AM -0700, Davidlohr Bueso wrote:
->> -	swait_event_interruptible_exclusive(*wq, ((!vcpu->arch.power_off) &&
->> -				       (!vcpu->arch.pause)));
->> +	rcuwait_wait_event(*wait,
->> +			   (!vcpu->arch.power_off) && (!vcpu->arch.pause),
->> +			   TASK_INTERRUPTIBLE);
->
->> -	for (;;) {
->> -		prepare_to_swait_exclusive(&vcpu->wq, &wait, TASK_INTERRUPTIBLE);
->> -
->> -		if (kvm_vcpu_check_block(vcpu) < 0)
->> -			break;
->> -
->> -		waited = true;
->> -		schedule();
->> -	}
->> -
->> -	finish_swait(&vcpu->wq, &wait);
->> +	rcuwait_wait_event(&vcpu->wait,
->> +			   (block_check = kvm_vcpu_check_block(vcpu)) < 0,
->> +			   TASK_INTERRUPTIBLE);
->
->Are these yet more instances that really want to be TASK_IDLE ?
 
-Hmm probably as it makes sense for a blocked vcpu not to be contributing to
-the loadavg. So if this is the only reason to use interruptible, then yes we
-ought to change it.
+On 3/21/2020 1:24 PM, Tobias Waldekranz wrote:
+> Describe how the USB to MDIO controller can optionally use device tree
+> bindings to reference attached devices such as switches.
+> 
+> Signed-off-by: Tobias Waldekranz <tobias@waldekranz.com>
 
-However, I'll make this a separate patch, given this (ab)use isn't as obvious
-as the PS3 case, which is a kthread and therefore signals are masked.
-
-Thanks,
-Davidlohr
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
