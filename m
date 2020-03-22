@@ -1,32 +1,58 @@
-Return-Path: <SRS0=WbhS=5G=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=ql6g=5H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8EAC4332B
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 21:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7203BC43333
+	for <linux-usb@archiver.kernel.org>; Sun, 22 Mar 2020 01:36:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ADE4520754
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Mar 2020 21:49:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 487F220776
+	for <linux-usb@archiver.kernel.org>; Sun, 22 Mar 2020 01:36:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="PL1RyTyq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727610AbgCUVtq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 Mar 2020 17:49:46 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:39343 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbgCUVtq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Mar 2020 17:49:46 -0400
-Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1jFlzN-0001VX-Ok; Sat, 21 Mar 2020 22:49:06 +0100
-Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
-        id C8A961040D5; Sat, 21 Mar 2020 22:49:04 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Joel Fernandes <joel@joelfernandes.org>
+        id S1728310AbgCVBg2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 Mar 2020 21:36:28 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:33658 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728274AbgCVBg2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Mar 2020 21:36:28 -0400
+Received: by mail-qk1-f196.google.com with SMTP id v7so1979123qkc.0
+        for <linux-usb@vger.kernel.org>; Sat, 21 Mar 2020 18:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Ubq/qZnX/ujKaYfjOueGLD6Nqh5QSMEUH2vduTkKjHA=;
+        b=PL1RyTyq/WRZKZrEHqL4R/7W0dJU38ey6RtLKNXSwKxSkIN9TA8rk+1XHkXSB34Z3U
+         +hT8qUXMqZjtKTftKJLwunclFMXbCFua88wGTvXHtsD23zMsiUUWyiPeyIJ6vgtbThHW
+         gFwhM+xyJWfZ3VhmNgEQUPD4gXknbn5mHpUV8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Ubq/qZnX/ujKaYfjOueGLD6Nqh5QSMEUH2vduTkKjHA=;
+        b=kANUVRV2+Z+LUsDMO9zS2S2qebYmCq1LM88IqkgjPAfb3ioLj8lFlq/tOfdvLv29hE
+         9YPICXoA2qZ3xusxF5FNSeFw7fKjtJ02v+nxwm/STCPY7WPygK2rWfKuIcEcEm2N7t8D
+         H2lxju2bf2O6hscC7RQSGblnn0Eps0wk5UNXLSGm/4aG7d4z8kmjPLO1d99zI/54XxIo
+         xRVUSos3+6IFGZ4u1Xuecci3i6ol6UD/BWnjiFzXXbN5u5/RE1p0NWkttU2qlquqezHr
+         tXtAogl9xcytJ3ueko+6iS0B/CvG4Qo/Yo/o7goyPikmX0SLtlY3WUb4Y8Kv9dJMDh3n
+         bHPA==
+X-Gm-Message-State: ANhLgQ1+U8LL58q6jZZfijTpDyQrkjlvOHI/M5nuEtaPxkipS6fOLC9e
+        HA/u0mrKb8eougMDPN5/WJI4JA==
+X-Google-Smtp-Source: ADFU+vu+Jf1CVw4GQOx5dNoxGTymqpn5p1dmtyWCTiwwU99STlnO5FKSrpzUOQTz2PYCKmBpD/vEgA==
+X-Received: by 2002:a37:db0a:: with SMTP id e10mr2637693qki.273.1584840985412;
+        Sat, 21 Mar 2020 18:36:25 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id w18sm7979664qkw.130.2020.03.21.18.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Mar 2020 18:36:24 -0700 (PDT)
+Date:   Sat, 21 Mar 2020 21:36:24 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
@@ -47,91 +73,46 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Davidlohr Bueso <dave@stgolabs.net>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [patch V2 08/15] Documentation: Add lock ordering and nesting documentation
-In-Reply-To: <20200321212144.GA6475@google.com>
-References: <20200318204302.693307984@linutronix.de> <20200318204408.211530902@linutronix.de> <20200321212144.GA6475@google.com>
-Date:   Sat, 21 Mar 2020 22:49:04 +0100
-Message-ID: <874kuhqsz3.fsf@nanos.tec.linutronix.de>
+Subject: Re: [patch V2 08/15] Documentation: Add lock ordering and nesting
+ documentation
+Message-ID: <20200322013624.GA161885@google.com>
+References: <20200318204302.693307984@linutronix.de>
+ <20200318204408.211530902@linutronix.de>
+ <20200321212144.GA6475@google.com>
+ <874kuhqsz3.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874kuhqsz3.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Joel Fernandes <joel@joelfernandes.org> writes:
->> +rwlock_t
->> +========
->> +
->> +rwlock_t is a multiple readers and single writer lock mechanism.
->> +
->> +On a non PREEMPT_RT enabled kernel rwlock_t is implemented as a spinning
->> +lock and the suffix rules of spinlock_t apply accordingly. The
->> +implementation is fair and prevents writer starvation.
->>
->
-> You mentioned writer starvation, but I think it would be good to also mention
-> that rwlock_t on a non-PREEMPT_RT kernel also does not have _reader_
-> starvation problem, since it uses queued implementation.  This fact is worth
-> mentioning here, since further below you explain that an rwlock in PREEMPT_RT
-> does have reader starvation problem.
+On Sat, Mar 21, 2020 at 10:49:04PM +0100, Thomas Gleixner wrote:
+[...] 
+> >> +rwsems have grown interfaces which allow non owner release for special
+> >> +purposes. This usage is problematic on PREEMPT_RT because PREEMPT_RT
+> >> +substitutes all locking primitives except semaphores with RT-mutex based
+> >> +implementations to provide priority inheritance for all lock types except
+> >> +the truly spinning ones. Priority inheritance on ownerless locks is
+> >> +obviously impossible.
+> >> +
+> >> +For now the rwsem non-owner release excludes code which utilizes it from
+> >> +being used on PREEMPT_RT enabled kernels.
+> >
+> > I could not parse the last sentence here, but I think you meant "For now,
+> > PREEMPT_RT enabled kernels disable code that perform a non-owner release of
+> > an rwsem". Correct me if I'm wrong.
+> 
+> Right, that's what I wanted to say :)
+> 
+> Care to send a delta patch?
 
-It's worth mentioning. But RT really has only write starvation not
-reader starvation.
+Absolutely, doing that now. :-)
 
->> +rwlock_t and PREEMPT_RT
->> +-----------------------
->> +
->> +On a PREEMPT_RT enabled kernel rwlock_t is mapped to a separate
->> +implementation based on rt_mutex which changes the semantics:
->> +
->> + - Same changes as for spinlock_t
->> +
->> + - The implementation is not fair and can cause writer starvation under
->> +   certain circumstances. The reason for this is that a writer cannot grant
->> +   its priority to multiple readers. Readers which are blocked on a writer
->> +   fully support the priority inheritance protocol.
->
-> Is it hard to give priority to multiple readers because the number of readers
-> to give priority to could be unbounded?
+thanks,
 
-Yes, and it's horribly complex and racy. We had an implemetation years
-ago which taught us not to try it again :)
+ - Joel
 
->> +PREEMPT_RT also offers a local_lock mechanism to substitute the
->> +local_irq_disable/save() constructs in cases where a separation of the
->> +interrupt disabling and the locking is really unavoidable. This should be
->> +restricted to very rare cases.
->
-> It would also be nice to mention where else local_lock() can be used, such as
-> protecting per-cpu variables without disabling preemption. Could we add a
-> section on protecting per-cpu data? (Happy to do that and send a patch if you
-> prefer).
-
-The local lock section will come soon when we post the local lock
-patches again.
-
->> +rwsems have grown interfaces which allow non owner release for special
->> +purposes. This usage is problematic on PREEMPT_RT because PREEMPT_RT
->> +substitutes all locking primitives except semaphores with RT-mutex based
->> +implementations to provide priority inheritance for all lock types except
->> +the truly spinning ones. Priority inheritance on ownerless locks is
->> +obviously impossible.
->> +
->> +For now the rwsem non-owner release excludes code which utilizes it from
->> +being used on PREEMPT_RT enabled kernels.
->
-> I could not parse the last sentence here, but I think you meant "For now,
-> PREEMPT_RT enabled kernels disable code that perform a non-owner release of
-> an rwsem". Correct me if I'm wrong.
-
-Right, that's what I wanted to say :)
-
-Care to send a delta patch?
-
-Thanks!
-
-        tglx
