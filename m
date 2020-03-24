@@ -2,123 +2,73 @@ Return-Path: <SRS0=UxLj=5J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE67C2BAEE
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 17:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B6AC43331
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 18:28:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F4151208CA
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 17:22:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 676CB20714
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 18:28:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727595AbgCXRWk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Mar 2020 13:22:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:38646 "EHLO foss.arm.com"
+        id S1727894AbgCXS2Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Mar 2020 14:28:24 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46928 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727295AbgCXRWk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 24 Mar 2020 13:22:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05CD51FB;
-        Tue, 24 Mar 2020 10:22:40 -0700 (PDT)
-Received: from e107158-lin (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C3133F71F;
-        Tue, 24 Mar 2020 10:22:39 -0700 (PDT)
-Date:   Tue, 24 Mar 2020 17:22:36 +0000
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Oliver Neukum <oneukum@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: lockdep warning in urb.c:363 usb_submit_urb
-Message-ID: <20200324172235.bsxea6qb3id6bhb3@e107158-lin>
-References: <20200324140609.gqvjgxdbcm5ndhvo@e107158-lin>
- <Pine.LNX.4.44L0.2003241137440.16735-100000@netrider.rowland.org>
+        id S1727382AbgCXS2X (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 24 Mar 2020 14:28:23 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 4A537ABD1;
+        Tue, 24 Mar 2020 18:28:22 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     linux-kernel@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
+        tim.gover@raspberrypi.org, linux-pci@vger.kernel.org,
+        wahrenst@gmx.net, sergei.shtylyov@cogentembedded.com
+Subject: [PATCH v6 1/4] soc: bcm2835: Sync xHCI reset firmware property with downstream
+Date:   Tue, 24 Mar 2020 19:28:09 +0100
+Message-Id: <20200324182812.20420-2-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200324182812.20420-1-nsaenzjulienne@suse.de>
+References: <20200324182812.20420-1-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2003241137440.16735-100000@netrider.rowland.org>
-User-Agent: NeoMutt/20171215
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/24/20 11:56, Alan Stern wrote:
-> On Tue, 24 Mar 2020, Qais Yousef wrote:
-> 
-> > On 03/24/20 09:52, Alan Stern wrote:
-> > > On Tue, 24 Mar 2020, Qais Yousef wrote:
-> > > 
-> > > > On 03/24/20 14:20, Oliver Neukum wrote:
-> > > > > Am Dienstag, den 24.03.2020, 10:46 +0000 schrieb Qais Yousef:
-> > > > > > 
-> > > > > > I should have stuck to what I know then. I misread the documentation. Hopefully
-> > > > > > the attached looks better. I don't see the new debug you added emitted.
-> > > > > 
-> > > > > That is odd. Please try
-> > > > > 
-> > > > > echo "module usbcore +mfp" > /sys/kernel/debug/dynamic_debug/control
-> > > > > 
-> > > > > with the attached improved patch.
-> > > > 
-> > > > Hmm still no luck
-> > > > 
-> > > > 
-> > > > # history
-> > > >    0 echo "module usbcore +mfp" > /sys/kernel/debug/dynamic_debug/control
-> > > >    1 swapoff -a
-> > > >    2 echo suspend > /sys/power/disk
-> > > >    3 echo disk > /sys/power/state
-> > > >    4 dmesg > usb.dmesg
-> > > 
-> > > What happens if you omit step 1 (the swapoff)?
-> > 
-> > It seems to hibernate (suspend) successfully. If I omit that step I must setup
-> > a wakealarm to trigger the wakeup, but that's it.
-> 
-> You don't have any other wakeup sources?  Like a power button?
+The property is needed in order to trigger VL805's firmware load. Note
+that there is a gap between the property introduced and the previous
+one. This is also the case downstream.
 
-Not sure if it's hooked correctly as a wakeup source. But as UK is now getting
-lockedown, I don't think I'll be seeing the board for a while and serial
-console is my only friend :-)
+Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+ include/soc/bcm2835/raspberrypi-firmware.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can hard reboot remotely reliably though.
+diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
+index 7800e12ee042..cc9cdbc66403 100644
+--- a/include/soc/bcm2835/raspberrypi-firmware.h
++++ b/include/soc/bcm2835/raspberrypi-firmware.h
+@@ -90,7 +90,7 @@ enum rpi_firmware_property_tag {
+ 	RPI_FIRMWARE_SET_PERIPH_REG =                         0x00038045,
+ 	RPI_FIRMWARE_GET_POE_HAT_VAL =                        0x00030049,
+ 	RPI_FIRMWARE_SET_POE_HAT_VAL =                        0x00030050,
+-
++	RPI_FIRMWARE_NOTIFY_XHCI_RESET =                      0x00030058,
+ 
+ 	/* Dispmanx TAGS */
+ 	RPI_FIRMWARE_FRAMEBUFFER_ALLOCATE =                   0x00040001,
+-- 
+2.25.1
 
-> 
-> > I attached the dmesg; I didn't reboot the system in between.
-> > 
-> > 
-> > # history
-> >    0 echo "module usbcore +mfp" > /sys/kernel/debug/dynamic_debug/control
-> >    1 swapoff -a
-> >    2 echo suspend > /sys/power/disk
-> >    3 echo disk > /sys/power/state
-> >    4 dmesg > usb.dmesg
-> >    5 history
-> >    6 grep URB /sys/kernel/debug/dynamic_debug/control
-> >    7 grep "URB allocated" /sys/kernel/debug/dynamic_debug/control
-> >    8 swapon -a
-> >    9 echo +60 > /sys/class/rtc/rtc0/wakealarm
-> >   10 echo disk > /sys/power/state
-> >   11 dmesg > usb.dmesg
-> 
-> This certainly reinforces the initial impression that the cause of the
-> warnings is a bug in the platform code.  You should ask the appropriate
-> maintainer.
-
-The device-tree compatible node returns "generic-ohci".
-drivers/usb/host/ohci-platform.c returns you as the maintainer :-)
-
-> 
-> However, an equally troubling question is why the usb2 bus never got 
-> suspended in the first place.  To solve that, you may need to enable 
-> dynamic debugging in the Power Management core (i.e., "file
-> drivers/base/power/* +p").
-
-Thanks Alan. I'll run with extra debug and send back.
-
-Cheers
-
---
-Qais Yousef
