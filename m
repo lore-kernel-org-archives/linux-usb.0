@@ -2,77 +2,95 @@ Return-Path: <SRS0=UxLj=5J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F049C43331
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 13:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CCAC2BAEE
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 13:43:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 65CAB20753
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 13:31:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BBFE20788
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 13:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728227AbgCXNUI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Mar 2020 09:20:08 -0400
-Received: from cmccmta2.chinamobile.com ([221.176.66.80]:7074 "EHLO
-        cmccmta2.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728140AbgCXNUE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Mar 2020 09:20:04 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.15]) by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee85e7a08d2db9-91b8d; Tue, 24 Mar 2020 21:19:14 +0800 (CST)
-X-RM-TRANSID: 2ee85e7a08d2db9-91b8d
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[112.1.174.174])
-        by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee85e7a08cfa0f-0ed6c;
-        Tue, 24 Mar 2020 21:19:14 +0800 (CST)
-X-RM-TRANSID: 2ee85e7a08cfa0f-0ed6c
-From:   Tang Bin <tangbin@cmss.chinamobile.com>
-To:     cernekee@gmail.com, balbi@kernel.org, gregkh@linuxfoundation.org,
-        sergei.shtylyov@cogentembedded.com
-Cc:     f.fainelli@gmail.com, bcm-kernel-feedback-list@broadcom.com,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: [PATCH v2]usb: gadget: bcm63xx_udc:remove redundant variable assignment
-Date:   Tue, 24 Mar 2020 21:20:29 +0800
-Message-Id: <20200324132029.16296-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.20.1.windows.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1728193AbgCXNnd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Mar 2020 09:43:33 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55924 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727904AbgCXNnd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 24 Mar 2020 09:43:33 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 0C7CEAC0C;
+        Tue, 24 Mar 2020 13:43:31 +0000 (UTC)
+Message-ID: <1585057397.7151.22.camel@suse.de>
+Subject: Re: KASAN: slab-out-of-bounds Read in garmin_read_process
+From:   Oliver Neukum <oneukum@suse.de>
+To:     syzbot <syzbot+d29e9263e13ce0b9f4fd@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, gregkh@linuxfoundation.org,
+        johan@kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Date:   Tue, 24 Mar 2020 14:43:17 +0100
+In-Reply-To: <000000000000ca19c205a15d8aca@google.com>
+References: <000000000000ca19c205a15d8aca@google.com>
+Content-Type: multipart/mixed; boundary="=-uEHle+UyLTjyzWxu00zb"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---v1------------------------------------
-In this function, the variable 'rc' is assigned after this place,
-so the definition is invalid.
 
---v2------------------------------------
-In this function, the variable 'rc' will be assigned by the function
-'usb_add_gadget_udc()',so the assignment here is redundant,we should
-remove it.
+--=-uEHle+UyLTjyzWxu00zb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- drivers/usb/gadget/udc/bcm63xx_udc.c | 2 --
- 1 file changed, 2 deletions(-)
+Am Samstag, den 21.03.2020, 06:40 -0700 schrieb syzbot:
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    e17994d1 usb: core: kcov: collect coverage from usb comple..
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16255ce5e00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=5d64370c438bc60
+> dashboard link: https://syzkaller.appspot.com/bug?extid=d29e9263e13ce0b9f4fd
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1376a3f9e00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c65fe3e00000
 
-diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-index 54501814d..a7afa8c35 100644
---- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-+++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-@@ -2321,8 +2321,6 @@ static int bcm63xx_udc_probe(struct platform_device *pdev)
- 	if (rc)
- 		return rc;
- 
--	rc = -ENXIO;
--
- 	/* IRQ resource #0: control interrupt (VBUS, speed, etc.) */
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
--- 
-2.20.1.windows.1
+#syz test: https://github.com/google/kasan.git e17994d1
+
+--=-uEHle+UyLTjyzWxu00zb
+Content-Disposition: attachment;
+	filename="0002-garmin_gps-add-sanity-checking-for-data-length.patch"
+Content-Transfer-Encoding: base64
+Content-Type: text/x-patch;
+	name="0002-garmin_gps-add-sanity-checking-for-data-length.patch";
+	charset="UTF-8"
+
+RnJvbSAzNmJhOWM2NDI1M2NjNDIzODM3NmI3NDIzNWExNjMyODhhZjU5NjM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
+OiBUdWUsIDI0IE1hciAyMDIwIDEzOjQ2OjMxICswMTAwClN1YmplY3Q6IFtQQVRDSCAyLzJdIGdh
+cm1pbl9ncHM6IGFkZCBzYW5pdHkgY2hlY2tpbmcgZm9yIGRhdGEgbGVuZ3RoCgpXZSBtdXN0IG5v
+dCBwcm9jZXNzIHBhY2tldHMgc2hvcnRlciB0aGFuIGEgcGFja2V0IElECgpTaWduZWQtb2ZmLWJ5
+OiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgotLS0KIGRyaXZlcnMvdXNiL3Nlcmlh
+bC9nYXJtaW5fZ3BzLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Ivc2VyaWFsL2dhcm1pbl9n
+cHMuYyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9nYXJtaW5fZ3BzLmMKaW5kZXggZmZkOTg0MTQyMTcx
+Li5hNzJmYmJjNjU0MzYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL3NlcmlhbC9nYXJtaW5fZ3Bz
+LmMKKysrIGIvZHJpdmVycy91c2Ivc2VyaWFsL2dhcm1pbl9ncHMuYwpAQCAtMTEzOCw4ICsxMTM4
+LDggQEAgc3RhdGljIHZvaWQgZ2FybWluX3JlYWRfcHJvY2VzcyhzdHJ1Y3QgZ2FybWluX2RhdGEg
+Kmdhcm1pbl9kYXRhX3AsCiAJCSAgIHNlbmQgaXQgZGlyZWN0bHkgdG8gdGhlIHR0eSBwb3J0ICov
+CiAJCWlmIChnYXJtaW5fZGF0YV9wLT5mbGFncyAmIEZMQUdTX1FVRVVJTkcpIHsKIAkJCXBrdF9h
+ZGQoZ2FybWluX2RhdGFfcCwgZGF0YSwgZGF0YV9sZW5ndGgpOwotCQl9IGVsc2UgaWYgKGJ1bGtf
+ZGF0YSB8fAotCQkJICAgZ2V0TGF5ZXJJZChkYXRhKSA9PSBHQVJNSU5fTEFZRVJJRF9BUFBMKSB7
+CisJCX0gZWxzZSBpZiAoYnVsa19kYXRhIHx8IChkYXRhX2xlbmd0aCA+PSBzaXplb2YodTMyKSAm
+JgorCQkJICAgZ2V0TGF5ZXJJZChkYXRhKSA9PSBHQVJNSU5fTEFZRVJJRF9BUFBMKSkgewogCiAJ
+CQlzcGluX2xvY2tfaXJxc2F2ZSgmZ2FybWluX2RhdGFfcC0+bG9jaywgZmxhZ3MpOwogCQkJZ2Fy
+bWluX2RhdGFfcC0+ZmxhZ3MgfD0gQVBQX1JFU1BfU0VFTjsKLS0gCjIuMTYuNAoK
 
 
+--=-uEHle+UyLTjyzWxu00zb--
 
