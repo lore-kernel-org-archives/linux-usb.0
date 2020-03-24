@@ -2,108 +2,111 @@ Return-Path: <SRS0=UxLj=5J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A44C10DCE
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 08:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F207C41621
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 09:00:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6F44220836
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 08:35:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="Wm/vJx6M"
+	by mail.kernel.org (Postfix) with ESMTP id 7E4672080C
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 09:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727152AbgCXIfo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Mar 2020 04:35:44 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37393 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727266AbgCXIfn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Mar 2020 04:35:43 -0400
-Received: by mail-lj1-f195.google.com with SMTP id r24so17701081ljd.4
-        for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2020 01:35:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3b7FZkiDds06qo8TzF4qfUT61SceJd/XCklzwI25LFQ=;
-        b=Wm/vJx6MM+SSPmtt/iK9wCEQekmmqneaEAvMnEdF5/SOxoH8/p5SpWS7d1L9HGbrw9
-         jZmCPu2ipKcu+X6CDcRafunrtw4TmPKkFjGd6nNc0lp3lE558d+fF+l0gnycKybJJtX0
-         yI0oAZp8n+c/5JL2hM0deT+ySjic8Mkdype1p9MZOrgqmJiJiSsgmUOuQdcU7lQfFghY
-         72xVSbLydDr+NT9ghsLMHhE6u6/zym1DhdQtyvrxWrcv/eAgXcyYuPpiAl8nmigBYHlG
-         Hy5/qfwaz5mCiRjqUSm04YLwzn9aqssmuGbjON2tY4BqwB7AJ5FTeAY7iHwvaqwG0SIi
-         AR+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3b7FZkiDds06qo8TzF4qfUT61SceJd/XCklzwI25LFQ=;
-        b=IsNbD+248NvgMTqt/1sobGSD+9WeVCFwC/Q9qkGuVB2UpYXdfWqJ/1NN6JKw0b8POv
-         pDRmGCg7eAxn+p3uK26XgyHopzMe5KhxNSE6SdP8zKenF21QvVMODg08OoSwKp42Lwvx
-         Srln3nvHuQfcN4Xi13q6lXv+26ySRHolFH/fCBCe0F3tKHmwbfKVpSBsS2NMebjMnjpl
-         d5jJws6bkjRDOJHMJ+z+UgebwnOlmbg8GoK0trieX+v8rPGsu8YrVC+nnlsofeLcNQPj
-         wtwr35aK5u0bWhWTuQqfyJUNDrpO+X1trGrgdDpxkovQPTaWmTZnCMmi9pKW4gHdWO/s
-         ijSg==
-X-Gm-Message-State: ANhLgQ18MUwm3U0KqLVY1ZTGlNf+Pc5ifAaC+V9kYnWDrMzt62IA1u0V
-        zc9M+qi/f8wjnk/VACAZr8gjvw==
-X-Google-Smtp-Source: ADFU+vugTIUZH75uq8w/el+ZzqvPgN6W46s/AxHjqOiKpf9MdjPpWlDACKh3kiXwV+fGZHR3bRYS9A==
-X-Received: by 2002:a2e:8e77:: with SMTP id t23mr16751281ljk.221.1585038941413;
-        Tue, 24 Mar 2020 01:35:41 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:810:155c:a932:22bc:6638:ad28? ([2a00:1fa0:810:155c:a932:22bc:6638:ad28])
-        by smtp.gmail.com with ESMTPSA id m6sm9440075lfc.1.2020.03.24.01.35.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2020 01:35:40 -0700 (PDT)
-Subject: Re: [PATCH] usb: gadget: bcm63xx_udc:remove useless variable
- definition
-To:     Tang Bin <tangbin@cmss.chinamobile.com>, cernekee@gmail.com,
-        balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
-        bcm-kernel-feedback-list@broadcom.com, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200324062932.8364-1-tangbin@cmss.chinamobile.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <5f67315d-18c1-e444-03e7-a79a21d48b02@cogentembedded.com>
-Date:   Tue, 24 Mar 2020 11:35:35 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1727063AbgCXJAh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Mar 2020 05:00:37 -0400
+Received: from mga18.intel.com ([134.134.136.126]:20966 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726944AbgCXJAh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 24 Mar 2020 05:00:37 -0400
+IronPort-SDR: qnkRrk8dRVN+G537O+kvzZIABLND26NrsQ0navDd75kGe74ERGCgMVKXjJNNO11aHPuQVczmtC
+ rnRCFNueKk1A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2020 02:00:36 -0700
+IronPort-SDR: vpnLhlvTmPW7k2IFJ/gjiBq0FDDSH0EkGkar9BCsBrlGEISbGHJUdqwQDU1DWRfYHXEnEydqxP
+ 21CYrVmCZVqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,299,1580803200"; 
+   d="scan'208";a="393216216"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004.jf.intel.com with ESMTP; 24 Mar 2020 02:00:35 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jGfQL-00CU45-N9; Tue, 24 Mar 2020 11:00:37 +0200
+Date:   Tue, 24 Mar 2020 11:00:37 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v1] usb: core: Add ACPI support for USB interfaces
+Message-ID: <20200324090037.GB1922688@smile.fi.intel.com>
+References: <20200323195543.51050-1-andriy.shevchenko@linux.intel.com>
+ <20200324062635.GB1977781@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20200324062932.8364-1-tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200324062635.GB1977781@kroah.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
-
-On 24.03.2020 9:29, Tang Bin wrote:
-
-> In this function, the variable 'rc' is assigned after this place,
-> so the definition is invalid.
-
-    What definition? Did you mean assignment?
-
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
-> ---
->   drivers/usb/gadget/udc/bcm63xx_udc.c | 2 --
->   1 file changed, 2 deletions(-)
+On Tue, Mar 24, 2020 at 07:26:35AM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Mar 23, 2020 at 09:55:43PM +0200, Andy Shevchenko wrote:
+> > The ACPI companion of the device has to be set for USB interfaces
+> > in order to read and attach the properties described in the ACPI table.
+> > Use ACPI_COMPANION_SET macro to set this.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > ---
+> >  drivers/usb/core/message.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> > index 5adf489428aa..d5f834f16993 100644
+> > --- a/drivers/usb/core/message.c
+> > +++ b/drivers/usb/core/message.c
+> > @@ -5,6 +5,7 @@
+> >   * Released under the GPLv2 only.
+> >   */
+> >  
+> > +#include <linux/acpi.h>
+> >  #include <linux/pci.h>	/* for scatterlist macros */
+> >  #include <linux/usb.h>
+> >  #include <linux/module.h>
+> > @@ -1941,6 +1942,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  			intf->dev.of_node = usb_of_get_interface_node(dev,
+> >  					configuration, ifnum);
+> >  		}
+> > +		ACPI_COMPANION_SET(&intf->dev, ACPI_COMPANION(&dev->dev));
+> >  		intf->dev.driver = NULL;
+> >  		intf->dev.bus = &usb_bus_type;
+> >  		intf->dev.type = &usb_if_device_type;
 > 
-> diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-> index 54501814d..a7afa8c35 100644
-> --- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-> +++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-> @@ -2321,8 +2321,6 @@ static int bcm63xx_udc_probe(struct platform_device *pdev)
->   	if (rc)
->   		return rc;
->   
-> -	rc = -ENXIO;
-> -
->   	/* IRQ resource #0: control interrupt (VBUS, speed, etc.) */
->   	irq = platform_get_irq(pdev, 0);
->   	if (irq < 0)
 
-MBR, Sergei
+> And what does this "fix"?
+
+It links the firmware node of physical USB device to USB interface.
+Otherwise it will be no firmware nodes under a corresponding folder.
+
+It mimics what is done for OF in couple of lines above.
+
+> Is this a new feature, what isn't working today without this change?
+
+Yes, it is a new feature. I can't tell it fixes anything, because no complains
+so far. I doubt it previously works.
+
+> And if it is a fix, should it be backported to older kernels, how far?
+
+No, no need for that. Usually I put Fixes tag when I would like change to be
+considered for backporting.
+
+I'll probably update the commit message to clarify all this. Would it be enough?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
