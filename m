@@ -2,108 +2,84 @@ Return-Path: <SRS0=UxLj=5J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E51E5C41621
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 11:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E280BC41621
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 13:29:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE6BF2070A
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 11:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585050341;
-	bh=dAub+OokKtMO8ylxBClvCpfZkAVysCaaTSUPFX7w9TY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=UDh4gr5xKK7rkhUhlrJZM38CdUtO6U81KJJ9JLdimGO1Vvds8LRPuQ7eUGns9hSYy
-	 zFZQcwkdS6JhHe+xTWn7c5TAmB8883L6PQbNccwHziwBp5ajRFLDfN3s1nciL01+TW
-	 QpL8iC+HiSurRX9FFC73PYCDuyo1wFJXCeSzqJv8=
+	by mail.kernel.org (Postfix) with ESMTP id C202B206F6
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 13:29:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727194AbgCXLpl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Mar 2020 07:45:41 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34089 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727159AbgCXLpk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Mar 2020 07:45:40 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j16so16704630otl.1;
-        Tue, 24 Mar 2020 04:45:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8Xukp+Fc29wzZVTyzrk0qXNwo77782YSPsXV0QOP/4s=;
-        b=CKMISH7rNroUwn5rqL97h0snWq8ec+kW1cZpKeb6u8szCQNd4iJ7GnohX2QYPuYSq7
-         AU8/Hv/8X8aH3mluD+wN0QxvdcK3lph/5imwk0afct3HAClO8pThavmnO+SWWSqY9qkP
-         /PWjB3VBzsBYGpNh7lIbUDZrghhPXeBPu905VFORtzFUhK7AYw445e+tnCpEvDwlmmiB
-         R0UT2qROQG43M8A2XmbpeHUYyI/ORzIBWMS5Z+Ly3mP68bGibWGqHbbvNccMviprgJWG
-         y+XiFMqzlTJyN47fb9LCfjFBusT3q6SldinanEX+IktHHHmJqDp42O9IFAxizcfucHlj
-         QuFA==
-X-Gm-Message-State: ANhLgQ3+gtEAWHdq6ux/TrndlXuM6tTlHhAN+lfKJKOMQ0f73kNhV+yn
-        yz2bYG71slY/mNvTbCZD9kakuyUsvowOYBfrK/E=
-X-Google-Smtp-Source: ADFU+vtHv2jhYbUQsGRpWUfeFfSaAVuU5XJfBh/zKjb/MDZ/2zYirryiypPOKyCEo5dYq+i4k0/xKdoJzQrs/2CTN40=
-X-Received: by 2002:a4a:df05:: with SMTP id i5mr1851614oou.9.1585050339936;
- Tue, 24 Mar 2020 04:45:39 -0700 (PDT)
+        id S1728630AbgCXN31 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Mar 2020 09:29:27 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:51077 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727578AbgCXN30 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Mar 2020 09:29:26 -0400
+Received: (qmail 6089 invoked by uid 500); 24 Mar 2020 09:29:25 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 24 Mar 2020 09:29:25 -0400
+Date:   Tue, 24 Mar 2020 09:29:25 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     Oliver Neukum <oneukum@suse.com>
+cc:     Kyungtae Kim <kt0755@gmail.com>, <linux-usb@vger.kernel.org>
+Subject: Re: Fwd: BUG: KASAN: use-after-free in usb_hcd_unlink_urb+0x5f/0x170
+ drivers/usb/core/hcd.c
+In-Reply-To: <1585046753.7151.18.camel@suse.com>
+Message-ID: <Pine.LNX.4.44L0.2003240928240.4640-100000@netrider.rowland.org>
 MIME-Version: 1.0
-References: <20200324100923.8332-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20200324100923.8332-1-andriy.shevchenko@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 24 Mar 2020 12:45:29 +0100
-Message-ID: <CAJZ5v0gMbpBNu=C+YoNY1jSGFfXkwro=srtxAXc8NmBZV+cP+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] usb: core: Add ACPI support for USB interface devices
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 11:09 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Currently on ACPI-enabled systems the USB interface device has no link to
-> the actual firmware node and thus drivers may not parse additional information
-> given in the table. The new feature, proposed here, allows to pass properties
-> or other information to the drivers.
->
-> The ACPI companion of the device has to be set for USB interface devices
-> to achieve above. Use ACPI_COMPANION_SET macro to set this.
->
-> Note, OF already does link of_node and this is the same for ACPI case.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Tue, 24 Mar 2020, Oliver Neukum wrote:
 
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-> ---
-> v2: rewrite commit message to emphasize that it is a new feature (Greg)
->  drivers/usb/core/message.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 5adf489428aa..d5f834f16993 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -5,6 +5,7 @@
->   * Released under the GPLv2 only.
->   */
->
-> +#include <linux/acpi.h>
->  #include <linux/pci.h> /* for scatterlist macros */
->  #include <linux/usb.h>
->  #include <linux/module.h>
-> @@ -1941,6 +1942,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
->                         intf->dev.of_node = usb_of_get_interface_node(dev,
->                                         configuration, ifnum);
+> Am Montag, den 23.03.2020, 02:18 -0400 schrieb Kyungtae Kim:
+> > We report a bug (in linux-5.5.11) found by FuzzUSB (a modified version
+> > of syzkaller)
+> 
+> Hi,
+> 
+> thank you for the report. Is this a reproducible bug?
+> 
+> > In function usb_hcd_unlink_urb (driver/usb/core/hcd.c:1607), it tries to
+> > read "urb->use_count". But it seems the instance "urb" was
+> > already freed (right after urb->dev at line 1597) by the function "urb_destroy"
+> > in a different thread, which caused memory access violation.
+> 
+> Yes.
+> 
+> > To solve, it may need to check if urb is valid before urb->use_count,
+> > to avoid such freed memory access.
+> 
+> Difficult to do as the URB itself would be invalid.
+> 
+> I am afraid there is a race in here:
+> 
+> 
+>         if (test_bit(US_FLIDX_ABORTING, &us->dflags)) {
+>                 /* cancel the request, if it hasn't been cancelled already */
+>                 if (test_and_clear_bit(US_FLIDX_SG_ACTIVE, &us->dflags)) {
+>                         usb_stor_dbg(us, "-- cancelling sg request\n");
+>                         usb_sg_cancel(&us->current_sg);
 >                 }
-> +               ACPI_COMPANION_SET(&intf->dev, ACPI_COMPANION(&dev->dev));
->                 intf->dev.driver = NULL;
->                 intf->dev.bus = &usb_bus_type;
->                 intf->dev.type = &usb_if_device_type;
-> --
-> 2.25.1
->
+>         }
+> 
+>         /* wait for the completion of the transfer */
+>         usb_sg_wait(&us->current_sg);
+>         clear_bit(US_FLIDX_SG_ACTIVE, &us->dflags);
+> 
+> 
+> What keeps the request alive while usb_sg_wait() is running?
+
+It's a bug in the SG library code.  I'll post a patch later on, 
+although it's not clear whether anyone will be able to test it 
+properly.
+
+Alan Stern
+
