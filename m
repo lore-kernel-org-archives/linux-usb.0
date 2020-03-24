@@ -7,62 +7,62 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 021ADC43331
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 10:21:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6814C41621
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 10:21:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C745B208C3
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 10:21:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0274208CA
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Mar 2020 10:21:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="G9GUxZPZ"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="IA5zfeR0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbgCXKU6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Mar 2020 06:20:58 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41961 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727504AbgCXKU6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Mar 2020 06:20:58 -0400
-Received: by mail-wr1-f67.google.com with SMTP id h9so20674870wrc.8
-        for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2020 03:20:56 -0700 (PDT)
+        id S1727495AbgCXKU4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Mar 2020 06:20:56 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:47009 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727422AbgCXKUz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Mar 2020 06:20:55 -0400
+Received: by mail-wr1-f68.google.com with SMTP id j17so17280958wru.13
+        for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2020 03:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=67sFvVtkG1ivlSk+fGwbgHaYe6cmIRn/pWHBZ0lu9g4=;
-        b=G9GUxZPZnPhLAajMtiZxgmUxpYrGOcJIkPozWgUDMvAuy8EBmZbwC30xlR9wHUDnJV
-         ALFika3tbYFYgOcbEy6lLg62lZVK5VultjcamVietFmwqmduFKScAs2xljobVRPKpRXB
-         i+0XwLWm2dPB3T/cVEbeziTgctq2IaB8JoXEKasglnWC/N+nQosrtmb+n8kp06GIIR0w
-         30OWNQB2zwjvbXX5cMH+cNlV+3NUfzEfVtxBP2DaojGqjDvF5egj+tn0DSOrKutBLBFj
-         t77PxOjT7DJ0Obl93NXUkDItQyzWrNOnIQ9JmQ3KbXHMtLKZy6nVXVOBML4RvL87vvDb
-         rSqg==
+        bh=/+yRgmnGZVSZp6x2Og5KbLuzZTmkQMHFsn5IdENH0xo=;
+        b=IA5zfeR049tZvKZYI8cq2z0elOrsbdBAOa6MzRPJSe+ht43wMcncI1KCc51x+ne47x
+         oBBRwEWAyymb2BDcyHk7XhRMNz8w480OiAghggUEIRY9wTuyaX4AUC2WQfEXCwenUk84
+         mtQC6p49r3bHe+TNnHplrGGLw+iDlI9XMqitMGZV/bZFwnlGksxwMDQ7cossooKC8AHn
+         KF3+fH2Mpr+7canaq5zT2pikFQiK61DSJkgX39ExO2swh9DMfTG3b/UuGoCAkeubFSvf
+         lLliiBXAlNxmljtOCHlYd8gbgUN2bIbk58pXLz3CchVWiFD16HiLnWHw8VAs8FRwUXXr
+         KP1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=67sFvVtkG1ivlSk+fGwbgHaYe6cmIRn/pWHBZ0lu9g4=;
-        b=c55LIUc6zgsXzcSCRwWDRCZOImeP6QopwgP00mwVE2yTDqbPd1RU1f92Bluz59/5Sx
-         xtcx88HfrohzioJ0d1r5kvwhnGjubI+b/ygT0+e1fwbbEKF9HZliNCatENVdgVmGs65W
-         O5R3z0JXwPuREVsKapecMn08t8SFCGVFmUrosGsWUyDBJKAAMVlEGls8sRp4yrSkv7YY
-         bOoSZqtR4WXT3XkyPnZXdR/esKO/8o6axoJUHjMrTLH1lOtEUSAcYv173/RDWFGCB2yH
-         Knw5WHXsp4ryQXboU58q0wYGM1bMXZXptdF40gqmbJS+fM9FezPvLw3IaVMH2TwpGksj
-         i7jA==
-X-Gm-Message-State: ANhLgQ3xQWy9kTPvYV0PzECGD+tC9OS1mY9FdJetb6D1c4QKQ7tLs0nM
-        kpUlMNxAUCeS2EPpU0YsIS6ksTlN7m6KUg==
-X-Google-Smtp-Source: ADFU+vuGwhRTHhtQBh24wMOPnFqWmD8WEDTDqhBcn0GQZbxNq7+HwZ5AGbojto+87MT0Z8I4IEGjhQ==
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr35578867wrr.393.1585045255321;
-        Tue, 24 Mar 2020 03:20:55 -0700 (PDT)
+        bh=/+yRgmnGZVSZp6x2Og5KbLuzZTmkQMHFsn5IdENH0xo=;
+        b=Bu/qq21sMaJE8HiGelVbTk8TocMJX8A4kQdGb3j8AtP4frFcA4WT6RVA1HWllIQqOY
+         6RgqNG2I4K+2ng3B4Y+KJp0uYL6Z/T+M9Xjs9qNrvCaHlTnldins9Vz+dg31r61rVoTA
+         lK1RWfBF+UrGCVDcktSoSmGvfW0mi+xdeZzVZXY49ccNLfyQVv4qZNfRoHIHHHTwpbNa
+         ZshIrVZrWLLxLwYJO8UmvwBe9DKoBBqWPJsHr3waSlIrRMXTcn/YdV1oyrji2dRTrfWv
+         jaVHS4yDgtq3Gtt1YqAa/StEhDQDTWKWiVAMfMz48cbazsR3RGK1/kI8rW+l1gq1M9AZ
+         WbAg==
+X-Gm-Message-State: ANhLgQ0KwwYZ9DVaDvK4iAgr0EuoDdVuDgiqQj05DngGOUAdtyWpHe5U
+        3kTp3FhGyTAIy2YG//vz8VmrbE39rvWg+w==
+X-Google-Smtp-Source: ADFU+vtvUBBxR2Sg0eSFzCOLuJ1X1wwwFy1YDkT2xiC/HpLU99Ebb8mRK3Li2BrG8iTbiPafoU4VSQ==
+X-Received: by 2002:adf:e848:: with SMTP id d8mr14204896wrn.209.1585045252806;
+        Tue, 24 Mar 2020 03:20:52 -0700 (PDT)
 Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5c5f:613e:f775:b6a2])
-        by smtp.gmail.com with ESMTPSA id h5sm2879527wro.83.2020.03.24.03.20.54
+        by smtp.gmail.com with ESMTPSA id h5sm2879527wro.83.2020.03.24.03.20.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 03:20:54 -0700 (PDT)
+        Tue, 24 Mar 2020 03:20:52 -0700 (PDT)
 From:   Neil Armstrong <narmstrong@baylibre.com>
 To:     kishon@ti.com, balbi@kernel.org, khilman@baylibre.com,
-        martin.blumenstingl@googlemail.com, devicetree@vger.kernel.org
+        martin.blumenstingl@googlemail.com
 Cc:     linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 13/13] dt-bindings: usb: amlogic,dwc3: remove old DWC3 wrapper
-Date:   Tue, 24 Mar 2020 11:20:30 +0100
-Message-Id: <20200324102030.31000-14-narmstrong@baylibre.com>
+Subject: [PATCH 11/13] usb: dwc3: of-simple: remove Amlogic GXL and AXG compatibles
+Date:   Tue, 24 Mar 2020 11:20:28 +0100
+Message-Id: <20200324102030.31000-12-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200324102030.31000-1-narmstrong@baylibre.com>
 References: <20200324102030.31000-1-narmstrong@baylibre.com>
@@ -75,64 +75,98 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
-There is now an updated bindings for these SoCs making the old
-compatible obsolete.
+There is now a dedicated driver for these SoCs making the old compatible
+obsolete.
 
 Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- .../devicetree/bindings/usb/amlogic,dwc3.txt  | 42 -------------------
- 1 file changed, 42 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
+ drivers/usb/dwc3/dwc3-of-simple.c | 30 ++++++------------------------
+ 1 file changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt b/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
-deleted file mode 100644
-index 9a8b631904fd..000000000000
---- a/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Amlogic Meson GX DWC3 USB SoC controller
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index e64754be47b4..8852fbfdead4 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -27,7 +27,6 @@ struct dwc3_of_simple {
+ 	struct clk_bulk_data	*clks;
+ 	int			num_clocks;
+ 	struct reset_control	*resets;
+-	bool			pulse_resets;
+ 	bool			need_reset;
+ };
+ 
+@@ -38,7 +37,6 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
+ 	struct device_node	*np = dev->of_node;
+ 
+ 	int			ret;
+-	bool			shared_resets = false;
+ 
+ 	simple = devm_kzalloc(dev, sizeof(*simple), GFP_KERNEL);
+ 	if (!simple)
+@@ -54,13 +52,7 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
+ 	if (of_device_is_compatible(np, "rockchip,rk3399-dwc3"))
+ 		simple->need_reset = true;
+ 
+-	if (of_device_is_compatible(np, "amlogic,meson-axg-dwc3") ||
+-	    of_device_is_compatible(np, "amlogic,meson-gxl-dwc3")) {
+-		shared_resets = true;
+-		simple->pulse_resets = true;
+-	}
 -
--Required properties:
--- compatible:	depending on the SoC this should contain one of:
--			* amlogic,meson-axg-dwc3
--			* amlogic,meson-gxl-dwc3
--- clocks:	a handle for the "USB general" clock
--- clock-names:	must be "usb_general"
--- resets:	a handle for the shared "USB OTG" reset line
--- reset-names:	must be "usb_otg"
--
--Required child node:
--A child node must exist to represent the core DWC3 IP block. The name of
--the node is not important. The content of the node is defined in dwc3.txt.
--
--PHY documentation is provided in the following places:
--- Documentation/devicetree/bindings/phy/meson-gxl-usb2-phy.txt
--- Documentation/devicetree/bindings/phy/meson-gxl-usb3-phy.txt
--
--Example device nodes:
--		usb0: usb@ff500000 {
--			compatible = "amlogic,meson-axg-dwc3";
--			#address-cells = <2>;
--			#size-cells = <2>;
--			ranges;
--
--			clocks = <&clkc CLKID_USB>;
--			clock-names = "usb_general";
--			resets = <&reset RESET_USB_OTG>;
--			reset-names = "usb_otg";
--
--			dwc3: dwc3@ff500000 {
--				compatible = "snps,dwc3";
--				reg = <0x0 0xff500000 0x0 0x100000>;
--				interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
--				dr_mode = "host";
--				maximum-speed = "high-speed";
--				snps,dis_u2_susphy_quirk;
--				phys = <&usb3_phy>, <&usb2_phy0>;
--				phy-names = "usb2-phy", "usb3-phy";
--			};
--		};
+-	simple->resets = of_reset_control_array_get(np, shared_resets, true,
++	simple->resets = of_reset_control_array_get(np, false, true,
+ 						    true);
+ 	if (IS_ERR(simple->resets)) {
+ 		ret = PTR_ERR(simple->resets);
+@@ -68,15 +60,9 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	if (simple->pulse_resets) {
+-		ret = reset_control_reset(simple->resets);
+-		if (ret)
+-			goto err_resetc_put;
+-	} else {
+-		ret = reset_control_deassert(simple->resets);
+-		if (ret)
+-			goto err_resetc_put;
+-	}
++	ret = reset_control_deassert(simple->resets);
++	if (ret)
++		goto err_resetc_put;
+ 
+ 	ret = clk_bulk_get_all(simple->dev, &simple->clks);
+ 	if (ret < 0)
+@@ -102,8 +88,7 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
+ 	clk_bulk_put_all(simple->num_clocks, simple->clks);
+ 
+ err_resetc_assert:
+-	if (!simple->pulse_resets)
+-		reset_control_assert(simple->resets);
++	reset_control_assert(simple->resets);
+ 
+ err_resetc_put:
+ 	reset_control_put(simple->resets);
+@@ -118,8 +103,7 @@ static void __dwc3_of_simple_teardown(struct dwc3_of_simple *simple)
+ 	clk_bulk_put_all(simple->num_clocks, simple->clks);
+ 	simple->num_clocks = 0;
+ 
+-	if (!simple->pulse_resets)
+-		reset_control_assert(simple->resets);
++	reset_control_assert(simple->resets);
+ 
+ 	reset_control_put(simple->resets);
+ 
+@@ -191,8 +175,6 @@ static const struct of_device_id of_dwc3_simple_match[] = {
+ 	{ .compatible = "xlnx,zynqmp-dwc3" },
+ 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
+ 	{ .compatible = "sprd,sc9860-dwc3" },
+-	{ .compatible = "amlogic,meson-axg-dwc3" },
+-	{ .compatible = "amlogic,meson-gxl-dwc3" },
+ 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
+ 	{ /* Sentinel */ }
+ };
 -- 
 2.22.0
 
