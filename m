@@ -2,66 +2,71 @@ Return-Path: <SRS0=73Qb=5L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B7C2C43331
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 03:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7443C2D0E7
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 05:27:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D9A8D20774
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 03:42:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE7152082D
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 05:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbgCZDmt convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Mar 2020 23:42:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57488 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727575AbgCZDmt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Mar 2020 23:42:49 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 206901] Valve Index HMD breaks the USB controller it's
- connected into
-Date:   Thu, 26 Mar 2020 03:42:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: carlo@alinoe.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206901-208809-ALfONWzBsq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206901-208809@https.bugzilla.kernel.org/>
-References: <bug-206901-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+        id S1726292AbgCZF1A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Mar 2020 01:27:00 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:31518 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725994AbgCZF07 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 01:26:59 -0400
+X-IronPort-AV: E=Sophos;i="5.72,307,1580742000"; 
+   d="scan'208";a="42669103"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 26 Mar 2020 14:26:58 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 66BFA400A115;
+        Thu, 26 Mar 2020 14:26:58 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, robh+dt@kernel.org
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2 1/3] dt-bindings: usb: usb-xhci: add r8a77961 support
+Date:   Thu, 26 Mar 2020 14:26:48 +0900
+Message-Id: <1585200410-28841-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1585200410-28841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <1585200410-28841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206901
+This patch adds support for r8a77961 (R-Car M3-W+).
 
---- Comment #4 from Carlo Wood (carlo@alinoe.com) ---
-The commit comments might be relevant / interesting too:
+To avoid confusion between R-Car M3-W (R8A77960) and R-Car M3-W+
+(R8A77961), this patch also updates the comment of
+"renesas,xhci-r8a7796".
 
-https://github.com/torvalds/linux/commit/227a4fd801c8a9fa2c4700ab98ec1aec06e3b44d
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/devicetree/bindings/usb/usb-xhci.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-So again, if this affects me (the μPD720202) then that patch has no effect
-because that code is never executed.
-
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+index 3f37895..dc025f1 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+@@ -16,7 +16,8 @@ Required properties:
+     - "renesas,xhci-r8a7791" for r8a7791 SoC
+     - "renesas,xhci-r8a7793" for r8a7793 SoC
+     - "renesas,xhci-r8a7795" for r8a7795 SoC
+-    - "renesas,xhci-r8a7796" for r8a7796 SoC
++    - "renesas,xhci-r8a7796" for r8a77960 SoC
++    - "renesas,xhci-r8a77961" for r8a77961 SoC
+     - "renesas,xhci-r8a77965" for r8a77965 SoC
+     - "renesas,xhci-r8a77990" for r8a77990 SoC
+     - "renesas,rcar-gen2-xhci" for a generic R-Car Gen2 or RZ/G1 compatible
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.7.4
+
