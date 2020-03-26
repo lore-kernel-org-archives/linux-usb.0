@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D59CBC43331
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 03:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E4EC43331
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 03:26:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A4F032074D
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 03:05:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCD4820772
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 03:26:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727639AbgCZDFg convert rfc822-to-8bit (ORCPT
+        id S1727720AbgCZD02 convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Mar 2020 23:05:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49366 "EHLO mail.kernel.org"
+        Wed, 25 Mar 2020 23:26:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727560AbgCZDFf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Mar 2020 23:05:35 -0400
+        id S1727707AbgCZD02 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 25 Mar 2020 23:26:28 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 206901] Valve Index HMD breaks the USB controller it's
  connected into
-Date:   Thu, 26 Mar 2020 03:05:35 +0000
+Date:   Thu, 26 Mar 2020 03:26:27 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -37,8 +37,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206901-208809-03458VwXks@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206901-208809-YbMVc4CgQY@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206901-208809@https.bugzilla.kernel.org/>
 References: <bug-206901-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,40 +53,35 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206901
 
-Carlo Wood (carlo@alinoe.com) changed:
+--- Comment #2 from Carlo Wood (carlo@alinoe.com) ---
+I had a LOT more problems with the USB 3 on my ASUS Sabertooth 990FX
+motherboard, so I bought a PCI Express card (PEXUSB3S44V from Startech, see
+https://www.startech.com/nl/en/Cards-Adapters/USB-3.0/Cards/PCI-Express-USB-3-Card-4-Dedicated-Channels-4-Port~PEXUSB3S44V)
+basically because it is the most expensive card you can get (I was hoping to
+rule out certain things with that).
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |carlo@alinoe.com
+As a result I no longer needed to disable iommu in the BIOS or pass iommu=soft
+as kernel boot parameter. But the above bug remained (although less
+frequently).
 
---- Comment #1 from Carlo Wood (carlo@alinoe.com) ---
-I have the same problem.
+The PEXUSB3S44V uses the μPD720202 host controller chip (four of them I think).
+Documents here
+https://www.renesas.com/us/en/products/usb-assp/upd720202.html#documents
 
-The Valve Index HMD uses the xhci_hmd driver for a USB 3 connection.
-The culprit shows usually in dmesg as:
+This bug has the feel of https://bugzilla.kernel.org/show_bug.cgi?id=65021
+from 2013 (kernel 3.x). A patch that has been in the kernel for long related
+to that bug is https://www.spinics.net/lists/linux-usb/msg122678.html a few
+people said was fixing the issue for them.
 
-[77865.729313] xhci_hcd 0000:08:00.0: xHCI host not responding to stop endpoint
-command.
-[77865.729989] xhci_hcd 0000:08:00.0: xHCI host controller not responding,
-assume dead
-[77865.729995] xhci_hcd 0000:08:00.0: HC died; cleaning up
+However, I added debug output to the module and in my case it never even gets
+to the line
 
-After which obviously no new connections can be made anymore.
+> xhci->quirks |= XHCI_AVOID_BEI;
 
-I compiled vanilla 5.6.0-rc7 with
+so no wonder that patch didn't solve it for me ;).
+Hence, apparently pdev->vendor != PCI_VENDOR_ID_INTEL for me.
 
->grep XHCI .config
-CONFIG_USB_XHCI_HCD=m
-CONFIG_USB_XHCI_DBGCAP=y
-CONFIG_USB_XHCI_PCI=m
-# CONFIG_USB_XHCI_PLATFORM is not set
-
-reloading the xhci_pci module restores the controller.
-
-If someone has patches to try out then I can apply them
-and test it out.
-
-If any other info is needed please ask!
+But maybe it should be? The μPD720202 specs say it is Intel compatible...
 
 -- 
 You are receiving this mail because:
