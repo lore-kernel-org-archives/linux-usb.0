@@ -2,131 +2,145 @@ Return-Path: <SRS0=73Qb=5L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97250C2D0E5
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 11:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74132C2D0E9
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 11:34:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 73AA32070A
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 11:33:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DB7E2070A
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 11:34:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbgCZLde convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Mar 2020 07:33:34 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:36239 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728092AbgCZLdd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 07:33:33 -0400
-Received: from mail-pj1-f69.google.com ([209.85.216.69])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jHQlP-0001Ee-AN
-        for linux-usb@vger.kernel.org; Thu, 26 Mar 2020 11:33:31 +0000
-Received: by mail-pj1-f69.google.com with SMTP id w6so4028829pjt.7
-        for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2020 04:33:31 -0700 (PDT)
+        id S1728193AbgCZLeR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Mar 2020 07:34:17 -0400
+Received: from mail-il1-f199.google.com ([209.85.166.199]:34896 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728154AbgCZLeR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 07:34:17 -0400
+Received: by mail-il1-f199.google.com with SMTP id t10so5045994ilf.2
+        for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2020 04:34:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=G+QwyOSfehj0haKhfhlIVYmqRcVCM5uC0FJcjI7cTRY=;
-        b=ifsuR/Xu0fA37KhbdCNMHlP3iVLiuk5vUelU00MVLOVRRvXu5q5eUFyu/HuS5LQacl
-         4FC1jKN4B8chDxD2kECyeDCxVzyoHBweFtsoiU/bZB3O8+hp9Lw0n6ffz7Uc5IFYnObZ
-         2AcVd9xkPnmbq1mgSMAQiJP3Df19kWAH9Ga/9ZLerjJs/yKORlnoj1EB44E/I7AR3cZM
-         hsZQ626iFLEcKOdsyZs1jldUzp3BcAtvko99PVXiN+b1Qq3dzGagMWBhyWYFYRf/nupK
-         G9LyhmSZIycBl4dBwPUDl4RnJp96Hg2h3t903yf8w4Bor0zbNhrfJswPw5APsVEaSw5R
-         Roaw==
-X-Gm-Message-State: ANhLgQ1WmqgipJy1Vu+Ba3tgaZo0l4rANWFWSs9yQMtX7pl2Cbe2WCwi
-        dbRSI6Vr+VCjkb2BBEm5Woz4IByhntkSqzQhiRlaprJ4lVRBLXPXPVb8K3jRLTls8nzgx8tsqCq
-        FyETCZMofHKpGVpKj4ZeswvzPPsNVdP5xg5Bw+w==
-X-Received: by 2002:a17:90b:46d0:: with SMTP id jx16mr2598849pjb.155.1585222409866;
-        Thu, 26 Mar 2020 04:33:29 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuUF7fZ8cLQXk/E8Fjz7a3uP4QpVjOkMylBN5KEJwNfoB/LjAMeMUPYZ/BXBETvh8LztOA/Bg==
-X-Received: by 2002:a17:90b:46d0:: with SMTP id jx16mr2598815pjb.155.1585222409533;
-        Thu, 26 Mar 2020 04:33:29 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
-        by smtp.gmail.com with ESMTPSA id a15sm1474595pfg.77.2020.03.26.04.33.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 26 Mar 2020 04:33:29 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
-Subject: Re: [PATCH v2] xhci: Set port link to RxDetect if port is not enabled
- after resume
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <20200311040456.25851-1-kai.heng.feng@canonical.com>
-Date:   Thu, 26 Mar 2020 19:33:26 +0800
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 8BIT
-Message-Id: <B4E44BDC-5AFE-4F8A-8498-0EEE9CDAC0E1@canonical.com>
-References: <20200311040456.25851-1-kai.heng.feng@canonical.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>
-X-Mailer: Apple Mail (2.3608.60.0.2.5)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=OeinQFi7x4TlScyCTQhRHYs3o4+FpLXfl1bcf2XkeHU=;
+        b=SV7aZfez5zTfMG4Q52J/t40cuWgeTcnse8nOPT9x57xX0FJL6DmsTqnv489U4eXKk4
+         5UYE/5QY3WSujSjYPFl4fG6nFUBfd1WfrKJJ9UwAXYpTIhSz4JhypdGlForEFqCLMaUx
+         HaRFjOfUxUatTnJyTPgVa8ehKc08/oUylM8cRLnQL+uPHvRrL/viEuepmgy9dV+qKB7x
+         SaiAFZe8KfUL3oMe9URtw2LUhefJmdiM6ECtZhWFe2mbIVhgTct3B/lV7PMMj5Bf5OtG
+         WR9pI4vDM6IIAxs9r+/zci7YvfZ7nLwiZoyv/Dbm2Hj8NW/reEV3G9MaUN0uzz4ofusL
+         I41A==
+X-Gm-Message-State: ANhLgQ1+sEOTG435mhlumJYTRpHzac2MsK6Cnw2vItv3Jq9dRsq+PGjj
+        WNYAxlfKb2qXzKssitV9LSmlUdxoX5ATkoJWXct/uWzhjde+
+X-Google-Smtp-Source: ADFU+vsqgiA/JP2Ls4ZR6uB3AkBQAQ0h+SfYGkztbIwJbRaJ5pX2Azq8wXCu2UNxpKEfK5jx9TCwcV+WALKhxu17MTcaoyFWAx51
+MIME-Version: 1.0
+X-Received: by 2002:a92:9edc:: with SMTP id s89mr8441522ilk.229.1585222456337;
+ Thu, 26 Mar 2020 04:34:16 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 04:34:16 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000666c9c05a1c05d12@google.com>
+Subject: general protection fault in ath9k_hif_usb_rx_cb
+From:   syzbot <syzbot+40d5d2e8a4680952f042@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, ath9k-devel@qca.qualcomm.com,
+        davem@davemloft.net, kvalo@codeaurora.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Mathias,
+Hello,
 
-> On Mar 11, 2020, at 12:04, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
-> 
-> On Dell TB16, Realtek USB ethernet (r8152) connects to an SMSC hub which
-> then connects to ASMedia xHCI's root hub:
-> 
-> /:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/2p, 5000M
->    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/7p, 5000M
->            |__ Port 2: Dev 3, If 0, Class=Vendor Specific Class, Driver=r8152, 5000M
-> 
-> Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-> Bus 004 Device 002: ID 0424:5537 Standard Microsystems Corp. USB5537B
-> Bus 004 Device 003: ID 0bda:8153 Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
-> 
-> The port is disabled after resume:
-> xhci_hcd 0000:3f:00.0: Get port status 4-1 read: 0x280, return 0x280
-> 
-> According to xHCI 4.19.1.2.1, we should set link to RxDetect to transit
-> it from disabled state to disconnected state, which allows the port to
-> be set to U0 and completes the resume process.
-> 
-> My own test shows port can still resume when it's not enabled, as long
-> as its link is in U states. So constrain the new logic only when link is
-> not in any U state.
-> 
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+syzbot found the following crash on:
 
-Do you think this is a proper fix?
+HEAD commit:    e17994d1 usb: core: kcov: collect coverage from usb comple..
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=112072ade00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5d64370c438bc60
+dashboard link: https://syzkaller.appspot.com/bug?extid=40d5d2e8a4680952f042
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143981d3e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=152072ade00000
 
-Kai-Heng
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+40d5d2e8a4680952f042@syzkaller.appspotmail.com
 
-> ---
-> drivers/usb/host/xhci-hub.c | 8 ++++++++
-> 1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-> index a9c87eb8951e..263f9a9237a1 100644
-> --- a/drivers/usb/host/xhci-hub.c
-> +++ b/drivers/usb/host/xhci-hub.c
-> @@ -1776,6 +1776,14 @@ int xhci_bus_resume(struct usb_hcd *hcd)
-> 			clear_bit(port_index, &bus_state->bus_suspended);
-> 			continue;
-> 		}
-> +
-> +		/* 4.19.1.2.1 */
-> +		if (!(portsc & PORT_PE) && (portsc & PORT_PLS_MASK) > XDEV_U3) {
-> +			portsc = xhci_port_state_to_neutral(portsc);
-> +			portsc &= ~PORT_PLS_MASK;
-> +			portsc |= PORT_LINK_STROBE | XDEV_RXDETECT;
-> +		}
-> +
-> 		/* resume if we suspended the link, and it is still suspended */
-> 		if (test_bit(port_index, &bus_state->bus_suspended))
-> 			switch (portsc & PORT_PLS_MASK) {
-> -- 
-> 2.17.1
-> 
+general protection fault, probably for non-canonical address 0xdffffc0000000015: 0000 [#1] SMP KASAN
+KASAN: null-ptr-deref in range [0x00000000000000a8-0x00000000000000af]
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.6.0-rc5-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:usb_get_intfdata include/linux/usb.h:265 [inline]
+RIP: 0010:ath9k_hif_usb_rx_cb+0x103/0xf70 drivers/net/wireless/ath/ath9k/hif_usb.c:643
+Code: 83 3c 24 00 48 89 c3 0f 84 19 04 00 00 e8 95 d5 6e fe 48 8d bb a8 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 27 0c 00 00 4c 8b a3 a8 00 00 00 4d 85 e4 0f 84
+RSP: 0018:ffff8881db209928 EFLAGS: 00010002
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff835ed4bc
+RDX: 0000000000000015 RSI: ffffffff82d0804b RDI: 00000000000000a8
+RBP: ffff8881d3c03b00 R08: ffffffff8702cc40 R09: fffffbfff0e28205
+R10: fffffbfff0e28204 R11: ffffffff87141023 R12: 0100000000000001
+R13: ffff8881ceef31c8 R14: ffff8881d3c03b00 R15: ffff8881d3c03b40
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000056168f698a48 CR3: 00000001d050a000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <IRQ>
+ __usb_hcd_giveback_urb+0x29a/0x550 drivers/usb/core/hcd.c:1650
+ usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1716
+ dummy_timer+0x1258/0x32ae drivers/usb/gadget/udc/dummy_hcd.c:1966
+ call_timer_fn+0x195/0x6f0 kernel/time/timer.c:1404
+ expire_timers kernel/time/timer.c:1449 [inline]
+ __run_timers kernel/time/timer.c:1773 [inline]
+ __run_timers kernel/time/timer.c:1740 [inline]
+ run_timer_softirq+0x5f9/0x1500 kernel/time/timer.c:1786
+ __do_softirq+0x21e/0x950 kernel/softirq.c:292
+ invoke_softirq kernel/softirq.c:373 [inline]
+ irq_exit+0x178/0x1a0 kernel/softirq.c:413
+ exiting_irq arch/x86/include/asm/apic.h:546 [inline]
+ smp_apic_timer_interrupt+0x141/0x540 arch/x86/kernel/apic/apic.c:1146
+ apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
+ </IRQ>
+RIP: 0010:default_idle+0x28/0x300 arch/x86/kernel/process.c:696
+Code: cc cc 41 56 41 55 65 44 8b 2d 44 77 72 7a 41 54 55 53 0f 1f 44 00 00 e8 b6 62 b5 fb e9 07 00 00 00 0f 00 2d ea 0c 53 00 fb f4 <65> 44 8b 2d 20 77 72 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
+RSP: 0018:ffffffff87007d80 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: ffffffff8702cc40 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffffffff8702d48c
+RBP: fffffbfff0e05988 R08: ffffffff8702cc40 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff87e607c0 R15: 0000000000000000
+ cpuidle_idle_call kernel/sched/idle.c:154 [inline]
+ do_idle+0x3e0/0x500 kernel/sched/idle.c:269
+ cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:361
+ start_kernel+0xe16/0xe5a init/main.c:998
+ secondary_startup_64+0xb6/0xc0 arch/x86/kernel/head_64.S:242
+Modules linked in:
+---[ end trace eca37a89cc7a3629 ]---
+RIP: 0010:usb_get_intfdata include/linux/usb.h:265 [inline]
+RIP: 0010:ath9k_hif_usb_rx_cb+0x103/0xf70 drivers/net/wireless/ath/ath9k/hif_usb.c:643
+Code: 83 3c 24 00 48 89 c3 0f 84 19 04 00 00 e8 95 d5 6e fe 48 8d bb a8 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 27 0c 00 00 4c 8b a3 a8 00 00 00 4d 85 e4 0f 84
+RSP: 0018:ffff8881db209928 EFLAGS: 00010002
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff835ed4bc
+RDX: 0000000000000015 RSI: ffffffff82d0804b RDI: 00000000000000a8
+RBP: ffff8881d3c03b00 R08: ffffffff8702cc40 R09: fffffbfff0e28205
+R10: fffffbfff0e28204 R11: ffffffff87141023 R12: 0100000000000001
+R13: ffff8881ceef31c8 R14: ffff8881d3c03b00 R15: ffff8881d3c03b40
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000056168f698a48 CR3: 00000001d050a000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
