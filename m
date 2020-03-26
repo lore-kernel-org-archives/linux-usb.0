@@ -7,62 +7,62 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91ADC43331
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 13:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E25C2D0E8
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 13:45:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A1025206E6
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 13:45:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1B162077D
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 13:45:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="EBSK+E9N"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="WFIzC18k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727875AbgCZNpY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Mar 2020 09:45:24 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:50407 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727831AbgCZNpU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 09:45:20 -0400
-Received: by mail-wm1-f65.google.com with SMTP id d198so6556953wmd.0
-        for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2020 06:45:19 -0700 (PDT)
+        id S1727932AbgCZNpc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Mar 2020 09:45:32 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36281 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727909AbgCZNpb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 09:45:31 -0400
+Received: by mail-wm1-f67.google.com with SMTP id g62so7082084wme.1
+        for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2020 06:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=E2Nej3PvIghRUOKzyBo4bIwNfTfqhNtg3/diQuBc7As=;
-        b=EBSK+E9NDW6/g5NS8KEfKOXbeCyuAzwOTDTO1vQwh0l3zrv8Q2tyK/LrydSklc4JX+
-         pqsTOR4naUDFKVaVpM1TqekGxLf2R03Yg30rMeFkiES78oulP5qC5aCOZ66Ku27ITvYq
-         OVevZUCL3r8VcaWFHv9qIPfi5YBlHdnrk2HJiQGdHpq1h4T7m3VLpePVbjr5hM6yCWu6
-         +w1U1yZCLQJt16R2im4++WMu1WiU7m2qkpA0eOum52mdnKyyjQqUWYrMxmxu3Yrs5dxt
-         lxOFJOZmCbfFlS3sErPEPe/+Lj5XimXNaignHRINQQKQ5JzcTo6a4XJeC85hfOe0nsQ6
-         E6dQ==
+        bh=FYmBKvDX2uegk8HiuHznpAIvR/lIVMa/DD0ivvJWoKc=;
+        b=WFIzC18kvsFjgIJ4FAaGh/U0e0VcyLOupRhUbB4tyLL65yxfgasTs/rTmfpo/K+C8r
+         PfCapoDbaqg61p+hAHE7MW7uwGmcPNN0d3wQ/3UWumCMIsY4I5Gu0s4TQqOEeflO4HDm
+         Ttxvoii4MFFwJXu1wNm5hk7cnRzqx10VF998dfGBf81edsilQuIw7ybIwSV1XlVG32Wx
+         rp9uaoLg/EeTOZni35QERf+9CqXseJQnfGe8h5UtBa65ktyqDSGuejQiF+iGS9Vdm4Ve
+         GSEu8/QXFsKWm4phRr9YycLomXzQvo9aVbJTThCeKu3Hvs+yExIEH5hDMK0Tvf21dSaZ
+         O4Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=E2Nej3PvIghRUOKzyBo4bIwNfTfqhNtg3/diQuBc7As=;
-        b=BvK+T6vDZwC5PmJdoEbPPJKmreOGz2Ha7iMz80leX9gVySjbkU7ZIXRLCy6zrNxj1N
-         AwbSmlIiUiyynWy/bfNmpuQr0sKWrhQwGcbUsdZsg1BODrO225iz0Yn4POqPaZiH5U5P
-         0QgdBEDuLqtK05sInrKkLRSIMK5NN9IKi8y/u7YXHiUIRMvnkhWZSz5+vTIzX2vu8BKG
-         nkbXAFxFxkgNeJs8dghINSdR496Gh1VgNsArXvFdqEuG8+UxMZae4eAelmHh3MaWdETI
-         hXnDuuEuBSGvYNyin+uStIjF78mRo/7Tlw1BDfqTeXtsWzLCQBetGdxeykh9lbjgPL6f
-         oInA==
-X-Gm-Message-State: ANhLgQ23iovUQUx/cXaAZwp2LokWQ3pB2pNcqHaSYUrHYdL0G/sBmlxt
-        AJ3Upgkt2bfFfe0hi8vM7a2AKIFTZJBR8w==
-X-Google-Smtp-Source: ADFU+vvlZVniCdthaZ5Ps9LD3FGyRxckA9MDLoj9Ko1f8T/NE7VRmePqEkNAlyEGnn9joVshcbaFYQ==
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr43647wmj.170.1585230317388;
-        Thu, 26 Mar 2020 06:45:17 -0700 (PDT)
+        bh=FYmBKvDX2uegk8HiuHznpAIvR/lIVMa/DD0ivvJWoKc=;
+        b=dKBLXSdYtxpLjFBQWzJLaqsGXHJal74Fs4MUDppd6VEQIg2rzMjciUhihinO00IC3J
+         aa9gsPrMqfJIHwzPEKdsTAIcAnmN3QG6IsNf0v6R/C1NYdlOhNaO0CDnRgm/L/libS29
+         qFKbzIcCqEh5DShixp3kWj5CoRDBGjwgNMjfiYQsuFMtv86o5XWr4/HEVm58dLfWXhDH
+         uEInRZBWqYlSidZKMzVnx/BEP7xA6Gm+ct+oXjsiTR+H6cr+hwgW6QmHqHwa8Ta9Yao9
+         en43/GE37qB5PTvVkuakVLfb8Oci9i802iG3mdfMP6SZqZ4qCvVoXkqahZ0+vG6SynG9
+         IrkQ==
+X-Gm-Message-State: ANhLgQ1MBY2Cvp1sda0tsSTLoM0boXjmVVqD0b/4muH+SD9Rp9g1Jrtk
+        rOncGy6mhxl/QoNFEaJlQMP7ng==
+X-Google-Smtp-Source: ADFU+vtDec2EyGWkeh0RHipBALtSpkGygZ/tofT3qFJR5rH8aahV1B9w9HjqJoFyqKyUoc7AtWokQg==
+X-Received: by 2002:a7b:cb03:: with SMTP id u3mr70540wmj.12.1585230328275;
+        Thu, 26 Mar 2020 06:45:28 -0700 (PDT)
 Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5c5f:613e:f775:b6a2])
-        by smtp.gmail.com with ESMTPSA id h29sm4079617wrc.64.2020.03.26.06.45.16
+        by smtp.gmail.com with ESMTPSA id h29sm4079617wrc.64.2020.03.26.06.45.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 06:45:16 -0700 (PDT)
+        Thu, 26 Mar 2020 06:45:27 -0700 (PDT)
 From:   Neil Armstrong <narmstrong@baylibre.com>
 To:     kishon@ti.com, balbi@kernel.org, khilman@baylibre.com,
-        martin.blumenstingl@googlemail.com
+        martin.blumenstingl@googlemail.com, devicetree@vger.kernel.org
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/14] usb: dwc3: meson-g12a: check return of dwc3_meson_g12a_usb_init
-Date:   Thu, 26 Mar 2020 14:44:57 +0100
-Message-Id: <20200326134507.4808-6-narmstrong@baylibre.com>
+Subject: [PATCH v2 13/14] doc: dt: bindings: usb: dwc3: remove amlogic compatible entries
+Date:   Thu, 26 Mar 2020 14:45:05 +0100
+Message-Id: <20200326134507.4808-14-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200326134507.4808-1-narmstrong@baylibre.com>
 References: <20200326134507.4808-1-narmstrong@baylibre.com>
@@ -73,29 +73,24 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The dwc3_meson_g12a_usb_init function can return an error, check it.
-
-Fixes: e3e716e6b889 ("usb: dwc3: Add Amlogic A1 DWC3 glue")
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/usb/dwc3/dwc3-meson-g12a.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/dwc3.txt | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
-index 41bcbd31fe4e..69381c42a6d3 100644
---- a/drivers/usb/dwc3/dwc3-meson-g12a.c
-+++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
-@@ -588,7 +588,9 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 	/* Get dr_mode */
- 	priv->otg_mode = usb_get_dr_mode(dev);
- 
--	dwc3_meson_g12a_usb_init(priv);
-+	ret = dwc3_meson_g12a_usb_init(priv);
-+	if (ret)
-+		goto err_disable_clks;
- 
- 	/* Init PHYs */
- 	for (i = 0 ; i < PHY_COUNT ; ++i) {
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index 66780a47ad85..2ef0bcc30648 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -14,8 +14,6 @@ Required properties:
+ Exception for clocks:
+   clocks are optional if the parent node (i.e. glue-layer) is compatible to
+   one of the following:
+-    "amlogic,meson-axg-dwc3"
+-    "amlogic,meson-gxl-dwc3"
+     "cavium,octeon-7130-usb-uctl"
+     "qcom,dwc3"
+     "samsung,exynos5250-dwusb3"
 -- 
 2.22.0
 
