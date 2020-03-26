@@ -2,81 +2,127 @@ Return-Path: <SRS0=73Qb=5L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B42C2D0ED
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 16:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A352BC43331
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 17:07:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F58D2083E
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 16:38:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C7AD20714
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 17:07:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGAH1JK2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728644AbgCZQiV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Mar 2020 12:38:21 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:34740 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728566AbgCZQiN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 12:38:13 -0400
-Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id K4eA2200s5USYZQ064eBAL; Thu, 26 Mar 2020 17:38:11 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jHVWE-0002rD-Re; Thu, 26 Mar 2020 17:38:10 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jHVWE-00064i-P1; Thu, 26 Mar 2020 17:38:10 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/2] dt-bindings: usb: generic-ehci/ohci: Document power-domains property
-Date:   Thu, 26 Mar 2020 17:38:04 +0100
-Message-Id: <20200326163807.23216-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        id S1728078AbgCZRHi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Mar 2020 13:07:38 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35831 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgCZRHh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 13:07:37 -0400
+Received: by mail-wr1-f67.google.com with SMTP id d5so8806303wrn.2
+        for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2020 10:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=yG8mnS/7Wf3QagIw1IRfoA9/vCQQokGdgqK1IOvHV2g=;
+        b=gGAH1JK2Yqu/Rri3kAaRKibkz8KDdvvV/vElt8nedk6qIbHVCMaPx6mQFn2XpVFDTw
+         UfoFUA776en0f2UfP809nn+ZA1SCsOzenJsneVoldU5pXPHVpfhWH5c9yOUtePlbC4NZ
+         DAj9mNDwdeGkV8Fm/ARam9FQwjDdCJKvjqpEqfRmRBom+Kzz6oy7aHI5E6QwTLeBIsj1
+         qg7TWXkUU4CaFb6XuB4/fHD14mSKQ/zaYu5kOUga+xffAKsgvUz7ChKlqQ/irCW7KJtm
+         76z03fsD0mdKLgeVFMn4cUkWHa0QsNjGWqdM3skWz2ficKoOJE7wFiQ64VHWzvhXDZVp
+         GgEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=yG8mnS/7Wf3QagIw1IRfoA9/vCQQokGdgqK1IOvHV2g=;
+        b=g5Kt9g68u5BXfzJGHcbkyFdkIIx5pwK+5SFbon4WeZwt7bvNbCSU+pV18NFcwMZpyY
+         VulZYdACEJqujhoIvj0MJbUwEwqqwjwxgRKZUhLSoi8WclwJunU4VImf4YkA8RysYgbq
+         AeiG3zMW6qex7r6VO2zwITGIu/5bMZvQyoEwurvRHesU1mkRwGffynC75lQYkUfvsZaY
+         o69hucRydRh4BpU4sGG5aoXCRfPNnPXyThmYptEtzcjlsS37mWlw9jEK6mZBpQKs3XqB
+         cUJqmBM/TnGSDOB+1hhAavV3OVI9588VNOIixvTo3qs4xPjlaBODK2tCiT5YlOBuuzA2
+         WdTw==
+X-Gm-Message-State: ANhLgQ1P5UgsUlQd/LPexJ0e6sIjtoOumSdN9bcIOaUeKgArLunujchC
+        8NLJhqFqOgBUoBM4VwTEKK8QDc57aiM+QA==
+X-Google-Smtp-Source: ADFU+vuGQbaGhzBeh/H8K6xmWnyPMztntCAL/caXJ8TGW2xto9WiwXH9Mb2NzanvqYhMfmFRCRdEpg==
+X-Received: by 2002:a5d:4e05:: with SMTP id p5mr10361103wrt.59.1585242453574;
+        Thu, 26 Mar 2020 10:07:33 -0700 (PDT)
+Received: from localhost (ip1f115f16.dynamic.kabel-deutschland.de. [31.17.95.22])
+        by smtp.gmail.com with ESMTPSA id n9sm4358128wru.50.2020.03.26.10.07.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 10:07:32 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 18:01:09 +0100
+From:   Oliver Graute <oliver.graute@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Peter Chen <peter.chen@nxp.com>, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Subject: using cdns3-imx driver on imx8qm
+Message-ID: <20200326170109.GA28051@optiplex>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-	Hi Greg, Rob,
+Hello,
 
-It is quite common for a generic EHCI or OHCI block to be embedded in an
-SoC in its own power domain.  However, the current DT bindings do not
-cover this yet, leading to "make dtbs_check" warnings like:
+What is the right way for using the new cdns3-imx glue usb driver on a
+imx8qm soc with linux-next. I added this snippet in imx8qm.dtsi and
+enabled the driver in the kernel configuration.
 
-    arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dt.yaml: usb@ee080000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-    arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dt.yaml: usb@ee080100: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+usbotg3: usb3@5b110000 {
+		compatible = "cdns,usb3";
+		reg = <0x0 0x5B110000 0x0 0x10000>,
+			<0x0 0x5B130000 0x0 0x10000>,
+			<0x0 0x5B140000 0x0 0x10000>,
+			<0x0 0x5B160000 0x0 0x40000>,
+			<0x0 0x5B120000 0x0 0x10000>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&usb3_lpcg 1>,
+			 <&usb3_lpcg 0>,
+			 <&usb3_lpcg 5>,
+			 <&usb3_lpcg 2>,
+			 <&usb3_lpcg 3>;
+		clock-names = "usb3_lpm_clk", "usb3_bus_clk", "usb3_aclk",
+			"usb3_ipg_clk", "usb3_core_pclk";
+		assigned-clocks = <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
+				  <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
+		assigned-clock-rates = <125000000>, <12000000>, <250000000>;
+		power-domains = <&pd IMX_SC_R_USB_2>;
+		cdns3,usbphy = <&usb3phynop1>;
+		status = "disabled";
+	};
 
-This patch series documents the optional presence of "power-domains"
-properties in the EHCI and OHCI devices nodes, allowing the DTS writer
-to describe the controllers' positions in the power hierarchy.
+In board dts I enabled this:
 
-Thanks!
+&usbotg3 {
+	dr_mode = "host";
+	status = "okay";
+};
 
-Geert Uytterhoeven (2):
-  dt-bindings: usb: generic-ehci: Document power-domains property
-  dt-bindings: usb: generic-ohci: Document power-domains property
 
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 3 +++
- Documentation/devicetree/bindings/usb/generic-ohci.yaml | 3 +++
- 2 files changed, 6 insertions(+)
+On probing I got:
 
--- 
-2.17.1
+[    2.932089] cdns-usb3 5b110000.usb3: missing host IRQ
 
-Gr{oetje,eeting}s,
+I also tried to enable "fsl,imx8qm-usb3" compatible buts this results
+directly into a crash.
 
-						Geert
+What do I miss here? some comments would be helpful.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Oliver
