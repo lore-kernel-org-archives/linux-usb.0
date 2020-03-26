@@ -2,61 +2,61 @@ Return-Path: <SRS0=73Qb=5L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60415C2D0E7
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 23:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D3CC43331
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 23:26:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35FA520658
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 23:08:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BB2D215A4
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 23:26:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="MVcDwGSB"
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="ue1h1Ngs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726363AbgCZXIu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Mar 2020 19:08:50 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:36532 "EHLO
+        id S1728485AbgCZX0T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Mar 2020 19:26:19 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:45954 "EHLO
         mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgCZXIt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 19:08:49 -0400
-Received: by mail-ed1-f67.google.com with SMTP id i7so4032821edq.3;
-        Thu, 26 Mar 2020 16:08:48 -0700 (PDT)
+        with ESMTP id S1728475AbgCZX0S (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Mar 2020 19:26:18 -0400
+Received: by mail-ed1-f67.google.com with SMTP id u59so8971852edc.12;
+        Thu, 26 Mar 2020 16:26:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=IjVmzAATf62uYEZGFDdUMmZJw/Rys56Qr6VbgpTrVUM=;
-        b=MVcDwGSBB+EFkrtg2gmqZWSXAq9mYwRWCEI/YzTHcuhAVWx2S83wHDdVNOT2k317HO
-         I58EWGrxVervRYnIEjlAPTboaD2fUW4UnujQzjxOc/YD/KuKUfSM0YPfJ0kaOYjctOU9
-         iLGd1S8jxJh0FNm2TCO63sBqyLxA9gvTQ6lM3Kxy7/HWrPCJiXfkoFOzDf1Hr2TDsi5n
-         kJZylePdzvNfkiHQhhY9XYPnnfQz0f/bP/0pK1Q9B5aC/cLdpgeEIfBPXCNIqpbG4pBf
-         l4c06yIRKxwuFcM4kYo0VFj4i8x5CeS7aif1AeAVOFIFnY3ekMkSxbJTtK/n0XEHXNF+
-         VbOw==
+        bh=WqZyECE7b3l+/W5cG6aN6aQ7OERbPPJKLPh37gMr4P8=;
+        b=ue1h1NgsTbotQg6qMgEzUEGsjz11gWWWp2SUopj+TH8eOOBmYryxsfc281mZqrloEv
+         P76dythInNUEfdLKgr7SgCfjmFg6sE925yUai/7kD6iygiYW41tOLyueWqE41PZp/QQL
+         FrX5esvWQpq4u2MT/46hJXxhdRYrB5LZG3OXoJRY8UAsN3fhBfF+Mmj+NBCYmBlhXkiB
+         ee9g1chV624ys8iJxZOeJyLMD2lsOpr6uT72VNd2zFkDdFIzEQU1YJ3iJvKiaWZUvhxd
+         8ctYZYkWyFiCfSr/Sev5oQ62jff2k4N93aiamR/xOeC6EwLqNDKHb5/vZDTffrPQMHeA
+         j5uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IjVmzAATf62uYEZGFDdUMmZJw/Rys56Qr6VbgpTrVUM=;
-        b=RewQtkXgZ1yAc57Bq1IcDFuEtU+68zIRum1gduFnfhmcY5QRshGmgpIWfw87abkpw2
-         Gde4h81h9uHCtP4pgqg59RIvfHtkq0wd5ody2KWAaVx0kR8xBi8hWNa/vuj7GXKQMi0H
-         4yGtt/ozAvdKxLWi/dn3qxpAftpz8UFIIP+7tmExMY4GSw+TQaT0//iOb2jF1YjWmHdY
-         uT6cbGUHOXUeXpt0vvqyNRxDm1Aqjgrd+Xp9YcvKeD4s/cT+53W86WiL18ahzQ+OO5OS
-         eJAm/1y45g6H1zipznPFmBMODeHMECqChZrCWM80TBffNjSeAQHYbCj3c4TGaG8b1y/P
-         CK1A==
-X-Gm-Message-State: ANhLgQ2IrGTi+gUjVmDRVk2dVFwaT3M2/eJhgclhyKY0+79+t+Eq3Pz5
-        Q0E3YyJlJCpl0yxoPCvtulEDxNEvBWkPkS3dSkU=
-X-Google-Smtp-Source: ADFU+vtzMTlvDFueGZkf+gigtXaPCQtDw5qM43N1F3qnk+rE96BbiGe2gqw9PTPkca4WmE7xjFnfdD1Mkjj7dwNdgb0=
-X-Received: by 2002:a50:9e45:: with SMTP id z63mr10637427ede.338.1585264127824;
- Thu, 26 Mar 2020 16:08:47 -0700 (PDT)
+        bh=WqZyECE7b3l+/W5cG6aN6aQ7OERbPPJKLPh37gMr4P8=;
+        b=U3mjb2viczXn5UNIInSpTrD1qs9k91EIacNeAUJkp7WtX4zntiHRY6l3t52ujvc8OV
+         orhdResRTti+Qqyf45272qh2ch7IVbvN+DMIwPKn9CDGSLXhUDdLKlbayUCFChHZgbct
+         4FC0Mr9PjGKiVIBRo1UG4eJdUBRbk5yP5pCmV69T/cnW3WhNEjGDgVSi1RQBdYUEnXpt
+         txwEXPs63Tu9wzIzTfbn9Vw37av0HQK233xppehjKikuPaCsQGZvhUN6D+6w6gTswAB2
+         SqBuvdy2WMriX0glb0YCQVOOODOSfxDsj98DT4oMXIWwzMzxPPVFfWvNm5teWMhAJtvY
+         BM5A==
+X-Gm-Message-State: ANhLgQ35dGKMmUkpazLY+aEyggg9KqzaaaJtrySX00jDM/Nuc6MpTQpv
+        PsDIjdzDbPDHJXKtNWgVTO3JjSypHR2I8RfhKsc=
+X-Google-Smtp-Source: ADFU+vszUtR++CH3qXXBapVjGUYTUgP4+oCVQrrF3dM3CXErGyDOKMkYURV1D0IJSRdLQ53DbhvctfJOG7ec6N875qg=
+X-Received: by 2002:a17:906:491:: with SMTP id f17mr162602eja.30.1585265176806;
+ Thu, 26 Mar 2020 16:26:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200326134507.4808-1-narmstrong@baylibre.com> <20200326134507.4808-7-narmstrong@baylibre.com>
-In-Reply-To: <20200326134507.4808-7-narmstrong@baylibre.com>
+References: <20200326134507.4808-1-narmstrong@baylibre.com> <20200326134507.4808-8-narmstrong@baylibre.com>
+In-Reply-To: <20200326134507.4808-8-narmstrong@baylibre.com>
 From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Fri, 27 Mar 2020 00:08:37 +0100
-Message-ID: <CAFBinCCVTP+MrLq1O0m1pcvLo6WSXyXpTtWMEQQxOuraN+yA0w@mail.gmail.com>
-Subject: Re: [PATCH v2 06/14] usb: dwc3: meson-g12a: refactor usb2 phy init
+Date:   Fri, 27 Mar 2020 00:26:06 +0100
+Message-ID: <CAFBinCBhk+XvjGODBaNH7tzCfGktYdmk1wED8UC6cYmS3ucbig@mail.gmail.com>
+Subject: Re: [PATCH v2 07/14] usb: dwc3: meson-g12a: refactor usb init
 To:     Neil Armstrong <narmstrong@baylibre.com>
 Cc:     kishon@ti.com, balbi@kernel.org, khilman@baylibre.com,
         linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
@@ -70,18 +70,37 @@ X-Mailing-List: linux-usb@vger.kernel.org
 Hi Neil,
 
 On Thu, Mar 26, 2020 at 2:45 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+[...]
+> -static int dwc3_meson_g12a_usb2_init(struct dwc3_meson_g12a *priv)
+> +static int dwc3_meson_g12a_usb2_init(struct dwc3_meson_g12a *priv,
+> +                                    enum phy_mode mode)
+>  {
+>         int i, ret;
 >
-> Refactor the USB2 PHY init code patch to handle the Amlogic GXL/GXM
-> not having the PHY mode control registers in the Glue but in the PHY
-> registers.
->
-> The Amlogic GXL/GXM will call phy_set_mode() instead of programming the
-> PHY mode control registers, thus add two new callbacks to the SoC match
-> data.
->
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-checkpatch reports that five lines need to be checked.
-these all look valid (for example: "Alignment should match open parenthesis")
+> -       if (priv->otg_mode == USB_DR_MODE_PERIPHERAL)
+> -               priv->otg_phy_mode = PHY_MODE_USB_DEVICE;
+> -       else
+> -               priv->otg_phy_mode = PHY_MODE_USB_HOST;
+> -
+>         for (i = 0; i < priv->drvdata->num_phys; ++i) {
+>                 if (!priv->phys[i])
+>                         continue;
+> @@ -284,9 +286,10 @@ static void dwc3_meson_g12a_usb3_init(struct dwc3_meson_g12a *priv)
+>                         FIELD_PREP(USB_R1_P30_PCS_TX_SWING_FULL_MASK, 127));
+>  }
+There is something strange with dwc3_meson_g12a_usb2_init.
+enum phy_mode mode is added here but it's not used inside this function
 
-with these addressed:
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+I also think that we should not pass enum phy_mode to
+dwc3_meson_g12a_usb_otg_apply_mode
+I'm aware that the original function used enum phy_mode inside but
+this doesn't seem right:
+we're not configuring a PHY there
+instead we're setting up the OTG switch so I think we should use enum
+usb_role instead
+
+[...]
+not part of this patch but should be:
+there's a still a direct call to dwc3_meson_g12a_usb_init() in
+dwc3_meson_g12a_resume()
+I think that needs to be changed to priv->drvdata->usb_init(priv); as well
