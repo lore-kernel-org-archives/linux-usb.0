@@ -2,131 +2,173 @@ Return-Path: <SRS0=O+06=5M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCC0FC43331
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A87C2D0E8
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:47:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A9E512074A
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:45:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB3DF208FE
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:47:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ml0Gpa+Y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbgC0UpK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Mar 2020 16:45:10 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:36073 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727143AbgC0UpK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 16:45:10 -0400
-Received: (qmail 5854 invoked by uid 500); 27 Mar 2020 16:45:09 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 27 Mar 2020 16:45:09 -0400
-Date:   Fri, 27 Mar 2020 16:45:09 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>
-cc:     USB list <linux-usb@vger.kernel.org>,
-        Linux-pm mailing list <linux-pm@vger.kernel.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>
-Subject: Re: lockdep warning in urb.c:363 usb_submit_urb
-In-Reply-To: <20200326122744.kbtlmev2ravn3wey@e107158-lin>
-Message-ID: <Pine.LNX.4.44L0.2003271515480.29819-100000@netrider.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1727772AbgC0Url (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Mar 2020 16:47:41 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55651 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727685AbgC0Url (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 16:47:41 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z5so12886052wml.5;
+        Fri, 27 Mar 2020 13:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=weESLclomst8MmxTjhXCwtiBQWPXpRNsfho6iSaQvR0=;
+        b=ml0Gpa+YxAo2e20yL3Ahl+UF76HE4TWOlvdv6JAGZqbCLJZ29ZAsOEOgvtCBVtbewF
+         VihGHGj2cb0I0BquQ59PsnPn/PCfzakOawIZ3dKZLFoU98yvWqnJ02oSXltWTU8DN3C6
+         +8azV8x3FDQbx4+NzSN3efQQsq0OQBW5GZZOCp4Mn4NUpwjNQnS1YFDp3a7dy/Lq9QOy
+         m40Y7oZaipD7e/PChVYTtVKX/JUEDJGa9whmlKms0BChQlHgYWuXjngFTiWbLMblmwNn
+         77oeN3XjR1Y4Ny5MFiPPbQ5q1dCH8fmOrTtmfZfkCLikywFn/xjidd8TUwWg+By1VTCl
+         XalQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=weESLclomst8MmxTjhXCwtiBQWPXpRNsfho6iSaQvR0=;
+        b=moVs5FEJ3v2swBxwUODkHLZAaK2eu+N+dsNaDlRYoS7vjfyQY8K6p6080Yb7lgx0gp
+         DXEaQZ7bo0GM/pr8xpqesbOfjeC0IeCkChjQTyOsh/6zFQKhjfxLyO82QTLgxe5DXXRa
+         QueXyJJy2GWz//1rfqh4I1wfotAfzC+XTsnfD/a4+zWl0g1laAlMYKtA4dsPGD8Id7eT
+         jE6Bgu76X8wLCm+DrIlbAXB4kkEvs27s+j8Xbih9MGSyYkKsu21vlWAOpPiplP94ie+s
+         upwN9OCEfZklSFNXGTEWApVDem7lg2bbPtTr1CXyubvH24MUm0XXd3wCEMbYJgRzIYwa
+         GTSQ==
+X-Gm-Message-State: ANhLgQ2x141eqQfB92T2BSiQK+5Ukt75CwCyHdIIhyR49Fl+WcqS2rDW
+        LbS6aPmy+GwXClVm5ZyqMCWvYyagGXg=
+X-Google-Smtp-Source: ADFU+vt3FsEDVB6dZJBiQX7+YCbhjisyRwSkjG0/zk0GcfnXhDVoDc406V4b/IzziRUi2gzIyQBwiw==
+X-Received: by 2002:a05:600c:234f:: with SMTP id 15mr525258wmq.24.1585342059102;
+        Fri, 27 Mar 2020 13:47:39 -0700 (PDT)
+Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
+        by smtp.gmail.com with ESMTPSA id z129sm9661450wmb.7.2020.03.27.13.47.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 13:47:38 -0700 (PDT)
+From:   Al Cooper <alcooperx@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     andriy.shevchenko@linux.intel.com, Al Cooper <alcooperx@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        devicetree@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-usb@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2 2/4] usb: xhci: xhci-plat: Add support for Broadcom STB SoC's
+Date:   Fri, 27 Mar 2020 16:47:09 -0400
+Message-Id: <20200327204711.10614-3-alcooperx@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200327204711.10614-1-alcooperx@gmail.com>
+References: <20200327204711.10614-1-alcooperx@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 26 Mar 2020, Qais Yousef wrote:
+Add support for Broadcom STB SoC's to the xhci platform driver
 
-> On 03/25/20 22:28, Rafael J. Wysocki wrote:
-> > On Wed, Mar 25, 2020 at 9:49 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+Signed-off-by: Al Cooper <alcooperx@gmail.com>
+---
+ drivers/usb/host/xhci-brcm.c | 16 ++++++++++++++++
+ drivers/usb/host/xhci-brcm.h | 16 ++++++++++++++++
+ drivers/usb/host/xhci-plat.c | 11 +++++++++++
+ 3 files changed, 43 insertions(+)
+ create mode 100644 drivers/usb/host/xhci-brcm.c
+ create mode 100644 drivers/usb/host/xhci-brcm.h
 
-> > > Raphael, now that we have the direct_complete mechanism, can we revisit
-> > > this?  Should the PM core automatically call pm_runtime_set_active() if
-> > > dev->power.direct_complete isn't set?  Perhaps in device_resume_early()
-> > > prior to the pm_runtime_enable() call?
-> > >
-> > > It's possible we discussed this and decided against it at the time when
-> > > direct_complete was added, but if so I don't remember what was said.
-> > 
-> > Me neither. :-)
-> > 
-> > That said complexity has grown since then and there are the
-> > DPM_FLAG_SMART_SUSPEND and DPM_FLAG_LEAVE_SUSPENDED flags that can be
-> > used to control that behavior to some extent.
-> > 
-> > Setting DPM_FLAG_SMART_SUSPEND alone, in particular, causes
-> > pm_runtime_set_active() to be called at the noirq stage of device
-> > resume either by the core or by bus types (e.g. PCI) etc.
-> > 
-> > It looks like ohci-platform might use DPM_FLAG_SMART_SUSPEND, but I
-> > need to take a closer look at that (possibly later this week).
-> 
-> Okay I take it this was root caused correctly and now it's a question of which
-> is a better fix.
-
-Indeed.
-
-Raphael, I've been going over the PM core code, trying to figure out
-what it's really doing.  It's kind of a mess.
-
-A large part of the problem is related to an inconsistency between the
-documentation and the code.  include/linux/pm.h says that
-DPM_FLAG_SMART_SUSPEND tells bus types and PM domains about what the
-driver wants.  This strongly implies that the PM core will ignore
-SMART_SUSPEND.  But in fact the core does check that flag and takes its
-own actions if the device has no subsystem-level callbacks!
-
-Furthermore, the PM core's actions don't seem to make sense.  If the
-flag is set and the device is runtime-suspended when the system sleep
-begins, the core will skip issuing the suspend_late and suspend_noirq
-callbacks to the driver.  But it doesn't skip issuing the suspend
-callback!  I can't figure that out.  Furthermore, the decisions about
-whether to skip the resume_noirq, resume_early, and resume callbacks
-are based on different criteria from the decisions on the suspend side.
-
-That's not all: The SMART_SUSPEND decisions completely ignore the value
-of DPM_FLAG_NEVER_SKIP!  NEVER_SKIP affects only the direct_completion
-pathway.
-
-SMART_SUSPEND seems to have two different meanings.  (1) If the device 
-is already in runtime suspend when a system sleep starts, skip the 
-suspend_late and suspend_noirq callbacks.  (2) Under certain (similar) 
-circumstances, skip the resume callbacks.  The documentation only 
-mentions (1) but the code also handles (2).
-
-Other things in there also seem strange.  device_prepare() does a
-WARN_ON if either SMART_SUSPEND or LEAVE_SUSPENDED is set and the
-device is not runtime-PM-enabled.  That's understandable, but it's also
-racy.  A system sleep can begin at any time; how can a driver know when
-it is safe to disable a device's runtime PM briefly?
-
-When device_prepare() calculates the power.direct_complete flag, it
-checks to see whether the device is currently in runtime suspend in
-some cases but not in others, as in the code added by your commit
-c62ec4610c40 ("PM / core:  Fix direct_complete handling for devices
-with no callbacks").  Since the runtime-PM state is going to checked in
-__device_suspend() anyway, we shouldn't need to check it here at all.
-
-At a couple of points in the code, THAW and RESTORE events are each
-treatedly specially, with no explanation.
-
-The power.may_skip_resume flag is used in only one place, when 
-LEAVE_SUSPENDED is set and there are subsystem-level callbacks.  In 
-particular, it is _not_ used by dev_pm_may_skip_resume().  That seems 
-highly suspicious at best.
-
-I think it would be worthwhile to expend some serious effort
-straightening all this stuff out.  Perhaps we could start with a more
-explicit description of what is supposed to happen at each step.  
-(Things to be careful about include phrases like "leave suspended",
-which is not the same as "don't call the resume callbacks", even though
-the two are easily conflated.)
-
-What do you think?
-
-Alan Stern
+diff --git a/drivers/usb/host/xhci-brcm.c b/drivers/usb/host/xhci-brcm.c
+new file mode 100644
+index 000000000000..bf8c0bfd1780
+--- /dev/null
++++ b/drivers/usb/host/xhci-brcm.c
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright (c) 2018, Broadcom */
++
++#include <linux/usb.h>
++#include <linux/usb/hcd.h>
++
++#include "xhci.h"
++
++int xhci_plat_brcm_init_quirk(struct usb_hcd *hcd)
++{
++	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
++
++	xhci->quirks |= XHCI_RESET_ON_RESUME;
++	return 0;
++}
++
+diff --git a/drivers/usb/host/xhci-brcm.h b/drivers/usb/host/xhci-brcm.h
+new file mode 100644
+index 000000000000..e64800fae4d5
+--- /dev/null
++++ b/drivers/usb/host/xhci-brcm.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (c) 2018, Broadcom */
++
++#ifndef _XHCI_BRCM_H
++#define _XHCI_BRCM_H
++
++#if IS_ENABLED(CONFIG_USB_XHCI_BRCM)
++int xhci_plat_brcm_init_quirk(struct usb_hcd *hcd);
++#else
++static inline int xhci_plat_brcm_init_quirk(struct usb_hcd *hcd)
++{
++	return 0;
++}
++#endif
++#endif /* _XHCI_BRCM_H */
++
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 315b4552693c..3e90a1207803 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -22,6 +22,7 @@
+ 
+ #include "xhci.h"
+ #include "xhci-plat.h"
++#include "xhci-brcm.h"
+ #include "xhci-mvebu.h"
+ #include "xhci-rcar.h"
+ 
+@@ -112,6 +113,10 @@ static const struct xhci_plat_priv xhci_plat_renesas_rcar_gen3 = {
+ 	SET_XHCI_PLAT_PRIV_FOR_RCAR(XHCI_RCAR_FIRMWARE_NAME_V3)
+ };
+ 
++static const struct xhci_plat_priv xhci_plat_brcm = {
++	.init_quirk = xhci_plat_brcm_init_quirk,
++};
++
+ static const struct of_device_id usb_xhci_of_match[] = {
+ 	{
+ 		.compatible = "generic-xhci",
+@@ -147,6 +152,12 @@ static const struct of_device_id usb_xhci_of_match[] = {
+ 	}, {
+ 		.compatible = "renesas,rcar-gen3-xhci",
+ 		.data = &xhci_plat_renesas_rcar_gen3,
++	}, {
++		.compatible = "brcm,xhci-brcm-v2",
++		.data = &xhci_plat_brcm,
++	}, {
++		.compatible = "brcm,bcm7445-xhci",
++		.data = &xhci_plat_brcm,
+ 	},
+ 	{},
+ };
+-- 
+2.17.1
 
