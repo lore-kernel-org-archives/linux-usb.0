@@ -2,109 +2,130 @@ Return-Path: <SRS0=O+06=5M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FEA5C2D0E5
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3451BC2D0E5
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:56:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D7EB1206DB
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:47:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A1FC2076B
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 20:56:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hZpFLqRq"
+	dkim=pass (2048-bit key) header.d=gateworks-com.20150623.gappssmtp.com header.i=@gateworks-com.20150623.gappssmtp.com header.b="kk4DJRXe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727714AbgC0Urh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Mar 2020 16:47:37 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39097 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727322AbgC0Urh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 16:47:37 -0400
-Received: by mail-wm1-f67.google.com with SMTP id e9so2006054wme.4;
-        Fri, 27 Mar 2020 13:47:34 -0700 (PDT)
+        id S1727611AbgC0U42 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Mar 2020 16:56:28 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:46322 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727349AbgC0U42 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 16:56:28 -0400
+Received: by mail-io1-f65.google.com with SMTP id i3so2115797ioo.13
+        for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2020 13:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7zjqIGuOMvCRRwPxhvLH6aA1v9QtkQcy+k1LVFwx+gQ=;
-        b=hZpFLqRqirh0j+uUf7pKw9RmM1CvhHSFFQxfm7nKNVtd6a8Lih6z9h523TV5Hu7U3p
-         kb3OHR+LC2kIax0NVqrNmlPxbhQS/tgmy1rqcPsg8hEpnqv4bkoKUAOagMT4M3xwhAoC
-         E6fqW5I/LoOz+XNKPeDON9qL+kaZba+/T1zwYHaN0112EZyj1XyzG4w1M6y+xK60YBJY
-         d0xHRpaVTlvz+3V1tg49CmBdnnjULWiuAhshwP65ix1cDHlCVAFegI/Rw80nR7YBTqhK
-         dJMh1Q+wE3ekR6IV0z1SIpVpIAMOaT3208ZoApJZHVEjXmSYgXg2uJ6MXZNVgWPcCWSr
-         D45w==
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ztGuxpPnwvopwN5V9PVOVG8WbS48IkxJwK5yNOJbS/4=;
+        b=kk4DJRXeua8mYMBDP+GRp9tHtJck3RUJSwFqQrAq8iKRbpQzeCkIHxitXXXMjjardd
+         9HPHPp5glgAKLZjQsOpctpJg3tGx0HoHiVyPnCc7XiAD43XVZwV7kj6Py6xqSD4ZXxcK
+         hFoKn9qs/860vY1JwUPWyGrmZ/Ctn6YMVm67QUmV+4WIyiYqARwFWVtF8fc2kNHCyUQJ
+         QdShJlknFUYwi0mBUC6I6q+5M2O4S0czDl3QIupoIzh+oLQ08IkSmnsEz9ri1f5ZUP0I
+         EaXmswVIEsMnRpVOCo9/IrdNVI2p1mrbrU1H4ll+YRevccoA7Va/xdM6YQ99j4p90DBV
+         TkYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7zjqIGuOMvCRRwPxhvLH6aA1v9QtkQcy+k1LVFwx+gQ=;
-        b=Y3JI/Q3m/Yc61jRSTTokHVhbLD9GCCp2F+U6DascXuZLzyLCAVvjT4OJxqFgNTh5C0
-         M+qBdBJgMX7C60/J1MTSYCnTr/PfOPbSVXPvOBnpT1FiOrl29bkHkqDfwo6dhglw8WA5
-         JX+MmlSfs7QmOrda+pSnIcx1qEz978ZErux8Tcgk0Xk8FGdckCH2zb//5qP62UtjDmCA
-         VEyJFmaxu9rRg82yL6c7Xv9IIlERV92lybq574v9uHSOmAP8N37CJ+E5uFdV+JbA59hv
-         eH7N0iCNZgkIkIwIbQpR6+fN3YRSMEOwBYbuURfuNZL06fXQZclIn68pS6uMRYebIK8C
-         XClA==
-X-Gm-Message-State: ANhLgQ1PWf060eSUdlBd1iJ7SJwTcqIKrrTf8isqsEYT/ukj2Jg0MOEC
-        HrKdh14u43akHmH9xxujX9ktqL8FM4M=
-X-Google-Smtp-Source: ADFU+vv7O3ptwyFeNB+gaALx1qQmJ7yrwmxH0+fEo1SxyAQ+FzNlDD988QZzk9inG198GPusTW3lxw==
-X-Received: by 2002:a1c:1b0e:: with SMTP id b14mr627122wmb.8.1585342053562;
-        Fri, 27 Mar 2020 13:47:33 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id z129sm9661450wmb.7.2020.03.27.13.47.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2020 13:47:32 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     andriy.shevchenko@linux.intel.com, Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-usb@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 0/4] Add XHCI, EHCI and OHCI support for Broadcom STB SoS's
-Date:   Fri, 27 Mar 2020 16:47:07 -0400
-Message-Id: <20200327204711.10614-1-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ztGuxpPnwvopwN5V9PVOVG8WbS48IkxJwK5yNOJbS/4=;
+        b=BS5lV4Iz+z73Nf4Vgcw+Rvq915q6G1YetmRXEoZMLVk+mBaSU+TU3+0DhAV/2Miun8
+         JgnTWnT9G22XYd1dYbzfojPFsWymyalKm16rkrxla3mHAKDjXCJTC8bgAGc2CqfWwuj5
+         THL52tOB+w637RUhkSf6cY/y/1AFEamfBa5gGdhPa+R3VA1uTuUsXpKulTuN0iyaJ/pf
+         NVb8Ou8ULLEhrs+plxT7RhzghIRlHj4aPT9f6QmMUPx7XcKN4lzrUl5dM4Qgl445LQvs
+         oQMtkjIKBxez5ya4gs8CuJH4auN26eYCLk1U3ON2l5vVRzpXG47Iv9smsszlBNnkKvo3
+         L1aw==
+X-Gm-Message-State: ANhLgQ1F3Go9Z9Okr+9h1jC2OUZSOlmxjP8R9ykeQMQ2AITdfau9eiAZ
+        5OsqZ0s+m93G1d3HdRvqtSA3QrhfLYh9Y2UReD6y3Q==
+X-Google-Smtp-Source: ADFU+vseq/HdLAf4EOrqJpck+RxYilPAE2LGU2Kp9kY/klJ+BUbD3xh/tGjfw+LbfOLztQaDQYPf5L1Af64ZI2Vx1CE=
+X-Received: by 2002:a02:304a:: with SMTP id q71mr724974jaq.123.1585342587677;
+ Fri, 27 Mar 2020 13:56:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <CALAE=UDvPU-MBX5B7NU1A7WPq1gofUnr8Rf+v81AxHLLcZhMvA@mail.gmail.com>
+In-Reply-To: <CALAE=UDvPU-MBX5B7NU1A7WPq1gofUnr8Rf+v81AxHLLcZhMvA@mail.gmail.com>
+From:   Bobby Jones <rjones@gateworks.com>
+Date:   Fri, 27 Mar 2020 13:56:17 -0700
+Message-ID: <CALAE=UCG52nM8MJx2F+GyEoN7gLs2z6GpJZ27zQ9akUfjRb==Q@mail.gmail.com>
+Subject: Re: Toby MPCI - L201 cellular modem http hang after random MAC
+ address assignment
+To:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Steve Winslow <swinslow@gmail.com>,
+        =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org, modemmanager-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-v2 - Addressed Andy Shevchenko's review comments.
-   - Fixed dt_binding_check error pointed out by Rob Herring.
-   - Removed pr_info message in ehci_brcm_init as suggested by
-     Greg Kroah-Hartman.
+On Mon, Mar 23, 2020 at 10:21 AM Bobby Jones <rjones@gateworks.com> wrote:
+>
+> Hello net-dev,
+>
+> I'm diagnosing a problem with the Toby MPCI-L201 cellular modem where
+> http operations hang. This is reproducible on the most recent kernel
+> by turning on the rndis_host driver and executing a wget or similar
+> http command. I found I was able to still ping but not transfer any
+> data. After bisecting I've found that commit
+> a5a18bdf7453d505783e40e47ebb84bfdd35f93b introduces this hang.
+>
+> For reference the patch contents are:
+>
+> >     rndis_host: Set valid random MAC on buggy devices
+> >
+> >     Some devices of the same type all export the same, random MAC addre=
+ss. This
+> >     behavior has been seen on the ZTE MF910, MF823 and MF831, and there=
+ are
+> >     probably more devices out there. Fix this by generating a valid ran=
+dom MAC
+> >     address if we read a random MAC from device.
+> >
+> >     Also, changed the memcpy() to ether_addr_copy(), as pointed out by
+> >     checkpatch.
+> >
+> >     Suggested-by: Bj=C3=B8rn Mork <bjorn@mork.no>
+> >     Signed-off-by: Kristian Evensen <kristian.evensen@gmail.com>
+> >     Signed-off-by: David S. Miller <davem@davemloft.net>
+> > diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.=
+c
+> > index 524a47a28120..4f4f71b2966b 100644
+> > --- a/drivers/net/usb/rndis_host.c
+> > +++ b/drivers/net/usb/rndis_host.c
+> > @@ -428,7 +428,11 @@ generic_rndis_bind(struct usbnet *dev, struct usb_=
+interface *intf, int flags)
+> >                 dev_err(&intf->dev, "rndis get ethaddr, %d\n", retval);
+> >                 goto halt_fail_and_release;
+> >         }
+> > -       memcpy(net->dev_addr, bp, ETH_ALEN);
+> > +
+> > +       if (bp[0] & 0x02)
+> > +               eth_hw_addr_random(net);
+> > +       else
+> > +               ether_addr_copy(net->dev_addr, bp);
+> >
+> >         /* set a nonzero filter to enable data transfers */
+> >         memset(u.set, 0, sizeof *u.set);
+>
+> I know that there is some internal routing done by the modem firmware,
+> and I'm assuming that overwriting the MAC address breaks said routing.
+> Can anyone suggest what a proper fix would be?
+>
+> Thanks,
+> Bobby
 
-This adds support for the XHCI, EHCI and OHCI host controllers found
-in Broadcom STB SoC's. These drivers depend on getting access to the
-new Broadcom STB USB PHY driver through a device-tree phandle and
-will fail if the driver is not available.
-
-Al Cooper (4):
-  dt-bindings: Add Broadcom STB USB support
-  usb: xhci: xhci-plat: Add support for Broadcom STB SoC's
-  usb: ehci: Add new EHCI driver for Broadcom STB SoC's
-  usb: host: Add ability to build new Broadcom STB USB drivers
-
- .../bindings/usb/brcm,bcm7445-ehci.yaml       |  61 ++++
- .../devicetree/bindings/usb/usb-xhci.txt      |   1 +
- MAINTAINERS                                   |   9 +
- drivers/usb/host/Kconfig                      |  20 ++
- drivers/usb/host/Makefile                     |  20 +-
- drivers/usb/host/ehci-brcm.c                  | 290 ++++++++++++++++++
- drivers/usb/host/xhci-brcm.c                  |  16 +
- drivers/usb/host/xhci-brcm.h                  |  16 +
- drivers/usb/host/xhci-plat.c                  |  11 +
- 9 files changed, 438 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
- create mode 100644 drivers/usb/host/ehci-brcm.c
- create mode 100644 drivers/usb/host/xhci-brcm.c
- create mode 100644 drivers/usb/host/xhci-brcm.h
-
--- 
-2.17.1
-
+Adding some individuals and lists in hopes for feedback
