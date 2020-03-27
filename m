@@ -2,95 +2,101 @@ Return-Path: <SRS0=O+06=5M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 105C8C2D0E8
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 06:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61881C2D0EE
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 08:35:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3D6E20717
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 06:54:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A4A120705
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 08:35:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TZHuwz3H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgC0GyR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Mar 2020 02:54:17 -0400
-Received: from mga09.intel.com ([134.134.136.24]:17781 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725936AbgC0GyR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 27 Mar 2020 02:54:17 -0400
-IronPort-SDR: 9+EgdqXUXlvv3tIj9mMarWoYBhyWOlTRYXsWsMzADhoNKh+0+tMyDvnum4sVCaVTvqo+dioamj
- oRAy9L5LZJMA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 23:54:16 -0700
-IronPort-SDR: 6bjzR2sXKAnepQ89U1HncOHnqs4hNhvTPD3uMtPZ43EdX2/pZUYRAHuXvlhJlRbU6VmHVdi4GD
- v0Oq/jf9gYvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,311,1580803200"; 
-   d="scan'208";a="251052466"
-Received: from shao2-debian.sh.intel.com (HELO [10.239.13.3]) ([10.239.13.3])
-  by orsmga006.jf.intel.com with ESMTP; 26 Mar 2020 23:54:10 -0700
-Subject: Re: [kbuild-all] Re: [RFC PATCH] usb: cdns3:
- cdns3_clear_register_bit() can be static
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kbuild test robot <lkp@intel.com>,
-        Colin King <colin.king@canonical.com>, kbuild-all@lists.01.org,
-        Sekhar Nori <nsekhar@ti.com>, Roger Quadros <rogerq@ti.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Pawel Laszczak <pawell@cadence.com>, linux-usb@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200325125041.94769-1-colin.king@canonical.com>
- <20200326122858.GA50118@cde5a4ed3207> <20200326130418.GA1295433@kroah.com>
- <571960b6-5ed7-2106-7091-3ea83c31051a@intel.com>
- <20200327064255.GA1603489@kroah.com>
-From:   Rong Chen <rong.a.chen@intel.com>
-Message-ID: <372f30ad-fbea-d411-c58f-2d4692509a60@intel.com>
-Date:   Fri, 27 Mar 2020 14:53:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20200327064255.GA1603489@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        id S1726750AbgC0IfB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Mar 2020 04:35:01 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:32782 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725946AbgC0IfA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 04:35:00 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D8BBD408AF;
+        Fri, 27 Mar 2020 08:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1585298100; bh=5lvr85wmUB+ig2sjTf8GoiI7NOjmJtqmkcAiDXQQ+iE=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=TZHuwz3H5eNA7EYxS892ep1aVCLanQL2wHYtC7TQ1GACbF04PWZcVKFGvVcwkiHP1
+         CYLRWXaWk05eYI1h1R7VJvIzByK6EqIn9bFvU5GboH+n76NT5uw/zga/pX/YBLqaaR
+         CDPlysiYElKGoT7ELcRtwexNbR8LB48sFJ9f1mMz2HSyfwtLhXyQj7E8cmDy6Kwyh+
+         JWRh/qgvTfFtA2h1lc+7ueGfIOyDyo/qNcR48XZf/xN58RVCM+0jpyZNUr+V5wFa//
+         OX/xFkj7QplQsUJZUHqqGWNPUpFuI53NEUp9tDSw/nBlm9poo2Md+EJOFsYbw5E8Ck
+         rSx6MV7u9iPVQ==
+Received: from tejas-VirtualBox (joglekar-e7480.internal.synopsys.com [10.146.16.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 3D1BAA005B;
+        Fri, 27 Mar 2020 08:34:56 +0000 (UTC)
+Received: by tejas-VirtualBox (sSMTP sendmail emulation); Fri, 27 Mar 2020 14:04:53 +0530
+Date:   Fri, 27 Mar 2020 14:04:53 +0530
+Message-Id: <8a9ca8e08d7c4957789a209c77589f1aa4bd2f06.1585297723.git.joglekar@synopsys.com>
+In-Reply-To: <cover.1585297723.git.joglekar@synopsys.com>
+References: <cover.1585297723.git.joglekar@synopsys.com>
+From:   Tejas Joglekar <Tejas.Joglekar@synopsys.com>
+Subject: [RFC PATCH 1/4] dt-bindings: usb: Add snps,consolidate-sgl & consolidate-sgl
+To:     Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     John Youn <John.Youn@synopsys.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+This commit adds the documentation for consolidate-sgl, and
+snps,consolidate-sgl property. These when set enables the quirk for
+XHCI driver for consolidation of sg list into a temporary buffer when small
+buffer sizes are scattered over the sg list not making up to MPS or total
+transfer size within TRB cache size with Synopsys xHC.
 
+Signed-off-by: Tejas Joglekar <joglekar@synopsys.com>
+---
+ Documentation/devicetree/bindings/usb/dwc3.txt     | 3 +++
+ Documentation/devicetree/bindings/usb/usb-xhci.txt | 3 +++
+ 2 files changed, 6 insertions(+)
 
-On 3/27/20 2:42 PM, Greg Kroah-Hartman wrote:
-> On Fri, Mar 27, 2020 at 08:34:52AM +0800, Rong Chen wrote:
->>
->> On 3/26/20 9:04 PM, Greg Kroah-Hartman wrote:
->>> On Thu, Mar 26, 2020 at 08:28:58PM +0800, kbuild test robot wrote:
->>>> Fixes: 87db1192dc33 ("usb: cdns3: make signed 1 bit bitfields unsigned")
->>> This original patch did not "cause" this problem, it's just that you for
->>> some reason ran sparse for the first time on the file.
->>>
->>> So I can't take this as-is, can you remove this line and resend?
->> Hi Greg,
->>
->> Sorry for the inconvenience, the patch was generated by the bot,
->> we'll check and resend it.
-> It's fine that it was generated, it's a bug somewhere that thinks this
-> specific patch was a problem so that this generated patch fixed it.
-Yes, you are right, we'll fix the bug asap.
-
->
-> Did you all just start running sparse on things again?
-Sparse has been running for a long time in our system.
-
-Best Regards,
-Rong Chen
-
->
-> thanks,
->
-> greg k-h
-> _______________________________________________
-> kbuild-all mailing list -- kbuild-all@lists.01.org
-> To unsubscribe send an email to kbuild-all-leave@lists.01.org
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index 9946ff9ba735..292d1f7969e4 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -104,6 +104,9 @@ Optional properties:
+ 			this and tx-thr-num-pkt-prd to a valid, non-zero value
+ 			1-16 (DWC_usb31 programming guide section 1.2.3) to
+ 			enable periodic ESS TX threshold.
++ - snps,consolidate-sgl: enable sg list consolidation - host mode only. Set to use
++			SG buffers of at least MPS size by consolidating smaller SG
++			buffers list into a single buffer.
+ 
+  - <DEPRECATED> tx-fifo-resize: determines if the FIFO *has* to be reallocated.
+  - snps,incr-burst-type-adjustment: Value for INCR burst type of GSBUSCFG0
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+index 3f378951d624..a90d853557ee 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+@@ -43,6 +43,9 @@ Optional properties:
+   - quirk-broken-port-ped: set if the controller has broken port disable mechanism
+   - imod-interval-ns: default interrupt moderation interval is 5000ns
+   - phys : see usb-hcd.yaml in the current directory
++  - consolidate-sgl: indicate if you need to consolidate sg list into a
++    temporary buffer when small SG buffer sizes does not make upto MPS
++    size or total transfer size across the TRB cache size.
+ 
+ additionally the properties from usb-hcd.yaml (in the current directory) are
+ supported.
+-- 
+2.11.0
 
