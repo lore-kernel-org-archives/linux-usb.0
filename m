@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD6FC2D0ED
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 16:36:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B892BC2D0E5
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 16:37:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 41D602072F
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 16:36:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A3EB2072F
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 16:37:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbgC0QgA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Mar 2020 12:36:00 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:56767 "HELO
+        id S1727817AbgC0Qhj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Mar 2020 12:37:39 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:45767 "HELO
         netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727636AbgC0QgA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 12:36:00 -0400
-Received: (qmail 16971 invoked by uid 500); 27 Mar 2020 12:35:59 -0400
+        with SMTP id S1727716AbgC0Qhj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Mar 2020 12:37:39 -0400
+Received: (qmail 17155 invoked by uid 500); 27 Mar 2020 12:37:38 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 27 Mar 2020 12:35:59 -0400
-Date:   Fri, 27 Mar 2020 12:35:59 -0400 (EDT)
+  by localhost with SMTP; 27 Mar 2020 12:37:38 -0400
+Date:   Fri, 27 Mar 2020 12:37:38 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@netrider.rowland.org
 To:     vladimir.stankovic@displaylink.com
 cc:     gregkh@linuxfoundation.org, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <mausb-host-devel@displaylink.com>
-Subject: Re: [PATCH v4 5/8] usb: mausb_host: Introduce PAL processing
-In-Reply-To: <20200327152614.26833-6-vladimir.stankovic@displaylink.com>
-Message-ID: <Pine.LNX.4.44L0.2003271233160.14887-100000@netrider.rowland.org>
+Subject: Re: [PATCH v4 4/8] usb: mausb_host: Implement initial hub handlers
+In-Reply-To: <20200327152614.26833-5-vladimir.stankovic@displaylink.com>
+Message-ID: <Pine.LNX.4.44L0.2003271236040.14887-100000@netrider.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -39,24 +39,33 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 On Fri, 27 Mar 2020 vladimir.stankovic@displaylink.com wrote:
 
-> Protocol adaptation layer (PAL) implementation has been added to
-> introduce MA-USB structures and logic.
+> Implemented handlers for subset of HCD events.
 > 
 > Signed-off-by: Vladimir Stankovic <vladimir.stankovic@displaylink.com>
 > ---
-> +	/*
-> +	 * Masking URB_SHORT_NOT_OK flag as SCSI driver is adding it where it
-> +	 * should not, so it is breaking the USB drive on the linux
-> +	 */
-> +	urb->transfer_flags &= ~URB_SHORT_NOT_OK;
+> +/*
+> + * For usb 2.0 logitech camera called multiple times, once during
+> + * enumeration of device and later after mausb_reset_device.
+> + */
+> +static int mausb_address_device(struct usb_hcd *hcd, struct usb_device *dev)
 
-Please explain more fully.  What SCSI driver are you talking about?  
-Where is the flag getting added incorrectly?  What USB drive is getting
-broken, and how?
+> +/*
+> + * For usb 2.0 logitech camera called multiple times, once during enumeration
+> + * of device and later after mausb_reset_device. In latter case it is
+> + * required to address the device again in order for ep0 to work properly.
+> + */
+> +static int mausb_enable_device(struct usb_hcd *hcd, struct usb_device *dev)
 
-If there's a bug in a SCSI driver, why don't you report it and get it
-fixed instead of trying to create a workaround in just one host 
-controller driver?
+> +/*
+> + * For usb 2.0 logitech camera called multiple times,
+> + * followed by either mausb_enable_device or mausb_address_device.
+> + * Resets device to non-addressed state.
+> + */
+> +static int mausb_reset_device(struct usb_hcd *hcd, struct usb_device *dev)
+
+Why on earth do you have all these comments about Logitech cameras?  A 
+host controller driver shouldn't care about the type of devices it gets 
+connected to.
 
 Alan Stern
 
