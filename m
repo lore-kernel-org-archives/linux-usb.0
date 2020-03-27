@@ -1,90 +1,85 @@
-Return-Path: <SRS0=73Qb=5L=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=O+06=5M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8284DC43331
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 23:29:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1941C2D0E8
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 00:35:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4FBA420838
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Mar 2020 23:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585265380;
-	bh=Z4iMPj2/JljR+Vd2zFTtsyHkYIrKFgH9K7WTppGiQTU=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=T7QmSSIvX0puHDSbhwNr6fp5dot4kz7acQJZueeVk2aebwrO9EGpeAlXiJwQoGWKm
-	 wCHxY3JWqVHarMd8kbP9gXLaOAByqwScM0BdQS+UKci4XvXPoFDuDa/8TFBhsH/Yk2
-	 EtRxfYTLJocIYGKWs+HlQh5YEiPQAfDcqpMPqIVQ=
+	by mail.kernel.org (Postfix) with ESMTP id 958572074D
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Mar 2020 00:35:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727352AbgCZXX7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Mar 2020 19:23:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43038 "EHLO mail.kernel.org"
+        id S1727742AbgC0AfR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Mar 2020 20:35:17 -0400
+Received: from mga12.intel.com ([192.55.52.136]:44340 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726296AbgCZXX7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 26 Mar 2020 19:23:59 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AE6420663;
-        Thu, 26 Mar 2020 23:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585265039;
-        bh=Z4iMPj2/JljR+Vd2zFTtsyHkYIrKFgH9K7WTppGiQTU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wzceW/JqhJz3hvZl2SGUBeXhlcRUIaaVcnZtnaHlOL4+ir/8Sw0wjEmD9/eXYHjlA
-         alqkXEY/LxFIab8OQNTWiaykhLek9kc9y5fIRkEKaZLdElfc2DzHyNjVTKMkZadRc3
-         ampKLYGEJyZfnaJbvb39Q8qHzrJq3iUrOgfObtZk=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 01/28] thunderbolt: Fix error code in tb_port_is_width_supported()
-Date:   Thu, 26 Mar 2020 19:23:30 -0400
-Message-Id: <20200326232357.7516-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S1726359AbgC0AfR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 26 Mar 2020 20:35:17 -0400
+IronPort-SDR: sK+/uC2zPYzaUNZTSerJFe63ma0XYcLCEmuusGv6FgejRMIBCv2QhmtHPjcUc3EdGfjBmUxWKW
+ kDiB3yhQx+NQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 17:35:16 -0700
+IronPort-SDR: e22T3VdHduyjz5bDy4OZa210k9WTO1218bTaoPEseA5BLErTX2QCPDoJWKDZia+MKeWxQXCcma
+ BQIJKtcvrU0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; 
+   d="scan'208";a="250972692"
+Received: from shao2-debian.sh.intel.com (HELO [10.239.13.3]) ([10.239.13.3])
+  by orsmga006.jf.intel.com with ESMTP; 26 Mar 2020 17:35:10 -0700
+Subject: Re: [kbuild-all] Re: [RFC PATCH] usb: cdns3:
+ cdns3_clear_register_bit() can be static
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kbuild test robot <lkp@intel.com>
+Cc:     Colin King <colin.king@canonical.com>, kbuild-all@lists.01.org,
+        Sekhar Nori <nsekhar@ti.com>, Roger Quadros <rogerq@ti.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Pawel Laszczak <pawell@cadence.com>, linux-usb@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200325125041.94769-1-colin.king@canonical.com>
+ <20200326122858.GA50118@cde5a4ed3207> <20200326130418.GA1295433@kroah.com>
+From:   Rong Chen <rong.a.chen@intel.com>
+Message-ID: <571960b6-5ed7-2106-7091-3ea83c31051a@intel.com>
+Date:   Fri, 27 Mar 2020 08:34:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200326130418.GA1295433@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit e9d0e7511fda92a6511904996dd0aa57b6d7687a ]
 
-This function is type bool, and it's supposed to return true on success.
-Unfortunately, this path takes negative error codes and casts them to
-bool (true) so it's treated as success instead of failure.
+On 3/26/20 9:04 PM, Greg Kroah-Hartman wrote:
+> On Thu, Mar 26, 2020 at 08:28:58PM +0800, kbuild test robot wrote:
+>> Fixes: 87db1192dc33 ("usb: cdns3: make signed 1 bit bitfields unsigned")
+> This original patch did not "cause" this problem, it's just that you for
+> some reason ran sparse for the first time on the file.
+>
+> So I can't take this as-is, can you remove this line and resend?
 
-Fixes: 91c0c12080d0 ("thunderbolt: Add support for lane bonding")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/thunderbolt/switch.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Greg,
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 43bfeb8866141..f0f77da6ca26d 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -848,7 +848,7 @@ static bool tb_port_is_width_supported(struct tb_port *port, int width)
- 	ret = tb_port_read(port, &phy, TB_CFG_PORT,
- 			   port->cap_phy + LANE_ADP_CS_0, 1);
- 	if (ret)
--		return ret;
-+		return false;
- 
- 	widths = (phy & LANE_ADP_CS_0_SUPPORTED_WIDTH_MASK) >>
- 		LANE_ADP_CS_0_SUPPORTED_WIDTH_SHIFT;
--- 
-2.20.1
+Sorry for the inconvenience, the patch was generated by the bot,
+we'll check and resend it.
+
+Best Regards,
+Rong Chen
+
+>
+> thanks,
+>
+> greg k-h
+> _______________________________________________
+> kbuild-all mailing list -- kbuild-all@lists.01.org
+> To unsubscribe send an email to kbuild-all-leave@lists.01.org
 
