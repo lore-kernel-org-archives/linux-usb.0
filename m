@@ -2,75 +2,104 @@ Return-Path: <SRS0=IcVX=5S=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91EBCC43331
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Apr 2020 07:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D117C43331
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Apr 2020 08:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5FBEB208FE
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Apr 2020 07:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585813186;
-	bh=ZjPuGOkdVLwBrfawWlFcX/m9twGd3k4la2+NnvuzLgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0MnYG+Fr34sH5+1vF888NVcci9L/sx2QO9A3/gDfri2UtNsu6GJvhLapaaWVWQVmF
-	 JlS4/aDTN3JKfy1z7ghib96q0Kj5JQWsIjWFVD76gk7QIg6t4MIfQZ7GIGkm1Yhv9m
-	 ixrC79LmbSJqyRsklXlwsQZomKf+GSJqjxVmjxHo=
+	by mail.kernel.org (Postfix) with ESMTP id 5969120B1F
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Apr 2020 08:53:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="i3L4ipV0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387537AbgDBHjp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Apr 2020 03:39:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53990 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725965AbgDBHjp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 2 Apr 2020 03:39:45 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86B3A2078E;
-        Thu,  2 Apr 2020 07:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585813185;
-        bh=ZjPuGOkdVLwBrfawWlFcX/m9twGd3k4la2+NnvuzLgM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a5zf8eQk2O//Wb7f+OKHC9ulaN0TB48sGBNX1ZW7jqvwhf8CtRymMjq6ikxH6BeO9
-         l5zAEvyjrSZ8oZRmaAc37DbZ9OVokeuVs89fbseA3uPsmiplFpr5zdU+F2Pdlb4JrO
-         /f/lHJD3TMoTPKPAo4Emo11VJxqFALs9AWMpq43s=
-Date:   Thu, 2 Apr 2020 09:39:42 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     massimo <maxcipo1@tin.it>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: Usb_power_supply
-Message-ID: <20200402073942.GA2755501@kroah.com>
-References: <eac8a94386a3bf69296f048873ede8230c67f632.camel@tin.it>
+        id S2387901AbgDBIx2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Apr 2020 04:53:28 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:45410 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387875AbgDBIx2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Apr 2020 04:53:28 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0328rL9N112216;
+        Thu, 2 Apr 2020 03:53:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1585817601;
+        bh=8RipU1hJD6lh0TWgPa8V+A7cj+Mra4O9mtmScMPMXhA=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=i3L4ipV058kdgpfYIps7iT5Tq27LWXXAqRsfKtcRPv3zvwx3lBDRsaUWj1j2LO46W
+         OC5I8RvdLhRZAADjimMmG5GO83jMrlpLJBuMg/VgR0CuWIvy9a+L3DNc/3jfu1tmhf
+         4ZdCsLUlH8N03MpIHyO921VZ44/ZtRjaFZxzZTEo=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0328rLxc052491
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 2 Apr 2020 03:53:21 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 2 Apr
+ 2020 03:53:19 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 2 Apr 2020 03:53:19 -0500
+Received: from [192.168.2.14] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0328rHFa053965;
+        Thu, 2 Apr 2020 03:53:18 -0500
+Subject: Re: [PATCH 1/4] usb: cdns3: core: get role switch node from firmware
+To:     Peter Chen <peter.chen@nxp.com>, <balbi@kernel.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-imx@nxp.com>,
+        <pawell@cadence.com>, <gregkh@linuxfoundation.org>,
+        <jun.li@nxp.com>
+References: <20200331081005.32752-1-peter.chen@nxp.com>
+From:   Roger Quadros <rogerq@ti.com>
+Message-ID: <bc2c6e57-accd-ccc9-caec-527773056744@ti.com>
+Date:   Thu, 2 Apr 2020 11:53:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eac8a94386a3bf69296f048873ede8230c67f632.camel@tin.it>
+In-Reply-To: <20200331081005.32752-1-peter.chen@nxp.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 09:19:06AM +0200, massimo wrote:
-> I've read the interesting Greg's article about writing USB driver for
-> Linux.
-> I'm interested in a simpler question. Is it possible
-> to write a driver in Ubuntu (19.10) to switch power on or off to a USB
-> port, that' s to say to give or take off the 5 volts power supply  to a
-> USB port (in order for example to switch on or off a simple usb lamp)?
-> Thanks for your attention and courtesy, Massimo.
+Hi Peter,
+
+On 31/03/2020 11:10, Peter Chen wrote:
+> After that, the role switch device (eg, Type-C device) could call
+> cdns3_role_set to finish the role switch.
+> 
+> Signed-off-by: Peter Chen <peter.chen@nxp.com>
+
+This does not apply on v5.6. What branch did you test this on?
+
+cheers,
+-roger
+
+> ---
+>   drivers/usb/cdns3/core.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
+> index 4aafba20f450..704c679a0c5d 100644
+> --- a/drivers/usb/cdns3/core.c
+> +++ b/drivers/usb/cdns3/core.c
+> @@ -528,6 +528,8 @@ static int cdns3_probe(struct platform_device *pdev)
+>   	sw_desc.get = cdns3_role_get;
+>   	sw_desc.allow_userspace_control = true;
+>   	sw_desc.driver_data = cdns;
+> +	if (device_property_read_bool(dev, "usb-role-switch"))
+> +		sw_desc.fwnode = dev->fwnode;
+>   
+>   	cdns->role_sw = usb_role_switch_register(dev, &sw_desc);
+>   	if (IS_ERR(cdns->role_sw)) {
 > 
 
-Try the userspace program 'usbreset' that is part of the usbutils
-package, and can be found also here:
-	https://github.com/gregkh/usbutils/blob/master/usbreset.c
-
-if your hub supports it, this will work.  Note, not all USB hubs support
-this type of behavior, as it is not required by the USB specification.
-
-hope this helps,
-
-greg k-h
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
