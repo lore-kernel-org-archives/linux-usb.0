@@ -2,240 +2,140 @@ Return-Path: <SRS0=20pZ=5T=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D61C43331
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Apr 2020 14:44:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2718BC2BA12
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Apr 2020 15:04:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F8E3207FF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Apr 2020 14:44:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=KoCoConnector.onmicrosoft.com header.i=@KoCoConnector.onmicrosoft.com header.b="TMwQAOeF"
+	by mail.kernel.org (Postfix) with ESMTP id 02F962073B
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Apr 2020 15:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391072AbgDCOn7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Apr 2020 10:43:59 -0400
-Received: from mail-eopbgr40088.outbound.protection.outlook.com ([40.107.4.88]:55365
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2390954AbgDCOn7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 3 Apr 2020 10:43:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KVMtTydLrBif72eIIyxVFi1N7fx9uIlEiCRQZaABlxYpEpmZ2L/Z0pi4LrM7whzN7CyqZfAbSkASdI9t5C1ZhCGGZbRjuyjUz6XWdQZCiyN2Lhn4lbmQNpDz15pjkhTQChinLV/Cc4fpHyeVKlHi9AaDyH4ZhTBlHOW1I91msvNSbXccu5nlwxODRpk3vqBGjjWFubi1sN90E1DZG7ORQm7f3z6g00CPgH75RFw63e7ArpPUDqFlaTaNwmE9/vsnsw0cqWqVsp8M5RSQflsfG1ShTJete1ycbClOuGX/N5upAxXMP36iYf+N/bQEDQlK/QzMGSkPJ04BHFWKt4Hipg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vdb6VpD5DH6V9BvA2w3TU68C7mvmYhyl7s5l8itwYAs=;
- b=lFOMHtRN2hucHVPy9ukXZQlaKS9ZwZhlhdESmkoWikUY4uGn0FAEeFjQq5ASMN6FPaH7UL5hkw0eV2keud5oQsJaCtKkwaNx6J8h32aHOMDPKq12IDHedLG6A4vomZCLWFSTZC0vraxF2Gh+HAElyI21gnC10QhzVdybXTJ8CRDPW8DEJid9VoQCIxDNgfyYm3oZbxTh4M4N9biK6uZHQmBSZ+CkAT6odWeqqqhhAc9GlDqM95pbUuSwVDCClzLOADg+O5431o6BHFU/U4ykbrzWXDuN2MqVdGPeIKzSO+M90+Z5nN4A5KXKv6aU26+kOvJh7/0Su6l8rydvXh2YYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kococonnector.com; dmarc=pass action=none
- header.from=kococonnector.com; dkim=pass header.d=kococonnector.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=KoCoConnector.onmicrosoft.com; s=selector2-KoCoConnector-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vdb6VpD5DH6V9BvA2w3TU68C7mvmYhyl7s5l8itwYAs=;
- b=TMwQAOeFEzRkMIiUYh2iQy3RfP3Hzp49XIrkBf2oZG5G1y/oTfqpg0wqPs7d0qt8Cpn6Jl1eyhMvQxHcQftoxpYKOt0QD6Z/Bm0xF1mnbjx9lm49fbJ6QAEjNtciUgKEuwlXXd62G2Lrjmx0zVoJROVAOkvX9j3KWcvsc4xtneI=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=oliver.graute@kococonnector.com; 
-Received: from AM0PR09MB4067.eurprd09.prod.outlook.com (10.186.128.206) by
- AM0PR09MB2292.eurprd09.prod.outlook.com (20.177.109.154) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.18; Fri, 3 Apr 2020 14:43:55 +0000
-Received: from AM0PR09MB4067.eurprd09.prod.outlook.com
- ([fe80::7559:adc1:bb07:495f]) by AM0PR09MB4067.eurprd09.prod.outlook.com
- ([fe80::7559:adc1:bb07:495f%3]) with mapi id 15.20.2878.014; Fri, 3 Apr 2020
- 14:43:55 +0000
-Date:   Fri, 3 Apr 2020 16:40:44 +0200
-From:   Oliver Graute <oliver.graute@kococonnector.com>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: using cdns3-imx driver on imx8qm
-Message-ID: <20200403144044.GA49880@archlinux.localdomain>
-References: <20200326170109.GA28051@optiplex>
- <20200327090554.GA31160@b29397-desktop>
- <20200327095028.GA19809@ripley>
- <20200327132153.GA31668@b29397-desktop>
- <20200331142528.GA2246@portage>
- <AM7PR04MB715728ED4EF3715A7798A5A08BC80@AM7PR04MB7157.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM7PR04MB715728ED4EF3715A7798A5A08BC80@AM7PR04MB7157.eurprd04.prod.outlook.com>
-X-ClientProxiedBy: AM0PR06CA0058.eurprd06.prod.outlook.com
- (2603:10a6:208:aa::35) To AM0PR09MB4067.eurprd09.prod.outlook.com
- (2603:10a6:208:194::14)
+        id S2404088AbgDCPES (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Apr 2020 11:04:18 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:50666 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404025AbgDCPES (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Apr 2020 11:04:18 -0400
+Received: from 185.80.35.16 (185.80.35.16) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
+ id b2011cf8bea289e1; Fri, 3 Apr 2020 17:04:16 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-pm mailing list <linux-pm@vger.kernel.org>,
+        Kernel development list <linux-kernel@vger.kernel.org>
+Subject: Re: lockdep warning in urb.c:363 usb_submit_urb
+Date:   Fri, 03 Apr 2020 17:04:16 +0200
+Message-ID: <2274735.ifPVKiii8o@kreacher>
+In-Reply-To: <Pine.LNX.4.44L0.2003291129360.3311-100000@netrider.rowland.org>
+References: <Pine.LNX.4.44L0.2003291129360.3311-100000@netrider.rowland.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (31.17.95.22) by AM0PR06CA0058.eurprd06.prod.outlook.com (2603:10a6:208:aa::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15 via Frontend Transport; Fri, 3 Apr 2020 14:43:54 +0000
-X-Originating-IP: [31.17.95.22]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c30b8d1f-85b3-429e-bc76-08d7d7dd6f15
-X-MS-TrafficTypeDiagnostic: AM0PR09MB2292:
-X-Microsoft-Antispam-PRVS: <AM0PR09MB22921374447B121109D7AED8EBC70@AM0PR09MB2292.eurprd09.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0362BF9FDB
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR09MB4067.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(396003)(346002)(136003)(366004)(376002)(39830400003)(316002)(66556008)(52116002)(7416002)(86362001)(6486002)(6916009)(9686003)(6666004)(33656002)(4326008)(186003)(16526019)(54906003)(26005)(1076003)(81166006)(44832011)(2906002)(66946007)(956004)(6496006)(8936002)(8676002)(66476007)(5660300002)(81156014)(508600001)(32563001);DIR:OUT;SFP:1101;
-Received-SPF: None (protection.outlook.com: kococonnector.com does not
- designate permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 51YcscIFrwRMMF0mAe+8IBNHgOOxYOyNLc0ld9GsqpIj9TIdZtddaT0gXBSFgjvmpc7hKO6J7Zcpq6jY2Lx7pcDj/IaXaoCHfd9mN9Llnn3A/CLa6QoGjtzZkKfYzZ45AOwejcPQXHVBhkbzPynwx35NhqJLKv2JZHtt6ENyENw6hkp94gPECO+mkZKaumuGtzju5WOF1BwUg7Njlibp8oahjTyYo1sAP37zVK1TPq/th7x6jOpB+AuawLmx59xq5Z8b464RpswcmE4TtRvtdibYQl1c3H0yZbD9WqonndPE12H7nSIy6AkYgb5O5tJ7I1pPlp5nJ5wYtlMVq41OG5PKNXqCm0MPLP/eLnNmlTTgM1OqnHPI5RMqJm94HUv9XOh0tXPvlGEIqntYnH8iC0K9CKTSg0Vqtrn3z3FIPoeTX/9AGWajcjwmK1c4O3oF6mCKe8CYkUhT0wn5tyGhaHP5b2aTVmz4DPXN+wT5O/s=
-X-MS-Exchange-AntiSpam-MessageData: 2AiyrYR9CyV9l6VcjovQi7DzjxFmBQvHPJ+LKChBi6Waka+gXjPKqftA3E7dvaV10A72WkXVT/vqibWSXHw+4JPtm3GdnjttFY4E9vW+xYnLmR3ch4482n5PVbvloWNSuJ53nD4gp0oinGwB42/mYg==
-X-OriginatorOrg: kococonnector.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c30b8d1f-85b3-429e-bc76-08d7d7dd6f15
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2020 14:43:54.9784
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 59845429-0644-4099-bd7e-17fba65a2f2b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T0dBaKLoZMw0IfMBwKQ0T1khFYP4Mm+v1QK57/8rHQqEuKmOsU3f7Bs0cd78pwtAy+P4TQ7ZQHDbuWW+1xYQsFix1J7aFPxmdKIgJqudv50=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB2292
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 31/03/20, Peter Chen wrote:
->   
-> > > 		compatible = "fsl,imx8qxp-lpcg";
-> > > 		reg = <0x5b280000 0x10000>;
-> > > 		#clock-cells = <1>;
-> > > 		bit-offset = <0 4 16 20 24 28>;
-> > > 		clocks = <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_PER>,
-> > > 			 <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
-> > > 			 <&conn_ipg_clk>,
-> > > 			 <&conn_ipg_clk>,
-> > > 			 <&conn_ipg_clk>,
-> > > 			 <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
-> > > 		clock-output-names = "usb3_app_clk",
-> > > 				     "usb3_lpm_clk",
-> > > 				     "usb3_ipg_clk",
-> > > 				     "usb3_core_pclk",
-> > > 				     "usb3_phy_clk",
-> > > 				     "usb3_aclk";
-> > > 		power-domains = <&pd IMX_SC_R_USB_2_PHY>;
-> > > 	};
-> > >
-> > > 	usbotg3: usb3@5b110000 {
-> > > 		compatible = "fsl,imx8qm-usb3";
-> > > 		#address-cells = <1>;
-> > > 		#size-cells = <1>;
-> > > 		ranges;
-> > > 		reg = <0x5B110000 0x10000>;
-> > > 		clocks = <&usb3_lpcg 1>,
-> > > 			 <&usb3_lpcg 0>,
-> > > 			 <&usb3_lpcg 5>,
-> > > 			 <&usb3_lpcg 2>,
-> > > 			 <&usb3_lpcg 3>;
-> > > 		clock-names = "usb3_lpm_clk", "usb3_bus_clk", "usb3_aclk",
-> > > 			"usb3_ipg_clk", "usb3_core_pclk";
-> > > 		assigned-clocks = <&clk IMX_SC_R_USB_2
-> > IMX_SC_PM_CLK_PER>,
-> > > 			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
-> > > 			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
-> > > 		assigned-clock-rates = <125000000>, <12000000>, <250000000>;
-> > > 		power-domains = <&pd IMX_SC_R_USB_2>;
-> > > 		status = "disabled";
-> > >
-> > > 		usbotg3_cdns3: cdns3 {
-> > > 			compatible = "cdns,usb3";
-> > > 			#address-cells = <1>;
-> > > 			#size-cells = <1>;
-> > > 			interrupt-parent = <&gic>;
-> > > 			interrupts = <GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
-> > > 					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
-> > > 					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>;
-> > > 			interrupt-names = "host", "peripheral", "otg";
-> > > 			reg = <0x5B130000 0x10000>,     /* memory area for HOST
-> > registers */
-> > > 				<0x5B140000 0x10000>,   /* memory area for
-> > DEVICE registers */
-> > > 				<0x5B120000 0x10000>;   /* memory area for
-> > OTG/DRD registers */
-> > > 			reg-names = "xhci", "dev", "otg";
-> > > 			phys = <&usb3_phy>;
-> > > 			phy-names = "cdns3,usb3-phy";
-> > > 			status = "disabled";
-> > > 		};
-> > > 	};
+On Sunday, March 29, 2020 6:27:38 PM CEST Alan Stern wrote:
+> On Sun, 29 Mar 2020, Rafael J. Wysocki wrote:
+> 
+> > On Sat, Mar 28, 2020 at 8:58 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+
+[cut]
+
+> > > Can you give a similarly
+> > > succinct outline for how SMART_SUSPEND and LEAVE_SUSPENDED should work?
+> > > And also describe how they differ from direct_complete and how they
+> > > interact with it?  (For example, how does setting both flags differ
+> > > from returning a positive value from ->prepare?)
 > > 
-> > Hello Peter,
-> > 
-> > thx for the dts example. Now I get "wait clkvld timeout" in "cdns_imx_noncore_init()"
-> > So USB3_SSPHY_STATUS register seems to be wrong.
-> > 
-> > dmesg | grep imx
-> > [    1.065445] cdns3-imx 5b110000.usb3: Adding to iommu group 0
-> > [    1.257309] imx-scu scu: NXP i.MX SCU Initialized
-> > [    1.275489] imx-scu-clk: probe of gpt0_clk failed with error -5
-> > [    1.291143] imx-scu-clk: probe of pwm_clk failed with error -22
-> > [    1.302517] imx-scu-clk: probe of lcd_clk failed with error -22
-> > [    1.341405] imx8qm-pinctrl scu:pinctrl: initialized IMX pinctrl driver
-> > [    3.029484] cdns3-imx 5b110000.usb3: wait clkvld timeout
-> > [    3.034891] cdns3-imx: probe of 5b110000.usb3 failed with error -110
-> > [    3.237393] sdhci-esdhc-imx 5b030000.mmc: Got CD GPIO
-> > [    3.242468] sdhci-esdhc-imx 5b030000.mmc: Got WP GPIO
-> > [    3.316687] imx8qxp-lpcg-clk 5a4a0000.clock-controller: ignoring dependency for
-> > device, assuming no driver
-> > 
->  
-> Make sure the five clocks in dts are correct, and print the USB3_SSPHY_STATUS if
-> timeout still exists.
+> > I will, but I need some time to do that.  Stay tuned.
+> 
+> You bet!
 
-ok thx, we got it fixed by replacing:
+Sorry for the delay, too much distraction nowadays.
 
- clocks = <&usb3_lpcg 1>,
-          <&usb3_lpcg 0>,
-          <&usb3_lpcg 4>,
-          <&usb3_lpcg 2>,
-          <&usb3_lpcg 3>;
+I'll address the other points in your message separately.
 
-with this:
- 
- clocks = <&usb3_lpcg IMX_LPCG_CLK_1>,
-          <&usb3_lpcg IMX_LPCG_CLK_0>,
-          <&usb3_lpcg IMX_LPCG_CLK_7>,
-          <&usb3_lpcg IMX_LPCG_CLK_4>,
-          <&usb3_lpcg IMX_LPCG_CLK_5>;
+The rules for SMART_SUSPEND are as follows:
 
-now the "wait clkvld timeout" is gone and the USB3_SSPHY_STATUS register
-is very similar to another imx8qm device which runs linux-imx from NXP.
+(a) If SMART_SUSPEND is set and the device is runtime-suspended during system
+    suspend, it is not expected to be resumed by the core or the middle layer
+    (subsystem) code unless the latter has a specific reason to do that (e.g.
+    it knows that the device needs to be reconfigured which cannot be done
+    without resuming it).
 
-Now I try to get into USB HOST mode:
+    The device can still be resumed when it is needed to suspend a dependent
+    device, but that cannot happen before the "late suspend" phase.
 
---- a/drivers/usb/cdns3/cdns3-imx.c
-+++ b/drivers/usb/cdns3/cdns3-imx.c
-@@ -113,11 +115,11 @@ static int cdns_imx_noncore_init(struct cdns_imx *data)
-        udelay(1);
+(b) Drivers that set SMART_SUSPEND are allowed to reuse their PM-runtime
+    callbacks for system-wide suspend and resume.
 
-        value = cdns_imx_readl(data, USB3_CORE_CTRL1);
--       value = (value & ~MODE_STRAP_MASK) | OTG_MODE | OC_DISABLE;
-+       value = (value & ~MODE_STRAP_MASK) | HOST_MODE | OC_DISABLE;
-        cdns_imx_writel(data, USB3_CORE_CTRL1, value);
+    That is, they can point either the ->suspend_late or the ->suspend_noirq
+    callback pointer to the same function as ->runtime_suspend and they can
+    point either the ->resume_noirq or ->the resume_early callback to the'
+    same function as ->runtime_resume.
 
-Is this change necessary?
+(c) Drivers that set SMART_SUSPEND are alwo allowed to provide special
+    simplified callbacks for the "freeze" and "thaw" transitions during
+    hibernation (and restore) and (if they do so) special callbacks for the
+    "restore" phase.
 
-Do I need special changes on xhci.c do get it work with cdns-imx in host mode?
+[OK, I realize that (b) and (c) are not documented, see the notes below.]
 
-I'am stuck at:
+Because of (a), if the device with SMART_SUSPEND set is still runtime-suspended
+during the "late" phase of suspend, the core will not invoke the driver's
+"late" and "noirq" suspend callbacks directly (*).  Middle layer (subsystem)
+code is expected to behave accordingly.
 
-[   16.697525] xhci-hcd xhci-hcd.0.auto: can't setup: -110
+Because of (b), if the "late" and "noirq" driver callbacks were skipped during
+the "freeze" transition, the core will also avoid invoking the "noirq" and
+"early" callbacks provided by the driver during the "thaw" transition and
+the callbacks during the "restore" transition will be executed unconditionally
+(**).  Middle layer code is expected to behave accordingly.
 
-I already tried to add the Intel quirk:
+Notes:
 
-udelay(1000) in xhci_reset() but without success.
+1. I have considered splitting SMART_SUSPEND into two or even three flags
+   so that (a), (b) and (c) are each associated with a separate flag, but
+   then I would expect the majority of users to use all of them anyway.
 
-Is the host mode working on your side?
+2. LEAVE_SUSPENDED (which may be better renamed to SKIP_RESUME) is kind of
+   expected to be used along with SMART_SUSPEND unless there is a good enough
+   reason to avoid using it.  I admit that this isn't really straightforward,
+   maybe the default behavior should be to skip the resume and there should be
+   FORCE_RESUME instead of LEAVE_SUSPENDED.
 
-Best regards,
+3. (*) Under the assumption that either ->suspend_late or ->suspend_noirq
+   points to the same routine as ->runtime_suspend (and the other is NULL),
+   invokig that callback for a runtime-suspended device is technically invalid.
+   In turn, under the assumption that either ->resume_early or ->resume_noirq
+   points to the same routine as ->runtime_resume (and the other is NULL), it is
+   valid to invoke that callback if the late/noirq suspend was skipped.
 
-Oliver
+4. (**) If the "freeze" and "thaw" callbacks are simplified, they cannot be
+   run back-to-back with ->runtime_resume and ->runtime_suspend, respectively.
+   Thus if "freeze" is skippend, "thaw" must be skipped too.  However,
+   "restore" needs to be prepared to be invoked after "freeze" or
+   ->runtime_suspend (and the state of the device may not match the
+   callback that ran previously), so it must be special.
+
+5. I agree that skipping the driver level of callbacks depending on what is
+   provided by the middle layer is inconsistent, but I wanted to take the
+   users of pm_runtime_force_suspend/resume() into account by letting those
+   things run.
+
+   It would be more consistent to expect middle layer code (bus types, PM
+   domains) to provide either all of the noirq/early/late callbacks, or none
+   of them and make SMART_SUSPEND and pm_runtime_force_suspend/resume()
+   mutually exclusive.
+
+Cheers!
+
+
 
