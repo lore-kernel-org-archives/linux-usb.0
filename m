@@ -2,94 +2,207 @@ Return-Path: <SRS0=VZyl=5X=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FBCC2BB1D
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 12:30:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61060C2BB1D
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 12:55:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9364C2078A
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 12:30:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="owJBZ9DR"
+	by mail.kernel.org (Postfix) with ESMTP id 29A5F2078A
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 12:55:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728652AbgDGM3e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Apr 2020 08:29:34 -0400
-Received: from esa1.microchip.iphmx.com ([68.232.147.91]:26852 "EHLO
-        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbgDGM3d (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Apr 2020 08:29:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1586262573; x=1617798573;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=mwrqDeZZFPwdOZQAzDue552yl4u2PTg8dL3CuhCIRD0=;
-  b=owJBZ9DRTFviDU9Srbi89NboTVl0OpygGIXQj3H2SZhl2hKZYDRfut4T
-   B3mCc2N0pfAfMg8ayQyBswe5ZZ3zbg7hk4DpXYvSO2J8vI/rxXgH2VIlv
-   dC2PJZPlNas8DMf+nxBQZN4YconHzRhlJSejXVOmrDI0bpE7Ta6asmkce
-   48Nbl06HTEPp1cjOWpKdJNPUfeIU/r+QCWEqNOKA+hpPm8C6cV6tOoJBz
-   nJRWGWN+ZWTL0UcBKRssWr4b4ZEi+BaNxMundtJ/OzrcAnUvhtpTefIMN
-   di5uleXWqRzWqbSxgz6dgpdlN2nswbAB3pkO8L7mJTyQku6H0D+kSgtbd
-   g==;
-IronPort-SDR: eHcVGlQPapM0erpoDIa3ogDoNhu9Y1m7vz119BJjbiF1QmLcmp/aHB+3LjwuNjS5U+NicQJtje
- SaL7FbFUUz2CY2TsnwHYNB6drmR/GxR+7zKKT26XdkmhoY/toNxYdftDJefmB3hqSHhnrWat7V
- GE3vtzT7ofkQ3Rm+lfAvYXN1a6stvjO2MAtoa7sEDyawq6bxbOmUWi0XWMhJmSEVU2tJ54vGeS
- sFz0+mihLtjW9nTooH19R8c0QflvKZfjLSYGeSc4WbYovxLxZNKpdzT1oRPdbaIyNsW1L7N6WI
- Yok=
-X-IronPort-AV: E=Sophos;i="5.72,354,1580799600"; 
-   d="scan'208";a="75013395"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Apr 2020 05:29:32 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 7 Apr 2020 05:29:43 -0700
-Received: from cristi-P53.amer.actel.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Tue, 7 Apr 2020 05:29:29 -0700
-From:   <cristian.birsan@microchip.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <nicolas.ferre@microchip.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <alexandre.belloni@bootlin.com>, <ludovic.desroches@microchip.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>
-Subject: [PATCH 0/7] usb: gadget: udc: atmel: add usb device support for SAM9x60 SoC
-Date:   Tue, 7 Apr 2020 15:28:45 +0300
-Message-ID: <20200407122852.19422-1-cristian.birsan@microchip.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728555AbgDGMzZ convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Apr 2020 08:55:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45032 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728304AbgDGMzZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 7 Apr 2020 08:55:25 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 207147] New: USB errors: uhci_hcd 0000:01:00.4: swiotlb buffer
+ is full (sz: 8 bytes) ; iommu=off
+Date:   Tue, 07 Apr 2020 12:55:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: John.p.donnelly@oracle.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-207147-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Cristian Birsan <cristian.birsan@microchip.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=207147
 
-This patch set adds usb device support for SAM9x60 SoC.
-The DPRAM memory for the USB High Speed Device Port (UDPHS) hardware
-block was increased and the allocation method is changed. This patch
-series simplifies the endpoint allocation scheme to acomodate this SoC
-and the old ones.
+            Bug ID: 207147
+           Summary: USB errors: uhci_hcd 0000:01:00.4: swiotlb buffer is
+                    full (sz: 8 bytes) ; iommu=off
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.6.0.rc6
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: John.p.donnelly@oracle.com
+        Regression: No
 
-Claudiu Beznea (2):
-  usb: gadget: udc: atmel: use of_find_matching_node_and_match
-  usb: gadget: udc: atmel: add compatible for SAM9X60's PMC
+Platform:
 
-Cristian Birsan (5):
-  usb: gadget: at91_udc: Update DT binding documentation
-  usb: gadget: udc: atmel: simplify endpoint allocation
-  usb: gadget: udc: atmel: use 1 bank endpoints for control transfers
-  usb: gadget: udc: atmel: rename errata into caps
-  usb: gadget: udc: atmel: update endpoint allocation for sam9x60
+HP Gen9 and Gen10 servers. 
 
- .../devicetree/bindings/usb/atmel-usb.txt     |  1 +
- drivers/usb/gadget/udc/atmel_usba_udc.c       | 87 ++++++++++++-------
- drivers/usb/gadget/udc/atmel_usba_udc.h       |  6 +-
- 3 files changed, 58 insertions(+), 36 deletions(-)
+This USB device Bus 03 ( usb3 )  is associated with the HP iLO subsystem. 
+
+When iommu=on the device and virtual keyboard and mouse works :
+
+ lsusb -t
+/:  Bus 05.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/6p, 5000M
+/:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/15p, 480M
+    |__ Port 3: Dev 2, If 0, Class=Hub, Driver=hub/2p, 480M
+/:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+    |__ Port 1: Dev 2, If 0, Class=Human Interface Device, Driver=usbhid, 12M
+    |__ Port 1: Dev 2, If 1, Class=Human Interface Device, Driver=usbhid, 12M
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M
+    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/8p, 480M
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M
+    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/6p, 480M
+
+
+When iommu=off the keyboard and mouse are not enumerated:
+
+
+ lsusb -t
+/:  Bus 05.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/6p, 5000M
+/:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/15p, 480M
+    |__ Port 3: Dev 2, If 0, Class=Hub, Driver=hub/2p, 480M
+/:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M
+
+
+Device info :
+
+[    4.233918] pci 0000:01:00.4: [103c:3300] type 00 class 0x0c0300
+[    4.235902] pci 0000:01:00.4: reg 0x20: [io  0x1300-0x131f]
+
+
+[    8.172229] uhci_hcd 0000:01:00.4: UHCI Host Controller
+[    8.185583] clocksource: tsc: mask: 0xffffffffffffffff max_cycles:
+0x1e3c373503e, max_idle_ns: 440795250101 ns
+[    8.198841] uhci_hcd 0000:01:00.4: new USB bus registered, assigned bus
+number 3
+[    8.228336] clocksource: Switched to clocksource tsc
+[    8.228355] uhci_hcd 0000:01:00.4: detected 8 ports
+[    8.255642] uhci_hcd 0000:01:00.4: port count misdetected? forcing to 2
+ports
+[    8.269807] uhci_hcd 0000:01:00.4: supports USB remote wakeup
+[    8.269833] uhci_hcd 0000:01:00.4: irq 19, io base 0x00001300
+[    8.284303] usb usb3: default language 0x0409
+[    8.284319] usb usb3: udev 1, busnum 3, minor = 256
+[    8.284322] usb usb3: New USB device found, idVendor=1d6b, idProduct=0001,
+bcdDevice= 5.06
+[    8.299961] usb usb3: New USB device strings: Mfr=3, Product=2,
+SerialNumber=1
+[    8.314767] usb usb3: Product: UHCI Host Controller
+[    8.328498] usb usb3: Manufacturer: Linux 5.6.0-rc6+ uhci_hcd
+[    8.342875] usb usb3: SerialNumber: 0000:01:00.4
+
+[    8.853062] usb usb4-port3: status 0101, change 0000, 12 Mb/s
+[    8.853847] usb 3-1: new full-speed USB device number 2 using uhci_hcd
+[    8.869995] uhci_hcd 0000:01:00.4: swiotlb buffer is full (sz: 8 bytes),
+total 0 (slots), used 0 (slots)
+[    8.886593] uhci_hcd 0000:01:00.4: swiotlb buffer is full (sz: 8 bytes),
+total 0 (slots), used 0 (slots)
+[    8.903838] uhci_hcd 0000:01:00.4: swiotlb buffer is full (sz: 8 bytes),
+total 0 (slots), used 0 (slots)
+[    9.074128] ehci-pci 0000:00:1d.0: swiotlb buffer is full (sz: 8 bytes),
+total 0 (slots), used 0 (slots)
+[    9.090870] usb 1-1: device not accepting address 2, error -11
+[    9.105875] hub 5-0:1.0: state 7 ports 6 chg 0000 evt 0000
+[    9.105948] hub 5-0:1.0: hub_suspend
+[    9.105957] usb usb5: bus auto-suspend, wakeup 1
+[    9.142840] usb 3-1: device descriptor read/64, error -11
+
+
+
+When iommu=on , the devices are enervated :
+
+
+
+[    9.149664] uhci_hcd 0000:01:00.4: new USB bus registered, assigned bus
+number 3
+[    9.163434] uhci_hcd 0000:01:00.4: detected 8 ports
+[    9.176561] uhci_hcd 0000:01:00.4: port count misdetected? forcing to 2
+ports
+[    9.190639] uhci_hcd 0000:01:00.4: supports USB remote wakeup
+[    9.190655] uhci_hcd 0000:01:00.4: irq 19, io base 0x00001300
+[    9.204506] uhci_hcd 0000:01:00.4: DMAR: Setting identity map [0x791dc000 -
+0x791ddfff]
+[    9.220241] uhci_hcd 0000:01:00.4: DMAR: Setting identity map [0x791cb000 -
+0x791dbfff]
+[    9.233903] uhci_hcd 0000:01:00.4: DMAR: Setting identity map [0x791de000 -
+0x791f3fff]
+[    9.247398] uhci_hcd 0000:01:00.4: DMAR: Setting identity map [0x791f4000 -
+0x791f7fff]
+[    9.260767] uhci_hcd 0000:01:00.4: DMAR: 32bit DMA uses non-identity mapping
+[    9.274196] usb usb3: default language 0x0409
+[    9.274211] usb usb3: udev 1, busnum 3, minor = 256
+[    9.274214] usb usb3: New USB device found, idVendor=1d6b, idProduct=0001,
+bcdDevice= 5.06
+[    9.288716] usb usb3: New USB device strings: Mfr=3, Product=2,
+SerialNumber=1
+[    9.302288] usb usb3: Product: UHCI Host Controller
+[    9.315276] usb usb3: Manufacturer: Linux 5.6.0-rc6+ uhci_hcd
+[    9.329689] usb usb3: SerialNumber: 0000:01:00.4
+[    9.342071] usb 1-1: new high-speed USB device number 2 using ehci-pci
+[    9.356176] usb usb2-port1: status 0501 change 0001
+[    9.356199] usb usb3: usb_probe_device
+[    9.356201] usb usb3: configuration #1 chosen from 1 choice
+[    9.356208] usb usb3: adding 3-0:1.0 (config #1, interface 0)
+
+
+
+[   10.512162] usbhid 3-1:1.0: usb_probe_interface
+[   10.512164] usbhid 3-1:1.0: usb_probe_interface - got id
+[   10.513820] input: BMC Virtual Keyboard  as
+/devices/pci0000:00/0000:00:1c.2/0000:01:00.4/usb3/3-1/3-1:1.0/0003:03F0:7029.0001/input/input1
+[   10.595493] hid-generic 0003:03F0:7029.0001: input,hidraw0: USB HID v1.01
+Keyboard [BMC Virtual Keyboard ] on usb-0000:01:00.4-1/input0
+[   10.627314] usbhid 3-1:1.1: usb_probe_interface
+[   10.627315] usbhid 3-1:1.1: usb_probe_interface - got id
+[   10.629630] input: BMC Virtual Keyboard  as
+/devices/pci0000:00/0000:00:1c.2/0000:01:00.4/usb3/3-1/3-1:1.1/0003:03F0:7029.0002/input/input2
+[   10.662296] hid-generic 0003:03F0:7029.0002: input,hidraw1: USB HID v1.01
+Mouse [BMC Virtual Keyboard ] on usb-0000:01:00.4-1/input1
+[   10.696057] usbcore: registered new interface driver usbhid
+
+
+
+( Complete dmesg will be attached )
 
 -- 
-2.17.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
