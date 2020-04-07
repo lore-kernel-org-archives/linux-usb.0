@@ -2,71 +2,64 @@ Return-Path: <SRS0=VZyl=5X=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 803BFC2BA1A
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 02:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28223C2BA1A
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 03:12:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 36FFB20769
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 02:46:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F3A7B2080C
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Apr 2020 03:12:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="em77krqH"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="GIsfgDQu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgDGCqc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Apr 2020 22:46:32 -0400
-Received: from mail-eopbgr150087.outbound.protection.outlook.com ([40.107.15.87]:49524
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        id S1726691AbgDGDMl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Apr 2020 23:12:41 -0400
+Received: from mail-eopbgr20047.outbound.protection.outlook.com ([40.107.2.47]:13430
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726312AbgDGCqc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 6 Apr 2020 22:46:32 -0400
+        id S1726651AbgDGDMl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 6 Apr 2020 23:12:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QFBVqRTNj8SmuidceifMQiHTaV1QUUc29hBaB+dorQpv1pWLhPY1a1psZWIrg8ysjGK5ITNBz/PLOsjgbF7q5Rtc9itUfjuZIYirv3BxhcaiBco9wqZtc05lILilQJHJwSW01nfsUqxEKrP8fx+ou/rDI2XdnyQPI5ILAicfL+oyMs+R/odTdEvygeOjf7aJfhvYdhlS9f0mwL/o9bf/A5mumnCz3hAe+g9drlz856qjFtzAumz5F/ZISeJi3LVmjlUx/3f2B0A7Dz1TYg6fl07gMsiHYpTQ9EQO4psztNC4bB0qYU0d33Mp8PgqniaYVpeRxAvrTNUh8g/o9S6sPA==
+ b=XVLdCXOqRvcRCi3/VAFhJxcDCUGeW0rSUfDUhcguuQw3OzwUSa4bvC9X0aXpfti9HOsK7OMmgdEji/k2WfRHrWDN0VZdCUcFvd7DL+jnLsfvL8/JctIjd5QLxz95tcOzdAqVcp1CkWFeGTRLTTw9nP2UUtcqjgls//nV7Vjh2lfkBivAuEmG/80wor7DA5zsjQt80qh5rtD6+vc8X4RI0k8Ill/MTaFaGe3AtzxqjyjVq6vqJhOK2T0jmNecYEKWogjFEd6v3fvxWwrDEAkJ50vHU4Xt6hGxK7Xv1ambKV/5jDCvaW5c3uwS+Ev36yAouelrwwVId67UPktv02QjHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xzv+PRGOdaM2/uoiDkWrYE4f9T2+6CHTX3C8GzAfTVc=;
- b=M2k4EVFXt0qOkswphNKBHz/V5vaN+iW26UDJb4fULi780Mw0NAvO5P32KG1QlXfvVfBK+HFc0XfkxYYRwOnWM0LBfUopX386oQtVhP3qw/Ozj6daUvUUwAOTKO5LdjstPLhpPjDos3pAaeZPnk6+ugCtlAlyV3OcpTe2rMPTQacaQKKa99fp5eR4wPoWMRSvLWaPIs+atOMh5tGwigkfY5O+ccLpzGN1v17YIYfopRR0CAqtu0jUOySu8u55apYtgcAI/tew2RvuPlDwTQ4sq8fIs4nQbLTlRRMrlj97saxjzjMziD6mxvhvQxDGzX2XxNOgXi/Pi+c0IIihV07Mpw==
+ bh=9ji6VisXZora5ClGlNIdl1ByO9zzFLePAYCb0aGTAPY=;
+ b=CRGe1lxcMLGv/Mm0bxit8UWL5nOVpkq/bZ335vxXU86PpQV/EPIW+t9S4dfSaOpRn+tVi/0lV/MAzyBSpaWfIYj+ddw40rF1PF87PP/W8mVC8ZK7/EaNWPRbMWkCnFoO3CLfDWERF9igyKs7H4r7U8zNhVxw5EDqz+GOdqdl2QlfWxHlbN6byw+qYmw7fM9lxYdTWmgE1f800QlxPlWc7PCmTf0VmpHZuS6sCvCRt6FasPskf5fhOPIK4P4BdQjbdlLRt8tkenLKYQRR7USe5pUeWXekdG8G3WE48ejjmptwWBz5OPutc+l1TAQPCeo1fMDaOaKxdmz1n18Re3d3hg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xzv+PRGOdaM2/uoiDkWrYE4f9T2+6CHTX3C8GzAfTVc=;
- b=em77krqHbMDsjIFleCujK6BVk8fMEGlgJmmsnHw8K1HLSVr8ED7NzTV/fiTFZKr2TdJWODLMLNlhsTchLSZ76og9eikKP9iGsj96owx6VjYAB5XfPNw2V4GjxwbmRgxJWXK2XjiKlGhJ5wSycgNmEkOd6flAvIw5cffv/BmMugA=
+ bh=9ji6VisXZora5ClGlNIdl1ByO9zzFLePAYCb0aGTAPY=;
+ b=GIsfgDQuCDJj3de12kZ4W3uXjclrV40xxsgO+dMwea5GQMxwoj3/wTAlYdRkxny5xYt1IEvADorPtY5ESk0iaAaRwPZMWuh3Mg5C+TMQdXFH2Bikfrb65vJ1NVNBfaInt+SOdK7qZBQqrKjUIXX5AH09uHA2eKkb2pBXlHXw1lk=
 Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM7PR04MB7126.eurprd04.prod.outlook.com (2603:10a6:20b:117::11) with
+ by AM7PR04MB7141.eurprd04.prod.outlook.com (2603:10a6:20b:11d::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16; Tue, 7 Apr
- 2020 02:46:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.20; Tue, 7 Apr
+ 2020 03:12:37 +0000
 Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
  ([fe80::902c:71:6377:4273]) by AM7PR04MB7157.eurprd04.prod.outlook.com
  ([fe80::902c:71:6377:4273%5]) with mapi id 15.20.2878.018; Tue, 7 Apr 2020
- 02:46:27 +0000
+ 03:12:37 +0000
 From:   Peter Chen <peter.chen@nxp.com>
-To:     Oliver Graute <oliver.graute@gmail.com>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Oliver Graute <Oliver.Graute@KoCoConnector.com>
-Subject: Re: using cdns3-imx driver on imx8qm
-Thread-Topic: using cdns3-imx driver on imx8qm
-Thread-Index: AQHWA5EMk/twZNx6oE6N7BqRdcYd1qhcJrQAgAAMdACAADsSgIAGWxiAgAABLUCABLoUAIAE1DWAgACtqAA=
-Date:   Tue, 7 Apr 2020 02:46:27 +0000
-Message-ID: <20200407024650.GA26899@b29397-desktop>
-References: <20200326170109.GA28051@optiplex>
- <20200327090554.GA31160@b29397-desktop> <20200327095028.GA19809@ripley>
- <20200327132153.GA31668@b29397-desktop> <20200331142528.GA2246@portage>
- <AM7PR04MB715728ED4EF3715A7798A5A08BC80@AM7PR04MB7157.eurprd04.prod.outlook.com>
- <20200403144044.GA49880@archlinux.localdomain>
- <20200406162517.GA3320@portage>
-In-Reply-To: <20200406162517.GA3320@portage>
+To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 5/5] usb: chipidea: allow disabling glue drivers if
+ EMBEDDED
+Thread-Topic: [PATCH 5/5] usb: chipidea: allow disabling glue drivers if
+ EMBEDDED
+Thread-Index: AQHWChQAjD6RZ55p5EW1wRD2DjJFfqhtALoA
+Date:   Tue, 7 Apr 2020 03:12:36 +0000
+Message-ID: <20200407031300.GB26899@b29397-desktop>
+References: <2b6d70595475a3ddbd5bb8ae1765868a98c404b6.1585958250.git.mirq-linux@rere.qmqm.pl>
+ <1bf89d4301baa8632daf48b3e28858aff5371954.1585958250.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <1bf89d4301baa8632daf48b3e28858aff5371954.1585958250.git.mirq-linux@rere.qmqm.pl>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -76,200 +69,84 @@ authentication-results: spf=none (sender IP is )
 x-originating-ip: [119.31.174.66]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 3f8f1486-9b9f-4d60-a3f4-08d7da9dde69
-x-ms-traffictypediagnostic: AM7PR04MB7126:|AM7PR04MB7126:|AM7PR04MB7126:
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM7PR04MB712650C06F2C2F568B91456D8BC30@AM7PR04MB7126.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-office365-filtering-correlation-id: f3126266-f0c8-4c0f-4f8b-08d7daa18616
+x-ms-traffictypediagnostic: AM7PR04MB7141:
+x-microsoft-antispam-prvs: <AM7PR04MB71418DF6B0D9DFE0025CFBD18BC30@AM7PR04MB7141.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2958;
 x-forefront-prvs: 036614DD9C
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(7916004)(4636009)(39860400002)(346002)(396003)(376002)(136003)(366004)(54906003)(2906002)(478600001)(8936002)(5660300002)(26005)(91956017)(1076003)(9686003)(6512007)(6486002)(66556008)(66946007)(71200400001)(316002)(186003)(76116006)(66476007)(66446008)(64756008)(6916009)(33716001)(86362001)(8676002)(81156014)(81166006)(53546011)(6506007)(33656002)(4326008)(44832011)(32563001);DIR:OUT;SFP:1101;
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(7916004)(4636009)(366004)(346002)(39860400002)(136003)(396003)(376002)(6512007)(33716001)(81156014)(8936002)(86362001)(6506007)(1076003)(186003)(81166006)(478600001)(26005)(53546011)(4326008)(5660300002)(8676002)(9686003)(44832011)(64756008)(33656002)(54906003)(76116006)(66476007)(6916009)(66556008)(66446008)(316002)(66946007)(6486002)(71200400001)(2906002)(91956017);DIR:OUT;SFP:1101;
 received-spf: None (protection.outlook.com: nxp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NiVmEYLog3swXA2O29YV2B4THumHshof53DM2+s7r6/0u1Z3W+6ir6jKDLwkOEopKDV9bRcjqU/iWEvJv8lfbv6IZXSWePvBWdL08gm8S+GnovDiQri9AJz7CM2i6006dRNG8055auTzqKPbrdUfal03+v92ef0IMQMz9SGGP28YYaQEza2dtU0lqwUoeKFF6cjoySc9NjYKXacLIj2KwfgTBA7TXyqKeYkth1HhLQcQ8DoOUGhpfswSRd1XR4K1joTb1XzZypFh01PovIs9Sbm2G+5SzMtwJKpEn/jkVohdhE9DV/rbOUl/nnGVakNWb5rpT+4u7hh+z3F3fPqOVeqjFhSVxv3jxao5qoYsvudALw5yB5GTT7Ef1cJ2gmHrU2tkUr2OWH7UGordl3BmbyjnKmku+8pxHIYnBvoExlTPGh0DFhB57ZlIrP5npjw8GauxsLaUIJnQvgczzL+PjhXJ1fU2rnQwI44IZpPY7pA=
-x-ms-exchange-antispam-messagedata: 3XuKUhY4pSFuFM5LbOPiB1Mz/IiyQTQ4Tec71KNh+03iGR4SMc6eVFm6g+2FdNtXM1t3LQUAn6OSn6GOqABM/4BME0TaIcwHPS20C1nid/1K/0rbBQ6PAFR82jzMChX/DzNwkdhPeV5c+5pZClkmEg==
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9220884C60FD5543A027FF44C430B1D1@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: IvBUWk6FFqDn8q4Yyz9V6E9ZNSfqvyaYMlDc5PvLCrx2mvFWaZqzqmg9Z9sj8LZWC+dBJ0wQnI0NDMyGsrV2LpT7PqD2oRD2RvqkkZOXkW7SSlQ+ARcj7H83mWEgWXwwUZT+yAHkFtRlUdUQjnnN7UeuIDZQVSWNXpz3PWHw+ljc/RWjUScuU4ak8QqOZUBRPmOR8jq78OxTdCPLmMXGuulxa4iGWlhk/kzI+lAswXatT7QE4yCQAqMVkatJRd+VEIhVN83GbuDNyLlBz91S4twc5EGoO47B1eIwE76wiTozaxYdwiptTeKadio9H9tzWN6c8DOF+D/gdRw3NvoWc8OzVtwIaKJAV0haN+0Wt++aw2j6DVFUJbMBY+FAnzDipl8Rb6xUfXvrECrGJVtlcAZOWMept9Hy5FYWQFvjgLXaH2YCKPggRArCSndMKNEo
+x-ms-exchange-antispam-messagedata: OxEd2tzQL0Mynelq6dTZGH37fR1NJ/daHgyzUn6A7aHZyXdmOtXSoL5mf7+p3IadVOvi5BZ/vfwtbhaFAwgmF5dwogPEwbPopzsTXw2x51nYWPgxSZAypiqh3hEbBL+enhGZGSvNORtaXJpIHiAKoQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8A2FD01AB848AE45AB58D2CBB647B400@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8f1486-9b9f-4d60-a3f4-08d7da9dde69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2020 02:46:27.1554
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3126266-f0c8-4c0f-4f8b-08d7daa18616
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2020 03:12:36.9895
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EYP6UDcFI+9cd3iz+LQsaUQGv8PvDinKiCq0zZHPutpSZUGidf9zXynRGfuJIdA47tTagTNMMKj7m0iIZXJ2Qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7126
+X-MS-Exchange-CrossTenant-userprincipalname: H5vTp0F5beD0Uj3pTnRQKuDc+vMqBGLmIPHCPSSsdr7R15yYuDvASm4s8AwxbQzhYPMhxonZI4SWuSA07tT7FA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7141
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 20-04-06 18:25:17, Oliver Graute wrote:
-> On 03/04/20, Oliver Graute wrote:
-> > On 31/03/20, Peter Chen wrote:
-> > >  =20
-> > > > > 		compatible =3D "fsl,imx8qxp-lpcg";
-> > > > > 		reg =3D <0x5b280000 0x10000>;
-> > > > > 		#clock-cells =3D <1>;
-> > > > > 		bit-offset =3D <0 4 16 20 24 28>;
-> > > > > 		clocks =3D <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_PER>,
-> > > > > 			 <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
-> > > > > 			 <&conn_ipg_clk>,
-> > > > > 			 <&conn_ipg_clk>,
-> > > > > 			 <&conn_ipg_clk>,
-> > > > > 			 <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
-> > > > > 		clock-output-names =3D "usb3_app_clk",
-> > > > > 				     "usb3_lpm_clk",
-> > > > > 				     "usb3_ipg_clk",
-> > > > > 				     "usb3_core_pclk",
-> > > > > 				     "usb3_phy_clk",
-> > > > > 				     "usb3_aclk";
-> > > > > 		power-domains =3D <&pd IMX_SC_R_USB_2_PHY>;
-> > > > > 	};
-> > > > >
-> > > > > 	usbotg3: usb3@5b110000 {
-> > > > > 		compatible =3D "fsl,imx8qm-usb3";
-> > > > > 		#address-cells =3D <1>;
-> > > > > 		#size-cells =3D <1>;
-> > > > > 		ranges;
-> > > > > 		reg =3D <0x5B110000 0x10000>;
-> > > > > 		clocks =3D <&usb3_lpcg 1>,
-> > > > > 			 <&usb3_lpcg 0>,
-> > > > > 			 <&usb3_lpcg 5>,
-> > > > > 			 <&usb3_lpcg 2>,
-> > > > > 			 <&usb3_lpcg 3>;
-> > > > > 		clock-names =3D "usb3_lpm_clk", "usb3_bus_clk", "usb3_aclk",
-> > > > > 			"usb3_ipg_clk", "usb3_core_pclk";
-> > > > > 		assigned-clocks =3D <&clk IMX_SC_R_USB_2
-> > > > IMX_SC_PM_CLK_PER>,
-> > > > > 			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
-> > > > > 			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
-> > > > > 		assigned-clock-rates =3D <125000000>, <12000000>, <250000000>;
-> > > > > 		power-domains =3D <&pd IMX_SC_R_USB_2>;
-> > > > > 		status =3D "disabled";
-> > > > >
-> > > > > 		usbotg3_cdns3: cdns3 {
-> > > > > 			compatible =3D "cdns,usb3";
-> > > > > 			#address-cells =3D <1>;
-> > > > > 			#size-cells =3D <1>;
-> > > > > 			interrupt-parent =3D <&gic>;
-> > > > > 			interrupts =3D <GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > 					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > 					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > 			interrupt-names =3D "host", "peripheral", "otg";
-> > > > > 			reg =3D <0x5B130000 0x10000>,     /* memory area for HOST
-> > > > registers */
-> > > > > 				<0x5B140000 0x10000>,   /* memory area for
-> > > > DEVICE registers */
-> > > > > 				<0x5B120000 0x10000>;   /* memory area for
-> > > > OTG/DRD registers */
-> > > > > 			reg-names =3D "xhci", "dev", "otg";
-> > > > > 			phys =3D <&usb3_phy>;
-> > > > > 			phy-names =3D "cdns3,usb3-phy";
-> > > > > 			status =3D "disabled";
-> > > > > 		};
-> > > > > 	};
-> > > >=20
-> > > > Hello Peter,
-> > > >=20
-> > > > thx for the dts example. Now I get "wait clkvld timeout" in "cdns_i=
-mx_noncore_init()"
-> > > > So USB3_SSPHY_STATUS register seems to be wrong.
-> > > >=20
-> > > > dmesg | grep imx
-> > > > [    1.065445] cdns3-imx 5b110000.usb3: Adding to iommu group 0
-> > > > [    1.257309] imx-scu scu: NXP i.MX SCU Initialized
-> > > > [    1.275489] imx-scu-clk: probe of gpt0_clk failed with error -5
-> > > > [    1.291143] imx-scu-clk: probe of pwm_clk failed with error -22
-> > > > [    1.302517] imx-scu-clk: probe of lcd_clk failed with error -22
-> > > > [    1.341405] imx8qm-pinctrl scu:pinctrl: initialized IMX pinctrl =
-driver
-> > > > [    3.029484] cdns3-imx 5b110000.usb3: wait clkvld timeout
-> > > > [    3.034891] cdns3-imx: probe of 5b110000.usb3 failed with error =
--110
-> > > > [    3.237393] sdhci-esdhc-imx 5b030000.mmc: Got CD GPIO
-> > > > [    3.242468] sdhci-esdhc-imx 5b030000.mmc: Got WP GPIO
-> > > > [    3.316687] imx8qxp-lpcg-clk 5a4a0000.clock-controller: ignoring=
- dependency for
-> > > > device, assuming no driver
-> > > >=20
-> > > =20
-> > > Make sure the five clocks in dts are correct, and print the USB3_SSPH=
-Y_STATUS if
-> > > timeout still exists.
-> >=20
-> > ok thx, we got it fixed by replacing:
-> >=20
-> >  clocks =3D <&usb3_lpcg 1>,
-> >           <&usb3_lpcg 0>,
-> >           <&usb3_lpcg 4>,
-> >           <&usb3_lpcg 2>,
-> >           <&usb3_lpcg 3>;
-> >=20
-> > with this:
-> > =20
-> >  clocks =3D <&usb3_lpcg IMX_LPCG_CLK_1>,
-> >           <&usb3_lpcg IMX_LPCG_CLK_0>,
-> >           <&usb3_lpcg IMX_LPCG_CLK_7>,
-> >           <&usb3_lpcg IMX_LPCG_CLK_4>,
-> >           <&usb3_lpcg IMX_LPCG_CLK_5>;
-> >=20
-> > now the "wait clkvld timeout" is gone and the USB3_SSPHY_STATUS registe=
-r
-> > is very similar to another imx8qm device which runs linux-imx from NXP.
-> >=20
-> > Now I try to get into USB HOST mode:
-> >=20
-> > --- a/drivers/usb/cdns3/cdns3-imx.c
-> > +++ b/drivers/usb/cdns3/cdns3-imx.c
-> > @@ -113,11 +115,11 @@ static int cdns_imx_noncore_init(struct cdns_imx =
-*data)
-> >         udelay(1);
-> >=20
-> >         value =3D cdns_imx_readl(data, USB3_CORE_CTRL1);
-> > -       value =3D (value & ~MODE_STRAP_MASK) | OTG_MODE | OC_DISABLE;
-> > +       value =3D (value & ~MODE_STRAP_MASK) | HOST_MODE | OC_DISABLE;
-> >         cdns_imx_writel(data, USB3_CORE_CTRL1, value);
-> >=20
-> > Is this change necessary?
-
-No
-
-> >=20
-> > Do I need special changes on xhci.c do get it work with cdns-imx in hos=
-t mode?
-> >=20
-
-No
-
-> > I'am stuck at:
-> >=20
-> > [   16.697525] xhci-hcd xhci-hcd.0.auto: can't setup: -110
->=20
-> A bit more debug information:
->=20
-> [    5.988571] cdns-usb3 5b130000.cdns3: DRD version v0 (00000100)
-> [    6.012664] xhci-hcd xhci-hcd.0.auto: xHCI Host Controller
-> [    6.018173] xhci-hcd xhci-hcd.0.auto: new USB bus registered, assigned=
- bus number 1
-> [    6.036369] xhci-hcd xhci-hcd.0.auto: // Halt the HC
-> [    6.041335] xhci-hcd xhci-hcd.0.auto: Resetting HCD
-> [    6.056364] xhci-hcd xhci-hcd.0.auto: // Reset the HC
-> [   16.062450] xhci-hcd xhci-hcd.0.auto: can't setup: -110
-> [   16.067686] xhci-hcd xhci-hcd.0.auto: USB bus 1 deregistered
-> [   16.073361] xhci-hcd: probe of xhci-hcd.0.auto failed with error -110
->=20
-
-set dr_mode =3D "otg" at dts, and after boot up, run below commands at
-console:
-
-echo host > /sys/class/usb_role/5b130000.cdns3-role-switch/role
-
---=20
-
-Thanks,
-Peter Chen=
+T24gMjAtMDQtMDQgMDI6MDA6MDYsIE1pY2hhxYIgTWlyb3PFgmF3IHdyb3RlOg0KPiBBbGxvdyB0
+byBjdXQgZG93biBvbiBkcml2ZXIgc2l6ZSBmb3IgZW1iZWRkZWQgY29uZmlnLg0KPiANCj4gU2ln
+bmVkLW9mZi1ieTogTWljaGHFgiBNaXJvc8WCYXcgPG1pcnEtbGludXhAcmVyZS5xbXFtLnBsPg0K
+PiAtLS0NCj4gIGRyaXZlcnMvdXNiL2NoaXBpZGVhL0tjb25maWcgIHwgMzcgKysrKysrKysrKysr
+KysrKysrKysrKysrLS0tLS0tLS0tLS0NCj4gIGRyaXZlcnMvdXNiL2NoaXBpZGVhL01ha2VmaWxl
+IHwgMTIgKysrKystLS0tLS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDMxIGluc2VydGlvbnMoKyks
+IDE4IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2NoaXBpZGVh
+L0tjb25maWcgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9LY29uZmlnDQo+IGluZGV4IGQ1M2RiNTIw
+ZTIwOS4uOGJhZmNmYzYwODBkIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9L
+Y29uZmlnDQo+ICsrKyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL0tjb25maWcNCj4gQEAgLTE4LDE3
+ICsxOCw2IEBAIGNvbmZpZyBVU0JfQ0hJUElERUENCj4gIA0KPiAgaWYgVVNCX0NISVBJREVBDQo+
+ICANCj4gLWNvbmZpZyBVU0JfQ0hJUElERUFfT0YNCj4gLQl0cmlzdGF0ZQ0KPiAtCWRlcGVuZHMg
+b24gT0YNCj4gLQlkZWZhdWx0IFVTQl9DSElQSURFQQ0KPiAtDQo+IC1jb25maWcgVVNCX0NISVBJ
+REVBX1BDSQ0KPiAtCXRyaXN0YXRlDQo+IC0JZGVwZW5kcyBvbiBVU0JfUENJDQo+IC0JZGVwZW5k
+cyBvbiBOT1BfVVNCX1hDRUlWDQo+IC0JZGVmYXVsdCBVU0JfQ0hJUElERUENCj4gLQ0KPiAgY29u
+ZmlnIFVTQl9DSElQSURFQV9VREMNCj4gIAlib29sICJDaGlwSWRlYSBkZXZpY2UgY29udHJvbGxl
+ciINCj4gIAlkZXBlbmRzIG9uIFVTQl9HQURHRVQNCj4gQEAgLTQzLDQgKzMyLDMwIEBAIGNvbmZp
+ZyBVU0JfQ0hJUElERUFfSE9TVA0KPiAgCWhlbHANCj4gIAkgIFNheSBZIGhlcmUgdG8gZW5hYmxl
+IGhvc3QgY29udHJvbGxlciBmdW5jdGlvbmFsaXR5IG9mIHRoZQ0KPiAgCSAgQ2hpcElkZWEgZHJp
+dmVyLg0KPiArDQo+ICtjb25maWcgVVNCX0NISVBJREVBX1BDSQ0KPiArCXRyaXN0YXRlICJFbmFi
+bGUgUENJIGdsdWUgZHJpdmVyIiBpZiBFTUJFRERFRA0KDQpXaHkgZGVwZW5kcyBvbiBFTUJFRERF
+RCBmb3IgdGhpcyBkcml2ZXI/IE5vdCBldmVyeW9uZSBuZWVkcyB0aGlzDQpjb25maWd1cmF0aW9u
+Lg0KDQpQZXRlcg0KPiArCWRlcGVuZHMgb24gVVNCX1BDSQ0KPiArCWRlcGVuZHMgb24gTk9QX1VT
+Ql9YQ0VJVg0KPiArCWRlZmF1bHQgVVNCX0NISVBJREVBDQo+ICsNCj4gK2NvbmZpZyBVU0JfQ0hJ
+UElERUFfTVNNDQo+ICsJdHJpc3RhdGUgIkVuYWJsZSBNU00gaHN1c2IgZ2x1ZSBkcml2ZXIiIGlm
+IEVNQkVEREVEDQo+ICsJZGVmYXVsdCBVU0JfQ0hJUElERUENCj4gKw0KPiArY29uZmlnIFVTQl9D
+SElQSURFQV9JTVgNCj4gKwl0cmlzdGF0ZSAiRW5hYmxlIGkuTVggVVNCIGdsdWUgZHJpdmVyIiBp
+ZiBFTUJFRERFRA0KPiArCWRlcGVuZHMgb24gT0YNCj4gKwlkZWZhdWx0IFVTQl9DSElQSURFQQ0K
+PiArDQo+ICtjb25maWcgVVNCX0NISVBJREVBX0dFTkVSSUMNCj4gKwl0cmlzdGF0ZSAiRW5hYmxl
+IGdlbmVyaWMgVVNCMiBnbHVlIGRyaXZlciIgaWYgRU1CRURERUQNCj4gKwlkZWZhdWx0IFVTQl9D
+SElQSURFQQ0KPiArDQo+ICtjb25maWcgVVNCX0NISVBJREVBX1RFR1JBDQo+ICsJdHJpc3RhdGUg
+IkVuYWJsZSBUZWdyYSBVREMgZ2x1ZSBkcml2ZXIiIGlmIEVNQkVEREVEDQo+ICsJZGVwZW5kcyBv
+biBPRg0KPiArCWRlcGVuZHMgb24gVVNCX0NISVBJREVBX1VEQw0KPiArCWRlZmF1bHQgVVNCX0NI
+SVBJREVBDQo+ICsNCj4gIGVuZGlmDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jaGlwaWRl
+YS9NYWtlZmlsZSBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL01ha2VmaWxlDQo+IGluZGV4IDk4NTY2
+M2JhNmU2OC4uZmFlNzc5YTIzODY2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRl
+YS9NYWtlZmlsZQ0KPiArKysgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9NYWtlZmlsZQ0KPiBAQCAt
+OCwxMCArOCw4IEBAIGNpX2hkcmMtJChDT05GSUdfVVNCX09UR19GU00pCQkrPSBvdGdfZnNtLm8N
+Cj4gIA0KPiAgIyBHbHVlL0JyaWRnZSBsYXllcnMgZ28gaGVyZQ0KPiAgDQo+IC1vYmotJChDT05G
+SUdfVVNCX0NISVBJREVBKQkrPSBjaV9oZHJjX3VzYjIubw0KPiAtb2JqLSQoQ09ORklHX1VTQl9D
+SElQSURFQSkJKz0gY2lfaGRyY19tc20ubw0KPiAtDQo+IC1vYmotJChDT05GSUdfVVNCX0NISVBJ
+REVBX1BDSSkJKz0gY2lfaGRyY19wY2kubw0KPiAtDQo+IC1vYmotJChDT05GSUdfVVNCX0NISVBJ
+REVBX09GKQkrPSB1c2JtaXNjX2lteC5vIGNpX2hkcmNfaW14Lm8NCj4gLW9iai0kKENPTkZJR19V
+U0JfQ0hJUElERUFfT0YpCSs9IGNpX2hkcmNfdGVncmEubw0KPiArb2JqLSQoQ09ORklHX1VTQl9D
+SElQSURFQV9HRU5FUklDKQkrPSBjaV9oZHJjX3VzYjIubw0KPiArb2JqLSQoQ09ORklHX1VTQl9D
+SElQSURFQV9NU00pCQkrPSBjaV9oZHJjX21zbS5vDQo+ICtvYmotJChDT05GSUdfVVNCX0NISVBJ
+REVBX1BDSSkJCSs9IGNpX2hkcmNfcGNpLm8NCj4gK29iai0kKENPTkZJR19VU0JfQ0hJUElERUFf
+SU1YKQkJKz0gY2lfaGRyY19pbXgubyB1c2JtaXNjX2lteC5vDQo+ICtvYmotJChDT05GSUdfVVNC
+X0NISVBJREVBX1RFR1JBKQkrPSBjaV9oZHJjX3RlZ3JhLm8NCj4gLS0gDQo+IDIuMjAuMQ0KPiAN
+Cg0KLS0gDQoNClRoYW5rcywNClBldGVyIENoZW4=
