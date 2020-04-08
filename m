@@ -5,23 +5,23 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34575C2D0EA
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 13:16:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE395C2D0EA
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 13:17:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 032732072A
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 13:16:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EC082082F
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 13:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728886AbgDHNQV convert rfc822-to-8bit (ORCPT
+        id S1729061AbgDHNRY convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Apr 2020 09:16:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53656 "EHLO mail.kernel.org"
+        Wed, 8 Apr 2020 09:17:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728775AbgDHNQV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 8 Apr 2020 09:16:21 -0400
+        id S1728484AbgDHNRX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 Apr 2020 09:17:23 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 206897] Huion tablet not recognized from kernel 5.3.1
-Date:   Wed, 08 Apr 2020 13:16:20 +0000
+Date:   Wed, 08 Apr 2020 13:17:22 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -37,7 +37,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206897-208809-BiqLTu58La@https.bugzilla.kernel.org/>
+Message-ID: <bug-206897-208809-6ClP3OgsBi@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206897-208809@https.bugzilla.kernel.org/>
 References: <bug-206897-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,10 +52,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206897
 
---- Comment #6 from Henning Eiden (henning@eiden.email) ---
-Created attachment 288281
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288281&action=edit
-dmesg 20200408
+--- Comment #7 from Henning Eiden (henning@eiden.email) ---
+Created attachment 288283
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288283&action=edit
+dmesg and trace 20200408
 
 -- 
 You are receiving this mail because:
