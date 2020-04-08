@@ -2,141 +2,106 @@ Return-Path: <SRS0=1Z5b=5Y=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9E2C2BB55
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 01:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771E4C2BA80
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 03:44:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6743620820
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 01:58:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A2832075E
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Apr 2020 03:44:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cGdfvCYs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbgDHB6O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Apr 2020 21:58:14 -0400
-Received: from mga03.intel.com ([134.134.136.65]:28723 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726504AbgDHB6N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 7 Apr 2020 21:58:13 -0400
-IronPort-SDR: CTtoA5K0SAoQHSWhC+ybvAQTZIan5vtu4XbMmQr9yfK/KjQalGBVLhWeI4Qve5myTt7YoVPwyX
- SwBcDd0yoyIQ==
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 18:58:12 -0700
-IronPort-SDR: A4X7dV6qT3+K0DSyPnNmCF/GDGceFfXtbdjKlTt2reQA/4yUPH+2z0aFGXOBusNPqoYjKMJCp7
- QnQtn4VLkifQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; 
-   d="asc'?scan'208";a="254650039"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
-  by orsmga006.jf.intel.com with ESMTP; 07 Apr 2020 18:58:06 -0700
-Date:   Wed, 8 Apr 2020 09:44:37 +0800
-From:   Zhenyu Wang <zhenyuw@linux.intel.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jens Axboe <axboe@kernel.dk>, Felipe Balbi <balbi@kernel.org>,
-        amd-gfx@lists.freedesktop.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        linux-usb@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        intel-gfx@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jason Wang <jasowang@redhat.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-Subject: Re: [PATCH 3/6] i915/gvt: remove unused xen bits
-Message-ID: <20200408014437.GF11247@zhen-hp.sh.intel.com>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-References: <20200404094101.672954-1-hch@lst.de>
- <20200404094101.672954-4-hch@lst.de>
+        id S1726475AbgDHDom (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Apr 2020 23:44:42 -0400
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:40869 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726453AbgDHDom (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Apr 2020 23:44:42 -0400
+Received: by mail-pj1-f67.google.com with SMTP id kx8so621633pjb.5
+        for <linux-usb@vger.kernel.org>; Tue, 07 Apr 2020 20:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=BzBmeI/2TnvgURdgTABEkjKL9/ialW7wsv/kuNaKakA=;
+        b=cGdfvCYsVTYxdFyvtiXyIUlrFfObaztauRe3y/MycYs1/0a4yzZQkvLj2gMGO/oJLG
+         cI5tiz9wX1t32F8YZrUnWcyRbc/VAAS6A3lqm0h4AgqfKIXkwGrQDBXWh24nWgD2H8MT
+         crVAMDTZV6iegCwW+7mGbWAKqIisl+TZMYfY4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=BzBmeI/2TnvgURdgTABEkjKL9/ialW7wsv/kuNaKakA=;
+        b=oNYMBVhorzAuy50yL7GOpFjO50svlaa+RM9Hu7z9JouWfB1OTSFWcyFTFo0FqO0yGm
+         7J7ucjOUeBeCSGbNZcvdinJoEjMCkYvDTy7Vb+vsrmDHxDnRUR0FWm3MEAbdg8DCcg3H
+         9gVVPaP5gymaW1RNfBSUhhT8uv8EdRNYkkJ3VoV4AufUFZ0OJhZ1+HlHWi+//CV7aJaB
+         Vi0d62YGYy8bgwpdgjqAp/XIfLl32BzSzeG6p1shDzV7mW375kdz9WMQtj/Uj8E3QA3R
+         q+xhakJkhmduKYlUTYmfHubV9gcBxBusm3Y/E2jTPzkCA44Wmzn872L+3p/JMKLJppE5
+         CZ4A==
+X-Gm-Message-State: AGi0PuazwLGJPxZsRNVSdAL+vkIB7zhSKESPzP/GOTQR1WRQJfMBQedH
+        mm8uTfMEvJKWy1QYXhe1D6LPMw==
+X-Google-Smtp-Source: APiQypKVwi323LzTzw+HouaYR3BrsPsn1TvXuEQQpUiatRIng2+CnAZh9u5B5FgbMx5pGkeVKVZMdg==
+X-Received: by 2002:a17:90a:fa08:: with SMTP id cm8mr2893321pjb.144.1586317481187;
+        Tue, 07 Apr 2020 20:44:41 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id 25sm3001948pjg.35.2020.04.07.20.44.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 20:44:40 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="HnQK338I3UIa/qiP"
-Content-Disposition: inline
-In-Reply-To: <20200404094101.672954-4-hch@lst.de>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1585206368-685-2-git-send-email-sanm@codeaurora.org>
+References: <1585206368-685-1-git-send-email-sanm@codeaurora.org> <1585206368-685-2-git-send-email-sanm@codeaurora.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: usb: qcom,dwc3: Convert USB DWC3 bindings
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+Date:   Tue, 07 Apr 2020 20:44:39 -0700
+Message-ID: <158631747937.216820.504748426462367724@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Quoting Sandeep Maheswaram (2020-03-26 00:06:07)
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Docum=
+entation/devicetree/bindings/usb/qcom,dwc3.yaml
+> new file mode 100644
+> index 0000000..0f69475
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> @@ -0,0 +1,158 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +
+[...]
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The interrupt that is asserted
+> +          when a wakeup event is received on USB2 bus.
+> +      - description: The interrupt that is asserted
+> +          when a wakeup event is received on USB3 bus.
+> +      - description: Wakeup event on DM line.
+> +      - description: Wakeup event on DP line.
 
---HnQK338I3UIa/qiP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020.04.04 11:40:58 +0200, Christoph Hellwig wrote:
-> No Xen support anywhere here.  Remove a dead declaration and an unused
-> include.
->=20
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
-
-We'll keep that off-tree.
-
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-
-Thanks
-
->  drivers/gpu/drm/i915/gvt/gvt.c       | 1 -
->  drivers/gpu/drm/i915/gvt/hypercall.h | 2 --
->  2 files changed, 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gv=
-t.c
-> index 9e1787867894..c7c561237883 100644
-> --- a/drivers/gpu/drm/i915/gvt/gvt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gvt.c
-> @@ -31,7 +31,6 @@
->   */
-> =20
->  #include <linux/types.h>
-> -#include <xen/xen.h>
->  #include <linux/kthread.h>
-> =20
->  #include "i915_drv.h"
-> diff --git a/drivers/gpu/drm/i915/gvt/hypercall.h b/drivers/gpu/drm/i915/=
-gvt/hypercall.h
-> index b17c4a1599cd..b79da5124f83 100644
-> --- a/drivers/gpu/drm/i915/gvt/hypercall.h
-> +++ b/drivers/gpu/drm/i915/gvt/hypercall.h
-> @@ -79,6 +79,4 @@ struct intel_gvt_mpt {
->  	bool (*is_valid_gfn)(unsigned long handle, unsigned long gfn);
->  };
-> =20
-> -extern struct intel_gvt_mpt xengt_mpt;
-> -
->  #endif /* _GVT_HYPERCALL_H_ */
-> --=20
-> 2.25.1
->=20
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
-
---=20
-Open Source Technology Center, Intel ltd.
-
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
-
---HnQK338I3UIa/qiP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXo0shQAKCRCxBBozTXgY
-J8WgAJ0VW4AV47S/NYsttohA4zN5UaISYwCcDrId8F/1nTizuYFrFCCaENgnHw4=
-=EI9a
------END PGP SIGNATURE-----
-
---HnQK338I3UIa/qiP--
+I can see that it was optional before but that still doesn't make sense
+to me. The glue hardware from qcom always has interrupts so I'd expect
+it to be required in the binding.
