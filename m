@@ -5,23 +5,23 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DA8C2D0EC
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Apr 2020 18:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 340A6C2D0EC
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Apr 2020 18:04:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9D68320801
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Apr 2020 18:00:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FF802145D
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Apr 2020 18:04:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbgDJSAX convert rfc822-to-8bit (ORCPT
+        id S1726706AbgDJSE0 convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Apr 2020 14:00:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44352 "EHLO mail.kernel.org"
+        Fri, 10 Apr 2020 14:04:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46184 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726203AbgDJSAX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 10 Apr 2020 14:00:23 -0400
+        id S1726177AbgDJSE0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Apr 2020 14:04:26 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
-Subject: [Bug 206897] Huion tablet not recognized from kernel 5.3.1
-Date:   Fri, 10 Apr 2020 18:00:23 +0000
+Subject: [Bug 203419] Logitech Group USB audio stopped working in 5.1-rc6
+Date:   Fri, 10 Apr 2020 18:04:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -37,9 +37,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206897-208809-53yKNJ4FIN@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206897-208809@https.bugzilla.kernel.org/>
-References: <bug-206897-208809@https.bugzilla.kernel.org/>
+Message-ID: <bug-203419-208809-7YeAVmmqNH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203419-208809@https.bugzilla.kernel.org/>
+References: <bug-203419-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -50,10 +50,11 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206897
+https://bugzilla.kernel.org/show_bug.cgi?id=203419
 
---- Comment #8 from Vincenzo Di Massa (hawk.it@tiscali.it) ---
-bug 207065, comment 7 contains two patches to fix the problem.
+--- Comment #28 from Vincenzo Di Massa (hawk.it@tiscali.it) ---
+Applying the patches in bug 207065, comment 7 the problem reported in bug
+206897 for HUION tablet is fixed. Looks promising :-)
 
 -- 
 You are receiving this mail because:
