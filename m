@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8755C2BA2B
-	for <linux-usb@archiver.kernel.org>; Sun, 12 Apr 2020 11:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91C2DC2BA2B
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Apr 2020 11:20:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7907C206E9
-	for <linux-usb@archiver.kernel.org>; Sun, 12 Apr 2020 11:20:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66CF120708
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Apr 2020 11:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726973AbgDLLUf convert rfc822-to-8bit (ORCPT
+        id S1726986AbgDLLUv convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 12 Apr 2020 07:20:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57490 "EHLO mail.kernel.org"
+        Sun, 12 Apr 2020 07:20:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57508 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726943AbgDLLUf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 12 Apr 2020 07:20:35 -0400
+        id S1726658AbgDLLUv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 12 Apr 2020 07:20:51 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 207209] Lenovo T490s + UltraDock - USB3 failed to recover after
  ultradock powerloss
-Date:   Sun, 12 Apr 2020 11:20:35 +0000
+Date:   Sun, 12 Apr 2020 11:20:51 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-207209-208809-ZEmfeSl4SK@https.bugzilla.kernel.org/>
+Message-ID: <bug-207209-208809-0FHTMM3nTH@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207209-208809@https.bugzilla.kernel.org/>
 References: <bug-207209-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,10 +53,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207209
 
---- Comment #2 from Oleksii Shevchuk (alxchk@gmail.com) ---
-Created attachment 288383
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288383&action=edit
-USB after powerloss
+--- Comment #3 from Oleksii Shevchuk (alxchk@gmail.com) ---
+Created attachment 288385
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288385&action=edit
+USB after reboot
 
 -- 
 You are receiving this mail because:
