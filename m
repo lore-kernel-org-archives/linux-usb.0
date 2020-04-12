@@ -1,76 +1,103 @@
-Return-Path: <SRS0=uGr1=53=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=GUQa=54=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2099DC2BB55
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Apr 2020 15:49:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E75C2BA19
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Apr 2020 02:19:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F40FE20757
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Apr 2020 15:49:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5073120708
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Apr 2020 02:19:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="c/AncfP/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgDKPsz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Apr 2020 11:48:55 -0400
-Received: from smtprelay0102.hostedemail.com ([216.40.44.102]:57636 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726054AbgDKPsz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Apr 2020 11:48:55 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 4DFFD182CCCD0;
-        Sat, 11 Apr 2020 15:48:55 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: cub63_13801b5604b35
-X-Filterd-Recvd-Size: 1639
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Sat, 11 Apr 2020 15:48:53 +0000 (UTC)
-Message-ID: <d42889be3ae1c77c6ca33d9dbd87ab46c749cfff.camel@perches.com>
-Subject: Re: [PATCH] usb: phy: jz4770: Add a missing '\n' in a log message
-From:   Joe Perches <joe@perches.com>
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Date:   Sat, 11 Apr 2020 08:46:49 -0700
-In-Reply-To: <ZQKM8Q.561QQF8CXZTU3@crapouillou.net>
-References: <20200411063811.6767-1-christophe.jaillet@wanadoo.fr>
-         <ZQKM8Q.561QQF8CXZTU3@crapouillou.net>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726706AbgDLCT4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 11 Apr 2020 22:19:56 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:58652 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726565AbgDLCT4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Apr 2020 22:19:56 -0400
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 418C140191;
+        Sun, 12 Apr 2020 02:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1586657996; bh=e1RPQr/bd6dwRqtRqyD8PafDdARLW8xtaEm0M2oYXjU=;
+        h=Date:From:Subject:To:Cc:From;
+        b=c/AncfP/o/5CdowA4QvU/45sBwuZtpdyGmjtYUV0DFR0eLMrrbs/UlgCXtjnLbaSG
+         PRTjN4r/9W54olGoOCn61e3Ub5aPt7jmLHFjnbVlzjHhMYZI5PxpF815Lx1Wlhb7Ie
+         qy1deh698pbbm4ABPSay4O078XQDpiDTn4Qk7glrHUJFM3807eJAIjbRehC1aAFAQ5
+         uwDGw3CZKzflf2MT2CKHK2MhaR7tQKffiwveEXQrqpgGrwbq/rF0UG/hn/Fdtinjn7
+         qpHYQSTu1mEyQhKz5F325Oky00CbwueH+EWbL85Etcbfkv4+GbxXDLH4BXO/qUa2dp
+         f8sm3WhenpP0A==
+Received: from te-lab16 (nanobot.internal.synopsys.com [10.10.186.99])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id DFCAFA0078;
+        Sun, 12 Apr 2020 02:19:54 +0000 (UTC)
+Received: by te-lab16 (sSMTP sendmail emulation); Sat, 11 Apr 2020 19:19:54 -0700
+Date:   Sat, 11 Apr 2020 19:19:54 -0700
+Message-Id: <cover.1586657326.git.thinhn@synopsys.com>
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: [PATCH v2 0/2] usb: dwc3: Introduce DWC_usb32 IP
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        linux-usb@vger.kernel.org
+Cc:     John Youn <John.Youn@synopsys.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 2020-04-11 at 15:13 +0200, Paul Cercueil wrote:
-> Hi Christophe,
-> 
-> Le sam. 11 avril 2020 à 8:38, Christophe JAILLET 
-> <christophe.jaillet@wanadoo.fr> a écrit :
-> > Message logged by 'dev_xxx()' or 'pr_xxx()' should end with a '\n'.
-> 
-> Is that so?
-> From what I could see these macros add the \n themselves if needed.
+This patch series adds support to Synopsys DWC_usb32 controller. The controller
+supports dual-lane and speed up to 20 Gbps, and the DWC3 driver will drive this
+controller.
 
-Not so.
+The configuration and programming model for DWC_usb32 is very similar to
+DWC_usb31 and DWC_usb30. This series is one of the first sets, and it only
+includes the necessary changes to recognize, initialize, and run DWC_usb32. It
+includes:
+* New IP checking scheme
+* IP Checks for DWC_usb32
+* New MDWIDTH parameter for DWC_usb32
 
-> So the \n were omitted on purpose.
+The change to support lane count and lane speed mantissa will come in a
+separate series. Hopefully this helps simplify the review process and help push
+the change in steps.
 
-Just a trivial oversight really.
+This series is base off of Felipe's testing/next branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/log/?h=testing/next
 
-AFAIK: It's an issue _only_ in two cases:
+It also depends on the following patches in Felipe's testing/fixes branch:
+usb: dwc3: Fix GTXFIFOSIZ.TXFDEP macro name
+usb: dwc3: gadget: Properly set maxpacket limit
 
-p another process emits a printk with KERN_CONT (or pr_cont)
-  that might extend this message in the log on the same line.
+https://patchwork.kernel.org/cover/11283761/
 
-o this message wukk not be emitted into the log until another
-  message arrives
+https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/log/?h=testing/fixes
 
+Changes in v2:
+ - Change the macro to avoid constant to constant comparison static analysis
+   warnings. (DWC3x_VERSION_ANY == DWC3x_VERSION_XXX) => !(DWC3x_VERSION_XXX)
+
+
+Thinh Nguyen (2):
+  usb: dwc3: Add support for DWC_usb32 IP
+  usb: dwc3: Get MDWIDTH for DWC_usb32
+
+ drivers/usb/dwc3/core.c    | 49 ++++++++++++---------------
+ drivers/usb/dwc3/core.h    | 69 +++++++++++++++++++++----------------
+ drivers/usb/dwc3/debugfs.c | 14 ++++++--
+ drivers/usb/dwc3/gadget.c  | 84 ++++++++++++++++++++++++----------------------
+ drivers/usb/dwc3/host.c    |  2 +-
+ 5 files changed, 119 insertions(+), 99 deletions(-)
+
+-- 
+2.11.0
 
