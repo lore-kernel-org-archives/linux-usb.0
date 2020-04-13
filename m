@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3A0C2BA19
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 17:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7A1C2BA19
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 17:54:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF82A206DA
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 17:54:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 743EA20735
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 17:54:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387477AbgDMRyF convert rfc822-to-8bit (ORCPT
+        id S2387479AbgDMRye convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Apr 2020 13:54:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33596 "EHLO mail.kernel.org"
+        Mon, 13 Apr 2020 13:54:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33694 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387436AbgDMRyD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 13 Apr 2020 13:54:03 -0400
+        id S2387436AbgDMRye (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 13 Apr 2020 13:54:34 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 207219] [BISECTED] Sony Vaio laptop built-in ricoh webcam no
  longer found on Fedora 31 with 5.4.11 kernel
-Date:   Mon, 13 Apr 2020 17:54:02 +0000
+Date:   Mon, 13 Apr 2020 17:54:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-207219-208809-gX6tnW9vwo@https.bugzilla.kernel.org/>
+Message-ID: <bug-207219-208809-pG2NdrJXqy@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207219-208809@https.bugzilla.kernel.org/>
 References: <bug-207219-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,15 +53,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207219
 
---- Comment #2 from William Bader (williambader@hotmail.com) ---
-Created attachment 288423
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288423&action=edit
-/sys/kernel/debug/usb/usbmon/1u trace on bad kernet
-
-I made a trace on good and bad kernels.
-Let me know if I captured enough data.
-My boot command line has 'rhgb quiet'.
-If that limits the data, I can remove it and do the capture again.
+--- Comment #3 from William Bader (williambader@hotmail.com) ---
+Created attachment 288425
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288425&action=edit
+trace on good kernel
 
 -- 
 You are receiving this mail because:
