@@ -2,193 +2,180 @@ Return-Path: <SRS0=h8zi=55=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A35C2BA19
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 09:14:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D97E5C2BA19
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 12:25:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DF11206E9
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 09:14:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5036206DA
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Apr 2020 12:25:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="AMnJ/aA1"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="rZ9lCh/h"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728195AbgDMJOn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Apr 2020 05:14:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727855AbgDMJOl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Apr 2020 05:14:41 -0400
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27936C008749
-        for <linux-usb@vger.kernel.org>; Mon, 13 Apr 2020 02:06:03 -0700 (PDT)
-Received: by mail-vk1-xa44.google.com with SMTP id y129so1006585vkf.6
-        for <linux-usb@vger.kernel.org>; Mon, 13 Apr 2020 02:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=44uWwUjMyF5Db1li+/hUZJmO8U4y17xbM04MF0Gj90Y=;
-        b=AMnJ/aA1k+bYzw4UOmmYxHr+2daJ7cdrFGGTDPJvXALak1hy3U/vrjZs48XuiyfLIJ
-         rqsmyPT8E5/dgO+CeWGTkx/QRdJ+dY//ei8U7TSYV3TeC+g4i5jcJXREzzKKCuxw9k4H
-         a1RKTE0bAY7oq/DnE+0iWAJt933EETTDjgXA7wm+UsCWcXv0yXzHQ18B0r509lB/l9In
-         MXBKIQ2utYzYSXKghta2zn5qo1uVM5mly8MMD+Y/2G44SgSdPEqODnr4iH1UHO+c5kWU
-         OX5+kzrrsLnp8IqtbemFiWXpcyc+7Lng/8osQluiXeyYs9mc843gjbnbZJ+/mwgcKzjo
-         JQkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=44uWwUjMyF5Db1li+/hUZJmO8U4y17xbM04MF0Gj90Y=;
-        b=OTR5TCAhW+uKJ7dnYLDwsVtTAglafHl97HlvooJiUw16bQKInqtvUyKYOvARRQf/Co
-         p7M5ZZSOL3Kh59KADr+u58djPwos+5y2i+1SpBOXi4ZKlcBqtFAtG6vD+7/fW/PiClby
-         deyamLu67hpXL3Q8XiikkcU/ha6tLnDB4YXAaI+D27Scr/anccZl0CMdccpV16LnPiTZ
-         XylE63AgdEVrjHXbAroBBSqTUknt1NHpZpB/HMrF2Kj8Q45HzswdOQfbJACBykhDo/Tz
-         4GIbs9feZ5NRElyzL8q0BgnXQCm5o2ijcizh2zT9qgEA3lgKzaHrouwnopRI0Qhwtx+Q
-         381g==
-X-Gm-Message-State: AGi0PuZxJnHOjuOzlsrZckFBpW5JQLe+G/dmfFdxSk91czgbaS1N9fsz
-        rBH5CaHLnM6s1araxrUhE+xFSGx48ZuMeas7GmbIxg==
-X-Google-Smtp-Source: APiQypKbBeCYZCfknNxcUxKjtUOVj4WHHzMNAae4ToWmQTXbNQbnC9NvvjxSGmC6HHUNlWpewDV49mk+qRTGOO2eZY8=
-X-Received: by 2002:a1f:3056:: with SMTP id w83mr5389723vkw.56.1586768762080;
- Mon, 13 Apr 2020 02:06:02 -0700 (PDT)
+        id S1729179AbgDMMZu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Apr 2020 08:25:50 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:32964 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728403AbgDMMZt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Apr 2020 08:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1586780747; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=mLRmosBI8CuefMRZNus/Lb9ooLpVGI3OSjNhF8HppVk=;
+        b=rZ9lCh/hEOOxviWU7xslU2HuZsy2d4rEbZjhNDk0e9RWHVQSYryqoEj9k/g24LmK2d25xR
+        w2l04mgalFOO59/SxzHJW5/teuk2xecE5zIH3oXuulEcxuQ43YwCw7cJzWs371SNdcrhOC
+        3MFCkqhSkjybtazn4vgUZZP+44cEpiw=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>, od@zcrc.me,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH] usb: common: usb-conn-gpio: Register optional charger
+Date:   Mon, 13 Apr 2020 14:25:43 +0200
+Message-Id: <20200413122543.73846-1-paul@crapouillou.net>
 MIME-Version: 1.0
-References: <CAPpJ_edj++oy7_EDN95tM+BPdYFOztpCrRh-cfzFrY6unJb1Rw@mail.gmail.com>
- <20200402103447.GD1886416@kuha.fi.intel.com> <BYAPR12MB272705C6DEE5182159B0EF26DCC60@BYAPR12MB2727.namprd12.prod.outlook.com>
-In-Reply-To: <BYAPR12MB272705C6DEE5182159B0EF26DCC60@BYAPR12MB2727.namprd12.prod.outlook.com>
-From:   Jian-Hong Pan <jian-hong@endlessm.com>
-Date:   Mon, 13 Apr 2020 17:05:17 +0800
-Message-ID: <CAPpJ_efcchxCmeHe_aiPiq6wqDaB=RJdB_GAa-MP_uQrH+Ju_A@mail.gmail.com>
-Subject: Re: [BUG] i2c_nvidia_gpu takes long time and makes system suspend &
- resume failed with NVIDIA cards
-To:     Ajay Gupta <ajayg@nvidia.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Linux Upstreaming Team <linux@endlessm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Ajay Gupta <ajayg@nvidia.com> =E6=96=BC 2020=E5=B9=B44=E6=9C=883=E6=97=A5 =
-=E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=884:59=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Hi Jian
->
-> > -----Original Message-----
-> > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Sent: Thursday, April 2, 2020 3:35 AM
-> > To: Jian-Hong Pan <jian-hong@endlessm.com>; Ajay Gupta
-> > <ajayg@nvidia.com>
-> > Cc: linux-i2c@vger.kernel.org; Linux Kernel <linux-kernel@vger.kernel.o=
-rg>;
-> > linux-usb@vger.kernel.org; Linux Upstreaming Team <linux@endlessm.com>
-> > Subject: Re: [BUG] i2c_nvidia_gpu takes long time and makes system
-> > suspend & resume failed with NVIDIA cards
-> >
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > Hi,
-> >
-> > On Thu, Apr 02, 2020 at 06:22:14PM +0800, Jian-Hong Pan wrote:
-> > > Hi,
-> > >
-> > > We got some machines like Acer desktop equipped with NVIDIA GTX 1660
-> > > card, Acer Predator PH315-52 equipped with NVIDIA GeForce RTX 2060
-> > > Mobile and ASUS UX581LV equipped with NNVIDIA GeForce RTX 2060.
-> > > We found them take long time (more than 50 seconds) to resume after
-> > > suspend.  During the resuming time, the screen is blank.  And check
-> > > the dmesg, found the error during resume:
-> > >
-> > > [   28.060831] PM: suspend entry (deep)
-> > > [   28.144260] Filesystems sync: 0.083 seconds
-> > > [   28.150219] Freezing user space processes ...
-> > > [   48.153282] Freezing of tasks failed after 20.003 seconds (1 tasks
-> > > refusing to freeze, wq_busy=3D0):
-> > > [   48.153447] systemd-udevd   D13440   382    330 0x80004124
-> > > [   48.153457] Call Trace:
-> > > [   48.153504]  ? __schedule+0x272/0x5a0
-> > > [   48.153558]  ? hrtimer_start_range_ns+0x18c/0x2c0
-> > > [   48.153622]  schedule+0x45/0xb0
-> > > [   48.153668]  schedule_hrtimeout_range_clock+0x8f/0x100
-> > > [   48.153738]  ? hrtimer_init_sleeper+0x80/0x80
-> > > [   48.153798]  usleep_range+0x5a/0x80
-> > > [   48.153850]  gpu_i2c_check_status.isra.0+0x3a/0xa0 [i2c_nvidia_gpu=
-]
-> > > [   48.153933]  gpu_i2c_master_xfer+0x155/0x20e [i2c_nvidia_gpu]
-> > > [   48.154012]  __i2c_transfer+0x163/0x4c0
-> > > [   48.154067]  i2c_transfer+0x6e/0xc0
-> > > [   48.154120]  ccg_read+0x11f/0x170 [ucsi_ccg]
-> > > [   48.154182]  get_fw_info+0x17/0x50 [ucsi_ccg]
-> > > [   48.154242]  ucsi_ccg_probe+0xf4/0x200 [ucsi_ccg]
-> > > [   48.154312]  ? ucsi_ccg_init+0xe0/0xe0 [ucsi_ccg]
-> > > [   48.154377]  i2c_device_probe+0x113/0x210
-> > > [   48.154435]  really_probe+0xdf/0x280
-> > > [   48.154487]  driver_probe_device+0x4b/0xc0
-> > > [   48.154545]  device_driver_attach+0x4e/0x60
-> > > [   48.154604]  __driver_attach+0x44/0xb0
-> > > [   48.154657]  ? device_driver_attach+0x60/0x60
-> > > [   48.154717]  bus_for_each_dev+0x6c/0xb0
-> > > [   48.154772]  bus_add_driver+0x172/0x1c0
-> > > [   48.154824]  driver_register+0x67/0xb0
-> > > [   48.154877]  i2c_register_driver+0x39/0x70
-> > > [   48.154932]  ? 0xffffffffc00ac000
-> > > [   48.154978]  do_one_initcall+0x3e/0x1d0
-> > > [   48.155032]  ? free_vmap_area_noflush+0x8d/0xe0
-> > > [   48.155093]  ? _cond_resched+0x10/0x20
-> > > [   48.155145]  ? kmem_cache_alloc_trace+0x3a/0x1b0
-> > > [   48.155208]  do_init_module+0x56/0x200
-> > > [   48.155260]  load_module+0x21fe/0x24e0
-> > > [   48.155322]  ? __do_sys_finit_module+0xbf/0xe0
-> > > [   48.155381]  __do_sys_finit_module+0xbf/0xe0
-> > > [   48.155441]  do_syscall_64+0x3d/0x130
-> > > [   48.156841]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > > [   48.158074] RIP: 0033:0x7fba3b4bc2a9
-> > > [   48.158707] Code: Bad RIP value.
-> > > [   48.158990] RSP: 002b:00007ffe1da3a6d8 EFLAGS: 00000246 ORIG_RAX:
-> > > 0000000000000139
-> > > [   48.159259] RAX: ffffffffffffffda RBX: 000055ca6922c470 RCX:
-> > 00007fba3b4bc2a9
-> > > [   48.159566] RDX: 0000000000000000 RSI: 00007fba3b3c0cad RDI:
-> > 0000000000000010
-> > > [   48.159842] RBP: 00007fba3b3c0cad R08: 0000000000000000 R09:
-> > 0000000000000000
-> > > [   48.160117] R10: 0000000000000010 R11: 0000000000000246 R12:
-> > 0000000000000000
-> > > [   48.160412] R13: 000055ca6922f940 R14: 0000000000020000 R15:
-> > 000055ca6922c470
-> > >
-> > > I have filed this to bugzilla and more detail:
-> > > https://bugzilla.kernel.org/show_bug.cgi?id=3D206653
-> > >
-> > > Any comment will be appreciated.
-> >
-> > You are using an outdated kernel, 5.4.0. Please make sure that you can
-> > reproduce the issue with mainline, or at least with the longterm 5.4.x.
-> >
-> > Ajay, based on the backtrace, the issue seems to be starting from your =
-I2C
-> > driver. Please take a look at this.
->
-> I have replied to Bugzilla
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D206653#c5
+Register a power supply charger, if the Kconfig option
+USB_CONN_GPIO_CHARGER is set, whose online state depends on whether
+the USB role is set to device or not.
 
-Thanks for both your reply!
+This is useful when the USB role is the only way to know if the device
+is charging from USB. The API is the standard power supply charger API,
+you get a /sys/class/power_supply/xxx/online node which tells you the
+state of the charger.
 
-I have commented the test result at
-https://bugzilla.kernel.org/show_bug.cgi?id=3D206653#c6
+The sole purpose of this is to give userspace applications a way to
+know whether or not the charger is plugged.
 
-Jian-Hong Pan
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
 
-> Thanks
-> > nvpuclic
-> >
-> > thanks,
-> >
-> > --
-> > heikki
+Notes:
+    v2: - improve commit message... explain why we want a charger
+        - compile charger code only if CONFIG_USB_CONN_GPIO_CHARGER
+    	  is set
+
+ drivers/usb/common/Kconfig         | 11 +++++++
+ drivers/usb/common/usb-conn-gpio.c | 47 ++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+
+diff --git a/drivers/usb/common/Kconfig b/drivers/usb/common/Kconfig
+index d611477aae41..5405ae96c68f 100644
+--- a/drivers/usb/common/Kconfig
++++ b/drivers/usb/common/Kconfig
+@@ -49,3 +49,14 @@ config USB_CONN_GPIO
+ 
+ 	  To compile the driver as a module, choose M here: the module will
+ 	  be called usb-conn-gpio.ko
++
++if USB_CONN_GPIO
++
++config USB_CONN_GPIO_CHARGER
++	bool "USB charger support"
++	select POWER_SUPPLY
++	help
++	  Register a charger with the power supply subsystem. This will allow
++	  userspace to know whether or not the device is charging from USB.
++
++endif
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index ed204cbb63ea..129d48db280b 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -17,6 +17,7 @@
+ #include <linux/of.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
++#include <linux/power_supply.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/usb/role.h>
+ 
+@@ -38,6 +39,9 @@ struct usb_conn_info {
+ 	struct gpio_desc *vbus_gpiod;
+ 	int id_irq;
+ 	int vbus_irq;
++
++	struct power_supply_desc desc;
++	struct power_supply *charger;
+ };
+ 
+ /**
+@@ -98,6 +102,8 @@ static void usb_conn_detect_cable(struct work_struct *work)
+ 		ret = regulator_enable(info->vbus);
+ 		if (ret)
+ 			dev_err(info->dev, "enable vbus regulator failed\n");
++	} else if (IS_ENABLED(CONFIG_USB_CONN_GPIO_CHARGER)) {
++		power_supply_changed(info->charger);
+ 	}
+ 
+ 	info->last_role = role;
+@@ -121,10 +127,35 @@ static irqreturn_t usb_conn_isr(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
++static enum power_supply_property usb_charger_properties[] = {
++	POWER_SUPPLY_PROP_ONLINE,
++};
++
++static int usb_charger_get_property(struct power_supply *psy,
++				    enum power_supply_property psp,
++				    union power_supply_propval *val)
++{
++	struct usb_conn_info *info = power_supply_get_drvdata(psy);
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_ONLINE:
++		val->intval = info->last_role == USB_ROLE_DEVICE;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int usb_conn_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
++	struct power_supply_desc *desc;
+ 	struct usb_conn_info *info;
++	struct power_supply_config cfg = {
++		.of_node = dev->of_node,
++	};
+ 	int ret = 0;
+ 
+ 	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
+@@ -203,6 +234,22 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_USB_CONN_GPIO_CHARGER)) {
++		desc = &info->desc;
++		desc->name = "usb-charger";
++		desc->properties = usb_charger_properties;
++		desc->num_properties = ARRAY_SIZE(usb_charger_properties);
++		desc->get_property = usb_charger_get_property;
++		desc->type = POWER_SUPPLY_TYPE_USB;
++		cfg.drv_data = info;
++
++		info->charger = devm_power_supply_register(dev, desc, &cfg);
++		if (IS_ERR(info->charger)) {
++			dev_err(dev, "Unable to register charger\n");
++			return PTR_ERR(info->charger);
++		}
++	}
++
+ 	platform_set_drvdata(pdev, info);
+ 
+ 	/* Perform initial detection */
+-- 
+2.25.1
+
