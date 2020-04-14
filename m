@@ -4,58 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BCB9C2BA19
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251A1C3815B
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9E06206E9
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:42:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDC072074D
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586882573;
-	bh=TTNv/zBcssUd74g7e5HBVWNfIQE66LmUlzcnYLSncuw=;
+	s=default; t=1586882982;
+	bh=ZPSVcP5kqhLVox5r53x2+oMdFzo1HtLR9szo3WYjEf4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vo4wcLOFAho61EXLKA790/cgKbJfoe/Y9Y4K+Q/eNZD0T1vUYB0X4EdQECSfhssme
-	 1JK69BumTPrfKBqcnOSMH4qj5IS+s/Pce89y3ghgsXAnks4gjCbKfdxUpbKCYeBGW3
-	 FPzF+Hna6aQ1UCuDJ15wBiaZSy2W1N8qXhrQGk7M=
+	b=10LrekQkblEAU9CAy+cG5DxvvSPCfSiwlmIcxsNzEP031NiNg9NY4hezfQwDg6XRX
+	 qQHGSLkM7PiXvsjDWx8BG6Qrapt0lIHi08tNzU748JI/PPion6QaPpWfhtxgQdqE9s
+	 XYkFMVmopKqFXmO1kkk/SIwdMruI4wm1WoSR7eR0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407485AbgDNQmu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:42:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51724 "EHLO mail.kernel.org"
+        id S2440484AbgDNQtk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:49:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407453AbgDNQmb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:42:31 -0400
-Received: from localhost.localdomain (unknown [122.167.127.254])
+        id S2440335AbgDNQtQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:16 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64B11206E9;
-        Tue, 14 Apr 2020 16:42:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 29E9321D92;
+        Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586882551;
-        bh=TTNv/zBcssUd74g7e5HBVWNfIQE66LmUlzcnYLSncuw=;
+        s=default; t=1586882943;
+        bh=ZPSVcP5kqhLVox5r53x2+oMdFzo1HtLR9szo3WYjEf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b3vj97U4V8++qv3mMbyRL8A3QwAY0eeMLtIgZT1zqX7n2V8520HaJu37Pi1GDaNJY
-         GQ0W1mrT77Cqci1FxQdlPTis7FEtS6GKMw9XavUWMm0Iay1wxK1PoNIVO1N28e2Fww
-         7gV//4hpDkf6P8eEAo/pfg+fR0xip4BAUfzaelPc=
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-msm@vger.kernel.org,
+        b=mxxoDouEddUGCNG+T2+RJ5rLqxo4V6RdUzhonbAc6cy9pwtJJHgiikZGIHQXvUHrB
+         qXKzEaiMeDJfYJNkOZR3PLrc8+3u9Cc+d0nVO3aWAfDr8rQ/2j1W0AftIkHlxMng8M
+         DhzgW6El+XUbQu9fPGERnjDFILRD1Ycy+9SvYWzI=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOOk9-0068mk-Ac; Tue, 14 Apr 2020 18:49:01 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        =?UTF-8?q?Andreas=20B=C3=B6hler?= <dev@aboehler.at>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 5/5] usb: xhci: provide a debugfs hook for erasing rom
-Date:   Tue, 14 Apr 2020 22:11:52 +0530
-Message-Id: <20200414164152.2786474-6-vkoul@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200414164152.2786474-1-vkoul@kernel.org>
-References: <20200414164152.2786474-1-vkoul@kernel.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Sandeep Maheswaram <sanm@codeaurora.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2 23/33] docs: dt: qcom,dwc3.txt: fix cross-reference for a converted file
+Date:   Tue, 14 Apr 2020 18:48:49 +0200
+Message-Id: <a055c564f2a79aa748064329d938db8b3c8edd58.1586881715.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
+References: <cover.1586881715.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -63,89 +68,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-run "echo 1 > /sys/kernel/debug/renesas-usb/rom_erase" to erase firmware
-when driver is loaded.
+The qcom-qusb2-phy.txt file was converted and renamed to yaml.
+Update cross-reference accordingly.
 
-Subsequent init of driver shall reload the firmware
-
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Fixes: 8ce65d8d38df ("dt-bindings: phy: qcom,qusb2: Convert QUSB2 phy bindings to yaml")
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/usb/host/xhci-pci-renesas.c | 34 +++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
-index b321d55f1e24..c7e18e70f0f8 100644
---- a/drivers/usb/host/xhci-pci-renesas.c
-+++ b/drivers/usb/host/xhci-pci-renesas.c
-@@ -2,6 +2,7 @@
- /* Copyright (C) 2019-2020 Linaro Limited */
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+index cb695aa3fba4..fbdd01756752 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+@@ -52,8 +52,8 @@ A child node must exist to represent the core DWC3 IP block. The name of
+ the node is not important. The content of the node is defined in dwc3.txt.
  
- #include <linux/acpi.h>
-+#include <linux/debugfs.h>
- #include <linux/firmware.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-@@ -160,6 +161,8 @@ static int renesas_fw_verify(const void *fw_data,
- 	return 0;
- }
+ Phy documentation is provided in the following places:
+-Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt   - USB3 QMP PHY
+-Documentation/devicetree/bindings/phy/qcom-qusb2-phy.txt - USB2 QUSB2 PHY
++Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt    - USB3 QMP PHY
++Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml - USB2 QUSB2 PHY
  
-+static void debugfs_init(struct pci_dev *pdev);
-+
- static bool renesas_check_rom(struct pci_dev *pdev)
- {
- 	u16 rom_status;
-@@ -173,6 +176,7 @@ static bool renesas_check_rom(struct pci_dev *pdev)
- 	rom_status &= RENESAS_ROM_STATUS_ROM_EXISTS;
- 	if (rom_status) {
- 		dev_dbg(&pdev->dev, "External ROM exists\n");
-+		debugfs_init(pdev);
- 		return true; /* External ROM exists */
- 	}
+ Example device nodes:
  
-@@ -439,6 +443,34 @@ static void renesas_rom_erase(struct pci_dev *pdev)
- 	dev_dbg(&pdev->dev, "ROM Erase... Done success\n");
- }
- 
-+static int debugfs_rom_erase(void *data, u64 value)
-+{
-+	struct pci_dev *pdev = data;
-+
-+	if (value == 1) {
-+		dev_dbg(&pdev->dev, "Userspace requested ROM erase\n");
-+		renesas_rom_erase(pdev);
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(rom_erase_ops, NULL, debugfs_rom_erase, "%llu\n");
-+
-+static struct dentry *debugfs_root;
-+
-+static void debugfs_init(struct pci_dev *pdev)
-+{
-+	debugfs_root = debugfs_create_dir("renesas_usb", NULL);
-+
-+	debugfs_create_file("rom_erase", 0200, debugfs_root,
-+			    pdev, &rom_erase_ops);
-+}
-+
-+static void debugfs_exit(void)
-+{
-+	debugfs_remove_recursive(debugfs_root);
-+}
-+
- static bool renesas_download_rom(struct pci_dev *pdev,
- 				 const u32 *fw, size_t step)
- {
-@@ -696,6 +728,8 @@ int renesas_xhci_pci_probe(struct pci_dev *dev,
- 
- int renesas_xhci_pci_remove(struct pci_dev *dev)
- {
-+	debugfs_exit();
-+
- 	if (renesas_fw_check_running(dev)) {
- 		/*
- 		 * bail out early, if this was a renesas device w/o FW.
 -- 
-2.25.1
+2.25.2
 
