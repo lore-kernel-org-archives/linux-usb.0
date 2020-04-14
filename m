@@ -6,24 +6,24 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 952B9C352BE
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCC6C2BB85
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:34:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FB4B206E9
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:31:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A15D20678
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 16:34:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391634AbgDNQbW convert rfc822-to-8bit (ORCPT
+        id S2391768AbgDNQeE convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:31:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43412 "EHLO mail.kernel.org"
+        Tue, 14 Apr 2020 12:34:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45766 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391680AbgDNQar (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:30:47 -0400
+        id S2391745AbgDNQeD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:34:03 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 207065] C-media USB audio device stops working from 5.2.0-rc3
  onwards
-Date:   Tue, 14 Apr 2020 16:30:44 +0000
+Date:   Tue, 14 Apr 2020 16:34:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -39,7 +39,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-207065-208809-Tma1Q0FPE2@https.bugzilla.kernel.org/>
+Message-ID: <bug-207065-208809-wC25vDPvci@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207065-208809@https.bugzilla.kernel.org/>
 References: <bug-207065-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -54,10 +54,12 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207065
 
---- Comment #10 from Florian Meyer (florianmey@gmx.de) ---
-Created attachment 288447
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288447&action=edit
-Dmesg output with both patches applied
+--- Comment #11 from Florian Meyer (florianmey@gmx.de) ---
+Created attachment 288449
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288449&action=edit
+Content of /sys/kernel/debug/tracing/trace with both patches applied
+
+Gzipped because the file was too big to attach here.
 
 -- 
 You are receiving this mail because:
