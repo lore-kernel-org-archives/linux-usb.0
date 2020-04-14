@@ -2,96 +2,125 @@ Return-Path: <SRS0=0/Tc=56=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=3.0 tests=MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A199C2BB85
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 21:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A016C2BB1D
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 21:59:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDD3C2076B
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 21:06:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586898363;
-	bh=z0zYO2pHSoLKqTeX1dBRt486SmVD82CBD9beqhsEdEc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ltEqoFNgxqRCAU4RCdRK/bmqm2jKo8o0+NhHTHdc+r8amvOeyo5VLiKjcJDVoF7Pw
-	 CHP9aEu7xDlolJxpx2lLeXc0dTbd9b3epVESmEcxroT/JDjCinKt6sgU5Wq+yxR0T9
-	 mK1bSmzc45xkssMuM3CVwoPQhe0r4i2dZy3dppnI=
+	by mail.kernel.org (Postfix) with ESMTP id EF05B2076A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Apr 2020 21:59:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633688AbgDNVGB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Apr 2020 17:06:01 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:46542 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2633551AbgDNVBc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Apr 2020 17:01:32 -0400
-Received: by mail-oi1-f194.google.com with SMTP id q204so11682878oia.13;
-        Tue, 14 Apr 2020 14:01:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/4q9z9CtbQoeUL4sjp69CWFYfpcu9GjxICIs0C/YRTE=;
-        b=hzxH4wZVRTjkuuoll0KwHDeNBQ2dAcHr4nIvt4rCg1eaWwsfiPuJ8Ikqs6TJ7Ratub
-         /5afsp9RucGpvQ3+WIGB6rU0t8GJNF2Ybivew3vFuCDDaNTWdXgWC14yqwhyA3O/wrdk
-         ZFTPRuZBhGQd8P3kJytli1BRYN02XIiUNKk4u1CPdWZmRBLEyxfSlTCF7H4WlLostI96
-         DLtXH17Fu9nM2htCKl8aptLHyeOQS+YqG/CP12AUFwBD/PTRzGA4bIWFyB9XFQoSg0Cu
-         C/39o5zWyjEew+TcmH+/bzloj2/laAQfCwvfdwgVJ3v/i5B7lV75tA+j7qUIeno4FWTz
-         FMKQ==
-X-Gm-Message-State: AGi0PuaQGZTEW43Hb0GzSN8cbYlHzax2wK1+e/5ymHO/e53kDnmJnv+2
-        KJi7q+lAyImkdIvro4YkRg==
-X-Google-Smtp-Source: APiQypI6YZD7oeKx39WNYQypRqxQiWc8g9J/Skpj6aGznKhkptIeKHcBjqvf0DXjF7vScaZA6pawWw==
-X-Received: by 2002:aca:4286:: with SMTP id p128mr16319888oia.29.1586898084666;
-        Tue, 14 Apr 2020 14:01:24 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id g12sm1166031otk.71.2020.04.14.14.01.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 14:01:23 -0700 (PDT)
-Received: (nullmailer pid 3300 invoked by uid 1000);
-        Tue, 14 Apr 2020 21:01:22 -0000
-Date:   Tue, 14 Apr 2020 16:01:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Sandeep Maheswaram <sanm@codeaurora.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 23/33] docs: dt: qcom,dwc3.txt: fix cross-reference
- for a converted file
-Message-ID: <20200414210122.GA3250@bogus>
-References: <cover.1586881715.git.mchehab+huawei@kernel.org>
- <a055c564f2a79aa748064329d938db8b3c8edd58.1586881715.git.mchehab+huawei@kernel.org>
+        id S2407788AbgDNV7Z convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Apr 2020 17:59:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45496 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729713AbgDNV7X (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Apr 2020 17:59:23 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 207219] [BISECTED] Sony Vaio laptop built-in ricoh webcam no
+ longer found on Fedora 31 with 5.4.11 kernel
+Date:   Tue, 14 Apr 2020 21:59:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: williambader@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207219-208809-lY0OCUsUvy@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207219-208809@https.bugzilla.kernel.org/>
+References: <bug-207219-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a055c564f2a79aa748064329d938db8b3c8edd58.1586881715.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 14 Apr 2020 18:48:49 +0200, Mauro Carvalho Chehab wrote:
-> The qcom-qusb2-phy.txt file was converted and renamed to yaml.
-> Update cross-reference accordingly.
-> 
-> Fixes: 8ce65d8d38df ("dt-bindings: phy: qcom,qusb2: Convert QUSB2 phy bindings to yaml")
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/bindings/usb/qcom,dwc3.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=207219
 
-Applied, thanks.
+--- Comment #5 from William Bader (williambader@hotmail.com) ---
+Thanks for looking at it.
 
-Rob
+>Try starting with a vanilla (bad) kernel and reverting commit bd0e6c9614b9;
+>let's see if that fixes the camera problem.
+
+Yes, that fixed the camera problem.
+
+What is the next step?
+
+>it is a bug in the camera, not in the kernel
+
+It wouldn't surprise me.
+
+Here is what I did:
+
+>$ git clone --branch linux-5.4.y
+>https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/ linux-5.4
+>$ git status
+> On branch linux-5.4.y
+> Your branch is up to date with 'origin/linux-5.4.y'.
+> nothing to commit, working tree clean
+>$ git log --oneline -n1 HEAD
+> bc844d58f697 (HEAD -> linux-5.4.y, tag: v5.4.32, origin/linux-5.4.y) Linux
+> 5.4.32
+>$ # <- build, install, and confirm that the webcam does not work
+>$ git log --oneline -n1 bd0e6c9614b9
+> bd0e6c9614b9 usb: hub: try old enumeration scheme first for high speed
+> devices
+>$ git revert bd0e6c9614b9
+>$ git status
+> On branch linux-5.4.y
+> Your branch is ahead of 'origin/linux-5.4.y' by 1 commit.
+> (use "git push" to publish your local commits)
+> nothing to commit, working tree clean
+>$ git diff v5.4.32 | grep '^[+-]'
+>--- a/Documentation/admin-guide/kernel-parameters.txt
+>+++ b/Documentation/admin-guide/kernel-parameters.txt
+>-                       scheme,  applies only to low and full-speed devices
+>-                        (default 0 = off).
+>+                       scheme (default 0 = off).
+>--- a/drivers/usb/core/hub.c
+>+++ b/drivers/usb/core/hub.c
+>-       int quick_enumeration = (udev->speed == USB_SPEED_HIGH);
+>-       return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first
+>-                             || quick_enumeration);
+>+       return USE_NEW_SCHEME(retry, old_scheme_first_port ||
+>old_scheme_first);
+>$ # <- the commit makes quick_enumeration use the new scheme before
+>"[7cbdf96cda1fbffb17ec26ea65e1fe63c9aed430] usb: missing parentheses in
+>USE_NEW_SCHEME"
+>$ # <- and the old scheme after.
+>$ make mrproper # <- was this needed?
+>$ cp ../config .config # <- my saved config based on Fedora's
+>$ uemacs .config # bump CONFIG_LOCALVERSION to ".localversion13"
+>$ cp -p .config ../config-`grep Linux .config | head -1 | awk '{print
+>$3}'`-`grep -i CONFIG_LOCALVERSION= .config | sed -e 's/.*=".//' -e 's/"//g'`
+>$ make oldconfig
+>$ time make
+>$ time make binrpm-pkg
+>$ sudo dnf install
+>kernel-5.4.32.localversion13_00001_g0dfde04ccc52-1.x86_64.rpm
+><- reboot
+>$ uname -r
+>5.4.32.localversion13-00001-g0dfde04ccc52
+><- the webcam works
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
