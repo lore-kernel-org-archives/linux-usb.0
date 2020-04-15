@@ -2,60 +2,128 @@ Return-Path: <SRS0=gNVC=57=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A827C2BA19
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 14:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 846AFC2BA19
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 14:18:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A13B206A2
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 14:08:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EDCC208E4
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 14:18:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S370750AbgDOOIn convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:08:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48978 "EHLO mail.kernel.org"
+        id S2506388AbgDOOSC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:18:02 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43918 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2634083AbgDOOIj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:08:39 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 205841] Lenovo USB-C dock audio NULL pointer
-Date:   Wed, 15 Apr 2020 14:08:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: serg@podtynnyi.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205841-208809-XGstrzxYjN@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205841-208809@https.bugzilla.kernel.org/>
-References: <bug-205841-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+        id S2506384AbgDOORz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:17:55 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 1CE96AB3D;
+        Wed, 15 Apr 2020 14:17:53 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH 2/2] UAS: fix deadlock in error handling and PM flushing work
+Date:   Wed, 15 Apr 2020 16:17:50 +0200
+Message-Id: <20200415141750.811-2-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20200415141750.811-1-oneukum@suse.com>
+References: <20200415141750.811-1-oneukum@suse.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205841
+A SCSI error handler and block runtime PM must not allocate
+memory with GFP_KERNEL. Furthermore they must not wait for
+tasks allocating memory with GFP_KERNEL.
+That means that they cannot share a workqueue with arbitrary tasks.
 
---- Comment #12 from Serg Podtynnyi (serg@podtynnyi.com) ---
-In Red Hat https://bugzilla.redhat.com/show_bug.cgi?id=1772806
-and retrace https://retrace.fedoraproject.org/faf/reports/2662737/
+Fix this for UAS using a private workqueue.
 
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Fixes: f9dc024a2da1f ("uas: pre_reset and suspend: Fix a few races")
+---
+ drivers/usb/storage/uas.c | 43 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 40 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 08503e3507bf..d592071119ba 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -81,6 +81,19 @@ static void uas_free_streams(struct uas_dev_info *devinfo);
+ static void uas_log_cmd_state(struct scsi_cmnd *cmnd, const char *prefix,
+ 				int status);
+ 
++/*
++ * This driver needs its own workqueue, as we need to control memory allocation.
++ *
++ * In the course of error handling and power management uas_wait_for_pending_cmnds()
++ * needs to flush pending work items. In these contexts we cannot allocate memory
++ * by doing block IO as we would deadlock. For the same reason we cannot wait
++ * for anything allocating memory not heeding these constraints.
++ *
++ * So we have to control all work items that can be on the workqueue we flush.
++ * Hence we cannot share a queue and need our own.
++ */
++static struct workqueue_struct *workqueue;
++
+ static void uas_do_work(struct work_struct *work)
+ {
+ 	struct uas_dev_info *devinfo =
+@@ -109,7 +122,7 @@ static void uas_do_work(struct work_struct *work)
+ 		if (!err)
+ 			cmdinfo->state &= ~IS_IN_WORK_LIST;
+ 		else
+-			schedule_work(&devinfo->work);
++			queue_work(workqueue, &devinfo->work);
+ 	}
+ out:
+ 	spin_unlock_irqrestore(&devinfo->lock, flags);
+@@ -134,7 +147,7 @@ static void uas_add_work(struct uas_cmd_info *cmdinfo)
+ 
+ 	lockdep_assert_held(&devinfo->lock);
+ 	cmdinfo->state |= IS_IN_WORK_LIST;
+-	schedule_work(&devinfo->work);
++	queue_work(workqueue, &devinfo->work);
+ }
+ 
+ static void uas_zap_pending(struct uas_dev_info *devinfo, int result)
+@@ -1229,7 +1242,31 @@ static struct usb_driver uas_driver = {
+ 	.id_table = uas_usb_ids,
+ };
+ 
+-module_usb_driver(uas_driver);
++static int __init uas_init(void)
++{
++	int rv;
++
++	workqueue = alloc_workqueue("uas", WQ_MEM_RECLAIM, 0);
++	if (!workqueue)
++		return -ENOMEM;
++
++	rv = usb_register(&uas_driver);
++	if (rv) {
++		destroy_workqueue(workqueue);
++		return -ENOMEM;
++	}
++
++	return 0;
++}
++
++static void __exit uas_exit(void)
++{
++	usb_deregister(&uas_driver);
++	destroy_workqueue(workqueue);
++}
++
++module_init(uas_init);
++module_exit(uas_exit);
+ 
+ MODULE_LICENSE("GPL");
+ MODULE_IMPORT_NS(USB_STORAGE);
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.16.4
+
