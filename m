@@ -2,42 +2,58 @@ Return-Path: <SRS0=gNVC=57=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8ADC2BB1D
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 01:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E11C352BE
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 01:26:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B171C20784
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 01:26:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F1B42084D
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 01:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392549AbgDOB0U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Apr 2020 21:26:20 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:34355 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2392550AbgDOB0Q (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Apr 2020 21:26:16 -0400
-Received: (qmail 22003 invoked by uid 500); 14 Apr 2020 21:26:12 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 14 Apr 2020 21:26:12 -0400
-Date:   Tue, 14 Apr 2020 21:26:12 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     bugzilla-daemon@bugzilla.kernel.org,
-        Zeng Tao <prime.zeng@hisilicon.com>
-cc:     USB list <linux-usb@vger.kernel.org>
-Subject: Re: [Bug 207219] [BISECTED] Sony Vaio laptop built-in ricoh webcam
- no longer found on Fedora 31 with 5.4.11 kernel
-In-Reply-To: <bug-207219-208809-lY0OCUsUvy@https.bugzilla.kernel.org/>
-Message-ID: <Pine.LNX.4.44L0.2004142120060.21162-100000@netrider.rowland.org>
+        id S2392552AbgDOB0W convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Apr 2020 21:26:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55692 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392551AbgDOB0P (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Apr 2020 21:26:15 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 207219] [BISECTED] Sony Vaio laptop built-in ricoh webcam no
+ longer found on Fedora 31 with 5.4.11 kernel
+Date:   Wed, 15 Apr 2020 01:26:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207219-208809-6S0wNB2prg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207219-208809@https.bugzilla.kernel.org/>
+References: <bug-207219-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=207219
+
+--- Comment #6 from Alan Stern (stern@rowland.harvard.edu) ---
 On Tue, 14 Apr 2020 bugzilla-daemon@bugzilla.kernel.org wrote:
 
 > https://bugzilla.kernel.org/show_bug.cgi?id=207219
@@ -64,3 +80,6 @@ above.
 
 Alan Stern
 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
