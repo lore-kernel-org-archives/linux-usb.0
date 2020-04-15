@@ -2,239 +2,137 @@ Return-Path: <SRS0=gNVC=57=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F848C3815B
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 08:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E54C2BB85
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 08:37:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2868920784
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 08:29:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E1A820857
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Apr 2020 08:37:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="F08F4ONV"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="f1GsUUuP";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="wu4o+Uhl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2894583AbgDOI3X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Apr 2020 04:29:23 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11492 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2894445AbgDOI1K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Apr 2020 04:27:10 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e96c4f50000>; Wed, 15 Apr 2020 01:25:25 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 15 Apr 2020 01:25:37 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 15 Apr 2020 01:25:37 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Apr
- 2020 08:25:37 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 15 Apr 2020 08:25:37 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e96c4fd0004>; Wed, 15 Apr 2020 01:25:36 -0700
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [PATCH V2 5/8] phy: tegra: xusb: Add soc ops API to enable UTMI PAD protection
-Date:   Wed, 15 Apr 2020 13:55:05 +0530
-Message-ID: <1586939108-10075-6-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1586939108-10075-1-git-send-email-nkristam@nvidia.com>
-References: <1586939108-10075-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        id S2894624AbgDOIho (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Apr 2020 04:37:44 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:44308 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2894661AbgDOIhi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Apr 2020 04:37:38 -0400
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E37F04054D;
+        Wed, 15 Apr 2020 08:37:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1586939857; bh=jYxVY3I8iWmCW+ASnclMtB39hXzJGpiq4h6xXtGfs5M=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=f1GsUUuPwgbcRam8PWJNAcjrh/wAGgz0CKg3g61cv5+TYnNieztIOcqEZ8mxvaUvL
+         T7KQ6+Fxh3l8QqsfTUCB6hKmisHIt4DDIlruGzcgEq7CMjdnqzfzRh2Si7LRn1+YvQ
+         dEUzgPfoJdm+nl9v1DkF4HWPxszkGUa972bFPxCRf2azs+I9/tYKBaM1GmHVAXrYq7
+         iqDZIitTt59IDe+32x+xPCdgDWBmcLaUvzTvlQn7H7pMeuUFy47HVQneB/CUv6XXAU
+         uCME8IGKHNhgcOrIE6MUrzKbjKi+wDX7BRn+ADUNs/EKmgWJ3vdKOUm5JOL/bx0tub
+         1HMQ5w1r589Yw==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 20BECA0067;
+        Wed, 15 Apr 2020 08:37:35 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 15 Apr 2020 01:37:20 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Wed, 15 Apr 2020 01:37:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=USLvWMM0IVFoU6K/IfvLvKtZR1X62XVUjKbrPiNFrrrbUZBes3aW+1KFYbYwg7OyuHxDjoQnoW4bJBbgQaU/zpgtuB3s0VlkHJxMruo8FO9MCqlxazHObPNKBh/s091Gnyb/uPcalcy3Cslm/x8wEBwyFbYDs1ZUaGP7TaS9lQhznV+EgsuklsC42RPqeiLBqx1wCqYIW6NpCJ/tCw2PRB+GvqP6COgmupVzk87Fx7hiveQ5WnXmYjoLntv+voBU+0iJ0HPwtc5wO/GADXMNmquFsF+M5rm+h8ZunIthCDYEOIAR2+0eCeT2kgGyFmuSQfBBm+TQUsxLtQZgMNUiCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jYxVY3I8iWmCW+ASnclMtB39hXzJGpiq4h6xXtGfs5M=;
+ b=YHMQ1mnjaX+sa0MRE0t5k71Y5DpuPog+Xh8srRVOJ0KTPqVEr0MDom9XBkO35mkD5Fq6kpPy2fefLWAVPkU3ip9NEL7xEJrS31X/MKuwPgBJBhWNrSLyB3atB/M49Xgrz1GWcnYIKgIFCCHR4ZBA4aU2MTfSoCqASMnf+GdhbrNOSYh/LmomuvndX9GNAZrOIqBMo85e1HHqMfouAVORdau1nr6+VR+Gq5SSR4pr8qkmVoZS53uSvV4lHrEWQV/kvaF6vpSPBbnW5Mm+j/TIHwFjW8lFVsYgxO4GcxFMr09RUy6hj3IW9acyVgFKSucvSzH7o3jow88SD2MwwP94FA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jYxVY3I8iWmCW+ASnclMtB39hXzJGpiq4h6xXtGfs5M=;
+ b=wu4o+UhlIDiI+72zztGRvNKk4tg8JGWD4asUix/5L+rB5eqogo0Pd3Cum2zErKsM1ULXKuiYZ0W69SZ99l82WNLK30/ewLrZR10VebCk6+fYSNm11iEY3oOgv5NeACbfGMDEztlUSsMN2gEK7JtVxlDyoKeTlFQ24uRJx3PyZak=
+Received: from SN1PR12MB2557.namprd12.prod.outlook.com (2603:10b6:802:22::15)
+ by SN1PR12MB2384.namprd12.prod.outlook.com (2603:10b6:802:25::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Wed, 15 Apr
+ 2020 08:37:17 +0000
+Received: from SN1PR12MB2557.namprd12.prod.outlook.com
+ ([fe80::20d2:fe98:5580:932d]) by SN1PR12MB2557.namprd12.prod.outlook.com
+ ([fe80::20d2:fe98:5580:932d%7]) with mapi id 15.20.2900.028; Wed, 15 Apr 2020
+ 08:37:17 +0000
+From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+To:     Marek Vasut <marex@denx.de>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     Amelie Delaunay <amelie.delaunay@st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
+Thread-Topic: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
+Thread-Index: AQHWEaBFUZHLydAVY0yALpZJ1gABx6h3ITiAgAACTgCAAAlrgIAAGd8AgADukoCAAFTigIABVJ4A
+Date:   Wed, 15 Apr 2020 08:37:17 +0000
+Message-ID: <867a776d-1e2c-2207-4387-072d2a8423fb@synopsys.com>
+References: <20200413143107.181669-1-marex@denx.de>
+ <31b679d3-d3e4-0220-ec4b-58eada4d21d4@synopsys.com>
+ <b20fb33d-7fdd-5785-8f72-74900eb4d328@denx.de>
+ <9906c2da-8a20-eae7-d69e-6947085edf84@synopsys.com>
+ <b64f41ac-2d70-55a3-ab6a-77383cd463eb@denx.de>
+ <d1b36da4-b506-2f86-f5ad-95bf3aac4485@synopsys.com>
+ <c35e95cf-7f72-4a49-a0e1-efc0701d613d@denx.de>
+In-Reply-To: <c35e95cf-7f72-4a49-a0e1-efc0701d613d@denx.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=hminas@synopsys.com; 
+x-originating-ip: [198.182.37.200]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: dbda5443-a583-4737-2188-08d7e11834c5
+x-ms-traffictypediagnostic: SN1PR12MB2384:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN1PR12MB2384DAB1F1364D76FDC2C411A7DB0@SN1PR12MB2384.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1468;
+x-forefront-prvs: 0374433C81
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(396003)(39860400002)(366004)(346002)(376002)(136003)(110136005)(316002)(8936002)(4326008)(6512007)(2906002)(8676002)(81156014)(2616005)(558084003)(5660300002)(6486002)(31686004)(186003)(6506007)(54906003)(86362001)(66946007)(76116006)(91956017)(66446008)(64756008)(66556008)(66476007)(478600001)(31696002)(36756003)(53546011)(26005)(71200400001);DIR:OUT;SFP:1102;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ETuHrTow9p+5PE65apSmhcMYbxjxwcuYc2iENA7kqpkpGsF0hVPalouFn4LBoc6ohCyWnx9b6hJmXTN0SkDZFYOFDgRasIfddgC9sdOPpXmrJGNE9kkU+6JWd7nZlAV0/RUw9nGljJkrsS9jbrYzDN9NbgHN5pCRxfFb1ACuyb7TyVHt2dQF0IDM1uqiu+sFIUoRyD9oqoZUc4sAvahYzf8KZFgQey9zfMOR5WFIlD06hVScK7iPLXwluHprPOq7x2GsCpaerW8mjvUuTLQYcS4s9yhnVr7h20w5LNSkfOyfm0mX6gf35dtSWi5fnDILXwIp0lYe5/f+/72t/kYMMX0GM7wXAj/+CcKrPgYGP9zQwRsss3/MdUUjFuoBhGgRvEEY2qmYHxUxAcyhuj9IXNEy++ia+rm7ApjHvprtkP0lkyqMZOPY2+7czsusmUhT
+x-ms-exchange-antispam-messagedata: 24rimua9bhk7WoU5wYQyBdklAvoiQX3H++iO8H+k5mgJe1aoKEESkPaWyWyCdk7cTL8O8VUPA8sYa3IZarsyO1XONNl+WbYONDcxRR0NkQI7OFGwFWXLfczTl8gjA2b+sbGWnoVDlyJdvaWUJ3k6NQ==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B7E8BFB7A3E909459CF2649065334AB1@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586939125; bh=3LNQ0SN38gsYKuB1+QCeNLaIcQ/aDK75/NBFEtXfl6c=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=F08F4ONVTSzuzGJ5URMWePIEZ4XfIr0iRQAi+srQ5ZyO1x/dbacH43yjqebx6MMzQ
-         4dTEShih+e7mj8YTnt54ZnGhFwWgzzj/0PvjAPX8M7nF9nN0U8I9HToJ5oUQN0LCm2
-         gx/RdWUQCEDqHltW8ltNeIdtJgubDACoMtHiW2Y8LLMm8Nu/OtBcc0P06O1Z1930O1
-         Y0PIrbagh4z1RBxMzxdM3LrxHCtp1GjjyO3lvBPh7W5qqxcOiGvlx2aHSQ3oCvv5b1
-         DP5Ax/OC1lbPG+Hcvx8A9gnd85iSB2ThBkQ2lJRCTAPxWM+oPnUuXqdJE2Iif8N78Z
-         HgZFnZVeCkclw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbda5443-a583-4737-2188-08d7e11834c5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2020 08:37:17.5474
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QERCt0B9coS/8c1s0gXeO0GcKmlKEv0wteUp1/7aPhQYNp46WPfyMJfPC50CDiy5Sio7VXPGGP5T3yT8CqjCGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2384
+X-OriginatorOrg: synopsys.com
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When USB charger is enabled, UTMI PAD needs to be protected according
-to the direction and current level. Add support for the same on Tegra210
-and Tegra186.
-
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
----
-V2:
- - Commit message coorected.
- - Patch re-based.
----
- drivers/phy/tegra/xusb-tegra186.c | 40 +++++++++++++++++++++++++++++++++++++++
- drivers/phy/tegra/xusb-tegra210.c | 31 ++++++++++++++++++++++++++++++
- drivers/phy/tegra/xusb.h          | 13 +++++++++++++
- 3 files changed, 84 insertions(+)
-
-diff --git a/drivers/phy/tegra/xusb-tegra186.c b/drivers/phy/tegra/xusb-tegra186.c
-index f862254..03bdb5b 100644
---- a/drivers/phy/tegra/xusb-tegra186.c
-+++ b/drivers/phy/tegra/xusb-tegra186.c
-@@ -68,6 +68,13 @@
- #define   PORTX_SPEED_SUPPORT_MASK		(0x3)
- #define     PORT_SPEED_SUPPORT_GEN1		(0x0)
- 
-+#define USB2_BATTERY_CHRG_OTGPADX_CTL1(x)       (0x84 + (x) * 0x40)
-+#define  PD_VREG                                (1 << 6)
-+#define  VREG_LEV(x)                            (((x) & 0x3) << 7)
-+#define  VREG_DIR(x)                            (((x) & 0x3) << 11)
-+#define  VREG_DIR_IN                            VREG_DIR(1)
-+#define  VREG_DIR_OUT                           VREG_DIR(2)
-+
- #define XUSB_PADCTL_USB2_OTG_PADX_CTL0(x)	(0x88 + (x) * 0x40)
- #define  HS_CURR_LEVEL(x)			((x) & 0x3f)
- #define  TERM_SEL				BIT(25)
-@@ -289,6 +296,37 @@ static void tegra_phy_xusb_utmi_pad_power_down(struct phy *phy)
- 	usb2->powered_on = false;
- }
- 
-+static void tegra186_xusb_padctl_utmi_pad_set_protection_level(
-+				struct tegra_xusb_port *port, int level,
-+				enum tegra_vbus_dir dir)
-+{
-+	u32 value;
-+	struct tegra_xusb_padctl *padctl = port->padctl;
-+	unsigned int index = port->index;
-+
-+	value = padctl_readl(padctl, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-+
-+	if (level < 0) {
-+		/* disable pad protection */
-+		value |= PD_VREG;
-+		value &= ~VREG_LEV(~0);
-+		value &= ~VREG_DIR(~0);
-+	} else {
-+		if (dir == TEGRA_VBUS_SOURCE)
-+			value |= VREG_DIR_OUT;
-+		else if (dir == TEGRA_VBUS_SINK)
-+			value |= VREG_DIR_IN;
-+
-+		value &= ~PD_VREG;
-+		value &= ~VREG_DIR(~0);
-+		value &= ~VREG_LEV(~0);
-+		value |= VREG_LEV(level);
-+	}
-+
-+	padctl_writel(padctl, value, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-+}
-+
-+
- static int tegra186_xusb_padctl_vbus_override(struct tegra_xusb_padctl *padctl,
- 					       bool status)
- {
-@@ -935,6 +973,8 @@ static const struct tegra_xusb_padctl_ops tegra186_xusb_padctl_ops = {
- 	.vbus_override = tegra186_xusb_padctl_vbus_override,
- 	.utmi_pad_power_on = tegra_phy_xusb_utmi_pad_power_on,
- 	.utmi_pad_power_down = tegra_phy_xusb_utmi_pad_power_down,
-+	.utmi_pad_set_protection_level =
-+			tegra186_xusb_padctl_utmi_pad_set_protection_level,
- };
- 
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC)
-diff --git a/drivers/phy/tegra/xusb-tegra210.c b/drivers/phy/tegra/xusb-tegra210.c
-index caf0890..7d84f1a 100644
---- a/drivers/phy/tegra/xusb-tegra210.c
-+++ b/drivers/phy/tegra/xusb-tegra210.c
-@@ -74,6 +74,8 @@
- #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_MASK 0x3
- #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_VAL 0x1
- #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18 (1 << 6)
-+#define USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(x) (((x) & 0x3) << 7)
-+#define USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_DIR(x) (((x) & 0x3) << 11)
- 
- #define XUSB_PADCTL_USB2_OTG_PADX_CTL0(x) (0x088 + (x) * 0x40)
- #define XUSB_PADCTL_USB2_OTG_PAD_CTL0_PD_ZI (1 << 29)
-@@ -1116,6 +1118,33 @@ void tegra210_usb2_pad_power_down(struct phy *phy)
- 	usb2->powered_on = false;
- }
- 
-+static void tegra210_xusb_padctl_utmi_pad_set_protection_level(
-+				struct tegra_xusb_port *port, int level,
-+				enum tegra_vbus_dir dir)
-+{
-+	u32 value;
-+	struct tegra_xusb_padctl *padctl = port->padctl;
-+	unsigned int index = port->index;
-+
-+	value = padctl_readl(padctl,
-+			     XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-+
-+	if (level < 0) {
-+		/* disable pad protection */
-+		value |= XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18;
-+		value &= USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(~0);
-+		value &= ~USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_DIR(~0);
-+	} else {
-+		value &= ~XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18;
-+		value &= ~USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_DIR(~0);
-+		value &= USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(~0);
-+		value |= USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(level);
-+	}
-+
-+	padctl_writel(padctl, value,
-+		      XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-+}
-+
- static int tegra210_usb2_phy_set_mode(struct phy *phy, enum phy_mode mode,
- 				      int submode)
- {
-@@ -2291,6 +2320,8 @@ static const struct tegra_xusb_padctl_ops tegra210_xusb_padctl_ops = {
- 	.utmi_port_reset = tegra210_utmi_port_reset,
- 	.utmi_pad_power_on = tegra210_usb2_pad_power_on,
- 	.utmi_pad_power_down = tegra210_usb2_pad_power_down,
-+	.utmi_pad_set_protection_level =
-+			tegra210_xusb_padctl_utmi_pad_set_protection_level,
- };
- 
- static const char * const tegra210_xusb_padctl_supply_names[] = {
-diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
-index 6995fc4..79e96b0 100644
---- a/drivers/phy/tegra/xusb.h
-+++ b/drivers/phy/tegra/xusb.h
-@@ -259,6 +259,17 @@ to_sata_pad(struct tegra_xusb_pad *pad)
-  */
- struct tegra_xusb_port_ops;
- 
-+/*
-+ * Tegra OTG port VBUS direction:
-+ * default (based on port capability) or
-+ * as source or sink
-+ */
-+enum tegra_vbus_dir {
-+	TEGRA_VBUS_DEFAULT,
-+	TEGRA_VBUS_SOURCE,
-+	TEGRA_VBUS_SINK
-+};
-+
- struct tegra_xusb_port {
- 	struct tegra_xusb_padctl *padctl;
- 	struct tegra_xusb_lane *lane;
-@@ -398,6 +409,8 @@ struct tegra_xusb_padctl_ops {
- 	int (*utmi_port_reset)(struct phy *phy);
- 	void (*utmi_pad_power_on)(struct phy *phy);
- 	void (*utmi_pad_power_down)(struct phy *phy);
-+	void (*utmi_pad_set_protection_level)(struct tegra_xusb_port *port,
-+					int max_ua, enum tegra_vbus_dir dir);
- };
- 
- struct tegra_xusb_padctl_soc {
--- 
-2.7.4
-
+SGksDQoNCk9uIDQvMTQvMjAyMCA0OjE4IFBNLCBNYXJlayBWYXN1dCB3cm90ZToNCj4gT24gNC8x
+NC8yMCA5OjE0IEFNLCBNaW5hcyBIYXJ1dHl1bnlhbiB3cm90ZToNCg0KPiANCj4+IDIuIGRlYnVn
+IGxvZw0KPiANCj4gV2hhdCBraW5kIG9mIGRlYnVnIGxvZyA/DQo+IA0KRHJpdmVycyBkZWJ1ZyBs
+b2cgc3RhcnRpbmcgZnJvbSBkd2MyIGxvYWRpbmcgYW5kIGNvbm5lY3RvciBjb25uZWN0aW5nIHRv
+IA0KZGV2aWNlLCB3aGVyZSBpc3N1ZSBzZWVuLg0KDQpUaGFua3MsDQpNaW5hcw0K
