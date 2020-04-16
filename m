@@ -2,167 +2,142 @@ Return-Path: <SRS0=/djJ=6A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD81C352BE
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 12:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1466C2BB55
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 12:55:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4171A206B9
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 12:22:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="GSDX3VHH"
+	by mail.kernel.org (Postfix) with ESMTP id 932FE208E4
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 12:55:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2635536AbgDPMV5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Apr 2020 08:21:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45074 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2635245AbgDPMTR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Apr 2020 08:19:17 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DCFC061A0C
-        for <linux-usb@vger.kernel.org>; Thu, 16 Apr 2020 05:19:16 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id a25so4614653wrd.0
-        for <linux-usb@vger.kernel.org>; Thu, 16 Apr 2020 05:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cgQlCVQO9pBNsgy45GkR+QaBMwuO1ye6FK+8ZBQuqLg=;
-        b=GSDX3VHHG88xM3mtByW3kylrfF9uR3ho2qomZj3hjn2IOBzWlUBOxC7de0eg/Jb9Si
-         b5g7SydZhavPRYDU8BJtqEIn7R32o9rtDCfEaPXvZ/Z/5ZNC5R85NX59OGBHagfXDr1U
-         BGvKtUlz0uba18NEmOVXtvie0gmwfrVHodVl72JLWPq50dd1/ndLBCd1uaJzfHDH9nsB
-         juGRKkvJ6n7gJiluBYO+oYfaHjSR4Dg68EN5ntZ05gHzPDJKpmTvSp+zyZ1ogiD0iNUx
-         vI546DxmjqYYm/6GZwZVbjOVRUXXfh8Fpha0JHs1YlyRC78WHgH4n+HZ0TfGzSUuukFn
-         4URw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cgQlCVQO9pBNsgy45GkR+QaBMwuO1ye6FK+8ZBQuqLg=;
-        b=DjhJ2bhZ2sK8MWY/I1qLLOFcgrcQ6S7eATU8m2G6YbWw7NgwpKlEPwaW5j5vOLKi+f
-         8rZtr4adAihGEz5wJtw8DDtYNV14I3DFlG4DsANloZt32TBR1sqsEOmshyw2ltjtb03m
-         pwGKzyauqZxplu8NZMffgMOa/wBqGh9HfdI1ezlgdsusIgVMLucpOn9hacqlLKk2DW3k
-         Th7UQEi/QU6eFyj6dS5y22Vuazb8CfveoEPgdYAlUv6sZ0RSdUkJn3Vf/llgyGbpHbUy
-         rIHfHaniUeZNaiZjAhJkZ1pEgir2PZF4ZSFecmYxhjKmys8uBQeg2wJ94WNNzMfnx4Qn
-         taFg==
-X-Gm-Message-State: AGi0Pua38tDVT/QkQT/7gGfVkfXYqbMeXlmcfjD9kU+5rZjv8t4IwAhs
-        y1EdMt2FtZJ0ewUHI8EV/i7dnWXPL1t1YQ==
-X-Google-Smtp-Source: APiQypLTj7n231YjW9KZveUAuWshsg0VFn1BjUl/fM2Nz8xWJAbfeAZSMC/2cUq3G4OR7PkfurWwAg==
-X-Received: by 2002:adf:e7ca:: with SMTP id e10mr12384684wrn.18.1587039555206;
-        Thu, 16 Apr 2020 05:19:15 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56])
-        by smtp.gmail.com with ESMTPSA id i13sm22035602wro.50.2020.04.16.05.19.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2020 05:19:14 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     kishon@ti.com, balbi@kernel.org, khilman@baylibre.com,
-        martin.blumenstingl@googlemail.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/8] usb: dwc3: meson: add OTG support for GXL/GXM
-Date:   Thu, 16 Apr 2020 14:19:02 +0200
-Message-Id: <20200416121910.12723-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
+        id S2894524AbgDPMzI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Apr 2020 08:55:08 -0400
+Received: from mga03.intel.com ([134.134.136.65]:44510 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2894386AbgDPMzD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Apr 2020 08:55:03 -0400
+IronPort-SDR: QDJk1YuomN4Ox0Ih29E5CwR9zi/tj5m+ja1ETz/mfjMgeCgsjYNL14mMCWFDDquZ1P3zPDwmMy
+ QbjwShyR5aWg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 05:55:02 -0700
+IronPort-SDR: 14P7OUA2rGLVVihMxD7Mh+HTh7r2zX/e3sYE5q2bO9zCEJAb3oibfFAx5NtpPsXExduTJ7eQ0J
+ JjekCo9vW6vA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,391,1580803200"; 
+   d="scan'208";a="363986159"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 16 Apr 2020 05:54:59 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 16 Apr 2020 15:54:59 +0300
+Date:   Thu, 16 Apr 2020 15:54:59 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] usb: typec: tcpm: Ignore CC and vbus changes in
+ PORT_RESET change
+Message-ID: <20200416125459.GA3473073@kuha.fi.intel.com>
+References: <20200402215947.176577-1-badhri@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200402215947.176577-1-badhri@google.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB support was initialy done with a set of PHYs and dwc3-of-simple
-because the architecture of the USB complex was not understood correctly
-at the time (and proper documentation was missing...).
+On Thu, Apr 02, 2020 at 02:59:47PM -0700, Badhri Jagan Sridharan wrote:
+> After PORT_RESET, the port is set to the appropriate
+> default_state. Ignore processing CC changes here as this
+> could cause the port to be switched into sink states
+> by default.
+> 
+> echo source > /sys/class/typec/port0/port_type
+> 
+> Before:
+> [  154.528547] pending state change PORT_RESET -> PORT_RESET_WAIT_OFF @ 100 ms
+> [  154.528560] CC1: 0 -> 0, CC2: 3 -> 0 [state PORT_RESET, polarity 0, disconnected]
+> [  154.528564] state change PORT_RESET -> SNK_UNATTACHED
+> 
+> After:
+> [  151.068814] pending state change PORT_RESET -> PORT_RESET_WAIT_OFF @ 100 ms [rev3 NONE_AMS]
+> [  151.072440] CC1: 3 -> 0, CC2: 0 -> 0 [state PORT_RESET, polarity 0, disconnected]
+> [  151.172117] state change PORT_RESET -> PORT_RESET_WAIT_OFF [delayed 100 ms]
+> [  151.172136] pending state change PORT_RESET_WAIT_OFF -> SRC_UNATTACHED @ 870 ms [rev3 NONE_AMS]
+> [  152.060106] state change PORT_RESET_WAIT_OFF -> SRC_UNATTACHED [delayed 870 ms]
+> [  152.060118] Start toggling
+> 
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 
-But with the G12A family, the USB complex was correctly understood and
-implemented correctly.
-But seems the G12A architecture was derived for the GXL USB architecture,
-with minor differences and looks we can share most of the USB DWC3 glue
-driver.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-This patchset refactors and adds callbacks to handle the architecture
-difference while keeping the main code shared.
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index de3576e6530ab2..82b19ebd7838e0 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -3794,6 +3794,14 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
+>  		 */
+>  		break;
+>  
+> +	case PORT_RESET:
+> +	case PORT_RESET_WAIT_OFF:
+> +		/*
+> +		 * State set back to default mode once the timer completes.
+> +		 * Ignore CC changes here.
+> +		 */
+> +		break;
+> +
+>  	default:
+>  		if (tcpm_port_is_disconnected(port))
+>  			tcpm_set_state(port, unattached_state(port), 0);
+> @@ -3855,6 +3863,15 @@ static void _tcpm_pd_vbus_on(struct tcpm_port *port)
+>  	case SRC_TRY_DEBOUNCE:
+>  		/* Do nothing, waiting for sink detection */
+>  		break;
+> +
+> +	case PORT_RESET:
+> +	case PORT_RESET_WAIT_OFF:
+> +		/*
+> +		 * State set back to default mode once the timer completes.
+> +		 * Ignore vbus changes here.
+> +		 */
+> +		break;
+> +
+>  	default:
+>  		break;
+>  	}
+> @@ -3908,10 +3925,19 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
+>  	case PORT_RESET_WAIT_OFF:
+>  		tcpm_set_state(port, tcpm_default_state(port), 0);
+>  		break;
+> +
+>  	case SRC_TRY_WAIT:
+>  	case SRC_TRY_DEBOUNCE:
+>  		/* Do nothing, waiting for sink detection */
+>  		break;
+> +
+> +	case PORT_RESET:
+> +		/*
+> +		 * State set back to default mode once the timer completes.
+> +		 * Ignore vbus changes here.
+> +		 */
+> +		break;
+> +
+>  	default:
+>  		if (port->pwr_role == TYPEC_SINK &&
+>  		    port->attached)
+> -- 
+> 2.26.0.292.g33ef6b2f38-goog
 
-The main difference is that on GXL/GXM the USB2 PHY control registers
-are mixed with the PHY registers (we already handle correctly), and
-the GLUE registers are allmost (99%) the same as G12A.
-
-But, the GXL/GXM HW is buggy, here are the quirks :
-- for the DWC2 controller to reset correctly, the GLUE mux must be switched
-  to peripheral when the PHYs are powered up.
-- when manually switching from Host to Device when the USB port is not
-  populated (should not happen with proper Micro-USB/USB-C OTG switch), it
-  makes the DWC3 to crash. The only way to avoid that is to use the Host
-  Disconnect bit to disconnect the DWC3 controller from the port, but we can't
-  recover the Host functionnality unless resetting the DWC3 controller.
-  This bit is set when only manual switch is done, and a warning is printed
-  on manual switching.
-
-The patches 1-3 should be applied first, then either waiting the next release
-or if the usb maintainer can provide us a stable tag, we can use it to merge
-the DT and bindings.
-
-Changes since v2 at [2]:
-- Removed first 6 applied patches
-- rebased on usb/testing/next
-- Fixed dwc3_meson_g12a_usb2_init in patch 1
-- Fixed leftover usage of dwc3_meson_g12a_usb_init in patch 1
-- Moved post_init callback before child node probe to avoid bad dwc3 init
-
-Changes since v1 at [1]:
-- Fixed DT bindings to take in account usb2-phy2 on GXM
-- Added comment in patch2
-- Fixed patch 5 and moved fix out
-- Collected tags
-- Lower DT patch changes, switch p20x-q20x port B as OTG by default
-
-[1] http://lkml.kernel.org/r/20200324102030.31000-1-narmstrong@baylibre.com
-[2] http://lkml.kernel.org/r/20200326134507.4808-1-narmstrong@baylibre.com
-
-Martin Blumenstingl (4):
-  arm64: dts: amlogic: use the new USB control driver for GXL and GXM
-  phy: amlogic: meson-gxl-usb3: remove code for non-existing PHY
-  usb: dwc3: of-simple: remove Amlogic GXL and AXG compatibles
-  dt-bindings: usb: dwc3: remove old DWC3 wrapper
-
-Neil Armstrong (4):
-  usb: dwc3: meson-g12a: refactor usb init
-  usb: dwc3: meson-g12a: support the GXL/GXM DWC3 host phy disconnect
-  usb: dwc3: meson-g12a: add support for GXL and GXM SoCs
-  doc: dt: bindings: usb: dwc3: remove amlogic compatible entries
-
- .../bindings/phy/meson-gxl-usb3-phy.txt       |  31 --
- .../devicetree/bindings/usb/amlogic,dwc3.txt  |  42 ---
- .../devicetree/bindings/usb/dwc3.txt          |   2 -
- .../dts/amlogic/meson-gx-libretech-pc.dtsi    |   3 +-
- .../boot/dts/amlogic/meson-gx-p23x-q20x.dtsi  |   3 +-
- .../amlogic/meson-gxl-s805x-libretech-ac.dts  |   3 +-
- .../boot/dts/amlogic/meson-gxl-s805x-p241.dts |   3 +-
- .../amlogic/meson-gxl-s905d-phicomm-n1.dts    |   4 +
- .../boot/dts/amlogic/meson-gxl-s905w-p281.dts |   4 +
- .../dts/amlogic/meson-gxl-s905w-tx3-mini.dts  |   4 +
- .../amlogic/meson-gxl-s905x-khadas-vim.dts    |   4 +
- .../amlogic/meson-gxl-s905x-libretech-cc.dts  |   3 +-
- .../amlogic/meson-gxl-s905x-nexbox-a95x.dts   |   3 +-
- .../dts/amlogic/meson-gxl-s905x-p212.dtsi     |   3 +-
- arch/arm64/boot/dts/amlogic/meson-gxl.dtsi    |  45 +--
- .../dts/amlogic/meson-gxm-khadas-vim2.dts     |   3 +-
- .../boot/dts/amlogic/meson-gxm-nexbox-a1.dts  |   3 +-
- .../boot/dts/amlogic/meson-gxm-vega-s96.dts   |   4 +
- arch/arm64/boot/dts/amlogic/meson-gxm.dtsi    |   7 +-
- drivers/phy/amlogic/Kconfig                   |  12 -
- drivers/phy/amlogic/Makefile                  |   1 -
- drivers/phy/amlogic/phy-meson-gxl-usb3.c      | 283 ------------------
- drivers/usb/dwc3/dwc3-meson-g12a.c            | 188 +++++++++++-
- drivers/usb/dwc3/dwc3-of-simple.c             |  30 +-
- 24 files changed, 246 insertions(+), 442 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/meson-gxl-usb3-phy.txt
- delete mode 100644 Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
- delete mode 100644 drivers/phy/amlogic/phy-meson-gxl-usb3.c
+thanks,
 
 -- 
-2.22.0
-
+heikki
