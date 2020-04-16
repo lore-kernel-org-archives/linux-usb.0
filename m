@@ -2,91 +2,79 @@ Return-Path: <SRS0=/djJ=6A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B55FC2BB55
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 20:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A03A1C2BB55
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 20:50:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 656E021BE5
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 20:20:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FDB2221F9
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 20:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1587070242;
+	bh=8pJkCj7VJiAh7Fv15BzmBG8woE/Stmsai3tvkbrbPqE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:List-ID:From;
+	b=IFicVOEY9BbsVLlgSL8PrputcNM0F330ujA0eHF3HrpFGJVD+lOmPlpp8h1Nx7Snj
+	 +VBhs1NfQzSIn0fjSBgnyFKAamiyzi5rBzyy6XOh8x0I2Q9nTscIs9ipDxGfdTkx14
+	 bbHW0Wz078uXmCcZfjma+vTRHj/6xRYLQO+PXOBg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730158AbgDPUUY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Apr 2020 16:20:24 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:37881 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728513AbgDPUUW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Apr 2020 16:20:22 -0400
-Received: (qmail 29376 invoked by uid 500); 16 Apr 2020 16:20:21 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 16 Apr 2020 16:20:21 -0400
-Date:   Thu, 16 Apr 2020 16:20:21 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Paul Zimmerman <pauldzim@gmail.com>
-cc:     Peter Chen <peter.chen@nxp.com>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: No disconnection event for suspended device at v5.6
-In-Reply-To: <8a6cd6f8-b3c0-ca7b-9e69-23c68ac80d9e@gmail.com>
-Message-ID: <Pine.LNX.4.44L0.2004161619300.20822-100000@netrider.rowland.org>
+        id S1728249AbgDPUul (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Apr 2020 16:50:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57810 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725894AbgDPUul (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Apr 2020 16:50:41 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 54999221F7;
+        Thu, 16 Apr 2020 20:50:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587070241;
+        bh=8pJkCj7VJiAh7Fv15BzmBG8woE/Stmsai3tvkbrbPqE=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=n0UUlraLqLPjwYeqT/Ib4MzAhYTe3jERezX+JFSTgnmiiFuy1iRV9JufiLstTFI8H
+         5ckfrA10BFFVj1UxLmtyVr0sPTHkM+RwAvR5h6q0kt7RRVULMAf2Sejz1b7U6I68dT
+         dnrjquBKMape3ORtS5eDKMmqHRxAydReiX6vwno8=
+Date:   Thu, 16 Apr 2020 22:50:38 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Fatal Goth <gothfatal@gmail.com>
+cc:     linux-usb@vger.kernel.org, benjamin.tissoires@redhat.com
+Subject: Re: Asus GA502DU usb-hid keyboard not supported (0b05:1866)
+In-Reply-To: <CAPcc2qsLj7t5Ku2WVzaY7WfKqJTRLvU-1RN90PwLxnrEGednYA@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2004162250010.19713@cbobk.fhfr.pm>
+References: <CAPcc2qsLj7t5Ku2WVzaY7WfKqJTRLvU-1RN90PwLxnrEGednYA@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 16 Apr 2020, Paul Zimmerman wrote:
+On Fri, 20 Mar 2020, Fatal Goth wrote:
 
-> On 4/16/20 7:34 AM, Alan Stern wrote:
-> > On Wed, 15 Apr 2020, Paul Zimmerman wrote:
-> > 
-> >> Hi Alan,
-> >>
-> >> On Wed, 15 Apr 2020 15:40:31 -0400 (EDT) Alan Stern <stern@rowland.harvard.edu> wrote:
-> > 
-> >>> Paul, I trust this new patch won't mess up your Bluetooth adapter.  It
-> >>> should still clear the hub->change_bits entry before the hub workqueue
-> >>> thread wakes up.
-> >>>
-> >>> Alan Stern
-> > 
-> >> Unfortunately, my testing on this is somewhat inconclusive. I updated
-> >> to the latest Linus kernel, then did about a half-dozen suspend/resume
-> >> cycles to verify it was still working. Then I applied the patch and
-> >> rebooted into the new kernel. At first I thought it was OK, but after
-> >> about 5 or 6 suspend/resume cycles, the bluetooth stopped working (the
-> >> desktop bluetooth manager in Linux Mint froze when I opened it). Another
-> >> suspend/resume cycle brought it back to life, but after a couple more
-> >> cycles it froze again.
-> > 
-> > That sounds different from your original bug report.  Didn't the
-> > adapter fail in a significantly larger fraction of suspends?
+> The majority of the function keys for this laptop are not operational, and
+> neither is the keyboard backlight.
 > 
-> Yes it did.
+> I've realized this is due to the hid-asus module not loading for this
+> keyboard. However, when I add the device ID to hid-asus.c most of the
+> function keys work, but some of the normal keyboard keys get incorrectly
+> mapped as brightness controls, and the keyboard LED still will not
+> initialize ("Asus failed to request functions: -75").
 > 
-> >> But looking at the dmesg log, there were no errors concerning the
-> >> bluetooth adapter. With the original failure, it would show errors
-> >> before or during the firmware update of the bluetooth adapter, but
-> >> now, the firmware update seemed to complete OK. And to top it off,
-> >> after a reboot, I am no longer able to make it fail. I did more than
-> >> a dozen suspend/resume cycles and have not seen any further failures.
-> >>
-> >> So, make of that what you will :)
-> > 
-> > Overall, I guess we can call it a success.  Do you want to collect a
-> > usbmon trace to verify that the patch behaves as expected, or are you
-> > happy with the testing so far?
-> 
-> I doubt a usbmon trace would show us anything unless I could get the
-> bluetooth to fail again. And since I was the only one who saw the
-> original problem anyway, I think it's fine to proceed with this patch
-> as-is.
+> I'm having a go at trying to fix this up, though a helping hand would be
+> awesome. Here's the patch I'd created to even get to that point:
 
-Okay, then I'll add your Tested-by if you don't mind.
+The patch has been damaged by your mail client, and is missing 
+Signed-off-by line.
 
-Peter, have you tested the patch?
+Could you please fix that up and resubmit?
 
-Alan Stern
+Thanks!
+
+-- 
+Jiri Kosina
+SUSE Labs
 
