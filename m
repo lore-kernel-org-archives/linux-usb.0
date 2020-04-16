@@ -2,162 +2,487 @@ Return-Path: <SRS0=/djJ=6A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A32F3C2BA19
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 01:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30222C38A2D
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 05:32:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84F7D2078B
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 01:21:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F127520784
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 05:32:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o5C4y+Ts"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727991AbgDPBVf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Apr 2020 21:21:35 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:36015 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2387503AbgDPBVZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Apr 2020 21:21:25 -0400
-Received: (qmail 2642 invoked by uid 500); 15 Apr 2020 21:21:20 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 15 Apr 2020 21:21:20 -0400
-Date:   Wed, 15 Apr 2020 21:21:20 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Cyril Roelandt <tipecaml@gmail.com>
-cc:     USB list <linux-usb@vger.kernel.org>, <sellis@redhat.com>,
-        <pachoramos@gmail.com>, <labbott@fedoraproject.org>,
-        <gregkh@linuxfoundation.org>, <javhera@gmx.com>
-Subject: Re: [BUG] Regression in Linux 5.4.17 for JMicron JMS566 enclosure
-In-Reply-To: <20200415205610.GA8665@Susan>
-Message-ID: <Pine.LNX.4.44L0.2004152107170.1353-100000@netrider.rowland.org>
+        id S2406680AbgDPFcR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Apr 2020 01:32:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2405531AbgDPFcM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Apr 2020 01:32:12 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D0E0C061A0C;
+        Wed, 15 Apr 2020 22:32:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=SVuBq79e0qB3sbkQmjsapq4IOy80jQar5oImUUqnrfY=; b=o5C4y+TsU+kJsUjTGzv+tVAbLl
+        hiHyIHr6UKLkP+q9P0Mj1bwczyn+mL1PGAgcwWjLFxGT5/xkoa4z7ByX+vQaCPq43vjqfQ39ACVrx
+        1M1DVR2LpU8c90uyYXo1U+BnrcoG71M1nmOZskpptb4z6LvI1PU28YhJwyARgbuDKG3TOPT+Y0/Jo
+        0aJTMMo4Z3cK2p4ovRkeCeSAWjHvVT+AOg9uZNGJFtzUP/UGHvmP8d8YutoguAFFNqII3flozQfj6
+        x831PTSrPB9iDFqMbeTH9p/L9n8aIAZFbLvrloMyX5pBeimP0gdNPRooufBgSbpUBFxR0vaLLcwgm
+        xLRGP4Mg==;
+Received: from [2001:4bb8:184:4aa1:c70:4a89:bc61:2] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jOx87-0003d5-6i; Thu, 16 Apr 2020 05:32:03 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH 1/3] kernel: move use_mm/unuse_mm to kthread.c
+Date:   Thu, 16 Apr 2020 07:31:56 +0200
+Message-Id: <20200416053158.586887-2-hch@lst.de>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200416053158.586887-1-hch@lst.de>
+References: <20200416053158.586887-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 15 Apr 2020, Cyril Roelandt wrote:
+These helpers are only for use with kernel threads, and I will tie them
+more into the kthread infrastructure going forward.  Also move the
+prototypes to kthread.h - mmu_context.h was a little weird to start with
+as it otherwise contains very low-level MM bits.
 
-> Hello,
-> 
-> I own a WD Blue 1TB hard drive that I use in combination with an Icy Box
-> IB-273StU3-B enclosure in order to plug it to my laptop using USB. It
-> worked fine with all the Linux versions I tried, up until 5.4.17.
-> 
-> 
-> Using Linux 5.3
-> ---------------
-> Everything works as expected when I plug the drive, and I can mount the
-> partitions:
-> 
-> # dmesg -T
-> [Sun Mar 22 23:48:39 2020] usb 2-2: new SuperSpeed Gen 1 USB device number 2 using xhci_hcd
-> [Sun Mar 22 23:48:39 2020] usb 2-2: New USB device found, idVendor=357d, idProduct=7788, bcdDevice= 1.14
-> [Sun Mar 22 23:48:39 2020] usb 2-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> [Sun Mar 22 23:48:39 2020] usb 2-2: Product: USB to ATA/ATAPI Bridge
-> [Sun Mar 22 23:48:39 2020] usb 2-2: Manufacturer: JMicron
-> [Sun Mar 22 23:48:39 2020] usb 2-2: SerialNumber: 74D7851513309E5
-> [Sun Mar 22 23:48:39 2020] usbcore: registered new interface driver usb-storage
-> [Sun Mar 22 23:48:39 2020] scsi host6: uas
-> [Sun Mar 22 23:48:39 2020] usbcore: registered new interface driver uas
-> [Sun Mar 22 23:48:39 2020] scsi 6:0:0:0: Direct-Access     WDC WD10 JPVT-00A1YT0     0114 PQ: 0 ANSI: 6
-> [Sun Mar 22 23:48:39 2020] sd 6:0:0:0: Attached scsi generic sg1 type 0
-> [Sun Mar 22 23:48:39 2020] sd 6:0:0:0: [sdb] Spinning up disk...
-> [Sun Mar 22 23:48:40 2020] ..ready
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] 1953525168 512-byte logical blocks: (1.00 TB/932 GiB)
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] 4096-byte physical blocks
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] Write Protect is off
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] Mode Sense: 53 00 10 08
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] Write cache: enabled, read cache: enabled, supports DPO and FUA
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] Optimal transfer size 33553920 bytes not a multiple of physical block size (4096 bytes)
-> [Sun Mar 22 23:48:41 2020]  sdb: sdb1
-> [Sun Mar 22 23:48:41 2020] sd 6:0:0:0: [sdb] Attached SCSI disk
-> 
-> 
-> Using Linux 5.4
-> ---------------
-> 
-> # uname -a
-> Linux Susan 5.4.0-4-amd64 #1 SMP Debian 5.4.19-1 (2020-02-13) x86_64 GNU/Linux
-> 
-> # mkdir /tmp/mnt
-> 
-> # mount /dev/sdb1 /tmp/mnt
-> mount: /tmp/mnt: can't read superblock on /dev/sdb1.
-> 
-> # fsck -y /dev/sdb1
-> fsck from util-linux 2.34
-> e2fsck 1.45.6 (20-Mar-2020)
-> /dev/sdb1: clean, 2951657/61054976 files, 115035523/244190208 blocks
-> 
-> # dmesg -T 
-> [Mon Mar 23 18:43:06 2020] usb 3-2: new SuperSpeed Gen 1 USB device number 8 using xhci_hcd
-> [Mon Mar 23 18:43:06 2020] usb 3-2: New USB device found, idVendor=357d, idProduct=7788, bcdDevice= 1.14
-> [Mon Mar 23 18:43:06 2020] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> [Mon Mar 23 18:43:06 2020] usb 3-2: Product: USB to ATA/ATAPI Bridge
-> [Mon Mar 23 18:43:06 2020] usb 3-2: Manufacturer: JMicron
-> [Mon Mar 23 18:43:06 2020] usb 3-2: SerialNumber: 74D7851513309E5
-> [Mon Mar 23 18:43:06 2020] usb 3-2: UAS is blacklisted for this device, using usb-storage instead
-> [Mon Mar 23 18:43:06 2020] usb-storage 3-2:1.0: USB Mass Storage device detected
-> [Mon Mar 23 18:43:06 2020] usb-storage 3-2:1.0: Quirks match for vid 357d pid 7788: 4800000
-> [Mon Mar 23 18:43:06 2020] scsi host6: usb-storage 3-2:1.0
-> [Mon Mar 23 18:43:07 2020] scsi 6:0:0:0: Direct-Access     WDC WD10 JPVT-00A1YT0     0114 PQ: 0 ANSI: 6
-> [Mon Mar 23 18:43:07 2020] sd 6:0:0:0: Attached scsi generic sg1 type 0
-> [Mon Mar 23 18:43:07 2020] sd 6:0:0:0: [sdb] Spinning up disk...
-> [Mon Mar 23 18:43:08 2020] ..ready
-> [Mon Mar 23 18:43:09 2020] sd 6:0:0:0: [sdb] 1953525168 512-byte logical blocks: (1.00 TB/932 GiB)
-> [Mon Mar 23 18:43:09 2020] sd 6:0:0:0: [sdb] Write Protect is off
-> [Mon Mar 23 18:43:09 2020] sd 6:0:0:0: [sdb] Mode Sense: 47 00 10 08
-> [Mon Mar 23 18:43:09 2020] sd 6:0:0:0: [sdb] Write cache: enabled, read cache: enabled, supports DPO and FUA
-> [Mon Mar 23 18:43:09 2020]  sdb: sdb1
-> [Mon Mar 23 18:43:09 2020] sd 6:0:0:0: [sdb] Attached SCSI disk
-> [Mon Mar 23 18:43:30 2020] sd 6:0:0:0: [sdb] tag#0 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE
-> [Mon Mar 23 18:43:30 2020] sd 6:0:0:0: [sdb] tag#0 Sense Key : Illegal Request [current] 
-> [Mon Mar 23 18:43:30 2020] sd 6:0:0:0: [sdb] tag#0 Add. Sense: Invalid field in cdb
-> [Mon Mar 23 18:43:30 2020] sd 6:0:0:0: [sdb] tag#0 CDB: Write(10) 2a 08 00 00 08 00 00 00 08 00
-> [Mon Mar 23 18:43:30 2020] blk_update_request: critical target error, dev sdb, sector 2048 op 0x1:(WRITE) flags 0x20800 phys_seg 1 prio class 0
-> [Mon Mar 23 18:43:30 2020] Buffer I/O error on dev sdb1, logical block 0, lost sync page write
-> [Mon Mar 23 18:43:30 2020] EXT4-fs (sdb1): I/O error while writing superblock
-> [Mon Mar 23 18:43:30 2020] EXT4-fs (sdb1): mount failed
-> 
-> # lsusb 
-> Bus 003 Device 008: ID 357d:7788 Sharkoon QuickPort XT
-> 
-> 
-> Other considerations
-> --------------------
-> This enclosure works as expected with another drive: I tried with an old
-> Fujitsu 250GB drive and was able to mount the partitions.
-> 
-> The WD drive works with a similar enclosure: the Icy Box IB-268U3-B
-> enclosure. It has the exact same vendor id and product id (357d:7788)
-> but a different bcdDevice (2.03).
-> 
-> Looking at the dmesg logs I pasted above, I see that the main difference
-> is the driver used:
-> - uas in Linux 5.3;
-> - usb-storage in Linux 5.4, since uas is blacklisted.
-> 
-> 
-> I believe the uas driver was blacklisted because of an old bug[1] in
-> Fedora. In Linux, the commit that disabled uas is
-> bc3bdb12bbb3492067c8719011576370e959a2e6.
-> 
-> I do not really mind not being able to use uas, however I would like to
-> be able to mount my partitions using usb-storage.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
+ .../drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c   |  1 -
+ .../drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c    |  1 -
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v7.c |  2 -
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v8.c |  2 -
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  2 -
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  2 +-
+ drivers/usb/gadget/function/f_fs.c            |  2 +-
+ drivers/usb/gadget/legacy/inode.c             |  2 +-
+ drivers/vfio/vfio_iommu_type1.c               |  2 +-
+ drivers/vhost/vhost.c                         |  1 -
+ fs/aio.c                                      |  1 -
+ fs/io-wq.c                                    |  1 -
+ fs/io_uring.c                                 |  1 -
+ include/linux/kthread.h                       |  5 ++
+ include/linux/mmu_context.h                   |  5 --
+ kernel/kthread.c                              | 56 ++++++++++++++++
+ mm/Makefile                                   |  2 +-
+ mm/mmu_context.c                              | 64 -------------------
+ 19 files changed, 67 insertions(+), 86 deletions(-)
+ delete mode 100644 mm/mmu_context.c
 
-It's entirely possible that the blacklisting is not necessary any more.  
-After all, it was added four and a half years ago; the kernel has
-improved since then.  I guess you're not in a position to test this,
-but maybe Steve Ellis or Takeo Nakayama is...?
-
-Does 5.3 work if you add a similar blacklist entry?
-
-Can you collect usbmon traces showing what happens with both uas and
-usb-storage?  Perhaps different sequences of commands get sent to the
-drive with the two drivers.
-
-Alan Stern
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index 13feb313e9b3..b820c8fc689f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -27,6 +27,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/mm.h>
++#include <linux/kthread.h>
+ #include <linux/workqueue.h>
+ #include <kgd_kfd_interface.h>
+ #include <drm/ttm/ttm_execbuf_util.h>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+index 6529caca88fe..35d4a5ab0228 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+@@ -22,7 +22,6 @@
+ #include <linux/module.h>
+ #include <linux/fdtable.h>
+ #include <linux/uaccess.h>
+-#include <linux/mmu_context.h>
+ #include <linux/firmware.h>
+ #include "amdgpu.h"
+ #include "amdgpu_amdkfd.h"
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+index 4ec6d0c03201..b1655054b919 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+@@ -19,7 +19,6 @@
+  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  * OTHER DEALINGS IN THE SOFTWARE.
+  */
+-#include <linux/mmu_context.h>
+ #include "amdgpu.h"
+ #include "amdgpu_amdkfd.h"
+ #include "gc/gc_10_1_0_offset.h"
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v7.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v7.c
+index 0b7e78748540..7d01420c0c85 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v7.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v7.c
+@@ -20,8 +20,6 @@
+  * OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
+-#include <linux/mmu_context.h>
+-
+ #include "amdgpu.h"
+ #include "amdgpu_amdkfd.h"
+ #include "cikd.h"
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v8.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v8.c
+index ccd635b812b5..635cd1a26bed 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v8.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v8.c
+@@ -20,8 +20,6 @@
+  * OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
+-#include <linux/mmu_context.h>
+-
+ #include "amdgpu.h"
+ #include "amdgpu_amdkfd.h"
+ #include "gfx_v8_0.h"
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+index df841c2ac5e7..c7fd0c47b254 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+@@ -19,8 +19,6 @@
+  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  * OTHER DEALINGS IN THE SOFTWARE.
+  */
+-#include <linux/mmu_context.h>
+-
+ #include "amdgpu.h"
+ #include "amdgpu_amdkfd.h"
+ #include "gc/gc_9_0_offset.h"
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index 074c4efb58eb..ca1dd6e6f395 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -31,7 +31,7 @@
+ #include <linux/init.h>
+ #include <linux/device.h>
+ #include <linux/mm.h>
+-#include <linux/mmu_context.h>
++#include <linux/kthread.h>
+ #include <linux/sched/mm.h>
+ #include <linux/types.h>
+ #include <linux/list.h>
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index c81023b195c3..c57b1b2507c6 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -32,7 +32,7 @@
+ #include <linux/usb/functionfs.h>
+ 
+ #include <linux/aio.h>
+-#include <linux/mmu_context.h>
++#include <linux/kthread.h>
+ #include <linux/poll.h>
+ #include <linux/eventfd.h>
+ 
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index aa0de9e35afa..8b5233888bf8 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -21,7 +21,7 @@
+ #include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/poll.h>
+-#include <linux/mmu_context.h>
++#include <linux/kthread.h>
+ #include <linux/aio.h>
+ #include <linux/uio.h>
+ #include <linux/refcount.h>
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index 85b32c325282..5f50866a8b01 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -27,7 +27,7 @@
+ #include <linux/iommu.h>
+ #include <linux/module.h>
+ #include <linux/mm.h>
+-#include <linux/mmu_context.h>
++#include <linux/kthread.h>
+ #include <linux/rbtree.h>
+ #include <linux/sched/signal.h>
+ #include <linux/sched/mm.h>
+diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+index d450e16c5c25..ead1deed80d3 100644
+--- a/drivers/vhost/vhost.c
++++ b/drivers/vhost/vhost.c
+@@ -14,7 +14,6 @@
+ #include <linux/vhost.h>
+ #include <linux/uio.h>
+ #include <linux/mm.h>
+-#include <linux/mmu_context.h>
+ #include <linux/miscdevice.h>
+ #include <linux/mutex.h>
+ #include <linux/poll.h>
+diff --git a/fs/aio.c b/fs/aio.c
+index 5f3d3d814928..328829f0343b 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -27,7 +27,6 @@
+ #include <linux/file.h>
+ #include <linux/mm.h>
+ #include <linux/mman.h>
+-#include <linux/mmu_context.h>
+ #include <linux/percpu.h>
+ #include <linux/slab.h>
+ #include <linux/timer.h>
+diff --git a/fs/io-wq.c b/fs/io-wq.c
+index 4023c9846860..5f590bf27bff 100644
+--- a/fs/io-wq.c
++++ b/fs/io-wq.c
+@@ -10,7 +10,6 @@
+ #include <linux/errno.h>
+ #include <linux/sched/signal.h>
+ #include <linux/mm.h>
+-#include <linux/mmu_context.h>
+ #include <linux/sched/mm.h>
+ #include <linux/percpu.h>
+ #include <linux/slab.h>
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 5190bfb6a665..f5a80f6f28f5 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -55,7 +55,6 @@
+ #include <linux/fdtable.h>
+ #include <linux/mm.h>
+ #include <linux/mman.h>
+-#include <linux/mmu_context.h>
+ #include <linux/percpu.h>
+ #include <linux/slab.h>
+ #include <linux/kthread.h>
+diff --git a/include/linux/kthread.h b/include/linux/kthread.h
+index 8bbcaad7ef0f..c2d40c9672d6 100644
+--- a/include/linux/kthread.h
++++ b/include/linux/kthread.h
+@@ -5,6 +5,8 @@
+ #include <linux/err.h>
+ #include <linux/sched.h>
+ 
++struct mm_struct;
++
+ __printf(4, 5)
+ struct task_struct *kthread_create_on_node(int (*threadfn)(void *data),
+ 					   void *data,
+@@ -198,6 +200,9 @@ bool kthread_cancel_delayed_work_sync(struct kthread_delayed_work *work);
+ 
+ void kthread_destroy_worker(struct kthread_worker *worker);
+ 
++void use_mm(struct mm_struct *mm);
++void unuse_mm(struct mm_struct *mm);
++
+ struct cgroup_subsys_state;
+ 
+ #ifdef CONFIG_BLK_CGROUP
+diff --git a/include/linux/mmu_context.h b/include/linux/mmu_context.h
+index d9a543a9e1cc..c51a84132d7c 100644
+--- a/include/linux/mmu_context.h
++++ b/include/linux/mmu_context.h
+@@ -4,11 +4,6 @@
+ 
+ #include <asm/mmu_context.h>
+ 
+-struct mm_struct;
+-
+-void use_mm(struct mm_struct *mm);
+-void unuse_mm(struct mm_struct *mm);
+-
+ /* Architectures that care about IRQ state in switch_mm can override this. */
+ #ifndef switch_mm_irqs_off
+ # define switch_mm_irqs_off switch_mm
+diff --git a/kernel/kthread.c b/kernel/kthread.c
+index bfbfa481be3a..ce4610316377 100644
+--- a/kernel/kthread.c
++++ b/kernel/kthread.c
+@@ -1,13 +1,17 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /* Kernel thread helper functions.
+  *   Copyright (C) 2004 IBM Corporation, Rusty Russell.
++ *   Copyright (C) 2009 Red Hat, Inc.
+  *
+  * Creation is done via kthreadd, so that we get a clean environment
+  * even if we're invoked from userspace (think modprobe, hotplug cpu,
+  * etc.).
+  */
+ #include <uapi/linux/sched/types.h>
++#include <linux/mm.h>
++#include <linux/mmu_context.h>
+ #include <linux/sched.h>
++#include <linux/sched/mm.h>
+ #include <linux/sched/task.h>
+ #include <linux/kthread.h>
+ #include <linux/completion.h>
+@@ -25,6 +29,7 @@
+ #include <linux/numa.h>
+ #include <trace/events/sched.h>
+ 
++
+ static DEFINE_SPINLOCK(kthread_create_lock);
+ static LIST_HEAD(kthread_create_list);
+ struct task_struct *kthreadd_task;
+@@ -1203,6 +1208,57 @@ void kthread_destroy_worker(struct kthread_worker *worker)
+ }
+ EXPORT_SYMBOL(kthread_destroy_worker);
+ 
++/*
++ * use_mm
++ *	Makes the calling kernel thread take on the specified
++ *	mm context.
++ *	(Note: this routine is intended to be called only
++ *	from a kernel thread context)
++ */
++void use_mm(struct mm_struct *mm)
++{
++	struct mm_struct *active_mm;
++	struct task_struct *tsk = current;
++
++	task_lock(tsk);
++	active_mm = tsk->active_mm;
++	if (active_mm != mm) {
++		mmgrab(mm);
++		tsk->active_mm = mm;
++	}
++	tsk->mm = mm;
++	switch_mm(active_mm, mm, tsk);
++	task_unlock(tsk);
++#ifdef finish_arch_post_lock_switch
++	finish_arch_post_lock_switch();
++#endif
++
++	if (active_mm != mm)
++		mmdrop(active_mm);
++}
++EXPORT_SYMBOL_GPL(use_mm);
++
++/*
++ * unuse_mm
++ *	Reverses the effect of use_mm, i.e. releases the
++ *	specified mm context which was earlier taken on
++ *	by the calling kernel thread
++ *	(Note: this routine is intended to be called only
++ *	from a kernel thread context)
++ */
++void unuse_mm(struct mm_struct *mm)
++{
++	struct task_struct *tsk = current;
++
++	task_lock(tsk);
++	sync_mm_rss(mm);
++	tsk->mm = NULL;
++	/* active_mm is still 'mm' */
++	enter_lazy_tlb(mm, tsk);
++	task_unlock(tsk);
++}
++EXPORT_SYMBOL_GPL(unuse_mm);
++
+ #ifdef CONFIG_BLK_CGROUP
+ /**
+  * kthread_associate_blkcg - associate blkcg to current kthread
+diff --git a/mm/Makefile b/mm/Makefile
+index fccd3756b25f..cafde277ed8d 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -41,7 +41,7 @@ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
+ 			   maccess.o page-writeback.o \
+ 			   readahead.o swap.o truncate.o vmscan.o shmem.o \
+ 			   util.o mmzone.o vmstat.o backing-dev.o \
+-			   mm_init.o mmu_context.o percpu.o slab_common.o \
++			   mm_init.o percpu.o slab_common.o \
+ 			   compaction.o vmacache.o \
+ 			   interval_tree.o list_lru.o workingset.o \
+ 			   debug.o gup.o $(mmu-y)
+diff --git a/mm/mmu_context.c b/mm/mmu_context.c
+deleted file mode 100644
+index 3e612ae748e9..000000000000
+--- a/mm/mmu_context.c
++++ /dev/null
+@@ -1,64 +0,0 @@
+-/* Copyright (C) 2009 Red Hat, Inc.
+- *
+- * See ../COPYING for licensing terms.
+- */
+-
+-#include <linux/mm.h>
+-#include <linux/sched.h>
+-#include <linux/sched/mm.h>
+-#include <linux/sched/task.h>
+-#include <linux/mmu_context.h>
+-#include <linux/export.h>
+-
+-#include <asm/mmu_context.h>
+-
+-/*
+- * use_mm
+- *	Makes the calling kernel thread take on the specified
+- *	mm context.
+- *	(Note: this routine is intended to be called only
+- *	from a kernel thread context)
+- */
+-void use_mm(struct mm_struct *mm)
+-{
+-	struct mm_struct *active_mm;
+-	struct task_struct *tsk = current;
+-
+-	task_lock(tsk);
+-	active_mm = tsk->active_mm;
+-	if (active_mm != mm) {
+-		mmgrab(mm);
+-		tsk->active_mm = mm;
+-	}
+-	tsk->mm = mm;
+-	switch_mm(active_mm, mm, tsk);
+-	task_unlock(tsk);
+-#ifdef finish_arch_post_lock_switch
+-	finish_arch_post_lock_switch();
+-#endif
+-
+-	if (active_mm != mm)
+-		mmdrop(active_mm);
+-}
+-EXPORT_SYMBOL_GPL(use_mm);
+-
+-/*
+- * unuse_mm
+- *	Reverses the effect of use_mm, i.e. releases the
+- *	specified mm context which was earlier taken on
+- *	by the calling kernel thread
+- *	(Note: this routine is intended to be called only
+- *	from a kernel thread context)
+- */
+-void unuse_mm(struct mm_struct *mm)
+-{
+-	struct task_struct *tsk = current;
+-
+-	task_lock(tsk);
+-	sync_mm_rss(mm);
+-	tsk->mm = NULL;
+-	/* active_mm is still 'mm' */
+-	enter_lazy_tlb(mm, tsk);
+-	task_unlock(tsk);
+-}
+-EXPORT_SYMBOL_GPL(unuse_mm);
+-- 
+2.25.1
 
