@@ -2,153 +2,175 @@ Return-Path: <SRS0=/djJ=6A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1457BC2BB55
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 15:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E06C352BE
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 15:40:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1AAE2222D
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 15:18:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 255B521D91
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Apr 2020 15:40:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="H0TdvJ4U";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ZguEM4X/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504271AbgDPPSU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Apr 2020 11:18:20 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:45803 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2504093AbgDPPSQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Apr 2020 11:18:16 -0400
-Received: (qmail 4506 invoked by uid 500); 16 Apr 2020 11:18:15 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 16 Apr 2020 11:18:15 -0400
-Date:   Thu, 16 Apr 2020 11:18:15 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux-pm mailing list <linux-pm@vger.kernel.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>
-Subject: Re: lockdep warning in urb.c:363 usb_submit_urb
-In-Reply-To: <1998412.Cp2JyuGtSI@kreacher>
-Message-ID: <Pine.LNX.4.44L0.2004161036410.14937-100000@netrider.rowland.org>
+        id S2897550AbgDPNhv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Apr 2020 09:37:51 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:45484 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2896376AbgDPNhW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Apr 2020 09:37:22 -0400
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B31AE404B8;
+        Thu, 16 Apr 2020 13:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1587044241; bh=qDcMmPD4vi+ORIS+MXDVvfJP5rkM0e+9B4bRaZJL908=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=H0TdvJ4Uxb8Qsd6YdZwZExtcK7a7F8xUf4UgWe639exY62mk+vBVs8Vep18f4xVt5
+         KXh7isX2QnH1Zqb00wL/vvvVjK4QwBiSIz9NhgcT8G2fhYFiq502XsB80ulztYXN4u
+         4st/He5BuITjjPSr2rXG7ppEpvhQUCqJRzaqpVFZcWCpfo1iEnrmoiTNsYHeXcimxS
+         lLXvLazDlIH8JuI1Mqy5UIt/NB4ZNTL8X5Hju0sHkVkrp6rVo3CLvKdqMY7icV1HJc
+         cpiMTnXwOI8VWL0oxtqPfSQaJwZpYiJzg3BB7ebuFE9sa5qyo23uaigiUETN64tcXH
+         ODMvkbEm33EqQ==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 39054A0067;
+        Thu, 16 Apr 2020 13:37:18 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 16 Apr 2020 06:37:18 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Thu, 16 Apr 2020 06:37:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H6D8z2JeULV7D4VLswlqei0l+vOzVXAm4XSv0AiepOYAFLlN+bjoXM4ta7KAFKZhrr0i0P98jwbwIW+e4raa+dQ1ezUbVPGpeK4tr3AvdTvy1fmybbJh4A1coKpVebTttsuOYzUIuKbMOA5e2nwjeSAP/YQxWEm/JNetHvphn4tI9jUSrKIh3qjsPAA2dDvXLii33YJVwtdiN1J8uF4OlvvQ0OHQitADUN0Jz8Xg1ORBXeb1lGL3iGlH92scl20gBfVGUmBcpGYeZpBPfgnwuMy5qFynawQr/LgcfOhF1yDCC2XyxPEDjov6yMhiNWKF6Wsg8hVtW1JDevYuLytwNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qDcMmPD4vi+ORIS+MXDVvfJP5rkM0e+9B4bRaZJL908=;
+ b=SeCK4qNKhlP5JFDkjvubRMYujildvP2e/HX4WmUgXMN85KijibB8uixxZtftb4kCDGKHbYzO+bm8AF43QqYV9UrBVTfa5vrQ3H34c9yPXJmQM/vfzDW9kRky+8OFFya0WQKOnnFeFnkmyUzQE0GVeKnTn07XavScoFT/iydRuKglggpyKDIWzUDvgsH4U8vAFIRKAANTiuCTm1h+14sjoh0dgHJjz0aXiT9Y88Uyyrj2BKJ0TEFoMJftpDeaVT+eGeXHJk0wrDASd7t5aPWhbEJKUh9L5QfGm2tEYOXxWTxgfXlva0ynTEpOeuaiPepG1tCs9yib0seoPLJqlKoIzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qDcMmPD4vi+ORIS+MXDVvfJP5rkM0e+9B4bRaZJL908=;
+ b=ZguEM4X/p42GBq4fUEN66ZL6NSd/tznXWdsW4PNFXTk4Ov5t8SYXgXuDCKM579o3xZlLuZId5+ttW6W5cXwBMLjUPG3tupr9PDYsRqxGvaGqEc+F3mM3u42W90d7WgHJz5stG7qvxa+4pD4s+EgU6kfYuhn2of2oOHzIM4Wg1zI=
+Received: from SN1PR12MB2557.namprd12.prod.outlook.com (2603:10b6:802:22::15)
+ by SN1PR12MB2526.namprd12.prod.outlook.com (2603:10b6:802:2a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.19; Thu, 16 Apr
+ 2020 13:37:17 +0000
+Received: from SN1PR12MB2557.namprd12.prod.outlook.com
+ ([fe80::20d2:fe98:5580:932d]) by SN1PR12MB2557.namprd12.prod.outlook.com
+ ([fe80::20d2:fe98:5580:932d%7]) with mapi id 15.20.2900.028; Thu, 16 Apr 2020
+ 13:37:17 +0000
+From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+To:     Marek Vasut <marex@denx.de>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     Amelie Delaunay <amelie.delaunay@st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
+Thread-Topic: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
+Thread-Index: AQHWEaBFUZHLydAVY0yALpZJ1gABx6h3ITiAgAACTgCAAAlrgIAAGd8AgADukoCAAFTigIABVJ4AgABprwCAAAQ1gIABN86AgABAc4A=
+Date:   Thu, 16 Apr 2020 13:37:17 +0000
+Message-ID: <8fb53f3a-a02b-3c53-0d9d-22b707bda786@synopsys.com>
+References: <20200413143107.181669-1-marex@denx.de>
+ <31b679d3-d3e4-0220-ec4b-58eada4d21d4@synopsys.com>
+ <b20fb33d-7fdd-5785-8f72-74900eb4d328@denx.de>
+ <9906c2da-8a20-eae7-d69e-6947085edf84@synopsys.com>
+ <b64f41ac-2d70-55a3-ab6a-77383cd463eb@denx.de>
+ <d1b36da4-b506-2f86-f5ad-95bf3aac4485@synopsys.com>
+ <c35e95cf-7f72-4a49-a0e1-efc0701d613d@denx.de>
+ <867a776d-1e2c-2207-4387-072d2a8423fb@synopsys.com>
+ <a6d681c5-d5fa-51d8-a320-6f6e9844c93a@denx.de>
+ <4b4478aa-85bd-c05c-b5d0-e11dc35eb623@synopsys.com>
+ <6ea2270d-19a4-7e8b-42fb-37a4a9d81e1f@denx.de>
+In-Reply-To: <6ea2270d-19a4-7e8b-42fb-37a4a9d81e1f@denx.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=hminas@synopsys.com; 
+x-originating-ip: [198.182.37.200]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e3f2fdf9-0b95-43a6-cb09-08d7e20b47dd
+x-ms-traffictypediagnostic: SN1PR12MB2526:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN1PR12MB25264A423B880F1783EED16FA7D80@SN1PR12MB2526.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0375972289
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(376002)(39860400002)(136003)(396003)(346002)(366004)(54906003)(31686004)(53546011)(6486002)(5660300002)(2906002)(8676002)(36756003)(81156014)(6506007)(478600001)(186003)(8936002)(2616005)(26005)(66556008)(316002)(64756008)(91956017)(6512007)(110136005)(66946007)(86362001)(4326008)(71200400001)(66446008)(31696002)(76116006)(66476007);DIR:OUT;SFP:1102;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fYaDIUOUy0hugVZ7yhKqXFzHlNrpYQcW7d0pdCFk19INJq39/IOESBxktMtw+zqEz8Dz8CSMyKSrvBGiULPkW55+rpz1iEXIrHzB3Sg01ngG4vwq2Zg3MPsAQbi0iPbmr22K4HEI8HfukyhJkTXW5oILq2ddFCUkyGG2URYrb8Mq3VQaEsduojWSSpSzxbR17v9A3k7UCOtdq96YqCVbSAeAjgPEuDaE1Ztv5XlznhX8CW5qgH1xj0lJKOdLJ+AArpKz74YPsozgn3+1n6mMVBAekFHWPCAFyPTscYN8JjRjj6lzKNdrJG5tXKlVPtdYi40BGpgex0UI9sqmBYXj4jNbGHxH14u6QawbbBh8O4FGGVXRm69Pf+sv/A3Xla+H+SRBP2E6OTM3/01/un1Pd/9nrlveAOq4kW9AfX3s8v8AlDRPt9sQ+XLIl48HZAnq
+x-ms-exchange-antispam-messagedata: NvukgAcOURdTcvkV/hWwlDCdAPSqEfnlhYdhpt3Spxkw7XaWqAv3pRZmqeTak7m12XdGaBohKEvOjw21LdHGlFziKxFCjL/znAtfu4MZ7eRgtcB+9VeOAwTrFx0QeG5gsXUKYv2daIBg1+Xo/wfSAg==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9367D8BE1A66CB4BA051B26DDE2A186E@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3f2fdf9-0b95-43a6-cb09-08d7e20b47dd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2020 13:37:17.3760
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EZ2utHwa4GbEYEWMswklwh5YbZkh8Oy5UFFOBe9nVgW2HDsytlE2MsN3knoc1iTnpVNjwxSt3IGU7Ya+FXPKmA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2526
+X-OriginatorOrg: synopsys.com
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Thanks for all your help straightening this out.  I think the end 
-result will be a distinct improvement over the old code.
-
-On Thu, 16 Apr 2020, Rafael J. Wysocki wrote:
-
-> This means that the dev_pm_skip_resume() logic really is relatively
-> straightforward:
->  - If the current transition is RESTORE, return "false".
->  - Otherwise, if the current transition is THAW, return the return value
->    of dev_pm_skip_suspend().
->  - Otherwise (so the current transition is RESUME which is the only remaining
->    case), return the logical negation of power.must_resume.
-> 
-> > Also, it would mean 
-> > that a device whose subsystem doesn't know about power.may_skip_resume 
-> > would never be allowed to stay in runtime suspend.
-> 
-> Not really, because I want the core to set power.may_skip_resume for the
-> devices for which dev_pm_skip_suspend() returns "true" if the "suspend_late"
-> subsystem-level callback is not present.  [It might be more consistent
-> to simply set it for all devices for which dev_pm_skip_suspend() returns
-> "true" and let the subsystems update it should they want to?  IOW, the
-> default value of power.may_skip_resume could be the return value of
-> dev_pm_skip_suspend()?]
-
-How about this?  Let's set power.may_skip_resume to "true" for each
-device before issuing ->prepare.  The subsystem can set it to "false"
-if it wants to during any of the suspend-side callbacks.  Following the
-->suspend_noirq callback, the core will do the equivalent of:
-
-	dev->power.may_skip_resume &= dev_pm_skip_suspend(dev);
-
-before propagating the flag.  Any subsystem changes to support this
-should be minimal, since only ACPI and PCI currently use
-may_skip_resume.
-
-> > What about the runtime PM usage counter?
-> 
-> Yes, it applies to that too.
-> 
-> Of course, if dev_pm_skip_suspend() returns "true", the usage counter cannot
-> be greater than 1 (for the given device as well as for any dependent devices).
-
-Well, in theory the subsystem could call pm_runtime_get_noresume().  I 
-can't imagine why it would want to, though.
-
-So here's what we've got:
-
-> > Transition   Conditions for dev_pm_skip_resume() to return "true"
-> > ----------   ----------------------------------------------------
-> > 
-> > RESTORE      Never
-> 
-> Right.
-
->  THAW	         dev_pm_skip_suspend() returns "true".
-
->  RESUME        power.must_resume is clear (which requires
->                  MAY_SKIP_RESUME and power.may_skip_resume to be set and
->                  the runtime usage counter to be = 1, and which 
->                  propagates up from dependent devices)
-> 
-> Nothing else is really strictly required IMO.
-
-This seems very clear and simple.  And I will repeat here some of the 
-things posted earlier, to make the description more complete:
-
-	During the suspend side, for each of the
-	{suspend,freeze,poweroff}_{late,noirq} phases: If
-	dev_pm_skip_suspend() returns true then the subsystem should
-	not invoke the driver's callback, and if there is no subsystem
-	callback then the core will not invoke the driver's callback.
-
-	During the resume side, for each of the
-	{resume,thaw,restore}_{early,noirq} phases: If
-	dev_pm_skip_resume() returns true then the subsystem should
-	not invoke the driver's callback, and if there is no subsystem
-	callback then the core will not invoke the driver's callback.
-
-	dev_pm_skip_suspend() will return "true" if SMART_SUSPEND is
-	set and the device's runtime status is "suspended".
-
-	For dev_pm_skip_resume() and power.must_resume, see above.
-
-	At the start of the {resume,thaw,restore}_noirq phase, if
-	dev_pm_skip_resume() returns true then the core will set the
-	runtime status to "suspended".  Otherwise it will set the
-	runtime status to "active".  If this is not what the subsystem
-	or driver wants, it must update the runtime status itself.
-
-For this to work properly, we will have to rely on subsystems/drivers
-to call pm_runtime_resume() during the suspend/freeze transition if
-SMART_SUSPEND is clear.  Otherwise we could have the following
-scenario:
-
-Device A has a child B, and both are runtime suspended when hibernation
-starts.  Suppose that the SMART_SUSPEND flag is set for A but not for
-B, and suppose that B's subsystem/driver neglects to call
-pm_runtime_resume() during the FREEZE transition.  Then during the THAW
-transition, dev_pm_skip_resume() will return "true" for A and "false"  
-for B.  This will lead to an error when the core tries to set B's
-runtime status to "active" while A's status is "suspended".
-
-One way to avoid this is to have the core make the pm_runtime_resume()  
-call, but you have said that you don't like that approach.  Any 
-suggestions?
-
-Should the core take some special action following ->freeze_noirq if
-the runtime status is "suspended" and SMART_SUSPEND is clear?
-
-Alan Stern
-
+SGksDQoNCk9uIDQvMTYvMjAyMCAxOjQ2IFBNLCBNYXJlayBWYXN1dCB3cm90ZToNCj4gT24gNC8x
+NS8yMCA1OjEwIFBNLCBNaW5hcyBIYXJ1dHl1bnlhbiB3cm90ZToNCj4+IEhpLA0KPiANCj4gSGks
+DQo+IA0KPj4gT24gNC8xNS8yMDIwIDY6NTUgUE0sIE1hcmVrIFZhc3V0IHdyb3RlOg0KPj4+IE9u
+IDQvMTUvMjAgMTA6MzcgQU0sIE1pbmFzIEhhcnV0eXVueWFuIHdyb3RlOg0KPj4+PiBIaSwNCj4+
+Pj4NCj4+Pj4gT24gNC8xNC8yMDIwIDQ6MTggUE0sIE1hcmVrIFZhc3V0IHdyb3RlOg0KPj4+Pj4g
+T24gNC8xNC8yMCA5OjE0IEFNLCBNaW5hcyBIYXJ1dHl1bnlhbiB3cm90ZToNCj4+Pj4NCj4+Pj4+
+DQo+Pj4+Pj4gMi4gZGVidWcgbG9nDQo+Pj4+Pg0KPj4+Pj4gV2hhdCBraW5kIG9mIGRlYnVnIGxv
+ZyA/DQo+Pj4+Pg0KPj4+PiBEcml2ZXJzIGRlYnVnIGxvZyBzdGFydGluZyBmcm9tIGR3YzIgbG9h
+ZGluZyBhbmQgY29ubmVjdG9yIGNvbm5lY3RpbmcgdG8NCj4+Pj4gZGV2aWNlLCB3aGVyZSBpc3N1
+ZSBzZWVuLg0KPj4+DQo+Pj4gSG93IGRvIEkgZW5hYmxlIHRoZSBvbmUgeW91IG5lZWQgPw0KPj4+
+DQo+PiBUbyBlbmFibGUgZGVidWcgcHJpbnRzIGZyb20gZHdjMiB1c2UgJ21ha2UgbWVudWNvbmZp
+Zyc6DQo+Pg0KPj4gICAgU3ltYm9sOiBVU0JfRFdDMl9ERUJVRyBbPXldDQo+IA0KPiBPaCwgdGhp
+cyBvbmUsIE9LLiBUaGVyZSB5b3UgZ28uDQo+IA0KPiBOb3RlIHRoYXQgdGhlcmUgaXMgbm8gZnVy
+dGhlciBvdXRwdXQgd2hlbiBJIHBsdWcgaW4gdGhlIFVTQiBtaWNyb0IgY2FibGUNCj4gZnJvbSBh
+IFBDLg0KPiANCjEuIEFyZSB5b3Ugc3VyZSB0aGF0IHlvdSBwcm92aWRlZCBmdWxsIGRlYnVnIGxv
+ZyBmb3IgZHdjMj8gQWN0dWFsbHkgDQpmaXJzdCBkZWJ1ZyBwcmludHMgb2YgZHdjMiBzaG91bGQg
+YmU6DQoNCls3Mjg5MS4wODg5MTddIGR3YzIgZHdjMi4xLmF1dG86IG1hcHBlZCBQQSBlZjEwMDAw
+MCB0byBWQSAwMDAwMDAwMGNhNDVmMDAwDQpbNzI4OTEuMDg4OTI0XSBkd2MyIGR3YzIuMS5hdXRv
+OiByZWdpc3RlcmluZyBjb21tb24gaGFuZGxlciBmb3IgaXJxMTYNCls3Mjg5MS4wODg5NjNdIGR3
+YzIgZHdjMi4xLmF1dG86IENvcmUgUmVsZWFzZTogNC4wMGEgKHNucHNpZD00ZjU0NDAwYSkNCls3
+Mjg5MS4wODg5NzRdIGR3YzIgZHdjMi4xLmF1dG86IEZvcmNpbmcgbW9kZSB0byBob3N0DQpbNzI4
+OTEuMTAwMjg1XSBkd2MyIGR3YzIuMS5hdXRvOiBGb3JjaW5nIG1vZGUgdG8gZGV2aWNlDQpbNzI4
+OTEuMTEyMzA3XSBkd2MyIGR3YzIuMS5hdXRvOiBDbGVhcmluZyBmb3JjZSBtb2RlIGJpdHMNCls3
+Mjg5MS4yMTUyNzVdIGR3YzIgZHdjMi4xLmF1dG86IE5vblBlcmlvZGljIFRYRklGTyBzaXplOiAx
+MDI0DQpbNzI4OTEuMjE1Mjc4XSBkd2MyIGR3YzIuMS5hdXRvOiBSWEZJRk8gc2l6ZTogMjA0OA0K
+Li4uDQoNCjIuIERvZXMgeW91ciBkcml2ZXIgYnVpbHQgZm9yICdkdWFsIHJvbGUgZGV2aWNlJyBv
+ciAnZGV2aWNlIG9ubHknPw0KDQozLiBGaXJzdCBvYnNlcnZhdGlvbiBmcm9tIHJlZ2lzdGVyIGR1
+bXBzOiBjb3JlIGluIFNPRlQgZGlzY29ubmVjdCBzdGF0ZSwgDQp3aGljaCBjYW4gYmUgcmVhc29u
+IG9mIG9ic2VydmVkIGlzc3VlLiBDb3VsZCB5b3UgcGxlYXNlIHVwZGF0ZSB5b3VyIA0KcGF0Y2gg
+YW5kIGFkZCBvbmx5IGNvcmVfY29ubmVjdCBmdW5jdGlvbiBjYWxsOg0KDQorCWR3YzJfaHNvdGdf
+Y29yZV9jb25uZWN0KGhzb3RnKTsNCisNCiAgCXJldHVybiAwOw0KDQogIGVycm9yNDoNCg0KT3Ig
+aW5zdGVhZCBvZiBwYXRjaCwgaWYgeW91IGhhdmUgYW55IHV0aWxpdHkgaW4gc3lzdGVtIHdoaWNo
+IHdpbGwgYWxsb3cgDQpmcm9tIGNvbW1hbmQgbGluZSBjbGVhciBzb2Z0IGRpc2Nvbm5lY3QgYml0
+IGZyb20gRENUTCByZWdpc3Rlcj8gT2Zmc2V0IA0Kb2YgRENUTCByZWdpc3RlciBpcyAweDgwNC4g
+U29mdERpc2NvbiBiaXQgbnVtYmVyIGlzIDEuIENsZWFyIHRoaXMgYml0IA0KYW5kIHRoZW4gcGx1
+ZyBjYWJsZS4NCg0KVW5mb3J0dW5hdGVseSwgY3VycmVudGx5IEknbSB3b3JraW5nIGZyb20gaG9t
+ZSBhbmQgY2FuJ3QgcmVtb3RlbHkgDQpjb25uZWN0L2Rpc2Nvbm5lY3QgY2FibGUgaW4gbGFiIHRv
+IHRyeSB0byByZXByb2R1Y2Ugb2JzZXJ2ZWQgYnkgeW91IGlzc3VlLg0KDQpUaGFua3MsDQpNaW5h
+cw0KDQoNCg0K
