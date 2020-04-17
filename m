@@ -2,72 +2,73 @@ Return-Path: <SRS0=W+dT=6B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50A4C38A29
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Apr 2020 06:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D41C2BB85
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Apr 2020 07:05:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EE7D221F7
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Apr 2020 06:31:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EC3C221E9
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Apr 2020 07:05:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727934AbgDQGbH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Apr 2020 02:31:07 -0400
-Received: from verein.lst.de ([213.95.11.211]:55867 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726065AbgDQGbH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 17 Apr 2020 02:31:07 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id CB09368BEB; Fri, 17 Apr 2020 08:31:02 +0200 (CEST)
-Date:   Fri, 17 Apr 2020 08:31:02 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: improve use_mm / unuse_mm v2
-Message-ID: <20200417063102.GA18556@lst.de>
-References: <20200416053158.586887-1-hch@lst.de> <20200417031744.GI5820@bombadil.infradead.org>
+        id S1728503AbgDQHF2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Apr 2020 03:05:28 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:37506 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728338AbgDQHF2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Apr 2020 03:05:28 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 21195FAFA0058E0C2AA7;
+        Fri, 17 Apr 2020 15:05:26 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Apr 2020
+ 15:05:18 +0800
+From:   Jason Yan <yanaijie@huawei.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <baijiaju1990@gmail.com>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Jason Yan <yanaijie@huawei.com>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH] usb: gadget: udc: remove unused 'driver_desc'
+Date:   Fri, 17 Apr 2020 15:31:37 +0800
+Message-ID: <20200417073137.39968-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200417031744.GI5820@bombadil.infradead.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 08:17:44PM -0700, Matthew Wilcox wrote:
-> On Thu, Apr 16, 2020 at 07:31:55AM +0200, Christoph Hellwig wrote:
-> > this series improves the use_mm / unuse_mm interface by better
-> > documenting the assumptions, and my taking the set_fs manipulations
-> > spread over the callers into the core API.
-> 
-> I appreciate all the work you're doing here.
-> 
-> Do you have plans to introduce a better-named API than set_fs() / get_fs()?
+Fix the following gcc warning:
 
-Eventually.  For now I just plan to kill as many as possible.
+drivers/usb/gadget/udc/gr_udc.c:51:19: warning: ‘driver_desc’ defined
+but not used [-Wunused-const-variable=]
+ static const char driver_desc[] = DRIVER_DESC;
+                   ^~~~~~~~~~~
 
-> Also, having set_fs() return the previous value of 'fs' would simplify
-> a lot of the callers.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
+---
+ drivers/usb/gadget/udc/gr_udc.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-One thing that should go relatively soon is the need to store the
-previous value because we'll have so few callers left that we know we can't
-recurse. We should be able to get there around 5.9 / 5.10.
+diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
+index aaf975c809bf..7164ad9800f1 100644
+--- a/drivers/usb/gadget/udc/gr_udc.c
++++ b/drivers/usb/gadget/udc/gr_udc.c
+@@ -48,7 +48,6 @@
+ #define	DRIVER_DESC	"Aeroflex Gaisler GRUSBDC USB Peripheral Controller"
+ 
+ static const char driver_name[] = DRIVER_NAME;
+-static const char driver_desc[] = DRIVER_DESC;
+ 
+ #define gr_read32(x) (ioread32be((x)))
+ #define gr_write32(x, v) (iowrite32be((v), (x)))
+-- 
+2.21.1
+
