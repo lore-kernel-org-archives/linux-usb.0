@@ -2,44 +2,43 @@ Return-Path: <SRS0=OnHz=6C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49B2C3A5A9
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 18:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A35C352BE
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 18:44:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5FDF2223D
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 18:42:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8ED921D6C
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 18:44:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rJ3FSC6+"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XZDspZHL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728225AbgDRSmL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Apr 2020 14:42:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41212 "EHLO
+        id S1728029AbgDRSoK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Apr 2020 14:44:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727902AbgDRSlU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Apr 2020 14:41:20 -0400
+        by vger.kernel.org with ESMTP id S1726181AbgDRSoK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Apr 2020 14:44:10 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78995C061A0C;
-        Sat, 18 Apr 2020 11:41:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C2CC061A0C;
+        Sat, 18 Apr 2020 11:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Z/ABBV2vtDLyfRcjamC38HwxTrQtSwsZcb0OzbkWsUE=; b=rJ3FSC6+DaZYG5qDC0wUPtN1SQ
-        6kc24pbTmZHwpWQG5VbJcOvhSND5w9lvWyU0STq3J5awSJ+mQGR6mBrLgoi2n3O6n9Jw35QUg9Y74
-        9mmpZhqsG2g9ClzjoUATTOR7PYeSeWpeoKr+IpZYuUcbVJVRFfFgNbPYgpOz2vwvO1ArJnNTugkXf
-        e5UqMYAoTNEErclRAZHOgSgCt9idLwF4FUQ0aYMp3ZrqvF+UofS5GPLc/CzBRVxKIeIMKMq5oaCq0
-        LHXEtvPs6ntRLkN71ahJU4FlZPCqVhnccZu4pp1C/uv0wBPvLn5xg26bBKm46QINfwvrPOOMyxieh
-        11sA8ibQ==;
-Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jPsP2-0007rZ-8t; Sat, 18 Apr 2020 18:41:20 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tL7oBItZTGP6Ja0KJzj5epfoD8nvKm3R0ync/alPIPM=; b=XZDspZHLNEdieJauqz1tT3tU6E
+        YTnCIpvp5xSBzMeKUYN/ZrY33Xv8ujXKOpRTHETYgjlXYNG9Bevf+VNJTem44EiEuHW7Kf02I1k/X
+        SJhnpcUnJ6bRMlTie1XiEGAADIuP2UhPDajunCcwmIaLQ9R7A0f83xZxenWNGKa6FZUj7cMWrxEBg
+        PSon0anIZCVaqUvfDbOlu0w9rllj/BKv5pm+pUXO24gnqsHCRmlgucoKgC2iB8Ur4nykcm4RDvIcd
+        Z3/5U9tzWaeZCnR4s79Lw+eywQDgY2zp8dPurJQWwcNvxfQ7gTQUf4A+LyA8bN9q1CVLcYHJlvoR/
+        44a0PpaA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jPsRm-0008GS-2P; Sat, 18 Apr 2020 18:44:10 +0000
+Date:   Sat, 18 Apr 2020 11:44:09 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -59,54 +58,32 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
         Zzy Wysm <zzy@zzywysm.com>
-Subject: [PATCH 7/9] drivers/base: fix empty-body warnings in devcoredump.c
-Date:   Sat, 18 Apr 2020 11:41:09 -0700
-Message-Id: <20200418184111.13401-8-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200418184111.13401-1-rdunlap@infradead.org>
+Subject: Re: [PATCH 5/9] usb: fix empty-body warning in sysfs.c
+Message-ID: <20200418184409.GP5820@bombadil.infradead.org>
 References: <20200418184111.13401-1-rdunlap@infradead.org>
+ <20200418184111.13401-6-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200418184111.13401-6-rdunlap@infradead.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix gcc empty-body warning when -Wextra is used:
+On Sat, Apr 18, 2020 at 11:41:07AM -0700, Randy Dunlap wrote:
+> +++ linux-next-20200327/drivers/usb/core/sysfs.c
+> @@ -1263,7 +1263,7 @@ void usb_create_sysfs_intf_files(struct
+>  	if (!alt->string && !(udev->quirks & USB_QUIRK_CONFIG_INTF_STRINGS))
+>  		alt->string = usb_cache_string(udev, alt->desc.iInterface);
+>  	if (alt->string && device_create_file(&intf->dev, &dev_attr_interface))
+> -		;	/* We don't actually care if the function fails. */
+> +		do_empty(); /* We don't actually care if the function fails. */
+>  	intf->sysfs_files_created = 1;
+>  }
 
-../drivers/base/devcoredump.c:297:42: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
-../drivers/base/devcoredump.c:301:42: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
+Why not just?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
----
- drivers/base/devcoredump.c |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
++	if (alt->string)
++		device_create_file(&intf->dev, &dev_attr_interface);
 
---- linux-next-20200417.orig/drivers/base/devcoredump.c
-+++ linux-next-20200417/drivers/base/devcoredump.c
-@@ -9,6 +9,7 @@
-  *
-  * Author: Johannes Berg <johannes@sipsolutions.net>
-  */
-+#include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/device.h>
- #include <linux/devcoredump.h>
-@@ -294,11 +295,11 @@ void dev_coredumpm(struct device *dev, s
- 
- 	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
- 			      "failing_device"))
--		/* nothing - symlink will be missing */;
-+		do_empty(); /* nothing - symlink will be missing */
- 
- 	if (sysfs_create_link(&dev->kobj, &devcd->devcd_dev.kobj,
- 			      "devcoredump"))
--		/* nothing - symlink will be missing */;
-+		do_empty(); /* nothing - symlink will be missing */
- 
- 	INIT_DELAYED_WORK(&devcd->del_wk, devcd_del);
- 	schedule_delayed_work(&devcd->del_wk, DEVCD_TIMEOUT);
