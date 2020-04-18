@@ -2,134 +2,200 @@ Return-Path: <SRS0=OnHz=6C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D20C9C352BE
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA992C352BE
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:39:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7DDF221E9
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:21:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587237716;
-	bh=nJnKcpqe99fN65NLQUHGPXgQLocTjwSyWw16Krxp1pM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=IE0izSferHzj7OvUIdNv8sGzPdcgWL4A3QymKIiFBE186N0EKr/hAj7OwsQovpqgD
-	 Nsz18goML0JUpA0PhN25uOC/XPRdUkY8Dqd7qBQAka8qI0XG1kNO6KRKR6xzjzpwUF
-	 +mA2T2K4XcHGJDoP2oLmxEeadW5NJx+zKkraMa1s=
+	by mail.kernel.org (Postfix) with ESMTP id A312121D93
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727947AbgDRTV4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Apr 2020 15:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47446 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727927AbgDRTVz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Apr 2020 15:21:55 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0790CC061A0C
-        for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2020 12:21:54 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id w2so4085386edx.4
-        for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2020 12:21:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=M5L2K70fxOQxP+uWdRM/yMA+3xinlowUvRSVTNSTLNw=;
-        b=VUI+VnT1NDQO7RfejypC/A0x1WOF6JlDgQOx4uVj0o8myo36afYqYoAB1bDh9hMclE
-         y2579x/RBIr7L8eyYz+tWMdcXNGl1k4dVtK8zltRzr1OvNlhqXGfw7OPYoGf+9sgrfJ0
-         nPVwr3eWFbVskZYoGSYtK1N/R40NufLSxc2Ks=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M5L2K70fxOQxP+uWdRM/yMA+3xinlowUvRSVTNSTLNw=;
-        b=MLbb2qBQu+tsnrn1+sRttnBPDBbV6v8K2kw3IwJQYrHd++fT+y4PjCH/fXsxt3FuTg
-         A5rX04DK2PRtz/f3Nm0QSifALTUqfkEOkzsRwxJ2VsARFWfUwUCOYkELsYGQ6WLIDJez
-         qQ7mTYeBvka4lNDRSiwHrHAUtWWKHWScymcYh8Ont+WJ4W4IGBsoIrugxb1j64d81CQ1
-         JWBoNQaX/Q9Xm+/ra3w6qLAPtDJFzuPF23UbIJ5EYPs2QlN0RO2lpqlAcz0EeqQR2pLn
-         cfQoSmda+8anVRc/6uoZ6dgzqKsNJT1kB2B1qyLt4gqlFtW22GVVqL80dQvbiPdTnG5U
-         fpzw==
-X-Gm-Message-State: AGi0Pua6NBYNr6u8Pey8pGFSIt8NEwwpRlD9q+T8+lQPBjwtFP1+q3T/
-        Vkh6lsdiwsUgJZS+wXDr/VVNIdjKtpk=
-X-Google-Smtp-Source: APiQypJTC5IH2ILu1XIy4zAnn7eVVy/RHfiOGw3cGqfLV63B0hl4yf3Itb+NV3GacCjoMhWhAO1Ytw==
-X-Received: by 2002:a50:b263:: with SMTP id o90mr7847111edd.326.1587237712316;
-        Sat, 18 Apr 2020 12:21:52 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id k25sm3310282edf.37.2020.04.18.12.21.51
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Apr 2020 12:21:52 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id a25so7066823wrd.0
-        for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2020 12:21:51 -0700 (PDT)
-X-Received: by 2002:a2e:1418:: with SMTP id u24mr5613429ljd.265.1587237373258;
- Sat, 18 Apr 2020 12:16:13 -0700 (PDT)
+        id S1728045AbgDRTju (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Apr 2020 15:39:50 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:40789 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727907AbgDRTjt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Apr 2020 15:39:49 -0400
+Received: (qmail 8637 invoked by uid 500); 18 Apr 2020 15:39:48 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Apr 2020 15:39:48 -0400
+Date:   Sat, 18 Apr 2020 15:39:48 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     syzbot <syzbot+7bf5a7b0f0a1f9446f4c@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
+        <ingrassia@epigenesys.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: use-after-free Read in usbhid_close (3)
+In-Reply-To: <0000000000003ef93005a386c2f9@google.com>
+Message-ID: <Pine.LNX.4.44L0.2004181530500.8036-100000@netrider.rowland.org>
 MIME-Version: 1.0
-References: <20200418184111.13401-1-rdunlap@infradead.org> <20200418184111.13401-8-rdunlap@infradead.org>
- <20200418185033.GQ5820@bombadil.infradead.org> <b88d6f8b-e6af-7071-cefa-dc12e79116b6@infradead.org>
- <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
-In-Reply-To: <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 18 Apr 2020 12:15:57 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi4QU90W1j1VVUrqdrkrq-0XPA06sjGUm-g1VHRB-35YA@mail.gmail.com>
-Message-ID: <CAHk-=wi4QU90W1j1VVUrqdrkrq-0XPA06sjGUm-g1VHRB-35YA@mail.gmail.com>
-Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in devcoredump.c
-To:     Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rafael Wysocki <rafael@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        "open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        target-devel <target-devel@vger.kernel.org>,
-        Zzy Wysm <zzy@zzywysm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Apr 18, 2020 at 11:57 AM Joe Perches <joe@perches.com> wrote:
->
-> sysfs_create_link is __must_check
+On Fri, 17 Apr 2020, syzbot wrote:
 
-The way to handle __must_check if you really really don't want to test
-and have good reasons is
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer still triggered crash:
+> KASAN: use-after-free Read in __input_unregister_device
+> 
+> wacom 0003:056A:0061.0002: Unknown device_type for 'HID 056a:0061'. Assuming pen.
+> input: Wacom PenStation2 Pen as /devices/platform/dummy_hcd.1/usb2/2-1/2-1:0.0/0003:056A:0061.0002/input/input8
+> wacom 0003:056A:0061.0002: hidraw1: USB HID v0.00 Device [HID 056a:0061] on usb-dummy_hcd.1-1/input0
+> usb 6-1: USB disconnect, device number 2
+> ==================================================================
+> BUG: KASAN: use-after-free in __input_unregister_device+0x4a6/0x4c0 drivers/input/input.c:2089
+> Read of size 4 at addr ffff8881cc1380e8 by task kworker/0:1/12
 
- (a) add a big comment about why this case ostensibly doesn't need the check
+Oops.  Wrong kind of error and in the wrong place.  So I need to be a
+little more careful about the debugging code.  Let's try again.
 
- (b) cast a test of it to '(void)' or something (I guess we could add
-a helper for this). So something like
+Alan Stern
 
-        /* We will always clean up, we don't care whether this fails
-or succeeds */
-        (void)!!sysfs_create_link(...)
+#syz test: https://github.com/google/kasan.git 0fa84af8
 
-There are other alternatives (like using WARN_ON_ONCE() instead, for
-example). So it depends on the code. Which is why that comment is
-important to show why the code chose that option.
+Index: usb-devel/drivers/hid/usbhid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/usbhid/hid-core.c
++++ usb-devel/drivers/hid/usbhid/hid-core.c
+@@ -747,6 +747,7 @@ static void usbhid_close(struct hid_devi
+ 		return;
+ 
+ 	hid_cancel_delayed_stuff(usbhid);
++	--hid->alan_open;
+ 	usb_kill_urb(usbhid->urbin);
+ 	usbhid->intf->needs_remote_wakeup = 0;
+ }
+@@ -1177,6 +1178,7 @@ static int usbhid_start(struct hid_devic
+ 		usbhid_set_leds(hid);
+ 		device_set_wakeup_enable(&dev->dev, 1);
+ 	}
++	++hid->alan_open;
+ 	return 0;
+ 
+ fail:
+@@ -1197,6 +1199,11 @@ static void usbhid_stop(struct hid_devic
+ 	if (WARN_ON(!usbhid))
+ 		return;
+ 
++	dev_info(&usbhid->intf->dev, "Stop: %d %d %d\n",
++			hid->alan1, hid->alan2, hid->alan3);
++	if (hid->alan_open > 0)
++		dev_WARN(&usbhid->intf->dev, "Stop while open = %d\n",
++				hid->alan_open);
+ 	if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
+ 		clear_bit(HID_IN_POLLING, &usbhid->iofl);
+ 		usbhid->intf->needs_remote_wakeup = 0;
+Index: usb-devel/drivers/hid/hid-input.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-input.c
++++ usb-devel/drivers/hid/hid-input.c
+@@ -1960,6 +1960,7 @@ void hidinput_disconnect(struct hid_devi
+ {
+ 	struct hid_input *hidinput, *next;
+ 
++	++hid->alan1;
+ 	hidinput_cleanup_battery(hid);
+ 
+ 	list_for_each_entry_safe(hidinput, next, &hid->inputs, list) {
+Index: usb-devel/drivers/input/evdev.c
+===================================================================
+--- usb-devel.orig/drivers/input/evdev.c
++++ usb-devel/drivers/input/evdev.c
+@@ -23,6 +23,7 @@
+ #include <linux/major.h>
+ #include <linux/device.h>
+ #include <linux/cdev.h>
++#include <linux/hid.h>
+ #include "input-compat.h"
+ 
+ struct evdev {
+@@ -1329,6 +1330,11 @@ static void evdev_mark_dead(struct evdev
+ static void evdev_cleanup(struct evdev *evdev)
+ {
+ 	struct input_handle *handle = &evdev->handle;
++	struct hid_device *hid;
++
++	hid = evdev->handle.dev->hid;
++	if (hid)
++		++hid->alan3;
+ 
+ 	evdev_mark_dead(evdev);
+ 	evdev_hangup(evdev);
+Index: usb-devel/drivers/input/input.c
+===================================================================
+--- usb-devel.orig/drivers/input/input.c
++++ usb-devel/drivers/input/input.c
+@@ -23,6 +23,7 @@
+ #include <linux/device.h>
+ #include <linux/mutex.h>
+ #include <linux/rcupdate.h>
++#include <linux/hid.h>
+ #include "input-compat.h"
+ #include "input-poller.h"
+ 
+@@ -2081,7 +2082,11 @@ static void input_cleanse_bitmasks(struc
+ static void __input_unregister_device(struct input_dev *dev)
+ {
+ 	struct input_handle *handle, *next;
++	struct hid_device *hid;
+ 
++	hid = dev->hid;
++	if (hid)
++		++hid->alan2;
+ 	input_disconnect_device(dev);
+ 
+ 	mutex_lock(&input_mutex);
+Index: usb-devel/include/linux/hid.h
+===================================================================
+--- usb-devel.orig/include/linux/hid.h
++++ usb-devel/include/linux/hid.h
+@@ -618,6 +618,9 @@ struct hid_device {							/* device repo
+ 	struct list_head debug_list;
+ 	spinlock_t  debug_list_lock;
+ 	wait_queue_head_t debug_wait;
++
++	int alan_open;
++	int alan1, alan2, alan3;
+ };
+ 
+ #define to_hid_device(pdev) \
+Index: usb-devel/include/linux/input.h
+===================================================================
+--- usb-devel.orig/include/linux/input.h
++++ usb-devel/include/linux/input.h
+@@ -22,6 +22,7 @@
+ #include <linux/mod_devicetable.h>
+ 
+ struct input_dev_poller;
++struct hid_device;
+ 
+ /**
+  * struct input_value - input value representation
+@@ -129,6 +130,7 @@ enum input_clock_type {
+  *  by a driver
+  */
+ struct input_dev {
++	struct hid_device *hid;
+ 	const char *name;
+ 	const char *phys;
+ 	const char *uniq;
+Index: usb-devel/drivers/hid/wacom_sys.c
+===================================================================
+--- usb-devel.orig/drivers/hid/wacom_sys.c
++++ usb-devel/drivers/hid/wacom_sys.c
+@@ -2017,6 +2017,7 @@ static struct input_dev *wacom_allocate_
+ 	if (!input_dev)
+ 		return NULL;
+ 
++	input_dev->hid = hdev;
+ 	input_dev->name = wacom_wac->features.name;
+ 	input_dev->phys = hdev->phys;
+ 	input_dev->dev.parent = &hdev->dev;
 
-However, I wonder if in this case we should just remove the
-__must_check. Greg? It goes back a long long time.
-
-Particularly for the "nowarn" version of that function. I'm not seeing
-why you'd have to care, particularly if you don't even care about the
-link already existing..
-
-            Linus
