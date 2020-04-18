@@ -2,42 +2,31 @@ Return-Path: <SRS0=OnHz=6C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B0BC352BE
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F4E9C3A5A9
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:17:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48BE6206D6
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:13:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Pbh2gwHB"
+	by mail.kernel.org (Postfix) with ESMTP id 0ED8D2223D
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Apr 2020 19:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728085AbgDRTNl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Apr 2020 15:13:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726751AbgDRTNl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Apr 2020 15:13:41 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C8AC061A0C;
-        Sat, 18 Apr 2020 12:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=1Xuy0hbaik5jnBw+JX74GiEbxwfdlzrwJ6CXAcCNKJ0=; b=Pbh2gwHBC+0n9j0XheYbIXwFQj
-        DLH/6PgobmCWmxlogha43zhUGSOtU89tXwjVH0o1Rho/S2T2EjJTPG70nmSsvSMvvLuonOlXdkiEF
-        yGJpGvfRz2PkLCG7L7Uy3m9lgzRa8kBf6U42WpkqqxMc3bt3hK4TRhmhD0zC1q2wsbCa9130nX/Tr
-        BTyG4Wi0/MtCFbctxHGNP3IoIr9AwF92URUTCaCCqCq81Wkivc6Os9SxUDznfhAgxmUgbP9sTqTjg
-        OQaGKDbNC89jhx9AoLbm18DH/xji73LaoYjLqiNC454x2nCt2c/0XKhdkme0M37SQxFbl37OzjXm7
-        wpboRveg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jPsuI-0002hx-99; Sat, 18 Apr 2020 19:13:38 +0000
-Date:   Sat, 18 Apr 2020 12:13:38 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Joe Perches <joe@perches.com>
+        id S1728179AbgDRTRV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Apr 2020 15:17:21 -0400
+Received: from s3.sipsolutions.net ([144.76.43.62]:47480 "EHLO
+        sipsolutions.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727947AbgDRTRU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Apr 2020 15:17:20 -0400
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.93)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1jPswv-00APdE-Hr; Sat, 18 Apr 2020 21:16:21 +0200
+Message-ID: <ae170e7c4988399e63a00ad8505e397665563d22.camel@sipsolutions.net>
+Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in
+ devcoredump.c
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Matthew Wilcox <willy@infradead.org>, Joe Perches <joe@perches.com>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -50,69 +39,65 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org,
         "J. Bruce Fields" <bfields@fieldses.org>,
         Chuck Lever <chuck.lever@oracle.com>,
-        linux-nfs@vger.kernel.org,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Dan Williams <dan.j.williams@intel.com>,
+        linux-nfs@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
         Vishal Verma <vishal.l.verma@intel.com>,
         Dave Jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
         Zzy Wysm <zzy@zzywysm.com>
-Subject: Re: [PATCH 7/9] drivers/base: fix empty-body warnings in
- devcoredump.c
-Message-ID: <20200418191338.GR5820@bombadil.infradead.org>
+Date:   Sat, 18 Apr 2020 21:16:19 +0200
+In-Reply-To: <20200418191338.GR5820@bombadil.infradead.org>
 References: <20200418184111.13401-1-rdunlap@infradead.org>
- <20200418184111.13401-8-rdunlap@infradead.org>
- <20200418185033.GQ5820@bombadil.infradead.org>
- <b88d6f8b-e6af-7071-cefa-dc12e79116b6@infradead.org>
- <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
+         <20200418184111.13401-8-rdunlap@infradead.org>
+         <20200418185033.GQ5820@bombadil.infradead.org>
+         <b88d6f8b-e6af-7071-cefa-dc12e79116b6@infradead.org>
+         <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
+         <20200418191338.GR5820@bombadil.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d018321b0f281ff29efb04dd1496c8e6499812fb.camel@perches.com>
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Apr 18, 2020 at 11:55:05AM -0700, Joe Perches wrote:
-> On Sat, 2020-04-18 at 11:53 -0700, Randy Dunlap wrote:
-> > On 4/18/20 11:50 AM, Matthew Wilcox wrote:
-> > > On Sat, Apr 18, 2020 at 11:41:09AM -0700, Randy Dunlap wrote:
-> > > > @@ -294,11 +295,11 @@ void dev_coredumpm(struct device *dev, s
-> > > >  
-> > > >  	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
-> > > >  			      "failing_device"))
-> > > > -		/* nothing - symlink will be missing */;
-> > > > +		do_empty(); /* nothing - symlink will be missing */
-> > > >  
-> > > >  	if (sysfs_create_link(&dev->kobj, &devcd->devcd_dev.kobj,
-> > > >  			      "devcoredump"))
-> > > > -		/* nothing - symlink will be missing */;
-> > > > +		do_empty(); /* nothing - symlink will be missing */
-> > > >  
-> > > >  	INIT_DELAYED_WORK(&devcd->del_wk, devcd_del);
-> > > >  	schedule_delayed_work(&devcd->del_wk, DEVCD_TIMEOUT);
-> > > 
-> > > Could just remove the 'if's?
-> > > 
-> > > +	sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
-> > > +			"failing_device");
-> > > 
-> > 
-> > OK.
+On Sat, 2020-04-18 at 12:13 -0700, Matthew Wilcox wrote:
 > 
-> sysfs_create_link is __must_check
+> > > > >  	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
+> > > > >  			      "failing_device"))
+> > > > > -		/* nothing - symlink will be missing */;
+> > > > > +		do_empty(); /* nothing - symlink will be missing */
+> > > > >  
+> > > > >  	if (sysfs_create_link(&dev->kobj, &devcd->devcd_dev.kobj,
+> > > > >  			      "devcoredump"))
+> > > > > -		/* nothing - symlink will be missing */;
+> > > > > +		do_empty(); /* nothing - symlink will be missing */
+> > > > >  
+> > > > >  	INIT_DELAYED_WORK(&devcd->del_wk, devcd_del);
+> > > > >  	schedule_delayed_work(&devcd->del_wk, DEVCD_TIMEOUT);
+> > > > 
+> > > > Could just remove the 'if's?
+> > > > 
+> > > > +	sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
+> > > > +			"failing_device");
+> > > > 
+> > > 
+> > > OK.
+> > 
+> > sysfs_create_link is __must_check
+> 
+> Oh, I missed the declaration -- I just saw the definition.  This is a
+> situation where __must_check hurts us and it should be removed.
+> 
+> Or this code is wrong and it should be
+> 
+> 	WARN(sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
+> 			"failing_device");
 
-Oh, I missed the declaration -- I just saw the definition.  This is a
-situation where __must_check hurts us and it should be removed.
+Perhaps it should be. I didn't think it really mattered _that_ much if
+the symlink suddenly went missing, but OTOH I don't even know how it
+could possibly fail.
 
-Or this code is wrong and it should be
+johannes
 
-	WARN(sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
-			"failing_device");
-
-like drivers/pci/controller/vmd.c and drivers/i2c/i2c-mux.c
-
-Either way, the do_empty() construct feels like the wrong way of covering
-up the warning.
