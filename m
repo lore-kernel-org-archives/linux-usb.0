@@ -2,222 +2,129 @@ Return-Path: <SRS0=GZB4=6E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB0DC3A5A0
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 16:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE2C0C3A5A0
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 19:58:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D4FE20857
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 16:37:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7F58206E9
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 19:58:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e8Ovza3S"
+	dkim=pass (2048-bit key) header.d=zzywysm.com header.i=@zzywysm.com header.b="DHwk8VKE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbgDTQha (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Apr 2020 12:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41362 "EHLO
+        id S1726793AbgDTT6i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Apr 2020 15:58:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726681AbgDTQh3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Apr 2020 12:37:29 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AF7C025491
-        for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2020 09:37:28 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id d184so809420pfd.4
-        for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2020 09:37:28 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1727914AbgDTT6h (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Apr 2020 15:58:37 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC6CC0610D5
+        for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2020 12:58:36 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id s63so12135024qke.4
+        for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2020 12:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GaH8yNJsOAKln94uq+HFtZzBAuD4hS9jJ0pAud4DQIg=;
-        b=e8Ovza3SdNN5nFyqKxl/8JTdLYTtOWhuOD5PiDSeqEU9BQsP5zxLxtVDvvU9OXgzAz
-         mMQ+MIW70lIgq10qgL0YDh2r0caE62h/vKDqz+u1nQl7zLlZYkzrDBdToizOG+5y2wgz
-         4YbgQ2QRmM9hFX+N0jLBAjrgZHzoGVl2cnggs=
+        d=zzywysm.com; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=1CahSbHOz6rwR75qjwbzvpk5/lxzAsXTVlJJFrluNmk=;
+        b=DHwk8VKEaaVWe6umPwn75HeYPWa4/to4TPUyIyniHa8w0VjI4jbFRgfwiJbMPyVTBF
+         XIxMCwftVuZ5LMDuVHb9gd/oo9bVOeOag3KnWsbyRKiBySEDw18VNG9po6wPOgaX+JV0
+         U696lIpKGeSvPcCzw56gqM/agX1+2/QWVes4jWwOX1kSM0DMbVae9AqQEle3/5swq1WR
+         3E0xc6MJg7TbdMO3xq2INKKP9cMKexf1GETBAnT4Wc/qvIJu4eZ79zfLThZbNisSrGcf
+         uNvuImd6aWtDGh5xTm0hSIil3sDlm0TTj3TRSR1SEsiBL/e+4Ps6DP19SkF+CcVNT33D
+         HkgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GaH8yNJsOAKln94uq+HFtZzBAuD4hS9jJ0pAud4DQIg=;
-        b=q/mlR6eC0HRjYcxp3VRZ9G6ttZjvBZcPDqSoBIvDxW9kcmaF6hN5XhyPs5m78ZzRCJ
-         mgd+PKZ9lZejTCQprMG8/6GSQE+IHt4sbyuUm4YPyF2WpQD55DEtOOICSidmfTjF10sM
-         lABhbhqRjAI9xZ7OYtXJnCK20T1MVUpzVpMdY5jaXGucbHGdHEuvG3ic644lDhpmpfJH
-         OGMH3Yh/lVu/VsE7irvlb7hI8ymszriql32psGx+JMviMt18vdJqrRUYPOfjGnlOUILj
-         ZYproV/bilM6VaErZI3W1bebWx24/HKKmrbEsUGR+uA+SFCUd45gOQXEz0olASbGFQc0
-         2QLw==
-X-Gm-Message-State: AGi0PuYctupQU/3LVZd0aO4idi5ZiUn6e0zsghx853kw+NRoDlZoVR4/
-        XKry3rv9DQxqArP7A+NvSpg4dOdCf24=
-X-Google-Smtp-Source: APiQypJKX0wGCNMD3rOzlXzUDOiaHzdUncUSYu8YzvA5TKhy+8Swdz8Tr/cEhekUU1mr4V9YeZPOHA==
-X-Received: by 2002:a63:48a:: with SMTP id 132mr17450292pge.380.1587400647916;
-        Mon, 20 Apr 2020 09:37:27 -0700 (PDT)
-Received: from mathewk1.lan ([161.97.192.125])
-        by smtp.gmail.com with ESMTPSA id cp22sm98109pjb.28.2020.04.20.09.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2020 09:37:27 -0700 (PDT)
-From:   Mathew King <mathewk@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Mathew King <mathewk@chromium.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Benson Leung <bleung@chromium.org>,
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=1CahSbHOz6rwR75qjwbzvpk5/lxzAsXTVlJJFrluNmk=;
+        b=ULOcDK4VViT57xxfRz7YzQwOox8yAJshT3F0+1T5P7rfLCLg5+T32yaexv8sKFdvvC
+         +V5LKzo3FLsb7A21Coocwp39qJjEfPEfnsdc4uqY+vCtlAdaLlWqqPXiJXnzWtCfe2rz
+         vJ/Io+4lhRi0IxpHftjxk3iYJBTJyAFlqiBLpTZCcPbQ1aSx5ipU6/S1N2vTifNKCjVl
+         c0bB+A9zdLu8TvVYnnyCzQ/pGVYgudT+DFbit2i+vtya5jW8TDFmpIN3Y1LGSElQP78q
+         WfsoJu7Wohojo25S2G0js1AT/JwlyelOrVfsDIu55K0QQpmE1eexJBgWQDo75nuZvVl6
+         tkmA==
+X-Gm-Message-State: AGi0PuYtCWDUFNiexh/2qgOFcugkF4rdyatn1SiI5b9+gfNvnPJ+V8rv
+        FoubWiTkREq7U1MN7CsN12gdzg==
+X-Google-Smtp-Source: APiQypLbKFRt3y7j9cRt5ohxKGUgZ2cg5IXsM72wAdwrD/eEvlPuY2BnSQ46fW3IHvQ9kSE9m6xMag==
+X-Received: by 2002:a37:5284:: with SMTP id g126mr18284316qkb.51.1587412716060;
+        Mon, 20 Apr 2020 12:58:36 -0700 (PDT)
+Received: from [10.19.49.2] (ec2-3-17-74-181.us-east-2.compute.amazonaws.com. [3.17.74.181])
+        by smtp.gmail.com with ESMTPSA id j2sm241058qtp.5.2020.04.20.12.58.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Apr 2020 12:58:35 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH 2/9] fix empty-body warning in posix_acl.c
+From:   Zzy Wysm <zzy@zzywysm.com>
+In-Reply-To: <CAHk-=wjSzuTyyBkmMDG4fx_sXzLJsh+9Xk-ubgbpJzJq_kzPsA@mail.gmail.com>
+Date:   Mon, 20 Apr 2020 14:58:31 -0500
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH v0 1/2] typec: Move typec class structs into a header file
-Date:   Mon, 20 Apr 2020 10:36:56 -0600
-Message-Id: <20200420163657.60650-2-mathewk@chromium.org>
-X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
-In-Reply-To: <20200420163657.60650-1-mathewk@chromium.org>
-References: <20200420163657.60650-1-mathewk@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        linux-usb@vger.kernel.org,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        "open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        target-devel <target-devel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F8B969BE-A2B1-4E6D-8746-BBFBE6399328@zzywysm.com>
+References: <20200418184111.13401-1-rdunlap@infradead.org>
+ <20200418184111.13401-3-rdunlap@infradead.org>
+ <CAHk-=wjSzuTyyBkmMDG4fx_sXzLJsh+9Xk-ubgbpJzJq_kzPsA@mail.gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Move the Type-C data structures into a separate header file so that they
-can be used by in other places.
 
-Signed-off-by: Mathew King <mathewk@chromium.org>
----
- drivers/usb/typec/class.c | 56 +----------------------------------
- drivers/usb/typec/class.h | 61 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+), 55 deletions(-)
- create mode 100644 drivers/usb/typec/class.h
+> On Apr 18, 2020, at 1:53 PM, Linus Torvalds =
+<torvalds@linux-foundation.org> wrote:
+>=20
+> Thirdly, there's a *reason* why "-Wextra" isn't used.
+>=20
+> The warnings enabled by -Wextra are usually complete garbage, and
+> trying to fix them often makes the code worse. Exactly like here.
+>=20
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 8d894bdff77d..9a1fdce137b9 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -13,61 +13,7 @@
- #include <linux/slab.h>
- 
- #include "bus.h"
--
--struct typec_plug {
--	struct device			dev;
--	enum typec_plug_index		index;
--	struct ida			mode_ids;
--};
--
--struct typec_cable {
--	struct device			dev;
--	enum typec_plug_type		type;
--	struct usb_pd_identity		*identity;
--	unsigned int			active:1;
--};
--
--struct typec_partner {
--	struct device			dev;
--	unsigned int			usb_pd:1;
--	struct usb_pd_identity		*identity;
--	enum typec_accessory		accessory;
--	struct ida			mode_ids;
--};
--
--struct typec_port {
--	unsigned int			id;
--	struct device			dev;
--	struct ida			mode_ids;
--
--	int				prefer_role;
--	enum typec_data_role		data_role;
--	enum typec_role			pwr_role;
--	enum typec_role			vconn_role;
--	enum typec_pwr_opmode		pwr_opmode;
--	enum typec_port_type		port_type;
--	struct mutex			port_type_lock;
--
--	enum typec_orientation		orientation;
--	struct typec_switch		*sw;
--	struct typec_mux		*mux;
--
--	const struct typec_capability	*cap;
--	const struct typec_operations   *ops;
--};
--
--#define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
--#define to_typec_plug(_dev_) container_of(_dev_, struct typec_plug, dev)
--#define to_typec_cable(_dev_) container_of(_dev_, struct typec_cable, dev)
--#define to_typec_partner(_dev_) container_of(_dev_, struct typec_partner, dev)
--
--static const struct device_type typec_partner_dev_type;
--static const struct device_type typec_cable_dev_type;
--static const struct device_type typec_plug_dev_type;
--
--#define is_typec_partner(_dev_) (_dev_->type == &typec_partner_dev_type)
--#define is_typec_cable(_dev_) (_dev_->type == &typec_cable_dev_type)
--#define is_typec_plug(_dev_) (_dev_->type == &typec_plug_dev_type)
-+#include "class.h"
- 
- static DEFINE_IDA(typec_index_ida);
- static struct class *typec_class;
-diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
-new file mode 100644
-index 000000000000..ec933dfe1323
---- /dev/null
-+++ b/drivers/usb/typec/class.h
-@@ -0,0 +1,61 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __USB_TYPEC_CLASS_H__
-+#define __USB_TYPEC_CLASS_H__
-+
-+struct typec_plug {
-+	struct device			dev;
-+	enum typec_plug_index		index;
-+	struct ida			mode_ids;
-+};
-+
-+struct typec_cable {
-+	struct device			dev;
-+	enum typec_plug_type		type;
-+	struct usb_pd_identity		*identity;
-+	unsigned int			active:1;
-+};
-+
-+struct typec_partner {
-+	struct device			dev;
-+	unsigned int			usb_pd:1;
-+	struct usb_pd_identity		*identity;
-+	enum typec_accessory		accessory;
-+	struct ida			mode_ids;
-+};
-+
-+struct typec_port {
-+	unsigned int			id;
-+	struct device			dev;
-+	struct ida			mode_ids;
-+
-+	int				prefer_role;
-+	enum typec_data_role		data_role;
-+	enum typec_role			pwr_role;
-+	enum typec_role			vconn_role;
-+	enum typec_pwr_opmode		pwr_opmode;
-+	enum typec_port_type		port_type;
-+	struct mutex			port_type_lock;
-+
-+	enum typec_orientation		orientation;
-+	struct typec_switch		*sw;
-+	struct typec_mux		*mux;
-+
-+	const struct typec_capability	*cap;
-+	const struct typec_operations   *ops;
-+};
-+
-+#define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
-+#define to_typec_plug(_dev_) container_of(_dev_, struct typec_plug, dev)
-+#define to_typec_cable(_dev_) container_of(_dev_, struct typec_cable, dev)
-+#define to_typec_partner(_dev_) container_of(_dev_, struct typec_partner, dev)
-+
-+static const struct device_type typec_partner_dev_type;
-+static const struct device_type typec_cable_dev_type;
-+static const struct device_type typec_plug_dev_type;
-+
-+#define is_typec_partner(_dev_) (_dev_->type == &typec_partner_dev_type)
-+#define is_typec_cable(_dev_) (_dev_->type == &typec_cable_dev_type)
-+#define is_typec_plug(_dev_) (_dev_->type == &typec_plug_dev_type)
-+
-+#endif /* __USB_TYPEC_CLASS_H__ */
--- 
-2.26.1.301.g55bc3eb7cb9-goog
+As the instigator of this warning cleanup activity, even _I_ don=E2=80=99t=
+ recommend
+building with all of -Wextra.  Doing so on an allmodconfig build =
+generates=20
+500 megabytes of warning text (not exaggerating), primarily due to=20
+-Wunused-parameter and Wmissing-field-initializers.
+
+I strongly recommend disabling them with -Wno-unused-parameter=20
+-Wno-missing-field-initializers since the spew is completely =
+unactionable.
+
+On the other hand, -Woverride-init found a legit bug that was breaking =
+DVD
+drives, fixed in commit 03264ddde2453f6877a7d637d84068079632a3c5.
+
+I believe finding a good set of compiler warning settings can lead to =
+lots of=20
+good bugs being spotted and (hopefully) fixed.  Why let syzbot do all =
+the work?
+
+zzy
 
