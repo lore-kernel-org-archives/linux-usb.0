@@ -2,77 +2,159 @@ Return-Path: <SRS0=GZB4=6E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6034C3815B
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 11:31:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D672C3815B
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 13:04:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C259120738
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 11:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587382269;
-	bh=MiPGi8x6gWcH2yP0JRVYh+SSTCw+J+u9dpgjEbguIVk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ypBQfqzWNQoavtXDDnJcQqugrHZB6bqrNzDaAoGPEjRmuNDER2FpA+m6hAvLJ7iCS
-	 g27D20yoJCLlGWTY3sYYvo/T+34c2qGYC+eEknqo2PWPNH0gmHmatKecE58fGCnjSs
-	 53G0RUnEXbxoUVjLEMTrUnX2P+ANCQB8ifl4VcQQ=
+	by mail.kernel.org (Postfix) with ESMTP id 5E3D7206E9
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Apr 2020 13:04:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725896AbgDTLbJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Apr 2020 07:31:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42846 "EHLO mail.kernel.org"
+        id S1726644AbgDTNEf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Apr 2020 09:04:35 -0400
+Received: from mga01.intel.com ([192.55.52.88]:36592 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725550AbgDTLbI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Apr 2020 07:31:08 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2AF8A206D4;
-        Mon, 20 Apr 2020 11:31:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587382268;
-        bh=MiPGi8x6gWcH2yP0JRVYh+SSTCw+J+u9dpgjEbguIVk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T/gFi+XJv4zZjrSneSqrLxvoUl4+ObQhc62wBDfmWMTF8vuifBlqL4pGJ8UkjIfpP
-         f5Nb8BMYBwPZRugxDU8Smg4DonEu9jcpr35bQgRtU/064NiQUlJfrH4bw/4EoFWUwj
-         utFBxxR/f3HqdPANHVWW8Qm08gr2FpDHNHnB7VVI=
-Date:   Mon, 20 Apr 2020 13:30:53 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Felipe Balbi <balbi@kernel.org>
+        id S1725944AbgDTNEf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Apr 2020 09:04:35 -0400
+IronPort-SDR: Hv1u5c8A6DuUbmv0Pux/1/GvYMMgq6Kgh28TAcsOoyzdy0r+qrJ1/OVeS2x7+cj7N5hi2vM+vz
+ HG/szSRgT4xw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 06:04:35 -0700
+IronPort-SDR: kmPTbffVwNNqI3nzhpFgrXV/5kruvvb2/adr8vQSoSKtM/uZXMYEmea4g2nyHaxDp7uPR4+ITh
+ yYFgn7doXeUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,406,1580803200"; 
+   d="scan'208";a="429116539"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 20 Apr 2020 06:04:33 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jQW6C-0008Xj-St; Mon, 20 Apr 2020 21:04:32 +0800
+Date:   Mon, 20 Apr 2020 21:03:34 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: Re: [GIT PULL] USB fixes for v5.7-rc2
-Message-ID: <20200420113053.GB3863657@kroah.com>
-References: <87eesjdibn.fsf@kernel.org>
+Subject: [usb:usb-testing] BUILD SUCCESS
+ e9010320f2d953156fdaa65b54ac868d8ad67c16
+Message-ID: <5e9d9da6.CXl/8gWssRRbjrK6%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87eesjdibn.fsf@kernel.org>
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 10:51:24AM +0300, Felipe Balbi wrote:
-> 
-> Hi Greg,
-> 
-> here's the first pull request for the current -rc cycle. Patches have
-> been in next for a few days without any new reports.
-> 
-> Let me know if you want anything to be changed.
-> 
-> Cheers
-> 
-> The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
-> 
->   Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git tags/fixes-for-v5.7-rc2
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
+branch HEAD: e9010320f2d953156fdaa65b54ac868d8ad67c16  usb: cdns3: gadget: make a bunch of functions static
 
-Pulled and pushed out, thanks.
+elapsed time: 5621m
 
-greg k-h
+configs tested: 93
+configs skipped: 0
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm64                            allyesconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm                              allmodconfig
+arm64                             allnoconfig
+arm                               allnoconfig
+sparc                            allyesconfig
+arm                           efm32_defconfig
+sparc64                           allnoconfig
+mips                             allmodconfig
+i386                                defconfig
+arc                                 defconfig
+xtensa                          iss_defconfig
+sparc64                          allmodconfig
+sparc64                             defconfig
+mips                         tb0287_defconfig
+powerpc                             defconfig
+arm                          exynos_defconfig
+riscv                          rv32_defconfig
+arm                        multi_v7_defconfig
+nds32                             allnoconfig
+riscv                    nommu_virt_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                             alldefconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                        generic_defconfig
+ia64                          tiger_defconfig
+ia64                         bigsur_defconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+c6x                              allyesconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+mips                            ar7_defconfig
+mips                             allyesconfig
+mips                         64r6el_defconfig
+mips                              allnoconfig
+mips                           32r2_defconfig
+parisc                            allnoconfig
+parisc                generic-64bit_defconfig
+parisc                generic-32bit_defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+i386                 randconfig-a002-20200416
+x86_64               randconfig-a001-20200416
+x86_64               randconfig-a002-20200416
+i386                 randconfig-a003-20200416
+i386                 randconfig-a001-20200416
+x86_64               randconfig-a003-20200416
+x86_64               randconfig-a001-20200420
+i386                 randconfig-a003-20200420
+x86_64               randconfig-a003-20200420
+i386                 randconfig-a002-20200420
+i386                 randconfig-a001-20200420
+x86_64               randconfig-a002-20200420
+i386                 randconfig-a002-20200417
+x86_64               randconfig-a001-20200417
+x86_64               randconfig-a002-20200417
+i386                 randconfig-a003-20200417
+i386                 randconfig-a001-20200417
+x86_64               randconfig-a003-20200417
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                       zfcpdump_defconfig
+s390                          debug_defconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                             alldefconfig
+s390                                defconfig
+sh                          rsk7269_defconfig
+sh                               allmodconfig
+sh                            titan_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                                allnoconfig
+sparc                               defconfig
+sparc64                          allyesconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                                   rhel
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
