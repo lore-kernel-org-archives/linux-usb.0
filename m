@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA45FC54FC9
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 12:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2BDC54FD0
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 12:33:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA0832075E
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 12:33:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0282C2071C
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 12:33:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="hnFbBrbh"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="DLOOB3q1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728902AbgDUMd2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Apr 2020 08:33:28 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:45503 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728879AbgDUMdY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Apr 2020 08:33:24 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03LCN1G0021757;
-        Tue, 21 Apr 2020 14:33:15 +0200
+        id S1728861AbgDUMdV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Apr 2020 08:33:21 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:5350 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728839AbgDUMdU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Apr 2020 08:33:20 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03LCO4wA004143;
+        Tue, 21 Apr 2020 14:33:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=XOcOfmk0mzp2LNDxp8A7DBUhCmQQA1WzS4pxBJFuT4I=;
- b=hnFbBrbhUH6PNx/IwwA4OIARvamZ1ny/0XqEk4W050Jhw7AfGf0n2pb/zLKP5H6Py5zr
- 6W0bDRVOZzmQxdERo0OJGVAJ7qpOM/h7mw61EQq6sykm90H/bNuyUPeXn2FC6x4Otpry
- nW/p/ec/MOwE8dF+Lzpas1nARb5JEJCZvSkKTiyjKfxILl0H7g9ph3gVehSE0D3YxmPu
- uAfHdGcVhORGKEJ+WTICmorgngUOnWFKpUKSR3VVQejYeBozTUefsfu/fnxjJkYLcp44
- vG9fvRYULcXgnv0WLuTsxdWMEJSJ4zkWCQqQvMMmKIgQvm9i009923ZZg7o/UxCAzIIf hA== 
+ bh=BCdNw/6bNXDgvzYMM/yuCjYQaZbw1vGHMQ1wGH6OfQw=;
+ b=DLOOB3q1xzpkHuWVQE1W3GjjNP5r0gaRi3HZdwgCBZe9UN3Y+2ePKe8zkp1dLYzqxDFF
+ VlNpr1z/paTkNWP1sXYtEyg8WCLDaat6YLCohITc6Dt5L0WFNDO4hthfMgNAf7SpRKW8
+ qBWXOLNdGZ4fPFLN0tCqQvfYbQiN3MqTflVX9S3fYkIJIvOoVC+3hCOi7rCNF8uNjdy9
+ TEYRETf/9kMBpfcq2Q7yHRUCSKZbEmBMvjoGC7VjseTN39E2EtFdHiNckZQYOCjFZgCe
+ eM+XbkYTWhsOIZrJ2h0+PWOjxRZW60Zmx/9vppT/jTb2hEiuxxrSr9uE2ajiNX/HDxnd yg== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 30fqaw81au-1
+        by mx07-00178001.pphosted.com with ESMTP id 30fpp8rapj-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 21 Apr 2020 14:33:15 +0200
+        Tue, 21 Apr 2020 14:33:13 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4BE9A10002A;
-        Tue, 21 Apr 2020 14:33:15 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AD49A100034;
+        Tue, 21 Apr 2020 14:33:12 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 429112B0FCB;
-        Tue, 21 Apr 2020 14:33:15 +0200 (CEST)
-Received: from localhost (10.75.127.44) by SFHDAG5NODE3.st.com (10.75.127.15)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Apr 2020 14:33:14
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9FB322B0FCB;
+        Tue, 21 Apr 2020 14:33:12 +0200 (CEST)
+Received: from localhost (10.75.127.46) by SFHDAG5NODE3.st.com (10.75.127.15)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Apr 2020 14:33:11
  +0200
 From:   Fabrice Gasnier <fabrice.gasnier@st.com>
 To:     <hminas@synopsys.com>, <balbi@kernel.org>
@@ -52,16 +52,16 @@ CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         <linux-stm32@st-md-mailman.stormreply.com>,
         <amelie.delaunay@st.com>
-Subject: [PATCH 4/4] usb: gadget: f_acm: add suspend resume callbacks
-Date:   Tue, 21 Apr 2020 14:32:21 +0200
-Message-ID: <1587472341-17935-5-git-send-email-fabrice.gasnier@st.com>
+Subject: [PATCH 2/4] usb: gadget: u_serial: add suspend resume callbacks
+Date:   Tue, 21 Apr 2020 14:32:19 +0200
+Message-ID: <1587472341-17935-3-git-send-email-fabrice.gasnier@st.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1587472341-17935-1-git-send-email-fabrice.gasnier@st.com>
 References: <1587472341-17935-1-git-send-email-fabrice.gasnier@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG8NODE2.st.com (10.75.127.23) To SFHDAG5NODE3.st.com
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG7NODE1.st.com (10.75.127.19) To SFHDAG5NODE3.st.com
  (10.75.127.15)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
  definitions=2020-04-21_05:2020-04-20,2020-04-21 signatures=0
@@ -70,48 +70,133 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add suspend resume callbacks to notify u_serial of the bus suspend/resume
-state.
+Add suspend resume callbacks to handle the case seen when the bus is
+suspended by the HOST, and the device opens the port (cat /dev/ttyGS0).
+
+Gadget controller (like DWC2) doesn't accept usb requests to be queued in
+this case (when in L2 state), from the gs_open() call. Error log is printed
+- configfs-gadget gadget: acm ttyGS0 can't notify serial state, -11
+If the HOST resumes (opens) the bus, the port still isn't functional.
+
+Use suspend/resume callbacks to monitor the gadget suspended state by using
+'suspended' flag. In case the port gets opened (cat /dev/ttyGS0), the I/O
+stream will be delayed until the bus gets resumed by the HOST.
 
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@st.com>
 ---
- drivers/usb/gadget/function/f_acm.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/usb/gadget/function/u_serial.c | 57 +++++++++++++++++++++++++++++-----
+ drivers/usb/gadget/function/u_serial.h |  2 ++
+ 2 files changed, 51 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_acm.c b/drivers/usb/gadget/function/f_acm.c
-index 7c152c2..200596e 100644
---- a/drivers/usb/gadget/function/f_acm.c
-+++ b/drivers/usb/gadget/function/f_acm.c
-@@ -723,6 +723,20 @@ static void acm_free_func(struct usb_function *f)
- 	kfree(acm);
- }
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 8167d37..3cfc6e2 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -120,6 +120,8 @@ struct gs_port {
+ 	wait_queue_head_t	drain_wait;	/* wait while writes drain */
+ 	bool                    write_busy;
+ 	wait_queue_head_t	close_wait;
++	bool			suspended;	/* port suspended */
++	bool			start_delayed;	/* delay start when suspended */
  
-+static void acm_resume(struct usb_function *f)
+ 	/* REVISIT this state ... */
+ 	struct usb_cdc_line_coding port_line_coding;	/* 8-N-1 etc */
+@@ -630,13 +632,19 @@ static int gs_open(struct tty_struct *tty, struct file *file)
+ 
+ 	/* if connected, start the I/O stream */
+ 	if (port->port_usb) {
+-		struct gserial	*gser = port->port_usb;
+-
+-		pr_debug("gs_open: start ttyGS%d\n", port->port_num);
+-		gs_start_io(port);
+-
+-		if (gser->connect)
+-			gser->connect(gser);
++		/* if port is suspended, wait resume to start I/0 stream */
++		if (!port->suspended) {
++			struct gserial	*gser = port->port_usb;
++
++			pr_debug("gs_open: start ttyGS%d\n", port->port_num);
++			gs_start_io(port);
++
++			if (gser->connect)
++				gser->connect(gser);
++		} else {
++			pr_debug("delay start of ttyGS%d\n", port->port_num);
++			port->start_delayed = true;
++		}
+ 	}
+ 
+ 	pr_debug("gs_open: ttyGS%d (%p,%p)\n", port->port_num, tty, file);
+@@ -680,7 +688,7 @@ static void gs_close(struct tty_struct *tty, struct file *file)
+ 	pr_debug("gs_close: ttyGS%d (%p,%p) ...\n", port->port_num, tty, file);
+ 
+ 	gser = port->port_usb;
+-	if (gser && gser->disconnect)
++	if (gser && !port->suspended && gser->disconnect)
+ 		gser->disconnect(gser);
+ 
+ 	/* wait for circular write buffer to drain, disconnect, or at
+@@ -708,6 +716,7 @@ static void gs_close(struct tty_struct *tty, struct file *file)
+ 	else
+ 		kfifo_reset(&port->port_write_buf);
+ 
++	port->start_delayed = false;
+ 	port->port.count = 0;
+ 	port->port.tty = NULL;
+ 
+@@ -1403,6 +1412,38 @@ void gserial_disconnect(struct gserial *gser)
+ }
+ EXPORT_SYMBOL_GPL(gserial_disconnect);
+ 
++void gserial_suspend(struct gserial *gser)
 +{
-+	struct f_acm *acm = func_to_acm(f);
++	struct gs_port	*port = gser->ioport;
++	unsigned long	flags;
 +
-+	gserial_resume(&acm->port);
++	spin_lock_irqsave(&port->port_lock, flags);
++	port->suspended = true;
++	spin_unlock_irqrestore(&port->port_lock, flags);
 +}
++EXPORT_SYMBOL_GPL(gserial_suspend);
 +
-+static void acm_suspend(struct usb_function *f)
++void gserial_resume(struct gserial *gser)
 +{
-+	struct f_acm *acm = func_to_acm(f);
++	struct gs_port *port = gser->ioport;
++	unsigned long	flags;
 +
-+	gserial_suspend(&acm->port);
++	spin_lock_irqsave(&port->port_lock, flags);
++	port->suspended = false;
++	if (!port->start_delayed) {
++		spin_unlock_irqrestore(&port->port_lock, flags);
++		return;
++	}
++
++	pr_debug("delayed start ttyGS%d\n", port->port_num);
++	gs_start_io(port);
++	if (gser->connect)
++		gser->connect(gser);
++	port->start_delayed = false;
++	spin_unlock_irqrestore(&port->port_lock, flags);
 +}
++EXPORT_SYMBOL_GPL(gserial_resume);
 +
- static struct usb_function *acm_alloc_func(struct usb_function_instance *fi)
+ static int userial_init(void)
  {
- 	struct f_serial_opts *opts;
-@@ -750,6 +764,8 @@ static struct usb_function *acm_alloc_func(struct usb_function_instance *fi)
- 	acm->port_num = opts->port_num;
- 	acm->port.func.unbind = acm_unbind;
- 	acm->port.func.free_func = acm_free_func;
-+	acm->port.func.resume = acm_resume;
-+	acm->port.func.suspend = acm_suspend;
+ 	unsigned			i;
+diff --git a/drivers/usb/gadget/function/u_serial.h b/drivers/usb/gadget/function/u_serial.h
+index e5b08ab..009a959 100644
+--- a/drivers/usb/gadget/function/u_serial.h
++++ b/drivers/usb/gadget/function/u_serial.h
+@@ -68,6 +68,8 @@ ssize_t gserial_get_console(unsigned char port_num, char *page);
+ /* connect/disconnect is handled by individual functions */
+ int gserial_connect(struct gserial *, u8 port_num);
+ void gserial_disconnect(struct gserial *);
++void gserial_suspend(struct gserial *p);
++void gserial_resume(struct gserial *p);
  
- 	return &acm->port.func;
- }
+ /* functions are bound to configurations by a config or gadget driver */
+ int gser_bind_config(struct usb_configuration *c, u8 port_num);
 -- 
 2.7.4
 
