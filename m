@@ -2,71 +2,88 @@ Return-Path: <SRS0=F6Ay=6F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BB1C54FCC
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 14:06:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A89C54FC9
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 14:06:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AAB120679
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 14:06:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D30CC20679
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 14:06:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728802AbgDUOGJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Apr 2020 10:06:09 -0400
-Received: from mga03.intel.com ([134.134.136.65]:63242 "EHLO mga03.intel.com"
+        id S1728825AbgDUOGN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Apr 2020 10:06:13 -0400
+Received: from mga03.intel.com ([134.134.136.65]:63245 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726691AbgDUOGJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Apr 2020 10:06:09 -0400
-IronPort-SDR: kELDaTvf+TKCQ8vgpx4AYUAsjN64F51y63uUAWlrJVtscvTjMkdbgW9rUpdMyKEf2yakxg5sle
- VBne96YnW8ew==
+        id S1726691AbgDUOGL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Apr 2020 10:06:11 -0400
+IronPort-SDR: 7E9q1WQMLbPVGsU1WYyinM3EyW0H2cA02EdvIL0YTYJBxlXyH5wpKBZVYFWyQ98WznzXOtQwED
+ z+YpygC5BeaA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 07:05:49 -0700
-IronPort-SDR: 1ymki/9n7usUjQrF2l61EH9rM971WXMXAtNSkeNIFI/lUMpqDqWbKLjCkA2uaXr4wHYpdVIZ7M
- KtFIBKcM2zgQ==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 07:05:52 -0700
+IronPort-SDR: S4nTtBZJn0OzWgKune4epgHbGhcfbMXbhOdYPGj9NoQdt+8d9nhnsJvMioeyIOzjrO/9t5Z4Jl
+ dP6qcJj5sUHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.72,410,1580803200"; 
-   d="scan'208";a="300618760"
+   d="scan'208";a="300618777"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2020 07:05:47 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2020 07:05:51 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 0/3] xhci fixes for usb-linus
-Date:   Tue, 21 Apr 2020 17:08:19 +0300
-Message-Id: <20200421140822.28233-1-mathias.nyman@linux.intel.com>
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        stable@vger.kernel.org
+Subject: [PATCH 2/3] xhci: prevent bus suspend if a roothub port detected a over-current condition
+Date:   Tue, 21 Apr 2020 17:08:21 +0300
+Message-Id: <20200421140822.28233-3-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200421140822.28233-1-mathias.nyman@linux.intel.com>
+References: <20200421140822.28233-1-mathias.nyman@linux.intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+Suspending the bus and host controller while a port is in a over-current
+condition may halt the host.
+Also keep the roothub running if over-current is active.
 
-These xhci fixes for usb-linus sort out halted empty endpoint handling,
-protocol stall handling, and overcurrent handling.
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+ drivers/usb/host/xhci-hub.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Theses issues have caused usb devices to appear as if they stop working
-suddenly, failed to enumerate LS/FS devices behind HS hubs (seen on some
-audio devices), and host from freezing in case of suspend on over-current.
-
--Mathias 
-
-Mathias Nyman (3):
-  xhci: Fix handling halted endpoint even if endpoint ring appears empty
-  xhci: prevent bus suspend if a roothub port detected a over-current
-    condition
-  xhci: Don't clear hub TT buffer on ep0 protocol stall
-
- drivers/usb/host/xhci-hub.c  |  9 +++++++
- drivers/usb/host/xhci-ring.c | 46 +++++++++++++++++++++++++++++++-----
- drivers/usb/host/xhci.c      | 14 +++++------
- drivers/usb/host/xhci.h      |  5 ++--
- 4 files changed, 59 insertions(+), 15 deletions(-)
-
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index 9eca1fe81061..f37316d2c8fa 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -1571,6 +1571,8 @@ int xhci_hub_status_data(struct usb_hcd *hcd, char *buf)
+ 		}
+ 		if ((temp & PORT_RC))
+ 			reset_change = true;
++		if (temp & PORT_OC)
++			status = 1;
+ 	}
+ 	if (!status && !reset_change) {
+ 		xhci_dbg(xhci, "%s: stopping port polling.\n", __func__);
+@@ -1636,6 +1638,13 @@ int xhci_bus_suspend(struct usb_hcd *hcd)
+ 				 port_index);
+ 			goto retry;
+ 		}
++		/* bail out if port detected a over-current condition */
++		if (t1 & PORT_OC) {
++			bus_state->bus_suspended = 0;
++			spin_unlock_irqrestore(&xhci->lock, flags);
++			xhci_dbg(xhci, "Bus suspend bailout, port over-current detected\n");
++			return -EBUSY;
++		}
+ 		/* suspend ports in U0, or bail out for new connect changes */
+ 		if ((t1 & PORT_PE) && (t1 & PORT_PLS_MASK) == XDEV_U0) {
+ 			if ((t1 & PORT_CSC) && wake_enabled) {
 -- 
 2.17.1
 
