@@ -2,119 +2,116 @@ Return-Path: <SRS0=F6Ay=6F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 319D2C55182
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 11:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59FF8C54FD0
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 12:33:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B6972073A
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 11:15:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3524D2076E
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 12:33:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="sB7xK0lE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgDULPS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Apr 2020 07:15:18 -0400
-Received: from foss.arm.com ([217.140.110.172]:33308 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726018AbgDULPS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Apr 2020 07:15:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0F0C1FB;
-        Tue, 21 Apr 2020 04:15:17 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9217C3F73D;
-        Tue, 21 Apr 2020 04:15:16 -0700 (PDT)
-Date:   Tue, 21 Apr 2020 12:15:14 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Oliver Neukum <oneukum@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux-pm mailing list <linux-pm@vger.kernel.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>
-Subject: Re: lockdep warning in urb.c:363 usb_submit_urb
-Message-ID: <20200421111513.fy3oqebij6fnvbnc@e107158-lin.cambridge.arm.com>
-References: <Pine.LNX.4.44L0.2003251631360.1724-100000@netrider.rowland.org>
- <Pine.LNX.4.44L0.2004201622260.22032-100000@netrider.rowland.org>
+        id S1728888AbgDUMdY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Apr 2020 08:33:24 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:13408 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728853AbgDUMdW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Apr 2020 08:33:22 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03LCOCbE002725;
+        Tue, 21 Apr 2020 14:33:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=kO+cRwxzp6MTRP0BhgQn00h4Jvgtw6HO9Mccuab6nNs=;
+ b=sB7xK0lERq51IXDlyGZOCu7iKpv0O3+r/L6Of+Ft7xWKxsTYBJtHDVCg0RzjNGcifOSW
+ /87ylOnSdy6jU73BfCEow0nSHEWwgkcTYM536JV5IZtI8NwzmaYoJR/mvZmhE+tJUojp
+ OcNKZHoMH8vCiPsDbydk8fhyBFP0Z5fCmcIJROIFO5TK3K8AFgsLrKsT8/9r+EGYmlY7
+ zYDe9xyyV0urvnIqqCVxZK6ljvayDM9VWt0bCOK3VbL3VpxbHGSllCFxXzwUu+SBCsV3
+ 0U0leklll+y57LyfIYtZQZ9KRI54987O0USnFpOa2h6GkKfupUm8pywcA59RV4m6z/iF ZQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 30fq11g3ek-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 21 Apr 2020 14:33:14 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 158EB10002A;
+        Tue, 21 Apr 2020 14:33:14 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0ACC42B0FCB;
+        Tue, 21 Apr 2020 14:33:14 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SFHDAG5NODE3.st.com (10.75.127.15)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Apr 2020 14:33:13
+ +0200
+From:   Fabrice Gasnier <fabrice.gasnier@st.com>
+To:     <hminas@synopsys.com>, <balbi@kernel.org>
+CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <amelie.delaunay@st.com>
+Subject: [PATCH 3/4] usb: gadget: f_serial: add suspend resume callbacks
+Date:   Tue, 21 Apr 2020 14:32:20 +0200
+Message-ID: <1587472341-17935-4-git-send-email-fabrice.gasnier@st.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1587472341-17935-1-git-send-email-fabrice.gasnier@st.com>
+References: <1587472341-17935-1-git-send-email-fabrice.gasnier@st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2004201622260.22032-100000@netrider.rowland.org>
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG1NODE1.st.com (10.75.127.1) To SFHDAG5NODE3.st.com
+ (10.75.127.15)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-04-21_05:2020-04-20,2020-04-21 signatures=0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 04/20/20 16:26, Alan Stern wrote:
-> On Wed, 25 Mar 2020, Alan Stern wrote:
-> 
-> > On Wed, 25 Mar 2020, Qais Yousef wrote:
-> > 
-> > > Thanks for all the hints Alan.
-> > > 
-> > > I think I figured it out, the below patch seems to fix it for me. Looking
-> > > at other drivers resume functions it seems we're missing the
-> > > pm_runtime_disable()->set_active()->enable() dance. Doing that fixes the
-> > > warning and the dev_err() in driver/base/power.
-> > 
-> > Ah, yes.  This should have been added years ago; guess I forgot.  :-(
-> > 
-> > > I don't see xhci-plat.c doing that, I wonder if it needs it too.
-> > > 
-> > > I'm not well versed about the details and the rules here. So my fix could be
-> > > a hack, though it does seem the right thing to do.
-> > > 
-> > > I wonder why the power core doesn't handle this transparently..
-> > 
-> > Initially, we didn't want the PM core to do this automatically because
-> > we thought some devices might want to remain runtime-suspended
-> > following a system resume, and only the device driver would know what 
-> > to do.
-> 
-> Qais:
-> 
-> So it looks like the discussion with Rafael will lead to changes in the
-> PM core, but they won't go into the -stable kernels, and they won't
-> directly fix the problem here.
-> 
-> In the meantime, why don't you write up your patch below and submit it
-> properly?  Even better, create similar patches for ehci-platform.c and
-> xhci-plat.c and submit them too.
+Add suspend resume callbacks to notify u_serial of the bus suspend/resume
+state.
 
-Sure.
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@st.com>
+---
+ drivers/usb/gadget/function/f_serial.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Thanks
+diff --git a/drivers/usb/gadget/function/f_serial.c b/drivers/usb/gadget/function/f_serial.c
+index 1406255..e627138 100644
+--- a/drivers/usb/gadget/function/f_serial.c
++++ b/drivers/usb/gadget/function/f_serial.c
+@@ -348,6 +348,20 @@ static void gser_unbind(struct usb_configuration *c, struct usb_function *f)
+ 	usb_free_all_descriptors(f);
+ }
+ 
++static void gser_resume(struct usb_function *f)
++{
++	struct f_gser *gser = func_to_gser(f);
++
++	gserial_resume(&gser->port);
++}
++
++static void gser_suspend(struct usb_function *f)
++{
++	struct f_gser *gser = func_to_gser(f);
++
++	gserial_suspend(&gser->port);
++}
++
+ static struct usb_function *gser_alloc(struct usb_function_instance *fi)
+ {
+ 	struct f_gser	*gser;
+@@ -369,6 +383,8 @@ static struct usb_function *gser_alloc(struct usb_function_instance *fi)
+ 	gser->port.func.set_alt = gser_set_alt;
+ 	gser->port.func.disable = gser_disable;
+ 	gser->port.func.free_func = gser_free;
++	gser->port.func.resume = gser_resume;
++	gser->port.func.suspend = gser_suspend;
+ 
+ 	return &gser->port.func;
+ }
+-- 
+2.7.4
 
---
-Qais Yousef
-
-> 
-> Alan Stern
-> 
-> > > diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
-> > > index 7addfc2cbadc..eb92c8092fae 100644
-> > > --- a/drivers/usb/host/ohci-platform.c
-> > > +++ b/drivers/usb/host/ohci-platform.c
-> > > @@ -299,6 +299,10 @@ static int ohci_platform_resume(struct device *dev)
-> > >         }
-> > > 
-> > >         ohci_resume(hcd, false);
-> > > +
-> > > +       pm_runtime_disable(dev);
-> > > +       pm_runtime_set_active(dev);
-> > > +       pm_runtime_enable(dev);
-> > >         return 0;
-> > >  }
-> > >  #endif /* CONFIG_PM_SLEEP */
-> > > 
-> > > 
-> > > Thanks
-> > > 
-> > > --
-> > > Qais Yousef
-> > 
-> > 
-> > 
-> 
