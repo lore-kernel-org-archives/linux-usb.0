@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623D8C54FD0
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 13:31:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D3CC54FC9
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 13:31:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 408EC21473
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 13:31:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7F3A20B1F
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Apr 2020 13:31:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS20hJWb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLxHvVIl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729072AbgDUNbI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Apr 2020 09:31:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
+        id S1728970AbgDUNax (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Apr 2020 09:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729032AbgDUNbD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Apr 2020 09:31:03 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE37C061A10;
-        Tue, 21 Apr 2020 06:31:02 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id y4so13952026ljn.7;
-        Tue, 21 Apr 2020 06:31:02 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1728519AbgDUNav (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Apr 2020 09:30:51 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41BF3C061A10;
+        Tue, 21 Apr 2020 06:30:51 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id h6so11138695lfc.0;
+        Tue, 21 Apr 2020 06:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=n1eN8tSv2qXvNukDnxakUVcpdfWKIz8N5kuJXZzI10Q=;
-        b=GS20hJWbYfCcVAO5njfSRnIIESF6ZVXjfh95iNDyCUQnRwoFrekQHqyaqJNf61Amdm
-         hTD6sx9Y0zhYLokcb+xIMEYUeIjkklCF0wVfLp4SyJR1y60ThyKyU+OWBYzrBB0wqqFK
-         lbKeYdkl6jBOMJjkll1jWQ2djJhB7PCNSq2/KceQEbDNd96HvJJO8cJmbW4HXSsi/Q/u
-         jeIOPzhjjiPv4juZhxYE5G0fpzkCVGBOjX5KJSf0AK1uW2fAoI3qXgr6ZyRmKptzAMmX
-         pGCwaq8VmlBscpaEe34YLYpk1aiWmOWPWQvRDfoiHGzC5noIk6KqMUSaPi5kafhElHea
-         GWUA==
+        bh=6bvykx93v6ZdTcLqqa0LvJ08VjaSXmrZtCtjZ/wx+Kw=;
+        b=XLxHvVIl2RV/D4zlIPUAUwTMCC2I/BW9E1DhAIVc66CZbrtZnVUi2H+2sLB9smJg2i
+         hch3Q5tH3MMeZu0hw/xRlWUUbxByTFA+vvODft0p7mNPPajWI82cE/7bCsja2d1Cikrb
+         sHsLZeW2nCHQUSm70/V/zGrYSg+4anTn5ZjdEaQ97k/03xVt1z9RZMGxMMFVHm8x8cxY
+         5L4+VK4kMwh/VJR9sWevWPhcY0tyjaS4UEZPnFFOZ6BTt2UJRbqbv3FRfgEjB7yj7XAd
+         UA6bBAdE7ZhKhEgXd9CWVC6uiYWX9KXSRJsOyvcv7/xbd87W4ggDUGkB8ozLK1hJo+QM
+         lekA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n1eN8tSv2qXvNukDnxakUVcpdfWKIz8N5kuJXZzI10Q=;
-        b=kqFT9UcryRd1dCMUhCBGez0qBbQRAKCML/y3GMz8vCwG6z1h+3M2WCFeE5vYyB7hP6
-         9IiLEi9rUKcx4ZbE3Ih78smOj8O9bnjQimtAMYn1N/wB+2hndTVFahLAftk/dulACPxK
-         ukzu3uxefa2FJFzDZGPppjQrNPJGdUmDvichMk84pdeHZfZQUAgsTlaeew93EB2wD4nJ
-         9CoLCrH/B7dc83PqfqtIxF/+cCvbs+eNjYOiCL3Uf8zpRMGSlSe3L7FrkS52H4AszgmF
-         IkQzC/zPjIKJHPTlvZUqW/0dXk5WKfw9dgoOikK9h9U56TKCEV9amjfoS8s0iToXRCeW
-         YL+w==
-X-Gm-Message-State: AGi0PubhpjvrOAiOtDwpFBiCnHuHoEV8QxJn/y9kfEd2v5RO96sefPWq
-        CozH0/nAVEM2/xOCXxgo6bA=
-X-Google-Smtp-Source: APiQypJqldYtw+MCDISwcjrRXbbmeAda49u/EROFnkj/F7LWMYZN6Zyb1s/7Vm3GeO/+0VqFe67s5g==
-X-Received: by 2002:a2e:97d4:: with SMTP id m20mr12754498ljj.159.1587475861272;
-        Tue, 21 Apr 2020 06:31:01 -0700 (PDT)
+        bh=6bvykx93v6ZdTcLqqa0LvJ08VjaSXmrZtCtjZ/wx+Kw=;
+        b=nmrhzNwyUAQA2Tcn+5mGmT/Rw77YaNp80ryBb5LHi8nLf1vgbbVOtmzU8wLwjT4Rji
+         oLzhElPCYIkjQfjrJ9okeX+hqn2N4dQuLSX/RqCpXP4tp3u++9jdtL5MawKyw0UQKHZr
+         PlmNJelfQYt2lKnQKlUOEqEDjJBtYz1rfTJ+Tmj5I0hvVftzkGJHt0MA76r1pu7gC/LB
+         oqnyymB5IeMq5KjFH83BBNL4cMZf0Lew0/ci0wnL7eGghHZ6dVCsBEZgU6GF9E6VwpUe
+         tLS2YmozSOG0DemQVBQGtqXsqXXRiVSEDVxtQW12jJSA74+b4XSRrwO+KFoLYWXYvevO
+         Cf3g==
+X-Gm-Message-State: AGi0PuYFvgKw04KatUzzxwwzfY0+MySrpFkIryEmHVLafSW4WCfSHY/E
+        t99qCzEMQ/iyDSBiTXWg6f4=
+X-Google-Smtp-Source: APiQypJ4WgM7gqpMNCBTPRfbyLXp25JlxNIIkv1Z+iR+niDGAe+/e86UnDlkev1gVmsFBy3zJezYMA==
+X-Received: by 2002:a19:f611:: with SMTP id x17mr14268828lfe.51.1587475849575;
+        Tue, 21 Apr 2020 06:30:49 -0700 (PDT)
 Received: from oak.local ([188.123.231.141])
-        by smtp.gmail.com with ESMTPSA id v17sm2031456lfi.49.2020.04.21.06.30.59
+        by smtp.gmail.com with ESMTPSA id v17sm2031456lfi.49.2020.04.21.06.30.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 06:31:00 -0700 (PDT)
+        Tue, 21 Apr 2020 06:30:49 -0700 (PDT)
 From:   matwey.kornilov@gmail.com
 To:     stern@rowland.harvard.edu, Bin Liu <b-liu@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -66,9 +66,9 @@ To:     stern@rowland.harvard.edu, Bin Liu <b-liu@ti.com>,
 Cc:     "Matwey V. Kornilov" <matwey@sai.msu.ru>,
         linux-usb@vger.kernel.org (open list:MUSB MULTIPOINT HIGH SPEED
         DUAL-ROLE CONTROLLER), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 5/6] usb: musb: Introduce musb_start_urb()
-Date:   Tue, 21 Apr 2020 16:30:18 +0300
-Message-Id: <20200421133019.27167-6-matwey.kornilov@gmail.com>
+Subject: [PATCH v3 1/6] usb: musb: Use USB_DIR_IN when calling musb_advance_schedule()
+Date:   Tue, 21 Apr 2020 16:30:14 +0300
+Message-Id: <20200421133019.27167-2-matwey.kornilov@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200421133019.27167-1-matwey.kornilov@gmail.com>
 References: <20200421133019.27167-1-matwey.kornilov@gmail.com>
@@ -81,45 +81,28 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: "Matwey V. Kornilov" <matwey@sai.msu.ru>
 
-This function allows us to start arbitrary urb.
+Use USB_DIR_IN instead of 1 when calling musb_advance_schedule().
+This is consistent with the rest of musb_host.c code and impoves
+the readability.
 
 Signed-off-by: Matwey V. Kornilov <matwey@sai.msu.ru>
 ---
- drivers/usb/musb/musb_host.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/usb/musb/musb_host.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
-index c3c9aa8ba973..46d9dd7d6f67 100644
+index 8736f4251a22..b0614c59e0e5 100644
 --- a/drivers/usb/musb/musb_host.c
 +++ b/drivers/usb/musb/musb_host.c
-@@ -213,11 +213,10 @@ static struct musb_qh *musb_ep_get_qh(struct musb_hw_ep *ep, int is_in)
-  * Context: controller locked, irqs blocked
-  */
- static void
--musb_start_next_urb(struct musb *musb, int is_in, struct musb_qh *qh)
-+musb_start_urb(struct musb *musb, int is_in, struct musb_qh *qh, struct urb *urb)
- {
- 	u32			len;
- 	void __iomem		*mbase =  musb->mregs;
--	struct urb		*urb = next_urb(qh);
- 	void			*buf = urb->transfer_buffer;
- 	u32			offset = 0;
- 	struct musb_hw_ep	*hw_ep = qh->hw_ep;
-@@ -293,6 +292,14 @@ musb_start_next_urb(struct musb *musb, int is_in, struct musb_qh *qh)
- 	}
- }
+@@ -1169,7 +1169,7 @@ irqreturn_t musb_h_ep0_irq(struct musb *musb)
  
-+static void
-+musb_start_next_urb(struct musb *musb, int is_in, struct musb_qh *qh)
-+{
-+	struct urb *urb = next_urb(qh);
-+
-+	musb_start_urb(musb, is_in, qh, urb);
-+}
-+
- /* Context: caller owns controller lock, IRQs are blocked */
- static void musb_giveback(struct musb *musb, struct urb *urb, int status)
- __releases(musb->lock)
+ 	/* call completion handler if done */
+ 	if (complete)
+-		musb_advance_schedule(musb, urb, hw_ep, 1);
++		musb_advance_schedule(musb, urb, hw_ep, USB_DIR_IN);
+ done:
+ 	return retval;
+ }
 -- 
 2.25.0
 
