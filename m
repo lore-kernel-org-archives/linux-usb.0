@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7D8C54FCB
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2965EC54FCB
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:19:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B1EA20882
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:18:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF1C320767
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbgDVUSt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Apr 2020 16:18:49 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:34868 "HELO
+        id S1726151AbgDVUTv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Apr 2020 16:19:51 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:34882 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726087AbgDVUSt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Apr 2020 16:18:49 -0400
-Received: (qmail 11311 invoked by uid 2102); 22 Apr 2020 16:18:48 -0400
+        with SMTP id S1726087AbgDVUTv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Apr 2020 16:19:51 -0400
+Received: (qmail 11295 invoked by uid 2102); 22 Apr 2020 16:13:08 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 22 Apr 2020 16:18:48 -0400
-Date:   Wed, 22 Apr 2020 16:18:48 -0400 (EDT)
+  by localhost with SMTP; 22 Apr 2020 16:13:08 -0400
+Date:   Wed, 22 Apr 2020 16:13:08 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <syzkaller-bugs@googlegroups.com>, <linux-input@vger.kernel.org>,
+To:     Greg KH <greg@kroah.com>
+cc:     William Bader <williambader@hotmail.com>,
+        Zeng Tao <prime.zeng@hisilicon.com>,
         USB list <linux-usb@vger.kernel.org>
-Subject: [PATCH] usbhid: Fix race between usbhid_close() and usbhid_stop()
-Message-ID: <Pine.LNX.4.44L0.2004221614580.11262-100000@iolanthe.rowland.org>
+Subject: [PATCH] USB: hub: Revert commit bd0e6c9614b9 ("usb: hub: try old
+ enumeration scheme first for high speed devices")
+Message-ID: <Pine.LNX.4.44L0.2004221611230.11262-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -38,170 +38,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The syzbot fuzzer discovered a bad race between in the usbhid driver
-between usbhid_stop() and usbhid_close().  In particular,
-usbhid_stop() does:
+Commit bd0e6c9614b9 ("usb: hub: try old enumeration scheme first for
+high speed devices") changed the way the hub driver enumerates
+high-speed devices.  Instead of using the "new" enumeration scheme
+first and switching to the "old" scheme if that doesn't work, we start
+with the "old" scheme.  In theory this is better because the "old"
+scheme is slightly faster -- it involves resetting the device only
+once instead of twice.
 
-	usb_free_urb(usbhid->urbin);
-	...
-	usbhid->urbin = NULL; /* don't mess up next start */
+However, for a long time Windows used only the "new" scheme.  Zeng Tao
+said that Windows 8 and later use the "old" scheme for high-speed
+devices, but apparently there are some devices that don't like it.
+William Bader reports that the Ricoh webcam built into his Sony Vaio
+laptop not only doesn't enumerate under the "old" scheme, it gets hung
+up so badly that it won't then enumerate under the "new" scheme!  Only
+a cold reset will fix it.
 
-and usbhid_close() does:
+Therefore we will revert the commit and go back to trying the "new"
+scheme first for high-speed devices.
 
-	usb_kill_urb(usbhid->urbin);
-
-with no mutual exclusion.  If the two routines happen to run
-concurrently so that usb_kill_urb() is called in between the
-usb_free_urb() and the NULL assignment, it will access the
-deallocated urb structure -- a use-after-free bug.
-
-This patch adds a mutex to the usbhid private structure and uses it to
-enforce mutual exclusion of the usbhid_start(), usbhid_stop(),
-usbhid_open() and usbhid_close() callbacks.
-
-Reported-and-tested-by: syzbot+7bf5a7b0f0a1f9446f4c@syzkaller.appspotmail.com
+Reported-and-tested-by: William Bader <williambader@hotmail.com>
+Ref: https://bugzilla.kernel.org/show_bug.cgi?id=207219
 Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+Reverts: bd0e6c9614b9 ("usb: hub: try old enumeration scheme first for high speed devices")
+CC: Zeng Tao <prime.zeng@hisilicon.com>
 CC: <stable@vger.kernel.org>
 
 ---
 
 
-[as1935]
+[as1933]
 
 
- drivers/hid/usbhid/hid-core.c |   37 +++++++++++++++++++++++++++++--------
- drivers/hid/usbhid/usbhid.h   |    1 +
- 2 files changed, 30 insertions(+), 8 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |    3 +--
+ drivers/usb/core/hub.c                          |    4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-Index: usb-devel/drivers/hid/usbhid/hid-core.c
+Index: usb-devel/Documentation/admin-guide/kernel-parameters.txt
 ===================================================================
---- usb-devel.orig/drivers/hid/usbhid/hid-core.c
-+++ usb-devel/drivers/hid/usbhid/hid-core.c
-@@ -682,16 +682,21 @@ static int usbhid_open(struct hid_device
- 	struct usbhid_device *usbhid = hid->driver_data;
- 	int res;
+--- usb-devel.orig/Documentation/admin-guide/kernel-parameters.txt
++++ usb-devel/Documentation/admin-guide/kernel-parameters.txt
+@@ -5081,8 +5081,7 @@
  
-+	mutex_lock(&usbhid->mutex);
-+
- 	set_bit(HID_OPENED, &usbhid->iofl);
+ 	usbcore.old_scheme_first=
+ 			[USB] Start with the old device initialization
+-			scheme,  applies only to low and full-speed devices
+-			 (default 0 = off).
++			scheme (default 0 = off).
  
--	if (hid->quirks & HID_QUIRK_ALWAYS_POLL)
--		return 0;
-+	if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
-+		res = 0;
-+		goto Done;
-+	}
- 
- 	res = usb_autopm_get_interface(usbhid->intf);
- 	/* the device must be awake to reliably request remote wakeup */
- 	if (res < 0) {
- 		clear_bit(HID_OPENED, &usbhid->iofl);
--		return -EIO;
-+		res = -EIO;
-+		goto Done;
- 	}
- 
- 	usbhid->intf->needs_remote_wakeup = 1;
-@@ -725,6 +730,9 @@ static int usbhid_open(struct hid_device
- 		msleep(50);
- 
- 	clear_bit(HID_RESUME_RUNNING, &usbhid->iofl);
-+
-+ Done:
-+	mutex_unlock(&usbhid->mutex);
- 	return res;
- }
- 
-@@ -732,6 +740,8 @@ static void usbhid_close(struct hid_devi
+ 	usbcore.usbfs_memory_mb=
+ 			[USB] Memory limit (in MB) for buffers allocated by
+Index: usb-devel/drivers/usb/core/hub.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/hub.c
++++ usb-devel/drivers/usb/core/hub.c
+@@ -2724,13 +2724,11 @@ static bool use_new_scheme(struct usb_de
  {
- 	struct usbhid_device *usbhid = hid->driver_data;
+ 	int old_scheme_first_port =
+ 		port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME;
+-	int quick_enumeration = (udev->speed == USB_SPEED_HIGH);
  
-+	mutex_lock(&usbhid->mutex);
-+
- 	/*
- 	 * Make sure we don't restart data acquisition due to
- 	 * a resumption we no longer care about by avoiding racing
-@@ -743,12 +753,13 @@ static void usbhid_close(struct hid_devi
- 		clear_bit(HID_IN_POLLING, &usbhid->iofl);
- 	spin_unlock_irq(&usbhid->lock);
+ 	if (udev->speed >= USB_SPEED_SUPER)
+ 		return false;
  
--	if (hid->quirks & HID_QUIRK_ALWAYS_POLL)
--		return;
-+	if (!(hid->quirks & HID_QUIRK_ALWAYS_POLL)) {
-+		hid_cancel_delayed_stuff(usbhid);
-+		usb_kill_urb(usbhid->urbin);
-+		usbhid->intf->needs_remote_wakeup = 0;
-+	}
- 
--	hid_cancel_delayed_stuff(usbhid);
--	usb_kill_urb(usbhid->urbin);
--	usbhid->intf->needs_remote_wakeup = 0;
-+	mutex_unlock(&usbhid->mutex);
+-	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first
+-			      || quick_enumeration);
++	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first);
  }
  
- /*
-@@ -1057,6 +1068,8 @@ static int usbhid_start(struct hid_devic
- 	unsigned int n, insize = 0;
- 	int ret;
- 
-+	mutex_lock(&usbhid->mutex);
-+
- 	clear_bit(HID_DISCONNECTED, &usbhid->iofl);
- 
- 	usbhid->bufsize = HID_MIN_BUFFER_SIZE;
-@@ -1177,6 +1190,8 @@ static int usbhid_start(struct hid_devic
- 		usbhid_set_leds(hid);
- 		device_set_wakeup_enable(&dev->dev, 1);
- 	}
-+
-+	mutex_unlock(&usbhid->mutex);
- 	return 0;
- 
- fail:
-@@ -1187,6 +1202,7 @@ fail:
- 	usbhid->urbout = NULL;
- 	usbhid->urbctrl = NULL;
- 	hid_free_buffers(dev, hid);
-+	mutex_unlock(&usbhid->mutex);
- 	return ret;
- }
- 
-@@ -1202,6 +1218,8 @@ static void usbhid_stop(struct hid_devic
- 		usbhid->intf->needs_remote_wakeup = 0;
- 	}
- 
-+	mutex_lock(&usbhid->mutex);
-+
- 	clear_bit(HID_STARTED, &usbhid->iofl);
- 	spin_lock_irq(&usbhid->lock);	/* Sync with error and led handlers */
- 	set_bit(HID_DISCONNECTED, &usbhid->iofl);
-@@ -1222,6 +1240,8 @@ static void usbhid_stop(struct hid_devic
- 	usbhid->urbout = NULL;
- 
- 	hid_free_buffers(hid_to_usb_dev(hid), hid);
-+
-+	mutex_unlock(&usbhid->mutex);
- }
- 
- static int usbhid_power(struct hid_device *hid, int lvl)
-@@ -1382,6 +1402,7 @@ static int usbhid_probe(struct usb_inter
- 	INIT_WORK(&usbhid->reset_work, hid_reset);
- 	timer_setup(&usbhid->io_retry, hid_retry_timeout, 0);
- 	spin_lock_init(&usbhid->lock);
-+	mutex_init(&usbhid->mutex);
- 
- 	ret = hid_add_device(hid);
- 	if (ret) {
-Index: usb-devel/drivers/hid/usbhid/usbhid.h
-===================================================================
---- usb-devel.orig/drivers/hid/usbhid/usbhid.h
-+++ usb-devel/drivers/hid/usbhid/usbhid.h
-@@ -80,6 +80,7 @@ struct usbhid_device {
- 	dma_addr_t outbuf_dma;                                          /* Output buffer dma */
- 	unsigned long last_out;							/* record of last output for timeouts */
- 
-+	struct mutex mutex;						/* start/stop/open/close */
- 	spinlock_t lock;						/* fifo spinlock */
- 	unsigned long iofl;                                             /* I/O flags (CTRL_RUNNING, OUT_RUNNING) */
- 	struct timer_list io_retry;                                     /* Retry timer */
+ /* Is a USB 3.0 port in the Inactive or Compliance Mode state?
 
