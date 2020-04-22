@@ -6,31 +6,29 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A9C5C54FCB
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90131C54FCB
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:16:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20C632074B
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:14:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FE2A2074B
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Apr 2020 20:16:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbgDVUO6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Apr 2020 16:14:58 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:34856 "HELO
+        id S1726271AbgDVUQc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Apr 2020 16:16:32 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:34864 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726109AbgDVUO6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Apr 2020 16:14:58 -0400
-X-Greylist: delayed 306 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Apr 2020 16:14:58 EDT
-Received: (qmail 11303 invoked by uid 2102); 22 Apr 2020 16:14:57 -0400
+        with SMTP id S1726090AbgDVUQc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Apr 2020 16:16:32 -0400
+Received: (qmail 11275 invoked by uid 2102); 22 Apr 2020 16:09:51 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 22 Apr 2020 16:14:57 -0400
-Date:   Wed, 22 Apr 2020 16:14:57 -0400 (EDT)
+  by localhost with SMTP; 22 Apr 2020 16:09:51 -0400
+Date:   Wed, 22 Apr 2020 16:09:51 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
 To:     Greg KH <greg@kroah.com>
-cc:     Cyril Roelandt <tipecaml@gmail.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        USB Storage list <usb-storage@lists.one-eyed-alien.net>
-Subject: [PATCH] usb-storage: Add unusual_devs entry for JMicron JMS566
-Message-ID: <Pine.LNX.4.44L0.2004221613110.11262-100000@iolanthe.rowland.org>
+cc:     Paul Zimmerman <pauldzim@gmail.com>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: [PATCH] USB: hub: Fix handling of connect changes during sleep
+Message-ID: <Pine.LNX.4.44L0.2004221602480.11262-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -38,47 +36,78 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Cyril Roelandt reports that his JMicron JMS566 USB-SATA bridge fails
-to handle WRITE commands with the FUA bit set, even though it claims
-to support FUA.  (Oddly enough, a later version of the same bridge,
-version 2.03 as opposed to 1.14, doesn't claim to support FUA.  Also
-oddly, the bridge _does_ support FUA when using the UAS transport
-instead of the Bulk-Only transport -- but this device was blacklisted
-for uas in commit bc3bdb12bbb3 ("usb-storage: Disable UAS on JMicron
-SATA enclosure") for apparently unrelated reasons.)
+Commit 8099f58f1ecd ("USB: hub: Don't record a connect-change event
+during reset-resume") wasn't very well conceived.  The problem it
+tried to fix was that if a connect-change event occurred while the
+system was asleep (such as a device disconnecting itself from the bus
+when it is suspended and then reconnecting when it resumes)
+requiring a reset-resume during the system wakeup transition, the hub
+port's change_bit entry would remain set afterward.  This would cause
+the hub driver to believe another connect-change event had occurred
+after the reset-resume, which was wrong and would lead the driver to
+send unnecessary requests to the device (which could interfere with a
+firmware update).
 
-This patch adds a usb-storage unusual_devs entry with the BROKEN_FUA
-flag.  This allows the bridge to work properly with usb-storage.
+The commit tried to fix this by not setting the change_bit during the
+wakeup.  But this was the wrong thing to do; it means that when a
+device is unplugged while the system is asleep, the hub driver doesn't
+realize anything has happened: The change_bit flag which would tell it
+to handle the disconnect event is clear.
 
-Reported-and-tested-by: Cyril Roelandt <tipecaml@gmail.com>
+The commit needs to be reverted and the problem fixed in a different
+way.  Fortunately an alternative solution was noted in the commit's
+Changelog: We can continue to set the change_bit entry in
+hub_activate() but then clear it when a reset-resume occurs.  That way
+the the hub driver will see the change_bit when a device is
+disconnected but won't see it when the device is still present.
+
+That's what this patch does.
+
+Reported-and-tested-by: Peter Chen <peter.chen@nxp.com>
 Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+Fixes: 8099f58f1ecd ("USB: hub: Don't record a connect-change event during reset-resume")
+Tested-by: Paul Zimmerman <pauldzim@gmail.com>
 CC: <stable@vger.kernel.org>
 
 ---
 
 
-[as1934]
+[as1932]
 
 
- drivers/usb/storage/unusual_devs.h |    7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/usb/core/hub.c |   14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Index: usb-devel/drivers/usb/storage/unusual_devs.h
+Index: usb-devel/drivers/usb/core/hub.c
 ===================================================================
---- usb-devel.orig/drivers/usb/storage/unusual_devs.h
-+++ usb-devel/drivers/usb/storage/unusual_devs.h
-@@ -2317,6 +2317,13 @@ UNUSUAL_DEV(  0x3340, 0xffff, 0x0000, 0x
- 		USB_SC_DEVICE,USB_PR_DEVICE,NULL,
- 		US_FL_MAX_SECTORS_64 ),
+--- usb-devel.orig/drivers/usb/core/hub.c
++++ usb-devel/drivers/usb/core/hub.c
+@@ -1219,6 +1219,11 @@ static void hub_activate(struct usb_hub
+ #ifdef CONFIG_PM
+ 			udev->reset_resume = 1;
+ #endif
++			/* Don't set the change_bits when the device
++			 * was powered off.
++			 */
++			if (test_bit(port1, hub->power_bits))
++				set_bit(port1, hub->change_bits);
  
-+/* Reported by Cyril Roelandt <tipecaml@gmail.com> */
-+UNUSUAL_DEV(  0x357d, 0x7788, 0x0114, 0x0114,
-+		"JMicron",
-+		"USB to ATA/ATAPI Bridge",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_BROKEN_FUA ),
+ 		} else {
+ 			/* The power session is gone; tell hub_wq */
+@@ -3084,6 +3089,15 @@ static int check_port_resume_type(struct
+ 		if (portchange & USB_PORT_STAT_C_ENABLE)
+ 			usb_clear_port_feature(hub->hdev, port1,
+ 					USB_PORT_FEAT_C_ENABLE);
 +
- /* Reported by Andrey Rahmatullin <wrar@altlinux.org> */
- UNUSUAL_DEV(  0x4102, 0x1020, 0x0100,  0x0100,
- 		"iRiver",
++		/*
++		 * Whatever made this reset-resume necessary may have
++		 * turned on the port1 bit in hub->change_bits.  But after
++		 * a successful reset-resume we want the bit to be clear;
++		 * if it was on it would indicate that something happened
++		 * following the reset-resume.
++		 */
++		clear_bit(port1, hub->change_bits);
+ 	}
+ 
+ 	return status;
 
