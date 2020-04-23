@@ -2,140 +2,124 @@ Return-Path: <SRS0=027z=6H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 892F6C54FD0
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Apr 2020 18:10:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A25EDC54FD0
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Apr 2020 18:54:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B08B20767
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Apr 2020 18:10:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AsXfCxXa"
+	by mail.kernel.org (Postfix) with ESMTP id 8C1882076C
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Apr 2020 18:54:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730186AbgDWSKk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Apr 2020 14:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50242 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730169AbgDWSKj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Apr 2020 14:10:39 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5746C09B043
-        for <linux-usb@vger.kernel.org>; Thu, 23 Apr 2020 11:10:37 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id k18so2668257pll.6
-        for <linux-usb@vger.kernel.org>; Thu, 23 Apr 2020 11:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QrjNM8BIB5l9RDDyP/w9uL8SShDah7FJKmQ5DvjnKE8=;
-        b=AsXfCxXazLdQ4m4tFsITnoDFMxqGenJRkSF+hQa764+Ie951E0z1+86ZtMDbqQeqN9
-         EoMfgJun6N/RY0LSGQ4n6KcyLtyLxeE6qI0AYgv5QA60oCmP8THtiezL2RHowJtIe/7X
-         ibS7aUydBcFHYotXKrT/7B5h0McBa7t+WrF0Kod6rl8RAR3VRpE2rebAt0ODkRKw89rM
-         h2swOx8HZH8pTN3Epi4K0wNbez+NDF2bsW3xtSPJjsFeLdq7yB50zmj/WTJb0qBWc6sq
-         zELPZtUFYAhh1kh05HOxNhOi2RPJGDPjiDAXuUVBTAZRVjZr8kCBRFN0xdbZ/Wq5/FTF
-         rGDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QrjNM8BIB5l9RDDyP/w9uL8SShDah7FJKmQ5DvjnKE8=;
-        b=Y4fDMXNkhOuIFzmsAU7D7PYswzYbftKHdOVhYcK+gp2n1n6555oKp8ll7TXxyBMRac
-         YwZ0EFz9mMiadD8eK/yEMBfGLwKIahpqTyGBuE+StWhmZqU/S1/cC9bwzJgSRBsIpIUB
-         tbh9lkWNQXW8XfNS0TfLNlOzI0Wwj1DNO9c7dBTr+3tGFaZofPFtmxuyPcX5yZRhe+YX
-         FqprRIdWRTsz4Zvu4r23qpg2ud1eI/TaJZeUAzkZnF/Qce9j5d4TPR7Mrid8jV6W+5wN
-         fM6M18DKo++aEgS2Df0q5TfeQhraqtUpGCMJfw39ny/Q+1T1U/z0nycg4uMGIlAJJf7/
-         IPdQ==
-X-Gm-Message-State: AGi0PuYpDHXz3fAogu/WuHtBqLBuIRFjMyV3XtLwNkEPj7PJ5Lc7mShu
-        30Hfe87iYMh5OJ6+BO+BzD9e5NAcISEAPVaOINvCwA==
-X-Google-Smtp-Source: APiQypJxSAw4KraboivCNfbdVu5dxs22Lp01yJChZEKk7LuJohXkK/zLo28qdyZgNXxQMSdqcAn9Gjof2vvDu8FLAOQ=
-X-Received: by 2002:a17:902:ac87:: with SMTP id h7mr4756081plr.119.1587665437124;
- Thu, 23 Apr 2020 11:10:37 -0700 (PDT)
+        id S1730339AbgDWSym (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Apr 2020 14:54:42 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:54149 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726362AbgDWSym (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Apr 2020 14:54:42 -0400
+Received: (qmail 13479 invoked by uid 500); 23 Apr 2020 14:54:40 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 23 Apr 2020 14:54:40 -0400
+Date:   Thu, 23 Apr 2020 14:54:40 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     syzbot <syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
+        <ingrassia@epigenesys.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+Subject: Re: WARNING in usbhid_raw_request/usb_submit_urb (3)
+In-Reply-To: <00000000000084cea205a3f875bd@google.com>
+Message-ID: <Pine.LNX.4.44L0.2004231451570.13251-100000@netrider.rowland.org>
 MIME-Version: 1.0
-References: <20200423162923.10886-1-natechancellor@gmail.com>
-In-Reply-To: <20200423162923.10886-1-natechancellor@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 23 Apr 2020 11:10:25 -0700
-Message-ID: <CAKwvOdnP247LJpqo5ZZfGXUktjtXKzhDwQU=aTOrFi-y_px9mA@mail.gmail.com>
-Subject: Re: [PATCH] USB: gadget: udc: s3c2410_udc: Remove pointless NULL
- check in s3c2410_udc_nuke
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        kbuild test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 9:30 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> Clang warns:
->
-> drivers/usb/gadget/udc/s3c2410_udc.c:255:11: warning: comparison of
-> address of 'ep->queue' equal to a null pointer is always false
-> [-Wtautological-pointer-compare]
->         if (&ep->queue == NULL)
->              ~~~~^~~~~    ~~~~
-> 1 warning generated.
->
-> It is not wrong, queue is not a pointer so if ep is not NULL, the
-> address of queue cannot be NULL. No other driver does a check like this
-> and this check has been around since the driver was first introduced,
-> presumably with no issues so it does not seem like this check should be
-> something else. Just remove it.
->
-> Commit afe956c577b2d ("kbuild: Enable -Wtautological-compare") exposed
-> this but it is not the root cause of the warning.
->
-> Fixes: 3fc154b6b8134 ("USB Gadget driver for Samsung s3c2410 ARM SoC")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1004
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+On Thu, 23 Apr 2020, syzbot wrote:
 
-Thanks for the patch!  If anything, I'd be happy to see some more NULL
-checks against `ep`, though the callers of s3c2410_udc_nuke() also
-seem quite confident that the pointer is not NULL.
+> Hello,
+> 
+> syzbot has tested the proposed patch and the reproducer did not trigger crash:
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Bad luck, I guess.  Let's try again.
 
-> ---
->  drivers/usb/gadget/udc/s3c2410_udc.c | 4 ----
->  1 file changed, 4 deletions(-)
->
-> diff --git a/drivers/usb/gadget/udc/s3c2410_udc.c b/drivers/usb/gadget/udc/s3c2410_udc.c
-> index 0507a2ca0f552..80002d97b59d8 100644
-> --- a/drivers/usb/gadget/udc/s3c2410_udc.c
-> +++ b/drivers/usb/gadget/udc/s3c2410_udc.c
-> @@ -251,10 +251,6 @@ static void s3c2410_udc_done(struct s3c2410_ep *ep,
->  static void s3c2410_udc_nuke(struct s3c2410_udc *udc,
->                 struct s3c2410_ep *ep, int status)
->  {
-> -       /* Sanity check */
-> -       if (&ep->queue == NULL)
-> -               return;
-> -
->         while (!list_empty(&ep->queue)) {
->                 struct s3c2410_request *req;
->                 req = list_entry(ep->queue.next, struct s3c2410_request,
->
-> base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
-> --
-> 2.26.2
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200423162923.10886-1-natechancellor%40gmail.com.
+#syz test: https://github.com/google/kasan.git 0fa84af8
 
+Index: usb-devel/drivers/usb/core/hub.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/hub.c
++++ usb-devel/drivers/usb/core/hub.c
+@@ -4440,6 +4440,7 @@ void usb_ep0_reinit(struct usb_device *u
+ 	usb_disable_endpoint(udev, 0 + USB_DIR_IN, true);
+ 	usb_disable_endpoint(udev, 0 + USB_DIR_OUT, true);
+ 	usb_enable_endpoint(udev, &udev->ep0, true);
++	udev->alan1 = 0;
+ }
+ EXPORT_SYMBOL_GPL(usb_ep0_reinit);
+ 
+@@ -4471,6 +4472,7 @@ static int hub_set_address(struct usb_de
+ 		update_devnum(udev, devnum);
+ 		/* Device now using proper address. */
+ 		usb_set_device_state(udev, USB_STATE_ADDRESS);
++		udev->alan1 = 1;
+ 		usb_ep0_reinit(udev);
+ 	}
+ 	return retval;
+@@ -4838,6 +4840,7 @@ hub_port_init(struct usb_hub *hub, struc
+ 		else
+ 			dev_warn(&udev->dev, "Using ep0 maxpacket: %d\n", i);
+ 		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(i);
++		udev->alan1 = 2;
+ 		usb_ep0_reinit(udev);
+ 	}
+ 
+@@ -5226,6 +5229,7 @@ static void hub_port_connect(struct usb_
+ loop_disable:
+ 		hub_port_disable(hub, port1, 1);
+ loop:
++		udev->alan1 = 3;
+ 		usb_ep0_reinit(udev);
+ 		release_devnum(udev);
+ 		hub_free_dev(udev);
+@@ -5766,6 +5770,7 @@ static int usb_reset_and_verify_device(s
+ 
+ 		/* ep0 maxpacket size may change; let the HCD know about it.
+ 		 * Other endpoints will be handled by re-enumeration. */
++		udev->alan1 = 4;
+ 		usb_ep0_reinit(udev);
+ 		ret = hub_port_init(parent_hub, udev, port1, i);
+ 		if (ret >= 0 || ret == -ENOTCONN || ret == -ENODEV)
+Index: usb-devel/drivers/usb/core/urb.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/urb.c
++++ usb-devel/drivers/usb/core/urb.c
+@@ -204,8 +204,12 @@ int usb_urb_ep_type_check(const struct u
+ 	const struct usb_host_endpoint *ep;
+ 
+ 	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
+-	if (!ep)
++	if (!ep) {
++		dev_info(&urb->dev->dev, "Ep %d disabled: %d\n",
++			usb_pipeendpoint(urb->pipe),
++			urb->dev->alan1);
+ 		return -EINVAL;
++	}
+ 	if (usb_pipetype(urb->pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
+ 		return -EINVAL;
+ 	return 0;
+Index: usb-devel/include/linux/usb.h
+===================================================================
+--- usb-devel.orig/include/linux/usb.h
++++ usb-devel/include/linux/usb.h
+@@ -629,6 +629,7 @@ struct usb3_lpm_parameters {
+  * usb_set_device_state().
+  */
+ struct usb_device {
++	int		alan1;
+ 	int		devnum;
+ 	char		devpath[16];
+ 	u32		route;
 
-
--- 
-Thanks,
-~Nick Desaulniers
