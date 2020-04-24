@@ -2,97 +2,113 @@ Return-Path: <SRS0=GD98=6I=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B509AC54FCB
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 13:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34C2C54FCB
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 13:20:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 951F320736
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 13:16:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2DBD20776
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 13:20:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fDrLWAOe"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PdCZQPxF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbgDXNQr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Apr 2020 09:16:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59280 "EHLO
+        id S1727944AbgDXNUb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Apr 2020 09:20:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726793AbgDXNQr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Apr 2020 09:16:47 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F229FC09B046
-        for <linux-usb@vger.kernel.org>; Fri, 24 Apr 2020 06:16:46 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id hi11so3862752pjb.3
-        for <linux-usb@vger.kernel.org>; Fri, 24 Apr 2020 06:16:46 -0700 (PDT)
+        with ESMTP id S1727930AbgDXNUa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Apr 2020 09:20:30 -0400
+Received: from mail-vk1-xa4a.google.com (mail-vk1-xa4a.google.com [IPv6:2607:f8b0:4864:20::a4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 493EBC09B046
+        for <linux-usb@vger.kernel.org>; Fri, 24 Apr 2020 06:20:29 -0700 (PDT)
+Received: by mail-vk1-xa4a.google.com with SMTP id s206so4579998vke.20
+        for <linux-usb@vger.kernel.org>; Fri, 24 Apr 2020 06:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=oa/oNHUWZOTRPTTfBqwCxMu6cnopDNrg7qX1yx+D0Es=;
-        b=fDrLWAOe45JA/LlPn6FGyX7H7o/h14fgDXB7FCyKQsisVv0+/iUotKI6wPbKEektvn
-         D/49HKMvtl9DVcaX4nX4fdoVtPTEu2ublJHjyzAqW2Ruyeph6+S9B5jV33MLS0rC5BtH
-         neGu6sihmDZD8pQcNqhRXd2fZZJtxMZcFp0OfwKTivAfvYIMT+/AXCsLYBUR0RpwmDdS
-         9xww8khHXsEbkeZ9rsiEwB3OG89vUAOkkDtWiYgbPvZ2K8l3VObxpT+ShS0semRQvTKa
-         hKUU5Ot6zpH9uSKbbLYrhdzcWNrxc/hBMcbLzrSbTO/rpPCyGzId1Kxep91t4RcDPR6X
-         eoEw==
+        bh=iVEHdoFtCdFpiBaH+7lTMwaiCbL5fq6YQc2JbTG34i0=;
+        b=PdCZQPxFLh4X4g5Ge3zd7n/ltxri3640RXfDg8wJyfnyqccwK4dNf6XCxJUoDtGfHi
+         NCZXLr0l23ePq/mUzsBAqQgrJwLnifk7PHlnEWjWovbaGsSQK+rGwyCMiyvwBJDRWN0H
+         49TzMZBzZPVhBD5vBJ1BJohRFK0Z9L+dEYCyOBNPAN7eDKYKYwXXiFQUeiiRlwsis2m2
+         iaKg+XOwjGAF0atcmVy/kJh3248oEYro+CDniEPaSy46WuLqmZymFJqhrkdMb+XaWCu1
+         syFtzCej7wE791ewsv/Pgujzbyp43R1Rw9h/+xWUqIqo9pJLLB1VCbBOiDUYK79B0AEv
+         Qqbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oa/oNHUWZOTRPTTfBqwCxMu6cnopDNrg7qX1yx+D0Es=;
-        b=TMsbAM7Zh2NVVScVWLYFZrSYv2wv+rQLA8UhYunwcJSa3QYNH5kSLn5uhDYzcxTPpY
-         CLhzORkccUudH8BA3vbhqpK/2nxAIwEEFi56igdWkVv8KjFLMXdb/CBSODz9Z10Kt4H/
-         M7n4ty7ryMQNLN1GyulVLHRkPE52Aya05Jnd9ixMDLTgi98XmlyuOFkLjmq1DSG6ZMct
-         3WawW0GQkOV+B9tDghBWODEk26lbpjABhCusS6lZTV+K2VHzYyuWRvigIq+jGJM61m9v
-         BHZk1uStlf/1BjDgPW/3lnyc+q+DRQdKS9W2SKbxlVHRG3IC4sIsJczmoecjkXxaPzAo
-         ixLg==
-X-Gm-Message-State: AGi0PubYifuLPEOGQHctXzpICCCUV8VuJVmPWlbFbv04AaZfiTYFQ8c4
-        Wnips9tzOJQs4TGZidJFjSWnCjQPzzo1ZbhqcC6J/g==
-X-Google-Smtp-Source: APiQypJOrLgs+kDHqzamHAX8n4seNWcLkNNFQ+4WcajoZ8auNmbQkqAS/xpZ05CHq4HN9oZLQfmbVvdG3WHUmuh3v9E=
-X-Received: by 2002:a17:902:4c:: with SMTP id 70mr8948599pla.336.1587734206165;
- Fri, 24 Apr 2020 06:16:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <ca6b79b47313aa7ee9d8c24c5a7f595772764171.1587690539.git.andreyknvl@google.com>
- <20200424084307.GQ2682@kadam>
-In-Reply-To: <20200424084307.GQ2682@kadam>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=iVEHdoFtCdFpiBaH+7lTMwaiCbL5fq6YQc2JbTG34i0=;
+        b=U7Uctx+VuQuUsq5eXhCOCyIBjhLdt+MIcWFbVkQKsaJmRH9KmhS9JQq+3kD3A++yBh
+         AK8SzrmfA3n6J3SP62wOUFJb7mJ8wZugOK+ktK2M8AeiZI7VGdKsDT3ZfUGPJ+Nhzvoq
+         9mhMI3zXSo/b0q2ECNu8lErRJwvJtjzjxQWjyZkG3pRgljqZpgo2g5bRxrd8svpDwUkm
+         ILtqWZ4+RkOvOX8XIwM44nxgEAYz4C7EtbnCg6K/jfXCpY88u8gzIjHu5mXP23nn+Bqb
+         gqGa93NXSuFdk6j0YTqoFznIOjPGPC7k+Yyr39DuBfIMKslO9xtibs1XrNINIp8lpWOM
+         gYig==
+X-Gm-Message-State: AGi0PuaMr4XxSGxGsuZClfTCXSltkeUmGNK8GPZhvQ/MKhba2+C9Szfs
+        dTgGnwdv3eQmnyKix/UyiVFxKzBYHA/D/6fG
+X-Google-Smtp-Source: APiQypKBNnbfnbdI4IQDk1HiBGDGCEt6LytLKochQyMW8Chmj4ToVQPSf3IEhYa2CEKPn1r93OojRJbC1kl5TjKi
+X-Received: by 2002:a1f:ff11:: with SMTP id p17mr7604647vki.25.1587734428386;
+ Fri, 24 Apr 2020 06:20:28 -0700 (PDT)
+Date:   Fri, 24 Apr 2020 15:20:20 +0200
+In-Reply-To: <9c99c508da044822baf53db5e3fccd4f21b0f8d3.1587734346.git.andreyknvl@google.com>
+Message-Id: <635f48fcb4bb99c70ab9d7f0dfe84d1ec7dc540e.1587734346.git.andreyknvl@google.com>
+Mime-Version: 1.0
+References: <9c99c508da044822baf53db5e3fccd4f21b0f8d3.1587734346.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.26.2.303.gf8c07b1a785-goog
+Subject: [PATCH USB v2 2/2] usb: raw-gadget: fix typo in uapi headers
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 24 Apr 2020 15:16:35 +0200
-Message-ID: <CAAeHK+zS3WcmPEr9+hYGTMrZUwXyn5489Ke4f1zpdvTa-U-s9Q@mail.gmail.com>
-Subject: Re: [PATCH USB 1/2] usb: raw-gadget: fix return value of ep read ioctls
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Felipe Balbi <balbi@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 10:43 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Fri, Apr 24, 2020 at 03:09:58AM +0200, Andrey Konovalov wrote:
-> > They must return the number of bytes transferred during the data stage.
-> >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->
-> This was my mistake.  Please add a Fixes tag.
->
-> Fixes: 068fbff4f860 ("usb: raw-gadget: Fix copy_to/from_user() checks")
->
-> I should have seen that bug...  I thought I was being careful and I
-> even singled out that part of the commit and mentioned it in the
-> commit message but I messed up.  Sorry.
+Change "trasferred" into "transferred".
 
-No worries, the bug was actually present before your change, but in a
-slightly different form. So FWIW we can also add:
+Change-Id: I2d8d1dcc9ba6aacafc03f4b76caca7409a6da1a6
+---
 
-Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
+Changes in v2:
 
-However raw-gadget is not present in any released kernel yet, so need
-of backporting AFAIU.
+- Updated commit message.
+
+---
+ include/uapi/linux/usb/raw_gadget.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/uapi/linux/usb/raw_gadget.h b/include/uapi/linux/usb/raw_gadget.h
+index ea375082b3ac..8544802b25bd 100644
+--- a/include/uapi/linux/usb/raw_gadget.h
++++ b/include/uapi/linux/usb/raw_gadget.h
+@@ -119,7 +119,7 @@ struct usb_raw_ep_io {
+  * received on endpoint 0, provided that was an IN (OUT for READ) request and
+  * waits until the urb is completed. Copies received data to user for READ.
+  * Accepts a pointer to the usb_raw_ep_io struct as an argument.
+- * Returns length of trasferred data on success or negative error code on
++ * Returns length of transferred data on success or negative error code on
+  * failure.
+  */
+ #define USB_RAW_IOCTL_EP0_WRITE		_IOW('U', 3, struct usb_raw_ep_io)
+@@ -145,7 +145,7 @@ struct usb_raw_ep_io {
+  * request and waits until the urb is completed. Copies received data to user
+  * for READ.
+  * Accepts a pointer to the usb_raw_ep_io struct as an argument.
+- * Returns length of trasferred data on success or negative error code on
++ * Returns length of transferred data on success or negative error code on
+  * failure.
+  */
+ #define USB_RAW_IOCTL_EP_WRITE		_IOW('U', 7, struct usb_raw_ep_io)
+-- 
+2.26.2.303.gf8c07b1a785-goog
+
