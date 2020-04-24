@@ -2,134 +2,105 @@ Return-Path: <SRS0=GD98=6I=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7287C54FCB
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 01:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95847C2BA19
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 01:10:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CECF20736
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 01:01:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C8462087E
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 01:10:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k362AasE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728176AbgDXBA7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Apr 2020 21:00:59 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:60171 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1725993AbgDXBA7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Apr 2020 21:00:59 -0400
-Received: (qmail 2364 invoked by uid 500); 23 Apr 2020 21:00:58 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 23 Apr 2020 21:00:58 -0400
-Date:   Thu, 23 Apr 2020 21:00:58 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     syzbot <syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
-        <ingrassia@epigenesys.com>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
-Subject: Re: WARNING in usbhid_raw_request/usb_submit_urb (3)
-In-Reply-To: <000000000000c06f9105a3fc3ed2@google.com>
-Message-ID: <Pine.LNX.4.44L0.2004232059480.2101-100000@netrider.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1728225AbgDXBKJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Apr 2020 21:10:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728155AbgDXBKJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Apr 2020 21:10:09 -0400
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C849BC09B043
+        for <linux-usb@vger.kernel.org>; Thu, 23 Apr 2020 18:10:08 -0700 (PDT)
+Received: by mail-wr1-x449.google.com with SMTP id q10so3878280wrv.10
+        for <linux-usb@vger.kernel.org>; Thu, 23 Apr 2020 18:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=2lczKYi6eXKIqEV5vZ3OKNN42MIcg9ncaA29fA6tV5c=;
+        b=k362AasEOyB1hZyiKYyn7oJMpt7MhEmnTnZLwIwrtZPUbV81EfZN0mHvpywWsDlJAo
+         YHETS/awxfTsyeOqruwu/O4eIbUQY5m7jWvgb4y0UZgYDoLzJJcV948J7zapkKI3MRcl
+         nIeSFiDHYHCmRl9VxwlQHFAxE+FEBqGi7c+6Wey7PjvsHSwc6zbc3Pq1sULGU4XBdSyi
+         QIxEzDBjILr0vXJHF0T0+u1QzY/TmnacZUiuwQmeXBeCVKg8R8lJeufELyAsKdbMmQC6
+         6fG7pmzh4jlMEj0ruR94njKSvOqPIxDRmMFoSd8MonQCtYCz5AXdJ7ICvWpcEWnf7XPu
+         DPQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=2lczKYi6eXKIqEV5vZ3OKNN42MIcg9ncaA29fA6tV5c=;
+        b=fbSkTg5jRaBCUEG5plBfMl6Wz8+O0zH7t/J965AUEiJbUUMzUkOkI03EXkAvNmmmZ4
+         C1GWTHMxQhn59bYffYvEFlvEaH/B8vOiWRMJPxHdgzGTrXqh7puP6Y1BEtdfdzEe9TTx
+         yfaKta05CvQOhUHJzpVt4loFDenfPZT7l/sseEs6A99AdVwxUTf0xbObAwH51kDf85V8
+         e0HNQhU9r5D1GsC4/O48gbGqV0VyGpeOS7oKjVtnouH4XjHm7LoCxq02B4mLYc4hUKsB
+         /vxL6uk77BhNPhtQjYl111hRzYbkRMamdeRIGQFO4zpMYAORri1SJe9JeqxO1yX9DlfE
+         79OQ==
+X-Gm-Message-State: AGi0PuZta73/jNmPvBCDsq6+wyXTpMlkmI0pvV8TS0Vb1jOaKex9iJcD
+        yK2T7HPCaqbBt/Zb76WIrCpSkOtQ9kpOuzID
+X-Google-Smtp-Source: APiQypIHd9N1IA6FkupTM7be7kBBWctFdnyZM1y7pXkX8lojIIfJy0f+oMp7IR1LlAdk96j7s54eBmX3cuA3wJ2y
+X-Received: by 2002:adf:f146:: with SMTP id y6mr8493146wro.132.1587690607372;
+ Thu, 23 Apr 2020 18:10:07 -0700 (PDT)
+Date:   Fri, 24 Apr 2020 03:09:59 +0200
+In-Reply-To: <ca6b79b47313aa7ee9d8c24c5a7f595772764171.1587690539.git.andreyknvl@google.com>
+Message-Id: <059e7e0ff26cc7d6e85275f764e31d85db867c4b.1587690539.git.andreyknvl@google.com>
+Mime-Version: 1.0
+References: <ca6b79b47313aa7ee9d8c24c5a7f595772764171.1587690539.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.26.2.303.gf8c07b1a785-goog
+Subject: [PATCH USB 2/2] usb: raw-gadget: fix typo in uapi headers
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 23 Apr 2020, syzbot wrote:
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ include/uapi/linux/usb/raw_gadget.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Hello,
-> 
-> syzbot has tested the proposed patch and the reproducer did not trigger crash:
-
-Okay, try again.
-
-Alan Stern
-
-#syz test: https://github.com/google/kasan.git 0fa84af8
-
-Index: usb-devel/drivers/usb/core/hub.c
-===================================================================
---- usb-devel.orig/drivers/usb/core/hub.c
-+++ usb-devel/drivers/usb/core/hub.c
-@@ -4440,6 +4440,7 @@ void usb_ep0_reinit(struct usb_device *u
- 	usb_disable_endpoint(udev, 0 + USB_DIR_IN, true);
- 	usb_disable_endpoint(udev, 0 + USB_DIR_OUT, true);
- 	usb_enable_endpoint(udev, &udev->ep0, true);
-+	udev->alan1 = 0;
- }
- EXPORT_SYMBOL_GPL(usb_ep0_reinit);
- 
-@@ -4471,6 +4472,7 @@ static int hub_set_address(struct usb_de
- 		update_devnum(udev, devnum);
- 		/* Device now using proper address. */
- 		usb_set_device_state(udev, USB_STATE_ADDRESS);
-+		udev->alan1 = 1;
- 		usb_ep0_reinit(udev);
- 	}
- 	return retval;
-@@ -4838,6 +4840,7 @@ hub_port_init(struct usb_hub *hub, struc
- 		else
- 			dev_warn(&udev->dev, "Using ep0 maxpacket: %d\n", i);
- 		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(i);
-+		udev->alan1 = 2;
- 		usb_ep0_reinit(udev);
- 	}
- 
-@@ -5226,6 +5229,7 @@ static void hub_port_connect(struct usb_
- loop_disable:
- 		hub_port_disable(hub, port1, 1);
- loop:
-+		udev->alan1 = 3;
- 		usb_ep0_reinit(udev);
- 		release_devnum(udev);
- 		hub_free_dev(udev);
-@@ -5762,10 +5766,14 @@ static int usb_reset_and_verify_device(s
- 	bos = udev->bos;
- 	udev->bos = NULL;
- 
-+	dev_info(&udev->dev, "Device reset\n");
-+	dump_stack();
-+
- 	for (i = 0; i < SET_CONFIG_TRIES; ++i) {
- 
- 		/* ep0 maxpacket size may change; let the HCD know about it.
- 		 * Other endpoints will be handled by re-enumeration. */
-+		udev->alan1 = 4;
- 		usb_ep0_reinit(udev);
- 		ret = hub_port_init(parent_hub, udev, port1, i);
- 		if (ret >= 0 || ret == -ENOTCONN || ret == -ENODEV)
-Index: usb-devel/drivers/usb/core/urb.c
-===================================================================
---- usb-devel.orig/drivers/usb/core/urb.c
-+++ usb-devel/drivers/usb/core/urb.c
-@@ -204,8 +204,12 @@ int usb_urb_ep_type_check(const struct u
- 	const struct usb_host_endpoint *ep;
- 
- 	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
--	if (!ep)
-+	if (!ep) {
-+		dev_info(&urb->dev->dev, "Ep %d disabled: %d\n",
-+			usb_pipeendpoint(urb->pipe),
-+			urb->dev->alan1);
- 		return -EINVAL;
-+	}
- 	if (usb_pipetype(urb->pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
- 		return -EINVAL;
- 	return 0;
-Index: usb-devel/include/linux/usb.h
-===================================================================
---- usb-devel.orig/include/linux/usb.h
-+++ usb-devel/include/linux/usb.h
-@@ -629,6 +629,7 @@ struct usb3_lpm_parameters {
-  * usb_set_device_state().
+diff --git a/include/uapi/linux/usb/raw_gadget.h b/include/uapi/linux/usb/raw_gadget.h
+index ea375082b3ac..8544802b25bd 100644
+--- a/include/uapi/linux/usb/raw_gadget.h
++++ b/include/uapi/linux/usb/raw_gadget.h
+@@ -119,7 +119,7 @@ struct usb_raw_ep_io {
+  * received on endpoint 0, provided that was an IN (OUT for READ) request and
+  * waits until the urb is completed. Copies received data to user for READ.
+  * Accepts a pointer to the usb_raw_ep_io struct as an argument.
+- * Returns length of trasferred data on success or negative error code on
++ * Returns length of transferred data on success or negative error code on
+  * failure.
   */
- struct usb_device {
-+	int		alan1;
- 	int		devnum;
- 	char		devpath[16];
- 	u32		route;
-
+ #define USB_RAW_IOCTL_EP0_WRITE		_IOW('U', 3, struct usb_raw_ep_io)
+@@ -145,7 +145,7 @@ struct usb_raw_ep_io {
+  * request and waits until the urb is completed. Copies received data to user
+  * for READ.
+  * Accepts a pointer to the usb_raw_ep_io struct as an argument.
+- * Returns length of trasferred data on success or negative error code on
++ * Returns length of transferred data on success or negative error code on
+  * failure.
+  */
+ #define USB_RAW_IOCTL_EP_WRITE		_IOW('U', 7, struct usb_raw_ep_io)
+-- 
+2.26.2.303.gf8c07b1a785-goog
 
