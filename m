@@ -2,513 +2,132 @@ Return-Path: <SRS0=GD98=6I=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F31C0C55191
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 10:15:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D68C2BA1A
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 11:13:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA3E821569
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 10:15:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587723327;
-	bh=NcKq/4yOtqI9G+oyoYUbrrJHCw1kcI9LkgGMWjWrGcw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=MzUujjnNbthGNf/hfyz9dBRQQ4o5EQYxl1qDG9jVZzTceb0txYEtRwOoTNhZSRp4h
-	 2FVn2MNbXAENFYQpnmvPkadLwaAAD8DmyEAxRl/yQN9oWFGd+95zny0ym+XGuEthvk
-	 WAn3XK2E2iCvG1b5hOv9vgRmma2ihwmjspc4kwMo=
+	by mail.kernel.org (Postfix) with ESMTP id 411FF20736
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Apr 2020 11:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726899AbgDXKPH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Apr 2020 06:15:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43064 "EHLO mail.kernel.org"
+        id S1726975AbgDXLNA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Apr 2020 07:13:00 -0400
+Received: from cable.insite.cz ([84.242.75.189]:49564 "EHLO cable.insite.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726489AbgDXKPF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 24 Apr 2020 06:15:05 -0400
-Received: from localhost.localdomain (unknown [117.99.83.91])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AECCF20736;
-        Fri, 24 Apr 2020 10:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587723304;
-        bh=NcKq/4yOtqI9G+oyoYUbrrJHCw1kcI9LkgGMWjWrGcw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QR8bul32lh3DMKLSNqrFbJsRzrMVPAqAFPh83K/H4WE5qcXJMCj3CYJ+ZaX2s7+4m
-         khAKgk2DAxXmJ1HtVM5skG7xmn2AoJGoaR0NCemh6TkT47NtRTblDprK3MUuQDrQTV
-         eS8oMqqNW7jUNBMAvi8kmb3gO/rKmzJmzgLq76s8=
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        =?UTF-8?q?Andreas=20B=C3=B6hler?= <dev@aboehler.at>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v10 2/5] usb: renesas-xhci: Add the renesas xhci driver
-Date:   Fri, 24 Apr 2020 15:44:07 +0530
-Message-Id: <20200424101410.2364219-3-vkoul@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200424101410.2364219-1-vkoul@kernel.org>
-References: <20200424101410.2364219-1-vkoul@kernel.org>
+        id S1726668AbgDXLNA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 24 Apr 2020 07:13:00 -0400
+X-Greylist: delayed 433 seconds by postgrey-1.27 at vger.kernel.org; Fri, 24 Apr 2020 07:12:59 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id E263EA1F2BCB4;
+        Fri, 24 Apr 2020 13:05:41 +0200 (CEST)
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id TQAVCiLHIiVu; Fri, 24 Apr 2020 13:05:36 +0200 (CEST)
+Received: from [192.168.105.191] (ip28.insite.cz [81.0.237.28])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id 7BE96A1F2B0B3;
+        Fri, 24 Apr 2020 13:05:36 +0200 (CEST)
+Subject: Re: Re: [PATCH] usb: gadget: f_uac2: EP OUT adaptive instead of async
+To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Linux USB <linux-usb@vger.kernel.org>
+References: <2bd4ac94-f7c3-41d6-27a7-352f3319bda7@ivitera.com>
+ <CAB=otbTiTLDPv8TbjFkoXLj=i3pb0rueoADbRMZVMETX_UsqZA@mail.gmail.com>
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+Message-ID: <cb434374-9684-77b0-1dc2-366d18c4eb78@ivitera.com>
+Date:   Fri, 24 Apr 2020 13:05:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAB=otbTiTLDPv8TbjFkoXLj=i3pb0rueoADbRMZVMETX_UsqZA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Christian Lamparter <chunkeey@googlemail.com>
 
-This add a new driver for renesas xhci which is basically a firmware
-loader for uPD720201 and uPD720202 w/o ROM. It uses xhci-pci driver for
-most of the work.
+Dne 11. 02. 20 v 17:16 Ruslan Bilovol napsal(a):
+> On Fri, Feb 7, 2020 at 6:55 PM Pavel Hofman <pavel.hofman@ivitera.com> wrote:
+>>
+>> The existing UAC2 implementation presents its EP OUT as
+>> USB_ENDPOINT_SYNC_ASYNC.
+>>
+>> However:
+>> 1) f_uac2 does not define any feedback endpoint
+>>
+>> 2) IMO in reality it is adaptive - the USB host is the one which sets
+>> the pace of data.
+>>
+>> Changing USB_ENDPOINT_SYNC_ASYNC to USB_ENDPOINT_SYNC_ADAPTIVE for the FS
+>> and HS output endpoints corrects the config to reflect real functionality.
+> 
+> That's a good idea but ADAPTIVE endpoint still requires feedback endpoint for
+> source (USB IN) case so the host can synchronize with such endpoint
+> (see 3.16.2.2 of
+> UAC2 spec "For adaptive audio source endpoints and asynchronous audio sink
+> endpoints, an explicit synchronization mechanism is needed to maintain
+> synchronization
+> during transfers").
 
-This is added in Makefile before the xhci-pci driver so that it first
-get probed for renesas devices before the xhci-pci driver has a chance
-to claim any device.
+I apologize for missing this message. Please can we resume the discussion?
 
-This patch adds a firmware loader for the uPD720201K8-711-BAC-A
-and uPD720202K8-711-BAA-A variant. Both of these chips are listed
-in Renesas' R19UH0078EJ0500 Rev.5.00 "User's Manual: Hardware" as
-devices which need the firmware loader on page 2 in order to
-work as they "do not support the External ROM".
+The tested combination is (not-changed) async IN and (changed) adaptive
+OUT, which is what most USB-adaptive soundcards use. Such combination
+does not require any feedback endpoint.
 
-The "Firmware Download Sequence" is describe in chapter
-"7.1 FW Download Interface" R19UH0078EJ0500 Rev.5.00 page 131.
+> 
+>>
+>> Also, the change makes the UAC2 gadget recognized and working
+>> in MS Windows.
+> 
+> Does it recognizes well with both IN and OUT (e.g. capture+playback enabled)
+> adaptive endpoints?
 
-The firmware "K2013080.mem" is available from a USB3.0 Host to
-PCIe Adapter (PP2U-E card) "Firmware download" archive. An
-alternative version can be sourced from Netgear's WNDR4700 GPL
-archives.
+Only OUT is adaptive, IN stays async.
 
-The release notes of the PP2U-E's "Firmware Download" ver 2.0.1.3
-(2012-06-15) state that the firmware is for the following devices:
- - uPD720201 ES 2.0 sample whose revision ID is 2.
- - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
- - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
+Thanks a lot,
 
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Christian Lamparter <chunkeey@googlemail.com>
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-[vkoul: fixed comments:
-	used macros for timeout count and delay
-	removed renesas_fw_alive_check
-	cleaned renesas_fw_callback
-	removed recursion for renesas_fw_download
-	add register defines and field names
-	move to a separate file
-	make fw loader as sync probe so that we execute in probe and
-        prevent race]
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/usb/host/Makefile           |   3 +-
- drivers/usb/host/xhci-pci-renesas.c | 353 ++++++++++++++++++++++++++++
- drivers/usb/host/xhci-pci.h         |  16 ++
- 3 files changed, 371 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/host/xhci-pci-renesas.c
- create mode 100644 drivers/usb/host/xhci-pci.h
+Pavel.
 
-diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-index b191361257cc..c3a79f626393 100644
---- a/drivers/usb/host/Makefile
-+++ b/drivers/usb/host/Makefile
-@@ -70,7 +70,8 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
- obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
- obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
- obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
--obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-+usb-xhci-pci-objs		:= xhci-pci.o xhci-pci-renesas.o
-+obj-$(CONFIG_USB_XHCI_PCI)	+= usb-xhci-pci.o
- obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
- obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
- obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
-diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
-new file mode 100644
-index 000000000000..402e86912c9f
---- /dev/null
-+++ b/drivers/usb/host/xhci-pci-renesas.c
-@@ -0,0 +1,353 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (C) 2019-2020 Linaro Limited */
-+
-+#include <linux/acpi.h>
-+#include <linux/firmware.h>
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+#include <linux/slab.h>
-+#include <linux/unaligned/access_ok.h>
-+
-+#include "xhci.h"
-+#include "xhci-trace.h"
-+#include "xhci-pci.h"
-+
-+#define RENESAS_FW_VERSION				0x6C
-+#define RENESAS_ROM_CONFIG				0xF0
-+#define RENESAS_FW_STATUS				0xF4
-+#define RENESAS_FW_STATUS_MSB				0xF5
-+#define RENESAS_ROM_STATUS				0xF6
-+#define RENESAS_ROM_STATUS_MSB				0xF7
-+#define RENESAS_DATA0					0xF8
-+#define RENESAS_DATA1					0xFC
-+
-+#define RENESAS_FW_VERSION_FIELD			GENMASK(23, 7)
-+#define RENESAS_FW_VERSION_OFFSET			8
-+
-+#define RENESAS_FW_STATUS_DOWNLOAD_ENABLE		BIT(0)
-+#define RENESAS_FW_STATUS_LOCK				BIT(1)
-+#define RENESAS_FW_STATUS_RESULT			GENMASK(6, 4)
-+  #define RENESAS_FW_STATUS_INVALID			0
-+  #define RENESAS_FW_STATUS_SUCCESS			BIT(4)
-+  #define RENESAS_FW_STATUS_ERROR			BIT(5)
-+#define RENESAS_FW_STATUS_SET_DATA0			BIT(8)
-+#define RENESAS_FW_STATUS_SET_DATA1			BIT(9)
-+
-+#define RENESAS_ROM_STATUS_ACCESS			BIT(0)
-+#define RENESAS_ROM_STATUS_ERASE			BIT(1)
-+#define RENESAS_ROM_STATUS_RELOAD			BIT(2)
-+#define RENESAS_ROM_STATUS_RESULT			GENMASK(6, 4)
-+  #define RENESAS_ROM_STATUS_NO_RESULT			0
-+  #define RENESAS_ROM_STATUS_SUCCESS			BIT(4)
-+  #define RENESAS_ROM_STATUS_ERROR			BIT(5)
-+#define RENESAS_ROM_STATUS_SET_DATA0			BIT(8)
-+#define RENESAS_ROM_STATUS_SET_DATA1			BIT(9)
-+#define RENESAS_ROM_STATUS_ROM_EXISTS			BIT(15)
-+
-+#define RENESAS_ROM_ERASE_MAGIC				0x5A65726F
-+#define RENESAS_ROM_WRITE_MAGIC				0x53524F4D
-+
-+#define RENESAS_RETRY	10000
-+#define RENESAS_DELAY	10
-+
-+static int renesas_fw_download_image(struct pci_dev *dev,
-+				     const u32 *fw,
-+				     size_t step)
-+{
-+	size_t i;
-+	int err;
-+	u8 fw_status;
-+	bool data0_or_data1;
-+
-+	/*
-+	 * The hardware does alternate between two 32-bit pages.
-+	 * (This is because each row of the firmware is 8 bytes).
-+	 *
-+	 * for even steps we use DATA0, for odd steps DATA1.
-+	 */
-+	data0_or_data1 = (step & 1) == 1;
-+
-+	/* step+1. Read "Set DATAX" and confirm it is cleared. */
-+	for (i = 0; i < RENESAS_RETRY; i++) {
-+		err = pci_read_config_byte(dev, RENESAS_FW_STATUS_MSB,
-+					   &fw_status);
-+		if (err)
-+			return pcibios_err_to_errno(err);
-+		if (!(fw_status & BIT(data0_or_data1)))
-+			break;
-+
-+		udelay(RENESAS_DELAY);
-+	}
-+	if (i == RENESAS_RETRY) {
-+		dev_err(&dev->dev, "FW Load timedout");
-+		return -ETIMEDOUT;
-+	}
-+
-+	/*
-+	 * step+2. Write FW data to "DATAX".
-+	 * "LSB is left" => force little endian
-+	 */
-+	err = pci_write_config_dword(dev, data0_or_data1 ?
-+				     RENESAS_DATA1 : RENESAS_DATA0,
-+				     (__force u32)cpu_to_le32(fw[step]));
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	udelay(100);
-+
-+	/* step+3. Set "Set DATAX". */
-+	err = pci_write_config_byte(dev, RENESAS_FW_STATUS_MSB,
-+				    BIT(data0_or_data1));
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	return 0;
-+}
-+
-+static int renesas_fw_verify(const void *fw_data,
-+			     size_t length)
-+{
-+	u16 fw_version_pointer;
-+	u16 fw_version;
-+
-+	/*
-+	 * The Firmware's Data Format is describe in
-+	 * "6.3 Data Format" R19UH0078EJ0500 Rev.5.00 page 124
-+	 */
-+
-+	/*
-+	 * The bootrom chips of the big brother have sizes up to 64k, let's
-+	 * assume that's the biggest the firmware can get.
-+	 */
-+	if (length < 0x1000 || length >= 0x10000) {
-+		pr_err("firmware is size %zd is not (4k - 64k).",
-+			length);
-+		return -EINVAL;
-+	}
-+
-+	/* The First 2 bytes are fixed value (55aa). "LSB on Left" */
-+	if (get_unaligned_le16(fw_data) != 0x55aa) {
-+		pr_err("no valid firmware header found.");
-+		return -EINVAL;
-+	}
-+
-+	/* verify the firmware version position and print it. */
-+	fw_version_pointer = get_unaligned_le16(fw_data + 4);
-+	if (fw_version_pointer + 2 >= length) {
-+		pr_err("fw ver pointer is outside of the firmware image");
-+		return -EINVAL;
-+	}
-+
-+	fw_version = get_unaligned_le16(fw_data + fw_version_pointer);
-+	pr_err("got firmware version: %02x.", fw_version);
-+
-+	return 0;
-+}
-+
-+static int renesas_fw_check_running(struct pci_dev *pdev)
-+{
-+	int err;
-+	u8 fw_state;
-+
-+	/*
-+	 * Test if the device is actually needing the firmware. As most
-+	 * BIOSes will initialize the device for us. If the device is
-+	 * initialized.
-+	 */
-+	err = pci_read_config_byte(pdev, RENESAS_FW_STATUS, &fw_state);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	/*
-+	 * Check if "FW Download Lock" is locked. If it is and the FW is
-+	 * ready we can simply continue. If the FW is not ready, we have
-+	 * to give up.
-+	 */
-+	if (fw_state & RENESAS_FW_STATUS_LOCK) {
-+		dev_dbg(&pdev->dev, "FW Download Lock is engaged.");
-+
-+		if (fw_state & RENESAS_FW_STATUS_SUCCESS)
-+			return 0;
-+
-+		dev_err(&pdev->dev,
-+			"FW Download Lock is set and FW is not ready. Giving Up.");
-+		return -EIO;
-+	}
-+
-+	/*
-+	 * Check if "FW Download Enable" is set. If someone (us?) tampered
-+	 * with it and it can't be reset, we have to give up too... and
-+	 * ask for a forgiveness and a reboot.
-+	 */
-+	if (fw_state & RENESAS_FW_STATUS_DOWNLOAD_ENABLE) {
-+		dev_err(&pdev->dev,
-+			"FW Download Enable is stale. Giving Up (poweroff/reboot needed).");
-+		return -EIO;
-+	}
-+
-+	/* Otherwise, Check the "Result Code" Bits (6:4) and act accordingly */
-+	switch (fw_state & RENESAS_FW_STATUS_RESULT) {
-+	case 0: /* No result yet */
-+		dev_dbg(&pdev->dev, "FW is not ready/loaded yet.");
-+
-+		/* tell the caller, that this device needs the firmware. */
-+		return 1;
-+
-+	case RENESAS_FW_STATUS_SUCCESS: /* Success, device should be working. */
-+		dev_dbg(&pdev->dev, "FW is ready.");
-+		return 0;
-+
-+	case RENESAS_FW_STATUS_ERROR: /* Error State */
-+		dev_err(&pdev->dev,
-+			"hardware is in an error state. Giving up (poweroff/reboot needed).");
-+		return -ENODEV;
-+
-+	default: /* All other states are marked as "Reserved states" */
-+		dev_err(&pdev->dev,
-+			"hardware is in an invalid state %lx. Giving up (poweroff/reboot needed).",
-+			(fw_state & RENESAS_FW_STATUS_RESULT) >> 4);
-+		return -EINVAL;
-+	}
-+}
-+
-+static int renesas_fw_download(struct pci_dev *pdev,
-+			       const struct firmware *fw)
-+{
-+	const u32 *fw_data = (const u32 *)fw->data;
-+	size_t i;
-+	int err;
-+	u8 fw_status;
-+
-+	/*
-+	 * For more information and the big picture: please look at the
-+	 * "Firmware Download Sequence" in "7.1 FW Download Interface"
-+	 * of R19UH0078EJ0500 Rev.5.00 page 131
-+	 */
-+
-+	/*
-+	 * 0. Set "FW Download Enable" bit in the
-+	 * "FW Download Control & Status Register" at 0xF4
-+	 */
-+	err = pci_write_config_byte(pdev, RENESAS_FW_STATUS,
-+				    RENESAS_FW_STATUS_DOWNLOAD_ENABLE);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	/* 1 - 10 follow one step after the other. */
-+	for (i = 0; i < fw->size / 4; i++) {
-+		err = renesas_fw_download_image(pdev, fw_data, i);
-+		if (err) {
-+			dev_err(&pdev->dev,
-+				"Firmware Download Step %zd failed at position %zd bytes with (%d).",
-+				i, i * 4, err);
-+			return err;
-+		}
-+	}
-+
-+	/*
-+	 * This sequence continues until the last data is written to
-+	 * "DATA0" or "DATA1". Naturally, we wait until "SET DATA0/1"
-+	 * is cleared by the hardware beforehand.
-+	 */
-+	for (i = 0; i < RENESAS_RETRY; i++) {
-+		err = pci_read_config_byte(pdev, RENESAS_FW_STATUS_MSB,
-+					   &fw_status);
-+		if (err)
-+			return pcibios_err_to_errno(err);
-+		if (!(fw_status & (BIT(0) | BIT(1))))
-+			break;
-+
-+		udelay(RENESAS_DELAY);
-+	}
-+	if (i == RENESAS_RETRY)
-+		dev_warn(&pdev->dev, "Final Firmware Download step timed out.");
-+
-+	/*
-+	 * 11. After finishing writing the last data of FW, the
-+	 * System Software must clear "FW Download Enable"
-+	 */
-+	err = pci_write_config_byte(pdev, RENESAS_FW_STATUS, 0);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	/* 12. Read "Result Code" and confirm it is good. */
-+	for (i = 0; i < RENESAS_RETRY; i++) {
-+		err = pci_read_config_byte(pdev, RENESAS_FW_STATUS, &fw_status);
-+		if (err)
-+			return pcibios_err_to_errno(err);
-+		if (fw_status & RENESAS_FW_STATUS_SUCCESS)
-+			break;
-+
-+		udelay(RENESAS_DELAY);
-+	}
-+	if (i == RENESAS_RETRY) {
-+		/* Timed out / Error - let's see if we can fix this */
-+		err = renesas_fw_check_running(pdev);
-+		switch (err) {
-+		case 0: /*
-+			 * we shouldn't end up here.
-+			 * maybe it took a little bit longer.
-+			 * But all should be well?
-+			 */
-+			break;
-+
-+		case 1: /* (No result yet! */
-+			dev_err(&pdev->dev, "FW Load timedout");
-+			return -ETIMEDOUT;
-+
-+		default:
-+			return err;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int renesas_load_fw(struct pci_dev *pdev, const struct firmware *fw)
-+{
-+	int err = 0;
-+
-+	err = renesas_fw_download(pdev, fw);
-+	if (err)
-+		dev_err(&pdev->dev, "firmware failed to download (%d).", err);
-+	return err;
-+}
-+
-+int renesas_xhci_check_request_fw(struct pci_dev *pdev,
-+				  const struct pci_device_id *id)
-+{
-+	struct xhci_driver_data *driver_data =
-+			(struct xhci_driver_data *)id->driver_data;
-+	const char *fw_name = driver_data->firmware;
-+	const struct firmware *fw;
-+	int err;
-+
-+	err = renesas_fw_check_running(pdev);
-+	/* Continue ahead, if the firmware is already running. */
-+	if (err == 0)
-+		return 0;
-+
-+	if (err != 1)
-+		return err;
-+
-+	pci_dev_get(pdev);
-+	err = request_firmware(&fw, fw_name, &pdev->dev);
-+	pci_dev_put(pdev);
-+	if (err) {
-+		dev_err(&pdev->dev, "request_firmware failed: %d\n", err);
-+		return err;
-+	}
-+
-+	err = renesas_fw_verify(fw->data, fw->size);
-+	if (err)
-+		goto exit;
-+
-+	err = renesas_load_fw(pdev, fw);
-+exit:
-+	release_firmware(fw);
-+	return err;
-+}
-+
-+void renesas_xhci_pci_exit(struct pci_dev *dev)
-+{
-+}
-diff --git a/drivers/usb/host/xhci-pci.h b/drivers/usb/host/xhci-pci.h
-new file mode 100644
-index 000000000000..0a6c1fec5119
---- /dev/null
-+++ b/drivers/usb/host/xhci-pci.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (C) 2019-2020 Linaro Limited */
-+
-+#ifndef XHCI_PCI_H
-+#define XHCI_PCI_H
-+
-+int renesas_xhci_check_request_fw(struct pci_dev *dev,
-+				  const struct pci_device_id *id);
-+void renesas_xhci_pci_exit(struct pci_dev *dev);
-+
-+struct xhci_driver_data {
-+	u64 quirks;
-+	const char *firmware;
-+};
-+
-+#endif
--- 
-2.25.1
 
+> 
+> Thanks,
+> Ruslan
+> 
+>>
+>> Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
+>> ---
+>>  drivers/usb/gadget/function/f_uac2.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/gadget/function/f_uac2.c
+>> b/drivers/usb/gadget/function/f_uac2.c
+>> index db2d498..e8c9dd1 100644
+>> --- a/drivers/usb/gadget/function/f_uac2.c
+>> +++ b/drivers/usb/gadget/function/f_uac2.c
+>> @@ -273,7 +273,7 @@ enum {
+>>         .bDescriptorType = USB_DT_ENDPOINT,
+>>
+>>         .bEndpointAddress = USB_DIR_OUT,
+>> -       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
+>> +       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE,
+>>         .wMaxPacketSize = cpu_to_le16(1023),
+>>         .bInterval = 1,
+>>  };
+>> @@ -282,7 +282,7 @@ enum {
+>>         .bLength = USB_DT_ENDPOINT_SIZE,
+>>         .bDescriptorType = USB_DT_ENDPOINT,
+>>
+>> -       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
+>> +       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE,
+>>         .wMaxPacketSize = cpu_to_le16(1024),
+>>         .bInterval = 4,
+>>  };
+>> --
+>> 1.9.1
+> 
