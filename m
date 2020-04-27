@@ -2,73 +2,123 @@ Return-Path: <SRS0=EUyb=6L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70336C54FD0
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Apr 2020 11:12:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 697BAC55199
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Apr 2020 12:00:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 553562063A
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Apr 2020 11:12:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5043220656
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Apr 2020 12:00:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgD0LMt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Apr 2020 07:12:49 -0400
-Received: from mga18.intel.com ([134.134.136.126]:33333 "EHLO mga18.intel.com"
+        id S1726769AbgD0MAg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Apr 2020 08:00:36 -0400
+Received: from mga09.intel.com ([134.134.136.24]:61677 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726589AbgD0LMt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 27 Apr 2020 07:12:49 -0400
-IronPort-SDR: ajWFZW+rKQNChZE+Mk7/UA+wj09twIqSeqSzRtCoJi5gXh2siZy6B3lFwY1Hpd6pFtNx25mWNM
- C2OFP8GTfEqg==
+        id S1726260AbgD0MAg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 27 Apr 2020 08:00:36 -0400
+IronPort-SDR: fLTtaa6fCX/LUqwF5MEayQrkbQ21KyJKr//yV7YjW1JVkwUaZ70Gy45irwpQaIesV4a4BqJfmN
+ oKogZsEAmr2Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2020 04:12:49 -0700
-IronPort-SDR: fG90uco9HGeRw7IPuXvq1dMrXetkMg2X5Q9hMUtUPD+B44q+M/RF0nGk2+MyzewNtCQ9l30cFs
- jaX1R37dFgZQ==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2020 05:00:35 -0700
+IronPort-SDR: f4dieNNeqH+D72icavoYrhwnajLAet2hWZRv24hCwhaJgXQI1yjWeIaW8Igjbh95dX8UTT3GZl
+ MvtDiNfbzEYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,323,1583222400"; 
-   d="scan'208";a="367131128"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2020 04:12:46 -0700
+X-IronPort-AV: E=Sophos;i="5.73,324,1583222400"; 
+   d="scan'208";a="367141656"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 27 Apr 2020 05:00:32 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 27 Apr 2020 15:00:32 +0300
+Date:   Mon, 27 Apr 2020 15:00:32 +0300
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "K V, Abhilash" <abhilash.k.v@intel.com>,
-        kbuild test robot <lkp@intel.com>, linux-usb@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: Fix the stub for ucsi_register_port_psy()
-Date:   Mon, 27 Apr 2020 14:12:46 +0300
-Message-Id: <20200427111246.4889-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.26.2
+To:     "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>
+Cc:     linux-iio <linux-iio@vger.kernel.org>, linux-usb@vger.kernel.org,
+        Jagadish.Hadimani@amd.com
+Subject: Re: ucsi and DRD controller interaction
+Message-ID: <20200427120032.GA2351955@kuha.fi.intel.com>
+References: <26823688-3b9c-5869-bcb6-4d6e5dcd77bc@amd.com>
+ <20200421074353.GE3768833@kuha.fi.intel.com>
+ <1d4fd9f3-8ea6-c054-0ba4-d50d78226fae@amd.com>
+ <20200422110056.GB618654@kuha.fi.intel.com>
+ <841d88c6-e08b-72d3-6884-0aa51805e3be@amd.com>
+ <20200422142808.GE618654@kuha.fi.intel.com>
+ <e85cefec-2731-65e8-f0f5-8cdc5d9e3773@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <e85cefec-2731-65e8-f0f5-8cdc5d9e3773@amd.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The stub was ucsi_register_port() when it should have been
-ucsi_register_port_psy().
+On Wed, Apr 22, 2020 at 08:23:54PM +0530, Shah, Nehal-bakulchandra wrote:
+> > Can you still influence what goes to your ACPI tables, or are we
+> > talking about products that are already on the market?
+> 
+> Yes still it is in development phase so i can work out with BIOS team for the same. When you say description of connection ,something like this should be part of _DSD method right? (i.e from below dts
+> to _DSD of ACPI)
+> 
+>  usb_con: connector {
+> compatible = "usb-c-connector";
+>  label = "USB-C";
+>  data-role = "dual";
+>  power-role = "dual";
+>  try-power-role = "sink";
+>  source-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)>;
+>  sink-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)
+>  PDO_VAR(5000, 5000, 1000)>;
+>  op-sink-microwatt = <10000000>;
+>  };
 
-Fixes: 992a60ed0d5e ("usb: typec: ucsi: register with power_supply class")
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/ucsi/ucsi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Here's how the ASL for the _DSD should look like. I don't know how
+are all these components placed on your platform, so I'm just assuming
+that your I2C host is under PCI0, as well as your DWC3 controller.
+It's just an example, but hopefully you get the point from it:
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index e52b5540b254..cba6f77bea61 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -341,7 +341,7 @@ int ucsi_resume(struct ucsi *ucsi);
- int ucsi_register_port_psy(struct ucsi_connector *con);
- void ucsi_unregister_port_psy(struct ucsi_connector *con);
- #else
--static inline int ucsi_register_port(struct ucsi_connector *con) { return 0; }
-+static inline int ucsi_register_port_psy(struct ucsi_connector *con) { return 0; }
- static inline void ucsi_unregister_port_psy(struct ucsi_connector *con) { }
- #endif /* CONFIG_POWER_SUPPLY */
- 
+/*
+ * I2C1 is the I2C host, and PDC1 is the USB PD Controller (I2C slave device).
+ */
+Scope (\_SB.PCI0.I2C1.PDC1)
+{
+        /* Each connector should have its own ACPI device entry (node). */
+        Device (CON0)
+        {
+                Name (_ADR, 0)
+
+                Name (_DSD, Package () {
+                    ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+                    Package() {
+                        Package () {"usb-role-switch", \_SB.PCI0.DWC3},
+                    }
+                })
+        }
+}
+
+So that property "usb-role-switch" has reference to the DWC3 node as
+its value. That's what we are after here. If you have that property,
+the subsystem will find the USB controller for you.
+
+If you need for example the properties for the roles, then the _DSD
+would look like this:
+
+Name (_DSD, Package () {
+    ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+    Package() {
+        Package () {"usb-role-switch", \_SB.PCI0.DWC3},
+        Package () {"power-role", "dual"},
+        Package () {"data-role", "dual"},
+    }
+})
+
+and so on...
+
+
+Thanks,
+
 -- 
-2.26.2
-
+heikki
