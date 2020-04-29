@@ -4,36 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5D6EC83000
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 16:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E2CC83006
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 16:48:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0178208FE
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 16:47:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E47420BED
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 16:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727073AbgD2Qrz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Apr 2020 12:47:55 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58314 "EHLO mx2.suse.de"
+        id S1727044AbgD2Qrx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Apr 2020 12:47:53 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58240 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727049AbgD2Qry (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 29 Apr 2020 12:47:54 -0400
+        id S1726973AbgD2Qrx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 29 Apr 2020 12:47:53 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 4B358AD80;
-        Wed, 29 Apr 2020 16:47:52 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id B417AAC77;
+        Wed, 29 Apr 2020 16:47:49 +0000 (UTC)
 From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org,
         helgaas@kernel.org, linux-kernel@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com, tim.gover@raspberrypi.org,
-        linux-pci@vger.kernel.org, wahrenst@gmx.net,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
         Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: [PATCH v7 4/4] USB: pci-quirks: Add Raspberry Pi 4 quirk
-Date:   Wed, 29 Apr 2020 18:47:34 +0200
-Message-Id: <20200429164734.21506-5-nsaenzjulienne@suse.de>
+Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, tim.gover@raspberrypi.org,
+        linux-pci@vger.kernel.org, wahrenst@gmx.net
+Subject: [PATCH v7 2/4] firmware: raspberrypi: Introduce vl805 init routine
+Date:   Wed, 29 Apr 2020 18:47:32 +0200
+Message-Id: <20200429164734.21506-3-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200429164734.21506-1-nsaenzjulienne@suse.de>
 References: <20200429164734.21506-1-nsaenzjulienne@suse.de>
@@ -44,88 +46,143 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On the Raspberry Pi 4, after a PCI reset, VL805's firmware may either be
+The Raspberry Pi 4 gets its USB functionality from VL805, a PCIe chip
+that implements xHCI. After a PCI reset, VL805's firmware may either be
 loaded directly from an EEPROM or, if not present, by the SoC's
-VideoCore. Inform VideoCore that VL805 was just reset.
-
-Also, as this creates a dependency between USB_PCI and VideoCore's
-firmware interface, and since USB_PCI can't be set as a module neither
-this can. Reflect that on the firmware interface Kconfg.
+co-processor, VideoCore. RPi4's VideoCore OS contains both the non public
+firmware load logic and the VL805 firmware blob. The function this patch
+introduces triggers the aforementioned process.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+
 ---
 
-Changes since v5:
- - Fix Kconfig issue with allmodconfig
+Change since v6:
+- Add test to avoid loading the firmware when not needed
+- Since we have it around, print VL805's firmware version, it'll make
+debugging easier in the future
+- Correct typos
+- Add a clearer view of HW topology in patch description
 
 Changes since v4:
- - Do not split up error message
-
-Changes since v3:
- - Add more complete error message
+- Inline function definition when RASPBERRYPI_FIRMWARE is not defined
 
 Changes since v1:
- - Make RASPBERRYPI_FIRMWARE dependent on this quirk to make sure it
-   gets compiled when needed.
+- Move include into .c file and add forward declaration to .h
 
- drivers/firmware/Kconfig      |  3 ++-
- drivers/usb/host/pci-quirks.c | 16 ++++++++++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/firmware/raspberrypi.c             | 52 ++++++++++++++++++++++
+ include/soc/bcm2835/raspberrypi-firmware.h |  7 +++
+ 2 files changed, 59 insertions(+)
 
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index 8007d4aa76dc..b42140cff8ac 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -178,8 +178,9 @@ config ISCSI_IBFT
- 	  Otherwise, say N.
+diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberrypi.c
+index da26a584dca0..230c05e53403 100644
+--- a/drivers/firmware/raspberrypi.c
++++ b/drivers/firmware/raspberrypi.c
+@@ -12,6 +12,8 @@
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/pci.h>
++#include <linux/delay.h>
+ #include <soc/bcm2835/raspberrypi-firmware.h>
  
- config RASPBERRYPI_FIRMWARE
--	tristate "Raspberry Pi Firmware Driver"
-+	bool "Raspberry Pi Firmware Driver"
- 	depends on BCM2835_MBOX
-+	default USB_PCI
- 	help
- 	  This option enables support for communicating with the firmware on the
- 	  Raspberry Pi.
-diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index beb2efa71341..0dc34668bb2a 100644
---- a/drivers/usb/host/pci-quirks.c
-+++ b/drivers/usb/host/pci-quirks.c
-@@ -16,6 +16,9 @@
- #include <linux/export.h>
- #include <linux/acpi.h>
- #include <linux/dmi.h>
+ #define MBOX_MSG(chan, data28)		(((data28) & ~0xf) | ((chan) & 0xf))
+@@ -19,6 +21,8 @@
+ #define MBOX_DATA28(msg)		((msg) & ~0xf)
+ #define MBOX_CHAN_PROPERTY		8
+ 
++#define VL805_PCI_CONFIG_VERSION_OFFSET		0x50
 +
-+#include <soc/bcm2835/raspberrypi-firmware.h>
+ static struct platform_device *rpi_hwmon;
+ static struct platform_device *rpi_clk;
+ 
+@@ -286,6 +290,54 @@ struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)
+ }
+ EXPORT_SYMBOL_GPL(rpi_firmware_get);
+ 
++/*
++ * The Raspberry Pi 4 gets its USB functionality from VL805, a PCIe chip that
++ * implements xHCI. After a PCI reset, VL805's firmware may either be loaded
++ * directly from an EEPROM or, if not present, by the SoC's co-processor,
++ * VideoCore. RPi4's VideoCore OS contains both the non public firmware load
++ * logic and the VL805 firmware blob. This function triggers the aforementioned
++ * process.
++ */
++int rpi_firmware_init_vl805(struct pci_dev *pdev)
++{
++	struct device_node *fw_np;
++	struct rpi_firmware *fw;
++	u32 dev_addr, version;
++	int ret = 0;
 +
- #include "pci-quirks.h"
- #include "xhci-ext-caps.h"
++	fw_np = of_find_compatible_node(NULL, NULL,
++					"raspberrypi,bcm2835-firmware");
++	if (!fw_np)
++		return 0;
++
++	fw = rpi_firmware_get(fw_np);
++	of_node_put(fw_np);
++	if (!fw)
++		return -ENODEV;
++
++	/* Make sure we don't trigger a firmware load unnecesarely */
++	pci_read_config_dword(pdev, VL805_PCI_CONFIG_VERSION_OFFSET, &version);
++	if (version)
++		goto exit;
++
++	dev_addr = pdev->bus->number << 20 | PCI_SLOT(pdev->devfn) << 15 |
++		   PCI_FUNC(pdev->devfn) << 12;
++
++	ret = rpi_firmware_property(fw, RPI_FIRMWARE_NOTIFY_XHCI_RESET,
++				    &dev_addr, sizeof(dev_addr));
++	/* Wait for vl805 to startup */
++	udelay(200);
++
++exit:
++	if (!version)
++		pci_read_config_dword(pdev, VL805_PCI_CONFIG_VERSION_OFFSET,
++				      &version);
++	pci_info(pdev, "VL805 firmware version %08x\n", version);
++	return ret;
++
++}
++EXPORT_SYMBOL_GPL(rpi_firmware_init_vl805);
++
+ static const struct of_device_id rpi_firmware_of_match[] = {
+ 	{ .compatible = "raspberrypi,bcm2835-firmware", },
+ 	{},
+diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
+index cc9cdbc66403..3025aca3c358 100644
+--- a/include/soc/bcm2835/raspberrypi-firmware.h
++++ b/include/soc/bcm2835/raspberrypi-firmware.h
+@@ -10,6 +10,7 @@
+ #include <linux/of_device.h>
  
-@@ -1243,11 +1246,24 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+ struct rpi_firmware;
++struct pci_dev;
  
- static void quirk_usb_early_handoff(struct pci_dev *pdev)
+ enum rpi_firmware_property_status {
+ 	RPI_FIRMWARE_STATUS_REQUEST = 0,
+@@ -141,6 +142,7 @@ int rpi_firmware_property(struct rpi_firmware *fw,
+ int rpi_firmware_property_list(struct rpi_firmware *fw,
+ 			       void *data, size_t tag_size);
+ struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node);
++int rpi_firmware_init_vl805(struct pci_dev *pdev);
+ #else
+ static inline int rpi_firmware_property(struct rpi_firmware *fw, u32 tag,
+ 					void *data, size_t len)
+@@ -158,6 +160,11 @@ static inline struct rpi_firmware *rpi_firmware_get(struct device_node *firmware
  {
-+	int ret;
+ 	return NULL;
+ }
 +
- 	/* Skip Netlogic mips SoC's internal PCI USB controller.
- 	 * This device does not need/support EHCI/OHCI handoff
- 	 */
- 	if (pdev->vendor == 0x184e)	/* vendor Netlogic */
- 		return;
-+
-+	if (pdev->vendor == PCI_VENDOR_ID_VIA && pdev->device == 0x3483) {
-+		ret = rpi_firmware_init_vl805(pdev);
-+		if (ret) {
-+			/* Firmware might be outdated, or something failed */
-+			dev_warn(&pdev->dev,
-+				 "Failed to load VL805's firmware: %d. Will continue to attempt to work, but bad things might happen. You should fix this...\n",
-+				 ret);
-+		}
-+	}
-+
- 	if (pdev->class != PCI_CLASS_SERIAL_USB_UHCI &&
- 			pdev->class != PCI_CLASS_SERIAL_USB_OHCI &&
- 			pdev->class != PCI_CLASS_SERIAL_USB_EHCI &&
++static inline int rpi_firmware_init_vl805(struct pci_dev *pdev)
++{
++	return 0;
++}
+ #endif
+ 
+ #endif /* __SOC_RASPBERRY_FIRMWARE_H__ */
 -- 
 2.26.2
 
