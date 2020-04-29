@@ -2,110 +2,77 @@ Return-Path: <SRS0=/XAY=6N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2392CC83004
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 10:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCCFBC83007
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 10:34:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00B462083B
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 10:07:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huwf0HvL"
+	by mail.kernel.org (Postfix) with ESMTP id A3A8D206F0
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 10:34:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgD2KGs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Apr 2020 06:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgD2KGq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 06:06:46 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8490DC03C1AD;
-        Wed, 29 Apr 2020 03:06:45 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id k1so1788709wrx.4;
-        Wed, 29 Apr 2020 03:06:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Nu1X2CW6jPtDQ0aEhEItVv3kksJg5s4aseacqkeIhzw=;
-        b=huwf0HvL6kpp+czUgrhjvRS4qZYndq90uhZM4bWYOZfbxK7vqRE95//PfH49sRMF0K
-         gjmLwjrKYHai0Y52Fg/6e0HydeOgU3IZ2Bffnx3P6/xgWvTcMCUvc050VNQICGtjhSKP
-         xnOCt9d9gN4JkAWiQ65oqNc16HqXA+tIm4LSDYqZJZNwJOG0as5NQVCECvMpJK8obg7n
-         HX/kf2pSKCE1B0T9WXGId98rqK7ZOkExlBZj/mKS4bepIidwYPVTu9fVdF5patYeGxwK
-         Zy2HnES4sM/lzJdoupRJRjcOHI89hlcW0pPIxFWGAV1tA7j5jWM/H+14sQKZEJg1wjGz
-         dUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Nu1X2CW6jPtDQ0aEhEItVv3kksJg5s4aseacqkeIhzw=;
-        b=Ucsbq1lPpL5/7lcRqLz7zI2byM9DBCFDR44V2VyUPQYgnGUQ59wl33+YFU0ujhuaX0
-         0NxY13JRzvHR3C9m0P90qMfa9owPEFVMLiTJ63ZtvgTlMaNsKaPjnE39s5DRcC2+7KIz
-         hIveuMmvdMFcbJJ9jyHTLGDMbh6JQ7XiCr6rriGqRoW8WDqgFzFW93Q2AZp82tTDYrHB
-         oJHNbNDZkxtftI0vayJDf4/yI4pocCaoSk0L02zKFHRE6S7zVQSEdaYjJ+HSK7eWOKFH
-         UfZjqECK1N+HuaeidC53fYi6wjVFhMmCtaRiaZ4mhxs8TaHCJMzQ9OZKT3H7MTWehxTc
-         eBGA==
-X-Gm-Message-State: AGi0PuZZhOVPGM0OQgcCFGfxTu6O+MwGAv3v1ZTV5KB/B5OFX8YBz73H
-        oG4PhhWdf4F8i/uPnpuWCUpv8W++xQ==
-X-Google-Smtp-Source: APiQypJ/GTZod9A7Y8IqPtMshR7Flx22YxFkPVs6PA3aNO1TPy2CHjJzDQ5A67Gu+PvIRtWiVlvtWA==
-X-Received: by 2002:adf:b1c9:: with SMTP id r9mr41352720wra.271.1588154803962;
-        Wed, 29 Apr 2020 03:06:43 -0700 (PDT)
-Received: from ninjahost.lan (host-2-102-14-195.as13285.net. [2.102.14.195])
-        by smtp.gmail.com with ESMTPSA id 1sm7205478wmi.0.2020.04.29.03.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 03:06:43 -0700 (PDT)
-From:   Jules Irenge <jbi.octave@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-usb@vger.kernel.org (open list:USB GADGET/PERIPHERAL SUBSYSTEM),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/ZYNQ
-        ARCHITECTURE)
-Subject: [PATCH 1/6] usb: gadget: Add missing annotation for xudc_handle_setup()
-Date:   Wed, 29 Apr 2020 11:05:23 +0100
-Message-Id: <20200429100529.19645-2-jbi.octave@gmail.com>
-X-Mailer: git-send-email 2.25.3
-In-Reply-To: <20200429100529.19645-1-jbi.octave@gmail.com>
-References: <0/6>
- <20200429100529.19645-1-jbi.octave@gmail.com>
-MIME-Version: 1.0
+        id S1726554AbgD2KeM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Apr 2020 06:34:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47486 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726516AbgD2KeL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 29 Apr 2020 06:34:11 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 0327DABAD;
+        Wed, 29 Apr 2020 10:34:09 +0000 (UTC)
+Message-ID: <1588156428.8672.1.camel@suse.com>
+Subject: Re: [PATCH] UAS: add quirk for LaCie 2Big Quadra
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Date:   Wed, 29 Apr 2020 12:33:48 +0200
+In-Reply-To: <20200429093344.GA2080215@kroah.com>
+References: <20200429083204.21428-1-oneukum@suse.com>
+         <20200429093344.GA2080215@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sparse reports a warning at xudc_handle_setup()
+Am Mittwoch, den 29.04.2020, 11:33 +0200 schrieb Greg KH:
+> On Wed, Apr 29, 2020 at 10:32:04AM +0200, Oliver Neukum wrote:
+> > This device needs US_FL_NO_REPORT_OPCODES to avoid going
+> > through prolonged error handling on enumeration.
+> > 
+> > Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> > Cc: stable <stable@vger.kernel.org>
+> > Reported-by: Julian Groß <julian.g@posteo.de>
+> > ---
+> >  drivers/usb/storage/unusual_uas.h | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
+> > index cfdec74e0f4a..d6c54b5bde75 100644
+> > --- a/drivers/usb/storage/unusual_uas.h
+> > +++ b/drivers/usb/storage/unusual_uas.h
+> > @@ -73,6 +73,13 @@ UNUSUAL_DEV(0x152d, 0x0578, 0x0000, 0x9999,
+> >  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+> >  		US_FL_BROKEN_FUA),
+> >  
+> > +/* Reported-by: Julian Groß <julian.g@posteo.de> */
+> > +UNUSUAL_DEV(0x059f, 0x105f, 0x0000, 0x9999,
+> > +		"LaCie",
+> > +		"2Big Quadra USB3",
+> > +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+> > +		US_FL_NO_REPORT_OPCODES),
+> > +
+> 
+> Can you please keep these in sorted order by vendor/product id as the
+> comment in the file suggests to do so?
 
-warning: context imbalance in xudc_handle_setup() - unexpected unlock
+Sorry, skipped a position. Resending.
 
-The root cause is the missing annotation at xudc_handle_setup()
-
-Add the missing __must_hold(&udc->lock) annotation
-
-Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
----
- drivers/usb/gadget/udc/udc-xilinx.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/gadget/udc/udc-xilinx.c b/drivers/usb/gadget/udc/udc-xilinx.c
-index 29d8e5f8bb58..ae22882dba6a 100644
---- a/drivers/usb/gadget/udc/udc-xilinx.c
-+++ b/drivers/usb/gadget/udc/udc-xilinx.c
-@@ -1733,6 +1733,7 @@ static void xudc_set_clear_feature(struct xusb_udc *udc)
-  * Process setup packet and delegate to gadget layer.
-  */
- static void xudc_handle_setup(struct xusb_udc *udc)
-+	__must_hold(&udc->lock)
- {
- 	struct xusb_ep *ep0 = &udc->ep[0];
- 	struct usb_ctrlrequest setup;
--- 
-2.25.3
+	Regards
+		Oliver
 
