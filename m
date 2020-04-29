@@ -2,34 +2,39 @@ Return-Path: <SRS0=/XAY=6N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-14.8 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C3DDC8300A
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 12:57:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 258E7C83006
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 12:57:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06978221EA
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 12:57:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 029E321D91
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 12:57:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbgD2M56 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Apr 2020 08:57:58 -0400
-Received: from asav21.altibox.net ([109.247.116.8]:58610 "EHLO
+        id S1727041AbgD2M55 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Apr 2020 08:57:57 -0400
+Received: from asav21.altibox.net ([109.247.116.8]:58612 "EHLO
         asav21.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726973AbgD2M55 (ORCPT
+        with ESMTP id S1726968AbgD2M55 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 08:57:57 -0400
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav21.altibox.net (Postfix) with ESMTPSA id 3A4178018F;
-        Wed, 29 Apr 2020 14:48:51 +0200 (CEST)
+        by asav21.altibox.net (Postfix) with ESMTPSA id 32ABF8018B;
+        Wed, 29 Apr 2020 14:48:50 +0200 (CEST)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org
-Cc:     =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 06/10] drm/client: Add a way to set modeset, properties and rotation
-Date:   Wed, 29 Apr 2020 14:48:26 +0200
-Message-Id: <20200429124830.27475-7-noralf@tronnes.org>
+Cc:     =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Martin Peres <martin.peres@linux.intel.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>
+Subject: [PATCH 02/10] drm: Add backlight helper
+Date:   Wed, 29 Apr 2020 14:48:22 +0200
+Message-Id: <20200429124830.27475-3-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200429124830.27475-1-noralf@tronnes.org>
 References: <20200429124830.27475-1-noralf@tronnes.org>
@@ -39,275 +44,344 @@ Content-Transfer-Encoding: 8bit
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=AvXAIt1P c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
-        a=M-TpJSvIHFVSw-O4hR8A:9 a=U4fVIzcjXVGbKNhq:21 a=33y9_LKcbowkTFL6:21
-        a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
+        a=aiIX5UjjAAAA:8 a=nGqoV0jOAAAA:20 a=e5mUnYsNAAAA:8 a=Oh2cFVv5AAAA:8
+        a=bhchkAzmAAAA:20 a=20KFwNOVAAAA:8 a=KKAkSRfTAAAA:8 a=SJz97ENfAAAA:8
+        a=UO0b44jCD_nsarDuR4EA:9 a=QEXdDO2ut3YA:10 a=oU43SoCdRycA:10
+        a=AjGcO6oz07-iQ99wixmX:22 a=K4UmP72BP_XnEf30ZnvK:22
+        a=Vxmtnl_E_bksehYqCbjh:22 a=7KeoIwV6GZqOttXkcoxL:22
+        a=cvBusfyB2V15izCimMoJ:22 a=vFet0B0WnEQeilDPIY6i:22
+        a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This adds functions for clients that need more control over the
-configuration than what's setup by drm_client_modeset_probe().
-Connector, fb and display mode can be set using drm_client_modeset_set().
-Plane rotation can be set using drm_client_modeset_set_rotation() and
-other properties using drm_client_modeset_set_property(). Property
-setting is only implemented for atomic drivers.
+This adds a function that creates a backlight device for a connector.
+It does not deal with the KMS backlight ABI proposition[1] to add a
+connector property. It only takes the current best practise to standardise
+the creation of a backlight device for DRM drivers while we wait for the
+property.
 
+The brightness value is set using a connector state variable and an atomic
+commit.
+
+I have looked through some of the backlight users and this is what I've found:
+
+GNOME [2]
+---------
+
+Brightness range: 0-100
+Scale: Assumes perceptual
+
+Avoids setting the sysfs brightness value to zero if max_brightness >= 99.
+Can connect connector and backlight using the sysfs device.
+
+KDE [3]
+-------
+
+Brightness range: 0-100
+Scale: Assumes perceptual
+
+Weston [4]
+----------
+
+Brightness range: 0-255
+Scale: Assumes perceptual
+
+Chromium OS [5]
+---------------
+
+Brightness range: 0-100
+Scale: Depends on the sysfs file 'scale' which is a recent addition (2019)
+
+xserver [6]
+-----------
+
+Brightness range: 0-x (driver specific) (1 is minimum, 0 is OFF)
+Scale: Assumes perceptual
+
+The builtin modesetting driver[7] does not support Backlight, Intel[8] does.
+
+[1] https://lore.kernel.org/dri-devel/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/
+[2] https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-backlight.c
+[3] https://github.com/KDE/powerdevil/blob/master/daemon/backends/upower/backlighthelper.cpp
+[4] https://gitlab.freedesktop.org/wayland/weston/-/blob/master/libweston/backend-drm/drm.c
+[5] https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/power_manager/powerd/system/internal_backlight.cc
+[6] https://github.com/freedesktop/xorg-randrproto/blob/master/randrproto.txt
+[7] https://gitlab.freedesktop.org/xorg/xserver/-/blob/master/hw/xfree86/drivers/modesetting/drmmode_display.c
+[8] https://gitlab.freedesktop.org/xorg/driver/xf86-video-intel/-/blob/master/src/backlight.c
+
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Martin Peres <martin.peres@linux.intel.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 139 +++++++++++++++++++++++++++
- include/drm/drm_client.h             |  38 +++++++-
- 2 files changed, 176 insertions(+), 1 deletion(-)
+ Documentation/gpu/drm-kms-helpers.rst  |   6 +
+ drivers/gpu/drm/Kconfig                |   7 ++
+ drivers/gpu/drm/Makefile               |   1 +
+ drivers/gpu/drm/drm_backlight_helper.c | 154 +++++++++++++++++++++++++
+ include/drm/drm_backlight_helper.h     |   9 ++
+ include/drm/drm_connector.h            |  10 ++
+ 6 files changed, 187 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_backlight_helper.c
+ create mode 100644 include/drm/drm_backlight_helper.h
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 177158ff2a40..1eef6869cae1 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -83,6 +83,10 @@ static void drm_client_modeset_release(struct drm_client_dev *client)
- 		}
- 		modeset->num_connectors = 0;
- 	}
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index 9668a7fe2408..29a2f4b49fd2 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -411,3 +411,9 @@ SHMEM GEM Helper Reference
+ 
+ .. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+    :export:
 +
-+	kfree(client->properties);
-+	client->properties = NULL;
-+	client->num_properties = 0;
- }
++Backlight Helper Reference
++==========================
++
++.. kernel-doc:: drivers/gpu/drm/drm_backlight_helper.c
++   :export:
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index d0aa6cff2e02..f6e13e18c9ca 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -224,6 +224,13 @@ config DRM_GEM_SHMEM_HELPER
+ 	help
+ 	  Choose this if you need the GEM shmem helper functions
  
- void drm_client_modeset_free(struct drm_client_dev *client)
-@@ -879,6 +883,132 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
- }
- EXPORT_SYMBOL(drm_client_modeset_probe);
++config DRM_BACKLIGHT_HELPER
++	bool
++	depends on DRM
++	select BACKLIGHT_CLASS_DEVICE
++	help
++	  Choose this if you need the backlight device helper functions
++
+ config DRM_VM
+ 	bool
+ 	depends on DRM && MMU
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 6493088a0fdd..0d17662dde0a 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -52,6 +52,7 @@ drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+ drm_kms_helper-$(CONFIG_DRM_KMS_CMA_HELPER) += drm_fb_cma_helper.o
+ drm_kms_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
+ drm_kms_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
++drm_kms_helper-$(CONFIG_DRM_BACKLIGHT_HELPER) += drm_backlight_helper.o
  
-+/**
-+ * drm_client_modeset_set() - Set modeset configuration
-+ * @client: DRM client
-+ * @connector: Connector
-+ * @mode: Display mode
-+ * @fb: Framebuffer
-+ *
-+ * This function releases any current modeset info, including properties, and
-+ * sets the new modeset in the client's modeset array.
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
+ obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
+ obj-$(CONFIG_DRM_DEBUG_SELFTEST) += selftests/
+diff --git a/drivers/gpu/drm/drm_backlight_helper.c b/drivers/gpu/drm/drm_backlight_helper.c
+new file mode 100644
+index 000000000000..06e6a75d1d0a
+--- /dev/null
++++ b/drivers/gpu/drm/drm_backlight_helper.c
+@@ -0,0 +1,154 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright 2020 Noralf Trønnes
 + */
-+int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
-+			   struct drm_display_mode *mode, struct drm_framebuffer *fb)
++
++#include <linux/backlight.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_file.h>
++
++static int drm_backlight_update_status(struct backlight_device *bd)
 +{
-+	struct drm_mode_set *modeset;
-+	int ret = -ENOENT;
++	struct drm_connector *connector = bl_get_data(bd);
++	struct drm_connector_state *connector_state;
++	struct drm_device *dev = connector->dev;
++	struct drm_modeset_acquire_ctx ctx;
++	struct drm_atomic_state *state;
++	int ret;
 +
-+	mutex_lock(&client->modeset_mutex);
++	state = drm_atomic_state_alloc(dev);
++	if (!state)
++		return -ENOMEM;
 +
-+	drm_client_modeset_release(client);
-+
-+	if (!connector || !mode || !fb) {
-+		ret = 0;
-+		goto unlock;
++	drm_modeset_acquire_init(&ctx, 0);
++	state->acquire_ctx = &ctx;
++retry:
++	connector_state = drm_atomic_get_connector_state(state, connector);
++	if (IS_ERR(connector_state)) {
++		ret = PTR_ERR(connector_state);
++		goto out;
 +	}
 +
-+	drm_client_for_each_modeset(modeset, client) {
-+		if (!connector_has_possible_crtc(connector, modeset->crtc))
-+			continue;
++	connector_state->backlight_brightness = bd->props.brightness;
 +
-+		modeset->mode = drm_mode_duplicate(client->dev, mode);
-+		if (!modeset->mode) {
-+			ret = -ENOMEM;
-+			break;
-+		}
-+
-+		drm_mode_set_crtcinfo(modeset->mode, CRTC_INTERLACE_HALVE_V);
-+
-+		drm_connector_get(connector);
-+		modeset->connectors[modeset->num_connectors++] = connector;
-+
-+		modeset->fb = fb;
-+		ret = 0;
-+		break;
++	ret = drm_atomic_commit(state);
++out:
++	if (ret == -EDEADLK) {
++		drm_atomic_state_clear(state);
++		drm_modeset_backoff(&ctx);
++		goto retry;
 +	}
-+unlock:
-+	mutex_unlock(&client->modeset_mutex);
++
++	drm_atomic_state_put(state);
++
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
 +
 +	return ret;
 +}
-+EXPORT_SYMBOL(drm_client_modeset_set);
 +
-+/**
-+ * drm_client_modeset_set_property() - Set a property on the current configuration
-+ * @client: DRM client
-+ * @obj: DRM Mode Object
-+ * @prop: DRM Property
-+ * @value: Property value
-+ *
-+ * Note: Currently only implemented for atomic drivers.
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
-+ */
-+int drm_client_modeset_set_property(struct drm_client_dev *client, struct drm_mode_object *obj,
-+				    struct drm_property *prop, u64 value)
++static int drm_backlight_get_brightness(struct backlight_device *bd)
 +{
-+	struct drm_client_property *properties;
-+	int ret = 0;
++	struct drm_connector *connector = bl_get_data(bd);
++	struct drm_device *dev = connector->dev;
++	int brightness;
 +
-+	if (!prop)
-+		return -EINVAL;
++	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
++	brightness = connector->state->backlight_brightness;
++	drm_modeset_unlock(&dev->mode_config.connection_mutex);
 +
-+	mutex_lock(&client->modeset_mutex);
-+
-+	properties = krealloc(client->properties,
-+			      (client->num_properties + 1) * sizeof(*properties), GFP_KERNEL);
-+	if (!properties) {
-+		ret = -ENOMEM;
-+		goto unlock;
-+	}
-+
-+	properties[client->num_properties].obj = obj;
-+	properties[client->num_properties].prop = prop;
-+	properties[client->num_properties].value = value;
-+	client->properties = properties;
-+	client->num_properties++;
-+unlock:
-+	mutex_unlock(&client->modeset_mutex);
-+
-+	return ret;
++	return brightness;
 +}
-+EXPORT_SYMBOL(drm_client_modeset_set_property);
 +
-+/**
-+ * drm_client_modeset_set_rotation() - Set rotation on the current configuration
-+ * @client: DRM client
-+ * @value: Rotation value
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
-+ */
-+int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 value)
-+{
-+	struct drm_plane *plane = NULL;
-+	struct drm_mode_set *modeset;
-+
-+	mutex_lock(&client->modeset_mutex);
-+	drm_client_for_each_modeset(modeset, client) {
-+		if (modeset->mode) {
-+			plane = modeset->crtc->primary;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&client->modeset_mutex);
-+
-+	if (!plane)
-+		return -ENOENT;
-+
-+	return drm_client_modeset_set_property(client, &plane->base,
-+					       plane->rotation_property, value);
-+}
-+EXPORT_SYMBOL(drm_client_modeset_set_rotation);
-+
- /**
-  * drm_client_rotation() - Check the initial rotation value
-  * @modeset: DRM modeset
-@@ -973,6 +1103,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
- 	struct drm_atomic_state *state;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_mode_set *mode_set;
-+	unsigned int i;
- 	int ret;
- 
- 	drm_modeset_acquire_init(&ctx, 0);
-@@ -1033,6 +1164,14 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
- 		}
- 	}
- 
-+	for (i = 0; i < client->num_properties; i++) {
-+		struct drm_client_property *prop = &client->properties[i];
-+
-+		ret = drm_atomic_set_property(state, NULL, prop->obj, prop->prop, prop->value);
-+		if (ret)
-+			goto out_state;
-+	}
-+
- 	if (check)
- 		ret = drm_atomic_check_only(state);
- 	else
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index b6ffa4863e45..4b266741ec0e 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -16,6 +16,7 @@ struct drm_file;
- struct drm_framebuffer;
- struct drm_gem_object;
- struct drm_minor;
-+struct drm_property;
- struct module;
- 
- /**
-@@ -64,6 +65,26 @@ struct drm_client_funcs {
- 	int (*hotplug)(struct drm_client_dev *client);
- };
- 
-+/**
-+ * struct drm_client_property - DRM client property
-+ */
-+struct drm_client_property {
-+	/**
-+	 * @obj: DRM Mode Object to which the property belongs.
-+	 */
-+	struct drm_mode_object *obj;
-+
-+	/**
-+	 * @prop: DRM Property.
-+	 */
-+	struct drm_property *prop;
-+
-+	/**
-+	 * @value: Property value.
-+	 */
-+	u64 value;
++static const struct backlight_ops drm_backlight_ops = {
++	.get_brightness = drm_backlight_get_brightness,
++	.update_status	= drm_backlight_update_status,
 +};
 +
- /**
-  * struct drm_client_dev - DRM client instance
-  */
-@@ -97,7 +118,7 @@ struct drm_client_dev {
- 	struct drm_file *file;
++/* Can be exported for drivers carrying a legacy name */
++static int drm_backlight_register_with_name(struct drm_connector *connector, const char *name)
++{
++	struct backlight_device *bd;
++	const struct backlight_properties props = {
++		.type = BACKLIGHT_RAW,
++		.scale = BACKLIGHT_SCALE_NON_LINEAR,
++		.max_brightness = 100,
++	};
++
++	if (WARN_ON(!drm_core_check_feature(connector->dev, DRIVER_MODESET) ||
++		    !drm_drv_uses_atomic_modeset(connector->dev) ||
++		    !connector->kdev))
++		return -EINVAL;
++
++	bd = backlight_device_register(name, connector->kdev, connector,
++				       &drm_backlight_ops, &props);
++	if (IS_ERR(bd))
++		return PTR_ERR(bd);
++
++	connector->backlight = bd;
++
++	return 0;
++}
++
++/**
++ * drm_backlight_register() - Register a backlight device for a connector
++ * @connector: Connector
++ *
++ * This function registers a backlight device for @connector with the following
++ * characteristics:
++ *
++ * - The connector sysfs device is used as a parent device for the backlight device.
++ *   Userspace can use this to connect backlight device and connector.
++ * - Name will be on the form: **card0-HDMI-A-1-backlight**
++ * - Type is "raw"
++ * - Scale is "non-linear" (perceptual)
++ * - Max brightness is 100 giving a range of 0-100 inclusive
++ * - Reading sysfs **brightness** returns the backlight device property
++ * - Reading sysfs **actual_brightness** returns the connector state value
++ * - Writing sysfs **bl_power** is ignored, the DPMS connector property should
++ *   be used to control power.
++ * - Backlight device suspend/resume events are ignored.
++ *
++ * Note:
++ *
++ * Brightness zero should not turn off backlight it should be the minimum
++ * brightness, DPMS handles power.
++ *
++ * This function must be called from &drm_connector_funcs->late_register() since
++ * it depends on the sysfs device.
++ *
++ * Returns:
++ * Zero on success or negative error code on failure.
++ */
++int drm_backlight_register(struct drm_connector *connector)
++{
++	const char *name = NULL;
++	int ret;
++
++	name = kasprintf(GFP_KERNEL, "card%d-%s-backlight",
++			 connector->dev->primary->index, connector->name);
++	if (!name)
++		return -ENOMEM;
++
++	ret = drm_backlight_register_with_name(connector, name);
++	kfree(name);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_backlight_register);
++
++/**
++ * drm_backlight_unregister() - Unregister backlight device
++ * @connector: Connector
++ *
++ * Unregister a backlight device. This must be called from the
++ * &drm_connector_funcs->early_unregister() callback.
++ */
++void drm_backlight_unregister(struct drm_connector *connector)
++{
++	backlight_device_unregister(connector->backlight);
++}
++EXPORT_SYMBOL(drm_backlight_unregister);
+diff --git a/include/drm/drm_backlight_helper.h b/include/drm/drm_backlight_helper.h
+new file mode 100644
+index 000000000000..4151b66eb0b4
+--- /dev/null
++++ b/include/drm/drm_backlight_helper.h
+@@ -0,0 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++
++#ifndef _LINUX_DRM_BACKLIGHT_HELPER_H
++#define _LINUX_DRM_BACKLIGHT_HELPER_H
++
++int drm_backlight_register(struct drm_connector *connector);
++void drm_backlight_unregister(struct drm_connector *connector);
++
++#endif
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 221910948b37..ce678b694f45 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -32,6 +32,7 @@
  
+ #include <uapi/drm/drm_mode.h>
+ 
++struct backlight_device;
+ struct drm_connector_helper_funcs;
+ struct drm_modeset_acquire_ctx;
+ struct drm_device;
+@@ -656,6 +657,12 @@ struct drm_connector_state {
+ 	 */
+ 	u8 max_bpc;
+ 
++	/**
++	 * @backlight_brightness: Brightness value of the connector backlight
++	 * device. See drm_backlight_register().
++	 */
++	u8 backlight_brightness;
++
  	/**
--	 * @modeset_mutex: Protects @modesets.
-+	 * @modeset_mutex: Protects @modesets and @properties.
- 	 */
- 	struct mutex modeset_mutex;
+ 	 * @hdr_output_metadata:
+ 	 * DRM blob property for HDR output metadata
+@@ -1422,6 +1429,9 @@ struct drm_connector {
  
-@@ -105,6 +126,16 @@ struct drm_client_dev {
- 	 * @modesets: CRTC configurations
- 	 */
- 	struct drm_mode_set *modesets;
+ 	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
+ 	struct hdr_sink_metadata hdr_sink_metadata;
 +
-+	/**
-+	 * @properties: DRM properties attached to the configuration.
-+	 */
-+	struct drm_client_property *properties;
-+
-+	/**
-+	 * @num_properties: Number of attached properties.
-+	 */
-+	unsigned int num_properties;
++	/** @backlight: Backlight device. See drm_backlight_register() */
++	struct backlight_device *backlight;
  };
  
- int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
-@@ -163,6 +194,11 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
- int drm_client_modeset_create(struct drm_client_dev *client);
- void drm_client_modeset_free(struct drm_client_dev *client);
- int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
-+int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
-+			   struct drm_display_mode *mode, struct drm_framebuffer *fb);
-+int drm_client_modeset_set_property(struct drm_client_dev *client, struct drm_mode_object *obj,
-+				    struct drm_property *prop, u64 value);
-+int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 value);
- bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
- int drm_client_modeset_check(struct drm_client_dev *client);
- int drm_client_modeset_commit_locked(struct drm_client_dev *client);
+ #define obj_to_connector(x) container_of(x, struct drm_connector, base)
 -- 
 2.23.0
 
