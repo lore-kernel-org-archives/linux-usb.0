@@ -2,120 +2,115 @@ Return-Path: <SRS0=/XAY=6N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F44C83000
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 20:09:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98349C83004
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 20:11:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 611EE2076B
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 20:09:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uZ0qDzVI"
+	by mail.kernel.org (Postfix) with ESMTP id 7DC522076B
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 20:11:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726921AbgD2UIl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Apr 2020 16:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58310 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726456AbgD2UIl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 16:08:41 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06FBCC03C1AE;
-        Wed, 29 Apr 2020 13:08:41 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id a32so1220410pje.5;
-        Wed, 29 Apr 2020 13:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WOZd7qcxe4gLtfO9RC05iwoT4m60cIyVOvlJ52Dodz0=;
-        b=uZ0qDzVIvjQrC6G/nlImR7fsWsAHeptwzaKi+7jjUPUgBIoH4UtRJ5iUQj1ilKogwA
-         GKQuSOggGQ6hQa30CIylRuxP10sFrGzYq/fQExmS0+was6M0oYXbEXWsGTSzL+nVa/77
-         5lZIgmIiBRBCUeUX6kFQ74auM12c6it9vvG1FwQ5BtfDKoMwiX4KB6I2537L0yyR01+q
-         qHpUiFGnRcfrDfyE/CzS9YHmQ99Pu/xhSn4TAE4kgyWzdapZfu9r+b6jQmOxbJD70Hph
-         FzmJL/U/Bma0Xp6wRP2fHEcFk3WoqLDHvJtmXDYqemAO/hsEyAcsvB7PbNuXxslTANg1
-         lA8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WOZd7qcxe4gLtfO9RC05iwoT4m60cIyVOvlJ52Dodz0=;
-        b=jGk3j4s4ew5+e4XyfcgInwsFsTFhniM9mGMwAhcs9tipnlkgX8XxzDDYIioNYfgHpq
-         Un/VB5666f/LfhZcb/FMmDjiZ7zGw3xL16DZa/NGc4WE2K0EG2sRWY6t9Fvd9Uelmwwa
-         IRlIuV2qtMQb+jxtSrtWKtqdbUp1dSDR3c68kxgDylQjv9PhWHksi34CpQABYPXpboFO
-         yB2+KcIBvRP06lKzTalHhBCsqvZNm6nW1ezgAx5X33KUHISDTZsdcSvS6ew/k4qJ8E9X
-         3XAcCV07afUZ17Z/X5bCsXMaVXISIZbhtsTHbJmOAllLA7SHWmgUYq0bzbZeeMZGyvk+
-         Gl5g==
-X-Gm-Message-State: AGi0PuYOvq8xmLWIm6sNVr4RfMNxd1n/UYhpmYnZC5SnpfwfIU334Xzg
-        vWtKw2+VPsc8S6ARPs7/GXrxeOo2iHQ=
-X-Google-Smtp-Source: APiQypIUekAlCRG9AHQxZFGj0HO6s1oQEECvbuzapVx9ziOgexmgfyEn69aMdXM7lBxVlbDphTNklg==
-X-Received: by 2002:a17:90a:17ed:: with SMTP id q100mr203798pja.80.1588190920194;
-        Wed, 29 Apr 2020 13:08:40 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id z23sm1638957pfr.136.2020.04.29.13.08.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 13:08:39 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v5 0/4] Add XHCI, EHCI and OHCI support for Broadcom STB SoS's
-Date:   Wed, 29 Apr 2020 16:08:22 -0400
-Message-Id: <20200429200826.20177-1-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726877AbgD2ULl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Apr 2020 16:11:41 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:47533 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726481AbgD2ULk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 16:11:40 -0400
+Received: (qmail 25214 invoked by uid 500); 29 Apr 2020 16:11:39 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 29 Apr 2020 16:11:39 -0400
+Date:   Wed, 29 Apr 2020 16:11:39 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     syzbot <syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
+        <ingrassia@epigenesys.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+Subject: Re: WARNING in usbhid_raw_request/usb_submit_urb (3)
+In-Reply-To: <000000000000357dce05a4240f67@google.com>
+Message-ID: <Pine.LNX.4.44L0.2004291608270.24784-100000@netrider.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-v5 - Use devm_platform_get_and_ioremap_resource() in ehci-brcm.c
-     as requested by Andy Shevchenko.
-   - Add pm_runtime_set_active() to ehci_resume() in ehci-brcm.c
-     as requested by Alan Stern.
+On Sat, 25 Apr 2020, syzbot wrote:
 
-v4 - A few more fixes to the brcm,bcm7445-ehci.yaml dt-bindings
-     document requested by Rob Herring.
-   - Fixed ordering issue in MAINTAINERS as requested by
-     Andy Shevchenko.
+> Hello,
+> 
+> syzbot has tested the proposed patch and the reproducer did not trigger crash:
+> 
+> Reported-and-tested-by: syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com
 
-v3 - Addressed all of Andy Shevchenko's review comments for
-     ehci-brcm.c.
-   - Fixed the brcm,bcm7445-ehci.yaml dt-bindings document,
-     dt_binding_check now passes.
-   - Added the XHCI functionality to xhci-plat.c instead of creating
-     new brcmstb files, as suggested by Mathias Nyman.
+This is a two-pronged issue.  The first problem is that usbhid does 
+something it shouldn't (it submits an URB while a device reset is in 
+progress).  The second problem is that the USB core reports a driver 
+bug if a an URB is submitted for ep0 at the wrong time during a reset.
 
-v2 - Addressed Andy Shevchenko's review comments.
-   - Fixed dt_binding_check error pointed out by Rob Herring.
-   - Removed pr_info message in ehci_brcm_init as suggested by
-     Greg Kroah-Hartman.
+The patch tested above fixes the second issue but not the first.  This 
+patch attempts to fix the first issue; it makes usbhid check for a 
+pending reset before submitting its URBs.
 
+Alan Stern
 
-Al Cooper (4):
-  dt-bindings: Add Broadcom STB USB support
-  usb: xhci: xhci-plat: Add support for Broadcom STB SoC's
-  usb: ehci: Add new EHCI driver for Broadcom STB SoC's
-  usb: host: Add ability to build new Broadcom STB USB drivers
+#syz test: https://github.com/google/kasan.git 0fa84af8
 
- .../bindings/usb/brcm,bcm7445-ehci.yaml       |  60 ++++
- .../devicetree/bindings/usb/usb-xhci.txt      |   1 +
- MAINTAINERS                                   |   8 +
- drivers/usb/host/Kconfig                      |  16 +
- drivers/usb/host/Makefile                     |  16 +-
- drivers/usb/host/ehci-brcm.c                  | 290 ++++++++++++++++++
- drivers/usb/host/xhci-plat.c                  |  10 +
- 7 files changed, 395 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
- create mode 100644 drivers/usb/host/ehci-brcm.c
-
--- 
-2.17.1
+Index: usb-devel/drivers/hid/usbhid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/usbhid/hid-core.c
++++ usb-devel/drivers/hid/usbhid/hid-core.c
+@@ -87,6 +87,7 @@ static int hid_start_in(struct hid_devic
+ 	if (test_bit(HID_IN_POLLING, &usbhid->iofl) &&
+ 	    !test_bit(HID_DISCONNECTED, &usbhid->iofl) &&
+ 	    !test_bit(HID_SUSPENDED, &usbhid->iofl) &&
++	    !test_bit(HID_RESET_PENDING, &usbhid->iofl) &&
+ 	    !test_and_set_bit(HID_IN_RUNNING, &usbhid->iofl)) {
+ 		rc = usb_submit_urb(usbhid->urbin, GFP_ATOMIC);
+ 		if (rc != 0) {
+@@ -273,6 +274,7 @@ static void hid_irq_in(struct urb *urb)
+ 	struct hid_device	*hid = urb->context;
+ 	struct usbhid_device	*usbhid = hid->driver_data;
+ 	int			status;
++	unsigned long		flags;
+ 
+ 	switch (urb->status) {
+ 	case 0:			/* success */
+@@ -319,7 +321,12 @@ static void hid_irq_in(struct urb *urb)
+ 			 urb->status);
+ 	}
+ 
+-	status = usb_submit_urb(urb, GFP_ATOMIC);
++	spin_lock_irqsave(&usbhid->lock, flags);
++	if (test_bit(HID_RESET_PENDING, &usbhid->iofl))
++		status = -EPERM;
++	else
++		status = usb_submit_urb(urb, GFP_ATOMIC);
++	spin_unlock_irqrestore(&usbhid->lock, flags);
+ 	if (status) {
+ 		clear_bit(HID_IN_RUNNING, &usbhid->iofl);
+ 		if (status != -EPERM) {
+@@ -339,6 +346,9 @@ static int hid_submit_out(struct hid_dev
+ 	struct usbhid_device *usbhid = hid->driver_data;
+ 	int r;
+ 
++	if (test_bit(HID_RESET_PENDING, &usbhid->iofl))
++		return -EAGAIN;
++
+ 	report = usbhid->out[usbhid->outtail].report;
+ 	raw_report = usbhid->out[usbhid->outtail].raw_report;
+ 
+@@ -370,6 +380,9 @@ static int hid_submit_ctrl(struct hid_de
+ 	int len, r;
+ 	struct usbhid_device *usbhid = hid->driver_data;
+ 
++	if (test_bit(HID_RESET_PENDING, &usbhid->iofl))
++		return -EAGAIN;
++
+ 	report = usbhid->ctrl[usbhid->ctrltail].report;
+ 	raw_report = usbhid->ctrl[usbhid->ctrltail].raw_report;
+ 	dir = usbhid->ctrl[usbhid->ctrltail].dir;
 
