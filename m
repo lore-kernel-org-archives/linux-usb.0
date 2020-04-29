@@ -8,55 +8,55 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0483C83000
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C52BEC8300A
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:31:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 852BF20B80
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:31:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1F7A206C0
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:31:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4tAEtnG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGmDqbcC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727119AbgD2Rbm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Apr 2020 13:31:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33626 "EHLO
+        id S1727042AbgD2Rbh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Apr 2020 13:31:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726456AbgD2Rbl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 13:31:41 -0400
+        by vger.kernel.org with ESMTP id S1726456AbgD2Rbg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 13:31:36 -0400
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CDCC03C1AE;
-        Wed, 29 Apr 2020 10:31:40 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id d15so3564614wrx.3;
-        Wed, 29 Apr 2020 10:31:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D39C03C1AE;
+        Wed, 29 Apr 2020 10:31:36 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id g13so3527957wrb.8;
+        Wed, 29 Apr 2020 10:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1bAKWOlSkMDu/tfAy0DoRT7Hrn8w1RS+eAxVrpX7cog=;
-        b=N4tAEtnGop80HcsUviJolsX3Jl5ojsTj8Apf1VUIjYF7IbBSIM7NVK2V72ZhJI2dtY
-         mgCvNisAmhXsqvgeil06hibPoqFQjS5oSl8tqopDu60ENpGqOHUcvaxoGlgtsDifKf4i
-         WFOgTsjslGlUbDcbWi3u2IzlkXJ4+mOjINvKtQL/pdKrMmfaVgEV2YQ3cAxtB0qCqRpS
-         Q0HVblP3jPe6t/MQ19QwYZOD0+XwTItRqSrQnbeyynt3nuQVw9rbU0l0MONsrIIuy4gW
-         UvKfTrHnnv6FRM40OxxaX6x8+oghEovnsWsZn0ZMI5HUdtsqXjXSpFcyXA4KPNohXYLy
-         wlbg==
+        bh=hQqyiz3VgaSkn1orBkc5cYQMmcAyasI8rZi9b6SsAs4=;
+        b=iGmDqbcCdUM4/oWQteb7EnZKNc4+48gf8xUxyYVGo3TnmH2aD0JS4wqeYNBziFwmwz
+         GS5HInIahI7uiczakMz9KITiJdoGCRjSbUXSGqxWKOcFYhkHJAtytjDrMoS0OeF1YrKE
+         A/WHmSmYNt6mPfO+tVxTO3GyCbYed9RJ+6quGhTNegERcyMzmfbmX3tbshkusTJY9mXB
+         1P7K2bIllGcy1fBzG5RRPKVf1pSlhtWSgSvXwnuzE/t1QOruMG2KDphEexc+EmnberTR
+         FQF0JqY1iD069jekWxSp5jiXGCJjz85Pj5O0urydo/5ot8JWbAirQWvqYAgDJGaqzcea
+         +fcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=1bAKWOlSkMDu/tfAy0DoRT7Hrn8w1RS+eAxVrpX7cog=;
-        b=WCGlhaOAR4YUDBV33OC4wDxWcnmA44nK3rTmwMwJqzzPhueusRQr1zNfxvXB7vdcH3
-         /Ac66ieTy4WcKRnBbqlgakOkqCAjjA+aHWv8Kvk0hHE+9JHJgg0Gv4ZqibcG6nUJW6aU
-         CqvWRyEiXKV9K9tZz+NfaOfVx7HOfbx3zRX5NqwvVoOPHgsZRsBxYqjYajn3q4KSX2Nz
-         q76FzPe/GgtIJ2bdlTMqnOX52VFn74IqK6B2D+qpybaQ92hBy/iGQvqIOnObNwUBWm9o
-         OerPeqB0v9eaxntszeI50LQgAnm9ZLp4AeprLf5zCQudA2Aiq95G9O6slu2VCl/0a5aG
-         1LfA==
-X-Gm-Message-State: AGi0PuZYa33B3Vxm2AYGEMPCJzEYmnZP3/uONxoDhBUm0k9aaD3IaWPl
-        fKVaD/adcHmnP4qQgGLy2Ev4/8uYnek=
-X-Google-Smtp-Source: APiQypIMjWCds3CmFIrPmVkaeUVBbo7WfxiKrlLt6NfVcBvmVOOKa6MWL64/E/lBw10TVujampS8tg==
-X-Received: by 2002:adf:e704:: with SMTP id c4mr39023484wrm.181.1588181498918;
-        Wed, 29 Apr 2020 10:31:38 -0700 (PDT)
+        bh=hQqyiz3VgaSkn1orBkc5cYQMmcAyasI8rZi9b6SsAs4=;
+        b=Atyl8noxp6jWPhQbTJ5RX54VHEoTAMe2KTd7yW8W5KPjg3Uq3+e1SJlfE7aeBcbBta
+         5lZ1oXKuX/Sfz9SQyuY12k+/DBOKfcL45PwZ72b8Zgz6cNHqasOF1V98nW7RLH5eKD0x
+         NYcTylyCqkoLMarDh1b2VXSVhJzGjnmjGa/+nr6I7+mDFbli9xCg9SPg5sOn2S8oV80K
+         i81eczm/WurTEl5cnLDO/sTxy1GdJVlnvjWBjkCMN3IWmM1L4DV9xwL1vUSSwHH12nfe
+         Ine7mfan63lieYgRL71ICX2X7f7270ORnWOuS93vNSszEaLzYCVSSqXBkfM+49X3pF0F
+         tSiA==
+X-Gm-Message-State: AGi0PuaIZBWjJEeI1tL1bGGzyVqtmm5evNUHguMXeSFSmcKdtN1XyT6m
+        mHiGwodh/SKccwYCtlyKYkG7XJoxrs8=
+X-Google-Smtp-Source: APiQypLAksD45L/G/YUyVOhmOPxjz9zEhRrYXc0wmfc6UxxJMMdmNiSfKO7B8XCmZAcz3kNCXV8dGQ==
+X-Received: by 2002:adf:f58e:: with SMTP id f14mr39298005wro.79.1588181494446;
+        Wed, 29 Apr 2020 10:31:34 -0700 (PDT)
 Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id j11sm31177182wrr.62.2020.04.29.10.31.36
+        by smtp.gmail.com with ESMTPSA id j11sm31177182wrr.62.2020.04.29.10.31.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 10:31:38 -0700 (PDT)
+        Wed, 29 Apr 2020 10:31:33 -0700 (PDT)
 From:   Al Cooper <alcooperx@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Al Cooper <alcooperx@gmail.com>,
@@ -68,9 +68,9 @@ Cc:     Al Cooper <alcooperx@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v4 3/4] usb: ehci: Add new EHCI driver for Broadcom STB SoC's
-Date:   Wed, 29 Apr 2020 13:31:11 -0400
-Message-Id: <20200429173112.38366-4-alcooperx@gmail.com>
+Subject: [PATCH v4 1/4] dt-bindings: Add Broadcom STB USB support
+Date:   Wed, 29 Apr 2020 13:31:09 -0400
+Message-Id: <20200429173112.38366-2-alcooperx@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200429173112.38366-1-alcooperx@gmail.com>
 References: <20200429173112.38366-1-alcooperx@gmail.com>
@@ -79,309 +79,96 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a new EHCI driver for Broadcom STB SoC's. A new EHCI driver
-was created instead of adding support to the existing ehci platform
-driver because of the code required to workaround bugs in the EHCI
-controller.
+Add DT bindings for Broadcom STB USB EHCI and XHCI drivers.
+
+NOTE: The OHCI driver is not included because it uses the generic
+      platform driver.
 
 Signed-off-by: Al Cooper <alcooperx@gmail.com>
 ---
- drivers/usb/host/ehci-brcm.c | 286 +++++++++++++++++++++++++++++++++++
- 1 file changed, 286 insertions(+)
- create mode 100644 drivers/usb/host/ehci-brcm.c
+ .../bindings/usb/brcm,bcm7445-ehci.yaml       | 60 +++++++++++++++++++
+ .../devicetree/bindings/usb/usb-xhci.txt      |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
 
-diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
+diff --git a/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml b/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
 new file mode 100644
-index 000000000000..04c18fe721a5
+index 000000000000..7c67f7dd7a67
 --- /dev/null
-+++ b/drivers/usb/host/ehci-brcm.c
-@@ -0,0 +1,286 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2018, Broadcom */
++++ b/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/brcm,bcm7445-ehci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#include <linux/clk.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/usb.h>
-+#include <linux/usb/hcd.h>
-+#include <linux/iopoll.h>
++title: Broadcom STB USB EHCI Controller Device Tree Bindings
 +
-+#include "ehci.h"
++allOf:
++  - $ref: "usb-hcd.yaml"
 +
-+#define hcd_to_ehci_priv(h) ((struct brcm_priv *)hcd_to_ehci(h)->priv)
++maintainers:
++  - Al Cooper <alcooperx@gmail.com>
 +
-+struct brcm_priv {
-+	struct clk *clk;
-+};
++properties:
++  compatible:
++    contains:
++      const: brcm,bcm7445-ehci
 +
-+static const char brcm_hcd_name[] = "ehci-brcm";
++  reg:
++    maxItems: 1
 +
-+static int (*org_hub_control)(struct usb_hcd *hcd,
-+			u16 typeReq, u16 wValue, u16 wIndex,
-+			char *buf, u16 wLength);
++  interrupts:
++    maxItems: 1
 +
-+/*
-+ * ehci_brcm_wait_for_sof
-+ * Wait for start of next microframe, then wait extra delay microseconds
-+ */
-+static inline void ehci_brcm_wait_for_sof(struct ehci_hcd *ehci, u32 delay)
-+{
-+	u32 frame_idx = ehci_readl(ehci, &ehci->regs->frame_index);
-+	u32 val;
-+	int res;
++  clocks:
++    maxItems: 1
++    description: Clock specifier for the EHCI clock
 +
-+	/* Wait for next microframe (every 125 usecs) */
-+	res = readl_relaxed_poll_timeout(&ehci->regs->frame_index, val,
-+					 val != frame_idx, 1, 130);
-+	if (res)
-+		dev_err(ehci_to_hcd(ehci)->self.controller,
-+			"Error waiting for SOF\n");
-+	udelay(delay);
-+}
++  clock-names:
++    const: sw_usb
 +
-+/*
-+ * ehci_brcm_hub_control
-+ * Intercept echi-hcd request to complete RESUME and align it to the start
-+ * of the next microframe.
-+ * If RESUME is complete too late in the microframe, host controller
-+ * detects babble on suspended port and resets the port afterwards.
-+ * This s/w workaround allows to avoid this problem.
-+ * See SWLINUX-1909 for more details
-+ */
-+static int ehci_brcm_hub_control(
-+	struct usb_hcd	*hcd,
-+	u16		typeReq,
-+	u16		wValue,
-+	u16		wIndex,
-+	char		*buf,
-+	u16		wLength)
-+{
-+	struct ehci_hcd	*ehci = hcd_to_ehci(hcd);
-+	int		ports = HCS_N_PORTS(ehci->hcs_params);
-+	u32 __iomem	*status_reg = &ehci->regs->port_status[
-+				(wIndex & 0xff) - 1];
-+	unsigned long flags;
-+	int retval, irq_disabled = 0;
++  phys:
++    maxItems: 1
 +
-+	/*
-+	 * RESUME is cleared when GetPortStatus() is called 20ms after start
-+	 * of RESUME
-+	 */
-+	if ((typeReq == GetPortStatus) &&
-+	    (wIndex && wIndex <= ports) &&
-+	    ehci->reset_done[wIndex-1] &&
-+	    time_after_eq(jiffies, ehci->reset_done[wIndex-1]) &&
-+	    (ehci_readl(ehci, status_reg) & PORT_RESUME)) {
++  phy-names:
++    const: usbphy
 +
-+		/*
-+		 * to make sure we are not interrupted until RESUME bit
-+		 * is cleared, disable interrupts on current CPU
-+		 */
-+		ehci_dbg(ehci, "SOF alignment workaround\n");
-+		irq_disabled = 1;
-+		local_irq_save(flags);
-+		ehci_brcm_wait_for_sof(ehci, 5);
-+	}
-+	retval = (*org_hub_control)(hcd, typeReq, wValue, wIndex, buf, wLength);
-+	if (irq_disabled)
-+		local_irq_restore(flags);
-+	return retval;
-+}
++required:
++  - compatible
++  - reg
++  - interrupts
++  - phys
++  - clocks
 +
-+static int ehci_brcm_reset(struct usb_hcd *hcd)
-+{
-+	struct ehci_hcd *ehci = hcd_to_ehci(hcd);
++additionalProperties: false
 +
-+	ehci->big_endian_mmio = 1;
++examples:
++  - |
++    usb@f0b00300 {
++        compatible = "brcm,bcm7445-ehci";
++        reg = <0xf0b00300 0xa8>;
++        interrupts = <0x0 0x5a 0x0>;
++        phys = <&usbphy_0 0x0>;
++        phy-names = "usbphy";
++        clocks = <&usb20>;
++        clock-names = "sw_usb";
++    };
 +
-+	ehci->caps = (struct ehci_caps *) hcd->regs;
-+	ehci->regs = (struct ehci_regs *) (hcd->regs +
-+		HC_LENGTH(ehci, ehci_readl(ehci, &ehci->caps->hc_capbase)));
-+
-+	/* This fixes the lockup during reboot due to prior interrupts */
-+	ehci_writel(ehci, CMD_RESET, &ehci->regs->command);
-+	mdelay(10);
-+
-+	/*
-+	 * SWLINUX-1705: Avoid OUT packet underflows during high memory
-+	 *   bus usage
-+	 * port_status[0x0f] = Broadcom-proprietary USB_EHCI_INSNREG00 @ 0x90
-+	 */
-+	ehci_writel(ehci, 0x00800040, &ehci->regs->port_status[0x10]);
-+	ehci_writel(ehci, 0x00000001, &ehci->regs->port_status[0x12]);
-+
-+	return ehci_setup(hcd);
-+}
-+
-+static struct hc_driver __read_mostly ehci_brcm_hc_driver;
-+
-+static const struct ehci_driver_overrides brcm_overrides __initconst = {
-+
-+	.reset = ehci_brcm_reset,
-+	.extra_priv_size = sizeof(struct brcm_priv),
-+};
-+
-+static int ehci_brcm_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct resource *res_mem;
-+	struct brcm_priv *priv;
-+	struct usb_hcd *hcd;
-+	int irq;
-+	int err;
-+
-+	if (usb_disabled())
-+		return -ENODEV;
-+
-+	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-+	if (err)
-+		return err;
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	/* Hook the hub control routine to work around a bug */
-+	if (!org_hub_control)
-+		org_hub_control = ehci_brcm_hc_driver.hub_control;
-+	ehci_brcm_hc_driver.hub_control = ehci_brcm_hub_control;
-+
-+	/* initialize hcd */
-+	hcd = usb_create_hcd(&ehci_brcm_hc_driver, dev, dev_name(dev));
-+	if (!hcd)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, hcd);
-+	priv = hcd_to_ehci_priv(hcd);
-+
-+	priv->clk = devm_clk_get_optional(dev, NULL);
-+	if (IS_ERR(priv->clk)) {
-+		err = PTR_ERR(priv->clk);
-+		goto err_hcd;
-+	}
-+
-+	err = clk_prepare_enable(priv->clk);
-+	if (err)
-+		goto err_hcd;
-+
-+	res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	hcd->regs = devm_ioremap_resource(dev, res_mem);
-+	if (IS_ERR(hcd->regs)) {
-+		err = PTR_ERR(hcd->regs);
-+		goto err_clk;
-+	}
-+	hcd->rsrc_start = res_mem->start;
-+	hcd->rsrc_len = resource_size(res_mem);
-+	err = usb_add_hcd(hcd, irq, IRQF_SHARED);
-+	if (err)
-+		goto err_clk;
-+
-+	device_wakeup_enable(hcd->self.controller);
-+	device_enable_async_suspend(hcd->self.controller);
-+	platform_set_drvdata(pdev, hcd);
-+
-+	return 0;
-+
-+err_clk:
-+	clk_disable_unprepare(priv->clk);
-+err_hcd:
-+	usb_put_hcd(hcd);
-+
-+	return err;
-+}
-+
-+static int ehci_brcm_remove(struct platform_device *dev)
-+{
-+	struct usb_hcd *hcd = platform_get_drvdata(dev);
-+	struct brcm_priv *priv = hcd_to_ehci_priv(hcd);
-+
-+	usb_remove_hcd(hcd);
-+	clk_disable_unprepare(priv->clk);
-+	usb_put_hcd(hcd);
-+	return 0;
-+}
-+
-+static int __maybe_unused ehci_brcm_suspend(struct device *dev)
-+{
-+	int ret;
-+	struct usb_hcd *hcd = dev_get_drvdata(dev);
-+	struct brcm_priv *priv = hcd_to_ehci_priv(hcd);
-+	bool do_wakeup = device_may_wakeup(dev);
-+
-+	ret = ehci_suspend(hcd, do_wakeup);
-+	if (ret)
-+		return ret;
-+	clk_disable_unprepare(priv->clk);
-+	return 0;
-+}
-+
-+static int __maybe_unused ehci_brcm_resume(struct device *dev)
-+{
-+	struct usb_hcd *hcd = dev_get_drvdata(dev);
-+	struct ehci_hcd *ehci = hcd_to_ehci(hcd);
-+	struct brcm_priv *priv = hcd_to_ehci_priv(hcd);
-+	int err;
-+
-+	err = clk_prepare_enable(priv->clk);
-+	if (err)
-+		return err;
-+	/*
-+	 * SWLINUX-1705: Avoid OUT packet underflows during high memory
-+	 *   bus usage
-+	 * port_status[0x0f] = Broadcom-proprietary USB_EHCI_INSNREG00
-+	 * @ 0x90
-+	 */
-+	ehci_writel(ehci, 0x00800040, &ehci->regs->port_status[0x10]);
-+	ehci_writel(ehci, 0x00000001, &ehci->regs->port_status[0x12]);
-+
-+	ehci_resume(hcd, false);
-+	return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(ehci_brcm_pm_ops, ehci_brcm_suspend,
-+		ehci_brcm_resume);
-+
-+static const struct of_device_id brcm_ehci_of_match[] = {
-+	{ .compatible = "brcm,ehci-brcm-v2", },
-+	{ .compatible = "brcm,bcm7445-ehci", },
-+	{}
-+};
-+
-+static struct platform_driver ehci_brcm_driver = {
-+	.probe		= ehci_brcm_probe,
-+	.remove		= ehci_brcm_remove,
-+	.shutdown	= usb_hcd_platform_shutdown,
-+	.driver		= {
-+		.name	= "ehci-brcm",
-+		.pm	= &ehci_brcm_pm_ops,
-+		.of_match_table = brcm_ehci_of_match,
-+	}
-+};
-+
-+static int __init ehci_brcm_init(void)
-+{
-+	if (usb_disabled())
-+		return -ENODEV;
-+
-+	ehci_init_driver(&ehci_brcm_hc_driver, &brcm_overrides);
-+	return platform_driver_register(&ehci_brcm_driver);
-+}
-+module_init(ehci_brcm_init);
-+
-+static void __exit ehci_brcm_exit(void)
-+{
-+	platform_driver_unregister(&ehci_brcm_driver);
-+}
-+module_exit(ehci_brcm_exit);
-+
-+MODULE_ALIAS("platform:ehci-brcm");
-+MODULE_DESCRIPTION("EHCI Broadcom STB driver");
-+MODULE_AUTHOR("Al Cooper");
-+MODULE_LICENSE("GPL");
++...
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+index dc025f126d71..23e89d798b1b 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+@@ -24,6 +24,7 @@ Required properties:
+       device
+     - "renesas,rcar-gen3-xhci" for a generic R-Car Gen3 or RZ/G2 compatible
+       device
++    - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
+     - "xhci-platform" (deprecated)
+ 
+     When compatible with the generic version, nodes must list the
 -- 
 2.17.1
 
