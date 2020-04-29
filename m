@@ -2,114 +2,202 @@ Return-Path: <SRS0=/XAY=6N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3CEC83009
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB2B3C83004
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:47:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C68B206C0
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:31:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GkEC36zO"
+	by mail.kernel.org (Postfix) with ESMTP id 9742421D7B
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Apr 2020 17:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588182461;
+	bh=r8sc/05h1cK547jVXshgKR35cDRc+aZhoCzMM02oCxA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=kGzr97/sjSIvigPmb1A4kCbh4db7GpEkJnrQoYWs4y4PqdT7nq/9buRPGZu67fE/g
+	 qEpqmTkjPR7eoRBF7xbBiCtdPHtbCql26QZCUksVSKtfmHqM7xY3OHNOptN+9JpF0E
+	 B3e0qzhNHVDOngLfE8qJGHLK8fxWJ6hrM0J2kiDk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgD2Rbe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Apr 2020 13:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726456AbgD2Rbe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Apr 2020 13:31:34 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCBB5C03C1AE;
-        Wed, 29 Apr 2020 10:31:33 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id b11so3544762wrs.6;
-        Wed, 29 Apr 2020 10:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=GVaaD4ZP2LsvYrQiC9DHBqhpWsryLH+VB+jrhDKuI+s=;
-        b=GkEC36zOMNd8ILoVveJEU2PUQayboQo9mC2ohlKRNRXk/6dqeJbmzlUOBh/wZPmFmR
-         CxnHEeRGd61S7ascOca4T5x4mekAjTas0/gy/nW5mCOcO6QFFCpLWSqJ7CVnB+DEfNZM
-         Zh+Dbo0o8t1QqiecASrGdsYurN0i+DQiC85V1R1RJOBUSAJlItbDwAjWDh0eiXgBwWWd
-         Fwl09k3d7sL/szeN2iKuUz/CXw4KaPi5EoTfcubvAQ7WgQI72DxUtpPIl7bXM+7DYKrL
-         5OB/j/aZ4NR2qKSRZbamCbflsg+AE7ZliUUxgxIQjbTEGUMRzZUo5nBz/pam/Y49nMHA
-         2aGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=GVaaD4ZP2LsvYrQiC9DHBqhpWsryLH+VB+jrhDKuI+s=;
-        b=B2XZVW3fQ5qwWdoFI3kEOlgA7EqpAXk60WtwBu4YOTYAzDE0vYtuGYs9+8f1bE+Nfs
-         3aHUgdVPBQq4ruKRN4OHxbJfY1Xmm1AVSkRwAY3hV4uNP3VdV03FubzItW46ANEI+Jb0
-         Dv4HhBViIBdpJ64+eTdKgCsADUTjwS18TBVJgELcZIyLNhxMHL42NIxTrqlfR2TVDlLU
-         s3ZRxcGbDlcNBi7sKTWei//ksT7egp+7vRvzpnvR4psAVBXLwR1t/8RlCj2Ydos+spSG
-         uRXIDfqAjivkyaYYc2DU1UeAYJgsQuc/CMjr1r2uaj4rtfKHChnDyqgSmIf7Qrw9q8e6
-         0dlg==
-X-Gm-Message-State: AGi0PuayohWlPXxXTcjotgo6XfJtcG5tfOtHc7eytuVRvdP982GYdctr
-        Oax3CXPtn5X4aEi52Ah/pYEDhz+yA/s=
-X-Google-Smtp-Source: APiQypJlBVVPtGDroRJN1e3WN+emkpRB4zwgBqzJs7JUEByeTKcELABKlzEjCnufDl1GoWkBZxRceQ==
-X-Received: by 2002:adf:a11a:: with SMTP id o26mr39761355wro.284.1588181492142;
-        Wed, 29 Apr 2020 10:31:32 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id j11sm31177182wrr.62.2020.04.29.10.31.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 10:31:31 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v4 0/4] Add XHCI, EHCI and OHCI support for Broadcom STB SoS's
-Date:   Wed, 29 Apr 2020 13:31:08 -0400
-Message-Id: <20200429173112.38366-1-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726558AbgD2Rri (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Apr 2020 13:47:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726423AbgD2Rri (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 29 Apr 2020 13:47:38 -0400
+Received: from Mani-XPS-13-9360 (unknown [157.46.25.26])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C0C0521D7B;
+        Wed, 29 Apr 2020 17:47:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588182457;
+        bh=r8sc/05h1cK547jVXshgKR35cDRc+aZhoCzMM02oCxA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tXUW56abLC8abdMIs32nPbHuT1IlqZsOQr0oxpDt71VxEGDJr8QWhPhGqfQSLfrqg
+         S8l0dNxLrUk9eSsWqcQ4YaWy6DPClWzhX8zDiYeLXHlKDbROfHaDbBx8aH9L7588zD
+         Xab5EI2SxfQsJPpA43MaUwh8DpWd7vn9c56GCwzo=
+Date:   Wed, 29 Apr 2020 23:17:27 +0530
+From:   Manivannan Sadhasivam <mani@kernel.org>
+To:     gregkh@linuxfoundation.org
+Cc:     johan@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patong.mxl@gmail.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: serial: xr_serial: Add gpiochip support
+Message-ID: <20200429174727.GF6443@Mani-XPS-13-9360>
+References: <20200428195651.6793-1-mani@kernel.org>
+ <20200428195651.6793-3-mani@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428195651.6793-3-mani@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-v4 - A few more fixes to the brcm,bcm7445-ehci.yaml dt-bindings
-     document requested by Rob Herring.
-   - Fixed ordering issue in MAINTAINERS as requested by
-     Andy Shevchenko.
+Hi Greg,
 
-v3 - Addressed all of Andy Shevchenko's review comments for
-     ehci-brcm.c.
-   - Fixed the brcm,bcm7445-ehci.yaml dt-bindings document,
-     dt_binding_check now passes.
-   - Added the XHCI functionality to xhci-plat.c instead of creating
-     new brcmstb files, as suggested by Mathias Nyman.
+On Wed, Apr 29, 2020 at 01:26:51AM +0530, mani@kernel.org wrote:
+> From: Manivannan Sadhasivam <mani@kernel.org>
+> 
+> Add gpiochip support for Maxlinear/Exar USB to serial converter
+> for controlling the available gpios.
+> 
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
+> ---
+>  drivers/usb/serial/xr_serial.c | 186 ++++++++++++++++++++++++++++++++-
+>  drivers/usb/serial/xr_serial.h |   7 ++
+>  2 files changed, 192 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+> index ea4a0b167d3f..d86fd40839f8 100644
+> --- a/drivers/usb/serial/xr_serial.c
+> +++ b/drivers/usb/serial/xr_serial.c
+> @@ -476,6 +476,189 @@ static void xr_break_ctl(struct tty_struct *tty, int break_state)
+>  		   state);
+>  }
+>  
+> +#ifdef CONFIG_GPIOLIB
+> +
 
-v2 - Addressed Andy Shevchenko's review comments.
-   - Fixed dt_binding_check error pointed out by Rob Herring.
-   - Removed pr_info message in ehci_brcm_init as suggested by
-     Greg Kroah-Hartman.
+[...]
 
+> +
+> +static int xr_gpio_init(struct usb_serial_port *port)
+> +{
+> +	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
+> +	int ret = 0;
+> +
+> +	if (port_priv->idProduct == XR21V141X_ID)
+> +		ret = xr21v141x_gpio_init(port);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	port_priv->gc.label = "xr_gpios";
+> +	port_priv->gc.request = xr_gpio_request;
+> +	port_priv->gc.get_direction = xr_gpio_direction_get;
+> +	port_priv->gc.direction_input = xr_gpio_direction_input;
+> +	port_priv->gc.direction_output = xr_gpio_direction_output;
+> +	port_priv->gc.get = xr_gpio_get;
+> +	port_priv->gc.set = xr_gpio_set;
+> +	port_priv->gc.owner = THIS_MODULE;
+> +	port_priv->gc.parent = &port->dev;
+> +	port_priv->gc.base = -1;
+> +	port_priv->gc.can_sleep = true;
+> +
+> +	ret = gpiochip_add_data(&port_priv->gc, port);
+> +	if (!ret)
+> +		port_priv->gpio_registered = true;
+> +
+> +	return ret;
+> +}
+> +
+> +static void xr_gpio_remove(struct usb_serial_port *port)
+> +{
+> +	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
+> +
+> +	if (port_priv->gpio_registered) {
+> +		gpiochip_remove(&port_priv->gc);
+> +		port_priv->gpio_registered = false;
+> +	}
+> +}
+> +
+> +#else
+> +
+> +static int xr_gpio_init(struct usb_serial_port *port)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void xr_gpio_remove(struct usb_serial_port *port)
+> +{
+> +	/* Nothing to do */
+> +}
+> +
+> +#endif
+> +
+>  static int xr_port_probe(struct usb_serial_port *port)
+>  {
+>  	struct usb_serial *serial = port->serial;
+> @@ -495,13 +678,14 @@ static int xr_port_probe(struct usb_serial_port *port)
+>  
+>  	usb_set_serial_port_data(port, port_priv);
+>  
+> -	return 0;
+> +	return xr_gpio_init(port);
 
-Al Cooper (4):
-  dt-bindings: Add Broadcom STB USB support
-  usb: xhci: xhci-plat: Add support for Broadcom STB SoC's
-  usb: ehci: Add new EHCI driver for Broadcom STB SoC's
-  usb: host: Add ability to build new Broadcom STB USB drivers
+Just realised that the gpiochip is registered for 2 interfaces exposed by
+this chip. This is due to the fact that this chip presents CDC-ACM model,
+so there are 2 interfaces (interrupt and bulk IN/OUT).
 
- .../bindings/usb/brcm,bcm7445-ehci.yaml       |  60 ++++
- .../devicetree/bindings/usb/usb-xhci.txt      |   1 +
- MAINTAINERS                                   |   8 +
- drivers/usb/host/Kconfig                      |  16 +
- drivers/usb/host/Makefile                     |  16 +-
- drivers/usb/host/ehci-brcm.c                  | 286 ++++++++++++++++++
- drivers/usb/host/xhci-plat.c                  |  10 +
- 7 files changed, 391 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
- create mode 100644 drivers/usb/host/ehci-brcm.c
+We shouldn't need gpiochip for interface 0. So what is the recommended way
+to filter that?
 
--- 
-2.17.1
+Thanks,
+Mani
 
+>  }
+>  
+>  static int xr_port_remove(struct usb_serial_port *port)
+>  {
+>  	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
+>  
+> +	xr_gpio_remove(port);
+>  	kfree(port_priv);
+>  
+>  	return 0;
+> diff --git a/drivers/usb/serial/xr_serial.h b/drivers/usb/serial/xr_serial.h
+> index d2977ef847a0..079098cf553a 100644
+> --- a/drivers/usb/serial/xr_serial.h
+> +++ b/drivers/usb/serial/xr_serial.h
+> @@ -3,6 +3,8 @@
+>  #ifndef __LINUX_USB_SERIAL_XR_SERIAL_H
+>  #define __LINUX_USB_SERIAL_XR_SERIAL_H
+>  
+> +#include <linux/gpio/driver.h>
+> +
+>  struct xr_uart_regs {
+>  	u8 enable;
+>  	u8 format;
+> @@ -21,6 +23,11 @@ struct xr_uart_regs {
+>  };
+>  
+>  struct xr_port_private {
+> +#ifdef CONFIG_GPIOLIB
+> +	struct gpio_chip gc;
+> +	bool gpio_registered;
+> +	u8 gpio_altfunc;
+> +#endif
+>  	const struct xr_uart_regs *regs;
+>  	u16 idProduct;
+>  	u8 reg_width;
+> -- 
+> 2.17.1
+> 
