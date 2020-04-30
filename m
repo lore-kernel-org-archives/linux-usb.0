@@ -2,191 +2,78 @@ Return-Path: <SRS0=meUh=6O=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AC3C47254
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 13:52:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D4A9C28CBC
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 13:57:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F10E208DB
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 13:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588254759;
-	bh=SO3BYQowliBmPRGXfww4Fy5vRaMnVv1Bl6d1cIXTCDI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=08roZxQWqB5wJVtJelcslwqCB/nkAL/nTr13gUYLSSpcdPXkDR7M51px17PX4OwZM
-	 dlIP9dcPrEZWxnIQEIld+hDjVVFuB6/Z4otwMw5VT37N6mxYLgfomOuKdXCbed5D2T
-	 XEytD4sxI2Jqh+a8T3wCQMjzw1SRM5j6vxZ345qc=
+	by mail.kernel.org (Postfix) with ESMTP id 6CFF22063A
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 13:57:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728446AbgD3Nwh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Apr 2020 09:52:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33818 "EHLO mail.kernel.org"
+        id S1729273AbgD3N5H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Apr 2020 09:57:07 -0400
+Received: from mga02.intel.com ([134.134.136.20]:18821 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728436AbgD3Nwg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:52:36 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9426824955;
-        Thu, 30 Apr 2020 13:52:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588254755;
-        bh=SO3BYQowliBmPRGXfww4Fy5vRaMnVv1Bl6d1cIXTCDI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E43Cq7zAlfLI+qzPOY0YyS4NRNGU7hE2RLIxYtkeKkxQMhVcG3pV9xvRik9aeRX6f
-         ZV8hRnnNlQV1bKT6MKoqtJx5OYrK6OW42kbwWz9YzoLukNsoTG45+ne8kVEQSFoHsc
-         BRb80jW4QOKhb/tu7vBBrCZM5b1tEmpzI1C2n634=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 14/57] usb: dwc3: gadget: Properly set maxpacket limit
-Date:   Thu, 30 Apr 2020 09:51:35 -0400
-Message-Id: <20200430135218.20372-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430135218.20372-1-sashal@kernel.org>
-References: <20200430135218.20372-1-sashal@kernel.org>
+        id S1728068AbgD3N5A (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:57:00 -0400
+IronPort-SDR: JX4pCOyjCT2qvT+vmDO18LjpBXlS3kGyz0IH+uxSSrUE6FF5137KpafFS3jIdZM89zVtmqoER+
+ CWp2FNXyPsFA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2020 06:57:00 -0700
+IronPort-SDR: 40kyOiQdPwuTcwXgT4kw40nfwFO2WXwykGUus353VDBlAxw+/rmikldxjlRWGRDtJ/kSNSy0Lg
+ ghIc2kLCOQEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,336,1583222400"; 
+   d="scan'208";a="368150477"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 30 Apr 2020 06:56:58 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org
+Subject: [PATCH] usb: typec: intel_pmc_mux: Fix the property names
+Date:   Thu, 30 Apr 2020 16:56:57 +0300
+Message-Id: <20200430135657.45169-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+The device property names for the port index number are
+"usb2-port-number" and "usb3-port-number", not "usb2-port"
+and "usb3-port".
 
-[ Upstream commit d94ea5319813658ad5861d161ae16a194c2abf88 ]
-
-Currently the calculation of max packet size limit for IN endpoints is
-too restrictive. This prevents a matching of a capable hardware endpoint
-during configuration. Below is the minimum recommended HW configuration
-to support a particular endpoint setup from the databook:
-
-For OUT endpoints, the databook recommended the minimum RxFIFO size to
-be at least 3x MaxPacketSize + 3x setup packets size (8 bytes each) +
-clock crossing margin (16 bytes).
-
-For IN endpoints, the databook recommended the minimum TxFIFO size to be
-at least 3x MaxPacketSize for endpoints that support burst. If the
-endpoint doesn't support burst or when the device is operating in USB
-2.0 mode, a minimum TxFIFO size of 2x MaxPacketSize is recommended.
-
-Base on these recommendations, we can calculate the MaxPacketSize limit
-of each endpoint. This patch revises the IN endpoint MaxPacketSize limit
-and also sets the MaxPacketSize limit for OUT endpoints.
-
-Reference: Databook 3.30a section 3.2.2 and 3.2.3
-
-Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: 6701adfa9693 ("usb: typec: driver for Intel PMC mux control")
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/dwc3/core.h   |  4 +++
- drivers/usb/dwc3/gadget.c | 52 ++++++++++++++++++++++++++++++---------
- 2 files changed, 45 insertions(+), 11 deletions(-)
+ drivers/usb/typec/mux/intel_pmc_mux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 3ecc69c5b150f..ce4acbf7fef90 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -310,6 +310,10 @@
- #define DWC3_GTXFIFOSIZ_TXFDEF(n)	((n) & 0xffff)
- #define DWC3_GTXFIFOSIZ_TXFSTADDR(n)	((n) & 0xffff0000)
+diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+index f5c5e0aef66f..bb23886c1768 100644
+--- a/drivers/usb/typec/mux/intel_pmc_mux.c
++++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+@@ -298,11 +298,11 @@ static int pmc_usb_register_port(struct pmc_usb *pmc, int index,
+ 	struct typec_mux_desc mux_desc = { };
+ 	int ret;
  
-+/* Global RX Fifo Size Register */
-+#define DWC31_GRXFIFOSIZ_RXFDEP(n)	((n) & 0x7fff)	/* DWC_usb31 only */
-+#define DWC3_GRXFIFOSIZ_RXFDEP(n)	((n) & 0xffff)
-+
- /* Global Event Size Registers */
- #define DWC3_GEVNTSIZ_INTMASK		BIT(31)
- #define DWC3_GEVNTSIZ_SIZE(n)		((n) & 0xffff)
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 18251efd216d3..77c50d43df03b 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2224,7 +2224,6 @@ static int dwc3_gadget_init_in_endpoint(struct dwc3_ep *dep)
- {
- 	struct dwc3 *dwc = dep->dwc;
- 	int mdwidth;
--	int kbytes;
- 	int size;
+-	ret = fwnode_property_read_u8(fwnode, "usb2-port", &port->usb2_port);
++	ret = fwnode_property_read_u8(fwnode, "usb2-port-number", &port->usb2_port);
+ 	if (ret)
+ 		return ret;
  
- 	mdwidth = DWC3_MDWIDTH(dwc->hwparams.hwparams0);
-@@ -2240,17 +2239,17 @@ static int dwc3_gadget_init_in_endpoint(struct dwc3_ep *dep)
- 	/* FIFO Depth is in MDWDITH bytes. Multiply */
- 	size *= mdwidth;
+-	ret = fwnode_property_read_u8(fwnode, "usb3-port", &port->usb3_port);
++	ret = fwnode_property_read_u8(fwnode, "usb3-port-number", &port->usb3_port);
+ 	if (ret)
+ 		return ret;
  
--	kbytes = size / 1024;
--	if (kbytes == 0)
--		kbytes = 1;
--
- 	/*
--	 * FIFO sizes account an extra MDWIDTH * (kbytes + 1) bytes for
--	 * internal overhead. We don't really know how these are used,
--	 * but documentation say it exists.
-+	 * To meet performance requirement, a minimum TxFIFO size of 3x
-+	 * MaxPacketSize is recommended for endpoints that support burst and a
-+	 * minimum TxFIFO size of 2x MaxPacketSize for endpoints that don't
-+	 * support burst. Use those numbers and we can calculate the max packet
-+	 * limit as below.
- 	 */
--	size -= mdwidth * (kbytes + 1);
--	size /= kbytes;
-+	if (dwc->maximum_speed >= USB_SPEED_SUPER)
-+		size /= 3;
-+	else
-+		size /= 2;
- 
- 	usb_ep_set_maxpacket_limit(&dep->endpoint, size);
- 
-@@ -2268,8 +2267,39 @@ static int dwc3_gadget_init_in_endpoint(struct dwc3_ep *dep)
- static int dwc3_gadget_init_out_endpoint(struct dwc3_ep *dep)
- {
- 	struct dwc3 *dwc = dep->dwc;
-+	int mdwidth;
-+	int size;
-+
-+	mdwidth = DWC3_MDWIDTH(dwc->hwparams.hwparams0);
-+
-+	/* MDWIDTH is represented in bits, convert to bytes */
-+	mdwidth /= 8;
- 
--	usb_ep_set_maxpacket_limit(&dep->endpoint, 1024);
-+	/* All OUT endpoints share a single RxFIFO space */
-+	size = dwc3_readl(dwc->regs, DWC3_GRXFIFOSIZ(0));
-+	if (dwc3_is_usb31(dwc))
-+		size = DWC31_GRXFIFOSIZ_RXFDEP(size);
-+	else
-+		size = DWC3_GRXFIFOSIZ_RXFDEP(size);
-+
-+	/* FIFO depth is in MDWDITH bytes */
-+	size *= mdwidth;
-+
-+	/*
-+	 * To meet performance requirement, a minimum recommended RxFIFO size
-+	 * is defined as follow:
-+	 * RxFIFO size >= (3 x MaxPacketSize) +
-+	 * (3 x 8 bytes setup packets size) + (16 bytes clock crossing margin)
-+	 *
-+	 * Then calculate the max packet limit as below.
-+	 */
-+	size -= (3 * 8) + 16;
-+	if (size < 0)
-+		size = 0;
-+	else
-+		size /= 3;
-+
-+	usb_ep_set_maxpacket_limit(&dep->endpoint, size);
- 	dep->endpoint.max_streams = 15;
- 	dep->endpoint.ops = &dwc3_gadget_ep_ops;
- 	list_add_tail(&dep->endpoint.ep_list,
 -- 
-2.20.1
+2.26.2
 
