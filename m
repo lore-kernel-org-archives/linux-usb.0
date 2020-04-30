@@ -2,154 +2,191 @@ Return-Path: <SRS0=meUh=6O=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC8BAC4724C
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9A3C47247
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:02:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 999AA20873
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:02:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="RaBbh1/7"
+	by mail.kernel.org (Postfix) with ESMTP id 9C4CE206D9
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588255374;
+	bh=Kfo2vn3yqA8JwOeV+60gHpQu1H2xrObwQKVATCSMK98=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=0dIIGiRchBsdl6KVDBbcuTrd7rQdYgPTrCgHLXvFJubZIlYEGITa0VHkRiDLTazlT
+	 BDyXAxnabvO05DrkR2p2V4k7k7JUF+6QXS6smqUW3dDSSZkVa8YCQwUzEzyu3p3ywo
+	 JhFIhBPArB32c4iJUrtDPRacoOMuQDY6OGArZwC8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729288AbgD3OCs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Apr 2020 10:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728684AbgD3OCr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Apr 2020 10:02:47 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7E4C035494
-        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2020 07:02:47 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id i10so7032016wrv.10
-        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2020 07:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jiIaYsggpBakhnnkVBGSz6hk94HlfiIOcAoKKv2Pdv4=;
-        b=RaBbh1/74+THrE0I7GBYuCU2D2ZyTALWrtlCwS014vR9U2ZTQ2c+yuPlvOa4MW8so8
-         pCUHC2hWjhKygyps53np8y5eQme6MKti7DOj+7vWSSaGv06YBGI6zeNNy9AA21lcwQPS
-         XT7vKMpETh14bxqnDsLRarkk/S4hiEyCrfd7w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jiIaYsggpBakhnnkVBGSz6hk94HlfiIOcAoKKv2Pdv4=;
-        b=VZm3oe4EKMXN1bhDsFg/IsKpCmwzb4o8Ys+/TQGo06bVSKdahMbU9XAdY4qaACqNll
-         jTC+bV49L0MNI5MTmjjM2UxGJ3raoxMiHocLQh8Uj4beGZawfX1SQc5XdzuTHZUp9kH0
-         deqEjBnhGtTRC2Du8om0vxtsHHn2anpuDgWnVcP9MRQ04+LOXN1SKvjZRNof6N4026JN
-         f6+in2Zj9XvwwrApgPf7XiB3goRIM9DOhGgfKNBfpdEDaBSKT2XQtZWTwI9GhGbfyAqc
-         fyjoRTR3bWWKgSQarUqEMHP7mQztrJ16JDV2vFvKPOtxvvbH5ktS5A0wogxToVqVDYIm
-         D/Hg==
-X-Gm-Message-State: AGi0PuZdnuoKi0LuqmViga+Cf4wvaBkhYvDC6WTQRU5nQRoPyb7J5+4y
-        p1LSwtPby3I3VNTxWQfP1DknLg==
-X-Google-Smtp-Source: APiQypJ7g1twD4Ui5as4s0fdrh+ixOi5o4hbJUSnpWbZlMn/6MkO+MKUQclqQkHP4kH2mil3JygLgQ==
-X-Received: by 2002:a5d:458a:: with SMTP id p10mr3991201wrq.273.1588255365830;
-        Thu, 30 Apr 2020 07:02:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id r18sm4133635wrj.70.2020.04.30.07.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 07:02:44 -0700 (PDT)
-Date:   Thu, 30 Apr 2020 16:02:42 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 01/10] backlight: Add backlight_device_get_by_name()
-Message-ID: <20200430140242.GF10381@phenom.ffwll.local>
-References: <20200429124830.27475-1-noralf@tronnes.org>
- <20200429124830.27475-2-noralf@tronnes.org>
- <20200430083219.GC3118@dell>
- <0fbc4eb5-cb39-5974-85bb-9f13278ecab4@tronnes.org>
- <20200430101529.GB298816@dell>
+        id S1728750AbgD3Nxg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Apr 2020 09:53:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35366 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728740AbgD3Nxf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:53:35 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8718B20873;
+        Thu, 30 Apr 2020 13:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588254814;
+        bh=Kfo2vn3yqA8JwOeV+60gHpQu1H2xrObwQKVATCSMK98=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BIk3/lrRsRPUqIegsPqD84P/n2BBie9za+aevO2fexb5U6xqdirle1ZZsquLdrRQZ
+         GyeVcS0OPMYkhq9slCRyNVqtNhHCeeL06wkibnB9NrcYrDKxqqs3jwM/y+WVt5IfDG
+         S3qoWqfe0EjwV+5zgk4AIVl2TGNekPlQokf5ntdw=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Thinh Nguyen <thinhn@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 07/30] usb: dwc3: gadget: Properly set maxpacket limit
+Date:   Thu, 30 Apr 2020 09:53:02 -0400
+Message-Id: <20200430135325.20762-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200430135325.20762-1-sashal@kernel.org>
+References: <20200430135325.20762-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200430101529.GB298816@dell>
-X-Operating-System: Linux phenom 5.4.0-4-amd64 
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 30, 2020 at 11:15:29AM +0100, Lee Jones wrote:
-> On Thu, 30 Apr 2020, Noralf Trønnes wrote:
-> 
-> > 
-> > 
-> > Den 30.04.2020 10.32, skrev Lee Jones:
-> > > On Wed, 29 Apr 2020, Noralf Trønnes wrote:
-> > > 
-> > >> Add a way to lookup a backlight device based on its name.
-> > >> Will be used by a USB display gadget getting the name from configfs.
-> > >>
-> > >> Cc: Lee Jones <lee.jones@linaro.org>
-> > >> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > >> Cc: Jingoo Han <jingoohan1@gmail.com>
-> > >> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> > >> ---
-> > >>  drivers/video/backlight/backlight.c | 21 +++++++++++++++++++++
-> > >>  include/linux/backlight.h           |  1 +
-> > >>  2 files changed, 22 insertions(+)
-> > > 
-> > > Once reviewed, can this patch be applied on its own?
-> > > 
-> > 
-> > If you can apply it for 5.8, then we're good. DRM has cutoff at -rc5 and
-> > the driver won't be ready for that. This patch has this dependency
-> > chain: usb -> drm -> backlight. So if you can apply it for 5.8, things
-> > gets easier.
-> > 
-> > > My guess is that it can't, as the other patches in this set depend on
-> > > it, right?  If this assumption is true, you need to send me the rest
-> > > of the set.
-> > > 
-> > > FYI: It's normally better to send the whole set to everyone, as it
-> > > provides visibility on current review (or lack there of) status of the
-> > > other patches and allows each of the maintainers to discuss possible
-> > > merge strategies.
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-Unfortunately this doesn't hold universally, since once you cc too many
-people smtp servers start throwing your mails away. Generally only happens
-for bigger refactorings, so pretty much anyone working cross-tree doesn't
-do this because it doesn't work.
+[ Upstream commit d94ea5319813658ad5861d161ae16a194c2abf88 ]
 
-> > dri-devel is the ML for backlight so I assumed you got the full set.
-> 
-> dri-devel isn't the ML for Backlight.  It's an interested party.
-> 
-> I certainly have no intention of subscribing to it.
+Currently the calculation of max packet size limit for IN endpoints is
+too restrictive. This prevents a matching of a capable hardware endpoint
+during configuration. Below is the minimum recommended HW configuration
+to support a particular endpoint setup from the databook:
 
-dri-devel is on lore so that you can grab missing patches. No need to
-subscribe. I've only manged to get this sorted recently (last autumn or
-so), but it's finally done.
--Daniel
+For OUT endpoints, the databook recommended the minimum RxFIFO size to
+be at least 3x MaxPacketSize + 3x setup packets size (8 bytes each) +
+clock crossing margin (16 bytes).
 
-> > I have had trouble in the past with my email provider dropping parts of
-> > a series when I had to many recipients.
-> 
-> Without visibility into the other patches in the set, things become
-> more difficult.  Maybe use a different/better email provider.
-> 
-> -- 
-> Lee Jones [李琼斯]
-> Linaro Services Technical Lead
-> Linaro.org │ Open source software for ARM SoCs
-> Follow Linaro: Facebook | Twitter | Blog
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+For IN endpoints, the databook recommended the minimum TxFIFO size to be
+at least 3x MaxPacketSize for endpoints that support burst. If the
+endpoint doesn't support burst or when the device is operating in USB
+2.0 mode, a minimum TxFIFO size of 2x MaxPacketSize is recommended.
 
+Base on these recommendations, we can calculate the MaxPacketSize limit
+of each endpoint. This patch revises the IN endpoint MaxPacketSize limit
+and also sets the MaxPacketSize limit for OUT endpoints.
+
+Reference: Databook 3.30a section 3.2.2 and 3.2.3
+
+Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/dwc3/core.h   |  4 +++
+ drivers/usb/dwc3/gadget.c | 52 ++++++++++++++++++++++++++++++---------
+ 2 files changed, 45 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index e34308d64619e..d6968b90ee6bb 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -300,6 +300,10 @@
+ #define DWC3_GTXFIFOSIZ_TXFDEF(n)	((n) & 0xffff)
+ #define DWC3_GTXFIFOSIZ_TXFSTADDR(n)	((n) & 0xffff0000)
+ 
++/* Global RX Fifo Size Register */
++#define DWC31_GRXFIFOSIZ_RXFDEP(n)	((n) & 0x7fff)	/* DWC_usb31 only */
++#define DWC3_GRXFIFOSIZ_RXFDEP(n)	((n) & 0xffff)
++
+ /* Global Event Size Registers */
+ #define DWC3_GEVNTSIZ_INTMASK		BIT(31)
+ #define DWC3_GEVNTSIZ_SIZE(n)		((n) & 0xffff)
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 8222e674c7770..50d2481041c85 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2036,7 +2036,6 @@ static int dwc3_gadget_init_in_endpoint(struct dwc3_ep *dep)
+ {
+ 	struct dwc3 *dwc = dep->dwc;
+ 	int mdwidth;
+-	int kbytes;
+ 	int size;
+ 
+ 	mdwidth = DWC3_MDWIDTH(dwc->hwparams.hwparams0);
+@@ -2052,17 +2051,17 @@ static int dwc3_gadget_init_in_endpoint(struct dwc3_ep *dep)
+ 	/* FIFO Depth is in MDWDITH bytes. Multiply */
+ 	size *= mdwidth;
+ 
+-	kbytes = size / 1024;
+-	if (kbytes == 0)
+-		kbytes = 1;
+-
+ 	/*
+-	 * FIFO sizes account an extra MDWIDTH * (kbytes + 1) bytes for
+-	 * internal overhead. We don't really know how these are used,
+-	 * but documentation say it exists.
++	 * To meet performance requirement, a minimum TxFIFO size of 3x
++	 * MaxPacketSize is recommended for endpoints that support burst and a
++	 * minimum TxFIFO size of 2x MaxPacketSize for endpoints that don't
++	 * support burst. Use those numbers and we can calculate the max packet
++	 * limit as below.
+ 	 */
+-	size -= mdwidth * (kbytes + 1);
+-	size /= kbytes;
++	if (dwc->maximum_speed >= USB_SPEED_SUPER)
++		size /= 3;
++	else
++		size /= 2;
+ 
+ 	usb_ep_set_maxpacket_limit(&dep->endpoint, size);
+ 
+@@ -2080,8 +2079,39 @@ static int dwc3_gadget_init_in_endpoint(struct dwc3_ep *dep)
+ static int dwc3_gadget_init_out_endpoint(struct dwc3_ep *dep)
+ {
+ 	struct dwc3 *dwc = dep->dwc;
++	int mdwidth;
++	int size;
++
++	mdwidth = DWC3_MDWIDTH(dwc->hwparams.hwparams0);
++
++	/* MDWIDTH is represented in bits, convert to bytes */
++	mdwidth /= 8;
+ 
+-	usb_ep_set_maxpacket_limit(&dep->endpoint, 1024);
++	/* All OUT endpoints share a single RxFIFO space */
++	size = dwc3_readl(dwc->regs, DWC3_GRXFIFOSIZ(0));
++	if (dwc3_is_usb31(dwc))
++		size = DWC31_GRXFIFOSIZ_RXFDEP(size);
++	else
++		size = DWC3_GRXFIFOSIZ_RXFDEP(size);
++
++	/* FIFO depth is in MDWDITH bytes */
++	size *= mdwidth;
++
++	/*
++	 * To meet performance requirement, a minimum recommended RxFIFO size
++	 * is defined as follow:
++	 * RxFIFO size >= (3 x MaxPacketSize) +
++	 * (3 x 8 bytes setup packets size) + (16 bytes clock crossing margin)
++	 *
++	 * Then calculate the max packet limit as below.
++	 */
++	size -= (3 * 8) + 16;
++	if (size < 0)
++		size = 0;
++	else
++		size /= 3;
++
++	usb_ep_set_maxpacket_limit(&dep->endpoint, size);
+ 	dep->endpoint.max_streams = 15;
+ 	dep->endpoint.ops = &dwc3_gadget_ep_ops;
+ 	list_add_tail(&dep->endpoint.ep_list,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.20.1
+
