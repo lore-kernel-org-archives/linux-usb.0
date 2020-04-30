@@ -2,309 +2,122 @@ Return-Path: <SRS0=meUh=6O=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88156C47247
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 18:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DABC47253
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 20:02:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65B2F20836
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 18:49:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7843920873
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 20:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588272590;
-	bh=Z6DECa7N8G4+bwjZsfqnOxuuzgQZyt8hmyoOawef5xs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EzkzpVzGs21BeQ6hgutLSZnhJKWvA2wx34CJAvZ81k/F/2vRCMPoyqiet3WqNSoMS
-	 tANLHVH59oVtdNNIZnQPz1sNZKAw8nVVasOChRabMJ96cq5+j/+eHPeiEeccVFg6tG
-	 cZ/2V31ea/0S5Js9vbXiad/dYAsx26qcsQFlpkvA=
+	s=default; t=1588276964;
+	bh=Csk1FRgOIkPXyDs3SuTpRgxr84txcfkymZTVF3Q2W24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=eOnceGSEFVtlMRsNfcxgRgB+kSYYxMKDMb1alu8ZGUFI1yv3LMa/yZzgPtMyv4D0d
+	 HAs+0lpQr5EacmlIQaI9xDln8LLwzvFf+tRw6cOUk/tvRFrTfcRVqvzLXmqTlgJxDA
+	 3BaJ1JDj81/EoGXXCT/6AlDBbQrG+tDcVGzhT74g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726778AbgD3Str (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Apr 2020 14:49:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33224 "EHLO mail.kernel.org"
+        id S1726645AbgD3UCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Apr 2020 16:02:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60914 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726520AbgD3Stq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 30 Apr 2020 14:49:46 -0400
-Received: from localhost.localdomain (unknown [157.46.61.111])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726272AbgD3UCl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Apr 2020 16:02:41 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BC87F2082E;
-        Thu, 30 Apr 2020 18:49:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 10ECF2072A;
+        Thu, 30 Apr 2020 20:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588272585;
-        bh=Z6DECa7N8G4+bwjZsfqnOxuuzgQZyt8hmyoOawef5xs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FpLxQ6NR39VtsF7sVE7koAHKegDdLo317LgxLx6dQHfz5lvwHPrTqQ3So9NUuLaSE
-         76TfWZBSHsdO4MfDUu0PZNOgir/Fy/OxSwocrA00jYrJlUEx5Oez0kDqcmPGu/9rLz
-         8S75MG8mWvu65KDHrBoipBMLFdVybMw6KUbstnaA=
-From:   mani@kernel.org
-To:     johan@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patong.mxl@gmail.com, Manivannan Sadhasivam <mani@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org
-Subject: [PATCH v3 2/2] usb: serial: xr_serial: Add gpiochip support
-Date:   Fri,  1 May 2020 00:19:24 +0530
-Message-Id: <20200430184924.31690-3-mani@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200430184924.31690-1-mani@kernel.org>
-References: <20200430184924.31690-1-mani@kernel.org>
+        s=default; t=1588276960;
+        bh=Csk1FRgOIkPXyDs3SuTpRgxr84txcfkymZTVF3Q2W24=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H4b2vurNh0IRcr02dgZoCe8UV0dnNbAlPIYG82dJ3/iq+gyl+Jgk6cMhnYk/2Lssa
+         lvjUmetVvs6JLT5KJzI+rSTKAEnH5bPkdAvYSozN7nAR39nu21nXBk60lSTIAB+6Ap
+         5yoYU0owO/BOkxdMuY3VqMBFr1jpkR2zA5ZAYylY=
+Date:   Thu, 30 Apr 2020 22:02:38 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Vladimir Stankovic <vladimir.stankovic@displaylink.com>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        mausb-host-devel@displaylink.com
+Subject: Re: [External] Re: [PATCH v5 0/8] Add MA USB Host driver
+Message-ID: <20200430200238.GB3843398@kroah.com>
+References: <20200327152614.26833-1-vladimir.stankovic@displaylink.com>
+ <20200425091954.1610-1-vladimir.stankovic@displaylink.com>
+ <20200428110459.GB1145239@kroah.com>
+ <b14a2f71-3931-8d32-43a1-cbf52add48bb@displaylink.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b14a2f71-3931-8d32-43a1-cbf52add48bb@displaylink.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Manivannan Sadhasivam <mani@kernel.org>
+On Thu, Apr 30, 2020 at 06:51:10PM +0200, Vladimir Stankovic wrote:
+> On 28.4.20. 13:04, Greg KH wrote:
+> > On Sat, Apr 25, 2020 at 11:19:46AM +0200, vladimir.stankovic@displaylink.com wrote:
+> >> Media Agnostic (MA) USB Host driver provides USB connectivity over an
+> >> available network, allowing host device to access remote USB devices
+> >> attached to one or more MA USB devices (accessible via network).
+> >>
+> >> This driver has been developed to enable the host to communicate
+> >> with DisplayLink products supporting MA USB protocol (MA USB device,
+> >> in terms of MA USB Specification).
+> >>
+> >> MA USB protocol used by MA USB Host driver has been implemented in
+> >> accordance with MA USB Specification Release 1.0b.
+> > 
+> > Is that a USB-released spec?
+> Correct, document is being maintained by USB IF and is publicly available.
+> However, I just noticed a typo, correct version is 1.0a. Will correct.
+> 
+> In short, MA USB Specification defines an MA USB protocol that performs USB
+> communication via any communication medium. As such, it defines how to pack
+> USB data within MA USB payload, and how to communicate with remote MA USB device.
+> > 
+> >>
+> >> This driver depends on the functions provided by DisplayLink's
+> >> user-space driver.
+> > 
+> > Where can that userspace code be found?
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> > 
+> Userspace code is not publicly available. However, in short, it's purpose is
+> twofold, to provide interface to application layer, and to prepare MA USB packets
+> that will be used by remote device.
 
-Add gpiochip support for Maxlinear/Exar USB to serial converter
-for controlling the available gpios.
+So you want us to take a one-off char-driver kernel code for a closed
+source userspace application for a public spec?  That feels really
+really odd, if not actually against a few licenses.  I hate to ask it,
+but are your lawyers ok with this?
 
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-gpio@vger.kernel.org
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/usb/serial/xr_serial.c | 199 ++++++++++++++++++++++++++++++++-
- 1 file changed, 198 insertions(+), 1 deletion(-)
+> Related to userspace related questions (i.e. comments around two devices used),
+> we can provide detailed description of the used IPC. In that sense, please state
+> the most appropriate way/place to state/publish such description (i.e. is it ok
+> to add it within the cover letter, or publicly available URL is preferred). 
 
-diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index fdb9ddf8bd95..255a30540b52 100644
---- a/drivers/usb/serial/xr_serial.c
-+++ b/drivers/usb/serial/xr_serial.c
-@@ -7,6 +7,7 @@
-  * Copyright (c) 2020 Manivannan Sadhasivam <mani@kernel.org>
-  */
- 
-+#include <linux/gpio/driver.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -32,6 +33,11 @@ struct xr_uart_regs {
- };
- 
- struct xr_port_private {
-+#ifdef CONFIG_GPIOLIB
-+	struct gpio_chip gc;
-+	bool gpio_registered;
-+	u8 gpio_altfunc;
-+#endif
- 	const struct xr_uart_regs *regs;
- };
- 
-@@ -562,6 +568,196 @@ static void xr_break_ctl(struct tty_struct *tty, int break_state)
- 		   state);
- }
- 
-+#ifdef CONFIG_GPIOLIB
-+
-+static int xr_gpio_request(struct gpio_chip *gc, unsigned int offset)
-+{
-+	struct usb_serial_port *port = gpiochip_get_data(gc);
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+
-+	/* Check if the requested GPIO is occupied */
-+	if (port_priv->gpio_altfunc & BIT(offset))
-+		return -ENODEV;
-+
-+	return 0;
-+}
-+
-+static int xr_gpio_get(struct gpio_chip *gc, unsigned int gpio)
-+{
-+	struct usb_serial_port *port = gpiochip_get_data(gc);
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+	int ret;
-+	u8 gpio_status;
-+
-+	ret = xr_get_reg(port, XR21V141X_UART_REG_BLOCK,
-+			 port_priv->regs->gpio_status, &gpio_status);
-+	if (ret)
-+		return ret;
-+
-+	return !!(gpio_status & BIT(gpio));
-+}
-+
-+static void xr_gpio_set(struct gpio_chip *gc, unsigned int gpio, int val)
-+{
-+	struct usb_serial_port *port = gpiochip_get_data(gc);
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+
-+	if (val)
-+		xr_set_reg(port, XR21V141X_UART_REG_BLOCK,
-+			   port_priv->regs->gpio_set, BIT(gpio));
-+	else
-+		xr_set_reg(port, XR21V141X_UART_REG_BLOCK,
-+			   port_priv->regs->gpio_clr, BIT(gpio));
-+}
-+
-+static int xr_gpio_direction_get(struct gpio_chip *gc, unsigned int gpio)
-+{
-+	struct usb_serial_port *port = gpiochip_get_data(gc);
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+	int ret;
-+	u8 gpio_dir;
-+
-+	ret = xr_get_reg(port, XR21V141X_UART_REG_BLOCK,
-+			 port_priv->regs->gpio_dir, &gpio_dir);
-+	if (ret)
-+		return ret;
-+
-+	/* Logic 0 = input and Logic 1 = output */
-+	return !(gpio_dir & BIT(gpio));
-+}
-+
-+static int xr_gpio_direction_input(struct gpio_chip *gc, unsigned int gpio)
-+{
-+	struct usb_serial_port *port = gpiochip_get_data(gc);
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+	int ret;
-+	u8 gpio_dir;
-+
-+	ret = xr_get_reg(port, XR21V141X_UART_REG_BLOCK,
-+			 port_priv->regs->gpio_dir, &gpio_dir);
-+	if (ret)
-+		return ret;
-+
-+	gpio_dir &= ~BIT(gpio);
-+
-+	return xr_set_reg(port, XR21V141X_UART_REG_BLOCK,
-+			  port_priv->regs->gpio_dir, gpio_dir);
-+}
-+
-+static int xr_gpio_direction_output(struct gpio_chip *gc, unsigned int gpio,
-+				    int val)
-+{
-+	struct usb_serial_port *port = gpiochip_get_data(gc);
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+	int ret;
-+	u8 gpio_dir;
-+
-+	ret = xr_get_reg(port, XR21V141X_UART_REG_BLOCK,
-+			 port_priv->regs->gpio_dir, &gpio_dir);
-+	if (ret)
-+		return ret;
-+
-+	gpio_dir |= BIT(gpio);
-+
-+	ret = xr_set_reg(port, XR21V141X_UART_REG_BLOCK,
-+			 port_priv->regs->gpio_dir, gpio_dir);
-+	if (ret)
-+		return ret;
-+
-+	xr_gpio_set(gc, gpio, val);
-+
-+	return 0;
-+}
-+
-+static int xr21v141x_gpio_init(struct usb_serial_port *port)
-+{
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+	int ret;
-+	u8 gpio_mode;
-+
-+	port_priv->gc.ngpio = 6;
-+
-+	ret = xr_get_reg(port, XR21V141X_UART_REG_BLOCK,
-+			 port_priv->regs->gpio_mode, &gpio_mode);
-+	if (ret)
-+		return ret;
-+
-+	/* Mark all pins which are not in GPIO mode */
-+	if (gpio_mode & UART_MODE_RTS_CTS)
-+		port_priv->gpio_altfunc |= (BIT(4) | BIT(5));
-+	else if (gpio_mode & UART_MODE_DTR_DSR)
-+		port_priv->gpio_altfunc |= (BIT(2) | BIT(3));
-+	else if (gpio_mode & UART_MODE_RS485)
-+		port_priv->gpio_altfunc |= BIT(5);
-+	else if (gpio_mode & UART_MODE_RS485_ADDR)
-+		port_priv->gpio_altfunc |= BIT(5);
-+	else
-+		port_priv->gpio_altfunc = 0; /* All GPIOs are available */
-+
-+	return ret;
-+}
-+
-+static int xr_gpio_init(struct usb_serial_port *port)
-+{
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+	struct usb_serial *serial = port->serial;
-+	int ret = 0;
-+	u16 pid;
-+
-+	/* Don't register gpiochip for interface 0 */
-+	if (port->minor == 0)
-+		return ret;
-+
-+	pid = le16_to_cpu(serial->dev->descriptor.idProduct);
-+
-+	ret = xr21v141x_gpio_init(port);
-+	if (ret < 0)
-+		return ret;
-+
-+	port_priv->gc.label = devm_kasprintf(&port->dev, GFP_KERNEL, "XR%04x",
-+					     pid);
-+	port_priv->gc.request = xr_gpio_request;
-+	port_priv->gc.get_direction = xr_gpio_direction_get;
-+	port_priv->gc.direction_input = xr_gpio_direction_input;
-+	port_priv->gc.direction_output = xr_gpio_direction_output;
-+	port_priv->gc.get = xr_gpio_get;
-+	port_priv->gc.set = xr_gpio_set;
-+	port_priv->gc.owner = THIS_MODULE;
-+	port_priv->gc.parent = &port->dev;
-+	port_priv->gc.base = -1;
-+	port_priv->gc.can_sleep = true;
-+
-+	ret = gpiochip_add_data(&port_priv->gc, port);
-+	if (!ret)
-+		port_priv->gpio_registered = true;
-+
-+	return ret;
-+}
-+
-+static void xr_gpio_remove(struct usb_serial_port *port)
-+{
-+	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-+
-+	if (port_priv->gpio_registered) {
-+		gpiochip_remove(&port_priv->gc);
-+		port_priv->gpio_registered = false;
-+	}
-+}
-+
-+#else
-+
-+static int xr_gpio_init(struct usb_serial_port *port)
-+{
-+	return 0;
-+}
-+
-+static void xr_gpio_remove(struct usb_serial_port *port)
-+{
-+	/* Nothing to do */
-+}
-+
-+#endif
-+
- static int xr_port_probe(struct usb_serial_port *port)
- {
- 	struct xr_port_private *port_priv;
-@@ -575,13 +771,14 @@ static int xr_port_probe(struct usb_serial_port *port)
- 
- 	usb_set_serial_port_data(port, port_priv);
- 
--	return 0;
-+	return xr_gpio_init(port);
- }
- 
- static int xr_port_remove(struct usb_serial_port *port)
- {
- 	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
- 
-+	xr_gpio_remove(port);
- 	kfree(port_priv);
- 
- 	return 0;
--- 
-2.17.1
+I asked a bunch of questions about this in the patches themselves, you
+all need to document the heck out of it everywhere you can, otherwise we
+can't even review the code properly.  Could you review it without
+knowing what userspace is supposed to be doing?
 
+But, note, I will not take a spec-compliant driver that requires closed
+source userspace code, nor should you even want me to do that if you
+rely on Linux.
+
+So please, release the userspace code, as it's going to have to be
+changed anyway as your current user/kernel api is broken/incorrect
+as-is.  Why not just bundle it in the kernel tree like we have the usbip
+code?  That way you know it all works properly, and better yet, it can
+be tested and maintained properly over time.
+
+thanks,
+
+greg k-h
