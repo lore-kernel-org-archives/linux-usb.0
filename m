@@ -2,114 +2,62 @@ Return-Path: <SRS0=meUh=6O=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A32EFC28CBC
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2611CC83000
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:21:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7508B2063A
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588255917;
-	bh=usM7Jccak5exTEtTBEd6z2nFf26bUS/b4ELKv0lkYeU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RGc5afuQC4+8ygcemqxpA8mIsAV6vlfNybQ8V+FKaMwX7VuqBeK6bPbwqfPSH7Of+
-	 UZARF4sW42WoMSoKyDx4JdVnF208yJ8QNDeCJrY+Cv2FV0Tzl157Cewj6fQYQC2woK
-	 GmQ+wBtR7mzzX10Xm36lkAeGbSj49whibjDF1+cw=
+	by mail.kernel.org (Postfix) with ESMTP id 0D22B2076D
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 14:21:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729569AbgD3OLy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Apr 2020 10:11:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727982AbgD3NvR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:51:17 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBEDF20774;
-        Thu, 30 Apr 2020 13:51:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588254676;
-        bh=usM7Jccak5exTEtTBEd6z2nFf26bUS/b4ELKv0lkYeU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MnDmBZPU7KOlVzJgz3bw4vJ2WlygTypmRj2TWLAxY6aaXXsMLrJfPmDFBTXCoJzGu
-         lorX7F3pSF2vI3GOQ9hyuv9dXDsY0chqPkAjCptx8G9/TxZE+78Mzy9DYmVq28bsC+
-         q05+UK5+3t5kqzr49n3LG3jjx4d7mJ2dM3rwNNSs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 28/79] usb: dwc3: gadget: Do link recovery for SS and SSP
-Date:   Thu, 30 Apr 2020 09:49:52 -0400
-Message-Id: <20200430135043.19851-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430135043.19851-1-sashal@kernel.org>
-References: <20200430135043.19851-1-sashal@kernel.org>
+        id S1726780AbgD3OV5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Apr 2020 10:21:57 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:41389 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726550AbgD3OV5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Apr 2020 10:21:57 -0400
+Received: (qmail 28927 invoked by uid 500); 30 Apr 2020 10:21:56 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 30 Apr 2020 10:21:56 -0400
+Date:   Thu, 30 Apr 2020 10:21:56 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+cc:     Peter Chen <peter.chen@nxp.com>, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH 1/5] usb: gadget: Introduce usb_request->is_last field
+In-Reply-To: <1f366918-1544-7013-6340-2a186791b803@synopsys.com>
+Message-ID: <Pine.LNX.4.44L0.2004301019550.27217-100000@netrider.rowland.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+On Thu, 30 Apr 2020, Thinh Nguyen wrote:
 
-[ Upstream commit d0550cd20e52558ecf6847a0f96ebd5d944c17e4 ]
+> Peter Chen wrote:
 
-The controller always supports link recovery for device in SS and SSP.
-Remove the speed limit check. Also, when the device is in RESUME or
-RESET state, it means the controller received the resume/reset request.
-The driver must send the link recovery to acknowledge the request. They
-are valid states for the driver to send link recovery.
+> > If 'transfer size' here is software concept, why controller needs to know? The general
+> > controller internal logic doesn't care class protocol, it only cares TRB chain software prepares.
+> 
+> While some controllers don't have the concept of this, DWC_usb3x does. 
+> It has a notion of starting and ending a transfer. While a transfer is 
+> started, the endpoint uses a resource. It releases that resource when 
+> the transfer completes. So far, dwc3 implemented in such a way that bulk 
+> transfers are always in-progress and don't complete. That's fine so far, 
+> but it's not the case with streams.
 
-Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
-Fixes: ee5cd41c9117 ("usb: dwc3: Update speed checks for SuperSpeedPlus")
-Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc3/gadget.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+This is peculiar.  I haven't heard of any other controller doing this.
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 1e68c90a83781..bc1cf6d0412a3 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1728,7 +1728,6 @@ static int __dwc3_gadget_wakeup(struct dwc3 *dwc)
- 	u32			reg;
- 
- 	u8			link_state;
--	u8			speed;
- 
- 	/*
- 	 * According to the Databook Remote wakeup request should
-@@ -1738,16 +1737,13 @@ static int __dwc3_gadget_wakeup(struct dwc3 *dwc)
- 	 */
- 	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
- 
--	speed = reg & DWC3_DSTS_CONNECTSPD;
--	if ((speed == DWC3_DSTS_SUPERSPEED) ||
--	    (speed == DWC3_DSTS_SUPERSPEED_PLUS))
--		return 0;
--
- 	link_state = DWC3_DSTS_USBLNKST(reg);
- 
- 	switch (link_state) {
-+	case DWC3_LINK_STATE_RESET:
- 	case DWC3_LINK_STATE_RX_DET:	/* in HS, means Early Suspend */
- 	case DWC3_LINK_STATE_U3:	/* in HS, means SUSPEND */
-+	case DWC3_LINK_STATE_RESUME:
- 		break;
- 	default:
- 		return -EINVAL;
--- 
-2.20.1
+What does the controller use this resource for?  Would anything go 
+wrong if you told the controller that each transfer was a single 
+usb_request?
+
+Alan Stern
 
