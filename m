@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C590C8300C
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 10:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4AB2C8300C
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 10:11:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77D2321BE5
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 10:10:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A18BD2192A
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Apr 2020 10:11:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588241445;
-	bh=cBfLvCVswPhJde9RRG8YeUyMQveWpFI5Hw8ymc9Yzso=;
+	s=default; t=1588241460;
+	bh=91ZNjhxl/4Uk0CVDSwzfRxA1xGjjiJCyaQ+kB6AFPbQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=x+ftl2S8oAPxFJmgcHOxEgv2QMwc1wQo7G47SWOqZG+Ru6u7PckyZigc7qcBu76Wq
-	 W0RP4dC12KuYQP0HclUfUGvjpfikrwXvmI72Tpi2Xcw9DBVUhV7VUOWVI7T+d75QPO
-	 o9yVcCPdrKjyH4HLAx7usNzJT0f8cLllrQ/mSx5w=
+	b=gqqMahjATF62IFp3cpwOixdfqatztyTAtFYps+9eKyCr8MHMYAiXSlmn2RTFVzfRW
+	 N7ACONY9NLOF+2AbW0K80HRg6IEVGa+/5fK0rf4dRykQlePZR+aR+t2QO+plCrPoGD
+	 K3qP/oktue0QfL4BZbrRCuV1ZnCQd0JToXh8pmMo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726783AbgD3KKm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Apr 2020 06:10:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44736 "EHLO mail.kernel.org"
+        id S1726975AbgD3KK7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Apr 2020 06:10:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726127AbgD3KKl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 30 Apr 2020 06:10:41 -0400
+        id S1726962AbgD3KK6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Apr 2020 06:10:58 -0400
 Received: from localhost.localdomain (unknown [122.182.217.38])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED7482192A;
-        Thu, 30 Apr 2020 10:10:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE58B2192A;
+        Thu, 30 Apr 2020 10:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588241440;
-        bh=cBfLvCVswPhJde9RRG8YeUyMQveWpFI5Hw8ymc9Yzso=;
+        s=default; t=1588241457;
+        bh=91ZNjhxl/4Uk0CVDSwzfRxA1xGjjiJCyaQ+kB6AFPbQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SDwDN8pessTyIYLT1XwWDT/nut3lfJxdfXTaLYVQldzIbVE3MvShnaFD7mjTYzn1A
-         n5CH56Z+zmn/bv4L31/PvUAP5c7dQ2T3XHN70U0fKCFbZtRvZUFTcI8pehOEEGK7o1
-         Wusmp6Kxe2u5p5yZ+HAj93OIPPkJHPxEZ+hYsjOk=
+        b=BBCyF0iufkmTpMNXobvqeArzVdrhaEgmX4P2La6MP92thxnYsT8VAh/dr/KJXE/lh
+         0dH/4oBxgYxH397IGiO/QmjoteV+xisWR6jhZcZrLwEJmpUO2TAKJ9KdVcc4OObfyw
+         CYIJUnKWvSNUrXoPgHLYfoQO4ob8O12hDUrNS4EY=
 From:   Vinod Koul <vkoul@kernel.org>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -49,11 +49,10 @@ Cc:     linux-arm-msm@vger.kernel.org,
         John Stultz <john.stultz@linaro.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         =?UTF-8?q?Andreas=20B=C3=B6hler?= <dev@aboehler.at>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v11 1/5] usb: hci: add hc_driver as argument for usb_hcd_pci_probe
-Date:   Thu, 30 Apr 2020 15:40:15 +0530
-Message-Id: <20200430101019.1130956-2-vkoul@kernel.org>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v11 5/5] usb: xhci: provide a debugfs hook for erasing rom
+Date:   Thu, 30 Apr 2020 15:40:19 +0530
+Message-Id: <20200430101019.1130956-6-vkoul@kernel.org>
 X-Mailer: git-send-email 2.25.3
 In-Reply-To: <20200430101019.1130956-1-vkoul@kernel.org>
 References: <20200430101019.1130956-1-vkoul@kernel.org>
@@ -64,218 +63,86 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-usb_hcd_pci_probe expects users to call this with driver_data set as
-hc_driver, that limits the possibility of using the driver_data for
-driver data.
+run "echo 1 > /sys/kernel/debug/renesas-usb/rom_erase" to erase firmware
+when driver is loaded.
 
-Add hc_driver as argument to usb_hcd_pci_probe and modify the callers
-ehci/ohci/xhci/uhci to pass hc_driver as argument and freeup the
-driver_data used
+Subsequent init of driver shall reload the firmware
 
-Tested xhci driver on Dragon-board RB3, compile tested ehci and ohci.
-Couldn't compile uhci
-
-Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-[For all but the xHCI parts]
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-[For the xhci part]
-Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- drivers/usb/core/hcd-pci.c  |  7 ++++---
- drivers/usb/host/ehci-pci.c |  6 ++----
- drivers/usb/host/ohci-pci.c |  9 ++++++---
- drivers/usb/host/uhci-pci.c |  8 ++++++--
- drivers/usb/host/xhci-pci.c | 14 +++++---------
- include/linux/usb/hcd.h     |  3 ++-
- 6 files changed, 25 insertions(+), 22 deletions(-)
+ drivers/usb/host/xhci-pci-renesas.c | 33 +++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
-index f0a259937da8..1547aa6e5314 100644
---- a/drivers/usb/core/hcd-pci.c
-+++ b/drivers/usb/core/hcd-pci.c
-@@ -159,6 +159,7 @@ static void ehci_wait_for_companions(struct pci_dev *pdev, struct usb_hcd *hcd,
-  * usb_hcd_pci_probe - initialize PCI-based HCDs
-  * @dev: USB Host Controller being probed
-  * @id: pci hotplug id connecting controller to HCD framework
-+ * @driver: USB HC driver handle
-  * Context: !in_interrupt()
-  *
-  * Allocates basic PCI resources for this USB host controller, and
-@@ -169,9 +170,9 @@ static void ehci_wait_for_companions(struct pci_dev *pdev, struct usb_hcd *hcd,
-  *
-  * Return: 0 if successful.
-  */
--int usb_hcd_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
-+int usb_hcd_pci_probe(struct pci_dev *dev, const struct pci_device_id *id,
-+		      const struct hc_driver *driver)
- {
--	struct hc_driver	*driver;
- 	struct usb_hcd		*hcd;
- 	int			retval;
- 	int			hcd_irq = 0;
-@@ -181,7 +182,7 @@ int usb_hcd_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
+index aebd9546d994..977a4d4a3b54 100644
+--- a/drivers/usb/host/xhci-pci-renesas.c
++++ b/drivers/usb/host/xhci-pci-renesas.c
+@@ -2,6 +2,7 @@
+ /* Copyright (C) 2019-2020 Linaro Limited */
  
- 	if (!id)
- 		return -EINVAL;
--	driver = (struct hc_driver *)id->driver_data;
-+
- 	if (!driver)
- 		return -EINVAL;
- 
-diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
-index 1a48ab1bd3b2..3c3820ad9092 100644
---- a/drivers/usb/host/ehci-pci.c
-+++ b/drivers/usb/host/ehci-pci.c
-@@ -360,23 +360,21 @@ static int ehci_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	if (is_bypassed_id(pdev))
- 		return -ENODEV;
--	return usb_hcd_pci_probe(pdev, id);
-+	return usb_hcd_pci_probe(pdev, id, &ehci_pci_hc_driver);
+ #include <linux/acpi.h>
++#include <linux/debugfs.h>
+ #include <linux/firmware.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+@@ -170,6 +171,8 @@ static int renesas_fw_verify(const void *fw_data,
+ 	return 0;
  }
  
- static void ehci_pci_remove(struct pci_dev *pdev)
++static void debugfs_init(struct pci_dev *pdev);
++
+ static bool renesas_check_rom(struct pci_dev *pdev)
  {
- 	pci_clear_mwi(pdev);
--	usb_hcd_pci_remove(pdev);	
-+	usb_hcd_pci_remove(pdev);
+ 	u16 rom_status;
+@@ -183,6 +186,7 @@ static bool renesas_check_rom(struct pci_dev *pdev)
+ 	rom_status &= RENESAS_ROM_STATUS_ROM_EXISTS;
+ 	if (rom_status) {
+ 		dev_dbg(&pdev->dev, "External ROM exists\n");
++		debugfs_init(pdev);
+ 		return true; /* External ROM exists */
+ 	}
+ 
+@@ -449,6 +453,34 @@ static void renesas_rom_erase(struct pci_dev *pdev)
+ 	dev_dbg(&pdev->dev, "ROM Erase... Done success\n");
  }
  
- /* PCI driver selection metadata; PCI hotplugging uses this */
- static const struct pci_device_id pci_ids [] = { {
- 	/* handle any USB 2.0 EHCI controller */
- 	PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_EHCI, ~0),
--	.driver_data =	(unsigned long) &ehci_pci_hc_driver,
- 	}, {
- 	PCI_VDEVICE(STMICRO, PCI_DEVICE_ID_STMICRO_USB_HOST),
--	.driver_data = (unsigned long) &ehci_pci_hc_driver,
- 	},
- 	{ /* end: all zeroes */ }
- };
-diff --git a/drivers/usb/host/ohci-pci.c b/drivers/usb/host/ohci-pci.c
-index 22117a6aeb4a..585222af24ff 100644
---- a/drivers/usb/host/ohci-pci.c
-+++ b/drivers/usb/host/ohci-pci.c
-@@ -277,21 +277,24 @@ static const struct ohci_driver_overrides pci_overrides __initconst = {
- static const struct pci_device_id pci_ids[] = { {
- 	/* handle any USB OHCI controller */
- 	PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_OHCI, ~0),
--	.driver_data =	(unsigned long) &ohci_pci_hc_driver,
- 	}, {
- 	/* The device in the ConneXT I/O hub has no class reg */
- 	PCI_VDEVICE(STMICRO, PCI_DEVICE_ID_STMICRO_USB_OHCI),
--	.driver_data =	(unsigned long) &ohci_pci_hc_driver,
- 	}, { /* end: all zeroes */ }
- };
- MODULE_DEVICE_TABLE (pci, pci_ids);
- 
-+static int ohci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
++static int debugfs_rom_erase(void *data, u64 value)
 +{
-+	return usb_hcd_pci_probe(dev, id, &ohci_pci_hc_driver);
++	struct pci_dev *pdev = data;
++
++	if (value == 1) {
++		dev_dbg(&pdev->dev, "Userspace requested ROM erase\n");
++		renesas_rom_erase(pdev);
++		return 0;
++	}
++	return -EINVAL;
++}
++DEFINE_DEBUGFS_ATTRIBUTE(rom_erase_ops, NULL, debugfs_rom_erase, "%llu\n");
++
++static struct dentry *debugfs_root;
++
++static void debugfs_init(struct pci_dev *pdev)
++{
++	debugfs_root = debugfs_create_dir("renesas_usb", NULL);
++
++	debugfs_create_file("rom_erase", 0200, debugfs_root,
++			    pdev, &rom_erase_ops);
 +}
 +
- /* pci driver glue; this is a "new style" PCI driver module */
- static struct pci_driver ohci_pci_driver = {
- 	.name =		hcd_name,
- 	.id_table =	pci_ids,
- 
--	.probe =	usb_hcd_pci_probe,
-+	.probe =	ohci_pci_probe,
- 	.remove =	usb_hcd_pci_remove,
- 	.shutdown =	usb_hcd_pci_shutdown,
- 
-diff --git a/drivers/usb/host/uhci-pci.c b/drivers/usb/host/uhci-pci.c
-index 957c87efc746..9b88745d247f 100644
---- a/drivers/usb/host/uhci-pci.c
-+++ b/drivers/usb/host/uhci-pci.c
-@@ -287,17 +287,21 @@ static const struct hc_driver uhci_driver = {
- static const struct pci_device_id uhci_pci_ids[] = { {
- 	/* handle any USB UHCI controller */
- 	PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_UHCI, ~0),
--	.driver_data =	(unsigned long) &uhci_driver,
- 	}, { /* end: all zeroes */ }
- };
- 
- MODULE_DEVICE_TABLE(pci, uhci_pci_ids);
- 
-+static int uhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
++static void debugfs_exit(void)
 +{
-+	return usb_hcd_pci_probe(dev, id, &uhci_driver);
++	debugfs_remove_recursive(debugfs_root);
 +}
 +
- static struct pci_driver uhci_pci_driver = {
- 	.name =		hcd_name,
- 	.id_table =	uhci_pci_ids,
- 
--	.probe =	usb_hcd_pci_probe,
-+	.probe =	uhci_pci_probe,
- 	.remove =	usb_hcd_pci_remove,
- 	.shutdown =	uhci_shutdown,
- 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 766b74723e64..b6c2f5c530e3 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -327,11 +327,8 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ static bool renesas_setup_rom(struct pci_dev *pdev, const struct firmware *fw)
  {
- 	int retval;
- 	struct xhci_hcd *xhci;
--	struct hc_driver *driver;
- 	struct usb_hcd *hcd;
+ 	const u32 *fw_data = (const u32 *)fw->data;
+@@ -638,4 +670,5 @@ int renesas_xhci_check_request_fw(struct pci_dev *pdev,
  
--	driver = (struct hc_driver *)id->driver_data;
--
- 	/* Prevent runtime suspending between USB-2 and USB-3 initialization */
- 	pm_runtime_get_noresume(&dev->dev);
- 
-@@ -341,7 +338,7 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	 * to say USB 2.0, but I'm not sure what the implications would be in
- 	 * the other parts of the HCD code.
- 	 */
--	retval = usb_hcd_pci_probe(dev, id);
-+	retval = usb_hcd_pci_probe(dev, id, &xhci_pci_hc_driver);
- 
- 	if (retval)
- 		goto put_runtime_pm;
-@@ -349,8 +346,8 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	/* USB 2.0 roothub is stored in the PCI device now. */
- 	hcd = dev_get_drvdata(&dev->dev);
- 	xhci = hcd_to_xhci(hcd);
--	xhci->shared_hcd = usb_create_shared_hcd(driver, &dev->dev,
--				pci_name(dev), hcd);
-+	xhci->shared_hcd = usb_create_shared_hcd(&xhci_pci_hc_driver, &dev->dev,
-+						 pci_name(dev), hcd);
- 	if (!xhci->shared_hcd) {
- 		retval = -ENOMEM;
- 		goto dealloc_usb2_hcd;
-@@ -544,10 +541,9 @@ static void xhci_pci_shutdown(struct usb_hcd *hcd)
- /*-------------------------------------------------------------------------*/
- 
- /* PCI driver selection metadata; PCI hotplugging uses this */
--static const struct pci_device_id pci_ids[] = { {
-+static const struct pci_device_id pci_ids[] = {
- 	/* handle any USB 3.0 xHCI controller */
--	PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_XHCI, ~0),
--	.driver_data =	(unsigned long) &xhci_pci_hc_driver,
-+	{ PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_XHCI, ~0),
- 	},
- 	{ /* end: all zeroes */ }
- };
-diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-index e12105ed3834..3dbb42c637c1 100644
---- a/include/linux/usb/hcd.h
-+++ b/include/linux/usb/hcd.h
-@@ -479,7 +479,8 @@ extern void usb_hcd_platform_shutdown(struct platform_device *dev);
- struct pci_dev;
- struct pci_device_id;
- extern int usb_hcd_pci_probe(struct pci_dev *dev,
--				const struct pci_device_id *id);
-+			     const struct pci_device_id *id,
-+			     const struct hc_driver *driver);
- extern void usb_hcd_pci_remove(struct pci_dev *dev);
- extern void usb_hcd_pci_shutdown(struct pci_dev *dev);
- 
+ void renesas_xhci_pci_exit(struct pci_dev *dev)
+ {
++	debugfs_exit();
+ }
 -- 
 2.25.3
 
