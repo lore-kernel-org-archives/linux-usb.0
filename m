@@ -1,57 +1,124 @@
-Return-Path: <SRS0=V5Wu=6Q=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=qUyI=6R=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A61C3A5A9
-	for <linux-usb@archiver.kernel.org>; Sat,  2 May 2020 23:43:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DADDC28CBC
+	for <linux-usb@archiver.kernel.org>; Sun,  3 May 2020 07:14:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A5A2206F1
-	for <linux-usb@archiver.kernel.org>; Sat,  2 May 2020 23:43:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 233E02073E
+	for <linux-usb@archiver.kernel.org>; Sun,  3 May 2020 07:14:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbgEBXnv convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 2 May 2020 19:43:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726433AbgEBXnu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 2 May 2020 19:43:50 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC586C061A0C;
-        Sat,  2 May 2020 16:43:50 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 5FFA415166C3B;
-        Sat,  2 May 2020 16:43:50 -0700 (PDT)
-Date:   Sat, 02 May 2020 16:43:49 -0700 (PDT)
-Message-Id: <20200502.164349.488231555246678455.davem@davemloft.net>
-To:     Kangie@footclan.ninja
-Cc:     bjorn@mork.no, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: qmi_wwan: add support for DW5816e
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200502155228.11535-1-Kangie@footclan.ninja>
-References: <20200502155228.11535-1-Kangie@footclan.ninja>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sat, 02 May 2020 16:43:50 -0700 (PDT)
+        id S1727067AbgECHNj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 3 May 2020 03:13:39 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:35772 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726884AbgECHNj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 3 May 2020 03:13:39 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 4922320026;
+        Sun,  3 May 2020 09:13:35 +0200 (CEST)
+Date:   Sun, 3 May 2020 09:13:28 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 01/10] backlight: Add backlight_device_get_by_name()
+Message-ID: <20200503071328.GA11582@ravnborg.org>
+References: <20200429124830.27475-1-noralf@tronnes.org>
+ <20200429124830.27475-2-noralf@tronnes.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200429124830.27475-2-noralf@tronnes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=8nJEP1OIZ-IA:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=SJz97ENfAAAA:8
+        a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=Glsn2Xz2PHKrFKEi74kA:9
+        a=wPNLvfGTeEIA:10 a=cvBusfyB2V15izCimMoJ:22 a=vFet0B0WnEQeilDPIY6i:22
+        a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+        a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Matt Jolly <Kangie@footclan.ninja>
-Date: Sun,  3 May 2020 01:52:28 +1000
+Hi Noralf.
 
-> Add support for Dell Wireless 5816e to drivers/net/usb/qmi_wwan.c
+On Wed, Apr 29, 2020 at 02:48:21PM +0200, Noralf Trønnes wrote:
+> Add a way to lookup a backlight device based on its name.
+> Will be used by a USB display gadget getting the name from configfs.
 > 
-> Signed-off-by: Matt Jolly <Kangie@footclan.ninja>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 
-Bjørn, please review.
+Simple and well-documented.
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/video/backlight/backlight.c | 21 +++++++++++++++++++++
+>  include/linux/backlight.h           |  1 +
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index cac3e35d7630..92d80aa0c0ef 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -432,6 +432,27 @@ struct backlight_device *backlight_device_get_by_type(enum backlight_type type)
+>  }
+>  EXPORT_SYMBOL(backlight_device_get_by_type);
+>  
+> +/**
+> + * backlight_device_get_by_name - Get backlight device by name
+> + * @name: Device name
+> + *
+> + * This function looks up a backlight device by its name. It obtains a reference
+> + * on the backlight device and it is the caller's responsibility to drop the
+> + * reference by calling backlight_put().
+> + *
+> + * Returns:
+> + * A pointer to the backlight device if found, otherwise NULL.
+> + */
+> +struct backlight_device *backlight_device_get_by_name(const char *name)
+> +{
+> +	struct device *dev;
+> +
+> +	dev = class_find_device_by_name(backlight_class, name);
+> +
+> +	return dev ? to_backlight_device(dev) : NULL;
+> +}
+> +EXPORT_SYMBOL(backlight_device_get_by_name);
+> +
+>  /**
+>   * backlight_device_unregister - unregisters a backlight device object.
+>   * @bd: the backlight device object to be unregistered and freed.
+> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+> index c7d6b2e8c3b5..56e4580d4f55 100644
+> --- a/include/linux/backlight.h
+> +++ b/include/linux/backlight.h
+> @@ -190,6 +190,7 @@ extern void backlight_force_update(struct backlight_device *bd,
+>  extern int backlight_register_notifier(struct notifier_block *nb);
+>  extern int backlight_unregister_notifier(struct notifier_block *nb);
+>  extern struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
+> +struct backlight_device *backlight_device_get_by_name(const char *name);
+>  extern int backlight_device_set_brightness(struct backlight_device *bd, unsigned long brightness);
+>  
+>  #define to_backlight_device(obj) container_of(obj, struct backlight_device, dev)
+> -- 
+> 2.23.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
