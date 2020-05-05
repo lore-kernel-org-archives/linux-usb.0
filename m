@@ -1,126 +1,126 @@
-Return-Path: <SRS0=7ANT=6S=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=2Bet=6T=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84BA6C47258
-	for <linux-usb@archiver.kernel.org>; Mon,  4 May 2020 23:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D517C47257
+	for <linux-usb@archiver.kernel.org>; Tue,  5 May 2020 06:15:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63A1820705
-	for <linux-usb@archiver.kernel.org>; Mon,  4 May 2020 23:12:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0D4220721
+	for <linux-usb@archiver.kernel.org>; Tue,  5 May 2020 06:15:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xyaliD4O"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="pg2T8e9w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbgEDXMU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 May 2020 19:12:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728182AbgEDXMT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 May 2020 19:12:19 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B829C061A0F
-        for <linux-usb@vger.kernel.org>; Mon,  4 May 2020 16:12:19 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id x77so79422pfc.0
-        for <linux-usb@vger.kernel.org>; Mon, 04 May 2020 16:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=h46EDReUv1S1ATBaSl4X6yKFbL5PQevboB9D//kDD+k=;
-        b=xyaliD4Ok584TZG1EfQuKvA1CS0QaaSTFLv5YqnxSu7oVan9VyIOvVgszhDFsUZOgO
-         lBRSEAaRfnsKPVy2d3fw02VbY3jbDVUHlWqijiJYRPQI080Ay0+Sw1rYmrSFGyg+nSW4
-         CtGwL9HBGfWLPCWkjtl5xDyQF7wiK1kN+rdJbOT5oVe/arvGK5ZL/BWX32qlg34nl/c1
-         awrQ0EJvv2BUZr6hJ2An4niDAHtO42d8bEcOtD1MjDPLtFiGcpsvSHfmcgESc/kI41Ov
-         JnzTQcwT6ZKTvYjcsZ8kayOkEdjXzxqrD7BbrKmHKwx+HAYxsv74RGvrjPi8k9QnnLLk
-         hfZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=h46EDReUv1S1ATBaSl4X6yKFbL5PQevboB9D//kDD+k=;
-        b=fcsaEnH1dSCCd5socaeDNwfvthpQNVdAXhc1HQF4x8mXUerBLQAgqSLoR8Tk6Uqm3S
-         cVoYB8PJOoFJSE8SM798oqPnRdy6JI+9EgCpUSTunckCHSnOXZX/UiY64D/vZK0fWVxA
-         ykJYjCiZUgCAZwwOcVBPxhBD0kMGAs8WUxO7HxIzbzvFGWQwZL06FbDY3byg49DI/tA4
-         9hxQMnBzesTA548LVubWVIH68u+qOXLwMz1H61jLBvHBPxYZVVxv7lXp4mISli1dCWXD
-         qGUe49Q7t2QWRs6MGyOKNxcMfFUuLlT815iVCg9bQ5YOiGFzTn/WwgodJBbS79nTgax+
-         hz8g==
-X-Gm-Message-State: AGi0Pua5lCdA8h8+GeZrTh6wPk3y4cOFg8n6fCgWiO72vQKUhWpiwAmv
-        jZJpDGYltAVGYil5vvmVmsksYg==
-X-Google-Smtp-Source: APiQypKQgSB/Vffht7a4qUOaNUPHx8aJxH7d+fFEHtLffIrJKk+EXWHLsxzHL/CzPeeFIQX4QXtylw==
-X-Received: by 2002:a63:ff42:: with SMTP id s2mr534731pgk.410.1588633938678;
-        Mon, 04 May 2020 16:12:18 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id e196sm160964pfh.43.2020.05.04.16.12.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 16:12:18 -0700 (PDT)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        YongQin Liu <yongqin.liu@linaro.org>,
-        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
-        Yang Fei <fei.yang@intel.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Tejas Joglekar <tejas.joglekar@synopsys.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Jack Pham <jackp@codeaurora.org>, Josh Gao <jmgao@google.com>,
-        Todd Kjos <tkjos@google.com>, Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: [RESEND][PATCH] dwc3: Remove check for HWO flag in dwc3_gadget_ep_reclaim_trb_sg()
-Date:   Mon,  4 May 2020 23:12:15 +0000
-Message-Id: <20200504231215.55956-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726610AbgEEGPg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 May 2020 02:15:36 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:54556 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725320AbgEEGPg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 May 2020 02:15:36 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588659335; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=4LMyBGiVjDWuIw38SfK2K8gkzHgQXhrQL+ytQ2dYrts=; b=pg2T8e9wDuYFeCWngLIPmsc9VCBHe+J1//gyaZrCuMq8QofInck48xpD0I32h9mJ7ou18O6I
+ HHkkE9zHHLZ4wsKfALDsj+5/B58f7fnWxryGq+ZYp13Xhah0J8TBX2Z0CNVC0MhmhJEqsHcl
+ dFXWKLn/y4NtBQmyHwLrJ7jGugE=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb1047e.7fe0a1acb030-smtp-out-n04;
+ Tue, 05 May 2020 06:15:26 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 37DB4C433BA; Tue,  5 May 2020 06:15:26 +0000 (UTC)
+Received: from sallenki-linux.qualcomm.com (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sallenki)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2020EC433CB;
+        Tue,  5 May 2020 06:15:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2020EC433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=sallenki@codeaurora.org
+From:   Sriharsha Allenki <sallenki@codeaurora.org>
+To:     mathias.nyman@intel.com, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, mgautam@codeaurora.org,
+        jackp@codeaurora.org, Sriharsha Allenki <sallenki@codeaurora.org>,
+        stable@vger.kernel.org
+Subject: [PATCH] usb: xhci: Fix NULL pointer dereference as part of completion
+Date:   Tue,  5 May 2020 11:44:46 +0530
+Message-Id: <20200505061446.21850-1-sallenki@codeaurora.org>
+X-Mailer: git-send-email 2.26.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The check for the HWO flag in dwc3_gadget_ep_reclaim_trb_sg()
-causes us to break out of the loop before we call
-dwc3_gadget_ep_reclaim_completed_trb(), which is what likely
-should be clearing the HWO flag.
+On platforms with IOMMU enabled, multiple SGs can be
+coalesced into one by the IOMMU driver. In that case
+the SG list processing as part of the completion of
+a urb on a bulk endpoint can result into a NULL pointer
+dereference with the below stack dump.
 
-This can cause odd behavior where we never reclaim all the trbs
-in the sg list, so we never call giveback on a usb req, and that
-will causes transfer stalls.
+<6> Unable to handle kernel NULL pointer dereference at virtual address 0000000c
+<6> pgd = c0004000
+<6> [0000000c] *pgd=00000000
+<6> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+<2> PC is at xhci_queue_bulk_tx+0x454/0x80c
+<2> LR is at xhci_queue_bulk_tx+0x44c/0x80c
+<2> pc : [<c08907c4>]    lr : [<c08907bc>]    psr: 000000d3
+<2> sp : ca337c80  ip : 00000000  fp : ffffffff
+<2> r10: 00000000  r9 : 50037000  r8 : 00004000
+<2> r7 : 00000000  r6 : 00004000  r5 : 00000000  r4 : 00000000
+<2> r3 : 00000000  r2 : 00000082  r1 : c2c1a200  r0 : 00000000
+<2> Flags: nzcv  IRQs off  FIQs off  Mode SVC_32  ISA ARM  Segment none
+<2> Control: 10c0383d  Table: b412c06a  DAC: 00000051
+<6> Process usb-storage (pid: 5961, stack limit = 0xca336210)
+<snip>
+<2> [<c08907c4>] (xhci_queue_bulk_tx)
+<2> [<c0881b3c>] (xhci_urb_enqueue)
+<2> [<c0831068>] (usb_hcd_submit_urb)
+<2> [<c08350b4>] (usb_sg_wait)
+<2> [<c089f384>] (usb_stor_bulk_transfer_sglist)
+<2> [<c089f2c0>] (usb_stor_bulk_srb)
+<2> [<c089fe38>] (usb_stor_Bulk_transport)
+<2> [<c089f468>] (usb_stor_invoke_transport)
+<2> [<c08a11b4>] (usb_stor_control_thread)
+<2> [<c014a534>] (kthread)
 
-This effectively resovles the adb stalls seen on HiKey960
-after userland changes started only using AIO in adbd.
+The above NULL pointer dereference is the result of block_len and
+the sent_len set to zero after the first SG of the list when IOMMU
+driver is enabled. Because of this the loop of processing the SGs
+has run more than num_sgs which resulted in a sg_next on the
+last SG of the list which has SG_END set.
 
-Cc: YongQin Liu <yongqin.liu@linaro.org>
-Cc: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-Cc: Yang Fei <fei.yang@intel.com>
-Cc: Thinh Nguyen <thinhn@synopsys.com>
-Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
-Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Jack Pham <jackp@codeaurora.org>
-Cc: Josh Gao <jmgao@google.com>
-Cc: Todd Kjos <tkjos@google.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Cc: stable@vger.kernel.org #4.20+
-Signed-off-by: John Stultz <john.stultz@linaro.org>
+Fix this by check for the sg before any attributes of the sg are
+accessed.
+
+Fixes: f9c589e142d04 ("xhci: TD-fragment, align the unsplittable case with a bounce buffer")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sriharsha Allenki <sallenki@codeaurora.org>
 ---
- drivers/usb/dwc3/gadget.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/usb/host/xhci-ring.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 00746c2848c0..585cb3deea7a 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2483,9 +2483,6 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
- 	for_each_sg(sg, s, pending, i) {
- 		trb = &dep->trb_pool[dep->trb_dequeue];
- 
--		if (trb->ctrl & DWC3_TRB_CTRL_HWO)
--			break;
--
- 		req->sg = sg_next(s);
- 		req->num_pending_sgs--;
- 
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index a78787bb5133..18141b38f7bf 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3399,8 +3399,8 @@ int xhci_queue_bulk_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 			/* New sg entry */
+ 			--num_sgs;
+ 			sent_len -= block_len;
+-			if (num_sgs != 0) {
+-				sg = sg_next(sg);
++			sg = sg_next(sg);
++			if (num_sgs != 0 && sg) {
+ 				block_len = sg_dma_len(sg);
+ 				addr = (u64) sg_dma_address(sg);
+ 				addr += sent_len;
 -- 
-2.17.1
-
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
