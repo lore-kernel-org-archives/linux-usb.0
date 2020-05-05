@@ -2,45 +2,44 @@ Return-Path: <SRS0=2Bet=6T=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC01C47256
-	for <linux-usb@archiver.kernel.org>; Tue,  5 May 2020 11:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE8BC47254
+	for <linux-usb@archiver.kernel.org>; Tue,  5 May 2020 11:34:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85FCE20735
-	for <linux-usb@archiver.kernel.org>; Tue,  5 May 2020 11:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EEEE206A5
+	for <linux-usb@archiver.kernel.org>; Tue,  5 May 2020 11:34:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588676685;
-	bh=qQz7Wc0iV6lltQX1X6gMaSxn3yyMWV+Fg5hhEXA0Ytg=;
+	s=default; t=1588678443;
+	bh=BIDNivoYYArr1mgNzZNlFHarjyA+1JxmkV0Pd9IfbtU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=LNcIFGXIlOiI3Dq+e6CRBgBAZdYvWp3CFawJWJ5wYYk2XhSwbtyJwgMXaD6D3Ndjr
-	 dvv2muuGppFUGvszx5xbaUQLjO6fyat8hrAYsoApJLtqs26wrnQjdj6guAxUwkjOGz
-	 I7OSnCcBCF/5ibIivhK7ZEEu+LGeMd70SY3B74l0=
+	b=dslds0M6t8OFF5F0QAhxrtVvZayT8/36WichdjM2eBoXWTnDEL4dVvEiuXcG/hWyJ
+	 sd2phbBzgQ74HA91hSuLViuqhhEmTngQGHYziLA4mNfKItUD2sYLkP3k0Cjr+R9D02
+	 IS5qvFGjz6BDLyiXdS/xeuL4ngy6RNPCW5x0uuDQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728781AbgEELEm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 May 2020 07:04:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43150 "EHLO mail.kernel.org"
+        id S1728760AbgEELd7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 May 2020 07:33:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49238 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725766AbgEELEm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 5 May 2020 07:04:42 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1728664AbgEELd7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 5 May 2020 07:33:59 -0400
+Received: from localhost (unknown [122.181.213.114])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A9470206B8;
-        Tue,  5 May 2020 11:04:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F82C20735;
+        Tue,  5 May 2020 11:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588676680;
-        bh=qQz7Wc0iV6lltQX1X6gMaSxn3yyMWV+Fg5hhEXA0Ytg=;
+        s=default; t=1588678439;
+        bh=BIDNivoYYArr1mgNzZNlFHarjyA+1JxmkV0Pd9IfbtU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BBCgI7d2H1aUoqDx3WyDtsimuN5WaE6Jo4Qzu3lJxq8tnlW/E34w/bnArIwyIWxSE
-         I9qyHEETD7eWdfvaaCTcQY/0hPIH0NTCli/NeoI323hyUWP/rvz+LNcNIFgIy9MTS2
-         WRQUjDV/k+TzdSN1KG7DuO3bNIu0rEFxQyHLGSPc=
-Date:   Tue, 5 May 2020 13:04:38 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Vinod Koul <vkoul@kernel.org>
+        b=Hei2vThh3fDPJJe5S3ZSQeNuun9d/8uHbm3ksqhgvpfA+IF0olXgQ9b0u8FkhW7xG
+         kGappr474a7EgDcoD7MyXyWqmJDpdwzWS5WEHepav4d5I7wYvo7wTkuZn2Fumc3JWi
+         BufJSxUhnpt1nj3X4/CbkNR8POXcUA+hiCbChQBA=
+Date:   Tue, 5 May 2020 17:03:54 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Mathias Nyman <mathias.nyman@intel.com>,
         linux-arm-msm@vger.kernel.org,
@@ -52,94 +51,54 @@ Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Andreas =?iso-8859-1?Q?B=F6hler?= <dev@aboehler.at>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v12 2/5] usb: renesas-xhci: Add the renesas xhci driver
-Message-ID: <20200505110438.GC93160@kroah.com>
+Message-ID: <20200505113354.GX1375924@vkoul-mobl>
 References: <20200430165920.1345409-1-vkoul@kernel.org>
  <20200430165920.1345409-3-vkoul@kernel.org>
  <81e0eff0-8b40-3c47-e39b-929e1dc07fd5@linux.intel.com>
  <20200504143438.GT1375924@vkoul-mobl>
+ <20200505110438.GC93160@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200504143438.GT1375924@vkoul-mobl>
+In-Reply-To: <20200505110438.GC93160@kroah.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 04, 2020 at 08:04:38PM +0530, Vinod Koul wrote:
-> Hi Mathias,
-> 
-> On 04-05-20, 16:01, Mathias Nyman wrote:
-> > On 30.4.2020 19.59, Vinod Koul wrote:
-> > > From: Christian Lamparter <chunkeey@googlemail.com>
+On 05-05-20, 13:04, Greg Kroah-Hartman wrote:
+> On Mon, May 04, 2020 at 08:04:38PM +0530, Vinod Koul wrote:
+
+> > > > --- a/drivers/usb/host/Makefile
+> > > > +++ b/drivers/usb/host/Makefile
+> > > > @@ -70,7 +70,7 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
+> > > >  obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
+> > > >  obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
+> > > >  obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
+> > > > -obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
+> > > > +obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o xhci-pci-renesas.o
 > > > 
-> > > This add a new driver for renesas xhci which is basically a firmware
-> > > loader for uPD720201 and uPD720202 w/o ROM. The xhci-pci driver will
-> > > invoke this driver for loading/unloading on relevant devices.
-> > > 
-> > > This patch adds a firmware loader for the uPD720201K8-711-BAC-A
-> > > and uPD720202K8-711-BAA-A variant. Both of these chips are listed
-> > > in Renesas' R19UH0078EJ0500 Rev.5.00 "User's Manual: Hardware" as
-> > > devices which need the firmware loader on page 2 in order to
-> > > work as they "do not support the External ROM".
-> > > 
-> > > The "Firmware Download Sequence" is describe in chapter
-> > > "7.1 FW Download Interface" R19UH0078EJ0500 Rev.5.00 page 131.
-> > > 
-> > > The firmware "K2013080.mem" is available from a USB3.0 Host to
-> > > PCIe Adapter (PP2U-E card) "Firmware download" archive. An
-> > > alternative version can be sourced from Netgear's WNDR4700 GPL
-> > > archives.
-> > > 
-> > > The release notes of the PP2U-E's "Firmware Download" ver 2.0.1.3
-> > > (2012-06-15) state that the firmware is for the following devices:
-> > >  - uPD720201 ES 2.0 sample whose revision ID is 2.
-> > >  - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
-> > >  - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
-> > > 
-> > > Signed-off-by: Christian Lamparter <chunkeey@googlemail.com>
-> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > [vkoul: fixed comments:
-> > > 	used macros for timeout count and delay
-> > > 	removed renesas_fw_alive_check
-> > > 	cleaned renesas_fw_callback
-> > > 	removed recursion for renesas_fw_download
-> > > 	add register defines and field names
-> > > 	move to a separate file
-> > > 	make fw loader as sync probe so that we execute in probe and
-> > >         prevent race
-> > > 	export symbols for xhci-pci to use]
-> > > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > > ---
-> > >  drivers/usb/host/Makefile           |   2 +-
-> > >  drivers/usb/host/xhci-pci-renesas.c | 365 ++++++++++++++++++++++++++++
-> > >  drivers/usb/host/xhci-pci.h         |  16 ++
-> > >  3 files changed, 382 insertions(+), 1 deletion(-)
-> > >  create mode 100644 drivers/usb/host/xhci-pci-renesas.c
-> > >  create mode 100644 drivers/usb/host/xhci-pci.h
-> > > 
-> > > diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-> > > index b191361257cc..f3a5a2f01874 100644
-> > > --- a/drivers/usb/host/Makefile
-> > > +++ b/drivers/usb/host/Makefile
-> > > @@ -70,7 +70,7 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
-> > >  obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
-> > >  obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
-> > >  obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
-> > > -obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-> > > +obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o xhci-pci-renesas.o
+> > > Hmm, now we end up with two modules, xhci-pci and xhci-pci-renesas, even if
+> > > xhci-pci-renesas just includes helper functions to load firmware for renesas.
 > > 
-> > Hmm, now we end up with two modules, xhci-pci and xhci-pci-renesas, even if
-> > xhci-pci-renesas just includes helper functions to load firmware for renesas.
+> > Right, these are two modules. Do you forsee an issue with two ko's
 > 
-> Right, these are two modules. Do you forsee an issue with two ko's
+> Two kos should be fine, but as you aren't giving people the option to
+> not select this, it's a bit harsh to add it.
+> 
+> Can this be a separate module/config option?  Why force everyone to need
+> this additional code if they do not have this hardware?
 
-Two kos should be fine, but as you aren't giving people the option to
-not select this, it's a bit harsh to add it.
+Since the code is moved out and is based on PCI ID of the device, this
+wont be invoked at all for folks not having this hardware. But adding a
+config option would work too and avoid renaming file.
 
-Can this be a separate module/config option?  Why force everyone to need
-this additional code if they do not have this hardware?
+I think this looks as a better option to me atm. We no longer have load
+order issue with current approach so we dont care about that as well.
 
-thanks,
+Mathias, let me know if you are okay with approach, I can respin this,
+or if you have better idea do let us know
 
-greg k-h
+Thanks
+-- 
+~Vinod
