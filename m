@@ -2,88 +2,125 @@ Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7ABEC4724C
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 11:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FBEEC54E49
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 12:23:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97FCC20725
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 11:25:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E6A92083B
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 12:23:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="coX3lDQh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726885AbgEGLZK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 07:25:10 -0400
-Received: from foss.arm.com ([217.140.110.172]:56946 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726770AbgEGLZH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 May 2020 07:25:07 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D95F31045;
-        Thu,  7 May 2020 04:25:06 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.25])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 876A63F68F;
-        Thu,  7 May 2020 04:25:05 -0700 (PDT)
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Rob Herring <robh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH v2 17/17] dt-bindings: ehci/ohci: Allow iommus property
-Date:   Thu,  7 May 2020 12:24:30 +0100
-Message-Id: <20200507112430.183940-18-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200507112430.183940-1-andre.przywara@arm.com>
-References: <20200507112430.183940-1-andre.przywara@arm.com>
+        id S1726320AbgEGMXY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 08:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727095AbgEGMXX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 08:23:23 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E9EAC05BD0B
+        for <linux-usb@vger.kernel.org>; Thu,  7 May 2020 05:23:22 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id u127so6583362wmg.1
+        for <linux-usb@vger.kernel.org>; Thu, 07 May 2020 05:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=js2krj0RD3hheEAL8cEfa5AyUl6zi0N+wYVVoWFXilU=;
+        b=coX3lDQhoiVcmqCufwxRJFR3NjAPEGH0QUsc9BHbtnYuDYAuLvTLxr0YOckuFoNb7v
+         35jokTarqofjAL3txGkkqvMZF3vNo4G0u7efJqy9Y1pnS66YOVSLWrt6IuSYNYzRPyrp
+         AlIT+KfReY3LKpelz3IBfQjruAr5XEaRDetgT1Nrn/xtHLNlkqv6RE0QEAIlFU4wWyv+
+         VEoUUlCkUZ2JKYaSIedjEjVQO2ejeJ4w6XYe6uW1EUMzKjJaO1JtXNWnn4m6koCVsIEY
+         6G20LE29aCBSg2u8Jp6+umXE2ph1Ui21SToAqkAkEb8oBp0aY5QcRTkCCninELhLUXPf
+         Qt5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=js2krj0RD3hheEAL8cEfa5AyUl6zi0N+wYVVoWFXilU=;
+        b=eveC66uHGC8pibMbd8KqPH6MdhOGTDYV/dkLvPHFShPwJ6uZv//Qw6iUdwsgCvUVEe
+         q8mUj/M25T/2Xjh4Xz4JXplhN8Mmwy6ctHVl5f7oH4JQvCISBxBOiPwvNBIg48u+Q3Fu
+         HRptlc5jHc3CK7GwvPubK7R9ErUrqsuR1aUsSiENdxx9mZr/NHeAGC8ex9MUcBtdeIpT
+         2Zouv2f8VJg9xt4tFv/JcUPMhMnigg6cJ6/LCOyESBGjpbb7DqhXLFHDBurUO9ornYaI
+         JtfHCT3ArCipi8NUSE7otHGpgRsn1ldrUG4Fsh9O56tzo6HHW2TXgRVz7eT5bcEi6fnu
+         kJFw==
+X-Gm-Message-State: AGi0PuZGtDpf8ArFKssBtabdxQjAsbjCrY6qKbQmASnunYZj+NBbDDAR
+        6xNAZXgnA42Ko2PjVvYqxuZWXQ==
+X-Google-Smtp-Source: APiQypKUssr+tZ7ONvwALRESmstwlo4sXONYM0CoLMz4PdmEGwytmWK3dIclCWwC8C5V8ol/fEYJtA==
+X-Received: by 2002:a05:600c:4013:: with SMTP id i19mr3094203wmm.71.1588854201286;
+        Thu, 07 May 2020 05:23:21 -0700 (PDT)
+Received: from localhost.localdomain ([176.61.57.127])
+        by smtp.gmail.com with ESMTPSA id p7sm8202936wrf.31.2020.05.07.05.23.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 05:23:20 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     heikki.krogerus@linux.intel.com, robh+dt@kernel.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        nikolaus.voss@loewensteinmedical.de,
+        andriy.shevchenko@linux.intel.com, garsilva@embeddedor.com,
+        keescook@chromium.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 2/2] usb: typec: tps6598x: Add OF probe binding
+Date:   Thu,  7 May 2020 13:23:52 +0100
+Message-Id: <20200507122352.1773661-3-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200507122352.1773661-1-bryan.odonoghue@linaro.org>
+References: <20200507122352.1773661-1-bryan.odonoghue@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A OHCI/EHCI controller could be behind an IOMMU, in which case an iommus
-property assigns the stream ID for this device.
+Adds a MODULE_DEVICE_TABLE() to allow probing of this driver from a DTS
+setting.
 
-Allow that property in the DT bindings to fix a complaint about the Arm Juno
-board's DTS file.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Gustavo A. R. Silva <garsilva@embeddedor.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 3 +++
- Documentation/devicetree/bindings/usb/generic-ohci.yaml | 3 +++
- 2 files changed, 6 insertions(+)
+ drivers/usb/typec/tps6598x.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index 10edd05872ea..20664c28bfb2 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -74,6 +74,9 @@ properties:
-   phy-names:
-     const: usb
+diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
+index 0698addd1185..61c6761072c9 100644
+--- a/drivers/usb/typec/tps6598x.c
++++ b/drivers/usb/typec/tps6598x.c
+@@ -563,6 +563,14 @@ static int tps6598x_remove(struct i2c_client *client)
+ 	return 0;
+ }
  
-+  iommus:
-+    maxItems: 1
++#ifdef CONFIG_OF
++static const struct of_device_id tps6598x_of_match[] = {
++	{ .compatible = "ti,tps6598x", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, tps6598x_of_match);
++#endif
 +
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-index bcffec1f1341..ff6c04cde695 100644
---- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-@@ -73,6 +73,9 @@ properties:
-   phy-names:
-     const: usb
- 
-+  iommus:
-+    maxItems: 1
-+
- required:
-   - compatible
-   - reg
+ static const struct i2c_device_id tps6598x_id[] = {
+ 	{ "tps6598x" },
+ 	{ }
+@@ -572,6 +580,7 @@ MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+ static struct i2c_driver tps6598x_i2c_driver = {
+ 	.driver = {
+ 		.name = "tps6598x",
++		.of_match_table = of_match_ptr(tps6598x_of_match),
+ 	},
+ 	.probe_new = tps6598x_probe,
+ 	.remove = tps6598x_remove,
 -- 
-2.17.1
+2.25.1
 
