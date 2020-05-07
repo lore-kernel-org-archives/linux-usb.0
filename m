@@ -2,108 +2,110 @@ Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFFB6C35280
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB2CC35280
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:59:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD8A620870
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:53:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588888383;
-	bh=81LJLCuNyzmOMuyaEZtSC/KgW9caNdZSYjXO4X+C1mg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ArplosXY7bAWTCKSRlWiSgvWyFRWwCV+SF1y+oMIRo2x7v7GGX0lvpOEslXmbLfWi
-	 GjGsRuBPkIi7vSB9bRapaIVGX1iFadYCZInKdVskBKwjaNFcHrOS7WXcL8LyYD5Ns0
-	 bqZxQKwizyDuTmNgiFn9DBxSznl729WENKcPNKsY=
+	by mail.kernel.org (Postfix) with ESMTP id C620020725
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:59:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aGESkxJL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbgEGVw7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 17:52:59 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35817 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbgEGVw7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 17:52:59 -0400
-Received: by mail-ot1-f67.google.com with SMTP id k110so5900245otc.2;
-        Thu, 07 May 2020 14:52:58 -0700 (PDT)
+        id S1726750AbgEGV7I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 17:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726437AbgEGV7H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 17:59:07 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C033C05BD43
+        for <linux-usb@vger.kernel.org>; Thu,  7 May 2020 14:59:06 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id i15so7823176wrx.10
+        for <linux-usb@vger.kernel.org>; Thu, 07 May 2020 14:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t3RcuTfATJPIk2PpFOWFeubdL2oxOOoFafQJ/eMWyS8=;
+        b=aGESkxJLEnPKhYPOXsknxCmACG2VOHSTPvA3IkN8bDuJ52fDGV+2/pJTF83FFTS/qm
+         KLxfwvfJFFOTMSVeX4JD/RnYfEWU1K1Q9c4yHMwYeamr866iU7vJSUQ7EYDxl0xRySYF
+         qeYoqhgtci9DihQZWS1Ln5i6gVQPq6DuLYkryznlEzVpu/Gw7ixsIvWhzEkBPDIQO5t/
+         F9HENQtUYfAXtd4KAJDj34UuAwguug4vl1Yj8Rxttq24GUO6EcxL5UqP9HU8hoKuMWY4
+         RzziAHu6pa8HjiuvyEeSTK/WE/YHO4pDUW9bvIkTy64L5QauFi1EZZsBG+QMEeAnGRr4
+         JkrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CU/jhaPmhAqWWMxE+0ciw1zj8C+7RdKkmDqSPqeUli8=;
-        b=ECf0ToFO/iFtn71D4Kvx0tUpUrFRTQFNS8AwPf1AEerJpYWqShI01SNy/ud8UUea88
-         xDkqT/WojV6XxNF6HczHC/1IhoNkYRxkBsWABoP2mED4eouVtBAyeDCI+lrVYo0nbxW/
-         4Evwul7yLpuDrnTXV4fBN6uzGQFhDXqv0ulcglcX8P72RlAbElH9cggm6V4vlGRYpMea
-         ErW5nNRZvh1H9pb6fRdGOZw0Vwm99f9aOh23YhMFNdShOIC3lqYNe+bI6zlEpfhmCR/O
-         PTABrbBdr6OhJyzECgQmnyKcuP3Cjq1g4JyO+rT6kZm1K5U7/N2Y0JN5D9kXPg2PDo+t
-         zVxQ==
-X-Gm-Message-State: AGi0PuYoFJOtqifihA2XGYureuniW90G7TYOvf6T25RkkPVAJMAqlKS1
-        TkNs88uDjz/1tTqYSxiteg==
-X-Google-Smtp-Source: APiQypI1zeZzisqllNqDsttAgfTLEwQGuSYUTjKm2oOFsg8op6zupqbBMYh9erodVZ5cDOxXvTFLIw==
-X-Received: by 2002:a9d:592:: with SMTP id 18mr11812118otd.337.1588888378253;
-        Thu, 07 May 2020 14:52:58 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w62sm1680584oia.32.2020.05.07.14.52.56
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t3RcuTfATJPIk2PpFOWFeubdL2oxOOoFafQJ/eMWyS8=;
+        b=FtDXwxXy9niL1zrsfcyCscprc+wPRhOzTb3+R6D8h79rmmCVGA1XC/hEDj7AXTrws1
+         tsBgQ74tw63dwZkWbNslu2qIQ3fkECR+V4UNGIr9PyOqQE7em8uGqDULcxKE6Vs8aIuR
+         u+agxwUDkmC6iojwR+eFvYst13a7JSAxbSTTlOk15IFKlEIKXRV9x68ssL+YpFPAGxsd
+         WtqvEamXPKlN9bliC/shgkZ3zUoNZLlfPa09+p2e4ErJwx6jE4RInqm4BxwD6Vvzvm1+
+         e1VbmnKw/Uces3hmYPQnnvDD3JIE6GW9ZRE0RQEw7NoLDzdTwT36DZ5i8P12aa+0bGGr
+         vxKQ==
+X-Gm-Message-State: AGi0PuY9LmPBLcPZeCK2rSwsxbOpHC02vybiFQACs4plNkK1VYE+JMHw
+        xd+UmnsJgwVOwfZkXczAmScGLPWAItY=
+X-Google-Smtp-Source: APiQypIw6C1LouSvwYnIQbTEFcF4XymG+MeqV9Vea7gsPVFW65Oc1KDuBjhZii2HuPxdNXC9lsGzXw==
+X-Received: by 2002:adf:f907:: with SMTP id b7mr17699159wrr.203.1588888744591;
+        Thu, 07 May 2020 14:59:04 -0700 (PDT)
+Received: from localhost.localdomain ([176.61.57.127])
+        by smtp.gmail.com with ESMTPSA id z18sm9814245wrw.41.2020.05.07.14.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 14:52:57 -0700 (PDT)
-Received: (nullmailer pid 8285 invoked by uid 1000);
-        Thu, 07 May 2020 21:52:56 -0000
-Date:   Thu, 7 May 2020 16:52:56 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, wahrenst@gmx.net,
-        helgaas@kernel.org, linux-kernel@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        tim.gover@raspberrypi.org, linux-pci@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 4/4] USB: pci-quirks: Add Raspberry Pi 4 quirk
-Message-ID: <20200507215256.GA8228@bogus>
-References: <20200505161318.26200-1-nsaenzjulienne@suse.de>
- <20200505161318.26200-5-nsaenzjulienne@suse.de>
+        Thu, 07 May 2020 14:59:03 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        nikolaus.voss@loewensteinmedical.de,
+        andriy.shevchenko@linux.intel.com, garsilva@embeddedor.com,
+        keescook@chromium.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v2 0/1] Add USB role switch to tps6598x
+Date:   Thu,  7 May 2020 22:59:37 +0100
+Message-Id: <20200507215938.1983363-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200505161318.26200-5-nsaenzjulienne@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue,  5 May 2020 18:13:17 +0200, Nicolas Saenz Julienne wrote:
-> On the Raspberry Pi 4, after a PCI reset, VL805's firmware may either be
-> loaded directly from an EEPROM or, if not present, by the SoC's
-> VideoCore. Inform VideoCore that VL805 was just reset.
-> 
-> Also, as this creates a dependency between USB_PCI and VideoCore's
-> firmware interface, and since USB_PCI can't be set as a module neither
-> this can. Reflect that on the firmware interface Kconfg.
-> 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
-> 
-> Changes since v5:
->  - Fix Kconfig issue with allmodconfig
-> 
-> Changes since v4:
->  - Do not split up error message
-> 
-> Changes since v3:
->  - Add more complete error message
-> 
-> Changes since v1:
->  - Make RASPBERRYPI_FIRMWARE dependent on this quirk to make sure it
->    gets compiled when needed.
-> 
->  drivers/firmware/Kconfig      |  3 ++-
->  drivers/usb/host/pci-quirks.c | 16 ++++++++++++++++
->  2 files changed, 18 insertions(+), 1 deletion(-)
-> 
+V2:
+- Updates the git commit to include a link to the TI document which
+  describes firmware configuration - Andy
+- Pads out the description a bit to include information on baking the
+  data-role into the firmware with the referenced utility.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+V1:
+This patch - adds USB role switching to the TI TPS6598x. It has been tested
+out with a ChipIdea controller inside a Qualcomm MSM8939.
+
+Right now you need to have configured the TPS firmware with the TI
+configuration tool so that the chip knows if it should initiate or accept
+data and power role swaps.
+
+https://www.ti.com/lit/an/slva843a/slva843a.pdf
+
+Heikki mentioned that on the ACPI systems the firmware had been
+pre-configured to do data/power role swaps. On the hardware I have this is
+the case also, which is why I did't invest more time in adding DT bindings
+to control data/power roles that I don't need or necessarily support with
+the reference hardware.
+
+As-is this code will do role-swappping nicely for me, and I think should be
+safe on existing ACPI systems.
+
+Bryan O'Donoghue (1):
+  usb: typec: tps6598x: Add USB role switching logic
+
+ drivers/usb/typec/tps6598x.c | 56 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 49 insertions(+), 7 deletions(-)
+
+-- 
+2.25.1
+
