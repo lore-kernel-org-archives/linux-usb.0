@@ -2,85 +2,213 @@ Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190F6C4724C
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:59:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97AE2C35280
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 22:40:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E86EC20575
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:59:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EA1120870
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 22:40:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="uoiVRHto"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DYcbxanU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727803AbgEGV7v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 17:59:51 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:43601 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727799AbgEGV7u (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 17:59:50 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1588888790; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=1hyDgIykoZJ9DSC+C5mC832OZycm4ondX9+/X9rRqhM=; b=uoiVRHtobW42YRMb5Z4aJqdlcJgLqbnmvBPpb5Nr4LaM0YtqElZ74KGoUzpHHC0qgAq0jBzd
- PwcgaMMewvbrwgj0UpLmHDeYoNFOkpcYZQeff7nY9sLni9IbTvrMYB/uRjJa62Cnu/E2jXoJ
- dL4kQgqzQ2W6DI43iQffa6LJAsY=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5eb484c8.7ffa4cdec9d0-smtp-out-n02;
- Thu, 07 May 2020 21:59:36 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 64EEDC44791; Thu,  7 May 2020 21:59:35 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 66B91C432C2;
-        Thu,  7 May 2020 21:59:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 66B91C432C2
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [RFC 2/3] arm64: boot: dts: qcom: sm8150: Enable dynamic TX FIFO resize logic
-Date:   Thu,  7 May 2020 14:59:27 -0700
-Message-Id: <1588888768-25315-3-git-send-email-wcheng@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1588888768-25315-1-git-send-email-wcheng@codeaurora.org>
-References: <1588888768-25315-1-git-send-email-wcheng@codeaurora.org>
+        id S1726533AbgEGWko (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 18:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41128 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726437AbgEGWko (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 18:40:44 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 310DFC05BD43
+        for <linux-usb@vger.kernel.org>; Thu,  7 May 2020 15:40:44 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id d184so3743434pfd.4
+        for <linux-usb@vger.kernel.org>; Thu, 07 May 2020 15:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cPTDJmF/tujVfBkCFmIE4YvP6laom+6vA1WUeov6LY0=;
+        b=DYcbxanU7xOF7YD85/inr43/fl2m/NFGp69K/Fs0JxJj5YQcPBMMfEXPTjty4kzn93
+         2xJnSrkADBiKUlrja6Cu/EQMrkstARiLmcYwYTjsq913C0t7xDoN9kX0owwP9+babTbD
+         k9vhtvPWlGcBZBugvw+mAj7yMgqSS1UDC7GYk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cPTDJmF/tujVfBkCFmIE4YvP6laom+6vA1WUeov6LY0=;
+        b=rLnw5j2sqmvMN6TYTYS/7kPOSb2duMrSfQYH6aJViVvlmy6DUZZTRqe66YMhqzGajl
+         8r9mAjYwf9MoNCoFEzKXnUUbLiNlVJkOfeIr2Kjijc7a6UTGKbRyGJ5mhsEmMs+MJSjL
+         Cwo+NOLVqGK3TgAtL85gKPLqIJOqmX6kMF56GGvGvsbq/zzEvy81Wc4O7qYdokr4rolG
+         ZmHYGBGEIhic8kvsZamwum5WaX7K6gjN/xcE6EbgsZOq1TFzr4xK3Kf3cd4BO4j0pBoP
+         SjVrTzxectOBiktYcUlv/DRNXYigzLGC1G5FdIT3HYJbh/g0P4s8X1BMil2gG3OlFmxN
+         GMNg==
+X-Gm-Message-State: AGi0Pua7hs58OqVKOoJZad9eY5/qV57ET2pX3xvz4YMAaGcqgdTVcqrs
+        eS4THtym1lwrCX49mLOv+tPHzg==
+X-Google-Smtp-Source: APiQypKzWVGuTQrhg0T2RKxcHC1dccZOfB4yuHc7rhnl1Ib0TLRLPytRWJ/yhmppXsA3XgWdl6pDDQ==
+X-Received: by 2002:a62:4ec8:: with SMTP id c191mr16441851pfb.30.1588891243415;
+        Thu, 07 May 2020 15:40:43 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:476b:691:abc3:38db])
+        by smtp.gmail.com with ESMTPSA id p189sm5898931pfp.135.2020.05.07.15.40.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 15:40:42 -0700 (PDT)
+Date:   Thu, 7 May 2020 15:40:41 -0700
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH 2/4] usb: typec: mux: intel_pmc_mux: Support for static
+ SBU/HSL orientation
+Message-ID: <20200507224041.GA247416@google.com>
+References: <20200507150900.12102-1-heikki.krogerus@linux.intel.com>
+ <20200507150900.12102-3-heikki.krogerus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507150900.12102-3-heikki.krogerus@linux.intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable the flexible TX FIFO resize logic on SM8150.  Using a larger TX FIFO
-SZ can help account for situations when system latency is greater than the
-USB bus transmission latency.
+Hi Heikki,
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sm8150.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for the patches.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-index a36512d..c285233 100644
---- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-@@ -708,6 +708,7 @@
- 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
- 				snps,dis_u2_susphy_quirk;
- 				snps,dis_enblslpm_quirk;
-+				tx-fifo-resize;
- 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
- 				phy-names = "usb2-phy", "usb3-phy";
- 			};
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+On Thu, May 07, 2020 at 06:08:58PM +0300, Heikki Krogerus wrote:
+> The SBU and HSL orientation may be fixed/static from the mux
+> PoW. Apparently the retimer may take care of the orientation
+> of these lines. Handling the static SBU (AUX) and HSL
+> orientation with device properties.
+> 
+> If the SBU orientation is static, a device property
+> "sbu-orintation" can be used. When the property exists, the
+> driver always sets the SBU orientation according to the
+> property value, and when it's not set, the driver uses the
+> cable plug orientation with SBU.
+> 
+> And with static HSL orientation, "hsl-orientation" device
+> property can be used in the same way.
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  drivers/usb/typec/mux/intel_pmc_mux.c | 42 +++++++++++++++++++++++----
+>  1 file changed, 36 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+> index f5c5e0aef66f..1aac218099f3 100644
+> --- a/drivers/usb/typec/mux/intel_pmc_mux.c
+> +++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+> @@ -91,6 +91,9 @@ struct pmc_usb_port {
+>  
+>  	u8 usb2_port;
+>  	u8 usb3_port;
+> +
+> +	enum typec_orientation sbu_orientation;
+> +	enum typec_orientation hsl_orientation;
+>  };
+>  
+>  struct pmc_usb {
+> @@ -99,6 +102,22 @@ struct pmc_usb {
+>  	struct pmc_usb_port *port;
+>  };
+>  
+> +static int sbu_orientation(struct pmc_usb_port *port)
+> +{
+> +	if (port->sbu_orientation)
+> +		return port->sbu_orientation - 1;
+> +
+> +	return port->orientation - 1;
+> +}
+> +
+> +static int hsl_orientation(struct pmc_usb_port *port)
+> +{
+> +	if (port->hsl_orientation)
+> +		return port->hsl_orientation - 1;
+> +
+> +	return port->orientation - 1;
+> +}
+> +
+>  static int pmc_usb_command(struct pmc_usb_port *port, u8 *msg, u32 len)
+>  {
+>  	u8 response[4];
+> @@ -151,8 +170,9 @@ pmc_usb_mux_dp(struct pmc_usb_port *port, struct typec_mux_state *state)
+>  
+>  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
+>  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
+> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
+> +
+> +	req.mode_data |= sbu_orientation(port) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+
+I'm curious to know what would happen when sbu-orientation == "normal".
+That means |port->sbu_orientation| == 1.
+
+It sounds like what should happen is the AUX_SHIFT orientation
+setting should follow what |port->orientation| is, but here it
+looks like it will always be set to |port->sbu_orientation - 1|, i.e 0,
+even if port->orientation == TYPEC_ORIENTATION_REVERSE, i.e 2, meaning
+it should be set to 1 ?
+
+Apologies if I misunderstood the code...
+
+
+Best regards,
+
+
+> +	req.mode_data |= hsl_orientation(port) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
+>  
+>  	req.mode_data |= (state->mode - TYPEC_STATE_MODAL) <<
+>  			 PMC_USB_ALTMODE_DP_MODE_SHIFT;
+> @@ -173,8 +193,9 @@ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
+>  
+>  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
+>  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
+> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
+> +
+> +	req.mode_data |= sbu_orientation(port) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> +	req.mode_data |= hsl_orientation(port) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
+>  
+>  	if (TBT_ADAPTER(data->device_mode) == TBT_ADAPTER_TBT3)
+>  		req.mode_data |= PMC_USB_ALTMODE_TBT_TYPE;
+> @@ -211,8 +232,8 @@ static int pmc_usb_connect(struct pmc_usb_port *port)
+>  	msg[0] |= port->usb3_port << PMC_USB_MSG_USB3_PORT_SHIFT;
+>  
+>  	msg[1] = port->usb2_port << PMC_USB_MSG_USB2_PORT_SHIFT;
+> -	msg[1] |= (port->orientation - 1) << PMC_USB_MSG_ORI_HSL_SHIFT;
+> -	msg[1] |= (port->orientation - 1) << PMC_USB_MSG_ORI_AUX_SHIFT;
+> +	msg[1] |= hsl_orientation(port) << PMC_USB_MSG_ORI_HSL_SHIFT;
+> +	msg[1] |= sbu_orientation(port) << PMC_USB_MSG_ORI_AUX_SHIFT;
+>  
+>  	return pmc_usb_command(port, msg, sizeof(msg));
+>  }
+> @@ -296,6 +317,7 @@ static int pmc_usb_register_port(struct pmc_usb *pmc, int index,
+>  	struct usb_role_switch_desc desc = { };
+>  	struct typec_switch_desc sw_desc = { };
+>  	struct typec_mux_desc mux_desc = { };
+> +	const char *str;
+>  	int ret;
+>  
+>  	ret = fwnode_property_read_u8(fwnode, "usb2-port", &port->usb2_port);
+> @@ -306,6 +328,14 @@ static int pmc_usb_register_port(struct pmc_usb *pmc, int index,
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = fwnode_property_read_string(fwnode, "sbu-orientation", &str);
+> +	if (!ret)
+> +		port->sbu_orientation = typec_find_orientation(str);
+> +
+> +	ret = fwnode_property_read_string(fwnode, "hsl-orientation", &str);
+> +	if (!ret)
+> +		port->hsl_orientation = typec_find_orientation(str);
+> +
+>  	port->num = index;
+>  	port->pmc = pmc;
+>  
+> -- 
+> 2.26.2
+> 
