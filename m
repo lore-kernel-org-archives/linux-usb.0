@@ -6,38 +6,38 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E45AC38A24
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 06:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8FFC38A24
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 06:46:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0CBE2078C
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 06:45:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F4782078C
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 06:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588833953;
-	bh=gm75SLJLcH+JMNI3GZMkQmuSFwAf5JbNY0WtEMPJqUY=;
+	s=default; t=1588833989;
+	bh=DKx3ZXKFviFup1PFzs642HAbWJOA7O7flMe6V9QzH9A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=HRrbMP9B/Age1ZnCeXZJBg6Nuy5xNUG3EIHlEh6UNtuq8XpftNptDfz27cBfSVwmF
-	 XM0jLUGkaUpJ8XQke5QGXS6WdC3jTEIGMeCTx9jggYdHT6gGaPOANob9TE7kLvD93j
-	 vLu4nhDAPWoa6knWx4k4AlCogtKIiZU5uxjo119w=
+	b=f5I9MFOXAv+Xoy9TPQuSg4jAK+2wS7C0TpZ5zfAJ0af4PUnn8xjJaGUPg8+uhdHJW
+	 tvGMj1oKpTchwjdCtKbNBe2tnMR6vpDljWpO7phN6mwupyOa4Ma4Q3hEwtb278I3Ou
+	 RvJ9v5VYCR6FVb9G+HkcNYkU2MygYHHBabkm0zBs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725927AbgEGGps (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 02:45:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33580 "EHLO mail.kernel.org"
+        id S1725857AbgEGGqZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 02:46:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34698 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725905AbgEGGps (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 May 2020 02:45:48 -0400
+        id S1725763AbgEGGqZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 7 May 2020 02:46:25 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 951262078C;
-        Thu,  7 May 2020 06:45:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7B8982078C;
+        Thu,  7 May 2020 06:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588833948;
-        bh=gm75SLJLcH+JMNI3GZMkQmuSFwAf5JbNY0WtEMPJqUY=;
+        s=default; t=1588833984;
+        bh=DKx3ZXKFviFup1PFzs642HAbWJOA7O7flMe6V9QzH9A=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wGxD1c5COzsllDgnff5fUZ8KoK3yIZEqdaBc/68jMU7MQ/3AKuqnNp/9aiy6avTnz
-         ncAnmKDGHXjVkeUjq7l6TiVZnQ/pcwenIdSH2vV50XzXppzWQ5SgO4eZPpUtJCNdI+
-         wrZt4neRbzHokNBrxQy+oB0poCslOEPNme2B527A=
-Date:   Thu, 7 May 2020 08:45:45 +0200
+        b=MbUZ0bvZ6n8hsYBKU5Jdd7f/Q6anJhf2x8xQWYh55kcVdWAhJoeYoAdznOhiGsNUm
+         wqUL5VcIL+oFlGQBmXjj0yKdkQww451GMz24aYyKaIglg6+BQDHpE5Y5AjsU268KSy
+         eUNnlLiw26nsPbVTtllijLrtKjYwbc9poWrFNU8k=
+Date:   Thu, 7 May 2020 08:46:21 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Peter Chen <peter.chen@kernel.org>
 Cc:     linux-usb@vger.kernel.org,
@@ -47,7 +47,7 @@ Cc:     linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>
 Subject: Re: [PATCH 1/1] usb: chipidea: msm: Ensure proper controller reset
  using role switch API
-Message-ID: <20200507064545.GB787064@kroah.com>
+Message-ID: <20200507064621.GA789457@kroah.com>
 References: <20200507004918.25975-1-peter.chen@kernel.org>
  <20200507004918.25975-2-peter.chen@kernel.org>
 MIME-Version: 1.0
@@ -71,11 +71,5 @@ On Thu, May 07, 2020 at 08:49:18AM +0800, Peter Chen wrote:
 > role-switching is true.
 > 
 > Fixes: 05559f10ed79 ("usb: chipidea: add role switch class support")
-> 
-> Cc: Peter Chen <Peter.Chen@nxp.com>
 
-No blank line needed, and you can drop your own Cc: in the patch :)
-
-I'll edit it by hand...
-
-greg k-h
+This should also go do stable kernels, I'll mark that...
