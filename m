@@ -2,120 +2,176 @@ Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0297CC38A2A
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 09:06:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E644C4724C
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 10:33:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7218207DD
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 09:06:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JvHyL//F"
+	by mail.kernel.org (Postfix) with ESMTP id 249CF2192A
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 10:33:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725964AbgEGJGh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 05:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbgEGJGg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 05:06:36 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9392CC061A10;
-        Thu,  7 May 2020 02:06:36 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id t16so1827229plo.7;
-        Thu, 07 May 2020 02:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zB6KCEK7TB4Ul95mU6ErFEYo41SwJ2qtyYHsKsjS6YU=;
-        b=JvHyL//FfLIb7kDd60ruAjegFZ62Ou6EcVLY2VvHTgv+1Y1G2EwVp4P5rDaMukrd7e
-         wpecYEDwJRT+H9HwWNSBQ2aWk14rehYzIhJqd+66vr69pGUlXj++ArvBIQyG3tZpOUEp
-         ZdbFrtj0WVPIow8SNnefGxx41TheMz789Px3xnAK5/KnhkB31GKHiS/9C3Wue/L1U4lO
-         dy7nO1nZdMkEmYPvlB1VqrOi92M36KZhuzG5mq1DEHro6aMkoTAxHHQX5h2DkiYiln5b
-         CLvcUGvAar/aPRmXQF1nSTEpyPTRq6Un72AbhqVPqTX7xdz6nFM7c+6uRsCK0agMZvTz
-         xOvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zB6KCEK7TB4Ul95mU6ErFEYo41SwJ2qtyYHsKsjS6YU=;
-        b=FBRI4cRSvKkt7qzMvwA0zOk4vNbFHFIf0o0hd11c2LY34AGsnjt85VwAbWnNwMwJIC
-         miIE6k/O5Y9lnG34fBsLn3rlBVU2rkm0rhEWIexZpK6FZR04hEXhh6ae0kb5VrQ9TfkO
-         31t4cWz8Inx4sx/sh0gqtmMXkA4/xHP0fOzbjNjOHeqWQbMDlN6EXuUNHfVE3UQUwnD+
-         x+H8/0M1fgeEQhGNp5VGso7IPVXxfb6MoKw91U8np4HhZS6kVcSlfxvL5MxFnywUG7Y4
-         34gNQSzKIAstid613TAJUKJswQpoEhlIaxUCLid2vHlrPykr3jYC4nEuR+y4vTElFt98
-         QbWQ==
-X-Gm-Message-State: AGi0PuZnCnr94zzGj1AquSXwO2laR4LC0fmNq6zraI4U0U3AMPNAFndf
-        FN4jmgJnHg09wUDU/CuE2gwVMV0f8+QxR9MRPh0=
-X-Google-Smtp-Source: APiQypJ099F+kAgS2dxU3s6BO9RS4epw2m0F0/u4ORYfEPrBjeSR1KiFtYi/DQQc347lz1jbuRJd6/xf92O29ozBFoU=
-X-Received: by 2002:a17:902:d697:: with SMTP id v23mr12224937ply.262.1588842395893;
- Thu, 07 May 2020 02:06:35 -0700 (PDT)
+        id S1727109AbgEGKdM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 06:33:12 -0400
+Received: from mga06.intel.com ([134.134.136.31]:60133 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727114AbgEGKdL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 7 May 2020 06:33:11 -0400
+IronPort-SDR: fFoxPLduEBEUzWcbNbSrhri44RqOW+OzzsZX581kPCWT+e7TxQXrD65JUok+CLLhQThxF/LPVJ
+ qMsyEbDuN6Zw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2020 03:33:10 -0700
+IronPort-SDR: WMnfHqDGQEcW+Aby4ooBBZTMsvy6LA+60Jd9IAwFbD4UBL9id/5kR9ijegM7X4nbooxXRwnsS4
+ fRs/zCaib4Iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,363,1583222400"; 
+   d="scan'208";a="249239629"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga007.jf.intel.com with ESMTP; 07 May 2020 03:33:08 -0700
+Subject: Re: [PATCH] xhci: Make debug message consistent with bus and port
+ number
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     mathias.nyman@intel.com,
+        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20200507061755.13280-1-kai.heng.feng@canonical.com>
+ <20200507064510.GA787064@kroah.com>
+ <C4A734C8-D1C6-45BC-9C0A-92364EAEE3C0@canonical.com>
+ <20200507073119.GA876666@kroah.com>
+ <90D5B23E-B037-49D2-BD44-7F9B0B2FC155@canonical.com>
+ <20200507082149.GE1024567@kroah.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ mQINBFMB0ccBEADd+nZnZrFDsIjQtclVz6OsqFOQ6k0nQdveiDNeBuwyFYykkBpaGekoHZ6f
+ lH4ogPZzQ+pzoJEMlRGXc881BIggKMCMH86fYJGfZKWdfpg9O6mqSxyEuvBHKe9eZCBKPvoC
+ L2iwygtO8TcXXSCynvXSeZrOwqAlwnxWNRm4J2ikDck5S5R+Qie0ZLJIfaId1hELofWfuhy+
+ tOK0plFR0HgVVp8O7zWYT2ewNcgAzQrRbzidA3LNRfkL7jrzyAxDapuejuK8TMrFQT/wW53e
+ uegnXcRJaibJD84RUJt+mJrn5BvZ0MYfyDSc1yHVO+aZcpNr+71yZBQVgVEI/AuEQ0+p9wpt
+ O9Wt4zO2KT/R5lq2lSz1MYMJrtfFRKkqC6PsDSB4lGSgl91XbibK5poxrIouVO2g9Jabg04T
+ MIPpVUlPme3mkYHLZUsboemRQp5/pxV4HTFR0xNBCmsidBICHOYAepCzNmfLhfo1EW2Uf+t4
+ L8IowAaoURKdgcR2ydUXjhACVEA/Ldtp3ftF4hTQ46Qhba/p4MUFtDAQ5yeA5vQVuspiwsqB
+ BoL/298+V119JzM998d70Z1clqTc8fiGMXyVnFv92QKShDKyXpiisQn2rrJVWeXEIVoldh6+
+ J8M3vTwzetnvIKpoQdSFJ2qxOdQ8iYRtz36WYl7hhT3/hwkHuQARAQABtCdNYXRoaWFzIE55
+ bWFuIDxtYXRoaWFzLm55bWFuQGdtYWlsLmNvbT6JAjsEEwECACUCGwMGCwkIBwMCBhUIAgkK
+ CwQWAgMBAh4BAheABQJTAeo1AhkBAAoJEFiDn/uYk8VJOdIP/jhA+RpIZ7rdUHFIYkHEKzHw
+ tkwrJczGA5TyLgQaI8YTCTPSvdNHU9Rj19mkjhUO/9MKvwfoT2RFYqhkrtk0K92STDaBNXTL
+ JIi4IHBqjXOyJ/dPADU0xiRVtCHWkBgjEgR7Wihr7McSdVpgupsaXhbZjXXgtR/N7PE0Wltz
+ hAL2GAnMuIeJyXhIdIMLb+uyoydPCzKdH6znfu6Ox76XfGWBCqLBbvqPXvk4oH03jcdt+8UG
+ 2nfSeti/To9ANRZIlSKGjddCGMa3xzjtTx9ryf1Xr0MnY5PeyNLexpgHp93sc1BKxKKtYaT0
+ lR6p0QEKeaZ70623oB7Sa2Ts4IytqUVxkQKRkJVWeQiPJ/dZYTK5uo15GaVwufuF8VTwnMkC
+ 4l5X+NUYNAH1U1bpRtlT40aoLEUhWKAyVdowxW4yGCP3nL5E69tZQQgsag+OnxBa6f88j63u
+ wxmOJGNXcwCerkCb+wUPwJzChSifFYmuV5l89LKHgSbv0WHSN9OLkuhJO+I9fsCNvro1Y7dT
+ U/yq4aSVzjaqPT3yrnQkzVDxrYT54FLWO1ssFKAOlcfeWzqrT9QNcHIzHMQYf5c03Kyq3yMI
+ Xi91hkw2uc/GuA2CZ8dUD3BZhUT1dm0igE9NViE1M7F5lHQONEr7MOCg1hcrkngY62V6vh0f
+ RcDeV0ISwlZWuQINBFMB0ccBEACXKmWvojkaG+kh/yipMmqZTrCozsLeGitxJzo5hq9ev31N
+ 2XpPGx4AGhpccbco63SygpVN2bOd0W62fJJoxGohtf/g0uVtRSuK43OTstoBPqyY/35+VnAV
+ oA5cnfvtdx5kQPIL6LRcxmYKgN4/3+A7ejIxbOrjWFmbWCC+SgX6mzHHBrV0OMki8R+NnrNa
+ NkUmMmosi7jBSKdoi9VqDqgQTJF/GftvmaZHqgmVJDWNrCv7UiorhesfIWPt1O/AIk9luxlE
+ dHwkx5zkWa9CGYvV6LfP9BznendEoO3qYZ9IcUlW727Le80Q1oh69QnHoI8pODDBBTJvEq1h
+ bOWcPm/DsNmDD8Rwr/msRmRyIoxjasFi5WkM/K/pzujICKeUcNGNsDsEDJC5TCmRO/TlvCvm
+ 0X+vdfEJRZV6Z+QFBflK1asUz9QHFre5csG8MyVZkwTR9yUiKi3KiqQdaEu+LuDD2CGF5t68
+ xEl66Y6mwfyiISkkm3ETA4E8rVZP1rZQBBm83c5kJEDvs0A4zrhKIPTcI1smK+TWbyVyrZ/a
+ mGYDrZzpF2N8DfuNSqOQkLHIOL3vuOyx3HPzS05lY3p+IIVmnPOEdZhMsNDIGmVorFyRWa4K
+ uYjBP/W3E5p9e6TvDSDzqhLoY1RHfAIadM3I8kEx5wqco67VIgbIHHB9DbRcxQARAQABiQIf
+ BBgBAgAJBQJTAdHHAhsMAAoJEFiDn/uYk8VJb7AQAK56tgX8V1Wa6RmZDmZ8dmBC7W8nsMRz
+ PcKWiDSMIvTJT5bygMy1lf7gbHXm7fqezRtSfXAXr/OJqSA8LB2LWfThLyuuCvrdNsQNrI+3
+ D+hjHJjhW/4185y3EdmwwHcelixPg0X9EF+lHCltV/w29Pv3PiGDkoKxJrnOpnU6jrwiBebz
+ eAYBfpSEvrCm4CR4hf+T6MdCs64UzZnNt0nxL8mLCCAGmq1iks9M4bZk+LG36QjCKGh8PDXz
+ 9OsnJmCggptClgjTa7pO6040OW76pcVrP2rZrkjo/Ld/gvSc7yMO/m9sIYxLIsR2NDxMNpmE
+ q/H7WO+2bRG0vMmsndxpEYS4WnuhKutoTA/goBEhtHu1fg5KC+WYXp9wZyTfeNPrL0L8F3N1
+ BCEYefp2JSZ/a355X6r2ROGSRgIIeYjAiSMgGAZMPEVsdvKsYw6BH17hDRzltNyIj5S0dIhb
+ Gjynb3sXforM/GVbr4mnuxTdLXQYlj2EJ4O4f0tkLlADT7podzKSlSuZsLi2D+ohKxtP3U/r
+ 42i8PBnX2oAV0UIkYk7Oel/3hr0+BP666SnTls9RJuoXc7R5XQVsomqXID6GmjwFQR5Wh/RE
+ IJtkiDAsk37cfZ9d1kZ2gCQryTV9lmflSOB6AFZkOLuEVSC5qW8M/s6IGDfYXN12YJaZPptJ fiD/
+Message-ID: <938b0ce5-cb56-a356-dec8-3a6adc502752@linux.intel.com>
+Date:   Thu, 7 May 2020 13:35:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200430111258.6091-1-alcooperx@gmail.com> <20200430111258.6091-4-alcooperx@gmail.com>
- <20200505110036.GB93160@kroah.com> <CAOGqxeXboYz2OQhgJsYmH5_7qEwKeWR5AA4Ljq_iFdSX=H2fkA@mail.gmail.com>
- <CAHp75VeA8JnsJgEgkv0wivinsxvk51JTVyaPhmLhsjzkqZYR8A@mail.gmail.com> <20200507064145.GB777100@kroah.com>
-In-Reply-To: <20200507064145.GB777100@kroah.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 7 May 2020 12:06:24 +0300
-Message-ID: <CAHp75Vdok4WxH9b2q1GK7W_mcmNW-OuReC0y1wLQH9YLYqupmg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/4] usb: ehci: Add new EHCI driver for Broadcom STB SoC's
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Alan Cooper <alcooperx@gmail.com>,
-        ": Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        DTML <devicetree@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200507082149.GE1024567@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, May 7, 2020 at 9:41 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Thu, May 07, 2020 at 12:01:16AM +0300, Andy Shevchenko wrote:
-> > On Wed, May 6, 2020 at 11:23 PM Alan Cooper <alcooperx@gmail.com> wrote:
-> > > On Tue, May 5, 2020 at 7:00 AM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
+On 7.5.2020 11.21, Greg Kroah-Hartman wrote:
+> On Thu, May 07, 2020 at 03:58:36PM +0800, Kai-Heng Feng wrote:
+>>
+>>
+>>> On May 7, 2020, at 15:31, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>>>
+>>> On Thu, May 07, 2020 at 03:15:01PM +0800, Kai-Heng Feng wrote:
+>>>>
+>>>>
+>>>>> On May 7, 2020, at 14:45, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>>>>>
+>>>>> On Thu, May 07, 2020 at 02:17:55PM +0800, Kai-Heng Feng wrote:
+>>>>>> Current xhci debug message doesn't always output bus number, so it's
+>>>>>> hard to figure out it's from USB2 or USB3 root hub.
+>>>>>>
+>>>>>> In addition to that, some port numbers are offset to 0 and others are
+>>>>>> offset to 1. Use the latter to match the USB core.
+>>>>>>
+>>>>>> So use "bus number - port index + 1" to make debug message consistent.
+>>>>>>
+>>>>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>>>>> ---
+>>>>>> drivers/usb/host/xhci-hub.c | 41 +++++++++++++++++++++----------------
+>>>>>> 1 file changed, 23 insertions(+), 18 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+>>>>>> index f37316d2c8fa..83088c262cc4 100644
+>>>>>> --- a/drivers/usb/host/xhci-hub.c
+>>>>>> +++ b/drivers/usb/host/xhci-hub.c
+>>>>>> @@ -1241,7 +1241,8 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+>>>>>> 			temp = readl(ports[wIndex]->addr);
+>>>>>> 			/* Disable port */
+>>>>>> 			if (link_state == USB_SS_PORT_LS_SS_DISABLED) {
+>>>>>> -				xhci_dbg(xhci, "Disable port %d\n", wIndex);
+>>>>>> +				xhci_dbg(xhci, "Disable port %d-%d\n",
+>>>>>> +					 hcd->self.busnum, wIndex + 1);
+>>>>>
+>>>>> Shouldn't xhci_dbg() show the bus number already?  
+>>>>
+>>>> It's the PCI bus number, different to USB2/USB3 root hub bus number...
+>>>
+>>> But if this is using dev_dbg(), and it is, then you know how to look
+>>> that up by seeing where that device is in sysfs at that point in time.
+>>>
+>>> So why add this again?
+>>
+>> xHCI has two HCD, one for USB2 and one for USB3.
+>> If both of their port with same number are in use, for instance, port 1, then they are port 1-1 and port 2-1.
+>> Right now the debug message only show "Port 1", we still can't find the corresponding port via sysfs with insufficient info.
+> 
+> Look at the full kernel log line, the xhci hcd device should be showing
+> you unique information.  If not, something else is wrong.
+> 
 
-> > > > > +     /* Hook the hub control routine to work around a bug */
-> > > >
-> > > > What bug?  This feels wrong.
-> > >
-> > > The bug is explained in a comment above the ehci_brcm_hub_control()
-> > > routine as follows:
-> > > /*
-> > >  * ehci_brcm_hub_control
-> > >  * Intercept echi-hcd request to complete RESUME and align it to the start
-> > >  * of the next microframe.
-> > >  * If RESUME is complete too late in the microframe, host controller
-> > >  * detects babble on suspended port and resets the port afterwards.
-> > >  * This s/w workaround allows to avoid this problem.
-> > >  * See SWLINUX-1909 for more details
-> > >  */
-> > > I'll remove the internal bug tracking reference from the comment.
-> >
-> > I guess you may leave the internal bug reference. I can tell from my
-> > experience that's hard to understand what was going on in the driver
-> > in years perspective. It will help whoever in this company have a
-> > chance to look after the driver.
->
-> "internal bug references" mean nothing to the 99% of the people that can
-> see this.  Document the heck out of what this is instead please.
+What Kai-Heng suggest here makes sense, and is useful.
+We use similar style debugging in other places, and it is helpful as it matches
+usb core debugging style.
 
-As far as I understand the bug is being described in the same file
-somewhere else, that's why internal reference *on top of explanation*
-would be valid.
+This might seem odd but reason is that the xHC controller is one device which
+doesn't really separate USB2 and USB3.
+All ports are for example in one long array.
 
--- 
-With Best Regards,
-Andy Shevchenko
+On the xhci driver side things look very different. We register two HCD's,
+one for usb 2 and one for USB 3. In many cases the debugging is not tied to a HCD
+in any way,  (starting, stopping controller, command completion interrupts etc),
+other cases the debugging is very much tied to a specific hcd,
+for example when we are handling a port requsts for the roothub.
+
+Thanks
+-Mathias
+
+
