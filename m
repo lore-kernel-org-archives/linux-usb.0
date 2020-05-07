@@ -2,111 +2,123 @@ Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 446BAC38A2A
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 19:21:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E639C4724C
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:47:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22DBF208E4
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 19:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588879262;
-	bh=hzZ3BRJHxK/0iJNH5rKEuCwWUFrZiZMlsFx+KFOhD6E=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=gAW16XUG0eS/FA/tCvdeXJzbw0h04WlDpdXileGSye7hftKGq5MwTi161x2DI5Hw9
-	 euEo55UsQJucbQUynSSYhX63QmUl7Zx2afpZLyDnyhp856LuORAxEupt1TYsdw9Yvc
-	 nMtnNmc/MWQ26GaklmwNgyGb/bXvKw8Bsp9saYdU=
+	by mail.kernel.org (Postfix) with ESMTP id 4BC8120870
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 21:47:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f7Tp4AxM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728634AbgEGTU6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 15:20:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42516 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727837AbgEGTU6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 May 2020 15:20:58 -0400
-Received: from embeddedor (unknown [189.207.59.248])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 970BF208D6;
-        Thu,  7 May 2020 19:20:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588879258;
-        bh=hzZ3BRJHxK/0iJNH5rKEuCwWUFrZiZMlsFx+KFOhD6E=;
-        h=Date:From:To:Cc:Subject:From;
-        b=Tq/MIkKsUFJuC5zOBIHBid/OytqD/3C8lK0sI37YnFdE9Amxy9nluQqghi/muFfKZ
-         BF4iKukLDB9U57ZGGH6UfZuoAFFZ5Hi4i1N6ORzbWoRO4BAO3+eQIZ2qZDT4SvJG7F
-         U+f3cF7Vh/2r/QiCpMT3QrufbXDQO5SvogLjygv0=
-Date:   Thu, 7 May 2020 14:25:24 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] thunderbolt: Replace zero-length array with flexible-array
-Message-ID: <20200507192524.GA16580@embeddedor>
+        id S1727886AbgEGVrG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 17:47:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727879AbgEGVrD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 17:47:03 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA18C05BD43
+        for <linux-usb@vger.kernel.org>; Thu,  7 May 2020 14:47:03 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id h9so8244195wrt.0
+        for <linux-usb@vger.kernel.org>; Thu, 07 May 2020 14:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=07JG3t9XSdzjKBR3gO/dh2PoEqEi6IleGfYwBJiTgFU=;
+        b=f7Tp4AxMK79ePHJ5Z6v06RicBBOBeNIBdaFoBBJLf8ilErbSMR8eZzQDGVWYP0iVHJ
+         gR9zdkINJcohMBhl+dTul5A/1LZttPrk1WRa1Yn/wa0BY6R7ELGPvLh7J6k6mQxzDdSK
+         Y/dtaIODiwsQshKeMQvQGsqxprJ/frari2oF5oHE57Pnw1lSQiRkERuX6O6L1IC0IU4r
+         n5OXEqU7U3+14mmRGHnFWOqJDezDSOn3RnpIS5ydRWlSXW+b0X5H81frZg4KlSKWLvnM
+         kWR64ON2V3+Q2DjeXYZGU+hzhv4t9kUj+inxrnRhiU0gfJfn/2/o23pyr5L38UIdrYjS
+         QoSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=07JG3t9XSdzjKBR3gO/dh2PoEqEi6IleGfYwBJiTgFU=;
+        b=qfyoiNr6oZV6XnxDO1Em92eCPLhV0t9MXAEGqKF5RoWzacG9jqzHckiKWFVXCg/Gdh
+         jz9ZABCGAxhfovxYDT5saKcDs3RffMtO68JpuXY7oVLpNFp3ZShgRxFVYbXNAaivBxV9
+         HtSEd5yNThnD7dJWNcQG4wOud7veE1vijMwPqOrmKRDxuyyLEjIvhBHVty0RNCXBE3+z
+         11oEO35gCyDqNQkHdxBJurO7hlGcbKj2tjdWe0FgCrfC6huhtxVWxy4FZlx+s6xbq4Pg
+         0a1w30iT+WFjY7DK9xaVrSOHZID4bERWF5OeqoUfXd3d2kGgt6YDvrhAmw4kR755+TB2
+         vakw==
+X-Gm-Message-State: AGi0PuZbUqB06nE5G12z1WIJiGsMF+3UerGe+yQFnwQM4j6g782PvCyx
+        3kpthjXoEjIUF+t3irb7O7RmPg==
+X-Google-Smtp-Source: APiQypK6dmdVOC6KqerH4joEtEzkdVJC5ZPdIsR+x0zWFJpChiO0B7EbtAgdvelkt7pUUsSVMUu4cA==
+X-Received: by 2002:adf:b1c9:: with SMTP id r9mr19373343wra.271.1588888021879;
+        Thu, 07 May 2020 14:47:01 -0700 (PDT)
+Received: from localhost.localdomain ([176.61.57.127])
+        by smtp.gmail.com with ESMTPSA id a10sm6653538wrp.0.2020.05.07.14.47.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 14:47:00 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     heikki.krogerus@linux.intel.com, robh+dt@kernel.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        nikolaus.voss@loewensteinmedical.de,
+        andriy.shevchenko@linux.intel.com, garsilva@embeddedor.com,
+        keescook@chromium.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v2 2/2] usb: typec: tps6598x: Add OF probe binding
+Date:   Thu,  7 May 2020 22:47:33 +0100
+Message-Id: <20200507214733.1982696-3-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200507214733.1982696-1-bryan.odonoghue@linaro.org>
+References: <20200507214733.1982696-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The current codebase makes use of the zero-length array language
-extension to the C90 standard, but the preferred mechanism to declare
-variable-length types such as these ones is a flexible array member[1][2],
-introduced in C99:
+Adds a MODULE_DEVICE_TABLE() to allow probing of this driver from a DTS
+setting.
 
-struct foo {
-        int stuff;
-        struct boo array[];
-};
-
-By making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-inadvertently introduced[3] to the codebase from now on.
-
-Also, notice that, dynamic memory allocations won't be affected by
-this change:
-
-"Flexible array members have incomplete type, and so the sizeof operator
-may not be applied. As a quirk of the original implementation of
-zero-length arrays, sizeof evaluates to zero."[1]
-
-sizeof(flexible-array-member) triggers a warning because flexible array
-members have incomplete type[1]. There are some instances of code in
-which the sizeof operator is being incorrectly/erroneously applied to
-zero-length arrays and the result is zero. Such instances may be hiding
-some bugs. So, this work (flexible-array member conversions) will also
-help to get completely rid of those sorts of issues.
-
-This issue was found with the help of Coccinelle.
-
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://github.com/KSPP/linux/issues/21
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Gustavo A. R. Silva <garsilva@embeddedor.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- include/linux/thunderbolt.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/typec/tps6598x.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index ece782ef5466..ff397c0d5c07 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -80,7 +80,7 @@ struct tb {
- 	int index;
- 	enum tb_security_level security_level;
- 	size_t nboot_acl;
--	unsigned long privdata[0];
-+	unsigned long privdata[];
- };
+diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
+index 0698addd1185..defa651282b0 100644
+--- a/drivers/usb/typec/tps6598x.c
++++ b/drivers/usb/typec/tps6598x.c
+@@ -563,6 +563,12 @@ static int tps6598x_remove(struct i2c_client *client)
+ 	return 0;
+ }
  
- extern struct bus_type tb_bus_type;
++static const struct of_device_id tps6598x_of_match[] = {
++	{ .compatible = "ti,tps6598x", },
++	{}
++};
++MODULE_DEVICE_TABLE(of, tps6598x_of_match);
++
+ static const struct i2c_device_id tps6598x_id[] = {
+ 	{ "tps6598x" },
+ 	{ }
+@@ -572,6 +578,7 @@ MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+ static struct i2c_driver tps6598x_i2c_driver = {
+ 	.driver = {
+ 		.name = "tps6598x",
++		.of_match_table = tps6598x_of_match,
+ 	},
+ 	.probe_new = tps6598x_probe,
+ 	.remove = tps6598x_remove,
+-- 
+2.25.1
 
