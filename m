@@ -2,131 +2,111 @@ Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE0CC47257
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 17:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 446BAC38A2A
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 19:21:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F1C220735
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 17:34:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMObaJ9H"
+	by mail.kernel.org (Postfix) with ESMTP id 22DBF208E4
+	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 19:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588879262;
+	bh=hzZ3BRJHxK/0iJNH5rKEuCwWUFrZiZMlsFx+KFOhD6E=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=gAW16XUG0eS/FA/tCvdeXJzbw0h04WlDpdXileGSye7hftKGq5MwTi161x2DI5Hw9
+	 euEo55UsQJucbQUynSSYhX63QmUl7Zx2afpZLyDnyhp856LuORAxEupt1TYsdw9Yvc
+	 nMtnNmc/MWQ26GaklmwNgyGb/bXvKw8Bsp9saYdU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726926AbgEGRee (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 13:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726308AbgEGRed (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 13:34:33 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BA2C05BD43;
-        Thu,  7 May 2020 10:34:32 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id l25so3116560pgc.5;
-        Thu, 07 May 2020 10:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=dq0TqQky1nAFrd/UmJjerH5DUbLlLnhiDz64ca0nS+c=;
-        b=hMObaJ9HVlxG4n50o2vuRSuTVFtvgZLe+ePsZg7M8zjQkrYrF+8G8f/nYRGdUE9FTF
-         dxwSJBgOTxtx6eUlgXDFnsYLjyDMxu7miTpRn+Bv1wUIenabI2pBkbuRPWXXrSs4+rgy
-         wxVQVr5yWk6hdXQvB8AnN+KSskiLZv6jYBC3/S/TwWeFxEeeqo+KB/ao2w9GtrXy4wgM
-         YGaPADwdAy7TEYuAJ/L8nVY1yuOysSUPKdYItmwWFCs1b+mlgAGdCM36BA8xoBRhN9QM
-         OOBlXg346uqzRvvs+sRFhfk8FhDsz33ZLuU+8N7R9YwViHN+EADi8Uwo4WRv5mwmzW7l
-         5bjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=dq0TqQky1nAFrd/UmJjerH5DUbLlLnhiDz64ca0nS+c=;
-        b=LfQWD6WiNz/wTUD28fWjoCClUKd5xnIcq8V78pYAavweuN6rq7I4wWW3cFzZVCnKxk
-         BuWqXGv5cxrY7SMCIWq/SZE5BhvwZboFN20V9oOlgqRDw2D1PUTyJnVhuARkLX7AVYdR
-         fqHXyABzH7xUHlwqicsFb+1Qcn/8+y5uXORFroV6SzdT3gc6J32/H0RQjALRCH2xoZd2
-         dqAXMHJALiaSw5pQtf+QC4EPRHxxL0E2n/xvdZCakuTo6abgfkV60A0/b4uaa1/73Jg1
-         xB9JcQeVqQrRbOODrtfvJ4fQHT8zWik1Yobc9sQcIdSpEGPgQfbkmNCWRDd+eF+t2jEY
-         Klxw==
-X-Gm-Message-State: AGi0Pua3IKl6WMPjWrdUHFM98AngX6geTMXHyCPc3LTXr0pxYt1irobO
-        EdXcuTaHXXRjgkWL8sczHY/T+cKuUpk=
-X-Google-Smtp-Source: APiQypIV3Zm1S08mHH3bE+Xr9aHuLn6KCNX2TslhsTuRJ25Q+UiXwN6CeT1GXiSTkb1EwjNl93DdTw==
-X-Received: by 2002:a63:b51b:: with SMTP id y27mr11346880pge.400.1588872871533;
-        Thu, 07 May 2020 10:34:31 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id y14sm5368802pff.205.2020.05.07.10.34.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 10:34:31 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v7 1/5] usb: xhci: Change the XHCI link order in the Makefile
-Date:   Thu,  7 May 2020 13:34:04 -0400
-Message-Id: <20200507173408.20754-2-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200507173408.20754-1-alcooperx@gmail.com>
-References: <20200507173408.20754-1-alcooperx@gmail.com>
+        id S1728634AbgEGTU6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 May 2020 15:20:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42516 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727837AbgEGTU6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 7 May 2020 15:20:58 -0400
+Received: from embeddedor (unknown [189.207.59.248])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 970BF208D6;
+        Thu,  7 May 2020 19:20:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588879258;
+        bh=hzZ3BRJHxK/0iJNH5rKEuCwWUFrZiZMlsFx+KFOhD6E=;
+        h=Date:From:To:Cc:Subject:From;
+        b=Tq/MIkKsUFJuC5zOBIHBid/OytqD/3C8lK0sI37YnFdE9Amxy9nluQqghi/muFfKZ
+         BF4iKukLDB9U57ZGGH6UfZuoAFFZ5Hi4i1N6ORzbWoRO4BAO3+eQIZ2qZDT4SvJG7F
+         U+f3cF7Vh/2r/QiCpMT3QrufbXDQO5SvogLjygv0=
+Date:   Thu, 7 May 2020 14:25:24 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] thunderbolt: Replace zero-length array with flexible-array
+Message-ID: <20200507192524.GA16580@embeddedor>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some BRCMSTB USB chips have an XHCI, EHCI and OHCI controller
-on the same port where XHCI handles 3.0 devices, EHCI handles 2.0
-devices and OHCI handles <2.0 devices. Currently the Makefile
-has XHCI linking at the bottom which will result in the XHIC driver
-initalizing after the EHCI and OHCI drivers and any installed 3.0
-device will be seen as a 2.0 device. Moving the XHCI linking
-above the EHCI and OHCI linking fixes the issue.
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
+struct foo {
+        int stuff;
+        struct boo array[];
+};
+
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
+
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+sizeof(flexible-array-member) triggers a warning because flexible array
+members have incomplete type[1]. There are some instances of code in
+which the sizeof operator is being incorrectly/erroneously applied to
+zero-length arrays and the result is zero. Such instances may be hiding
+some bugs. So, this work (flexible-array member conversions) will also
+help to get completely rid of those sorts of issues.
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/usb/host/Makefile | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ include/linux/thunderbolt.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-index b191361257cc..a7f0b8ff7179 100644
---- a/drivers/usb/host/Makefile
-+++ b/drivers/usb/host/Makefile
-@@ -37,6 +37,16 @@ endif
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index ece782ef5466..ff397c0d5c07 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -80,7 +80,7 @@ struct tb {
+ 	int index;
+ 	enum tb_security_level security_level;
+ 	size_t nboot_acl;
+-	unsigned long privdata[0];
++	unsigned long privdata[];
+ };
  
- obj-$(CONFIG_USB_PCI)	+= pci-quirks.o
- 
-+# NOTE: BRCMSTB systems require that xhci driver be linked before the
-+# ehci/ohci drivers because they share a port and need the XHCI driver
-+# to come up first to properly enumerate 3.0 devices.
-+obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
-+obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-+obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
-+obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
-+obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
-+obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
-+
- obj-$(CONFIG_USB_EHCI_HCD)	+= ehci-hcd.o
- obj-$(CONFIG_USB_EHCI_PCI)	+= ehci-pci.o
- obj-$(CONFIG_USB_EHCI_HCD_PLATFORM)	+= ehci-platform.o
-@@ -69,12 +79,6 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
- 
- obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
- obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
--obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
--obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
--obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
--obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
--obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
--obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
- obj-$(CONFIG_USB_SL811_HCD)	+= sl811-hcd.o
- obj-$(CONFIG_USB_SL811_CS)	+= sl811_cs.o
- obj-$(CONFIG_USB_U132_HCD)	+= u132-hcd.o
--- 
-2.17.1
+ extern struct bus_type tb_bus_type;
 
