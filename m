@@ -1,214 +1,148 @@
-Return-Path: <SRS0=qVei=6V=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=Y1kH=6W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97AE2C35280
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 22:40:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E9FC38A2A
+	for <linux-usb@archiver.kernel.org>; Fri,  8 May 2020 06:29:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EA1120870
-	for <linux-usb@archiver.kernel.org>; Thu,  7 May 2020 22:40:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CC78207DD
+	for <linux-usb@archiver.kernel.org>; Fri,  8 May 2020 06:29:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DYcbxanU"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="dCU6a2wt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbgEGWko (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 May 2020 18:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbgEGWko (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 May 2020 18:40:44 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 310DFC05BD43
-        for <linux-usb@vger.kernel.org>; Thu,  7 May 2020 15:40:44 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id d184so3743434pfd.4
-        for <linux-usb@vger.kernel.org>; Thu, 07 May 2020 15:40:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cPTDJmF/tujVfBkCFmIE4YvP6laom+6vA1WUeov6LY0=;
-        b=DYcbxanU7xOF7YD85/inr43/fl2m/NFGp69K/Fs0JxJj5YQcPBMMfEXPTjty4kzn93
-         2xJnSrkADBiKUlrja6Cu/EQMrkstARiLmcYwYTjsq913C0t7xDoN9kX0owwP9+babTbD
-         k9vhtvPWlGcBZBugvw+mAj7yMgqSS1UDC7GYk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cPTDJmF/tujVfBkCFmIE4YvP6laom+6vA1WUeov6LY0=;
-        b=rLnw5j2sqmvMN6TYTYS/7kPOSb2duMrSfQYH6aJViVvlmy6DUZZTRqe66YMhqzGajl
-         8r9mAjYwf9MoNCoFEzKXnUUbLiNlVJkOfeIr2Kjijc7a6UTGKbRyGJ5mhsEmMs+MJSjL
-         Cwo+NOLVqGK3TgAtL85gKPLqIJOqmX6kMF56GGvGvsbq/zzEvy81Wc4O7qYdokr4rolG
-         ZmHYGBGEIhic8kvsZamwum5WaX7K6gjN/xcE6EbgsZOq1TFzr4xK3Kf3cd4BO4j0pBoP
-         SjVrTzxectOBiktYcUlv/DRNXYigzLGC1G5FdIT3HYJbh/g0P4s8X1BMil2gG3OlFmxN
-         GMNg==
-X-Gm-Message-State: AGi0Pua7hs58OqVKOoJZad9eY5/qV57ET2pX3xvz4YMAaGcqgdTVcqrs
-        eS4THtym1lwrCX49mLOv+tPHzg==
-X-Google-Smtp-Source: APiQypKzWVGuTQrhg0T2RKxcHC1dccZOfB4yuHc7rhnl1Ib0TLRLPytRWJ/yhmppXsA3XgWdl6pDDQ==
-X-Received: by 2002:a62:4ec8:: with SMTP id c191mr16441851pfb.30.1588891243415;
-        Thu, 07 May 2020 15:40:43 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:476b:691:abc3:38db])
-        by smtp.gmail.com with ESMTPSA id p189sm5898931pfp.135.2020.05.07.15.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 15:40:42 -0700 (PDT)
-Date:   Thu, 7 May 2020 15:40:41 -0700
-From:   Prashant Malani <pmalani@chromium.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH 2/4] usb: typec: mux: intel_pmc_mux: Support for static
- SBU/HSL orientation
-Message-ID: <20200507224041.GA247416@google.com>
-References: <20200507150900.12102-1-heikki.krogerus@linux.intel.com>
- <20200507150900.12102-3-heikki.krogerus@linux.intel.com>
+        id S1726797AbgEHG3n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 May 2020 02:29:43 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:61283 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726207AbgEHG3m (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 May 2020 02:29:42 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588919382; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=CF2yXGR1Cj7U8eHdFjQo7x7s1pH7cJ9xAyOsnmO0Hew=; b=dCU6a2wtkms+lWSZSZhloxAd3f+0mOY7FNKjzAfQEZawIIiVn7tu7Z0VgIdgvFfDJbTtrM6h
+ 71rlh0ejgfzr1Hex0UCkmdYrbeCagxi5LqrGlkyKeeEWvGKwGs6f1gnCDqPKHxnTFoCiHkvu
+ CTxtqE+PQI7iPC58Pcnm0sWLPBQ=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb4fc50.7f0f278679d0-smtp-out-n01;
+ Fri, 08 May 2020 06:29:36 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 1DDFAC43637; Fri,  8 May 2020 06:29:35 +0000 (UTC)
+Received: from [10.206.24.160] (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sanm)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2FD94C433D2;
+        Fri,  8 May 2020 06:29:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2FD94C433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=sanm@codeaurora.org
+Subject: Re: [PATCH v7 0/4] ADD interconnect support for Qualcomm DWC3 driver
+To:     Matthias Kaehlcke <mka@chromium.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
+References: <1585718145-29537-1-git-send-email-sanm@codeaurora.org>
+ <20200429183542.GS4525@google.com>
+From:   "Sandeep Maheswaram (Temp)" <sanm@codeaurora.org>
+Message-ID: <a119cf75-8bda-f380-8249-173fa426279c@codeaurora.org>
+Date:   Fri, 8 May 2020 11:59:27 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200507150900.12102-3-heikki.krogerus@linux.intel.com>
+In-Reply-To: <20200429183542.GS4525@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Heikki,
+Hi Felipe,
 
-Thanks for the patches.
+Any update about landing this series.
 
-On Thu, May 07, 2020 at 06:08:58PM +0300, Heikki Krogerus wrote:
-> The SBU and HSL orientation may be fixed/static from the mux
-> PoW. Apparently the retimer may take care of the orientation
-> of these lines. Handling the static SBU (AUX) and HSL
-> orientation with device properties.
-> 
-> If the SBU orientation is static, a device property
-> "sbu-orintation" can be used. When the property exists, the
-> driver always sets the SBU orientation according to the
-> property value, and when it's not set, the driver uses the
-> cable plug orientation with SBU.
-> 
-> And with static HSL orientation, "hsl-orientation" device
-> property can be used in the same way.
-> 
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
->  drivers/usb/typec/mux/intel_pmc_mux.c | 42 +++++++++++++++++++++++----
->  1 file changed, 36 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
-> index f5c5e0aef66f..1aac218099f3 100644
-> --- a/drivers/usb/typec/mux/intel_pmc_mux.c
-> +++ b/drivers/usb/typec/mux/intel_pmc_mux.c
-> @@ -91,6 +91,9 @@ struct pmc_usb_port {
->  
->  	u8 usb2_port;
->  	u8 usb3_port;
-> +
-> +	enum typec_orientation sbu_orientation;
-> +	enum typec_orientation hsl_orientation;
->  };
->  
->  struct pmc_usb {
-> @@ -99,6 +102,22 @@ struct pmc_usb {
->  	struct pmc_usb_port *port;
->  };
->  
-> +static int sbu_orientation(struct pmc_usb_port *port)
-> +{
-> +	if (port->sbu_orientation)
-> +		return port->sbu_orientation - 1;
-> +
-> +	return port->orientation - 1;
-> +}
-> +
-> +static int hsl_orientation(struct pmc_usb_port *port)
-> +{
-> +	if (port->hsl_orientation)
-> +		return port->hsl_orientation - 1;
-> +
-> +	return port->orientation - 1;
-> +}
-> +
->  static int pmc_usb_command(struct pmc_usb_port *port, u8 *msg, u32 len)
->  {
->  	u8 response[4];
-> @@ -151,8 +170,9 @@ pmc_usb_mux_dp(struct pmc_usb_port *port, struct typec_mux_state *state)
->  
->  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
->  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
-> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
-> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
-> +
-> +	req.mode_data |= sbu_orientation(port) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+Regards
 
-I'm curious to know what would happen when sbu-orientation == "normal".
-That means |port->sbu_orientation| == 1.
+Sandeep
 
-It sounds like what should happen is the AUX_SHIFT orientation
-setting should follow what |port->orientation| is, but here it
-looks like it will always be set to |port->sbu_orientation - 1|, i.e 0,
-even if port->orientation == TYPEC_ORIENTATION_REVERSE, i.e 2, meaning
-it should be set to 1 ?
-
-Apologies if I misunderstood the code...
-
-
-Best regards,
-
-
-> +	req.mode_data |= hsl_orientation(port) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
->  
->  	req.mode_data |= (state->mode - TYPEC_STATE_MODAL) <<
->  			 PMC_USB_ALTMODE_DP_MODE_SHIFT;
-> @@ -173,8 +193,9 @@ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
->  
->  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
->  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
-> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
-> -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
-> +
-> +	req.mode_data |= sbu_orientation(port) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
-> +	req.mode_data |= hsl_orientation(port) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
->  
->  	if (TBT_ADAPTER(data->device_mode) == TBT_ADAPTER_TBT3)
->  		req.mode_data |= PMC_USB_ALTMODE_TBT_TYPE;
-> @@ -211,8 +232,8 @@ static int pmc_usb_connect(struct pmc_usb_port *port)
->  	msg[0] |= port->usb3_port << PMC_USB_MSG_USB3_PORT_SHIFT;
->  
->  	msg[1] = port->usb2_port << PMC_USB_MSG_USB2_PORT_SHIFT;
-> -	msg[1] |= (port->orientation - 1) << PMC_USB_MSG_ORI_HSL_SHIFT;
-> -	msg[1] |= (port->orientation - 1) << PMC_USB_MSG_ORI_AUX_SHIFT;
-> +	msg[1] |= hsl_orientation(port) << PMC_USB_MSG_ORI_HSL_SHIFT;
-> +	msg[1] |= sbu_orientation(port) << PMC_USB_MSG_ORI_AUX_SHIFT;
->  
->  	return pmc_usb_command(port, msg, sizeof(msg));
->  }
-> @@ -296,6 +317,7 @@ static int pmc_usb_register_port(struct pmc_usb *pmc, int index,
->  	struct usb_role_switch_desc desc = { };
->  	struct typec_switch_desc sw_desc = { };
->  	struct typec_mux_desc mux_desc = { };
-> +	const char *str;
->  	int ret;
->  
->  	ret = fwnode_property_read_u8(fwnode, "usb2-port", &port->usb2_port);
-> @@ -306,6 +328,14 @@ static int pmc_usb_register_port(struct pmc_usb *pmc, int index,
->  	if (ret)
->  		return ret;
->  
-> +	ret = fwnode_property_read_string(fwnode, "sbu-orientation", &str);
-> +	if (!ret)
-> +		port->sbu_orientation = typec_find_orientation(str);
-> +
-> +	ret = fwnode_property_read_string(fwnode, "hsl-orientation", &str);
-> +	if (!ret)
-> +		port->hsl_orientation = typec_find_orientation(str);
-> +
->  	port->num = index;
->  	port->pmc = pmc;
->  
-> -- 
-> 2.26.2
-> 
+On 4/30/2020 12:05 AM, Matthias Kaehlcke wrote:
+> Hi Felipe,
+>
+> all patches of this series have been reviewed and there are no outstanding
+> comments, so I guess it should be ready to land?
+>
+> Thanks
+>
+> Matthias
+>
+> On Wed, Apr 01, 2020 at 10:45:41AM +0530, Sandeep Maheswaram wrote:
+>> This path series aims to add interconnect support in
+>> dwc3-qcom driver on SDM845 and SC7180 SoCs.
+>>
+>> Changes from v6 -> v7
+>>    > [PATCH 2/4] Fixed review comments from Matthias in DWC3 driver.
+>>    > Other patches remain unchanged.
+>>
+>> Changes from v5 -> v6
+>>    > [PATCH 1/4] Addressed comments from Rob.
+>>    > [PATCH 2/4] Fixed review comments from Matthias in DWC3 driver.
+>>    > [PATCH 3/4] Ignoring 80 char limit in defining interconnect paths.
+>>    > Added [PATCH 4/4] in this series. Adding interconnect nodes for SC7180.
+>>      Depends on patch https://patchwork.kernel.org/patch/11417989/.	
+>>
+>> Changes from v4 -> v5
+>>    > [PATCH 1/3] Added the interconnect properties in yaml. This patch depends
+>>      on series https://patchwork.kernel.org/cover/11372641/.
+>>    > [PATCH 2/3] Fixed review comments from Matthias in DWC3 driver.
+>>    > [PATCH 3/3] Modified as per the new interconnect nodes in sdm845. Depends
+>>      on series https://patchwork.kernel.org/cover/11372211/.
+>>
+>>
+>> Changes from v3 -> v4
+>>    > Fixed review comments from Matthias
+>>    > [PATCH 1/3] and [PATCH 3/3] remains unchanged
+>>
+>> Changes from v2 -> v3
+>>    > Fixed review comments from Matthias and Manu
+>>    > changed the functions prefix from usb_* to dwc3_qcom_*
+>>
+>> Changes since V1:
+>>    > Comments by Georgi Djakov on "[PATCH 2/3]" addressed
+>>    > [PATCH 1/3] and [PATCH 3/3] remains unchanged
+>>
+>>
+>> Sandeep Maheswaram (4):
+>>    dt-bindings: usb: qcom,dwc3: Introduce interconnect properties for
+>>      Qualcomm DWC3 driver
+>>    usb: dwc3: qcom: Add interconnect support in dwc3 driver
+>>    arm64: dts: qcom: sdm845: Add interconnect properties for USB
+>>    arm64: dts: qcom: sc7180: Add interconnect properties for USB
+>>
+>>   .../devicetree/bindings/usb/qcom,dwc3.yaml         |   8 ++
+>>   arch/arm64/boot/dts/qcom/sc7180.dtsi               |   4 +
+>>   arch/arm64/boot/dts/qcom/sdm845.dtsi               |   8 ++
+>>   drivers/usb/dwc3/dwc3-qcom.c                       | 128 ++++++++++++++++++++-
+>>   4 files changed, 146 insertions(+), 2 deletions(-)
+>>
+>> -- 
+>> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+>> of Code Aurora Forum, hosted by The Linux Foundation
+>>
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, hosted by The Linux Foundation
