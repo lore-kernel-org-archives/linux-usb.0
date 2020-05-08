@@ -8,125 +8,113 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B31C47255
-	for <linux-usb@archiver.kernel.org>; Fri,  8 May 2020 21:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED36AC38A2A
+	for <linux-usb@archiver.kernel.org>; Fri,  8 May 2020 21:44:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EA03218AC
-	for <linux-usb@archiver.kernel.org>; Fri,  8 May 2020 21:20:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5F3D21655
+	for <linux-usb@archiver.kernel.org>; Fri,  8 May 2020 21:44:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BFtOvUkb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJLIbnrg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727803AbgEHVUC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 May 2020 17:20:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
+        id S1728043AbgEHVoe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 May 2020 17:44:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726811AbgEHVUB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 May 2020 17:20:01 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570E3C061A0C;
-        Fri,  8 May 2020 14:20:01 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id k12so11641788wmj.3;
-        Fri, 08 May 2020 14:20:01 -0700 (PDT)
+        with ESMTP id S1728032AbgEHVoe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 May 2020 17:44:34 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AC4C061A0C;
+        Fri,  8 May 2020 14:44:33 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id u6so3223139ljl.6;
+        Fri, 08 May 2020 14:44:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=dq0TqQky1nAFrd/UmJjerH5DUbLlLnhiDz64ca0nS+c=;
-        b=BFtOvUkb9cbuzMMRhdzBNK5ecXEQM9byzqclZfaTmo8jWlWrx6L9He1mdy+Oicdpmy
-         C2wpLwR4YwShUVE2tDjxEsNxw630unsx/V7Exl68ovCKx9bcttuUXdQBMSPxKR1Vga8c
-         TJuy7qafu2UeYOspf+o/58evciXpbWP25FqkIrxTxxyi9gQd78GAwY09T5hnNTsqitOx
-         F5WTxRrtCJBTA1CRuJAdxmfq0tMEd9fRF7wDNrop93QCpEtTGvkE+WNVbecX5icnEnlP
-         tU9o50N90gD97YxKR08fEFe6vAXu90Agi8XRvmqx/s/75UxkNXQM0DUBJygnNdQE9GDg
-         dPog==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9STgKXxF3MEqSS/+ei2u4BjGAAZhqufG8MU2LAh7EQg=;
+        b=kJLIbnrg6MmybxYNLRvCXzrBwTiRUK/PQBatG+wYug1rf68UKki38ZcZuT1lRoWbsD
+         k9BuCcn9eiq3d1lG1nH/FtUe/+B243ZvqiwmLqz3MqCB+5QF7CC76BXfqsPHZ/7mJpse
+         Uv+Qx520d+eGS18fNhIiuKscNeFnLrY5tFZWC4gUtEf5w5tK6rvv/AH4FaFLKJucWrM4
+         qYNsq2Q1dWx8oDvBsErx9COd8mUy31p2DxMkHm9/YOHwnoE/A4pzksst7ekzgtMt439C
+         VTGT14vcFyK+nzFOxG96bwVxG0EUMorq1Xbu33eseUwCzBAdOZckzKQy2nu0cGPKXy2x
+         A61g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=dq0TqQky1nAFrd/UmJjerH5DUbLlLnhiDz64ca0nS+c=;
-        b=CrZVpPkbJLzjnBDX0Js4D/aVBzZdHcvP0EqWfwo5W5flgDCr3zXzLt3rqoe2aMcsIX
-         wYQbbU3MN5P0Kq/IANNxBTeXAHIv5Kcf7/sp0+03bDm2Q1JOniS8HQOKtpKLAU4DAuRm
-         TvR41uKcOEK5KEIEom1fCoNKRQluryhF4QtOc2W753jl9jta65+GZJ7bPGFwwEFLMV6o
-         OioIcac3F4GSpWgU8AcZNFSobsxXaIMosx2w9LG2RDuvfp/7qFQUxmXT4VTFM3M111kn
-         fbpUUVv9wI61aa1cgwu0NNuIhasTloLw6ghiH5PGLwi5h51Ft/OH+bOKfjK0dyiZabyl
-         FqIg==
-X-Gm-Message-State: AGi0Pub+CXAiNUHz9GgiFtRfp2KxR2Px4BBnyTibIbv/BWH7uaRq7e0G
-        wWO3JFyP8h8z75wXUg/FMVbl76tQqdQ=
-X-Google-Smtp-Source: APiQypKJ+gnuUbus38CVokjh5igSLze560rfF4SF8l36zNto5ZlMR2hFAWskJxCoVQ8iCXxb1AiSSQ==
-X-Received: by 2002:a05:600c:2f17:: with SMTP id r23mr17145297wmn.81.1588972799227;
-        Fri, 08 May 2020 14:19:59 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id n9sm4669705wrv.43.2020.05.08.14.19.57
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9STgKXxF3MEqSS/+ei2u4BjGAAZhqufG8MU2LAh7EQg=;
+        b=rFSNTcjQsGBn68St5uDSh/FrNzRZwlroMCsJCSWjc/Mq89kzB409LIiYY3Ml5+wdSV
+         //fQiD0x8SEJNwLJvwMvMpVLKj4nhdTEFyyBb8s/bMPh1Dy1gMh+Jdl207oWAEnTJfLO
+         RWp4n6AMHFHypChX6dssvqRC2x1hyXVxOLS0CzM9fMyZWyeaW+L0CCN/eTVOS40cJg7/
+         XO71oeNBXvK3lck2/oVPDrxPKwoT/V2TVxr60VuEcz3RFiLktZRmgITjpDOM35W+J+NA
+         FNt5/I/H3K5g0t2f6RvTTRvN274MaCadnZAqxlIiKyXyB/Qh4s72cNZTTgjliOTm1+iO
+         ozrg==
+X-Gm-Message-State: AOAM530QaUzWf6EIzcNH+XC8xTjA1swMviXLHSTZV4xxBODMoRfx1PA6
+        Sj/nqATp+OWu8cyqVBzKeAg=
+X-Google-Smtp-Source: ABdhPJwOERlMcC9Nci0ag57cuaBOQkLsyrFQOZWAIlonkVNH0qg8oU10/kTQbLoBvsCGYzJamq/Sng==
+X-Received: by 2002:a05:651c:32e:: with SMTP id b14mr2993745ljp.277.1588974272109;
+        Fri, 08 May 2020 14:44:32 -0700 (PDT)
+Received: from localhost.localdomain (h-158-174-22-22.NA.cust.bahnhof.se. [158.174.22.22])
+        by smtp.gmail.com with ESMTPSA id v17sm2174863lfi.49.2020.05.08.14.44.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 14:19:58 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v8 1/5] usb: xhci: Change the XHCI link order in the Makefile
-Date:   Fri,  8 May 2020 17:19:25 -0400
-Message-Id: <20200508211929.39020-2-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200508211929.39020-1-alcooperx@gmail.com>
-References: <20200508211929.39020-1-alcooperx@gmail.com>
+        Fri, 08 May 2020 14:44:31 -0700 (PDT)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To:     chunfeng.yun@mediatek.com
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] usb: mtu3: constify struct debugfs_reg32
+Date:   Fri,  8 May 2020 23:44:21 +0200
+Message-Id: <20200508214421.3943-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some BRCMSTB USB chips have an XHCI, EHCI and OHCI controller
-on the same port where XHCI handles 3.0 devices, EHCI handles 2.0
-devices and OHCI handles <2.0 devices. Currently the Makefile
-has XHCI linking at the bottom which will result in the XHIC driver
-initalizing after the EHCI and OHCI drivers and any installed 3.0
-device will be seen as a 2.0 device. Moving the XHCI linking
-above the EHCI and OHCI linking fixes the issue.
+mtu3_prb_regs is never changed and can therefore be made const.
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
+This allows the compiler to put it in the text section instead of the
+data section.
+
+Before:
+   text    data     bss     dec     hex filename
+  19966    7120       0   27086    69ce drivers/usb/mtu3/mtu3_debugfs.o
+
+After:
+   text    data     bss     dec     hex filename
+  20142    6992       0   27134    69fe drivers/usb/mtu3/mtu3_debugfs.o
+
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 ---
- drivers/usb/host/Makefile | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/usb/mtu3/mtu3_debugfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-index b191361257cc..a7f0b8ff7179 100644
---- a/drivers/usb/host/Makefile
-+++ b/drivers/usb/host/Makefile
-@@ -37,6 +37,16 @@ endif
+diff --git a/drivers/usb/mtu3/mtu3_debugfs.c b/drivers/usb/mtu3/mtu3_debugfs.c
+index c96e5dab0a48..fdeade6254ae 100644
+--- a/drivers/usb/mtu3/mtu3_debugfs.c
++++ b/drivers/usb/mtu3/mtu3_debugfs.c
+@@ -276,7 +276,7 @@ static const struct file_operations mtu3_ep_fops = {
+ 	.release = single_release,
+ };
  
- obj-$(CONFIG_USB_PCI)	+= pci-quirks.o
+-static struct debugfs_reg32 mtu3_prb_regs[] = {
++static const struct debugfs_reg32 mtu3_prb_regs[] = {
+ 	dump_prb_reg("enable", U3D_SSUSB_PRB_CTRL0),
+ 	dump_prb_reg("byte-sell", U3D_SSUSB_PRB_CTRL1),
+ 	dump_prb_reg("byte-selh", U3D_SSUSB_PRB_CTRL2),
+@@ -349,7 +349,7 @@ static const struct file_operations mtu3_probe_fops = {
+ static void mtu3_debugfs_create_prb_files(struct mtu3 *mtu)
+ {
+ 	struct ssusb_mtk *ssusb = mtu->ssusb;
+-	struct debugfs_reg32 *regs;
++	const struct debugfs_reg32 *regs;
+ 	struct dentry *dir_prb;
+ 	int i;
  
-+# NOTE: BRCMSTB systems require that xhci driver be linked before the
-+# ehci/ohci drivers because they share a port and need the XHCI driver
-+# to come up first to properly enumerate 3.0 devices.
-+obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
-+obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-+obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
-+obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
-+obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
-+obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
-+
- obj-$(CONFIG_USB_EHCI_HCD)	+= ehci-hcd.o
- obj-$(CONFIG_USB_EHCI_PCI)	+= ehci-pci.o
- obj-$(CONFIG_USB_EHCI_HCD_PLATFORM)	+= ehci-platform.o
-@@ -69,12 +79,6 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
- 
- obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
- obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
--obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
--obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
--obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
--obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
--obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
--obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
- obj-$(CONFIG_USB_SL811_HCD)	+= sl811-hcd.o
- obj-$(CONFIG_USB_SL811_CS)	+= sl811_cs.o
- obj-$(CONFIG_USB_U132_HCD)	+= u132-hcd.o
 -- 
-2.17.1
+2.26.2
 
