@@ -4,117 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4512C47255
-	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 01:12:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D89C47257
+	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 03:24:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEEAF218AC
-	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 01:12:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E743E217BA
+	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 03:24:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbgEIBMv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 May 2020 21:12:51 -0400
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:3528 "EHLO
-        cmccmta1.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727828AbgEIBMv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 May 2020 21:12:51 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.11]) by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee15eb60383602-60882; Sat, 09 May 2020 09:12:35 +0800 (CST)
-X-RM-TRANSID: 2ee15eb60383602-60882
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from [172.20.145.40] (unknown[112.25.154.146])
-        by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee65eb6038203c-643e9;
-        Sat, 09 May 2020 09:12:35 +0800 (CST)
-X-RM-TRANSID: 2ee65eb6038203c-643e9
-Subject: Re: [PATCH] USB: host: ehci: Add error handlinginehci_mxc_drv_probe()
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, stern@rowland.harvard.edu,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200508114453.15436-1-tangbin@cmss.chinamobile.com>
- <20200508114858.GA4085349@kroah.com>
- <fb147bdf-faaa-8919-407e-89b4fe1337a6@cmss.chinamobile.com>
- <20200508143110.GA447591@kroah.com>
- <107353c0-09f2-858d-2a87-498e2d8584c6@cmss.chinamobile.com>
- <66a6bbca-4218-fb71-7284-37f73d5a3c58@cogentembedded.com>
-From:   Tang Bin <tangbin@cmss.chinamobile.com>
-Message-ID: <012c911d-e877-d7b8-60ab-2e70e67e62cb@cmss.chinamobile.com>
-Date:   Sat, 9 May 2020 09:13:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728567AbgEIDYM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 May 2020 23:24:12 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:37030 "EHLO
+        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728355AbgEIDYL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 May 2020 23:24:11 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=wenyang@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0Txzw3bb_1588994648;
+Received: from IT-C02W23QPG8WN.local(mailfrom:wenyang@linux.alibaba.com fp:SMTPD_---0Txzw3bb_1588994648)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sat, 09 May 2020 11:24:08 +0800
+Subject: Re: [PATCH] usb: roles: Switch on role-switch uevent reporting
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        chenqiwu <chenqiwu@xiaomi.com>, linux-kernel@vger.kernel.org
+References: <20200508162937.2566818-1-bryan.odonoghue@linaro.org>
+From:   Wen Yang <wenyang@linux.alibaba.com>
+Message-ID: <fbd660ca-fe2a-8ca7-5076-f898acd1ca74@linux.alibaba.com>
+Date:   Sat, 9 May 2020 11:24:08 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <66a6bbca-4218-fb71-7284-37f73d5a3c58@cogentembedded.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200508162937.2566818-1-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Sergei:
-
-On 2020/5/9 4:27, Sergei Shtylyov wrote:
-> On 05/08/2020 06:03 PM, Tang Bin wrote:
->
->>>>> On Fri, May 08, 2020 at 07:44:53PM +0800, Tang Bin wrote:
->>>>>> The function ehci_mxc_drv_probe() does not perform sufficient error
->>>>>> checking after executing platform_get_irq(), thus fix it.
->>>>>>
->>>>>> Fixes: 7e8d5cd93fa ("USB: Add EHCI support for MX27 and MX31 based boards")
->>>>>> Signed-off-by: Zhang Shengju <zhangshengju@cmss.chinamobile.com>
->>>>>> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
->>>>>> ---
->>>>>>     drivers/usb/host/ehci-mxc.c | 2 ++
->>>>>>     1 file changed, 2 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/usb/host/ehci-mxc.c b/drivers/usb/host/ehci-mxc.c
->>>>>> index a1eb5ee77..a0b42ba59 100644
->>>>>> --- a/drivers/usb/host/ehci-mxc.c
->>>>>> +++ b/drivers/usb/host/ehci-mxc.c
->>>>>> @@ -50,6 +50,8 @@ static int ehci_mxc_drv_probe(struct platform_device *pdev)
->>>>>>         }
->>>>>>         irq = platform_get_irq(pdev, 0);
->>>>>> +    if (irq < 0)
->>>>>> +        return irq;
->>>>> <= ?
->>>> In the file 'drivers/base/platform.c'ï¼Œ the function platform_get_irq() is
->>>> explained and used as follows:
->>>>
->>>>        * Gets an IRQ for a platform device and prints an error message if
->>>> finding the
->>>>        * IRQ fails. Device drivers should check the return value for errors so
->>>> as to
->>>>        * not pass a negative integer value to the request_irq() APIs.
->>>>        *
->>>>        * Example:
->>>>        *        int irq = platform_get_irq(pdev, 0);
->>>>        *        if (irq < 0)
->>>>        *            return irq;
->>>>        *
->>>>        * Return: IRQ number on success, negative error number on failure.
->>>>
->>>> And in my hardware experiment, even if I set the irq failed deliberately in
->>>> the DTS, the returned value is negative instead of zero.
->>> Please read the thread at
->>>      https://lore.kernel.org/r/20200501224042.141366-1-helgaas%40kernel.org
->>> for more details about this.
->>>
->> Great, It looks beautiful, finally someone took a knife to the file 'platform.c'.
->     I thought I did that already couple years ago, when returned 0 from platform_get_irq() could mean both IRQ # and error... :-)
-Can you tell me what platform can returned 0? I want to do this test in 
-the hardware.
->> I have been studied this place for a long time, and don't know what platform can return 0, which made me curious.
->>
->> So the example should be:
->>
->>       *        int irq = platform_get_irq(pdev, 0);
->>       *        if (irq <= 0)
->>       *            return irq;
->     And you then return 0 (success) as if your probe() succeeded. Congratulations! :-P
-
-Thanks,
-
-Tang Bin
 
 
+ÔÚ 2020/5/9 ÉÏÎç12:29, Bryan O'Donoghue Ð´µÀ:
+> Right now we don't report to user-space a role switch when doing a
+> usb_role_switch_set_role() despite having registered the uevent callbacks.
+> 
+> This patch switches on the notifications allowing user-space to see
+> role-switch change notifications and subsequently determine the current
+> controller data-role.
+> 
+> example:
+> PFX=/devices/platform/soc/78d9000.usb/ci_hdrc.0
+> 
+> root@somebox# udevadm monitor -p
+> 
+> KERNEL[49.894994] change $PFX/usb_role/ci_hdrc.0-role-switch (usb_role)
+> ACTION=change
+> DEVPATH=$PFX/usb_role/ci_hdrc.0-role-switch
+> SUBSYSTEM=usb_role
+> DEVTYPE=usb_role_switch
+> USB_ROLE_SWITCH=ci_hdrc.0-role-switch
+> SEQNUM=2432
+> 
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Wen Yang <wenyang@linux.alibaba.com>
+> Cc: chenqiwu <chenqiwu@xiaomi.com>
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   drivers/usb/roles/class.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> index 5b17709821df..27d92af29635 100644
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -49,8 +49,10 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role)
+>   	mutex_lock(&sw->lock);
+>   
+>   	ret = sw->set(sw, role);
+> -	if (!ret)
+> +	if (!ret) {
+>   		sw->role = role;
+> +		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
+> +	}
+>   
+>   	mutex_unlock(&sw->lock);
+>   
+> 
+
+Hi, we may also need to deal with the return value of kobject_uevent(). 
+Should we move it under the line mutex_unlock(&sw->lock)?
+
+Regards,
+Wen
 
