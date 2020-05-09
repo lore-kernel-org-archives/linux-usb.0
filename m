@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E274DC47255
-	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 14:16:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B2AC47247
+	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 14:16:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CBA7524955
-	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 14:16:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2F0521473
+	for <linux-usb@archiver.kernel.org>; Sat,  9 May 2020 14:16:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728058AbgEIOQv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 May 2020 10:16:51 -0400
-Received: from asav22.altibox.net ([109.247.116.9]:34162 "EHLO
+        id S1727953AbgEIOQp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 May 2020 10:16:45 -0400
+Received: from asav22.altibox.net ([109.247.116.9]:34074 "EHLO
         asav22.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727940AbgEIOQr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 9 May 2020 10:16:47 -0400
+        with ESMTP id S1726782AbgEIOQo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 9 May 2020 10:16:44 -0400
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav22.altibox.net (Postfix) with ESMTPSA id DF53B20192;
-        Sat,  9 May 2020 16:16:43 +0200 (CEST)
+        by asav22.altibox.net (Postfix) with ESMTPSA id E812F200AA;
+        Sat,  9 May 2020 16:16:41 +0200 (CEST)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
         lee.jones@linaro.org
 Cc:     sam@ravnborg.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
         =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH v2 07/10] drm/format-helper: Add drm_fb_swab()
-Date:   Sat,  9 May 2020 16:16:16 +0200
-Message-Id: <20200509141619.32970-8-noralf@tronnes.org>
+Subject: [PATCH v2 01/10] backlight: Add backlight_device_get_by_name()
+Date:   Sat,  9 May 2020 16:16:10 +0200
+Message-Id: <20200509141619.32970-2-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200509141619.32970-1-noralf@tronnes.org>
 References: <20200509141619.32970-1-noralf@tronnes.org>
@@ -41,141 +41,74 @@ Content-Transfer-Encoding: 8bit
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=R7It5+ZX c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=7gkXJVJtAAAA:8 a=SJz97ENfAAAA:8
-        a=-9A2zdw3ca-yCi4n-HUA:9 a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8
+        a=7gkXJVJtAAAA:8 a=SJz97ENfAAAA:8 a=vKVk4XFhGoKKoRoBPQAA:9
+        a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=E9Po1WZjFZOl8hwRPBS3:22
         a=vFet0B0WnEQeilDPIY6i:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This replaces drm_fb_swab16() with drm_fb_swab() supporting 16 and 32-bit.
-Also make pixel line caching optional.
+Add a way to lookup a backlight device based on its name.
+Will be used by a USB display gadget getting the name from configfs.
 
-v2:
-- Bail out on cpp != 2 && 4 (Sam)
-
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Acked-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_format_helper.c | 61 +++++++++++++++++++----------
- drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
- include/drm/drm_format_helper.h     |  4 +-
- 3 files changed, 44 insertions(+), 23 deletions(-)
+ drivers/video/backlight/backlight.c | 21 +++++++++++++++++++++
+ include/linux/backlight.h           |  1 +
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 0897cb9aeaff..07c9999f1527 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -79,39 +79,60 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
- EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
- 
- /**
-- * drm_fb_swab16 - Swap bytes into clip buffer
-- * @dst: RGB565 destination buffer
-- * @vaddr: RGB565 source buffer
-+ * drm_fb_swab - Swap bytes into clip buffer
-+ * @dst: Destination buffer
-+ * @src: Source buffer
-  * @fb: DRM framebuffer
-  * @clip: Clip rectangle area to copy
-+ * @cached: Source buffer is mapped cached (eg. not write-combined)
-+ *
-+ * If @cached is false a temporary buffer is used to cache one pixel line at a
-+ * time to speed up slow uncached reads.
-+ *
-+ * This function does not apply clipping on dst, i.e. the destination
-+ * is a small buffer containing the clip rect only.
-  */
--void drm_fb_swab16(u16 *dst, void *vaddr, struct drm_framebuffer *fb,
--		   struct drm_rect *clip)
-+void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
-+		 struct drm_rect *clip, bool cached)
- {
--	size_t len = (clip->x2 - clip->x1) * sizeof(u16);
-+	u8 cpp = fb->format->cpp[0];
-+	size_t len = drm_rect_width(clip) * cpp;
-+	u16 *src16, *dst16 = dst;
-+	u32 *src32, *dst32 = dst;
- 	unsigned int x, y;
--	u16 *src, *buf;
-+	void *buf = NULL;
- 
--	/*
--	 * The cma memory is write-combined so reads are uncached.
--	 * Speed up by fetching one line at a time.
--	 */
--	buf = kmalloc(len, GFP_KERNEL);
--	if (!buf)
-+	if (WARN_ON_ONCE(cpp != 2 && cpp != 4))
- 		return;
- 
-+	if (!cached)
-+		buf = kmalloc(len, GFP_KERNEL);
-+
-+	src += clip_offset(clip, fb->pitches[0], cpp);
-+
- 	for (y = clip->y1; y < clip->y2; y++) {
--		src = vaddr + (y * fb->pitches[0]);
--		src += clip->x1;
--		memcpy(buf, src, len);
--		src = buf;
--		for (x = clip->x1; x < clip->x2; x++)
--			*dst++ = swab16(*src++);
-+		if (buf) {
-+			memcpy(buf, src, len);
-+			src16 = buf;
-+			src32 = buf;
-+		} else {
-+			src16 = src;
-+			src32 = src;
-+		}
-+
-+		for (x = clip->x1; x < clip->x2; x++) {
-+			if (cpp == 4)
-+				*dst32++ = swab32(*src32++);
-+			else
-+				*dst16++ = swab16(*src16++);
-+		}
-+
-+		src += fb->pitches[0];
- 	}
- 
- 	kfree(buf);
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index cac3e35d7630..92d80aa0c0ef 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -432,6 +432,27 @@ struct backlight_device *backlight_device_get_by_type(enum backlight_type type)
  }
--EXPORT_SYMBOL(drm_fb_swab16);
-+EXPORT_SYMBOL(drm_fb_swab);
+ EXPORT_SYMBOL(backlight_device_get_by_type);
  
- static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
- 					   unsigned int pixels,
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 69e2b4122ce4..1447e26c0145 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -217,7 +217,7 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
- 	switch (fb->format->format) {
- 	case DRM_FORMAT_RGB565:
- 		if (swap)
--			drm_fb_swab16(dst, src, fb, clip);
-+			drm_fb_swab(dst, src, fb, clip, !import_attach);
- 		else
- 			drm_fb_memcpy(dst, src, fb, clip);
- 		break;
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index ac220aa1a245..5f9e37032468 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -14,8 +14,8 @@ void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb,
- void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
- 			   struct drm_framebuffer *fb,
- 			   struct drm_rect *clip);
--void drm_fb_swab16(u16 *dst, void *vaddr, struct drm_framebuffer *fb,
--		   struct drm_rect *clip);
-+void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
-+		 struct drm_rect *clip, bool cached);
- void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
- 			       struct drm_framebuffer *fb,
- 			       struct drm_rect *clip, bool swab);
++/**
++ * backlight_device_get_by_name - Get backlight device by name
++ * @name: Device name
++ *
++ * This function looks up a backlight device by its name. It obtains a reference
++ * on the backlight device and it is the caller's responsibility to drop the
++ * reference by calling backlight_put().
++ *
++ * Returns:
++ * A pointer to the backlight device if found, otherwise NULL.
++ */
++struct backlight_device *backlight_device_get_by_name(const char *name)
++{
++	struct device *dev;
++
++	dev = class_find_device_by_name(backlight_class, name);
++
++	return dev ? to_backlight_device(dev) : NULL;
++}
++EXPORT_SYMBOL(backlight_device_get_by_name);
++
+ /**
+  * backlight_device_unregister - unregisters a backlight device object.
+  * @bd: the backlight device object to be unregistered and freed.
+diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+index c7d6b2e8c3b5..56e4580d4f55 100644
+--- a/include/linux/backlight.h
++++ b/include/linux/backlight.h
+@@ -190,6 +190,7 @@ extern void backlight_force_update(struct backlight_device *bd,
+ extern int backlight_register_notifier(struct notifier_block *nb);
+ extern int backlight_unregister_notifier(struct notifier_block *nb);
+ extern struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
++struct backlight_device *backlight_device_get_by_name(const char *name);
+ extern int backlight_device_set_brightness(struct backlight_device *bd, unsigned long brightness);
+ 
+ #define to_backlight_device(obj) container_of(obj, struct backlight_device, dev)
 -- 
 2.23.0
 
