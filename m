@@ -2,115 +2,92 @@ Return-Path: <SRS0=yDBg=6Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C10C47255
-	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 21:43:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A184C47255
+	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 22:25:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 108F6206F5
-	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 21:43:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="nNUojih1"
+	by mail.kernel.org (Postfix) with ESMTP id 4AC2320752
+	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 22:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589235954;
+	bh=rRbOM1L+fwH0nbxI5H+zl9oJEi4To787Arbt4gDRQ7g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=vo5Z1jnCYcJTxgORwJA47kptlG2AuIcSPak7VhICLuAdH5E6Jl0mxiP7iZI2HRrof
+	 SJ8IqaQXllV7HDRPadMP2+52w3TmD6VuT99YbCwI5LCHZEr33xXHtbvXWGsJ7iiKat
+	 /APu0zUA8wfre/+mOFi0OJvyIuwpqkN+wn7VmlIA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726066AbgEKVnE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 May 2020 17:43:04 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:59150 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725860AbgEKVnD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 11 May 2020 17:43:03 -0400
-Received: from bell.riseup.net (bell-pn.riseup.net [10.0.1.178])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 49LZDR4PlXzFfSd
-        for <linux-usb@vger.kernel.org>; Mon, 11 May 2020 14:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1589233383; bh=r7B52bmo5ZlyqMqJdRECuIHZoOcrjuTQ0OL8B3AsC1Q=;
-        h=From:Date:Subject:To:Cc:From;
-        b=nNUojih14EwOmDSAXh6Mf/g8rqrAXCOnw1egVQiAvFH7uoicrXjcHl7bhX1pmL2PZ
-         u1hnOhHr5M27/MAIxXUfanY+RILEZp+btpqKmN3eVxX9PH4X7cxhTa0Bmu97WlP7or
-         MmZQ463cYaAdy06hXyHfsc1S/Q4TU+mxBYbFti78=
-X-Riseup-User-ID: F79A9119A6E5EE31A8D352A51ECA9D95866DA2C2FDC665D19B2AD39D5F97FAA5
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by bell.riseup.net (Postfix) with ESMTPSA id 49LZDR3FFWzJqVS
-        for <linux-usb@vger.kernel.org>; Mon, 11 May 2020 14:43:03 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id f3so11613917ioj.1
-        for <linux-usb@vger.kernel.org>; Mon, 11 May 2020 14:43:03 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZOLQanav27fm/vds+m6oHzHRDUw3JtbgDagFnsakSuetYG//r2
-        Z7twEHpQAa0N9n7uSZlC3zL/k5gzfxoQQ+pmOpmCkA==
-X-Google-Smtp-Source: APiQypJTUWQVM9vwLw392SarDhDNSeeY62GHUFMwrwDCjQQz0GlyoFsShPqR1QOdVm82+rzhhQdxZvhPcnHPgYR6ZFk=
-X-Received: by 2002:a5d:8b57:: with SMTP id c23mr16962484iot.88.1589233382540;
- Mon, 11 May 2020 14:43:02 -0700 (PDT)
+        id S1727098AbgEKWZv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 May 2020 18:25:51 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:38460 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbgEKWZu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 May 2020 18:25:50 -0400
+Received: by mail-oi1-f195.google.com with SMTP id r66so16564848oie.5;
+        Mon, 11 May 2020 15:25:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7+5vSNb8IxUA2MM9e6x9N0FrIu+LoC01HvigV+gZqJo=;
+        b=byuqLZKUXw3pzscmmFEWK5JNroInVneIarpHIwF72iHcgJ5QQsCT/l7hkd/UhyA/Ha
+         de88o51t3qZfkE0u2F66l9anYBix5TIVqX2YRCUkKS68ywy7Nn6sthTXGxyjECxiARS6
+         h58lnNI5WWBnX4pvdOSaicUWkZmG/ADCHy9mt461ZuUoNJBZxudFMjJmnrYRyReAW9A2
+         /RCR6bnOLZ7slOzx7vYJ5k8xwTozw1n68w5/l9QEwhYF0q5qINe+b9iA9uZMEU4avSd3
+         fqtMU63NXSotLLYbYeOzpPCukt5/FeJ1XScSsPRnC3kyQw2Fqa6wlidVjYuPGMgzsEq0
+         2Y4Q==
+X-Gm-Message-State: AGi0PubvvsWtA8NL0TVSicRVjM2eaa9qAsau0JeKIeFNF38S1cSTu6Of
+        ciDYkS9giQoWXgc//O1BZA==
+X-Google-Smtp-Source: APiQypJ9eQAYcH5jaLEtRYYyKWBWFhBc+JEnyD+r1v2xL8VlHzzA3LVNArk2SC8qvGZFebPkJp9VEQ==
+X-Received: by 2002:aca:b2c2:: with SMTP id b185mr16208902oif.169.1589235949735;
+        Mon, 11 May 2020 15:25:49 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m16sm3137413oop.40.2020.05.11.15.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 15:25:49 -0700 (PDT)
+Received: (nullmailer pid 26457 invoked by uid 1000);
+        Mon, 11 May 2020 22:25:48 -0000
+Date:   Mon, 11 May 2020 17:25:48 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Johan Jonker <jbx6244@gmail.com>
+Cc:     heiko@sntech.de, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        gregkh@linuxfoundation.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org
+Subject: Re: [PATCH] dt-bindings: usb: dwc2: add power-domains property
+Message-ID: <20200511222548.GA26381@bogus>
+References: <20200425170833.26718-1-jbx6244@gmail.com>
 MIME-Version: 1.0
-From:   David Manouchehri <david.manouchehri@riseup.net>
-Date:   Mon, 11 May 2020 17:42:51 -0400
-X-Gmail-Original-Message-ID: <CAJEJqRzVe1oWZAWMq=JLkAtDpH4pxvLVoh4uO=qqF+a6sL77uA@mail.gmail.com>
-Message-ID: <CAJEJqRzVe1oWZAWMq=JLkAtDpH4pxvLVoh4uO=qqF+a6sL77uA@mail.gmail.com>
-Subject: [PATCH] thunderbolt: Update Kconfig to allow building on other architectures.
-To:     mika.westerberg@linux.intel.com
-Cc:     david.manouchehri@riseup.net, YehezkelShB@gmail.com,
-        linux-usb@vger.kernel.org, andreas.noever@gmail.com,
-        michael.jamet@intel.com
-Content-Type: multipart/mixed; boundary="0000000000003bb0f705a5663b90"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200425170833.26718-1-jbx6244@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---0000000000003bb0f705a5663b90
-Content-Type: text/plain; charset="UTF-8"
+On Sat, 25 Apr 2020 19:08:33 +0200, Johan Jonker wrote:
+> A test with the command below gives this error:
+> 
+> arch/arm64/boot/dts/rockchip/px30-evb.dt.yaml: usb@ff300000:
+> 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+> 
+> With the conversion to yaml it also filters things
+> in a node that are used by other drivers like
+> 'power-domains' for Rockchip px30 usb nodes,
+> so add them to 'dwc2.yaml'.
+> 
+> make ARCH=arm64 dtbs_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/usb/dwc2.yaml
+> 
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/usb/dwc2.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Thunderbolt 3 and USB4 shouldn't be x86 only.
-
-Tested on a SolidRun HoneyComb (ARM Cortex-A72) with a
-Gigabyte Titan Ridge Thunderbolt 3 PCIe card (JHL7540).
-
-Signed-off-by: David Manouchehri <david.manouchehri@riseup.net>
----
- drivers/thunderbolt/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/thunderbolt/Kconfig b/drivers/thunderbolt/Kconfig
-index 1eb757e8df3b..f02010738bb6 100644
---- a/drivers/thunderbolt/Kconfig
-+++ b/drivers/thunderbolt/Kconfig
-@@ -2,7 +2,6 @@
- menuconfig USB4
-        tristate "Unified support for USB4 and Thunderbolt"
-        depends on PCI
--       depends on X86 || COMPILE_TEST
-        select APPLE_PROPERTIES if EFI_STUB && X86
-        select CRC32
-        select CRYPTO
--- 
-2.25.1
-
---0000000000003bb0f705a5663b90
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-thunderbolt-Update-Kconfig-to-allow-building-on-othe.patch"
-Content-Disposition: attachment; 
-	filename="0001-thunderbolt-Update-Kconfig-to-allow-building-on-othe.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_ka2zazmc0>
-X-Attachment-Id: f_ka2zazmc0
-
-RnJvbSBlYmY5NmUyMzQ3OGM0YTM2MDI5OWEwMmVjOTZmZmRhN2IzYzNhZDk4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBEYXZpZCBNYW5vdWNoZWhyaSA8ZGF2aWQubWFub3VjaGVocmlA
-cmlzZXVwLm5ldD4KRGF0ZTogTW9uLCAxMSBNYXkgMjAyMCAxNjozNjoyMyAtMDQwMApTdWJqZWN0
-OiBbUEFUQ0hdIHRodW5kZXJib2x0OiBVcGRhdGUgS2NvbmZpZyB0byBhbGxvdyBidWlsZGluZyBv
-biBvdGhlcgogYXJjaGl0ZWN0dXJlcy4KClRodW5kZXJib2x0IDMgYW5kIFVTQjQgc2hvdWxkbid0
-IGJlIHg4NiBvbmx5LgoKVGVzdGVkIG9uIGEgU29saWRSdW4gSG9uZXlDb21iIChBUk0gQ29ydGV4
-LUE3Mikgd2l0aCBhCkdpZ2FieXRlIFRpdGFuIFJpZGdlIFRodW5kZXJib2x0IDMgUENJZSBjYXJk
-IChKSEw3NTQwKS4KClNpZ25lZC1vZmYtYnk6IERhdmlkIE1hbm91Y2hlaHJpIDxkYXZpZC5tYW5v
-dWNoZWhyaUByaXNldXAubmV0PgotLS0KIGRyaXZlcnMvdGh1bmRlcmJvbHQvS2NvbmZpZyB8IDEg
-LQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Ro
-dW5kZXJib2x0L0tjb25maWcgYi9kcml2ZXJzL3RodW5kZXJib2x0L0tjb25maWcKaW5kZXggMWVi
-NzU3ZThkZjNiLi5mMDIwMTA3MzhiYjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdGh1bmRlcmJvbHQv
-S2NvbmZpZworKysgYi9kcml2ZXJzL3RodW5kZXJib2x0L0tjb25maWcKQEAgLTIsNyArMiw2IEBA
-CiBtZW51Y29uZmlnIFVTQjQKIAl0cmlzdGF0ZSAiVW5pZmllZCBzdXBwb3J0IGZvciBVU0I0IGFu
-ZCBUaHVuZGVyYm9sdCIKIAlkZXBlbmRzIG9uIFBDSQotCWRlcGVuZHMgb24gWDg2IHx8IENPTVBJ
-TEVfVEVTVAogCXNlbGVjdCBBUFBMRV9QUk9QRVJUSUVTIGlmIEVGSV9TVFVCICYmIFg4NgogCXNl
-bGVjdCBDUkMzMgogCXNlbGVjdCBDUllQVE8KLS0gCjIuMjUuMQoK
---0000000000003bb0f705a5663b90--
+Applied, thanks!
