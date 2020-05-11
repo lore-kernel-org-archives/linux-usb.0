@@ -2,166 +2,151 @@ Return-Path: <SRS0=yDBg=6Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	LONGWORDS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8653AC47255
-	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 16:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2852EC54E8E
+	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 17:57:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 54B3A20708
-	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 16:04:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0992B206D9
+	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 17:57:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XYsodEli"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730365AbgEKQD7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 May 2020 12:03:59 -0400
-Received: from mga06.intel.com ([134.134.136.31]:38013 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729550AbgEKQD7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 11 May 2020 12:03:59 -0400
-IronPort-SDR: OCssgJuYM94cbmfuVEiUozF9lYuN4TgPTUqDNfLWFGNTGqZRcBC1LuhqtDNdbVU6IxRJsINq6c
- pNjJ+6eS8quA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2020 09:03:58 -0700
-IronPort-SDR: dPsAvaaiU6+ZNKl1Kqu2gDO2TGqs/uWeaveXbiIKueApTcZ42cZuGc26nmEp1V9qcB3TinXoVY
- QwYz7GWgJQAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,380,1583222400"; 
-   d="scan'208";a="296990361"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 May 2020 09:03:53 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jYAuG-0005NH-Kx; Tue, 12 May 2020 00:03:52 +0800
-Date:   Tue, 12 May 2020 00:03:44 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 2ca23ae59e997f1b6df7662d8ef10d9c471b46d0
-Message-ID: <5eb97760.9oJ3p4GLNl890A5w%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1730115AbgEKR5W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 May 2020 13:57:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727051AbgEKR5W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 May 2020 13:57:22 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3104C05BD09
+        for <linux-usb@vger.kernel.org>; Mon, 11 May 2020 10:57:21 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id x10so4248714plr.4
+        for <linux-usb@vger.kernel.org>; Mon, 11 May 2020 10:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/4VPW/3YLXwoqcjHvmu+U93vY1XvtT8ILR97l+aBRHM=;
+        b=XYsodElimbqFJLNFnU/6UJl3lwNcwYu/y1MR1mjVNPFY94eInf7JUE6nLmVgUkHowr
+         4zSTdezoG0smW1qmL27QUdfb65KUD5AuCFfMJHnfOwzRVwH5uwUY2BPnP2uILCu+GQY0
+         PICJ13i5ZMC1iPneXD+vBuFAGy2Rk3JBqX/2k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/4VPW/3YLXwoqcjHvmu+U93vY1XvtT8ILR97l+aBRHM=;
+        b=J9AmoCgaQeECv6aWMf6tl0Z8Iw4pdEIHVRzCRfyHRUgKVygC2AhXraJlIu+gYYulb7
+         48nRCSos+/ld6/SeVXjrYVNSqqTrwDiPyZGL7V7dPNw1fXjJcHGiAzKk7qgWNMAkiIuV
+         RjZgvl3rr8XqpFldrpQOk4d5BkOSjmBBNV4RysGReU4h/s+gaBdfcHTkDdN/QzC94GlS
+         G+2IMYZPOwDaRJJllJiFxLDPr53LScmVxCDHYcPbOCAkxxC8RcQcrdZHqnnr1QMBpa3H
+         808Zl18aIHHJPkdzECVu8GzeSwy/FYMQLUXbBE2brYmNkWqA3pUu2XDnTL6AXzV8Yx1/
+         nWcg==
+X-Gm-Message-State: AGi0PuYgT0YeBzzmLkh+Mh+z8A5kyPniv2ZvHfH8Ld9ZewGKX4CHBM8+
+        cjvcFyJDCrNYcD+sK/j9uMgBXA==
+X-Google-Smtp-Source: APiQypKPWCdtCZVF1JVQ+N/i5CTxy1YZ2uxgAQ2wkunQWyauVm+9tyh+T7jrBtoR7DjFIZl3sskrPw==
+X-Received: by 2002:a17:90a:1b67:: with SMTP id q94mr23611499pjq.84.1589219841106;
+        Mon, 11 May 2020 10:57:21 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:476b:691:abc3:38db])
+        by smtp.gmail.com with ESMTPSA id z190sm9750203pfz.84.2020.05.11.10.57.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 10:57:20 -0700 (PDT)
+Date:   Mon, 11 May 2020 10:57:19 -0700
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH 2/4] usb: typec: mux: intel_pmc_mux: Support for static
+ SBU/HSL orientation
+Message-ID: <20200511175719.GA136540@google.com>
+References: <20200507150900.12102-1-heikki.krogerus@linux.intel.com>
+ <20200507150900.12102-3-heikki.krogerus@linux.intel.com>
+ <20200507224041.GA247416@google.com>
+ <20200508111840.GG645261@kuha.fi.intel.com>
+ <20200511133202.GA2085641@kuha.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200511133202.GA2085641@kuha.fi.intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
-branch HEAD: 2ca23ae59e997f1b6df7662d8ef10d9c471b46d0  Merge 5.7-rc5 into usb-next
+Hi Heikki,
 
-elapsed time: 541m
+Thanks a lot for looking into this. Kindly see my response inline:
 
-configs tested: 100
-configs skipped: 1
+On Mon, May 11, 2020 at 04:32:02PM +0300, Heikki Krogerus wrote:
+> On Fri, May 08, 2020 at 02:18:44PM +0300, Heikki Krogerus wrote:
+> > Hi Prashant,
+> > 
+> > On Thu, May 07, 2020 at 03:40:41PM -0700, Prashant Malani wrote:
+> > > > +static int sbu_orientation(struct pmc_usb_port *port)
+> > > > +{
+> > > > +	if (port->sbu_orientation)
+> > > > +		return port->sbu_orientation - 1;
+> > > > +
+> > > > +	return port->orientation - 1;
+> > > > +}
+> > > > +
+> > > > +static int hsl_orientation(struct pmc_usb_port *port)
+> > > > +{
+> > > > +	if (port->hsl_orientation)
+> > > > +		return port->hsl_orientation - 1;
+> > > > +
+> > > > +	return port->orientation - 1;
+> > > > +}
+> > > > +
+> > > >  static int pmc_usb_command(struct pmc_usb_port *port, u8 *msg, u32 len)
+> > > >  {
+> > > >  	u8 response[4];
+> > > > @@ -151,8 +170,9 @@ pmc_usb_mux_dp(struct pmc_usb_port *port, struct typec_mux_state *state)
+> > > >  
+> > > >  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
+> > > >  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
+> > > > -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> > > > -	req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
+> > > > +
+> > > > +	req.mode_data |= sbu_orientation(port) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> > > 
+> > > I'm curious to know what would happen when sbu-orientation == "normal".
+> > > That means |port->sbu_orientation| == 1.
+> > > 
+> > > It sounds like what should happen is the AUX_SHIFT orientation
+> > > setting should follow what |port->orientation| is, but here it
+> > > looks like it will always be set to |port->sbu_orientation - 1|, i.e 0,
+> > > even if port->orientation == TYPEC_ORIENTATION_REVERSE, i.e 2, meaning
+> > > it should be set to 1 ?
+> > 
+> > I'll double check this, and get back to you..
+> 
+> This is not exactly an answer to your question, but it seems that
+> those bits are only valid if "Alternate-Direct" message is used.
+> Currently the driver does not support that message.
+Could you kindly provide some detail on when "Alternate-Direct" would be
+preferred to the current method?
+Also, is there anything on the PMC side which is preventing the use of
+"Alternate-Direct" messages? It seems like the state transition diagram
+there would be simpler, although I'm likely missing significant details
+here.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> 
+> I think the correct thing to do now is to remove the two lines from
+> the driver where those bits (ORI-HSL and ORI-Aux) are set.
+I see. How would orientation then be handled in a retimer configuration
+where AUX/SBU is flipped by the retimer itself?
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-sparc                            allyesconfig
-m68k                             allyesconfig
-ia64                              allnoconfig
-parisc                           allyesconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-xtensa                              defconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20200511
-i386                 randconfig-a003-20200511
-i386                 randconfig-a001-20200511
-i386                 randconfig-a004-20200511
-i386                 randconfig-a002-20200511
-i386                 randconfig-a006-20200511
-x86_64               randconfig-a012-20200511
-x86_64               randconfig-a014-20200511
-x86_64               randconfig-a016-20200511
-x86_64               randconfig-a005-20200511
-x86_64               randconfig-a003-20200511
-x86_64               randconfig-a006-20200511
-x86_64               randconfig-a004-20200511
-x86_64               randconfig-a001-20200511
-x86_64               randconfig-a002-20200511
-i386                 randconfig-a012-20200511
-i386                 randconfig-a016-20200511
-i386                 randconfig-a014-20200511
-i386                 randconfig-a011-20200511
-i386                 randconfig-a013-20200511
-i386                 randconfig-a015-20200511
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+Best regards,
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-Prashant
+> 
+> Let me know if that's OK, and I'll update the series.
+> 
+> thanks,
+> 
+> -- 
+> heikki
