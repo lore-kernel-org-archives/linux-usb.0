@@ -2,123 +2,133 @@ Return-Path: <SRS0=yDBg=6Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B651BC47255
-	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 18:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9627C54E4B
+	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 19:37:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9153A20736
-	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 18:34:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC3F420720
+	for <linux-usb@archiver.kernel.org>; Mon, 11 May 2020 19:37:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="hxsG5anG";
-	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="hxsG5anG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8Kcij4d"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731112AbgEKSeD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 May 2020 14:34:03 -0400
-Received: from node.akkea.ca ([192.155.83.177]:44280 "EHLO node.akkea.ca"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729727AbgEKSeC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 11 May 2020 14:34:02 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by node.akkea.ca (Postfix) with ESMTP id B56664E2006;
-        Mon, 11 May 2020 18:34:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
-        t=1589222042; bh=Da5qJJ8kOejzlzfFl55mNbToDs7NIQyVvZRPEpDqiF8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=hxsG5anG1wA42sngp2H698FK6UEzs3lX5Vw+hgOEhQlPvGzbysPJ7x55dJCqCiuTx
-         ImT+BESYeU0KPFXnEeqdPEGczcJFOFK91Wph/WbOJwPytkR9hAsWpzVVT1QoyXV/pm
-         fT9ZCsgEB0JCUnf3bfq/J5gtDI8T8E7THNkYmbEA=
-X-Virus-Scanned: Debian amavisd-new at mail.akkea.ca
-Received: from node.akkea.ca ([127.0.0.1])
-        by localhost (mail.akkea.ca [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 7UqCcZzt97cR; Mon, 11 May 2020 18:34:02 +0000 (UTC)
-Received: from www.akkea.ca (node.akkea.ca [192.155.83.177])
-        by node.akkea.ca (Postfix) with ESMTPSA id 393E04E2003;
-        Mon, 11 May 2020 18:34:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
-        t=1589222042; bh=Da5qJJ8kOejzlzfFl55mNbToDs7NIQyVvZRPEpDqiF8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=hxsG5anG1wA42sngp2H698FK6UEzs3lX5Vw+hgOEhQlPvGzbysPJ7x55dJCqCiuTx
-         ImT+BESYeU0KPFXnEeqdPEGczcJFOFK91Wph/WbOJwPytkR9hAsWpzVVT1QoyXV/pm
-         fT9ZCsgEB0JCUnf3bfq/J5gtDI8T8E7THNkYmbEA=
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 11 May 2020 11:34:02 -0700
-From:   Angus Ainslie <angus@akkea.ca>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        id S1731521AbgEKThJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 May 2020 15:37:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731200AbgEKThG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 May 2020 15:37:06 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3646C061A0C;
+        Mon, 11 May 2020 12:37:05 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id w19so5937412wmc.1;
+        Mon, 11 May 2020 12:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=VGLGSTcVeBfvS+Xc677uifViDuw5g0GT7tsHPQPjttc=;
+        b=E8Kcij4dQAHO8VBx7noujUr90q2JRsOhfPjlKGCQEMrCpsRsILe5BHxxrfpHA+qD1C
+         LRDVFrzBHOsK8wb2FeCvG97IJX7mtcljEVhw2PtLin6llGiDM5lLw/SaGWucJVXKBzdf
+         HOgWAQZgQoMaIe/zbQ0/EtKodvTm057LC8ReEDwEwcb4hj57z4kVk4G+yd4xQ8nrewf7
+         Y0Cnn9IOx10pfBbstP71SE/WUHpBwz0yQsKEeZPK++H0U182Oru3Pqw/Z9CBVop5c8jU
+         OpZNccPw313pR740viCY2SOTs8/OQ/Qzh4EZKCHWXyq/9yzJoUVRKAW3YRMJZpzP93+O
+         sUdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=VGLGSTcVeBfvS+Xc677uifViDuw5g0GT7tsHPQPjttc=;
+        b=mqXsnSx+qFmNDKwRJHXnN3Ol9/Yg/gnvjK/l4tDCni+FfyrEbsvILtULa0R179PuPa
+         PmkAiFcyi2oj22i3KPRRRMg2I+weL7yWPtSLEQYmgk88VH6O5L3Ft7eKO5Q6IMRzATC3
+         Dm7haFebTE+RQO2R31+0wPOPNKP4nWQitMB1+vZWUqziVVjnnCeH5qO0PK1kJWGSVN+L
+         LJZSGuO3U7Teff6fp5YfaHD+SajfFOoAYzi82F4biCD+Swac9ptbmSmw4S6X1e8cs0cl
+         1Fn0jn31V5L0gmL8L1C1+Anar1HWwZ2+GUg60Pso+vCcqw3ThPXCQC8v/sK4rLuA5RI/
+         StFA==
+X-Gm-Message-State: AGi0PuaFHHW4f2iTHIKr3Ew4BXJi7Lv7uzPlJGXVdW61hJZI+andDtFq
+        pH9VxxT4DGpdVGYs79jmqWe+yn0yWh0=
+X-Google-Smtp-Source: APiQypJp0r8kyv9IKS5CxMCuiOU9txyPLDUGSNIgGqHQhv5ugqZgdvBOxFJLZsyLvpBRcQern3NbyQ==
+X-Received: by 2002:a1c:4b16:: with SMTP id y22mr33132809wma.170.1589225824300;
+        Mon, 11 May 2020 12:37:04 -0700 (PDT)
+Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
+        by smtp.gmail.com with ESMTPSA id o203sm11529030wme.12.2020.05.11.12.37.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 12:37:03 -0700 (PDT)
+From:   Al Cooper <alcooperx@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Al Cooper <alcooperx@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: usb: ti,tps6598x: add dt binding doc
-In-Reply-To: <20200511152649.GA23481@bogus>
-References: <20200506191718.2144752-1-angus@akkea.ca>
- <20200506191718.2144752-3-angus@akkea.ca> <20200511152649.GA23481@bogus>
-Message-ID: <ebad030b623cd8f4e2e400e78d679be4@akkea.ca>
-X-Sender: angus@akkea.ca
-User-Agent: Roundcube Webmail/1.3.6
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v9 1/5] usb: xhci: Change the XHCI link order in the Makefile
+Date:   Mon, 11 May 2020 15:36:39 -0400
+Message-Id: <20200511193643.30926-2-alcooperx@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200511193643.30926-1-alcooperx@gmail.com>
+References: <20200511193643.30926-1-alcooperx@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Rob,
+Some BRCMSTB USB chips have an XHCI, EHCI and OHCI controller
+on the same port where XHCI handles 3.0 devices, EHCI handles 2.0
+devices and OHCI handles <2.0 devices. Currently the Makefile
+has XHCI linking at the bottom which will result in the XHIC driver
+initalizing after the EHCI and OHCI drivers and any installed 3.0
+device will be seen as a 2.0 device. Moving the XHCI linking
+above the EHCI and OHCI linking fixes the issue.
 
-On 2020-05-11 08:26, Rob Herring wrote:
-> On Wed,  6 May 2020 12:17:18 -0700, Angus Ainslie wrote:
->> Document the tps6598x driver
->> 
->> Signed-off-by: Angus Ainslie <angus@akkea.ca>
->> ---
->>  .../devicetree/bindings/usb/ti,tps6598x.yaml  | 75 
->> +++++++++++++++++++
->>  1 file changed, 75 insertions(+)
->>  create mode 100644 
->> Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
->> 
-> 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml:
-> maintainers:0: None is not of type 'string'
-> Documentation/devicetree/bindings/Makefile:12: recipe for target
-> 'Documentation/devicetree/bindings/usb/ti,tps6598x.example.dts' failed
-> make[1]: ***
-> [Documentation/devicetree/bindings/usb/ti,tps6598x.example.dts] Error
-> 1
-> make[1]: *** Waiting for unfinished jobs....
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml:
-> ignoring, error in schema: maintainers: 0
-> warning: no schema found in file:
-> ./Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml:
-> ignoring, error in schema: maintainers: 0
-> warning: no schema found in file:
-> ./Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-> Makefile:1300: recipe for target 'dt_binding_check' failed
-> make: *** [dt_binding_check] Error 2
-> 
-> See https://patchwork.ozlabs.org/patch/1284704
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure dt-schema is up to date:
-> 
-> pip3 install
-> git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-> 
-> Please check and re-submit.
+Signed-off-by: Al Cooper <alcooperx@gmail.com>
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/usb/host/Makefile | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-I think the consesus was to use this one instead.
-
-https://lore.kernel.org/lkml/20200507122352.1773661-2-bryan.odonoghue@linaro.org/
-
-Thanks
-Angus
+diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
+index b191361257cc..a7f0b8ff7179 100644
+--- a/drivers/usb/host/Makefile
++++ b/drivers/usb/host/Makefile
+@@ -37,6 +37,16 @@ endif
+ 
+ obj-$(CONFIG_USB_PCI)	+= pci-quirks.o
+ 
++# NOTE: BRCMSTB systems require that xhci driver be linked before the
++# ehci/ohci drivers because they share a port and need the XHCI driver
++# to come up first to properly enumerate 3.0 devices.
++obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
++obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
++obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
++obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
++obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
++obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
++
+ obj-$(CONFIG_USB_EHCI_HCD)	+= ehci-hcd.o
+ obj-$(CONFIG_USB_EHCI_PCI)	+= ehci-pci.o
+ obj-$(CONFIG_USB_EHCI_HCD_PLATFORM)	+= ehci-platform.o
+@@ -69,12 +79,6 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
+ 
+ obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
+ obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
+-obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
+-obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
+-obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
+-obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
+-obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
+-obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
+ obj-$(CONFIG_USB_SL811_HCD)	+= sl811-hcd.o
+ obj-$(CONFIG_USB_SL811_CS)	+= sl811_cs.o
+ obj-$(CONFIG_USB_U132_HCD)	+= u132-hcd.o
+-- 
+2.17.1
 
