@@ -2,139 +2,155 @@ Return-Path: <SRS0=Ez8k=62=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.1 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCF0C54E8B
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 06:41:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54898C54E4B
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 08:28:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C25520882
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 06:41:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F10D206A3
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 08:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589265660;
-	bh=bQMdQdnVPDvpxknl79QvpAcLjSL/PPXel8ZsZdUjAyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=RWyeKxchk1J77g1K9Og89uWIHnCYeuIBF9M489qbkV5ye8T/YH4NNDejLfXmy7Ygr
-	 IaTTZMDy5VHe6JtqyJ/OCZvs0EtwTdsfWaqFAq0Xl9V//VneFjeBO+cDSUwP94qnE+
-	 4nBWNF6ly8OPUnNJZLGFp5osZgisfOQmcgi8mHQU=
+	s=default; t=1589272124;
+	bh=7RuoiwtdXbjU5E/bE+GPnT11/3NNMit5u9rAnsnFk9s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Ve5P0iDpS6TdhjtckDut7wGkDECaVCXP1g1BIzuylaM77tp6ic2Qj8o9HxPg4emgL
+	 dSu5N+nSIhKcWejveKMqWAc9wN92kj8QteTkAJlEUOw6M8EgC6GF9Z7lBZ1nxAmdjM
+	 XrFUPUloVqwQzHyz1iT17nQZAq0C02lJY/YTTva4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbgELGk5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 May 2020 02:40:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725987AbgELGk5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 May 2020 02:40:57 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CDEC061A0C;
-        Mon, 11 May 2020 23:40:56 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id u6so12261636ljl.6;
-        Mon, 11 May 2020 23:40:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=CvDFw3VxZkX78aA+MdfUy4a8VmJHp4z5s/fOMPEwqfQ=;
-        b=Bd33efnXE88VWqLM9bDrxn8uzAhETLqeNNnaUtoxd7tYE2HBkf4C3c1NamPswJcGD4
-         b40w77ZcdtFoJOJPA9M6JURDOFnFubs6oHOKKnAERMdmHnxcEaxr1L5jTPSzS+DKGF8B
-         HUzc7mnAnCZ9LcvcW3tOE7mT81ftX1kaG2+7+tKA5qC9oiWPED5qupwREMAF8HtfmN3z
-         stfFng5kQqvknayHKTO87Cit80dvR5RGogU6P88CHEDwPr03PZ5sGoxtAVA2RbyTcGAq
-         w9v5qFdLJW/qGLi+lAj8kl1WZCgP4nXJpDW1DC5wV7j1Pc6XAWhzkXOdLnMzL9zBvgaH
-         AZQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=CvDFw3VxZkX78aA+MdfUy4a8VmJHp4z5s/fOMPEwqfQ=;
-        b=H5hPy1jx6gnhQPlrU+4czF7Rwk1KK39ru1/zNGvP9cOGvJmmpHjtYyIX8t47OnqLkw
-         Vg5T0ackZv6UI5qbnZoR7xtkn4VxkrLhZ31smsaKXHv4TMEAqHVhhOQwUfYPf/HQETy5
-         DrtufyhmxgprAZQdKlARXAJycz4hKdwz8QxmKpaEwESD9x7qC6NvOXDM4iccpwItTxey
-         xGfPEvhGnvgQdmMoNZcIyAgp3UdW3Ewn5Bo2T+X25FxW2Vu/CpFMRVV3GXIuUoyamPdp
-         +UIdXj3hm5VE/99HpncJl6erGyRtuiwXPddleqVbjiDRV8/5IDVoHupEZWOsu/QlMA2r
-         LHaA==
-X-Gm-Message-State: AOAM530xDkdxVEsUHin0MLP6nFObK7LsxkZn1SN+ZnB0HE3DNcNsRDvg
-        PUNSTcpfkPT5u8s9d1x0a2E=
-X-Google-Smtp-Source: ABdhPJwMIxXKqZg9TJAoa+cxwCGsXoXtp+dvXK94pDmluoVg92qTksjGCWtkRhjO5mm2pvwfqHw7rQ==
-X-Received: by 2002:a2e:8944:: with SMTP id b4mr12748662ljk.84.1589265654887;
-        Mon, 11 May 2020 23:40:54 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id r13sm9734148ljh.66.2020.05.11.23.40.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 11 May 2020 23:40:53 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v2] usb: raw-gadget: fix gadget endpoint selection
-In-Reply-To: <20200509170843.GD2482887@kroah.com>
-References: <2f05fe9aa7e4bcb1bad3f6d11e48a411c901af68.1588197975.git.andreyknvl@google.com> <875zdabzs3.fsf@kernel.org> <CAAeHK+yxoYigM7uWC3cpKmCjgMLXQ1pT=MkJ7XQYCVRgZ-DdTQ@mail.gmail.com> <87zhahlenu.fsf@kernel.org> <20200509170843.GD2482887@kroah.com>
-Date:   Tue, 12 May 2020 09:40:49 +0300
-Message-ID: <87mu6d4pvy.fsf@kernel.org>
+        id S1726193AbgELI2n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 May 2020 04:28:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57062 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725987AbgELI2n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 May 2020 04:28:43 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 43E95206A3;
+        Tue, 12 May 2020 08:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589272122;
+        bh=7RuoiwtdXbjU5E/bE+GPnT11/3NNMit5u9rAnsnFk9s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hURymR3FiR13WuWVys7r7yn6p1lKKJKhuOl2Z3MYBq2KJyKKgnIqXOOR1ht1dDXpb
+         X+vtTZCkoB9hEjTuc2KyG9tne4q3HkiN92Z39eb5wwr6B7nTfKokX8Pp3bGQB5YKTk
+         aWAtRI4tHJv9NAb7uVVD/HNJIzF8LNSzbQt+OEqE=
+Date:   Mon, 11 May 2020 18:33:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Christian.Gromm@microchip.com
+Cc:     driverdev-devel@linuxdriverproject.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH RFC] drivers: most: add USB adapter driver
+Message-ID: <20200511163346.GA2236392@kroah.com>
+References: <1589190675-21145-1-git-send-email-christian.gromm@microchip.com>
+ <20200511114713.GA1671075@kroah.com>
+ <266714a09283d7b5cc9f0720415db7e86bf18387.camel@microchip.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <266714a09283d7b5cc9f0720415db7e86bf18387.camel@microchip.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Mon, May 11, 2020 at 02:46:58PM +0000, Christian.Gromm@microchip.com wrote:
+> On Mon, 2020-05-11 at 13:47 +0200, Greg KH wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you
+> > know the content is safe
+> > 
+> > On Mon, May 11, 2020 at 11:51:15AM +0200, Christian Gromm wrote:
+> > > This patch adds the MOST USB adapter driver to the stable branch.
+> > > This is
+> > > a follow-up to commit <b276527>.
+> > 
+> > I do not understand the "a follow-up..." sentance.  Always use the
+> > format of:
+> >         b27652753918 ("staging: most: move core files out of the
+> > staging area")
+> > when writing kernel commits in changelogs.
+> > 
+> > Also, that commit doesn't really mean anything here, this is a
+> > stand-alone driver for the most subsystem.  This changelog needs
+> > work.
+> 
+> Purpose was sharing the information that this is patch is
+> only one part of moving the complete driver stack. That a
+> first step has alread been done and others are to follow.
+> But you're probably right and nobody realy needs to know.
+> 
+> I'll skip this.
+> 
+> > 
+> > > Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+> > > ---
+> > >  drivers/most/Kconfig          |    6 +
+> > >  drivers/most/Makefile         |    2 +
+> > >  drivers/most/usb/Kconfig      |   14 +
+> > >  drivers/most/usb/Makefile     |    4 +
+> > >  drivers/most/usb/usb.c        | 1262
+> > > +++++++++++++++++++++++++++++++++++++++++
+> > 
+> > Why not just call this file most-usb.c so you don't have to do the
+> > 2-step Makefile work.  Also, why a whole subdir for a single .c file?
+> 
+> To keep the staging layout.
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+No need to do that, this is a new layout :)
 
-> On Sat, May 09, 2020 at 11:02:13AM +0300, Felipe Balbi wrote:
->>=20
->> Hi,
->>=20
->> Andrey Konovalov <andreyknvl@google.com> writes:
->> >> here you're changing userspace ABI. Aren't we going to possibly break
->> >> some existing applications?
->> >
->> > Hi Felipe,
->> >
->> >  I've been working on tests for Raw Gadget for the last few weeks [1],
->> > which revealed a few problems with the interface. This isn't yet
->> > included into any released kernel, so my hope that changing the ABI is
->> > OK during the rc stage.
->>=20
->> Fair enough. If that's okay with Greg, it's okay with me, but then how
->> do we include it into the -rc seen as it's not really a fix?
->>=20
->> Greg, are you okay with me including such large patches during the -rc?
->> They essentially add new IOCTLs to the raw-gadget interface.
->
-> Yes, as the driver only went in for -rc1, it's fine to add fixes like
-> this so late as we don't want to ship a -final with it in broken form.
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > 
+> > You shouldn't need any pr_*() calls because this is a driver and you
+> > always have access to the struct device * it controls.  So drop this
+> > and
+> > fix up the remaining pr_*() calls to be dev_*() instead.
+> 
+> There are helper functions that actually don't have access to the
+> struct device and it felt like an overhead to pass the device
+> pointer just for logging purposes.
 
-Thanks, I'll prepare a pull request containing it.
+pr_* calls show almost nothing when it comes to the actual device/driver
+being affected.  That's why the dev_*() functions are there, please use
+them.
 
-cheers
+> > > +/**
+> > > + * struct most_dci_obj - Direct Communication Interface
+> > > + * @kobj:position in sysfs
+> > > + * @usb_device: pointer to the usb device
+> > > + * @reg_addr: register address for arbitrary DCI access
+> > > + */
+> > > +struct most_dci_obj {
+> > > +     struct device dev;
+> > 
+> > Wait, why is a USB driver creating something with a separate struct
+> > device embedded in it?  Shouldn't the most core handle stuff like
+> > this?
+> 
+> The driver adds an ABI interface that belongs to USB only. This keeps
+> the core generic.
 
-=2D-=20
-balbi
+So this same type of thing is also needed in the other bus controllers
+(serial, i2c, etc.)?
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Creating a new device implies it lives on a bus, and almost always the
+bus code for creating/managing that code lives in a single place, not in
+the individual drivers.  Why doesn't the most core handle this?  What
+does the most core do?  :)
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl66RPEACgkQzL64meEa
-mQauvA//RClDtkgGG6+X7US8hr34DwyDpHe+viSSYdHCtCF0Wsjkd5q55u9PIwBu
-DHxZc7kOIwoMEWJaTyx8nb02zrMN1UeyEMzL6vhCuLKDXUn/SsmaujPh2whJlBBz
-zvp89pkxF/Sup2TwNQyA9KAaf5xmS5kUZAebXdOVxczicfa91pwYzY96NUp5OG32
-MNDZDVNlYzxxGbHvEdE9/azwGnPHwRBlWomvb/YnaUbwMG6+ZQicS9+bFxsp+TQx
-j4+1AzX1fj/YTS+fME3pUiFLsuOF2h6V3iLhm4RhFLJoZ8MQ2JqAtO7zd9PxjzUU
-ZSu3KyqQ3TswX/WGoSRBPw6gJX/RrP1Gmnu32okfXKsZeLl8XVbhDTHzTlyGQKB9
-NAakHCE7egZ4h1vK81aC4kVuvOBayPP6nbiAN1QNC6OeN2WXhvp2FXN8bd7/RDtp
-w4OEpWm3MGMAxlXic2GkJchUsYxEmQQ2rPE1xG/eGCc7vASbHjLOB28raH7EiDU+
-U0zJ8xpIpviX+Z07EWHeGWO99ENk45ZqRWu8L4jMPIhnc54NM7OBcDZTY3hhw2IH
-dQkL39KouhMFH8e2hGkHvn/vOBHNcCKE7Ofnb4mzxe8XB5zWEJVFja8iQy0XIt6p
-ql34MLf7ciYoAWHdWpbISmTcrCIlQAUgQHNf0EFTMeZwgCwvbNk=
-=3yqU
------END PGP SIGNATURE-----
---=-=-=--
+> > > +static DEVICE_ATTR(arb_address, 0644, value_show, value_store);
+> > > +static DEVICE_ATTR(arb_value, 0644, value_show, value_store);
+> > 
+> > Loads of sysfs files with no documentation for them?
+> > 
+> 
+> see driver/staging/most/Documentation
+
+Add it as part of this patch series, as you are moving these sysfs files
+into the "real" part of the kernel and belong out of drivers/staging/
+
+thanks,
+
+greg k-h
