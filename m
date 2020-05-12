@@ -2,155 +2,156 @@ Return-Path: <SRS0=Ez8k=62=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.1 required=3.0 tests=DATE_IN_PAST_12_24,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54898C54E4B
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 08:28:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5397C54E4B
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 08:42:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F10D206A3
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 08:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589272124;
-	bh=7RuoiwtdXbjU5E/bE+GPnT11/3NNMit5u9rAnsnFk9s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Ve5P0iDpS6TdhjtckDut7wGkDECaVCXP1g1BIzuylaM77tp6ic2Qj8o9HxPg4emgL
-	 dSu5N+nSIhKcWejveKMqWAc9wN92kj8QteTkAJlEUOw6M8EgC6GF9Z7lBZ1nxAmdjM
-	 XrFUPUloVqwQzHyz1iT17nQZAq0C02lJY/YTTva4=
+	by mail.kernel.org (Postfix) with ESMTP id 96C0220674
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 08:42:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="q7NYYNt8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbgELI2n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 May 2020 04:28:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725987AbgELI2n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 May 2020 04:28:43 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 43E95206A3;
-        Tue, 12 May 2020 08:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589272122;
-        bh=7RuoiwtdXbjU5E/bE+GPnT11/3NNMit5u9rAnsnFk9s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hURymR3FiR13WuWVys7r7yn6p1lKKJKhuOl2Z3MYBq2KJyKKgnIqXOOR1ht1dDXpb
-         X+vtTZCkoB9hEjTuc2KyG9tne4q3HkiN92Z39eb5wwr6B7nTfKokX8Pp3bGQB5YKTk
-         aWAtRI4tHJv9NAb7uVVD/HNJIzF8LNSzbQt+OEqE=
-Date:   Mon, 11 May 2020 18:33:46 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Christian.Gromm@microchip.com
-Cc:     driverdev-devel@linuxdriverproject.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH RFC] drivers: most: add USB adapter driver
-Message-ID: <20200511163346.GA2236392@kroah.com>
-References: <1589190675-21145-1-git-send-email-christian.gromm@microchip.com>
- <20200511114713.GA1671075@kroah.com>
- <266714a09283d7b5cc9f0720415db7e86bf18387.camel@microchip.com>
+        id S1727859AbgELImh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 May 2020 04:42:37 -0400
+Received: from mail-am6eur05on2041.outbound.protection.outlook.com ([40.107.22.41]:53121
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725776AbgELImg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 May 2020 04:42:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e2s8ry83kKv6aZGmhzWhqzbd8h7DkM/ItT5c1GtqnNp16/a0wVsmgJD42lPEcYfNTsbfEtDMIghqXuLlINA8yZwoVeFoX3BZUOyogj46iD5l9ZNH8JoXYm/WNgQqvjq+lYRVQUK3U+WbiCwoHInSSUrSOHuxWx7LZZayDHGvvItJVAMvCE1rR7+tMHw8tGHuul08wJaGjJkVQI5jblF2Ci6nJGK8cz5CKufDvQOtsWdVzNfIAx4UslrSBld2JJr5+8JWP5+frfmHZfF8cu0nFDbzGKj9SMKV43BJOTidl4HOnAu34zsHod3VmBvH3UTsh143/xt3FA0q7a+z6d6jCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KhVSnZfRrWJsHNQbXJYEqtrA/dgpZOqS40RW2Y1TFzQ=;
+ b=EwgkvnTAMt9WeBhP1REs7r6xlobhYfbdTcnu0/1FhGD9sXojPcoh3J0dYVYK5ZBSVT5U1NhmxuWT1LJAFtDyfPuELz2U1JPYgPQdFVKnuPM5hBtZxbCpb9Y6CH32eRB9dW2uxDgYNMv8QuYBZyu3Z8greOue+m7ML+ZJ0VbiqbmnSvAB6qk0DO5xnanS0bKdyUsrm+pPtrkd5chRJFkyC7bvhCgw1D3wwScopJn23lsACjELZqn+L8eeTJogRiy18AcSizqhn6s499kS8Nd9cZHJcn1uJmBtO9URvkc9A3X1KyjM5PNuKrE0dEshX5q7c/MXe4mhtK5C4jHrjrtI2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KhVSnZfRrWJsHNQbXJYEqtrA/dgpZOqS40RW2Y1TFzQ=;
+ b=q7NYYNt8FHodb5B6IMMNURfkTdEpbF9+BphWLId43Tg99X0CllcXG3JgRbMRUQnWJiTLqdVrXypj4/r54QmcjF8jFU4/Pm5NNI1V76BENmyL4aMAKOZ8t/zaFJbS2KXYsaE3vxk8s4uAHsa+hHztzzjYeTwtBIXshmUBf0Dl+7M=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
+ by VE1PR04MB6686.eurprd04.prod.outlook.com (2603:10a6:803:125::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33; Tue, 12 May
+ 2020 08:42:33 +0000
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::5086:ae9e:6397:6b03]) by VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::5086:ae9e:6397:6b03%7]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 08:42:33 +0000
+From:   Li Jun <jun.li@nxp.com>
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        peter.chen@nxp.com, linux-imx@nxp.com
+Subject: [PATCH] usb: dwc3: allow dual role switch by defautl for new IP w/o OTG
+Date:   Tue, 12 May 2020 16:32:59 +0800
+Message-Id: <1589272379-30536-1-git-send-email-jun.li@nxp.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR0302CA0022.apcprd03.prod.outlook.com
+ (2603:1096:3:2::32) To VE1PR04MB6528.eurprd04.prod.outlook.com
+ (2603:10a6:803:127::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <266714a09283d7b5cc9f0720415db7e86bf18387.camel@microchip.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by SG2PR0302CA0022.apcprd03.prod.outlook.com (2603:1096:3:2::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3000.11 via Frontend Transport; Tue, 12 May 2020 08:42:31 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 5bcf9fbb-b8cc-4365-a100-08d7f65069f8
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6686:|VE1PR04MB6686:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VE1PR04MB6686074CA0668DBC1D921AA889BE0@VE1PR04MB6686.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rReC3/m2dxYhdRNjpIfOK637GZhlxxmL6DVYRSuF0ws+OjoZxPrqAaxrUGQjBncyvFkJ4v8gOTrmK4a9X3T002k4m+wV4W+SnFtWSz8sBRzSIn4OCx8XyIvMVd9U2JMlQQ4c4+kZDNOSArwLnlNFdqfwcUjjqHFno2hm5tTVhuayPdgbClkFGiZwrk38OG2oP1NfQjfkBJEkzjNecpNp15oAEkHlO/asEDja3CS7dBP8zAKk8EKEUveKMnuLSb+6O6XHXLiewS36Lh1UENreAfw2szL/NGRTtlTU5psnJ9QFZjuhDKgmUY6yYOHZJJDtCSXGOAVFT9cdr/kDisT/9ZcMuflc4sKxL6/4l8GPCPQnlh/j/3iKw9rp+z1ufIgEOwGUsfZhoGsEWXcmt9TzL1g6tB0ALkCBoQiq4P5qbneAsyCkkwdedMt4vuFN43uhGionXTYKfDemdfcft1hi03rZsVB9TjLzAETcCi41sx0ZgjJ6pjDv1efzOc4cdIsgjDYRvzLOIUmxf0uiUHeStpS8iD1MCLrK9+60XO0Vt7wZ8hHfHNYqxEsV71dfTGah
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(33430700001)(33440700001)(6916009)(66556008)(5660300002)(16526019)(186003)(52116002)(26005)(6486002)(8676002)(36756003)(8936002)(6506007)(6512007)(6666004)(66946007)(2906002)(69590400007)(4326008)(86362001)(956004)(66476007)(478600001)(2616005)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: WjFXgWrZG8X7iMxP0tgTSlURDmttC/ROEN13mF+D2rPSNCCANZqgKAR9UO+eu8kt4p8o3TdkERLn04F1gGAbWPxSbMzV4FiONmhQTpMIMeqGp92OhyBGc0xFFjFZPGtCBOSbCCVZDlPdGaNDE8m/DsmtbEc4Uzb2sSu0+E/47fnPT0Xl0j+QtU6UeqhOnbOIa96Ed9chcor6H5zEJyhetCzVX96wk17XFRtvuD3KJ+ZO/vkIqhbdzW87/Zgx6koC9VXpWTS8SE6ByE4d4qR6UarAnb/5Jpmlbev6eyAlNv++xcpGxGCcIzD9+nhTwDo1Kbm7/bMTjsLngCBJXAP4BytKXoccL4A9oGgeO+AD9hnTYDAEpRn020kpOtW6uOKBtaB6nibujgkepja8/rrbVma04fs5y2kFUNaj6zNre/UdFNGDS6gFj64E5buVflv47LgcpeMngbHPiGZ6dgfLnMYmwScN7iPuXerDW6EJUVk=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bcf9fbb-b8cc-4365-a100-08d7f65069f8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 08:42:33.3651
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: whhgGEWw+KsHqOEciM099u/SWyZocuuLEtUowFM/XmynBVa3JAxdtq+RdGPsASpv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6686
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 11, 2020 at 02:46:58PM +0000, Christian.Gromm@microchip.com wrote:
-> On Mon, 2020-05-11 at 13:47 +0200, Greg KH wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you
-> > know the content is safe
-> > 
-> > On Mon, May 11, 2020 at 11:51:15AM +0200, Christian Gromm wrote:
-> > > This patch adds the MOST USB adapter driver to the stable branch.
-> > > This is
-> > > a follow-up to commit <b276527>.
-> > 
-> > I do not understand the "a follow-up..." sentance.  Always use the
-> > format of:
-> >         b27652753918 ("staging: most: move core files out of the
-> > staging area")
-> > when writing kernel commits in changelogs.
-> > 
-> > Also, that commit doesn't really mean anything here, this is a
-> > stand-alone driver for the most subsystem.  This changelog needs
-> > work.
-> 
-> Purpose was sharing the information that this is patch is
-> only one part of moving the complete driver stack. That a
-> first step has alread been done and others are to follow.
-> But you're probably right and nobody realy needs to know.
-> 
-> I'll skip this.
-> 
-> > 
-> > > Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
-> > > ---
-> > >  drivers/most/Kconfig          |    6 +
-> > >  drivers/most/Makefile         |    2 +
-> > >  drivers/most/usb/Kconfig      |   14 +
-> > >  drivers/most/usb/Makefile     |    4 +
-> > >  drivers/most/usb/usb.c        | 1262
-> > > +++++++++++++++++++++++++++++++++++++++++
-> > 
-> > Why not just call this file most-usb.c so you don't have to do the
-> > 2-step Makefile work.  Also, why a whole subdir for a single .c file?
-> 
-> To keep the staging layout.
+For new IP version DWC3_REVISION_330A or above, current code only allows
+dual role if role-switch is used, those IP w/o OTG only removes OTG
+block but dual role should be capable so don't limit dual role, user
+may use debugfs or any other way to switch role.
 
-No need to do that, this is a new layout :)
+Signed-off-by: Li Jun <jun.li@nxp.com>
+---
+ drivers/usb/dwc3/core.c | 11 -----------
+ drivers/usb/dwc3/drd.c  | 10 +++++++++-
+ 2 files changed, 9 insertions(+), 12 deletions(-)
 
-> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > 
-> > You shouldn't need any pr_*() calls because this is a driver and you
-> > always have access to the struct device * it controls.  So drop this
-> > and
-> > fix up the remaining pr_*() calls to be dev_*() instead.
-> 
-> There are helper functions that actually don't have access to the
-> struct device and it felt like an overhead to pass the device
-> pointer just for logging purposes.
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 75ee602..e4e473f 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -78,17 +78,6 @@ static int dwc3_get_dr_mode(struct dwc3 *dwc)
+ 			mode = USB_DR_MODE_HOST;
+ 		else if (IS_ENABLED(CONFIG_USB_DWC3_GADGET))
+ 			mode = USB_DR_MODE_PERIPHERAL;
+-
+-		/*
+-		 * DWC_usb31 and DWC_usb3 v3.30a and higher do not support OTG
+-		 * mode. If the controller supports DRD but the dr_mode is not
+-		 * specified or set to OTG, then set the mode to peripheral.
+-		 */
+-		if (mode == USB_DR_MODE_OTG &&
+-		    (!IS_ENABLED(CONFIG_USB_ROLE_SWITCH) ||
+-		     !device_property_read_bool(dwc->dev, "usb-role-switch")) &&
+-		    dwc->revision >= DWC3_REVISION_330A)
+-			mode = USB_DR_MODE_PERIPHERAL;
+ 	}
+ 
+ 	if (mode != dwc->dr_mode) {
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index a24c6c0..4281e96 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -587,7 +587,7 @@ int dwc3_drd_init(struct dwc3 *dwc)
+ 		}
+ 
+ 		dwc3_drd_update(dwc);
+-	} else {
++	} else if (!dwc3_is_usb31(dwc) && dwc->revision < DWC3_REVISION_330A) {
+ 		dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_OTG);
+ 		dwc->current_dr_role = DWC3_GCTL_PRTCAP_OTG;
+ 
+@@ -615,6 +615,14 @@ int dwc3_drd_init(struct dwc3 *dwc)
+ 
+ 		dwc3_otg_init(dwc);
+ 		dwc3_set_mode(dwc, DWC3_GCTL_PRTCAP_OTG);
++	} else {
++		/*
++		 * DWC_usb3 dwc_usb31, v3.30a and higher do not support
++		 * OTG mode. If the controller supports DRD but the
++		 * dr_mode is not specified or set to OTG, then set the
++		 * default role to be peripheral.
++		 */
++		dwc3_set_mode(dwc, DWC3_GCTL_PRTCAP_DEVICE);
+ 	}
+ 
+ 	return 0;
+-- 
+2.7.4
 
-pr_* calls show almost nothing when it comes to the actual device/driver
-being affected.  That's why the dev_*() functions are there, please use
-them.
-
-> > > +/**
-> > > + * struct most_dci_obj - Direct Communication Interface
-> > > + * @kobj:position in sysfs
-> > > + * @usb_device: pointer to the usb device
-> > > + * @reg_addr: register address for arbitrary DCI access
-> > > + */
-> > > +struct most_dci_obj {
-> > > +     struct device dev;
-> > 
-> > Wait, why is a USB driver creating something with a separate struct
-> > device embedded in it?  Shouldn't the most core handle stuff like
-> > this?
-> 
-> The driver adds an ABI interface that belongs to USB only. This keeps
-> the core generic.
-
-So this same type of thing is also needed in the other bus controllers
-(serial, i2c, etc.)?
-
-Creating a new device implies it lives on a bus, and almost always the
-bus code for creating/managing that code lives in a single place, not in
-the individual drivers.  Why doesn't the most core handle this?  What
-does the most core do?  :)
-
-
-> > > +static DEVICE_ATTR(arb_address, 0644, value_show, value_store);
-> > > +static DEVICE_ATTR(arb_value, 0644, value_show, value_store);
-> > 
-> > Loads of sysfs files with no documentation for them?
-> > 
-> 
-> see driver/staging/most/Documentation
-
-Add it as part of this patch series, as you are moving these sysfs files
-into the "real" part of the kernel and belong out of drivers/staging/
-
-thanks,
-
-greg k-h
