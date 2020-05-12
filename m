@@ -2,107 +2,73 @@ Return-Path: <SRS0=Ez8k=62=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D08C2D0FB
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 20:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCBEC2D0F8
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 21:46:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63B0E20753
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 20:46:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B5A720731
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 21:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589316372;
-	bh=Lh87sBVirmETvaVLhodSRgK38hbyc/iavSjxAunQF04=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=d10Pcyi2ot24nQr4lX2VJMDhtlsaiE7xCcEqEqpJSwnc/2o0w5Smy5Y4Txfe5NPrk
-	 +sZXfpOCukYDJ6e+P+pg+Kf2Ow91F7SIDY4TgYLzBBZr9SawhEytyFyf+n/Z/vBIqI
-	 SFpGH1R9Wi2AqfpDmqPEM4Cnku6WGtBGQRQ9emio=
+	s=default; t=1589319980;
+	bh=ulLHlolQRXsWXYiTML1BrCYngQd1LDZaMS96rMIfDoI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
+	b=TanxMLM1k1RFdqJ9AUDyikvKkMvZhLWjSKxGTo+fJNiuyZTIE0yOofy4ThCMxocvB
+	 SeACBrXe2xG97lceo44ef47DjRNFrJxoZ/x64hAg+43/ujC9/U4lLndsMBR9jlWBab
+	 i/0RKVLb7+k6CCPaXILYoGeQnawx7tgN8dmulg3M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730692AbgELUpq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 May 2020 16:45:46 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40815 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726324AbgELUpq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 May 2020 16:45:46 -0400
-Received: by mail-oi1-f193.google.com with SMTP id v128so2652597oia.7;
-        Tue, 12 May 2020 13:45:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bZ3SlC6IjAo3rRznak2yB2vjG0WklLB9HsgMaXr/3G8=;
-        b=ZepMXdQ/WnfBObbFd/B6M9to3Ob8Ol7WtpC39VYHjN4V7bsZEZexDAhDER0b0BbVTw
-         tHVIlA39IsnB5NgjrHBUtMO85bLadeGNJ4FD4BVDr3seuP6HkbG6qt0/JuaNw9bc6U3V
-         14bnQ3rB3FFAXvXNz+1w1xMAL4ZDecKlbC2kD7RCam5xRcl8EZUzdZVG8zKrF9Ut3IY6
-         f3UjfUTRBHiCNtKr1+/xYvz8LBGG0hBoOvHSNj+M+DqAOIBWCpGQLlWZFTw0JjGAsG7z
-         AchaYC9Vfh1f2EJvfZ5I/xPuOZgQ2dB0AbqHwAksFuXVQvO88t2A3u98QBDH4ELTptvS
-         CcQA==
-X-Gm-Message-State: AGi0Pubs2xELuMteQV/fKsLd2nq1GMHPAlCwpsuMhU1J6KxhvSJjv6j3
-        QVfU0NFWduUSdidFOv8PvOeuOQBqUA==
-X-Google-Smtp-Source: APiQypKV6dUHk4u2TZZM9pj4FNgtVQv7pL7PiPyGyXG2CpXKT8zCVpKHis+rnBPSF2vegPnG8W7f6g==
-X-Received: by 2002:aca:488c:: with SMTP id v134mr12366530oia.103.1589316344975;
-        Tue, 12 May 2020 13:45:44 -0700 (PDT)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.googlemail.com with ESMTPSA id k8sm3943792ood.24.2020.05.12.13.45.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 13:45:44 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org
+        id S1731382AbgELVqR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 May 2020 17:46:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56018 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731065AbgELVqR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 May 2020 17:46:17 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B883620731;
+        Tue, 12 May 2020 21:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589319976;
+        bh=ulLHlolQRXsWXYiTML1BrCYngQd1LDZaMS96rMIfDoI=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=W+OUlqzrI5Ge8FBittf7LcuviYyZbh7RW04rzXj0LXbJmBI7zFX31BvgYAIo1XAQM
+         XL8YFWUp3Nkbad2exsH3fZKlopfu4Zg7IUCUf1Q0UnAw/lmuhbuuVc7STGue7Ix1Pc
+         C1xok6HYkI+k+YIz7N4plBlZmqeamDeYPfz3+OZc=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200512204543.22090-5-robh@kernel.org>
+References: <20200512204543.22090-1-robh@kernel.org> <20200512204543.22090-5-robh@kernel.org>
+Subject: Re: [PATCH 5/5] dt-bindings: Fix incorrect 'reg' property sizes
+From:   Stephen Boyd <sboyd@kernel.org>
 Cc:     linux-clk@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH 1/5] spi: dt-bindings: sifive: Add missing 2nd register region
-Date:   Tue, 12 May 2020 15:45:39 -0500
-Message-Id: <20200512204543.22090-1-robh@kernel.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Date:   Tue, 12 May 2020 14:46:16 -0700
+Message-ID: <158931997603.215346.13048447179585746005@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The 'reg' description and example have a 2nd register region for memory
-mapped flash, but the schema says there is only 1 region. Fix this.
+Quoting Rob Herring (2020-05-12 13:45:43)
+> The examples template is a 'simple-bus' with a size of 1 cell for
+> #address-cells and #size-cells. The schema was only checking the entries
+> had between 2 and 4 cells which really only errors on I2C or SPI type
+> devices with a single cell.
+>=20
+> The easiest fix in most cases is to change the 'reg' property to for 1 ce=
+ll
+> address and size. In some cases with child devices having 2 cells, that
+> doesn't make sense so a bus node is needed.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>
-Cc: linux-spi@vger.kernel.org
-Cc: linux-riscv@lists.infradead.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-Please ack, dependency for patch 5.
-
- Documentation/devicetree/bindings/spi/spi-sifive.yaml | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/spi/spi-sifive.yaml b/Documentation/devicetree/bindings/spi/spi-sifive.yaml
-index 28040598bfae..fb583e57c1f2 100644
---- a/Documentation/devicetree/bindings/spi/spi-sifive.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-sifive.yaml
-@@ -32,11 +32,10 @@ properties:
-       https://github.com/sifive/sifive-blocks/tree/master/src/main/scala/devices/spi
- 
-   reg:
--    maxItems: 1
--
--    description:
--      Physical base address and size of SPI registers map
--      A second (optional) range can indicate memory mapped flash
-+    minItems: 1
-+    items:
-+      - description: SPI registers region
-+      - description: Memory mapped flash region
- 
-   interrupts:
-     maxItems: 1
--- 
-2.20.1
-
+Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
