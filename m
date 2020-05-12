@@ -2,133 +2,105 @@ Return-Path: <SRS0=Ez8k=62=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B705FC54E90
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 15:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0A2C54E4A
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 15:15:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95EF3206D6
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 15:01:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 137DE2054F
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 15:15:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJ9H2eVu"
+	dkim=pass (2048-bit key) header.d=aeam.us header.i=@aeam.us header.b="YoD3rmc5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cqPw2/hQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730243AbgELPAn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 May 2020 11:00:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgELPAm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 May 2020 11:00:42 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 564F8C061A0C;
-        Tue, 12 May 2020 08:00:42 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id k19so5486889pll.9;
-        Tue, 12 May 2020 08:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=VGLGSTcVeBfvS+Xc677uifViDuw5g0GT7tsHPQPjttc=;
-        b=IJ9H2eVuU84NMXD4CyvIoc6owHhQmsSaPlKl992UWfp0tMGpIC3djlIdJaFIz4iXwi
-         PQYKPF51TWF/8pY0AQYUMzhcg/sdxu6K2KORfpmO6NX7MwdkasgemrArk11tTa/ApE3g
-         vgQ/UlK1SnREpjm9AU5lBPsALjJakDjJodcJi0veiaqVDkaKRZQbZSkbtxsa0OP+EeeM
-         niVY19TdLl8d4eGgaLLTWdmOwv3LnJbUwV5mAGNMOMf76bF4W/51aXqvC5LuiYiCJ/u5
-         Eebt4vlE2WBb61lCGFtxym604edWYz1z+0Zntky69YpqgBT3G2235aUY3VpOhm/5Ukb3
-         3TsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=VGLGSTcVeBfvS+Xc677uifViDuw5g0GT7tsHPQPjttc=;
-        b=FN5VpwnwJ6qTdBpf81TnSxabsTvoFh4U/+g9C0se2XHIcH2qkYJXsh/8rwmv4PXQj9
-         5EUkavSk7RWMVSuGTvmHRc0YD8io//YgNr89JltXRFxCy6ihaRxBY/8HmLYUD+jvl2jP
-         zwnFrl8ADYKRTVLB7p08gyFn77KvsZeQqGv3B5/O+6ofOcrjsiurY1AhKhhDrebDH4Ei
-         7jn0ojH2CZv+QFh/1TLvJUbxFuQfOq4fBXecmfxbbTrF13dI6lrMQ05QRZ6hipK+ql42
-         0CU9yAPT8MfuDFV+aRcnG60czNdfRiqD30kX9Wb3jxqrarpC2E9JwpySFg3r5i1ysC5F
-         AReg==
-X-Gm-Message-State: AGi0PuZABKMGQ9KA/oUxZB+luSumSFLWQx6kRb0ZWy5Owe73PTqxxjJo
-        m3iLufASVkOSBv7N+fKnZX9xmw4bnr0=
-X-Google-Smtp-Source: APiQypIJjeyHdHpiwG+qHKfYSDOn/QCTXWSDO6Fj0NctMoV9b4jaJNvOzuh/NAYaxIW1Kkt4kKtpDw==
-X-Received: by 2002:a17:90a:e38c:: with SMTP id b12mr30629444pjz.102.1589295641575;
-        Tue, 12 May 2020 08:00:41 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id c2sm8359779pgj.93.2020.05.12.08.00.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 08:00:40 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v10 1/5] usb: xhci: Change the XHCI link order in the Makefile
-Date:   Tue, 12 May 2020 11:00:15 -0400
-Message-Id: <20200512150019.25903-2-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200512150019.25903-1-alcooperx@gmail.com>
-References: <20200512150019.25903-1-alcooperx@gmail.com>
+        id S1726300AbgELPPN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 May 2020 11:15:13 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34713 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725888AbgELPPN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 May 2020 11:15:13 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id E9C8C5C01B3;
+        Tue, 12 May 2020 11:15:11 -0400 (EDT)
+Received: from imap21 ([10.202.2.71])
+  by compute7.internal (MEProxy); Tue, 12 May 2020 11:15:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aeam.us; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm1; bh=5TiQ7+4hvxQaGpYZLmh7oS8xybSfby1
+        ak3vksEvngpo=; b=YoD3rmc5cP41nKMXdJeshvGglUrXi7iKLijbK3I4vXoUyiv
+        3/6Fd8DasSiPyjikYf/PgjztgX2pP/m53oE57U8kLjTR5GAm5semV02sgBhQsEfC
+        ujUmAbu6cXbAuLKmP+bkt2TeDEDOh43dB4aoDQqIUG97mlxRx4uVqlplUQzo4IuR
+        UrHMotPVWeUeJAMf71Zk2AKO1TDPPdTo3upDGFjT0iN/THFfSddGpEKo0pPLjv62
+        g56N/o4sEDn9xX6lHDP1h5P3U1QEtFduwa5TGUl0y8f/7IgtfzwHdCJZhc7Irq6h
+        KII6C6O1Jlexls4njQP0ACgWeHvr95mNtUaEnIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=5TiQ7+
+        4hvxQaGpYZLmh7oS8xybSfby1ak3vksEvngpo=; b=cqPw2/hQP0ubqVn+fm7X3y
+        jvgJ1dNeeVWqoGzctXxvjeJEZN9xnO3L/y03d+ZV7Xiaaswx9syTdSqUZv4e/2rB
+        ydxYh3dSytBlCxBFyxODUfcoyXFd2QubR/NHI9mUsmkDstzNWy3gvV3UfNDMxkoh
+        A5+VyPzwU8UranGv+FzZkN9wA0MCrEIrxCRmffkNNCsykhIumhE8iUjQcC5+g8Np
+        Mnj14yzQb0KXya5l3IN55yoVuBdEX1eZafcxcK8k52QQGHGQL19KZS+bb/JzS9dE
+        Jk/L63kofiZuzShalk5nCiK6VBWMGwCV4H6ctCQAknP86o81GOgCI4VScBSSOzoQ
+        ==
+X-ME-Sender: <xms:f726XpGLKQ0h_OgH7cgDFrvuM2mYBCMCnzVq6v_kxXbrcKcV-mVYNw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrledvgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfufhiugcu
+    ufhprhihfdcuoehsihgusegrvggrmhdruhhsqeenucggtffrrghtthgvrhhnpeevgefhve
+    evteetfeetkeejjeehudffffffhfeuffelhfeuffdufeduleejfeeugfenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsihgusegrvggrmhdruh
+    hs
+X-ME-Proxy: <xmx:f726XuXOtp1iX6ogtUembfGRn5-y4UsuVkfsQhyD20UjLCzKZ1aVIw>
+    <xmx:f726XrItNK2WeZ0ZDABD9ysT2VOOLjUAKt6YciYyFBSkUddKXt43Sw>
+    <xmx:f726XvHMQGFlenI8UGLnPp_9LhTyeAqJUxW8Pa1lzyeg2WA-_UHbrg>
+    <xmx:f726Xnh3T0e_S4GbQwYe97WUdOTgFoghc8usGTibBkIbh63I1ak6EQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 8E8E966007F; Tue, 12 May 2020 11:15:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-dev0-413-g750b809-fmstable-20200507v1
+Mime-Version: 1.0
+Message-Id: <8ee3914e-7876-46aa-bade-7cf14df7efdc@www.fastmail.com>
+In-Reply-To: <20200506091750.GE30237@b29397-desktop>
+References: <0507a041-44f4-4257-adaf-3b17de3baf81@www.fastmail.com>
+ <20200506091750.GE30237@b29397-desktop>
+Date:   Tue, 12 May 2020 10:14:26 -0500
+From:   "Sid Spry" <sid@aeam.us>
+To:     "Peter Chen" <peter.chen@nxp.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: Documentation for Raw USB ConfigFS
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some BRCMSTB USB chips have an XHCI, EHCI and OHCI controller
-on the same port where XHCI handles 3.0 devices, EHCI handles 2.0
-devices and OHCI handles <2.0 devices. Currently the Makefile
-has XHCI linking at the bottom which will result in the XHIC driver
-initalizing after the EHCI and OHCI drivers and any installed 3.0
-device will be seen as a 2.0 device. Moving the XHCI linking
-above the EHCI and OHCI linking fixes the issue.
+Hi Peter, thanks for pointing me towards the ffs-test. Unfortunately after some exploration in that area I still don't see how I would add a preexisting function to the configuration to be handled by the kernel.
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/usb/host/Makefile | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+I do see something in an AIO test in the host code where libusb is used to bind a kernel driver to an endpoint. Is that something that will be necessary? Device side, I'm still unsure how I tell the function to handle ECM/ethernet on a collection of endpoints.
 
-diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-index b191361257cc..a7f0b8ff7179 100644
---- a/drivers/usb/host/Makefile
-+++ b/drivers/usb/host/Makefile
-@@ -37,6 +37,16 @@ endif
- 
- obj-$(CONFIG_USB_PCI)	+= pci-quirks.o
- 
-+# NOTE: BRCMSTB systems require that xhci driver be linked before the
-+# ehci/ohci drivers because they share a port and need the XHCI driver
-+# to come up first to properly enumerate 3.0 devices.
-+obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
-+obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-+obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
-+obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
-+obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
-+obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
-+
- obj-$(CONFIG_USB_EHCI_HCD)	+= ehci-hcd.o
- obj-$(CONFIG_USB_EHCI_PCI)	+= ehci-pci.o
- obj-$(CONFIG_USB_EHCI_HCD_PLATFORM)	+= ehci-platform.o
-@@ -69,12 +79,6 @@ obj-$(CONFIG_USB_OHCI_HCD_DAVINCI)	+= ohci-da8xx.o
- 
- obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
- obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
--obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
--obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
--obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
--obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
--obj-$(CONFIG_USB_XHCI_MTK)	+= xhci-mtk.o
--obj-$(CONFIG_USB_XHCI_TEGRA)	+= xhci-tegra.o
- obj-$(CONFIG_USB_SL811_HCD)	+= sl811-hcd.o
- obj-$(CONFIG_USB_SL811_CS)	+= sl811_cs.o
- obj-$(CONFIG_USB_U132_HCD)	+= u132-hcd.o
--- 
-2.17.1
+I understand how USB works fairly well, especially on microcontrollers, but am a little lost still in understanding the Linux machinery for USB.
 
+Cheers,
+    Sid
+
+On Wed, May 6, 2020, at 4:17 AM, Peter Chen wrote:
+> On 20-04-30 12:08:13, Sid Spry wrote:
+> > Hi, I'm having issues finding good documentation for raw USB configfs. It has reached the point I need to look at developing a new driver, but I'd like my unique endpoint to coexist with a CDC ECM endpoint or similar.
+> > 
+> > Is there a high level description of this? I can refer to the code but it will be quite slow.
+> > 
+> 
+> You could write a user application using f_fs for your endpoint, the example is at:
+> tools/usb/ffs-test.c. And add both your specific function and CDC
+> function together into one configuration, in that case, the host could
+> see both functions.
+> 
+> -- 
+> 
+> Thanks,
+> Peter Chen
