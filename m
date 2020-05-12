@@ -2,65 +2,65 @@ Return-Path: <SRS0=Ez8k=62=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29872C2D0FE
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 20:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D08C2D0FB
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 20:46:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 001A920753
-	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 20:46:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63B0E20753
+	for <linux-usb@archiver.kernel.org>; Tue, 12 May 2020 20:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589316368;
-	bh=KDUdIfWVRfnXadbfPQxKIwjOmav7JTniiLGbcHFg8kE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zOUl76GvuFQm01XFf6J1SFcZnKaFrEULqw5yB0F1PeaP1m6nTvSLyzDJBqGGnvP61
-	 mpCUbM81WncLDwUAVhkpWeo2ImlStLF1EeZMauVyDblr12y57LPEQi5mKOpIy/GgO6
-	 hQ9i3MBzstShQ8IIFavenDzD+y3/sIulcgNwxZZ8=
+	s=default; t=1589316372;
+	bh=Lh87sBVirmETvaVLhodSRgK38hbyc/iavSjxAunQF04=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=d10Pcyi2ot24nQr4lX2VJMDhtlsaiE7xCcEqEqpJSwnc/2o0w5Smy5Y4Txfe5NPrk
+	 +sZXfpOCukYDJ6e+P+pg+Kf2Ow91F7SIDY4TgYLzBBZr9SawhEytyFyf+n/Z/vBIqI
+	 SFpGH1R9Wi2AqfpDmqPEM4Cnku6WGtBGQRQ9emio=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731241AbgELUpz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 May 2020 16:45:55 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37888 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731148AbgELUpu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 May 2020 16:45:50 -0400
-Received: by mail-oi1-f194.google.com with SMTP id r66so19482390oie.5;
-        Tue, 12 May 2020 13:45:49 -0700 (PDT)
+        id S1730692AbgELUpq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 May 2020 16:45:46 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:40815 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726324AbgELUpq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 May 2020 16:45:46 -0400
+Received: by mail-oi1-f193.google.com with SMTP id v128so2652597oia.7;
+        Tue, 12 May 2020 13:45:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1CmdYdYec1rQhzzC/CQmIUigvR0RXVGe0AhkcyhVUQc=;
-        b=umzFtOtRdHL55DFwi7O4QRvOP14GQoTDcjcGfb3kwzw/uahccF8ndl3+7kVlGbzFJK
-         SQyrfGDkUbOS9hyh3XUulYmj/zR7TPljJPsd8S13T16pwS5vWDN4YmwCJ746oZVmj1nP
-         ZMBo+GiFJSgnwvDNosjA+EhSyq/I1licSKNFZjBtUl4tUPubeU9SyXpKK1IeKQ6sJ5BX
-         eNhhpv0WZr5j87vL1E60ePvUKAdvypu4oHeNNNCjqbqyiGdoMsxI/WGDyEf8Hz45ciIg
-         1C0oJtKlwoevog3oa0oLzU+mXngfHa7n4A8RUO7AXl97XolxSJkWup38eP9WAlUaMF+2
-         GWrQ==
-X-Gm-Message-State: AGi0PuZOBsDMBoia4C/CPmSGf5K7qPc8a7luXvUz4LASOpxQhkeSyNsq
-        O+JCXdB2MrDi9lUphF90/Sgaqns=
-X-Google-Smtp-Source: APiQypKaCowSSCmSiYsr3sbFUCH1scVUF6kLbsI/9cGr7DfFXVIHt7LPGzSirz02jmkJo/42xDgaBw==
-X-Received: by 2002:aca:aac2:: with SMTP id t185mr24324925oie.53.1589316347616;
-        Tue, 12 May 2020 13:45:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bZ3SlC6IjAo3rRznak2yB2vjG0WklLB9HsgMaXr/3G8=;
+        b=ZepMXdQ/WnfBObbFd/B6M9to3Ob8Ol7WtpC39VYHjN4V7bsZEZexDAhDER0b0BbVTw
+         tHVIlA39IsnB5NgjrHBUtMO85bLadeGNJ4FD4BVDr3seuP6HkbG6qt0/JuaNw9bc6U3V
+         14bnQ3rB3FFAXvXNz+1w1xMAL4ZDecKlbC2kD7RCam5xRcl8EZUzdZVG8zKrF9Ut3IY6
+         f3UjfUTRBHiCNtKr1+/xYvz8LBGG0hBoOvHSNj+M+DqAOIBWCpGQLlWZFTw0JjGAsG7z
+         AchaYC9Vfh1f2EJvfZ5I/xPuOZgQ2dB0AbqHwAksFuXVQvO88t2A3u98QBDH4ELTptvS
+         CcQA==
+X-Gm-Message-State: AGi0Pubs2xELuMteQV/fKsLd2nq1GMHPAlCwpsuMhU1J6KxhvSJjv6j3
+        QVfU0NFWduUSdidFOv8PvOeuOQBqUA==
+X-Google-Smtp-Source: APiQypKV6dUHk4u2TZZM9pj4FNgtVQv7pL7PiPyGyXG2CpXKT8zCVpKHis+rnBPSF2vegPnG8W7f6g==
+X-Received: by 2002:aca:488c:: with SMTP id v134mr12366530oia.103.1589316344975;
+        Tue, 12 May 2020 13:45:44 -0700 (PDT)
 Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.googlemail.com with ESMTPSA id k8sm3943792ood.24.2020.05.12.13.45.46
+        by smtp.googlemail.com with ESMTPSA id k8sm3943792ood.24.2020.05.12.13.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 13:45:46 -0700 (PDT)
+        Tue, 12 May 2020 13:45:44 -0700 (PDT)
 From:   Rob Herring <robh@kernel.org>
 To:     devicetree@vger.kernel.org
 Cc:     linux-clk@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mark Brown <broonie@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Subject: [PATCH 3/5] dt-bindings: ufs: ti: Fix address properties handling
-Date:   Tue, 12 May 2020 15:45:41 -0500
-Message-Id: <20200512204543.22090-3-robh@kernel.org>
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH 1/5] spi: dt-bindings: sifive: Add missing 2nd register region
+Date:   Tue, 12 May 2020 15:45:39 -0500
+Message-Id: <20200512204543.22090-1-robh@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200512204543.22090-1-robh@kernel.org>
-References: <20200512204543.22090-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -68,94 +68,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The ti,j721e-ufs schema and example have a couple of problems related to
-address properties. First, the default #size-cells and #address-cells
-are 1 for examples, so they need to be overriden with a bus node.
-Second, address translation for the child ufs node is broken because
-'ranges', '#address-cells', and '#size-cells' are missing from the
-schema.
+The 'reg' description and example have a 2nd register region for memory
+mapped flash, but the schema says there is only 1 region. Fix this.
 
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: linux-spi@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
 Please ack, dependency for patch 5.
 
- .../devicetree/bindings/ufs/ti,j721e-ufs.yaml | 57 ++++++++++++-------
- 1 file changed, 36 insertions(+), 21 deletions(-)
+ Documentation/devicetree/bindings/spi/spi-sifive.yaml | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/ufs/ti,j721e-ufs.yaml b/Documentation/devicetree/bindings/ufs/ti,j721e-ufs.yaml
-index c8a2a92074df..b503b1a918a5 100644
---- a/Documentation/devicetree/bindings/ufs/ti,j721e-ufs.yaml
-+++ b/Documentation/devicetree/bindings/ufs/ti,j721e-ufs.yaml
-@@ -25,6 +25,14 @@ properties:
-   power-domains:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/spi/spi-sifive.yaml b/Documentation/devicetree/bindings/spi/spi-sifive.yaml
+index 28040598bfae..fb583e57c1f2 100644
+--- a/Documentation/devicetree/bindings/spi/spi-sifive.yaml
++++ b/Documentation/devicetree/bindings/spi/spi-sifive.yaml
+@@ -32,11 +32,10 @@ properties:
+       https://github.com/sifive/sifive-blocks/tree/master/src/main/scala/devices/spi
  
-+  "#address-cells":
-+    const: 2
-+
-+  "#size-cells":
-+    const: 2
-+
-+  ranges: true
-+
- required:
-   - compatible
-   - reg
-@@ -44,25 +52,32 @@ examples:
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
--    ufs_wrapper: ufs-wrapper@4e80000 {
--       compatible = "ti,j721e-ufs";
--       reg = <0x0 0x4e80000 0x0 0x100>;
--       power-domains = <&k3_pds 277>;
--       clocks = <&k3_clks 277 1>;
--       assigned-clocks = <&k3_clks 277 1>;
--       assigned-clock-parents = <&k3_clks 277 4>;
--       #address-cells = <2>;
--       #size-cells = <2>;
+   reg:
+-    maxItems: 1
 -
--       ufs@4e84000 {
--          compatible = "cdns,ufshc-m31-16nm", "jedec,ufs-2.0";
--          reg = <0x0 0x4e84000 0x0 0x10000>;
--          interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
--          freq-table-hz = <19200000 19200000>;
--          power-domains = <&k3_pds 277>;
--          clocks = <&k3_clks 277 1>;
--          assigned-clocks = <&k3_clks 277 1>;
--          assigned-clock-parents = <&k3_clks 277 4>;
--          clock-names = "core_clk";
--       };
-+    bus {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        ufs-wrapper@4e80000 {
-+            compatible = "ti,j721e-ufs";
-+            reg = <0x0 0x4e80000 0x0 0x100>;
-+            power-domains = <&k3_pds 277>;
-+            clocks = <&k3_clks 277 1>;
-+            assigned-clocks = <&k3_clks 277 1>;
-+            assigned-clock-parents = <&k3_clks 277 4>;
-+
-+            ranges = <0x0 0x0 0x0 0x4e80000 0x0 0x14000>;
-+            #address-cells = <2>;
-+            #size-cells = <2>;
-+
-+            ufs@4000 {
-+                compatible = "cdns,ufshc-m31-16nm", "jedec,ufs-2.0";
-+                reg = <0x0 0x4000 0x0 0x10000>;
-+                interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
-+                freq-table-hz = <19200000 19200000>;
-+                power-domains = <&k3_pds 277>;
-+                clocks = <&k3_clks 277 1>;
-+                assigned-clocks = <&k3_clks 277 1>;
-+                assigned-clock-parents = <&k3_clks 277 4>;
-+                clock-names = "core_clk";
-+            };
-+        };
-     };
+-    description:
+-      Physical base address and size of SPI registers map
+-      A second (optional) range can indicate memory mapped flash
++    minItems: 1
++    items:
++      - description: SPI registers region
++      - description: Memory mapped flash region
+ 
+   interrupts:
+     maxItems: 1
 -- 
 2.20.1
 
