@@ -2,242 +2,97 @@ Return-Path: <SRS0=wfA1=63=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 329FCC2D0FA
-	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 14:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1209BC4345A
+	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 15:00:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C278E204EF
-	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 14:05:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2643420810
+	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 15:00:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="KEWtE9DJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388850AbgEMOFR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 May 2020 10:05:17 -0400
-Received: from mga05.intel.com ([192.55.52.43]:11955 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388325AbgEMOFR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 13 May 2020 10:05:17 -0400
-IronPort-SDR: m2f3H+AKghJAV6vzjVJhpjV8xKIsS4SCsdL5QIRi3FgTgvsg9C8fU/F9ig1NUJoE4UK7Ag9M42
- 7E+bRS5fzp4w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2020 07:04:58 -0700
-IronPort-SDR: lQOMhYCNEN5EtjiPCFHMQ65qf8SY1cqAwpRPe86DEW3lanjbEDd2BWx+e9xgd4ukWyJoTX+IC5
- ljY7P+gWQtkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,388,1583222400"; 
-   d="scan'208";a="371916009"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 13 May 2020 07:04:55 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 13 May 2020 17:04:54 +0300
-Date:   Wed, 13 May 2020 17:04:54 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Gustavo A . R . Silva" <garsilva@embeddedor.com>,
-        Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] usb: typec: tps6598x: Add USB role switching logic
-Message-ID: <20200513140454.GE2085641@kuha.fi.intel.com>
-References: <20200511231930.2825183-1-bryan.odonoghue@linaro.org>
- <20200511231930.2825183-2-bryan.odonoghue@linaro.org>
+        id S2389167AbgEMPAP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 May 2020 11:00:15 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:56868 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389140AbgEMPAC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 May 2020 11:00:02 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04DEwEa0012652;
+        Wed, 13 May 2020 16:59:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=YKDaVDrP2xQNZLQzpmWzpO0+LvV9JwL1ShvubDmLjTg=;
+ b=KEWtE9DJ7xxHgWkTGUhfZtXbV9C9E4/GLgnfcf87m4lFvA/00B9DJOFrQa0+qCUW7h9r
+ CYT5MRQxYWC9GDcNwsNcMqBQON8V2hUPdnTy5MXyqYoiIVr6F1nyLhO5zmlCCR/XnLUY
+ /dw+zLhvk0iiauPFWN4Z95IeUDFoR4Il7lmeAQDRpGzMmo//vgBxMx5xb6fxw/j19NWM
+ QiOCyMa9e2ZMCMZOZtZPWATIRSoBVx766XYzqKB08Na6cFHvvs4/86oZMrc4A1tedQRr
+ icLUpI5cgb3Py6W5zujWsZnku5n4idrslsEpnIHN47a5ueZrJdMH90vsrqHcOaNbrzQa oA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3100vn5e3h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 May 2020 16:59:51 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8C9EB10002A;
+        Wed, 13 May 2020 16:59:51 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7DB8C2D3006;
+        Wed, 13 May 2020 16:59:51 +0200 (CEST)
+Received: from localhost (10.75.127.50) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 13 May 2020 16:59:50
+ +0200
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <linus.walleij@linaro.org>, <robh+dt@kernel.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>,
+        <gregkh@linuxfoundation.org>
+CC:     <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH 09/15] ARM: dts: stm32: remove useless interrupt-names property on stm32f743
+Date:   Wed, 13 May 2020 16:59:29 +0200
+Message-ID: <20200513145935.22493-10-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
+In-Reply-To: <20200513145935.22493-1-benjamin.gaignard@st.com>
+References: <20200513145935.22493-1-benjamin.gaignard@st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200511231930.2825183-2-bryan.odonoghue@linaro.org>
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
+ definitions=2020-05-13_06:2020-05-13,2020-05-13 signatures=0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 12, 2020 at 12:19:30AM +0100, Bryan O'Donoghue wrote:
-> This patch adds USB role switch support to the tps6598x.
-> 
-> The setup to initiate or accept a data-role switch is both assumed and
-> currently required to be baked-into the firmware as described in TI's
-> document here.
-> 
-> Link: https://www.ti.com/lit/an/slva843a/slva843a.pdf
-> 
-> With this change its possible to use the USB role-switch API to detect and
-> notify role-switches to downstream consumers.
-> 
-> Tested with a ChipIdea controller on a Qualcomm MSM8939.
-> 
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Gustavo A. R. Silva <garsilva@embeddedor.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Driver doesn't use interrupt's name to get it so remove it from
+the node.
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+---
+ arch/arm/boot/dts/stm32h743.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-> ---
->  drivers/usb/typec/tps6598x.c | 57 +++++++++++++++++++++++++++++++-----
->  1 file changed, 50 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
-> index defa651282b0..b7c9fe5caabe 100644
-> --- a/drivers/usb/typec/tps6598x.c
-> +++ b/drivers/usb/typec/tps6598x.c
-> @@ -12,6 +12,7 @@
->  #include <linux/regmap.h>
->  #include <linux/interrupt.h>
->  #include <linux/usb/typec.h>
-> +#include <linux/usb/role.h>
->  
->  /* Register offsets */
->  #define TPS_REG_VID			0x00
-> @@ -94,6 +95,7 @@ struct tps6598x {
->  	struct typec_port *port;
->  	struct typec_partner *partner;
->  	struct usb_pd_identity partner_identity;
-> +	struct usb_role_switch *role_sw;
->  };
->  
->  /*
-> @@ -190,6 +192,23 @@ static int tps6598x_read_partner_identity(struct tps6598x *tps)
->  	return 0;
->  }
->  
-> +static void tps6598x_set_data_role(struct tps6598x *tps,
-> +				   enum typec_data_role role, bool connected)
-> +{
-> +	enum usb_role role_val;
-> +
-> +	if (role == TYPEC_HOST)
-> +		role_val = USB_ROLE_HOST;
-> +	else
-> +		role_val = USB_ROLE_DEVICE;
-> +
-> +	if (!connected)
-> +		role_val = USB_ROLE_NONE;
-> +
-> +	usb_role_switch_set_role(tps->role_sw, role_val);
-> +	typec_set_data_role(tps->port, role);
-> +}
-> +
->  static int tps6598x_connect(struct tps6598x *tps, u32 status)
->  {
->  	struct typec_partner_desc desc;
-> @@ -220,7 +239,7 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
->  	typec_set_pwr_opmode(tps->port, mode);
->  	typec_set_pwr_role(tps->port, TPS_STATUS_PORTROLE(status));
->  	typec_set_vconn_role(tps->port, TPS_STATUS_VCONN(status));
-> -	typec_set_data_role(tps->port, TPS_STATUS_DATAROLE(status));
-> +	tps6598x_set_data_role(tps, TPS_STATUS_DATAROLE(status), true);
->  
->  	tps->partner = typec_register_partner(tps->port, &desc);
->  	if (IS_ERR(tps->partner))
-> @@ -240,7 +259,7 @@ static void tps6598x_disconnect(struct tps6598x *tps, u32 status)
->  	typec_set_pwr_opmode(tps->port, TYPEC_PWR_MODE_USB);
->  	typec_set_pwr_role(tps->port, TPS_STATUS_PORTROLE(status));
->  	typec_set_vconn_role(tps->port, TPS_STATUS_VCONN(status));
-> -	typec_set_data_role(tps->port, TPS_STATUS_DATAROLE(status));
-> +	tps6598x_set_data_role(tps, TPS_STATUS_DATAROLE(status), false);
->  }
->  
->  static int tps6598x_exec_cmd(struct tps6598x *tps, const char *cmd,
-> @@ -328,7 +347,7 @@ static int tps6598x_dr_set(struct typec_port *port, enum typec_data_role role)
->  		goto out_unlock;
->  	}
->  
-> -	typec_set_data_role(tps->port, role);
-> +	tps6598x_set_data_role(tps, role, true);
->  
->  out_unlock:
->  	mutex_unlock(&tps->lock);
-> @@ -452,6 +471,7 @@ static int tps6598x_probe(struct i2c_client *client)
->  {
->  	struct typec_capability typec_cap = { };
->  	struct tps6598x *tps;
-> +	struct fwnode_handle *fwnode;
->  	u32 status;
->  	u32 conf;
->  	u32 vid;
-> @@ -495,11 +515,22 @@ static int tps6598x_probe(struct i2c_client *client)
->  	if (ret < 0)
->  		return ret;
->  
-> +	fwnode = device_get_named_child_node(&client->dev, "connector");
-> +	if (IS_ERR(fwnode))
-> +		return PTR_ERR(fwnode);
-> +
-> +	tps->role_sw = fwnode_usb_role_switch_get(fwnode);
-> +	if (IS_ERR(tps->role_sw)) {
-> +		ret = PTR_ERR(tps->role_sw);
-> +		goto err_fwnode_put;
-> +	}
-> +
->  	typec_cap.revision = USB_TYPEC_REV_1_2;
->  	typec_cap.pd_revision = 0x200;
->  	typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
->  	typec_cap.driver_data = tps;
->  	typec_cap.ops = &tps6598x_ops;
-> +	typec_cap.fwnode = fwnode;
->  
->  	switch (TPS_SYSCONF_PORTINFO(conf)) {
->  	case TPS_PORTINFO_SINK_ACCESSORY:
-> @@ -525,12 +556,16 @@ static int tps6598x_probe(struct i2c_client *client)
->  		typec_cap.data = TYPEC_PORT_DFP;
->  		break;
->  	default:
-> -		return -ENODEV;
-> +		ret = -ENODEV;
-> +		goto err_role_put;
->  	}
->  
->  	tps->port = typec_register_port(&client->dev, &typec_cap);
-> -	if (IS_ERR(tps->port))
-> -		return PTR_ERR(tps->port);
-> +	if (IS_ERR(tps->port)) {
-> +		ret = PTR_ERR(tps->port);
-> +		goto err_role_put;
-> +	}
-> +	fwnode_handle_put(fwnode);
->  
->  	if (status & TPS_STATUS_PLUG_PRESENT) {
->  		ret = tps6598x_connect(tps, status);
-> @@ -545,12 +580,19 @@ static int tps6598x_probe(struct i2c_client *client)
->  	if (ret) {
->  		tps6598x_disconnect(tps, 0);
->  		typec_unregister_port(tps->port);
-> -		return ret;
-> +		goto err_role_put;
->  	}
->  
->  	i2c_set_clientdata(client, tps);
->  
->  	return 0;
-> +
-> +err_role_put:
-> +	usb_role_switch_put(tps->role_sw);
-> +err_fwnode_put:
-> +	fwnode_handle_put(fwnode);
-> +
-> +	return ret;
->  }
->  
->  static int tps6598x_remove(struct i2c_client *client)
-> @@ -559,6 +601,7 @@ static int tps6598x_remove(struct i2c_client *client)
->  
->  	tps6598x_disconnect(tps, 0);
->  	typec_unregister_port(tps->port);
-> +	usb_role_switch_put(tps->role_sw);
->  
->  	return 0;
->  }
-> -- 
-> 2.25.1
-
-thanks,
-
+diff --git a/arch/arm/boot/dts/stm32h743.dtsi b/arch/arm/boot/dts/stm32h743.dtsi
+index 05eb02e6d083..e1de90ade786 100644
+--- a/arch/arm/boot/dts/stm32h743.dtsi
++++ b/arch/arm/boot/dts/stm32h743.dtsi
+@@ -487,7 +487,6 @@
+ 			assigned-clock-parents = <&rcc LSE_CK>;
+ 			interrupt-parent = <&exti>;
+ 			interrupts = <17 IRQ_TYPE_EDGE_RISING>;
+-			interrupt-names = "alarm";
+ 			st,syscfg = <&pwrcfg 0x00 0x100>;
+ 			status = "disabled";
+ 		};
 -- 
-heikki
+2.15.0
+
