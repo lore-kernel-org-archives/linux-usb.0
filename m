@@ -2,167 +2,118 @@ Return-Path: <SRS0=wfA1=63=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E4DC2D0FA
-	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 13:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F20FBCA90AF
+	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 13:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9992620673
-	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 13:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C40622498F
+	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 13:09:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kAkiwK4g"
+	dkim=pass (2048-bit key) header.d=axis.com header.i=@axis.com header.b="dgZsl1Wy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733218AbgEMNHY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 May 2020 09:07:24 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:48950 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733182AbgEMNHW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 May 2020 09:07:22 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04DD7Kf1043033;
-        Wed, 13 May 2020 08:07:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1589375240;
-        bh=5K+SEGQeU5EpeWcccdRNrdDbsnRedKCXOuo8mbwS6a8=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=kAkiwK4gmsI3IObS1d0pMN20fNxEMri/JnVKQUZSxRrdRJ4Ti26pmFqU36POHxXfo
-         E8KFX8wHpOT8VkNt17Pken/mDV67dsN8bgkfsI1kux/BxfHZ7zxBqda8mrOzX+Bu4x
-         y9UHvlME7SVHJTPIKTb2Faly+ukq9GeaTUglQA+E=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04DD7KLm068039;
-        Wed, 13 May 2020 08:07:20 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 13
- May 2020 08:07:20 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 13 May 2020 08:07:20 -0500
-Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04DD7B2T074071;
-        Wed, 13 May 2020 08:07:18 -0500
-From:   Roger Quadros <rogerq@ti.com>
-To:     <balbi@kernel.org>
-CC:     <robh+dt@kernel.org>, <vigneshr@ti.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Roger Quadros <rogerq@ti.com>
-Subject: [PATCH 3/3] usb: dwc3: keystone: Turn on USB3 PHY before controller
-Date:   Wed, 13 May 2020 16:07:09 +0300
-Message-ID: <20200513130709.10239-4-rogerq@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200513130709.10239-1-rogerq@ti.com>
-References: <20200513130709.10239-1-rogerq@ti.com>
+        id S2387466AbgEMNJX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 May 2020 09:09:23 -0400
+Received: from smtp2.axis.com ([195.60.68.18]:31701 "EHLO smtp2.axis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728481AbgEMNJW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 13 May 2020 09:09:22 -0400
+X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Wed, 13 May 2020 09:09:21 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=1662; q=dns/txt; s=axis-central1;
+  t=1589375361; x=1620911361;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-transfer-encoding;
+  bh=HmiGANTaWeCxvVIMvxry7eZiiySoeq97ejFPwewSvOQ=;
+  b=dgZsl1WypI92QHyBpUe3F76HZxL0ZULnOQEDktrSXykw4iR5nuPNWmHp
+   hlNS4uzVEVAY0+Tvf7J2/HbKsHO9CGdH+uMf5LVxqmmHesaiPHZagWdNA
+   l7+58NcuHOD8lXOXz85uJo3p6T4GVnM2NbTPTljR4pKFHbSsdfB22u2fM
+   adYyd3M18lzy288Cf4VWLe9a3YXIqwTq6GJd0gnhnL6JYUyvU4/kYDL79
+   w81hWyku6l468Fio26SWRR2FlQZIt+tGqvYO9lKliw3BL0iNX8OT654og
+   vA7Ad6DD8PXNoKAmjXH8AZik8rhgmuKyvBIsD4ul1i2AZqbaHs3NQKLxw
+   w==;
+IronPort-SDR: H28L571fwiwBqZmIUHb+UKInMxA0uXG+HaVBs+hqX/lnsjq8kqQfRwMsZeS1yHspWEBbF7B2sF
+ 7LjZLd5yi4chd4OUi9ceabe6oTqb+DnRfW7Dt2ZX3w/p5Fh8pLfiEURcoCn9VOtJSfUW6rnPs0
+ tqtdFduthvkMMD24ZurRw5rrv1zClv3k1Gv74pG9yQzL5d30cMsSnwn76x+o81ZGnj0eaYCfXf
+ RO3pR8NzT6g1hzUpFumT87ibfULw5jE+NWThdQjSogXUy1MuQ4P+NEGxQRsKuvuBxbCuuUdCTO
+ R8I=
+X-IronPort-AV: E=Sophos;i="5.73,387,1583190000"; 
+   d="scan'208";a="8445975"
+Date:   Wed, 13 May 2020 15:02:06 +0200
+From:   Ricard Wanderlof <ricardw@axis.com>
+X-X-Sender: ricardw@lnxricardw1.se.axis.com
+To:     Greg KH <greg@kroah.com>
+CC:     Subhashini Rao Beerisetty <subhashbeerisetty@gmail.com>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        kernelnewbies <kernelnewbies@kernelnewbies.org>
+Subject: Re: sound over USB
+In-Reply-To: <20200512165359.GA702234@kroah.com>
+Message-ID: <alpine.DEB.2.20.2005131459520.17840@lnxricardw1.se.axis.com>
+References: <CAPY=qRRFV4SpNO5pb9vF=U95dbA_gN2ngP+vm34884NMk5q8gQ@mail.gmail.com> <20200512165359.GA702234@kroah.com>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX03.axis.com (10.0.5.17)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Local Power Sleep Controller (LPSC) dependency on AM65
-requires SERDES0 to be powered on before USB.
 
-We need to power up SERDES0 power domain and hold it on
-throughout the reset, init, power on sequence.
+On Tue, 12 May 2020, Greg KH wrote:
 
-Signed-off-by: Roger Quadros <rogerq@ti.com>
----
- drivers/usb/dwc3/dwc3-keystone.c | 47 +++++++++++++++++++++++++++++++-
- 1 file changed, 46 insertions(+), 1 deletion(-)
+> On Tue, May 12, 2020 at 10:13:10PM +0530, Subhashini Rao Beerisetty wrote:
+> > ...
+> >  [116677.281756] usbcore: registered new interface driver snd-usb-audio
+> >
+> >  The following nodes are present in the /dev/snd
+> >
+> > $ ls -l /dev/snd/
+> >
+> > total 0
+> >
+> > drwxr-xr-x 2 root root       60 May 12 11:32 by-id
+> >
+> > drwxr-xr-x 2 root root       60 May 12 11:32 by-path
+> >
+> > crw-rw---- 1 root audio 116,  2 May 12 11:32 controlC1
+> >
+> > crw-rw---- 1 root audio 116,  4 May 12 11:32 pcmC1D0c
+> >
+> > crw-rw---- 1 root audio 116,  3 May 12 11:32 pcmC1D0p
+> >
+> > crw-rw---- 1 root audio 116,  1 May 12 11:32 seq
+> >
+> > crw-rw---- 1 root audio 116, 33 May 12 11:32 timer
+> >
+> >
+> >
+> > What are all these devices present in /dev/snd
+> >
+> > How do I use it for playing and recording an audio?
+> >
+> > Basically first I want to gain knowledge on set of test cases I can
+> > run on ALSA and then learn ALSA kernel modules stuff including
+> > snd_usb_audio mdule.
+> >
+> > So please guide me by providing related documentation/Steps.
+> 
+> ALSA should "just work" with this device, no need to do anything to the
+> kernel driver.  Does it not work properly for you as-is?
 
-diff --git a/drivers/usb/dwc3/dwc3-keystone.c b/drivers/usb/dwc3/dwc3-keystone.c
-index 1e14a6f4884b..46d46f3507fc 100644
---- a/drivers/usb/dwc3/dwc3-keystone.c
-+++ b/drivers/usb/dwc3/dwc3-keystone.c
-@@ -14,6 +14,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
- #include <linux/of_platform.h>
-+#include <linux/phy/phy.h>
- #include <linux/pm_runtime.h>
- 
- /* USBSS register offsets */
-@@ -34,6 +35,7 @@
- struct dwc3_keystone {
- 	struct device			*dev;
- 	void __iomem			*usbss;
-+	struct phy			*usb3_phy;
- };
- 
- static inline u32 kdwc3_readl(void __iomem *base, u32 offset)
-@@ -95,8 +97,44 @@ static int kdwc3_probe(struct platform_device *pdev)
- 	if (IS_ERR(kdwc->usbss))
- 		return PTR_ERR(kdwc->usbss);
- 
--	pm_runtime_enable(kdwc->dev);
-+	/* PSC dependency on AM65 needs SERDES0 to be powered before USB0 */
-+	kdwc->usb3_phy = devm_phy_get(dev, "usb3-phy");
-+	if (IS_ERR(kdwc->usb3_phy)) {
-+		error = PTR_ERR(kdwc->usb3_phy);
-+		if (error == -ENOSYS || error == -ENODEV) {
-+			kdwc->usb3_phy = NULL;
-+		} else {
-+			if (error != -EPROBE_DEFER) {
-+				dev_err(dev, "couldn't get usb3 phy: %d\n",
-+					error);
-+			}
-+
-+			return error;
-+		}
-+	}
-+
-+	phy_pm_runtime_get_sync(kdwc->usb3_phy);
-+
-+	error = phy_reset(kdwc->usb3_phy);
-+	if (error < 0) {
-+		dev_err(dev, "usb3 phy reset failed: %d\n", error);
-+		return error;
-+	}
-+
-+	error = phy_init(kdwc->usb3_phy);
-+	if (error < 0) {
-+		dev_err(dev, "usb3 phy init failed: %d\n", error);
-+		return error;
-+	}
- 
-+	error = phy_power_on(kdwc->usb3_phy);
-+	if (error < 0) {
-+		dev_err(dev, "usb3 phy power on failed: %d\n", error);
-+		phy_exit(kdwc->usb3_phy);
-+		return error;
-+	}
-+
-+	pm_runtime_enable(kdwc->dev);
- 	error = pm_runtime_get_sync(kdwc->dev);
- 	if (error < 0) {
- 		dev_err(kdwc->dev, "pm_runtime_get_sync failed, error %d\n",
-@@ -138,6 +176,9 @@ static int kdwc3_probe(struct platform_device *pdev)
- err_irq:
- 	pm_runtime_put_sync(kdwc->dev);
- 	pm_runtime_disable(kdwc->dev);
-+	phy_power_off(kdwc->usb3_phy);
-+	phy_exit(kdwc->usb3_phy);
-+	phy_pm_runtime_put_sync(kdwc->usb3_phy);
- 
- 	return error;
- }
-@@ -163,6 +204,10 @@ static int kdwc3_remove(struct platform_device *pdev)
- 	pm_runtime_put_sync(kdwc->dev);
- 	pm_runtime_disable(kdwc->dev);
- 
-+	phy_power_off(kdwc->usb3_phy);
-+	phy_exit(kdwc->usb3_phy);
-+	phy_pm_runtime_put_sync(kdwc->usb3_phy);
-+
- 	platform_set_drvdata(pdev, NULL);
- 
- 	return 0;
+To clarify (if it's not too obvious): Normally these devices are never 
+accessed directly by programs, instead, there is a userspace library 
+called alsa-lib which provides a userspace API and then handles the 
+communication with the kernel devices.
+
+/Ricard
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+Ricard Wolf Wanderlof                           ricardw(at)axis.com
+Axis Communications AB, Lund, Sweden            www.axis.com
+Phone +46 46 272 2016                           Fax +46 46 13 61 30
