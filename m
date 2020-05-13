@@ -2,100 +2,151 @@ Return-Path: <SRS0=wfA1=63=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-1.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8963C2D0FF
-	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 07:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CA8C2D0F8
+	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 07:34:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C275E2078C
-	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 07:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4354A20673
+	for <linux-usb@archiver.kernel.org>; Wed, 13 May 2020 07:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589355295;
+	bh=hO05pbtDYWnBJuKeAGBUlNlCYRQCiALn8rY6ERHaqVA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=zLCiIBys0mCknezDhoi4bkdfLZv5mNlpo7/dG2QcFUipoT30PqHFNCcK43Qay3xUo
+	 il62ebxRL+ES4cLbRxSKQuPv69uuvx7UGM+WBiL6yyMnWwhtyNqdeNOcqSo1h3Esgw
+	 2VRp6R1nckncdtqDeWmkbndRfnHBwMXGwc3tTUsc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730322AbgEMHEm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 May 2020 03:04:42 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:43953 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729642AbgEMHEm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 May 2020 03:04:42 -0400
-Received: by mail-oi1-f195.google.com with SMTP id i22so3966938oik.10;
-        Wed, 13 May 2020 00:04:40 -0700 (PDT)
+        id S1730273AbgEMHey (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 May 2020 03:34:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728988AbgEMHey (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 May 2020 03:34:54 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304EDC061A0C
+        for <linux-usb@vger.kernel.org>; Wed, 13 May 2020 00:34:54 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id s9so12752566lfp.1
+        for <linux-usb@vger.kernel.org>; Wed, 13 May 2020 00:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=hO05pbtDYWnBJuKeAGBUlNlCYRQCiALn8rY6ERHaqVA=;
+        b=s+mbb024owIrMKzGr8HILZUTVXvZWG1Obks9bdEjIr38skgiuqdtZZgc+GI2Wn+seb
+         kP9D60vSf/5ANbxBG/hjdxYdrjVggygvFgOHKkTiTp81shkW1/YNN/91uV3xMS2ydbPD
+         tJ2dT+U0bd6BXqb0c7hbbRSnBwsHiLJb0vG4SmGMcit8uf6fcGMT8q2pgusaPzaQbl7C
+         fTc5SbWEYE70Emk1a/ijj5ZH2ZRyYe2flQuzZGEoQYqWlATcM4wIBTSCjwbk9ryQFE64
+         MhAk+5aNQwH+3YbK/Hj9L6+5rC5hmsKEHGEeJDHeCbxLSliuMBDBxRAcpDEH9UdMq1Tz
+         Nzow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sMqsXTZkQsUYXsgUW5SNfqYNzeikt2R+rOYAkqTmE5k=;
-        b=Qlo78ui8y08TBdBC1f87m+1ryXxVvJIB0Om7wNF+f5clbFdgRJkuZ+KV3ytof3yMzv
-         pM02R0CKD0jZQOggg78PwzYCICqcG2pqnWlJxECulifzUnEt9l855gTMvHK8AU9y91ts
-         /uQ9XkcsXgSYXTS2E0/JG62+VXh+H3y2256SXpcam2KItKvB51Ef8zoWWhXlmsWq6bgv
-         RLKfQsNJ1wZv/aYbLb16oD9ElcNCyaUn1NW+mNoOSonhUUqa8QBQvjhGKC2E9s9WZHR2
-         63gmIBtMFhzTCBuzEMmdiQyxcXTTohcGoM/8EZXUExFNtORXZDpi9p2ZZcQNWEyOb7LV
-         pMKA==
-X-Gm-Message-State: AGi0Puack8XJaENLTjvv1ed5B7u91qa0FqxGx8C9af530hSjD2PmLX0s
-        uidHH4s9Gs0xSRIp3B+eG53NviECbNhbEtanQUiqrw==
-X-Google-Smtp-Source: APiQypI2i3OcOk0fZSl5EaM/AtAYKVxaJffZ2UtQJdWMHY7G9eIbkNlIzli6zPVMpFnI38y49fid2zK+GkOq09gyGKs=
-X-Received: by 2002:aca:cd93:: with SMTP id d141mr3674965oig.148.1589353479660;
- Wed, 13 May 2020 00:04:39 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=hO05pbtDYWnBJuKeAGBUlNlCYRQCiALn8rY6ERHaqVA=;
+        b=SmYVUSLYmjtH7C1otKcD0XfyGBdId9LeyMdvaTqrjRbZ63yIgQHkRDOKxnhrD3UFTP
+         SgFqxLtYc/4T9QtGgQOVITCX3AkQRdqUWPif1j5cbckTBpnOC6tCZy6546mQBuhhf5aX
+         6FgwYNP++vd3WF7z1lupCLFX+tx2ihObCJ5H6Fc1RE6eGmjGk+qFZwB/JTTfHbR0sPYH
+         YMwtG9ULCTdM7D491J3zV9cFFErKELWlVfPYWK+k+60TzasJhjLJPNZGN6GOcSjZPaXs
+         nBep5SeOM8f83Z/zvFEviMn4qEfIrMMeZaiwCyIVm6LX8Esia8pS1ZECJq168xF1IWON
+         f+rQ==
+X-Gm-Message-State: AOAM533FzGmv49Q2njOqjlJS0oYHWPAkktrcStJg5WV0DDTrp64fGU3v
+        yGkhn8BCAzyNkUVRXSa3OPHyPxF+
+X-Google-Smtp-Source: ABdhPJxEuRFvdUmO4QEk2QF5LJQdSZHiQCX9UVwrcNJzNvGf6zA1mu8/GCeDd48S78zJPb+w967nJA==
+X-Received: by 2002:a19:c50c:: with SMTP id w12mr16848364lfe.23.1589355292365;
+        Wed, 13 May 2020 00:34:52 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id d3sm15262501lfq.2.2020.05.13.00.34.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 13 May 2020 00:34:51 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Claus Stovgaard <claus.stovgaard@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: Options for forcing dwc3 gadget to only accept superspeed
+In-Reply-To: <6d19d49dcfe7467556b0462b16e76677c1999875.camel@gmail.com>
+References: <8943a225c6d8354f2f5fe0ea7270dc0fa1293180.camel@gmail.com> <20200512195231.GA26080@rowland.harvard.edu> <6d19d49dcfe7467556b0462b16e76677c1999875.camel@gmail.com>
+Date:   Wed, 13 May 2020 10:34:47 +0300
+Message-ID: <87k11gp9t4.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20200512204543.22090-1-robh@kernel.org> <20200512204543.22090-5-robh@kernel.org>
-In-Reply-To: <20200512204543.22090-5-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 May 2020 09:04:28 +0200
-Message-ID: <CAMuHMdWoh94eFvVKHt5si3LOX4Nwx0-JssxVOy=fXPMXxgndXg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] dt-bindings: Fix incorrect 'reg' property sizes
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Rob,
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2020 at 10:46 PM Rob Herring <robh@kernel.org> wrote:
-> The examples template is a 'simple-bus' with a size of 1 cell for
-> #address-cells and #size-cells. The schema was only checking the entries
-> had between 2 and 4 cells which really only errors on I2C or SPI type
-> devices with a single cell.
+
+Hi,
+
+Claus Stovgaard <claus.stovgaard@gmail.com> writes:
+> On tir, 2020-05-12 at 15:52 -0400, Alan Stern wrote:
+>> On Tue, May 12, 2020 at 09:25:38PM +0200, Claus Stovgaard wrote:
+>> >=20
+>> > In a certain scenario I would like to force the dwc3 to only
+>> > connect
+>> > via superspeed and not fall back to USB2.
+>> >=20
+>> > What options exist for forcing the dwc3 to keep retry?
+>>=20
+>> The USB-3 spec forbids devices from operating only at SuperSpeed.=20=20
+>> Devices must be able to connect at high speed, although possibly
+>> with=20
+>> reduced functionality.
+>>=20
+>> Alan Stern
+>>=20
 >
-> The easiest fix in most cases is to change the 'reg' property to for 1 cell
-> address and size. In some cases with child devices having 2 cells, that
-> doesn't make sense so a bus node is needed.
+> I understand the requirement from the USB 3 specification. Though in
+> the scenario for this specific device, it is not about comply with the
+> USB 3 specification, but my question is rather what options I have for
+> not comply with the specification here, and then force retry of USB 3,
+> using the dwc3 as device.
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> The device is in a fixed mounting with a fixed host. Sometimes when the
+> host and device is powered up, it ends in high-speed instead of super-
+> speed. I would like the option for "I will not be compliant with USB,
+> but rather retry super-speed".
 
-Thanks for your patch!
+If it's "ending in super-speed" this means it tried RX.Detect and it
+failed, thus falling back to high-speed. It's likely that the signal
+quality in your setup has degraded or is, at least, sub-par.
 
->  .../devicetree/bindings/arm/renesas,prr.yaml  |  2 +-
->  .../bindings/display/renesas,cmm.yaml         |  2 +-
->  .../interrupt-controller/renesas,irqc.yaml    |  2 +-
->  .../bindings/media/renesas,csi2.yaml          |  2 +-
->  .../bindings/media/renesas,vin.yaml           |  6 +-
->  .../bindings/net/renesas,ether.yaml           |  2 +-
->  .../bindings/pwm/renesas,pwm-rcar.yaml        |  2 +-
->  .../bindings/spi/renesas,sh-msiof.yaml        |  2 +-
->  .../bindings/thermal/rcar-thermal.yaml        |  6 +-
->  .../bindings/usb/renesas,usb3-peri.yaml       |  2 +-
->  .../bindings/usb/renesas,usbhs.yaml           |  2 +-
+Forcing a SS-only setup would just give you a device that doesn't even
+enumerate in some cases.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Could you capture dwc3 tracepoints of the problem?
 
-Gr{oetje,eeting}s,
+Also, which kernel version are you running? Which platform?
 
-                        Geert
+best
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+=2D-=20
+balbi
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl67oxcACgkQzL64meEa
+mQZ88BAAhDtycEnyz+JdayzOvNJL5IuMtRlSqJcrdBEkU3EmEe5s9zLje/EE3KPF
+kk+0y3pgSK1orYPw+6atjo8bpCSD93akqqyoMAZOmwX9N/Io0ufQcz8igBRucUaE
+DigFFBm6zMGZCNZADkongCG5kWSrEMN43M7nsSHaBmxm0uYBZGeXX/mwyEJcPBR0
++zr0PulCuKxhImIp5CkEaCAbu0m+fNAK//nKX4Jrzt1gxls3UwguCfBQczQJDFbK
+PiLfVr2HeAO3gRvmtIQ1sy7OkoxupVNMR1/25csTp9BKZFK5HQcTciWlqQCOhWze
+ZgaodgOZwalhNwZmP7M1a52cBS0HgnP3taqykiAv/6UXWv/a4obmz/0VTSL0T/Ke
+TQLK1JNK80yUNdZVoqK4J+R6C+MlgSLgXwZ78/Rxd8ijok6x/9s3a3g/kpw2blsJ
+oRaQ9icJX6cQePBzLX1I5Re17MTcYxuShksjeoMrzVRog1u4kWVixkG9UWN4Nnis
+F/0thPA9DlLmjmNQNVhDwRUsBasXMsr3eMvZWOWmSAHAKvB1WJV6W9etMuZNaqKe
+nvAuiHb/dpM4ttnn8FbQ1or7ogKWkYJ9ue5r7uOByei6fzCI2dzxyLhXGXET/xEU
+MUJXYf7tsXbC/Pkzmb+XDDfKeh1JPGzDllXpWFL8xtKc66Gwd2w=
+=SnvB
+-----END PGP SIGNATURE-----
+--=-=-=--
