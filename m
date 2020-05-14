@@ -2,163 +2,132 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3868C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E15D9C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:38:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C639D206DA
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:28:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD17B206A5
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589452090;
-	bh=j8qtsLnmOxU0YOjjz3DL9Tl6SOit+suNyR3FcUEVGNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=OdUKG1/KRjIsmkDeaGCJDEFI3/COktzeC2veWBuyOm6oiH5kYqAe+ab5xPLquiW6O
-	 lFXfMYyLiO7fMvs8w87ZptsTHUm+ChYghVt3uOvTP6D4LSdwFsscTU4bi5uiyZ4pVd
-	 KPtgNk8tvkLUL9EABAprbd1MIPy/VcwJiJHI1IEY=
+	s=default; t=1589452697;
+	bh=IXXf/XixGpKXVyUDYrcikyfhGN56Z8Y2F93HgLO75yQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=AvibDU32q6ak9sEicafC7w27mOHflKo7NOGMgBGsNn/WWJWgy3R9jeKa/w0LkXzjK
+	 Ho+Y6LiJFp6XiM5cm0A2f4hwK+vqUPePXz2qvQzydyQSPJtxvsVsySy5Grig4KwIzk
+	 xDo5BOer28MX51/WZ5wAiYc8XbRXprpUJ6QUhulo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbgENK1x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 06:27:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55720 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726245AbgENK1w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 06:27:52 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2EF0A206A5;
-        Thu, 14 May 2020 10:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589452070;
-        bh=j8qtsLnmOxU0YOjjz3DL9Tl6SOit+suNyR3FcUEVGNU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o/h7p9WMJA/CN8wyOU84xEEuCnPlMI/i/D54QZjXHnRA8N+2uXONEW3/Cwm6L/7dR
-         sdK4Nt3KFSBQrgr+KY8A1YiQLYaO1YHacmhpoeRu6/a6klSrORVXicDb6ACTQoiEPQ
-         IXyy1as782NPSMIQEwvKYnitTH5+Kvp6TfjPMZF8=
-Date:   Thu, 14 May 2020 11:20:04 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     syzbot <syzbot+353be47c9ce21b68b7ed@syzkaller.appspotmail.com>
-Cc:     bp@alien8.de, dave.hansen@linux.intel.com,
-        dmitry.torokhov@gmail.com, ebiederm@xmission.com, hpa@zytor.com,
-        jeremy.linton@arm.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, luto@kernel.org, mingo@redhat.com,
-        peterz@infradead.org, stern@rowland.harvard.edu,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de, x86@kernel.org
-Subject: Re: WARNING in memtype_reserve
-Message-ID: <20200514092004.GA1577276@kroah.com>
-References: <000000000000f0d8d205a531f1a3@google.com>
+        id S1726073AbgENKiQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 06:38:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55772 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726056AbgENKiO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 06:38:14 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70E93C061A0C
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 03:38:14 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id l19so2913597lje.10
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 03:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=b3PJLigGGW/woucgM+z4vCA9eeUtsl6llobsXbQ3L78=;
+        b=DTzVsO3kffZ4Hg9qjwPU9QWwohzQu5r5tVgFbw2oQe1gEu24x3xIsd1fzoLBsmqHse
+         EcUBkCna/ULYwW1yMac+DqbdllKPJeGJJyZA+0Su4+QXkYlz66yj3fBN5UWz7dOBcM9T
+         7HFcNU+Q5i5MPXvUFDtWMn37FhHQaAEpHkR5qnulEO+dVBQ5TnGaDCYvqiaMhlf3bbOR
+         9dinQt8fnG4w68YihZobq5Tlv41Ky/E8PIdVnYXs40jidIc1US/7TlT0K3TzwG/Z0XHN
+         fCIWWV/XX8WWhfaFZabB2dqlVhrFEjdxFuhY94R31Yj//zH/REJVHp6SQCSOVHSOBu3A
+         TEEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=b3PJLigGGW/woucgM+z4vCA9eeUtsl6llobsXbQ3L78=;
+        b=VoFMmpdfhrZkqPItT4E8XtIN0C84XtuJBam6n6YVClOGw/oOaFz/ylb1jKyiHwKRSf
+         ku09xvOC+hM0k+SCOaNwcJjl9RQ7dQrIuw+ud5ZaK4EZhxKXGkEwuUDOFl21zItI9D6m
+         kRdcefeK1s3/VCPOFqX1VGqpfYz6pAzl+xd63OCKphUqXgKyso8kJOXJsqvoN/PI3msM
+         6W44jcTRPbZNRVeSIfzf+RAB1wjXNEwXuR0MB74XUep+PxW6aHMokclsJYlVJpW/7f6y
+         KCXhdJIzuDV3TtF3ODn2/elBX1RP5noCZC83QzmYRxSTNcrMj0CvgdxN0H7IFWGhVjzf
+         pbUw==
+X-Gm-Message-State: AOAM533YwRs6G7wKxCrRpJ3lnc8ujFQVN7jWe3kAYZxfQ6srG6y4RAtt
+        xHP360l/l2bdqDIzokhMdzjhmFMb4n5iEg==
+X-Google-Smtp-Source: ABdhPJwvJh0eLYsacEeIJcO9Y1OHZVdriBMUpEjWc9HpbFkdU1WDdXbqFnoOI8G3gFpo04XJXpaI/w==
+X-Received: by 2002:a05:651c:449:: with SMTP id g9mr2415696ljg.278.1589452692773;
+        Thu, 14 May 2020 03:38:12 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id w24sm1498110lfk.47.2020.05.14.03.38.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 14 May 2020 03:38:11 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc:     John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH 4/5] usb: dwc3: gadget: Handle transfer completion
+In-Reply-To: <ad3a0e37-c611-c6e9-959b-7351fb82ed0a@synopsys.com>
+References: <cover.1588025916.git.thinhn@synopsys.com> <70555c2202529c6e0bdd23124003d0d4bc637cdc.1588025916.git.thinhn@synopsys.com> <87blna20n3.fsf@kernel.org> <ad3a0e37-c611-c6e9-959b-7351fb82ed0a@synopsys.com>
+Date:   Thu, 14 May 2020 13:38:07 +0300
+Message-ID: <87o8qq4x9s.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000000000000f0d8d205a531f1a3@google.com>
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, May 09, 2020 at 12:20:14AM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    d5eeab8d Merge tag 'scsi-fixes' of git://git.kernel.org/pu..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=15093632100000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=b0212dbee046bc1f
-> dashboard link: https://syzkaller.appspot.com/bug?extid=353be47c9ce21b68b7ed
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> userspace arch: i386
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=168ee02c100000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=119f3788100000
-> 
-> The bug was bisected to:
-> 
-> commit 2bef9aed6f0e22391c8d4570749b1acc9bc3981e
-> Author: Jeremy Linton <jeremy.linton@arm.com>
-> Date:   Mon May 4 20:13:48 2020 +0000
-> 
->     usb: usbfs: correct kernel->user page attribute mismatch
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1701f168100000
-> final crash:    https://syzkaller.appspot.com/x/report.txt?x=1481f168100000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1081f168100000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+353be47c9ce21b68b7ed@syzkaller.appspotmail.com
-> Fixes: 2bef9aed6f0e ("usb: usbfs: correct kernel->user page attribute mismatch")
-> 
-> ------------[ cut here ]------------
-> memtype_reserve failed: [mem 0xffffffffff000-0x00008fff], req write-back
-> WARNING: CPU: 1 PID: 7025 at arch/x86/mm/pat/memtype.c:589 memtype_reserve+0x69f/0x820 arch/x86/mm/pat/memtype.c:589
-> Kernel panic - not syncing: panic_on_warn set ...
-> CPU: 1 PID: 7025 Comm: syz-executor254 Not tainted 5.7.0-rc4-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> Call Trace:
->  __dump_stack lib/dump_stack.c:77 [inline]
->  dump_stack+0x188/0x20d lib/dump_stack.c:118
->  panic+0x2e3/0x75c kernel/panic.c:221
->  __warn.cold+0x2f/0x35 kernel/panic.c:582
->  report_bug+0x27b/0x2f0 lib/bug.c:195
->  fixup_bug arch/x86/kernel/traps.c:175 [inline]
->  fixup_bug arch/x86/kernel/traps.c:170 [inline]
->  do_error_trap+0x12b/0x220 arch/x86/kernel/traps.c:267
->  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
->  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-> RIP: 0010:memtype_reserve+0x69f/0x820 arch/x86/mm/pat/memtype.c:589
-> Code: 48 8b 2c ed c0 00 29 88 e8 ae ad 3e 00 48 8d 4b ff 49 89 e8 4c 89 e2 48 c7 c6 20 01 29 88 48 c7 c7 80 f9 28 88 e8 79 e8 0f 00 <0f> 0b 41 bf ea ff ff ff e9 03 fc ff ff 41 bf ea ff ff ff e9 f8 fb
-> RSP: 0018:ffffc900015e7790 EFLAGS: 00010282
-> RAX: 0000000000000000 RBX: 0000000000009000 RCX: 0000000000000000
-> RDX: 0000000000000000 RSI: ffffffff815ce181 RDI: fffff520002bcee4
-> RBP: ffffffff8828ff40 R08: ffff888097ce85c0 R09: ffffed1015ce45f1
-> R10: ffff8880ae722f83 R11: ffffed1015ce45f0 R12: 000ffffffffff000
-> R13: 1ffff920002bcef8 R14: dffffc0000000000 R15: 0000000000000000
->  reserve_pfn_range+0x173/0x470 arch/x86/mm/pat/memtype.c:941
->  track_pfn_remap+0x18b/0x280 arch/x86/mm/pat/memtype.c:1033
->  remap_pfn_range+0x202/0xbf0 mm/memory.c:2130
->  dma_direct_mmap+0x197/0x260 kernel/dma/direct.c:453
->  dma_mmap_attrs+0xfe/0x150 kernel/dma/mapping.c:237
->  usbdev_mmap+0x3ae/0x730 drivers/usb/core/devio.c:254
->  call_mmap include/linux/fs.h:1912 [inline]
->  mmap_region+0xafb/0x1540 mm/mmap.c:1772
->  do_mmap+0x849/0x1160 mm/mmap.c:1545
->  do_mmap_pgoff include/linux/mm.h:2553 [inline]
->  vm_mmap_pgoff+0x197/0x200 mm/util.c:506
->  ksys_mmap_pgoff+0x457/0x5b0 mm/mmap.c:1595
->  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
->  do_fast_syscall_32+0x270/0xe90 arch/x86/entry/common.c:396
->  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-> Kernel Offset: disabled
-> Rebooting in 86400 seconds..
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git d5eeab8d
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index b9db9812d6c5..d93d94d7ff50 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -251,9 +251,19 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
- 	usbm->vma_use_count = 1;
- 	INIT_LIST_HEAD(&usbm->memlist);
- 
--	if (dma_mmap_coherent(hcd->self.sysdev, vma, mem, dma_handle, size)) {
--		dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
--		return -EAGAIN;
-+	if (hcd->localmem_pool || !hcd_uses_dma(hcd)) {
-+		if (remap_pfn_range(vma, vma->vm_start,
-+				    virt_to_phys(usbm->mem) >> PAGE_SHIFT,
-+				    size, vma->vm_page_prot) < 0) {
-+			dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
-+			return -EAGAIN;
-+		}
-+	} else {
-+		if (dma_mmap_coherent(hcd->self.sysdev, vma, mem, dma_handle,
-+				      size)) {
-+			dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
-+			return -EAGAIN;
-+		}
- 	}
- 
- 	vma->vm_flags |= VM_IO;
+Hi,
+
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
+>>> @@ -1223,6 +1231,10 @@ static void dwc3_prepare_trbs(struct dwc3_ep *de=
+p)
+>>>=20=20=20
+>>>   		if (!dwc3_calc_trbs_left(dep))
+>>>   			return;
+>>> +
+>>> +		/* Don't prepare ahead. This is not an option for DWC_usb32. */
+>>> +		if (req->request.is_last)
+>>> +			return;
+>> this requires some better description. Why isn't it an option for dwc_us=
+b32?
+>
+> Internally, DWC_usb32 does some advance caching and burst that we should=
+=20
+> not prepare more TRB until the transfer is completed.
+> This doesn't apply for isoc, missed a check here. Need to apply on the=20
+> next version.
+
+Do you mind re-wording this statement as a comment in the code?
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl69H48ACgkQzL64meEa
+mQYUfg/+MJyJW9Fj/uNMtClTfWHYykq9NXntEyMOuSwdBlsfhppA7lfBhS4yYEvd
+iYGMIPaEhG+DRu0pnjbiy4GAPtACUe/tnMkGbezXj910DwbhVDS3Ac0pQqjji9xl
+QL0uZyqxgV5pN8TjsD3MoIjFBblZH68E35rEVNJ7MmRtik+ywf2FXgW3tyKNb77O
+dFheeUWYrGLGj4P4ay0Z0tsuuxBq/wKEPfnj20xvlELyAKMg+Xia8WJKcRiYNIwL
+mHi1otSXs7BsiiO7W+N4KXVpsleQ5E8NHQXI/KaUjGXNIvjD6mHk2DONq6g0Asd/
+FcZVYZ//Zumt+bE1M1R6PAA6Xdo2UiRAqogE/VLTjSgcjZjI7rtrKGav8ltqE1mG
+4IUKLXIxvGoxh14cjPm7VwIeViSnbKeLhMC/2PeKMqvdCRO0gCSLFD7W5xVojuaz
+Jj6s/I4NNhJCG25ocPkQXjeAEp4ZwKM3Go2ODn7tasLvn48PRBVHs2N/WSQzt+TH
+qJ/mPfTdlBp+RxQA3CGpHQ/bX8vZM/3W4kRA5qdOt7MPlP4lwmsPMGc7ku1ssTsh
+v07aDCWMNxravbsnUYzDxxAkFCrHzLrfruLbCqx9K1dRvTcbF86RDfubz4Kgnow8
+UGaWxons6wncD6jHIARol1fD1MSJGYpON07ZeliM6QsnN/MXmpw=
+=7Yjr
+-----END PGP SIGNATURE-----
+--=-=-=--
