@@ -2,137 +2,261 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC1DC433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:40:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF53C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:43:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B539206A5
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589452855;
-	bh=ADFIiIM1Fe26/cRjvae/xxSYwcERBybNKGMvOKxuFr4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=sp50Xfow0u1RJgafbliJsN/BdLRjJMaUPKRGw3tyw+xuwP/Mro4Bu2EC/NWHnOqK9
-	 InHPiBpZm+jAyuZ43VgebAnWH9kU4zN/ngLo3mChWIchF/+Q+ap1y5zS/FyFRgaxMF
-	 7VzFU1gQtRupr5Y4aDXOl7FiqYWdtnMf8kqTt6G8=
+	by mail.kernel.org (Postfix) with ESMTP id 7F1F92053B
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726176AbgENKkp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 06:40:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56162 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgENKkp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 06:40:45 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEBF1C061A0C;
-        Thu, 14 May 2020 03:40:44 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id u15so2971295ljd.3;
-        Thu, 14 May 2020 03:40:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=ADFIiIM1Fe26/cRjvae/xxSYwcERBybNKGMvOKxuFr4=;
-        b=bcftHwObq2STzO4ObxkD57BKbGME8uRmzC1DIuh1WNyRkLm+RpMqlj3oJPYjCecTdW
-         qeixtywBTxIDWfCvWYfh6os9aQTjruOLHMxBvxna9zosjgHtlR1/HY7bSv6sut/GXHX/
-         pvBhPQC5M7xC+15QOoDF3w/ZH6a+Q5ovj01Yfxu4WBSwXYK/8LH0K0nuDiZBTb1GM2Op
-         kut8C6pqAxf65Gbn1I1gPekBSdzo6C9L843PuLCd0XUjd5VwwJ4mXYVJRxyMNgSNo2xE
-         ft3y4XmwxVLHPMgkYWzu8iztz4kyeJKaUSLTK9qY4Wctvx+DlxXKnwfKcOQXZdBCBvpa
-         3OlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=ADFIiIM1Fe26/cRjvae/xxSYwcERBybNKGMvOKxuFr4=;
-        b=b5dEz1obOCW315NuUCYtA6851gEfcQ8HLoRH+VrhMUW/wk0llCMMROD5GusiKViyVR
-         R8M15biqvnh7kj3tCg0QvVU2QGVObfoJmWfxWQi8xiGGgSCk09+dRjr2vzxO3Yrpa3d5
-         W8M5dm7jUMOuu/34gJpX4QlL5OChEbG4gCQ9kWL9nzzw1BmqW8CLFtGSriL2fbCSJAkC
-         Hqi1XvQDeK/A6k9S+wWQUead+kMdg0jx5iASy7UksYMK7SePFAAs5aHmcAmQnZpRoEG5
-         MOgCF+NIaMHpRmJFfGcJg+gWBzYEM9uZUE8SZn0iamIGF1vRSPGN3YyOtRFQsbJuiX/w
-         AR9Q==
-X-Gm-Message-State: AOAM531uffqI4NmcQff2Uzv95UmZXF+AVQFS6zkgVj+XL8Go21PvhFlW
-        cQ1xhs3ajHV9WoacLNnVv8dnZpuHvXPMgg==
-X-Google-Smtp-Source: ABdhPJxSqTSWM74zlVsYXQn6jKwYtKuDk62yq+Z8ixknh/c2vPrcCXyau8zXak4ww5Ml8u8ZzxOlMA==
-X-Received: by 2002:a2e:a417:: with SMTP id p23mr2491094ljn.19.1589452842932;
-        Thu, 14 May 2020 03:40:42 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id f24sm1534475lfc.43.2020.05.14.03.40.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 14 May 2020 03:40:42 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Roger Quadros <rogerq@ti.com>
-Cc:     gregkh@linuxfoundation.org, sergei.shtylyov@cogentembedded.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] usb: dwc3: support continuous runtime PM with dual role
-In-Reply-To: <d1c38262-198c-c128-f2b7-3253bde37e5c@puri.sm>
-References: <20200319100207.19957-1-martin.kepplinger@puri.sm> <cb2db077-0f37-2221-84f6-a7adfd6ed1f1@ti.com> <d1c38262-198c-c128-f2b7-3253bde37e5c@puri.sm>
-Date:   Thu, 14 May 2020 13:40:37 +0300
-Message-ID: <87lflu4x5m.fsf@kernel.org>
+        id S1726011AbgENKnJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 06:43:09 -0400
+Received: from mga01.intel.com ([192.55.52.88]:32070 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725925AbgENKnJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 May 2020 06:43:09 -0400
+IronPort-SDR: yN+ncDJ/R76n5v8WY6eUIhCGidBmCcU6SIp1WD3wEQ1cCyH44sJ/Zfhh8Z+Aa1QkCbGglychzW
+ tlo5rOIpeSAg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2020 03:43:08 -0700
+IronPort-SDR: CsZt3rZH2lATZ2dmDPrf0oL4QC05b0paRhaK5Ku3tpPb91+EidmIN7hZK0mJOYIGQMb/khKFTp
+ fZZtJ9RVKPfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,391,1583222400"; 
+   d="scan'208";a="298671478"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga008.jf.intel.com with ESMTP; 14 May 2020 03:43:05 -0700
+Subject: Re: [PATCH v2] usb: host: xhci-plat: keep runtime active when remove
+ host
+To:     Li Jun <jun.li@nxp.com>, mathias.nyman@intel.com
+Cc:     gregkh@linuxfoundation.org, baolin.wang@linaro.org,
+        linux-usb@vger.kernel.org, stable@vger.kernel.org,
+        linux-imx@nxp.com, peter.chen@nxp.com, stern@rowland.harvard.edu,
+        mgautam@codeaurora.org
+References: <1589449416-2245-1-git-send-email-jun.li@nxp.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ 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 fiD/
+Message-ID: <3fc04e70-d9d0-c0a5-7def-aa488c3e1af2@linux.intel.com>
+Date:   Thu, 14 May 2020 13:45:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <1589449416-2245-1-git-send-email-jun.li@nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On 14.5.2020 12.43, Li Jun wrote:
+> While remove host(e.g. for USB role switch from host to device), if
+> runtime pm is enabled by user, below oops are occurs at dwc3
+> and cdns3 platform. Keep the xhci-plat device being active during
+> remove host fixes them.
+> 
+> oops1:
+> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000240
+> Mem abort info:
+>   ESR = 0x96000004
+> xhci-hcd xhci-hcd.1.auto: // Halt the HC
+> xhci-hcd xhci-hcd.1.auto: // Reset the HC
+> xhci-hcd xhci-hcd.1.auto: Wait for controller to be ready for doorbell rings
+>   EC = 0x25: DABT (current EL), IL = 32 bits
+>   SET = 0, FnV = 0
+>   EA = 0, S1PTW = 0
+> Data abort info:
+>   ISV = 0, ISS = 0x00000004
+> xhci-hcd xhci-hcd.1.auto: // Disabling event ring interrupts
+>   CM = 0, WnR = 0
+> user pgtable: 4k pages, 48-bit VAs, pgdp=00000001b7b18000
+> xhci-hcd xhci-hcd.1.auto: cleaning up memory
+> xhci-hcd xhci-hcd.1.auto: Freed event ring
+> xhci-hcd xhci-hcd.1.auto: Freed command ring
+> [0000000000000240] pgd=0000000000000000
+> Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 0 PID: 5 Comm: kworker/0:0 Not tainted 5.4.3-00107-g64d454a-dirty #1219
+> Hardware name: FSL i.MX8MP EVK (DT)
+> Workqueue: pm pm_runtime_work
+> pstate: 60000005 (nZCv daif -PAN -UAO)
+> pc : xhci_suspend+0x34/0x698
+> lr : xhci_plat_runtime_suspend+0x2c/0x38
+> sp : ffff800011ddbbc0
+> x29: ffff800011ddbbc0 x28: 0000000000000000
+> x27: 0000000000000008 x26: ffff800011b28000
+> x25: ffff80001012b328 x24: ffff800011ddbd48
+> x23: 0000000000000000 x22: ffff80001076ed78
+> x21: ffff000177896000 x20: ffff0001714ebce4
+> x19: ffff000177896000 x18: ffffffffffffffff
+> x17: 0000000000000000 x16: 0000000000000000
+> x15: ffff800011b288c8 x14: 0000000000000261
+> x13: 0000000000000001 x12: 0000000000000001
+> x11: 0000000000000000 x10: 00000000000009c0
+> x9 : ffff800011ddbd40 x8 : fefefefefefefeff
+> x7 : 0000000000000000 x6 : 000000003ca92688
+> x5 : 00ffffffffffffff x4 : 001b6b0b00000000
+> x3 : ffff0001714ebc10 x2 : 0000000000000000
+> x1 : 0000000000000001 x0 : ffff000177896250
+> Call trace:
+>  xhci_suspend+0x34/0x698
+>  xhci_plat_runtime_suspend+0x2c/0x38
+>  pm_generic_runtime_suspend+0x28/0x40
+>  __rpm_callback+0xd8/0x138
+>  rpm_callback+0x24/0x98
+>  rpm_suspend+0xe0/0x448
+>  rpm_idle+0x124/0x140
+>  pm_runtime_work+0xa0/0xf8
+>  process_one_work+0x1dc/0x370
+>  worker_thread+0x48/0x468
+>  kthread+0xf0/0x120
+>  ret_from_fork+0x10/0x1c
+> 
+> oops2:
+> usb 2-1: USB disconnect, device number 2
+> xhci-hcd xhci-hcd.1.auto: remove, state 4
+> usb usb2: USB disconnect, device number 1
+> xhci-hcd xhci-hcd.1.auto: USB bus 2 deregistered
+> xhci-hcd xhci-hcd.1.auto: remove, state 4
+> usb usb1: USB disconnect, device number 1
+> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000138
+> Mem abort info:
+>   ESR = 0x96000004
+>   EC = 0x25: DABT (current EL), IL = 32 bits
+>   SET = 0, FnV = 0
+>   EA = 0, S1PTW = 0
+> Data abort info:
+>   ISV = 0, ISS = 0x00000004
+>   CM = 0, WnR = 0
+> user pgtable: 4k pages, 48-bit VAs, pgdp=00000008b05e8000
+> [0000000000000138] pgd=0000000000000000, p4d=0000000000000000
+> Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 2 PID: 7 Comm: kworker/u8:0 Not tainted 5.6.0-rc4-next-20200304-03578-gd6235ff42e2b #101
+> Hardware name: Freescale i.MX8QXP MEK (DT)
+> Workqueue: 1-0050 tcpm_state_machine_work
+> pstate: 20000005 (nzCv daif -PAN -UAO)
+> pc : xhci_free_dev+0x214/0x270
+> lr : xhci_plat_runtime_resume+0x78/0x88
+> sp : ffff80001006b5b0
+> x29: ffff80001006b5b0 x28: 0000000000000002
+> x27: ffff00083b74fd48 x26: ffff00083a365580
+> x25: ffff800010141458 x24: 0000000000000000
+> x23: 0000000000000000 x22: ffff000837e58138
+> x21: 0000000000000004 x20: ffff000837e58000
+> x19: ffff000837e58250 x18: 0000000000000000
+> x17: 0000000000000000 x16: 0000000000000001
+> x15: 0000000000000004 x14: ffffffffffffffff
+> x13: 0000000000004ed8 x12: ffff8000123d1000
+> x11: ffff800012158000 x10: ffff8000123d1360
+> x9 : ffff800010c74b00 x8 : 0000000000000007
+> x7 : 00000000000012c2 x6 : ffff8000123d1000
+> x5 : 0000000000000001 x4 : 0000000000000000
+> x3 : 0000000000000000 x2 : 0000000000000138
+> x1 : 0000000000000000 x0 : 0000000000000138
+> Call trace:
+>  xhci_free_dev+0x214/0x270
+>  xhci_plat_runtime_resume+0x78/0x88
+>  pm_generic_runtime_resume+0x30/0x48
+>  __rpm_callback+0x90/0x148
+>  rpm_callback+0x28/0x88
+>  rpm_resume+0x568/0x758
+>  rpm_resume+0x260/0x758
+>  rpm_resume+0x260/0x758
+>  __pm_runtime_resume+0x40/0x88
+>  device_release_driver_internal+0xa0/0x1c8
+>  device_release_driver+0x1c/0x28
+>  bus_remove_device+0xd4/0x158
+>  device_del+0x15c/0x3a0
+>  usb_disable_device+0xb0/0x268
+>  usb_disconnect+0xcc/0x300
+>  usb_remove_hcd+0xf4/0x1dc
+>  xhci_plat_remove+0x78/0xe0
+>  platform_drv_remove+0x30/0x50
+>  device_release_driver_internal+0xfc/0x1c8
+>  device_release_driver+0x1c/0x28
+>  bus_remove_device+0xd4/0x158
+>  device_del+0x15c/0x3a0
+>  platform_device_del.part.0+0x20/0x90
+>  platform_device_unregister+0x28/0x40
+>  cdns3_host_exit+0x20/0x40
+>  cdns3_role_stop+0x60/0x90
+>  cdns3_role_set+0x64/0xd8
+>  usb_role_switch_set_role.part.0+0x3c/0x68
+>  usb_role_switch_set_role+0x20/0x30
+>  tcpm_mux_set+0x60/0xf8
+>  tcpm_reset_port+0xa4/0xf0
+>  tcpm_detach.part.0+0x28/0x50
+>  tcpm_state_machine_work+0x12ac/0x2360
+>  process_one_work+0x1c8/0x470
+>  worker_thread+0x50/0x428
+>  kthread+0xfc/0x128
+>  ret_from_fork+0x10/0x18
+> Code: c8037c02 35ffffa3 17ffe7c3 f9800011 (c85f7c01)
+> ---[ end trace 45b1a173d2679e44 ]---
+> 
+> Cc: Baolin Wang <baolin.wang@linaro.org>
+> Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Cc: <stable@vger.kernel.org>
+> Fixes: b0c69b4bace3 ("usb: host: plat: Enable xHCI plat runtime PM")
+> Reviewed-by: Peter Chen <peter.chen@nxp.com>
+> Tested-by: Peter Chen <peter.chen@nxp.com>
+> Signed-off-by: Li Jun <jun.li@nxp.com>
+> ---
+> changes for v2:
+> - Add pm_runtime_put_noidle() to balance pm_runtime_get_sync().
+> - Move pm_runtime_set_suspended() to be after pm_runtime_disable().
 
-Martin Kepplinger <martin.kepplinger@puri.sm> writes:
+Thanks, added to queue.
+did some minor modification to the commit message at the same time.
 
-> On 24.04.20 09:48, Roger Quadros wrote:
->>=20
->>=20
->> On 19/03/2020 12:02, Martin Kepplinger wrote:
->>> The DRD module calls dwc3_set_mode() on role switches, i.e. when a
->>> device is
->>> being plugged in. In order to support continuous runtime power
->>> management when
->>> plugging in / unplugging a cable, we need to call
->>> pm_runtime_get_sync() in
->>> this path.
->>>
->>> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
->>=20
->> Reviewed-by: Roger Quadros <rogerq@ti.com>
->>=20
->>=20
->
-> thank you very much Roger. Anything else that is holding this back?
+-Mathias
 
-Merge window is holding it back :-) It has been in my tree for weeks:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/commit/?h=3Dt=
-esting/next&id=3Dc2cd3452d5f8b66d49a73138fba5baadd5b489bd
-
-Gotta wait for the next merge window for new features to be merged.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl69ICUACgkQzL64meEa
-mQZ7VQ/+Mq0/5vRDJKOzvBdxMlyHYA9lUQr02QNKN8h1S0qAap4a0JZ01VhuIf3Y
-XBALfQgHg0ljjY3THqZ6MjDNEjGPDm8ENsdXInXt6jrwlDucrJxBHTKG8ZBq/brC
-WMS5hA/uL1LWywn0ybeNCtuvl8tn3vIV7iNKATt0YtijfZxBt/IP+fd+4rlkEyPk
-tN41d1HZo4uh7RNBiUgFX3L36j1yrdadSdnLv383yRmUQoxpdsmsVs3Jp1PHYalb
-bIPjNTlgJfyQ8vikb+1/OQSOe4ARIIXkViDeQG4MODjzU/cwiy4spipcwXk7HMQG
-VeeBXFXyZyljxddSWGLMHOSmBKl0s5o20ClnjmPGBpDnAsgt96tPqwC6Tb+jb0R4
-hpJDVn0MFRpcAk/4plccqKVE9behUXNWHLzyMGuwKkQ8Js/0oNOIw6KW0oUynMnw
-3rFvADz3+fct78F7M/zr82adrCtSF7l0gw4WvfpCqImu+59PApGg6ivv+F+ALwkZ
-7UDGevdubjw23+8tfZH7muURNJJDMleyl2E0ZDOwHtb/XB5FKVs8DxXSv9zUFEZq
-kUx1qbMjze8hONtM3Mzuy4vnpU68K1/r2OdAOtbPmAGbSRZNw9Gf/TPjHi0TVubg
-wbs8QRbxrd69glmDuH7pnb5uWphtUItieKQ5P9+Xsq0w99kNprM=
-=CQVk
------END PGP SIGNATURE-----
---=-=-=--
