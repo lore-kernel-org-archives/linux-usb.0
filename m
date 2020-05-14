@@ -2,174 +2,93 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFBBC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F04C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:42:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6734F20756
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589461211;
-	bh=3YB2PlClmWWHHL7lA2CsDaPrtsOSWCLyW5Yldb5v+a4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=KHoOaJ6cXfjh/73EjGb6pPpPKWQT79cF7YskjkVl/H7ZzMarfbjyyfLAYPl0fFF2S
-	 XaMH69Pjf4nM5L4lp/+LTJriLUQHQZ9Fb1CpRkQGicEyvjUVZnlWvK2TIifmowy4cF
-	 Wmehyo0tia5nkKpCmmybzgWKucrPI3H58XHBRnTI=
+	by mail.kernel.org (Postfix) with ESMTP id 839B220734
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:42:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLTbnJtf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgENNAI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 09:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49650 "EHLO
+        id S1727851AbgENNmt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 09:42:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726056AbgENNAG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 09:00:06 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75754C061A0C;
-        Thu, 14 May 2020 06:00:05 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id h188so1803092lfd.7;
-        Thu, 14 May 2020 06:00:05 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726281AbgENNmt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 09:42:49 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26370C061A0C
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 06:42:49 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id r25so24551304oij.4
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 06:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=ROR9+95dsTUL1CeIysEpgW1DhBAJL0UZ2A95+lwDUiw=;
-        b=KO6z1RYlRErR/eWlNzvzQ1S4WAxi9GPRDFuqfPtP3FkEatHRkZJJYMDLbVWyrzKM05
-         kdvUfgzIXmLo9llmPsA0bTlpcoZPlGa1gQ1i1M3P2LWLtEY5ERlIUn+AVfptSlpLbwVI
-         8TT6ZW7OHWOzgTPcBdcMCweELyx/ku0oW8s0fbHOiKfYMSDGHJaGcVwKSpYVVg6mEI9p
-         IseVRHYjX7nj0CCb+CDXaxSmi8RCuNUFUnnvPBkx/33a3PNl4IzvkfzHCPM/8KeTdf1q
-         AxOnnkTEJH1IWW99opQOR1zBslGDQ3EMeU4aMmxxT3o2eaiXj6SPSxUT6BfOnoWNMlm9
-         HZuw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gjUlD/lRnqEmJx87EdZHbW6yAizeTdTaFklB0owA6lQ=;
+        b=SLTbnJtffgqgcngdxn06ZHmxHp0dxStSZM0h4LgdbyH5vStAba3RGu4HLooR27spJk
+         q02Rn7JOA1QCzwn5O7jMbUwHi1TzPFtLoe/anvQjozBJ2xn9Ox0E5/zCXyc5QUjpnC5z
+         tt8n+LRwyZqtdrX9/gQ2dmiMn06V4GIJ6cc0ZDGjYoNarzXoA9v8Ca6W+WlvmSAW2Obu
+         y1M3c90XOf7C+AjfNb+TJZgXFPAWcVthjwINfaeXdDyLOjiMipXvVbJdYaBiGHE//eAg
+         KtiR7h4Rs2iaRqpWpsYrJDzRdewyWE4eQE0u+2sQfEtjb4I4Gi+1VbKO9ogzfMs9EPXQ
+         gYQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=ROR9+95dsTUL1CeIysEpgW1DhBAJL0UZ2A95+lwDUiw=;
-        b=gPchzb3oXJBkBat5/pPBSDkRRX7c5vjsr824NBgUPxrpT+FlV9ZdJT/Lmt/1dCErdy
-         /17gWdDfWG3Pv58GTOkO0F6S1NnHlLz3ZmuZFtcDsJfyN+1epPPtBhJxeOctOB9cCq29
-         UBSibJqP18O9lbO/Lbn3PSoOHvhf5iCO8x050N0jyQw7ppwg6YB7dHA/97Zc2IoIINJe
-         i8HKgkN11KUPaMyzpDmnl+zQzhvbJXhRQCzedjESts8pFsQqF1wJ3buppZLPOtZ/FMOq
-         9v30X0dJVke/OAdt+vwTefCgIgA77y2uGMHFk2fHmb6ZCozR2UscxKrkSV0qZs6Y+f5a
-         f95w==
-X-Gm-Message-State: AOAM53265zX+WC6kpoBbFiHx+9r6n1nfQmlqZ/CM3HC85KHwiogDLCv7
-        jtw7tfqQPODBiX5h7tUTr0z4wPEiHXdhsg==
-X-Google-Smtp-Source: ABdhPJxNerIfBcvLmQHYutWMRmJg9p7efJMIVDi65EtZZ3Y4oVoOZUA65oO9+bwhonnVNLfMWyzKiQ==
-X-Received: by 2002:ac2:5999:: with SMTP id w25mr3194661lfn.196.1589461203516;
-        Thu, 14 May 2020 06:00:03 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id g3sm1894755ljk.27.2020.05.14.06.00.02
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 14 May 2020 06:00:02 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Neil Armstrong <narmstrong@baylibre.com>, kishon@ti.com,
-        khilman@baylibre.com, martin.blumenstingl@googlemail.com
-Cc:     linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] usb: dwc3: meson: add OTG support for GXL/GXM
-In-Reply-To: <8404c7a0-fca7-9e28-b65a-312ed09ecdd3@baylibre.com>
-References: <20200324102030.31000-1-narmstrong@baylibre.com> <87369rfo7l.fsf@kernel.org> <87r1vm4xyq.fsf@kernel.org> <8404c7a0-fca7-9e28-b65a-312ed09ecdd3@baylibre.com>
-Date:   Thu, 14 May 2020 15:59:52 +0300
-Message-ID: <87wo5e3c53.fsf@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gjUlD/lRnqEmJx87EdZHbW6yAizeTdTaFklB0owA6lQ=;
+        b=JSRorxUJh+6R3T88dOuXFXKP3giVtcf3Kff39Oh48dzaTYMfjnfQSKwoDv4U37Z+jd
+         32SoXtiYSgyOdpTBD2WXRtWey1Af0q23XPYTb6h2nq+lSXfV7/LRgaoadZxHx+Fr5TIG
+         ZwIkz81kmMHE232OR1K87lODLcsPrPgGlcfdYyZ8bKegUuSrDVVy8BqHxmXHXJe3Olnu
+         fB7XWUTIQVguZrYXSaxa0WHFEqYEyQH4qz25RFijRS4EeFfxz4o6AaHAZuM56ZR//tb3
+         KtMMKeVs2+lOTSKANPUU4Yiz/+6Qcj4oE50t/5Pkavbvv8RT84K6DeZb/N+d1AxkSr23
+         EXzw==
+X-Gm-Message-State: AGi0PuZ64aJQxgSUSiqB9p+WRfuDM7PMIku+vVSyksViLPhHyYu8D239
+        gol1UzN7Tx4gOtF5byaRrd7IG6D1jQo9Y5aCmGIswBhS
+X-Google-Smtp-Source: APiQypL1zD4vVMSFeXn2iXspdTdkoGitfCmSknBPAOcwWQ8kuxnzLGLFJm44lBmtFBKQp/+RCjKvDetd7ur11GamiOA=
+X-Received: by 2002:aca:cc0d:: with SMTP id c13mr22529645oig.125.1589463768470;
+ Thu, 14 May 2020 06:42:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <CAPY=qRRFV4SpNO5pb9vF=U95dbA_gN2ngP+vm34884NMk5q8gQ@mail.gmail.com>
+ <bb16e374-3d9f-427c-8470-3542dc697fdb@www.fastmail.com>
+In-Reply-To: <bb16e374-3d9f-427c-8470-3542dc697fdb@www.fastmail.com>
+From:   Subhashini Rao Beerisetty <subhashbeerisetty@gmail.com>
+Date:   Thu, 14 May 2020 19:12:35 +0530
+Message-ID: <CAPY=qRRDCqdOOhV2TkyuBV7N-ab7e5110ZQ4u6cfT5dQk=TVnQ@mail.gmail.com>
+Subject: Re: sound over USB
+To:     Sid Spry <sid@aeam.us>
+Cc:     kernelnewbies <kernelnewbies@kernelnewbies.org>,
+        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-
-Neil Armstrong <narmstrong@baylibre.com> writes:
-
-> Hi,
+On Wed, May 13, 2020 at 8:53 PM Sid Spry <sid@aeam.us> wrote:
 >
-> On 14/05/2020 12:23, Felipe Balbi wrote:
->> Felipe Balbi <balbi@kernel.org> writes:
->>=20
->>> Neil Armstrong <narmstrong@baylibre.com> writes:
->>>
->>>> The USB support was initialy done with a set of PHYs and dwc3-of-simple
->>>> because the architecture of the USB complex was not understood correct=
-ly
->>>> at the time (and proper documentation was missing...).
->>>>
->>>> But with the G12A family, the USB complex was correctly understood and
->>>> implemented correctly.
->>>> But seems the G12A architecture was derived for the GXL USB architectu=
-re,
->>>> with minor differences and looks we can share most of the USB DWC3 glue
->>>> driver.
->>>>
->>>> This patchset refactors and adds callbacks to handle the architecture
->>>> difference while keeping the main code shared.
->>>>
->>>> The main difference is that on GXL/GXM the USB2 PHY control registers
->>>> are mixed with the PHY registers (we already handle correctly), and
->>>> the GLUE registers are allmost (99%) the same as G12A.
->>>>
->>>> But, the GXL/GXM HW is buggy, here are the quirks :
->>>> - for the DWC2 controller to reset correctly, the GLUE mux must be swi=
-tched
->>>>   to peripheral when the DWC2 controlle probes. For now it's handled b=
-y simply
->>>>   switching to device when probing the subnodes, but it may be not eno=
-ugh
->>>> - when manually switching from Host to Device when the USB port is not
->>>>   populated (should not happen with proper Micro-USB/USB-C OTG switch)=
-, it
->>>>   makes the DWC3 to crash. The only way to avoid that is to use the Ho=
-st
->>>>   Disconnect bit to disconnect the DWC3 controller from the port, but =
-we can't
->>>>   recover the Host functionnality unless resetting the DWC3 controller.
->>>>   This bit is set when only manual switch is done, and a warning is pr=
-inted
->>>>   on manual switching.
->>>>
->>>> The patches 1-8 should be applied first, then either waiting the next =
-release
->>>> or if the usb maintainer can provide us a stable tag, we can use it to=
- merge
->>>> the DT and bindings.
->>>
->>> it's unclear to me if this series is ready to be merged. Can someone
->>> confirm? If it is, can you resend with all reviewed by tags in place?
->>=20
->> Are we getting a v2 for this?
->>=20
+> On Tue, May 12, 2020, at 11:43 AM, Subhashini Rao Beerisetty wrote>
+> >
+> > How do I use it for playing and recording an audio?
+> >
+> > Basically first I want to gain knowledge on set of test cases I can
+> > run on ALSA and then learn ALSA kernel modules stuff including
+> > snd_usb_audio mdule.
+> >
+> > So please guide me by providing related documentation/Steps.
+> >
 >
-> Yes, even a v3 with reviews on all patches:
-> http://lkml.kernel.org/r/20200416121910.12723-1-narmstrong@baylibre.com
-
-In that case, can you check that I have applied everything correctly in
-testing/next?
-
-cheers
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl69QMoACgkQzL64meEa
-mQZ7CBAAjOVQDtFwDKrzgDZRhyR2kgFRKf9TzlbXviaZij9EeWPBy1HaR0b+/2eX
-SgIO6RsGUiDD0dBt92WLGnvIxt2JecaAdUNbjUzQBeIkuvEyAuJq0M3qkaMLUU+h
-6t6yJZBfO+MyOoFzUS7o+jKQn96KrQLHxcUB69ubZChlNHJUG5nBXpJ2D8xeehnW
-Jz3VvJRqBTtN6X8Cgox6e+X7xq42E+VJz9/vwEqQuMA8R85Ay+fxKbX20GdEj0+P
-8mhZVbe/Anwpksh5RDLAYeP6tOwz5XeAxotB6Iav81HY//gw2HwVuLdhG4t7sm8h
-lfzOa/MkbeoLwT2NacYaZ6eQbBWNpe0+JhX74FL08/P+S5JiHw/DoejbYJL4u8v5
-vfA9kWfkrgEQem/MxNAD8dI+HtFMAnNemLsXMATSrNepVNJiEFACyR9fPA76tf1A
-OPd9sztw4TMDhVi7rPFjnkRYacG7eNkY814OI39975lRc2VI24GjkzBELJMILhqo
-u6EFJcd5vUJcsE47LNyn+hnEFZdkzjxnDXRIJhFfHIyuHaBWYF7chXbkj/TohCQi
-NnLdxEIHnHTXLsD+zN79KNx+UB+4JmRoMVyGlipjaGcgiPWTark9gXyxqOzJNYGG
-Ag7n5Rbxrlh80c2pOZnK4dHKjpUSLf8pcbXgK4rvLr5uWZEvT9A=
-=1kRq
------END PGP SIGNATURE-----
---=-=-=--
+> Hi, searching for an ALSA tutorial will get you far. However on a modern Linux distribution you will likely want to target pulseaudio. There are other libraries like RtAudio or PortAudio that may be easier to use and are cross platform.
+>
+> ALSA seems to give the most reliable results when enumerating audio devices. This can be done when pulseaudio is installed. The pulseaudio results are harder to interpret.
+>
+> In my experience, and not necessarily targeted at you, I have experienced massive difficulties getting RtAudio and PortAudio working in a reproducible way. ALSA is the most reliable but an unusual configuration, and pulseaudio is a hot complicated mess.
+>
+>
+> For what it's worth, the sound API on Linux is so pointlessly complex that I have, in the past, created a custom USB driver to avoid going through the sound API. It was easier to use libusb and get raw samples.
+Great. Does the custom USB driver is available in public repository?
