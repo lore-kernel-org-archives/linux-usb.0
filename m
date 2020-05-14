@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CA1C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 18:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28226C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 18:58:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D63D320727
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 18:57:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 034EA207D5
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 18:58:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589482654;
-	bh=cXe103MZdqM3avjFhQIUYBeg23UVSH5A3ks/8xqjwx8=;
+	s=default; t=1589482717;
+	bh=l2MrieZq0m4F03m5mNR7njvgfmxCZQPv9VqwZvp/KGw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CVG0oYGD6b/PRyie9QKffpfX1vrtTtRah3nhHI+EHUYo6pGrqcEIXlIxiNF2iKNn0
-	 6hsZKU9WjIpEsOcTA+4wd8l2nD8XdoWME3H1hiGPCZujh0OI0uxTP2BYNuRgEiTKwB
-	 eqb2CYTIJqlXwxk6JXgPAEaBqkWgQiFXmXvaJ2ik=
+	b=PYV/gyEzgV2x8HqTPLSUUlvEB6Pu6ER7HLIiJdwgGchilUcxo6y0LBLAB94dfb5wi
+	 V36tEeO5v9Z7eXKUtNOplB5N5vIwtG/rYQesVRN6du2bg5farY+hjkASSHa24vS1P6
+	 Dlay18IFJkSaTFkW73RPy+GH/WZ/eHXMORz4k68A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729186AbgENS5V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 14:57:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57716 "EHLO mail.kernel.org"
+        id S1728261AbgENS4X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 14:56:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57248 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729760AbgENS4k (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 14:56:40 -0400
+        id S1729680AbgENS4V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 May 2020 14:56:21 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C1513207D5;
-        Thu, 14 May 2020 18:56:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA19220801;
+        Thu, 14 May 2020 18:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482599;
-        bh=cXe103MZdqM3avjFhQIUYBeg23UVSH5A3ks/8xqjwx8=;
+        s=default; t=1589482580;
+        bh=l2MrieZq0m4F03m5mNR7njvgfmxCZQPv9VqwZvp/KGw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yx7Bp6jTS/Apv8qhPSCEC9XX+hVKD9vbherpB9CBAOy4gmb3iogcRnSaX3qpNASm2
-         P+BhNtOXV5Ejwav1lyvCnoHxUb0m3HFVUswN6vtYzG6yPm/qOTy9ta+s8ccg+ywHwl
-         oYRSr0+JJ9Pxyhma81GjelznsXIfwnMvvsiUwetA=
+        b=dcOV/ObgOriAZajZu8nbHEl0smYdiGxLycDKi+k7GXB5wOrFWWuf364PajlPIHMNS
+         C9GVQXuOHKpj/YNH5ykDykzzYaslA7gmbMradE12ogtPix9+tTKazVUYa1KGD8S+H2
+         pZoL9ykieeegy1PDoLZxhZ9H/WLRh2ekdt33Be6s=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Alan Stern <stern@rowland.harvard.edu>,
         syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 11/14] USB: core: Fix misleading driver bug report
-Date:   Thu, 14 May 2020 14:56:22 -0400
-Message-Id: <20200514185625.21753-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 24/27] USB: core: Fix misleading driver bug report
+Date:   Thu, 14 May 2020 14:55:47 -0400
+Message-Id: <20200514185550.21462-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185625.21753-1-sashal@kernel.org>
-References: <20200514185625.21753-1-sashal@kernel.org>
+In-Reply-To: <20200514185550.21462-1-sashal@kernel.org>
+References: <20200514185550.21462-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -103,10 +103,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 747343c61398b..f083ecfddd1b1 100644
+index 2e541a0296570..e33d23c2f6eab 100644
 --- a/drivers/usb/core/message.c
 +++ b/drivers/usb/core/message.c
-@@ -1080,11 +1080,11 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
+@@ -1081,11 +1081,11 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
  
  	if (usb_endpoint_out(epaddr)) {
  		ep = dev->ep_out[epnum];
