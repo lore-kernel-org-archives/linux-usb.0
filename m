@@ -2,124 +2,64 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE60C433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 19:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD21C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:16:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AED420643
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 19:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589483162;
-	bh=nx23dqVpWnjfhGPHJ3dCs8uLrVRnY0WPQ+tFW7+VuqM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TfZAFLhkh7j1K1zxugKK+lRPsrpkpMySMfvHSPGeRbmkKA/t6n1z6qDa9WfMorIqM
-	 grmexUJguY2RnndxqbHcIcoVAjhOO5IaWBB06zUWz27hVcr9tL1/KC4VUOb5nGPvvN
-	 TjQ1GZD3PY2fdTl1kBA+idGQSvcvqfkvVBZ0lv8w=
+	by mail.kernel.org (Postfix) with ESMTP id 5917F2065F
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:16:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728880AbgENSx4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 14:53:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53500 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728871AbgENSxy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 14:53:54 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D291D207CD;
-        Thu, 14 May 2020 18:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482433;
-        bh=nx23dqVpWnjfhGPHJ3dCs8uLrVRnY0WPQ+tFW7+VuqM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MhvjMLX01WBA+Ctmyv4rXx/JmNStazor32i59NLkvvvhWQFYOQvQ/3/xnDPgQ5cPY
-         YKxKtfFGT2q1yMgVLG/EVVyQvNrglz0kxM7wYcK2SvmDn7DF/Ioxp5k+O6+eIilGHB
-         ytJrhinvTVp/yYpTS5tQ6GZZM9r/PC+RD34MeLmU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 34/49] USB: core: Fix misleading driver bug report
-Date:   Thu, 14 May 2020 14:52:55 -0400
-Message-Id: <20200514185311.20294-34-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185311.20294-1-sashal@kernel.org>
-References: <20200514185311.20294-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S1727822AbgENUQ4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 16:16:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726035AbgENUQ4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 16:16:56 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54263C061A0C;
+        Thu, 14 May 2020 13:16:56 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id C3627128D72F5;
+        Thu, 14 May 2020 13:16:55 -0700 (PDT)
+Date:   Thu, 14 May 2020 13:16:55 -0700 (PDT)
+Message-Id: <20200514.131655.249413798024922962.davem@davemloft.net>
+To:     thierry.reding@gmail.com
+Cc:     hayeswang@realtek.com, kuba@kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH net/next] r8152: Use MAC address from device tree if
+ available
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200514123848.933199-1-thierry.reding@gmail.com>
+References: <20200514123848.933199-1-thierry.reding@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 14 May 2020 13:16:56 -0700 (PDT)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Alan Stern <stern@rowland.harvard.edu>
+From: Thierry Reding <thierry.reding@gmail.com>
+Date: Thu, 14 May 2020 14:38:48 +0200
 
-[ Upstream commit ac854131d9844f79e2fdcef67a7707227538d78a ]
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> If a MAC address was passed via the device tree node for the r8152
+> device, use it and fall back to reading from EEPROM otherwise. This is
+> useful for devices where the r8152 EEPROM was not programmed with a
+> valid MAC address, or if users want to explicitly set a MAC address in
+> the bootloader and pass that to the kernel.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-The syzbot fuzzer found a race between URB submission to endpoint 0
-and device reset.  Namely, during the reset we call usb_ep0_reinit()
-because the characteristics of ep0 may have changed (if the reset
-follows a firmware update, for example).  While usb_ep0_reinit() is
-running there is a brief period during which the pointers stored in
-udev->ep_in[0] and udev->ep_out[0] are set to NULL, and if an URB is
-submitted to ep0 during that period, usb_urb_ep_type_check() will
-report it as a driver bug.  In the absence of those pointers, the
-routine thinks that the endpoint doesn't exist.  The log message looks
-like this:
+Yep, that looks good, applied.
 
-------------[ cut here ]------------
-usb 2-1: BOGUS urb xfer, pipe 2 != type 2
-WARNING: CPU: 0 PID: 9241 at drivers/usb/core/urb.c:478
-usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
-
-Now, although submitting an URB while the device is being reset is a
-questionable thing to do, it shouldn't count as a driver bug as severe
-as submitting an URB for an endpoint that doesn't exist.  Indeed,
-endpoint 0 always exists, even while the device is in its unconfigured
-state.
-
-To prevent these misleading driver bug reports, this patch updates
-usb_disable_endpoint() to avoid clearing the ep_in[] and ep_out[]
-pointers when the endpoint being disabled is ep0.  There's no danger
-of leaving a stale pointer in place, because the usb_host_endpoint
-structure being pointed to is stored permanently in udev->ep0; it
-doesn't get deallocated until the entire usb_device structure does.
-
-Reported-and-tested-by: syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-
-Link: https://lore.kernel.org/r/Pine.LNX.4.44L0.2005011558590.903-100000@netrider.rowland.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/core/message.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 02eaac7e1e34e..a1ac2f0723b0b 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1143,11 +1143,11 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
- 
- 	if (usb_endpoint_out(epaddr)) {
- 		ep = dev->ep_out[epnum];
--		if (reset_hardware)
-+		if (reset_hardware && epnum != 0)
- 			dev->ep_out[epnum] = NULL;
- 	} else {
- 		ep = dev->ep_in[epnum];
--		if (reset_hardware)
-+		if (reset_hardware && epnum != 0)
- 			dev->ep_in[epnum] = NULL;
- 	}
- 	if (ep) {
--- 
-2.20.1
-
+Thank you.
