@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24955C433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB280C433E3
 	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 09:53:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 017F820671
+	by mail.kernel.org (Postfix) with ESMTP id 958A220671
 	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 09:53:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="NqflolDY"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="tNhpPvtB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbgENJxJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 05:53:09 -0400
-Received: from esa4.microchip.iphmx.com ([68.232.154.123]:61878 "EHLO
-        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbgENJxI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 05:53:08 -0400
+        id S1726135AbgENJxK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 05:53:10 -0400
+Received: from esa6.microchip.iphmx.com ([216.71.154.253]:3795 "EHLO
+        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726124AbgENJxJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 05:53:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1589449988; x=1620985988;
+  t=1589449989; x=1620985989;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=ulFIoRuFlAhbgBKdyPyVoH1HEiouU5Elxw0OIIY1pcQ=;
-  b=NqflolDYci8TG3eyax4SuyhVL8BLFmCD03VbNSQLD736raf/GEdP7UvU
-   hRzoMZjgmva3GxefR49rVni/2BWa16TwiuUhhWq1u/gVpUFylElrnOzwi
-   q+R2VYAvSN4iWb63NP/Bx38cMee3rhnmsmhcWvrfbP3ooYMthdzpe8QeG
-   JMJqD69e5IVE8RMCx7zNCWz7DO4HXQFR93XnfqhZeYwsUv4Rwv1/yAr+8
-   FSnx49oa9dA3pm4ivTOOmsOPTWslYkZr0lB7MxYwYxQqNoHMm8tQGgic4
-   k3or0JFn1c3nVLCIqM2XlbqZYzieJ59gIp9R/xnH12pMznv/GqNgST2XY
-   A==;
-IronPort-SDR: TM7+S6WU4eYPGBPIPzHkhIql2l8pYsqIPF+JMTyc2i432h/zcoWusOV06+MzErVFQRGnmDiosP
- w/iZ/MrQMtx2M+KFkM3Vn2Uh0616G4Zqqdne1RTdcJMv2jLzSz72sgNd/UUfHpWED0lbTENucI
- 6YkgwPGJjmsrpjqgw5bFRW+mzCIMliQIxAvOfnJ8rj6ho3u8+v/UrHQcqRmHWVTH+Z/+D4fLeT
- BzWVlCNVpUOVGhoKtNOWrCGOkEpjVrEg+OPf/w78FbmojNitpW8Q7W0UC7fTnBrZ+elSw0LrRq
- 254=
+  bh=DEp+jW9wX2A5d1wOob0OjxiQCJhtD6AvZxH86gahl60=;
+  b=tNhpPvtBhlqt7rDnDUukJXBIzRY6sKOqs8I0BPDSSNBMn6l04eq0QgCg
+   Qy9+SICwSy06v+tRbkoMK/+EhfvFwU2TuTlfqmOCMBx5G+SbZXLwMtBcB
+   tbwfpJRdtdzd/dSnMnhC+m8+oscb6pIrjcEqXco7KVSlUH9SoEeoIfAYe
+   KWtUET1JuAqMIpwxomaqMKY6CPGPW7kM8HXuvJVSczzUGdgONwMxy8hvc
+   Vu5Jt+lhz3txL/C7QyBDiOIh9cmynJ4ZUTJ5PSx0hMGZOP2LdwuBNFsIe
+   wTHPLEiPhkOIGC2duBRHyg8JZsqlNxlwAJ/tAYWGRB1h24ZSDWvopK33b
+   g==;
+IronPort-SDR: bQMgC3tNbmAzbe+mlt0DerGmX0Y9Gh+haZJkLcBrKMyuW5jdQYlDm9TvyfqYgXzci2VkGMzuQ7
+ MiCNJgr1YOT9FLKZEbqNxDfF8uM6kCyek2XoCYCmvpmt0crBAiEHwNxCEnjW//WApyUfnMvJvY
+ 6lvsn3VbK8MkXB2ufA/BMCoQUzdA40eUoqGXIVd0Ic47x5w1TnzFzM1hpiuJcPz/qoobAivtLk
+ nmvr9rcRzcFRWJibwqkU80xElW5okKYKugq3o7DXVaKXUG9lbGpKB4NIgzD6uZPQHVm832UYQo
+ TKo=
 X-IronPort-AV: E=Sophos;i="5.73,390,1583218800"; 
-   d="scan'208";a="73430412"
+   d="scan'208";a="12346472"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 May 2020 02:53:07 -0700
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 May 2020 02:53:08 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 14 May 2020 02:53:06 -0700
+ 15.1.1713.5; Thu, 14 May 2020 02:53:11 -0700
 Received: from localhost.localdomain (10.10.115.15) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Thu, 14 May 2020 02:53:05 -0700
+ 15.1.1713.5 via Frontend Transport; Thu, 14 May 2020 02:53:07 -0700
 From:   Christian Gromm <christian.gromm@microchip.com>
 To:     <gregkh@linuxfoundation.org>
 CC:     <driverdev-devel@linuxdriverproject.org>,
         <linux-usb@vger.kernel.org>,
         Christian Gromm <christian.gromm@microchip.com>
-Subject: [PATCH v2 5/8] drivers: most: usb: use dev_dbg function
-Date:   Thu, 14 May 2020 11:52:53 +0200
-Message-ID: <1589449976-11378-6-git-send-email-christian.gromm@microchip.com>
+Subject: [PATCH v2 7/8] drivers: most: usb: use macro ATTRIBUTE_GROUPS
+Date:   Thu, 14 May 2020 11:52:55 +0200
+Message-ID: <1589449976-11378-8-git-send-email-christian.gromm@microchip.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589449976-11378-1-git-send-email-christian.gromm@microchip.com>
 References: <1589449976-11378-1-git-send-email-christian.gromm@microchip.com>
@@ -68,37 +68,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch replaces the functions dev_notice with dev_dbg to silence
-the driver during normal operation.
+This patch makes use of the macro ATTRIBUTE_GROUPS to create the groups
+instead of defining them manually.
 
 Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
 Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
 v2:
 
- drivers/most/most_usb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/most/most_usb.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/most/most_usb.c b/drivers/most/most_usb.c
-index 1655fcd..35620a1 100644
+index 35620a1..dce64bb 100644
 --- a/drivers/most/most_usb.c
 +++ b/drivers/most/most_usb.c
-@@ -1129,13 +1129,13 @@ hdm_probe(struct usb_interface *interface, const struct usb_device_id *id)
- 		init_usb_anchor(&mdev->busy_urbs[i]);
- 		spin_lock_init(&mdev->channel_lock[i]);
- 	}
--	dev_notice(dev, "claimed gadget: Vendor=%4.4x ProdID=%4.4x Bus=%02x Device=%02x\n",
-+	dev_dbg(dev, "claimed gadget: Vendor=%4.4x ProdID=%4.4x Bus=%02x Device=%02x\n",
- 		   le16_to_cpu(usb_dev->descriptor.idVendor),
- 		   le16_to_cpu(usb_dev->descriptor.idProduct),
- 		   usb_dev->bus->busnum,
- 		   usb_dev->devnum);
+@@ -999,14 +999,7 @@ static struct attribute *dci_attrs[] = {
+ 	NULL,
+ };
  
--	dev_notice(dev, "device path: /sys/bus/usb/devices/%d-%s:%d.%d\n",
-+	dev_dbg(dev, "device path: /sys/bus/usb/devices/%d-%s:%d.%d\n",
- 		   usb_dev->bus->busnum,
- 		   usb_dev->devpath,
- 		   usb_dev->config->desc.bConfigurationValue,
+-static struct attribute_group dci_attr_group = {
+-	.attrs = dci_attrs,
+-};
+-
+-static const struct attribute_group *dci_attr_groups[] = {
+-	&dci_attr_group,
+-	NULL,
+-};
++ATTRIBUTE_GROUPS(dci);
+ 
+ static void release_dci(struct device *dev)
+ {
+@@ -1159,7 +1152,7 @@ hdm_probe(struct usb_interface *interface, const struct usb_device_id *id)
+ 
+ 		mdev->dci->dev.init_name = "dci";
+ 		mdev->dci->dev.parent = get_device(mdev->iface.dev);
+-		mdev->dci->dev.groups = dci_attr_groups;
++		mdev->dci->dev.groups = dci_groups;
+ 		mdev->dci->dev.release = release_dci;
+ 		if (device_register(&mdev->dci->dev)) {
+ 			mutex_unlock(&mdev->io_mutex);
 -- 
 2.7.4
 
