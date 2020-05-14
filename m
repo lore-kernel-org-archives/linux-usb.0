@@ -2,75 +2,124 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C45C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A0FC433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:49:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A514A2053B
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:44:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DFC8206DA
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589453366;
+	bh=ihBtKopP3k1Y1JCaSjxHNdvYIfEueCdWieJSz6SvBN4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=yyKyvmR0Dg93MtzeLr+7+r0uA1uwBKVXZYciLbqFDjsIaDN+AqPFa8R3PnBsDR5G1
+	 VZQ0GgLm8mLs59Xy1k5XZ/Pr10RvNtFPo4H4V6Jl1Ej547eNVsL/e8PZEbBOjEVU5L
+	 0xexN6DF/449Q39yDNMjs0zxHwijw6NeF+pdyqfg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbgENKoF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 06:44:05 -0400
-Received: from mail-il1-f199.google.com ([209.85.166.199]:49435 "EHLO
-        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726050AbgENKoF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 06:44:05 -0400
-Received: by mail-il1-f199.google.com with SMTP id z18so2758770ilp.16
-        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 03:44:04 -0700 (PDT)
+        id S1726179AbgENKtY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 06:49:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57496 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbgENKtX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 06:49:23 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A19C061A0C;
+        Thu, 14 May 2020 03:49:21 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id a9so2205663lfb.8;
+        Thu, 14 May 2020 03:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=ihBtKopP3k1Y1JCaSjxHNdvYIfEueCdWieJSz6SvBN4=;
+        b=cdbYIJYI4NcPSHfXQP07wl2UNIDAxSzXgr70FR6ySmwbSMRzx8KwYUedNTajATJy/V
+         WKHUAcz8fGKYFbQKBnpHjKNb5/BtjeFwc7j+qHSH+r6CZ6GMYgkrBDx1kpCWi97NidTH
+         rLPuqm07AeGkf/mjPYIMXanP0sJaGaY55Q81xIGQR/wNjOFkEdtTmIDay2rhpGrrjMmN
+         qviYV4EAXvXUo1D24t+bER/5c0QLaxujdOwoxc9iwoSUSYb9Z592o6ZrpEA1Fna6UdNq
+         BynEx9iqLFaPGBtBzpj5xjiWel2Ikw31NmXP/eyJrdimO2kr0qUWqZZNfNQmo+0neqix
+         rrFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=hoXGVtl4km8jJ8wNjtYih/eDPSljKbLmILj3chomVUg=;
-        b=huwasQ8cqQfeVmmOqXl9BKTfLOCyWhl+V4XPIT95V4zQ0auBbJ70l6B9o3TGUEt+EM
-         dcAnlaLup7aVdfwCu2GhzS+zZ+GT9Zp9EQP9SG26qCWjqTt4qUGo6DdVRWDl4ozmjNM1
-         P9owCGOM7rwfkD816ES3S+vDniOt+dIa2OGg9aXD3n1s2/FiOCI1uc6gHOljQ9Y0M9m5
-         6QQPVFXZl3Pno0dvKDwscHrq5fuPx5SyF6ezxRkSNf7S/ojJRz+vW5ZmuLOR7h9jeTTd
-         /7Verr3hD9G3zhXkXLMHabCGZDqAIfJqGYdAVTvo2uApVOzSeOz/tzfIzW6NT3W5xZJ9
-         6pBQ==
-X-Gm-Message-State: AOAM530ZEd+CpUCSk+Sh/AGvY3r0qS5FosWNou0pfCMIweorZJpj+zHP
-        Mv28iwIKIMpsI58tufhO4xGJjbSUiEZJa978RBNTj/9Ej5PB
-X-Google-Smtp-Source: ABdhPJzXo+5o8hNjij+UzCHkt9MgIvEAIQE+bNQv2oX8TNmIwCsWtTIm+byzrRQU1GzPoCsb/WkxdGdHVzDOB8z2t/DmzKj+OJKn
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=ihBtKopP3k1Y1JCaSjxHNdvYIfEueCdWieJSz6SvBN4=;
+        b=n2kWgQbgVDxbKo2s+6TawAIoVPHUg+SxZlnzuZ0zEYcHnyIeABr27R1Ko5wfpqR5vs
+         61jymtHBOuIo5g2NiVezufWLIU7LQKDD1kDvDqI1ip+1vaF9bpwRSSHEouFcb3NLbbqQ
+         9yWAKH3oFxo+SytwYsvK9lycwtnsx4ynP5Kli/negXx3aAR1k1kJvx7Po/PK2p/3610M
+         yctMvXAZmo2SpE4qmtOn5vL42qpSN4ghC5JE/WMLpFHhxmGs9rjcU5icJ9YtbMm4O07x
+         yC4B3f33SyNOdekxewc2IUrZvf3GqyZ20LB4nfA4UEKcKCX7xcQamZiGYOBK/oa8D9J+
+         Q0AA==
+X-Gm-Message-State: AOAM53208ZE6+byIRp6ZIyD0L8Cm+P/GAo8k+E9/4oszC6MGPe+EOazl
+        GKplIoOmnj13lcj9WRN8tyg=
+X-Google-Smtp-Source: ABdhPJzemH7406zwPBPhxjJ/sOFlUJLUa/CJWeWsI8Bjd4BU54bVJGKrYv8rSvofcAhwn7pE2K814w==
+X-Received: by 2002:ac2:4945:: with SMTP id o5mr2888415lfi.21.1589453360383;
+        Thu, 14 May 2020 03:49:20 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id v4sm1276524ljj.104.2020.05.14.03.49.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 14 May 2020 03:49:19 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     "Sandeep Maheswaram \(Temp\)" <sanm@codeaurora.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
+Subject: Re: [PATCH v7 0/4] ADD interconnect support for Qualcomm DWC3 driver
+In-Reply-To: <a119cf75-8bda-f380-8249-173fa426279c@codeaurora.org>
+References: <1585718145-29537-1-git-send-email-sanm@codeaurora.org> <20200429183542.GS4525@google.com> <a119cf75-8bda-f380-8249-173fa426279c@codeaurora.org>
+Date:   Thu, 14 May 2020 13:49:15 +0300
+Message-ID: <87eerm4wr8.fsf@kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:8747:: with SMTP id d7mr3992371ilm.235.1589453044173;
- Thu, 14 May 2020 03:44:04 -0700 (PDT)
-Date:   Thu, 14 May 2020 03:44:04 -0700
-In-Reply-To: <20200514092004.GA1577276@kroah.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000015d1cd05a5996049@google.com>
-Subject: Re: WARNING in memtype_reserve
-From:   syzbot <syzbot+353be47c9ce21b68b7ed@syzkaller.appspotmail.com>
-To:     bp@alien8.de, dave.hansen@linux.intel.com,
-        dmitry.torokhov@gmail.com, ebiederm@xmission.com,
-        gregkh@linuxfoundation.org, hpa@zytor.com, jeremy.linton@arm.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        luto@kernel.org, mingo@redhat.com, peterz@infradead.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has tested the proposed patch and the reproducer did not trigger crash:
+"Sandeep Maheswaram (Temp)" <sanm@codeaurora.org> writes:
 
-Reported-and-tested-by: syzbot+353be47c9ce21b68b7ed@syzkaller.appspotmail.com
+> Hi Felipe,
+>
+> Any update about landing this series.
 
-Tested on:
+in my tree now
 
-commit:         d5eeab8d Merge tag 'scsi-fixes' of git://git.kernel.org/pu..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b0212dbee046bc1f
-dashboard link: https://syzkaller.appspot.com/bug?extid=353be47c9ce21b68b7ed
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=12bd6806100000
+=2D-=20
+balbi
 
-Note: testing is done by a robot and is best-effort only.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl69IisACgkQzL64meEa
+mQbu6A//fIS1BToxj09T/BzusfhWqlmhP82ZlNUi/d/TwchOeTjRexbJ1nYm+i+F
++DelctoeEuZhzYlQr91ZgliYidtTH26NRBAna9Lld6pDlJg31YS8NxB1s9KNNaz5
+9s2HKUt//5ZRzvxhhZZgIvv84iE7cXviVzSzbZ/cU5PjKXJ1E8zsvrbQ9biWP7P6
+AMNP+MbwSBDH2EYz3JyjqmlsBO3oEnJ7IyZDJnMcfXiCIscf7AKYaQY6WOrEj5WH
+ioJFm/GmfJ6Nh77DAtYNjHitz45tFzWGxRbjhUKqIbCnnVMOmwJ8zJNqYH8LDk8X
+ZfEdCU3FcDO98D0izBf0PdAfypa1MFul4bLBaPNKahDjKJKQq6fKvHNMF71ORflI
+HoCy9nm0czUSAIC6i1BZjmEK9yNkMmyKpXGC3YBDw1aQbzrV4uIjZqGRfnzpAzvY
+ng03LpR1BDemQiw869vPmVkX2Y86PaFFnigKaMS2wBN6QBtt6XGePGqf5i3PYmYa
+yEMWBJgRptHAkimChB8EJd02DLeXczae3i85qPFA56Tl9OvMpldIhjD7y47kFKW3
+AseQQAFult5iMM0xIZIXgRXG1JDKajMMqHTz6j7sh/OxnHcrOaSA5mi+XPHp4F94
+z+e8VD3UHm7iHKzOIttpyeTf6l9bP4wczMPup4YhwcaB0xOMY6U=
+=/l/R
+-----END PGP SIGNATURE-----
+--=-=-=--
