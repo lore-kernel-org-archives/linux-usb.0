@@ -2,146 +2,189 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 691F6C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:18:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF31C433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:51:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AA41206D8
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:18:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6801D2065C
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:51:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nSO+tCI9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbgENUSO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 16:18:14 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:40746 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbgENUSM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 16:18:12 -0400
-Received: by mail-io1-f72.google.com with SMTP id r17so198210iom.7
-        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 13:18:11 -0700 (PDT)
+        id S1728319AbgENUvo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 16:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727835AbgENUvn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 16:51:43 -0400
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABC6C061A0E
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 13:51:43 -0700 (PDT)
+Received: by mail-qv1-xf44.google.com with SMTP id v15so7071qvr.8
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 13:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CEO5MKxsOiGcoZ39AsHbecY6ymOt3yQ4dCldSFUPnR4=;
+        b=nSO+tCI9Zh7sRx+j/A6zP12qApAJl7YPoucFFniaPNg63f6d/RJbqGvHBbbdz3qR4q
+         wxQNpJ4ZIOCIIsp5ABxFrQkrZWd4iUPjVGPhYw01jxSLQ8Ncs4KZRqZPhr4wZIQxc+9r
+         kRHo62eCYWEsQ51YWnuWSvkk/F9oX8bUbIsU4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=DeXjDYHmOwesipnsIKPMEZ1+4ozFBXqUZp0fQq+0Nyw=;
-        b=s3GbRVBZ/un6llfhvnRcEvCXBFcXTwM6PpL8bVmB8qFEO6fuX8rsAqu4hcqa9f7Mk3
-         7vpecEazgKpEVK8PIZmyqjy0zuX5G4eT9Uiq5rMJC/Z9OGFC1v3R27rpwUjjbIZuBGXX
-         D1P1k7yPEXhdBP22W7EtwIF3aKizEDXaorHjVXCrld+S5sBj657DZTXBxaEdB7Eko+2+
-         Q/+/2GMzRJ6iAQkM/tsfR6CS/B1M9/MkCi4xzKqPQQi4FKvIm39CpBGrEeocbyRg0uWi
-         6AGqlAXGOIDavXGWvQzWRSPhzSyO5bSKtYVX4FHRlSdPf7pj00FKkKjftTB6X8HqEIrn
-         /wUA==
-X-Gm-Message-State: AOAM533ON66JiEmt4WLkDYTVpSzev4Z5AKVzs6ES0ab1yJgK5w2A33gk
-        oPgZZ8xTnxhzPVhbI9mZa+vs1XpVJ1uSvQp2y+TAihRPqmKE
-X-Google-Smtp-Source: ABdhPJx18/IHJI1GPEwb9TPDpxaTVnV4BHV7LzVRW6V0NgBXx6yTbmdMW2gzQY115FVFY9VQKnYEmhFRym2Z5EhIejWsKtPOk3gl
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CEO5MKxsOiGcoZ39AsHbecY6ymOt3yQ4dCldSFUPnR4=;
+        b=hdjQYzxdeTgHczGGQXDnWuZdFEa8P1ki6kuJUEe8H2kZxEYAoqXdLLDL8m2AaYcIZE
+         zu4tVPp+wJEECjt1BZu5NAVBSrXsoiIil9D+r21aQzzSPpZsFUT4rGHolC4CH8Gx40FU
+         iI4BJPPmE14bz68xChtHsdFT0nxAVWZKn6IYQsrn37vS6/CaT0ThJmzO7pyFwAUoxvwn
+         ovaRmkPraGZY0AdJGQw76mYiyUYbb0937nTO7zyDEurT3srDS83fPSc5jhKpnkqRm4rI
+         99y+dWTf6Y+H2vf18nORv/suEB04a+guXfeeBexRHA9Z1D+jTDnFffoIEdBx/RkTxUpd
+         byXw==
+X-Gm-Message-State: AOAM530/SUBveQWJTsF9EZzH4ZGR3D459QA4GLvQPm7iCqNuBvhBCbOF
+        oGZf3iNh/5Oc+9bDNADZcF34dvL+h17QMcWOKHg6WA==
+X-Google-Smtp-Source: ABdhPJwZIDQ0iffdn72gpulU1LnB9Bmp5RlA17+pbGPp6hkz8/U1ki4Yh9hvEH+g3T7fP+yL9FS3YYKm8La8/jz7ldA=
+X-Received: by 2002:a0c:e304:: with SMTP id s4mr303192qvl.133.1589489502504;
+ Thu, 14 May 2020 13:51:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a6b:38c6:: with SMTP id f189mr5690237ioa.81.1589487491460;
- Thu, 14 May 2020 13:18:11 -0700 (PDT)
-Date:   Thu, 14 May 2020 13:18:11 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004dbaa505a5a165f7@google.com>
-Subject: WARNING in carl9170_usb_submit_cmd_urb/usb_submit_urb
-From:   syzbot <syzbot+9468df99cb63a4a4c4e1@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        ingrassia@epigenesys.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <20200507150900.12102-1-heikki.krogerus@linux.intel.com>
+ <20200507150900.12102-3-heikki.krogerus@linux.intel.com> <20200507224041.GA247416@google.com>
+ <20200508111840.GG645261@kuha.fi.intel.com> <20200511133202.GA2085641@kuha.fi.intel.com>
+ <20200511175719.GA136540@google.com> <20200512142251.GD2085641@kuha.fi.intel.com>
+ <20200512191910.GD136540@google.com>
+In-Reply-To: <20200512191910.GD136540@google.com>
+From:   Prashant Malani <pmalani@chromium.org>
+Date:   Thu, 14 May 2020 13:51:32 -0700
+Message-ID: <CACeCKad4BebiBJS_wO=FdWVWypgOD822Dir7HeRBf0uXUuJusA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] usb: typec: mux: intel_pmc_mux: Support for static
+ SBU/HSL orientation
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>,
+        "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-acpi@vger.kernel.org,
+        Tim Wawrzynczak <twawrzynczak@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Hi Heikki,
 
-syzbot found the following crash on:
+On Tue, May 12, 2020 at 12:19 PM Prashant Malani <pmalani@chromium.org> wrote:
+>
+> Hi Heikki,
+>
+> On Tue, May 12, 2020 at 05:22:51PM +0300, Heikki Krogerus wrote:
+> > Hi Prashant,
+> >
+> > On Mon, May 11, 2020 at 10:57:19AM -0700, Prashant Malani wrote:
+> > > Hi Heikki,
+> > >
+> > > Thanks a lot for looking into this. Kindly see my response inline:
+> > >
+> > > On Mon, May 11, 2020 at 04:32:02PM +0300, Heikki Krogerus wrote:
+> > > > On Fri, May 08, 2020 at 02:18:44PM +0300, Heikki Krogerus wrote:
+> > > > > Hi Prashant,
+> > > > >
+> > > > > On Thu, May 07, 2020 at 03:40:41PM -0700, Prashant Malani wrote:
+> > > > > > > +static int sbu_orientation(struct pmc_usb_port *port)
+> > > > > > > +{
+> > > > > > > +   if (port->sbu_orientation)
+> > > > > > > +           return port->sbu_orientation - 1;
+> > > > > > > +
+> > > > > > > +   return port->orientation - 1;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static int hsl_orientation(struct pmc_usb_port *port)
+> > > > > > > +{
+> > > > > > > +   if (port->hsl_orientation)
+> > > > > > > +           return port->hsl_orientation - 1;
+> > > > > > > +
+> > > > > > > +   return port->orientation - 1;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > >  static int pmc_usb_command(struct pmc_usb_port *port, u8 *msg, u32 len)
+> > > > > > >  {
+> > > > > > >     u8 response[4];
+> > > > > > > @@ -151,8 +170,9 @@ pmc_usb_mux_dp(struct pmc_usb_port *port, struct typec_mux_state *state)
+> > > > > > >
+> > > > > > >     req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
+> > > > > > >     req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
+> > > > > > > -   req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> > > > > > > -   req.mode_data |= (port->orientation - 1) << PMC_USB_ALTMODE_ORI_HSL_SHIFT;
+> > > > > > > +
+> > > > > > > +   req.mode_data |= sbu_orientation(port) << PMC_USB_ALTMODE_ORI_AUX_SHIFT;
+> > > > > >
+> > > > > > I'm curious to know what would happen when sbu-orientation == "normal".
+> > > > > > That means |port->sbu_orientation| == 1.
+> > > > > >
+> > > > > > It sounds like what should happen is the AUX_SHIFT orientation
+> > > > > > setting should follow what |port->orientation| is, but here it
+> > > > > > looks like it will always be set to |port->sbu_orientation - 1|, i.e 0,
+> > > > > > even if port->orientation == TYPEC_ORIENTATION_REVERSE, i.e 2, meaning
+> > > > > > it should be set to 1 ?
+> > > > >
+> > > > > I'll double check this, and get back to you..
+> > > >
+> > > > This is not exactly an answer to your question, but it seems that
+> > > > those bits are only valid if "Alternate-Direct" message is used.
+> > > > Currently the driver does not support that message.
+> > > Could you kindly provide some detail on when "Alternate-Direct" would be
+> > > preferred to the current method?
+> >
+> > Alternate Mode Direct request is supposed to be used if an alternate
+> > mode is entered directly from disconnected state.
+>
+> Ack.
+> >
+> > > Also, is there anything on the PMC side which is preventing the use of
+> > > "Alternate-Direct" messages? It seems like the state transition diagram
+> > > there would be simpler, although I'm likely missing significant details
+> > > here.
+> >
+> > So we actually should use the "direct" request if we are in
+> > disconnected state to enter alt modes if I understood correctly. But
+> > otherwise we should use the normal Alternate Mode request and not the
+> > Alternate Mode "direct" request. And I'm afraid I don't know why.
+>
+> SG.
+> >
+> > > > I think the correct thing to do now is to remove the two lines from
+> > > > the driver where those bits (ORI-HSL and ORI-Aux) are set.
+> > > I see. How would orientation then be handled in a retimer configuration
+> > > where AUX/SBU is flipped by the retimer itself?
+> >
+> > Note that if we send a separate "connection" request first, then we
+> > already tell the HSL and SBU orientation as part of the payload of
+> > that request. That is why there is no need to tell about the HSL and
+> > SBU orientation with the normal Alternate Mode Request.
+> >
+> > So we have already handled the HSL and SBU orientation by the time
+> > this function is called.
+>
+> Thanks for the explanation. I assume the HSL and SBU bit setting lines
+> will be removed from pmc_usb_mux_tbt() too?
+>
+I just realized, the issue I initially pointed out would apply to the
+connect message too, i.e I'm not sure if "normal" orientation setting
+handles the case where port orientation is reversed correctly.
+Overall, I am not sure that re-using the typec_orientations[] string
+list is the best option for this use-case.
+we're looking for "normal" (i.e follows port->orientation) and "fixed"
+(i.e is always the same orientation, regardless of what
+port->orientation is), so it is perhaps better to just define a new
+array just for this driver.
 
-HEAD commit:    059e7e0f usb: raw-gadget: fix typo in uapi headers
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=179bc3c2100000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b484a6e53b2b06ad
-dashboard link: https://syzkaller.appspot.com/bug?extid=9468df99cb63a4a4c4e1
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=177d01c6100000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13052f48100000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+9468df99cb63a4a4c4e1@syzkaller.appspotmail.com
-
-usb 1-1: reset full-speed USB device number 2 using dummy_hcd
-------------[ cut here ]------------
-usb 1-1: BOGUS urb xfer, pipe 1 != type 3
-WARNING: CPU: 1 PID: 17 at drivers/usb/core/urb.c:478 usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.7.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0xef/0x16e lib/dump_stack.c:118
- panic+0x2aa/0x6e1 kernel/panic.c:221
- __warn.cold+0x2f/0x30 kernel/panic.c:582
- report_bug+0x27b/0x2f0 lib/bug.c:195
- fixup_bug arch/x86/kernel/traps.c:175 [inline]
- fixup_bug arch/x86/kernel/traps.c:170 [inline]
- do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
- do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
- invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-RIP: 0010:usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
-Code: 4d 85 ed 74 46 e8 38 c2 d2 fd 4c 89 f7 e8 70 ac 16 ff 41 89 d8 44 89 e1 4c 89 ea 48 89 c6 48 c7 c7 00 52 3d 86 e8 40 96 a6 fd <0f> 0b e9 20 f4 ff ff e8 0c c2 d2 fd 0f 1f 44 00 00 e8 02 c2 d2 fd
-RSP: 0018:ffff8881da25ef40 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff812a2d8d RDI: ffffed103b44bdda
-RBP: ffff8881d9846050 R08: ffff8881da243180 R09: ffffed103b666292
-R10: ffff8881db33148f R11: ffffed103b666291 R12: 0000000000000001
-R13: ffff8881d8c365e8 R14: ffff8881cd6940a0 R15: ffff8881cfb0a100
- carl9170_usb_submit_cmd_urb+0xa5/0x120 drivers/net/wireless/ath/carl9170/usb.c:229
- __carl9170_exec_cmd+0x313/0x5c0 drivers/net/wireless/ath/carl9170/usb.c:643
- carl9170_reboot+0xaf/0xf0 drivers/net/wireless/ath/carl9170/cmd.c:141
- carl9170_usb_disconnect+0xee/0x130 drivers/net/wireless/ath/carl9170/usb.c:1117
- usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:436
- __device_release_driver drivers/base/dd.c:1114 [inline]
- device_release_driver_internal+0x432/0x500 drivers/base/dd.c:1145
- usb_driver_release_interface+0x102/0x180 drivers/usb/core/driver.c:609
- usb_forced_unbind_intf+0x50/0xb0 drivers/usb/core/driver.c:1057
- usb_reset_device+0x39d/0x960 drivers/usb/core/hub.c:5933
- carl9170_usb_probe+0x48/0xd40 drivers/net/wireless/ath/carl9170/usb.c:1044
- usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:374
- really_probe+0x290/0xac0 drivers/base/dd.c:527
- driver_probe_device+0x223/0x350 drivers/base/dd.c:701
- __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:808
- bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
- __device_attach+0x21a/0x390 drivers/base/dd.c:874
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
- device_add+0x1367/0x1c20 drivers/base/core.c:2533
- usb_set_configuration+0xed4/0x1850 drivers/usb/core/message.c:2025
- usb_generic_driver_probe+0x9d/0xe0 drivers/usb/core/generic.c:241
- usb_probe_device+0xd9/0x230 drivers/usb/core/driver.c:272
- really_probe+0x290/0xac0 drivers/base/dd.c:527
- driver_probe_device+0x223/0x350 drivers/base/dd.c:701
- __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:808
- bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
- __device_attach+0x21a/0x390 drivers/base/dd.c:874
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
- device_add+0x1367/0x1c20 drivers/base/core.c:2533
- usb_new_device.cold+0x552/0xf6e drivers/usb/core/hub.c:2548
- hub_port_connect drivers/usb/core/hub.c:5195 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5335 [inline]
- port_event drivers/usb/core/hub.c:5481 [inline]
- hub_event+0x226d/0x43c0 drivers/usb/core/hub.c:5563
- process_one_work+0x965/0x1630 kernel/workqueue.c:2268
- worker_thread+0x96/0xe20 kernel/workqueue.c:2414
- kthread+0x326/0x430 kernel/kthread.c:268
- ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> Best regards,
+> >
+> >
+> > thanks,
+> >
+> > --
+> > heikki
