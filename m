@@ -2,124 +2,86 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F712C433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A709C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:46:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F39A620734
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:42:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16B5520728
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 13:46:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="lpZCseNN"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="cIRqsGrq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727819AbgENNmt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 09:42:49 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:61750 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726197AbgENNmt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 09:42:49 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04EDgMxu028132;
-        Thu, 14 May 2020 15:42:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=tD1qvdb0EwmAv9XocfBUyYNcHtOhYgnwwbYe5684NcY=;
- b=lpZCseNN1q8B2O++L5FqZEfrupQp8UmuSICipi2VpYbbXdKqjviuS4uNBmOQ1Qk1/JYn
- FC0+aT7IZOR+0AaKhzk+Ozpgl88d1a5y1MBWH1j0sjx/T8Vy7mAFxLIZkKAuH5DBT24e
- w8vnJeOoFwf7/cYeADMBCKg6OvlIrAm70cghUtpnyO8Px5h4+ovsh1x/0sNyYzBPay55
- GNVpTBzYrzgrxIYjV346YgPOw8M8x1YuBl3tdk9ASS/dhGkQVptEBfcXiG2r4Y/3xJqM
- b1YktOvA+/Pa6WYvOrUBAuOptDbM+z10mLDDQLjERCoYWeW9MwohkWsITtdfWVTKKrAK eQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3100vnbg0g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 May 2020 15:42:33 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0CF2C100034;
-        Thu, 14 May 2020 15:42:33 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EA8332BE24D;
-        Thu, 14 May 2020 15:42:32 +0200 (CEST)
-Received: from lmecxl0912.tpe.st.com (10.75.127.47) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 14 May
- 2020 15:42:27 +0200
-Subject: Re: [PATCH 00/15] Fix STM32 DT issues on v5.7-rc4
-To:     Benjamin Gaignard <benjamin.gaignard@st.com>,
-        <linus.walleij@linaro.org>, <robh+dt@kernel.org>,
-        <mcoquelin.stm32@gmail.com>, <gregkh@linuxfoundation.org>
-CC:     <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20200513145935.22493-1-benjamin.gaignard@st.com>
-From:   Alexandre Torgue <alexandre.torgue@st.com>
-Message-ID: <caef6641-b7c2-881a-a331-3d05f6f4bba6@st.com>
-Date:   Thu, 14 May 2020 15:42:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726124AbgENNqi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 09:46:38 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:62113 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbgENNqi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 09:46:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1589463999; x=1620999999;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=66jlXt28CE6ScMvqdgsfrIxpJQ4UbAilL8dvmhWUcpQ=;
+  b=cIRqsGrqoZXa1T1OadmGAvuuzENlizl76QfFlcN/eReQpeROTTLfGbYX
+   Vvdp0mJX5ejOP7Sj/eUvfBHws0n+Xa/qghrcjO6g+m1/F3Bpk8cEwVg8V
+   NINtvJxUCMTbIBYSZwXLAJqENabSbKhptzWNY7mQu/t+c8UY3du976/9C
+   wJAgc6nkg6/4KH0A4hx/fI/e1blfQtggaSlGRc7SDpWuHCwinRTPguEUF
+   vq5zG+g9aMmNFZhvMcbYLHcChiarAe4Uy3U1v10VKdCUXJp185D3x9ak8
+   KqUTUqJ88CuCqr/Wuok7JnagAHNlUvTsGDRGrfF520B35SvVNHnAki9IZ
+   Q==;
+IronPort-SDR: vvxCgUCCTC3ENzVJrDlcZMAgT3gAnY/Wqe6+UfEIvBcrvXyLGeU68Out0GmQEZkyTvH9yS8oJy
+ ndCOzN5wQaoV5DZgZyBqvOfd2eb4SxkmGoE4kSP4ZksyxteEtZPVFHXBnff7UhyWn484r8HOQN
+ 9+78jguvsgMdnKezLtNsaaNCjy+A2g/0ZIZFLoLm+ezQBqHZZCIdX54tkGEH8ibkIOib9N/rNv
+ 0UIuuMCbV+0+0DNgC5fPkmXVS4CXHqwrR1VlsTi7zvDFJfXIF7No0gbi60Cgf8p5ehyqoOfP3/
+ wqA=
+X-IronPort-AV: E=Sophos;i="5.73,391,1583218800"; 
+   d="scan'208";a="75894420"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 May 2020 06:46:35 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 14 May 2020 06:46:36 -0700
+Received: from localhost.localdomain (10.10.115.15) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Thu, 14 May 2020 06:46:35 -0700
+From:   Christian Gromm <christian.gromm@microchip.com>
+To:     <gregkh@linuxfoundation.org>
+CC:     <driverdev-devel@linuxdriverproject.org>,
+        <linux-usb@vger.kernel.org>,
+        Christian Gromm <christian.gromm@microchip.com>
+Subject: [PATCH 0/7] staging: most: usb: fix issues found in code audit
+Date:   Thu, 14 May 2020 15:46:22 +0200
+Message-ID: <1589463989-30029-1-git-send-email-christian.gromm@microchip.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20200513145935.22493-1-benjamin.gaignard@st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-14_04:2020-05-14,2020-05-14 signatures=0
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Benjamin
+This series fixes the comments/findings on the previously submitted code
+of the USB adapter driver. The fixes should be applied in staging before
+moving the driver out as one patch.
 
-On 5/13/20 4:59 PM, Benjamin Gaignard wrote:
-> This series fixes issues hight lighted by dtbs_check on STM32 devicetrees.
-> The patches has been developped on top of v5.7-rc4 tag.
-> 
-> Benjamin Gaignard (15):
->    ARM: dts: stm32: remove useless interrupt-names property on stm32f429
->    ARM: dts: stm32: update pwm pinctrl node names for stm32f4
->    ARM: dts: stm32: update led nodes names for stm32f249-disco
->    ARM: dts: stm32: update led nodes names for stm32f469-disco
->    ARM: dts: stm32: remove useless interrupt-names property on stm32f746
->    ARM: dts: stm32: update led nodes names for stm32f429-eval
->    ARM: dts: stm32: update led nodes names for stm32f769-disco
->    ARM: dts: stm32: update led nodes names for stm32f746-eval
->    ARM: dts: stm32: remove useless interrupt-names property on stm32f743
->    ARM: dts: stm32: Update nodes names for stm32h743 pinctrl
->    ARM: dts: stm32: Update nodes names for stm32mp15 pinctrl
->    ARM: dts: stm32: Add missing #address and #size cells on spi node for
->      stm32mp151
->    ARM: dts: stm32: update led nodes names for stm32f746-eval
->    dt-bindings: pinctrl: stm32: Add missing interrupts property
->    dt-bindings: usb: dwc2: Fix issues for stm32mp15x SoC
+Christian Gromm (7):
+  staging: most: usb: use dev_*() functions to print messages
+  staging: most: usb: remove reference to USB error codes
+  staging: most: usb: check number of reported endpoints
+  staging: most: usb: use dev_dbg function
+  staging: most: fix typo in Kconfig
+  staging: most: usb: use macro ATTRIBUTE_GROUPS
+  Documentation: ABI: correct sysfs attribute description of MOST driver
 
-For dts(i) part, it looks good to me. I let Rob to review before taking 
-the whole series.
+ Documentation/ABI/testing/sysfs-bus-most | 104 ++++++++++++++++---------------
+ drivers/staging/most/usb/Kconfig         |   2 +-
+ drivers/staging/most/usb/usb.c           |  46 ++++++--------
+ 3 files changed, 72 insertions(+), 80 deletions(-)
 
-thanks
-alex
+-- 
+2.7.4
 
-
-> 
->   .../devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml          |  3 +++
->   Documentation/devicetree/bindings/usb/dwc2.yaml                |  6 ++++--
->   arch/arm/boot/dts/stm32429i-eval.dts                           |  8 ++++----
->   arch/arm/boot/dts/stm32746g-eval.dts                           |  8 ++++----
->   arch/arm/boot/dts/stm32f4-pinctrl.dtsi                         |  4 ++--
->   arch/arm/boot/dts/stm32f429-disco.dts                          |  4 ++--
->   arch/arm/boot/dts/stm32f429.dtsi                               |  1 -
->   arch/arm/boot/dts/stm32f469-disco.dts                          |  8 ++++----
->   arch/arm/boot/dts/stm32f746.dtsi                               |  1 -
->   arch/arm/boot/dts/stm32f769-disco.dts                          |  4 ++--
->   arch/arm/boot/dts/stm32h743-pinctrl.dtsi                       | 10 +++++-----
->   arch/arm/boot/dts/stm32h743.dtsi                               |  1 -
->   arch/arm/boot/dts/stm32mp15-pinctrl.dtsi                       |  6 +++---
->   arch/arm/boot/dts/stm32mp151.dtsi                              |  2 ++
->   arch/arm/boot/dts/stm32mp15xx-dkx.dtsi                         |  2 +-
->   15 files changed, 36 insertions(+), 32 deletions(-)
-> 
