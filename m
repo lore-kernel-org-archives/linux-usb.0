@@ -2,64 +2,103 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD21C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2639EC433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:18:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5917F2065F
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:16:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 108532065F
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 20:18:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbgENUQ4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 16:16:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726035AbgENUQ4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 16:16:56 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54263C061A0C;
-        Thu, 14 May 2020 13:16:56 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id C3627128D72F5;
-        Thu, 14 May 2020 13:16:55 -0700 (PDT)
-Date:   Thu, 14 May 2020 13:16:55 -0700 (PDT)
-Message-Id: <20200514.131655.249413798024922962.davem@davemloft.net>
-To:     thierry.reding@gmail.com
-Cc:     hayeswang@realtek.com, kuba@kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH net/next] r8152: Use MAC address from device tree if
- available
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200514123848.933199-1-thierry.reding@gmail.com>
-References: <20200514123848.933199-1-thierry.reding@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 14 May 2020 13:16:56 -0700 (PDT)
+        id S1727847AbgENUSN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 16:18:13 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:40745 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726135AbgENUSM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 16:18:12 -0400
+Received: by mail-io1-f71.google.com with SMTP id r17so198207iom.7
+        for <linux-usb@vger.kernel.org>; Thu, 14 May 2020 13:18:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=IPg2EsJITZG2pHDONJjjBuxNwGIW/PzUBwTlpT6HwaI=;
+        b=dhL/DhOERX2p+NWfkhiQwHTtFEHxDAT9+nsr6tKZm2oft7M2bU4gOPxmgGeAPca7Er
+         W7K5cQ+BC7Iy6qIf+9raLhHVAyxZfQ3uX2o3f7w2N+o0YIRAHMEWyli05IGZg4/Q2L8/
+         p7fUgW+cZTJMvlryn7Ulk1++j2DPCxHRhmsG7qLhNhIyYKzM2EgULfMN7BpFFupZGgwo
+         +yl7CVpg4jFGHFOenCdShasN+5MXmjFRIN46ycx2BRdd+X1jGwnKwzkt03/dZsM988RW
+         bC2L5DH5Iha1Vk5Ip5p6nYEu9zsXfG9nzDfPOH/JYljMKQOFEya8u9HeKP7rKjTgx4je
+         2/sA==
+X-Gm-Message-State: AOAM533OCGqw5135tzwpm99gikanw14TtcUQ+rRr/Sb2bA2a9S7ANXGg
+        KjTVvRhT2iYMxoTIkiefJlo6G7jQf9Xye1CZHFVZU4z5F4fo
+X-Google-Smtp-Source: ABdhPJxGuvQnbzRJzfnK1FrWkVtW7RepuEfB4roh2OBItqjGz5Gf9NiC+nAr4jfLh94bvRFGGTUGVduyzpa5zafKq1Fxl8+THd+a
+MIME-Version: 1.0
+X-Received: by 2002:a5d:8b8e:: with SMTP id p14mr5755453iol.110.1589487491247;
+ Thu, 14 May 2020 13:18:11 -0700 (PDT)
+Date:   Thu, 14 May 2020 13:18:11 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004a72f505a5a16525@google.com>
+Subject: WARNING in media_create_pad_link
+From:   syzbot <syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <thierry.reding@gmail.com>
-Date: Thu, 14 May 2020 14:38:48 +0200
+Hello,
 
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> If a MAC address was passed via the device tree node for the r8152
-> device, use it and fall back to reading from EEPROM otherwise. This is
-> useful for devices where the r8152 EEPROM was not programmed with a
-> valid MAC address, or if users want to explicitly set a MAC address in
-> the bootloader and pass that to the kernel.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+syzbot found the following crash on:
 
-Yep, that looks good, applied.
+HEAD commit:    059e7e0f usb: raw-gadget: fix typo in uapi headers
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e77dfa100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b484a6e53b2b06ad
+dashboard link: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16cd44ac100000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17b12b92100000
 
-Thank you.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
+
+uvcvideo 1-1:0.0: Entity type for entity Processing 1 was not initialized!
+uvcvideo 1-1:0.0: Entity type for entity Input 255 was not initialized!
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 163 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x500/0x650 drivers/media/mc/mc-entity.c:669
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 163 Comm: kworker/0:3 Not tainted 5.7.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xef/0x16e lib/dump_stack.c:118
+ panic+0x2aa/0x6e1 kernel/panic.c:221
+ __warn.cold+0x2f/0x30 kernel/panic.c:582
+ report_bug+0x27b/0x2f0 lib/bug.c:195
+ fixup_bug arch/x86/kernel/traps.c:175 [inline]
+ fixup_bug arch/x86/kernel/traps.c:170 [inline]
+ do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+ do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+ invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:media_create_pad_link+0x500/0x650 drivers/media/mc/mc-entity.c:669
+Code: bc ea ff ff ff eb da e8 ee e0 37 fd 0f 0b 41 bc ea ff ff ff eb cb e8 df e0 37 fd 0f 0b 41 bc ea ff ff ff eb bc e8 d0 e0 37 fd <0f> 0b 41 bc ea ff ff ff eb ad e8 c1 e0 37 fd 0f 0b 41 bc ea ff ff
+RSP: 0018:ffff8881ce48ef70 EFLAGS: 00010293
+RAX: ff
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
