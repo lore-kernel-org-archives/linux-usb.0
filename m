@@ -2,88 +2,88 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF70C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 12:09:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CD0C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 12:15:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD6DD206DA
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 12:09:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EFF320722
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 12:15:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589458192;
-	bh=9TkmUAdX2RQ+u5zgcMGocI9dwuWZ53GZK+S2e9ICxjY=;
+	s=default; t=1589458514;
+	bh=EVN8a4/lsMg72cBU83BgujrSbut87JHzXwu/pszQ9Qc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=XO8X0MLFd5ZKbhdhqHJTiJSMCRwy/DRDPNm2iH1SJSu+tJLDQx4AtBRxNjfTloASm
-	 PUi9OckTaAQ/0qsPljMk29w9N0UrujCmtRrcEds+eJ4q2vre/CdYnBtff96sWuCRzc
-	 wOQPgyADB+ZvijyFDPqKr6CHQqfBqcrGFH//pQnM=
+	b=zmHOQknuMOmdStVP3KnOxRkTQl4B6dZGBGFj3LgEiG+QZAkLR2YUirYOeVKMyGT7V
+	 9y9RfTCn2XuWIqC7WhbcjNktGaiuxS96BSV6JeSl92mwSz8xi4oKPMOz2zUuFbV/Nv
+	 JjYJ//fKXfjj5l8P6mtBLeWZ4kYsw42X6V8eRu0Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgENMJt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 08:09:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47302 "EHLO mail.kernel.org"
+        id S1726813AbgENMPL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 08:15:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50648 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726050AbgENMJs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 08:09:48 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1726050AbgENMPK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 May 2020 08:15:10 -0400
+Received: from localhost (unknown [122.182.193.86])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BF48C206A5;
-        Thu, 14 May 2020 12:09:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9DF83206A5;
+        Thu, 14 May 2020 12:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589458187;
-        bh=9TkmUAdX2RQ+u5zgcMGocI9dwuWZ53GZK+S2e9ICxjY=;
+        s=default; t=1589458510;
+        bh=EVN8a4/lsMg72cBU83BgujrSbut87JHzXwu/pszQ9Qc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NAQksCZ2qHv+5x3AQC+zmCumpoQNZV3vfkvc+6WxQaygncoy4cPeEar5Lo5WuQDyv
-         s/0rbz9abTxLkyqpTsXi1RD1vgyNp4LdbHTqYhWYBdHW+iJxX4uCquQJlgmwsBaAAP
-         SzDZ5wS1LdvjlZvf6o+6KTkW4YkqBnCAM7N3WDfE=
-Date:   Thu, 14 May 2020 14:09:44 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hillf Danton <hdanton@sina.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        syzbot+353be47c9ce21b68b7ed@syzkaller.appspotmail.com,
-        stable <stable@vger.kernel.org>
-Subject: Re: [PATCH] USB: usbfs: fix mmap dma mismatch
-Message-ID: <20200514120944.GA2005274@kroah.com>
-References: <20200514112711.1858252-1-gregkh@linuxfoundation.org>
- <20200514115829.GA15995@lst.de>
+        b=M+GXDf3mDZxTe/G5D+pZdMEJyOQLxBEaIYHJKR4mo6NDkwqcwlWl4cZVXNVdf56KV
+         zfOLup7G7zFjHh6C1NB9nY9lqv3puucIoAFhu6vZhQpClP3kSg4Eblzm0fFalanEKI
+         xuzInQIOgK6M3zN3UzBiF161MybK8zt38ZzutF/A=
+Date:   Thu, 14 May 2020 17:45:01 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andreas =?iso-8859-1?Q?B=F6hler?= <dev@aboehler.at>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v13 5/5] usb: xhci: provide a debugfs hook for erasing rom
+Message-ID: <20200514121501.GQ14092@vkoul-mobl>
+References: <20200506060025.1535960-1-vkoul@kernel.org>
+ <20200506060025.1535960-6-vkoul@kernel.org>
+ <caa2c5f4-a858-d699-27af-7b0c22b4dc40@linux.intel.com>
+ <20200513124554.GA1083139@kroah.com>
+ <20200514092458.GA1591384@kroah.com>
+ <20200514112618.GP14092@vkoul-mobl>
+ <20200514114614.GA1893226@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200514115829.GA15995@lst.de>
+In-Reply-To: <20200514114614.GA1893226@kroah.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, May 14, 2020 at 01:58:29PM +0200, Christoph Hellwig wrote:
-> On Thu, May 14, 2020 at 01:27:11PM +0200, Greg Kroah-Hartman wrote:
-> > +	if (hcd->localmem_pool || !hcd_uses_dma(hcd)) {
-> > +		if (remap_pfn_range(vma, vma->vm_start,
-> > +				    virt_to_phys(usbm->mem) >> PAGE_SHIFT,
-> > +				    size, vma->vm_page_prot) < 0) {
-> > +			dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
-> > +			return -EAGAIN;
-> > +		}
-> > +	} else {
-> > +		if (dma_mmap_coherent(hcd->self.sysdev, vma, mem, dma_handle,
-> > +				      size)) {
-> > +			dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
-> > +			return -EAGAIN;
-> > +		}
+On 14-05-20, 13:46, Greg Kroah-Hartman wrote:
+> On Thu, May 14, 2020 at 04:56:18PM +0530, Vinod Koul wrote:
+> > On 14-05-20, 11:24, Greg Kroah-Hartman wrote:
+> > > On Wed, May 13, 2020 at 02:45:54PM +0200, Greg Kroah-Hartman wrote:
+> > 
+> > > > Ah, I misssed that, a follow-on patch can do this, right?
+> > > 
+> > > Actually, a whole new series with this changed is good, I didn't take
+> > > these for now, for some reason I thought I had.
+> > 
+> > Do you mind taking these except this patch (last). I will spin this
+> > later
 > 
-> What about a goto label to share the error handling path?
+> Can you resend, they are not in my patch queue anymore.
 
-I thought about that, but that's a bit messier than the duplicated lines
-here :)
+Sure, will resend dropping patch 5.
 
-> Otherwise looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-thanks for the review, and the help with this.
-
-greg k-h
+-- 
+~Vinod
