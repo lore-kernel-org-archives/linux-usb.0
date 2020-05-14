@@ -2,91 +2,73 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EA6C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 18:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBA6C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 19:00:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64F8320727
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 18:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589482741;
-	bh=GQkvxY6a60MfmC9Z3Ps15B2m5edknHHKmRYox64jmQw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Kr86P6C7OsKimKiksowzwGPMI0rNgz4zgAMwi8wcfJoaFHPq9Qqpi3c5dIb3keYF7
-	 iPeixQx/xVsRXlh7bJHJ3CzxUaAjPFo8HaHwcxpNolJXilVL4vcnBmnN3Q/APVLnxm
-	 nAuMppyuhHzROYNruJmRAYmIUUoClJp9+BK/QRLs=
+	by mail.kernel.org (Postfix) with ESMTP id A0173206A5
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 19:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729497AbgENS4S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 14:56:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57160 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729650AbgENS4R (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 14:56:17 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A13632074A;
-        Thu, 14 May 2020 18:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482576;
-        bh=GQkvxY6a60MfmC9Z3Ps15B2m5edknHHKmRYox64jmQw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O23BWtX+kbHwy42eKO8Z925R45e/8pn06X7GE3WEAGgGJfS2VWWbh+f8CAtR0s1G5
-         IYZ8SwV37Iz53Gn9B/ZTRIIDJhrCLbcNIx3xfsGHwrtH6dYTXiE72mwAKiWbqLk2By
-         1b/EIZDhpBaRyWfFc0ohiF3u15iBwXgdsDIPvUSI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Matt Jolly <Kangie@footclan.ninja>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 21/27] net: usb: qmi_wwan: add support for DW5816e
-Date:   Thu, 14 May 2020 14:55:44 -0400
-Message-Id: <20200514185550.21462-21-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185550.21462-1-sashal@kernel.org>
-References: <20200514185550.21462-1-sashal@kernel.org>
+        id S1728311AbgENTAS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 15:00:18 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:50677 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729504AbgENSzu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 14:55:50 -0400
+Received: (qmail 23212 invoked by uid 500); 14 May 2020 14:55:49 -0400
+Date:   Thu, 14 May 2020 14:55:49 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: musb: return -ESHUTDOWN in urb when three-strikes
+ error happened
+Message-ID: <20200514185549.GA22428@rowland.harvard.edu>
+References: <20200513213620.21541-1-b-liu@ti.com>
+ <20200514013205.GA10515@rowland.harvard.edu>
+ <20200514142803.GA11463@iaqt7>
+ <20200514144053.GC12181@rowland.harvard.edu>
+ <20200514150259.GB11463@iaqt7>
+ <20200514153731.GC11463@iaqt7>
+ <20200514162604.GA9571@rowland.harvard.edu>
+ <20200514170023.GD11463@iaqt7>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200514170023.GD11463@iaqt7>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Matt Jolly <Kangie@footclan.ninja>
+On Thu, May 14, 2020 at 12:00:23PM -0500, Bin Liu wrote:
 
-[ Upstream commit 57c7f2bd758eed867295c81d3527fff4fab1ed74 ]
+> > Still, it's worth pointing out that this change abuses the API (perhaps 
+> > mentioning it in a comment).  And it still would be preferable to fix 
+> 
+> Okay, I will add those notes in comment in v2.
+> 
+> > the drivers in question, impractical though that may be.  (I have a hard 
+> > time believing there are really 500 of them getting this wrong...)
+> 
+> I am not sure about it either, but yeah it is not practical to fix the
+> issue in device drivers. So far I have seen 3 reports of this issue:
+> 
+> 1. with FTDI usb-serial adapter, the issue is in the usb serial generic
+> driver;
 
-Add support for Dell Wireless 5816e to drivers/net/usb/qmi_wwan.c
+It shouldn't be hard to fix this.  We don't even need a delayed retry; 
+the driver can simply treat -EPROTO as an unrecoverable error, just like 
+-ESHUTDOWN.
 
-Signed-off-by: Matt Jolly <Kangie@footclan.ninja>
-Acked-by: Bjørn Mork <bjorn@mork.no>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+Alan Stern
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 97f6b8130db33..5755eec00d7f8 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -950,6 +950,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x413c, 0x81b3, 8)},	/* Dell Wireless 5809e Gobi(TM) 4G LTE Mobile Broadband Card (rev3) */
- 	{QMI_FIXED_INTF(0x413c, 0x81b6, 8)},	/* Dell Wireless 5811e */
- 	{QMI_FIXED_INTF(0x413c, 0x81b6, 10)},	/* Dell Wireless 5811e */
-+	{QMI_FIXED_INTF(0x413c, 0x81cc, 8)},	/* Dell Wireless 5816e */
- 	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
- 	{QMI_FIXED_INTF(0x413c, 0x81d7, 1)},	/* Dell Wireless 5821e preproduction config */
- 	{QMI_FIXED_INTF(0x413c, 0x81e0, 0)},	/* Dell Wireless 5821e with eSIM support*/
--- 
-2.20.1
-
+> 2. with a modem, the issue is in usb wwan driver as I fixed in the patch
+> I sent yesterday;
+> 
+> 2. another modem, before I was able to locate the offending device
+> driver, the guy who reported the issue disappeared, and not responding
+> me.
+> 
+> -Bin.
