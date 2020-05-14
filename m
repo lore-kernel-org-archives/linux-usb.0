@@ -2,135 +2,97 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CBDC433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 06:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D5A7C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 06:27:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AFCA20760
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 06:23:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Ut8CN91E"
+	by mail.kernel.org (Postfix) with ESMTP id 664AE206D8
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 06:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589437677;
+	bh=ZZL/VqoacdeBCG/xZqKQotkNP7fuRxsK35yGhyyUx20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=pVX8qtPBpOZgRqlTnXJS+Mt0Gb3NkZQ/+8VvhWeD0LnJBUa2+8oZKuRd0e9+QLBll
+	 APNvSMiI+GX7Y+a35Ir/TKDlrbSvbyGzOfcHFeXTz1jk3dDzI3BETOdU0huojZ8Wjz
+	 z4xSwxVmaGhJBKTf5olGOUzfKalgeqXf5XiERVsw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726108AbgENGW7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 02:22:59 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11588 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726097AbgENGW5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 02:22:57 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ebce3b50000>; Wed, 13 May 2020 23:22:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 13 May 2020 23:22:57 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 13 May 2020 23:22:57 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 14 May
- 2020 06:22:57 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 14 May 2020 06:22:57 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ebce3bd0003>; Wed, 13 May 2020 23:22:56 -0700
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [PATCH V3 2/8] usb: gadget: tegra-xudc: Add vbus_draw support
-Date:   Thu, 14 May 2020 11:52:37 +0530
-Message-ID: <1589437363-16727-3-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
-References: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        id S1725911AbgENG1x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 02:27:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51222 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725818AbgENG1x (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 May 2020 02:27:53 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2AEED206B6;
+        Thu, 14 May 2020 06:27:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589437672;
+        bh=ZZL/VqoacdeBCG/xZqKQotkNP7fuRxsK35yGhyyUx20=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VGwF8ASJoWP8ykgSGEL/7yAp6tuDZFLCWd4GHadPK/Jy0EBZUBanEEfCeTEKkWSl/
+         gTpl4Q/qikRRcaE8ItuVW2nz+/MdymI14MUHKX8IVb5daWtH8bphPFAUaSuXKS/9ww
+         ky/9xD1YMqx6jyqbMhrZX2Kyl0nxHS2VmJkHP6fo=
+Date:   Thu, 14 May 2020 08:27:50 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Hillf Danton <hdanton@sina.com>,
+        syzbot <syzbot+353be47c9ce21b68b7ed@syzkaller.appspotmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>, jeremy.linton@arm.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com, x86@kernel.org
+Subject: Validating dma_mmap_coherent() parameters before calling (was Re:
+ WARNING in memtype_reserve)
+Message-ID: <20200514062750.GA1488715@kroah.com>
+References: <000000000000f0d8d205a531f1a3@google.com>
+ <20200509074507.GC1831917@kroah.com>
+ <87wo5l4ecm.fsf@nanos.tec.linutronix.de>
+ <20200513124445.GA1082735@kroah.com>
+ <87zhab249p.fsf@nanos.tec.linutronix.de>
+ <20200514035458.14760-1-hdanton@sina.com>
+ <20200514061417.GA8367@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589437365; bh=QIrSOgashcQZQOkj7X99YKOXC+8KTj9YocqUEBpgy58=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Ut8CN91E2PDKeQel9ydmny52SrssCT1d4y7wJP6d3rH/9LFrlcNgdzBkHvEqMKPWw
-         EiKi5d56kgCZKs/dznixgvYu05DSG321YjAKhxmLoMzePUWguRSkw/59+yMCOLYx1J
-         idH88urf8ZslpkFFXfiYrQI17jei6LFOE1L6OUwkwElapXWxc7o66qJRJOMOvPpk5g
-         bCI3hdDpF/uOlxCWYZfEAKXwhD0mfG9Wi4Y7ryBag+nMsg1fE9u3ptOQj9ynRl93QE
-         A1/GLHTyYOL05a453AHkWx4YtP8mHzF/5DCF29zZG1xLg/t1SwpNGz4Qoksev/ojm+
-         QuHwkssmUbE6Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200514061417.GA8367@lst.de>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Register vbus_draw to gadget ops and update corresponding vbus
-draw current to usb_phy.
+On Thu, May 14, 2020 at 08:14:17AM +0200, Christoph Hellwig wrote:
+> Guys, can you please start formal thread on this?  I have no
+> idea where this came from and what the rationale is.  Btw, if the
+> pfn is crap in dma_direct_mmap then the dma_addr_t passed in is
+> crap, as it is derived from that.  What is the caller, and how is
+> this triggered?
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
----
-V3:
- - Propogated usb_phy->set_power error to vbus_draw caller.
----
-V2:
- - Patch re-based.
----
- drivers/usb/gadget/udc/tegra-xudc.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 52a6add..53e2d1c 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -492,6 +492,7 @@ struct tegra_xudc {
- 	bool powergated;
- 
- 	struct usb_phy **usbphy;
-+	struct usb_phy *curr_usbphy;
- 	struct notifier_block vbus_nb;
- 
- 	struct completion disconnect_complete;
-@@ -719,6 +720,7 @@ static int tegra_xudc_vbus_notify(struct notifier_block *nb,
- 	if (!xudc->suspended && phy_index != -1) {
- 		xudc->curr_utmi_phy = xudc->utmi_phy[phy_index];
- 		xudc->curr_usb3_phy = xudc->usb3_phy[phy_index];
-+		xudc->curr_usbphy = usbphy;
- 		schedule_work(&xudc->usb_role_sw_work);
- 	}
- 
-@@ -2042,6 +2044,20 @@ static int tegra_xudc_gadget_stop(struct usb_gadget *gadget)
- 	return 0;
- }
- 
-+static int tegra_xudc_gadget_vbus_draw(struct usb_gadget *gadget,
-+						unsigned int m_a)
-+{
-+	int ret = 0;
-+	struct tegra_xudc *xudc = to_xudc(gadget);
-+
-+	dev_dbg(xudc->dev, "%s: %u mA\n", __func__, m_a);
-+
-+	if (xudc->curr_usbphy->chg_type == SDP_TYPE)
-+		ret = usb_phy_set_power(xudc->curr_usbphy, m_a);
-+
-+	return ret;
-+}
-+
- static int tegra_xudc_set_selfpowered(struct usb_gadget *gadget, int is_on)
- {
- 	struct tegra_xudc *xudc = to_xudc(gadget);
-@@ -2058,6 +2074,7 @@ static struct usb_gadget_ops tegra_xudc_gadget_ops = {
- 	.pullup = tegra_xudc_gadget_pullup,
- 	.udc_start = tegra_xudc_gadget_start,
- 	.udc_stop = tegra_xudc_gadget_stop,
-+	.vbus_draw = tegra_xudc_gadget_vbus_draw,
- 	.set_selfpowered = tegra_xudc_set_selfpowered,
- };
- 
--- 
-2.7.4
+Ok, to summarize, commit 2bef9aed6f0e ("usb: usbfs: correct kernel->user
+page attribute mismatch") changed a call from remap_pfn_range() to
+dma_mmap_coherent() for usb data buffers being sent from userspace.
 
+Details on why this was changed is in the commit changelog, but this has
+triggered a WARN_ON() in memtype_reserve when I think some odd data
+buffers were sent to it by syzbot fuzzing.
+
+The warning caught the wrong data, but triggered syzbot.
+
+So, the question is, should all callers of dma_mmap_coherent() validate
+the parms better before it is called, or should the call chain here
+properly sanitize things on their own.
+
+Note, usbfs is not the only direct-from-userspace caller of
+dma_mmap_coherent(), it's also used in other userspace apis (frame
+buffer drivers, fastrpc, some SoC drivers) but it looks like nothing has
+fuzzed those apis before to trigger this.
+
+Does that help explain things better?
+
+thanks,
+
+greg k-h
