@@ -2,143 +2,76 @@ Return-Path: <SRS0=M0dr=64=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0514EC433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:27:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F47C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:28:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC3E620728
-	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:27:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6953A206DA
+	for <linux-usb@archiver.kernel.org>; Thu, 14 May 2020 10:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589452075;
-	bh=8YB9PkihPxyIdTMoNW95kPZVAuM1cjE/7vhXPSTIK6A=;
+	s=default; t=1589452087;
+	bh=hAvvmC7GroHv7ZgWP/NYN0lVqlr+JyvKlza9/MIngvo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=wvMrmqDAXipHbO4s5wqS0QFtpbR1GJqGfQl5/+TE7nYK1MAXtZxSTc8lJT7o+CK6D
-	 Vxqd29LOZpJsu9W37BSAN8LYVRCudMOHyeh0d0BygStCUrP5nr4suwBfxAufZ9y9et
-	 1mZpQZhBcmduVKWYES9geyPwrjcPan83NG5/1MvE=
+	b=hhbOZcCGhGokH6bbgh8LdESO70nruVLUQVJsv820w5nyhPHjMah16oRNeja84Blr7
+	 C/k4cwQ5IevjSL6jWZeRanabb+xK8iuE4bjpVKKfp/MisgypuYRKm32nb6u42YRa74
+	 fWuTYnWHLYa9oTRFuNSV1srtyTXlDBDOxyZSYsWU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbgENK1z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 06:27:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55914 "EHLO mail.kernel.org"
+        id S1726863AbgENK2G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 06:28:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56552 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726234AbgENK1y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 06:27:54 -0400
+        id S1726494AbgENK2D (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 May 2020 06:28:03 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A3C9A20734;
-        Thu, 14 May 2020 10:27:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B1BC206DA;
+        Thu, 14 May 2020 10:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589452073;
-        bh=8YB9PkihPxyIdTMoNW95kPZVAuM1cjE/7vhXPSTIK6A=;
+        s=default; t=1589452083;
+        bh=hAvvmC7GroHv7ZgWP/NYN0lVqlr+JyvKlza9/MIngvo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z958oHucrRPdewqJv4Gvyp12/z5HkOQ/5iRnCCEMxauRv6a9Gum/JsyXEO9hVeonn
-         LeYX3KtpbsiqpvCUULsndaaqF0yUVMDsq0uZ52Dtw4kLAzvISzWugYxsisv/0eJMjY
-         bajxmRGO6M5HGRqZeSfStnIFQpCsf3MCtHIxfAVs=
-Date:   Thu, 14 May 2020 11:24:58 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andreas =?iso-8859-1?Q?B=F6hler?= <dev@aboehler.at>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13 5/5] usb: xhci: provide a debugfs hook for erasing rom
-Message-ID: <20200514092458.GA1591384@kroah.com>
-References: <20200506060025.1535960-1-vkoul@kernel.org>
- <20200506060025.1535960-6-vkoul@kernel.org>
- <caa2c5f4-a858-d699-27af-7b0c22b4dc40@linux.intel.com>
- <20200513124554.GA1083139@kroah.com>
+        b=EbaSk1K/o+7jqN70XnllY/y7me8Q/dlyaoQUhO7BJQ1GT+aKbUhXrHWsWBxbAdYr/
+         nKFWl7VnPH1XBEkxp7+J0rruP0e7vQzg3ISW7dltukayj4GfeX5rW0++FKgSkT0WLF
+         X1BvVVwtGP5WRqLWKx8PGVGmDVbFJnlTmbQgQR6Q=
+Date:   Thu, 14 May 2020 12:25:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Christian Gromm <christian.gromm@microchip.com>
+Cc:     driverdev-devel@linuxdriverproject.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] drivers: most: add usb adapter driver
+Message-ID: <20200514102546.GA1828756@kroah.com>
+References: <1589449976-11378-1-git-send-email-christian.gromm@microchip.com>
+ <1589449976-11378-2-git-send-email-christian.gromm@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200513124554.GA1083139@kroah.com>
+In-Reply-To: <1589449976-11378-2-git-send-email-christian.gromm@microchip.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 13, 2020 at 02:45:54PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, May 13, 2020 at 03:36:19PM +0300, Mathias Nyman wrote:
-> > On 6.5.2020 9.00, Vinod Koul wrote:
-> > > run "echo 1 > /sys/kernel/debug/renesas-usb/rom_erase" to erase
-> > > firmware when driver is loaded.
-> > > 
-> > > Subsequent init of driver shall reload the firmware
-> > > 
-> > > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > > ---
-> > >  drivers/usb/host/xhci-pci-renesas.c | 33 +++++++++++++++++++++++++++++
-> > >  1 file changed, 33 insertions(+)
-> > > 
-> > > diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
-> > > index f7d2445d30ec..fa32ec352dc8 100644
-> > > --- a/drivers/usb/host/xhci-pci-renesas.c
-> > > +++ b/drivers/usb/host/xhci-pci-renesas.c
-> > > @@ -2,6 +2,7 @@
-> > >  /* Copyright (C) 2019-2020 Linaro Limited */
-> > >  
-> > >  #include <linux/acpi.h>
-> > > +#include <linux/debugfs.h>
-> > >  #include <linux/firmware.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/pci.h>
-> > > @@ -170,6 +171,8 @@ static int renesas_fw_verify(const void *fw_data,
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +static void debugfs_init(struct pci_dev *pdev);
-> > > +
-> > >  static bool renesas_check_rom(struct pci_dev *pdev)
-> > >  {
-> > >  	u16 rom_status;
-> > > @@ -183,6 +186,7 @@ static bool renesas_check_rom(struct pci_dev *pdev)
-> > >  	rom_status &= RENESAS_ROM_STATUS_ROM_EXISTS;
-> > >  	if (rom_status) {
-> > >  		dev_dbg(&pdev->dev, "External ROM exists\n");
-> > > +		debugfs_init(pdev);
-> > >  		return true; /* External ROM exists */
-> > >  	}
-> > >  
-> > > @@ -449,6 +453,34 @@ static void renesas_rom_erase(struct pci_dev *pdev)
-> > >  	dev_dbg(&pdev->dev, "ROM Erase... Done success\n");
-> > >  }
-> > >  
-> > > +static int debugfs_rom_erase(void *data, u64 value)
-> > > +{
-> > > +	struct pci_dev *pdev = data;
-> > > +
-> > > +	if (value == 1) {
-> > > +		dev_dbg(&pdev->dev, "Userspace requested ROM erase\n");
-> > > +		renesas_rom_erase(pdev);
-> > > +		return 0;
-> > > +	}
-> > > +	return -EINVAL;
-> > > +}
-> > > +DEFINE_DEBUGFS_ATTRIBUTE(rom_erase_ops, NULL, debugfs_rom_erase, "%llu\n");
-> > > +
-> > > +static struct dentry *debugfs_root;
-> > > +
-> > > +static void debugfs_init(struct pci_dev *pdev)
-> > > +{
-> > > +	debugfs_root = debugfs_create_dir("renesas_usb", NULL);
-> > 
-> > This will create a renesas_usb directory right under debugfs root.
-> > xhci has its own struct dentry xhci_debugfs_root; 
-> > Use that as parent instead
+On Thu, May 14, 2020 at 11:52:49AM +0200, Christian Gromm wrote:
+> This patch adds the usb driver source file most_usb.c and
+> modifies the Makefile and Kconfig accordingly.
 > 
-> Ah, I misssed that, a follow-on patch can do this, right?
+> Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+> ---
+> v2:
+> Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 	- don't remove usb driver from staging area
+> 	- don't touch staging/most/Kconfig
+> 	- remove subdirectory for USB driver and put source file into
+> 	  drivers/most
 
-Actually, a whole new series with this changed is good, I didn't take
-these for now, for some reason I thought I had.
+Hm, no, can you invert this series?  I'll gladly take the "fixes" for
+the existing code in staging, and then we can do a new review after that
+of the file being added to match what is in staging.  I think you might
+have missed at least one change that happened there already :(
 
 thanks,
 
