@@ -2,156 +2,143 @@ Return-Path: <SRS0=VLjO=65=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C35FC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 01:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08039C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 01:23:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7445E206D8
-	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 01:05:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE49620671
+	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 01:23:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="LfwVqg8c"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ib70wvu1";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="BxDnaDPc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727882AbgEOBFw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 May 2020 21:05:52 -0400
-Received: from mail-eopbgr60041.outbound.protection.outlook.com ([40.107.6.41]:33153
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726171AbgEOBFv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 May 2020 21:05:51 -0400
+        id S1727825AbgEOBX2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 May 2020 21:23:28 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:44604 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726168AbgEOBX1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 May 2020 21:23:27 -0400
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0547E4011D;
+        Fri, 15 May 2020 01:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1589505807; bh=esOyszp9LPwAZTDnLzv1atAV/Kejv4xkXY2j8Q0YY+E=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=ib70wvu1N1nIE8cXOl00qunpFeBQ5zKhqcHRwyx4MmEeDsVv3GdrgSQ0OWyNBq39U
+         aykDPacKmqxIIaxJtGVZABVM0wD8IKnMlHdDJDiqpR/0ksQUidWxAasb/+G3+3wSmy
+         I9+7KR7+3o1JX0kCrbdeDktGXa96rMVX2UUVvgIG3BE+GyxXVZevS2WS02NjidrvA4
+         3SQZFwsFoA1LksPrU8FL6Pmomce6usD43URVihQpKY5aZE/Sz9c7uVmzf5q3EzcHpn
+         SP777ibVXVjhV1Y/fY7iIr5PGQxHpirAc0DUP3RuGzwdO8bMpEahXQdsgWyuezWYjZ
+         SvAktxh2IG8+A==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id A4F18A006A;
+        Fri, 15 May 2020 01:23:26 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 14 May 2020 18:23:20 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
+ 14.3.487.0; Thu, 14 May 2020 18:23:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BaKuU5Z/0OlioxojlurR7qBnB0Jso68l5IyDWCHvWk1y6HotIQqxcj77xu7oqNFN4zwxzyL58UQ6afO6POvIX4IegsyWJPKQwHym7t3EVGDWg+cXuEiH0WjrmAlNuHCNuN1GCpEJnjRWgMNQv4Ywl81mLCMh20T4WkEWN2yzZN7Fa8oU+Uz1faqnAtRaHNkBLSuydvbMt1wJ99WF2WtTqPz+I3t9u388qdoD9na6L8L8dn0ptFFv48M1m9AhVBWuUAq5Veo1lNhQ3Cl1SmWB7ezvJCj2lVyWxvByigNpQRBmQ/MaKV+AbcPQlXBConzJ6zi7pDlvr12vsROWtIy+tw==
+ b=JyrvdRpxtGVzIBIWC901BPT41u+lrMfBGPGooWh3CHxr3kMrYVWAs8RupxLiCU7Zrl9vN4SOhq85xO+P7vBVI9kAhgUSEA6bIVgZ9E8Q8hZ+nQQ0z9QVZy/emYA9kjcsKCalOl4B5gIzZrSlyPx3ZYh2qR6SHMH7/uw70tytc9HtToi606CCXTsfrLwDfKCuTTSp5Ro3RAP4gWjLoyUhS4xEVmwUwpj8Q3uY3p+RKyZ/OvrngBne8tt108GyhzK48RQnW+r2yxLszAwRdHXZz3Oua9nmGjYFZxpi6R5mdioC5tKjTdSWdSH8Itoi+ehQ0e6w30nkRWExic8ue+iO/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGJaOiZAFsguFLuUXCoJvCq8uZP4EEi2UPyeJN2S5yo=;
- b=YkkGEHKBp+wNH445z78pGTbZrFPJREvSXlSaVy8+olY3vCUGFhgjfqg1EuxGjtGZ8LJd3cQdbFuW49FuVuPqHOQHLXYNuXasKXZNjLWh3+teGUwBEm1kgQ+7aoWZJgXq+WtVfbUFCxfRXxICAl1MbfnoRlRNXtHtWvmK99p83KLfpWjYraEBcT0UuHci60VliY4t1o07NONiToGJAAkfixxnbHC5PdUBlkHoM2ESUUqKQwL7zz5j2+iXthWF4HjUoQXqwp7/hhZYFcR30/WcfluAdLOQnanfolsib8dXWqWkXsAdyThyksYfC4B9zK56J4YyxdmVuvc0ChiWvOeU0g==
+ bh=esOyszp9LPwAZTDnLzv1atAV/Kejv4xkXY2j8Q0YY+E=;
+ b=CcPbXDXb4Bm7i0HZIxUBkglO10IvgXmsF5Cty29CHGG1bSySK1asBZ0aSX3a95M+F9etAaaa4VdtzIbBBZcj66uMpOFvbnNi54zLC7jjynhEk+FBZNooHdAL2oeN9aer7RdKzkY5OMq0kzEnH/0RFQTGVYt1h1PHCu6HohBu6+7pE1Ii/1h8g3dEmj0pcTCm2TcFsjcd9IBB+XCec7zIPcFrIrnIjnayIZH6+kYq6+q4X8nZQhKkhOQpgzKG0z9hqhRCaI9itY+awxqyT++X/9oV8Lyg+Xa0OJzip4nzsFcoWSgygcmuEgB2e3YbjNtbJF+s9ZGb75Io5KTplGiT4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGJaOiZAFsguFLuUXCoJvCq8uZP4EEi2UPyeJN2S5yo=;
- b=LfwVqg8cvAThyLmF2MASN5kV24In9He/VckiuYj+ktnSO4jhqaxPRAMhDgqXS/X56TcSvHzBuwU5QpiH6wSBHf1zQXGuw04AmdlWsXTJ+yxJS0c3XarADbLqcg8Rhrw+RVnm/TY7eTCgvC9q5isX8jKKujXE5oK+6JmX8eFiEa0=
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM7PR04MB7143.eurprd04.prod.outlook.com (2603:10a6:20b:112::17) with
+ bh=esOyszp9LPwAZTDnLzv1atAV/Kejv4xkXY2j8Q0YY+E=;
+ b=BxDnaDPcUN4nV5bZhQ0qWz3EJAqNB5evI9wlKS6My26AzsQ9JOHGpGgJjrrCL91xF9aS6djtPCm/oeWCqE0cPZZcp8yKM++HO6Flcxm3umpxz0UJV68XCMR3lL3KlBaKSKVz4mU2vU/W0FqlbOD7HS2YL9PjRfzioDjB+CTAL00=
+Received: from BYAPR12MB2917.namprd12.prod.outlook.com (2603:10b6:a03:130::14)
+ by BYAPR12MB3478.namprd12.prod.outlook.com (2603:10b6:a03:ad::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.25; Fri, 15 May
- 2020 01:05:48 +0000
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::7c34:7ade:17d0:b792]) by AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::7c34:7ade:17d0:b792%9]) with mapi id 15.20.3000.022; Fri, 15 May 2020
- 01:05:48 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     Sid Spry <sid@aeam.us>, Felipe Balbi <balbi@kernel.org>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: Documentation for Raw USB ConfigFS
-Thread-Topic: Documentation for Raw USB ConfigFS
-Thread-Index: AQHWHxIE3BZgWTm6XUiOBTDqqvXTpqia0EkAgAnRnwCAARJFgIAAKfQAgAH+RoCAAIp4IA==
-Date:   Fri, 15 May 2020 01:05:47 +0000
-Message-ID: <AM7PR04MB71571747B1FD3B2FFBB8DC9F8BBD0@AM7PR04MB7157.eurprd04.prod.outlook.com>
-References: <0507a041-44f4-4257-adaf-3b17de3baf81@www.fastmail.com>
- <20200506091750.GE30237@b29397-desktop>
- <8ee3914e-7876-46aa-bade-7cf14df7efdc@www.fastmail.com>
- <87h7wkp9qy.fsf@kernel.org> <20200513100614.GA3698@b29397-desktop>
- <6cab4113-b4ad-43d9-85fc-f68682cf0259@www.fastmail.com>
-In-Reply-To: <6cab4113-b4ad-43d9-85fc-f68682cf0259@www.fastmail.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 15 May
+ 2020 01:23:17 +0000
+Received: from BYAPR12MB2917.namprd12.prod.outlook.com
+ ([fe80::3860:a61:5aeb:a248]) by BYAPR12MB2917.namprd12.prod.outlook.com
+ ([fe80::3860:a61:5aeb:a248%7]) with mapi id 15.20.3000.022; Fri, 15 May 2020
+ 01:23:17 +0000
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH 4/5] usb: dwc3: gadget: Handle transfer completion
+Thread-Topic: [PATCH 4/5] usb: dwc3: gadget: Handle transfer completion
+Thread-Index: AQHWHOMqWgV25rtuykKU0ADVs2o1M6iPu08AgAEk5gCAFp2HgIAA902A
+Date:   Fri, 15 May 2020 01:23:17 +0000
+Message-ID: <132ac9e9-4f9a-a93c-f309-58d6f8677495@synopsys.com>
+References: <cover.1588025916.git.thinhn@synopsys.com>
+ <70555c2202529c6e0bdd23124003d0d4bc637cdc.1588025916.git.thinhn@synopsys.com>
+ <87blna20n3.fsf@kernel.org>
+ <ad3a0e37-c611-c6e9-959b-7351fb82ed0a@synopsys.com>
+ <87o8qq4x9s.fsf@kernel.org>
+In-Reply-To: <87o8qq4x9s.fsf@kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: aeam.us; dkim=none (message not signed)
- header.d=none;aeam.us; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [180.171.74.255]
+user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [149.117.7.24]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: fe49dc73-c61d-46f2-90be-08d7f86c1a88
-x-ms-traffictypediagnostic: AM7PR04MB7143:
-x-microsoft-antispam-prvs: <AM7PR04MB71433C076DCAF65413F189208BBD0@AM7PR04MB7143.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-ms-office365-filtering-correlation-id: 63926d2a-5cc4-4f8d-031a-08d7f86e8bf0
+x-ms-traffictypediagnostic: BYAPR12MB3478:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB34780C01C02363633B522131AABD0@BYAPR12MB3478.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1284;
 x-forefront-prvs: 04041A2886
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +SP+qpgAZGjrGHJai2OgrPoef69p6Wk2zpdnBaPcYQR9vIb/E8H9LwSz1/p5mxVL2pqjyvOGnGj8kscZCFna3v99Wa1bTS1BhhDqLpZ2r63A3eOWj+kfVYiuaq8+Kcvos8E69WCo5y2jDRXJshlj6VyrxkeLGfO95g3YJRdYNHCAQPPeMLS/ytieUfdg2CcGYeY0HISF06N5Elmr8LUA0VWE6m94aX+yo7RURgRJ3SZU2GdrLTAl3sPrFMfQOrcP9ki/oqvtXrHkvRlFAXPp6RDLwSARCrfADW3xnHsU+6cf9TtBLMDdoRV9bHIFhShPFin/nAa0rdPJrReRjm60f6bUN+vB5D1oDEK1h1y0EXFiYMl5WASwqEh6FY/8MKpV8UtOlmWufD+p5YH6YADlu7x3F5duumfGQpkEnPZJhyKYo2sXpbxX3jgsRB1hGr2G
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(376002)(346002)(136003)(366004)(396003)(86362001)(9686003)(33656002)(71200400001)(55016002)(4326008)(2906002)(5660300002)(316002)(478600001)(8936002)(8676002)(66556008)(66446008)(6506007)(26005)(7696005)(44832011)(186003)(76116006)(110136005)(66946007)(52536014)(66476007)(64756008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: dHFWiTCWfDhJ1R8eV+DixF5FHIXw2tOuHCmHHZf+R4gL5LEZldzeyWmjvdMhcAQrP49hj6d2r9+rUqE/F5cQy4OOj7qzo7TvSQLkB67CtIedEvy17shelkZ8uH2VsI/F6aS8v+IoIpM8mu5gHF4pAbtiY727zhs0NEM/+zrhrNdqslOsMd8wXnrA6tbcUdWmkCCjps9pUNqywKpo/p2BOTegEr9Tc0OzIdrsNbLms19lleEa1ZrTAkprI7QevIJHwWI8FzOkhk8V7eAt4Hypyf2SkwK/rNr7gdl2uC1Xo+mZtPBns1F5PHup4HdOhqfyCmWOdLPISgrHL8hZO2QG4gLEUmDTF2fruRJowb295Gp/V1gQxOL5RxwIZMQ691UD3gNbx6lyJd4vqnIBOL0gmjwlmIZ2YkfwJOIkjOK4D712+aNzFdzkfPVVhDN28K2JXxOQsPSDS/6BrfKOOUjClMVWYuC66HID3FNhzhnDV61AFGSye0KYOx6JeMTs+cwS
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: 2kXVc6Xr+C9kU6V+fJHNM7d0kz/pm2tpmZVY13OU4SMkqXmhHTz9g9wKkI2aa6GYPzEXoSa2AdyoQGXzLsjlPV4CFRc4VIuiIeCe8TaQJqOFtoWX25L3CQEUMuPjsEDXdXcsvT3k0cagY9Nx97Gmmo9jXogHcIZn+KoA/E4LUaTYDvXMYoBpt36hR+hw/61z3Mqbipd9daZykAoqTwFtkx+Isep663TymSlQJxHry5QsqjlS93oc1Ve3Rq4/S+3my1oE/qYQq0AsQeWFseSF52mz3zKGIadiI1c0ja+hbvm6P9lHUlYLKy0iD9TH9BO1rL3ipEBIxQ8ZFN4vrQ5FoA0dMdGc2pn8c6Qx/qu8Bk0S/NaCc4rDm7Oo83ULTYGMeJEJUNCuPlAH6P+2EZezr11C3Vz2pgXMhgEgbh3QnDnRI6fPtCu0pOaHwV5AjzIbmwG+p5gciJj1tY98Q5s93d8BtQsM24JBfeE7HE62cZGgRpNJYNeXNq0rGmDG0MmytdglzzQ+rkRJ1dZa8WSuFgd9rHrl1E75bowfLfDsE0E5qkBqh9NIJxJi/Mq4WNQdJWFy3zShp28DpJl6FeEVYGdfZHCDYiawXGWmRVPNV/1wdR+OtdSwswYYyrdPrClNDt5cZih2+UwJT1ZIqWRqRCnWeJB/QfUWK42v28etn5H6MNrg6OF2uw/P2idMUKDkKEJ/gd3Dat23Jj2sKE4TtA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2917.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10001)(376002)(366004)(39860400002)(136003)(396003)(346002)(4326008)(2616005)(316002)(4744005)(2906002)(110136005)(66446008)(66476007)(64756008)(6486002)(76116006)(66556008)(66946007)(36756003)(5660300002)(8936002)(478600001)(71200400001)(26005)(186003)(6512007)(6506007)(86362001)(8676002)(107886003)(31696002)(31686004)(43740500002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: /oz0VglXIZKicWG2Ogs/Hd2JRe9JXW3SyiFpXirBhjm003LVhWcUO5yODjMGPBTV35uJuJm9krcww8FkenhmYYyJTEZVogmEmIZGbNBTvZRMeXu6swN8v+ZhP0EnNWmyQj6QHKTPITnz3mI5Y9Zt01yWoSAlbgxJdLNtQzwmix87s3V1tsMd0fsq3WOj/uQUX114jCq74nST3FpPdaY/V26u67jYAUFoPDMKwQ8q75ClhreL30KkfvjcbtC27FTW36/cIByxTxKgQVecSkjcsSAYt4YGN5J86KTsQk5+P1TXhOK7jqu5WwUld9hFbsQ4Ac1PSj2IiVBNtue33XteY1BjmimDNsEkfESqHVS6WDt+fIP7d7ZzYwDKCJO3XYPgo29PfZMqdhF8NmjZLRtu1GcLLEV/Opwlgk0J209bwZtbDsyUEIAWJPUabSx5au5siDbIGh7zz65O51GAp1YteY08tSnqMOKGZGHc7pGHzfQ=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C5BD4B4B72DE8840B4650B860EA6CE68@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe49dc73-c61d-46f2-90be-08d7f86c1a88
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2020 01:05:48.0970
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63926d2a-5cc4-4f8d-031a-08d7f86e8bf0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2020 01:23:17.2069
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NQDDGYlwLf8gkoB6YxJgiT5XTvQUa2pC7/j2xPdS0ybXk1cn2HVYMiV1rCKTO+umdZnnfRq97I7MfyYNW5gjgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7143
+X-MS-Exchange-CrossTenant-userprincipalname: bpEjnVR9wAOdeHQJtPnroTaxAZGYHG/bKbauUR9jhDRdSRJNCaIFUGVKvcWqw/z0XpEG1zO0irB736OFZh6+Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3478
+X-OriginatorOrg: synopsys.com
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-=20
-> >
-> > Would you please let ECM gadget work first at your board, then let
-> > f_fs work using test application (you need to compile both host and
-> > device application for it). After that, you may have more precise
-> > concept for Linux USB gadget framework.
-> >
->=20
-> I don't see anything that harmonizes preexsting function usage with speci=
-fying
-> custom endpoints.
->=20
-> I've gotten the ECM gadget, and then the ECM gadget via ffs working. I've=
- read
-> through the ffs test but I don't see any way to assign functionality to t=
-he endpoints.
-> The example seems to transport raw data via a bulk endpoint. I know enoug=
-h to
-> instead assign an isochronous endpoint to the UDC and transfer via that, =
-but I don't
-> want it to be the *only* functionality the device offers.
->=20
-> Are you saying I can assign the ECM gadget via ffs and then add another d=
-river
-> after the fact?=20
-
-ffs (f_fs.c) is used for customized function, other functions, like ECM (f_=
-ecm.c)
-and Mass Storage (f_mass_storage.c) are used for certain function. You coul=
-d
-use configfs (like you have done below) to put customized function and cert=
-ain functions
-into one configuration, and let the host see them at the same time. Do your
-real requirement is one customized function and one ECM function in one USB=
- gadget?
-If it is, below is the example to combine f_fs, mass_storage, and NCM toget=
-her.
-
-cd /sys/kernel/config/usb_gadget
-cd g1
-echo "0x1d6b" > idVendor
-echo "0x0105" > idProduct
-mkdir /dev/usb-ffs
-mkdir functions/ffs.usb
-mount -t functionfs usb /dev/usb-ffs
-ln -s functions/ffs.usb configs/c.1
-/home/root/usb_test/ffs_test/ffs-test & /* your own test application */
-while [ ! -e /dev/usb-ffs/ep1 ]
-do
-        echo "."
-        sleep 1;
-done
-mkdir functions/ncm.0   =20
-ln -s functions/ncm.0 configs/c.1   =20
-mkdir functions/mass_storage.0
-ln -s functions/mass_storage.0 configs/c.1
-echo $FILE > functions/mass_storage.0/lun.0/file=20
-
-Peter=20
-=20
+RmVsaXBlIEJhbGJpIHdyb3RlOg0KPiBIaSwNCj4NCj4gVGhpbmggTmd1eWVuIDxUaGluaC5OZ3V5
+ZW5Ac3lub3BzeXMuY29tPiB3cml0ZXM6DQo+Pj4+IEBAIC0xMjIzLDYgKzEyMzEsMTAgQEAgc3Rh
+dGljIHZvaWQgZHdjM19wcmVwYXJlX3RyYnMoc3RydWN0IGR3YzNfZXAgKmRlcCkNCj4+Pj4gICAg
+DQo+Pj4+ICAgIAkJaWYgKCFkd2MzX2NhbGNfdHJic19sZWZ0KGRlcCkpDQo+Pj4+ICAgIAkJCXJl
+dHVybjsNCj4+Pj4gKw0KPj4+PiArCQkvKiBEb24ndCBwcmVwYXJlIGFoZWFkLiBUaGlzIGlzIG5v
+dCBhbiBvcHRpb24gZm9yIERXQ191c2IzMi4gKi8NCj4+Pj4gKwkJaWYgKHJlcS0+cmVxdWVzdC5p
+c19sYXN0KQ0KPj4+PiArCQkJcmV0dXJuOw0KPj4+IHRoaXMgcmVxdWlyZXMgc29tZSBiZXR0ZXIg
+ZGVzY3JpcHRpb24uIFdoeSBpc24ndCBpdCBhbiBvcHRpb24gZm9yIGR3Y191c2IzMj8NCj4+IElu
+dGVybmFsbHksIERXQ191c2IzMiBkb2VzIHNvbWUgYWR2YW5jZSBjYWNoaW5nIGFuZCBidXJzdCB0
+aGF0IHdlIHNob3VsZA0KPj4gbm90IHByZXBhcmUgbW9yZSBUUkIgdW50aWwgdGhlIHRyYW5zZmVy
+IGlzIGNvbXBsZXRlZC4NCj4+IFRoaXMgZG9lc24ndCBhcHBseSBmb3IgaXNvYywgbWlzc2VkIGEg
+Y2hlY2sgaGVyZS4gTmVlZCB0byBhcHBseSBvbiB0aGUNCj4+IG5leHQgdmVyc2lvbi4NCj4gRG8g
+eW91IG1pbmQgcmUtd29yZGluZyB0aGlzIHN0YXRlbWVudCBhcyBhIGNvbW1lbnQgaW4gdGhlIGNv
+ZGU/DQoNClllcywgSSByZXdvcmRlZCBpdCBhbmQgYWRkZWQgdGhlIGNvbW1lbnQgaW4gdGhlIGNv
+ZGUgYW5kIGNvbW1pdCBtZXNzYWdlIA0KaW4gdGhlIHYyLiBZb3UgYWxyZWFkeSBoYXZlIGl0IG9u
+IHlvdXIgdGVzdGluZy9uZXh0IGJyYW5jaC4NCg0KVGhhbmtzLA0KVGhpbmgNCg==
