@@ -2,75 +2,114 @@ Return-Path: <SRS0=VLjO=65=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 790DFC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 18:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB44C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 20:31:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 614F620728
-	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 18:43:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10767206D4
+	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 20:31:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JH8y2CsB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726584AbgEOSnC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 May 2020 14:43:02 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:48407 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726304AbgEOSnC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 May 2020 14:43:02 -0400
-Received: (qmail 14280 invoked by uid 500); 15 May 2020 14:43:01 -0400
-Date:   Fri, 15 May 2020 14:43:01 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Colin Ian King <colin.king@canonical.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zhang Shengju <zhangshengju@cmss.chinamobile.com>,
-        Tang Bin <tangbin@cmss.chinamobile.com>,
-        linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] USB: EHCI: ehci-mv: fix less than zero comparison
- of an unsigned int
-Message-ID: <20200515184301.GA13795@rowland.harvard.edu>
-References: <20200515165453.104028-1-colin.king@canonical.com>
- <20200515172121.GA5498@rowland.harvard.edu>
- <342e8fc0-c961-d9f0-f2d1-bd455ce06d86@canonical.com>
+        id S1726231AbgEOUb5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 May 2020 16:31:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25784 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726179AbgEOUb5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 May 2020 16:31:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589574716;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HDLwpmUVQX+kl1vnZkZEJyyTX65SwDMx+M1Xd73pLfM=;
+        b=JH8y2CsBAqVisiVKCmKcirQe9p7mccG0yvzb/NoYYhOuaGwLDoMTt1J2RfJ0L6UG0acKN/
+        o4nEDIaGih56ILrnEu8Ddq+uVDYbeTSnL4erjKYAcS8pDFUC2YXTD45YKnys2Xs4qHzNx/
+        1Ugl1sl1iwGxwSVo83uiFFUjE1/D9kc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-ZhmxP6SSPZK_knqjQUAxzQ-1; Fri, 15 May 2020 16:31:54 -0400
+X-MC-Unique: ZhmxP6SSPZK_knqjQUAxzQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7403BFCA;
+        Fri, 15 May 2020 20:31:52 +0000 (UTC)
+Received: from suzdal.zaitcev.lan (ovpn-113-95.phx2.redhat.com [10.3.113.95])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B592D99D8;
+        Fri, 15 May 2020 20:31:49 +0000 (UTC)
+Date:   Fri, 15 May 2020 15:31:49 -0500
+From:   Pete Zaitcev <zaitcev@redhat.com>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>, zaitcev@redhat.com
+Subject: Re: [PATCH] usblp: poison URBs upon disconnect
+Message-ID: <20200515153149.19f5b4ee@suzdal.zaitcev.lan>
+In-Reply-To: <20200507085806.5793-1-oneukum@suse.com>
+References: <20200507085806.5793-1-oneukum@suse.com>
+Organization: Red Hat, Inc.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <342e8fc0-c961-d9f0-f2d1-bd455ce06d86@canonical.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 15, 2020 at 06:26:04PM +0100, Colin Ian King wrote:
-> On 15/05/2020 18:21, Alan Stern wrote:
-> > On Fri, May 15, 2020 at 05:54:53PM +0100, Colin King wrote:
-> >> From: Colin Ian King <colin.king@canonical.com>
-> >>
-> >> The comparison of hcd->irq to less than zero for an error check will
-> >> never be true because hcd->irq is an unsigned int.  Fix this by
-> >> assigning the int retval to the return of platform_get_irq and checking
-> >> this for the -ve error condition and assigning hcd->irq to retval.
-> >>
-> >> Addresses-Coverity: ("Unsigned compared against 0")
-> >> Fixes: c856b4b0fdb5 ("USB: EHCI: ehci-mv: fix error handling in mv_ehci_probe()")
-> >> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> >> ---
-> > 
-> > Thanks to Coverity for spotting this.  Any reason why it didn't spot 
-> > exactly the same mistake in the ohci-da8xx.c driver?
-> 
-> No idea, it is curious that it can spot one error but miss another.
-> Sometimes I see these issues on the next scan, so it maybe the database
-> diff'ing is awry.
-> 
-> > 
-> > Also, why wasn't the patch CC'ed for the stable series?
-> 
-> My bad on that. Human error
+On Thu,  7 May 2020 10:58:06 +0200
+Oliver Neukum <oneukum@suse.com> wrote:
 
-Actually the question itself was my mistake.  I didn't notice that your 
-patch was a fix to something that was just merged and hadn't been CC'ed 
-to stable.
+> syzkaller reported an URB that should have been killed to be active.
+> We do not understand it, but this should fix the issue if it is real.
 
-Alan Stern
+> @@ -1375,9 +1376,11 @@ static void usblp_disconnect(struct usb_interface *intf)
+>  
+>  	usblp_unlink_urbs(usblp);
+>  	mutex_unlock(&usblp->mut);
+> +	usb_poison_anchored_urbs(&usblp->urbs);
+>  
+>  	if (!usblp->used)
+>  		usblp_cleanup(usblp);
+>  	mutex_unlock(&usblp_mutex);
+>  }
+
+Sorry, it took me this long to think about it. I am against the duplication
+of effort between usblp_unlink_urbs, which is exactly usb_kill_anchored_urbs,
+and usb_poison_anchored_urbs. If you think that poisoning may help against
+what the bot identified, we may try this instead:
+
+diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
+index 0d8e3f3804a3..eae5eaf5d4f1 100644
+--- a/drivers/usb/class/usblp.c
++++ b/drivers/usb/class/usblp.c
+@@ -1373,7 +1373,7 @@ static void usblp_disconnect(struct usb_interface *intf)
+        wake_up(&usblp->rwait);
+        usb_set_intfdata(intf, NULL);
+ 
+-       usblp_unlink_urbs(usblp);
++       usb_poison_anchored_urbs(&usblp->urbs);
+        mutex_unlock(&usblp->mut);
+ 
+        if (!usblp->used)
+
+I'm still concerned that we didn't identify the scenario tht led to bot's
+findings.
+
+The usblp->present was supposed to play a role of the poison pill, at the
+driver level. The difference with poisoning the anchor is that ->present
+is protected by the most outlying mutex, and therefore cannot be meaninfully
+checked in URB callbacks. But the anchor's poison flag is protected by a
+spinlock, so callbacks check it. But what does it matter for us? This driver
+does not re-submit URBs from callbacks.
+
+So, I'm suspicious of attempts to hit at the problem in the dark and hope
+for a miracle.
+
+-- Pete
+
