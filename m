@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 074C1C433E4
-	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 09:21:26 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAB3D206F1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E934C433E2
 	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 09:21:25 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id E805320709
+	for <linux-usb@archiver.kernel.org>; Fri, 15 May 2020 09:21:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="ehhsNknW"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="JhpTkb75"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbgEOJVY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728000AbgEOJVY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 15 May 2020 05:21:24 -0400
-Received: from esa5.microchip.iphmx.com ([216.71.150.166]:42418 "EHLO
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:42433 "EHLO
         esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727938AbgEOJVW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 May 2020 05:21:22 -0400
+        with ESMTP id S1727973AbgEOJVX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 May 2020 05:21:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
   t=1589534483; x=1621070483;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=/ShI/Q7GIZEij7XyN+mHuuH9rRjoAPcdOsaNnOKnAmM=;
-  b=ehhsNknWPV0ucM6TeM5NTq4VDxiIV2HFZDvmTNlMSYVYQ63LXXqI1Hsy
-   kJ8NKVUaY6zDwyIhVqGOPqp7r2iAhcZ8+DnqMtM/qOo3x38rNBeJm2VIN
-   fjrgeIadclgmX2OY4ZOaFDNS55RbvnwtgVCNS87e3H5AkZ8sh9LMc2v4C
-   I8URt2FNN/KIuwmh2xj1GoIGyfqsq0LDlFG+VI/eC9RmOIBu41Uw1354T
-   zRPevdQcDQisbKjprnWv9KS6T2PHu7YixFFr4uZLv9o3/SGxh1cramIAC
-   l+NuIkUrJh9x5vi3/ypESVmbJh+Ekwwf/xdxZtMybZJ1/ovnCYQLfHLe7
-   g==;
-IronPort-SDR: KdRx2A/lKSmA5GNhpUQOWhCnwuOa9uOCvT7qwiEZgVMoMiBIlUURrI5Vd+B4ZKNouVxL3fdrMF
- AKBc1zSErz9E8wgXoqbFFVQEo0Ge08K5nzBaLEFGddFiakcjkFSLCMPLRqVv3sQ/JAQ5vmwCDJ
- HVumfDTzJ07x9J5bVvOwIyF+wZ5MM0Sv4YRSbdJW6g8YCf3QX9g+admThu0a+IDMVcRftU63w6
- kq5YAWfjXBvzxm35DIydMAdp72n1iMCeI7lA/vuGnRjuLyIsXbUzERgIU0dOy6YaixOgZWBBiT
- X6o=
+  bh=zsFcnNZB2FIei2JbpYP2n0GBFo3OywlqUOATL1HT6eo=;
+  b=JhpTkb75IqqNjVraTCUp9xSELgfA1u72dPbgt0Fs+H5zdnkQDNk+GXtH
+   AFa6oSrc1bL4AzIg9FRczx7MKTFdQazDSVEIJC6zYX5fZEX+BOvhK0G3J
+   8VaoPFu+ZBvYocP6+fhvCJgHN2WwyjxTW5Zu1XtjYaWKzLP9uTbS4zSU9
+   PXaIWzURUdXtZ90eBhnFJrhw7UcSQHoSI1qyFNqT2M6D0N71xfr+oUwlK
+   65TjVKIOcbZJSPocp627WHnF0JIKjoduuVckxbZMI6QHZ7Mfqo1uiy3cW
+   lsxTEHdKnvFGQnDlVPEZxKmNMKucCJftcln4OkzyWX15g9rOf5XKa3JhY
+   Q==;
+IronPort-SDR: W1O2hWX77n5jduYYibqw19iq3aPAF7pkHi67eTey9pcb7LaNT/jXnypReiNafciuRBYhZHWwq0
+ dhuEsoeHnZp0H7KwCZof/okgEPi8FWtiEv5+Gcgr55Bii0SaSkA1YQm/zUGxeLnV7HY3YOExuj
+ lvAVgcgfmDNRpCT2gsgLjpdxR5bEZxZcV0UA1uqJbh+kV4fR7IkveDKX9VH6saoMVNEIUZKe/8
+ 2cMOevvIWXrhzAxQvoh8aWPcTRsz+lEXaSgemJrG4YAUql1fr6oyqCM+x0ayzsb16kvgnAd4Sb
+ aGY=
 X-IronPort-AV: E=Sophos;i="5.73,394,1583218800"; 
-   d="scan'208";a="76018850"
+   d="scan'208";a="76018844"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 15 May 2020 02:21:15 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 15 May 2020 02:21:12 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 15 May 2020 02:21:17 -0700
+ 15.1.1713.5; Fri, 15 May 2020 02:21:14 -0700
 Received: from localhost.localdomain (10.10.115.15) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Fri, 15 May 2020 02:21:12 -0700
+ 15.1.1713.5 via Frontend Transport; Fri, 15 May 2020 02:21:10 -0700
 From:   Christian Gromm <christian.gromm@microchip.com>
 To:     <gregkh@linuxfoundation.org>
 CC:     <driverdev-devel@linuxdriverproject.org>,
         <linux-usb@vger.kernel.org>,
         Christian Gromm <christian.gromm@microchip.com>
-Subject: [PATCH v3 4/7] staging: most: usb: use dev_dbg function
-Date:   Fri, 15 May 2020 11:21:02 +0200
-Message-ID: <1589534465-7423-5-git-send-email-christian.gromm@microchip.com>
+Subject: [PATCH v3 2/7] staging: most: usb: remove reference to USB error codes
+Date:   Fri, 15 May 2020 11:21:00 +0200
+Message-ID: <1589534465-7423-3-git-send-email-christian.gromm@microchip.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589534465-7423-1-git-send-email-christian.gromm@microchip.com>
 References: <1589534465-7423-1-git-send-email-christian.gromm@microchip.com>
@@ -68,51 +68,127 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch replaces the functions dev_notice with dev_dbg to silence
-the driver during normal operation.
+This patch removes the reference to the driver API file for USB error
+codes.
 
 Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
 Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
 v2:
+	removed copied USB error code section
 v3:
 
- drivers/staging/most/usb/usb.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/staging/most/usb/usb.c | 97 ------------------------------------------
+ 1 file changed, 97 deletions(-)
 
 diff --git a/drivers/staging/most/usb/usb.c b/drivers/staging/most/usb/usb.c
-index 36c277f..8995ed0 100644
+index 85d4fa0..dbb6003 100644
 --- a/drivers/staging/most/usb/usb.c
 +++ b/drivers/staging/most/usb/usb.c
-@@ -1035,17 +1035,17 @@ hdm_probe(struct usb_interface *interface, const struct usb_device_id *id)
- 		init_usb_anchor(&mdev->busy_urbs[i]);
- 		spin_lock_init(&mdev->channel_lock[i]);
- 	}
--	dev_notice(dev, "claimed gadget: Vendor=%4.4x ProdID=%4.4x Bus=%02x Device=%02x\n",
--		   le16_to_cpu(usb_dev->descriptor.idVendor),
--		   le16_to_cpu(usb_dev->descriptor.idProduct),
--		   usb_dev->bus->busnum,
--		   usb_dev->devnum);
--
--	dev_notice(dev, "device path: /sys/bus/usb/devices/%d-%s:%d.%d\n",
--		   usb_dev->bus->busnum,
--		   usb_dev->devpath,
--		   usb_dev->config->desc.bConfigurationValue,
--		   usb_iface_desc->desc.bInterfaceNumber);
-+	dev_dbg(dev, "claimed gadget: Vendor=%4.4x ProdID=%4.4x Bus=%02x Device=%02x\n",
-+		le16_to_cpu(usb_dev->descriptor.idVendor),
-+		le16_to_cpu(usb_dev->descriptor.idProduct),
-+		usb_dev->bus->busnum,
-+		usb_dev->devnum);
-+
-+	dev_dbg(dev, "device path: /sys/bus/usb/devices/%d-%s:%d.%d\n",
-+		usb_dev->bus->busnum,
-+		usb_dev->devpath,
-+		usb_dev->config->desc.bConfigurationValue,
-+		usb_iface_desc->desc.bInterfaceNumber);
- 
- 	ret = most_register_interface(&mdev->iface);
- 	if (ret)
+@@ -382,103 +382,6 @@ static void hdm_write_completion(struct urb *urb)
+  * padding bytes -if necessary- and calls the completion function.
+  *
+  * Context: interrupt!
+- *
+- * **************************************************************************
+- *                   Error codes returned by in urb->status
+- *                   or in iso_frame_desc[n].status (for ISO)
+- * *************************************************************************
+- *
+- * USB device drivers may only test urb status values in completion handlers.
+- * This is because otherwise there would be a race between HCDs updating
+- * these values on one CPU, and device drivers testing them on another CPU.
+- *
+- * A transfer's actual_length may be positive even when an error has been
+- * reported.  That's because transfers often involve several packets, so that
+- * one or more packets could finish before an error stops further endpoint I/O.
+- *
+- * For isochronous URBs, the urb status value is non-zero only if the URB is
+- * unlinked, the device is removed, the host controller is disabled or the total
+- * transferred length is less than the requested length and the URB_SHORT_NOT_OK
+- * flag is set.  Completion handlers for isochronous URBs should only see
+- * urb->status set to zero, -ENOENT, -ECONNRESET, -ESHUTDOWN, or -EREMOTEIO.
+- * Individual frame descriptor status fields may report more status codes.
+- *
+- *
+- * 0			Transfer completed successfully
+- *
+- * -ENOENT		URB was synchronously unlinked by usb_unlink_urb
+- *
+- * -EINPROGRESS		URB still pending, no results yet
+- *			(That is, if drivers see this it's a bug.)
+- *
+- * -EPROTO (*, **)	a) bitstuff error
+- *			b) no response packet received within the
+- *			   prescribed bus turn-around time
+- *			c) unknown USB error
+- *
+- * -EILSEQ (*, **)	a) CRC mismatch
+- *			b) no response packet received within the
+- *			   prescribed bus turn-around time
+- *			c) unknown USB error
+- *
+- *			Note that often the controller hardware does not
+- *			distinguish among cases a), b), and c), so a
+- *			driver cannot tell whether there was a protocol
+- *			error, a failure to respond (often caused by
+- *			device disconnect), or some other fault.
+- *
+- * -ETIME (**)		No response packet received within the prescribed
+- *			bus turn-around time.  This error may instead be
+- *			reported as -EPROTO or -EILSEQ.
+- *
+- * -ETIMEDOUT		Synchronous USB message functions use this code
+- *			to indicate timeout expired before the transfer
+- *			completed, and no other error was reported by HC.
+- *
+- * -EPIPE (**)		Endpoint stalled.  For non-control endpoints,
+- *			reset this status with usb_clear_halt().
+- *
+- * -ECOMM		During an IN transfer, the host controller
+- *			received data from an endpoint faster than it
+- *			could be written to system memory
+- *
+- * -ENOSR		During an OUT transfer, the host controller
+- *			could not retrieve data from system memory fast
+- *			enough to keep up with the USB data rate
+- *
+- * -EOVERFLOW (*)	The amount of data returned by the endpoint was
+- *			greater than either the max packet size of the
+- *			endpoint or the remaining buffer size.  "Babble".
+- *
+- * -EREMOTEIO		The data read from the endpoint did not fill the
+- *			specified buffer, and URB_SHORT_NOT_OK was set in
+- *			urb->transfer_flags.
+- *
+- * -ENODEV		Device was removed.  Often preceded by a burst of
+- *			other errors, since the hub driver doesn't detect
+- *			device removal events immediately.
+- *
+- * -EXDEV		ISO transfer only partially completed
+- *			(only set in iso_frame_desc[n].status, not urb->status)
+- *
+- * -EINVAL		ISO madness, if this happens: Log off and go home
+- *
+- * -ECONNRESET		URB was asynchronously unlinked by usb_unlink_urb
+- *
+- * -ESHUTDOWN		The device or host controller has been disabled due
+- *			to some problem that could not be worked around,
+- *			such as a physical disconnect.
+- *
+- *
+- * (*) Error codes like -EPROTO, -EILSEQ and -EOVERFLOW normally indicate
+- * hardware problems such as bad devices (including firmware) or cables.
+- *
+- * (**) This is also one of several codes that different kinds of host
+- * controller use to indicate a transfer has failed because of device
+- * disconnect.  In the interval before the hub driver starts disconnect
+- * processing, devices may receive such fault reports for every request.
+- *
+- * See <https://www.kernel.org/doc/Documentation/driver-api/usb/error-codes.rst>
+  */
+ static void hdm_read_completion(struct urb *urb)
+ {
 -- 
 2.7.4
 
