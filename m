@@ -2,353 +2,220 @@ Return-Path: <SRS0=lI7K=7A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B77C433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 10:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E7AC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 11:21:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9057F207ED
-	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 10:46:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E11020709
+	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 11:21:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="FVhTqInH";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="Zkoc5fC1"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="OeTgZGCf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726936AbgERKqj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 May 2020 06:46:39 -0400
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:53452 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726249AbgERKqi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 May 2020 06:46:38 -0400
-X-Greylist: delayed 1945 seconds by postgrey-1.27 at vger.kernel.org; Mon, 18 May 2020 06:46:38 EDT
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04IA7Itu015284;
-        Mon, 18 May 2020 03:14:08 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=proofpoint;
- bh=JGCI0K7ErXhX+0uqiitYKaGwWB54QXRCljibeszCWk8=;
- b=FVhTqInHlS8x+OZcNn2duh1dLCxJChHTri2/6snoltXTx8QERdfKpxfukCEUyhAbBS0v
- 3LX5T/Uj2caOx5Qz1jquD3VUuC6jOERJoN9kUn1lcslCwLV3G1ozmMYDEWHJqvSlZFYj
- U5754NIITOllHy8MFCaE/1QyMCWe3+SlkuPf3h2Ue5WruH8/6GYlianztsDhUEzCW1bC
- SboUnS+C9IC/2659n6u8DXtvxQUa0qa+e5y2O531MzttNbWgKWIR7vrjnlC/tmlxYrf6
- eA5gDI+gla8Iqf6WKp08KvDkPMPrJuSwVSLNu9OF8sqUy9gmXlKhatlitbRSAfJxirXf 7A== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 312cqy67wd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 18 May 2020 03:14:08 -0700
+        id S1726945AbgERLVg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 May 2020 07:21:36 -0400
+Received: from mail-vi1eur05on2087.outbound.protection.outlook.com ([40.107.21.87]:12275
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726499AbgERLVg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 May 2020 07:21:36 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ngYlfqKklXdFfM7HttqJ+3Kv+h/HrWizHZaLRPIIUaQD63ogBrehvC3SL/2yjFBLXuo85ii1RjnhKXaY1WW1TjEw4oxmkO7cUkWeNIbdCPrilw6/P06eok0XY4Jv8N5SDjqGTkeO2AyW1zc+b8/IdOp9lbTumMb6KDG65GGIOwrVAR4Iw0sQNvwq/dY766qxNrEEsqtDD9QMGIpkuwhV8N8b0Ek5ZJhRBT11iUIv/jK70IKzxFuWF5bIREh//PtKd4MT/nyYYrNIGVuAOT1FA+1m626iT1dXYKc7bfYvltdc4pn7RERsGVXvgLn+/uvRsEPG9Tp6YinYJXBnFIIJiQ==
+ b=dNKJJRwOOv4hKOIY2bv4pmQY01mHLCrfmgmeFT7M55CryMfkpjuUkqjrCfuWrF8e6D1/r+1CvDD3c8sL7zSJgxN/XAeGsG0NXr4PHT+ARTvM70wMItNmhDl7MMnjXoWH7+HfsDazXDgwNtvrgB/ZseCjUleUUdxUJBYisqz/0mVcUHzW1DvrLlMOAgEtFi5q9i183nUWBVB0kl94TqGpCKP/g+dQtFsUQCDQZFUucWh4BY2940gmHA7rv1FXfPwxiTx+WVgQhQ2hrRVrbui/8nW718H7BYdn8MrDkaKkNXiN77unneNEvjiqgHl697hsAgtLq7UYOoTn1e/ZiO2MsA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JGCI0K7ErXhX+0uqiitYKaGwWB54QXRCljibeszCWk8=;
- b=lAbfz3qnMWXRt24mm/bk578aKDnwlBIyznHEdtcVlcdjWw5b7ByU3kftE8LTnGJ2gf44Z82+tDv+SbxXYoBM542QPyo/hgs6h+wURxijU7a0j+WeTXbdHBnoHNCGuxqgzhN5y1CNj40MhPz2mBxXmihRHI7oSWD9GevxekSTPFh4zxBUGuWydCI2j9vCDqeRD26uv5Z8GQpDPfVZE+823K7CJizZEeSm9e9ScYebjhJpnja5w8GDdE8dCQqr7IkxJE/qFx5GV/BBIQJhLyzvvgcbw6nkgZj6I0WlFeSg2HcxGmxvbDFS8pyF5RTg25c0T58YUDxXBgVi67P9RvX+3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 199.43.4.23) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
+ bh=AZsz5TchsqB1ukXlelw6gokXZAyE5oAfjTjsH9mjGcw=;
+ b=EzFsgE263usSIIefuyQZjFoktJlbtex/iVpngBFqz1lgkCcT+CbG8Mg65o9o2B/y7OcKRJWGfTWq7KB7Afqc6acxQl47diGy2+ujnmb/r4s69UAPTia2n2zZzXyuTo7SH/ZuU532kyjijmWxD2OzuyEDbZ1gkNtuAS2X4vpoctDhASwaTayEafVPVyCJtUeokn764Y/DG/KXVnRQsKfpHmzEx8hY4o3mBR3+N6fbwR8nNjP7hmUleZjB7ZOyGtO6slKi5471ARY6YdQ+fJwV2/JMLkZqGUlutaJmn1Zz7VkJup4yJIEtjMNAIJOS8p7zlm4mutL691RDAz4jsNsiOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JGCI0K7ErXhX+0uqiitYKaGwWB54QXRCljibeszCWk8=;
- b=Zkoc5fC1Xnj9Xq+/Z1oAVGSg67YM3r5dFVd782f5A1vAKt2MrxkQDFNazGLl/KkVjrWJm1AQAQqAPBAu3ZEko/VrRqjsmJPQ6FVqNaMUw3Hghft8Qzmvpi8cHwiCW995wUtbgvHWrL7e7+vyRIWz3F1d08MkDCejMz/Pvg+P12M=
-Received: from DM5PR21CA0024.namprd21.prod.outlook.com (2603:10b6:3:ac::34) by
- DM6PR07MB5066.namprd07.prod.outlook.com (2603:10b6:5:1f::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3000.27; Mon, 18 May 2020 10:14:04 +0000
-Received: from DM6NAM12FT007.eop-nam12.prod.protection.outlook.com
- (2603:10b6:3:ac:cafe::db) by DM5PR21CA0024.outlook.office365.com
- (2603:10b6:3:ac::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.4 via Frontend
- Transport; Mon, 18 May 2020 10:14:04 +0000
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 199.43.4.23 as permitted sender) receiver=protection.outlook.com;
- client-ip=199.43.4.23; helo=rmmaillnx1.cadence.com;
-Received: from rmmaillnx1.cadence.com (199.43.4.23) by
- DM6NAM12FT007.mail.protection.outlook.com (10.13.178.236) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.11 via Frontend Transport; Mon, 18 May 2020 10:14:04 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id 04IADtgs020992
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Mon, 18 May 2020 06:14:02 -0400
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Mon, 18 May 2020 12:12:46 +0200
-Received: from vleu-orange.cadence.com (10.160.88.83) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Mon, 18 May 2020 12:12:46 +0200
-Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
-        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 04IACk2X030559;
-        Mon, 18 May 2020 12:12:46 +0200
-Received: (from pawell@localhost)
-        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 04IACbwd030453;
-        Mon, 18 May 2020 12:12:37 +0200
-From:   Pawel Laszczak <pawell@cadence.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <rogerq@ti.com>, <jbergsagel@ti.com>, <nsekhar@ti.com>,
-        <nm@ti.com>, <kurahul@cadence.com>, <jpawar@cadence.com>,
-        <Thinh.Nguyen@synopsys.com>, Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH v2] usb: gadget: Fix issue with config_ep_by_speed function.
-Date:   Mon, 18 May 2020 12:08:45 +0200
-Message-ID: <20200518100844.28293-1-pawell@cadence.com>
-X-Mailer: git-send-email 2.18.0
+ bh=AZsz5TchsqB1ukXlelw6gokXZAyE5oAfjTjsH9mjGcw=;
+ b=OeTgZGCfc+/HQ7aPrVKLVPK0VFc/y8jXY9SxPfu84r0iyZR/esORTwMTI07fYxZsIwMop75l+1v3CG8yFqVFnKLvrZy+utwED+BuxqPPOEQ0OkYP7BHDujwBbYFt9AkWqKwz6vn3L8F5bKtuvym3QIIsRtrsXw7QGjjVrecJmTU=
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM7PR04MB7079.eurprd04.prod.outlook.com (2603:10a6:20b:11d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.25; Mon, 18 May
+ 2020 11:21:33 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::7c34:7ade:17d0:b792]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::7c34:7ade:17d0:b792%9]) with mapi id 15.20.3000.034; Mon, 18 May 2020
+ 11:21:33 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Pawel Laszczak <pawell@cadence.com>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        Peter Chen <hzpeterchen@gmail.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "rogerq@ti.com" <rogerq@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jun Li <jun.li@nxp.com>
+Subject: RE: [PATCH 1/1] usb: cdns3: ep0: delete the redundant status stage
+Thread-Topic: [PATCH 1/1] usb: cdns3: ep0: delete the redundant status stage
+Thread-Index: AQHWG8utTtXaQQv5R0ONjsi6OGoclaiZK+EAgAKs4wCADSf/AIAEVoaAgAANBYCAABtOgIAAJeAAgAAvpqA=
+Date:   Mon, 18 May 2020 11:21:33 +0000
+Message-ID: <AM7PR04MB7157D5C811E0772B84842B798BB80@AM7PR04MB7157.eurprd04.prod.outlook.com>
+References: <20200426130751.32556-1-peter.chen@nxp.com>
+ <87368ebz3d.fsf@kernel.org>
+ <CAL411-q4euWFrJ5Sp+tocBEsXXYkviQXt_pz_SyHHC=ELNf_sQ@mail.gmail.com>
+ <87ftc135i3.fsf@kernel.org> <20200518035015.GB27612@b29397-desktop>
+ <DM6PR07MB5529DFE46AD0CA63C740D39FDDB80@DM6PR07MB5529.namprd07.prod.outlook.com>
+ <20200518061435.GD27612@b29397-desktop>
+ <DM6PR07MB55294A6614050A8B424FD1CBDDB80@DM6PR07MB5529.namprd07.prod.outlook.com>
+In-Reply-To: <DM6PR07MB55294A6614050A8B424FD1CBDDB80@DM6PR07MB5529.namprd07.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: cadence.com; dkim=none (message not signed)
+ header.d=none;cadence.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.68]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 0a2f9d1a-03fd-4ce2-f32a-08d7fb1d9ef8
+x-ms-traffictypediagnostic: AM7PR04MB7079:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM7PR04MB7079F7A94F783964A7C10EBE8BB80@AM7PR04MB7079.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 04073E895A
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YzG4sp3kNfJoPPcM+pblfi9lTFEc0HsMGtTKGitQ8P8q0o1cyexxxPkO3d24UW303tf773zhiNDj3GJh1pknN4K7rnbWzp5ya3kqneUf4KTl18yOvZCsLDHKNEwAyGTPf7G1SGYKNIQTTUSytKQ+1GVMuHbMsRsnt1xmUgDH9BS8OogmeL9kdI3RWGKoY7I/Nzt9wjkaODiqVt9UKjP5OUmY84ZIbO+hdRo6ksUxhKsxISQLyrWqifbV/eciJm8ivEHDpj69mZ+H2LP5ibaPcwl9vJHJEp2Pva8TPBRGnWmFkPdX76wteIzrXJZi49ZSRwE0LT3ofQvFxHV//i1zvGH+92+tMTY5Rm3rPp7bu9O46vIb0dOS9UCmopuHaqxppdYDHh7ot02iSy1vnLCv+DhEqb6O8ovnAvDzjag1R4VZ7+j7U5mbw7L13c0jrZf7
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(346002)(366004)(136003)(39860400002)(396003)(8676002)(5660300002)(54906003)(86362001)(66946007)(55016002)(71200400001)(4326008)(76116006)(316002)(7696005)(2906002)(9686003)(478600001)(6506007)(186003)(6916009)(44832011)(52536014)(64756008)(66446008)(66556008)(33656002)(26005)(66476007)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: nGNCewtZtNrr9uk3WTtkzyCu0Qa7KotOe2vOfyzZiV9tsQp4nm7ZQGSydO4bciEB//31FCBD2i1qiMkgbJ5kvD94ta5gGqc1fMa0bkDKuoqoMsvbdv1LM5bTtvuA1NQ1tTKJ0vqYkZugC/uSNygDa6jF3ZWi5MpekKWao9u+OuC0NcNaroW9+8KX78MBdUZQYruj+/zrZIRDReHlPCWM4wYL6AhkVpETDDmTzQ4b4Pt0o6E/O5GUQuApTWZogYehmbcFkAzcuepFNR6PIfCdZVAs8yJfJng22mQY2ADpjsZpk3mtZJi8ZpL7bE2/r+3HNvTbt5xcpO/J+QacskgGh2DZUxFBk2yJ3LYbSfZulOIpNPdYiOv55YgEaa+8vRMwR6ldEn9lVz6HdI6ivgtE8WoAIFh2n/344e+7HWXpmGFZAiXqNY9D30Z6oOiLc9fg7IFKm/lz/HfGTQB0MyZe4Z1aL6qaEoF8EKFP5OJMwNs=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:199.43.4.23;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:rmmaillnx1.cadence.com;PTR:InfoDomainNonexistent;CAT:NONE;SFTY:;SFS:(4636009)(346002)(39860400002)(136003)(396003)(376002)(36092001)(46966005)(47076004)(82740400003)(82310400002)(81166007)(356005)(36906005)(107886003)(54906003)(8676002)(316002)(70206006)(42186006)(70586007)(1076003)(110136005)(6666004)(8936002)(478600001)(186003)(2616005)(26005)(2906002)(426003)(4326008)(336012)(5660300002)(36756003)(86362001);DIR:OUT;SFP:1101;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 57263b70-2691-420a-de6b-08d7fb143155
-X-MS-TrafficTypeDiagnostic: DM6PR07MB5066:
-X-Microsoft-Antispam-PRVS: <DM6PR07MB50664050C260195289D5EB52DDB80@DM6PR07MB5066.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 04073E895A
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UCJbcRlJgPON4+Gk9vWJKaHURryoeFDenAfvHw+mOWcUHR0hjED9Vag0CqzqztTA79uJGrxUwmYAOESrtQAsdrm6PZUxQMnUNLv6VBnUCU2PSlLQ3y1ZbmxUyrHyD2j7pCy3dm5dJgZXXXL1bG3PDb7kn6LKaNGzkvtxIHYTgTsk0bfQiKBTt+omn9KX3+ZXt/jATiuqIV6LKQUU0fFISBsxcv0Lbl4abgU2r6dq2Hv9+WKmDAN3H4RHrrIGxJlCCbIc5AQJg/QkZaGKCfFPdZmXhF72WhrHyVU/NR5TJa4iKsBepMKXF00SKHc52+unzp/HYraPtJj/5mXysSPv8Ngc7jy1cIFYmTlsoXvP2tB4vH0SOnkJMyG5xkBr961MX8slnNmi0P7BJ5QNNG33hGl81KPw/BWyfRMjsDKaXKY2EtOzmwgq2fN8oeAnEp4tHNBcrwrESPHzHW0FaGKpPmsiCv52hvFULALs5XuteScIQzetO99SiTd0i/dp9f07tiV9FwWxxQ/MjErf/uHp4kJ4Q/LZdn+osnErojSoAiY=
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2020 10:14:04.1113
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a2f9d1a-03fd-4ce2-f32a-08d7fb1d9ef8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2020 11:21:33.4808
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57263b70-2691-420a-de6b-08d7fb143155
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[199.43.4.23];Helo=[rmmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB5066
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-18_03:2020-05-15,2020-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0
- lowpriorityscore=0 spamscore=0 cotscore=-2147483648 impostorscore=0
- mlxlogscore=993 phishscore=0 clxscore=1011 mlxscore=0 priorityscore=1501
- malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005180092
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9kQuSnpssmdNFwFPH8tF62r52asmp0SkDXX/acNNh+2LsjXV2qmd4zparGAUJU1+oCh7NedyNv85a0HcYazq5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7079
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds new config_ep_by_speed_and_alt function which
-extends the config_ep_by_speed about alt parameter.
-This additional parameter allows to find proper usb_ss_ep_comp_descriptor.
+=20
+> >Pawel, would you please confirm it with your design team? I tried to
+> >comment out cdns3_ep0_complete_setup at cdns3_ep0_setup_phase for test
+> >mode case, the test mode can't work. It means it still needs software
+> >setting to notify controller to prepare status stage.
+>=20
+> Sorry. I got something wrong. You have right.  Driver must prepare Status=
+ Stage
+> itself.
+> It's means that origin code is really incorrect and driver sends the seco=
+nd Status
+> Stage twice.
+>=20
+> Hardware team confirm also that setting Test Mode in usb_cmd can be done =
+before
+> sending Status Stage. Test Mode should start automatically after sending =
+Status
+> Stage by controller.
+>=20
+>=20
 
-Problem has appeared during testing f_tcm (BOT/UAS) driver function.
+Thanks, Pawel.
 
-f_tcm function for SS use array of headers for both  BOT/UAS alternate
-setting:
+If this patch is ok, could you please add your reviewed-by?
 
-static struct usb_descriptor_header *uasp_ss_function_desc[] = {
-        (struct usb_descriptor_header *) &bot_intf_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bi_desc,
-        (struct usb_descriptor_header *) &bot_bi_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bo_desc,
-        (struct usb_descriptor_header *) &bot_bo_ep_comp_desc,
+Peter
 
-        (struct usb_descriptor_header *) &uasp_intf_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bi_desc,
-        (struct usb_descriptor_header *) &uasp_bi_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_bi_pipe_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bo_desc,
-        (struct usb_descriptor_header *) &uasp_bo_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_bo_pipe_desc,
-        (struct usb_descriptor_header *) &uasp_ss_status_desc,
-        (struct usb_descriptor_header *) &uasp_status_in_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_status_pipe_desc,
-        (struct usb_descriptor_header *) &uasp_ss_cmd_desc,
-        (struct usb_descriptor_header *) &uasp_cmd_comp_desc,
-        (struct usb_descriptor_header *) &uasp_cmd_pipe_desc,
-        NULL,
-};
-
-The first 5 descriptors are associated with BOT alternate setting,
-and others are associated with UAS.
-
-During handling UAS alternate setting f_tcm driver invokes
-config_ep_by_speed and this function sets incorrect companion endpoint
-descriptor in usb_ep object.
-
-Instead setting ep->comp_desc to uasp_bi_ep_comp_desc function in this
-case set ep->comp_desc to uasp_ss_bi_desc.
-
-This is due to the fact that it searches endpoint based on endpoint
-address:
-
-        for_each_ep_desc(speed_desc, d_spd) {
-                chosen_desc = (struct usb_endpoint_descriptor *)*d_spd;
-                if (chosen_desc->bEndpoitAddress == _ep->address)
-                        goto ep_found;
-        }
-
-And in result it uses the descriptor from BOT alternate setting
-instead UAS.
-
-Finally, it causes that controller driver during enabling endpoints
-detect that just enabled endpoint for bot.
-
-Signed-off-by: Jayshri Pawar <jpawar@cadence.com>
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
----
-Changelog:
-v2
-- redefine config_ep_by_speed() instead removing it.
-- remove changes from f_tcm.c file.
-
- drivers/usb/gadget/composite.c | 78 ++++++++++++++++++++++++++--------
- include/linux/usb/composite.h  |  3 ++
- 2 files changed, 64 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index 3b4f67000315..858a71fbcd13 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -96,40 +96,43 @@ function_descriptors(struct usb_function *f,
- }
- 
- /**
-- * next_ep_desc() - advance to the next EP descriptor
-+ * next_desc() - advance to the next desc_type descriptor
-  * @t: currect pointer within descriptor array
-+ * @desc_type: descriptor type
-  *
-- * Return: next EP descriptor or NULL
-+ * Return: next desc_type descriptor or NULL
-  *
-- * Iterate over @t until either EP descriptor found or
-+ * Iterate over @t until either desc_type descriptor found or
-  * NULL (that indicates end of list) encountered
-  */
- static struct usb_descriptor_header**
--next_ep_desc(struct usb_descriptor_header **t)
-+next_desc(struct usb_descriptor_header **t, u8 desc_type)
- {
- 	for (; *t; t++) {
--		if ((*t)->bDescriptorType == USB_DT_ENDPOINT)
-+		if ((*t)->bDescriptorType == desc_type)
- 			return t;
- 	}
- 	return NULL;
- }
- 
- /*
-- * for_each_ep_desc()- iterate over endpoint descriptors in the
-- *		descriptors list
-- * @start:	pointer within descriptor array.
-- * @ep_desc:	endpoint descriptor to use as the loop cursor
-+ * for_each_desc() - iterate over desc_type descriptors in the
-+ * descriptors list
-+ * @start: pointer within descriptor array.
-+ * @iter_desc: desc_type descriptor to use as the loop cursor
-+ * @desc_type: wanted descriptr type
-  */
--#define for_each_ep_desc(start, ep_desc) \
--	for (ep_desc = next_ep_desc(start); \
--	      ep_desc; ep_desc = next_ep_desc(ep_desc+1))
-+#define for_each_desc(start, iter_desc, desc_type) \
-+	for (iter_desc = next_desc(start, desc_type); \
-+	     iter_desc; iter_desc = next_desc(iter_desc + 1, desc_type))
- 
- /**
-- * config_ep_by_speed() - configures the given endpoint
-+ * config_ep_by_speed_and_alt() - configures the given endpoint
-  * according to gadget speed.
-  * @g: pointer to the gadget
-  * @f: usb function
-  * @_ep: the endpoint to configure
-+ * @alt: alternate setting number
-  *
-  * Return: error code, 0 on success
-  *
-@@ -142,11 +145,13 @@ next_ep_desc(struct usb_descriptor_header **t)
-  * Note: the supplied function should hold all the descriptors
-  * for supported speeds
-  */
--int config_ep_by_speed(struct usb_gadget *g,
--			struct usb_function *f,
--			struct usb_ep *_ep)
-+int config_ep_by_speed_and_alt(struct usb_gadget *g,
-+				struct usb_function *f,
-+				struct usb_ep *_ep,
-+				u8 alt)
- {
- 	struct usb_endpoint_descriptor *chosen_desc = NULL;
-+	struct usb_interface_descriptor *int_desc = NULL;
- 	struct usb_descriptor_header **speed_desc = NULL;
- 
- 	struct usb_ss_ep_comp_descriptor *comp_desc = NULL;
-@@ -182,8 +187,21 @@ int config_ep_by_speed(struct usb_gadget *g,
- 	default:
- 		speed_desc = f->fs_descriptors;
- 	}
-+
-+	/* find correct alternate setting descriptor */
-+	for_each_desc(speed_desc, d_spd, USB_DT_INTERFACE) {
-+		int_desc = (struct usb_interface_descriptor *)*d_spd;
-+
-+		if (int_desc->bAlternateSetting == alt) {
-+			speed_desc = d_spd;
-+			goto intf_found;
-+		}
-+	}
-+	return -EIO;
-+
-+intf_found:
- 	/* find descriptors */
--	for_each_ep_desc(speed_desc, d_spd) {
-+	for_each_desc(speed_desc, d_spd, USB_DT_ENDPOINT) {
- 		chosen_desc = (struct usb_endpoint_descriptor *)*d_spd;
- 		if (chosen_desc->bEndpointAddress == _ep->address)
- 			goto ep_found;
-@@ -237,6 +255,32 @@ int config_ep_by_speed(struct usb_gadget *g,
- 	}
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(config_ep_by_speed_and_alt);
-+
-+/**
-+ * config_ep_by_speed() - configures the given endpoint
-+ * according to gadget speed.
-+ * @g: pointer to the gadget
-+ * @f: usb function
-+ * @_ep: the endpoint to configure
-+ *
-+ * Return: error code, 0 on success
-+ *
-+ * This function chooses the right descriptors for a given
-+ * endpoint according to gadget speed and saves it in the
-+ * endpoint desc field. If the endpoint already has a descriptor
-+ * assigned to it - overwrites it with currently corresponding
-+ * descriptor. The endpoint maxpacket field is updated according
-+ * to the chosen descriptor.
-+ * Note: the supplied function should hold all the descriptors
-+ * for supported speeds
-+ */
-+int config_ep_by_speed(struct usb_gadget *g,
-+			struct usb_function *f,
-+			struct usb_ep *_ep)
-+{
-+	return config_ep_by_speed_and_alt(g, f, _ep, 0);
-+}
- EXPORT_SYMBOL_GPL(config_ep_by_speed);
- 
- /**
-diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
-index 8675e145ea8b..2040696d75b6 100644
---- a/include/linux/usb/composite.h
-+++ b/include/linux/usb/composite.h
-@@ -249,6 +249,9 @@ int usb_function_activate(struct usb_function *);
- 
- int usb_interface_id(struct usb_configuration *, struct usb_function *);
- 
-+int config_ep_by_speed_and_alt(struct usb_gadget *g, struct usb_function *f,
-+				struct usb_ep *_ep, u8 alt);
-+
- int config_ep_by_speed(struct usb_gadget *g, struct usb_function *f,
- 			struct usb_ep *_ep);
- 
--- 
-2.17.1
-
+> >
+> >> mdelay(1) was added to give controller some time for sending Status
+> >> Stage. Status Stage should be send before driver send appropriate
+> >> Test Mode in usb_cmd register. If you remove mdelay it can works accid=
+entally
+> on your board.
+> >
+> >If without cdns3_ep0_complete_setup(priv_dev, 0, 1) before mdelay, how
+> >the controller knows it needs to prepare status stage, the test mode
+> >setting code is behind than it.
+> >
+> >The focus is: my board can't enter test mode if status stage is
+> >prepared before set test mode, it is strange. At other controller, eg,
+> >chipidea, we set test mode after receiving the status stage completion
+> >interrupt, but at cdns3, there is no status stage completion interrupt.
+> >
+> >>
+> >> Currently I don't have access for testing board so I can't recreate th=
+is test again.
+> >>
+> >> >
+> >> >On 20-05-15 12:35:32, Felipe Balbi wrote:
+> >> >>
+> >> >> Hi,
+> >> >>
+> >> >> Peter Chen <hzpeterchen@gmail.com> writes:
+> >> >> > It seems the yesterday's reply from nxp email account is blocked =
+by ML.
+> >> >> > Send it again.
+> >> >> >
+> >> >> >>
+> >> >> >> Peter Chen <peter.chen@nxp.com> writes:
+> >> >> >> > Each setup stage will prepare status stage at
+> >> >> >> > cdns3_ep0_setup_phase,
+> >> >> >>
+> >> >> >> care to explain this a little better? The controller itself
+> >> >> >> will produce the status stage?
+> >> >> >>
+> >> >> >
+> >> >> > Unlike the other controllers, the CDNS3 does not need to prepare
+> >> >> > TD for status stage, it only needs to write register bits
+> >> >> > EP_CMD.REQ_CMPL to tell the controller the request service is
+> >> >> > completed, and the controller itself will send ACK answer for
+> >> >> > the Status Stage after that.
+> >> >> > The code sequence like below:
+> >> >> >
+> >> >> > cdns3_ep0_setup_phase -> cdns3_ep0_complete_setup ->
+> >> >> >             writel((send_erdy ? EP_CMD_ERDY : 0) | EP_CMD_REQ_CMP=
+L,
+> >> >> >                    &priv_dev->regs->ep_cmd);
+> >> >>
+> >> >> got it.
+> >> >>
+> >> >> >> Usually, the way this works is that SETUP stage must be
+> >> >> >> *always* prepared by the SW while STATUS stage is prepared
+> >> >> >> on-demand, after we get an interrupt from the controller.
+> >> >> >>
+> >> >> >> Also, I see a possible bug in cdns3_ep0_setup_phase():
+> >> >> >>
+> >> >> >>         if (result < 0)
+> >> >> >>                 cdns3_ep0_complete_setup(priv_dev, 1, 1);
+> >> >> >>         else if (priv_dev->ep0_stage =3D=3D CDNS3_STATUS_STAGE)
+> >> >> >>                 cdns3_ep0_complete_setup(priv_dev, 0, 1);
+> >> >> >>
+> >> >> >> What happens here if result is 0 but ep0_state !=3D
+> CNDS3_STATUS_STAGE?
+> >> >> >> Seems like you should have a "stall and restart" somewhere here
+> >> >> >> as a default fallback.
+> >>
+> >> When this case when happen ?
+> >>
+> >> BTW.  I see one issue in cdns3_ep0_complete_setup.
+> >>
+> >> The last one in this function is incorrect:
+> >> 		cdns3_allow_enable_l1(priv_dev, 1); should be:
+> >> 		/* Resume controller before arming transfer. */
+> >> 		__cdns3_gadget_wakeup(priv_dev);
+> >>
+> >
+> >Would you please send a patch to fix it?
+> >
+> >Peter
+> >
+> >--
+> >
+> >Thanks,
+> >Peter Chen
+>=20
+> Pawel
