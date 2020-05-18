@@ -7,51 +7,55 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B21DBC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 17:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B2BC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 18:09:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F54220878
-	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 17:58:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 973532083E
+	for <linux-usb@archiver.kernel.org>; Mon, 18 May 2020 18:09:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589824692;
-	bh=LnLghrpkiXkZxc4mghN+U/ZB0oWcDxHaMgo41YTF53o=;
+	s=default; t=1589825367;
+	bh=jEGs5cCX+TotOoxBhZ01jg/PVeC8CitSbGIkzwa184g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=woSKsJdV7CJK48IZBOKUSJZj6t/r0xFINAwAIp6c3tSoOq3/NYHrqvgViKJ80HLEa
-	 6Z7WfeyS37oi/Zwy1wtzlXBom54TnuCz2FktwFlyRzvaKHYlFFIUnPFPelvYYViMIu
-	 5IP3nZnBirlCt5PE9m8DKyMGX/IEz653QXQ1FCsc=
+	b=j8iETQUANxBZ0ReQRzJgv43ITL1AJR4++ncp8DIj7Nils5F6scjcP883THMg8HAyg
+	 ffY37AFjjS3wr9o3yu7nN01gqcQtrQtcNWb7Y4iOWJPNw7O7oDUivnK/lQk7nIW0gE
+	 +nORK0jwsYFW91ZQP+5G+fYltuiVH3+AnrTlku80=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731864AbgERR6I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 May 2020 13:58:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37184 "EHLO mail.kernel.org"
+        id S1732723AbgERSJY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 May 2020 14:09:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54900 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731861AbgERR6G (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 May 2020 13:58:06 -0400
+        id S1733195AbgERSGk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 May 2020 14:06:40 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4925420826;
-        Mon, 18 May 2020 17:58:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 17850207D3;
+        Mon, 18 May 2020 18:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589824684;
-        bh=LnLghrpkiXkZxc4mghN+U/ZB0oWcDxHaMgo41YTF53o=;
+        s=default; t=1589825199;
+        bh=jEGs5cCX+TotOoxBhZ01jg/PVeC8CitSbGIkzwa184g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mMDVrYfrWHTTXXnyesUCpeV1eSPPjmYgT9dARNOBIIX4Dts1HBx6uPC8NTqaLpx9W
-         LdbHcKRAwpFi+zFL3zgLZeQK9772hCNp9ROelV1Wf6oXmkBf5ceO8QvCpY5vWWSsag
-         pJm7tsdsFrvDkCoTtvhx5dkpjwoCDe3I/vjU4wJg=
+        b=BNtWEXTIPo4iiRQsaWAtNGLWcMeho4DRvxnwhKc7/UwToTYCwo3zArAUsBIBFPNik
+         1mR91hWEQwCskoU+ZYSauI9JPxcJyCzamiq+ET1O7hq610I2C6g6F46TX4t2QCjTFN
+         UUy2VYJku+awP6nBfOGxwourHtp1qI3+RLTgwQVc=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-        Hardik Gajjar <hgajjar@de.adit-jv.com>,
-        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH 5.4 109/147] usb: core: hub: limit HUB_QUIRK_DISABLE_AUTOSUSPEND to USB5534B
-Date:   Mon, 18 May 2020 19:37:12 +0200
-Message-Id: <20200518173526.765169555@linuxfoundation.org>
+        stable@vger.kernel.org, YongQin Liu <yongqin.liu@linaro.org>,
+        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
+        Yang Fei <fei.yang@intel.com>,
+        Thinh Nguyen <thinhn@synopsys.com>,
+        Tejas Joglekar <tejas.joglekar@synopsys.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Jack Pham <jackp@codeaurora.org>, Josh Gao <jmgao@google.com>,
+        Todd Kjos <tkjos@google.com>, Felipe Balbi <balbi@kernel.org>,
+        linux-usb@vger.kernel.org, John Stultz <john.stultz@linaro.org>
+Subject: [PATCH 5.6 162/194] dwc3: Remove check for HWO flag in dwc3_gadget_ep_reclaim_trb_sg()
+Date:   Mon, 18 May 2020 19:37:32 +0200
+Message-Id: <20200518173544.709413214@linuxfoundation.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200518173513.009514388@linuxfoundation.org>
-References: <20200518173513.009514388@linuxfoundation.org>
+In-Reply-To: <20200518173531.455604187@linuxfoundation.org>
+References: <20200518173531.455604187@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,72 +65,54 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Eugeniu Rosca <erosca@de.adit-jv.com>
+From: John Stultz <john.stultz@linaro.org>
 
-commit 76e1ef1d81a4129d7e2fb8c48c83b166d1c8e040 upstream.
+commit 00e21763f2c8cab21b7befa52996d1b18bde5c42 upstream.
 
-On Tue, May 12, 2020 at 09:36:07PM +0800, Kai-Heng Feng wrote [1]:
-> This patch prevents my Raven Ridge xHCI from getting runtime suspend.
+The check for the HWO flag in dwc3_gadget_ep_reclaim_trb_sg()
+causes us to break out of the loop before we call
+dwc3_gadget_ep_reclaim_completed_trb(), which is what likely
+should be clearing the HWO flag.
 
-The problem described in v5.6 commit 1208f9e1d758c9 ("USB: hub: Fix the
-broken detection of USB3 device in SMSC hub") applies solely to the
-USB5534B hub [2] present on the Kingfisher Infotainment Carrier Board,
-manufactured by Shimafuji Electric Inc [3].
+This can cause odd behavior where we never reclaim all the trbs
+in the sg list, so we never call giveback on a usb req, and that
+will causes transfer stalls.
 
-Despite that, the aforementioned commit applied the quirk to _all_ hubs
-carrying vendor ID 0x424 (i.e. SMSC), of which there are more [4] than
-initially expected. Consequently, the quirk is now enabled on platforms
-carrying SMSC/Microchip hub models which potentially don't exhibit the
-original issue.
+This effectively resovles the adb stalls seen on HiKey960
+after userland changes started only using AIO in adbd.
 
-To avoid reports like [1], further limit the quirk's scope to
-USB5534B [2], by employing both Vendor and Product ID checks.
-
-Tested on H3ULCB + Kingfisher rev. M05.
-
-[1] https://lore.kernel.org/linux-renesas-soc/73933975-6F0E-40F5-9584-D2B8F615C0F3@canonical.com/
-[2] https://www.microchip.com/wwwproducts/en/USB5534B
-[3] http://www.shimafuji.co.jp/wp/wp-content/uploads/2018/08/SBEV-RCAR-KF-M06Board_HWSpecificationEN_Rev130.pdf
-[4] https://devicehunt.com/search/type/usb/vendor/0424/device/any
-
-Fixes: 1208f9e1d758c9 ("USB: hub: Fix the broken detection of USB3 device in SMSC hub")
-Cc: stable@vger.kernel.org # v4.14+
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Hardik Gajjar <hgajjar@de.adit-jv.com>
-Cc: linux-renesas-soc@vger.kernel.org
+Cc: YongQin Liu <yongqin.liu@linaro.org>
+Cc: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Cc: Yang Fei <fei.yang@intel.com>
+Cc: Thinh Nguyen <thinhn@synopsys.com>
+Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: Jack Pham <jackp@codeaurora.org>
+Cc: Josh Gao <jmgao@google.com>
+Cc: Todd Kjos <tkjos@google.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Link: https://lore.kernel.org/r/20200514220246.13290-1-erosca@de.adit-jv.com
+Cc: stable@vger.kernel.org #4.20+
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
- drivers/usb/core/hub.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/gadget.c |    3 ---
+ 1 file changed, 3 deletions(-)
 
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -38,6 +38,7 @@
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2483,9 +2483,6 @@ static int dwc3_gadget_ep_reclaim_trb_sg
+ 	for_each_sg(sg, s, pending, i) {
+ 		trb = &dep->trb_pool[dep->trb_dequeue];
  
- #define USB_VENDOR_GENESYS_LOGIC		0x05e3
- #define USB_VENDOR_SMSC				0x0424
-+#define USB_PRODUCT_USB5534B			0x5534
- #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
- #define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
+-		if (trb->ctrl & DWC3_TRB_CTRL_HWO)
+-			break;
+-
+ 		req->sg = sg_next(s);
+ 		req->num_pending_sgs--;
  
-@@ -5506,8 +5507,11 @@ out_hdev_lock:
- }
- 
- static const struct usb_device_id hub_id_table[] = {
--    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_INT_CLASS,
-+    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
-+                   | USB_DEVICE_ID_MATCH_PRODUCT
-+                   | USB_DEVICE_ID_MATCH_INT_CLASS,
-       .idVendor = USB_VENDOR_SMSC,
-+      .idProduct = USB_PRODUCT_USB5534B,
-       .bInterfaceClass = USB_CLASS_HUB,
-       .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
-     { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
 
 
