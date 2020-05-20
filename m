@@ -2,162 +2,102 @@ Return-Path: <SRS0=uR0I=7C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03CE1C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 20 May 2020 11:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E5CC433E1
+	for <linux-usb@archiver.kernel.org>; Wed, 20 May 2020 12:32:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C246E20829
-	for <linux-usb@archiver.kernel.org>; Wed, 20 May 2020 11:52:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFE8320756
+	for <linux-usb@archiver.kernel.org>; Wed, 20 May 2020 12:32:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="andjSPxg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AL9MMpEg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgETLwA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 May 2020 07:52:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59842 "EHLO
+        id S1726890AbgETMck (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 May 2020 08:32:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbgETLv7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 May 2020 07:51:59 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94AA0C061A0E
-        for <linux-usb@vger.kernel.org>; Wed, 20 May 2020 04:51:59 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id k13so2853323wrx.3
-        for <linux-usb@vger.kernel.org>; Wed, 20 May 2020 04:51:59 -0700 (PDT)
+        with ESMTP id S1726443AbgETMci (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 May 2020 08:32:38 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C0FC061A0F
+        for <linux-usb@vger.kernel.org>; Wed, 20 May 2020 05:32:38 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id h17so2942233wrc.8
+        for <linux-usb@vger.kernel.org>; Wed, 20 May 2020 05:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6WFKYei2D2I3XV2nDc1dBY3x3KmmRVxinljmw0uB3X0=;
-        b=andjSPxgvS19d9gpJMpkyStQZGqf7dpyLLQ/gSafIYnWYv175QIJ3MhOUy3QUR5Pr0
-         t1OQD2Lja1pJBW0f1C+0+G+J0fRfte1BnmvWqdJ7iMcPSRQriOT8j1p3GzVSrSk2aIGs
-         fS/a8YbPzkYJysNGm7tJKUW/yrHtkGqCgf2dg09rbDFbb7q9v+rRwhiDL+Ydxa33uRCc
-         3TqPeNPqL9k/uQ40rT8AC79mis/rM9Evi6UHLilFOQ5tiOAwfqkBATAFGFKPaR0GtjCV
-         Nw4DyTh7sv0L9f7wkH+ki67hAYLrkvhleC+B6diPn1THSLkJGxDV1iiQutXEPRf7feC5
-         0ImQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=uvIWbMez5QP4incIP6WPqITt/gWgPLWGE2WFsjw5LLo=;
+        b=AL9MMpEgg9iF+FNdxoHVyPWZF8PbEUyqvw6orQIQ1n1RY3k/y2ULuOxYCw0M5gYAsr
+         Ef82cEVsPhLHFJsIqainiLQWIXpxaWHSYKDA4fDRjvmKuyr3ZBO+1kOR1Qk2QmDeUMQ1
+         pzF+Hv65f/XLGGJnTudlYl1N80IqnzblNT8b0T0rnn+x5ysz21Nxd5RNU51V9MyYJ493
+         +9fR5mF47NsUVnEpZ5eWtCmF8TbnCQJyb4U8pXbBcJq4wop5kiUzl4PMJa0dmVW1f/+R
+         0KArx3Q4QyAPuDGeR1E1kv1MlVkPF4tO8r9Wpe8rnPr82HuRQEvT55nPGvN5xwMqkGS5
+         z5cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6WFKYei2D2I3XV2nDc1dBY3x3KmmRVxinljmw0uB3X0=;
-        b=euOZwpn2MaYwzac/kdQnWUJd3JB3itG3tEon9gg/x/Mn7Pj5KGwwcb0BDS79A58d+I
-         efjks4iywVh6w/YWp8rQDTTE1FPBJ063HQbHxb+7vRERxe8UdVEelBYAl1Pg7+1b67jL
-         JptCven4oJrF5wIrlH47Ip5uIwvNT4eKvdZkGQmJ1s0G5qE3e9tGhZOeI6Z9pCDOe8V4
-         MrsbrG6chSHcz2rhMe3GNR6+tB4DhFj1P953LL575XsWijXG9GhrncYGRgaRvI5aF3go
-         adWUC1ELMdVSjKXaL+4RlGd5XzRHJ8Ebeih5zG47fZ4YnNoMGKpnijjaH1KwvvavQPbC
-         hTnw==
-X-Gm-Message-State: AOAM531uwomoUe9ecqiRq1FZJiPTJFUQayw9pYT4U7Z/MAWJUS/qaWBk
-        NaSUpojgFFbnsihZq5SIIdjjdg==
-X-Google-Smtp-Source: ABdhPJwul9CX57Ny0SFgC9MewkWtdAa9s53enzC6/YZCtjZL4iNVe/vUK1ylx2xnwOst+lhiqtyIqw==
-X-Received: by 2002:adf:f512:: with SMTP id q18mr4211916wro.38.1589975518308;
-        Wed, 20 May 2020 04:51:58 -0700 (PDT)
-Received: from [192.168.0.38] ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id t14sm1996476wrb.56.2020.05.20.04.51.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 May 2020 04:51:57 -0700 (PDT)
-Subject: Re: [PATCH] usb: typec: Ensure USB_ROLE_SWITCH is a dependency for
- tps6598x
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uvIWbMez5QP4incIP6WPqITt/gWgPLWGE2WFsjw5LLo=;
+        b=A17ovVl/XcZT03CzTFWgHUNf8VwhGijA8lcFGo/iJ73hHrEcHBrYtqCtm+NgLHxcdR
+         QZlWfqBqhpUxdquvvtfVoe/3EeCQHlDWDlyLDwltEM4GMYSrtDVMYPfcgnGf66NfhwhU
+         WtCo2XPfG09IKkt1fgIJO4/LYfW0hFm64HKJk3VWzTRgXv5Zb7thrpx2HBM7nrl+8378
+         IsSJkF1aVvupdORJ94X3qfpg20PnGcxIaBnf37haqwgKlanSXxzHrkGJnrRRYqF8pYe3
+         ifTdgovHCSZGjKUPh7FILEwYLCfP8rw8z5b0axRs8KkUXXQ2XudAjf+P1UbCaYZ1GS6F
+         nJog==
+X-Gm-Message-State: AOAM531u8MInv87KTD+azkjYAOAw6Z6L+IdrE81NuxzMBYumLflaCN7J
+        rf99r8pH4MLeqNVy4Q7BVE6v6lzVJ2s=
+X-Google-Smtp-Source: ABdhPJwbjzSMOOzwZBMsbPACvMultyucu479rWMCv2kRkD9TxbU7CYX5ysrY9xLgohAciAB5Z6eXDQ==
+X-Received: by 2002:adf:e74a:: with SMTP id c10mr4001535wrn.109.1589977956701;
+        Wed, 20 May 2020 05:32:36 -0700 (PDT)
+Received: from localhost.localdomain ([176.61.57.127])
+        by smtp.gmail.com with ESMTPSA id g6sm2649861wrp.75.2020.05.20.05.32.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2020 05:32:36 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-References: <20200520100526.2729-1-bryan.odonoghue@linaro.org>
- <20200520103542.GF1298122@kuha.fi.intel.com>
- <c1b5a729-6b2a-9c91-6ed0-94ffbc529fcd@linaro.org>
- <4f5aaa11-194f-24ad-bd8a-ce510b2bce94@linaro.org>
- <49a6693e-ed9e-2de6-1dea-ba24b8a3ff4d@linaro.org>
-Message-ID: <8000f5b7-7652-4a31-6ec2-ac680c830823@linaro.org>
-Date:   Wed, 20 May 2020 12:52:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        heikki.krogerus@linux.intel.com
+Cc:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v2 1/2] usb: typec: Ensure USB_ROLE_SWITCH is selected for tps6598x
+Date:   Wed, 20 May 2020 13:33:11 +0100
+Message-Id: <20200520123312.320281-2-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200520123312.320281-1-bryan.odonoghue@linaro.org>
+References: <20200520123312.320281-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <49a6693e-ed9e-2de6-1dea-ba24b8a3ff4d@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 20/05/2020 12:22, Bryan O'Donoghue wrote:
-> On 20/05/2020 12:13, Bryan O'Donoghue wrote:
->> On 20/05/2020 12:08, Bryan O'Donoghue wrote:
->>> On 20/05/2020 11:35, Heikki Krogerus wrote:
->>>> On Wed, May 20, 2020 at 11:05:26AM +0100, Bryan O'Donoghue wrote:
->>>>> When I switched on USB role switching for the tps6598x I completely 
->>>>> forgot
->>>>> to add the Kconfig dependency.
->>>>>
->>>>> This patch ensures the dependency is there to prevent compilation 
->>>>> error
->>>>> when role-switching is off.
->>>>
->>>> There are stubs for the those functions, so there should not be any
->>>> compilation errors.
->>>>
->>>
->>> That's what I initially thought too, then I saw this.
->>>
->>> git show da4b5d18dd949abdda7c8ea76c9483b5edd49616
->>>
->>> but looking at role.h
->>>
->>> #if IS_ENABLED(CONFIG_USB_ROLE_SWITCH)
->>>
->>> int usb_role_switch_set_role(struct usb_role_switch *sw, enum 
->>> usb_role role);
->>>
->>> #else
->>>
->>> static inline int usb_role_switch_set_role(struct usb_role_switch *sw,
->>>                  enum usb_role role)
->>> {
->>>          return 0;
->>> }
->>>
->>> #endif
->>>
->>> That should work.
->>>
->>> Hmm, let me see if I can figure this out...
->>
->> Well if I do this
->>
->> diff --git a/drivers/usb/chipidea/Kconfig b/drivers/usb/chipidea/Kconfig
->> index d53db520e209..636a5428b47e 100644
->> --- a/drivers/usb/chipidea/Kconfig
->> +++ b/drivers/usb/chipidea/Kconfig
->> @@ -6,7 +6,6 @@ config USB_CHIPIDEA
->>          select EXTCON
->>          select RESET_CONTROLLER
->>          select USB_ULPI_BUS
->> -       select USB_ROLE_SWITCH
->>
->> my build does this
-> 
-> ah ha - look at what role switch is defaulting to
-> 
-> CONFIG_USB_ROLE_SWITCH=m
-> 
-> So anything linked into the kernel image will not resolve those symbols
+When I switched on USB role switching for the tps6598x I completely forgot
+to add the Kconfig dependency.
 
-So it should be "select USB_ROLE_SWITCH" not "depends on USB_ROLE_SWITCH"
+Ensure USB_ROLE_SWITCH is selected to prevent the typs6598x driver being
+compiled in but the role-switch driver being compiled as a module, leading
+to link error.
 
-grep -r "USB_ROLE_SWITCH" * | grep depend
-drivers/usb/typec/Kconfig:	depends on USB_ROLE_SWITCH
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ drivers/usb/typec/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-grep -r "USB_ROLE_SWITCH" * | grep select
-drivers/extcon/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/dwc3/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/cdns3/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/gadget/udc/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/mtu3/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/musb/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/musb/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/typec/tcpm/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/typec/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/typec/mux/Kconfig:	select USB_ROLE_SWITCH
-drivers/usb/common/Kconfig:	select USB_ROLE_SWITCH
+diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+index b4f2aac7ae8a..a6cdf4ec0be6 100644
+--- a/drivers/usb/typec/Kconfig
++++ b/drivers/usb/typec/Kconfig
+@@ -64,6 +64,7 @@ config TYPEC_HD3SS3220
+ config TYPEC_TPS6598X
+ 	tristate "TI TPS6598x USB Power Delivery controller driver"
+ 	depends on I2C
++	select USB_ROLE_SWITCH
+ 	select REGMAP_I2C
+ 	help
+ 	  Say Y or M here if your system has TI TPS65982 or TPS65983 USB Power
+-- 
+2.25.1
+
