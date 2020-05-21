@@ -2,73 +2,74 @@ Return-Path: <SRS0=4PAV=7D=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76582C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 21 May 2020 12:41:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A2CC433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 May 2020 15:06:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4FE452070A
-	for <linux-usb@archiver.kernel.org>; Thu, 21 May 2020 12:41:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B54392072C
+	for <linux-usb@archiver.kernel.org>; Thu, 21 May 2020 15:06:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHkFysy9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gl57U2x/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729348AbgEUMl3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 May 2020 08:41:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37958 "EHLO
+        id S1729687AbgEUPGT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 May 2020 11:06:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728164AbgEUMl2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 May 2020 08:41:28 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AE3C061A0E;
-        Thu, 21 May 2020 05:41:28 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id f134so5479247wmf.1;
-        Thu, 21 May 2020 05:41:28 -0700 (PDT)
+        with ESMTP id S1728136AbgEUPGS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 May 2020 11:06:18 -0400
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4EBC061A0E;
+        Thu, 21 May 2020 08:06:18 -0700 (PDT)
+Received: by mail-oo1-xc43.google.com with SMTP id z6so1508834ooz.3;
+        Thu, 21 May 2020 08:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZCurGGibwCh7XdxYSjx5vU1gvo5ZaSz6gI8M6+Td/gk=;
-        b=MHkFysy9XCj8j8jFISAZgF6ThZMSSOf3rv9YYCVWnKelCG4abGZ183kq44kgxL8cZF
-         /IWTRHb0Q6hUanFdmDCUhLUImJB6Wgx0raoTmy5RL3GYLioo0eYUpKMOE6VIyeJ7OyOa
-         7xotMpYQthz9zi5CVXY7aGGUi5HIOuTZPX4brdgBJvtEm9FAV9F3ux+bR3RYGmc6j8wX
-         jAZpQxqW1HtCpLogxXCo4AKF51jImJLAY1v9AvZOC9s5prZBSychS3c0FybKFO5g/pxh
-         NITK86y//ys9w/1PMtVGGMnD2EudbZgvEEbwl7TcRAL9ZiCmYUKhF2TDnXnh/jIM01DJ
-         5KfA==
+        bh=+Za7SrO4qn8XtzrO1qNLjs5yd6uVoYKW4nq+Ui1HK+U=;
+        b=Gl57U2x/Km8DZ+EE/uEo3P0o+N5ayoNL67CPCDW/1jadrTx01G4TAQiGNXZNusuRye
+         uHXFypN40jjcNDjo7SwTFPQwsoMxx9NUK1wTejbONmlIp/lubG1pia0mGGjHBn5K2kOA
+         WhFHeRKYLu1uY5B8vQFrNU/F4JkFHB7gg9KyBJGR5S7f3PogzA5sbyrK10Z/JC6wdFb7
+         cXL7xIqRllMYiuTWv/B8z3n4AcZrToiuJ5HE+wFKj9MWqXHJ4F3823sLMArxadlx0UyM
+         PVcr5IK8WSxPwN8tOwDrorZNOkv5kVF5KV6sSUsGqQhXf2+F+14hz6EQfb/aYyG3z7co
+         OBbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=ZCurGGibwCh7XdxYSjx5vU1gvo5ZaSz6gI8M6+Td/gk=;
-        b=bu2GS5MT9vOMkIzJfJXTCi4O5ch222+EFZvFuCgt3+bG2TNww05aJzvbPjosSMb3YN
-         PlNFGv+JEodTtiz8EJLuoVhOqnVSeEZpSatX/pT9KUIBH7OSbCqZeIxYXHXNUDpQtiCK
-         NzINcPi9OeSkIPKl7pHfUj031fNOeaFkNfMfh8014icLGYzwzOcq8raoxa8GKDtN4Nwx
-         CXMAzLXcvs62td5SHg5BmD3jnxK/qCzI0YixnNmzhOANJTmanAgi1CL32t/xffxq/VJB
-         4i5dHCHKkScNQ60YNO2DR5mEwdogdxW1zxyJb9el8L4kTjjE9z9UJtf8jAbbLnP4JjSV
-         v45Q==
-X-Gm-Message-State: AOAM532EzmGJlSE/tpiiNl4yo4gjHmQQW1wdqcwqn/BHo0Fi8pKbtUwH
-        J/smdNEJj/E5eQx8vBWzJzVJF3Sh
-X-Google-Smtp-Source: ABdhPJyvF9L10kZVYg8zqoYE9VslMq9gJ6PaLkV9Z3dMdzcmv4hVHOJAG+HvMX4W7KmEJFfRSSJbAw==
-X-Received: by 2002:a1c:a793:: with SMTP id q141mr8526068wme.135.1590064886643;
-        Thu, 21 May 2020 05:41:26 -0700 (PDT)
+        bh=+Za7SrO4qn8XtzrO1qNLjs5yd6uVoYKW4nq+Ui1HK+U=;
+        b=BCi65AckJfy26LRXAAumu2qX9tDIn9n7hYzFpuo5TnyOfU+V85vjgLxuveKEvrBwVL
+         /LGmBjD9U7n8wEoY5BCnXewd0AF544p1cuMR+xX0DTQstSsL/1/LZL/O2v6A6hm5a/A8
+         +lZSCQcim3A/wIi0BHZ7+bHirhm5kyxOZb17fr6IUfBPBdv7E9eb7uTCU9O05e1agzoA
+         GY9NpO8xio4yF6NCfb0sTABZdrbvUyaN4kyJK+Dr8cKXPAHNJopBSIhO5GZ1meEqB5bs
+         m7/+PEI9I2z3zktfa69IJJPS1ov3sjlhjEzN7Wf9OeKJ68hiH9iicKisX36MPth6q+Td
+         qe2g==
+X-Gm-Message-State: AOAM531TghyIcklJ2rrGEVK8RuPr8aYBwpUhQNEd/NlzjO2JNxhFw92c
+        HDxzIUnuPiVp3SvbAZNHlzK9bbzRF8o=
+X-Google-Smtp-Source: ABdhPJw0iR09fQcrMPCdaS54L6NRmZfxw/WdoX1jFmKTCggawwLEiBk1exB8SKwfmhBTXGgRlly7og==
+X-Received: by 2002:a4a:91c2:: with SMTP id e2mr7621457ooh.45.1590073577431;
+        Thu, 21 May 2020 08:06:17 -0700 (PDT)
 Received: from ziggy.stardust ([213.195.113.243])
-        by smtp.gmail.com with ESMTPSA id v205sm6410254wmg.11.2020.05.21.05.41.25
+        by smtp.gmail.com with ESMTPSA id y205sm1722572oie.27.2020.05.21.08.06.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2020 05:41:25 -0700 (PDT)
-Subject: Re: [PATCH v3 0/7] add support USB for MT8183
+        Thu, 21 May 2020 08:06:16 -0700 (PDT)
+Subject: Re: [PATCH v3 5/7] arm64: dts: mt8183: add usb and phy nodes
 To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         Mathias Nyman <mathias.nyman@intel.com>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <1567150854-30033-1-git-send-email-chunfeng.yun@mediatek.com>
- <1567562067.7317.52.camel@mhfsdcap03>
+ <1567150854-30033-6-git-send-email-chunfeng.yun@mediatek.com>
 From:   Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFP1zgUBEAC21D6hk7//0kOmsUrE3eZ55kjc9DmFPKIz6l4NggqwQjBNRHIMh04BbCMY
@@ -144,12 +145,12 @@ Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  jzi+DzD9cvj2K6eD5j5kcKJJQactXqfJvF1Eb+OnxlB1BCLE8D1rNkPO5O742Mq3MgDmq19l
  +abzEL6QDAAxn9md8KwrA3RtucNh87cHlDXfUBKa7SRvBjTczDg+HEPNk2u3hrz1j3l2rliQ
  y1UfYx7Vk/TrdwUIJgKS8QAr8Lw9WuvY2hSqL9vEjx8VAkPWNWPwrQ==
-Message-ID: <2e98982b-ab8a-9fa9-0903-881ebce916a5@gmail.com>
-Date:   Thu, 21 May 2020 14:41:24 +0200
+Message-ID: <9517d625-f55e-c0f1-8e8d-b3882189e175@gmail.com>
+Date:   Thu, 21 May 2020 17:06:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1567562067.7317.52.camel@mhfsdcap03>
+In-Reply-To: <1567150854-30033-6-git-send-email-chunfeng.yun@mediatek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -158,68 +159,155 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Chungfeng,
 
-On 04/09/2019 03:54, Chunfeng Yun wrote:
-> Hi Greg,
-> 
-> 
->   Please don't try to pick up this series, the dependent ones are still
-> under public review, I'll fix build warning and send out new version
-> after the dependent ones are applied
->   Sorry for inconvenience
-> 
 
-I think the pmic driver is upstream now and show up in linux-next soon.
+On 30/08/2019 09:40, Chunfeng Yun wrote:
+> Add USB related nodes for MT8183, set it as host mode by default.
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v2~v3: no changes
+> ---
+>  arch/arm64/boot/dts/mediatek/mt8183-evb.dts | 22 +++++++++
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi    | 55 +++++++++++++++++++++
+>  2 files changed, 77 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-evb.dts b/arch/arm64/boot/dts/mediatek/mt8183-evb.dts
+> index d8e555cbb5d3..142ff52f0f42 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-evb.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-evb.dts
+> @@ -6,7 +6,9 @@
+>   */
+>  
+>  /dts-v1/;
+> +#include <dt-bindings/gpio/gpio.h>
+>  #include "mt8183.dtsi"
+> +#include "mt6358.dtsi"
 
-I propose to rebase the series and send it again.
+mt6358.dtsi is accepted upstream now.
+While the rest of the series implements wake up function, I understand that this
+patch is independent and enables USB without wake up.
+
+If so, let me know and I can take it now.
 
 Regards,
 Matthias
 
-> Thanks
-> 
-> On Fri, 2019-08-30 at 15:40 +0800, Chunfeng Yun wrote:
->> This series support USB DRD controller and enable it's remote
->> wakeup functoin for MT8183, they depend on the following
->> series patches:
->>
->> 1. this series add support MT6358 PMIC
->>   [v5,01/10] mfd: mt6397: clean up code
->>   https://patchwork.kernel.org/patch/11110487/
->>
->> 2. this series add support pericfg syscon
->>   [v2,1/2] dt-bindings: clock: mediatek: add pericfg for MT8183
->>   https://patchwork.kernel.org/patch/11118183/
->>
->> 3. add property mediatek,discth for tphy
->>   [06/11] phy: phy-mtk-tphy: add a property for disconnect threshold
->>   https://patchwork.kernel.org/patch/11110695/
->>
->> v3 changes:
->>   1. changes micros define
->>   2. remove #reset-cell
->>   3. update dependent series
->>
->> v2 changes:
->>   add patch [7/7]
->>
->> Chunfeng Yun (7):
->>   dt-bindings: usb: mtu3: support USB wakeup for MT8183
->>   dt-bindings: usb: mtk-xhci: support USB wakeup for MT8183
->>   usb: mtu3: support ip-sleep wakeup for MT8183
->>   usb: mtk-xhci: support ip-sleep wakeup for MT8183
->>   arm64: dts: mt8183: add usb and phy nodes
->>   arm64: dts: mt8183: enable USB remote wakeup
->>   arm64: dts: mt8183: tune disconnect threshold of u2phy
->>
->>  .../bindings/usb/mediatek,mtk-xhci.txt        |  1 +
->>  .../devicetree/bindings/usb/mediatek,mtu3.txt |  1 +
->>  arch/arm64/boot/dts/mediatek/mt8183-evb.dts   | 23 +++++++
->>  arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 63 +++++++++++++++++++
->>  drivers/usb/host/xhci-mtk.c                   | 14 ++++-
->>  drivers/usb/mtu3/mtu3_host.c                  | 14 ++++-
->>  6 files changed, 114 insertions(+), 2 deletions(-)
->>
-> 
+>  
+>  / {
+>  	model = "MediaTek MT8183 evaluation board";
+> @@ -24,6 +26,16 @@
+>  	chosen {
+>  		stdout-path = "serial0:921600n8";
+>  	};
+> +
+> +	usb_vbus: regulator@0 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "p0_vbus";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		gpio = <&pio 42 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +		regulator-always-on;
+> +	};
+>  };
+>  
+>  &auxadc {
+> @@ -135,6 +147,16 @@
+>  
+>  };
+>  
+> +&ssusb {
+> +	vusb33-supply = <&mt6358_vusb_reg>;
+> +	dr_mode = "host";
+> +	status = "okay";
+> +};
+> +
+> +&usb_host {
+> +	status = "okay";
+> +};
+> +
+>  &uart0 {
+>  	status = "okay";
+>  };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> index c2749c4631bc..28da334237c6 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> @@ -8,6 +8,7 @@
+>  #include <dt-bindings/clock/mt8183-clk.h>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/interrupt-controller/irq.h>
+> +#include <dt-bindings/phy/phy.h>
+>  #include "mt8183-pinfunc.h"
+>  
+>  / {
+> @@ -372,6 +373,35 @@
+>  			status = "disabled";
+>  		};
+>  
+> +		ssusb: usb@11201000 {
+> +			compatible = "mediatek,mt8183-mtu3", "mediatek,mtu3";
+> +			reg = <0 0x11201000 0 0x2e00>,
+> +			      <0 0x11203e00 0 0x0100>;
+> +			reg-names = "mac", "ippc";
+> +			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
+> +			phys = <&u2port0 PHY_TYPE_USB2>,
+> +			       <&u3port0 PHY_TYPE_USB3>;
+> +			clocks = <&infracfg CLK_INFRA_UNIPRO_SCK>,
+> +				 <&infracfg CLK_INFRA_USB>;
+> +			clock-names = "sys_ck", "ref_ck";
+> +			#address-cells = <2>;
+> +			#size-cells = <2>;
+> +			ranges;
+> +			status = "disabled";
+> +
+> +			usb_host: xhci@11200000 {
+> +				compatible = "mediatek,mt8183-xhci",
+> +					     "mediatek,mtk-xhci";
+> +				reg = <0 0x11200000 0 0x1000>;
+> +				reg-names = "mac";
+> +				interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_LOW>;
+> +				clocks = <&infracfg CLK_INFRA_UNIPRO_SCK>,
+> +					 <&infracfg CLK_INFRA_USB>;
+> +				clock-names = "sys_ck", "ref_ck";
+> +				status = "disabled";
+> +			};
+> +		};
+> +
+>  		audiosys: syscon@11220000 {
+>  			compatible = "mediatek,mt8183-audiosys", "syscon";
+>  			reg = <0 0x11220000 0 0x1000>;
+> @@ -384,6 +414,31 @@
+>  			reg = <0 0x11f10000 0 0x1000>;
+>  		};
+>  
+> +		u3phy: usb-phy@11f40000 {
+> +			compatible = "mediatek,mt8183-tphy",
+> +				     "mediatek,generic-tphy-v2";
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			ranges = <0 0 0x11f40000 0x1000>;
+> +			status = "okay";
+> +
+> +			u2port0: usb-phy@0 {
+> +				reg = <0x0 0x700>;
+> +				clocks = <&clk26m>;
+> +				clock-names = "ref";
+> +				#phy-cells = <1>;
+> +				status = "okay";
+> +			};
+> +
+> +			u3port0: usb-phy@0700 {
+> +				reg = <0x0700 0x900>;
+> +				clocks = <&clk26m>;
+> +				clock-names = "ref";
+> +				#phy-cells = <1>;
+> +				status = "okay";
+> +			};
+> +		};
+> +
+>  		mfgcfg: syscon@13000000 {
+>  			compatible = "mediatek,mt8183-mfgcfg", "syscon";
+>  			reg = <0 0x13000000 0 0x1000>;
 > 
