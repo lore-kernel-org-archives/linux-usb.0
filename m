@@ -4,52 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF36C433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 22 May 2020 14:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAABAC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 22 May 2020 14:51:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7DD5221FA
-	for <linux-usb@archiver.kernel.org>; Fri, 22 May 2020 14:50:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8099620756
+	for <linux-usb@archiver.kernel.org>; Fri, 22 May 2020 14:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590159030;
-	bh=uB/nrNTc33V1p9MjKZ2UT3WMBnL+IeRKZpIjZGkr7aQ=;
+	s=default; t=1590159117;
+	bh=CuBTDqU7i9gT/BrbieKiGX7Ca/D8uLOthjeVO9EfLPY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KpEAPMsvxR7DLoUrgUkqQjlMRRJIvtxmPWt8v9weEKDSqUbQ5obUGE5X1Dq3Qsp13
-	 yzXsQnHVlsMxbISug6IbFzQVG327OEr3nlU5xG0U5tA8vY55V1b7BgIDWAAv3YSGhV
-	 OGoesWdYeUQmtwSbpUGm4LXZlYe9BGQJKjWpnpFY=
+	b=XkDCC+c53aEdxx01967jqYdVLwqcehHt4epmJ7qoIvN0V+Cg8vjRxJE3gtQKY70rO
+	 7hvXR+COK/IK3Rm/JL7mjUBnzQhuIZS5McV5M4ovVX5JsX31qvB9B/IqoQHuRn6Wux
+	 2emWmC3U8sQzqxagiMtcMQRDtUDX1u4tAE3DK5xY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730680AbgEVOu3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 May 2020 10:50:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51596 "EHLO mail.kernel.org"
+        id S1731136AbgEVOv4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 May 2020 10:51:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53974 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730663AbgEVOu0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 22 May 2020 10:50:26 -0400
+        id S1731126AbgEVOvy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 22 May 2020 10:51:54 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EAAB22145D;
-        Fri, 22 May 2020 14:50:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CD61A2224A;
+        Fri, 22 May 2020 14:51:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590159025;
-        bh=uB/nrNTc33V1p9MjKZ2UT3WMBnL+IeRKZpIjZGkr7aQ=;
+        s=default; t=1590159113;
+        bh=CuBTDqU7i9gT/BrbieKiGX7Ca/D8uLOthjeVO9EfLPY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K4Mx2Ui0UURwwV4IW/clbhLgK0q6SIMmlqQOqatwu1qmW5qSyoSAa3ZZvgGYCNR1A
-         dP0L2bAjScVrHIzSk29TXYK+sKabZ0EZm5pGBUAFqPfcDBe5alzVMaIU6TzBcVci9T
-         kQpl8pfBp+TOIJZ9MdKAOev/gOW9xaGj81qHbXcY=
+        b=YJwye2YwXU9/Heh+yc68Wj4Hcrxw/j30mgQGP7ZeCZ9PX/OB19AyIQRjotzU0Ck9g
+         jn+zq8T9q4KgJo2/BscXbgd6omnfvn9uNi59cPIzNvP9h66e5enY2YAhGMFQYssyoL
+         h4Sw632aNoA9WK7NsUA1KRtplVtgLKEyyJd9n1nU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        kbuild test robot <lkp@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 23/41] usb: phy: twl6030-usb: Fix a resource leak in an error handling path in 'twl6030_usb_probe()'
-Date:   Fri, 22 May 2020 10:49:40 -0400
-Message-Id: <20200522144959.434379-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 10/13] usb: gadget: legacy: fix redundant initialization warnings
+Date:   Fri, 22 May 2020 10:51:39 -0400
+Message-Id: <20200522145142.435086-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200522144959.434379-1-sashal@kernel.org>
-References: <20200522144959.434379-1-sashal@kernel.org>
+In-Reply-To: <20200522145142.435086-1-sashal@kernel.org>
+References: <20200522145142.435086-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,62 +60,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit f058764d19000d98aef72010468db1f69faf9fa0 ]
+[ Upstream commit d13cce757954fa663c69845611957396843ed87a ]
 
-A call to 'regulator_get()' is hidden in 'twl6030_usb_ldo_init()'. A
-corresponding put must be performed in the error handling path, as
-already done in the remove function.
+Fix the following cppcheck warnings:
 
-While at it, also move a 'free_irq()' call in the error handling path in
-order to be consistent.
-
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+drivers/usb/gadget/legacy/inode.c:1364:8: style: Redundant initialization for 'value'. The initialized value is overwritten$
+ value = -EOPNOTSUPP;
+       ^
+drivers/usb/gadget/legacy/inode.c:1331:15: note: value is initialized
+ int    value = -EOPNOTSUPP;
+              ^
+drivers/usb/gadget/legacy/inode.c:1364:8: note: value is overwritten
+ value = -EOPNOTSUPP;
+       ^
+drivers/usb/gadget/legacy/inode.c:1817:8: style: Redundant initialization for 'value'. The initialized value is overwritten$
+ value = -EINVAL;
+       ^
+drivers/usb/gadget/legacy/inode.c:1787:18: note: value is initialized
+ ssize_t   value = len, length = len;
+                 ^
+drivers/usb/gadget/legacy/inode.c:1817:8: note: value is overwritten
+ value = -EINVAL;
+       ^
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
+
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/phy/phy-twl6030-usb.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/usb/gadget/legacy/inode.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/phy/phy-twl6030-usb.c b/drivers/usb/phy/phy-twl6030-usb.c
-index bfebf1f2e991..9a7e655d5280 100644
---- a/drivers/usb/phy/phy-twl6030-usb.c
-+++ b/drivers/usb/phy/phy-twl6030-usb.c
-@@ -377,7 +377,7 @@ static int twl6030_usb_probe(struct platform_device *pdev)
- 	if (status < 0) {
- 		dev_err(&pdev->dev, "can't get IRQ %d, err %d\n",
- 			twl->irq1, status);
--		return status;
-+		goto err_put_regulator;
- 	}
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 5c28bee327e1..e431a8bc3a9d 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1364,7 +1364,6 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
  
- 	status = request_threaded_irq(twl->irq2, NULL, twl6030_usb_irq,
-@@ -386,8 +386,7 @@ static int twl6030_usb_probe(struct platform_device *pdev)
- 	if (status < 0) {
- 		dev_err(&pdev->dev, "can't get IRQ %d, err %d\n",
- 			twl->irq2, status);
--		free_irq(twl->irq1, twl);
--		return status;
-+		goto err_free_irq1;
- 	}
+ 	req->buf = dev->rbuf;
+ 	req->context = NULL;
+-	value = -EOPNOTSUPP;
+ 	switch (ctrl->bRequest) {
  
- 	twl->asleep = 0;
-@@ -396,6 +395,13 @@ static int twl6030_usb_probe(struct platform_device *pdev)
- 	dev_info(&pdev->dev, "Initialized TWL6030 USB module\n");
- 
- 	return 0;
-+
-+err_free_irq1:
-+	free_irq(twl->irq1, twl);
-+err_put_regulator:
-+	regulator_put(twl->usb3v3);
-+
-+	return status;
- }
- 
- static int twl6030_usb_remove(struct platform_device *pdev)
+ 	case USB_REQ_GET_DESCRIPTOR:
+@@ -1788,7 +1787,7 @@ static ssize_t
+ dev_config (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
+ {
+ 	struct dev_data		*dev = fd->private_data;
+-	ssize_t			value = len, length = len;
++	ssize_t			value, length = len;
+ 	unsigned		total;
+ 	u32			tag;
+ 	char			*kbuf;
 -- 
 2.25.1
 
