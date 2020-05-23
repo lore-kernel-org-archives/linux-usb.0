@@ -2,115 +2,154 @@ Return-Path: <SRS0=lOMQ=7F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B47C433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:15:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4322EC433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 06:13:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 312AB2071C
-	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:15:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=umn.edu header.i=@umn.edu header.b="D9AciJXY"
+	by mail.kernel.org (Postfix) with ESMTP id 1B28E207F7
+	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 06:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590214428;
+	bh=rJOpR3MP4htGq4PR8w2VlvB9Tl68TlHn+woa37naLKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=spBP+UWofzfqZ/NCd0ioZiAkjzhVUGcal7p/5Dp4zvM4XTHMf1D9WM0+JSDORhK+3
+	 yN3AAp0FkJIoTE0FP0swcgEJG7/efxA7YbXEkXqxD2baS+dXGZIRFmGMMt5K7HLKuT
+	 oMz81VlZ53/YOhaeT46W/PSwKjzMuHWl06u93PHA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725768AbgEWEPT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 May 2020 00:15:19 -0400
-Received: from mta-p8.oit.umn.edu ([134.84.196.208]:36036 "EHLO
-        mta-p8.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725294AbgEWEPT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 May 2020 00:15:19 -0400
-X-Greylist: delayed 524 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 May 2020 00:15:18 EDT
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p8.oit.umn.edu (Postfix) with ESMTP id 49TVCt3Ltgz9vfWP
-        for <linux-usb@vger.kernel.org>; Sat, 23 May 2020 04:06:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p8.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id snXNKMWHeiSf for <linux-usb@vger.kernel.org>;
-        Fri, 22 May 2020 23:06:34 -0500 (CDT)
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S2387581AbgEWGNr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 May 2020 02:13:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387446AbgEWGNr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 23 May 2020 02:13:47 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 49TVCt1jS4z9vfWN
-        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 23:06:34 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p8.oit.umn.edu 49TVCt1jS4z9vfWN
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p8.oit.umn.edu 49TVCt1jS4z9vfWN
-Received: by mail-il1-f200.google.com with SMTP id a13so10402291ila.9
-        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 21:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=RPdQH9bGg+tp3swT8p0ZiImqN6KEu/f5mLVYnX6GO/Y=;
-        b=D9AciJXYu9te3MKvvx3Vrxic0LSV8CCCRPUKc372vSJUR74/g7r4iI5p05cmFmQiV1
-         ysD9JUQHj1V3nW7PBkdClcvvFOzfkukI+H5/F63kl3S8XVngYd1TjcLp4EV/7YgiGmuh
-         uo5MdZE5z033J74M5bBWC2touXBVPuBzgR9oJE7gyag16qjY6KtWGtFioTwRC9NxbWgy
-         YzygIediGgAyCuUjJIYD/xuOUZHf9Tfl/uNTgtYMGbHHZ2fWpeBI8g1cimwolvJ0O+HK
-         3pgYjXnJzhY3wyi4xFJ2wdzP5JBh5tg82iEWrW9wBPR0o3w3jr6sx6ZsiNNQGEHaPVEV
-         R1OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=RPdQH9bGg+tp3swT8p0ZiImqN6KEu/f5mLVYnX6GO/Y=;
-        b=otZDGl6zXbjYab7RDNqnB+Rm30ysBRTHYSdMIWxsvRaeGIx+9ACqPlMdZ8ulkVvHYP
-         nSJG45sO7ukRrblsrMdJKXS3wsFcnqEKRBd1eNiXP3NuAGJPHPadDZZ+G6Kc7jnAGPRF
-         tFLnef4mNOPtxsd10o8ONuuxwK+dAh3MewknnhljDmsBH1RX5qyl480w9H9tlmh2lg/x
-         Nx2I5I8zsr47m+cYIWSrL3kWujMriVkjiLCjad9PEKQvsbIkLNIpolmYQ2vct8jfmNh7
-         +3soTU4J7D3NtxmEyvQNuhLLWjEjVPPsKxQ2JMVTw7SuU60Y7T/XWaWcoVcvi3g6N7fE
-         Iecw==
-X-Gm-Message-State: AOAM532g+oWj6zLmYWCF0hkmhbJst9X5gtYFHByBieCLyKgPKRVsie+R
-        MNy8BBf38WsOmJoKZDsCsOEoBp2i/hSyLCi88S+lhqKMmr42cOPOu+OhViuJsEBt+MO4J27/bAQ
-        WZ+5Rw8Gs2dvx8M0Qj1wDN3kE
-X-Received: by 2002:a6b:6a13:: with SMTP id x19mr5654288iog.175.1590206793714;
-        Fri, 22 May 2020 21:06:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAGpqevIbvr1Yy5SpRJxo3PF6hWA4iFFPC1HPZLor3MUhsp/FXd/t9+V6pzYTrUbk6nqQkKw==
-X-Received: by 2002:a6b:6a13:: with SMTP id x19mr5654269iog.175.1590206793324;
-        Fri, 22 May 2020 21:06:33 -0700 (PDT)
-Received: from qiushi.dtc.umn.edu (cs-kh5248-02-umh.cs.umn.edu. [128.101.106.4])
-        by smtp.gmail.com with ESMTPSA id p1sm5435927ilq.67.2020.05.22.21.06.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2020 21:06:32 -0700 (PDT)
-From:   wu000273@umn.edu
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, clabbe@baylibre.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kjlu@umn.edu, wu000273@umn.edu
-Subject: [PATCH] usb: gadget: fix potential double-free in m66592_probe.
-Date:   Fri, 22 May 2020 23:06:25 -0500
-Message-Id: <20200523040625.21888-1-wu000273@umn.edu>
-X-Mailer: git-send-email 2.17.1
+        by mail.kernel.org (Postfix) with ESMTPSA id BC7EF2072C;
+        Sat, 23 May 2020 06:13:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590214426;
+        bh=rJOpR3MP4htGq4PR8w2VlvB9Tl68TlHn+woa37naLKs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GQe/5l/Egh9ISrtPL6+nOw6DzIejp5snCbxWaS1NHIkn4tzoSpXBVAtNJlxpDRhqN
+         p26fNr6olYP+92uQnSHndp60JsQJ3rV1Q8TiHqHef84natOhdILDhoBbnmhaYLPvL1
+         yiBqFWX9+NLzEnCUmvAK7sOfIXbH16WhCNDY5/DA=
+Date:   Sat, 23 May 2020 08:13:43 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Changming Liu <liu.changm@northeastern.edu>
+Cc:     "thomas@winischhofer.net" <thomas@winischhofer.net>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] USB: sisusbvga: Fix left shifting a possible negative
+ value
+Message-ID: <20200523061343.GA3156699@kroah.com>
+References: <BL0PR06MB45483EF82A54B8751524A2E7E5B60@BL0PR06MB4548.namprd06.prod.outlook.com>
+ <20200521073627.GB2579717@kroah.com>
+ <BL0PR06MB45480E2A734DEC31AB3F5CBBE5B70@BL0PR06MB4548.namprd06.prod.outlook.com>
+ <20200522072401.GA847030@kroah.com>
+ <BL0PR06MB4548FDD13144603AFAA92BEAE5B40@BL0PR06MB4548.namprd06.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BL0PR06MB4548FDD13144603AFAA92BEAE5B40@BL0PR06MB4548.namprd06.prod.outlook.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+On Fri, May 22, 2020 at 07:14:32PM +0000, Changming Liu wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Greg KH <gregkh@linuxfoundation.org>
+> > Sent: Friday, May 22, 2020 3:24 AM
+> > To: Changming Liu <liu.changm@northeastern.edu>
+> > Cc: thomas@winischhofer.net; linux-usb@vger.kernel.org
+> > Subject: Re: [PATCH] USB: sisusbvga: Fix left shifting a possible negative value
+> > 
+> > On Thu, May 21, 2020 at 05:56:44PM +0000, Changming Liu wrote:
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Greg KH <gregkh@linuxfoundation.org>
+> > > > Sent: Thursday, May 21, 2020 3:36 AM
+> > > > To: Changming Liu <liu.changm@northeastern.edu>
+> > > > Cc: thomas@winischhofer.net; linux-usb@vger.kernel.org
+> > > > Subject: Re: [PATCH] USB: sisusbvga: Fix left shifting a possible negative
+> > value
+> > > >
+> > > > On Wed, May 20, 2020 at 06:06:50PM +0000, Changming Liu wrote:
+> > > > > The char buffer buf, accepts user data which might be negative value and
+> > > > > the content is left shifted to form an unsigned integer.
+> > > > >
+> > > > > Since left shifting a negative value is undefined behavior, thus change
+> > > > > the char to u8 to fix this
+> > > > >
+> > > > > Signed-off-by: Changming Liu <liu.changm@northeastern.edu>
+> > > > > ---
+> > > > >  drivers/usb/misc/sisusbvga/sisusb.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/usb/misc/sisusbvga/sisusb.c
+> > > > b/drivers/usb/misc/sisusbvga/sisusb.c
+> > > > > index fc8a5da4a07c..0734e6dd9386 100644
+> > > > > --- a/drivers/usb/misc/sisusbvga/sisusb.c
+> > > > > +++ b/drivers/usb/misc/sisusbvga/sisusb.c
+> > > > > @@ -761,7 +761,7 @@ static int sisusb_write_mem_bulk(struct
+> > > > sisusb_usb_data *sisusb, u32 addr,
+> > > > >         u8   swap8, fromkern = kernbuffer ? 1 : 0;
+> > > > >         u16  swap16;
+> > > > >         u32  swap32, flag = (length >> 28) & 1;
+> > > > > -       char buf[4];
+> > > > > +       u8 buf[4];
+> > > >
+> > > > Do we also need to change the kernbuffer variable from char* to be u8*
+> > > > as the same time to solve the same potential issue?
+> > > >
+> > >
+> > > This is a very good point, sorry I didn't notice this.
+> > > Indeed, according to the caller of sisusb_copy_memory, the wrapper of
+> > current function
+> > > there is no guarantee that each char in kernbuffer is positive.
+> > >
+> > > However, it seems if we change the function argument type directly from
+> > char* to u8*,
+> > > Other parts that call this function e.g. in sisusb_copy_memory
+> > > or uses this pointer e.g. line 770,line 883 must change accordingly.
+> > > Looks like many force casts which doesn't look too necessary.
+> > >
+> > > I wonder how about just force casting the content of kernbuffer when it's
+> > read in line 823 to line 829
+> > > from char to u8? This seems explicitly fix this bug.
+> > 
+> > That will work, but how about just changing all instances of char to u8
+> > throughout this driver to make sure everything is working properly that
+> > way.  char should not be used as a type when copying around "raw" data
+> > like this from user-to-device for these reasons.
+> > 
+> 
+> This is a clean sweep, from the perspective of security I find no reason against it.
+> Indeed, u8 is strictly better than char when there is no need for any value to be negative.
+> I'd be very honored to see this through. 
+> 
+> I wonder, by this driver, you mean this sisusbvga module or something else?
+> Forgive me for my limited understanding of the module since I've only read the code related to this bug.
+> Please let me know on what files do you want to apply this change. 
 
-m66592_free_request() is called under label "err_add_udc"
-and "clean_up", and m66592->ep0_req is not set to NULL after
-first free, leading to a double-free. Fix this issue by
-setting m66592->ep0_req to NULL after the first free.
+The sisusbvga module, all of the files that make it up, in
+drivers/usb/misc/sisusbvga/ are what I am referring to here.
 
-Fixes: 0f91349b89f3 ("usb: gadget: convert all users to the new udc infrastructure")
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
----
- drivers/usb/gadget/udc/m66592-udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Or if you feel like doing this yourself please go ahead, 
+> I'm still a bit daunted by the scale of changes that need to be made frankly :p
 
-diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
-index 75d16a8902e6..931e6362a13d 100644
---- a/drivers/usb/gadget/udc/m66592-udc.c
-+++ b/drivers/usb/gadget/udc/m66592-udc.c
-@@ -1667,7 +1667,7 @@ static int m66592_probe(struct platform_device *pdev)
- 
- err_add_udc:
- 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
--
-+	m66592->ep0_req = NULL;
- clean_up3:
- 	if (m66592->pdata->on_chip) {
- 		clk_disable(m66592->clk);
--- 
-2.17.1
+Nope, you can do this, it shouldn't be that hard.  Might take a few
+patches, do it as a patch series, doing one logical change per patch.
 
+If you have specific questions, please let us know!
+
+thanks,
+
+greg k-h
