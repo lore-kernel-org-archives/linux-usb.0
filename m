@@ -2,63 +2,100 @@ Return-Path: <SRS0=lOMQ=7F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3579C433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 03:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77025C433E0
+	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:12:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C16F20735
-	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 03:23:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 578202071C
+	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:12:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NckDMGHM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387528AbgEWDXI convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 May 2020 23:23:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49528 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387516AbgEWDXH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 22 May 2020 23:23:07 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 207859] unhandled paging request
-Date:   Sat, 23 May 2020 03:23:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ibrahimgarbatom1@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-207859-208809-f1LpjNdqJj@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207859-208809@https.bugzilla.kernel.org/>
-References: <bug-207859-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S2387562AbgEWEMQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 May 2020 00:12:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725294AbgEWEMP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 May 2020 00:12:15 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F650C061A0E
+        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 21:12:15 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id ci21so5853185pjb.3
+        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 21:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gEbiXPOVzb6l609iXNKKkbZ9NpmGZQsueDMQ1EDDZ9s=;
+        b=NckDMGHMskW1gWZnB4u4TCZi03QywErgjTEeoCcEP1lCZtUJXH1X6w/A58bfy6Wq1s
+         VzCAscttd/0oSduppqZw4RtDIFJ5Dafn+F/gwezXE7mC+aM4GpsiCmTFbtHnc30FPOnC
+         TQMqW6dkk7vWOVpC3NV2yJ4C5iZPloiDGyBOA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gEbiXPOVzb6l609iXNKKkbZ9NpmGZQsueDMQ1EDDZ9s=;
+        b=uiE8xnUM0dOQKs9enmP5QJGoiU/66OjJeg/dXhQRmlJh56y20VrqsE4QAU5K/ZVroF
+         dFTG4iOjdDLeqm4jNZaX+Lg2mhWrSrZ7oaFT/oDApwcjaVHB/8G4+TW5HG5XZW5TjUjP
+         PEotdXSpq0l6A6OFWcWjhiCBuLs9AHlLUGpLl8KTRCTbZfcYM/15WipMoL3cooKHJ8eu
+         lK3nFgqvmCvy0iO/QnERy61OH0j50KDhEh7TtoQck7luDoApJ1PsGr4uehmMKB6NQoFV
+         H4UXC+p/5VNQBW52l15CqJzRow3pshwg8oAZlRn/d0W/IICEFpybomSKPxlW/euZy4jA
+         75sQ==
+X-Gm-Message-State: AOAM533ftmnsMVj3QlnuMavyEJgOmKOFnhi+/91nrhEctFRZJjTtf4+F
+        T7eDYkpD75hZndXSKPgqXH+xlA==
+X-Google-Smtp-Source: ABdhPJyzSVHR+OuuJlxIZf66mUdu8x7cQ6x8OpG1RuDyYZsBABX4xWRimyeWBsQ3DY+83Pr7ASzQWA==
+X-Received: by 2002:a17:902:6b09:: with SMTP id o9mr16542135plk.100.1590207134669;
+        Fri, 22 May 2020 21:12:14 -0700 (PDT)
+Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:476b:691:abc3:38db])
+        by smtp.gmail.com with ESMTPSA id h7sm7075741pgn.60.2020.05.22.21.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2020 21:12:14 -0700 (PDT)
+From:   Prashant Malani <pmalani@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     enric.balletbo@collabora.com, bleung@chromium.org,
+        groeck@chromium.org, Prashant Malani <pmalani@chromium.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org (open list:DESIGNWARE USB3 DRD IP DRIVER)
+Subject: [RFC PATCH 0/1] usb: dwc3: Extcon hotplug support to of-simple
+Date:   Fri, 22 May 2020 21:12:00 -0700
+Message-Id: <20200523041201.75217-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.27.0.rc0.183.gde8f92d652-goog
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207859
+Some platforms like rk3399 would like to power on the USB PHY layer only
+when external devices are connected. This patch introduces optional
+support for extcon USB_HOST events, so that child devices are
+populated/depopulated when external devices are connected/disconnected,
+respectively.
 
-Ibrahim Garba (ibrahimgarbatom1@gmail.com) changed:
+This is also useful since some PHY drivers like phy-rockchip-typec only
+configure their Type C Phy on power on; if they are only powered on once
+at boot by dwc3, these drivers will not be able to reconfigure their PHY
+for peripherals plugged in later, like (Display Port) DP monitors.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |INVALID
+I thought I’d send out an initial RFC patch, for comments and feedback
+about the approach. Depending on feedback, we can refine this approach
+and modify the bindings file.
+
+Thanks,
+
+Prashant Malani (1):
+  usb: dwc3: of-simple: Add extcon support
+
+ drivers/usb/dwc3/dwc3-of-simple.c | 149 +++++++++++++++++++++++++++++-
+ 1 file changed, 146 insertions(+), 3 deletions(-)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.27.0.rc0.183.gde8f92d652-goog
+
