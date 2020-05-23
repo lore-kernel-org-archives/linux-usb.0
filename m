@@ -2,307 +2,115 @@ Return-Path: <SRS0=lOMQ=7F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0850DC433E0
-	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B47C433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:15:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D82FB206F6
-	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:12:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 312AB2071C
+	for <linux-usb@archiver.kernel.org>; Sat, 23 May 2020 04:15:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aplJuZml"
+	dkim=pass (2048-bit key) header.d=umn.edu header.i=@umn.edu header.b="D9AciJXY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387621AbgEWEMb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 May 2020 00:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40440 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387615AbgEWEMb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 May 2020 00:12:31 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8A4C061A0E
-        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 21:12:31 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id u5so5928482pgn.5
-        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 21:12:31 -0700 (PDT)
+        id S1725768AbgEWEPT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 May 2020 00:15:19 -0400
+Received: from mta-p8.oit.umn.edu ([134.84.196.208]:36036 "EHLO
+        mta-p8.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725294AbgEWEPT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 May 2020 00:15:19 -0400
+X-Greylist: delayed 524 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 May 2020 00:15:18 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p8.oit.umn.edu (Postfix) with ESMTP id 49TVCt3Ltgz9vfWP
+        for <linux-usb@vger.kernel.org>; Sat, 23 May 2020 04:06:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p8.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id snXNKMWHeiSf for <linux-usb@vger.kernel.org>;
+        Fri, 22 May 2020 23:06:34 -0500 (CDT)
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 49TVCt1jS4z9vfWN
+        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 23:06:34 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p8.oit.umn.edu 49TVCt1jS4z9vfWN
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p8.oit.umn.edu 49TVCt1jS4z9vfWN
+Received: by mail-il1-f200.google.com with SMTP id a13so10402291ila.9
+        for <linux-usb@vger.kernel.org>; Fri, 22 May 2020 21:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bLR6ZIRylvFFIxKdJ83iv09lWseVsvasJ0E1PrljIIA=;
-        b=aplJuZmlLgHFVE2F12xlgenwp9VxB9NxBbFUKdNnmQzvgT2LDo7s5UCmQ+qrtoboaf
-         zn5CIKnSME8rq5enWZ8nz5dIFTSqP3idH9HSp0N6WKayRMMfuf3TzYFSLkuqoib0kvgV
-         Qhs9mcQej9SI9eTbqbiHkNxg0eRC3Kg7MVrA0=
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=RPdQH9bGg+tp3swT8p0ZiImqN6KEu/f5mLVYnX6GO/Y=;
+        b=D9AciJXYu9te3MKvvx3Vrxic0LSV8CCCRPUKc372vSJUR74/g7r4iI5p05cmFmQiV1
+         ysD9JUQHj1V3nW7PBkdClcvvFOzfkukI+H5/F63kl3S8XVngYd1TjcLp4EV/7YgiGmuh
+         uo5MdZE5z033J74M5bBWC2touXBVPuBzgR9oJE7gyag16qjY6KtWGtFioTwRC9NxbWgy
+         YzygIediGgAyCuUjJIYD/xuOUZHf9Tfl/uNTgtYMGbHHZ2fWpeBI8g1cimwolvJ0O+HK
+         3pgYjXnJzhY3wyi4xFJ2wdzP5JBh5tg82iEWrW9wBPR0o3w3jr6sx6ZsiNNQGEHaPVEV
+         R1OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bLR6ZIRylvFFIxKdJ83iv09lWseVsvasJ0E1PrljIIA=;
-        b=uXzFLKoSSDKD7iECsEaTJmvrjosxLX3Frp72XiX3GWmtZzuwEK4MsYM3cSrmKirb8B
-         dsZynaRGtT39N8Bnm1YdoAky0BlULwOUzR+HmmonZCRhem0I6o7CIBtukIQMA5h8iuSf
-         7dxDShPuiYi5KhAYOQjeakOh1IeBB4FIJOJSQTKsySj/BOyEPEJiHRBbKzr5a9YsJ/pe
-         TqJo3bQ1Vubh9xScd8hvHTXN7JdEHQv48g4BcKx06qcSSUGyKYQ9T15yUNv8yiqgJxSL
-         uxJ2U6ToirXIaVVvxeZCrinqVB9vKKCXsBHglArx9Q5+76U32A7CPO5GMwVdw/rsvSlO
-         1Lzw==
-X-Gm-Message-State: AOAM5338+5Lh/B0jExUwGjtkmx/QnNERfAR1qiZBPyScsP86VvPId8ke
-        xQicIGS5vNqf69i3TXXMlmn9+A==
-X-Google-Smtp-Source: ABdhPJyWhs3gIjSkezupuRAPz5rdIyxCk9/Qc1FlGjEqN7gxG/Bcg8Fg9+IvMTjHmsTFL3oMxffkPg==
-X-Received: by 2002:a62:cd8d:: with SMTP id o135mr6937224pfg.26.1590207150526;
-        Fri, 22 May 2020 21:12:30 -0700 (PDT)
-Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:476b:691:abc3:38db])
-        by smtp.gmail.com with ESMTPSA id h7sm7075741pgn.60.2020.05.22.21.12.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=RPdQH9bGg+tp3swT8p0ZiImqN6KEu/f5mLVYnX6GO/Y=;
+        b=otZDGl6zXbjYab7RDNqnB+Rm30ysBRTHYSdMIWxsvRaeGIx+9ACqPlMdZ8ulkVvHYP
+         nSJG45sO7ukRrblsrMdJKXS3wsFcnqEKRBd1eNiXP3NuAGJPHPadDZZ+G6Kc7jnAGPRF
+         tFLnef4mNOPtxsd10o8ONuuxwK+dAh3MewknnhljDmsBH1RX5qyl480w9H9tlmh2lg/x
+         Nx2I5I8zsr47m+cYIWSrL3kWujMriVkjiLCjad9PEKQvsbIkLNIpolmYQ2vct8jfmNh7
+         +3soTU4J7D3NtxmEyvQNuhLLWjEjVPPsKxQ2JMVTw7SuU60Y7T/XWaWcoVcvi3g6N7fE
+         Iecw==
+X-Gm-Message-State: AOAM532g+oWj6zLmYWCF0hkmhbJst9X5gtYFHByBieCLyKgPKRVsie+R
+        MNy8BBf38WsOmJoKZDsCsOEoBp2i/hSyLCi88S+lhqKMmr42cOPOu+OhViuJsEBt+MO4J27/bAQ
+        WZ+5Rw8Gs2dvx8M0Qj1wDN3kE
+X-Received: by 2002:a6b:6a13:: with SMTP id x19mr5654288iog.175.1590206793714;
+        Fri, 22 May 2020 21:06:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAGpqevIbvr1Yy5SpRJxo3PF6hWA4iFFPC1HPZLor3MUhsp/FXd/t9+V6pzYTrUbk6nqQkKw==
+X-Received: by 2002:a6b:6a13:: with SMTP id x19mr5654269iog.175.1590206793324;
+        Fri, 22 May 2020 21:06:33 -0700 (PDT)
+Received: from qiushi.dtc.umn.edu (cs-kh5248-02-umh.cs.umn.edu. [128.101.106.4])
+        by smtp.gmail.com with ESMTPSA id p1sm5435927ilq.67.2020.05.22.21.06.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2020 21:12:30 -0700 (PDT)
-From:   Prashant Malani <pmalani@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     enric.balletbo@collabora.com, bleung@chromium.org,
-        groeck@chromium.org, Prashant Malani <pmalani@chromium.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org (open list:DESIGNWARE USB3 DRD IP DRIVER)
-Subject: [RFC PATCH 1/1] usb: dwc3: of-simple: Add extcon support
-Date:   Fri, 22 May 2020 21:12:02 -0700
-Message-Id: <20200523041201.75217-2-pmalani@chromium.org>
-X-Mailer: git-send-email 2.27.0.rc0.183.gde8f92d652-goog
-In-Reply-To: <20200523041201.75217-1-pmalani@chromium.org>
-References: <20200523041201.75217-1-pmalani@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 22 May 2020 21:06:32 -0700 (PDT)
+From:   wu000273@umn.edu
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, clabbe@baylibre.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kjlu@umn.edu, wu000273@umn.edu
+Subject: [PATCH] usb: gadget: fix potential double-free in m66592_probe.
+Date:   Fri, 22 May 2020 23:06:25 -0500
+Message-Id: <20200523040625.21888-1-wu000273@umn.edu>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add optional extcon notifier support to enable the hotplug / unplug of
-the underlying PHY layer devices.
+From: Qiushi Wu <wu000273@umn.edu>
 
-If supported, the Device Tree (DT) node for the device should include an
-"extcon" property which is a phandle to an extcon DT node.
+m66592_free_request() is called under label "err_add_udc"
+and "clean_up", and m66592->ep0_req is not set to NULL after
+first free, leading to a double-free. Fix this issue by
+setting m66592->ep0_req to NULL after the first free.
 
-This patch is an effort to incorporate the equivalent support from the
-Rockchip dwc3 driver implementation from Chrome OS [1] to the mainline.
-
-[1] : https://chromium.googlesource.com/chromiumos/third_party/kernel/
-+/refs/heads/chromeos-4.4/drivers/usb/dwc3/dwc3-rockchip.c
-
-Cc: Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Fixes: 0f91349b89f3 ("usb: gadget: convert all users to the new udc infrastructure")
+Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 ---
- drivers/usb/dwc3/dwc3-of-simple.c | 149 +++++++++++++++++++++++++++++-
- 1 file changed, 146 insertions(+), 3 deletions(-)
+ drivers/usb/gadget/udc/m66592-udc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
-index e64754be47b4..28bde27cd1f9 100644
---- a/drivers/usb/dwc3/dwc3-of-simple.c
-+++ b/drivers/usb/dwc3/dwc3-of-simple.c
-@@ -11,6 +11,7 @@
-  * by Subbaraya Sundeep Bhatta <subbaraya.sundeep.bhatta@xilinx.com>
-  */
+diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
+index 75d16a8902e6..931e6362a13d 100644
+--- a/drivers/usb/gadget/udc/m66592-udc.c
++++ b/drivers/usb/gadget/udc/m66592-udc.c
+@@ -1667,7 +1667,7 @@ static int m66592_probe(struct platform_device *pdev)
  
-+#include <linux/extcon.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
-@@ -29,8 +30,117 @@ struct dwc3_of_simple {
- 	struct reset_control	*resets;
- 	bool			pulse_resets;
- 	bool			need_reset;
-+	struct extcon_dev	*edev;
-+	struct notifier_block	nb;
-+	struct work_struct	work;
-+	/* Denotes whether child devices have been populated. */
-+	bool			populated;
-+	bool			suspended;
-+	spinlock_t		suspend_lock;
- };
- 
-+static int dwc3_of_simple_populate(struct dwc3_of_simple *simple)
-+{
-+	struct device *dev = simple->dev;
-+	struct device_node *np = dev->of_node;
-+	int ret;
-+
-+	ret = of_platform_populate(np, NULL, NULL, dev);
-+	if (ret) {
-+		dev_err(dev, "Failed to populate dwc3 devices.\n");
-+		return ret;
-+	}
-+	simple->populated = true;
-+	return 0;
-+}
-+
-+static void dwc3_of_simple_depopulate(struct dwc3_of_simple *simple)
-+{
-+	if (simple->populated) {
-+		of_platform_depopulate(simple->dev);
-+		simple->populated = false;
-+	}
-+}
-+
-+static void dwc3_of_simple_work(struct work_struct *work)
-+{
-+	struct dwc3_of_simple *simple = container_of(work,
-+					struct dwc3_of_simple, work);
-+	struct extcon_dev *edev = simple->edev;
-+
-+	if (extcon_get_state(edev, EXTCON_USB_HOST) > 0) {
-+		if (simple->populated)
-+			return;
-+
-+		dwc3_of_simple_populate(simple);
-+	} else {
-+		if (!simple->populated)
-+			return;
-+
-+		dwc3_of_simple_depopulate(simple);
-+	}
-+}
-+
-+static int dwc3_of_simple_notifier(struct notifier_block *nb,
-+			      unsigned long event, void *ptr)
-+{
-+	struct dwc3_of_simple *simple = container_of(nb, struct dwc3_of_simple,
-+						nb);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&simple->suspend_lock, flags);
-+	if (!simple->suspended)
-+		schedule_work(&simple->work);
-+	spin_unlock_irqrestore(&simple->suspend_lock, flags);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int dwc3_of_simple_extcon_register(struct dwc3_of_simple *simple)
-+{
-+	struct device		*dev = simple->dev;
-+	struct extcon_dev	*edev;
-+	int			ret;
-+
-+	edev = extcon_get_edev_by_phandle(dev, 0);
-+	if (IS_ERR(edev)) {
-+		/* The extcon property is optional. */
-+		if (PTR_ERR(edev) == -ENODEV)
-+			return 0;
-+		if (PTR_ERR(edev) != -EPROBE_DEFER)
-+			dev_err(dev, "Couldn't get extcon device.\n");
-+		return PTR_ERR(edev);
-+	}
-+
-+	INIT_WORK(&simple->work, dwc3_of_simple_work);
-+
-+	simple->nb.notifier_call = dwc3_of_simple_notifier;
-+	ret = devm_extcon_register_notifier(dev, edev, EXTCON_USB_HOST,
-+					&simple->nb);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to register notifier.\n");
-+		return ret;
-+	}
-+
-+	simple->edev = edev;
-+
-+	return 0;
-+}
-+
-+static void dwc3_of_simple_extcon_unregister(struct dwc3_of_simple *simple)
-+{
-+	if (!simple->edev)
-+		return;
-+
-+	/*
-+	 * We explicitly unregister the notifier to prevent races with
-+	 * the of_depopulate() call in remove().
-+	 */
-+	devm_extcon_unregister_notifier(simple->dev, simple->edev,
-+					EXTCON_USB_HOST, &simple->nb);
-+	cancel_work_sync(&simple->work);
-+}
-+
- static int dwc3_of_simple_probe(struct platform_device *pdev)
- {
- 	struct dwc3_of_simple	*simple;
-@@ -47,6 +157,8 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, simple);
- 	simple->dev = dev;
- 
-+	spin_lock_init(&simple->suspend_lock);
-+
- 	/*
- 	 * Some controllers need to toggle the usb3-otg reset before trying to
- 	 * initialize the PHY, otherwise the PHY times out.
-@@ -87,9 +199,24 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_resetc_assert;
- 
--	ret = of_platform_populate(np, NULL, NULL, dev);
--	if (ret)
-+	ret = dwc3_of_simple_extcon_register(simple);
-+	if (ret < 0) {
-+		dev_warn(dev, "No extcon device found, err: %d\n", ret);
- 		goto err_clk_put;
-+	}
-+
-+	if (!simple->edev) {
-+		ret = dwc3_of_simple_populate(simple);
-+		if (ret)
-+			goto err_clk_put;
-+	} else {
-+		/*
-+		 * Populate through worker to avoid race conditions against
-+		 * action scheduled through notifier.
-+		 */
-+		if (extcon_get_state(simple->edev, EXTCON_USB_HOST) > 0)
-+			schedule_work(&simple->work);
-+	}
- 
- 	pm_runtime_set_active(dev);
- 	pm_runtime_enable(dev);
-@@ -112,7 +239,8 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
- 
- static void __dwc3_of_simple_teardown(struct dwc3_of_simple *simple)
- {
--	of_platform_depopulate(simple->dev);
-+	dwc3_of_simple_extcon_unregister(simple);
-+	dwc3_of_simple_depopulate(simple);
- 
- 	clk_bulk_disable_unprepare(simple->num_clocks, simple->clks);
- 	clk_bulk_put_all(simple->num_clocks, simple->clks);
-@@ -163,6 +291,13 @@ static int __maybe_unused dwc3_of_simple_runtime_resume(struct device *dev)
- static int __maybe_unused dwc3_of_simple_suspend(struct device *dev)
- {
- 	struct dwc3_of_simple *simple = dev_get_drvdata(dev);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&simple->suspend_lock, flags);
-+	simple->suspended = true;
-+	spin_unlock_irqrestore(&simple->suspend_lock, flags);
-+
-+	cancel_work_sync(&simple->work);
- 
- 	if (simple->need_reset)
- 		reset_control_assert(simple->resets);
-@@ -173,10 +308,18 @@ static int __maybe_unused dwc3_of_simple_suspend(struct device *dev)
- static int __maybe_unused dwc3_of_simple_resume(struct device *dev)
- {
- 	struct dwc3_of_simple *simple = dev_get_drvdata(dev);
-+	unsigned long flags;
- 
- 	if (simple->need_reset)
- 		reset_control_deassert(simple->resets);
- 
-+	spin_lock_irqsave(&simple->suspend_lock, flags);
-+	simple->suspended = false;
-+	spin_unlock_irqrestore(&simple->suspend_lock, flags);
-+
-+	if (simple->edev)
-+		schedule_work(&simple->work);
-+
- 	return 0;
- }
- 
+ err_add_udc:
+ 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
+-
++	m66592->ep0_req = NULL;
+ clean_up3:
+ 	if (m66592->pdata->on_chip) {
+ 		clk_disable(m66592->clk);
 -- 
-2.27.0.rc0.183.gde8f92d652-goog
+2.17.1
 
