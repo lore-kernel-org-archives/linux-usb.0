@@ -2,101 +2,296 @@ Return-Path: <SRS0=ajTD=7H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5403EC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 02:50:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DEDC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 02:57:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2776B2075F
-	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 02:50:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 496E72075F
+	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 02:57:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="QXA/uboH"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="XmOD9nEu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388743AbgEYCuz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 24 May 2020 22:50:55 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:58304 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388398AbgEYCuv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 24 May 2020 22:50:51 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04P2ooMh118916;
-        Sun, 24 May 2020 21:50:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1590375050;
-        bh=4Uwo9+q8rBh4O5RXcZCu6XFwX681ZgA1nUiH/x8aBs4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=QXA/uboHrS+U+pdrayRmb64X7MKpU4bafDz41geTOVZrn3GWYf4zE7f4H7f1CXbFy
-         kCEce/an+Y8nSxc/73QEorTY8tIp8y/NtxSm+b5kzJxVAQ9G6mZDtAXpoB7fANII2r
-         sSekxVnphozA2KLc18k6NUVtaJpKpNZrN1C1Ewik=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04P2ooBj113212
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 24 May 2020 21:50:50 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sun, 24
- May 2020 21:50:49 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Sun, 24 May 2020 21:50:49 -0500
-Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04P2onNk023969;
-        Sun, 24 May 2020 21:50:49 -0500
-From:   Bin Liu <b-liu@ti.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 2/6] usb: musb: start session in resume for host port
-Date:   Sun, 24 May 2020 21:50:45 -0500
-Message-ID: <20200525025049.3400-3-b-liu@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200525025049.3400-1-b-liu@ti.com>
-References: <20200525025049.3400-1-b-liu@ti.com>
+        id S2388505AbgEYC5M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 24 May 2020 22:57:12 -0400
+Received: from mail-eopbgr80082.outbound.protection.outlook.com ([40.107.8.82]:3586
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388398AbgEYC5M (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 24 May 2020 22:57:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=etjCwaAeWYD00RimT/oDk3DhK64/m0ZY0QGAXY7SAw+j5g3epIo1hi7qOlQygF4qngiElfcJINN+obQ3tew2TEZb8seKWNxbMwR0vaIRGHL8Uj72vdn9c/3PRgiBHIXe1g5udT8l2dpUhUSTPzkl1zQeN/B6s16Az5muagB4Vp2eglH78cQM21OeFi3e+uXFRpeihj5JPpGInplZ0vFWSHv9CEbThYS8IBLIs+Bx5KLUbapL8dFxW/j8In/6ryWz9spSWoijifU3Fdij+65VnzAYCFGYQNL0Fc9pmrHCvXqq0Kdk8X0Oh64RBuKIjNAOTKnMyvtdmL8QF1Wc+Wa5uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hkeMODVMeO6XSgC/syYB8ZZoiKQgWrvipFbH7hd8alA=;
+ b=Lpv++kv6GoO6p91v9sMJ5ZwxcLZeebJva7uqtNQgIe8pEplNV79+tyo0dakAyyxZ/X4aIbcEZ15Gj/Ws3oP4vysFcAZ/p8w8UnroZ0WX0MLrXrs8fmY9xw3R+XGtjq9HzjdZyYJxKB8QgGhUesewv1dyICG0LRBB/zFZsE2478dBJPb6+1e9hL+TDL+x5S+leswPv7uZFEUWhcnS4rhzczIhs5H566xiY33sc9fPXdyCwCcBR7+rmncu/nqpC9hQ4EuzpMg3xGIsEv/LQkbSjGY4BxvbVXLbgk4VhokQdZDgDeaXpHl+KBpkaCtGGqV7sQ97yREyhBCmJ1zEq9BujA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hkeMODVMeO6XSgC/syYB8ZZoiKQgWrvipFbH7hd8alA=;
+ b=XmOD9nEuzGECdaoNAanXr1horZuC3RQzbhH7YtpT08ooGgyKWtisLoziFgjZxhuQT0Gvs4LOos39YFbiJAnCfdtGqO44mrR/b68pnX2yFSAPmOCwSK0/m9Q4OQTNcqv7s3IhKZTUo885ER6kpU6qVLcnQlfmiOY8pqdzcbMKJRw=
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM7PR04MB7128.eurprd04.prod.outlook.com (2603:10a6:20b:11c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Mon, 25 May
+ 2020 02:57:07 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3021.029; Mon, 25 May 2020
+ 02:57:07 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Jun Li <jun.li@nxp.com>
+CC:     "balbi@kernel.org" <balbi@kernel.org>,
+        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "pawell@cadence.com" <pawell@cadence.com>,
+        "rogerq@ti.com" <rogerq@ti.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 2/9] usb: cdns3: add runtime PM support
+Thread-Topic: [PATCH v2 2/9] usb: cdns3: add runtime PM support
+Thread-Index: AQHWMVkYPq6RZ5FAi0i84/sZydlQQqi2vdSAgAFf8IA=
+Date:   Mon, 25 May 2020 02:57:07 +0000
+Message-ID: <20200525025731.GA16948@b29397-desktop>
+References: <20200523232304.23976-1-peter.chen@nxp.com>
+ <20200523232304.23976-3-peter.chen@nxp.com>
+ <VE1PR04MB652836D56801C440F3E3928689B20@VE1PR04MB6528.eurprd04.prod.outlook.com>
+In-Reply-To: <VE1PR04MB652836D56801C440F3E3928689B20@VE1PR04MB6528.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nxp.com; dkim=none (message not signed)
+ header.d=none;nxp.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 86f8ee22-020a-4980-ef29-08d800574fef
+x-ms-traffictypediagnostic: AM7PR04MB7128:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM7PR04MB712844EF5E883FB1D19EB71E8BB30@AM7PR04MB7128.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0414DF926F
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Jxktg+bh/63Avd4CREacVdntT+PfwL+nQBK//DB6uq1sJmYQ6QhVyTwAHz3S/99zkjBifM9LT9kxEtN6L/Ey3ecRb1JvZcqp4V5/6RBaXjAnrs2PYww+DLootf+wa/1dpF4x3s9hnb3370UP8pzpHkOPIukb28Hir3PjK7WXo3gBtsBqT1r1ocW6khuABmVv7wZ5LgrF0crNxeomzyzR7t8ZA6bVepGKqhtHH0OetlnBog7KSRFy4njSIdcFr/HkD1KmwKaRxXAoqXN++vEPf6/8fb9wIXrj70b22RixZE0l5XLtRDogtQJZ/ThIScUiTrGzVmuwtzx02g3hDtbTwg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(7916004)(136003)(376002)(366004)(346002)(39860400002)(396003)(6862004)(26005)(4326008)(316002)(6506007)(53546011)(6512007)(9686003)(186003)(8936002)(86362001)(66446008)(64756008)(66476007)(66556008)(76116006)(66946007)(8676002)(1076003)(5660300002)(44832011)(54906003)(71200400001)(6486002)(6636002)(33656002)(2906002)(91956017)(33716001)(478600001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: oLUIfbsYLyr/Ptbk7J1reXbTbS1UFILZsb6Jf0kDNBQSl4UsdJAU1w6OQ9Je40+uTyNN/qkAqKqC2n2j4us4mlPMwnKAY+k23O0Dzweq7QvdjJl+LndDNY+gWkF5YcNYxN86mo2odEWO7oC8ykR6IqX5gALwIBawxhfOc+3DrGBA5ltbp/yAxraocpllC5AlsZ++19QrMpg3n2ZFwajuPACq/VM8IaxvJKsTCtC7iVuouyUZSEOFYK98KjsL0ro58GlITwx1EsZoKF5bAl90KTXxcZmzESAADQ5dN8ZwzXbttOGYNXRS3t8ZzyfnaO5xiXTem0EBg1al8clX/GKaL9ccSzeJZK4xnvziJl9DPFgaQFM08u70/ivr0sLggEoZNuTJfbXfwhVIoWF+K/b4/g2Br1BoDKL105GG3y1bPgr7HdkW2peoguVu/KrLCK5rXTwPxY0LgbiBtkJhoqArwQDURJfxBOA376ByvwpuF9s=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <5C07F1E17B62964CBA82E0505E732FDD@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86f8ee22-020a-4980-ef29-08d800574fef
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 May 2020 02:57:07.5158
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z634HHxUMtHDG32EC1f/b45numvVArkSEaHRzih8LAUuEjqK9xd7T9z1nvfsPy5KtYUUEt6GQ52exF2K9wTE1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7128
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit 17539f2f4f0b ("usb: musb: fix enumeration after resume") replaced
-musb_start() in musb_resume() to not override softconnect bit, but it
-doesn't restart the session for host port which was done in musb_start().
-The session could be disabled in musb_suspend(), which leads the host
-port doesn't stay in host mode.
+On 20-05-24 05:57:53, Jun Li wrote:
+> >=20
+> > -#ifdef CONFIG_PM_SLEEP
+> > +#ifdef CONFIG_PM
+>=20
+> __maybe_unused
 
-So let's start the session specifically for host port in musb_resume().
+Since there are several functions will be used in PM routine,
+it needs to add '__maybe_unused' for every functions, So, I choose
+to use MACRO directly.
 
-Fixes: 17539f2f4f0b ("usb: musb: fix enumeration after resume")
+>=20
+> >=20
+> > -static int cdns3_suspend(struct device *dev)
+> > +static int cdns3_set_platform_suspend(struct device *dev,
+> > +		bool suspend, bool wakeup)
+> > +{
+> > +	struct cdns3 *cdns =3D dev_get_drvdata(dev);
+> > +	int ret =3D 0;
+> > +	unsigned long flags;
+> > +
+> > +	spin_lock_irqsave(&cdns->lock, flags);
+> > +	if (cdns->pdata && cdns->pdata->platform_suspend)
+> > +		ret =3D cdns->pdata->platform_suspend(dev, suspend, wakeup);
+> > +
+> > +	spin_unlock_irqrestore(&cdns->lock, flags);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int cdns3_controller_suspend(struct device *dev, pm_message_t
+> > +msg)
+> >  {
+> >  	struct cdns3 *cdns =3D dev_get_drvdata(dev);
+> > +	bool wakeup;
+> >  	unsigned long flags;
+> >=20
+> > -	if (cdns->role =3D=3D USB_ROLE_HOST)
+> > +	if (cdns->in_lpm)
+> >  		return 0;
+> >=20
+> > -	if (pm_runtime_status_suspended(dev))
+> > -		pm_runtime_resume(dev);
+> > +	if (PMSG_IS_AUTO(msg))
+> > +		wakeup =3D true;
+> > +	else
+> > +		wakeup =3D false;
+>=20
+> wakeup =3D device_may_wakeup(dev)?
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Bin Liu <b-liu@ti.com>
----
- drivers/usb/musb/musb_core.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+No, it is for wakeup indicator for both runtime and system. At runtime,
+the USB wakeup needs to be enabled all time, not depends on
+/sys/.../power/wakeup.
 
-diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-index d590110539ab..48178aeccf5b 100644
---- a/drivers/usb/musb/musb_core.c
-+++ b/drivers/usb/musb/musb_core.c
-@@ -2877,6 +2877,13 @@ static int musb_resume(struct device *dev)
- 	musb_enable_interrupts(musb);
- 	musb_platform_enable(musb);
- 
-+	/* session might be disabled in suspend */
-+	if (musb->port_mode == MUSB_HOST &&
-+	    !(musb->ops->quirks & MUSB_PRESERVE_SESSION)) {
-+		devctl |= MUSB_DEVCTL_SESSION;
-+		musb_writeb(musb->mregs, MUSB_DEVCTL, devctl);
-+	}
-+
- 	spin_lock_irqsave(&musb->lock, flags);
- 	error = musb_run_resume_work(musb);
- 	if (error)
--- 
-2.17.1
+>=20
+> >=20
+> > -	if (cdns->roles[cdns->role]->suspend) {
+> > -		spin_lock_irqsave(&cdns->gadget_dev->lock, flags);
+> > -		cdns->roles[cdns->role]->suspend(cdns, false);
+> > -		spin_unlock_irqrestore(&cdns->gadget_dev->lock, flags);
+> > -	}
+> > +	cdns3_set_platform_suspend(cdns->dev, true, wakeup);
+> > +	cdns3_set_phy_power(cdns, false);
+> > +	spin_lock_irqsave(&cdns->lock, flags);
+> > +	cdns->in_lpm =3D true;
+> > +	spin_unlock_irqrestore(&cdns->lock, flags);
+> >=20
+> >  	return 0;
+> >  }
+> >=20
+> > -static int cdns3_resume(struct device *dev)
+> > +static int cdns3_controller_resume(struct device *dev, pm_message_t
+> > +msg)
+> >  {
+> >  	struct cdns3 *cdns =3D dev_get_drvdata(dev);
+> > +	int ret;
+> >  	unsigned long flags;
+> >=20
+> > -	if (cdns->role =3D=3D USB_ROLE_HOST)
+> > +	if (!cdns->in_lpm)
+> >  		return 0;
+> >=20
+> > -	if (cdns->roles[cdns->role]->resume) {
+> > -		spin_lock_irqsave(&cdns->gadget_dev->lock, flags);
+> > +	ret =3D cdns3_set_phy_power(cdns, true);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	cdns3_set_platform_suspend(cdns->dev, false, false);
+> > +
+> > +	spin_lock_irqsave(&cdns->lock, flags);
+> > +	if (cdns->roles[cdns->role]->resume && !PMSG_IS_AUTO(msg))
+> >  		cdns->roles[cdns->role]->resume(cdns, false);
+> > -		spin_unlock_irqrestore(&cdns->gadget_dev->lock, flags);
+> > +
+> > +	cdns->in_lpm =3D false;
+> > +	spin_unlock_irqrestore(&cdns->lock, flags);
+> > +	if (cdns->wakeup_int) {
+> > +		cdns->wakeup_int =3D false;
+> > +		if (cdns->role =3D=3D USB_ROLE_HOST) {
+> > +			/* Trigger xhci-plat.c runtime runtime */
+> > +			pm_runtime_get(&cdns->host_dev->dev);
+> > +			pm_runtime_mark_last_busy(&cdns->host_dev->dev);
+> > +			pm_runtime_put_autosuspend(&cdns->host_dev->dev);
+> > +			/* balence the pm_runtime_get at cdns3_drd_irq */
+>=20
+> %s/balence/balance
 
+Ok
+
+>=20
+> > +			pm_runtime_mark_last_busy(cdns->dev);
+> > +			pm_runtime_put_autosuspend(cdns->dev);
+>=20
+> A simple
+> if (cdns->role =3D=3D USB_ROLE_HOST)
+>       pm_runtime_resume(&cdns->host_dev->dev);
+> in low power event handler can't work?
+
+I tried, the pm_runtime_resume is sync pm request, it will cause
+rpm_resume nested because the cdns->dev runtime_status is resuming
+(it is during the runtime resume stage).
+
+Using pm_request_resume could work since it is async pm, but below
+are still needed to balance pm_runtime_get at wakeup interrupt handler.
+
++			pm_runtime_mark_last_busy(cdns->dev);
++			pm_runtime_put_autosuspend(cdns->dev);
+
+>=20
+> > +		}
+> > +
+> > +		enable_irq(cdns->otg_irq);
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int cdns3_runtime_suspend(struct device *dev) {
+> > +	return cdns3_controller_suspend(dev, PMSG_AUTO_SUSPEND); }
+> > +
+> > +static int cdns3_runtime_resume(struct device *dev) {
+> > +	return cdns3_controller_resume(dev, PMSG_AUTO_RESUME); } #ifdef
+> > +CONFIG_PM_SLEEP
+> > +
+> > +static int cdns3_suspend(struct device *dev) {
+> > +	struct cdns3 *cdns =3D dev_get_drvdata(dev);
+> > +	unsigned long flags;
+> > +
+> > +	if (pm_runtime_status_suspended(dev))
+> > +		pm_runtime_resume(dev);
+> > +
+> > +	if (cdns->roles[cdns->role]->suspend) {
+> > +		spin_lock_irqsave(&cdns->lock, flags);
+> > +		cdns->roles[cdns->role]->suspend(cdns, false);
+>=20
+> Seems this hasn't been used, I did not find the implementation.
+> this role->suspend() is only to be used in system suspend but not in runt=
+ime suspend?
+
+I don't change it in this series, it is used for system PM.
+
+> >  int cdns3_hw_role_switch(struct cdns3 *cdns); diff --git
+> > a/drivers/usb/cdns3/drd.c b/drivers/usb/cdns3/drd.c index
+> > 58089841ed52..292ea248c0ec 100644
+> > --- a/drivers/usb/cdns3/drd.c
+> > +++ b/drivers/usb/cdns3/drd.c
+> > @@ -278,6 +278,13 @@ static irqreturn_t cdns3_drd_irq(int irq, void *da=
+ta)
+> >  	struct cdns3 *cdns =3D data;
+> >  	u32 reg;
+> >=20
+> > +	if (cdns->in_lpm) {
+> > +		disable_irq_nosync(irq);
+> > +		cdns->wakeup_int =3D true;
+> > +		pm_runtime_get(cdns->dev);
+> > +		return IRQ_HANDLED;
+> > +	}
+>=20
+> All low power events go through otg irq?
+
+drd.c is built into core, so no matter, peripheral(host)-only or=20
+drd configuration, this drd interrupt handler are all called firstly.
+
+One thing needs to change at next revision is I only consider
+the interrupt number are the same for all three modules
+(peripheral/host/otg), I will cover the different interrupt
+number use case.
+
+Peter
+
+--=20
+
+Thanks,
+Peter Chen=
