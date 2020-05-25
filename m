@@ -6,40 +6,40 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D04BBC433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 18:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1025C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 18:26:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF9BD20776
-	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 18:26:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAB9820776
+	for <linux-usb@archiver.kernel.org>; Mon, 25 May 2020 18:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389526AbgEYS0X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 May 2020 14:26:23 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:46901 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389339AbgEYS0U (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 May 2020 14:26:20 -0400
-Received: by mail-ed1-f67.google.com with SMTP id f13so15097900edr.13;
-        Mon, 25 May 2020 11:26:17 -0700 (PDT)
+        id S2389787AbgEYS02 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 May 2020 14:26:28 -0400
+Received: from mail-ej1-f67.google.com ([209.85.218.67]:37256 "EHLO
+        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389424AbgEYS0Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 May 2020 14:26:24 -0400
+Received: by mail-ej1-f67.google.com with SMTP id l21so21340550eji.4;
+        Mon, 25 May 2020 11:26:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Vks0hIgL1NwjWUU2xJ9iHtmVGdxZKzV+xbSUPqXCfwA=;
-        b=LEo9fgX+z93XCPxtZSv4U/aKOUbDnDTtBoqZfzlugxY222bvkXsGvTqSoRX1/97aI+
-         dTMjuLSZv1dtVyedOqLsI8JydUy0tq14TPWw01aN4PfNRcc2tJOOZtJLJtAVjTmSrNTY
-         tAkbQvRgUAwB6yYjkqNhn/aEUleNcyyW2TTRqvBmqPm7Q7iErv4Io9VFKeffDBRMhacA
-         66iLNA/HExgrkbhbd4v6z+vUkgysEuNzZcpmgjCmbaMq5XgIwWvL5BUjm6t8qOZQ12hs
-         bQgGKDPe0uQRAlDYksyHLFSIfnTcr3VopYpXHOv6ctKqm32S/fgs7kY3WuNmSThQsfG4
-         hdcQ==
-X-Gm-Message-State: AOAM532GazrAOglUcU6mnKLV+GUU7POZv8HIPvPlf2sa8yKKomJUSs0i
-        xGWM9g4OdxFaZAiQMqib78E=
-X-Google-Smtp-Source: ABdhPJxpk17hj32HQlVxuKMrJl9fav78GF8tiYkjJ3OmXfQxm5boXKtzfcrmijAtVvsY76ZoDX8sKQ==
-X-Received: by 2002:aa7:c3cb:: with SMTP id l11mr15735650edr.364.1590431177072;
-        Mon, 25 May 2020 11:26:17 -0700 (PDT)
+        bh=zNLfwJcteMTXr7l2k3f76K9ak6QhgvPhJMdyVWXtook=;
+        b=S2upfNGqFWbRgK7c41NmdMByKGk4hqVDyMU9Qa+RACz2GQ1itC1GNbhBGRQ8o/5R/H
+         bzzeu4DxSD5MY+hrMhR3QsAvKPdA65bK8BcLG830DnetEQErjDpA+SgBHr4w23LucSe8
+         /s0SKw3buAirKCEUjLjXVNA5WV5TlGMliMTpiyTdU2msD6YuaFSYEV61G2CvQLSzKIVP
+         m2Uhemk/HRBhxVwDCCEZ2SB6Z2DeBqp3N9iCcPYN/MI+psXLOxoUZjkKbDXXVWxMYlDe
+         47UHwFLs+ikmsxh7RfFnTmmIdI08QpkHiXgXD2+B2jPRCu/f0F6UWHCZXaEBij1OSlG1
+         KLJQ==
+X-Gm-Message-State: AOAM532EtWLTmnD29SMRf473doTEiqHIDde/WD1ohkL5VNqo2U1Y/Phg
+        +Ye9Fy/SvOwFHEJW0AYWU1I=
+X-Google-Smtp-Source: ABdhPJxHXwXAwSKGbmYve3v9WBtP/87qC9xOP1l2MkD3w7uNppn5ljU8phz0KQh9kDPYuSYY7QZQjA==
+X-Received: by 2002:a17:906:e112:: with SMTP id gj18mr10286586ejb.352.1590431180269;
+        Mon, 25 May 2020 11:26:20 -0700 (PDT)
 Received: from workstation.lan ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id n15sm15555707ejs.10.2020.05.25.11.26.15
+        by smtp.gmail.com with ESMTPSA id n15sm15555707ejs.10.2020.05.25.11.26.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 11:26:16 -0700 (PDT)
+        Mon, 25 May 2020 11:26:19 -0700 (PDT)
 From:   =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
 To:     Dan Carpenter <dan.carpenter@oracle.com>
 Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
@@ -63,9 +63,9 @@ Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-pm@vger.kernel.org, linux-s390@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 4/8] scsi: pm: Use the new device_to_pm() helper to access struct dev_pm_ops
-Date:   Mon, 25 May 2020 18:26:04 +0000
-Message-Id: <20200525182608.1823735-5-kw@linux.com>
+Subject: [PATCH 6/8] PCI/PM: Use the new device_to_pm() helper to access struct dev_pm_ops
+Date:   Mon, 25 May 2020 18:26:06 +0000
+Message-Id: <20200525182608.1823735-7-kw@linux.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200525182608.1823735-1-kw@linux.com>
 References: <20200525182608.1823735-1-kw@linux.com>
@@ -84,49 +84,157 @@ No functional change intended.
 
 Signed-off-by: Krzysztof Wilczyński <kw@linux.com>
 ---
- drivers/scsi/scsi_pm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/pci/pci-driver.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/scsi/scsi_pm.c b/drivers/scsi/scsi_pm.c
-index 5f0ad8b32e3a..8f40b60d3383 100644
---- a/drivers/scsi/scsi_pm.c
-+++ b/drivers/scsi/scsi_pm.c
-@@ -53,7 +53,7 @@ static int do_scsi_restore(struct device *dev, const struct dev_pm_ops *pm)
- static int scsi_dev_type_suspend(struct device *dev,
- 		int (*cb)(struct device *, const struct dev_pm_ops *))
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 0454ca0e4e3f..bb52bb6642a0 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -652,7 +652,7 @@ static bool pci_has_legacy_pm_support(struct pci_dev *pci_dev)
+ static int pci_pm_prepare(struct device *dev)
  {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
 -	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 +	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
- 	int err;
  
- 	/* flush pending in-flight resume operations, suspend is synchronous */
-@@ -72,7 +72,7 @@ static int scsi_dev_type_suspend(struct device *dev,
- static int scsi_dev_type_resume(struct device *dev,
- 		int (*cb)(struct device *, const struct dev_pm_ops *))
+ 	if (pm && pm->prepare) {
+ 		int error = pm->prepare(dev);
+@@ -721,7 +721,7 @@ static void pcie_pme_root_status_cleanup(struct pci_dev *pci_dev)
+ static int pci_pm_suspend(struct device *dev)
  {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
 -	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 +	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
- 	int err = 0;
  
- 	err = cb(dev, pm);
-@@ -232,7 +232,7 @@ static int scsi_bus_restore(struct device *dev)
+ 	pci_dev->skip_bus_pm = false;
  
- static int sdev_runtime_suspend(struct device *dev)
+@@ -787,7 +787,7 @@ static int pci_pm_suspend_late(struct device *dev)
+ static int pci_pm_suspend_noirq(struct device *dev)
  {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
 -	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 +	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
- 	struct scsi_device *sdev = to_scsi_device(dev);
- 	int err = 0;
  
-@@ -262,7 +262,7 @@ static int scsi_runtime_suspend(struct device *dev)
- static int sdev_runtime_resume(struct device *dev)
+ 	if (dev_pm_smart_suspend_and_suspended(dev)) {
+ 		dev->power.may_skip_resume = true;
+@@ -889,7 +889,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
+ static int pci_pm_resume_noirq(struct device *dev)
  {
- 	struct scsi_device *sdev = to_scsi_device(dev);
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
 -	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 +	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
- 	int err = 0;
+ 	pci_power_t prev_state = pci_dev->current_state;
+ 	bool skip_bus_pm = pci_dev->skip_bus_pm;
  
- 	blk_pre_runtime_resume(sdev->request_queue);
+@@ -931,7 +931,7 @@ static int pci_pm_resume_noirq(struct device *dev)
+ static int pci_pm_resume(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	/*
+ 	 * This is necessary for the suspend error path in which resume is
+@@ -976,7 +976,7 @@ struct dev_pm_ops __weak pcibios_pm_ops;
+ static int pci_pm_freeze(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	if (pci_has_legacy_pm_support(pci_dev))
+ 		return pci_legacy_suspend(dev, PMSG_FREEZE);
+@@ -1012,7 +1012,7 @@ static int pci_pm_freeze(struct device *dev)
+ static int pci_pm_freeze_noirq(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	if (pci_has_legacy_pm_support(pci_dev))
+ 		return pci_legacy_suspend_late(dev, PMSG_FREEZE);
+@@ -1040,7 +1040,7 @@ static int pci_pm_freeze_noirq(struct device *dev)
+ static int pci_pm_thaw_noirq(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 	int error;
+ 
+ 	if (pcibios_pm_ops.thaw_noirq) {
+@@ -1073,7 +1073,7 @@ static int pci_pm_thaw_noirq(struct device *dev)
+ static int pci_pm_thaw(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 	int error = 0;
+ 
+ 	if (pci_has_legacy_pm_support(pci_dev))
+@@ -1094,7 +1094,7 @@ static int pci_pm_thaw(struct device *dev)
+ static int pci_pm_poweroff(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	if (pci_has_legacy_pm_support(pci_dev))
+ 		return pci_legacy_suspend(dev, PMSG_HIBERNATE);
+@@ -1138,7 +1138,7 @@ static int pci_pm_poweroff_late(struct device *dev)
+ static int pci_pm_poweroff_noirq(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	if (dev_pm_smart_suspend_and_suspended(dev))
+ 		return 0;
+@@ -1181,7 +1181,7 @@ static int pci_pm_poweroff_noirq(struct device *dev)
+ static int pci_pm_restore_noirq(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 	int error;
+ 
+ 	if (pcibios_pm_ops.restore_noirq) {
+@@ -1205,7 +1205,7 @@ static int pci_pm_restore_noirq(struct device *dev)
+ static int pci_pm_restore(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	/*
+ 	 * This is necessary for the hibernation error path in which restore is
+@@ -1248,7 +1248,7 @@ static int pci_pm_restore(struct device *dev)
+ static int pci_pm_runtime_suspend(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 	pci_power_t prev = pci_dev->current_state;
+ 	int error;
+ 
+@@ -1303,7 +1303,7 @@ static int pci_pm_runtime_suspend(struct device *dev)
+ static int pci_pm_runtime_resume(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 	pci_power_t prev_state = pci_dev->current_state;
+ 	int error = 0;
+ 
+@@ -1334,7 +1334,7 @@ static int pci_pm_runtime_resume(struct device *dev)
+ static int pci_pm_runtime_idle(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+-	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	const struct dev_pm_ops *pm = driver_to_pm(dev->driver);
+ 
+ 	/*
+ 	 * If pci_dev->driver is not set (unbound), the device should
 -- 
 2.26.2
 
