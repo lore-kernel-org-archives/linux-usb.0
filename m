@@ -2,107 +2,95 @@ Return-Path: <SRS0=xrMi=7I=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A539CC433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 May 2020 20:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C16AC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 26 May 2020 20:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80D252065F
-	for <linux-usb@archiver.kernel.org>; Tue, 26 May 2020 20:30:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FA072065F
+	for <linux-usb@archiver.kernel.org>; Tue, 26 May 2020 20:32:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="DvdWnLIS"
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="IljquMpm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391244AbgEZUaQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 May 2020 16:30:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46446 "EHLO
+        id S2391307AbgEZUca (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 May 2020 16:32:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389853AbgEZUaJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 May 2020 16:30:09 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A6BBC03E96D;
-        Tue, 26 May 2020 13:30:09 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id b91so18798082edf.3;
-        Tue, 26 May 2020 13:30:09 -0700 (PDT)
+        with ESMTP id S2389096AbgEZUca (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 May 2020 16:32:30 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C81C061A0F;
+        Tue, 26 May 2020 13:32:29 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id l21so25288070eji.4;
+        Tue, 26 May 2020 13:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qJGAhXW9kaqHmdjOkBKCCdqPZdpTsmEr75Eb52L7QxM=;
-        b=DvdWnLISXQXckcKGz5k9iHMnMLw7t+1Bf5ROTwcPt0G7qtxsWYK0OLFt/tU4vxx5HS
-         p9EtwrWaJYBdUO6wX0O+ud7L5aW0BxMpMbjSSzaTcR42410tsoOJDstMiRFCexUxy7ub
-         4sEe/Q5IELF9Hj3JKo85j6fTjE2mt+OINcfHZ7ALe+tA9B/K0rb7zr6tvZpj18bOe0VK
-         bih/T7ZuWH3bpXLMP93jHxz/4p0S4r6KYn+iYt2V/QgkJrHgdLNqHkgYlbvMl7UBO6DW
-         Uo3H+PhKLoc4hnnghNVyaGDunmyCoqxaFV+7xL9yD+zzN7TIBT/ErUdSC0OjLzed6nYp
-         Le3A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=frTCyEJytMIpMzPgqZ3lqF+pkdQxw1WSjI5Ry5UFq5I=;
+        b=IljquMpmJNsQqTFtQAguaOxhoTCWTpYRniOr8MuJ3DoqbydFogfDP9VW+W87BQstsR
+         OPBayw0RFE6iKQ/hTP4hyGHOywAU0FnWt++TBwFlvjadyrBZgNlYAOIQFxvplj6b6mtl
+         wpORcH+FUq038v382wEk3G+YK2w/TABXGVqSFUVIeo5feLNG8RnB2QVgBDN1NK/V3Del
+         2qzVbosAlK0HzoQzjA3jpz0z8VPpDWTJc2vKlNc8inJEwiIYHG4shAR1cFhgZHO2ge5a
+         jtKi8rQN/9bUgKv+cz4lgfEl2nw/Ie6fq+1Gl6NyoQhEzmlrZ8rPb2rgw5+guPULhKqe
+         fe3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qJGAhXW9kaqHmdjOkBKCCdqPZdpTsmEr75Eb52L7QxM=;
-        b=g2MRwGY7lICjxo5i4wY67HuUMfE59bBgoluVZV66hzn/Xf2LeMhtTi91zbRWu7iC2k
-         KjMoJST/5VKHRSkc+D/Gi66LMeDwV7m42L2757SRxO3X7XTjdA5M0L+E7lvL8UZEn6Ke
-         aqFbebIRylUiIq7goZEfHAJNE/WHrpbBY+7AiIs09xcesRKn6zpfakrRHpWQ6/6vxbcS
-         LsgA6Gkq3mf3wn+DuRkXK7icT8Z7l03gg1WGU4tIS5sz2LAcS1kG5BbTkNLE8SSn+dPe
-         blS5jnEYrV7MsFu3YLG2UqkO1pSt+qCoZlTjK7u+VZsSp4OESQCxBkM7K80H0Vv/k+zz
-         uTtg==
-X-Gm-Message-State: AOAM532ccLxu58N45L3PY9Bx4VchY0/MMkGz7YVIq1a4dK7V5WaTcei2
-        2b1AyEOP9TBN1iQevVc5Qy0=
-X-Google-Smtp-Source: ABdhPJy0Ce3NFppUwfK2zdiMLWn+r3b9wC6i+sHOfqsQ0eHIH0E7/7C4q8MKdRlIaLKasDmDQnql+w==
-X-Received: by 2002:a05:6402:8c1:: with SMTP id d1mr21864323edz.265.1590525008143;
-        Tue, 26 May 2020 13:30:08 -0700 (PDT)
-Received: from localhost.localdomain (p200300f137189200428d5cfffeb99db8.dip0.t-ipconnect.de. [2003:f1:3718:9200:428d:5cff:feb9:9db8])
-        by smtp.googlemail.com with ESMTPSA id ce16sm735517ejb.76.2020.05.26.13.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 13:30:07 -0700 (PDT)
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        narmstrong@baylibre.com
-Cc:     hanjie.lin@amlogic.com, yue.wang@amlogic.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [PATCH for-5.8 1/2] usb: dwc3: meson-g12a: fix error path when fetching the reset line fails
-Date:   Tue, 26 May 2020 22:29:42 +0200
-Message-Id: <20200526202943.715220-2-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200526202943.715220-1-martin.blumenstingl@googlemail.com>
-References: <20200526202943.715220-1-martin.blumenstingl@googlemail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=frTCyEJytMIpMzPgqZ3lqF+pkdQxw1WSjI5Ry5UFq5I=;
+        b=k6wZ82HLyvOrO2yhX/8TmIXs4yMf8r9O+qXF40okm1Vu2zeXpJowZ5aXFS3o3K2GTh
+         y/Vuv0wo2P9mBycbnw5wTHTDXCH/UNtQbjiw3nEBK2YkTStoXursOnjfAN69CNbJemrN
+         5W+btoMXXwjd5xqIjc5ghLW8ui0/zQRuP7v0U06Hy9QwZA9QQrFmIV90bM45D6rehXuW
+         G/fZSDe0mss5onzfse1l9bIezF4W9DWtEGaKkhI7KGew1+R40uQivXBIwCC+1/RTWBui
+         Rl1xEZ85yn0NWlDLOO6sE3sHzv+GoANdmULIwJP43qtx59Esa05ZZhYpizdPkO3UK6Oh
+         /uuA==
+X-Gm-Message-State: AOAM530btxd9disWGW5nC40f1ssgoitj/zepi2kcPIiTIuF9YOzbNx5y
+        inPgXEN0ta4YxFChdVgyGNVkLAAA/t5sJK6cHhw=
+X-Google-Smtp-Source: ABdhPJzFPlr2WGlGDBnhC7WsSJMXNzXAUl4NRIgZRMAQF7dmd4WuTEuCuUSuOKDlw1a8WDHUXwvb9/G+7EwF7/tuigY=
+X-Received: by 2002:a17:906:7e17:: with SMTP id e23mr2664267ejr.172.1590525148457;
+ Tue, 26 May 2020 13:32:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <5ec9617c.1c69fb81.b979a.bf47@mx.google.com> <ffe2c64c-62ed-9b59-3754-7ede0f0203be@collabora.com>
+In-Reply-To: <ffe2c64c-62ed-9b59-3754-7ede0f0203be@collabora.com>
+From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date:   Tue, 26 May 2020 22:32:17 +0200
+Message-ID: <CAFBinCC59r-LqSCkVpyjkEr_q+hLQLECDSSiAas+ZF+DoaiJLw@mail.gmail.com>
+Subject: Re: next/master bisection: baseline.login on meson-sm1-sei610
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-amlogic@lists.infradead.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-usb@vger.kernel.org, linux-next@vger.kernel.org,
+        kernelci-results@groups.io
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Disable and unprepare the clocks when devm_reset_control_get_shared()
-fails. This fixes the error path as this must disable the clocks which
-were previously enabled.
+On Mon, May 25, 2020 at 10:39 AM Guillaume Tucker
+<guillaume.tucker@collabora.com> wrote:
+>
+> Please see the bisection report below about a kernel Oops.
+>
+> Reports aren't automatically sent to the public while we're
+> trialing new bisection features on kernelci.org but this one
+> looks valid.
+this one is valid indeed and I have sent a fix for it (plus an
+unrelated fix): [0]
 
-Fixes: 1e355f21d3fb96 ("usb: dwc3: Add Amlogic A1 DWC3 glue")
-Cc: Yue Wang <yue.wang@amlogic.com>
-Cc: Hanjie Lin <hanjie.lin@amlogic.com>
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
- drivers/usb/dwc3/dwc3-meson-g12a.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Also thank you for listening to feedback from a while ago.
+This email reminded me to add the Reported-by tag :-)
 
-diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
-index bd744e82cad4..ce5388338389 100644
---- a/drivers/usb/dwc3/dwc3-meson-g12a.c
-+++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
-@@ -738,7 +738,7 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->reset)) {
- 		ret = PTR_ERR(priv->reset);
- 		dev_err(dev, "failed to get device reset, err=%d\n", ret);
--		return ret;
-+		goto err_disable_clks;
- 	}
- 
- 	ret = reset_control_reset(priv->reset);
--- 
-2.26.2
 
+Martin
+
+
+[0] https://patchwork.kernel.org/cover/11571203/
