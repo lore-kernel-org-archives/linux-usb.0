@@ -2,67 +2,78 @@ Return-Path: <SRS0=gdTw=7J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD64C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:18:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB5F1C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:41:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB8CA2088E
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590574704;
-	bh=tpWfArgC5M8fG6+LXN28JJdWpgfFpPdct50z7c3a42I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=YLeCxt5UwMlPJ2jkpkC6BTrI2juUqFM5hvNBjbQmWgk4m3Awlr+bDiJyHFKgY7fJb
-	 sVUDx3T6+BoEmHgLfxzQkO9xS01KKuZs3d3ogD89BJMCjRKWTONkgrGdUCVpMiubQV
-	 Q6C9ZOU6+O3acu59Z5G3V4oEYPDTRFt6jHEqyNo4=
+	by mail.kernel.org (Postfix) with ESMTP id 9CE5820888
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728336AbgE0KRD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 May 2020 06:17:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57084 "EHLO mail.kernel.org"
+        id S1729937AbgE0KlQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 May 2020 06:41:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51834 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726542AbgE0KRD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 27 May 2020 06:17:03 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7EA042088E;
-        Wed, 27 May 2020 10:17:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590574623;
-        bh=tpWfArgC5M8fG6+LXN28JJdWpgfFpPdct50z7c3a42I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pVx46B/5kqpTeKW1Q4WcSXNQ4rKXySxHOGacOZlxq2c3o+j8aWgG1lbUbsA7eNAI6
-         THgxvqnLTZiEAcIgYTyU5wZSRrR9kloTTksg+5QfiW/DIZ+T+Ea98X5be25zdzliSy
-         jnz8a9SSQjCVGqTfJRutS2rd4YHqkigRJakXNTx0=
-Date:   Wed, 27 May 2020 12:17:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v2 1/3] media: rc: add support for Infrared Toy and IR
- Droid devices
-Message-ID: <20200527101700.GD281913@kroah.com>
-References: <20200527094107.11936-1-sean@mess.org>
- <20200527094107.11936-2-sean@mess.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200527094107.11936-2-sean@mess.org>
+        id S1729828AbgE0KlO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 27 May 2020 06:41:14 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 80568AEEF;
+        Wed, 27 May 2020 10:41:16 +0000 (UTC)
+Message-ID: <1590576068.2838.56.camel@suse.com>
+Subject: Re: ttyACM: disabled by hub (EMI?), re-enabling... Causes garbage
+ chars & disconnect
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Date:   Wed, 27 May 2020 12:41:08 +0200
+In-Reply-To: <f4a809ba4ca132266e476ca1805e4ff9e5663f9f.camel@infinera.com>
+References: <6a4fe396ab5ae6cda548e904c57bc823103999d7.camel@infinera.com>
+         <1590418977.2838.16.camel@suse.com>
+         <b39259fc7f397b27f4af145eeafb33ec36638660.camel@infinera.com>
+         <a3f4a9bbde9efd2827b2a02c46f86c8ba7853bc6.camel@infinera.com>
+         <1590482853.2838.26.camel@suse.com>
+         <8cf71160e703a18b28d27a844406d42f6cadf39b.camel@infinera.com>
+         <1590488084.2838.34.camel@suse.com>
+         <42c92312c74e90e5507de4103bd15bbbe175f98d.camel@infinera.com>
+         <4c2bd25aa7f6672cb132487f7af6a787ffc1fab6.camel@infinera.com>
+         <1590568683.2838.42.camel@suse.com>
+         <f4a809ba4ca132266e476ca1805e4ff9e5663f9f.camel@infinera.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 27, 2020 at 10:41:05AM +0100, Sean Young wrote:
-> http://dangerousprototypes.com/docs/USB_Infrared_Toy
-> https://www.irdroid.com/irdroid-usb-ir-transceiver/
+Am Mittwoch, den 27.05.2020, 09:40 +0000 schrieb Joakim Tjernlund:
+> On Wed, 2020-05-27 at 10:38 +0200, Oliver Neukum wrote:
+> > CAUTION: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+> > 
+> > 
+> > Am Dienstag, den 26.05.2020, 17:19 +0000 schrieb Joakim Tjernlund:
+> > > 
+> > > This "u-boot SPL" is the first thing u-boot writes and somehow this is remembered, I assume, by cdc_acm
+> > > and gets echoed back when I open ttyACM0
+> > 
+> > Hi,
+> > 
+> > that makes sense, but it is not something that we could really
+> > change in CDC-ACM, I am afraid.
 > 
-> Signed-off-by: Sean Young <sean@mess.org>
+> Why not? CDC-ACM should echo back anything it has received before open of ttyACM
 
-Looks sane, nice job.
+Well, there is an inherent race condition with loading the module I am
+afraid. By default cdc-acm should actually echo. You can set the
+DISABLE_ECHO echo quirk for your device if you want to get rid of it.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Is CDC-ACM violating some standard with respect to echoing? Changing
+defaults really hurts users, no matter what you do.
+
+	Regards
+		Oliver
+
