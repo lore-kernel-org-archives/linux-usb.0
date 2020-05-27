@@ -2,168 +2,163 @@ Return-Path: <SRS0=gdTw=7J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B36C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 06:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B3DC433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 07:53:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 474DA20723
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 06:17:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3438820C56
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 07:53:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="jPyDG4c9";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="MnaGuWlQ"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="uP8qKtET"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727950AbgE0GRf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 May 2020 02:17:35 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:52360 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725267AbgE0GRf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 May 2020 02:17:35 -0400
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5402DC06EB;
-        Wed, 27 May 2020 06:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1590560254; bh=vVvggDnirpuSEilQHL279dq1W4myCwJuZzh3m7HliDc=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=jPyDG4c93CrIgAThRQhfn7mvUH/awD5T0qNWX/LxRS0Goxra5MTT0DWThlY2ylZrn
-         gMcPwt6Zq7ZONKwu4TF10FbEhSN7t2dd3QmTeJ1cvuXlg9NBdf2rlu2NTsUbqUuQZ0
-         DEJlHx9bRdg/iERQa1rd29KeLzJFNQdkxhc+gXYaPuN8ItJ99B+ovJArV8DWQCZrWE
-         isK28kXE9RMedIX9DSD+kvR/KSiguDMTXA/28K1vSnvULsv9l3v6yIBMccFk7+pAUA
-         98o+x/5yoNDwNjZmmf1vMz1Ij1gNyFPCYT9+exXhUpII/ni4Isn1MlkfKSNOw4AsiB
-         Qo+UCDm7cg5Xw==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 07F40A006C;
-        Wed, 27 May 2020 06:17:31 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 26 May 2020 23:17:30 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Tue, 26 May 2020 23:17:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JKCeN7BuGUcybcSURlHLRHC364TZjwiCtqei6JWleWDRXE/HhIwXbVwep7H3b97HaU1+n2+OJj9CHqJuuXX1qzCFLTXfy02VMAIbExfw+AWuo6uXu9ANjSXfnXxvPT08MZaisSmh7voavNga0PFp/P3M+6EQ4JeoJnXvKnk3E/p5KQ5KSERIhoJ7sjwxj6oKX2X8y9r0jyWsf9vK2fBNjJBLYDJMwJw/wdIKr0p0f4LTBVVdeU8QSa7HsnKfUaTY0fr1ss1mJ5WaB12iQYwr28XNbF6HvzCB8MTB5NQt++3d5tjCouP8iA5/5tp7AaY2XfuMDfrg2tXlVINw619KHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vVvggDnirpuSEilQHL279dq1W4myCwJuZzh3m7HliDc=;
- b=Flm3U0Qqtk6wthYKlTgVKRQqO6ELwYnbWOKmdH3wz/olTtY6FOKT8WzAq+gpo2OLPkPxSfqf5aaeqWC8DQedgGz6QycVJzHsfdD67aCzRK9TeOzQS2IOJij+DQ+fpAQHjZPn9cHiGfhVws/Brih85y8x905ab/0JqlkvqpYaRZgwVhB8dHApt+XhdQpl+baqnOHYUEhtSGs7EmsYtC14qIhK252tHpFIZR+xzbWf/zbn76E2Y1D4rhdUkqUgT6Ndk4yt7y4n+d0ydcAymlQOROEp+xgdbUHFOIH8i7isZvzgDm60/hKCvRiRLHOSkcjXLz47kZKG6an3RfGxKCqb4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vVvggDnirpuSEilQHL279dq1W4myCwJuZzh3m7HliDc=;
- b=MnaGuWlQ3bBabe/feegMe8Lmyptqpq2wmy3CT/Bf4NbqxjJgb9xexF+FXkr0oGWlxvkpJjIl56pi2+LHxhXO8NwfIMQzFj2T/e0/VpJJPacDmm0mz8Xm1cM3qGwISx1QkQUYb46RI5R3tRRLtX97xJydOLWoK4U06R734J8wrd8=
-Received: from DM5PR12MB2550.namprd12.prod.outlook.com (2603:10b6:4:b8::31) by
- DM5PR12MB1705.namprd12.prod.outlook.com (2603:10b6:3:10c::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.27; Wed, 27 May 2020 06:17:28 +0000
-Received: from DM5PR12MB2550.namprd12.prod.outlook.com
- ([fe80::c4df:b228:c1b7:75a5]) by DM5PR12MB2550.namprd12.prod.outlook.com
- ([fe80::c4df:b228:c1b7:75a5%7]) with mapi id 15.20.3045.018; Wed, 27 May 2020
- 06:17:28 +0000
-X-SNPS-Relay: synopsys.com
-From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-To:     Marek Vasut <marex@denx.de>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-CC:     Amelie Delaunay <amelie.delaunay@st.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
-Thread-Topic: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
-Thread-Index: AQHWEaBFUZHLydAVY0yALpZJ1gABx6h3ITiAgAACTgCAAAlrgIAAGd8AgADukoCAAFTigIABVJ4AgABprwCAAAQ1gIABN86AgABAc4CAAA8qAIABNeYAgATroYCAAz+MAIAACiqAgCGlkQCAAhBPAIASxG6A
-Date:   Wed, 27 May 2020 06:17:27 +0000
-Message-ID: <b9023085-0abb-b994-bb1c-e0b03e99e7ed@synopsys.com>
-References: <20200413143107.181669-1-marex@denx.de>
- <31b679d3-d3e4-0220-ec4b-58eada4d21d4@synopsys.com>
- <b20fb33d-7fdd-5785-8f72-74900eb4d328@denx.de>
- <9906c2da-8a20-eae7-d69e-6947085edf84@synopsys.com>
- <b64f41ac-2d70-55a3-ab6a-77383cd463eb@denx.de>
- <d1b36da4-b506-2f86-f5ad-95bf3aac4485@synopsys.com>
- <c35e95cf-7f72-4a49-a0e1-efc0701d613d@denx.de>
- <867a776d-1e2c-2207-4387-072d2a8423fb@synopsys.com>
- <a6d681c5-d5fa-51d8-a320-6f6e9844c93a@denx.de>
- <4b4478aa-85bd-c05c-b5d0-e11dc35eb623@synopsys.com>
- <6ea2270d-19a4-7e8b-42fb-37a4a9d81e1f@denx.de>
- <8fb53f3a-a02b-3c53-0d9d-22b707bda786@synopsys.com>
- <671f36e3-367e-bcdf-0da7-f7ad82cf6284@denx.de>
- <ebb175be-edc1-892f-4537-a7402fd4460e@synopsys.com>
- <bb4835f6-a6c7-61cf-d4f0-eddbb5d6dea9@denx.de>
- <8de7047f-4d49-349b-983a-31c4ab66562f@synopsys.com>
- <c59c58e6-648c-bcb3-cbd4-9e78f9021bb7@denx.de>
- <d67d69a6-651f-f214-5119-bbbd68b4c2d5@denx.de>
- <4bfffaf9-fffd-57bc-6d45-ba43c46cd136@synopsys.com>
-In-Reply-To: <4bfffaf9-fffd-57bc-6d45-ba43c46cd136@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-authentication-results: denx.de; dkim=none (message not signed)
- header.d=none;denx.de; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [198.182.37.200]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 242aa495-8a12-4faa-23ce-08d80205a180
-x-ms-traffictypediagnostic: DM5PR12MB1705:
-x-microsoft-antispam-prvs: <DM5PR12MB1705C031CBE3FCC3B496D3B4A7B10@DM5PR12MB1705.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 04163EF38A
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5LzqKUocdeSt/Wtn/tQXHQjo+5D/ZqEySzf14+9wwIftG0ps4ETvf/2QPkHQLLmzA2OdV0oCvZGsbFCEadqQfdu5TCIo7PHEcoLEYlKzUYrooXDvuzgWyJkV42NQR2jt8UKjajvApHjv4GPpfKqZ4xWZ41Z+FLFgxa3ybGc8unVz+hOkTuSTTjWbrp2AbtnHaly/3y3J8V18sQl0s6CHBLyXisGeoEcb6lNxYVgZUSo92Tv6odPyfkSmjr2OXYXnth1nrCp5pM/NJGVV5Li8Buc4Bnz6IMKENnsXduNKY+rLfO0A4CGZwt8IvrpM2y0jdwuUx1RDe7q79AYBJ2j8NYHMmoC3MtoZmyhtK3fDagNln80n3rMcqSIGR2qLM5FZ
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB2550.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39850400004)(346002)(396003)(136003)(376002)(366004)(91956017)(6512007)(36756003)(31686004)(66946007)(76116006)(186003)(8676002)(26005)(6486002)(83380400001)(5660300002)(71200400001)(316002)(478600001)(2616005)(4326008)(6506007)(31696002)(110136005)(53546011)(66476007)(86362001)(66446008)(2906002)(64756008)(66556008)(8936002)(54906003)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: aD65BjxdrzJwlcsVJaJbdoBvb15qHiQ1YwB7m6oyHztRCi7Oh67YXpz201XloydiR8zNYFU56Dc3tY9f7EhQzWebxf4G7SAl1jjU7jG6XuITbYgPfb+E+0RGT8mIehhSDwmo3V3/olbrXYahNeUWZ3MrGikYQbYTPfcIo1WLaMC4VUVpEQzuvmD4vgJzoA30QK5vvQ4mJUNnuHzlwT+s2oO+aX2mySTW4VTKNepOXU8oBmsTXJY/GOgS1j5EvGbnosbIC6tYTZ4lZqTvtH7urfsBw2Y55affLHWcnhAfKiLH1y9JONRTtb1hvx/vNMXooZp6G8APmgKrPQdT7PYyESJJyWkmtdpJWYwU/5Q1OkAdVbtLD6jPO9szBPHlMRkxs0T4KJIu+N8eO4u1D/00ApJUOIhfbPValET4vORrtYGFQb/Hs4fVzSuCYdbASDMFoR0DUec5+X6DrVTU7lTC/SAa4znPEhDX0bdWjI13t1l4Ankgg1yfa1Ea8O42mFxU
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <30AF01E43C373248B3A456DF810DFF5E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S2387696AbgE0Hxi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 May 2020 03:53:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387650AbgE0Hxi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 May 2020 03:53:38 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB70CC061A0F
+        for <linux-usb@vger.kernel.org>; Wed, 27 May 2020 00:53:37 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id y17so14610408wrn.11
+        for <linux-usb@vger.kernel.org>; Wed, 27 May 2020 00:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:autocrypt:organization:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0uXOIK76KSs40fnk/nPthqtyEhJ+m0Y/dYNUNGL8EzA=;
+        b=uP8qKtET22Dmlqb49Ul3D8lgyOk3haU2hVybPhJrVAT+QAKmCAEAJiW4D4nVp2oZTD
+         6WLECOGS8MI6Kwn2DGqMxOiNzWi2czeFM+i9AGQwj16db/QBtfsa9dpJzFACABMbcQ+b
+         zyYGLY2fFy5wwzqiyYUIASb+e50kPYF5QuG4yhw650XBCB/pij/D6NjL1C+bHe7SU1b6
+         S86iNSeSI8DgwNc6n5sCwvUrW4LCBbRJCq8khWPXTqhs8MXoew9yGdcwEl7jSyxA9pGf
+         wLzeMCJSyefqqDZbaxMJ9it+bKJt6pf9Z9ZJCjXQpQ++UOQPEuLgqhUaLve9dcfTRERm
+         XGvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=0uXOIK76KSs40fnk/nPthqtyEhJ+m0Y/dYNUNGL8EzA=;
+        b=Qhuz+SZX99Urspe32sxibf0FV15zEajGKPkyNBom1pqTTCYv0ozqb/Wj4cY6BAHWhE
+         oMESul4PH5LsdXwsP3gEAjqrqmkKSjPTeDPr19IWbzbf+9xNAIC9cWwbwW4jeMaGWju8
+         EkIhVVuXyeguc+yANEL0+KEI9Ls/PfvC2ET9hrEg1u7N4N93zp/g5hYuU7z5AVwM6RDR
+         vYKJZuh6+J9GHDQ8+VmOTAJJAMJ8dTVW03kiU+rLnylBNvo37QW6D+nmM/2h0YkHSsO9
+         Cdjwdk9line6sx4Ovl1ZCRd4d6Hzi9pszXtP/GowWTbhsjItEiZjhxbLDWl0u6J8qb6v
+         nwqQ==
+X-Gm-Message-State: AOAM533xOp2AZ8mras5oudeBdW11l0gnCtvtdjbAUcxhVt/Q2TMjjCTR
+        8E/wpIhKDw8IxfG1mZO8ZAzu3pysgg1WaQ==
+X-Google-Smtp-Source: ABdhPJxn28gk0kw3P6BCtiNPU+2IYx7W2LVb8NiQ4cjXVBUay1OBUQ0UwOCoSCQYZXQYFDKE+dooOg==
+X-Received: by 2002:a5d:4701:: with SMTP id y1mr78311wrq.310.1590566016324;
+        Wed, 27 May 2020 00:53:36 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b? ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
+        by smtp.gmail.com with ESMTPSA id w15sm1959515wmi.35.2020.05.27.00.53.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 May 2020 00:53:35 -0700 (PDT)
+Subject: Re: [PATCH for-5.8 1/2] usb: dwc3: meson-g12a: fix error path when
+ fetching the reset line fails
+To:     Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        balbi@kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org
+Cc:     hanjie.lin@amlogic.com, yue.wang@amlogic.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20200526202943.715220-1-martin.blumenstingl@googlemail.com>
+ <20200526202943.715220-2-martin.blumenstingl@googlemail.com>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <f4428633-4a7b-226d-d7df-0a43efb9d6ec@baylibre.com>
+Date:   Wed, 27 May 2020 09:53:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 242aa495-8a12-4faa-23ce-08d80205a180
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2020 06:17:27.9337
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PBpFBcGSdcjMAQRuykV2onOGdZrKu97Wlqe6rKS20Z8XNdbl6JmDGiP4OQKyMqfDLg4xyVGEBBeDTpHhiJFXuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1705
-X-OriginatorOrg: synopsys.com
+In-Reply-To: <20200526202943.715220-2-martin.blumenstingl@googlemail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgTWFyZWssDQoNCk9uIDUvMTUvMjAyMCAxMTo0MSBBTSwgTWluYXMgSGFydXR5dW55YW4gd3Jv
-dGU6DQo+IEhpIE1hcmVrLA0KDQpBbnkgdXBkYXRlIG9uIG9uIHRoaXMgcGF0Y2ggdGVzdGluZz8N
-Cg0KVGhhbmtzLA0KTWluYXMNCg0KPj4NCj4gQ291bGQgeW91IHBsZWFzZSB0ZXN0IHdpdGggdGhp
-cyBwYXRjaC4NCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jIGIv
-ZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYw0KPiBpbmRleCAxMmI5OGI0NjYyODcuLjdmYWY1Zjhj
-MDU2ZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYw0KPiArKysgYi9k
-cml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jDQo+IEBAIC00OTIwLDEyICs0OTIwLDYgQEAgaW50IGR3
-YzJfZ2FkZ2V0X2luaXQoc3RydWN0IGR3YzJfaHNvdGcgKmhzb3RnKQ0KPiAgICAJCQkJCSAgZXBu
-dW0sIDApOw0KPiAgICAJfQ0KPiANCj4gLQlyZXQgPSB1c2JfYWRkX2dhZGdldF91ZGMoZGV2LCAm
-aHNvdGctPmdhZGdldCk7DQo+IC0JaWYgKHJldCkgew0KPiAtCQlkd2MyX2hzb3RnX2VwX2ZyZWVf
-cmVxdWVzdCgmaHNvdGctPmVwc19vdXRbMF0tPmVwLA0KPiAtCQkJCQkgICBoc290Zy0+Y3RybF9y
-ZXEpOw0KPiAtCQlyZXR1cm4gcmV0Ow0KPiAtCX0NCj4gICAgCWR3YzJfaHNvdGdfZHVtcChoc290
-Zyk7DQo+IA0KPiAgICAJcmV0dXJuIDA7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2My
-L3BsYXRmb3JtLmMgYi9kcml2ZXJzL3VzYi9kd2MyL3BsYXRmb3JtLmMNCj4gaW5kZXggOGVhNGEy
-NDYzN2ZhLi42MDNiODVjZDhlZDMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzIvcGxh
-dGZvcm0uYw0KPiArKysgYi9kcml2ZXJzL3VzYi9kd2MyL3BsYXRmb3JtLmMNCj4gQEAgLTUzNyw2
-ICs1MzcsMTYgQEAgc3RhdGljIGludCBkd2MyX2RyaXZlcl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1f
-ZGV2aWNlDQo+ICpkZXYpDQo+ICAgIAlpZiAoaHNvdGctPmRyX21vZGUgPT0gVVNCX0RSX01PREVf
-UEVSSVBIRVJBTCkNCj4gICAgCQlkd2MyX2xvd2xldmVsX2h3X2Rpc2FibGUoaHNvdGcpOw0KPiAN
-Cj4gKwkvKiBQb3N0cG9uZWQgYWRkaW5nIGEgbmV3IGdhZGdldCB0byB0aGUgdWRjIGNsYXNzIGRy
-aXZlciBsaXN0ICovDQo+ICsJaWYgKGhzb3RnLT5nYWRnZXRfZW5hYmxlZCkgew0KPiArCQlyZXR2
-YWwgPSB1c2JfYWRkX2dhZGdldF91ZGMoaHNvdGctPmRldiwgJmhzb3RnLT5nYWRnZXQpOw0KPiAr
-CQlpZiAocmV0dmFsKSB7DQo+ICsJCQlkd2MyX2hzb3RnX3JlbW92ZShoc290Zyk7DQo+ICsJCQln
-b3RvIGVycm9yX2luaXQ7DQo+ICsJCX0NCj4gKw0KPiArCX0NCj4gKw0KPiAgICAJcmV0dXJuIDA7
-DQo+IA0KPiAgICBlcnJvcl9pbml0Og0KPiANCj4gDQo+IA0KPiBUaGFua3MsDQo+IE1pbmFzDQo+
-IA0K
+On 26/05/2020 22:29, Martin Blumenstingl wrote:
+> Disable and unprepare the clocks when devm_reset_control_get_shared()
+> fails. This fixes the error path as this must disable the clocks which
+> were previously enabled.
+> 
+> Fixes: 1e355f21d3fb96 ("usb: dwc3: Add Amlogic A1 DWC3 glue")
+> Cc: Yue Wang <yue.wang@amlogic.com>
+> Cc: Hanjie Lin <hanjie.lin@amlogic.com>
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> ---
+>  drivers/usb/dwc3/dwc3-meson-g12a.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
+> index bd744e82cad4..ce5388338389 100644
+> --- a/drivers/usb/dwc3/dwc3-meson-g12a.c
+> +++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
+> @@ -738,7 +738,7 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
+>  	if (IS_ERR(priv->reset)) {
+>  		ret = PTR_ERR(priv->reset);
+>  		dev_err(dev, "failed to get device reset, err=%d\n", ret);
+> -		return ret;
+> +		goto err_disable_clks;
+>  	}
+>  
+>  	ret = reset_control_reset(priv->reset);
+> 
+
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
