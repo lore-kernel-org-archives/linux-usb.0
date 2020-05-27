@@ -2,153 +2,84 @@ Return-Path: <SRS0=gdTw=7J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63DA6C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 13:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60668C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 14:25:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E273208C3
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 13:52:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JWglneK+"
+	by mail.kernel.org (Postfix) with ESMTP id 48C1E208C3
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 14:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388762AbgE0Nwg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 May 2020 09:52:36 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:43728 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388713AbgE0Nwg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 May 2020 09:52:36 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04RDputp191276;
-        Wed, 27 May 2020 13:52:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=lIdedtOlo7RE2YaX5ehqN9Flcew7LGOX0kOwTTifpIM=;
- b=JWglneK+g9plZQEA1syiMSUUJBUhspoMzX/x0kBSrt5jUHwLxmBcsBUHDaCYc1LqGXXN
- zo1RCSL3DbxpvvAtXsKdqpMQ3H7Vh0Q9eiQFvA7JZjH+ghIxCgN7ugYSKFoBDHY7mcVo
- W4NNuyCXULieGXUl4RUqvS1FBxGi5Gi59vdfEi7PzOri+1lzQZP5FM9LvxXDHODiya7O
- Vv4dLsBkiaNniZ3eQ5nhEiZ1vMbvLWvXwA3i2RM9DoWx2DGhRJNrPmn5+1dgRsNqpG5+
- IGtQS07DObZ7x6e5J6HzJuDsBPxSL3G757VhOvLrS+a/TWMtev30GeJfrP73DSXUMhtO fg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 316u8qyjev-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 27 May 2020 13:52:32 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04RDhaBs078550;
-        Wed, 27 May 2020 13:52:31 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 317j5rx34c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 May 2020 13:52:31 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04RDqUrp006904;
-        Wed, 27 May 2020 13:52:31 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 27 May 2020 06:52:30 -0700
-Date:   Wed, 27 May 2020 16:52:24 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Christian Gromm <christian.gromm@microchip.com>
-Cc:     gregkh@linuxfoundation.org, driverdev-devel@linuxdriverproject.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v4] drivers: most: add USB adapter driver
-Message-ID: <20200527135224.GC30374@kadam>
-References: <1590585268-25423-1-git-send-email-christian.gromm@microchip.com>
+        id S2389179AbgE0OZw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 May 2020 10:25:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:46657 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389165AbgE0OZv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 May 2020 10:25:51 -0400
+Received: from mail-qv1-f46.google.com ([209.85.219.46]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MI59b-1jpjMv1eZb-00F9rM; Wed, 27 May 2020 16:25:50 +0200
+Received: by mail-qv1-f46.google.com with SMTP id f89so11225959qva.3;
+        Wed, 27 May 2020 07:25:50 -0700 (PDT)
+X-Gm-Message-State: AOAM530J/ckRqqA+V6QbZ5aZ9lO5J2vW4CTdKt1ErPkbJivtgRc2Dljd
+        fJf4llLUCeE4D9RTvWWwzk7NfK4WVOoTsZQZo00=
+X-Google-Smtp-Source: ABdhPJwTzla3NmSa1mJK6JbiU0wve0aQ7njgHCnP8j6rCZASppCyhQtlSLcn6p/n68/fn2r6wcYO8Ty/YjpZHB8wRVo=
+X-Received: by 2002:ad4:58cb:: with SMTP id dh11mr23498548qvb.211.1590589549159;
+ Wed, 27 May 2020 07:25:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1590585268-25423-1-git-send-email-christian.gromm@microchip.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9633 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 adultscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005270104
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9633 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
- priorityscore=1501 spamscore=0 cotscore=-2147483648 suspectscore=0
- phishscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005270105
+References: <20200527134320.869042-1-arnd@arndb.de>
+In-Reply-To: <20200527134320.869042-1-arnd@arndb.de>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 27 May 2020 16:25:32 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1TrR3qkKgY78D0VybG3H1B6AauzTiZ0=jP57QM5MkjTw@mail.gmail.com>
+Message-ID: <CAK8P3a1TrR3qkKgY78D0VybG3H1B6AauzTiZ0=jP57QM5MkjTw@mail.gmail.com>
+Subject: Re: [PATCH] usb: ehci: add struct entry for broadcom insnreg
+To:     Al Cooper <alcooperx@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:uts/YM7wttCkfCQrBQhdtEzZfRPw12bbrftZwZGM5czYIh046gG
+ RjXCIuXDApEjSnuudi0XLYIaZ4DPVGYCmPQw52r2moG15Ncag6iPgazy/VBMkywr/bMlsSA
+ +skUApKQlUhpn6WlzZXT4d0Lpk1GiBl4SU4DO6E+EGa+EMxa5TkVdgiubRnl0gXusfVmt4y
+ RgA5XkBYeR4qLYPCVTNYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:O40RoDwja6E=:uts8v7j/FtLB5w2RaALHMq
+ OOCcocy4njfhO7PmN8l6Ovfm1kGQ3xejRvMRZExVC5BnfZN/svALzWO/MjymjWsfVqUsubBBY
+ R8mzn4QHSQTTuqd1YHk24D3VsGJMMQOfO6fFrAGVyB0GQyipKp3ipeQGbOSQQque+IUZ70hNT
+ oHtVKczXiKkH4UZ0am9AMNEu2/HMDGkLGCLpsZrvw8FGJqgPgyC4/56/v0NyyH6ok7ZZ8Zci+
+ B98diH1R3RSNWTJbFYaX/hvZFkkwUSuD5lx2xkeNc7ZCO5yzCfLruWFlNkHxya7D46wZsblZa
+ dCQ7m7HoLebhee7sREwKOpFrB7+e4cvcLubLUM42Qz4XyygbFCR0JYKJhpnHII+yYyTgEYOOp
+ /tjzt5Nf9kmGEiq7IgDsB7dIgQH7Jksb4W8Kwez32+FkK3cSBFuq4RlU7yqnDOAwg7P41RKPY
+ gjNq4u9c6Oh8HG1ifEYnwWWpM/0LrD3teMU7R93LDv7erMbFIVZHCF5/k0C51b9Sve15HMkdi
+ mq3Sk0YAHzQh6o2yDeW4o97QM0B4EGfGpSrAbX+QbpVVR5wi7VbZfXrs5G/QfJ0mQ16rHzxqH
+ qsE3YHD9ZKhN49sW98b90umQ4YtCBVuRiLpsph6M5w2nBVZb7X5ZZi3D7N6qum18gfgMvVYK5
+ v8niRf6lutiP+3FxmOBWdpoeH5aNYarsN2KOkCa3LmTsEZZpXIyqRm0+yMTCyL9ofrZ48kmyz
+ wS1n6+AX7DTc+NcuLCLuAbui0fHREr9Fu2oYd0Q+lZBjs4z4VTLn6icyiSRQ1gAXdoAvbZQU4
+ G4WMtGd1kZgxa/lO46vrS2eSeuvyhvwzJFGPlMipmsv4IgoI+w=
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 27, 2020 at 03:14:28PM +0200, Christian Gromm wrote:
-> This patch adds the usb driver source file most_usb.c and
-> modifies the Makefile and Kconfig accordingly.
-> 
-> Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
-> ---
-> v2:
-> Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->         - don't remove usb driver from staging area
->         - don't touch staging/most/Kconfig
->         - remove subdirectory for USB driver and put source file into
->           drivers/most
-> v3:
->         - submitted fixes found during code audit to staging version
->           first to be able to resend single patch that adds the driver
-> v4:
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 	
->         submitted patch set that fixes issues found during code audit
-> 	to staging version first to be able to resend single patch that
-> 	adds the driver. The patch series included:
-> 
-> 	- use function sysfs_streq
-> 	- add missing put_device calls
-> 	- use correct error codes
-> 	- replace code to calculate array index
-> 	- don't use error path to exit function on success
-> 	- move allocation of URB out of critical section
-> 	- return 0 instead of variable
-> 	- change return value of function drci_rd_reg
-> 	- don't use expressions that might fail in a declaration
-> 	- change order of function parameters
+On Wed, May 27, 2020 at 3:43 PM Arnd Bergmann <arnd@arndb.de> wrote:
 
-Thanks for doing this.  I'm sorry that I am behind on reviewing code so
-I hadn't gotten to that patchset yet.
+>
+> Fixes: 9df231511bd6 ("usb: ehci: Add new EHCI driver for Broadcom STB SoC's")
+> Fixes: 88aa39691cea ("usb: ehci: avoid gcc-10 zero-length-bounds warning")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-> +static unsigned int get_stream_frame_size(struct device *dev,
-> +					  struct most_channel_config *cfg)
-> +{
-> +	unsigned int frame_size;
-> +	unsigned int sub_size = cfg->subbuffer_size;
-> +
-> +	if (!sub_size) {
-> +		dev_warn(dev, "Misconfig: Subbuffer size zero.\n");
-> +		return 0;
-> +	}
-> +	switch (cfg->data_type) {
-> +	case MOST_CH_ISOC:
-> +		frame_size = AV_PACKETS_PER_XACT * sub_size;
-> +		break;
-> +	case MOST_CH_SYNC:
-> +		if (cfg->packets_per_xact == 0) {
-> +			dev_warn(dev, "Misconfig: Packets per XACT zero\n");
-> +			frame_size = 0;
-> +		} else if (cfg->packets_per_xact == 0xFF) {
-> +			frame_size = (USB_MTU / sub_size) * sub_size;
-> +		} else {
-> +			frame_size = cfg->packets_per_xact * sub_size;
-> +		}
-> +		break;
-> +	default:
-> +		dev_warn(dev, "Query frame size of non-streaming channel\n");
-> +		break;
 
-frame_size isn't initialized on this path.
+Please disregard this submission, I just noticed that the 88aa39691cea
+commit I referenced is one in my local tree, not in linux-next. I'll make
+sure they are both good and then resubmit them as a series or a combined
+patch.
 
-> +	}
-> +	return frame_size;
-> +}
-
-regards,
-dan carpenter
-
+        Arnd
