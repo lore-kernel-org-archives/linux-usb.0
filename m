@@ -2,78 +2,112 @@ Return-Path: <SRS0=gdTw=7J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB5F1C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:41:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D436C433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:42:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CE5820888
-	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:41:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0ADE920888
+	for <linux-usb@archiver.kernel.org>; Wed, 27 May 2020 10:42:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="OOvC/Pw4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729937AbgE0KlQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 May 2020 06:41:16 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51834 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729828AbgE0KlO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 27 May 2020 06:41:14 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 80568AEEF;
-        Wed, 27 May 2020 10:41:16 +0000 (UTC)
-Message-ID: <1590576068.2838.56.camel@suse.com>
-Subject: Re: ttyACM: disabled by hub (EMI?), re-enabling... Causes garbage
- chars & disconnect
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Date:   Wed, 27 May 2020 12:41:08 +0200
-In-Reply-To: <f4a809ba4ca132266e476ca1805e4ff9e5663f9f.camel@infinera.com>
-References: <6a4fe396ab5ae6cda548e904c57bc823103999d7.camel@infinera.com>
-         <1590418977.2838.16.camel@suse.com>
-         <b39259fc7f397b27f4af145eeafb33ec36638660.camel@infinera.com>
-         <a3f4a9bbde9efd2827b2a02c46f86c8ba7853bc6.camel@infinera.com>
-         <1590482853.2838.26.camel@suse.com>
-         <8cf71160e703a18b28d27a844406d42f6cadf39b.camel@infinera.com>
-         <1590488084.2838.34.camel@suse.com>
-         <42c92312c74e90e5507de4103bd15bbbe175f98d.camel@infinera.com>
-         <4c2bd25aa7f6672cb132487f7af6a787ffc1fab6.camel@infinera.com>
-         <1590568683.2838.42.camel@suse.com>
-         <f4a809ba4ca132266e476ca1805e4ff9e5663f9f.camel@infinera.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1729913AbgE0Kmi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 May 2020 06:42:38 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:34630 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729354AbgE0Kmh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 May 2020 06:42:37 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D71E1C0519;
+        Wed, 27 May 2020 10:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1590576157; bh=lpACwEEgKDR7yHl5cTeAFMn8IWhWr6mS3IR2RzmeAgk=;
+        h=Date:From:Subject:To:Cc:From;
+        b=OOvC/Pw4xL0cc8ffTcmlrPBKtn7Om8cqlNAHuifZkka4vvjKQdQwOknaL9O2j2ulK
+         rQRp3L6/YQdY7BJHimu8un0yV4Jtv0jUxRj3l4PRml5FQ6i4gKvpl1wlLawE7TV9jR
+         Pdvy3kPe3xh4oVxqe6gx6H4bvTZ6lZHTzswRTKnjy1XSEqeztx7Y0dGfo3pkkNyCuW
+         f+h8xB+ZGHsmbhJZBQCkR1znJfOV7on4ZQTA1+jZDB5fPwLVjc6/QiSXiuNq03RPp+
+         UsaHze/xjtxXqpcx8PjUoGM3bikRJVlr2kt9O0WdVy2CaExOJbrnN76aLd9NFOJVKE
+         2r8ODMfkECMBw==
+Received: from tejas-VirtualBox (joglekar-e7480.internal.synopsys.com [10.146.20.198])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 7B168A005C;
+        Wed, 27 May 2020 10:42:32 +0000 (UTC)
+Received: by tejas-VirtualBox (sSMTP sendmail emulation); Wed, 27 May 2020 16:10:30 +0530
+Date:   Wed, 27 May 2020 16:10:30 +0530
+Message-Id: <cover.1590415123.git.joglekar@synopsys.com>
+X-SNPS-Relay: synopsys.com
+From:   Tejas Joglekar <Tejas.Joglekar@synopsys.com>
+Subject: [PATCH v3 0/4] Add logic to consolidate TRBs for Synopsys xHC
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     John Youn <John.Youn@synopsys.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Mittwoch, den 27.05.2020, 09:40 +0000 schrieb Joakim Tjernlund:
-> On Wed, 2020-05-27 at 10:38 +0200, Oliver Neukum wrote:
-> > CAUTION: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
-> > 
-> > 
-> > Am Dienstag, den 26.05.2020, 17:19 +0000 schrieb Joakim Tjernlund:
-> > > 
-> > > This "u-boot SPL" is the first thing u-boot writes and somehow this is remembered, I assume, by cdc_acm
-> > > and gets echoed back when I open ttyACM0
-> > 
-> > Hi,
-> > 
-> > that makes sense, but it is not something that we could really
-> > change in CDC-ACM, I am afraid.
-> 
-> Why not? CDC-ACM should echo back anything it has received before open of ttyACM
+The Synopsys xHC has an internal TRB cache of size TRB_CACHE_SIZE for
+each endpoint. The default value for TRB_CACHE_SIZE is 16 for SS and 8
+for HS. The controller loads and updates the TRB cache from the
+transfer ring in system memory whenever the driver issues a start
+transfer or update transfer command.
 
-Well, there is an inherent race condition with loading the module I am
-afraid. By default cdc-acm should actually echo. You can set the
-DISABLE_ECHO echo quirk for your device if you want to get rid of it.
+For chained TRBs, the Synopsys xHC requires that the total amount of
+bytes for all TRBs loaded in the TRB cache be greater than or equal to
+1 MPS. Or the chain ends within the TRB cache (with a last TRB).
 
-Is CDC-ACM violating some standard with respect to echoing? Changing
-defaults really hurts users, no matter what you do.
+If this requirement is not met, the controller will not be able to
+send or receive a packet and it will hang causing a driver timeout and
+error.
 
-	Regards
-		Oliver
+This patch set adds logic to the XHCI driver to detect and prevent this
+from happening along with the quirk to enable this logic for Synopsys
+HAPS platform.
+
+Based on Mathias's feedback on previous implementation where consolidation
+was done in TRB cache, with this patch series the implementation is done
+during mapping of the URB by consolidating the SG list into a temporary
+buffer if the SG list buffer sizes within TRB_CACHE_SIZE is less than MPS.
+
+Changes since v2:
+ - Modified the xhci_unmap_temp_buffer function to unmap dma and clear
+   the dma flag
+ - Removed RFC tag
+
+Changes since v1:
+ - Comments from Greg are addressed on [PATCH 4/4] and [PATCH 1/4]
+ - Renamed the property and quirk as in other patches based on [PATCH 1/4]
+
+Tejas Joglekar (4):
+  dt-bindings: usb: Add documentation for SG trb cache size quirk
+  usb: xhci: Set quirk for XHCI_SG_TRB_CACHE_SIZE_QUIRK
+  usb: dwc3: Add device property sgl-trb-cache-size-quirk
+  usb: xhci: Use temporary buffer to consolidate SG
+
+ Documentation/devicetree/bindings/usb/dwc3.txt     |   4 +
+ Documentation/devicetree/bindings/usb/usb-xhci.txt |   3 +
+ drivers/usb/dwc3/core.c                            |   2 +
+ drivers/usb/dwc3/core.h                            |   2 +
+ drivers/usb/dwc3/dwc3-haps.c                       |   1 +
+ drivers/usb/dwc3/host.c                            |   6 +-
+ drivers/usb/host/xhci-pci.c                        |   3 +
+ drivers/usb/host/xhci-plat.c                       |   4 +
+ drivers/usb/host/xhci-ring.c                       |   2 +-
+ drivers/usb/host/xhci.c                            | 135 +++++++++++++++++++++
+ drivers/usb/host/xhci.h                            |   5 +
+ 11 files changed, 165 insertions(+), 2 deletions(-)
+
+-- 
+2.11.0
 
