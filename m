@@ -2,35 +2,31 @@ Return-Path: <SRS0=u9El=7K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.7 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E988C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 10:55:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5D1CC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 10:55:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78ABA20888
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 10:55:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B104B20888
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 10:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388035AbgE1KzQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 May 2020 06:55:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387926AbgE1KzM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 May 2020 06:55:12 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243BCC08C5C5;
-        Thu, 28 May 2020 03:55:12 -0700 (PDT)
+        id S2388014AbgE1KzL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 May 2020 06:55:11 -0400
+Received: from gofer.mess.org ([88.97.38.141]:35469 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387992AbgE1KzL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 28 May 2020 06:55:11 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id D73E2C63A8; Thu, 28 May 2020 11:55:08 +0100 (BST)
+        id B8B65C638E; Thu, 28 May 2020 11:55:08 +0100 (BST)
 From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         Greg KH <gregkh@linuxfoundation.org>,
         Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH v4 3/3] MAINTAINERS: rc core and lirc maintainership
-Date:   Thu, 28 May 2020 11:55:08 +0100
-Message-Id: <20200528105508.5183-4-sean@mess.org>
+Subject: [PATCH v4 2/3] USB: cdc-acm: blacklist IR Droid / IR Toy device
+Date:   Thu, 28 May 2020 11:55:07 +0100
+Message-Id: <20200528105508.5183-3-sean@mess.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200528105508.5183-1-sean@mess.org>
 References: <20200528105508.5183-1-sean@mess.org>
@@ -41,37 +37,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This has been maintained for some time, update MAINTAINERS to reflect.
+The IR Droid / IR Toy device used custom protocol over serial
+line, so it is presenting itself as CDC ACM device.
 
+Now that we have proper in-kernel driver for it we need to black-list the
+device in cdc-acm driver.
+
+http://dangerousprototypes.com/docs/USB_Infrared_Toy
+https://www.irdroid.com/irdroid-usb-ir-transceiver/
+
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sean Young <sean@mess.org>
 ---
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/usb/class/cdc-acm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 791d2a862e41..73f97fea8ba8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14190,6 +14190,19 @@ L:	linux-wireless@vger.kernel.org
- S:	Orphan
- F:	drivers/net/wireless/ray*
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 84d6f7df09a4..1369e3be5019 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1864,6 +1864,12 @@ static const struct usb_device_id acm_ids[] = {
+ 	},
+ #endif
  
-+RC CORE / LIRC FRAMEWORK
-+M:	Sean Young <sean@mess.org>
-+L:	linux-media@vger.kernel.org
-+S:	Supported
-+W:	http://linuxtv.org
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/driver-api/media/rc-core.rst
-+F:	Documentation/userspace-api/media/rc/
-+F:	drivers/media/rc/
-+F:	include/media/rc-map.h
-+F:	include/media/rc-core.h
-+F:	include/uapi/linux/lirc.h
++#if IS_ENABLED(CONFIG_IR_TOY)
++	{ USB_DEVICE(0x04d8, 0xfd08),
++	.driver_info = IGNORE_DEVICE,
++	},
++#endif
 +
- RCMM REMOTE CONTROLS DECODER
- M:	Patrick Lerda <patrick9876@free.fr>
- S:	Maintained
+ 	/*Samsung phone in firmware update mode */
+ 	{ USB_DEVICE(0x04e8, 0x685d),
+ 	.driver_info = IGNORE_DEVICE,
 -- 
 2.26.2
 
