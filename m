@@ -2,91 +2,140 @@ Return-Path: <SRS0=u9El=7K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 907C9C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 18:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81BF2C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 19:03:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73C1D20814
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 18:36:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F70C2074B
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 19:03:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="DSYwmJKq"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sTf8pQSo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405895AbgE1Sf5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 May 2020 14:35:57 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:47602 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405871AbgE1Sf4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 28 May 2020 14:35:56 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49XxGd6lrsz8L;
-        Thu, 28 May 2020 20:35:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1590690954; bh=QmkFZ9eFWaDioQbY5TlOYF/cOWllJop5t2LIsaqe1rM=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=DSYwmJKqLQR1j43Pw1ma9FilGqrQlukUQnwtIS1e0acU6URtVDx7cnu0TB7h34fC0
-         VFfv9E5BcBBkMUVaxUkOXMM7z5O82aEOYO1N0oQDQh2g6TdvRTZczZdLI7ZwBOlW6D
-         PbduX7w/RvIf4xGNcKqsfd82lS91QpvUK894dCrFTiTHgccTAjlf7INvudkR/qcy46
-         xRYrREQrmvARzTMeta1K5WovgTndiuHiznQY20heVNga5kvR8xJypVcf9xsyzxpGQu
-         D/rkv++3qBVApjnSudeXLpv0NxeWE1ZNCJsSudNcVRU6md9JeBAXth8Fs/RfUkZz7h
-         yrGzVXgwPdBIA==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Thu, 28 May 2020 20:35:53 +0200
-Message-Id: <9a5ad692ad2d615d28901c6393716b79005c1c25.1590690650.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <cover.1590690650.git.mirq-linux@rere.qmqm.pl>
-References: <cover.1590690650.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH 1/3] usb: gadget: udc: atmel: remove outdated comment in
- usba_ep_disable()
+        id S2406070AbgE1TD5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 May 2020 15:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56622 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405981AbgE1TD4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 May 2020 15:03:56 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765F5C08C5C6
+        for <linux-usb@vger.kernel.org>; Thu, 28 May 2020 12:03:55 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 23so14030145pfy.8
+        for <linux-usb@vger.kernel.org>; Thu, 28 May 2020 12:03:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KTG33M7UqE83NNJfFkKoUZvFr/rJ5FN9VU86MCJPdnc=;
+        b=sTf8pQSos2uaF96AwQ0GxIXT5kya0+Z5/Jo7LUUgEKtgrxnslrSymm+RrP0QNb5IT2
+         piY0hb0Qkh6lZpNo76G66x0vjmpTuqmZxEwVwN4xGRm9T7+yL95YmFxG+0pKIx148AL0
+         5SNq+jiSWTrvWlxXQCu//fwdsLfDp3soelyhtmolTVbuTaS4Rqu+Hj7GfMdAk8oWzQEs
+         HaE4AGCsjaXVCkBW9X8mbk5sOcpzjdyj9W0MygIdOoOIp7EeIcQcCyfW/IhKv20FynGm
+         0k+5GxkHusIvsLfGi5u8qgXET2rPO1w+lhfvv7YgRP5FCJnYJGQhCYY9Fl9PlrQ67bQJ
+         /2Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KTG33M7UqE83NNJfFkKoUZvFr/rJ5FN9VU86MCJPdnc=;
+        b=XNxkW/ewCunVoh/OgqrFAMu0CJ/2cmFtlLEHNeB2XTHKEfFd3p1F1cSeomqRGWAkMe
+         VwrTbaIGzEJ3S9Uic0cWT+iyRii6u0QGhRtphdZlLeQ27XohktVrZcINexL/HYz9YNjN
+         +S+JezjQGIc7fojrBhAtsNWQBiK7ot0LXr7zjHQQzZVgnrDh1JMSk0x1Dj5fE+KuLuRf
+         cicoS0fTk1GIJRTAzLLzystMqYrUJiJheV4+w6wu4Z73P7BWW1PdsuXJaZfGR8NPltz+
+         izU3l5m5+RJ4aMkWPWFHsE5hvwl1WUPybOR1H9RyhjpSH8Mgkvf/Y1t/j8irlTU/iEJK
+         2wHQ==
+X-Gm-Message-State: AOAM530ggBn9h9H4a2RsNgZA4PLcvdUBUCp56kmzOiCtXQIm2Gct064f
+        3Gs/v2rkEPErQZnvpUhZWhC6kV2lECz8wmZwrEDL3A==
+X-Google-Smtp-Source: ABdhPJwmzre3ODOlmfDBYNDV6NiYbegomRtJLMR3IY7aq9plIKBWJV4q0zRrNm+YQuML9MaIE0awsR2j+zzVNENaf4A=
+X-Received: by 2002:a63:dd43:: with SMTP id g3mr4506199pgj.286.1590692634701;
+ Thu, 28 May 2020 12:03:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     Cristian Birsan <cristian.birsan@microchip.com>,
-        Felipe Balbi <balbi@kernel.org>,
+References: <20200520233129.3704-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <20200521073323.GA2579717@kroah.com> <177cc23a-60a7-f5cd-09d6-57608727ea27@i-love.sakura.ne.jp>
+ <1590090636.6470.12.camel@suse.com> <a72cbcc6-df68-2043-1580-a8b4e4053079@i-love.sakura.ne.jp>
+ <1590134662.19681.12.camel@suse.com> <03894591-a1ac-496a-a35f-55953e5bcc06@i-love.sakura.ne.jp>
+ <1590408381.2838.4.camel@suse.com> <4a686d9a-d09f-44f3-553c-bcf0bd8a8ea1@i-love.sakura.ne.jp>
+ <082ae642-0703-6c26-39f6-d725e395ef9a@i-love.sakura.ne.jp>
+ <CAAeHK+ww0YLUKGjQF5KfzoUUsdfLJdv5guUXRq4q46VfPiQubQ@mail.gmail.com> <27b7545e-8f41-10b8-7c02-e35a08eb1611@i-love.sakura.ne.jp>
+In-Reply-To: <27b7545e-8f41-10b8-7c02-e35a08eb1611@i-love.sakura.ne.jp>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Thu, 28 May 2020 21:03:43 +0200
+Message-ID: <CAAeHK+ww0u0G94z_Y7VXLCVTQVZ9thO0q69n+Fj3jKT6MtpPng@mail.gmail.com>
+Subject: Re: [PATCH] USB: cdc-wdm: Call wake_up_all() when clearing WDM_IN_USE bit.
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Songjun Wu <songjun.wu@atmel.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzbot <syzbot+854768b99f19e89d7f81@syzkaller.appspotmail.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixed commit removed the offending behaviour from the driver, but missed
-the comment and associated test. Remove them now.
+On Thu, May 28, 2020 at 6:03 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> On 2020/05/29 0:18, Andrey Konovalov wrote:
+> >> I might have found what is wrong.
+> >>
+> >> My understanding is that a process using /dev/raw-gadget is responsible for
+> >> reacting to every USB request. I don't know whether /dev/raw-gadget already
+> >> provides callback for aborting the in-flight USB requests (in order to resume
+> >> wdm_flush()) when /dev/raw-gadget is closed (due to explicit close() syscall or
+> >> implicit exit_files() from do_exit() upon SIGKILL). I assume /dev/raw-gadget
+> >> already provides such callback in the following paragraphs.
+> >
+> > raw-gadget should kill all unfishished USB requests when the file is closed.
+>
+> I see. But
+>
+> >
+> >>
+> >> Since the reproducer is opening both /dev/raw-gadget (which is char-10-62) and
+> >> /dev/cdc-wdm0 (which is char-180-0), it seems that the kernel is falling into
+> >> deadlock condition due to the need to close both files when the reproducer is
+> >> killed. My guess is that since that process is stuck at wdm_flush() (due to
+> >> explicit close() syscall or implicit exit_files() from do_exit() upon SIGKILL),
+> >> that process cannot react to USB requests which are needed for resuming wdm_flush().
+> >> Unexpectedly blocking a process which is responsible for reacting to USB requests
+> >> will look as if it is a broken hardware.
+> >
+> > Hm, so wdm_flush() is unable to finish unless an expected USB request
+> > is received from the device? This is a bug in the wdm driver then.
+>
+> this specific bug report is caused by being unable to close /dev/cdc-wdm0
+> due to /dev/raw-gadget API usage bug in the userspace process. In other words,
+> this bug report should be closed with "#syz invalid" like a bug report at
+> https://syzkaller.appspot.com/bug?id=287aa8708bc940d0ca1645223c53dd4c2d203be6
+> which unexpectedly did ioctl(FIFREEZE) without corresponding ioctl(FITHAW).
+>
+> > Should we use wait_event_interruptible() instead of wait_event() in
+> > wdm_flush()?
+>
+> That only shadows this kind of bug reports, by not using TASK_UNINTERRUPTIBLE.
+>
+> The problem that the userspace process which is responsible for closing
+> /dev/raw-gadget gets stuck at wdm_flush() unless interrupted by a signal
+> when closing /dev/cdc-wdm0 is remaining. I think that a process should not
+> open /dev/raw-gadget and /dev/cdc-wdm0 at the same time.
 
-Fixes: 38e58986e6fc ("usb: gadget: udc: atmel: don't disable enpdoints we don't own")
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
----
- drivers/usb/gadget/udc/atmel_usba_udc.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+Ah, so the problem is that when a process exits, it tries to close wdm
+fd first, which ends up calling wdm_flush(), which can't finish
+because the USB requests are not terminated before raw-gadget fd is
+closed, which is supposed to happen after wdm fd is closed. Is this
+correct? I wonder what will happen if a real device stays connected
+and ignores wdm requests.
 
-diff --git a/drivers/usb/gadget/udc/atmel_usba_udc.c b/drivers/usb/gadget/udc/atmel_usba_udc.c
-index d69f61ff0181..9153e220848d 100644
---- a/drivers/usb/gadget/udc/atmel_usba_udc.c
-+++ b/drivers/usb/gadget/udc/atmel_usba_udc.c
-@@ -676,13 +676,7 @@ static int usba_ep_disable(struct usb_ep *_ep)
- 
- 	if (!ep->ep.desc) {
- 		spin_unlock_irqrestore(&udc->lock, flags);
--		/* REVISIT because this driver disables endpoints in
--		 * reset_all_endpoints() before calling disconnect(),
--		 * most gadget drivers would trigger this non-error ...
--		 */
--		if (udc->gadget.speed != USB_SPEED_UNKNOWN)
--			DBG(DBG_ERR, "ep_disable: %s not enabled\n",
--					ep->ep.name);
-+		DBG(DBG_ERR, "ep_disable: %s not enabled\n", ep->ep.name);
- 		return -EINVAL;
- 	}
- 	ep->ep.desc = NULL;
--- 
-2.20.1
+I don't understand though, how using wait_event_interruptible() will
+shadow anything here.
 
+Alan, Greg, is this acceptable behavior for a USB driver?
