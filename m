@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6940C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 11:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 167ADC433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 12:01:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97EFE214F1
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 11:56:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E644C215A4
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 12:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590666984;
-	bh=SXeOyrI9WO1tlCA+D5zsxsVgIxlxT1ShXur1AVJHTik=;
+	s=default; t=1590667280;
+	bh=yy1HODVjML3hZK1tj3iy0nrkqGXaUwIV8QX65vg0thM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jHMNXh7DRLkwuIPinC0hOb5RxBcf8otV6TAH7iuPOs4B0w50IN8BhI+dL3AIxMNcq
-	 WghDlSwRHvehA/4wkPOpU220k9DuaBYV1q/l6r1Vv/jjH23pKz48qAD9H+5P6jWEi4
-	 MIV4voKF02FHBUxtp2VFJozN5EOQCZYUE/nuMXjc=
+	b=MTP4GD8BesoItuH4hcRX6/N6AXTzuLVKAhaGLQBMu2iwVa6CIfH6cRMnCkjSn4NB3
+	 NAoMbq7zljJZ53BFe/vwR2J1a3DymNNqdQLhhWk5kImV/KQUd5lNObCsjNyVjLlQW/
+	 9n8HLIvp4moNpGy9dz5ktHRD0YFwaMfWmvplPUmw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388710AbgE1L4X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 May 2020 07:56:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48374 "EHLO mail.kernel.org"
+        id S2389140AbgE1L56 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 May 2020 07:57:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50578 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388630AbgE1L4V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 28 May 2020 07:56:21 -0400
+        id S2389121AbgE1L5x (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 28 May 2020 07:57:53 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AAFE420C56;
-        Thu, 28 May 2020 11:56:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7393F21655;
+        Thu, 28 May 2020 11:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590666980;
-        bh=SXeOyrI9WO1tlCA+D5zsxsVgIxlxT1ShXur1AVJHTik=;
+        s=default; t=1590667073;
+        bh=yy1HODVjML3hZK1tj3iy0nrkqGXaUwIV8QX65vg0thM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZoHH4YR5uikGe5gyTO5tdCcGEo+9UVEI0/o/gxs4tWSTH8Ly9b9NP17Ecd6U32JuF
-         iXc6dld4C6CxzmIEwSfULGgKs2F3DNupRqB/9m7P2WQrps642S3aC6ytXJb0qo50mG
-         9hS0iTm51TQzSBgDcmzaG8jdjoW39Y0HwY7ksoN8=
+        b=apsU/oI3UQIFCf1vqGBWd1c6QMIVRnE3fjJIkPJe1Nvt0BGW02BtBYgQEYxNK2Ivv
+         liOT77Rhlt5zrd/9PbfYUyaX92B+bEayPJ6y+4IT7v5RnpWpIgDNMFD+F9ozg0UaPR
+         LFMSmb0xw1qUjNDX1N8d5qo58MRo30SL0AclWKCE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Marc Payne <marc.payne@mdpsys.co.uk>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 17/47] r8152: support additional Microsoft Surface Ethernet Adapter variant
-Date:   Thu, 28 May 2020 07:55:30 -0400
-Message-Id: <20200528115600.1405808-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 07/13] r8152: support additional Microsoft Surface Ethernet Adapter variant
+Date:   Thu, 28 May 2020 07:57:38 -0400
+Message-Id: <20200528115744.1406533-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200528115600.1405808-1-sashal@kernel.org>
-References: <20200528115600.1405808-1-sashal@kernel.org>
+In-Reply-To: <20200528115744.1406533-1-sashal@kernel.org>
+References: <20200528115744.1406533-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index 0cdb2ce47645..a657943c9f01 100644
+index 6c7a169d906a..f3def96d35d4 100644
 --- a/drivers/net/usb/cdc_ether.c
 +++ b/drivers/net/usb/cdc_ether.c
-@@ -815,14 +815,21 @@ static const struct usb_device_id	products[] = {
+@@ -821,14 +821,21 @@ static const struct usb_device_id	products[] = {
  	.driver_info = 0,
  },
  
@@ -107,10 +107,10 @@ index 0cdb2ce47645..a657943c9f01 100644
  	USB_DEVICE_AND_INTERFACE_INFO(TPLINK_VENDOR_ID, 0x0601, USB_CLASS_COMM,
  			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 95b19ce96513..7c8c45984a5c 100644
+index cadf5ded45a9..e30792380812 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -6901,6 +6901,7 @@ static const struct usb_device_id rtl8152_table[] = {
+@@ -5329,6 +5329,7 @@ static const struct usb_device_id rtl8152_table[] = {
  	{REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8153)},
  	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab)},
  	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07c6)},
