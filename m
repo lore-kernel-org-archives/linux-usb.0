@@ -2,131 +2,95 @@ Return-Path: <SRS0=u9El=7K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66BE0C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 21:17:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B57C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 22:35:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4298D206C3
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 21:17:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FjpabXv+"
+	by mail.kernel.org (Postfix) with ESMTP id CC83C2068D
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 22:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407564AbgE1VRF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 May 2020 17:17:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407473AbgE1VRB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 May 2020 17:17:01 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD60C08C5C6
-        for <linux-usb@vger.kernel.org>; Thu, 28 May 2020 14:17:01 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id f7so1204453ejq.6
-        for <linux-usb@vger.kernel.org>; Thu, 28 May 2020 14:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=cn1mHaca1pWPIbpDyEDw+k1HPtCEUzvmOkTgZBkrGPI=;
-        b=FjpabXv+ge2BYaoQonkw0ro+9+QVeuy2pn+Bqaz25vxAgvJ0KYxsIgvqBuImDgy25U
-         IBMfBkeFxBDd63uQnJY8Y80GAnVnTv+fWi1W5kaVgndnz/wKz4aZl8uxCHATzoj+9FJ4
-         XeQTM9siRp383ficziPVgciySfbUBs9xXbg4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=cn1mHaca1pWPIbpDyEDw+k1HPtCEUzvmOkTgZBkrGPI=;
-        b=JYAr2TnOK1EVkBJWv1V74a1XRk2ScBd8pwt9qTNLKH7B+tfkAx15awSDrQDUhXJJkt
-         ASPUc9JiPZoLVEfTbBrURRsNNAxaR7nCHjGqHZFxe2JPpoSBYga6bATCCHkuATR2D1Hv
-         5mff5ccFo++c2b8+dAIr4tXsrssKqbc8E2fIleRucQR5NcLe7ue2DG8aPVE/5cZ+qitP
-         bcf3zaL6wyKnyvUJrDS8HX2zcKCzHu3B+lG6VXbTXcyWULD1VlbMt0pKeJT4uzrkJ735
-         4auduyATPHfbEmLapI9H9sKnVaIk8u3+r0/e6aGu17ONkTwkbXqTH+dfd5G12btbB+l5
-         MM8g==
-X-Gm-Message-State: AOAM533L1v73HO7uU7OuirWDjwgSX6SUAAgqqyjiAg6WQyrZNqkCZd5z
-        h/89EYKfSab+qPxySyz/Tvf6kurIwJI=
-X-Google-Smtp-Source: ABdhPJyIJAqM7g3kF4k7FsskCNTvhcrEU1Bb2PLorv+HApYH3Z0VCe4HU2vCWCEvqIQmmnEVYo9DCg==
-X-Received: by 2002:a17:906:b2c6:: with SMTP id cf6mr4902473ejb.210.1590700619514;
-        Thu, 28 May 2020 14:16:59 -0700 (PDT)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id ef13sm5956012ejb.24.2020.05.28.14.16.58
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 14:16:58 -0700 (PDT)
-Received: by mail-ej1-f49.google.com with SMTP id x1so1474778ejd.8
-        for <linux-usb@vger.kernel.org>; Thu, 28 May 2020 14:16:58 -0700 (PDT)
-X-Received: by 2002:a17:906:3041:: with SMTP id d1mr5028045ejd.7.1590700617924;
- Thu, 28 May 2020 14:16:57 -0700 (PDT)
-MIME-Version: 1.0
-From:   Alexandru M Stan <amstan@chromium.org>
-Date:   Thu, 28 May 2020 14:16:21 -0700
-X-Gmail-Original-Message-ID: <CAHNYxRzH3F7r4A3hOJYWw8fwoSLBESyyN7XQ4HYfw1Y3qoNbJg@mail.gmail.com>
-Message-ID: <CAHNYxRzH3F7r4A3hOJYWw8fwoSLBESyyN7XQ4HYfw1Y3qoNbJg@mail.gmail.com>
-Subject: Splitting 1 USB port between 2 devices
-To:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        id S2437245AbgE1WfZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 May 2020 18:35:25 -0400
+Received: from mail-out.m-online.net ([212.18.0.9]:56293 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436978AbgE1WfY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 May 2020 18:35:24 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 49Y2Zw4Gjgz1qs03;
+        Fri, 29 May 2020 00:35:20 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 49Y2Zw3k1yz1qtwr;
+        Fri, 29 May 2020 00:35:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id Wd6N57Oy21RK; Fri, 29 May 2020 00:35:19 +0200 (CEST)
+X-Auth-Info: fINXjxd3LKESYOeZ38Yymx2nQ25X+hzgijRZ6uSFg60=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Fri, 29 May 2020 00:35:19 +0200 (CEST)
+Subject: Re: [PATCH] [RFC] usb: dwc2: Run the core connect in dwc2_hcd_init()
+To:     Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc:     Amelie Delaunay <amelie.delaunay@st.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Julius Werner <jwerner@chromium.org>,
-        Evan Green <evgreen@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+References: <20200413143107.181669-1-marex@denx.de>
+ <31b679d3-d3e4-0220-ec4b-58eada4d21d4@synopsys.com>
+ <b20fb33d-7fdd-5785-8f72-74900eb4d328@denx.de>
+ <9906c2da-8a20-eae7-d69e-6947085edf84@synopsys.com>
+ <b64f41ac-2d70-55a3-ab6a-77383cd463eb@denx.de>
+ <d1b36da4-b506-2f86-f5ad-95bf3aac4485@synopsys.com>
+ <c35e95cf-7f72-4a49-a0e1-efc0701d613d@denx.de>
+ <867a776d-1e2c-2207-4387-072d2a8423fb@synopsys.com>
+ <a6d681c5-d5fa-51d8-a320-6f6e9844c93a@denx.de>
+ <4b4478aa-85bd-c05c-b5d0-e11dc35eb623@synopsys.com>
+ <6ea2270d-19a4-7e8b-42fb-37a4a9d81e1f@denx.de>
+ <8fb53f3a-a02b-3c53-0d9d-22b707bda786@synopsys.com>
+ <671f36e3-367e-bcdf-0da7-f7ad82cf6284@denx.de>
+ <ebb175be-edc1-892f-4537-a7402fd4460e@synopsys.com>
+ <bb4835f6-a6c7-61cf-d4f0-eddbb5d6dea9@denx.de>
+ <8de7047f-4d49-349b-983a-31c4ab66562f@synopsys.com>
+ <c59c58e6-648c-bcb3-cbd4-9e78f9021bb7@denx.de>
+ <d67d69a6-651f-f214-5119-bbbd68b4c2d5@denx.de>
+ <4bfffaf9-fffd-57bc-6d45-ba43c46cd136@synopsys.com>
+ <b9023085-0abb-b994-bb1c-e0b03e99e7ed@synopsys.com>
+From:   Marek Vasut <marex@denx.de>
+Message-ID: <abf109c3-c641-fdf0-f59a-2ba8b5a5f09c@denx.de>
+Date:   Fri, 29 May 2020 00:35:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <b9023085-0abb-b994-bb1c-e0b03e99e7ed@synopsys.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On 5/27/20 8:17 AM, Minas Harutyunyan wrote:
+> Hi Marek,
 
-I'm currently helping to design the hardware for yet another chromebook.
+Hi,
 
-The particular SOC (and most other alternatives BTH) we're using has a
-limited amount of USB controllers available, usually just 1. Being a
-chromebook we have quite a few needs for USB though: 2 type C ports,
-pogo pins for a connected keyboard, 2 cameras, a type A port. We're
-probably going to have an internal hub no matter what, but it looks
-like even a 4 port hub might not be enough, going to yet a bigger hub
-(which might not be as power efficient) is not ideal, chaining hubs
-that are builtin is also meh.
+> On 5/15/2020 11:41 AM, Minas Harutyunyan wrote:
+>> Hi Marek,
+> 
+> Any update on on this patch testing?
+> 
+> Thanks,
+> Minas
+> 
+>>>
+>> Could you please test with this patch.
 
-I noticed that some of our cameras use the USB3.0 lines only. Other
-cameras, since they're lower resolution ones use only USB2.0. I
-wondered what would happen if the 2 types of cameras were to share a
-port, since none of the data lines are common between them.
+Yes, that works, thanks.
 
-I've built a little contraption to test this. It seems to work as
-intended. Both usb cameras seem to enumerate, I can even stream from
-both at the same time with no problem. A macbook seems to also kind of
-work (I can't stream from both for some reason, but i can open either
-I want). I can upload detailed lsusb outputs if needed.
-
-My question here is: is this legal as far as Linux is concerned? Can 2
-devices be enumerated under one physical port (even though we're
-talking about separate usb2.0 and 3.0 bus topologies).
-
-It seems to work so far with our linux 5.4 chrome os fork (which as
-far as I know is identical to 5.4 LTS for matters concerning usb). But
-the question is would this keep working?
-
-Is there any weird port reset interaction that might be annoying here?
-I wouldn't want a reset on the usb 2.0 device to affect the 3.0
-device.
-
-Is there any other higher level port management going on in linux,
-where there might be plans to keep track of things, but it's not piped
-enough to see it affect (negatively) this use case.
-
-If this is ok, was something like this ever done before?
-
-Bonus, maybe unrelated, question: I've wondered in the past if it's
-legal to route 2.0 and 3.0 lines through different paths.
-
-For example, imagine I had one of each:
- * 2+3.0 controller
- * 2+3.0 device (eg a 3.0 type A port)
- * 2.0 device (older usb device)
-
-Would it be legal to use only a 2.0 hub, with the 3.0 data lines for
-the 3.0 device bypassing the hub. This would be cheaper than having a
-fully fledged 2+3.0 hub with the second port's 3.0 data lines wasted.
-
-Thanks,
-Alexandru Stan (amstan)
+This should likely get a Stable: tag when submitting.
