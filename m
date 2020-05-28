@@ -2,122 +2,90 @@ Return-Path: <SRS0=u9El=7K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10128C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 12:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85566C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 12:41:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5A2C215A4
-	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 12:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590667498;
-	bh=KTTdY+P4YiOd/BUQzDIZn4WNKGXVwzofufSSUG2f+tg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=oIHT7b78Nes7FzFkkG/MTesbBxj/wfUgH6FAlfTHx9pQ/XZw/QjhO8ObR7HIrCnnN
-	 pkpxKRCU2KXf6LiRQUciY2M1lVmjAFzYWYEhX2k9Ki6UbfU1ZEI/E2zqMmlyIW8m6/
-	 CGTy1d5JJW1UORBBgE9qHxkEw8AwLJYNl9RYARds=
+	by mail.kernel.org (Postfix) with ESMTP id 5304520707
+	for <linux-usb@archiver.kernel.org>; Thu, 28 May 2020 12:41:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="sBh+ddEG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389616AbgE1ME6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 May 2020 08:04:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49518 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388922AbgE1L5G (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 28 May 2020 07:57:06 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9673621655;
-        Thu, 28 May 2020 11:57:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590667026;
-        bh=KTTdY+P4YiOd/BUQzDIZn4WNKGXVwzofufSSUG2f+tg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BOUSaKd4EJE/zSuYE8uSFaPKmTo/z73GMnOMT4/SQhanyIr6M4dgYGXscY+IXatbt
-         ohhTtyX8RkhNXUvFmLjqcbuAqyZCQrO52C2IfWkWCktt7NuRisKcufbo09AAH/6Pyi
-         p/K6A1poXkOjOAf5t2+6AyE5wBqZt50E2uOypWzw=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marc Payne <marc.payne@mdpsys.co.uk>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 10/26] r8152: support additional Microsoft Surface Ethernet Adapter variant
-Date:   Thu, 28 May 2020 07:56:38 -0400
-Message-Id: <20200528115654.1406165-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200528115654.1406165-1-sashal@kernel.org>
-References: <20200528115654.1406165-1-sashal@kernel.org>
+        id S2389786AbgE1Mls (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 May 2020 08:41:48 -0400
+Received: from esa6.microchip.iphmx.com ([216.71.154.253]:17288 "EHLO
+        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389746AbgE1Mls (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 May 2020 08:41:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1590669707; x=1622205707;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=XNVYxOXijcfDaVkxWFEMx1vIj2xuYX4rEfvliHK4rFA=;
+  b=sBh+ddEG/JF/UuFC7WDI3KbhuP6GAsv8jhr7Wf6J25z4v6hsJTBowsxZ
+   gsCuCYHoveWjGVZTQ3a2Cq9gNkHg6YH/J03XfDe8xzVBU6pus7LGQ/tn/
+   p/UQ0/JWBZ0lnMdUK2GoaRdighJK/SE6y4kH0AJjK9z/gHlN5hEGL5tb9
+   p/oZjjtzDWtmQa0g3ZTKoaXXj1DSZOEabEaAR6jhv7jIRlHTKMHCqP4g+
+   18K501EK/C3AZnj4NhvaOubVDqmD7b1EMeyww9qM5g8LWnRVFqdCnoYDF
+   d0dIrdKeBo5fvaUjUMWTxoZL5bwmCLpJUdmUa2Aen55XOsLHPA4T5QYfu
+   w==;
+IronPort-SDR: uI2h0FcwQkTRcsuI6dEqE7CHSXOcqgY3LoESAKQp1ZVtdS0XzrwoNGWZoWZVeomSQI5wKMSkeV
+ B9+Y+AZ6p2nJWnKPFqo7aB5DA4/JT6tvABlCj9G7oWhsS8pWszl7XCgM54vkd8yK3T2Et44fMs
+ OKkmtyPjyc22GmyFeL00HGcHbmRWuc5IF9/UuI0OPwdxX2FCvNbl46mOE+kGRS2SO/6DrvQvnq
+ tjn7TfQHqYrCofgfFqk1mtGFNKTS8vEqNYKJbSvj6OjaRU32D6rQ3DMJFYaoBiGC6w3H3LwJZ8
+ zlI=
+X-IronPort-AV: E=Sophos;i="5.73,444,1583218800"; 
+   d="scan'208";a="13787893"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 28 May 2020 05:41:46 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 28 May 2020 05:41:46 -0700
+Received: from localhost.localdomain (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Thu, 28 May 2020 05:41:45 -0700
+From:   Christian Gromm <christian.gromm@microchip.com>
+To:     <gregkh@linuxfoundation.org>
+CC:     <driverdev-devel@linuxdriverproject.org>,
+        <linux-usb@vger.kernel.org>,
+        Christian Gromm <christian.gromm@microchip.com>
+Subject: [PATCH] staging: most: usb: init return value in default path of switch/case expression
+Date:   Thu, 28 May 2020 14:41:43 +0200
+Message-ID: <1590669703-20004-1-git-send-email-christian.gromm@microchip.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Marc Payne <marc.payne@mdpsys.co.uk>
+This patch avoids returning an uninitialized value in the default
+path of the switch expression.
 
-[ Upstream commit c27a204383616efba5a4194075e90819961ff66a ]
-
-Device id 0927 is the RTL8153B-based component of the 'Surface USB-C to
-Ethernet and USB Adapter' and may be used as a component of other devices
-in future. Tested and working with the r8152 driver.
-
-Update the cdc_ether blacklist due to the RTL8153 'network jam on suspend'
-issue which this device will cause (personally confirmed).
-
-Signed-off-by: Marc Payne <marc.payne@mdpsys.co.uk>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/net/usb/cdc_ether.c | 11 +++++++++--
- drivers/net/usb/r8152.c     |  1 +
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ drivers/staging/most/usb/usb.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index fe630438f67b..9bb37ac99a10 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -808,14 +808,21 @@ static const struct usb_device_id	products[] = {
- 	.driver_info = 0,
- },
- 
--/* Microsoft Surface 3 dock (based on Realtek RTL8153) */
-+/* Microsoft Surface Ethernet Adapter (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(MICROSOFT_VENDOR_ID, 0x07c6, USB_CLASS_COMM,
- 			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
- 	.driver_info = 0,
- },
- 
--	/* TP-LINK UE300 USB 3.0 Ethernet Adapters (based on Realtek RTL8153) */
-+/* Microsoft Surface Ethernet Adapter (based on Realtek RTL8153B) */
-+{
-+	USB_DEVICE_AND_INTERFACE_INFO(MICROSOFT_VENDOR_ID, 0x0927, USB_CLASS_COMM,
-+			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-+	.driver_info = 0,
-+},
-+
-+/* TP-LINK UE300 USB 3.0 Ethernet Adapters (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(TPLINK_VENDOR_ID, 0x0601, USB_CLASS_COMM,
- 			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 44ea5dcc43fd..cd1a07175e11 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -5837,6 +5837,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8153)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07c6)},
-+	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0927)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_SAMSUNG, 0xa101)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x304f)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3062)},
+diff --git a/drivers/staging/most/usb/usb.c b/drivers/staging/most/usb/usb.c
+index df5876c..2640c5b 100644
+--- a/drivers/staging/most/usb/usb.c
++++ b/drivers/staging/most/usb/usb.c
+@@ -215,6 +215,7 @@ static unsigned int get_stream_frame_size(struct device *dev,
+ 		break;
+ 	default:
+ 		dev_warn(dev, "Query frame size of non-streaming channel\n");
++		frame_size = 0;
+ 		break;
+ 	}
+ 	return frame_size;
 -- 
-2.25.1
+2.7.4
 
