@@ -2,103 +2,148 @@ Return-Path: <SRS0=l1+I=7L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90389C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54638C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:41:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CCE92075A
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:37:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CE72207BC
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:41:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rCQNkS8y"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R3EZG0HY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbgE2Uhl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 16:37:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41588 "EHLO
+        id S1728040AbgE2Ulb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 16:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727024AbgE2Uhk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 16:37:40 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3ACC08C5C8;
-        Fri, 29 May 2020 13:29:35 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id j10so5331839wrw.8;
-        Fri, 29 May 2020 13:29:35 -0700 (PDT)
+        with ESMTP id S1726975AbgE2Ula (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 16:41:30 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21DCC03E969
+        for <linux-usb@vger.kernel.org>; Fri, 29 May 2020 13:41:30 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id d66so409132pfd.6
+        for <linux-usb@vger.kernel.org>; Fri, 29 May 2020 13:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fB9V5yxTdl0Y/SF+tmGL/MfOvt9Ppi9fS3wB0UgNJoE=;
-        b=rCQNkS8yjDJzrS7pJTvKxijntbCHM+wtCfEaW70MRgTQZcE93bQjqXxUAMMZQTQ4dF
-         NJIVfw2kJXfifp2KRfeit0A/IkNuxYClReH9mDJJ9J2pWp9XRMHleFN7xDnQHC3PEaQa
-         L82TA1QkWnjGpApa5UgMKwcB6wP4An8jw87+R5ySqS0FGhD7zqcajk7AM8mRA+YBh19t
-         RchB++kI38hn9G1L9hqq1ogTRCN4HmmLpvQRyqhWwbDpQnv5YAY89Zh7vSYTLkWiSSr0
-         REhO/TgnrMN4QCbbiYHHovvCsTXXmQm6W3In5vCJlOweP09O8Oxmvl4eJADUhyLdg8xI
-         uwHg==
+        bh=LHzoaU/yKeUfvNQT2XKuvz8e6wSUd7aTVRlqk1Fyt4E=;
+        b=R3EZG0HYqQEV7+ek8gWcKOFpRKEeDE9hQsYUcMgFUDmit/PkKtg/dDT5gNfJCfaxkw
+         Q8Dvd/AtmF/gbEM8g+7DM2sh4tCBixzmfSTo3lr/Mm79tA2G2MCbX9XwoU5FzI5nJByQ
+         oy53MUJlBOZjDr2lQlnzDxfY4XGPwqJ30UNh+XwcE8GUC6oIVvQRzD2jhWsdF6zDbNaX
+         MssxIYZi2Ibc2wpctyl68cATMPaWLnZUs7BhXBuOUqeU0GRiuZ/YA+zK7ejfgXQSvewz
+         KrpiOl4dvxMSmyoNRxxB6dX8+1HnQS8Q5jMjcveOjmGfUd5Mb/LQYe9oqCUwo39Mw0D4
+         zkQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fB9V5yxTdl0Y/SF+tmGL/MfOvt9Ppi9fS3wB0UgNJoE=;
-        b=t2dxBHE4upIYKtEgBL5HuncOmFeaUM9eL5HIrkaU1h2d10tlhTqVxkJRrbMIYnR0Bx
-         drhxOZU3TqbZqMS82Ndf9aNOhQEsQbqbuz2d1n64qQWXF62dLuu/aBWA8bXgLJ/GLTqK
-         WGF+Cpho5WBH8WSVIyxOdmUpwzS5F4UPG2LCz4Z9tf3SSvPQinrMuKV7S1e1+UnWOC8G
-         poJfPYP3OyrbxVY4A3raK2vIZ92GUss1qHsjwW0jN6BnuOIpck/MovDT5CZ/H4rFs+pe
-         1D/JDZZSLtRZMPkqEFbzhoGGa9PtyaW5OIwVMIZJ6vDgU+NsaTeyLSHVxAGdpu369Hi3
-         Ia+Q==
-X-Gm-Message-State: AOAM5300cf0ba28lsTCgokr2q4YjEd1GJBX5AehSb2P12EG5sMf1cLuP
-        4G5f9ylIxgg34nXj2iS5j4kOL2eL+72XtiCpDcY=
-X-Google-Smtp-Source: ABdhPJwgvaCDlsEU6b6VHl1zt74QkOXIGbiWzt0svEVrnCthWkVj8mjupMJyZKpmiXt1gRk90beRtWHllU7oXod90Hk=
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr11084863wrp.57.1590784174030;
- Fri, 29 May 2020 13:29:34 -0700 (PDT)
+        bh=LHzoaU/yKeUfvNQT2XKuvz8e6wSUd7aTVRlqk1Fyt4E=;
+        b=WNpVGoTYlJfdEPW8U+st8jmUY8OF+/zEsBijPQ0/H7zf03fmLH96lQDqW4DQhD1ND2
+         v9MOek0CUDOqrykiquUkSrIMvwVELRO0XxAW3UzvAft96+oB7vH61+1g5jux3wn1gYdh
+         CcJnLW3eA5KiAd+otXo2DUXnobeourBZSpq0olAyBPD29600yoXor0ZEddBo2yqTLv0z
+         zolaG5fsmZXg7yE4Me2v5zgTjg4uGBsIlkEas54CLcmbWC169mqUqmYQlBOnj6D/8n2M
+         dEH7bde9iTen1Tpqski7a0AXgV9KsETKErtOSFo0N0ZigpvzdDr9ArK7+416pj+yhER/
+         mz8w==
+X-Gm-Message-State: AOAM53216NP1iQRybXmZJk2IGmsMsnfAcpoK8lGmfS+gHO7dt/w/3G+4
+        yT2jmoJevytJ/xS9/k+dDCRqtuQuIu43Btg5pr+INg==
+X-Google-Smtp-Source: ABdhPJznUXt8o9eNfkldxugaR6eeDjRjwiEPzAtCJkKyQhnXpFVQypOVUhDGARea2cSbqN4UFuNJOZyz6aUDDc9KYOA=
+X-Received: by 2002:a63:e454:: with SMTP id i20mr9791426pgk.440.1590784889914;
+ Fri, 29 May 2020 13:41:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1d3bae1b3048f5d6e19f7ef569dd77e9e160a026.1590753016.git.hminas@synopsys.com>
- <CAD=FV=W1x_HJNCYMUb11QNA8yGs0heEiZzHZdeMPzFaRHaTOsA@mail.gmail.com>
- <0f6b1580-41d8-b7e7-206b-64cda87abfd5@synopsys.com> <CAD=FV=UCMqyX92o9m7H40E3sHzAFieHSu3TUY953VqNb-vuPPg@mail.gmail.com>
- <CAJz5OpfDnHfGf=dLbc0hTtaz-CERsQyaBNeqDiRz7u4jMywNow@mail.gmail.com>
- <CAD=FV=URUeE55xyL3iB5GmS7BRoDG2ey3UE4qSwwc7XZHR0c-Q@mail.gmail.com>
- <CAJz5OpdMDumfdYC+aj0N20p4qVEkEkHhNY3uKest6RSpPtrDWQ@mail.gmail.com>
- <CAD=FV=XsLA3w2QPcNF3-mgZbZoGsz4kg_QvHcoZV=XTVDYhnSg@mail.gmail.com>
- <20200529190031.GA2271@rowland.harvard.edu> <CAD=FV=UUULUgw_fnpbv2b-m8=CrOJimOba+ewRJj_hMB7niK1A@mail.gmail.com>
- <52f936c5-7f3f-5da0-33b8-3e6d4a4008d1@synopsys.com> <CAJz5OpcP860ANLLZELB7GNSsGAY2SvataZVAMyQj_HG0udkOmg@mail.gmail.com>
- <CAD=FV=VuX6pAtU+3-uXAJ8sXecbuiRNDj6RP36Xkyp-_G85-VA@mail.gmail.com> <f68ce0c2-7014-64ff-73e3-94d93897e3b2@synopsys.com>
-In-Reply-To: <f68ce0c2-7014-64ff-73e3-94d93897e3b2@synopsys.com>
-From:   Frank Mori Hess <fmh6jj@gmail.com>
-Date:   Fri, 29 May 2020 16:29:22 -0400
-Message-ID: <CAJz5OpfBfFhDODB+kL+uAGVgtg6vMTS9NPuu78zV8kEpozR_dA@mail.gmail.com>
-Subject: Re: [PATCH] usb: dwc2: Fix shutdown callback in platform
-To:     Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        John Youn <John.Youn@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "# 4.0+" <stable@vger.kernel.org>
+References: <1590134662.19681.12.camel@suse.com> <03894591-a1ac-496a-a35f-55953e5bcc06@i-love.sakura.ne.jp>
+ <1590408381.2838.4.camel@suse.com> <4a686d9a-d09f-44f3-553c-bcf0bd8a8ea1@i-love.sakura.ne.jp>
+ <082ae642-0703-6c26-39f6-d725e395ef9a@i-love.sakura.ne.jp>
+ <CAAeHK+ww0YLUKGjQF5KfzoUUsdfLJdv5guUXRq4q46VfPiQubQ@mail.gmail.com>
+ <27b7545e-8f41-10b8-7c02-e35a08eb1611@i-love.sakura.ne.jp>
+ <CAAeHK+ww0u0G94z_Y7VXLCVTQVZ9thO0q69n+Fj3jKT6MtpPng@mail.gmail.com>
+ <20200528194057.GA21709@rowland.harvard.edu> <CAAeHK+ySAnU03cvg1=+yHh0YK1UFO4mrv-N9FcDDMt_0AfGZSQ@mail.gmail.com>
+ <20200528205807.GB21709@rowland.harvard.edu>
+In-Reply-To: <20200528205807.GB21709@rowland.harvard.edu>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 29 May 2020 22:41:18 +0200
+Message-ID: <CAAeHK+xx-uodQWBDA2pJ_Et26uBPb6J7fTwu4h6D1uUTv8t3HA@mail.gmail.com>
+Subject: Re: [PATCH] USB: cdc-wdm: Call wake_up_all() when clearing WDM_IN_USE bit.
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzbot <syzbot+854768b99f19e89d7f81@syzkaller.appspotmail.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Minas,
-
-On Fri, May 29, 2020 at 3:50 PM Minas Harutyunyan
-<Minas.Harutyunyan@synopsys.com> wrote:
+On Thu, May 28, 2020 at 10:58 PM Alan Stern <stern@rowland.harvard.edu> wrote:
 >
-> Can you test it on your setup and confirm (to keep "Tested-by: Frank.."
-> tag).
+> On Thu, May 28, 2020 at 09:51:35PM +0200, Andrey Konovalov wrote:
+> > On Thu, May 28, 2020 at 9:40 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > >
+> > > On Thu, May 28, 2020 at 09:03:43PM +0200, Andrey Konovalov wrote:
+> > >
+> > > > Ah, so the problem is that when a process exits, it tries to close wdm
+> > > > fd first, which ends up calling wdm_flush(), which can't finish
+> > > > because the USB requests are not terminated before raw-gadget fd is
+> > > > closed, which is supposed to happen after wdm fd is closed. Is this
+> > > > correct? I wonder what will happen if a real device stays connected
+> > > > and ignores wdm requests.
+> > > >
+> > > > I don't understand though, how using wait_event_interruptible() will
+> > > > shadow anything here.
+> > > >
+> > > > Alan, Greg, is this acceptable behavior for a USB driver?
+> > >
+> > > I don't understand what the problem is.  Can you explain in more general
+> > > terms -- nothing specific to wdm or anything like that -- what you are
+> > > concerned about?  Is this something that could happen to any gadget
+> > > driver?  Or any USB class device driver?  Or does it only affect
+> > > usespace components of raw-gadget drivers?
+> >
+> > So, AFAIU, we have a driver whose flush() callback blocks on
+> > wait_event(), which can only terminate when either 1) the driver
+> > receives a particular USB response from the device or 2) the device
+> > disconnects.
 >
+> This sounds like a bug in the driver.  What would it do if someone had a
+> genuine (not emulated) but buggy USB device which didn't send the
+> desired response?  The only way to unblock the driver would be to unplug
+> the device!  That isn't acceptable behavior.
 
-I just tested the
+OK, that's what I thought.
 
-dwc2_disable_global_interrupts(hsotg);
-synchronize_irq(hsotg->irq);
+>
+> > For 1) the emulated device doesn't provide required
+> > responses. For 2) the problem is that the emulated via raw-gadget
+> > device disconnects when the process is killed (and raw-gadget fd is
+> > closed). But that process is the same process that is currently stuck
+> > on wait_event() in the flush callback(), and therefore unkillable.
+>
+> What would happen if you unload dummy-hcd at this point?  Or even just
+> do: echo 0 >/sys/bus/usb/devices/usbN/bConfigurationValue, where N is
+> the bus number of the dummy-hcd bus?
 
-version of dwc2 shutdown, and booting a new kernel with kexec worked
-fine for me.
+The device disconnects and flush() unblocks.
 
--- 
-Frank
+> > This can generally happen with any driver that goes into
+> > uninterruptible sleep within one of its code paths reachable from
+> > userspace that can only be unblocked by a particular behavior from the
+> > USB device. But I haven't seen any such drivers so far, wdm is the
+> > first.
+>
+> Drivers should never go into uninterruptible sleep states unless they
+> can guarantee that the duration will be bounded somehow (for example, by
+> a reasonable timeout).  Or that cutting the sleep state short would
+> cause the system to crash -- but that's not an issue here.
+
+OK, thank you, Alan!
+
+Tetsuo, could you clarify why you think that using
+wait_event_interruptible() is a bad fix here?
