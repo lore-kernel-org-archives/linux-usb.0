@@ -2,147 +2,99 @@ Return-Path: <SRS0=l1+I=7L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C53BFC433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A0AC433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3F1C2074D
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:55:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="T3isW0BR"
+	by mail.kernel.org (Postfix) with ESMTP id 2877C2074D
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728144AbgE2Rzc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 13:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728124AbgE2Rz1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 13:55:27 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BC2C08C5CA
-        for <linux-usb@vger.kernel.org>; Fri, 29 May 2020 10:55:27 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id n5so4694385wmd.0
-        for <linux-usb@vger.kernel.org>; Fri, 29 May 2020 10:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=U/iWA+NM93lmEOR8BD3HSGFwn5myHStX/svocCwc2zk=;
-        b=T3isW0BRXt8VQajj1U69CHubFeUebbA7xMKa/VSv/g1vunIpEUnbEgqdlAUG3dmxSY
-         h+2fFSUWz5RSeir9VQUHRlYjikdIavLXyI7LELfjSHOEqDzuDt0smviqOBdljinxME5+
-         KoE49ljxnvFhdKvzrug2mC7bA9NKZ1hJTbk3o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U/iWA+NM93lmEOR8BD3HSGFwn5myHStX/svocCwc2zk=;
-        b=ru10kHO2EV4FmiueImg2M/WtbueKRL9OPMHkMDS7O0GB1KlSDzk0SWpucgtNFJGdvp
-         F2FM0DyivT0x8kdFuam1RGkZNWgsUQZcWfXLqox3WU8AQmgmwWf8MeEksxYjcLVKqQN+
-         RwQlroWB67urG4YeuGbw0AQdTm+hTdQ9uTH4xhPpvTskEsWEnkvu520pE/nscb1UrB1D
-         BgVs0vmzEE0pNf7yseAin2mhw1UNyJatq7thwhYEGBXqO0zvS2UFvH3i6jOxUYT5RnSu
-         mdPNdU2+etNwFU6KflVcmhzw42Xc/24EAdizFDAvsBBfo8rRRu184Hg+2Jy/qIc/zcg0
-         2p/w==
-X-Gm-Message-State: AOAM531VUcJHrhwNorJL5OLiN2qIjlOV9OgJ0RYbJaSR5XlndxidYuHu
-        qxtGhDqONZgAsIuQ1WHthJ+Otab7ShrrFvzuc/ArXQ==
-X-Google-Smtp-Source: ABdhPJyddc3wujxmrCvzPzUS9jR6GnyypGU54L49z504ymdkHZAWzgGRss7csUxJVRpywWwHWAFmXu42cGVgC/AI5dc=
-X-Received: by 2002:a05:600c:280c:: with SMTP id m12mr10012502wmb.92.1590774925565;
- Fri, 29 May 2020 10:55:25 -0700 (PDT)
+        id S1728181AbgE2R5G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 13:57:06 -0400
+Received: from asav22.altibox.net ([109.247.116.9]:39046 "EHLO
+        asav22.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728030AbgE2R5G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 13:57:06 -0400
+Received: from localhost.localdomain (unknown [81.166.168.211])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: noralf.tronnes@ebnett.no)
+        by asav22.altibox.net (Postfix) with ESMTPSA id 6198A200C5;
+        Fri, 29 May 2020 19:57:03 +0200 (CEST)
+From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To:     dri-devel@lists.freedesktop.org, balbi@kernel.org
+Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org,
+        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH v3 2/6] drm/client: Add drm_client_modeset_disable()
+Date:   Fri, 29 May 2020 19:56:39 +0200
+Message-Id: <20200529175643.46094-3-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200529175643.46094-1-noralf@tronnes.org>
+References: <20200529175643.46094-1-noralf@tronnes.org>
 MIME-Version: 1.0
-References: <20200526191303.1492-1-james.quinlan@broadcom.com> <20200529174858.GA2640397@bogus>
-In-Reply-To: <20200529174858.GA2640397@bogus>
-From:   Jim Quinlan <james.quinlan@broadcom.com>
-Date:   Fri, 29 May 2020 13:55:13 -0400
-Message-ID: <CA+-6iNydfUPe4J_eMY_9OXR9Y+Bwc65wtKQRGAwuW+K=drCVqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/14] PCI: brcmstb: enable PCIe for STB chips
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS" 
-        <linux-pci@vger.kernel.org>, Christoph Hellwig <hch@lst.de>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Corey Minyard <minyard@acm.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" 
-        <devicetree@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux-foundation.org>,
-        Julien Grall <julien.grall@arm.com>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=LvK8NEVc c=1 sm=1 tr=0
+        a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
+        a=0d597LMeBdbU6fJEcaIA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 29, 2020 at 1:49 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, May 26, 2020 at 03:12:39PM -0400, Jim Quinlan wrote:
-> > v2:
-> > Commit: "device core: Add ability to handle multiple dma offsets"
-> >   o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
-> >   o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
-> >   o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
-> >   o dev->dma_pfn_map => dev->dma_pfn_offset_map
-> >   o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
-> >   o In device.h: s/const void */const struct dma_pfn_offset_region */
-> >   o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
-> >     guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
-> >   o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
-> >     dev->dma_pfn_offset_map is copied as well.
-> >   o Merged two of the DMA commits into one (Christoph).
-> >
-> > Commit "arm: dma-mapping: Invoke dma offset func if needed":
-> >   o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
-> >
-> > Other commits' changes:
-> >   o Removed need for carrying of_id var in priv (Nicolas)
-> >   o Commit message rewordings (Bjorn)
-> >   o Commit log messages filled to 75 chars (Bjorn)
-> >   o devm_reset_control_get_shared())
-> >     => devm_reset_control_get_optional_shared (Philipp)
-> >   o Add call to reset_control_assert() in PCIe remove routines (Philipp)
-> >
-> > v1:
-> > This patchset expands the usefulness of the Broadcom Settop Box PCIe
-> > controller by building upon the PCIe driver used currently by the
-> > Raspbery Pi.  Other forms of this patchset were submitted by me years
-> > ago and not accepted; the major sticking point was the code required
-> > for the DMA remapping needed for the PCIe driver to work [1].
-> >
-> > There have been many changes to the DMA and OF subsystems since that
-> > time, making a cleaner and less intrusive patchset possible.  This
-> > patchset implements a generalization of "dev->dma_pfn_offset", except
-> > that instead of a single scalar offset it provides for multiple
-> > offsets via a function which depends upon the "dma-ranges" property of
-> > the PCIe host controller.  This is required for proper functionality
-> > of the BrcmSTB PCIe controller and possibly some other devices.
->
-> If you can enable the h/w support without the multiple offset support,
-> then I'd split up this series. The latter part might take a bit more
-> time.
->
-> Rob
-Unfortunately, the STB PCIe  controller depends on the multiple PFN
-offset functionality.
-Thanks,
-Jim
+Add a way for clients to disable all outputs.
+
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 20 ++++++++++++++++++++
+ include/drm/drm_client.h             |  1 +
+ 2 files changed, 21 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 27e2fb41f14d..977bcd063520 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -1225,3 +1225,23 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_client_modeset_dpms);
++
++/**
++ * drm_client_modeset_disable() - Disable all outputs
++ * @client: DRM client
++ *
++ * This function disables all outputs by first clearing the modeset array and
++ * then committing the empty modesets.
++ *
++ * Returns:
++ * Zero on success or negative error code on failure.
++ */
++int drm_client_modeset_disable(struct drm_client_dev *client)
++{
++	mutex_lock(&client->modeset_mutex);
++	drm_client_modeset_release(client);
++	mutex_unlock(&client->modeset_mutex);
++
++	return drm_client_modeset_commit(client);
++}
++EXPORT_SYMBOL(drm_client_modeset_disable);
+diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+index 76704f48fc46..498089b647da 100644
+--- a/include/drm/drm_client.h
++++ b/include/drm/drm_client.h
+@@ -168,6 +168,7 @@ int drm_client_modeset_check(struct drm_client_dev *client);
+ int drm_client_modeset_commit_locked(struct drm_client_dev *client);
+ int drm_client_modeset_commit(struct drm_client_dev *client);
+ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
++int drm_client_modeset_disable(struct drm_client_dev *client);
+ 
+ /**
+  * drm_client_for_each_modeset() - Iterate over client modesets
+-- 
+2.23.0
+
