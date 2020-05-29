@@ -2,140 +2,317 @@ Return-Path: <SRS0=l1+I=7L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80BD6C433E2
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C82C433E1
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67A822075A
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EFF92075A
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728182AbgE2R5G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 13:57:06 -0400
-Received: from asav22.altibox.net ([109.247.116.9]:39018 "EHLO
+        id S1728189AbgE2R5I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 13:57:08 -0400
+Received: from asav22.altibox.net ([109.247.116.9]:39060 "EHLO
         asav22.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726549AbgE2R5G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 13:57:06 -0400
+        with ESMTP id S1728178AbgE2R5H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 13:57:07 -0400
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav22.altibox.net (Postfix) with ESMTPSA id B6E3E200A8;
-        Fri, 29 May 2020 19:57:02 +0200 (CEST)
+        by asav22.altibox.net (Postfix) with ESMTPSA id 973FA200CE;
+        Fri, 29 May 2020 19:57:03 +0200 (CEST)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     dri-devel@lists.freedesktop.org, balbi@kernel.org
 Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org,
         =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH v3 0/6] Generic USB Display driver
-Date:   Fri, 29 May 2020 19:56:37 +0200
-Message-Id: <20200529175643.46094-1-noralf@tronnes.org>
+Subject: [PATCH v3 3/6] drm/client: Add a way to set modeset, properties and rotation
+Date:   Fri, 29 May 2020 19:56:40 +0200
+Message-Id: <20200529175643.46094-4-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200529175643.46094-1-noralf@tronnes.org>
+References: <20200529175643.46094-1-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=LvK8NEVc c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=gAmX6pxEAAAA:20 a=VwQbUJbxAAAA:8
-        a=DMtxpE9c-qso5yFzpc8A:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
+        a=M-TpJSvIHFVSw-O4hR8A:9 a=Se0h0s-PsaGxwzjN:21 a=KLOMj-mo1MvUhMRw:21
+        a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+This adds functions for clients that need more control over the
+configuration than what's setup by drm_client_modeset_probe().
+Connector, fb and display mode can be set using drm_client_modeset_set().
+Plane rotation can be set using drm_client_modeset_set_rotation() and
+other properties using drm_client_modeset_set_property(). Property
+setting is only implemented for atomic drivers.
 
-A while back I had the idea to turn a Raspberry Pi Zero into a $5
-USB to HDMI/SDTV/DSI/DPI display adapter.
+v2:
+- drm_client_modeset_set(): Remove undocumented functionality to clear
+  modesets. A disable function takes care of that need now.
+- drm_client_modeset_set_property(): Return -EOPNOTSUPP if driver is not
+  atomic (Sam)
 
-This series adds a USB host driver and a device/gadget driver to achieve
-that.
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 137 +++++++++++++++++++++++++++
+ include/drm/drm_client.h             |  38 +++++++-
+ 2 files changed, 174 insertions(+), 1 deletion(-)
 
-The reason for calling it 'Generic' is so anyone can make a USB
-display/adapter against this driver, all that's needed is to add a USB
-vid:pid. I have done a microcontroller implementation hack just to see
-how that would work out[1] (which unconvered a couple of bugs in the
-host driver).
-
-The contents of the previous cover letter has been moved to the wiki[2]
-since it was getting rather long.
-
-I've made an image[3] with the gadget side set up for the Raspberry Pi
-for easy testing. Patch 4 is the only one needed for the host side.
-
-Merge plan
-I'm hoping to apply the remaining drm_client patches in time for 5.9.
-With that in place it's much easier to apply the patch for the USB
-subsystem the following merge window (5.10). Doing both in the same
-cycle is possible ofc, but due to the high rate of change in DRM this
-_can_ turn out to be tricky. There's no hurry to get the gadget side
-merged since I will provide images for the Raspberry Pi. The host driver
-I hope to apply in time for 5.9.
-Reviews and testing are very much welcome!
-
-Changes since version 2:
-- Use donated Openmoko USB pid: 1d50:614d
-- Use direct compression from framebuffer when pitch matches, not only
-  on full frames, so split updates can benefit
-- Use __le16 in struct gud_drm_req_get_connector_status
-- Set edid property when the device only provides edid
-- Clear compression fields in struct gud_drm_req_set_buffer
-- Fix protocol version negotiation
-- Remove mode->vrefresh, it's calculated
-- drm_client_init_from_id(): remove locking
-- Applied reviewed patches, thanks Sam.
-
-Dependency:
-- backlight: Add backlight_device_get_by_name()[4]
-
-Noralf.
-
-[1] https://github.com/notro/gud/tree/master/STM32F769I-DISCO
-[2] https://github.com/notro/gud/wiki
-[3] https://github.com/notro/gud/wiki/rpi-image
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git/commit/?h=for-backlight-next&id=479da1f538a2f3547e15f9d5922c611b69ec2fbc
-
-
-Noralf Trønnes (6):
-  drm/client: Add drm_client_init_from_id()
-  drm/client: Add drm_client_modeset_disable()
-  drm/client: Add a way to set modeset, properties and rotation
-  drm: Add Generic USB Display driver
-  drm/gud: Add functionality for the USB gadget side
-  usb: gadget: function: Add Generic USB Display support
-
- .../ABI/testing/configfs-usb-gadget-gud_drm   |   10 +
- MAINTAINERS                                   |   10 +
- drivers/gpu/drm/Kconfig                       |    2 +
- drivers/gpu/drm/Makefile                      |    1 +
- drivers/gpu/drm/drm_client.c                  |   44 +-
- drivers/gpu/drm/drm_client_modeset.c          |  157 +++
- drivers/gpu/drm/gud/Kconfig                   |   20 +
- drivers/gpu/drm/gud/Makefile                  |    5 +
- drivers/gpu/drm/gud/gud_drm_connector.c       |  726 ++++++++++
- drivers/gpu/drm/gud/gud_drm_drv.c             |  648 +++++++++
- drivers/gpu/drm/gud/gud_drm_gadget.c          | 1167 +++++++++++++++++
- drivers/gpu/drm/gud/gud_drm_internal.h        |   65 +
- drivers/gpu/drm/gud/gud_drm_pipe.c            |  426 ++++++
- drivers/usb/gadget/Kconfig                    |   12 +
- drivers/usb/gadget/function/Makefile          |    2 +
- drivers/usb/gadget/function/f_gud_drm.c       |  678 ++++++++++
- include/drm/drm_client.h                      |   43 +-
- include/drm/gud_drm.h                         |  374 ++++++
- 18 files changed, 4387 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/ABI/testing/configfs-usb-gadget-gud_drm
- create mode 100644 drivers/gpu/drm/gud/Kconfig
- create mode 100644 drivers/gpu/drm/gud/Makefile
- create mode 100644 drivers/gpu/drm/gud/gud_drm_connector.c
- create mode 100644 drivers/gpu/drm/gud/gud_drm_drv.c
- create mode 100644 drivers/gpu/drm/gud/gud_drm_gadget.c
- create mode 100644 drivers/gpu/drm/gud/gud_drm_internal.h
- create mode 100644 drivers/gpu/drm/gud/gud_drm_pipe.c
- create mode 100644 drivers/usb/gadget/function/f_gud_drm.c
- create mode 100644 include/drm/gud_drm.h
-
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 977bcd063520..9eee9567b9aa 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -83,6 +83,10 @@ static void drm_client_modeset_release(struct drm_client_dev *client)
+ 		}
+ 		modeset->num_connectors = 0;
+ 	}
++
++	kfree(client->properties);
++	client->properties = NULL;
++	client->num_properties = 0;
+ }
+ 
+ void drm_client_modeset_free(struct drm_client_dev *client)
+@@ -879,6 +883,130 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ }
+ EXPORT_SYMBOL(drm_client_modeset_probe);
+ 
++/**
++ * drm_client_modeset_set() - Set modeset configuration
++ * @client: DRM client
++ * @connector: Connector
++ * @mode: Display mode
++ * @fb: Framebuffer
++ *
++ * This function releases any current modeset info, including properties, and
++ * sets the new modeset in the client's modeset array.
++ *
++ * Returns:
++ * Zero on success or negative error code on failure.
++ */
++int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
++			   struct drm_display_mode *mode, struct drm_framebuffer *fb)
++{
++	struct drm_mode_set *modeset;
++	int ret = -ENOENT;
++
++	mutex_lock(&client->modeset_mutex);
++
++	drm_client_modeset_release(client);
++
++	drm_client_for_each_modeset(modeset, client) {
++		if (!connector_has_possible_crtc(connector, modeset->crtc))
++			continue;
++
++		modeset->mode = drm_mode_duplicate(client->dev, mode);
++		if (!modeset->mode) {
++			ret = -ENOMEM;
++			break;
++		}
++
++		drm_mode_set_crtcinfo(modeset->mode, CRTC_INTERLACE_HALVE_V);
++
++		drm_connector_get(connector);
++		modeset->connectors[modeset->num_connectors++] = connector;
++
++		modeset->fb = fb;
++		ret = 0;
++		break;
++	}
++
++	mutex_unlock(&client->modeset_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_client_modeset_set);
++
++/**
++ * drm_client_modeset_set_property() - Set a property on the current configuration
++ * @client: DRM client
++ * @obj: DRM Mode Object
++ * @prop: DRM Property
++ * @value: Property value
++ *
++ * Note: Currently only implemented for atomic drivers.
++ *
++ * Returns:
++ * Zero on success or negative error code on failure.
++ */
++int drm_client_modeset_set_property(struct drm_client_dev *client, struct drm_mode_object *obj,
++				    struct drm_property *prop, u64 value)
++{
++	struct drm_client_property *properties;
++	int ret = 0;
++
++	if (!prop)
++		return -EINVAL;
++
++	if (!drm_drv_uses_atomic_modeset(client->dev))
++		return -EOPNOTSUPP;
++
++	mutex_lock(&client->modeset_mutex);
++
++	properties = krealloc(client->properties,
++			      (client->num_properties + 1) * sizeof(*properties), GFP_KERNEL);
++	if (!properties) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	properties[client->num_properties].obj = obj;
++	properties[client->num_properties].prop = prop;
++	properties[client->num_properties].value = value;
++	client->properties = properties;
++	client->num_properties++;
++unlock:
++	mutex_unlock(&client->modeset_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_client_modeset_set_property);
++
++/**
++ * drm_client_modeset_set_rotation() - Set rotation on the current configuration
++ * @client: DRM client
++ * @value: Rotation value
++ *
++ * Returns:
++ * Zero on success or negative error code on failure.
++ */
++int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 value)
++{
++	struct drm_plane *plane = NULL;
++	struct drm_mode_set *modeset;
++
++	mutex_lock(&client->modeset_mutex);
++	drm_client_for_each_modeset(modeset, client) {
++		if (modeset->mode) {
++			plane = modeset->crtc->primary;
++			break;
++		}
++	}
++	mutex_unlock(&client->modeset_mutex);
++
++	if (!plane)
++		return -ENOENT;
++
++	return drm_client_modeset_set_property(client, &plane->base,
++					       plane->rotation_property, value);
++}
++EXPORT_SYMBOL(drm_client_modeset_set_rotation);
++
+ /**
+  * drm_client_rotation() - Check the initial rotation value
+  * @modeset: DRM modeset
+@@ -973,6 +1101,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
+ 	struct drm_atomic_state *state;
+ 	struct drm_modeset_acquire_ctx ctx;
+ 	struct drm_mode_set *mode_set;
++	unsigned int i;
+ 	int ret;
+ 
+ 	drm_modeset_acquire_init(&ctx, 0);
+@@ -1033,6 +1162,14 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
+ 		}
+ 	}
+ 
++	for (i = 0; i < client->num_properties; i++) {
++		struct drm_client_property *prop = &client->properties[i];
++
++		ret = drm_atomic_set_property(state, NULL, prop->obj, prop->prop, prop->value);
++		if (ret)
++			goto out_state;
++	}
++
+ 	if (check)
+ 		ret = drm_atomic_check_only(state);
+ 	else
+diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+index 498089b647da..bdcdc30519e6 100644
+--- a/include/drm/drm_client.h
++++ b/include/drm/drm_client.h
+@@ -16,6 +16,7 @@ struct drm_file;
+ struct drm_framebuffer;
+ struct drm_gem_object;
+ struct drm_minor;
++struct drm_property;
+ struct module;
+ 
+ /**
+@@ -64,6 +65,26 @@ struct drm_client_funcs {
+ 	int (*hotplug)(struct drm_client_dev *client);
+ };
+ 
++/**
++ * struct drm_client_property - DRM client property
++ */
++struct drm_client_property {
++	/**
++	 * @obj: DRM Mode Object to which the property belongs.
++	 */
++	struct drm_mode_object *obj;
++
++	/**
++	 * @prop: DRM Property.
++	 */
++	struct drm_property *prop;
++
++	/**
++	 * @value: Property value.
++	 */
++	u64 value;
++};
++
+ /**
+  * struct drm_client_dev - DRM client instance
+  */
+@@ -97,7 +118,7 @@ struct drm_client_dev {
+ 	struct drm_file *file;
+ 
+ 	/**
+-	 * @modeset_mutex: Protects @modesets.
++	 * @modeset_mutex: Protects @modesets and @properties.
+ 	 */
+ 	struct mutex modeset_mutex;
+ 
+@@ -105,6 +126,16 @@ struct drm_client_dev {
+ 	 * @modesets: CRTC configurations
+ 	 */
+ 	struct drm_mode_set *modesets;
++
++	/**
++	 * @properties: DRM properties attached to the configuration.
++	 */
++	struct drm_client_property *properties;
++
++	/**
++	 * @num_properties: Number of attached properties.
++	 */
++	unsigned int num_properties;
+ };
+ 
+ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
+@@ -163,6 +194,11 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
+ int drm_client_modeset_create(struct drm_client_dev *client);
+ void drm_client_modeset_free(struct drm_client_dev *client);
+ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
++int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
++			   struct drm_display_mode *mode, struct drm_framebuffer *fb);
++int drm_client_modeset_set_property(struct drm_client_dev *client, struct drm_mode_object *obj,
++				    struct drm_property *prop, u64 value);
++int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 value);
+ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
+ int drm_client_modeset_check(struct drm_client_dev *client);
+ int drm_client_modeset_commit_locked(struct drm_client_dev *client);
 -- 
 2.23.0
 
