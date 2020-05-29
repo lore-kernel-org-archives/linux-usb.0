@@ -2,131 +2,116 @@ Return-Path: <SRS0=l1+I=7L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D77AC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 09:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB734C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 10:12:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2B0F20810
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 09:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590742855;
-	bh=O3m1nYEfL/RHymF6G2Kc+ccFVdEcxHD2PLgtvWog9+E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=HpzH1q8ngcjFiZZ6ng/Je5YJ4QM0iOd4DzRVeiBGowRgVnlKORcMzfCLzmCeiVCJN
-	 zdFiB66wPI+CgX5pAdGM4oX/12imttjbaRT5YBuRHo6oZBg7m+NaJyzoWmW9D0VUYl
-	 xnlAVxIRz9ITr1sxGKmG+CyLTrSzyOaEPhPQQkL8=
+	by mail.kernel.org (Postfix) with ESMTP id 8B0CC2074D
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 10:12:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="DVoREkJi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbgE2JAw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 05:00:52 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40227 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgE2JAv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 05:00:51 -0400
-Received: by mail-lj1-f196.google.com with SMTP id z13so1653660ljn.7;
-        Fri, 29 May 2020 02:00:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Y51p4aZ2qyhzMgLUjxkLCOTI6Fs3ymZMaOjHD3Nq89o=;
-        b=ZU6X9LQqFDHtsn/oxikoklYW8r8rldrlJnJZxQGKvXz6CTNsR/Wvi3tpqiIU7QLcg+
-         fQxQ0TP/XqakruNxrxScSNoSPhP6/3xHBy31oJSzXrfAkqZhdAEhlFWN/lTUlHflrZ5J
-         5FjHSSaAomxs3r5h/l7hKloP6hjeNpJT9uH6dtHAF9eClu3ccAHX8P0OdjfRB5ICQfk7
-         XOMmXgXeZYVZ1L+UD0YbLz0MBf+4/iJZts4uy3SU0DyLceiwXDqQB+RzEj0zULgLs6Sb
-         2KWGK3yy0MR9m+kW58uMkhRabbbQY1hKklpSBKNH10UC3g7IRronDBnZU8zG/ViuNZlu
-         V2Iw==
-X-Gm-Message-State: AOAM5306iTzt+UPXsQ6Dihit06wTtfzIbcT2ToYSO+J9ka6YICWlWUvo
-        PjMfBtq3Q6+BUbYdq9xxZkM=
-X-Google-Smtp-Source: ABdhPJyNRUpDrqTMDxn+iJysLzipPXtv1y790QMq43k1rXw8OrSuALUMPXKWQUe/Ym3tiSLXju2QtA==
-X-Received: by 2002:a2e:9099:: with SMTP id l25mr3687730ljg.82.1590742848764;
-        Fri, 29 May 2020 02:00:48 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id k24sm1886447lji.94.2020.05.29.02.00.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 02:00:47 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1jeasd-00042b-L8; Fri, 29 May 2020 11:00:43 +0200
-Date:   Fri, 29 May 2020 11:00:43 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Manivannan Sadhasivam <mani@kernel.org>
-Cc:     Johan Hovold <johan@kernel.org>, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patong.mxl@gmail.com, Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] usb: serial: xr_serial: Add gpiochip support
-Message-ID: <20200529090043.GB19480@localhost>
-References: <20200430184924.31690-1-mani@kernel.org>
- <20200430184924.31690-3-mani@kernel.org>
- <20200519130740.GE27787@localhost>
- <20200527030959.GA6129@Mani-XPS-13-9360>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200527030959.GA6129@Mani-XPS-13-9360>
+        id S1726792AbgE2KMT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 06:12:19 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:45860 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726629AbgE2KMS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 06:12:18 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7A4CC40914;
+        Fri, 29 May 2020 10:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1590747138; bh=J1cOrJZusMLst7lsrpeM8Ti16IstZnIDLZV0EfLRdk4=;
+        h=Date:From:Subject:To:Cc:From;
+        b=DVoREkJihGPojAPCB1lSC6dXWgfZ4Q3Im8mCFLTRJvq6Ew1//poeGpOgtjEdZx0Ri
+         M/ZP9tQn12Z5ZaNxWCzaLBBKE6WMTfAhgyy1+7HLlTraguzMuICBuFtN2J+huYrTEC
+         dPujya3Che5W6L/PSgTZPz3DIYiTHhTIM8UQXS93d8FQfO0hExP36IkE1HH+KmUCdu
+         oeJGOPCtC15GEcpZ3zd0PabHvZk593aN/rjUmyRNy2zOY9fT68d9y70c77SIH5GkJ7
+         raLbQWS7hlyoARlZThm5Lhhv0ARmQ+HTxY+5KYrpmIfMuN9GpcSHcY4d1CABIp9OXK
+         7l+2IdcpgT5aw==
+Received: from hminas-z420 (hminas-z420.internal.synopsys.com [10.116.126.211])
+        (using TLSv1 with cipher AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id EC43CA005B;
+        Fri, 29 May 2020 10:12:12 +0000 (UTC)
+Received: by hminas-z420 (sSMTP sendmail emulation); Fri, 29 May 2020 14:12:11 +0400
+Date:   Fri, 29 May 2020 14:12:11 +0400
+Message-Id: <137e787bf7c7935bda3358c8f07230d3f4998fad.1590745119.git.hminas@synopsys.com>
+X-SNPS-Relay: synopsys.com
+From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Subject: [PATCH] usb: dwc2: Postponed gadget registration to the udc class driver
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        Paul Zimmerman <paulz@synopsys.com>, linux-usb@vger.kernel.org,
+        Felipe Balbi <balbi@ti.com>,
+        Dinh Nguyen <dinguyen@opensource.altera.com>
+Cc:     John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org,
+        Marek Vasut <marex@denx.de>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 27, 2020 at 08:39:59AM +0530, Manivannan Sadhasivam wrote:
-> Hi,
-> 
-> On Tue, May 19, 2020 at 03:07:40PM +0200, Johan Hovold wrote:
-> > On Fri, May 01, 2020 at 12:19:24AM +0530, mani@kernel.org wrote:
-> > > From: Manivannan Sadhasivam <mani@kernel.org>
-> > > 
-> > > Add gpiochip support for Maxlinear/Exar USB to serial converter
-> > > for controlling the available gpios.
+During dwc2 driver probe, after gadget registration to the udc class
+driver, if exist any builtin function driver it immediately bound to
+dwc2 and after init host side (dwc2_hcd_init()) stucked in host mode.
+Patch postpone gadget registration after host side initialization done.
 
-> > > +static int xr21v141x_gpio_init(struct usb_serial_port *port)
-> > > +{
-> > > +	struct xr_port_private *port_priv = usb_get_serial_port_data(port);
-> > > +	int ret;
-> > > +	u8 gpio_mode;
-> > > +
-> > > +	port_priv->gc.ngpio = 6;
-> > > +
-> > > +	ret = xr_get_reg(port, XR21V141X_UART_REG_BLOCK,
-> > > +			 port_priv->regs->gpio_mode, &gpio_mode);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	/* Mark all pins which are not in GPIO mode */
-> > > +	if (gpio_mode & UART_MODE_RTS_CTS)
-> > > +		port_priv->gpio_altfunc |= (BIT(4) | BIT(5));
-> > > +	else if (gpio_mode & UART_MODE_DTR_DSR)
-> > > +		port_priv->gpio_altfunc |= (BIT(2) | BIT(3));
-> > > +	else if (gpio_mode & UART_MODE_RS485)
-> > > +		port_priv->gpio_altfunc |= BIT(5);
-> > > +	else if (gpio_mode & UART_MODE_RS485_ADDR)
-> > > +		port_priv->gpio_altfunc |= BIT(5);
-> > > +	else
-> > > +		port_priv->gpio_altfunc = 0; /* All GPIOs are available */
-> > 
-> > So this clearly isn't sufficient as the serial driver updates the
-> > gpio-mode settings at runtime, which means you may have the two drivers
-> > interfering with each other.
-> 
-> Agree. I was not sure earlier on how to handle this.
-> 
-> > You probably need to reserve at least CTS/RTS (gpio 4 and 5) for use
-> > by the serial driver. But suddenly driving the DSR, RI and CD inputs
-> > probably isn't a good idea either.
-> > 
-> > How would you even what know what these pins are used for generally?
-> > 
-> > Perhaps refusing all gpio requests while the port is open and making
-> > sure that the serial driver never touches a requested pin could work
-> > (including indirectly through hardware flow control, etc).
-> 
-> Is there an API or recommended way to check if the port is open? I
-> just see a helper for tty...
+Cc: stable@vger.kernel.org
+Fixes: 117777b2c3bb9 ("usb: dwc2: Move gadget probe function into
+platform code")
+Tested-by: Marek Vasut <marex@denx.de>
 
-You're gonna need to add your own flag and locking as you're
-coordinating two distinct drivers.
+Signed-off-by: Minas Harutyunyan <hminas@synopsys.com>
+---
+ drivers/usb/dwc2/gadget.c   | 6 ------
+ drivers/usb/dwc2/platform.c | 9 +++++++++
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-Johan
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 12b98b466287..7faf5f8c056d 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -4920,12 +4920,6 @@ int dwc2_gadget_init(struct dwc2_hsotg *hsotg)
+ 					  epnum, 0);
+ 	}
+ 
+-	ret = usb_add_gadget_udc(dev, &hsotg->gadget);
+-	if (ret) {
+-		dwc2_hsotg_ep_free_request(&hsotg->eps_out[0]->ep,
+-					   hsotg->ctrl_req);
+-		return ret;
+-	}
+ 	dwc2_hsotg_dump(hsotg);
+ 
+ 	return 0;
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index e571c8ae65ec..6b4043117e97 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -575,6 +575,15 @@ static int dwc2_driver_probe(struct platform_device *dev)
+ 	if (hsotg->dr_mode == USB_DR_MODE_PERIPHERAL)
+ 		dwc2_lowlevel_hw_disable(hsotg);
+ 
++	/* Postponed adding a new gadget to the udc class driver list */
++	if (hsotg->gadget_enabled) {
++		retval = usb_add_gadget_udc(hsotg->dev, &hsotg->gadget);
++		if (retval) {
++			dwc2_hsotg_remove(hsotg);
++			goto error_init;
++		}
++	}
++
+ 	return 0;
+ 
+ error_init:
+-- 
+2.11.0
+
