@@ -2,35 +2,36 @@ Return-Path: <SRS0=l1+I=7L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C82C433E1
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C37FCC433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EFF92075A
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 918E92074D
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 17:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728189AbgE2R5I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 13:57:08 -0400
-Received: from asav22.altibox.net ([109.247.116.9]:39060 "EHLO
+        id S1727994AbgE2R5O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 13:57:14 -0400
+Received: from asav22.altibox.net ([109.247.116.9]:39090 "EHLO
         asav22.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728178AbgE2R5H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 13:57:07 -0400
+        with ESMTP id S1728185AbgE2R5N (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 13:57:13 -0400
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav22.altibox.net (Postfix) with ESMTPSA id 973FA200CE;
-        Fri, 29 May 2020 19:57:03 +0200 (CEST)
+        by asav22.altibox.net (Postfix) with ESMTPSA id 9BB61200DB;
+        Fri, 29 May 2020 19:57:04 +0200 (CEST)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     dri-devel@lists.freedesktop.org, balbi@kernel.org
 Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org,
         =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH v3 3/6] drm/client: Add a way to set modeset, properties and rotation
-Date:   Fri, 29 May 2020 19:56:40 +0200
-Message-Id: <20200529175643.46094-4-noralf@tronnes.org>
+Subject: [PATCH v3 6/6] usb: gadget: function: Add Generic USB Display support
+Date:   Fri, 29 May 2020 19:56:43 +0200
+Message-Id: <20200529175643.46094-7-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200529175643.46094-1-noralf@tronnes.org>
 References: <20200529175643.46094-1-noralf@tronnes.org>
@@ -40,279 +41,792 @@ Content-Transfer-Encoding: 8bit
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=LvK8NEVc c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
-        a=M-TpJSvIHFVSw-O4hR8A:9 a=Se0h0s-PsaGxwzjN:21 a=KLOMj-mo1MvUhMRw:21
-        a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=VwQbUJbxAAAA:8 a=SJz97ENfAAAA:8
+        a=gAmX6pxEAAAA:20 a=e5mUnYsNAAAA:8 a=tKJ212r5Ezfkos4TZsYA:9
+        a=oJ3QZCcQx8ZwvcRg:21 a=acWXEmGTS3xcP_Zb:21 a=QEXdDO2ut3YA:10
+        a=AjGcO6oz07-iQ99wixmX:22 a=vFet0B0WnEQeilDPIY6i:22
+        a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This adds functions for clients that need more control over the
-configuration than what's setup by drm_client_modeset_probe().
-Connector, fb and display mode can be set using drm_client_modeset_set().
-Plane rotation can be set using drm_client_modeset_set_rotation() and
-other properties using drm_client_modeset_set_property(). Property
-setting is only implemented for atomic drivers.
+This adds the gadget side support for the Generic USB Display. It presents
+a DRM display device as a USB Display configured through configfs.
 
-v2:
-- drm_client_modeset_set(): Remove undocumented functionality to clear
-  modesets. A disable function takes care of that need now.
-- drm_client_modeset_set_property(): Return -EOPNOTSUPP if driver is not
-  atomic (Sam)
+The display is implemented as a vendor type USB interface with one bulk
+out endpoint. The protocol is implemented using control requests.
+lz4 compressed framebuffer data/pixels are sent over the bulk endpoint.
 
+The DRM part of the gadget is placed in the DRM subsystem since it reaches
+into the DRM internals.
+
+Cc: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 137 +++++++++++++++++++++++++++
- include/drm/drm_client.h             |  38 +++++++-
- 2 files changed, 174 insertions(+), 1 deletion(-)
+ .../ABI/testing/configfs-usb-gadget-gud_drm   |  10 +
+ MAINTAINERS                                   |   2 +
+ drivers/usb/gadget/Kconfig                    |  12 +
+ drivers/usb/gadget/function/Makefile          |   2 +
+ drivers/usb/gadget/function/f_gud_drm.c       | 678 ++++++++++++++++++
+ 5 files changed, 704 insertions(+)
+ create mode 100644 Documentation/ABI/testing/configfs-usb-gadget-gud_drm
+ create mode 100644 drivers/usb/gadget/function/f_gud_drm.c
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 977bcd063520..9eee9567b9aa 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -83,6 +83,10 @@ static void drm_client_modeset_release(struct drm_client_dev *client)
- 		}
- 		modeset->num_connectors = 0;
- 	}
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-gud_drm b/Documentation/ABI/testing/configfs-usb-gadget-gud_drm
+new file mode 100644
+index 000000000000..2ac2c12b33aa
+--- /dev/null
++++ b/Documentation/ABI/testing/configfs-usb-gadget-gud_drm
+@@ -0,0 +1,10 @@
++What:		/config/usb-gadget/gadget/functions/gud_drm.name
++Date:		Dec 2020
++KernelVersion:	5.10
++Description:
++		The attributes:
 +
-+	kfree(client->properties);
-+	client->properties = NULL;
-+	client->num_properties = 0;
- }
++		drm_dev - DRM device number
++		backlight_dev - Backlight device name (optional)
++				The backlight brightness scale should be
++				perceptual not linear.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b15bf9b2229b..fe3382e07316 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5296,7 +5296,9 @@ M:	Noralf Trønnes <noralf@tronnes.org>
+ S:	Maintained
+ W:	https://github.com/notro/gud/wiki
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	Documentation/ABI/testing/configfs-usb-gadget-gud_drm
+ F:	drivers/gpu/drm/gud/
++F:	drivers/usb/gadget/function/f_gud_drm.c
+ F:	include/drm/gud_drm.h
  
- void drm_client_modeset_free(struct drm_client_dev *client)
-@@ -879,6 +883,130 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
- }
- EXPORT_SYMBOL(drm_client_modeset_probe);
+ DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
+diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+index c6db0a0a340c..8d90add495b6 100644
+--- a/drivers/usb/gadget/Kconfig
++++ b/drivers/usb/gadget/Kconfig
+@@ -216,6 +216,9 @@ config USB_F_PRINTER
+ config USB_F_TCM
+ 	tristate
  
-+/**
-+ * drm_client_modeset_set() - Set modeset configuration
-+ * @client: DRM client
-+ * @connector: Connector
-+ * @mode: Display mode
-+ * @fb: Framebuffer
-+ *
-+ * This function releases any current modeset info, including properties, and
-+ * sets the new modeset in the client's modeset array.
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
++config USB_F_GUD_DRM
++	tristate
++
+ # this first set of drivers all depend on bulk-capable hardware.
+ 
+ config USB_CONFIGFS
+@@ -483,6 +486,15 @@ config USB_CONFIGFS_F_TCM
+ 	  Both protocols can work on USB2.0 and USB3.0.
+ 	  UAS utilizes the USB 3.0 feature called streams support.
+ 
++config USB_CONFIGFS_F_GUD_DRM
++	bool "Generic USB Display Gadget function"
++	depends on USB_CONFIGFS
++	depends on DRM
++	select DRM_GUD_GADGET
++	select USB_F_GUD_DRM
++	help
++	  This presents a DRM display device as a Generic USB Display.
++
+ source "drivers/usb/gadget/legacy/Kconfig"
+ 
+ endif # USB_GADGET
+diff --git a/drivers/usb/gadget/function/Makefile b/drivers/usb/gadget/function/Makefile
+index 5d3a6cf02218..cd71caa2a34c 100644
+--- a/drivers/usb/gadget/function/Makefile
++++ b/drivers/usb/gadget/function/Makefile
+@@ -50,3 +50,5 @@ usb_f_printer-y			:= f_printer.o
+ obj-$(CONFIG_USB_F_PRINTER)	+= usb_f_printer.o
+ usb_f_tcm-y			:= f_tcm.o
+ obj-$(CONFIG_USB_F_TCM)		+= usb_f_tcm.o
++usb_f_gud_drm-y			:= f_gud_drm.o
++obj-$(CONFIG_USB_F_GUD_DRM)	+= usb_f_gud_drm.o
+diff --git a/drivers/usb/gadget/function/f_gud_drm.c b/drivers/usb/gadget/function/f_gud_drm.c
+new file mode 100644
+index 000000000000..9a2d6bb9739f
+--- /dev/null
++++ b/drivers/usb/gadget/function/f_gud_drm.c
+@@ -0,0 +1,678 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020 Noralf Trønnes
 + */
-+int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
-+			   struct drm_display_mode *mode, struct drm_framebuffer *fb)
++
++#include <linux/configfs.h>
++#include <linux/device.h>
++#include <linux/kernel.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/usb/composite.h>
++#include <linux/usb/gadget.h>
++#include <linux/workqueue.h>
++
++#include <drm/gud_drm.h>
++
++struct f_gud_drm {
++	struct usb_function func;
++	struct work_struct worker;
++	size_t max_buffer_size;
++	void *ctrl_req_buf;
++
++	u8 interface_id;
++	struct usb_request *ctrl_req;
++
++	struct usb_ep *bulk_ep;
++	struct usb_request *bulk_req;
++
++	struct gud_drm_gadget *gdg;
++
++	spinlock_t lock; /* Protects the following members: */
++	bool ctrl_pending;
++	bool status_pending;
++	bool bulk_pending;
++	bool disable_pending;
++	u8 errno;
++	u16 request;
++	u16 value;
++};
++
++static inline struct f_gud_drm *func_to_f_gud_drm(struct usb_function *f)
 +{
-+	struct drm_mode_set *modeset;
-+	int ret = -ENOENT;
++	return container_of(f, struct f_gud_drm, func);
++}
 +
-+	mutex_lock(&client->modeset_mutex);
++struct f_gud_drm_opts {
++	struct usb_function_instance func_inst;
++	struct mutex lock;
++	int refcnt;
 +
-+	drm_client_modeset_release(client);
++	unsigned int drm_dev;
++	const char *backlight_dev;
++};
 +
-+	drm_client_for_each_modeset(modeset, client) {
-+		if (!connector_has_possible_crtc(connector, modeset->crtc))
-+			continue;
++static inline struct f_gud_drm_opts *fi_to_f_gud_drm_opts(const struct usb_function_instance *fi)
++{
++	return container_of(fi, struct f_gud_drm_opts, func_inst);
++}
 +
-+		modeset->mode = drm_mode_duplicate(client->dev, mode);
-+		if (!modeset->mode) {
-+			ret = -ENOMEM;
-+			break;
-+		}
++static inline struct f_gud_drm_opts *ci_to_f_gud_drm_opts(struct config_item *item)
++{
++	return container_of(to_config_group(item), struct f_gud_drm_opts,
++			    func_inst.group);
++}
 +
-+		drm_mode_set_crtcinfo(modeset->mode, CRTC_INTERLACE_HALVE_V);
-+
-+		drm_connector_get(connector);
-+		modeset->connectors[modeset->num_connectors++] = connector;
-+
-+		modeset->fb = fb;
-+		ret = 0;
-+		break;
++#define F_MUD_DEFINE_BULK_ENDPOINT_DESCRIPTOR(name, addr, size)	\
++	static struct usb_endpoint_descriptor name = {		\
++		.bLength =		USB_DT_ENDPOINT_SIZE,	\
++		.bDescriptorType =	USB_DT_ENDPOINT,	\
++		.bEndpointAddress =	addr,			\
++		.bmAttributes =		USB_ENDPOINT_XFER_BULK,	\
++		.wMaxPacketSize =	cpu_to_le16(size),	\
 +	}
 +
-+	mutex_unlock(&client->modeset_mutex);
++static struct usb_interface_descriptor f_gud_drm_intf = {
++	.bLength =		USB_DT_INTERFACE_SIZE,
++	.bDescriptorType =	USB_DT_INTERFACE,
++	.bNumEndpoints =	1,
++	.bInterfaceClass =	USB_CLASS_VENDOR_SPEC,
++};
++
++F_MUD_DEFINE_BULK_ENDPOINT_DESCRIPTOR(f_gud_drm_fs_out_desc, USB_DIR_OUT, 0);
++
++static struct usb_descriptor_header *f_gud_drm_fs_function[] = {
++	(struct usb_descriptor_header *)&f_gud_drm_intf,
++	(struct usb_descriptor_header *)&f_gud_drm_fs_out_desc,
++	NULL,
++};
++
++F_MUD_DEFINE_BULK_ENDPOINT_DESCRIPTOR(f_gud_drm_hs_out_desc, USB_DIR_OUT, 512);
++
++static struct usb_descriptor_header *f_gud_drm_hs_function[] = {
++	(struct usb_descriptor_header *)&f_gud_drm_intf,
++	(struct usb_descriptor_header *)&f_gud_drm_hs_out_desc,
++	NULL,
++};
++
++F_MUD_DEFINE_BULK_ENDPOINT_DESCRIPTOR(f_gud_drm_ss_out_desc, USB_DIR_OUT, 1024);
++
++static struct usb_ss_ep_comp_descriptor f_gud_drm_ss_bulk_comp_desc = {
++	.bLength =		USB_DT_SS_EP_COMP_SIZE,
++	.bDescriptorType =	USB_DT_SS_ENDPOINT_COMP,
++};
++
++static struct usb_descriptor_header *f_gud_drm_ss_function[] = {
++	(struct usb_descriptor_header *)&f_gud_drm_intf,
++	(struct usb_descriptor_header *)&f_gud_drm_ss_out_desc,
++	(struct usb_descriptor_header *)&f_gud_drm_ss_bulk_comp_desc,
++	NULL,
++};
++
++static struct usb_string f_gud_drm_string_defs[] = {
++	[0].s = "Generic USB Display",
++	{  } /* end of list */
++};
++
++static struct usb_gadget_strings f_gud_drm_string_table = {
++	.language =	0x0409,	/* en-us */
++	.strings =	f_gud_drm_string_defs,
++};
++
++static struct usb_gadget_strings *f_gud_drm_strings[] = {
++	&f_gud_drm_string_table,
++	NULL,
++};
++
++static void f_gud_drm_bulk_complete(struct usb_ep *ep, struct usb_request *req)
++{
++	struct f_gud_drm *fgd = req->context;
++	unsigned long flags;
++
++	if (req->status || req->actual != req->length)
++		return;
++
++	spin_lock_irqsave(&fgd->lock, flags);
++	fgd->bulk_pending = true;
++	spin_unlock_irqrestore(&fgd->lock, flags);
++
++	queue_work(system_long_wq, &fgd->worker);
++}
++
++static int f_gud_drm_ctrl_req_set_buffer(struct f_gud_drm *fgd, void *buf, size_t len)
++{
++	int ret;
++
++	if (len != sizeof(struct gud_drm_req_set_buffer))
++		return -EINVAL;
++
++	ret = gud_drm_gadget_set_buffer(fgd->gdg, buf);
++	if (ret < 0)
++		return ret;
++
++	if (ret > fgd->max_buffer_size)
++		return -EOVERFLOW;
++
++	fgd->bulk_req->length = ret;
++
++	return usb_ep_queue(fgd->bulk_ep, fgd->bulk_req, GFP_KERNEL);
++}
++
++static void f_gud_drm_worker(struct work_struct *work)
++{
++	struct f_gud_drm *fgd = container_of(work, struct f_gud_drm, worker);
++	bool ctrl_pending, bulk_pending, disable_pending;
++	struct gud_drm_gadget *gdg = fgd->gdg;
++	unsigned long flags;
++	u16 request, value;
++	int ret;
++
++	spin_lock_irqsave(&fgd->lock, flags);
++	request = fgd->request;
++	value = fgd->value;
++	ctrl_pending = fgd->ctrl_pending;
++	bulk_pending = fgd->bulk_pending;
++	disable_pending = fgd->disable_pending;
++	spin_unlock_irqrestore(&fgd->lock, flags);
++
++	pr_debug("%s: bulk_pending=%u ctrl_pending=%u disable_pending=%u\n",
++		 __func__, bulk_pending, ctrl_pending, disable_pending);
++
++	if (disable_pending) {
++		gud_drm_gadget_disable_pipe(gdg);
++
++		spin_lock_irqsave(&fgd->lock, flags);
++		fgd->disable_pending = false;
++		spin_unlock_irqrestore(&fgd->lock, flags);
++		return;
++	}
++
++	if (bulk_pending) {
++		struct usb_request *req = fgd->bulk_req;
++
++		ret = gud_drm_gadget_write_buffer(gdg, req->buf, req->actual);
++		if (ret)
++			pr_err("%s: Failed to write buffer, error=%d\n", __func__, ret);
++
++		spin_lock_irqsave(&fgd->lock, flags);
++		fgd->bulk_pending = false;
++		spin_unlock_irqrestore(&fgd->lock, flags);
++	}
++
++	if (ctrl_pending) {
++		unsigned int length = fgd->ctrl_req->length;
++		void *buf = fgd->ctrl_req->buf;
++
++		if (request == GUD_DRM_USB_REQ_SET_BUFFER)
++			ret = f_gud_drm_ctrl_req_set_buffer(fgd, buf, length);
++		else
++			ret = gud_drm_gadget_ctrl_set(gdg, request, value, buf, length);
++
++		spin_lock_irqsave(&fgd->lock, flags);
++		if (!fgd->errno) /* Don't scribble over an EBUSY or ESHUTDOWN */
++			fgd->errno = -ret;
++		fgd->ctrl_pending = false;
++		fgd->status_pending = false;
++		spin_unlock_irqrestore(&fgd->lock, flags);
++	}
++}
++
++static void f_gud_drm_ctrl_req_complete(struct usb_ep *ep, struct usb_request *req)
++{
++	struct f_gud_drm *fgd = req->context;
++	unsigned long flags;
++	int ret = 0;
++
++	spin_lock_irqsave(&fgd->lock, flags);
++
++	if (req->status)
++		ret = req->status;
++	else if (req->actual != req->length)
++		ret = -EREMOTEIO;
++	if (ret) {
++		fgd->errno = -ret;
++		fgd->status_pending = false;
++	} else {
++		fgd->ctrl_pending = true;
++	}
++
++	spin_unlock_irqrestore(&fgd->lock, flags);
++
++	if (!ret)
++		queue_work(system_long_wq, &fgd->worker);
++}
++
++static int f_gud_drm_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
++{
++	struct usb_composite_dev *cdev = f->config->cdev;
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
++	bool in = ctrl->bRequestType & USB_DIR_IN;
++	u16 length = le16_to_cpu(ctrl->wLength);
++	u16 value = le16_to_cpu(ctrl->wValue);
++	unsigned long flags;
++	int ret;
++
++	if (ctrl->bRequest == USB_REQ_GET_STATUS) {
++		struct gud_drm_req_get_status *status = cdev->req->buf;
++
++		if (!in || length != sizeof(*status))
++			return -EINVAL;
++
++		spin_lock_irqsave(&fgd->lock, flags);
++		status->flags = 0;
++		if (fgd->status_pending)
++			status->flags |= GUD_DRM_STATUS_PENDING;
++		status->errno = fgd->errno;
++		spin_unlock_irqrestore(&fgd->lock, flags);
++	} else if (in) {
++		if (length > USB_COMP_EP0_BUFSIZ) /* 4k */
++			return -EOVERFLOW;
++
++		ret = gud_drm_gadget_ctrl_get(fgd->gdg, ctrl->bRequest, value,
++					      cdev->req->buf, length);
++		spin_lock_irqsave(&fgd->lock, flags);
++		fgd->status_pending = false;
++		fgd->errno = ret < 0 ? -ret : 0;
++		spin_unlock_irqrestore(&fgd->lock, flags);
++		if (ret < 0)
++			return ret;
++
++		length = ret;
++	} else {
++		if (length > GUD_DRM_MAX_TRANSFER_SIZE)
++			return -EOVERFLOW;
++
++		spin_lock_irqsave(&fgd->lock, flags);
++		if (fgd->ctrl_pending) {
++			/* If we get here the host has timed out on the previous request */
++			ret = -EBUSY;
++			fgd->status_pending = false;
++			fgd->errno = -ret;
++		} else {
++			ret = 0;
++			fgd->errno = 0;
++			fgd->request = ctrl->bRequest;
++			fgd->value = value;
++			fgd->status_pending = true;
++		}
++		spin_unlock_irqrestore(&fgd->lock, flags);
++
++		if (ret)
++			return ret;
++
++		fgd->ctrl_req->length = length;
++
++		return usb_ep_queue(cdev->gadget->ep0, fgd->ctrl_req, GFP_ATOMIC);
++	}
++
++	cdev->req->length = length;
++
++	return usb_ep_queue(cdev->gadget->ep0, cdev->req, GFP_ATOMIC);
++}
++
++static bool f_gud_drm_req_match(struct usb_function *f, const struct usb_ctrlrequest *ctrl,
++				bool config0)
++{
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
++
++	if (config0)
++		return false;
++
++	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_VENDOR)
++		return false;
++
++	if ((ctrl->bRequestType & USB_RECIP_MASK) != USB_RECIP_INTERFACE)
++		return false;
++
++	return fgd->interface_id == le16_to_cpu(ctrl->wIndex);
++}
++
++static int f_gud_drm_set_alt(struct usb_function *f, unsigned int intf, unsigned int alt)
++{
++	struct usb_composite_dev *cdev = f->config->cdev;
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
++	unsigned long flags;
++
++	if (alt || intf != fgd->interface_id)
++		return -EINVAL;
++
++	if (!fgd->bulk_ep->desc) {
++		pr_debug("%s: init\n", __func__);
++		if (config_ep_by_speed(cdev->gadget, f, fgd->bulk_ep)) {
++			fgd->bulk_ep->desc = NULL;
++			return -EINVAL;
++		}
++	}
++
++	pr_debug("%s: reset\n", __func__);
++
++	usb_ep_disable(fgd->bulk_ep);
++	usb_ep_enable(fgd->bulk_ep);
++
++	spin_lock_irqsave(&fgd->lock, flags);
++	fgd->ctrl_pending = false;
++	fgd->bulk_pending = false;
++	fgd->disable_pending = false;
++	spin_unlock_irqrestore(&fgd->lock, flags);
++
++	return 0;
++}
++
++static void f_gud_drm_disable(struct usb_function *f)
++{
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
++	unsigned long flags;
++
++	pr_debug("%s\n", __func__);
++
++	usb_ep_disable(fgd->bulk_ep);
++
++	spin_lock_irqsave(&fgd->lock, flags);
++	fgd->ctrl_pending = false;
++	fgd->bulk_pending = false;
++	fgd->status_pending = false;
++	fgd->disable_pending = true;
++	fgd->errno = ESHUTDOWN;
++	spin_unlock_irqrestore(&fgd->lock, flags);
++
++	queue_work(system_long_wq, &fgd->worker);
++}
++
++static void f_gud_drm_unbind(struct usb_configuration *c, struct usb_function *f)
++{
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
++	struct usb_composite_dev *cdev = fgd->func.config->cdev;
++
++	flush_work(&fgd->worker);
++
++	gud_drm_gadget_fini(fgd->gdg);
++	fgd->gdg = NULL;
++
++	kfree(fgd->bulk_req->buf);
++	usb_ep_free_request(fgd->bulk_ep, fgd->bulk_req);
++	usb_ep_free_request(cdev->gadget->ep0, fgd->ctrl_req);
++	fgd->ctrl_req = NULL;
++	fgd->bulk_req = NULL;
++	fgd->bulk_ep = NULL;
++
++	usb_free_all_descriptors(f);
++}
++
++static int f_gud_drm_bind(struct usb_configuration *c, struct usb_function *f)
++{
++	struct f_gud_drm_opts *opts = fi_to_f_gud_drm_opts(f->fi);
++	struct usb_composite_dev *cdev = c->cdev;
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
++	struct usb_request *ctrl_req, *bulk_req;
++	struct gud_drm_gadget *gdg;
++	struct usb_string *us;
++	void *buf;
++	int ret;
++
++	us = usb_gstrings_attach(cdev, f_gud_drm_strings,
++				 ARRAY_SIZE(f_gud_drm_string_defs));
++	if (IS_ERR(us))
++		return PTR_ERR(us);
++
++	f_gud_drm_intf.iInterface = us[0].id;
++
++	ret = usb_interface_id(c, f);
++	if (ret < 0)
++		return ret;
++
++	fgd->interface_id = ret;
++	f_gud_drm_intf.bInterfaceNumber = fgd->interface_id;
++
++	fgd->bulk_ep = usb_ep_autoconfig(cdev->gadget, &f_gud_drm_fs_out_desc);
++	if (!fgd->bulk_ep)
++		return -ENODEV;
++
++	f_gud_drm_hs_out_desc.bEndpointAddress = f_gud_drm_fs_out_desc.bEndpointAddress;
++
++	f_gud_drm_ss_out_desc.bEndpointAddress = f_gud_drm_fs_out_desc.bEndpointAddress;
++
++	ret = usb_assign_descriptors(f, f_gud_drm_fs_function, f_gud_drm_hs_function,
++				     f_gud_drm_ss_function, NULL);
++	if (ret)
++		return ret;
++
++	ctrl_req = usb_ep_alloc_request(cdev->gadget->ep0, GFP_KERNEL);
++	if (!ctrl_req) {
++		ret = -ENOMEM;
++		goto fail_free_descs;
++	}
++
++	ctrl_req->buf = fgd->ctrl_req_buf;
++	ctrl_req->complete = f_gud_drm_ctrl_req_complete;
++	ctrl_req->context = fgd;
++
++	gdg = gud_drm_gadget_init(opts->drm_dev, opts->backlight_dev, &fgd->max_buffer_size);
++	if (IS_ERR(gdg)) {
++		ret = PTR_ERR(gdg);
++		goto fail_free_ctrl_req;
++	}
++
++	bulk_req = usb_ep_alloc_request(fgd->bulk_ep, GFP_KERNEL);
++	if (!bulk_req) {
++		ret = -ENOMEM;
++		goto fail_free_ctrl_req;
++	}
++
++	buf = kmalloc(fgd->max_buffer_size, GFP_KERNEL);
++	if (!buf) {
++		ret = -ENOMEM;
++		goto fail_free_bulk_req;
++	}
++
++	bulk_req->complete = f_gud_drm_bulk_complete;
++	bulk_req->context = fgd;
++	bulk_req->buf = buf;
++
++	fgd->ctrl_req = ctrl_req;
++	fgd->bulk_req = bulk_req;
++	fgd->gdg = gdg;
++
++	return 0;
++
++fail_free_bulk_req:
++	usb_ep_free_request(fgd->bulk_ep, bulk_req);
++fail_free_ctrl_req:
++	usb_ep_free_request(cdev->gadget->ep0, ctrl_req);
++fail_free_descs:
++	usb_free_all_descriptors(f);
 +
 +	return ret;
 +}
-+EXPORT_SYMBOL(drm_client_modeset_set);
 +
-+/**
-+ * drm_client_modeset_set_property() - Set a property on the current configuration
-+ * @client: DRM client
-+ * @obj: DRM Mode Object
-+ * @prop: DRM Property
-+ * @value: Property value
-+ *
-+ * Note: Currently only implemented for atomic drivers.
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
-+ */
-+int drm_client_modeset_set_property(struct drm_client_dev *client, struct drm_mode_object *obj,
-+				    struct drm_property *prop, u64 value)
++static void f_gud_drm_free_func(struct usb_function *f)
 +{
-+	struct drm_client_property *properties;
-+	int ret = 0;
++	struct f_gud_drm_opts *opts = container_of(f->fi, struct f_gud_drm_opts, func_inst);
++	struct f_gud_drm *fgd = func_to_f_gud_drm(f);
 +
-+	if (!prop)
-+		return -EINVAL;
++	mutex_lock(&opts->lock);
++	opts->refcnt--;
++	mutex_unlock(&opts->lock);
 +
-+	if (!drm_drv_uses_atomic_modeset(client->dev))
-+		return -EOPNOTSUPP;
++	kfree(fgd->ctrl_req_buf);
++	kfree(fgd);
++}
 +
-+	mutex_lock(&client->modeset_mutex);
++static struct usb_function *f_gud_drm_alloc_func(struct usb_function_instance *fi)
++{
++	struct f_gud_drm_opts *opts = fi_to_f_gud_drm_opts(fi);
++	struct usb_function *func;
++	struct f_gud_drm *fgd;
 +
-+	properties = krealloc(client->properties,
-+			      (client->num_properties + 1) * sizeof(*properties), GFP_KERNEL);
-+	if (!properties) {
++	fgd = kzalloc(sizeof(*fgd), GFP_KERNEL);
++	if (!fgd)
++		return ERR_PTR(-ENOMEM);
++
++	fgd->ctrl_req_buf = kmalloc(GUD_DRM_MAX_TRANSFER_SIZE, GFP_KERNEL);
++	if (!fgd->ctrl_req_buf)
++		goto error;
++
++	spin_lock_init(&fgd->lock);
++	INIT_WORK(&fgd->worker, f_gud_drm_worker);
++
++	mutex_lock(&opts->lock);
++	opts->refcnt++;
++	mutex_unlock(&opts->lock);
++
++	func = &fgd->func;
++	func->name = "gud_drm";
++	func->bind = f_gud_drm_bind;
++	func->unbind = f_gud_drm_unbind;
++	func->set_alt = f_gud_drm_set_alt;
++	func->req_match = f_gud_drm_req_match;
++	func->setup = f_gud_drm_setup;
++	func->disable = f_gud_drm_disable;
++	func->free_func = f_gud_drm_free_func;
++
++	return func;
++
++error:
++	kfree(fgd);
++
++	return ERR_PTR(-ENOMEM);
++}
++
++static ssize_t f_gud_drm_opts_drm_dev_show(struct config_item *item, char *page)
++{
++	struct f_gud_drm_opts *opts = ci_to_f_gud_drm_opts(item);
++	int result;
++
++	mutex_lock(&opts->lock);
++	result = sprintf(page, "%u\n", opts->drm_dev);
++	mutex_unlock(&opts->lock);
++
++	return result;
++}
++
++static ssize_t f_gud_drm_opts_drm_dev_store(struct config_item *item,
++					    const char *page, size_t len)
++{
++	struct f_gud_drm_opts *opts = ci_to_f_gud_drm_opts(item);
++	unsigned int num;
++	int ret;
++
++	mutex_lock(&opts->lock);
++	if (opts->refcnt) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	ret = kstrtouint(page, 0, &num);
++	if (ret)
++		goto unlock;
++
++	opts->drm_dev = num;
++	ret = len;
++unlock:
++	mutex_unlock(&opts->lock);
++
++	return ret;
++}
++
++CONFIGFS_ATTR(f_gud_drm_opts_, drm_dev);
++
++static ssize_t f_gud_drm_opts_backlight_dev_show(struct config_item *item, char *page)
++{
++	struct f_gud_drm_opts *opts = ci_to_f_gud_drm_opts(item);
++	ssize_t ret = 0;
++
++	mutex_lock(&opts->lock);
++	if (opts->backlight_dev)
++		ret = strscpy(page, opts->backlight_dev, PAGE_SIZE);
++	else
++		page[0] = '\0';
++	mutex_unlock(&opts->lock);
++
++	return ret;
++}
++
++static ssize_t f_gud_drm_opts_backlight_dev_store(struct config_item *item,
++						  const char *page, size_t len)
++{
++	struct f_gud_drm_opts *opts = ci_to_f_gud_drm_opts(item);
++	ssize_t ret;
++	char *name;
++
++	mutex_lock(&opts->lock);
++	if (opts->refcnt) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	name = kstrndup(page, len, GFP_KERNEL);
++	if (!name) {
 +		ret = -ENOMEM;
 +		goto unlock;
 +	}
 +
-+	properties[client->num_properties].obj = obj;
-+	properties[client->num_properties].prop = prop;
-+	properties[client->num_properties].value = value;
-+	client->properties = properties;
-+	client->num_properties++;
++	kfree(opts->backlight_dev);
++	opts->backlight_dev = name;
++	ret = len;
 +unlock:
-+	mutex_unlock(&client->modeset_mutex);
++	mutex_unlock(&opts->lock);
 +
 +	return ret;
 +}
-+EXPORT_SYMBOL(drm_client_modeset_set_property);
 +
-+/**
-+ * drm_client_modeset_set_rotation() - Set rotation on the current configuration
-+ * @client: DRM client
-+ * @value: Rotation value
-+ *
-+ * Returns:
-+ * Zero on success or negative error code on failure.
-+ */
-+int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 value)
-+{
-+	struct drm_plane *plane = NULL;
-+	struct drm_mode_set *modeset;
++CONFIGFS_ATTR(f_gud_drm_opts_, backlight_dev);
 +
-+	mutex_lock(&client->modeset_mutex);
-+	drm_client_for_each_modeset(modeset, client) {
-+		if (modeset->mode) {
-+			plane = modeset->crtc->primary;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&client->modeset_mutex);
-+
-+	if (!plane)
-+		return -ENOENT;
-+
-+	return drm_client_modeset_set_property(client, &plane->base,
-+					       plane->rotation_property, value);
-+}
-+EXPORT_SYMBOL(drm_client_modeset_set_rotation);
-+
- /**
-  * drm_client_rotation() - Check the initial rotation value
-  * @modeset: DRM modeset
-@@ -973,6 +1101,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
- 	struct drm_atomic_state *state;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_mode_set *mode_set;
-+	unsigned int i;
- 	int ret;
- 
- 	drm_modeset_acquire_init(&ctx, 0);
-@@ -1033,6 +1162,14 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
- 		}
- 	}
- 
-+	for (i = 0; i < client->num_properties; i++) {
-+		struct drm_client_property *prop = &client->properties[i];
-+
-+		ret = drm_atomic_set_property(state, NULL, prop->obj, prop->prop, prop->value);
-+		if (ret)
-+			goto out_state;
-+	}
-+
- 	if (check)
- 		ret = drm_atomic_check_only(state);
- 	else
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index 498089b647da..bdcdc30519e6 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -16,6 +16,7 @@ struct drm_file;
- struct drm_framebuffer;
- struct drm_gem_object;
- struct drm_minor;
-+struct drm_property;
- struct module;
- 
- /**
-@@ -64,6 +65,26 @@ struct drm_client_funcs {
- 	int (*hotplug)(struct drm_client_dev *client);
- };
- 
-+/**
-+ * struct drm_client_property - DRM client property
-+ */
-+struct drm_client_property {
-+	/**
-+	 * @obj: DRM Mode Object to which the property belongs.
-+	 */
-+	struct drm_mode_object *obj;
-+
-+	/**
-+	 * @prop: DRM Property.
-+	 */
-+	struct drm_property *prop;
-+
-+	/**
-+	 * @value: Property value.
-+	 */
-+	u64 value;
++static struct configfs_attribute *f_gud_drm_attrs[] = {
++	&f_gud_drm_opts_attr_drm_dev,
++	&f_gud_drm_opts_attr_backlight_dev,
++	NULL,
 +};
 +
- /**
-  * struct drm_client_dev - DRM client instance
-  */
-@@ -97,7 +118,7 @@ struct drm_client_dev {
- 	struct drm_file *file;
- 
- 	/**
--	 * @modeset_mutex: Protects @modesets.
-+	 * @modeset_mutex: Protects @modesets and @properties.
- 	 */
- 	struct mutex modeset_mutex;
- 
-@@ -105,6 +126,16 @@ struct drm_client_dev {
- 	 * @modesets: CRTC configurations
- 	 */
- 	struct drm_mode_set *modesets;
++static void f_gud_drm_attr_release(struct config_item *item)
++{
++	struct f_gud_drm_opts *opts = ci_to_f_gud_drm_opts(item);
 +
-+	/**
-+	 * @properties: DRM properties attached to the configuration.
-+	 */
-+	struct drm_client_property *properties;
++	usb_put_function_instance(&opts->func_inst);
++}
 +
-+	/**
-+	 * @num_properties: Number of attached properties.
-+	 */
-+	unsigned int num_properties;
- };
- 
- int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
-@@ -163,6 +194,11 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
- int drm_client_modeset_create(struct drm_client_dev *client);
- void drm_client_modeset_free(struct drm_client_dev *client);
- int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
-+int drm_client_modeset_set(struct drm_client_dev *client, struct drm_connector *connector,
-+			   struct drm_display_mode *mode, struct drm_framebuffer *fb);
-+int drm_client_modeset_set_property(struct drm_client_dev *client, struct drm_mode_object *obj,
-+				    struct drm_property *prop, u64 value);
-+int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 value);
- bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
- int drm_client_modeset_check(struct drm_client_dev *client);
- int drm_client_modeset_commit_locked(struct drm_client_dev *client);
++static struct configfs_item_operations f_gud_drm_item_ops = {
++	.release	= f_gud_drm_attr_release,
++};
++
++static const struct config_item_type f_gud_drm_func_type = {
++	.ct_item_ops	= &f_gud_drm_item_ops,
++	.ct_attrs	= f_gud_drm_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static void f_gud_drm_free_func_inst(struct usb_function_instance *fi)
++{
++	struct f_gud_drm_opts *opts = fi_to_f_gud_drm_opts(fi);
++
++	mutex_destroy(&opts->lock);
++	kfree(opts->backlight_dev);
++	kfree(opts);
++}
++
++static struct usb_function_instance *f_gud_drm_alloc_func_inst(void)
++{
++	struct f_gud_drm_opts *opts;
++
++	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
++	if (!opts)
++		return ERR_PTR(-ENOMEM);
++
++	mutex_init(&opts->lock);
++	opts->func_inst.free_func_inst = f_gud_drm_free_func_inst;
++
++	config_group_init_type_name(&opts->func_inst.group, "", &f_gud_drm_func_type);
++
++	return &opts->func_inst;
++}
++
++DECLARE_USB_FUNCTION_INIT(gud_drm, f_gud_drm_alloc_func_inst, f_gud_drm_alloc_func);
++
++MODULE_DESCRIPTION("Generic USB Display Gadget");
++MODULE_AUTHOR("Noralf Trønnes");
++MODULE_LICENSE("GPL");
 -- 
 2.23.0
 
