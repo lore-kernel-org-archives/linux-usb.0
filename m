@@ -2,96 +2,160 @@ Return-Path: <SRS0=l1+I=7L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA6DC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20975C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:33:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BBD7206C3
-	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:27:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB2C52071A
+	for <linux-usb@archiver.kernel.org>; Fri, 29 May 2020 20:33:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XqOxZivM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LM1dPShE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728074AbgE2U1e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 16:27:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40036 "EHLO
+        id S1728237AbgE2Udc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 16:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726926AbgE2U1e (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 16:27:34 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0137C03E969;
-        Fri, 29 May 2020 13:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=zPMXHGinvpmbOO2uHJoJ8DYwUQB9G7uW/4dEVS7cJ0I=; b=XqOxZivMEezkHFFqWL9Ubo1yCp
-        jYuOb6sadXa65JFn7RehjWvI6opK1yjZQNHP+FDKbzLYVhzNUNA0D7wftRwkHW+pgbPcxnB0sEqaL
-        sJhErbLN7ury7gOpdmM/R/bMc1mCd5cQQnOMfSMcdISKzShPzjyGTcZUh+Ep89jaovMmp1tWEn9ct
-        kRirdyfCQoBe/cDzS1Xc/MQRw4h5hxdPUopYIEJ0glXskivBMitIDKEJj39t9CkkbIZdGp+f9dJXh
-        +2HTf7n8uxWwyxrZuZN981ukwk2fuHPhi1ap6J+VubHIq6FfJrVSsQf4pMRUdII6H59MXDlDUQOJd
-        a14fe67A==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jelaz-0008Ci-I1; Fri, 29 May 2020 20:27:13 +0000
-Date:   Fri, 29 May 2020 13:27:13 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Kaitao Cheng <pilgrimtao@gmail.com>
-Cc:     axboe@kernel.dk, hch@lst.de, sth@linux.ibm.com,
-        viro@zeniv.linux.org.uk, clm@fb.com, jaegeuk@kernel.org,
-        hch@infradead.org, mark@fasheh.com, dhowells@redhat.com,
-        balbi@kernel.org, damien.lemoal@wdc.com, bvanassche@acm.org,
-        ming.lei@redhat.com, martin.petersen@oracle.com, satyat@google.com,
-        chaitanya.kulkarni@wdc.com, houtao1@huawei.com,
-        asml.silence@gmail.com, ajay.joshi@wdc.com,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        hoeppner@linux.ibm.com, heiko.carstens@de.ibm.com,
-        gor@linux.ibm.com, borntraeger@de.ibm.com,
-        linux-s390@vger.kernel.org, sagi@grimberg.me,
-        linux-nvme@lists.infradead.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, josef@toxicpanda.com, dsterba@suse.com,
-        linux-btrfs@vger.kernel.org, chao@kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, darrick.wong@oracle.com,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
-        ocfs2-devel@oss.oracle.com, deepa.kernel@gmail.com
-Subject: Re: [PATCH v2] blkdev: Replace blksize_bits() with ilog2()
-Message-ID: <20200529202713.GC19604@bombadil.infradead.org>
-References: <20200529141100.37519-1-pilgrimtao@gmail.com>
+        with ESMTP id S1728129AbgE2Ud1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 16:33:27 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CD88C08C5CB;
+        Fri, 29 May 2020 13:33:27 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id p30so451530pgl.11;
+        Fri, 29 May 2020 13:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SFmuSEf0AGpMxKm8V34s/d7k2oUKvRzQXSbrrQduN4k=;
+        b=LM1dPShEli098FLDwnYhkV+0T2hp8Uwz984pm/7QF4xIByrHV/6bRnEvoAL59nx1Ek
+         lWt+92RZtwue8pHMoXS1yN+So60GTR+wtRgKzqimp6JhUQh5KqHa3Ua6JmfMF3CBeBr5
+         diK6yJrOHUfwiH73ui1MfXPWaPbTfpxf/fax8XLb0eUt7cGij5ikAlfVmZ7sq1Hvci0Y
+         aR6v3w1jLkXzvQpnO2aN++0QYGOqFRmvQhxXxewrF/mvOA5SoA6P/lkAtCjlS8ofUFEj
+         UlEFtEezp3VpUT4O7+AWbEzELarcEbG2x2xzqWgAvuuHj4llEenZvcM23PkOV+1tIQze
+         ucQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SFmuSEf0AGpMxKm8V34s/d7k2oUKvRzQXSbrrQduN4k=;
+        b=SRBKOYXItjhI9kYt5S4U126y1Ng9q849l7qPQ1EbdIpubfOjrmoHObbhfFForReJOb
+         Zgx1CQX2gTSw6uPqq0TRb3ZTYdKNjMrpZoI46yasNddWvOfVuvmsYJII8XRBNChfYO+Q
+         kAenGZJ/BHtIhghxX2qkzZFvsR6yj04GxGP6h8RHW5+r9faFI/Ys6NgJTK9IIy0yv77l
+         SkMWW8nwLOWbjXWujS7s1hhf6kjEDyQ6zxe6f1uEQx9eyEEBRE8FilRENEPjGmBC7MLW
+         GVoXNlmKBhm0wn6TO6Wkq0D6kBuqjq1B0qVOS7KW2m3FaDqscRb/mME6NsHD2YsH+hTN
+         p4Ow==
+X-Gm-Message-State: AOAM532l8UGnsJInUYgwEyByw9WekEiCMrGYzgEwB25MlG8OZCjVd/S4
+        cif9YDcTnBSJ+YioDLCH5ZI9oNSf
+X-Google-Smtp-Source: ABdhPJzhaSX/OYtOM2+g4EKqdUmnyU/S1XaNnapVtdvqpdgjvRfde7Y1l6mMzph3FlWapk0JPV+aRQ==
+X-Received: by 2002:aa7:8c44:: with SMTP id e4mr10221335pfd.108.1590784406650;
+        Fri, 29 May 2020 13:33:26 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id y4sm7834796pfn.101.2020.05.29.13.33.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2020 13:33:26 -0700 (PDT)
+Date:   Fri, 29 May 2020 13:33:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        groeck@chromium.org, Nicolas Boichat <drinkcat@chromium.org>,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: usbhid: do not sleep when opening device
+Message-ID: <20200529203324.GL89269@dtor-ws>
+References: <20200529195951.GA3767@dtor-ws>
+ <20200529201424.GA180211@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200529141100.37519-1-pilgrimtao@gmail.com>
+In-Reply-To: <20200529201424.GA180211@roeck-us.net>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 29, 2020 at 10:11:00PM +0800, Kaitao Cheng wrote:
-> There is a function named ilog2() exist which can replace blksize.
-> The generated code will be shorter and more efficient on some
-> architecture, such as arm64. And ilog2() can be optimized according
-> to different architecture.
+On Fri, May 29, 2020 at 01:14:24PM -0700, Guenter Roeck wrote:
+> On Fri, May 29, 2020 at 12:59:51PM -0700, Dmitry Torokhov wrote:
+> > usbhid tries to give the device 50 milliseconds to drain its queues
+> > when opening the device, but does it naively by simply sleeping in open
+> > handler, which slows down device probing (and thus may affect overall
+> > boot time).
+> > 
+> > However we do not need to sleep as we can instead mark a point of time
+> > in the future when we should start processing the events.
+> > 
+> > Reported-by: Nicolas Boichat <drinkcat@chromium.org>
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/hid/usbhid/hid-core.c | 27 +++++++++++++++------------
+> >  drivers/hid/usbhid/usbhid.h   |  1 +
+> >  2 files changed, 16 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+> > index c7bc9db5b192..e69992e945b2 100644
+> > --- a/drivers/hid/usbhid/hid-core.c
+> > +++ b/drivers/hid/usbhid/hid-core.c
+> > @@ -95,6 +95,19 @@ static int hid_start_in(struct hid_device *hid)
+> >  				set_bit(HID_NO_BANDWIDTH, &usbhid->iofl);
+> >  		} else {
+> >  			clear_bit(HID_NO_BANDWIDTH, &usbhid->iofl);
+> > +
+> > +			if (test_and_clear_bit(HID_RESUME_RUNNING,
+> > +					       &usbhid->iofl)) {
+> > +				/*
+> > +				 * In case events are generated while nobody was
+> > +				 * listening, some are released when the device
+> > +				 * is re-opened. Wait 50 msec for the queue to
+> > +				 * empty before allowing events to go through
+> > +				 * hid.
+> > +				 */
+> > +				usbhid->input_start_time = jiffies +
+> > +							   msecs_to_jiffies(50);
+> > +			}
+> >  		}
+> >  	}
+> >  	spin_unlock_irqrestore(&usbhid->lock, flags);
+> > @@ -280,7 +293,8 @@ static void hid_irq_in(struct urb *urb)
+> >  		if (!test_bit(HID_OPENED, &usbhid->iofl))
+> >  			break;
+> >  		usbhid_mark_busy(usbhid);
+> > -		if (!test_bit(HID_RESUME_RUNNING, &usbhid->iofl)) {
+> > +		if (!test_bit(HID_RESUME_RUNNING, &usbhid->iofl) &&
+> > +		    time_after(jiffies, usbhid->input_start_time)) {
+> >  			hid_input_report(urb->context, HID_INPUT_REPORT,
+> >  					 urb->transfer_buffer,
+> >  					 urb->actual_length, 1);
+> > @@ -714,17 +728,6 @@ static int usbhid_open(struct hid_device *hid)
+> >  	}
+> >  
+> >  	usb_autopm_put_interface(usbhid->intf);
+> > -
+> > -	/*
+> > -	 * In case events are generated while nobody was listening,
+> > -	 * some are released when the device is re-opened.
+> > -	 * Wait 50 msec for the queue to empty before allowing events
+> > -	 * to go through hid.
+> > -	 */
+> > -	if (res == 0)
+> > -		msleep(50);
+> > -
+> Can you just set usbhid->input_start_time here ?
+> 	if (res == 0)
+> 		usbhid->input_start_time = jiffies + msecs_to_jiffies(50);
+> 	clear_bit(HID_RESUME_RUNNING, &usbhid->iofl);
+> 
+> Then you might not need the added code in hid_start_in().
 
-We'd get the same benefit from a smaller patch with just:
+That was my first version, but if hid_start_in() fails we start a timer
+and try to retry the IO (and the "res" in 0 in this case). And we want
+to mark the time only after we successfully submitted the interrupt URB,
+that is why the code is in hid_start_in().
 
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1502,15 +1502,9 @@ static inline int blk_rq_aligned(struct request_queue *q, unsigned long addr,
- 	return !(addr & alignment) && !(len & alignment);
- }
- 
--/* assumes size > 256 */
- static inline unsigned int blksize_bits(unsigned int size)
- {
--	unsigned int bits = 8;
--	do {
--		bits++;
--		size >>= 1;
--	} while (size > 256);
--	return bits;
-+	return ilog2(size);
- }
- 
- static inline unsigned int block_size(struct block_device *bdev)
+Thanks.
+
+-- 
+Dmitry
