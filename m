@@ -5,132 +5,125 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D71C433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 01:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70546C433E0
+	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 03:24:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 176872075A
-	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 01:49:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C2142076B
+	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 03:24:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CbnZ8aKq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aPWKRMwh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728653AbgE3BtI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 May 2020 21:49:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33746 "EHLO
+        id S1728675AbgE3DYT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 May 2020 23:24:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728406AbgE3BtH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 21:49:07 -0400
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C93CBC03E969
-        for <linux-usb@vger.kernel.org>; Fri, 29 May 2020 18:49:05 -0700 (PDT)
-Received: by mail-ua1-x942.google.com with SMTP id g14so1487560uaq.0
-        for <linux-usb@vger.kernel.org>; Fri, 29 May 2020 18:49:05 -0700 (PDT)
+        with ESMTP id S1728297AbgE3DYS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 May 2020 23:24:18 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C3FC03E969;
+        Fri, 29 May 2020 20:24:18 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id bh7so1959075plb.11;
+        Fri, 29 May 2020 20:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=QyoYlbzEC2C0XCtskC7hD/a99DdKSS1XN1Xiv82FMm0=;
-        b=CbnZ8aKqW2e4nwItjcnb6gtN2WA8tCZQLj6zgUx4vJKqYmlrCbauvL6gDXHyawETqU
-         8dGA5mH/DBTLkhKcoZpaGk7JEYcoYDJR7M3Tt45EoZzCIepFKQBImchaBTUfzmE8nnFL
-         IAaa00mLlJSUOcc8NsW7rzWi1fQ6DqXwE999hQVNVyvXxpptHOLA09cpQQbszdKwaK41
-         hjXRi6r3jK0IkvehhjF9tJViyzwe+NubM8HZskoMWPvtTwQTt1IFoEM1XpCALX/MbdD0
-         RyX7PfnEof9/djGe30qONwljyyiOTil8w5NOl+7kKespQP2F37W7ieKtRMcU+MqQv+4b
-         XwLA==
+        h=from:to:cc:subject:date:message-id;
+        bh=FdbL62wDBkj51/wZjPHO0PEcvT8Qa+4KymVTq92Y+JA=;
+        b=aPWKRMwhAzA/H+38X17QTU2KRFcaK5q5nRdTvsURPl33xIsGN+hw2VXVRTJ2xRfGOY
+         fqcJKIBCP2GJQFYBnA3xWVKR5wM5kOCotIOPBuax9gigjN6JdqzuY5nA92D83FwT3jFe
+         SQFuBOHKMQbY8b+h9SLfjT55Izyu9GmiHUXLhlo4qgd5NldtoSokES819rkBlRa7chnU
+         fiOMni3p8W4580kw+C4ZHnmdLEFs2I6R8S982fZ3nfgA6QGThiQoeRAGWKXQAI3UEqgq
+         AZeTwCWT+yXlmARWaBiybrQvxJbSbRjn+Svs8ePNITQX/U92/2ZKEF/vd3ZxnFk1aRjZ
+         nGBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=QyoYlbzEC2C0XCtskC7hD/a99DdKSS1XN1Xiv82FMm0=;
-        b=h+2O41V5eomJUaXNuch9MxB+uKOahumpiNpBjcAeuz/Q45q1o+z7UpdWIZSM3e9BPY
-         mxCPbYKtGJY+1M3zg4ZiZUhTf6C16PRxyLijf/K+IKcigO3/jNLMXZjlXJO+BNLIESvv
-         vIr9+Ms167d7Br1pKKrY5vJHYvsQeLBAtsS0BR0zhimWeKRS4F3c24xlYNCX3G+lqFgx
-         qlBEDMMogNy4DOxHbcEZ88BI/Kjtt0alPUUD4aDJN9Y9hb3J5bchnqynM1XBKjQJw7mo
-         GdxvSio/ZhRyy3K3LiA1vRLxJhI5aSJXHTzKSWV7vhl8DU2WV/f+8LJgCppAALU0ZXX7
-         NSxw==
-X-Gm-Message-State: AOAM531jctOD3wBE9nlOGjL0axu/s7M9XmjTrluAvdxAJrDEMQo7bxGr
-        9DfB8Ydya4L2cYXWwKvYgSs=
-X-Google-Smtp-Source: ABdhPJyqghVrgxJFGb+CptRC+NXidd6xQjMAeOH6FmBVnbGnELSXYdE17bPXcDCY4EGXJWP794dPZg==
-X-Received: by 2002:ab0:490c:: with SMTP id z12mr7654882uac.33.1590803345089;
-        Fri, 29 May 2020 18:49:05 -0700 (PDT)
-Received: from DESKTOP-2I1VNC3.localdomain (host-128-227-216-118.xlate.ufl.edu. [128.227.216.118])
-        by smtp.gmail.com with ESMTPSA id z75sm1507759vkd.5.2020.05.29.18.49.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FdbL62wDBkj51/wZjPHO0PEcvT8Qa+4KymVTq92Y+JA=;
+        b=fkRRzFx0HzQCgruW0tCClxONQzSOYOtxIQKfcLlF/5klMD+HgDsDDUACRNVGaj4yGc
+         bL3ZuMl+Va8AftQab4Yz2UhEDu1xEkO7el7Y0AxEMnHNEbGlNaA2BPCpqJcO9eOov1jE
+         w9cTrHttXJF7ZyBjwGDISfb8nK/T8H2mZ+SOMrMICp4mx70AHJusCrEhPihZMeZ2LUMW
+         hny2bQ5xsSb196ZUYaAIWUK/eHaPu1mSjhc9OzFAUG0dIH4YdcblaS20NCW+a7oyFX7t
+         tvbzY2nRqQpcOLgDhw4cPd72YFGlBZYLAV9YCu7SdZogM9nX7JdlEiV44Pwz7NWHqkBq
+         Zh3w==
+X-Gm-Message-State: AOAM533EPhi9/D7mXVTbt0Mhoaqcz7u1X3fLkOZtWXQZ4qZ+NCaLbjvT
+        oALEnykspbhsA6ceSZ4DHpA=
+X-Google-Smtp-Source: ABdhPJxFrT0FsXFHKwllDoEok7Dgi4SL1M1SsslivDkKDszxBXXjKxhrC+1f5K2kAKg2Dw1/IXdPHA==
+X-Received: by 2002:a17:90a:ee91:: with SMTP id i17mr11269329pjz.45.1590809058312;
+        Fri, 29 May 2020 20:24:18 -0700 (PDT)
+Received: from oslab.tsinghua.edu.cn ([166.111.139.172])
+        by smtp.gmail.com with ESMTPSA id b63sm8426304pfg.86.2020.05.29.20.24.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 18:49:04 -0700 (PDT)
-From:   Changming <charley.ashbringer@gmail.com>
-X-Google-Original-From: Changming <liu.changm@northeastern.edu>
-To:     gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, thomas@winischhofer.net,
-        Changming Liu <liu.changm@northeastern.edu>
-Subject: [PATCH 5/6] USB: sisusbvga: change sisusb_read_mem_bulk
-Date:   Fri, 29 May 2020 21:48:19 -0400
-Message-Id: <20200530014820.9967-6-liu.changm@northeastern.edu>
+        Fri, 29 May 2020 20:24:17 -0700 (PDT)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+To:     gregkh@linuxfoundation.org, balbi@kernel.org, peter.chen@nxp.com,
+        pawell@cadence.com, rogerq@ti.com, colin.king@canonical.com,
+        yuehaibing@huawei.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [PATCH] usb: cdns3: fix possible buffer overflow caused by bad DMA value
+Date:   Sat, 30 May 2020 11:24:00 +0800
+Message-Id: <20200530032400.12743-1-baijiaju1990@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200530014820.9967-1-liu.changm@northeastern.edu>
-References: <20200530014820.9967-1-liu.changm@northeastern.edu>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Changming Liu <liu.changm@northeastern.edu>
+In cdns3_ep0_setup_phase():
+  struct usb_ctrlrequest *ctrl = priv_dev->setup_buf;
 
-change sisusb_read_mem_bulk userbuffer,kernbuffer
-and local buf from char to u8.
+Because priv_dev->setup_buf (allocated in cdns3_gadget_start) is stored 
+in DMA memory, and thus ctrl is a DMA value.
 
-Also it's called by sisusb_read_memory sisusb_testreadwrite
-and sisusb_read. Change their parameter types accordingly.
+cdns3_ep0_setup_phase()
+  cdns3_ep0_standard_request(priv_dev, ctrl)
+    cdns3_req_ep0_get_status(priv_dev, ctrl)
+      index = cdns3_ep_addr_to_index(ctrl->wIndex);
+      priv_ep = priv_dev->eps[index];
 
-Signed-off-by: Changming Liu <liu.changm@northeastern.edu>
+cdns3_ep0_setup_phase()
+  cdns3_ep0_standard_request(priv_dev, ctrl)
+    cdns3_req_ep0_handle_feature(priv_dev, ctrl_req, 0)
+      cdns3_ep0_feature_handle_endpoint(priv_dev, ctrl, set)
+        index = cdns3_ep_addr_to_index(ctrl->wIndex);
+        priv_ep = priv_dev->eps[index];
+
+In these cases, ctrl->wIndex can be be modified at anytime by malicious
+hardware, and thus a buffer overflow can occur when the code
+"priv_dev->eps[index]" is executed.
+
+To fix these possible bugs, index is checked before being used.
+
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
 ---
- drivers/usb/misc/sisusbvga/sisusb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/usb/cdns3/ep0.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/usb/misc/sisusbvga/sisusb.c b/drivers/usb/misc/sisusbvga/sisusb.c
-index 9e858530c4ed..1f21db40fdb5 100755
---- a/drivers/usb/misc/sisusbvga/sisusb.c
-+++ b/drivers/usb/misc/sisusbvga/sisusb.c
-@@ -1104,11 +1104,11 @@ static int sisusb_read_memio_long(struct sisusb_usb_data *sisusb, int type,
- }
+diff --git a/drivers/usb/cdns3/ep0.c b/drivers/usb/cdns3/ep0.c
+index e71240b386b4..0a80c7ade613 100644
+--- a/drivers/usb/cdns3/ep0.c
++++ b/drivers/usb/cdns3/ep0.c
+@@ -265,6 +265,8 @@ static int cdns3_req_ep0_get_status(struct cdns3_device *priv_dev,
+ 		return cdns3_ep0_delegate_req(priv_dev, ctrl);
+ 	case USB_RECIP_ENDPOINT:
+ 		index = cdns3_ep_addr_to_index(ctrl->wIndex);
++		if (index >= CDNS3_ENDPOINTS_MAX_COUNT)
++			return -EINVAL;
+ 		priv_ep = priv_dev->eps[index];
  
- static int sisusb_read_mem_bulk(struct sisusb_usb_data *sisusb, u32 addr,
--		char *kernbuffer, int length, char __user *userbuffer,
-+		u8 *kernbuffer, int length, u8 __user *userbuffer,
- 		ssize_t *bytes_read)
- {
- 	int ret = 0;
--	char buf[4];
-+	u8 buf[4];
- 	u16 swap16;
- 	u32 swap32;
+ 		/* check if endpoint is stalled or stall is pending */
+@@ -388,6 +390,9 @@ static int cdns3_ep0_feature_handle_endpoint(struct cdns3_device *priv_dev,
+ 		return 0;
  
-@@ -1293,7 +1293,7 @@ int sisusb_copy_memory(struct sisusb_usb_data *sisusb, u8 *src,
- }
+ 	index = cdns3_ep_addr_to_index(ctrl->wIndex);
++	if (index >= CDNS3_ENDPOINTS_MAX_COUNT)
++		return -EINVAL;
++
+ 	priv_ep = priv_dev->eps[index];
  
- #ifdef SISUSBENDIANTEST
--static int sisusb_read_memory(struct sisusb_usb_data *sisusb, char *dest,
-+static int sisusb_read_memory(struct sisusb_usb_data *sisusb, u8 *dest,
- 		u32 src, int length)
- {
- 	size_t dummy;
-@@ -1308,7 +1308,7 @@ static int sisusb_read_memory(struct sisusb_usb_data *sisusb, char *dest,
- static void sisusb_testreadwrite(struct sisusb_usb_data *sisusb)
- {
- 	static u8 srcbuffer[] = { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77 };
--	char destbuffer[10];
-+	u8 destbuffer[10];
- 	int i, j;
- 
- 	sisusb_copy_memory(sisusb, srcbuffer, sisusb->vrambase, 7);
-@@ -2479,7 +2479,7 @@ static int sisusb_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
--static ssize_t sisusb_read(struct file *file, char __user *buffer,
-+static ssize_t sisusb_read(struct file *file, u8 __user *buffer,
- 		size_t count, loff_t *ppos)
- {
- 	struct sisusb_usb_data *sisusb;
+ 	cdns3_select_ep(priv_dev, ctrl->wIndex);
 -- 
 2.17.1
 
