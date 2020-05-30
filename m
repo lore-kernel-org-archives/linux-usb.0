@@ -2,64 +2,83 @@ Return-Path: <SRS0=uWyP=7M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5361CC433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 15:59:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8CCC433E0
+	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 16:53:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C88620774
-	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 15:59:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C59EF2074D
+	for <linux-usb@archiver.kernel.org>; Sat, 30 May 2020 16:53:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729139AbgE3P72 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 30 May 2020 11:59:28 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:55311 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1729038AbgE3P72 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 May 2020 11:59:28 -0400
-Received: (qmail 30265 invoked by uid 1000); 30 May 2020 11:59:27 -0400
-Date:   Sat, 30 May 2020 11:59:27 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
-        Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: Re: [PATCH] usb: storage: alauda: fix possible buffer overflow
- casued by bad DMA value in alauda_read_map()
-Message-ID: <20200530155927.GC29298@rowland.harvard.edu>
-References: <20200530144230.3550-1-baijiaju@tsinghua.edu.cn>
+        id S1729188AbgE3Qx3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 30 May 2020 12:53:29 -0400
+Received: from out29-173.mail.aliyun.com ([115.124.29.173]:51895 "EHLO
+        out29-173.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728927AbgE3Qx2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 May 2020 12:53:28 -0400
+X-Alimail-AntiSpam: AC=SUSPECT;BC=0.6639204|-1;BR=01201311R401b1;CH=blue;DM=|SUSPECT|false|;DS=CONTINUE|ham_system_inform|0.0217762-0.0127684-0.965455;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03301;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.HfvVT0t_1590857595;
+Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.HfvVT0t_1590857595)
+          by smtp.aliyun-inc.com(10.147.40.26);
+          Sun, 31 May 2020 00:53:23 +0800
+From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
+        <zhouyanjie@wanyeetech.com>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        dongsheng.qiu@ingenic.com, aric.pzqi@ingenic.com,
+        rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
+        sernia.zhou@foxmail.com, zhenwenjin@gmail.com
+Subject: [PATCH 1/2] dt-bindings: USB: Add Ingenic X1000 and X1830 bindings.
+Date:   Sun, 31 May 2020 00:52:52 +0800
+Message-Id: <20200530165253.17445-2-zhouyanjie@wanyeetech.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20200530165253.17445-1-zhouyanjie@wanyeetech.com>
+References: <20200530165253.17445-1-zhouyanjie@wanyeetech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200530144230.3550-1-baijiaju@tsinghua.edu.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, May 30, 2020 at 10:42:30PM +0800, Jia-Ju Bai wrote:
-> From: Jia-Ju Bai <baijiaju1990@gmail.com>
-> 
-> The value us->iobuf is stored in DMA memory, and it is assigned to data,
-> so data[6] and data[7] can be modified at anytime by malicious hardware.
-> In this case, data[6] ^ data[7] can be a quite large number, which may 
-> cause buffer overflow when the code "parity[data[6] ^ data[7]]" is
-> executed.
-> 
-> To fix this possible bug, data[6] ^ data[7] is assigned to a local
-> variable, and then this variable is checked before being used.
+Add the USB PHY bindings for the X1000 SoC and
+the X1830 SoC from Ingenic.
 
-There are much worse problems than this in the alauda driver.  For 
-example, alauda_get_redu_data() does I/O from a data buffer on the 
-stack; this is not allowed.  That's just the example I noticed; there 
-may very well be others.
+Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+---
+ Documentation/devicetree/bindings/usb/ingenic,jz4770-phy.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-If you want to fix something, fix that.
+diff --git a/Documentation/devicetree/bindings/usb/ingenic,jz4770-phy.yaml b/Documentation/devicetree/bindings/usb/ingenic,jz4770-phy.yaml
+index a81b0b1a2226..95ba3b9aa801 100644
+--- a/Documentation/devicetree/bindings/usb/ingenic,jz4770-phy.yaml
++++ b/Documentation/devicetree/bindings/usb/ingenic,jz4770-phy.yaml
+@@ -4,10 +4,11 @@
+ $id: http://devicetree.org/schemas/usb/ingenic,jz4770-phy.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Ingenic JZ4770 USB PHY devicetree bindings
++title: Ingenic SoCs USB PHY devicetree bindings
+ 
+ maintainers:
+   - Paul Cercueil <paul@crapouillou.net>
++  - 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+ 
+ properties:
+   $nodename:
+@@ -16,6 +17,8 @@ properties:
+   compatible:
+     enum:
+       - ingenic,jz4770-phy
++      - ingenic,x1000-phy
++      - ingenic,x1830-phy
+ 
+   reg:
+     maxItems: 1
+-- 
+2.11.0
 
-If you're still worried about malicious hardware, the way to fix the 
-problem is not to change this one location.  Instead, you should modify 
-the driver so that us->iobuf is not stored in DMA memory.
-
-Alan Stern
