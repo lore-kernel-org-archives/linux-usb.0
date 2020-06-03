@@ -2,140 +2,148 @@ Return-Path: <SRS0=gvS/=7Q=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C68C433E1
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 15:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B38AC433E0
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 17:42:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D53AE205CB
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 15:32:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D55D2053B
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 17:42:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="X829y22a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726066AbgFCPca (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Jun 2020 11:32:30 -0400
-Received: from mail-il1-f197.google.com ([209.85.166.197]:56216 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726173AbgFCPcQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Jun 2020 11:32:16 -0400
-Received: by mail-il1-f197.google.com with SMTP id l20so1343549ilk.22
-        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2020 08:32:15 -0700 (PDT)
+        id S1726315AbgFCRmr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Jun 2020 13:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726241AbgFCRmq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Jun 2020 13:42:46 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA3BCC08C5C5
+        for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2020 10:36:20 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id y11so1040779plt.12
+        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2020 10:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=ylVKXMXoSHWxEfuprMtTy+ptfQH8F9MdYoQU37bFUNc=;
+        b=X829y22aorlO5+Du+MvNj8VULQUMImlRc6xjM+s9r8nWu/Mvpz3brR7ktjNpVrS/qS
+         c3IxPLMp50QFAk4JbZGm0JkHoLEj69/UAZ4NFoAl+ElHknCqhTWatOLZLvQ8AbtbDX3z
+         8sGKtZdcUt7n3AkgwohwgKQql80SaxCE3GTvI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Gl8DCI8PdMFP57T9AipLOavLrIwW1cuatNeoRe4hWbg=;
-        b=Sxuw34cwymrSNMlx42RaFIlbfpDT9AcUWaDxaWnwqWungloNozDstTXUbkWbEsLJQx
-         JQ9FBGPdNhOuHt0BI/EVbc11Z00yq9crZLs+xNE88IA1rCKiyal8XOSL5aL16dim/Ghg
-         /guT3zpxfaMv5alEu9j6Hs96oWFLHI2siTT1rrSv5QpaH61iBI/Jd/fiXDWdaPV2eYCy
-         1arcqVKcu209V3ldEzL8B+4PSA6kEttHMPaRQKJkBjhDDg7ULUYO1I64Gi6Xl0iP6bhi
-         GPo+RQAyMu0hF+euTAH6TT3v12fVFUYw9CMZYcfEXIEyyOfiChNEGR6E/Mu11jBWCGzF
-         Z0nQ==
-X-Gm-Message-State: AOAM531HheGv0wofH40TtacpnzLmhKse+VSK0Kf3Ldne69v+xGncixT1
-        idT3swv5l1wG2i21/IjKpnYmSULqU2y8+Jn6HJUwXGrNGCK8
-X-Google-Smtp-Source: ABdhPJy5Ka0KHHhvWlr51OHU3WnJemWLkBsFR4ZWyPRPCO6VwyWIBTXiNMdirWDuNq1OUicZ8NEv0kerl7DZV6+xqhHPTg15ivM5
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=ylVKXMXoSHWxEfuprMtTy+ptfQH8F9MdYoQU37bFUNc=;
+        b=L0XuFaVvJgO8QqCxnIsVy6hrCHnl5FBZyV7E+yjXHxxpb5LiQAAXaZjITcKkCc3RUP
+         pVuZxklfD39bEKx9zZ7pQCOE443msWWSxEMc3gWLr9HD5i/+sIkN8Q967s0LNh4/UeJc
+         GQ+4RALaFj+OZeqUq3F8AIF8Mv9GzoYW5bqYjcfIk9FB8cVLA4ktPUGZKpHEVnWB3Hdi
+         JypX6kvCVrOxhCdcImTriboQIABB5tKhhkVkHUdMvsc1fqHMqg1wXAdkALlnJzaisShm
+         J3dA1kenYmNyZHjedSFl+XyN2yeDgcUakb7G1Rnxk8hu7LrF9Yx2+5jl1MEMpfQRtl6M
+         q8/g==
+X-Gm-Message-State: AOAM530NbzI1qBfiJseqkW5myl6OGGjdYdrmxvGKOkZcYRIYaTNW3xx8
+        f9Wyx/TOihXDzpNNIWP2+XvgFg==
+X-Google-Smtp-Source: ABdhPJzPNTYLHirFN1uXJ/hKbGPbDvfxX70mtZPZJ+nOvN+YGavJ90efgc+PB2Z8D+2TUOVWgjt5DA==
+X-Received: by 2002:a17:902:465:: with SMTP id 92mr844330ple.227.1591205780260;
+        Wed, 03 Jun 2020 10:36:20 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id w5sm2376042pfn.22.2020.06.03.10.36.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2020 10:36:19 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Received: by 2002:a92:9c52:: with SMTP id h79mr100851ili.252.1591198334773;
- Wed, 03 Jun 2020 08:32:14 -0700 (PDT)
-Date:   Wed, 03 Jun 2020 08:32:14 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000082f13605a72fbbcb@google.com>
-Subject: KASAN: out-of-bounds Read in ath9k_hif_usb_rx_cb
-From:   syzbot <syzbot+d7289ef49bcdfd654265@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, ath9k-devel@qca.qualcomm.com,
-        davem@davemloft.net, kuba@kernel.org, kvalo@codeaurora.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1585718145-29537-3-git-send-email-sanm@codeaurora.org>
+References: <1585718145-29537-1-git-send-email-sanm@codeaurora.org> <1585718145-29537-3-git-send-email-sanm@codeaurora.org>
+Subject: Re: [PATCH v7 2/4] usb: dwc3: qcom: Add interconnect support in dwc3 driver
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Chandana Kishori Chiluveru <cchiluve@codeaurora.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+Date:   Wed, 03 Jun 2020 10:36:18 -0700
+Message-ID: <159120577830.69627.13288547914742515702@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Quoting Sandeep Maheswaram (2020-03-31 22:15:43)
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index 1dfd024..d33ae86 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -76,8 +85,13 @@ struct dwc3_qcom {
+>         enum usb_dr_mode        mode;
+>         bool                    is_suspended;
+>         bool                    pm_suspended;
+> +       struct icc_path         *usb_ddr_icc_path;
+> +       struct icc_path         *apps_usb_icc_path;
+>  };
+> =20
+> +static int dwc3_qcom_interconnect_enable(struct dwc3_qcom *qcom);
+> +static int dwc3_qcom_interconnect_disable(struct dwc3_qcom *qcom);
 
-syzbot found the following crash on:
+Please get rid of these. We shouldn't need forward declarations.
 
-HEAD commit:    2089c6ed usb: core: kcov: collect coverage from usb comple..
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=17cf6bd6100000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b7479d3935864b1b
-dashboard link: https://syzkaller.appspot.com/bug?extid=d7289ef49bcdfd654265
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> +
+>  static inline void dwc3_qcom_setbits(void __iomem *base, u32 offset, u32=
+ val)
+>  {
+>         u32 reg;
+> @@ -285,6 +307,101 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom)
+>         return 0;
+>  }
+> =20
+> +
+> +/**
+> + * dwc3_qcom_interconnect_init() - Get interconnect path handles
+> + * @qcom:                      Pointer to the concerned usb core.
+> + *
+> + */
+> +static int dwc3_qcom_interconnect_init(struct dwc3_qcom *qcom)
+> +{
+> +       struct device *dev =3D qcom->dev;
+> +       int ret;
+> +
+> +       if (!device_is_bound(&qcom->dwc3->dev))
+> +               return -EPROBE_DEFER;
 
-Unfortunately, I don't have any reproducer for this crash yet.
+How is this supposed to work? I see that this was added in an earlier
+revision of this patch series but there isn't any mention of why
+device_is_bound() is used here. It would be great if there was a comment
+detailing why this is necessary. It sounds like maximum_speed is
+important?
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+d7289ef49bcdfd654265@syzkaller.appspotmail.com
+Furthermore, dwc3_qcom_interconnect_init() is called by
+dwc3_qcom_probe() which is the function that registers the device for
+qcom->dwc3->dev. If that device doesn't probe between the time it is
+registered by dwc3_qcom_probe() and this function is called then we'll
+fail dwc3_qcom_probe() with -EPROBE_DEFER. And that will remove the
+qcom->dwc3->dev device from the platform bus because we call
+of_platform_depopulate() on the error path of dwc3_qcom_probe().
 
-==================================================================
-BUG: KASAN: out-of-bounds in ath9k_hif_usb_rx_stream drivers/net/wireless/ath/ath9k/hif_usb.c:622 [inline]
-BUG: KASAN: out-of-bounds in ath9k_hif_usb_rx_cb+0xe64/0xf90 drivers/net/wireless/ath/ath9k/hif_usb.c:666
-Read of size 4 at addr ffff8881acb6c0d0 by task swapper/1/0
-
-CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.7.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0xef/0x16e lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0xd3/0x415 mm/kasan/report.c:382
- __kasan_report.cold+0x37/0x7d mm/kasan/report.c:511
- kasan_report+0x33/0x50 mm/kasan/common.c:625
- ath9k_hif_usb_rx_stream drivers/net/wireless/ath/ath9k/hif_usb.c:622 [inline]
- ath9k_hif_usb_rx_cb+0xe64/0xf90 drivers/net/wireless/ath/ath9k/hif_usb.c:666
- __usb_hcd_giveback_urb+0x29a/0x550 drivers/usb/core/hcd.c:1650
- usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1716
- dummy_timer+0x125e/0x32b4 drivers/usb/gadget/udc/dummy_hcd.c:1967
- call_timer_fn+0x1ac/0x700 kernel/time/timer.c:1405
- expire_timers kernel/time/timer.c:1450 [inline]
- __run_timers kernel/time/timer.c:1774 [inline]
- __run_timers kernel/time/timer.c:1741 [inline]
- run_timer_softirq+0x5f9/0x1500 kernel/time/timer.c:1787
- __do_softirq+0x21e/0x9aa kernel/softirq.c:292
- invoke_softirq kernel/softirq.c:373 [inline]
- irq_exit+0x178/0x1a0 kernel/softirq.c:413
- exiting_irq arch/x86/include/asm/apic.h:546 [inline]
- smp_apic_timer_interrupt+0x141/0x540 arch/x86/kernel/apic/apic.c:1140
- apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
- </IRQ>
-RIP: 0010:default_idle+0x28/0x300 arch/x86/kernel/process.c:698
-Code: cc cc 41 56 41 55 65 44 8b 2d 94 3f 6b 7a 41 54 55 53 0f 1f 44 00 00 e8 16 28 af fb e9 07 00 00 00 0f 00 2d 7a e1 4b 00 fb f4 <65> 44 8b 2d 70 3f 6b 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
-RSP: 0018:ffff8881da227da8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffff8881da20b180 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffff8881da20b9fc
-RBP: ffffed103b441630 R08: ffff8881da20b180 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
-R13: 0000000000000001 R14: ffffffff87e88c40 R15: 0000000000000000
- cpuidle_idle_call kernel/sched/idle.c:154 [inline]
- do_idle+0x3e0/0x500 kernel/sched/idle.c:269
- cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:361
- start_secondary+0x2ae/0x390 arch/x86/kernel/smpboot.c:268
- secondary_startup_64+0xb6/0xc0 arch/x86/kernel/head_64.S:242
-
-The buggy address belongs to the page:
-page:ffffea0006b2db00 refcount:0 mapcount:0 mapping:0000000080660f93 index:0x0
-flags: 0x200000000000000()
-raw: 0200000000000000 0000000000000000 ffffea0006b2db08 0000000000000000
-raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff8881acb6bf80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff8881acb6c000: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->ffff8881acb6c080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-                                                 ^
- ffff8881acb6c100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff8881acb6c180: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+So isn't this whole thing racy and can potentially lead us to a driver
+probe loop where the wrapper (dwc3_qcom) and the core (dwc3) are probing
+and we're trying to time it just right so that driver for dwc3 binds
+before we setup interconnects? I don't know if dwc3 can communicate to
+the wrapper but that would be more of a direct way to do this. Or maybe
+the wrapper should try to read the DT property for maximum speed and
+fallback to a worst case high bandwidth value if it can't figure it out
+itself without help from dwc3 core.
