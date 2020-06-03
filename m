@@ -2,105 +2,107 @@ Return-Path: <SRS0=gvS/=7Q=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 089F4C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 17:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6868C433DF
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 18:39:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2A9D2053B
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 17:42:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="gk244yjd"
+	by mail.kernel.org (Postfix) with ESMTP id D846D207D0
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 18:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbgFCRmz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Jun 2020 13:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbgFCRmq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Jun 2020 13:42:46 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2EDC08C5C2
-        for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2020 10:33:31 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id e125so1859215lfd.1
-        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2020 10:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RiYI0t+KrBvaJgMcqUi2332VvHKyX88P2wlQysjVLXM=;
-        b=gk244yjdaq9AeMPc0x74cYRwy2EEkQH/A2o2vAvYivtoPifzXZ4zIPTJxNnt6AEms3
-         lnpu4id+cI4xfoV50YJ3gBY/KHwO5czVFEAW3yZvg2XLVI0C+9X1+Ckei58TxH5yrgfU
-         PF13oW+pEFgFc9YI47rXwqVQRStTEWiZL8fC7FVTh8rSr0KJdluA2FI89xLVmbfQ+NEW
-         wlgPHeXOEVwRUcFUMyqo37mmdKmoeKXeGMAoiKXHwA/4WYa5strDvITPRW9Rem2vUDvL
-         zNBIpLEJlrIhR0I1My/Ub2bW9Sw0qyMOt/HBDths765G9kyJoGaQBb+35SazRc8zZLjg
-         m+LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RiYI0t+KrBvaJgMcqUi2332VvHKyX88P2wlQysjVLXM=;
-        b=cQEecQFwWUF75aIrQaUlGmt+7cZKE4PJuGggpuGwtwvS6ev+RuwFcQ/REs/2m3Mop4
-         Bv7toEogPXZQA74hGfT8Hhd5VWVCs6hyRE8YAkTzWzNswPPDmoWxneX5KuPx55o3/l9D
-         nmfnMqG1Qsue/UdNpCjeRt+oLT4Tq3kAv6ODiJUojxgEv5/0sQ4LcTHCCXh4Bkc8yKPc
-         A7eNrykKAN2+zEwQjXJqhvwenl6xhSnrFUhETbaWzMpebjNF1GSD0Ze/vRYgBKQVUr7j
-         2zQbn72R0XFpgD+rLil6oFHSoarFkfpbtAF2yjoqpkWtGYkvaH+qW3JJsBcDNZcvvqpW
-         K2/w==
-X-Gm-Message-State: AOAM530932CsMXoiAFfhMbMX9iKNJ6OnMllIBuTz38ZZ9Wb/Q7Rn7xAz
-        sS4gsSA9fkYjLoNvrgtDkXUOZa7Eeek=
-X-Google-Smtp-Source: ABdhPJxlDbpPhvBO2HwzpUWB+mZRWd3ea7bAmLgctD4jOZItUkkhqH0olCiHDFJagt7e80KPbSXkjA==
-X-Received: by 2002:ac2:489a:: with SMTP id x26mr297287lfc.111.1591205609563;
-        Wed, 03 Jun 2020 10:33:29 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:448d:774a:2057:6699:2c75:847d? ([2a00:1fa0:448d:774a:2057:6699:2c75:847d])
-        by smtp.gmail.com with ESMTPSA id q8sm815921lfo.13.2020.06.03.10.33.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2020 10:33:28 -0700 (PDT)
-Subject: Re: [PATCH v3] usb: host: xhci-mtk: avoid runtime suspend when
- removing hcd
-To:     Macpaul Lin <macpaul.lin@mediatek.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        stable@vger.kernel.org
-Cc:     Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Macpaul Lin <macpaul.lin@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <ebd32a2b-c4ba-8891-b13e-f6c641a94276@linux.intel.com>
- <1591189767-21988-1-git-send-email-macpaul.lin@mediatek.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <b2f3aa9f-a592-0e8c-f897-f5d885fb9740@cogentembedded.com>
-Date:   Wed, 3 Jun 2020 20:33:24 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+        id S1726023AbgFCSj1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Jun 2020 14:39:27 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:45803 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725920AbgFCSj1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Jun 2020 14:39:27 -0400
+Received: (qmail 26852 invoked by uid 1000); 3 Jun 2020 14:39:26 -0400
+Date:   Wed, 3 Jun 2020 14:39:26 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     qiang.zhang@windriver.com
+Cc:     gregkh@linuxfoundation.org, kt0755@gmail.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: usbtest: fix missing kfree(dev->buf) in
+ usbtest_disconnect
+Message-ID: <20200603183926.GA26504@rowland.harvard.edu>
+References: <20200603030506.31577-1-qiang.zhang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1591189767-21988-1-git-send-email-macpaul.lin@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200603030506.31577-1-qiang.zhang@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello.
-
-On 03.06.2020 16:09, Macpaul Lin wrote:
-
-> When runtime suspend was enabled, runtime suspend might happened
-
-    Happen.
-
-> when xhci is removing hcd. This might cause kernel panic when hcd
-> has been freed but runtime pm suspend related handle need to
-> reference it.
+On Wed, Jun 03, 2020 at 11:05:06AM +0800, qiang.zhang@windriver.com wrote:
+> From: Zqiang <qiang.zhang@windriver.com>
 > 
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-[...]
+> BUG: memory leak
+> unreferenced object 0xffff888055046e00 (size 256):
+>   comm "kworker/2:9", pid 2570, jiffies 4294942129 (age 1095.500s)
+>   hex dump (first 32 bytes):
+>     00 70 04 55 80 88 ff ff 18 bb 5a 81 ff ff ff ff  .p.U......Z.....
+>     f5 96 78 81 ff ff ff ff 37 de 8e 81 ff ff ff ff  ..x.....7.......
+>   backtrace:
+>     [<00000000d121dccf>] kmemleak_alloc_recursive
+> include/linux/kmemleak.h:43 [inline]
+>     [<00000000d121dccf>] slab_post_alloc_hook mm/slab.h:586 [inline]
+>     [<00000000d121dccf>] slab_alloc_node mm/slub.c:2786 [inline]
+>     [<00000000d121dccf>] slab_alloc mm/slub.c:2794 [inline]
+>     [<00000000d121dccf>] kmem_cache_alloc_trace+0x15e/0x2d0 mm/slub.c:2811
+>     [<000000005c3c3381>] kmalloc include/linux/slab.h:555 [inline]
+>     [<000000005c3c3381>] usbtest_probe+0x286/0x19d0
+> drivers/usb/misc/usbtest.c:2790
+>     [<000000001cec6910>] usb_probe_interface+0x2bd/0x870
+> drivers/usb/core/driver.c:361
+>     [<000000007806c118>] really_probe+0x48d/0x8f0 drivers/base/dd.c:551
+>     [<00000000a3308c3e>] driver_probe_device+0xfc/0x2a0 drivers/base/dd.c:724
+>     [<000000003ef66004>] __device_attach_driver+0x1b6/0x240
+> drivers/base/dd.c:831
+>     [<00000000eee53e97>] bus_for_each_drv+0x14e/0x1e0 drivers/base/bus.c:431
+>     [<00000000bb0648d0>] __device_attach+0x1f9/0x350 drivers/base/dd.c:897
+>     [<00000000838b324a>] device_initial_probe+0x1a/0x20 drivers/base/dd.c:944
+>     [<0000000030d501c1>] bus_probe_device+0x1e1/0x280 drivers/base/bus.c:491
+>     [<000000005bd7adef>] device_add+0x131d/0x1c40 drivers/base/core.c:2504
+>     [<00000000a0937814>] usb_set_configuration+0xe84/0x1ab0
+> drivers/usb/core/message.c:2030
+>     [<00000000e3934741>] generic_probe+0x6a/0xe0 drivers/usb/core/generic.c:210
+>     [<0000000098ade0f1>] usb_probe_device+0x90/0xd0
+> drivers/usb/core/driver.c:266
+>     [<000000007806c118>] really_probe+0x48d/0x8f0 drivers/base/dd.c:551
+>     [<00000000a3308c3e>] driver_probe_device+0xfc/0x2a0 drivers/base/dd.c:724
+> 
+> Fixes: fabbf2196d0d ("USB: usbtest fix coding style")
 
-MBR, Sergei
+This patch doesn't really fix that commit.  In fact, it has nothing to 
+do with that commit.  You shouldn't just put random commit IDs into your 
+Changelog.
+
+> Reported-by: Kyungtae Kim <kt0755@gmail.com>
+> Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+> ---
+>  drivers/usb/misc/usbtest.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
+> index 98ada1a3425c..bae88893ee8e 100644
+> --- a/drivers/usb/misc/usbtest.c
+> +++ b/drivers/usb/misc/usbtest.c
+> @@ -2873,6 +2873,7 @@ static void usbtest_disconnect(struct usb_interface *intf)
+>  
+>  	usb_set_intfdata(intf, NULL);
+>  	dev_dbg(&intf->dev, "disconnect\n");
+> +	kfree(dev->buf);
+>  	kfree(dev);
+>  }
+>  
+> -- 
+> 2.24.1
+
+Aside from that one issue,
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
