@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C62C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 02:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D673BC433DF
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 03:02:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD0942072F
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 02:57:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C07E62072F
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jun 2020 03:02:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725836AbgFCC5V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jun 2020 22:57:21 -0400
-Received: from mail5.windriver.com ([192.103.53.11]:51518 "EHLO mail5.wrs.com"
+        id S1725883AbgFCDCa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jun 2020 23:02:30 -0400
+Received: from mail5.windriver.com ([192.103.53.11]:51676 "EHLO mail5.wrs.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725780AbgFCC5V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Jun 2020 22:57:21 -0400
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-        by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0532uQ2A009471
+        id S1725780AbgFCDCa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jun 2020 23:02:30 -0400
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+        by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05331agd009646
         (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-        Tue, 2 Jun 2020 19:56:36 -0700
+        Tue, 2 Jun 2020 20:01:46 -0700
 Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 2 Jun 2020 19:56:16 -0700
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 2 Jun 2020 20:01:07 -0700
 From:   <qiang.zhang@windriver.com>
 To:     <gregkh@linuxfoundation.org>
 CC:     <kt0755@gmail.com>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 Subject: [PATCH] usb: usbtest: fix missing kfree(dev->buf) in usbtest_disconnect
-Date:   Wed, 3 Jun 2020 11:05:06 +0800
-Message-ID: <20200603030506.31577-1-qiang.zhang@windriver.com>
+Date:   Wed, 3 Jun 2020 11:09:58 +0800
+Message-ID: <20200603030958.31666-1-qiang.zhang@windriver.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -79,6 +79,7 @@ drivers/usb/core/driver.c:266
     [<00000000a3308c3e>] driver_probe_device+0xfc/0x2a0 drivers/base/dd.c:724
 
 Fixes: fabbf2196d0d ("USB: usbtest fix coding style")
+
 Reported-by: Kyungtae Kim <kt0755@gmail.com>
 Signed-off-by: Zqiang <qiang.zhang@windriver.com>
 ---
