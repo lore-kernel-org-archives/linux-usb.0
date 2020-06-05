@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 045E6C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA6B7C433E1
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:31:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC9EF2075B
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:29:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFC4D20772
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591360173;
+	s=default; t=1591360281;
 	bh=+tWFxojbwbjTLS/ezsp1cuaZ8C8To3S6VWEHd9iuCno=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2QDOc5di8hMmStpICDw80UjPTAZS9PwrLTIlpvYEUazqoaacLGghv2TvOE5Vt3rYQ
-	 QVFAiLqQIrM5Nhv9NB5/Ze9f8GOOUYj5pvwOLWdMtqmh8g8FbR7PBTCisFbwwAwInB
-	 IGzQZiO9K402EaZ6yMX8YZcevAPpGDXorKNTsdDs=
+	b=frx6hkG801bVtFTp5Bls578u1fzfV9SUMCFvliI5QOmagHTSVeb13msX/NDBQgYLM
+	 me+t2GVi7lHgAldlG183mUPTxE70aVFcbLuteOe5bHmznBoLG4UiAvQy5aW5IIV2PW
+	 RNFFWRGwrEWIBo2PrepS2QH1F9sfl/xTl2vQgglo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728122AbgFEM3c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Jun 2020 08:29:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57562 "EHLO mail.kernel.org"
+        id S1728148AbgFEMbG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Jun 2020 08:31:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56752 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726955AbgFEMZs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Jun 2020 08:25:48 -0400
+        id S1726709AbgFEMZ0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Jun 2020 08:25:26 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4AFA920897;
-        Fri,  5 Jun 2020 12:25:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 912A3207D8;
+        Fri,  5 Jun 2020 12:25:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591359948;
+        s=default; t=1591359926;
         bh=+tWFxojbwbjTLS/ezsp1cuaZ8C8To3S6VWEHd9iuCno=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mcsNz1obQpQK5k8fG9V4pR2E1MLW4Cgq7g4hc6gWwHk6qcDQGw8+/zBY+TogdiQnA
-         Qpx5Tswy1QH8wpGnCXlHVMed+/COJuF1QlMCabp2xhu7itUUD9NLksfYuRtInJvpOm
-         bGBmA2aD2WZv6JlzbhELz6gzrpuIAiO3fZgjhdAA=
+        b=gSPRC3nFoG34T1q8DdRNcXNaOXCoXYNoTgx+7lw/+H+IJdQp+YKuMieP/u/xuGrDR
+         4MvRHVW3XYSJtxF/Lc+/yu61JeFOtZqjOv2+8Zk6I16nFJolPDJMyEls73TO7l7wEv
+         gZ1APvdzrUi7PjRM3JFhTlyM4foLreO3mfjQq3fQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Daniele Palmas <dnlplm@gmail.com>,
@@ -45,12 +45,12 @@ Cc:     Daniele Palmas <dnlplm@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 06/14] net: usb: qmi_wwan: add Telit LE910C1-EUX composition
-Date:   Fri,  5 Jun 2020 08:25:32 -0400
-Message-Id: <20200605122540.2882539-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 07/17] net: usb: qmi_wwan: add Telit LE910C1-EUX composition
+Date:   Fri,  5 Jun 2020 08:25:06 -0400
+Message-Id: <20200605122517.2882338-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200605122540.2882539-1-sashal@kernel.org>
-References: <20200605122540.2882539-1-sashal@kernel.org>
+In-Reply-To: <20200605122517.2882338-1-sashal@kernel.org>
+References: <20200605122517.2882338-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
