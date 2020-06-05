@@ -2,137 +2,92 @@ Return-Path: <SRS0=Cs0a=7S=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E62C433E1
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:03:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69847C433DF
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:27:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93F112065C
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:03:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=tronnes.org header.i=@tronnes.org header.b="N3dmvrDS"
+	by mail.kernel.org (Postfix) with ESMTP id 39B4C20814
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Jun 2020 12:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591360032;
+	bh=bg6aCtD8ioDsZhST6nFlp180UjQ3I/GcDRoEOgtoPfU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=j1kF1YE8dwxijc7U4HKgsFSt5Ktp1t1yxOgBUYpJJj1gpOvZtz8kAf1ORgH3PoX97
+	 W+XtJHAX3XusmGbqrz5B0oubWtnFPIlypQavtl59+QMIOVohnhtSVgv062r348q6gP
+	 9aJCNU58XhCSOgj6HbhCKUfRjlrMzVpmCzblnDWA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726372AbgFEMDc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Jun 2020 08:03:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55636 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgFEMDc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Jun 2020 08:03:32 -0400
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [IPv6:2a01:5b40:0:3005::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 646E5C08C5C2
-        for <linux-usb@vger.kernel.org>; Fri,  5 Jun 2020 05:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-        ; s=ds201912; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=y9ittHD8YGkkU5m8rej1IvZl7iF631YkkM7rL3cbOmo=; b=N3dmvrDSvACLFkXDo0XEdH5ECv
-        5S92bmVvwop0EGyMT2H2ivIpjEL1Kme+o1x2U7JpxQ0561FIlzDxrB0oai0SwmzntTmlGXvU75f6O
-        2Qi1LIEhomZ/bo0ZvVWrfd21PIcY4w6xTWoIW8Pb7KBy72LCFpzJ6QqSFaORCLG1/ZKMfMBb/9fIe
-        dh+CP1CuBE4Q/ErXvEcd420XOfRDgB0eQLf5qNEgv67eJBDqy0dcZyuMgy2C9rcSgdFxx8EFD8tQX
-        KZ7oNSV/Moei6fe6opg17pViybRsd/sdewkm72viu/jsPmRm1EoB3Y+3rD8HrmPxlFrNgdqdQFiBO
-        2Q4uXPtQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63447 helo=[192.168.10.61])
-        by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <noralf@tronnes.org>)
-        id 1jhB4K-0003C5-RJ; Fri, 05 Jun 2020 14:03:28 +0200
-Subject: Re: [PATCH v3 4/6] drm: Add Generic USB Display driver
-To:     Peter Stuge <peter@stuge.se>,
-        Alan Stern <stern@rowland.harvard.edu>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
-        dri-devel@lists.freedesktop.org
-References: <20200529175643.46094-1-noralf@tronnes.org>
- <20200529175643.46094-5-noralf@tronnes.org>
- <20200529224531.22261.qmail@stuge.se>
- <614b0b0d-44d7-22e5-339d-cb8a13b426ac@tronnes.org>
- <20200602001207.17171.qmail@stuge.se>
- <20200602023254.GB15540@rowland.harvard.edu>
- <20200602052150.1505.qmail@stuge.se>
- <20200602152700.GB31640@rowland.harvard.edu>
- <20200602183838.29988.qmail@stuge.se>
-From:   =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <d3d047a1-8e71-e937-36a3-f1f458b7edf5@tronnes.org>
-Date:   Fri, 5 Jun 2020 14:03:26 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+        id S1727830AbgFEM02 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Jun 2020 08:26:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58706 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727816AbgFEM0Z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Jun 2020 08:26:25 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D26A6208A9;
+        Fri,  5 Jun 2020 12:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591359984;
+        bh=bg6aCtD8ioDsZhST6nFlp180UjQ3I/GcDRoEOgtoPfU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=L7Vjw2RoxkRgsuLAJMWhDnCQyOKMAx5BmqCAryP4SsQxuTAi8KIKut5MPECl/PbiW
+         76OOdIfJ96c3CjOuuHsjrQPGkCMbpWfkjKY8AIwa/ydlaNlHKG+x/JNFtroSl0h7YE
+         b2Oc3ZS93Juf9R3M4f8NV2Qni2e7VYEjDEW4bEVY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Daniele Palmas <dnlplm@gmail.com>,
+        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 3/6] net: usb: qmi_wwan: add Telit LE910C1-EUX composition
+Date:   Fri,  5 Jun 2020 08:26:17 -0400
+Message-Id: <20200605122620.2882962-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200605122620.2882962-1-sashal@kernel.org>
+References: <20200605122620.2882962-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200602183838.29988.qmail@stuge.se>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: Daniele Palmas <dnlplm@gmail.com>
 
-Den 02.06.2020 20.38, skrev Peter Stuge:
-> Alan Stern wrote:
->>>> A gadget driver can STALL in response to a control-OUT data packet,
->>>> but only before it has seen the packet.
->>>
->>> How can it do that for OUT, and IN if possible there too?
->>
->> In the way described just above: The gadget driver's SETUP handler tells 
->> the UDC to stall the data packet.
->>
->>> Is it related to f->setup() returning < 0 ?
->>
->> Yes; the composite core interprets such a value as meaning to STALL 
->> endpoint 0.
-> 
-> Thanks a lot for confirming this.
-> 
-> 
->>> The spec also allows NAK, but the gadget code seems to not (need to?)
->>> explicitly support that. Can you comment on this as well?
->>
->> If the gadget driver doesn't submit a usb_request then the UDC will 
->> reply with NAK.
-> 
-> And thanks for this as well.
-> 
-> 
->>> a status request so I can know the result of the operation the device has
->>> performed.
-> ..
->> There are two reasonable approaches you could use.  One is to have a 
->> vendor-specific control request to get the result of the preceding 
->> operation.
-> ..
->> The other approach is to send the status data over a bulk-IN endpoint.
-> 
-> I've tried to explain a third approach, which I think fits well because the
-> status is only a "Ready" flag - ie. a memory barrier or flow control,
-> to make the host not send data OUT.
-> 
-> I'm proposing that the gadget should NAK on data OUT when it isn't Ready, and
-> that the host driver shouldn't query status but simply send data when it has.
-> 
-> Per Alans description the NAK happens automatically if the gadget driver has
-> no usb_request pending while it is processing previously received data.
-> 
-> On the host that NAK makes the host controller retry automatically until
-> transfer success, timeout or fatal error.
-> 
-> 
->> It would have to be formatted in such a way that the host could 
->> recognize it as a status packet and not some other sort of data packet.
-> 
-> For host notification of status changes other than Ready I really like
-> such an IN endpoint, but preferably an interrupt endpoint.
-> 
-> To avoid the formatting problem each data packet could be one full status
-> message. That way the host would always receive a known data structure.
-> Interrupt packets can be max 64 byte. Noralf, do you think that's enough
-> for everyone in the first version?
-> 
+[ Upstream commit 591612aa578cd7148b7b9d74869ef40118978389 ]
 
-I'm going through some treatment that turned out to be worse than
-expected, so sadly I have to put this project on hold until my body
-recovers.
+Add support for Telit LE910C1-EUX composition
 
-Noralf.
+0x1031: tty, tty, tty, rmnet
+Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+Acked-by: Bjørn Mork <bjorn@mork.no>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 5755eec00d7f..9a873616dd27 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -921,6 +921,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x1bbb, 0x0203, 2)},	/* Alcatel L800MA */
+ 	{QMI_FIXED_INTF(0x2357, 0x0201, 4)},	/* TP-LINK HSUPA Modem MA180 */
+ 	{QMI_FIXED_INTF(0x2357, 0x9000, 4)},	/* TP-LINK MA260 */
++	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1031, 3)}, /* Telit LE910C1-EUX */
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1040, 2)},	/* Telit LE922A */
+ 	{QMI_FIXED_INTF(0x1bc7, 0x1100, 3)},	/* Telit ME910 */
+ 	{QMI_FIXED_INTF(0x1bc7, 0x1101, 3)},	/* Telit ME910 dual modem */
+-- 
+2.25.1
+
