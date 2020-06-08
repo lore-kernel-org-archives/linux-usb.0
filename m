@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F17AAC433DF
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:26:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B49AC433DF
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:34:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE3B620814
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:26:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AD9F20760
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591662371;
-	bh=BSyonC01oOJYjmrWgRtX+/RL9lb+1Yqc92A7PwcFbRA=;
+	s=default; t=1591662861;
+	bh=L9dEFwmMPW+AV5IScBr/9bkG1sG4655gjTPtCJQfpNQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2Wi8wvMGGJ0T+MKXNegRHqWxdyjlEtHnXmYU8O4sxzwS4cEC+0lQwbL1WfivQ1ymS
-	 bu6fJ1qqp/p32HTaZAaeMMVaUWyoZV7XCJNr+FCfkk5AD6uKLuUtRLejmhhm7xnTgh
-	 HllraFxsT498Q5dgq0A7wt11ieVTDF4Jwz2m85Dw=
+	b=cK81l9PGDqvCH8hTOSYRMgk3WEJZNAyWSsux2GiH+E3BrEw6jXkub+yH809tBxEhg
+	 8MLiurm5CeCzTWvU1EeKjrOpBWTQoJ0KW+mPH6ERqwPSszSAAMTS0qJAOggv94OVaZ
+	 5IfK/7wu9tcp7u+dV6zKWaFCbP9JSsU2pdiK1ZEw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733040AbgFIA0I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Jun 2020 20:26:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38202 "EHLO mail.kernel.org"
+        id S1732870AbgFIAeG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Jun 2020 20:34:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35140 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730343AbgFHXQr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:16:47 -0400
+        id S1729880AbgFHXOl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:14:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 594F220775;
-        Mon,  8 Jun 2020 23:16:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5B66A20C09;
+        Mon,  8 Jun 2020 23:14:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658207;
-        bh=BSyonC01oOJYjmrWgRtX+/RL9lb+1Yqc92A7PwcFbRA=;
+        s=default; t=1591658081;
+        bh=L9dEFwmMPW+AV5IScBr/9bkG1sG4655gjTPtCJQfpNQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FfsQ7hs4K9ReujV9aUh3DDpCwDbWYzpps63aDatXg4mQx8C28QgMo3FIMXCBHUKp1
-         zr56vJU/gej3f6FI9AkPCYZd9xY8ORKUS6xmPuMA3dNLOEf3Nzal67p/emd0tDJQU+
-         pB4kmK6DzjbEDVzAf44nNOBabfotNdbRyIGWguQQ=
+        b=pPebJoRTz80DttDZht1dD/QIJLb09QDq93cfmhBXv4COFr/VWNDW5pcc1DX3iK5PF
+         xHBY2Gg20y4lF6gv0Md4IJAzpgW6VyLaUM/hD0t4y5tqUJUi0zEUZy/fSmKa/smxu5
+         LCZyint2nxhsNmVUEVuhRmi9kuAu4x0ILpng/j6E=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marc Payne <marc.payne@mdpsys.co.uk>,
-        "David S . Miller" <davem@davemloft.net>,
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 225/606] r8152: support additional Microsoft Surface Ethernet Adapter variant
-Date:   Mon,  8 Jun 2020 19:05:50 -0400
-Message-Id: <20200608231211.3363633-225-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 125/606] USB: core: Fix misleading driver bug report
+Date:   Mon,  8 Jun 2020 19:04:10 -0400
+Message-Id: <20200608231211.3363633-125-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
 References: <20200608231211.3363633-1-sashal@kernel.org>
@@ -59,65 +59,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Marc Payne <marc.payne@mdpsys.co.uk>
+From: Alan Stern <stern@rowland.harvard.edu>
 
-[ Upstream commit c27a204383616efba5a4194075e90819961ff66a ]
+[ Upstream commit ac854131d9844f79e2fdcef67a7707227538d78a ]
 
-Device id 0927 is the RTL8153B-based component of the 'Surface USB-C to
-Ethernet and USB Adapter' and may be used as a component of other devices
-in future. Tested and working with the r8152 driver.
+The syzbot fuzzer found a race between URB submission to endpoint 0
+and device reset.  Namely, during the reset we call usb_ep0_reinit()
+because the characteristics of ep0 may have changed (if the reset
+follows a firmware update, for example).  While usb_ep0_reinit() is
+running there is a brief period during which the pointers stored in
+udev->ep_in[0] and udev->ep_out[0] are set to NULL, and if an URB is
+submitted to ep0 during that period, usb_urb_ep_type_check() will
+report it as a driver bug.  In the absence of those pointers, the
+routine thinks that the endpoint doesn't exist.  The log message looks
+like this:
 
-Update the cdc_ether blacklist due to the RTL8153 'network jam on suspend'
-issue which this device will cause (personally confirmed).
+------------[ cut here ]------------
+usb 2-1: BOGUS urb xfer, pipe 2 != type 2
+WARNING: CPU: 0 PID: 9241 at drivers/usb/core/urb.c:478
+usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
 
-Signed-off-by: Marc Payne <marc.payne@mdpsys.co.uk>
-Signed-off-by: David S. Miller <davem@davemloft.net>
+Now, although submitting an URB while the device is being reset is a
+questionable thing to do, it shouldn't count as a driver bug as severe
+as submitting an URB for an endpoint that doesn't exist.  Indeed,
+endpoint 0 always exists, even while the device is in its unconfigured
+state.
+
+To prevent these misleading driver bug reports, this patch updates
+usb_disable_endpoint() to avoid clearing the ep_in[] and ep_out[]
+pointers when the endpoint being disabled is ep0.  There's no danger
+of leaving a stale pointer in place, because the usb_host_endpoint
+structure being pointed to is stored permanently in udev->ep0; it
+doesn't get deallocated until the entire usb_device structure does.
+
+Reported-and-tested-by: syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+
+Link: https://lore.kernel.org/r/Pine.LNX.4.44L0.2005011558590.903-100000@netrider.rowland.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/cdc_ether.c | 11 +++++++++--
- drivers/net/usb/r8152.c     |  1 +
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ drivers/usb/core/message.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index 0cdb2ce47645..a657943c9f01 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -815,14 +815,21 @@ static const struct usb_device_id	products[] = {
- 	.driver_info = 0,
- },
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index 02eaac7e1e34..a1ac2f0723b0 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -1143,11 +1143,11 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
  
--/* Microsoft Surface 3 dock (based on Realtek RTL8153) */
-+/* Microsoft Surface Ethernet Adapter (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(MICROSOFT_VENDOR_ID, 0x07c6, USB_CLASS_COMM,
- 			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
- 	.driver_info = 0,
- },
- 
--	/* TP-LINK UE300 USB 3.0 Ethernet Adapters (based on Realtek RTL8153) */
-+/* Microsoft Surface Ethernet Adapter (based on Realtek RTL8153B) */
-+{
-+	USB_DEVICE_AND_INTERFACE_INFO(MICROSOFT_VENDOR_ID, 0x0927, USB_CLASS_COMM,
-+			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-+	.driver_info = 0,
-+},
-+
-+/* TP-LINK UE300 USB 3.0 Ethernet Adapters (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(TPLINK_VENDOR_ID, 0x0601, USB_CLASS_COMM,
- 			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 95b19ce96513..7c8c45984a5c 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -6901,6 +6901,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8153)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07c6)},
-+	{REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0927)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_SAMSUNG, 0xa101)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x304f)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3062)},
+ 	if (usb_endpoint_out(epaddr)) {
+ 		ep = dev->ep_out[epnum];
+-		if (reset_hardware)
++		if (reset_hardware && epnum != 0)
+ 			dev->ep_out[epnum] = NULL;
+ 	} else {
+ 		ep = dev->ep_in[epnum];
+-		if (reset_hardware)
++		if (reset_hardware && epnum != 0)
+ 			dev->ep_in[epnum] = NULL;
+ 	}
+ 	if (ep) {
 -- 
 2.25.1
 
