@@ -2,218 +2,143 @@ Return-Path: <SRS0=d9UH=7V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F33C433E0
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 07:07:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7A0C433DF
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 07:10:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CF77204EF
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 07:07:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85C772076C
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 07:10:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="D+gTAZSe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728931AbgFHHHw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Jun 2020 03:07:52 -0400
-Received: from mail1.windriver.com ([147.11.146.13]:58656 "EHLO
-        mail1.windriver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728792AbgFHHHw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Jun 2020 03:07:52 -0400
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-        by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05877jNN006211
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-        Mon, 8 Jun 2020 00:07:45 -0700 (PDT)
-Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 8 Jun 2020 00:07:29 -0700
-From:   <qiang.zhang@windriver.com>
-To:     <balbi@kernel.org>
-CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
-        <Markus.Elfring@web.de>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] usb: gadget: function: printer: fix use-after-free in __lock_acquire
-Date:   Mon, 8 Jun 2020 15:16:22 +0800
-Message-ID: <20200608071622.33081-1-qiang.zhang@windriver.com>
-X-Mailer: git-send-email 2.24.1
+        id S1728943AbgFHHKn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Jun 2020 03:10:43 -0400
+Received: from mail-eopbgr40046.outbound.protection.outlook.com ([40.107.4.46]:14272
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727966AbgFHHKm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Jun 2020 03:10:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EiJTX0qiH9wNRFJAtjYCoJf6tSvbCWoDWBJ9DbyyUUqVYQoMkfFYCuvzFcb7d6NXCF4nwsX8RlgzC4JvHnSnq3zlW5lVNaLP6oVUjvQV2/FllPqTmvEJLB8Yjc5VYF4Ar6onuo7WAyrPSxscPB+c5DJ+risVZ4UEDve8SA5OvT/FGLtKwWcdzjR75mITqYF65NYR6X5JzXYCedwjVWybW7MJYJkD6kZdxjPPvyX3FIQk4yagboKL+ehbWNZjxrgEhrnoZJL6wRf+l3UHt+YmSWPfQZM1vCqnXBruuvPf6FWI5AFb8LckYbQQUnmg2nk8n+VuvMqR/ugBzM7l0KzIbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeOqj7XO3ykGc0YefXeIX5fJ47dvK2vCMjBGmwK6Wfs=;
+ b=ZO+YcpTyNYqfE5Y0Ss8Y5W3BNtiJdFyO7msBQDyjKGAiAk5V8j0iP3ehxT8qeuf3eZ7XsBPoL4Cq+r63jLkzh6JzgAyJGb52goOmmFKzTtz6DGsUaMIY/K43m/5P1U2Up5zbMdAyb9ZN23EJlQ0MRbPW/YmBjIQdJQsfP5N+KbdyG/fHaiHy+9JIRQJHxlqhTy51aYYzOYKa+mOEsed6cZ/8QhxQkQYc8mAdk0XtD4WOpzeUu6ZaqSDA2DARDyviZXrcWsHSptL/lqXoWq8ltggJ6vkIxa2MuEoLkFBDfq5N/GMuEKM5cJSB/TiQCe3vVKBA14s/bw7S1Yxn1V4W+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeOqj7XO3ykGc0YefXeIX5fJ47dvK2vCMjBGmwK6Wfs=;
+ b=D+gTAZSe6u2p9XnFcrwOjLr3A4j6AJucrgz0/clkB1lClS1A9417fMwesChOLUtLYlic37VHnPP5iOVwP1npd5uGBBBKKTj3Hojkyaub6POXLf24h0F6D1utkUVILMSvHzwn7nyDNWEXmvtBUae27jr6Gs1nAJeUx0JKyoLcJTc=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM7PR04MB6870.eurprd04.prod.outlook.com (2603:10a6:20b:107::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Mon, 8 Jun
+ 2020 07:10:39 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3066.023; Mon, 8 Jun 2020
+ 07:10:39 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     balbi@kernel.org, mathias.nyman@intel.com
+Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com, pawell@cadence.com,
+        rogerq@ti.com, gregkh@linuxfoundation.org, jun.li@nxp.com,
+        Peter Chen <peter.chen@nxp.com>
+Subject: [PATCH v3 0/9] usb: some PM changes for cdns3 and xhci-plat
+Date:   Mon,  8 Jun 2020 15:10:43 +0800
+Message-Id: <20200608071052.8929-1-peter.chen@nxp.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SGAP274CA0002.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::14)
+ To AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from b29397-desktop.ap.freescale.net (119.31.174.66) by SGAP274CA0002.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 07:10:36 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [119.31.174.66]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9f84f594-0b80-434a-2148-08d80b7b0cb6
+X-MS-TrafficTypeDiagnostic: AM7PR04MB6870:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR04MB68707BF8BD657AD62F0E447E8B850@AM7PR04MB6870.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:962;
+X-Forefront-PRVS: 042857DBB5
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: giU6usn23f0GrGxGPI/26gPNCTF3eqVSDhxThLHH5K3Z8wJleWPzG8gEEnOBOMI7N5IIlXXq3VGKnnD8EfI8zLYlL8TYeuskCAhkodAgLeiC6/rL8XH/s3F8/NoboCv2djN6HmanZmfu7RdKm/2xUrPbony3pRVABtDtC0g+Q6D0loArkZ5JYe9UJZl+utGI+KqOgBaYQ8W+VkZB8ktpdt+WK5z+3Qmzb+FHsW4TB9eF8yp+cWtN66K3Mjl+qbA119MZQ1ClmAyE+c/JJkkyM3zjipJdG+7uKlAnbHnkqKDpVVufxEnV9DlJxHdrSrvqas1rkn/MToN4D/GXa+lAgQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(396003)(39860400002)(136003)(346002)(376002)(1076003)(6512007)(66946007)(44832011)(5660300002)(8936002)(66476007)(66556008)(8676002)(16526019)(186003)(956004)(2616005)(26005)(6506007)(86362001)(6486002)(316002)(2906002)(83380400001)(4326008)(478600001)(36756003)(52116002)(6666004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: Zp53ZF/2L6/fWFkk1Pj6KvgzW9eAEcwG+4JN5jKhL/f2CgkVYCZuYXYp10okySG+MZCslt8mkDOGvQ7cYzH3Qzy+5YxWT+dIEC48Ox/+Jyk4/hZGEnZDLOJm2ieVm4THtpeiE+L/NR84G2PFcRVoNtEsfxwb66F20/6dFiVDvibupYrO83xPmGp3yiJ4x1ZFfP5nTEA36orPVUJ8WLuegUWdhEGrxc/cogmjopr8WmXI/sxQS+Rlzy1MbCHoX+n5/+Y6nZ97eR8clpPNSf9hfFIH6BEqQcE6rJcV5pdgdXDGSTKorg1D0L/z0ZnwxoQF9tOqq09xqUa2waenV4vmYLFZNN9Vz4urFoxoX3lEfNT9hewfScpu7DmoK7tJ5FCcjJ/mHEyOuUAcPwPuF2bPvMjfZscy8K3IR5b9uQkBeRewv5+IinZIFLhvTBPRSKQ9+sK5dP/u4dfKmeJKZNuJQNCRnAgyQDSEvrXaiuxJk+s=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f84f594-0b80-434a-2148-08d80b7b0cb6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 07:10:39.7022
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ajK3AcUUbWkIBFBoEVf0IQgPsuVmbtLnhvqsysS6KoNfigCiPRs66RIac7aOEUL9Mb1K91G9QOzKWBdlpi72+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6870
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Zqiang <qiang.zhang@windriver.com>
+Hi Felipe & Mathias,
 
-Increase the reference count of the printer dev through kref to avoid
-being released by other tasks when in use.
+In this series, it adds cdns3 runtime PM support as well as some
+xhci-plat changes, and verified at NXP i.MX8QM and i.MX8QXP platforms.
 
-BUG: KASAN: use-after-free in __lock_acquire+0x3fd4/0x4180
-kernel/locking/lockdep.c:3831
-Read of size 8 at addr ffff8880683b0018 by task syz-executor.0/3377
+Patch 1-3: add main runtime PM support for cdns3 core and imx glue layer
+Patch 4-9: add platform data support and two quirks for xhci-plat.c.
+- .suspend_quirk for platform special sequence between xhci_bus_suspend
+and xhci_suspend.
+- add XHCI_SKIP_PHY_INIT quirk for skip PHY management from HCD core.
 
-CPU: 1 PID: 3377 Comm: syz-executor.0 Not tainted 5.6.11 #1
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0xce/0x128 lib/dump_stack.c:118
- print_address_description.constprop.4+0x21/0x3c0 mm/kasan/report.c:374
- __kasan_report+0x131/0x1b0 mm/kasan/report.c:506
- kasan_report+0x12/0x20 mm/kasan/common.c:641
- __asan_report_load8_noabort+0x14/0x20 mm/kasan/generic_report.c:135
- __lock_acquire+0x3fd4/0x4180 kernel/locking/lockdep.c:3831
- lock_acquire+0x127/0x350 kernel/locking/lockdep.c:4488
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x35/0x50 kernel/locking/spinlock.c:159
- printer_ioctl+0x4a/0x110 drivers/usb/gadget/function/f_printer.c:723
- vfs_ioctl fs/ioctl.c:47 [inline]
- ksys_ioctl+0xfb/0x130 fs/ioctl.c:763
- __do_sys_ioctl fs/ioctl.c:772 [inline]
- __se_sys_ioctl fs/ioctl.c:770 [inline]
- __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:770
- do_syscall_64+0x9e/0x510 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4531a9
-Code: ed 60 fc ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48
-89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
-01 f0 ff ff 0f 83 bb 60 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007fd14ad72c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 000000000073bfa8 RCX: 00000000004531a9
-RDX: fffffffffffffff9 RSI: 000000000000009e RDI: 0000000000000003
-RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000004bbd61
-R13: 00000000004d0a98 R14: 00007fd14ad736d4 R15: 00000000ffffffff
+Changes for v2:
+Add Jun Li’s reviewed-by [Patch 1 and Patch 6]
+Add Mathias’s acked-by [Patch 4-6]
+Some wakeup logic improvement [Patch 2]
+Add dedicated wakeup interrupt for core, and improve the commit log [Patch]
+Fix build error found by kbuild test robot [Patch 3]
+Using xhci_plat_priv quirk for skip PHY initialization [patch 7, patch 9]
+Some other typo and tiny improvements
 
-Allocated by task 2393:
- save_stack+0x21/0x90 mm/kasan/common.c:72
- set_track mm/kasan/common.c:80 [inline]
- __kasan_kmalloc.constprop.3+0xa7/0xd0 mm/kasan/common.c:515
- kasan_kmalloc+0x9/0x10 mm/kasan/common.c:529
- kmem_cache_alloc_trace+0xfa/0x2d0 mm/slub.c:2813
- kmalloc include/linux/slab.h:555 [inline]
- kzalloc include/linux/slab.h:669 [inline]
- gprinter_alloc+0xa1/0x870 drivers/usb/gadget/function/f_printer.c:1416
- usb_get_function+0x58/0xc0 drivers/usb/gadget/functions.c:61
- config_usb_cfg_link+0x1ed/0x3e0 drivers/usb/gadget/configfs.c:444
- configfs_symlink+0x527/0x11d0 fs/configfs/symlink.c:202
- vfs_symlink+0x33d/0x5b0 fs/namei.c:4201
- do_symlinkat+0x11b/0x1d0 fs/namei.c:4228
- __do_sys_symlinkat fs/namei.c:4242 [inline]
- __se_sys_symlinkat fs/namei.c:4239 [inline]
- __x64_sys_symlinkat+0x73/0xb0 fs/namei.c:4239
- do_syscall_64+0x9e/0x510 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
+Changes for v1:
+- Add the 1st patch. Without it, the build on the usb-next will fail.
+- Change the subject for cover letter a little to reflect all contents.
 
-Freed by task 3368:
- save_stack+0x21/0x90 mm/kasan/common.c:72
- set_track mm/kasan/common.c:80 [inline]
- kasan_set_free_info mm/kasan/common.c:337 [inline]
- __kasan_slab_free+0x135/0x190 mm/kasan/common.c:476
- kasan_slab_free+0xe/0x10 mm/kasan/common.c:485
- slab_free_hook mm/slub.c:1444 [inline]
- slab_free_freelist_hook mm/slub.c:1477 [inline]
- slab_free mm/slub.c:3034 [inline]
- kfree+0xf7/0x410 mm/slub.c:3995
- gprinter_free+0x49/0xd0 drivers/usb/gadget/function/f_printer.c:1353
- usb_put_function+0x38/0x50 drivers/usb/gadget/functions.c:87
- config_usb_cfg_unlink+0x2db/0x3b0 drivers/usb/gadget/configfs.c:485
- configfs_unlink+0x3b9/0x7f0 fs/configfs/symlink.c:250
- vfs_unlink+0x287/0x570 fs/namei.c:4073
- do_unlinkat+0x4f9/0x620 fs/namei.c:4137
- __do_sys_unlink fs/namei.c:4184 [inline]
- __se_sys_unlink fs/namei.c:4182 [inline]
- __x64_sys_unlink+0x42/0x50 fs/namei.c:4182
- do_syscall_64+0x9e/0x510 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
+Peter Chen (9):
+  usb: cdns3: introduce cdns3_set_phy_power API
+  usb: cdns3: add runtime PM support
+  usb: cdns3: imx: add glue layer runtime pm implementation
+  usb: host: xhci-plat: add platform data support
+  usb: host: xhci-plat: add .suspend_quirk for struct xhci_plat_priv
+  usb: host: xhci-plat: delete the unnecessary code
+  usb: host: xhci-plat: add priv quirk for skip PHY initialization
+  usb: cdns3: host: add .suspend_quirk for xhci-plat.c
+  usb: cdns3: host: add xhci_plat_priv quirk XHCI_SKIP_PHY_INIT
 
-The buggy address belongs to the object at ffff8880683b0000
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 24 bytes inside of
- 1024-byte region [ffff8880683b0000, ffff8880683b0400)
-The buggy address belongs to the page:
-page:ffffea0001a0ec00 refcount:1 mapcount:0 mapping:ffff88806c00e300
-index:0xffff8880683b1800 compound_mapcount: 0
-flags: 0x100000000010200(slab|head)
-raw: 0100000000010200 0000000000000000 0000000600000001 ffff88806c00e300
-raw: ffff8880683b1800 000000008010000a 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
+ drivers/usb/cdns3/cdns3-imx.c   | 203 ++++++++++++++++++++++++++++++--
+ drivers/usb/cdns3/core.c        | 199 ++++++++++++++++++++++++++-----
+ drivers/usb/cdns3/core.h        |  16 +++
+ drivers/usb/cdns3/drd.c         |   3 +
+ drivers/usb/cdns3/gadget.c      |   4 +
+ drivers/usb/cdns3/host-export.h |   6 +
+ drivers/usb/cdns3/host.c        |  48 ++++++++
+ drivers/usb/host/xhci-plat.c    |  36 +++++-
+ drivers/usb/host/xhci-plat.h    |   1 +
+ drivers/usb/host/xhci.h         |   1 +
+ 10 files changed, 469 insertions(+), 48 deletions(-)
 
-Reported-by: Kyungtae Kim <kt0755@gmail.com>
-Signed-off-by: Zqiang <qiang.zhang@windriver.com>
----
- v1->v2:
-  Commit information modification.
-
- drivers/usb/gadget/function/f_printer.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index 9c7ed2539ff7..8ed1295d7e35 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -31,6 +31,7 @@
- #include <linux/types.h>
- #include <linux/ctype.h>
- #include <linux/cdev.h>
-+#include <linux/kref.h>
- 
- #include <asm/byteorder.h>
- #include <linux/io.h>
-@@ -64,7 +65,7 @@ struct printer_dev {
- 	struct usb_gadget	*gadget;
- 	s8			interface;
- 	struct usb_ep		*in_ep, *out_ep;
--
-+	struct kref             kref;
- 	struct list_head	rx_reqs;	/* List of free RX structs */
- 	struct list_head	rx_reqs_active;	/* List of Active RX xfers */
- 	struct list_head	rx_buffers;	/* List of completed xfers */
-@@ -218,6 +219,13 @@ static inline struct usb_endpoint_descriptor *ep_desc(struct usb_gadget *gadget,
- 
- /*-------------------------------------------------------------------------*/
- 
-+static void printer_dev_free(struct kref *kref)
-+{
-+	struct printer_dev *dev = container_of(kref, struct printer_dev, kref);
-+
-+	kfree(dev);
-+}
-+
- static struct usb_request *
- printer_req_alloc(struct usb_ep *ep, unsigned len, gfp_t gfp_flags)
- {
-@@ -348,6 +356,7 @@ printer_open(struct inode *inode, struct file *fd)
- 
- 	spin_unlock_irqrestore(&dev->lock, flags);
- 
-+	kref_get(&dev->kref);
- 	DBG(dev, "printer_open returned %x\n", ret);
- 	return ret;
- }
-@@ -365,6 +374,7 @@ printer_close(struct inode *inode, struct file *fd)
- 	dev->printer_status &= ~PRINTER_SELECTED;
- 	spin_unlock_irqrestore(&dev->lock, flags);
- 
-+	kref_put(&dev->kref, printer_dev_free);
- 	DBG(dev, "printer_close\n");
- 
- 	return 0;
-@@ -1350,7 +1360,8 @@ static void gprinter_free(struct usb_function *f)
- 	struct f_printer_opts *opts;
- 
- 	opts = container_of(f->fi, struct f_printer_opts, func_inst);
--	kfree(dev);
-+
-+	kref_put(&dev->kref, printer_dev_free);
- 	mutex_lock(&opts->lock);
- 	--opts->refcnt;
- 	mutex_unlock(&opts->lock);
-@@ -1419,6 +1430,7 @@ static struct usb_function *gprinter_alloc(struct usb_function_instance *fi)
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
-+	kref_init(&dev->kref);
- 	++opts->refcnt;
- 	dev->minor = opts->minor;
- 	dev->pnp_string = opts->pnp_string;
 -- 
-2.24.1
+2.17.1
 
