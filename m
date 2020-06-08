@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F340C433E1
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:39:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B227BC433DF
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:40:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F489206C3
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:39:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86F49206C3
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591663190;
-	bh=MatvT71DNINJoflORw7IVwTHNc3bKAwQQ8ojtaV9jPQ=;
+	s=default; t=1591663203;
+	bh=39vqlRfsBoNdJeuI4mEYkQrLbavGQuPFoJIQ8ZIkAzQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=fV7zCk4MMpq5+qH7Bznuy+UxZ7H2Trp5J6qj5TGM373rIH94tJ/vPHEaAxRnTJR86
-	 Y92E4s4seLCdvlRRhfwSyKB3i3xT+3J8THK4KiS1Ld31INAqUcsHq7XYrQJqhpYXZh
-	 36RQq0vSjCuyMAkxhb/fAfkwRbatZryKsEbqyHZg=
+	b=IyhqIPJaddfHgJR+Ih/MJ1sROXpNNWqX3AqjAp9ORNcGLYsI+IiwCktTWpo46SiPn
+	 xI202wV97nl/Ymd5WJNPXnODCERzKp1FLT/2sGkoluoyGoKjWcTlt9rg0YzTjxhcVI
+	 4/KSl9mEtBYydfiJKCtROdtqWftpEZpBuRBGQEm4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733012AbgFIAjk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Jun 2020 20:39:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32932 "EHLO mail.kernel.org"
+        id S1733217AbgFIAjx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Jun 2020 20:39:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32866 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728545AbgFHXNP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:13:15 -0400
+        id S1729245AbgFHXNL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:13:11 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63053214D8;
-        Mon,  8 Jun 2020 23:13:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D48A4208C3;
+        Mon,  8 Jun 2020 23:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657994;
-        bh=MatvT71DNINJoflORw7IVwTHNc3bKAwQQ8ojtaV9jPQ=;
+        s=default; t=1591657990;
+        bh=39vqlRfsBoNdJeuI4mEYkQrLbavGQuPFoJIQ8ZIkAzQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kehIeb7Eb9NNXbDlgt7BXXG6WEcsePeP0t0EXcHyBc/EwwxF8M9kRflGLF9jsgfMK
-         HOvwmaPoZiDhNGQXdJg9QCrpTNa4HtvQDuapvJ+1JYzQ+htkeOGRjnD7G7AZDKtWyd
-         pH/ozwCchPVMrXRPT8oAFvuMDhCIlSXq15sy4yGE=
+        b=WAaKUN4WzHRmZ/D2SLtDdWHbpOTC7oR9EhMeBaUHWpvcmj55xVi/E0Me2Qy21ERK5
+         qqNKkAlQEy5N0xk5M8sKaDKMX/4Iyq491goQQlmoLuddS6b6vFPR1jDDUj5EGv+/st
+         uCfFvxnHwv8ou2SmT3VxQfns4qOg6C6MRMRnXQqc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wei Yongjun <weiyongjun1@huawei.com>,
-        Hulk Robot <hulkci@huawei.com>,
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
         Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 052/606] usb: gadget: legacy: fix error return code in gncm_bind()
-Date:   Mon,  8 Jun 2020 19:02:57 -0400
-Message-Id: <20200608231211.3363633-52-sashal@kernel.org>
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 049/606] usb: gadget: tegra-xudc: Fix idle suspend/resume
+Date:   Mon,  8 Jun 2020 19:02:54 -0400
+Message-Id: <20200608231211.3363633-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
 References: <20200608231211.3363633-1-sashal@kernel.org>
@@ -60,38 +60,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+From: Thierry Reding <treding@nvidia.com>
 
-commit e27d4b30b71c66986196d8a1eb93cba9f602904a upstream.
+commit 0534d40160cb9505073b0ecf5e7210daee319a66 upstream.
 
-If 'usb_otg_descriptor_alloc()' fails, we must return a
-negative error code -ENOMEM, not 0.
+When the XUDC device is idle (i.e. powergated), care must be taken not
+to access any registers because that would lead to a crash.
 
-Fixes: 1156e91dd7cc ("usb: gadget: ncm: allocate and init otg descriptor by otg capabilities")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+Move the call to tegra_xudc_device_mode_off() into the same conditional
+as the tegra_xudc_powergate() call to make sure we only force device
+mode off if the XUDC is actually powered up.
+
+Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB device mode controller")
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/legacy/ncm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/legacy/ncm.c b/drivers/usb/gadget/legacy/ncm.c
-index c61e71ba7045..0f1b45e3abd1 100644
---- a/drivers/usb/gadget/legacy/ncm.c
-+++ b/drivers/usb/gadget/legacy/ncm.c
-@@ -156,8 +156,10 @@ static int gncm_bind(struct usb_composite_dev *cdev)
- 		struct usb_descriptor_header *usb_desc;
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index 634c2c19a176..a22d190d00a0 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -3740,11 +3740,11 @@ static int __maybe_unused tegra_xudc_suspend(struct device *dev)
  
- 		usb_desc = usb_otg_descriptor_alloc(gadget);
--		if (!usb_desc)
-+		if (!usb_desc) {
-+			status = -ENOMEM;
- 			goto fail;
-+		}
- 		usb_otg_descriptor_init(gadget, usb_desc);
- 		otg_desc[0] = usb_desc;
- 		otg_desc[1] = NULL;
+ 	flush_work(&xudc->usb_role_sw_work);
+ 
+-	/* Forcibly disconnect before powergating. */
+-	tegra_xudc_device_mode_off(xudc);
+-
+-	if (!pm_runtime_status_suspended(dev))
++	if (!pm_runtime_status_suspended(dev)) {
++		/* Forcibly disconnect before powergating. */
++		tegra_xudc_device_mode_off(xudc);
+ 		tegra_xudc_powergate(xudc);
++	}
+ 
+ 	pm_runtime_disable(dev);
+ 
 -- 
 2.25.1
 
