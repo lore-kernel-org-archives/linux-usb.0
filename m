@@ -2,26 +2,26 @@ Return-Path: <SRS0=d9UH=7V=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8730AC433E1
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C402C433E2
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6824620760
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 773BE20760
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgFHT2S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Jun 2020 15:28:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39674 "EHLO mx2.suse.de"
+        id S1726537AbgFHT1b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Jun 2020 15:27:31 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39542 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726410AbgFHT1g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Jun 2020 15:27:36 -0400
+        id S1726406AbgFHT1a (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Jun 2020 15:27:30 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 43A70AEBF;
-        Mon,  8 Jun 2020 19:27:38 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id E1636AE41;
+        Mon,  8 Jun 2020 19:27:31 +0000 (UTC)
 From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, wahrenst@gmx.net,
         robh@kernel.org, mathias.nyman@linux.intel.com,
@@ -29,17 +29,14 @@ To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, wahrenst@gmx.net,
         bcm-kernel-feedback-list@broadcom.com,
         linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, tim.gover@raspberrypi.org,
-        helgaas@kernel.org, lorenzo.pieralisi@arm.com
-Subject: [PATCH 4/9] ARM: dts: bcm2711: Add reset controller to xHCI node
-Date:   Mon,  8 Jun 2020 21:26:56 +0200
-Message-Id: <20200608192701.18355-5-nsaenzjulienne@suse.de>
+        helgaas@kernel.org, lorenzo.pieralisi@arm.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: [PATCH 0/9] Raspberry Pi 4 USB firmware initialization rework
+Date:   Mon,  8 Jun 2020 21:26:52 +0200
+Message-Id: <20200608192701.18355-1-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200608192701.18355-1-nsaenzjulienne@suse.de>
-References: <20200608192701.18355-1-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -47,34 +44,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The chip is hardwired to the board's PCIe bus and needs to be properly
-setup trough a firmware routine after a PCI fundamental reset. Pass the
-reset controller phandle that takes care of triggering the
-initialization to the relevant PCI device.
+On the Raspberry Pi 4, after a PCI reset, VL805's firmware may either be
+loaded directly from an EEPROM or, if not present, by the SoC's
+co-processor, VideoCore. This series reworks how we handle this.
 
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+The previous solution makes use of PCI quirks and exporting platform
+specific functions. Albeit functional it feels pretty shoehorned. This
+proposes an alternative way of handling the triggering of the xHCI chip
+initialization trough means of a reset controller.
+
+The benefits are pretty evident: less platform churn in core xHCI code,
+and no explicit device dependency management in pcie-brcmstb.
+
+Note that patch #1 depend on another series[1].
+
+The series is based on next-20200605.
+
+[1] https://lwn.net/ml/linux-kernel/cover.662a8d401787ef33780d91252a352de91dc4be10.1590594293.git-series.maxime@cerno.tech/
+
 ---
- arch/arm/boot/dts/bcm2711-rpi-4-b.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-index 47e7c9c14ddf..2646c858449f 100644
---- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-+++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-@@ -207,6 +207,13 @@ phy1: ethernet-phy@1 {
- 	};
- };
- 
-+&pcie0 {
-+	usb@1,0 {
-+		reg = <0 0 0 0 0>;
-+		resets = <&usb_reset>;
-+	};
-+};
-+
- /* uart0 communicates with the BT module */
- &uart0 {
- 	pinctrl-names = "default";
+Nicolas Saenz Julienne (9):
+  dt-bindings: reset: Add a binding for the RPi Firmware USB reset
+  reset: Add Raspberry Pi 4 firmware USB reset controller
+  ARM: dts: bcm2711: Add firmware usb reset node
+  ARM: dts: bcm2711: Add reset controller to xHCI node
+  usb: xhci-pci: Add support for reset controllers
+  Revert "USB: pci-quirks: Add Raspberry Pi 4 quirk"
+  usb: host: pci-quirks: Bypass xHCI quirks for Raspberry Pi 4
+  Revert "firmware: raspberrypi: Introduce vl805 init routine"
+  Revert "PCI: brcmstb: Wait for Raspberry Pi's firmware when present"
+
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  21 +++
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  12 ++
+ drivers/firmware/Kconfig                      |   3 +-
+ drivers/firmware/raspberrypi.c                |  61 ---------
+ drivers/pci/controller/pcie-brcmstb.c         |  17 ---
+ drivers/reset/Kconfig                         |   9 ++
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-raspberrypi-usb.c         | 122 ++++++++++++++++++
+ drivers/usb/host/pci-quirks.c                 |  22 ++--
+ drivers/usb/host/xhci-pci.c                   |   9 ++
+ include/soc/bcm2835/raspberrypi-firmware.h    |   7 -
+ 11 files changed, 184 insertions(+), 100 deletions(-)
+ create mode 100644 drivers/reset/reset-raspberrypi-usb.c
+
 -- 
 2.26.2
 
