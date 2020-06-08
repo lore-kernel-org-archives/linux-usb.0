@@ -7,22 +7,22 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FC4C433E4
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C68C433E4
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08D7120801
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB8DB20760
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Jun 2020 19:28:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbgFHT2M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Jun 2020 15:28:12 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39702 "EHLO mx2.suse.de"
+        id S1726568AbgFHT1b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Jun 2020 15:27:31 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39580 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726601AbgFHT1h (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Jun 2020 15:27:37 -0400
+        id S1726410AbgFHT1b (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Jun 2020 15:27:31 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 5A9A2AE41;
-        Mon,  8 Jun 2020 19:27:39 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id B0A7CAE71;
+        Mon,  8 Jun 2020 19:27:32 +0000 (UTC)
 From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, wahrenst@gmx.net,
         robh@kernel.org, mathias.nyman@linux.intel.com,
@@ -31,14 +31,15 @@ To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, wahrenst@gmx.net,
         linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>
 Cc:     linux-kernel@vger.kernel.org, tim.gover@raspberrypi.org,
         helgaas@kernel.org, lorenzo.pieralisi@arm.com,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: [PATCH 5/9] usb: xhci-pci: Add support for reset controllers
-Date:   Mon,  8 Jun 2020 21:26:57 +0200
-Message-Id: <20200608192701.18355-6-nsaenzjulienne@suse.de>
+        Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 1/9] dt-bindings: reset: Add a binding for the RPi Firmware USB reset
+Date:   Mon,  8 Jun 2020 21:26:53 +0200
+Message-Id: <20200608192701.18355-2-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200608192701.18355-1-nsaenzjulienne@suse.de>
 References: <20200608192701.18355-1-nsaenzjulienne@suse.de>
@@ -49,49 +50,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some atypical users of xhci-pci might need to manually reset their xHCI
-controller before starting the HCD setup. Check if a reset controller
-device is available to the PCI bus and trigger a reset.
+The firmware running on the RPi VideoCore can be used to reset and
+initialize the board's xHCI controller. The reset controller is passed
+to the PCI device through the DT, hence this binding.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 ---
- drivers/usb/host/xhci-pci.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index ef513c2fb843..45f70facdfcd 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -12,6 +12,7 @@
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <linux/acpi.h>
-+#include <linux/reset.h>
+diff --git a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
+index b48ed875eb8e..8f9d0986c28f 100644
+--- a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
++++ b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
+@@ -39,6 +39,22 @@ properties:
+       - compatible
+       - "#clock-cells"
  
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -339,6 +340,7 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	struct xhci_hcd *xhci;
- 	struct usb_hcd *hcd;
- 	struct xhci_driver_data *driver_data;
-+	struct reset_control *reset;
- 
- 	driver_data = (struct xhci_driver_data *)id->driver_data;
- 	if (driver_data && driver_data->quirks & XHCI_RENESAS_FW_QUIRK) {
-@@ -347,6 +349,13 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 			return retval;
- 	}
- 
-+	reset = devm_reset_control_get(&dev->bus->dev, NULL);
-+	if (IS_ERR(reset)) {
-+		retval = PTR_ERR(reset);
-+		return retval;
-+	}
-+	reset_control_reset(reset);
++  usb-reset:
++    type: object
 +
- 	/* Prevent runtime suspending between USB-2 and USB-3 initialization */
- 	pm_runtime_get_noresume(&dev->dev);
++    properties:
++      compatible:
++        const: raspberrypi,firmware-usb-reset
++
++      "#clock-cells":
++        const: 0
++        description: >
++          There is only one reset line available, so no need for cell decoding.
++
++    required:
++      - compatible
++      - "#reset-cells"
++
+     additionalProperties: false
  
+ required:
+@@ -55,5 +71,10 @@ examples:
+             compatible = "raspberrypi,firmware-clocks";
+             #clock-cells = <1>;
+         };
++
++        usb_reset: usb-reset {
++            compatible = "raspberrypi,firmware-usb-reset";
++            #reset-cells = <0>;
++        };
+     };
+ ...
 -- 
 2.26.2
 
