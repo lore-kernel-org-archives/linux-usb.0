@@ -2,208 +2,95 @@ Return-Path: <SRS0=f8IS=7W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76FC0C433E2
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 20:59:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E800C433DF
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 21:20:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5431C20734
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 20:59:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EACF02068D
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 21:20:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="A9f/f+iS"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iSOClD/E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728077AbgFIU7Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Jun 2020 16:59:16 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:57554 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727995AbgFIU7F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 9 Jun 2020 16:59:05 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1591736344; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=nvsygZ4LQhN8dkUFS3Ep5pykx2rAOIm/lVHOLxwhF90=; b=A9f/f+iSCqKXZNclc7bCuVaSVztXYgxi3xpK0/kJkxfZqqwY8RCmYUIuffLuiux8JtqlIKCC
- DlOtBCxNz13f+H97xyNOTfxSp3/pB8SnlDLkBcDrBGWHWOqRxE22IFeK9ThqzXQ9sSARz1m9
- +1WP+ZJkxP3isHRqJJU5a+FUBPk=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n14.prod.us-west-2.postgun.com with SMTP id
- 5edff8126f2ee827dafad965 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 09 Jun 2020 20:58:58
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 8C515C4339C; Tue,  9 Jun 2020 20:58:58 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3E08AC43387;
-        Tue,  9 Jun 2020 20:58:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3E08AC43387
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+        id S1727022AbgFIVUr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Jun 2020 17:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgFIVUq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Jun 2020 17:20:46 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D78CC05BD1E;
+        Tue,  9 Jun 2020 14:20:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=WgXhjIqEqe9lN7cFLebCYyX1j2EEIGbyPRJp6OZ6StQ=; b=iSOClD/EGXDodqQYh/GGg1ldvf
+        B/CzvYN9Pgtsa0yKoS9s7lW+6UDa6tGzRZVAxbH9SrAeVARY6GXh1dRohebMA4KOqTeoUOuFgaLZ2
+        G0QiBniW0Es2UJ5F2ugqsg3pvLpOvcpuA5h0v4JH3s5ePhRj6P8v+idH//lEKaCYJK50Xh9AZni58
+        I1M+YP5qklkWX7Jik2hAAFYSdYHPVroVObYvDm2DnYqfuQcWEk6853RKYz3cp/qPW/yQNdbpZUCiV
+        C/nyYLJhRZ44KyBC2PpdNeIwnFRnG/YTELzFECYgmRptcrIPeLw5ZOqHv7QASji7/ll7k63JIvjaI
+        b6CAzXgQ==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jilfk-0006Hi-7j; Tue, 09 Jun 2020 21:20:40 +0000
+Subject: Re: [PATCH 1/3] usb: typec: Add QCOM PMIC typec detection driver
+To:     Wesley Cheng <wcheng@codeaurora.org>,
+        heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
         mark.rutland@arm.com, robh+dt@kernel.org, agross@kernel.org,
         bjorn.andersson@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, bryan.odonoghue@linaro.org,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 2/3] dt-bindings: usb: Add Qualcomm PMIC type C controller dt-binding
-Date:   Tue,  9 Jun 2020 13:58:50 -0700
-Message-Id: <20200609205851.30113-3-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200609205851.30113-1-wcheng@codeaurora.org>
+        jackp@codeaurora.org, bryan.odonoghue@linaro.org
 References: <20200609205851.30113-1-wcheng@codeaurora.org>
+ <20200609205851.30113-2-wcheng@codeaurora.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ccfc3e7c-d1ce-27bd-b24c-df5fbc468449@infradead.org>
+Date:   Tue, 9 Jun 2020 14:20:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200609205851.30113-2-wcheng@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Introduce the dt-binding for enabling USB type C orientation and role
-detection using the PM8150B.  The driver will be responsible for receiving
-the interrupt at a state change on the CC lines, reading the orientation/role,
-and communicating this information to the remote clients, which can include
-a role switch node and a type C switch.
+On 6/9/20 1:58 PM, Wesley Cheng wrote:
+> diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+> index 559dd06..8de2520 100644
+> --- a/drivers/usb/typec/Kconfig
+> +++ b/drivers/usb/typec/Kconfig
+> @@ -73,6 +73,17 @@ config TYPEC_TPS6598X
+>  	  If you choose to build this driver as a dynamically linked module, the
+>  	  module will be called tps6598x.ko.
+> 
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- .../devicetree/bindings/usb/qcom,pmic-typec.yaml   | 118 +++++++++++++++++++++
- 1 file changed, 118 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+Hi,
+Please spell "Type-C" like all of the other drivers do.
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-new file mode 100644
-index 0000000..34058fb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-@@ -0,0 +1,118 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/usb/qcom,pmic-typec.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Qualcomm PMIC based USB type C Detection Driver
-+
-+maintainers:
-+  - Wesley Cheng <wcheng@codeaurora.org>
-+
-+description: |
-+  Qualcomm PMIC Type C Detect
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,pm8150b-usb-typec
-+
-+  reg:
-+    maxItems: 1
-+    description: Type C base address
-+
-+  interrupts:
-+    maxItems: 1
-+    description: CC change interrupt from PMIC
-+
-+  connector:
-+    description: Connector type for remote endpoints
-+    type: object
-+
-+    properties:
-+      compatible:
-+        enum:
-+          - usb-c-connector
-+
-+      power-role:
-+       enum:
-+         - dual
-+         - source
-+         - sink
-+
-+      data-role:
-+        enum:
-+          - dual
-+          - host
-+          - device
-+
-+      port:
-+        description: Remote endpoint connections
-+        type: object
-+
-+        properties:
-+          endpoint@0:
-+            description: Connection to USB type C mux node
-+            type: object
-+
-+            properties:
-+              remote-endpoint:
-+                maxItems: 1
-+                description: Node reference to the type C mux
-+
-+          endpoint@1:
-+            description: Connection to role switch node
-+            type: object
-+
-+            properties:
-+              remote-endpoint:
-+                maxItems: 1
-+                description: Node reference to the role switch node
-+
-+    required:
-+      - compatible
-+
-+required:
-+  - compatible
-+  - interrupts
-+  - connector
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    pm8150b {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        qcom,typec@1500 {
-+            compatible = "qcom,pm8150b-usb-typec";
-+            reg = <0x1500>;
-+            interrupts =
-+                <0x2 0x15 0x5 IRQ_TYPE_EDGE_RISING>;
-+
-+            connector {
-+                compatible = "usb-c-connector";
-+                power-role = "dual";
-+                data-role = "dual";
-+                port {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+                    usb3_data_ss: endpoint@0 {
-+                        reg = <0>;
-+                        remote-endpoint =
-+                                <&qmp_ss_mux>;
-+                    };
-+
-+                    usb3_role: endpoint@1 {
-+
-+                        reg = <1>;
-+                        remote-endpoint =
-+                                <&dwc3_drd_switch>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-+...
-+
+> +config TYPEC_QCOM_PMIC
+> +	tristate "Qualcomm PMIC USB typec driver"
+> +	depends on ARCH_QCOM
+> +	help
+> +	  Driver for supporting role switch over the Qualcomm PMIC.  This will
+> +	  handle the type C role and orientation detection reported by the QCOM
+> +	  PMIC if the PMIC has the capability to handle type C detection.
+> +
+> +	  It will also enable the VBUS output to connected devices when a
+> +	  DFP connection is made.
+> +
+>  source "drivers/usb/typec/mux/Kconfig"
+>  
+>  source "drivers/usb/typec/altmodes/Kconfig"
+
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+~Randy
 
