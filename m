@@ -2,157 +2,125 @@ Return-Path: <SRS0=f8IS=7W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B89D1C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 11:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F67C433DF
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 11:23:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A17A3207F9
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 11:20:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0207C20812
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 11:23:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="WlbKWVuI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728967AbgFILUC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Jun 2020 07:20:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60676 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727002AbgFILUB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 9 Jun 2020 07:20:01 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 182F8B160;
-        Tue,  9 Jun 2020 11:20:03 +0000 (UTC)
-Message-ID: <582f63b8140a01e75a79c96ec569c3a68f434c61.camel@suse.de>
-Subject: Re: [PATCH 5/9] usb: xhci-pci: Add support for reset controllers
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "wahrenst@gmx.net" <wahrenst@gmx.net>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "mathias.nyman@linux.intel.com" <mathias.nyman@linux.intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        "bcm-kernel-feedback-list@broadcom.com" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "linux-rpi-kernel@lists.infradead.org" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "tim.gover@raspberrypi.org" <tim.gover@raspberrypi.org>,
-        "helgaas@kernel.org" <helgaas@kernel.org>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>
-Date:   Tue, 09 Jun 2020 13:19:57 +0200
-In-Reply-To: <CAHp75VdWq96SSzB1S9pM=H8=3np8-1Cep_9BqGiTCUTtCUt-yw@mail.gmail.com>
-References: <20200608192701.18355-1-nsaenzjulienne@suse.de>
-         <20200608192701.18355-6-nsaenzjulienne@suse.de>
-         <CAHp75VdWq96SSzB1S9pM=H8=3np8-1Cep_9BqGiTCUTtCUt-yw@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-9EBI8hzXNUG3ROBaqpAE"
-User-Agent: Evolution 3.36.2 
+        id S1728517AbgFILXf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Jun 2020 07:23:35 -0400
+Received: from mail-eopbgr60051.outbound.protection.outlook.com ([40.107.6.51]:16387
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727002AbgFILXe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 9 Jun 2020 07:23:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RJKAoNPA++pJxi9YS9TNhoI8L9Sx0ezX40eUUz69QHcBUwkBpJFMbvnAKJqURxatjPblhh8v0aJFVagx+ePsGcH6mv6kpduNWZlZPbf9/9IvAX/iftmhGo13uhVvMHuGf5Wyxd/2w/OooP8ZCrzY5j9lAVz7Of4jZSHMvNTVFdPmOO6wwovtKjms3uzfx/bXH4M0qBcybNWI64Zf2qs8C82Mr+TQGvvr0cDmLMpbvNJBttma9Fdh8Hre41OklZ77rcVl8SmvCcCHZTAcXdeej02L51eZCvyQMr9BOYp6zAhQqSvASJjUZkRL/XPRAdM8V7+qdKaLap+dK3vqPmu8hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zv3XB6qa56EONpEJriDStQuzzAVRkNHkwbq3EQLSOrA=;
+ b=oClf2DvL1RHr5xOYjIeqoooEqcNkNEL8Pm6+F5OHyQPUz5kmpsuDpKftqq1cFqI3h9DGcUZIzQ7RnwsrrF+9fMiF0+413/4P05Js4pFW0j9acE84tZN4UDdaCGy/Ljg/K1G3wxPIrd7N5IVGT2NN4sf8/y72efdXKy7fUEbhWb8UQAK6OxKznR9wcIZWMgpErQW8Vk6OFv6DvBvy+FDsLZ+ZPygIFJSsy42mxQINo6OYF4xRs30GoSBmZSz8rSK7QjwSCLHMgy74sc60kRa5BCi84/w6Wjn8/7dbBffWvV4MccE+qE4+6LN5m18ghI12d9+1fJx846QE1U9mtmLzRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zv3XB6qa56EONpEJriDStQuzzAVRkNHkwbq3EQLSOrA=;
+ b=WlbKWVuI63VZ2hSfqnEk0SICGBuhnRp8O9w1r81ZV4aAu7Lq4TqehTEPnQC5yUnSjDg7p94Cu4NfYjtjMlXCA7bmvveB7d3xl4Z3fl/bWJBLEomC8GVVuM+eWZDIdEiTrjR111bIA/4HFO4M/aVmaiP/UZhYLO78oVzPRKuSZRo=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
+ by VE1PR04MB6622.eurprd04.prod.outlook.com (2603:10a6:803:121::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.20; Tue, 9 Jun
+ 2020 11:23:30 +0000
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::5086:ae9e:6397:6b03]) by VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::5086:ae9e:6397:6b03%7]) with mapi id 15.20.3066.023; Tue, 9 Jun 2020
+ 11:23:30 +0000
+From:   Li Jun <jun.li@nxp.com>
+To:     balbi@kernel.org, shawnguo@kernel.org
+Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, peter.chen@nxp.com
+Subject: [PATCH 0/6] add NXP imx8mp usb support
+Date:   Tue,  9 Jun 2020 19:12:39 +0800
+Message-Id: <1591701165-12872-1-git-send-email-jun.li@nxp.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0069.apcprd02.prod.outlook.com
+ (2603:1096:4:54::33) To VE1PR04MB6528.eurprd04.prod.outlook.com
+ (2603:10a6:803:127::18)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by SG2PR02CA0069.apcprd02.prod.outlook.com (2603:1096:4:54::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3066.18 via Frontend Transport; Tue, 9 Jun 2020 11:23:26 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0ffaf8dd-0e9c-49ed-bb5a-08d80c67894a
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6622:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VE1PR04MB66226179542B87567D4DB34E89820@VE1PR04MB6622.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Forefront-PRVS: 042957ACD7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3fiBR7iHRMoiv/aSxG2Yt1msnLanSIVZzIouLR5on+y9bBtHaSzgLojUk/k3fzuARMrcIkUnocd+JEyanYB/jqiTzmnSVr/Eo5SjTkzOa1CobQ/85OegpzLKQu4kmkdnsAHqLJY8bPGHbTuL7dYABgldF7FyU8omex45Da17TEaLcj1Vkdr14DAWG8egFTQhbeunrwMzJ+wLC1OW0HlrInvrFOqBQOUt1K53UdKHCy+nGQ4rGnPEP6Lrrn17Eggk2NC6m0gDZv7j7kpv8RPeTEFkE/nbltNBUz93Vbv7Df/F9GX0l8SoycPIWUZMFDo9lEpDLEdFmfI/OZN4Ldksqn84rlKY36BLeuzbhI7ryt46Qgo7fSdhqnH5RkDhs8/0O9yXmxcErw+uiZFFMpdyZZ9KrRsZxuew8+FfGRi1gYQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(6486002)(66946007)(5660300002)(6666004)(66556008)(2616005)(956004)(6512007)(66476007)(6506007)(36756003)(52116002)(2906002)(4326008)(186003)(26005)(16526019)(8936002)(8676002)(498600001)(69590400007)(86362001)(83380400001)(32563001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: ZLjHyvMqpkFMGhq1VbUycdjOnuwYZXkQ2UxygkoBaXg1/RGO0dTCClSrAD8lr9zb33pSQ9V9zIkNnXUSy7lCJMiHpTOC+zmA2YwCAy2UbeCYx6JOW3VjW/ZSbMRb3PzYoAwmBBQ7STUkRN+DSyjTJ6XGg7aJ+tKeFmZVj0Ztjr5y+jDP/bRjl1Cfd2iApBtY/NDFdTfYY6OmlvSdsYGEDb4JE7Uir6cuKWvDoatp8UCfbtb1lImH6RczrpXITVRLrFP2+cF6PXRjBa+lHOd3bffk6CsGbwqWRMgVEc+gDVUzFUCbfQEjsPBNPDMW5rYkA6xRBCHLYfQ8K321sGB6U1s/2DIQXppzDRYIdEHkjpxxcM+v6wZWEYu9eyvmotc+kiMmByEM6Uel9vLstgAT8XbTAqneHdZxv/O7SAs8fpD1PFqBWHjAQBoGUmx34piuD4xwbTX99Mwjq+wFckRFsdWcls+UvgIX+fkOOCpjq84=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ffaf8dd-0e9c-49ed-bb5a-08d80c67894a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2020 11:23:30.0674
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G0monRi99rU5z/hg9XkW8GsQ4dc7hOpAiCAhEgYNaV/itOUgqYzK6Qfto7/uJ3IS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6622
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+NXP imx8MPlus integrates 2 indentical dwc3 3.30b IP with additional wakeup
+logic to support low power, this wakeup logic has a separated interrupt
+which can generate events with suspend clock(32K), due to SoC integration
+limitation, 64bit address can't be supported for host controller, but the
+xhci capability register HCCPARAMS1 AC64 bit is 1, so introduce a new
+property snps,xhci-dis-64bit-support-quirk to enable existing quirk
+XHCI_NO_64BIT_SUPPORT for OF platforms. 
 
---=-9EBI8hzXNUG3ROBaqpAE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Li Jun (6):
+  dt-bindings: usb: dwc3: add property to disable xhci 64bit support
+  usb: host: xhci-plat: add quirk for XHCI_NO_64BIT_SUPPORT
+  usb: dwc3: add imx8mp dwc3 glue layer driver
+  arm64: dtsi: imx8mp: add usb nodes
+  arm64: dts: imx8mp-evk: enable usb1 as host mode
+  dt-bindings: usb: dwc3-imx8mp: add imx8mp dwc3 glue bindings
 
-On Mon, 2020-06-08 at 22:44 +0300, Andy Shevchenko wrote:
->=20
->=20
-> On Monday, June 8, 2020, Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> wrote:
-> > Some atypical users of xhci-pci might need to manually reset their xHCI
-> > controller before starting the HCD setup. Check if a reset controller
-> > device is available to the PCI bus and trigger a reset.
-> >=20
-> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> > ---
-> >  drivers/usb/host/xhci-pci.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >=20
-> > diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> > index ef513c2fb843..45f70facdfcd 100644
-> > --- a/drivers/usb/host/xhci-pci.c
-> > +++ b/drivers/usb/host/xhci-pci.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/module.h>
-> >  #include <linux/acpi.h>
-> > +#include <linux/reset.h>
-> >=20
-> >  #include "xhci.h"
-> >  #include "xhci-trace.h"
-> > @@ -339,6 +340,7 @@ static int xhci_pci_probe(struct pci_dev *dev, cons=
-t
-> > struct pci_device_id *id)
-> >         struct xhci_hcd *xhci;
-> >         struct usb_hcd *hcd;
-> >         struct xhci_driver_data *driver_data;
-> > +       struct reset_control *reset;
-> >=20
-> >         driver_data =3D (struct xhci_driver_data *)id->driver_data;
-> >         if (driver_data && driver_data->quirks & XHCI_RENESAS_FW_QUIRK)=
- {
-> > @@ -347,6 +349,13 @@ static int xhci_pci_probe(struct pci_dev *dev, con=
-st
-> > struct pci_device_id *id)
-> >                         return retval;
-> >         }
-> >=20
-> > +       reset =3D devm_reset_control_get(&dev->bus->dev, NULL);
->=20
-> =20
-> > +       if (IS_ERR(reset)) {
-> > +               retval =3D PTR_ERR(reset);
-> > +               return retval;
-> > +       }
->=20
-> These four can be two, we have too many LOCs in the kernel for no reason.
+ Documentation/devicetree/bindings/usb/dwc3.txt     |   3 +
+ .../devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml   |  87 +++++
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts       |  32 ++
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi          |  79 +++++
+ drivers/usb/dwc3/Kconfig                           |  10 +
+ drivers/usb/dwc3/Makefile                          |   1 +
+ drivers/usb/dwc3/dwc3-imx8mp.c                     | 352 +++++++++++++++++++++
+ drivers/usb/host/xhci-plat.c                       |   4 +
+ 8 files changed, 568 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml
+ create mode 100644 drivers/usb/dwc3/dwc3-imx8mp.c
 
-Noted
-
-> =20
-> > +       reset_control_reset(reset);
-> > +
-> >         /* Prevent runtime suspending between USB-2 and USB-3 initializ=
-ation
-> > */
-> >         pm_runtime_get_noresume(&dev->dev);
-> > =20
-> > --=20
-> > 2.26.2
-> >=20
-> >=20
->=20
->=20
-
-
---=-9EBI8hzXNUG3ROBaqpAE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl7fcF0ACgkQlfZmHno8
-x/5HTAgAmhR811lue01X7GYq1cj7N9zCOPoNa2ZH9QWAMqqWbHR+24haBspjEywh
-jqF4feZsoD4jj1ZGrwSy+MKq2rRt+iaXPbDCcTrN/zuL38U9Zt/lZPxhvauQruKI
-NaVoK8R4lJRJ7HVHxMYPGUmT1FOVmZuYi4rp/uZlRjTmedsU/6s/x5xkgsTSAga1
-j9EWMT39vfMLMJeVsjynLw94bwl0nmwUxrWYi+C0W3qlrsIyTx39FOoa6HRdjwT9
-KPyQPzlPsUPEmrTbDdaDztFp39r0ESQYqvDjv3wReVtp3wWBsgbe5ECwiovUcKMu
-sp04DqMNxUJu/iqC8gkJkvc80XiI/Q==
-=H32q
------END PGP SIGNATURE-----
-
---=-9EBI8hzXNUG3ROBaqpAE--
+-- 
+2.7.4
 
