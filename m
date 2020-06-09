@@ -2,120 +2,146 @@ Return-Path: <SRS0=f8IS=7W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D855C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A42EEC433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 05:45:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B7E52078C
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 00:42:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591663328;
-	bh=spO/HSfwf6g4rkiQIWvgoVADYVbHoa3Xxggv51hytNY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=iy1oxU534KRHL6+S4U1908aSK8xIZfNOFKahd6q5hwnxwh+NBUiYAkjoAokj4CGMF
-	 35kbwojeoSyoIUYODPpMK5S4lr6rTqQclwDscvP+pacF0qcnUOMsEEAZxta0bS4lYI
-	 Bh06iL+JQVLCUjmBSevnJcRdsp+zw+irH70V4mh4=
+	by mail.kernel.org (Postfix) with ESMTP id 8369A20814
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 05:45:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732902AbgFIAmB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Jun 2020 20:42:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60188 "EHLO mail.kernel.org"
+        id S1727774AbgFIFpD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Jun 2020 01:45:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51994 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729151AbgFHXMf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:12:35 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA52320B80;
-        Mon,  8 Jun 2020 23:12:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657955;
-        bh=spO/HSfwf6g4rkiQIWvgoVADYVbHoa3Xxggv51hytNY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=w6cnTAed4SCE1iVd2jSl7sjbdG744fztjOyxXZP3dfgpbkMi+f9UskzptCXzqtlSJ
-         x07WQUzx1SicRq0NLIE5bIH1lO9VrUjteQj8w+oKTz7IiN71DGJh85Q/+PrgXLlVj4
-         +tB+dZPW5zegfoNyMQGM4Zy7MQq4t9RNhXgMARfg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jeremy Linton <jeremy.linton@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 020/606] usb: usbfs: correct kernel->user page attribute mismatch
-Date:   Mon,  8 Jun 2020 19:02:25 -0400
-Message-Id: <20200608231211.3363633-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
-References: <20200608231211.3363633-1-sashal@kernel.org>
+        id S1725770AbgFIFpC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 9 Jun 2020 01:45:02 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 6EE49AC61;
+        Tue,  9 Jun 2020 05:45:03 +0000 (UTC)
+Subject: Re: [PATCH] USB: gadget: serial: fix null pointer access in
+ tty_wakeup()
+To:     Kyungtae Kim <kt0755@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     USB list <linux-usb@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>,
+        Dave Tian <dave.jing.tian@gmail.com>
+References: <20200609050012.GA7907@pizza01>
+From:   Jiri Slaby <jslaby@suse.cz>
+Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5db498dc-bfa7-a1eb-7d09-390a7fc3c248@suse.cz>
+Date:   Tue, 9 Jun 2020 07:44:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200609050012.GA7907@pizza01>
+Content-Type: text/plain; charset=iso-8859-2
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jeremy Linton <jeremy.linton@arm.com>
+On 09. 06. 20, 7:00, Kyungtae Kim wrote:
+> FuzzUSB (a variant of syzkaller) found an illegal memory access
+> while finalizing an enumeration for a serial (acm) gadget.
+> 
+> Reference: https://lkml.org/lkml/2020/6/7/3
+> 
+> The bug arises because of accessing null instance of tty_struct 
+> during USB enumeration phase i.e., set_config().
+> 
+> Although port->port.tty in gs_start_io() becomes null after gs_close() in 
+> a separate syscall context, this tries to accesss its field (tty->flags) 
+> in the following tty_wakeup(), which triggers the corruption.
+> 
+> The fix checks if port->port.tty is still valid before being used 
+> in tty_wakeup().
+...> Signed-off-by: Kyungtae Kim <kt0755@gmail.com>
+> Reported-by: Kyungtae Kim <kt0755@gmail.com>
+> 
+> ---
+>  drivers/usb/gadget/function/u_serial.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+> index 8167d379e115..cf4f876783d3 100644
+> --- a/drivers/usb/gadget/function/u_serial.c
+> +++ b/drivers/usb/gadget/function/u_serial.c
+> @@ -561,7 +561,7 @@ static int gs_start_io(struct gs_port *port)
+>  	port->n_read = 0;
+>  	started = gs_start_rx(port);
+>  
+> -	if (started) {
+> +	if (started && port->port.tty != NULL) {
 
-commit 2bef9aed6f0e22391c8d4570749b1acc9bc3981e upstream.
+Could you explain, what prevents port->port.tty to be non-NULL on the
+lines below? As far as I can see, port->port.count is set to zero at the
+same place as "port->port.tty = NULL;" in gs_close. And port->port.count
+is tested in the gs_start_io's caller, i.e. in gserial_connect. All this
+happens under port->port_lock.
 
-On some architectures (e.g. arm64) requests for
-IO coherent memory may use non-cachable attributes if
-the relevant device isn't cache coherent. If these
-pages are then remapped into userspace as cacheable,
-they may not be coherent with the non-cacheable mappings.
+>  		gs_start_tx(port);
+>  		/* Unblock any pending writes into our circular buffer, in case
+>  		 * we didn't in gs_start_tx() */
 
-In particular this happens with libusb, when it attempts
-to create zero-copy buffers for use by rtl-sdr
-(https://github.com/osmocom/rtl-sdr/). On low end arm
-devices with non-coherent USB ports, the application will
-be unexpectedly killed, while continuing to work fine on
-arm machines with coherent USB controllers.
+If it is a race, it will still race, only the race window would be
+smaller. Or am I missing something?
 
-This bug has been discovered/reported a few times over
-the last few years. In the case of rtl-sdr a compile time
-option to enable/disable zero copy was implemented to
-work around it.
+The whole use of port->port.tty looks suspicious in the driver. It might
+work as port->port_lock at places. But converting the uses to
+tty_port_tty_set & tty_port_tty_get should fix also this problem. And
+tty_port_tty_wakeup in this particular situation you are fixing. (And to
+tty_port_open/close in the long run.)
 
-Rather than relaying on application specific workarounds,
-dma_mmap_coherent() can be used instead of remap_pfn_range().
-The page cache/etc attributes will then be correctly set in
-userspace to match the kernel mapping.
-
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Cc: stable <stable@vger.kernel.org>
-Link: https://lore.kernel.org/r/20200504201348.1183246-1-jeremy.linton@arm.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/core/devio.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 6833c918abce..b9db9812d6c5 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -217,6 +217,7 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
- {
- 	struct usb_memory *usbm = NULL;
- 	struct usb_dev_state *ps = file->private_data;
-+	struct usb_hcd *hcd = bus_to_hcd(ps->dev->bus);
- 	size_t size = vma->vm_end - vma->vm_start;
- 	void *mem;
- 	unsigned long flags;
-@@ -250,9 +251,7 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
- 	usbm->vma_use_count = 1;
- 	INIT_LIST_HEAD(&usbm->memlist);
- 
--	if (remap_pfn_range(vma, vma->vm_start,
--			virt_to_phys(usbm->mem) >> PAGE_SHIFT,
--			size, vma->vm_page_prot) < 0) {
-+	if (dma_mmap_coherent(hcd->self.sysdev, vma, mem, dma_handle, size)) {
- 		dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
- 		return -EAGAIN;
- 	}
+thanks,
 -- 
-2.25.1
-
+js
+suse labs
