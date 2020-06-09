@@ -2,95 +2,87 @@ Return-Path: <SRS0=f8IS=7W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E800C433DF
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 21:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC4D9C433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 22:15:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EACF02068D
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 21:20:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iSOClD/E"
+	by mail.kernel.org (Postfix) with ESMTP id AB90820737
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jun 2020 22:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591740922;
+	bh=6vHd6xUhswef3CB/VXwZUhfljO5Xa4bRntH/rr42FHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=cnZVyvDy/3N5qhC8EloIlO0y/kcXQTHNtyNESdZMXm10X1mpc3w9l3Kd+MdL7rGCe
+	 fyElixdI5eLVqiyYZWakUQTM2dIHZcK0QbcMpPY2vdYdjypUk+1PUmRB7wPR0qKKSX
+	 u10QTc/fwQRw1+BR4k6691Ff3nbStX6d21nYfLUE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgFIVUr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Jun 2020 17:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgFIVUq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Jun 2020 17:20:46 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D78CC05BD1E;
-        Tue,  9 Jun 2020 14:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=WgXhjIqEqe9lN7cFLebCYyX1j2EEIGbyPRJp6OZ6StQ=; b=iSOClD/EGXDodqQYh/GGg1ldvf
-        B/CzvYN9Pgtsa0yKoS9s7lW+6UDa6tGzRZVAxbH9SrAeVARY6GXh1dRohebMA4KOqTeoUOuFgaLZ2
-        G0QiBniW0Es2UJ5F2ugqsg3pvLpOvcpuA5h0v4JH3s5ePhRj6P8v+idH//lEKaCYJK50Xh9AZni58
-        I1M+YP5qklkWX7Jik2hAAFYSdYHPVroVObYvDm2DnYqfuQcWEk6853RKYz3cp/qPW/yQNdbpZUCiV
-        C/nyYLJhRZ44KyBC2PpdNeIwnFRnG/YTELzFECYgmRptcrIPeLw5ZOqHv7QASji7/ll7k63JIvjaI
-        b6CAzXgQ==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jilfk-0006Hi-7j; Tue, 09 Jun 2020 21:20:40 +0000
-Subject: Re: [PATCH 1/3] usb: typec: Add QCOM PMIC typec detection driver
-To:     Wesley Cheng <wcheng@codeaurora.org>,
-        heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-        mark.rutland@arm.com, robh+dt@kernel.org, agross@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, bryan.odonoghue@linaro.org
-References: <20200609205851.30113-1-wcheng@codeaurora.org>
- <20200609205851.30113-2-wcheng@codeaurora.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ccfc3e7c-d1ce-27bd-b24c-df5fbc468449@infradead.org>
-Date:   Tue, 9 Jun 2020 14:20:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728364AbgFIWPT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Jun 2020 18:15:19 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:44681 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726992AbgFIWPS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Jun 2020 18:15:18 -0400
+Received: by mail-il1-f194.google.com with SMTP id i1so20715544ils.11;
+        Tue, 09 Jun 2020 15:15:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=SIt9vqsJjlEz6zk3asMipOVTh2DgNRRsKYqkupl1gXg=;
+        b=R4PfPuu7ruGQ2sW7S52EvSElX8iMsBrSwCA16pKuFB2l+8imZj6e/5ulc7h1wFOIOX
+         sMlkWwnei7Uw0tAh1N8CWJLw/myv4uYeg+yONTEJFrt3ST+6wkUDFMOKX0dB57Kx1OYC
+         liXp9BxLTsRZAObYwYsr4Jgx/hY3Ua1aOkdDpzazBfpGlteyIH2R3+xIQ9cDrpvPf4fb
+         I4s346teVTV2PWzasj26i6ptbBB+8RAPuX9Rj8fddUP0u/fzoARP1yjumcPBHS68finI
+         OMT2EZpsx3+LFtIn04/5y9SnzYKFEYW1zHafcnfGWmgJsNq6AIp8Tt/uF7S/GToldoDn
+         JW5g==
+X-Gm-Message-State: AOAM5330jyi/usSXXsbQuPsflXW2FX7Z4bAR+0xXCQleZdcML3xDhZRT
+        EPnHAGvMbSe87v6vD07/3g==
+X-Google-Smtp-Source: ABdhPJxkmZxwK1ql79rrG5xPZG7HoeRwm/ev5DUJldBfp7gAWRH0Wlpng2yYdEmTRj4TYhFcRHYY+g==
+X-Received: by 2002:a05:6e02:13f4:: with SMTP id w20mr178303ilj.294.1591740917458;
+        Tue, 09 Jun 2020 15:15:17 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id w15sm9922978ilj.21.2020.06.09.15.15.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 15:15:17 -0700 (PDT)
+Received: (nullmailer pid 1592981 invoked by uid 1000);
+        Tue, 09 Jun 2020 22:15:15 -0000
+Date:   Tue, 9 Jun 2020 16:15:15 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?B?5ZGo55Cw5p2wIChaaG91IFlhbmppZSk=?= 
+        <zhouyanjie@wanyeetech.com>
+Cc:     linux-usb@vger.kernel.org, robh+dt@kernel.org,
+        linux-kernel@vger.kernel.org, zhenwenjin@gmail.com,
+        gregkh@linuxfoundation.org, dongsheng.qiu@ingenic.com,
+        yanfei.li@ingenic.com, aric.pzqi@ingenic.com,
+        devicetree@vger.kernel.org, rick.tyliu@ingenic.com,
+        sernia.zhou@foxmail.com, balbi@kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: USB: Add Ingenic X1000 and X1830
+ bindings.
+Message-ID: <20200609221515.GA1592928@bogus>
+References: <20200530165253.17445-1-zhouyanjie@wanyeetech.com>
+ <20200530165253.17445-2-zhouyanjie@wanyeetech.com>
 MIME-Version: 1.0
-In-Reply-To: <20200609205851.30113-2-wcheng@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200530165253.17445-2-zhouyanjie@wanyeetech.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 6/9/20 1:58 PM, Wesley Cheng wrote:
-> diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-> index 559dd06..8de2520 100644
-> --- a/drivers/usb/typec/Kconfig
-> +++ b/drivers/usb/typec/Kconfig
-> @@ -73,6 +73,17 @@ config TYPEC_TPS6598X
->  	  If you choose to build this driver as a dynamically linked module, the
->  	  module will be called tps6598x.ko.
+On Sun, 31 May 2020 00:52:52 +0800, 周琰杰 (Zhou Yanjie) wrote:
+> Add the USB PHY bindings for the X1000 SoC and
+> the X1830 SoC from Ingenic.
+> 
+> Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+> ---
+>  Documentation/devicetree/bindings/usb/ingenic,jz4770-phy.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 
-Hi,
-Please spell "Type-C" like all of the other drivers do.
-
-> +config TYPEC_QCOM_PMIC
-> +	tristate "Qualcomm PMIC USB typec driver"
-> +	depends on ARCH_QCOM
-> +	help
-> +	  Driver for supporting role switch over the Qualcomm PMIC.  This will
-> +	  handle the type C role and orientation detection reported by the QCOM
-> +	  PMIC if the PMIC has the capability to handle type C detection.
-> +
-> +	  It will also enable the VBUS output to connected devices when a
-> +	  DFP connection is made.
-> +
->  source "drivers/usb/typec/mux/Kconfig"
->  
->  source "drivers/usb/typec/altmodes/Kconfig"
-
-
--- 
-~Randy
-
+Acked-by: Rob Herring <robh@kernel.org>
