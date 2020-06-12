@@ -2,100 +2,272 @@ Return-Path: <SRS0=4dEv=7Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA80C433E1
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 17:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72221C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 23:19:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9A592083E
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 17:24:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42740206D7
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 23:19:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+ATlkXI"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="EIPK0Yqp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbgFLRYY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Jun 2020 13:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbgFLRYX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Jun 2020 13:24:23 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F87C03E96F;
-        Fri, 12 Jun 2020 10:24:22 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id l63so2175034pge.12;
-        Fri, 12 Jun 2020 10:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yyx3aGH1IHsk8WwCSPgIF039LEqkrtOiEcxMrYeLSY4=;
-        b=A+ATlkXI9Yn9pkdpGFh7hZhvaRHi4S8bNSQAlaaQ25dacfgjH5T3vn4K3ZTQv2urqZ
-         30YuNP+iY2a8FZ89Z3Rfbsufy3rP9Hf7xO3DKkdSv4E35poG0rdTBUm1LNoUpfERvBmd
-         yXzC2VrZhxFcWaCMCHpWEhUKnUDYl8KwnlSBxWv0gzxYdm7ZfU2fdi3FuwpQGPHLBSvV
-         HvWUYmgpf6oE/Ehnfvzbf/zsCwK44SNy4J+ALNiq9APSP10xOmH2KWjmAW7G3jXPmxCU
-         2WfYxMmx0rSleKywVZCoPOVBvixlE0cf4xDXI10MD9luPNDRH+rBiUvTqKeY0tmJeeYk
-         6kYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yyx3aGH1IHsk8WwCSPgIF039LEqkrtOiEcxMrYeLSY4=;
-        b=aEeyNA88rClrtKaq0y9BK3Dd2u3/9VmMB8scRQEeQzISXw4vtA9NlmYNG12c9Xw04g
-         5CsYkOOX/p8WvBWzmlokTBzU4Hdl+i8UI8lUl9VmV8w1bsIPr/tk1jFZP5imgGHjDBqL
-         YEYBVu4MmeyQAruoqE+Ne/i3nQ/ShfZ/Xp/2K9EdN8jHeQbzSoAUw7ZaWkBDBrOOANIf
-         X8kdb+Akov25yJ1OHuolNJndRuufAd3TUwdVccN3o4fQWjnkjvgOz/lPjYc0kzk0dXKx
-         3y2yY0vfCwMSAMgdGLMwLdB2acqglsmAbzkLZ3NXGhbpq8aAB2mC88/+RVyeykwAyeb8
-         zGgA==
-X-Gm-Message-State: AOAM532m4pMD5PRMWTyD32PCb7sCbbhOEXUphAPLU2VexZG/WR+bnrmn
-        wSR6zpSU86dcwRhMo6QDrGE=
-X-Google-Smtp-Source: ABdhPJzcMXRAo4TANZWsgs8un+/4P47C64drTFdnZEtpz2AR5bK8rHPpQQZyegMFr8iPbXvYl6TNwg==
-X-Received: by 2002:a63:461c:: with SMTP id t28mr12227620pga.316.1591982662374;
-        Fri, 12 Jun 2020 10:24:22 -0700 (PDT)
-Received: from [10.230.188.43] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id h7sm5903409pgg.17.2020.06.12.10.24.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2020 10:24:21 -0700 (PDT)
-Subject: Re: [PATCH v3 5/9] usb: xhci-pci: Add support for reset controllers
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        gregkh@linuxfoundation.org, wahrenst@gmx.net,
-        p.zabel@pengutronix.de, linux-kernel@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com, tim.gover@raspberrypi.org,
-        linux-pci@vger.kernel.org, helgaas@kernel.org,
-        andy.shevchenko@gmail.com, mathias.nyman@linux.intel.com,
-        lorenzo.pieralisi@arm.com
-References: <20200612171334.26385-1-nsaenzjulienne@suse.de>
- <20200612171334.26385-6-nsaenzjulienne@suse.de>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <4ef2d78f-64ea-b56e-7971-a60190a05a92@gmail.com>
-Date:   Fri, 12 Jun 2020 10:24:17 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.9.0
+        id S1726462AbgFLXTe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Jun 2020 19:19:34 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:50135 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726372AbgFLXTc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Jun 2020 19:19:32 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1592003971; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=4YGkZbsKguGnYpKIS69O19O/+T6nme5gPEwJRcvkS+0=; b=EIPK0YqpRwtgcy2zHs8hpQ8vh3toQH/vtSMGI8UER8PSVt2+J8SadFARi4rUO7cJPAlK/4Lh
+ N0CGzWE3VThmmYbFKGMHks4qoZKuQnaxKybQ5wrp0vsKW9M0zZ/7xiXPQDS1AAxUXGyQ9UL/
+ ont5phdNYG4MucYVfFubn/NUU30=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5ee40d80fe1db4db89088b35 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 12 Jun 2020 23:19:28
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id A347DC4339C; Fri, 12 Jun 2020 23:19:28 +0000 (UTC)
+Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D21BCC433CB;
+        Fri, 12 Jun 2020 23:19:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D21BCC433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     robh+dt@kernel.org, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        broonie@kernel.org, lgirdwood@gmail.com, agross@kernel.org,
+        bjorn.andersson@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        lijun.kernel@gmail.com, rdunlap@infradead.org,
+        jackp@codeaurora.org, bryan.odonoghue@linaro.org,
+        Wesley Cheng <wcheng@codeaurora.org>
+Subject: [PATCH v2 4/6] regulator: Add support for QCOM PMIC VBUS booster
+Date:   Fri, 12 Jun 2020 16:19:16 -0700
+Message-Id: <20200612231918.8001-5-wcheng@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200612231918.8001-1-wcheng@codeaurora.org>
+References: <20200612231918.8001-1-wcheng@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20200612171334.26385-6-nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Some Qualcomm PMICs have the capability to source the VBUS output to
+connected peripherals.  This driver will register a regulator to the
+regulator list to enable or disable this source by an external driver.
 
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+---
+ drivers/regulator/Kconfig                   |  10 ++
+ drivers/regulator/Makefile                  |   1 +
+ drivers/regulator/qcom_usb_vbus-regulator.c | 147 ++++++++++++++++++++
+ 3 files changed, 158 insertions(+)
+ create mode 100644 drivers/regulator/qcom_usb_vbus-regulator.c
 
-On 6/12/2020 10:13 AM, Nicolas Saenz Julienne wrote:
-> Some atypical users of xhci-pci might need to manually reset their xHCI
-> controller before starting the HCD setup. Check if a reset controller
-> device is available to the PCI bus and trigger a reset.
-> 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+index 074a2ef55943..f9165f9f9051 100644
+--- a/drivers/regulator/Kconfig
++++ b/drivers/regulator/Kconfig
+@@ -797,6 +797,16 @@ config REGULATOR_QCOM_SPMI
+ 	  Qualcomm SPMI PMICs as a module. The module will be named
+ 	  "qcom_spmi-regulator".
+ 
++config REGULATOR_QCOM_USB_VBUS
++	tristate "Qualcomm USB Vbus regulator driver"
++	depends on SPMI || COMPILE_TEST
++	help
++	  If you say yes to this option, support will be included for the
++	  regulator used to enable the VBUS output.
++
++	  Say M here if you want to include support for enabling the VBUS output
++	  as a module. The module will be named "qcom_usb-regulator".
++
+ config REGULATOR_RC5T583
+ 	tristate "RICOH RC5T583 Power regulators"
+ 	depends on MFD_RC5T583
+diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+index c0d6b96ebd78..cbab28aa7b56 100644
+--- a/drivers/regulator/Makefile
++++ b/drivers/regulator/Makefile
+@@ -89,6 +89,7 @@ obj-$(CONFIG_REGULATOR_QCOM_RPM) += qcom_rpm-regulator.o
+ obj-$(CONFIG_REGULATOR_QCOM_RPMH) += qcom-rpmh-regulator.o
+ obj-$(CONFIG_REGULATOR_QCOM_SMD_RPM) += qcom_smd-regulator.o
+ obj-$(CONFIG_REGULATOR_QCOM_SPMI) += qcom_spmi-regulator.o
++obj-$(CONFIG_REGULATOR_QCOM_USB_VBUS) += qcom_usb_vbus-regulator.o
+ obj-$(CONFIG_REGULATOR_PALMAS) += palmas-regulator.o
+ obj-$(CONFIG_REGULATOR_PFUZE100) += pfuze100-regulator.o
+ obj-$(CONFIG_REGULATOR_PV88060) += pv88060-regulator.o
+diff --git a/drivers/regulator/qcom_usb_vbus-regulator.c b/drivers/regulator/qcom_usb_vbus-regulator.c
+new file mode 100644
+index 000000000000..2b8129a04684
+--- /dev/null
++++ b/drivers/regulator/qcom_usb_vbus-regulator.c
+@@ -0,0 +1,147 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ */
++
++#include <linux/module.h>
++#include <linux/err.h>
++#include <linux/kernel.h>
++#include <linux/interrupt.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/regulator/consumer.h>
++#include <linux/regulator/driver.h>
++#include <linux/regulator/machine.h>
++#include <linux/regmap.h>
++
++#define CMD_OTG				0x40
++#define OTG_EN				BIT(0)
++#define OTG_CFG				0x53
++#define OTG_EN_SRC_CFG			BIT(1)
++
++struct qcom_vbus {
++	struct device	*dev;
++	u32		base;
++	struct regmap	*regmap;
++	struct regulator_dev *usb_vbus_reg;
++};
++
++static int qcom_usb_vbus_enable(struct regulator_dev *rdev)
++{
++	struct qcom_vbus *vbus_out = rdev_get_drvdata(rdev);
++	int rc;
++
++	rc = regmap_update_bits(vbus_out->regmap, vbus_out->base + CMD_OTG,
++				OTG_EN, OTG_EN);
++	if (rc)
++		dev_err(vbus_out->dev, "failed to enable usb_vbus\n");
++
++	return rc;
++}
++
++static int qcom_usb_vbus_disable(struct regulator_dev *rdev)
++{
++	struct qcom_vbus *vbus_out = rdev_get_drvdata(rdev);
++	int rc;
++
++	rc = regmap_update_bits(vbus_out->regmap, vbus_out->base + CMD_OTG,
++				OTG_EN, 0);
++	if (rc)
++		dev_err(vbus_out->dev, "failed to disable usb_vbus\n");
++
++	return rc;
++}
++
++static int qcom_usb_vbus_is_enabled(struct regulator_dev *rdev)
++{
++	struct qcom_vbus *vbus_out = rdev_get_drvdata(rdev);
++	unsigned int value = 0;
++	int rc;
++
++	rc = regmap_read(vbus_out->regmap, vbus_out->base + CMD_OTG, &value);
++	if (rc)
++		dev_err(vbus_out->dev, "failed to read OTG_CTL\n");
++
++	return !!(value & OTG_EN);
++}
++
++static const struct regulator_ops qcom_usb_vbus_reg_ops = {
++	.enable = qcom_usb_vbus_enable,
++	.disable = qcom_usb_vbus_disable,
++	.is_enabled = qcom_usb_vbus_is_enabled,
++};
++
++static const struct regulator_desc qcom_usb_vbus_rdesc = {
++	.name = "usb_vbus",
++	.ops = &qcom_usb_vbus_reg_ops,
++	.owner = THIS_MODULE,
++	.type = REGULATOR_VOLTAGE,
++};
++
++static const struct of_device_id qcom_usb_vbus_regulator_match[] = {
++	{ .compatible = "qcom,pm8150b-vbus-reg" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, qcom_usb_vbus_regulator_match);
++
++static int qcom_usb_vbus_regulator_probe(struct platform_device *pdev)
++{
++	struct qcom_vbus *vbus_out;
++	struct device *dev = &pdev->dev;
++	struct regulator_config config = { };
++	struct regulator_init_data init_data = { };
++	int ret;
++	u32 reg;
++
++	ret = of_property_read_u32(dev->of_node, "reg", &reg);
++	if (ret < 0) {
++		dev_err(dev, "no base address found\n");
++		return ret;
++	}
++
++	vbus_out = devm_kzalloc(dev, sizeof(vbus_out), GFP_KERNEL);
++	if (!vbus_out)
++		return -ENOMEM;
++	vbus_out->base = reg;
++	vbus_out->dev = dev;
++
++	vbus_out->regmap = dev_get_regmap(dev->parent, NULL);
++	if (!vbus_out->regmap) {
++		dev_err(dev, "Failed to get regmap\n");
++		return -ENOENT;
++	}
++
++	init_data.constraints.valid_ops_mask |= REGULATOR_CHANGE_STATUS;
++	config.dev = dev;
++	config.driver_data = vbus_out;
++	config.init_data = &init_data;
++
++	vbus_out->usb_vbus_reg = devm_regulator_register(dev,
++							 &qcom_usb_vbus_rdesc,
++							 &config);
++	if (IS_ERR(vbus_out->usb_vbus_reg)) {
++		ret = PTR_ERR(vbus_out->usb_vbus_reg);
++		dev_err(dev, "not able to register vbus reg %d\n", ret);
++		return ret;
++	}
++
++	/* Disable HW logic for VBUS enable */
++	regmap_update_bits(vbus_out->regmap, vbus_out->base + OTG_CFG,
++			   OTG_EN_SRC_CFG, 0);
++
++	return 0;
++}
++
++static struct platform_driver qcom_usb_vbus_regulator_driver = {
++	.driver		= {
++		.name	= "qcom-usb-vbus-regulator",
++		.of_match_table = qcom_usb_vbus_regulator_match,
++	},
++	.probe		= qcom_usb_vbus_regulator_probe,
++};
++module_platform_driver(qcom_usb_vbus_regulator_driver);
++
++MODULE_DESCRIPTION("Qualcomm USB vbus regulator driver");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:qcom-usb-vbus-regulator");
 -- 
-Florian
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
