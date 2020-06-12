@@ -6,36 +6,36 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 904C2C433E2
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 17:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CEB8C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 17:13:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7735320836
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 17:13:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2666020836
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jun 2020 17:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgFLRNu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Jun 2020 13:13:50 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50718 "EHLO mx2.suse.de"
+        id S1726450AbgFLRNz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Jun 2020 13:13:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50848 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726349AbgFLRNt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 12 Jun 2020 13:13:49 -0400
+        id S1726403AbgFLRNw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 12 Jun 2020 13:13:52 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id E31FFAF24;
-        Fri, 12 Jun 2020 17:13:50 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id C8207AAD0;
+        Fri, 12 Jun 2020 17:13:54 +0000 (UTC)
 From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, wahrenst@gmx.net,
         p.zabel@pengutronix.de, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+        Mathias Nyman <mathias.nyman@intel.com>
 Cc:     linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org,
         bcm-kernel-feedback-list@broadcom.com, tim.gover@raspberrypi.org,
         linux-pci@vger.kernel.org, helgaas@kernel.org,
         andy.shevchenko@gmail.com, mathias.nyman@linux.intel.com,
-        lorenzo.pieralisi@arm.com, devicetree@vger.kernel.org
-Subject: [PATCH v3 4/9] ARM: dts: bcm2711: Add reset controller to xHCI node
-Date:   Fri, 12 Jun 2020 19:13:28 +0200
-Message-Id: <20200612171334.26385-5-nsaenzjulienne@suse.de>
+        lorenzo.pieralisi@arm.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: [PATCH v3 6/9] Revert "USB: pci-quirks: Add Raspberry Pi 4 quirk"
+Date:   Fri, 12 Jun 2020 19:13:30 +0200
+Message-Id: <20200612171334.26385-7-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200612171334.26385-1-nsaenzjulienne@suse.de>
 References: <20200612171334.26385-1-nsaenzjulienne@suse.de>
@@ -46,52 +46,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The chip is hardwired to the board's PCIe bus and needs to be properly
-setup trough a firmware routine after a PCI fundamental reset. Pass the
-reset controller phandle that takes care of triggering the
-initialization to the relevant PCI device.
+This reverts commit c65822fef4adc0ba40c37a47337376ce75f7a7bc.
+
+The initialization of Raspberry Pi 4's USB chip is now handled through a
+reset controller. No need to directly call the firmware routine trough a
+pci quirk.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-
 ---
+ drivers/firmware/Kconfig      |  3 +--
+ drivers/usb/host/pci-quirks.c | 16 ----------------
+ 2 files changed, 1 insertion(+), 18 deletions(-)
 
-Changes since v2:
- - Use dt-bindings to access IDs
-
-Changes since v1:
- - Update to match new binding
-
- arch/arm/boot/dts/bcm2711-rpi-4-b.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-index 0cef95058fb0..e20979013414 100644
---- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-+++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-@@ -4,6 +4,8 @@
- #include "bcm2835-rpi.dtsi"
- #include "bcm283x-rpi-usb-peripheral.dtsi"
+diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+index fbd785dd0513..4843e94713a4 100644
+--- a/drivers/firmware/Kconfig
++++ b/drivers/firmware/Kconfig
+@@ -178,9 +178,8 @@ config ISCSI_IBFT
+ 	  Otherwise, say N.
  
-+#include <dt-bindings/reset/raspberrypi,firmware-reset.h>
-+
- / {
- 	compatible = "raspberrypi,4-model-b", "brcm,bcm2711";
- 	model = "Raspberry Pi 4 Model B";
-@@ -207,6 +209,13 @@ phy1: ethernet-phy@1 {
- 	};
- };
+ config RASPBERRYPI_FIRMWARE
+-	bool "Raspberry Pi Firmware Driver"
++	tristate "Raspberry Pi Firmware Driver"
+ 	depends on BCM2835_MBOX
+-	default USB_PCI
+ 	help
+ 	  This option enables support for communicating with the firmware on the
+ 	  Raspberry Pi.
+diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+index 0b949acfa258..92150ecdb036 100644
+--- a/drivers/usb/host/pci-quirks.c
++++ b/drivers/usb/host/pci-quirks.c
+@@ -16,9 +16,6 @@
+ #include <linux/export.h>
+ #include <linux/acpi.h>
+ #include <linux/dmi.h>
+-
+-#include <soc/bcm2835/raspberrypi-firmware.h>
+-
+ #include "pci-quirks.h"
+ #include "xhci-ext-caps.h"
  
-+&pcie0 {
-+	usb@1,0 {
-+		reg = <0 0 0 0 0>;
-+		resets = <&reset RASPBERRYPI_FIRMWARE_RESET_ID_USB>;
-+	};
-+};
-+
- /* uart0 communicates with the BT module */
- &uart0 {
- 	pinctrl-names = "default";
+@@ -1246,24 +1243,11 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+ 
+ static void quirk_usb_early_handoff(struct pci_dev *pdev)
+ {
+-	int ret;
+-
+ 	/* Skip Netlogic mips SoC's internal PCI USB controller.
+ 	 * This device does not need/support EHCI/OHCI handoff
+ 	 */
+ 	if (pdev->vendor == 0x184e)	/* vendor Netlogic */
+ 		return;
+-
+-	if (pdev->vendor == PCI_VENDOR_ID_VIA && pdev->device == 0x3483) {
+-		ret = rpi_firmware_init_vl805(pdev);
+-		if (ret) {
+-			/* Firmware might be outdated, or something failed */
+-			dev_warn(&pdev->dev,
+-				 "Failed to load VL805's firmware: %d. Will continue to attempt to work, but bad things might happen. You should fix this...\n",
+-				 ret);
+-		}
+-	}
+-
+ 	if (pdev->class != PCI_CLASS_SERIAL_USB_UHCI &&
+ 			pdev->class != PCI_CLASS_SERIAL_USB_OHCI &&
+ 			pdev->class != PCI_CLASS_SERIAL_USB_EHCI &&
 -- 
 2.26.2
 
