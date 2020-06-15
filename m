@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FDFC433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0BE3C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D792206B7
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A92D62078E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730429AbgFONCR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 09:02:17 -0400
-Received: from mga11.intel.com ([192.55.52.93]:32202 "EHLO mga11.intel.com"
+        id S1730299AbgFONCc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 09:02:32 -0400
+Received: from mga04.intel.com ([192.55.52.120]:13269 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730118AbgFONCR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jun 2020 09:02:17 -0400
-IronPort-SDR: rpEVyYBoKGNk9LGUUZytmYIEA4dAnPNZgliRQDnvfYnonQb+mtoEQqEezs2fdqBuIbErCGvNKr
- RByVGffnc8SQ==
+        id S1730193AbgFONCb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Jun 2020 09:02:31 -0400
+IronPort-SDR: 2sIeHKazH6ctWwCYKohY62aVMWwNGon4oNpeR2NSNrQmadc0kolCMqrRjT3QQ1BATV0nFtXufU
+ gmdxQeiLClyg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 06:01:43 -0700
-IronPort-SDR: IEr0IhBJlNYC7BzNui72Ki9ZH/4BfP0X2ShqpaodjQ27tmLuqfK+/htKqewuImqRqiBggHiHbS
- VYH7ZPR3DToQ==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 06:01:43 -0700
+IronPort-SDR: KmBY9PxTMxsG/CWCt3HTJ59bIIYIdb1paF+7N3Bh9BkzA/bNMgtnVbbPxgfK/18ra5lG0KZJKJ
+ oBk/4itCXjaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="298509543"
+   d="scan'208";a="308115326"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2020 06:01:40 -0700
+  by orsmga008.jf.intel.com with ESMTP; 15 Jun 2020 06:01:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id AF5B8109; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
+        id C6E564D9; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -44,9 +44,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         netdev@vger.kernel.org
-Subject: [PATCH 1/4] thunderbolt: Build initial XDomain property block upon first connect
-Date:   Mon, 15 Jun 2020 16:01:36 +0300
-Message-Id: <20200615130139.83854-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 4/4] thunderbolt: Get rid of E2E workaround
+Date:   Mon, 15 Jun 2020 16:01:39 +0300
+Message-Id: <20200615130139.83854-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
 In-Reply-To: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
 References: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
@@ -57,159 +57,111 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On a systems where the Thunderbolt controller is present all the time
-the kernel nodename may not yet set by the userspace when the driver is
-loaded. This means when another host is connected it may see the default
-"(none)" hostname instead of the system real hostname.
+The end-to-end (E2E) workaround is needed for Falcon Ridge (TBT 2)
+controller when E2E is enabled for both ends of the host-to-host
+connection. However, we never supported full E2E in the first place so
+this code is not necessary at the moment. Further this allows us to use
+all available rings for data except ring 0 which is reserved for the
+control path.
 
-For this reason build the initial XDomain property block only upon first
-connect. This should make sure the userspace has had chance to set it up.
+The complete E2E flow control is explained in the USB4 spec so we may
+add it back later if needed but at least the networking driver seems to
+work fine without, and the higher level stack, like TCP will retransmit
+lost packets anyway.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/xdomain.c | 94 ++++++++++++++++++++---------------
- 1 file changed, 54 insertions(+), 40 deletions(-)
+ drivers/net/thunderbolt.c   |  4 ++--
+ drivers/thunderbolt/nhi.c   | 26 ++------------------------
+ include/linux/thunderbolt.h |  2 --
+ 3 files changed, 4 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 053f918e00e8..48907853732a 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -501,6 +501,55 @@ void tb_unregister_protocol_handler(struct tb_protocol_handler *handler)
- }
- EXPORT_SYMBOL_GPL(tb_unregister_protocol_handler);
+diff --git a/drivers/net/thunderbolt.c b/drivers/net/thunderbolt.c
+index dacb4f680fd4..a812726703a4 100644
+--- a/drivers/net/thunderbolt.c
++++ b/drivers/net/thunderbolt.c
+@@ -866,8 +866,8 @@ static int tbnet_open(struct net_device *dev)
+ 	eof_mask = BIT(TBIP_PDF_FRAME_END);
  
-+static int rebuild_property_block(void)
-+{
-+	u32 *block, len;
-+	int ret;
-+
-+	ret = tb_property_format_dir(xdomain_property_dir, NULL, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	len = ret;
-+
-+	block = kcalloc(len, sizeof(u32), GFP_KERNEL);
-+	if (!block)
-+		return -ENOMEM;
-+
-+	ret = tb_property_format_dir(xdomain_property_dir, block, len);
-+	if (ret) {
-+		kfree(block);
-+		return ret;
-+	}
-+
-+	kfree(xdomain_property_block);
-+	xdomain_property_block = block;
-+	xdomain_property_block_len = len;
-+	xdomain_property_block_gen++;
-+
-+	return 0;
-+}
-+
-+static void finalize_property_block(void)
-+{
-+	const struct tb_property *nodename;
-+
-+	/*
-+	 * On first XDomain connection we set up the the system
-+	 * nodename. This delayed here because userspace may not have it
-+	 * set when the driver is first probed.
-+	 */
-+	mutex_lock(&xdomain_lock);
-+	nodename = tb_property_find(xdomain_property_dir, "deviceid",
-+				    TB_PROPERTY_TYPE_TEXT);
-+	if (!nodename) {
-+		tb_property_add_text(xdomain_property_dir, "deviceid",
-+				     utsname()->nodename);
-+		rebuild_property_block();
-+	}
-+	mutex_unlock(&xdomain_lock);
-+}
-+
- static void tb_xdp_handle_request(struct work_struct *work)
- {
- 	struct xdomain_request_work *xw = container_of(work, typeof(*xw), work);
-@@ -529,6 +578,8 @@ static void tb_xdp_handle_request(struct work_struct *work)
- 		goto out;
+ 	ring = tb_ring_alloc_rx(xd->tb->nhi, -1, TBNET_RING_SIZE,
+-				RING_FLAG_FRAME | RING_FLAG_E2E, sof_mask,
+-				eof_mask, tbnet_start_poll, net);
++				RING_FLAG_FRAME, sof_mask, eof_mask,
++				tbnet_start_poll, net);
+ 	if (!ring) {
+ 		netdev_err(dev, "failed to allocate Rx ring\n");
+ 		tb_ring_free(net->tx_ring.ring);
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index b617922b5b0a..5f7489fa1327 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -24,12 +24,7 @@
+ 
+ #define RING_TYPE(ring) ((ring)->is_tx ? "TX ring" : "RX ring")
+ 
+-/*
+- * Used to enable end-to-end workaround for missing RX packets. Do not
+- * use this ring for anything else.
+- */
+-#define RING_E2E_UNUSED_HOPID	2
+-#define RING_FIRST_USABLE_HOPID	TB_PATH_MIN_HOPID
++#define RING_FIRST_USABLE_HOPID	1
+ 
+ /*
+  * Minimal number of vectors when we use MSI-X. Two for control channel
+@@ -440,7 +435,7 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+ 
+ 		/*
+ 		 * Automatically allocate HopID from the non-reserved
+-		 * range 8 .. hop_count - 1.
++		 * range 1 .. hop_count - 1.
+ 		 */
+ 		for (i = RING_FIRST_USABLE_HOPID; i < nhi->hop_count; i++) {
+ 			if (ring->is_tx) {
+@@ -496,10 +491,6 @@ static struct tb_ring *tb_ring_alloc(struct tb_nhi *nhi, u32 hop, int size,
+ 	dev_dbg(&nhi->pdev->dev, "allocating %s ring %d of size %d\n",
+ 		transmit ? "TX" : "RX", hop, size);
+ 
+-	/* Tx Ring 2 is reserved for E2E workaround */
+-	if (transmit && hop == RING_E2E_UNUSED_HOPID)
+-		return NULL;
+-
+ 	ring = kzalloc(sizeof(*ring), GFP_KERNEL);
+ 	if (!ring)
+ 		return NULL;
+@@ -614,19 +605,6 @@ void tb_ring_start(struct tb_ring *ring)
+ 		flags = RING_FLAG_ENABLE | RING_FLAG_RAW;
  	}
  
-+	finalize_property_block();
-+
- 	switch (pkg->type) {
- 	case PROPERTIES_REQUEST:
- 		ret = tb_xdp_properties_response(tb, ctl, route, sequence, uuid,
-@@ -1569,35 +1620,6 @@ bool tb_xdomain_handle_request(struct tb *tb, enum tb_cfg_pkg_type type,
- 	return ret > 0;
- }
- 
--static int rebuild_property_block(void)
--{
--	u32 *block, len;
--	int ret;
+-	if (ring->flags & RING_FLAG_E2E && !ring->is_tx) {
+-		u32 hop;
 -
--	ret = tb_property_format_dir(xdomain_property_dir, NULL, 0);
--	if (ret < 0)
--		return ret;
--
--	len = ret;
--
--	block = kcalloc(len, sizeof(u32), GFP_KERNEL);
--	if (!block)
--		return -ENOMEM;
--
--	ret = tb_property_format_dir(xdomain_property_dir, block, len);
--	if (ret) {
--		kfree(block);
--		return ret;
+-		/*
+-		 * In order not to lose Rx packets we enable end-to-end
+-		 * workaround which transfers Rx credits to an unused Tx
+-		 * HopID.
+-		 */
+-		hop = RING_E2E_UNUSED_HOPID << REG_RX_OPTIONS_E2E_HOP_SHIFT;
+-		hop &= REG_RX_OPTIONS_E2E_HOP_MASK;
+-		flags |= hop | RING_FLAG_E2E_FLOW_CONTROL;
 -	}
 -
--	kfree(xdomain_property_block);
--	xdomain_property_block = block;
--	xdomain_property_block_len = len;
--	xdomain_property_block_gen++;
--
--	return 0;
--}
--
- static int update_xdomain(struct device *dev, void *data)
- {
- 	struct tb_xdomain *xd;
-@@ -1702,8 +1724,6 @@ EXPORT_SYMBOL_GPL(tb_unregister_property_dir);
+ 	ring_iowrite64desc(ring, ring->descriptors_dma, 0);
+ 	if (ring->is_tx) {
+ 		ring_iowrite32desc(ring, ring->size, 12);
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index ff397c0d5c07..5db2b11ab085 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -504,8 +504,6 @@ struct tb_ring {
+ #define RING_FLAG_NO_SUSPEND	BIT(0)
+ /* Configure the ring to be in frame mode */
+ #define RING_FLAG_FRAME		BIT(1)
+-/* Enable end-to-end flow control */
+-#define RING_FLAG_E2E		BIT(2)
  
- int tb_xdomain_init(void)
- {
--	int ret;
--
- 	xdomain_property_dir = tb_property_create_dir(NULL);
- 	if (!xdomain_property_dir)
- 		return -ENOMEM;
-@@ -1712,22 +1732,16 @@ int tb_xdomain_init(void)
- 	 * Initialize standard set of properties without any service
- 	 * directories. Those will be added by service drivers
- 	 * themselves when they are loaded.
-+	 *
-+	 * We also add node name later when first connection is made.
- 	 */
- 	tb_property_add_immediate(xdomain_property_dir, "vendorid",
- 				  PCI_VENDOR_ID_INTEL);
- 	tb_property_add_text(xdomain_property_dir, "vendorid", "Intel Corp.");
- 	tb_property_add_immediate(xdomain_property_dir, "deviceid", 0x1);
--	tb_property_add_text(xdomain_property_dir, "deviceid",
--			     utsname()->nodename);
- 	tb_property_add_immediate(xdomain_property_dir, "devicerv", 0x80000100);
- 
--	ret = rebuild_property_block();
--	if (ret) {
--		tb_property_free_dir(xdomain_property_dir);
--		xdomain_property_dir = NULL;
--	}
--
--	return ret;
-+	return 0;
- }
- 
- void tb_xdomain_exit(void)
+ struct ring_frame;
+ typedef void (*ring_cb)(struct tb_ring *, struct ring_frame *, bool canceled);
 -- 
 2.27.0.rc2
 
