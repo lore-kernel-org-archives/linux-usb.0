@@ -2,37 +2,37 @@ Return-Path: <SRS0=aBLZ=74=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E212C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DC8C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55FAF206B7
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D5C9207BB
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730444AbgFONCm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 09:02:42 -0400
+        id S1730436AbgFONCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 09:02:41 -0400
 Received: from mga14.intel.com ([192.55.52.115]:45787 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730372AbgFONCm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jun 2020 09:02:42 -0400
-IronPort-SDR: 53Wvwqqqq49dy76PVFloim9EW3SnfouneDBWMiW/aNgdW+mIKBf8mp00Qek2kGZ5c8ozh3R59B
- l8xHjP+LYFUw==
+        id S1730143AbgFONCl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Jun 2020 09:02:41 -0400
+IronPort-SDR: y2FG8d4uNhZR4Ce5FIL0ezC9yTdrHNH5aLDi5Q8E49djdMpq5vC3u/P401usdwxLX7wHsmjXMg
+ TXUX9EcoBelQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 06:01:46 -0700
-IronPort-SDR: OU8DO0k8mLpXw9MLtDYXiZbdcioSozvvKSXEzILToNUeFRhzlKL3MkC65JNli+pfgB4/xVcXYW
- /1kPUGzRuuDA==
+IronPort-SDR: b22rBwN3qku8X8jMPPXaFYSj7RASPaThNUcmo1zAJFJ59JRRJzvaEXWuDz59j634aFDORFhRrY
+ JfABsCT1x1vQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="290687912"
+   d="scan'208";a="290687907"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga002.jf.intel.com with ESMTP; 15 Jun 2020 06:01:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id A470F190; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
+        id B778F217; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -44,10 +44,12 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         netdev@vger.kernel.org
-Subject: [PATCH 0/4] thunderbolt: XDomain and NHI improvements
-Date:   Mon, 15 Jun 2020 16:01:35 +0300
-Message-Id: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/4] thunderbolt: No need to warn if NHI hop_count != 12 or hop_count != 32
+Date:   Mon, 15 Jun 2020 16:01:37 +0300
+Message-Id: <20200615130139.83854-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
+In-Reply-To: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
+References: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -55,28 +57,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+While Intel hardware typically has hop_count (Total Paths in the spec)
+12 the USB4 spec allows this to be anything between 1 and 21 so no need
+to warn about this. Simply log number of paths at debug level.
 
-This small series improves the "data" path handling when doing host-to-host
-connections over TBT/USB4 cable. First patch delays setting nodename upon
-first connect to allow the userspace to fill in host name. Rest of the
-series deal with the NHI (TBT/USB4 host interface) HopID allocation so that
-by dropping the E2E workaround which was never used, we can use DMA rings
-starting from 1 to transfer data over the TBT/USB4 fabric.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/nhi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Mika Westerberg (4):
-  thunderbolt: Build initial XDomain property block upon first connect
-  thunderbolt: No need to warn if NHI hop_count != 12 or hop_count != 32
-  thunderbolt: NHI can use HopIDs 1-7
-  thunderbolt: Get rid of E2E workaround
-
- drivers/net/thunderbolt.c     |  4 +-
- drivers/thunderbolt/nhi.c     | 30 ++---------
- drivers/thunderbolt/switch.c  |  7 ++-
- drivers/thunderbolt/xdomain.c | 94 ++++++++++++++++++++---------------
- include/linux/thunderbolt.h   |  2 -
- 5 files changed, 64 insertions(+), 73 deletions(-)
-
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index d299dc168147..b617922b5b0a 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -1123,9 +1123,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	/* cannot fail - table is allocated bin pcim_iomap_regions */
+ 	nhi->iobase = pcim_iomap_table(pdev)[0];
+ 	nhi->hop_count = ioread32(nhi->iobase + REG_HOP_COUNT) & 0x3ff;
+-	if (nhi->hop_count != 12 && nhi->hop_count != 32)
+-		dev_warn(&pdev->dev, "unexpected hop count: %d\n",
+-			 nhi->hop_count);
++	dev_dbg(&pdev->dev, "total paths: %d\n", nhi->hop_count);
+ 
+ 	nhi->tx_rings = devm_kcalloc(&pdev->dev, nhi->hop_count,
+ 				     sizeof(*nhi->tx_rings), GFP_KERNEL);
 -- 
 2.27.0.rc2
 
