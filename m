@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B575C433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE99C433E2
 	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF73E206B7
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A8D9206B7
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730538AbgFOO0z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1730539AbgFOO0z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Mon, 15 Jun 2020 10:26:55 -0400
-Received: from mga09.intel.com ([134.134.136.24]:59953 "EHLO mga09.intel.com"
+Received: from mga17.intel.com ([192.55.52.151]:19764 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730476AbgFOO0w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1730467AbgFOO0w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 15 Jun 2020 10:26:52 -0400
-IronPort-SDR: gDGctaOU9w4mnI91Cuct5GRpYcUM3kPR8S4RlfpGYK/m2BbIE5hXdpK1udjQFkfuNHX818fz96
- 5Q6vJr9VSWDg==
+IronPort-SDR: aQbc1V3P1PuaBdsuh4oePeaHAD/vFGFoFhUqlg8ERf+Jf33Rzz36wqMBImH+2zdYQLEnHnHbTA
+ drIJ8rJXAZKA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:52 -0700
-IronPort-SDR: f9w5m0gOl7vC45VQWoUg4lEAWx4ajvtAUuJBHyxPXzILcyf4Dklx3YS0rZIpfl3FGBF9hSPvmL
- 4tJYTcnqR6Aw==
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:52 -0700
+IronPort-SDR: t+hMyvD2eNSVf2F27IPryjiR2UFmd/Y+FEo5re6vQ7uGBzWnr9uMhikdLlzPN5yZGcXuoD9c6V
+ s/b72GY3TRPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="308143465"
+   d="scan'208";a="316922166"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga008.jf.intel.com with ESMTP; 15 Jun 2020 07:26:49 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2020 07:26:50 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 170256D6; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
+        id 3523D87F; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -42,9 +42,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rajmohan Mani <rajmohan.mani@intel.com>,
         Lukas Wunner <lukas@wunner.de>
-Subject: [PATCH 10/17] thunderbolt: Make usb4_switch_map_usb3_down() also return enabled ports
-Date:   Mon, 15 Jun 2020 17:26:38 +0300
-Message-Id: <20200615142645.56209-11-mika.westerberg@linux.intel.com>
+Subject: [PATCH 13/17] thunderbolt: Increase DP DPRX wait timeout
+Date:   Mon, 15 Jun 2020 17:26:41 +0300
+Message-Id: <20200615142645.56209-14-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
 In-Reply-To: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
 References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
@@ -55,61 +55,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We need to call this on enabled ports in order to find the mapping from
-host router USB4 port to a USB 3.x downstream adapter, so make the
-function return enabled ports as well.
-
-While there fix parameter alignment in tb_find_usb3_down().
+Sometimes it takes longer for DPRX to be set so increase the timeout to
+cope with this.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.c   | 14 +++-----------
- drivers/thunderbolt/usb4.c |  2 +-
- 2 files changed, 4 insertions(+), 12 deletions(-)
+ drivers/thunderbolt/tunnel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 2da82259e77c..82f62a023a4b 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -206,22 +206,14 @@ static struct tb_port *tb_find_unused_port(struct tb_switch *sw,
- }
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 45f7a50a48ff..7896f8b7a69c 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -545,7 +545,7 @@ static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+ 	int ret;
  
- static struct tb_port *tb_find_usb3_down(struct tb_switch *sw,
--					const struct tb_port *port)
-+					 const struct tb_port *port)
- {
- 	struct tb_port *down;
+ 	if (tb_dp_is_usb4(sw)) {
+-		int timeout = 10;
++		int timeout = 20;
  
- 	down = usb4_switch_map_usb3_down(sw, port);
--	if (down) {
--		if (WARN_ON(!tb_port_is_usb3_down(down)))
--			goto out;
--		if (WARN_ON(tb_usb3_port_is_enabled(down)))
--			goto out;
--
-+	if (down && !tb_usb3_port_is_enabled(down))
- 		return down;
--	}
--
--out:
--	return tb_find_unused_port(sw, TB_TYPE_USB3_DOWN);
-+	return NULL;
- }
- 
- static int tb_tunnel_usb3(struct tb *tb, struct tb_switch *sw)
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 393771d50962..375a8c459201 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -759,7 +759,7 @@ struct tb_port *usb4_switch_map_usb3_down(struct tb_switch *sw,
- 		if (!tb_port_is_usb3_down(p))
- 			continue;
- 
--		if (usb_idx == usb4_idx && !tb_usb3_port_is_enabled(p))
-+		if (usb_idx == usb4_idx)
- 			return p;
- 
- 		usb_idx++;
+ 		/*
+ 		 * Wait for DPRX done. Normally it should be already set
 -- 
 2.27.0.rc2
 
