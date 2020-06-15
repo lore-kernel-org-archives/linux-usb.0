@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCDA2C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE6BC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7E8120739
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5E02206B7
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730552AbgFOO05 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1730550AbgFOO05 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Mon, 15 Jun 2020 10:26:57 -0400
-Received: from mga05.intel.com ([192.55.52.43]:1143 "EHLO mga05.intel.com"
+Received: from mga03.intel.com ([134.134.136.65]:37309 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729243AbgFOO0y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1730491AbgFOO0y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 15 Jun 2020 10:26:54 -0400
-IronPort-SDR: hfY1MFcl/eSO9PHZU1XhREqkFIKwoHw1T4hXV9gtboSik7PjCZY/CkIRSaQkwn1AgLckMDQRgM
- 7qUSLvlp6eOw==
+IronPort-SDR: 1J0ZvURDy6ARPyF90XENn+peMtlJjcgLJlJTicOpFHZiu0E0rei59z1+f+eZnTwBdmNlzNlHkI
+ GHD50FhTRziw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:52 -0700
-IronPort-SDR: oMdi/Xeo3CjPY17C47hf8rjLNPJXi5JmQMEmRuHhUWk4KYyl3fk28ARUHCNw3SLZzVkqzYFxfn
- 1hAkYrzfR+tw==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:53 -0700
+IronPort-SDR: 6yxlSMI76GIo3IuyVg4F/fV32PhIpOQZoBIhmFKOth1VImhHw9Ew4t4K8zUR7pdy0cotvGQEbz
+ ED7GY2+i4msA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="449412040"
+   d="scan'208";a="351379889"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 15 Jun 2020 07:26:49 -0700
+  by orsmga001.jf.intel.com with ESMTP; 15 Jun 2020 07:26:50 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 01B93574; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
+        id 2FF8C88D; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -42,9 +42,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rajmohan Mani <rajmohan.mani@intel.com>,
         Lukas Wunner <lukas@wunner.de>
-Subject: [PATCH 08/17] thunderbolt: Add DP IN resources for all routers
-Date:   Mon, 15 Jun 2020 17:26:36 +0300
-Message-Id: <20200615142645.56209-9-mika.westerberg@linux.intel.com>
+Subject: [PATCH 12/17] thunderbolt: Report consumed bandwidth in both directions
+Date:   Mon, 15 Jun 2020 17:26:40 +0300
+Message-Id: <20200615142645.56209-13-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
 In-Reply-To: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
 References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
@@ -55,109 +55,154 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB4 spec allows DP tunneling from any router that has DP IN adapter,
-not just from host router. The driver currently only added the DP IN
-resources for the host router because Thunderbolt 1, 2 and 3 devices do
-not have DP IN adapters. However, USB4 allows device routers to have DP
-IN adapter as well so update the driver to add DP IN resources for each
-device that has one. One example would be an eGPU enclosure where the
-eGPU output is forwarded to DP IN port and then tunneled over the USB4
-fabric.
+Whereas DisplayPort bandwidth is consumed only in one direction (from DP
+IN adapter to DP OUT adapter), USB3 adds separate bandwidth for both
+upstream and downstream directions.
 
-Only limitation we add now is that the DP IN and DP OUT that gets paired
-for tunnel creation should both be under the same topology starting from
-host router downstream port. In other words we do not create DP tunnels
-across host router at this time even though that is possible as well but
-it complicates the bandwidth management and there is no real use-case
-for this anyway.
+For this reason extend the tunnel consumed bandwidth routines to support
+both directions and implement this for DP.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.c | 50 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 46 insertions(+), 4 deletions(-)
+ drivers/thunderbolt/tb.c     |  9 ++++---
+ drivers/thunderbolt/tunnel.c | 47 +++++++++++++++++++++++++++++-------
+ drivers/thunderbolt/tunnel.h |  6 +++--
+ 3 files changed, 47 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 107cd232f486..55daa7f1a87d 100644
+index 9dbdb11685fa..53f9673c1395 100644
 --- a/drivers/thunderbolt/tb.c
 +++ b/drivers/thunderbolt/tb.c
-@@ -404,6 +404,7 @@ static void tb_scan_port(struct tb_port *port)
- 	if (tcm->hotplug_active && tb_tunnel_usb3(sw->tb, sw))
- 		tb_sw_warn(sw, "USB3 tunnel creation failed\n");
- 
-+	tb_add_dp_resources(sw);
- 	tb_scan_switch(sw);
- }
- 
-@@ -573,6 +574,43 @@ static int tb_available_bw(struct tb_cm *tcm, struct tb_port *in,
- 	return available_bw;
- }
- 
-+static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
-+{
-+	struct tb_port *host_port, *port;
-+	struct tb_cm *tcm = tb_priv(tb);
-+
-+	host_port = tb_route(in->sw) ?
-+		tb_port_at(tb_route(in->sw), tb->root_switch) : NULL;
-+
-+	list_for_each_entry(port, &tcm->dp_resources, list) {
-+		if (!tb_port_is_dpout(port))
-+			continue;
-+
-+		if (tb_port_is_enabled(port)) {
-+			tb_port_dbg(port, "in use\n");
-+			continue;
-+		}
-+
-+		tb_port_dbg(port, "DP OUT available\n");
-+
-+		/*
-+		 * Keep the DP tunnel under the topology starting from
-+		 * the same host router downstream port.
-+		 */
-+		if (host_port && tb_route(port->sw)) {
-+			struct tb_port *p;
-+
-+			p = tb_port_at(tb_route(port->sw), tb->root_switch);
-+			if (p != host_port)
-+				continue;
-+		}
-+
-+		return port;
-+	}
-+
-+	return NULL;
-+}
-+
- static void tb_tunnel_dp(struct tb *tb)
+@@ -535,7 +535,7 @@ static int tb_available_bw(struct tb_cm *tcm, struct tb_port *in,
  {
- 	struct tb_cm *tcm = tb_priv(tb);
-@@ -589,17 +627,21 @@ static void tb_tunnel_dp(struct tb *tb)
- 	in = NULL;
- 	out = NULL;
- 	list_for_each_entry(port, &tcm->dp_resources, list) {
-+		if (!tb_port_is_dpin(port))
-+			continue;
-+
- 		if (tb_port_is_enabled(port)) {
- 			tb_port_dbg(port, "in use\n");
- 			continue;
+ 	struct tb_switch *sw = out->sw;
+ 	struct tb_tunnel *tunnel;
+-	int bw, available_bw = 40000;
++	int ret, bw, available_bw = 40000;
+ 
+ 	while (sw && sw != in->sw) {
+ 		bw = sw->link_speed * sw->link_width * 1000; /* Mb/s */
+@@ -553,9 +553,10 @@ static int tb_available_bw(struct tb_cm *tcm, struct tb_port *in,
+ 			if (!tb_tunnel_switch_on_path(tunnel, sw))
+ 				continue;
+ 
+-			consumed_bw = tb_tunnel_consumed_bandwidth(tunnel);
+-			if (consumed_bw < 0)
+-				return consumed_bw;
++			ret = tb_tunnel_consumed_bandwidth(tunnel, NULL,
++							   &consumed_bw);
++			if (ret)
++				return ret;
+ 
+ 			bw -= consumed_bw;
  		}
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 5bdb8b11345e..45f7a50a48ff 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -536,7 +536,8 @@ static int tb_dp_activate(struct tb_tunnel *tunnel, bool active)
+ 	return 0;
+ }
  
--		tb_port_dbg(port, "available\n");
-+		tb_port_dbg(port, "DP IN available\n");
- 
--		if (!in && tb_port_is_dpin(port))
-+		out = tb_find_dp_out(tb, port);
-+		if (out) {
- 			in = port;
--		else if (!out && tb_port_is_dpout(port))
--			out = port;
-+			break;
-+		}
+-static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel)
++static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
++				    int *consumed_down)
+ {
+ 	struct tb_port *in = tunnel->src_port;
+ 	const struct tb_switch *sw = in->sw;
+@@ -580,10 +581,20 @@ static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel)
+ 		lanes = tb_dp_cap_get_lanes(val);
+ 	} else {
+ 		/* No bandwidth management for legacy devices  */
++		*consumed_up = 0;
++		*consumed_down = 0;
+ 		return 0;
  	}
  
- 	if (!in) {
+-	return tb_dp_bandwidth(rate, lanes);
++	if (in->sw->config.depth < tunnel->dst_port->sw->config.depth) {
++		*consumed_up = 0;
++		*consumed_down = tb_dp_bandwidth(rate, lanes);
++	} else {
++		*consumed_up = tb_dp_bandwidth(rate, lanes);
++		*consumed_down = 0;
++	}
++
++	return 0;
+ }
+ 
+ static void tb_dp_init_aux_path(struct tb_path *path)
+@@ -1174,21 +1185,39 @@ static bool tb_tunnel_is_active(const struct tb_tunnel *tunnel)
+ /**
+  * tb_tunnel_consumed_bandwidth() - Return bandwidth consumed by the tunnel
+  * @tunnel: Tunnel to check
++ * @consumed_up: Consumed bandwidth in Mb/s from @dst_port to @src_port.
++ *		 Can be %NULL.
++ * @consumed_down: Consumed bandwidth in Mb/s from @src_port to @dst_port.
++ *		   Can be %NULL.
+  *
+- * Returns bandwidth currently consumed by @tunnel and %0 if the @tunnel
+- * is not active or does consume bandwidth.
++ * Stores the amount of isochronous bandwidth @tunnel consumes in
++ * @consumed_up and @consumed_down. In case of success returns %0,
++ * negative errno otherwise.
+  */
+-int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel)
++int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
++				 int *consumed_down)
+ {
++	int up_bw = 0, down_bw = 0;
++
+ 	if (!tb_tunnel_is_active(tunnel))
+-		return 0;
++		goto out;
+ 
+ 	if (tunnel->consumed_bandwidth) {
+-		int ret = tunnel->consumed_bandwidth(tunnel);
++		int ret;
+ 
+-		tb_tunnel_dbg(tunnel, "consumed bandwidth %d Mb/s\n", ret);
+-		return ret;
++		ret = tunnel->consumed_bandwidth(tunnel, &up_bw, &down_bw);
++		if (ret)
++			return ret;
++
++		tb_tunnel_dbg(tunnel, "consumed bandwidth %d/%d Mb/s\n", up_bw,
++			      down_bw);
+ 	}
+ 
++out:
++	if (consumed_up)
++		*consumed_up = up_bw;
++	if (consumed_down)
++		*consumed_down = down_bw;
++
+ 	return 0;
+ }
+diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
+index 3f5ba93225e7..cc952b2be792 100644
+--- a/drivers/thunderbolt/tunnel.h
++++ b/drivers/thunderbolt/tunnel.h
+@@ -42,7 +42,8 @@ struct tb_tunnel {
+ 	size_t npaths;
+ 	int (*init)(struct tb_tunnel *tunnel);
+ 	int (*activate)(struct tb_tunnel *tunnel, bool activate);
+-	int (*consumed_bandwidth)(struct tb_tunnel *tunnel);
++	int (*consumed_bandwidth)(struct tb_tunnel *tunnel, int *consumed_up,
++				  int *consumed_down);
+ 	struct list_head list;
+ 	enum tb_tunnel_type type;
+ 	unsigned int max_bw;
+@@ -69,7 +70,8 @@ void tb_tunnel_deactivate(struct tb_tunnel *tunnel);
+ bool tb_tunnel_is_invalid(struct tb_tunnel *tunnel);
+ bool tb_tunnel_switch_on_path(const struct tb_tunnel *tunnel,
+ 			      const struct tb_switch *sw);
+-int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel);
++int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
++				 int *consumed_down);
+ 
+ static inline bool tb_tunnel_is_pci(const struct tb_tunnel *tunnel)
+ {
 -- 
 2.27.0.rc2
 
