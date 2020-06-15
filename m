@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE99C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDEA3C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A8D9206B7
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDF89206B7
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730539AbgFOO0z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 10:26:55 -0400
-Received: from mga17.intel.com ([192.55.52.151]:19764 "EHLO mga17.intel.com"
+        id S1730546AbgFOO04 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 10:26:56 -0400
+Received: from mga17.intel.com ([192.55.52.151]:19767 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730467AbgFOO0w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jun 2020 10:26:52 -0400
-IronPort-SDR: aQbc1V3P1PuaBdsuh4oePeaHAD/vFGFoFhUqlg8ERf+Jf33Rzz36wqMBImH+2zdYQLEnHnHbTA
- drIJ8rJXAZKA==
+        id S1730501AbgFOO0y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Jun 2020 10:26:54 -0400
+IronPort-SDR: 9RWXqAeQoB44vLCuHJqMhQNfyO1dUfBLH1wQ+kcvlCTbNJeA8oRG+s258IJEVEy/fMrPuv4tkI
+ Y9tsKDD+cAiQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:52 -0700
-IronPort-SDR: t+hMyvD2eNSVf2F27IPryjiR2UFmd/Y+FEo5re6vQ7uGBzWnr9uMhikdLlzPN5yZGcXuoD9c6V
- s/b72GY3TRPg==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:54 -0700
+IronPort-SDR: 12QutSiUtUDkGVxJv/rOxRQqaoGX3iCrCC2K3+prah4kc27zfk4cb17LLJNLH1AecpDlb51FR4
+ 3nG17aSNXj1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="316922166"
+   d="scan'208";a="316922169"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2020 07:26:50 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2020 07:26:52 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3523D87F; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
+        id 4E25B946; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -42,9 +42,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rajmohan Mani <rajmohan.mani@intel.com>,
         Lukas Wunner <lukas@wunner.de>
-Subject: [PATCH 13/17] thunderbolt: Increase DP DPRX wait timeout
-Date:   Mon, 15 Jun 2020 17:26:41 +0300
-Message-Id: <20200615142645.56209-14-mika.westerberg@linux.intel.com>
+Subject: [PATCH 15/17] thunderbolt: Make tb_port_get_link_speed() available to other files
+Date:   Mon, 15 Jun 2020 17:26:43 +0300
+Message-Id: <20200615142645.56209-16-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
 In-Reply-To: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
 References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
@@ -55,27 +55,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sometimes it takes longer for DPRX to be set so increase the timeout to
-cope with this.
+We need to call this from tb.c when we improve the bandwidth management
+to take USB3 into account.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tunnel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thunderbolt/switch.c | 8 +++++++-
+ drivers/thunderbolt/tb.h     | 2 ++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index 45f7a50a48ff..7896f8b7a69c 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -545,7 +545,7 @@ static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 29db484d2c74..c01176429d5f 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -911,7 +911,13 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
+ 	return next != prev ? next : NULL;
+ }
+ 
+-static int tb_port_get_link_speed(struct tb_port *port)
++/**
++ * tb_port_get_link_speed() - Get current link speed
++ * @port: Port to check (USB4 or CIO)
++ *
++ * Returns link speed in Gb/s or negative errno in case of failure.
++ */
++int tb_port_get_link_speed(struct tb_port *port)
+ {
+ 	u32 val, speed;
  	int ret;
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index cb53a94fe4f8..c6f18200fe92 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -759,6 +759,8 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
+ 	for ((p) = tb_next_port_on_path((src), (dst), NULL); (p);	\
+ 	     (p) = tb_next_port_on_path((src), (dst), (p)))
  
- 	if (tb_dp_is_usb4(sw)) {
--		int timeout = 10;
-+		int timeout = 20;
- 
- 		/*
- 		 * Wait for DPRX done. Normally it should be already set
++int tb_port_get_link_speed(struct tb_port *port);
++
+ int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
+ int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
+ int tb_port_find_cap(struct tb_port *port, enum tb_port_cap cap);
 -- 
 2.27.0.rc2
 
