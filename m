@@ -2,85 +2,92 @@ Return-Path: <SRS0=aBLZ=74=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DC8C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30026C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:45:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D5C9207BB
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F402D206B7
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:45:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UKZqmBEO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730436AbgFONCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 09:02:41 -0400
-Received: from mga14.intel.com ([192.55.52.115]:45787 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730143AbgFONCl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jun 2020 09:02:41 -0400
-IronPort-SDR: y2FG8d4uNhZR4Ce5FIL0ezC9yTdrHNH5aLDi5Q8E49djdMpq5vC3u/P401usdwxLX7wHsmjXMg
- TXUX9EcoBelQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 06:01:46 -0700
-IronPort-SDR: b22rBwN3qku8X8jMPPXaFYSj7RASPaThNUcmo1zAJFJ59JRRJzvaEXWuDz59j634aFDORFhRrY
- JfABsCT1x1vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="290687907"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2020 06:01:40 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id B778F217; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        id S1729884AbgFONpk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 09:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59408 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728326AbgFONpj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jun 2020 09:45:39 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69789C061A0E;
+        Mon, 15 Jun 2020 06:45:39 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id y6so6282592edi.3;
+        Mon, 15 Jun 2020 06:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=je/VMIDu1HMLGM9aC5+ju34aZPTh4+EiQvNVe0yywUk=;
+        b=UKZqmBEO7ucC2dWiEPjv8XBFyyCpKog+HUQdeK6nO43meSndDKovPqIVFaJIcPKQt2
+         qis3DkREZXjjAYORy/k4S+tkgwk6V/PwZv2n+/9hMDrA3XXz9q8z8BJw/pyoUfdncHcN
+         FkHghwl4qLZrdQL8D33nauz1hUoWgEGgr29kHVcZ4Y8ZrkMfBYitaF0aLcqITqv2AJ5v
+         yo0rL2ZTuahGlxVWgfqfUM7T8F7uDPRfTK6wAd2rS0MkryI2XSNJheWIp0oeH265rDwV
+         QPKHp40UmdPIxdsAJfVS2hKbxhvGgIPIZt/bDzPIjMwJRdlG/MXKxBU8wR8UydLoWInN
+         jZvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=je/VMIDu1HMLGM9aC5+ju34aZPTh4+EiQvNVe0yywUk=;
+        b=WHx+WRxp6PYqP5F8WzTxiat2iPuXrZ7UjUntIU2yWDewMH+0rZ0XTj67u/LJRdCOGA
+         u6XTeuVjeDYHR9uQeyUAiGixyuaFVpyVzfWvD4iB3NB4g8nD98D3hOWd+ANE2cdrGgD9
+         jRZ9+IpmhS3JiLUTfYtZEh75sHyKsqKuelSy6pvgRNYE1bc/Lu6idnlboqVaISkrbovE
+         3VzvqSK8wBKVWl55/vi2DHnyuTEgIxZ6/oDeHmqiJLtJaIndYaFwTDL9Fn6BfhxW7OqT
+         i6kauHTKgcX06t/Efq+7NKbYWiSvBVYRS5B8gVfQBzeE0USCeWnTU1n1BzBdiemjqHjJ
+         p4cQ==
+X-Gm-Message-State: AOAM531gSic8Uek85h/oJCZaJQz6VjtohMFiR+KeCmwkCUQXCm/KU7rs
+        QF2+v8tI2bEq0l6+a+IaRGCE3ALhAylVQz1vS2c=
+X-Google-Smtp-Source: ABdhPJw+Q9GuP+rTVV18SrUjho/DrpUXxtFDKmvyMfNj1OIc3VoHXb3Eq/NloFIxXdW6iuD0q8Wbu+lEazNlaR1zGpI=
+X-Received: by 2002:aa7:da46:: with SMTP id w6mr23564896eds.31.1592228738168;
+ Mon, 15 Jun 2020 06:45:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200615130139.83854-1-mika.westerberg@linux.intel.com> <20200615130139.83854-5-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200615130139.83854-5-mika.westerberg@linux.intel.com>
+From:   Yehezkel Bernat <yehezkelshb@gmail.com>
+Date:   Mon, 15 Jun 2020 16:45:22 +0300
+Message-ID: <CA+CmpXtpAaY+zKG-ofPNYHTChTiDtwCAnd8uYQSqyJ8hLE891Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] thunderbolt: Get rid of E2E workaround
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
         "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         netdev@vger.kernel.org
-Subject: [PATCH 2/4] thunderbolt: No need to warn if NHI hop_count != 12 or hop_count != 32
-Date:   Mon, 15 Jun 2020 16:01:37 +0300
-Message-Id: <20200615130139.83854-3-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.27.0.rc2
-In-Reply-To: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
-References: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While Intel hardware typically has hop_count (Total Paths in the spec)
-12 the USB4 spec allows this to be anything between 1 and 21 so no need
-to warn about this. Simply log number of paths at debug level.
+On Mon, Jun 15, 2020 at 4:02 PM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+> index ff397c0d5c07..5db2b11ab085 100644
+> --- a/include/linux/thunderbolt.h
+> +++ b/include/linux/thunderbolt.h
+> @@ -504,8 +504,6 @@ struct tb_ring {
+>  #define RING_FLAG_NO_SUSPEND   BIT(0)
+>  /* Configure the ring to be in frame mode */
+>  #define RING_FLAG_FRAME                BIT(1)
+> -/* Enable end-to-end flow control */
+> -#define RING_FLAG_E2E          BIT(2)
+>
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/nhi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index d299dc168147..b617922b5b0a 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1123,9 +1123,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	/* cannot fail - table is allocated bin pcim_iomap_regions */
- 	nhi->iobase = pcim_iomap_table(pdev)[0];
- 	nhi->hop_count = ioread32(nhi->iobase + REG_HOP_COUNT) & 0x3ff;
--	if (nhi->hop_count != 12 && nhi->hop_count != 32)
--		dev_warn(&pdev->dev, "unexpected hop count: %d\n",
--			 nhi->hop_count);
-+	dev_dbg(&pdev->dev, "total paths: %d\n", nhi->hop_count);
- 
- 	nhi->tx_rings = devm_kcalloc(&pdev->dev, nhi->hop_count,
- 				     sizeof(*nhi->tx_rings), GFP_KERNEL);
--- 
-2.27.0.rc2
-
+Isn't it better to keep it (or mark it as reserved) so it'll not cause
+compatibility issues with older versions of the driver or with Windows?
