@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E06C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B575C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B9E4206B7
+	by mail.kernel.org (Postfix) with ESMTP id DF73E206B7
 	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 14:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730500AbgFOO0y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 10:26:54 -0400
+        id S1730538AbgFOO0z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 10:26:55 -0400
 Received: from mga09.intel.com ([134.134.136.24]:59953 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729243AbgFOO0u (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jun 2020 10:26:50 -0400
-IronPort-SDR: aI7uARs1On4bD5BLcIWOKgb+qMf6OluQqD9HwF0Qs6o6PxytDdwxThJ0gSmdSqxVVmLWhI5JaK
- dE8CqSr9LJ6A==
+        id S1730476AbgFOO0w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Jun 2020 10:26:52 -0400
+IronPort-SDR: gDGctaOU9w4mnI91Cuct5GRpYcUM3kPR8S4RlfpGYK/m2BbIE5hXdpK1udjQFkfuNHX818fz96
+ 5Q6vJr9VSWDg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:49 -0700
-IronPort-SDR: m17V032QInMJDwB1Sp9Jshy9Nz5fOeO6/ApDZ/1VXHkC/jJRDKYnL7ONcKZFhxQvy341VnU6Y8
- Ap8wN6s2yMsw==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 07:26:52 -0700
+IronPort-SDR: f9w5m0gOl7vC45VQWoUg4lEAWx4ajvtAUuJBHyxPXzILcyf4Dklx3YS0rZIpfl3FGBF9hSPvmL
+ 4tJYTcnqR6Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="262736087"
+   d="scan'208";a="308143465"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jun 2020 07:26:47 -0700
+  by orsmga008.jf.intel.com with ESMTP; 15 Jun 2020 07:26:49 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id C37BA217; Mon, 15 Jun 2020 17:26:45 +0300 (EEST)
+        id 170256D6; Mon, 15 Jun 2020 17:26:46 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -42,9 +42,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rajmohan Mani <rajmohan.mani@intel.com>,
         Lukas Wunner <lukas@wunner.de>
-Subject: [PATCH 02/17] thunderbolt: Make tb_next_port_on_path() work with tree topologies
-Date:   Mon, 15 Jun 2020 17:26:30 +0300
-Message-Id: <20200615142645.56209-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH 10/17] thunderbolt: Make usb4_switch_map_usb3_down() also return enabled ports
+Date:   Mon, 15 Jun 2020 17:26:38 +0300
+Message-Id: <20200615142645.56209-11-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
 In-Reply-To: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
 References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
@@ -55,65 +55,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB4 makes it possible to have tree topology of devices connected in the
-same way than USB3. This was actually possible in Thunderbolt 1, 2 and 3
-as well but all the available devices only had two ports which allows
-building only daisy-chains of devices.
+We need to call this on enabled ports in order to find the mapping from
+host router USB4 port to a USB 3.x downstream adapter, so make the
+function return enabled ports as well.
 
-With USB4 it is possible for example that there is DP IN adapter as part
-of eGPU device router and that should be tunneled over the tree topology
-to a DP OUT adapter. This updates the tb_next_port_on_path() to support
-such topologies.
+While there fix parameter alignment in tb_find_usb3_down().
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ drivers/thunderbolt/tb.c   | 14 +++-----------
+ drivers/thunderbolt/usb4.c |  2 +-
+ 2 files changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 95b75a712ade..29db484d2c74 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -850,6 +850,13 @@ void tb_port_release_out_hopid(struct tb_port *port, int hopid)
- 	ida_simple_remove(&port->out_hopids, hopid);
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 2da82259e77c..82f62a023a4b 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -206,22 +206,14 @@ static struct tb_port *tb_find_unused_port(struct tb_switch *sw,
  }
  
-+static inline bool tb_switch_is_reachable(const struct tb_switch *parent,
-+					  const struct tb_switch *sw)
-+{
-+	u64 mask = (1ULL << parent->config.depth * 8) - 1;
-+	return (tb_route(parent) & mask) == (tb_route(sw) & mask);
-+}
-+
- /**
-  * tb_next_port_on_path() - Return next port for given port on a path
-  * @start: Start port of the walk
-@@ -879,12 +886,12 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
- 		return end;
- 	}
+ static struct tb_port *tb_find_usb3_down(struct tb_switch *sw,
+-					const struct tb_port *port)
++					 const struct tb_port *port)
+ {
+ 	struct tb_port *down;
  
--	if (start->sw->config.depth < end->sw->config.depth) {
-+	if (tb_switch_is_reachable(prev->sw, end->sw)) {
-+		next = tb_port_at(tb_route(end->sw), prev->sw);
-+		/* Walk down the topology if next == prev */
- 		if (prev->remote &&
--		    prev->remote->sw->config.depth > prev->sw->config.depth)
-+		    (next == prev || next->dual_link_port == prev))
- 			next = prev->remote;
--		else
--			next = tb_port_at(tb_route(end->sw), prev->sw);
- 	} else {
- 		if (tb_is_upstream_port(prev)) {
- 			next = prev->remote;
-@@ -901,7 +908,7 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
- 		}
- 	}
- 
--	return next;
-+	return next != prev ? next : NULL;
+ 	down = usb4_switch_map_usb3_down(sw, port);
+-	if (down) {
+-		if (WARN_ON(!tb_port_is_usb3_down(down)))
+-			goto out;
+-		if (WARN_ON(tb_usb3_port_is_enabled(down)))
+-			goto out;
+-
++	if (down && !tb_usb3_port_is_enabled(down))
+ 		return down;
+-	}
+-
+-out:
+-	return tb_find_unused_port(sw, TB_TYPE_USB3_DOWN);
++	return NULL;
  }
  
- static int tb_port_get_link_speed(struct tb_port *port)
+ static int tb_tunnel_usb3(struct tb *tb, struct tb_switch *sw)
+diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
+index 393771d50962..375a8c459201 100644
+--- a/drivers/thunderbolt/usb4.c
++++ b/drivers/thunderbolt/usb4.c
+@@ -759,7 +759,7 @@ struct tb_port *usb4_switch_map_usb3_down(struct tb_switch *sw,
+ 		if (!tb_port_is_usb3_down(p))
+ 			continue;
+ 
+-		if (usb_idx == usb4_idx && !tb_usb3_port_is_enabled(p))
++		if (usb_idx == usb4_idx)
+ 			return p;
+ 
+ 		usb_idx++;
 -- 
 2.27.0.rc2
 
