@@ -2,37 +2,37 @@ Return-Path: <SRS0=aBLZ=74=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0BE3C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E212C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A92D62078E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55FAF206B7
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 13:02:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730299AbgFONCc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 09:02:32 -0400
-Received: from mga04.intel.com ([192.55.52.120]:13269 "EHLO mga04.intel.com"
+        id S1730444AbgFONCm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 09:02:42 -0400
+Received: from mga14.intel.com ([192.55.52.115]:45787 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730193AbgFONCb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jun 2020 09:02:31 -0400
-IronPort-SDR: 2sIeHKazH6ctWwCYKohY62aVMWwNGon4oNpeR2NSNrQmadc0kolCMqrRjT3QQ1BATV0nFtXufU
- gmdxQeiLClyg==
+        id S1730372AbgFONCm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Jun 2020 09:02:42 -0400
+IronPort-SDR: 53Wvwqqqq49dy76PVFloim9EW3SnfouneDBWMiW/aNgdW+mIKBf8mp00Qek2kGZ5c8ozh3R59B
+ l8xHjP+LYFUw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 06:01:43 -0700
-IronPort-SDR: KmBY9PxTMxsG/CWCt3HTJ59bIIYIdb1paF+7N3Bh9BkzA/bNMgtnVbbPxgfK/18ra5lG0KZJKJ
- oBk/4itCXjaw==
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 06:01:46 -0700
+IronPort-SDR: OU8DO0k8mLpXw9MLtDYXiZbdcioSozvvKSXEzILToNUeFRhzlKL3MkC65JNli+pfgB4/xVcXYW
+ /1kPUGzRuuDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="308115326"
+   d="scan'208";a="290687912"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga008.jf.intel.com with ESMTP; 15 Jun 2020 06:01:40 -0700
+  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2020 06:01:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id C6E564D9; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
+        id A470F190; Mon, 15 Jun 2020 16:01:39 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -44,12 +44,10 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         netdev@vger.kernel.org
-Subject: [PATCH 4/4] thunderbolt: Get rid of E2E workaround
-Date:   Mon, 15 Jun 2020 16:01:39 +0300
-Message-Id: <20200615130139.83854-5-mika.westerberg@linux.intel.com>
+Subject: [PATCH 0/4] thunderbolt: XDomain and NHI improvements
+Date:   Mon, 15 Jun 2020 16:01:35 +0300
+Message-Id: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.27.0.rc2
-In-Reply-To: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
-References: <20200615130139.83854-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -57,111 +55,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The end-to-end (E2E) workaround is needed for Falcon Ridge (TBT 2)
-controller when E2E is enabled for both ends of the host-to-host
-connection. However, we never supported full E2E in the first place so
-this code is not necessary at the moment. Further this allows us to use
-all available rings for data except ring 0 which is reserved for the
-control path.
+Hi,
 
-The complete E2E flow control is explained in the USB4 spec so we may
-add it back later if needed but at least the networking driver seems to
-work fine without, and the higher level stack, like TCP will retransmit
-lost packets anyway.
+This small series improves the "data" path handling when doing host-to-host
+connections over TBT/USB4 cable. First patch delays setting nodename upon
+first connect to allow the userspace to fill in host name. Rest of the
+series deal with the NHI (TBT/USB4 host interface) HopID allocation so that
+by dropping the E2E workaround which was never used, we can use DMA rings
+starting from 1 to transfer data over the TBT/USB4 fabric.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/net/thunderbolt.c   |  4 ++--
- drivers/thunderbolt/nhi.c   | 26 ++------------------------
- include/linux/thunderbolt.h |  2 --
- 3 files changed, 4 insertions(+), 28 deletions(-)
+Mika Westerberg (4):
+  thunderbolt: Build initial XDomain property block upon first connect
+  thunderbolt: No need to warn if NHI hop_count != 12 or hop_count != 32
+  thunderbolt: NHI can use HopIDs 1-7
+  thunderbolt: Get rid of E2E workaround
 
-diff --git a/drivers/net/thunderbolt.c b/drivers/net/thunderbolt.c
-index dacb4f680fd4..a812726703a4 100644
---- a/drivers/net/thunderbolt.c
-+++ b/drivers/net/thunderbolt.c
-@@ -866,8 +866,8 @@ static int tbnet_open(struct net_device *dev)
- 	eof_mask = BIT(TBIP_PDF_FRAME_END);
- 
- 	ring = tb_ring_alloc_rx(xd->tb->nhi, -1, TBNET_RING_SIZE,
--				RING_FLAG_FRAME | RING_FLAG_E2E, sof_mask,
--				eof_mask, tbnet_start_poll, net);
-+				RING_FLAG_FRAME, sof_mask, eof_mask,
-+				tbnet_start_poll, net);
- 	if (!ring) {
- 		netdev_err(dev, "failed to allocate Rx ring\n");
- 		tb_ring_free(net->tx_ring.ring);
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index b617922b5b0a..5f7489fa1327 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -24,12 +24,7 @@
- 
- #define RING_TYPE(ring) ((ring)->is_tx ? "TX ring" : "RX ring")
- 
--/*
-- * Used to enable end-to-end workaround for missing RX packets. Do not
-- * use this ring for anything else.
-- */
--#define RING_E2E_UNUSED_HOPID	2
--#define RING_FIRST_USABLE_HOPID	TB_PATH_MIN_HOPID
-+#define RING_FIRST_USABLE_HOPID	1
- 
- /*
-  * Minimal number of vectors when we use MSI-X. Two for control channel
-@@ -440,7 +435,7 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- 
- 		/*
- 		 * Automatically allocate HopID from the non-reserved
--		 * range 8 .. hop_count - 1.
-+		 * range 1 .. hop_count - 1.
- 		 */
- 		for (i = RING_FIRST_USABLE_HOPID; i < nhi->hop_count; i++) {
- 			if (ring->is_tx) {
-@@ -496,10 +491,6 @@ static struct tb_ring *tb_ring_alloc(struct tb_nhi *nhi, u32 hop, int size,
- 	dev_dbg(&nhi->pdev->dev, "allocating %s ring %d of size %d\n",
- 		transmit ? "TX" : "RX", hop, size);
- 
--	/* Tx Ring 2 is reserved for E2E workaround */
--	if (transmit && hop == RING_E2E_UNUSED_HOPID)
--		return NULL;
--
- 	ring = kzalloc(sizeof(*ring), GFP_KERNEL);
- 	if (!ring)
- 		return NULL;
-@@ -614,19 +605,6 @@ void tb_ring_start(struct tb_ring *ring)
- 		flags = RING_FLAG_ENABLE | RING_FLAG_RAW;
- 	}
- 
--	if (ring->flags & RING_FLAG_E2E && !ring->is_tx) {
--		u32 hop;
--
--		/*
--		 * In order not to lose Rx packets we enable end-to-end
--		 * workaround which transfers Rx credits to an unused Tx
--		 * HopID.
--		 */
--		hop = RING_E2E_UNUSED_HOPID << REG_RX_OPTIONS_E2E_HOP_SHIFT;
--		hop &= REG_RX_OPTIONS_E2E_HOP_MASK;
--		flags |= hop | RING_FLAG_E2E_FLOW_CONTROL;
--	}
--
- 	ring_iowrite64desc(ring, ring->descriptors_dma, 0);
- 	if (ring->is_tx) {
- 		ring_iowrite32desc(ring, ring->size, 12);
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index ff397c0d5c07..5db2b11ab085 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -504,8 +504,6 @@ struct tb_ring {
- #define RING_FLAG_NO_SUSPEND	BIT(0)
- /* Configure the ring to be in frame mode */
- #define RING_FLAG_FRAME		BIT(1)
--/* Enable end-to-end flow control */
--#define RING_FLAG_E2E		BIT(2)
- 
- struct ring_frame;
- typedef void (*ring_cb)(struct tb_ring *, struct ring_frame *, bool canceled);
+ drivers/net/thunderbolt.c     |  4 +-
+ drivers/thunderbolt/nhi.c     | 30 ++---------
+ drivers/thunderbolt/switch.c  |  7 ++-
+ drivers/thunderbolt/xdomain.c | 94 ++++++++++++++++++++---------------
+ include/linux/thunderbolt.h   |  2 -
+ 5 files changed, 64 insertions(+), 73 deletions(-)
+
 -- 
 2.27.0.rc2
 
