@@ -2,115 +2,119 @@ Return-Path: <SRS0=aBLZ=74=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F83C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 16:16:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B86BAC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 18:58:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDE5120663
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 16:16:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F0E020656
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jun 2020 18:58:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="NQIobxBr"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="B79KaIJ0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730920AbgFOQQ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jun 2020 12:16:29 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:1598 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730909AbgFOQQ2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jun 2020 12:16:28 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05FGErYJ010869;
-        Mon, 15 Jun 2020 18:15:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=bZLdngu1T79B9CrirZEYQHkjEj22wNJY7PUv6kBJrmQ=;
- b=NQIobxBr+rX5VTLmyc7vPLHNgD3LW8Pb5hHYFgsZU9bIOm3wJ7mtTY7nG0ADsWidmAZz
- cyOykLhl35Y6R+kzqh3uioxLQTDj3bGvUOMZ+6jh06Wt+RUzCbGUbqCJrhjzveVq8n6H
- ln5d6knEOJXKn1CyMttgX0LcEL9XA1KvlDJHAWQR7KYk6NJGkNlMEZM7tG3OHz1cGTop
- bfiYMS+XddAzUl3+NpFXQ7mPsxSePA/ESi3vKt3xhl/yebjNJZlhVX+OKycYVnnzScjY
- jFJ20LrnH9eHZINBGRZStfoWxBpq+0ZN7CaZm1c4eRUXZ7Qh+JjGxyPKSLwHUmrQrqos 7A== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 31mmjvthhr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 15 Jun 2020 18:15:48 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 241B410002A;
-        Mon, 15 Jun 2020 18:15:47 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 02B062C5AD8;
-        Mon, 15 Jun 2020 18:15:47 +0200 (CEST)
-Received: from localhost (10.75.127.45) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 15 Jun 2020 18:15:46
- +0200
-From:   Amelie Delaunay <amelie.delaunay@st.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [PATCH 0/6] Add STUSB160x Type-C port controller support
-Date:   Mon, 15 Jun 2020 18:15:06 +0200
-Message-ID: <20200615161512.19150-1-amelie.delaunay@st.com>
-X-Mailer: git-send-email 2.17.1
+        id S1731407AbgFOS6b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jun 2020 14:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731388AbgFOS60 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jun 2020 14:58:26 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED079C08C5C6
+        for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2020 11:58:24 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id c12so16750304qkk.13
+        for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2020 11:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ogzWVexVKpi+yf06GApbiQKLooA3A6vya/Qu53dz5sI=;
+        b=B79KaIJ0c/ww8HMtAlyFH2XjxV7yynKBJIWwJHZ+zW3YLHuCCz9Bbiwsd2WzFuQLPj
+         AFf5Hg0Lqd/XvxHRpc9Uh/4vnlvXaITDgihFpq8wunarv4UVftdSwWHlY7Zs6O9gurGh
+         IE5GaopbWKe7DlaPUx/EPeh0He+mTIL/wqUz367myp2ljsairUj+5vVlWMjYvyLYdFxp
+         yylSrzx5rdvX7s5Lrdyjcy+vzWB+YunSNoTcuzE3AgfFM4I5Skeao2I26rxVl1af8CRx
+         y19r67M7mx7zcJG+Kyz2nHe2SegGgVU7ADSwtl1Rh91OJTnONTAEuipSUQQypIEpgb9A
+         T36g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ogzWVexVKpi+yf06GApbiQKLooA3A6vya/Qu53dz5sI=;
+        b=nFVDsk2AAP0e/ostoyRue9ln3AZG0mHlAv9jQkxzSoXIeyfaPvJY5OvM7ULH1EfxBl
+         WLtoYGZnIMce/akLTyAYaXJNTbUPG+QLbk8R9F4bXSx9pXKJsEe9Z5fBMx3oXsPXS1WO
+         DymCEEJaUrvNJESvgVcMFpq931xPQWL9uSPXP47RoAd5rBxrXr7dRJNFZ4gknCCQpynN
+         V9zluYtzVLtdhUXkftxMb5m3cIgPINChqPmdpKz5lmh5Xq7nAZWzg21AvvsViEnXIPU3
+         nDiMDrNqi9daveZyzoM0U1hP9C8Z9rwtA7KG5DxiZbaCN+UoboJCKlOiwat3NP6dKQQO
+         FsFA==
+X-Gm-Message-State: AOAM532mNGI8aLdBsxtR33wj6rQZ0Wo7g474RVqyAvJ+Wd9qixJP03ZZ
+        DeENsGWv7irJr/iCkwwQSZl8Eg==
+X-Google-Smtp-Source: ABdhPJygSobk4Dm93WtmDBaO2t3cPn7PZD+tDnBnapk86ninzx0O9WOhG6qnekVgX9A+5fj3vrdD7Q==
+X-Received: by 2002:a37:812:: with SMTP id 18mr17402635qki.296.1592247503264;
+        Mon, 15 Jun 2020 11:58:23 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id m13sm13228785qta.90.2020.06.15.11.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2020 11:58:22 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jkuJK-008kGo-AN; Mon, 15 Jun 2020 15:58:22 -0300
+Date:   Mon, 15 Jun 2020 15:58:22 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, ath10k@lists.infradead.org,
+        linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux-mm@kvack.org
+Subject: Re: [PATCH 00/17] spelling.txt: /decriptors/descriptors/
+Message-ID: <20200615185822.GA2084429@ziepe.ca>
+References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG5NODE1.st.com (10.75.127.13) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-15_06:2020-06-15,2020-06-15 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds support for STMicroelectronics STUSB160x Type-C port
-controllers [1].
-STUSB160x driver requires to get power operation mode via device tree,
-that's why this series also adds the optional DT property power-opmode
-for usb-c-connector to select the power operation mode capability and
-a function to convert the power operation mode string into power
-operation mode value.
-This driver has been tested on stm32mp157c-dk2 [2], which has a Type-C
-connector managed by STUSB1600, and connected to USB OTG controller. 
+On Tue, Jun 09, 2020 at 01:45:53PM +0100, Kieran Bingham wrote:
+> I wouldn't normally go through spelling fixes, but I caught sight of
+> this typo twice, and then foolishly grepped the tree for it, and saw how
+> pervasive it was.
+> 
+> so here I am ... fixing a typo globally... but with an addition in
+> scripts/spelling.txt so it shouldn't re-appear ;-)
+> 
+> Cc: linux-arm-kernel@lists.infradead.org (moderated list:TI DAVINCI MACHINE SUPPORT)
+> Cc: linux-kernel@vger.kernel.org (open list)
+> Cc: linux-pm@vger.kernel.org (open list:DEVICE FREQUENCY EVENT (DEVFREQ-EVENT))
+> Cc: linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM)
+> Cc: dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
+> Cc: linux-rdma@vger.kernel.org (open list:HFI1 DRIVER)
+> Cc: linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...)
+> Cc: linux-mtd@lists.infradead.org (open list:NAND FLASH SUBSYSTEM)
+> Cc: netdev@vger.kernel.org (open list:NETWORKING DRIVERS)
+> Cc: ath10k@lists.infradead.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+> Cc: linux-wireless@vger.kernel.org (open list:NETWORKING DRIVERS (WIRELESS))
+> Cc: linux-scsi@vger.kernel.org (open list:IBM Power Virtual FC Device Drivers)
+> Cc: linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT))
+> Cc: linux-usb@vger.kernel.org (open list:USB SUBSYSTEM)
+> Cc: virtualization@lists.linux-foundation.org (open list:VIRTIO CORE AND NET DRIVERS)
+> Cc: linux-mm@kvack.org (open list:MEMORY MANAGEMENT)
+> 
+> 
+> Kieran Bingham (17):
+>   arch: arm: mach-davinci: Fix trivial spelling
+>   drivers: infiniband: Fix trivial spelling
+>   drivers: infiniband: Fix trivial spelling
 
-[1] https://www.st.com/en/interfaces-and-transceivers/usb-type-c-and-power-delivery-controllers.html
-[2] https://www.st.com/en/evaluation-tools/stm32mp157c-dk2.html
+I took these two RDMA patches and merged them, thanks
 
-Amelie Delaunay (6):
-  dt-bindings: connector: add power-opmode optional property to
-    usb-connector
-  usb: typec: add typec_find_pwr_opmode
-  dt-bindings: usb: Add DT bindings for STUSB160x Type-C controller
-  usb: typec: add support for STUSB160x Type-C controller family
-  ARM: dts: stm32: add STUSB1600 Type-C using I2C4 on stm32mp15xx-dkx
-  ARM: multi_v7_defconfig: enable STUSB160X Type-C port controller
-    support
-
- .../bindings/connector/usb-connector.yaml     |  11 +
- .../devicetree/bindings/usb/st,stusb160x.yaml |  85 ++
- arch/arm/boot/dts/stm32mp15-pinctrl.dtsi      |   7 +
- arch/arm/boot/dts/stm32mp15xx-dkx.dtsi        |  38 +
- arch/arm/configs/multi_v7_defconfig           |   2 +
- drivers/usb/typec/Kconfig                     |  12 +
- drivers/usb/typec/Makefile                    |   1 +
- drivers/usb/typec/class.c                     |  15 +
- drivers/usb/typec/stusb160x.c                 | 875 ++++++++++++++++++
- include/linux/usb/typec.h                     |   1 +
- 10 files changed, 1047 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/st,stusb160x.yaml
- create mode 100644 drivers/usb/typec/stusb160x.c
-
--- 
-2.17.1
-
+Jason
