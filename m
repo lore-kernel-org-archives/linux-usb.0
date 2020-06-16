@@ -2,52 +2,53 @@ Return-Path: <SRS0=AcdU=75=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 498F7C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 15:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA566C433E3
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 15:17:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 264D1207C3
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 15:15:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5AEB2080D
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 15:17:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592320507;
-	bh=yrnL9UpX/a11nNq4rn8b+jxH1C651aqSlV/dcI4pLBY=;
+	s=default; t=1592320637;
+	bh=m8KMGIhi8TwpzFZcPdaAHpApXMmafeRrM3MfBbC2yy8=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:List-ID:From;
-	b=tQORGpCHYS4OaWgc8FXPXgJjlVsW6axD/XOG4FzpyiWR3nuZT79rNZyLxP4lJKoU9
-	 PDg96X82ZZrEgyED3UrNX/zbLO3dc1B0csOawuA2eUf2OxvA67ehC5BU/7r1T3colF
-	 cpg3VvORehJLL+is4bCMA0PEzB01jRtFp84pu+o4=
+	b=EDVtG1nMJsRYlsLjAmUPTaUIrEZVvcng7Y4C58bV1bwPDtAGc+IAkcStcu03OFisV
+	 7sF75Eoa2RlRvFPdQMoPMFk0BOFtsYgxoqRj/uWWY05AAsMGsX57GHLIYSigp+M8ew
+	 Nd1GZdEcsTa1QR1MtOQDzF8siOIP77rR7N6n8xzc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729289AbgFPPPC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Jun 2020 11:15:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35242 "EHLO mail.kernel.org"
+        id S1729784AbgFPPRO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Jun 2020 11:17:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36204 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728993AbgFPPPB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 16 Jun 2020 11:15:01 -0400
+        id S1728183AbgFPPRN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 16 Jun 2020 11:17:13 -0400
 Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E1AF9207C3;
-        Tue, 16 Jun 2020 15:14:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 124DA207C3;
+        Tue, 16 Jun 2020 15:17:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592320501;
-        bh=yrnL9UpX/a11nNq4rn8b+jxH1C651aqSlV/dcI4pLBY=;
+        s=default; t=1592320633;
+        bh=m8KMGIhi8TwpzFZcPdaAHpApXMmafeRrM3MfBbC2yy8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=XrEjTEvUsw82hLvg+MOfNxODiSCJoS4iInjheBywZPBY3ZL7B0eyzWvm6snliU9ra
-         XWi5JbXfqTzHMnJpREBvuThJBHcBdNbroQuRCoTN3I46kRlDWzg/Gj4dfszbYFv92b
-         s9OAbqRr1jSV1W9wP2XvK2V75k/952SdyMdG5KPE=
-Date:   Tue, 16 Jun 2020 17:14:57 +0200 (CEST)
+        b=m7jemaBrZWRJ7wdnW1byQq8GLTQQlD6rxa8Uk4825fuOC5N+aIyQZbObaRuvu1rNq
+         aDTueKcRq/4zbnXVM9CUbD7A/B0ayYIonIBqY6/mrk779x6kk7mB8PLSBV0cZXx7r+
+         36o4VH9YRLps+IUz4PaHCvqiGd6b8lBFf/1ptYj0=
+Date:   Tue, 16 Jun 2020 17:17:10 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Colin King <colin.king@canonical.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        groeck@chromium.org, Nicolas Boichat <drinkcat@chromium.org>,
         linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: usbhid: do not sleep when opening device
-In-Reply-To: <20200610043824.GA171503@dtor-ws>
-Message-ID: <nycvar.YFH.7.76.2006161714270.13242@cbobk.fhfr.pm>
-References: <20200610043824.GA171503@dtor-ws>
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: usbhid: remove redundant assignment to variable
+ retval
+In-Reply-To: <20200610123101.1133117-1-colin.king@canonical.com>
+Message-ID: <nycvar.YFH.7.76.2006161717030.13242@cbobk.fhfr.pm>
+References: <20200610123101.1133117-1-colin.king@canonical.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,12 +57,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 9 Jun 2020, Dmitry Torokhov wrote:
+On Wed, 10 Jun 2020, Colin King wrote:
 
-> usbhid tries to give the device 50 milliseconds to drain its queues when
-> opening the device, but dies it naively by simply sleeping in open handler,
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> The variable retval is being initialized with a value that is
+> never read and it is being updated later with a new value. The
+> initialization is redundant and can be removed.
+> 
+> Addresses-Coverity: ("Unused value")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/hid/usbhid/hid-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+> index 17a638f15082..17a29ee0ac6c 100644
+> --- a/drivers/hid/usbhid/hid-core.c
+> +++ b/drivers/hid/usbhid/hid-core.c
+> @@ -1667,7 +1667,7 @@ struct usb_interface *usbhid_find_interface(int minor)
+>  
+>  static int __init hid_init(void)
+>  {
+> -	int retval = -ENOMEM;
+> +	int retval;
+>  
+>  	retval = hid_quirks_init(quirks_param, BUS_USB, MAX_USBHID_BOOT_QUIRKS);
+>  	if (retval)
 
-I've changed 'dies' to 'does' :) and applied, thanks Dmitry.
+Applied, thanks.
 
 -- 
 Jiri Kosina
