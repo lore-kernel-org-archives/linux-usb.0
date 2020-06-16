@@ -2,110 +2,85 @@ Return-Path: <SRS0=AcdU=75=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE1CC433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 20:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7BA7C433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 20:55:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99A762080D
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 20:49:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MnzDLWcO"
+	by mail.kernel.org (Postfix) with ESMTP id 94432207DD
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Jun 2020 20:55:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729256AbgFPUs7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Jun 2020 16:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36954 "EHLO
+        id S1726464AbgFPUzh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Jun 2020 16:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbgFPUs6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Jun 2020 16:48:58 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA3CC061573
-        for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2020 13:48:58 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id n2so8927177pld.13
-        for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2020 13:48:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nA38ms2uzE+ajHN4rTksYykHuk1GjbJIu9tKcx5MOhg=;
-        b=MnzDLWcOISl371mXt6Ags8GR066pVOClRhnToFqbXpLSS9aPwHtXSCutNTSqwajaM+
-         sLvpR+Ivu35ckuxbPZsKGOuOP/z+WXMiDmyvddTpLfk2O7hN1F7tOiIFcWnhrJhFarrl
-         6XB+n2IJhv2+sKG8aQir3lnq6nslyCC6mmFT8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nA38ms2uzE+ajHN4rTksYykHuk1GjbJIu9tKcx5MOhg=;
-        b=lWx8i3CxBclKVMXiWorEXSNJ0APsw0hLtBFPzXIyUIPv7PqU3Hm0q1Qygg7M20h82W
-         1GixUA6kIci0yj8jhiwQJHXhfdM+wyGdGS++x3e+MOxY+ct4pxdCz/Ao+/52uE5lWahe
-         d/CqMDav9Jliw31Od5HV6MNc2MvtZglaQYkL8Xza8Fuw1lE32fkEqcp6SgdkU4y7zS8N
-         8RQvIuiTEuLQkRhabOESZBw0tJw8nPIbnUB1NV4cntaDXu2Mcs/3doc/Pzsq34pIUPph
-         Eim5UZKiBl2/amJJwejKqWPTip11brDNGi2L9DTB7ZeHPKW8p+7kofeO1l0LLidZfv6N
-         aEgw==
-X-Gm-Message-State: AOAM530IvgxxCT5HoDdZdKA/VgUPjmdEiHxwmmAWS2yVWy4AjmMVtkFA
-        Mez0oxoidYvnkBbjf+wuMBWH1g==
-X-Google-Smtp-Source: ABdhPJxOcw99TrdviCnuRM3FcM2K6qA7B/TiKfR0o/09FFN1um1MjQFAARC1qL3y1wUsGAHOXjoDxw==
-X-Received: by 2002:a17:90a:7409:: with SMTP id a9mr4527105pjg.107.1592340538167;
-        Tue, 16 Jun 2020 13:48:58 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
-        by smtp.gmail.com with ESMTPSA id w18sm7604075pgj.31.2020.06.16.13.48.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 13:48:57 -0700 (PDT)
-Date:   Tue, 16 Jun 2020 13:48:49 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Sandeep Maheswaram <sanm@codeaurora.org>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>, rafael@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Manu Gautam <mgautam@codeaurora.org>
-Subject: Re: [PATCH] driver core:Export the symbol device_is_bound
-Message-ID: <20200616204849.GZ4525@google.com>
-References: <1591123192-565-1-git-send-email-sanm@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1591123192-565-1-git-send-email-sanm@codeaurora.org>
+        with ESMTP id S1726296AbgFPUzh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Jun 2020 16:55:37 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F3FC061573;
+        Tue, 16 Jun 2020 13:55:37 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 5A163128D80DE;
+        Tue, 16 Jun 2020 13:55:36 -0700 (PDT)
+Date:   Tue, 16 Jun 2020 13:55:35 -0700 (PDT)
+Message-Id: <20200616.135535.379478681934951754.davem@davemloft.net>
+To:     jk@ozlabs.org
+Cc:     netdev@vger.kernel.org, allan@asix.com.tw, freddy@asix.com.tw,
+        pfink@christ-es.de, linux-usb@vger.kernel.org, louis@asix.com.tw
+Subject: Re: [PATCH] net: usb: ax88179_178a: fix packet alignment padding
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <e780f13fdde89d03ef863618d8de3dd67ba53c72.camel@ozlabs.org>
+References: <20200615025456.30219-1-jk@ozlabs.org>
+        <20200615.125220.492630206908309571.davem@davemloft.net>
+        <e780f13fdde89d03ef863618d8de3dd67ba53c72.camel@ozlabs.org>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 16 Jun 2020 13:55:36 -0700 (PDT)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 03, 2020 at 12:09:52AM +0530, Sandeep Maheswaram wrote:
-> Export the symbol device_is_bound so that it can be used by the modules.
-> This change was suggested to solve the allmodconfig build error on adding
-> the patch https://lore.kernel.org/patchwork/patch/1218628/
+From: Jeremy Kerr <jk@ozlabs.org>
+Date: Tue, 16 Jun 2020 17:08:23 +0800
 
-nit: the last two lines aren't particularly interesting in the commit log,
-this could be mentioned below '---'.
-
-It might make sense to group the two patches in a series, which would make
-the dependency more evident.
-
-> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-> ---
->  drivers/base/dd.c | 1 +
->  1 file changed, 1 insertion(+)
+>> Because that code in this loop makes the same calculations:
+>> 
+>>                 ax_skb = skb_clone(skb, GFP_ATOMIC);
+>>                 if (ax_skb) {
+>>                         ax_skb->len = pkt_len;
+>>                         ax_skb->data = skb->data + 2;
+>>                         skb_set_tail_pointer(ax_skb, pkt_len);
+>>                         ax_skb->truesize = pkt_len + sizeof(struct sk_buff);
+>>                         ax88179_rx_checksum(ax_skb, pkt_hdr);
+>>                         usbnet_skb_return(dev, ax_skb);
+>> 
+>> So if your change is right, it should be applied to this code block
+>> as well.
 > 
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 9a1d940..65d16ce 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -337,6 +337,7 @@ bool device_is_bound(struct device *dev)
->  {
->  	return dev->p && klist_node_attached(&dev->p->knode_driver);
->  }
-> +EXPORT_SYMBOL_GPL(device_is_bound);
->  
->  static void driver_bound(struct device *dev)
->  {
+> Yep, my patch changes that block too (or did I miss something?)
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+Nope, you didn't miss anything.  I missed that completely.
+
+>> And do we know that it's two extra tail bytes always?  Or some kind
+>> of alignment padding the chip performs for every sub-packet?
+> 
+> I've assumed it's a constant two bytes of prefix padding, as that's all
+> I've seen. But it would be great to have more detail from ASIX if
+> possible.
+
+I'll wait a bit for the ASIX folks to comment.
+
+It seems logical to me that what the chip does is align up the total
+sub-packet length to a multiple of 4 or larger, and then add those two
+prefix padding bytes.  Otherwise the prefix padding won't necessarily
+and reliably align the IP header after the link level header.
+
+Thanks.
