@@ -2,49 +2,53 @@ Return-Path: <SRS0=wl2X=77=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4CAAC433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2092FC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAEA521D80
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8C4C2192A
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592444181;
-	bh=GihSLx6Fpufc/S8q8V2ThvmkL+yQN55aJ1H8Pq4HuUg=;
+	s=default; t=1592444190;
+	bh=a+3xnev/BDXeTszDv+3yu2/AMSl2M2QdsPbZ++hFriw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ybL8xhcgkhph7A48HKhdhgSeBQdn8eMTCmkA67rw/DxjiYySRP6XzsjtkJ2ecqg5W
-	 lpePtxYIxfxbiRuqmiKCLHcOiEXNZXC6uyarb3NAihsRj7LgJJEGkNBWMjUwSWjGlZ
-	 3Qsm33C/Z7HvkicvIERUU3FkUm8h7cxybpEez7HY=
+	b=LGj/YB7rWOl/cvXuFuY7hmGc2MjCEKF75C2jbXDVAp0DDu9HW5JFjEVI2TYVlphU0
+	 lkPsEz+9UwSD1iR/HSxhoQ9Gvb28v4vpu4lbCJ/X/IYylwE4G26tvsGvJyRC77TJU+
+	 6OXh/2Um562cXsPtZKhpkZshchh9NEPYIme3SOaY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732360AbgFRBgL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:36:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41636 "EHLO mail.kernel.org"
+        id S1732716AbgFRBgZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 21:36:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41598 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731973AbgFRBbJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:31:09 -0400
+        id S1732709AbgFRBbG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:31:06 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E8F6C2224B;
-        Thu, 18 Jun 2020 01:31:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4A64422255;
+        Thu, 18 Jun 2020 01:31:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443868;
-        bh=GihSLx6Fpufc/S8q8V2ThvmkL+yQN55aJ1H8Pq4HuUg=;
+        s=default; t=1592443866;
+        bh=a+3xnev/BDXeTszDv+3yu2/AMSl2M2QdsPbZ++hFriw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IXMiRzjOKoUh7IiL0/ZNdmMDLyLy70phI1ZKYkd/eInCDdnnDIAjDoilmILG4/8bl
-         GwXG+VQTnp1sMXveT9GX9je55ZT60gs3Dfk20ODiF6eOlIIE6FADPsxq9bfrr9EQ9f
-         KdAmiz8jeGOc3GKQFTEeJON5BIe5leWvP4iN9gJE=
+        b=tF22iKohNc7iqpTnvIeCbem55E1ai0aMjv2L1Fp716atClxXFGMovgc+HWrNTFL3O
+         8YUj2gMPkiEpeUqQWiTT/B35Ho3yj9Zdng/8jXa4mtRybyanHYOaHNwj0HwtvGZal3
+         B/h+iHpPWPWpYDsh9IuwhCpZ2YJguO2FDVwcjBas=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Qiushi Wu <wu000273@umn.edu>, Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 49/60] usb: gadget: fix potential double-free in m66592_probe.
-Date:   Wed, 17 Jun 2020 21:29:53 -0400
-Message-Id: <20200618013004.610532-49-sashal@kernel.org>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        kbuild test robot <lkp@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH AUTOSEL 4.4 47/60] USB: gadget: udc: s3c2410_udc: Remove pointless NULL check in s3c2410_udc_nuke
+Date:   Wed, 17 Jun 2020 21:29:51 -0400
+Message-Id: <20200618013004.610532-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618013004.610532-1-sashal@kernel.org>
 References: <20200618013004.610532-1-sashal@kernel.org>
@@ -57,36 +61,54 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+From: Nathan Chancellor <natechancellor@gmail.com>
 
-[ Upstream commit 44734a594196bf1d474212f38fe3a0d37a73278b ]
+[ Upstream commit 7a0fbcf7c308920bc6116b3a5fb21c8cc5fec128 ]
 
-m66592_free_request() is called under label "err_add_udc"
-and "clean_up", and m66592->ep0_req is not set to NULL after
-first free, leading to a double-free. Fix this issue by
-setting m66592->ep0_req to NULL after the first free.
+Clang warns:
 
-Fixes: 0f91349b89f3 ("usb: gadget: convert all users to the new udc infrastructure")
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+drivers/usb/gadget/udc/s3c2410_udc.c:255:11: warning: comparison of
+address of 'ep->queue' equal to a null pointer is always false
+[-Wtautological-pointer-compare]
+        if (&ep->queue == NULL)
+             ~~~~^~~~~    ~~~~
+1 warning generated.
+
+It is not wrong, queue is not a pointer so if ep is not NULL, the
+address of queue cannot be NULL. No other driver does a check like this
+and this check has been around since the driver was first introduced,
+presumably with no issues so it does not seem like this check should be
+something else. Just remove it.
+
+Commit afe956c577b2d ("kbuild: Enable -Wtautological-compare") exposed
+this but it is not the root cause of the warning.
+
+Fixes: 3fc154b6b8134 ("USB Gadget driver for Samsung s3c2410 ARM SoC")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1004
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/m66592-udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/s3c2410_udc.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
-index b1cfa96cc88f..db95eab8b432 100644
---- a/drivers/usb/gadget/udc/m66592-udc.c
-+++ b/drivers/usb/gadget/udc/m66592-udc.c
-@@ -1684,7 +1684,7 @@ static int m66592_probe(struct platform_device *pdev)
- 
- err_add_udc:
- 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
+diff --git a/drivers/usb/gadget/udc/s3c2410_udc.c b/drivers/usb/gadget/udc/s3c2410_udc.c
+index eb3571ee59e3..08153a48704b 100644
+--- a/drivers/usb/gadget/udc/s3c2410_udc.c
++++ b/drivers/usb/gadget/udc/s3c2410_udc.c
+@@ -269,10 +269,6 @@ static void s3c2410_udc_done(struct s3c2410_ep *ep,
+ static void s3c2410_udc_nuke(struct s3c2410_udc *udc,
+ 		struct s3c2410_ep *ep, int status)
+ {
+-	/* Sanity check */
+-	if (&ep->queue == NULL)
+-		return;
 -
-+	m66592->ep0_req = NULL;
- clean_up3:
- 	if (m66592->pdata->on_chip) {
- 		clk_disable(m66592->clk);
+ 	while (!list_empty(&ep->queue)) {
+ 		struct s3c2410_request *req;
+ 		req = list_entry(ep->queue.next, struct s3c2410_request,
 -- 
 2.25.1
 
