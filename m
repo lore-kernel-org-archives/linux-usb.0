@@ -4,47 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CFAC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F086C433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:00:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 058672223F
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:58:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F2912224A
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592445530;
-	bh=2SXgvA7tUSdP75dvHaiTMCQP+0FRDnVljzClLq3/NNo=;
+	s=default; t=1592445605;
+	bh=0V7dE6479ka7p+b1cgEb56ZJP10pjJxIG98AhJLSwms=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=tDLgUwBKfbTUdXZlKMAkFI+b0qs0W+BPKW4GoErlC13dHvqZHZMEWukjxtiYMN9dH
-	 Ik0POHqGoCbWO0oj16e9dGxlQ3O3GFkaAfQv2N4D5Tlf3nHUTfVxIoZdMtug4tUjcu
-	 0Qm8ksP7/HeKD1d/I03/Ly+9a2cT1BDD3PCNEqLE=
+	b=qVIn5XCtDCNfC2y8BZdkwjZCKrDR1UEl1nK23TBQMYlAdZMa3DvNe7oViyuXVtGNu
+	 CHh01vYYpj3CU+p7xiLzRQq4HB4rPmZCguUuog7Jxh6JvBISH3VdHcuvRROJGWRvCb
+	 SmSU46wa60pzYWL2K9JTnF4i58E93NkB/BFA0jUU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733112AbgFRB6t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:58:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59510 "EHLO mail.kernel.org"
+        id S1731203AbgFRBY2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 21:24:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59008 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730166AbgFRBYr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:24:47 -0400
+        id S1731199AbgFRBY1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:24:27 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DC0521927;
-        Thu, 18 Jun 2020 01:24:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 675B0221EC;
+        Thu, 18 Jun 2020 01:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443487;
-        bh=2SXgvA7tUSdP75dvHaiTMCQP+0FRDnVljzClLq3/NNo=;
+        s=default; t=1592443467;
+        bh=0V7dE6479ka7p+b1cgEb56ZJP10pjJxIG98AhJLSwms=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dlIPeDOtmJRbwjoeFfZXHLAequ6LpVdnCtxxhV7t/LLQwCKxPUvU5bEhEmst//pUJ
-         NY1Xr60CVUuspAKbl5wY0olH/bscizaD1RsOly+XAbJvkhHI1bQTrkjRjZmwunP2Jk
-         zA4g5d+W/iqus7ljk4J91hsdoyPPNaSTog6+deNc=
+        b=IK5Y1HXefTpPyLrjCzv7zokiywmNexBa6o9/59jnkoj+qSouMZQT2ulqoADiAY2Zy
+         CAGZDdO5tdxhjFNfw/BzY6S9jOAFUYBvGZ6B3KzD5HRsT4Ar8ahjp26+qFBp6EFfBn
+         7zbcPEDHOlBGKelm80UUxR65RfQFDO5g2Y1MHTgY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Qiushi Wu <wu000273@umn.edu>, Felipe Balbi <balbi@kernel.org>,
+Cc:     Tang Bin <tangbin@cmss.chinamobile.com>,
+        Zhang Shengju <zhangshengju@cmss.chinamobile.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 115/172] usb: gadget: fix potential double-free in m66592_probe.
-Date:   Wed, 17 Jun 2020 21:21:21 -0400
-Message-Id: <20200618012218.607130-115-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 099/172] USB: host: ehci-mxc: Add error handling in ehci_mxc_drv_probe()
+Date:   Wed, 17 Jun 2020 21:21:05 -0400
+Message-Id: <20200618012218.607130-99-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618012218.607130-1-sashal@kernel.org>
 References: <20200618012218.607130-1-sashal@kernel.org>
@@ -57,36 +60,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+From: Tang Bin <tangbin@cmss.chinamobile.com>
 
-[ Upstream commit 44734a594196bf1d474212f38fe3a0d37a73278b ]
+[ Upstream commit d49292025f79693d3348f8e2029a8b4703be0f0a ]
 
-m66592_free_request() is called under label "err_add_udc"
-and "clean_up", and m66592->ep0_req is not set to NULL after
-first free, leading to a double-free. Fix this issue by
-setting m66592->ep0_req to NULL after the first free.
+The function ehci_mxc_drv_probe() does not perform sufficient error
+checking after executing platform_get_irq(), thus fix it.
 
-Fixes: 0f91349b89f3 ("usb: gadget: convert all users to the new udc infrastructure")
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Fixes: 7e8d5cd93fac ("USB: Add EHCI support for MX27 and MX31 based boards")
+Signed-off-by: Zhang Shengju <zhangshengju@cmss.chinamobile.com>
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+Reviewed-by: Peter Chen <peter.chen@nxp.com>
+Link: https://lore.kernel.org/r/20200513132647.5456-1-tangbin@cmss.chinamobile.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/m66592-udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/ehci-mxc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
-index a8288df6aadf..ea59b56e5402 100644
---- a/drivers/usb/gadget/udc/m66592-udc.c
-+++ b/drivers/usb/gadget/udc/m66592-udc.c
-@@ -1667,7 +1667,7 @@ static int m66592_probe(struct platform_device *pdev)
+diff --git a/drivers/usb/host/ehci-mxc.c b/drivers/usb/host/ehci-mxc.c
+index c9f91e6c72b6..7f65c86047dd 100644
+--- a/drivers/usb/host/ehci-mxc.c
++++ b/drivers/usb/host/ehci-mxc.c
+@@ -50,6 +50,8 @@ static int ehci_mxc_drv_probe(struct platform_device *pdev)
+ 	}
  
- err_add_udc:
- 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
--
-+	m66592->ep0_req = NULL;
- clean_up3:
- 	if (m66592->pdata->on_chip) {
- 		clk_disable(m66592->clk);
+ 	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
+ 
+ 	hcd = usb_create_hcd(&ehci_mxc_hc_driver, dev, dev_name(dev));
+ 	if (!hcd)
 -- 
 2.25.1
 
