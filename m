@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 929BCC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E05C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:31:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F80922247
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68BDF20FC3
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592443770;
-	bh=6nao9S/VSkYBHrRrP+H3AKE2pN+4AK0OE6EbXht+00I=;
+	s=default; t=1592443861;
+	bh=bN2KIVJIjUAP1Q6GRQwg8pd++HsnTFuJoBLlUKk/NAw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dvey7s+wChUzuE3YcNm5xmgJcjmEiimNM1Jh8yF0QnRnytrcZxHPDLckXhmTfuxRR
-	 dEnqIa56/pqTOHFxWPvv3n5ZRexiSe3pE8Y1JC2M+qCppH2vdDi6pIF8gCfw7176iG
-	 B8dzrrDpYdrMgH8kFGJNzL1YC/qnH4TBOI3j47/I=
+	b=AIk1kpcx49GT2R8/Nbvkj6DcHCJrosgudH5MFjlzxvqgCYCQ99hu9hQVgaXLe2FVI
+	 cgboSpcjCqoWyxMpbNZhGyNOCpn3ngN2+qevznlew7K1yKnk2VDh4BLTkuqgMnPrRO
+	 zI4oqnxLvwKgV7eiELWhoXV29JaX4JqdjRhCXfFk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732291AbgFRB31 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:29:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38774 "EHLO mail.kernel.org"
+        id S1732678AbgFRBbA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 21:31:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41340 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732292AbgFRB3Z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:29:25 -0400
+        id S1732668AbgFRBa7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:30:59 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D04862220D;
-        Thu, 18 Jun 2020 01:29:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 61AE82224B;
+        Thu, 18 Jun 2020 01:30:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443765;
-        bh=6nao9S/VSkYBHrRrP+H3AKE2pN+4AK0OE6EbXht+00I=;
+        s=default; t=1592443858;
+        bh=bN2KIVJIjUAP1Q6GRQwg8pd++HsnTFuJoBLlUKk/NAw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jXGcu8FlQR+rdlsqpboU22DipQm7PpEDxMdoTaO4X4/KddhAxdvQiQDTu6vBw/Svb
-         WsKLWEaRzV0cxFn2oVLEI2qweLJy5b2jrd2RXZ8eFFXBcTDGMbJacXavnjvSAYqMbf
-         Xe+nW9PVgwCuoVgx0BGpKiVrOT4J3V+2yKay9Kd4=
+        b=st+onyCNMbePTsTxS7Vi3MgXndbPP/d7OejOg2vJw259kYY6ZiAzFCwYbtXUMVM9h
+         eeAd9jAwmv+1UrUlzheEEdMG/JvGvRvCuvHpg+9gqF/K3Z5aSXGluXRLhA9Fu6KPRn
+         M00ImbEZdh5zVujbx1bTUp2iJUwPY4f9BR5+epBM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Qais Yousef <qais.yousef@arm.com>,
@@ -48,12 +48,12 @@ Cc:     Qais Yousef <qais.yousef@arm.com>,
         Oliver Neukum <oneukum@suse.de>,
         linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.9 50/80] usb/ohci-platform: Fix a warning when hibernating
-Date:   Wed, 17 Jun 2020 21:27:49 -0400
-Message-Id: <20200618012819.609778-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 41/60] usb/ohci-platform: Fix a warning when hibernating
+Date:   Wed, 17 Jun 2020 21:29:45 -0400
+Message-Id: <20200618013004.610532-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618012819.609778-1-sashal@kernel.org>
-References: <20200618012819.609778-1-sashal@kernel.org>
+In-Reply-To: <20200618013004.610532-1-sashal@kernel.org>
+References: <20200618013004.610532-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -142,10 +142,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
-index 898b74086c12..9e3fdb1421f7 100644
+index c2669f185f65..0e5580e6f35c 100644
 --- a/drivers/usb/host/ohci-platform.c
 +++ b/drivers/usb/host/ohci-platform.c
-@@ -340,6 +340,11 @@ static int ohci_platform_resume(struct device *dev)
+@@ -339,6 +339,11 @@ static int ohci_platform_resume(struct device *dev)
  	}
  
  	ohci_resume(hcd, false);
