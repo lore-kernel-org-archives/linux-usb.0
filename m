@@ -7,45 +7,53 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 858F4C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D52C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B3C921D7B
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32F9A21D7E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592473430;
-	bh=yKNoE9kIz+SpmVfbwoez1KYAhJZiTDr3kGLoGFMOyAY=;
+	s=default; t=1592473439;
+	bh=vjhHAtX89dp52fJGjMBaXCx1opCt0jlVamfjql7G9Lo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=A0HAdqVnOmNrsOchliMlSVXUwBhwYyH7k/7TzbIpMjMCXj9/Fz8nPuoLZ4o/7uzHn
-	 xF9mCP8J3paabKCXATgIrQ/HEpA2eAGkSsMRmwSaoYWhLH9+AOngEB2ybiPgBTLyQ1
-	 w2GBNE7rsidPHg5U3IZIs19YpeCtG3arX+r5C6sw=
+	b=y+rVbXZGNjny6vnDh3+zwLkj1B7WU+elQOmmf38wb8juvuX8ZL5nHaj4DslTu0+yq
+	 24InOttOsToSZSTecEeI4g1wEv3DthJPWRwYdycR8LRnGuvYkuQOv43SYW91jerVv2
+	 +xLeXU7tPGDwzqM1adC+MCeNm7IomQQMrweAhwXA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729271AbgFRJnY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Jun 2020 05:43:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43714 "EHLO mail.kernel.org"
+        id S1729344AbgFRJnw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 05:43:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729060AbgFRJnV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Jun 2020 05:43:21 -0400
+        id S1728568AbgFRJnR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Jun 2020 05:43:17 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B79B21D6C;
-        Thu, 18 Jun 2020 09:43:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 614A721548;
+        Thu, 18 Jun 2020 09:43:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592473399;
-        bh=yKNoE9kIz+SpmVfbwoez1KYAhJZiTDr3kGLoGFMOyAY=;
+        s=default; t=1592473396;
+        bh=vjhHAtX89dp52fJGjMBaXCx1opCt0jlVamfjql7G9Lo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CU/a0QcrGcik6KJE+PyYEk7ySyjV3ZfqT4YwCswKU86Eg1mPGtu2yFtV1lSzotLrW
-         pCOMTzGJraB5FmFD8P0jvg0rvaV5zJjqq5XyQPX5jOtek7gYFQR7FcEbz4PTfOHhM7
-         9gAulS8qujtJhXFuMOQW0yQZv9ZjAj548IGNWT4M=
+        b=DE/EtOgB0MLEK0vpt1l55jo6m76nx5qJ/UzQM6X0TCKLWK/8qUizlPV5w4J3Tdy6y
+         VM6y5jnruykVnFtZmoGDjuBKxZIOTzA5yxtWLD2LOccsOR/GynlvCRgWHU5p4FJ9CQ
+         1rABQZ/SPgutE3LSZ6yJsfIgsAOahiZ6MKm5JPU4=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 3/8] USB: OHCI: remove obsolete FIXME comment
-Date:   Thu, 18 Jun 2020 11:42:55 +0200
-Message-Id: <20200618094300.1887727-4-gregkh@linuxfoundation.org>
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Bin Liu <b-liu@ti.com>, Paul Cercueil <paul@crapouillou.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        David Heinzelmann <heinzelmann.david@gmail.com>,
+        "Lee, Chiasheng" <chiasheng.lee@intel.com>,
+        Keiya Nobuta <nobuta.keiya@fujitsu.com>,
+        Hardik Gajjar <hgajjar@de.adit-jv.com>
+Subject: [PATCH 2/8] USB: rename USB OTG hub configuration option
+Date:   Thu, 18 Jun 2020 11:42:54 +0200
+Message-Id: <20200618094300.1887727-3-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200618094300.1887727-1-gregkh@linuxfoundation.org>
 References: <20200618094300.1887727-1-gregkh@linuxfoundation.org>
@@ -56,31 +64,96 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This comment has been present since the start of git.  Since no one is
-going to do anything about it, and all seems to work well, just drop the
-thing entirely.
+The USB OTG code has the ability to disable external hubs, but the
+configuration option for it is oddly named.  Rename it to be more
+obvious as to what it does.
 
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Bin Liu <b-liu@ti.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
 Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: David Heinzelmann <heinzelmann.david@gmail.com>
+Cc: "Lee, Chiasheng" <chiasheng.lee@intel.com>
+Cc: Keiya Nobuta <nobuta.keiya@fujitsu.com>
+Cc: Hardik Gajjar <hgajjar@de.adit-jv.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/host/ohci-pci.c | 4 ----
- 1 file changed, 4 deletions(-)
+ arch/mips/configs/gcw0_defconfig | 2 +-
+ drivers/usb/core/Kconfig         | 2 +-
+ drivers/usb/core/hub.c           | 2 +-
+ drivers/usb/musb/Kconfig         | 2 +-
+ drivers/usb/musb/musb_core.c     | 4 ++--
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/ohci-pci.c b/drivers/usb/host/ohci-pci.c
-index 585222af24ff..41efe927d8f3 100644
---- a/drivers/usb/host/ohci-pci.c
-+++ b/drivers/usb/host/ohci-pci.c
-@@ -232,10 +232,6 @@ static const struct pci_device_id ohci_pci_quirks[] = {
- 		.driver_data	= (unsigned long)ohci_quirk_qemu,
- 	},
+diff --git a/arch/mips/configs/gcw0_defconfig b/arch/mips/configs/gcw0_defconfig
+index 48131cb47e66..4994749b9eaa 100644
+--- a/arch/mips/configs/gcw0_defconfig
++++ b/arch/mips/configs/gcw0_defconfig
+@@ -96,7 +96,7 @@ CONFIG_SND_SIMPLE_CARD=y
+ CONFIG_USB_CONN_GPIO=y
+ CONFIG_USB=y
+ CONFIG_USB_OTG=y
+-CONFIG_USB_OTG_BLACKLIST_HUB=y
++CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB=y
+ CONFIG_USB_OHCI_HCD=y
+ CONFIG_USB_OHCI_HCD_PLATFORM=y
+ CONFIG_USB_MUSB_HDRC=y
+diff --git a/drivers/usb/core/Kconfig b/drivers/usb/core/Kconfig
+index ecaacc8ed311..06bae55860e4 100644
+--- a/drivers/usb/core/Kconfig
++++ b/drivers/usb/core/Kconfig
+@@ -66,7 +66,7 @@ config USB_OTG_WHITELIST
+ 	  "Targeted Peripherals List".  "Embedded Hosts" are likewise
+ 	  allowed to support only a limited number of peripherals.
  
--	/* FIXME for some of the early AMD 760 southbridges, OHCI
--	 * won't work at all.  blacklist them.
--	 */
--
- 	{},
- };
+-config USB_OTG_BLACKLIST_HUB
++config USB_OTG_DISABLE_EXTERNAL_HUB
+ 	bool "Disable external hubs"
+ 	depends on USB_OTG || EXPERT
+ 	help
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index b1e14beaac5f..ab26ac0147f7 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -1834,7 +1834,7 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		return -E2BIG;
+ 	}
  
+-#ifdef	CONFIG_USB_OTG_BLACKLIST_HUB
++#ifdef	CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB
+ 	if (hdev->parent) {
+ 		dev_warn(&intf->dev, "ignoring external hub\n");
+ 		return -ENODEV;
+diff --git a/drivers/usb/musb/Kconfig b/drivers/usb/musb/Kconfig
+index 3b0d1c20ebe6..8de143807c1a 100644
+--- a/drivers/usb/musb/Kconfig
++++ b/drivers/usb/musb/Kconfig
+@@ -113,7 +113,7 @@ config USB_MUSB_JZ4740
+ 	depends on OF
+ 	depends on MIPS || COMPILE_TEST
+ 	depends on USB_MUSB_GADGET
+-	depends on USB=n || USB_OTG_BLACKLIST_HUB
++	depends on USB=n || USB_OTG_DISABLE_EXTERNAL_HUB
+ 	select USB_ROLE_SWITCH
+ 
+ config USB_MUSB_MEDIATEK
+diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+index 384a8039a7fd..5a56a03996b1 100644
+--- a/drivers/usb/musb/musb_core.c
++++ b/drivers/usb/musb/musb_core.c
+@@ -1637,8 +1637,8 @@ static int musb_core_init(u16 musb_type, struct musb *musb)
+ 		musb->is_multipoint = 0;
+ 		type = "";
+ 		if (IS_ENABLED(CONFIG_USB) &&
+-		    !IS_ENABLED(CONFIG_USB_OTG_BLACKLIST_HUB)) {
+-			pr_err("%s: kernel must blacklist external hubs\n",
++		    !IS_ENABLED(CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB)) {
++			pr_err("%s: kernel must disable external hubs, please fix the configuration\n",
+ 			       musb_driver_name);
+ 		}
+ 	}
 -- 
 2.27.0
 
