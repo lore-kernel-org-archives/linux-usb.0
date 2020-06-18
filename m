@@ -2,105 +2,161 @@ Return-Path: <SRS0=wl2X=77=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BFAC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCFBC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 06:08:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 230882083B
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592448688;
-	bh=ZdkxLbvJy2bvMzWtQalS9auF7+faPIQZEi6k7SJBIdI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Gf0S7huJDFWOdvqKjJkW+R4CcsDsIBYd8IPzHRLlSm9D02Ko2hx9EwHkaQ2ULwbRk
-	 XgS8xd5GgLAgWaUNGgcIUXmyQ7R2qgKN2yqSlihOT8ud4raUH5/V9raDFFXHO39Z0l
-	 b9vrAIzlkuJe0SSvuo383+5iZhVNQxgkLBFgF/0c=
+	by mail.kernel.org (Postfix) with ESMTP id 89BB1217A0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 06:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728005AbgFRBJB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:09:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35016 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727911AbgFRBJA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:09:00 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3353121BE5;
-        Thu, 18 Jun 2020 01:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592442540;
-        bh=ZdkxLbvJy2bvMzWtQalS9auF7+faPIQZEi6k7SJBIdI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B725kRKzrneMI4Z4PUYgfnPdHh/Y1x21btHzua1vOR5mK46Kqn2JmGVFPsmva5WaM
-         wCRd0SoHLiFsuWhHyvEHt9xOhpuMADn5kWwG6y1Iy7I5v1msvjibka9k72Bg6WP/oj
-         +YeS+uAH66QrzIBq0iJ8Dg+1E6xJhyzjGeKUEmI4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        syzbot+be5b5f86a162a6c281e6@syzkaller.appspotmail.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 041/388] usblp: poison URBs upon disconnect
-Date:   Wed, 17 Jun 2020 21:02:18 -0400
-Message-Id: <20200618010805.600873-41-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
-References: <20200618010805.600873-1-sashal@kernel.org>
+        id S1727820AbgFRGIS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 02:08:18 -0400
+Received: from blockout.pre-sense.de ([213.238.39.74]:43619 "EHLO
+        mail.pre-sense.de" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727809AbgFRGIS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 02:08:18 -0400
+Received: from smtp.pre-sense.de (tetris_b.pre-sense.de [10.9.0.76])
+        by mail.pre-sense.de (Postfix) with ESMTP id 073825E4D3;
+        Thu, 18 Jun 2020 08:08:14 +0200 (CEST)
+Received: from atlan.none (x4d062878.dyn.telefonica.de [77.6.40.120])
+        by smtp.pre-sense.de (Postfix) with ESMTPS id 5A62B15F2;
+        Thu, 18 Jun 2020 08:08:04 +0200 (CEST)
+Subject: Re: Ext. HDDs not working under Linux via USB 3.0 but under Windows
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-usb@vger.kernel.org
+References: <512118bc-e639-2387-e608-56b7e30fc3b2@pre-sense.de>
+ <20200523154817.GA7091@rowland.harvard.edu>
+ <34933b01-e4b0-10da-c935-9e6a9a6ae427@pre-sense.de>
+ <20200523203349.GA12853@rowland.harvard.edu>
+ <5bd5e8be-f8a9-9456-cced-c2bc75455556@pre-sense.de>
+ <20200617163734.GC11314@rowland.harvard.edu>
+From:   =?UTF-8?Q?Till_D=c3=b6rges?= <doerges@pre-sense.de>
+Autocrypt: addr=doerges@pre-sense.de; prefer-encrypt=mutual; keydata=
+ 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
+Organization: PRESENSE Technologies GmbH
+Message-ID: <763037ac-d8fa-8697-7f75-c0bf958b4308@pre-sense.de>
+Date:   Thu, 18 Jun 2020 08:07:55 +0200
+User-Agent: Thunderbird
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20200617163734.GC11314@rowland.harvard.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Oliver Neukum <oneukum@suse.com>
+Am 17.06.20 um 18:37 schrieb Alan Stern:
+> On Wed, Jun 17, 2020 at 06:02:32PM +0200, Till Dörges wrote:
+>> Hi Alan,
+>>
+>> sorry for the delay. It took me a while to get back to this.
+>>
+>> Am 23.05.20 um 22:33 schrieb Alan Stern:
+>>
+>>>>>> I'm trying to get external HDDs from Sony to work under Linux with USB 3.0.
+>>>> [...]
+>>>>>>  - PSZ-HA2T: idVendor=054c, idProduct=087d
+>>>>>>  - PSZ-HA1T: idVendor=054c, idProduct=087d
+>>>>>>  - PSZ-HA50: idVendor=054c, idProduct=087d
+>>>>>>  - PSZ-HC1T: idVendor=054c, idProduct=0c4f
+>>>> [...]
+>>>>>> I've also tried several of the quirk settings
+>>>>>> (https://github.com/torvalds/linux/blob/ead751507de86d90fa250431e9990a8b881f713c/drivers/usb/storage/usb.c#L527).
+>>
+>> [...]
+>>>>> Try adding an entry to the unusual_uas.h file for the device, specifying 
+>>>>> the USB_FL_NO_REPORT_OPCODES flag.
+>>>>
+>>>> I'm not sure I understand correctly. Do I have to compile the uas Kernel module
+>>>> myself if I want to test a flag?
+>>>>
+>>>> Because with setting the f flag (via options usb-storage quirks=054c:087d:f) the
+>>>> PSZ-HA*1*T starts behaving nicely.
+>>>>
+>>>> --- snip ---
+>>>> $ cat /sys/module/usb_storage/parameters/quirks
+>>>> 054c:087d:f,054c:0c4f:f
+>>>> --- snip ---
+>>>>
+>>>>
+>>>> The PSZ-HA*2*T, however, still doesn't work with that.
+>> Since the device stopped working under windows, I'm guessing that it's simply broken.
+>>
+>> I'll try to get my hands on a new sample.
+>>
+>>
+>> The PSZ-HA50 and the PSZ-HA1T work nicely when attached to USB 3.0 with this setting:
+>>
+>> --- snip ---
+>> $ cat /sys/module/usb_storage/parameters/quirks
+>> 054c:087d:u
+>> --- snip ---
+>>
+>> W/o this quirk they do not work.
+>>
+>>
+>> I'd be surprised if a non-broken PSZ-HA2T behaved any differently.
+>>
+>> So perhaps you might want to consider adding that quirk directly into the Kernel?
+>>
+>>
+>> FTR, the PSZ-HC1T just worked.
+> 
+> Okay.  If you would like to write a patch for the quirk and submit it, you 
+> can.  Otherwise I'll write one for you.
 
-[ Upstream commit 296a193b06120aa6ae7cf5c0d7b5e5b55968026e ]
+I'd gladly take your offer of writing one for me. :-)
 
-syzkaller reported an URB that should have been killed to be active.
-We do not understand it, but this should fix the issue if it is real.
-
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Reported-by: syzbot+be5b5f86a162a6c281e6@syzkaller.appspotmail.com
-Link: https://lore.kernel.org/r/20200507085806.5793-1-oneukum@suse.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/class/usblp.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
-index 0d8e3f3804a3..084c48c5848f 100644
---- a/drivers/usb/class/usblp.c
-+++ b/drivers/usb/class/usblp.c
-@@ -468,7 +468,8 @@ static int usblp_release(struct inode *inode, struct file *file)
- 	usb_autopm_put_interface(usblp->intf);
- 
- 	if (!usblp->present)		/* finish cleanup from disconnect */
--		usblp_cleanup(usblp);
-+		usblp_cleanup(usblp);	/* any URBs must be dead */
-+
- 	mutex_unlock(&usblp_mutex);
- 	return 0;
- }
-@@ -1375,9 +1376,11 @@ static void usblp_disconnect(struct usb_interface *intf)
- 
- 	usblp_unlink_urbs(usblp);
- 	mutex_unlock(&usblp->mut);
-+	usb_poison_anchored_urbs(&usblp->urbs);
- 
- 	if (!usblp->used)
- 		usblp_cleanup(usblp);
-+
- 	mutex_unlock(&usblp_mutex);
- }
- 
+Thanks -- Till
 -- 
-2.25.1
-
+Dipl.-Inform. Till Dörges                  doerges@pre-sense.de
+PRESENSE Technologies GmbH             Nagelsweg 41, D-20097 HH
+Geschäftsführer/Managing Directors       AG Hamburg, HRB 107844
+Till Dörges, Jürgen Sander               USt-IdNr.: DE263765024
