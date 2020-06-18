@@ -7,46 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE98C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:41:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77680C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:42:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1BA521927
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:41:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5901421534
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592448066;
-	bh=D3F8OeDLQgHlOhxrNCZPhck53CQnJDDLhPaT7YaAwrI=;
+	s=default; t=1592448175;
+	bh=b81sBAbK71A81s+WrFLaLjIoRHBsG4x73nqY5oFinc4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lhYuNFM/9Anl8yGu/my6q+X+QCRGhSrOAHCYIQabrih8VTNtPg92f9cM96DaGJGCt
-	 yztAV3AyEB+7WR5QCLBSJLasAFs2tzxmdfDJjsZ+VtKsasiU3uwENIoRh6yGRujmDU
-	 QJYygUsscE43uw0HGs5uZmgRgVtsKh1OeUr4ZOWM=
+	b=MKx3BcKCkGwLc6cpoK9z1GGV78VwymJ+qVA5zvy9nWtfek6hO3ZiibGWdtChg9tAK
+	 dkkx/9xjHXfBzs5jlIxmj7d1Z/K+YnYDrRzepoltGTM9yv5oFSlupg5HHZm+/TXhay
+	 SGbl1qqS/572BB/cQWH3zycqBXHpf3bmPpdSnFJA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728921AbgFRBMc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:12:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41058 "EHLO mail.kernel.org"
+        id S2387857AbgFRCmx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 22:42:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39880 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728909AbgFRBM2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:12:28 -0400
+        id S1727073AbgFRBLr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:11:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 357CD20EDD;
-        Thu, 18 Jun 2020 01:12:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 73BAA21D90;
+        Thu, 18 Jun 2020 01:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592442748;
-        bh=D3F8OeDLQgHlOhxrNCZPhck53CQnJDDLhPaT7YaAwrI=;
+        s=default; t=1592442707;
+        bh=b81sBAbK71A81s+WrFLaLjIoRHBsG4x73nqY5oFinc4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XWaF37sJvBryMdy7DM/uqodwaiskEYnqZum8Uumx51IGDc4P0zQUgYMlohe5+aDb4
-         esyO1TFdik4NS8iQGoJudPBFZAlnaEr4gatkZcZRSQLu2o/oh2pm0XuYFW/WwgoWDN
-         RV6iNiP3Zyfq0vQbsXotVRyb8VFnP9m+a3Y7pJGo=
+        b=rylOHO3IypF9HJHgRFmxOUWNjhoSL9PE+QrN1xiJzrf+28O+esFi2Bwd0NYucxa3R
+         WMP+p7OgKn6c4HpllCl5RCPKr8c+wsMVyCxU8LiE2c0ThWOYepAmRAxtRwP2XGN6gh
+         hFhCvJGXebvhc9u7jSEU4bnvOugM78GQRS+oMygw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wei Yongjun <weiyongjun1@huawei.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 200/388] USB: ohci-sm501: fix error return code in ohci_hcd_sm501_drv_probe()
-Date:   Wed, 17 Jun 2020 21:04:57 -0400
-Message-Id: <20200618010805.600873-200-sashal@kernel.org>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.7 168/388] usb: dwc3: meson-g12a: check return of dwc3_meson_g12a_usb_init
+Date:   Wed, 17 Jun 2020 21:04:25 -0400
+Message-Id: <20200618010805.600873-168-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
 References: <20200618010805.600873-1-sashal@kernel.org>
@@ -59,41 +61,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 
-[ Upstream commit b919e077cccfbb77beb98809568b2fb0b4d113ec ]
+[ Upstream commit 8f5bc1ec770c2bdc8c604ba4119a77d81d8f3529 ]
 
-Fix to return a negative error code from the error handling
-case instead of 0, as done elsewhere in this function.
+The dwc3_meson_g12a_usb_init function can return an error, check it.
 
-Fixes: 7d9e6f5aebe8 ("usb: host: ohci-sm501: init genalloc for local memory")
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Link: https://lore.kernel.org/r/20200506135625.106910-1-weiyongjun1@huawei.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Fixes: c99993376f72ca ("usb: dwc3: Add Amlogic G12A DWC3 glue")
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/ohci-sm501.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/usb/dwc3/dwc3-meson-g12a.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
-index c158cda9e4b9..cff965240327 100644
---- a/drivers/usb/host/ohci-sm501.c
-+++ b/drivers/usb/host/ohci-sm501.c
-@@ -157,9 +157,10 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 	 * the call to usb_hcd_setup_local_mem() below does just that.
- 	 */
+diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
+index b81d085bc534..2d257bdfe848 100644
+--- a/drivers/usb/dwc3/dwc3-meson-g12a.c
++++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
+@@ -525,7 +525,9 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
+ 	/* Get dr_mode */
+ 	priv->otg_mode = usb_get_dr_mode(dev);
  
--	if (usb_hcd_setup_local_mem(hcd, mem->start,
--				    mem->start - mem->parent->start,
--				    resource_size(mem)) < 0)
-+	retval = usb_hcd_setup_local_mem(hcd, mem->start,
-+					 mem->start - mem->parent->start,
-+					 resource_size(mem));
-+	if (retval < 0)
- 		goto err5;
- 	retval = usb_add_hcd(hcd, irq, IRQF_SHARED);
- 	if (retval)
+-	dwc3_meson_g12a_usb_init(priv);
++	ret = dwc3_meson_g12a_usb_init(priv);
++	if (ret)
++		goto err_disable_clks;
+ 
+ 	/* Init PHYs */
+ 	for (i = 0 ; i < PHY_COUNT ; ++i) {
 -- 
 2.25.1
 
