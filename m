@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FFBC433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:49:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7E7C433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:49:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36751221F6
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:49:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99ABF221F6
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592444983;
-	bh=SKqxnR2TRuBLoRed86AyirKuouT7tTf2VHs9Za3K22M=;
+	s=default; t=1592444989;
+	bh=Flrymzj7xKoNR3ii4S2WrF0gCIeQgYf6yrjx/q00FdQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=oFRHHj7AUlT8qWOvLLJKWIdH+zYF6LwsXqOKJZSXj1+LBmulhFDbyJzYaWeWrmd4o
-	 vF3Klp6l82/9MxbHEAVn4WU1reQI9sHHlI4y0GEd9V9zpdkOcZsOMc5ox8nCWPvEm5
-	 jlKJ47z41ZbQKgirVPhZiJrQwcYgFzlWTM0Fleio=
+	b=nfzOK22BNZUtwhLwUhprOeHJlZv8jYlFbIKIg56cgk4I76NAWDASM94tu8aMzUmfF
+	 e5vUB0BATP0dpDnpQS0dhxu2L8e3pm6xK73CqZmY+3O6P0Mkg1NW90PclEV4VU4HbA
+	 WISPBlLyKo+rbpdIhut8yFIQZUOnwlydlU7LIbCw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731761AbgFRBtd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:49:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35848 "EHLO mail.kernel.org"
+        id S1732573AbgFRBto (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 21:49:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35794 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731903AbgFRB1j (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:27:39 -0400
+        id S1731895AbgFRB1g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:27:36 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F1CC1221ED;
-        Thu, 18 Jun 2020 01:27:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8278721D7F;
+        Thu, 18 Jun 2020 01:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443658;
-        bh=SKqxnR2TRuBLoRed86AyirKuouT7tTf2VHs9Za3K22M=;
+        s=default; t=1592443656;
+        bh=Flrymzj7xKoNR3ii4S2WrF0gCIeQgYf6yrjx/q00FdQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1FVEWayg9c2k8FfbZb0sOcMRIAqQrBMIjx05cL9RB5QBXJscLyXB4LjevXCgvQq5t
-         qndGmktmtp9yy2jdmnab7tjEoTlEcFZbtpisnbBYp9M20+kU2h+N5icEDIHhyDABek
-         F4AhHm5DCz3EsD7T8e9D/51e4WwNa3lGxghTGAHU=
+        b=PJ7I+k5PyBtQKSNLqgTxIyHEaNR38h7JcHzn+0CfFpRhSsJAXlS1QoA5YyQmnZ39L
+         CI+d2CX+L4qZjB2mkEsLPh+rHcONAvxhw30DGovxf8dHnKiP38oWrrlnZgDR+yet6V
+         zbu+ipiJAIW76isJGvXduhw45MhVKtTNCz3KcvUM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pawel Laszczak <pawell@cadence.com>,
-        Jayshri Pawar <jpawar@cadence.com>,
+Cc:     Colin Ian King <colin.king@canonical.com>,
         Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 077/108] usb: gadget: Fix issue with config_ep_by_speed function
-Date:   Wed, 17 Jun 2020 21:25:29 -0400
-Message-Id: <20200618012600.608744-77-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 4.14 075/108] usb: gadget: lpc32xx_udc: don't dereference ep pointer before null check
+Date:   Wed, 17 Jun 2020 21:25:27 -0400
+Message-Id: <20200618012600.608744-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618012600.608744-1-sashal@kernel.org>
 References: <20200618012600.608744-1-sashal@kernel.org>
@@ -59,224 +59,68 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Pawel Laszczak <pawell@cadence.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-[ Upstream commit 5d363120aa548ba52d58907a295eee25f8207ed2 ]
+[ Upstream commit eafa80041645cd7604c4357b1a0cd4a3c81f2227 ]
 
-This patch adds new config_ep_by_speed_and_alt function which
-extends the config_ep_by_speed about alt parameter.
-This additional parameter allows to find proper usb_ss_ep_comp_descriptor.
+Currently pointer ep is being dereferenced before it is null checked
+leading to a null pointer dereference issue.  Fix this by only assigning
+pointer udc once ep is known to be not null.  Also remove a debug
+message that requires a valid udc which may not be possible at that
+point.
 
-Problem has appeared during testing f_tcm (BOT/UAS) driver function.
-
-f_tcm function for SS use array of headers for both  BOT/UAS alternate
-setting:
-
-static struct usb_descriptor_header *uasp_ss_function_desc[] = {
-        (struct usb_descriptor_header *) &bot_intf_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bi_desc,
-        (struct usb_descriptor_header *) &bot_bi_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bo_desc,
-        (struct usb_descriptor_header *) &bot_bo_ep_comp_desc,
-
-        (struct usb_descriptor_header *) &uasp_intf_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bi_desc,
-        (struct usb_descriptor_header *) &uasp_bi_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_bi_pipe_desc,
-        (struct usb_descriptor_header *) &uasp_ss_bo_desc,
-        (struct usb_descriptor_header *) &uasp_bo_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_bo_pipe_desc,
-        (struct usb_descriptor_header *) &uasp_ss_status_desc,
-        (struct usb_descriptor_header *) &uasp_status_in_ep_comp_desc,
-        (struct usb_descriptor_header *) &uasp_status_pipe_desc,
-        (struct usb_descriptor_header *) &uasp_ss_cmd_desc,
-        (struct usb_descriptor_header *) &uasp_cmd_comp_desc,
-        (struct usb_descriptor_header *) &uasp_cmd_pipe_desc,
-        NULL,
-};
-
-The first 5 descriptors are associated with BOT alternate setting,
-and others are associated with UAS.
-
-During handling UAS alternate setting f_tcm driver invokes
-config_ep_by_speed and this function sets incorrect companion endpoint
-descriptor in usb_ep object.
-
-Instead setting ep->comp_desc to uasp_bi_ep_comp_desc function in this
-case set ep->comp_desc to uasp_ss_bi_desc.
-
-This is due to the fact that it searches endpoint based on endpoint
-address:
-
-        for_each_ep_desc(speed_desc, d_spd) {
-                chosen_desc = (struct usb_endpoint_descriptor *)*d_spd;
-                if (chosen_desc->bEndpoitAddress == _ep->address)
-                        goto ep_found;
-        }
-
-And in result it uses the descriptor from BOT alternate setting
-instead UAS.
-
-Finally, it causes that controller driver during enabling endpoints
-detect that just enabled endpoint for bot.
-
-Signed-off-by: Jayshri Pawar <jpawar@cadence.com>
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+Addresses-Coverity: ("Dereference before null check")
+Fixes: 24a28e428351 ("USB: gadget driver for LPC32xx")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/composite.c | 78 ++++++++++++++++++++++++++--------
- include/linux/usb/composite.h  |  3 ++
- 2 files changed, 64 insertions(+), 17 deletions(-)
+ drivers/usb/gadget/udc/lpc32xx_udc.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index c1f037af9702..7d2715e899bb 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -100,40 +100,43 @@ function_descriptors(struct usb_function *f,
- }
- 
- /**
-- * next_ep_desc() - advance to the next EP descriptor
-+ * next_desc() - advance to the next desc_type descriptor
-  * @t: currect pointer within descriptor array
-+ * @desc_type: descriptor type
-  *
-- * Return: next EP descriptor or NULL
-+ * Return: next desc_type descriptor or NULL
-  *
-- * Iterate over @t until either EP descriptor found or
-+ * Iterate over @t until either desc_type descriptor found or
-  * NULL (that indicates end of list) encountered
-  */
- static struct usb_descriptor_header**
--next_ep_desc(struct usb_descriptor_header **t)
-+next_desc(struct usb_descriptor_header **t, u8 desc_type)
+diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
+index ac2aa04ca657..710793161795 100644
+--- a/drivers/usb/gadget/udc/lpc32xx_udc.c
++++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
+@@ -1615,17 +1615,17 @@ static int lpc32xx_ep_enable(struct usb_ep *_ep,
+ 			     const struct usb_endpoint_descriptor *desc)
  {
- 	for (; *t; t++) {
--		if ((*t)->bDescriptorType == USB_DT_ENDPOINT)
-+		if ((*t)->bDescriptorType == desc_type)
- 			return t;
- 	}
- 	return NULL;
- }
+ 	struct lpc32xx_ep *ep = container_of(_ep, struct lpc32xx_ep, ep);
+-	struct lpc32xx_udc *udc = ep->udc;
++	struct lpc32xx_udc *udc;
+ 	u16 maxpacket;
+ 	u32 tmp;
+ 	unsigned long flags;
  
- /*
-- * for_each_ep_desc()- iterate over endpoint descriptors in the
-- *		descriptors list
-- * @start:	pointer within descriptor array.
-- * @ep_desc:	endpoint descriptor to use as the loop cursor
-+ * for_each_desc() - iterate over desc_type descriptors in the
-+ * descriptors list
-+ * @start: pointer within descriptor array.
-+ * @iter_desc: desc_type descriptor to use as the loop cursor
-+ * @desc_type: wanted descriptr type
-  */
--#define for_each_ep_desc(start, ep_desc) \
--	for (ep_desc = next_ep_desc(start); \
--	      ep_desc; ep_desc = next_ep_desc(ep_desc+1))
-+#define for_each_desc(start, iter_desc, desc_type) \
-+	for (iter_desc = next_desc(start, desc_type); \
-+	     iter_desc; iter_desc = next_desc(iter_desc + 1, desc_type))
- 
- /**
-- * config_ep_by_speed() - configures the given endpoint
-+ * config_ep_by_speed_and_alt() - configures the given endpoint
-  * according to gadget speed.
-  * @g: pointer to the gadget
-  * @f: usb function
-  * @_ep: the endpoint to configure
-+ * @alt: alternate setting number
-  *
-  * Return: error code, 0 on success
-  *
-@@ -146,11 +149,13 @@ next_ep_desc(struct usb_descriptor_header **t)
-  * Note: the supplied function should hold all the descriptors
-  * for supported speeds
-  */
--int config_ep_by_speed(struct usb_gadget *g,
--			struct usb_function *f,
--			struct usb_ep *_ep)
-+int config_ep_by_speed_and_alt(struct usb_gadget *g,
-+				struct usb_function *f,
-+				struct usb_ep *_ep,
-+				u8 alt)
+ 	/* Verify EP data */
+ 	if ((!_ep) || (!ep) || (!desc) ||
+-	    (desc->bDescriptorType != USB_DT_ENDPOINT)) {
+-		dev_dbg(udc->dev, "bad ep or descriptor\n");
++	    (desc->bDescriptorType != USB_DT_ENDPOINT))
+ 		return -EINVAL;
+-	}
++
++	udc = ep->udc;
+ 	maxpacket = usb_endpoint_maxp(desc);
+ 	if ((maxpacket == 0) || (maxpacket > ep->maxpacket)) {
+ 		dev_dbg(udc->dev, "bad ep descriptor's packet size\n");
+@@ -1873,7 +1873,7 @@ static int lpc32xx_ep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ static int lpc32xx_ep_set_halt(struct usb_ep *_ep, int value)
  {
- 	struct usb_endpoint_descriptor *chosen_desc = NULL;
-+	struct usb_interface_descriptor *int_desc = NULL;
- 	struct usb_descriptor_header **speed_desc = NULL;
+ 	struct lpc32xx_ep *ep = container_of(_ep, struct lpc32xx_ep, ep);
+-	struct lpc32xx_udc *udc = ep->udc;
++	struct lpc32xx_udc *udc;
+ 	unsigned long flags;
  
- 	struct usb_ss_ep_comp_descriptor *comp_desc = NULL;
-@@ -186,8 +191,21 @@ int config_ep_by_speed(struct usb_gadget *g,
- 	default:
- 		speed_desc = f->fs_descriptors;
- 	}
-+
-+	/* find correct alternate setting descriptor */
-+	for_each_desc(speed_desc, d_spd, USB_DT_INTERFACE) {
-+		int_desc = (struct usb_interface_descriptor *)*d_spd;
-+
-+		if (int_desc->bAlternateSetting == alt) {
-+			speed_desc = d_spd;
-+			goto intf_found;
-+		}
-+	}
-+	return -EIO;
-+
-+intf_found:
- 	/* find descriptors */
--	for_each_ep_desc(speed_desc, d_spd) {
-+	for_each_desc(speed_desc, d_spd, USB_DT_ENDPOINT) {
- 		chosen_desc = (struct usb_endpoint_descriptor *)*d_spd;
- 		if (chosen_desc->bEndpointAddress == _ep->address)
- 			goto ep_found;
-@@ -240,6 +258,32 @@ int config_ep_by_speed(struct usb_gadget *g,
- 	}
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(config_ep_by_speed_and_alt);
-+
-+/**
-+ * config_ep_by_speed() - configures the given endpoint
-+ * according to gadget speed.
-+ * @g: pointer to the gadget
-+ * @f: usb function
-+ * @_ep: the endpoint to configure
-+ *
-+ * Return: error code, 0 on success
-+ *
-+ * This function chooses the right descriptors for a given
-+ * endpoint according to gadget speed and saves it in the
-+ * endpoint desc field. If the endpoint already has a descriptor
-+ * assigned to it - overwrites it with currently corresponding
-+ * descriptor. The endpoint maxpacket field is updated according
-+ * to the chosen descriptor.
-+ * Note: the supplied function should hold all the descriptors
-+ * for supported speeds
-+ */
-+int config_ep_by_speed(struct usb_gadget *g,
-+			struct usb_function *f,
-+			struct usb_ep *_ep)
-+{
-+	return config_ep_by_speed_and_alt(g, f, _ep, 0);
-+}
- EXPORT_SYMBOL_GPL(config_ep_by_speed);
+ 	if ((!ep) || (ep->hwep_num <= 1))
+@@ -1883,6 +1883,7 @@ static int lpc32xx_ep_set_halt(struct usb_ep *_ep, int value)
+ 	if (ep->is_in)
+ 		return -EAGAIN;
  
- /**
-diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
-index 590d313b5f39..a865698361c1 100644
---- a/include/linux/usb/composite.h
-+++ b/include/linux/usb/composite.h
-@@ -248,6 +248,9 @@ int usb_function_activate(struct usb_function *);
++	udc = ep->udc;
+ 	spin_lock_irqsave(&udc->lock, flags);
  
- int usb_interface_id(struct usb_configuration *, struct usb_function *);
- 
-+int config_ep_by_speed_and_alt(struct usb_gadget *g, struct usb_function *f,
-+				struct usb_ep *_ep, u8 alt);
-+
- int config_ep_by_speed(struct usb_gadget *g, struct usb_function *f,
- 			struct usb_ep *_ep);
- 
+ 	if (value == 1) {
 -- 
 2.25.1
 
