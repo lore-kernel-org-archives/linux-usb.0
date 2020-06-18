@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8480C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 858F4C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6B5121D7B
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B3C921D7B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:43:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592473427;
-	bh=iuQKCiWXc9wM8xeOmmKjRhno6rEFdv12AJl4+8sTOs4=;
+	s=default; t=1592473430;
+	bh=yKNoE9kIz+SpmVfbwoez1KYAhJZiTDr3kGLoGFMOyAY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HcBNW1ld9ucWAD8QY0uuZ8453MYSbs+VXSLYGIpUd6hk0gKa1yDOGBZmJMGk5AOAU
-	 W/8O+ImFDW8gaH9wONcipEC5g88psOlr3LSb96BF43pr0LMxiBSIDquoSu1sjaX6H/
-	 Pbyq/CUbx8SSusZRUBRjt0A0jUJwnGyvVqm6OKFo=
+	b=A0HAdqVnOmNrsOchliMlSVXUwBhwYyH7k/7TzbIpMjMCXj9/Fz8nPuoLZ4o/7uzHn
+	 xF9mCP8J3paabKCXATgIrQ/HEpA2eAGkSsMRmwSaoYWhLH9+AOngEB2ybiPgBTLyQ1
+	 w2GBNE7rsidPHg5U3IZIs19YpeCtG3arX+r5C6sw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729291AbgFRJn2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Jun 2020 05:43:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43854 "EHLO mail.kernel.org"
+        id S1729271AbgFRJnY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 05:43:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729164AbgFRJn1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Jun 2020 05:43:27 -0400
+        id S1729060AbgFRJnV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Jun 2020 05:43:21 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A68E721548;
-        Thu, 18 Jun 2020 09:43:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B79B21D6C;
+        Thu, 18 Jun 2020 09:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592473407;
-        bh=iuQKCiWXc9wM8xeOmmKjRhno6rEFdv12AJl4+8sTOs4=;
+        s=default; t=1592473399;
+        bh=yKNoE9kIz+SpmVfbwoez1KYAhJZiTDr3kGLoGFMOyAY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WeKdyWB0MIZRtQV51OmrspXojZTSUJf2p+fDnmTbv5wSyyfHyrHHBPsOWKBQnNzhg
-         bdatqSOGa9QSIzDZ/UIPGaQ3F/fK6P7W8+COTbpOYCJb9dqeEbybdWVodOqmJlv2+o
-         4PRvelSrjQSYocUwIyCAzdh7mQKm+YJWP3zhwLD4=
+        b=CU/a0QcrGcik6KJE+PyYEk7ySyjV3ZfqT4YwCswKU86Eg1mPGtu2yFtV1lSzotLrW
+         pCOMTzGJraB5FmFD8P0jvg0rvaV5zJjqq5XyQPX5jOtek7gYFQR7FcEbz4PTfOHhM7
+         9gAulS8qujtJhXFuMOQW0yQZv9ZjAj548IGNWT4M=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 6/8] USB: storage: fix wording in error message
-Date:   Thu, 18 Jun 2020 11:42:58 +0200
-Message-Id: <20200618094300.1887727-7-gregkh@linuxfoundation.org>
+Subject: [PATCH 3/8] USB: OHCI: remove obsolete FIXME comment
+Date:   Thu, 18 Jun 2020 11:42:55 +0200
+Message-Id: <20200618094300.1887727-4-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200618094300.1887727-1-gregkh@linuxfoundation.org>
 References: <20200618094300.1887727-1-gregkh@linuxfoundation.org>
@@ -56,27 +56,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make it obvious that the UAS driver is being ignored for a specific
-device by fixing up the wording to be more clear.
+This comment has been present since the start of git.  Since no one is
+going to do anything about it, and all seems to work well, just drop the
+thing entirely.
 
 Cc: Alan Stern <stern@rowland.harvard.edu>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/storage/uas-detect.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/ohci-pci.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/usb/storage/uas-detect.h b/drivers/usb/storage/uas-detect.h
-index 3734a25e09e5..3f720faa6f97 100644
---- a/drivers/usb/storage/uas-detect.h
-+++ b/drivers/usb/storage/uas-detect.h
-@@ -120,7 +120,7 @@ static int uas_use_uas_driver(struct usb_interface *intf,
+diff --git a/drivers/usb/host/ohci-pci.c b/drivers/usb/host/ohci-pci.c
+index 585222af24ff..41efe927d8f3 100644
+--- a/drivers/usb/host/ohci-pci.c
++++ b/drivers/usb/host/ohci-pci.c
+@@ -232,10 +232,6 @@ static const struct pci_device_id ohci_pci_quirks[] = {
+ 		.driver_data	= (unsigned long)ohci_quirk_qemu,
+ 	},
  
- 	if (flags & US_FL_IGNORE_UAS) {
- 		dev_warn(&udev->dev,
--			"UAS is blacklisted for this device, using usb-storage instead\n");
-+			"UAS is ignored for this device, using usb-storage instead\n");
- 		return 0;
- 	}
+-	/* FIXME for some of the early AMD 760 southbridges, OHCI
+-	 * won't work at all.  blacklist them.
+-	 */
+-
+ 	{},
+ };
  
 -- 
 2.27.0
