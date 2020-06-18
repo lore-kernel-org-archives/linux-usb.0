@@ -4,49 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82AF0C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CFAC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:58:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5678E22229
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:58:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 058672223F
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 01:58:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592445529;
-	bh=ooEe0JzdAZVN2R62zvx5BbW/z4K/dUN9wFuiu7sEVPg=;
+	s=default; t=1592445530;
+	bh=2SXgvA7tUSdP75dvHaiTMCQP+0FRDnVljzClLq3/NNo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Tls4JUQG5uSKOJW2WhfeQvQTKXrS+Zgpz0HLnl8K+B5FSI6F7Krd6dZUeiJCqcPWu
-	 cARDHQVkXVjCkXkQJQ/3FaABC1DwvJ8CUClFVnQ+R5FoZB4ogW4U9Q4YPiK25MU9ab
-	 2jjvRps4cYQeF5PNp1FgsWd1eBz9ncfoIOoBD9c4=
+	b=tDLgUwBKfbTUdXZlKMAkFI+b0qs0W+BPKW4GoErlC13dHvqZHZMEWukjxtiYMN9dH
+	 Ik0POHqGoCbWO0oj16e9dGxlQ3O3GFkaAfQv2N4D5Tlf3nHUTfVxIoZdMtug4tUjcu
+	 0Qm8ksP7/HeKD1d/I03/Ly+9a2cT1BDD3PCNEqLE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731276AbgFRBYp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 21:24:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59438 "EHLO mail.kernel.org"
+        id S1733112AbgFRB6t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 21:58:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59510 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731271AbgFRBYn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:24:43 -0400
+        id S1730166AbgFRBYr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:24:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C64C20776;
-        Thu, 18 Jun 2020 01:24:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7DC0521927;
+        Thu, 18 Jun 2020 01:24:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443483;
-        bh=ooEe0JzdAZVN2R62zvx5BbW/z4K/dUN9wFuiu7sEVPg=;
+        s=default; t=1592443487;
+        bh=2SXgvA7tUSdP75dvHaiTMCQP+0FRDnVljzClLq3/NNo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fd47FBErX1WQCiMTKnnwTHLS6XBySJRAEiDWOsPtt2p5gdVQkRPs2tuYJt7LrQzKY
-         fcXw+R0Lv6QBsAjMVEDvPfQo5AwvWaIJpjTVvRNiGv21+JwJtsWAUpsBzgvTdU6N7s
-         BfsJ58SkuUCsbzaJlx+QIhPI3YHhCMRf12eTRSlM=
+        b=dlIPeDOtmJRbwjoeFfZXHLAequ6LpVdnCtxxhV7t/LLQwCKxPUvU5bEhEmst//pUJ
+         NY1Xr60CVUuspAKbl5wY0olH/bscizaD1RsOly+XAbJvkhHI1bQTrkjRjZmwunP2Jk
+         zA4g5d+W/iqus7ljk4J91hsdoyPPNaSTog6+deNc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Qiushi Wu <wu000273@umn.edu>, Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 112/172] usb: dwc2: gadget: move gadget resume after the core is in L0 state
-Date:   Wed, 17 Jun 2020 21:21:18 -0400
-Message-Id: <20200618012218.607130-112-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 115/172] usb: gadget: fix potential double-free in m66592_probe.
+Date:   Wed, 17 Jun 2020 21:21:21 -0400
+Message-Id: <20200618012218.607130-115-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618012218.607130-1-sashal@kernel.org>
 References: <20200618012218.607130-1-sashal@kernel.org>
@@ -59,49 +57,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Fabrice Gasnier <fabrice.gasnier@st.com>
+From: Qiushi Wu <wu000273@umn.edu>
 
-[ Upstream commit 8c935deacebb8fac8f41378701eb79d12f3c2e2d ]
+[ Upstream commit 44734a594196bf1d474212f38fe3a0d37a73278b ]
 
-When the remote wakeup interrupt is triggered, lx_state is resumed from L2
-to L0 state. But when the gadget resume is called, lx_state is still L2.
-This prevents the resume callback to queue any request. Any attempt
-to queue a request from resume callback will result in:
-- "submit request only in active state" debug message to be issued
-- dwc2_hsotg_ep_queue() returns -EAGAIN
+m66592_free_request() is called under label "err_add_udc"
+and "clean_up", and m66592->ep0_req is not set to NULL after
+first free, leading to a double-free. Fix this issue by
+setting m66592->ep0_req to NULL after the first free.
 
-Call the gadget resume routine after the core is in L0 state.
-
-Fixes: f81f46e1f530 ("usb: dwc2: implement hibernation during bus suspend/resume")
-
-Acked-by: Minas Harutyunyan <hminas@synopsys.com>
-Signed-off-by: Fabrice Gasnier <fabrice.gasnier@st.com>
+Fixes: 0f91349b89f3 ("usb: gadget: convert all users to the new udc infrastructure")
+Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc2/core_intr.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/udc/m66592-udc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
-index 19ae2595f1c3..b23ce535c12e 100644
---- a/drivers/usb/dwc2/core_intr.c
-+++ b/drivers/usb/dwc2/core_intr.c
-@@ -421,10 +421,13 @@ static void dwc2_handle_wakeup_detected_intr(struct dwc2_hsotg *hsotg)
- 			if (ret && (ret != -ENOTSUPP))
- 				dev_err(hsotg->dev, "exit power_down failed\n");
+diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
+index a8288df6aadf..ea59b56e5402 100644
+--- a/drivers/usb/gadget/udc/m66592-udc.c
++++ b/drivers/usb/gadget/udc/m66592-udc.c
+@@ -1667,7 +1667,7 @@ static int m66592_probe(struct platform_device *pdev)
  
-+			/* Change to L0 state */
-+			hsotg->lx_state = DWC2_L0;
- 			call_gadget(hsotg, resume);
-+		} else {
-+			/* Change to L0 state */
-+			hsotg->lx_state = DWC2_L0;
- 		}
--		/* Change to L0 state */
--		hsotg->lx_state = DWC2_L0;
- 	} else {
- 		if (hsotg->params.power_down)
- 			return;
+ err_add_udc:
+ 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
+-
++	m66592->ep0_req = NULL;
+ clean_up3:
+ 	if (m66592->pdata->on_chip) {
+ 		clk_disable(m66592->clk);
 -- 
 2.25.1
 
