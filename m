@@ -2,179 +2,115 @@ Return-Path: <SRS0=wl2X=77=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 890C7C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:44:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 092A9C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:44:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6211721D7E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:44:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D088E21D7B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 09:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592473442;
-	bh=i9JeJIALNjzTrIEVjDmpg7b8gg3dE54NRITDfTxUC7c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lJwx+Q4DzCANbCVn8swKUohfTQBobX0c73150EyPQzcIO5Da+tZI3j5LGn8fZATF0
-	 zH3W31lI0ZwY0kVlniweOCKF+JJ3rEiCeZbnNSLEBFsco9PpEq34G6HwUmT9t5Dw8s
-	 Ry+SE75Q7NvyOoKAubabLIWJG75Jy6+GC9VdgCe0=
+	s=default; t=1592473452;
+	bh=hjSY+0gQqkNkM+yEdu3IotPRnnGkBkGW0tkkJThgNIQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rWLc88lDCZMGTCwZVRaWALRjQ6W3dGz6tOiGCyQmXqPd4RuSLN+ZxYy2SD2JbIEEh
+	 21qBPg+pDxWOZPGMYrwbvgpS8TM0AcXdXnK+E+/0sTPWJx7LlBJBclL6czAdQyh1mw
+	 ewl6cVW42IRGzhLRdwyb6h+MTUuCLYtxgBbVGXik=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729171AbgFRJnM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Jun 2020 05:43:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43514 "EHLO mail.kernel.org"
+        id S1729374AbgFRJoI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 05:44:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44222 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728568AbgFRJnK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Jun 2020 05:43:10 -0400
+        id S1729348AbgFRJoH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Jun 2020 05:44:07 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC0DA21548;
-        Thu, 18 Jun 2020 09:43:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D65321D7B;
+        Thu, 18 Jun 2020 09:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592473389;
-        bh=i9JeJIALNjzTrIEVjDmpg7b8gg3dE54NRITDfTxUC7c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=S+rW7gFjAnZDhzVV5EeTL2h4bim5p831/I8lqdr9sK4UzwRsUSd31pNW0raTblHH5
-         EJemjIGPptDv5Tn8O/arGpXtKtO1g7GiYFaprYbxJuFRJ4FzLi1jCHEbejwGRyuxXv
-         2R0SbLO+ivz1L0sRe1p/nhAjmK7FmL1ON+8D1PTE=
+        s=default; t=1592473447;
+        bh=hjSY+0gQqkNkM+yEdu3IotPRnnGkBkGW0tkkJThgNIQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=af3MuqZbyEhdwAFtHor3U+pR/hP4Q6doDD1q+pGf2NhkrpYFFljWjj6ax2Fq4figR
+         h1oU1DCnDJP/at4OODCpn6XdkgMnnkdpqEZwM8M/eoRtxbK8Qj/dHAHqdl8dawAhG5
+         RRu428V03DeEZyM0qH9ZsiFige7NVHUf4a6OKCUc=
+Date:   Thu, 18 Jun 2020 11:43:59 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Richard Dodd <richard.o.dodd@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jonathan Cox <jonathan@jdcox.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        =?UTF-8?q?Thi=C3=A9baud=20Weksteen?= <tweek@google.com>,
-        Nishad Kamdar <nishadkamdar@gmail.com>
-Subject: [PATCH 1/8] USB: rename USB quirk to USB_QUIRK_ENDPOINT_IGNORE
-Date:   Thu, 18 Jun 2020 11:42:53 +0200
-Message-Id: <20200618094300.1887727-2-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200618094300.1887727-1-gregkh@linuxfoundation.org>
-References: <20200618094300.1887727-1-gregkh@linuxfoundation.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Jiri Kosina <trivial@kernel.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 07/17] drivers: usb: Fix trivial spelling
+Message-ID: <20200618094359.GA1888087@kroah.com>
+References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200609124610.3445662-8-kieran.bingham+renesas@ideasonboard.com>
+ <20200618082147.GA1050104@kroah.com>
+ <0d1fb492-7503-895c-82d3-b7f4611ef1f2@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0d1fb492-7503-895c-82d3-b7f4611ef1f2@ideasonboard.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB core has a quirk flag to ignore specific endpoints, so rename it
-to be more obvious what this quirk does.
+On Thu, Jun 18, 2020 at 09:52:28AM +0100, Kieran Bingham wrote:
+> Hi Greg,
+> 
+> On 18/06/2020 09:21, Greg Kroah-Hartman wrote:
+> > On Tue, Jun 09, 2020 at 01:46:00PM +0100, Kieran Bingham wrote:
+> >> The word 'descriptor' is misspelled throughout the tree.
+> >>
+> >> Fix it up accordingly:
+> >>     decriptors -> descriptors
+> >>
+> >> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >> ---
+> >>  drivers/usb/core/of.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/usb/core/of.c b/drivers/usb/core/of.c
+> >> index 651708d8c908..617e92569b2c 100644
+> >> --- a/drivers/usb/core/of.c
+> >> +++ b/drivers/usb/core/of.c
+> >> @@ -45,7 +45,7 @@ EXPORT_SYMBOL_GPL(usb_of_get_device_node);
+> >>   *
+> >>   * Determine whether a USB device has a so called combined node which is
+> >>   * shared with its sole interface. This is the case if and only if the device
+> >> - * has a node and its decriptors report the following:
+> >> + * has a node and its descriptors report the following:
+> >>   *
+> >>   *	1) bDeviceClass is 0 or 9, and
+> >>   *	2) bNumConfigurations is 1, and
+> >> -- 
+> >> 2.25.1
+> >>
+> > 
+> > Already fixed in Linus's tree :(
+> 
+> Don't be sad - that makes me happy ;-) This was just a global fixup
+> while I added the correction to scripts/spelling.txt...
+> 
+> But wait, are you sure? I've just rebased this series on top of
+> 1b5044021070 ("Merge tag 'dma-mapping-5.8-3' of
+> git://git.infradead.org/users/hch/dma-mapping"), and this still applies
+> for me ... Am I failing to pick up the latest branch from Linus?
+> (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
+> looks like I'm on the latest, so I don't think so).
+> 
+> I see a bot-notification from you saying it's been added to your
+> usb-testing tree, so I'll assume this is all fine. No need to worry
+> though It's only a trivial and can get picked up by the trivial bot I
+> think if I resend when the dust settles.
 
-Cc: Johan Hovold <johan@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Richard Dodd <richard.o.dodd@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Jonathan Cox <jonathan@jdcox.net>
-Cc: Bastien Nocera <hadess@hadess.net>
-Cc: "Thiébaud Weksteen" <tweek@google.com>
-Cc: Nishad Kamdar <nishadkamdar@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/core/config.c  |  8 ++++----
- drivers/usb/core/quirks.c  | 18 +++++++++---------
- drivers/usb/core/usb.h     |  2 +-
- include/linux/usb/quirks.h |  4 ++--
- 4 files changed, 16 insertions(+), 16 deletions(-)
+Ah, I might have tried to apply this twice, sorry for the noise, all is
+good...
 
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index b7918f695434..37442f423a41 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -298,10 +298,10 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 		goto skip_to_next_endpoint_or_interface_descriptor;
- 	}
- 
--	/* Ignore blacklisted endpoints */
--	if (udev->quirks & USB_QUIRK_ENDPOINT_BLACKLIST) {
--		if (usb_endpoint_is_blacklisted(udev, ifp, d)) {
--			dev_warn(ddev, "config %d interface %d altsetting %d has a blacklisted endpoint with address 0x%X, skipping\n",
-+	/* Ignore some endpoints */
-+	if (udev->quirks & USB_QUIRK_ENDPOINT_IGNORE) {
-+		if (usb_endpoint_is_ignored(udev, ifp, d)) {
-+			dev_warn(ddev, "config %d interface %d altsetting %d has an ignored endpoint with address 0x%X, skipping\n",
- 					cfgno, inum, asnum,
- 					d->bEndpointAddress);
- 			goto skip_to_next_endpoint_or_interface_descriptor;
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 3e8efe759c3e..20dccf34182d 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -359,7 +359,7 @@ static const struct usb_device_id usb_quirk_list[] = {
- 
- 	/* Sound Devices USBPre2 */
- 	{ USB_DEVICE(0x0926, 0x0202), .driver_info =
--			USB_QUIRK_ENDPOINT_BLACKLIST },
-+			USB_QUIRK_ENDPOINT_IGNORE },
- 
- 	/* Keytouch QWERTY Panel keyboard */
- 	{ USB_DEVICE(0x0926, 0x3333), .driver_info =
-@@ -493,24 +493,24 @@ static const struct usb_device_id usb_amd_resume_quirk_list[] = {
- };
- 
- /*
-- * Entries for blacklisted endpoints that should be ignored when parsing
-- * configuration descriptors.
-+ * Entries for endpoints that should be ignored when parsing configuration
-+ * descriptors.
-  *
-- * Matched for devices with USB_QUIRK_ENDPOINT_BLACKLIST.
-+ * Matched for devices with USB_QUIRK_ENDPOINT_IGNORE.
-  */
--static const struct usb_device_id usb_endpoint_blacklist[] = {
-+static const struct usb_device_id usb_endpoint_ignore[] = {
- 	{ USB_DEVICE_INTERFACE_NUMBER(0x0926, 0x0202, 1), .driver_info = 0x85 },
- 	{ }
- };
- 
--bool usb_endpoint_is_blacklisted(struct usb_device *udev,
--		struct usb_host_interface *intf,
--		struct usb_endpoint_descriptor *epd)
-+bool usb_endpoint_is_ignored(struct usb_device *udev,
-+			     struct usb_host_interface *intf,
-+			     struct usb_endpoint_descriptor *epd)
- {
- 	const struct usb_device_id *id;
- 	unsigned int address;
- 
--	for (id = usb_endpoint_blacklist; id->match_flags; ++id) {
-+	for (id = usb_endpoint_ignore; id->match_flags; ++id) {
- 		if (!usb_match_device(udev, id))
- 			continue;
- 
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index 19e4c550bc73..98e7d1ee63dc 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -37,7 +37,7 @@ extern void usb_authorize_interface(struct usb_interface *);
- extern void usb_detect_quirks(struct usb_device *udev);
- extern void usb_detect_interface_quirks(struct usb_device *udev);
- extern void usb_release_quirk_list(void);
--extern bool usb_endpoint_is_blacklisted(struct usb_device *udev,
-+extern bool usb_endpoint_is_ignored(struct usb_device *udev,
- 		struct usb_host_interface *intf,
- 		struct usb_endpoint_descriptor *epd);
- extern int usb_remove_device(struct usb_device *udev);
-diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-index 22c1f579afe3..5e4c497f54d6 100644
---- a/include/linux/usb/quirks.h
-+++ b/include/linux/usb/quirks.h
-@@ -69,7 +69,7 @@
- /* Hub needs extra delay after resetting its port. */
- #define USB_QUIRK_HUB_SLOW_RESET		BIT(14)
- 
--/* device has blacklisted endpoints */
--#define USB_QUIRK_ENDPOINT_BLACKLIST		BIT(15)
-+/* device has endpoints that should be ignored */
-+#define USB_QUIRK_ENDPOINT_IGNORE		BIT(15)
- 
- #endif /* __LINUX_USB_QUIRKS_H */
--- 
-2.27.0
-
+greg k-h
