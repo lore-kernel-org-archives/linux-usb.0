@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA228C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A308C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:05:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99EA4221F8
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:02:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E788D2067B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Jun 2020 02:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592445751;
-	bh=zIczYH2m9DpHKIBjWfQBpxSMZtZDT8eNkp3iLg0nbgk=;
+	s=default; t=1592445916;
+	bh=+LkZii1dP7fTREBqDrvivXDp8hq7SWXVnFnqZtEXXuw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xcSb3cTrxWrOhW9WGqk3mT5F+1zH5m2F0jrJhN7SrDVS2og11wuJvQyqCS9bZf5V5
-	 1Q4KR1KQLWA4ATgxSKkS50UvkvCTqICBqBI4Gaa0zLpOB4lVFnK8EVcIHdpyeiYMPW
-	 jvNNI6b22rmylkYLgPjMJesuhwwdTO3V3z05+Xgs=
+	b=NC1eSWrfd1hHJOM8b8E8P4ZMJ+/ZwJwdzip7fum48k2DAPa1+c/CiU8FzOWQEgbcs
+	 MF5J7kbjMPnH1yT9NhPMKiUU8pmtXMRKFXjLZkX26bQufB0lPRFNBRY9+Yap6bzC0k
+	 aoYFBnyRq2w+EB+aPIjl+vBoyoxUW+Hs3J09Icl0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731202AbgFRCCT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jun 2020 22:02:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57986 "EHLO mail.kernel.org"
+        id S1730843AbgFRBWs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jun 2020 21:22:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56002 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728993AbgFRBXy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:23:54 -0400
+        id S1730345AbgFRBWs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:22:48 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DDF02221EE;
-        Thu, 18 Jun 2020 01:23:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5589420776;
+        Thu, 18 Jun 2020 01:22:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443433;
-        bh=zIczYH2m9DpHKIBjWfQBpxSMZtZDT8eNkp3iLg0nbgk=;
+        s=default; t=1592443368;
+        bh=+LkZii1dP7fTREBqDrvivXDp8hq7SWXVnFnqZtEXXuw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ojx4stz5yRddgOjVEwzs7B+Kze/AT9S1yRTpXK68OA8QRi3e3VNwcCGM+LwDuIRSt
-         kAN2AB95WhKi1eYW5+Q87Pgh+6foRXBzDFKZAfdfNXCXpPndXzIoG1LaiMO45qX9m9
-         W3HC110yL7fLrs/SFrdHG2gvXVi2bgzuIUNvMoZc=
+        b=tMiMhdtKtawpAAc4+xj4IEqxgp/6ewgK0YRhSvDUAytznyfwwSjvozvNqvDT0dCz5
+         0hyEjnu5lPche5B8sUDfZCe0a+7yfKGrrYhUcE4rHXqIategHn4J09Z0eoDwyjIKuP
+         L5D083jDwpNx1kX3nF0CBp/o53RSXIBWojqjJPWw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        syzbot+be5b5f86a162a6c281e6@syzkaller.appspotmail.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 072/172] usb: dwc3: gadget: Properly handle failed kick_transfer
-Date:   Wed, 17 Jun 2020 21:20:38 -0400
-Message-Id: <20200618012218.607130-72-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 023/172] usblp: poison URBs upon disconnect
+Date:   Wed, 17 Jun 2020 21:19:49 -0400
+Message-Id: <20200618012218.607130-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618012218.607130-1-sashal@kernel.org>
 References: <20200618012218.607130-1-sashal@kernel.org>
@@ -59,65 +59,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit 8d99087c2db863c5fa3a4a1f3cb82b3a493705ca ]
+[ Upstream commit 296a193b06120aa6ae7cf5c0d7b5e5b55968026e ]
 
-If dwc3 fails to issue START_TRANSFER/UPDATE_TRANSFER command, then we
-should properly end an active transfer and give back all the started
-requests. However if it's for an isoc endpoint, the failure maybe due to
-bus-expiry status. In this case, don't give back the requests and wait
-for the next retry.
+syzkaller reported an URB that should have been killed to be active.
+We do not understand it, but this should fix the issue if it is real.
 
-Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
-Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Reported-by: syzbot+be5b5f86a162a6c281e6@syzkaller.appspotmail.com
+Link: https://lore.kernel.org/r/20200507085806.5793-1-oneukum@suse.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/gadget.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ drivers/usb/class/usblp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 8e66954dfcd4..2f5f4ca5c0d0 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1217,6 +1217,8 @@ static void dwc3_prepare_trbs(struct dwc3_ep *dep)
- 	}
+diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
+index 4a80103675d5..419804c9c974 100644
+--- a/drivers/usb/class/usblp.c
++++ b/drivers/usb/class/usblp.c
+@@ -468,7 +468,8 @@ static int usblp_release(struct inode *inode, struct file *file)
+ 	usb_autopm_put_interface(usblp->intf);
+ 
+ 	if (!usblp->present)		/* finish cleanup from disconnect */
+-		usblp_cleanup(usblp);
++		usblp_cleanup(usblp);	/* any URBs must be dead */
++
+ 	mutex_unlock(&usblp_mutex);
+ 	return 0;
  }
+@@ -1375,9 +1376,11 @@ static void usblp_disconnect(struct usb_interface *intf)
  
-+static void dwc3_gadget_ep_cleanup_cancelled_requests(struct dwc3_ep *dep);
-+
- static int __dwc3_gadget_kick_transfer(struct dwc3_ep *dep)
- {
- 	struct dwc3_gadget_ep_cmd_params params;
-@@ -1253,14 +1255,20 @@ static int __dwc3_gadget_kick_transfer(struct dwc3_ep *dep)
+ 	usblp_unlink_urbs(usblp);
+ 	mutex_unlock(&usblp->mut);
++	usb_poison_anchored_urbs(&usblp->urbs);
  
- 	ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
- 	if (ret < 0) {
--		/*
--		 * FIXME we need to iterate over the list of requests
--		 * here and stop, unmap, free and del each of the linked
--		 * requests instead of what we do now.
--		 */
--		if (req->trb)
--			memset(req->trb, 0, sizeof(struct dwc3_trb));
--		dwc3_gadget_del_and_unmap_request(dep, req, ret);
-+		struct dwc3_request *tmp;
+ 	if (!usblp->used)
+ 		usblp_cleanup(usblp);
 +
-+		if (ret == -EAGAIN)
-+			return ret;
-+
-+		dwc3_stop_active_transfer(dep, true, true);
-+
-+		list_for_each_entry_safe(req, tmp, &dep->started_list, list)
-+			dwc3_gadget_move_cancelled_request(req);
-+
-+		/* If ep isn't started, then there's no end transfer pending */
-+		if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING))
-+			dwc3_gadget_ep_cleanup_cancelled_requests(dep);
-+
- 		return ret;
- 	}
+ 	mutex_unlock(&usblp_mutex);
+ }
  
 -- 
 2.25.1
