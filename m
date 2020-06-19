@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA893C433E2
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9A19C433E1
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C53B0208B8
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B296920888
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s4LJ4KP9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DTEkaGtc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729016AbgFSA3Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Jun 2020 20:29:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
+        id S1729065AbgFSA31 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 20:29:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727981AbgFSA3Y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 20:29:24 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2931AC0613EE
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id fc4so3707629qvb.1
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
+        with ESMTP id S1727981AbgFSA3Z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 20:29:25 -0400
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859AFC0613EF
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:24 -0700 (PDT)
+Received: by mail-qt1-x844.google.com with SMTP id u17so6031372qtq.1
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Mq029+n0AUpV9BXDfINhsGOCpowi8sNUtFRbjDoZJ2A=;
-        b=s4LJ4KP97rBA7QaEY0WZSHVj6JtZvhBpoJ6pk1020SWCjdbkx0kViUf4f22knpAF9n
-         zYlte2t9QQTSBTvjUQD05EqvNg3IAU9ve8gQbkEEAQzx0lG+17d7OIWXnEyOeIVO4QHP
-         zf4vtbKLp0iMnCvFBxkCmNlGmHCXkApuTWL2C7EzIdNFYXqxdBbFKRkJtplmqe7yqHWs
-         zE+q+zwiyEDM7Kn8dvOSczZ71R4aUSNbC06/hP8039Vutsw+qkXKAu3QOsn5OJzLF2SE
-         hDYRpPiSzf/p+ok7ymlbLKfeYMldKvEBDAp0f+B78Cu0Mh1f5u4rsbZq+Onh2jflgZEj
-         PLNw==
+        bh=UTbqhOEYS29FJC4rPhCQFI5w6/Y0lWfaAuogwssHtfc=;
+        b=DTEkaGtc6R6fGJr7rRShCRO38K/8M8Zvu5FF/CGfQMiA6ORSgnmEsOIleO7QVXFeJf
+         g9Tp1yCSbPTzCN31yHNMuHHCDI6rmnn4j4H2o7I89HuPatFor6NzuRqseOceM3mBO5rz
+         gB3dE6AxRXvQHUHClJtDTPRqfEzaq3N6D971YDBbqveBoMRoeSp7fNnHhbUOi1zGCR6i
+         c6ZJ1Zx+hVZBU2B+5nOU3k8VqGiTg43Znrypuk974BVDa1cwvY0iE8d2vNgQyyYYngYQ
+         KWSTpVVqoR26WyPki+q+RfQIe0E3aonDv9RNn1NpaUku9tWQnaJ8LdbxJdysWTWzLJIh
+         8uOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Mq029+n0AUpV9BXDfINhsGOCpowi8sNUtFRbjDoZJ2A=;
-        b=Dl7zvFFbGDfFmWkWtBGdqA8NrLZ+KhslK2Mbe/ube7zBQ1OTVyvtqIZw4VcEo2VtUd
-         qmYpYUXN/jYs1/92l1sY7UR5Xg2OATYuOpi9yZW0AdHIGc7dzEbBSsvBHYemK8fefh4g
-         qaYgjqYHhFMbyyeYhxxhMqTikuLLW5/cZjHmc+AvMpMP+GK8vmPh02HFOBMEk5XLTBQB
-         0uccoLDiKp6cHaVRwqWsbt9O/xSHQKxRY4prp/PqrcJLJZlOi6Tw34GKPI+7d+8exSKU
-         z3IPJ0MSvNBn00pcGWd/LG9zf20sX9MDsg/QR1dIGNqdKAvqT22rvIetacu+r+8Q4PMV
-         GOSg==
-X-Gm-Message-State: AOAM531MWgLwsN4W8iquQP8QJ9QRvcIjr/j6/WJs+/SrgYZYiFcs6Ql7
-        oIAlXvAnfVjR1s0njt8/AmU=
-X-Google-Smtp-Source: ABdhPJziYglSw1CSc6oCh8JXuQfkxCbCpfwImHD73kFB/ZFWtdyCFJs1MkbCNmEbcfGU2xyb5XLFOQ==
-X-Received: by 2002:ad4:4374:: with SMTP id u20mr6475370qvt.144.1592526562390;
-        Thu, 18 Jun 2020 17:29:22 -0700 (PDT)
+        bh=UTbqhOEYS29FJC4rPhCQFI5w6/Y0lWfaAuogwssHtfc=;
+        b=KA2vmJ5Z33KENkSZV0MXxUGZRjLyJMzKKvDiiehNhLo8ODDNIWV89mch0Yk7bOdOjI
+         L6gXdaaiKFYlZyo7PuZA1Zp1f/82IWPPm0mAObAVZ9ZV/jKxd8du3GVSl0c1U7WREEx0
+         atle6vQW8+rgAuQjK5S7taEGBsjVTQy+mjlV3HbzXRCHqduiCPSyS6vaEsvDBqrYTcWl
+         KudqiWKUfNBOAl3DwmEgDSbU74AiR9GhYRGtMzI3WnBkU8G89OJIq+rcx2bG8QYGfVFL
+         qx4PkSpcpIM86i4il0nzq1Q0x9U9SMbVuClRFBnPPwwCvz4zo4E7OwZX/k5B+iiVs/rN
+         WFIA==
+X-Gm-Message-State: AOAM5333cmf3e3Ujco/Kf409BupeuzX/PhdOuco0U6bKfVGiJuGMphGA
+        k8gxhdvI+5FmgshSKWRpZGNl2Slj
+X-Google-Smtp-Source: ABdhPJziyMq2XPdRIr/IxtN4JCxA8FNNgeeGzjZECX7DYTzWpReZduInFvdIQ5pIWB19Ffm46BFmqA==
+X-Received: by 2002:ac8:548b:: with SMTP id h11mr1038518qtq.66.1592526563821;
+        Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
 Received: from DESKTOP-JC0RTV5.neu.edu ([155.33.134.7])
-        by smtp.gmail.com with ESMTPSA id p7sm135497qki.61.2020.06.18.17.29.21
+        by smtp.gmail.com with ESMTPSA id p7sm135497qki.61.2020.06.18.17.29.23
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jun 2020 17:29:22 -0700 (PDT)
+        Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
 From:   Changming Liu <charley.ashbringer@gmail.com>
 X-Google-Original-From: Changming Liu <liu.changm@northeastern.edu>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, thomas@winischhofer.net,
         Changming Liu <liu.changm@northeastern.edu>
-Subject: [PATCH 2/4] USB: sisusbvga: change the buffers of sisusb from char to u8
-Date:   Thu, 18 Jun 2020 20:28:52 -0400
-Message-Id: <1592526534-1739-3-git-send-email-liu.changm@northeastern.edu>
+Subject: [PATCH 4/4] USB: sisusbvga: change sisusb_read_mem_bulk
+Date:   Thu, 18 Jun 2020 20:28:54 -0400
+Message-Id: <1592526534-1739-5-git-send-email-liu.changm@northeastern.edu>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
 References: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
@@ -73,61 +73,66 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-change the buffer of sisusb namely, ibuf,obuf,
-font_backup from char* to unsigned char*.
-Also change the related buffer which can be assigned
-to them
+change sisusb_read_mem_bulk userbuffer,kernbuffer
+and local buf from char to u8.
+
+Also it's called by sisusb_read_memory sisusb_testreadwrite
+and sisusb_read. Change their parameter types accordingly.
 
 Signed-off-by: Changming Liu <liu.changm@northeastern.edu>
 ---
- drivers/usb/misc/sisusbvga/sisusb.c | 4 ++--
- drivers/usb/misc/sisusbvga/sisusb.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/misc/sisusbvga/sisusb.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/misc/sisusbvga/sisusb.c b/drivers/usb/misc/sisusbvga/sisusb.c
-index 4aa717a..8878c28 100644
+index 86638c1..f1b46b5 100644
 --- a/drivers/usb/misc/sisusbvga/sisusb.c
 +++ b/drivers/usb/misc/sisusbvga/sisusb.c
-@@ -335,7 +335,7 @@ static int sisusb_send_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
- 	int fromuser = (userbuffer != NULL) ? 1 : 0;
- 	int fromkern = (kernbuffer != NULL) ? 1 : 0;
- 	unsigned int pipe;
--	char *buffer;
-+	u8 *buffer;
+@@ -1108,7 +1108,7 @@ static int sisusb_read_mem_bulk(struct sisusb_usb_data *sisusb, u32 addr,
+ 		ssize_t *bytes_read)
+ {
+ 	int ret = 0;
+-	char buf[4];
++	u8 buf[4];
+ 	u16 swap16;
+ 	u32 swap32;
  
- 	(*bytes_written) = 0;
+@@ -1293,7 +1293,7 @@ int sisusb_copy_memory(struct sisusb_usb_data *sisusb, char *src,
+ }
  
-@@ -454,7 +454,7 @@ static int sisusb_recv_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
- 	int result = 0, retry, count = len;
- 	int bufsize, thispass, transferred_len;
- 	unsigned int pipe;
--	char *buffer;
-+	u8 *buffer;
+ #ifdef SISUSBENDIANTEST
+-static int sisusb_read_memory(struct sisusb_usb_data *sisusb, char *dest,
++static int sisusb_read_memory(struct sisusb_usb_data *sisusb, u8 *dest,
+ 		u32 src, int length)
+ {
+ 	size_t dummy;
+@@ -1308,7 +1308,7 @@ static int sisusb_read_memory(struct sisusb_usb_data *sisusb, char *dest,
+ static void sisusb_testreadwrite(struct sisusb_usb_data *sisusb)
+ {
+ 	static char srcbuffer[] = { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77 };
+-	char destbuffer[10];
++	u8 destbuffer[10];
+ 	int i, j;
  
- 	(*bytes_read) = 0;
+ 	sisusb_copy_memory(sisusb, srcbuffer, sisusb->vrambase, 7);
+@@ -2561,7 +2561,7 @@ static ssize_t sisusb_read(struct file *file, char __user *buffer,
+ 		 * Remember: Data delivered is never endian-corrected
+ 		 */
+ 		errno = sisusb_read_mem_bulk(sisusb, address,
+-				NULL, count, buffer, &bytes_read);
++				NULL, count, (u8 __user *)buffer, &bytes_read);
  
-diff --git a/drivers/usb/misc/sisusbvga/sisusb.h b/drivers/usb/misc/sisusbvga/sisusb.h
-index c0fb9e1..8fe5d07 100644
---- a/drivers/usb/misc/sisusbvga/sisusb.h
-+++ b/drivers/usb/misc/sisusbvga/sisusb.h
-@@ -109,7 +109,7 @@ struct sisusb_usb_data {
- 	int present;		/* !=0 if device is present on the bus */
- 	int ready;		/* !=0 if device is ready for userland */
- 	int numobufs;		/* number of obufs = number of out urbs */
--	char *obuf[NUMOBUFS], *ibuf;	/* transfer buffers */
-+	unsigned char *obuf[NUMOBUFS], *ibuf;	/* transfer buffers */
- 	int obufsize, ibufsize;
- 	struct urb *sisurbout[NUMOBUFS];
- 	struct urb *sisurbin;
-@@ -140,7 +140,7 @@ struct sisusb_usb_data {
- 	int sisusb_cursor_size_to;
- 	int current_font_height, current_font_512;
- 	int font_backup_size, font_backup_height, font_backup_512;
--	char *font_backup;
-+	unsigned char *font_backup;
- 	int font_slot;
- 	struct vc_data *sisusb_display_fg;
- 	int is_gfx;
+ 		if (bytes_read)
+ 			errno = bytes_read;
+@@ -2577,7 +2577,7 @@ static ssize_t sisusb_read(struct file *file, char __user *buffer,
+ 		 * Remember: Data delivered is never endian-corrected
+ 		 */
+ 		errno = sisusb_read_mem_bulk(sisusb, address,
+-				NULL, count, buffer, &bytes_read);
++				NULL, count, (u8 __user *)buffer, &bytes_read);
+ 
+ 		if (bytes_read)
+ 			errno = bytes_read;
 -- 
 2.7.4
 
