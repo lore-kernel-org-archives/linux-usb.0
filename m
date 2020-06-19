@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 655B8C433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5121C433E0
 	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DCD7208B8
+	by mail.kernel.org (Postfix) with ESMTP id C189C208B8
 	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kf86HnGv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CfFz9bPK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbgFSA3Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Jun 2020 20:29:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34732 "EHLO
+        id S1729004AbgFSA3Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 20:29:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727981AbgFSA3X (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 20:29:23 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEB9C0613EF
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id fc4so3707639qvb.1
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
+        with ESMTP id S1728968AbgFSA3Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 20:29:24 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8920C06174E
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:22 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id e2so3687125qvw.7
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=zey5/HEMnczIhTbkvBUGfCn+Fd1KG+Z57tf47eFAyUg=;
-        b=Kf86HnGvbnkVjhEM3n+lfUEgFr/8LXPo/pUbCoc9NnkO6Preg3evv9KC3qzY5tSGp1
-         cd21BHMqT1BSbKXvoX1Og6rcwe6i6g9Y1nB5QLewGtM/q2LLlv7QnOrHz8Fi2lr2x5OU
-         3hZd9NZdxfzdy79xmRyQSj1/adJS8AzS+CnWMusvPU5sXO/4/OcfIeesXavdMzKvMAg0
-         BT/nlSCrbKLQ6CWXXzWgsiv151uVoIxZMmcqpVOTLaWjYwsVYYLS6fkdLIe5pccZdNSx
-         Lb2cmkIFlxHfb+NA7W60rKRy+qZy8kk+M4VXnD2aISfIWCUNqlphZjKA5XysTkcAQFq8
-         UBSg==
+        bh=6cXCGbCZwcieya022EUSgjYVX+GGTFWd1Ty+UNqIf6o=;
+        b=CfFz9bPKofGv5v/hhRG5LEGK+Dmmuqi/t4vmnSRHugZg7OSzAh5xbxmsi67oE/C3iO
+         jlNihyBWKzvnl36V+QQvOl0JUQebF2OLsmkQBEMTeDz4AjP4b7xMRRXwNCAQVnGvQwWG
+         Xsr/VJ2LJ5sOxs7ckBAuooVR9p1ypoH6BvwwJIcxQ9BzG45LxUhauShJrsYOCFkmr+VA
+         0uP1YRPFdZwmD9XUdp13JCGPGXqfVGSLTP6RpLftCnTBpTMEOE4dice3LZbe2jCZ1orK
+         1MN6r4VuQiAeKJt0JvJ3ays6RRncFP+486CmaA0hc4DXkn3T5m8WNNTsxdGcYKpDVCk4
+         7XBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=zey5/HEMnczIhTbkvBUGfCn+Fd1KG+Z57tf47eFAyUg=;
-        b=JfVhhx6Ak1w0LdwLFAVaL7LY636E+0/v5fuZMHXxFn7vSoYBdeVReLdkuodXRa+QxK
-         64/xKw70AIxpzL8VLIet5EpsUw77EvHaC5CrukZO1Y13W5BCuTL3wuBPJsIEfe0G34LT
-         5NdyVjv90gHzqwNp5dKRzhNwq9zM2slwegPzJRNHxWDjNjBiZMLiADRos4bChSJyA1UI
-         +IGloDkv9nGN9Cl/9eo08oBtLeBGKKLfOyTH7usGXp3GXNtoyEfF7S1/dlNgdvnqV1bS
-         GRSDkLEwL71rKSjDssW2JVBfFUNewmPMS/x61SNSbnsupf9ux6vAdY0exm8h6jQaM+XL
-         sFKg==
-X-Gm-Message-State: AOAM531j4sMDtNdNEMhiKGLxtSXKd1f8QQXFicOWgyS/Sm2h3R6athnK
-        4/gYne4HPR2STL7gR8elPTU=
-X-Google-Smtp-Source: ABdhPJxhFhKB4ZBiavyyY8YWxtj7H6H8aRk7LVLxz5yd6zQhViiZ05aBEnd7EbVs8+VkN4qbsogVyw==
-X-Received: by 2002:ad4:42b1:: with SMTP id e17mr6555166qvr.104.1592526563011;
-        Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
+        bh=6cXCGbCZwcieya022EUSgjYVX+GGTFWd1Ty+UNqIf6o=;
+        b=Q/eVQU4zrwy2U5oTenmV7O9yHJCCX2ZCT77312YiEyhhJP6STl5SzCPCBXUFcqCqoz
+         EdXZPCPP/XIyl2+ZeEZp30/u2I2/FSIPxhnD3JSG2MXROoKpwVQa6UpjFifNIKFKSvPF
+         Qx5i5IwBOeUslk8lgIRYZQ1qc5X7U4S59lt5nFvOjYNaGu3Xu+qpK3Q4e5vChQ3s4q92
+         rhxzoznV3HG6EdhHGrjYQavetRLMvYs36nnQX6Gp3ezGZ9pK18xHGV5E2FVB4OS10ceo
+         guQh9ZI+f3kNwq+olHA+WxpSnFuME4ihnCWj9pz9h2RMCnZRnNm1iG4QbYBUehNTrqhs
+         dn4w==
+X-Gm-Message-State: AOAM530aGaoI1Ib+D9I5hsKnaOjygCJUTSmKPWG1h7/5Kp721e6isLNd
+        OT8ZxEdXN1kN6GNQrTsXYhI=
+X-Google-Smtp-Source: ABdhPJzT2yCniFFVssqW95g6XDc+G8r+Y4ZG6jGaWbkfmJW4rBlA1XSXhaWqZkBIFGGU8qPt0c/6Nw==
+X-Received: by 2002:ad4:4c0d:: with SMTP id bz13mr6617543qvb.164.1592526561748;
+        Thu, 18 Jun 2020 17:29:21 -0700 (PDT)
 Received: from DESKTOP-JC0RTV5.neu.edu ([155.33.134.7])
-        by smtp.gmail.com with ESMTPSA id p7sm135497qki.61.2020.06.18.17.29.22
+        by smtp.gmail.com with ESMTPSA id p7sm135497qki.61.2020.06.18.17.29.21
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jun 2020 17:29:22 -0700 (PDT)
+        Thu, 18 Jun 2020 17:29:21 -0700 (PDT)
 From:   Changming Liu <charley.ashbringer@gmail.com>
 X-Google-Original-From: Changming Liu <liu.changm@northeastern.edu>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, thomas@winischhofer.net,
         Changming Liu <liu.changm@northeastern.edu>
-Subject: [PATCH 3/4] USB: sisusbvga: change userbuffer for sisusb_recv_bulk_msg to u8
-Date:   Thu, 18 Jun 2020 20:28:53 -0400
-Message-Id: <1592526534-1739-4-git-send-email-liu.changm@northeastern.edu>
+Subject: [PATCH 1/4] USB: sisusbvga: change sisusb_write_mem_bulk
+Date:   Thu, 18 Jun 2020 20:28:51 -0400
+Message-Id: <1592526534-1739-2-git-send-email-liu.changm@northeastern.edu>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
 References: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
@@ -73,45 +73,85 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-change the userbuffer of sisusb_recv_bulk_msg from char to u8
-also force cast the kernbuffer to u8 when passed in
+isusb_write_mem_bulk calls sisusb_send_bulk_msg and
+is called by sisusb_write.
+Changed their parameters accordingly.
+
+Also change the local buf[4] of sisusb_write_mem_bulk
+to u8. This fixed a potential undefined behavior.
 
 Signed-off-by: Changming Liu <liu.changm@northeastern.edu>
 ---
- drivers/usb/misc/sisusbvga/sisusb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/misc/sisusbvga/sisusb.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/usb/misc/sisusbvga/sisusb.c b/drivers/usb/misc/sisusbvga/sisusb.c
-index 8878c28..86638c1 100644
+index fc8a5da..4aa717a 100644
 --- a/drivers/usb/misc/sisusbvga/sisusb.c
 +++ b/drivers/usb/misc/sisusbvga/sisusb.c
-@@ -448,7 +448,7 @@ static int sisusb_send_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
+@@ -327,7 +327,7 @@ static int sisusb_bulkin_msg(struct sisusb_usb_data *sisusb,
   */
  
- static int sisusb_recv_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
--		void *kernbuffer, char __user *userbuffer, ssize_t *bytes_read,
-+		void *kernbuffer, u8 __user *userbuffer, ssize_t *bytes_read,
- 		unsigned int tflags)
+ static int sisusb_send_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
+-		char *kernbuffer, const char __user *userbuffer, int index,
++		u8 *kernbuffer, const u8 __user *userbuffer, int index,
+ 		ssize_t *bytes_written, unsigned int tflags, int async)
  {
  	int result = 0, retry, count = len;
-@@ -551,7 +551,7 @@ static int sisusb_send_packet(struct sisusb_usb_data *sisusb, int len,
- 		 *    return value and write it to packet->data
- 		 */
- 		ret = sisusb_recv_bulk_msg(sisusb, SISUSB_EP_GFX_IN, 4,
--				(char *)&tmp, NULL, &bytes_transferred, 0);
-+				(u8 *)&tmp, NULL, &bytes_transferred, 0);
+@@ -543,7 +543,7 @@ static int sisusb_send_packet(struct sisusb_usb_data *sisusb, int len,
  
- 		packet->data = le32_to_cpu(tmp);
- 	}
-@@ -587,7 +587,7 @@ static int sisusb_send_bridge_packet(struct sisusb_usb_data *sisusb, int len,
- 		 *    return value and write it to packet->data
- 		 */
- 		ret = sisusb_recv_bulk_msg(sisusb, SISUSB_EP_BRIDGE_IN, 4,
--				(char *)&tmp, NULL, &bytes_transferred, 0);
-+				(u8 *)&tmp, NULL, &bytes_transferred, 0);
+ 	/* 1. send the packet */
+ 	ret = sisusb_send_bulk_msg(sisusb, SISUSB_EP_GFX_OUT, len,
+-			(char *)packet, NULL, 0, &bytes_transferred, 0, 0);
++			(u8 *)packet, NULL, 0, &bytes_transferred, 0, 0);
  
- 		packet->data = le32_to_cpu(tmp);
- 	}
+ 	if ((ret == 0) && (len == 6)) {
+ 
+@@ -579,7 +579,7 @@ static int sisusb_send_bridge_packet(struct sisusb_usb_data *sisusb, int len,
+ 
+ 	/* 1. send the packet */
+ 	ret = sisusb_send_bulk_msg(sisusb, SISUSB_EP_BRIDGE_OUT, len,
+-			(char *)packet, NULL, 0, &bytes_transferred, tflags, 0);
++			(u8 *)packet, NULL, 0, &bytes_transferred, tflags, 0);
+ 
+ 	if ((ret == 0) && (len == 6)) {
+ 
+@@ -752,7 +752,7 @@ static int sisusb_write_memio_long(struct sisusb_usb_data *sisusb, int type,
+  */
+ 
+ static int sisusb_write_mem_bulk(struct sisusb_usb_data *sisusb, u32 addr,
+-		char *kernbuffer, int length, const char __user *userbuffer,
++		u8 *kernbuffer, int length, const u8 __user *userbuffer,
+ 		int index, ssize_t *bytes_written)
+ {
+ 	struct sisusb_packet packet;
+@@ -761,7 +761,7 @@ static int sisusb_write_mem_bulk(struct sisusb_usb_data *sisusb, u32 addr,
+ 	u8   swap8, fromkern = kernbuffer ? 1 : 0;
+ 	u16  swap16;
+ 	u32  swap32, flag = (length >> 28) & 1;
+-	char buf[4];
++	u8 buf[4];
+ 
+ 	/* if neither kernbuffer not userbuffer are given, assume
+ 	 * data in obuf
+@@ -2700,7 +2700,7 @@ static ssize_t sisusb_write(struct file *file, const char __user *buffer,
+ 		 * mode or if YUV data is being transferred).
+ 		 */
+ 		errno = sisusb_write_mem_bulk(sisusb, address, NULL,
+-				count, buffer, 0, &bytes_written);
++				count, (u8 __user *)buffer, 0, &bytes_written);
+ 
+ 		if (bytes_written)
+ 			errno = bytes_written;
+@@ -2718,7 +2718,7 @@ static ssize_t sisusb_write(struct file *file, const char __user *buffer,
+ 		 * in advance.
+ 		 */
+ 		errno = sisusb_write_mem_bulk(sisusb, address, NULL,
+-				count, buffer, 0, &bytes_written);
++				count, (u8 __user *)buffer, 0, &bytes_written);
+ 
+ 		if (bytes_written)
+ 			errno = bytes_written;
 -- 
 2.7.4
 
