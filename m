@@ -2,96 +2,116 @@ Return-Path: <SRS0=B/zi=AA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85747C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 655B8C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4678520888
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DCD7208B8
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 00:29:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rcajNrY4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kf86HnGv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728919AbgFSA3W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Jun 2020 20:29:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34720 "EHLO
+        id S1728989AbgFSA3Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Jun 2020 20:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727981AbgFSA3W (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 20:29:22 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC835C06174E
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:21 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id y1so5968869qtv.12
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:21 -0700 (PDT)
+        with ESMTP id S1727981AbgFSA3X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Jun 2020 20:29:23 -0400
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEB9C0613EF
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
+Received: by mail-qv1-xf41.google.com with SMTP id fc4so3707639qvb.1
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7+jqeCqm7xumQHxmixvgX/dM6ThLZW5Po9Yk5x6/yf0=;
-        b=rcajNrY48cV1KGuKp3j2ScidYPf5pJUp7kP/OgTb/doRd0MYhQfq6dn9mbISJgnbF+
-         UW8/Qkv3V+R3l7GMTG0PXt8KjoH7DwLxnD/+R3sbYuuLp1W51wClbQ6AlzbsKOX6WWRg
-         s8dqKsu+W9ch8bAJKIINlzYDz22YviJ+5rvI4lRQHYlb+/Uu1YzgtRQEsJJ4d+aRo5x6
-         zPD9omHC3SVqXmueZSewBARpEU/iU2piIy7doeMizZFoTtImUwc1G529//kafRXlqsRz
-         jScDBCZcV3/V11AsMXv6RtBTs69e/+qru1z6I7qTlTsBHEC8bdhJ8ymdDgF4zytuH0Eq
-         cNNg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=zey5/HEMnczIhTbkvBUGfCn+Fd1KG+Z57tf47eFAyUg=;
+        b=Kf86HnGvbnkVjhEM3n+lfUEgFr/8LXPo/pUbCoc9NnkO6Preg3evv9KC3qzY5tSGp1
+         cd21BHMqT1BSbKXvoX1Og6rcwe6i6g9Y1nB5QLewGtM/q2LLlv7QnOrHz8Fi2lr2x5OU
+         3hZd9NZdxfzdy79xmRyQSj1/adJS8AzS+CnWMusvPU5sXO/4/OcfIeesXavdMzKvMAg0
+         BT/nlSCrbKLQ6CWXXzWgsiv151uVoIxZMmcqpVOTLaWjYwsVYYLS6fkdLIe5pccZdNSx
+         Lb2cmkIFlxHfb+NA7W60rKRy+qZy8kk+M4VXnD2aISfIWCUNqlphZjKA5XysTkcAQFq8
+         UBSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7+jqeCqm7xumQHxmixvgX/dM6ThLZW5Po9Yk5x6/yf0=;
-        b=a/4FzlLP5zGk4+10arjyderg8ajMrOWDq11IG7yjWXhtxx5oUjTCQvVsUaq9UbRf5A
-         m65/iXCByQ0qX9K8r7vsGMZ6E4XBXaKzljBTY1RXuKnlfHMTnUAZf7AVNFKQanHLFRkZ
-         DLRaM2ZHGYPa/h24zka0zn+fCafH55shWutjzQdAjSsZh5CVTjudv16eKhZ87jKGa5XP
-         vDEaI2inLYmuDM7DpE5LWcK1OdyiP5/WxBtNt2jHbgzhOMdXwtQaE6FMrzLoipeRrG2C
-         ErIuyoZV+V+PZ+3H+ylJX+COtxNUqJktbir+nSjRreZaaNPkanklEC9GwT3Gfoq32x6d
-         MNgQ==
-X-Gm-Message-State: AOAM533BnjCalNVDaTviICVnuzpW/lR8WYraTAlcnDQE8vKkOGQL964a
-        w+SIgcDQ2pmI+JkTUmLk/d0=
-X-Google-Smtp-Source: ABdhPJyS/oqI+ssfKolj814p8gklF2uwmSWWmMSl23lZUEDJNwiRCXzeYDSrtTBpCqM9U0HwNPscig==
-X-Received: by 2002:ac8:3f77:: with SMTP id w52mr920102qtk.161.1592526561120;
-        Thu, 18 Jun 2020 17:29:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=zey5/HEMnczIhTbkvBUGfCn+Fd1KG+Z57tf47eFAyUg=;
+        b=JfVhhx6Ak1w0LdwLFAVaL7LY636E+0/v5fuZMHXxFn7vSoYBdeVReLdkuodXRa+QxK
+         64/xKw70AIxpzL8VLIet5EpsUw77EvHaC5CrukZO1Y13W5BCuTL3wuBPJsIEfe0G34LT
+         5NdyVjv90gHzqwNp5dKRzhNwq9zM2slwegPzJRNHxWDjNjBiZMLiADRos4bChSJyA1UI
+         +IGloDkv9nGN9Cl/9eo08oBtLeBGKKLfOyTH7usGXp3GXNtoyEfF7S1/dlNgdvnqV1bS
+         GRSDkLEwL71rKSjDssW2JVBfFUNewmPMS/x61SNSbnsupf9ux6vAdY0exm8h6jQaM+XL
+         sFKg==
+X-Gm-Message-State: AOAM531j4sMDtNdNEMhiKGLxtSXKd1f8QQXFicOWgyS/Sm2h3R6athnK
+        4/gYne4HPR2STL7gR8elPTU=
+X-Google-Smtp-Source: ABdhPJxhFhKB4ZBiavyyY8YWxtj7H6H8aRk7LVLxz5yd6zQhViiZ05aBEnd7EbVs8+VkN4qbsogVyw==
+X-Received: by 2002:ad4:42b1:: with SMTP id e17mr6555166qvr.104.1592526563011;
+        Thu, 18 Jun 2020 17:29:23 -0700 (PDT)
 Received: from DESKTOP-JC0RTV5.neu.edu ([155.33.134.7])
-        by smtp.gmail.com with ESMTPSA id p7sm135497qki.61.2020.06.18.17.29.20
+        by smtp.gmail.com with ESMTPSA id p7sm135497qki.61.2020.06.18.17.29.22
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jun 2020 17:29:20 -0700 (PDT)
+        Thu, 18 Jun 2020 17:29:22 -0700 (PDT)
 From:   Changming Liu <charley.ashbringer@gmail.com>
 X-Google-Original-From: Changming Liu <liu.changm@northeastern.edu>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, thomas@winischhofer.net,
         Changming Liu <liu.changm@northeastern.edu>
-Subject: [PATCH 0/4] USB: sisusbvga: series of changes char to u8
-Date:   Thu, 18 Jun 2020 20:28:50 -0400
-Message-Id: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
+Subject: [PATCH 3/4] USB: sisusbvga: change userbuffer for sisusb_recv_bulk_msg to u8
+Date:   Thu, 18 Jun 2020 20:28:53 -0400
+Message-Id: <1592526534-1739-4-git-send-email-liu.changm@northeastern.edu>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
+References: <1592526534-1739-1-git-send-email-liu.changm@northeastern.edu>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series changes all appropriate instances
-of signed char arrays or buffer to unsigned char.
+change the userbuffer of sisusb_recv_bulk_msg from char to u8
+also force cast the kernbuffer to u8 when passed in
 
-For each patch, if changing one variable to u8
-involves its callers/callees, then those changes
-are included in that patch as well.
+Signed-off-by: Changming Liu <liu.changm@northeastern.edu>
+---
+ drivers/usb/misc/sisusbvga/sisusb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This doesn't apply to ioctl functions, since 
-the types for buffer of ioctl-like functions
-needs to be char* instead of u8* to keep
-the compiler happy.
-
-
-Changming Liu (4):
-  USB: sisusbvga: change sisusb_write_mem_bulk
-  USB: sisusbvga: change the buffers of sisusb from char to u8
-  USB: sisusbvga: change userbuffer for sisusb_recv_bulk_msg to u8
-  USB: sisusbvga: change sisusb_read_mem_bulk
-
- drivers/usb/misc/sisusbvga/sisusb.c | 34 +++++++++++++++++-----------------
- drivers/usb/misc/sisusbvga/sisusb.h |  4 ++--
- 2 files changed, 19 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/usb/misc/sisusbvga/sisusb.c b/drivers/usb/misc/sisusbvga/sisusb.c
+index 8878c28..86638c1 100644
+--- a/drivers/usb/misc/sisusbvga/sisusb.c
++++ b/drivers/usb/misc/sisusbvga/sisusb.c
+@@ -448,7 +448,7 @@ static int sisusb_send_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
+  */
+ 
+ static int sisusb_recv_bulk_msg(struct sisusb_usb_data *sisusb, int ep, int len,
+-		void *kernbuffer, char __user *userbuffer, ssize_t *bytes_read,
++		void *kernbuffer, u8 __user *userbuffer, ssize_t *bytes_read,
+ 		unsigned int tflags)
+ {
+ 	int result = 0, retry, count = len;
+@@ -551,7 +551,7 @@ static int sisusb_send_packet(struct sisusb_usb_data *sisusb, int len,
+ 		 *    return value and write it to packet->data
+ 		 */
+ 		ret = sisusb_recv_bulk_msg(sisusb, SISUSB_EP_GFX_IN, 4,
+-				(char *)&tmp, NULL, &bytes_transferred, 0);
++				(u8 *)&tmp, NULL, &bytes_transferred, 0);
+ 
+ 		packet->data = le32_to_cpu(tmp);
+ 	}
+@@ -587,7 +587,7 @@ static int sisusb_send_bridge_packet(struct sisusb_usb_data *sisusb, int len,
+ 		 *    return value and write it to packet->data
+ 		 */
+ 		ret = sisusb_recv_bulk_msg(sisusb, SISUSB_EP_BRIDGE_IN, 4,
+-				(char *)&tmp, NULL, &bytes_transferred, 0);
++				(u8 *)&tmp, NULL, &bytes_transferred, 0);
+ 
+ 		packet->data = le32_to_cpu(tmp);
+ 	}
 -- 
 2.7.4
 
