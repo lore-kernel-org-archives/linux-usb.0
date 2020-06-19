@@ -2,85 +2,111 @@ Return-Path: <SRS0=B/zi=AA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 238C9C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 16:12:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D9B2C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 17:26:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2E3D21527
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 16:11:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 300C2208D5
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jun 2020 17:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391322AbgFSQL5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Jun 2020 12:11:57 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:35605 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2391303AbgFSPF2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Jun 2020 11:05:28 -0400
-Received: (qmail 51984 invoked by uid 1000); 19 Jun 2020 11:05:27 -0400
-Date:   Fri, 19 Jun 2020 11:05:27 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Till =?iso-8859-1?Q?D=F6rges?= <doerges@pre-sense.de>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: Ext. HDDs not working under Linux via USB 3.0 but under Windows
-Message-ID: <20200619150527.GA49731@rowland.harvard.edu>
-References: <512118bc-e639-2387-e608-56b7e30fc3b2@pre-sense.de>
- <20200523154817.GA7091@rowland.harvard.edu>
- <34933b01-e4b0-10da-c935-9e6a9a6ae427@pre-sense.de>
- <20200523203349.GA12853@rowland.harvard.edu>
- <5bd5e8be-f8a9-9456-cced-c2bc75455556@pre-sense.de>
- <20200617163734.GC11314@rowland.harvard.edu>
- <763037ac-d8fa-8697-7f75-c0bf958b4308@pre-sense.de>
- <ce4d0606-b398-d23b-1a5f-25611eb4338f@pre-sense.de>
- <364ac09a-a877-c04e-5f2f-d5a559406590@pre-sense.de>
+        id S2392428AbgFSR0S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Jun 2020 13:26:18 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:55989 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391776AbgFSR0R (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Jun 2020 13:26:17 -0400
+Received: by mail-io1-f70.google.com with SMTP id b11so7253482ioh.22
+        for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2020 10:26:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=tR2yYPPktGqajADULWKW8tHmDKw+CVU6CAUOLEhmI4k=;
+        b=IO6y1yT+wL6vQsOyN2XiiuJwqq5mQNmZDy3qwQONLMrjdV20vBnrYBWO51yr1o5Y22
+         lay5i5g6mJbSwcBi6d7yTj3RGhfYWgur6mZqE5tjipVVhGJNSMUQpGSd6x+LDnY5pV+8
+         eaJSPgosWUgicvgEzLnyMxt6PcHiIf2jDkww2PWtYjdIy+zdxb+pHJd2wGBjdfDdzII6
+         XTixQt/mK+T2nRzPW+jHxd7HID6NeWBUiVtQwxwnrMHuB9/mlrCtW/SQdxMH1FwcgdEb
+         RCjRad5r9WJHvYsU/sQz3684ba/UBOk0yVFzP4CcCjZ3S0XZ5bTeE71AY2bcQzG0KfEV
+         xKmg==
+X-Gm-Message-State: AOAM532+7xA+0LkxlllFj7bM94iHpoV7J+68WEqR6z4EfF2+AJDT/2LL
+        ZulHZmCFZGYbbrCloLxuRsO+PYoq4mfA95crxY6oFsKbRm7V
+X-Google-Smtp-Source: ABdhPJzoVgyUDEnm4wX3f1qRD4ln78TRrbFCLR0KpQIedxkhqZsfT1gy2AKMa2c6rw/noXZmZ2g/bzDczOvieRHleg1/gDV8KJRd
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <364ac09a-a877-c04e-5f2f-d5a559406590@pre-sense.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a6b:7516:: with SMTP id l22mr5525888ioh.18.1592587575754;
+ Fri, 19 Jun 2020 10:26:15 -0700 (PDT)
+Date:   Fri, 19 Jun 2020 10:26:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ba030f05a87330b6@google.com>
+Subject: WARNING in ath9k_hif_usb_alloc_urbs/usb_submit_urb
+From:   syzbot <syzbot+d625c772c7814faabef9@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        ingrassia@epigenesys.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> > I reported my results when setting the quirk 054c:087d:*u* (ignore UAS).
-> > 
-> > It just occurred to me that 054c:087d:*f* (NO_REPORT_OPCODES) might be sufficient.
-> > Before going ahead with the patch I suggest I check that, too.
-> 
-> It is. Both PSZ-HA drives work fine with just
-> 
-> --- snip ---
-> $ cat /sys/module/usb_storage/parameters/quirks
-> 054c:087d:f
-> --- snap ---
-> 
-> Thanks -- Till
+Hello,
 
-Can you build and test a kernel with the patch below, to make sure it does 
-what you want?
+syzbot found the following crash on:
 
-Alan Stern
+HEAD commit:    b3a9e3b9 Linux 5.8-rc1
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=134f82b9100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=517257c0c3ef89af
+dashboard link: https://syzkaller.appspot.com/bug?extid=d625c772c7814faabef9
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1695e621100000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1393f8b9100000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+d625c772c7814faabef9@syzkaller.appspotmail.com
+
+WARNING: CPU: 1 PID: 57 at drivers/usb/core/urb.c:478 usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 57 Comm: kworker/1:2 Not tainted 5.8.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: events request_firmware_work_func
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xf6/0x16e lib/dump_stack.c:118
+ panic+0x2aa/0x6e1 kernel/panic.c:231
+ __warn.cold+0x2f/0x35 kernel/panic.c:600
+ report_bug+0x271/0x2f0 lib/bug.c:198
+ exc_invalid_op+0x1e4/0x370 arch/x86/kernel/traps.c:235
+ asm_exc_invalid_op+0x12/0x20 arch/x86/include/asm/idtentry.h:563
+RIP: 0010:usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+Code: 4d 85 ed 74 46 e8 48 96 d0 fd 4c 89 f7 e8 a0 02 16 ff 41 89 d8 44 89 e1 4c 89 ea 48 89 c6 48 c7 c7 80 b3 3d 86 e8 3a ac a4 fd <0f> 0b e9 20 f4 ff ff e8 1c 96 d0 fd 0f 1f 44 00 00 e8 12 96 d0 fd
+RSP: 0018:ffff8881d8ab7b50 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81298423 RDI: ffffed103b156f5c
+RBP: ffff8881c8c7e450 R08: ffff8881d8aa1900 R09: ffffed103b665ea2
+R10: ffff8881db32f50f R11: ffffed103b665ea1 R12: 0000000000000003
+R13: ffff8881c700adc8 R14: ffff8881d8e250a0 R15: ffff8881d54c7700
+ ath9k_hif_usb_alloc_rx_urbs drivers/net/wireless/ath/ath9k/hif_usb.c:880 [inline]
+ ath9k_hif_usb_alloc_urbs+0x7be/0x1050 drivers/net/wireless/ath/ath9k/hif_usb.c:991
+ ath9k_hif_usb_dev_init drivers/net/wireless/ath/ath9k/hif_usb.c:1081 [inline]
+ ath9k_hif_usb_firmware_cb+0x148/0x510 drivers/net/wireless/ath/ath9k/hif_usb.c:1214
+ request_firmware_work_func+0x126/0x242 drivers/base/firmware_loader/main.c:1001
+ process_one_work+0x965/0x1620 kernel/workqueue.c:2269
+ worker_thread+0x96/0xe10 kernel/workqueue.c:2415
+ kthread+0x352/0x460 kernel/kthread.c:291
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
+Kernel Offset: disabled
 
 
-Index: usb-devel/drivers/usb/storage/unusual_uas.h
-===================================================================
---- usb-devel.orig/drivers/usb/storage/unusual_uas.h
-+++ usb-devel/drivers/usb/storage/unusual_uas.h
-@@ -28,6 +28,13 @@
-  * and don't forget to CC: the USB development list <linux-usb@vger.kernel.org>
-  */
- 
-+/* Reported-by: Till Dörges <doerges@pre-sense.de> */
-+UNUSUAL_DEV(0x054c, 0x087d, 0x0000, 0x9999,
-+		"Sony",
-+		"PSZ-HA*",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_NO_REPORT_OPCODES),
-+
- /*
-  * Apricorn USB3 dongle sometimes returns "USBSUSBSUSBS" in response to SCSI
-  * commands in UAS mode.  Observed with the 1.28 firmware; are there others?
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
