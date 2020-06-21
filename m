@@ -2,177 +2,174 @@ Return-Path: <SRS0=VqZY=AC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 573AEC433DF
-	for <linux-usb@archiver.kernel.org>; Sun, 21 Jun 2020 20:21:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A15F8C433E0
+	for <linux-usb@archiver.kernel.org>; Sun, 21 Jun 2020 22:48:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39B41251EF
-	for <linux-usb@archiver.kernel.org>; Sun, 21 Jun 2020 20:21:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 771DF252D9
+	for <linux-usb@archiver.kernel.org>; Sun, 21 Jun 2020 22:48:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="b4skdB/p"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730650AbgFUUVP convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Jun 2020 16:21:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730601AbgFUUVP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Jun 2020 16:21:15 -0400
-Received: from smtp2.hosting90.cz (smtp2.hosting90.cz [IPv6:2a03:b780:1:0:216:3eff:fe00:24c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BA88C061794
-        for <linux-usb@vger.kernel.org>; Sun, 21 Jun 2020 13:21:14 -0700 (PDT)
-Received: from [46.229.122.58] (helo=[10.10.0.107])
-        by smtp2.hosting90.cz with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <Jerry@jrr.cz>)
-        id 1jn6Sl-0006rs-KH; Sun, 21 Jun 2020 22:21:12 +0200
-Subject: [PATCH v3] usbserial: cp210x - icount support for parity error
- checking
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>
-References: <b4cd2557-9a61-5ccd-32ad-48b0c68bef6b@jrr.cz>
- <20200621085816.GB95977@kroah.com>
- <03712b5a-ecb6-ae42-ff8e-8d5d6f2ed918@jrr.cz>
- <20200621095509.GA120230@kroah.com>
- <470484c8-7afc-c593-5ca9-cdb97dba39e1@jrr.cz>
- <20200621135838.GA125568@kroah.com>
-From:   =?UTF-8?B?SmFyb23DrXIgxaBrb3JwaWw=?= <Jerry@jrr.cz>
-Message-ID: <7bdff86f-0988-2afc-e1a6-35df2931fd5b@jrr.cz>
-Date:   Sun, 21 Jun 2020 22:21:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 SeaMonkey/2.53.2
+        id S1726618AbgFUWs3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Jun 2020 18:48:29 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:35472 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726064AbgFUWs3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Jun 2020 18:48:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1592779706; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=W8v5qpEkJnRIN852lPSeQgbjFbf4oDUDEtLcrMPd8PQ=;
+        b=b4skdB/p7ZiolCg9gZot7J0Xka7x7c38c11eDflnfrbYx66cDRdA9IVMTlxZTI09oU0AwX
+        Y9Hc2FHkDvmkgJqh0H8oEFxSAJd5vrDCM3gasrF+DE+rbD08IKkGd5X3Q/0Rrdnpjhtoiu
+        7Qk8YHdCWGjqHLfjXLRQyZjHCOIP/TY=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>, od@zcrc.me,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: [RESEND PATCH] usb: common: usb-conn-gpio: Register optional charger
+Date:   Mon, 22 Jun 2020 00:48:07 +0200
+Message-Id: <20200621224807.882184-1-paul@crapouillou.net>
 MIME-Version: 1.0
-In-Reply-To: <20200621135838.GA125568@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-Antivirus: Clamav/CLEAN
-X-Scan-Signature: f26a41e88ab709faaaec3d943cd8929d
-X-Authenticated-Id: jerry@jrr.cz
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The current version of cp210x driver doesn't provide any way to detect
-a parity error in received data from userspace. Some serial protocols like
-STM32 bootloader protect data only by parity so application needs to
-know whether parity error happened to repeat peripheral data reading.
+Register a power supply charger, if the Kconfig option
+USB_CONN_GPIO_CHARGER is set, whose online state depends on whether
+the USB role is set to device or not.
 
-Added support for icount (ioctl TIOCGICOUNT) which sends GET_COMM_STATUS
-command to CP210X and according received flags increments fields for
-parity error, frame error, break and overrun. An application can detect
-an error condition after reading data from ttyUSB and reacts adequately.
-There is no impact for applications which don't call ioctl TIOCGICOUNT.
+This is useful when the USB role is the only way to know if the device
+is charging from USB. The API is the standard power supply charger API,
+you get a /sys/class/power_supply/xxx/online node which tells you the
+state of the charger.
 
-The flag "hardware overrun" is not examined because CP2102 sets this bit
-for the first received byte after openning of port which was previously
-closed with some unreaded data in buffer. This is confusing and checking
-"queue overrun" flag seems be enough.
+The sole purpose of this is to give userspace applications a way to
+know whether or not the charger is plugged.
 
-Signed-off-by: Jaromír Škorpil <Jerry@jrr.cz>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
-v2: Simplified counting - only queue overrun checked
-v3: Changed description + UTF-8 name  ;-)
+ drivers/usb/common/Kconfig         | 11 +++++++
+ drivers/usb/common/usb-conn-gpio.c | 47 ++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-  cp210x.c |   42 +++++++++++++++++++++++++++++++++++++-----
-  1 file changed, 37 insertions(+), 5 deletions(-)
-
-diff -up linux-5.8-rc1/drivers/usb/serial/cp210x.c j/drivers/usb/serial/cp210x.c
---- linux-5.8-rc1/drivers/usb/serial/cp210x.c
-+++ j/drivers/usb/serial/cp210x.c
-@@ -43,6 +43,8 @@ static int cp210x_tiocmget(struct tty_st
-  static int cp210x_tiocmset(struct tty_struct *, unsigned int, unsigned int);
-  static int cp210x_tiocmset_port(struct usb_serial_port *port,
-  		unsigned int, unsigned int);
-+static int cp210x_get_icount(struct tty_struct *tty,
-+		struct serial_icounter_struct *icount);
-  static void cp210x_break_ctl(struct tty_struct *, int);
-  static int cp210x_attach(struct usb_serial *);
-  static void cp210x_disconnect(struct usb_serial *);
-@@ -274,6 +276,7 @@ static struct usb_serial_driver cp210x_d
-  	.tx_empty		= cp210x_tx_empty,
-  	.tiocmget		= cp210x_tiocmget,
-  	.tiocmset		= cp210x_tiocmset,
-+	.get_icount		= cp210x_get_icount,
-  	.attach			= cp210x_attach,
-  	.disconnect		= cp210x_disconnect,
-  	.release		= cp210x_release,
-@@ -393,6 +396,13 @@ struct cp210x_comm_status {
-  	u8       bReserved;
-  } __packed;
-  
-+/* cp210x_comm_status::ulErrors */
-+#define CP210X_SERIAL_ERR_BREAK	BIT(0)
-+#define CP210X_SERIAL_ERR_FRAME	BIT(1)
-+#define CP210X_SERIAL_ERR_HW_OVERRUN	BIT(2)
-+#define CP210X_SERIAL_ERR_QUEUE_OVERRUN	BIT(3)
-+#define CP210X_SERIAL_ERR_PARITY	BIT(4)
+diff --git a/drivers/usb/common/Kconfig b/drivers/usb/common/Kconfig
+index d611477aae41..5405ae96c68f 100644
+--- a/drivers/usb/common/Kconfig
++++ b/drivers/usb/common/Kconfig
+@@ -49,3 +49,14 @@ config USB_CONN_GPIO
+ 
+ 	  To compile the driver as a module, choose M here: the module will
+ 	  be called usb-conn-gpio.ko
 +
-  /*
-   * CP210X_PURGE - 16 bits passed in wValue of USB request.
-   * SiLabs app note AN571 gives a strange description of the 4 bits:
-@@ -836,10 +846,10 @@ static void cp210x_close(struct usb_seri
-  }
-  
-  /*
-- * Read how many bytes are waiting in the TX queue.
-+ * Read how many bytes are waiting in the TX queue and update error counters.
-   */
--static int cp210x_get_tx_queue_byte_count(struct usb_serial_port *port,
--		u32 *count)
-+static int cp210x_get_comm_status(struct usb_serial_port *port,
-+		u32 *tx_count)
-  {
-  	struct usb_serial *serial = port->serial;
-  	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
-@@ -855,7 +865,16 @@ static int cp210x_get_tx_queue_byte_coun
-  			0, port_priv->bInterfaceNumber, sts, sizeof(*sts),
-  			USB_CTRL_GET_TIMEOUT);
-  	if (result == sizeof(*sts)) {
--		*count = le32_to_cpu(sts->ulAmountInOutQueue);
-+		if (tx_count)
-+			*tx_count = le32_to_cpu(sts->ulAmountInOutQueue);
-+		if (sts->ulErrors & CP210X_SERIAL_ERR_BREAK)
-+			port->icount.brk++;
-+		if (sts->ulErrors & CP210X_SERIAL_ERR_FRAME)
-+			port->icount.frame++;
-+		if (sts->ulErrors & CP210X_SERIAL_ERR_QUEUE_OVERRUN)
-+			port->icount.overrun++;
-+		if (sts->ulErrors & CP210X_SERIAL_ERR_PARITY)
-+			port->icount.parity++;
-  		result = 0;
-  	} else {
-  		dev_err(&port->dev, "failed to get comm status: %d\n", result);
-@@ -873,13 +892,26 @@ static bool cp210x_tx_empty(struct usb_s
-  	int err;
-  	u32 count;
-  
--	err = cp210x_get_tx_queue_byte_count(port, &count);
-+	err = cp210x_get_comm_status(port, &count);
-  	if (err)
-  		return true;
-  
-  	return !count;
-  }
-  
-+static int cp210x_get_icount(struct tty_struct *tty,
-+		struct serial_icounter_struct *icount)
++if USB_CONN_GPIO
++
++config USB_CONN_GPIO_CHARGER
++	bool "USB charger support"
++	select POWER_SUPPLY
++	help
++	  Register a charger with the power supply subsystem. This will allow
++	  userspace to know whether or not the device is charging from USB.
++
++endif
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index ed204cbb63ea..129d48db280b 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -17,6 +17,7 @@
+ #include <linux/of.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
++#include <linux/power_supply.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/usb/role.h>
+ 
+@@ -38,6 +39,9 @@ struct usb_conn_info {
+ 	struct gpio_desc *vbus_gpiod;
+ 	int id_irq;
+ 	int vbus_irq;
++
++	struct power_supply_desc desc;
++	struct power_supply *charger;
+ };
+ 
+ /**
+@@ -98,6 +102,8 @@ static void usb_conn_detect_cable(struct work_struct *work)
+ 		ret = regulator_enable(info->vbus);
+ 		if (ret)
+ 			dev_err(info->dev, "enable vbus regulator failed\n");
++	} else if (IS_ENABLED(CONFIG_USB_CONN_GPIO_CHARGER)) {
++		power_supply_changed(info->charger);
+ 	}
+ 
+ 	info->last_role = role;
+@@ -121,10 +127,35 @@ static irqreturn_t usb_conn_isr(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
++static enum power_supply_property usb_charger_properties[] = {
++	POWER_SUPPLY_PROP_ONLINE,
++};
++
++static int usb_charger_get_property(struct power_supply *psy,
++				    enum power_supply_property psp,
++				    union power_supply_propval *val)
 +{
-+	struct usb_serial_port *port = tty->driver_data;
-+	int result;
++	struct usb_conn_info *info = power_supply_get_drvdata(psy);
 +
-+	result = cp210x_get_comm_status(port, NULL);
-+	if (result)
-+		return result;
++	switch (psp) {
++	case POWER_SUPPLY_PROP_ONLINE:
++		val->intval = info->last_role == USB_ROLE_DEVICE;
++		break;
++	default:
++		return -EINVAL;
++	}
 +
-+	return usb_serial_generic_get_icount(tty, icount);
++	return 0;
 +}
 +
-  /*
-   * cp210x_get_termios
-   * Reads the baud rate, data bits, parity, stop bits and flow control mode
-
-
+ static int usb_conn_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
++	struct power_supply_desc *desc;
+ 	struct usb_conn_info *info;
++	struct power_supply_config cfg = {
++		.of_node = dev->of_node,
++	};
+ 	int ret = 0;
+ 
+ 	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
+@@ -203,6 +234,22 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_USB_CONN_GPIO_CHARGER)) {
++		desc = &info->desc;
++		desc->name = "usb-charger";
++		desc->properties = usb_charger_properties;
++		desc->num_properties = ARRAY_SIZE(usb_charger_properties);
++		desc->get_property = usb_charger_get_property;
++		desc->type = POWER_SUPPLY_TYPE_USB;
++		cfg.drv_data = info;
++
++		info->charger = devm_power_supply_register(dev, desc, &cfg);
++		if (IS_ERR(info->charger)) {
++			dev_err(dev, "Unable to register charger\n");
++			return PTR_ERR(info->charger);
++		}
++	}
++
+ 	platform_set_drvdata(pdev, info);
+ 
+ 	/* Perform initial detection */
+-- 
+2.27.0
 
