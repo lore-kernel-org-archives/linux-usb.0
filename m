@@ -2,113 +2,117 @@ Return-Path: <SRS0=dwOb=AD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=3.0 tests=DATE_IN_PAST_03_06,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB826C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 14:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F840C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 14:26:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4335206E2
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 14:02:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8537A20720
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 14:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729095AbgFVOCF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Jun 2020 10:02:05 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:38121 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728070AbgFVOCE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Jun 2020 10:02:04 -0400
-Received: (qmail 135245 invoked by uid 1000); 22 Jun 2020 10:02:03 -0400
-Date:   Mon, 22 Jun 2020 10:02:02 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Sid Spry <sid@aeam.us>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: Unable to Use Isochronous Behavior w/ Isoc Endpoint in FunctionFC
-Message-ID: <20200622140202.GA134271@rowland.harvard.edu>
-References: <dc61359f-2a04-4590-9ac9-81b4f6e8d3b8@www.fastmail.com>
- <20200621140916.GB107361@rowland.harvard.edu>
- <86137ba1-4a08-4862-b3b0-47544f60e9f6@www.fastmail.com>
+        id S1729298AbgFVO0P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Jun 2020 10:26:15 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44630 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728070AbgFVO0O (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Jun 2020 10:26:14 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 77FD1C1A1;
+        Mon, 22 Jun 2020 14:26:11 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     f.fainelli@gmail.com, gregkh@linuxfoundation.org, robh@kernel.org,
+        wahrenst@gmx.net, p.zabel@pengutronix.de
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com, tim.gover@raspberrypi.org,
+        linux-pci@vger.kernel.org, helgaas@kernel.org,
+        andy.shevchenko@gmail.com, mathias.nyman@linux.intel.com,
+        lorenzo.pieralisi@arm.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: [PATCH v4 0/9] Raspberry Pi 4 USB firmware initialization rework
+Date:   Mon, 22 Jun 2020 12:38:09 +0200
+Message-Id: <20200622103817.476-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86137ba1-4a08-4862-b3b0-47544f60e9f6@www.fastmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Jun 21, 2020 at 09:25:53PM -0500, Sid Spry wrote:
-> I now must ask the list: What is the relation of the isochronous endpoint setup
-> to the allocated bandwidth on the bus?
+On the Raspberry Pi 4, after a PCI reset, VL805's firmware may either be
+loaded directly from an EEPROM or, if not present, by the SoC's
+co-processor, VideoCore. This series reworks how we handle this.
 
-Bandwidth allocation is determined by the host controller driver, or in 
-the case of xHCI, hardware.  Therefore it will vary with different drivers 
-or controllers.
+The previous solution makes use of PCI quirks and exporting platform
+specific functions. Albeit functional it feels pretty shoehorned. This
+proposes an alternative way of handling the triggering of the xHCI chip
+initialization trough means of a reset controller.
 
-> I understand the limit of 3 1024 byte
-> transfers per frame, but this says nothing about how it will be allocated or
-> how a device is refused bandwidth. Do I need to look for link degradation on
-> the application layer? It seems like having a single non-spec device means
-> the OS can't arbitrate link bandwidth.
+The benefits are pretty evident: less platform churn in core xHCI code,
+and no explicit device dependency management in pcie-brcmstb.
 
-If allocation fails, the application will find out either when it tries to 
-issue a Set-Interface request or when it tries to submit an isochronous 
-URB.
+Note that patch #1 depends on another series[1].
 
-Did you say earlier that your host controller is xHCI?  If it is then the 
-OS doesn't arbitrate link bandwidth; the xHCI hardware does.
+The series is based on v5.8-rc2
 
-> Also!
-> 
-> For the list's consideration I have included an accepted but nonworking
-> configuration that perplexes me. The application note for the original device
-> I used specified a set of descriptors which was like so (device and
-> configuration omitted):
+v3: https://www.spinics.net/lists/arm-kernel/msg813612.html
+v2: https://lkml.org/lkml/2020/6/9/875
+v1: https://lore.kernel.org/linux-usb/20200608192701.18355-1-nsaenzjulienne@suse.de/T/#t
 
-[apparently irrelevant details omitted]
+[1] https://lwn.net/ml/linux-kernel/cover.662a8d401787ef33780d91252a352de91dc4be10.1590594293.git-series.maxime@cerno.tech/
 
-> libusb seems to encounter an error:
-> 
-> (pyusb error output)
-> ```
-> >>> import usb
-> >>> ds = [d for d in usb.core.find(find_all=True, idVendor=0x1d6b, idProduct=0x0104)]
-> >>> d = ds[0]
-> >>> d.set_interface_altsetting(interface=1, alternate_setting=1)
-> Traceback (most recent call last):
->   File "<stdin>", line 1, in <module>
->   File "/usr/lib/python3.7/site-packages/usb/core.py", line 902, in set_interface_altsetting
->     self._ctx.managed_set_interface(self, interface, alternate_setting)
->   File "/usr/lib/python3.7/site-packages/usb/core.py", line 102, in wrapper
->     return f(self, *args, **kwargs)
->   File "/usr/lib/python3.7/site-packages/usb/core.py", line 204, in managed_set_interface
->     self.backend.set_interface_altsetting(self.handle, i.bInterfaceNumber, alt)
->   File "/usr/lib/python3.7/site-packages/usb/backend/libusb1.py", line 807, in set_interface_altsetting
->     altsetting))
->   File "/usr/lib/python3.7/site-packages/usb/backend/libusb1.py", line 595, in _check
->     raise USBError(_strerror(ret), ret, _libusb_errno[ret])
-> usb.core.USBError: [Errno None] Other error
-> ```
-> 
-> (libusb error from C code)
-> ```
-> libusb: error [op_set_interface] setintf failed error -1 errno 32
-> ```
+---
 
-Error 32 means that the device returned a STALL status when it received 
-the Set-Interface request.  The code responsible for this error response 
-might be in FunctionFS or in your driver.
+Changes since v3:
+ - Rework dt patch to include root bridge as a separate node
+ - Update xhci-pci patch now that the xhci dev has a dt node (it was
+   getting it in the past from its bus)
 
-> But, if interface 1 alternate setting 0 is dropped, and interface 1 alternate
-> setting 1 is kept, both invocations work and my C code spits out data very
-> fast, although I must inspect it further as I seem to be duplicating data in my
-> reads.
+Changes since v2:
+ - Add reset to resume routine in xhci-pci
+ - Correct of refcount in pci-quirks
+ - Correct typos
+ - Use include file to define firmware reset IDs
 
-If you drop altsetting 0 then you're probably not issuing a Set-Interface 
-request.  That would explain why you don't get a failure.
+Changes since v1:
+ - Rework reset controller so it's less USB centric
+ - Use correct reset controller API in xhci-pci
+ - Correct typos
 
-If you like, you can try issuing a Set-Interface(0) request (even though 
-it's redundant) just to see if it fails.
+Nicolas Saenz Julienne (9):
+  dt-bindings: reset: Add a binding for the RPi Firmware reset
+    controller
+  reset: Add Raspberry Pi 4 firmware reset controller
+  ARM: dts: bcm2711: Add firmware usb reset node
+  ARM: dts: bcm2711: Add reset controller to xHCI node
+  usb: xhci-pci: Add support for reset controllers
+  Revert "USB: pci-quirks: Add Raspberry Pi 4 quirk"
+  usb: host: pci-quirks: Bypass xHCI quirks for Raspberry Pi 4
+  Revert "firmware: raspberrypi: Introduce vl805 init routine"
+  Revert "PCI: brcmstb: Wait for Raspberry Pi's firmware when present"
 
-Alan Stern
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  21 +++
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  22 ++++
+ drivers/firmware/Kconfig                      |   3 +-
+ drivers/firmware/raspberrypi.c                |  61 ---------
+ drivers/pci/controller/pcie-brcmstb.c         |  17 ---
+ drivers/reset/Kconfig                         |  11 ++
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-raspberrypi.c             | 122 ++++++++++++++++++
+ drivers/usb/host/pci-quirks.c                 |  22 ++--
+ drivers/usb/host/xhci-pci.c                   |  10 ++
+ drivers/usb/host/xhci.h                       |   2 +
+ .../reset/raspberrypi,firmware-reset.h        |  13 ++
+ include/soc/bcm2835/raspberrypi-firmware.h    |   7 -
+ 13 files changed, 215 insertions(+), 97 deletions(-)
+ create mode 100644 drivers/reset/reset-raspberrypi.c
+ create mode 100644 include/dt-bindings/reset/raspberrypi,firmware-reset.h
+
+-- 
+2.27.0
+
