@@ -2,182 +2,113 @@ Return-Path: <SRS0=dwOb=AD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2DCC433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 10:37:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB826C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 14:02:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34E26206FA
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 10:37:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4335206E2
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jun 2020 14:02:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbgFVKhg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Jun 2020 06:37:36 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:33303 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726776AbgFVKhg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Jun 2020 06:37:36 -0400
-X-IronPort-AV: E=Sophos;i="5.75,266,1589209200"; 
-   d="scan'208";a="50072171"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 22 Jun 2020 19:37:34 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A2208400855F;
-        Mon, 22 Jun 2020 19:37:34 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org, robh+dt@kernel.org
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2] dt-bindings: usb: renesas,usb-xhci: convert to YAML
-Date:   Mon, 22 Jun 2020 19:37:32 +0900
-Message-Id: <1592822252-12338-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1729095AbgFVOCF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Jun 2020 10:02:05 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:38121 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728070AbgFVOCE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Jun 2020 10:02:04 -0400
+Received: (qmail 135245 invoked by uid 1000); 22 Jun 2020 10:02:03 -0400
+Date:   Mon, 22 Jun 2020 10:02:02 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Sid Spry <sid@aeam.us>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: Unable to Use Isochronous Behavior w/ Isoc Endpoint in FunctionFC
+Message-ID: <20200622140202.GA134271@rowland.harvard.edu>
+References: <dc61359f-2a04-4590-9ac9-81b4f6e8d3b8@www.fastmail.com>
+ <20200621140916.GB107361@rowland.harvard.edu>
+ <86137ba1-4a08-4862-b3b0-47544f60e9f6@www.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86137ba1-4a08-4862-b3b0-47544f60e9f6@www.fastmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert Renesas related parts of usb-xhci to YAML because
-they are not compatible with generic-xhci.
+On Sun, Jun 21, 2020 at 09:25:53PM -0500, Sid Spry wrote:
+> I now must ask the list: What is the relation of the isochronous endpoint setup
+> to the allocated bandwidth on the bus?
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Changes from v1:
- - Update the commit description.
- - Use SoC part names instead of part numbers in the comments.
- - Add comments on renesas,rcar-gen[23]-xhci.
- - Add power-domains and resets to required.
- https://patchwork.kernel.org/patch/11604565/
+Bandwidth allocation is determined by the host controller driver, or in 
+the case of xHCI, hardware.  Therefore it will vary with different drivers 
+or controllers.
 
- .../devicetree/bindings/usb/renesas,usb-xhci.yaml  | 86 ++++++++++++++++++++++
- Documentation/devicetree/bindings/usb/usb-xhci.txt | 18 -----
- 2 files changed, 86 insertions(+), 18 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> I understand the limit of 3 1024 byte
+> transfers per frame, but this says nothing about how it will be allocated or
+> how a device is refused bandwidth. Do I need to look for link degradation on
+> the application layer? It seems like having a single non-spec device means
+> the OS can't arbitrate link bandwidth.
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-new file mode 100644
-index 0000000..add9f7b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-@@ -0,0 +1,86 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/renesas,usb-xhci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas USB xHCI controllers
-+
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-+
-+allOf:
-+  - $ref: "usb-hcd.yaml"
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,xhci-r8a7742 # RZ/G1H
-+              - renesas,xhci-r8a7743 # RZ/G1M
-+              - renesas,xhci-r8a7744 # RZ/G1N
-+              - renesas,xhci-r8a7790 # R-Car H2
-+              - renesas,xhci-r8a7791 # R-Car M2-W
-+              - renesas,xhci-r8a7793 # R-Car M2-N
-+          - const: renesas,rcar-gen2-xhci # R-Car Gen2 and RZ/G1
-+      - items:
-+          - enum:
-+              - renesas,xhci-r8a774a1 # RZ/G2M
-+              - renesas,xhci-r8a774b1 # RZ/G2N
-+              - renesas,xhci-r8a774c0 # RZ/G2E
-+              - renesas,xhci-r8a7795  # R-Car H3
-+              - renesas,xhci-r8a7796  # R-Car M3-W
-+              - renesas,xhci-r8a77961 # R-Car M3-W+
-+              - renesas,xhci-r8a77965 # R-Car M3-N
-+              - renesas,xhci-r8a77990 # R-Car E3
-+          - const: renesas,rcar-gen3-xhci # R-Car Gen3 and RZ/G2
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    maxItems: 1
-+    items:
-+      - const: usb
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - power-domains
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    xhci0: usb@ee000000 {
-+        compatible = "renesas,xhci-r8a7795", "renesas,rcar-gen3-xhci";
-+        reg = <0xee000000 0xc00>;
-+        interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD 328>;
-+        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-+        resets = <&cpg 328>;
-+    };
-diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
-index b120dd6..0c5cff8 100644
---- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
-+++ b/Documentation/devicetree/bindings/usb/usb-xhci.txt
-@@ -7,24 +7,6 @@ Required properties:
-     - "marvell,armada3700-xhci" for Armada 37xx SoCs
-     - "marvell,armada-375-xhci" for Armada 375 SoCs
-     - "marvell,armada-380-xhci" for Armada 38x SoCs
--    - "renesas,xhci-r8a7742" for r8a7742 SoC
--    - "renesas,xhci-r8a7743" for r8a7743 SoC
--    - "renesas,xhci-r8a7744" for r8a7744 SoC
--    - "renesas,xhci-r8a774a1" for r8a774a1 SoC
--    - "renesas,xhci-r8a774b1" for r8a774b1 SoC
--    - "renesas,xhci-r8a774c0" for r8a774c0 SoC
--    - "renesas,xhci-r8a7790" for r8a7790 SoC
--    - "renesas,xhci-r8a7791" for r8a7791 SoC
--    - "renesas,xhci-r8a7793" for r8a7793 SoC
--    - "renesas,xhci-r8a7795" for r8a7795 SoC
--    - "renesas,xhci-r8a7796" for r8a77960 SoC
--    - "renesas,xhci-r8a77961" for r8a77961 SoC
--    - "renesas,xhci-r8a77965" for r8a77965 SoC
--    - "renesas,xhci-r8a77990" for r8a77990 SoC
--    - "renesas,rcar-gen2-xhci" for a generic R-Car Gen2 or RZ/G1 compatible
--      device
--    - "renesas,rcar-gen3-xhci" for a generic R-Car Gen3 or RZ/G2 compatible
--      device
-     - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
-     - "xhci-platform" (deprecated)
- 
--- 
-2.7.4
+If allocation fails, the application will find out either when it tries to 
+issue a Set-Interface request or when it tries to submit an isochronous 
+URB.
 
+Did you say earlier that your host controller is xHCI?  If it is then the 
+OS doesn't arbitrate link bandwidth; the xHCI hardware does.
+
+> Also!
+> 
+> For the list's consideration I have included an accepted but nonworking
+> configuration that perplexes me. The application note for the original device
+> I used specified a set of descriptors which was like so (device and
+> configuration omitted):
+
+[apparently irrelevant details omitted]
+
+> libusb seems to encounter an error:
+> 
+> (pyusb error output)
+> ```
+> >>> import usb
+> >>> ds = [d for d in usb.core.find(find_all=True, idVendor=0x1d6b, idProduct=0x0104)]
+> >>> d = ds[0]
+> >>> d.set_interface_altsetting(interface=1, alternate_setting=1)
+> Traceback (most recent call last):
+>   File "<stdin>", line 1, in <module>
+>   File "/usr/lib/python3.7/site-packages/usb/core.py", line 902, in set_interface_altsetting
+>     self._ctx.managed_set_interface(self, interface, alternate_setting)
+>   File "/usr/lib/python3.7/site-packages/usb/core.py", line 102, in wrapper
+>     return f(self, *args, **kwargs)
+>   File "/usr/lib/python3.7/site-packages/usb/core.py", line 204, in managed_set_interface
+>     self.backend.set_interface_altsetting(self.handle, i.bInterfaceNumber, alt)
+>   File "/usr/lib/python3.7/site-packages/usb/backend/libusb1.py", line 807, in set_interface_altsetting
+>     altsetting))
+>   File "/usr/lib/python3.7/site-packages/usb/backend/libusb1.py", line 595, in _check
+>     raise USBError(_strerror(ret), ret, _libusb_errno[ret])
+> usb.core.USBError: [Errno None] Other error
+> ```
+> 
+> (libusb error from C code)
+> ```
+> libusb: error [op_set_interface] setintf failed error -1 errno 32
+> ```
+
+Error 32 means that the device returned a STALL status when it received 
+the Set-Interface request.  The code responsible for this error response 
+might be in FunctionFS or in your driver.
+
+> But, if interface 1 alternate setting 0 is dropped, and interface 1 alternate
+> setting 1 is kept, both invocations work and my C code spits out data very
+> fast, although I must inspect it further as I seem to be duplicating data in my
+> reads.
+
+If you drop altsetting 0 then you're probably not issuing a Set-Interface 
+request.  That would explain why you don't get a failure.
+
+If you like, you can try issuing a Set-Interface(0) request (even though 
+it's redundant) just to see if it fails.
+
+Alan Stern
