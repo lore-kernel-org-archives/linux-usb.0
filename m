@@ -2,56 +2,134 @@ Return-Path: <SRS0=vhW8=AE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=3.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
-	HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7B7EC433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 11:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC8FC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 11:14:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCA8C20768
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 11:06:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8268D2078A
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 11:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592910871;
+	bh=TxulYQXmn8JrWCSz5ZSyCW+tIBTMB5zx3tHtDSuaUh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=WxwHfBI1KPPn2ukWpTSEuaap/spbVkvvCr9lMQDgQ79PZHGIhzbfAYg+JDBMsciFr
+	 iBfO+FoGmzLAgX3uJnxdDQe+fQOFwZSo5uIx1IBak8pH3hDn/3CRnW8VzS1Q6kxmMX
+	 Vs3MT1050s3pyVnJMNovzoeDMSPoItJGUPL8LFCU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732225AbgFWLG4 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jun 2020 07:06:56 -0400
-Received: from [124.148.26.162] ([124.148.26.162]:40606 "EHLO
-        ironport-ext1.lab.local" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732189AbgFWLG4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jun 2020 07:06:56 -0400
-X-Greylist: delayed 431 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Jun 2020 07:06:55 EDT
-IronPort-SDR: f7/mNWhHJSn+C6SYLux3K0I+pBSHykK5lJcn5kdBr9RvqiQ6HNvJJ099rDZ82eyIx3lG/cCNAf
- mGCEH/ZcGbSQ==
-Received: from unknown (HELO 124.148.26.195) ([172.30.1.60])
-  by ironport-int1.lab.local with ESMTP; 23 Jun 2020 20:59:40 +1000
-Reply-To: owusukweis1@outlook.com
-From:   OWUSU KWEIS <mry@amitysoftware.com>
-To:     linux-usb@vger.kernel.org
-Subject: WE HAVE GOLD DUST AND BAR FOR SALE LOOKING FOR RELIABLE BUYER
-Date:   23 Jun 2020 03:59:38 -0700
-Message-ID: <20200623035938.459EBB1D77242901@amitysoftware.com>
+        id S1732422AbgFWLOb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jun 2020 07:14:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55910 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732274AbgFWLOa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Jun 2020 07:14:30 -0400
+Received: from dragon (80.251.214.228.16clouds.com [80.251.214.228])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 122E520768;
+        Tue, 23 Jun 2020 11:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592910870;
+        bh=TxulYQXmn8JrWCSz5ZSyCW+tIBTMB5zx3tHtDSuaUh4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hQyw81BBy/u9PPog+ylMr6VwaeD+IxLs+bP3Po98C5NSrJ8KE0eXywMWRO1JhnLUe
+         CwHsSzpB50fLcrwpOXEO5qUJ08meSoCRzihY+N4RXf0HbbdWRcozt/EnxNgU8BV7mK
+         7t8+WpoZyGZH3RdOh/eCFXbqahwcANlmx+kvrEoo=
+Date:   Tue, 23 Jun 2020 19:14:24 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Li Jun <jun.li@nxp.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, peter.chen@nxp.com
+Subject: Re: [PATCH 5/6] arm64: dts: imx8mp-evk: enable usb1 as host mode
+Message-ID: <20200623111423.GZ30139@dragon>
+References: <1591701165-12872-1-git-send-email-jun.li@nxp.com>
+ <1591701165-12872-6-git-send-email-jun.li@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1591701165-12872-6-git-send-email-jun.li@nxp.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello Sir
+On Tue, Jun 09, 2020 at 07:12:44PM +0800, Li Jun wrote:
+> Enable usb host port with type-A connector on imx8mp-evk board.
+> 
+> Signed-off-by: Li Jun <jun.li@nxp.com>
+> ---
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts | 32 ++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+> index 3da1fff..fbe056c 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+> @@ -43,6 +43,19 @@
+>  		gpio = <&gpio2 19 GPIO_ACTIVE_HIGH>;
+>  		enable-active-high;
+>  	};
+> +
+> +	reg_usb1_host_vbus: regulator-usb1-vbus {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "usb1_host_vbus";
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&pinctrl_usb1_vbus>;
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		gpio = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +		regulator-always-on;
 
-WE HAVE GOLD DUST AND BAR FOR SALE LOOKING FOR RELIABLE BUYER
-WORLDWIDE. YOU CAN HELP TO CONNECT US WITH ANY BUYER AND TAKE 
-YOUR
-COMMISSION AS AGENT. We have 800 kilogrammes gold dust and gold 
-for sale now.follows: Commodity:Gold
-Form: Alluvial Dust Quality: 22+ Carat (94%) Price: 28,000.00$US 
-per
-kilogram Origin: Ghana Deleterious
+Instead of having it regulator-always-on, it should be controlled by usb
+device, right?
 
-Yours faithfully
+Shawn
 
-Mr kweis owusu
-Email...owusukweis1@outlook.com ,
-my whatsAPP ONLY,,, +233547336751
+> +	};
+> +
+>  };
+>  
+>  &fec {
+> @@ -91,6 +104,19 @@
+>  	status = "okay";
+>  };
+>  
+> +&usb3_phy1 {
+> +	status = "okay";
+> +};
+> +
+> +&usb3_1 {
+> +	status = "okay";
+> +};
+> +
+> +&usb_dwc3_1 {
+> +	dr_mode = "host";
+> +	status = "okay";
+> +};
+> +
+>  &usdhc2 {
+>  	assigned-clocks = <&clk IMX8MP_CLK_USDHC2>;
+>  	assigned-clock-rates = <400000000>;
+> @@ -172,6 +198,12 @@
+>  		>;
+>  	};
+>  
+> +	pinctrl_usb1_vbus: usb1grp {
+> +		fsl,pins = <
+> +			MX8MP_IOMUXC_GPIO1_IO14__GPIO1_IO14	0x19
+> +		>;
+> +	};
+> +
+>  	pinctrl_usdhc2: usdhc2grp {
+>  		fsl,pins = <
+>  			MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK	0x190
+> -- 
+> 2.7.4
+> 
