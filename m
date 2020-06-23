@@ -2,102 +2,125 @@ Return-Path: <SRS0=vhW8=AE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A03E3C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 11:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD59CC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 12:37:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80A9320724
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 11:20:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99DFA20738
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 12:37:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="QOl6hv4v"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732278AbgFWLUM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jun 2020 07:20:12 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:50991 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732191AbgFWLUL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jun 2020 07:20:11 -0400
-Received: from fsav102.sakura.ne.jp (fsav102.sakura.ne.jp [27.133.134.229])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 05NBK9hF041302;
-        Tue, 23 Jun 2020 20:20:09 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav102.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav102.sakura.ne.jp);
- Tue, 23 Jun 2020 20:20:09 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav102.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 05NBK9bI041297
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Tue, 23 Jun 2020 20:20:09 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] USB: cdc-wdm: Call wake_up_all() when clearing WDM_IN_USE
- bit.
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        Oliver Neukum <oneukum@suse.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Colin Ian King <colin.king@canonical.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzbot <syzbot+854768b99f19e89d7f81@syzkaller.appspotmail.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-References: <1590408381.2838.4.camel@suse.com>
- <4a686d9a-d09f-44f3-553c-bcf0bd8a8ea1@i-love.sakura.ne.jp>
- <082ae642-0703-6c26-39f6-d725e395ef9a@i-love.sakura.ne.jp>
- <CAAeHK+ww0YLUKGjQF5KfzoUUsdfLJdv5guUXRq4q46VfPiQubQ@mail.gmail.com>
- <27b7545e-8f41-10b8-7c02-e35a08eb1611@i-love.sakura.ne.jp>
- <CAAeHK+ww0u0G94z_Y7VXLCVTQVZ9thO0q69n+Fj3jKT6MtpPng@mail.gmail.com>
- <20200528194057.GA21709@rowland.harvard.edu>
- <CAAeHK+ySAnU03cvg1=+yHh0YK1UFO4mrv-N9FcDDMt_0AfGZSQ@mail.gmail.com>
- <20200528205807.GB21709@rowland.harvard.edu>
- <1590852311.14886.3.camel@suse.com>
- <20200530154728.GB29298@rowland.harvard.edu>
- <0c43caf8-1135-1d38-cb57-9c0f84c4394d@i-love.sakura.ne.jp>
- <254939d4-f3a1-8c7e-94e5-9862c02774fa@i-love.sakura.ne.jp>
- <CAAeHK+w+wBNksK_wpczad3AU4oLQRsjL_5G8p1R55Zh_FLhprg@mail.gmail.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <c85331fc-874c-6e46-a77f-0ef1dc075308@i-love.sakura.ne.jp>
-Date:   Tue, 23 Jun 2020 20:20:08 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <CAAeHK+w+wBNksK_wpczad3AU4oLQRsjL_5G8p1R55Zh_FLhprg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+        id S1732628AbgFWMhj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jun 2020 08:37:39 -0400
+Received: from mail-eopbgr130089.outbound.protection.outlook.com ([40.107.13.89]:4064
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729611AbgFWMhh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Jun 2020 08:37:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bpRE0DnFcbP1rOk4pPNNRkBFe55tVIcdMi/7QDK0nHRPEwl89hoTKQYtKa4I8i7PlWVEt7859QSgVW4VfmKrYwLwLpqr9elEl24rjSqrQ4VRObBqsziN5YXVIymJfj/tbCnuxn5DlRmtqWqWUR2IngdPldU7u0V0UqSIMNN1Ta3XRhJnSY2o0v8VCTfdh1bSTtsOKYhJWr8spedHYCvq4V0mi54EE6QduUjfNKCptPizzfFiclyloTHdQi9uuo5Hiuokr/0m0HVYVNIiUQRz4i3BOfniBFi7+GBbEle4rrxSZ4ut0PUZKvcapSrfZTbvuTpX6n8KySV3Wgf8IvhG+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FVQxXTMKtlyt3gNaN6JrC8ZC/v89k20/HTa8KWVY5v4=;
+ b=eeYPjpH2APhqyC28wGGhiAdfRHmmxm1aESzXKZJdwZUhB/DSld/EpuJKk1//UcscMy9/d2GgC0CUv3sShmPEhUo+S43HOdrhFw9Hb8MzO6dWbG0nug/xxwc1pDUhdNJqr5fpxkzj17eJGBzPwmSRj7PcI4LMEZ7sExKiwjFB38rm2RzkkXP2vBnSdpaguli/MmmzEkAY1JxyoLivVjt1kXIDCXJGmIZL6X898ipFIrEsGa7VeH0v558R3yLFPr9NXRUCuXpeW94vWMJbvtEYub58FChunX0qpLjVU3bQns0aPavneS2JuTJeygqzF2ZLhk3vbTNj8jjtZHfMxQOhIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FVQxXTMKtlyt3gNaN6JrC8ZC/v89k20/HTa8KWVY5v4=;
+ b=QOl6hv4v4n3VKx570SXPd5W/JLwTrzRB6uvtxKbVCvHP6lXA8DkWMJXdLeWnHRORa/nQFZJVxJZE9sQpVIdKGEICA1VXe7hX47O7U80ayqtr9j4rIFGV+bMya850KM+PVuIXKI6XgqSnxKx1ZMy6wHu0KaVwn08n+HtRLwKOPgA=
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
+ by VE1PR04MB6351.eurprd04.prod.outlook.com (2603:10a6:803:128::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.23; Tue, 23 Jun
+ 2020 12:37:34 +0000
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::30e2:71b0:ffd3:e39e]) by VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::30e2:71b0:ffd3:e39e%7]) with mapi id 15.20.3109.027; Tue, 23 Jun 2020
+ 12:37:34 +0000
+From:   Jun Li <jun.li@nxp.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+CC:     "balbi@kernel.org" <balbi@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Peter Chen <peter.chen@nxp.com>
+Subject: RE: [PATCH 5/6] arm64: dts: imx8mp-evk: enable usb1 as host mode
+Thread-Topic: [PATCH 5/6] arm64: dts: imx8mp-evk: enable usb1 as host mode
+Thread-Index: AQHWPlByhRTFPy8+3E+K0YuATAk1xKjmIkUAgAAVYHA=
+Date:   Tue, 23 Jun 2020 12:37:34 +0000
+Message-ID: <VE1PR04MB65283346BE373F8D0D2D8D4789940@VE1PR04MB6528.eurprd04.prod.outlook.com>
+References: <1591701165-12872-1-git-send-email-jun.li@nxp.com>
+ <1591701165-12872-6-git-send-email-jun.li@nxp.com>
+ <20200623111423.GZ30139@dragon>
+In-Reply-To: <20200623111423.GZ30139@dragon>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.71]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9feea47b-146f-4afa-aedb-08d817723473
+x-ms-traffictypediagnostic: VE1PR04MB6351:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VE1PR04MB63511FF6ADD8CF102D6CB72089940@VE1PR04MB6351.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 04433051BF
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: M7yI2GJeCSUy6oN0Td4deoILXxql3iF4GLtm6wKn+X/HOZTBL8GdtptwqIpbhr7a8RMACO4gPT7d31qyf8VASOHTq00/Q9PfxG1VnOg+W59PuzDbqWOuv+iscVatafkqQNOj8ViUWfr3Bfx0vAWo0J5nnwA3lnK+zx35qqao2k5rgj9T/RWSpfR6fPCLRfOa5f1dKsEo1EnIfrAAYL0Xfky7PuTolbxf0a3dCesaI7056mNA1f+u3M+u+h8Uals6dZ/29HRjtkc/PascyqZQ9YLIlEBQ+I9J1yz0GF3IioV+b/A7GTmy26TBTpjRNwHce4NSky2DGvS2SttsjeSOzAHkWK3WutJwkzy86rWdwNKCfoRPxahgv7aMVNtILtoQ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(4744005)(86362001)(6916009)(8936002)(52536014)(5660300002)(8676002)(66446008)(64756008)(66476007)(76116006)(71200400001)(66946007)(33656002)(66556008)(44832011)(6506007)(4326008)(26005)(186003)(2906002)(9686003)(55016002)(7696005)(54906003)(498600001)(32563001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: oiRv8ClZWOpOWXu/InU366eMtTPzQfoQtjHpRZv0Go2OcLgbr/MUICfmVmtiY+ofZU9TbaPMgvc/ccQcvv7681Q3DTxJIyD8ZiShfth39X9XoSA9Q6S8NdnkuiVe23F0mMP6cEBTcaf+jAuSbVp8MxntOV2WGHIVsLb2aUAqYiHLJuNW8DmxMhNQEtVArnjiCfEMP4Ly3C3O/K9RmjDMVOh7Y18C0dQBNogVVNDjggpk7Fwn3R3CCyHeZjSpdjSUJXnQSfF814Hv121id0pgXM5N7LCbHz976308dQP3OYtmWceRi99xHKQVGwATydzQpBmCFPTQAZnGeX9GwgKbQZ+rlpAJGpGinnHXwPHWrNlxgIxft/F9ZeOg5fdJZNwbNJsAynD1cGJk15pHcbzY3JhUNSPszZki8GMxRKU6RDHNqI9cztEqWk8vyU9C2hWEgMhHcrItpPrgKDeZglrn8U38Pwj3CAPX3pjiPwJNGdI=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9feea47b-146f-4afa-aedb-08d817723473
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2020 12:37:34.5023
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OJOyuax7NGH425gl4v955BU0dbRKvj7CmVwat4eMuyBHDFBFcSDrZl21l60PwrZv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6351
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2020/06/19 22:56, Andrey Konovalov wrote:
-> Oliver, any chance you could help us with fixing the hang in this
-> driver? You seem to be its original author. This hang is one of the
-> top crashers on syzbot, with over 32000 crashed kernels.
-> 
+> > +
+> > +	reg_usb1_host_vbus: regulator-usb1-vbus {
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "usb1_host_vbus";
+> > +		pinctrl-names =3D "default";
+> > +		pinctrl-0 =3D <&pinctrl_usb1_vbus>;
+> > +		regulator-min-microvolt =3D <5000000>;
+> > +		regulator-max-microvolt =3D <5000000>;
+> > +		gpio =3D <&gpio1 14 GPIO_ACTIVE_HIGH>;
+> > +		enable-active-high;
+> > +		regulator-always-on;
+>=20
+> Instead of having it regulator-always-on, it should be controlled by usb =
+device,
+> right?
 
-Yes, I think that wdm_flush() has another bug and wdm_write() has yet another bug.
-I need the authors' comments.
+Right, I will try to use that pin as usb power function instead of
+GPIO(regulator) for vbus control in v2.
 
-wdm_flush() says
-
-	/* cannot dereference desc->intf if WDM_DISCONNECTING */
-	if (test_bit(WDM_DISCONNECTING, &desc->flags))
-		return -ENODEV;
-	if (desc->werr < 0)
-		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
-			desc->werr);
-
-but it seems to me that nothing guarantees that test_bit(WDM_DISCONNECTING) == false
-indicates dereferencing desc->intf->dev is safe, for wdm_flush() tests WDM_DISCONNECTING
-without any lock whereas wdm_disconnect() sets WDM_DISCONNECTING under wdm_mutex and
-desc->iuspin held. It might be safe to dereference from wdm_release() which holds wdm_mutex.
-
-Also, if wait_event() in wdm_flush() might fail to wake up (due to close() dependency
-problem this crash report is focusing on), wait_event_interruptible() in wdm_write() might
-also fail to wake up (unless interrupted) due to the same dependency. Then, why can't we
-wait for completion of wdm_out_callback() (with reasonable timeout) inside wdm_write() ?
-
-I feel that wdm_flush() is so bogus (which could/should be removed).
+Thanks
+Li Jun
