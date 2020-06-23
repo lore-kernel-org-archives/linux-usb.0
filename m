@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE58CC433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 20:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C84FBC433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 21:03:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABF3020724
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 20:54:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4E0120663
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 21:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592945659;
-	bh=VDpoRRqnG5j5UuTahOZVlHdffJFEYj7+m59b2DsLsac=;
+	s=default; t=1592946222;
+	bh=COwQQIq2BSo+YT3BW9YLmQpGpJRw2ZT/EEfScMxkGMc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=MB7p0BwC65CRk3UUJsVMRhi5J/eWuwW1PHv29+Ft8RVhCCM/Sy8nJeVyDHLf20GEp
-	 W4a5sfuaETi5LqC8/fI4ddYGd5jV4LBjke/ks4ZAtsz1CuO75Z5iDSY1w79cQJZs7P
-	 9j9vYEKBJjwu2dbK9OPAyZMHn59/Tfs0uZPrhp8o=
+	b=UTJV9d1NcEm0HBMEJ4rrY1UjodQlmNpXEClJ4fWTBS2s87TY8nWPKECW5/nvOQZ7m
+	 vCdnOoTckBLdkJ6uL+uEC8Sq+awIJsBTHMep4EBlGHhF7sayG1l8iCw8KOaHF+Rk90
+	 JP7c9nP5dChl4GuXSIIwQwpwldZ7c621ENjyI4G4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392797AbgFWUqB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jun 2020 16:46:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43762 "EHLO mail.kernel.org"
+        id S2390359AbgFWUi1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jun 2020 16:38:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33890 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392131AbgFWUqA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 23 Jun 2020 16:46:00 -0400
+        id S2391644AbgFWUiY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Jun 2020 16:38:24 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F40C20656;
-        Tue, 23 Jun 2020 20:45:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B31E621556;
+        Tue, 23 Jun 2020 20:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592945160;
-        bh=VDpoRRqnG5j5UuTahOZVlHdffJFEYj7+m59b2DsLsac=;
+        s=default; t=1592944704;
+        bh=COwQQIq2BSo+YT3BW9YLmQpGpJRw2ZT/EEfScMxkGMc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aqOxi/lBJkDBDicwgxHPukm54h2IH3kiKv/xzz+kc60eZ3gdf0vEngRJeqOlQRw7P
-         jJwR0mZcvdgp1zy6yWalDlCgNEJQg8QCSCVvV5wbiNOIZ70grk/vrfxyclgogThP41
-         ASOe6MX/Nri8FEPEBEdfGKKRo89po69qwqEO44gc=
+        b=mPxoDc1PvovmBDwMwiHcnqTLBvpbo65zo6tIgAAvy8H86PkBoZwv6TervAZLDVWO+
+         rRb10rf17yTsKTl8K2w+GlRh4wLsgICiRIUYzkcywj2GeDwsecvgNMjSuPx0R8OBbv
+         mNUKU5LKcK/gjhVsol+sQxcMjuik+Mnv8E31B/Q0=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,12 +48,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Oliver Neukum <oneukum@suse.de>,
         linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.14 061/136] usb/ohci-platform: Fix a warning when hibernating
-Date:   Tue, 23 Jun 2020 21:58:37 +0200
-Message-Id: <20200623195306.759097665@linuxfoundation.org>
+Subject: [PATCH 4.19 091/206] usb/ohci-platform: Fix a warning when hibernating
+Date:   Tue, 23 Jun 2020 21:56:59 +0200
+Message-Id: <20200623195321.425222013@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200623195303.601828702@linuxfoundation.org>
-References: <20200623195303.601828702@linuxfoundation.org>
+In-Reply-To: <20200623195316.864547658@linuxfoundation.org>
+References: <20200623195316.864547658@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -142,10 +142,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
-index 61fe2b985070f..742cefa22c2b5 100644
+index 65a1c3fdc88c6..f40112c5920d1 100644
 --- a/drivers/usb/host/ohci-platform.c
 +++ b/drivers/usb/host/ohci-platform.c
-@@ -355,6 +355,11 @@ static int ohci_platform_resume(struct device *dev)
+@@ -301,6 +301,11 @@ static int ohci_platform_resume(struct device *dev)
  	}
  
  	ohci_resume(hcd, false);
