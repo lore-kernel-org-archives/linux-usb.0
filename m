@@ -2,124 +2,153 @@ Return-Path: <SRS0=vhW8=AE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E328C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 16:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BADEC433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 18:17:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10A5C2076E
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 16:15:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=dell.com header.i=@dell.com header.b="XRbcY4Gh"
+	by mail.kernel.org (Postfix) with ESMTP id DC9D2207FF
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 18:17:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732312AbgFWQOx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jun 2020 12:14:53 -0400
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:21754 "EHLO
-        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732182AbgFWQOx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jun 2020 12:14:53 -0400
-Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
-        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05NGBaXO013073;
-        Tue, 23 Jun 2020 12:14:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=smtpout1; bh=Fv+Pog/9CSf2u7nGXJo8lLetagBewZlyF3mcN1ukZUM=;
- b=XRbcY4GhzLJkW60C70tG3twDoMURNQumuLiYpXaBWVA8IWcgIax/QmFe9dPueS5n/Olj
- VYjqsQjoYly7SVp8uSrSc6me6HzR/yd9jrgxfLh7ALZSRhSl4O4FVdldVcXLM0qqFCDO
- uhMfOi9Sn20vSbjr2ri+lAQSgyDn7Z/NhsiDEbbC3XqfAGv0HwbXQZOG26IYIH30UbQL
- 1rVZGMartGKSaXlBiuxPU7LJXkIQLOjUemQe/4Z46cuxajZ3weXiFyAiixnE30QgO9fX
- CBzXAei0mL2BE05bvPdV7WBcBaO9YspY+xXwKxLn1JXvkQFte49IvWzrCHphr+MUpYWc WQ== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0b-00154904.pphosted.com with ESMTP id 31uk5dgjkc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Jun 2020 12:14:51 -0400
-Received: from pps.filterd (m0142693.ppops.net [127.0.0.1])
-        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05NG5V5D109532;
-        Tue, 23 Jun 2020 12:14:51 -0400
-Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com [143.166.85.206])
-        by mx0a-00154901.pphosted.com with ESMTP id 31uk2ejqd2-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Jun 2020 12:14:50 -0400
-X-LoopCount0: from 10.173.37.130
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="1568825312"
-From:   Mario Limonciello <mario.limonciello@dell.com>
-To:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        perry.yuan@dell.com, Mario Limonciello <mario.limonciello@dell.com>
-Subject: [PATCH v3 0/2] Allow breaking up Thunderbolt/USB4 updates
-Date:   Tue, 23 Jun 2020 11:14:27 -0500
-Message-Id: <20200623161429.24214-1-mario.limonciello@dell.com>
-X-Mailer: git-send-email 2.25.1
+        id S1733176AbgFWSRp convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jun 2020 14:17:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54864 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728916AbgFWSRo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Jun 2020 14:17:44 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 208305] New: HID++ device behind a USB C hub fails to properly
+ initialize
+Date:   Tue, 23 Jun 2020 18:17:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mcgrof@kernel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-208305-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-23_10:2020-06-23,2020-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 bulkscore=0 phishscore=0
- mlxlogscore=725 lowpriorityscore=0 adultscore=0 priorityscore=1501
- spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006120000 definitions=main-2006230120
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 spamscore=0
- bulkscore=0 mlxlogscore=778 adultscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006120000
- definitions=main-2006230120
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently updates to Thunderbolt and USB4 controllers are fully atomic
-actions. When writing into the non-active NVM nothing gets flushed to
-the hardware until authenticate is sent.
+https://bugzilla.kernel.org/show_bug.cgi?id=208305
 
-There has been some desire to improve the perceived performance of these
-updates, particularly for userland that may perform the update upon
-a performance sensitive time like logging out.
+            Bug ID: 208305
+           Summary: HID++ device behind a USB C hub fails to properly
+                    initialize
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: v5.7.5
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: mcgrof@kernel.org
+        Regression: No
 
-So allow userland to flush the image to hardware at runtime, and then
-allow authenticating the image at another time.
+I've purchased now about 3 different wireless mice, and they work gloriously if
+I connect them onto my laptop directly onto one of its USB C ports. Mind you
+the mice are USB, they come with a USB to USB converter. This works well,
+however if you run low on USB C ports you'll need a USB HUB.
 
-For the Dell WD19TB some specific hardware capability exists that allows
-extending this to automatically complete the update when unplugged.
-Export that functionality to userspace as well.
+I've now tried two USB C HUBs, and when I connect the USB mice on the USB HUBs
+the device initialize and *sometimes* you get to finagle movement out of them
+but its clearly not working as expected.
 
-Changes from v2 to v3:
- - Correct some whitespace and kernel-doc comments
- - Add another missing 'const'
- - For a quirk: (1<<1) -> BIT(0) 
+This should be easily reproducible with any HID++ mice connected to a USB C
+hub.
 
-Changes from v1 to v2:
- - Improve documentation
- - Drop tb-quirks.h
- - Adjust function and parameter names to Mika's preferences
- - Rebase onto thunderbolt.git/bleeding-edge to move on top of retimer work
+This is what I get from a full journalctl -f output for example if I connect
+the mice directly to the laptop:
 
-Mario Limonciello (2):
-  thunderbolt: Add support for separating the flush to SPI and
-    authenticate
-  thunderbolt: Add support for authenticate on disconnect
+May 29 21:02:15 phoebe kernel: usb 1-1: new full-speed USB device number 29
+using xhci_hcd
+May 29 21:02:15 phoebe kernel: usb 1-1: New USB device found, idVendor=046d,
+idProduct=c52b, bcdDevice=24.07
+May 29 21:02:15 phoebe kernel: usb 1-1: New USB device strings: Mfr=1,
+Product=2, SerialNumber=0
+May 29 21:02:15 phoebe kernel: usb 1-1: Product: USB Receiver                   
+May 29 21:02:15 phoebe kernel: usb 1-1: Manufacturer: Logitech                  
+May 29 21:02:15 phoebe kernel: logitech-djreceiver 0003:046D:C52B.0030:
+hiddev0,hidraw4: USB HID v1.11 Device [Logitech USB Receiver] on
+usb-0000:00:14.0-1/input2
+May 29 21:02:15 phoebe mtp-probe[8911]: checking bus 1, device 29:
+"/sys/devices/pci0000:00/0000:00:14.0/usb1/1-1"
+May 29 21:02:15 phoebe mtp-probe[8911]: bus: 1, device: 29 was not an MTP
+device
+May 29 21:02:15 phoebe kernel: input: Logitech M570 as
+/devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.2/0003:046D:C52B.0030/0003:046D:1028.0031/input/input64
+May 29 21:02:15 phoebe kernel: logitech-hidpp-device 0003:046D:1028.0031:
+input,hidraw5: USB HID v1.11 Mouse [Logitech M570] on
+usb-0000:00:14.0-1/input2:1
+May 29 21:02:15 phoebe mtp-probe[8925]: checking bus 1, device 29:
+"/sys/devices/pci0000:00/0000:00:14.0/usb1/1-1"
+May 29 21:02:15 phoebe mtp-probe[8925]: bus: 1, device: 29 was not an MTP
+device
+May 29 21:02:15 phoebe solaar[1995]: gtk_widget_get_scale_factor: assertion
+'GTK_IS_WIDGET (widget)' failed
+May 29 21:02:15 phoebe solaar[1995]: gtk_widget_get_scale_factor: assertion
+'GTK_IS_WIDGET (widget)' failed
+May 29 21:02:48 phoebe kernel: logitech-hidpp-device 0003:046D:1028.0031: HID++
+1.0 device connected.
 
- .../ABI/testing/sysfs-bus-thunderbolt         | 24 +++++-
- drivers/thunderbolt/Makefile                  |  1 +
- drivers/thunderbolt/eeprom.c                  |  2 +
- drivers/thunderbolt/lc.c                      | 14 ++++
- drivers/thunderbolt/quirks.c                  | 38 +++++++++
- drivers/thunderbolt/switch.c                  | 81 +++++++++++++++----
- drivers/thunderbolt/tb-quirks.h               | 16 ++++
- drivers/thunderbolt/tb.h                      |  4 +
- drivers/thunderbolt/tb_regs.h                 |  1 +
- 9 files changed, 162 insertions(+), 19 deletions(-)
- create mode 100644 drivers/thunderbolt/quirks.c
- create mode 100644 drivers/thunderbolt/tb-quirks.h
+The last line does not appear if I use a USB C hub:
+May 29 21:03:42 phoebe kernel: usb 1-6.3: new full-speed USB device number 30
+using xhci_hcd
+May 29 21:03:43 phoebe kernel: usb 1-6.3: New USB device found, idVendor=046d,
+idProduct=c52b, bcdDevice=24.07
+May 29 21:03:43 phoebe kernel: usb 1-6.3: New USB device strings: Mfr=1,
+Product=2, SerialNumber=0
+May 29 21:03:43 phoebe kernel: usb 1-6.3: Product: USB Receiver                 
+May 29 21:03:43 phoebe kernel: usb 1-6.3: Manufacturer: Logitech                
+May 29 21:03:43 phoebe kernel: logitech-djreceiver 0003:046D:C52B.0034:
+hiddev0,hidraw4: USB HID v1.11 Device [Logitech USB Receiver] on
+usb-0000:00:14.0-6.3/input2
+May 29 21:03:43 phoebe mtp-probe[8991]: checking bus 1, device 30:
+"/sys/devices/pci0000:00/0000:00:14.0/usb1/1-6/1-6.3"
+May 29 21:03:43 phoebe mtp-probe[8991]: bus: 1, device: 30 was not an MTP
+device
+May 29 21:03:43 phoebe kernel: input: Logitech M570 as
+/devices/pci0000:00/0000:00:14.0/usb1/1-6/1-6.3/1-6.3:1.2/0003:046D:C52B.0034/0003:046D:1028.0035/input/input65
+May 29 21:03:43 phoebe kernel: logitech-hidpp-device 0003:046D:1028.0035:
+input,hidraw5: USB HID v1.11 Mouse [Logitech M570] on
+usb-0000:00:14.0-6.3/input2:1
+May 29 21:03:43 phoebe mtp-probe[9003]: checking bus 1, device 30:
+"/sys/devices/pci0000:00/0000:00:14.0/usb1/1-6/1-6.3"
+May 29 21:03:43 phoebe mtp-probe[9003]: bus: 1, device: 30 was not an MTP
+device
+May 29 21:03:43 phoebe solaar[1995]: gtk_widget_get_scale_factor: assertion
+'GTK_IS_WIDGET (widget)' failed
+May 29 21:03:43 phoebe solaar[1995]: gtk_widget_get_scale_factor: assertion
+'GTK_IS_WIDGET (widget)' failed
 
---
-2.25.1
+Given this is super easy to reproduce I figured this should be most of the
+information needed, let me know if you need more.
 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
