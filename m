@@ -2,133 +2,344 @@ Return-Path: <SRS0=FoFi=AF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD68CC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Jun 2020 01:34:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B13A8C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jun 2020 02:29:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 955B0206EB
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Jun 2020 01:34:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 855A120EDD
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jun 2020 02:29:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUYXp/Rq"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="V/Z4nlCF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388386AbgFXBeU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jun 2020 21:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44352 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387804AbgFXBeU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jun 2020 21:34:20 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A36C061573
-        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2020 18:34:20 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id e11so619321ilr.4
-        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2020 18:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=z8bZV8f7/ZPDDOr48dMfi58k+Y1qEbiKxe/JWYfh92E=;
-        b=UUYXp/RqJpLxTVPgKBec2qwAIUq7PCO54ZW0WiRY5ziYNrIs0LP4kCsGtAb2vSfYh8
-         qX5kWBCUqc+Zpu1fhqDP24gKL0jmw8nJLY3OjAXvqkmk0WgTOCplQkfzVGPKc1jBleEq
-         5WvSCskyRBfwTfu37UPV+8VRQSILZm99WtgD39nGFCav5WA0O7E/pMEVmHnXZcg33fcB
-         iC3QgHLX6sLSH35kZDMG7l2d6tZL50HdO45ia8o4aTST+D5BBCeMYMCX42zGryB/+p+0
-         q2XqCWDXcijfdMmm1peWjCXg13hu8b64eUT6LNXySd+tzis44Qkj3iPWDQm0JWyLN0Rq
-         L/YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=z8bZV8f7/ZPDDOr48dMfi58k+Y1qEbiKxe/JWYfh92E=;
-        b=CqtUig6bYRunZtYzaiCbC+YmnaJ0cJijFn4E5j52p7n2MYv0/OSW9oWMjpb1hvZTSr
-         0dOUdLbgWgRYcL3VWBAq771cor9876iXhio30yc4/JfPVXGf3amr+NylFQGK8aet0Gvt
-         V7dfWZglI9g1Z0i/YtOLW6QaLms5R4tWEWHf+DdHg2GzTOAkTYqr0HnT/+QCFpwr0sVo
-         UOIF+oAnFvshHh/UzJ+Ovs+TAzCxQGYAYhKv3axHz+tu/Q9Cf+dJZNzeCxz99Z3m8Knu
-         fFcJJg3FWTu+iGHAY6JbDPGsEHbhgad1EoiUFgc9y2cdFJtu8vBdJassRhTvdU9fu1O4
-         LT3Q==
-X-Gm-Message-State: AOAM531z0gFLEmuL9L4siAa4d9kJmYueAKren1qVyE9wLR3MNz/n8L5I
-        evIrHF02+c0+rw0Oh7pboDSK8+fdu/ZwemyKN9QPtTO+
-X-Google-Smtp-Source: ABdhPJyPLUH63XGQ1n+Inz6qpMyh6a3vIuwON1o8D7lci/d9N/1XGBLgpR3VWm8NjvrnQgAwCuc3qrIWZQdLZT9AbmE=
-X-Received: by 2002:a92:d64d:: with SMTP id x13mr19384399ilp.287.1592962459459;
- Tue, 23 Jun 2020 18:34:19 -0700 (PDT)
+        id S2388337AbgFXC3B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jun 2020 22:29:01 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:28414 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388147AbgFXC27 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Jun 2020 22:28:59 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1592965738; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=cgjlexnhGns7G4OwEAG7zLtwpl4/lrf6zcu0wSwKNJQ=; b=V/Z4nlCFHpRXaD+dypjPMMFTR8BYfFLIjuKMHFltpV+Y9fdNptQYZQRV18yhaw4C5E7R4VWX
+ eggcc+HIS5bM61yYQN9viyIKB2KygriDegIdFlynbdV4nUc4UCfnz3UDsxdf/booiU6H14K9
+ x9Q5up03R57xwoiblKwI4kZPGNk=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5ef2ba696f2ee827daeed050 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 24 Jun 2020 02:28:57
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 89BCCC43391; Wed, 24 Jun 2020 02:28:57 +0000 (UTC)
+Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 274CAC433C8;
+        Wed, 24 Jun 2020 02:28:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 274CAC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
+Subject: [RFC v4 1/3] usb: dwc3: Resize TX FIFOs to meet EP bursting requirements
+Date:   Tue, 23 Jun 2020 19:28:46 -0700
+Message-Id: <20200624022848.7765-2-wcheng@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200624022848.7765-1-wcheng@codeaurora.org>
+References: <20200624022848.7765-1-wcheng@codeaurora.org>
 MIME-Version: 1.0
-References: <20200608071052.8929-1-peter.chen@nxp.com>
-In-Reply-To: <20200608071052.8929-1-peter.chen@nxp.com>
-From:   Peter Chen <hzpeterchen@gmail.com>
-Date:   Wed, 24 Jun 2020 09:34:07 +0800
-Message-ID: <CAL411-r+wW79navpVoJyvDqyS81LCBrStw0CUc2faMmmu1Ovkg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] usb: some PM changes for cdns3 and xhci-plat
-To:     Peter Chen <peter.chen@nxp.com>, balbi@kernel.org,
-        pawell@cadence.com, rogerq@ti.com
-Cc:     mathias.nyman@intel.com, USB list <linux-usb@vger.kernel.org>,
-        linux-imx@nxp.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        jun.li@nxp.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 8, 2020 at 3:12 PM Peter Chen <peter.chen@nxp.com> wrote:
->
+Some devices have USB compositions which may require multiple endpoints
+that support EP bursting.  HW defined TX FIFO sizes may not always be
+sufficient for these compositions.  By utilizing flexible TX FIFO
+allocation, this allows for endpoints to request the required FIFO depth to
+achieve higher bandwidth.  With some higher bMaxBurst configurations, using
+a larger TX FIFO size results in better TX throughput.
 
-Hi Felipe, Pawel, and Roger,
+Ensure that one TX FIFO is reserved for every IN endpoint.  This allows for
+the FIFO logic to prevent running out of FIFO space.
 
-Would you please have any comments for this series?
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+---
+ drivers/usb/dwc3/core.c   |   2 +
+ drivers/usb/dwc3/core.h   |   8 +++
+ drivers/usb/dwc3/ep0.c    |  37 +++++++++++-
+ drivers/usb/dwc3/gadget.c | 115 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 161 insertions(+), 1 deletion(-)
 
-Peter
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index edc17155cb2b..cca555493929 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1304,6 +1304,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				&tx_thr_num_pkt_prd);
+ 	device_property_read_u8(dev, "snps,tx-max-burst-prd",
+ 				&tx_max_burst_prd);
++	dwc->needs_fifo_resize = device_property_read_bool(dev,
++				"tx-fifo-resize");
+ 
+ 	dwc->disable_scramble_quirk = device_property_read_bool(dev,
+ 				"snps,disable_scramble_quirk");
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 4c171a8e215f..ce0bf288b6ac 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -675,6 +675,7 @@ struct dwc3_event_buffer {
+  *		isochronous START TRANSFER command failure workaround
+  * @start_cmd_status: the status of testing START TRANSFER command with
+  *		combo_num = 'b00
++ * @fifo_depth: allocated TXFIFO depth
+  */
+ struct dwc3_ep {
+ 	struct usb_ep		endpoint;
+@@ -727,6 +728,7 @@ struct dwc3_ep {
+ 	/* For isochronous START TRANSFER workaround only */
+ 	u8			combo_num;
+ 	int			start_cmd_status;
++	int			fifo_depth;
+ };
+ 
+ enum dwc3_phy {
+@@ -1004,6 +1006,7 @@ struct dwc3_scratchpad_array {
+  * 	1	- utmi_l1_suspend_n
+  * @is_fpga: true when we are using the FPGA board
+  * @pending_events: true when we have pending IRQs to be handled
++ * @needs_fifo_resize: not all users might want fifo resizing, flag it
+  * @pullups_connected: true when Run/Stop bit is set
+  * @setup_packet_pending: true when there's a Setup Packet in FIFO. Workaround
+  * @three_stage_setup: set if we perform a three phase setup
+@@ -1044,6 +1047,8 @@ struct dwc3_scratchpad_array {
+  * @dis_metastability_quirk: set to disable metastability quirk.
+  * @imod_interval: set the interrupt moderation interval in 250ns
+  *                 increments or 0 to disable.
++ * @last_fifo_depth: total TXFIFO depth of all enabled USB IN/INT endpoints
++ * @num_ep_resized: the number of TX FIFOs that have already been resized
+  */
+ struct dwc3 {
+ 	struct work_struct	drd_work;
+@@ -1204,6 +1209,7 @@ struct dwc3 {
+ 	unsigned		is_utmi_l1_suspend:1;
+ 	unsigned		is_fpga:1;
+ 	unsigned		pending_events:1;
++	unsigned		needs_fifo_resize:1;
+ 	unsigned		pullups_connected:1;
+ 	unsigned		setup_packet_pending:1;
+ 	unsigned		three_stage_setup:1;
+@@ -1236,6 +1242,8 @@ struct dwc3 {
+ 	unsigned		dis_metastability_quirk:1;
+ 
+ 	u16			imod_interval;
++	int			last_fifo_depth;
++	int			num_ep_resized;
+ };
+ 
+ #define INCRX_BURST_MODE 0
+diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
+index 6dee4dabc0a4..76db9b530861 100644
+--- a/drivers/usb/dwc3/ep0.c
++++ b/drivers/usb/dwc3/ep0.c
+@@ -601,8 +601,9 @@ static int dwc3_ep0_set_config(struct dwc3 *dwc, struct usb_ctrlrequest *ctrl)
+ {
+ 	enum usb_device_state state = dwc->gadget.state;
+ 	u32 cfg;
+-	int ret;
++	int ret, num, size;
+ 	u32 reg;
++	struct dwc3_ep *dep;
+ 
+ 	cfg = le16_to_cpu(ctrl->wValue);
+ 
+@@ -611,6 +612,40 @@ static int dwc3_ep0_set_config(struct dwc3 *dwc, struct usb_ctrlrequest *ctrl)
+ 		return -EINVAL;
+ 
+ 	case USB_STATE_ADDRESS:
++		/*
++		 * If tx-fifo-resize flag is not set for the controller, then
++		 * do not clear existing allocated TXFIFO since we do not
++		 * allocate it again in dwc3_gadget_resize_tx_fifos
++		 */
++		if (dwc->needs_fifo_resize) {
++			/* Read ep0IN related TXFIFO size */
++			dep = dwc->eps[1];
++			size = dwc3_readl(dwc->regs, DWC3_GTXFIFOSIZ(0));
++			if (dwc3_is_usb31(dwc))
++				dep->fifo_depth = DWC31_GTXFIFOSIZ_TXFDEP(size);
++			else
++				dep->fifo_depth = DWC3_GTXFIFOSIZ_TXFDEP(size);
++
++			dwc->last_fifo_depth = dep->fifo_depth;
++			/* Clear existing TXFIFO for all IN eps except ep0 */
++			for (num = 3; num < min_t(int, dwc->num_eps,
++				DWC3_ENDPOINTS_NUM); num += 2) {
++				dep = dwc->eps[num];
++				/* Don't change TXFRAMNUM on usb31 version */
++				size = dwc3_is_usb31(dwc) ?
++					dwc3_readl(dwc->regs,
++						   DWC3_GTXFIFOSIZ(num >> 1)) &
++						   DWC31_GTXFIFOSIZ_TXFRAMNUM :
++						   0;
++
++				dwc3_writel(dwc->regs,
++					    DWC3_GTXFIFOSIZ(num >> 1),
++					    size);
++				dep->fifo_depth = 0;
++			}
++			dwc->num_ep_resized = 0;
++		}
++
+ 		ret = dwc3_ep0_delegate_req(dwc, ctrl);
+ 		/* if the cfg matches and the cfg is non zero */
+ 		if (cfg && (!ret || (ret == USB_GADGET_DELAYED_STATUS))) {
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 00746c2848c0..777badf3e85d 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -540,6 +540,117 @@ static int dwc3_gadget_start_config(struct dwc3_ep *dep)
+ 	return 0;
+ }
+ 
++/*
++ * dwc3_gadget_resize_tx_fifos - reallocate fifo spaces for current use-case
++ * @dwc: pointer to our context structure
++ *
++ * This function will a best effort FIFO allocation in order
++ * to improve FIFO usage and throughput, while still allowing
++ * us to enable as many endpoints as possible.
++ *
++ * Keep in mind that this operation will be highly dependent
++ * on the configured size for RAM1 - which contains TxFifo -,
++ * the amount of endpoints enabled on coreConsultant tool, and
++ * the width of the Master Bus.
++ *
++ * In general, FIFO depths are represented with the following equation:
++ *
++ * fifo_size = mult * ((max_packet + mdwidth)/mdwidth + 1) + 1
++ *
++ * Conversions can be done to the equation to derive the number of packets that
++ * will fit to a particular FIFO size value.
++ */
++static int dwc3_gadget_resize_tx_fifos(struct dwc3_ep *dep)
++{
++	struct dwc3 *dwc = dep->dwc;
++	int ram1_depth, mdwidth, fifo_0_start, tmp, num_in_ep;
++	int min_depth, remaining, fifo_size, mult = 1, fifo, max_packet = 1024;
++
++	if (!dwc->needs_fifo_resize)
++		return 0;
++
++	/* resize IN endpoints except ep0 */
++	if (!usb_endpoint_dir_in(dep->endpoint.desc) || dep->number <= 1)
++		return 0;
++
++	/* Don't resize already resized IN endpoint */
++	if (dep->fifo_depth)
++		return 0;
++
++	ram1_depth = DWC3_RAM1_DEPTH(dwc->hwparams.hwparams7);
++	mdwidth = DWC3_MDWIDTH(dwc->hwparams.hwparams0);
++	/* MDWIDTH is represented in bits, we need it in bytes */
++	mdwidth >>= 3;
++
++	if (((dep->endpoint.maxburst > 1) &&
++			usb_endpoint_xfer_bulk(dep->endpoint.desc))
++			|| usb_endpoint_xfer_isoc(dep->endpoint.desc))
++		mult = 3;
++
++	if ((dep->endpoint.maxburst > 6) &&
++			usb_endpoint_xfer_bulk(dep->endpoint.desc)
++			&& dwc3_is_usb31(dwc))
++		mult = 6;
++
++	/* FIFO size for a single buffer */
++	fifo = (max_packet + mdwidth)/mdwidth;
++	fifo++;
++
++	/* Calculate the number of remaining EPs w/o any FIFO */
++	num_in_ep = dwc->num_eps/2;
++	num_in_ep -= dwc->num_ep_resized;
++	/* Ignore EP0 IN */
++	num_in_ep--;
++
++	/* Reserve at least one FIFO for the number of IN EPs */
++	min_depth = num_in_ep * (fifo+1);
++	remaining = ram1_depth - min_depth - dwc->last_fifo_depth;
++
++	/* We've already reserved 1 FIFO per EP, so check what we can fit in
++	 * addition to it.  If there is not enough remaining space, allocate
++	 * all the remaining space to the EP.
++	 */
++	fifo_size = (mult-1) * fifo;
++	if (remaining < fifo_size) {
++		if (remaining > 0)
++			fifo_size = remaining;
++		else
++			fifo_size = 0;
++	}
++
++	fifo_size += fifo;
++	fifo_size++;
++	dep->fifo_depth = fifo_size;
++
++	/* Check if TXFIFOs start at non-zero addr */
++	tmp = dwc3_readl(dwc->regs, DWC3_GTXFIFOSIZ(0));
++	fifo_0_start = DWC3_GTXFIFOSIZ_TXFSTADDR(tmp);
++
++	fifo_size |= (fifo_0_start + (dwc->last_fifo_depth << 16));
++	if (dwc3_is_usb31(dwc))
++		dwc->last_fifo_depth += DWC31_GTXFIFOSIZ_TXFDEP(fifo_size);
++	else
++		dwc->last_fifo_depth += DWC3_GTXFIFOSIZ_TXFDEP(fifo_size);
++
++	/* Check fifo size allocation doesn't exceed available RAM size. */
++	if (dwc->last_fifo_depth >= ram1_depth) {
++		dev_err(dwc->dev, "Fifosize(%d) > RAM size(%d) %s depth:%d\n",
++				(dwc->last_fifo_depth * mdwidth), ram1_depth,
++				dep->endpoint.name, fifo_size);
++		if (dwc3_is_usb31(dwc))
++			fifo_size = DWC31_GTXFIFOSIZ_TXFDEP(fifo_size);
++		else
++			fifo_size = DWC3_GTXFIFOSIZ_TXFDEP(fifo_size);
++		dwc->last_fifo_depth -= fifo_size;
++		dep->fifo_depth = 0;
++		return -ENOMEM;
++	}
++
++	dwc3_writel(dwc->regs, DWC3_GTXFIFOSIZ(dep->number >> 1), fifo_size);
++	dwc->num_ep_resized++;
++	return 0;
++}
++
+ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
+ {
+ 	const struct usb_ss_ep_comp_descriptor *comp_desc;
+@@ -620,6 +731,10 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
+ 	int			ret;
+ 
+ 	if (!(dep->flags & DWC3_EP_ENABLED)) {
++		ret = dwc3_gadget_resize_tx_fifos(dep);
++		if (ret)
++			return ret;
++
+ 		ret = dwc3_gadget_start_config(dep);
+ 		if (ret)
+ 			return ret;
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-> Hi Felipe & Mathias,
->
-> In this series, it adds cdns3 runtime PM support as well as some
-> xhci-plat changes, and verified at NXP i.MX8QM and i.MX8QXP platforms.
->
-> Patch 1-3: add main runtime PM support for cdns3 core and imx glue layer
-> Patch 4-9: add platform data support and two quirks for xhci-plat.c.
-> - .suspend_quirk for platform special sequence between xhci_bus_suspend
-> and xhci_suspend.
-> - add XHCI_SKIP_PHY_INIT quirk for skip PHY management from HCD core.
->
-> Changes for v2:
-> Add Jun Li=E2=80=99s reviewed-by [Patch 1 and Patch 6]
-> Add Mathias=E2=80=99s acked-by [Patch 4-6]
-> Some wakeup logic improvement [Patch 2]
-> Add dedicated wakeup interrupt for core, and improve the commit log [Patc=
-h]
-> Fix build error found by kbuild test robot [Patch 3]
-> Using xhci_plat_priv quirk for skip PHY initialization [patch 7, patch 9]
-> Some other typo and tiny improvements
->
-> Changes for v1:
-> - Add the 1st patch. Without it, the build on the usb-next will fail.
-> - Change the subject for cover letter a little to reflect all contents.
->
-> Peter Chen (9):
->   usb: cdns3: introduce cdns3_set_phy_power API
->   usb: cdns3: add runtime PM support
->   usb: cdns3: imx: add glue layer runtime pm implementation
->   usb: host: xhci-plat: add platform data support
->   usb: host: xhci-plat: add .suspend_quirk for struct xhci_plat_priv
->   usb: host: xhci-plat: delete the unnecessary code
->   usb: host: xhci-plat: add priv quirk for skip PHY initialization
->   usb: cdns3: host: add .suspend_quirk for xhci-plat.c
->   usb: cdns3: host: add xhci_plat_priv quirk XHCI_SKIP_PHY_INIT
->
->  drivers/usb/cdns3/cdns3-imx.c   | 203 ++++++++++++++++++++++++++++++--
->  drivers/usb/cdns3/core.c        | 199 ++++++++++++++++++++++++++-----
->  drivers/usb/cdns3/core.h        |  16 +++
->  drivers/usb/cdns3/drd.c         |   3 +
->  drivers/usb/cdns3/gadget.c      |   4 +
->  drivers/usb/cdns3/host-export.h |   6 +
->  drivers/usb/cdns3/host.c        |  48 ++++++++
->  drivers/usb/host/xhci-plat.c    |  36 +++++-
->  drivers/usb/host/xhci-plat.h    |   1 +
->  drivers/usb/host/xhci.h         |   1 +
->  10 files changed, 469 insertions(+), 48 deletions(-)
->
-> --
-> 2.17.1
->
