@@ -1,164 +1,134 @@
-Return-Path: <SRS0=vhW8=AE=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=FoFi=AF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E53C433E1
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 21:35:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD68CC433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jun 2020 01:34:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1D61206E2
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jun 2020 21:35:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592948125;
-	bh=X1zmRIQzunuZkpm02VUcFkM7W8vrlvLe2V2q5DL0U5I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Wx8vWbWpP5yv5plRg1+7TkBBtQnmrwXHEE7u42LP9v95l+ddcNxCYRT+hVxfmggQA
-	 uEXKqGKMzGqhfia3BliWKSmr0Qe6as2RCNTY2gdP32OnbnFXCVPaygIwdCOI8I+BhF
-	 FuLO9EnuiGLs1lrxy5kxTNeHAC2K/IzKswboqTMo=
+	by mail.kernel.org (Postfix) with ESMTP id 955B0206EB
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jun 2020 01:34:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUYXp/Rq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388800AbgFWUK2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jun 2020 16:10:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388213AbgFWUKR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 23 Jun 2020 16:10:17 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0B09220707;
-        Tue, 23 Jun 2020 20:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592943016;
-        bh=X1zmRIQzunuZkpm02VUcFkM7W8vrlvLe2V2q5DL0U5I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2OUHun87ky22n4XIye1qlDwcxf35i10X1+CUSW/i7364BcW0OoTb3RzA7CgCXn4ch
-         KC2FlRgNkUes09YJc3FQnataX4zld5i2jRdmkAonJSyKIQtgESxWL8HObxVT0W7lJD
-         w66lFFfGITPqMQRpjBbvDOkDGXphLNuP2XDfDUEk=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Oliver Neukum <oneukum@suse.de>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.7 226/477] usb/ohci-platform: Fix a warning when hibernating
-Date:   Tue, 23 Jun 2020 21:53:43 +0200
-Message-Id: <20200623195418.263092617@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200623195407.572062007@linuxfoundation.org>
-References: <20200623195407.572062007@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S2388386AbgFXBeU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jun 2020 21:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44352 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387804AbgFXBeU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jun 2020 21:34:20 -0400
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A36C061573
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2020 18:34:20 -0700 (PDT)
+Received: by mail-il1-x142.google.com with SMTP id e11so619321ilr.4
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2020 18:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=z8bZV8f7/ZPDDOr48dMfi58k+Y1qEbiKxe/JWYfh92E=;
+        b=UUYXp/RqJpLxTVPgKBec2qwAIUq7PCO54ZW0WiRY5ziYNrIs0LP4kCsGtAb2vSfYh8
+         qX5kWBCUqc+Zpu1fhqDP24gKL0jmw8nJLY3OjAXvqkmk0WgTOCplQkfzVGPKc1jBleEq
+         5WvSCskyRBfwTfu37UPV+8VRQSILZm99WtgD39nGFCav5WA0O7E/pMEVmHnXZcg33fcB
+         iC3QgHLX6sLSH35kZDMG7l2d6tZL50HdO45ia8o4aTST+D5BBCeMYMCX42zGryB/+p+0
+         q2XqCWDXcijfdMmm1peWjCXg13hu8b64eUT6LNXySd+tzis44Qkj3iPWDQm0JWyLN0Rq
+         L/YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=z8bZV8f7/ZPDDOr48dMfi58k+Y1qEbiKxe/JWYfh92E=;
+        b=CqtUig6bYRunZtYzaiCbC+YmnaJ0cJijFn4E5j52p7n2MYv0/OSW9oWMjpb1hvZTSr
+         0dOUdLbgWgRYcL3VWBAq771cor9876iXhio30yc4/JfPVXGf3amr+NylFQGK8aet0Gvt
+         V7dfWZglI9g1Z0i/YtOLW6QaLms5R4tWEWHf+DdHg2GzTOAkTYqr0HnT/+QCFpwr0sVo
+         UOIF+oAnFvshHh/UzJ+Ovs+TAzCxQGYAYhKv3axHz+tu/Q9Cf+dJZNzeCxz99Z3m8Knu
+         fFcJJg3FWTu+iGHAY6JbDPGsEHbhgad1EoiUFgc9y2cdFJtu8vBdJassRhTvdU9fu1O4
+         LT3Q==
+X-Gm-Message-State: AOAM531z0gFLEmuL9L4siAa4d9kJmYueAKren1qVyE9wLR3MNz/n8L5I
+        evIrHF02+c0+rw0Oh7pboDSK8+fdu/ZwemyKN9QPtTO+
+X-Google-Smtp-Source: ABdhPJyPLUH63XGQ1n+Inz6qpMyh6a3vIuwON1o8D7lci/d9N/1XGBLgpR3VWm8NjvrnQgAwCuc3qrIWZQdLZT9AbmE=
+X-Received: by 2002:a92:d64d:: with SMTP id x13mr19384399ilp.287.1592962459459;
+ Tue, 23 Jun 2020 18:34:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200608071052.8929-1-peter.chen@nxp.com>
+In-Reply-To: <20200608071052.8929-1-peter.chen@nxp.com>
+From:   Peter Chen <hzpeterchen@gmail.com>
+Date:   Wed, 24 Jun 2020 09:34:07 +0800
+Message-ID: <CAL411-r+wW79navpVoJyvDqyS81LCBrStw0CUc2faMmmu1Ovkg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] usb: some PM changes for cdns3 and xhci-plat
+To:     Peter Chen <peter.chen@nxp.com>, balbi@kernel.org,
+        pawell@cadence.com, rogerq@ti.com
+Cc:     mathias.nyman@intel.com, USB list <linux-usb@vger.kernel.org>,
+        linux-imx@nxp.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        jun.li@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Qais Yousef <qais.yousef@arm.com>
+On Mon, Jun 8, 2020 at 3:12 PM Peter Chen <peter.chen@nxp.com> wrote:
+>
 
-[ Upstream commit 1cb3b0095c3d0bb96912bfbbce4fc006d41f367c ]
+Hi Felipe, Pawel, and Roger,
 
-The following warning was observed when attempting to suspend to disk
-using a USB flash as a swap device.
+Would you please have any comments for this series?
 
-[  111.779649] ------------[ cut here ]------------
-[  111.788382] URB (____ptrval____) submitted while active
-[  111.796646] WARNING: CPU: 3 PID: 365 at drivers/usb/core/urb.c:363 usb_submit_urb+0x3d8/0x590
-[  111.805417] Modules linked in:
-[  111.808584] CPU: 3 PID: 365 Comm: kworker/3:2 Not tainted 5.6.0-rc6-00002-gdfd1731f9a3e-dirty #545
-[  111.817796] Hardware name: ARM Juno development board (r2) (DT)
-[  111.823896] Workqueue: usb_hub_wq hub_event
-[  111.828217] pstate: 60000005 (nZCv daif -PAN -UAO)
-[  111.833156] pc : usb_submit_urb+0x3d8/0x590
-[  111.837471] lr : usb_submit_urb+0x3d8/0x590
-[  111.841783] sp : ffff800018de38b0
-[  111.845205] x29: ffff800018de38b0 x28: 0000000000000003
-[  111.850682] x27: ffff000970530b20 x26: ffff8000133fd000
-[  111.856159] x25: ffff8000133fd000 x24: ffff800018de3b38
-[  111.861635] x23: 0000000000000004 x22: 0000000000000c00
-[  111.867112] x21: 0000000000000000 x20: 00000000fffffff0
-[  111.872589] x19: ffff0009704e7a00 x18: ffffffffffffffff
-[  111.878065] x17: 00000000a7c8f4bc x16: 000000002af33de8
-[  111.883542] x15: ffff8000133fda88 x14: 0720072007200720
-[  111.889019] x13: 0720072007200720 x12: 0720072007200720
-[  111.894496] x11: 0000000000000000 x10: 00000000a5286134
-[  111.899973] x9 : 0000000000000002 x8 : ffff000970c837a0
-[  111.905449] x7 : 0000000000000000 x6 : ffff800018de3570
-[  111.910926] x5 : 0000000000000001 x4 : 0000000000000003
-[  111.916401] x3 : 0000000000000000 x2 : ffff800013427118
-[  111.921879] x1 : 9d4e965b4b7d7c00 x0 : 0000000000000000
-[  111.927356] Call trace:
-[  111.929892]  usb_submit_urb+0x3d8/0x590
-[  111.933852]  hub_activate+0x108/0x7f0
-[  111.937633]  hub_resume+0xac/0x148
-[  111.941149]  usb_resume_interface.isra.10+0x60/0x138
-[  111.946265]  usb_resume_both+0xe4/0x140
-[  111.950225]  usb_runtime_resume+0x24/0x30
-[  111.954365]  __rpm_callback+0xdc/0x138
-[  111.958236]  rpm_callback+0x34/0x98
-[  111.961841]  rpm_resume+0x4a8/0x720
-[  111.965445]  rpm_resume+0x50c/0x720
-[  111.969049]  __pm_runtime_resume+0x4c/0xb8
-[  111.973276]  usb_autopm_get_interface+0x28/0x60
-[  111.977948]  hub_event+0x80/0x16d8
-[  111.981466]  process_one_work+0x2a4/0x748
-[  111.985604]  worker_thread+0x48/0x498
-[  111.989387]  kthread+0x13c/0x140
-[  111.992725]  ret_from_fork+0x10/0x18
-[  111.996415] irq event stamp: 354
-[  111.999756] hardirqs last  enabled at (353): [<ffff80001019ea1c>] console_unlock+0x504/0x5b8
-[  112.008441] hardirqs last disabled at (354): [<ffff8000100a95d0>] do_debug_exception+0x1a8/0x258
-[  112.017479] softirqs last  enabled at (350): [<ffff8000100818a4>] __do_softirq+0x4bc/0x568
-[  112.025984] softirqs last disabled at (343): [<ffff8000101145a4>] irq_exit+0x144/0x150
-[  112.034129] ---[ end trace dc96030b9cf6c8a3 ]---
+Peter
 
-The problem was tracked down to a missing call to
-pm_runtime_set_active() on resume in ohci-platform.
-
-Link: https://lore.kernel.org/lkml/20200323143857.db5zphxhq4hz3hmd@e107158-lin.cambridge.arm.com/
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Qais Yousef <qais.yousef@arm.com>
-CC: Tony Prisk <linux@prisktech.co.nz>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Mathias Nyman <mathias.nyman@intel.com>
-CC: Oliver Neukum <oneukum@suse.de>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-usb@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-Link: https://lore.kernel.org/r/20200518154931.6144-1-qais.yousef@arm.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/host/ohci-platform.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
-index 7addfc2cbadce..4a8456f12a73d 100644
---- a/drivers/usb/host/ohci-platform.c
-+++ b/drivers/usb/host/ohci-platform.c
-@@ -299,6 +299,11 @@ static int ohci_platform_resume(struct device *dev)
- 	}
- 
- 	ohci_resume(hcd, false);
-+
-+	pm_runtime_disable(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+
- 	return 0;
- }
- #endif /* CONFIG_PM_SLEEP */
--- 
-2.25.1
-
-
-
+> Hi Felipe & Mathias,
+>
+> In this series, it adds cdns3 runtime PM support as well as some
+> xhci-plat changes, and verified at NXP i.MX8QM and i.MX8QXP platforms.
+>
+> Patch 1-3: add main runtime PM support for cdns3 core and imx glue layer
+> Patch 4-9: add platform data support and two quirks for xhci-plat.c.
+> - .suspend_quirk for platform special sequence between xhci_bus_suspend
+> and xhci_suspend.
+> - add XHCI_SKIP_PHY_INIT quirk for skip PHY management from HCD core.
+>
+> Changes for v2:
+> Add Jun Li=E2=80=99s reviewed-by [Patch 1 and Patch 6]
+> Add Mathias=E2=80=99s acked-by [Patch 4-6]
+> Some wakeup logic improvement [Patch 2]
+> Add dedicated wakeup interrupt for core, and improve the commit log [Patc=
+h]
+> Fix build error found by kbuild test robot [Patch 3]
+> Using xhci_plat_priv quirk for skip PHY initialization [patch 7, patch 9]
+> Some other typo and tiny improvements
+>
+> Changes for v1:
+> - Add the 1st patch. Without it, the build on the usb-next will fail.
+> - Change the subject for cover letter a little to reflect all contents.
+>
+> Peter Chen (9):
+>   usb: cdns3: introduce cdns3_set_phy_power API
+>   usb: cdns3: add runtime PM support
+>   usb: cdns3: imx: add glue layer runtime pm implementation
+>   usb: host: xhci-plat: add platform data support
+>   usb: host: xhci-plat: add .suspend_quirk for struct xhci_plat_priv
+>   usb: host: xhci-plat: delete the unnecessary code
+>   usb: host: xhci-plat: add priv quirk for skip PHY initialization
+>   usb: cdns3: host: add .suspend_quirk for xhci-plat.c
+>   usb: cdns3: host: add xhci_plat_priv quirk XHCI_SKIP_PHY_INIT
+>
+>  drivers/usb/cdns3/cdns3-imx.c   | 203 ++++++++++++++++++++++++++++++--
+>  drivers/usb/cdns3/core.c        | 199 ++++++++++++++++++++++++++-----
+>  drivers/usb/cdns3/core.h        |  16 +++
+>  drivers/usb/cdns3/drd.c         |   3 +
+>  drivers/usb/cdns3/gadget.c      |   4 +
+>  drivers/usb/cdns3/host-export.h |   6 +
+>  drivers/usb/cdns3/host.c        |  48 ++++++++
+>  drivers/usb/host/xhci-plat.c    |  36 +++++-
+>  drivers/usb/host/xhci-plat.h    |   1 +
+>  drivers/usb/host/xhci.h         |   1 +
+>  10 files changed, 469 insertions(+), 48 deletions(-)
+>
+> --
+> 2.17.1
+>
