@@ -2,179 +2,131 @@ Return-Path: <SRS0=oapS=AG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F0EC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 20:54:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC46C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:11:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89D01206FA
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 20:54:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lockie.ca header.i=@lockie.ca header.b="YNhNGkRg"
+	by mail.kernel.org (Postfix) with ESMTP id E12022076E
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1593119498;
+	bh=bx8lxF5Ao3ZLXPO+psSEIif4L5uWCNzZWfAbljoX+7I=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=wNirY4Uum5hQx13M+VVNRkCNhbJsBJEpJvwEB6hxpFrtO0sT5+a5FTXoJn1BnaZlv
+	 iICnltjxyEoVYUV8e+ZodYSXqPNYkO1jN4fLXKvg8l8AZfK8g55TQUalfamq6SAX6g
+	 ica1ge+KzbuZvUEU4E7bfs8rqUDjUr+jWyuwuvLA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405259AbgFYUyA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Jun 2020 16:54:00 -0400
-Received: from mon2.sibername.com ([162.144.51.228]:44267 "EHLO
-        mon1.sibername.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2405184AbgFYUx7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jun 2020 16:53:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lockie.ca;
-         s=default; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-        Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=+FWW6N/zb7TS1MHD/3e/b19NaxnyCpolbBmPKRBgx3s=; b=YNhNGkRgDACJD/dij5aq5VdAdr
-        vr7B6lrbl7EafdSVOBxgB4O0vJ5YqL3o48zq4zcf53gO7wL12bfaotR/CVXmjycUxZgDkEt8J0uKs
-        AU9VuqYXvOw+y18K4ejOITnMTSrfnMjOzmv5jTqYWv8FUEvPDMeBaRWFYFtoji5GBB8zyceZ+67OK
-        qPDroGd4uQ2NopioJ5u0iInd8hsHe+Kf+IO2yk0ANJiB3VDqaUuf9JwyZ34E1hTkGqbaVLWBfUEPP
-        IO7BU2t+6/78tsdh2QD6pc5AjdMImtxasXEigr0n/fRJ7W6XqlMNBSOwTEJDDgLE+p16tYt9E+Q6b
-        9rkKQ9UQ==;
-Received: from 216-58-17-101.cpe.distributel.net ([216.58.17.101]:54968 helo=[192.168.1.4])
-        by montreal.sibername.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <bjlockie@lockie.ca>)
-        id 1joYsJ-006fic-4x
-        for linux-usb@vger.kernel.org; Thu, 25 Jun 2020 16:53:56 -0400
-To:     linux-usb <linux-usb@vger.kernel.org>
-From:   James <bjlockie@lockie.ca>
-Subject: bad hub?
-Message-ID: <cfa36d30-0ca1-2a38-e12d-6068ef5b687c@lockie.ca>
-Date:   Thu, 25 Jun 2020 16:53:33 -0400
+        id S2405671AbgFYVLd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Jun 2020 17:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391179AbgFYVLb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jun 2020 17:11:31 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C0F0C08C5C1
+        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2020 14:11:31 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id k4so3488583otr.7
+        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2020 14:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=k8OAgKU400QXnB0pfTjlnf95XjI/EzLjkKF5VofXQm4=;
+        b=PRlf6ZWNu4GPS81dC4s7MfFqIEHMhbdvPqkS1UIdPn1TWcdCK+/5IWkjTxr5vpZzYn
+         fDGX4ifgtn3Mg7dkjKUZaAHBE5vuo+/b33ePQqlhxNJphscN3/rO7uu2anraBpa/AfCr
+         hBR6SAe1FHi8J8lCGN3tzgh306U7MyhKMDKV8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=k8OAgKU400QXnB0pfTjlnf95XjI/EzLjkKF5VofXQm4=;
+        b=inSptobLe9fvA46spxUHffvbig7tBSZhxP5dhnT6pA8c8uRK34mqVmHeSjXc3Pf3wI
+         qVS6+ppN6joCo9EKtumsB4ncfUtuaRrPQNYvRCKN1eaZ1kUAjTqYHqxiVJfJcvflEv6z
+         Q9TVSIHkUd9dCm1epYhGYJY113q/XLqrBn8QeUseO3D0RMNuC/kKIaLo720gHaSJlai6
+         EEIyyUe3COMmemoRd1ImfwgdFx6GrHMlRV9mrsSb/HRsJeD635goS4Ge4hjX+/mfHOjB
+         RHOLuwWDozgAojJTeFJ17Gy2FWcKQlWPHjkMOaq3tal1HkdNcIxzbJa1IFKGmUGWtSZI
+         9ewg==
+X-Gm-Message-State: AOAM530BXobJluxW14mbur8kMZHAZ2JHZT+nlAfJ/PBwTWN4G9OkevUY
+        VthQWtbFCeSc2jImxifYsJuNBg==
+X-Google-Smtp-Source: ABdhPJwF5ukoGz73lxNiyFqPSchj8qJ/85yti5EHyTKNoVRangU31mzsP5hM6tq/QIL3mAzcHzGJ1A==
+X-Received: by 2002:a9d:845:: with SMTP id 63mr3844564oty.213.1593119490869;
+        Thu, 25 Jun 2020 14:11:30 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id x24sm2475115oto.31.2020.06.25.14.11.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2020 14:11:30 -0700 (PDT)
+Subject: Re: [PATCH v2] usbip: tools: add in man page how to load the client's
+ module
+To:     Antonio Borneo <borneo.antonio@gmail.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20200618000831.1048255-1-borneo.antonio@gmail.com>
+ <2da8fc9e34440c1fa5f9007baaa3921767cdec50.1593090874.git.borneo.antonio@gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <07af6971-b9d2-33a6-ec01-21c53050bc04@linuxfoundation.org>
+Date:   Thu, 25 Jun 2020 15:11:29 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <2da8fc9e34440c1fa5f9007baaa3921767cdec50.1593090874.git.borneo.antonio@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - montreal.sibername.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lockie.ca
-X-Get-Message-Sender-Via: montreal.sibername.com: authenticated_id: bjlockie@lockie.ca
-X-Authenticated-Sender: montreal.sibername.com: bjlockie@lockie.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I have a USB wifi adapter that is having problems so I thought I'd get a 
-powered hub.
-The wifi adapter works directly in my Raspberry Pi 4 but not in the hub.
-The device appears to be there but I can't use it.
-I don't understand the labelling of ports.
-Does the error mean one of the ports on my hub is bad?
+On 6/25/20 7:17 AM, Antonio Borneo wrote:
+> While the man page usbipd.8 already informs the user on which
+> kernel module has to be used on server side, the man page usbip.8
+> does not provide any equivalent information on client side.
+> Also, it could be hard for a newbie to identify the proper usbip
+> client kernel module, due to the name "vhci-hcd" that has no
+> immediate assonance with usbip.
+> 
+> Add in usbip.8 the command to add the module vhci-hcd, similarly
+> as it's already present in usbipd.8 for usbip-host.
+> While there, rephrase the description of the command "usbip list
+> --remote=server".
+> 
+> Signed-off-by: Antonio Borneo <borneo.antonio@gmail.com>
+> --
+> 
+> v1->v2: rephrase the description of command "usbip list ..."
+>          fix a typo in commit message
+> ---
+>   tools/usb/usbip/doc/usbip.8 | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/usb/usbip/doc/usbip.8 b/tools/usb/usbip/doc/usbip.8
+> index a6097be25d28..a15d20063b98 100644
+> --- a/tools/usb/usbip/doc/usbip.8
+> +++ b/tools/usb/usbip/doc/usbip.8
+> @@ -83,7 +83,9 @@ List local USB devices.
+>   .SH EXAMPLES
+>   
+>       client:# usbip list --remote=server
+> -        - List exportable usb devices on the server.
+> +        - List devices exported by remote server.
+> +
+> +    client:# modprobe vhci-hcd
+>   
+>       client:# usbip attach --remote=server --busid=1-2
+>           - Connect the remote USB device.
+> 
+> base-commit: 48778464bb7d346b47157d21ffde2af6b2d39110
+> 
 
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-[ 2034.225213] usb 2-1: new SuperSpeed Gen 1 USB device number 8 using 
-xhci_hcd
-[ 2034.252133] usb 2-1: New USB device found, idVendor=05e3, 
-idProduct=0612, bcdDevice=92.24
-[ 2034.260336] usb 2-1: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[ 2034.267487] usb 2-1: Product: USB3.0 Hub
-[ 2034.271439] usb 2-1: Manufacturer: GenesysLogic
-[ 2034.277570] hub 2-1:1.0: USB hub found
-[ 2034.281697] hub 2-1:1.0: 4 ports detected
-[ 2034.388914] usb 1-1.1: new high-speed USB device number 6 using xhci_hcd
-[ 2034.502787] usb 1-1.1: New USB device found, idVendor=05e3, 
-idProduct=0610, bcdDevice=92.24
-[ 2034.511202] usb 1-1.1: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[ 2034.518568] usb 1-1.1: Product: USB2.0 Hub
-[ 2034.522704] usb 1-1.1: Manufacturer: GenesysLogic
-[ 2034.529002] hub 1-1.1:1.0: USB hub found
-[ 2034.533716] hub 1-1.1:1.0: 4 ports detected
-
-[ 2035.646132] usb 1-1.1-port2: Cannot enable. Maybe the USB cable is bad?
-
-[ 2040.309270] usb 2-1.1: new SuperSpeed Gen 1 USB device number 9 using 
-xhci_hcd
-[ 2040.334867] usb 2-1.1: New USB device found, idVendor=0e8d, 
-idProduct=7612, bcdDevice= 1.00
-[ 2040.343265] usb 2-1.1: New USB device strings: Mfr=2, Product=3, 
-SerialNumber=4
-[ 2040.350601] usb 2-1.1: Product: Wireless
-[ 2040.354621] usb 2-1.1: Manufacturer: MediaTek Inc.
-[ 2040.359419] usb 2-1.1: SerialNumber: 000000000
-[ 2040.445815] usb 2-1.1: reset SuperSpeed Gen 1 USB device number 9 
-using xhci_hcd
-[ 2040.475214] mt76x2u 2-1.1:1.0: ASIC revision: 76120044
-[ 2040.514953] mt76x2u 2-1.1:1.0: ROM patch build: 20141115060606a
-[ 2040.688338] mt76x2u 2-1.1:1.0: Firmware Version: 0.0.00
-[ 2040.693587] mt76x2u 2-1.1:1.0: Build: 1
-[ 2040.697431] mt76x2u 2-1.1:1.0: Build Time: 201507311614____
-[ 2041.512649] ieee80211 phy2: Selected rate control algorithm 'minstrel_ht'
-
-I many removed the hub and reinserted it.
-I don't know why
-usb 2-2: Product: USB 10/100/1000 LAN
-is affected, it is my TPLink USB adapter in the other USB (maybe I 
-jiggled it).
-
-# dmesg
-[ 2907.250244] usb 1-1.1: USB disconnect, device number 6
-[ 2907.811665] usb 2-1: USB disconnect, device number 8
-[ 2907.816721] usb 2-1.1: USB disconnect, device number 9
-[ 2930.688013] usb 2-2: USB disconnect, device number 7
-[ 2930.693580] xhci_hcd 0000:01:00.0: WARN Set TR Deq Ptr cmd failed due 
-to incorrect slot or ep state.
-[ 2931.304203] usb 2-2: new SuperSpeed Gen 1 USB device number 10 using 
-xhci_hcd
-[ 2931.328883] usb 2-2: New USB device found, idVendor=2357, 
-idProduct=0601, bcdDevice=30.00
-[ 2931.337086] usb 2-2: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=6
-[ 2931.344235] usb 2-2: Product: USB 10/100/1000 LAN
-[ 2931.348948] usb 2-2: Manufacturer: TP-LINK
-[ 2931.353052] usb 2-2: SerialNumber: 000001000000
-[ 2931.488606] usb 2-2: reset SuperSpeed Gen 1 USB device number 10 
-using xhci_hcd
-[ 2931.549045] r8152 2-2:1.0 eth1: v1.10.11
-[ 2934.584899] IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
-[ 2934.591844] r8152 2-2:1.0 eth1: carrier on
-[ 2935.552429] usb 2-1: new SuperSpeed Gen 1 USB device number 11 using 
-xhci_hcd
-[ 2935.581347] usb 2-1: New USB device found, idVendor=05e3, 
-idProduct=0612, bcdDevice=92.24
-[ 2935.589595] usb 2-1: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[ 2935.596750] usb 2-1: Product: USB3.0 Hub
-[ 2935.600692] usb 2-1: Manufacturer: GenesysLogic
-[ 2935.607169] hub 2-1:1.0: USB hub found
-[ 2935.611316] hub 2-1:1.0: 4 ports detected
-[ 2935.664095] usb 1-1.1: new high-speed USB device number 9 using xhci_hcd
-[ 2935.788117] usb 1-1.1: New USB device found, idVendor=05e3, 
-idProduct=0610, bcdDevice=92.24
-[ 2935.796546] usb 1-1.1: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[ 2935.803932] usb 1-1.1: Product: USB2.0 Hub
-[ 2935.808077] usb 1-1.1: Manufacturer: GenesysLogic
-[ 2935.814959] hub 1-1.1:1.0: USB hub found
-[ 2935.819274] hub 1-1.1:1.0: 4 ports detected
-[ 2935.912368] usb 2-1.1: new SuperSpeed Gen 1 USB device number 12 
-using xhci_hcd
-[ 2935.937437] usb 2-1.1: New USB device found, idVendor=0e8d, 
-idProduct=7612, bcdDevice= 1.00
-[ 2935.945844] usb 2-1.1: New USB device strings: Mfr=2, Product=3, 
-SerialNumber=4
-[ 2935.953189] usb 2-1.1: Product: Wireless
-[ 2935.957225] usb 2-1.1: Manufacturer: MediaTek Inc.
-[ 2935.962057] usb 2-1.1: SerialNumber: 000000000
-[ 2936.048805] usb 2-1.1: reset SuperSpeed Gen 1 USB device number 12 
-using xhci_hcd
-[ 2936.077910] mt76x2u 2-1.1:1.0: ASIC revision: 76120044
-[ 2936.109762] mt76x2u 2-1.1:1.0: ROM patch build: 20141115060606a
-[ 2936.248963] mt76x2u 2-1.1:1.0: Firmware Version: 0.0.00
-[ 2936.254239] mt76x2u 2-1.1:1.0: Build: 1
-[ 2936.258091] mt76x2u 2-1.1:1.0: Build Time: 201507311614____
-[ 2936.966265] usb 1-1.1-port2: Cannot enable. Maybe the USB cable is bad?
-[ 2937.067763] ieee80211 phy3: Selected rate control algorithm 'minstrel_ht'
-
+thanks,
+-- Shuah
