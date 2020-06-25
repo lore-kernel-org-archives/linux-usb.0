@@ -2,158 +2,117 @@ Return-Path: <SRS0=oapS=AG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A53C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5676CC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:22:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6355220768
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:18:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F056204EC
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:22:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fbe0YAfd"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lockie.ca header.i=@lockie.ca header.b="WBD9RWBo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405790AbgFYVSI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Jun 2020 17:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405693AbgFYVSH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jun 2020 17:18:07 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767DCC08C5DB
-        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2020 14:18:07 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id s1so8148848ljo.0
-        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2020 14:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=SWIaY12Y0G2dy4SWvhoH0txkwE664AQyplOHmcrCZV8=;
-        b=fbe0YAfdtHX4mE/5jYK+b08zs+3EV0uom5viW7YIAmLz+nBMpOQmDjRSOyXr8Yq7yN
-         PwAutxSNdIeuWip+kNrf3gcnBZH8jKFNmBwAjc+LNvXoR6BzQQvm7fzO0cpyVFFej+U+
-         XAmFafYM1/fWIYT+jg3hsjYgmUj6CrBiGce7w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=SWIaY12Y0G2dy4SWvhoH0txkwE664AQyplOHmcrCZV8=;
-        b=LjnsWqgjS8XWp8mS+gUPmD/Fjqb0Gklm+qoNYfw4EDbZu3AyGZXm6kcQ2YZyEg96tH
-         T7NtXusPVC6iVk0U7pHuvXtPJyn2xfH3DlP6iR9mYNa8Gi1nd4VMFPgV62tOz8zw8DlH
-         EEUvIzVhL50Wi6zqg5Fl7ttZesvgL2uTeNnK3YlLwNp27SeHEpf0yGHfKUkZCIX7KOEw
-         uYEgHyDxc72SDFnaVQB0CBmndtNhLN48xoJin0f2ZG4ufRTPRfYYkuLQoFnz9bh2huHw
-         vfuciIas+SjOtxmAAN0wGfU14wAl5JwERKkSGMO31mRlEOX7W0JvVIr5PFbT+eRjZj6X
-         2n+A==
-X-Gm-Message-State: AOAM531AaB2SsGBnjsLZUIz4wAiX9K2zt8JK7omrgJX0gfbAl0ojfNWJ
-        3qRv7Fbb3j5ddx5KGR+ZMlieNkIp077FJe/XVHBYHg==
-X-Google-Smtp-Source: ABdhPJwAZAO0URb5429RQ8KWWyn03Dh+VW7wXxDaU0pyTnnX/WMtSBWQoRxtR41F5V5Wn0lUPYIIIBTzfxfYflSU0Sw=
-X-Received: by 2002:a2e:3314:: with SMTP id d20mr17597674ljc.359.1593119885826;
- Thu, 25 Jun 2020 14:18:05 -0700 (PDT)
+        id S2405907AbgFYVWB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Jun 2020 17:22:01 -0400
+Received: from mon2.sibername.com ([162.144.51.228]:53522 "EHLO
+        mon1.sibername.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2403817AbgFYVWB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jun 2020 17:22:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lockie.ca;
+         s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
+        :Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=gtJWDa0//FvU4bGdFASbsat/G6DD17PP8SzkbGLfxVg=; b=WBD9RWBoSdmymsafa4G9U3iPMS
+        pv1PCh/nZd2B38vX3weeMPF5rAByOUk/qrcN2szcNbgZqV5rxqs2DHY/IdbWmmd5IPV+Tt+AvZkDV
+        H+k6vanqFJRDWBPRf2VYTCXFqy3jMSchf9ol3qjP9+4xAFW1xOhUuHSwcDA4U2/VbfMfp8fV2sWYx
+        wy/C/NqSrZtqpOP2eqbjiwCvEsfSB3sgLeb+BvN1wXPQx+o3u1672QktG20bxWZNSdt20r4xAKHu4
+        YFPefYIbdRmynu5IhSY5L2HAP8RWGvlK/kcC+a9u5Kjo7FGAdWgf8UDj1YHb1tA/pIwNYFMu08kNF
+        zfRiY55Q==;
+Received: from [216.58.17.101] (port=55018 helo=[192.168.1.4])
+        by montreal.sibername.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <bjlockie@lockie.ca>)
+        id 1joYxe-006hIS-JW
+        for linux-usb@vger.kernel.org; Thu, 25 Jun 2020 16:59:08 -0400
+Subject: Re: Alfa AWUS036ACM (Mediatek MT7612U) problem
+To:     linux-usb <linux-usb@vger.kernel.org>
+References: <59c96b05-2bdb-44d3-7371-6e5e05c20927@lockie.ca>
+ <20200625183151.GA266690@rowland.harvard.edu>
+From:   James <bjlockie@lockie.ca>
+Message-ID: <f9f7e6ba-5d37-a42a-3de9-c97c76f8641c@lockie.ca>
+Date:   Thu, 25 Jun 2020 16:58:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200623194533.GA3815@amd> <8C887FD6-DDC0-4FD6-8994-00939EFCB0F9@holtmann.org>
-In-Reply-To: <8C887FD6-DDC0-4FD6-8994-00939EFCB0F9@holtmann.org>
-From:   Miao-chen Chou <mcchou@chromium.org>
-Date:   Thu, 25 Jun 2020 14:17:54 -0700
-Message-ID: <CABmPvSFbXNcBdgtmygaOdOrJ-4W_PU8ATiEL7StiEqtwXtfZzA@mail.gmail.com>
-Subject: Re: next-20200623: oops in btusb_disconnect() at boot on thinkpad x60
-To:     Marcel Holtmann <marcel@holtmann.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        BlueZ <linux-bluetooth@vger.kernel.org>,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200625183151.GA266690@rowland.harvard.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - montreal.sibername.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lockie.ca
+X-Get-Message-Sender-Via: montreal.sibername.com: authenticated_id: bjlockie@lockie.ca
+X-Authenticated-Sender: montreal.sibername.com: bjlockie@lockie.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Marcel and all,
-
-Thanks for the note here. 8208f5a9d435e58ee7f53a24d9ccbe7787944537 is
-the cause of this, I will upload a fix shortly to address the
-distinguishment between tearing down hdev and user space request.
-
-Regards,
-Miao
 
 
-On Tue, Jun 23, 2020 at 11:44 PM Marcel Holtmann <marcel@holtmann.org> wrot=
-e:
+On 2020-06-25 2:31 p.m., Alan Stern wrote:
+> On Thu, Jun 25, 2020 at 01:08:34PM -0400, James wrote:
+>> I have an Alfa AWUS036ACM (Mediatek MT7612U) on a Raspberry Pi 4. with:
+>> OpenWrt SNAPSHOT r13626-751e6ab8e6 / LuCI Master git-20.175.45303-bb95e67
+>> Kernel Version: 5.4.48
+>>
+>> # lsusb
+>> Bus 002 Device 002: ID 0e8d:7612 MediaTek Inc.
+>>
+>> |My AP keeps dieing (I suspect when it's under load and some other condition
+>> :-(). mt76x2u 2-1:1.0: error: mt76x02u_mcu_wait_resp failed with -110| I
+>> tried:
+>>
+>> https://superuser.com/questions/176319/hard-reset-usb-in-ubuntu-10-04
+> Did you try running the usbreset program described in that web page?
+I don't have that program and I can't compile on that platform.
+I tried the script instead of trying to cross compile.
 >
-> Hi Pavel,
+>> cd /sys/bus/usb/drivers/usb
+>>
+>> echo 2-2 > unbind ; sleep 3 ; echo 2-2 > bind I think it should be 2-1 so I
+>> tried that:
+>>
+>> echo 2-1 > unbind ; sleep 3 ; echo 2-1 > bind
+>>
+>> |[ 3539.309730] mt76x2u 2-1:1.0: firmware upload failed: -110
+>> [ 3540.828260] mt76x2u: probe of 2-1:1.0 failed with error -5|
+>> That didn't work.
+>> Physically removing reinserting works (if I also "reset" the wifi in OpenWrt
+>> (I don't know what this does)).
+>>
+>> There must be a way to remove/reinsert in software instead of rebooting.
+> Well no, actually there isn't.  Removing a cable breaks the power
+> connection; if the device gets its power from the USB cable then it goes
+> through a complete shutdown (and restart when you plug it back in).  On
+> most computers and USB hubs, there is no way to turn off power to the USB
+> ports in software -- the hardware simply won't do it.  _Some_ hubs can
+> turn off port power, but most can't.
 >
-> > I'm getting this at boot:
-> >
-> > [    7.984584] *pdpt =3D 0000000033a31001 *pde =3D 0000000000000000
-> > [    7.984584] Oops: 0000 [#1] PREEMPT SMP PTI
-> > [    7.984584] CPU: 1 PID: 2532 Comm: systemd-udevd Not tainted
-> > 5.8.0-rc2-next-20200623+ #126
-> > [    7.998580] Hardware name: LENOVO 17097HU/17097HU, BIOS 7BETD8WW
-> > (2.19 ) 03/31/2011
-> > [    8.000592] EIP: __queue_work+0x139/0x320
-> > [    8.000592] Code: 90 83 7d f0 08 0f 84 b6 00 00 00 8b 45 ec 8b 9f
-> > 04 01 00 00 03 1c 85 40 63 1f c5 89 f0 e8 df f8 ff ff 85 c0 0f 85 4f
-> > ff ff ff <8b> 03 e9 50 ff ff ff 89 45 e4 e8 48 0a cb 00 8b 4d e8 8b 45
-> > e4 8b
-> > [    8.007883] EAX: 00000000 EBX: 00000000 ECX: 47d88848 EDX: 03ffffff
-> > [    8.007883] ESI: f4a348bc EDI: f492a600 EBP: f3b1dd0c ESP: f3b1dcf0
-> > [    8.019981] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS:
-> > 00010046
-> > [    8.023156] CR0: 80050033 CR2: 00000000 CR3: 33b1e000 CR4: 000006b0
-> > [    8.028892] Call Trace:
-> > [    8.034199]  queue_work_on+0x1d/0x30
-> > [    8.034199]  hci_adv_monitors_clear+0x5c/0x80
-> > [    8.042158]  hci_unregister_dev+0x161/0x2f0
-> > [    8.042158]  ? usb_disable_endpoint+0x94/0xa0
-> > [    8.042158]  btusb_disconnect+0x4b/0x120
-> > [    8.057018]  usb_unbind_interface+0x64/0x230
-> > [    8.057018]  device_release_driver_internal+0xc1/0x180
-> > [    8.065196]  device_release_driver+0xc/0x10
-> > [    8.068040]  bus_remove_device+0xa8/0x110
-> > [    8.071767]  device_del+0x126/0x370
-> > [    8.071767]  ? usb_remove_ep_devs+0x15/0x20
-> > [    8.079199]  ? remove_intf_ep_devs+0x30/0x50
-> > [    8.081371]  usb_disable_device+0x8e/0x240
-> > [    8.087478]  usb_set_configuration+0x47c/0x800
-> > [    8.087478]  usb_deauthorize_device+0x36/0x50
-> > [    8.092662]  authorized_store+0x5d/0x70
-> > [    8.096608]  ? authorized_default_store+0x60/0x60
-> > [    8.096608]  dev_attr_store+0x13/0x20
-> > [    8.096608]  ? component_bind_all.cold+0x52/0x52
-> > [    8.106151]  sysfs_kf_write+0x2f/0x50
-> > [    8.106151]  ? sysfs_file_ops+0x50/0x50
-> > [    8.106151]  kernfs_fop_write+0x105/0x1a0
-> > [    8.106151]  ? kernfs_fop_open+0x3c0/0x3c0
-> > [    8.106151]  __vfs_write+0x2b/0x1e0
-> > [    8.106151]  ? lock_acquire+0x3f/0x70
-> > [    8.106151]  ? vfs_write+0x12a/0x180
-> > [    8.106151]  ? __sb_start_write+0xd6/0x180
-> > [    8.106151]  ? vfs_write+0x12a/0x180
-> > [    8.106151]  vfs_write+0xa1/0x180
-> > [    8.106151]  ksys_write+0x5c/0xd0
-> > [    8.106151]  __ia32_sys_write+0x10/0x20
-> > [    8.106151]  do_syscall_32_irqs_on+0x3a/0xf0
-> > [    8.106151]  do_int80_syscall_32+0x9/0x20
-> > [    8.106151]  entry_INT80_32+0x116/0x116
-> > [    8.106151] EIP: 0xb7f45092
-> > [    8.106151] Code: Bad RIP value.
-> > [    8.146079] EAX: ffffffda EBX: 00000007 ECX: 004fb760 EDX: 00000001
-> > [    8.146079] ESI: 004fb760 EDI: 00000001 EBP: 004c79f0 ESP: bfabc48c
-> > [    8.146079] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS:
-> > 00000246
-> > [    8.150364] Modules linked in:
-> > [    8.150364] CR2: 0000000000000000
-> > [    8.150364] ---[ end trace 468d097aaf220284 ]---
+> It is possible to do various sorts of reset in software, such as by using
+> the usbreset program mentioned above.  But none of them do exactly the
+> same thing as unplugging and replugging the USB cable.
 >
-> I assume this is caused by commit e5e1e7fd470ccf2eb38ab7fb5a3ab0fc4792fe5=
-3 and mainly because it triggers the background scan workqueue. I think we =
-need to distinguish clearing the monitors when removing the controller comp=
-ared to clearing the controllers from bluetoothd as a runtime operation.
->
-> Regards
->
-> Marcel
->
+> Alan Stern
+I guess I'll have to reboot if it loses the AP.
+I can automate that. :-)
