@@ -2,117 +2,94 @@ Return-Path: <SRS0=oapS=AG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5676CC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 126E6C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 23:18:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F056204EC
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 21:22:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C870F207FC
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jun 2020 23:18:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lockie.ca header.i=@lockie.ca header.b="WBD9RWBo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gEFD/h6/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405907AbgFYVWB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Jun 2020 17:22:01 -0400
-Received: from mon2.sibername.com ([162.144.51.228]:53522 "EHLO
-        mon1.sibername.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2403817AbgFYVWB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jun 2020 17:22:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lockie.ca;
-         s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
-        :Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=gtJWDa0//FvU4bGdFASbsat/G6DD17PP8SzkbGLfxVg=; b=WBD9RWBoSdmymsafa4G9U3iPMS
-        pv1PCh/nZd2B38vX3weeMPF5rAByOUk/qrcN2szcNbgZqV5rxqs2DHY/IdbWmmd5IPV+Tt+AvZkDV
-        H+k6vanqFJRDWBPRf2VYTCXFqy3jMSchf9ol3qjP9+4xAFW1xOhUuHSwcDA4U2/VbfMfp8fV2sWYx
-        wy/C/NqSrZtqpOP2eqbjiwCvEsfSB3sgLeb+BvN1wXPQx+o3u1672QktG20bxWZNSdt20r4xAKHu4
-        YFPefYIbdRmynu5IhSY5L2HAP8RWGvlK/kcC+a9u5Kjo7FGAdWgf8UDj1YHb1tA/pIwNYFMu08kNF
-        zfRiY55Q==;
-Received: from [216.58.17.101] (port=55018 helo=[192.168.1.4])
-        by montreal.sibername.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <bjlockie@lockie.ca>)
-        id 1joYxe-006hIS-JW
-        for linux-usb@vger.kernel.org; Thu, 25 Jun 2020 16:59:08 -0400
-Subject: Re: Alfa AWUS036ACM (Mediatek MT7612U) problem
-To:     linux-usb <linux-usb@vger.kernel.org>
-References: <59c96b05-2bdb-44d3-7371-6e5e05c20927@lockie.ca>
- <20200625183151.GA266690@rowland.harvard.edu>
-From:   James <bjlockie@lockie.ca>
-Message-ID: <f9f7e6ba-5d37-a42a-3de9-c97c76f8641c@lockie.ca>
-Date:   Thu, 25 Jun 2020 16:58:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2407760AbgFYXS4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Jun 2020 19:18:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406605AbgFYXSz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jun 2020 19:18:55 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F9CC08C5DB
+        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2020 16:18:54 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id k13so4503985vsm.13
+        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2020 16:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UZUejZ4FxIPzgalcSBOTl7RrSB8oG1JXXKFu2TzIVTY=;
+        b=gEFD/h6/YccJ6NUPfYT/xgz0X+isX8Cd6CGn2UCUGx7jpM3t81GIEKLZxSIh9n3gSf
+         LyFFAVqzLW2EOg2vox4IxQFv/KkghELE3h+1pMYcAk3L5vCjE1vuqYv6ModKBhiykPJm
+         E+uZ3A7Yo3f2524NLn2qvAOct1Q0SfZjBL3KQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UZUejZ4FxIPzgalcSBOTl7RrSB8oG1JXXKFu2TzIVTY=;
+        b=pePxs844S321LaEYfEwLQYliVqVwopy0FWnYB5FXmgloNkJq0CIPrrIxUrk/jh9I9w
+         1EQrjQ8Tg/PQF+sjuIuwKsliINtvUni3LyhVoorZm8mOoDG+/3E1BpPzebfvQsSgZK1Y
+         +XNQXZhUiPSM+i1Gnx1cX1Vwb6z1+L5l1nfdbXzMCmInJWwdDnM8Z9fuYycF6Y+dICQg
+         4Sd7tKGCKUbhTY+il5TwfVjno9Ysv01/yujUxzpIjT/mX7KMLIId7zmP6Amt6D5JAvXa
+         IHmG4oBLva0nu5N0ni0un3DiO9O6bsX3kZrf75DB3GOU962B9Qa4R+eoUluizdlxBH+X
+         4BnA==
+X-Gm-Message-State: AOAM530K4c703/ws6w9WVv9mnTwojGa3WCiBTX5M0HonInLVSecnBB6d
+        oPGQcwvbA0WbeXVT9wLoCUYFXDo8n4hiaCH9KuPdQg==
+X-Google-Smtp-Source: ABdhPJzhi8dHdwc7k/3b1+iOeFD6RskzYY/+B8+g9RbXB08kX6vZ9AZiixX+D9Pnv0ODrkx1cdSZ8uCd7wY1U33lSFI=
+X-Received: by 2002:a05:6102:1167:: with SMTP id k7mr517235vsg.71.1593127133874;
+ Thu, 25 Jun 2020 16:18:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200625183151.GA266690@rowland.harvard.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - montreal.sibername.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lockie.ca
-X-Get-Message-Sender-Via: montreal.sibername.com: authenticated_id: bjlockie@lockie.ca
-X-Authenticated-Sender: montreal.sibername.com: bjlockie@lockie.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <20200624111128.v2.1.Ibae403db54245c458d14297f1892c77c5055da41@changeid>
+ <1593080522.28236.17.camel@suse.com>
+In-Reply-To: <1593080522.28236.17.camel@suse.com>
+From:   Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date:   Thu, 25 Jun 2020 16:18:42 -0700
+Message-ID: <CANFp7mUmk=HqPyJ5TS5uQPyaEtOWdz=D+7XBS8MyikuF9y9EJQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Bluetooth: btusb: Reset port on cmd timeout
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Rocky Liao <rjliao@codeaurora.org>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
+        ChromeOS Bluetooth Upstreaming 
+        <chromeos-bluetooth-upstreaming@chromium.org>,
+        linux-usb@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Thanks for the heads up Oliver -- I will send a patch with a comment on this.
 
-
-On 2020-06-25 2:31 p.m., Alan Stern wrote:
-> On Thu, Jun 25, 2020 at 01:08:34PM -0400, James wrote:
->> I have an Alfa AWUS036ACM (Mediatek MT7612U) on a Raspberry Pi 4. with:
->> OpenWrt SNAPSHOT r13626-751e6ab8e6 / LuCI Master git-20.175.45303-bb95e67
->> Kernel Version: 5.4.48
->>
->> # lsusb
->> Bus 002 Device 002: ID 0e8d:7612 MediaTek Inc.
->>
->> |My AP keeps dieing (I suspect when it's under load and some other condition
->> :-(). mt76x2u 2-1:1.0: error: mt76x02u_mcu_wait_resp failed with -110| I
->> tried:
->>
->> https://superuser.com/questions/176319/hard-reset-usb-in-ubuntu-10-04
-> Did you try running the usbreset program described in that web page?
-I don't have that program and I can't compile on that platform.
-I tried the script instead of trying to cross compile.
+On Thu, Jun 25, 2020 at 3:22 AM Oliver Neukum <oneukum@suse.com> wrote:
 >
->> cd /sys/bus/usb/drivers/usb
->>
->> echo 2-2 > unbind ; sleep 3 ; echo 2-2 > bind I think it should be 2-1 so I
->> tried that:
->>
->> echo 2-1 > unbind ; sleep 3 ; echo 2-1 > bind
->>
->> |[ 3539.309730] mt76x2u 2-1:1.0: firmware upload failed: -110
->> [ 3540.828260] mt76x2u: probe of 2-1:1.0 failed with error -5|
->> That didn't work.
->> Physically removing reinserting works (if I also "reset" the wifi in OpenWrt
->> (I don't know what this does)).
->>
->> There must be a way to remove/reinsert in software instead of rebooting.
-> Well no, actually there isn't.  Removing a cable breaks the power
-> connection; if the device gets its power from the USB cable then it goes
-> through a complete shutdown (and restart when you plug it back in).  On
-> most computers and USB hubs, there is no way to turn off power to the USB
-> ports in software -- the hardware simply won't do it.  _Some_ hubs can
-> turn off port power, but most can't.
+> Am Mittwoch, den 24.06.2020, 11:11 -0700 schrieb Abhishek Pandit-
+> Subedi:
+> > QCA_ROME sometimes gets into a state where it is unresponsive to
+> > commands. Since it doesn't have support for a reset gpio, reset the usb
+> > port when this occurs instead.
 >
-> It is possible to do various sorts of reset in software, such as by using
-> the usbreset program mentioned above.  But none of them do exactly the
-> same thing as unplugging and replugging the USB cable.
+> Hi,
 >
-> Alan Stern
-I guess I'll have to reboot if it loses the AP.
-I can automate that. :-)
+> on first glance this looks like an unbalanced PM reference. It is not
+> because the operation is suicidal, but this deserves a comment, unless
+> you want to get a note telling you that you caused an imbalance every
+> few weeks.
+>
+>         Regards
+>                 Oliver
+>
