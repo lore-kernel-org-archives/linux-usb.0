@@ -2,221 +2,59 @@ Return-Path: <SRS0=mkWF=AH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E3BDC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Jun 2020 18:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 170B7C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Jun 2020 19:16:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3460820836
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Jun 2020 18:56:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="o5YUlCHs"
+	by mail.kernel.org (Postfix) with ESMTP id F1C90208C7
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Jun 2020 19:16:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725807AbgFZS4N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Jun 2020 14:56:13 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:14842 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725994AbgFZSzd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 26 Jun 2020 14:55:33 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1593197732; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=kXCuA32AqYN/5o8mlvhJtFtJfKRMwUgSpIUrb0rY8FA=; b=o5YUlCHsOoub9MPN1dOUpdgDHBo9ID6HoQysvaHYC36Bxqa9NUqp15sAU55AMsAjZdcYP3A9
- 3KC7f4Fz8t8KMEbPLSboycdw0aM0ewM0tfz93sp8gjlZ6kuZqAOJrTgrzZZjyrMsr2byrVb4
- cYxQOeBM6HBh+fG9fLqo9frFvK0=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n12.prod.us-east-1.postgun.com with SMTP id
- 5ef6449d356bcc26abcdc1aa (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Jun 2020 18:55:25
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id F0093C433CB; Fri, 26 Jun 2020 18:55:24 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A970AC433AF;
-        Fri, 26 Jun 2020 18:55:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A970AC433AF
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     heikki.krogerus@linux.intel.com, agross@kernel.org,
-        mark.rutland@arm.com, bjorn.andersson@linaro.org,
-        gregkh@linuxfoundation.org, broonie@kernel.org,
-        lgirdwood@gmail.com, robh+dt@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, rdunlap@infradead.org,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v4 4/6] regulator: Add support for QCOM PMIC VBUS booster
-Date:   Fri, 26 Jun 2020 11:55:14 -0700
-Message-Id: <20200626185516.18018-5-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200626185516.18018-1-wcheng@codeaurora.org>
-References: <20200626185516.18018-1-wcheng@codeaurora.org>
+        id S1725958AbgFZTQj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Jun 2020 15:16:39 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:45993 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725780AbgFZTQj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Jun 2020 15:16:39 -0400
+Received: (qmail 307998 invoked by uid 1000); 26 Jun 2020 15:16:38 -0400
+Date:   Fri, 26 Jun 2020 15:16:38 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     bugzilla-daemon@bugzilla.kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [Bug 208307] New: Alcor Micro Corp. Multi Flash Reader
+ [058f:6366] keeps being detected and removed continuously
+Message-ID: <20200626191638.GB306201@rowland.harvard.edu>
+References: <bug-208307-208809@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bug-208307-208809@https.bugzilla.kernel.org/>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some Qualcomm PMICs have the capability to source the VBUS output to
-connected peripherals.  This driver will register a regulator to the
-regulator list to enable or disable this source by an external driver.
+On Wed, Jun 24, 2020 at 05:05:49AM +0000, bugzilla-daemon@bugzilla.kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=208307
+> 
+>             Bug ID: 208307
+>            Summary: Alcor Micro Corp. Multi Flash Reader [058f:6366] keeps
+>                     being detected and removed continuously
+>            Product: Drivers
+>            Version: 2.5
+>     Kernel Version: 5.8-rc2
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/regulator/Kconfig                   | 10 +++
- drivers/regulator/Makefile                  |  1 +
- drivers/regulator/qcom_usb_vbus-regulator.c | 97 +++++++++++++++++++++
- 3 files changed, 108 insertions(+)
- create mode 100644 drivers/regulator/qcom_usb_vbus-regulator.c
+> We have a laptop equipped with AMD Ryzen 5 4500U with Radeon Graphics.  The
+> Alcor Micro Corp. Multi Flash Reader keeps being detected and removed
+> continuously.  Then, once the storage modules try to access it, there will be
+> the failure.  These messages keep showing up like floods in the kernel message
+> log.
 
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 074a2ef55943..273d85a45263 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -797,6 +797,16 @@ config REGULATOR_QCOM_SPMI
- 	  Qualcomm SPMI PMICs as a module. The module will be named
- 	  "qcom_spmi-regulator".
- 
-+config REGULATOR_QCOM_USB_VBUS
-+	tristate "Qualcomm USB Vbus regulator driver"
-+	depends on SPMI || COMPILE_TEST
-+	help
-+	  If you say yes to this option, support will be included for the
-+	  regulator used to enable the VBUS output.
-+
-+	  Say M here if you want to include support for enabling the VBUS output
-+	  as a module. The module will be named "qcom_usb_vbus_regulator".
-+
- config REGULATOR_RC5T583
- 	tristate "RICOH RC5T583 Power regulators"
- 	depends on MFD_RC5T583
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index c0d6b96ebd78..cbab28aa7b56 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -89,6 +89,7 @@ obj-$(CONFIG_REGULATOR_QCOM_RPM) += qcom_rpm-regulator.o
- obj-$(CONFIG_REGULATOR_QCOM_RPMH) += qcom-rpmh-regulator.o
- obj-$(CONFIG_REGULATOR_QCOM_SMD_RPM) += qcom_smd-regulator.o
- obj-$(CONFIG_REGULATOR_QCOM_SPMI) += qcom_spmi-regulator.o
-+obj-$(CONFIG_REGULATOR_QCOM_USB_VBUS) += qcom_usb_vbus-regulator.o
- obj-$(CONFIG_REGULATOR_PALMAS) += palmas-regulator.o
- obj-$(CONFIG_REGULATOR_PFUZE100) += pfuze100-regulator.o
- obj-$(CONFIG_REGULATOR_PV88060) += pv88060-regulator.o
-diff --git a/drivers/regulator/qcom_usb_vbus-regulator.c b/drivers/regulator/qcom_usb_vbus-regulator.c
-new file mode 100644
-index 000000000000..342d92373598
---- /dev/null
-+++ b/drivers/regulator/qcom_usb_vbus-regulator.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// Qualcomm PMIC VBUS output regulator driver
-+//
-+// Copyright (c) 2020, The Linux Foundation. All rights reserved.
-+
-+#include <linux/module.h>
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regulator/driver.h>
-+#include <linux/regulator/of_regulator.h>
-+#include <linux/regmap.h>
-+
-+#define CMD_OTG				0x40
-+#define OTG_EN				BIT(0)
-+#define OTG_CFG				0x53
-+#define OTG_EN_SRC_CFG			BIT(1)
-+
-+static const struct regulator_ops qcom_usb_vbus_reg_ops = {
-+	.enable = regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+};
-+
-+static struct regulator_desc qcom_usb_vbus_rdesc = {
-+	.name = "usb_vbus",
-+	.ops = &qcom_usb_vbus_reg_ops,
-+	.owner = THIS_MODULE,
-+	.type = REGULATOR_VOLTAGE,
-+};
-+
-+static int qcom_usb_vbus_regulator_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct regulator_dev *rdev;
-+	struct regmap *regmap;
-+	struct regulator_config config = { };
-+	struct regulator_init_data *init_data;
-+	int ret;
-+	u32 base;
-+
-+	ret = of_property_read_u32(dev->of_node, "reg", &base);
-+	if (ret < 0) {
-+		dev_err(dev, "no base address found\n");
-+		return ret;
-+	}
-+
-+	regmap = dev_get_regmap(dev->parent, NULL);
-+	if (regmap) {
-+		dev_err(dev, "Failed to get regmap\n");
-+		return -ENOENT;
-+	}
-+
-+	init_data = of_get_regulator_init_data(dev, dev->of_node,
-+					       &qcom_usb_vbus_rdesc);
-+	if (!init_data)
-+		return -ENOMEM;
-+
-+	qcom_usb_vbus_rdesc.enable_reg = base + CMD_OTG;
-+	qcom_usb_vbus_rdesc.enable_mask = OTG_EN;
-+	config.dev = dev;
-+	config.init_data = init_data;
-+	config.regmap = regmap;
-+
-+	rdev = devm_regulator_register(dev, &qcom_usb_vbus_rdesc, &config);
-+	if (IS_ERR(rdev)) {
-+		ret = PTR_ERR(rdev);
-+		dev_err(dev, "not able to register vbus reg %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* Disable HW logic for VBUS enable */
-+	regmap_update_bits(regmap, base + OTG_CFG, OTG_EN_SRC_CFG, 0);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id qcom_usb_vbus_regulator_match[] = {
-+	{ .compatible = "qcom,pm8150b-vbus-reg" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, qcom_usb_vbus_regulator_match);
-+
-+static struct platform_driver qcom_usb_vbus_regulator_driver = {
-+	.driver		= {
-+		.name	= "qcom-usb-vbus-regulator",
-+		.of_match_table = qcom_usb_vbus_regulator_match,
-+	},
-+	.probe		= qcom_usb_vbus_regulator_probe,
-+};
-+module_platform_driver(qcom_usb_vbus_regulator_driver);
-+
-+MODULE_DESCRIPTION("Qualcomm USB vbus regulator driver");
-+MODULE_LICENSE("GPL v2");
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Try disabling Link Power Management for this device:
 
+   echo 058f:6366:k >/sys/module/usbcore/parameters/quirks
+
+Alan Stern
