@@ -2,74 +2,71 @@ Return-Path: <SRS0=tLKL=AJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DCFEC433DF
-	for <linux-usb@archiver.kernel.org>; Sun, 28 Jun 2020 19:55:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E36C433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 28 Jun 2020 19:55:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E381B20716
-	for <linux-usb@archiver.kernel.org>; Sun, 28 Jun 2020 19:55:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C779F2053B
+	for <linux-usb@archiver.kernel.org>; Sun, 28 Jun 2020 19:55:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N26PmMbX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tfxRlJ4U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbgF1TzY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 28 Jun 2020 15:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52718 "EHLO
+        id S1726777AbgF1Txo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 28 Jun 2020 15:53:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbgF1Txq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 Jun 2020 15:53:46 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4B3C03E97A;
-        Sun, 28 Jun 2020 12:53:45 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id w16so14530560ejj.5;
-        Sun, 28 Jun 2020 12:53:45 -0700 (PDT)
+        with ESMTP id S1726718AbgF1Txn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 Jun 2020 15:53:43 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82EAC03E979;
+        Sun, 28 Jun 2020 12:53:43 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a1so14492828ejg.12;
+        Sun, 28 Jun 2020 12:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fPjGvKjCW6dK/yqgmCOTvyeAHLhCf44/++vEZ5RXXKU=;
-        b=N26PmMbXjO9VvHE1IPZi79DwLxnuHcB5r05bGLEldj5dLdZ8/+uUMXW5UJlY8EKCeo
-         ZMmXjyquOspJC5T1GH/7rnVhpHQ6BUzZsgrbjYosAtC09AAaxsisBWvGeYEznNR4rxYa
-         AF8F3IQaWucFKA7lsaczsbG6x+rXkXhYP9TFa26Q43ZuAX5IzMydqEA1GZAmYF7KBDRo
-         IHQbpFOMygcwpxirsSnfQw3+MBVWkXuOHAHo5B61fBkTb7K0aAVWeVZi9Stqc2jExS/y
-         iVrjDtrsc92VYFzBHquc+V5nRs12CRdpNYo+XwNknWk5Lounx4XtwVxRYrNOlGZYFKkY
-         Lziw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XyJoAKzD2xMTmaGb+2U8hknfu7zNJd/hENwzynkwJW4=;
+        b=tfxRlJ4UIIdWSnEzUIW/lHNPIDZRbEKOVVQMpsqpQBijWQblZkXJz9RJXxbmY/D42f
+         zInCM3145BZV6LRJ/PTtWBquxMqeConvZoFI7xSaE/tP9Z9ab6TaPnCGygtQ/Omu++7y
+         8UR7rAjD1CVfq+n0lMSAEoZf0yrhUPEXuM47qjuBMYCn58NR3uXk21V2nAeNweOlyW2t
+         ZEwXHoHfe71RKg0dvJDxDFfGheQVXw/ATZXeOIwLS+lJimITqoBy00Zm1K5dXBIIs9Qq
+         zKWpj12dDLB+oUpSI9nIZ1+h/aMSvYSQkZtVrwUp9w0NKYCYKmyH1jZPLd7eKBhEQvqw
+         O/bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fPjGvKjCW6dK/yqgmCOTvyeAHLhCf44/++vEZ5RXXKU=;
-        b=X5jkDFZEEnm0URzOsRvaUrrfhp3WvbQPKUymuXmW8m0HOiD54KJ8DsRYpsL+HMVMtx
-         iGT5Jrxx3aqLfxbuEg5nw1tenfjLVhU65RrJIY06HRYt73IvqHsXYUmpTmkfzNBmbta0
-         xTjen1WZv7vvumJizW1qrQEVdGzRYKKqyEMMw/j9yndV+wEe/dyWfhCohHPL2LQdPeUZ
-         HLGcwN6XqIwCYetEQCpRxOeF6G0bW6vsGOB1afx7M+QPoD+QCDUsWTieWhcwhRdsjO2P
-         sp8BTJ7y0e9Ptl4BKRxtCy0mDyG8+3E/w45K5OUcdICTVhVAQOcPWTX+b6rPVcbtZcFi
-         Z9Cg==
-X-Gm-Message-State: AOAM532Jw31Jt9M/h3qgKKSCQorkww1UK3HRXpp3jolc8c/foVTwZMen
-        VLcPty7Cx064AzOtfJWFIfE=
-X-Google-Smtp-Source: ABdhPJxxTdHTa56fOOFdq5+yu9QGRGlvURcWLD/3ueZenKrbEQKWCdITdgdnRJDxPaSpQH6u5op/Ng==
-X-Received: by 2002:a17:906:6410:: with SMTP id d16mr11845024ejm.376.1593374024492;
-        Sun, 28 Jun 2020 12:53:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XyJoAKzD2xMTmaGb+2U8hknfu7zNJd/hENwzynkwJW4=;
+        b=sfr2F1mQnLp3NB0FoJ38hvhssCEQcZsZ0t4mbYWB7gvgU6Ogyo36q2hs235N1j5zoP
+         3VZNd/j07bo2e0GXiebK7fLhPRQt12zJ8afjLj6OSBx+YI3KR6VjmEDuGLAO4A0C3O5b
+         xlIzQrJ8gvVE95mJErSyh5a0SX+fVMqUQuTlPnUav93zu8UKJXIJPPPTrBo9qgOdCeu/
+         9ve+ScDsIBSMP1Saf1TMb7ug4YtRZCollpPddGbLneiZemKQqudDywTPzd+W6RDeR+ys
+         zzIfGao+JnH8tFcFtNFllHx3R39nBnHPZKkMoFK4CARnE+gliPveIGprC8dgSGKACFhw
+         CDrg==
+X-Gm-Message-State: AOAM5313VrsrTCM7tpPaiEa2llm04E8l1MtWh/Nm88L4t+linPBVRP19
+        F+0oT+WarjU8x45ncWeLx4k=
+X-Google-Smtp-Source: ABdhPJyU6tDnSk4Ih0ey/mu+oeXnr+wchrmQxcBYhsVi3h+82J7obYCNcdpzpszIFShD5lHQz+WdVQ==
+X-Received: by 2002:a17:906:fca4:: with SMTP id qw4mr10670632ejb.362.1593374022389;
+        Sun, 28 Jun 2020 12:53:42 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:a03f:b7f9:7600:f145:9a83:6418:5a5c])
-        by smtp.gmail.com with ESMTPSA id z8sm15669531eju.106.2020.06.28.12.53.43
+        by smtp.gmail.com with ESMTPSA id z8sm15669531eju.106.2020.06.28.12.53.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 12:53:44 -0700 (PDT)
+        Sun, 28 Jun 2020 12:53:41 -0700 (PDT)
 From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 To:     "David S . Miller" <davem@davemloft.net>
 Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         oss-drivers@netronome.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: [PATCH 02/15] caif: fix caif_xmit()'s return type
-Date:   Sun, 28 Jun 2020 21:53:24 +0200
-Message-Id: <20200628195337.75889-3-luc.vanoostenryck@gmail.com>
+Subject: [PATCH 00/15] always use netdev_tx_t for xmit()'s return type
+Date:   Sun, 28 Jun 2020 21:53:22 +0200
+Message-Id: <20200628195337.75889-1-luc.vanoostenryck@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200628195337.75889-1-luc.vanoostenryck@gmail.com>
-References: <20200628195337.75889-1-luc.vanoostenryck@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -77,30 +74,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The method ndo_start_xmit() is defined as returning an 'netdev_tx_t',
-which is a typedef for an enum type, but the implementation in this
-driver returns an 'int'.
+The ndo_start_xmit() methods should return a 'netdev_tx_t', not
+an int, and so should return NETDEV_TX_OK, not 0.
+The patches in the series fix most of the remaning drivers and
+subsystems (those included in allyesconfig on x86).
 
-Fix this by returning 'netdev_tx_t' in this driver too.
 
-Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
----
- drivers/net/caif/caif_serial.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Luc Van Oostenryck (15):
+  cail,hsi: fix cfhsi_xmit()'s return type
+  caif: fix caif_xmit()'s return type
+  caif: fix cfspi_xmit()'s return type
+  caif: fix cfv_netdev_tx()'s return type
+  net: aquantia: fix aq_ndev_start_xmit()'s return type
+  net: arc_emac: fix arc_emac_tx()'s return type
+  net: nb8800: fix nb8800_xmit()'s return type
+  net: nfp: fix nfp_net_tx()'s return type
+  net: pch_gbe: fix pch_gbe_xmit_frame()'s return type
+  net: dwc-xlgmac: fix xlgmac_xmit()'s return type
+  net: plip: fix plip_tx_packet()'s return type
+  usbnet: ipheth: fix ipheth_tx()'s return type
+  net/hsr: fix hsr_dev_xmit()'s return type
+  l2tp: fix l2tp_eth_dev_xmit()'s return type
+  cxgb4vf: fix t4vf_eth_xmit()'s return type
 
-diff --git a/drivers/net/caif/caif_serial.c b/drivers/net/caif/caif_serial.c
-index d737ceb61203..bcc14c5875bf 100644
---- a/drivers/net/caif/caif_serial.c
-+++ b/drivers/net/caif/caif_serial.c
-@@ -266,7 +266,7 @@ static int handle_tx(struct ser_device *ser)
- 	return tty_wr;
- }
- 
--static int caif_xmit(struct sk_buff *skb, struct net_device *dev)
-+static netdev_tx_t caif_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct ser_device *ser;
- 
+ drivers/net/caif/caif_hsi.c                          | 6 +++---
+ drivers/net/caif/caif_serial.c                       | 2 +-
+ drivers/net/caif/caif_spi.c                          | 4 ++--
+ drivers/net/caif/caif_virtio.c                       | 2 +-
+ drivers/net/ethernet/aquantia/atlantic/aq_main.c     | 2 +-
+ drivers/net/ethernet/arc/emac_main.c                 | 2 +-
+ drivers/net/ethernet/aurora/nb8800.c                 | 2 +-
+ drivers/net/ethernet/chelsio/cxgb4vf/adapter.h       | 2 +-
+ drivers/net/ethernet/chelsio/cxgb4vf/sge.c           | 2 +-
+ drivers/net/ethernet/netronome/nfp/nfp_net_common.c  | 2 +-
+ drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c | 2 +-
+ drivers/net/ethernet/synopsys/dwc-xlgmac-net.c       | 2 +-
+ drivers/net/plip/plip.c                              | 4 ++--
+ drivers/net/usb/ipheth.c                             | 2 +-
+ net/hsr/hsr_device.c                                 | 2 +-
+ net/l2tp/l2tp_eth.c                                  | 2 +-
+ 16 files changed, 20 insertions(+), 20 deletions(-)
+
 -- 
 2.27.0
 
