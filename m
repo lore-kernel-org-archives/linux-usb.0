@@ -2,91 +2,98 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E17DC433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F436C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:31:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5CF82208B6
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:24:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 355DB207E8
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1593466260;
+	bh=ftGuVRVgqjk9PwokZ1ZSRnJZM48vH8egkh8R/K03F7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=vRhdKMT8DsmYnhs1MRxNTYUByICpnLxiypTs1mS0GYynWpheYzoMSz72cLMIXCsYz
+	 hzK3MTXdR1lmgxi6Cclf2En0mLd8Nqew88YAzc9VawvKbV9R6T7YnkMDNvunF472UN
+	 4UuHBeBAuiussvcNG+SO6R5stgwHdOPsJzpax6Ls=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390007AbgF2VYI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:24:08 -0400
-Received: from mga06.intel.com ([134.134.136.31]:65036 "EHLO mga06.intel.com"
+        id S2391241AbgF2Vat (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:30:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60608 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729270AbgF2Sua (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:50:30 -0400
-IronPort-SDR: bpG/He6aPixWB4li9kCcVFOnjF7lscqgx+SMdMJTxG4U1/CV3PwebOjhcEBBL8+2Bwd09DlKhK
- 6JYFqC+dN5Og==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="207498179"
-X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
-   d="scan'208";a="207498179"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2020 08:39:30 -0700
-IronPort-SDR: zsdD4/J4nt4Z8e+VXY+Oxu6RcvwCmr979GDt1GenLaisZ41lbxSGdxdl5axa5t/xla83Uu7y1x
- LRuJnQlLQRoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
-   d="scan'208";a="386426200"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 29 Jun 2020 08:39:27 -0700
-Received: by lahna (sSMTP sendmail emulation); Mon, 29 Jun 2020 18:39:27 +0300
-Date:   Mon, 29 Jun 2020 18:39:27 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH 00/17] thunderbolt: Tunneling improvements
-Message-ID: <20200629153927.GS5180@lahna.fi.intel.com>
-References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
+        id S1728828AbgF2SlU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Jun 2020 14:41:20 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A853023134;
+        Mon, 29 Jun 2020 08:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593418249;
+        bh=ftGuVRVgqjk9PwokZ1ZSRnJZM48vH8egkh8R/K03F7Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EKuRkQ2BiHMfRIFe8CdjR0qvDn5rm9WrsWhrFDzsY8en1EUHyk0ruTgCkPe/OYRt0
+         2+mzFCouHUepwnCP70mA3qtzrpPe1KZ5WvIrkzLiWNdrfzBdQSoVgYlB0z/wyBUTi0
+         jrwx4ip6uZf+jqAyXNew5BbRdkospW90++G+Oxn8=
+Date:   Mon, 29 Jun 2020 10:10:39 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Colin Ian King <colin.king@canonical.com>
+Subject: Re: [PATCH 2/2] usb: mtu3: fix NULL pointer dereference
+Message-ID: <20200629081039.GA1221843@kroah.com>
+References: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1593410434-19406-2-git-send-email-chunfeng.yun@mediatek.com>
+ <99fc1f6e-7907-6723-612a-8b68ffa871e5@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <99fc1f6e-7907-6723-612a-8b68ffa871e5@web.de>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 05:26:28PM +0300, Mika Westerberg wrote:
-> Hi all,
+On Mon, Jun 29, 2020 at 10:00:22AM +0200, Markus Elfring wrote:
+> > Some pointers are dereferenced before successful checks.
 > 
-> This series improves the Thunderbolt/USB4 driver to support tree topologies
-> that are now possible with USB4 devices (it is possible with TBT devices
-> but there are no such devices available in the market with more than two
-> ports).
+> I suggest to reconsider and improve the change description.
 > 
-> We also take advantage of KUnit and add unit tests for path walking and
-> tunneling (in cases where hardware is not needed). In addition we add
-> initial support for USB3 tunnel bandwidth management so that the driver can
-> share isochronous bandwidth between USB3 and DisplayPort.
+> * Would a null pointer dereference be possible only with the variables “mep”
+>   and “mreq” in the implementation of the function “mtu3_gadget_dequeue”?
 > 
-> Mika Westerberg (17):
->   thunderbolt: Fix path indices used in USB3 tunnel discovery
->   thunderbolt: Make tb_next_port_on_path() work with tree topologies
->   thunderbolt: Make tb_path_alloc() work with tree topologies
->   thunderbolt: Check that both ports are reachable when allocating path
->   thunderbolt: Handle incomplete PCIe/USB3 paths correctly in discovery
->   thunderbolt: Increase path length in discovery
->   thunderbolt: Add KUnit tests for path walking
->   thunderbolt: Add DP IN resources for all routers
->   thunderbolt: Do not tunnel USB3 if link is not USB4
->   thunderbolt: Make usb4_switch_map_usb3_down() also return enabled ports
->   thunderbolt: Make usb4_switch_map_pcie_down() also return enabled ports
->   thunderbolt: Report consumed bandwidth in both directions
->   thunderbolt: Increase DP DPRX wait timeout
->   thunderbolt: Implement USB3 bandwidth negotiation routines
->   thunderbolt: Make tb_port_get_link_speed() available to other files
->   thunderbolt: Add USB3 bandwidth management
->   thunderbolt: Add KUnit tests for tunneling
+> * How do you think about to adjust any more variable initialisations?
+> 
+> * Will it become helpful to add the tag “Fixes” to the commit message?
+> 
+> Regards,
+> Markus
 
-Queued these for v5.9.
+Hi,
+
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
+
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
+
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
+
+thanks,
+
+greg k-h's patch email bot
