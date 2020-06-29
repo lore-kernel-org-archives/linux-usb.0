@@ -2,47 +2,47 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D300C433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E92D7C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:59:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C7192063A
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:40:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C35EC206C3
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:59:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="J06awSLt"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="iFmORjkY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391168AbgF2Vkl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:40:41 -0400
-Received: from mout.web.de ([212.227.15.14]:46537 "EHLO mout.web.de"
+        id S2404795AbgF2V7U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:59:20 -0400
+Received: from mout.web.de ([212.227.15.4]:50243 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726966AbgF2Vkf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Jun 2020 17:40:35 -0400
+        id S1731388AbgF2V7S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Jun 2020 17:59:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1593466833;
-        bh=eFPVYKXOnSENohbuyonbWRq1F0OLlPtxo04hm41i4Jw=;
+        s=dbaedf251592; t=1593467956;
+        bh=S8T29fkcYiXDkPn/9lQ+45R4Jkq71F8qlpyc/mIFxpc=;
         h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=J06awSLtc3S3FD0/WIxFXAZ6A8tsAOGPkFiKj4w4Dw7qgovMEvK43dPBjUiWb96Wc
-         DFh1KZ5/Hz1cunIGi+2mYpBL1Qlivu/behZT1oLTyGdMNOmHmanWGpUo5yEbASrMsA
-         nbaQmUUku0piBRnNX8gzOaqNgee+ICIe6eMgMaWg=
+        b=iFmORjkYEdB5fFngA46+Axlm+dVx4vwUz1AE+KgsVUkoaCgOuzkx/13Zkt2c3et7J
+         aP0zwnsQBYHgkAf0Sp4vXBTxODrqlPi0qoSTNe8KIdrIwEqpQWTVAflirXv0ukpsXM
+         DGkJbtv9am/R3Jfak1b7FG6eDw7utcV/iYhT99cg=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.123.16]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LecN4-1j2jaR3AmE-00qRv5; Mon, 29
- Jun 2020 10:00:25 +0200
-Subject: Re: [PATCH 2/2] usb: mtu3: fix NULL pointer dereference
+Received: from [192.168.1.2] ([93.131.123.16]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0M73o5-1ivOy91X5Z-00wpRo; Mon, 29
+ Jun 2020 10:15:24 +0200
+Subject: Re: [PATCH 1/2] usb: mtu3: disable USB2 LPM
 To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Colin Ian King <colin.king@canonical.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Peter Chen <hzpeterchen@gmail.com>,
+        linux-kernel@vger.kernel.org
 References: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
- <1593410434-19406-2-git-send-email-chunfeng.yun@mediatek.com>
 From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -87,56 +87,52 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <99fc1f6e-7907-6723-612a-8b68ffa871e5@web.de>
-Date:   Mon, 29 Jun 2020 10:00:22 +0200
+Message-ID: <390dab28-2798-ee5a-ece3-bf7f2cd3f175@web.de>
+Date:   Mon, 29 Jun 2020 10:15:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <1593410434-19406-2-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PizCbKGpJNTn7kZfWjisoo9mPDAoIPDPVWcuVGepIZSqN05lkgT
- Jo9ebRyje6ZSgX/opQn11xFpj9UUyG0ffXxbkiFiO4htPDOISmUkxRHsR/eloV4jq9+OqKd
- yN8ZmBwQMbdCf1xmBqYwpYe7p50esyW8f8KIEXM4VCevn6lM9v5BweWYI7L70ccGLYVMcQl
- X6zhk1uLo88yIGF1bG5Nw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zLtPOaNklz0=:JkMQymRAveoWdcYHTx/oN+
- uSljnuLc8FTYJXM6qdotS0v1/giq5xRC9gMsF1qpV5/6m7wiXlp7rLSm4PAWGU/4DfvGQH3sw
- klTYtvVrUHkIsDwmLHNyYqUE5LyMcQUt2rlVOI7lDaABPOErImsNuW+A6QwtN8LxKI0w2a2Zd
- AUNaFVTz5J8w/oGBIqiboMdxo8kUqG/WEhyMBI2vTNZQQUrEpkgGfi9v1er+elih0SCF12Uuz
- E3fUlEpgebkWG7Tv7dWnBCLUtumlAgKCFhZfmT+rfLe6v4l27eq1zl1Is2Y2VeYFg2J5cUW1V
- AuKYtjbVVb226G6eE009kFggXIgaY94RNcvhH33RpERDwxqfiwMntyA7gMQLuxdTtVR2vqBq3
- 2GFTmOL1b3ZEidpi6mcAT4tNhMU38qZh74Tadb6nLl3eF0fGzVVWOQS3X1Ip257rvVKpOrf7/
- c/qvymXM9Sd7r7yoT6eLJ80R/9/K/LfHKCD2NaJz7SH46rBuZVXWuS9NMS1HBfHxk/vsX2HX/
- lA6cLhxq3ELqtYe2EAILJ5U82JccIthO3FUAQnaycVO2zSN6u99xdmbvWRjMGYHGDOD/I1xZs
- KuFJIQAvZbB1QRKyHqPszEEtj5o0ik2mNyf9j7IcfZCldvMb+MPPTvwi+GhLvDaMT17wu9UQD
- +l5vPvhD0VhvcPUYIVsKbx9NLDDbt4eF4HL9jPxIxhhN/WH8glbxoDtfiNhWyUE7yGOomFwzC
- gsw07LhRqieH0SFEpt71B7QK2ti/CCpcvCXPjdrTK/XZtqA0BPRsaOBgTM90w6mxMabW9zAoY
- WnCNIyfOlXqouVJOZDkyV3NdGXjqDVqQdTolFgtIgVPEYJXhjNvfn+SBDShkrz2LazW0MtMMx
- mdXm3YkQJIvmv4k6DDAiq/nySgBSvwYca5Tp8x9fPX0jo1hXXdD4m7e4yJyZy0rDsJT4AfwgT
- 9fRWmhaIbJ/kFYl1FTX0HmMCeeZX2+3ABru2ivMYlIUbqe35ICwm4fORxOK9OK5ps0f4HJQae
- mOcqVm/mC4Qbs+cacNIyWDYDY99RMp+wQZB+e/J6SyYrOfAjeq3KBrVnRcbLq9NnqwzRpVS5A
- k3ONY/brcgKbD0hj153cpl+wZCbV4ULEhJvgJ84V6VFHI/4EDBAtqU5upBTo2/sgvcRvOl8Is
- jpRXnVjZH4R1F0HWPRrB37I6wB8HzpVaT3H80/xdJxjn5Z58eyzsIGvr+AhWMs4OwipJHrP12
- dm2aK4vlUyo6QPJqJ
+X-Provags-ID: V03:K1:t7V1F9kLqdX3GUIUap/U2aETmgPmRTpVr/MUNxvCH7AMYtaueRz
+ L1/p/GHjsaoxRpo0i8waXAtAE3ppx7cfQf4rbsAxDFsoZS//+HziGbu4MhLzC0OGy1baAIC
+ l/7ylzASryC5Le95u5bRV0XQFwkeG2JLit+p5clZLlv/xpX+c5t25vH1pntTFkIj0N/K8C9
+ G5q1SOKR4AaUZaZK72L6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2dJx+0PPcfs=:VQP90HRNpTyDkMv/V50oA6
+ YfgGhYHci9MQMC5Q+LVuQJFktQ5AT/IX4PGluW1BiHPUwuenVjWbqidC/9qQhq36WtgxJxttK
+ GNamCePNWU15REYzx82pL+6lRXyOZRUbljCyYazQHTxbcv2/1Nb6t+0wOxVTx4qk4CBawswlS
+ XqX3pmEG0K+rP4qQy+qKkPtN8EupqZAVDf8/O5GgY7wGdVuLQY0dai2ha/2JEGkyxFMTkO9ch
+ PhYKNSDD4l8AqDJNTtRwvg77YS5asxqmILMTGrOUWSBV6ak2QecPSNba9xy5DGBv/PkApB+vb
+ OHEz0z+ta/TG36p73fVwdZeUOJ2Kpjl1hlfunoq/Y5vmpD571Y3muLhwyp1p9JR+tz2sz1hcb
+ 0gXP0Fn2CNVuU5JcMH3ndYulbSQo4D34xbGnPTX7rCidgoMuqKmxvASdAStw6p7p8xNe4twP4
+ a5i0OW7vI0r2o029QyxpBPxppzKfoJ11oFx8H7pSo5k2QqkJ1s9cwMsNyUJqHldC6CWq5H6ed
+ PCRdyQlcZoUbfgzAX2lV50/Ljj+z4CUI1e4aHQHMJ35deF/LDN6KXApZmYveTiODeUAhWybmz
+ jsYsIJPP/Lgjpv0tKw8nlZbdj4UbVF8DXHxxsJVjReSC6PtB+FTFR3u2r1cR/muFuXBv9FaxG
+ fNNCFiewMze6f5vwVpYng7Tr+rYSi/Z9gA+XNNRBRlJfUYfPYGwIDuJpZXVeHTY9EPeb1s/Hl
+ jd7U7B1dL30XplrfNekaGRA7JmxpPWjShuMiPv5NgD5tgo7+RdGlmU5enSdfj4em/+eff3aYW
+ 38MxeIvl2P7GIia+l7hJknAqo3Pifb08G87y49XOTBZXzx+JXvnt/Lec2oF3KZNMkjEi49Khk
+ jUQWWfiaUf7anWw4Qrwe9jVg3RoDydNv32/qTRCXVRkAHO5IfVSRxPnUTRrbA155SlgwnozfM
+ EBVDysx9P8Nh5JsFOafpuInFqiNxEGndE2k+eGH3QacsOPPQamQmuLaDUQQ1LLkNNWij9Ou3H
+ i5HQ4kWay1SdULrwfZebGnOz/dFZL+KactgbtE/plgQL1shpaSRzR7Fs4Pw/7TMlpjLImuuTp
+ o2SavfNLQKAagOL/u9bSSlOEbLxjtHwMYhcge7rssogOpt+/06WJ4bhfl789ZgI7WlN36vUbJ
+ /S2uGx0e31a2Z4zrFxsOONijNUQ5kDWBqAlUs5Ft1gTdxwHJH3LkUSuBr755HOT4YNc0gTZR5
+ AwH8JsiK/Ud0sflzKGtjgyusuKhFLZeI61PyB+Q==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> Some pointers are dereferenced before successful checks.
+> A SuperSpeed device shall include the USB 2.0 extension descriptor
+=E2=80=A6
 
-I suggest to reconsider and improve the change description.
-
-* Would a null pointer dereference be possible only with the variables =E2=
-=80=9Cmep=E2=80=9D
-  and =E2=80=9Cmreq=E2=80=9D in the implementation of the function =E2=80=
-=9Cmtu3_gadget_dequeue=E2=80=9D?
-
-* How do you think about to adjust any more variable initialisations?
-
-* Will it become helpful to add the tag =E2=80=9CFixes=E2=80=9D to the com=
-mit message?
+If you would insist to combine the presented update steps for this softwar=
+e module,
+a cover letter would be helpful together with following improvements.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?id=3D9ebcfadb0610322ac537dd7aa5=
+d9cbc2b2894c68#n785
 
 Regards,
 Markus
