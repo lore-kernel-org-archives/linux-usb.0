@@ -2,105 +2,70 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.1 required=3.0 tests=DATE_IN_PAST_06_12,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72BDBC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A35A5C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:40:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AB0420885
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593466742;
-	bh=vPDldX/OJgl8GaW3Xll0Qf3Mn2CYsqcjnat3j+9TZYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=FkvXUBB7pTD6ocDbnkmGsJA+db5a5Gpf74RB5hzAlZ4TsNRCtBmVGuLH9ArysiBti
-	 lDoGNR49F1g7+9PWPefkfAresY/Od4BQFKS32XPzuBgW53qJkweQpIw+gypUGCWACO
-	 8XunssAunf2gJ8ks1kAIGUpffbvEO/OyHwySAUDo=
+	by mail.kernel.org (Postfix) with ESMTP id 7DCCC2063A
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:40:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728253AbgF2Vi4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:38:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60606 "EHLO mail.kernel.org"
+        id S1728243AbgF2Vk3 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:40:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60658 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728341AbgF2Skb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:40:31 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20B282333C;
-        Mon, 29 Jun 2020 08:10:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593418256;
-        bh=vPDldX/OJgl8GaW3Xll0Qf3Mn2CYsqcjnat3j+9TZYc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZVlL9y6spoDbUQbeqfwoml8Esl7npD20YlZM0kWQxJCgA3zh2OMEm1uqSvPc/vmzm
-         VMRF8VxrdD/0e1IKLLbe8pEegiop5mQmNUFKF2AxsqUIlKnF6dao1QWD4mqhVGnStR
-         xDzzLNGlP/a2qMf8rWWisRIXTUtxjEm5TkLsxO2w=
-Date:   Mon, 29 Jun 2020 10:10:47 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 1/2] usb: mtu3: disable USB2 LPM
-Message-ID: <20200629081047.GB1221843@kroah.com>
-References: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
- <af16d716-8bb3-ea1f-e410-b27443f74c31@web.de>
+        id S1727022AbgF2Sk1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Jun 2020 14:40:27 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 205843] USB storage on Type-C USB dock may not re-appear after
+ s2idle suspend/resume
+Date:   Mon, 29 Jun 2020 11:05:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rui.zhang@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: component assigned_to product
+Message-ID: <bug-205843-208809-nCwbipBleI@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205843-208809@https.bugzilla.kernel.org/>
+References: <bug-205843-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <af16d716-8bb3-ea1f-e410-b27443f74c31@web.de>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 09:30:58AM +0200, Markus Elfring wrote:
-> > A SuperSpeed device shall include the USB 2.0 extension descriptor
-> > and shall support LPM when operating in USB 2.0 HS mode(see usb3.2
-> > spec9.6.2.1). But we always don't support it, so disable it by
-> > default, otherwise device will enter LPM suspend mode when
-> > connected to Win10 system.
-> 
-> How do you think about a wording variant like the following?
-> 
->    Change description:
->    A SuperSpeed device shall include the USB 2.0 extension descriptor
->    and shall support Link Power Management when operating in USB 2.0
->    High Speed mode. (See also: USB 3.2 specification 9.6.2.1)
->    But we do not support it generally. Thus disable this functionality
->    by default.
->    Otherwise, the device will enter LPM suspend mode when connected
->    to Win10 system.
-> 
-> 
-> Would you like to add the tag “Fixes” to the commit message?
-> 
-> Regards,
-> Markus
+https://bugzilla.kernel.org/show_bug.cgi?id=205843
 
-Hi,
+Zhang Rui (rui.zhang@intel.com) changed:
 
-This is the semi-friendly patch-bot of Greg Kroah-Hartman.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|Run-Time-PM                 |USB
+           Assignee|rjw@rjwysocki.net           |drivers_usb@kernel-bugs.ker
+                   |                            |nel.org
+            Product|Power Management            |Drivers
 
-Markus, you seem to have sent a nonsensical or otherwise pointless
-review comment to a patch submission on a Linux kernel developer mailing
-list.  I strongly suggest that you not do this anymore.  Please do not
-bother developers who are actively working to produce patches and
-features with comments that, in the end, are a waste of time.
+--- Comment #2 from Zhang Rui (rui.zhang@intel.com) ---
+This is more a USB issue than an ACPI issue, reassign to USB experts.
 
-Patch submitter, please ignore Markus's suggestion; you do not need to
-follow it at all.  The person/bot/AI that sent it is being ignored by
-almost all Linux kernel maintainers for having a persistent pattern of
-behavior of producing distracting and pointless commentary, and
-inability to adapt to feedback.  Please feel free to also ignore emails
-from them.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
