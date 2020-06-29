@@ -2,146 +2,101 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897CBC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D05C433E1
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:18:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62B55206A1
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:13:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 371B8206A1
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:18:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="pQhv46/v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NhrbggVY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390608AbgF2VNI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:13:08 -0400
-Received: from mout.web.de ([212.227.15.3]:56259 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730135AbgF2VNE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Jun 2020 17:13:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1593465181;
-        bh=GbckntjVyg40tr+Z4lTM5jcF4Xd3zTNrMbsGyoGGFxM=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=pQhv46/vni1NP7NVUPg0RRndwK8JFXB2jERnOkqwpjZwi0UWFBhkjGMdmNJcJKHdR
-         ns36YnU3zqTX2pzHzYDq66/4RaHw1KdmDxci3zyFxY6E5eOJy9efVkY0kgwjXUIaGP
-         j8KqI36mFLrrvbsnNToUjFv2C3F/EmJV+9VvJOWw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.123.16]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M28WT-1jnKLl1Yy1-002WRb; Mon, 29
- Jun 2020 09:31:00 +0200
-Subject: Re: [PATCH 1/2] usb: mtu3: disable USB2 LPM
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <af16d716-8bb3-ea1f-e410-b27443f74c31@web.de>
-Date:   Mon, 29 Jun 2020 09:30:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S2390611AbgF2VSM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729795AbgF2Swu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 14:52:50 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30FA7C030F19;
+        Mon, 29 Jun 2020 09:26:11 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id i4so8248442pjd.0;
+        Mon, 29 Jun 2020 09:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=w+DmP+C5HpOoE0pF5Z5NBc0Vqj5wfx4GqPu5fUO5SGM=;
+        b=NhrbggVY5sSA7Uyq25kP4AEcu29RMFWffcjdoxn8fLYgfOV5WcqwQ+YNsQo+QMriEo
+         vBkbD0/gUBC4SMrWBXdHrfVIwe2gSA+ICRHqVuafLo9YZ8qmhSQVanuTROaYj5Pw7LJv
+         5S7uEacqlfYOmg1qQEHcf834yWYWQRAsGaPxYkxQyvpjJmnRI4n+C8tSrKNaoJ6VaGH2
+         yVUsvnNDIji/TzBiS2aYdSB4wozC0ZIpPYyZ37Om2hWvgzpVEp6kaZgIue60O01DKAQp
+         PujheshRs6shypUCOuemDko9Xkl6aVdsWJ1EetsmsFkAM5rsfOkbEWbeJqyEbNCn8XDb
+         lKFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=w+DmP+C5HpOoE0pF5Z5NBc0Vqj5wfx4GqPu5fUO5SGM=;
+        b=T5btMXH3oGlE5XHM1I+kCQyJBYviGmqKhjhgdOlpPgMuk29RGxTWlfjijwGKLY8H1p
+         CtwGzgU2r9IeDjpwGjHnLgBAmBnCF7GOEgOUWMuD6OQAnCXBfQ3Z02ai5z77nk9B9E1l
+         ci9T36esAvJdQ5zeGPIbb1gUJHJYx/SIwcX5YPntdRRtOtRplybHqSSAre6/AKethiZW
+         Ow6UHMvA/9OXY+imvwhzshFSU7W5taPawwqnHgK0BvMW9dNKrGkonTVwtehNaw+eMVmn
+         L1ok8+6Pt3vUERqcXUtP+Q/3P2QD1Rq6Rqp/mv0sv7XoFHNC9sPYQwLKFYAJUPKpP+oj
+         uzPA==
+X-Gm-Message-State: AOAM532RNayVw5zCbfV0MAIa7oA1CP4bB4XY+ki+h3+Xa6zYR2NyQn4/
+        kurJLbhnP3cjOQPML+Wt6Fg=
+X-Google-Smtp-Source: ABdhPJwYMqR9MGGMB/wlqZcfyW8f9Ks2SubK7+20EyaN9ZO5KJ9PLbCQa+GSdhDr4AMPO4oeLPCiiw==
+X-Received: by 2002:a17:90b:f97:: with SMTP id ft23mr15508228pjb.21.1593447970738;
+        Mon, 29 Jun 2020 09:26:10 -0700 (PDT)
+Received: from [10.230.30.107] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id x7sm206783pfp.96.2020.06.29.09.26.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2020 09:26:09 -0700 (PDT)
+Subject: Re: [PATCH v5 4/9] ARM: dts: bcm2711: Add reset controller to xHCI
+ node
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        f.fainelli@gmail.com, gregkh@linuxfoundation.org, robh@kernel.org,
+        wahrenst@gmx.net, p.zabel@pengutronix.de, andy.shevchenko@gmail.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com, tim.gover@raspberrypi.org,
+        linux-pci@vger.kernel.org, helgaas@kernel.org,
+        mathias.nyman@linux.intel.com, lorenzo.pieralisi@arm.com
+References: <20200629161845.6021-1-nsaenzjulienne@suse.de>
+ <20200629161845.6021-5-nsaenzjulienne@suse.de>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <8490b6d4-1e9f-f7c4-71f1-8b04605924a9@gmail.com>
+Date:   Mon, 29 Jun 2020 09:26:07 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <20200629161845.6021-5-nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vLXtRvv0TPIyWN9QDTCY3pBL+OVkLjRd48pYastvVAu9WFwnilT
- YDtCWfgtPdH/nhAgtI95ZAX4lZwWqAhT7B131Oiuf21CgY61MSfQ6nm/gvgpBJK8A5jTAik
- 83z04u+HTxpKcmn/8++Lyl/HO1nhZEl4ZXwisCHH8XVIY+pvSqXGgxXPR4/dMEQS4IzO6kr
- 5QzwFKlMx1ZuvB9MZc+ww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F6NqNKB0Afo=:WGpywVafLi1KJmyCAnHGjg
- amcrb+qcUyC7kwDqIy/U2DzsqxgpJrOTDniWgNnaLxbBUB8Qg0Zu2TOB4cBVYgccNvhG2V3m9
- FmTB4PmPluebdinCipPrA5CQNSacwRNecWwmcUbUSpaqUARrKybnGQPdXLP7Kmko6aG1v+fc9
- vTg/tfDKQgFTlNxFv7/mum6gprabU2naNxccAMkvwWUXEGAuRaw6yb0q5qegTH1dSEMXe4XF6
- d4pJozgfy0S3X72ooSxGoq/Oo9RQq1tIFWLuLfaNdMDTOVKvi0dXfOV6y6ERpFeZCE5MVbflZ
- 8v+r2mULwk+OR8iWmnwp7WSgmQc6yihtS/1Xizj2JwGdGBduz5gcIhTIlK+cEmR0lR+cIbAph
- LGsA3wbuBk7R8WBGEO/EmOjLPLrJJn1HK2LPVSUctvvI5YabqDir8PAhXXr1NvSCRLJ4MXuFh
- IyDcELCuomo6mShKc6OmXVI6osAVpzpEsPLe8sTcKRc1IFFUOwAGnR1ew54cYRnGEU8QgoCdH
- puk+YjVYbQX2xu75FfheUG/mej5WRFTQS98AsPomYoXu6nBb4EgwKnnr0UPqoZpKcVOrU5PYa
- wBFgxit+WxrpjAdv9NUpQGUYVjNH1I6SRXiwOt4s7ewsMT+iU0QFrlfa+2hYzm9Pd1mkxyOjr
- IHXLC6vjrhLCfK4gjlR15q+wKJKLt8IOiPxkIZsynyzr3jP4JmNvE31V1gcjqyeLfTXysRHxp
- u2Sqdz1cJMPJ+3H9jkRzj+Qmt0TaKQWYQ/ufVw7FbZh68GBgCcXO3kTtmeyLWpZrEOaT+terA
- Mseuay7gaAD2xBe+RsPDT3+PcIcYQsqejjrIYUGDVvk9xK/Y19FjzEF0gAItdy4GbW1VHFYpz
- NrNfflkOqXU6dg7APxhWjYJR7MuVflUVTUOL200LWY2EluJk+2lqi9FGERlWv9PXymiYJuTQs
- R6AVSsPKEtJ8SN2jrByD55HhUlQy0+ss6jcaUgCkqwyatXRIZxQ8OvX1MPNThFyjuQXdz6OT5
- +zA5HXCmcubxUqfq1ADzGEqIZ3uQpq0Tn1E3dBaVHH88fKJ35nKYNxHhU06TNk2WCWIFX8OoP
- UzT99Ke3likdno61IFH9ieZ2isqjJsEjzNa0ZstBVWYFHmPshlmlnButomHbfTouYfMtCaHnM
- igTLOMnB2V+JaYSIoQ2a3Oh9aFUCj0bxm5pOzNMR8o/qRnW4cq/goQnTDaKPQALRMqlc9Yjh8
- Zp4eVPKsn+npa2+dX
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> A SuperSpeed device shall include the USB 2.0 extension descriptor
-> and shall support LPM when operating in USB 2.0 HS mode(see usb3.2
-> spec9.6.2.1). But we always don't support it, so disable it by
-> default, otherwise device will enter LPM suspend mode when
-> connected to Win10 system.
-
-How do you think about a wording variant like the following?
-
-   Change description:
-   A SuperSpeed device shall include the USB 2.0 extension descriptor
-   and shall support Link Power Management when operating in USB 2.0
-   High Speed mode. (See also: USB 3.2 specification 9.6.2.1)
-   But we do not support it generally. Thus disable this functionality
-   by default.
-   Otherwise, the device will enter LPM suspend mode when connected
-   to Win10 system.
 
 
-Would you like to add the tag =E2=80=9CFixes=E2=80=9D to the commit messag=
-e?
+On 6/29/2020 9:18 AM, Nicolas Saenz Julienne wrote:
+> The chip is hardwired to the board's PCIe bus and needs to be properly
+> setup trough a firmware routine after a PCI fundamental reset. Pass the
+> reset controller phandle that takes care of triggering the
+> initialization to the relevant PCI device.
+> 
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 
-Regards,
-Markus
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
