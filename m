@@ -2,167 +2,126 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 678F3C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:40:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CBAC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:40:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41BD420672
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593463209;
-	bh=SYovHmdb8PIUES37v2ogTyR+nE9wW/LbmtLVICn3sj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=xLZH+FzI99CMr+07zTlpwT4qeIIpR2tzfbEhZlxB5ATVM3RsEGPZlW0ZkhLoApngB
-	 0g+B3M7dIZ594y1fScfUKKEydOtUR1N9w+vZHyZwtrwIiW9dCt/m4GKuMR1+QYA+Jy
-	 hs2gSQwUNrWiglEhEHRwgMgBAgiMpB2QbqTNUCKc=
+	by mail.kernel.org (Postfix) with ESMTP id 266CA20720
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:40:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=infinera.com header.i=@infinera.com header.b="Lo1yLo1N"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389018AbgF2Uj4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43348 "EHLO
+        id S1729091AbgF2UkO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:40:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731721AbgF2TOO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 15:14:14 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119BDC0086F9
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2020 02:51:24 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id t9so8709617lfl.5
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2020 02:51:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=q2yZLsjigp7fy0R4Bzt1pxIyciUQlVsiCVn7CDXAKD8=;
-        b=GIdXuH2J7pil5Lcmw9eOB4XvYJGTN8rNy4+Y8gjmyWkBiwwpNAEucmQUKMZ1joafik
-         QJlOFY9l5YeB3m/zB35bx6PZNiF+zc7T0uZezx8oMOC1bR0NewhtKMB5bHYwf8Gva4O4
-         5eb1Glee1MoMSf76WgK/7nBl2zzkJHOldtGzu4BZ4V6Liz334CSxCdWSgwWWG+QhyxM+
-         JzpnZ7g2xLde+qr1x8KDU1tM2W3IU0vsVXwkiQqdA695zcoJTRPsJ9vntO+m8WhyW8zQ
-         x/IPIj2adneilTO7+GHtN6uc8kym+jvjvIhYaIJr/08+T8d9YuuAqpIiWeeR443tdLIk
-         zQmA==
-X-Gm-Message-State: AOAM5301O+JE5T3dJvzOdJVK67ZRS+iQILNtMnvjvKZYldt77UjjyerX
-        4ZdWEAtkWJCN1Ee5PZxQbfKbp8Fjfsc=
-X-Google-Smtp-Source: ABdhPJyOSvXiCGgCwzW0GLHj9j4SmcHtOWkLd4CC44pSSyHScgpzifjXD3ij2UQVlXwwK4csslkf/Q==
-X-Received: by 2002:ac2:47e7:: with SMTP id b7mr8634965lfp.68.1593424282335;
-        Mon, 29 Jun 2020 02:51:22 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id k25sm282019ljk.87.2020.06.29.02.51.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 02:51:21 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1jpqRc-0002Cf-Az; Mon, 29 Jun 2020 11:51:21 +0200
-Date:   Mon, 29 Jun 2020 11:51:20 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Michael Hanselmann <public@hansmi.ch>
-Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        Michael Dreher <michael@5dot1.de>,
-        Jonathan Olds <jontio@i4free.co.nz>
-Subject: Re: [PATCH v2 4/6] USB: serial: ch341: Name prescaler, divisor
- registers
-Message-ID: <20200629095120.GR3334@localhost>
-References: <cover.1585697281.git.public@hansmi.ch>
- <65cfdf4a0600e86e89b3a3fb839e733ecebee688.1585697281.git.public@hansmi.ch>
- <20200514142434.GF25962@localhost>
- <2e80916d-1be8-dc0f-abf9-adc0feea1803@msgid.hansmi.ch>
+        with ESMTP id S1731711AbgF2TOM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 15:14:12 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2060b.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eab::60b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDE8C0068B0
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2020 04:48:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QWAXFSMU/mPkbvtp5Cm+CPz4MK4XWVCxtJuefggfK9yz8uY+GC4pLgf39IjtjHW5f4WSo3TAVlFaW3+II2lUNBL73jWBjEU7Xp3nH7CBYv4mu/UFJrSNds35uaq1BEnn4NMUmggnzt+4q+WfQe09fp1enjPQesVLLh/TZKSxEB5ZzUeNRqq5DMdPNjDimDqdRsSiRAtHg5XYnRrrBK0uNMtJzHBDipDSV99owdRc/ghqQLNsqxN29Gt0dbUmQeHruK59UNpaJGMSmMDwdd79mXCNmw8ui6RJHYO7s4c/rm+SzPUDLcHxrQ6/ww0xSrAn1TfqKLNjGaToa/jyCF2skg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CIW6aNegH+SuyRQ8azYVFeTgYcabYtXJndYVbcX6MQM=;
+ b=E/OdoTjLv3adGl+5W01EYmU3UBz6Md+QoeiUZgG0v4o8X2HV06ny/D3SFuHEx5g1drLdc+D7nmu5kost/Z5QiZaYRvOAWzPqXORdg8Xm7UYdNkaoiVICBNo/yubZbnNaL+gY6hfFrOpwH2fpnAQJozAks3pcdUQFKDk9zJbxH+6ODEwYHNTAkVrIpOhUIUtm10cyYc89xgJvkBSHsba062Yn73OwbFOO56ZhdRDqj2NwCN6pAXvpD0WDa/7Puf7oA1gkraBZMP0t5y+Rm7Ax0pHy0N/BwOh3imVgdzEh47NNFxLfMY5rAjcN+lL6zjHj81GWZyaas3n6yVbLbxpprw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
+ dkim=pass header.d=infinera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CIW6aNegH+SuyRQ8azYVFeTgYcabYtXJndYVbcX6MQM=;
+ b=Lo1yLo1NrKYn8ng9WGTSTGme8VuekmYGFu8UromSPsVvbu1WDSsnWY5dPOL92L34IZ3aI4wH/Hkj2XcfPJqXRze7o49gdPX68DaspH+XTEPa/5xenkdpxPT7qDKY9swP/gBnczDHo4GwjnUCIqBlco9E0jQWCJSxCdef2hZ5eD0=
+Received: from MWHPR1001MB2190.namprd10.prod.outlook.com
+ (2603:10b6:301:2e::20) by MWHPR1001MB2077.namprd10.prod.outlook.com
+ (2603:10b6:301:36::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.25; Mon, 29 Jun
+ 2020 11:48:20 +0000
+Received: from MWHPR1001MB2190.namprd10.prod.outlook.com
+ ([fe80::b439:ba0:98d6:c2d1]) by MWHPR1001MB2190.namprd10.prod.outlook.com
+ ([fe80::b439:ba0:98d6:c2d1%5]) with mapi id 15.20.3131.027; Mon, 29 Jun 2020
+ 11:48:20 +0000
+From:   Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+To:     "peter.chen@nxp.com" <peter.chen@nxp.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: "usb: gadget: core: sync interrupt before unbind the udc"
+ question
+Thread-Topic: "usb: gadget: core: sync interrupt before unbind the udc"
+ question
+Thread-Index: AQHWTfxUURogi5P0F06kOiJScuWkHajvdzDQgAADNIA=
+Date:   Mon, 29 Jun 2020 11:48:19 +0000
+Message-ID: <8968a345994bca4f1835804ff6e802ccf15826a0.camel@infinera.com>
+References: <3cbe4bf7fd4a152e600ecb1b85b8a24ad5aacc55.camel@infinera.com>
+         <AM7PR04MB7157E127429188EFDF829EAC8B6E0@AM7PR04MB7157.eurprd04.prod.outlook.com>
+In-Reply-To: <AM7PR04MB7157E127429188EFDF829EAC8B6E0@AM7PR04MB7157.eurprd04.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.3 
+authentication-results: nxp.com; dkim=none (message not signed)
+ header.d=none;nxp.com; dmarc=none action=none header.from=infinera.com;
+x-originating-ip: [88.131.87.201]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c6c5d330-aa91-4cca-8ecc-08d81c2251d2
+x-ms-traffictypediagnostic: MWHPR1001MB2077:
+x-microsoft-antispam-prvs: <MWHPR1001MB20772D3D48EAAAF1D1B34E2DF46E0@MWHPR1001MB2077.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:345;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1FZqj1RRiYDCYNtBHcEZV+804aOcbD/Qx2PNcMnimNnj48igLFDVqd/XFty5fupHuXiMzOFlaTxbs5Qgnp48AgN9/5ryBYCSM1Yo0ELBVVAJc8bBKhuY2vGYl0lDbW/+RlIZBxMq1WSkYIsATFzM+quq5/UoHiyVX379e/jZZEBfUpMHbuLpASm7GGJGc76aLScfHN+DT6uD6tsj52KSxRVU+Bn7gExbeD7NVMK1lNzcX8+YdFsMQE/KUnLlKMqKtdxUumLLHsBGLYzukIEE5/CWHgRN1VcifVEvtZV7xjIj15EXmp1pNNxd4r+iMBMmBp+PHntE77cxVkZTLJ/9xNtHE1hQUZpor/ZYDxiVUe2IKU9KfePCS1EFkFEWJR5ZV2FdEZw95J44JIwYYyFRnA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2190.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(346002)(136003)(396003)(376002)(39850400004)(45080400002)(5660300002)(66946007)(86362001)(6506007)(91956017)(76116006)(6512007)(26005)(36756003)(66476007)(66556008)(6486002)(64756008)(186003)(66446008)(2906002)(2616005)(316002)(6916009)(478600001)(8936002)(966005)(71200400001)(8676002)(4326008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: x/BekuT3sWbH/yPJW2r2TcHyjXCwT9PKr1b+wgfHx5tOXS3JXh67uyNxVbRSi6AD+iTL/YXQtlTmKPQuCynRiDyaXkyIOwYpJFv4eV/NCdB2XXBC4lI9q+lejscXcPf4VMfoNGLHUBSRJ+rF8VGxe+4K4iXP5rDVleLHXFKGNcKEh/rshNzyV8qo5A/E7FILhfvblU2On8/FwtidiH5B7NttS1y5lTUJJxh4OW6/hBJsvvTWeiZi9aReDlCVe4BJP9B7iToTtbSqYBnNStt1PYLGsGGKW1N2Pyh4NvcaKSeyF1peuc7xkssm4JO3Q0FAz85l+qSqLbMUqmqD0IioTdIRly+mAhunQj15T+oaqqgsyvd5zHrbSY38OgELKNfRnQhAJTmHXbi5HXEvCvfVoe3cCWg1RUKn9kCn2RqRtML/A8yWlXW8agMiLN46FPgzm39AeoPok/FzX5i68DslKeD0vBu84OllrpU0RgZ5pzA=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5DADEAC910C636438D67020A56C558DF@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e80916d-1be8-dc0f-abf9-adc0feea1803@msgid.hansmi.ch>
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2190.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6c5d330-aa91-4cca-8ecc-08d81c2251d2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 11:48:19.7604
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jlb/1V5qMjdOuRZh+2wzRluINtKmw0NMDLTPVlvSuhVcLn+OsOMLh3JzBfGPOkeL+RE6gm1bXyfuVhiPqeoiiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2077
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 27, 2020 at 10:59:53PM +0200, Michael Hanselmann wrote:
-> On 14.05.20 16:24, Johan Hovold wrote:
-> > On Tue, Mar 31, 2020 at 11:37:20PM +0000, Michael Hanselmann wrote:
-
-> >> The 0x25 register is only used by CH341 chips before version 0x30 and is
-> >> involved in configuring the line control parameters. It's not known to
-> >> the author whether there any such chips in the wild, and the driver
-> >> never supported them (other registers are also treated differently). The
-> >> alternative would've been to not set the register, but that may have
-> >> unintended effects.
-> > 
-> > How did you come to those conclusions? I see this register being written
-> > the value zero in some older version of the vendor driver, but not in
-> > more recent ones.
-> >
-> > Are you sure it's at all related to LCR?
-> 
-> I am looking at version 3.50.2014.8 from 2019-03-04 of CH341S64.SYS, the
-> vendor driver. The function configuring registers 0x18 and 0x25 starts
-> at offset 0x119f0.
-> 
-> For chip versions 0x30 and above 0x25 is always set to 0. For versions
-> before 0x30 the values stored in register 0x25 depend on stop bit,
-> partity and word length settings.
-
-Great, thanks for confirming.
-
-> From aa597afe1e9cf5641b94b377ce63248c2d0d677a Mon Sep 17 00:00:00 2001
-> From: Michael Hanselmann <public@hansmi.ch>
-> Date: Wed, 27 May 2020 22:56:54 +0200
-> Subject: [PATCH] USB: serial: ch341: Name prescaler, divisor registers
-> 
-> Add constants for the prescaler and divisor registers. Document and
-> name register 0x25, and put the LCR define to more use.
-> 
-> The 0x25 register (CH341_REG_LCR2) is only used by CH341 chips before
-> version 0x30 and is involved in configuring the line control parameters.
-> It's not known to the author whether there any such chips in the wild,
-> and Linux' ch341 driver never supported them. For chip version 0x30 and
-> above the 0x25 register is always set to zero. The alternative would've
-> been to not set the register at all, but that may have unintended
-> effects.
-> 
-> Signed-off-by: Michael Hanselmann <public@hansmi.ch>
-> ---
->  drivers/usb/serial/ch341.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
-> index 89675ee29645..97214e1ec5d2 100644
-> --- a/drivers/usb/serial/ch341.c
-> +++ b/drivers/usb/serial/ch341.c
-> @@ -59,7 +59,11 @@
->  #define CH341_REQ_MODEM_CTRL   0xA4
->  
->  #define CH341_REG_BREAK        0x05
-> +#define CH341_REG_PRESCALER    0x12
-> +#define CH341_REG_DIVISOR      0x13
->  #define CH341_REG_LCR          0x18
-> +#define CH341_REG_LCR2         0x25
-> +
->  #define CH341_NBREAK_BITS      0x01
->  
->  #define CH341_LCR_ENABLE_RX    0x80
-> @@ -246,11 +250,20 @@ static int ch341_set_baudrate_lcr(struct usb_device *dev,
->  	 */
->  	val |= BIT(7);
->  
-> -	r = ch341_control_out(dev, CH341_REQ_WRITE_REG, 0x1312, val);
-> +	r = ch341_control_out(dev, CH341_REQ_WRITE_REG,
-> +			      CH341_REG_DIVISOR << 8 | CH341_REG_PRESCALER,
-> +			      val);
->  	if (r)
->  		return r;
->  
-> -	r = ch341_control_out(dev, CH341_REQ_WRITE_REG, 0x2518, lcr);
-> +	/*
-> +	 * Chip versions before version 0x30 as read using
-> +	 * CH341_REQ_READ_VERSION used separate registers for line control
-> +	 * (word length, parity and word length). Version 0x30 and above use
-
-I replaced the first "word length" with "stop bits" here before applying.
-
-> +	 * CH341_REG_LCR only and CH341_REG_LCR2 is always set to zero.
-> +	 */
-> +	r = ch341_control_out(dev, CH341_REQ_WRITE_REG,
-> +			      CH341_REG_LCR2 << 8 | CH341_REG_LCR, lcr);
->  	if (r)
->  		return r;
-
-Johan
+T24gTW9uLCAyMDIwLTA2LTI5IGF0IDExOjM3ICswMDAwLCBQZXRlciBDaGVuIHdyb3RlOg0KPiBD
+QVVUSU9OOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBvdXRzaWRlIG9mIHRoZSBvcmdhbml6
+YXRpb24uIERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Ug
+cmVjb2duaXplIHRoZSBzZW5kZXIgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4NCj4gDQo+
+IA0KPiA+IEluDQo+ID4gaHR0cHM6Ly9ldXIwMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29r
+LmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZ2l0Lmtlcm5lbC5vcmcNCj4gPiAlMkZwdWIlMkZzY20l
+MkZsaW51eCUyRmtlcm5lbCUyRmdpdCUyRnN0YWJsZSUyRmxpbnV4LmdpdCUyRmNvbW1pdCUyRg0K
+PiA+ICUzRmglM0RsaW51eC0NCj4gPiA1LjQueSUyNmlkJTNEODA1YmFlNzU5MmZhMmNmZWRlODk4
+YjI0ZTJhOGQ4NWZkZDYzMTdlZSZhbXA7ZGF0YT0wMiU3Qw0KPiA+IDAxJTdDcGV0ZXIuY2hlbiU0
+MG54cC5jb20lN0M3NTUxNjRhZjRjMGQ0NDdjYmY3OTA4ZDgxYzEzNzkwNCU3QzY4NmUNCj4gPiBh
+MWQzYmMyYjRjNmZhOTJjZDk5YzVjMzAxNjM1JTdDMCU3QzAlN0M2MzcyOTAyMTcyNDA3MzQ3NDYm
+YW1wO3NkYXQNCj4gPiBhPVNMTkhSQ2dod0lZRk94TTZROVFlY3lNdlg5QXpVTmZoZmtNR0dNUksz
+NFElM0QmYW1wO3Jlc2VydmVkDQo+ID4gPTANCj4gPiANCj4gPiBZb3UgYWRkIGFuICJpbnQgaXJx
+IiBmaWVsZCBidXQgSSBkb24ndCBzZWUgYW55dGhpbmcgc2V0dGluZyB0aGlzIGZpZWxkLCBzb21l
+dGhpbmcNCj4gPiBtaXNzaW5nPw0KPiA+IA0KPiANCj4gaHR0cHM6Ly9uYW0wMy5zYWZlbGlua3Mu
+cHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZ2l0Lmtlcm5lbC5vcmcl
+MkZwdWIlMkZzY20lMkZsaW51eCUyRmtlcm5lbCUyRmdpdCUyRm5leHQlMkZsaW51eC1uZXh0Lmdp
+dCUyRmNvbW1pdCUyRiUzRmlkJTNENzdmMzBmZjQ5NzYxYWNiYjNkOTBhY2EwMDA0ZjM5M2ZkODFi
+NjNhOCZhbXA7ZGF0YT0wMiU3QzAxJTdDSm9ha2ltLlRqZXJubHVuZCU0MGluZmluZXJhLmNvbSU3
+QzBhYjQ3N2E1MWI1NzQ2MWNmYzAxMDhkODFjMjBlMDkzJTdDMjg1NjQzZGU1ZjViNGIwM2ExNTMw
+YWUyZGM4YWFmNzclN0MxJTdDMCU3QzYzNzI5MDI3NDgxNjU2OTMwNCZhbXA7c2RhdGE9eTM0eiUy
+QkZERzg2elEzckJWUmJMekRlSW1NTG1Uclppbmc5Um9vTzNRUzNZJTNEJmFtcDtyZXNlcnZlZD0w
+DQo+IA0KPiBQZXRlcg0KDQpPSywgYnV0IHRoYXQgaXMgbm90IGluIHN0YWJsZT8geWV0Pw0KDQog
+Sm9ja2UNCg==
