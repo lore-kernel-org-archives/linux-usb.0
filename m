@@ -2,101 +2,91 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEA2C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E17DC433E1
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:24:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0BD6A20720
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:20:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AM+F86Qn"
+	by mail.kernel.org (Postfix) with ESMTP id 5CF82208B6
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 21:24:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388660AbgF2VT7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:19:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729783AbgF2Swt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 14:52:49 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB89DC030F1A;
-        Mon, 29 Jun 2020 09:26:51 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id q17so8109837pfu.8;
-        Mon, 29 Jun 2020 09:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5bN7dM1qqkzB4oSQWgEANKrL9UtxJ99LWuqLjb9OuoE=;
-        b=AM+F86QnW2dzuXU3xN50x8mxtIxp8MAvaG51U14uBQZANwaywi9RJ+1kPmsxLWdNbz
-         Oz7D2XrVbGZrOdBM2XafDcXT59lRxbe8HjEfXzKVursxu53R/YHUzapucN4LV1Qs8SVg
-         NBA+NyngwrwXir8jymJ5SeVr+ouHcmKkUN6XXSycq6lv0ztqhczxlAVdx0VdkAS2jFZx
-         VuEEBOgm/nbU5D265WSsxOqWXDf055+iwB18+b2msEXjUg6bYm2pmmqmDxhpLic0Ps8l
-         J7mtYxOuuuoBh+arYPJQFMpAQZvaK7W/dna+6ELTY6ZPrCyhMN10f12akiv5TmLtpV2d
-         tmwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5bN7dM1qqkzB4oSQWgEANKrL9UtxJ99LWuqLjb9OuoE=;
-        b=NTl1bzPRy8bc0uRflZvf/THBAfNUkLqnWOU/hysci2psG8lNMX/iB0kMHRFnk32uVU
-         RlKsUP16oB0CenGD+sR8GdDnnTTeM+UzYqckthzr9wKPVr4SQMfmCvG2BHpl4XbUa2DU
-         EzRlP0t6yeFEP3exj2IJHUkl40De4gicv65i2dPLhheBW7VYVbwZ4o5dPoFwrZ658N2b
-         ACfVI/mmwW7is3tEpd+OB4+8oXrzl2uEEKExfLDTIRkOzFad6TSUYjxzksvDTAHjtAJ/
-         UOUnMkRj4lZwVrw/pSV66lAf9OJtlkgyYWSEWgwEbyKWTyoSVBpCDbAfqJeNH6C8CBuB
-         K0Jw==
-X-Gm-Message-State: AOAM53338/04zULAqCAqLOvqENYlj2KjlHYnbyyXDCUT2TN6kVUZrkEF
-        xHk/AMDX7vFL8RG+wQ62470=
-X-Google-Smtp-Source: ABdhPJxOQPZ5VFmxPB46o4lC3E9R6j/viT+gImLcBv1uOLQosHYqe3ny9PZ5EcX+8+KFNhUqQYtyFA==
-X-Received: by 2002:a63:ab0d:: with SMTP id p13mr10958709pgf.327.1593448011387;
-        Mon, 29 Jun 2020 09:26:51 -0700 (PDT)
-Received: from [10.230.30.107] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id z11sm196296pfg.169.2020.06.29.09.26.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2020 09:26:50 -0700 (PDT)
-Subject: Re: [PATCH v5 5/9] usb: xhci-pci: Add support for reset controllers
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        f.fainelli@gmail.com, gregkh@linuxfoundation.org, robh@kernel.org,
-        wahrenst@gmx.net, p.zabel@pengutronix.de, andy.shevchenko@gmail.com
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com, tim.gover@raspberrypi.org,
-        linux-pci@vger.kernel.org, helgaas@kernel.org,
-        mathias.nyman@linux.intel.com, lorenzo.pieralisi@arm.com
-References: <20200629161845.6021-1-nsaenzjulienne@suse.de>
- <20200629161845.6021-6-nsaenzjulienne@suse.de>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <e9a52cf1-4786-d1c7-4d1e-1e619dfb37a8@gmail.com>
-Date:   Mon, 29 Jun 2020 09:26:48 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.9.0
+        id S2390007AbgF2VYI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:24:08 -0400
+Received: from mga06.intel.com ([134.134.136.31]:65036 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729270AbgF2Sua (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Jun 2020 14:50:30 -0400
+IronPort-SDR: bpG/He6aPixWB4li9kCcVFOnjF7lscqgx+SMdMJTxG4U1/CV3PwebOjhcEBBL8+2Bwd09DlKhK
+ 6JYFqC+dN5Og==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="207498179"
+X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
+   d="scan'208";a="207498179"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2020 08:39:30 -0700
+IronPort-SDR: zsdD4/J4nt4Z8e+VXY+Oxu6RcvwCmr979GDt1GenLaisZ41lbxSGdxdl5axa5t/xla83Uu7y1x
+ LRuJnQlLQRoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
+   d="scan'208";a="386426200"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 29 Jun 2020 08:39:27 -0700
+Received: by lahna (sSMTP sendmail emulation); Mon, 29 Jun 2020 18:39:27 +0300
+Date:   Mon, 29 Jun 2020 18:39:27 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH 00/17] thunderbolt: Tunneling improvements
+Message-ID: <20200629153927.GS5180@lahna.fi.intel.com>
+References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200629161845.6021-6-nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 6/29/2020 9:18 AM, Nicolas Saenz Julienne wrote:
-> Some atypical users of xhci-pci might need to manually reset their xHCI
-> controller before starting the HCD setup. Check if a reset controller
-> device is available to the PCI bus and trigger a reset.
+On Mon, Jun 15, 2020 at 05:26:28PM +0300, Mika Westerberg wrote:
+> Hi all,
 > 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> This series improves the Thunderbolt/USB4 driver to support tree topologies
+> that are now possible with USB4 devices (it is possible with TBT devices
+> but there are no such devices available in the market with more than two
+> ports).
+> 
+> We also take advantage of KUnit and add unit tests for path walking and
+> tunneling (in cases where hardware is not needed). In addition we add
+> initial support for USB3 tunnel bandwidth management so that the driver can
+> share isochronous bandwidth between USB3 and DisplayPort.
+> 
+> Mika Westerberg (17):
+>   thunderbolt: Fix path indices used in USB3 tunnel discovery
+>   thunderbolt: Make tb_next_port_on_path() work with tree topologies
+>   thunderbolt: Make tb_path_alloc() work with tree topologies
+>   thunderbolt: Check that both ports are reachable when allocating path
+>   thunderbolt: Handle incomplete PCIe/USB3 paths correctly in discovery
+>   thunderbolt: Increase path length in discovery
+>   thunderbolt: Add KUnit tests for path walking
+>   thunderbolt: Add DP IN resources for all routers
+>   thunderbolt: Do not tunnel USB3 if link is not USB4
+>   thunderbolt: Make usb4_switch_map_usb3_down() also return enabled ports
+>   thunderbolt: Make usb4_switch_map_pcie_down() also return enabled ports
+>   thunderbolt: Report consumed bandwidth in both directions
+>   thunderbolt: Increase DP DPRX wait timeout
+>   thunderbolt: Implement USB3 bandwidth negotiation routines
+>   thunderbolt: Make tb_port_get_link_speed() available to other files
+>   thunderbolt: Add USB3 bandwidth management
+>   thunderbolt: Add KUnit tests for tunneling
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
+Queued these for v5.9.
