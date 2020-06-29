@@ -2,167 +2,218 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E83C6C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:31:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D33C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:40:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0246206A1
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593462701;
-	bh=E0yMGGskFLee07FhJiydLK+s8IH+8j6nZgjkRaElzHQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=f9Tursa8byG0a4rXYrX8VMGYZqtQv1NOp7QX4ehAt4GGnj4etwLdBIjLRhjgtA79b
-	 vEZXDlbNVfUf5AFE8NNPUA9mqdHryhsFMaEJcj1ksE2qN1yCrtC+C/9sW/nCXbkilm
-	 T5J3rPZwjaghfDLvp/FyWqMzDqAwywmxz+mQiYsU=
+	by mail.kernel.org (Postfix) with ESMTP id C1763206C0
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:40:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="kMCZrtAC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389038AbgF2Ub3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:31:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37058 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730951AbgF2TZT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:25:19 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C63502539B;
-        Mon, 29 Jun 2020 15:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593445265;
-        bh=E0yMGGskFLee07FhJiydLK+s8IH+8j6nZgjkRaElzHQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jj5k1IYgf2pE7MzYFUEWcRRJNsrffQRAcrdwm2kBPvaZVOHKycXso0CVUG1O61pKB
-         yojU5Xvx6SpG/8YNpl7DOw7O0ZqCf4qhGt0BYPJobpExJnJ7LOksfacFEGSAR/bmeS
-         RAE/DrOeINQM9MV2efyOqbCbaDvM0zslpENkDEbs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Qais Yousef <qais.yousef@arm.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Tony Prisk <linux@prisktech.co.nz>,
+        id S2389079AbgF2Uj5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731714AbgF2TOM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 15:14:12 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on20618.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1a::618])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 149AEC0A8883;
+        Mon, 29 Jun 2020 00:26:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mcPIIM0J49awy5mMi1lCWfQzPIyIZRC84rprM/zKJ2Bev73l9Pq6hK02VNXsMUz/HsNjOg9BDjW4vbB6epLtoCnrQaLvggq7E9ivOnqLncred8GXpzBSp9fq41m3krpuhVY8zNCb0DCX1u4cc0pBl6iIWfI78b5ECc0JYAx8K6QWyHY4TGB2wyi1xfj29YlPZC5n1IxhXf1BJLdEokhCcesb5CVMTQKTpPGo+rQYftEZsBuCJrcCY2Hm6WnkqUcGnFSmIPFrZYQ03zPpfqSq2qgKG73OsknQC0tTweWViU/Gay8iDvyKfZ0GgNKgxZMA8OLOojDAxXsLUGhIvx1c/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sZDsw9jv65xNcBYVWYB2Md7url5wOA/++AE8vL2DTvE=;
+ b=fmOkoJfelc5kmOxOBjt5N/hdess9x9lgleez2qCCm1R1FM6kkmvGKABnETAyBgB16DS3IvTbcEQYDN7H5PxIte2EqpSrgElvyh03p5919QcXMqzNfr8PtP5BGfPHl0kcj5gddiqCfN316NVMMV7AUwJQaHPNvnbrom7nOa/Fd6f5WoZ8oPYfkj3mgzw2ZCQn1Fr1mX81g/aWZSL/L1CxtsMa4f5lz3IpnlIEmI5K2u7n8VP318xM1OHQyHY0Ro8hawXlWZle8OBUcqDphwzt75DVqp3p9ncw1LY/DWlWuBe2d7KrUgjER83204KeLzERzpbyXFplNjWcsa+IyUaT+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sZDsw9jv65xNcBYVWYB2Md7url5wOA/++AE8vL2DTvE=;
+ b=kMCZrtACK+hqAKC1EAwyFArBlbtMC1zGdAMq5iXQVm8nUsKoa/Kw4e0aDAq4/db1FgtSJES9esF/cZoVHI7gzdu+1qGuO7Guew03pkafPSijVyoY3yjG8BpVkeq2YPBtrIWtx5sPaBdzEbCU2q410IDHKWcdUpg+K7wV6w2wpLE=
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM5PR04MB3026.eurprd04.prod.outlook.com (2603:10a6:206:11::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Mon, 29 Jun
+ 2020 07:26:41 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3131.027; Mon, 29 Jun 2020
+ 07:26:41 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Philippe Schenker <philippe.schenker@toradex.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Stefan Agner <stefan.agner@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Oliver Neukum <oneukum@suse.de>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.9 045/191] usb/ohci-platform: Fix a warning when hibernating
-Date:   Mon, 29 Jun 2020 11:37:41 -0400
-Message-Id: <20200629154007.2495120-46-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200629154007.2495120-1-sashal@kernel.org>
-References: <20200629154007.2495120-1-sashal@kernel.org>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: chipidea: fix ci_irq for role-switching use-case
+Thread-Topic: [PATCH] usb: chipidea: fix ci_irq for role-switching use-case
+Thread-Index: AQHWS6lrNGtWbd2boEmTo3bADIlBSqjvNguA
+Date:   Mon, 29 Jun 2020 07:26:41 +0000
+Message-ID: <20200629072703.GC30684@b29397-desktop>
+References: <20200626110311.221596-1-philippe.schenker@toradex.com>
+In-Reply-To: <20200626110311.221596-1-philippe.schenker@toradex.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: toradex.com; dkim=none (message not signed)
+ header.d=none;toradex.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: fb58a959-e0ba-418a-be7d-08d81bfdc4a5
+x-ms-traffictypediagnostic: AM5PR04MB3026:
+x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+x-microsoft-antispam-prvs: <AM5PR04MB302618210141B1FE9C9AF3818B6E0@AM5PR04MB3026.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TX7OxMzli9EDZGdG2/ioiyDWUnuyT6L8t+9F1rf3DvZVe9aPVWe/aFNhmxb8NRKiaPL43RtSouJPICvsTN8fkbd5gJnlUMgP7nGYiPuSwdZybq2ty/oGi5Gc9lSsvHEe0hnq7rke3JyojZKlOW/hFsgYMeaUXvqio+sHh9T2yrHtFg47ULWZIekLZuPoIH3JpUl4JbG3ZeVT+EzKTZ8QUbwEnAzLuZvDHM9evkyyDIvHXJHzAvfPMgG0HbrqNTpHtP1bq3kTftdz2w3C4Ay531epE0pOVkKspdmdugCCLLvHZBYKXPh/zmUXC7Dpu/JlnvoifxfQH6xMy/T+C6qHQA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(7916004)(4636009)(376002)(39860400002)(346002)(396003)(366004)(136003)(1076003)(26005)(2906002)(71200400001)(66946007)(8676002)(5660300002)(76116006)(91956017)(186003)(53546011)(33716001)(6506007)(33656002)(66476007)(66556008)(64756008)(6916009)(66446008)(44832011)(83380400001)(6486002)(8936002)(54906003)(316002)(478600001)(86362001)(4326008)(9686003)(6512007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: dnQiICs8RVMBeA2LtvvOEHyUnonGDpnuIF4FuW2vRaPl/MLjvLMdranttqxdLzP2u21V6bRMBzHDrf4uIzBgU5cF1z+7rt7l1SMlqKxEosHt6yqFOklLSCCgaVnocZaf6y0ZiwRQCcHzOOzObTGlZ+7eJ+PHrATLzKWq6CZebt5fOvdJujZL50awnqCp2V5stBbd3FDlxh6dSwfd9P0xMHYXpTVvfcQunCl83d+Yc0rGspOQe8QDix35ZMuiM6JcXD08L+o8udYhg55pJFQemLuovN7XKQJMgoVisOD4aHWfS8Ku635ODrg5IQki9T2/O3pUPnl+0ss3pmGUmZIbj1ZoFitOmeyEcYoiWxk3DugzI/KmdbFP2HtBZ5u/YKJtkyxEyqlEFYVbWNfUfG5rE8ItKu7E4oqgwbbYkK42pMGmXOiDtalSyuXZWhgI2VfBc4AeXTTyEQg9TJx3VNVcV4yLeCkis3/fml9qdgNLFPM=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3F9A289E77C7A64AA875B803FD787BD5@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-KernelTest-Patch: http://kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.229-rc1.gz
-X-KernelTest-Tree: git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-X-KernelTest-Branch: linux-4.9.y
-X-KernelTest-Patches: git://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
-X-KernelTest-Version: 4.9.229-rc1
-X-KernelTest-Deadline: 2020-07-01T15:39+00:00
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb58a959-e0ba-418a-be7d-08d81bfdc4a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 07:26:41.1378
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: n9/2cf24CGbg9Pe4wDw9pVkBDoBIY1FGpM1+TwHB7hrlj8F+wuQjzg6NiX0xVwWyQ72J8N6gh5GQYa+51m1VYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB3026
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Qais Yousef <qais.yousef@arm.com>
+On 20-06-26 13:03:11, Philippe Schenker wrote:
+> If the hardware is in low-power-mode and one plugs in device or host
+> it did not switch the mode due to the early exit out of the interrupt.
 
-[ Upstream commit 1cb3b0095c3d0bb96912bfbbce4fc006d41f367c ]
+Do you mean there is no coming call for role-switch? Could you please share
+your dts changes? Try below patch:
 
-The following warning was observed when attempting to suspend to disk
-using a USB flash as a swap device.
 
-[  111.779649] ------------[ cut here ]------------
-[  111.788382] URB (____ptrval____) submitted while active
-[  111.796646] WARNING: CPU: 3 PID: 365 at drivers/usb/core/urb.c:363 usb_submit_urb+0x3d8/0x590
-[  111.805417] Modules linked in:
-[  111.808584] CPU: 3 PID: 365 Comm: kworker/3:2 Not tainted 5.6.0-rc6-00002-gdfd1731f9a3e-dirty #545
-[  111.817796] Hardware name: ARM Juno development board (r2) (DT)
-[  111.823896] Workqueue: usb_hub_wq hub_event
-[  111.828217] pstate: 60000005 (nZCv daif -PAN -UAO)
-[  111.833156] pc : usb_submit_urb+0x3d8/0x590
-[  111.837471] lr : usb_submit_urb+0x3d8/0x590
-[  111.841783] sp : ffff800018de38b0
-[  111.845205] x29: ffff800018de38b0 x28: 0000000000000003
-[  111.850682] x27: ffff000970530b20 x26: ffff8000133fd000
-[  111.856159] x25: ffff8000133fd000 x24: ffff800018de3b38
-[  111.861635] x23: 0000000000000004 x22: 0000000000000c00
-[  111.867112] x21: 0000000000000000 x20: 00000000fffffff0
-[  111.872589] x19: ffff0009704e7a00 x18: ffffffffffffffff
-[  111.878065] x17: 00000000a7c8f4bc x16: 000000002af33de8
-[  111.883542] x15: ffff8000133fda88 x14: 0720072007200720
-[  111.889019] x13: 0720072007200720 x12: 0720072007200720
-[  111.894496] x11: 0000000000000000 x10: 00000000a5286134
-[  111.899973] x9 : 0000000000000002 x8 : ffff000970c837a0
-[  111.905449] x7 : 0000000000000000 x6 : ffff800018de3570
-[  111.910926] x5 : 0000000000000001 x4 : 0000000000000003
-[  111.916401] x3 : 0000000000000000 x2 : ffff800013427118
-[  111.921879] x1 : 9d4e965b4b7d7c00 x0 : 0000000000000000
-[  111.927356] Call trace:
-[  111.929892]  usb_submit_urb+0x3d8/0x590
-[  111.933852]  hub_activate+0x108/0x7f0
-[  111.937633]  hub_resume+0xac/0x148
-[  111.941149]  usb_resume_interface.isra.10+0x60/0x138
-[  111.946265]  usb_resume_both+0xe4/0x140
-[  111.950225]  usb_runtime_resume+0x24/0x30
-[  111.954365]  __rpm_callback+0xdc/0x138
-[  111.958236]  rpm_callback+0x34/0x98
-[  111.961841]  rpm_resume+0x4a8/0x720
-[  111.965445]  rpm_resume+0x50c/0x720
-[  111.969049]  __pm_runtime_resume+0x4c/0xb8
-[  111.973276]  usb_autopm_get_interface+0x28/0x60
-[  111.977948]  hub_event+0x80/0x16d8
-[  111.981466]  process_one_work+0x2a4/0x748
-[  111.985604]  worker_thread+0x48/0x498
-[  111.989387]  kthread+0x13c/0x140
-[  111.992725]  ret_from_fork+0x10/0x18
-[  111.996415] irq event stamp: 354
-[  111.999756] hardirqs last  enabled at (353): [<ffff80001019ea1c>] console_unlock+0x504/0x5b8
-[  112.008441] hardirqs last disabled at (354): [<ffff8000100a95d0>] do_debug_exception+0x1a8/0x258
-[  112.017479] softirqs last  enabled at (350): [<ffff8000100818a4>] __do_softirq+0x4bc/0x568
-[  112.025984] softirqs last disabled at (343): [<ffff8000101145a4>] irq_exit+0x144/0x150
-[  112.034129] ---[ end trace dc96030b9cf6c8a3 ]---
-
-The problem was tracked down to a missing call to
-pm_runtime_set_active() on resume in ohci-platform.
-
-Link: https://lore.kernel.org/lkml/20200323143857.db5zphxhq4hz3hmd@e107158-lin.cambridge.arm.com/
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Qais Yousef <qais.yousef@arm.com>
-CC: Tony Prisk <linux@prisktech.co.nz>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Mathias Nyman <mathias.nyman@intel.com>
-CC: Oliver Neukum <oneukum@suse.de>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-usb@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-Link: https://lore.kernel.org/r/20200518154931.6144-1-qais.yousef@arm.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/host/ohci-platform.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
-index 898b74086c129..9e3fdb1421f75 100644
---- a/drivers/usb/host/ohci-platform.c
-+++ b/drivers/usb/host/ohci-platform.c
-@@ -340,6 +340,11 @@ static int ohci_platform_resume(struct device *dev)
- 	}
- 
- 	ohci_resume(hcd, false);
-+
-+	pm_runtime_disable(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+
- 	return 0;
+diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+index e8ce300ad490..9e10dcfeb98f 100644
+--- a/drivers/usb/chipidea/core.c
++++ b/drivers/usb/chipidea/core.c
+@@ -1313,6 +1313,29 @@ static void ci_controller_suspend(struct ci_hdrc *ci=
+)
+ 	enable_irq(ci->irq);
  }
- #endif /* CONFIG_PM_SLEEP */
--- 
-2.25.1
+=20
++/*
++ * Handle the wakeup interrupt triggered by extcon connector
++ * We need to call ci_irq again for extcon since the first
++ * interrupt (wakeup int) only let the controller be out of
++ * low power mode, but not handle any interrupts.
++ */
++static void ci_extcon_wakeup_int(struct ci_hdrc *ci)
++{
++	struct ci_hdrc_cable *cable_id, *cable_vbus;
++	u32 otgsc =3D hw_read_otgsc(ci, ~0);
++
++	cable_id =3D &ci->platdata->id_extcon;
++	cable_vbus =3D &ci->platdata->vbus_extcon;
++
++	if (!IS_ERR(cable_id->edev) && ci->is_otg &&
++		(otgsc & OTGSC_IDIE) && (otgsc & OTGSC_IDIS))
++		ci_irq(ci->irq, ci);
++
++	if (!IS_ERR(cable_vbus->edev) && ci->is_otg &&
++		(otgsc & OTGSC_BSVIE) && (otgsc & OTGSC_BSVIS))
++		ci_irq(ci->irq, ci);
++}
++
+ static int ci_controller_resume(struct device *dev)
+ {
+ 	struct ci_hdrc *ci =3D dev_get_drvdata(dev);
+@@ -1343,6 +1366,7 @@ static int ci_controller_resume(struct device *dev)
+ 		enable_irq(ci->irq);
+ 		if (ci_otg_is_fsm_mode(ci))
+ 			ci_otg_fsm_wakeup_by_srp(ci);
++		ci_extcon_wakeup_int(ci);
+ 	}
+=20
+ 	return 0;
 
+>=20
+> This patch fixes that behaviour and lets the rest of the code check if
+> something has to be done. If nothing has to be done the same return
+> value gets returned as before.
+
+Before the controller leaving low power mode, otgsc value may not
+correct since the controller/PHY is still in low power mode.
+
+>=20
+> Fixes: 1f874edcb731 ("usb: chipidea: add runtime power management support=
+")
+> Signed-off-by: Philippe Schenker <philippe.schenker@toradex.com>
+>=20
+> ---
+>=20
+> Hi Peter
+>=20
+> During my investigation I found a bug in ci_irq. I would appreciate
+> if you could review this. From what I see this patch should be save to ap=
+ply.
+>=20
+> This patch does not solve all of our issues. When I have RUNTIME_PM
+> enabled on imx6ull or imx7. RNDIS still does not come up. So there
+> has to be another bug hiding somewhere in the Runtime PM code to prevent
+> RNDIS from working properly. I quickly looked through your patches
+> that added this stuff back in 2015 but couldn't spot anything related to
+> usb gadget-mode.
+>=20
+> If you right away know where the problem could be hiding itself,
+> I would appreciate a hint.
+>=20
+
+I need information for call trace for further suggestion.
+
+Peter
+
+>=20
+> ---
+>=20
+>  drivers/usb/chipidea/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+> index 9a7c53d09ab4..5159420a23a4 100644
+> --- a/drivers/usb/chipidea/core.c
+> +++ b/drivers/usb/chipidea/core.c
+> @@ -518,7 +518,7 @@ static irqreturn_t ci_irq(int irq, void *data)
+>  		disable_irq_nosync(irq);
+>  		ci->wakeup_int =3D true;
+>  		pm_runtime_get(ci->dev);
+> -		return IRQ_HANDLED;
+> +		ret =3D IRQ_HANDLED;
+>  	}
+> =20
+>  	if (ci->is_otg) {
+> --=20
+> 2.27.0
+>=20
+
+--=20
+
+Thanks,
+Peter Chen=
