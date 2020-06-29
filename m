@@ -2,115 +2,113 @@ Return-Path: <SRS0=jI6n=AK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8418BC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCB0C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:43:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6538320663
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:41:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8949E207E8
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jun 2020 20:43:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hO7YgCFE"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="sAwfD0A5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389571AbgF2Uky (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:40:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43372 "EHLO
+        id S1732181AbgF2UnQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:43:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730481AbgF2TOJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 15:14:09 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A42FC0A893A;
-        Mon, 29 Jun 2020 00:38:08 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id k6so13574332ili.6;
-        Mon, 29 Jun 2020 00:38:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zTLnTytmqwPo2QrVotAhwjgdIikFCW3Y9V9c+Ul628k=;
-        b=hO7YgCFEdPYQrvp3kFZV2OXX7bnz/HWxL/I8M9F3srON/2EpwrjADVZaSmO3wpR10e
-         xShjxgypbemlvSD4Bz2KZS86mWY4elE17aaWa4OOf7VRrcaMFZDnWR2kmmozvactxe8V
-         vM+6Leu3iiG3sATYROu72hMLLm2MvJ+916wUcSNvcmS/VTVDrNw4lnWf+BAIOfmSaLzi
-         0DWQpAEbhPYF8NHE2JoIR9A36MthArCCdlrbViQbFS8mqlUIyyL6FA3raDQc22IukKk8
-         hRi7ulSD+AEVcXSzY1xkQF/eQcZYVfkoF4U4jwu4IMEjvmBXghP0hrkbuxAD1I/tQvV6
-         mi2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zTLnTytmqwPo2QrVotAhwjgdIikFCW3Y9V9c+Ul628k=;
-        b=cNaE0ttekSHwOIIfqsCLdzL+DKkW2lyjXcYGQH18Ro8/3pd0iT0Ru5nPnHpwbcayg4
-         g+CYWeZSxCXijoODh2ywCQtehaxUEK7tbGnjctTGKPExf8jt1DpTbC/kuCsIFiK4NjkT
-         /elxKQJG7ZtJOc1e3DRKONK+4GtIbQDRle2+NU42RRv6+eZWlmmO5WAjSQKJUWLg0Gk+
-         o6RPPt1wZJWl5wW80kGrrtHJBl7xfnSjEd+ubUsySb4xUXYlUvdfh/jqouhiOIupvLq4
-         lC9cLHWjNjWeD8JA6kd4pO4lypcv14SVBTdDj99uPQ76Vy2ZmdBbaPyLiewnMvvNAab5
-         5f0w==
-X-Gm-Message-State: AOAM5300mW8CXUI/OO5fkm26IgnI39xs+Xa01vGy1EBJmM/UHkO765Wq
-        a10E1mn+53yGO4VOKNrwJbDgNQUrLTZnJJtzBjQ=
-X-Google-Smtp-Source: ABdhPJzyfEuSvsvqAyieDmK4mMBIE5np8Cjw7UhIz6L0NfvR0InXzI9MesOfgOM7McMyA0mnJHM4y1HqDRacRIX8BDg=
-X-Received: by 2002:a92:940f:: with SMTP id c15mr15673200ili.204.1593416287611;
- Mon, 29 Jun 2020 00:38:07 -0700 (PDT)
+        with ESMTP id S1730941AbgF2TOC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jun 2020 15:14:02 -0400
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com (mail-am5eur02on0604.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe07::604])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D7EC00695F
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2020 04:38:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BGWDby71jHRN1S/TIP7U4HucwMcKR3oR8g2Tmjl7MSnllqj9t2enUWLWxEzMFbaw2IbiZ7qeK17drDMnKLPicZUI3MkFuxvj9d/HNVGDkiLGYqNrSxwSG7B+pNol54Rri/rZY5ocv6DEKAUGwzGP9DAFjofpfGveJnl1ZbS1rLlgOnrS0MUNUaiJk0iVk/j2xq2YLSoVlufuq0517VT5/eM0GpNaoqfwaywpl4u1urdphKO0IFFMm19JhNg9NrpcgrQkjCCl0GFObs23JSzWxQb/hzCRz1j56miaH+OShKKuZtdxn34z7YahwqFVWEtFxfnx7vjyW2AT9JbRUcYiyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=haSOOQvf1aDmSioJjzKabnVHzfTn7iT1FgRKBwTciWg=;
+ b=gDU8zPc3fO3YJ+4t0xt5pCNGKR28c1lUIMNhMF5pKT8ZEa43NmfZv1RPNJxuEiEnsFtt2EFjgrxJosQS3GaE8STVDegiJ+C5T7FVwjsNenIuOiLZhnyCU5RsBddjQrieffd1gYRlTVhMjwsS7ocyKQm4UDnbQLrlccpPPtJMKasmPfdukGmLeVtjk4MY/yWCsuhkEmU71Fq9/uFotlORLJ7xAcuSZoXMEMbvp2VR6UQRM0yIGbVZMAChHLuKHJ7sJy9KlsFOgvpWAnEx9ClZG84obcuFJvvncoBThBplzhmOwAwJ2J7VGCwRpJweRSypno5b1KGsVPAZabSyCamDMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=haSOOQvf1aDmSioJjzKabnVHzfTn7iT1FgRKBwTciWg=;
+ b=sAwfD0A5Rf01neyG5IU98uWZLlleiOZpqLfUeN/DDdfAh06BOCWEIjLINpZE4AKHbvyKddYqpTfD+0azeySaYrFN7ZPw1PuyGmUPFdMuSFWANJV3QE/cPFaQKbSw6R5WEKJ38WubDV5uCRzfG/eb9LQEKiaKx1jvqICX8h859dg=
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM6PR04MB5910.eurprd04.prod.outlook.com (2603:10a6:20b:af::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.25; Mon, 29 Jun
+ 2020 11:37:58 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3131.027; Mon, 29 Jun 2020
+ 11:37:58 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     "jocke@infinera.com" <joakim.tjernlund@infinera.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: "usb: gadget: core: sync interrupt before unbind the udc"
+ question
+Thread-Topic: "usb: gadget: core: sync interrupt before unbind the udc"
+ question
+Thread-Index: AQHWTfxUURogi5P0F06kOiJScuWkHajvdzDQ
+Date:   Mon, 29 Jun 2020 11:37:58 +0000
+Message-ID: <AM7PR04MB7157E127429188EFDF829EAC8B6E0@AM7PR04MB7157.eurprd04.prod.outlook.com>
+References: <3cbe4bf7fd4a152e600ecb1b85b8a24ad5aacc55.camel@infinera.com>
+In-Reply-To: <3cbe4bf7fd4a152e600ecb1b85b8a24ad5aacc55.camel@infinera.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: infinera.com; dkim=none (message not signed)
+ header.d=none;infinera.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [222.67.222.179]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 48be27da-6cd5-4dc3-2355-08d81c20df28
+x-ms-traffictypediagnostic: AM6PR04MB5910:
+x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+x-microsoft-antispam-prvs: <AM6PR04MB591053726DDA0AD4E2FA57098B6E0@AM6PR04MB5910.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:67;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: S7gIB/6j+f9Am3RtBuLHOxVoJweZNW+cqPMpHWmKom9hyW9XDUTFdHvqCnJH3LLVXwWOUUvmtp6ry6ksanop/GQTjTMzBifQx4dmjMovcQ4nA66uTYDaZQ5aK4OMf07x+JoeK2VvOQpXbBeZv44yrU/RtxKPkgB4sX7bxeWBdjl6BfSvKm6b+IjsAYXtoM9iXGr1zXi3RAG4mxXw2bmw0EtTuKB2q0zl5omywp/dWHLWGW3NclCstPhorSMRvVw51IAlfqwurBjO5294OWLdWj+b4tJXFtq/EsLgFDN2m5tQrY917rHfymE9hAe9yMqXaZMoj7dFtfsdSDBdTDlsig3EPqZBHpnNx5YOr+ffm4lD/4IReNs1D6QDKivTDdqpQ/cLhFgW+ZBBfNgMabO5xvWt7k13Cn8lKXZ4eafYwSEddPGn/h2KpVAMGetxgxsO
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(39860400002)(376002)(366004)(136003)(346002)(26005)(2906002)(4326008)(316002)(52536014)(71200400001)(86362001)(4744005)(5660300002)(66946007)(45080400002)(66446008)(64756008)(66556008)(66476007)(9686003)(8936002)(8676002)(6916009)(478600001)(966005)(33656002)(44832011)(6506007)(76116006)(55016002)(186003)(7696005)(491001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 1EQTJmTpRMdlKU8KV321HbtQ3L9pNWsdAjYDsMUpVZ+IuPKkh//iuua6aYg37bhpEtH0xntfn/a42u3SO21HiTFK9E4fvCc6avOzfmkzosEv1n7ENVd8hwjkiL7r0dlIIDzTxPddT9c0R05RUDaGbPhuyKFnM8HFERwkGJEdXsbI7xvqzE1YJg240RaPk5yHKvYIWaphTpP+qQ+UP11Du0r59xW/OBH4Qye+lRHytyUbIQSAV/I5EpjahQgGS5h+WbAanQ+gi43xHuwpQjhVCCPDkSyYhPwpNRBL+n9ge8CdikrKlLKSwQ/aBYPhjOoWiwfSQPDJubUFf592/IEGgedII5DCewholGaKmPoADv2QhZFv4GTqaE5DO6tgfosKjBQbgjdEY5bukQ7B+0NtT+yISCS90CZI4pLWSWOSVT8ml8uyybuR0mNWjkTTXVlOj7p7KMD1rO83kKfnAzIwDbfiMhV41SSIq7BFkJJdRl30yVZDcQ63c5essizlh29j
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
-In-Reply-To: <1593410434-19406-1-git-send-email-chunfeng.yun@mediatek.com>
-From:   Peter Chen <hzpeterchen@gmail.com>
-Date:   Mon, 29 Jun 2020 15:37:54 +0800
-Message-ID: <CAL411-qVjxYk7f+b74XHfj7jpxALS4LYUKe0XdSfwRZcQibNfA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] usb: mtu3: disable USB2 LPM
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Markus Elfring <Markus.Elfring@web.de>,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48be27da-6cd5-4dc3-2355-08d81c20df28
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 11:37:58.1082
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XjNY5TyAC86WB8HOdavrzTz/k/RoewpxjyigQvlN1i86mBH6mGolXvmmhBtSvHehgWDI5roiTAf0YBR58pzWtw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5910
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 2:04 PM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
->
-> A SuperSpeed device shall include the USB 2.0 extension descriptor
-> and shall support LPM when operating in USB 2.0 HS mode(see usb3.2
-> spec9.6.2.1). But we always don't support it, so disable it by
-> default, otherwise device will enter LPM suspend mode when
-> connected to Win10 system.
-
-Linux also supports USB2 LPM. Besides, USB-IF CH9 test will check
-LPM support if the device is USB 2.1, how could you deal with it?
-
-Peter
-
->
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
->  drivers/usb/mtu3/mtu3_core.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-> index 9dd0216..50d6a40 100644
-> --- a/drivers/usb/mtu3/mtu3_core.c
-> +++ b/drivers/usb/mtu3/mtu3_core.c
-> @@ -604,6 +604,8 @@ static void mtu3_regs_init(struct mtu3 *mtu)
->         mtu3_clrbits(mbase, U3D_MISC_CTRL, VBUS_FRC_EN | VBUS_ON);
->         /* enable automatical HWRW from L1 */
->         mtu3_setbits(mbase, U3D_POWER_MANAGEMENT, LPM_HRWE);
-> +       /* always reject LPM request */
-> +       mtu3_setbits(mbase, U3D_POWER_MANAGEMENT, LPM_MODE(1));
->
->         /* use new QMU format when HW version >= 0x1003 */
->         if (mtu->gen2cp)
-> --
-> 1.9.1
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+IA0KPiANCj4gSW4NCj4gaHR0cHM6Ly9ldXIwMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29r
+LmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZ2l0Lmtlcm5lbC5vcmcNCj4gJTJGcHViJTJGc2NtJTJG
+bGludXglMkZrZXJuZWwlMkZnaXQlMkZzdGFibGUlMkZsaW51eC5naXQlMkZjb21taXQlMkYNCj4g
+JTNGaCUzRGxpbnV4LQ0KPiA1LjQueSUyNmlkJTNEODA1YmFlNzU5MmZhMmNmZWRlODk4YjI0ZTJh
+OGQ4NWZkZDYzMTdlZSZhbXA7ZGF0YT0wMiU3Qw0KPiAwMSU3Q3BldGVyLmNoZW4lNDBueHAuY29t
+JTdDNzU1MTY0YWY0YzBkNDQ3Y2JmNzkwOGQ4MWMxMzc5MDQlN0M2ODZlDQo+IGExZDNiYzJiNGM2
+ZmE5MmNkOTljNWMzMDE2MzUlN0MwJTdDMCU3QzYzNzI5MDIxNzI0MDczNDc0NiZhbXA7c2RhdA0K
+PiBhPVNMTkhSQ2dod0lZRk94TTZROVFlY3lNdlg5QXpVTmZoZmtNR0dNUkszNFElM0QmYW1wO3Jl
+c2VydmVkDQo+ID0wDQo+IA0KPiBZb3UgYWRkIGFuICJpbnQgaXJxIiBmaWVsZCBidXQgSSBkb24n
+dCBzZWUgYW55dGhpbmcgc2V0dGluZyB0aGlzIGZpZWxkLCBzb21ldGhpbmcNCj4gbWlzc2luZz8N
+Cj4gDQoNCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L25l
+eHQvbGludXgtbmV4dC5naXQvY29tbWl0Lz9pZD03N2YzMGZmNDk3NjFhY2JiM2Q5MGFjYTAwMDRm
+MzkzZmQ4MWI2M2E4DQoNClBldGVyDQo=
