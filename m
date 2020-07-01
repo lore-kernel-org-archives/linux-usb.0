@@ -2,64 +2,50 @@ Return-Path: <SRS0=oYLI=AM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E031FC433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 16:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C90C433DF
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 17:16:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B142720748
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 16:54:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFD19207CD
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 17:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593622466;
-	bh=UzI97ARfIgnLa8rQm5vc8ZZvgWuJfR9MSDOgo7XmT6w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=1vN6OgXtyOYoqIZteCqGLQQu3t2lcTTVKcDwSK6Hv6cirEftaJgHEiz9wW56O0ezp
-	 eVtaQ3jGy7Gg8KJkzNZUhRdWodMI7ItAOhjYcM58tXXK4JP8oHsGn1nNCqqoiybSom
-	 Np9ArhIu7eBDtPr0PinFav/oXTdSmz/VG6U4TxLE=
+	s=default; t=1593623772;
+	bh=FYAlFEMRS1WiJv3/ZHFyo32zEs/Uyaxc8XAy7NNpdCw=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=p7hE0qML8rr9wGUPzC29HPEY1F546ctE1gFhGuSNuaFmXO67Y9ciIy3ydKL8pLfim
+	 LvQ1K0EsQ4Sn5Kpv7MpnK5SwIlsQIdPqVW4fotV+DExTKfTbE4t9v5Mic2Y+SmQHBW
+	 NWgyKYqh3SVCIWUMEJwBJN/n5NEwE29uP6H61SlA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732526AbgGAQyZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jul 2020 12:54:25 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:39792 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732800AbgGAQyO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jul 2020 12:54:14 -0400
-Received: by mail-lj1-f195.google.com with SMTP id b25so24405663ljp.6
-        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2020 09:54:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GsuJHQuVKWW6KYu9kg+y/tvbPJCBGFUHU6+jphg7ArU=;
-        b=FmiFVsn2pyZZDYNrWpmilInyfIS2Ts//uo5wopFGVaci9fQixhNXJin7L5Osd/m8iC
-         MEV+T1PZl8yRXyoj6sCGLvZLHlDxjNNSFornIfOTH+XXBK+dh16s2LGI7IJr9vz1Al0y
-         wHKj6s9uhp9/HioV88gwgTqY7gDuVXMcI6MsY7fpNnKvzfYUuia9GQYORXsHgQOjTL5Q
-         5sQW7oD0YVHG8rF+6yuQAlKOdDSsCdjsPRyCrrOYTgVjVqVjPlzD0cLEM4R5/sixWO3B
-         IlE2B6kS+JQK+8IO3XIyAj3Ms6v8K+OvDOhT+LOySx3R+u+jB8ZJ6McGTeFrh2BuoXTH
-         hgBw==
-X-Gm-Message-State: AOAM531TRENJAOLqGdPaFr3/Lu4siCFgUXrHt4w+dddLJF9Xy4wHgDlS
-        ObJ2J+0r1i7G12gCrYzL0oU=
-X-Google-Smtp-Source: ABdhPJxFHokf46U/QfGYCLpht6ZXHXFufLk3B7BQLx9VbPdpsMU7GtEyE6GrBpEDDifxrnfPAOgTIw==
-X-Received: by 2002:a2e:a54f:: with SMTP id e15mr15099543ljn.263.1593622452447;
-        Wed, 01 Jul 2020 09:54:12 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id z7sm2014329ljj.33.2020.07.01.09.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2020 09:54:10 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@xi.terra>)
-        id 1jqfzq-00042F-If; Wed, 01 Jul 2020 18:54:06 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 3/5] USB: serial: keyspan_pda: drop unused firmware reset status
-Date:   Wed,  1 Jul 2020 18:53:40 +0200
-Message-Id: <20200701165342.15448-4-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200701165342.15448-1-johan@kernel.org>
-References: <20200701165342.15448-1-johan@kernel.org>
+        id S1732711AbgGARQM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jul 2020 13:16:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35008 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732584AbgGARQL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 1 Jul 2020 13:16:11 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C95420747;
+        Wed,  1 Jul 2020 17:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593623770;
+        bh=FYAlFEMRS1WiJv3/ZHFyo32zEs/Uyaxc8XAy7NNpdCw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OlZwctqwPB7GWvCwNCwvVpqeUtXV7rMudQdATkKf9JlgM1ldVH3jzHViPdAKCD6rq
+         LginZCfbswDBmLwFcTJKIsHfYaUeuoQrECH0DvlEs+Kc+E3c059ZQ78p4RKjNOHSCD
+         +iBOgYw19mITVkSS/KrVgAF9WC5RRSkWLPgpdFlo=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] USB: Fix up terminology in include files
+Date:   Wed,  1 Jul 2020 19:15:55 +0200
+Message-Id: <20200701171555.3198836-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -67,34 +53,84 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop the unused firmware reset status which would already have been
-logged.
+USB is a HOST/DEVICE protocol, as per the specification and all
+documentation.  Fix up terms that are not applicable to make things
+match up with the terms used through the rest of the USB stack.
 
-This suppresses the corresponding W=1 (-Wunused-but-set-variable)
-warning.
-
-Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/serial/keyspan_pda.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/usb.h        | 2 +-
+ include/linux/usb/ch9.h    | 8 ++++----
+ include/linux/usb/gadget.h | 7 ++++---
+ 3 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/serial/keyspan_pda.c b/drivers/usb/serial/keyspan_pda.c
-index bf988f77d400..c1333919716b 100644
---- a/drivers/usb/serial/keyspan_pda.c
-+++ b/drivers/usb/serial/keyspan_pda.c
-@@ -664,11 +664,10 @@ static void keyspan_pda_close(struct usb_serial_port *port)
- /* download the firmware to a "fake" device (pre-renumeration) */
- static int keyspan_pda_fake_startup(struct usb_serial *serial)
- {
--	int response;
- 	const char *fw_name;
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index c86e4ec4d00f..c28fc391444a 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -422,7 +422,7 @@ struct usb_devmap {
+  * Allocated per bus (tree of devices) we have:
+  */
+ struct usb_bus {
+-	struct device *controller;	/* host/master side hardware */
++	struct device *controller;	/* host side hardware */
+ 	struct device *sysdev;		/* as seen from firmware or bus */
+ 	int busnum;			/* Bus number (in order of reg) */
+ 	const char *bus_name;		/* stable id (PCI slot_name etc) */
+diff --git a/include/linux/usb/ch9.h b/include/linux/usb/ch9.h
+index 58b83066bea4..604c6c514a50 100644
+--- a/include/linux/usb/ch9.h
++++ b/include/linux/usb/ch9.h
+@@ -6,13 +6,13 @@
+  * Wireless USB 1.0 (spread around).  Linux has several APIs in C that
+  * need these:
+  *
+- * - the master/host side Linux-USB kernel driver API;
++ * - the host side Linux-USB kernel driver API;
+  * - the "usbfs" user space API; and
+- * - the Linux "gadget" slave/device/peripheral side driver API.
++ * - the Linux "gadget" device/peripheral side driver API.
+  *
+  * USB 2.0 adds an additional "On The Go" (OTG) mode, which lets systems
+- * act either as a USB master/host or as a USB slave/device.  That means
+- * the master and slave side APIs benefit from working well together.
++ * act either as a USB host or as a USB device.  That means the host and
++ * device side APIs benefit from working well together.
+  *
+  * There's also "Wireless USB", using low power short range radios for
+  * peripheral interconnection but otherwise building on the USB framework.
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 6a178177e4c9..298b334e2951 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -4,7 +4,8 @@
+  *
+  * We call the USB code inside a Linux-based peripheral device a "gadget"
+  * driver, except for the hardware-specific bus glue.  One USB host can
+- * master many USB gadgets, but the gadgets are only slaved to one host.
++ * talk to many USB gadgets, but the gadgets are only able to communicate
++ * to one host.
+  *
+  *
+  * (C) Copyright 2002-2004 by David Brownell
+@@ -328,7 +329,7 @@ struct usb_gadget_ops {
+ };
  
- 	/* download the firmware here ... */
--	response = ezusb_fx1_set_reset(serial->dev, 1);
-+	ezusb_fx1_set_reset(serial->dev, 1);
+ /**
+- * struct usb_gadget - represents a usb slave device
++ * struct usb_gadget - represents a usb device
+  * @work: (internal use) Workqueue to be used for sysfs_notify()
+  * @udc: struct usb_udc pointer for this gadget
+  * @ops: Function pointers used to access hardware-specific operations.
+@@ -602,7 +603,7 @@ static inline int usb_gadget_activate(struct usb_gadget *gadget)
+ /*-------------------------------------------------------------------------*/
  
- 	if (0) { ; }
- #ifdef KEYSPAN
+ /**
+- * struct usb_gadget_driver - driver for usb 'slave' devices
++ * struct usb_gadget_driver - driver for usb gadget devices
+  * @function: String describing the gadget's function
+  * @max_speed: Highest speed the driver handles.
+  * @setup: Invoked for ep0 control requests that aren't handled by
 -- 
-2.26.2
+2.27.0
 
