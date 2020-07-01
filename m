@@ -2,48 +2,51 @@ Return-Path: <SRS0=oYLI=AM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4B9C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 11:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7728CC433DF
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 11:56:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3F802067D
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 11:56:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5631D206CB
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 11:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730382AbgGAL4W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jul 2020 07:56:22 -0400
+        id S1730419AbgGAL4X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jul 2020 07:56:23 -0400
 Received: from mga07.intel.com ([134.134.136.100]:8600 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730374AbgGAL4V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 1 Jul 2020 07:56:21 -0400
-IronPort-SDR: pEgcKRmXaquLn2vRIBcVCIm26xdbn1cCR835xdWxI1FTR1c6xtCu1KakdcXAS/+nC0p/vEKol2
- VsZMwcdjyB6A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="211607994"
+        id S1730374AbgGAL4X (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 1 Jul 2020 07:56:23 -0400
+IronPort-SDR: 9ylQ8NdVfgzPOurkK5OiM5S0EeWQZM0Ir0X6hDRmSUaMX47H5Ls6tY1BMrp9Zbtmr+JKG5w408
+ iGbpFf777MDA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="211607997"
 X-IronPort-AV: E=Sophos;i="5.75,300,1589266800"; 
-   d="scan'208";a="211607994"
+   d="scan'208";a="211607997"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 04:56:21 -0700
-IronPort-SDR: 2HRkzlC33o/v4wJysgEW1gh2NIemFZMs9rCqLD3FZN1JUiHNh4obzjIZeUfyGyoekkFkg/ivWA
- kM84bVF39jZw==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 04:56:23 -0700
+IronPort-SDR: zbLY/2+T+blpg0yGhLIecwSTQQxLSJWGZTbKu/VILO73iIyNyFjQCYDtiElVUxTg7WP63mFEKr
+ p+p106PkVqzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,300,1589266800"; 
-   d="scan'208";a="386988127"
+   d="scan'208";a="386988134"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2020 04:56:19 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2020 04:56:21 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Prashant Malani <pmalani@chromium.org>,
         Benson Leung <bleung@chromium.org>,
         "Mani, Rajmohan" <rajmohan.mani@intel.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 0/4] usb: typec: USB4 support to the Intel PMC mux driver
-Date:   Wed,  1 Jul 2020 14:56:14 +0300
-Message-Id: <20200701115618.22482-1-heikki.krogerus@linux.intel.com>
+Subject: [PATCH 1/4] usb: typec: Combine the definitions for Accessory and USB modes
+Date:   Wed,  1 Jul 2020 14:56:15 +0300
+Message-Id: <20200701115618.22482-2-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200701115618.22482-1-heikki.krogerus@linux.intel.com>
+References: <20200701115618.22482-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -51,26 +54,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+There is no need to describe them sparately.
 
-These include a couple of USB4 related improvements to the USB Type-C
-class on top of the driver change.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ include/linux/usb/typec_altmode.h | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-FYI. I will be on vacation starting from next week (July 6th).
-
-thanks,
-
-Heikki Krogerus (4):
-  usb: typec: Combine the definitions for Accessory and USB modes
-  usb: typec: Add data structure for Enter_USB message
-  usb: typec: intel_pmc_mux: Definitions for response status bits
-  usb: typec: intel_pmc_mux: Add support for USB4
-
- drivers/usb/typec/mux/intel_pmc_mux.c | 75 +++++++++++++++++++++++----
- include/linux/usb/typec.h             | 14 +++++
- include/linux/usb/typec_altmode.h     | 14 ++---
- 3 files changed, 83 insertions(+), 20 deletions(-)
-
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index d834e236c6df6..a4b65eaa0f623 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -95,13 +95,7 @@ enum {
+  *
+  * Port drivers can use TYPEC_MODE_AUDIO and TYPEC_MODE_DEBUG as the mode
+  * value for typec_set_mode() when accessory modes are supported.
+- */
+-enum {
+-	TYPEC_MODE_AUDIO = TYPEC_STATE_MODAL,	/* Audio Accessory */
+-	TYPEC_MODE_DEBUG,			/* Debug Accessory */
+-};
+-
+-/*
++ *
+  * USB4 also requires that the pins on the connector are repurposed, just like
+  * Alternate Modes. USB4 mode is however not entered with the Enter Mode Command
+  * like the Alternate Modes are, but instead with a special Enter_USB Message.
+@@ -112,9 +106,11 @@ enum {
+  * state values, just like the Accessory Modes.
+  */
+ enum {
+-	TYPEC_MODE_USB2 = TYPEC_MODE_DEBUG,	/* USB 2.0 mode */
++	TYPEC_MODE_USB2 = TYPEC_STATE_MODAL,	/* USB 2.0 mode */
+ 	TYPEC_MODE_USB3,			/* USB 3.2 mode */
+-	TYPEC_MODE_USB4				/* USB4 mode */
++	TYPEC_MODE_USB4,			/* USB4 mode */
++	TYPEC_MODE_AUDIO,			/* Audio Accessory */
++	TYPEC_MODE_DEBUG,			/* Debug Accessory */
+ };
+ 
+ #define TYPEC_MODAL_STATE(_state_)	((_state_) + TYPEC_STATE_MODAL)
 -- 
 2.27.0
 
