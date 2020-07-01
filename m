@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD92C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 16:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7492CC433E3
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 16:54:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31E312078B
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 16:54:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53FB12078B
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jul 2020 16:54:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593622459;
-	bh=gJ8Ou7MGFxvgws/ICcrzy9NSV2FPtMy8qQaCtRfhYSQ=;
+	s=default; t=1593622460;
+	bh=4r0PxHOHd/gQwRkLkr7zw4bRMnfcYMHJElGpyCEuVLQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VE06vcDugzswb1eSD528loihsSSr5YYdF+k4jdA1hLI4fQbLmfW8UjyaQTVvQlT5C
-	 v9ImvM47chOEiOo5a6CYfYF/V61YVysVbd8nuZOSxbwpF5dJo+HhsFlMf54Xu+3XT7
-	 7s817AkoSO9dtJsIErYai7Rr07xLdWmhNpXAyDmw=
+	b=02NmrXo9G9qr2BXBsPSUbKjknUx8VKGZq1LVZaOTkDfL5dWLbvPHdEFv2DWK4nxKp
+	 hG76GZ7QiBDiCpgxdL8RCU7s1OVpKBi4oW4lxljqZ5mdrALN5QTHEELFj5v1kg0m9Y
+	 skb8aoQKpMJbBWcmUsOs6K1AK6s48E10A4R1whk0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732581AbgGAQyR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jul 2020 12:54:17 -0400
-Received: from mail-lj1-f181.google.com ([209.85.208.181]:44965 "EHLO
-        mail-lj1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732801AbgGAQyP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jul 2020 12:54:15 -0400
-Received: by mail-lj1-f181.google.com with SMTP id s9so27948924ljm.11
-        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2020 09:54:13 -0700 (PDT)
+        id S1732807AbgGAQyQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jul 2020 12:54:16 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45308 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732739AbgGAQyO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jul 2020 12:54:14 -0400
+Received: by mail-lj1-f196.google.com with SMTP id t25so23410419lji.12
+        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2020 09:54:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gb/RUJ5ZowCAGUAzFbl/YHdM1aI+3dNxCl1/CW0J3uY=;
-        b=c2vx/+XMve1wAy1JK61D6s95QMfLM9J/Htonlmrw4xVwHNufXSwnYOiSayAhoMisdR
-         FXhFuNN449UnX23i7czOwEloiLQHNL8zG8w9fP4oNK2bS6ytU9pR0Uvw7cK/xSvfQS43
-         HsfN6Pi3iPJbBdUvsBppfgqJtz49FKlY2ccLF1GXvn7Ky5133lncHiP0GuVXV+tnc1B9
-         pF8ZFpYAvk8iIvXsoc6femkBy+zIdDzqMJT6LDG/e8UKlEiuS6Xn4IoaLk4rdMj+tsPQ
-         Q6DOL6c1aRNHSxiQsiYvGSHtsqQcZxB59wRycNY/yIq1B22MThpPe8zxj22DPV+5XvaU
-         OSug==
-X-Gm-Message-State: AOAM531nwJj4FrDXrre776mPrRIH/B4i2jFJ2tyaLOAYQAneKLQLIiVF
-        YVh9G5M3zpTYF9IV/WW3FbTVDsN+w1g=
-X-Google-Smtp-Source: ABdhPJzrTUS5bD7zJmlloW2n79rKnX/+FGzSdag5BU6TAFmUEH+XnV1vRQLmvd+Q2PmGgmdSa+W0mA==
-X-Received: by 2002:a2e:8699:: with SMTP id l25mr5102838lji.81.1593622453089;
-        Wed, 01 Jul 2020 09:54:13 -0700 (PDT)
+        bh=O8+XYERuEbaOaHVA/xOkb+c87xOkSEUM/pBHDX8Fe5c=;
+        b=atvw8v9tvsLyAp9TDRm3X1LrM8XXDRuLwOQiJR4hCwaIjC85eiyLsB6JNj17RR4KG/
+         Ba2aEtnGT3/gwIhZcm3fzpM0DRClG9i+xjdLFhmCBmr8AyVovG08aHKzCKKdWMnkC0Xa
+         B0CNls5QdyBLC1+lh8zb3MSmI7DRmzftEnADV/05oGNzVdle4UlUKNpMNq9926rJLXcf
+         4qVwnHM+9Kzksrx8h7Li9VXxwTDqEv98TMCnBXiseKAswgZyaVnqcmGQghblTg0kQDHt
+         xas9zphH3++/qVCObHFL/2iqvkj24rYb4iYEzqQb91bf8pFZ7Y2l67rFvo7PSYtXlys4
+         fTTw==
+X-Gm-Message-State: AOAM532GNa6SHPjZ3yCoCTMGU74aPFcpf70Fq9uSs/fPexkM3U3Ydvyd
+        e/g40hsjizoq8BNKooHMv4A=
+X-Google-Smtp-Source: ABdhPJxkw3CUXK1L6CdQ985miuHN01lOaXDKkKGh6Jr4MnDHiOrbOFVbaUzZpfxLHAA6uqB3YwIk/g==
+X-Received: by 2002:a2e:8783:: with SMTP id n3mr11600004lji.317.1593622451984;
+        Wed, 01 Jul 2020 09:54:11 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id s20sm2225530ljs.36.2020.07.01.09.54.10
+        by smtp.gmail.com with ESMTPSA id n3sm1988777ljc.114.2020.07.01.09.54.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2020 09:54:12 -0700 (PDT)
+        Wed, 01 Jul 2020 09:54:10 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1jqfzq-00042P-ON; Wed, 01 Jul 2020 18:54:06 +0200
+        id 1jqfzq-00042A-Fa; Wed, 01 Jul 2020 18:54:06 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 5/5] USB: serial: quatech2: drop two stub functions
-Date:   Wed,  1 Jul 2020 18:53:42 +0200
-Message-Id: <20200701165342.15448-6-johan@kernel.org>
+Subject: [PATCH 2/5] USB: serial: iuu_phoenix: drop unused URB submission results
+Date:   Wed,  1 Jul 2020 18:53:39 +0200
+Message-Id: <20200701165342.15448-3-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200701165342.15448-1-johan@kernel.org>
 References: <20200701165342.15448-1-johan@kernel.org>
@@ -67,58 +67,88 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop two unused stub functions which only served as documentation.
+The driver is submitting URBs in various completion callbacks without
+bothering to log errors yet still assigned the return value to temporary
+variables. Let's drop those temporaries.
 
-This also avoids a W=1 (-Wunused-but-set-variable) warning.
+This suppresses the corresponding W=1 (-Wunused-but-set-variable)
+warnings.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/quatech2.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ drivers/usb/serial/iuu_phoenix.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/serial/quatech2.c b/drivers/usb/serial/quatech2.c
-index f93b81a297d6..872d1bc86ab4 100644
---- a/drivers/usb/serial/quatech2.c
-+++ b/drivers/usb/serial/quatech2.c
-@@ -480,21 +480,6 @@ static void qt2_process_status(struct usb_serial_port *port, unsigned char *ch)
- 	}
+diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
+index d5bff69b1769..6336616fee49 100644
+--- a/drivers/usb/serial/iuu_phoenix.c
++++ b/drivers/usb/serial/iuu_phoenix.c
+@@ -158,7 +158,6 @@ static int iuu_tiocmget(struct tty_struct *tty)
+ static void iuu_rxcmd(struct urb *urb)
+ {
+ 	struct usb_serial_port *port = urb->context;
+-	int result;
+ 	int status = urb->status;
+ 
+ 	if (status) {
+@@ -174,7 +173,7 @@ static void iuu_rxcmd(struct urb *urb)
+ 					  port->bulk_out_endpointAddress),
+ 			  port->write_urb->transfer_buffer, 1,
+ 			  read_rxcmd_callback, port);
+-	result = usb_submit_urb(port->write_urb, GFP_ATOMIC);
++	usb_submit_urb(port->write_urb, GFP_ATOMIC);
  }
  
--/* not needed, kept to document functionality */
--static void qt2_process_xmit_empty(struct usb_serial_port *port,
--				   unsigned char *ch)
--{
--	int bytes_written;
--
--	bytes_written = (int)(*ch) + (int)(*(ch + 1) << 4);
--}
--
--/* not needed, kept to document functionality */
--static void qt2_process_flush(struct usb_serial_port *port, unsigned char *ch)
--{
--	return;
--}
--
- static void qt2_process_read_urb(struct urb *urb)
+ static int iuu_reset(struct usb_serial_port *port, u8 wt)
+@@ -241,7 +240,6 @@ static void iuu_update_status_callback(struct urb *urb)
+ static void iuu_status_callback(struct urb *urb)
  {
- 	struct usb_serial *serial;
-@@ -540,7 +525,7 @@ static void qt2_process_read_urb(struct urb *urb)
- 						 __func__);
- 					break;
- 				}
--				qt2_process_xmit_empty(port, ch + 3);
-+				/* bytes_written = (ch[1] << 4) + ch[0]; */
- 				i += 4;
- 				escapeflag = true;
- 				break;
-@@ -569,7 +554,6 @@ static void qt2_process_read_urb(struct urb *urb)
- 				break;
- 			case QT2_REC_FLUSH:
- 			case QT2_XMIT_FLUSH:
--				qt2_process_flush(port, ch + 2);
- 				i += 2;
- 				escapeflag = true;
- 				break;
+ 	struct usb_serial_port *port = urb->context;
+-	int result;
+ 	int status = urb->status;
+ 
+ 	dev_dbg(&port->dev, "%s - status = %d\n", __func__, status);
+@@ -250,7 +248,7 @@ static void iuu_status_callback(struct urb *urb)
+ 					  port->bulk_in_endpointAddress),
+ 			  port->read_urb->transfer_buffer, 256,
+ 			  iuu_update_status_callback, port);
+-	result = usb_submit_urb(port->read_urb, GFP_ATOMIC);
++	usb_submit_urb(port->read_urb, GFP_ATOMIC);
+ }
+ 
+ static int iuu_status(struct usb_serial_port *port)
+@@ -351,7 +349,6 @@ static void iuu_rgbf_fill_buffer(u8 *buf, u8 r1, u8 r2, u8 g1, u8 g2, u8 b1,
+ static void iuu_led_activity_on(struct urb *urb)
+ {
+ 	struct usb_serial_port *port = urb->context;
+-	int result;
+ 	char *buf_ptr = port->write_urb->transfer_buffer;
+ 	*buf_ptr++ = IUU_SET_LED;
+ 	if (xmas) {
+@@ -366,13 +363,12 @@ static void iuu_led_activity_on(struct urb *urb)
+ 					  port->bulk_out_endpointAddress),
+ 			  port->write_urb->transfer_buffer, 8 ,
+ 			  iuu_rxcmd, port);
+-	result = usb_submit_urb(port->write_urb, GFP_ATOMIC);
++	usb_submit_urb(port->write_urb, GFP_ATOMIC);
+ }
+ 
+ static void iuu_led_activity_off(struct urb *urb)
+ {
+ 	struct usb_serial_port *port = urb->context;
+-	int result;
+ 	char *buf_ptr = port->write_urb->transfer_buffer;
+ 	if (xmas) {
+ 		iuu_rxcmd(urb);
+@@ -386,7 +382,7 @@ static void iuu_led_activity_off(struct urb *urb)
+ 					  port->bulk_out_endpointAddress),
+ 			  port->write_urb->transfer_buffer, 8 ,
+ 			  iuu_rxcmd, port);
+-	result = usb_submit_urb(port->write_urb, GFP_ATOMIC);
++	usb_submit_urb(port->write_urb, GFP_ATOMIC);
+ }
+ 
+ 
 -- 
 2.26.2
 
