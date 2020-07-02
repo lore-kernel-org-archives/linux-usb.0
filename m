@@ -7,127 +7,99 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC43DC433E2
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67AEDC433E1
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA48D208B8
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42AF7206E2
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rnd7ZVz1"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="afE8GxK7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729968AbgGBOtU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:49:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
+        id S1730029AbgGBOtb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:49:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729952AbgGBOqo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:44 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DCB5C08C5DF
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:43 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id f18so28294692wml.3
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:43 -0700 (PDT)
+        with ESMTP id S1729948AbgGBOqk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:40 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBCCC08C5DD
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:40 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id z2so6524774wrp.2
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zCvEYr43bmvAI4c/u02EnPe5wklhcOBr52WpV3Wdhnc=;
-        b=rnd7ZVz1ZhbElscG9Bkyx7lA4/DyNELrmIlS9pFIxHeR0jZ64UUgjYI7/xmq7V/nBQ
-         ZjeYBcOXpxnMVFhStvkm3qSrrk39Vbmp5EY9GY7i2drA52md+rN3AH5t9d8r0TgeFZNz
-         tw/ORXRpXc9E6zjDPBTC35hNIHMr+7X2+Bt/wd9jC/lvPleiDxFGAMeKNMn6tZwOKAMw
-         +Fr6OtBOW8Ck2cXOQadIEhvAe9qMjojndUc9IB+nRn8EfKDQNJv3QpZ+jbkkt3DrMn/x
-         Qq4i23HE176PnzXDn8TVDQOGIPyiW8rEvw2ymMaPpVPUI/C+iiH4DcU3ekAl1SEKJ2/j
-         EL8A==
+        bh=tRsQR13PSt+71+KJ9+2KUCB1us21DRhNxaWRJTFi8XY=;
+        b=afE8GxK7+FqqdTQOg0Q4RfL/jq4qaEfxl3bVjnUTU58Byyndjn0zvnx4zWGWaxbd1G
+         8HcC2pPTZrDJOXvWZJw2Srm1mc4TKdMYEgzz5rQHZ/vchbzx961n0WWfiYAMcz4bWORc
+         6yqMFh1JFW3V7a0Jrpihl/434CUzB0yF5qUebR3lgQteVSq+x/MocXFzl8BNYpBbOrNt
+         z7TPIjgB6jtFDr7zIqNK/P9sVMBQ7yuvqAwb7P/Yk2s9AkcxcSmVL5tCjAYNdZyliqQD
+         mvnCt9FkG+r2v32fVSVVcIyAYl4V0Xl60xjM97Dr1WtJxD+AwmzeW240Cm1xUIS5uefk
+         XVrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zCvEYr43bmvAI4c/u02EnPe5wklhcOBr52WpV3Wdhnc=;
-        b=THjZRN7mQEo+HhLfz1514i1QU9YfZ65MaMafb+iJKjUrDkT7MF9pryChsxZQItV03O
-         6yFIjGBxSAh4/DNDx/6sb71e+WlLBDLU5p08hH+7UVZcHhO/37Aen98CI1tDNWlVL4nI
-         MYkvAUdqXk14vyOtCrtb66DzJ6snx5nc9ox+VAQTsDnJv1FpSHt3kxUl912W0ZfDfBVN
-         iKHFXbq0DAmOJtmFp/Q+4L1q3kVFjY0ENrHQZ1GnjFMa5lSQysXTrPqD/0KmYAms1ud4
-         o+gP5yMtm1I8HpMHIDevOgr7HVnigKDOJ4WIl0BpoxayY8UORYYVsP2urhbbP7SizAEf
-         Hikw==
-X-Gm-Message-State: AOAM531I4O/eVH88BMP8ADawWLczuXhIhLSgLzrppVDUseJU+AFpHUrh
-        5xEj69nQTMGPlMlF23bPzC3G7g==
-X-Google-Smtp-Source: ABdhPJxTZlxUGKYXKggwnjvqFMcBCaf45y5q+liL9GM89JskjMNjlM3bEhXyNhYs3yNR7dMSBMPRZA==
-X-Received: by 2002:a1c:cc12:: with SMTP id h18mr30459205wmb.3.1593701202335;
-        Thu, 02 Jul 2020 07:46:42 -0700 (PDT)
+        bh=tRsQR13PSt+71+KJ9+2KUCB1us21DRhNxaWRJTFi8XY=;
+        b=ETaTqzLzDj7AFCHV532AlU444XxE6dWVBN+iqP+mtbF1S1LIYBM6H/m//5I4jvmae6
+         IlSVC17pxEreq5LMwyTnrmLhCPeU4Ope4T0FpYEUe6hPiTwXzjGjkjhrNDkFYogw85KD
+         ERDxaf9gaAn2DqDRVDpIHGkQLDrgFh1QfpibHLV+dkHTv+vo/3pQgyuN+C1KoYwgf2hG
+         Sp/9LlzKzl4OQNZA9W2XzwQhChiBOI5669lFVYfOpN8xh1pIIRiiRNDUfA+hRMykduTa
+         8/6ZkTnJ2Hv+1R8jEzIq2RiwPaVKI+rXB/iTNYwdXe/5LTe6qEDTxeqts8qEdTdkha6B
+         USZg==
+X-Gm-Message-State: AOAM530ZFsqvGG3jB1bS7O5fJU1CYuHkRj8y5sQENagt8z4CX+Xgig+j
+        qKGh2rVjiB9mJaR6T//OS1gunw==
+X-Google-Smtp-Source: ABdhPJyqONzkjZI9qaxDAqErGMqBbVCt3H11ePJ7rYrmZUiaxTZ0JWbKWEk8+2bN0aTs5d9nufxEOg==
+X-Received: by 2002:a5d:6045:: with SMTP id j5mr31334712wrt.209.1593701198911;
+        Thu, 02 Jul 2020 07:46:38 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.41
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:41 -0700 (PDT)
+        Thu, 02 Jul 2020 07:46:38 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-omap@vger.kernel.org
-Subject: [PATCH 08/30] usb: dwc3: dwc3-omap: Do not read DMA status
-Date:   Thu,  2 Jul 2020 15:46:03 +0100
-Message-Id: <20200702144625.2533530-9-lee.jones@linaro.org>
+        Felipe Balbi <balbi@kernel.org>, Roger Quadros <rogerq@ti.com>
+Subject: [PATCH 05/30] usb: dwc3: drd: File headers are not doc headers
+Date:   Thu,  2 Jul 2020 15:46:00 +0100
+Message-Id: <20200702144625.2533530-6-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
 References: <20200702144625.2533530-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit af566a0be6e49 ("usb: dwc3: omap: get rid of dma_status") rendered
-reading DMA status from the H/W even more redundant.  The variable hasn't
-been read/used since 2016.  Remove the set but unused variable and the call
-which populates it.
+Demote drd.c's file header to a standard comment block.
 
-Fixes the following W=1 warning:
+Fixes the following W=1 build warnings:
 
- drivers/usb/dwc3/dwc3-omap.c: In function ‘dwc3_omap_probe’:
- drivers/usb/dwc3/dwc3-omap.c:460:8: warning: variable ‘reg’ set but not used [-Wunused-but-set-variable]
- 460 | u32 reg;
- | ^~~
+ drivers/usb/dwc3/drd.c:20: warning: Function parameter or member 'dwc' not described in 'dwc3_otg_disable_events'
+ drivers/usb/dwc3/drd.c:20: warning: Function parameter or member 'disable_mask' not described in 'dwc3_otg_disable_events'
 
 Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-omap@vger.kernel.org
+Cc: Roger Quadros <rogerq@ti.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/dwc3/dwc3-omap.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/usb/dwc3/drd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-omap.c b/drivers/usb/dwc3/dwc3-omap.c
-index 8c3de2d258bf7..11288a370828c 100644
---- a/drivers/usb/dwc3/dwc3-omap.c
-+++ b/drivers/usb/dwc3/dwc3-omap.c
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 2e483448d6959..fd7f9a9f67dc7 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
 @@ -1,5 +1,5 @@
  // SPDX-License-Identifier: GPL-2.0
 -/**
 +/*
-  * dwc3-omap.c - OMAP Specific Glue layer
+  * drd.c - DesignWare USB3 DRD Controller Dual-role support
   *
-  * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com
-@@ -457,8 +457,6 @@ static int dwc3_omap_probe(struct platform_device *pdev)
- 	int			ret;
- 	int			irq;
- 
--	u32			reg;
--
- 	void __iomem		*base;
- 
- 	if (!node) {
-@@ -503,9 +501,6 @@ static int dwc3_omap_probe(struct platform_device *pdev)
- 	dwc3_omap_map_offset(omap);
- 	dwc3_omap_set_utmi_mode(omap);
- 
--	/* check the DMA Status */
--	reg = dwc3_omap_readl(omap->base, USBOTGSS_SYSCONFIG);
--
- 	ret = dwc3_omap_extcon_register(omap);
- 	if (ret < 0)
- 		goto err1;
+  * Copyright (C) 2017 Texas Instruments Incorporated - http://www.ti.com
 -- 
 2.25.1
 
