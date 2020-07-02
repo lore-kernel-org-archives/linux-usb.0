@@ -2,111 +2,154 @@ Return-Path: <SRS0=EPnu=AN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBB0DC433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B29C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8F8B206E2
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F2982067D
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hYKVXrVg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PbxWD7XW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729943AbgGBOtj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50134 "EHLO
+        id S1729910AbgGBOqb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:46:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729920AbgGBOqd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:33 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C2BC08C5DD
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:32 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id s10so28743780wrw.12
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:32 -0700 (PDT)
+        with ESMTP id S1729908AbgGBOqa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:30 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07445C08C5DD
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:30 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id w3so15820926wmi.4
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=e63YwYltHzireeUJAWeq6I/Q+T+q+YjnJiKdRakYXIQ=;
-        b=hYKVXrVgkHraKOfZu3k2KQgkRHrWpQyoiVNITKkt1laLeRsQphMY2/cCQQJu6Yxeq3
-         THAbytYMpx+LL+OHe5i6N7aqfDGUYS1nwUVkXo86nqmsL/g1r1+o4D2Wwlw7xa1TDcb9
-         W0FNCE+rSz6eQGz46KlgSPYSL4YHs4RZlLpdVVMup84vGo0tmQSvHfVCcsPjRekNJ5wW
-         vdrw4fSR2Y/feAsgx9WotHu0jT2Hbr9cs6ccIIjdBkeW/AtD7DchmnTKJHB6qWLyY16k
-         twS52qFRMzmBCJOAOfwieDFpf/GDvlmB11h6Ajzx0RAxYR6IyNt/wbeNQ17pzw3BSd8F
-         407g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YxQUrFUHojhxAJjrZVe9SERt2Gz5Hxh7N9BqgnXWQ4I=;
+        b=PbxWD7XWYOoiXaa68JGMYTP7VIRMea/cI8ollGsySgvw9apT8lKhJ29TCzF2y/TP0T
+         mfVj4TvNq1WK+Hs0KYonxqndTJ17CxAtJEKmkDbEi1Io8+KSxQJyRHMdrHOukeSDdOzi
+         Cx2We2TE1e+OA+EE1h18/U8qsR3Vd6D7OIixq2ijGobzhjAgbcI7nrgCrBJAtdLdni5w
+         bNTkVjnZ3EruhDZtbK3YGlS5ccpFqkB/q+db2esd5AMu2CIarfE2wpeeExWurIwnyknB
+         xz4Xdz1bfprkxdEuPNArH6s9AsklJ6SDss9zHDSZduwJRRNrIDB3lanwFsPgDLzkXpfQ
+         hjDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=e63YwYltHzireeUJAWeq6I/Q+T+q+YjnJiKdRakYXIQ=;
-        b=lW7CpM9Pf3ujuGu8HvkffcUOF8GhS7YL1SzhS61MjksPYaXsLb46H4jjBByRN853zD
-         dTcL/cTmYTO1HQBABYzsuLOGkP+IFbi6szPvMUC/32Q0s8go+AjgWk3onQr6prcq1kDl
-         Xe60P/cGNx/AQPdvgLi65EwC5vhDWJqhDYBimZcxgpiRN5g+qangk4RH6loUmFFpdVd0
-         3YLLrpZ5J84c5AF6OBuc4COGz3DwjlN+jikwyDyg++u+JGaL3U5ahS4gd8uI98cgYa2d
-         0U/kw1nisVsqQpJbo+0G3arelWmOPx4VjxEoMOSYhLGqFLkJqVEMYgsTGdZ3kKgT8i9j
-         5ktg==
-X-Gm-Message-State: AOAM5327H2yA8M8Xaqbg5b4NEiayqiHe9tBbnS9rGAz6EGsVSLjPFB5x
-        +I1a05StvtCZyP9mZyZvTDNLYQ==
-X-Google-Smtp-Source: ABdhPJwVhXexGFtE5J767EHYTZ5ksk2T2JcVdBbrTkdpijHJTFgDlRPbD9D3pIbKZH4I57pFWKs9HA==
-X-Received: by 2002:adf:aa90:: with SMTP id h16mr32393226wrc.356.1593701191570;
-        Thu, 02 Jul 2020 07:46:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YxQUrFUHojhxAJjrZVe9SERt2Gz5Hxh7N9BqgnXWQ4I=;
+        b=eN+B0wAiEPG69ccEr1VhCahPxqHaHgHsHg3hGJa8+8ygKk5qtOM72JJQyHHjAVEsMX
+         FQBfMrkpyMuYMj8RWxJRNbID7Pn9+w8WcFjL73VkFKfD4lm0GPugFJYqgkY8DGZ0vEXb
+         h9qJEPbPr5N29zmG7Eon2tIA+v00CgDMu9r5nY8jS3QgEtl0TPnxAv0Ioo/IpL3nL2ni
+         pEjFixhnkhPJhvUiUlbuOtVI9taArrF8gupE1DHY1MRfuO5+sX5SsAKyvIJZUceJO4Jr
+         2LVndLE81wXSGtxtgwZ7qZzkoqG99hUmPSY+K3bbdDMMNQKKM+4p5Z0XRm0r2wODtgKm
+         A9LQ==
+X-Gm-Message-State: AOAM533l8lMzbZ8N7u+KqxlIrHCPESwRNJ489sPOi8S9gZck4V2MkiUY
+        432fVtE8VwuNfLwLqJNm2RJlUg==
+X-Google-Smtp-Source: ABdhPJwbH8oy0oeGJEOQ74bSYU70r0nhOOUVOMNBDTT7apYm5WiPReqtn+KFNi+kV8uNdA6g+K+ENw==
+X-Received: by 2002:a1c:cc12:: with SMTP id h18mr30458048wmb.3.1593701188661;
+        Thu, 02 Jul 2020 07:46:28 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.30
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:30 -0700 (PDT)
+        Thu, 02 Jul 2020 07:46:28 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Martin Mares <mj@ucw.cz>, aleksey_gorelov@phoenix.com
-Subject: [PATCH 02/30] usb: host: pci-quirks: Demote function header from kerneldoc to comment block
-Date:   Thu,  2 Jul 2020 15:45:57 +0100
-Message-Id: <20200702144625.2533530-3-lee.jones@linaro.org>
+        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH 00/30] Fix a bunch of W=1 issues in USB
+Date:   Thu,  2 Jul 2020 15:45:55 +0100
+Message-Id: <20200702144625.2533530-1-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
-References: <20200702144625.2533530-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-quirk_usb_handoff_xhci()'s function header is the only one across
-the sourcefile which is denoted as a kerneldoc header.  Despite
-no attempt to document its arguments.  Drop it down in status from
-kerneldoc to a standard comment block to match the other headers
-in the file.
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-Fixes the following W=1 kernel build warning:
+Lee Jones (30):
+  usb: phy: phy: Fix-up a whole bunch of formatting issues
+  usb: host: pci-quirks: Demote function header from kerneldoc to
+    comment block
+  usb: common: debug: Demote comment blocks which are obviously not
+    kerneldoc
+  usb: common: usb-conn-gpio: Demote comment block which is clearly not
+    kerneldoc
+  usb: dwc3: drd: File headers are not doc headers
+  usb: dwc3: ulpi: File headers are not doc headers
+  usb: common: ulpi: Fix a few kerneldoc related issues
+  usb: dwc3: dwc3-omap: Do not read DMA status
+  usb: dwc2: gadget: Do not read GINTMSK2
+  usb: dwc2: gadget: Remove assigned but never used 'maxsize'
+  usb: dwc2: gadget: Avoid pointless read of EP control register
+  usb: host: ehci-omap: Provide documentation for
+    ehci_hcd_omap_probe()'s arg 'pdev'
+  usb: cdns3: core: Fix incorrect formatting and misspelled function arg
+    docs
+  usb: cdns3: ep0: Fix a bunch of kerneldoc issues
+  usb: dwc3: dwc3-haps: Function headers are not suitable for kerneldoc
+  usb: mtu3: mtu3_trace: Function headers are not suitable for kerneldoc
+  usb: cdns3: gadget: Fix a bunch of kernel doc issues
+  usb: dwc3: dwc3-of-simple: Function headers are not good candidates
+    for kerneldoc
+  usb: host: isp1362: Mark the many unused ISP1362_REG entries as
+    __maybe_unused
+  usb: host: ohci-at91: Demote kerneldoc headers down to basic comment
+    blocks
+  usb: host: ohci: Mark cc_to_error as __maybe_unused
+  usb: cdns3: ep0: Move 'zlp' description to appropriate function header
+  usb: host: oxu210hp-hcd: Move declaration of 'qtd' into 'ifdef
+    OXU_URB_TRACE'
+  usb: mtu3: mtu3_trace: Supply missing mtu3_debug.h include file
+  usb: mtu3: mtu3_core: Demote obvious misuse of kerneldoc to standard
+    comment block
+  usb: c67x00: c67x00-ll-hpi: Demote obvious misuse of kerneldoc to
+    standard comment blocks
+  usb: class: cdc-wdm: Provide description for usb_cdc_wdm_register()'s
+    manage_power arg
+  usb: c67x00: c67x00-hcd: Demote obvious misuse of kerneldoc to
+    standard comment blocks
+  usb: class: usbtmc: File headers are not good candidates for kerneldoc
+  usb: c67x00: c67x00-sched: Demote obvious misuse of kerneldoc to
+    standard comment blocks
 
- drivers/usb/host/pci-quirks.c:1145: warning: Function parameter or member 'pdev' not described in 'quirk_usb_handoff_xhci'
+ drivers/usb/c67x00/c67x00-hcd.c    |  6 ++--
+ drivers/usb/c67x00/c67x00-ll-hpi.c |  6 ++--
+ drivers/usb/c67x00/c67x00-sched.c  | 26 ++++++++--------
+ drivers/usb/cdns3/core.c           |  8 ++---
+ drivers/usb/cdns3/ep0.c            | 12 ++++++--
+ drivers/usb/cdns3/gadget.c         | 11 ++++---
+ drivers/usb/class/cdc-wdm.c        |  3 +-
+ drivers/usb/class/usbtmc.c         |  2 +-
+ drivers/usb/common/debug.c         |  4 +--
+ drivers/usb/common/ulpi.c          |  5 +--
+ drivers/usb/common/usb-conn-gpio.c |  2 +-
+ drivers/usb/dwc2/gadget.c          |  7 +----
+ drivers/usb/dwc3/drd.c             |  2 +-
+ drivers/usb/dwc3/dwc3-haps.c       |  2 +-
+ drivers/usb/dwc3/dwc3-of-simple.c  |  2 +-
+ drivers/usb/dwc3/dwc3-omap.c       |  7 +----
+ drivers/usb/dwc3/ulpi.c            |  2 +-
+ drivers/usb/host/ehci-omap.c       |  1 +
+ drivers/usb/host/isp1362.h         |  2 +-
+ drivers/usb/host/ohci-at91.c       |  5 ++-
+ drivers/usb/host/ohci.h            |  2 +-
+ drivers/usb/host/oxu210hp-hcd.c    |  7 ++---
+ drivers/usb/host/pci-quirks.c      |  2 +-
+ drivers/usb/mtu3/mtu3_core.c       |  2 +-
+ drivers/usb/mtu3/mtu3_trace.c      |  3 +-
+ drivers/usb/phy/phy.c              | 49 +++++++++++++++---------------
+ 26 files changed, 90 insertions(+), 90 deletions(-)
 
-Cc: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Martin Mares <mj@ucw.cz>
-Cc: aleksey_gorelov@phoenix.com
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/usb/host/pci-quirks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index 0b949acfa2589..b8961c0381cfd 100644
---- a/drivers/usb/host/pci-quirks.c
-+++ b/drivers/usb/host/pci-quirks.c
-@@ -1133,7 +1133,7 @@ void usb_disable_xhci_ports(struct pci_dev *xhci_pdev)
- }
- EXPORT_SYMBOL_GPL(usb_disable_xhci_ports);
- 
--/**
-+/*
-  * PCI Quirks for xHCI.
-  *
-  * Takes care of the handoff between the Pre-OS (i.e. BIOS) and the OS.
 -- 
 2.25.1
 
