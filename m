@@ -2,129 +2,117 @@ Return-Path: <SRS0=EPnu=AN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DE2C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 01:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2743CC433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 02:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6064020781
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 01:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593653780;
-	bh=27HmbMVf7TIt+n99FWWFvZ4hX+iwRh6GrUkWrpJrksw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BqL+CwPk05xpWG7DaMUa5a3dClfSWCOgMRpFkG5hgT6RtPSaZJwKuN1UBYZ0GApim
-	 TfBFhfzILZWqExTBmlKkZKdJdHK7YWlR2Cv5WVIhhlLOSvitghlRbsQHsdo5c7BaoX
-	 xdRmM/f5bbsKWf4dnyfieKvtYaUHDjJBPy8TBISk=
+	by mail.kernel.org (Postfix) with ESMTP id 062CC20781
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 02:53:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="aLSG1kWm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728267AbgGBBXS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jul 2020 21:23:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53746 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728256AbgGBBXR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 1 Jul 2020 21:23:17 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8C73F20748;
-        Thu,  2 Jul 2020 01:23:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593652996;
-        bh=27HmbMVf7TIt+n99FWWFvZ4hX+iwRh6GrUkWrpJrksw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kqC8H64at90Y63t1HhXNqXBMb9XaloiEpwDvQvHowrrQppy3g8GvmrGPnx8eE+oXN
-         I6HGaOGGI1A8rZ0DwfTUHncK9SC64HaVqlsZBaeyQ/vkS2v2GS+U2pB/wRtvG4aqDC
-         CgB1TdFpVzVPPm1rmpOD/5jp9HMFkRi71tZUpapU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jeremy Kerr <jk@ozlabs.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 17/53] net: usb: ax88179_178a: fix packet alignment padding
-Date:   Wed,  1 Jul 2020 21:21:26 -0400
-Message-Id: <20200702012202.2700645-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702012202.2700645-1-sashal@kernel.org>
-References: <20200702012202.2700645-1-sashal@kernel.org>
+        id S1726187AbgGBCxZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jul 2020 22:53:25 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:40039 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726146AbgGBCxZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jul 2020 22:53:25 -0400
+X-UUID: dee14df25634404982d404beca267926-20200702
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=afpaC7qRGVZ6JRFynQgro+7OJFSDdHfSPLeLJ/lq7kQ=;
+        b=aLSG1kWmHRehrrGQ3rqzjfigMarWaiFUhQ7v78o07HneYshjxm0TtsjxlfDJ93oVg48TrHNcYz/mTSwKXH2FX3xrwX0W8pO9A89pAl6spVO2XB7nXm8UocNMJ6AfRRU1t1SHBFdrmGxJHPd54OoLXPkaB+PsXp4NdKb2UAlrIFQ=;
+X-UUID: dee14df25634404982d404beca267926-20200702
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 290555990; Thu, 02 Jul 2020 10:53:16 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N1.mediatek.inc
+ (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 2 Jul
+ 2020 10:53:14 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 2 Jul 2020 10:53:09 +0800
+Message-ID: <1593658371.23885.16.camel@mhfsdcap03>
+Subject: Re: [V2 PATCH] usb: mtu3: fix NULL pointer dereference
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Markus Elfring <Markus.Elfring@web.de>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Date:   Thu, 2 Jul 2020 10:52:51 +0800
+In-Reply-To: <20200701115821.GA2184169@kroah.com>
+References: <1593502942-24455-1-git-send-email-chunfeng.yun@mediatek.com>
+         <20200701115821.GA2184169@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-TM-SNTS-SMTP: 9F8CFEA6CEBAFB7D9D5D9DF806B368CC530AA52FD6E6FE9C3269E92BF6BF031F2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jeremy Kerr <jk@ozlabs.org>
-
-[ Upstream commit e869e7a17798d85829fa7d4f9bbe1eebd4b2d3f6 ]
-
-Using a AX88179 device (0b95:1790), I see two bytes of appended data on
-every RX packet. For example, this 48-byte ping, using 0xff as a
-payload byte:
-
-  04:20:22.528472 IP 192.168.1.1 > 192.168.1.2: ICMP echo request, id 2447, seq 1, length 64
-	0x0000:  000a cd35 ea50 000a cd35 ea4f 0800 4500
-	0x0010:  0054 c116 4000 4001 f63e c0a8 0101 c0a8
-	0x0020:  0102 0800 b633 098f 0001 87ea cd5e 0000
-	0x0030:  0000 dcf2 0600 0000 0000 ffff ffff ffff
-	0x0040:  ffff ffff ffff ffff ffff ffff ffff ffff
-	0x0050:  ffff ffff ffff ffff ffff ffff ffff ffff
-	0x0060:  ffff 961f
-
-Those last two bytes - 96 1f - aren't part of the original packet.
-
-In the ax88179 RX path, the usbnet rx_fixup function trims a 2-byte
-'alignment pseudo header' from the start of the packet, and sets the
-length from a per-packet field populated by hardware. It looks like that
-length field *includes* the 2-byte header; the current driver assumes
-that it's excluded.
-
-This change trims the 2-byte alignment header after we've set the packet
-length, so the resulting packet length is correct. While we're moving
-the comment around, this also fixes the spelling of 'pseudo'.
-
-Signed-off-by: Jeremy Kerr <jk@ozlabs.org>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/ax88179_178a.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index 93044cf1417a5..1fe4cc28d154d 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -1414,10 +1414,10 @@ static int ax88179_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 		}
- 
- 		if (pkt_cnt == 0) {
--			/* Skip IP alignment psudo header */
--			skb_pull(skb, 2);
- 			skb->len = pkt_len;
--			skb_set_tail_pointer(skb, pkt_len);
-+			/* Skip IP alignment pseudo header */
-+			skb_pull(skb, 2);
-+			skb_set_tail_pointer(skb, skb->len);
- 			skb->truesize = pkt_len + sizeof(struct sk_buff);
- 			ax88179_rx_checksum(skb, pkt_hdr);
- 			return 1;
-@@ -1426,8 +1426,9 @@ static int ax88179_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 		ax_skb = skb_clone(skb, GFP_ATOMIC);
- 		if (ax_skb) {
- 			ax_skb->len = pkt_len;
--			ax_skb->data = skb->data + 2;
--			skb_set_tail_pointer(ax_skb, pkt_len);
-+			/* Skip IP alignment pseudo header */
-+			skb_pull(ax_skb, 2);
-+			skb_set_tail_pointer(ax_skb, ax_skb->len);
- 			ax_skb->truesize = pkt_len + sizeof(struct sk_buff);
- 			ax88179_rx_checksum(ax_skb, pkt_hdr);
- 			usbnet_skb_return(dev, ax_skb);
--- 
-2.25.1
+T24gV2VkLCAyMDIwLTA3LTAxIGF0IDEzOjU4ICswMjAwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
+dGU6DQo+IE9uIFR1ZSwgSnVuIDMwLCAyMDIwIGF0IDAzOjQyOjIyUE0gKzA4MDAsIENodW5mZW5n
+IFl1biB3cm90ZToNCj4gPiBTb21lIHBvaW50ZXJzIGFyZSBkZXJlZmVyZW5jZWQgYmVmb3JlIHN1
+Y2Nlc3NmdWwgY2hlY2tzLg0KPiA+IA0KPiA+IFJlcG9ydGVkLWJ5OiBNYXJrdXMgRWxmcmluZyA8
+TWFya3VzLkVsZnJpbmdAd2ViLmRlPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1biA8
+Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiB2Mjogbm90aGluZyBjaGFu
+Z2VkLCBidXQgYWJhbmRvbiBhbm90aGVyIHBhdGNoDQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvdXNi
+L210dTMvbXR1M19nYWRnZXQuYyB8IDI1ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0NCj4gPiAg
+MSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pDQo+ID4gDQo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL210dTMvbXR1M19nYWRnZXQuYyBiL2RyaXZlcnMv
+dXNiL210dTMvbXR1M19nYWRnZXQuYw0KPiA+IGluZGV4IGY5MzczMmUuLjE2ODljYTggMTAwNjQ0
+DQo+ID4gLS0tIGEvZHJpdmVycy91c2IvbXR1My9tdHUzX2dhZGdldC5jDQo+ID4gKysrIGIvZHJp
+dmVycy91c2IvbXR1My9tdHUzX2dhZGdldC5jDQo+ID4gQEAgLTMzMiwxNCArMzMyLDIxIEBAIHN0
+YXRpYyBpbnQgbXR1M19nYWRnZXRfcXVldWUoc3RydWN0IHVzYl9lcCAqZXAsDQo+ID4gIA0KPiA+
+ICBzdGF0aWMgaW50IG10dTNfZ2FkZ2V0X2RlcXVldWUoc3RydWN0IHVzYl9lcCAqZXAsIHN0cnVj
+dCB1c2JfcmVxdWVzdCAqcmVxKQ0KPiA+ICB7DQo+ID4gLQlzdHJ1Y3QgbXR1M19lcCAqbWVwID0g
+dG9fbXR1M19lcChlcCk7DQo+ID4gLQlzdHJ1Y3QgbXR1M19yZXF1ZXN0ICptcmVxID0gdG9fbXR1
+M19yZXF1ZXN0KHJlcSk7DQo+ID4gKwlzdHJ1Y3QgbXR1M19lcCAqbWVwOw0KPiA+ICsJc3RydWN0
+IG10dTNfcmVxdWVzdCAqbXJlcTsNCj4gPiAgCXN0cnVjdCBtdHUzX3JlcXVlc3QgKnI7DQo+ID4g
+KwlzdHJ1Y3QgbXR1MyAqbXR1Ow0KPiA+ICAJdW5zaWduZWQgbG9uZyBmbGFnczsNCj4gPiAgCWlu
+dCByZXQgPSAwOw0KPiA+IC0Jc3RydWN0IG10dTMgKm10dSA9IG1lcC0+bXR1Ow0KPiA+ICANCj4g
+PiAtCWlmICghZXAgfHwgIXJlcSB8fCBtcmVxLT5tZXAgIT0gbWVwKQ0KPiA+ICsJaWYgKCFlcCB8
+fCAhcmVxKQ0KPiA+ICsJCXJldHVybiAtRUlOVkFMOw0KPiANCj4gSG93IHdpbGwgZWl0aGVyIG9m
+IHRob3NlIGV2ZXIgYmUgTlVMTD8gIFRoZSBrZXJuZWwgd2lsbCBub3QgY2FsbCB0aGlzDQo+IGZ1
+bmN0aW9uIHdpdGggZWl0aGVyIG9mIHRoZW0gYmVpbmcgTlVMTCwgcmlnaHQ/DQpZZXMsIEkgZmlu
+ZCBhbGwgY2xhc3MgZHJpdmVycyBhbHJlYWR5IGVuc3VyZSB0aGV5IGFyZSBub3QgTlVMTC4NCg0K
+PiANCj4gPiArDQo+ID4gKwltZXAgPSB0b19tdHUzX2VwKGVwKTsNCj4gPiArCW10dSA9IG1lcC0+
+bXR1Ow0KPiA+ICsNCj4gPiArCW1yZXEgPSB0b19tdHUzX3JlcXVlc3QocmVxKTsNCj4gPiArCWlm
+IChtcmVxLT5tZXAgIT0gbWVwKQ0KPiA+ICAJCXJldHVybiAtRUlOVkFMOw0KPiA+ICANCj4gPiAg
+CWRldl9kYmcobXR1LT5kZXYsICIlcyA6IHJlcT0lcFxuIiwgX19mdW5jX18sIHJlcSk7DQo+ID4g
+QEAgLTM3Myw4ICszODAsOCBAQCBzdGF0aWMgaW50IG10dTNfZ2FkZ2V0X2RlcXVldWUoc3RydWN0
+IHVzYl9lcCAqZXAsIHN0cnVjdCB1c2JfcmVxdWVzdCAqcmVxKQ0KPiA+ICAgKi8NCj4gPiAgc3Rh
+dGljIGludCBtdHUzX2dhZGdldF9lcF9zZXRfaGFsdChzdHJ1Y3QgdXNiX2VwICplcCwgaW50IHZh
+bHVlKQ0KPiA+ICB7DQo+ID4gLQlzdHJ1Y3QgbXR1M19lcCAqbWVwID0gdG9fbXR1M19lcChlcCk7
+DQo+ID4gLQlzdHJ1Y3QgbXR1MyAqbXR1ID0gbWVwLT5tdHU7DQo+ID4gKwlzdHJ1Y3QgbXR1M19l
+cCAqbWVwOw0KPiA+ICsJc3RydWN0IG10dTMgKm10dTsNCj4gPiAgCXN0cnVjdCBtdHUzX3JlcXVl
+c3QgKm1yZXE7DQo+ID4gIAl1bnNpZ25lZCBsb25nIGZsYWdzOw0KPiA+ICAJaW50IHJldCA9IDA7
+DQo+ID4gQEAgLTM4Miw2ICszODksOSBAQCBzdGF0aWMgaW50IG10dTNfZ2FkZ2V0X2VwX3NldF9o
+YWx0KHN0cnVjdCB1c2JfZXAgKmVwLCBpbnQgdmFsdWUpDQo+ID4gIAlpZiAoIWVwKQ0KPiA+ICAJ
+CXJldHVybiAtRUlOVkFMOw0KPiANCj4gU2FtZSBoZXJlLCBob3cgY2FuIHRoYXQgZXZlciBoYXBw
+ZW4/DQpNYXliZSB3aGVuIHRoZSBjbGFzcyBkcml2ZXIgaGFzIHNvbWV0aGluZyB3cm9uZzopDQoN
+CllvdSBtZWFuIGl0J3MgYmV0dGVyIHRvIHJlbW92ZSB0aGVzZSB1bm5lY2Vzc2FyeSBjaGVja3M/
+DQoNClRoYW5rcw0KDQo+IA0KPiA+ICANCj4gPiArCW1lcCA9IHRvX210dTNfZXAoZXApOw0KPiA+
+ICsJbXR1ID0gbWVwLT5tdHU7DQo+ID4gKw0KPiA+ICAJZGV2X2RiZyhtdHUtPmRldiwgIiVzIDog
+JXMuLi4iLCBfX2Z1bmNfXywgZXAtPm5hbWUpOw0KPiA+ICANCj4gPiAgCXNwaW5fbG9ja19pcnFz
+YXZlKCZtdHUtPmxvY2ssIGZsYWdzKTsNCj4gPiBAQCAtNDIyLDExICs0MzIsMTIgQEAgc3RhdGlj
+IGludCBtdHUzX2dhZGdldF9lcF9zZXRfaGFsdChzdHJ1Y3QgdXNiX2VwICplcCwgaW50IHZhbHVl
+KQ0KPiA+ICAvKiBTZXRzIHRoZSBoYWx0IGZlYXR1cmUgd2l0aCB0aGUgY2xlYXIgcmVxdWVzdHMg
+aWdub3JlZCAqLw0KPiA+ICBzdGF0aWMgaW50IG10dTNfZ2FkZ2V0X2VwX3NldF93ZWRnZShzdHJ1
+Y3QgdXNiX2VwICplcCkNCj4gPiAgew0KPiA+IC0Jc3RydWN0IG10dTNfZXAgKm1lcCA9IHRvX210
+dTNfZXAoZXApOw0KPiA+ICsJc3RydWN0IG10dTNfZXAgKm1lcDsNCj4gPiAgDQo+ID4gIAlpZiAo
+IWVwKQ0KPiA+ICAJCXJldHVybiAtRUlOVkFMOw0KPiANCj4gQWdhaW4sIHNhbWUgaGVyZS4NCj4g
+DQo+IHRoYW5rcywNCj4gDQo+IGdyZWcgay1oDQoNCg==
 
