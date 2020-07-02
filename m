@@ -7,64 +7,65 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD8AC433E2
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBB0DC433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C76D92089D
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8F8B206E2
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BjS0+cjb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hYKVXrVg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729944AbgGBOth (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:49:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
+        id S1729943AbgGBOtj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729943AbgGBOqj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:39 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC79C08C5DD
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:39 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id q5so28768016wru.6
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:38 -0700 (PDT)
+        with ESMTP id S1729920AbgGBOqd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:33 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C2BC08C5DD
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:32 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id s10so28743780wrw.12
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=V6gF5OZoL4RS0/p0R84cBC4PkOOgqqKbUR7gNdMwCYM=;
-        b=BjS0+cjbl/ylf9WIsjuuM5KRIKa1tflpMXbUUUReB1WQml9HUW6E7bANNjfQ5fTX/A
-         ePKj5W/F4jTQ5DLni9yk4rEL0mT0PZ8dx/ky2IeK4j26F+tluYD+xaCITBCrSwhHDkG0
-         UjYtzRYY1AZ1XJ9FbJStn9EZ2dOaSQVOz0ZTjAy3qfUFL/OnG1ALFNX/lOhWfCrk0PAA
-         E9iW5PKN2w1rivJs2V0GOJnXF7m6RAcY+Rhv3sFBPzim9PY9lAbUX+LDiXQaJWjLIobh
-         7BZt8ywcNGAKtdq5SRkR8fB6Ov7RYsv3mwiu7mpnDcFkBnkV5Ha2N/0X48uQF+Svx/43
-         Gn0g==
+        bh=e63YwYltHzireeUJAWeq6I/Q+T+q+YjnJiKdRakYXIQ=;
+        b=hYKVXrVgkHraKOfZu3k2KQgkRHrWpQyoiVNITKkt1laLeRsQphMY2/cCQQJu6Yxeq3
+         THAbytYMpx+LL+OHe5i6N7aqfDGUYS1nwUVkXo86nqmsL/g1r1+o4D2Wwlw7xa1TDcb9
+         W0FNCE+rSz6eQGz46KlgSPYSL4YHs4RZlLpdVVMup84vGo0tmQSvHfVCcsPjRekNJ5wW
+         vdrw4fSR2Y/feAsgx9WotHu0jT2Hbr9cs6ccIIjdBkeW/AtD7DchmnTKJHB6qWLyY16k
+         twS52qFRMzmBCJOAOfwieDFpf/GDvlmB11h6Ajzx0RAxYR6IyNt/wbeNQ17pzw3BSd8F
+         407g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=V6gF5OZoL4RS0/p0R84cBC4PkOOgqqKbUR7gNdMwCYM=;
-        b=A3t/OQaay5T+z5Tt8z5nbK0lTbKluEN9YetKKPbk15Qcl2n//NOsKSDeuYJCyjzk0h
-         2zaFbQCIZ5n/turl2plOhcaI9V95hzarRGAXy11yIbbfyzuxxNLJSbY3iYKumdwCIcUE
-         PuXtGapNz43YC1nVdf/RpnAas22ef942T0+naglPtQpoQhXLjMvjQIg014Rc7fAGBpm7
-         ZrXH4mMxF7fjIqA5f1QuzW2IlJFE+1d6S3KtERnREmkfkLVOCrMQocr7k2j5pQTZCVab
-         5lvYmVGPs2lfRPJVQPeNmXPAQmqVj2pLntl+YPa9RB2ivN2NZprZPt02JjEu1K2zvSmy
-         pyXA==
-X-Gm-Message-State: AOAM532K63AqM29AzuIq4m56EV8H2fLBD4wNEqze5tdktrkHuQezVse+
-        xUY5rtzlKy5JOJxLcFtWXpERsg==
-X-Google-Smtp-Source: ABdhPJxPgeQecG8Qw9IvYuzEGJ3H19n5YN5vEt0bIlABEWuytzwfCAbC88GDg3TzdKAG9CqcWTyTQA==
-X-Received: by 2002:a5d:4984:: with SMTP id r4mr31220077wrq.215.1593701197660;
-        Thu, 02 Jul 2020 07:46:37 -0700 (PDT)
+        bh=e63YwYltHzireeUJAWeq6I/Q+T+q+YjnJiKdRakYXIQ=;
+        b=lW7CpM9Pf3ujuGu8HvkffcUOF8GhS7YL1SzhS61MjksPYaXsLb46H4jjBByRN853zD
+         dTcL/cTmYTO1HQBABYzsuLOGkP+IFbi6szPvMUC/32Q0s8go+AjgWk3onQr6prcq1kDl
+         Xe60P/cGNx/AQPdvgLi65EwC5vhDWJqhDYBimZcxgpiRN5g+qangk4RH6loUmFFpdVd0
+         3YLLrpZ5J84c5AF6OBuc4COGz3DwjlN+jikwyDyg++u+JGaL3U5ahS4gd8uI98cgYa2d
+         0U/kw1nisVsqQpJbo+0G3arelWmOPx4VjxEoMOSYhLGqFLkJqVEMYgsTGdZ3kKgT8i9j
+         5ktg==
+X-Gm-Message-State: AOAM5327H2yA8M8Xaqbg5b4NEiayqiHe9tBbnS9rGAz6EGsVSLjPFB5x
+        +I1a05StvtCZyP9mZyZvTDNLYQ==
+X-Google-Smtp-Source: ABdhPJwVhXexGFtE5J767EHYTZ5ksk2T2JcVdBbrTkdpijHJTFgDlRPbD9D3pIbKZH4I57pFWKs9HA==
+X-Received: by 2002:adf:aa90:: with SMTP id h16mr32393226wrc.356.1593701191570;
+        Thu, 02 Jul 2020 07:46:31 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.35
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:37 -0700 (PDT)
+        Thu, 02 Jul 2020 07:46:30 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: [PATCH 04/30] usb: common: usb-conn-gpio: Demote comment block which is clearly not kerneldoc
-Date:   Thu,  2 Jul 2020 15:45:59 +0100
-Message-Id: <20200702144625.2533530-5-lee.jones@linaro.org>
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Martin Mares <mj@ucw.cz>, aleksey_gorelov@phoenix.com
+Subject: [PATCH 02/30] usb: host: pci-quirks: Demote function header from kerneldoc to comment block
+Date:   Thu,  2 Jul 2020 15:45:57 +0100
+Message-Id: <20200702144625.2533530-3-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
 References: <20200702144625.2533530-1-lee.jones@linaro.org>
@@ -75,32 +76,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This block lacks a title and argument descriptions.
+quirk_usb_handoff_xhci()'s function header is the only one across
+the sourcefile which is denoted as a kerneldoc header.  Despite
+no attempt to document its arguments.  Drop it down in status from
+kerneldoc to a standard comment block to match the other headers
+in the file.
 
 Fixes the following W=1 kernel build warning:
 
- drivers/usb/common/usb-conn-gpio.c:44: warning: Cannot understand  * "DEVICE" = VBUS and "HOST" = !ID, so we have:
- on line 44 - I thought it was a doc line
+ drivers/usb/host/pci-quirks.c:1145: warning: Function parameter or member 'pdev' not described in 'quirk_usb_handoff_xhci'
 
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Martin Mares <mj@ucw.cz>
+Cc: aleksey_gorelov@phoenix.com
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/common/usb-conn-gpio.c | 2 +-
+ drivers/usb/host/pci-quirks.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
-index ed204cbb63ea1..b4051f042c79c 100644
---- a/drivers/usb/common/usb-conn-gpio.c
-+++ b/drivers/usb/common/usb-conn-gpio.c
-@@ -40,7 +40,7 @@ struct usb_conn_info {
- 	int vbus_irq;
- };
+diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+index 0b949acfa2589..b8961c0381cfd 100644
+--- a/drivers/usb/host/pci-quirks.c
++++ b/drivers/usb/host/pci-quirks.c
+@@ -1133,7 +1133,7 @@ void usb_disable_xhci_ports(struct pci_dev *xhci_pdev)
+ }
+ EXPORT_SYMBOL_GPL(usb_disable_xhci_ports);
  
 -/**
 +/*
-  * "DEVICE" = VBUS and "HOST" = !ID, so we have:
-  * Both "DEVICE" and "HOST" can't be set as active at the same time
-  * so if "HOST" is active (i.e. ID is 0)  we keep "DEVICE" inactive
+  * PCI Quirks for xHCI.
+  *
+  * Takes care of the handoff between the Pre-OS (i.e. BIOS) and the OS.
 -- 
 2.25.1
 
