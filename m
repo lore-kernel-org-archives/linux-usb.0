@@ -4,111 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D50C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E99B1C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21A192067D
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C33472067D
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bxMpXkgM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D272CbLl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729999AbgGBOqu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:46:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50204 "EHLO
+        id S1730279AbgGBOsp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:48:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729984AbgGBOqs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:48 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1C1C08C5E2
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:44 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id q5so28768603wru.6
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:44 -0700 (PDT)
+        with ESMTP id S1729993AbgGBOqt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:49 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6159FC08C5F4
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:48 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f139so28291653wmf.5
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K724gNBq1+8gJuUosuyXSMvH+REcJBS2sGMOEUVIfWc=;
-        b=bxMpXkgMVaIQhUosfclwMUUcexKCyxfNvmHDbmWxGE6fnfTamN5u0EjbZj6xscXTJO
-         KIqwSDdDoUdpSQjaH5gfR2j3bPAjelzx07KQNxL5h1MuR11ckg4jcR5+LCNbnF7m0LyX
-         uc+hTJBCiFR8J/aHBmIrhWw+iCM8BO8LXIO9UZm+GQk+ettGaEC+svC5PHWO9knyxcxq
-         Eyx45/1OtfW7w8v3xhWVQYzHpRGQvw0Iu6TXfXbdmUcCnnO7yuLErpt3TcRveMRqx4t5
-         9j6tlz681kwT2hbuts1GpJis58KKUpqBVck9dSa7i7jQ4OzcB3v+7hlHUu2FUQP7ik3B
-         tWIg==
+        bh=PqDEsV0Ck+FNcXivlLFCVSGlGxhukzNkii5C/yRAQ+E=;
+        b=D272CbLlqYE9XwhTGGNkOy3kKTQob4ZwxsVME5EGX5gMkHXxZcrMA1pMr8s9YEl6MV
+         PGGJD1O6CzfIreM5GJPlte1v7+CCoZ6DW5if1ZQjQbLpw0NMcNcxUqFggpHYGovppt05
+         Cwx8Zkwsbkpf35qf8zMBgrMa4evocB4C6NwHMM/guVMeL+4hjxo+Xg+EXB3bMjlt3l6j
+         QE14ppYiN/fYozy+KORlSqwt2sa3qJRfhpq5gSM91UDZ0cP+tWUmsa/CuiQ3k/uaGsd+
+         FLaClHPAo2mrk9SSnnR1xL8UXMJp+fTT5P2nNXpna2sBIAUz6nMX8ImmgM8fZBOW6cyG
+         BYfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K724gNBq1+8gJuUosuyXSMvH+REcJBS2sGMOEUVIfWc=;
-        b=kMIU/cnvzYN8pGKD0LdJxrrsSwRv+jbME6VUVWmwf0cEfvTrG9KhwfndjEe9eszVAg
-         sN83HYAZ2xta/2jbaf57TEgPl2/G3t7Cs1RS/P+L1hN51Qw4EnV0n3QwCzrpVQMzgOMd
-         KS/VJBOBbEv7QiDtV1wEi83O/GkF+9u4KhAK/YGLbrE35RenIgQvcfgeT3d0V4AEHA8c
-         p5jWlPAbZYC3lIIvkEpxN6FsJ/Px9y3/9R7nwr4FQvHYiAESz9/HUO5uIVDyZIRGpXUc
-         3ONTriR0cSo8e201S2i4qqUkj0ETHAjPAoQyH82Ri8Wak14wMltR4rRCp+hcYZYuhxUF
-         /SAQ==
-X-Gm-Message-State: AOAM532Sg4bz86pO7y2GMvGNT1ElxR2FeHp44V5eQtDbn/l7UAHF0JK4
-        T8nsgEziwAZgJgBE2WNXlRQsxw==
-X-Google-Smtp-Source: ABdhPJy4S926IqfqG9+GjXBGJlktkqEcFIY2+P6+GBBzSak8NQL0ghDJYlnEAQjhrd4dBc3MisUR1Q==
-X-Received: by 2002:a5d:4051:: with SMTP id w17mr30549831wrp.183.1593701203410;
-        Thu, 02 Jul 2020 07:46:43 -0700 (PDT)
+        bh=PqDEsV0Ck+FNcXivlLFCVSGlGxhukzNkii5C/yRAQ+E=;
+        b=ALrHI5iqv6h3nkiVlh10kvrG8GyPfNrC0eZU3ZnZRITn0O5GGn2WKz9VcWmwQ8yZEW
+         SX52OaS3x5M9lB5pSbadcI6GcvtyPE5RDue4qZZUl08boljxjkDR11Vj2HRMYll9GbNM
+         SaqujdzTEh5fBQ31k5VBdRGig6fhRH+VYKYQFRD/iN0SNElHd2qyxYS7yfX2s2sUpfy1
+         zBXfv+3xIzK7XmTlIBvbGCVYd+IBGpMrj07k133PniPprJ8PGSMufbcoXm2xfE4jTWNA
+         mlxJPssCuRknKwAuRmSlnXyRLLf9ii8zOZUz+w0pWCF5ZTi64JKEwYYgJFyhoV8mwt9Z
+         U6SA==
+X-Gm-Message-State: AOAM530d5tEdaJVqcf4dXanYXWn8tzTCw6HW6D3qYwpuTyKXBlQDwXlP
+        MPppky8iVPsNh5AyU+zcy+641w==
+X-Google-Smtp-Source: ABdhPJzVNf36Ya/k9DJuBz/EJ9+MpHowcfEHl6qa1yClZCcdX++IxMz5yyGSGjVqzQDKr0VxrpsqQA==
+X-Received: by 2002:a1c:81c1:: with SMTP id c184mr6925584wmd.120.1593701207158;
+        Thu, 02 Jul 2020 07:46:47 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.42
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:42 -0700 (PDT)
+        Thu, 02 Jul 2020 07:46:46 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Ben Dooks <ben@simtec.co.uk>
-Subject: [PATCH 09/30] usb: dwc2: gadget: Do not read GINTMSK2
-Date:   Thu,  2 Jul 2020 15:46:04 +0100
-Message-Id: <20200702144625.2533530-10-lee.jones@linaro.org>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Vikram Pandita <vikram.pandita@ti.com>,
+        Anand Gadiyar <gadiyar@ti.com>,
+        Keshava Munegowda <keshava_mgowda@ti.com>,
+        Roger Quadros <rogerq@ti.com>,
+        Felipe Balbi <felipe.balbi@nokia.com>,
+        linux-omap@vger.kernel.org
+Subject: [PATCH 12/30] usb: host: ehci-omap: Provide documentation for ehci_hcd_omap_probe()'s arg 'pdev'
+Date:   Thu,  2 Jul 2020 15:46:07 +0100
+Message-Id: <20200702144625.2533530-13-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
 References: <20200702144625.2533530-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The value of GINTMSK2 hasn't been checked since the inception of
-dwc2_gadget_wkup_alert_handler() in 2018.
+Description for 'pdev' argument was missing from the function header.
 
 Fixes the following W=1 warning:
 
- drivers/usb/dwc2/gadget.c: In function ‘dwc2_gadget_wkup_alert_handler’:
- drivers/usb/dwc2/gadget.c:259:6: warning: variable ‘gintmsk2’ set but not used [-Wunused-but-set-variable]
- 259 | u32 gintmsk2;
- | ^~~~~~~~
+ drivers/usb/host/ehci-omap.c:87: warning: Function parameter or member 'pdev' not described in 'ehci_hcd_omap_probe'
 
-Cc: Minas Harutyunyan <hminas@synopsys.com>
-Cc: Ben Dooks <ben@simtec.co.uk>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Vikram Pandita <vikram.pandita@ti.com>
+Cc: Anand Gadiyar <gadiyar@ti.com>
+Cc: Keshava Munegowda <keshava_mgowda@ti.com>
+Cc: Roger Quadros <rogerq@ti.com>
+Cc: Felipe Balbi <felipe.balbi@nokia.com>
+Cc: linux-omap@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/dwc2/gadget.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/usb/host/ehci-omap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 12b98b4662872..14c422ee6a069 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -256,10 +256,8 @@ int dwc2_hsotg_tx_fifo_total_depth(struct dwc2_hsotg *hsotg)
- static void dwc2_gadget_wkup_alert_handler(struct dwc2_hsotg *hsotg)
- {
- 	u32 gintsts2;
--	u32 gintmsk2;
+diff --git a/drivers/usb/host/ehci-omap.c b/drivers/usb/host/ehci-omap.c
+index fc125b3d06e7d..2ec686e28582a 100644
+--- a/drivers/usb/host/ehci-omap.c
++++ b/drivers/usb/host/ehci-omap.c
+@@ -78,6 +78,7 @@ static const struct ehci_driver_overrides ehci_omap_overrides __initconst = {
  
- 	gintsts2 = dwc2_readl(hsotg, GINTSTS2);
--	gintmsk2 = dwc2_readl(hsotg, GINTMSK2);
- 
- 	if (gintsts2 & GINTSTS2_WKUP_ALERT_INT) {
- 		dev_dbg(hsotg->dev, "%s: Wkup_Alert_Int\n", __func__);
+ /**
+  * ehci_hcd_omap_probe - initialize TI-based HCDs
++ * @pdev: Pointer to this platform device's information
+  *
+  * Allocates basic resources for this USB host controller, and
+  * then invokes the start() method for the HCD associated with it
 -- 
 2.25.1
 
