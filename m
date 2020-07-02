@@ -7,65 +7,68 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0315C433E3
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F98C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B10A7206E2
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2201206E2
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:48:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c53RgvRD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DoVlnDUG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730070AbgGBOrB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50282 "EHLO
+        id S1730046AbgGBOq7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730058AbgGBOrA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:47:00 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E68BC08C5DD
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:47:00 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id 22so27110439wmg.1
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:47:00 -0700 (PDT)
+        with ESMTP id S1730038AbgGBOq6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:58 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5178C08C5C1
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:57 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id l17so27119287wmj.0
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=H2cePmcpx5tsP4U3KYd+LqwzZEatzdvDVRzwm5J/30A=;
-        b=c53RgvRD10yT154GgQgeIyna2QYPrbkI+WTnp2UMoFo9CT36rTCyqrDngBqvuckw3S
-         +oNa3YdgsimKjvPoCH/30TsKQMdDJPLwl5KHWSs/fy5BFSSaYO5/F8t+s9fUmd1kfbTt
-         joQnwQce5qZ1EBcSIkEdbgflYXu4hOxUS6yHZw1bkvsDOdZNN1Lvp9vhf7mjC2cttpwR
-         UMLjHgsZgsLUt6CM3mwFLJczW2/G2TFbYlK31eHuAJ0WUZDimWF74sk72FwUIAoR9soG
-         5nDZgi3NL2ZhkzfWwoPAK4IyiU44YXnPmkhwRZ/mQsAqgQkNxutA+aNeEwTG27koO4xd
-         N+ng==
+        bh=28X3U4dJc3uramg6kDHLLVs+7HIKsy1aJX4qqakHpps=;
+        b=DoVlnDUG55Z4Fzv9+d1V8Ieq224Bfdh8KlYCNDYO1eP2cAbL9Nih/BvbtIkArPTCgY
+         9VJgpbG9xQ71lm4ghblIel7Ajs+qU1OqUnTyaCshoagZiUE2MzvozTLZotuvn5FmGeP+
+         YOdVX4MTT9x5O+qveBt4kpo/oJKwWt+EU5xKr0VvewkyHWF9badOtmf1EYeDEQ4jvDpf
+         nXl4J32zR7BlkJVzhTaX8z1hR7v+7RgJuKlrcj9CO/hdrTRAw0GKFQCyJ0gIVKfjAL0A
+         RI8wMjBewSNCZsWaWT3urJ4JA12qcvR3+GSQ+TyQyAid8K8Az19vtresRc7nwlXYT8ZC
+         1QKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=H2cePmcpx5tsP4U3KYd+LqwzZEatzdvDVRzwm5J/30A=;
-        b=rJp43+v2vEb5txrCqIRbC8bhj8KqgqF5+UlmTS/V4IAjpa4GWDryoTeHJlChu1AxVG
-         nrZXInsSQhTcnyWQc3vGFIZuSilZzx/y+VXk9V9lM4f1mK55nYgCFR/iAi+sstvYpKlo
-         aB2Ge/d8GbakPAmS6pYz0z8BAnjLpdwbimc6LKLi/Y73gzjx3Zot08TCye83IQmZoVkU
-         VDsXRVEqhnKLlp68jSvwaTBkHKbgVwbP/AmQk7D5NJy44CRP71UKyBFlV2/zlklwgfUG
-         JhUqfMUdTWHaJfdI4wK6hYDRcHLShf8SgV4WB/ufIqYQSv3skhOn3PqHCn6pVz1PN4tp
-         Y1lQ==
-X-Gm-Message-State: AOAM531SPRE72BrKwEGu6pxPj3OPbbIKg+2EXZ1n0vBesw39FeGIKL8E
-        9SM8lmYiGo865+2l5m19CfVuoQ==
-X-Google-Smtp-Source: ABdhPJw0wDnk30+GzymRe6m8MX4bgQkP+1HG/vAC/QIiYL0ssvI94FAnR4CJhMTZpP/sPRSbJk6tYA==
-X-Received: by 2002:a7b:c775:: with SMTP id x21mr17240384wmk.34.1593701218885;
-        Thu, 02 Jul 2020 07:46:58 -0700 (PDT)
+        bh=28X3U4dJc3uramg6kDHLLVs+7HIKsy1aJX4qqakHpps=;
+        b=OKRpdwzJd5OuBi6vu0xZJF4nkGb2STDSbqp/TQDWjEUZ1d8Zs/b52Nh635NhtSDb9v
+         YzFyA0FczIZftJI7Prpxp7nYe0QJgQbPwLu3+cnyYtkWXkGFF6XCiPzkMnIICS9Z/GI4
+         cglJc3T8MdfjXYNxh/EgscdFoh8IdNIHZnBFcUboYDxPHRbIYGo7uAzxQIBJTQBcAjSc
+         e3ccvg6JKeU6fmjzGBCIprc+xQfOPS6vomtup4jrEvQrgsdSpDYczFjvfAqhVS65IMMp
+         woRTwOv0A8616/OFDUyXHiK2nyRBrQiPCfdarE/OKIz474jE0C8j+3cDZyaczAjnUjYF
+         gDhw==
+X-Gm-Message-State: AOAM530+5vYnxoAf2y/+guzfjFp/N6pIs9g09OvUayMGd6QTaTg+gn4/
+        sS6JXkkAzw7mZgKAQp9TylBvIA==
+X-Google-Smtp-Source: ABdhPJyhJBjWN4in2TNPlqyGbZpG7D4RdUGXcarVJruUemj20CkpM1cwqnzu9QOonoxh49cCQh2bmA==
+X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr34760561wmj.117.1593701216646;
+        Thu, 02 Jul 2020 07:46:56 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.57
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:58 -0700 (PDT)
+        Thu, 02 Jul 2020 07:46:56 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Pawel Jez <pjez@cadence.com>, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH 22/30] usb: cdns3: ep0: Move 'zlp' description to appropriate function header
-Date:   Thu,  2 Jul 2020 15:46:17 +0100
-Message-Id: <20200702144625.2533530-23-lee.jones@linaro.org>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Thibaut VARENE <varenet@parisc-linux.org>
+Subject: [PATCH 20/30] usb: host: ohci-at91: Demote kerneldoc headers down to basic comment blocks
+Date:   Thu,  2 Jul 2020 15:46:15 +0100
+Message-Id: <20200702144625.2533530-21-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
 References: <20200702144625.2533530-1-lee.jones@linaro.org>
@@ -76,41 +79,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-'zlp' was documented, but in the wrong place.
+Neither usb_hcd_at91_probe() nor usb_hcd_at91_remove()'s function
+headers reach the standards required of a kerneldoc entry.  Only
+one attempt at describing an argument was made, as it is not
+correct (we're removing that too to save confusion).
 
-Fixes the following W=1 kernel build warning(s):
+Fixes the following kernel build warning(s):
 
- drivers/usb/cdns3/ep0.c:36: warning: Function parameter or member 'zlp' not described in 'cdns3_ep0_run_transfer'
- drivers/usb/cdns3/ep0.c:705: warning: Excess function parameter 'zlp' description in 'cdns3_gadget_ep0_queue'
+ drivers/usb/host/ohci-at91.c:166: warning: Function parameter or member 'driver' not described in 'usb_hcd_at91_probe'
+ drivers/usb/host/ohci-at91.c:166: warning: Function parameter or member 'pdev' not described in 'usb_hcd_at91_probe'
+ drivers/usb/host/ohci-at91.c:259: warning: Function parameter or member 'hcd' not described in 'usb_hcd_at91_remove'
+ drivers/usb/host/ohci-at91.c:259: warning: Function parameter or member 'pdev' not described in 'usb_hcd_at91_remove'
+ drivers/usb/host/ohci-at91.c:259: warning: Excess function parameter 'dev' description in 'usb_hcd_at91_remove'
 
-Cc: Pawel Laszczak <pawell@cadence.com>
-Cc: Pawel Jez <pjez@cadence.com>
-Cc: Peter Chen <peter.chen@nxp.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: Thibaut VARENE <varenet@parisc-linux.org>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/cdns3/ep0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/ohci-at91.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/cdns3/ep0.c b/drivers/usb/cdns3/ep0.c
-index 5b3f682338e50..5b1aec80b2d7f 100644
---- a/drivers/usb/cdns3/ep0.c
-+++ b/drivers/usb/cdns3/ep0.c
-@@ -29,6 +29,7 @@ static struct usb_endpoint_descriptor cdns3_gadget_ep0_desc = {
-  * @length: data length
-  * @erdy: set it to 1 when ERDY packet should be sent -
-  *        exit from flow control state
-+ * @zlp: add zero length packet
-  */
- static void cdns3_ep0_run_transfer(struct cdns3_device *priv_dev,
- 				   dma_addr_t dma_addr,
-@@ -695,7 +696,6 @@ static int cdns3_gadget_ep0_set_halt(struct usb_ep *ep, int value)
-  * @ep: pointer to endpoint zero object
-  * @request: pointer to request object
-  * @gfp_flags: gfp flags
-- * @zlp: add zero length packet
+diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+index b635c6a1b1a91..0487a4b0501ec 100644
+--- a/drivers/usb/host/ohci-at91.c
++++ b/drivers/usb/host/ohci-at91.c
+@@ -153,7 +153,7 @@ static struct regmap *at91_dt_syscon_sfr(void)
+ /* always called with process context; sleeping is OK */
+ 
+ 
+-/**
++/*
+  * usb_hcd_at91_probe - initialize AT91-based HCDs
+  * Context: !in_interrupt()
   *
-  * Returns 0 on success, error code elsewhere
-  */
+@@ -244,9 +244,8 @@ static int usb_hcd_at91_probe(const struct hc_driver *driver,
+ 
+ /* may be called with controller, bus, and devices active */
+ 
+-/**
++/*
+  * usb_hcd_at91_remove - shutdown processing for AT91-based HCDs
+- * @dev: USB Host Controller being removed
+  * Context: !in_interrupt()
+  *
+  * Reverses the effect of usb_hcd_at91_probe(), first invoking
 -- 
 2.25.1
 
