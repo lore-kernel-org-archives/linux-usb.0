@@ -7,64 +7,66 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67AEDC433E1
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E5DC433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42AF7206E2
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D4D1206E2
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:49:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="afE8GxK7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XZH2/Rew"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730029AbgGBOtb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50162 "EHLO
+        id S1729938AbgGBOqi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729948AbgGBOqk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:40 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBCCC08C5DD
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:40 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id z2so6524774wrp.2
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:40 -0700 (PDT)
+        with ESMTP id S1729934AbgGBOqg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:36 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44E60C08C5DD
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:36 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id z13so28793184wrw.5
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tRsQR13PSt+71+KJ9+2KUCB1us21DRhNxaWRJTFi8XY=;
-        b=afE8GxK7+FqqdTQOg0Q4RfL/jq4qaEfxl3bVjnUTU58Byyndjn0zvnx4zWGWaxbd1G
-         8HcC2pPTZrDJOXvWZJw2Srm1mc4TKdMYEgzz5rQHZ/vchbzx961n0WWfiYAMcz4bWORc
-         6yqMFh1JFW3V7a0Jrpihl/434CUzB0yF5qUebR3lgQteVSq+x/MocXFzl8BNYpBbOrNt
-         z7TPIjgB6jtFDr7zIqNK/P9sVMBQ7yuvqAwb7P/Yk2s9AkcxcSmVL5tCjAYNdZyliqQD
-         mvnCt9FkG+r2v32fVSVVcIyAYl4V0Xl60xjM97Dr1WtJxD+AwmzeW240Cm1xUIS5uefk
-         XVrQ==
+        bh=4sdX15PGQylOAZk6Sz4sNwGaJDX52Zxt56l3sZ9x1NU=;
+        b=XZH2/RewojhBFAi5cKK2xZmeR3hWYf8Hb36/KsjUtAhLmQnFfTaP8Wuv9p5IH61VoV
+         efJNPySFXVONCLPCM2T/ePyhmxItYP3DYGvzz56Zu+P7/aLhxohVyUz0Z92qbUD8YAcP
+         gW1RAsBSibUcihwFOp5v9MRBxdxnZlGRnYCxvIYAygFHFHNwsHGzxhwlQKvU68cWjNID
+         rpgAmudz5Jsxiq7nkwTC+fTuNVDcAZFoi949pT6WmfE6dk/I1ukGBVUuPhfxQCnNIBmJ
+         TzfYksu+oqhcRipLU3ELFM2PoikYmCtcBcVAXafRSkgr2ryeMdAE2WNPAdWvHEJhnRQT
+         jd1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tRsQR13PSt+71+KJ9+2KUCB1us21DRhNxaWRJTFi8XY=;
-        b=ETaTqzLzDj7AFCHV532AlU444XxE6dWVBN+iqP+mtbF1S1LIYBM6H/m//5I4jvmae6
-         IlSVC17pxEreq5LMwyTnrmLhCPeU4Ope4T0FpYEUe6hPiTwXzjGjkjhrNDkFYogw85KD
-         ERDxaf9gaAn2DqDRVDpIHGkQLDrgFh1QfpibHLV+dkHTv+vo/3pQgyuN+C1KoYwgf2hG
-         Sp/9LlzKzl4OQNZA9W2XzwQhChiBOI5669lFVYfOpN8xh1pIIRiiRNDUfA+hRMykduTa
-         8/6ZkTnJ2Hv+1R8jEzIq2RiwPaVKI+rXB/iTNYwdXe/5LTe6qEDTxeqts8qEdTdkha6B
-         USZg==
-X-Gm-Message-State: AOAM530ZFsqvGG3jB1bS7O5fJU1CYuHkRj8y5sQENagt8z4CX+Xgig+j
-        qKGh2rVjiB9mJaR6T//OS1gunw==
-X-Google-Smtp-Source: ABdhPJyqONzkjZI9qaxDAqErGMqBbVCt3H11ePJ7rYrmZUiaxTZ0JWbKWEk8+2bN0aTs5d9nufxEOg==
-X-Received: by 2002:a5d:6045:: with SMTP id j5mr31334712wrt.209.1593701198911;
-        Thu, 02 Jul 2020 07:46:38 -0700 (PDT)
+        bh=4sdX15PGQylOAZk6Sz4sNwGaJDX52Zxt56l3sZ9x1NU=;
+        b=roWzunH/VoqZkj8kJGnuE/vXjKCmi+7g4tPSXb2ts1kqPS+gn9s9izL/23Y0pb/833
+         72pm5rHl3kaMMFd/PO3auH0yP7kQZ1RCewW6Zo6njKSSVj677WlBkBs+WjD7glpWfX8V
+         +5cFWGdJ2CG/Ff3I7FATW3vzL3HKo7YfL51zNPjkCqqQ9hSLDjDRbZqZpOJIfHXLkavF
+         L8xm5p3YihMZmVgRhPnch1hcSBTQwjoSulvP8CjA79kBKP7vOW7az32GW9ssW/XyMrlA
+         VIQtOo1y43+kQVpupF0NtEb1W4MAp9BpTDsNCqDM3oTZ3ehZx1ZAaXJx6OxA+mDQsEYT
+         vQcg==
+X-Gm-Message-State: AOAM532//M8ah5bSa6EjJQ8qVmfrXjEcZA07dWRONx5yvQfTboE3GXxO
+        zsyRX46Zrlcg8CAGpCr0+2o0tw==
+X-Google-Smtp-Source: ABdhPJxFyuUUxdUJtEHuZrAVsfrI1ui/9Xt+xD6a5gkFDyf/gPZpnDWYSne4ItkG8mpc4zEYwpC1gw==
+X-Received: by 2002:a5d:6a06:: with SMTP id m6mr31648506wru.321.1593701195017;
+        Thu, 02 Jul 2020 07:46:35 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.37
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:38 -0700 (PDT)
+        Thu, 02 Jul 2020 07:46:34 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, Roger Quadros <rogerq@ti.com>
-Subject: [PATCH 05/30] usb: dwc3: drd: File headers are not doc headers
-Date:   Thu,  2 Jul 2020 15:46:00 +0100
-Message-Id: <20200702144625.2533530-6-lee.jones@linaro.org>
+        Pawel Laszczak <pawell@cadence.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 03/30] usb: common: debug: Demote comment blocks which are obviously not kerneldoc
+Date:   Thu,  2 Jul 2020 15:45:58 +0100
+Message-Id: <20200702144625.2533530-4-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
 References: <20200702144625.2533530-1-lee.jones@linaro.org>
@@ -75,31 +77,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Demote drd.c's file header to a standard comment block.
+File headers and simple comments are not kerneldoc worthy.
 
-Fixes the following W=1 build warnings:
+Fixes the following W=1 warnings:
 
- drivers/usb/dwc3/drd.c:20: warning: Function parameter or member 'dwc' not described in 'dwc3_otg_disable_events'
- drivers/usb/dwc3/drd.c:20: warning: Function parameter or member 'disable_mask' not described in 'dwc3_otg_disable_events'
+ drivers/usb/common/debug.c:15: warning: Function parameter or member 'bRequestType' not described in 'usb_decode_get_status'
+ drivers/usb/common/debug.c:15: warning: Function parameter or member 'wIndex' not described in 'usb_decode_get_status'
+ drivers/usb/common/debug.c:15: warning: Function parameter or member 'wLength' not described in 'usb_decode_get_status'
+ drivers/usb/common/debug.c:15: warning: Function parameter or member 'str' not described in 'usb_decode_get_status'
+ drivers/usb/common/debug.c:15: warning: Function parameter or member 'size' not described in 'usb_decode_get_status'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'str' not described in 'usb_decode_ctrl'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'size' not described in 'usb_decode_ctrl'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'bRequestType' not described in 'usb_decode_ctrl'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'bRequest' not described in 'usb_decode_ctrl'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'wValue' not described in 'usb_decode_ctrl'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'wIndex' not described in 'usb_decode_ctrl'
+ drivers/usb/common/debug.c:216: warning: Function parameter or member 'wLength' not described in 'usb_decode_ctrl'
 
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Roger Quadros <rogerq@ti.com>
+Cc: Pawel Laszczak <pawell@cadence.com>
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/dwc3/drd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/common/debug.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index 2e483448d6959..fd7f9a9f67dc7 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
+diff --git a/drivers/usb/common/debug.c b/drivers/usb/common/debug.c
+index 92a986aeaa5d6..092e179d5d5aa 100644
+--- a/drivers/usb/common/debug.c
++++ b/drivers/usb/common/debug.c
 @@ -1,5 +1,5 @@
  // SPDX-License-Identifier: GPL-2.0
 -/**
 +/*
-  * drd.c - DesignWare USB3 DRD Controller Dual-role support
+  * Common USB debugging functions
   *
-  * Copyright (C) 2017 Texas Instruments Incorporated - http://www.ti.com
+  * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com
+@@ -207,7 +207,7 @@ static void usb_decode_set_isoch_delay(__u8 wValue, char *str, size_t size)
+ 	snprintf(str, size, "Set Isochronous Delay(Delay = %d ns)", wValue);
+ }
+ 
+-/**
++/*
+  * usb_decode_ctrl - returns a string representation of ctrl request
+  */
+ const char *usb_decode_ctrl(char *str, size_t size, __u8 bRequestType,
 -- 
 2.25.1
 
