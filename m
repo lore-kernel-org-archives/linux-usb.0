@@ -4,47 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E6F6C433E2
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 01:31:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA54AC433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 01:31:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F8BD2085B
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 01:31:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A85A2088E
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 01:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593653464;
-	bh=MSXNpAEhno4g986D8o9A5a+ESTpY1tYD20T+D+8C4+w=;
+	s=default; t=1593653489;
+	bh=jcT4x3sOkEfC37eVwUQ/OPxOH2St/0use41/zQWHQvI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=NmaYyy/XeVryibS4sOqwdfJLHt8+GrKSfV1KR9ypJeJsHbufUqFD2cCHjekexSiG/
-	 /QDFAcEhEOgA5i7eCbCmASw04Tqs7qmmJLIjVEVAfvMgIeG6cj6Q58wkrqFmhQTB5W
-	 H77KmjWLkOiLriieON7DOrlHyDCGidyig0SFy6lA=
+	b=GcyQtSuzghOClFYm9GNSsmf3Uz4ZyzOtpRrn0MsvJXxKYXiYP7a/WHmKQrz4Egsi4
+	 xh7D1gCESw9jZxUfPULeVSx+XdfOEZb6RZ5bwNSG638uqe6j8zuI2Cam4xLeHQ2ps8
+	 sCRKZ1QKLZ1WB+/JFOeGkMnFA4KTHCqC+hEYc+xA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729195AbgGBBbD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jul 2020 21:31:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58278 "EHLO mail.kernel.org"
+        id S1729314AbgGBBb2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jul 2020 21:31:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57894 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729261AbgGBB0o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 1 Jul 2020 21:26:44 -0400
+        id S1729199AbgGBB0c (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 1 Jul 2020 21:26:32 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6D19820748;
-        Thu,  2 Jul 2020 01:26:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2511720874;
+        Thu,  2 Jul 2020 01:26:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593653204;
-        bh=MSXNpAEhno4g986D8o9A5a+ESTpY1tYD20T+D+8C4+w=;
+        s=default; t=1593653192;
+        bh=jcT4x3sOkEfC37eVwUQ/OPxOH2St/0use41/zQWHQvI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qV+PrXrRji4Rblx7Oiyf8szpi2GWir0LjCpjzVI9Z88lQGZLjORkxcr/sL/pco1iE
-         wt02atfxZpTUzAkP/yTretEyajAOZxTF3ySSaqyfTwdYCpxUrRiiypJXZtV6j07ixr
-         iXmxNYl1V2qccm720UUoUjqen1hELQYHhEzUrPQM=
+        b=vzVNEV46tm2KQsu0HdAUJetg5kKqrZHXJbPdnnwF9zbtOE+QrNxSH0A8LTb1cv209
+         hXKHS9IjvF/qFZO6PUW14/zTk4TPvF22Qu4SVxAbHnENMzenTTYxVEjHcMki0I7J2/
+         uOZHmZ6Orqc1ujmVjYNsoHOY08Z5Me+jFApATwdA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Aditya Pakki <pakki001@umn.edu>, Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 23/27] usb: dwc3: pci: Fix reference count leak in dwc3_pci_resume_work
-Date:   Wed,  1 Jul 2020 21:26:11 -0400
-Message-Id: <20200702012615.2701532-23-sashal@kernel.org>
+Cc:     Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+        syzbot+29dc7d4ae19b703ff947@syzkaller.appspotmail.com,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 13/27] usbnet: smsc95xx: Fix use-after-free after removal
+Date:   Wed,  1 Jul 2020 21:26:01 -0400
+Message-Id: <20200702012615.2701532-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702012615.2701532-1-sashal@kernel.org>
 References: <20200702012615.2701532-1-sashal@kernel.org>
@@ -57,37 +60,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Aditya Pakki <pakki001@umn.edu>
+From: Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>
 
-[ Upstream commit 2655971ad4b34e97dd921df16bb0b08db9449df7 ]
+[ Upstream commit b835a71ef64a61383c414d6bf2896d2c0161deca ]
 
-dwc3_pci_resume_work() calls pm_runtime_get_sync() that increments
-the reference counter. In case of failure, decrement the reference
-before returning.
+Syzbot reports an use-after-free in workqueue context:
 
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+BUG: KASAN: use-after-free in mutex_unlock+0x19/0x40 kernel/locking/mutex.c:737
+ mutex_unlock+0x19/0x40 kernel/locking/mutex.c:737
+ __smsc95xx_mdio_read drivers/net/usb/smsc95xx.c:217 [inline]
+ smsc95xx_mdio_read+0x583/0x870 drivers/net/usb/smsc95xx.c:278
+ check_carrier+0xd1/0x2e0 drivers/net/usb/smsc95xx.c:644
+ process_one_work+0x777/0xf90 kernel/workqueue.c:2274
+ worker_thread+0xa8f/0x1430 kernel/workqueue.c:2420
+ kthread+0x2df/0x300 kernel/kthread.c:255
+
+It looks like that smsc95xx_unbind() is freeing the structures that are
+still in use by the concurrently running workqueue callback. Thus switch
+to using cancel_delayed_work_sync() to ensure the work callback really
+is no longer active.
+
+Reported-by: syzbot+29dc7d4ae19b703ff947@syzkaller.appspotmail.com
+Signed-off-by: Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/net/usb/smsc95xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index b2fd505938a0c..389ec4c689c44 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -204,8 +204,10 @@ static void dwc3_pci_resume_work(struct work_struct *work)
- 	int ret;
+diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+index 6e971628bb50a..c3389bd87c654 100644
+--- a/drivers/net/usb/smsc95xx.c
++++ b/drivers/net/usb/smsc95xx.c
+@@ -1338,7 +1338,7 @@ static void smsc95xx_unbind(struct usbnet *dev, struct usb_interface *intf)
+ 	struct smsc95xx_priv *pdata = (struct smsc95xx_priv *)(dev->data[0]);
  
- 	ret = pm_runtime_get_sync(&dwc3->dev);
--	if (ret)
-+	if (ret) {
-+		pm_runtime_put_sync_autosuspend(&dwc3->dev);
- 		return;
-+	}
- 
- 	pm_runtime_mark_last_busy(&dwc3->dev);
- 	pm_runtime_put_sync_autosuspend(&dwc3->dev);
+ 	if (pdata) {
+-		cancel_delayed_work(&pdata->carrier_check);
++		cancel_delayed_work_sync(&pdata->carrier_check);
+ 		netif_dbg(dev, ifdown, dev->net, "free pdata\n");
+ 		kfree(pdata);
+ 		pdata = NULL;
 -- 
 2.25.1
 
