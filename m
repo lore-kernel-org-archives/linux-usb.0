@@ -7,134 +7,126 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53310C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549B7C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:47:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31ABB20899
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:47:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33A8020772
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jul 2020 14:47:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GiK2yuMf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zmksYIBa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730055AbgGBOrA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jul 2020 10:47:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50274 "EHLO
+        id S1730098AbgGBOrH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jul 2020 10:47:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730038AbgGBOq7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:46:59 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258CCC08C5C1
-        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:46:59 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id q15so27103988wmj.2
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:46:59 -0700 (PDT)
+        with ESMTP id S1730088AbgGBOrF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jul 2020 10:47:05 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CCFC08C5DD
+        for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2020 07:47:05 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id j18so27095532wmi.3
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2020 07:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Tk9qHYg/pg0juZNf3DyUaHaFVykgS42nSPkB38BS4VI=;
-        b=GiK2yuMf9VW7Z19uG5zEvbRFhcxtXMkMeY4rPH9Zx9s8uYWAYCMypKVT6Y+yt/6rpf
-         WAMPgaN9U6Wb1hOUUyF6qS2KpVrIESS0jlVC/cZiI8MECown7OC4GobHQPZTQbGyz8ZB
-         7fvGBsjm6+LwOPTbQneEItoMZe1tX4XEGxdu0PNP4t+fYFBmNOEZ3xFE1sZrfX6U57so
-         CsjeTWoXQxLX8Q7saQaBB7p8LTSLNTov4O5gqDMpRaYJstZKlvKa/a3L7R7Xz1KrFIR7
-         8h0MKN445JU+sOn0Cy2a2snY9PgjV8i9RE4MkV55pirdqCbmMjSFkawux/M2RHJ4vmHm
-         diuQ==
+        bh=3ksR11Jmvb7SL0E2lHCNJ8PR7e/D9ZxRofBGhwA7ldY=;
+        b=zmksYIBaxrCz5zyc7rriRGYaT0Dcm87ZjU1pdpSJu/hULGsdNsjYb6FUiXXBfIhkak
+         bpo7SVVHW5OF5iVWGKwXmW+Trqf5MfMEdS7OTZHjDlp5LV2Rh74zx5NoFQsV5EjpswdF
+         J8a5P0Eee+MW/Ki2PC56ZGCds6qtVFuWuvgEp2BbisXPWlfPlpCKJRaFEXgmvJoCs/RG
+         IY2zGwduN8XSqswG+he9Rbtj1V2NqNzniFGoIU8N4R9AxWWk2q38GxfZTHzjUk35Fuxs
+         CGW0402bmXhkN253lJNUGipofaJfzUZSGFnUwKYsQQ269MeS0IEzGDIUZTx5OQxqFjrk
+         xBkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Tk9qHYg/pg0juZNf3DyUaHaFVykgS42nSPkB38BS4VI=;
-        b=mRzrg24N49nhnbB4uge31SohfrkwI00FtstneMNYfJ/AoTbaix+Z4cDmvmlNFWFnSA
-         0/WDXh30tS7KkbNUU7KVKiGEKpfxIaUTdblF3Yp0asy0w59x1ahRxARPFt/6m95wUxwL
-         yVweD3R9G4FGim5w/WRP9HI58QvT/0pv9M3Cx7i4/3//nJNyJxfhy4DNu74LcnWIBMtq
-         k4RYX6EA3WrSDYaxidGd9V2tX29mFWrzdBnSZorjWcqE4itkyUQyYpASHuhtgQ1f3TSo
-         oBlay57JAHnBD2w6il8SOL5VDdeuzTgJnuq7DrHIswLLDL65xCc1hpLG5rGe4DJgZxVT
-         XsvQ==
-X-Gm-Message-State: AOAM531ay7YlV552CRwYaQoYPzUpvTPMhn6v/YYLIuGqJRaqqDArT3u8
-        6QHVAvdDzw8wlRE0ozMW0MZo8Q==
-X-Google-Smtp-Source: ABdhPJwr5kCUGPxhCkk8QXKgz4YnAOyGhc74VvsL45wpZKCwBUEyj4mXBP6XM5Epl9ziHR3pE3GVuw==
-X-Received: by 2002:a05:600c:2187:: with SMTP id e7mr31551586wme.171.1593701217878;
-        Thu, 02 Jul 2020 07:46:57 -0700 (PDT)
+        bh=3ksR11Jmvb7SL0E2lHCNJ8PR7e/D9ZxRofBGhwA7ldY=;
+        b=iVvFJfS+h/UCCz6hFxT7DV0/6wBfgvOHi274O3qlupcvCGDM3oQROouySLt2oI/yod
+         o6jVXhBV/c7icUV6yApAnEtvvd79EMjg96SeqvwjmGgcz9UWW7oETVoAYI5tMLSM7gt4
+         DwbpNtVM6cQI97OpEkiOwKckNRDs2kPoX8Wu+g+1OPNs8doEH5KGq+2NKpFpC4JEvF6z
+         lUS6MjL38p2IsmE9+m4i7WLQLV6mMkjqPo4tPoEHXeTqxopKwBUgXRmK5/nrFIj3Aly+
+         ZnRbO/gbQKk6RIu34aUTmo+2vQW8Q9vgLRZI5hiBJ8J+c4STprXijxlRgrnzjcG/vYrt
+         nB7A==
+X-Gm-Message-State: AOAM5313rhU0xC1zM3onx5a7H2dJLHotZVxIADe1YZJpTY/vrF8UxpQe
+        9YyazggimvJgmjQG8892ZqRmHA==
+X-Google-Smtp-Source: ABdhPJwmdFlL7RkkYFdFbYW5E+P0S/O3Mbkj0vldn7UPZvUiB5nbMpzJlLHg5XaYehkEIQxF9v3LEg==
+X-Received: by 2002:a7b:c348:: with SMTP id l8mr34582906wmj.54.1593701223995;
+        Thu, 02 Jul 2020 07:47:03 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.46.56
+        by smtp.gmail.com with ESMTPSA id g14sm7002737wrw.83.2020.07.02.07.47.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 07:46:57 -0700 (PDT)
+        Thu, 02 Jul 2020 07:47:03 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Roman Weissgaerber <weissg@vienna.at>,
-        David Brownell <dbrownell@users.sourceforge.net>
-Subject: [PATCH 21/30] usb: host: ohci: Mark cc_to_error as __maybe_unused
-Date:   Thu,  2 Jul 2020 15:46:16 +0100
-Message-Id: <20200702144625.2533530-22-lee.jones@linaro.org>
+        Peter Korsgaard <jacmet@sunsite.dk>
+Subject: [PATCH 26/30] usb: c67x00: c67x00-ll-hpi: Demote obvious misuse of kerneldoc to standard comment blocks
+Date:   Thu,  2 Jul 2020 15:46:21 +0100
+Message-Id: <20200702144625.2533530-27-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702144625.2533530-1-lee.jones@linaro.org>
 References: <20200702144625.2533530-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-drivers/usb/host/ohci.h in included by a whole much of different
-sourcefiles.  Not all of them make use of cc_to_error.  So mark
-it as __maybe_used to convey that this behaviour is not only
-acceptable it's expected.
+No attempt has been made to document any of the functions here.
 
-Fixes the following kernel build warning(s):
+Fixes the following W=1 kernel build warning(s):
 
- In file included from drivers/usb/host/ohci-pci.c:25:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
- In file included from drivers/usb/host/ohci-platform.c:32:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
- In file included from drivers/usb/host/ohci-exynos.c:20:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
- In file included from drivers/usb/host/ohci-spear.c:22:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
- In file included from drivers/usb/host/ohci-st.c:26:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
- In file included from drivers/usb/host/ohci-at91.c:31:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
- In file included from drivers/usb/host/ohci-s3c2410.c:32:
- drivers/usb/host/ohci.h:165:18: warning: ‘cc_to_error’ defined but not used [-Wunused-const-variable=]
- 165 | static const int cc_to_error 1 = {
- | ^~~~~~~~~~~
+ drivers/usb/c67x00/c67x00-ll-hpi.c:269: warning: Function parameter or member 'sie' not described in 'c67x00_ll_usb_clear_status'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:269: warning: Function parameter or member 'bits' not described in 'c67x00_ll_usb_clear_status'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:404: warning: Function parameter or member 'dev' not described in 'c67x00_ll_write_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:404: warning: Function parameter or member 'addr' not described in 'c67x00_ll_write_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:404: warning: Function parameter or member 'data' not described in 'c67x00_ll_write_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:404: warning: Function parameter or member 'len' not described in 'c67x00_ll_write_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:443: warning: Function parameter or member 'dev' not described in 'c67x00_ll_read_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:443: warning: Function parameter or member 'addr' not described in 'c67x00_ll_read_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:443: warning: Function parameter or member 'data' not described in 'c67x00_ll_read_mem_le16'
+ drivers/usb/c67x00/c67x00-ll-hpi.c:443: warning: Function parameter or member 'len' not described in 'c67x00_ll_read_mem_le16'
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Roman Weissgaerber <weissg@vienna.at>
-Cc: David Brownell <dbrownell@users.sourceforge.net>
+Cc: Peter Korsgaard <jacmet@sunsite.dk>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/host/ohci.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/c67x00/c67x00-ll-hpi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/host/ohci.h b/drivers/usb/host/ohci.h
-index b85a39588f9d9..aac6285b37f80 100644
---- a/drivers/usb/host/ohci.h
-+++ b/drivers/usb/host/ohci.h
-@@ -162,7 +162,7 @@ struct td {
+diff --git a/drivers/usb/c67x00/c67x00-ll-hpi.c b/drivers/usb/c67x00/c67x00-ll-hpi.c
+index e1fe3603140a8..7a214a3a6cc70 100644
+--- a/drivers/usb/c67x00/c67x00-ll-hpi.c
++++ b/drivers/usb/c67x00/c67x00-ll-hpi.c
+@@ -262,7 +262,7 @@ u16 c67x00_ll_get_usb_ctl(struct c67x00_sie *sie)
+ 	return hpi_read_word(sie->dev, USB_CTL_REG(sie->sie_num));
+ }
  
+-/**
++/*
+  * c67x00_ll_usb_clear_status - clear the USB status bits
+  */
+ void c67x00_ll_usb_clear_status(struct c67x00_sie *sie, u16 bits)
+@@ -395,7 +395,7 @@ int c67x00_ll_reset(struct c67x00_device *dev)
  
- /* map OHCI TD status codes (CC) to errno values */
--static const int cc_to_error [16] = {
-+static const int __maybe_unused cc_to_error [16] = {
- 	/* No  Error  */               0,
- 	/* CRC Error  */               -EILSEQ,
- 	/* Bit Stuff  */               -EPROTO,
+ /* -------------------------------------------------------------------------- */
+ 
+-/**
++/*
+  * c67x00_ll_write_mem_le16 - write into c67x00 memory
+  * Only data is little endian, addr has cpu endianess.
+  */
+@@ -434,7 +434,7 @@ void c67x00_ll_write_mem_le16(struct c67x00_device *dev, u16 addr,
+ 	}
+ }
+ 
+-/**
++/*
+  * c67x00_ll_read_mem_le16 - read from c67x00 memory
+  * Only data is little endian, addr has cpu endianess.
+  */
 -- 
 2.25.1
 
