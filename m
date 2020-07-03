@@ -2,161 +2,274 @@ Return-Path: <SRS0=7kPi=AO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 534E1C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADC4C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:59:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 376DE2084C
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4102821D80
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:59:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EAm+moPX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jfk8OEAQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgGCRl6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:41:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
+        id S1726258AbgGCR7H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726035AbgGCRl6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:41:58 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1871C061794
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:41:57 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id r12so33506487wrj.13
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:41:57 -0700 (PDT)
+        with ESMTP id S1726035AbgGCR7H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:59:07 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D4ABC061794
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:59:07 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id c11so18947365lfh.8
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=As4hY4i9MK8iV/24T8EMNeA73jw6PU1siON2AJDWkyg=;
-        b=EAm+moPX549aWgfLSIIEtg1s6FbbNXpi4BLs2cMLGg3US93Xf2FKBNL7b/Ex6v/KGv
-         OVyZGPU/1QIQ945gCBdqPI32KpoQA1qxSWRHxj8yCyPGAA35BXSjou9ybf+DbZ9eXAx5
-         Nif/HVYYFPQg7gRjCW4iNAehlZYNqfzuqkwtK4akIOUBpUMGdMue6vb8z/pfCyAIwATE
-         2j8rUQ8Gg2jG2EdyDFbOOW+SQXGF3K9OpOFejYx4DPzN99ttxXGC8l9IZadQ423lTr06
-         mm5CBKMQOfyDp/2pJbPmHqi2Dn+2sDFQ118ZxYxTaQDG2hDXmQUv4+M0vHnwH/gzU2oO
-         eO/Q==
+        bh=p2WGN4yG0nEg0drnh+gOK4tXZi/zTWHJWqdGq3LW4Qo=;
+        b=Jfk8OEAQzg60BJZWAPltXeKfZmdnixQUQNl3GQUItOCFFIZaa3vd90bm9NRQbejHwI
+         j9R4XrLls+Pd4kjXCPbIUwXYL83fKwE5ov2ws8PvJY9QJBhF6c5GeAI6Vr2NGRGw3v+M
+         P2zpimesxW62zaru7MBGgjLqcOH9qbGQEM1NmJo+/a2g3gAACKFmqWwA1xbvBxNBPuFq
+         lSK+dJquvX0tWt2RumJahlMql7mgs3Cl1H7A2wPb0/yZDUnL1LYJZ/dyoNKBnIHxrAh6
+         tidBwnl1Fc6riaTDD8Y7dkxIxzs1hIiVwsNWd2nQe0dYZ+TGMQXfPnBIT6EJ8T/bDdw+
+         xbgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=As4hY4i9MK8iV/24T8EMNeA73jw6PU1siON2AJDWkyg=;
-        b=NE8PsDt5I+LkB1nWtc9gdeAwTGmmCDfhzBwYT8jf8ZlsCGC3DZWeE1rs6LqkiA/d9d
-         i7hLvJo/Pi8FQ9cJx1IM4F6Rng2eNn2HBnyKHVpTTSouNt8J/XtfSy1bGtB2Puh5kX3y
-         z+6WiXirZOUx/OCtqxtD2j2Yx88dedx9/yZ+Z0fOLKToGLyxD8NgC0rkSm6RuWha1nDw
-         6GKf1n1xoilh9yTT5TS9IZw4nxzIvP55DpoZeq0q2YhOdl5z7B5xuQh3hNFixpF95S/O
-         iP05SV+O2sBPAM2daW3eD1nc5CdPdnXWpXtVyyqU69fjE0qm3cWARHG6DPNoSlctbiVD
-         KISQ==
-X-Gm-Message-State: AOAM530U3ADPruPgN3rKu66x10h/cz896lpRtvKFwU2aIXjjVPgnTHyY
-        TuUD/VPLObMtSJq6FXBLJgf35A==
-X-Google-Smtp-Source: ABdhPJxL+2NW/+3Cvrw8qiuUura3g5ZSBVYDIQcc5J8oi2F8pt9r+S3zJ9piJWXAJ7Eu5S5IpGYlyA==
-X-Received: by 2002:adf:edd0:: with SMTP id v16mr37168565wro.214.1593798116249;
-        Fri, 03 Jul 2020 10:41:56 -0700 (PDT)
-Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.41.55
+        bh=p2WGN4yG0nEg0drnh+gOK4tXZi/zTWHJWqdGq3LW4Qo=;
+        b=HWXrkNxYIUOnb9pcgLf0ctZmp1VBTjIkHV5rLFAdYP3CSnXFYmswyPHtwtei0QW/2X
+         2ppDJMwJ/0ZBkxq+4ofgry4eJh0pWPxngaiB9N2JXXLcD8WxBc1UAWcHcK6oitBzA/S0
+         C9PxYzmjSULjxAIjdumEBoBJ0nl/Me4J7CjFbCJSjqShNve5VYv1zXWcuZozTN0EZiX3
+         yJIj+95TPMinltMbR5+sfo6VtkHt1AOrUljkYo9reghHk/VY3J/9wntd+lvq0LvTYKay
+         68nDnjgqoT/Q7b2ulAZ3LeFhIsynnbvRXHV3Z/8NGGHL9Iblz6e4bPjSb1fUEcxyd+iQ
+         hLjA==
+X-Gm-Message-State: AOAM5301mXe8LlL8ckENLLlu3/esc9j0O5ce9QBjPCcX6u0RmGtpdrt0
+        lp3c+y8X4x0OXmiBnbphSipGrg==
+X-Google-Smtp-Source: ABdhPJw6FFcZQaVb417XRvWnKvDLxp5CINLuG96YMaVtwR9quthSnlZtGD/t0LPzzaxipk2MypeXHA==
+X-Received: by 2002:ac2:5217:: with SMTP id a23mr22789469lfl.115.1593799145385;
+        Fri, 03 Jul 2020 10:59:05 -0700 (PDT)
+Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id a23sm4900795lfb.10.2020.07.03.10.59.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:41:55 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH 00/30] Fix a bunch more W=1 issues in USB
-Date:   Fri,  3 Jul 2020 18:41:18 +0100
-Message-Id: <20200703174148.2749969-1-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Fri, 03 Jul 2020 10:59:04 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>
+Subject: [PATCH 1/2] usb: ohci-omap: Create private state container
+Date:   Fri,  3 Jul 2020 19:57:00 +0200
+Message-Id: <20200703175701.570446-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This set is part of a larger effort attempting to clean-up W=1
-kernel builds, which are currently overwhelmingly riddled with
-niggly little warnings.
+The OMAP1 was using static locals to hold the clock handles
+which is uncommon and does not scale. Create a private data
+struct and use that to hold the clocks.
 
-Lee Jones (30):
-  usb: mtu3: mtu3_debug: Add forward declaration of 'struct ssusb_mtk'
-  usb: host: ohci-s3c2410: Demote obvious misuse of kerneldoc to
-    standard comment block
-  usb: core: ledtrig-usbport: Demote obvious misuse of kerneldoc to
-    standard comment blocks
-  usb: misc: sisusbvga: sisusb_init: Mark all 'static const' arrays as
-    __maybe_unused
-  usb: atm: ueagle-atm: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: misc: adutux: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: chipidea: core: Document hw_port_test_set()'s missing 'ci'
-    argument
-  usb: gadget: udc: core: Fix a bunch of kerneldoc misdemeanours
-  usb: chipidea: otg: Fix kerneldoc issues relating to description of
-    'ci'
-  usb: chipidea: debug: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: chipidea: udc: Add missing descriptions for function arg 'ci'
-  usb: chipidea: udc: Help out kerneldoc headers that have tried, demote
-    the others
-  usb: host: xhci: Demote obvious misuse of kerneldoc to standard
-    comment block
-  usb: host: xhci-mem: Demote obvious misuse of kerneldoc to standard
-    comment block
-  usb: host: xhci-dbgcap: File headers are not good candidates for
-    kerneldoc
-  usb: host: xhci-dbgtty: File headers are not good candidates for
-    kerneldoc
-  usb: chipidea: udc: Fix a few kerneldoc issues
-  usb: host: xhci-debugfs: Use 'gnu_printf' format notation
-  usb: storage: alauda: Remove set but unchecked variable
-  usb: typec: altmodes: displayport: File headers are not good
-    candidates for kerneldoc
-  usb: typec: altmodes: displayport: Supply missing displayport.h
-    include file
-  usb: typec: tcpm: fusb302: Use 'gnu_printf' format notation
-  usb: chipidea: usbmisc_imx: Demote obvious misuse of kerneldoc to
-    standard comment block
-  usb: misc: iowarrior: Fix odd corruption issue in the file header
-  usb: misc: iowarrior: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: gadget: function: u_serial: Repair misdocumented function
-    argument
-  usb: misc: ldusb: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: musb: musb_dsps: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: gadget: usbstring: Repair misspelled function argument 'langid'
-  usb: gadget: udc: dummy_hcd: Repair misspelled function argument
-    'dummy_hcd'
+Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/usb/host/ohci-omap.c | 73 +++++++++++++++++++++---------------
+ 1 file changed, 42 insertions(+), 31 deletions(-)
 
- drivers/usb/atm/ueagle-atm.c             |  4 +-
- drivers/usb/chipidea/core.c              |  1 +
- drivers/usb/chipidea/debug.c             | 10 ++--
- drivers/usb/chipidea/otg.c               |  6 ++-
- drivers/usb/chipidea/udc.c               | 52 ++++++++++++-------
- drivers/usb/chipidea/usbmisc_imx.c       |  2 +-
- drivers/usb/core/ledtrig-usbport.c       |  6 +--
- drivers/usb/gadget/function/u_serial.c   |  2 +-
- drivers/usb/gadget/udc/core.c            | 18 ++++---
- drivers/usb/gadget/udc/dummy_hcd.c       |  2 +-
- drivers/usb/gadget/usbstring.c           |  2 +-
- drivers/usb/host/ohci-s3c2410.c          |  2 +-
- drivers/usb/host/xhci-dbgcap.c           |  2 +-
- drivers/usb/host/xhci-dbgtty.c           |  2 +-
- drivers/usb/host/xhci-debugfs.c          |  1 +
- drivers/usb/host/xhci-mem.c              |  2 +-
- drivers/usb/host/xhci.c                  |  2 +-
- drivers/usb/misc/adutux.c                |  6 +--
- drivers/usb/misc/iowarrior.c             | 16 +++---
- drivers/usb/misc/ldusb.c                 | 24 ++++-----
- drivers/usb/misc/sisusbvga/sisusb_init.h | 66 ++++++++++++------------
- drivers/usb/mtu3/mtu3_debug.h            |  2 +
- drivers/usb/musb/musb_dsps.c             |  8 +--
- drivers/usb/storage/alauda.c             |  3 +-
- drivers/usb/typec/altmodes/displayport.c |  3 +-
- drivers/usb/typec/tcpm/fusb302.c         |  1 +
- 26 files changed, 134 insertions(+), 111 deletions(-)
-
+diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+index d8d35d456456..add2eac53a98 100644
+--- a/drivers/usb/host/ohci-omap.c
++++ b/drivers/usb/host/ohci-omap.c
+@@ -69,22 +69,27 @@ static inline int tps65010_set_gpio_out_value(unsigned gpio, unsigned value)
+ 
+ #endif
+ 
+-static struct clk *usb_host_ck;
+-static struct clk *usb_dc_ck;
++struct ohci_omap_priv {
++	struct clk *usb_host_ck;
++	struct clk *usb_dc_ck;
++};
+ 
+ static const char hcd_name[] = "ohci-omap";
+ static struct hc_driver __read_mostly ohci_omap_hc_driver;
+ 
+-static void omap_ohci_clock_power(int on)
++#define hcd_to_ohci_omap_priv(h) \
++	((struct ohci_omap_priv *)hcd_to_ohci(h)->priv)
++
++static void omap_ohci_clock_power(struct ohci_omap_priv *priv, int on)
+ {
+ 	if (on) {
+-		clk_enable(usb_dc_ck);
+-		clk_enable(usb_host_ck);
++		clk_enable(priv->usb_dc_ck);
++		clk_enable(priv->usb_host_ck);
+ 		/* guesstimate for T5 == 1x 32K clock + APLL lock time */
+ 		udelay(100);
+ 	} else {
+-		clk_disable(usb_host_ck);
+-		clk_disable(usb_dc_ck);
++		clk_disable(priv->usb_host_ck);
++		clk_disable(priv->usb_dc_ck);
+ 	}
+ }
+ 
+@@ -196,6 +201,7 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ {
+ 	struct ohci_hcd		*ohci = hcd_to_ohci(hcd);
+ 	struct omap_usb_config	*config = dev_get_platdata(hcd->self.controller);
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 	int			need_transceiver = (config->otg != 0);
+ 	int			ret;
+ 
+@@ -235,7 +241,7 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 	}
+ #endif
+ 
+-	omap_ohci_clock_power(1);
++	omap_ohci_clock_power(priv, 1);
+ 
+ 	if (cpu_is_omap15xx()) {
+ 		omap_1510_local_bus_power(1);
+@@ -305,6 +311,7 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ {
+ 	int retval, irq;
+ 	struct usb_hcd *hcd = 0;
++	struct ohci_omap_priv *priv;
+ 
+ 	if (pdev->num_resources != 2) {
+ 		dev_err(&pdev->dev, "invalid num_resources: %i\n",
+@@ -318,21 +325,6 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
+-	usb_host_ck = clk_get(&pdev->dev, "usb_hhc_ck");
+-	if (IS_ERR(usb_host_ck))
+-		return PTR_ERR(usb_host_ck);
+-
+-	if (!cpu_is_omap15xx())
+-		usb_dc_ck = clk_get(&pdev->dev, "usb_dc_ck");
+-	else
+-		usb_dc_ck = clk_get(&pdev->dev, "lb_ck");
+-
+-	if (IS_ERR(usb_dc_ck)) {
+-		clk_put(usb_host_ck);
+-		return PTR_ERR(usb_dc_ck);
+-	}
+-
+-
+ 	hcd = usb_create_hcd(&ohci_omap_hc_driver, &pdev->dev,
+ 			dev_name(&pdev->dev));
+ 	if (!hcd) {
+@@ -341,6 +333,21 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	}
+ 	hcd->rsrc_start = pdev->resource[0].start;
+ 	hcd->rsrc_len = pdev->resource[0].end - pdev->resource[0].start + 1;
++	priv = hcd_to_ohci_omap_priv(hcd);
++
++	priv->usb_host_ck = clk_get(&pdev->dev, "usb_hhc_ck");
++	if (IS_ERR(priv->usb_host_ck))
++		return PTR_ERR(priv->usb_host_ck);
++
++	if (!cpu_is_omap15xx())
++		priv->usb_dc_ck = clk_get(&pdev->dev, "usb_dc_ck");
++	else
++		priv->usb_dc_ck = clk_get(&pdev->dev, "lb_ck");
++
++	if (IS_ERR(priv->usb_dc_ck)) {
++		clk_put(priv->usb_host_ck);
++		return PTR_ERR(priv->usb_dc_ck);
++	}
+ 
+ 	if (!request_mem_region(hcd->rsrc_start, hcd->rsrc_len, hcd_name)) {
+ 		dev_dbg(&pdev->dev, "request_mem_region failed\n");
+@@ -373,8 +380,8 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ err1:
+ 	usb_put_hcd(hcd);
+ err0:
+-	clk_put(usb_dc_ck);
+-	clk_put(usb_host_ck);
++	clk_put(priv->usb_dc_ck);
++	clk_put(priv->usb_host_ck);
+ 	return retval;
+ }
+ 
+@@ -393,10 +400,11 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ static int ohci_hcd_omap_remove(struct platform_device *pdev)
+ {
+ 	struct usb_hcd	*hcd = platform_get_drvdata(pdev);
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 
+ 	dev_dbg(hcd->self.controller, "stopping USB Controller\n");
+ 	usb_remove_hcd(hcd);
+-	omap_ohci_clock_power(0);
++	omap_ohci_clock_power(priv, 0);
+ 	if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+ 		(void) otg_set_host(hcd->usb_phy->otg, 0);
+ 		usb_put_phy(hcd->usb_phy);
+@@ -406,8 +414,8 @@ static int ohci_hcd_omap_remove(struct platform_device *pdev)
+ 	iounmap(hcd->regs);
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ 	usb_put_hcd(hcd);
+-	clk_put(usb_dc_ck);
+-	clk_put(usb_host_ck);
++	clk_put(priv->usb_dc_ck);
++	clk_put(priv->usb_host_ck);
+ 	return 0;
+ }
+ 
+@@ -419,6 +427,7 @@ static int ohci_omap_suspend(struct platform_device *pdev, pm_message_t message)
+ {
+ 	struct usb_hcd *hcd = platform_get_drvdata(pdev);
+ 	struct ohci_hcd *ohci = hcd_to_ohci(hcd);
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 	bool do_wakeup = device_may_wakeup(&pdev->dev);
+ 	int ret;
+ 
+@@ -430,7 +439,7 @@ static int ohci_omap_suspend(struct platform_device *pdev, pm_message_t message)
+ 	if (ret)
+ 		return ret;
+ 
+-	omap_ohci_clock_power(0);
++	omap_ohci_clock_power(priv, 0);
+ 	return ret;
+ }
+ 
+@@ -438,12 +447,13 @@ static int ohci_omap_resume(struct platform_device *dev)
+ {
+ 	struct usb_hcd	*hcd = platform_get_drvdata(dev);
+ 	struct ohci_hcd	*ohci = hcd_to_ohci(hcd);
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 
+ 	if (time_before(jiffies, ohci->next_statechange))
+ 		msleep(5);
+ 	ohci->next_statechange = jiffies;
+ 
+-	omap_ohci_clock_power(1);
++	omap_ohci_clock_power(priv, 1);
+ 	ohci_resume(hcd, false);
+ 	return 0;
+ }
+@@ -470,7 +480,8 @@ static struct platform_driver ohci_hcd_omap_driver = {
+ 
+ static const struct ohci_driver_overrides omap_overrides __initconst = {
+ 	.product_desc	= "OMAP OHCI",
+-	.reset		= ohci_omap_reset
++	.reset		= ohci_omap_reset,
++	.extra_priv_size = sizeof(struct ohci_omap_priv),
+ };
+ 
+ static int __init ohci_omap_init(void)
 -- 
-2.25.1
+2.25.4
 
