@@ -2,93 +2,128 @@ Return-Path: <SRS0=7kPi=AO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E04C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAAF7C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9ED82084C
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E5E120870
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V678svqB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbgGCRm3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:42:29 -0400
-Received: from foss.arm.com ([217.140.110.172]:56312 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726801AbgGCRm2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 3 Jul 2020 13:42:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2175831B;
-        Fri,  3 Jul 2020 10:42:27 -0700 (PDT)
-Received: from [10.57.21.32] (unknown [10.57.21.32])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFF653F73C;
-        Fri,  3 Jul 2020 10:42:25 -0700 (PDT)
-Subject: Re: [BUG] XHCI getting ZONE_DMA32 memory > than its bus_dma_limit
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, linux-mm@kvack.org,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        rientjes@google.com, Christoph Hellwig <hch@lst.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc:     linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>
-References: <34619bdf-6527-ae82-7e4d-e2ea7c67ed56@arm.com>
- <a9058fd2c54bbea69fdf97e30277338a61b5c0b4.camel@suse.de>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <cc17fe85-99a3-ec8c-985a-2a21cf09bf49@arm.com>
-Date:   Fri, 3 Jul 2020 18:42:24 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726418AbgGCRmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726479AbgGCRmD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:03 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC54C061794
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:02 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id z15so22287399wrl.8
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=oUjHYg6XEDC1PONs5ecYCAMD6hQ6HUyQ5SfKo5ZoAoI=;
+        b=V678svqBj5ZEzdGJKB69Vodq9pQ31EIwBoLQP1As6lWOXIP/1kJzIqJLjtOvblSkXy
+         MGxl0iGDkHU0uljNJKGH03hr+d07Q2Snp4haL9GaJ2ECnEqfljKwL6ibxma86kajreu8
+         TA9jvVxRARz9NQU8MvUH+6tDKzsNjuSpnqk6vImwQ4hXw35BuvZcyA+zSVh6APrv+3AX
+         gmXxT3q/ZYNpFS1sGomuuZ5QRj5DfnK67GvuVpvUsP0YzvhguEnTqDR0J/QZNL57ZKIP
+         TYqim9pcfdfTLug72OqEjJojTk83E5F+sCUgu8ZcofVXsYiA6JFIbxmSDf8sHNsVMx8a
+         K4oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=oUjHYg6XEDC1PONs5ecYCAMD6hQ6HUyQ5SfKo5ZoAoI=;
+        b=HiokKQmK65Ad4shgr9GKuJPLgBIoqjjTA/EUVTwJkDXraru1DCSphfyiRwzGLYZOmd
+         Imyf+xOUCzintrCjTmwa/JymYOHMxNzIQtEQjCkuVCebsjCD+rkwfIB+6Q+tbbIHV7H7
+         qNS1nfDpp//o6SZmnbTCtDjQSviTqlu22I6+ndX9n0PRxY2ZliuFHtPo2gfsfBQBIrkT
+         jeF5CjmTOKJT6XBmgJNhPVnv/j1VA1KI1eqlXfp+sPJVIoWxSgN81p8VeiynVRB7wAVT
+         R9FMGgwZws3nIeOT5DdV+W4a6aysemrunxczDjYt0EWajc8xg74g2Ke26uO6O6i5tD2j
+         x8Tw==
+X-Gm-Message-State: AOAM531yXYLbD372oPN2SDM47+ggHd2vPSbHcPg+3A5OJ77YIiWxcP9T
+        4BOxpQyeoiSFJWkrpJ8nQ5yhdQ==
+X-Google-Smtp-Source: ABdhPJzGvTblYJ7UXyonhX71xr+CGK3bV2MNNRAwpzZl2DyxwAc9szCyt2n/Ezh4sar6tAoDQOPNeA==
+X-Received: by 2002:adf:f2c5:: with SMTP id d5mr38704827wrp.96.1593798121551;
+        Fri, 03 Jul 2020 10:42:01 -0700 (PDT)
+Received: from localhost.localdomain ([2.27.35.144])
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2020 10:42:00 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
+Subject: [PATCH 03/30] usb: core: ledtrig-usbport: Demote obvious misuse of kerneldoc to standard comment blocks
+Date:   Fri,  3 Jul 2020 18:41:21 +0100
+Message-Id: <20200703174148.2749969-4-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
+References: <20200703174148.2749969-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <a9058fd2c54bbea69fdf97e30277338a61b5c0b4.camel@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2020-07-03 15:53, Nicolas Saenz Julienne wrote:
-> Hi Jeremy,
-> thanks for the bug report.
-> 
-> Just for the record the offending commit is: c84dc6e68a1d2 ("dma-pool: add
-> additional coherent pools to map to gfp mask").
-> 
-> On Thu, 2020-07-02 at 12:49 -0500, Jeremy Linton wrote:
->> Hi,
->>
->> Using 5.8rc3:
->>
->> The rpi4 has a 3G dev->bus_dma_limit on its XHCI controller. With a usb3
->> hub, plus a few devices plugged in, randomly devices will fail
->> operations. This appears to because xhci_alloc_container_ctx() is
->> getting buffers > 3G via dma_pool_zalloc().
->>
->> Tracking that down, it seems to be caused by dma_alloc_from_pool() using
->> dev_to_pool()->dma_direct_optimal_gfp_mask() to "optimistically" select
->> the atomic_pool_dma32 but then failing to verify that the allocations in
->> the pool are less than the dev bus_dma_limit.
-> 
-> I can reproduce this too.
-> 
-> The way I see it, dev_to_pool() wants a strict dma_direct_optimal_gfp_mask()
-> that is never wrong, since it's going to stick to that pool for the device's
-> lifetime. I've been looking at how to implement it, and it's not so trivial as
-> I can't see a failproof way to make a distinction between who needs DMA32 and
-> who is OK with plain KERNEL memory.
-> 
-> Otherwise, as Jeremy points out, the patch needs to implement allocations with
-> an algorithm similar to __dma_direct_alloc_pages()'s, which TBH I don't know if
-> it's a little overkill for the atomic context.
-> 
-> Short of finding a fix in the coming rc's, I suggest we revert this.
+No attempt has been made to document any of the functions here.
 
-Or perhaps just get rid of atomic_pool_dma32 (and allocate 
-atomic_pool_dma from ZONE_DMA32 if !ZONE_DMA). That should make it fall 
-pretty much back in line while still preserving the potential benefit of 
-the kernel pool for non-address-constrained devices.
+Fixes the following W=1 kernel build warning(s):
 
-Robin.
+ drivers/usb/core/ledtrig-usbport.c:42: warning: Function parameter or member 'usbport_data' not described in 'usbport_trig_usb_dev_observed'
+ drivers/usb/core/ledtrig-usbport.c:42: warning: Function parameter or member 'usb_dev' not described in 'usbport_trig_usb_dev_observed'
+ drivers/usb/core/ledtrig-usbport.c:71: warning: Function parameter or member 'usbport_data' not described in 'usbport_trig_update_count'
+ drivers/usb/core/ledtrig-usbport.c:131: warning: Function parameter or member 'usbport_data' not described in 'usbport_trig_port_observed'
+ drivers/usb/core/ledtrig-usbport.c:131: warning: Function parameter or member 'usb_dev' not described in 'usbport_trig_port_observed'
+ drivers/usb/core/ledtrig-usbport.c:131: warning: Function parameter or member 'port1' not described in 'usbport_trig_port_observed'
+
+Cc: Rafał Miłecki <rafal@milecki.pl>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/usb/core/ledtrig-usbport.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/core/ledtrig-usbport.c b/drivers/usb/core/ledtrig-usbport.c
+index c12ac56606c3f..ba371a24ff781 100644
+--- a/drivers/usb/core/ledtrig-usbport.c
++++ b/drivers/usb/core/ledtrig-usbport.c
+@@ -34,7 +34,7 @@ struct usbport_trig_port {
+  * Helpers
+  ***************************************/
+ 
+-/**
++/*
+  * usbport_trig_usb_dev_observed - Check if dev is connected to observed port
+  */
+ static bool usbport_trig_usb_dev_observed(struct usbport_trig_data *usbport_data,
+@@ -64,7 +64,7 @@ static int usbport_trig_usb_dev_check(struct usb_device *usb_dev, void *data)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * usbport_trig_update_count - Recalculate amount of connected matching devices
+  */
+ static void usbport_trig_update_count(struct usbport_trig_data *usbport_data)
+@@ -123,7 +123,7 @@ static const struct attribute_group ports_group = {
+  * Adding & removing ports
+  ***************************************/
+ 
+-/**
++/*
+  * usbport_trig_port_observed - Check if port should be observed
+  */
+ static bool usbport_trig_port_observed(struct usbport_trig_data *usbport_data,
+-- 
+2.25.1
+
