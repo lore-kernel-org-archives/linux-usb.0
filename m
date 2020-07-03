@@ -2,141 +2,117 @@ Return-Path: <SRS0=7kPi=AO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1BAC433E1
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6240C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:42:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D54420708
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:21:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7ED7208E4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:42:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mfAZokO+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oPyrB8Pi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbgGCRVz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:21:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41316 "EHLO
+        id S1726573AbgGCRmF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726157AbgGCRVy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:21:54 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB8C8C08C5DD
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:21:52 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a6so22737927wmm.0
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:21:52 -0700 (PDT)
+        with ESMTP id S1726425AbgGCRmB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:01 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E19C08C5DD
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:01 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id g75so32747479wme.5
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=8ete6I4ixSjbonl8sGfOuxL0bZF6e3pE/Fs8ioQCGKQ=;
-        b=mfAZokO+WjGIsaCnXXptSbe05uvi4l7PSLIxYAaKNw444xSdOO4zv8QucMewmHfitM
-         5wtOXBgXg8fP6E3JyQpl0HAr/fpB4sDFRKlFPefdk9+fczavZ4UjuXpLp/YicK4Rcr3U
-         TFqIhhRhx4yRK5PU6DBK9SZSfTLEwLBDt7i/4T0rHDzniT/pmRbJoTmH0njqmkoF/1fg
-         1PEyklputJfe5lw27QjiN7iIRVBhd1t6HO1xZxtMWugVAXqAALUNQIZZjwVkSVpE9TtJ
-         w9UwaCMAYOd4oQR6x2l5T+DQqjUMgOCxsBSLifHex5Lfl2Tpa9vLAtwfG7WYAS8/yBuf
-         3OWQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GH9kLkzHctUtpjzMG5uKy/EUP0KmLjkarK3Zyi+F734=;
+        b=oPyrB8PidDxQT0BDJL8ttUMskiiCjdZZjs3FWjc7sJiQ3GTGABuuowxYHEb4PXYO9R
+         oUuXo2ZFCkIhfpc5FiL95BvY5X6H8sYdqjL+mtb7hHzsc5+VWC3YCMEvMqjGFbMZZtaG
+         c0W+rgRjDKk9CsLqqPh94NHRplYLc6no40CMSS2sqVsosXrilmdr4P4sTUGhyv3MvAFi
+         vSXEuHkzSkqfzBV05NAGb4G7gjUg4oLd7gld3YYCk6nJ6wyrZcO8NIGoeATjlSR43iDM
+         sW57euHO4YC6uPitM6vEsxyXp4WxMo/dVFUtPPoeuuSx3jG9FAR8gNR65w2CAGjEPmjw
+         QVGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=8ete6I4ixSjbonl8sGfOuxL0bZF6e3pE/Fs8ioQCGKQ=;
-        b=bH5NeNizRUGF5ixBM6WSm7pk9w1CwrA76ZBdM24In0CUM9y8/cElSNt2wX5an9/TVm
-         X4oHMODoVMzOqcEp4fHX64tGTC0tk7i6saN1qJoIgTu1I0fZmdBad3HZd7GNGlXWU8bF
-         +Ea68dtWMYNlyFploO+tQgV1feSTPxlV6/UFHPb26WV7Nt+GRk5M1+NcMEkhSBXRqWZd
-         XZehjbF1ebif5LpWMTJLRN/vKJmNau3eeYjnD3kHkGLwSPWwten9X+KqGJU/2kxNX6Fu
-         LawTkj+BbnAu8ETdfuv9WqzSFPC8ykoorJYZUpksrZkFzl6oZcSVgMmL/0O8Jlez+uhN
-         TpVA==
-X-Gm-Message-State: AOAM530FCPpdgjDxewFU/cmM6oCIrJwBzAXc7iONM1WdrZrzLlu/Sf5a
-        GmG/eHhjLvBK7CDp8myV2sL4tg==
-X-Google-Smtp-Source: ABdhPJwgqFiZK7yvPBmX2Ha7Poc2II8t97vwg4ExlUBs3GokKuV9Cz8COt1NQZk47tn4YMKaSWa/0A==
-X-Received: by 2002:a1c:80c8:: with SMTP id b191mr35735658wmd.37.1593796911630;
-        Fri, 03 Jul 2020 10:21:51 -0700 (PDT)
-Received: from dell ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x18sm14464840wrq.13.2020.07.03.10.21.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GH9kLkzHctUtpjzMG5uKy/EUP0KmLjkarK3Zyi+F734=;
+        b=HzJw6JZTG+vmtnHRvo4iyQ1v4mInZEtm6H3AzLfeY0qdzpdxmM2I2K8FB8rFXioxUq
+         ExsQcncDC8iMERKAJHQpYjFUJMv+IDHNWAQfQZ11+uXfsNJUO5cjealpTn2KlJAiSBX1
+         yh+pIqSWtZiSu2F14JTZv+aFiWWV1ON6bbDD3RvYMe0LEBsGjJ9NKZgfAMTlwiMDKWFg
+         PI8nNWAEOnuTWCNRIOIAEflyWf5DlwBvLG1bO9mV7kGEtLpkzs5d/nuymz96rW9Or3bv
+         M2ec+4b2+wQOwmSdLNE0SnavSq0s3PTRN6mWySsvku84NwTeJdawdJggfZNK1W+J5u57
+         KcOg==
+X-Gm-Message-State: AOAM533eFlUTHMIWjEVxzfy7GfiqRznrwMxcJFf71I5aC10dYIbeLem8
+        6IJO9tA5MEBfZyqQEQ80v0jaVA==
+X-Google-Smtp-Source: ABdhPJyR175xQdUE3YbXopU3B0c7WCXx8R0l/TMeTSCdkdTrAkW/AeSsiuMDCeOhzYob4uQ7e/uQvw==
+X-Received: by 2002:a05:600c:c1:: with SMTP id u1mr38510987wmm.48.1593798119975;
+        Fri, 03 Jul 2020 10:41:59 -0700 (PDT)
+Received: from localhost.localdomain ([2.27.35.144])
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.41.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:21:50 -0700 (PDT)
-Date:   Fri, 3 Jul 2020 18:21:48 +0100
+        Fri, 03 Jul 2020 10:41:59 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
+To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 00/30] Fix a bunch of W=1 issues in USB
-Message-ID: <20200703172148.GD2743379@dell>
-References: <20200702144625.2533530-1-lee.jones@linaro.org>
- <20200703073725.GA2370189@kroah.com>
+        Lee Jones <lee.jones@linaro.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Roman Weissgaerber <weissg@vienna.at>,
+        David Brownell <dbrownell@users.sourceforge.net>,
+        Christopher Hoover <ch@hpl.hp.com>,
+        Ben Dooks <ben@simtec.co.uk>, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 02/30] usb: host: ohci-s3c2410: Demote obvious misuse of kerneldoc to standard comment block
+Date:   Fri,  3 Jul 2020 18:41:20 +0100
+Message-Id: <20200703174148.2749969-3-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
+References: <20200703174148.2749969-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200703073725.GA2370189@kroah.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 03 Jul 2020, Greg KH wrote:
+No attempt has been made to document the function here.
 
-> On Thu, Jul 02, 2020 at 03:45:55PM +0100, Lee Jones wrote:
-> > This set is part of a larger effort attempting to clean-up W=1
-> > kernel builds, which are currently overwhelmingly riddled with
-> > niggly little warnings.
-> > 
-> > Lee Jones (30):
-> >   usb: phy: phy: Fix-up a whole bunch of formatting issues
-> >   usb: host: pci-quirks: Demote function header from kerneldoc to
-> >     comment block
-> >   usb: common: debug: Demote comment blocks which are obviously not
-> >     kerneldoc
-> >   usb: common: usb-conn-gpio: Demote comment block which is clearly not
-> >     kerneldoc
-> >   usb: dwc3: drd: File headers are not doc headers
-> >   usb: dwc3: ulpi: File headers are not doc headers
-> >   usb: common: ulpi: Fix a few kerneldoc related issues
-> >   usb: dwc3: dwc3-omap: Do not read DMA status
-> >   usb: dwc2: gadget: Do not read GINTMSK2
-> >   usb: dwc2: gadget: Remove assigned but never used 'maxsize'
-> >   usb: dwc2: gadget: Avoid pointless read of EP control register
-> >   usb: host: ehci-omap: Provide documentation for
-> >     ehci_hcd_omap_probe()'s arg 'pdev'
-> >   usb: cdns3: core: Fix incorrect formatting and misspelled function arg
-> >     docs
-> >   usb: cdns3: ep0: Fix a bunch of kerneldoc issues
-> >   usb: dwc3: dwc3-haps: Function headers are not suitable for kerneldoc
-> >   usb: mtu3: mtu3_trace: Function headers are not suitable for kerneldoc
-> >   usb: cdns3: gadget: Fix a bunch of kernel doc issues
-> >   usb: dwc3: dwc3-of-simple: Function headers are not good candidates
-> >     for kerneldoc
-> >   usb: host: isp1362: Mark the many unused ISP1362_REG entries as
-> >     __maybe_unused
-> >   usb: host: ohci-at91: Demote kerneldoc headers down to basic comment
-> >     blocks
-> >   usb: host: ohci: Mark cc_to_error as __maybe_unused
-> >   usb: cdns3: ep0: Move 'zlp' description to appropriate function header
-> >   usb: host: oxu210hp-hcd: Move declaration of 'qtd' into 'ifdef
-> >     OXU_URB_TRACE'
-> >   usb: mtu3: mtu3_trace: Supply missing mtu3_debug.h include file
-> >   usb: mtu3: mtu3_core: Demote obvious misuse of kerneldoc to standard
-> >     comment block
-> >   usb: c67x00: c67x00-ll-hpi: Demote obvious misuse of kerneldoc to
-> >     standard comment blocks
-> >   usb: class: cdc-wdm: Provide description for usb_cdc_wdm_register()'s
-> >     manage_power arg
-> >   usb: c67x00: c67x00-hcd: Demote obvious misuse of kerneldoc to
-> >     standard comment blocks
-> >   usb: class: usbtmc: File headers are not good candidates for kerneldoc
-> >   usb: c67x00: c67x00-sched: Demote obvious misuse of kerneldoc to
-> >     standard comment blocks
-> 
-> I've applied 25 of these, if you could rebase and resend the remaining
-> ones, after fixing up the review comments made on them, that would be
-> wonderful.
+Fixes the following W=1 kernel build warning(s):
 
-Will do.  Thanks Greg.
+ drivers/usb/host/ohci-s3c2410.c:356: warning: Function parameter or member 'dev' not described in 'ohci_hcd_s3c2410_probe'
 
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Kukjin Kim <kgene@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Roman Weissgaerber <weissg@vienna.at>
+Cc: David Brownell <dbrownell@users.sourceforge.net>
+Cc: Christopher Hoover <ch@hpl.hp.com>
+Cc: Ben Dooks <ben@simtec.co.uk>
+Cc: linux-samsung-soc@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/usb/host/ohci-s3c2410.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/ohci-s3c2410.c b/drivers/usb/host/ohci-s3c2410.c
+index d961097c90f0e..de5e570c58bae 100644
+--- a/drivers/usb/host/ohci-s3c2410.c
++++ b/drivers/usb/host/ohci-s3c2410.c
+@@ -343,7 +343,7 @@ ohci_hcd_s3c2410_remove(struct platform_device *dev)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * ohci_hcd_s3c2410_probe - initialize S3C2410-based HCDs
+  * Context: !in_interrupt()
+  *
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.25.1
+
