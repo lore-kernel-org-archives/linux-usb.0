@@ -5,100 +5,103 @@ X-Spam-Level:
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54AEDC433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B98FDC433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34FEE208E4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A07C20870
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gbM9zgU/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ducnwHyY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbgGCRnj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:43:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44580 "EHLO
+        id S1726962AbgGCRmr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726966AbgGCRms (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:48 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBECC08C5DE
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:48 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id j4so31133378wrp.10
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:48 -0700 (PDT)
+        with ESMTP id S1726949AbgGCRmp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:45 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F225C08C5DD
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:45 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id l2so33374392wmf.0
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xdK7p0WR4ZFrApshqcY/qhz6yObzd2ZId4hOv0Jm2xo=;
-        b=gbM9zgU/ZtQMixrhY58EOrWoPPgzazeywce2gbfK5P1I84SGNf8Nu0SBKX+d68YMTv
-         wi9405Ct0dsRs4puQmviTl91AT3FHELIv4KYmc6/uBxqOQVfGxIchVRWLT39VOsnD9dj
-         iv/XQSGzxJTBXmvi/aCCRJxLysPARMi+m7S1+S4XfBcQY0JvZF9xAToZCKGTRJqm2fGc
-         /jgKshjliUS0c9vtSW24xzpTKdikiD/Lc+TKcOQDdjiHZuChpAD3COK7Fa4YNd3QmsYd
-         vagHiB2r6sq6uBbnY/IDijHrZIvE1qwTXYPWChLKhJcBZgnvvXhQjBI6w6xZqGm3Eip7
-         DRJg==
+        bh=iR7UBjy9b+GnDxxSAohGssAzGZu9g74Tp/QmVOl6H2Q=;
+        b=ducnwHyYnt1Euvl0f4+BWCbuzEg8Fov/NpURhw5+20HmnMl1J/sAR30xHQb54zWlsc
+         8ylR62njZpvZKMYJmXQzbyCwGAGVC8pDWzbyYh2po23NCMBqyIkNgsIyxX/9JgCgQJfu
+         I7QGyxJMasm839b6jGVpSsPgPAzSGAsHKJmm7kTyFg+rp1Y95hEhQdGu/Du80koYKyPI
+         WAdK4rpXnQ5sgM9wxlRx6YPlGLmvvxZXNCMjFdWC2cqVVfV1lkU01XJjo9uvmAuMZ3PY
+         pR9Z4zPWOgalslyfm3pr3/mQgbVeJFyzo4rb8b/EaMS/2q/D4HOl0yVvz21fy5HYW2es
+         6iyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xdK7p0WR4ZFrApshqcY/qhz6yObzd2ZId4hOv0Jm2xo=;
-        b=OWjri/t3DwYjcQjJGTC22exBIZArmd5GPZbMiHOIs6lu4KdQ0mTnrCpHwGoBMBTIdX
-         UZ13jqgNE4HgtKt27vHCWf5l9YAp1YcvwovcbuzqXbGJwPKjmVq2kUM/LufoZi5gcb+7
-         BGieXP8pXJl63kvBLxGUHpoEoY2a7aHg88fHTC6sIBxtt2o2uQomZ1M9tRhSVDRH8Xsn
-         mOyYH1MGZhK6UsHiWjsXgm5pDVxab8L3XbUwX2seOKYCyke38r0X3y5PM0pH9ySOkqbm
-         OuTCA1ZgfZYw9qZ6Ij+7npXJ69wjVaS7lsKc4b3Ww9ZH7nm0SDedXSQkuMDgcVOxUIkF
-         YA6w==
-X-Gm-Message-State: AOAM532HlZ0cfQMwolS9ieXoUjT+WIJBDCqrsax9oDZXwJbmueUmUXwg
-        8sKPO92A/x4phbmafcY2/lSqUw==
-X-Google-Smtp-Source: ABdhPJwaEUB7JhVt7ciPlaLA41ZcKUyXrM0MReikrMV76Gdvn4PvB0S1CBTLkWBqgXpEpkcO7tMK4g==
-X-Received: by 2002:a5d:54c9:: with SMTP id x9mr40004482wrv.247.1593798167196;
-        Fri, 03 Jul 2020 10:42:47 -0700 (PDT)
+        bh=iR7UBjy9b+GnDxxSAohGssAzGZu9g74Tp/QmVOl6H2Q=;
+        b=uU+iFrKoEOmtLV3GXFufsvbNqv+O6Wu7NUv1m/YumMj+mmmwPV94HycfSJKBPr/XZy
+         zLl7UhXh9Xpr1ZaK54+UTxWMGIWB133+LM8Tex3OVXUA7MJCtMQZpWeNg8fTIwDbOseM
+         c+9kZcPdvdSToudyoAry0FyC1g6Pp4bCS3vCgw41vzvcTAYSOwAET+LbkuhyB+RK5KXs
+         3r+eCYRdOTSbqWozu6uqMKhAESn94I6KdnPia1RHPmgV5bWh1nrLOlahoU7WdkEf1TJ6
+         j92fXePf9dUPuivtMxnBpKFvUE6qym3+23xdtkVo9V0RNI5ttRQO5ACtGTfK7P7tsXtd
+         CwBw==
+X-Gm-Message-State: AOAM5318JImisOXgxm7FhwyDPD9IXJgrMDX6NJ5NbIri33TNY1h5e4zN
+        +b922L5gU8mU6w7X//eZEyxktltTQSI=
+X-Google-Smtp-Source: ABdhPJzWDElIsWsgZs5aFyQnkGgXFAh1NXyvJLsupvxSIpseD/CGSj1lFbaE7ttaa7WKZibdweL68Q==
+X-Received: by 2002:a1c:81d3:: with SMTP id c202mr24362378wmd.54.1593798163896;
+        Fri, 03 Jul 2020 10:42:43 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.46
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:42:46 -0700 (PDT)
+        Fri, 03 Jul 2020 10:42:43 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Lee Jones <lee.jones@linaro.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH 20/30] usb: typec: altmodes: displayport: File headers are not good candidates for kerneldoc
-Date:   Fri,  3 Jul 2020 18:41:38 +0100
-Message-Id: <20200703174148.2749969-21-lee.jones@linaro.org>
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH 18/30] usb: host: xhci-debugfs: Use 'gnu_printf' format notation
+Date:   Fri,  3 Jul 2020 18:41:36 +0100
+Message-Id: <20200703174148.2749969-19-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
 References: <20200703174148.2749969-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Demote displayport's file header to a standard comment block.
-
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/typec/altmodes/displayport.c:18: warning: Function parameter or member '_dp' not described in 'DP_HEADER'
- drivers/usb/typec/altmodes/displayport.c:18: warning: Function parameter or member 'cmd' not described in 'DP_HEADER'
+ drivers/usb/host/xhci-debugfs.c:128:2: warning: function ‘xhci_debugfs_regset’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+ 128 | vsnprintf(rgs->name, sizeof(rgs->name), fmt, args);
+ | ^~~~~~~~~
 
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/typec/altmodes/displayport.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/xhci-debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 0edfb89e04a86..d617663b981dd 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * USB Typec-C DisplayPort Alternate Mode driver
-  *
-  * Copyright (C) 2018 Intel Corporation
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index 76c3f29562d2b..92e25a62fdb5b 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -110,6 +110,7 @@ static void xhci_debugfs_free_regset(struct xhci_regset *regset)
+ 	kfree(regset);
+ }
+ 
++__printf(6, 7)
+ static void xhci_debugfs_regset(struct xhci_hcd *xhci, u32 base,
+ 				const struct debugfs_reg32 *regs,
+ 				size_t nregs, struct dentry *parent,
 -- 
 2.25.1
 
