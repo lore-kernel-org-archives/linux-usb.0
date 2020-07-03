@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E89DBC433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2B0C433DF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C74CA20899
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09F5B2084C
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PqlMQ+89"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xDC8fIaK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgGCRnB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44634 "EHLO
+        id S1727078AbgGCRnH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:43:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727045AbgGCRm7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:59 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B928C08C5E0
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:59 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j4so31133838wrp.10
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:59 -0700 (PDT)
+        with ESMTP id S1727071AbgGCRnF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:43:05 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DAD9C061794
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:43:05 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id 22so32763498wmg.1
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:43:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VAH0h+7DeZ3eQjU7VALJC/mf2qMz8anOgwTIw8YZObw=;
-        b=PqlMQ+89zMViNPk7JL5130tgUlbfPGYO64AK9MX0N4n06iS4TcAGsDGRMlCqj/pLc4
-         J7LXAhiaUeGsjyG6alIrflqs8cE9EUzRJxrzjIgV4Yn8DOhedEbVURZIu8RG6k3K0+k1
-         vDuR7IPN3O/ymZb5dVv1YzrGrTJwsbIF/ioCS5GI0RU1XrxXvWedyGPmAP4IhR/CuSjo
-         itAnCnYz27iOwJdYedBW9z+9UFp06jyHOZAY5e9JzO2IDH2ldJlKr6OPo2600mUwNwY+
-         +4RWwtan+5aC8XkRvuarA9Nrm5tJYS29s4fJWjGzdwrw6u2kCnRtykuQ1yQzyQOYA+Is
-         hRlQ==
+        bh=4V6rwO8B/5QxcmzyBtTB5IourUHauOiv8oEVPOqaOuQ=;
+        b=xDC8fIaK5cyXv1Gyh3x1BMrLUIzhbFutpqYYDoz2u726Z3VIgmmNR2ruE04GGXEcAw
+         aGuTq6k4zQfmgqsuNecc1AG3AGrqxgz7l8lcO+CqOTX55bno5XRVwTM5wnkCiTK1KGRo
+         4cqhlQ46ZFHiMQ7ZlM2U2vJJsxIMnKQarCojzcguzEY+pM0zog//2dDTrJy+XJZjw3eX
+         K638g22lJj5Iykle0Hv+fOitBoF+mba79KsRLj+046IA0MlGRNZdpvJ+EqOf1Q9WLWUB
+         T7+DNb/QGE+zN8ST8O7KBKPI9lw81iVVqMhvWMk28t2EV4PdVxkGc7ie2+B/1Vwctkjf
+         hMFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VAH0h+7DeZ3eQjU7VALJC/mf2qMz8anOgwTIw8YZObw=;
-        b=r2VgChHMuwnQJgYIEPJGkApMxSFFzknJy5i/gFpmLNhWscWM6hYxoj5CHCAAijitnG
-         dkgu2wkLth0j0axTAWk5/kRbeIjMC44TjL5ePapoWG+q3LbN/hWlmh8JNBq52nHef7EK
-         w1SgNybHzkyu9CGhYRDIRulznZDhfagcWcBdO5Y9Y9kFohirIiUe8DHHC4AlGx2hcr1E
-         Ql5Yiu8tp1+T05LTCtYchVxyCod2ImwBcQNQ7UYkQt6yx31l/eTwLAgqgxIHIRWbk46c
-         tiVT3i3rnbQfC/qtaEMRJupc0N+KjPkYFvK3hCNv9Mq36aso4CCzVXz8+qeXR+np1riq
-         UywA==
-X-Gm-Message-State: AOAM533sBax9ZUQwht3fCs8txpogG3eOYccES3AZO+sz8+N4fGBinFrf
-        DED50NQb/VKFX+Tgr1q7HVXf3A==
-X-Google-Smtp-Source: ABdhPJwvENXbvIfsvJuGeCkbqKnfV/8/YK5NLdOwN0orSzzJI2mmMqY6taVoPjgC6b3Rw9Xggnm+pA==
-X-Received: by 2002:a5d:6748:: with SMTP id l8mr42092231wrw.347.1593798178228;
-        Fri, 03 Jul 2020 10:42:58 -0700 (PDT)
+        bh=4V6rwO8B/5QxcmzyBtTB5IourUHauOiv8oEVPOqaOuQ=;
+        b=jPIwlgroeVPdo5AElr6CwUeEYfrsX6/z/IguM4l/TmcDO6Md5Fc0GOYNvwGEd8/xCd
+         wfvO1oYDN+mojG8hD/hl/EoCU8XRlZvQSNMXsDIM7wt2t6KoqWHJJRpsJUlnwlvPi65p
+         1aYE7DM/lzaEtLEWPrVM6eCU4DRtwSBLQtQ5SsLrQubkElWg2HJ9e3r+7ApaMKKCYJCc
+         HINAMRA6T/5RwGqT8W/heVccBoS59UTkuUZ/IXwUUOcqUZ0K2LT3yWXoGftUElAl9sFK
+         fbz1c5CNhB26XdJLRI9hSTZjCF/58+QjfCAL0w6T4Yhm0QLhHxiGZCoJkKKQ49fadgPZ
+         DeLw==
+X-Gm-Message-State: AOAM530xelWdFXXv6OqKV633DzGEuH/fO5N3KFpmDJEiBIpxDrALi1nn
+        FLSl4HoE7+CP2Lk7/FCIrU9fkg==
+X-Google-Smtp-Source: ABdhPJyWZ41PNKg/DEnuOx29cG3N8Pn3AUS9iFQCLEigdnAYIlm7v8dyg3JZ2T2lM88Cbh0PxNRO4g==
+X-Received: by 2002:a05:600c:2154:: with SMTP id v20mr40914551wml.185.1593798183818;
+        Fri, 03 Jul 2020 10:43:03 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.56
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.43.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:42:57 -0700 (PDT)
+        Fri, 03 Jul 2020 10:43:03 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Lee Jones <lee.jones@linaro.org>,
-        Johan Hovold <johan@kernel.org>,
-        Michael Hund <mhund@ld-didactic.de>,
-        David Glance <advidgsf@sourceforge.net>,
-        Juergen Stuber <starblue@users.sourceforge.net>
-Subject: [PATCH 27/30] usb: misc: ldusb: Demote obvious misuse of kerneldoc to standard comment blocks
-Date:   Fri,  3 Jul 2020 18:41:45 +0100
-Message-Id: <20200703174148.2749969-28-lee.jones@linaro.org>
+        Felipe Balbi <balbi@kernel.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH 30/30] usb: gadget: udc: dummy_hcd: Repair misspelled function argument 'dummy_hcd'
+Date:   Fri,  3 Jul 2020 18:41:48 +0100
+Message-Id: <20200703174148.2749969-31-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
 References: <20200703174148.2749969-1-lee.jones@linaro.org>
@@ -78,151 +77,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-No attempt has been made to document any of the demoted functions here.
+An attempt was made to document the functions in 'dummy_hcd',
+but a simple spelling mistake was made.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/misc/ldusb.c:192: warning: Function parameter or member 'dev' not described in 'ld_usb_abort_transfers'
- drivers/usb/misc/ldusb.c:206: warning: Function parameter or member 'dev' not described in 'ld_usb_delete'
- drivers/usb/misc/ldusb.c:220: warning: Function parameter or member 'urb' not described in 'ld_usb_interrupt_in_callback'
- drivers/usb/misc/ldusb.c:281: warning: Function parameter or member 'urb' not described in 'ld_usb_interrupt_out_callback'
- drivers/usb/misc/ldusb.c:301: warning: Function parameter or member 'inode' not described in 'ld_usb_open'
- drivers/usb/misc/ldusb.c:301: warning: Function parameter or member 'file' not described in 'ld_usb_open'
- drivers/usb/misc/ldusb.c:372: warning: Function parameter or member 'inode' not described in 'ld_usb_release'
- drivers/usb/misc/ldusb.c:372: warning: Function parameter or member 'file' not described in 'ld_usb_release'
- drivers/usb/misc/ldusb.c:414: warning: Function parameter or member 'file' not described in 'ld_usb_poll'
- drivers/usb/misc/ldusb.c:414: warning: Function parameter or member 'wait' not described in 'ld_usb_poll'
- drivers/usb/misc/ldusb.c:439: warning: Function parameter or member 'file' not described in 'ld_usb_read'
- drivers/usb/misc/ldusb.c:439: warning: Function parameter or member 'buffer' not described in 'ld_usb_read'
- drivers/usb/misc/ldusb.c:439: warning: Function parameter or member 'count' not described in 'ld_usb_read'
- drivers/usb/misc/ldusb.c:439: warning: Function parameter or member 'ppos' not described in 'ld_usb_read'
- drivers/usb/misc/ldusb.c:526: warning: Function parameter or member 'file' not described in 'ld_usb_write'
- drivers/usb/misc/ldusb.c:526: warning: Function parameter or member 'buffer' not described in 'ld_usb_write'
- drivers/usb/misc/ldusb.c:526: warning: Function parameter or member 'count' not described in 'ld_usb_write'
- drivers/usb/misc/ldusb.c:526: warning: Function parameter or member 'ppos' not described in 'ld_usb_write'
- drivers/usb/misc/ldusb.c:651: warning: Function parameter or member 'intf' not described in 'ld_usb_probe'
- drivers/usb/misc/ldusb.c:651: warning: Function parameter or member 'id' not described in 'ld_usb_probe'
- drivers/usb/misc/ldusb.c:754: warning: Function parameter or member 'intf' not described in 'ld_usb_disconnect'
+ drivers/usb/gadget/udc/dummy_hcd.c:1597: warning: Function parameter or member 'dum_hcd' not described in 'handle_control_request'
+ drivers/usb/gadget/udc/dummy_hcd.c:1597: warning: Excess function parameter 'dum' description in 'handle_control_request'
 
-Cc: Johan Hovold <johan@kernel.org>
-Cc: Michael Hund <mhund@ld-didactic.de>
-Cc: David Glance <advidgsf@sourceforge.net>
-Cc: Juergen Stuber <starblue@users.sourceforge.net>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/misc/ldusb.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/usb/gadget/udc/dummy_hcd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/misc/ldusb.c b/drivers/usb/misc/ldusb.c
-index 8f86b4ebca898..670e4d91e9cae 100644
---- a/drivers/usb/misc/ldusb.c
-+++ b/drivers/usb/misc/ldusb.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0+
--/**
-+/*
-  * Generic USB driver for report based interrupt in/out devices
-  * like LD Didactic's USB devices. LD Didactic's USB devices are
-  * HID devices which do not use HID report definitons (they use
-@@ -184,7 +184,7 @@ struct ld_usb {
+diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+index 0eeaead5acea3..ac3db28fd7779 100644
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -1581,7 +1581,7 @@ static struct dummy_ep *find_endpoint(struct dummy *dum, u8 address)
  
- static struct usb_driver ld_usb_driver;
- 
--/**
-+/*
-  *	ld_usb_abort_transfers
-  *      aborts transfers and frees associated data structures
-  */
-@@ -199,7 +199,7 @@ static void ld_usb_abort_transfers(struct ld_usb *dev)
- 		usb_kill_urb(dev->interrupt_out_urb);
- }
- 
--/**
-+/*
-  *	ld_usb_delete
-  */
- static void ld_usb_delete(struct ld_usb *dev)
-@@ -213,7 +213,7 @@ static void ld_usb_delete(struct ld_usb *dev)
- 	kfree(dev);
- }
- 
--/**
-+/*
-  *	ld_usb_interrupt_in_callback
-  */
- static void ld_usb_interrupt_in_callback(struct urb *urb)
-@@ -274,7 +274,7 @@ static void ld_usb_interrupt_in_callback(struct urb *urb)
- 	wake_up_interruptible(&dev->read_wait);
- }
- 
--/**
-+/*
-  *	ld_usb_interrupt_out_callback
-  */
- static void ld_usb_interrupt_out_callback(struct urb *urb)
-@@ -294,7 +294,7 @@ static void ld_usb_interrupt_out_callback(struct urb *urb)
- 	wake_up_interruptible(&dev->write_wait);
- }
- 
--/**
-+/*
-  *	ld_usb_open
-  */
- static int ld_usb_open(struct inode *inode, struct file *file)
-@@ -365,7 +365,7 @@ static int ld_usb_open(struct inode *inode, struct file *file)
- 	return retval;
- }
- 
--/**
-+/*
-  *	ld_usb_release
-  */
- static int ld_usb_release(struct inode *inode, struct file *file)
-@@ -407,7 +407,7 @@ static int ld_usb_release(struct inode *inode, struct file *file)
- 	return retval;
- }
- 
--/**
-+/*
-  *	ld_usb_poll
-  */
- static __poll_t ld_usb_poll(struct file *file, poll_table *wait)
-@@ -431,7 +431,7 @@ static __poll_t ld_usb_poll(struct file *file, poll_table *wait)
- 	return mask;
- }
- 
--/**
-+/*
-  *	ld_usb_read
-  */
- static ssize_t ld_usb_read(struct file *file, char __user *buffer, size_t count,
-@@ -518,7 +518,7 @@ static ssize_t ld_usb_read(struct file *file, char __user *buffer, size_t count,
- 	return retval;
- }
- 
--/**
-+/*
-  *	ld_usb_write
-  */
- static ssize_t ld_usb_write(struct file *file, const char __user *buffer,
-@@ -641,7 +641,7 @@ static struct usb_class_driver ld_usb_class = {
- 	.minor_base =	USB_LD_MINOR_BASE,
- };
- 
--/**
-+/*
-  *	ld_usb_probe
-  *
-  *	Called by the usb core when a new device is connected that it thinks
-@@ -745,7 +745,7 @@ static int ld_usb_probe(struct usb_interface *intf, const struct usb_device_id *
- 	return retval;
- }
- 
--/**
-+/*
-  *	ld_usb_disconnect
-  *
-  *	Called by the usb core when the device is removed from the system.
+ /**
+  * handle_control_request() - handles all control transfers
+- * @dum: pointer to dummy (the_controller)
++ * @dum_hcd: pointer to dummy (the_controller)
+  * @urb: the urb request to handle
+  * @setup: pointer to the setup data for a USB device control
+  *	 request
 -- 
 2.25.1
 
