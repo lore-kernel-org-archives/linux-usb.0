@@ -7,112 +7,101 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DEB7C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB818C433E1
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7CE320870
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D0D0208FE
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mWYGekfi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kh13Uagu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727776AbgGCRnq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44574 "EHLO
+        id S1727071AbgGCRnw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgGCRmq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:46 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52D22C08C5DD
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:46 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id k6so33581471wrn.3
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:46 -0700 (PDT)
+        with ESMTP id S1726928AbgGCRmm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:42 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6C87C08C5DD
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:41 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id o2so34857298wmh.2
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BRma9lRqEYDVOCUnxuxL1ar6KYSuaKRVNlo6MvalKh8=;
-        b=mWYGekfinDDvmP/iCmqV/aGkYJf6TP1fCPcz7wB25vsA8+FLckg8N9Orh4YU9GBn/J
-         LnXRemGrce3PfQHQ02bLqOsJwHZSgzTTaFULUBk7HNn6wHu/7bJM2WWusHZKqVQseNTF
-         TUmfsyRjzeqzo7RG5Arncs7yNnvFLUcMyADe7l3VoDzFTFRXeCc/P4bBM/NE4J9N4xRz
-         uiuCZAVBHkjJ2NG1VnhYVRhKfwuMfIFpsty3kYsap8/Aa7O5rfvZCED2Jpn+WZsIuk/n
-         6huQcc3LZJY6QqbtVD/W7yN5yad9GobhUVi6igXsbAQcfy04fJ1fVqcE1mmm/UtI1ixZ
-         B7Pg==
+        bh=ic4rIp6i7w+ExunilNL5OmgeWajYHUPztrk1dypeX68=;
+        b=Kh13UaguKQVWZFolCXDG/NLuzB1QO3j36+LCgHs0O7rS+7DqMoCuWWNcQ11blivh+9
+         dmI7sC/uh/PeO3GdENZNw361HKDmGWW249ewSbEtsbmiKtrKmSGSA967yvwctkeGD2Da
+         VQ1SEwKsnpSDkC/rvNDOTjd9yA5gsSNcV+5uECRNmdRpH60hkKMAvdMXpMUbCaZlUx9C
+         ZwGVg4SIA/ENzxh+txpPPoOGa7sRuj2rJyJrywTxVAIHqAJeWZG72zTo4ATX+cVf5/jP
+         sRPxQhFwld2UHWmSMu/iYzjgb9dHOG7zTYUMLIcDSGW/lq6c6c9jCPdi1G/4E97SPsN0
+         8LBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BRma9lRqEYDVOCUnxuxL1ar6KYSuaKRVNlo6MvalKh8=;
-        b=thEdA1OPeUeoyeHuzeS8l7lQnzt3yu0SfFJpGYhZ29livbMLYe2cqxM7/r1QignM6T
-         PlN1olxSxxTkosipaAUtVytQB1QpQRlqLWNC4Oqe/nCzD+G6ISPlslPJkfo7zwla8BkF
-         c060Ow3NPGMKKtmkQLqHJJCxnE+suRz1Vo0FNlAovPkxPt9Jc/CVRTNGBxNxrYFxravK
-         2X04sgmOmRNfrqXIBnlp2JB5NVQ/fo1OoyUdAkC/GdtMiu0zFXC3UDZKWyYgNMCVqZpj
-         hlUqdbU8kU0flsb+WYZ2tVNALp0d7ytgDAa+SB88hFQ6mW+32yhxdpB4X6lnSwVZO+An
-         2cyQ==
-X-Gm-Message-State: AOAM533OkPJxMFCOW9aU4pAGYGRA5bxJaJSuByMPtm0oq2kaB4YbcnkF
-        H7MekglPYPI/PhM8rLu+48PybmLgY64=
-X-Google-Smtp-Source: ABdhPJyONWDFPwyDvztIk4FcoSOK/rZ5PGRPGACL6sxaodQwaxlQC+PL+MLJ6JrU2yDAbU41YE1QXA==
-X-Received: by 2002:a05:6000:d0:: with SMTP id q16mr4673145wrx.166.1593798165048;
-        Fri, 03 Jul 2020 10:42:45 -0700 (PDT)
+        bh=ic4rIp6i7w+ExunilNL5OmgeWajYHUPztrk1dypeX68=;
+        b=YsadPPj5h6mk/WRLJAtzW4nNYd/nfX9rmxsfPjwhOmd87pNyENHjHoXuoPOnz6jXfd
+         5I4o9vhdqLqwx7fG1neXqAn6FTQfSSgd/WFwY3YZxdstRGepQu7HKZZBXQadpv9wC6p8
+         l/ZE9lAQThLQmOrf2ef7Y7G5xXY6M4iWRxX0RAq78Zlo2z9R2XbLEYWKcJR+lUk5TjHZ
+         gd6DKfYWN02QR0Uo32J6OSM5tcOMLfc1J0Ro0KbYTnmgao828jtEFCm8Lmp4G8MA+DQn
+         R4n8h/Fdefz8VqgC8Ex8idttheNpnnBaRQ/nlerhKwxdHmX/mBmFHHRdAxwuzvHgA2U4
+         cypg==
+X-Gm-Message-State: AOAM533wXURt9TBQLDdVEh1GZ8B40o+ktCVZcjq6i/M6/4YupJWbM3qY
+        QDZaE1XrF7MGb3iOYHYfCQwGbQ==
+X-Google-Smtp-Source: ABdhPJyTuGeahpIZr9wBtU7PsnWawkpr7E89M9tw5DuGJg8R1ACU8WRWAMYfSi26BXhuCQn07ZcVLg==
+X-Received: by 2002:a1c:b386:: with SMTP id c128mr39576677wmf.133.1593798160504;
+        Fri, 03 Jul 2020 10:42:40 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.44
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:42:44 -0700 (PDT)
+        Fri, 03 Jul 2020 10:42:40 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Lee Jones <lee.jones@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Daniel Drake <dsd@gentoo.org>,
-        usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH 19/30] usb: storage: alauda: Remove set but unchecked variable
-Date:   Fri,  3 Jul 2020 18:41:37 +0100
-Message-Id: <20200703174148.2749969-20-lee.jones@linaro.org>
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH 16/30] usb: host: xhci-dbgtty: File headers are not good candidates for kerneldoc
+Date:   Fri,  3 Jul 2020 18:41:34 +0100
+Message-Id: <20200703174148.2749969-17-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
 References: <20200703174148.2749969-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The return value of alauda_get_media_status() hasn't been checked
-since the driver's inception back in 2005.  If nothing have gone
-wrong/been detected until this point, it's probably safe to just
-remove the variable.
+Demote xhci-dbgtty's file header to a standard comment block.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/storage/alauda.c: In function ‘alauda_check_media’:
- drivers/usb/storage/alauda.c:456:6: warning: variable ‘rc’ set but not used [-Wunused-but-set-variable]
- 456 | int rc;
- | ^~
+ drivers/usb/host/xhci-dbgtty.c:19: warning: Function parameter or member 'port' not described in 'dbc_send_packet'
+ drivers/usb/host/xhci-dbgtty.c:19: warning: Function parameter or member 'packet' not described in 'dbc_send_packet'
+ drivers/usb/host/xhci-dbgtty.c:19: warning: Function parameter or member 'size' not described in 'dbc_send_packet'
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Daniel Drake <dsd@gentoo.org>
-Cc: usb-storage@lists.one-eyed-alien.net
+Cc: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/storage/alauda.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/host/xhci-dbgtty.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
-index ddab2cd3d2e75..20b857e97e60c 100644
---- a/drivers/usb/storage/alauda.c
-+++ b/drivers/usb/storage/alauda.c
-@@ -453,9 +453,8 @@ static int alauda_check_media(struct us_data *us)
- {
- 	struct alauda_info *info = (struct alauda_info *) us->extra;
- 	unsigned char status[2];
--	int rc;
- 
--	rc = alauda_get_media_status(us, status);
-+	alauda_get_media_status(us, status);
- 
- 	/* Check for no media or door open */
- 	if ((status[0] & 0x80) || ((status[0] & 0x1F) == 0x10)
+diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
+index be726c791323a..9a1d384425782 100644
+--- a/drivers/usb/host/xhci-dbgtty.c
++++ b/drivers/usb/host/xhci-dbgtty.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * xhci-dbgtty.c - tty glue for xHCI debug capability
+  *
+  * Copyright (C) 2017 Intel Corporation
 -- 
 2.25.1
 
