@@ -5,68 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB73C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:42:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 062D6C433DF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:42:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D636208C7
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:42:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBDB0208FE
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:42:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y2SU5Y10"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wq2eX9jG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgGCRmJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+        id S1726766AbgGCRmP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:42:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726670AbgGCRmI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:08 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF90C061794
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:07 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id f2so5597603wrp.7
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:07 -0700 (PDT)
+        with ESMTP id S1726752AbgGCRmO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:14 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29741C08C5DD
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:14 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id 17so34829939wmo.1
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=F6U6du2cLEW6hsEFJ/YlMHhYAq991XScHIIikwh94ck=;
-        b=Y2SU5Y10snNBVm4aLkU7fk0EzfCxFtMtC2t6XTYj/cZvEvyIk4JHi4IzvP1Q84NMJb
-         wp3/StQ4VnPEvn10ZvSQjYAQoaEXHwEQT4aUyHcryjLofn34gYEQYBX9KR5uIygZqkN6
-         c8U7oJkzVqsT/LFEegC/GHVUwFXrl2/ZhWuLrxRxPNjIUcCh5M1zV79xpQ30M6cB6ga7
-         QWgSinALKbHXOtbxbW8M3V/Iiah/Cu+ACH7HTP3WaFgoG4gBY45UTg5GU2giIEBzvnLg
-         iBZ1Uq8pwToe0JQnN0zwI96iPtfuryHBRuGoe5iyK5uIGgRfcs1vA3hqc87ZlrAGsbuR
-         pCCg==
+        bh=xrkMNgFq6kjSqpaCA+XSVAlQbJi5HEny4uddp4894Fo=;
+        b=wq2eX9jGfiXqkmXfLTj6mEEM2DpZg01ZXm7M/28lM017rbrQHv08Hx3W5hVLkdvmFs
+         cvQdic5dr1Kq+Q9SQvJOlJ0Um9yIR+Y5uLRgIgCiIyPKB+8SrlN67FMkH9I8POq9Tl99
+         +hMw+MdBOJx/zy0bvat2TNmCBkFSWbZmsToJ9vMSa5EOAXM8Car+SJkpsfivOXFgNdE/
+         6OAuqi/2/eHEu3UadPeyfjssCvcTNhCKm7ljorj8hYXKdL8F5lln2bdGPwryANInysfn
+         p6uUI7Z/tSUbPtLZ/HmaXeu93dZ6mryZK5EOYSHV/jxy8VcCQlvYpf7cgzBj9yLjwsAv
+         LKiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=F6U6du2cLEW6hsEFJ/YlMHhYAq991XScHIIikwh94ck=;
-        b=p9C8iNUP+rrOR5cQ/BzhDhaqocKHy/ek10j8FanYlRQr7x5vBrGHcFOhmBWjXtXKrV
-         SsYnKMr+XjluHlGkq3kTZhQecycYgx1YiMXsoUBspx+Svi3SyumfIDqGP/2DBpxPZWvf
-         0PQVn1H5uxwnLFnNfwBg+x8gw/iwlU79dpuBTHMfqiuJNK9c6NlNwjmFGyr4D8n6i4sA
-         46EtwQnPSNfLVjyJmMUCX/2uxAf4bSx+cSc0YIRrtmt05gRv1CCITe5ZGQpVeNkYuLAI
-         pZ2DbLiodlddA8fh9eC2ZsiGoDA41k+M2Of4aMBnJy0rAW9FbV8OoJiCeLflde3Co99E
-         MXFw==
-X-Gm-Message-State: AOAM531z9DeaBMpGtb2ZgzcbmdL9iVxHV1miJy9ZUTrdpIDoCexf66oW
-        XTNBzV1f0pwlH37luZmvS74slQ==
-X-Google-Smtp-Source: ABdhPJzRUz7YIJkc5rXRh4EaTG+LenxNZrmqTf7CVLD+POjSpAcpZFSCLy+UvmQirb+yuYnlUSpq1g==
-X-Received: by 2002:adf:fcc5:: with SMTP id f5mr41966929wrs.60.1593798126416;
-        Fri, 03 Jul 2020 10:42:06 -0700 (PDT)
+        bh=xrkMNgFq6kjSqpaCA+XSVAlQbJi5HEny4uddp4894Fo=;
+        b=egOevl8YZesA9Ue5xLj6GPPe4KKH/swab7rC/mK9tOEwfAH+UnAIVEmWWjWbyUJW7V
+         DMByuoG+BvPsvLHDiJ8XeJBY26iT3v3cSuvVdNypmfRhKys8xg1fzmz3uOXAI3TIQr+y
+         1v63+xWKWzGcOwBrPbkhOQBoV+6Fec606IEWrqHZqO68KZtv4QseNcvBHytZ6e006Gs1
+         Ezf79eduFQ3bzjTYy/LCyF3JEiXbRa3eeMw6Ra5jkd2RjZNmW0tkmMyL3Z7KXevu8uW2
+         XQCayGOMaKfR+mKist0eS9//OIJBWfUTUEHDX6xhEFVH1xEljOE4Vl/XmX5lYJwM79iF
+         PWig==
+X-Gm-Message-State: AOAM5314qRHNqqTzspYeBmi57ISVZyxpkyFo0u91ioiUz+aQeRjmwlHJ
+        ogoyWSddI+g8OFPr3lXgASwRbg==
+X-Google-Smtp-Source: ABdhPJxF4+w/X3XbjJY6K8JuqOts4/0aCaGlb0DEvCdqQgBeAb0DrB1QpZ3cPKmGntf65MNAAWWkgQ==
+X-Received: by 2002:a7b:c041:: with SMTP id u1mr39858082wmc.56.1593798132797;
+        Fri, 03 Jul 2020 10:42:12 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.05
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:42:05 -0700 (PDT)
+        Fri, 03 Jul 2020 10:42:12 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Lee Jones <lee.jones@linaro.org>,
-        Johan Hovold <johan@kernel.org>,
-        David Glance <davidgsf@sourceforge.net>,
-        Juergen Stuber <stuber@loria.fr>
-Subject: [PATCH 06/30] usb: misc: adutux: Demote obvious misuse of kerneldoc to standard comment blocks
-Date:   Fri,  3 Jul 2020 18:41:24 +0100
-Message-Id: <20200703174148.2749969-7-lee.jones@linaro.org>
+        Peter Chen <Peter.Chen@nxp.com>
+Subject: [PATCH 09/30] usb: chipidea: otg: Fix kerneldoc issues relating to description of 'ci'
+Date:   Fri,  3 Jul 2020 18:41:27 +0100
+Message-Id: <20200703174148.2749969-10-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
 References: <20200703174148.2749969-1-lee.jones@linaro.org>
@@ -77,54 +75,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-No attempt has been made to document any of the functions here.
+Firstly we add some missing descriptions.  Then we fix some formatting
+issues.  Kerneldoc expects arguments to be in the format '@.*: '.  If
+either the '@' or ':' is omitted, kerneldoc gets confused.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/misc/adutux.c:117: warning: Function parameter or member 'dev' not described in 'adu_abort_transfers'
- drivers/usb/misc/adutux.c:653: warning: Function parameter or member 'interface' not described in 'adu_probe'
- drivers/usb/misc/adutux.c:653: warning: Function parameter or member 'id' not described in 'adu_probe'
- drivers/usb/misc/adutux.c:762: warning: Function parameter or member 'interface' not described in 'adu_disconnect'
+ drivers/usb/chipidea/otg.c:29: warning: Function parameter or member 'ci' not described in 'hw_read_otgsc'
+ drivers/usb/chipidea/otg.c:82: warning: Function parameter or member 'ci' not described in 'hw_write_otgsc'
+ drivers/usb/chipidea/otg.c:235: warning: Function parameter or member 'ci' not described in 'ci_hdrc_otg_init'
+ drivers/usb/chipidea/otg.c:254: warning: Function parameter or member 'ci' not described in 'ci_hdrc_otg_destroy'
 
-Cc: Johan Hovold <johan@kernel.org>
-Cc: David Glance <davidgsf@sourceforge.net>
-Cc: Juergen Stuber <stuber@loria.fr>
+Cc: Peter Chen <Peter.Chen@nxp.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/misc/adutux.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/chipidea/otg.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
-index d8d157c4c271d..a7eefe11f31aa 100644
---- a/drivers/usb/misc/adutux.c
-+++ b/drivers/usb/misc/adutux.c
-@@ -109,7 +109,7 @@ static inline void adu_debug_data(struct device *dev, const char *function,
- 		function, size, size, data);
- }
+diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
+index be63924ea82ef..d3aada3ce7ec2 100644
+--- a/drivers/usb/chipidea/otg.c
++++ b/drivers/usb/chipidea/otg.c
+@@ -23,6 +23,7 @@
  
--/**
-+/*
-  * adu_abort_transfers
-  *      aborts transfers and frees associated data structures
+ /**
+  * hw_read_otgsc returns otgsc register bits value.
++ * @ci: the controller
+  * @mask: bitfield mask
   */
-@@ -642,7 +642,7 @@ static struct usb_class_driver adu_class = {
- 	.minor_base = ADU_MINOR_BASE,
- };
+ u32 hw_read_otgsc(struct ci_hdrc *ci, u32 mask)
+@@ -75,6 +76,7 @@ u32 hw_read_otgsc(struct ci_hdrc *ci, u32 mask)
  
--/**
-+/*
-  * adu_probe
-  *
-  * Called by the usb core when a new device is connected that it thinks
-@@ -753,7 +753,7 @@ static int adu_probe(struct usb_interface *interface,
- 	return retval;
- }
+ /**
+  * hw_write_otgsc updates target bits of OTGSC register.
++ * @ci: the controller
+  * @mask: bitfield mask
+  * @data: to be written
+  */
+@@ -229,7 +231,7 @@ static void ci_otg_work(struct work_struct *work)
  
--/**
-+/*
-  * adu_disconnect
-  *
-  * Called by the usb core when the device is removed from the system.
+ /**
+  * ci_hdrc_otg_init - initialize otg struct
+- * ci: the controller
++ * @ci: the controller
+  */
+ int ci_hdrc_otg_init(struct ci_hdrc *ci)
+ {
+@@ -248,7 +250,7 @@ int ci_hdrc_otg_init(struct ci_hdrc *ci)
+ 
+ /**
+  * ci_hdrc_otg_destroy - destroy otg struct
+- * ci: the controller
++ * @ci: the controller
+  */
+ void ci_hdrc_otg_destroy(struct ci_hdrc *ci)
+ {
 -- 
 2.25.1
 
