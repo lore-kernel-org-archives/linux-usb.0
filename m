@@ -4,69 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2B0C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FF0C433E1
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09F5B2084C
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76085208E4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:43:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xDC8fIaK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k1VNV8Cq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbgGCRnH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44666 "EHLO
+        id S1727064AbgGCRnD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727071AbgGCRnF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:43:05 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DAD9C061794
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:43:05 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id 22so32763498wmg.1
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:43:04 -0700 (PDT)
+        with ESMTP id S1727051AbgGCRnC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:43:02 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E99C08C5DD
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:43:01 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id z15so22290265wrl.8
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4V6rwO8B/5QxcmzyBtTB5IourUHauOiv8oEVPOqaOuQ=;
-        b=xDC8fIaK5cyXv1Gyh3x1BMrLUIzhbFutpqYYDoz2u726Z3VIgmmNR2ruE04GGXEcAw
-         aGuTq6k4zQfmgqsuNecc1AG3AGrqxgz7l8lcO+CqOTX55bno5XRVwTM5wnkCiTK1KGRo
-         4cqhlQ46ZFHiMQ7ZlM2U2vJJsxIMnKQarCojzcguzEY+pM0zog//2dDTrJy+XJZjw3eX
-         K638g22lJj5Iykle0Hv+fOitBoF+mba79KsRLj+046IA0MlGRNZdpvJ+EqOf1Q9WLWUB
-         T7+DNb/QGE+zN8ST8O7KBKPI9lw81iVVqMhvWMk28t2EV4PdVxkGc7ie2+B/1Vwctkjf
-         hMFg==
+        bh=pvsQ2j2MIPqkZ3jkOQAkyhlMqXenxaz7Doasiynl+ug=;
+        b=k1VNV8Cq6YZ7ALXAmL5SY7ZkZfumiTzDFOzauoO28aylJDHFQFNlPWaN6vTjNXCwp7
+         8pA/rt/83pE8YtL+zcZUXuRVoFtqfnp7lThQHbVkywE49Yko32o288yP4Ap725xsFmNy
+         u0AbX34iOhF9iVrTlF8M8O98Bhmq3RhZ3ArhLg8gNPwyg1MQHzEQ5ATD7+W4aHbxOjxR
+         +IiPmILgTdIinpTc97X9LofUDKxr/mU/xEmv+I8GeMYxioHZvlDPcbe3YiTbDW9rluOS
+         r9aQUCOhNZ2UIoi4q2atKUd2YUrddfAmU//sgzTcbNN2qn9sssku+0kCWIRhF7YoIcKS
+         hZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4V6rwO8B/5QxcmzyBtTB5IourUHauOiv8oEVPOqaOuQ=;
-        b=jPIwlgroeVPdo5AElr6CwUeEYfrsX6/z/IguM4l/TmcDO6Md5Fc0GOYNvwGEd8/xCd
-         wfvO1oYDN+mojG8hD/hl/EoCU8XRlZvQSNMXsDIM7wt2t6KoqWHJJRpsJUlnwlvPi65p
-         1aYE7DM/lzaEtLEWPrVM6eCU4DRtwSBLQtQ5SsLrQubkElWg2HJ9e3r+7ApaMKKCYJCc
-         HINAMRA6T/5RwGqT8W/heVccBoS59UTkuUZ/IXwUUOcqUZ0K2LT3yWXoGftUElAl9sFK
-         fbz1c5CNhB26XdJLRI9hSTZjCF/58+QjfCAL0w6T4Yhm0QLhHxiGZCoJkKKQ49fadgPZ
-         DeLw==
-X-Gm-Message-State: AOAM530xelWdFXXv6OqKV633DzGEuH/fO5N3KFpmDJEiBIpxDrALi1nn
-        FLSl4HoE7+CP2Lk7/FCIrU9fkg==
-X-Google-Smtp-Source: ABdhPJyWZ41PNKg/DEnuOx29cG3N8Pn3AUS9iFQCLEigdnAYIlm7v8dyg3JZ2T2lM88Cbh0PxNRO4g==
-X-Received: by 2002:a05:600c:2154:: with SMTP id v20mr40914551wml.185.1593798183818;
-        Fri, 03 Jul 2020 10:43:03 -0700 (PDT)
+        bh=pvsQ2j2MIPqkZ3jkOQAkyhlMqXenxaz7Doasiynl+ug=;
+        b=aIWEFsRw6ld+g1PY35AhIRlkB6LrqYp3yr15HtcibAoarqlUpPS6EBvSg4WWz/uqdh
+         QzP+qYgcqxmb3NHo36MmP/eeVE88dWLfdxAJkqi9XMMoOppBBZtf9EIolhBHPMy51IrY
+         8r2yvAWFWCAdzqVihU0xNlqczMwcKRjmiz+rmVpTQzdg4vGLPBF6Wp4LVD5ImBMpaq6A
+         KxOhvOkG0WPVVG9lQK3iuwZQy9BfNk90+M/qf/6mw0ohQg5Pkbpw73hvCKEJTgkx+ndF
+         WOCG1vZxhU62miEqMcBfXaa9tLZpHMAoQqymRDU5WMxiffy2QcOC2gQwVkuiisOCJzSE
+         VcQQ==
+X-Gm-Message-State: AOAM531TMTFPYoRzso4znjkJKHhuH9OIU/zrJq32Fgabv2xe3MM+YEjA
+        GGSvu7GpfIyDs1kfy86TFKm80uLj4OY=
+X-Google-Smtp-Source: ABdhPJz1kSkGpmf1AnLPdELh2Lnx7y6qmm+BDs31oGtdoZk4KTfJ9gMkrVTg58SfWr2MzMbZhcatcg==
+X-Received: by 2002:adf:f203:: with SMTP id p3mr9397409wro.331.1593798180531;
+        Fri, 03 Jul 2020 10:43:00 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.43.02
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:43:03 -0700 (PDT)
+        Fri, 03 Jul 2020 10:42:59 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 30/30] usb: gadget: udc: dummy_hcd: Repair misspelled function argument 'dummy_hcd'
-Date:   Fri,  3 Jul 2020 18:41:48 +0100
-Message-Id: <20200703174148.2749969-31-lee.jones@linaro.org>
+        Lee Jones <lee.jones@linaro.org>, Bin Liu <b-liu@ti.com>,
+        Ravi B <ravibabu@ti.com>, Kumar Gupta <ajay.gupta@ti.com>
+Subject: [PATCH 28/30] usb: musb: musb_dsps: Demote obvious misuse of kerneldoc to standard comment blocks
+Date:   Fri,  3 Jul 2020 18:41:46 +0100
+Message-Id: <20200703174148.2749969-29-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
 References: <20200703174148.2749969-1-lee.jones@linaro.org>
@@ -77,35 +75,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-An attempt was made to document the functions in 'dummy_hcd',
-but a simple spelling mistake was made.
+No attempt has been made to document any of the demoted functions here.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/gadget/udc/dummy_hcd.c:1597: warning: Function parameter or member 'dum_hcd' not described in 'handle_control_request'
- drivers/usb/gadget/udc/dummy_hcd.c:1597: warning: Excess function parameter 'dum' description in 'handle_control_request'
+ drivers/usb/musb/musb_dsps.c:44: warning: cannot understand function prototype: 'struct dsps_musb_wrapper '
+ drivers/usb/musb/musb_dsps.c:102: warning: cannot understand function prototype: 'struct dsps_glue '
+ drivers/usb/musb/musb_dsps.c:169: warning: Function parameter or member 'musb' not described in 'dsps_musb_enable'
+ drivers/usb/musb/musb_dsps.c:195: warning: Function parameter or member 'musb' not described in 'dsps_musb_disable'
 
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Bin Liu <b-liu@ti.com>
+Cc: Ravi B <ravibabu@ti.com>
+Cc: Kumar Gupta <ajay.gupta@ti.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/gadget/udc/dummy_hcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/musb/musb_dsps.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-index 0eeaead5acea3..ac3db28fd7779 100644
---- a/drivers/usb/gadget/udc/dummy_hcd.c
-+++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -1581,7 +1581,7 @@ static struct dummy_ep *find_endpoint(struct dummy *dum, u8 address)
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index 88923175f71e5..71660491557f8 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -36,7 +36,7 @@
  
- /**
-  * handle_control_request() - handles all control transfers
-- * @dum: pointer to dummy (the_controller)
-+ * @dum_hcd: pointer to dummy (the_controller)
-  * @urb: the urb request to handle
-  * @setup: pointer to the setup data for a USB device control
-  *	 request
+ static const struct of_device_id musb_dsps_of_match[];
+ 
+-/**
++/*
+  * DSPS musb wrapper register offset.
+  * FIXME: This should be expanded to have all the wrapper registers from TI DSPS
+  * musb ips.
+@@ -96,7 +96,7 @@ struct dsps_context {
+ 	u32 rx_mode;
+ };
+ 
+-/**
++/*
+  * DSPS glue structure.
+  */
+ struct dsps_glue {
+@@ -162,7 +162,7 @@ static void dsps_mod_timer_optional(struct dsps_glue *glue)
+ 
+ #define USBSS_IRQ_PD_COMP	(1 << 2)
+ 
+-/**
++/*
+  * dsps_musb_enable - enable interrupts
+  */
+ static void dsps_musb_enable(struct musb *musb)
+@@ -188,7 +188,7 @@ static void dsps_musb_enable(struct musb *musb)
+ 		dsps_mod_timer(glue, -1);
+ }
+ 
+-/**
++/*
+  * dsps_musb_disable - disable HDRC and flush interrupts
+  */
+ static void dsps_musb_disable(struct musb *musb)
 -- 
 2.25.1
 
