@@ -7,64 +7,65 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAAF7C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FE0C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E5E120870
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0947C20870
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V678svqB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DiTMT+9T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgGCRmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:42:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        id S1726345AbgGCRmB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726479AbgGCRmD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:42:03 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC54C061794
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:42:02 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id z15so22287399wrl.8
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:42:02 -0700 (PDT)
+        with ESMTP id S1726147AbgGCRl7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 13:41:59 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B470C08C5DD
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 10:41:59 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id l2so33372431wmf.0
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 10:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oUjHYg6XEDC1PONs5ecYCAMD6hQ6HUyQ5SfKo5ZoAoI=;
-        b=V678svqBj5ZEzdGJKB69Vodq9pQ31EIwBoLQP1As6lWOXIP/1kJzIqJLjtOvblSkXy
-         MGxl0iGDkHU0uljNJKGH03hr+d07Q2Snp4haL9GaJ2ECnEqfljKwL6ibxma86kajreu8
-         TA9jvVxRARz9NQU8MvUH+6tDKzsNjuSpnqk6vImwQ4hXw35BuvZcyA+zSVh6APrv+3AX
-         gmXxT3q/ZYNpFS1sGomuuZ5QRj5DfnK67GvuVpvUsP0YzvhguEnTqDR0J/QZNL57ZKIP
-         TYqim9pcfdfTLug72OqEjJojTk83E5F+sCUgu8ZcofVXsYiA6JFIbxmSDf8sHNsVMx8a
-         K4oA==
+        bh=YSysemk6/m3rdKU2ySMi9uU8qYuK0kuhW6Pw5qHpSnI=;
+        b=DiTMT+9THBotFZ8hAPsnuIbDSlmH+WPn87U6MQV2wdUqBmGs3uF0tKCXEfU7478vwj
+         hwRiHYDh4JpRpasNgymyRlZRKZYPomrYM9TJPmqWfJcxMLGduvnehwmmmjtysVHuv640
+         iQFbD58SHTQRqL/gBV171cuR8/WTeYhTRVk7h0EI46cXLbxvMZRbUIA5L7SH2rCkEbw6
+         NET+ildSzhaQAlJxNoSvdavC9aTyR7AzdS74FkZ+BefFZx0zPt+xwBXdSFYStsHg0rDd
+         ky0+csRp4oiOhk+Bjw68pqKMRSCnHLd+2J+YF8NR5NMSJyMbowwOIgMWQhjToihJ5crY
+         Azhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oUjHYg6XEDC1PONs5ecYCAMD6hQ6HUyQ5SfKo5ZoAoI=;
-        b=HiokKQmK65Ad4shgr9GKuJPLgBIoqjjTA/EUVTwJkDXraru1DCSphfyiRwzGLYZOmd
-         Imyf+xOUCzintrCjTmwa/JymYOHMxNzIQtEQjCkuVCebsjCD+rkwfIB+6Q+tbbIHV7H7
-         qNS1nfDpp//o6SZmnbTCtDjQSviTqlu22I6+ndX9n0PRxY2ZliuFHtPo2gfsfBQBIrkT
-         jeF5CjmTOKJT6XBmgJNhPVnv/j1VA1KI1eqlXfp+sPJVIoWxSgN81p8VeiynVRB7wAVT
-         R9FMGgwZws3nIeOT5DdV+W4a6aysemrunxczDjYt0EWajc8xg74g2Ke26uO6O6i5tD2j
-         x8Tw==
-X-Gm-Message-State: AOAM531yXYLbD372oPN2SDM47+ggHd2vPSbHcPg+3A5OJ77YIiWxcP9T
-        4BOxpQyeoiSFJWkrpJ8nQ5yhdQ==
-X-Google-Smtp-Source: ABdhPJzGvTblYJ7UXyonhX71xr+CGK3bV2MNNRAwpzZl2DyxwAc9szCyt2n/Ezh4sar6tAoDQOPNeA==
-X-Received: by 2002:adf:f2c5:: with SMTP id d5mr38704827wrp.96.1593798121551;
-        Fri, 03 Jul 2020 10:42:01 -0700 (PDT)
+        bh=YSysemk6/m3rdKU2ySMi9uU8qYuK0kuhW6Pw5qHpSnI=;
+        b=ZV8MoVGz3eUNC/rNj5S++KSvpXWJ6psZyBVtP7NgrQo82VlzbsVHBv7vaQMbLi8Yad
+         z8froIra3elLihf0ZCek6P7e1yiO179LVkReLRHO8TKtqKeC+IDdExYzFxr0r0e6EnhS
+         x09/o5mzXkBijlw+wYqk5gJmafl+8nnzJB3f1NrUrpaI0ePCS0rwsIrGYFmoLCDxhmjF
+         DQHeSvG+EUy1sf+WNVRroHNJp2kd72/l3KVx+wIlewgQWw+a4TyHRu4Z1azD8uRA5gCF
+         aA9aXlgPY2JaFQ02IOgogAQtus1QrMwpMkiYHL/YIvEnhQ1RW1OVRFGEyF20sOYFXsi2
+         PMUw==
+X-Gm-Message-State: AOAM532MZuFLZAtq4dZv1Unw0JLYHX5PeYcVV/xipfU8kfe/F+U/wPUN
+        zkduZa2WhKdr9TnLAwtZhX3uPA==
+X-Google-Smtp-Source: ABdhPJwq6EJ8i4c07CyyjVONmZU0HR1br30HC+HrU3hY5Q/iNyS39dh2n8CRaJSQcQXq5fDuEcoNRg==
+X-Received: by 2002:a1c:9a02:: with SMTP id c2mr8726718wme.16.1593798117749;
+        Fri, 03 Jul 2020 10:41:57 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.42.00
+        by smtp.gmail.com with ESMTPSA id x11sm13625799wmc.26.2020.07.03.10.41.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:42:00 -0700 (PDT)
+        Fri, 03 Jul 2020 10:41:57 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH 03/30] usb: core: ledtrig-usbport: Demote obvious misuse of kerneldoc to standard comment blocks
-Date:   Fri,  3 Jul 2020 18:41:21 +0100
-Message-Id: <20200703174148.2749969-4-lee.jones@linaro.org>
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH 01/30] usb: mtu3: mtu3_debug: Add forward declaration of 'struct ssusb_mtk'
+Date:   Fri,  3 Jul 2020 18:41:19 +0100
+Message-Id: <20200703174148.2749969-2-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703174148.2749969-1-lee.jones@linaro.org>
 References: <20200703174148.2749969-1-lee.jones@linaro.org>
@@ -76,54 +77,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-No attempt has been made to document any of the functions here.
+Without it, the build system complains that it was declared inside
+the parameter list.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/core/ledtrig-usbport.c:42: warning: Function parameter or member 'usbport_data' not described in 'usbport_trig_usb_dev_observed'
- drivers/usb/core/ledtrig-usbport.c:42: warning: Function parameter or member 'usb_dev' not described in 'usbport_trig_usb_dev_observed'
- drivers/usb/core/ledtrig-usbport.c:71: warning: Function parameter or member 'usbport_data' not described in 'usbport_trig_update_count'
- drivers/usb/core/ledtrig-usbport.c:131: warning: Function parameter or member 'usbport_data' not described in 'usbport_trig_port_observed'
- drivers/usb/core/ledtrig-usbport.c:131: warning: Function parameter or member 'usb_dev' not described in 'usbport_trig_port_observed'
- drivers/usb/core/ledtrig-usbport.c:131: warning: Function parameter or member 'port1' not described in 'usbport_trig_port_observed'
+ In file included from drivers/usb/mtu3/mtu3_trace.c:11:
+ drivers/usb/mtu3/mtu3_debug.h:29:36: warning: ‘struct ssusb_mtk’ declared inside parameter list will not be visible outside of this definition or declaration
+ 29 | void ssusb_dev_debugfs_init(struct ssusb_mtk *ssusb);
+ | ^~~~~~~~~
+ drivers/usb/mtu3/mtu3_debug.h:30:35: warning: ‘struct ssusb_mtk’ declared inside parameter list will not be visible outside of this definition or declaration
+ 30 | void ssusb_dr_debugfs_init(struct ssusb_mtk *ssusb);
+ | ^~~~~~~~~
+ drivers/usb/mtu3/mtu3_debug.h:31:39: warning: ‘struct ssusb_mtk’ declared inside parameter list will not be visible outside of this definition or declaration
+ 31 | void ssusb_debugfs_create_root(struct ssusb_mtk *ssusb);
+ | ^~~~~~~~~
+ drivers/usb/mtu3/mtu3_debug.h:32:39: warning: ‘struct ssusb_mtk’ declared inside parameter list will not be visible outside of this definition or declaration
+ 32 | void ssusb_debugfs_remove_root(struct ssusb_mtk *ssusb);
+ | ^~~~~~~~~
 
-Cc: Rafał Miłecki <rafal@milecki.pl>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: linux-mediatek@lists.infradead.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/core/ledtrig-usbport.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/mtu3/mtu3_debug.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/core/ledtrig-usbport.c b/drivers/usb/core/ledtrig-usbport.c
-index c12ac56606c3f..ba371a24ff781 100644
---- a/drivers/usb/core/ledtrig-usbport.c
-+++ b/drivers/usb/core/ledtrig-usbport.c
-@@ -34,7 +34,7 @@ struct usbport_trig_port {
-  * Helpers
-  ***************************************/
+diff --git a/drivers/usb/mtu3/mtu3_debug.h b/drivers/usb/mtu3/mtu3_debug.h
+index fb6b28277c9b1..3084c46017c37 100644
+--- a/drivers/usb/mtu3/mtu3_debug.h
++++ b/drivers/usb/mtu3/mtu3_debug.h
+@@ -12,6 +12,8 @@
  
--/**
-+/*
-  * usbport_trig_usb_dev_observed - Check if dev is connected to observed port
-  */
- static bool usbport_trig_usb_dev_observed(struct usbport_trig_data *usbport_data,
-@@ -64,7 +64,7 @@ static int usbport_trig_usb_dev_check(struct usb_device *usb_dev, void *data)
- 	return 0;
- }
+ #include <linux/debugfs.h>
  
--/**
-+/*
-  * usbport_trig_update_count - Recalculate amount of connected matching devices
-  */
- static void usbport_trig_update_count(struct usbport_trig_data *usbport_data)
-@@ -123,7 +123,7 @@ static const struct attribute_group ports_group = {
-  * Adding & removing ports
-  ***************************************/
++struct ssusb_mtk;
++
+ #define MTU3_DEBUGFS_NAME_LEN 32
  
--/**
-+/*
-  * usbport_trig_port_observed - Check if port should be observed
-  */
- static bool usbport_trig_port_observed(struct usbport_trig_data *usbport_data,
+ struct mtu3_regset {
 -- 
 2.25.1
 
