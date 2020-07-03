@@ -2,81 +2,178 @@ Return-Path: <SRS0=7kPi=AO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31184C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 08:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D57C433DF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 09:54:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00C3A20836
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 08:57:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4084320723
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 09:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593766634;
-	bh=MlIcJE04yAgAAu3tlEad3BGw8TeJnm5KnC11ClCsEGw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=XuFeUK/TVlKU5vWr3zhLAmbR9KcVRfqwV6cMlsP2i7LugBCkDMas5jdfXVeBasgy9
-	 fzYqmrcvg7QeUNxzXwnqoL3QLcizlJ8nuUOS+lcvJWcnfK8AGjeZq+IdX8rZ1b8cWj
-	 ugcdjN5BxrQ9o2hVgJnAH/j6MdwsonObTHLrPYiQ=
+	s=default; t=1593770094;
+	bh=hCLgvy4csa5fwc9M860se24MhW4FxCpTy9I0mNucf9s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=c4zXttKKb08xM120HVUMZKOdg/buOZR3PEr7ZIsBPjIkEsWZVHqI6H2/wgPSoOXIz
+	 i0VYHPmgLX5N/QzMgRmDe8XAgfiHKTr5zQAAc8qN95wsh/9FDShYHy0nGALZlfXcgn
+	 tBDhvqb/LUX5y5Z01AeiHnFeMaL6nT9tuAE2U0Ng=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbgGCI5N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 04:57:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56526 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725915AbgGCI5N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 3 Jul 2020 04:57:13 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 81DE7207DA;
-        Fri,  3 Jul 2020 08:57:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593766633;
-        bh=MlIcJE04yAgAAu3tlEad3BGw8TeJnm5KnC11ClCsEGw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=euAJ/1Cw+cgiXEPyHS9lPiM9oRuLjCyR7qxcAX4anVUzRd1giMMZ51g2svuiS7cTS
-         fstfZh0fW506I7sgzzeTDhF2hXUCXMnlz3sMcA2kAAJeTIYoa9xEXLyN/3+Cg7od37
-         siNlDSUl3NXsjgaeql2HhidPfVxmFXgjKqYQ+shY=
-Date:   Fri, 3 Jul 2020 10:57:17 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chris Dickens <christopher.a.dickens@gmail.com>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>, andrzej.p@samsung.com
-Subject: Re: [PATCH] usb: gadget: composite: Remove dedicated OS Feature
- Descriptors request
-Message-ID: <20200703085717.GA2514858@kroah.com>
-References: <20200703072436.GB2225285@kroah.com>
- <20200703083534.5292-1-christopher.a.dickens@gmail.com>
+        id S1726039AbgGCJyx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 05:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725891AbgGCJyx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 05:54:53 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15E5C08C5C1
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2020 02:54:52 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id q7so23005883ljm.1
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2020 02:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=A3I6O8tKQsBGV6k603/7oJM8GZ1L8svysydxuc5xRR8=;
+        b=UakUIzVlhLF+p2dlB2gGFJcT8sLS0W0Z+vT6Q/ZsR8StGoYi4/p1uG+Klya17AHRUB
+         YyvVoP7x9DMQv+8xcov3vSHuuOgGZNwW2nb4yQN7Jt3lmGIVXWFGJq5mg29iZoN4uVHN
+         Rd94BizCUvMjA6eH31hlxWZRtbjC+R6e2GQ3EXiqwASTyfgHKGjuIHXHeaGlRnFIfaJ+
+         Ef9365FivWbvr0AdksYWDlJLgD9YVFuBemoI2Q6JXgwNDYaJ2AFA61ug7sZQ60n/V4ia
+         bEonVxVwPuAUyQsQpEK++NeT4HRu8sxxHhYhGnxzM2nvRacKSeHY7KoN4vV8XCI7jZu/
+         vjdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=A3I6O8tKQsBGV6k603/7oJM8GZ1L8svysydxuc5xRR8=;
+        b=cNBArvCXYaIeg00FWJp3TJglo1jCwn1SPb4D/+qPPlkwqFuqluDHO8qmVzEKhC5cuA
+         zOJHz11NQphq3ckFl55+gd8zia6LCyfUBtF7U0sbBmk8b4cXJcjvO71jHMkcgfsSTgdC
+         PkBnfzOoewjx9FWzvoHOv9GJTfIqjFahOlPH1PyuT0N5mXKWGtqyCvKS9VV3AZXBnhCg
+         qdnN6c/KQPoGWc3gi++7kJko6mJ3wG9WLqKTE419VIp+cgn6D6LIo/o166bzabilPkRe
+         rZ/sh94Y8VPXll4wiJf+0fQIzsf6XjRQIkigqyHxd6JS5fEFLZUIfUIleLG4UQ/aa16L
+         bJpA==
+X-Gm-Message-State: AOAM53328eXjiockE0uzD0qdWryb0jrWWOgw6r1AdZQohn5EZ/Nf19Rw
+        fJfZyPoWdIyfT4DPDI1+RYLhaMRzDQhRYg==
+X-Google-Smtp-Source: ABdhPJwnzHyO8fMq5OWoZVYPxSqor3KW/o4OO/E3EEgaFR/xWxNzTQjCAB9mdsgeKs7LW2O3U4Xjbg==
+X-Received: by 2002:a2e:8882:: with SMTP id k2mr9672583lji.352.1593770091086;
+        Fri, 03 Jul 2020 02:54:51 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id a17sm4462809lfo.73.2020.07.03.02.54.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 03 Jul 2020 02:54:49 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     Tejas Joglekar <tejas.joglekar@synopsys.com>,
+        Yang Fei <fei.yang@intel.com>,
+        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
+        YongQin Liu <yongqin.liu@linaro.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Thinh Nguyen <thinhn@synopsys.com>,
+        Linux USB List <linux-usb@vger.kernel.org>
+Subject: Re: dwc3 inconsistent gadget connection state?
+In-Reply-To: <CALAqxLWAvvHGo1RYef1fJ_k65WqHAPCDhLfehO6_j_f8E2jB7Q@mail.gmail.com>
+References: <CALAqxLWAvvHGo1RYef1fJ_k65WqHAPCDhLfehO6_j_f8E2jB7Q@mail.gmail.com>
+Date:   Fri, 03 Jul 2020 12:54:45 +0300
+Message-ID: <87o8ow7wka.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200703083534.5292-1-christopher.a.dickens@gmail.com>
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jul 03, 2020 at 01:35:34AM -0700, Chris Dickens wrote:
-> Currently Microsoft OS Feature Descriptors are handled using a
-> separately allocated USB request, however everything about this USB
-> request is identical to the USB request used for all other control
-> responses. Simplify the code by removing this separate USB request and
-> using the same USB request as all other control responses.
-> 
-> While at it, simplify the composite_ep0_queue() function by removing the
-> req and gfp_flags arguments. The former is no longer necessary with a
-> single USB request and the latter is always GFP_ATOMIC.
-> 
-> Signed-off-by: Chris Dickens <christopher.a.dickens@gmail.com>
-> ---
->  drivers/usb/gadget/composite.c | 69 +++++-----------------------------
->  drivers/usb/gadget/configfs.c  | 11 ------
->  include/linux/usb/composite.h  |  9 -----
->  3 files changed, 9 insertions(+), 80 deletions(-)
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Did you confirm by testing that this actually works with a real device
-that wants to talk to Windows with those feature descriptors?
 
-thanks,
+Hi,
 
-greg k-h
+John Stultz <john.stultz@linaro.org> writes:
+>   I've been tripping over an issue on my HiKey960 where with the usb-c
+> gadget cable connected, the gadget code doesn't consistently seem to
+> initialize properly. I had rarely seen this behavior previously, but
+> more recently it has become more frequent and annoying.
+>
+> Usually, unplugging and replugging the USB-C cable would get things
+> working again (but that's not helpful in test labs).
+>
+> I annotated a bunch of code trying to understand what was going on and
+> I narrowed down the difference in the good and bad case to a dwc3
+> reset interrupts happening after usb_gadget_probe_driver() completes.
+> In the good case, we see the reset interrupts, and in the failed case
+> we don't.
+>
+> [   16.491953] JDB: usb_gadget_probe_driver
+> [   16.495938] JDB: udc_bind_to_driver
+> [   16.499555] JDB: dwc3_gadget_start irq: 65 revision: 1429417994
+> [   16.503803] JDB: __dwc3_gadget_ep_enable
+> [   16.507791] JDB: __dwc3_gadget_ep_enable
+> [   16.511715] JDB: dwc3_gadget_enable_irq
+> [   16.515582] JDB: usb_udc_connect_control
+> [   16.519510] JDB: usb_gadget_connect
+> <in the bad case, this is all we see, the gadget device doesn't come up>
+> [   16.811010] JDB: dwc3_gadget_interrupt
+> [   16.814783] JDB: dwc3_gadget_reset_interrupt
+> [   16.819047] JDB: dwc3_reset_gadget
+> [   16.823935] JDB: dwc3_gadget_interrupt
+> [   16.827686] JDB: __dwc3_gadget_ep_enable
+> [   16.831611] JDB: __dwc3_gadget_ep_enable
+> [   16.994477] JDB: dwc3_gadget_interrupt
+> [   16.998246] JDB: dwc3_gadget_reset_interrupt
+> [   17.002519] JDB: dwc3_reset_gadget
+> [   17.005922] JDB: usb_gadget_udc_reset
+> [   17.062422] JDB: usb_gadget_set_state  state: 5
+> [   17.067069] JDB: dwc3_gadget_interrupt
+> [   17.070823] JDB: __dwc3_gadget_ep_enable
+> [   17.074745] JDB: __dwc3_gadget_ep_enable
+> [   17.170898] JDB: usb_gadget_set_state  state: 6
+> [   17.195605] JDB: usb_gadget_set_state  state: 7
+> [   17.200179] JDB: __dwc3_gadget_ep_enable
+> [   17.204118] JDB: __dwc3_gadget_ep_enable
+> [   17.208057] JDB: usb_gadget_vbus_draw
+> [   17.211721] JDB: usb_gadget_set_state  state: 7
+> <in the good case everything is happy here>
+>
+>
+> This sounds a bit like the issue in the comment here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/usb/dwc3/gadget.c?h=3Dv5.8-rc3#n3143
+>
+> However, I've tried calling dwc3_gadget_reset_interrupt() and
+> dwc3_reset_gadget() at the tail end of dwc3_gadget_start() but that
+> doesn't seem to help.
+>
+> I was curious if you or anyone else had any thoughts on how to debug
+> this further?
+
+Try enabling dwc3 tracepoints and collecting working and failing
+cases. If I were to guess, I would say there's a small race condition
+between setting pullup and the transceiver sending the VBUS_VALID signal
+to dwc3.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl7/AGUACgkQzL64meEa
+mQYh/w//dGmlVXhgEjpC8Cxx6ocZbYSELYfJqIcKP8IjqD/bIhZfV8+NcqyXmb81
+Gkdh4dQ7EADysCZL32l6AHFfajP4FXL6ly4bf70IfWu6d3JG/IU4iEF+PDLfpsnz
+BUq8h6H24ktuOhDqaGSN1l2t8TPBuNf+Wlgh3+91MaAq7D+D0Bt3N6RYu0yV7LZY
+6GIRa9KpGjKr6XknqC6XhGdE0/zD9kqpL+n+wzONsF3jVmd7ptQYxY74qAtrO1PO
+gxwWo6UG5jORQ6meQ7VsuMmxUY1/kwZOP3l11Rmeu3LctJ+F+Aoh0/CmLJa5yIu6
+Fpn2oAC+OovRVSwIv4c99DRtpW4G65M/FnxdyxPcIwOyQu0ebvrzyBgOKRD6mTZt
+qeT/Hu/nXbjDcyN5kx3vgR7/k1TTYAzMAioC3ZmKQy4nXDqPmWukGzSu3tKKislv
+/wSJn42BgGFtGo0OOI1+uBvJzzsuv1DKqzv/m+ixYJ0O964l3jtyjmJ7ro29/wsW
+E2TUF/kuqBodW1kxg64zTfHCYuvYxl36tSCOLUVZGwL8ZuJmlEH2JIH3I1qCyMj0
+tI6o65AYVrP+K1eRhqjcEL/edDAIRwnafFFTyWFZdOcOBe7HjudH7HWViwS7xuAz
+/LE9QfrXXX+lf1EvtR6bCGEgEpJMbccijE7kBsJ3lBfnIyhzOGU=
+=NP93
+-----END PGP SIGNATURE-----
+--=-=-=--
