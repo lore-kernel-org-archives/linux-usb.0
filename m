@@ -1,73 +1,62 @@
-Return-Path: <SRS0=7kPi=AO=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=jg6n=AP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	TVD_SPACE_RATIO,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B94E9C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 22:51:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20556C433DF
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Jul 2020 03:45:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E2CA2145D
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jul 2020 22:51:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE8EB208C7
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Jul 2020 03:45:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="Aiyn4tkw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RWNe5fwb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbgGCWvD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jul 2020 18:51:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35726 "EHLO
+        id S1727085AbgGDDpN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jul 2020 23:45:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbgGCWvD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 18:51:03 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F231C061794;
-        Fri,  3 Jul 2020 15:51:03 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id d16so22417379edz.12;
-        Fri, 03 Jul 2020 15:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HoJnjAdizKBcZS/TwdGFdcCHABPJEEKDcGriqvJQXl8=;
-        b=Aiyn4tkw+Jk2iDxJZDgHIBFvm9nZgBHvWtXlIUf9vqGwapr6RkAV3nJJskM7upei6H
-         V5qqqpyT33351Iiuer3bl4rf1DwooFpyugOWE8idDf5lgT8JqUUh0gaU0voAiFM6BJs5
-         Nxgyl6jmvNUejqWCQ2gYSWLQBfPR0AatS5MhiyhXA+tHVoNztHf31QL2Njn+TeW0zM6n
-         noHEoDYP266+Ds2VpCDzJiAnf/p/mKwoz1q4mzR0ZV26P0O7uDdYJrwHUARVKap0UZwk
-         zxxQExzAGCVKv56hc7Jbxx7AT4Al4J9HfvMg4eNadGN6Sk6Jyt/gdaebsu/lrh/9OXlA
-         6jng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HoJnjAdizKBcZS/TwdGFdcCHABPJEEKDcGriqvJQXl8=;
-        b=j0u5W56Br2Ey5btpQRCvcAHoaKqAHIoGSDYWSQZ2STNA4W2na5N6Aq0S66H7pNVvJu
-         rPW5BWZdqY/iupKQgEZ6DLZ/aJuzpmZWK1ZPJF7kLioyIAJxwDH3SitwaZPFqiAZasws
-         0RBIFsxd0Sipy6zRN4dgW1GQe+xBA6eCuirwPO+Tz4R/2iJleViuWAEROCaIx6sOCy9E
-         OAoIejxxA2ISSxPhSOICM4eS5kV1ZES2tdTdC5QNIfIX2zpMhi/0gpDxtu7nQk7SlRSk
-         OxT76n3W+osXAV49SomAmqQfDBxZOvX/osJz7uQ04OvycDFsUrCq6yTCJnT6LmHF6Qd/
-         687Q==
-X-Gm-Message-State: AOAM530AliTeFH9LfLboLeddmAGT2AvePcInC6eQYmWCte3H4RSYW4j5
-        cPqhz6uYQXptrN9vtUuDiD8AbMqW
-X-Google-Smtp-Source: ABdhPJwzOg7dxuPJBFeLCeyTj/hsz8BnW4Iwx8qroFdpbIfmXqPMr62Dvp/Am75GDKR2JIvVscEi+Q==
-X-Received: by 2002:aa7:d3ca:: with SMTP id o10mr44560137edr.138.1593816661803;
-        Fri, 03 Jul 2020 15:51:01 -0700 (PDT)
-Received: from localhost.localdomain (p200300f1372b7a00428d5cfffeb99db8.dip0.t-ipconnect.de. [2003:f1:372b:7a00:428d:5cff:feb9:9db8])
-        by smtp.googlemail.com with ESMTPSA id q25sm10440839ejz.97.2020.07.03.15.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 15:51:00 -0700 (PDT)
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To:     hminas@synopsys.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, marex@denx.de,
-        stable@vger.kernel.org,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [PATCH for-5.8 v2] usb: dwc2: Add missing cleanups when usb_add_gadget_udc() fails
-Date:   Sat,  4 Jul 2020 00:50:43 +0200
-Message-Id: <20200703225043.387769-1-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S1726746AbgGDDpM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jul 2020 23:45:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67B6CC061794;
+        Fri,  3 Jul 2020 20:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=RjgXbItONDI8qoKZoagX/7fm2XOCDVB41PDHOzajmYk=; b=RWNe5fwbC3uETb+vlA25w47G3W
+        81y378w8gWI/l1I3BPLGTGJicfvdaYVSHZlWHL4Hr274m/Gu+9IT0kTIyL9CibvdIjGBGjA0sEIg2
+        zPhQ7y4YxWIMVJNCAjAtZPQxKkCok68tVHKhYM/AWFDo8STqJT6VWg8wFXfdJOdojDYsKxqN2zWGO
+        ILNhDg2rOINWSh94+fSvNzVs0SACUZiQvqnxJgiCJ2jzDTuI9P5RBHjoZOnCRuAiVODwJ3OIB3HUC
+        x4PHuDEI9filMB0QaqnSXiLe2h3crPRb65DfVRIkCXMmbrrFyBqlIQC0wi3nSpCE1f7DqmZJiG6je
+        HtGhnLOw==;
+Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jrZ6y-0001Xb-Bk; Sat, 04 Jul 2020 03:45:09 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-iio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>, linux-nvdimm@lists.01.org,
+        linux-usb@vger.kernel.org, Eli Billauer <eli.billauer@gmail.com>
+Subject: [PATCH 00/17] Documentation/driver-api: eliminate duplicated words
+Date:   Fri,  3 Jul 2020 20:44:45 -0700
+Message-Id: <20200704034502.17199-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -75,47 +64,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Call dwc2_debugfs_exit() and dwc2_hcd_remove() (if the HCD was enabled
-earlier) when usb_add_gadget_udc() has failed. This ensures that the
-debugfs entries created by dwc2_debugfs_init() as well as the HCD are
-cleaned up in the error path.
+Remove occurrences of duplicated words in Documentation/driver-api/.
 
-Fixes: 207324a321a866 ("usb: dwc2: Postponed gadget registration to the udc class driver")
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
-Changes since v1 at [0]
-- also cleanup the HCD as suggested by Minas (thank you!)
-- updated the subject accordingly
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: dmaengine@vger.kernel.org
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
+Cc: linux-iio@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: Jon Mason <jdmason@kudzu.us>
+Cc: Dave Jiang <dave.jiang@intel.com>
+Cc: Allen Hubbe <allenbh@gmail.com>
+Cc: linux-ntb@googlegroups.com
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Vishal Verma <vishal.l.verma@intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: linux-nvdimm@lists.01.org
+Cc: linux-usb@vger.kernel.org
+Cc: Eli Billauer <eli.billauer@gmail.com>
 
 
-[0] https://patchwork.kernel.org/patch/11631381/
-
-
- drivers/usb/dwc2/platform.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index c347d93eae64..9febae441069 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
-@@ -582,12 +582,16 @@ static int dwc2_driver_probe(struct platform_device *dev)
- 		retval = usb_add_gadget_udc(hsotg->dev, &hsotg->gadget);
- 		if (retval) {
- 			dwc2_hsotg_remove(hsotg);
--			goto error_init;
-+			goto error_debugfs;
- 		}
- 	}
- #endif /* CONFIG_USB_DWC2_PERIPHERAL || CONFIG_USB_DWC2_DUAL_ROLE */
- 	return 0;
- 
-+error_debugfs:
-+	dwc2_debugfs_exit(hsotg);
-+	if (hsotg->hcd_enabled)
-+		dwc2_hcd_remove(hsotg);
- error_init:
- 	if (hsotg->params.activate_stm_id_vb_detection)
- 		regulator_disable(hsotg->usb33d);
--- 
-2.27.0
-
+ Documentation/driver-api/dmaengine/provider.rst        |    2 +-
+ Documentation/driver-api/driver-model/platform.rst     |    2 +-
+ Documentation/driver-api/firmware/built-in-fw.rst      |    2 +-
+ Documentation/driver-api/firmware/direct-fs-lookup.rst |    2 +-
+ Documentation/driver-api/firmware/firmware_cache.rst   |    2 +-
+ Documentation/driver-api/firmware/request_firmware.rst |    2 +-
+ Documentation/driver-api/generic-counter.rst           |    2 +-
+ Documentation/driver-api/iio/buffers.rst               |    2 +-
+ Documentation/driver-api/media/cec-core.rst            |    2 +-
+ Documentation/driver-api/media/dtv-frontend.rst        |    6 +++---
+ Documentation/driver-api/media/v4l2-controls.rst       |    4 ++--
+ Documentation/driver-api/media/v4l2-dev.rst            |    2 +-
+ Documentation/driver-api/ntb.rst                       |    2 +-
+ Documentation/driver-api/nvdimm/nvdimm.rst             |    2 +-
+ Documentation/driver-api/uio-howto.rst                 |    2 +-
+ Documentation/driver-api/usb/URB.rst                   |    2 +-
+ Documentation/driver-api/xillybus.rst                  |    2 +-
+ 17 files changed, 20 insertions(+), 20 deletions(-)
