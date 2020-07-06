@@ -4,107 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D35CDC433E1
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CD3C433DF
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B14882067D
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1831220720
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VcXzc+ei"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w6hRYUO7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729485AbgGFNfP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:35:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47266 "EHLO
+        id S1729341AbgGFNeL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 09:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729346AbgGFNeM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:12 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 318C5C08C5DF
-        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:12 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id o11so40974975wrv.9
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:12 -0700 (PDT)
+        with ESMTP id S1729336AbgGFNeK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:10 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10BBC061794
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:09 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id 17so42074031wmo.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OciwYyOFlkXAJUScx7SVNAsT2ixoj+EcNyfWn6Xsafg=;
-        b=VcXzc+ei6oAKh0w9DGfsZ7yETc5sXN+3CKC6KObuvLUoH3M6ejWS+WNh038+jerj1h
-         KI4cAa0tpwKF8qImVnIfbBVmuIpuZXmutsi83s3amfRemr24wtyYXdFrVYFykResp+mG
-         qSAP9l84fi+Dt0Fnu3Cb2A14nb4o0z0JBuqtUyrjUfF6KCeBfoBEAO5gWLv/tqgaBMBI
-         YLCG0Yb6MCy94d4x5KSxVAJ+aVCnKF9vdxqfslNV7uGTtNVTyuugED/g2wBXF3lcN4ep
-         1swxoIWib4nm7mySMmzgcmGIskZ388OV4ojyM0vWXISGi3/m8ZetblrkAo0WynFU/xn3
-         tkUQ==
+        bh=atQQd6B48grrwp+3FZv95LUICx56wwJRa1SpQXxMQxY=;
+        b=w6hRYUO7YyVcZnrxkVQcL9i+DIcegwSxOpJpusHM7ek+/DIU5QwFI/PAYc6YFHkaCT
+         k8FRF534bpubL0B0OmFF5oq6wY03Rw6yEomh35Tmx6FPDE/waGSczpU5Cgzrn5Uju7Cc
+         bCaXLGQifZRD/R4nbrn64owZsuCBcCb1EC0ImDhAGAXd/cc+WlULEQCijrABf+IpaKDT
+         3EKntJe03seySO6FPX3ZDocV61TFxZ1D1a4x8qhefwdg2zdjfgFY86PiagDVLamwPJy8
+         Cryz85XcxwCCMuv2nwLw+AXH9YXajlbSNY8nVxl/zMp1+gxb+292tL9mvtsS+CABRwnw
+         YPYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OciwYyOFlkXAJUScx7SVNAsT2ixoj+EcNyfWn6Xsafg=;
-        b=fMSUgTEM8GljCjDL1N9NrxNPa6RLly/dcJV+15FSHHLsRymLI2WYRqJ2E69FD5EKYs
-         91AqSNjtqwB4xeYy9M9VuIAUWhFIDxS998TLdxeiYmHvhrZ5o7G4yRziCuWGQgzidhzg
-         QTxORo63CVFKbaL4xRbmYZHEcSP3V8iPkUaY46C3RDRWVcDjYaS1yc1l/+PtSo4cbf2Y
-         AVyHkoeTeGE9qaf5O+duw0iAN3GIXjMiVVYJlmQA6CtjECVHU5NgdOTxp1Yyn+tI79YS
-         TkndHw1Ewc0v3BPK/BE6KPwsDQkYCtYm2NtzC4Mk7Nz/OU52fvGrdYAjiZrUXi0EGs3M
-         UjWQ==
-X-Gm-Message-State: AOAM5339Lz7D45GP0ZZKniyrBXzJUQJarDCHHdw10OTINxNcxC3B/WXp
-        KWIKYp2bc8D9Q2sTtD2MgqXFtg==
-X-Google-Smtp-Source: ABdhPJwafQcWQ5lx2OMY4PDcOm8GgrMZIhHBn7VBMVREZs6ut8V4qlC9AB2XOFs67IvmSh8lOCpxuQ==
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr21898286wrm.103.1594042450943;
-        Mon, 06 Jul 2020 06:34:10 -0700 (PDT)
+        bh=atQQd6B48grrwp+3FZv95LUICx56wwJRa1SpQXxMQxY=;
+        b=XeDxVn4Jxf40Yo2IaX/7zmE9EBPTT1GY4vXIrwYXHptikC6GB4bx6bNgxAUzEU6Vje
+         +Uq7pwyjAn+xTTW+EIFVSVcz0QHllixRE0sFGrksU/EgDia+0uOHJLgw2DYnK5CpLNps
+         803XM4TiH8jXt57/GJGCcgXY1dEHrPIW4S+KmAjVb1r07RPwt3wRIRqdOVzvvj/Zu/dR
+         Y5M9xKh9kKcgXzsxFVPFI6ZoaOTz+PtGkUqK0+Vm0zBgorfG/LxJA5Vh2qHakxV6BlyY
+         EoYQZkFaW9Q6b1uKSWgeYtX6x6IotE29wBLT5oKbahV9L+65QzLwsm5XmInNkXy7skDB
+         QtWg==
+X-Gm-Message-State: AOAM533bzH6alN79gsfaQBb7GRa34RA28KIdKwbOmzdps4CvVvif6rno
+        DHPHn9A8zNsTFPCGGcyELjRnjA==
+X-Google-Smtp-Source: ABdhPJwn3KSyjv54N4scU2QXm9bSuHZxzD4jVab9Us5MgbW3y2o+Nt2CodWPVpAjqv1powTZgDaF9Q==
+X-Received: by 2002:a1c:ed0b:: with SMTP id l11mr2416931wmh.121.1594042448527;
+        Mon, 06 Jul 2020 06:34:08 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.206])
-        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.09
+        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:34:10 -0700 (PDT)
+        Mon, 06 Jul 2020 06:34:07 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Jason Yan <yanaijie@huawei.com>, Yu Xu <yuxu@marvell.com>
-Subject: [PATCH 22/32] usb: gadget: udc: mv_u3d_core: Remove unused static const 'driver_desc'
-Date:   Mon,  6 Jul 2020 14:33:31 +0100
-Message-Id: <20200706133341.476881-23-lee.jones@linaro.org>
+        Chuhong Yuan <hslester96@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Felix Fietkau <nbd@openwrt.org>, Michael Buesch <m@bues.ch>
+Subject: [PATCH 20/32] usb: host: bcma-hcd: Demote obvious misuse of kerneldoc to standard comment blocks
+Date:   Mon,  6 Jul 2020 14:33:29 +0100
+Message-Id: <20200706133341.476881-21-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200706133341.476881-1-lee.jones@linaro.org>
 References: <20200706133341.476881-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Looks like it's never been used.  Driver was mainlined in 2014.
+No attempt has been made to document either of the demoted functions here.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/gadget/udc/mv_u3d_core.c:35:19: warning: ‘driver_desc’ defined but not used [-Wunused-const-variable=]
- 35 | static const char driver_desc[] = DRIVER_DESC;
- | ^~~~~~~~~~~
+ drivers/usb/host/bcma-hcd.c:180: warning: Function parameter or member 'usb_dev' not described in 'bcma_hcd_usb20_old_arm_init'
+ drivers/usb/host/bcma-hcd.c:268: warning: Function parameter or member 'bcma_hcd' not described in 'bcma_hcd_usb20_ns_init'
 
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Jason Yan <yanaijie@huawei.com>
-Cc: Yu Xu <yuxu@marvell.com>
+Cc: Chuhong Yuan <hslester96@gmail.com>
+Cc: Hauke Mehrtens <hauke@hauke-m.de>
+Cc: Felix Fietkau <nbd@openwrt.org>
+Cc: Michael Buesch <m@bues.ch>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/gadget/udc/mv_u3d_core.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/host/bcma-hcd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/mv_u3d_core.c b/drivers/usb/gadget/udc/mv_u3d_core.c
-index 5bb0568b934e1..5486f5a708681 100644
---- a/drivers/usb/gadget/udc/mv_u3d_core.c
-+++ b/drivers/usb/gadget/udc/mv_u3d_core.c
-@@ -32,7 +32,6 @@
- #define DRIVER_DESC		"Marvell PXA USB3.0 Device Controller driver"
+diff --git a/drivers/usb/host/bcma-hcd.c b/drivers/usb/host/bcma-hcd.c
+index 652fa29beb273..b1b777f33521e 100644
+--- a/drivers/usb/host/bcma-hcd.c
++++ b/drivers/usb/host/bcma-hcd.c
+@@ -168,7 +168,7 @@ static void bcma_hcd_init_chip_mips(struct bcma_device *dev)
+ 	}
+ }
  
- static const char driver_name[] = "mv_u3d";
--static const char driver_desc[] = DRIVER_DESC;
+-/**
++/*
+  * bcma_hcd_usb20_old_arm_init - Initialize old USB 2.0 controller on ARM
+  *
+  * Old USB 2.0 core is identified as BCMA_CORE_USB20_HOST and was introduced
+@@ -261,7 +261,7 @@ static void bcma_hcd_usb20_ns_init_hc(struct bcma_device *dev)
+ 	usleep_range(1000, 2000);
+ }
  
- static void mv_u3d_nuke(struct mv_u3d_ep *ep, int status);
- static void mv_u3d_stop_activity(struct mv_u3d *u3d,
+-/**
++/*
+  * bcma_hcd_usb20_ns_init - Initialize Northstar USB 2.0 controller
+  */
+ static int bcma_hcd_usb20_ns_init(struct bcma_hcd_device *bcma_hcd)
 -- 
 2.25.1
 
