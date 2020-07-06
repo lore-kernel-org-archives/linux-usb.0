@@ -4,120 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C32A3C433E1
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C47FC433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A132A2067D
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E96352067D
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nrBdfUXO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fczPaGVo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729489AbgGFNfT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:35:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47264 "EHLO
+        id S1729199AbgGFNeI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 09:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729343AbgGFNeL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:11 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084EBC061794
-        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:11 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id g10so15697626wmc.1
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:10 -0700 (PDT)
+        with ESMTP id S1729318AbgGFNeG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:06 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59347C061755
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:06 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id w3so29667701wmi.4
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oDXPXE1ejSNiTZPmJzCEijdYryKHjxn03JTJMf6IP7Q=;
-        b=nrBdfUXO6LY8W3UqebH3OTR13trp34J0vuEI51RUElQ285ST0V0W0G2+PO4jsv+hxc
-         iLQUwUgSA6VUbu9JTOnHYL/gAiz0ajtk6cAXF8AMBAsmzGLH6OCX7lVStmeEtWmNOokn
-         aqQKVBO/ffzZ9ykuNxvhdS86TyGMm4i/2UFi+wW2xNk4ccagDL0o1j90UxuPFljjkjfI
-         ZvywJxRPhH6jSNIidaJ1ghg7Mi8s1U56J14BPT8gLE+P9e0dXdBExlvcO33c1B9NM2Ht
-         tquR7H/k+Mz3WARXMH1/ra6tRevWfrzSNRlIwGgwDOvIVGWMlhLrf5xgRhr+0xutyrWT
-         fg2g==
+        bh=2XV6WS/bjGR5kvGNxTMlo6KlRGNUtCcJKS3bvPtDJNg=;
+        b=fczPaGVofLQoIlvYv0yf39Kkx0ejpT8IQpmzlyEiDrJUrZ/MVqPYhOAJMwVAKoB1ZU
+         6J89HvSTdqwH4sVQ9ehrAlrY3rUMG4ReE6aDw3yaZbWeVDRbwD2ZN/LGf5R7IYcwl16l
+         pUjsgPJLFd9N9yyj+ewLUNlIVcCseEtDtuxb+wQFF8GdHXhG4QBEmkxfd/G1ipCvMoRm
+         jh5DxCSHMunlB+DcdKO4cvt+K41fR+0zlKIzEj8el/peWXv+2bbw3u3V69lc+c9I2loI
+         xLGaaq388tf6iFV/oZSWojK8abf0KikizWybxZt7Q1cMFodxZXt0vZUlLJkj3kNY/f/5
+         TaaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oDXPXE1ejSNiTZPmJzCEijdYryKHjxn03JTJMf6IP7Q=;
-        b=Lf3x4TApkytSXXm1H1uMhw8CQzYg0OUML7fW7pc0YdSTKFwLz3g0xWXVoFJUSZG2yn
-         Gaqb1NstJUO0BqAc0mcmU0xC0G+a92THul/qqXyeErV99EVRiChyXpIkbXh1shXqvOLX
-         4yjiTWU6dX5Hc7bXl6i6m0R6Fpc6CT7y61B1hhaA9XPTS2NyPYtosQU68iFfuk92Ojji
-         PApcBBgir2mCVuOrhto3Bc2RpfuRHqOt1iJofexl69tZMKXuiMw8jPOb8UhzoHEqq12A
-         8L/Xe4/ovOZ2uVjTmAedaMFFf7tirwz1tzd7YnG/gE/E9bzdHsemat4s8KPWw1a59As3
-         NJgA==
-X-Gm-Message-State: AOAM531OprLuS0dGDQ4YFwC6cVCKP348IBED38PiPrfnKt2pjQ624ib7
-        OKhEDgxVbJKKqWR0YxI6O3U4Dw==
-X-Google-Smtp-Source: ABdhPJwIxV2zfyTQ46CXR54rzVA+3y6gCIKQuS9jzSbWYCHADjbdXTgdAvhaPHfM7G6AYqJMnSZhEw==
-X-Received: by 2002:a7b:cb98:: with SMTP id m24mr49126433wmi.98.1594042449766;
-        Mon, 06 Jul 2020 06:34:09 -0700 (PDT)
+        bh=2XV6WS/bjGR5kvGNxTMlo6KlRGNUtCcJKS3bvPtDJNg=;
+        b=Id4WmpVA+GfeWAom+lzyApygMBfMFNuFyNGL7JhuI4fu64AOpi80l0aWXeSUMloB3j
+         rbl5kjYFjvxPjjx550kx0XQRJjkulmbFyOxOMXT64ZOFG09N3+pbStiFVoH1WZShdkLQ
+         e1VXUtuxLOH5XuKEQwPvVntcSsTgbNxpSgDBmL+urIQQzmvRhFL+HZQzxMM1FGLbHVun
+         bNjAL3FzrxPh+RYSEapxS26ZIy3AnRVAsExyunuvZQ/Fcg7onqzTXGDQ6O92yK0tt/NU
+         aX1Y3k01ZT6W2I4wntPobNN8hVw+7FDgVJWPMhYCWl+x3c4i/8r09O8wmzWUrT1SNUOD
+         apmQ==
+X-Gm-Message-State: AOAM533GKD1Q+nlLuBEbuXspsQing8QuBs7DQdpg0GB4vz/KHKPEZ69L
+        d9bPRq3cr1M2StDZVo2NVtoCKg==
+X-Google-Smtp-Source: ABdhPJzh1m0Q8D26lQhCsRUAqNMwqePsc1dSEF5Rz1dklZVY+dBtULcNL8uqxOmLNNODWphQLHWsxg==
+X-Received: by 2002:a7b:cc92:: with SMTP id p18mr51112164wma.4.1594042445108;
+        Mon, 06 Jul 2020 06:34:05 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.206])
-        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.08
+        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:34:09 -0700 (PDT)
+        Mon, 06 Jul 2020 06:34:04 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Yuan-Hsin Chen <yhchen@faraday-tech.com>,
-        Feng-Hsin Chiang <john453@faraday-tech.com>,
-        Po-Yu Chuang <ratbert.chuang@gmail.com>
-Subject: [PATCH 21/32] usb: host: fotg210-hcd: Demote obvious misuse of kerneldoc to standard comment blocks
-Date:   Mon,  6 Jul 2020 14:33:30 +0100
-Message-Id: <20200706133341.476881-22-lee.jones@linaro.org>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Randy Vinson <rvinson@mvista.com>,
+        Dave Liu <daveliu@freescale.com>,
+        Jerry Huang <Chang-Ming.Huang@freescale.com>,
+        Anton Vorontsov <avorontsov@ru.mvista.com>
+Subject: [PATCH 17/32] usb: host: ehci-fsl: Fix incorrectly named function argument
+Date:   Mon,  6 Jul 2020 14:33:26 +0100
+Message-Id: <20200706133341.476881-18-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200706133341.476881-1-lee.jones@linaro.org>
 References: <20200706133341.476881-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Only 2 functions attempted to use kerneldoc in this massive file.
-
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/host/fotg210-hcd.c: In function ‘fotg210_run’:
- drivers/usb/host/fotg210-hcd.c:5013:6: warning: variable ‘hcc_params’ set but not used [-Wunused-but-set-variable]
- drivers/usb/host/fotg210-hcd.c:5569: warning: Function parameter or member 'pdev' not described in 'fotg210_hcd_probe'
- drivers/usb/host/fotg210-hcd.c:5666: warning: Function parameter or member 'pdev' not described in 'fotg210_hcd_remove'
- drivers/usb/host/fotg210-hcd.c:5666: warning: Excess function parameter 'dev' description in 'fotg210_hcd_remove'
+ drivers/usb/host/ehci-fsl.c:694: warning: Function parameter or member 'pdev' not described in 'fsl_ehci_drv_remove'
+ drivers/usb/host/ehci-fsl.c:694: warning: Excess function parameter 'dev' description in 'fsl_ehci_drv_remove'
 
-Cc: Yuan-Hsin Chen <yhchen@faraday-tech.com>
-Cc: Feng-Hsin Chiang <john453@faraday-tech.com>
-Cc: Po-Yu Chuang <ratbert.chuang@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Randy Vinson <rvinson@mvista.com>
+Cc: Dave Liu <daveliu@freescale.com>
+Cc: Jerry Huang <Chang-Ming.Huang@freescale.com>
+Cc: Anton Vorontsov <avorontsov@ru.mvista.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/host/fotg210-hcd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/host/ehci-fsl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
-index 51dbbb0e768bc..633df2e927bb3 100644
---- a/drivers/usb/host/fotg210-hcd.c
-+++ b/drivers/usb/host/fotg210-hcd.c
-@@ -5557,7 +5557,7 @@ static void fotg210_init(struct fotg210_hcd *fotg210)
- 	iowrite32(value, &fotg210->regs->otgcsr);
- }
+diff --git a/drivers/usb/host/ehci-fsl.c b/drivers/usb/host/ehci-fsl.c
+index 9e9c232e896fa..1ebe4d425277d 100644
+--- a/drivers/usb/host/ehci-fsl.c
++++ b/drivers/usb/host/ehci-fsl.c
+@@ -683,7 +683,7 @@ static const struct ehci_driver_overrides ehci_fsl_overrides __initconst = {
  
--/**
-+/*
-  * fotg210_hcd_probe - initialize faraday FOTG210 HCDs
+ /**
+  * fsl_ehci_drv_remove - shutdown processing for FSL-based HCDs
+- * @dev: USB Host Controller being removed
++ * @pdev: USB Host Controller being removed
+  * Context: !in_interrupt()
   *
-  * Allocates basic resources for this USB host controller, and
-@@ -5656,7 +5656,7 @@ static int fotg210_hcd_probe(struct platform_device *pdev)
- 	return retval;
- }
- 
--/**
-+/*
-  * fotg210_hcd_remove - shutdown processing for EHCI HCDs
-  * @dev: USB Host Controller being removed
-  *
+  * Reverses the effect of usb_hcd_fsl_probe().
 -- 
 2.25.1
 
