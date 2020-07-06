@@ -4,73 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69705C433DF
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:34:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8798C433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:34:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41DB620773
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:34:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C89FE20702
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:34:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tDxm68x6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NVlmUCpq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729204AbgGFNeR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:34:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47290 "EHLO
+        id S1729385AbgGFNeX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 09:34:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729354AbgGFNeQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:16 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB7EC061794
-        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:15 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id l2so40630820wmf.0
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:15 -0700 (PDT)
+        with ESMTP id S1729347AbgGFNeV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:21 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F470C08C5E0
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:21 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id l17so39374582wmj.0
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tuuvgBdpWU3P+bBrTu/2KsiGO4ss74gkTJhNI/l0mkY=;
-        b=tDxm68x6EEuzSyF8zb1P7MNnLA1RLSLV7ALNXgP2jbhLbdEirodV/LE4bXzaJbsPRg
-         SUs25JhonwmI4Zqrwaw4zG1N8CYo4lAXlnF26lpK/OFRkQCBCsW93WEi1lCMj5UWQUmj
-         QMnuck2Ci0chN7EEaR5qWLPh9Nag2b7j1MCcb9/mrCXgV+WBZ7ijQZzXPdT8Hjg0PTNS
-         goxdYPMOU0X2sc2aE1VXEpQk/0hLVxQjbMvmUCXhN28efa29/LuSc8kkdAhJT0CG2LUK
-         rVz1fvRtUKDbzGwTdNfqJrgIE5j/IDqenQl2BErSZqG2pPSnQFEsUwi3TsrnXUWaGjxc
-         gQXg==
+        bh=JwlPz1VQoWtw/PPAMkJDslP79wmZUbGedUK151UzPVM=;
+        b=NVlmUCpq/lKEqVs2LNex5jpihdjoioJToXMlmV7xJlur5bBqqxQQ0ZA/CPEMp/YFYN
+         zo06ci+Iy0l18umuNeYhgFhN14h8r6U7kxH24seP3QCInrax1OBWeKQ1SE9H70pcJnMY
+         Y+3zvLqxSlGJHUh9Rzg3ntB0br++CashYLBwH4dCl6PYtf69SG4bkCjzXWpVyre6jT7Z
+         bs9jKtCs/nALiRvYyYsz/k1abSGU0I7VVN+9TLc1NZl+ZuCNQZNWPap0lcFqJXgO9nJp
+         JQTT4IqiZ5ED2DtL16qAF0f01uKhcxkAIoUDFBjNrhu/dSUyHaMzolCNKJUKIkCUvEqy
+         +HuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tuuvgBdpWU3P+bBrTu/2KsiGO4ss74gkTJhNI/l0mkY=;
-        b=jdRt0SXtbxxxi5a+nWNt5eKHNNlYBfsq0aGX4F9cnWZ60K1C4gBKnmLeU43tKVywaC
-         EjZvUQ5XhSZNvUp8mfOKLEBNCMT1yctHhjpd2Vpd2gj6wQC7T5lPLwueK1xOUydPdHYT
-         222B/MwAAqbcytllClnu8FYiJxtnt3SsTS1dBhkov6mQr5h/5UVFJIrdh81I/mMP4KZr
-         nDW7nBNXlVajsDRAFOcTDkbc5/glnUIacJqlwkR3DkjYAuFE3OmVPgj0QO8f+TjdirRr
-         /GRqN/UmSy+neEDnzQ7IBzR4Ii4ruAlOm9P5TI+9q1omPbqUQEdzbOBVvJgYJ4ys65WQ
-         AD2A==
-X-Gm-Message-State: AOAM530ebmRGEAJ4l4Siagl0DZ7OhTHJ5gADPxMyn0sWrCZtfAQKZsIW
-        yJ8MZX0y04wTfNovnO7RX1UH0Q==
-X-Google-Smtp-Source: ABdhPJzuzYNNW71b23BvSLPHgO5D0LojminjFAQt3G/egnKeifhMWhpTDqlAyYc41PSyJlYXg/HnVQ==
-X-Received: by 2002:a1c:49d4:: with SMTP id w203mr50012638wma.13.1594042454380;
-        Mon, 06 Jul 2020 06:34:14 -0700 (PDT)
+        bh=JwlPz1VQoWtw/PPAMkJDslP79wmZUbGedUK151UzPVM=;
+        b=gqp+ihc9gfYX7QigcN1YT3w2lAt8BfZOjILeEUB0gi39u6ynp8iKGtW4uKwnKRxDYJ
+         /OYaS+fjlcEmdSHchU+irAzCvY/OnVwGykL6xdFFcykWxoEwnRx4OzY3tfKULUMe68ar
+         IvCRcuCAsLrgBmA/x0lS6F/qofw+nV9Bgos6xwZPzNq0EstcyxHa6Ko39xYBZk0zdXN3
+         +FT1gHGGh+z7RWNMNw0A5IIj7WyiPH+RfHgz0mwiY7nLhUqehy2K7C6ziRelOXIkMU1B
+         /BPTTcjmHFvWhWD9tULOZtrpAOwehe98MV0UAAA3MZEAc4JY72WR70LIRG/3uhpq9WdF
+         uazg==
+X-Gm-Message-State: AOAM533841mC6vcIR1ZPH0MDTXaoqwa8R7qSul6v+cf9KakioBoQo/UM
+        YZf9BwBo0l8ljQdflpI29RoLYQ==
+X-Google-Smtp-Source: ABdhPJwWAM9YUcyOeIqwvk9EC4yw+4vx9TJztDtgcS6azkPjILD4VT5pv7bUKjKcnm3I1NN1jBI33A==
+X-Received: by 2002:a1c:e914:: with SMTP id q20mr47372571wmc.145.1594042459982;
+        Mon, 06 Jul 2020 06:34:19 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.206])
-        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.13
+        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:34:13 -0700 (PDT)
+        Mon, 06 Jul 2020 06:34:19 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Yinghai Lu <yhlu.kernel@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>
-Subject: [PATCH 25/32] usb: early: ehci-dbgp: Remove set but never checked variable 'ret'
-Date:   Mon,  6 Jul 2020 14:33:34 +0100
-Message-Id: <20200706133341.476881-26-lee.jones@linaro.org>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH 29/32] usb: dwc3: dwc3-qcom: Do not define 'struct acpi_device_id' when !CONFIG_ACPI
+Date:   Mon,  6 Jul 2020 14:33:38 +0100
+Message-Id: <20200706133341.476881-30-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200706133341.476881-1-lee.jones@linaro.org>
 References: <20200706133341.476881-1-lee.jones@linaro.org>
@@ -82,51 +80,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-'ret' hasn't  been checked since the driver's inception in 2009.
+Since ACPI_PTR() is used to NULLify the value when !CONFIG_ACPI,
+struct dwc3_qcom_acpi_match becomes defined by unused.
+
+Also need to place the platform data obtained via the matching process
+inside the #ifdef, else that becomes unused too.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/early/ehci-dbgp.c: In function ‘early_dbgp_write’:
- drivers/usb/early/ehci-dbgp.c:915:13: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
- 915 | int chunk, ret;
- | ^~~
+ drivers/usb/dwc3/dwc3-qcom.c:761:36: warning: ‘dwc3_qcom_acpi_match’ defined but not used [-Wunused-const-variable=]
+ 761 | static const struct acpi_device_id dwc3_qcom_acpi_match[] = {
+ | ^~~~~~~~~~~~~~~~~~~~
 
-Cc: Sumit Garg <sumit.garg@linaro.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Yinghai Lu <yhlu.kernel@gmail.com>
-Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/early/ehci-dbgp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/dwc3/dwc3-qcom.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/early/ehci-dbgp.c b/drivers/usb/early/ehci-dbgp.c
-index 775cf70cfb3ed..b075dbfad730f 100644
---- a/drivers/usb/early/ehci-dbgp.c
-+++ b/drivers/usb/early/ehci-dbgp.c
-@@ -912,7 +912,7 @@ int __init early_dbgp_init(char *s)
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 1dfd024cd06b1..e1e78e9824b16 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -540,16 +540,6 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 	return 0;
+ }
  
- static void early_dbgp_write(struct console *con, const char *str, u32 n)
+-static const struct dwc3_acpi_pdata sdm845_acpi_pdata = {
+-	.qscratch_base_offset = SDM845_QSCRATCH_BASE_OFFSET,
+-	.qscratch_base_size = SDM845_QSCRATCH_SIZE,
+-	.dwc3_core_base_size = SDM845_DWC3_CORE_SIZE,
+-	.hs_phy_irq_index = 1,
+-	.dp_hs_phy_irq_index = 4,
+-	.dm_hs_phy_irq_index = 3,
+-	.ss_phy_irq_index = 2
+-};
+-
+ static int dwc3_qcom_probe(struct platform_device *pdev)
  {
--	int chunk, ret;
-+	int chunk;
- 	char buf[DBGP_MAX_PACKET];
- 	int use_cr = 0;
- 	u32 cmd, ctrl;
-@@ -951,8 +951,8 @@ static void early_dbgp_write(struct console *con, const char *str, u32 n)
- 			buf[chunk] = *str;
- 		}
- 		if (chunk > 0) {
--			ret = dbgp_bulk_write(USB_DEBUG_DEVNUM,
--				      dbgp_endpoint_out, buf, chunk);
-+			dbgp_bulk_write(USB_DEBUG_DEVNUM,
-+					dbgp_endpoint_out, buf, chunk);
- 		}
- 	}
- 	if (unlikely(reset_run)) {
+ 	struct device_node	*np = pdev->dev.of_node;
+@@ -758,11 +748,23 @@ static const struct of_device_id dwc3_qcom_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, dwc3_qcom_of_match);
+ 
++#ifdef CONFIG_ACPI
++static const struct dwc3_acpi_pdata sdm845_acpi_pdata = {
++	.qscratch_base_offset = SDM845_QSCRATCH_BASE_OFFSET,
++	.qscratch_base_size = SDM845_QSCRATCH_SIZE,
++	.dwc3_core_base_size = SDM845_DWC3_CORE_SIZE,
++	.hs_phy_irq_index = 1,
++	.dp_hs_phy_irq_index = 4,
++	.dm_hs_phy_irq_index = 3,
++	.ss_phy_irq_index = 2
++};
++
+ static const struct acpi_device_id dwc3_qcom_acpi_match[] = {
+ 	{ "QCOM2430", (unsigned long)&sdm845_acpi_pdata },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(acpi, dwc3_qcom_acpi_match);
++#endif
+ 
+ static struct platform_driver dwc3_qcom_driver = {
+ 	.probe		= dwc3_qcom_probe,
 -- 
 2.25.1
 
