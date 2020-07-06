@@ -2,136 +2,194 @@ Return-Path: <SRS0=CVr8=AR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BD5C433E0
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA54C433DF
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 14:01:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7233F2070C
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594043951;
-	bh=Ip1e0A6wTjrphkW8ni1Cj3sNik0Z1RpksQFKRM/Uplw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=QbOxxudJJwf+a2K9lsxKLPiNLO+dr3YIDGfAm7FcgZ5dqHSAcZWtjq7WalQ/rz4M8
-	 U1wAPSVbVi74RxaiLxEgMH47d6QWKObniUAjTPG+1trl0+740ubGbWv1uYvic/V6C9
-	 2wBD9blaEzoYLdtal41P68UcaL+8B+jgVdi/nBZ8=
+	by mail.kernel.org (Postfix) with ESMTP id 94BF32070C
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 14:01:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eyOmmyVV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729243AbgGFN7L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:59:11 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34178 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728940AbgGFN7K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:59:10 -0400
-Received: by mail-lf1-f66.google.com with SMTP id u25so22664784lfm.1
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:59:08 -0700 (PDT)
+        id S1729308AbgGFOBH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 10:01:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53541 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728940AbgGFOBD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 10:01:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594044060;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=plR445Drk3eeFEnzym0LmKRY+r16mbP2yKRnTLNcumQ=;
+        b=eyOmmyVVSqZQ3btGRHGkKYEr7d1xTaGPYqoC9w13l5x7vE+1ZrzdtSph9QOETrbNOavBto
+        p4V6qghd+Bmi0qIjj+hFS53Bs2O+6Ukh8BHuwOSEy0OU7/EcC32Kk+nUbE1O7QE0sxVBbH
+        bU09ygUaK9E/BaV7dlSp1Mm/gUx/8q8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-jI-ZgKsHNlSUM7R25pNKcQ-1; Mon, 06 Jul 2020 10:00:58 -0400
+X-MC-Unique: jI-ZgKsHNlSUM7R25pNKcQ-1
+Received: by mail-ej1-f69.google.com with SMTP id op28so34277142ejb.15
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 07:00:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FpUWI8jMr0yRvrwAKIbov0/IJ0CO9j0Rr3t2Dm64r0c=;
-        b=jq324GP7xaAl9GUr9p2p3ZQrqjslC5cf+zNVHobzdM6B40dW39jtnzrjAmTZRgEtY6
-         9uFZuC53kH9QW4ycNF7E2TExD1jlgobTgHCVYlH8bsceFbkDadoz7YEEtZ6xOMIqU1Kp
-         Y1NTOjNI6AZpnR4g/OYN3fFJ6mQzb4+hpid2lDQb6Lma7fvMB13X+fdtocxtee7Jbeyb
-         Dq5iIzyJgJ7eh2nSP4XRrW3Vgzcc6jrQEd9rrj568kdEj97ZxZWM93CC8uHbdyp23l2U
-         TiNtNP/lS7RKIzPmAVGFHmytKuIKCMGObKgOfR3te2GI57suh5zQ87FIfzQ/lhyinXF/
-         LQCg==
-X-Gm-Message-State: AOAM532BpNjAsBHFnukundWVDhbYjaQMFCAcmy7dqHTuYUdzisQZ5sxp
-        TFhvLYe7JfmHu1/lSQxFBQ8=
-X-Google-Smtp-Source: ABdhPJwqt4sYfXKOl0Mmj2EFA8rgyMNUx0ghMyoU9VVN5/RZuml+LeU/6BY1XyL8P9Qmlp+FmmzFOQ==
-X-Received: by 2002:a05:6512:3f1:: with SMTP id n17mr30432547lfq.125.1594043948199;
-        Mon, 06 Jul 2020 06:59:08 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id o1sm4961354ljj.82.2020.07.06.06.59.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:59:06 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1jsReC-0007Am-0e; Mon, 06 Jul 2020 15:59:04 +0200
-Date:   Mon, 6 Jul 2020 15:59:04 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Jerry <Jerry@jrr.cz>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v4] usbserial: cp210x - icount support for parity error
- checking
-Message-ID: <20200706135904.GJ3453@localhost>
-References: <470484c8-7afc-c593-5ca9-cdb97dba39e1@jrr.cz>
- <20200621135838.GA125568@kroah.com>
- <7bdff86f-0988-2afc-e1a6-35df2931fd5b@jrr.cz>
- <20200622053146.GB134804@kroah.com>
- <838f09f9-4063-1c2c-8b4d-c18dee6c18de@jrr.cz>
- <20200701154257.GF3334@localhost>
- <13482d69-b286-b20e-ee3a-f8c5f12aad18@jrr.cz>
- <20200703074539.GB3453@localhost>
- <20200703150104.GE3453@localhost>
- <61febd93-400b-d1f9-6fd9-82de0e799f3e@jrr.cz>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=plR445Drk3eeFEnzym0LmKRY+r16mbP2yKRnTLNcumQ=;
+        b=S8IObjZZubDOl4MFszIEg6YbFN+YEFk6zV42Pb8nf3J5HvlkwLmcXGeWRtyLtVBeBZ
+         ucYT7wK2xkV2ulu/qTBxFn0TMQ+abEn3c63LIw0E0wYmlYJWA2AJE6Q9vihJNS1Yqz+K
+         Omb5zDQn9bv8CA2brKusvT5Trr6G1AiWxRHeS0LjSahevMqfruNfzMe3Z7dATLp7jA3Z
+         /++75gVTURnkL6gl0DqdDyIB8a3RG8KNHkqs2yji7e+ASKRKAT7IL6PfVE3O/cehEVbd
+         cidBjQB2HcC6gB9csiGEtzDis2yt1AdV542A1DyT2KS7w88EMBm5+CtD6Bna1VpStP6c
+         UXiA==
+X-Gm-Message-State: AOAM533NsVSQ8i0xUqR7EenPdeYjGshW0dYroSpmFZAyghDhUXRIXlED
+        +NxUdIQ51WkQxTk7TakvfmVUAw8SoAPRlEvfQ8QuR3lInZ9x+fNiXNXWcm5+TJs+WtnfOIvexeV
+        DmRbqNPevMCfo29FrYU7E
+X-Received: by 2002:a05:6402:202e:: with SMTP id ay14mr55866492edb.233.1594044057682;
+        Mon, 06 Jul 2020 07:00:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwokWAQDe0bD6JJ8Z9MjAp3h3YbM7dv+sokIOUz5rBXKpDFtUHf2aONLLEEwiCQIl5my75xOA==
+X-Received: by 2002:a05:6402:202e:: with SMTP id ay14mr55866456edb.233.1594044057460;
+        Mon, 06 Jul 2020 07:00:57 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id mf24sm16808096ejb.58.2020.07.06.07.00.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2020 07:00:56 -0700 (PDT)
+Subject: Re: [PATCH 08/32] usb: typec: tcpm: tcpm: Remove dangling unused
+ 'struct tcpm_altmode_ops'
+To:     Lee Jones <lee.jones@linaro.org>, gregkh@linuxfoundation.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+References: <20200706133341.476881-1-lee.jones@linaro.org>
+ <20200706133341.476881-9-lee.jones@linaro.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <ca14707c-7d40-07ac-da1d-ca27a2e93dcd@redhat.com>
+Date:   Mon, 6 Jul 2020 16:00:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <61febd93-400b-d1f9-6fd9-82de0e799f3e@jrr.cz>
+In-Reply-To: <20200706133341.476881-9-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 01:47:50PM +0200, Jerry wrote:
-> Johan Hovold wrote on 7/3/20 5:01 PM:
-> > On Fri, Jul 03, 2020 at 09:45:39AM +0200, Johan Hovold wrote:
-> > Would you mind giving the below a try and see how that works in your
-> > setup?
-> >
-> > With this patch you'd be able to use PARMRK to be notified of any parity
-> > errors, but I also wired up TIOCGICOUNT if you prefer to use that.
-> >
-> > Also, could try and see if your device detects breaks properly? Mine
-> > just return a NUL char.
+Hi,
 
-> I tried your patch. It detects the parity error correctly for my 
-> application. Unfortunately I'm not able currently to verify a break 
-> reception due to holiday, I'll probably try it next week when back at work 
-> (I need to recompile the device firmware).
+On 7/6/20 3:33 PM, Lee Jones wrote:
+> Looks as though a079973f462a3 ("usb: typec: tcpm: Remove tcpc_config
+> configuration mechanism") pulled out the only use of 'tcpm_altmode_ops'
+> last year.  No need to keep it around.
+> 
+> Fixes the following W=1 kernel build warning(s):
+> 
+>   drivers/usb/typec/tcpm/tcpm.c:1551:39: warning: ‘tcpm_altmode_ops’ defined but not used [-Wunused-const-variable=]
+>   1551 | static const struct typec_altmode_ops tcpm_altmode_ops = {
+>   | ^~~~~~~~~~~~~~~~
+> 
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Cool, thanks.
+This is necessary for adding Display port over Type-C support
+on devices using the tcpm code, rather then firmware, to do
+the Type-C alt-mode negotiation.
 
-I noticed that I can get comm-status to report a break condition when
-event-insertion mode is disabled, but it just results in a NUL char in
-event mode (the error flag isn't set then).
+I have a local patch in my tree which adds support for this.
 
-Perhaps buggy firmware, unless there's some other command for masking
-events. Haven't quite understood how the EVENTMASK requests are supposed
-to be used. Replacing the break char (SET_CHAR) didn't help at least.
+But Heikki did not like my approach, so that patch
+(which needs the bits you are removing) never landed
+upstream:
 
-> An interesting thing that your patch don't report any overrun. I'm not able 
-> to create a real overrun (any idea?) but it doesn't report any fake overrun 
-> compared to GET_COMM_STATUS.
+https://patchwork.kernel.org/patch/11199517/
 
-Yeah, I noticed that too, although I had a feeling the fake overrun
-didn't even always show up when sending while closed here either. 
+Which is somewhat old now.
 
-Not sure how best to trigger an overrun since we rely on the read urb to
-report it. Perhaps pausing the read urbs, filling up the device fifo and
-then submitting the urbs again could work? Would need to patch the
-driver quite a bit for that though.
+Heikki said he would look into an approach to this more to
+his liking. Heikki an progress on this area?
 
-> The question could be a value of CP210X_ESCCHAR. You selected 0xFF and this 
-> value can be quite common in received data because an erased flash memory 
-> is full of 0xFF. When I read an empty memory it means double USB bandwidth 
-> so for example 0xFE seems be better... but I understand that it depend on 
-> application and it is hard to globally select this value.
+Regards,
 
-Good point! I think we should definitely avoid 0xff.
+Hans
 
-> I'll do some more tests but your solution seems be fully acceptable for my 
-> needs. For me TIOCGICOUNT is enough (I just resend request when an error 
-> detected) but for other situation it would be very nice to know exactly 
-> which byte was malformed through PARMRK.
 
-That's good to hear. I'll respin the generic (event-based) solution
-then.
 
-Thanks,
-Johan
+> ---
+>   drivers/usb/typec/tcpm/tcpm.c | 51 -----------------------------------
+>   1 file changed, 51 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 82b19ebd7838e..d6913eb0ea54d 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -1503,57 +1503,6 @@ static int tcpm_validate_caps(struct tcpm_port *port, const u32 *pdo,
+>   	return 0;
+>   }
+>   
+> -static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
+> -{
+> -	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
+> -	u32 header;
+> -
+> -	mutex_lock(&port->lock);
+> -	header = VDO(altmode->svid, vdo ? 2 : 1, CMD_ENTER_MODE);
+> -	header |= VDO_OPOS(altmode->mode);
+> -
+> -	tcpm_queue_vdm(port, header, vdo, vdo ? 1 : 0);
+> -	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
+> -	mutex_unlock(&port->lock);
+> -
+> -	return 0;
+> -}
+> -
+> -static int tcpm_altmode_exit(struct typec_altmode *altmode)
+> -{
+> -	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
+> -	u32 header;
+> -
+> -	mutex_lock(&port->lock);
+> -	header = VDO(altmode->svid, 1, CMD_EXIT_MODE);
+> -	header |= VDO_OPOS(altmode->mode);
+> -
+> -	tcpm_queue_vdm(port, header, NULL, 0);
+> -	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
+> -	mutex_unlock(&port->lock);
+> -
+> -	return 0;
+> -}
+> -
+> -static int tcpm_altmode_vdm(struct typec_altmode *altmode,
+> -			    u32 header, const u32 *data, int count)
+> -{
+> -	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
+> -
+> -	mutex_lock(&port->lock);
+> -	tcpm_queue_vdm(port, header, data, count - 1);
+> -	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
+> -	mutex_unlock(&port->lock);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct typec_altmode_ops tcpm_altmode_ops = {
+> -	.enter = tcpm_altmode_enter,
+> -	.exit = tcpm_altmode_exit,
+> -	.vdm = tcpm_altmode_vdm,
+> -};
+> -
+>   /*
+>    * PD (data, control) command handling functions
+>    */
+> 
+
