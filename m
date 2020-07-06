@@ -2,169 +2,118 @@ Return-Path: <SRS0=CVr8=AR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D63EC433DF
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6EFC433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:33:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 089AA206F5
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:33:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8BB720715
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:33:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zXZDJoc1"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bWfrC2CT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729126AbgGFNdq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:33:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47114 "EHLO
+        id S1729257AbgGFNdx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 09:33:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729021AbgGFNdq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:33:46 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1912C061755
-        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:33:45 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id f18so42147440wml.3
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:33:45 -0700 (PDT)
+        with ESMTP id S1729249AbgGFNdw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:33:52 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA21BC061794
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:33:51 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id o11so40973637wrv.9
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:33:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5+nQXwDHguiGp87OCYbVTGWXLc1URK1vaJ9PiL1A1B0=;
-        b=zXZDJoc1A2V93xSJfuu/TvVJ84aP59eMQDUgoyirbYWo4kmGGDGVsgnFlpMV72H7Kv
-         l35LUn4EwJYdguw7NEQHz6DLWrIExD0ExqbUDEGpAZy9e9pGZBDETz1yBge+sv3khapI
-         M0ioU8SaK8W2lhGfcB3rIpJEV4Btyrl8lcyKT3r32OxKWFMsm7RGDeSHAko7i/lu/Ewh
-         12XKdSbvBCxYku0W5DjfCOZLkLnC9k4WJjmr/LhPrs0a2ptcyQ+xgr0OJZ/BggQLjyEu
-         gIBtLMLKniqGYaNIbOzISbj+bIwldL0IUVb5Y+vrbIPWkwXewy9gfXXmWXXDj3zEFBiz
-         HEow==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+1uVBpjaOD4IpY3ZVlXbRV81yiri13+tuf6A/llAK/Q=;
+        b=bWfrC2CT864d48e8sCwLNN6S649Z7RUI6pO1r+dF7OQw0XBZ0w+YwQQRCgFTULa6lO
+         pUTSNHqHo5MEMTKVVgMIK7+bkfHfqxXFMNgjUdN4S6S7nnMVygMuDMWlbsNhPfyl68jD
+         avi2zqxlw+3PRHuC+6tM753fGejds5lVDT+akNypUQ2JCcQvMzLNJF+A2Xe6mKVZPj7x
+         ZLRC8d3qGcXfT5kgnn66HLzFcO6h8g/DsDcpAsMjN5bQHWZPSbai4i1du/j4Cmeb9Ml5
+         5lJ4DfLAuw09P70HDlLAaeKYQp/cHK5Eh+xJMsB+5p8ptypyUIV1/p+NtWybWXuYyrVB
+         AiVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5+nQXwDHguiGp87OCYbVTGWXLc1URK1vaJ9PiL1A1B0=;
-        b=kmr97fmRe0z3UJ6cTcJjoXOokKETsQ1i/C2dg2qmg1hHTkrCJPNsGMdgFjIrTJIII0
-         3fLz2gHzDTfw0uIo8UwcuBuwJCl2ib84IUXWwblZAyiRb1W+l41NDt47+2+qEdP+NYrX
-         UUie6G2HFawaOoemU3ac9qll51AAj+WsPNcVRBARmrUD/IusxUe289opB8mLSNU8/cfN
-         gOKNO8MxmnSuyXQUGVfADngppFPTcBO4rsrGRmKYcdNeUo3cNP054jHItSKkEXTVp7Lp
-         4JBdB7FcECDu0dc5rJT35Lgs5IODoJIeT7N4zzAsg6jfbov2UzDtBOb+oeFfb5o+e0MP
-         P5lQ==
-X-Gm-Message-State: AOAM530KF+3Aq1ATFIC09enKI1e65f4QZ3t6qN2T1bm3rJgvlaSDiuJP
-        Q9cLuRUSVPGWqLxoOFyLZSvwWw==
-X-Google-Smtp-Source: ABdhPJxhgoSOPnxJP1T3cZgmiZCQBoAnzrvdc/7TMtQXC1SFusnQ/dznihoXfm6sJBScETueoIwi5w==
-X-Received: by 2002:a1c:2157:: with SMTP id h84mr48333657wmh.35.1594042424602;
-        Mon, 06 Jul 2020 06:33:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+1uVBpjaOD4IpY3ZVlXbRV81yiri13+tuf6A/llAK/Q=;
+        b=j7c8bWIZpdoPkyuSy77HdhAuIcJpze5Yke4L59fE6sryRDEJAUnjc+zkdhqN6qZh50
+         fD1+EL2SnbxAxktDyJ0idBnu8HwWyHFzP4ZaluOebzH7IcD1Wq14t4tpuyGQAF5yQduw
+         RwbzVfD6rw7H5fmD2HOpxJE0L+WbAttTk18K3iGBD1H7NoplWrDktrXRtwX45PZsfEak
+         t/e5d75q1V3HeNRLBlIYKpfRBmpwWmMesrW+zyjK40ORtEJM/M28sO6njUqUh77gUd+O
+         4HJopF0rbOwv/jFifpcyO3GobQsDyL7so5+pSWI17U3pJ4jwgXTaHRRkpstaBFIruBI1
+         MQpg==
+X-Gm-Message-State: AOAM530WM6IZqAo16gYdwZSAo99GmJm+VMvop/vAdsCWBNaLPB9T4V9M
+        VAKb/ExRUS3XuvKGkNFMApKrFQ==
+X-Google-Smtp-Source: ABdhPJwkx0wriCmaCekhauRjWoIcIVTFPWenfRaZ3yayXF3PWVnJO9SnWMwPmaPvsVmH1dWjO20j+Q==
+X-Received: by 2002:a5d:470b:: with SMTP id y11mr50991135wrq.101.1594042430666;
+        Mon, 06 Jul 2020 06:33:50 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.206])
-        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.33.43
+        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.33.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:33:44 -0700 (PDT)
+        Mon, 06 Jul 2020 06:33:50 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH 00/32] Fix the final bunch of W=1 issues in USB
-Date:   Mon,  6 Jul 2020 14:33:09 +0100
-Message-Id: <20200706133341.476881-1-lee.jones@linaro.org>
+        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>
+Subject: [PATCH 05/32] usb: gadget: function: u_ether:  Downgrade kerneldoc headers which to not make the mark
+Date:   Mon,  6 Jul 2020 14:33:14 +0100
+Message-Id: <20200706133341.476881-6-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200706133341.476881-1-lee.jones@linaro.org>
+References: <20200706133341.476881-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This set is part of a larger effort attempting to clean-up W=1
-kernel builds, which are currently overwhelmingly riddled with
-niggly little warnings.
+Kerneldoc expects all function arguments to be documented.  If any
+are missed it will complain.  Downgrade one header with 3 missing
+argument descriptions and one which makes no attempt.
 
-After these patches are applied, the build system no longer
-complains about any W=0 nor W=1 level warnings in drivers/usb.
+Fixes the following W=1 kernel build warning(s):
 
-Hurrah!
+ drivers/usb/gadget/function/u_ether.c:750: warning: Function parameter or member 'dev_addr' not described in 'gether_setup_name'
+ drivers/usb/gadget/function/u_ether.c:750: warning: Function parameter or member 'host_addr' not described in 'gether_setup_name'
+ drivers/usb/gadget/function/u_ether.c:750: warning: Function parameter or member 'qmult' not described in 'gether_setup_name'
+ drivers/usb/gadget/function/u_ether.c:1022: warning: Function parameter or member 'dev' not described in 'gether_cleanup'
 
-Lee Jones (32):
-  usb: misc: legousbtower: Demote obvious misuse of kerneldoc to
-    standard comment blocks
-  usb: chipidea: ci_hdrc_pci: Fix improper use of kerneldoc format
-  usb: gadget: legacy: printer: Remove unused variable 'driver_desc'
-  usb: gadget: udc: amd5536udc_pci: Remove unused variable 'mod_desc'
-  usb: gadget: function: u_ether:  Downgrade kerneldoc headers which to
-    not make the mark
-  usb: gadget: udc: pxa27x_udc: Fix a bunch of kerneldoc issues
-  usb: misc: legousbtower: Demote function header which is clearly not
-    kerneldoc
-  usb: typec: tcpm: tcpm: Remove dangling unused 'struct
-    tcpm_altmode_ops'
-  usb: gadget: udc: atmel_usba_udc: Remove set but unused variable 'pp'
-  usb: gadget: legacy: nokia: Remove unused static variable
-    'product_nokia'
-  usb: gadget: function: f_fs: Demote function header which is clearly
-    not kerneldoc
-  usb: gadget: udc: lpc32xx_udc: Staticify 2 local functions
-  usb: host: r8a66597-hcd: Remove set, then over-written, but never used
-    variable 'tmp'
-  usb: gadget: udc: mv_udc_core: Remove unused static const variable
-    'driver_desc'
-  usb: gadget: udc: pch_udc: Fix a plethora of function documentation
-    related issues
-  usb: host: imx21-hcd: Demote function header which is clearly not
-    kerneldoc
-  usb: host: ehci-fsl: Fix incorrectly named function argument
-  usb: host: fotg210-hcd: Remove unused variable 'hcc_params'
-  usb: gadget: function: u_uac1_legacy: Demote obvious misuse of
-    kerneldoc to standard comment blocks
-  usb: host: bcma-hcd: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: host: fotg210-hcd: Demote obvious misuse of kerneldoc to standard
-    comment blocks
-  usb: gadget: udc: mv_u3d_core: Remove unused static const
-    'driver_desc'
-  usb: gadget: udc: max3420_udc: Remove set, but never checked variable
-    'addr'
-  usb: typec: ucsi: ucsi: Staticify and stop export of ucsi_init()
-  usb: early: ehci-dbgp: Remove set but never checked variable 'ret'
-  usb: early: xhci-dbc: Supply missing 'xhci-dbgp.h' headerfile
-  usb: early: xhci-dbc: File headers are not good candidates for
-    kerneldoc
-  usb: host: ehci-platform: Do not define 'struct acpi_device_id' when
-    !CONFIG_ACPI
-  usb: dwc3: dwc3-qcom: Do not define 'struct acpi_device_id' when
-    !CONFIG_ACPI
-  usb: host: fhci-tds: Remove unused variables 'buf' and 'extra_data'
-  usb: host: fhci-sched: Remove unused variable 'td'
-  usb: host: xhci-plat: Do not define 'struct acpi_device_id' when
-    !CONFIG_ACPI
+Cc: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/usb/gadget/function/u_ether.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/usb/chipidea/ci_hdrc_pci.c          |  2 +-
- drivers/usb/dwc3/dwc3-qcom.c                | 22 +++++----
- drivers/usb/early/ehci-dbgp.c               |  6 +--
- drivers/usb/early/xhci-dbc.c                |  3 +-
- drivers/usb/gadget/function/f_fs.c          |  2 +-
- drivers/usb/gadget/function/u_ether.c       |  4 +-
- drivers/usb/gadget/function/u_uac1_legacy.c | 14 +++---
- drivers/usb/gadget/legacy/nokia.c           |  1 -
- drivers/usb/gadget/legacy/printer.c         |  1 -
- drivers/usb/gadget/udc/amd5536udc_pci.c     |  1 -
- drivers/usb/gadget/udc/atmel_usba_udc.c     |  3 --
- drivers/usb/gadget/udc/lpc32xx_udc.c        |  4 +-
- drivers/usb/gadget/udc/max3420_udc.c        |  3 +-
- drivers/usb/gadget/udc/mv_u3d_core.c        |  1 -
- drivers/usb/gadget/udc/mv_udc_core.c        |  1 -
- drivers/usb/gadget/udc/pch_udc.c            | 36 +++++++--------
- drivers/usb/gadget/udc/pxa27x_udc.c         | 15 +++---
- drivers/usb/host/bcma-hcd.c                 |  4 +-
- drivers/usb/host/ehci-fsl.c                 |  2 +-
- drivers/usb/host/ehci-platform.c            |  2 +
- drivers/usb/host/fhci-sched.c               | 19 ++++----
- drivers/usb/host/fhci-tds.c                 | 11 ++---
- drivers/usb/host/fotg210-hcd.c              |  7 ++-
- drivers/usb/host/imx21-hcd.c                |  2 +-
- drivers/usb/host/r8a66597-hcd.c             |  8 ++--
- drivers/usb/host/xhci-plat.c                |  2 +
- drivers/usb/misc/legousbtower.c             | 26 +++++------
- drivers/usb/typec/tcpm/tcpm.c               | 51 ---------------------
- drivers/usb/typec/ucsi/ucsi.c               |  3 +-
- 29 files changed, 96 insertions(+), 160 deletions(-)
-
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index fbe96ef1ac7a4..f01e3e21ecf21 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -730,7 +730,7 @@ static struct device_type gadget_type = {
+ 	.name	= "gadget",
+ };
+ 
+-/**
++/*
+  * gether_setup_name - initialize one ethernet-over-usb link
+  * @g: gadget to associated with these links
+  * @ethaddr: NULL, or a buffer in which the ethernet address of the
+@@ -1012,7 +1012,7 @@ int gether_get_ifname(struct net_device *net, char *name, int len)
+ }
+ EXPORT_SYMBOL_GPL(gether_get_ifname);
+ 
+-/**
++/*
+  * gether_cleanup - remove Ethernet-over-USB device
+  * Context: may sleep
+  *
 -- 
 2.25.1
 
