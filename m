@@ -7,71 +7,69 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD25EC433DF
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9586C433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:36:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A640920775
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:36:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 849F720715
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:36:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xT+yupj9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RLGORxri"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729570AbgGFNgL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47164 "EHLO
+        id S1729245AbgGFNdw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 09:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729268AbgGFNdy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:33:54 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6177EC08C5E1
-        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:33:54 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id w3so29666612wmi.4
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:33:54 -0700 (PDT)
+        with ESMTP id S1729230AbgGFNdu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:33:50 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68ADC061755
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:33:49 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id f7so37934256wrw.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WegnVZ9DGyLW+kA2xpWSNAlVRAFvD3JLviW2wF/jZ6s=;
-        b=xT+yupj9MavimR1wa5EZqEYTVTre9t7Il8BFvnEd4FOqKCV1obJEBkXayBjU4VTUpX
-         EjG552aZP/iWzX7n5uCIBks2UnXw89KPGuPpFaGTfGBxeYUsPeDHCRpN2j7upHhRcoYp
-         LKHDSdNN49TKwN3vrQQ3LH7oPAr3gSKkrpECRhZdCSuAfuNJxBkCyB4HSP+vs2T3balU
-         /FH7pNPZ2YwlCJegT6qTrUN/oM2ejngS3tbIbVpgI0Y4EN1R+c5gIurEWJ+OMaofmHf4
-         Xrrez6/t4LlVxxsjlS3b8/S+W4A2pXlnJB+OuOGyM5adoBRjPyRVSYVu37lfQ1r3xGMk
-         vtNg==
+        bh=Da1l6YoL6n3bU+jKdqHFRQjokYKz+vBJsiPCL0gGolc=;
+        b=RLGORxri111/tc0Sf0mSoMmtk2VwtRaHx86WcvDwSf1/2SpW+CMz1rr253sGKsrvUK
+         uK22hb403LtPowLnwcDgpTXUfLiAzl7Ehka5hCIWxZK6tjJrXH/wyoVJgONMo5Vu0Nlj
+         JOVU+F2Tj3eJNLPuV+P6fh0BlaNOe3kQimvqE0cUCtSdVVV++6OkgHXYK9XMdK6fCCjd
+         iZNN4s0Qp4aWOgSDwztx886A+qDLbMjw6kR7XG7HJvjUgbm3GyBPHn2A4CX1p7G+5fJG
+         RBZDMLNZSD0KaU+9REz4lAenuUrsvBhPyngaO9nQBPnshwM8sSoFKRwQJe7F/lZ+K4W/
+         mSlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WegnVZ9DGyLW+kA2xpWSNAlVRAFvD3JLviW2wF/jZ6s=;
-        b=Jfy7i5/iG6yfXVKzbRt2K07ci68WpVHy/ADPR4x6bzzLAG/la0AUETkkIys6/1fgcO
-         3yTQ8rMwMHeM8KBZI7ux6MzxcAuhOiD2jtg0tyuuXCVY2Zg/gg3VuwyuYXZ55BgIAqCa
-         lXcErOKrZUwDoXzhU/UWtSmpZQfpVrpFLKox3G6OVaW17epi3FVu7l/7g4vzGUSDIVR9
-         ByGmOViy49bRB38FT+7UotdNwh7sPRxCIMf2z2990PhVlPdj6j/6tutK691IbL1lCHqi
-         hUCs/CWMR9Iul80gSHfKCJXIRzajNUbODy64nuJ3dmjR2blrmtFSdU6Gt/CvYJ0y+RET
-         DB7g==
-X-Gm-Message-State: AOAM530+6DChqUw3DEcgJW3LKwxxD4RL5Q8Jx8oBd6vp94L3LkwCvFvs
-        eZxD0J4sQbaSDi/TtsQSaQrAYg==
-X-Google-Smtp-Source: ABdhPJyatwtDUIcCOL7ndILXzFNTrMtzJVDI0NWp8JnniRlD+OLzf4loG/6E3grgYnwIqqMACnTmYg==
-X-Received: by 2002:a1c:48:: with SMTP id 69mr51473365wma.32.1594042433108;
-        Mon, 06 Jul 2020 06:33:53 -0700 (PDT)
+        bh=Da1l6YoL6n3bU+jKdqHFRQjokYKz+vBJsiPCL0gGolc=;
+        b=P4ljdu7oKxKYRVvYgERapwb1EtbQUpZDAAjF48mQZuVvsdtpCD7nsRlPQh+4+3Yxb9
+         sbha6Q/HjKbhxH+6grSICnSTCmFhB3+RAVKAQMnqv9+b0ym27tnQfTxWqgLikVoCggdm
+         mco2O2mGbZTgif3ZZbeWrGd4loPVcuoSuC9L6kJc7keD5HQE1WDN4HfAQzbnAQeg6xMx
+         1hvxrZPF5WX+pu1wN0XoNVdFf8XiXI1+1Omdi0N+eSmNK6H9RRaUusZCZsENsPZ06VTX
+         e1tXgIdPFxEMS0DEIEfsU2pEa6RRtL44kuv0ctEj/S3uiY9TjmVqfLy/NgPo65xrbM+7
+         a20w==
+X-Gm-Message-State: AOAM532nFDVOOdwbJjokG0XDrCQjrjiRhQC8u6bGz8QK36/jUaXDfjQM
+        9Qq77ikBjZNLnYGp+6qdpG+NVQ==
+X-Google-Smtp-Source: ABdhPJxATiVCCEdpbl6fe+AbCMEAVhovrhkPLT0ovW8Huxs2dGyxJI6Eppza+UQYGaCLyWLadV5R2g==
+X-Received: by 2002:a5d:504b:: with SMTP id h11mr47735862wrt.160.1594042428510;
+        Mon, 06 Jul 2020 06:33:48 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.206])
-        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.33.52
+        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.33.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:33:52 -0700 (PDT)
+        Mon, 06 Jul 2020 06:33:47 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Juergen Stuber <starblue@users.sourceforge.net>,
-        David Glance <davidgsf@sourceforge.net>,
-        david <david@csse.uwa.edu.au>,
-        legousb-devel@lists.sourceforge.net
-Subject: [PATCH 07/32] usb: misc: legousbtower: Demote function header which is clearly not kerneldoc
-Date:   Mon,  6 Jul 2020 14:33:16 +0100
-Message-Id: <20200706133341.476881-8-lee.jones@linaro.org>
+        Felipe Balbi <balbi@kernel.org>
+Subject: [PATCH 03/32] usb: gadget: legacy: printer: Remove unused variable 'driver_desc'
+Date:   Mon,  6 Jul 2020 14:33:12 +0100
+Message-Id: <20200706133341.476881-4-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200706133341.476881-1-lee.jones@linaro.org>
 References: <20200706133341.476881-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -80,33 +78,26 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/misc/legousbtower.c:280: warning: Function parameter or member 'dev' not described in 'lego_usb_tower_debug_data'
- drivers/usb/misc/legousbtower.c:280: warning: Function parameter or member 'function' not described in 'lego_usb_tower_debug_data'
- drivers/usb/misc/legousbtower.c:280: warning: Function parameter or member 'size' not described in 'lego_usb_tower_debug_data'
- drivers/usb/misc/legousbtower.c:280: warning: Function parameter or member 'data' not described in 'lego_usb_tower_debug_data'
+ drivers/usb/gadget/legacy/printer.c:24:19: warning: ‘driver_desc’ defined but not used [-Wunused-const-variable=]
 
-Cc: Juergen Stuber <starblue@users.sourceforge.net>
-Cc: David Glance <davidgsf@sourceforge.net>
-Cc: david <david@csse.uwa.edu.au>
-Cc: legousb-devel@lists.sourceforge.net
+Cc: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/misc/legousbtower.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/legacy/printer.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index 8aca55c4c95f1..f922544056de4 100644
---- a/drivers/usb/misc/legousbtower.c
-+++ b/drivers/usb/misc/legousbtower.c
-@@ -271,7 +271,7 @@ static struct usb_driver tower_driver = {
- };
+diff --git a/drivers/usb/gadget/legacy/printer.c b/drivers/usb/gadget/legacy/printer.c
+index 57858f0c2b6c9..2cd389575084b 100644
+--- a/drivers/usb/gadget/legacy/printer.c
++++ b/drivers/usb/gadget/legacy/printer.c
+@@ -21,7 +21,6 @@ USB_GADGET_COMPOSITE_OPTIONS();
+ #define DRIVER_VERSION		"2015 FEB 17"
  
+ static const char shortname [] = "printer";
+-static const char driver_desc [] = DRIVER_DESC;
  
--/**
-+/*
-  *	lego_usb_tower_debug_data
-  */
- static inline void lego_usb_tower_debug_data(struct device *dev,
+ #include "u_printer.h"
+ 
 -- 
 2.25.1
 
