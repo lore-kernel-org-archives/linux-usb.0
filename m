@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC951C433E1
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F14C433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC1E4206F5
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6987B206F5
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jul 2020 13:35:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w5P2aU6D"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fw8KkupQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729365AbgGFNfA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jul 2020 09:35:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47298 "EHLO
+        id S1729479AbgGFNfM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jul 2020 09:35:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729358AbgGFNeR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:17 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C649CC061794
-        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:16 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z15so29659570wrl.8
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:16 -0700 (PDT)
+        with ESMTP id S1729162AbgGFNeO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jul 2020 09:34:14 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B12C08C5E1
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2020 06:34:14 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id g75so39364227wme.5
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2020 06:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hOxuOAzmvEV55alflVuCU5810VX9tcA35muYC7R0MbA=;
-        b=w5P2aU6Doeac9XeMuviG7stwJdgM6WsIR+NBZVf+lZt+//ND6hJ0DXWizpA/m6bvwD
-         B2u0ApOKmiuQOBKM1YTtRRJXFMhrqsqF5Ykg3yCIhM78pF2i9vIJFL96Ve0I6gQrZww+
-         hipLqHTD9shzTQ0ixY1kUN5YsF9v2aMQynbFnVU+Qu+aWu0Ikiy2sbwjO0WWC78XIlyu
-         Jukm9EtNycZtWgB8LT/DwQWNu306tPsdPdKJ6yBLniVQ1uduG5/SYh+Cis1o7XDA4U9y
-         bpXkmFKaaIGenZXim6OybyyfkysmnYGI7GTOso3LNOgCj400PgZI42jXMSjLkXY+Bfio
-         7O8w==
+        bh=wF0TEpLE3+8aSfCpSueulEs3qt7dUTbs4ZXmnn02trY=;
+        b=Fw8KkupQWP1sjuNARANgDth/I4E8Dw60dO13hOJ8P5eNzx1H61J9+oaoJEz4UW+eLB
+         x1QdMZF9StP7c7hyy5JUC2MkPAqAt8qlfDb0usPVJ896zJWoOIBxIxiB9t3WJWOp41wc
+         QWQfUyGB9r0pZlKQ/l7gJrP8c9Azan7WlFLNpgl++8vrM1xNTg4t8bQ7iLn1cUPL5RBW
+         AG42p5PbmHJ8Frm71710QTtIrNhkU5qAvSTsYC97K1PrCm5ql9h7VGbzShVHn/cTrI73
+         fL7PPdPg+3dvqO2vSDnwUP0ahpRMP1oWeMlfwjY87k/1h79BGuI02uv9lh8MDmd3wbOb
+         XMdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hOxuOAzmvEV55alflVuCU5810VX9tcA35muYC7R0MbA=;
-        b=ECbqtyOw05Q0FM87VwP6x71SG7B7mQPaL7Njjknm3nydP8GZu9cWfGb5a/my5omfqM
-         +PkRaZLxim4CcUIy6BhGkaCnNKJMoMWREkoapc1NFEQvVZra5nROr29P5fyPI/IUCyNl
-         X8/VBsGHrzpjgL2b8jKnzRK0e/9biZdWIgCUzb0GuPKtJ9OxE+e86u/2Ns9KWw1O8558
-         D/P/gJ2pvohKea8ydEHvWVK3cBr73xAIqU47SYV9Oocu0kYe1iDuA8A3s2qKDfQabR3S
-         NzniR0zWYFr3OsHiKRVeencxEowSJTmCJfgttHcIronr+QI2HIT6w4+2J/ExGZr0+xv/
-         ou1g==
-X-Gm-Message-State: AOAM5300Tgk37QMHDlPfy9Ssn8MimDp0DVNjwMGy3q2Lwv2EgIt+zReQ
-        R8tB//kKMYCUqNIQrxeSYkmTKg==
-X-Google-Smtp-Source: ABdhPJwQLKXTvfX4Y1+2PDutR0rJsq3ap9TgpalSECU387DommfB6/zibSUcLtGWIgZ9/g+LfFUx5A==
-X-Received: by 2002:adf:8024:: with SMTP id 33mr52421656wrk.117.1594042455545;
-        Mon, 06 Jul 2020 06:34:15 -0700 (PDT)
+        bh=wF0TEpLE3+8aSfCpSueulEs3qt7dUTbs4ZXmnn02trY=;
+        b=h9SPXPCJLZuHBDA02/zVYab4h9nD6+nrnskiGpOtTASFfFXUS9Y/bq1tFBtFA8bv6S
+         9atk3EYulhKgMrKN86Ztd19DyJ0MmRcTWi/g6wXqUXEEBMEcPMu3uvPCqioFkSZPk2HC
+         Uj0WhD5HfvCafC63fAI2sxOckGAitNdSgdHMHxKSqfFzsfKyZXcE+MgATo5Pj5X2lN3t
+         YlwtbHXs3VRnesffxicSpt4aw3c61720xtHtjWjRQhaWvk2Esokg+0DW/9un+bS6U2sD
+         nQfVASSAJ3yx+d3CY0rTCW1DXW3uGnB9vNdGNYM1/babupFzNueEHRIC3sDS/vNFGF/s
+         UcYw==
+X-Gm-Message-State: AOAM530VS9ur3BhqYOVZylzotsc7kPivfdp3rXFJ+bYDM1oRVOfrilAb
+        JQrEEd06ruFRrAx7rV7OYcY2mQ==
+X-Google-Smtp-Source: ABdhPJxHHFnEPojgYRMIoE3DnTDn2rSpOXSQ2WwvPUtq97j/0sE7IvNfbZmEFXNMp63VwfwkukEpMg==
+X-Received: by 2002:a1c:c3c5:: with SMTP id t188mr51930563wmf.53.1594042453242;
+        Mon, 06 Jul 2020 06:34:13 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.206])
-        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.14
+        by smtp.gmail.com with ESMTPSA id v18sm25416082wrv.49.2020.07.06.06.34.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 06:34:14 -0700 (PDT)
+        Mon, 06 Jul 2020 06:34:12 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Jann Horn <jannh@google.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH 26/32] usb: early: xhci-dbc: Supply missing 'xhci-dbgp.h' headerfile
-Date:   Mon,  6 Jul 2020 14:33:35 +0100
-Message-Id: <20200706133341.476881-27-lee.jones@linaro.org>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH 24/32] usb: typec: ucsi: ucsi: Staticify and stop export of ucsi_init()
+Date:   Mon,  6 Jul 2020 14:33:33 +0100
+Message-Id: <20200706133341.476881-25-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200706133341.476881-1-lee.jones@linaro.org>
 References: <20200706133341.476881-1-lee.jones@linaro.org>
@@ -77,45 +76,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the header file containing a function's prototype isn't included by
-the sourcefile containing the associated function, the build system
-complains of missing prototypes.
+It isn't called from anywhere outside of ucsi.c.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/early/ehci-dbgp.c: In function ‘early_dbgp_write’:
- drivers/usb/early/ehci-dbgp.c:915:13: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
- 915 | int chunk, ret;
- | ^~~
- drivers/usb/early/xhci-dbc.c:600:12: warning: no previous prototype for ‘early_xdbc_parse_parameter’ [-Wmissing-prototypes]
- 600 | int __init early_xdbc_parse_parameter(char *s)
- | ^~~~~~~~~~~~~~~~~~~~~~~~~~
- drivers/usb/early/xhci-dbc.c:653:12: warning: no previous prototype for ‘early_xdbc_setup_hardware’ [-Wmissing-prototypes]
- 653 | int __init early_xdbc_setup_hardware(void)
- | ^~~~~~~~~~~~~~~~~~~~~~~~~
- drivers/usb/early/xhci-dbc.c:910:13: warning: no previous prototype for ‘early_xdbc_register_console’ [-Wmissing-prototypes]
- 910 | void __init early_xdbc_register_console(void)
- | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+ drivers/usb/typec/ucsi/ucsi.c:1005:5: warning: no previous prototype for ‘ucsi_init’ [-Wmissing-prototypes]
+ 1005 | int ucsi_init(struct ucsi *ucsi)
+ | ^~~~~~~~~
 
-Cc: Jann Horn <jannh@google.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/early/xhci-dbc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/typec/ucsi/ucsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
-index 04ba11fff0edc..a9932c1ff20f7 100644
---- a/drivers/usb/early/xhci-dbc.c
-+++ b/drivers/usb/early/xhci-dbc.c
-@@ -21,6 +21,7 @@
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/kthread.h>
-+#include <linux/usb/xhci-dbgp.h>
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index d0c63afaf345d..affd024190c91 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1002,7 +1002,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+  *
+  * Registers all ports @ucsi has and enables all notification events.
+  */
+-int ucsi_init(struct ucsi *ucsi)
++static int ucsi_init(struct ucsi *ucsi)
+ {
+ 	struct ucsi_connector *con;
+ 	u64 command;
+@@ -1078,7 +1078,6 @@ int ucsi_init(struct ucsi *ucsi)
  
- #include "../host/xhci.h"
- #include "xhci-dbc.h"
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(ucsi_init);
+ 
+ static void ucsi_init_work(struct work_struct *work)
+ {
 -- 
 2.25.1
 
