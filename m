@@ -2,68 +2,102 @@ Return-Path: <SRS0=ACcI=AS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13852C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jul 2020 19:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD4AC433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jul 2020 20:06:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED274206F6
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jul 2020 19:58:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F6272067D
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jul 2020 20:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594152393;
+	bh=Q8cYr3emIBz5I2SVRAbSwt8x/mXTe6S9IVSIduWrF8M=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=PGZGfkC64vPgU4DIfVFsbWiOMQPxDql2mSqdyWdPfbnTFB/ERiv9vnQ61LlSw4pyo
+	 ZbuT2DrRsr7Gy+65AYfohP8+/V8ZAHxQORu4Pk8f7LbRfyL+6mRMjTHH3VikxnPm7M
+	 b+mPs/iZ25uPOQCJU57CL6gDtH0+zca0OlM5NtGE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728568AbgGGT6k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jul 2020 15:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47310 "EHLO
+        id S1728645AbgGGUG3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jul 2020 16:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727003AbgGGT6k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jul 2020 15:58:40 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CD6C061755;
-        Tue,  7 Jul 2020 12:58:40 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 7FE3B120F93E0;
-        Tue,  7 Jul 2020 12:58:39 -0700 (PDT)
-Date:   Tue, 07 Jul 2020 12:58:38 -0700 (PDT)
-Message-Id: <20200707.125838.250656053300553400.davem@davemloft.net>
-To:     acelan.kao@canonical.com
-Cc:     bjorn@mork.no, kuba@kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: qmi_wwan: add support for Quectel EG95 LTE
- modem
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200707081445.1064346-1-acelan.kao@canonical.com>
-References: <20200707081445.1064346-1-acelan.kao@canonical.com>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
+        with ESMTP id S1728254AbgGGUG2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jul 2020 16:06:28 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 922ABC08C5DC
+        for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2020 13:06:28 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id a21so11975336otq.8
+        for <linux-usb@vger.kernel.org>; Tue, 07 Jul 2020 13:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=r5PL45TtpUanLMjUFz1CcEwQghycNM5MHybEf6+OAdY=;
+        b=Ia/xRu4E5EmGy6Euz2yN+Lu4bpiUJmEdWdzTD8OqM8AxBU6FQFBhSUpyKT01Vr8Gfb
+         B1Z5wCAkGvzqfHGLEzzzBaknQJXeNrxuVnCP9kf8bRooXqJKq6zqnMXR+v5lLmKVtu5A
+         QTSvpd1Xn3a+ElGJKiVI+MGiIxrLD5plOOwc0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=r5PL45TtpUanLMjUFz1CcEwQghycNM5MHybEf6+OAdY=;
+        b=iCPmmmuqlhq7W7tTBYHdnxxBXWTm2KYoiaBReFQCE5G3DYKvwP9AUL75xKDzVZhgGd
+         bQhcNDUv+oCq8yRkoflIYijr7oI5jbBQHuVUrkG2Xcd0vVAi8+zn8tPnkH1ACCZwrHXN
+         iVvn3W1v4K1igGN0Kz8cfqY5kjR2O6RlRMeV5i8l27M/3VnYXoLOeNYIFzUVSEUe7h2I
+         8AGs4mHfJ12w+/I+uB/MGYg/YBSI/xaEAhNthneOOwsG0PGVa7OuJMF4PULvnd7iFTSX
+         Yf0zk7zhI8Zha58qqnPSpeVmDF5lzy+hKeg8DB4w/QSDMuLtjQ57Mxr0uKRtLpCW5u9y
+         XtuA==
+X-Gm-Message-State: AOAM532/VSxyUTDmY2dp8wn1Zqqg1dmypG+k/5g3HIOz1Sl8v7HgSSzc
+        xPDROhOLA8A8goUrNk4Rne8lGA==
+X-Google-Smtp-Source: ABdhPJwwnZXLOhRRrCJBbJ2DZTfTavUWiRd8aI97qtpmNCNSuXiRBk3Odg92UJhZ/9Q7+WOFz9Le2Q==
+X-Received: by 2002:a9d:2261:: with SMTP id o88mr8252897ota.334.1594152388040;
+        Tue, 07 Jul 2020 13:06:28 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id d193sm302792oib.53.2020.07.07.13.06.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jul 2020 13:06:27 -0700 (PDT)
+Subject: Re: [PATCH] usbip: Use fallthrough pseudo-keyword
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20200707195214.GA3932@embeddedor>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <977e88c2-58cb-9507-c889-854e574a8f31@linuxfoundation.org>
+Date:   Tue, 7 Jul 2020 14:06:26 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200707195214.GA3932@embeddedor>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 07 Jul 2020 12:58:40 -0700 (PDT)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: AceLan Kao <acelan.kao@canonical.com>
-Date: Tue,  7 Jul 2020 16:14:45 +0800
-
-> Add support for Quectel Wireless Solutions Co., Ltd. EG95 LTE modem
+On 7/7/20 1:52 PM, Gustavo A. R. Silva wrote:
+> Replace the existing /* fall through */ comments and its variants with
+> the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
+> fall-through markings when it is the case.
 > 
-> T:  Bus=01 Lev=01 Prnt=01 Port=02 Cnt=02 Dev#=  5 Spd=480 MxCh= 0
-> D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-> P:  Vendor=2c7c ProdID=0195 Rev=03.18
-> S:  Manufacturer=Android
-> S:  Product=Android
-> C:  #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-> I:  If#=0x1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-> I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
 > 
-> Signed-off-by: AceLan Kao <acelan.kao@canonical.com>
 
-Applied, thank you.
+Is fallthrough syntax supported on our min gcc version?
+
+Does checkpatch or coccicheck catch these cases?
+
+The patch looks good.
+
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
