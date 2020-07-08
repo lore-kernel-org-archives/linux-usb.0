@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2537C433DF
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20299C433E0
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B31552064B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02C3E206C3
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594212629;
-	bh=GmTaXfyMjW1+6mtKUARoLfRk2vowHanMV++mAKJ0518=;
+	s=default; t=1594212631;
+	bh=lPKSN3hhMx3f3jskJHbmIh1Susq0B4ZMl65AHThXTgE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=N8OR8ViVCBdL+rKDGIbZTZQF6Q2QyVrIjICLIgFvau/joh/8D2Frz6cLH9BltunAM
-	 sMlH7gyerYyFcdtnBjF5AqeVJQNMAb0ULIkrXoHeeMTNylKdgNyPQt/rOIytEAUuWX
-	 U4/igLHBLwh9Ioj8ndVKV1qMzfzt462cTRz0Rfw0=
+	b=rs2LiNgOnJiHZ5S/Omzazju1RHBFlYFHdEBOgqFr3rBvpuVP7RN804yqj5tcYR1ug
+	 s9IgVqn850JRVkJ9pYpTFfYCL5oV8uiUjDgiyeYPdUeOYrYIAJbgBpq+nD/Fvf26UR
+	 EqQ2arYCRp7Gw9fBdHvFXE25dlFV9wKe8PTiaFuY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729358AbgGHMu2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jul 2020 08:50:28 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41120 "EHLO
+        id S1729269AbgGHMua (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jul 2020 08:50:30 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44557 "EHLO
         mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729171AbgGHMu0 (ORCPT
+        with ESMTP id S1729344AbgGHMu0 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jul 2020 08:50:26 -0400
-Received: by mail-lf1-f68.google.com with SMTP id c11so26809309lfh.8
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2020 05:50:24 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id y18so26800064lfh.11
+        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2020 05:50:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hp3xiyJAieOb8cYFgJCXpGWGvgBzWdf1lRPZkYORU04=;
-        b=K8MSfybsX/yCbrJIngkwrCuU9bFLYhsvYAEMiQuBgddYvbTklYABSXEPj0LXgvYmmo
-         18g6OXagYfHEIN08F2xrybdFg+czyq/2WGcvGJ/S76OsbJWphZHOL1aPNyQU2m3GnJQZ
-         fOqhPY6B+/WumGoxspzc2+dWUsfNt7SLanmm98/Omgm55ulZ0DHExLmsv09e9GHnk5+x
-         k9VnSZwUBJFsU7clHAm8ZKEMbgnywaZ98rwCIRMpCB2UV43WgCojeOeITmeEkCW61yxE
-         2CqZDCPZVNuWPyQKeF+TgtcSy3vz0AA6jC0DkhyUJ8LS5M1aEf7Mal1RCqvC023SNQV5
-         ju3A==
-X-Gm-Message-State: AOAM530hrZd7NFvnvoosvzz4j4SUdky2K/9I/wwJ5wWM21GyvJszsryt
-        EmSO6vqt6Y+tzuqc4JCmHLuzbmbsW9U=
-X-Google-Smtp-Source: ABdhPJyjqoPReKVjx6iKkgNGe7Wlwcv/jxK0h1j34HR2tv3eyq+0WK0eSWhVmLQmoZ1GiFH9HMr7Cw==
-X-Received: by 2002:a19:f20a:: with SMTP id q10mr36784632lfh.89.1594212622845;
+        bh=sIAuoCjdhQjebZskIt0528un459ZXux9+rw/jvZ4lG4=;
+        b=Z0Sq9h+xCEMd7/5P5Y7DIXsjhjssYXBUvyUO1psCoU7B5/RcrIZj9ZkEzk+xOuMJZe
+         +3rymqweih4Gpu4x3pwRow8S+gywbX42sEH/uc1wfi7a+J1Nynsd+/sBSZU8Og5mYW8n
+         afOyyk6e+xo79J7ya1kw1gDdbSrVRV86EkyVypYXqQEUh4FnkyQ7DmcFD2L5O6qOkreg
+         stLL5rX6vYBo2X1Og+npy0IluPF6G3Da1Snws9Jsmsjv0sQHAKzykbYuLxJcK88a4zUf
+         JGfUQ6irJa9F+sdGTzKeUfiUlEekhOVV4GlHFeoPwlwCw3x6uY3WGD8ATsXF0nJZkHfq
+         6bfA==
+X-Gm-Message-State: AOAM532XycQYh6pbHkofZTl6iQNvxi+cCGCjX4IqMkbfQ45v3NXOdISN
+        nSBhZEXgEJwR3dpdwW/lVNnyBiI+rc8=
+X-Google-Smtp-Source: ABdhPJyrVgwlN3yQoWlRFMsgiJ4Lg8L05MCaeH2Ofmz44sIF/4DWXfzgbcVQoicl+LhIYdpGAmMWHA==
+X-Received: by 2002:a05:6512:783:: with SMTP id x3mr26267608lfr.126.1594212622405;
         Wed, 08 Jul 2020 05:50:22 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id m14sm13400875lfp.18.2020.07.08.05.50.17
+        by smtp.gmail.com with ESMTPSA id d21sm892191ljo.85.2020.07.08.05.50.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 08 Jul 2020 05:50:19 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1jt9Wg-00046G-Ql; Wed, 08 Jul 2020 14:50:14 +0200
+        id 1jt9Wg-00045m-95; Wed, 08 Jul 2020 14:50:14 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Johan Hovold <johan@kernel.org>
-Subject: [PATCH 10/10] USB: serial: drop redundant transfer-buffer casts
-Date:   Wed,  8 Jul 2020 14:50:00 +0200
-Message-Id: <20200708125000.15659-11-johan@kernel.org>
+Subject: [PATCH 04/10] USB: serial: only set sysrq timestamp for consoles
+Date:   Wed,  8 Jul 2020 14:49:54 +0200
+Message-Id: <20200708125000.15659-5-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200708125000.15659-1-johan@kernel.org>
 References: <20200708125000.15659-1-johan@kernel.org>
@@ -67,98 +67,164 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop redundant URB transfer-buffer casts.
+Only set the sysrq timestamp for console ports to avoid having every
+driver also check the console flag when processing incoming data.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/aircable.c | 2 +-
- drivers/usb/serial/ftdi_sio.c | 2 +-
- drivers/usb/serial/generic.c  | 2 +-
- drivers/usb/serial/option.c   | 3 +--
- drivers/usb/serial/sierra.c   | 3 +--
- drivers/usb/serial/ssu100.c   | 2 +-
- 6 files changed, 6 insertions(+), 8 deletions(-)
+ drivers/usb/serial/f81232.c   |  4 ++--
+ drivers/usb/serial/f81534.c   |  2 +-
+ drivers/usb/serial/ftdi_sio.c |  2 +-
+ drivers/usb/serial/generic.c  | 11 +++++++----
+ drivers/usb/serial/mxuport.c  |  6 +++---
+ drivers/usb/serial/pl2303.c   |  2 +-
+ drivers/usb/serial/ssu100.c   |  5 +++--
+ 7 files changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/usb/serial/aircable.c b/drivers/usb/serial/aircable.c
-index 84d52953dd0a..a1df686c3066 100644
---- a/drivers/usb/serial/aircable.c
-+++ b/drivers/usb/serial/aircable.c
-@@ -117,7 +117,7 @@ static int aircable_process_packet(struct usb_serial_port *port,
- static void aircable_process_read_urb(struct urb *urb)
- {
- 	struct usb_serial_port *port = urb->context;
--	char *data = (char *)urb->transfer_buffer;
-+	char *data = urb->transfer_buffer;
- 	int has_headers;
- 	int count;
- 	int len;
+diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
+index dcda7fb164b4..0c7eacc630e0 100644
+--- a/drivers/usb/serial/f81232.c
++++ b/drivers/usb/serial/f81232.c
+@@ -424,7 +424,7 @@ static void f81232_process_read_urb(struct urb *urb)
+ 		lsr = data[i];
+ 		tty_flag = f81232_handle_lsr(port, lsr);
+ 
+-		if (port->port.console && port->sysrq) {
++		if (port->sysrq) {
+ 			if (usb_serial_handle_sysrq_char(port, data[i + 1]))
+ 				continue;
+ 		}
+@@ -461,7 +461,7 @@ static void f81534a_process_read_urb(struct urb *urb)
+ 	lsr = data[len - 1];
+ 	tty_flag = f81232_handle_lsr(port, lsr);
+ 
+-	if (port->port.console && port->sysrq) {
++	if (port->sysrq) {
+ 		for (i = 1; i < len - 1; ++i) {
+ 			if (!usb_serial_handle_sysrq_char(port, data[i])) {
+ 				tty_insert_flip_char(&port->port, data[i],
+diff --git a/drivers/usb/serial/f81534.c b/drivers/usb/serial/f81534.c
+index 2b39bda035c7..5661fd03e545 100644
+--- a/drivers/usb/serial/f81534.c
++++ b/drivers/usb/serial/f81534.c
+@@ -1238,7 +1238,7 @@ static void f81534_process_per_serial_block(struct usb_serial_port *port,
+ 			schedule_work(&port_priv->lsr_work);
+ 		}
+ 
+-		if (port->port.console && port->sysrq) {
++		if (port->sysrq) {
+ 			if (usb_serial_handle_sysrq_char(port, data[i]))
+ 				continue;
+ 		}
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index ade68405b015..871cdccf3a5f 100644
+index 07b146d7033a..ade68405b015 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -2584,7 +2584,7 @@ static void ftdi_process_read_urb(struct urb *urb)
- {
- 	struct usb_serial_port *port = urb->context;
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
--	char *data = (char *)urb->transfer_buffer;
-+	char *data = urb->transfer_buffer;
- 	int i;
- 	int len;
- 	int count = 0;
+@@ -2561,7 +2561,7 @@ static int ftdi_process_packet(struct usb_serial_port *port,
+ 
+ 	port->icount.rx += len - 2;
+ 
+-	if (brkint || (port->port.console && port->sysrq)) {
++	if (brkint || port->sysrq) {
+ 		for (i = 2; i < len; i++) {
+ 			if (brkint && i == len - 1) {
+ 				if (usb_serial_handle_break(port))
 diff --git a/drivers/usb/serial/generic.c b/drivers/usb/serial/generic.c
-index e60f74f11acc..d10aa3d2ee49 100644
+index 5cdf180cda23..05a2a3aa3963 100644
 --- a/drivers/usb/serial/generic.c
 +++ b/drivers/usb/serial/generic.c
-@@ -345,7 +345,7 @@ EXPORT_SYMBOL_GPL(usb_serial_generic_submit_read_urbs);
- void usb_serial_generic_process_read_urb(struct urb *urb)
+@@ -355,13 +355,13 @@ void usb_serial_generic_process_read_urb(struct urb *urb)
+ 	 * stuff like 3G modems, so shortcircuit it in the 99.9999999% of
+ 	 * cases where the USB serial is not a console anyway.
+ 	 */
+-	if (!port->port.console || !port->sysrq) {
+-		tty_insert_flip_string(&port->port, ch, urb->actual_length);
+-	} else {
++	if (port->sysrq) {
+ 		for (i = 0; i < urb->actual_length; i++, ch++) {
+ 			if (!usb_serial_handle_sysrq_char(port, *ch))
+ 				tty_insert_flip_char(&port->port, *ch, TTY_NORMAL);
+ 		}
++	} else {
++		tty_insert_flip_string(&port->port, ch, urb->actual_length);
+ 	}
+ 	tty_flip_buffer_push(&port->port);
+ }
+@@ -574,7 +574,7 @@ EXPORT_SYMBOL_GPL(usb_serial_generic_get_icount);
+ #ifdef CONFIG_MAGIC_SYSRQ
+ int usb_serial_handle_sysrq_char(struct usb_serial_port *port, unsigned int ch)
  {
- 	struct usb_serial_port *port = urb->context;
--	char *ch = (char *)urb->transfer_buffer;
-+	char *ch = urb->transfer_buffer;
+-	if (port->sysrq && port->port.console) {
++	if (port->sysrq) {
+ 		if (ch && time_before(jiffies, port->sysrq)) {
+ 			handle_sysrq(ch);
+ 			port->sysrq = 0;
+@@ -594,6 +594,9 @@ EXPORT_SYMBOL_GPL(usb_serial_handle_sysrq_char);
+ 
+ int usb_serial_handle_break(struct usb_serial_port *port)
+ {
++	if (!port->port.console)
++		return 0;
++
+ 	if (!port->sysrq) {
+ 		port->sysrq = jiffies + HZ*5;
+ 		return 1;
+diff --git a/drivers/usb/serial/mxuport.c b/drivers/usb/serial/mxuport.c
+index 2513ee902779..5d38c2a0f590 100644
+--- a/drivers/usb/serial/mxuport.c
++++ b/drivers/usb/serial/mxuport.c
+@@ -327,14 +327,14 @@ static void mxuport_process_read_urb_data(struct usb_serial_port *port,
+ {
  	int i;
  
- 	if (!urb->actual_length)
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 254a8bbeea67..8e74903352e7 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2151,8 +2151,7 @@ static void option_instat_callback(struct urb *urb)
- 	dev_dbg(dev, "%s: urb %p port %p has data %p\n", __func__, urb, port, portdata);
+-	if (!port->port.console || !port->sysrq) {
+-		tty_insert_flip_string(&port->port, data, size);
+-	} else {
++	if (port->sysrq) {
+ 		for (i = 0; i < size; i++, data++) {
+ 			if (!usb_serial_handle_sysrq_char(port, *data))
+ 				tty_insert_flip_char(&port->port, *data,
+ 						     TTY_NORMAL);
+ 		}
++	} else {
++		tty_insert_flip_string(&port->port, data, size);
+ 	}
+ 	tty_flip_buffer_push(&port->port);
+ }
+diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
+index c5a2995dfa2e..048452d8a4a4 100644
+--- a/drivers/usb/serial/pl2303.c
++++ b/drivers/usb/serial/pl2303.c
+@@ -1101,7 +1101,7 @@ static void pl2303_process_read_urb(struct urb *urb)
+ 	if (line_status & UART_OVERRUN_ERROR)
+ 		tty_insert_flip_char(&port->port, 0, TTY_OVERRUN);
  
- 	if (status == 0) {
--		struct usb_ctrlrequest *req_pkt =
--				(struct usb_ctrlrequest *)urb->transfer_buffer;
-+		struct usb_ctrlrequest *req_pkt = urb->transfer_buffer;
- 
- 		if (!req_pkt) {
- 			dev_dbg(dev, "%s: NULL req_pkt\n", __func__);
-diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
-index e8b130157b57..a862aa788a19 100644
---- a/drivers/usb/serial/sierra.c
-+++ b/drivers/usb/serial/sierra.c
-@@ -570,8 +570,7 @@ static void sierra_instat_callback(struct urb *urb)
- 		urb, port, portdata);
- 
- 	if (status == 0) {
--		struct usb_ctrlrequest *req_pkt =
--				(struct usb_ctrlrequest *)urb->transfer_buffer;
-+		struct usb_ctrlrequest *req_pkt = urb->transfer_buffer;
- 
- 		if (!req_pkt) {
- 			dev_dbg(&port->dev, "%s: NULL req_pkt\n",
+-	if (port->port.console && port->sysrq) {
++	if (port->sysrq) {
+ 		for (i = 0; i < urb->actual_length; ++i)
+ 			if (!usb_serial_handle_sysrq_char(port, data[i]))
+ 				tty_insert_flip_char(&port->port, data[i],
 diff --git a/drivers/usb/serial/ssu100.c b/drivers/usb/serial/ssu100.c
-index 01472b96bf38..7d39d35e52a1 100644
+index f6aea9f1be1a..01472b96bf38 100644
 --- a/drivers/usb/serial/ssu100.c
 +++ b/drivers/usb/serial/ssu100.c
-@@ -495,7 +495,7 @@ static void ssu100_update_lsr(struct usb_serial_port *port, u8 lsr,
- static void ssu100_process_read_urb(struct urb *urb)
- {
- 	struct usb_serial_port *port = urb->context;
--	char *packet = (char *)urb->transfer_buffer;
-+	char *packet = urb->transfer_buffer;
- 	char flag = TTY_NORMAL;
- 	u32 len = urb->actual_length;
- 	int i;
+@@ -517,13 +517,14 @@ static void ssu100_process_read_urb(struct urb *urb)
+ 	if (!len)
+ 		return;	/* status only */
+ 
+-	if (port->port.console && port->sysrq) {
++	if (port->sysrq) {
+ 		for (i = 0; i < len; i++, ch++) {
+ 			if (!usb_serial_handle_sysrq_char(port, *ch))
+ 				tty_insert_flip_char(&port->port, *ch, flag);
+ 		}
+-	} else
++	} else {
+ 		tty_insert_flip_string_fixed_flag(&port->port, ch, flag, len);
++	}
+ 
+ 	tty_flip_buffer_push(&port->port);
+ }
 -- 
 2.26.2
 
