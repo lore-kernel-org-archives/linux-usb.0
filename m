@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0285AC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B844BC433E1
 	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D78E22064B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EEC32064B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 12:50:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594212624;
-	bh=GbAbOo+eUvRZyK2oKcE6C/xGJJ16beL+VhHUlLdum3I=;
+	s=default; t=1594212625;
+	bh=2DU+HH1PFYzr5LXd7klomfmetltO32u7wREwRCQ1BG8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cFlyc001NmZGaWv4ozfgZWpXOpWWUwJVivBKAfGlgDBYLYVl/3zfhxUADziSC37+I
-	 HK+9zMZVFMa/aQM8VupDlz1fzfeuHGEEzenZ0agvFf/aqW/JJVdcGbKsodGgcfcxAZ
-	 bqhY8Jj32YLbSso1mjxgsf5AbhHACiZlBTu4bOkU=
+	b=fqp9UYf58OIXNTH0TtCdytwFgLjMst1nU7x8LvmGBOIdTQlP5LRp3SYI96NGpYLvR
+	 H92TsF+Atrwk6q9NBc2B/KxqrniXaihh+98brt8DP9FaWlox9g9rPg9c4RTiYpaaHX
+	 8EkTYKV88SelZG5//8oiyA2YPVYww4n3swvuFKqI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729345AbgGHMuY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729347AbgGHMuY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 8 Jul 2020 08:50:24 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38496 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729171AbgGHMuU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jul 2020 08:50:20 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 9so54049122ljv.5
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2020 05:50:19 -0700 (PDT)
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42868 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729268AbgGHMuW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jul 2020 08:50:22 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h22so46935204lji.9
+        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2020 05:50:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pyXSfGSid1WnxNkWrZfC4q2C1FC22J+GRzpJHuNhHWc=;
-        b=gYPU5aBXp0vFFZ7IBtgCMtTuGYFmww75hsx781ls8dNy4m33qGIbii4lm7x3UK69+S
-         HHbd1JThzo/eCY+q5rUFvR1VluHHQbAWriVRAny0B9MyD5pdVqogt1pAx6NFapR+UUF0
-         qDlpH5UzGoUONJmPOmj2Fcf4Mh9jH2pn80p+R3+d8z9LhjLZeKLWZ42zOkotVRTEsETY
-         uAHxoiptpoxY6Rl013sQMzwqpPcnH08SpNZamXw5EtnB+OYuUaGlUoqOdXZ6AjizW3mS
-         XHVT5LO2h/5SsFAZBDwr+f3GkB3m6nu+udx3uu61rYst56aGdIfusug2buLObdPzmxuA
-         zftg==
-X-Gm-Message-State: AOAM530DCEi/Uli7nnZTIj8jgWGAjFa7tUQvey1MUwnuCil8ymt+h3cu
-        nc3L0cKJbZNdp6oLTE7PryaR3eXL4lk=
-X-Google-Smtp-Source: ABdhPJx3/FGZJveh2pxLKt/xkyOCJ15rXQC1lREgg4kWpHcmZWG/3gn1fsRhZLRU1bW73ATu5neezA==
-X-Received: by 2002:a2e:8e9a:: with SMTP id z26mr35133698ljk.470.1594212617976;
-        Wed, 08 Jul 2020 05:50:17 -0700 (PDT)
+        bh=H0bjgyzH5s0eIqZUX6DEWjUkmcGB3TXKjdjC99HLXfE=;
+        b=B45aIkbos+r06pAJhSUZ7fqbpLRGmFrAKIpyPCYrsEkiTiBLxSGJ/JSjxtP18SvHT8
+         SU/Sxe+dhOq0uuE1VYgu2+uFnYBjEF7e3OvIn2shSlGFE0NfWXSlX9WHgTUhjH4oxVKx
+         +o6ApgkziIa+34HRZfCqhHecCw6bm8FzX9XMbi66Okc6j2RYFFIXg5/b9iz1DLpqWixv
+         jcGVcpOquc7DK0tZF/9Q3rEA9R9UUwDpA+klYWrwBnUbXnxxNAs//m9sF26FxWZd8tyv
+         7+kFVrcsYMRKJrA7P+PyuA9Ad2p7t5hIM/20b54prjWA/dYrmXfgFj5KXsZ7nB9tSOrb
+         67lw==
+X-Gm-Message-State: AOAM532jus2qS2XoVy54fq5rBexGsdPdI4iY1yYwIBWat4rM9FRfMlwh
+        WQD18VcDEIuGpNvFrVOjjEjj1e3eiBE=
+X-Google-Smtp-Source: ABdhPJzaxsQ7lhL3dKaHgJ4PLHLB76A2+N6y5EIDKtgmYGJoUYRLc3u8SLzi1TnXbkAQ/wd60eL6WQ==
+X-Received: by 2002:a2e:9042:: with SMTP id n2mr31644959ljg.208.1594212620444;
+        Wed, 08 Jul 2020 05:50:20 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id y24sm892222ljy.91.2020.07.08.05.50.16
+        by smtp.gmail.com with ESMTPSA id k14sm892552ljc.48.2020.07.08.05.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 05:50:16 -0700 (PDT)
+        Wed, 08 Jul 2020 05:50:19 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1jt9Wg-00045W-0b; Wed, 08 Jul 2020 14:50:14 +0200
+        id 1jt9Wg-000466-KL; Wed, 08 Jul 2020 14:50:14 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Johan Hovold <johan@kernel.org>
-Subject: [PATCH 01/10] USB: serial: ftdi_sio: make process-packet buffer unsigned
-Date:   Wed,  8 Jul 2020 14:49:51 +0200
-Message-Id: <20200708125000.15659-2-johan@kernel.org>
+Subject: [PATCH 08/10] USB: serial: drop unnecessary sysrq include
+Date:   Wed,  8 Jul 2020 14:49:58 +0200
+Message-Id: <20200708125000.15659-9-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200708125000.15659-1-johan@kernel.org>
 References: <20200708125000.15659-1-johan@kernel.org>
@@ -67,88 +67,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use an unsigned type for the process-packet buffer argument and give it
-a more apt name.
+There's no need to include sysrq.h in the subsystem header.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ include/linux/usb/serial.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 9ad44a96dfe3..96b9e2768ac5 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -2480,12 +2480,12 @@ static int ftdi_prepare_write_buffer(struct usb_serial_port *port,
- #define FTDI_RS_ERR_MASK (FTDI_RS_BI | FTDI_RS_PE | FTDI_RS_FE | FTDI_RS_OE)
+diff --git a/include/linux/usb/serial.h b/include/linux/usb/serial.h
+index c4ed4404335e..4becca7ae264 100644
+--- a/include/linux/usb/serial.h
++++ b/include/linux/usb/serial.h
+@@ -17,7 +17,6 @@
+ #include <linux/kref.h>
+ #include <linux/mutex.h>
+ #include <linux/serial.h>
+-#include <linux/sysrq.h>
+ #include <linux/kfifo.h>
  
- static int ftdi_process_packet(struct usb_serial_port *port,
--		struct ftdi_private *priv, char *packet, int len)
-+		struct ftdi_private *priv, unsigned char *buf, int len)
- {
-+	unsigned char status;
-+	unsigned char *ch;
- 	int i;
--	char status;
- 	char flag;
--	char *ch;
- 
- 	if (len < 2) {
- 		dev_dbg(&port->dev, "malformed packet\n");
-@@ -2495,7 +2495,7 @@ static int ftdi_process_packet(struct usb_serial_port *port,
- 	/* Compare new line status to the old one, signal if different/
- 	   N.B. packet may be processed more than once, but differences
- 	   are only processed once.  */
--	status = packet[0] & FTDI_STATUS_B0_MASK;
-+	status = buf[0] & FTDI_STATUS_B0_MASK;
- 	if (status != priv->prev_status) {
- 		char diff_status = status ^ priv->prev_status;
- 
-@@ -2521,7 +2521,7 @@ static int ftdi_process_packet(struct usb_serial_port *port,
- 	}
- 
- 	/* save if the transmitter is empty or not */
--	if (packet[1] & FTDI_RS_TEMT)
-+	if (buf[1] & FTDI_RS_TEMT)
- 		priv->transmit_empty = 1;
- 	else
- 		priv->transmit_empty = 0;
-@@ -2535,29 +2535,29 @@ static int ftdi_process_packet(struct usb_serial_port *port,
- 	 * data payload to avoid over-reporting.
- 	 */
- 	flag = TTY_NORMAL;
--	if (packet[1] & FTDI_RS_ERR_MASK) {
-+	if (buf[1] & FTDI_RS_ERR_MASK) {
- 		/* Break takes precedence over parity, which takes precedence
- 		 * over framing errors */
--		if (packet[1] & FTDI_RS_BI) {
-+		if (buf[1] & FTDI_RS_BI) {
- 			flag = TTY_BREAK;
- 			port->icount.brk++;
- 			usb_serial_handle_break(port);
--		} else if (packet[1] & FTDI_RS_PE) {
-+		} else if (buf[1] & FTDI_RS_PE) {
- 			flag = TTY_PARITY;
- 			port->icount.parity++;
--		} else if (packet[1] & FTDI_RS_FE) {
-+		} else if (buf[1] & FTDI_RS_FE) {
- 			flag = TTY_FRAME;
- 			port->icount.frame++;
- 		}
- 		/* Overrun is special, not associated with a char */
--		if (packet[1] & FTDI_RS_OE) {
-+		if (buf[1] & FTDI_RS_OE) {
- 			port->icount.overrun++;
- 			tty_insert_flip_char(&port->port, 0, TTY_OVERRUN);
- 		}
- 	}
- 
- 	port->icount.rx += len;
--	ch = packet + 2;
-+	ch = buf + 2;
- 
- 	if (port->port.console && port->sysrq) {
- 		for (i = 0; i < len; i++, ch++) {
+ /* The maximum number of ports one device can grab at once */
 -- 
 2.26.2
 
