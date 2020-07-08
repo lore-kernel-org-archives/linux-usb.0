@@ -2,84 +2,84 @@ Return-Path: <SRS0=NA4g=AT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E007C433DF
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 10:32:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05559C433DF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 10:39:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76617206F6
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 10:32:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE6F320739
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 10:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594204776;
+	bh=VWPhC4Gq7pX7sjLhrLhoCa8iCMdRCFzbp0T4IOiWh8k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Nx4Jt51ptPHYgBsI1KPYvCMFSvdfuC3NuHfNexkTk/58TlQa3NEpVAGeylYoYO3Az
+	 xDDDLGqctNGST5VkkvVthuSGxt/09xYc9EMcsf/idEwITF+ISNyHSPOnI4dZvwxOc4
+	 zRNnAzzOrUuXIT7IUIMe7YtdhyFCehA90Na7vpn0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728304AbgGHKcQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jul 2020 06:32:16 -0400
-Received: from smtp05.smtpout.orange.fr ([80.12.242.127]:45128 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728239AbgGHKcQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jul 2020 06:32:16 -0400
-Received: from belgarion ([86.210.166.159])
-        by mwinf5d09 with ME
-        id 0aY52300c3SgWc603aYBzt; Wed, 08 Jul 2020 12:32:13 +0200
-X-ME-Helo: belgarion
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Wed, 08 Jul 2020 12:32:13 +0200
-X-ME-IP: 86.210.166.159
-From:   Robert Jarzmik <robert.jarzmik@free.fr>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     gregkh@linuxfoundation.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>
-Subject: Re: [PATCH 06/32] usb: gadget: udc: pxa27x_udc: Fix a bunch of kerneldoc issues
-References: <20200706133341.476881-1-lee.jones@linaro.org>
-        <20200706133341.476881-7-lee.jones@linaro.org>
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Wed, 08 Jul 2020 12:32:05 +0200
-In-Reply-To: <20200706133341.476881-7-lee.jones@linaro.org> (Lee Jones's
-        message of "Mon, 6 Jul 2020 14:33:15 +0100")
-Message-ID: <878sfuxpp6.fsf@belgarion.home>
-User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
+        id S1728396AbgGHKjd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jul 2020 06:39:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36870 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728104AbgGHKjc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 Jul 2020 06:39:32 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D130D20739;
+        Wed,  8 Jul 2020 10:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594204772;
+        bh=VWPhC4Gq7pX7sjLhrLhoCa8iCMdRCFzbp0T4IOiWh8k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LUVVW7UKQebpZCxfAj/yfH0JqmWyqZimy2Nlld785FUp7uDteMXJs8RhnWUzwrCYH
+         Nywyx1PO0sK2W/w981QVWvsVP8WdV7uzOMY8T2DfJKGS/89ejltpW0w5fFBhGdkUe3
+         uh0F/75gJB+K4sYTOj83VFq+UrIBtnOGi3cEnUPM=
+Date:   Wed, 8 Jul 2020 12:39:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: USB MASS STORAGE
+ DRIVER
+Message-ID: <20200708103928.GC585606@kroah.com>
+References: <20200708095500.13694-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200708095500.13694-1-grandmaster@al2klimov.de>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Lee Jones <lee.jones@linaro.org> writes:
+On Wed, Jul 08, 2020 at 11:55:00AM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
-> Mostly bitrotted argument descriptions/names.  Also the removal
-> of a blank line in the middle of a kerneldoc header, which is
-> not allowed.
->
-> Fixes the following W=1 kernel build warning(s):
->
->  drivers/usb/gadget/udc/pxa27x_udc.c:398: warning: Function parameter or member 'ep' not described in 'ep_write_UDCCSR'
->  drivers/usb/gadget/udc/pxa27x_udc.c:398: warning: Excess function parameter 'udc' description in 'ep_write_UDCCSR'
->  drivers/usb/gadget/udc/pxa27x_udc.c:479: warning: Function parameter or member 'udc' not described in 'set_ep0state'
->  drivers/usb/gadget/udc/pxa27x_udc.c:479: warning: Excess function parameter 'dev' description in 'set_ep0state'
->  drivers/usb/gadget/udc/pxa27x_udc.c:506: warning: Excess function parameter 'req' description in 'inc_ep_stats_reqs'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1476: warning: bad line:
->  drivers/usb/gadget/udc/pxa27x_udc.c:1697: warning: Function parameter or member 'udc' not described in 'udc_enable'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1697: warning: Excess function parameter 'dev' description in 'udc_enable'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1750: warning: Function parameter or member 'g' not described in 'pxa27x_udc_start'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1750: warning: Excess function parameter 'bind' description in 'pxa27x_udc_start'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1784: warning: Excess function parameter 'driver' description in 'stop_activity'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1800: warning: Function parameter or member 'g' not described in 'pxa27x_udc_stop'
->  drivers/usb/gadget/udc/pxa27x_udc.c:1800: warning: Excess function parameter 'driver' description in 'pxa27x_udc_stop'
->  drivers/usb/gadget/udc/pxa27x_udc.c:2358: warning: Function parameter or member 'pdev' not described in 'pxa_udc_probe'
->  drivers/usb/gadget/udc/pxa27x_udc.c:2358: warning: Excess function parameter '_dev' description in 'pxa_udc_probe'
->
-> Cc: Daniel Mack <daniel@zonque.org>
-> Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-> Cc: Felipe Balbi <balbi@kernel.org>
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Your subject lines are very odd compared to all patches for this
+subsystem, as well as all other kernel subsystems.  Any reason you are
+doing it this way and not the normal and standard method of:
+	USB: storage: replace http links with https
 
-Cheers.
+That would look more uniform as well as not shout at anyone.
 
---
-Robert
+thanks,
+
+greg k-h
