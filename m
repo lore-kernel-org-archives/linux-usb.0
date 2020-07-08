@@ -2,121 +2,104 @@ Return-Path: <SRS0=NA4g=AT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C144C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 16:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D89C433E0
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 17:39:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38F4620663
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 16:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594226366;
-	bh=RPyn0V5dNOAZ8tWh1nuDesE9uq/SIa5Zq+ZfS63UAMs=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=P73O1591GAt8UMnsb6wjXbpB2HY/QAEOtB5Nj1OMvFi2OT9/R81hYwbhu4d1lMPt+
-	 +jA0NJOTXwlKSUzCJajERENp4gC0E1xiZBTwhneB62gqo8dFUKzuq3ZkS7weWm8ph6
-	 PlG7z6gRBNmaiyDTsSQ3M1rnO6M5o8rjEriMQs9M=
+	by mail.kernel.org (Postfix) with ESMTP id 15C38206DF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jul 2020 17:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730450AbgGHQjZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jul 2020 12:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730157AbgGHQjZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jul 2020 12:39:25 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E62AC061A0B
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2020 09:39:25 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id q3so28934378ilt.8
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2020 09:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Qa9LxZ/Xp7LSUBALu/srE8cRDf8Prb/D5kd949P1QlM=;
-        b=U6erRdYaii7klc7yOP94p3/uPbGGnpncN/oc7Vqx0R5MDbJQ7folwjhamHzQffg03K
-         TtT1P+8bnIx/8y3HgfyWpy6B6ykQmJIb6orrM0Wsa7wtad9sG/zAF0QOTGowWTZGWaR3
-         JxpdGi2Qv2IMyEjhHBeP39h+XiFuYSCL3Jq90=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qa9LxZ/Xp7LSUBALu/srE8cRDf8Prb/D5kd949P1QlM=;
-        b=cDzD4BA831tBnkM7/klErSLQcqx3Z/COYcpVJHvVPACdL6oshFhZwQE8OCedfrDV6w
-         Ul47NDRWzMoEhd7uvfoy+tCM2mPGCbxIuOsrSBW4+MTRvkfl2ViJNxaPDYRMBYXR78HQ
-         bzTo4+PHTPTWWF2xvS4koJJ592Z+5QvyLswcYwZx9EQQwkgNbDYkoFG+R90zMYpqdGzo
-         6LpY4plAThbxltm3BPfk4KE5RqY2EGX4EeAaSylhK+/sCktocaZFJmrGtHdv0ajvFDSF
-         /XfvOHJ51XvrxajiPDobRhHKC4oZEkTX2cj7E/P419I/DC95RZAxnNtkT53gY/FhZDwl
-         DAYg==
-X-Gm-Message-State: AOAM530am+rgphyoOzcr+ejKci9iozDfSRDVLWE8JaZ/VUUNMRTjrwIw
-        9dAz3l2lyb+iPH0TQS25ASsXaw==
-X-Google-Smtp-Source: ABdhPJx8X2O1CogKcVn+rBwEE7qVExBLojkb/kbvaNGcLF7zCON1nxAI7Upk+AtfhsZ5gRv+EepLfg==
-X-Received: by 2002:a92:8b51:: with SMTP id i78mr29409737ild.179.1594226364571;
-        Wed, 08 Jul 2020 09:39:24 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id c3sm143942ilj.31.2020.07.08.09.39.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2020 09:39:23 -0700 (PDT)
-Subject: Re: [PATCH] usbip: Use fallthrough pseudo-keyword
-To:     Joe Perches <joe@perches.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Julia Lawall <julia.lawall@lip6.fr>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20200707195214.GA3932@embeddedor>
- <977e88c2-58cb-9507-c889-854e574a8f31@linuxfoundation.org>
- <8e08240671d65f1e92dbf5e1e066190149e0d074.camel@perches.com>
- <1b6b83f7-c749-6e0a-0001-2febbf01b603@linuxfoundation.org>
- <dd532813cc28b6f27b2d0ed6bd3529f2@perches.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <0459d720-b2f5-c604-9356-c022fa3d37c8@linuxfoundation.org>
-Date:   Wed, 8 Jul 2020 10:39:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1725982AbgGHRjY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jul 2020 13:39:24 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:46244 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725446AbgGHRjY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 Jul 2020 13:39:24 -0400
+X-Greylist: delayed 27855 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 13:39:23 EDT
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 810A7BC117;
+        Wed,  8 Jul 2020 17:39:21 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     b-liu@ti.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: MUSB MULTIPOINT HIGH SPEED DUAL-ROLE CONTROLLER
+Date:   Wed,  8 Jul 2020 19:39:14 +0200
+Message-Id: <20200708173914.15470-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-In-Reply-To: <dd532813cc28b6f27b2d0ed6bd3529f2@perches.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 7/8/20 9:39 AM, Joe Perches wrote:
-> On 2020-07-08 07:35, Shuah Khan wrote:
->> On 7/7/20 7:56 PM, Joe Perches wrote:
->>> On Tue, 2020-07-07 at 14:06 -0600, Shuah Khan wrote:
->>>> On 7/7/20 1:52 PM, Gustavo A. R. Silva wrote:
->>>>> Replace the existing /* fall through */ comments and its variants with
->>>>> the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
->>>>> fall-through markings when it is the case.
->>>>>
->>>>> [1] 
->>>>> https://www.kernel.org/doc/html/latest/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through 
->>>>>
->>>>>
->>>>
->>>> Is fallthrough syntax supported on our min gcc version?
->>>
->>> No.  Introduced in gcc 7.
->>>
->>
->> Gustavo,
->>
->> In which case, this patch would break usbip build on older gcc
->> revisions.
-> 
-> No it will not.  Comment fall through was introduced in gcc 7 and this 
-> devolved into a do while 0
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-Ah thanks. I didn't know that. No concerns of patch to go in.
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
 
-thanks,
---- Shuah
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+ (Actually letting a shell for loop submit all this stuff for me.)
+
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
+
+ If you apply the patch, please let me know.
+
+
+ drivers/usb/musb/musb_trace.c | 2 +-
+ drivers/usb/musb/musb_trace.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/musb/musb_trace.c b/drivers/usb/musb/musb_trace.c
+index 476872adce80..03ccf573eb63 100644
+--- a/drivers/usb/musb/musb_trace.c
++++ b/drivers/usb/musb/musb_trace.c
+@@ -2,7 +2,7 @@
+ /*
+  * musb_trace.c - MUSB Controller Trace Support
+  *
+- * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2015 Texas Instruments Incorporated - https://www.ti.com
+  *
+  * Author: Bin Liu <b-liu@ti.com>
+  */
+diff --git a/drivers/usb/musb/musb_trace.h b/drivers/usb/musb/musb_trace.h
+index 380ebc77eab1..e302c219aa7c 100644
+--- a/drivers/usb/musb/musb_trace.h
++++ b/drivers/usb/musb/musb_trace.h
+@@ -2,7 +2,7 @@
+ /*
+  * musb_trace.h - MUSB Controller Trace Support
+  *
+- * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2015 Texas Instruments Incorporated - https://www.ti.com
+  *
+  * Author: Bin Liu <b-liu@ti.com>
+  */
+-- 
+2.27.0
 
