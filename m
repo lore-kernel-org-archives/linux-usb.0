@@ -2,87 +2,95 @@ Return-Path: <SRS0=iJZq=AU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 686BFC433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 16:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D70CC433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 16:33:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B2782078B
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 16:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594310657;
-	bh=ETBFJDSAFiCnqi5o09DJlz6wtvExixkBaqJ2uj3S558=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=XX/f11sFurEhypfWIQehSp1u3+uXvM0BQKB7mcw3DoHzCQDkH/gnK2Tblqaea9PUl
-	 Mo1ExqNIWbGFYybIVtVcQtJKzdIAH0YAyAdw2y5vDWhyMhnm0mGk2BNQa/EtH/HYsE
-	 X5gKYkbxI8IVWQQrAXr1g+VKqa8s5v5MkBg2HrNA=
+	by mail.kernel.org (Postfix) with ESMTP id 28650207FB
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 16:33:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726852AbgGIQEQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jul 2020 12:04:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53218 "EHLO mail.kernel.org"
+        id S1727952AbgGIQdb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Jul 2020 12:33:31 -0400
+Received: from v6.sk ([167.172.42.174]:36588 "EHLO v6.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726408AbgGIQEQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Jul 2020 12:04:16 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CCFAC2077D;
-        Thu,  9 Jul 2020 16:04:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594310656;
-        bh=ETBFJDSAFiCnqi5o09DJlz6wtvExixkBaqJ2uj3S558=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d4+muDx70wcoGY0GPoXT2Si9krBefbZ+yFeApfrWKrnHchLtjNNZSfyLUU0lhuA2d
-         OKVVdoE9QaYPj6x1lqFD95NS8cSQYO6bJAaNl6FtWVa6tZ967z+hGualnWv8GixDS2
-         fb1buMt8fx9Om/xNG5VAtCbW3Wsf4BRmyfU8+kGI=
-Date:   Thu, 9 Jul 2020 18:04:23 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.com>
-Cc:     linux-usb@vger.kernel.org, Pete Zaitcev <zaitcev@redhat.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kris Katterjohn <katterjohn@gmail.com>
-Subject: Re: [PATCH v4 2/2] usbmon: expose the usbmon structures and
- constants as an UAPI header.
-Message-ID: <20200709160423.GB863447@kroah.com>
-References: <20200705150225.21500-1-flameeyes@flameeyes.com>
- <20200706224415.2854-1-flameeyes@flameeyes.com>
- <20200706224415.2854-2-flameeyes@flameeyes.com>
+        id S1727074AbgGIQdb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Jul 2020 12:33:31 -0400
+Received: from localhost (v6.sk [IPv6:::1])
+        by v6.sk (Postfix) with ESMTP id C349E60D19;
+        Thu,  9 Jul 2020 16:32:59 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org,
+        dri-devel@lists.freedesktop.org, balbi@kernel.org,
+        Lubomir Rintel <lkundrak@v3.sk>
+Subject: Re: [PATCH v3 0/6] Generic USB Display driver
+Date:   Thu,  9 Jul 2020 18:32:35 +0200
+Message-Id: <20200709163235.360054-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200529175643.46094-1-noralf@tronnes.org>
+References: <20200529175643.46094-1-noralf@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200706224415.2854-2-flameeyes@flameeyes.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 11:44:15PM +0100, Diego Elio Pettenò wrote:
-> This allows applications to use the usbmon ioctl() without declaring the
-> constants.
+Hello,
+
+On 29 May 2020 Noralf TrÃ¸nnes wrote:
+...
+> This series adds a USB host driver and a device/gadget driver to achieve
+> that.
 > 
-> Update the documentation to reflect the new header.
-> 
-> Cc: linux-usb@vger.kernel.org
-> Cc: Pete Zaitcev <zaitcev@redhat.com>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Kris Katterjohn <katterjohn@gmail.com>
-> Cc: Greg KH <gregkh@linuxfoundation.org>
-> Signed-off-by: Diego Elio Pettenò <flameeyes@flameeyes.com>
-> ---
->  Documentation/usb/usbmon.rst |  70 ++++++++++++-----------
->  drivers/usb/mon/mon_bin.c    |  92 +-----------------------------
->  include/uapi/linux/usb/mon.h | 107 +++++++++++++++++++++++++++++++++++
->  3 files changed, 145 insertions(+), 124 deletions(-)
->  create mode 100644 include/uapi/linux/usb/mon.h
+> The reason for calling it 'Generic' is so anyone can make a USB
+> display/adapter against this driver, all that's needed is to add a USB
+> vid:pid. I have done a microcontroller implementation hack just to see
+> how that would work out[1] (which unconvered a couple of bugs in the
+> host driver).
+...
 
-What changed from previous versions?  Always put that below the --- line
-like the documentation asks you to.   Please do that when you resend
-this series.
+This is actually very cool; finally a good way to drive the cheapo
+SPI/I2C displays from computers whose only means of expansion is USB
+with a little help from a microcontroller. I've actually had some
+success doing just that [1].
 
-thanks,
+[1] https://assets.octodon.social/media_attachments/files/009/983/960/original/64ad8ea46c1b06c5.jpg
 
-greg k-h
+I suppose you can add:
+
+Tested-by: Lubomir Rintel <lkundrak@v3.sk>
+
+I've had to jump through some hoops though.
+
+My OLED display is a 128x64 SSD1306 [1] driven from the SPI bus. The frame
+buffer SRAM is normally scanned out in stripes of 8 vertical pixels called
+"pages". When the display is turned on its side, with "vertical
+addressing mode" and "segment remapping" enabled and bytes being sent LSB
+first, it appears linear -- it's easy to repaint the whole display from
+what is now the top left corner to the bottom right. This is very
+convenient for painting pixels as they come, without bufferring them or
+doing any conversions (assuming that memory and cpu cycles are at
+premium on MCUs).
+
+[1] https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
+
+There doesn't seem a comfortable way to do partial redraws though. Would
+you find it objectionable if the device could indicate that needs full
+frames instead of just the damaged areas? Perhaps then the driver
+wouldn't even need to bother issuing GUD_DRM_USB_REQ_SET_BUFFER to
+displays dumb enough to be incapable of partial redraws and decompression.
+
+My work-in-progress code that works on STM32F103 (e.g. "Blue Pill"
+boards), or GD32VF103 (RISC-V "Polos Alef") is at [2]. The partial redraws
+that don't start from column zero or are not "page aligned" don't work
+correctly for the time being; X11 doesn't seem to care.
+
+[2] https://github.com/hackerspace/libopencm3-gf32v-examples/tree/lr/gd32v/examples/gd32v/f103/polos-alef/usb-display
+
+Thank you!
+Lubo
