@@ -6,23 +6,23 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E137CC433DF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 14:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2DBC433E2
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 14:15:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3B7220786
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 14:12:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C20520772
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 14:15:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbgGIOMe convert rfc822-to-8bit (ORCPT
+        id S1726725AbgGIOPm convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jul 2020 10:12:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40212 "EHLO mail.kernel.org"
+        Thu, 9 Jul 2020 10:15:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726371AbgGIOMe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Jul 2020 10:12:34 -0400
+        id S1726371AbgGIOPm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Jul 2020 10:15:42 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 208353] Distorted Audio Output Through USB C Docking Station
-Date:   Thu, 09 Jul 2020 14:12:33 +0000
+Date:   Thu, 09 Jul 2020 14:15:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208353-208809-x5UwSuelTW@https.bugzilla.kernel.org/>
+Message-ID: <bug-208353-208809-fyPOWBLnjk@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208353-208809@https.bugzilla.kernel.org/>
 References: <bug-208353-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -57,10 +57,10 @@ Takashi Iwai (tiwai@suse.de) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |alxchk@gmail.com
+                 CC|                            |subjectdenied@gmail.com
 
---- Comment #14 from Takashi Iwai (tiwai@suse.de) ---
-*** Bug 208403 has been marked as a duplicate of this bug. ***
+--- Comment #15 from Takashi Iwai (tiwai@suse.de) ---
+*** Bug 208317 has been marked as a duplicate of this bug. ***
 
 -- 
 You are receiving this mail because:
