@@ -2,173 +2,186 @@ Return-Path: <SRS0=iJZq=AU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEA1C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 22:17:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F7E6C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 22:46:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF56720774
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 22:17:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Dl1JHR1k";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="PgL9es32"
+	by mail.kernel.org (Postfix) with ESMTP id 5E9B7206E2
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 22:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594334799;
+	bh=dtlzcr0QvM7s/s8aUqSHa/DeH/oh6yuUyMb1mVo9rNE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=W0Kh5cbex12JBiScqKyE70rd5dluP8RE5OKy9Fg+YpKoWddTS1CXqon4XA6RNCxb1
+	 Iu0vykx1kgfdYGiQAlAgxIpnCzWEUlGKcKq41xHqaX8gAmPKrmJ2kyq6ozkuo/ck3W
+	 i2WYGnXgqEBFikT52Y2TwbOn+uZpU3833ATEBLug=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbgGIWRi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jul 2020 18:17:38 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:35340 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726265AbgGIWRh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jul 2020 18:17:37 -0400
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com [10.192.0.81])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 954D3C0085;
-        Thu,  9 Jul 2020 22:17:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1594333056; bh=Qt1FJKX7UzVe557qNHMkEaqKfLwQHfejd/BSoFXlF8g=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=Dl1JHR1kFhHDMg68WnvBHexFmHYIao1/Ap4le6r5rhVf867FEd61+EObugQNG4fDR
-         GRdPCU89ftmoLbdCXjPWx85T1ygwqjeKd09Q7hcsIeyUJ/MfAbpANtcBfA8tKryQvL
-         XKiqloK1dcNEWgb3TpqwkfnWlZ4zI2vnnm/i1lpFvLVcRMZoGlEOAMmLJWw2X3BOZJ
-         qPJRlqIpUbeOTq71UkFVszRgKmogSXg06baaNVxsJpeHtr9fkS8xCTp1GMtytNIClt
-         DrPEqdGNgT+7Cxl0SHDngOLtEooNcbFcdZf2JS3yM9mPMNzF2Nzqmd6grhjupikeKk
-         ss7eHPqZESciw==
-Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id C644CA005A;
-        Thu,  9 Jul 2020 22:17:31 +0000 (UTC)
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 600D6800DE;
-        Thu,  9 Jul 2020 22:17:29 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="PgL9es32";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OUzSMpW9sgTUvjkPf9n2GkkdYaoXCyGnP8fH+eHxGueXK7URQGUpGNaAU1lObukA50rM7ha/3dQgoUqqG8EjO6gMWShlPM7RLhQ8M6ITmmq9qysACJGwYKV3csqMr82ZDRHV7zJ+BZtVYfz7LKyxRSm1BCt9U4ZbGNiWcg8VStXDo0IMrcYR2ajLqVBX/1Yzsiw8u1p5DoIMiejOm8zV2ik7p7FWGnM6sVfFMC/ZVF9WjFarXUayol+hnxaF+8S4bTqDfV4cgPNeoK3ZEShiE73Sh4/gmnrdjKa2M2bDRFEuTbK+hHt08wcZ9ekNvPSckvxmt+hac9R4+7hqwF6q1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qt1FJKX7UzVe557qNHMkEaqKfLwQHfejd/BSoFXlF8g=;
- b=VZyYXqCEDrCbBvY3pTEeN52cV5kGsuBRvsCsh4ZvsfopQFIoOXPJ5qOiHZ8jKg/MATndxsAQUD6pILbpYZDy/bneXGnwfeRcnvfTJFSU3jEtf/ERm0jkhl/30bRD3+kHw73G6lldMAH/Z8o+iL9hUGoIVD8N/k74loj4ZEGHo5bHYa+LDZlegSGIfdZC1te2Ov65qSJTMmIeJYiT4rmoT10EbKOuPmKLcowDVTqX1SnbbOZJaZ2kN0cmOHeYT5LWb1qahe5Yk7XaYO4hXadONJ4Tms5mZeFj5SJ3gwt0yYgXzj55gWAKwDNS1XTFNDlRW9kaCZPJ1Ifwwqcp8Ahg3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qt1FJKX7UzVe557qNHMkEaqKfLwQHfejd/BSoFXlF8g=;
- b=PgL9es32PJTWbG5Bkf6XWLC6dvsTMaKBnEGW2mi5KpIVaoN6gqhCuG4Mh3R2PmHVr318DkSajBQTF7faZlaYJcBfhRa6yN6N8wsa5dErin5QuUZm9FNAHPCLT68N/RepteABGEnYKSM7YD8LKYKkn9XbEmqbThkFcmmlq/oQjlc=
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com (2603:10b6:a03:130::14)
- by BY5PR12MB3874.namprd12.prod.outlook.com (2603:10b6:a03:1ad::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Thu, 9 Jul
- 2020 22:17:27 +0000
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::3844:ed8:654d:7456]) by BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::3844:ed8:654d:7456%5]) with mapi id 15.20.3153.032; Thu, 9 Jul 2020
- 22:17:27 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>
-Subject: Re: [RFC PATCH] usb: dwc3: fix maximum_speed check for usb2.0-only
- core
-Thread-Topic: [RFC PATCH] usb: dwc3: fix maximum_speed check for usb2.0-only
- core
-Thread-Index: AQHWVciZhhgPOtxvykmm/JX0MmuCQ6j/0eIA
-Date:   Thu, 9 Jul 2020 22:17:27 +0000
-Message-ID: <6dff8574-e649-7a5c-4d80-c3fe6ddd6645@synopsys.com>
-References: <1594282250-25544-1-git-send-email-chunfeng.yun@mediatek.com>
-In-Reply-To: <1594282250-25544-1-git-send-email-chunfeng.yun@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-authentication-results: mediatek.com; dkim=none (message not signed)
- header.d=none;mediatek.com; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [149.117.7.24]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 277543ec-77c2-414b-9050-08d82455dd01
-x-ms-traffictypediagnostic: BY5PR12MB3874:
-x-microsoft-antispam-prvs: <BY5PR12MB3874035567D0742A59759E3EAA640@BY5PR12MB3874.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: psaEZOPacPfBl8iuiNVEG60nDDmyfOruGpEkEd/6KMkM8jm3bEjgyX7WtWLAy5+ScdObNl+Et+qpci9HoRnyQgy+2PZ1j7hE3fwE0Pr1TQVmNdZOukW9IzvjyCFoL52uTPiUG7BGmUS0+jjoVCGwGMNsLZT7W7noT+guBIrekDNZxBZgFkgEuqRjp4i8pOzyEN5zJlYi7GzEQqOl48sH+dsN5EYroNDRZzZNYz+2Jl4pvAH8xGYKkanYlO1Pkax0PAjdNWDu79wcoj2z1fwlgxJ0uMC2bA5YxM4+9hlg3vE5acsdR03NjELnyeFsG80c2jTBx4uGIh8nX5D0ZQzDe3fDLGu69R4vTtdKL+NUrwoMOqcpXiTPxlFwfJ9K0cww
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2917.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39860400002)(346002)(366004)(376002)(396003)(136003)(66446008)(66476007)(66946007)(66556008)(64756008)(31696002)(31686004)(2616005)(76116006)(71200400001)(478600001)(6512007)(86362001)(36756003)(26005)(6486002)(2906002)(316002)(83380400001)(110136005)(8676002)(186003)(6506007)(4326008)(54906003)(8936002)(5660300002)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: vnsgZrkw1wKs26Z+8q26CvDiFxT6dzjkXlQjesKIKGPEA7LwqdOgoxLHStponOl+QwL3KiU42NljE8HbC/a5xtDKY+60zClzKgSe4fNBhURbzPa8howhkihzHYSsgYSF6kOxp9HXJNKplRGJYTe3DZkjJsfxdO9tn5l+StmUIXhPhiudW6HSBQK0RLWL3OynAm7xLM7kSxAwyK9BzkPgOrwS+ovEKsH9p92YY1gMRMH4LHNUNrYoLoreeoDm7swDC1Zs9KLhT2xM4i6jZKz7AwTAcL0th31d9+Rf9u1FF1nLV5yRybUhn4iURTfjsg3kAqlFcEwgevtRztxKSjAPQngGQe3kS0Js+TceQsv+BFbtQgw5fHLN3LpgHqomUdrEQPwQ96eJTkAdB7GvC0Sg4VbDTYQyVoPSWknmmkHBNLL4WJFZSKoJfkyqgH7EIeAbYoe27XpJ2XeVNaTF6EjOxYgHnp/N/826yEagXfwAGbA=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F76D7F612B429F468EBD9E4A1DEAD566@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1727828AbgGIWqf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Jul 2020 18:46:35 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:44044 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726482AbgGIWq3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jul 2020 18:46:29 -0400
+Received: by mail-io1-f65.google.com with SMTP id i4so4030742iov.11;
+        Thu, 09 Jul 2020 15:46:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QXFKaIMVMvoCqLqiHJ2gAavHpO+CjG0ilPbgcK2+QFs=;
+        b=OVGZQIbQF1+vcqb1L6GeXRw5pW1d/A4vcjQJ4Pa55elc44WgLSmpAr0OKEARSNABvc
+         cvy1bqKiHOHxWeAW3n38IhZE7ExDPKsvzybq59ClQ+5k0myaCqAF0F+Giv3IvzYoahHw
+         SEp4m7LVxZuEpB6TUPs915bqoKH/qn/jQZuxwlTuKgnp/+7VvFU7AMFXmZOC8IdpJE9C
+         561QMBsMsAYTOih+NNDPejoQtODTUewVmkzkOOfg6G5kFowDxujK4/9cGh578eXUQgmc
+         Mq8fRicWY2w+Um1ItpUgDhKuWr/Omcf5SUuXuDQrcaCPNiPoiKjgZ3jlDWhRcm9O5tNo
+         rLTA==
+X-Gm-Message-State: AOAM530Pv4zObmmMqn+GHEh4jPsI2V8VSEbVXGTgbmWTVdWI5Lwr4krw
+        E+/RxiApbmVZBVU/S7TEmQ==
+X-Google-Smtp-Source: ABdhPJyKXp0NnPd3+aWgOm1nwSaG7xmAY38yYWlsy/z8UNBc0kMfraXWzB4Dxdq1HDX525Ov/1rOuw==
+X-Received: by 2002:a05:6602:1544:: with SMTP id h4mr45081721iow.24.1594334788520;
+        Thu, 09 Jul 2020 15:46:28 -0700 (PDT)
+Received: from xps15 ([64.188.179.254])
+        by smtp.gmail.com with ESMTPSA id g8sm2510122ilq.49.2020.07.09.15.46.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2020 15:46:27 -0700 (PDT)
+Received: (nullmailer pid 1029281 invoked by uid 1000);
+        Thu, 09 Jul 2020 22:46:26 -0000
+Date:   Thu, 9 Jul 2020 16:46:26 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     lgirdwood@gmail.com, mark.rutland@arm.com, agross@kernel.org,
+        broonie@kernel.org, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jackp@codeaurora.org, rdunlap@infradead.org,
+        bryan.odonoghue@linaro.org
+Subject: Re: [PATCH v5 2/6] dt-bindings: usb: Add Qualcomm PMIC type C
+ controller dt-binding
+Message-ID: <20200709224626.GA1021653@bogus>
+References: <20200703015102.27295-1-wcheng@codeaurora.org>
+ <20200703015102.27295-3-wcheng@codeaurora.org>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2917.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 277543ec-77c2-414b-9050-08d82455dd01
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2020 22:17:27.1002
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6UYbxn9v1EeKVchpSVSOm+OFBDKJKBvbgJGNqU2YiVHLNbsRGYIuQ3vcyPOJ3Hqbp/FzrLMkiarkP0wz3li6pQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3874
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200703015102.27295-3-wcheng@codeaurora.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGksDQoNCkNodW5mZW5nIFl1biB3cm90ZToNCj4gVGhlIG1heGltdW1fc3BlZWQgd2lsbCBiZSBV
-U0JfU1BFRURfU1VQRVJfUExVUywgYnV0IHRoZQ0KPiBtYXhpbXVtX3NwZWVkIGNoZWNrIGZvciB1
-c2IyLjAtb25seSBjb3JlIGRvZXNuJ3QgY29uc2lkZXIgaXQsDQo+IHNvIGZpeCBpdCwgYW5kIG1v
-dmUgdGhlIGNrZWNrIGludG8gZHdjM19jaGVja19wYXJhbXMoKS4NCj4NCj4gU2lnbmVkLW9mZi1i
-eTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KPiAtLS0NCj4gTm90
-ZToNCj4NCj4gV2hlbiBJIGxvb2sgYXQgdGhlIGNvZGUsIGZpbmQgdGhhdCB0aGlzIG1heSBiZSBh
-IHByb2JsZW0sIGJ1dCBubw0KPiBwbGF0Zm9ybSB0byB0ZXN0IGl0Lg0KPiAtLS0NCj4gICBkcml2
-ZXJzL3VzYi9kd2MzL2NvcmUuYyB8IDE0ICsrKysrKystLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5n
-ZWQsIDcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL2R3YzMvY29yZS5jIGIvZHJpdmVycy91c2IvZHdjMy9jb3JlLmMNCj4gaW5kZXgg
-MjVjNjg2YTcuLmZmZDVhYjMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5j
-DQo+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5jDQo+IEBAIC05MzAsMTMgKzkzMCw2IEBA
-IHN0YXRpYyBpbnQgZHdjM19jb3JlX2luaXQoc3RydWN0IGR3YzMgKmR3YykNCj4gICAJICovDQo+
-ICAgCWR3YzNfd3JpdGVsKGR3Yy0+cmVncywgRFdDM19HVUlELCBMSU5VWF9WRVJTSU9OX0NPREUp
-Ow0KPiAgIA0KPiAtCS8qIEhhbmRsZSBVU0IyLjAtb25seSBjb3JlIGNvbmZpZ3VyYXRpb24gKi8N
-Cj4gLQlpZiAoRFdDM19HSFdQQVJBTVMzX1NTUEhZX0lGQyhkd2MtPmh3cGFyYW1zLmh3cGFyYW1z
-MykgPT0NCj4gLQkJCURXQzNfR0hXUEFSQU1TM19TU1BIWV9JRkNfRElTKSB7DQo+IC0JCWlmIChk
-d2MtPm1heGltdW1fc3BlZWQgPT0gVVNCX1NQRUVEX1NVUEVSKQ0KPiAtCQkJZHdjLT5tYXhpbXVt
-X3NwZWVkID0gVVNCX1NQRUVEX0hJR0g7DQo+IC0JfQ0KPiAtDQo+ICAgCXJldCA9IGR3YzNfcGh5
-X3NldHVwKGR3Yyk7DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlnb3RvIGVycjA7DQo+IEBAIC0xNDI2
-LDYgKzE0MTksMTMgQEAgc3RhdGljIHZvaWQgZHdjM19jaGVja19wYXJhbXMoc3RydWN0IGR3YzMg
-KmR3YykNCj4gICANCj4gICAJCWJyZWFrOw0KPiAgIAl9DQo+ICsNCj4gKwkvKiBIYW5kbGUgVVNC
-Mi4wLW9ubHkgY29yZSBjb25maWd1cmF0aW9uICovDQo+ICsJaWYgKERXQzNfR0hXUEFSQU1TM19T
-U1BIWV9JRkMoZHdjLT5od3BhcmFtcy5od3BhcmFtczMpID09DQo+ICsJCQlEV0MzX0dIV1BBUkFN
-UzNfU1NQSFlfSUZDX0RJUykgew0KPiArCQlpZiAoZHdjLT5tYXhpbXVtX3NwZWVkID4gVVNCX1NQ
-RUVEX0hJR0gpDQo+ICsJCQlkd2MtPm1heGltdW1fc3BlZWQgPSBVU0JfU1BFRURfSElHSDsNCj4g
-Kwl9DQo+ICAgfQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgZHdjM19wcm9iZShzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlICpwZGV2KQ0KDQpBY3R1YWxseSwgdGhlIGR3Yy0+bWF4aW11bV9zcGVlZCBjYXB0
-dXJlcyB0aGUgbWF4aW11bSBzcGVlZCBkZXZpY2UgDQpwcm9wZXJ0eSB2YWx1ZS4gSXQgbWF5YmUg
-YmUgc2V0IGJhc2VkIG9uIHRoZSBwaHkncyBjYXBhYmlsaXR5IGlmIHRoZXJlJ3MgDQpubyBwcm9w
-ZXJ0eSBzcGVjaWZ5aW5nIGl0IChpLmUuIG1heGltdW1fc3BlZWQgaXMgVVNCX1NQRUVEX1VOS05P
-V04pLg0KDQpTbywgdGhpcyBjb2RlIHNob3VsZCBiZSByZW1vdmVkLiBUaGUgZml4IHNob3VsZCBi
-ZSBpbiB0aGUgY2hlY2sgb2YgDQpkd2MzX2NoZWNrX3BhcmFtcygpLiBJZiBtYXhpbXVtX3NwZWVk
-ID0gVVNCX1NQRUVEX1VOS05PV04gYW5kIHRoZSBwaHkncyANCmNhcGFiaWxpdHkgaXMgb25seSB1
-cCB0byBoaWdoc3BlZWQsIHRoZW4gc2V0IHRoZSBtYXhpbXVtX3NwZWVkIHRvIA0KaGlnaHNwZWVk
-IG9ubHkuDQoNClRoYW5rcywNClRoaW5oDQo=
+On Thu, Jul 02, 2020 at 06:50:58PM -0700, Wesley Cheng wrote:
+> Introduce the dt-binding for enabling USB type C orientation and role
+> detection using the PM8150B.  The driver will be responsible for receiving
+> the interrupt at a state change on the CC lines, reading the orientation/role,
+> and communicating this information to the remote clients, which can include
+> a role switch node and a type C switch.
+> 
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> ---
+>  .../bindings/usb/qcom,pmic-typec.yaml         | 130 ++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> new file mode 100644
+> index 000000000000..735b1f74664b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> @@ -0,0 +1,130 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/usb/qcom,pmic-typec.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Qualcomm PMIC based USB type C Detection Driver
+> +
+> +maintainers:
+> +  - Wesley Cheng <wcheng@codeaurora.org>
+> +
+> +description: |
+> +  Qualcomm PMIC Type C Detect
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,pm8150b-usb-typec
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: Type C base address
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: CC change interrupt from PMIC
+> +
+> +  connector:
+> +    description: Connector type for remote endpoints
+> +    type: object
+> +    $ref: /schemas/connector/usb-connector.yaml#
+
+Why is all the connector schema duplicated here? You only need things 
+that are further constrained like 'compatible'.
+
+> +
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - usb-c-connector
+> +
+> +      power-role:
+> +       enum:
+> +         - dual
+> +         - source
+> +         - sink
+> +
+> +      data-role:
+> +        enum:
+> +          - dual
+> +          - host
+> +          - device
+> +
+> +      ports:
+> +        description: Remote endpoint connections
+> +        type: object
+> +
+> +        properties:
+> +          port@0:
+> +            description: Remote endpoints for the High Speed path
+> +            type: object
+> +
+> +          port@1:
+> +            description: Remote endpoints for the Super Speed path
+> +            type: object
+> +
+> +            properties:
+> +              endpoint@0:
+> +                description: Connection to USB type C mux node
+> +                type: object
+> +
+> +                properties:
+> +                  remote-endpoint:
+> +                    maxItems: 1
+
+'remote-endpoint' in not an array.
+
+> +                    description: Node reference to the type C mux
+> +
+> +              endpoint@1:
+> +                description: Connection to role switch node
+> +                type: object
+> +
+> +                properties:
+> +                  remote-endpoint:
+> +                    maxItems: 1
+> +                    description: Node reference to the role switch node
+
+So USB-SS data can come from 'type C mux' or 'role switch node'? That 
+seems odd.
+
+Rob
