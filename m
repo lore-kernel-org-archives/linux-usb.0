@@ -2,106 +2,128 @@ Return-Path: <SRS0=iJZq=AU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 035B1C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 07:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4696C433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 07:11:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CED9B20720
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 07:09:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="UAPYBQ5s"
+	by mail.kernel.org (Postfix) with ESMTP id B089D20674
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jul 2020 07:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594278701;
+	bh=c6a2uUB7yh56jdbRVnYpimst4UcONZOKlwaFivx7gVw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=bX/6zvYHLwem3ZkRI4rYbnbw9CiqrC79bvFfKN3DRWliYLoa4PfWFU78EbxziFrS8
+	 jvWTVHciHatAT+ukT34ozTwn/yFXzO5nUZV6VBc8FRHJv/nl0sgvSZ7meaQVlbEqql
+	 hapXsu3NqRv7WJsN3g+tsHNFYw7FdUqg+kg6O5+w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbgGIHJu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jul 2020 03:09:50 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:20654 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726183AbgGIHJu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jul 2020 03:09:50 -0400
-X-UUID: 0436a738b37e4c1c8e2c04569d38f0df-20200709
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=KN9hhzoH05uLeemQtJA/oz8qydIgDPv4Z3bmecE5HhY=;
-        b=UAPYBQ5shMTeK3m01pYEwcU3+kokwT2eBJO7UG9yllafqBt3pjL+Gmea8VXejA3JVAmGhXHEAIkgzhUKOVN8DNLj+Y6lytNYM/pTKfnmHBegb8r9LpiFk7iCOF11KKuMv+JT7mJILqqRBnh8Y2iMrpNSE9z2EslPXLHwkqbs4gY=;
-X-UUID: 0436a738b37e4c1c8e2c04569d38f0df-20200709
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 2115013973; Thu, 09 Jul 2020 15:09:43 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 9 Jul 2020 15:09:43 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 9 Jul 2020 15:09:40 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [v3 PATCH] usb: mtu3: remove unnecessary NULL pointer checks
-Date:   Thu, 9 Jul 2020 15:09:01 +0800
-Message-ID: <1594278541-24968-1-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
+        id S1726268AbgGIHLl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Jul 2020 03:11:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbgGIHLk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jul 2020 03:11:40 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F98C061A0B
+        for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2020 00:11:39 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id d17so1200848ljl.3
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jul 2020 00:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=c6a2uUB7yh56jdbRVnYpimst4UcONZOKlwaFivx7gVw=;
+        b=oyECnKuaIq6kUVWNSw3aqVNtWnAGCad7LmhjTbdZnaT9a08wl4ZJz35zj6L+u00pLl
+         sQHLUSD3sxuy7i7VEURNh55ud6ZujxAK2c/pEPkPEUqx6oskHvps250J/8GSQC25sBjF
+         Y/+HaEM1Dw8V3QKrVdyXw/AJ77BCvO+ESNE7xXPb6ROm3Ch0SSIlytututq4y+MmsN2A
+         BxVO9L0tP8s+EgRhH5PuIl0Tl+15XLHVUkjUNWFSQ8huWL7qZb5rFIxJxZJsCRZKZzeO
+         tKE7wIK1tkVr2SJhTr8bL4uvWnA/lUCZycQG6AaVoNZ0Fucl5KtPk3emdNIHxADFlT5a
+         E/wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=c6a2uUB7yh56jdbRVnYpimst4UcONZOKlwaFivx7gVw=;
+        b=o48hN/iypmigWVj2n8dzG0podPVZgXBWT+fr1D4fiMRYcoEv0chPpINmLsDVtyOyYw
+         B8hgBDGuIywjqPZ2trGPa5Ee20W7KX9Ifid7XlVo+YxmvwtwPHfWOcZ6548y5347Emwy
+         KKCkB/w6hVqZWUiQDe52xDsJTdXI1EK7t9qejTHBNHftjMRKvXUqlbClr2gdt+uDLTSp
+         7P1Y8LCmMM5bYYMB2vNv8h8yAetF12yPSm9kEA8v0I2DL0TjT1rtm5nLej6MrRok9ZGJ
+         wNaFzxGhZcx9+IvVueddSVeFwel8AB+Zry77ACNACqO4+X5YMXJiRu2mAaXR6M/8iy+T
+         Ol/A==
+X-Gm-Message-State: AOAM532rau6E9U9brBJDWAnbaH1d8buDGt2ecOHBok/OkuhlRS5LQNCA
+        lcHnquDN+BHXAQubi8MDl+I=
+X-Google-Smtp-Source: ABdhPJzG8BO9JA8tmFynz54nuhPPR9Ak2Hm4mZG3QLMvNW8++EeH5eBDVsw7wpyYXMTeCKK7t6ZeVw==
+X-Received: by 2002:a2e:8e9a:: with SMTP id z26mr37562731ljk.470.1594278698434;
+        Thu, 09 Jul 2020 00:11:38 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id g7sm623224lfe.62.2020.07.09.00.11.37
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 09 Jul 2020 00:11:37 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "pawell\@cadence.com" <pawell@cadence.com>,
+        "rogerq\@ti.com" <rogerq@ti.com>,
+        "gregkh\@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Jun Li <jun.li@nxp.com>
+Subject: RE: [PATCH 1/3] usb: cdns3: ep0: fix some endian issues
+In-Reply-To: <AM7PR04MB7157D60ED21E2B29461DC3F08B640@AM7PR04MB7157.eurprd04.prod.outlook.com>
+References: <20200603065356.14124-1-peter.chen@nxp.com> <20200603065356.14124-2-peter.chen@nxp.com> <87fta16vb9.fsf@kernel.org> <AM7PR04MB7157D60ED21E2B29461DC3F08B640@AM7PR04MB7157.eurprd04.prod.outlook.com>
+Date:   Thu, 09 Jul 2020 10:11:33 +0300
+Message-ID: <87d0556u3e.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: E0704D007BDFE6557E27D3F2225493E6F51B016FC12D4C256CBF91EF0F07D15E2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-VGhlIGNsYXNzIGRyaXZlciB3aWxsIGVuc3VyZSB0aGUgcGFyYW1ldGVycyBhcmUgbm90IE5VTEwN
-CnBvaW50ZXJzIGJlZm9yZSBjYWxsIHRoZSBob29rIGZ1bmN0aW9uIG9mIHVzYl9lcF9vcHMsDQpz
-byBubyBuZWVkIGNoZWNrIHRoZW0gYWdhaW4uDQoNClJlcG9ydGVkLWJ5OiBNYXJrdXMgRWxmcmlu
-ZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPg0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxj
-aHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KLS0tDQp2MzogcmVtb3ZlIHVubmVjZXNzYXJ5IE5V
-TEwgcG9pbnRlciBjaGVja3MgYnV0IG5vdCBhZGQgbW9yZSBjaGVja3MuDQoNCnYyOiBub3RoaW5n
-IGNoYW5nZWQsIGJ1dCBhYmFuZG9uIGFub3RoZXIgcGF0Y2guDQotLS0NCiBkcml2ZXJzL3VzYi9t
-dHUzL210dTNfZ2FkZ2V0LmMgfCAyNSArKysrKystLS0tLS0tLS0tLS0tLS0tLS0tDQogMSBmaWxl
-IGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL3VzYi9tdHUzL210dTNfZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9tdHUzL210dTNf
-Z2FkZ2V0LmMNCmluZGV4IGY5MzczMmUuLjZiMjZjYjggMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3Vz
-Yi9tdHUzL210dTNfZ2FkZ2V0LmMNCisrKyBiL2RyaXZlcnMvdXNiL210dTMvbXR1M19nYWRnZXQu
-Yw0KQEAgLTI2MywyMyArMjYzLDE1IEBAIHZvaWQgbXR1M19mcmVlX3JlcXVlc3Qoc3RydWN0IHVz
-Yl9lcCAqZXAsIHN0cnVjdCB1c2JfcmVxdWVzdCAqcmVxKQ0KIHN0YXRpYyBpbnQgbXR1M19nYWRn
-ZXRfcXVldWUoc3RydWN0IHVzYl9lcCAqZXAsDQogCQlzdHJ1Y3QgdXNiX3JlcXVlc3QgKnJlcSwg
-Z2ZwX3QgZ2ZwX2ZsYWdzKQ0KIHsNCi0Jc3RydWN0IG10dTNfZXAgKm1lcDsNCi0Jc3RydWN0IG10
-dTNfcmVxdWVzdCAqbXJlcTsNCi0Jc3RydWN0IG10dTMgKm10dTsNCisJc3RydWN0IG10dTNfZXAg
-Km1lcCA9IHRvX210dTNfZXAoZXApOw0KKwlzdHJ1Y3QgbXR1M19yZXF1ZXN0ICptcmVxID0gdG9f
-bXR1M19yZXF1ZXN0KHJlcSk7DQorCXN0cnVjdCBtdHUzICptdHUgPSBtZXAtPm10dTsNCiAJdW5z
-aWduZWQgbG9uZyBmbGFnczsNCiAJaW50IHJldCA9IDA7DQogDQotCWlmICghZXAgfHwgIXJlcSkN
-Ci0JCXJldHVybiAtRUlOVkFMOw0KLQ0KIAlpZiAoIXJlcS0+YnVmKQ0KIAkJcmV0dXJuIC1FTk9E
-QVRBOw0KIA0KLQltZXAgPSB0b19tdHUzX2VwKGVwKTsNCi0JbXR1ID0gbWVwLT5tdHU7DQotCW1y
-ZXEgPSB0b19tdHUzX3JlcXVlc3QocmVxKTsNCi0JbXJlcS0+bXR1ID0gbXR1Ow0KLQ0KIAlpZiAo
-bXJlcS0+bWVwICE9IG1lcCkNCiAJCXJldHVybiAtRUlOVkFMOw0KIA0KQEAgLTMwMyw2ICsyOTUs
-NyBAQCBzdGF0aWMgaW50IG10dTNfZ2FkZ2V0X3F1ZXVlKHN0cnVjdCB1c2JfZXAgKmVwLA0KIAkJ
-cmV0dXJuIC1FU0hVVERPV047DQogCX0NCiANCisJbXJlcS0+bXR1ID0gbXR1Ow0KIAltcmVxLT5y
-ZXF1ZXN0LmFjdHVhbCA9IDA7DQogCW1yZXEtPnJlcXVlc3Quc3RhdHVzID0gLUVJTlBST0dSRVNT
-Ow0KIA0KQEAgLTMzNSwxMSArMzI4LDExIEBAIHN0YXRpYyBpbnQgbXR1M19nYWRnZXRfZGVxdWV1
-ZShzdHJ1Y3QgdXNiX2VwICplcCwgc3RydWN0IHVzYl9yZXF1ZXN0ICpyZXEpDQogCXN0cnVjdCBt
-dHUzX2VwICptZXAgPSB0b19tdHUzX2VwKGVwKTsNCiAJc3RydWN0IG10dTNfcmVxdWVzdCAqbXJl
-cSA9IHRvX210dTNfcmVxdWVzdChyZXEpOw0KIAlzdHJ1Y3QgbXR1M19yZXF1ZXN0ICpyOw0KKwlz
-dHJ1Y3QgbXR1MyAqbXR1ID0gbWVwLT5tdHU7DQogCXVuc2lnbmVkIGxvbmcgZmxhZ3M7DQogCWlu
-dCByZXQgPSAwOw0KLQlzdHJ1Y3QgbXR1MyAqbXR1ID0gbWVwLT5tdHU7DQogDQotCWlmICghZXAg
-fHwgIXJlcSB8fCBtcmVxLT5tZXAgIT0gbWVwKQ0KKwlpZiAobXJlcS0+bWVwICE9IG1lcCkNCiAJ
-CXJldHVybiAtRUlOVkFMOw0KIA0KIAlkZXZfZGJnKG10dS0+ZGV2LCAiJXMgOiByZXE9JXBcbiIs
-IF9fZnVuY19fLCByZXEpOw0KQEAgLTM3OSw5ICszNzIsNiBAQCBzdGF0aWMgaW50IG10dTNfZ2Fk
-Z2V0X2VwX3NldF9oYWx0KHN0cnVjdCB1c2JfZXAgKmVwLCBpbnQgdmFsdWUpDQogCXVuc2lnbmVk
-IGxvbmcgZmxhZ3M7DQogCWludCByZXQgPSAwOw0KIA0KLQlpZiAoIWVwKQ0KLQkJcmV0dXJuIC1F
-SU5WQUw7DQotDQogCWRldl9kYmcobXR1LT5kZXYsICIlcyA6ICVzLi4uIiwgX19mdW5jX18sIGVw
-LT5uYW1lKTsNCiANCiAJc3Bpbl9sb2NrX2lycXNhdmUoJm10dS0+bG9jaywgZmxhZ3MpOw0KQEAg
-LTQyNCw5ICs0MTQsNiBAQCBzdGF0aWMgaW50IG10dTNfZ2FkZ2V0X2VwX3NldF93ZWRnZShzdHJ1
-Y3QgdXNiX2VwICplcCkNCiB7DQogCXN0cnVjdCBtdHUzX2VwICptZXAgPSB0b19tdHUzX2VwKGVw
-KTsNCiANCi0JaWYgKCFlcCkNCi0JCXJldHVybiAtRUlOVkFMOw0KLQ0KIAltZXAtPndlZGdlZCA9
-IDE7DQogDQogCXJldHVybiB1c2JfZXBfc2V0X2hhbHQoZXApOw0KLS0gDQoxLjkuMQ0K
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
+
+Hi,
+
+Peter Chen <peter.chen@nxp.com> writes:
+>=20=20
+>> >
+>> > Reported-by: kbuild test robot <lkp@intel.com>
+>> > Signed-off-by: Peter Chen <peter.chen@nxp.com>
+>>=20
+>> Fixes?
+>> Cc stable?
+>>=20
+>
+> It does not fix a bug, and only improve the code for cross platforms
+> So, don't need to go stable tree.
+
+Fair enough, I'll enqueue it for the next merge window.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8GwyUACgkQzL64meEa
+mQYSkA/9F6XeDFu8azolxFThqp/bjothKgNhGdzQeudEzfXXZNQ1ndg2lCn6X0Yc
+O81IE1wqX0QcyG5kG8QDiz7/0qCf9bsyCKtBTSBqsV0gdPL6toZRttHNBfH7zbDb
+WtCEPaIYkM/Bo/32iJjgNUh4cfVe4tXrgIp4h9WotVZ6GgHToGieIWqTvS21u3nJ
+Fa+oSH28QkcavQ12eXJCX4JdD9SQdUpcEy2PoiV6lmwnU9pneDle464XwzN9SZmC
+224MbymSZsX/oZA6+8DB9eAhJU8tLSMiXdo+ziZVblfO1qRNlK7akXaD6VhrK0IK
+oP8Gfbe9sDLUTsxJNXXISuKjpG+KtJAvIse6+C+JoLSqW+NYgcTnm51V5UtcVwsr
+BoUWAzUO8QjclSCAmQ4oHi8JPdnX82eK99EgvdgYBrPnnRnsEUzjWrBJhkBmY8v7
+dXM7qOiIs6Ksft6VmEz3P6bvcXJkEdBwWKVWFzI8oH4qipG7ME8+1epjes/Ugq4q
+M+AeKXpsmO4tPGxruzPatcMxNCmf3Ln7IHPULSHyhJ79pugomGqnwG4wHNBYuCaz
+WnW6fQkZXOPpNwErVADfwDiFBB+lCw1ihqO5x2FaZARXGMGZ/DoKBvyPtAojLYrS
+NEvtealh/P5D1DK4dXDLnxECEJW/ylgFQDNdKSxQEIVM4FB3FRg=
+=jV1e
+-----END PGP SIGNATURE-----
+--=-=-=--
