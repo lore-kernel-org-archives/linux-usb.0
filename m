@@ -7,34 +7,30 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7795CC433E1
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 19:14:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5116DC433E3
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 19:18:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51D622075D
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 19:14:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 266922075D
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 19:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgGJTOi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Jul 2020 15:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726725AbgGJTOi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jul 2020 15:14:38 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB36AC08C5DC;
-        Fri, 10 Jul 2020 12:14:37 -0700 (PDT)
+        id S1727910AbgGJTSw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Jul 2020 15:18:52 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:60780 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727085AbgGJTSv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Jul 2020 15:18:51 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id B2C55BC07E;
-        Fri, 10 Jul 2020 19:14:34 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 12DB7BC071;
+        Fri, 10 Jul 2020 19:18:48 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     chenyu56@huawei.com, wangbinghui@hisilicon.com, kishon@ti.com,
-        vkoul@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+To:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] phy: hi3660: Replace HTTP links with HTTPS ones
-Date:   Fri, 10 Jul 2020 21:14:28 +0200
-Message-Id: <20200710191428.31989-1-grandmaster@al2klimov.de>
-In-Reply-To: <20200710070613.GA1176018@kroah.com>
-References: <20200710070613.GA1176018@kroah.com>
+Subject: [PATCH] usb: phy: Replace HTTP links with HTTPS ones
+Date:   Fri, 10 Jul 2020 21:18:42 +0200
+Message-Id: <20200710191842.32561-1-grandmaster@al2klimov.de>
+In-Reply-To: <20200710074358.GB1179998@kroah.com>
+References: <20200710074358.GB1179998@kroah.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -64,21 +60,35 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 ---
  Now better?
 
- drivers/phy/hisilicon/phy-hi3660-usb3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/phy/phy-keystone.c    | 2 +-
+ drivers/usb/phy/phy-twl6030-usb.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/phy/hisilicon/phy-hi3660-usb3.c b/drivers/phy/hisilicon/phy-hi3660-usb3.c
-index cc0af2c044d0..575c867d13ca 100644
---- a/drivers/phy/hisilicon/phy-hi3660-usb3.c
-+++ b/drivers/phy/hisilicon/phy-hi3660-usb3.c
-@@ -3,7 +3,7 @@
-  * Phy provider for USB 3.0 controller on HiSilicon 3660 platform
+diff --git a/drivers/usb/phy/phy-keystone.c b/drivers/usb/phy/phy-keystone.c
+index 9c226b57153b..358d05cb643d 100644
+--- a/drivers/usb/phy/phy-keystone.c
++++ b/drivers/usb/phy/phy-keystone.c
+@@ -2,7 +2,7 @@
+ /*
+  * phy-keystone - USB PHY, talking to dwc3 controller in Keystone.
   *
-  * Copyright (C) 2017-2018 Hilisicon Electronics Co., Ltd.
-- *		http://www.huawei.com
-+ *		https://www.huawei.com
+- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2013 Texas Instruments Incorporated - https://www.ti.com
   *
-  * Authors: Yu Chen <chenyu56@huawei.com>
+  * Author: WingMan Kwok <w-kwok2@ti.com>
+  */
+diff --git a/drivers/usb/phy/phy-twl6030-usb.c b/drivers/usb/phy/phy-twl6030-usb.c
+index 9a7e655d5280..8ba6c5a91557 100644
+--- a/drivers/usb/phy/phy-twl6030-usb.c
++++ b/drivers/usb/phy/phy-twl6030-usb.c
+@@ -2,7 +2,7 @@
+ /*
+  * twl6030_usb - TWL6030 USB transceiver, talking to OMAP OTG driver.
+  *
+- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2010 Texas Instruments Incorporated - https://www.ti.com
+  *
+  * Author: Hema HK <hemahk@ti.com>
   */
 -- 
 2.27.0
