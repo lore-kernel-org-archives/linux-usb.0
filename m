@@ -2,176 +2,158 @@ Return-Path: <SRS0=WGl1=AV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EB42C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 08:41:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58761C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 09:35:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22BC62078D
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 08:41:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594370514;
-	bh=UNCQ5LIsmYMTP4rjZxYjPRfPOREEtRsUur1HTCBuWPE=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=hxvWZpRzn4GjWV3S52zIKDXc5XzckfPRhLfmSk1al47uay5XnYOBdt4Nvi36t9Nq1
-	 AIjxHoSPR6goCYfrqBlovdH5LZLLpxZ6spyq0gCZqSs910G9Q+trx/g/hXz2hmqJJX
-	 MQxpM36dOl0S2G5qxvxhXywyiCTVwF/v5Gs1rVfg=
+	by mail.kernel.org (Postfix) with ESMTP id 2F382206E2
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 09:35:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=infinera.com header.i=@infinera.com header.b="MzMFQRfE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726644AbgGJIlx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Jul 2020 04:41:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726560AbgGJIlx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jul 2020 04:41:53 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9A1C08C5CE
-        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2020 01:41:53 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id k15so2750604lfc.4
-        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2020 01:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version;
-        bh=GAyePF6y2rsePaliWGJ4vYcX4twXh9Ha7v5zCHdSPzs=;
-        b=bZ/LjWRcfoE1nA9ymHb0sMX7Bz0jowVsjKA7N210CTuQ4PdCmpWkkyJwQeYvufQdog
-         mXalTne2xISTVL8XRO3U4XtgBxp6fi863dX6AMAJmPLuO4iKdrcEh1jtwmc/qM1H+z/c
-         Nhyc+GJeqCV3t2pN3803wyDCw3hbLo0fwiiPnUv7hbG/T0D3Js+MdQrEuT5h39fquqDu
-         w2sDS4otx+/gM3d05XE6JZjwUL+Sk1O3InNnGUhgkdvzMLa0YPyzUhMPO0lAjZBuyApP
-         vVI7VFXEOFOHLDaVZPBkMWCyQWCLgabfVOwRcTBYUreSx2QRJhPCZylltsUpumPmUFHF
-         mMzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version;
-        bh=GAyePF6y2rsePaliWGJ4vYcX4twXh9Ha7v5zCHdSPzs=;
-        b=SAFQ6L3B82VuSqBLBqwJv5WoDZa+7HJLPfovfq4iwLt34Iza0cIuMIxdYg0EMB8LTF
-         V1nXMncZqK8RQPUbnjyPm5cE5HErUNMSIK0FkXggMnVvY1X4rgs61aG9b7A3aTD99dBO
-         0RMoE+5ujh1RNpeJMIAFgIhPW9XLcNtzIjtDc4lKJX6iFXw2LriA/QbKVnx4igUTIioe
-         eqcfyOnyqovk4xB64PIHuUkpDJzIEohJxPusmnHaQCppEGI8MNAxnkbuVJJB748Bq4Jv
-         vC/PqXwIH0g2X/pbQ/WPP2UExbDfvqUmNMq9Jpyl9l158JIjiT7mxcqb3CEN1EC2UHJD
-         uNDw==
-X-Gm-Message-State: AOAM532NX409CZkelwyUs+duArIou+vs5UEEPuD6k2977yX8Oh19M04F
-        p1Pckc0CObP1SSXB6Oumy7E0PIY7
-X-Google-Smtp-Source: ABdhPJxKGASZ1LemNt25GdPP8clhHTWXg4FMV1O5hLR8A4HNnkovYiNThlFhE8UUnRYsOeSfTieCfA==
-X-Received: by 2002:a19:ac03:: with SMTP id g3mr42015975lfc.164.1594370511108;
-        Fri, 10 Jul 2020 01:41:51 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id w19sm1666717ljm.120.2020.07.10.01.41.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 10 Jul 2020 01:41:50 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB: fixes for v5.8-rc3
-Date:   Fri, 10 Jul 2020 11:41:46 +0300
-Message-ID: <87pn93ep85.fsf@kernel.org>
+        id S1726773AbgGJJf1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Jul 2020 05:35:27 -0400
+Received: from mail-eopbgr700088.outbound.protection.outlook.com ([40.107.70.88]:36032
+        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726288AbgGJJf1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Jul 2020 05:35:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A0cFzABRnMwm4RiXkGxaAJPFLTD08CkQmxa3YQhObnh+j/5t/EQLDAx6azvFojEXWHDfDKGDsRa1+eD4RsWHMOMlxZWJ4CCTjqcKc51KpzExIZBaaO+o2NYthTZAK8oYT4qomky/L26Qpq30BYyrtx/A/WUd57+YhpiEcxOIg2Sjq6YzEk+pOUoKA/Nue2bFWmJEcbGS3aPXkVB7/zmgu8y0kQbkLPJ8Gc0DWEKjH1dnzzN+ZGuMMSesNHWkzpOR8AyKwnvjSRkqyMq4Ne26UVNZv47lZAgPz+TA6mb4NnpA8il3o/8Pw3yR6k2P1noQNiB0/nfE0DFDTdRwS7ukUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8mfiN0E6b/FXqX3htDjZ8hxU3o+n9EKdhmIRCCgPy80=;
+ b=TE5lqtSY1YFd5E9Btyk3sElBfe2x3g3m07A3tvGiAhCZljq9i6jPCoYLCRIor2CH6gLS9sPsqJ//3gfTPrGcex2sphUQaw6vyzpM18XBO5kkXn4reaWeqT3aaJnC/CclcPl2cF9i3jkGIBiBgkjIYz5FjA/SdUQ73sPzpRhBINpO1r5o9ihpLDjeFt6H9OpdjEHEF/7ekQYLu14cTz0TkbDQVDkKzO2TT5wJrJPwv4lhRhsbI7BaEqXQBuCdlfsWsHwpjT5466N1YkUONKLfb7SeLgJSXc1uT9+fZ0RaT28lb8pxXj+w7l7r0pkOYhC+H0cLEpo+IAnFJRWJHtiwDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 8.4.225.191) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=infinera.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=infinera.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8mfiN0E6b/FXqX3htDjZ8hxU3o+n9EKdhmIRCCgPy80=;
+ b=MzMFQRfExaa6h1AImpDpcNp7WwDlGFd8J18Pvn0WtZ1pmuialpEp0/Zyf/zJpHhtOejoWd9do4yNopEwrlwsk1nMIt6CQZ9ZcmDuZk99lMvv701OHcHgFfLHHt29a+MshDUhKHLkdEPzr1aV2acSdAbhU4KS93bWgmP1E+TihRE=
+Received: from MWHPR14CA0055.namprd14.prod.outlook.com (2603:10b6:300:81::17)
+ by DM6PR10MB3161.namprd10.prod.outlook.com (2603:10b6:5:1a3::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Fri, 10 Jul
+ 2020 09:35:24 +0000
+Received: from CO1NAM03FT035.eop-NAM03.prod.protection.outlook.com
+ (2603:10b6:300:81:cafe::f1) by MWHPR14CA0055.outlook.office365.com
+ (2603:10b6:300:81::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22 via Frontend
+ Transport; Fri, 10 Jul 2020 09:35:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 8.4.225.191)
+ smtp.mailfrom=infinera.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none
+ header.from=infinera.com;
+Received-SPF: Pass (protection.outlook.com: domain of infinera.com designates
+ 8.4.225.191 as permitted sender) receiver=protection.outlook.com;
+ client-ip=8.4.225.191; helo=owa.infinera.com;
+Received: from owa.infinera.com (8.4.225.191) by
+ CO1NAM03FT035.mail.protection.outlook.com (10.152.80.179) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3174.21 via Frontend Transport; Fri, 10 Jul 2020 09:35:23 +0000
+Received: from sv-ex16-prd.infinera.com (10.100.96.229) by
+ sv-ex16-prd.infinera.com (10.100.96.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1847.3; Fri, 10 Jul 2020 02:35:23 -0700
+Received: from sv-smtp-prod2.infinera.com (10.100.98.82) by
+ sv-ex16-prd.infinera.com (10.100.96.229) with Microsoft SMTP Server id
+ 15.1.1847.3 via Frontend Transport; Fri, 10 Jul 2020 02:35:23 -0700
+Received: from se-metroit-prd1.infinera.com ([10.210.32.58]) by sv-smtp-prod2.infinera.com with Microsoft SMTPSVC(7.5.7601.17514);
+         Fri, 10 Jul 2020 02:35:22 -0700
+Received: from gentoo-jocke.infinera.com (unknown [10.210.71.2])
+        by se-metroit-prd1.infinera.com (Postfix) with ESMTP id 200342C06DF0;
+        Fri, 10 Jul 2020 11:35:22 +0200 (CEST)
+Received: by gentoo-jocke.infinera.com (Postfix, from userid 1001)
+        id 19C4E7EF8; Fri, 10 Jul 2020 11:35:22 +0200 (CEST)
+From:   Joakim Tjernlund <joakim.tjernlund@infinera.com>
+To:     "linux-usb @ vger . kernel . org" <linux-usb@vger.kernel.org>
+CC:     Joakim Tjernlund <joakim.tjernlund@infinera.com>,
+        <stable@vger.kernel.org>
+Subject: [PATCH] cdc-acm: acm_init: Set initial BAUD to B0
+Date:   Fri, 10 Jul 2020 11:35:18 +0200
+Message-ID: <20200710093518.22272-1-joakim.tjernlund@infinera.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 10 Jul 2020 09:35:22.0772 (UTC) FILETIME=[6F183540:01D6569D]
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:8.4.225.191;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:owa.infinera.com;PTR:InfoDomainNonexistent;CAT:NONE;SFTY:;SFS:(4636009)(136003)(39860400002)(346002)(396003)(376002)(46966005)(47076004)(82310400002)(1076003)(336012)(83380400001)(36756003)(5660300002)(6266002)(4326008)(2616005)(54906003)(70206006)(2906002)(426003)(70586007)(450100002)(316002)(8676002)(186003)(6916009)(82740400003)(26005)(42186006)(356005)(86362001)(44832011)(6666004)(478600001)(81166007)(8936002);DIR:OUT;SFP:1101;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6bce12dd-47b6-423f-f8e8-08d824b4923f
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3161:
+X-Microsoft-Antispam-PRVS: <DM6PR10MB31613010C3E7F79C5BEF7321F4650@DM6PR10MB3161.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:200;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EGJe04fQD9SnKKo4YLiFP6Ce3Dm8N4zZHBO7ZGtFMk4gQu2qn4IpCMXaDuXl0GAZY/P42MlNRNHzkzlC+qIUFC9h8TR7kVL3JcUY1OKPp7S7J7IIY9gWDN4Lk6Od5IinFVBwplrlmcxj3894mnfyWaEmMfI+IAL8cZBxE9Nie4f6DqXFObrbNLNazOPphA9Eb03MuKNsVUUcIJKBsnArFg97zcO6Vbqf8DVcCUQcFq7zLbkqtOxrXTnITDgWuDubJQS5ZrgsdxuMz/TUh7cih2vzScZYGQ0bWBNsVz7h3Vx8ozK4vtSwvl/uQFd+aOg0gmeXkv8KhnEwdR7A/kkzmsRt3WZO3QAo4EnXxCHWqSRuNaPlcuSU32H5zZVDcVmPA7kgtQ1+H+Y9EdASGZR3IA==
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2020 09:35:23.8704
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bce12dd-47b6-423f-f8e8-08d824b4923f
+X-MS-Exchange-CrossTenant-Id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=285643de-5f5b-4b03-a153-0ae2dc8aaf77;Ip=[8.4.225.191];Helo=[owa.infinera.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM03FT035.eop-NAM03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3161
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+BO will disable USB input until the device opens. This will
+avoid garbage chars waiting flood the TTY. This mimics a real UART
+device better.
+For initial termios to reach USB core, USB driver has to be
+registered before TTY driver.
 
+Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+Cc: stable@vger.kernel.org
+---
 
-Hi Greg,
+ I hope this change makes sense to you, if so I belive
+ ttyUSB could do the same.
 
-here's my second pull request for the current merge window. Nothing
-major going on apart from the spinlock fix in legacy audio function and
-a memleak plug on gr_udc.
+ drivers/usb/class/cdc-acm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Patches have been cooking for quite a while. Let me know if you want
-anything to be changed
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 751f00285ee6..5680f71200e5 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1999,19 +1999,19 @@ static int __init acm_init(void)
+ 	acm_tty_driver->subtype = SERIAL_TYPE_NORMAL,
+ 	acm_tty_driver->flags = TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV;
+ 	acm_tty_driver->init_termios = tty_std_termios;
+-	acm_tty_driver->init_termios.c_cflag = B9600 | CS8 | CREAD |
++	acm_tty_driver->init_termios.c_cflag = B0 | CS8 | CREAD |
+ 								HUPCL | CLOCAL;
+ 	tty_set_operations(acm_tty_driver, &acm_ops);
+ 
+-	retval = tty_register_driver(acm_tty_driver);
++	retval = usb_register(&acm_driver);
+ 	if (retval) {
+ 		put_tty_driver(acm_tty_driver);
+ 		return retval;
+ 	}
+ 
+-	retval = usb_register(&acm_driver);
++	retval = tty_register_driver(acm_tty_driver);
+ 	if (retval) {
+-		tty_unregister_driver(acm_tty_driver);
++		usb_deregister(&acm_driver);
+ 		put_tty_driver(acm_tty_driver);
+ 		return retval;
+ 	}
+-- 
+2.26.2
 
-cheers
-
-The following changes since commit af3cf0ac6805a36740089a5f200c28a04d452404:
-
-  Merge tag 'usb-serial-5.8-rc5' of https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/johan/usb-serial into usb-linus (2020-07-08 17:10:17 +0200)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git tags/fixes-fo=
-r-v5.8-rc3
-
-for you to fetch changes up to 8778eb0927ddcd3f431805c37b78fa56481aeed9:
-
-  usb: gadget: function: fix missing spinlock in f_uac1_legacy (2020-07-09 =
-10:13:07 +0300)
-
-=2D---------------------------------------------------------------
-USB: fixes for v5.8-rc3
-
-Adding support for recent Intel devices (Tiger Lake and Jasper Lake)
-on dwc3. We have some endianess fixes in cdns3, a memleak fix in
-gr_udc and lock API usage fix in the legacy f_uac1
-
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-
-=2D---------------------------------------------------------------
-Evgeny Novikov (1):
-      usb: gadget: udc: gr_udc: fix memleak on error handling path in gr_ep=
-_init()
-
-Heikki Krogerus (2):
-      usb: dwc3: pci: add support for the Intel Tiger Lake PCH -H variant
-      usb: dwc3: pci: add support for the Intel Jasper Lake
-
-Micha=C5=82 Miros=C5=82aw (2):
-      usb: gadget: udc: atmel: remove outdated comment in usba_ep_disable()
-      usb: gadget: udc: atmel: fix uninitialized read in debug printk
-
-Minas Harutyunyan (1):
-      usb: dwc2: Fix shutdown callback in platform
-
-Peter Chen (2):
-      usb: cdns3: ep0: fix some endian issues
-      usb: cdns3: trace: fix some endian issues
-
-Randy Dunlap (1):
-      usb: gadget: fix langid kernel-doc warning in usbstring.c
-
-Zhang Qiang (1):
-      usb: gadget: function: fix missing spinlock in f_uac1_legacy
-
- drivers/usb/cdns3/ep0.c                     | 30 ++++++++++++++-----------=
-----
- drivers/usb/cdns3/trace.h                   |  6 +++---
- drivers/usb/dwc2/platform.c                 |  3 ++-
- drivers/usb/dwc3/dwc3-pci.c                 |  8 ++++++++
- drivers/usb/gadget/function/f_uac1_legacy.c |  2 ++
- drivers/usb/gadget/udc/atmel_usba_udc.c     | 10 ++--------
- drivers/usb/gadget/udc/gr_udc.c             |  7 +++++--
- drivers/usb/gadget/usbstring.c              |  2 +-
- 8 files changed, 38 insertions(+), 30 deletions(-)
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8IKcoACgkQzL64meEa
-mQa6QxAAkCwN/mk4Ln6+5kr+JVOJby+rsCT+BjYjczS3vPifZdkHtPt01/+heFrk
-WDZaLbd8J5OuZj/ok/euM6OIlWFs5rxheMOdL872j03y50OGHol+nrW+W3SOITqu
-kHA97g9xWsac6wAOJipwuQA9ffWsZSqJ+U+FKEbC/+K7hx/Vmjwxx9gLLOkwdtGg
-BThOo+D9fqreI3nFMuhD/Lb5TfY9WqWC0E2MdMjNNNCccomDBxjNEw+WrW9dB6sX
-MW9tqwZuiwzPTTJysNpS2DtP8UVn79MyT28wjU2tk4ov1FfS5U95L8GXYaraF7HW
-Es5gMLtbFfDg4YdeuicaP+xDK/r+froZPTmkggT+k8Hv98XO0RhyCZL9FoQN/EcQ
-z4znzfMKUeRXRE798pmuLCT09+1DBD5IBANp4GfOI/srzGv/lw2uvnP+Rnv8faI8
-K2RP7C84OUKCCcjz5BGAllpDLkhl39b3lFSg7RBy8LWUGWIOWtY5GBkTQsgMJ67X
-Z9sYGT+KJe4C5PYpISvgoBHRsQkqqJb38uHvswtVFRG9Gk031ewOQ5GxCYJZer3g
-HfKv3lsYpKdZGdr+TR4WlDKPq5mbvN9SyV+XxO1xj02K2ipJAAdL6mnBTQVlqGEf
-kZeCa+/vAYc4KzO6hJuIPrC+c1gl9c7CvTrVe2gXoERLPk/dXQw=
-=xUGU
------END PGP SIGNATURE-----
---=-=-=--
