@@ -2,107 +2,87 @@ Return-Path: <SRS0=WGl1=AV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EDBFC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 07:21:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE23AC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 07:43:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B5A6207BC
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 07:21:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4E4E206A5
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jul 2020 07:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594367038;
+	bh=SFQt0vxnwbG8QVBgOnlfaZeFajIEFrgh4tqcl3dJRaQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=AWo1wl0PTKWmc1Ca6xD/W0o3cNmYdndzZGbbEdx+jaPV7disbHu1oQoQs1plgM632
+	 plXUA/FnA/hatv1OxEvXvXAEXyrcfCHZkW3DsiljrCBK11oSFrMxWLTWC7hi8Abegj
+	 dfQ+9t7OBycLwDMuu/uEtfTpLaDwkgwwW/1YPf0Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbgGJHUy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Jul 2020 03:20:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725966AbgGJHUy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jul 2020 03:20:54 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A454C08C5CE;
-        Fri, 10 Jul 2020 00:20:54 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id E17D8BC070;
-        Fri, 10 Jul 2020 07:20:51 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] USB PHY LAYER: Replace HTTP links with HTTPS ones
-Date:   Fri, 10 Jul 2020 09:20:45 +0200
-Message-Id: <20200710072045.29133-1-grandmaster@al2klimov.de>
+        id S1728001AbgGJHny (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Jul 2020 03:43:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37640 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726664AbgGJHny (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Jul 2020 03:43:54 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE02D206A5;
+        Fri, 10 Jul 2020 07:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594367033;
+        bh=SFQt0vxnwbG8QVBgOnlfaZeFajIEFrgh4tqcl3dJRaQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aN4Z3vbCN2d9QS2ITUdxqDzj3cytW5esIu1oMWQq4xVBbMNCIzyulWCz3at2y+nqr
+         j3ExIwo38spxxdY21kALdjLLm8MgIZaPYx+IXSjAIHkpRhG2MyHCL4BUsW9+Qe4MEI
+         hk1j3yfYTMfIJtNvqSA+LMR7ttlGThTLrdQsu77s=
+Date:   Fri, 10 Jul 2020 09:43:58 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB PHY LAYER: Replace HTTP links with HTTPS ones
+Message-ID: <20200710074358.GB1179998@kroah.com>
+References: <20200710072045.29133-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200710072045.29133-1-grandmaster@al2klimov.de>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Fri, Jul 10, 2020 at 09:20:45AM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely or at least not HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
-
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
-
- If there are any URLs to be removed completely or at least not HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
-
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
-
- If you apply the patch, please let me know.
-
-
- drivers/usb/phy/phy-keystone.c    | 2 +-
- drivers/usb/phy/phy-twl6030-usb.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/phy/phy-keystone.c b/drivers/usb/phy/phy-keystone.c
-index 9c226b57153b..358d05cb643d 100644
---- a/drivers/usb/phy/phy-keystone.c
-+++ b/drivers/usb/phy/phy-keystone.c
-@@ -2,7 +2,7 @@
- /*
-  * phy-keystone - USB PHY, talking to dwc3 controller in Keystone.
-  *
-- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com
-+ * Copyright (C) 2013 Texas Instruments Incorporated - https://www.ti.com
-  *
-  * Author: WingMan Kwok <w-kwok2@ti.com>
-  */
-diff --git a/drivers/usb/phy/phy-twl6030-usb.c b/drivers/usb/phy/phy-twl6030-usb.c
-index 9a7e655d5280..8ba6c5a91557 100644
---- a/drivers/usb/phy/phy-twl6030-usb.c
-+++ b/drivers/usb/phy/phy-twl6030-usb.c
-@@ -2,7 +2,7 @@
- /*
-  * twl6030_usb - TWL6030 USB transceiver, talking to OMAP OTG driver.
-  *
-- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
-+ * Copyright (C) 2010 Texas Instruments Incorporated - https://www.ti.com
-  *
-  * Author: Hema HK <hemahk@ti.com>
-  */
--- 
-2.27.0
-
+Again, subject lines...
