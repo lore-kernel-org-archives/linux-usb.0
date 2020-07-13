@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A0EC433E7
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 10:55:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FF8C433EA
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 10:55:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9B56207F9
+	by mail.kernel.org (Postfix) with ESMTP id C100020758
 	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 10:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594637734;
-	bh=heoSHaclKnx9bF85/seSQUx0+HDswJC+iSBiB+/WXTE=;
+	s=default; t=1594637733;
+	bh=eWvE9l9lDd4i69/+eqPzjoS9kvsqm6elQCJc9EkZ9hM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=MhIkTT4svGJsVNDSmdlQ2Z1WbRBKUHqlu1HY3PNkey3X2YizLDKS4fxu0TPUBfFoG
-	 Jgf68qZ99Msztw+e2HRa6RrN5QaG4hEQ6lxUR1/NpEWw7HMPzTjsSqWGWdYlptsp2t
-	 tzyQz5JRE9sYixtNzJguV+UbqhTn4dJpAKv0blvA=
+	b=RbF2OSRZA1dGQ4vFniQ8tNQuDxANvwEKl4588i6hMp7vbuIV+mHmQXRobLvIwNCBP
+	 NyG98dTZTnlcjvww/G0pCqU1pSHx8rbJrDRFAe4ZY6DWML7RCh2QEKBkJUckN00uuO
+	 cQL/uqVp7+Y2Thf8dbPHgkBuNmuvI4wp+afSinyY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729639AbgGMKzd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jul 2020 06:55:33 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33978 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729543AbgGMKza (ORCPT
+        id S1729390AbgGMKzc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jul 2020 06:55:32 -0400
+Received: from mail-lf1-f42.google.com ([209.85.167.42]:37647 "EHLO
+        mail-lf1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729594AbgGMKza (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jul 2020 06:55:30 -0400
-Received: by mail-lj1-f195.google.com with SMTP id q7so17094841ljm.1
+Received: by mail-lf1-f42.google.com with SMTP id k15so8659725lfc.4
         for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2020 03:55:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=amd6ZzL2zl5Mr3FET4bOw9yCxlz8hu0f5v053nQK0h0=;
-        b=PCaXqcbWmeR6zTSC/jL7jlbdSU97TlhmbuYNakV91ADFO2DRNgOYhbYs6BsG6AhFJd
-         2qpYSh00T4nichcVbRXHdqh3akfOBOANW0Ud16yM8rT+pP9Cg9jDL9qHr0SIeNu8s1bP
-         jHV319pxwtGQM8xygb+iLUrdSwPtKQF1tiLbIcGHvJndxqMgjqI2lZnYe6BD9pLh28n8
-         rl2yz61wEMNmhwj7xnzOnl+SSkqeY4O32xOMrb6Qg7qsY2ISlKMoJ+5vclaLnBwOJirX
-         P9BMZ22tUQN/5JGCsGilh1HDPgerZd1zPan7wXGaBxu8C8rx1OasfIEyLxyB+kghAzqU
-         RHJg==
-X-Gm-Message-State: AOAM533wLy75PIsxe41Wdf7nJRwGekO93aPxgx+OD0QWaKrr0R9o7UGH
-        7QSIfmhMnC593K4l7VQku82BI/m0QoU=
-X-Google-Smtp-Source: ABdhPJwBJUZOFU2RPme4foPfhHSGM87raXYkY8/J2nRilnHmOcODq/VLgxbeR5pf7Wtai/v1UuDa5w==
-X-Received: by 2002:a2e:81d7:: with SMTP id s23mr46370918ljg.398.1594637728031;
+        bh=JsGmXUuiWIk6SoRdgEmYmqDS/E3gZWEwecJGcIXAItY=;
+        b=ihNOyAp2GJQT0c0TfLvW9mWIkhsYEwfTokU2Jml8I4X+gZSStJSQtwiMVKC77zl7R4
+         4d64lINkFfKindZAyQQpFyJoIAc7gTWW3xeInYIZTSJ9AgVppQIQ3Octov8LVNT4JshU
+         AFt3pl846vg8T8RY8T3TWGy0VE06esvSuQJ9djtkW2rptJ2H7B96uSypmosm2rfr4R+U
+         rH6JWUrRDm+RrAhwlrcTzsrL87gwYZ0r05q+8HVp4OFPuRmFlhpq3trWlDIgnYKNDmXd
+         fT07lrIFOZVjy0aK5ZkfEbVlAlkBcpL7KEEhH/I+vcC3KjVQWwgKEieE9lvb3CMhToC7
+         WEdw==
+X-Gm-Message-State: AOAM533tC+kGR+b577vm1fUNuhyU99ahYbssbWI5L8a95h8H362qFGEz
+        OOP4nYehkrf2bOAYq87yFR9erIhdmV8=
+X-Google-Smtp-Source: ABdhPJwI7o8dKeojfIJDY2g5wgIhKwPFs/eiOH/WzSnPE3cQnu0HxpP4QIQtcIJlPNiTtKI+PaGlBQ==
+X-Received: by 2002:a05:6512:20f:: with SMTP id a15mr52103604lfo.118.1594637728424;
         Mon, 13 Jul 2020 03:55:28 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id p8sm5469753ljn.117.2020.07.13.03.55.25
+        by smtp.gmail.com with ESMTPSA id x24sm4014687ljh.21.2020.07.13.03.55.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 13 Jul 2020 03:55:27 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1juw7S-0007FX-Db; Mon, 13 Jul 2020 12:55:34 +0200
+        id 1juw7S-0007FS-B2; Mon, 13 Jul 2020 12:55:34 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     =?UTF-8?q?Jarom=C3=ADr=20=C5=A0korpil?= <Jerry@jrr.cz>,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 5/5] USB: serial: cp210x: use in-kernel types in port data
-Date:   Mon, 13 Jul 2020 12:55:17 +0200
-Message-Id: <20200713105517.27796-6-johan@kernel.org>
+Subject: [PATCH 4/5] USB: serial: cp210x: drop unnecessary packed attributes
+Date:   Mon, 13 Jul 2020 12:55:16 +0200
+Message-Id: <20200713105517.27796-5-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200713105517.27796-1-johan@kernel.org>
 References: <20200713105517.27796-1-johan@kernel.org>
@@ -68,27 +68,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The port data is not exported to user space so use the in-kernel u8
-type.
+Drop unnecessary packed attributes from structs without padding.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/cp210x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/serial/cp210x.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 09445b7a8f64..d0c05aa8a0d6 100644
+index 3a65be4a0ec0..09445b7a8f64 100644
 --- a/drivers/usb/serial/cp210x.c
 +++ b/drivers/usb/serial/cp210x.c
-@@ -266,7 +266,7 @@ enum cp210x_event_state {
- };
+@@ -435,7 +435,7 @@ struct cp210x_flow_ctl {
+ 	__le32	ulFlowReplace;
+ 	__le32	ulXonLimit;
+ 	__le32	ulXoffLimit;
+-} __packed;
++};
  
- struct cp210x_port_private {
--	__u8			bInterfaceNumber;
-+	u8			bInterfaceNumber;
- 	bool			has_swapped_line_ctl;
- 	bool			event_mode;
- 	enum cp210x_event_state event_state;
+ /* cp210x_flow_ctl::ulControlHandshake */
+ #define CP210X_SERIAL_DTR_MASK		GENMASK(1, 0)
+@@ -469,7 +469,7 @@ struct cp210x_flow_ctl {
+ struct cp210x_pin_mode {
+ 	u8	eci;
+ 	u8	sci;
+-} __packed;
++};
+ 
+ #define CP210X_PIN_MODE_MODEM		0
+ #define CP210X_PIN_MODE_GPIO		BIT(0)
+@@ -532,7 +532,7 @@ struct cp210x_single_port_config {
+ struct cp210x_gpio_write {
+ 	u8	mask;
+ 	u8	state;
+-} __packed;
++};
+ 
+ /*
+  * Helper to get interface number when we only have struct usb_serial.
 -- 
 2.26.2
 
