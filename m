@@ -2,366 +2,217 @@ Return-Path: <SRS0=Njro=AY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B7EC433F8
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 14:33:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A026EC433E8
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 15:40:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07C952075B
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 14:33:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 807EC2084C
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jul 2020 15:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594654821;
+	bh=0oDZPpCS+Q2MvYjhzJWHLHOBZvgcY8MWJm2GqBucVlQ=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=z5Ri7Lme7DqQOLEbW2aUHryeaHurkzrmUWaVXdZG8/HYevQ/1/4R27j4BaHJTUp++
+	 f990BLh0sgGyMLZGdWPVI7NyM2sr7BOvgFV5y3Gmv5PrkV5aJiBoX03m5MZ9+DWQRC
+	 Rx21emR8klUoFhNSAUAcz0mjSw5b9CxegYn/a7jU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730020AbgGMOdS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jul 2020 10:33:18 -0400
-Received: from out28-169.mail.aliyun.com ([115.124.28.169]:49521 "EHLO
-        out28-169.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729782AbgGMOdS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jul 2020 10:33:18 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0369344-0.000275895-0.96279;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03273;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.I19VHhZ_1594650754;
-Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.I19VHhZ_1594650754)
-          by smtp.aliyun-inc.com(10.147.41.158);
-          Mon, 13 Jul 2020 22:32:43 +0800
-From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
-        <zhouyanjie@wanyeetech.com>
-To:     balbi@kernel.org, robh+dt@kernel.org
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        dongsheng.qiu@ingenic.com, aric.pzqi@ingenic.com,
-        rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
-        sernia.zhou@foxmail.com, zhenwenjin@gmail.com, paul@crapouillou.net
-Subject: [PATCH v2 2/3] USB: PHY: JZ4770: Add support for new Ingenic SoCs.
-Date:   Mon, 13 Jul 2020 22:32:10 +0800
-Message-Id: <20200713143212.126399-3-zhouyanjie@wanyeetech.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200713143212.126399-1-zhouyanjie@wanyeetech.com>
-References: <20200713143212.126399-1-zhouyanjie@wanyeetech.com>
+        id S1729811AbgGMPkS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jul 2020 11:40:18 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34035 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729644AbgGMPkR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jul 2020 11:40:17 -0400
+Received: by mail-lj1-f196.google.com with SMTP id q7so18444875ljm.1;
+        Mon, 13 Jul 2020 08:40:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+jyng9Hgh2x8iRAD8u7WdBq+B8/Hrc2f6uvoQiIpjbE=;
+        b=EHSYFSNC+04xNfPy5Hp+cJ7zRnqIlvVnIFGzIC28ZtLWsOay7iFZOEG8PAvQDHqdW+
+         eKsxzn5w2FJHnmU9kDfr68+HkWm5A/pWN9rq+0AOL557H318gWsKypb3dPTONe/ZCaZZ
+         CxTfYAQq3uvBAyb1TbLQkurF3iNqLnykgJf2GuNE/jFC7QOjLEg9oh09DcYU04fO40oD
+         wv70Tl4yieZeO/RM8pYOZUNQa4DzZCUx9sab2CzBH3eStU5KKQgtxE0yOSb5N2BUO7Yh
+         B7N/oM1D+kxDghbsEirqwfVn0dErNbBcPk9lcTBByWwyqFGbIUx/O0ukX3xi8+n6LBqo
+         UHsA==
+X-Gm-Message-State: AOAM533xuvV9Yi/qLExcl/zbI5kynLDJfkmatXidD4HqQfoWui6Uv2xx
+        hS04PEWKZh6jE3Q4CokK2CEuvhDGD74=
+X-Google-Smtp-Source: ABdhPJyWh32U8JxNbVuaaonEO0IPDEPGJEcEI+ai5ippYeLJ92IgokzLCmXLTPN9JbhahoblNFju7g==
+X-Received: by 2002:a2e:9b0f:: with SMTP id u15mr182249lji.180.1594654813138;
+        Mon, 13 Jul 2020 08:40:13 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id x24sm4137103ljh.21.2020.07.13.08.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 08:40:12 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@xi.terra>)
+        id 1jv0Z3-0004hp-1R; Mon, 13 Jul 2020 17:40:21 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH] USB: serial: sierra: clean up special-interface handling
+Date:   Mon, 13 Jul 2020 17:39:36 +0200
+Message-Id: <20200713153936.18032-1-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for probing the phy-jz4770 driver on the JZ4780 SoC,
-the X1000 SoC and the X1830 SoC from Ingenic.
+Clean up the handling of special interfaces that either should be
+ignored or that need a larger number of URBs.
 
-Tested-by: 周正 (Zhou Zheng) <sernia.zhou@foxmail.com>
-Co-developed-by: 漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>
-Signed-off-by: 漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>
-Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+Commit 66f092ed3b94 ("USB: serial: sierra: unify quirk handling logic")
+replaced the previous is_blacklisted() and is_highmemory() helpers with
+a single is_quirk() helper which made it even harder to understand what
+the interface lists were used for.
+
+Rename the interface-list struct, its members and the interface-lookup
+helper and restructure the code somewhat in order to make it more
+self-explanatory.
+
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
+ drivers/usb/serial/sierra.c | 58 ++++++++++++++++++-------------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
-Notes:
-    v1->v2:
-    Add support for the JZ4780 SoC.
-
- drivers/usb/phy/Kconfig      |   4 +-
- drivers/usb/phy/phy-jz4770.c | 178 ++++++++++++++++++++++++++++++++-----------
- 2 files changed, 137 insertions(+), 45 deletions(-)
-
-diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
-index 4b3fa78995cf..775f0dd7b5f5 100644
---- a/drivers/usb/phy/Kconfig
-+++ b/drivers/usb/phy/Kconfig
-@@ -185,11 +185,11 @@ config USB_ULPI_VIEWPORT
- 	  controllers with a viewport register (e.g. Chipidea/ARC controllers).
+diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
+index a862aa788a19..57fc3c31712e 100644
+--- a/drivers/usb/serial/sierra.c
++++ b/drivers/usb/serial/sierra.c
+@@ -45,10 +45,9 @@
  
- config JZ4770_PHY
--	tristate "Ingenic JZ4770 Transceiver Driver"
-+	tristate "Ingenic SoCs Transceiver Driver"
- 	depends on MIPS || COMPILE_TEST
- 	select USB_PHY
- 	help
- 	  This driver provides PHY support for the USB controller found
--	  on the JZ4770 SoC from Ingenic.
-+	  on the JZ4770/JZ4780/X1000/X1830 SoC from Ingenic.
+ static bool nmea;
  
- endmenu
-diff --git a/drivers/usb/phy/phy-jz4770.c b/drivers/usb/phy/phy-jz4770.c
-index 8f62dc2a90ff..d1055c908943 100644
---- a/drivers/usb/phy/phy-jz4770.c
-+++ b/drivers/usb/phy/phy-jz4770.c
-@@ -1,12 +1,15 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Ingenic JZ4770 USB PHY driver
-+ * Ingenic SoCs USB PHY driver
-  * Copyright (c) Paul Cercueil <paul@crapouillou.net>
-+ * Copyright (c) 漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>
-+ * Copyright (c) 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
-  */
+-/* Used in interface quirks */
+-struct sierra_iface_quirk {
+-	const u32 infolen;	/* number of interface numbers on the list */
+-	const u8  *ifaceinfo;	/* pointer to the array holding the numbers */
++struct sierra_iface_list {
++	const u8 *nums;		/* array of interface numbers */
++	size_t count;		/* number of elements in array */
+ };
  
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- #include <linux/usb/otg.h>
-@@ -17,11 +20,10 @@
- #define REG_USBVBFIL_OFFSET	0x08
- #define REG_USBPCR1_OFFSET	0x0c
+ struct sierra_intf_private {
+@@ -101,20 +100,19 @@ static int sierra_calc_num_ports(struct usb_serial *serial,
+ 	return num_ports;
+ }
  
--/* USBPCR */
-+/*USB Parameter Control Register*/
- #define USBPCR_USB_MODE		BIT(31)
- #define USBPCR_AVLD_REG		BIT(30)
--#define USBPCR_INCRM		BIT(27)
--#define USBPCR_CLK12_EN		BIT(26)
-+#define USBPCR_INCR_MASK	BIT(27)
- #define USBPCR_COMMONONN	BIT(25)
- #define USBPCR_VBUSVLDEXT	BIT(24)
- #define USBPCR_VBUSVLDEXTSEL	BIT(23)
-@@ -32,46 +34,80 @@
+-static int is_quirk(const u8 ifnum, const struct sierra_iface_quirk *quirk)
++static bool is_listed(const u8 ifnum, const struct sierra_iface_list *list)
+ {
+-	const u8  *info;
+ 	int i;
  
- #define USBPCR_IDPULLUP_LSB	28
- #define USBPCR_IDPULLUP_MASK	GENMASK(29, USBPCR_IDPULLUP_LSB)
--#define USBPCR_IDPULLUP_ALWAYS	(3 << USBPCR_IDPULLUP_LSB)
--#define USBPCR_IDPULLUP_SUSPEND	(1 << USBPCR_IDPULLUP_LSB)
--#define USBPCR_IDPULLUP_OTG	(0 << USBPCR_IDPULLUP_LSB)
-+#define USBPCR_IDPULLUP_ALWAYS	(0x2 << USBPCR_IDPULLUP_LSB)
-+#define USBPCR_IDPULLUP_SUSPEND	(0x1 << USBPCR_IDPULLUP_LSB)
-+#define USBPCR_IDPULLUP_OTG	(0x0 << USBPCR_IDPULLUP_LSB)
+-	if (quirk) {
+-		info = quirk->ifaceinfo;
++	if (!list)
++		return false;
  
- #define USBPCR_COMPDISTUNE_LSB	17
- #define USBPCR_COMPDISTUNE_MASK	GENMASK(19, USBPCR_COMPDISTUNE_LSB)
--#define USBPCR_COMPDISTUNE_DFT	4
-+#define USBPCR_COMPDISTUNE_DFT	(0x4 << USBPCR_COMPDISTUNE_LSB)
- 
- #define USBPCR_OTGTUNE_LSB	14
- #define USBPCR_OTGTUNE_MASK	GENMASK(16, USBPCR_OTGTUNE_LSB)
--#define USBPCR_OTGTUNE_DFT	4
-+#define USBPCR_OTGTUNE_DFT	(0x4 << USBPCR_OTGTUNE_LSB)
- 
- #define USBPCR_SQRXTUNE_LSB	11
- #define USBPCR_SQRXTUNE_MASK	GENMASK(13, USBPCR_SQRXTUNE_LSB)
--#define USBPCR_SQRXTUNE_DFT	3
-+#define USBPCR_SQRXTUNE_DCR_20PCT	(0x7 << USBPCR_SQRXTUNE_LSB)
-+#define USBPCR_SQRXTUNE_DFT	(0x3 << USBPCR_SQRXTUNE_LSB)
- 
- #define USBPCR_TXFSLSTUNE_LSB	7
- #define USBPCR_TXFSLSTUNE_MASK	GENMASK(10, USBPCR_TXFSLSTUNE_LSB)
--#define USBPCR_TXFSLSTUNE_DFT	3
-+#define USBPCR_TXFSLSTUNE_DCR_50PPT	(0xf << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_DCR_25PPT	(0x7 << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_DFT	(0x3 << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_INC_25PPT	(0x1 << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_INC_50PPT	(0x0 << USBPCR_TXFSLSTUNE_LSB)
+-		for (i = 0; i < quirk->infolen; i++) {
+-			if (info[i] == ifnum)
+-				return 1;
+-		}
++	for (i = 0; i < list->count; i++) {
++		if (list->nums[i] == ifnum)
++			return true;
+ 	}
+-	return 0;
 +
-+#define USBPCR_TXHSXVTUNE_LSB	4
-+#define USBPCR_TXHSXVTUNE_MASK	GENMASK(5, USBPCR_TXHSXVTUNE_LSB)
-+#define USBPCR_TXHSXVTUNE_DFT	(0x3 << USBPCR_TXHSXVTUNE_LSB)
-+#define USBPCR_TXHSXVTUNE_DCR_15MV	(0x1 << USBPCR_TXHSXVTUNE_LSB)
++	return false;
+ }
  
- #define USBPCR_TXRISETUNE_LSB	4
- #define USBPCR_TXRISETUNE_MASK	GENMASK(5, USBPCR_TXRISETUNE_LSB)
--#define USBPCR_TXRISETUNE_DFT	3
-+#define USBPCR_TXRISETUNE_DFT	(0x3 << USBPCR_TXRISETUNE_LSB)
- 
- #define USBPCR_TXVREFTUNE_LSB	0
- #define USBPCR_TXVREFTUNE_MASK	GENMASK(3, USBPCR_TXVREFTUNE_LSB)
--#define USBPCR_TXVREFTUNE_DFT	5
-+#define USBPCR_TXVREFTUNE_INC_25PPT	(0x7 << USBPCR_TXVREFTUNE_LSB)
-+#define USBPCR_TXVREFTUNE_DFT	(0x5 << USBPCR_TXVREFTUNE_LSB)
- 
--/* USBRDT */
-+/*USB Reset Detect Timer Register*/
-+#define USBRDT_UTMI_RST		BIT(27)
-+#define USBRDT_HB_MASK		BIT(26)
- #define USBRDT_VBFIL_LD_EN	BIT(25)
- #define USBRDT_IDDIG_EN		BIT(24)
- #define USBRDT_IDDIG_REG	BIT(23)
--
--#define USBRDT_USBRDT_LSB	0
--#define USBRDT_USBRDT_MASK	GENMASK(22, USBRDT_USBRDT_LSB)
--
--/* USBPCR1 */
--#define USBPCR1_UHC_POWON	BIT(5)
-+#define USBRDT_VBFIL_EN		BIT(2)
-+
-+/*USB Parameter Control Register 1*/
-+#define USBPCR1_BVLD_REG			BIT(31)
-+#define USBPCR1_DPPD				BIT(29)
-+#define USBPCR1_DMPD				BIT(28)
-+#define USBPCR1_USB_SEL				BIT(28)
-+#define USBPCR1_WORD_IF_16BIT		BIT(19)
-+
-+#define USBPCR1_REFCLKSEL_LSB		26
-+#define USBPCR1_REFCLKSEL_MASK		GENMASK(27, USBPCR1_REFCLKDIV_LSB)
-+#define USBPCR1_REFCLKSEL_CLKCORE	(0x3 << USBPCR1_REFCLKSEL_LSB)
-+
-+#define USBPCR1_REFCLKDIV_LSB		24
-+#define USBPCR1_REFCLKDIV_MASK		GENMASK(25, USBPCR1_REFCLKDIV_LSB)
-+#define USBPCR1_REFCLKDIV_48M		(0x2 << USBPCR1_REFCLKDIV_LSB)
-+#define USBPCR1_REFCLKDIV_24M		(0x1 << USBPCR1_REFCLKDIV_LSB)
-+#define USBPCR1_REFCLKDIV_12M		(0x0 << USBPCR1_REFCLKDIV_LSB)
-+
-+enum ingenic_usb_phy_version {
-+	ID_JZ4770,
-+	ID_JZ4780,
-+	ID_X1000,
-+	ID_X1830,
-+};
- 
- struct jz4770_phy {
-+	enum ingenic_usb_phy_version version;
-+
- 	struct usb_phy phy;
- 	struct usb_otg otg;
- 	struct device *dev;
-@@ -96,6 +132,12 @@ static int jz4770_phy_set_peripheral(struct usb_otg *otg,
- 	struct jz4770_phy *priv = otg_to_jz4770_phy(otg);
- 	u32 reg;
- 
-+	if (priv->version >= ID_X1000) {
-+		reg = readl(priv->base + REG_USBPCR1_OFFSET);
-+		reg |= USBPCR1_BVLD_REG;
-+		writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+	}
-+
- 	reg = readl(priv->base + REG_USBPCR_OFFSET);
- 	reg &= ~USBPCR_USB_MODE;
- 	reg |= USBPCR_VBUSVLDEXT | USBPCR_VBUSVLDEXTSEL | USBPCR_OTG_DISABLE;
-@@ -135,17 +177,59 @@ static int jz4770_phy_init(struct usb_phy *phy)
- 		return err;
+ static u8 sierra_interface_num(struct usb_serial *serial)
+@@ -125,6 +123,7 @@ static u8 sierra_interface_num(struct usb_serial *serial)
+ static int sierra_probe(struct usb_serial *serial,
+ 			const struct usb_device_id *id)
+ {
++	const struct sierra_iface_list *ignore_list;
+ 	int result = 0;
+ 	struct usb_device *udev;
+ 	u8 ifnum;
+@@ -143,9 +142,10 @@ static int sierra_probe(struct usb_serial *serial,
+ 		usb_set_interface(udev, ifnum, 1);
  	}
  
--	reg = USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
--		(USBPCR_COMPDISTUNE_DFT << USBPCR_COMPDISTUNE_LSB) |
--		(USBPCR_OTGTUNE_DFT << USBPCR_OTGTUNE_LSB) |
--		(USBPCR_SQRXTUNE_DFT << USBPCR_SQRXTUNE_LSB) |
--		(USBPCR_TXFSLSTUNE_DFT << USBPCR_TXFSLSTUNE_LSB) |
--		(USBPCR_TXRISETUNE_DFT << USBPCR_TXRISETUNE_LSB) |
--		(USBPCR_TXVREFTUNE_DFT << USBPCR_TXVREFTUNE_LSB) |
--		USBPCR_POR;
-+	if (priv->version >= ID_X1830) {
-+		/* rdt */
-+		writel(USBRDT_VBFIL_EN | USBRDT_UTMI_RST, priv->base + REG_USBRDT_OFFSET);
+-	if (is_quirk(ifnum, (struct sierra_iface_quirk *)id->driver_info)) {
+-		dev_dbg(&serial->dev->dev,
+-			"Ignoring interface #%d\n", ifnum);
++	ignore_list = (const struct sierra_iface_list *)id->driver_info;
 +
-+		reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_WORD_IF_16BIT |
-+			USBPCR1_DMPD | USBPCR1_DPPD;
-+		writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+
-+		reg = USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT |	USBPCR_TXPREEMPHTUNE;
-+	} else if (priv->version >= ID_X1000) {
-+		reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_WORD_IF_16BIT;
-+		writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+
-+		reg = USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
-+			USBPCR_TXHSXVTUNE_DCR_15MV | USBPCR_TXVREFTUNE_INC_25PPT;
-+	} else if (priv->version >= ID_JZ4780) {
-+		reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_USB_SEL |
-+			USBPCR1_WORD_IF_16BIT;
-+		writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+
-+		reg = USBPCR_TXPREEMPHTUNE;
-+	} else {
-+		reg = USBPCR_AVLD_REG | USBPCR_IDPULLUP_ALWAYS |
-+			USBPCR_COMPDISTUNE_DFT | USBPCR_OTGTUNE_DFT |
-+			USBPCR_SQRXTUNE_DFT | USBPCR_TXFSLSTUNE_DFT |
-+			USBPCR_TXRISETUNE_DFT | USBPCR_TXVREFTUNE_DFT;
-+	}
-+
-+	reg |= USBPCR_COMMONONN | USBPCR_POR;
- 	writel(reg, priv->base + REG_USBPCR_OFFSET);
++	if (is_listed(ifnum, ignore_list)) {
++		dev_dbg(&serial->dev->dev, "Ignoring interface #%d\n", ifnum);
+ 		return -ENODEV;
+ 	}
  
--	/* Wait for PHY to reset */
-+	/*
-+	 * Power-On Reset(POR)
-+	 * Function:This customer-specific signal resets all test registers
-+	 * and state machines in the USB 2.0 nanoPHY.
-+	 * The POR signal must be asserted for a minimum of 10 μs.
-+	 * For POR timing information:
-+	 *
-+	 * T0: Power-on reset (POR) is initiated. 0 (reference).
-+	 * T1: T1 indicates when POR can be set to 1’b0. (To provide examples,
-+	 * values for T2 and T3 are also shown where T1 = T0 + 30 μs.);
-+	 * In general, T1 must be ≥ T0 + 10 μs. T0 + 10 μs ≤ T1.
-+	 * T2: T2 indicates when PHYCLOCK, CLK48MOHCI, and CLK12MOHCI are
-+	 * available at the macro output, based on the USB 2.0 nanoPHY
-+	 * reference clock source.
-+	 * Crystal:
-+	 *    • When T1 = T0 + 10 μs:
-+	 *      T2 < T1 + 805 μs = T0 + 815 μs
-+	 *    • When T1 = T0 + 30 μs:
-+	 *      T2 < T1 + 805 μs = T0 + 835 μs
-+	 * see "Reset and Power-Saving Signals" on page 60 an “Powering Up
-+	 * and Powering Down the USB 2.0 nanoPHY” on page 73.
-+	 */
- 	usleep_range(30, 300);
- 	writel(reg & ~USBPCR_POR, priv->base + REG_USBPCR_OFFSET);
- 	usleep_range(300, 1000);
-@@ -166,21 +250,37 @@ static void jz4770_phy_remove(void *phy)
- 	usb_remove_phy(phy);
- }
+@@ -154,22 +154,22 @@ static int sierra_probe(struct usb_serial *serial,
  
-+static const struct of_device_id ingenic_usb_phy_of_matches[] = {
-+	{ .compatible = "ingenic,jz4770-phy", .data = (void *) ID_JZ4770 },
-+	{ .compatible = "ingenic,jz4780-phy", .data = (void *) ID_JZ4780 },
-+	{ .compatible = "ingenic,x1000-phy", .data = (void *) ID_X1000 },
-+	{ .compatible = "ingenic,x1830-phy", .data = (void *) ID_X1830 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ingenic_usb_phy_of_matches);
-+
- static int jz4770_phy_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct jz4770_phy *priv;
-+	const struct of_device_id *match;
- 	int err;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	match = of_match_device(ingenic_usb_phy_of_matches, dev);
-+	if (match)
-+		priv->version = (enum ingenic_usb_phy_version)match->data;
-+	else
-+		return -ENODEV;
-+
- 	platform_set_drvdata(pdev, priv);
- 	priv->dev = dev;
- 	priv->phy.dev = dev;
- 	priv->phy.otg = &priv->otg;
--	priv->phy.label = "jz4770-phy";
-+	priv->phy.label = "ingenic-usb-phy";
- 	priv->phy.init = jz4770_phy_init;
- 	priv->phy.shutdown = jz4770_phy_shutdown;
- 
-@@ -221,23 +321,15 @@ static int jz4770_phy_probe(struct platform_device *pdev)
- 	return devm_add_action_or_reset(dev, jz4770_phy_remove, &priv->phy);
- }
- 
--#ifdef CONFIG_OF
--static const struct of_device_id jz4770_phy_of_matches[] = {
--	{ .compatible = "ingenic,jz4770-phy" },
--	{ }
--};
--MODULE_DEVICE_TABLE(of, jz4770_phy_of_matches);
--#endif
--
--static struct platform_driver jz4770_phy_driver = {
-+static struct platform_driver ingenic_usb_phy_driver = {
- 	.probe		= jz4770_phy_probe,
- 	.driver		= {
--		.name	= "jz4770-phy",
--		.of_match_table = of_match_ptr(jz4770_phy_of_matches),
-+		.name	= "ingenic-usb-phy",
-+		.of_match_table = of_match_ptr(ingenic_usb_phy_of_matches),
- 	},
+ /* interfaces with higher memory requirements */
+ static const u8 hi_memory_typeA_ifaces[] = { 0, 2 };
+-static const struct sierra_iface_quirk typeA_interface_list = {
+-	.infolen = ARRAY_SIZE(hi_memory_typeA_ifaces),
+-	.ifaceinfo = hi_memory_typeA_ifaces,
++static const struct sierra_iface_list typeA_interface_list = {
++	.nums	= hi_memory_typeA_ifaces,
++	.count	= ARRAY_SIZE(hi_memory_typeA_ifaces),
  };
--module_platform_driver(jz4770_phy_driver);
-+module_platform_driver(ingenic_usb_phy_driver);
  
- MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
--MODULE_DESCRIPTION("Ingenic JZ4770 USB PHY driver");
-+MODULE_DESCRIPTION("Ingenic SoCs USB PHY driver");
- MODULE_LICENSE("GPL");
+ static const u8 hi_memory_typeB_ifaces[] = { 3, 4, 5, 6 };
+-static const struct sierra_iface_quirk typeB_interface_list = {
+-	.infolen = ARRAY_SIZE(hi_memory_typeB_ifaces),
+-	.ifaceinfo = hi_memory_typeB_ifaces,
++static const struct sierra_iface_list typeB_interface_list = {
++	.nums	= hi_memory_typeB_ifaces,
++	.count	= ARRAY_SIZE(hi_memory_typeB_ifaces),
+ };
+ 
+ /* 'ignorelist' of interfaces not served by this driver */
+ static const u8 direct_ip_non_serial_ifaces[] = { 7, 8, 9, 10, 11, 19, 20 };
+-static const struct sierra_iface_quirk direct_ip_interface_ignore = {
+-	.infolen = ARRAY_SIZE(direct_ip_non_serial_ifaces),
+-	.ifaceinfo = direct_ip_non_serial_ifaces,
++static const struct sierra_iface_list direct_ip_interface_ignore = {
++	.nums	= direct_ip_non_serial_ifaces,
++	.count	= ARRAY_SIZE(direct_ip_non_serial_ifaces),
+ };
+ 
+ static const struct usb_device_id id_table[] = {
+@@ -859,7 +859,7 @@ static int sierra_port_probe(struct usb_serial_port *port)
+ {
+ 	struct usb_serial *serial = port->serial;
+ 	struct sierra_port_private *portdata;
+-	const struct sierra_iface_quirk *himemoryp;
++	const struct sierra_iface_list *himemory_list;
+ 	u8 ifnum;
+ 
+ 	portdata = kzalloc(sizeof(*portdata), GFP_KERNEL);
+@@ -878,16 +878,16 @@ static int sierra_port_probe(struct usb_serial_port *port)
+ 	if (serial->num_ports == 1) {
+ 		/* Get interface number for composite device */
+ 		ifnum = sierra_interface_num(serial);
+-		himemoryp = &typeB_interface_list;
++		himemory_list = &typeB_interface_list;
+ 	} else {
+ 		/* This is really the usb-serial port number of the interface
+ 		 * rather than the interface number.
+ 		 */
+ 		ifnum = port->port_number;
+-		himemoryp = &typeA_interface_list;
++		himemory_list = &typeA_interface_list;
+ 	}
+ 
+-	if (is_quirk(ifnum, himemoryp)) {
++	if (is_listed(ifnum, himemory_list)) {
+ 		portdata->num_out_urbs = N_OUT_URB_HM;
+ 		portdata->num_in_urbs  = N_IN_URB_HM;
+ 	}
 -- 
-2.11.0
+2.26.2
 
