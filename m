@@ -2,144 +2,188 @@ Return-Path: <SRS0=da/P=AZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9F9C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 23:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B65BBC433E2
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 23:18:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06C5A2071B
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 23:12:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DAdGDpkV"
+	by mail.kernel.org (Postfix) with ESMTP id 93ADC2071B
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 23:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594768713;
+	bh=WbHcOuCS+rj4obHCGdLyDlzJy258Ll6RBipsjc9gqhs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=NfBOCbux5W2LPRPG+OJAJE71H6RvuFE4d4hEExp4MZV10QeZ7zDfeV5Im4NCz2TkD
+	 Wh+rW8cRg7aJM+fn+09uFZyMR15gQKPNqJdeznBDl3jv5J+ye4DKemM/1RfgjW4ihP
+	 L9yTUr7NddjX8cCfRs8X9xHqq/yUAYTGC6/zxuMU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgGNXMQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Jul 2020 19:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726446AbgGNXMP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Jul 2020 19:12:15 -0400
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA57C061755
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2020 16:12:15 -0700 (PDT)
-Received: by mail-pg1-x549.google.com with SMTP id t6so132215pgv.5
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2020 16:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=glVfOVmyAY7K0ZD6NVMriDJHjHK+kTTDZC66Bbr1RgU=;
-        b=DAdGDpkVhQzqvwgvtRqkVAUg8CXYrIkYfcpwYcrtt3ZBsmKLvMxzyjN++3hQc/HGgu
-         B/SP9Qzdxxdyzg/5EHN1qiVSl173br6wQ9n4PncL5ETdVSgK+jI340mbtgwuLs4sd81M
-         ErjGSEOty/pXXG3R78fUt/2pLE0KWEiChisarivefrfX5/Gb+qVarPsR9C8AeQhLeO72
-         7XsPT5pPGlAZ5Rt+Wk00IbjYVvi/0ww4Vpul63Z+ourX7O1I420yIq9f5BGC0LXazgeL
-         p2E3gQO2ZxXAu4GkHIxL+e4VHcZgyyMIWeu2I6s00nU5P7MV+ahx6FbW3416W4Siqgh+
-         pWDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=glVfOVmyAY7K0ZD6NVMriDJHjHK+kTTDZC66Bbr1RgU=;
-        b=KVUY+6Eq0GA5SDmCfckCB439PHTJWWDggqg1XZxmkubw107R2u9IAe0xwgDf9EySo8
-         V/iXW/fOkMevaQCVi1mVKThhk++H4DLzFvTsS+XO73hKT2cctSmNqBV92uWh5+lL6QOr
-         6jfeKdaWBmT9HF3soSHIRqnDnjiejS8o8/9UXPf1V8NOIeHTx82JxY1GwjjJmMz5cHWB
-         s0xQaEBuxMbJMq4aZGoddP06NFKObecDpGkPsfB7e1/uahwWC4CBJ/Li25yXCO5tNoFj
-         Urehgc531UeCs6jDfHliYQ9PObcc3zUMnuRKsMxp4ABQ4JlAEZrask1J4PwEzN7C3Nrk
-         gsKQ==
-X-Gm-Message-State: AOAM530tezmSYXFfFSxDyESo8XYzWbEP4WcCXr2GQozW6rOPXjPElIHN
-        n1u78NmIZYJFJ3iZNJKklz4FFK0ZoaE=
-X-Google-Smtp-Source: ABdhPJy2Woh67yQ+dkq89F0KCieyS2VJmpYvjZzBWwdWn8etJfQ0b05c4ImwUuY4rj+22iTCTjwdAOlis50=
-X-Received: by 2002:a17:90a:1fcb:: with SMTP id z11mr904182pjz.1.1594768335108;
- Tue, 14 Jul 2020 16:12:15 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 16:12:06 -0700
-In-Reply-To: <20200714231207.866838-1-badhri@google.com>
-Message-Id: <20200714231207.866838-2-badhri@google.com>
-Mime-Version: 1.0
-References: <20200714231207.866838-1-badhri@google.com>
-X-Mailer: git-send-email 2.27.0.389.gc38d7665816-goog
-Subject: [PATCH 2/3 v2] usb: typec: tcpm: Support bist test data mode for compliance
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        reg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Badhri Jagan Sridharan <badhri@google.com>
+        id S1726962AbgGNXS3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Jul 2020 19:18:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49946 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726187AbgGNXS2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Jul 2020 19:18:28 -0400
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8583D2074B;
+        Tue, 14 Jul 2020 23:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594768707;
+        bh=WbHcOuCS+rj4obHCGdLyDlzJy258Ll6RBipsjc9gqhs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OTYv7SW64RJ7rcBLNLixgDhz1BOtm1ZlPfGu0RW7CKMz/+ee2kQZnsPya33XRsqSZ
+         NSY9JKrQ2FHqtYIo/G1nklBOWhlXLpB3Bb80i2eXAScH3Qkvmz4gkSVFZ3xyOmHSB2
+         fS1zjaVyGJOhZPsVcQWQD09xHBVeLAHPlnAO/7HE=
+Received: by mail-ot1-f47.google.com with SMTP id h13so68081otr.0;
+        Tue, 14 Jul 2020 16:18:27 -0700 (PDT)
+X-Gm-Message-State: AOAM531sTp1Rzu6UUNRYLmVqQbl0CpurZMh5yerLiQhkx5Ucm1Hde/hl
+        nUGH9qkEQoMlwdLXNKEmpqSFXENueBn9VUlgcQ==
+X-Google-Smtp-Source: ABdhPJzamyUgo6UiqW59FuZ+b+pvPCuOFw/T+vorF7nM8Yc7QjaPRAdppkgkTdGO/rge6EQOKevq7Mn09VhM3JKnhr0=
+X-Received: by 2002:a9d:4002:: with SMTP id m2mr6332092ote.129.1594768706856;
+ Tue, 14 Jul 2020 16:18:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200612171334.26385-1-nsaenzjulienne@suse.de>
+ <20200612171334.26385-2-nsaenzjulienne@suse.de> <20200713182356.GA413630@bogus>
+ <ed42e27eaf48fd19cc8ccccd15b0b25ba1d836ae.camel@suse.de> <20200714210708.GA2897216@bogus>
+ <925bab2c-91e0-bf60-9ec4-286eb53f72ab@gmail.com>
+In-Reply-To: <925bab2c-91e0-bf60-9ec4-286eb53f72ab@gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 14 Jul 2020 17:18:15 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+BvM+Z_QNkB47_8AQzZ6R3LOCjNWd5MA-9avxp0HHG2w@mail.gmail.com>
+Message-ID: <CAL_Jsq+BvM+Z_QNkB47_8AQzZ6R3LOCjNWd5MA-9avxp0HHG2w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] dt-bindings: reset: Add a binding for the RPi
+ Firmware reset controller
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stefan Wahren <wahrenst@gmx.net>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Eric Anholt <eric@anholt.net>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>, tim.gover@raspberrypi.org,
+        PCI <linux-pci@vger.kernel.org>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TCPM supports BIST carried mode. PD compliance tests require
-BIST Test Data to be supported as well.
+On Tue, Jul 14, 2020 at 3:18 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+>
+>
+>
+> On 7/14/2020 2:07 PM, Rob Herring wrote:
+> > On Tue, Jul 14, 2020 at 01:59:21PM +0200, Nicolas Saenz Julienne wrote:
+> >> On Mon, 2020-07-13 at 12:23 -0600, Rob Herring wrote:
+> >>> On Fri, Jun 12, 2020 at 07:13:25PM +0200, Nicolas Saenz Julienne wrote:
+> >>>> The firmware running on the RPi VideoCore can be used to reset and
+> >>>> initialize HW controlled by the firmware.
+> >>>>
+> >>>> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> >>>> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> >>>>
+> >>>> ---
+> >>>> Changes since v2:
+> >>>>  - Add include file for reset IDs
+> >>>>
+> >>>> Changes since v1:
+> >>>>  - Correct cells binding as per Florian's comment
+> >>>>  - Change compatible string to be more generic
+> >>>>
+> >>>>  .../arm/bcm/raspberrypi,bcm2835-firmware.yaml | 21 +++++++++++++++++++
+> >>>>  .../reset/raspberrypi,firmware-reset.h        | 13 ++++++++++++
+> >>>>  2 files changed, 34 insertions(+)
+> >>>>  create mode 100644 include/dt-bindings/reset/raspberrypi,firmware-reset.h
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-
+> >>>> firmware.yaml
+> >>>> b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-
+> >>>> firmware.yaml
+> >>>> index b48ed875eb8e..23a885af3a28 100644
+> >>>> --- a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-
+> >>>> firmware.yaml
+> >>>> +++ b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-
+> >>>> firmware.yaml
+> >>>> @@ -39,6 +39,22 @@ properties:
+> >>>>        - compatible
+> >>>>        - "#clock-cells"
+> >>>>
+> >>>> +  reset:
+> >>>
+> >>> I'm not really thrilled how this is evolving with a node per provider.
+> >>> There's no reason you can't just add #clock-cells and #reset-cells to
+> >>> the parent firmware node.
+> >>
+> >> What are the downsides? The way I see it there is not much difference. And this
+> >> way of handling things is feels more intuitive and flexible (overlays can
+> >> control what to enable easily, we can take advantage of the platform device
+> >> core).
+> >
+> > What the OS wants can evolve, so designing around the current needs of
+> > the OS is not how bindings should be done.
+> >
+> > Using overlays to add clocks or resets wouldn't really work given they
+> > are spread out over the tree. And with clocks in particular, you'd have
+> > to replace dummy fixed clocks with actual firmware clocks. Sounds
+> > fragile and messy...
+> >
+> >>> I probably should have complained with the clocks node, but that's only
+> >>> pending for 5.9.
+> >>
+> >> Note that there are more users for this pattern: "raspberrypi,firmware-ts" and
+> >> "raspberrypi,firmware-gpio". Actually you were the one to originally propose
+> >> this it[1]. :P
+> >
+> > Sigh, this is why I dislike incomplete examples...
+> >
+> > Based on that,
+> >
+> > Acked-by: Rob Herring <robh@kernel.org>
+> >
+> > And please get gpio and ts converted to schema and referenced here
+> > before the next time I look at this.
+> >
+> >> There already is a fair amount of churn in these drivers because of all the DT
+> >> changes we did in the past, and if we need to change how we integrate these
+> >> again, I'd really like it to be for good.
+> >>
+> >>> The bigger issue is this stuff is just trickling in one bit at a time
+> >>> which gives no context for review. What's next? Is it really a mystery
+> >>> as to what functions the firmware provides?
+> >>
+> >> We have no control over it, RPi engineers integrate new designs and new
+> >> firmware interfaces show up. This is a good example of it.
+> >>
+> >> I proposed them to use SCMI as it covers most of what they are already
+> >> providing here. But no luck so far.
+> >
+> > Once we get tired of supporting all the different firmware interfaces
+> > and the mess they become, we'll just have to start refusing custom ones.
+> > Worked for PSCI.
+>
+> In this particular case, the Raspberry Pi Foundation VPU firmware should
+> just implement SCMI and that would avoid having to write new client
+> drivers for Linux, it is not clear to me why this has not been done yet.
 
-Introducing set_bist_data callback to signal tcpc driver for
-configuring the port controller hardware to enable/disable
-BIST Test Data mode.
+Writing drivers is fun?
 
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
----
-Version history:
-Changes since V1:(Guenter's suggestions)
-- Split the change into two: TCPM and TCPCI
-- Move BIST log to TCPM log
----
- drivers/usb/typec/tcpm/tcpm.c | 11 +++++++++++
- include/linux/usb/tcpm.h      |  2 ++
- 2 files changed, 13 insertions(+)
+Perhaps we should start refusing new firmware interfaces now.
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 82b19ebd7838e0..379fcab9dbd973 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -2746,6 +2746,11 @@ static void tcpm_detach(struct tcpm_port *port)
- 	if (!port->attached)
- 		return;
- 
-+	if (port->tcpc->set_bist_data) {
-+		tcpm_log(port, "disable BIST MODE TESTDATA");
-+		port->tcpc->set_bist_data(port->tcpc, false);
-+	}
-+
- 	if (tcpm_port_is_disconnected(port))
- 		port->hard_reset_count = 0;
- 
-@@ -3555,6 +3560,12 @@ static void run_state_machine(struct tcpm_port *port)
- 		case BDO_MODE_CARRIER2:
- 			tcpm_pd_transmit(port, TCPC_TX_BIST_MODE_2, NULL);
- 			break;
-+		case BDO_MODE_TESTDATA:
-+			if (port->tcpc->set_bist_data) {
-+				tcpm_log(port, "Enable BIST MODE TESTDATA");
-+				port->tcpc->set_bist_data(port->tcpc, true);
-+			}
-+			break;
- 		default:
- 			break;
- 		}
-diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-index e7979c01c3517c..89f58760cf4800 100644
---- a/include/linux/usb/tcpm.h
-+++ b/include/linux/usb/tcpm.h
-@@ -79,6 +79,7 @@ enum tcpm_transmit_type {
-  * @try_role:	Optional; called to set a preferred role
-  * @pd_transmit:Called to transmit PD message
-  * @mux:	Pointer to multiplexer data
-+ * @set_bist_data: Turn on/off bist data mode for compliance testing
-  */
- struct tcpc_dev {
- 	struct fwnode_handle *fwnode;
-@@ -103,6 +104,7 @@ struct tcpc_dev {
- 	int (*try_role)(struct tcpc_dev *dev, int role);
- 	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
- 			   const struct pd_message *msg);
-+	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
- };
- 
- struct tcpm_port;
--- 
-2.27.0.389.gc38d7665816-goog
-
+Rob
