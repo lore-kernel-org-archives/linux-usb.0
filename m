@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C94C433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 14:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE52C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 14:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC800206F5
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 14:43:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3207C208C3
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 14:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594737780;
-	bh=gvnWcCjOu7+yAiFXB43bqnRstOBWfMgIJ5UVPY7sDs4=;
+	s=default; t=1594737837;
+	bh=MqAYBQ0zca97/4uJXLBfQ+2OYHXm+08zxBdpyr6Rnf4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CoEjSYPi5HU7R1JMpANnmYzuZI1x2Cu9O0JhGKwsZkOHAoZIGYzxqpF0562GD9gAc
-	 brlpCPBhWa4etPb5OLaJe0b4H61x0aVtgixdiesN5ccdFy7JwEMtbL8/S4RD2CNolM
-	 yRBtt5UgdoaD46hgbojHYG6sqoKblU2sX0HBS8MI=
+	b=hWWL3IpzVSIYIGJ1ZwEBEmY7TyRwczF+GfgSAYGe394Td1zOIIKRpavqqwZXhf0s5
+	 u8/skPtbp5THUyA/KG7DmOaswMR9YxQSfQ5u+LB47T5EnlsVml7n+4v1JvCdoDKNpr
+	 cYYOwrtgRIuJ8o9H7fOfeZ7Nnb3a6TOtbNxXSsVE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729571AbgGNOmu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Jul 2020 10:42:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55356 "EHLO mail.kernel.org"
+        id S1728911AbgGNOnp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Jul 2020 10:43:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54806 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729145AbgGNOju (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 Jul 2020 10:39:50 -0400
+        id S1728959AbgGNOja (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Jul 2020 10:39:30 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 399592256C;
-        Tue, 14 Jul 2020 14:39:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC3B42251F;
+        Tue, 14 Jul 2020 14:39:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594737590;
-        bh=gvnWcCjOu7+yAiFXB43bqnRstOBWfMgIJ5UVPY7sDs4=;
+        s=default; t=1594737569;
+        bh=MqAYBQ0zca97/4uJXLBfQ+2OYHXm+08zxBdpyr6Rnf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sdIDtkX326+MsXJdbK8zmmMVkrnE+N76g97c8qWIV9K8P8TrXq5+Jrx0U0OjnPdH5
-         zmjnLTylIdLkBD2hYtUa4NrFurRcCPc/5UtExhDZ/ObN3SWXGNTewSu6f/bv9oQQrk
-         sJ9+tBs2+8Fww+W6av6vhocQ7D7cTdH6mqal/Wyo=
+        b=YqgnjpDPsQkiaEQ1TVbfuNQudO/b2P6kozv5AB5K/TZwZGqvSv8ahSamF2z6l1Ibm
+         7soKlSNce+FllaEdksuaTTGKyicw1pxzaIUguAZVqpJl2KSu7uONdC1DNloKIhs0pX
+         1MS0pH967p2n4t73M/YR5FZ3i4jdhrdAEM+GylzA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     AceLan Kao <acelan.kao@canonical.com>,
@@ -45,12 +45,12 @@ Cc:     AceLan Kao <acelan.kao@canonical.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/13] net: usb: qmi_wwan: add support for Quectel EG95 LTE modem
-Date:   Tue, 14 Jul 2020 10:39:34 -0400
-Message-Id: <20200714143937.4035685-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 12/18] net: usb: qmi_wwan: add support for Quectel EG95 LTE modem
+Date:   Tue, 14 Jul 2020 10:39:08 -0400
+Message-Id: <20200714143914.4035489-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200714143937.4035685-1-sashal@kernel.org>
-References: <20200714143937.4035685-1-sashal@kernel.org>
+In-Reply-To: <20200714143914.4035489-1-sashal@kernel.org>
+References: <20200714143914.4035489-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -88,10 +88,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 1f70e00838f26..ea3c891186147 100644
+index 4a2c7355be63d..e57d59b0a7ae9 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1305,6 +1305,7 @@ static const struct usb_device_id products[] = {
+@@ -1370,6 +1370,7 @@ static const struct usb_device_id products[] = {
  	{QMI_QUIRK_SET_DTR(0x1e0e, 0x9001, 5)},	/* SIMCom 7100E, 7230E, 7600E ++ */
  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0121, 4)},	/* Quectel EC21 Mini PCIe */
  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0191, 4)},	/* Quectel EG91 */
