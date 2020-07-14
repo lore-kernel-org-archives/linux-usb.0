@@ -6,23 +6,23 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C864C433E5
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 19:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5B4C433E3
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 19:18:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E08D22507
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 19:11:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 915B42255F
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jul 2020 19:18:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729743AbgGNTLd convert rfc822-to-8bit (ORCPT
+        id S1729113AbgGNTSV convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Jul 2020 15:11:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40604 "EHLO mail.kernel.org"
+        Tue, 14 Jul 2020 15:18:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728926AbgGNTLc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 Jul 2020 15:11:32 -0400
+        id S1728370AbgGNTSV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Jul 2020 15:18:21 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 208357] snd-usb-audio broken for 06f8:b000 since 4.9.189
-Date:   Tue, 14 Jul 2020 19:11:31 +0000
+Date:   Tue, 14 Jul 2020 19:18:20 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -31,14 +31,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: bugzilla.kernel.org@mrtoasted.com
+X-Bugzilla-Who: stern@rowland.harvard.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208357-208809-gqzSDAfwov@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-208357-208809-yXAf6Qng5A@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208357-208809@https.bugzilla.kernel.org/>
 References: <bug-208357-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,9 +53,18 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208357
 
---- Comment #10 from Alexander Chalikiopoulos (bugzilla.kernel.org@mrtoasted.com) ---
-I just realized that the first part of your patch says `USB_DEVICE(0x0926,
-0xb000)` but that should be `USB_DEVICE(0x06f8, 0xb000)` right?
+Alan Stern (stern@rowland.harvard.edu) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|stern@rowland.harvard.edu   |
+
+--- Comment #11 from Alan Stern (stern@rowland.harvard.edu) ---
+You are right...  It looks like I carelessly copied the value from the context
+line preceding the new entry in the second hunk instead of from the entry
+itself.
+
+Yes, please change that value to 0x06f8.
 
 -- 
 You are receiving this mail because:
