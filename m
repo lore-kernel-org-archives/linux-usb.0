@@ -7,66 +7,65 @@ X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20236C433E1
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 15:52:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D01EFC433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 15:58:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E18A920658
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 15:52:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A130420658
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 15:58:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eL7Hb1B8"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="to9qifFS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725932AbgGOPwV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jul 2020 11:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36076 "EHLO
+        id S1725992AbgGOP6u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jul 2020 11:58:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725834AbgGOPwU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 11:52:20 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4813CC061755
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 08:52:20 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id g67so3270142pgc.8
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 08:52:20 -0700 (PDT)
+        with ESMTP id S1725835AbgGOP6q (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 11:58:46 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A2CC061755
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 08:58:46 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id a23so677738pfk.13
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 08:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:subject:to:cc:references:from:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=aGqR3XESbbGslJzY68oBmZAVylysXkqWvIe0qItJ+Bs=;
-        b=eL7Hb1B83VwGOu1jCvMAp8ASYoFN112mW14OxqSpZHrMNDPlDjIqcvGDoqaPVKcHBO
-         MLEW8rZSYHQmHRsSE39FqVETywggx/WQynMKwi6x7pMv37ggrSlcsi5xfnHz+OzQi6Re
-         /2DJILixrt7rGRQ4gTztfPVqp326GmUm7Pa1WPC2r9U2wFS1mc8PeyvyrtZFNAOuiXAM
-         wmUNU3zYIajQrzd67fD/f0Qom5o0+rRWk5YR4kySo29i6+V7EuRzah6EGmyohcsuaNRa
-         h2BJr/MPugQdElsnByey22cil4JVFq2itegZ34uRs40l15eTUhNarizFb2OhvSytUA+E
-         bO+A==
+        bh=QkpoXygUV9GEl8wbmpwmboQ9ro21A37HIlO2HlpfSjM=;
+        b=to9qifFSwC7S22ayBit3uDc/zI0FxBeB6QqLv8c6VcfPDsX+Scl77zmi6C3cLlmcao
+         c8fznRe4LxveQ/hmiXfqd2HMjkJy0alG4FRxVA/qVSPhC4Z5ZObA4tyiB9gQybDDPSVM
+         gGAzBpP/N7h4ZXt7V3Ze4CStqi7QQ8F3mvUZVPmL0rjUF6Y3f6JjNPnv6OBD031Wjdy9
+         7+mGiyyHbMzixwnZrx7ybt5ozr3BHM6+yrA2ZkIcKrGdCUOaIuEqc3kYA+gR0+u4oDBV
+         vnJ956L98uyb57EdMp+RluoTgg0eUfXIBqNLyP0REwRKf0YUfjEknajg42XEpnoWi0Xd
+         KuoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=aGqR3XESbbGslJzY68oBmZAVylysXkqWvIe0qItJ+Bs=;
-        b=ODlEblF1Smz3X+x1cKKzKIiGlxepmKmeLo2jH1M49GM8EBufSgaPhvKhAb22DY5Kqb
-         +BuB/9dLoWkIN4sSDwoIMo0YdLyvDNbQLgsXzSt/NLZmYbazCd0sy21V1wsP3ZwTk3YL
-         kD8pb056sgz9vZj8mwXaZ+U+bZyGXq6jfFqPiRPZSEJBCOLiV4RHKpPd2IvkE4vOilz7
-         WWavHGt5V1UqR83Co2mFQj4E8RoxYI5i5Lf6swxRKSauWU1/1Gao3MC4hR6Z+ZPOjk2U
-         iHbmzwPYBIBmNrgyOgLQAJxGfRZI0VCQtcl9ixfPdnn9941KQEbZ6NovHiMNpHgpA2Jf
-         yPwA==
-X-Gm-Message-State: AOAM530ma4iQYi4zRkoZUsybY3v6r+QScABFwMjMjM6+UOrwmL1xp8mL
-        r3cvlI8P7MsEzAj/Jwh8EcZ72lvN
-X-Google-Smtp-Source: ABdhPJxQA23FlqQqvwNWiR+mHo7k2dAGJckvBdoDdcBMW4LdhR6mLVhCGBXbnwZmtlYZIT9Ypqugkg==
-X-Received: by 2002:a63:3e09:: with SMTP id l9mr296535pga.235.1594828339386;
-        Wed, 15 Jul 2020 08:52:19 -0700 (PDT)
+        bh=QkpoXygUV9GEl8wbmpwmboQ9ro21A37HIlO2HlpfSjM=;
+        b=NmKSXWdMvpBTmSkXL5e8VCD1o3VI0zM6n0Hdu4+k669E+sB1TcmLHdSpjzIGPPWtn2
+         jklccOY+RlmBpyaDmEifx8nAraD4Kf0ddsBgdWY7YEYFFTfEy37eQA06EpCaDsV4vIzj
+         hJYgEw2duRkUZLoZA0vUekXm9jhU1kH38DLn9vu94+z+p8bUNy7ekXl4hoVq9+t5PqSb
+         KQq+7dVyAepSS+slT1Wr6sHca1kz+F+f38z1yIU20QTX71EJiaHKTUIa/0lhMC6A3N9k
+         EsnQo5XZyIzRUn3CcMmBpSIMfLXCu1EMF1x0oiCIXY0cWYLPfnm/0xIp+yT5mNqtlVs/
+         rdKA==
+X-Gm-Message-State: AOAM5333YWyo80Lf/j5ETZzq3caL1sEmXPSPj8Ur8gRyrYgKgbHCcEJK
+        zEyfzlWDJ/HPGUavoa8s6jegihzn
+X-Google-Smtp-Source: ABdhPJymOWthSQAFC1ee0O7nduhsnq/2RhHWG33MpGmFl7m7Zaq4oNJG+EnE3sd9/GL9qOABiPrWfg==
+X-Received: by 2002:a65:428d:: with SMTP id j13mr319537pgp.211.1594828725914;
+        Wed, 15 Jul 2020 08:58:45 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z10sm2556937pfr.90.2020.07.15.08.52.18
+        by smtp.gmail.com with ESMTPSA id l126sm2655710pfd.202.2020.07.15.08.58.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2020 08:52:18 -0700 (PDT)
-Subject: Re: [PATCH 3/6] usb: typec: tcpm: Refactor tcpm_handle_vdm_request
- payload handling
+        Wed, 15 Jul 2020 08:58:45 -0700 (PDT)
+Subject: Re: [PATCH 4/6] usb: typec: tcpm: Refactor tcpm_handle_vdm_request
 To:     Hans de Goede <hdegoede@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     linux-usb@vger.kernel.org
 References: <20200715132301.99816-1-hdegoede@redhat.com>
- <20200715132301.99816-4-hdegoede@redhat.com>
+ <20200715132301.99816-5-hdegoede@redhat.com>
 From:   Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -111,12 +110,12 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <6f9d0aa4-2fd7-b98c-969c-394320fcf07a@roeck-us.net>
-Date:   Wed, 15 Jul 2020 08:52:17 -0700
+Message-ID: <68fd64dd-0543-7a94-225d-16d21a4de149@roeck-us.net>
+Date:   Wed, 15 Jul 2020 08:58:43 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200715132301.99816-4-hdegoede@redhat.com>
+In-Reply-To: <20200715132301.99816-5-hdegoede@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -126,174 +125,180 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 On 7/15/20 6:22 AM, Hans de Goede wrote:
-> Refactor the tcpm_handle_vdm_request payload handling by doing the
-> endianness conversion only once directly inside tcpm_handle_vdm_request
-> itself instead of doing it multiple times inside various helper functions
-> called by tcpm_handle_vdm_request.
+> Refactor tcpm_handle_vdm_request and its tcpm_pd_svdm helper function so
+> that reporting the results of the vdm to the altmode-driver is separated
+> out into a clear separate step inside tcpm_handle_vdm_request, instead
+> of being scattered over various places inside the tcpm_pd_svdm helper.
 > 
-> This is a preparation patch for some further refactoring to fix an AB BA
-> lock inversion between the tcpm code and some altmode drivers.
+> This is a preparation patch for fixing an AB BA lock inversion between the
+> tcpm code and some altmode drivers.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 49 ++++++++++++++++-------------------
->  1 file changed, 22 insertions(+), 27 deletions(-)
+>  drivers/usb/typec/tcpm/tcpm.c | 80 +++++++++++++++++++++--------------
+>  1 file changed, 49 insertions(+), 31 deletions(-)
 > 
 > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 30e997d6ea1e..bf5a0322dbfe 100644
+> index bf5a0322dbfe..4745b4062000 100644
 > --- a/drivers/usb/typec/tcpm/tcpm.c
 > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -981,16 +981,15 @@ static void tcpm_queue_vdm(struct tcpm_port *port, const u32 header,
->  	mutex_unlock(&port->lock);
->  }
+> @@ -159,6 +159,14 @@ enum pd_msg_request {
+>  	PD_MSG_DATA_SOURCE_CAP,
+>  };
 >  
-> -static void svdm_consume_identity(struct tcpm_port *port, const __le32 *payload,
-> -				  int cnt)
-> +static void svdm_consume_identity(struct tcpm_port *port, const u32 *p, int cnt)
->  {
-> -	u32 vdo = le32_to_cpu(payload[VDO_INDEX_IDH]);
-> -	u32 product = le32_to_cpu(payload[VDO_INDEX_PRODUCT]);
-> +	u32 vdo = p[VDO_INDEX_IDH];
-> +	u32 product = p[VDO_INDEX_PRODUCT];
+> +enum adev_actions {
+> +	ADEV_NONE = 0,
+> +	ADEV_NOTIFY_USB_AND_QUEUE_VDM,
+> +	ADEV_QUEUE_VDM,
+> +	ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL,
+> +	ADEV_ATTENTION,
+> +};
+> +
+>  /* Events from low level driver */
 >  
->  	memset(&port->mode_data, 0, sizeof(port->mode_data));
->  
->  	port->partner_ident.id_header = vdo;
-> -	port->partner_ident.cert_stat = le32_to_cpu(payload[VDO_INDEX_CSTAT]);
-> +	port->partner_ident.cert_stat = p[VDO_INDEX_CSTAT];
->  	port->partner_ident.product = product;
->  
->  	typec_partner_set_identity(port->partner);
-> @@ -1000,17 +999,15 @@ static void svdm_consume_identity(struct tcpm_port *port, const __le32 *payload,
->  		 PD_PRODUCT_PID(product), product & 0xffff);
->  }
->  
-> -static bool svdm_consume_svids(struct tcpm_port *port, const __le32 *payload,
-> -			       int cnt)
-> +static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
->  {
->  	struct pd_mode_data *pmdata = &port->mode_data;
->  	int i;
->  
->  	for (i = 1; i < cnt; i++) {
-> -		u32 p = le32_to_cpu(payload[i]);
->  		u16 svid;
->  
-> -		svid = (p >> 16) & 0xffff;
-> +		svid = (p[i] >> 16) & 0xffff;
->  		if (!svid)
->  			return false;
->  
-> @@ -1020,7 +1017,7 @@ static bool svdm_consume_svids(struct tcpm_port *port, const __le32 *payload,
->  		pmdata->svids[pmdata->nsvids++] = svid;
->  		tcpm_log(port, "SVID %d: 0x%x", pmdata->nsvids, svid);
->  
-> -		svid = p & 0xffff;
-> +		svid = p[i] & 0xffff;
->  		if (!svid)
->  			return false;
->  
-> @@ -1036,8 +1033,7 @@ static bool svdm_consume_svids(struct tcpm_port *port, const __le32 *payload,
->  	return false;
->  }
->  
-> -static void svdm_consume_modes(struct tcpm_port *port, const __le32 *payload,
-> -			       int cnt)
-> +static void svdm_consume_modes(struct tcpm_port *port, const u32 *p, int cnt)
->  {
->  	struct pd_mode_data *pmdata = &port->mode_data;
->  	struct typec_altmode_desc *paltmode;
-> @@ -1054,7 +1050,7 @@ static void svdm_consume_modes(struct tcpm_port *port, const __le32 *payload,
->  
->  		paltmode->svid = pmdata->svids[pmdata->svid_index];
->  		paltmode->mode = i;
-> -		paltmode->vdo = le32_to_cpu(payload[i]);
-> +		paltmode->vdo = p[i];
->  
->  		tcpm_log(port, " Alternate mode %d: SVID 0x%04x, VDO %d: 0x%08x",
->  			 pmdata->altmodes, paltmode->svid,
-> @@ -1082,21 +1078,17 @@ static void tcpm_register_partner_altmodes(struct tcpm_port *port)
->  
+>  #define TCPM_CC_EVENT		BIT(0)
+> @@ -1079,9 +1087,8 @@ static void tcpm_register_partner_altmodes(struct tcpm_port *port)
 >  #define supports_modal(port)	PD_IDH_MODAL_SUPP((port)->partner_ident.id_header)
 >  
-> -static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
-> +static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
->  			u32 *response)
+>  static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
+> -			u32 *response)
+> +			u32 *response, enum adev_actions *adev_action)
 >  {
->  	struct typec_altmode *adev;
+> -	struct typec_altmode *adev;
 >  	struct typec_altmode *pdev;
 >  	struct pd_mode_data *modep;
-> -	u32 p[PD_MAX_PAYLOAD];
 >  	int rlen = 0;
->  	int cmd_type;
->  	int cmd;
->  	int i;
+> @@ -1097,9 +1104,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
 >  
-> -	for (i = 0; i < cnt; i++)
-> -		p[i] = le32_to_cpu(payload[i]);
+>  	modep = &port->mode_data;
+>  
+> -	adev = typec_match_altmode(port->port_altmode, ALTMODE_DISCOVERY_MAX,
+> -				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
 > -
->  	cmd_type = PD_VDO_CMDT(p[0]);
->  	cmd = PD_VDO_CMD(p[0]);
+>  	pdev = typec_match_altmode(port->partner_altmode, ALTMODE_DISCOVERY_MAX,
+>  				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
 >  
-> @@ -1157,13 +1149,13 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+> @@ -1125,8 +1129,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
+>  			break;
+>  		case CMD_ATTENTION:
+>  			/* Attention command does not have response */
+> -			if (adev)
+> -				typec_altmode_attention(adev, p[1]);
+> +			*adev_action = ADEV_ATTENTION;
+>  			return 0;
+>  		default:
+>  			break;
+> @@ -1178,27 +1181,18 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
+>  			}
+>  			break;
+>  		case CMD_ENTER_MODE:
+> -			if (adev && pdev) {
+> +			if (pdev)
+>  				typec_altmode_update_active(pdev, true);
+>  
+
+There is a slight semantic difference: typec_altmode_update_active() is now
+called even if adev is NULL. Is this intentional ?
+
+> -				if (typec_altmode_vdm(adev, p[0], &p[1], cnt)) {
+> -					response[0] = VDO(adev->svid, 1,
+> -							  CMD_EXIT_MODE);
+> -					response[0] |= VDO_OPOS(adev->mode);
+> -					return 1;
+> -				}
+> -			}
+> +			*adev_action = ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL;
+>  			return 0;
+>  		case CMD_EXIT_MODE:
+> -			if (adev && pdev) {
+> +			if (pdev)
+>  				typec_altmode_update_active(pdev, false);
+>  
+> -				/* Back to USB Operation */
+> -				WARN_ON(typec_altmode_notify(adev,
+> -							     TYPEC_STATE_USB,
+> -							     NULL));
+> -			}
+> -			break;
+> +			/* Back to USB Operation */
+> +			*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
+> +			return 0;
+>  		default:
+>  			break;
+>  		}
+> @@ -1207,11 +1201,8 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
 >  		switch (cmd) {
->  		case CMD_DISCOVER_IDENT:
->  			/* 6.4.4.3.1 */
-> -			svdm_consume_identity(port, payload, cnt);
-> +			svdm_consume_identity(port, p, cnt);
->  			response[0] = VDO(USB_SID_PD, 1, CMD_DISCOVER_SVID);
->  			rlen = 1;
+>  		case CMD_ENTER_MODE:
+>  			/* Back to USB Operation */
+> -			if (adev)
+> -				WARN_ON(typec_altmode_notify(adev,
+> -							     TYPEC_STATE_USB,
+> -							     NULL));
+> -			break;
+> +			*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
+> +			return 0;
+>  		default:
 >  			break;
->  		case CMD_DISCOVER_SVID:
->  			/* 6.4.4.3.2 */
-> -			if (svdm_consume_svids(port, payload, cnt)) {
-> +			if (svdm_consume_svids(port, p, cnt)) {
->  				response[0] = VDO(USB_SID_PD, 1,
->  						  CMD_DISCOVER_SVID);
->  				rlen = 1;
-> @@ -1175,7 +1167,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
->  			break;
->  		case CMD_DISCOVER_MODES:
->  			/* 6.4.4.3.3 */
-> -			svdm_consume_modes(port, payload, cnt);
-> +			svdm_consume_modes(port, p, cnt);
->  			modep->svid_index++;
->  			if (modep->svid_index < modep->nsvids) {
->  				u16 svid = modep->svids[modep->svid_index];
-> @@ -1238,15 +1230,18 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+>  		}
+> @@ -1221,15 +1212,15 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
+>  	}
+>  
+>  	/* Informing the alternate mode drivers about everything */
+> -	if (adev)
+> -		typec_altmode_vdm(adev, p[0], &p[1], cnt);
+> -
+> +	*adev_action = ADEV_QUEUE_VDM;
+>  	return rlen;
+>  }
+>  
 >  static void tcpm_handle_vdm_request(struct tcpm_port *port,
 >  				    const __le32 *payload, int cnt)
 >  {
-> -	int rlen = 0;
-> +	u32 p[PD_MAX_PAYLOAD];
+> +	enum adev_actions adev_action = ADEV_NONE;
+> +	struct typec_altmode *adev;
+>  	u32 p[PD_MAX_PAYLOAD];
 >  	u32 response[8] = { };
-> -	u32 p0 = le32_to_cpu(payload[0]);
-> +	int i, rlen = 0;
-> +
-> +	for (i = 0; i < cnt; i++)
-> +		p[i] = le32_to_cpu(payload[i]);
+>  	int i, rlen = 0;
+> @@ -1237,6 +1228,9 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>  	for (i = 0; i < cnt; i++)
+>  		p[i] = le32_to_cpu(payload[i]);
 >  
+> +	adev = typec_match_altmode(port->port_altmode, ALTMODE_DISCOVERY_MAX,
+> +				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
+> +
 >  	if (port->vdm_state == VDM_STATE_BUSY) {
 >  		/* If UFP responded busy retry after timeout */
-> -		if (PD_VDO_CMDT(p0) == CMDT_RSP_BUSY) {
-> +		if (PD_VDO_CMDT(p[0]) == CMDT_RSP_BUSY) {
->  			port->vdm_state = VDM_STATE_WAIT_RSP_BUSY;
-> -			port->vdo_retry = (p0 & ~VDO_CMDT_MASK) |
-> +			port->vdo_retry = (p[0] & ~VDO_CMDT_MASK) |
->  				CMDT_INIT;
->  			mod_delayed_work(port->wq, &port->vdm_state_machine,
->  					 msecs_to_jiffies(PD_T_VDM_BUSY));
-> @@ -1255,8 +1250,8 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
->  		port->vdm_state = VDM_STATE_DONE;
+>  		if (PD_VDO_CMDT(p[0]) == CMDT_RSP_BUSY) {
+> @@ -1251,7 +1245,31 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
 >  	}
 >  
-> -	if (PD_VDO_SVDM(p0))
-> -		rlen = tcpm_pd_svdm(port, payload, cnt, response);
-> +	if (PD_VDO_SVDM(p[0]))
-> +		rlen = tcpm_pd_svdm(port, p, cnt, response);
+>  	if (PD_VDO_SVDM(p[0]))
+> -		rlen = tcpm_pd_svdm(port, p, cnt, response);
+> +		rlen = tcpm_pd_svdm(port, p, cnt, response, &adev_action);
+> +
+> +	if (adev) {
+> +		switch (adev_action) {
+> +		case ADEV_NONE:
+> +			break;
+> +		case ADEV_NOTIFY_USB_AND_QUEUE_VDM:
+> +			WARN_ON(typec_altmode_notify(adev, TYPEC_STATE_USB, NULL));
+> +			typec_altmode_vdm(adev, p[0], &p[1], cnt);
+> +			break;
+> +		case ADEV_QUEUE_VDM:
+> +			typec_altmode_vdm(adev, p[0], &p[1], cnt);
+> +			break;
+> +		case ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL:
+> +			if (typec_altmode_vdm(adev, p[0], &p[1], cnt)) {
+> +				response[0] = VDO(adev->svid, 1, CMD_EXIT_MODE);
+> +				response[0] |= VDO_OPOS(adev->mode);
+> +				rlen = 1;
+> +			}
+> +			break;
+> +		case ADEV_ATTENTION:
+> +			typec_altmode_attention(adev, p[1]);
+> +			break;
+> +		}
+> +	}
 >  
 >  	if (rlen > 0)
 >  		tcpm_queue_vdm_unlocked(port, response[0], &response[1], rlen - 1);
