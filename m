@@ -2,123 +2,109 @@ Return-Path: <SRS0=G55A=A2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E2BC433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 18:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639FFC433E5
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 18:41:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 858A52064B
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 18:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594837162;
-	bh=taJ+5KPPgh1D4VQJC+LpzEH18ropvCeO2aSQWXX/F30=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=uLQ6s87h3XEBHU9N5+162biTrY71HKy7095LfM2q6Na9dOwtKCaYt/xNSYQg7+pLH
-	 8jzG+DILWZO8k7hPYQPrtT1fqiTikIYCLqtSAHvdRt5fujglYWD63bxhnhBt5dSAf/
-	 ql6uHHI0gHh0XKyaqFbBJKUe4QzD3gHIx1vHnw9Y=
+	by mail.kernel.org (Postfix) with ESMTP id 3D0C42065F
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 18:41:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="AfpWHi7+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbgGOSTT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jul 2020 14:19:19 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:41554 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725861AbgGOSTS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 14:19:18 -0400
-Received: by mail-io1-f65.google.com with SMTP id p205so3248249iod.8;
-        Wed, 15 Jul 2020 11:19:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8qir7BYEt1ePlYcSc9kQBoolo/NmI427EpRk3jCnc0E=;
-        b=MAMZCEyepTv0b0HymYM9Pt5xXg3EkaTRQOxe5Ec+mPPsIURDQaEDeO3jlLa7mxYqMA
-         bvTENVFP/SLmQPzmMrKM5gh9x50livFPdiaUmAyDcj+uzJHrvWArmGTNqUQUpD/SHpsD
-         fXAK4BIsT6u5524M8xDCXaYZew/CZGBp39X8S+3hak7cmkOM+caafEL91Wyo7IJh38xk
-         mDPkA7LXNGlqS4mVPMCg75+oBIrF5Abh9zL2AJRT/pCGcog8dIqffpzCD7LCJEgjF59J
-         QErn2OisfbYQsd7JlA9VjNYZ1veXN8swsLvo7XewKOLwil+Ey5fUdQIIT5nRJHrvQeTa
-         2coQ==
-X-Gm-Message-State: AOAM532k0gsgn5zO9TWmJBT4B31Os+cpTnpfR2XO+oJkbZfu4DxMNN5n
-        r5TYmx71R4uO7IcJj9/v5w==
-X-Google-Smtp-Source: ABdhPJy+MnYJTQwPRpfYQ3APxYiqsDRIvjF899R10bA6VgiAK98fT5sRURp5v0MVa13LsRx2/1boXA==
-X-Received: by 2002:a5d:8ac3:: with SMTP id e3mr575726iot.9.1594837157634;
-        Wed, 15 Jul 2020 11:19:17 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id t11sm1437942ils.3.2020.07.15.11.19.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 11:19:17 -0700 (PDT)
-Received: (nullmailer pid 557898 invoked by uid 1000);
-        Wed, 15 Jul 2020 18:19:16 -0000
-Date:   Wed, 15 Jul 2020 12:19:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Amelie Delaunay <amelie.delaunay@st.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: Re: [PATCH 1/6] dt-bindings: connector: add power-opmode optional
- property to usb-connector
-Message-ID: <20200715181916.GA551920@bogus>
-References: <20200615161512.19150-1-amelie.delaunay@st.com>
- <20200615161512.19150-2-amelie.delaunay@st.com>
+        id S1727042AbgGOSlc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jul 2020 14:41:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726977AbgGOSl0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 14:41:26 -0400
+Received: from canardo.mork.no (canardo.mork.no [IPv6:2001:4641::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A664C061755;
+        Wed, 15 Jul 2020 11:41:25 -0700 (PDT)
+Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
+        (authenticated bits=0)
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 06FIfJf0016696
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Wed, 15 Jul 2020 20:41:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1594838479; bh=soqXKIMV4UybpZPLXSB5tX+7JJCEadqZphhOw22tfYI=;
+        h=From:To:Cc:Subject:Date:Message-Id:References:From;
+        b=AfpWHi7+dCpHnCB4QKGz3dI184INXcEDqyVABdsFvXHMwxBQ9uVntUTwNx6H7Iu25
+         2D1o+R/s7uPsul9szXtp2PJztBZkJj+2alM9sFNMUXungDuWbPlxFR78Vd1PXXOJ1r
+         f+hjvQ8yF7VuvGDbvsK/S+r32QAVmhgukiEAVqN4=
+Received: from bjorn by miraculix.mork.no with local (Exim 4.94)
+        (envelope-from <bjorn@miraculix.mork.no>)
+        id 1jvmLG-000SSW-R1; Wed, 15 Jul 2020 20:41:18 +0200
+From:   =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+To:     netdev@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, wxcafe@wxcafe.net, oliver@neukum.org,
+        =?UTF-8?q?Miguel=20Rodr=C3=ADguez=20P=C3=A9rez?= 
+        <miguel@det.uvigo.gal>, Oliver Neukum <oneukum@suse.com>,
+        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+Subject: [PATCH v5 net-next 2/5] net: cdc_ether: export usbnet_cdc_update_filter
+Date:   Wed, 15 Jul 2020 20:40:57 +0200
+Message-Id: <20200715184100.109349-3-bjorn@mork.no>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200715184100.109349-1-bjorn@mork.no>
+References: <20200715184100.109349-1-bjorn@mork.no>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200615161512.19150-2-amelie.delaunay@st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.102.2 at canardo
+X-Virus-Status: Clean
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 06:15:07PM +0200, Amelie Delaunay wrote:
-> Power operation mode may depends on hardware design, so, add the optional
-> property power-opmode for usb-c connector to select the power operation
-> mode capability.
-> 
-> Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
-> ---
->  .../devicetree/bindings/connector/usb-connector.yaml  | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> index 9bd52e63c935..cd7feb2d4984 100644
-> --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> @@ -88,6 +88,17 @@ properties:
->        - device
->        - dual
->  
-> +  power-opmode:
-> +    description: Determines the power operation mode that the Type C connector
-> +      will support.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#definitions/string
-> +    enum:
-> +      - default
+From: Miguel Rodríguez Pérez <miguel@det.uvigo.gal>
 
-Wouldn't this just be no property?
+This makes the function available to other drivers, like cdc_ncm.
 
-> +      - 1.5A
-> +      - 3.0A
+Signed-off-by: Miguel Rodríguez Pérez <miguel@det.uvigo.gal>
+Acked-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Bjørn Mork <bjorn@mork.no>
+---
+ drivers/net/usb/cdc_ether.c | 3 ++-
+ include/linux/usb/usbnet.h  | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-You'll need to explain these better.
+diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+index 2afe258e3648..8c1d61c2cbac 100644
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -63,7 +63,7 @@ static const u8 mbm_guid[16] = {
+ 	0xa6, 0x07, 0xc0, 0xff, 0xcb, 0x7e, 0x39, 0x2a,
+ };
+ 
+-static void usbnet_cdc_update_filter(struct usbnet *dev)
++void usbnet_cdc_update_filter(struct usbnet *dev)
+ {
+ 	struct net_device	*net = dev->net;
+ 
+@@ -90,6 +90,7 @@ static void usbnet_cdc_update_filter(struct usbnet *dev)
+ 			USB_CTRL_SET_TIMEOUT
+ 		);
+ }
++EXPORT_SYMBOL_GPL(usbnet_cdc_update_filter);
+ 
+ /* probes control interface, claims data interface, collects the bulk
+  * endpoints, activates data interface (if needed), maybe sets MTU.
+diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
+index b0bff3083278..3a856963a363 100644
+--- a/include/linux/usb/usbnet.h
++++ b/include/linux/usb/usbnet.h
+@@ -207,6 +207,7 @@ struct cdc_state {
+ 	struct usb_interface		*data;
+ };
+ 
++extern void usbnet_cdc_update_filter(struct usbnet *dev);
+ extern int usbnet_generic_cdc_bind(struct usbnet *, struct usb_interface *);
+ extern int usbnet_ether_cdc_bind(struct usbnet *dev, struct usb_interface *intf);
+ extern int usbnet_cdc_bind(struct usbnet *, struct usb_interface *);
+-- 
+2.27.0
 
-> +      - usb_power_delivery
-
-I would have thought 'default' would be USB-PD. Though I thought Type-C 
-was always USB-PD. 
-
-> +
->    # The following are optional properties for "usb-c-connector" with power
->    # delivery support.
->    source-pdos:
-> -- 
-> 2.17.1
-> 
