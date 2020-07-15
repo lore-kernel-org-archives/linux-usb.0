@@ -2,107 +2,132 @@ Return-Path: <SRS0=G55A=A2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6765C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3988C433F4
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83794206F4
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F0712071B
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kgCdXMjb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KDslEjnS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730763AbgGOJcQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jul 2020 05:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33800 "EHLO
+        id S1730846AbgGOJck (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jul 2020 05:32:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725885AbgGOJcP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 05:32:15 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CFBC061755
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:14 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id 17so4872412wmo.1
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:14 -0700 (PDT)
+        with ESMTP id S1730793AbgGOJcV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 05:32:21 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782F4C08C5C1
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:21 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id q5so1681881wru.6
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=easFprA1rlXP+l9tcr/n/hbQjfY4p+URdQB+bt/vLVk=;
-        b=kgCdXMjbGP82TXbjFkxf/2lpaClvJKN/LS7/ueUYl0t9EesCTDJfExfKSVdPJyLnpI
-         mNcg+6XK9vjLQBI0TmsKAlocgw/bqTjmQHBO0KtCWxV1u5kdLAavgH1N/J3AWWNmzmvN
-         +zjfJ100UTrvp4EJ/cExnGTPeICQKkKq5igA0enZNlm78zQVXTzpS6ZjnNTZlLxw31S+
-         +HXFBE/AsjuKE/OD1e1P8Bs5M0+RG7GdA27HkDiSKQHJ+xI23vDB/wQbucsQJzCFFNvW
-         RYobiCqAlVK2T63+0sgwVQU26AvHkqo6Vq0OQ79jEojfAL4V6fsjjUH/KVhlr3WgRwRl
-         xewg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zIfwG4edfdZ0SvbrErNnoWeJSNFEawblVl9W1BGUl0c=;
+        b=KDslEjnSQHAZDr3xp/DTWD275dXtqmIN+QWWeOPMn7d1pvYUjXDgd/tn/Bo5+lb9yw
+         z2nomIjXCeRFimM3mGejfzSOIwkWxmxiINGCOb1l2Ouy54iLn9K+/YHASyZvHeauBB1l
+         bxBgDn20+U53HF1nj2yuN8qjv3x+8sMpOjckq0v6LIiVqLy9G4+zui/A6JDuz/deobic
+         ZRc0d2gzwL3i9evsEsgsgsOmDbXib9e8TVdfEWct5zZFqwmoU2Ycek3TFsTn/9iiebCp
+         IAcudveq7zVF8eMOOg87/bSKwDQJIT9bmboQgQg8RHAdmsWS10wHat5RKdVRt+1VB1ba
+         GQIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=easFprA1rlXP+l9tcr/n/hbQjfY4p+URdQB+bt/vLVk=;
-        b=Xufe9FgNn1KYJPxNy4xcDOBtbUX2fTSgM2l5s1hIPL2B0yky6TivfAtYA9A7luxyYf
-         YBtASoZTb01PQ6v7qAAt8sYVYIL2eN17XSonVPyW36+iQCSNZBeawZ8uAg9IZldyX/cy
-         e5Gg0uStWyrLrFitKGEoiNm1YDBPb81z4ap51CVbIjQoKzVTJHAcRHWSz8pA/hUx11ze
-         Ho6VQ9+JJHgjIrG5ncNzs9B0TdJJW/oREwS4/jXbvVTaIXLI1q66Pb4v9g9UJlvJm+7J
-         r0wPWdwKel9g/L+LmWUX9/WsgLm4CKMVDf8phq7XM37imwIQ5lXQY2eMGi324jz7ACH0
-         86EA==
-X-Gm-Message-State: AOAM533uH2NQICkX6wET1GC+88QZc2Iyvi+H4kTsrZMO3QN/xNXsNpni
-        KP7M1UbO1A8c9racbVCMeiFT7Q==
-X-Google-Smtp-Source: ABdhPJwg8dRgDgK/PgoS2WBYF+uhV5nacvXxeFhiZpmGdsw3/hGyoVy0nupsk/XEgqvxhoGTIjI46Q==
-X-Received: by 2002:a1c:7d85:: with SMTP id y127mr7961510wmc.181.1594805532762;
-        Wed, 15 Jul 2020 02:32:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zIfwG4edfdZ0SvbrErNnoWeJSNFEawblVl9W1BGUl0c=;
+        b=n7n4VKkb8WQdRfAfoNnh5R2VooAKvvHTJj21vSnWmzqGvhp/+dRq0XIpr6wkMfBeky
+         plc6tAiNtf8Nngll6E5LH7ZwQjHXSTdekmIAXH99w33S4NPVgc5WbaAVB5X0UiEXjxGq
+         8noywdzgoTy5pTfe1wHQXCgTYWzRHizgRjVwBXN6hrg685LW+EmWlRwbQTrBkhAJ2rD3
+         n3joJgAlgtS6iNxcVq3NboZoIDhSYiHh37l3X8D2sqjILY11swkgFcmMpGju30aB0ezE
+         q1RD+SwbkJ2JdKd3n5UTe8zePWF9x4gKUWzrg+OLtRG04cXSUvMsJbGQwPz3CwNlDreP
+         wgug==
+X-Gm-Message-State: AOAM533GNTd8aOPod74y1yAp/izBE0Yu2iZeQeJtzQlM4YsAsVE0Znhx
+        3OKItEZUVuNjW7UOzg9gTD8uzQ==
+X-Google-Smtp-Source: ABdhPJzy9C1OIc07ZZJ+baBn+wPtrRgMaFIbwmLZzlKqBbVdIza75yrsP5fHxF0BGHIinI+EcMHu3w==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr10755413wro.90.1594805540164;
+        Wed, 15 Jul 2020 02:32:20 -0700 (PDT)
 Received: from localhost.localdomain ([2.31.163.61])
-        by smtp.gmail.com with ESMTPSA id s203sm2686991wms.32.2020.07.15.02.32.11
+        by smtp.gmail.com with ESMTPSA id s203sm2686991wms.32.2020.07.15.02.32.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 02:32:12 -0700 (PDT)
+        Wed, 15 Jul 2020 02:32:19 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 0/8] Mop-up left-behind fixes for W=1 warnings in USB
-Date:   Wed, 15 Jul 2020 10:32:01 +0100
-Message-Id: <20200715093209.3165641-1-lee.jones@linaro.org>
+        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+        Peter Korsgaard <jacmet@sunsite.dk>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH v2 6/8] usb: c67x00: c67x00-hcd: Demote obvious misuse of kerneldoc to standard comment blocks
+Date:   Wed, 15 Jul 2020 10:32:07 +0100
+Message-Id: <20200715093209.3165641-7-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200715093209.3165641-1-lee.jones@linaro.org>
+References: <20200715093209.3165641-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is the last of them.
+No attempt has been made to document any of the functions here.
 
-Some have been re-written, others fixed-up.
+Fixes the following W=1 kernel build warning(s):
 
-See the in-patch changelog for the details.
+ drivers/usb/c67x00/c67x00-hcd.c:237: warning: Function parameter or member 'sie' not described in 'c67x00_hcd_irq'
+ drivers/usb/c67x00/c67x00-hcd.c:237: warning: Function parameter or member 'int_status' not described in 'c67x00_hcd_irq'
+ drivers/usb/c67x00/c67x00-hcd.c:237: warning: Function parameter or member 'msg' not described in 'c67x00_hcd_irq'
+ drivers/usb/c67x00/c67x00-hcd.c:267: warning: Function parameter or member 'hcd' not described in 'c67x00_hcd_start'
+ drivers/usb/c67x00/c67x00-hcd.c:279: warning: Function parameter or member 'hcd' not described in 'c67x00_hcd_stop'
 
-Lee Jones (8):
-  usb: dwc2: gadget: Make use of GINTMSK2
-  usb: dwc2: gadget: Avoid pointless read of EP control register
-  usb: mtu3: mtu3_trace: Function headers are not suitable for kerneldoc
-  usb: mtu3: mtu3_trace: Supply missing mtu3_debug.h include file
-  usb: class: cdc-wdm: Provide description for usb_cdc_wdm_register()'s
-    manage_power arg
-  usb: c67x00: c67x00-hcd: Demote obvious misuse of kerneldoc to
-    standard comment blocks
-  usb: misc: sisusbvga: sisusb_init: Remove genunine unused static const
-    arrays
-  usb: misc: sisusbvga: Move static const tables out to different
-    include file
+Cc: Peter Korsgaard <jacmet@sunsite.dk>
+Cc: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+Changelog
 
- drivers/usb/c67x00/c67x00-hcd.c            |   6 +-
- drivers/usb/class/cdc-wdm.c                |   3 +-
- drivers/usb/dwc2/gadget.c                  |   3 +-
- drivers/usb/misc/sisusbvga/sisusb_init.c   |   1 +
- drivers/usb/misc/sisusbvga/sisusb_init.h   | 662 --------------------
- drivers/usb/misc/sisusbvga/sisusb_tables.h | 688 +++++++++++++++++++++
- drivers/usb/mtu3/mtu3_trace.c              |   3 +-
- 7 files changed, 697 insertions(+), 669 deletions(-)
- create mode 100644 drivers/usb/misc/sisusbvga/sisusb_tables.h
+v2: Removed accidental addition of unrelated change
 
+ drivers/usb/c67x00/c67x00-hcd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/c67x00/c67x00-hcd.c b/drivers/usb/c67x00/c67x00-hcd.c
+index c39eee17c0e46..39f2376663314 100644
+--- a/drivers/usb/c67x00/c67x00-hcd.c
++++ b/drivers/usb/c67x00/c67x00-hcd.c
+@@ -228,7 +228,7 @@ static int c67x00_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+  * Main part of host controller driver
+  */
+ 
+-/**
++/*
+  * c67x00_hcd_irq
+  *
+  * This function is called from the interrupt handler in c67x00-drv.c
+@@ -260,7 +260,7 @@ static void c67x00_hcd_irq(struct c67x00_sie *sie, u16 int_status, u16 msg)
+ 	}
+ }
+ 
+-/**
++/*
+  * c67x00_hcd_start: Host controller start hook
+  */
+ static int c67x00_hcd_start(struct usb_hcd *hcd)
+@@ -272,7 +272,7 @@ static int c67x00_hcd_start(struct usb_hcd *hcd)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * c67x00_hcd_stop: Host controller stop hook
+  */
+ static void c67x00_hcd_stop(struct usb_hcd *hcd)
 -- 
 2.25.1
 
