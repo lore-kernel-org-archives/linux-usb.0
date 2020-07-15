@@ -7,66 +7,66 @@ X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94007C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 16:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E760CC433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 16:06:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CE3820663
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 16:08:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B710520663
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 16:06:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S00auzMm"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDMqjrr9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726742AbgGOQIp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jul 2020 12:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38308 "EHLO
+        id S1725897AbgGOQGZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jul 2020 12:06:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726793AbgGOQGu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 12:06:50 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E3DC061755
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 09:06:50 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id 72so2582672ple.0
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 09:06:50 -0700 (PDT)
+        with ESMTP id S1725770AbgGOQFd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 12:05:33 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D649AC08C5DB
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 09:05:32 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id u5so2285052pfn.7
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 09:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:subject:to:cc:references:from:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=aLcpjP3giSGtQEE++zxMAtkZnmx1zqHtz/qLbH195uQ=;
-        b=S00auzMmLSBnCVvtVZYnClQxAKbW1IBoEoixGM7lW64++kpvzvWSaBnVCfWnqDFWYU
-         c6Zc0ZJ4UYqh4+iKn8HjAx1w1PDqsGhBCgVVc+hB+x20EO610y5wo1wi/Q+fAE3p0J3z
-         FdI1i03K+u/sRrLtJe64Qu85Asg+kyjk8iSPp8Sp5SXxxzaKV0LKwIN+jhQ33aYn5zYJ
-         HW+YRxhMvdPnn+5KKBNfxLu+aGRZeaFWjhBqE5K5hQ3jEP+B6LqDzyG2iUl2KAdlqmPE
-         fDWoonJkNmOpgHhCNeNslFrALlAArn10cglOm305dxCfK4Vs951OmaPix8HF4rqh7el9
-         Wlog==
+        bh=VjUl5ZzYlmTulvlv+qoxSq404REuxathlFe8dEDBVQU=;
+        b=FDMqjrr9auPm1o176XUInO/zr4b8UyuLZ1wdUFA1LmvgI3t3HzIm86k/w/ozB3e+qp
+         DWyWcvfQFsSL2LvCDGjgAnXchnsxc6WpuZ5NBP2tdt5APiGCdV3NSTjg10c001SGEjiE
+         cIXA1yTgTQKA0Mb9lE/BR08BCuZePEDUg/TYVcUzTqXlrf0u1JHmvRmWT51+sFMoF40l
+         Hc2jMusvj0YAJRshQyuiHao/mwFd90JXYJAAJXgTcDPNv/wzCbkhQdbmWqjFyrUWkv2U
+         mj6WmYC74UPYZnlowoqpmimwsNEW+g6XSskZPdHnEpPrhjc+/DcmlLAlQ6uuc7yqsXYN
+         jUWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=aLcpjP3giSGtQEE++zxMAtkZnmx1zqHtz/qLbH195uQ=;
-        b=hJiAD9sZsTo6oMG0nH0RHwC3B9GmWrpmPn5N1xXu4O2BDmTLj9dgMKydnCiPUjEmrJ
-         rZPc01/o4shrmxdqamiYKBxaCDt+K4F0/YebqkLbAsxc5VNgLeCdIE/PKWtz+EcQhnvZ
-         kulg9ECUs5f8f/9G4wYjmLT40b5Cj+KcfJTc2+0jcBFU8u7Yma0flBbkOICQWLbe7UJl
-         QtXkWcYY3mY/jpf8Yt+3lTy8a4bBfDC8bE026siAIFkYP5RfvbdTMAtFcLsmg5ybmaIa
-         BsraDwTde//cxl9A1ZuxmIV84FGOszCj1ivdarfq8o8hFOvG3dSP246koO8A85IBq6C7
-         fLEg==
-X-Gm-Message-State: AOAM5330n6KEzrXIqn4KQexBR+tBuEPqvzhSyW8FeTrgQctZErXdwKGv
-        emA1d/xcbKPtcIGPKmDc55FOdaWD
-X-Google-Smtp-Source: ABdhPJwVr6fcCyOPNNUv5X8lrXk7uHvt0bvDJavfmKKHYd6YvU288uwsljG4EXFrQsWsPR8+3VXDXg==
-X-Received: by 2002:a17:902:ff13:: with SMTP id f19mr117695plj.339.1594829210194;
-        Wed, 15 Jul 2020 09:06:50 -0700 (PDT)
+        bh=VjUl5ZzYlmTulvlv+qoxSq404REuxathlFe8dEDBVQU=;
+        b=HyiNT0AfVCprTI0/z5T48vhWyCCXFtOoKp3Q78P1cb+b1g5rKJNmBBei6JcBRbHBYt
+         xge5D1uafn4LoCI/Ld9s6/gkMrxv3N5YoKEGp/mJbAvCln/W11/eI0CcZchVpGde3UDF
+         Rk/uWHnDNQT3kbiB8MhkuUnt5bpSRjOAWoyWl9c1cAX1eddWZGjJ+llWEf6JOCmnybE5
+         TdzTFCzuNwMLtPef3Se9YKpxMRch2b0NkvXC3AnDjop23B8hV7nBGHstm1+QfBSXXdFH
+         uSJGbgtW8HZDJTfvCCGpljQk3S6Fnu2IIivdZvlGwGo8cKIPNr8lLid4aTSRtdfuihwB
+         dtXQ==
+X-Gm-Message-State: AOAM531rTk6iasGy8d4GZJE4C05FfflKvEcxqy4BercAYVdUw2+SJ06s
+        oaLfuuvA57jqeEBakeOL7ZORs2J1
+X-Google-Smtp-Source: ABdhPJzYXi2rGEek34/rK9/r7nuRhC3OAxAsgptfaLRC/guq16+VG1kcrqZatrVj1XPFF9fug09AXw==
+X-Received: by 2002:a62:cd89:: with SMTP id o131mr9251841pfg.195.1594829132120;
+        Wed, 15 Jul 2020 09:05:32 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c19sm2478648pjs.11.2020.07.15.09.06.49
+        by smtp.gmail.com with ESMTPSA id p11sm2478023pjb.3.2020.07.15.09.05.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2020 09:06:49 -0700 (PDT)
-Subject: Re: [PATCH 6/6] usb: typec: tcpm: Add WARN_ON ensure we are not
- tryong to send 2 VDM packets at the same time
+        Wed, 15 Jul 2020 09:05:31 -0700 (PDT)
+Subject: Re: [PATCH 5/6] usb: typec: tcpm: Fix AB BA lock inversion between
+ tcpm code and the alt-mode drivers
 To:     Hans de Goede <hdegoede@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     linux-usb@vger.kernel.org
 References: <20200715132301.99816-1-hdegoede@redhat.com>
- <20200715132301.99816-7-hdegoede@redhat.com>
+ <20200715132301.99816-6-hdegoede@redhat.com>
 From:   Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -111,12 +111,12 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <b6c000b9-cd8a-f843-1473-0de8c5c6593f@roeck-us.net>
-Date:   Wed, 15 Jul 2020 09:06:47 -0700
+Message-ID: <d13efaa4-96db-7424-f9b1-5524a33e96f7@roeck-us.net>
+Date:   Wed, 15 Jul 2020 09:05:30 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200715132301.99816-7-hdegoede@redhat.com>
+In-Reply-To: <20200715132301.99816-6-hdegoede@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -126,35 +126,139 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 On 7/15/20 6:23 AM, Hans de Goede wrote:
-> The tcpm.c code for sending VDMs assumes that there will only be one VDM
-> in flight at the time. The "queue" used by tcpm_queue_vdm is only 1 entry
-> deep.
+> When we receive a PD data packet which ends up being for the alt-mode
+> driver we have the following lock order:
 > 
-> This assumes that the higher layers (tcpm state-machine and alt-mode
-> drivers) ensure that queuing a new VDM before the old one has been
-> completely send (or it timed out) add a WARN_ON to check for this.
+> 1. tcpm_pd_rx_handler take the tcpm-port lock
+> 2. We call into the alt-mode driver which takes the alt-mode's lock
+> 
+> And when the alt-mode driver initiates communication we have the following
+> lock order:
+> 
+> 3. alt-mode driver takes the alt-mode's lock
+> 4. alt-mode driver calls tcpm_altmode_enter which takes the tcpm-port lock
+> 
+> This is a classic AB BA lock inversion issue.
+> 
+> With the refactoring of tcpm_handle_vdm_request() done before this patch,
+> we don't rely on, or need to make changes to the tcpm-port data by the
+> time we make call 2. from above. All data to be passed to the alt-mode
+> driver sits on our stack at this point, and thus does not need locking.
+> 
+> So after the refactoring we can simply fix this by releasing the
+> tcpm-port lock before calling into the alt-mode driver.
+> 
+> This fixes the following lockdep warning:
+> 
+> [  191.454238] ======================================================
+> [  191.454240] WARNING: possible circular locking dependency detected
+> [  191.454244] 5.8.0-rc5+ #1 Not tainted
+> [  191.454246] ------------------------------------------------------
+> [  191.454248] kworker/u8:5/794 is trying to acquire lock:
+> [  191.454251] ffff9bac8e30d4a8 (&dp->lock){+.+.}-{3:3}, at: dp_altmode_vdm+0x30/0xf0 [typec_displayport]
+> [  191.454263]
+>                but task is already holding lock:
+> [  191.454264] ffff9bac9dc240a0 (&port->lock#2){+.+.}-{3:3}, at: tcpm_pd_rx_handler+0x43/0x12c0 [tcpm]
+> [  191.454273]
+>                which lock already depends on the new lock.
+> 
+> [  191.454275]
+>                the existing dependency chain (in reverse order) is:
+> [  191.454277]
+>                -> #1 (&port->lock#2){+.+.}-{3:3}:
+> [  191.454286]        __mutex_lock+0x7b/0x820
+> [  191.454290]        tcpm_altmode_enter+0x23/0x90 [tcpm]
+> [  191.454293]        dp_altmode_work+0xca/0xe0 [typec_displayport]
+> [  191.454299]        process_one_work+0x23f/0x570
+> [  191.454302]        worker_thread+0x55/0x3c0
+> [  191.454305]        kthread+0x138/0x160
+> [  191.454309]        ret_from_fork+0x22/0x30
+> [  191.454311]
+>                -> #0 (&dp->lock){+.+.}-{3:3}:
+> [  191.454317]        __lock_acquire+0x1241/0x2090
+> [  191.454320]        lock_acquire+0xa4/0x3d0
+> [  191.454323]        __mutex_lock+0x7b/0x820
+> [  191.454326]        dp_altmode_vdm+0x30/0xf0 [typec_displayport]
+> [  191.454330]        tcpm_pd_rx_handler+0x11ae/0x12c0 [tcpm]
+> [  191.454333]        process_one_work+0x23f/0x570
+> [  191.454336]        worker_thread+0x55/0x3c0
+> [  191.454338]        kthread+0x138/0x160
+> [  191.454341]        ret_from_fork+0x22/0x30
+> [  191.454343]
+>                other info that might help us debug this:
+> 
+> [  191.454345]  Possible unsafe locking scenario:
+> 
+> [  191.454347]        CPU0                    CPU1
+> [  191.454348]        ----                    ----
+> [  191.454350]   lock(&port->lock#2);
+> [  191.454353]                                lock(&dp->lock);
+> [  191.454355]                                lock(&port->lock#2);
+> [  191.454357]   lock(&dp->lock);
+> [  191.454360]
+>                 *** DEADLOCK ***
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-subject: s/tryong/trying/
-
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/usb/typec/tcpm/tcpm.c | 31 ++++++++++++++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index ea14240423d1..5adc30666566 100644
+> index 4745b4062000..ea14240423d1 100644
 > --- a/drivers/usb/typec/tcpm/tcpm.c
 > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -971,6 +971,9 @@ static void tcpm_queue_vdm_unlocked(struct tcpm_port *port, const u32 header,
->  {
->  	WARN_ON(!mutex_is_locked(&port->lock));
+> @@ -1247,6 +1247,27 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>  	if (PD_VDO_SVDM(p[0]))
+>  		rlen = tcpm_pd_svdm(port, p, cnt, response, &adev_action);
 >  
-> +	/* Make sure we are not still processing a previous VDM packet */
-> +	WARN_ON(port->vdm_state > VDM_STATE_DONE);
+> +	/*
+> +	 * We are done with any state stored in the port struct now, except
+> +	 * for any port struct changes done by the tcpm_queue_vdm() call
+> +	 * below, which is a separate operation.
+> +	 *
+> +	 * So we can safely release the lock here; and we MUST release the
+> +	 * lock here to avoid an AB BA lock inversion:
+> +	 *
+> +	 * If we keep the lock here then the lock ordering in this path is:
+> +	 * 1. tcpm_pd_rx_handler take the tcpm port lock
+> +	 * 2. One of the typec_altmode_* calls below takes the alt-mode's lock
+> +	 *
+> +	 * And we also have this ordering:
+> +	 * 1. alt-mode driver takes the alt-mode's lock
+> +	 * 2. alt-mode driver calls tcpm_altmode_enter which takes the
+> +	 *    tcpm port lock
+> +	 *
+> +	 * Dropping our lock here avoids this.
+> +	 */
+> +	mutex_unlock(&port->lock);
 > +
->  	port->vdo_count = cnt + 1;
->  	port->vdo_data[0] = header;
->  	memcpy(&port->vdo_data[1], data, sizeof(u32) * cnt);
+>  	if (adev) {
+>  		switch (adev_action) {
+>  		case ADEV_NONE:
+> @@ -1272,7 +1293,15 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>  	}
+>  
+>  	if (rlen > 0)
+> -		tcpm_queue_vdm_unlocked(port, response[0], &response[1], rlen - 1);
+> +		tcpm_queue_vdm(port, response[0], &response[1], rlen - 1);
+> +
+> +	/*
+> +	 * We must re-take the lock here to balance the unlock in
+> +	 * tcpm_pd_rx_handler, note that no changes are made while the lock
+> +	 * is held again. All that is done is unwinding the call stack until
+> +	 * we return to tcpm_pd_rx_handler and do the unlock there.
+> +	 */
+> +	mutex_lock(&port->lock);
+
+Unless I am missing something, tcpm_queue_vdm() now also acquires the lock
+and releases it. Why not move this further up and keep tcpm_queue_vdm_unlocked() ?
+This would avoid one set of lock/unlock calls.
+
+Thanks,
+Guenter
+
+>  }
+>  
+>  static void tcpm_send_vdm(struct tcpm_port *port, u32 vid, int cmd,
 > 
 
