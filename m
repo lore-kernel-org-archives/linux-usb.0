@@ -2,50 +2,52 @@ Return-Path: <SRS0=G55A=A2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF0BC433E7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66032C433E8
 	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 18:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BA0120663
+	by mail.kernel.org (Postfix) with ESMTP id 43DE62065F
 	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 18:41:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="GeIgA4jv"
+	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="TOgiaFOe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgGOSl0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726964AbgGOSl0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 15 Jul 2020 14:41:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33950 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726722AbgGOSlZ (ORCPT
+        with ESMTP id S1726776AbgGOSlZ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 14:41:25 -0400
 Received: from canardo.mork.no (canardo.mork.no [IPv6:2001:4641::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 214B0C08C5DB;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280C8C08C5DD;
         Wed, 15 Jul 2020 11:41:24 -0700 (PDT)
 Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
         (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 06FIfHQs016674
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 06FIfJ8a016708
         (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Wed, 15 Jul 2020 20:41:17 +0200
+        Wed, 15 Jul 2020 20:41:20 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1594838478; bh=XO4cHZWyZMEn/b68HAWj2tkmcP8C5MGEAPzztaFclIA=;
-        h=From:To:Cc:Subject:Date:Message-Id:From;
-        b=GeIgA4jvbQ2um49AnyFSyNGUdmFkhMpKUx+RW9xEPEDnLhT936CzemKxiNKC4k6wI
-         udnhvwmCubDqrKzEB3Uezxu5obsSQHAlL1QH3cYisXfBUSmrLgJOjgfWuvhQ+Pwbee
-         wZH5aYYVt/5Rqc5LzhAdWYLBPpUNfzoqorA0FRp8=
+        t=1594838480; bh=rWusxHE8CMEShjnYmSriODmxyn+mcOq5n2CIK0RIsLw=;
+        h=From:To:Cc:Subject:Date:Message-Id:References:From;
+        b=TOgiaFOex+PWeMHlFM21gpO+g2DVMMcGmhEVDEStsKNyvTnyQdcOYGYgmlw2oaTo5
+         1zZhs7VQfXDFsFZjUIuloj4bjeXHjpFLDS9cZT/2hWd4qjl+e+pseRQQcaHFMtibbF
+         SKl9koeSWGXfti7yAJIAE7VP5ViZngSAi78DxuWQ=
 Received: from bjorn by miraculix.mork.no with local (Exim 4.94)
         (envelope-from <bjorn@miraculix.mork.no>)
-        id 1jvmLF-000SSQ-39; Wed, 15 Jul 2020 20:41:17 +0200
+        id 1jvmLH-000SSZ-Cr; Wed, 15 Jul 2020 20:41:19 +0200
 From:   =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
 To:     netdev@vger.kernel.org
 Cc:     linux-usb@vger.kernel.org, wxcafe@wxcafe.net, oliver@neukum.org,
         =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Subject: [PATCH v5 net-next 0/5] usbnet: multicast filter support for cdc ncm devices
-Date:   Wed, 15 Jul 2020 20:40:55 +0200
-Message-Id: <20200715184100.109349-1-bjorn@mork.no>
+Subject: [PATCH v5 net-next 3/5] net: usbnet: export usbnet_set_rx_mode()
+Date:   Wed, 15 Jul 2020 20:40:58 +0200
+Message-Id: <20200715184100.109349-4-bjorn@mork.no>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200715184100.109349-1-bjorn@mork.no>
+References: <20200715184100.109349-1-bjorn@mork.no>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -56,42 +58,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This revives a 2 year old patch set from Miguel Rodríguez
-Pérez, which appears to have been lost somewhere along the
-way.  I've based it on the last version I found (v4), and
-added one patch which I believe must have been missing in
-the original.
+This function can be reused by other usbnet minidrivers.
 
-I kept Oliver's ack on one of the patches, since both the patch and
-the motivation still is the same.  Hope this is OK..
+Signed-off-by: Bjørn Mork <bjorn@mork.no>
+---
+ drivers/net/usb/usbnet.c   | 3 ++-
+ include/linux/usb/usbnet.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Thanks to the anonymous user <wxcafe@wxcafe.net> for bringing up this
-problem in https://bugs.debian.org/965074
-
-This is only build and load tested by me.  I don't have any device
-where I can test the actual functionality.
-
-
-Changes v5:
- - added missing symbol export
- - formatted patch subjects with subsystem
-
-
-Bjørn Mork (1):
-  net: usbnet: export usbnet_set_rx_mode()
-
-Miguel Rodríguez Pérez (4):
-  net: cdc_ether: use dev->intf to get interface information
-  net: cdc_ether: export usbnet_cdc_update_filter
-  net: cdc_ncm: add .ndo_set_rx_mode to cdc_ncm_netdev_ops
-  net: cdc_ncm: hook into set_rx_mode to admit multicast traffic
-
- drivers/net/usb/cdc_ether.c | 7 +++----
- drivers/net/usb/cdc_ncm.c   | 4 ++++
- drivers/net/usb/usbnet.c    | 3 ++-
- include/linux/usb/usbnet.h  | 2 ++
- 4 files changed, 11 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 5ec97def3513..e45935a5856a 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1108,12 +1108,13 @@ static void __handle_link_change(struct usbnet *dev)
+ 	clear_bit(EVENT_LINK_CHANGE, &dev->flags);
+ }
+ 
+-static void usbnet_set_rx_mode(struct net_device *net)
++void usbnet_set_rx_mode(struct net_device *net)
+ {
+ 	struct usbnet		*dev = netdev_priv(net);
+ 
+ 	usbnet_defer_kevent(dev, EVENT_SET_RX_MODE);
+ }
++EXPORT_SYMBOL_GPL(usbnet_set_rx_mode);
+ 
+ static void __handle_set_rx_mode(struct usbnet *dev)
+ {
+diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
+index 3a856963a363..2e4f7721fc4e 100644
+--- a/include/linux/usb/usbnet.h
++++ b/include/linux/usb/usbnet.h
+@@ -274,6 +274,7 @@ extern int usbnet_set_link_ksettings(struct net_device *net,
+ extern u32 usbnet_get_link(struct net_device *net);
+ extern u32 usbnet_get_msglevel(struct net_device *);
+ extern void usbnet_set_msglevel(struct net_device *, u32);
++extern void usbnet_set_rx_mode(struct net_device *net);
+ extern void usbnet_get_drvinfo(struct net_device *, struct ethtool_drvinfo *);
+ extern int usbnet_nway_reset(struct net_device *net);
+ 
 -- 
 2.27.0
 
