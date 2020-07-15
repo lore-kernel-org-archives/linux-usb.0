@@ -7,127 +7,113 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3988C433F4
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF9ABC433FC
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F0712071B
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD643206F4
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jul 2020 09:32:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KDslEjnS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B9eGyNDC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730846AbgGOJck (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jul 2020 05:32:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
+        id S1730863AbgGOJct (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jul 2020 05:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730793AbgGOJcV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 05:32:21 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782F4C08C5C1
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:21 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id q5so1681881wru.6
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:21 -0700 (PDT)
+        with ESMTP id S1730768AbgGOJcQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jul 2020 05:32:16 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96691C061755
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:16 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f18so4873130wml.3
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2020 02:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zIfwG4edfdZ0SvbrErNnoWeJSNFEawblVl9W1BGUl0c=;
-        b=KDslEjnSQHAZDr3xp/DTWD275dXtqmIN+QWWeOPMn7d1pvYUjXDgd/tn/Bo5+lb9yw
-         z2nomIjXCeRFimM3mGejfzSOIwkWxmxiINGCOb1l2Ouy54iLn9K+/YHASyZvHeauBB1l
-         bxBgDn20+U53HF1nj2yuN8qjv3x+8sMpOjckq0v6LIiVqLy9G4+zui/A6JDuz/deobic
-         ZRc0d2gzwL3i9evsEsgsgsOmDbXib9e8TVdfEWct5zZFqwmoU2Ycek3TFsTn/9iiebCp
-         IAcudveq7zVF8eMOOg87/bSKwDQJIT9bmboQgQg8RHAdmsWS10wHat5RKdVRt+1VB1ba
-         GQIw==
+        bh=aGkX+E1EBfqRr0rfaGdLhwyAcBiQ16E9WQER7VbVHB0=;
+        b=B9eGyNDCvcRazQ5Vt4bCO10YvxegSYTM59WaGhCMmKF1ntTqI0zxMbYoNhBkEWX6+u
+         Q/bcBNCzP/NiyAp1huYTJNpJcx0WdrEb56Rkp5DQRWi7GJPA4qNC2nOe1shHedItKyw6
+         3OrZOdisEymzmeJLiYQ+pmiZ96mEIhootgO4sR9Ci94A0kJzd3MQ7+em+CZmN+XMU0bv
+         Itkn84N4qTA3X3ge6IF1QJwxgLZ5oB523cWAJtAWZa9ztHkAhjwA+FMCGpHv3mFGJeGh
+         bAIgVniOn+Dt6KpDNO9N3MtF4zQRMy+UZcXk9qotI5EeRahzIe/Gmm3D4sIsBdKJt4Km
+         jJXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zIfwG4edfdZ0SvbrErNnoWeJSNFEawblVl9W1BGUl0c=;
-        b=n7n4VKkb8WQdRfAfoNnh5R2VooAKvvHTJj21vSnWmzqGvhp/+dRq0XIpr6wkMfBeky
-         plc6tAiNtf8Nngll6E5LH7ZwQjHXSTdekmIAXH99w33S4NPVgc5WbaAVB5X0UiEXjxGq
-         8noywdzgoTy5pTfe1wHQXCgTYWzRHizgRjVwBXN6hrg685LW+EmWlRwbQTrBkhAJ2rD3
-         n3joJgAlgtS6iNxcVq3NboZoIDhSYiHh37l3X8D2sqjILY11swkgFcmMpGju30aB0ezE
-         q1RD+SwbkJ2JdKd3n5UTe8zePWF9x4gKUWzrg+OLtRG04cXSUvMsJbGQwPz3CwNlDreP
-         wgug==
-X-Gm-Message-State: AOAM533GNTd8aOPod74y1yAp/izBE0Yu2iZeQeJtzQlM4YsAsVE0Znhx
-        3OKItEZUVuNjW7UOzg9gTD8uzQ==
-X-Google-Smtp-Source: ABdhPJzy9C1OIc07ZZJ+baBn+wPtrRgMaFIbwmLZzlKqBbVdIza75yrsP5fHxF0BGHIinI+EcMHu3w==
-X-Received: by 2002:adf:f104:: with SMTP id r4mr10755413wro.90.1594805540164;
-        Wed, 15 Jul 2020 02:32:20 -0700 (PDT)
+        bh=aGkX+E1EBfqRr0rfaGdLhwyAcBiQ16E9WQER7VbVHB0=;
+        b=eWNlw6MTF6LicYONm/viihE8tcmL16oigE8yErMMH1G+pmpF/UJQridSUak6n/L5dn
+         gahJdZVBRaWk58kQFl/xfsKiKowff2RMcJc9KIIVPPYTuJnvuvTVizFM5m1YLcvVMMyu
+         auPm5ZgiR7sSLAacb+xmQiPlScFLedAjRfiqXcCNcFImjKMJ2y6aUwCIxAaTE8W8HRGo
+         /OqNImMh2x/3+Wq4ZBP2zFqxifc8Rbncn5ODQaWcjDiok95qbDSfkdVS2KnvbV3U0DUQ
+         EfEtHOj2SkdDAd9SrbjchnvReb0jJM+S48MMZzOujzYxsFQq9L7iE05lQMomyoXYFSIm
+         1dQg==
+X-Gm-Message-State: AOAM533r/xGc/h73Z+OvebH+NBlxK/3DFwzHE/D83mr0qn10NUjhrxK7
+        bDNlgGKjpUy9LGdK6Sg8QHsrnw==
+X-Google-Smtp-Source: ABdhPJzy0kAtC0mAb9N9Nk0jBlEslSi+EyKpZKizI1grPl6nIG7Ij66G9kluURFmeTpNfzFWlDbOcQ==
+X-Received: by 2002:a05:600c:2050:: with SMTP id p16mr7507657wmg.44.1594805535285;
+        Wed, 15 Jul 2020 02:32:15 -0700 (PDT)
 Received: from localhost.localdomain ([2.31.163.61])
-        by smtp.gmail.com with ESMTPSA id s203sm2686991wms.32.2020.07.15.02.32.18
+        by smtp.gmail.com with ESMTPSA id s203sm2686991wms.32.2020.07.15.02.32.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 02:32:19 -0700 (PDT)
+        Wed, 15 Jul 2020 02:32:14 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Peter Korsgaard <jacmet@sunsite.dk>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH v2 6/8] usb: c67x00: c67x00-hcd: Demote obvious misuse of kerneldoc to standard comment blocks
-Date:   Wed, 15 Jul 2020 10:32:07 +0100
-Message-Id: <20200715093209.3165641-7-lee.jones@linaro.org>
+        Ben Dooks <ben@simtec.co.uk>,
+        Minas Harutyunyan <hminas@synopsys.com>
+Subject: [PATCH v2 2/8] usb: dwc2: gadget: Avoid pointless read of EP control register
+Date:   Wed, 15 Jul 2020 10:32:03 +0100
+Message-Id: <20200715093209.3165641-3-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200715093209.3165641-1-lee.jones@linaro.org>
 References: <20200715093209.3165641-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-No attempt has been made to document any of the functions here.
+Commit ec1f9d9f01384 ("usb: dwc2: gadget: parity fix in isochronous mode") moved
+these checks to dwc2_hsotg_change_ep_iso_parity() back in 2015.  The assigned
+value hasn't been read back since.  Let's remove the unnecessary H/W read.
 
-Fixes the following W=1 kernel build warning(s):
+Fixes the following W=1 warning:
 
- drivers/usb/c67x00/c67x00-hcd.c:237: warning: Function parameter or member 'sie' not described in 'c67x00_hcd_irq'
- drivers/usb/c67x00/c67x00-hcd.c:237: warning: Function parameter or member 'int_status' not described in 'c67x00_hcd_irq'
- drivers/usb/c67x00/c67x00-hcd.c:237: warning: Function parameter or member 'msg' not described in 'c67x00_hcd_irq'
- drivers/usb/c67x00/c67x00-hcd.c:267: warning: Function parameter or member 'hcd' not described in 'c67x00_hcd_start'
- drivers/usb/c67x00/c67x00-hcd.c:279: warning: Function parameter or member 'hcd' not described in 'c67x00_hcd_stop'
+ drivers/usb/dwc2/gadget.c: In function ‘dwc2_hsotg_epint’:
+ drivers/usb/dwc2/gadget.c:2981:6: warning: variable ‘ctrl’ set but not used [-Wunused-but-set-variable]
+ 2981 | u32 ctrl;
+ | ^~~~
 
-Cc: Peter Korsgaard <jacmet@sunsite.dk>
-Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Ben Dooks <ben@simtec.co.uk>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Acked-by: Minas Harutyunyan <hminas@synopsys.com>
 ---
 Changelog
 
-v2: Removed accidental addition of unrelated change
+v2: No change - added Acked-by
 
- drivers/usb/c67x00/c67x00-hcd.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+drivers/usb/dwc2/gadget.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/c67x00/c67x00-hcd.c b/drivers/usb/c67x00/c67x00-hcd.c
-index c39eee17c0e46..39f2376663314 100644
---- a/drivers/usb/c67x00/c67x00-hcd.c
-+++ b/drivers/usb/c67x00/c67x00-hcd.c
-@@ -228,7 +228,7 @@ static int c67x00_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
-  * Main part of host controller driver
-  */
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 03cf1fa856219..5b9d23991c99d 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -2978,10 +2978,8 @@ static void dwc2_hsotg_epint(struct dwc2_hsotg *hsotg, unsigned int idx,
+ 	u32 epctl_reg = dir_in ? DIEPCTL(idx) : DOEPCTL(idx);
+ 	u32 epsiz_reg = dir_in ? DIEPTSIZ(idx) : DOEPTSIZ(idx);
+ 	u32 ints;
+-	u32 ctrl;
  
--/**
-+/*
-  * c67x00_hcd_irq
-  *
-  * This function is called from the interrupt handler in c67x00-drv.c
-@@ -260,7 +260,7 @@ static void c67x00_hcd_irq(struct c67x00_sie *sie, u16 int_status, u16 msg)
- 	}
- }
+ 	ints = dwc2_gadget_read_ep_interrupts(hsotg, idx, dir_in);
+-	ctrl = dwc2_readl(hsotg, epctl_reg);
  
--/**
-+/*
-  * c67x00_hcd_start: Host controller start hook
-  */
- static int c67x00_hcd_start(struct usb_hcd *hcd)
-@@ -272,7 +272,7 @@ static int c67x00_hcd_start(struct usb_hcd *hcd)
- 	return 0;
- }
- 
--/**
-+/*
-  * c67x00_hcd_stop: Host controller stop hook
-  */
- static void c67x00_hcd_stop(struct usb_hcd *hcd)
+ 	/* Clear endpoint interrupts */
+ 	dwc2_writel(hsotg, ints, epint_reg);
 -- 
 2.25.1
 
