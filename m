@@ -2,81 +2,138 @@ Return-Path: <SRS0=JLdt=A3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA13C388CB
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jul 2020 17:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B588FC433EC
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jul 2020 17:43:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC28E2070E
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jul 2020 17:21:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DECD2076D
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jul 2020 17:43:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=tronnes.org header.i=@tronnes.org header.b="IbXNmHMe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729344AbgGPRSu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jul 2020 13:18:50 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:52329 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728182AbgGPRSt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jul 2020 13:18:49 -0400
-X-IronPort-AV: E=Sophos;i="5.75,360,1589209200"; 
-   d="scan'208";a="52107166"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Jul 2020 02:18:46 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E13F940B55DE;
-        Fri, 17 Jul 2020 02:18:41 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org
-Cc:     linux-ide@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-renesas-soc@vger.kernel.org,
-        linux-usb@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 01/20] dt-bindings: pci: rcar-pci: Add device tree support for r8a774e1
-Date:   Thu, 16 Jul 2020 18:18:16 +0100
-Message-Id: <1594919915-5225-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S1729412AbgGPRnq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jul 2020 13:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728182AbgGPRnp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jul 2020 13:43:45 -0400
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [IPv6:2a01:5b40:0:3005::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D89C061755
+        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2020 10:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+        ; s=ds201912; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=nfUXCwgJ3xLhzLLyn9n5x7zqk1f2w9l5Rutjwzm+PeY=; b=IbXNmHMeiHGlizyfko5nDt+fTM
+        8PDL5FOsqLGCsEnO3kCInuz3XvH9uOM5/AMyCpqSRVnvoMefOPCHHjA6YcJXU4M8SjXhZeEgv2PiA
+        3rtPNOUyb3f3Bw83K/ivB73pPxu7rDQBeu6B7Fr5aShujbHr6moxuloDLO7FZY+Y0XJyPVH6ZVS+C
+        SRf48LFLWWgjQFh8xxYLQ1prmvB5CsO8Y4Ft+zAnvEZEVaPDi0Uaglxmw6ouMBjANOxJLaL5MD9iz
+        QPBxOssXbUhkRwZGcW0mAOkOdaBtdXSBLcSAxTLZoiYV3kJji1n1UQMvz3R43tV1Xm5RT47kYWTkV
+        rjt6y0PQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:50035 helo=[192.168.10.61])
+        by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <noralf@tronnes.org>)
+        id 1jw7v4-0000Wx-8D; Thu, 16 Jul 2020 19:43:42 +0200
+Subject: Re: [PATCH v3 0/6] Generic USB Display driver
+To:     Peter Stuge <peter@stuge.se>
+Cc:     Lubomir Rintel <lkundrak@v3.sk>, linux-usb@vger.kernel.org,
+        sam@ravnborg.org, dri-devel@lists.freedesktop.org, balbi@kernel.org
+References: <20200529175643.46094-1-noralf@tronnes.org>
+ <20200709163235.360054-1-lkundrak@v3.sk>
+ <1280ec51-7528-b993-3110-f6c28e98832c@tronnes.org>
+ <20200714174008.16272.qmail@stuge.se>
+ <befd06f1-d0cc-ab26-3ec1-5da3f3ab3f37@tronnes.org>
+ <20200714193841.18494.qmail@stuge.se>
+From:   =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <915b4e6b-2d54-800c-0bbf-099504c70c69@tronnes.org>
+Date:   Thu, 16 Jul 2020 19:43:39 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200714193841.18494.qmail@stuge.se>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add PCIe support for the RZ/G2H (a.k.a. R8A774E1).
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
----
- Documentation/devicetree/bindings/pci/rcar-pci.txt | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/pci/rcar-pci.txt b/Documentation/devicetree/bindings/pci/rcar-pci.txt
-index 1041c44a614f..64bb87e7dd06 100644
---- a/Documentation/devicetree/bindings/pci/rcar-pci.txt
-+++ b/Documentation/devicetree/bindings/pci/rcar-pci.txt
-@@ -6,6 +6,7 @@ compatible: "renesas,pcie-r8a7743" for the R8A7743 SoC;
- 	    "renesas,pcie-r8a774a1" for the R8A774A1 SoC;
- 	    "renesas,pcie-r8a774b1" for the R8A774B1 SoC;
- 	    "renesas,pcie-r8a774c0" for the R8A774C0 SoC;
-+	    "renesas,pcie-r8a774e1" for the R8A774E1 SoC;
- 	    "renesas,pcie-r8a7779" for the R8A7779 SoC;
- 	    "renesas,pcie-r8a7790" for the R8A7790 SoC;
- 	    "renesas,pcie-r8a7791" for the R8A7791 SoC;
--- 
-2.17.1
+Den 14.07.2020 21.38, skrev Peter Stuge:
+> Noralf Trønnes wrote:
+>>> In all cases, the driver on the host knows/has available how many bytes
+>>> were successfully transfered.
+>>
+>> I was thinking about the device, that it could get out of sync. Let's
+>> say the host sends a 1k framebuffer and half of it gets transferred and
+>> the rest fails for some reason. Lubomir's MCU implementation has an
+>> endpoint max size of 64 bytes and a callback is called for each packet.
+>> If the 1k transfer fails at some point, will the device be able to
+>> detect this and know that the next time the rx callback is called that
+>> this is the start of a new framebuffer update?
+> 
+> Ah! No, a device can not detect that the host intended to send more (bulk)
+> packets but e.g. timed out.
+> 
+> I can't immediately think of other reasons for a larger transfer to fail,
+> which still allow communication to continue.
+> 
+> When the host recognizes a timeout with partial data transfer it could
+> simply send the remaining data in a new transfer.
+> 
+> 
+> While the device can not detect host intent, the protocol could allow
+> devices to specify requirements, e.g. that the host always sends full frames.
+> 
+> In any case, please avoid making a control request mandatory for frame
+> transfer.
+> 
+> Because control requests are scheduled differently onto the wire and
+> because they consist of more packets than bulk data, a control request
+> will interrupt a bulk data stream and likely introduce unneccessary latency.
+> 
+> If synchronization is always required then I'd suggest to place it inline
+> with frame data, e.g. in the first packet byte.
+> 
+> If synchronization is only required in rare cases then a control transfer
+> is probably the better choice, to not waste any inline bytes.
+> 
+> But the optimum would be that the device can describe its needs to the host
+> and the host driver ensures that the device always receives the data it needs.
+> 
+> Do you think this is possible?
+> 
 
+Looking at the host driver I see that I need to fix it so that it
+requeues the update if it fails (on SET_BUFFER or bulk out). Currently
+it just goes back to sleep waiting for userspace to announce a new change.
+
+I would like to avoid having a special case for retrying the failing
+part of a bulk transfer for devices that only want full updates, I would
+prefer to use the common error path of retrying the whole update.
+
+This is my suggestion for the new flag:
+
+/*
+ * Always send the entire framebuffer when flushing changes.
+ * The GUD_DRM_USB_REQ_SET_BUFFER request will not be sent before each
+bulk transfer,
+ * it will only be sent if the previous bulk transfer had failed. This
+is done to
+ * inform the device that the previous update failed and that a new one
+is started.
+ *
+ * This flag can not be used in combination with compression.
+ */
+#define GUD_DRM_DISPLAY_FLAG_FULL_UPDATE	BIT(1)
+
+
+Noralf.
