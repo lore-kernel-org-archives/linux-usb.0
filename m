@@ -2,145 +2,132 @@ Return-Path: <SRS0=Z4bP=A4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F044C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:13:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F03D0C433E4
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:19:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 611812071A
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:13:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="c5N7K5aS"
+	by mail.kernel.org (Postfix) with ESMTP id CFDFF2071A
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594966760;
+	bh=OXyJBDXtqGwT4BDStOxuECLiTBRqu25A/zU3+0iQzkU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=djE50MAETRSofCP3T7z24I0KQeCVWC5WKtzn9100MBBcJIOmcTt+gnCYLoaWbOyII
+	 q0B8RVuhNC9+sVsGZYxCaTB1FRNcceDswnrMKWbz2bsl8q+Hdt1QcN+Iuyp2Yr7Uq/
+	 WF1kyRw5YCbPpw5bYDlChHKB0nthpiAi5BlUlvQA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726083AbgGQGNo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jul 2020 02:13:44 -0400
-Received: from mail-am6eur05on2073.outbound.protection.outlook.com ([40.107.22.73]:55712
-        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725904AbgGQGNo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 17 Jul 2020 02:13:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L0bM9sDbYKTYIZzKptCCT8DcecL4MfiQ5h8xjRe79KqacE+xe0C1ZhfWoIqR/hpkRsdvpIDynIoqrnAl9l7HTggYP7SnHLUniqcTyBjl20jlVtQEEGR4EjKTgRpb5w8LiONtAonjYnEG/a1HR1UBGKibHaPfz38lX4deWZ6vJFgzUfqccwwKSaFQYJFBPtd5N/hPMwDRGAyF5V1xgvN9W3D+kqkjI7Ta4LI05IRvt4rx/PWRQC4qT+z2EkkytTjvL1BfC5Zh8NKDax5kkMWJrEMXa+QYcA0k/rREsFEpMgdWu3XR4PKuYY1Frp29UrIH6i6K/qsEf9fyn7GPUsz/cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HayxwauXYpog/7QVDKHa0JydC16E6XFVjfoFT28LUkY=;
- b=iu/xEA/0OzuM+wu9T9Xg9lvRUIBQ1OgS9fcXUcnG6pzrZb3fLRS3SRYnjJJP/FmnhR7BbS9D79Uzn8fGXLTWwFFy09t+ad2CjKzRV4rOzU4W1uyVdVtj7+epKixEMQZXWbMlZUXSO4V2EooS6nEfAok6YIaGGIQQdpDvnuGKaGw+xG6OYgOOPzh0W7UXeCEOagTE7wsJTdbFG6ZWLR5rLH6zaOhNuNe2lRxw9dHtmfjpLBc5pXwm2fzpwedsUyanTYxZPGDNLfUqRfh+rPyUGOd+CG6+43U4ETJubB3dF3e/GrMMriKeLJTXY9atjBwb0VE0LjSsby2ohx3GTzd1lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HayxwauXYpog/7QVDKHa0JydC16E6XFVjfoFT28LUkY=;
- b=c5N7K5aSoL8lnKFxKqref6zReX1uXZYesox4vjqGr/ahUBuoP0tfygTEyQr22V5spre6jfqOgA+o29aKBcvx98Tz0qHzll2h3dKvwCAu2jkHr3KU3fPqwo+88QXWY4kz9VELd1bO/kEOTusCznZpqs6j3SugVWyl7+GPRq15PIo=
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM5PR0402MB2738.eurprd04.prod.outlook.com (2603:10a6:203:97::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.23; Fri, 17 Jul
- 2020 06:13:40 +0000
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3174.026; Fri, 17 Jul 2020
- 06:13:40 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     Peter Chen <peter.chen@nxp.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "pawell@cadence.com" <pawell@cadence.com>,
-        "rogerq@ti.com" <rogerq@ti.com>, Jun Li <jun.li@nxp.com>
-Subject: RE: [PATCH v5 0/9] usb: some PM changes for cdns3 and xhci-plat
-Thread-Topic: [PATCH v5 0/9] usb: some PM changes for cdns3 and xhci-plat
-Thread-Index: AQHWVDMt1I7Ql8zn9U6i9fyobWWrqKkLWiqQ
-Date:   Fri, 17 Jul 2020 06:13:40 +0000
-Message-ID: <AM7PR04MB71574E5D0E33587A14B0F73B8B7C0@AM7PR04MB7157.eurprd04.prod.outlook.com>
-References: <20200707074941.28078-1-peter.chen@nxp.com>
-In-Reply-To: <20200707074941.28078-1-peter.chen@nxp.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nxp.com; dkim=none (message not signed)
- header.d=none;nxp.com; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [116.232.13.104]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: f058f363-af53-4898-f38b-08d82a188cfc
-x-ms-traffictypediagnostic: AM5PR0402MB2738:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM5PR0402MB2738B9CBDF06C5B9FBFF02EA8B7C0@AM5PR0402MB2738.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:635;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6zn2Dzk2GgNAeirstuX+A129sPS0ZVCGMRDomvpfsu3CpU5UGk3sQdNx5JTZSryb9bNZDa8EfTS2a1UO9QczimYuoOoahSvoe8GLa7yqhVGkL2tyYPSjIV7V/I6kPKyzaq7IoNGZPbLw9xXTVmclOwNVAsZiTBRRV9lMOPHGxcfI5gZlqejor0wwkebKtGrZqrFo8dvm6AtLeGJp6/vPad96bBoI+Yj3fr/yJcU0mFE4UNM1h0+naIOYkWxiAlnntIOe2dd5GyFC4qiXnr6OypT8+xzXuar46cfrD6oH1LzVDkE7szbiuZD9aSmq6K/mMCepCdgb3ZFiEJVDWcdyfQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(366004)(396003)(136003)(39860400002)(6506007)(316002)(7696005)(55016002)(86362001)(44832011)(26005)(110136005)(9686003)(54906003)(64756008)(2906002)(8676002)(478600001)(33656002)(66946007)(186003)(66556008)(8936002)(66476007)(66446008)(4326008)(83380400001)(5660300002)(52536014)(71200400001)(76116006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 3aboMnuRRpIpxxXg6TEZk8eVbEcUNSevrHLpcQoq6Sq6lUw6F24YMMu4l9WFZivGqtn8jaUWwliTMtbmlDZKcJX85gYdXHO4T4c89nQmrifuMihSuj41W6A4LsvCOOOQqL1cXHFDwgXdd0cZG5WXUpefREB8LgeRQbc9na3yKQ/rofnW2rSwNv0Bz8Vgkgk/45YZwGvX+yhxL4QkTfkitoEB6faFLpPM6mYTpAsr6Nms9P0eA4kuVXFwfm+taHw+RfHX+UHgLXuLmCzSF3J0wIXiR3yMLU4AzDRTtNu99hAfeBCSY26+A6QoSPHR/XSc6YrVX1iQbBXZfTm96Mj/9eI01OyTMiD2vP6QFVC62D5ETm9KGo+P3fMHWYoSxlBujjh5gTIFZxOUroFiuzqVF2ySrDmuhDuCJdnJT/DfzLkOtO4+B3Aw/JLNvX1GXcWRZN89x53AxKsNw5wE/2Q70Fbm9iYWanwpdAgjglGam6QVyJSNWRpc32a+KSeM3v63
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726856AbgGQGTS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jul 2020 02:19:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57132 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726113AbgGQGTR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Jul 2020 02:19:17 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B9EB2071A;
+        Fri, 17 Jul 2020 06:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594966757;
+        bh=OXyJBDXtqGwT4BDStOxuECLiTBRqu25A/zU3+0iQzkU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qVwy0sp9T5j9unToIf/0RjeIhm19kOFbEa0bab+urAyJbH36Bp5I0ChnKDLGqK5i2
+         rvPhGpZqGPSvQ1dfQulUjvTPSoPWOEtyh35VWqOdIuPZVR1JzKvkbaGUf1JGJnINdi
+         XIB1smOwbVvbdM9MX5/VFhJ15HNvdKj7YMjIaZTM=
+Date:   Fri, 17 Jul 2020 08:19:09 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Mani, Rajmohan" <rajmohan.mani@intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "pmalani@chromium.org" <pmalani@chromium.org>,
+        "bleung@chromium.org" <bleung@chromium.org>
+Subject: Re: [PATCH 2/2] usb: typec: intel_pmc_mux: Check the port status
+ before connect
+Message-ID: <20200717061909.GB3237166@kroah.com>
+References: <20200716003310.26125-1-rajmohan.mani@intel.com>
+ <20200716003310.26125-3-rajmohan.mani@intel.com>
+ <20200716070508.GB962748@kroah.com>
+ <DM6PR11MB39632A8236161E4A27FAB1BBF67C0@DM6PR11MB3963.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f058f363-af53-4898-f38b-08d82a188cfc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2020 06:13:40.4878
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w8ncW77IxN9LzvPDJlpCrhg3PEAP3Ihsp98EWHmCxopNLXDIe4438LqqyzO3dfjRiNOMVHAkpuT0yVhV+zJkMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2738
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DM6PR11MB39632A8236161E4A27FAB1BBF67C0@DM6PR11MB3963.namprd11.prod.outlook.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-IA0KUGluZy4uLg0KDQpQZXRlcg0KDQo+IA0KPiBIaSBGZWxpcGUgJiBNYXRoaWFzLA0KPiANCj4g
-SW4gdGhpcyBzZXJpZXMsIGl0IGFkZHMgY2RuczMgcnVudGltZSBQTSBzdXBwb3J0IGFzIHdlbGwg
-YXMgc29tZSB4aGNpLXBsYXQgY2hhbmdlcywNCj4gYW5kIHZlcmlmaWVkIGF0IE5YUCBpLk1YOFFN
-IGFuZCBpLk1YOFFYUCBwbGF0Zm9ybXMuDQo+IA0KPiBQYXRjaCAxLTM6IGFkZCBtYWluIHJ1bnRp
-bWUgUE0gc3VwcG9ydCBmb3IgY2RuczMgY29yZSBhbmQgaW14IGdsdWUgbGF5ZXIgUGF0Y2ggNC0N
-Cj4gOTogYWRkIHBsYXRmb3JtIGRhdGEgc3VwcG9ydCBhbmQgdHdvIHF1aXJrcyBmb3IgeGhjaS1w
-bGF0LmMuDQo+IC0gLnN1c3BlbmRfcXVpcmsgZm9yIHBsYXRmb3JtIHNwZWNpYWwgc2VxdWVuY2Ug
-YmV0d2VlbiB4aGNpX2J1c19zdXNwZW5kIGFuZA0KPiB4aGNpX3N1c3BlbmQuDQo+IC0gYWRkIFhI
-Q0lfU0tJUF9QSFlfSU5JVCBxdWlyayBmb3Igc2tpcCBQSFkgbWFuYWdlbWVudCBmcm9tIEhDRCBj
-b3JlLg0KPiANCj4gQ2hhbmdlcyBmb3IgdjU6DQo+IC0gQWRkcmVzcyBHcmVnJ3MgY29tbWVudHMg
-Zm9yIG1vcmUgb2J2aW91cyBQSFkgcG93ZXIgY29udHJvbGxlciBBUElzIFtQYXRjaCAxLzJdDQo+
-IC0gT25lIGJ1aWxkIHdhcm5pbmcgZnJvbSBrZXJuZWwgdGVzdCByb2JvdA0KPiANCj4gQ2hhbmdl
-cyBmb3IgdjQ6DQo+IC0gQWRkcmVzcyBKdW4gTGkncyBjb21tZW50cyBmb3IgY2RuczMgY29yZSBj
-aGFuZ2VzIFtQYXRjaCAyXQ0KPiAtIFNvbWUgc21hbGwgZml4ZXMgZm9yIGNkbnMzLWlteCBmb3Ig
-Q0xLXzEyNV9SRVEgYml0DQo+IC0gUmViYXNlIHRoZSBsYXRlc3QgdXNiLW5leHQNCj4gDQo+IENo
-YW5nZXMgZm9yIHYzOg0KPiBBZGQgSnVuIExp4oCZcyByZXZpZXdlZC1ieSBbUGF0Y2ggMSBhbmQg
-UGF0Y2ggNl0gQWRkIE1hdGhpYXPigJlzIGFja2VkLWJ5IFtQYXRjaCA0LTZdDQo+IFNvbWUgd2Fr
-ZXVwIGxvZ2ljIGltcHJvdmVtZW50IFtQYXRjaCAyXSBBZGQgZGVkaWNhdGVkIHdha2V1cCBpbnRl
-cnJ1cHQgZm9yIGNvcmUsDQo+IGFuZCBpbXByb3ZlIHRoZSBjb21taXQgbG9nIFtQYXRjaF0gRml4
-IGJ1aWxkIGVycm9yIGZvdW5kIGJ5IGtidWlsZCB0ZXN0IHJvYm90IFtQYXRjaA0KPiAzXSBVc2lu
-ZyB4aGNpX3BsYXRfcHJpdiBxdWlyayBmb3Igc2tpcCBQSFkgaW5pdGlhbGl6YXRpb24gW3BhdGNo
-IDcsIHBhdGNoIDldIFNvbWUgb3RoZXINCj4gdHlwbyBhbmQgdGlueSBpbXByb3ZlbWVudHMNCj4g
-DQo+IENoYW5nZXMgZm9yIHYyOg0KPiAtIEFkZCB0aGUgMXN0IHBhdGNoLiBXaXRob3V0IGl0LCB0
-aGUgYnVpbGQgb24gdGhlIHVzYi1uZXh0IHdpbGwgZmFpbC4NCj4gLSBDaGFuZ2UgdGhlIHN1Ympl
-Y3QgZm9yIGNvdmVyIGxldHRlciBhIGxpdHRsZSB0byByZWZsZWN0IGFsbCBjb250ZW50cy4NCj4g
-DQo+IFBldGVyIENoZW4gKDkpOg0KPiAgIHVzYjogY2RuczM6IGludHJvZHVjZSBzZXRfcGh5X3Bv
-d2VyX29ue29mZn0gQVBJcw0KPiAgIHVzYjogY2RuczM6IGFkZCBydW50aW1lIFBNIHN1cHBvcnQN
-Cj4gICB1c2I6IGNkbnMzOiBpbXg6IGFkZCBnbHVlIGxheWVyIHJ1bnRpbWUgcG0gaW1wbGVtZW50
-YXRpb24NCj4gICB1c2I6IGhvc3Q6IHhoY2ktcGxhdDogYWRkIHBsYXRmb3JtIGRhdGEgc3VwcG9y
-dA0KPiAgIHVzYjogaG9zdDogeGhjaS1wbGF0OiBhZGQgLnN1c3BlbmRfcXVpcmsgZm9yIHN0cnVj
-dCB4aGNpX3BsYXRfcHJpdg0KPiAgIHVzYjogaG9zdDogeGhjaS1wbGF0OiBkZWxldGUgdGhlIHVu
-bmVjZXNzYXJ5IGNvZGUNCj4gICB1c2I6IGhvc3Q6IHhoY2ktcGxhdDogYWRkIHByaXYgcXVpcmsg
-Zm9yIHNraXAgUEhZIGluaXRpYWxpemF0aW9uDQo+ICAgdXNiOiBjZG5zMzogaG9zdDogYWRkIC5z
-dXNwZW5kX3F1aXJrIGZvciB4aGNpLXBsYXQuYw0KPiAgIHVzYjogY2RuczM6IGhvc3Q6IGFkZCB4
-aGNpX3BsYXRfcHJpdiBxdWlyayBYSENJX1NLSVBfUEhZX0lOSVQNCj4gDQo+ICBkcml2ZXJzL3Vz
-Yi9jZG5zMy9jZG5zMy1pbXguYyAgIHwgMjAzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-Ky0tDQo+ICBkcml2ZXJzL3VzYi9jZG5zMy9jb3JlLmMgICAgICAgIHwgMTk2ICsrKysrKysrKysr
-KysrKysrKysrKysrKystLS0tLQ0KPiAgZHJpdmVycy91c2IvY2RuczMvY29yZS5oICAgICAgICB8
-ICAxNiArKysNCj4gIGRyaXZlcnMvdXNiL2NkbnMzL2RyZC5jICAgICAgICAgfCAgIDMgKw0KPiAg
-ZHJpdmVycy91c2IvY2RuczMvZ2FkZ2V0LmMgICAgICB8ICAgNCArDQo+ICBkcml2ZXJzL3VzYi9j
-ZG5zMy9ob3N0LWV4cG9ydC5oIHwgICA2ICsNCj4gIGRyaXZlcnMvdXNiL2NkbnMzL2hvc3QuYyAg
-ICAgICAgfCAgNDggKysrKysrKysNCj4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS1wbGF0LmMgICAg
-fCAgMzYgKysrKystDQo+ICBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktcGxhdC5oICAgIHwgICAxICsN
-Cj4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS5oICAgICAgICAgfCAgIDEgKw0KPiAgMTAgZmlsZXMg
-Y2hhbmdlZCwgNDY2IGluc2VydGlvbnMoKyksIDQ4IGRlbGV0aW9ucygtKQ0KPiANCj4gLS0NCj4g
-Mi4xNy4xDQoNCg==
+On Fri, Jul 17, 2020 at 06:04:51AM +0000, Mani, Rajmohan wrote:
+> Hi Greg,
+> 
+> > -----Original Message-----
+> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Sent: Thursday, July 16, 2020 12:05 AM
+> > To: Mani, Rajmohan <rajmohan.mani@intel.com>
+> > Cc: Darren Hart <dvhart@infradead.org>; Andy Shevchenko
+> > <andy@infradead.org>; Mika Westerberg
+> > <mika.westerberg@linux.intel.com>; Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com>; Lee Jones <lee.jones@linaro.org>; Ayman
+> > Bagabas <ayman.bagabas@gmail.com>; Masahiro Yamada
+> > <masahiroy@kernel.org>; Joseph, Jithu <jithu.joseph@intel.com>; Blaž
+> > Hrastnik <blaz@mxxn.io>; Srinivas Pandruvada
+> > <srinivas.pandruvada@linux.intel.com>; linux-kernel@vger.kernel.org;
+> > platform-driver-x86@vger.kernel.org; Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com>; linux-usb@vger.kernel.org;
+> > pmalani@chromium.org; bleung@chromium.org
+> > Subject: Re: [PATCH 2/2] usb: typec: intel_pmc_mux: Check the port status
+> > before connect
+> > 
+> > On Wed, Jul 15, 2020 at 05:33:10PM -0700, Rajmohan Mani wrote:
+> > > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > >
+> > > The PMC microcontroller that we use for configuration, does not supply
+> > > any status information back. For port status we need to talk to
+> > > another controller on the board called IOM (I/O manager).
+> > >
+> > > By checking the port status before configuring the muxes, we can make
+> > > sure that we do not reconfigure the port after bootup when the system
+> > > firmware (for example BIOS) has already configured it.
+> > >
+> > > Using the status information also to check if DisplayPort HPD is still
+> > > asserted when the cable plug is disconnected, and clearing it if it
+> > > is.
+> > >
+> > > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > 
+> > You can't just forward on patches from others without also adding your
+> > signed-off-by to them, right?
+> > 
+> 
+> Sorry I missed this.
+> 
+> > Please fix up this series and try again.
+> > 
+> 
+> Ack. Will fix this with v2.
+
+Stop and go talk to the proper people in Intel for how to submit patches
+to the kernel as you are not following the rules they have documented
+for you.
+
+thanks,
+
+greg k-h
