@@ -7,323 +7,139 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD9EC433E2
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2648C433E1
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:34:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B2A420759
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:18:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B19721775
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 06:34:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594966713;
-	bh=7afkmE7uTrunj97qP72j5c9LrWDuyJyNP16IWobdmYU=;
+	s=default; t=1594967652;
+	bh=8yib4Kz1ghGHGqd4sNsAIsjxgobO7JhYwh5UEDfbV50=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=KtEghijq2azw6E6YBvjrhU6hYZgqCygBee8rhwqSUn2UyKFVAl2Hd9HZ+aPzCpZzk
-	 +AZnpk3fY5a+d3BpjJOA7Qf+R9Qnu9Tp+Qcv0Z3XftN0rRkIc/FbIhJjkQbQmScBOu
-	 Z8Hgg4xBeiGEu+ZHqdHFsICi8MXtxIF4AXsZdEas=
+	b=RLhnfvIw0hws5j5wEq528NUxUNCBVK5kd7ze8bd2ZACWETcCHpWb0LKzlQphktNRM
+	 qMqRK3DTn3PivJWs3eatBFNsjeYUiCtpmquqbiydt8xQ/zkMHAJCODWx4w5IS0AJnb
+	 5VpYwE9WhT9LcokK73/GFHfdpvVylxGFmjS0yQ7A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726359AbgGQGSa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jul 2020 02:18:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56794 "EHLO mail.kernel.org"
+        id S1726665AbgGQGeM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jul 2020 02:34:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34690 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726056AbgGQGS3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 17 Jul 2020 02:18:29 -0400
+        id S1726141AbgGQGeL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Jul 2020 02:34:11 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A1082071A;
-        Fri, 17 Jul 2020 06:18:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C6A5521744;
+        Fri, 17 Jul 2020 06:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594966708;
-        bh=7afkmE7uTrunj97qP72j5c9LrWDuyJyNP16IWobdmYU=;
+        s=default; t=1594967651;
+        bh=8yib4Kz1ghGHGqd4sNsAIsjxgobO7JhYwh5UEDfbV50=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PGBVoBbPM7Rf2TfQx5i5NS+TFlW5Lz1tUugxyNH/xNyv6I6QrtGjW0kWRDNndwaek
-         EEcvntNxjX3AxYlRVSgVwfqATtnmV4tNtOmRjvTNeDotnp8fqZb91yUsFs5Ni78OmV
-         UEqiDBh0ZKJF9S3z031RB6tH16dVUKXcZ8xkdnJ8=
-Date:   Fri, 17 Jul 2020 08:18:21 +0200
+        b=AKvFNGQsjTGhsAVVYVNFNQGayLCCFiRnJW2Vfwt1uAR8yDW6sgkrhxrc2Kmfca8j7
+         3dDKRnfu5aFApT3v7ecQl9tfNienlc3sdPmOBtmUZeJLOVBNTRFkDDGUrPglprB4wq
+         /jHEEevjOQF89l/gCdsHqJVEWx053PpR4MZZwKQs=
+Date:   Fri, 17 Jul 2020 08:34:03 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Mani, Rajmohan" <rajmohan.mani@intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "pmalani@chromium.org" <pmalani@chromium.org>,
-        "bleung@chromium.org" <bleung@chromium.org>
-Subject: Re: [PATCH 1/2] platform/x86: Add Intel Input Output Manager (IOM)
- driver
-Message-ID: <20200717061821.GA3237166@kroah.com>
-References: <20200716003310.26125-1-rajmohan.mani@intel.com>
- <20200716003310.26125-2-rajmohan.mani@intel.com>
- <20200716070950.GC962748@kroah.com>
- <DM6PR11MB39632BD9A5A0DF4A9EAB351CF67C0@DM6PR11MB3963.namprd11.prod.outlook.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH 01/11] usb: ch9: Add sublink speed struct
+Message-ID: <20200717063403.GC3238569@kroah.com>
+References: <cover.1594935978.git.thinhn@synopsys.com>
+ <90961eec3e1ed3c27e41e7169353cc295c551604.1594935978.git.thinhn@synopsys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DM6PR11MB39632BD9A5A0DF4A9EAB351CF67C0@DM6PR11MB3963.namprd11.prod.outlook.com>
+In-Reply-To: <90961eec3e1ed3c27e41e7169353cc295c551604.1594935978.git.thinhn@synopsys.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 06:03:55AM +0000, Mani, Rajmohan wrote:
-> Hi Greg,
+On Thu, Jul 16, 2020 at 02:58:36PM -0700, Thinh Nguyen wrote:
+> USB 3.2 specification supports dual-lane for super-speed-plus. USB
+> devices may operate at different sublink speeds. To avoid using magic
+> numbers and capture the sublink speed better, introduce the
+> usb_sublink_speed structure and various sublink speed attribute enum.
 > 
-> Thanks for the reviews.
+> See SSP BOS descriptor in USB 3.2 specification section 9.6.2.5
 > 
-> > -----Original Message-----
-> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Sent: Thursday, July 16, 2020 12:10 AM
-> > To: Mani, Rajmohan <rajmohan.mani@intel.com>
-> > Cc: Darren Hart <dvhart@infradead.org>; Andy Shevchenko
-> > <andy@infradead.org>; Mika Westerberg
-> > <mika.westerberg@linux.intel.com>; Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com>; Lee Jones <lee.jones@linaro.org>; Ayman
-> > Bagabas <ayman.bagabas@gmail.com>; Masahiro Yamada
-> > <masahiroy@kernel.org>; Joseph, Jithu <jithu.joseph@intel.com>; Blaž
-> > Hrastnik <blaz@mxxn.io>; Srinivas Pandruvada
-> > <srinivas.pandruvada@linux.intel.com>; linux-kernel@vger.kernel.org;
-> > platform-driver-x86@vger.kernel.org; Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com>; linux-usb@vger.kernel.org;
-> > pmalani@chromium.org; bleung@chromium.org
-> > Subject: Re: [PATCH 1/2] platform/x86: Add Intel Input Output Manager (IOM)
-> > driver
-> > 
-> > On Wed, Jul 15, 2020 at 05:33:09PM -0700, Rajmohan Mani wrote:
-> > > Input Output Manager (IOM) is part of the Tiger Lake SoC that
-> > > configures the Type-C Sub System (TCSS). IOM is a micro controller
-> > > that handles Type-C topology, configuration and PM functions of
-> > > various Type-C devices connected on the platform.
-> > >
-> > > This driver helps read relevant information such as Type-C port status
-> > > (whether a device is connected to a Type-C port or not) and the
-> > > activity type on the Type-C ports (such as USB, Display Port,
-> > > Thunderbolt), for consumption by other drivers.
-> > >
-> > > Currently intel_iom_port_status() API is exported by this driver, that
-> > > has information about the Type-C port status and port activity type.
-> > >
-> > > Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
-> > > ---
-> > >  drivers/platform/x86/Kconfig                |  16 +++
-> > >  drivers/platform/x86/Makefile               |   1 +
-> > >  drivers/platform/x86/intel_iom.c            | 133 ++++++++++++++++++++
-> > >  include/linux/platform_data/x86/intel_iom.h |  62 +++++++++
-> > 
-> > Why do you need a .h file for a single .c file that no one else shares this data?
-> > Just put it all in the .c file please.
-> > 
+> Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+> ---
+>  include/uapi/linux/usb/ch9.h | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
 > 
-> The APIs exported by this driver, are used by the caller (Intel PMC USB mux
-> control driver), hence the need for header file.
-> 
-> > >  4 files changed, 212 insertions(+)
-> > >  create mode 100644 drivers/platform/x86/intel_iom.c  create mode
-> > > 100644 include/linux/platform_data/x86/intel_iom.h
-> > >
-> > > diff --git a/drivers/platform/x86/Kconfig
-> > > b/drivers/platform/x86/Kconfig index 0581a54cf562..271feddb20ef 100644
-> > > --- a/drivers/platform/x86/Kconfig
-> > > +++ b/drivers/platform/x86/Kconfig
-> > > @@ -816,6 +816,22 @@ config INTEL_INT0002_VGPIO
-> > >  	  To compile this driver as a module, choose M here: the module will
-> > >  	  be called intel_int0002_vgpio.
-> > >
-> > > +config INTEL_IOM
-> > > +	tristate "Intel Input Output Manager (IOM) driver"
-> > > +	depends on ACPI && PCI
-> > > +	help
-> > > +	  This driver helps read relevant information such as Type-C port
-> > > +	  status (whether a device is connected to a Type-C port or not)
-> > > +	  and the activity type on the Type-C ports (such as USB, Display
-> > > +	  Port, Thunderbolt), for consumption by other drivers.
-> > > +
-> > > +	  Currently intel_iom_port_status() API is exported by this driver,
-> > > +	  that has information about the Type-C port status and port activity
-> > > +	  type.
-> > > +
-> > > +	  To compile this driver as a module, choose M here: the module will
-> > > +	  be called intel_iom.
-> > > +
-> > >  config INTEL_MENLOW
-> > >  	tristate "Thermal Management driver for Intel menlow platform"
-> > >  	depends on ACPI_THERMAL
-> > > diff --git a/drivers/platform/x86/Makefile
-> > > b/drivers/platform/x86/Makefile index 2b85852a1a87..d71e4620a7c6
-> > > 100644
-> > > --- a/drivers/platform/x86/Makefile
-> > > +++ b/drivers/platform/x86/Makefile
-> > > @@ -76,6 +76,7 @@ intel_cht_int33fe-objs			:=
-> > intel_cht_int33fe_common.o \
-> > >  					   intel_cht_int33fe_microb.o
-> > >  obj-$(CONFIG_INTEL_HID_EVENT)		+= intel-hid.o
-> > >  obj-$(CONFIG_INTEL_INT0002_VGPIO)	+= intel_int0002_vgpio.o
-> > > +obj-$(CONFIG_INTEL_IOM)			+= intel_iom.o
-> > >  obj-$(CONFIG_INTEL_MENLOW)		+= intel_menlow.o
-> > >  obj-$(CONFIG_INTEL_OAKTRAIL)		+= intel_oaktrail.o
-> > >  obj-$(CONFIG_INTEL_VBTN)		+= intel-vbtn.o
-> > > diff --git a/drivers/platform/x86/intel_iom.c
-> > > b/drivers/platform/x86/intel_iom.c
-> > > new file mode 100644
-> > > index 000000000000..ece0fe720b2d
-> > > --- /dev/null
-> > > +++ b/drivers/platform/x86/intel_iom.c
-> > > @@ -0,0 +1,133 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Intel Core SoC Input Output Manager (IOM) driver.
-> > > + *
-> > > + * This driver provides access to the Input Output Manager (IOM)
-> > > +(that
-> > > + * is part of Tiger Lake SoC) registers that can be used to know
-> > > +about
-> > > + * Type-C Sub System related information (such as Type-C port status,
-> > > + * activity type on Type-C ports).
-> > > + *
-> > > + * Copyright (C) 2020, Intel Corporation
-> > > + * Author: Rajmohan Mani <rajmohan.mani@intel.com>  */
-> > > +
-> > > +#include <linux/io.h>
-> > > +#include <linux/mod_devicetable.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/platform_data/x86/intel_iom.h>
-> > > +#include <linux/platform_device.h>
-> > > +#include <linux/slab.h>
-> > > +
-> > > +#define IOM_PORT_STATUS_OFFSET				0x560
-> > > +
-> > > +struct intel_iom {
-> > > +	struct device *dev;
-> > > +	void __iomem *regbar;
-> > > +};
-> > > +
-> > > +static struct intel_iom iom_dev;
-> > 
-> > Why just one?  Why is this static?
-> > 
-> 
-> There is just one IOM device in the system.
-
-For today, yes, no need to force yourself to have to change this in the
-future.  Just use a normal per-instance variable instead please, if you
-really need it.
-
-> > > +
-> > > +	/* Prevent this driver from being unloaded while in use */
-> > > +	if (!try_module_get(dev->driver->owner)) {
-> > 
-> > Why are you poking around in a random device's driver's owner?
-> > 
-> > That's not ok.  And probably totally racy.
-> > 
-> > Handle module reference counts properly, not like this.
-> > 
-> 
-> Ack. Will use THIS_MODULE here.
-
-No, that is not the answer, and is always wrong to use :(
-
-> > And why does it even matter that you incremented the module reference
-> > count?  What is that "protecting" you from?
-> > 
+> diff --git a/include/uapi/linux/usb/ch9.h b/include/uapi/linux/usb/ch9.h
+> index 2b623f36af6b..d4fd403a3664 100644
+> --- a/include/uapi/linux/usb/ch9.h
+> +++ b/include/uapi/linux/usb/ch9.h
+> @@ -1145,6 +1145,48 @@ enum usb_device_speed {
+>  	USB_SPEED_SUPER_PLUS,			/* usb 3.1 */
+>  };
 >  
-> To prevent this driver from being unloaded, while it is being used.
+> +/* USB 3.2 sublink speed attributes */
+> +
+> +enum usb_lane_speed_exponent {
+> +	USB_LSE_BPS = 0,
+> +	USB_LSE_KBPS = 1,
+> +	USB_LSE_MBPS = 2,
+> +	USB_LSE_GBPS = 3,
+> +};
+> +
+> +enum usb_sublink_type {
+> +	USB_ST_SYMMETRIC_RX = 0,
+> +	USB_ST_ASYMMETRIC_RX = 1,
+> +	USB_ST_SYMMETRIC_TX = 2,
+> +	USB_ST_ASYMMETRIC_TX = 3,
+> +};
+> +
+> +enum usb_link_protocol {
+> +	USB_LP_SS = 0,
+> +	USB_LP_SSP = 1,
+> +};
+> +
+> +/**
+> + * struct usb_sublink_speed - sublink speed attribute
+> + * @id: sublink speed attribute ID (SSID)
+> + * @mantissa: lane speed mantissa
+> + * @exponent: lane speed exponent
+> + * @sublink type: sublink type
+> + * @protocol: sublink protocol
+> + *
+> + * Super-speed-plus supports multiple lanes. Use the sublink speed attributes to
+> + * describe the sublink speed.
+> + *
+> + * See USB 3.2 spec section 9.6.2.6 for super-speed-plus capability for more
+> + * information.
+> + */
+> +struct usb_sublink_speed {
+> +	u8				id;
+> +	u16				mantissa;
 
-Why does that matter?  Shouldn't normal reference counting and
-dependancies be all that you need?
+You have to use the proper data types for crossing the user/kernel
+boundry here.  That would be __u8 and __u16, right?
 
-> > > +		put_device(iom_dev.dev);
-> > > +		return ERR_PTR(-EBUSY);
-> > > +	}
-> > > +
-> > > +	return &iom_dev;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(intel_iom_get);
-> > 
-> > Who calls this function?
-> > 
-> 
-> Intel PMC USB mux control driver, in this case.
-> The callers are expected to call intel_iom_get() before using the
-> intel_iom_port_status(), after which intel_iom_put() can be called
-> to release the IOM device instance.
+> +	enum usb_lane_speed_exponent	exponent;
+> +	enum usb_sublink_type		type;
+> +	enum usb_link_protocol		protocol;
 
-Why not just have a single call if all this driver does is support one
-thing.  The reference counting shouldn't be needed at all, right?
+Are you _sure_ that an enum is the correct size for these fields?  How
+can you guarantee this?  We do not use enums in this way for any other
+field in this file for a reason...
 
-> > > +/**
-> > > + * intel_iom_put() - Put IOM device instance
-> > > + * @iom: IOM device instance
-> > > + *
-> > > + * This function releases the IOM device instance created using
-> > > + * intel_iom_get() and allows the driver to be unloaded.
-> > > + *
-> > > + * Call intel_iom_put() to release the instance.
-> > > + */
-> > > +void intel_iom_put(struct intel_iom *iom) {
-> > > +	if (!iom)
-> > > +		return;
-> > > +
-> > > +	module_put(iom->dev->driver->owner);
-> > 
-> > And if the device doesn't have a driver?  boom :(
-> > 
-> > Don't do this.
-> > 
-> 
-> Ack. Will use THIS_MODULE here.
+And did you look at the layout of this structure to verify it actually
+matches what is on the wire with USB?  I think you need to add a packed
+attribute to guarantee it.
 
-Again, no, that will be even more incorrect.
-
-> > > +	put_device(iom->dev);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(intel_iom_put);
-> > > +
-> > > +/**
-> > > + * intel_iom_port_status() - Get status bits for the Type-C port
-> > > + * @iom: IOM device instance
-> > > + * @port: Type-C port number
-> > > + * @status: pointer to receive the status bits
-> > > + *
-> > > + * Returns 0 on success, error otherwise.
-> > > + */
-> > > +int intel_iom_port_status(struct intel_iom *iom, u8 port, u32
-> > > +*status) {
-> > > +	void __iomem *reg;
-> > > +
-> > > +	if (!iom)
-> > > +		return -ENODEV;
-> > > +
-> > > +	if (!status || (port > IOM_MAX_PORTS - 1))
-> > > +		return -EINVAL;
-> > > +
-> > > +	reg = iom->regbar + IOM_PORT_STATUS_OFFSET + IOM_REG_LEN *
-> > port;
-> > > +
-> > > +	*status = ioread32(reg);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(intel_iom_port_status);
-> > 
-> > So the whole driver is here just to read, directly from memory, a single
-> > 32 bit value?
-> 
-> Yes.
-
-Ok, then this whole driver could be about 90% smaller and more obvious.
-Don't add the reference counting, the static variables and all the other
-stuff just to get a 32bit number.
-
-As it is, this feels like an excuse to get paid per lines of code :(
+thanks,
 
 greg k-h
+
+
+> +};
+>  
+>  enum usb_device_state {
+>  	/* NOTATTACHED isn't in the USB spec, and this state acts
+> -- 
+> 2.11.0
+> 
