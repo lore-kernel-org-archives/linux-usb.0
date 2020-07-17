@@ -2,61 +2,59 @@ Return-Path: <SRS0=Z4bP=A4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0F0C433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2025C43457
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:24:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8628E21702
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:24:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A03B52065D
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:24:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eYVdCt+P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7FbqHRX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbgGQPYH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jul 2020 11:24:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52524 "EHLO
+        id S1726563AbgGQPXn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jul 2020 11:23:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbgGQPXu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jul 2020 11:23:50 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00354C0619D2;
-        Fri, 17 Jul 2020 08:23:49 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id o8so15432591wmh.4;
-        Fri, 17 Jul 2020 08:23:49 -0700 (PDT)
+        with ESMTP id S1726071AbgGQPXm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jul 2020 11:23:42 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B602C0619D2;
+        Fri, 17 Jul 2020 08:23:42 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id f7so11593987wrw.1;
+        Fri, 17 Jul 2020 08:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=a7K03vVeTa1oCvndzLpmXZwhlsqxNxhP4bPgxia/KT4=;
-        b=eYVdCt+Pt48MD+NU6mravMS4KDlqviK9wTQ3ETXMK18usj5XrG2HcmZ2LcrYx5PVEi
-         58VTnllnEEK6UYyHlvhjN9kZ+m2dIcBg+lmdLgZ0Yp0Akm2RUSue9IdUyJ5oqn4+12Sq
-         34FqR8/t3qPh79ggPqUOi4PZshFFvJEBxuvvOkXJ1upHsi3tgDoM88Jj18J+ZLy0gRsI
-         TFADFyjLLdL0vasv5frRQqYy+9HmpYVsUF5oZnOcyHCn3JeXQy6DduD6uf7JEAhT9w+q
-         GrjA4uQ4PXRO8RhZeVQEd7SGfstqJGxgAdoqoU2tnSD8B19LqffutZS8IwbQ5F1IsHUL
-         enmQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=ZQBY6n0XO5q0T2HKwgvRXJzUZ5cOaX1DHTrvKtmcRgQ=;
+        b=O7FbqHRX208RD83qlfBMP1GinwaYuZEtsIXBCf4tqZut/g0O3MqIcstGWS7HVztJFj
+         bVDuEBdLddWBnOIGxTVWebBfaW2K5S94Y6mGyWNgMn1Va1rhUpCuiisBTxL8rD86Jp8J
+         31x5mmglYTwYWkBLkxWTi/dUhkD+B8Gtf97nkJz0eMEK7XCzER26W8QIcC7rzm6rNTIp
+         MXubU+6CDog7LRKlawwuwRQPze2ltd/xFEb2oRWMjrqWC+zhMUQUWdvIU6YUQCmqXqWp
+         1wb5l0VCU0kb+QiWo5VhrB099DiSnpb6nosyuwJq+FpewREc1XLw17lS055LIMUAB/Jp
+         90SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=a7K03vVeTa1oCvndzLpmXZwhlsqxNxhP4bPgxia/KT4=;
-        b=I5JyMjzkY9vLM67qeTLtOyp3FJ6+NnsWLISNnKT1uMKLPYHLbs3KngrOH8CNLcb9cl
-         Bo8G3sT+hmYZ9a7xN/ZxyIVYUz6/7UA5X6Bxo5fuH6vOc3IldXlXuVNZzsf81oE8k0Lh
-         aL/4ytya9Ctto3cK4Sm6G/Ig7/N+PYY27M8KshE2d2OkmsrgNNiTgkai8wT0hNZT4ki0
-         ORyu5IUedDPM/+TszOTngZ3PksWjfzTCcnvUhztdDPX3MqxvGCFpSXRIF1QfyW+bpd0y
-         W+syVhyhTtbi7wV+TqyM7bqbQFTUSrXo9Eq6DcpYm6tc0MA3Dmodegcv1lPfYrbsx7n9
-         cGsg==
-X-Gm-Message-State: AOAM533ZxU0F6gHy0wY2jgzEIzHnF79lPoNx7ot9AWUYs984oKrqc7mV
-        E7i7sxA/AXrjZzZaHGQQnBbe7s8i
-X-Google-Smtp-Source: ABdhPJyz1LpyHbmPrKI/E0YSuYzpNJhQmGtkqM+7O1/Qa4e7Z4xZiIOl8fNgybShuzgI4gu874NxvA==
-X-Received: by 2002:a1c:4804:: with SMTP id v4mr9828885wma.139.1594999428301;
-        Fri, 17 Jul 2020 08:23:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ZQBY6n0XO5q0T2HKwgvRXJzUZ5cOaX1DHTrvKtmcRgQ=;
+        b=gneVltab2I5SvbxuO+TIuWNS1e88Ze6vxY5QEz6bJw/P0Rb4x9TtYIMGIVlaELv2TK
+         XTmNS9vdkS56osTyK0U/uwZYu6OV2/vZsEXcU+tK97yEhsTaHNcHGlXVgKCO18b27Srm
+         iNlzdk+uiYpokcN5ICEOGMMnj2d3aYifziAIgB8wlheyky4AHv0jObO7Tc76S6seRCcK
+         b0BilU6yhKLZo1d0qcJcmREZjgbP6dqIJTzd5v8MeNoYk/ha+0J7fUXvQ1eAFP7HvXhf
+         32YcHDdmGIcFJzf+qFSMfInU3BWyUomY/jdBYBKwfu1oi61faNUtA7PbsfN6s6K7R3er
+         D94w==
+X-Gm-Message-State: AOAM5328af2+yFPNx2fuIHKzsQJbSnQMKsAbRmoF7m8t7fs7SIHygUH2
+        O1KDkB2GFDAtc5oVtwDMDq1YvemE
+X-Google-Smtp-Source: ABdhPJxoZJNOFEnGBghehlIALG5iqBCkyyl9S/OuwiXTjIKFCuFmSZtAy9FV6sbNgw7PlNToNAqhXQ==
+X-Received: by 2002:adf:c382:: with SMTP id p2mr10762081wrf.283.1594999420170;
+        Fri, 17 Jul 2020 08:23:40 -0700 (PDT)
 Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id a22sm13431051wmb.4.2020.07.17.08.23.46
+        by smtp.gmail.com with ESMTPSA id a22sm13431051wmb.4.2020.07.17.08.23.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 08:23:47 -0700 (PDT)
+        Fri, 17 Jul 2020 08:23:39 -0700 (PDT)
 From:   Al Cooper <alcooperx@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Al Cooper <alcooperx@gmail.com>, devicetree@vger.kernel.org,
@@ -65,55 +63,38 @@ Cc:     Al Cooper <alcooperx@gmail.com>, devicetree@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Sasi Kumar <sasi.kumar@broadcom.com>
-Subject: [PATCH 4/7] usb: bdc: Adb shows offline after resuming from S2
-Date:   Fri, 17 Jul 2020 11:23:04 -0400
-Message-Id: <20200717152307.36705-5-alcooperx@gmail.com>
+Subject: [PATCH 0/7] usb: bdc: Updates and fixes to the USB BDC driver
+Date:   Fri, 17 Jul 2020 11:23:00 -0400
+Message-Id: <20200717152307.36705-1-alcooperx@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200717152307.36705-1-alcooperx@gmail.com>
-References: <20200717152307.36705-1-alcooperx@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Android systems, After temporarily putting device to S2 by
-short pressing the power button on the remote, the display turns
-off. Then press the power button to turn the display back up. Adb
-devices would show the devices is offline. It needs a physical
-disconnect of the usb cable or power cycle to bring the device
-back online. The device is operational otherwise.
+Updates and fixes to the Broadcom USB BDC driver.
 
-The problem is that during S2 resume, the ADB gadget driver could
-not link back with the BDC driver because the endpoint flags were
-cleared. The fix is to clear the endpoint flags for the disconnect
-case only and not for S2 exit.
+Al Cooper (4):
+  dt-bindings: usb: bdc: Update compatible strings
+  usb: bdc: Add compatible string for new style USB DT nodes
+  usb: bdc: Adb shows offline after resuming from S2
+  usb: bdc: driver runs out of buffer descriptors on large ADB transfers
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
----
- drivers/usb/gadget/udc/bdc/bdc_core.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Danesh Petigara (1):
+  usb: bdc: Halt controller on suspend
 
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index be833d9e9db2..47bcc9f6afbd 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_core.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -292,9 +292,13 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
- 		/* Initialize SRR to 0 */
- 		memset(bdc->srr.sr_bds, 0,
- 					NUM_SR_ENTRIES * sizeof(struct bdc_bd));
--		/* clear ep flags to avoid post disconnect stops/deconfigs */
--		for (i = 1; i < bdc->num_eps; ++i)
--			bdc->bdc_ep_array[i]->flags = 0;
-+		/*
-+		 * clear ep flags to avoid post disconnect stops/deconfigs but
-+		 * not during S2 exit
-+		 */
-+		if (!bdc->gadget.speed)
-+			for (i = 1; i < bdc->num_eps; ++i)
-+				bdc->bdc_ep_array[i]->flags = 0;
- 	} else {
- 		/* One time initiaization only */
- 		/* Enable status report function pointers */
+Florian Fainelli (1):
+  usb: bdc: Use devm_clk_get_optional()
+
+Sasi Kumar (1):
+  bdc: Fix bug causing crash after multiple disconnects
+
+ .../devicetree/bindings/usb/brcm,bdc.txt      |  4 +--
+ drivers/usb/gadget/udc/bdc/bdc.h              |  2 +-
+ drivers/usb/gadget/udc/bdc/bdc_core.c         | 26 ++++++++++++++-----
+ drivers/usb/gadget/udc/bdc/bdc_ep.c           | 16 +++++++-----
+ 4 files changed, 32 insertions(+), 16 deletions(-)
+
 -- 
 2.17.1
 
