@@ -2,100 +2,108 @@ Return-Path: <SRS0=Z4bP=A4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 031BCC43445
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B9DC433E2
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:40:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0FD22065D
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:24:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iAKFo9wW"
+	by mail.kernel.org (Postfix) with ESMTP id 1D659208C7
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jul 2020 15:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595000406;
+	bh=oUWXy3XEEdACj4VXB3S0A8gloCT8UAGtaaANZlTOhcY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:List-ID:From;
+	b=WGIalZQzLlU/EWH0ZzsRcDEKoaiAADTE+omhCTS5IcLeGm1NJ7NqlEa3sBVpymItg
+	 v6uwcwN1AbopF1MkbfH90RBp/Y2PtlfD6TlvxpXjsTFM7DEombt1sWUmowaiFrmps4
+	 OOIlqiYfraxZHEEari8mc90upcKXCIPYC2ABah6Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727834AbgGQPXt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jul 2020 11:23:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbgGQPXr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jul 2020 11:23:47 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31D3CC0619D2;
-        Fri, 17 Jul 2020 08:23:47 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id f18so11619942wrs.0;
-        Fri, 17 Jul 2020 08:23:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=eDUInn53PGUx0+AivLJa/ERiqsHCKn0OmcMLZZkWr94=;
-        b=iAKFo9wWY23qfH4cIb3HsqnAp7+7HOUipi0jN7nDImzSfSiNZkFl9IDdvZ7E1EDpvB
-         v1mg3R+e6SOP7coSLNIKsr/cLI/5zfMm+DAUq6blu/kxPy64ZFicqV/a67QH3EAaR1ZN
-         gm5JEywZfCyL+th4u5w8aFgxVyXmfXWhIcxNZDdnhV1swjNz+R3HQ1ewHf2zELS9asNz
-         +vheSiUb5rw2MMjaQ5zuOx1M56rOLDlX0oN9/rOFXXvrKh5PG++SFNZizb9Vo6DSF1eW
-         ng3bStxj4BNbVpS6hK/Lo6E5la6rHu9swrQbPaJA7HBCziX2l/lyz3Z0SoTGnvrEsRVm
-         fxAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=eDUInn53PGUx0+AivLJa/ERiqsHCKn0OmcMLZZkWr94=;
-        b=auPdYKj5YDrbOLH6sOxZZiUuIZGuESLE+pxr7A5Gqu+RFXb+UOBHQIb6z4+EYhZo4M
-         8pbdq02ZNzcB1b0Qe0oUWD/pUHX7rWz7wTqzXdtvve6cy/TGn7m2ZeIGrbWmBskF39pb
-         uf4RKiD5Kf7Hq0jrBfpI3LkRfZEL0MzGOl8wILPfsqguKikV+t6X/F+qbEJK2B5Aeiva
-         xQrrR2S1iXYA6sKzfjS7Rpwzc6/Um0oUkM/hFmRDQEoqGeADVa8k//Cj7zQExVWYj27P
-         8SgHv6+ZNRxViSvDHy/cZHuqw0Y4ngyxdfgw6hgGdN7ANyuPcU1biBsdm6DxFwvM4RFs
-         qvvA==
-X-Gm-Message-State: AOAM530yVV3EyWm7ebBvbSPeY208QcFDrFp7ycL7A2/eVoaEhY9NAhRL
-        LyxWVVeSKh8pnC0fOdpsfp6S4/Eh
-X-Google-Smtp-Source: ABdhPJwIJwBRgUX4sCFwxhKTnxbnMU4Vfpyi/0Jd5ghS3qrniODyaNYrPiZo5G+XPGaUhcV9xklpFQ==
-X-Received: by 2002:a5d:56d0:: with SMTP id m16mr10478813wrw.194.1594999424545;
-        Fri, 17 Jul 2020 08:23:44 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id a22sm13431051wmb.4.2020.07.17.08.23.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 08:23:44 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>, devicetree@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
+        id S1727971AbgGQPkD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jul 2020 11:40:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58844 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726256AbgGQPkC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Jul 2020 11:40:02 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D94742076A;
+        Fri, 17 Jul 2020 15:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595000401;
+        bh=oUWXy3XEEdACj4VXB3S0A8gloCT8UAGtaaANZlTOhcY=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=egmxPzhCJaO5Pklo2wFUgCisrdBaL7j2ncVrgoys66Ov9LXhgVzxXGFqIlODz/BYm
+         SBeDYsmknwq4gkwP74D2/j5goaQrPlJbtdJY2ErVv8nPqEDRjP6D+aAJZpnM8njnoZ
+         FRAkq9i/JLIztXRgN6hLt6p5JYwLKxyZ+Mt0PWp4=
+Date:   Fri, 17 Jul 2020 16:39:50 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Sasi Kumar <sasi.kumar@broadcom.com>
-Subject: [PATCH 2/7] usb: bdc: Add compatible string for new style USB DT nodes
-Date:   Fri, 17 Jul 2020 11:23:02 -0400
-Message-Id: <20200717152307.36705-3-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200717152307.36705-1-alcooperx@gmail.com>
-References: <20200717152307.36705-1-alcooperx@gmail.com>
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-pci@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-ide@vger.kernel.org
+In-Reply-To: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 00/20] Add support for SATA/PCIe/USB2[3]/VIN/CSI on R8A774E1
+Message-Id: <159500037996.27597.9512992990495217445.b4-ty@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add compatible string for some newer boards that only have this
-as there match sting.
+On Thu, 16 Jul 2020 18:18:15 +0100, Lad Prabhakar wrote:
+> This patch series adds support for the following peripherals on RZ/G2H SoC
+>  * PCIe
+>  * SATA
+>  * USB2
+>  * USB3
+>  * Audio
+>  * VIN
+>  * CSI
+> 
+> [...]
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
----
- drivers/usb/gadget/udc/bdc/bdc_core.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied to
 
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index 02a3a774670b..436a734ea0bc 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_core.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -629,6 +629,7 @@ static SIMPLE_DEV_PM_OPS(bdc_pm_ops, bdc_suspend,
- 		bdc_resume);
- 
- static const struct of_device_id bdc_of_match[] = {
-+	{ .compatible = "brcm,bdc-udc-v2" },
- 	{ .compatible = "brcm,bdc-v0.16" },
- 	{ .compatible = "brcm,bdc" },
- 	{ /* sentinel */ }
--- 
-2.17.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
+
+[1/1] dt-bindings: sound: renesas, rsnd: Document r8a774e1 bindings
+      commit: 92e37407811b98a7eb54eb6a6b3d65847a46e0e6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
