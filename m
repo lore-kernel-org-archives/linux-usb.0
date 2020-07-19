@@ -2,67 +2,66 @@ Return-Path: <SRS0=x1du=A6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6676AC433E6
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Jul 2020 20:00:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA5EC433E1
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Jul 2020 21:29:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 499DE2065D
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Jul 2020 20:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595188818;
-	bh=XSHHctdJjzm7uGuOOu6wyhlio5IM0Ddk19axRNIfP6s=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=RxqGWP5JncZEoztXIA+Cc+RtmrOoyeFRO+GlbCqT/tAoDquo6tmbN6/AzfNeyDn6G
-	 IRPVfaJT7C4UH0rTpN4GGsnoOsvDrxZPCGyz9nRQJVr+26EqLh/LmP2eqzY7tb91e/
-	 I8b0ET68vcsWPg52tXof++x6dcN7u3rhztwZip2M=
+	by mail.kernel.org (Postfix) with ESMTP id 8BB1D2176B
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Jul 2020 21:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgGSUAF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Jul 2020 16:00:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46260 "EHLO mail.kernel.org"
+        id S1726446AbgGSV3x convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Jul 2020 17:29:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726131AbgGSUAE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 19 Jul 2020 16:00:04 -0400
-Subject: Re: [GIT PULL] USB driver fixes for 5.8-rc6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595188804;
-        bh=XSHHctdJjzm7uGuOOu6wyhlio5IM0Ddk19axRNIfP6s=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=uxg7p24Ur36QBkgoayJ0h42GlVAI2qnv0idS5iqEDfDOHB2DqZwDul3akrUeiusfy
-         7xl5KpFcQf+XnN7sbZIysybSsDsAqiJ8X0yLXQNGh9huvqZjKIwl/bMIPUyFF1d4Di
-         bNOBV85j3iHBNydU8n9iN6WLoMzPgHLKS6txV3jQ=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200719091447.GA157963@kroah.com>
-References: <20200719091447.GA157963@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200719091447.GA157963@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.8-rc6
-X-PR-Tracked-Commit-Id: c7300cdf8f683ae00cf74616b5fd14ffac327979
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ce20d7bf6e00997496d8d5322b1253584d2a0908
-Message-Id: <159518880442.26827.3257229150899500793.pr-tracker-bot@kernel.org>
-Date:   Sun, 19 Jul 2020 20:00:04 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        id S1726126AbgGSV3w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 19 Jul 2020 17:29:52 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 208267] usbip broken with latest kernels?
+Date:   Sun, 19 Jul 2020 21:29:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jdieter@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-208267-208809-qUgQYaxY5Q@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208267-208809@https.bugzilla.kernel.org/>
+References: <bug-208267-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Sun, 19 Jul 2020 11:14:47 +0200:
+https://bugzilla.kernel.org/show_bug.cgi?id=208267
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.8-rc6
+Jonathan Dieter (jdieter@gmail.com) changed:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ce20d7bf6e00997496d8d5322b1253584d2a0908
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jdieter@gmail.com
 
-Thank you!
+--- Comment #6 from Jonathan Dieter (jdieter@gmail.com) ---
+FWIW, I've had this reported in Fedora as well:
+https://bugzilla.redhat.com/show_bug.cgi?id=1856443
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+You are receiving this mail because:
+You are watching the assignee of the bug.
