@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 868B2C433F2
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F4A9C433F8
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:37:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5748A207FC
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:37:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D260022CF7
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595281065;
-	bh=o0bUSa9r+WlA838mzYXVW27gR8YIWsM5ux2NTn9EUyw=;
+	s=default; t=1595281068;
+	bh=6IiCZJSCazxGZ+S4y95kWx0DvTpmrq6GMeSZMEbfpyM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qEXpma0v/MRa6WdTG2+8YN+w8lSF7SlF3vEsyf2AWF1LDXXMGzQYrxvidiICoWmnf
-	 HXFxSA9J955BLk4YfuBie7RsLyzCyC86MHjhw/omDII7LrDieHGPgK1dQE0YN4Rkb0
-	 RFAMHoUR4i/LJu59Ox8twqw022LeOiQ49M6zkwjk=
+	b=Drjlhw2kcb1W88ipt2d0YCfh2uETywT56hvkXBXew8Ogu0OnC5y+AQp5c6LOmDokt
+	 8Rat3xl7NplILYGGMl9se+A9ghbYmZp7lOMUmdlJ/GYqFVjAb8xk6E5S0yDMWJ5yrn
+	 4cChYe36+k6eg/QVUmIN1OKGA5fzHOSY8ip/K+Zw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727797AbgGTVhn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jul 2020 17:37:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55646 "EHLO mail.kernel.org"
+        id S1727834AbgGTVhs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jul 2020 17:37:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55746 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727116AbgGTVhm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:37:42 -0400
+        id S1727819AbgGTVhp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:37:45 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3EA41207FC;
-        Mon, 20 Jul 2020 21:37:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BF49922CF7;
+        Mon, 20 Jul 2020 21:37:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281062;
-        bh=o0bUSa9r+WlA838mzYXVW27gR8YIWsM5ux2NTn9EUyw=;
+        s=default; t=1595281065;
+        bh=6IiCZJSCazxGZ+S4y95kWx0DvTpmrq6GMeSZMEbfpyM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sKD5qDgd9BH0V2IiSaPe6+ysQjQqncgNdu+RiCOas0bkeJihUz5dioZ1S/Me4FjGi
-         xD0Xol2UZ+8WHYDc96922B4pCGp3lOxLrp7amrk/mHNWYMytwjCyKlEELYXpT0ZJpI
-         +Qm2yzP73adSWonWTD/RqddayFwQR1aAdGPNy5uE=
+        b=JSNYyOtQazvpOaNAYgWZ+q+QPJC+0BqwT9eNQiFGhBSaMiYIZp1omU5tOXQ5tNO38
+         mWfx+TfK2/MaqgahibaJN6c6vw5VUogJWZjAo2CWFV2XFxsiNIbxGAvPfDy/Xt31B+
+         slNi6Tu6RqH5BWYlmDOjAZiEw8hLY025l7dR2pKE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc:     Peter Chen <peter.chen@nxp.com>, kbuild test robot <lkp@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 21/40] usb: dwc3: pci: add support for the Intel Jasper Lake
-Date:   Mon, 20 Jul 2020 17:36:56 -0400
-Message-Id: <20200720213715.406997-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 24/40] usb: cdns3: trace: fix some endian issues
+Date:   Mon, 20 Jul 2020 17:36:59 -0400
+Message-Id: <20200720213715.406997-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200720213715.406997-1-sashal@kernel.org>
 References: <20200720213715.406997-1-sashal@kernel.org>
@@ -58,42 +58,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+From: Peter Chen <peter.chen@nxp.com>
 
-[ Upstream commit e25d1e8532c3d84f075deca1580a7d61e0f43ce6 ]
+[ Upstream commit 65b7cf48c211ece5e2560a334eb9608e48775a8f ]
 
-This patch adds the necessary PCI ID for Intel Jasper Lake
-devices.
+It is found by sparse.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/cdns3/trace.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 47b7e83d90626..139474c3e77b1 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -39,6 +39,7 @@
- #define PCI_DEVICE_ID_INTEL_EHLLP		0x4b7e
- #define PCI_DEVICE_ID_INTEL_TGPLP		0xa0ee
- #define PCI_DEVICE_ID_INTEL_TGPH		0x43ee
-+#define PCI_DEVICE_ID_INTEL_JSP			0x4dee
- 
- #define PCI_INTEL_BXT_DSM_GUID		"732b85d5-b7a7-4a1b-9ba0-4bbd00ffd511"
- #define PCI_INTEL_BXT_FUNC_PMU_PWR	4
-@@ -362,6 +363,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_TGPH),
- 	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
- 
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_JSP),
-+	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
-+
- 	{ PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_NL_USB),
- 	  (kernel_ulong_t) &dwc3_pci_amd_properties, },
- 	{  }	/* Terminating Entry */
+diff --git a/drivers/usb/cdns3/trace.h b/drivers/usb/cdns3/trace.h
+index 755c565822575..0a2a3269bfac6 100644
+--- a/drivers/usb/cdns3/trace.h
++++ b/drivers/usb/cdns3/trace.h
+@@ -404,9 +404,9 @@ DECLARE_EVENT_CLASS(cdns3_log_trb,
+ 	TP_fast_assign(
+ 		__assign_str(name, priv_ep->name);
+ 		__entry->trb = trb;
+-		__entry->buffer = trb->buffer;
+-		__entry->length = trb->length;
+-		__entry->control = trb->control;
++		__entry->buffer = le32_to_cpu(trb->buffer);
++		__entry->length = le32_to_cpu(trb->length);
++		__entry->control = le32_to_cpu(trb->control);
+ 		__entry->type = usb_endpoint_type(priv_ep->endpoint.desc);
+ 		__entry->last_stream_id = priv_ep->last_stream_id;
+ 	),
 -- 
 2.25.1
 
