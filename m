@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A93C2D10F
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48117C47439
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:45:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CA4C208E4
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:44:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 244B7206E9
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595281499;
-	bh=pBCEpIsQiRekA4vnt2b8rokKyLIuLA/AXJIiJvcGErQ=;
+	s=default; t=1595281503;
+	bh=ryk1JkLK4R/2OzRJdodKgOOsjjAB4I2jemhgOQ6/pEU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AiekMO/AhJt8NmR+ELA2NcMyKDpm/Ug8jukAaN/ps5BRA6QyX4htQRYfPcR1JbuP5
-	 zL9uVqxa1kbAyuoWo9NJT7gzbX4SWtgMFMNDeJw5XSvgexrwYiPMiylFxwaupyz1N1
-	 LmQHhU/NkAemI1u/6glwiJ0RJY2J7jvzT3l8A/ds=
+	b=YR0iyKr4N4dd8LpfT5dZ/Qe/N8wIA1CMdhp9AC5icsgCnrCfgJmOPS80y8quACLP8
+	 EQW3HF6V1R6X4MLjIPOye+DmWlFx6WEJ7xn3ED6UIIZNlRQCLZ28m6lVlvEz4LKRU8
+	 IfA/41dnXV+lWyNd27NwXrAXgAf8TWvrcedTnMFw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728259AbgGTVo5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jul 2020 17:44:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55662 "EHLO mail.kernel.org"
+        id S1727786AbgGTVhm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jul 2020 17:37:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727798AbgGTVhn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:37:43 -0400
+        id S1727775AbgGTVhl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:37:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 663FA22CB2;
-        Mon, 20 Jul 2020 21:37:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B87422C9D;
+        Mon, 20 Jul 2020 21:37:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281063;
-        bh=pBCEpIsQiRekA4vnt2b8rokKyLIuLA/AXJIiJvcGErQ=;
+        s=default; t=1595281060;
+        bh=ryk1JkLK4R/2OzRJdodKgOOsjjAB4I2jemhgOQ6/pEU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E9AMXDKrI6RF4ylFcGGr4hzmWr5EyS6RNzem3ToQ5ZSVJjf983o9XpbQWF/uglXAx
-         nqNl8U3uCCJve2coeJ/AgVR6Op/vO0LzPbnhvZqyuafCt1p43skVLYPrwnDeo/6Ik/
-         6MxaGtJoWHPnP5e+rx33r4Zaa4pvCFsoXmEzsIX0=
+        b=112vPDy/QDheKn0tSUHglfUfzy4+8Qvh11UFrQkLsAU70ZdjAcgyGE/h1QI5ykYWJ
+         xiEbISdKZtithsyrC3GbC6DJRY5wz+FbTT7iHSMXxJqvfe57ZZwiIJ3OHbO3J/yksW
+         FxJrKGh61FoWxjmxUOqln7ZM8Od8vR0XgCuiP+JA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 22/40] usb: gadget: udc: gr_udc: fix memleak on error handling path in gr_ep_init()
-Date:   Mon, 20 Jul 2020 17:36:57 -0400
-Message-Id: <20200720213715.406997-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 20/40] usb: dwc3: pci: add support for the Intel Tiger Lake PCH -H variant
+Date:   Mon, 20 Jul 2020 17:36:55 -0400
+Message-Id: <20200720213715.406997-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200720213715.406997-1-sashal@kernel.org>
 References: <20200720213715.406997-1-sashal@kernel.org>
@@ -58,42 +58,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-[ Upstream commit c8f8529e2c4141afa2ebb487ad48e8a6ec3e8c99 ]
+[ Upstream commit c3f595a8119207cc0f82b3dc6ec5bbf6f3e6b135 ]
 
-gr_ep_init() does not assign the allocated request anywhere if allocation
-of memory for the buffer fails. This is a memory leak fixed by the given
-patch.
+This patch adds the necessary PCI ID for TGP-H devices.
 
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/gr_udc.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/usb/dwc3/dwc3-pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
-index aaf975c809bf9..ecf874dee9962 100644
---- a/drivers/usb/gadget/udc/gr_udc.c
-+++ b/drivers/usb/gadget/udc/gr_udc.c
-@@ -1981,9 +1981,12 @@ static int gr_ep_init(struct gr_udc *dev, int num, int is_in, u32 maxplimit)
+diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
+index 96c05b121fac8..47b7e83d90626 100644
+--- a/drivers/usb/dwc3/dwc3-pci.c
++++ b/drivers/usb/dwc3/dwc3-pci.c
+@@ -38,6 +38,7 @@
+ #define PCI_DEVICE_ID_INTEL_ICLLP		0x34ee
+ #define PCI_DEVICE_ID_INTEL_EHLLP		0x4b7e
+ #define PCI_DEVICE_ID_INTEL_TGPLP		0xa0ee
++#define PCI_DEVICE_ID_INTEL_TGPH		0x43ee
  
- 	if (num == 0) {
- 		_req = gr_alloc_request(&ep->ep, GFP_ATOMIC);
-+		if (!_req)
-+			return -ENOMEM;
+ #define PCI_INTEL_BXT_DSM_GUID		"732b85d5-b7a7-4a1b-9ba0-4bbd00ffd511"
+ #define PCI_INTEL_BXT_FUNC_PMU_PWR	4
+@@ -358,6 +359,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_TGPLP),
+ 	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
+ 
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_TGPH),
++	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
 +
- 		buf = devm_kzalloc(dev->dev, PAGE_SIZE, GFP_DMA | GFP_ATOMIC);
--		if (!_req || !buf) {
--			/* possible _req freed by gr_probe via gr_remove */
-+		if (!buf) {
-+			gr_free_request(&ep->ep, _req);
- 			return -ENOMEM;
- 		}
- 
+ 	{ PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_NL_USB),
+ 	  (kernel_ulong_t) &dwc3_pci_amd_properties, },
+ 	{  }	/* Terminating Entry */
 -- 
 2.25.1
 
