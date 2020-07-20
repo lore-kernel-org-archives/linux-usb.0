@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3850EC43469
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDE4C433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:41:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AA1F22BEF
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:41:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 110A6207FC
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jul 2020 21:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595281269;
-	bh=ozEUmErTSZJj72mLvgyDkB+vFgOHpHwfbmsOzfNYKCo=;
+	s=default; t=1595281302;
+	bh=3Ntu81l2iPqRZi+s6BEQIwuKCV0gzsZOWwcMMWUJBYE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=h6c+I67+rxt9PaoMFRVHlLrm6HHiqt+ADRbf2SH34YnPJcI3by4pqLwadgHMqL7ND
-	 2n5lGbrhAPMtAkKlp+Uw40ILsjGz73LY/u/Je6EWKEVg+5+X+fU0P4iMM6SxikDHDn
-	 fimHRjFF5s8eAlfrF0DjWPu2i4NuPPpR8KwlFdT0=
+	b=PnSuC9B5c6/qZZ8/cFjTrW6/v+vUdlcfZR86G+RegdhORu+4/t1AumlxO/ikda+K4
+	 eTmNCMc/JLIScSUAx/sWgNp9WGUxZWL9txO/Sxgs6GTuBb3PFgER02DcKb8bfsMbOm
+	 4JscL3DIyD6ATD90lAvXEWlpIPf5MM7XwqWKGO5w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728734AbgGTVlI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jul 2020 17:41:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59576 "EHLO mail.kernel.org"
+        id S1728210AbgGTVl3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jul 2020 17:41:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728347AbgGTVjk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:39:40 -0400
+        id S1728473AbgGTVj2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:39:28 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4519B22BEF;
-        Mon, 20 Jul 2020 21:39:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5511E22CBB;
+        Mon, 20 Jul 2020 21:39:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281180;
-        bh=ozEUmErTSZJj72mLvgyDkB+vFgOHpHwfbmsOzfNYKCo=;
+        s=default; t=1595281168;
+        bh=3Ntu81l2iPqRZi+s6BEQIwuKCV0gzsZOWwcMMWUJBYE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kqoP3LSakgW961gQTjiWFa7ccQJpmudWk+Gh2h5yKF5owrW6TrqJ0zgTmwpPO2BdY
-         Z//gy6YgJjN2lT6sBlEkwGn0LFuuRTk5H7m9EspgOdDx5NleUWpkfcHR7nLF+QmVns
-         1zubgOmhWou9aqcFYL7HNgTZe6pZEak1U/FNLbAI=
+        b=YuGVxMyw99FMPeqj4uQ90yzwWEhQSwdnAoKrxwtLct+ZN4Lm3dLVj18acf4kPXKHq
+         BnrVetd5Dp4YdY4IAxA692VGVW13QsmWxiXhcdW1H3G3p/+JL28ln1f1yXD/yepZVn
+         t3ox6olt+Jk7D0j4vhJf+CTuXUsX16R0GRPAAZ5A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Evgeny Novikov <novikov@ispras.ru>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 6/9] usb: gadget: udc: gr_udc: fix memleak on error handling path in gr_ep_init()
-Date:   Mon, 20 Jul 2020 17:39:29 -0400
-Message-Id: <20200720213932.408089-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 10/13] usb: gadget: udc: gr_udc: fix memleak on error handling path in gr_ep_init()
+Date:   Mon, 20 Jul 2020 17:39:11 -0400
+Message-Id: <20200720213914.407919-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720213932.408089-1-sashal@kernel.org>
-References: <20200720213932.408089-1-sashal@kernel.org>
+In-Reply-To: <20200720213914.407919-1-sashal@kernel.org>
+References: <20200720213914.407919-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
-index 9e246d2e55ca3..f2b165182b4be 100644
+index feb73a1c42ef9..be094f4e116b1 100644
 --- a/drivers/usb/gadget/udc/gr_udc.c
 +++ b/drivers/usb/gadget/udc/gr_udc.c
 @@ -2000,9 +2000,12 @@ static int gr_ep_init(struct gr_udc *dev, int num, int is_in, u32 maxplimit)
