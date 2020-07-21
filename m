@@ -2,159 +2,113 @@ Return-Path: <SRS0=s2B8=BA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2875C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 14:44:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CDAC433E3
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 15:05:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2D9522CA1
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 14:44:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCFvKqDX"
+	by mail.kernel.org (Postfix) with ESMTP id 49BE820771
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 15:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595343909;
+	bh=F6SxBfdl4wNRW/1mURa5CcBLgQWhe+UrLwqJXivNcng=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=lLDtCgKwa12Ou/bbb7DgyGjx+ixq0uYe0uy5q+judf21876O//mqldfErGb0MZ6BJ
+	 DYGpGsNlyxgv9ukZ7Mur14K2ACGVGkGrHTqfCVvpsckRSJrK/fiIRkUn9maG/y4Xm4
+	 SL5R6zFk79izPQE90LQC8M4JYNBVrk79i8XIt6bE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729698AbgGUOn5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jul 2020 10:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726710AbgGUOn4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jul 2020 10:43:56 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC644C061794;
-        Tue, 21 Jul 2020 07:43:55 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id 184so3168911wmb.0;
-        Tue, 21 Jul 2020 07:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=zFRW11/heyizj2QZJPL2QMgceFRIzgQa3xn1BGXBSyA=;
-        b=bCFvKqDXVub2qkB9Bl6sG8ZzR78ncR9CNECo8vYQkXrHxMZH3OeyHKqVCpbUMUFKLm
-         9UowELavNsk6T5L3BOoHYviyVJGNOmgup8IGUn1iFNSkNq/9iqIisTEp24cTFPt8/Iog
-         XPX4Pd7Wtdw5gic7khwZA6DOU88c7nty9oYe/E7V8xUmFCVOrZzkG+JXWYvTejqVHg1i
-         lSLhTMf8p7kEQqnBNZH4+B4z/mD4gM3eEgJYgZLZCkccmUnVsBYLHIvn+zoh7t3fRf/h
-         dYWQfjVqahe0vqF2bv+LE45ZzouAa/WP0n5XTa2CaNcc++TshMa2DIHYj83fuCTs3JQ/
-         eQHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=zFRW11/heyizj2QZJPL2QMgceFRIzgQa3xn1BGXBSyA=;
-        b=tZJDDBdel62KChC1vjRM8UlbZFUOymBB1TEcdBHp8qhvcJjIdiFItNrUxmejk6nIgO
-         bhpwUZNKNmX+d/1a03TQPdncWoWo5Lc0lseObyQuc5Mt0fM/W2DhzOxug4vr8h0Oshkk
-         jUGxBEOxAHby2M8lA4mgELn9kETku+qXxL7bgXeeM8NO/Ii1b4Jn7B5ZriooQ9IxtTxj
-         FhTck3H1fFW3ZZT973lrEn+LVTvoEqVKguMdXvnTnOngu3FPwbJ6kEzuJ21rOwm+Bxaf
-         wN+3tFO/nzydeCnJJQIzLz5oD4XFo1AGMd86lO5uw4YUufnR0jbHa8aKEiLyQrrdXNBI
-         JPjA==
-X-Gm-Message-State: AOAM532pgrrsRbr+02MXs0e+1I9QHdh65KPkhAaBYCb/ijnweoiUSRf2
-        OVuaOCyp1xGvMdKThoeLIHifaEBh
-X-Google-Smtp-Source: ABdhPJyPWyU+HIy+RMMgKGdFDUS/Q/Bd6/ZN1myGkbRDi3plbSMTupEBxagbCK9bEkZu9ed+TPqVzw==
-X-Received: by 2002:a7b:ca52:: with SMTP id m18mr4349730wml.92.1595342634347;
-        Tue, 21 Jul 2020 07:43:54 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id y6sm38043116wrr.74.2020.07.21.07.43.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 07:43:53 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Sasi Kumar <sasi.kumar@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>, devicetree@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 3/7] bdc: Fix bug causing crash after multiple disconnects
-Date:   Tue, 21 Jul 2020 10:43:22 -0400
-Message-Id: <20200721144326.7976-4-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200721144326.7976-1-alcooperx@gmail.com>
-References: <20200721144326.7976-1-alcooperx@gmail.com>
+        id S1729785AbgGUPFI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jul 2020 11:05:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45246 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726436AbgGUPFI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Jul 2020 11:05:08 -0400
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 57FC72077D;
+        Tue, 21 Jul 2020 15:05:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595343907;
+        bh=F6SxBfdl4wNRW/1mURa5CcBLgQWhe+UrLwqJXivNcng=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fzskyMThqWp3vPofTVlE7URWYrxG7mp9JN0O/mS8uUhQmQA8WSCgUg3QdybuMMXxe
+         SlyYa2xaf1BaIlj1RXI80nywhjvqG0BwiTC3NWV8wE4urSHPG12KsiYMxqkkr1Gr23
+         3sSt7KzI+692NrWW8WVxGo3d4n9/9gXrKkJ4imPA=
+Received: by mail-ot1-f52.google.com with SMTP id c25so15298525otf.7;
+        Tue, 21 Jul 2020 08:05:07 -0700 (PDT)
+X-Gm-Message-State: AOAM5301IX8gm61xLx/ypE0v5bDO/uGXzus4KYq+W9fOzc0MlQl9U4Qe
+        PIis6ynztSXDIYg5cWS5Ij3wAlcyI7o9gL+rSQ==
+X-Google-Smtp-Source: ABdhPJwg1qFu+GHeVDp8NETJ9sN5dj3TU0LVw4V3/6K8ZBPyo2KYrQFu1CZaOPP1xtFqiOsO9MGIf0TUDpBxmjtDLIY=
+X-Received: by 2002:a9d:46c:: with SMTP id 99mr5434638otc.192.1595343906622;
+ Tue, 21 Jul 2020 08:05:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1594935978.git.thinhn@synopsys.com> <9684a2b2adb01b6b1a8c513928ea49b4a6436184.1594935978.git.thinhn@synopsys.com>
+ <20200721033908.GA3508628@bogus> <d7e3d5c6-05c1-f256-7773-2b88f6cd5ca3@synopsys.com>
+In-Reply-To: <d7e3d5c6-05c1-f256-7773-2b88f6cd5ca3@synopsys.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 21 Jul 2020 09:04:52 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLSKKT__dJaML4SWCpFpFYV_Cpkor=mNh5-Z7hE4n4fMA@mail.gmail.com>
+Message-ID: <CAL_JsqLSKKT__dJaML4SWCpFpFYV_Cpkor=mNh5-Z7hE4n4fMA@mail.gmail.com>
+Subject: Re: [PATCH 06/11] usb: devicetree: dwc3: Introduce num-lanes and lsm
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        John Youn <John.Youn@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sasi Kumar <sasi.kumar@broadcom.com>
+On Mon, Jul 20, 2020 at 11:01 PM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+>
+> Rob Herring wrote:
+> > On Thu, Jul 16, 2020 at 02:59:08PM -0700, Thinh Nguyen wrote:
+> >> Introduce num-lanes and lane-speed-mantissa-gbps for devices operating
+> >> in super-speed-plus. DWC_usb32 IP supports multiple lanes and can
+> >> operate in different sublink speeds. Currently the device controller
+> >> does not have the information of the phy's number of lanes supported. As
+> >> a result, the user can specify them through these properties if they are
+> >> different than the default setting.
+> >>
+> >> Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+> >> ---
+> >>   Documentation/devicetree/bindings/usb/dwc3.txt | 9 +++++++++
+> >>   1 file changed, 9 insertions(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+> >> index d03edf9d3935..4eba0615562f 100644
+> >> --- a/Documentation/devicetree/bindings/usb/dwc3.txt
+> >> +++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+> >> @@ -86,6 +86,15 @@ Optional properties:
+> >>    - snps,quirk-frame-length-adjustment: Value for GFLADJ_30MHZ field of GFLADJ
+> >>      register for post-silicon frame length adjustment when the
+> >>      fladj_30mhz_sdbnd signal is invalid or incorrect.
+> >> + - snps,num-lanes: set to specify the number of lanes to use. Valid inputs are
+> >> +                    1 or 2. Apply if the maximum-speed is super-speed-plus
+> >> +                    only. Default value is 2 for DWC_usb32. For DWC_usb31,
+> >> +                    it is always 1 at super-speed-plus.
+> >> + - snps,lane-speed-mantissa-gbps: set to specify the symmetric lane speed
+> >> +                    mantissa in Gbps. Valid inputs are 5 or 10. Apply if
+> >> +                    the maximum-speed is super-speed-plus only. Default
+> >> +                    value is 10. For DWC_usb31, it's always 10 at
+> >> +                    super-speed-plus.
+> > This is all common USB things and should be common properties (which we
+> > may already have).
+>
+> Sure. For "num-lanes" is simple, any objection if we use
+> "lane-speed-mantissa-gbps"? Or should we add "lane-speed-exponent"?
 
-Multiple connects/disconnects can cause a crash on the second
-disconnect. The driver had a problem where it would try to send
-endpoint commands after it was disconnected which is not allowed
-by the hardware. The fix is to only allow the endpoint commands
-when the endpoint is connected. This will also fix issues that
-showed up when using configfs to create gadgets.
+'num-lanes' is good as that's what PCIe uses. Document that with
+'maximum-speed'.
 
-Signed-off-by: Sasi Kumar <sasi.kumar@broadcom.com>
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
----
- drivers/usb/gadget/udc/bdc/bdc_core.c |  4 ++++
- drivers/usb/gadget/udc/bdc/bdc_ep.c   | 16 ++++++++++------
- 2 files changed, 14 insertions(+), 6 deletions(-)
+I think 'super-speed-plus' should mean gen 2 10G per lane. Then
+between num-lanes and maximum-speed you can define all 4 possible
+rates.
 
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index 18d510fc02fb..b70b438efff4 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_core.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -282,6 +282,7 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
- 	 * in that case reinit is passed as 1
- 	 */
- 	if (reinit) {
-+		int i;
- 		/* Enable interrupts */
- 		temp = bdc_readl(bdc->regs, BDC_BDCSC);
- 		temp |= BDC_GIE;
-@@ -291,6 +292,9 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
- 		/* Initialize SRR to 0 */
- 		memset(bdc->srr.sr_bds, 0,
- 					NUM_SR_ENTRIES * sizeof(struct bdc_bd));
-+		/* clear ep flags to avoid post disconnect stops/deconfigs */
-+		for (i = 1; i < bdc->num_eps; ++i)
-+			bdc->bdc_ep_array[i]->flags = 0;
- 	} else {
- 		/* One time initiaization only */
- 		/* Enable status report function pointers */
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-index d49c6dc1082d..9ddc0b4e92c9 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-@@ -615,7 +615,6 @@ int bdc_ep_enable(struct bdc_ep *ep)
- 	}
- 	bdc_dbg_bd_list(bdc, ep);
- 	/* only for ep0: config ep is called for ep0 from connect event */
--	ep->flags |= BDC_EP_ENABLED;
- 	if (ep->ep_num == 1)
- 		return ret;
- 
-@@ -759,10 +758,13 @@ static int ep_dequeue(struct bdc_ep *ep, struct bdc_req *req)
- 					__func__, ep->name, start_bdi, end_bdi);
- 	dev_dbg(bdc->dev, "ep_dequeue ep=%p ep->desc=%p\n",
- 						ep, (void *)ep->usb_ep.desc);
--	/* Stop the ep to see where the HW is ? */
--	ret = bdc_stop_ep(bdc, ep->ep_num);
--	/* if there is an issue with stopping ep, then no need to go further */
--	if (ret)
-+	/* if still connected, stop the ep to see where the HW is ? */
-+	if (!(bdc_readl(bdc->regs, BDC_USPC) & BDC_PST_MASK)) {
-+		ret = bdc_stop_ep(bdc, ep->ep_num);
-+		/* if there is an issue, then no need to go further */
-+		if (ret)
-+			return 0;
-+	} else
- 		return 0;
- 
- 	/*
-@@ -1911,7 +1913,9 @@ static int bdc_gadget_ep_disable(struct usb_ep *_ep)
- 		__func__, ep->name, ep->flags);
- 
- 	if (!(ep->flags & BDC_EP_ENABLED)) {
--		dev_warn(bdc->dev, "%s is already disabled\n", ep->name);
-+		if (bdc->gadget.speed != USB_SPEED_UNKNOWN)
-+			dev_warn(bdc->dev, "%s is already disabled\n",
-+				 ep->name);
- 		return 0;
- 	}
- 	spin_lock_irqsave(&bdc->lock, flags);
--- 
-2.17.1
-
+Rob
