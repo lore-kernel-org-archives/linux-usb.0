@@ -2,69 +2,116 @@ Return-Path: <SRS0=s2B8=BA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=3.0 tests=BAYES_50,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5CDC433E4
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 15:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B05C433E6
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 15:06:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28B0A206E3
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 15:05:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 546BD206E3
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 15:06:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729603AbgGUPFg convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jul 2020 11:05:36 -0400
-Received: from smtp12-hnd-sp2.mta.salesforce.com ([101.53.172.219]:13096 "EHLO
-        smtp12-hnd-sp2.mta.salesforce.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726436AbgGUPFg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jul 2020 11:05:36 -0400
-X-Greylist: delayed 301 seconds by postgrey-1.27 at vger.kernel.org; Tue, 21 Jul 2020 11:05:35 EDT
-Authentication-Results:  mx2-hnd-sp2.mta.salesforce.com x-tls.subject="/C=US/ST=California/L=San Francisco/O=salesforce.com, inc./OU=0:app;1:hnd;2:hnd-sp2;3:ap17;4:prod/CN=ap17-app1-8-hnd.ops.sfdc.net"; auth=pass (cipher=ECDHE-RSA-AES256-GCM-SHA384)
-Received: from [10.219.237.7] ([10.219.237.7:37712] helo=ap17-app1-8-hnd.ops.sfdc.net)
-        by mx2-hnd-sp2.mta.salesforce.com (envelope-from <leandra=data-infocus.com__0-2fxx5rjstxt40e.cj005sq5ew1il1yt@08wg2nwqrzx03nqn.iak486u.2x-3tfytea2.ap17.bnc.salesforce.com>)
-        (ecelerity 4.2.38.62368 r(Core:release/4.2.38.0)) with ESMTPS (cipher=ECDHE-RSA-AES256-GCM-SHA384
-        subject="/C=US/ST=California/L=San Francisco/O=salesforce.com, inc./OU=0:app;1:hnd;2:hnd-sp2;3:ap17;4:prod/CN=ap17-app1-8-hnd.ops.sfdc.net") 
-        id EE/F9-06852-213071F5; Tue, 21 Jul 2020 15:00:34 +0000
-Date:   Tue, 21 Jul 2020 15:00:34 +0000 (GMT)
-From:   Leandra <leandra@data-infocus.com>
-To:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Message-ID: <3sLD-000000000000000000000000000000000000000000000QDTR0W00liAyTnOdR7OItedT4fQrJA@sfdc.net>
-Subject: Fintech Info - Accelerate your Marketing ROI and Investments
+        id S1729929AbgGUPG3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jul 2020 11:06:29 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:36575 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726436AbgGUPG3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jul 2020 11:06:29 -0400
+Received: (qmail 1276524 invoked by uid 1000); 21 Jul 2020 11:06:28 -0400
+Date:   Tue, 21 Jul 2020 11:06:28 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     =?iso-8859-1?Q?SZIGETV=C1RI_J=E1nos?= <jszigetvari@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: linux usb gadget - mass storage
+Message-ID: <20200721150628.GC1272082@rowland.harvard.edu>
+References: <CAJK_Yh-KwrrWeGY5s=RKJDhp0gyZBf+LsWCydKSfj0dEAYGHCA@mail.gmail.com>
+ <20200720162422.GG1228057@rowland.harvard.edu>
+ <CAJK_Yh_ZAvuSBFdUitkPbzp_L69Fuew7cTKbeTH3X8aJdOJeqw@mail.gmail.com>
+ <20200720172951.GI1228057@rowland.harvard.edu>
+ <CAJK_Yh8rPPMkxXLAyQDN7Ux=_NKcfvHgb1iyt7bZmej0q4P-Qg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
-X-Priority: 3
-X-SFDC-LK: 00D2x000003tFYT
-X-SFDC-User: 0052x000001fQYE
-X-Sender: postmaster@salesforce.com
-X-mail_abuse_inquiries: http://www.salesforce.com/company/abuse.jsp
-X-SFDC-TLS-NoRelay: 1
-X-SFDC-Binding: iCBT705cy8bBFz3B
-X-SFDC-EmailCategory: apiMassMail
-X-SFDC-EntityId: 0032x000005yaNA
-X-SFDC-Interface: internal
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJK_Yh8rPPMkxXLAyQDN7Ux=_NKcfvHgb1iyt7bZmej0q4P-Qg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Tue, Jul 21, 2020 at 02:20:27PM +0200, SZIGETVÁRI János wrote:
+> Hi Alan,
+> 
+> Alan Stern <stern@rowland.harvard.edu> ezt írta (időpont: 2020. júl.
+> 20., H, 19:29):
+> > 4.19 is a very old kernel.  You'd be a lot better off testing under a
+> > recent kernel, like 5.7.  It also would be more convenient to do your
+> > development on a regular PC instead of a Raspberry Pi.  You can use
+> > dummy-hcd for testing gadget drivers.
+> 
+> Okay, I put together a Slackware-current based VM to conduct the
+> development work on.
+> I compiled a patched version of kernel 5.7.9 with all the necessary
+> config parameters to have USB gadget support with debugging enabled,
+> and also the dummy HCD.
+> 
+> At first loaded the g_mass_storage module with a smaller ~700 MB iso
+> file, and it loaded seemingly fine, and functionality-wise it also
+> seemed to work fine, although there were frequent periodical debug
+> messages about the gadget returning command-failure status:
+> https://gist.github.com/jszigetvari/5bc4cdc8c55588907b71832558cb00a7
 
-Good day to you! I hope you are keeping safe!
+There failures are normal.  They arise because the computer sends 
+commands that the gadget driver doesn't understand or support, such as 
+GET EVENT STATUS NOTIFICATION.
 
-Would you be interested in reaching out Professionals from Fintech, Finance services, Finance Institutions and Banking Sectors across the nation for your upcoming marketing campaigns?
+> After that as a test I tried to dd all the data from /dev/sr1 (that's
+> the device file the gadget was assigned) to /dev/null.
+> The process completed without any user-visible errors, although the
+> failure status related messages kept on appearing:
+> https://gist.github.com/jszigetvari/ffa19850c94f12510c0b78ed5aaba2e1
+> 
+> Finally I tried to load the large, 11 GB CentOS iso file as the second
+> phase of the test. On the Raspberry Pi (with kernel 4.19) this was
+> when the crash happened, however this time it did not.
+> Originally Tiziano Bacocco's patch came around to be the time of the
+> 3.x kernels. The patch needed minimal adjustments to apply to 4.19 and
+> 5.4 and also to 5.7.9 (though there was a one line offset in
+> f_mass_storage.c).
+> https://gist.github.com/jszigetvari/5a9796c8af8a01c0edba6a8696540029
+> 
+> Although I have to admit that on the Pi Zero I was using the g_multi
+> kernel module, and not g_mass_storage I assumed they share the same
+> code base, so they should work the same way.
+> On the Pi zero I need the extra serial and Ethernet interface to have
+> access to the Pi Zero, as it doesn't have a wireless NIC, and that's
+> why I chose g_multi.ko.
+> 
+> In the end I did a dd with the 11 GB iso, and to my surprise it worked
+> well. dd returned without any errors and it did show the true 11 GB
+> size when it finished.
+> In the kernel logs most log entries were about block reads, but the
+> failure status messages were still around. If there was no activity on
+> the device, then they accounted for the majority of the logs
+> generated:
+> https://gist.github.com/jszigetvari/a9225fa3173e6c7b7b50673a494d9c37
+> 
+> I have to admit, I stand puzzled why it worked on an x86_64-based
+> machine and crashed on the Pi Zero.
 
-Job_titles: - CEO, CFO, CMO, COO,CTO, CIO, CXO, CBO, CCO, CDO,CKO, CSO, CPO, CLO, Controller, Director, Vice President, Presidents, Chairman's, GMs, Mid-level Managers, HR Managers, Finance Manager, IT Head, IT Director, IT Manager, VP IT, Purchasing Manager, Revenue Managers, Mortgage_Managers, Director of Banking, Pricing managers, Procurement Manager, Supply Chain, Head of Operations, Corporate Secretary, Treasurer, Administration, R & D Executives and many more�
+The crash message on the Pi Zero indicated that there was a problem in 
+the host controller driver (dwc2-hsotg), not in the mass-storage driver.
 
-List Fields: Company name, Contact Name, job_title, phone number, Social_Profiles, email address, postal address, website, SIC_code, Industry type, Employee size, revenue size etc.
+> I guess the next step will be either:
+> * to try using g_multi instead of g_mass_storage on the test machine
+> * upgrade the Pi Zero to run kernel 5.4.x (AFAIK that's the latest one
+> can get from the Raspberry Pi Foundation's git repo), and recompile
+> that kernel version with the patch applied. (This will likely take a
+> few days.)
 
-Do let me know your thoughts on this, so that I will get back to you with counts, samples and pricing for your review Or we can jump on a Quick Zoom call for more info.
+Yes, that might indeed help.
 
-Look forward for your response.
-
-Thanks and Regards,
-Leandra
-Marketing Executive
-
-Please reply us "Leave Out" if not interested
+Alan Stern
