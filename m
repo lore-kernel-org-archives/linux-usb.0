@@ -2,66 +2,73 @@ Return-Path: <SRS0=s2B8=BA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F312C433E4
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 08:01:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05091C433E3
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 08:27:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48C7C20709
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 08:01:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D410120720
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 08:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595320065;
+	bh=I//y4Qz9IX3t5JUGItlkn56iaw4KzS5UTrB2SAe8gE0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ojAhZrqkGCt/xurCbLDaTmTNklu3xCcIbvx0ZOQ8qN1MUYTNTkKeuMBmHGTrLIZ80
+	 46SGDzp3QwiAfdF9DVs3598e0aCaZdc+yLEgi8rPVz1hfmH60bOxe6a2B0oCHgxNNs
+	 RDt3OU9hsBXTdJVhCVXYDx4zA5L+hBBdahRGRglM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728642AbgGUIBk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jul 2020 04:01:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59328 "EHLO mx2.suse.de"
+        id S1727048AbgGUI1m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jul 2020 04:27:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47278 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728077AbgGUIBk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Jul 2020 04:01:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 31A34AFCD;
-        Tue, 21 Jul 2020 08:01:46 +0000 (UTC)
-Message-ID: <1595318497.29149.3.camel@suse.de>
-Subject: Re: System crash/lockup after plugging CDC ACM device
-From:   Oliver Neukum <oneukum@suse.de>
-To:     David Guillen Fandos <david@davidgf.net>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Date:   Tue, 21 Jul 2020 10:01:37 +0200
-In-Reply-To: <ed743fe1e0ede6d37bc4a62ba704f51c54c2f5bf.camel@davidgf.net>
-References: <9778f9b8a8604e2c13979ea6909678c23cd286cb.camel@davidgf.net>
-         <20200715093029.GB2759174@kroah.com>
-         <867592c41350b09a0cb67e9a3924f8a2f758d79a.camel@davidgf.net>
-         <20200715105034.GB2880893@kroah.com>
-         <956ec3169eec6b121339ed6c1aedd0f7ca08db43.camel@davidgf.net>
-         <20200715111210.GA2892661@kroah.com>
-         <ed743fe1e0ede6d37bc4a62ba704f51c54c2f5bf.camel@davidgf.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726469AbgGUI1l (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Jul 2020 04:27:41 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E9CC020714;
+        Tue, 21 Jul 2020 08:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595320061;
+        bh=I//y4Qz9IX3t5JUGItlkn56iaw4KzS5UTrB2SAe8gE0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZZ8dhI+wal+AI55W5FodivCmeA2FeWazjf13Whvz4nwT+n98ai3vcEajtLEkooEfm
+         MYaweIeafs7EzhiCx0DDNFoEM0BT1F/NJBNlBCGUqptvv3EKrIrZC6vG5RpH4KSa94
+         cc+eRTfXXuELKC/3njxKlGn7diDrnEoOoyXLpC/s=
+Date:   Tue, 21 Jul 2020 10:27:49 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Peilin Ye <yepeilin.cs@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        syzkaller-bugs@googlegroups.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] usbhid: Fix slab-out-of-bounds
+ write in hiddev_ioctl_usage()
+Message-ID: <20200721082749.GB1659990@kroah.com>
+References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
+ <20200720115400.GI2549@kadam>
+ <20200720121257.GJ2571@kadam>
+ <20200720191656.GA3366@PWN>
+ <20200721071637.GK2571@kadam>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200721071637.GK2571@kadam>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Mittwoch, den 15.07.2020, 13:20 +0200 schrieb David Guillen Fandos:
-> Shouldn't the kernel be resilient to such devices? I've developed quite
-> a few USB devices in the past and I've never ran into things like this
-> on Linux
+On Tue, Jul 21, 2020 at 10:16:37AM +0300, Dan Carpenter wrote:
+> For some reason the reply-to header on your email is bogus:
+> 
+> Reply-To: 20200720121257.GJ2571@kadam
+> 
+> "kadam" is a system on my home network.
 
-
-Yes. Unfortunately we do not know which module is crashing here.
-It may be as simple as CDC-ACM retrying without a delay or giving
-up. Or this is in usbcore. Could you initially try without
-CDC-ACM, so we can narrow this down? And tehn we can try with
-dynamic debugging or thought what can be done.
-
-And thank you for identifying the root cause for the malfunction.
-Yet you are clearly right that even such a device should not crash the
-kernel.
-
-	Regards
-		Oliver
+That's your message-id :)
 
