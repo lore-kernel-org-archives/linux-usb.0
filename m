@@ -2,161 +2,987 @@ Return-Path: <SRS0=s2B8=BA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1FCEC433E4
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 09:48:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B90C433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 10:11:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFB142072E
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 09:48:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595324887;
-	bh=fewzulx0sXM9hu4e0oE2cq/l0SHIfo9dR9WvWfCLC38=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=wwiiBvGJBfu/OY5qP82XofJ20In4y0/3YzmfPZGw7uPHWkwF+ALGkSYhTuuUapyOD
-	 4iWNkNMl31OHVvxDWnqDI4v5ZX/yq4z0gM389eoBT7OQkbSJ5gSH2lPlFk92rnGhtx
-	 XTBYiFXoV5WCgJDRqU1KyT8S+kAhubJFIsPcx/vI=
+	by mail.kernel.org (Postfix) with ESMTP id E55C020771
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 10:11:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGzU+yxv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729016AbgGUJsH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jul 2020 05:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38882 "EHLO
+        id S1728005AbgGUKLN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jul 2020 06:11:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728963AbgGUJsG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jul 2020 05:48:06 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B941C061794;
-        Tue, 21 Jul 2020 02:48:06 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id i19so6086515lfj.8;
-        Tue, 21 Jul 2020 02:48:06 -0700 (PDT)
+        with ESMTP id S1726147AbgGUKLM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jul 2020 06:11:12 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E81DC061794;
+        Tue, 21 Jul 2020 03:11:12 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id k13so2387578lfo.0;
+        Tue, 21 Jul 2020 03:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=7wunV2ExdV89dWEoZPnYy/3JPsFVGoQ7tDA3ou4ObdQ=;
-        b=sPMrBqUcqLyd18Nf5OihoaB26bn/O/uwHcKyIMuRfy1j5mV9D83Dx3qQqiI53LjZ39
-         WErNKKJHGPufEGjgj/epsZLv3T6gcHrFoP8EmLZqfm1hK93jUvSDZa5AVZKDBUMz1X/5
-         59h4CstrQhEoG6cNF+Web7BLarRz2jg7BavRxiMN5URiV7it6uAnHEOsP1skd0NhPw3v
-         gzv7siKwnAVpoxUlMDS1ZbjUUjtF0OmZ23xFbImBRoKJhnxl/1nQ1fJjns9LwwkWE6R1
-         uKWYXwmnluw9B7VBzCgn1kDIhHoo1Mf90mMRFCdOn+A3EhmJBuJrXuxdz8Si9v0BsC8f
-         IV/w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AqegAVUUDavgK7hfl9iCh0mu9TjHfNDN9kX05QgdHaQ=;
+        b=RGzU+yxvmwHfzXaXCzU5giD6tiPNdHiVr5RUtzajbTbN0h+eoSZQvrMwQtAg9qViSe
+         Hps+RuNPMAa0dbJMVuO+t5uNu16ScgnIwrmj4kweUEjRlTUGAvj9d5MREMWf832oAvS7
+         CFiMO5jGoJiDeeygW3a+1mSr+0WxHbodbsa3ZApQmQ98xeA03lDFedyBi25UQsNFp1Xh
+         ViNEOvqbgQlvmTN8h3Dy7xV2tZlVuDTRE4dT20Lx1tNZEeNsEqTpnpr3aD2C6WQviKkp
+         rvrahSJfCmLixQ28tqGM500sDH2yNGi27NlfgKEUothrc7llAhdhl4oC2zVhh3F3zzIj
+         UUow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=7wunV2ExdV89dWEoZPnYy/3JPsFVGoQ7tDA3ou4ObdQ=;
-        b=p4inFEd41ohnUGfQT5Za+pndOrx+Yg0Tofkx78hh4AwvmM1Plap/gkikWWkkc90QLx
-         bwECWzE4793hhLqy8R1o60svvJm2D1ycW/GCdCoQduQL5GcdE0FjRjY0td+7Rb/UeggW
-         GIJ6sWGJvAX0Y+98wS3JQ7++TIYU4Yf46JMVkb0UfxiKKNgbkrAxu0mE79h0fNThBI4X
-         UK8X01FprcVP08pbh0iSQEL/DG3k5neszmXwSFXG/odbauycW6oB3jIXFgKpJ7uBsUxa
-         mLaMZtud3U2l22amyHLncPD5/HJyjLjF9rz1Ll8ppEEbbS8a83A5YNZ52gMZ9HjMZXaG
-         F3Yg==
-X-Gm-Message-State: AOAM5330prt6x+hvY1QKOxmUCJlWfT05xFtVI9MLszysjObEJQabmJ3S
-        oqeQY5UH5+xcLCrn7WTGR4crDhUcLuRfpA==
-X-Google-Smtp-Source: ABdhPJynB8qlKtpSomVyCX1Z2Rp34rWVjRCdLC/W6YvpOF2RYCUh8DCFP3S2yyWzCBX+v+Px3ubKIg==
-X-Received: by 2002:a05:6512:74f:: with SMTP id c15mr13283968lfs.26.1595324884741;
-        Tue, 21 Jul 2020 02:48:04 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id d23sm4964236lfm.85.2020.07.21.02.48.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 21 Jul 2020 02:48:03 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
-        Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
-        Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>
-Cc:     "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <John.Youn@synopsys.com>,
-        "gregkh\@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "devicetree\@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v3 3/4] usb: dwc3: Add device property sgl-trb-cache-size-quirk
-In-Reply-To: <2f61133b-319d-80dc-f3f3-7e08e0228953@synopsys.com>
-References: <cover.1590415123.git.joglekar@synopsys.com> <83eba2e9f0069f20ccc94537e3b99cbaec209441.1590415123.git.joglekar@synopsys.com> <5534d9d6-5452-dade-e46e-f4b0910becdb@synopsys.com> <877dvhqh2e.fsf@kernel.org> <2f61133b-319d-80dc-f3f3-7e08e0228953@synopsys.com>
-Date:   Tue, 21 Jul 2020 12:47:59 +0300
-Message-ID: <878sfdp5bk.fsf@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AqegAVUUDavgK7hfl9iCh0mu9TjHfNDN9kX05QgdHaQ=;
+        b=kIpksAza/wanZaCpgp7/nkCV/6TPh6E74sgILZvvumprc+y2UmoyxxdRM+RlFqA2pF
+         8PcrjEL2QPNe3A6It33/tP+ds8Fc0MiQ23jEkRhgYhdLjsALgNLVAFCByBTNqnf7mEKP
+         +f0Ebu7Ue2KHxyjUoNu+4honUOly0okFmRix9km8GbJ6zUa/cWRILa/NY23d8O1ea4ws
+         GKOfKifN0MiJTib0rQ9Fyoq57WIX5BZRq5MG9ZBP6VHfsfk7UCfxLo092DcwTqkJwigb
+         RpSl6mb9+ZLH2HPMhVe2zQcZ/gX4GT+e+jnj5DhwXWb34GnZn7FfAlfWbeR2ezqcD64b
+         G5Xw==
+X-Gm-Message-State: AOAM533WbxZ3lh7UTXc517bku0b4lrXo3c0mgSl+PybGN2QK7E9aFVKC
+        J5MwHxMLzobNm5PLRdwcVrPvOijnERi98YHA2Hs=
+X-Google-Smtp-Source: ABdhPJwf6QuxwK93KoJzNxQ6mPhVUKpq7VTDCkWgAovorllG16KuPBZxGujy2vDx4LA3S54xvpPBzVNnZ+zq+d+JhNw=
+X-Received: by 2002:ac2:4294:: with SMTP id m20mr9463978lfh.147.1595326270432;
+ Tue, 21 Jul 2020 03:11:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <20200717121642.41022-1-jaap.aarts1@gmail.com> <6a5bcebd-379b-58d8-ac26-0bb2a27b9291@roeck-us.net>
+ <CACtzdJ0AmukhtzAtL5Vj5p52nCd5hQ77gPWVpYb4YBo2n6QfdA@mail.gmail.com> <24b5dcf4-076c-427c-41b3-32a2220f755b@roeck-us.net>
+In-Reply-To: <24b5dcf4-076c-427c-41b3-32a2220f755b@roeck-us.net>
+From:   jaap aarts <jaap.aarts1@gmail.com>
+Date:   Tue, 21 Jul 2020 12:10:59 +0200
+Message-ID: <CACtzdJ06qqrhrQhSetjHnkE11+x5qgs62LCN53aTL0Sidg1GTA@mail.gmail.com>
+Subject: Re: [PATCH V2] hwmon: add fan/pwm driver for corsair h100i platinum
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hello Guenter,
 
-Tejas Joglekar <Tejas.Joglekar@synopsys.com> writes:
+Is there still interest in this driver? I got a way of not needing the
+dynamic clusterfuck in `hwmon_init` and could send in v3
+with that, the 0day issues fixed and remove the 100s timeout.
 
-> Hi Rob,
+I send this message in private by accident, sorry about that.
+
+Jaap Aarts
+
+On Sat, 18 Jul 2020 at 17:10, Guenter Roeck <linux@roeck-us.net> wrote:
 >
-> On 7/6/2020 12:13 PM, Felipe Balbi wrote:
->>=20
->> Hi,
->>=20
->> Tejas Joglekar <Tejas.Joglekar@synopsys.com> writes:
->>>> @@ -95,6 +95,10 @@ int dwc3_host_init(struct dwc3 *dwc)
->>>>  	if (dwc->usb2_lpm_disable)
->>>>  		props[prop_idx++] =3D PROPERTY_ENTRY_BOOL("usb2-lpm-disable");
->>>>=20=20
->>>> +	if (dwc->sgl_trb_cache_size_quirk)
->>>> +		props[prop_idx++] =3D
->>>> +			PROPERTY_ENTRY_BOOL("sgl-trb-cache-size-quirk");
->>>> +
->>>>  	/**
->>>>  	 * WORKAROUND: dwc3 revisions <=3D3.00a have a limitation
->>>>  	 * where Port Disable command doesn't work.
->>>>
->>> Does this implementation looks good to you? Rob has some concerned over=
- the DT entries,
->>> you suggested using compatible string with this quirk addition.
->>> Can you please brief about how you would like to have this quirk implem=
-ented?
->>> I can send the updated patch. My patch series is pending for merge just=
- because of the
->>> DT and quirk issue. Can you please help?
->>=20
->> Yeah, you need to get into an agreement with Rob :-) I don't mind having
->> extra DT flags for things which can't be detected in runtime, Rob
->> disagrees.
->>=20
-> The compatible string is not suitable option as it does not work with pla=
-tform drivers
-> with PCI based system. Also Synopsys controllers IP version register is n=
-ot visible to xhci
-> driver and hence we don't have separate compatible string for each Synops=
-ys version on the
-> xhci driver side.=20
-> Due to which I depend on DT flag addition for the quirk. Can we add these=
- DT flags and quirk?
-
-As I said, I'm well aware of the situation regarding usage of compatible
-strings and the fact that dwc3 must work on PCI and non-PCI systems (I
-wrote the thing as it is after all). The person blocking new quirk flags
-is Rob, not me. You need to convince Rob that this is the way to go.
-
-Rob, ball's in your court. Sorry.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8Wuc8ACgkQzL64meEa
-mQajFg/+OrB8kftTAnhyjxcw+b5fL1n7lUgHqcXF1BNTWFia0/tfNkcW/XNjbPbv
-V50OdZ4SUdOQGvrmALzxGve+SSs55QLvRfA+e3VzAL9KYpDXLmp+3habfuIRHgDC
-JojlvbYKWevMma727Oj5vrdmbLmoLpivT1kcf5+RT+AXS1P8ujWKwj4nnMQgO0KZ
-FAVKSMB84Uam3sEn49eBFxGJNipdl3M1NBI/E39RTN9MaF9Y56cKMWtXC+VqZ+DQ
-bU0OiBs+YJHIgwfAB3kXk5lF/uuKc9TgAkDPT4XOoMPLVgWi25ZdZSdtI1wXeaxv
-cgiIEY/XUaQMij9+8Wr0Ii87gpLQmRDavANp/7xZRfh5DA/WuPuGpyjabMqkucX5
-hG+FUXv1IGqI1pdwzWlFqS1v2bJUjWEp2iZaXMbq5mmuS9KBgWfm32KsTMDcsrbC
-h76U09ljSIZfVfvtp/+Nroy2RkwPSRoRxmeujcB7gIksH0A9+1dCvco9WjewfHHq
-LDx8MVYOnt0fguKFVVwiebkTlgE17/z89mqFCP1jjFWg96+iwbcUuDdOvl3khPkV
-qxjf8eg0PxwsHunCSlHRA997QmtXckyQdrLyb3j2n6sd0E0+gAdxmL+m9O1/59qQ
-71CLZaeVgojR1Y0esRLVh4r9O6lFV+JCaUyzir/e23fRGahnJ7Y=
-=kiWu
------END PGP SIGNATURE-----
---=-=-=--
+> On 7/18/20 2:33 AM, jaap aarts wrote:
+> > On Sat, 18 Jul 2020 at 01:15, Guenter Roeck <linux@roeck-us.net> wrote:
+> >>
+> >> On 7/17/20 5:16 AM, jaap aarts wrote:
+> >>> Adds fan/pwm support for H100i platinum.
+> >>> Custom temp/fan curves are not supported, however
+> >>> the presets found in the proprietary drivers are available.
+> >>>
+> >>> Signed-off-by: Jaap Aarts <jaap.aarts1@gmail.com>
+> >>
+> >> Most of my comments have not been addressed.
+> >
+> > I replied to your comments, everything I mentioned as fixed/changed
+> > has been addressed in this new patch. You didn't respond to that any
+> > further even though you did reply to my other email. So I thought I
+> > was supposed to just send in v2.
+> >
+>
+> This is incorrect. I did say, for example, that I won't accept things
+> like setting fan curves, and that the driver should provide sets of
+> {temperature, pwm} attributes instead. There are several other comments
+> which were not addressed, such as not using C++ comments and using
+> "if (retval)" instead of "if (retval != 0)". There is still a
+> 100-second timeout. I didn't check any further, but I think that
+> is sufficient to say that several of my comments were not addressed.
+>
+> >> Change log is missing.
+> >
+> > I don't know what you mean, I have a from line, I have a one-line
+> > description of the patch, the email subject just like some other
+> > patches, I have a multi-line description, and a signed-off-by line.
+> > According to the linux docs
+> > (https://www.kernel.org/doc/html/latest/process/5.Posting.html?highlight=changelog#patch-formatting-and-changelogs)
+> > This is what a changelog should be.
+> > If you mean changelog from v1, I mailed about all the fixed/changed
+> > things in this patch. I also send a follow-up email noting that after
+> > some research I found out that this driver should NOT work with
+> > all asetek gen6 based coolers, and that I changed the scope of
+> > the driver to just a single line of corsair products.
+> >
+>
+> I don't see anything along the line of
+>
+> v2:
+> - made this change
+> - made that change
+>
+> in this patch.
+>
+> >> 0-day feedback has not been adressed.
+> >
+> > True, I did not fix all of those, I wasn't sure how to take all of them
+> > since it was a long list.
+>
+> I am not entirely sure how to respond to that. What would be the point
+> of reviewing the code if a simple compile and sanity check reveals
+> several errors, and you state yourself that you did not fix them all ?
+>
+> Guenter
+>
+> > The rest of the 0-day feedback will be fixed next round.
+> >
+> >>
+> >> Guenter
+> >
+> >
+> >>
+> >>> ---
+> >>>  drivers/hwmon/Kconfig               |   6 +
+> >>>  drivers/hwmon/Makefile              |   1 +
+> >>>  drivers/hwmon/corsair_hydro_i_pro.c | 791 ++++++++++++++++++++++++++++
+> >>>  3 files changed, 798 insertions(+)
+> >>>  create mode 100644 drivers/hwmon/corsair_hydro_i_pro.c
+> >>>
+> >>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> >>> index 288ae9f63588..9831a40fb05f 100644
+> >>> --- a/drivers/hwmon/Kconfig
+> >>> +++ b/drivers/hwmon/Kconfig
+> >>> @@ -378,6 +378,12 @@ config SENSORS_ARM_SCPI
+> >>>         and power sensors available on ARM Ltd's SCP based platforms. The
+> >>>         actual number and type of sensors exported depend on the platform.
+> >>>
+> >>> +config SENSORS_CORSAIR_HYDRO_I_PRO
+> >>> +     tristate "Corsair hydro HXXXi pro driver"
+> >>> +     help
+> >>> +       If you say yes here you get support for the corsair hydro HXXXi pro
+> >>> +       range of devices.
+> >>> +
+> >>>  config SENSORS_ASB100
+> >>>       tristate "Asus ASB100 Bach"
+> >>>       depends on X86 && I2C
+> >>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> >>> index 3e32c21f5efe..ec63294b3ef1 100644
+> >>> --- a/drivers/hwmon/Makefile
+> >>> +++ b/drivers/hwmon/Makefile
+> >>> @@ -20,6 +20,7 @@ obj-$(CONFIG_SENSORS_W83793)        += w83793.o
+> >>>  obj-$(CONFIG_SENSORS_W83795) += w83795.o
+> >>>  obj-$(CONFIG_SENSORS_W83781D)        += w83781d.o
+> >>>  obj-$(CONFIG_SENSORS_W83791D)        += w83791d.o
+> >>> +obj-$(CONFIG_SENSORS_CORSAIR_HYDRO_I_PRO)    += corsair_hydro_i_pro.o
+> >>>
+> >>>  obj-$(CONFIG_SENSORS_AB8500) += abx500.o ab8500.o
+> >>>  obj-$(CONFIG_SENSORS_ABITUGURU)      += abituguru.o
+> >>> diff --git a/drivers/hwmon/corsair_hydro_i_pro.c b/drivers/hwmon/corsair_hydro_i_pro.c
+> >>> new file mode 100644
+> >>> index 000000000000..43bf52d8d365
+> >>> --- /dev/null
+> >>> +++ b/drivers/hwmon/corsair_hydro_i_pro.c
+> >>> @@ -0,0 +1,791 @@
+> >>> +// SPDX-License-Identifier: GPL-2.0-or-later
+> >>> +/*
+> >>> + * A hwmon driver for all corsair hyxro HXXXi pro all-in-one liquid coolers.
+> >>> + * Copyright (c) Jaap Aarts 2020
+> >>> + *
+> >>> + * Protocol reverse engineered by audiohacked
+> >>> + * https://github.com/audiohacked/OpendriverLink
+> >>> + */
+> >>> +
+> >>> +/*
+> >>> + * Supports following liquid coolers:
+> >>> + * H100i platinum
+> >>> + *
+> >>> + * Other products should work with this driver but no testing has been done.
+> >>> + *
+> >>> + * Note: platinum is the codename name for pro within the driver, so H100i platinum = H100i pro.
+> >>> + * But some products are actually calles platinum, these are not intended to be supported.
+> >>> + *
+> >>> + * Note: fan curve control has not been implemented
+> >>> + */
+> >>> +#include <linux/errno.h>
+> >>> +#include <linux/hwmon.h>
+> >>> +#include <linux/kernel.h>
+> >>> +#include <linux/module.h>
+> >>> +#include <linux/slab.h>
+> >>> +#include <linux/usb.h>
+> >>> +
+> >>> +struct hydro_i_pro_device {
+> >>> +     struct usb_device *udev;
+> >>> +
+> >>> +     unsigned char *bulk_out_buffer;
+> >>> +     char *bulk_in_buffer;
+> >>> +     size_t bulk_out_size;
+> >>> +     size_t bulk_in_size;
+> >>> +     char bulk_in_endpointAddr;
+> >>> +     char bulk_out_endpointAddr;
+> >>> +
+> >>> +     struct usb_interface *interface; /* the interface for this device */
+> >>> +     struct semaphore
+> >>> +             limit_sem; /* limiting the number of writes in progress */
+> >>> +};
+> >>> +
+> >>> +struct curve_point {
+> >>> +     uint8_t temp;
+> >>> +     uint8_t pwm;
+> >>> +};
+> >>> +
+> >>> +struct hwmon_fan_data {
+> >>> +     char fan_channel;
+> >>> +     long fan_target;
+> >>> +     unsigned char fan_pwm_target;
+> >>> +     long mode;
+> >>> +     struct curve_point curve[7];
+> >>> +};
+> >>> +
+> >>> +struct hwmon_data {
+> >>> +     struct hydro_i_pro_device *hdev;
+> >>> +     int channel_count;
+> >>> +     void **channel_data;
+> >>> +};
+> >>> +
+> >>> +struct curve_point quiet_curve[] = {
+> >>> +     {
+> >>> +             .temp = 0x1F,
+> >>> +             .pwm = 0x15,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x21,
+> >>> +             .pwm = 0x1E,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x24,
+> >>> +             .pwm = 0x25,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x27,
+> >>> +             .pwm = 0x2D,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x29,
+> >>> +             .pwm = 0x38,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x2C,
+> >>> +             .pwm = 0x4A,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x2F,
+> >>> +             .pwm = 0x64,
+> >>> +     },
+> >>> +};
+> >>> +
+> >>> +struct curve_point balanced_curve[] = {
+> >>> +     {
+> >>> +             .temp = 0x1C,
+> >>> +             .pwm = 0x15,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x1E,
+> >>> +             .pwm = 0x1B,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x20,
+> >>> +             .pwm = 0x23,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x22,
+> >>> +             .pwm = 0x28,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x24,
+> >>> +             .pwm = 0x32,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x27,
+> >>> +             .pwm = 0x48,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x29,
+> >>> +             .pwm = 0x64,
+> >>> +     },
+> >>> +};
+> >>> +
+> >>> +struct curve_point extreme_curve[] = {
+> >>> +     {
+> >>> +             .temp = 0x19,
+> >>> +             .pwm = 0x28,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x1B,
+> >>> +             .pwm = 0x2E,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x1D,
+> >>> +             .pwm = 0x37,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x1E,
+> >>> +             .pwm = 0x41,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x1F,
+> >>> +             .pwm = 0x4C,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x20,
+> >>> +             .pwm = 0x56,
+> >>> +     },
+> >>> +     {
+> >>> +             .temp = 0x21,
+> >>> +             .pwm = 0x64,
+> >>> +     },
+> >>> +};
+> >>> +
+> >>> +#define default_curve quiet_curve
+> >>> +
+> >>> +enum opcodes {
+> >>> +     PWM_FAN_CURVE_CMD = 0x40,
+> >>> +     PWM_GET_CURRENT_CMD = 0x41,
+> >>> +     PWM_FAN_TARGET_CMD = 0x42,
+> >>> +     RPM_FAN_TARGET_CMD = 0x43,
+> >>> +};
+> >>> +
+> >>> +#define SUCCES_LENGTH 3
+> >>> +#define SUCCES_CODE (0x12, 0x34)
+> >>> +static const char SUCCESS[SUCCES_LENGTH - 1] = { 0x12, 0x34 };
+> >>> +
+> >>> +static bool check_succes(enum opcodes command, char ret[SUCCES_LENGTH])
+> >>> +{
+> >>> +     char success[SUCCES_LENGTH] = { command, SUCCES_CODE };
+> >>> +
+> >>> +     return strncmp(ret, success, SUCCES_LENGTH) == 0;
+> >>> +}
+> >>> +
+> >>> +int set_fan_pwm_curve(struct hydro_i_pro_device *hdev,
+> >>> +                   struct hwmon_fan_data *fan_data,
+> >>> +                   struct curve_point point[7])
+> >>> +{
+> >>> +     int retval;
+> >>> +     int wrote;
+> >>> +     int sndpipe = usb_sndbulkpipe(hdev->udev, hdev->bulk_out_endpointAddr);
+> >>> +     int rcvpipe = usb_rcvbulkpipe(hdev->udev, hdev->bulk_in_endpointAddr);
+> >>> +     unsigned char *send_buf = hdev->bulk_out_buffer;
+> >>> +     unsigned char *recv_buf = hdev->bulk_in_buffer;
+> >>> +
+> >>> +     memcpy(fan_data->curve, point, sizeof(fan_data->curve));
+> >>> +
+> >>> +     send_buf[0] = PWM_FAN_CURVE_CMD;
+> >>> +     send_buf[1] = fan_data->fan_channel;
+> >>> +     send_buf[2] = point[0].temp;
+> >>> +     send_buf[3] = point[1].temp;
+> >>> +     send_buf[4] = point[2].temp;
+> >>> +     send_buf[5] = point[3].temp;
+> >>> +     send_buf[6] = point[4].temp;
+> >>> +     send_buf[7] = point[5].temp;
+> >>> +     send_buf[8] = point[6].temp;
+> >>> +     send_buf[9] = point[0].pwm;
+> >>> +     send_buf[10] = point[1].pwm;
+> >>> +     send_buf[11] = point[2].pwm;
+> >>> +     send_buf[12] = point[3].pwm;
+> >>> +     send_buf[13] = point[4].pwm;
+> >>> +     send_buf[14] = point[5].pwm;
+> >>> +     send_buf[15] = point[6].pwm;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, sndpipe, send_buf, 16, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, rcvpipe, recv_buf, 4, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     if (!check_succes(send_buf[0], recv_buf)) {
+> >>> +             dev_info(&hdev->udev->dev,
+> >>> +                      "[*] failed setting fan curve %d,%d,%d/%d\n",
+> >>> +                      recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3]);
+> >>> +             return -EINVAL;
+> >>> +     }
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +int set_fan_target_rpm(struct hydro_i_pro_device *hdev,
+> >>> +                    struct hwmon_fan_data *fan_data, long val)
+> >>> +{
+> >>> +     int retval;
+> >>> +     int wrote;
+> >>> +     int sndpipe = usb_sndbulkpipe(hdev->udev, hdev->bulk_out_endpointAddr);
+> >>> +     int rcvpipe = usb_rcvbulkpipe(hdev->udev, hdev->bulk_in_endpointAddr);
+> >>> +
+> >>> +     unsigned char *send_buf = hdev->bulk_out_buffer;
+> >>> +     unsigned char *recv_buf = hdev->bulk_in_buffer;
+> >>> +
+> >>> +     fan_data->fan_target = val;
+> >>> +     fan_data->fan_pwm_target = 0;
+> >>> +
+> >>> +     send_buf[0] = RPM_FAN_TARGET_CMD;
+> >>> +     send_buf[1] = fan_data->fan_channel;
+> >>> +     send_buf[2] = (fan_data->fan_target >> 8);
+> >>> +     send_buf[3] = fan_data->fan_target;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, sndpipe, send_buf, 4, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, rcvpipe, recv_buf, 6, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     if (!check_succes(send_buf[0], recv_buf)) {
+> >>> +             dev_info(&hdev->udev->dev,
+> >>> +                      "[*] failed setting fan rpm %d,%d,%d/%d\n",
+> >>> +                      recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3]);
+> >>> +             return -EINVAL;
+> >>> +     }
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +int get_fan_current_rpm(struct hydro_i_pro_device *hdev,
+> >>> +                     struct hwmon_fan_data *fan_data, long *val)
+> >>> +{
+> >>> +     int retval;
+> >>> +     int wrote;
+> >>> +     int sndpipe = usb_sndbulkpipe(hdev->udev, hdev->bulk_out_endpointAddr);
+> >>> +     int rcvpipe = usb_rcvbulkpipe(hdev->udev, hdev->bulk_in_endpointAddr);
+> >>> +
+> >>> +     unsigned char *send_buf = hdev->bulk_out_buffer;
+> >>> +     unsigned char *recv_buf = hdev->bulk_in_buffer;
+> >>> +
+> >>> +     send_buf[0] = PWM_GET_CURRENT_CMD;
+> >>> +     send_buf[1] = fan_data->fan_channel;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, sndpipe, send_buf, 2, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, rcvpipe, recv_buf, 6, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     if (!check_succes(send_buf[0], recv_buf) ||
+> >>> +         recv_buf[3] != fan_data->fan_channel) {
+> >>> +             dev_info(&hdev->udev->dev,
+> >>> +                      "[*] failed retrieving fan rmp %d,%d,%d/%d\n",
+> >>> +                      recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3]);
+> >>> +             return -EINVAL;
+> >>> +     }
+> >>> +
+> >>> +     *val = ((recv_buf[4]) << 8) + recv_buf[5];
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +int set_fan_target_pwm(struct hydro_i_pro_device *hdev,
+> >>> +                    struct hwmon_fan_data *fan_data, long val)
+> >>> +{
+> >>> +     int retval;
+> >>> +     int wrote;
+> >>> +     int sndpipe = usb_sndbulkpipe(hdev->udev, hdev->bulk_out_endpointAddr);
+> >>> +     int rcvpipe = usb_rcvbulkpipe(hdev->udev, hdev->bulk_in_endpointAddr);
+> >>> +
+> >>> +     unsigned char *send_buf = hdev->bulk_out_buffer;
+> >>> +     unsigned char *recv_buf = hdev->bulk_in_buffer;
+> >>> +
+> >>> +     fan_data->fan_pwm_target = val;
+> >>> +     fan_data->fan_target = 0;
+> >>> +
+> >>> +     send_buf[0] = PWM_FAN_TARGET_CMD;
+> >>> +     send_buf[1] = fan_data->fan_channel;
+> >>> +     send_buf[3] = fan_data->fan_pwm_target;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, sndpipe, send_buf, 4, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, rcvpipe, recv_buf, 6, &wrote, 100000);
+> >>> +     if (retval != 0)
+> >>> +             return retval;
+> >>> +
+> >>> +     if (!check_succes(send_buf[0], recv_buf)) {
+> >>> +             dev_info(&hdev->udev->dev,
+> >>> +                      "[*] failed setting fan pwm %d,%d,%d/%d\n",
+> >>> +                      recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3]);
+> >>> +             return -EINVAL;
+> >>> +     }
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +umode_t hwmon_is_visible(const void *d, enum hwmon_sensor_types type, u32 attr,
+> >>> +                      int channel)
+> >>> +{
+> >>> +     switch (type) {
+> >>> +     case hwmon_fan:
+> >>> +             switch (attr) {
+> >>> +             case hwmon_fan_input:
+> >>> +                     return 0444;
+> >>> +                     break;
+> >>> +             case hwmon_fan_target:
+> >>> +                     return 0644;
+> >>> +                     break;
+> >>> +             case hwmon_fan_min:
+> >>> +                     return 0444;
+> >>> +                     break;
+> >>> +             default:
+> >>> +                     break;
+> >>> +             }
+> >>> +             break;
+> >>> +     case hwmon_pwm:
+> >>> +             switch (attr) {
+> >>> +             case hwmon_pwm_input:
+> >>> +                     return 0200;
+> >>> +                     break;
+> >>> +             case hwmon_pwm_enable:
+> >>> +                     return 0644;
+> >>> +                     break;
+> >>> +             default:
+> >>> +                     break;
+> >>> +             }
+> >>> +             break;
+> >>> +     default:
+> >>> +             break;
+> >>> +     }
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +static int hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+> >>> +                    u32 attr, int channel, long val)
+> >>> +{
+> >>> +     struct hwmon_data *data = dev_get_drvdata(dev);
+> >>> +     struct hydro_i_pro_device *hdev = data->hdev;
+> >>> +     struct hwmon_fan_data *fan_data;
+> >>> +     int retval = 0;
+> >>> +
+> >>> +     switch (type) {
+> >>> +     case hwmon_fan:
+> >>> +             switch (attr) {
+> >>> +             case hwmon_fan_target:
+> >>> +                     fan_data = data->channel_data[channel];
+> >>> +                     if (fan_data->mode != 1)
+> >>> +                             return -EINVAL;
+> >>> +
+> >>> +                     retval = usb_autopm_get_interface(hdev->interface);
+> >>> +                     if (retval)
+> >>> +                             goto exit;
+> >>> +
+> >>> +                     if (down_trylock(&hdev->limit_sem)) {
+> >>> +                             retval = -EAGAIN;
+> >>> +                             goto cleanup_interface;
+> >>> +                     }
+> >>> +
+> >>> +                     retval = set_fan_target_rpm(hdev, fan_data, val);
+> >>> +                     if (retval)
+> >>> +                             goto cleanup;
+> >>> +
+> >>> +                     break;
+> >>> +             default:
+> >>> +                     return -EINVAL;
+> >>> +             }
+> >>> +             goto exit;
+> >>> +     case hwmon_pwm:
+> >>> +             switch (attr) {
+> >>> +             case hwmon_pwm_input:
+> >>> +                     fan_data = data->channel_data[channel];
+> >>> +                     if (fan_data->mode != 1)
+> >>> +                             return -EINVAL;
+> >>> +
+> >>> +                     retval = usb_autopm_get_interface(hdev->interface);
+> >>> +                     if (retval)
+> >>> +                             goto exit;
+> >>> +
+> >>> +                     if (down_trylock(&hdev->limit_sem)) {
+> >>> +                             retval = -EAGAIN;
+> >>> +                             goto cleanup_interface;
+> >>> +                     }
+> >>> +
+> >>> +                     retval = set_fan_target_pwm(hdev, fan_data, val);
+> >>> +                     if (retval)
+> >>> +                             goto cleanup;
+> >>> +
+> >>> +                     break;
+> >>> +             case hwmon_pwm_enable:
+> >>> +                     fan_data = data->channel_data[channel];
+> >>> +
+> >>> +                     retval = usb_autopm_get_interface(hdev->interface);
+> >>> +                     if (retval)
+> >>> +                             goto exit;
+> >>> +
+> >>> +                     if (down_trylock(&hdev->limit_sem)) {
+> >>> +                             retval = -EAGAIN;
+> >>> +                             goto cleanup_interface;
+> >>> +                     }
+> >>> +                     fan_data->mode = val;
+> >>> +
+> >>> +                     switch (val) {
+> >>> +                     case 0:
+> >>> +                             set_fan_pwm_curve(hdev, fan_data,
+> >>> +                                               default_curve);
+> >>> +                             break;
+> >>> +                     case 1:
+> >>> +                             if (fan_data->fan_target != 0) {
+> >>> +                                     retval = set_fan_target_rpm(
+> >>> +                                             hdev, fan_data,
+> >>> +                                             fan_data->fan_target);
+> >>> +                                     if (retval)
+> >>> +                                             goto cleanup;
+> >>> +                             } else if (fan_data->fan_pwm_target != 0) {
+> >>> +                                     retval = set_fan_target_pwm(
+> >>> +                                             hdev, fan_data,
+> >>> +                                             fan_data->fan_pwm_target);
+> >>> +                                     if (retval)
+> >>> +                                             goto cleanup;
+> >>> +                             }
+> >>> +                             break;
+> >>> +                     case 2:
+> >>> +                             set_fan_pwm_curve(hdev, fan_data, quiet_curve);
+> >>> +                             break;
+> >>> +                     case 3:
+> >>> +                             set_fan_pwm_curve(hdev, fan_data,
+> >>> +                                               balanced_curve);
+> >>> +                             break;
+> >>> +                     case 4:
+> >>> +                             set_fan_pwm_curve(hdev, fan_data,
+> >>> +                                               extreme_curve);
+> >>> +                             break;
+> >>> +                     }
+> >>> +                     break;
+> >>> +             default:
+> >>> +                     return -EINVAL;
+> >>> +             }
+> >>> +             goto exit;
+> >>> +     default:
+> >>> +             return -EINVAL;
+> >>> +     }
+> >>> +
+> >>> +cleanup:
+> >>> +     up(&hdev->limit_sem);
+> >>> +cleanup_interface:
+> >>> +     usb_autopm_put_interface(hdev->interface);
+> >>> +exit:
+> >>> +     return retval;
+> >>> +}
+> >>> +
+> >>> +int hwmon_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+> >>> +            int channel, long *val)
+> >>> +{
+> >>> +     struct hwmon_data *data = dev_get_drvdata(dev);
+> >>> +     struct hydro_i_pro_device *hdev = data->hdev;
+> >>> +     struct hwmon_fan_data *fan_data;
+> >>> +     int retval = 0;
+> >>> +
+> >>> +     if (channel >= data->channel_count)
+> >>> +             return -EAGAIN;
+> >>> +
+> >>> +     switch (type) {
+> >>> +     case hwmon_fan:
+> >>> +             switch (attr) {
+> >>> +             case hwmon_fan_input:
+> >>> +                     fan_data = data->channel_data[channel];
+> >>> +
+> >>> +                     retval = usb_autopm_get_interface(hdev->interface);
+> >>> +                     if (retval)
+> >>> +                             goto exit;
+> >>> +
+> >>> +                     if (down_trylock(&hdev->limit_sem)) {
+> >>> +                             retval = -EAGAIN;
+> >>> +                             goto cleanup_interface;
+> >>> +                     }
+> >>> +
+> >>> +                     retval = get_fan_current_rpm(hdev, fan_data, val);
+> >>> +                     if (retval)
+> >>> +                             goto cleanup;
+> >>> +
+> >>> +                     goto cleanup;
+> >>> +             case hwmon_fan_target:
+> >>> +                     fan_data = data->channel_data[channel];
+> >>> +                     if (fan_data->mode != 1) {
+> >>> +                             *val = 0;
+> >>> +                             goto exit;
+> >>> +                     }
+> >>> +                     *val = fan_data->fan_target;
+> >>> +                     goto exit;
+> >>> +             case hwmon_fan_min:
+> >>> +                     *val = 200;
+> >>> +                     goto exit;
+> >>> +
+> >>> +             default:
+> >>> +                     return -EINVAL;
+> >>> +             }
+> >>> +             goto exit;
+> >>> +
+> >>> +     case hwmon_pwm:
+> >>> +             switch (attr) {
+> >>> +             case hwmon_pwm_enable:
+> >>> +                     fan_data = data->channel_data[channel];
+> >>> +                     *val = fan_data->mode;
+> >>> +                     goto exit;
+> >>> +             default:
+> >>> +                     return -EINVAL;
+> >>> +             }
+> >>> +             goto exit;
+> >>> +
+> >>> +     default:
+> >>> +             return -EINVAL;
+> >>> +     }
+> >>> +
+> >>> +cleanup:
+> >>> +     up(&hdev->limit_sem);
+> >>> +cleanup_interface:
+> >>> +     usb_autopm_put_interface(hdev->interface);
+> >>> +exit:
+> >>> +     return retval;
+> >>> +}
+> >>> +
+> >>> +#define fan_config (HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_MIN)
+> >>> +#define pwm_config (HWMON_PWM_INPUT | HWMON_PWM_ENABLE)
+> >>> +
+> >>> +static const struct hwmon_ops i_pro_ops = {
+> >>> +     .is_visible = hwmon_is_visible,
+> >>> +     .read = hwmon_read,
+> >>> +     .write = hwmon_write,
+> >>> +};
+> >>> +
+> >>> +bool does_fan_exist(struct hydro_i_pro_device *hdev, int channel)
+> >>> +{
+> >>> +     int retval;
+> >>> +     int wrote;
+> >>> +     int sndpipe = usb_sndbulkpipe(hdev->udev, hdev->bulk_out_endpointAddr);
+> >>> +     int rcvpipe = usb_rcvbulkpipe(hdev->udev, hdev->bulk_in_endpointAddr);
+> >>> +
+> >>> +     unsigned char *send_buf = hdev->bulk_out_buffer;
+> >>> +     unsigned char *recv_buf = hdev->bulk_in_buffer;
+> >>> +
+> >>> +     send_buf[0] = RPM_FAN_TARGET_CMD;
+> >>> +     send_buf[1] = channel;
+> >>> +     send_buf[2] = (600 >> 8);
+> >>> +     send_buf[3] = (unsigned char)600;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, sndpipe, send_buf, 4, &wrote, 100);
+> >>> +     if (retval != 0)
+> >>> +             return false;
+> >>> +
+> >>> +     retval = usb_bulk_msg(hdev->udev, rcvpipe, recv_buf, 6, &wrote, 100000);
+> >>> +     if (retval != 0)
+> >>> +             return false;
+> >>> +
+> >>> +     if (!check_succes(send_buf[0], recv_buf))
+> >>> +             return false;
+> >>> +     return true;
+> >>> +}
+> >>> +
+> >>> +int get_fan_count(struct hydro_i_pro_device *hdev)
+> >>> +{
+> >>> +     int fan;
+> >>> +
+> >>> +     for (fan = 0; does_fan_exist(hdev, fan); fan += 1)
+> >>> +             ;
+> >>> +     return fan;
+> >>> +}
+> >>> +
+> >>> +void hwmon_init(struct hydro_i_pro_device *hdev)
+> >>> +{
+> >>> +     int fan_id;
+> >>> +     struct device *hwmon_dev;
+> >>> +     struct hwmon_fan_data *fan;
+> >>> +     struct hwmon_data *data = devm_kzalloc(
+> >>> +             &hdev->udev->dev, sizeof(struct hwmon_data), GFP_KERNEL);
+> >>> +     struct hwmon_chip_info *hwmon_info = devm_kzalloc(
+> >>> +             &hdev->udev->dev, sizeof(struct hwmon_chip_info), GFP_KERNEL);
+> >>> +     //Allocate the info table
+> >>> +     struct hwmon_channel_info **aio_info =
+> >>> +             devm_kzalloc(&hdev->udev->dev,
+> >>> +                          sizeof(struct hwmon_channel_info *) * 2,
+> >>> +                          GFP_KERNEL); //2 for each channel info.
+> >>> +
+> >>> +     //Allocate the fan and PWM configuration
+> >>> +     u32 *fans_config = devm_kzalloc(&hdev->udev->dev,
+> >>> +                                     sizeof(u32) * (data->channel_count + 1),
+> >>> +                                     GFP_KERNEL);
+> >>> +     u32 *pwms_config = devm_kzalloc(&hdev->udev->dev,
+> >>> +                                     sizeof(u32) * (data->channel_count + 1),
+> >>> +                                     GFP_KERNEL);
+> >>> +
+> >>> +     data->channel_count = get_fan_count(hdev); //amount of fans
+> >>> +     data->channel_data =
+> >>> +             devm_kzalloc(&hdev->udev->dev,
+> >>> +                          sizeof(char *) * data->channel_count, GFP_KERNEL);
+> >>> +
+> >>> +     //For each fan create a data channel a fan config entry and a pwm config entry
+> >>> +     for (fan_id = 0; fan_id <= data->channel_count; fan_id++) {
+> >>> +             fan = devm_kzalloc(&hdev->udev->dev,
+> >>> +                                sizeof(struct hwmon_fan_data), GFP_KERNEL);
+> >>> +             fan->fan_channel = fan_id;
+> >>> +             fan->mode = 2;
+> >>> +             data->channel_data[fan_id] = fan;
+> >>> +             fans_config[fan_id] = fan_config;
+> >>> +             pwms_config[fan_id] = pwm_config;
+> >>> +     }
+> >>> +     fans_config[data->channel_count] = 0;
+> >>> +     pwms_config[data->channel_count] = 0;
+> >>> +
+> >>> +     aio_info[0] =
+> >>> +             devm_kzalloc(&hdev->udev->dev,
+> >>> +                          sizeof(struct hwmon_channel_info), GFP_KERNEL);
+> >>> +     aio_info[0]->type = hwmon_fan;
+> >>> +     aio_info[0]->config = fans_config;
+> >>> +
+> >>> +     aio_info[1] =
+> >>> +             devm_kzalloc(&hdev->udev->dev,
+> >>> +                          sizeof(struct hwmon_channel_info), GFP_KERNEL);
+> >>> +     aio_info[1]->type = hwmon_pwm;
+> >>> +     aio_info[1]->config = pwms_config;
+> >>> +
+> >>> +     hwmon_info->ops = &i_pro_ops;
+> >>> +     hwmon_info->info = (const struct hwmon_channel_info **)aio_info;
+> >>> +
+> >>> +     data->hdev = hdev;
+> >>> +     hwmon_dev = devm_hwmon_device_register_with_info(
+> >>> +             &hdev->udev->dev, "driver_fan", data, hwmon_info, NULL);
+> >>> +     dev_info(&hdev->udev->dev, "[*] Setup hwmon\n");
+> >>> +}
+> >>> +
+> >>> +/*
+> >>> + * Devices that work with this driver.
+> >>> + * More devices should work, however none have been tested.
+> >>> + */
+> >>> +static const struct usb_device_id astk_table[] = {
+> >>> +     { USB_DEVICE(0x1b1c, 0x0c15) },
+> >>> +     {},
+> >>> +};
+> >>> +
+> >>> +MODULE_DEVICE_TABLE(usb, astk_table);
+> >>> +
+> >>> +int init_device(struct usb_device *udev)
+> >>> +{
+> >>> +     int retval;
+> >>> +
+> >>> +     //This is needed because when running windows in a vm with proprietary driver
+> >>> +     //and you switch to this driver, the device will not respond unless you run this.
+> >>> +     retval = usb_control_msg(udev, usb_sndctrlpipe(udev, 0), 0x00, 0x40,
+> >>> +                              0xffff, 0x0000, 0, 0, 0);
+> >>> +     //this always returns error
+> >>> +     if (retval != 0)
+> >>> +             ;
+> >>> +
+> >>> +     retval = usb_control_msg(udev, usb_sndctrlpipe(udev, 0), 0x02, 0x40,
+> >>> +                              0x0002, 0x0000, 0, 0, 0);
+> >>> +     return retval;
+> >>> +}
+> >>> +
+> >>> +int deinit_device(struct usb_device *udev)
+> >>> +{
+> >>> +     return usb_control_msg(udev, usb_sndctrlpipe(udev, 0), 0x02, 0x40,
+> >>> +                            0x0004, 0x0000, 0, 0, 0);
+> >>> +}
+> >>> +
+> >>> +static void astk_delete(struct hydro_i_pro_device *hdev)
+> >>> +{
+> >>> +     usb_put_intf(hdev->interface);
+> >>> +     usb_put_dev(hdev->udev);
+> >>> +     kfree(hdev->bulk_in_buffer);
+> >>> +     kfree(hdev->bulk_out_buffer);
+> >>> +     kfree(hdev);
+> >>> +}
+> >>> +
+> >>> +static int astk_probe(struct usb_interface *interface,
+> >>> +                   const struct usb_device_id *id)
+> >>> +{
+> >>> +     struct hydro_i_pro_device *hdev;
+> >>> +     int retval;
+> >>> +     struct usb_endpoint_descriptor *bulk_in, *bulk_out;
+> >>> +
+> >>> +     hdev = kzalloc(sizeof(*hdev), GFP_KERNEL);
+> >>> +     if (!hdev) {
+> >>> +             retval = -ENOMEM;
+> >>> +             goto exit;
+> >>> +     }
+> >>> +
+> >>> +     retval = usb_find_common_endpoints(interface->cur_altsetting, &bulk_in,
+> >>> +                                        &bulk_out, NULL, NULL);
+> >>> +     if (retval != 0)
+> >>> +             goto exit;
+> >>> +
+> >>> +     hdev->udev = usb_get_dev(interface_to_usbdev(interface));
+> >>> +     hdev->interface = usb_get_intf(interface);
+> >>> +
+> >>> +     /* set up the endpoint information */
+> >>> +     /* use only the first bulk-in and bulk-out endpoints */
+> >>> +     hdev->bulk_in_size = usb_endpoint_maxp(bulk_in);
+> >>> +     hdev->bulk_in_buffer = kmalloc(hdev->bulk_in_size, GFP_KERNEL);
+> >>> +     hdev->bulk_in_endpointAddr = bulk_in->bEndpointAddress;
+> >>> +     hdev->bulk_out_size = usb_endpoint_maxp(bulk_out);
+> >>> +     hdev->bulk_out_buffer = kmalloc(hdev->bulk_out_size, GFP_KERNEL);
+> >>> +     hdev->bulk_out_endpointAddr = bulk_out->bEndpointAddress;
+> >>> +
+> >>> +     retval = init_device(hdev->udev);
+> >>> +     if (retval) {
+> >>> +             dev_err(&interface->dev, "failed initialising this device.\n");
+> >>> +             goto exit;
+> >>> +     }
+> >>> +
+> >>> +     hwmon_init(hdev);
+> >>> +
+> >>> +     usb_set_intfdata(interface, hdev);
+> >>> +     sema_init(&hdev->limit_sem, 8);
+> >>> +exit:
+> >>> +     return retval;
+> >>> +}
+> >>> +
+> >>> +static void astk_disconnect(struct usb_interface *interface)
+> >>> +{
+> >>> +     struct hydro_i_pro_device *hdev = usb_get_intfdata(interface);
+> >>> +
+> >>> +     dev_info(&hdev->udev->dev, "[*] DEINIT DEVICE\n");
+> >>> +     usb_set_intfdata(interface, NULL);
+> >>> +     astk_delete(hdev);
+> >>> +     deinit_device(hdev->udev);
+> >>> +}
+> >>> +static int astk_resume(struct usb_interface *intf)
+> >>> +{
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +static int astk_suspend(struct usb_interface *intf, pm_message_t message)
+> >>> +{
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +static struct usb_driver hydro_i_pro_driver = {
+> >>> +     .name = "hydro_i_pro_device",
+> >>> +     .id_table = astk_table,
+> >>> +     .probe = astk_probe,
+> >>> +     .disconnect = astk_disconnect,
+> >>> +     .resume = astk_resume,
+> >>> +     .suspend = astk_suspend,
+> >>> +     .supports_autosuspend = 1,
+> >>> +};
+> >>> +
+> >>> +static int __init hydro_i_pro_init(void)
+> >>> +{
+> >>> +     return usb_register(&hydro_i_pro_driver);
+> >>> +}
+> >>> +
+> >>> +static void __exit hydro_i_pro_exit(void)
+> >>> +{
+> >>> +     usb_deregister(&hydro_i_pro_driver);
+> >>> +}
+> >>> +
+> >>> +module_init(hydro_i_pro_init);
+> >>> +module_exit(hydro_i_pro_exit);
+> >>> +
+> >>> +MODULE_LICENSE("GPL");
+> >>> +MODULE_AUTHOR("Jaap Aarts <jaap.aarts1@gmail.com>");
+> >>> +MODULE_DESCRIPTION("Corsair HXXXi pro device driver");
+> >>>
+> >>
+>
