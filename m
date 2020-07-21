@@ -7,107 +7,91 @@ X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EA0C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 02:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE14C433EB
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 03:34:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9268A20734
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 02:26:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 401E620B1F
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Jul 2020 03:34:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595298377;
-	bh=EBspbZRaoJDchjXfv6Jkm9EQRS6sJiS6iwD1SjsKF/4=;
+	s=default; t=1595302440;
+	bh=/Ruyt31NFI5sI30fJDI/y8nmbFQsM/U3W9lruITyABE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0OUnRrYf64TCay4gwHIeiE2jnL+Y81CwBR5PxN+5xNHjP4Kdy+2bFJxbP7rra6Z2Y
-	 Jwp2yBwstCwsjbaMssjvhWXjSAHhggxhidnmkYwisRPkkyMZb7/iEVG48vwJX+q8ov
-	 TV1XapgyTl/BFQXUG+NeCagFTDXgIA5kGHp14UL8=
+	b=aG0jqCnRGtr6UG9PkTV8FYUV7i4pPWiu7QBYrqxX1U4pKx8UlwKXGXp699NnFPXVj
+	 CElmNB8oN5oNg48L3DKzoRykWMOTvcfYGF1yduLgrssrE33t9zNC6mVIH9RFBcyQl/
+	 RS6fTRbiVIek62ybQMJ7DXYwgRIILhHDrAES34GQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727991AbgGUC0N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jul 2020 22:26:13 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:42834 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727943AbgGUC0N (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jul 2020 22:26:13 -0400
-Received: by mail-io1-f67.google.com with SMTP id c16so19750375ioi.9;
-        Mon, 20 Jul 2020 19:26:12 -0700 (PDT)
+        id S1728686AbgGUDd5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jul 2020 23:33:57 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:36946 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728032AbgGUDd4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jul 2020 23:33:56 -0400
+Received: by mail-il1-f194.google.com with SMTP id r12so15215112ilh.4;
+        Mon, 20 Jul 2020 20:33:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6vj3lSfjw4PLnJDUUmMQTm22WpU74Eu/O6YRnloAE+8=;
-        b=gkWDpNnyOWG35IPOo2gcwtOFNt0+fw7h1PK3oBzt6Cpgffv1ZcUi8Kcn/Yk9i7wqSw
-         vshIn7BiFTZZKuz/BFAVVEbsfWC1C08heIHydPozh/Z6IXsUZxNon2WTE+lPOSEI8jL5
-         LfBqn/flaVAxL1hcS7DNf9SPLMg6JESMO1SCA/YlyuJQcBVlLGU78q+WcE43twhW+f/P
-         IXQya63RbMyn+Aed4UVyjj8AcvG3eSzec/8XQigXpyQPbcm3fe5TYGiJtJ4mqAfIKjzo
-         G5cp5Cjn4nZvQ7aUoF+LpwCUkPDXxVLpyF7C/vJMskWgv9+uVT4WWGF8cZIcre93JXBp
-         8RhQ==
-X-Gm-Message-State: AOAM531Ig0xJSrnqpyHCB4j0952ep5+Gt7tEBoQxhIyOSozvrLPhlefH
-        57IponO0DQZlquCGVOVl6A==
-X-Google-Smtp-Source: ABdhPJxEK/00Pa5eCbleB8Ee3ciASshoFTq8WjsSJbiKtjebrHlTOsS+V3X97KsODGx7M1gYJjheog==
-X-Received: by 2002:a05:6638:2615:: with SMTP id m21mr28883208jat.134.1595298372319;
-        Mon, 20 Jul 2020 19:26:12 -0700 (PDT)
+        bh=SBcdY3HFaainNH7/Ra9c82Wh/rj6UMBKXbkEBttOuWA=;
+        b=JxM7Mc/7/1XHywFcTOS6vmpY7CJOVRYnGLrE5dMHbrVobFUoPlhn6xTWEruOeUKyFQ
+         99BBLU56lOrT0Ek3Z0sKF7YX1LpfSXuYysg0jWZzWy9lDhCxkO5fyFft9vWIJE12IFM6
+         M//Ufj027hcQpK8vQ9hOKri+4w24WkCN+LP0EKHm+9SlQUSY6YGUSa1kiurs4gFSKSV8
+         n9wpj+wyMX2K0ln00lIrhPSKbJ9D2fgFBIZ63R/4+Nu+0pIl0bSLYGi2BAAITlucU/Fc
+         h53oTmlhMxfPzy9bdBB8t9fIB8K0HCB8Usai1G+YmwoOq+ENQWsca5irnzGE2PpCNvqL
+         dtSA==
+X-Gm-Message-State: AOAM530tbsvQUQCyjLQK/eLydWZqtoELXMQxND6ZsnSA6RJVTk4e3ESA
+        DhDyEbHMhER9hJKdFd1nBg==
+X-Google-Smtp-Source: ABdhPJzQK7HIV/ZdYzlF04FRAnR2t2Iyb81D/LpbBVswH0ZpPuKlVzm71H/c6uxFmJxJiRvZiRiOvQ==
+X-Received: by 2002:a92:6a02:: with SMTP id f2mr23892378ilc.68.1595302434623;
+        Mon, 20 Jul 2020 20:33:54 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id a10sm9731688iln.20.2020.07.20.19.26.10
+        by smtp.gmail.com with ESMTPSA id v15sm9039035ili.28.2020.07.20.20.33.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 19:26:11 -0700 (PDT)
-Received: (nullmailer pid 3409339 invoked by uid 1000);
-        Tue, 21 Jul 2020 02:26:10 -0000
-Date:   Mon, 20 Jul 2020 20:26:10 -0600
+        Mon, 20 Jul 2020 20:33:53 -0700 (PDT)
+Received: (nullmailer pid 3503019 invoked by uid 1000);
+        Tue, 21 Jul 2020 03:33:52 -0000
+Date:   Mon, 20 Jul 2020 21:33:52 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Tobias Schramm <t.schramm@manjaro.org>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: usb-connector: Add support for Type-C
- alternate-modes
-Message-ID: <20200721022610.GA3391383@bogus>
-References: <20200714113617.10470-1-hdegoede@redhat.com>
- <20200714113617.10470-2-hdegoede@redhat.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-i2c@vger.kernel.org, Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Mark Brown <broonie@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-ide@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH 01/20] dt-bindings: pci: rcar-pci: Add device tree
+ support for r8a774e1
+Message-ID: <20200721033352.GA3502973@bogus>
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200714113617.10470-2-hdegoede@redhat.com>
+In-Reply-To: <1594919915-5225-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 01:36:14PM +0200, Hans de Goede wrote:
-> This commit adds the minimum bindings required to allow describing which
-> altmodes a port supports. Currently this is limited to just specifying:
+On Thu, 16 Jul 2020 18:18:16 +0100, Lad Prabhakar wrote:
+> Add PCIe support for the RZ/G2H (a.k.a. R8A774E1).
 > 
-> 1. The svid, which is the id of the altmode, e.g. displayport altmode has
-> a svid of 0xff01.
-> 
-> 2. The vdo, a 32 bit integer, typically used as a bitmask describing the
-> capabilities of the altmode, the bits in the vdo are specified in the
-> specification of the altmode, the dt-binding simply refers to the
-> specification as that is the canonical source of the meaning of the bits.
-
-What if this information should be derived from information already in 
-DT (or would be there if alt mode connections are described)?
-
-> 
-> Later on we may want to extend the binding with extra properties specific
-> to some altmode, but for now this is sufficient to e.g. hook up
-> displayport alternate-mode.
-
-I don't think this is sufficient as it doesn't describe how alternate 
-modes are connected to various components. This has been discussed some 
-here[1] with the CrOS folks. Maybe this is orthogonal, IDK, but I really 
-need something that is somewhat complete and not sprinkle a few new 
-properties at a time.
-
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > ---
-> Note I hope I got the yaml correct, this is my first time writing a
-> dt-binding in the new yaml style. I did run:
-> make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/connector/usb-connector.yaml
-> and that was happy.
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-That aspect of it looks fine.
-
-Rob
-
-[1] https://lkml.org/lkml/2020/4/22/1819
-
+Acked-by: Rob Herring <robh@kernel.org>
