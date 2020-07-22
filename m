@@ -2,97 +2,115 @@ Return-Path: <SRS0=//eN=BB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC30FC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 08:54:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3762DC433E3
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 08:58:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97D86207DD
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 08:54:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 137D22077D
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 08:58:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595408062;
-	bh=CaDI11JmiukfWSXZeYVgRdY+d9Mn9iXBG2S70QjxIt4=;
+	s=default; t=1595408336;
+	bh=R0xVdgqiB7s3O/DqEs6GN9dYzeeYY+lcRy+1jPlzd70=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=vgT+DV5tuoTJSAnCJxI+eA+Tow6e6d2YU0oKrgsqAEi53lrdWBplSgePKtqgjS0P/
-	 8Zo0n5e/ogccEp8r2mlgIDR10gjjG+s0FD9VYsyWpxxYJ198oQIwu0pTCsGfOVTNiq
-	 7LCMAunuFBU2aJLwaVsTjCo98djDGPRcp3iNzIcA=
+	b=Hzm9epen9huajJcScLgTiUXXTdEgrTQw3UGxutZfG7hkctJEBOCeXatTuKx4L4MMw
+	 mpgIRvZ/GNrQy08mYFnEIZgqPJXUNXzGamMmMOZ6FSE4uFIP5DsjsTfhu9V8eEswee
+	 w7z3vKVSCsXcEwXfNP8rVwIxHPNMC/Swrjl7RohQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbgGVIyV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jul 2020 04:54:21 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43293 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726807AbgGVIyU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jul 2020 04:54:20 -0400
-Received: by mail-lj1-f193.google.com with SMTP id f5so1623505ljj.10
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2020 01:54:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VIxyEY5Wm3emWAY7+amjFgiqcLKULhJpDOjWsiR3qFY=;
-        b=BQfdGMtw72mGRBsr3Sc5SK+tHMOtJsm8rflVwzJaaCzBc9MVeDorghwGcQfzEoUSVd
-         ONt57br/17ddCLl37YBhNfVVWXFoKNJurNXtahVATiSco47dVMGvFS0lhqBSfl/eI4TI
-         oX92KbK8tic7qAKYN+TMNH0c1XQxrWrlYTHplECfRSBqtUQeNdOw83tX/c9/L95Jw0Vl
-         VZNnJlKxYx8o25f2hf/vArUQZ/d5DLZzzPchMqoGS8Xliy+NagjoZVJ2mvx00Kgz6ytk
-         18iIIJQPNBRu5GHoddy7XZY9r4ll3jlaWJgcVIAwqV43iu8iQKEp0FwMZkrPyfXELxsp
-         Olaw==
-X-Gm-Message-State: AOAM533mxZI7Z0F8vrAnY4Zf7c1yla3nGKWDdLjeYbWepjvW5nVu+gig
-        yRNIscuzhKsFAUmKDXhiC1I=
-X-Google-Smtp-Source: ABdhPJx23Ua6IEUFW7L9W72x3BlFIQLg/Btf5Y/4pqtuBcGlMZM2QDsT4WDqCPt5wem6IvhLjGyS3A==
-X-Received: by 2002:a2e:2242:: with SMTP id i63mr15421590lji.370.1595408058159;
-        Wed, 22 Jul 2020 01:54:18 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id r11sm6245990ljj.76.2020.07.22.01.54.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2020 01:54:17 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1jyAVw-0005ax-Nf; Wed, 22 Jul 2020 10:54:12 +0200
-Date:   Wed, 22 Jul 2020 10:54:12 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Angelo Dureghello <angelo.dureghello@timesys.com>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-usb@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] USB: serial: add support for MaxLinear XR21V1412
-Message-ID: <20200722085412.GH3634@localhost>
-References: <20200709222126.5055-1-angelo.dureghello@timesys.com>
- <20200714100851.GB3453@localhost>
- <CALJHbkBiRM1=rV_T_c4xHFpg98en3PS3EiQqcM+v_s-Uts3MbA@mail.gmail.com>
+        id S1730713AbgGVI6x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jul 2020 04:58:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726254AbgGVI6x (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 Jul 2020 04:58:53 -0400
+Received: from localhost (p54b33083.dip0.t-ipconnect.de [84.179.48.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 718E92077D;
+        Wed, 22 Jul 2020 08:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595408332;
+        bh=R0xVdgqiB7s3O/DqEs6GN9dYzeeYY+lcRy+1jPlzd70=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W9pwhuYHxVLA9WFvIszWER7midOVsx2uDEZoEd7TXs7QtDMzaybMeyOsADVuqMixq
+         8C9QMQnw9W7brJHXh/UP+CTjQYwzdX6Xnwns3sb58eLqFWn1nspNwOdSNRFNo7rfF/
+         2yWgceNvAxLbxamBwNA/XlbfB8F3vLj4kDrDDu5w=
+Date:   Wed, 22 Jul 2020 10:58:49 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-ide@vger.kernel.org,
+        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-pci@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 02/20] arm64: dts: renesas: r8a774e1: Add PCIe device
+ nodes
+Message-ID: <20200722085849.GF1030@ninjato>
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="1Y7d0dPL928TPQbc"
 Content-Disposition: inline
-In-Reply-To: <CALJHbkBiRM1=rV_T_c4xHFpg98en3PS3EiQqcM+v_s-Uts3MbA@mail.gmail.com>
+In-Reply-To: <1594919915-5225-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 01:16:48PM +0200, Angelo Dureghello wrote:
-> Hi Johan,
-> 
-> On Tue, Jul 14, 2020 at 12:08 PM Johan Hovold <johan@kernel.org> wrote:
 
-> > There was another driver for this device posted recently, and which
-> > appears to have more features:
-> >
-> >         https://lore.kernel.org/r/20200607162350.21297-2-mani@kernel.org
-> >
-> > Would you mind taking a look and see if that one would work for you?
-> 
-> oooh
-> 
-> I grepped for this driver in the mainline, found nothing, so thought
-> it was missing.
-> Probably a check in the mailing list could trigger it.
-> No problem, it was a good exercise that i am happy with.
-> Yes, Manivannan driver seems more feature-rich, sure.
-> 
-> Goung in "idle" mode, let me know if you need anything from my side.
+--1Y7d0dPL928TPQbc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok, thanks! Another pair of eyes on the driver and if you're able to
-test it before merging that would be really great.
+On Thu, Jul 16, 2020 at 06:18:17PM +0100, Lad Prabhakar wrote:
+> Add PCIe{0,1} device nodes for R8A774E1 SoC.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renes=
+as.com>
 
-Johan
+Hmm, doesn't apply on top of 5.8-rc6 for me. Is there a branch to pull
+for easier review?
+
+
+--1Y7d0dPL928TPQbc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8X/8QACgkQFA3kzBSg
+Kbb+qw//biayHVrdtr2LDibooHUV8qi0GGMOUqYzn6LSC97+YHSK+LuSg3RfHW28
+WF9bREAuLpDfZj7B7VKkjk1UN+MBrzOtXvXMmVhenztZQQxBHd8HX+axLFK1HrZ/
+K+3X+jbEsCB/NTac43d0yYFj9IkFBIPVcExN83vJcn4MWYpk6kUPN1yFz5bdLO76
+Jh56YvRaeVbxKfU6rwv4Oho5JjJxbpmjZ3m+yyuT8dp+VEE3cV9aesW3R3Rl2d71
+pV7hc5gr7zIgadYfWUovWX1MzgD4Q0e5H5nLjjOIGYwhj8A6l1JT8n5vw6b3ERbM
+MPBgNHQbohKl9HWcD48LWNQBhH8j4AM9tD7iXxXFeC8olpn+aFFKLV0YK1fqocXE
+EZXT7Pv544SZPZetGfHNEkq9fQkkJ/IzcomQIIfWLCTLw0wc67QwDpE11pphkHg/
+fwcYu54T/WhlUGrmFQmbrXYboytT7CzXFSuZ5VeJZqgi1zDtFqThHjPr/us5E0SA
+Jghh/PHZnWDIYS2MB+revceePGtrEnK8Chu0XMDnfyrh4Naspk88ISX5WLDq8juh
+FBb4W335vVfUJ0ByD1kgErUH6/qxrvcYC5QH0Txk40i2WBt8ISyeEugJir2uS2U6
+M8fJEh5lzVQeKdG8zyI6i+aD+xhktGR66DbOLncW8feW2NB0m9Q=
+=RR4j
+-----END PGP SIGNATURE-----
+
+--1Y7d0dPL928TPQbc--
