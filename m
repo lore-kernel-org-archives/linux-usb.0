@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE3EAC433E6
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 13:44:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEE5C433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 13:44:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B2FD20787
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 13:44:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7017320787
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 13:44:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="WS9qjfzK"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="nlLzWBUD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732526AbgGVNoo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jul 2020 09:44:44 -0400
-Received: from esa2.microchip.iphmx.com ([68.232.149.84]:56875 "EHLO
+        id S1732538AbgGVNor (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jul 2020 09:44:47 -0400
+Received: from esa2.microchip.iphmx.com ([68.232.149.84]:56907 "EHLO
         esa2.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbgGVNol (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jul 2020 09:44:41 -0400
+        with ESMTP id S1732528AbgGVNop (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jul 2020 09:44:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1595425480; x=1626961480;
+  t=1595425485; x=1626961485;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0CglqN8t+sTEsXBUJ/2FtzkYtZYDjKY0BLV6728dXSU=;
-  b=WS9qjfzKFLDzSMyK+9045cMTT70ypwpea088mLWwl3hCYuSCM4r81twM
-   Ozo2HlduM4YjWGYSYZnlSwq+kYl6FgwTYPWtF6tEsWVfQ3rb+lAUYrOoo
-   GhP4rKDH+Oz++hq4pN0CBNj0F3KthZEp52pMLqoO+gdXSGCSNZ6ckMWrL
-   MfFLn3M5vnKiiWOI9D8FL1QqtrGAT0LaZ97uN906X/ujtSh/+Hw0u1i8F
-   vPMMEpspwejzwFEOvm7otAEzfV/ujRLx0Zeth2kdH+hQkPCt/s/BxyBrh
-   +IPJSD8Z0a6lg7TT65g6UiJ90GiBebNLn0CMyvei0NZyDjvajzWRC+bwm
+  bh=AQ4wWOdIKVge/cPSYMb3D9ty6S2PPK3wNKVv4CCqRH8=;
+  b=nlLzWBUDRwgIDh8+POxeg543AT3HANGaEFx4nLx7x+TJIkFukrdgBvka
+   dMK/Ic91FNsK556fW7yeot43WYbVP8FZSKz+yBiOzh6Q9ES7vSxvxn8pF
+   dqba0m2USMAwDO1es+WNEenvvstdQP5cxyfXVu0Ksy7QMc0CWf5nrJtDQ
+   GgCyCGbbjQgM+senwEXoTwpnH53YYsGDmgueSKzV+oFGXQmxFVjpHobPJ
+   Qh/HJxiF1VHSATMBWe8ayOqTai8Tc6P96YujjXrAYyPaUjSlJKPdtk5XQ
+   jBLa3kG3zOLPqX0jXZtodiZvijOHOcs/4WU+v2HCIGxPqfpl6QbaHG2Yb
    g==;
-IronPort-SDR: AXgHdc5hrmjiNfDxEtVSDkRkfo421fQzhy/PbGutmo9wv+W/wmSvJEnSYAQIVtQu0FGhmSvqj+
- 8qA28PUuJHWboRVEgUE5HTr+4ZFxqDcBESUul/Gn7yIGteb3eM/s8GqG9gRrY+LM9YSSXSoABK
- A0yvMsUsnM3pGNxZYpCV3eYmmb4lGSrB0Ty/GcyJ+JKLSETnShRnvjz9kzbxcggFxRX2UW1D//
- l8uLsrVOnNgjCdt7vj19dMwhWSdQRhiZ8keWKytjlSbrsh4CJv2WkvPXaQ9PkwtXPV2zASpjO/
- hfk=
+IronPort-SDR: i+HSXrkki1DPvbMVjDVRBXRvxME0nWWWV776wU6w/EzuTmJ2XRr9NT6vx54gRpARLB6RHVJZ1L
+ UtH8q8aqNmsUR8tlu3aHyJ15q8zW49rvXA4rxYQ/XxY5aaJDiRn703LPXhasKYM84kcij/fZLN
+ eK0kk4LWYtTqHLa7r5N4NFL6AfGcbmCkCdU6DzqFjDiYkzRI76LlUyODkaETEWN3ICRQ9IIlXW
+ z/SmAMbYSUJzCl3xGL/0ykT68CBngqoPRDg9qo+c+3IP+MkDB/+Rug6tROcMBOy+jClfilgyz3
+ BzU=
 X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; 
-   d="scan'208";a="82819495"
+   d="scan'208";a="82819506"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Jul 2020 06:44:35 -0700
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Jul 2020 06:44:44 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Wed, 22 Jul 2020 06:44:34 -0700
+ 15.1.1979.3; Wed, 22 Jul 2020 06:44:44 -0700
 Received: from cristi-P53.amer.actel.com (10.10.115.15) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1979.3 via Frontend Transport; Wed, 22 Jul 2020 06:43:53 -0700
+ 15.1.1979.3 via Frontend Transport; Wed, 22 Jul 2020 06:44:02 -0700
 From:   <cristian.birsan@microchip.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
@@ -58,9 +58,9 @@ To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 CC:     Cristian Birsan <cristian.birsan@microchip.com>
-Subject: [PATCH v3 3/6] usb: gadget: udc: atmel: simplify endpoint allocation
-Date:   Wed, 22 Jul 2020 16:44:18 +0300
-Message-ID: <20200722134421.190741-4-cristian.birsan@microchip.com>
+Subject: [PATCH v3 6/6] ARM: dts: at91: sam9x60ek: enable usb device
+Date:   Wed, 22 Jul 2020 16:44:21 +0300
+Message-ID: <20200722134421.190741-7-cristian.birsan@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200722134421.190741-1-cristian.birsan@microchip.com>
 References: <20200722134421.190741-1-cristian.birsan@microchip.com>
@@ -74,87 +74,70 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Cristian Birsan <cristian.birsan@microchip.com>
 
-Simplify the endpoint allocation and cleanup the code.
+Enable usb device for sam9x60ek board.
 
 Signed-off-by: Cristian Birsan <cristian.birsan@microchip.com>
 ---
- drivers/usb/gadget/udc/atmel_usba_udc.c | 21 ++++++++-------------
- drivers/usb/gadget/udc/atmel_usba_udc.h |  1 -
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ arch/arm/boot/dts/at91-sam9x60ek.dts | 13 +++++++++++++
+ arch/arm/boot/dts/sam9x60.dtsi       | 14 ++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/atmel_usba_udc.c b/drivers/usb/gadget/udc/atmel_usba_udc.c
-index ee2b550aa400..f767708598a4 100644
---- a/drivers/usb/gadget/udc/atmel_usba_udc.c
-+++ b/drivers/usb/gadget/udc/atmel_usba_udc.c
-@@ -1091,8 +1091,6 @@ static struct usb_ep *atmel_usba_match_ep(struct usb_gadget *gadget,
- 				USBA_BF(EPT_SIZE, fls(ep->fifo_size - 1) - 3);
+diff --git a/arch/arm/boot/dts/at91-sam9x60ek.dts b/arch/arm/boot/dts/at91-sam9x60ek.dts
+index a5f5718c711a..984cf596dfe9 100644
+--- a/arch/arm/boot/dts/at91-sam9x60ek.dts
++++ b/arch/arm/boot/dts/at91-sam9x60ek.dts
+@@ -559,6 +559,12 @@ pinctrl_key_gpio_default: pinctrl_key_gpio {
+ 			atmel,pins = <AT91_PIOD 18 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
+ 		};
+ 	};
++
++	usb0 {
++		pinctrl_usba_vbus: usba_vbus {
++			atmel,pins = <AT91_PIOB 16 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
++		};
++	};
+ }; /* pinctrl */
  
- 		ep->ept_cfg |= USBA_BF(BK_NUMBER, ep->nr_banks);
--
--		ep->udc->configured_ep++;
- 	}
+ &pmc {
+@@ -657,6 +663,13 @@ timer1: timer@1 {
+ 	};
+ };
  
- 	return _ep;
-@@ -1786,7 +1784,7 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
++&usb0 {
++	atmel,vbus-gpio = <&pioB 16 GPIO_ACTIVE_HIGH>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_usba_vbus>;
++	status = "okay";
++};
++
+ &usb1 {
+ 	num-ports = <3>;
+ 	atmel,vbus-gpio = <0
+diff --git a/arch/arm/boot/dts/sam9x60.dtsi b/arch/arm/boot/dts/sam9x60.dtsi
+index 6763423d64b8..ef0ef8625f25 100644
+--- a/arch/arm/boot/dts/sam9x60.dtsi
++++ b/arch/arm/boot/dts/sam9x60.dtsi
+@@ -69,6 +69,20 @@ ahb {
+ 		#size-cells = <1>;
+ 		ranges;
  
- 	if (status & USBA_END_OF_RESET) {
- 		struct usba_ep *ep0, *ep;
--		int i, n;
-+		int i;
- 
- 		usba_writel(udc, INT_CLR,
- 			USBA_END_OF_RESET|USBA_END_OF_RESUME
-@@ -1834,13 +1832,14 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
- 				"ODD: EP0 configuration is invalid!\n");
- 
- 		/* Preallocate other endpoints */
--		n = fifo_mode ? udc->num_ep : udc->configured_ep;
--		for (i = 1; i < n; i++) {
-+		for (i = 1; i < udc->num_ep; i++) {
- 			ep = &udc->usba_ep[i];
--			usba_ep_writel(ep, CFG, ep->ept_cfg);
--			if (!(usba_ep_readl(ep, CFG) & USBA_EPT_MAPPED))
--				dev_err(&udc->pdev->dev,
--					"ODD: EP%d configuration is invalid!\n", i);
-+			if (ep->ep.claimed) {
-+				usba_ep_writel(ep, CFG, ep->ept_cfg);
-+				if (!(usba_ep_readl(ep, CFG) & USBA_EPT_MAPPED))
-+					dev_err(&udc->pdev->dev,
-+						"ODD: EP%d configuration is invalid!\n", i);
-+			}
- 		}
- 	}
- 
-@@ -2025,9 +2024,6 @@ static int atmel_usba_stop(struct usb_gadget *gadget)
- 	if (udc->vbus_pin)
- 		disable_irq(gpiod_to_irq(udc->vbus_pin));
- 
--	if (fifo_mode == 0)
--		udc->configured_ep = 1;
--
- 	udc->suspended = false;
- 	usba_stop(udc);
- 
-@@ -2155,7 +2151,6 @@ static struct usba_ep * atmel_udc_of_init(struct platform_device *pdev,
- 	if (fifo_mode == 0) {
- 		pp = NULL;
- 		udc->num_ep = udc_config->num_ep;
--		udc->configured_ep = 1;
- 	} else {
- 		udc->num_ep = usba_config_fifo_table(udc);
- 	}
-diff --git a/drivers/usb/gadget/udc/atmel_usba_udc.h b/drivers/usb/gadget/udc/atmel_usba_udc.h
-index 48e332439ed5..a9bf655eb513 100644
---- a/drivers/usb/gadget/udc/atmel_usba_udc.h
-+++ b/drivers/usb/gadget/udc/atmel_usba_udc.h
-@@ -336,7 +336,6 @@ struct usba_udc {
- 	int irq;
- 	struct gpio_desc *vbus_pin;
- 	int num_ep;
--	int configured_ep;
- 	struct usba_fifo_cfg *fifo_cfg;
- 	struct clk *pclk;
- 	struct clk *hclk;
++		usb0: gadget@500000 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			compatible = "microchip,sam9x60-udc";
++			reg = <0x00500000 0x100000
++				0xf803c000 0x400>;
++			interrupts = <23 IRQ_TYPE_LEVEL_HIGH 2>;
++			clocks = <&pmc PMC_TYPE_PERIPHERAL 23>, <&pmc PMC_TYPE_CORE PMC_UTMI>;
++			clock-names = "pclk", "hclk";
++			assigned-clocks = <&pmc PMC_TYPE_CORE PMC_UTMI>;
++			assigned-clock-rates = <480000000>;
++			status = "disabled";
++		};
++
+ 		usb1: ohci@600000 {
+ 			compatible = "atmel,at91rm9200-ohci", "usb-ohci";
+ 			reg = <0x00600000 0x100000>;
 -- 
 2.25.1
 
