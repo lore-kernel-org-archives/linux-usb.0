@@ -2,157 +2,136 @@ Return-Path: <SRS0=//eN=BB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69EEBC433E1
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FED8C433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D93B206E3
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:06:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0754420729
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:19:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="CDbXo7We"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAs2/hCa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726892AbgGVJGy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jul 2020 05:06:54 -0400
-Received: from mail-eopbgr130079.outbound.protection.outlook.com ([40.107.13.79]:29328
-        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726153AbgGVJGy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 Jul 2020 05:06:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bcb6VJ2oxGvmmA8fZNj97jReZ6vF17lBF6WtMzRACxPUgMUoeihGsbnUlQeiAcEtxYbjdpMi52TIIbUVnk5JTqO6pICZMlwZxx1H4/ZOBy9P/FDEmQHYiZ2y9jiI1KFixY6tRs1k/KG84+p7WNyYsM1tVYQUGbUJVZL3JqGAfc5sVC/Rjjh1LKsAGQGFrPUsaBrOU1I75iZjY5fVJmZKv1Pb9JGO4Q8IdyYd9gdGuAHHHH1T0I8sz7UmV4RxB/XwcZjRa8+z8D22tnyfJa/3EBOEXuCiJ+Il19eiaIjhm7mhwuR9SQNFQEircYvlbDteMunXmevpZYhjF0m3MvjNXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3KPlMIdN5G9t+6CDjmEI7Ah/MD8ljvCO+Huv0sbC8X0=;
- b=bMzZ/5sf/Tf7xCJH8yEsdds/PgW2qsWT3QsUHD2dyLRT9jKhYVs3/lUG/mWzQb48VKrtOiHEAJVEtEFxant8Lku3IawYJGld6gq6bSPD8dreS7d1PaeeujOMSX9C/7a0FPbo9p0tkUNLmJRw039nTbpmryeYv4Gu26r+I7ZrpfHeF82EVsCXCB7jD6eXuHNjknT5d82SmChjM7hAKIRlepqnwutIKBROvaLGqEOI/NmaHZG/gseA1t4BeDDL8S+nTk/A3hffN4cKZSdxZ3d+JAfGystrbt4X0qChVSmIVuGs64Uu53gn1Ac8FfLJPMvq/Hqd54h8Dwbz1coeFzrjKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3KPlMIdN5G9t+6CDjmEI7Ah/MD8ljvCO+Huv0sbC8X0=;
- b=CDbXo7We5i3is5uIgysglxuIRUABti4cL82FkuePdAPFCNZeKEGeBb9b9mf5hna5d5TrvSVQuBBbIjGWJAd+AAsmGIkDzo/N44PGySTC9MDP+gIecpqeAtn72+sRKToo/BB80phhMznnolY9mf4meIqQqWwuThd9FcA6plMQ92I=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6517.eurprd04.prod.outlook.com (2603:10a6:20b:f5::12)
- by AM6PR04MB4743.eurprd04.prod.outlook.com (2603:10a6:20b:2::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21; Wed, 22 Jul
- 2020 09:06:48 +0000
-Received: from AM6PR04MB6517.eurprd04.prod.outlook.com
- ([fe80::11a9:bf16:14cb:5821]) by AM6PR04MB6517.eurprd04.prod.outlook.com
- ([fe80::11a9:bf16:14cb:5821%6]) with mapi id 15.20.3216.022; Wed, 22 Jul 2020
- 09:06:48 +0000
-From:   Li Jun <jun.li@nxp.com>
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Subject: [PATCH] usb: dwc3: debugfs: do not queue work if try to change mode on non-drd
-Date:   Wed, 22 Jul 2020 17:02:55 +0800
-Message-Id: <1595408575-13150-1-git-send-email-jun.li@nxp.com>
-X-Mailer: git-send-email 2.7.4
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0063.apcprd02.prod.outlook.com
- (2603:1096:4:54::27) To AM6PR04MB6517.eurprd04.prod.outlook.com
- (2603:10a6:20b:f5::12)
+        id S1728360AbgGVJS5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jul 2020 05:18:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726153AbgGVJS5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jul 2020 05:18:57 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D71C0619DC;
+        Wed, 22 Jul 2020 02:18:57 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id q15so756285vso.9;
+        Wed, 22 Jul 2020 02:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kinsg49RAoAeoKFx4gE6QT8ur/XktSQO/apO/E1SUuk=;
+        b=MAs2/hCaFfZeqtU62i0g5NZLteR8wQMQhlEZxQ3+w4bPb6XtDyQvxMJuPeXlrIOqJR
+         vpGG7cjO36cu4B+DRoVkjsfelhrvASK9oMG9c5is99YPGVN1X3/WytqJgkg5MKJEJcmA
+         iSiDPGLk8usr2Z26x7LmW9j1i9bVijfjculv2CVUmXPnAxaoTNQDwXFg7j6PqBNIX51+
+         cJ4IVlbArWhWNCgnkNZ+xL9h5iz/eBq0sdwMruYCxGHNQs2hNGq/fFRQbD2xd14tdwXN
+         xpvWHw0eVsSuPZR4dyvSFfFmhNC+DfHV2HyWreg2tevxI/NMvwUFpduos9hw/y45c498
+         tNaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kinsg49RAoAeoKFx4gE6QT8ur/XktSQO/apO/E1SUuk=;
+        b=LmJiuzftqakQCsUz9BoY/+cdBPM+CFPY30kDtQZ52OZX0C2GNdsWfo8TyX1gSciark
+         IIAyd+U9RVB2mfxCdAVx6ZDEcpNbJF7Nq21H3B1v4EKAXduO8RYr9d5KW5cYqRdSPoj6
+         IaEZ6c+VGIVsKKJPn/DO0CtsrqraRNVrjEXcWkvgGT//hpT/LAOfcFhTvybh+xAcFmnB
+         /ivmFHGebNBzArd3KaFctV9O1fzTY/yffC1AkzFhoQTsNnC5MPmH33tVb2b7cThpOuAQ
+         CWlOpalFVShwkg8NBhQMbLvuHnVAi3v63F5jD90sXW4Mhhe0K/A64lM7Ut2MmWtK9iey
+         o0WA==
+X-Gm-Message-State: AOAM530Fu+vVpcgYgNL62qZifEaIUFlisGfAsPAaSPgoe2WzIhiQV7R6
+        Me8voT+6m4GVf1SXdGagJM6+1LPch1aRG1PEEnA=
+X-Google-Smtp-Source: ABdhPJww+U423trzUzEsoS7wlKp+8bFRoI7RJGcypygmuZnFcx1FEDMKYSEKzljd2WthEMxN7WTvoK/RR2PBeRitGoY=
+X-Received: by 2002:a67:d086:: with SMTP id s6mr24027045vsi.130.1595409536016;
+ Wed, 22 Jul 2020 02:18:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.67) by SG2PR02CA0063.apcprd02.prod.outlook.com (2603:1096:4:54::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3195.18 via Frontend Transport; Wed, 22 Jul 2020 09:06:46 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.67]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7ed98f22-c6f4-4624-e62d-08d82e1e9070
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4743:
-X-Microsoft-Antispam-PRVS: <AM6PR04MB474384CFA1E67641440870FF89790@AM6PR04MB4743.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:398;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QRBnP/uiCoEv/nLORYiGM2rxMhwVV1qkrBvHoDGcwP7cvDycDPAGS/4sPJLwue+NzbBWYhjajxO0j2/pCCqxLhLWosIQOHAyOOmzQWP5yN+S2wF/2KB0yG+lzHOY0OK2Z1Uj7z8vchy7qy8d+u6GAYEM3cHniEnF+YvS2oczbbd14GTnP8y7IkrtfNocGB468nla8jfJGb3K/COcmUEcFlzrFzEFsJ6/rQj/bU4+ojSIxm8J7o90PVJjfUCegxdFbyL/nMsgCqs03lQilIFQ6dCpK8su5E2cC+4Re2WTps30teLSgVFCeNoXS4e5hpqqY8Judk/jOYDvRnbFV/TagTc0gHg8nhJMLeXQOnK//scjxH4parFmRFPfiS4YXryF
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6517.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(346002)(39860400002)(396003)(136003)(366004)(6666004)(36756003)(5660300002)(8676002)(2616005)(69590400007)(956004)(4326008)(2906002)(6916009)(186003)(86362001)(6486002)(478600001)(316002)(83380400001)(52116002)(6512007)(45080400002)(66556008)(26005)(66946007)(8936002)(66476007)(6506007)(16526019);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 66MhF1JotsuVHcQg3kbwwKAL+mp789r+uLzDdkziYVxAiFjvXaf9M2oQU5MIoVKbVhDG7WT3FlCp5VvzHTWiVHq/8gnZ+KEveZzV1n3RtTlkbQOQEbtAmYWdgw9z+9QRf7zhuCa9Y+4DG9Jl86R15zKLHfvU4/u+ZpwAFCm9e6oR4SNfnVuMKLJHJQ5JVQGCt1aEVARS21uMbon09sotc1lRtxxAWpSiXpijbdOoVjE+AsYyH9LYdquhjX9JyNZ/2akNlfkWtFwZit3tF5fsMVi2vqxmC26Fy/Y2jBMJpoHTkslMvPRLb5FFO1kTFV5K62brbmo5edyoGB69WEYEFVDjKSSOQy8HHmzO6XFRy/E9joh8Fo7snl1qI94umJIMuzMNlydXuXuEHpLtlgCxyTYOIMAKSxMcSNK6oGz5f7mYG7rCFJ6PWap2OmLWII85t90eX1afSMf32MIlbT9YyduKmiv+hrZ9dyZJaDUCx1A=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ed98f22-c6f4-4624-e62d-08d82e1e9070
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6517.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2020 09:06:48.1998
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P34DeZdSx4WFAXX2cvZ6ZkA+Lp+DdzjmIx6+KOqgzTbdLgKEOcRIX34x056Eoiig
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4743
+References: <20200722031640.nobv2bfgex46sngo@pesu.pes.edu> <0000000000001fd19405aaffdc0a@google.com>
+ <20200722091201.2076-1-hdanton@sina.com>
+In-Reply-To: <20200722091201.2076-1-hdanton@sina.com>
+From:   B K Karthik <bk.bk2000.kb@gmail.com>
+Date:   Wed, 22 Jul 2020 14:48:44 +0530
+Message-ID: <CAOEiV1ehZoknZ6b-DOjYxwH2F8UpXO3WXByuM_FcPDOy6=RSSA@mail.gmail.com>
+Subject: Re: WARNING in pvr2_i2c_core_done
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     Markus.Elfring@web.de, andreyknvl@google.com,
+        bkkarthik@pesu.pes.edu, dan.carpenter@oracle.com,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rafael@kernel.org,
+        syzkaller-bugs@googlegroups.com,
+        syzbot <syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Do not try to queue a drd work for change mode if the port is not a drd,
-this is to avoid below kernel dump:
-[   60.115529] ------------[ cut here ]------------
-[   60.120166] WARNING: CPU: 1 PID: 627 at kernel/workqueue.c:1473
-__queue_work+0x46c/0x520
-[   60.128254] Modules linked in:
-[   60.131313] CPU: 1 PID: 627 Comm: sh Not tainted
-5.7.0-rc4-00022-g914a586-dirty #135
-[   60.139054] Hardware name: NXP i.MX8MQ EVK (DT)
-[   60.143585] pstate: a0000085 (NzCv daIf -PAN -UAO)
-[   60.148376] pc : __queue_work+0x46c/0x520
-[   60.152385] lr : __queue_work+0x314/0x520
-[   60.156393] sp : ffff8000124ebc40
-[   60.159705] x29: ffff8000124ebc40 x28: ffff800011808018
-[   60.165018] x27: ffff800011819ef8 x26: ffff800011d39980
-[   60.170331] x25: ffff800011808018 x24: 0000000000000100
-[   60.175643] x23: 0000000000000013 x22: 0000000000000001
-[   60.180955] x21: ffff0000b7c08e00 x20: ffff0000b6c31080
-[   60.186267] x19: ffff0000bb99bc00 x18: 0000000000000000
-[   60.191579] x17: 0000000000000000 x16: 0000000000000000
-[   60.196891] x15: 0000000000000000 x14: 0000000000000000
-[   60.202202] x13: 0000000000000000 x12: 0000000000000000
-[   60.207515] x11: 0000000000000000 x10: 0000000000000040
-[   60.212827] x9 : ffff800011d55460 x8 : ffff800011d55458
-[   60.218138] x7 : ffff0000b7800028 x6 : 0000000000000000
-[   60.223450] x5 : ffff0000b7800000 x4 : 0000000000000000
-[   60.228762] x3 : ffff0000bb997cc0 x2 : 0000000000000001
-[   60.234074] x1 : 0000000000000000 x0 : ffff0000b6c31088
-[   60.239386] Call trace:
-[   60.241834]  __queue_work+0x46c/0x520
-[   60.245496]  queue_work_on+0x6c/0x90
-[   60.249075]  dwc3_set_mode+0x48/0x58
-[   60.252651]  dwc3_mode_write+0xf8/0x150
-[   60.256489]  full_proxy_write+0x5c/0xa8
-[   60.260327]  __vfs_write+0x18/0x40
-[   60.263729]  vfs_write+0xdc/0x1c8
-[   60.267045]  ksys_write+0x68/0xf0
-[   60.270360]  __arm64_sys_write+0x18/0x20
-[   60.274286]  el0_svc_common.constprop.0+0x68/0x160
-[   60.279077]  do_el0_svc+0x20/0x80
-[   60.282394]  el0_sync_handler+0x10c/0x178
-[   60.286403]  el0_sync+0x140/0x180
-[   60.289716] ---[ end trace 70b155582e2b7988 ]---
+On Wed, 22 Jul 2020 at 14:42, Hillf Danton <hdanton@sina.com> wrote:
+>
+>
+> From: syzbot <syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com>
+>
+> Tue, 21 Jul 2020 21:06:10 -0700
+> > Hello,
+> >
+> > syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+> > general protection fault in kernfs_find_ns
+> >
+> > pvrusb2: Invalid write control endpoint
+> > pvrusb2: Invalid write control endpoint
+> > pvrusb2: Invalid write control endpoint
+> > pvrusb2: Invalid write control endpoint
+> > general protection fault, probably for non-canonical address 0xdffffc000000000e: 0000 [#1] SMP KASAN
+> > KASAN: null-ptr-deref in range [0x0000000000000070-0x0000000000000077]
+> > CPU: 0 PID: 78 Comm: pvrusb2-context Not tainted 5.7.0-syzkaller #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > RIP: 0010:kernfs_find_ns+0x31/0x370 fs/kernfs/dir.c:829
+> > Code: 49 89 d6 41 55 41 54 55 48 89 fd 53 48 83 ec 08 e8 f4 61 af ff 48 8d 7d 70 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 03 00 00 48 8d bd 98 00 00 00 48 8b 5d 70 48
+> > RSP: 0018:ffff8881d419f938 EFLAGS: 00010202
+> > RAX: dffffc0000000000 RBX: ffffffff863789c0 RCX: ffffffff85a79ba7
+> > RDX: 000000000000000e RSI: ffffffff81901d1c RDI: 0000000000000070
+> > RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff873ed1e7
+> > R10: fffffbfff0e7da3c R11: 0000000000000001 R12: 0000000000000000
+> > R13: 0000000000000000 R14: 0000000000000000 R15: ffffffff863790e0
+> > FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 00007f3a7e248000 CR3: 00000001d2224000 CR4: 00000000001406f0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > Call Trace:
+> >  kernfs_find_and_get_ns+0x2f/0x60 fs/kernfs/dir.c:906
+> >  kernfs_find_and_get include/linux/kernfs.h:548 [inline]
+> >  sysfs_unmerge_group+0x5d/0x160 fs/sysfs/group.c:366
+> >  dpm_sysfs_remove+0x62/0xb0 drivers/base/power/sysfs.c:790
+>
+> [3]
+>
+> >  device_del+0x18b/0xd20 drivers/base/core.c:2834
+> >  device_unregister+0x22/0xc0 drivers/base/core.c:2889
+> >  i2c_unregister_device include/linux/err.h:41 [inline]
+>
+> [2]
+>
+> >  i2c_client_dev_release+0x39/0x50 drivers/i2c/i2c-core-base.c:465
+> >  device_release+0x71/0x200 drivers/base/core.c:1559
+>
+> [1] kobject_del() goes before the release cb in kobject_cleanup() and
+> kobj is removed from sysfs, see [3] above.
 
-Signed-off-by: Li Jun <jun.li@nxp.com>
----
- drivers/usb/dwc3/debugfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+Oh, thank you for letting me know about this. Forgive me, but I did
+not understand you very clearly.
+I presume you are saying that the second call to
+i2c_unregister_device() is where the problem occurs?
 
-diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
-index 6d9de33..99e7f53 100644
---- a/drivers/usb/dwc3/debugfs.c
-+++ b/drivers/usb/dwc3/debugfs.c
-@@ -428,6 +428,9 @@ static ssize_t dwc3_mode_write(struct file *file,
- 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
- 		return -EFAULT;
- 
-+	if (dwc->dr_mode != USB_DR_MODE_OTG)
-+		return count;
-+
- 	if (!strncmp(buf, "host", 4))
- 		mode = DWC3_GCTL_PRTCAP_HOST;
- 
--- 
-2.7.4
+please let me know.
+thanks,
 
+karthik
