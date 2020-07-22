@@ -2,112 +2,80 @@ Return-Path: <SRS0=//eN=BB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A94C433FB
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C750C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:50:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84BEC20714
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:46:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F6A720729
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 09:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595411458;
+	bh=2MtnZD3NZOUCwF0s7oq0qG9Sq0GkzGWhQnUybbsF6zE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=yVoN/fLYw741r1S8c70hqBb4l5MTIR/5UnE+fVGf7fsmMqNjcTkdjRT7NbJeOCnnA
+	 22j5HVYW10tRitEBtxdmj6s3lK+vHBRX0sbb2hxd3gATXLWT30A5rpOM4Qt7kCyYQd
+	 X4iOhDgSMYOYhemLn8KFgM5B8hBovx7YxdlnCEOg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731875AbgGVJqe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jul 2020 05:46:34 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:59691 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731833AbgGVJqb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jul 2020 05:46:31 -0400
-Received: from localhost.localdomain (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id EAAA1200008;
-        Wed, 22 Jul 2020 09:46:28 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Bastien Nocera <hadess@hadess.net>
-Subject: [PATCH 1/2] USB: Fix device driver race
-Date:   Wed, 22 Jul 2020 11:46:27 +0200
-Message-Id: <20200722094628.4236-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.26.2
+        id S1729025AbgGVJu5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jul 2020 05:50:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49778 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726147AbgGVJu4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 Jul 2020 05:50:56 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99BD420714;
+        Wed, 22 Jul 2020 09:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595411456;
+        bh=2MtnZD3NZOUCwF0s7oq0qG9Sq0GkzGWhQnUybbsF6zE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MPJDZPBxiq/Zlkr9DD0co/pNl0dyLZtclKAN3h6S5tc2b+8teQv+r3TVmyZzW3Dic
+         vbUyR74fvvz4zBwBI96wkesY+dnNeq+yuHtGXZ2Lw0RoVDSyopsm22nkwzZSKUiPSV
+         gYeAEYyZEZP+ixS9enh0ZTzqs2qNCDSoI4+DGyN0=
+Date:   Wed, 22 Jul 2020 11:51:02 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [PATCH 2/2] USB: Fix source path in header
+Message-ID: <20200722095102.GA2816153@kroah.com>
+References: <20200722094628.4236-1-hadess@hadess.net>
+ <20200722094628.4236-2-hadess@hadess.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200722094628.4236-2-hadess@hadess.net>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When a new device with a specialised device driver is plugged in, the
-new driver will be modprobe()'d but the driver core will attach the
-"generic" driver to the device.
+On Wed, Jul 22, 2020 at 11:46:28AM +0200, Bastien Nocera wrote:
+> Signed-off-by: Bastien Nocera <hadess@hadess.net>
 
-After that, nothing will trigger a reprobe when the modprobe()'d device
-driver has finished initialising, as the device has the "generic"
-driver attached to it.
+I can't take patches without any changelog text at all, sorry.
 
-Trigger a reprobe ourselves when new specialised drivers get registered.
+> ---
+>  drivers/usb/core/driver.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> index a6187dd2186c..bd346e683af3 100644
+> --- a/drivers/usb/core/driver.c
+> +++ b/drivers/usb/core/driver.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * drivers/usb/driver.c - most of the driver model stuff for usb
+> + * drivers/usb/core/driver.c - most of the driver model stuff for usb
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
- drivers/usb/core/driver.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+Just drop the whole file name, it's not needed at all.
 
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index f81606c6a35b..a6187dd2186c 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -905,6 +905,30 @@ static int usb_uevent(struct device *dev, struct kobj_uevent_env *env)
- 	return 0;
- }
- 
-+static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
-+{
-+	struct usb_device_driver *udriver = to_usb_device_driver(dev->driver);
-+	struct usb_device *udev = to_usb_device(dev);
-+
-+	if (udriver == &usb_generic_driver &&
-+	    !udev->use_generic_driver)
-+		return device_reprobe(dev);
-+
-+	return 0;
-+}
-+
-+static int __usb_device_driver_added(struct device_driver *drv, void *data)
-+{
-+	struct usb_device_driver *udrv = to_usb_device_driver(drv);
-+
-+	if (udrv->match) {
-+		bus_for_each_dev(&usb_bus_type, NULL, udrv,
-+				 __usb_bus_reprobe_drivers);
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * usb_register_device_driver - register a USB device (not interface) driver
-  * @new_udriver: USB operations for the device driver
-@@ -934,13 +958,16 @@ int usb_register_device_driver(struct usb_device_driver *new_udriver,
- 
- 	retval = driver_register(&new_udriver->drvwrap.driver);
- 
--	if (!retval)
-+	if (!retval) {
-+		bus_for_each_drv(&usb_bus_type, NULL, NULL,
-+				 __usb_device_driver_added);
- 		pr_info("%s: registered new device driver %s\n",
- 			usbcore_name, new_udriver->name);
--	else
-+	} else {
- 		printk(KERN_ERR "%s: error %d registering device "
- 			"	driver %s\n",
- 			usbcore_name, retval, new_udriver->name);
-+	}
- 
- 	return retval;
- }
--- 
-2.26.2
+thanks,
 
+greg k-h
