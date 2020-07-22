@@ -2,129 +2,125 @@ Return-Path: <SRS0=//eN=BB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D42C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 04:30:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2861C433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 05:45:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D9CD20657
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 04:30:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4B03206F5
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jul 2020 05:45:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="ACHf6X1s"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oeaiGdLE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726349AbgGVEaV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jul 2020 00:30:21 -0400
-Received: from mail-eopbgr50083.outbound.protection.outlook.com ([40.107.5.83]:60558
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725843AbgGVEaV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 Jul 2020 00:30:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EnS6TxRCqVBhn7H8lDy3TYpiNvuz7c3MB77Ccx9TmBEeuMzQJC2+U7YJbj9x3WnmbViD4+ouhqWxVpKF95VO5s1k+V83iBj9ByU3CHNgsF3UYSCAYnVUzGivL0WjP9hYRoACU/+Ia77xwl+oTunPEeZiF74xwo2tE5p/xGwWSlr1t8F7tT1WpnQkXmlGgQUhaxLJMUhCp8Bf21+jg5kYivYbPxTMBUC49kuSVQQZNaRYBmrcEw7d602LIeOApIQgLgUlrbDjo4GqIyeq2wkwsHn/3dLeeaGI2YosEoJ2/beeLuwlMkdf+x086dSew6EQv4mBk8gyDDqMK16GisoCAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bWpzrfmnH/ReVOMRo2PU200RufZzX8AiTAo/8Bb/GJ4=;
- b=gZBq02cLbRbpXeW4QLhD/TvXiRSxPjzAC+wF0wJo4s0wPxYSVwt5Dll4XIbgEu77R3Uu+rzGeEknEc8+g1z8O/gFwfABM61ZM+GLIeCTAMAJOG5B0brMsb9SMip06vmUIcQ1qeUU5vIWu4n7OFMS/47tPCMfJwCaq0cGK3QU1/PY35gYCYI6R1+jMVdy+TfJJ2T0ek3IoCA1rGaElQcXyGj1I6nCQXjfnvbwL6IaXPy4VFAZqNPo4InxWr7ivYyFVlbCvBueyQ7SSfFQkdZA4OJMfwp1yr+D1/GYEOb3hbxnkTtVmchEJ2MZdL6CWFEw8pshg5Z5e5GBG9VaUX4n/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bWpzrfmnH/ReVOMRo2PU200RufZzX8AiTAo/8Bb/GJ4=;
- b=ACHf6X1s2beqio4dhrtEir7h6+Td0qFeiJsRz/q+s8PgdPtQnrk+UjWgAecbSrvaieXeHztN6+EsMt/aExsiNXKILxroaB2/Oi7slWDEUg/eArrIuQWNCl+j9qj7EZH1uWgGr1KF7m2vlG1O743Nhc3ZZ1YtJkVvHKfI6eVDchg=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM6PR04MB4166.eurprd04.prod.outlook.com (2603:10a6:209:4b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Wed, 22 Jul
- 2020 04:30:15 +0000
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3195.027; Wed, 22 Jul 2020
- 04:30:15 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     balbi@kernel.org, mathias.nyman@intel.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com, pawell@cadence.com,
-        rogerq@ti.com, jun.li@nxp.com, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH 1/1] usb: cdns3: ep0: delete the unnecessary operation
-Date:   Wed, 22 Jul 2020 12:29:52 +0800
-Message-Id: <20200722042952.8680-1-peter.chen@nxp.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0230.apcprd06.prod.outlook.com
- (2603:1096:4:ac::14) To AM7PR04MB7157.eurprd04.prod.outlook.com
- (2603:10a6:20b:118::20)
+        id S1727876AbgGVFpj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jul 2020 01:45:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727867AbgGVFpi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jul 2020 01:45:38 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E84C061794
+        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2020 22:45:38 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id p7so539749qvl.4
+        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2020 22:45:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=d+Rv9gQvN0AWnY5gVIaLU80kapVHfuJxmwxIwJzoHMk=;
+        b=oeaiGdLEuPXvvGGRyyv+qcZK6w7JgCFRHSlWYaS+2k1K3/r7Ie9nQzla9c0MOfKSkC
+         dqvD7SgQTZ78kaLgmw7+t47lSkF5UPC0I19WU04b5fxCf789jVvYjutLlYQ9w/B8+nBc
+         tf1VHEQSMXBCbRGQJAM2taPToNeuE3wnvoRKs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d+Rv9gQvN0AWnY5gVIaLU80kapVHfuJxmwxIwJzoHMk=;
+        b=TWSQsALos1hKUbSv/fMaRubsxAi4SMhAcGmNOoBlt7nSV4gYv++YM+86BxnKdh453J
+         VHLy/qvTA0ou8NAzSeqTb2RGsJ7ACpBn9pbphViMKMt754rpLoUUJYs/ix/j3CvZ0mY/
+         Y6g7+yhsMfPjn3yjNI7XKGNbXUIm4gAWqHpuD/8ZRzMd2JW2bYFbzd8txPnA4SC1fWLZ
+         HMnmyjU52Y6G9cbfL4r4gk+keS4ZjkRfwo56VdyyV8ASfhRhL34hvFBupVon4tKDQ9v6
+         eNq6Ir4yCVgfOHwG+GHW9Hkjaz6RKew6gT+DIr1esLNLO/tIBOJGWZsQwkXM+N12VYgh
+         ExWw==
+X-Gm-Message-State: AOAM531axl/BAVbiKMVdaAYDWVcZXozac+GwHMj29d9YU9sBY1JtRwQz
+        uwnaWX6wg5ds+AhnOk6DMB1rgUQGnBRW2xFWe+JelA==
+X-Google-Smtp-Source: ABdhPJwNmcfvobOrUb98dXI5/ItCU+Jfs+8us7sPptpHgNxeinrBuclasZ71lmCoP3hx76F/TZbveZYq1JcXE2X9twI=
+X-Received: by 2002:a05:6214:3ac:: with SMTP id m12mr29065289qvy.18.1595396737801;
+ Tue, 21 Jul 2020 22:45:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.67) by SG2PR06CA0230.apcprd06.prod.outlook.com (2603:1096:4:ac::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20 via Frontend Transport; Wed, 22 Jul 2020 04:30:12 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [119.31.174.67]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2cd6db1f-185e-4c19-93c6-08d82df7ee06
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4166:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB416659AB5CC4F904F7A274BC8B790@AM6PR04MB4166.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WId8I6FYuJ8tsOCPN7zo+fjDxNt45jSymJPSDSMHbB3SG263GgrwK103SEcUH1Oi52ixbzLo7yvdxfzZYH+qKWjVkJRF3gVqKCc4yIdNQxmvvjV1sW5n7W3S//zRqQxjDbyY5aVelsg/pcXcFHm+/VYbqxx34VHaLvlAhY78UBZ20mHITdbjCgt1GAQsMxlS614eEVAGxwzYc3UM8J8dlztNLcKUsbqe61Mafa1AIxGWD4GNGcpL1z1mf0lD5kjChka0pTOu9ACBKBw2PFSo7ndlCSK3RrVGZIomJTbHK67pBxC20m5xpg7IriLmVisRf1qmGPEGV6ZWUWBFDvDyag==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(4326008)(478600001)(8676002)(2906002)(1076003)(6506007)(6512007)(5660300002)(44832011)(83380400001)(956004)(316002)(8936002)(2616005)(36756003)(26005)(6486002)(66556008)(66476007)(66946007)(52116002)(16526019)(6666004)(86362001)(186003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: A2/+OnYuSb9TPGrBbwiHVM4X0Nd9eAZ2cnT9TZnRPtSRfTJkx/QyzTE5BXxZSP+Vw3ahoxquXAzTT0sY2BSkhjQhBRMrZAaYbsw91Cu0IUvsmLgFVR5WVn9EDp7KfNOzXqFO8BITIYGjGOpgnY2IIItQ95DFPkAP18JDgxwtQzW2lLRsklVSoDhil7cAKWpF1rBcmBPgaIqUegngi6Wt4xPHecvneBo83STypTJtz5w1p0xOP6+JCH4rGn9LFNbABt1DVvINr7LOFYmkNiAdAiKEwjY0Uqt5QszP+Hv6zDbpqApcz8pMJkSF/FolnhSp0leGWEEn91hgbnOAUCzakqMH2GPufsBfw/+G1Gs+hFdlN8iqTzJZ2RAzFVSGFVcNWG0v05TivA+DLC8KLO5JZ6OtaBYNLqxRmgg8PycezbtUrN0Z36VPl7l+vm6sqB1OkbzrDEydeAIcQUfzhwWfdz1OpfCSB/bhiOPj5xkfBDM=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cd6db1f-185e-4c19-93c6-08d82df7ee06
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2020 04:30:14.9532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Ui/gAQrgywgXWPOesMMv0Wi7ws3tM0AqB9ZU5nt9x1k8JzbjoyxF4NQFJfhr69qgU/7A4i5P3IZnRNnfvoBlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4166
+References: <20200615142645.56209-1-mika.westerberg@linux.intel.com>
+ <20200615142645.56209-10-mika.westerberg@linux.intel.com> <20200717061600.GC68629@google.com>
+ <20200720090233.GT5180@lahna.fi.intel.com>
+In-Reply-To: <20200720090233.GT5180@lahna.fi.intel.com>
+From:   Prashant Malani <pmalani@chromium.org>
+Date:   Tue, 21 Jul 2020 22:45:27 -0700
+Message-ID: <CACeCKacXTFGipmywe1DxkPJK60ZwFD+bE0CS9b-bg-p12daqDA@mail.gmail.com>
+Subject: Re: [PATCH 09/17] thunderbolt: Do not tunnel USB3 if link is not USB4
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Lukas Wunner <lukas@wunner.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It doesn't need to enable/disable L1 on the fly for EP0 transfer,
-we only need to enable L1 after SET_CONFIGURATION.
+Hi Mika,
 
-This code may be introduced by careless.
+On Mon, Jul 20, 2020 at 2:02 AM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> On Thu, Jul 16, 2020 at 11:16:00PM -0700, Prashant Malani wrote:
+> > Hi Mika,
+> >
+> > Sorry for the late comment..
+>
+> Sorry for the late reply, was on vacation ;-)
+>
+> > On Mon, Jun 15, 2020 at 05:26:37PM +0300, Mika Westerberg wrote:
+> > > USB3 tunneling is possible only over USB4 link so don't create USB3
+> > > tunnels if that's not the case.
+> > >
+> > > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > > ---
+> > >  drivers/thunderbolt/tb.c      |  3 +++
+> > >  drivers/thunderbolt/tb.h      |  2 ++
+> > >  drivers/thunderbolt/tb_regs.h |  1 +
+> > >  drivers/thunderbolt/usb4.c    | 24 +++++++++++++++++++++---
+> > >  4 files changed, 27 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> > > index 55daa7f1a87d..2da82259e77c 100644
+> > > --- a/drivers/thunderbolt/tb.c
+> > > +++ b/drivers/thunderbolt/tb.c
+> > > @@ -235,6 +235,9 @@ static int tb_tunnel_usb3(struct tb *tb, struct tb_switch *sw)
+> > >     if (!up)
+> > >             return 0;
+> > >
+> > > +   if (!sw->link_usb4)
+> > > +           return 0;
+> > On both here and the previous "up" check; should we be returning 0?
+> > Wouldn't it be better to return an appropriate error code? It sounds
+> > like 0 is considered a success....
+>
+> The idea here is that you can call this function for every type of
+> router (can be one without USB3 adapters so TBT 3,1,2) and it creates
+> the tunnel if conditions for USB3 tunneling are met. It is not
+> considered an error.
+>
+> However, if the operations fail for some reason we return appropriate
+> error code.
 
-Cc: Pawel Laszczak <pawell@cadence.com>
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
----
- drivers/usb/cdns3/ep0.c | 3 ---
- 1 file changed, 3 deletions(-)
+Got it. Thanks for the explanation!
 
-diff --git a/drivers/usb/cdns3/ep0.c b/drivers/usb/cdns3/ep0.c
-index a2b9af5a80cc..5104414ce243 100644
---- a/drivers/usb/cdns3/ep0.c
-+++ b/drivers/usb/cdns3/ep0.c
-@@ -122,8 +122,6 @@ static void cdns3_ep0_complete_setup(struct cdns3_device *priv_dev,
- 	priv_dev->ep0_stage = CDNS3_SETUP_STAGE;
- 	writel((send_erdy ? EP_CMD_ERDY : 0) | EP_CMD_REQ_CMPL,
- 	       &priv_dev->regs->ep_cmd);
--
--	cdns3_allow_enable_l1(priv_dev, 1);
- }
- 
- /**
-@@ -639,7 +637,6 @@ void cdns3_check_ep0_interrupt_proceed(struct cdns3_device *priv_dev, int dir)
- 
- 	if (priv_dev->wait_for_setup && ep_sts_reg & EP_STS_IOC) {
- 		priv_dev->wait_for_setup = 0;
--		cdns3_allow_enable_l1(priv_dev, 0);
- 		cdns3_ep0_setup_phase(priv_dev);
- 	} else if ((ep_sts_reg & EP_STS_IOC) || (ep_sts_reg & EP_STS_ISP)) {
- 		priv_dev->ep0_data_dir = dir;
--- 
-2.17.1
+BR,
 
+-Prashant
