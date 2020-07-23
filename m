@@ -2,103 +2,112 @@ Return-Path: <SRS0=f5PK=BC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67111C433EB
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 17:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E25A6C433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 17:35:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 437A822B40
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 17:11:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2D8720771
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 17:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595524288;
-	bh=iB/F1b5c+X/36Vs+nTnucwPGaMsJaU4s+syuS6lbxts=;
+	s=default; t=1595525730;
+	bh=GSSMRiJIUAIeqKlaLcyxa7JEAvAyR/o1/CAzVcNXGXY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=OoFZk/4MaKTQy4CeSFKFfLAJUHGfFNsqXRTNQcFri4ZXNfA5rjWvSzXqyfj8MjKPe
-	 xIyDUztS0NKO3jUT9U8lkjo+WWGziIx2TwywGbTE5IHs6pjuOU4yDXmm3DfFh3fzZP
-	 af/4Sl4+HGmnaXLb0BeB5pODfdbHUZHXPLKpCESo=
+	b=dJ8HxBHPe1LXFOEMqbR2zOWRtT9B/3nNy1etAD9mbQF9dTbrYeLO4UPeOyz1neUci
+	 qSyW5V7C4kv91FIrkQJzAacbRlNIxiLqUQolFzGbBA0WtLH7qKnv/S+PZhd0AOYPO0
+	 mg02CQ9mO3OrI4mGpu1o6ycbF/ugwFVSCQBMXGBY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729876AbgGWRL1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 13:11:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39672 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726254AbgGWRL1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jul 2020 13:11:27 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6A2FA208E4;
-        Thu, 23 Jul 2020 17:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595524286;
-        bh=iB/F1b5c+X/36Vs+nTnucwPGaMsJaU4s+syuS6lbxts=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hPTBiJMhu5ImSYJNW8LP2Wa1fUpxncRShVXTFqE0CV6MsVfWH7lroBIcEkzJyHptH
-         TxxbCxUgO3f7jZvJ+3dwpcsNTKQoDWET0Sbf2Z0MBnB19ihcoQ3TKXKt4lk3zFCnqT
-         Tn4E72d6oMCu+fUIgfGwy1HDRG1ltEP49G9denz4=
-Date:   Thu, 23 Jul 2020 19:11:30 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Yannick Schinko <y.schinko@connectingmedia.de>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Interact with a serial device over USB
-Message-ID: <20200723171130.GC2835510@kroah.com>
-References: <AM4PR0301MB22282740FE8D06D8BB573F0583760@AM4PR0301MB2228.eurprd03.prod.outlook.com>
+        id S1730026AbgGWRfa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 13:35:30 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:39550 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726650AbgGWRf3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jul 2020 13:35:29 -0400
+Received: by mail-il1-f195.google.com with SMTP id k6so5025157ili.6;
+        Thu, 23 Jul 2020 10:35:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EZcmuqlw+vI8279QgykP+SnxtQePgE6A/1MM/UJc1/I=;
+        b=snHCWZ9/mAYwHaoXnX4LuW4aiIvBDbF1xq0uoK1khSBOAaXdDkTD1JbsFfxBXcoobF
+         FfN07q9RSyrj7zwd6J6I58XBKL3GWtcX+ZLBzrcX/X3Z8FF2E9ed8mhgqn1pZhDohIVF
+         IYwPeVBapa0pI4HY0qN8R693grN7h4gUxHFN6vmHfGf9F/N3dvH+89v1d82yAcdLdhZZ
+         EXNdXQ1JJ1QrmwNWFow35x7e/Nz5xX4rx2No7sn0E6Opt+qxqNKR7pqo/rE+YC6DTco5
+         byFvGvm3M3Qlk87QhquCWTQOd4BF86/3zBLpXFnBMxPXJ6HEhbm6aVfMcL9LVwK1gpSB
+         D06w==
+X-Gm-Message-State: AOAM533RloXNnGBceJFaQFN2zZzQ8chHshXxR5A+7j0MwTC8x7D7B1xQ
+        nERqESmJM9C/myyndt8gbg==
+X-Google-Smtp-Source: ABdhPJz7uG1mV+jAbyXdvaIBTjENYt2s4YK7RlJI7ZsjxplwTXSBfl0YRixwUg/sAJMNR0Qtd5TmGg==
+X-Received: by 2002:a05:6e02:8e3:: with SMTP id n3mr6415331ilt.259.1595525728765;
+        Thu, 23 Jul 2020 10:35:28 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id k8sm1846100ilk.11.2020.07.23.10.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2020 10:35:28 -0700 (PDT)
+Received: (nullmailer pid 579882 invoked by uid 1000);
+        Thu, 23 Jul 2020 17:35:25 -0000
+Date:   Thu, 23 Jul 2020 11:35:25 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@pengutronix.de, devicetree@vger.kernel.org,
+        linux-imx@nxp.com, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] doc: dt-binding: ci-hdrc-usb2: add property for
+ imx picophy
+Message-ID: <20200723173525.GA576802@bogus>
+References: <20200717042226.18495-1-peter.chen@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <AM4PR0301MB22282740FE8D06D8BB573F0583760@AM4PR0301MB2228.eurprd03.prod.outlook.com>
+In-Reply-To: <20200717042226.18495-1-peter.chen@nxp.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 03:06:51PM +0000, Yannick Schinko wrote:
-> Hello,
+On Fri, Jul 17, 2020 at 12:22:23PM +0800, Peter Chen wrote:
+> Add two parameters which are used to tune USB signal for imx picophy,
+> picophy is used at imx7d, imx8mm, and imx8mn.
 > 
-> so before I get into any detail I'd like to make clear that I am not at all familiar with the Linux kernel itself. However I'm not an inexperienced programmer.
-> Additionally the driver I'm describing here (and that I ultimately plan to create) is not intended to merged into the kernel itself. It's made for a specific piece of hardware that will only be produced in miniscule numbers. In turn that means removing existing modules to replace them with my own is a possibility.
-
-We take kernel drivers into the tree for only one piece of hardware in
-the world, and one user.  So don't think that we would not take such a
-thing, if it were actually needed (see below...)
-
+> Reviewed-by: Jun Li <jun.li@nxp.com>
+> Signed-off-by: Peter Chen <peter.chen@nxp.com>
+> ---
+> No changes for v2.
 > 
-> Now, why I am writing here in the first place:
-> Currently the company I work for is designing an inline UPS for a very specific board (the APU2 series from PC engines). On that UPS there's a microcontroller that communicates over USB with the help of a CH341 chip.
-> I have already successfully implemented an userland program that communicates with the microcontroller. This works great! However there's two issues that led me to the conclusion that I need to implement this as a kernel module:
-> - Startup and shutdown times/timings: I noticed early on that the program starts too late on boot and stops too early on shutdown, no matter what I did (excluding very very dirty and impractical solutions that should never be used in any kind of production machine) I could not get it to start early enough and survive the shut down sequence long enough. The only way I can think of to circumvent this is by turning the program into a kernel module as that will allow it to start before the OS and to shutdown after the OS, which would be acceptable.
+>  Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
+> index 51376cbe5f3d..e9858dafb08f 100644
+> --- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
+> +++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
+> @@ -100,6 +100,13 @@ i.mx specific properties
+>    It's recommended to specify the over current polarity.
+>  - power-active-high: power signal polarity is active high
+>  - external-vbus-divider: enables off-chip resistor divider for Vbus
+> +- picophy,pre-emp-curr-control: HS Transmitter Pre-Emphasis Current
 
-Just fix your system to do this better.  You can start your program
-_REALLY_ early at boot, and just never stop running it until you power
-down.  That control is up to you, you do not have to be a kernel module
-to do that at all.
+Form is <vendor>,<prop-name> and picophy is not a vendor.
 
-In fact, you could run your code _before_ kernel modules are loaded, by
-putting it into the initramfs, if you really need it.
+> +  Control. This signal controls the amount of current sourced to the
+> +  USB_OTG*_DP and USB_OTG*_DN pins after a J-to-K or K-to-J transition.
+> +  Details can refer to TXPREEMPAMPTUNE0 bits of USBNC_n_PHY_CFG1.
 
-This isn't a kernel issue, but a userspace configuration issue, that you
-have control over fixing.
+What's the range of values? What's the default if not specified?
 
-> - Providing sensor data: The microcontroller has voltage sensors and temperature sensors that I would like to make available to userspace through the normal hwmon interfaces. According to my research that is only possible using a kernel module. Funnily enough that part is already implemented and works provided I feed it mocked data.
+> +- picophy,dc-vol-level-adjust: HS DC Voltage Level Adjustment.
+> +  Adjust the high-speed transmitter DC level voltage, details can refer
+> +  to TXVREFTUNE0 bits of USBNC_n_PHY_CFG1.
 
-Why not use a userspace USB driver to talk to the device and do it that
-way?  Why does it have to be a kernel driver?
+Same comments here.
 
-> In consequence I need to create a kernel module (or at least I think
-> so) that listens to data sent by the microcontroller over USB and then
-> sends back some other information in response.
-
-Userspace USB code works just fine for this too.
-
-> As a secondary functionality it would be amazing if I somehow could still forward that device as a tty (as it currently is) so I can flash firmware using avrdude. I was thinking that as long as nothing is using that tty in userspace, the kernel module listens to the device and sends responses but stops doing that as soon as the tty is in use and also continues listening again as soon as it's no longer in use. While this would be amazing to have it's not required for our use case.
-
-I don't understand what you mean by this.
-
-In short, I think you should be able to do everything you want/need from
-userspace today, no kernel programming needed.
-
-good luck!
-
-greg k-h
+>  
+>  Example:
+>  
+> -- 
+> 2.17.1
+> 
