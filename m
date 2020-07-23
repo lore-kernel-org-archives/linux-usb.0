@@ -2,417 +2,516 @@ Return-Path: <SRS0=f5PK=BC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2665C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 06:14:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DBF0C433ED
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 06:15:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90FD722D07
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 06:14:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33AEA20658
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 06:15:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ieH0zm9D"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728329AbgGWGOK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 02:14:10 -0400
-Received: from out28-169.mail.aliyun.com ([115.124.28.169]:53073 "EHLO
-        out28-169.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727060AbgGWGOD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jul 2020 02:14:03 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.00883257-0.000119466-0.991048;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03268;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.I6H78tB_1595484804;
-Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.I6H78tB_1595484804)
-          by smtp.aliyun-inc.com(10.147.40.7);
-          Thu, 23 Jul 2020 14:13:54 +0800
-From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
-        <zhouyanjie@wanyeetech.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org
+        id S1726593AbgGWGPb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 02:15:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725849AbgGWGPb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jul 2020 02:15:31 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9E8C0619E2
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2020 23:15:31 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id l17so5300684ybe.18
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2020 23:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=60X5QyUGvefVkOt5YmbiXTqoEj97sTvbbbAurgF+8OI=;
+        b=ieH0zm9Dlxe+drGn50xBWvX7XcttuvMz4P1RkBxTaBbIEgeIHE0Yzse96zR80u4VhK
+         U+lqKtpq8jU9PYTtbJ4MEG5U4Tt1XdOTeD18qGl3XQ25qd3j7oMFiLB6KIo60SB8o/1i
+         SZNDDuSrtFuDieMpfgvmzcIzXa8UbXFPWonAh3X3X9RUJEIX3KddDzJaG6s9wBGhORYn
+         oUpSZ4sEQsILdUxWfYddUhKDdUigrDb341L74na0e3d8E/eO+XRvt+LS0LyYlFXkGVQj
+         xDWzj7KCpHH8KDzxgh3PXbi4NXQmuX2y2uRKFiQRDOvcji3mcTdz+rysQK4m3vTKmKyr
+         wLsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=60X5QyUGvefVkOt5YmbiXTqoEj97sTvbbbAurgF+8OI=;
+        b=Toy0guVH35xPnGrNp1ausTMVbJAhWeE21aB46cuHbM+mXuwYsJIVgJxi6nmfar0O+M
+         KXIvQ2Cgz+3dzBoMbpXIXdxcSqlOan9rwxUvuH7bzQnLbFinM2myJ6TARXbwNTMJnVIm
+         Sqxtbr939V1N9sq/bdKgndNYhAElaxkkSVqXsvdbTeo+i1RqrUNu4+viscr6fucELm1w
+         pRovGGAa7m1vdheS4L9QoIWeFdDDSouWmF54d602T2liSA1ELjmqoLRLaiS2fUP98sog
+         T+Embm+q29mdKFi2qI/6+s3kWeajr6xYWm8tSo4u0qx4NMBskVwYCA/dY5fv/uVbVftV
+         xIkg==
+X-Gm-Message-State: AOAM530tY92j/GP/vY1FA7+2qkguJ8hpdOioXGhpG+FZ3TouG48/klwb
+        2xY7iXsJ9I81PZq/kiu1v7YMNhJm0+A=
+X-Google-Smtp-Source: ABdhPJwvGK3fQ+Uf04ovB/ElzdZiRE/YWJhbmMXzMRJobrKPWnUiZfjo5/40263G4KW1hzdhwfZibPbeTmo=
+X-Received: by 2002:a25:c483:: with SMTP id u125mr4566730ybf.194.1595484930405;
+ Wed, 22 Jul 2020 23:15:30 -0700 (PDT)
+Date:   Wed, 22 Jul 2020 23:15:24 -0700
+Message-Id: <20200723061524.1930372-1-badhri@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
+Subject: [PATCH] usb: typec: tcpm: Migrate workqueue to RT priority for
+ processing events
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, paul@crapouillou.net,
-        prasannatsmkumar@gmail.com, dongsheng.qiu@ingenic.com,
-        aric.pzqi@ingenic.com, rick.tyliu@ingenic.com,
-        yanfei.li@ingenic.com, sernia.zhou@foxmail.com,
-        zhenwenjin@gmail.com
-Subject: [PATCH v5 3/4] USB: PHY: JZ4770: Add support for new Ingenic SoCs.
-Date:   Thu, 23 Jul 2020 14:13:00 +0800
-Message-Id: <20200723061301.82583-4-zhouyanjie@wanyeetech.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200723061301.82583-1-zhouyanjie@wanyeetech.com>
-References: <20200723061301.82583-1-zhouyanjie@wanyeetech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Badhri Jagan Sridharan <badhri@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for probing the phy-jz4770 driver on the JZ4780 SoC,
-the X1000 SoC and the X1830 SoC from Ingenic.
+"tReceiverResponse 15 ms Section 6.6.2
+The receiver of a Message requiring a response Shall respond
+within tReceiverResponse in order to ensure that the
+sender=E2=80=99s SenderResponseTimer does not expire."
 
-Tested-by: 周正 (Zhou Zheng) <sernia.zhou@foxmail.com>
-Co-developed-by: 漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>
-Signed-off-by: 漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>
-Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+When the cpu complex is busy running other lower priority
+work items, TCPM's work queue sometimes does not get scheduled
+on time to meet the above requirement from the spec.
+Moving to kthread_work apis to run with real time priority.
+Just lower than the default threaded irq priority,
+MAX_USER_RT_PRIO/2 + 1. (Higher number implies lower priority).
+
+Further, as observed in 1ff688209e2e, moving to hrtimers to
+overcome scheduling latency while scheduling the delayed work.
+
+TCPM has three work streams:
+1. tcpm_state_machine
+2. vdm_state_machine
+3. event_work
+
+tcpm_state_machine and vdm_state_machine both schedule work in
+future i.e. delayed. Hence each of them have a corresponding
+hrtimer, tcpm_state_machine_timer & vdm_state_machine_timer.
+
+When work is queued right away kthread_queue_work is used.
+Else, the relevant timer is programmed and made to queue
+the kthread_work upon timer expiry.
+
+kthread_create_worker only creates one kthread worker thread,
+hence single threadedness of workqueue is retained.
+
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
+ drivers/usb/typec/tcpm/tcpm.c | 138 ++++++++++++++++++++++------------
+ 1 file changed, 90 insertions(+), 48 deletions(-)
 
-Notes:
-    v1->v2:
-    Add bindings for the JZ4780 SoC.
-    
-    v2->v3:
-    Use "of_device_get_match_data" instead "of_match_device"
-    to get version information.
-    
-    v3->v4:
-    Fix typos.
-    
-    v4->v5:
-    1.Modify the help message, make it more future-proof.
-    2.Drop the unnecessary comment about hardware reset.
-    3.Create 'soc_info' structures instead having ID_* as platform data.
-
- drivers/usb/phy/Kconfig      |   4 +-
- drivers/usb/phy/phy-jz4770.c | 192 ++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 163 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
-index 4b3fa78995cf..ef4787cd3d37 100644
---- a/drivers/usb/phy/Kconfig
-+++ b/drivers/usb/phy/Kconfig
-@@ -185,11 +185,11 @@ config USB_ULPI_VIEWPORT
- 	  controllers with a viewport register (e.g. Chipidea/ARC controllers).
- 
- config JZ4770_PHY
--	tristate "Ingenic JZ4770 Transceiver Driver"
-+	tristate "Ingenic SoCs Transceiver Driver"
- 	depends on MIPS || COMPILE_TEST
- 	select USB_PHY
- 	help
- 	  This driver provides PHY support for the USB controller found
--	  on the JZ4770 SoC from Ingenic.
-+	  on the JZ-series and X-series SoCs from Ingenic.
- 
- endmenu
-diff --git a/drivers/usb/phy/phy-jz4770.c b/drivers/usb/phy/phy-jz4770.c
-index 00209d5469d3..5c6e5cbb6f30 100644
---- a/drivers/usb/phy/phy-jz4770.c
-+++ b/drivers/usb/phy/phy-jz4770.c
-@@ -1,7 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Ingenic JZ4770 USB PHY driver
-+ * Ingenic SoCs USB PHY driver
-  * Copyright (c) Paul Cercueil <paul@crapouillou.net>
-+ * Copyright (c) 漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>
-+ * Copyright (c) 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
-  */
- 
- #include <linux/clk.h>
-@@ -12,12 +14,13 @@
- #include <linux/usb/otg.h>
- #include <linux/usb/phy.h>
- 
-+/* OTGPHY register offsets */
- #define REG_USBPCR_OFFSET	0x00
- #define REG_USBRDT_OFFSET	0x04
- #define REG_USBVBFIL_OFFSET	0x08
- #define REG_USBPCR1_OFFSET	0x0c
- 
--/* USBPCR */
-+/* bits within the USBPCR register */
- #define USBPCR_USB_MODE		BIT(31)
- #define USBPCR_AVLD_REG		BIT(30)
- #define USBPCR_COMMONONN	BIT(25)
-@@ -44,11 +47,21 @@
- 
- #define USBPCR_SQRXTUNE_LSB	11
- #define USBPCR_SQRXTUNE_MASK	GENMASK(13, USBPCR_SQRXTUNE_LSB)
-+#define USBPCR_SQRXTUNE_DCR_20PCT	(0x7 << USBPCR_SQRXTUNE_LSB)
- #define USBPCR_SQRXTUNE_DFT	(0x3 << USBPCR_SQRXTUNE_LSB)
- 
- #define USBPCR_TXFSLSTUNE_LSB	7
- #define USBPCR_TXFSLSTUNE_MASK	GENMASK(10, USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_DCR_50PPT	(0xf << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_DCR_25PPT	(0x7 << USBPCR_TXFSLSTUNE_LSB)
- #define USBPCR_TXFSLSTUNE_DFT	(0x3 << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_INC_25PPT	(0x1 << USBPCR_TXFSLSTUNE_LSB)
-+#define USBPCR_TXFSLSTUNE_INC_50PPT	(0x0 << USBPCR_TXFSLSTUNE_LSB)
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index ff1cbd2147ca8a..0dcab6f08f8587 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -8,8 +8,10 @@
+ #include <linux/completion.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
++#include <linux/hrtimer.h>
+ #include <linux/jiffies.h>
+ #include <linux/kernel.h>
++#include <linux/kthread.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/power_supply.h>
+@@ -28,7 +30,8 @@
+ #include <linux/usb/role.h>
+ #include <linux/usb/tcpm.h>
+ #include <linux/usb/typec_altmode.h>
+-#include <linux/workqueue.h>
 +
-+#define USBPCR_TXHSXVTUNE_LSB		4
-+#define USBPCR_TXHSXVTUNE_MASK		GENMASK(5, USBPCR_TXHSXVTUNE_LSB)
-+#define USBPCR_TXHSXVTUNE_DFT		(0x3 << USBPCR_TXHSXVTUNE_LSB)
-+#define USBPCR_TXHSXVTUNE_DCR_15MV	(0x1 << USBPCR_TXHSXVTUNE_LSB)
- 
- #define USBPCR_TXRISETUNE_LSB	4
- #define USBPCR_TXRISETUNE_MASK	GENMASK(5, USBPCR_TXRISETUNE_LSB)
-@@ -56,14 +69,40 @@
- 
- #define USBPCR_TXVREFTUNE_LSB	0
- #define USBPCR_TXVREFTUNE_MASK	GENMASK(3, USBPCR_TXVREFTUNE_LSB)
-+#define USBPCR_TXVREFTUNE_INC_25PPT	(0x7 << USBPCR_TXVREFTUNE_LSB)
- #define USBPCR_TXVREFTUNE_DFT	(0x5 << USBPCR_TXVREFTUNE_LSB)
- 
--/* USBRDT */
-+/* bits within the USBRDTR register */
-+#define USBRDT_UTMI_RST				BIT(27)
-+#define USBRDT_HB_MASK				BIT(26)
- #define USBRDT_VBFIL_LD_EN	BIT(25)
- #define USBRDT_IDDIG_EN		BIT(24)
- #define USBRDT_IDDIG_REG	BIT(23)
-+#define USBRDT_VBFIL_EN				BIT(2)
-+
-+/* bits within the USBPCR1 register */
-+#define USBPCR1_BVLD_REG			BIT(31)
-+#define USBPCR1_DPPD				BIT(29)
-+#define USBPCR1_DMPD				BIT(28)
-+#define USBPCR1_USB_SEL				BIT(28)
-+#define USBPCR1_WORD_IF_16BIT		BIT(19)
-+
-+enum ingenic_usb_phy_version {
-+	ID_JZ4770,
-+	ID_JZ4780,
-+	ID_X1000,
-+	ID_X1830,
-+};
-+
-+struct ingenic_soc_info {
-+	enum ingenic_usb_phy_version version;
-+
-+	void (*usb_phy_init)(struct usb_phy *phy);
-+};
- 
- struct jz4770_phy {
-+	const struct ingenic_soc_info *soc_info;
-+
- 	struct usb_phy phy;
- 	struct usb_otg otg;
++#include <uapi/linux/sched/types.h>
+=20
+ #define FOREACH_STATE(S)			\
+ 	S(INVALID_STATE),			\
+@@ -195,7 +198,7 @@ struct tcpm_port {
  	struct device *dev;
-@@ -82,12 +121,18 @@ static inline struct jz4770_phy *phy_to_jz4770_phy(struct usb_phy *phy)
- 	return container_of(phy, struct jz4770_phy, phy);
- }
- 
--static int jz4770_phy_set_peripheral(struct usb_otg *otg,
-+static int ingenic_usb_phy_set_peripheral(struct usb_otg *otg,
- 				     struct usb_gadget *gadget)
- {
- 	struct jz4770_phy *priv = otg_to_jz4770_phy(otg);
- 	u32 reg;
- 
-+	if (priv->soc_info->version >= ID_X1000) {
-+		reg = readl(priv->base + REG_USBPCR1_OFFSET);
-+		reg |= USBPCR1_BVLD_REG;
-+		writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+	}
-+
- 	reg = readl(priv->base + REG_USBPCR_OFFSET);
- 	reg &= ~USBPCR_USB_MODE;
- 	reg |= USBPCR_VBUSVLDEXT | USBPCR_VBUSVLDEXTSEL | USBPCR_OTG_DISABLE;
-@@ -96,7 +141,7 @@ static int jz4770_phy_set_peripheral(struct usb_otg *otg,
- 	return 0;
- }
- 
--static int jz4770_phy_set_host(struct usb_otg *otg, struct usb_bus *host)
-+static int ingenic_usb_phy_set_host(struct usb_otg *otg, struct usb_bus *host)
- {
- 	struct jz4770_phy *priv = otg_to_jz4770_phy(otg);
- 	u32 reg;
-@@ -109,7 +154,7 @@ static int jz4770_phy_set_host(struct usb_otg *otg, struct usb_bus *host)
- 	return 0;
- }
- 
--static int jz4770_phy_init(struct usb_phy *phy)
-+static int ingenic_usb_phy_init(struct usb_phy *phy)
- {
- 	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
- 	int err;
-@@ -127,11 +172,7 @@ static int jz4770_phy_init(struct usb_phy *phy)
- 		return err;
- 	}
- 
--	reg = USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
--		USBPCR_COMPDISTUNE_DFT | USBPCR_OTGTUNE_DFT | USBPCR_SQRXTUNE_DFT |
--		USBPCR_TXFSLSTUNE_DFT | USBPCR_TXRISETUNE_DFT | USBPCR_TXVREFTUNE_DFT |
--		USBPCR_POR;
--	writel(reg, priv->base + REG_USBPCR_OFFSET);
-+	priv->soc_info->usb_phy_init(phy);
- 
- 	/* Wait for PHY to reset */
- 	usleep_range(30, 300);
-@@ -141,7 +182,7 @@ static int jz4770_phy_init(struct usb_phy *phy)
- 	return 0;
- }
- 
--static void jz4770_phy_shutdown(struct usb_phy *phy)
-+static void ingenic_usb_phy_shutdown(struct usb_phy *phy)
- {
- 	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
- 
-@@ -149,11 +190,100 @@ static void jz4770_phy_shutdown(struct usb_phy *phy)
- 	regulator_disable(priv->vcc_supply);
- }
- 
--static void jz4770_phy_remove(void *phy)
-+static void ingenic_usb_phy_remove(void *phy)
- {
- 	usb_remove_phy(phy);
- }
- 
-+static void jz4770_usb_phy_init(struct usb_phy *phy)
-+{
-+	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
-+	u32 reg;
-+
-+	reg = USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
-+		USBPCR_COMPDISTUNE_DFT | USBPCR_OTGTUNE_DFT | USBPCR_SQRXTUNE_DFT |
-+		USBPCR_TXFSLSTUNE_DFT | USBPCR_TXRISETUNE_DFT | USBPCR_TXVREFTUNE_DFT |
-+		USBPCR_POR;
-+	writel(reg, priv->base + REG_USBPCR_OFFSET);
-+}
-+
-+static void jz4780_usb_phy_init(struct usb_phy *phy)
-+{
-+	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
-+	u32 reg;
-+
-+	reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_USB_SEL |
-+		USBPCR1_WORD_IF_16BIT;
-+	writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+
-+	reg = USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
-+	writel(reg, priv->base + REG_USBPCR_OFFSET);
-+}
-+
-+static void x1000_usb_phy_init(struct usb_phy *phy)
-+{
-+	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
-+	u32 reg;
-+
-+	reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_WORD_IF_16BIT;
-+	writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+
-+	reg = USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
-+		USBPCR_TXHSXVTUNE_DCR_15MV | USBPCR_TXVREFTUNE_INC_25PPT |
-+		USBPCR_COMMONONN | USBPCR_POR;
-+	writel(reg, priv->base + REG_USBPCR_OFFSET);
-+}
-+
-+static void x1830_usb_phy_init(struct usb_phy *phy)
-+{
-+	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
-+	u32 reg;
-+
-+	/* rdt */
-+	writel(USBRDT_VBFIL_EN | USBRDT_UTMI_RST, priv->base + REG_USBRDT_OFFSET);
-+
-+	reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_WORD_IF_16BIT |
-+		USBPCR1_DMPD | USBPCR1_DPPD;
-+	writel(reg, priv->base + REG_USBPCR1_OFFSET);
-+
-+	reg = USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT |	USBPCR_TXPREEMPHTUNE |
-+		USBPCR_COMMONONN | USBPCR_POR;
-+	writel(reg, priv->base + REG_USBPCR_OFFSET);
-+}
-+
-+static const struct ingenic_soc_info jz4770_soc_info = {
-+	.version = ID_JZ4770,
-+
-+	.usb_phy_init = jz4770_usb_phy_init,
-+};
-+
-+static const struct ingenic_soc_info jz4780_soc_info = {
-+	.version = ID_JZ4780,
-+
-+	.usb_phy_init = jz4780_usb_phy_init,
-+};
-+
-+static const struct ingenic_soc_info x1000_soc_info = {
-+	.version = ID_X1000,
-+
-+	.usb_phy_init = x1000_usb_phy_init,
-+};
-+
-+static const struct ingenic_soc_info x1830_soc_info = {
-+	.version = ID_X1830,
-+
-+	.usb_phy_init = x1830_usb_phy_init,
-+};
-+
-+static const struct of_device_id ingenic_usb_phy_of_matches[] = {
-+	{ .compatible = "ingenic,jz4770-phy", .data = &jz4770_soc_info },
-+	{ .compatible = "ingenic,jz4780-phy", .data = &jz4780_soc_info },
-+	{ .compatible = "ingenic,x1000-phy", .data = &x1000_soc_info },
-+	{ .compatible = "ingenic,x1830-phy", .data = &x1830_soc_info },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ingenic_usb_phy_of_matches);
-+
- static int jz4770_phy_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -164,18 +294,24 @@ static int jz4770_phy_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	priv->soc_info = device_get_match_data(&pdev->dev);
-+	if (!priv->soc_info) {
-+		dev_err(&pdev->dev, "Error: No device match found\n");
-+		return -ENODEV;
-+	}
-+
- 	platform_set_drvdata(pdev, priv);
- 	priv->dev = dev;
- 	priv->phy.dev = dev;
- 	priv->phy.otg = &priv->otg;
--	priv->phy.label = "jz4770-phy";
--	priv->phy.init = jz4770_phy_init;
--	priv->phy.shutdown = jz4770_phy_shutdown;
-+	priv->phy.label = "ingenic-usb-phy";
-+	priv->phy.init = ingenic_usb_phy_init;
-+	priv->phy.shutdown = ingenic_usb_phy_shutdown;
- 
- 	priv->otg.state = OTG_STATE_UNDEFINED;
- 	priv->otg.usb_phy = &priv->phy;
--	priv->otg.set_host = jz4770_phy_set_host;
--	priv->otg.set_peripheral = jz4770_phy_set_peripheral;
-+	priv->otg.set_host = ingenic_usb_phy_set_host;
-+	priv->otg.set_peripheral = ingenic_usb_phy_set_peripheral;
- 
- 	priv->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->base)) {
-@@ -206,26 +342,20 @@ static int jz4770_phy_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	return devm_add_action_or_reset(dev, jz4770_phy_remove, &priv->phy);
-+	return devm_add_action_or_reset(dev, ingenic_usb_phy_remove, &priv->phy);
- }
- 
--#ifdef CONFIG_OF
--static const struct of_device_id jz4770_phy_of_matches[] = {
--	{ .compatible = "ingenic,jz4770-phy" },
--	{ }
--};
--MODULE_DEVICE_TABLE(of, jz4770_phy_of_matches);
--#endif
--
--static struct platform_driver jz4770_phy_driver = {
-+static struct platform_driver ingenic_phy_driver = {
- 	.probe		= jz4770_phy_probe,
- 	.driver		= {
- 		.name	= "jz4770-phy",
--		.of_match_table = of_match_ptr(jz4770_phy_of_matches),
-+		.of_match_table = of_match_ptr(ingenic_usb_phy_of_matches),
- 	},
+=20
+ 	struct mutex lock;		/* tcpm state machine lock */
+-	struct workqueue_struct *wq;
++	struct kthread_worker *wq;
+=20
+ 	struct typec_capability typec_caps;
+ 	struct typec_port *typec_port;
+@@ -239,15 +242,17 @@ struct tcpm_port {
+ 	enum tcpm_state prev_state;
+ 	enum tcpm_state state;
+ 	enum tcpm_state delayed_state;
+-	unsigned long delayed_runtime;
++	ktime_t delayed_runtime;
+ 	unsigned long delay_ms;
+=20
+ 	spinlock_t pd_event_lock;
+ 	u32 pd_events;
+=20
+-	struct work_struct event_work;
+-	struct delayed_work state_machine;
+-	struct delayed_work vdm_state_machine;
++	struct kthread_work event_work;
++	struct hrtimer state_machine_timer;
++	struct kthread_work state_machine;
++	struct hrtimer vdm_state_machine_timer;
++	struct kthread_work vdm_state_machine;
+ 	bool state_machine_running;
+=20
+ 	struct completion tx_complete;
+@@ -332,7 +337,7 @@ struct tcpm_port {
  };
--module_platform_driver(jz4770_phy_driver);
-+module_platform_driver(ingenic_phy_driver);
- 
-+MODULE_AUTHOR("周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>");
-+MODULE_AUTHOR("漆鹏振 (Qi Pengzhen) <aric.pzqi@ingenic.com>");
- MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
--MODULE_DESCRIPTION("Ingenic JZ4770 USB PHY driver");
-+MODULE_DESCRIPTION("Ingenic SoCs USB PHY driver");
- MODULE_LICENSE("GPL");
--- 
-2.11.0
+=20
+ struct pd_rx_event {
+-	struct work_struct work;
++	struct kthread_work work;
+ 	struct tcpm_port *port;
+ 	struct pd_message msg;
+ };
+@@ -906,6 +911,25 @@ static int tcpm_pd_send_sink_caps(struct tcpm_port *po=
+rt)
+ 	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
+ }
+=20
++static void mod_tcpm_delayed_work(struct tcpm_port *port, unsigned int del=
+ay_ms)
++{
++	hrtimer_cancel(&port->state_machine_timer);
++	if (delay_ms)
++		hrtimer_start(&port->state_machine_timer, ms_to_ktime(delay_ms), HRTIMER=
+_MODE_REL);
++	else
++		kthread_queue_work(port->wq, &port->state_machine);
++}
++
++static void mod_vdm_delayed_work(struct tcpm_port *port, unsigned int dela=
+y_ms)
++{
++	hrtimer_cancel(&port->vdm_state_machine_timer);
++	if (delay_ms)
++		hrtimer_start(&port->vdm_state_machine_timer, ms_to_ktime(delay_ms),
++			      HRTIMER_MODE_REL);
++	else
++		kthread_queue_work(port->wq, &port->vdm_state_machine);
++}
++
+ static void tcpm_set_state(struct tcpm_port *port, enum tcpm_state state,
+ 			   unsigned int delay_ms)
+ {
+@@ -914,9 +938,8 @@ static void tcpm_set_state(struct tcpm_port *port, enum=
+ tcpm_state state,
+ 			 tcpm_states[port->state], tcpm_states[state],
+ 			 delay_ms);
+ 		port->delayed_state =3D state;
+-		mod_delayed_work(port->wq, &port->state_machine,
+-				 msecs_to_jiffies(delay_ms));
+-		port->delayed_runtime =3D jiffies + msecs_to_jiffies(delay_ms);
++		mod_tcpm_delayed_work(port, delay_ms);
++		port->delayed_runtime =3D ktime_add(ktime_get(), ms_to_ktime(delay_ms));
+ 		port->delay_ms =3D delay_ms;
+ 	} else {
+ 		tcpm_log(port, "state change %s -> %s",
+@@ -931,7 +954,7 @@ static void tcpm_set_state(struct tcpm_port *port, enum=
+ tcpm_state state,
+ 		 * machine.
+ 		 */
+ 		if (!port->state_machine_running)
+-			mod_delayed_work(port->wq, &port->state_machine, 0);
++			mod_tcpm_delayed_work(port, 0);
+ 	}
+ }
+=20
+@@ -952,7 +975,7 @@ static void tcpm_queue_message(struct tcpm_port *port,
+ 			       enum pd_msg_request message)
+ {
+ 	port->queued_message =3D message;
+-	mod_delayed_work(port->wq, &port->state_machine, 0);
++	mod_tcpm_delayed_work(port, 0);
+ }
+=20
+ /*
+@@ -1238,8 +1261,7 @@ static void tcpm_handle_vdm_request(struct tcpm_port =
+*port,
+ 			port->vdm_state =3D VDM_STATE_WAIT_RSP_BUSY;
+ 			port->vdo_retry =3D (p0 & ~VDO_CMDT_MASK) |
+ 				CMDT_INIT;
+-			mod_delayed_work(port->wq, &port->vdm_state_machine,
+-					 msecs_to_jiffies(PD_T_VDM_BUSY));
++			mod_vdm_delayed_work(port, PD_T_VDM_BUSY);
+ 			return;
+ 		}
+ 		port->vdm_state =3D VDM_STATE_DONE;
+@@ -1250,7 +1272,7 @@ static void tcpm_handle_vdm_request(struct tcpm_port =
+*port,
+=20
+ 	if (rlen > 0) {
+ 		tcpm_queue_vdm(port, response[0], &response[1], rlen - 1);
+-		mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
++		mod_vdm_delayed_work(port, 0);
+ 	}
+ }
+=20
+@@ -1267,7 +1289,7 @@ static void tcpm_send_vdm(struct tcpm_port *port, u32=
+ vid, int cmd,
+ 			1 : (PD_VDO_CMD(cmd) <=3D CMD_ATTENTION), cmd);
+ 	tcpm_queue_vdm(port, header, data, count);
+=20
+-	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
++	mod_vdm_delayed_work(port, 0);
+ }
+=20
+ static unsigned int vdm_ready_timeout(u32 vdm_hdr)
+@@ -1334,8 +1356,7 @@ static void vdm_run_state_machine(struct tcpm_port *p=
+ort)
+ 			port->vdm_retries =3D 0;
+ 			port->vdm_state =3D VDM_STATE_BUSY;
+ 			timeout =3D vdm_ready_timeout(port->vdo_data[0]);
+-			mod_delayed_work(port->wq, &port->vdm_state_machine,
+-					 timeout);
++			mod_vdm_delayed_work(port, timeout);
+ 		}
+ 		break;
+ 	case VDM_STATE_WAIT_RSP_BUSY:
+@@ -1364,10 +1385,9 @@ static void vdm_run_state_machine(struct tcpm_port *=
+port)
+ 	}
+ }
+=20
+-static void vdm_state_machine_work(struct work_struct *work)
++static void vdm_state_machine_work(struct kthread_work *work)
+ {
+-	struct tcpm_port *port =3D container_of(work, struct tcpm_port,
+-					      vdm_state_machine.work);
++	struct tcpm_port *port =3D container_of(work, struct tcpm_port, vdm_state=
+_machine);
+ 	enum vdm_states prev_state;
+=20
+ 	mutex_lock(&port->lock);
+@@ -1515,7 +1535,7 @@ static int tcpm_altmode_enter(struct typec_altmode *a=
+ltmode, u32 *vdo)
+ 	header |=3D VDO_OPOS(altmode->mode);
+=20
+ 	tcpm_queue_vdm(port, header, vdo, vdo ? 1 : 0);
+-	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
++	mod_vdm_delayed_work(port, 0);
+ 	mutex_unlock(&port->lock);
+=20
+ 	return 0;
+@@ -1531,7 +1551,7 @@ static int tcpm_altmode_exit(struct typec_altmode *al=
+tmode)
+ 	header |=3D VDO_OPOS(altmode->mode);
+=20
+ 	tcpm_queue_vdm(port, header, NULL, 0);
+-	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
++	mod_vdm_delayed_work(port, 0);
+ 	mutex_unlock(&port->lock);
+=20
+ 	return 0;
+@@ -1544,7 +1564,7 @@ static int tcpm_altmode_vdm(struct typec_altmode *alt=
+mode,
+=20
+ 	mutex_lock(&port->lock);
+ 	tcpm_queue_vdm(port, header, data, count - 1);
+-	mod_delayed_work(port->wq, &port->vdm_state_machine, 0);
++	mod_vdm_delayed_work(port, 0);
+ 	mutex_unlock(&port->lock);
+=20
+ 	return 0;
+@@ -1961,7 +1981,7 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port =
+*port,
+ 	}
+ }
+=20
+-static void tcpm_pd_rx_handler(struct work_struct *work)
++static void tcpm_pd_rx_handler(struct kthread_work *work)
+ {
+ 	struct pd_rx_event *event =3D container_of(work,
+ 						 struct pd_rx_event, work);
+@@ -2023,10 +2043,10 @@ void tcpm_pd_receive(struct tcpm_port *port, const =
+struct pd_message *msg)
+ 	if (!event)
+ 		return;
+=20
+-	INIT_WORK(&event->work, tcpm_pd_rx_handler);
++	kthread_init_work(&event->work, tcpm_pd_rx_handler);
+ 	event->port =3D port;
+ 	memcpy(&event->msg, msg, sizeof(*msg));
+-	queue_work(port->wq, &event->work);
++	kthread_queue_work(port->wq, &event->work);
+ }
+ EXPORT_SYMBOL_GPL(tcpm_pd_receive);
+=20
+@@ -2079,9 +2099,9 @@ static bool tcpm_send_queued_message(struct tcpm_port=
+ *port)
+ 	} while (port->queued_message !=3D PD_MSG_NONE);
+=20
+ 	if (port->delayed_state !=3D INVALID_STATE) {
+-		if (time_is_after_jiffies(port->delayed_runtime)) {
+-			mod_delayed_work(port->wq, &port->state_machine,
+-					 port->delayed_runtime - jiffies);
++		if (ktime_after(port->delayed_runtime, ktime_get())) {
++			mod_tcpm_delayed_work(port, ktime_to_ms(ktime_sub(port->delayed_runtime=
+,
++									  ktime_get())));
+ 			return true;
+ 		}
+ 		port->delayed_state =3D INVALID_STATE;
+@@ -3214,10 +3234,9 @@ static void run_state_machine(struct tcpm_port *port=
+)
+ 	case SNK_DISCOVERY_DEBOUNCE_DONE:
+ 		if (!tcpm_port_is_disconnected(port) &&
+ 		    tcpm_port_is_sink(port) &&
+-		    time_is_after_jiffies(port->delayed_runtime)) {
++		    ktime_after(port->delayed_runtime, ktime_get())) {
+ 			tcpm_set_state(port, SNK_DISCOVERY,
+-				       jiffies_to_msecs(port->delayed_runtime -
+-							jiffies));
++				       ktime_to_ms(ktime_sub(port->delayed_runtime, ktime_get())));
+ 			break;
+ 		}
+ 		tcpm_set_state(port, unattached_state(port), 0);
+@@ -3612,10 +3631,9 @@ static void run_state_machine(struct tcpm_port *port=
+)
+ 	}
+ }
+=20
+-static void tcpm_state_machine_work(struct work_struct *work)
++static void tcpm_state_machine_work(struct kthread_work *work)
+ {
+-	struct tcpm_port *port =3D container_of(work, struct tcpm_port,
+-					      state_machine.work);
++	struct tcpm_port *port =3D container_of(work, struct tcpm_port, state_mac=
+hine);
+ 	enum tcpm_state prev_state;
+=20
+ 	mutex_lock(&port->lock);
+@@ -3975,7 +3993,7 @@ static void _tcpm_pd_hard_reset(struct tcpm_port *por=
+t)
+ 		       0);
+ }
+=20
+-static void tcpm_pd_event_handler(struct work_struct *work)
++static void tcpm_pd_event_handler(struct kthread_work *work)
+ {
+ 	struct tcpm_port *port =3D container_of(work, struct tcpm_port,
+ 					      event_work);
+@@ -4016,7 +4034,7 @@ void tcpm_cc_change(struct tcpm_port *port)
+ 	spin_lock(&port->pd_event_lock);
+ 	port->pd_events |=3D TCPM_CC_EVENT;
+ 	spin_unlock(&port->pd_event_lock);
+-	queue_work(port->wq, &port->event_work);
++	kthread_queue_work(port->wq, &port->event_work);
+ }
+ EXPORT_SYMBOL_GPL(tcpm_cc_change);
+=20
+@@ -4025,7 +4043,7 @@ void tcpm_vbus_change(struct tcpm_port *port)
+ 	spin_lock(&port->pd_event_lock);
+ 	port->pd_events |=3D TCPM_VBUS_EVENT;
+ 	spin_unlock(&port->pd_event_lock);
+-	queue_work(port->wq, &port->event_work);
++	kthread_queue_work(port->wq, &port->event_work);
+ }
+ EXPORT_SYMBOL_GPL(tcpm_vbus_change);
+=20
+@@ -4034,7 +4052,7 @@ void tcpm_pd_hard_reset(struct tcpm_port *port)
+ 	spin_lock(&port->pd_event_lock);
+ 	port->pd_events =3D TCPM_RESET_EVENT;
+ 	spin_unlock(&port->pd_event_lock);
+-	queue_work(port->wq, &port->event_work);
++	kthread_queue_work(port->wq, &port->event_work);
+ }
+ EXPORT_SYMBOL_GPL(tcpm_pd_hard_reset);
+=20
+@@ -4742,10 +4760,28 @@ static int devm_tcpm_psy_register(struct tcpm_port =
+*port)
+ 	return PTR_ERR_OR_ZERO(port->psy);
+ }
+=20
++static enum hrtimer_restart state_machine_timer_handler(struct hrtimer *ti=
+mer)
++{
++	struct tcpm_port *port =3D container_of(timer, struct tcpm_port, state_ma=
+chine_timer);
++
++	kthread_queue_work(port->wq, &port->state_machine);
++	return HRTIMER_NORESTART;
++}
++
++static enum hrtimer_restart vdm_state_machine_timer_handler(struct hrtimer=
+ *timer)
++{
++	struct tcpm_port *port =3D container_of(timer, struct tcpm_port, vdm_stat=
+e_machine_timer);
++
++	kthread_queue_work(port->wq, &port->vdm_state_machine);
++	return HRTIMER_NORESTART;
++}
++
+ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *=
+tcpc)
+ {
+ 	struct tcpm_port *port;
+ 	int err;
++	/* Priority just lower than default irq thread priority */
++	struct sched_param param =3D {.sched_priority =3D (MAX_USER_RT_PRIO / 2) =
++ 1,};
+=20
+ 	if (!dev || !tcpc ||
+ 	    !tcpc->get_vbus || !tcpc->set_cc || !tcpc->get_cc ||
+@@ -4763,12 +4799,18 @@ struct tcpm_port *tcpm_register_port(struct device =
+*dev, struct tcpc_dev *tcpc)
+ 	mutex_init(&port->lock);
+ 	mutex_init(&port->swap_lock);
+=20
+-	port->wq =3D create_singlethread_workqueue(dev_name(dev));
+-	if (!port->wq)
+-		return ERR_PTR(-ENOMEM);
+-	INIT_DELAYED_WORK(&port->state_machine, tcpm_state_machine_work);
+-	INIT_DELAYED_WORK(&port->vdm_state_machine, vdm_state_machine_work);
+-	INIT_WORK(&port->event_work, tcpm_pd_event_handler);
++	port->wq =3D kthread_create_worker(0, dev_name(dev));
++	if (IS_ERR(port->wq))
++		return (struct tcpm_port *)port->wq;
++	sched_setscheduler(port->wq->task, SCHED_FIFO, &param);
++
++	kthread_init_work(&port->state_machine, tcpm_state_machine_work);
++	kthread_init_work(&port->vdm_state_machine, vdm_state_machine_work);
++	kthread_init_work(&port->event_work, tcpm_pd_event_handler);
++	hrtimer_init(&port->state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_RE=
+L);
++	port->state_machine_timer.function =3D state_machine_timer_handler;
++	hrtimer_init(&port->vdm_state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MOD=
+E_REL);
++	port->vdm_state_machine_timer.function =3D vdm_state_machine_timer_handle=
+r;
+=20
+ 	spin_lock_init(&port->pd_event_lock);
+=20
+@@ -4820,7 +4862,7 @@ struct tcpm_port *tcpm_register_port(struct device *d=
+ev, struct tcpc_dev *tcpc)
+ 	usb_role_switch_put(port->role_sw);
+ out_destroy_wq:
+ 	tcpm_debugfs_exit(port);
+-	destroy_workqueue(port->wq);
++	kthread_destroy_worker(port->wq);
+ 	return ERR_PTR(err);
+ }
+ EXPORT_SYMBOL_GPL(tcpm_register_port);
+@@ -4835,7 +4877,7 @@ void tcpm_unregister_port(struct tcpm_port *port)
+ 	typec_unregister_port(port->typec_port);
+ 	usb_role_switch_put(port->role_sw);
+ 	tcpm_debugfs_exit(port);
+-	destroy_workqueue(port->wq);
++	kthread_destroy_worker(port->wq);
+ }
+ EXPORT_SYMBOL_GPL(tcpm_unregister_port);
+=20
+--=20
+2.28.0.rc0.105.gf9edc3c819-goog
 
