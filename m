@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96FD3C433F4
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C9AC433F8
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 700A920674
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5330F208E4
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbgGWOm2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 10:42:28 -0400
+        id S1728725AbgGWOmc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 10:42:32 -0400
 Received: from mga02.intel.com ([134.134.136.20]:12017 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728704AbgGWOm2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jul 2020 10:42:28 -0400
-IronPort-SDR: mTQ0A/GibHt4Cf3KZ1+HBBEVwRmQbT1tcWOigdNe+m1tAUHBAz3fJCaXycRd+86wav/Vyf7Qek
- qO5WwH8IhJOg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138607364"
+        id S1728306AbgGWOmc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jul 2020 10:42:32 -0400
+IronPort-SDR: vghImXARG0pkl4t4PBTkK5F9r1WvVLRo9BX3UUYA8y2EX3Xg45r/pehrdQ68vsquKiM1sLiX0l
+ fYSCqCLYLpug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138607382"
 X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; 
-   d="scan'208";a="138607364"
+   d="scan'208";a="138607382"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 07:42:27 -0700
-IronPort-SDR: sYKaW0kt2/o0GUUvQy0pZoDyTww9MefZY9x3H03uoJMAUxrPXcCiJIBZuUAm120Efa0eMgZuDy
- vVevS2VpbmGQ==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 07:42:31 -0700
+IronPort-SDR: Yc3PyV1YxYGnqb3ZtII4rMEQSRoJ5aHNsdCKYt8nMdL9r1sEbwxR/3pMjjzEAAnVSgbTsD0J2L
+ +Ets1ZYgL3kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; 
-   d="scan'208";a="320672361"
+   d="scan'208";a="320672371"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 07:42:26 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 07:42:29 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 02/27] xhci: dbc: Don't use generic xhci inc_deq() function for dbc
-Date:   Thu, 23 Jul 2020 17:45:05 +0300
-Message-Id: <20200723144530.9992-3-mathias.nyman@linux.intel.com>
+Subject: [PATCH 05/27] xhci: dbc: Remove dbc_dma_alloc_coherent() wrapper
+Date:   Thu, 23 Jul 2020 17:45:08 +0300
+Message-Id: <20200723144530.9992-6-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
 References: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
@@ -50,49 +50,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The generic inc_deq() helper takes struct xhci_hcd pointer as a parameter,
-and is a lot more complex than needed for the DbC usecase.
+dbc_dma_alloc_coherent() takes struct xhci_hcd pointer as an parameter, but
+does nothing more than calls dma_alloc_coherent().
+Remove it and call dma_alloc_coherent() directly instead.
 
-In order to decouple xhci and DbC we have to create our own small
-inc_evt_deq() helper, not relying on xhci.
+No functional changes
+This change helps decoupling xhci and DbC
 
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-dbgcap.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci-dbgcap.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index 987f893e941c..424b571d6ca9 100644
+index 138b0c994ad2..e8a2cbda135c 100644
 --- a/drivers/usb/host/xhci-dbgcap.c
 +++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -644,6 +644,17 @@ static void dbc_handle_xfer_event(struct xhci_hcd *xhci, union xhci_trb *event)
- 	xhci_dbc_giveback(req, status);
- }
+@@ -14,17 +14,6 @@
+ #include "xhci-trace.h"
+ #include "xhci-dbgcap.h"
  
-+static void inc_evt_deq(struct xhci_ring *ring)
-+{
-+	/* If on the last TRB of the segment go back to the beginning */
-+	if (ring->dequeue == &ring->deq_seg->trbs[TRBS_PER_SEGMENT - 1]) {
-+		ring->cycle_state ^= 1;
-+		ring->dequeue = ring->deq_seg->trbs;
-+		return;
-+	}
-+	ring->dequeue++;
-+}
-+
- static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
- {
- 	dma_addr_t		deq;
-@@ -765,7 +776,8 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
- 			break;
- 		}
+-static inline void *
+-dbc_dma_alloc_coherent(struct xhci_hcd *xhci, size_t size,
+-		       dma_addr_t *dma_handle, gfp_t flags)
+-{
+-	void		*vaddr;
+-
+-	vaddr = dma_alloc_coherent(xhci_to_hcd(xhci)->self.sysdev,
+-				   size, dma_handle, flags);
+-	return vaddr;
+-}
+-
+ static inline void
+ dbc_dma_free_coherent(struct xhci_hcd *xhci, size_t size,
+ 		      void *cpu_addr, dma_addr_t dma_handle)
+@@ -426,10 +415,8 @@ static int xhci_dbc_mem_init(struct xhci_hcd *xhci, gfp_t flags)
  
--		inc_deq(xhci, dbc->ring_evt);
-+		inc_evt_deq(dbc->ring_evt);
-+
- 		evt = dbc->ring_evt->dequeue;
- 		update_erdp = true;
- 	}
+ 	/* Allocate the string table: */
+ 	dbc->string_size = sizeof(struct dbc_str_descs);
+-	dbc->string = dbc_dma_alloc_coherent(xhci,
+-					     dbc->string_size,
+-					     &dbc->string_dma,
+-					     flags);
++	dbc->string = dma_alloc_coherent(dev, dbc->string_size,
++					 &dbc->string_dma, flags);
+ 	if (!dbc->string)
+ 		goto string_fail;
+ 
 -- 
 2.17.1
 
