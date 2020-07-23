@@ -4,33 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 680C9C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 21:30:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3577EC433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 21:29:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4169A20768
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 21:30:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09217206F4
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 21:29:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbgGWVam (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 17:30:42 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:37855 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbgGWVam (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jul 2020 17:30:42 -0400
+        id S1726334AbgGWV3T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 17:29:19 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:56863 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726029AbgGWV3T (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jul 2020 17:29:19 -0400
 X-Originating-IP: 82.255.60.242
 Received: from classic (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
         (Authenticated sender: hadess@hadess.net)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 27F1DC0008;
-        Thu, 23 Jul 2020 21:30:39 +0000 (UTC)
-Message-ID: <a3cd9c51f215be37ac9bb44083ab8b3280f9359f.camel@hadess.net>
-Subject: [PATCH v3] USB: Fix device driver race
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id AC0C940009;
+        Thu, 23 Jul 2020 21:29:16 +0000 (UTC)
+Message-ID: <3e5b7ce48488ce18e945f9231b8bf9a262c1a57b.camel@hadess.net>
+Subject: [PATCH v2] USB: Fix device driver race
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>
-Date:   Thu, 23 Jul 2020 23:30:39 +0200
+Date:   Thu, 23 Jul 2020 23:29:16 +0200
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
@@ -48,14 +47,12 @@ After that, nothing will trigger a reprobe when the modprobe()'d device
 driver has finished initialising, as the device has the "generic"
 driver attached to it.
 
-Trigger a reprobe ourselves when new specialised drivers get registered.
+Trigger a reprobe ourselves when new specialised drivers get
+registered.
 
 Fixes: 88b7381a939d
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
-
-Changes since v2:
-- Fix formatting
 
 Changes since v1:
 - Simplified after Alan Stern's comments and some clarifications from
@@ -68,19 +65,23 @@ diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
 index f81606c6a35b..44531910637c 100644
 --- a/drivers/usb/core/driver.c
 +++ b/drivers/usb/core/driver.c
-@@ -905,6 +905,25 @@ static int usb_uevent(struct device *dev, struct kobj_uevent_env *env)
+@@ -905,6 +905,25 @@ static int usb_uevent(struct device *dev, struct
+kobj_uevent_env *env)
  	return 0;
  }
  
 +static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
 +{
-+	struct usb_device_driver *udriver = to_usb_device_driver(dev->driver);
++	struct usb_device_driver *udriver = to_usb_device_driver(dev-
+>driver);
 +	struct usb_device *udev = to_usb_device(dev);
 +
 +	if (dev->driver) {
-+		struct usb_device_driver *udriver = to_usb_device_driver(dev->driver);
++		struct usb_device_driver *udriver =
+to_usb_device_driver(dev->driver);
 +
-+		if (udriver == NULL || udriver == &usb_generic_driver) {
++		if (udriver == NULL || udriver == &usb_generic_driver)
+{
 +			udev->use_generic_driver = false;
 +			device_reprobe(dev);
 +		}
@@ -92,9 +93,11 @@ index f81606c6a35b..44531910637c 100644
 +}
 +
  /**
-  * usb_register_device_driver - register a USB device (not interface) driver
+  * usb_register_device_driver - register a USB device (not interface)
+driver
   * @new_udriver: USB operations for the device driver
-@@ -934,13 +953,19 @@ int usb_register_device_driver(struct usb_device_driver *new_udriver,
+@@ -934,13 +953,19 @@ int usb_register_device_driver(struct
+usb_device_driver *new_udriver,
  
  	retval = driver_register(&new_udriver->drvwrap.driver);
  
