@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC286C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3762C433EC
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF7A722B40
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDB3E20674
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729144AbgGWOm4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 10:42:56 -0400
+        id S1729205AbgGWOm7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 10:42:59 -0400
 Received: from mga02.intel.com ([134.134.136.20]:12017 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728306AbgGWOmz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jul 2020 10:42:55 -0400
-IronPort-SDR: RMCLQwgDL7pSsX5Ooapa4VvYghxPFFgg+V7soDINXEGGQotJduMjia4M1zT+Z3Ur8WzjZ9fDjt
- l42RIuOnCC3w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138607482"
+        id S1728791AbgGWOm6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jul 2020 10:42:58 -0400
+IronPort-SDR: ZzBYuOqRNUU8dbEVjbIZtcrgonXJWytaEtOQffX64PIv4bZ+b59ghj+igIHrX6rij4KMV9hfcA
+ dmDlqrQnkeRQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138607492"
 X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; 
-   d="scan'208";a="138607482"
+   d="scan'208";a="138607492"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 07:42:54 -0700
-IronPort-SDR: 9qR0FihDZLG3oo3OMAcAMTEVtuRFNAJ9+AuKG5LTFMNWbISAiLjmfhBFINgjTr0/q7RjTSu0pZ
- 0xVnLWgmhdoA==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 07:42:58 -0700
+IronPort-SDR: DQcEi5q+kiUtkqxgljxqsjJfSfnz83Fo2bF5TZJIEENKWN1UkewE42EHt5Co3aSyCTGd3eGRse
+ Mo5R4axG7tVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; 
-   d="scan'208";a="320672485"
+   d="scan'208";a="320672515"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 07:42:52 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 07:42:56 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 22/27] xhci: dbc: simplify dbc requests allocation and queueing
-Date:   Thu, 23 Jul 2020 17:45:25 +0300
-Message-Id: <20200723144530.9992-23-mathias.nyman@linux.intel.com>
+Subject: [PATCH 25/27] xhci: dbc: Add a operations structure to access driver functions
+Date:   Thu, 23 Jul 2020 17:45:28 +0300
+Message-Id: <20200723144530.9992-26-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
 References: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
@@ -50,277 +50,141 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Don't pass endpoint pointer, dbctty should not be aware of
-struct dbc_ep, knowing the direction is enough.
+Don't call dbctty driver functions directly from dbc core code.
+Introduce a new dbc_driver structure that contains function pointers
+for disconnect and configure operations.
+
+The driver (ttydbc) must provide these opeations when creating a dbc.
+
+Name the structure dbc_driver instead of dbc_ops as we plan to
+add more driver configureable values here, such as vid and pid.
+
+Decouples dbc and dbctty.
 
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-dbgcap.c | 43 ++++++++++++++++++++++------------
- drivers/usb/host/xhci-dbgcap.h | 12 ++++++----
- drivers/usb/host/xhci-dbgtty.c | 33 +++++++++++++-------------
- 3 files changed, 52 insertions(+), 36 deletions(-)
+ drivers/usb/host/xhci-dbgcap.c | 17 ++++++-----------
+ drivers/usb/host/xhci-dbgcap.h |  8 ++++++--
+ drivers/usb/host/xhci-dbgtty.c | 11 +++++++++--
+ 3 files changed, 21 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index af6e3622e53a..e3eec628edb5 100644
+index 99f0b425274a..47090bceae21 100644
 --- a/drivers/usb/host/xhci-dbgcap.c
 +++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -135,8 +135,7 @@ static void xhci_dbc_giveback(struct dbc_request *req, int status)
- 	__releases(&dbc->lock)
- 	__acquires(&dbc->lock)
- {
--	struct dbc_ep		*dep = req->dep;
--	struct xhci_dbc		*dbc = dep->dbc;
-+	struct xhci_dbc		*dbc = req->dbc;
- 	struct device		*dev = dbc->dev;
+@@ -636,8 +636,8 @@ static void xhci_dbc_stop(struct xhci_dbc *dbc)
  
- 	list_del_init(&req->list_pending);
-@@ -151,7 +150,7 @@ static void xhci_dbc_giveback(struct dbc_request *req, int status)
- 	dma_unmap_single(dev,
- 			 req->dma,
- 			 req->length,
--			 dbc_ep_dma_direction(dep));
-+			 dbc_ep_dma_direction(req));
+ 	cancel_delayed_work_sync(&dbc->event_work);
  
- 	/* Give back the transfer request: */
- 	spin_unlock(&dbc->lock);
-@@ -187,18 +186,25 @@ static void xhci_dbc_flush_requests(struct xhci_dbc *dbc)
- }
+-	if (port->registered)
+-		xhci_dbc_tty_unregister_device(dbc);
++	if (port->registered && dbc->driver->disconnect)
++		dbc->driver->disconnect(dbc);
  
- struct dbc_request *
--dbc_alloc_request(struct dbc_ep *dep, gfp_t gfp_flags)
-+dbc_alloc_request(struct xhci_dbc *dbc, unsigned int direction, gfp_t flags)
- {
- 	struct dbc_request	*req;
- 
--	req = kzalloc(sizeof(*req), gfp_flags);
-+	if (direction != BULK_IN &&
-+	    direction != BULK_OUT)
-+		return NULL;
-+
-+	if (!dbc)
-+		return NULL;
-+
-+	req = kzalloc(sizeof(*req), flags);
- 	if (!req)
- 		return NULL;
- 
--	req->dep = dep;
-+	req->dbc = dbc;
- 	INIT_LIST_HEAD(&req->list_pending);
- 	INIT_LIST_HEAD(&req->list_pool);
--	req->direction = dep->direction;
-+	req->direction = direction;
- 
- 	trace_xhci_dbc_alloc_request(req);
- 
-@@ -206,7 +212,7 @@ dbc_alloc_request(struct dbc_ep *dep, gfp_t gfp_flags)
- }
- 
- void
--dbc_free_request(struct dbc_ep *dep, struct dbc_request *req)
-+dbc_free_request(struct dbc_request *req)
- {
- 	trace_xhci_dbc_free_request(req);
- 
-@@ -242,7 +248,7 @@ static int xhci_dbc_queue_bulk_tx(struct dbc_ep *dep,
- 	u64			addr;
- 	union xhci_trb		*trb;
- 	unsigned int		num_trbs;
--	struct xhci_dbc		*dbc = dep->dbc;
-+	struct xhci_dbc		*dbc = req->dbc;
- 	struct xhci_ring	*ring = dep->ring;
- 	u32			length, control, cycle;
- 
-@@ -286,11 +292,12 @@ static int xhci_dbc_queue_bulk_tx(struct dbc_ep *dep,
- }
- 
- static int
--dbc_ep_do_queue(struct dbc_ep *dep, struct dbc_request *req)
-+dbc_ep_do_queue(struct dbc_request *req)
- {
- 	int			ret;
--	struct xhci_dbc		*dbc = dep->dbc;
-+	struct xhci_dbc		*dbc = req->dbc;
- 	struct device		*dev = dbc->dev;
-+	struct dbc_ep		*dep = &dbc->eps[req->direction];
- 
- 	if (!req->length || !req->buf)
- 		return -EINVAL;
-@@ -322,16 +329,22 @@ dbc_ep_do_queue(struct dbc_ep *dep, struct dbc_request *req)
- 	return 0;
- }
- 
--int dbc_ep_queue(struct dbc_ep *dep, struct dbc_request *req,
--		 gfp_t gfp_flags)
-+int dbc_ep_queue(struct dbc_request *req)
- {
- 	unsigned long		flags;
--	struct xhci_dbc		*dbc = dep->dbc;
-+	struct xhci_dbc		*dbc = req->dbc;
- 	int			ret = -ESHUTDOWN;
- 
-+	if (!dbc)
-+		return -ENODEV;
-+
-+	if (req->direction != BULK_IN &&
-+	    req->direction != BULK_OUT)
-+		return -EINVAL;
-+
  	spin_lock_irqsave(&dbc->lock, flags);
- 	if (dbc->state == DS_CONFIGURED)
--		ret = dbc_ep_do_queue(dep, req);
-+		ret = dbc_ep_do_queue(req);
- 	spin_unlock_irqrestore(&dbc->lock, flags);
+ 	ret = xhci_do_dbc_stop(dbc);
+@@ -877,7 +877,6 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
  
- 	mod_delayed_work(system_wq, &dbc->event_work, 0);
+ static void xhci_dbc_handle_events(struct work_struct *work)
+ {
+-	int			ret;
+ 	enum evtreturn		evtr;
+ 	struct xhci_dbc		*dbc;
+ 	unsigned long		flags;
+@@ -890,16 +889,12 @@ static void xhci_dbc_handle_events(struct work_struct *work)
+ 
+ 	switch (evtr) {
+ 	case EVT_GSER:
+-		ret = xhci_dbc_tty_register_device(dbc);
+-		if (ret) {
+-			dev_err(dbc->dev, "failed to alloc tty device\n");
+-			break;
+-		}
+-
+-		dev_info(dbc->dev, "DbC now attached to /dev/ttyDBC0\n");
++		if (dbc->driver->configure)
++			dbc->driver->configure(dbc);
+ 		break;
+ 	case EVT_DISC:
+-		xhci_dbc_tty_unregister_device(dbc);
++		if (dbc->driver->disconnect)
++			dbc->driver->disconnect(dbc);
+ 		break;
+ 	case EVT_DONE:
+ 		break;
 diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
-index 9e3c5940f27b..fe360cf712c1 100644
+index e4c7c9279ea8..5018b32fc742 100644
 --- a/drivers/usb/host/xhci-dbgcap.h
 +++ b/drivers/usb/host/xhci-dbgcap.h
-@@ -88,7 +88,7 @@ struct dbc_ep {
- 	struct xhci_dbc			*dbc;
- 	struct list_head		list_pending;
- 	struct xhci_ring		*ring;
--	unsigned			direction:1;
-+	unsigned int			direction:1;
+@@ -112,6 +112,11 @@ struct dbc_port {
+ 	bool				registered;
  };
  
- #define DBC_QUEUE_SIZE			16
-@@ -147,7 +147,7 @@ struct dbc_request {
- 	int				status;
- 	unsigned int			actual;
++struct dbc_driver {
++	int (*configure)(struct xhci_dbc *dbc);
++	void (*disconnect)(struct xhci_dbc *dbc);
++};
++
+ struct xhci_dbc {
+ 	spinlock_t			lock;		/* device access */
+ 	struct device			*dev;
+@@ -133,6 +138,7 @@ struct xhci_dbc {
+ 	struct dbc_ep			eps[2];
  
--	struct dbc_ep			*dep;
-+	struct xhci_dbc			*dbc;
- 	struct list_head		list_pending;
- 	dma_addr_t			trb_dma;
- 	union xhci_trb			*trb;
-@@ -196,9 +196,11 @@ int xhci_dbc_tty_register_driver(struct xhci_hcd *xhci);
- void xhci_dbc_tty_unregister_driver(void);
- int xhci_dbc_tty_register_device(struct xhci_dbc *dbc);
- void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc);
--struct dbc_request *dbc_alloc_request(struct dbc_ep *dep, gfp_t gfp_flags);
--void dbc_free_request(struct dbc_ep *dep, struct dbc_request *req);
--int dbc_ep_queue(struct dbc_ep *dep, struct dbc_request *req, gfp_t gfp_flags);
-+struct dbc_request *dbc_alloc_request(struct xhci_dbc *dbc,
-+				      unsigned int direction,
-+				      gfp_t flags);
-+void dbc_free_request(struct dbc_request *req);
-+int dbc_ep_queue(struct dbc_request *req);
- #ifdef CONFIG_PM
- int xhci_dbc_suspend(struct xhci_hcd *xhci);
- int xhci_dbc_resume(struct xhci_hcd *xhci);
+ 	struct dbc_port			port;
++	const struct dbc_driver		*driver;
+ };
+ 
+ struct dbc_request {
+@@ -192,8 +198,6 @@ int xhci_dbc_init(struct xhci_hcd *xhci);
+ void xhci_dbc_exit(struct xhci_hcd *xhci);
+ int xhci_dbc_tty_probe(struct xhci_hcd *xhci);
+ void xhci_dbc_tty_remove(struct xhci_dbc *dbc);
+-int xhci_dbc_tty_register_device(struct xhci_dbc *dbc);
+-void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc);
+ struct dbc_request *dbc_alloc_request(struct xhci_dbc *dbc,
+ 				      unsigned int direction,
+ 				      gfp_t flags);
 diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
-index 967f0419dad7..9886d42e1ff2 100644
+index 9acf1efba36c..3231cec74a7a 100644
 --- a/drivers/usb/host/xhci-dbgtty.c
 +++ b/drivers/usb/host/xhci-dbgtty.c
-@@ -48,7 +48,7 @@ static int dbc_start_tx(struct dbc_port *port)
- 		list_del(&req->list_pool);
- 
- 		spin_unlock(&port->port_lock);
--		status = dbc_ep_queue(port->out, req, GFP_ATOMIC);
-+		status = dbc_ep_queue(req);
- 		spin_lock(&port->port_lock);
- 
- 		if (status) {
-@@ -80,7 +80,7 @@ static void dbc_start_rx(struct dbc_port *port)
- 		req->length = DBC_MAX_PACKET;
- 
- 		spin_unlock(&port->port_lock);
--		status = dbc_ep_queue(port->in, req, GFP_ATOMIC);
-+		status = dbc_ep_queue(req);
- 		spin_lock(&port->port_lock);
- 
- 		if (status) {
-@@ -123,28 +123,29 @@ static void dbc_write_complete(struct xhci_dbc *dbc, struct dbc_request *req)
- 	spin_unlock_irqrestore(&port->port_lock, flags);
+@@ -455,6 +455,11 @@ void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc)
+ 	xhci_dbc_free_requests(&port->write_pool);
  }
  
--static void xhci_dbc_free_req(struct dbc_ep *dep, struct dbc_request *req)
-+static void xhci_dbc_free_req(struct dbc_request *req)
++static const struct dbc_driver dbc_driver = {
++	.configure		= xhci_dbc_tty_register_device,
++	.disconnect		= xhci_dbc_tty_unregister_device,
++};
++
+ int xhci_dbc_tty_probe(struct xhci_hcd *xhci)
  {
- 	kfree(req->buf);
--	dbc_free_request(dep, req);
-+	dbc_free_request(req);
+ 	struct xhci_dbc		*dbc = xhci->dbc;
+@@ -465,6 +470,8 @@ int xhci_dbc_tty_probe(struct xhci_hcd *xhci)
+ 	if (status)
+ 		return status;
+ 
++	dbc->driver = &dbc_driver;
++
+ 	dbc_tty_driver->driver_state = &dbc->port;
+ 
+ 	return 0;
+@@ -481,6 +488,8 @@ int xhci_dbc_tty_probe(struct xhci_hcd *xhci)
+  */
+ void xhci_dbc_tty_remove(struct xhci_dbc *dbc)
+ {
++	dbc->driver = NULL;
++
+ 	/* dbc_tty_exit will be called by  module_exit() in the future */
+ 	dbc_tty_exit();
  }
- 
- static int
--xhci_dbc_alloc_requests(struct dbc_ep *dep, struct list_head *head,
-+xhci_dbc_alloc_requests(struct xhci_dbc *dbc, unsigned int direction,
-+			struct list_head *head,
- 			void (*fn)(struct xhci_dbc *, struct dbc_request *))
- {
- 	int			i;
- 	struct dbc_request	*req;
- 
- 	for (i = 0; i < DBC_QUEUE_SIZE; i++) {
--		req = dbc_alloc_request(dep, GFP_KERNEL);
-+		req = dbc_alloc_request(dbc, direction, GFP_KERNEL);
- 		if (!req)
- 			break;
- 
- 		req->length = DBC_MAX_PACKET;
- 		req->buf = kmalloc(req->length, GFP_KERNEL);
- 		if (!req->buf) {
--			dbc_free_request(dep, req);
-+			dbc_free_request(req);
- 			break;
- 		}
- 
-@@ -156,14 +157,14 @@ xhci_dbc_alloc_requests(struct dbc_ep *dep, struct list_head *head,
- }
- 
- static void
--xhci_dbc_free_requests(struct dbc_ep *dep, struct list_head *head)
-+xhci_dbc_free_requests(struct list_head *head)
- {
- 	struct dbc_request	*req;
- 
- 	while (!list_empty(head)) {
- 		req = list_entry(head->next, struct dbc_request, list_pool);
- 		list_del(&req->list_pool);
--		xhci_dbc_free_req(dep, req);
-+		xhci_dbc_free_req(req);
+@@ -523,5 +532,3 @@ static void dbc_tty_exit(void)
+ 		dbc_tty_driver = NULL;
  	}
  }
- 
-@@ -456,12 +457,12 @@ int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
- 	if (ret)
- 		goto buf_alloc_fail;
- 
--	ret = xhci_dbc_alloc_requests(port->in, &port->read_pool,
-+	ret = xhci_dbc_alloc_requests(dbc, BULK_IN, &port->read_pool,
- 				      dbc_read_complete);
- 	if (ret)
- 		goto request_fail;
- 
--	ret = xhci_dbc_alloc_requests(port->out, &port->write_pool,
-+	ret = xhci_dbc_alloc_requests(dbc, BULK_OUT, &port->write_pool,
- 				      dbc_write_complete);
- 	if (ret)
- 		goto request_fail;
-@@ -471,8 +472,8 @@ int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
- 	return 0;
- 
- request_fail:
--	xhci_dbc_free_requests(port->in, &port->read_pool);
--	xhci_dbc_free_requests(port->out, &port->write_pool);
-+	xhci_dbc_free_requests(&port->read_pool);
-+	xhci_dbc_free_requests(&port->write_pool);
- 	kfifo_free(&port->write_fifo);
- 
- buf_alloc_fail:
-@@ -495,7 +496,7 @@ void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc)
- 	port->registered = false;
- 
- 	kfifo_free(&port->write_fifo);
--	xhci_dbc_free_requests(get_out_ep(dbc), &port->read_pool);
--	xhci_dbc_free_requests(get_out_ep(dbc), &port->read_queue);
--	xhci_dbc_free_requests(get_in_ep(dbc), &port->write_pool);
-+	xhci_dbc_free_requests(&port->read_pool);
-+	xhci_dbc_free_requests(&port->read_queue);
-+	xhci_dbc_free_requests(&port->write_pool);
- }
+-
+-
 -- 
 2.17.1
 
