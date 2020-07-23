@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C9AC433F8
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D48CEC433F7
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5330F208E4
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B60D2208E4
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jul 2020 14:42:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728725AbgGWOmc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 10:42:32 -0400
+        id S1728704AbgGWOma (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 10:42:30 -0400
 Received: from mga02.intel.com ([134.134.136.20]:12017 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728306AbgGWOmc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jul 2020 10:42:32 -0400
-IronPort-SDR: vghImXARG0pkl4t4PBTkK5F9r1WvVLRo9BX3UUYA8y2EX3Xg45r/pehrdQ68vsquKiM1sLiX0l
- fYSCqCLYLpug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138607382"
+        id S1728306AbgGWOm3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jul 2020 10:42:29 -0400
+IronPort-SDR: 9KMpT43gUpYgR2TyIFM2NPC2ZRKgRnuHFgTec3LfazHkhJFj/p5UeQpk96AkuvseGl1fnIV6xb
+ winolLiPxqNQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138607370"
 X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; 
-   d="scan'208";a="138607382"
+   d="scan'208";a="138607370"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 07:42:31 -0700
-IronPort-SDR: Yc3PyV1YxYGnqb3ZtII4rMEQSRoJ5aHNsdCKYt8nMdL9r1sEbwxR/3pMjjzEAAnVSgbTsD0J2L
- +Ets1ZYgL3kw==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 07:42:28 -0700
+IronPort-SDR: pkE36pJgIl1BRe2Sf0A5R4yy9GSWsiQ50L1PxwjsLWj7S3ZRDUS4nQNebI/gK+8gPLAxLxezit
+ SEM8GbKelxqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; 
-   d="scan'208";a="320672371"
+   d="scan'208";a="320672365"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 07:42:29 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 07:42:27 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 05/27] xhci: dbc: Remove dbc_dma_alloc_coherent() wrapper
-Date:   Thu, 23 Jul 2020 17:45:08 +0300
-Message-Id: <20200723144530.9992-6-mathias.nyman@linux.intel.com>
+Subject: [PATCH 03/27] xhci: Don't pass struct xhci_hcd pointer to xhci_link_seg()
+Date:   Thu, 23 Jul 2020 17:45:06 +0300
+Message-Id: <20200723144530.9992-4-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
 References: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
@@ -50,53 +50,98 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-dbc_dma_alloc_coherent() takes struct xhci_hcd pointer as an parameter, but
-does nothing more than calls dma_alloc_coherent().
-Remove it and call dma_alloc_coherent() directly instead.
+It's only used to dig out if we need to set a chain flag for specific
+hosts. Pass the flag directly as a parameter instead.
 
-No functional changes
-This change helps decoupling xhci and DbC
+No functional changes.
+
+xhci_link_seg() is also used by DbC code, this change helps decoupling
+xhci and DbC.
 
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-dbgcap.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ drivers/usb/host/xhci-mem.c | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index 138b0c994ad2..e8a2cbda135c 100644
---- a/drivers/usb/host/xhci-dbgcap.c
-+++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -14,17 +14,6 @@
- #include "xhci-trace.h"
- #include "xhci-dbgcap.h"
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index fb221c091478..d38779e2fc84 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -96,8 +96,9 @@ static void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
+  * DMA address of the next segment.  The caller needs to set any Link TRB
+  * related flags, such as End TRB, Toggle Cycle, and no snoop.
+  */
+-static void xhci_link_segments(struct xhci_hcd *xhci, struct xhci_segment *prev,
+-		struct xhci_segment *next, enum xhci_ring_type type)
++static void xhci_link_segments(struct xhci_segment *prev,
++			       struct xhci_segment *next,
++			       enum xhci_ring_type type, bool chain_links)
+ {
+ 	u32 val;
  
--static inline void *
--dbc_dma_alloc_coherent(struct xhci_hcd *xhci, size_t size,
--		       dma_addr_t *dma_handle, gfp_t flags)
--{
--	void		*vaddr;
--
--	vaddr = dma_alloc_coherent(xhci_to_hcd(xhci)->self.sysdev,
--				   size, dma_handle, flags);
--	return vaddr;
--}
--
- static inline void
- dbc_dma_free_coherent(struct xhci_hcd *xhci, size_t size,
- 		      void *cpu_addr, dma_addr_t dma_handle)
-@@ -426,10 +415,8 @@ static int xhci_dbc_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+@@ -112,11 +113,7 @@ static void xhci_link_segments(struct xhci_hcd *xhci, struct xhci_segment *prev,
+ 		val = le32_to_cpu(prev->trbs[TRBS_PER_SEGMENT-1].link.control);
+ 		val &= ~TRB_TYPE_BITMASK;
+ 		val |= TRB_TYPE(TRB_LINK);
+-		/* Always set the chain bit with 0.95 hardware */
+-		/* Set chain bit for isoc rings on AMD 0.96 host */
+-		if (xhci_link_trb_quirk(xhci) ||
+-				(type == TYPE_ISOC &&
+-				 (xhci->quirks & XHCI_AMD_0x96_HOST)))
++		if (chain_links)
+ 			val |= TRB_CHAIN;
+ 		prev->trbs[TRBS_PER_SEGMENT-1].link.control = cpu_to_le32(val);
+ 	}
+@@ -131,13 +128,19 @@ static void xhci_link_rings(struct xhci_hcd *xhci, struct xhci_ring *ring,
+ 		unsigned int num_segs)
+ {
+ 	struct xhci_segment *next;
++	bool chain_links;
  
- 	/* Allocate the string table: */
- 	dbc->string_size = sizeof(struct dbc_str_descs);
--	dbc->string = dbc_dma_alloc_coherent(xhci,
--					     dbc->string_size,
--					     &dbc->string_dma,
--					     flags);
-+	dbc->string = dma_alloc_coherent(dev, dbc->string_size,
-+					 &dbc->string_dma, flags);
- 	if (!dbc->string)
- 		goto string_fail;
+ 	if (!ring || !first || !last)
+ 		return;
  
++	/* Set chain bit for 0.95 hosts, and for isoc rings on AMD 0.96 host */
++	chain_links = !!(xhci_link_trb_quirk(xhci) ||
++			 (ring->type == TYPE_ISOC &&
++			  (xhci->quirks & XHCI_AMD_0x96_HOST)));
++
+ 	next = ring->enq_seg->next;
+-	xhci_link_segments(xhci, ring->enq_seg, first, ring->type);
+-	xhci_link_segments(xhci, last, next, ring->type);
++	xhci_link_segments(ring->enq_seg, first, ring->type, chain_links);
++	xhci_link_segments(last, next, ring->type, chain_links);
+ 	ring->num_segs += num_segs;
+ 	ring->num_trbs_free += (TRBS_PER_SEGMENT - 1) * num_segs;
+ 
+@@ -321,6 +324,12 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci,
+ 		enum xhci_ring_type type, unsigned int max_packet, gfp_t flags)
+ {
+ 	struct xhci_segment *prev;
++	bool chain_links;
++
++	/* Set chain bit for 0.95 hosts, and for isoc rings on AMD 0.96 host */
++	chain_links = !!(xhci_link_trb_quirk(xhci) ||
++			 (type == TYPE_ISOC &&
++			  (xhci->quirks & XHCI_AMD_0x96_HOST)));
+ 
+ 	prev = xhci_segment_alloc(xhci, cycle_state, max_packet, flags);
+ 	if (!prev)
+@@ -341,12 +350,12 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci,
+ 			}
+ 			return -ENOMEM;
+ 		}
+-		xhci_link_segments(xhci, prev, next, type);
++		xhci_link_segments(prev, next, type, chain_links);
+ 
+ 		prev = next;
+ 		num_segs--;
+ 	}
+-	xhci_link_segments(xhci, prev, *first, type);
++	xhci_link_segments(prev, *first, type, chain_links);
+ 	*last = prev;
+ 
+ 	return 0;
 -- 
 2.17.1
 
