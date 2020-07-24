@@ -2,88 +2,173 @@ Return-Path: <SRS0=ebhX=BD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC62DC433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 16:32:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89650C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 16:52:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88281206EB
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 16:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595608335;
-	bh=Wu2M+P+zLSH1QV4Giv5fhpeU8je67kqtz8vmJQLi3/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=KPBes6jHIsIPzHZ1eoNRMrfBBPsQEi1Pnz2Wx0Za+Pr64q8GhhsfLeq7uCGa2cS9i
-	 FYHixPPzodYo/DPzviniB8itix3rTT9lcRt1v4ehFc9Uf1tPFO3l6Lp4/N8JNdfytd
-	 7yyCgJY5+KLwmdkW305WbD8wPHScoSmdPLeHnMiU=
+	by mail.kernel.org (Postfix) with ESMTP id 6EA3E206F0
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 16:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgGXQcP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jul 2020 12:32:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53194 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726317AbgGXQcO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 24 Jul 2020 12:32:14 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CE2A5206D8;
-        Fri, 24 Jul 2020 16:32:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595608334;
-        bh=Wu2M+P+zLSH1QV4Giv5fhpeU8je67kqtz8vmJQLi3/I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ODrtc6EcKksQ4acJLxYHw4/EQ9dbraxCzGryTdcIWOCgwDcAmn3nceXt5O80GJ0b+
-         7zs28U7fpcITpEU/1It2KuG2dilbeDPpgqHoVv7k9f+fybJoleh29uA489wpBdV/i0
-         PtMgOnF52xv31j9fRmmPlweOQdv0l1/HNu/YeCpU=
-Date:   Fri, 24 Jul 2020 18:32:15 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH 00/27] xhci features for usb-next
-Message-ID: <20200724163215.GA543850@kroah.com>
-References: <20200723144530.9992-1-mathias.nyman@linux.intel.com>
- <20200723150411.GA2529859@kroah.com>
- <be21534d-df11-c957-43eb-e64a05a45404@linux.intel.com>
- <20200724070643.GH3880088@kroah.com>
- <f8e1a53e-6095-3a7c-977e-b3a7ec7f0bca@linux.intel.com>
+        id S1726689AbgGXQwf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jul 2020 12:52:35 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:51359 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbgGXQwe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 12:52:34 -0400
+Received: from classic (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 1693C200004;
+        Fri, 24 Jul 2020 16:52:31 +0000 (UTC)
+Message-ID: <e46ee6070263cd6672a42050040dbe1503036702.camel@hadess.net>
+Subject: Re: [PATCH v4] USB: Fix device driver race
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     USB <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date:   Fri, 24 Jul 2020 18:52:31 +0200
+In-Reply-To: <20200724152707.GB1388675@rowland.harvard.edu>
+References: <ee32a093d43fe6631617c203ea7c86cb700ceac5.camel@hadess.net>
+         <CAHp75VeKY0FSdfza0E9Fz8=2dCyPXwPZYE0kjywiRQAsvmbiow@mail.gmail.com>
+         <20200724152707.GB1388675@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8e1a53e-6095-3a7c-977e-b3a7ec7f0bca@linux.intel.com>
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 02:11:44PM +0300, Mathias Nyman wrote:
-> > What other interface is asked for?  And yes, I would push back, what is
-> > wrong with TTY here?  It should be the most "low overhead" interface
-> > that works with common userspace tools that we have.
+On Fri, 2020-07-24 at 11:27 -0400, Alan Stern wrote:
+> On Fri, Jul 24, 2020 at 01:32:40PM +0300, Andy Shevchenko wrote:
+> > On Fri, Jul 24, 2020 at 12:03 PM Bastien Nocera <hadess@hadess.net>
+> > wrote:
+> > > When a new device with a specialised device driver is plugged in,
+> > > the
+> > > new driver will be modprobe()'d but the driver core will attach
+> > > the
+> > > "generic" driver to the device.
+> > > 
+> > > After that, nothing will trigger a reprobe when the modprobe()'d
+> > > device
+> > > driver has finished initialising, as the device has the "generic"
+> > > driver attached to it.
+> > > 
+> > > Trigger a reprobe ourselves when new specialised drivers get
+> > > registered.
+> > 
+> > ...
+> > 
+> > > +static int __usb_bus_reprobe_drivers(struct device *dev, void
+> > > *data)
+> > > +{
+> > > +       struct usb_device_driver *new_udriver = data;
+> > > +       struct usb_device_driver *udriver;
+> > > +       struct usb_device *udev;
+> > > +
+> > > +       if (!dev->driver)
+> > > +               return 0;
+> > > +
+> > > +       udriver = to_usb_device_driver(dev->driver);
+> > > +       if (udriver != &usb_generic_driver)
+> > > +               return 0;
+> > 
+> > What about
+> > 
+> > static bool is_dev_usb_generic_driver(dev)
+> > {
+> >       struct usb_device_driver *udd = dev->driver ?
+> > to_usb_device_driver(dev->driver) : NULL;
+> > 
+> >       return udd == &usb_generic_driver;
+> > }
+> > 
+> >   if (!is_dev_usb_generic_driver)
+> >     return 0;
+> > 
+> > ?
 > 
-> I've been asking the same questions about the TTY limitations.
+> Why would you want to add more lines of code to do the same thing?  
+> Abstraction is fine up to point, but excessive abstraction only
+> makes 
+> things more difficult.
+
+I actually like that one, it made the code clearer IMO.
+
+> > > +       udev = to_usb_device(dev);
+> > > +       if (usb_device_match_id(udev, new_udriver->id_table) !=
+> > > NULL ||
+> > > +           (new_udriver->match && new_udriver->match(udev) ==
+> > > 0))
+> > > +               device_reprobe(dev);
+> > > +
+> > > +       return 0;
+> > 
+> > What about
+> > 
+> >      udev = to_usb_device(dev);
+> >      if (usb_device_match_id(udev, new_udriver->id_table) == NULL)
+> >        return 0;
+> > ?
 > 
-> Currently there's a driver providing a character device in development.
-> The developers are aware that they need to clarify and justify the need for a
-> new interface to get the driver upstream. My concerns and suggestions are noted.
+> The logic is wrong.  If usb_device_match_id() returns NULL then we
+> want 
+> to go ahead with the second test, not give up right away.  But this 
+> could be written as:
 > 
-> As I don't understand these TTY limitations I'll have to let people publishing the
-> driver do this part. I expect that the driver will clarify things.
+> 	if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
+> 			(!new_udriver->match || new_udriver-
+> >match(udev) != 0))
+> 		return 0;
 > 
-> Anyway, I rather support them and work on providing the infrastructure needed 
-> to write such a driver, and give them the opportunity to implement whatever is needed.
+> 	device_reprobe(dev);
+> 
+> This would make the overall flow of the routine more uniform.
 
-Don't add frameworks for no users.
+Adopted.
 
-Making this a char driver is not going to fly with me, I think I
-remember seeing old patches that tried to do this in the past that were
-submitted to some random Android kernel, and they just did not make any
-sense.
+> > > +               /* Check whether any device could be better
+> > > served with
+> > > +                * this new driver
+> > > +                */
+> > 
+> > Comment style?
+> 
+> Right:
+> 
+> 	/*
+> 	 * Multiline comments
+> 	 * should look like this.
+> 	 */
+> 
+> > ...
+> > 
+> > > +               if (new_udriver->match || new_udriver->id_table)
+> > 
+> > But match check is incorporated in the loop function.
+> 
+> Agreed, this test is redundant.  However, we should test that 
+> new_udriver != &usb_generic_driver.
 
-It is easier to hide custom ioctls (i.e. custom syscalls) in a char
-driver than it is in a tty driver, so don't fall into that trap :)
+Do you really want to loop over every USB device when you know for a
+fact that not a single one will match?
 
-good luck!
+I guess it's unlikely, the generic driver would be loaded before any
+device, and the specialised drivers need to be able to selected, so
+I've done that locally.
 
-greg k-h
+> Alan Stern
+> 
+> > > +                       bus_for_each_dev(&usb_bus_type, NULL,
+> > > new_udriver,
+> > > +                                        __usb_bus_reprobe_driver
+> > > s);
+> > 
+> > -- 
+> > With Best Regards,
+> > Andy Shevchenko
+
