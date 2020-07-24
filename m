@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90629C433E3
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 12:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D56C4C433EB
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 12:38:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B23420771
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 12:38:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B394B2074F
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 12:38:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="m5g5GToc"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="oPV/csVA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726783AbgGXMiK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jul 2020 08:38:10 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:35436 "EHLO
+        id S1726952AbgGXMiS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jul 2020 08:38:18 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:35438 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726455AbgGXMiJ (ORCPT
+        by vger.kernel.org with ESMTP id S1726411AbgGXMiJ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 08:38:09 -0400
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06OCbOKl029988;
-        Fri, 24 Jul 2020 14:37:54 +0200
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06OCbmn3030431;
+        Fri, 24 Jul 2020 14:37:56 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=FRFwv70pslXpbzDDFiAT4tkfUee8cC3QNP2PqAXCowg=;
- b=m5g5GTocUGhhu0LPxOxdxuKY23LtN9Xdg9OSukoVtYQWOb6UN8eXaBK61rZnVwa8wUbM
- IHIgjmhhz6TsegsQC5f+NUMwU2tNjBrN2BlVLFQEZ6Caes72kR2dFt+Abk9uXyMUbs4Y
- TUvG6DYF/lvMWg8g1aeRc9UiaG/Ky9nhqDaA6D7s3rWGSIA3qnlKVl9gNIXJ7diCiygc
- 5HY7Yw8ysMtHTKswldrPJFj87sbKs3ZQsJDrVcNzoveGQN9gLfOrJXCCC5Ys9v+S7eU1
- SadfnZZ61+LT5booRHm8F+guo0NfhOT0ziS2izMDZFK4TdWO3GPqddfi35/yGdDvya9i bw== 
+ bh=hITZ0rNuNZdzv6aASsIGDY5KNIH8glBNT6+akNE1P8o=;
+ b=oPV/csVAuyyFnhgTBy6hXaSEMDDcsjG3J5J3FWwkSMQ316F3cyZPhevOdYH+HLLFK6y0
+ n3sQduS5LwI/ci0i80Fp8CtIJcgSqFHoZKt/fJhwreb0cyykZLfgM9FB7buZez0iytMA
+ i7LCx1IxH8lBPQ+sNl0chC4OPfyPalub3/mirgtBx0Vt3+7VdLRWIKw62OOlNNXdRgNd
+ mo6kaEf9FItLM6xsT9n5myJPMWlFkVnbAvrctuez43fccfOw1htF12QjbDNdI4jT6xnZ
+ nTTVVQy40neJ+kd5MXSUc74O4C0quVdZAX8z2PY/7dzaHj9179tFpbNL659aeIBj26rl 1g== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 32bsahgcgr-1
+        by mx07-00178001.pphosted.com with ESMTP id 32bsahgcgu-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Jul 2020 14:37:54 +0200
+        Fri, 24 Jul 2020 14:37:56 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 637D210002A;
-        Fri, 24 Jul 2020 14:37:54 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 98A0910002A;
+        Fri, 24 Jul 2020 14:37:55 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 557122AF334;
-        Fri, 24 Jul 2020 14:37:54 +0200 (CEST)
-Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 24 Jul 2020 14:37:54
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8ADD82AF334;
+        Fri, 24 Jul 2020 14:37:55 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 24 Jul 2020 14:37:55
  +0200
 From:   Amelie Delaunay <amelie.delaunay@st.com>
 To:     Minas Harutyunyan <hminas@synopsys.com>,
@@ -60,16 +60,16 @@ CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         Fabrice Gasnier <fabrice.gasnier@st.com>,
         Amelie Delaunay <amelie.delaunay@st.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [PATCH 2/4] usb: dwc2: fix build issue when config is USB_DWC2_HOST only
-Date:   Fri, 24 Jul 2020 14:37:46 +0200
-Message-ID: <20200724123748.25369-3-amelie.delaunay@st.com>
+Subject: [PATCH 4/4] usb: dwc2: fix error path with missing dwc2_drd_exit
+Date:   Fri, 24 Jul 2020 14:37:48 +0200
+Message-ID: <20200724123748.25369-5-amelie.delaunay@st.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200724123748.25369-1-amelie.delaunay@st.com>
 References: <20200724123748.25369-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG1NODE1.st.com (10.75.127.1) To SFHDAG3NODE2.st.com
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG8NODE2.st.com (10.75.127.23) To SFHDAG3NODE2.st.com
  (10.75.127.8)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-07-24_04:2020-07-24,2020-07-24 signatures=0
@@ -78,49 +78,29 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch add missing definition of dwc2_hsotg_core_disconnect and
-check configuration before using hsotg->test_mode, to fix build issue when
-config USB_DWC2_PERIPHERAL or USB_DWC2_DUAL_ROLE are not set.
+In case of failure, role switch has to be unregistered. It is done by
+dwc2_drd_exit.
 
 Fixes: bc0f0d4a5853 ("usb: dwc2: override PHY input signals with usb role switch support")
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
 ---
- drivers/usb/dwc2/core.h | 1 +
- drivers/usb/dwc2/drd.c  | 3 +++
- 2 files changed, 4 insertions(+)
+ drivers/usb/dwc2/platform.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
-index 33e790ccefb3..7161344c6522 100644
---- a/drivers/usb/dwc2/core.h
-+++ b/drivers/usb/dwc2/core.h
-@@ -1425,6 +1425,7 @@ static inline int dwc2_gadget_init(struct dwc2_hsotg *hsotg)
- { return 0; }
- static inline void dwc2_hsotg_core_init_disconnected(struct dwc2_hsotg *dwc2,
- 						     bool reset) {}
-+static inline void dwc2_hsotg_core_disconnect(struct dwc2_hsotg *hsotg) {}
- static inline void dwc2_hsotg_core_connect(struct dwc2_hsotg *hsotg) {}
- static inline void dwc2_hsotg_disconnect(struct dwc2_hsotg *dwc2) {}
- static inline int dwc2_hsotg_set_test_mode(struct dwc2_hsotg *hsotg,
-diff --git a/drivers/usb/dwc2/drd.c b/drivers/usb/dwc2/drd.c
-index 032efffa37ab..5099841b1417 100644
---- a/drivers/usb/dwc2/drd.c
-+++ b/drivers/usb/dwc2/drd.c
-@@ -76,11 +76,14 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
- 	    (role == USB_ROLE_HOST && hsotg->dr_mode == USB_DR_MODE_PERIPHERAL))
- 		return -EINVAL;
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index 68b56b43a45e..f4a0371c3e89 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -600,6 +600,8 @@ static int dwc2_driver_probe(struct platform_device *dev)
+ 	return 0;
  
-+#if IS_ENABLED(CONFIG_USB_DWC2_PERIPHERAL) || \
-+	IS_ENABLED(CONFIG_USB_DWC2_DUAL_ROLE)
- 	/* Skip session if core is in test mode */
- 	if (role == USB_ROLE_NONE && hsotg->test_mode) {
- 		dev_dbg(hsotg->dev, "Core is in test mode\n");
- 		return -EBUSY;
- 	}
-+#endif
- 
- 	spin_lock_irqsave(&hsotg->lock, flags);
- 
+ error_init:
++	dwc2_drd_exit(hsotg);
++
+ 	if (hsotg->params.activate_stm_id_vb_detection)
+ 		regulator_disable(hsotg->usb33d);
+ error:
 -- 
 2.17.1
 
