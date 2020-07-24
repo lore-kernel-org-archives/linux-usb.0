@@ -4,79 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC5EC433EB
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 13:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA0AC433E5
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 13:50:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAB3320714
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 13:46:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CB212074A
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 13:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595598372;
-	bh=vu7AEch6tVK5sMQvHGR0dpGgNZ7jy5+kRB2EBTC0xyY=;
+	s=default; t=1595598650;
+	bh=kUQlJC47iSe6M2DGwLKnxLxm68K3q0yDXR5BlVZeOq0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=AK9NKCbVlp97IkxQr1DpKuod1SOdsb1+N/sYkImoyz+LT1OgTkzUe2bSz1704/bIA
-	 ms+HoKcGwxFYKofQ/tPXDWzuDyArBW1E6hY+mv/e9j7vmeM08nCkh05yyGMIv/Xsf8
-	 cG3G/G7/Htlu+N+NkHJCbJThV+aMA88DdSE702/I=
+	b=aFYybGrNVTEXN/y7U80Ns47YujTTrIEYS7iLd3Tf3NPxTeKfwDUK59ufUMHvGakrn
+	 SwZKoT8ml1QdfJxTvJOJP5h8qSeiirDQQIJK9wtD8B8iblu0deLf+H7l7nGl76QhrE
+	 ph6rjOcd1kvcgOP6rGa85cCtXcna3dgFtUiwqFP0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbgGXNqI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jul 2020 09:46:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40166 "EHLO
+        id S1726674AbgGXNur (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jul 2020 09:50:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726235AbgGXNqH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 09:46:07 -0400
+        with ESMTP id S1726326AbgGXNuq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 09:50:46 -0400
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E3CEC0619D3;
-        Fri, 24 Jul 2020 06:46:07 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id f5so10021469ljj.10;
-        Fri, 24 Jul 2020 06:46:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800C1C0619D3;
+        Fri, 24 Jul 2020 06:50:46 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id f5so10036818ljj.10;
+        Fri, 24 Jul 2020 06:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
          :mime-version;
-        bh=vu7AEch6tVK5sMQvHGR0dpGgNZ7jy5+kRB2EBTC0xyY=;
-        b=md52HGXBAlYTKVX/vc+E2YSVjr9cCh2sxaZhVBVMKsXRzJ4CSFyeQgo+AsUD4dBhbH
-         a+BJdAwGPp0mmtKuPJL/woOC7G3k+QGxLaapfHOUSN0vYTKjBXGf/ygoJDNZPNATlrL0
-         lNBgyM5+CJa8MnczwRhZChC9rFVwHfVd6CbkuRTgZgYh7KbAgWs/wIVNNOiIvRFqg4gz
-         xRvu7Hd09vR3832fkvN3VcVhqg2p/mq5PMfAt7NeAdPXmlGPQ/PKxc4K6BJY5ohcLDUt
-         Msp6JmptEwjxnEOlrjyoWSGU7e8dftJ575WnnlCkva/edVsbnfW6GLkF0WLowrlXU+NN
-         5pJQ==
+        bh=kUQlJC47iSe6M2DGwLKnxLxm68K3q0yDXR5BlVZeOq0=;
+        b=dPeXe6/UQ2wtvXiOKUEL6oqdDQbEH/zbCoWiNrdkxWowO5Vxf33tTLJRFpdLpalJR2
+         AXwGuP3JkyAzYQH3bqeQL9NXUfITrspiAzjXS1yf/UKntbrztz36jWgLBEdDuoGlo6Py
+         Pxe99WmG4/sEUjkUz7XhiH3gGVvaavsNmxyoyJtqrNI5FIOxrjJxy939JG+YxVaFvJhJ
+         SuQ3HnCGBy24g6AZlZ2/e94yEt6jxU4HBzDQH5DFH+SSK8FyXbKkVk9HlqkRcTjqgGao
+         iQDYlKQD4PZppjpd1Wu0TmpHlhr8bCRIEoOe8a5mK7eSmUBTPOrXgqi657+j3nhJddAL
+         CMqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
          :date:message-id:mime-version;
-        bh=vu7AEch6tVK5sMQvHGR0dpGgNZ7jy5+kRB2EBTC0xyY=;
-        b=nNo5euy3vaChnnTa84b86I5+FbwnRlQRTZ3gBk+6bCYSirDOt+ssoO8Ok5ZJe0sVam
-         Zz2Mw+EnCO0YkJTOj2K70Yjox54tSJwMOR39ozHOxRlmTcqgreca1DNCs2iGhw79camE
-         q3+tZ99clo32Y50RVJUNklBFUipmyvjMMyehw7UhBEfXi5QT88aPpWaJvUbzGnT7Q2AL
-         jDbhXW4qBqyYqMZt2EZ9sLFtwrciJR/rlyDMgoll5CEVUgjEu+Wh83i0egt4tJojNGje
-         pJromSbCZGWwxMmYvGNJbCrspYFyKR+xKlkN56tq0VxM30kEVlkhXuonfswxOgoEjtJb
-         yRRQ==
-X-Gm-Message-State: AOAM533Czrfj24CdhZGyUS1HbsF0YmpKP3WPjXrWYz4G0SOQQs/hKE6h
-        iqM3pessbjvqguy3LlyGXkI=
-X-Google-Smtp-Source: ABdhPJxRLBdkoLiQ3bIn3g2yWD91G8Xg1O///R4OxhiwVBRMiIkVf0EyOqY9YyLcvXE7EpEcZxM0Cw==
-X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr4663110ljj.143.1595598363953;
-        Fri, 24 Jul 2020 06:46:03 -0700 (PDT)
+        bh=kUQlJC47iSe6M2DGwLKnxLxm68K3q0yDXR5BlVZeOq0=;
+        b=piXWqOMEzsU5PHJBP+5+noMC2SlVorcLj7OtoNhAs1T0PnBphGU5vYpezmPRmxx6J2
+         f/6IAlZ1hegcFy2vBtagykQaIjEREuiFgEdNQz/eo6VPnYbTGFQI0WL9AmGnJB3JfZ5W
+         JyWRa/gPetfLOKzXj7Oa8/uzEEd6YDxIaCmK2H7cfZen+l45Usf0/e94OG6UcJWDk6JC
+         NWqJf3auQ3KqIjUDHE8tSscwEZjP8VuXn+l6+9ukYkvrtcY/TZwLXsPh39w57Bvd6l8/
+         kgT4s5RsqUvns+go3ntJLDEAR5q0QqCWsMUaq9TxEKqts8YO73KKFKesex2CIHICjJqx
+         HV2A==
+X-Gm-Message-State: AOAM531UyAdqC86HC7t6WhzM1WixtlSEp+qljkfza0Cp06LR43aB1B+1
+        ugtT3GQYvMTQZL8CzNjfi88=
+X-Google-Smtp-Source: ABdhPJyxuqN2HEdFLAc+Q3u9eWCvpysSuKBqPGUda1JPOw+Hfp2im3d3RLNxHHtDAEIxAxjOTsvkRA==
+X-Received: by 2002:a2e:7601:: with SMTP id r1mr4719977ljc.111.1595598644870;
+        Fri, 24 Jul 2020 06:50:44 -0700 (PDT)
 Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id i11sm289423lfl.31.2020.07.24.06.46.02
+        by smtp.gmail.com with ESMTPSA id i3sm262139ljj.64.2020.07.24.06.50.43
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 24 Jul 2020 06:46:03 -0700 (PDT)
+        Fri, 24 Jul 2020 06:50:44 -0700 (PDT)
 From:   Felipe Balbi <balbi@kernel.org>
 To:     Amelie DELAUNAY <amelie.delaunay@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc:     Minas Harutyunyan <hminas@synopsys.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-stm32@st-md-mailman.stormreply.com,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: Re: [PATCH 0/3] Add USB role switch support to DWC2
-In-Reply-To: <97cd44c1-9e19-94bc-54f8-204d79b79975@st.com>
-References: <20200616140717.28465-1-amelie.delaunay@st.com> <d8069a78-2640-d112-a2fb-d86b99a8e44f@st.com> <97cd44c1-9e19-94bc-54f8-204d79b79975@st.com>
-Date:   Fri, 24 Jul 2020 16:45:51 +0300
-Message-ID: <87blk5owkw.fsf@kernel.org>
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH v3 0/3] Add USB role switch support to DWC2
+In-Reply-To: <4c44f596-d2c3-6d2f-bf28-9e3964b6e6f1@st.com>
+References: <20200724104711.5474-1-amelie.delaunay@st.com> <4c44f596-d2c3-6d2f-bf28-9e3964b6e6f1@st.com>
+Date:   Fri, 24 Jul 2020 16:50:39 +0300
+Message-ID: <878sf9owcw.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -90,20 +91,15 @@ Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 
-(please, no top-posting ;-)
+(no top-posting, please)
 
 Hi,
 
 Amelie DELAUNAY <amelie.delaunay@st.com> writes:
+> Series dropped.
 
-> Hi Felipe,
->
-> I saw that you took DT patch (ARM: dts: stm32: enable usb-role-switch on=
-=20
-> USB OTG on stm32mp15xx-dkx) in your next branch. As it was already in
-> Alex' stm32-next branch, a potential merge conflict could occurred.
-
-Thanks for letting me know, I have dropped it.
+what do you mean with this? Should I drop all patches related with this ser=
+ies?
 
 =2D-=20
 balbi
@@ -113,18 +109,18 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8a5g8ACgkQzL64meEa
-mQa6GA//dv6un4DfWkydBfBMjWWl9DuRCyLB80t59IsGJejlkudKuN4qaqQSbEI2
-DVpyiZKw/1Nt8aTpQJTJgsgf69vIzkhsxvkQ8tIrYZlXWwUoB/HKClA9R1gGR8Rq
-oI50A35v0hRHTFoE3TlOXxC+NBeGkHw+O+yCEhOFbevHJ5N9JW6s+Vkaur11mgc8
-kYIW1WYPrQ2oTAPlEgdv5HRoA2UCZX/E9poNn83gWSe8r3FL55huLPEb3Caem01y
-8LKRFgDSbvoiVrVZM+bQ7JUlu0ORvwKlTak4q4InvqE9VqAsHBstN7iNvutYwtCM
-X1RPT8npXN+mR8U+r1QZOZ549YDuVe/ToTPBoz6IaAf7H4OH2ET00nfEcEbJGWxJ
-rap1HuJDfKFJb+4B9j5lkqoaTE25JyNqk1XY3UBKtnU4tfMeJVHw8GxJIdy3xiM/
-knkPyZEk3nCRbcEoUaVhFPCvKzGweMtaer/xIw6VEM25bPZzRa2+r+2kz9k8nYnO
-WfXC2r1IS2WXJC5arwG5dStHuhngmEPzYQdvV0SPCnhMHwJO9Z5rmD3F8fRNsZMS
-e1kTs9dcurhVJz/Gm0RS/66kIJJGQT1xxf8/Z/sjln8+ShrPe1HDJlhsn3MEqP2l
-BMh1Hh8L66Sl4tNmIB8NKl0Zryn3G/gIL8w+ExILXYzPMzhRYkk=
-=6nN4
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8a5y8ACgkQzL64meEa
+mQZwdw//cL+ayhQjvZnVUc/UnTmN0Gz5U4rAtml72uI2Db/O46+5Q6rNYt0SiPIF
++uiB7fPCPAuYc6zUGLUBp0VelHkN9J6S92LG2TVDWw1Lry/AHVV9exuMcpxJJQxF
+P9qkqx58LJgXCYcqh6fEaMcda5sE8YwSquQb8NSAxtQbX2sZ131CDEH+jlprRREh
+Nlkg5rYqlH2t17wa8rZ/u8SVpiAJ1OXwP0hH+GqXvBm4tgOc6K2FVRYGvqm1fHM2
+BuQvNKCWAE6OkXeia8NxrAl7ME75zlyACkW6jDkVrTUt53QcLx6csjzElLiOmEpS
+t1z4iPud5bzBlHFn4/251TaojqP2SNXHpDGjaQ8lCeBPeqLTtH+SryxQSvpO3Jib
+F6a2a8Rue4GshKF/nCOkyHDbEVmUBo9Q4IFYL7DbHV7xJUfevfSne+Lp1a6DmDXm
+BdvqFvdLXlnrK/Q1Ym83E+VCWz19xJcDawUOMNeZI5llrl5QoMj/4r1uSjrg2Dez
+U8sXUoApM3s+9gUrU+rpgu4r10O0vRKgcoDIEj0N5+pGH1q0Ob+CvUmH/M4kOckV
+vkRkwgMWiGs94k2cI0XitObHTnh4PGZYkhPPIE35KSjo+lIub+1VwG/sZ+J5B0Q0
+Lak7Px3WwyvEXLJu50hshf94FTzduEx7ZiXrWD4hCYDWVr4ba3U=
+=Q6yp
 -----END PGP SIGNATURE-----
 --=-=-=--
