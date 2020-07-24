@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 331B5C433E1
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 02:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E556C433DF
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 03:04:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB2A0206C1
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 02:51:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30BFA20737
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 03:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgGXCv1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jul 2020 22:51:27 -0400
-Received: from mga12.intel.com ([192.55.52.136]:44196 "EHLO mga12.intel.com"
+        id S1726759AbgGXDEL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jul 2020 23:04:11 -0400
+Received: from mga11.intel.com ([192.55.52.93]:18753 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726425AbgGXCv1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jul 2020 22:51:27 -0400
-IronPort-SDR: hAt0lhA6B343pYAOG8mpG5EUcfkJgTLnbR9AIPugESgIfw+0fhUbsfwErfNDjpoVQ8fhDeYrnt
- QSBHzlK//sgw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="130209172"
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; 
-   d="gz'50?scan'50,208,50";a="130209172"
+        id S1726437AbgGXDEL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jul 2020 23:04:11 -0400
+IronPort-SDR: q9QCFZzYjTiNncB75VzKTihLXCMdkOybxrfCPAIZOWOakw81PLWZli7EPWCg5wdIhaHHPH6OIw
+ tkIOpyCzDTGg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="148569579"
+X-IronPort-AV: E=Sophos;i="5.75,389,1589266800"; 
+   d="gz'50?scan'50,208,50";a="148569579"
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 18:44:24 -0700
-IronPort-SDR: bvUcZm5FwS2XNVEWptttOXdyjbSdKIudUepMryeHKIg7MKTrBXq0vys51tNJmX5g0uxi19Aifp
- jrjg7gFFo5HQ==
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 19:37:01 -0700
+IronPort-SDR: QwO8nxew3/a/FwQtu628PP3p9AWQDRVdDiJZbXUSMlDwk3ojBVygU6bKsgBW9Ssbupwagb5eAm
+ k6BvonbmJP3w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; 
-   d="gz'50?scan'50,208,50";a="327185462"
+X-IronPort-AV: E=Sophos;i="5.75,389,1589266800"; 
+   d="gz'50?scan'50,208,50";a="489049647"
 Received: from lkp-server01.sh.intel.com (HELO bd1a4a62506a) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Jul 2020 18:44:22 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jul 2020 19:37:00 -0700
 Received: from kbuild by bd1a4a62506a with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jyml3-0000fx-SO; Fri, 24 Jul 2020 01:44:21 +0000
-Date:   Fri, 24 Jul 2020 09:43:35 +0800
+        id 1jynZz-0000hS-Hg; Fri, 24 Jul 2020 02:36:59 +0000
+Date:   Fri, 24 Jul 2020 10:36:00 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Mathias Nyman <mathias.nyman@linux.intel.com>
 Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [usb:usb-testing 187/195] drivers/usb/host/xhci-dbgcap.c:410:1:
- warning: no previous prototype for 'xhci_dbc_ring_alloc'
-Message-ID: <202007240932.fv0YW5AP%lkp@intel.com>
+Subject: [usb:usb-testing 193/195] drivers/usb/host/xhci-dbgtty.c:396:5:
+ warning: no previous prototype for 'xhci_dbc_tty_register_device'
+Message-ID: <202007241056.Hldz09he%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="LQksG6bCIzRHxTLp"
+Content-Type: multipart/mixed; boundary="WIyZ46R2i8wDzkSu"
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
@@ -57,17 +57,17 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
---LQksG6bCIzRHxTLp
+--WIyZ46R2i8wDzkSu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 head:   9a360a7cae11461ccd933a9ea366b0dcb3afadb0
-commit: ac286428c69fb3dc2924ce0ad5a11b5577b2f5da [187/195] xhci: dbc: don't use generic xhci ring allocation functions for dbc.
+commit: 6ae6470bfa330d0b8892e02888bf5dac2272c28d [193/195] xhci: dbc: Add a operations structure to access driver functions
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
 reproduce (this is a W=1 build):
-        git checkout ac286428c69fb3dc2924ce0ad5a11b5577b2f5da
+        git checkout 6ae6470bfa330d0b8892e02888bf5dac2272c28d
         # save the attached .config to linux build tree
         make W=1 ARCH=i386 
 
@@ -76,73 +76,99 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/host/xhci-dbgcap.c:410:1: warning: no previous prototype for 'xhci_dbc_ring_alloc' [-Wmissing-prototypes]
-     410 | xhci_dbc_ring_alloc(struct device *dev, enum xhci_ring_type type, gfp_t flags)
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-dbgcap.c: In function 'xhci_dbc_mem_cleanup':
-   drivers/usb/host/xhci-dbgcap.c:530:18: warning: unused variable 'dev' [-Wunused-variable]
-     530 |  struct device  *dev = xhci_to_hcd(xhci)->self.controller;
-         |                  ^~~
+>> drivers/usb/host/xhci-dbgtty.c:396:5: warning: no previous prototype for 'xhci_dbc_tty_register_device' [-Wmissing-prototypes]
+     396 | int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/host/xhci-dbgtty.c:444:6: warning: no previous prototype for 'xhci_dbc_tty_unregister_device' [-Wmissing-prototypes]
+     444 | void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-dbgtty.c: In function 'xhci_dbc_tty_probe':
+   drivers/usb/host/xhci-dbgtty.c:478:1: warning: label 'out' defined but not used [-Wunused-label]
+     478 | out:
+         | ^~~
 
-vim +/xhci_dbc_ring_alloc +410 drivers/usb/host/xhci-dbgcap.c
+vim +/xhci_dbc_tty_register_device +396 drivers/usb/host/xhci-dbgtty.c
 
-   408	
-   409	struct xhci_ring *
- > 410	xhci_dbc_ring_alloc(struct device *dev, enum xhci_ring_type type, gfp_t flags)
-   411	{
-   412		struct xhci_ring *ring;
-   413		struct xhci_segment *seg;
-   414		dma_addr_t dma;
-   415	
-   416		ring = kzalloc(sizeof(*ring), flags);
-   417		if (!ring)
-   418			return NULL;
-   419	
-   420		ring->num_segs = 1;
-   421		ring->type = type;
-   422	
-   423		seg = kzalloc(sizeof(*seg), flags);
-   424		if (!seg)
-   425			goto seg_fail;
-   426	
-   427		ring->first_seg = seg;
-   428		ring->last_seg = seg;
-   429		seg->next = seg;
-   430	
-   431		seg->trbs = dma_alloc_coherent(dev, TRB_SEGMENT_SIZE, &dma, flags);
-   432		if (!seg->trbs)
-   433			goto dma_fail;
-   434	
-   435		seg->dma = dma;
-   436	
-   437		/* Only event ring does not use link TRB */
-   438		if (type != TYPE_EVENT) {
-   439			union xhci_trb *trb = &seg->trbs[TRBS_PER_SEGMENT - 1];
-   440	
-   441			trb->link.segment_ptr = cpu_to_le64(dma);
-   442			trb->link.control = cpu_to_le32(LINK_TOGGLE | TRB_TYPE(TRB_LINK));
-   443		}
-   444		INIT_LIST_HEAD(&ring->td_list);
-   445		xhci_initialize_ring_info(ring, 1);
-   446		return ring;
-   447	dma_fail:
-   448		kfree(seg);
-   449	seg_fail:
-   450		kfree(ring);
-   451		return NULL;
-   452	}
-   453	
+dfba2174dc421ec Lu Baolu      2017-12-08  395  
+b396fa39de9b47c Mathias Nyman 2020-07-23 @396  int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
+dfba2174dc421ec Lu Baolu      2017-12-08  397  {
+dfba2174dc421ec Lu Baolu      2017-12-08  398  	int			ret;
+dfba2174dc421ec Lu Baolu      2017-12-08  399  	struct device		*tty_dev;
+dfba2174dc421ec Lu Baolu      2017-12-08  400  	struct dbc_port		*port = &dbc->port;
+dfba2174dc421ec Lu Baolu      2017-12-08  401  
+91aaf97471a047b Mathias Nyman 2020-07-23  402  	xhci_dbc_tty_init_port(dbc, port);
+dfba2174dc421ec Lu Baolu      2017-12-08  403  	tty_dev = tty_port_register_device(&port->port,
+dfba2174dc421ec Lu Baolu      2017-12-08  404  					   dbc_tty_driver, 0, NULL);
+29f653393e740b1 Dan Carpenter 2018-03-16  405  	if (IS_ERR(tty_dev)) {
+29f653393e740b1 Dan Carpenter 2018-03-16  406  		ret = PTR_ERR(tty_dev);
+dfba2174dc421ec Lu Baolu      2017-12-08  407  		goto register_fail;
+29f653393e740b1 Dan Carpenter 2018-03-16  408  	}
+dfba2174dc421ec Lu Baolu      2017-12-08  409  
+dfba2174dc421ec Lu Baolu      2017-12-08  410  	ret = kfifo_alloc(&port->write_fifo, DBC_WRITE_BUF_SIZE, GFP_KERNEL);
+dfba2174dc421ec Lu Baolu      2017-12-08  411  	if (ret)
+dfba2174dc421ec Lu Baolu      2017-12-08  412  		goto buf_alloc_fail;
+dfba2174dc421ec Lu Baolu      2017-12-08  413  
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  414  	ret = xhci_dbc_alloc_requests(dbc, BULK_IN, &port->read_pool,
+dfba2174dc421ec Lu Baolu      2017-12-08  415  				      dbc_read_complete);
+dfba2174dc421ec Lu Baolu      2017-12-08  416  	if (ret)
+dfba2174dc421ec Lu Baolu      2017-12-08  417  		goto request_fail;
+dfba2174dc421ec Lu Baolu      2017-12-08  418  
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  419  	ret = xhci_dbc_alloc_requests(dbc, BULK_OUT, &port->write_pool,
+dfba2174dc421ec Lu Baolu      2017-12-08  420  				      dbc_write_complete);
+dfba2174dc421ec Lu Baolu      2017-12-08  421  	if (ret)
+dfba2174dc421ec Lu Baolu      2017-12-08  422  		goto request_fail;
+dfba2174dc421ec Lu Baolu      2017-12-08  423  
+dfba2174dc421ec Lu Baolu      2017-12-08  424  	port->registered = true;
+dfba2174dc421ec Lu Baolu      2017-12-08  425  
+dfba2174dc421ec Lu Baolu      2017-12-08  426  	return 0;
+dfba2174dc421ec Lu Baolu      2017-12-08  427  
+dfba2174dc421ec Lu Baolu      2017-12-08  428  request_fail:
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  429  	xhci_dbc_free_requests(&port->read_pool);
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  430  	xhci_dbc_free_requests(&port->write_pool);
+dfba2174dc421ec Lu Baolu      2017-12-08  431  	kfifo_free(&port->write_fifo);
+dfba2174dc421ec Lu Baolu      2017-12-08  432  
+dfba2174dc421ec Lu Baolu      2017-12-08  433  buf_alloc_fail:
+dfba2174dc421ec Lu Baolu      2017-12-08  434  	tty_unregister_device(dbc_tty_driver, 0);
+dfba2174dc421ec Lu Baolu      2017-12-08  435  
+dfba2174dc421ec Lu Baolu      2017-12-08  436  register_fail:
+dfba2174dc421ec Lu Baolu      2017-12-08  437  	xhci_dbc_tty_exit_port(port);
+dfba2174dc421ec Lu Baolu      2017-12-08  438  
+b396fa39de9b47c Mathias Nyman 2020-07-23  439  	dev_err(dbc->dev, "can't register tty port, err %d\n", ret);
+dfba2174dc421ec Lu Baolu      2017-12-08  440  
+dfba2174dc421ec Lu Baolu      2017-12-08  441  	return ret;
+dfba2174dc421ec Lu Baolu      2017-12-08  442  }
+dfba2174dc421ec Lu Baolu      2017-12-08  443  
+b396fa39de9b47c Mathias Nyman 2020-07-23 @444  void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc)
+dfba2174dc421ec Lu Baolu      2017-12-08  445  {
+dfba2174dc421ec Lu Baolu      2017-12-08  446  	struct dbc_port		*port = &dbc->port;
+dfba2174dc421ec Lu Baolu      2017-12-08  447  
+dfba2174dc421ec Lu Baolu      2017-12-08  448  	tty_unregister_device(dbc_tty_driver, 0);
+dfba2174dc421ec Lu Baolu      2017-12-08  449  	xhci_dbc_tty_exit_port(port);
+dfba2174dc421ec Lu Baolu      2017-12-08  450  	port->registered = false;
+dfba2174dc421ec Lu Baolu      2017-12-08  451  
+dfba2174dc421ec Lu Baolu      2017-12-08  452  	kfifo_free(&port->write_fifo);
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  453  	xhci_dbc_free_requests(&port->read_pool);
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  454  	xhci_dbc_free_requests(&port->read_queue);
+e0aa56dc7b18c80 Mathias Nyman 2020-07-23  455  	xhci_dbc_free_requests(&port->write_pool);
+dfba2174dc421ec Lu Baolu      2017-12-08  456  }
+4521f16139409cd Mathias Nyman 2020-07-23  457  
+
+:::::: The code at line 396 was first introduced by commit
+:::::: b396fa39de9b47ce3368f65d7d069c7176f26371 xhci: dbgtty: Pass dbc pointer when registering a dbctty device
+
+:::::: TO: Mathias Nyman <mathias.nyman@linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---LQksG6bCIzRHxTLp
+--WIyZ46R2i8wDzkSu
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICLkyGl8AAy5jb25maWcAlDzJdty2svt8RR9nkyySq8mKc97xAg2CbKRJggbAVrc3PIrc
+H4sICNVCGl8AAy5jb25maWcAlDzJdty2svt8RR9nkyySq8mKc97xAg2CbKRJggbAVrc3PIrc
 dnSeLflquDf++1cFcCiAoJyXRSxWYSzUjEL/+MOPK/b8dP/l+un25vrz52+rT8e748P10/HD
 6uPt5+P/rDK1qpVdiUzaX6FxeXv3/Pe/bs/fXK5e//rm15NfHm4uV9vjw93x84rf3328/fQM
 vW/v73748Qeu6lwWHefdTmgjVd1ZsbdvX326ufnl99VP2fHP2+u71e+/nsMwpxc/+79ekW7S
@@ -1515,4 +1541,4 @@ cqgvHX3KoD2CitTKlUTQin1T6Cu0Hc1GW2VD7iedty+z1g2Z6GEZ8M789i46xs7eSyCm642c
 AKaqjtrAh6x2RKqfFPCKX2VF5DQru1U6I6ziLIQ9pO+g1YwyYdHTFgVPWBO3CpAc4p7UgCJU
 5FuYoLtWDlNV4axe4Ph14s8P9CGqjruK7n2KcJvZPdX/AyYJgCiXvwQA
 
---LQksG6bCIzRHxTLp--
+--WIyZ46R2i8wDzkSu--
