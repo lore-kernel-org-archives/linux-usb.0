@@ -2,195 +2,108 @@ Return-Path: <SRS0=ebhX=BD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D403C433E8
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 17:47:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89201C433E3
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 17:57:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F37B206F6
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 17:47:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B942206D8
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 17:57:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A9fMxxnR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mHez2R2j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgGXRrX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jul 2020 13:47:23 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54274 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726838AbgGXRrX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 13:47:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1595612841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=T/y68V4c4WcmgXC9p2IQHu3wJNHASeRisIJnWUDnpA0=;
-        b=A9fMxxnRDW3yCP6vyr5kQ2sd6hfmE4Gy96Ktpnw4LtPZe/aFsno4Xnu5FId8oa4JdjsNgL
-        pjOIdiagSMquSFDIN99/rECW7a7+6I1NCCLE7ZPr10w60JvFSsnJanObiDX27YgUw16qMx
-        uEVH55rJHwLWokcXI9aWxqWIgPvD468=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-kpkbLZ_5MieHr6_l3eRIAw-1; Fri, 24 Jul 2020 13:47:19 -0400
-X-MC-Unique: kpkbLZ_5MieHr6_l3eRIAw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF204800483;
-        Fri, 24 Jul 2020 17:47:17 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 415C05D9D3;
-        Fri, 24 Jul 2020 17:47:15 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726381AbgGXR5U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jul 2020 13:57:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbgGXR5T (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 13:57:19 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7858C0619D3
+        for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2020 10:57:18 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id s9so10812951ljm.11
+        for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2020 10:57:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IiecWBlpeMlAossAeTVkpEy+x6lMeCVx/nxrNqdqeZc=;
+        b=mHez2R2jxMcoe6mE97j/+jcOIPrrwsVSOushhmLEdoRpAbaf/RBGnViTsj5rMNCzGJ
+         Jskcv3gNCQ5mYb+OBej/959aezBi1HsDljsHxkGlIkanXX6YEGjojlIN92Cf/DQaWFXG
+         owt6Vm5lBzTtuH5iO03KRXaVq1Ufg5+JFzbtcA9AS2NBTAIEz7JM7DnOLWMboRH903JM
+         ezxR8z8B52Ld46OyVHGtGShn7XKhtiMMYG4T/MBCWaMCsNjb8IDfnToUPfa9VWahAxsw
+         DmPmAZlB1Tn9NDg7ZWMxbYiT033bI6qCG6wGN1ArwoUct6CSLPqjBaJabKnKZWm8JoUn
+         +ilw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IiecWBlpeMlAossAeTVkpEy+x6lMeCVx/nxrNqdqeZc=;
+        b=du5LWUcne5jT42NgWyANWYbh6qIZxEK+dEQEBjIOL/HZsonUwcmlFIsNiReIvNXhPS
+         iOBN6WCtACpeHXzPLj0qMpZ4KVYMscfvUmGdya+/GbaMxOlphz5PkD+Y0N/apOZdCI6j
+         5CtUnDVFVEVHwXoXE+gVeNCKgPCeXYDAIcPX8Q7Tth9ap3I0ynwzWAOZ5KZ2DPmc7Dqn
+         zdOHfYWw8SmiL1ZAkjE/sEPm22lrNFIIJQNxmeicSQuf8KUx+ZZUDJq/jq4+31MXtQu4
+         eakaHf8sqi2elMgh4/mPJ94FOo2AmlM0xK9HCYY806qVkLLIKu/5B8liEXsJ9CLu8Rji
+         iz8w==
+X-Gm-Message-State: AOAM530dmetiFPDAD5+WeCVVSGCh4kcZ8JipXy1Bd7CG3KmEC2tLSNuh
+        cCRAuPIH4RaCO/Hp3RhDtIBoRyCPGxE=
+X-Google-Smtp-Source: ABdhPJwpSPvzYNVmLmAiBejPBMKboCvvDrV82VZ5U+LH27iD5brEkAstgh6BeFrAqn1v2xvzQLMcOQ==
+X-Received: by 2002:a2e:88d0:: with SMTP id a16mr5063651ljk.213.1595613436764;
+        Fri, 24 Jul 2020 10:57:16 -0700 (PDT)
+Received: from wasted.omprussia.ru ([2a00:1fa0:80f:eec9:9f1f:2e41:78b8:6474])
+        by smtp.gmail.com with ESMTPSA id m20sm399827lfb.72.2020.07.24.10.57.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2020 10:57:16 -0700 (PDT)
+Subject: Re: [PATCH v2 6/6] usb: typec: tcpm: Add WARN_ON ensure we are not
+ trying to send 2 VDM packets at the same time
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v2 5/6] usb: typec: tcpm: Fix AB BA lock inversion between tcpm code and the alt-mode drivers
-Date:   Fri, 24 Jul 2020 19:47:01 +0200
-Message-Id: <20200724174702.61754-5-hdegoede@redhat.com>
-In-Reply-To: <20200724174702.61754-1-hdegoede@redhat.com>
+Cc:     linux-usb@vger.kernel.org
 References: <20200724174702.61754-1-hdegoede@redhat.com>
+ <20200724174702.61754-6-hdegoede@redhat.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <41ecf2f2-33c4-466a-ee42-37d1a3ccbb7f@gmail.com>
+Date:   Fri, 24 Jul 2020 20:57:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200724174702.61754-6-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When we receive a PD data packet which ends up being for the alt-mode
-driver we have the following lock order:
+Hello.
 
-1. tcpm_pd_rx_handler take the tcpm-port lock
-2. We call into the alt-mode driver which takes the alt-mode's lock
+On 7/24/20 8:47 PM, Hans de Goede wrote:
 
-And when the alt-mode driver initiates communication we have the following
-lock order:
+> The tcpm.c code for sending VDMs assumes that there will only be one VDM
+> in flight at the time. The "queue" used by tcpm_queue_vdm is only 1 entry
+> deep.
+> 
+> This assumes that the higher layers (tcpm state-machine and alt-mode
+> drivers) ensure that queuing a new VDM before the old one has been
+> completely send (or it timed out) add a WARN_ON to check for this.
 
-3. alt-mode driver takes the alt-mode's lock
-4. alt-mode driver calls tcpm_altmode_enter which takes the tcpm-port lock
+   Sent?
 
-This is a classic AB BA lock inversion issue.
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v2:
+> - Fix typo in commit-msg subject
 
-With the refactoring of tcpm_handle_vdm_request() done before this patch,
-we don't rely on, or need to make changes to the tcpm-port data by the
-time we make call 2. from above. All data to be passed to the alt-mode
-driver sits on our stack at this point, and thus does not need locking.
+  Another typo? :-)
 
-So after the refactoring we can simply fix this by releasing the
-tcpm-port lock before calling into the alt-mode driver.
+[...]
 
-This fixes the following lockdep warning:
-
-[  191.454238] ======================================================
-[  191.454240] WARNING: possible circular locking dependency detected
-[  191.454244] 5.8.0-rc5+ #1 Not tainted
-[  191.454246] ------------------------------------------------------
-[  191.454248] kworker/u8:5/794 is trying to acquire lock:
-[  191.454251] ffff9bac8e30d4a8 (&dp->lock){+.+.}-{3:3}, at: dp_altmode_vdm+0x30/0xf0 [typec_displayport]
-[  191.454263]
-               but task is already holding lock:
-[  191.454264] ffff9bac9dc240a0 (&port->lock#2){+.+.}-{3:3}, at: tcpm_pd_rx_handler+0x43/0x12c0 [tcpm]
-[  191.454273]
-               which lock already depends on the new lock.
-
-[  191.454275]
-               the existing dependency chain (in reverse order) is:
-[  191.454277]
-               -> #1 (&port->lock#2){+.+.}-{3:3}:
-[  191.454286]        __mutex_lock+0x7b/0x820
-[  191.454290]        tcpm_altmode_enter+0x23/0x90 [tcpm]
-[  191.454293]        dp_altmode_work+0xca/0xe0 [typec_displayport]
-[  191.454299]        process_one_work+0x23f/0x570
-[  191.454302]        worker_thread+0x55/0x3c0
-[  191.454305]        kthread+0x138/0x160
-[  191.454309]        ret_from_fork+0x22/0x30
-[  191.454311]
-               -> #0 (&dp->lock){+.+.}-{3:3}:
-[  191.454317]        __lock_acquire+0x1241/0x2090
-[  191.454320]        lock_acquire+0xa4/0x3d0
-[  191.454323]        __mutex_lock+0x7b/0x820
-[  191.454326]        dp_altmode_vdm+0x30/0xf0 [typec_displayport]
-[  191.454330]        tcpm_pd_rx_handler+0x11ae/0x12c0 [tcpm]
-[  191.454333]        process_one_work+0x23f/0x570
-[  191.454336]        worker_thread+0x55/0x3c0
-[  191.454338]        kthread+0x138/0x160
-[  191.454341]        ret_from_fork+0x22/0x30
-[  191.454343]
-               other info that might help us debug this:
-
-[  191.454345]  Possible unsafe locking scenario:
-
-[  191.454347]        CPU0                    CPU1
-[  191.454348]        ----                    ----
-[  191.454350]   lock(&port->lock#2);
-[  191.454353]                                lock(&dp->lock);
-[  191.454355]                                lock(&port->lock#2);
-[  191.454357]   lock(&dp->lock);
-[  191.454360]
-                *** DEADLOCK ***
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
--Move the mutex_lock call to above the tcpm_queue_vdm() call, so that
- we can use the regular tcpm_queue_vdm() instead of having to call
- tcpm_queue_vdm_unlocked()
----
- drivers/usb/typec/tcpm/tcpm.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 03a0c083ee9a..9b26b57a0172 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -1249,6 +1249,27 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 	if (PD_VDO_SVDM(p[0]))
- 		rlen = tcpm_pd_svdm(port, adev, p, cnt, response, &adev_action);
- 
-+	/*
-+	 * We are done with any state stored in the port struct now, except
-+	 * for any port struct changes done by the tcpm_queue_vdm() call
-+	 * below, which is a separate operation.
-+	 *
-+	 * So we can safely release the lock here; and we MUST release the
-+	 * lock here to avoid an AB BA lock inversion:
-+	 *
-+	 * If we keep the lock here then the lock ordering in this path is:
-+	 * 1. tcpm_pd_rx_handler take the tcpm port lock
-+	 * 2. One of the typec_altmode_* calls below takes the alt-mode's lock
-+	 *
-+	 * And we also have this ordering:
-+	 * 1. alt-mode driver takes the alt-mode's lock
-+	 * 2. alt-mode driver calls tcpm_altmode_enter which takes the
-+	 *    tcpm port lock
-+	 *
-+	 * Dropping our lock here avoids this.
-+	 */
-+	mutex_unlock(&port->lock);
-+
- 	if (adev) {
- 		switch (adev_action) {
- 		case ADEV_NONE:
-@@ -1273,6 +1294,15 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 		}
- 	}
- 
-+	/*
-+	 * We must re-take the lock here to balance the unlock in
-+	 * tcpm_pd_rx_handler, note that no changes, other then the
-+	 * tcpm_queue_vdm call, are made while the lock is held again.
-+	 * All that is done after the call is unwinding the call stack until
-+	 * we return to tcpm_pd_rx_handler and do the unlock there.
-+	 */
-+	mutex_lock(&port->lock);
-+
- 	if (rlen > 0)
- 		tcpm_queue_vdm(port, response[0], &response[1], rlen - 1);
- }
--- 
-2.26.2
-
+MBR, Sergei
