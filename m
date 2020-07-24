@@ -2,114 +2,145 @@ Return-Path: <SRS0=ebhX=BD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71CA3C433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 15:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 167EBC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 15:27:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BC14206D7
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 15:19:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE92D206E3
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jul 2020 15:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbgGXPTn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jul 2020 11:19:43 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:34211 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbgGXPTn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 11:19:43 -0400
-X-Originating-IP: 82.255.60.242
-Received: from classic (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 818F3C0005;
-        Fri, 24 Jul 2020 15:19:41 +0000 (UTC)
-Message-ID: <a5597e782ad99956ba0ac84af6bc2a9281a7af14.camel@hadess.net>
-Subject: Re: [PATCH v4] USB: Fix device driver race
-From:   Bastien Nocera <hadess@hadess.net>
+        id S1726381AbgGXP1I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jul 2020 11:27:08 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:39129 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726326AbgGXP1I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jul 2020 11:27:08 -0400
+Received: (qmail 1391934 invoked by uid 1000); 24 Jul 2020 11:27:07 -0400
+Date:   Fri, 24 Jul 2020 11:27:07 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     USB <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Date:   Fri, 24 Jul 2020 17:19:41 +0200
-In-Reply-To: <CAHp75VeKgxcq8J8WFPhH8EBUoE3-TxGU0Tanc=Vb5ib_0VMVLA@mail.gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        USB <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v4] USB: Fix device driver race
+Message-ID: <20200724152707.GB1388675@rowland.harvard.edu>
 References: <ee32a093d43fe6631617c203ea7c86cb700ceac5.camel@hadess.net>
-         <CAHp75VeKY0FSdfza0E9Fz8=2dCyPXwPZYE0kjywiRQAsvmbiow@mail.gmail.com>
-         <CAHp75VeKgxcq8J8WFPhH8EBUoE3-TxGU0Tanc=Vb5ib_0VMVLA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+ <CAHp75VeKY0FSdfza0E9Fz8=2dCyPXwPZYE0kjywiRQAsvmbiow@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeKY0FSdfza0E9Fz8=2dCyPXwPZYE0kjywiRQAsvmbiow@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 2020-07-24 at 13:39 +0300, Andy Shevchenko wrote:
-> On Fri, Jul 24, 2020 at 1:32 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Fri, Jul 24, 2020 at 12:03 PM Bastien Nocera <hadess@hadess.net>
-> > wrote:
+On Fri, Jul 24, 2020 at 01:32:40PM +0300, Andy Shevchenko wrote:
+> On Fri, Jul 24, 2020 at 12:03 PM Bastien Nocera <hadess@hadess.net> wrote:
+> >
+> > When a new device with a specialised device driver is plugged in, the
+> > new driver will be modprobe()'d but the driver core will attach the
+> > "generic" driver to the device.
+> >
+> > After that, nothing will trigger a reprobe when the modprobe()'d device
+> > driver has finished initialising, as the device has the "generic"
+> > driver attached to it.
+> >
+> > Trigger a reprobe ourselves when new specialised drivers get registered.
 > 
 > ...
 > 
-> > > +static int __usb_bus_reprobe_drivers(struct device *dev, void
-> > > *data)
-> > > +{
-> > > +       struct usb_device_driver *new_udriver = data;
-> > > +       struct usb_device_driver *udriver;
-> > > +       struct usb_device *udev;
-> > > +
-> > > +       if (!dev->driver)
-> > > +               return 0;
-> > > +
-> > > +       udriver = to_usb_device_driver(dev->driver);
-> > > +       if (udriver != &usb_generic_driver)
-> > > +               return 0;
-> > 
-> > What about
-> > 
-> > static bool is_dev_usb_generic_driver(dev)
-> > {
-> >       struct usb_device_driver *udd = dev->driver ?
-> > to_usb_device_driver(dev->driver) : NULL;
-> > 
-> >       return udd == &usb_generic_driver;
-> > }
-> > 
-> >   if (!is_dev_usb_generic_driver)
-> >     return 0;
-> > 
-> > ?
-> > 
-> > > +       udev = to_usb_device(dev);
-> > > +       if (usb_device_match_id(udev, new_udriver->id_table) !=
-> > > NULL ||
-> > > +           (new_udriver->match && new_udriver->match(udev) ==
-> > > 0))
-> > > +               device_reprobe(dev);
-> > > +
-> > > +       return 0;
-> > 
-> > What about
-> > 
-> >      udev = to_usb_device(dev);
-> >      if (usb_device_match_id(udev, new_udriver->id_table) == NULL)
-> >        return 0;
-> > ?
-> > 
-> >   if (new_udriver->match && new_udriver->match(udev) == 0))
-> >                device_reprobe(dev);
-> >     return 0;
-> > 
-> > > +}
+> > +static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
+> > +{
+> > +       struct usb_device_driver *new_udriver = data;
+> > +       struct usb_device_driver *udriver;
+> > +       struct usb_device *udev;
+> > +
+> > +       if (!dev->driver)
+> > +               return 0;
+> > +
+> > +       udriver = to_usb_device_driver(dev->driver);
+> > +       if (udriver != &usb_generic_driver)
+> > +               return 0;
 > 
-> It actually sparks a lot of similarities with
-> __check_usb_generic(). Perhaps you may unify them?
+> What about
+> 
+> static bool is_dev_usb_generic_driver(dev)
+> {
+>       struct usb_device_driver *udd = dev->driver ?
+> to_usb_device_driver(dev->driver) : NULL;
+> 
+>       return udd == &usb_generic_driver;
+> }
+> 
+>   if (!is_dev_usb_generic_driver)
+>     return 0;
+> 
+> ?
 
-They might look alike, but apart from that last check (id_table and
-match), they're really not. It's a different device driver that's
-getting checked against the generic driver.
+Why would you want to add more lines of code to do the same thing?  
+Abstraction is fine up to point, but excessive abstraction only makes 
+things more difficult.
 
-I tried to merge those, and it ended up being either completely wrong,
-or just as long as the code that used to be there before.
+> 
+> > +       udev = to_usb_device(dev);
+> > +       if (usb_device_match_id(udev, new_udriver->id_table) != NULL ||
+> > +           (new_udriver->match && new_udriver->match(udev) == 0))
+> > +               device_reprobe(dev);
+> > +
+> > +       return 0;
+> 
+> What about
+> 
+>      udev = to_usb_device(dev);
+>      if (usb_device_match_id(udev, new_udriver->id_table) == NULL)
+>        return 0;
+> ?
 
+The logic is wrong.  If usb_device_match_id() returns NULL then we want 
+to go ahead with the second test, not give up right away.  But this 
+could be written as:
+
+	if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
+			(!new_udriver->match || new_udriver->match(udev) != 0))
+		return 0;
+
+	device_reprobe(dev);
+
+This would make the overall flow of the routine more uniform.
+
+> > +               /* Check whether any device could be better served with
+> > +                * this new driver
+> > +                */
+> 
+> Comment style?
+
+Right:
+
+	/*
+	 * Multiline comments
+	 * should look like this.
+	 */
+
+> ...
+> 
+> > +               if (new_udriver->match || new_udriver->id_table)
+> 
+> But match check is incorporated in the loop function.
+
+Agreed, this test is redundant.  However, we should test that 
+new_udriver != &usb_generic_driver.
+
+Alan Stern
+
+> 
+> > +                       bus_for_each_dev(&usb_bus_type, NULL, new_udriver,
+> > +                                        __usb_bus_reprobe_drivers);
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
