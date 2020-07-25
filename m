@@ -2,193 +2,199 @@ Return-Path: <SRS0=C/te=BE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74E74C433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 10:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9388C433E4
+	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 11:06:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4813A206D7
-	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 10:52:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Xx1j/o8R";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="JG4JbzdA"
+	by mail.kernel.org (Postfix) with ESMTP id 93924206EB
+	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 11:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595675206;
+	bh=24v9RnZwcgbbuaiHgxO43HazWz+grgtjMtf80yooINE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=hgx66zGD5LxaiG7+ExzjMW2ydVKOFqwY5PMBhvstlJjYF09CXSCIVRt2fIzsgzJmd
+	 +c43XJqEHt7jm3GtxSccFem+iK7BTda+YLga1J/xdHF1kf+hFL9LAe2/4VGkVsfpiJ
+	 TERgiO268AD6s/lpi0DUl0jshOrr/U8QhtKHQCFo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbgGYKwO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 25 Jul 2020 06:52:14 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:36698 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726618AbgGYKwO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 25 Jul 2020 06:52:14 -0400
-Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 88693401EF;
-        Sat, 25 Jul 2020 10:52:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1595674333; bh=HOX5UhqDyDOeSGegmHI2pw0n6OFQ8Mlzad2CeTEx6OM=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=Xx1j/o8RocTEqwuy6SESClODY732yqD+zXSYS1MknK0E8x8jHgO8oodnGytVOPakc
-         qHMjO4KOVk1cHQH1kaZgnapFVdk4lRAMOPKGB1v0D0FjV4WFAyq4jp8hIBuiFgk4oD
-         UpMnjnHC8VtPz37qugBCfrZuuuEE/84zNlwJVRHQYrv7vv1WNLZ0SLlBt3qGJFgEVL
-         2+Ko6xgB38jC4HAnekht+LOd06o9E6haL2jSpLqZ9890D59vbI5YkcMJInwEE+q87c
-         PcGM52W6KcTaUUQq/t06fYYYBFwDvsPhq7ZIhjntC4xZ0MFCToHsggZnRdccKf/7d8
-         RBfnPc5dyke6Q==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id E60B9A0080;
-        Sat, 25 Jul 2020 10:52:12 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+        id S1726937AbgGYLGq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 25 Jul 2020 07:06:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41962 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726651AbgGYLGp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 25 Jul 2020 07:06:45 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 97B3C40050;
-        Sat, 25 Jul 2020 10:52:11 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="JG4JbzdA";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DaG7k0RL6hj055MF4ncFI4GQArDCD98pjAjyPz1NxF7LNqS7I6taGkHWSy1/BeRAlL6KSvFXOR0TkRvVDqHAMssY87YzTvhF1/Gt4/MZywWM6x7OzQ8HX3S8HCqAyQq0Tbna30AqtBif+R9krdkaKhJ4he8C3aH/fHrKVpk5CwH3gl06/zBrr8M9MD1FmlfUCx62yCufD0S6nYSfn1v9WpSPv52gLUA5JgLU9CEGRSiy6s8NY05Q8p4BVu2JMkFXBXqQFxuHcd+TpclfyeqzGl+gZTvuCjqP5zqzlEyKeHoV8WHHzNqgyxc2o282DGSizQMYSko3a1F2Z3I41pIbvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HOX5UhqDyDOeSGegmHI2pw0n6OFQ8Mlzad2CeTEx6OM=;
- b=gkkQj3+5z6vEX+C15Q2QmvVqDxynf7cqIN1zXNBSRqJFLnV7lubgYszML3uHohGp+QMAmBgV/kH2mvF3shhqH5icX1XUsjFumzolvB9pqsUeIvmoOOQjFSVOfsETi4/2cWC/Tvg3KBSuB4s4MR6vw3OTDlM9qF1WneHXjHSePJR7o1TjREBFVWz6Cz3ERC2WdWy6V56J0rg0cR3wQg3vIptiJGBebyAx/YkSKfUEDzbLhQxaSrAyLdC5qUC6eZArBPS7byAIVxWHlrRE+BnJM6UokfvpKbxpQtZ61gaH1DSaPPa38AvNEltyHeZV7cn1mYMPUbeg1SdPzuVrpHM4qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HOX5UhqDyDOeSGegmHI2pw0n6OFQ8Mlzad2CeTEx6OM=;
- b=JG4JbzdAl9SqFy4SYsOPN8qz7/lASwt4Uk4S0mFhEopO7yZ9jaQol8FnZxzjMMKFPTUJsFEKGOxefThU+Ck+Iodwci2i32hYUMxGQJFHolAfip6Fmo15yutTBCJdaOPnFr6wsIyxXu7X2h7r2Ztcfg5SgcoSA/HRnao/FE8KOyo=
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com (2603:10b6:a03:130::14)
- by BY5PR12MB4164.namprd12.prod.outlook.com (2603:10b6:a03:207::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21; Sat, 25 Jul
- 2020 10:52:09 +0000
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::3844:ed8:654d:7456]) by BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::3844:ed8:654d:7456%5]) with mapi id 15.20.3216.028; Sat, 25 Jul 2020
- 10:52:09 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <balbi@kernel.org>,
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6107C206C1;
+        Sat, 25 Jul 2020 11:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595675205;
+        bh=24v9RnZwcgbbuaiHgxO43HazWz+grgtjMtf80yooINE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xGfB/e0NqEC+IdSoO3OWWOBiEc9GFtn1PAZgv4NVFVnWnr8+u6Hsx55Ud293o6Fre
+         sUnvwigmvgl2HEIiay0juP+8C9iWfxVkocjPBUYb8aL2mL2xq82D8n31KtWhdvE42R
+         uUdLHaCLkaA5iyOjtuhWgNJZpztsGT1rV3elygZU=
+Date:   Sat, 25 Jul 2020 13:06:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <John.Youn@synopsys.com>
-Subject: Re: [PATCH v3 03/12] usb: gadget: Expose sublink speed attributes
-Thread-Topic: [PATCH v3 03/12] usb: gadget: Expose sublink speed attributes
-Thread-Index: AQHWYhOUDJE0Rv53NESyUDB10nA4C6kXn1uAgAAFQgCAAG+0AIAACtAA
-Date:   Sat, 25 Jul 2020 10:52:09 +0000
-Message-ID: <5a8b70ae-ef91-9073-73e6-d692d98dd892@synopsys.com>
+        John Youn <John.Youn@synopsys.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 07/12] usb: common: Add function to get num_lanes and
+ transfer rate
+Message-ID: <20200725110641.GB396778@kroah.com>
 References: <cover.1595631457.git.thinhn@synopsys.com>
- <500284ccf0353ee17a6bee8fa55011f801e17630.1595631457.git.thinhn@synopsys.com>
- <1595646889.23885.68.camel@mhfsdcap03>
- <d8539fd9-ffa6-824f-0347-71c73315d8a5@synopsys.com>
- <20200725101326.GB1093846@kroah.com>
-In-Reply-To: <20200725101326.GB1093846@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [149.117.7.24]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2ecf78d0-68bd-415e-73c1-08d83088c77c
-x-ms-traffictypediagnostic: BY5PR12MB4164:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR12MB416470574043927881FA78C5AA740@BY5PR12MB4164.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: iGHZaav/pyUO9BB1S0OxQ56HG3Rq/J4H3Be2EpXhAm2jNWKpik9bDp0/OdQMq4Xa5b0WlUQ8RPQqQK2lIEb+69sKVdjhyuOujqL9d+/LoPLw7yt4ZODhdBSdPJwM5bIRm7FZDTRSf0XSelq17zZn2UdqLXbOFBJyeaHJyHwZ15cZ2vbsiJwjcWbyCkbGp8opoEu4KL7kCYrN62Rp71mdmB/7o1R4FxdAk6GqKpCPrjBieDcWtMlOYKwCssktt3er3oPklQIrbNpqwas6pWFWESgT/CUHhBRlFNxOD3PqKp9LY0rEKOWSJkksjtHXld2Tm85zqq1D76BfsiEXIIF+UxN489mG0KNPpMHbTgObZwfp2UgpHZk/lZPS6Ic6XxeU
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2917.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(39860400002)(366004)(396003)(376002)(316002)(107886003)(2616005)(31686004)(66946007)(26005)(76116006)(66556008)(186003)(31696002)(66446008)(86362001)(66476007)(64756008)(36756003)(6486002)(4326008)(8676002)(8936002)(83380400001)(2906002)(71200400001)(6512007)(5660300002)(6506007)(54906003)(110136005)(478600001)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: H0VWgCaZYMUCk9eilccRaAxdbaDp52wn7l4IufNqhh1jgQZgcqUO2H7MLXijCBfwm/tdhc9e0x78dEgRatXnH0d1Cj/ZeQxdZtwupfjeu1xjXj7eLscKvVaixv0l2fGkkROxiSiqAbnBOu3OuLX5uxDqWaXsbM7pZ4iWjMoF72rZI6bfmSN/5YGg96YdeosE2uNj5BHaf2shWwOZSxbGAr+NvqwaySQmO6QrCcIVtfLMC/CiM3SdLgiZAOE1zyBzlkCVzhepq5ErdxYzEBY0xSwMf0tiggQrVeGM/xRVe8dL4c5r1ZbiRoddeJS9oPjJTUqHIGT6+hRW/1nZATlTdIhlaWB7vQn9yfUYHjcP5NBmq5KPddly5uELO9yOS6LOdxp+OvcTyylDPZs4V19yeY4xfMDNjScEXd87qa93MsVtUqdDqeu20Q5tsxrMqeYtjPo7q/5eBWjFV3MzqkVmmb1fjQzhw8QowPHTJP9tqAg=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AF858FEDE0DCA74F99B29662AC255906@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <d86ccd4f97469cfe67cbce549b37d4df7cd8cb27.1595631457.git.thinhn@synopsys.com>
+ <20200725101235.GA1093846@kroah.com>
+ <4c6bba0f-71fe-e96b-2be1-8177be2701da@synopsys.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2917.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ecf78d0-68bd-415e-73c1-08d83088c77c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2020 10:52:09.2093
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fVnkw78oWcGytLa6hzWuKdPn5Efjrlf/k13Wm7M64ngwJIwD1aaXtYc0j4aWUm1GoAizodlWs3TR0kDO+Y9C7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4164
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c6bba0f-71fe-e96b-2be1-8177be2701da@synopsys.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-R3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOg0KPiBPbiBTYXQsIEp1bCAyNSwgMjAyMCBhdCAwMzoz
-MzozOUFNICswMDAwLCBUaGluaCBOZ3V5ZW4gd3JvdGU6DQo+PiBDaHVuZmVuZyBZdW4gd3JvdGU6
-DQo+Pj4gT24gRnJpLCAyMDIwLTA3LTI0IGF0IDE2OjM4IC0wNzAwLCBUaGluaCBOZ3V5ZW4gd3Jv
-dGU6DQo+Pj4+IFRoZSBVU0IgMy4yIHNwZWNpZmljYXRpb24gc3VwcG9ydHMgZHVhbC1sYW5lIGFu
-ZCBkaWZmZXJlbnQgdHJhbnNmZXINCj4+Pj4gcmF0ZXMgZm9yIHN1cGVyLXNwZWVkLXBsdXMuIERl
-dmljZXMgb3BlcmF0aW5nIGluIHN1cGVyLXNwZWVkLXBsdXMgY2FuDQo+Pj4+IGJlIGdlbjJ4MSwg
-Z2VuMXgyLCBvciBnZW4yeDIuDQo+Pj4+DQo+Pj4+IEEgZ2FkZ2V0IGRyaXZlciBtYXkgbmVlZCB0
-byBrbm93IHRoZSBnYWRnZXQncyBzdWJsaW5rIHNwZWVkcyB0byBwcm9wZXJseQ0KPj4+PiBzZXR1
-cCBpdHMgdHJhbnNmZXIgcmVxdWVzdHMgYW5kIGRlc2NyaWJlIGl0cyBjYXBhYmlsaXR5IGluIGl0
-cw0KPj4+PiBkZXNjcmlwdG9ycy4gVG8gZGVzY3JpYmUgdGhlIHRyYW5zZmVyIHJhdGUgaW4gc3Vw
-ZXItc3BlZWQtcGx1cyBmdWxseSwNCj4+Pj4gbGV0J3MgZXhwb3NlIHRoZSBsYW5lIGNvdW50IGFu
-ZCBzdWJsaW5rIHNwZWVkIGF0dHJpYnV0ZXMgd2hlbiBvcGVyYXRpbmcNCj4+Pj4gaW4gc3VwZXIt
-c3BlZWQtcGx1cy4NCj4+Pj4NCj4+Pj4gU2lnbmVkLW9mZi1ieTogVGhpbmggTmd1eWVuIDx0aGlu
-aG5Ac3lub3BzeXMuY29tPg0KPj4+PiAtLS0NCj4+Pj4gICAgQ2hhbmdlcyBpbiB2MzoNCj4+Pj4g
-ICAgLSBOb25lDQo+Pj4+ICAgIENoYW5nZXMgaW4gdjI6DQo+Pj4+ICAgIC0gTm9uZQ0KPj4+Pg0K
-Pj4+PiAgICBpbmNsdWRlL2xpbnV4L3VzYi9nYWRnZXQuaCB8IDIwICsrKysrKysrKysrKysrKysr
-KysrDQo+Pj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspDQo+Pj4+DQo+Pj4+
-IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3VzYi9nYWRnZXQuaCBiL2luY2x1ZGUvbGludXgv
-dXNiL2dhZGdldC5oDQo+Pj4+IGluZGV4IDUyY2UxZjZiOGY4My4uYmQ5ODI2Njk2MDljIDEwMDY0
-NA0KPj4+PiAtLS0gYS9pbmNsdWRlL2xpbnV4L3VzYi9nYWRnZXQuaA0KPj4+PiArKysgYi9pbmNs
-dWRlL2xpbnV4L3VzYi9nYWRnZXQuaA0KPj4+PiBAQCAtMzM5LDYgKzMzOSwxNSBAQCBzdHJ1Y3Qg
-dXNiX2dhZGdldF9vcHMgew0KPj4+PiAgICAgKiBAc3BlZWQ6IFNwZWVkIG9mIGN1cnJlbnQgY29u
-bmVjdGlvbiB0byBVU0IgaG9zdC4NCj4+Pj4gICAgICogQG1heF9zcGVlZDogTWF4aW1hbCBzcGVl
-ZCB0aGUgVURDIGNhbiBoYW5kbGUuICBVREMgbXVzdCBzdXBwb3J0IHRoaXMNCj4+Pj4gICAgICog
-ICAgICBhbmQgYWxsIHNsb3dlciBzcGVlZHMuDQo+Pj4+ICsgKiBAbnVtX2xhbmVzOiBOdW1iZXIg
-b2YgbGFuZXMgaW4gdXNlLg0KPj4+PiArICogQG1heF9udW1fbGFuZXM6IE1heGltdW0gbnVtYmVy
-IG9mIGxhbmVzIHRoZSBVREMgc3VwcG9ydHMuDQo+Pj4+ICsgKiBAc3NhYzogU3VibGluayBzcGVl
-ZCBhdHRyaWJ1dGUgY291bnQuIFRoZSBudW1iZXIgb2Ygc3VibGluayBzcGVlZA0KPj4+PiArICoJ
-YXR0cmlidXRlcyBpcyBzc2FjICsgMS4NCj4+Pj4gKyAqIEBzdWJsaW5rX3NwZWVkOiBBcnJheSBv
-ZiBzdWJsaW5rIHNwZWVkIGF0dHJpYnV0ZXMgdGhlIFVEQyBzdXBwb3J0cy4gU3VibGluaw0KPj4+
-PiArICoJc3BlZWQgYXR0cmlidXRlcyBhcmUgcGFpcmVkLCBhbmQgYW4gUlggZm9sbG93ZWQgYnkg
-YSBUWCBhdHRyaWJ1dGUuDQo+Pj4+ICsgKiBAc3BlZWRfc3NpZDogQ3VycmVudCBzdWJsaW5rIHNw
-ZWVkIGF0dHJpYnV0ZSBJRCBpbiB1c2UuDQo+Pj4+ICsgKiBAbWluX3NwZWVkX3NzaWQ6IFN1Ymxp
-bmsgc3BlZWQgYXR0cmlidXRlIElEIHdpdGggdGhlIG1pbmltdW0gc3BlZWQuDQo+Pj4+ICsgKiBA
-bWF4X3NwZWVkX3NzaWQ6IFN1Ymxpbmsgc3BlZWQgYXR0cmlidXRlIElEIHdpdGggdGhlIG1heGlt
-dW0gc3BlZWQuDQo+Pj4+ICAgICAqIEBzdGF0ZTogdGhlIHN0YXRlIHdlIGFyZSBub3cgKGF0dGFj
-aGVkLCBzdXNwZW5kZWQsIGNvbmZpZ3VyZWQsIGV0YykNCj4+Pj4gICAgICogQG5hbWU6IElkZW50
-aWZpZXMgdGhlIGNvbnRyb2xsZXIgaGFyZHdhcmUgdHlwZS4gIFVzZWQgaW4gZGlhZ25vc3RpY3MN
-Cj4+Pj4gICAgICoJYW5kIHNvbWV0aW1lcyBjb25maWd1cmF0aW9uLg0KPj4+PiBAQCAtNDA2LDYg
-KzQxNSwxNyBAQCBzdHJ1Y3QgdXNiX2dhZGdldCB7DQo+Pj4+ICAgIAlzdHJ1Y3QgbGlzdF9oZWFk
-CQllcF9saXN0OwkvKiBvZiB1c2JfZXAgKi8NCj4+Pj4gICAgCWVudW0gdXNiX2RldmljZV9zcGVl
-ZAkJc3BlZWQ7DQo+Pj4+ICAgIAllbnVtIHVzYl9kZXZpY2Vfc3BlZWQJCW1heF9zcGVlZDsNCj4+
-Pj4gKw0KPj4+PiArCS8qIFNTUCBvbmx5ICovDQo+Pj4+ICsJdW5zaWduZWQJCQludW1fbGFuZXM7
-DQo+Pj4+ICsJdW5zaWduZWQJCQltYXhfbnVtX2xhbmVzOw0KPj4+PiArCXVuc2lnbmVkCQkJc3Nh
-YzsNCj4+Pj4gKyNkZWZpbmUgVVNCX0dBREdFVF9NQVhfU1NBQyAzDQo+Pj4+ICsJc3RydWN0IHVz
-Yl9zdWJsaW5rX3NwZWVkCXN1Ymxpbmtfc3BlZWRbVVNCX0dBREdFVF9NQVhfU1NBQyArIDFdOw0K
-Pj4+PiArCXVuc2lnbmVkCQkJc3BlZWRfc3NpZDsNCj4+Pj4gKwl1bnNpZ25lZAkJCW1pbl9zcGVl
-ZF9zc2lkOw0KPj4+PiArCXVuc2lnbmVkCQkJbWF4X3NwZWVkX3NzaWQ7DQo+Pj4gY2hlY2twYXRj
-aCB3YXJuaW5nOg0KPj4+DQo+Pj4gV0FSTklORzpVTlNQRUNJRklFRF9JTlQ6IFByZWZlciAndW5z
-aWduZWQgaW50JyB0byBiYXJlIHVzZSBvZiAndW5zaWduZWQnDQo+PiBZZXMsIGJ1dCBJJ2QgbGlr
-ZSB0byBrZWVwIHRoZW0gY29uc2lzdGVudCB3aXRoIHRoZSByZXN0IG9mIHRoZSBmaWVsZHMgaW4N
-Cj4+IHRoaXMgc3RydWN0dXJlLg0KPiBObywgZG8gbm90IGRvIHRoaW5ncyB0aGF0IHlvdSBrbm93
-IGFyZSB3cm9uZyBhbmQgd2lsbCBoYXZlIHRvIGJlIGNsZWFuZWQNCj4gdXAgaW4gdGhlIGZ1dHVy
-ZS4gIFVubGVzcyB5b3UgYXJlIHRyeWluZyB0byBpbmNyZWFzZSB5b3VyIHBhdGNoIGNvdW50DQo+
-IGZvciBzb21lIHJlYXNvbiwgdGhpcyBpcyBub3Qgb2suDQo+DQoNCk9rLiBXaWxsIGZpeCB0aGlz
-Lg0KDQpUaGFua3MsDQpUaGluaA0K
+On Sat, Jul 25, 2020 at 10:51:07AM +0000, Thinh Nguyen wrote:
+> Greg Kroah-Hartman wrote:
+> > On Fri, Jul 24, 2020 at 04:39:11PM -0700, Thinh Nguyen wrote:
+> >> Add a new common function to parse maximum_speed property string for
+> >> the specified number of lanes and transfer rate.
+> >>
+> >> Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+> >> ---
+> >> Changes in v3:
+> >> - Add new function to parse "maximum-speed" for lanes and transfer rate
+> >> - Remove separate functions getting num_lanes and transfer rate properties
+> > No, why have you split this into a single function that for some reason
+> > "can not fail"?
+> 
+> This patch was updated to read from a single property "maximum-speed" to 
+> get the device speed, gen, and number of lanes. So we use a single 
+> function to parse this property.
+> 
+> This came up from on Rob's comments:
+> https://lore.kernel.org/linux-usb/f68f395c-0821-9e34-f6cf-75fa60c9a35b@synopsys.com/T/#mac3a4d0b1c02866e3bdbd6809506fbbee8bf84c2
+> 
+> https://lore.kernel.org/linux-usb/0818e876-ea5b-9ebc-7427-8e26b627e6b4@synopsys.com/T/#m87191333cb10a7f0caaf533bfa198724d33c2519
+> 
+> 
+> >
+> >> Changes in v2:
+> >> - New commit
+> >>
+> >>   drivers/usb/common/common.c | 47 ++++++++++++++++++++++++++++++++++++++++++---
+> >>   include/linux/usb/ch9.h     | 25 ++++++++++++++++++++++++
+> >>   2 files changed, 69 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
+> >> index 1433260d99b4..53b4950c49e4 100644
+> >> --- a/drivers/usb/common/common.c
+> >> +++ b/drivers/usb/common/common.c
+> >> @@ -77,18 +77,59 @@ const char *usb_speed_string(enum usb_device_speed speed)
+> >>   }
+> >>   EXPORT_SYMBOL_GPL(usb_speed_string);
+> >>   
+> >> -enum usb_device_speed usb_get_maximum_speed(struct device *dev)
+> >> +void usb_get_maximum_speed_and_num_lanes(struct device *dev,
+> >> +					 enum usb_device_speed *speed,
+> >> +					 enum usb_phy_gen *gen,
+> >> +					 u8 *num_lanes)
+> > What is wrong with just having multiple different functions instead?
+> 
+> See my comment above.
+> 
+> 
+> >
+> >>   {
+> >>   	const char *maximum_speed;
+> >> +	enum usb_device_speed matched_speed = USB_SPEED_UNKNOWN;
+> >> +	enum usb_phy_gen matched_gen = USB_PHY_GEN_UNKNOWN;
+> >> +	u8 matched_num_lanes = 0;
+> >>   	int ret;
+> >>   
+> >>   	ret = device_property_read_string(dev, "maximum-speed", &maximum_speed);
+> >>   	if (ret < 0)
+> >> -		return USB_SPEED_UNKNOWN;
+> >> +		goto done;
+> >>   
+> >>   	ret = match_string(speed_names, ARRAY_SIZE(speed_names), maximum_speed);
+> >> +	if (ret >= 0) {
+> >> +		matched_speed = ret;
+> >> +		goto done;
+> >> +	}
+> >> +
+> >> +	if (strncmp("super-speed-plus-gen2x2", maximum_speed, 23) == 0) {
+> >> +		matched_speed = USB_SPEED_SUPER_PLUS;
+> >> +		matched_gen = USB_PHY_GEN_2;
+> >> +		matched_num_lanes = 2;
+> >> +	} else if (strncmp("super-speed-plus-gen2x1", maximum_speed, 23) == 0) {
+> >> +		matched_speed = USB_SPEED_SUPER_PLUS;
+> >> +		matched_gen = USB_PHY_GEN_2;
+> >> +		matched_num_lanes = 1;
+> >> +	} else if (strncmp("super-speed-plus-gen1x2", maximum_speed, 23) == 0) {
+> > Where are all of these device properties documented?
+> 
+> It's coming from a single property "maximum-speed", documented in patch 
+> 6/12  "usb: devicetree: Include USB SSP Gen X x Y"
+> 
+> https://lore.kernel.org/linux-usb/3bc4fb6a0d7c1a9ea4d5d9384ade26c9066c87d0.1595631457.git.thinhn@synopsys.com/T/#u
+> 
+> >
+> >
+> >
+> >> +		matched_speed = USB_SPEED_SUPER_PLUS;
+> >> +		matched_gen = USB_PHY_GEN_1;
+> >> +		matched_num_lanes = 2;
+> >> +	}
+> >> +
+> >> +done:
+> >> +	if (speed)
+> >> +		*speed = matched_speed;
+> >> +
+> >> +	if (num_lanes)
+> >> +		*num_lanes = matched_num_lanes;
+> >> +
+> >> +	if (gen)
+> >> +		*gen = matched_gen;
+> >
+> >
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(usb_get_maximum_speed_and_num_lanes);
+> >> +
+> >> +enum usb_device_speed usb_get_maximum_speed(struct device *dev)
+> >> +{
+> >> +	enum usb_device_speed speed;
+> >>   
+> >> -	return (ret < 0) ? USB_SPEED_UNKNOWN : ret;
+> >> +	usb_get_maximum_speed_and_num_lanes(dev, &speed, NULL, NULL);
+> > Here's an example of why this isn't a good function.
+> >
+> > It isn't self-describing.  Why do you pass in 3 pointers yet the name
+> > only contains 2 things?
+> 
+> Right... I can revise.
+> 
+> >
+> > usb_get_maximum_speed_and_num_lanes_and_generation() shows that this is
+> > not a good thing, right?
+> >
+> > Again, 3 different functions please.
+> 
+> Should we have 3 separate properties to describe the device? If so, this 
+> was done in v2 of this series, but Rob has different ideas. Please advise.
+
+I don't care about the properties, that should be independant of the
+function call made to determine this information.  Don't let the data
+formats force you to write horrible code :)
+
+thanks,
+
+greg k-h
