@@ -2,91 +2,132 @@ Return-Path: <SRS0=C/te=BE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55234C433E0
-	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 09:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F475C433E1
+	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 10:13:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3391A206EB
-	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 09:48:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C73F206F6
+	for <linux-usb@archiver.kernel.org>; Sat, 25 Jul 2020 10:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595672008;
+	bh=r8T2iq4wIaySUfq55B2rwgUFuxRnooCUrwPMe+L+YQk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=d3y5OPxlNDAIjYGn21bGNpnlJS0gY3qpsYzRSo3djGf7/zs+Xak151jJvvxpNmFBn
+	 fJK+AvvFoGMo3j1PYWsESQZZd5D9oDIkeppyz+IQh3BP/8UmpsJ9nsAiVIDPlCiBUu
+	 solMehTHxS7S0ks0d1QM0B14JiLaoYyH6qK+++Sk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgGYJsB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 25 Jul 2020 05:48:01 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:51025 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726572AbgGYJsB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 25 Jul 2020 05:48:01 -0400
-Received: from classic (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id BBB24200003;
-        Sat, 25 Jul 2020 09:47:58 +0000 (UTC)
-Message-ID: <79778428c21e3740a0e6c26758217eca6d95196b.camel@hadess.net>
-Subject: Re: [PATCH 2/3] USB: Also check for ->match
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Date:   Sat, 25 Jul 2020 11:47:57 +0200
-In-Reply-To: <4243455c-e000-3ca4-c583-0c829f2fbf86@gmail.com>
-References: <25f9d978b791d25583b18f4b5d0a929e031fec1f.camel@hadess.net>
-         <4243455c-e000-3ca4-c583-0c829f2fbf86@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+        id S1726636AbgGYKN1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 25 Jul 2020 06:13:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50134 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726572AbgGYKN1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 25 Jul 2020 06:13:27 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F068A206D7;
+        Sat, 25 Jul 2020 10:13:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595672006;
+        bh=r8T2iq4wIaySUfq55B2rwgUFuxRnooCUrwPMe+L+YQk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=M4aKV134GpdZXGxYOnW2XydKx1TnFrP4z9Ms2JiRx9hCigi52/TULfxoAHNBMhdd8
+         rwVHQQA6r4OeleSkNxw1NNsvDs0DSN3WInmG5jcL+6kFvc7l3u0OXrDPWVJxru0VME
+         P2QgeCNyW2Gt/uV2ogpqzuT6mEhCy5m/Jdi2uoV4=
+Date:   Sat, 25 Jul 2020 12:13:26 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH v3 03/12] usb: gadget: Expose sublink speed attributes
+Message-ID: <20200725101326.GB1093846@kroah.com>
+References: <cover.1595631457.git.thinhn@synopsys.com>
+ <500284ccf0353ee17a6bee8fa55011f801e17630.1595631457.git.thinhn@synopsys.com>
+ <1595646889.23885.68.camel@mhfsdcap03>
+ <d8539fd9-ffa6-824f-0347-71c73315d8a5@synopsys.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d8539fd9-ffa6-824f-0347-71c73315d8a5@synopsys.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 2020-07-25 at 12:43 +0300, Sergei Shtylyov wrote:
-> Hello!
+On Sat, Jul 25, 2020 at 03:33:39AM +0000, Thinh Nguyen wrote:
+> Chunfeng Yun wrote:
+> > On Fri, 2020-07-24 at 16:38 -0700, Thinh Nguyen wrote:
+> >> The USB 3.2 specification supports dual-lane and different transfer
+> >> rates for super-speed-plus. Devices operating in super-speed-plus can
+> >> be gen2x1, gen1x2, or gen2x2.
+> >>
+> >> A gadget driver may need to know the gadget's sublink speeds to properly
+> >> setup its transfer requests and describe its capability in its
+> >> descriptors. To describe the transfer rate in super-speed-plus fully,
+> >> let's expose the lane count and sublink speed attributes when operating
+> >> in super-speed-plus.
+> >>
+> >> Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+> >> ---
+> >>   Changes in v3:
+> >>   - None
+> >>   Changes in v2:
+> >>   - None
+> >>
+> >>   include/linux/usb/gadget.h | 20 ++++++++++++++++++++
+> >>   1 file changed, 20 insertions(+)
+> >>
+> >> diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+> >> index 52ce1f6b8f83..bd982669609c 100644
+> >> --- a/include/linux/usb/gadget.h
+> >> +++ b/include/linux/usb/gadget.h
+> >> @@ -339,6 +339,15 @@ struct usb_gadget_ops {
+> >>    * @speed: Speed of current connection to USB host.
+> >>    * @max_speed: Maximal speed the UDC can handle.  UDC must support this
+> >>    *      and all slower speeds.
+> >> + * @num_lanes: Number of lanes in use.
+> >> + * @max_num_lanes: Maximum number of lanes the UDC supports.
+> >> + * @ssac: Sublink speed attribute count. The number of sublink speed
+> >> + *	attributes is ssac + 1.
+> >> + * @sublink_speed: Array of sublink speed attributes the UDC supports. Sublink
+> >> + *	speed attributes are paired, and an RX followed by a TX attribute.
+> >> + * @speed_ssid: Current sublink speed attribute ID in use.
+> >> + * @min_speed_ssid: Sublink speed attribute ID with the minimum speed.
+> >> + * @max_speed_ssid: Sublink speed attribute ID with the maximum speed.
+> >>    * @state: the state we are now (attached, suspended, configured, etc)
+> >>    * @name: Identifies the controller hardware type.  Used in diagnostics
+> >>    *	and sometimes configuration.
+> >> @@ -406,6 +415,17 @@ struct usb_gadget {
+> >>   	struct list_head		ep_list;	/* of usb_ep */
+> >>   	enum usb_device_speed		speed;
+> >>   	enum usb_device_speed		max_speed;
+> >> +
+> >> +	/* SSP only */
+> >> +	unsigned			num_lanes;
+> >> +	unsigned			max_num_lanes;
+> >> +	unsigned			ssac;
+> >> +#define USB_GADGET_MAX_SSAC 3
+> >> +	struct usb_sublink_speed	sublink_speed[USB_GADGET_MAX_SSAC + 1];
+> >> +	unsigned			speed_ssid;
+> >> +	unsigned			min_speed_ssid;
+> >> +	unsigned			max_speed_ssid;
+> > checkpatch warning:
+> >
+> > WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
 > 
-> On 25.07.2020 12:14, Bastien Nocera wrote:
-> 
-> > We only ever used a the ID table matching before, but we should
-> > probably
-> 
->    So "a" (actually "an") or "the"? :-)
+> Yes, but I'd like to keep them consistent with the rest of the fields in 
+> this structure.
 
-"the" :)
+No, do not do things that you know are wrong and will have to be cleaned
+up in the future.  Unless you are trying to increase your patch count
+for some reason, this is not ok.
 
-I'll let the tree maintainer fixup the commit message if it's accepted
-as-is.
+thanks,
 
-> > also support an open-coded match function.
-> > 
-> > Fixes: 88b7381a939de ("USB: Select better matching USB drivers when
-> > available")
-> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > ---
-> >   drivers/usb/core/generic.c | 5 +++--
-> >   1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/usb/core/generic.c
-> > b/drivers/usb/core/generic.c
-> > index b6f2d4b44754..2b2f1ab6e36a 100644
-> > --- a/drivers/usb/core/generic.c
-> > +++ b/drivers/usb/core/generic.c
-> > @@ -205,8 +205,9 @@ static int __check_usb_generic(struct
-> > device_driver *drv, void *data)
-> >   	udrv = to_usb_device_driver(drv);
-> >   	if (udrv == &usb_generic_driver)
-> >   		return 0;
-> > -
-> > -	return usb_device_match_id(udev, udrv->id_table) != NULL;
-> > +	if (usb_device_match_id(udev, udrv->id_table) != NULL)
-> > +		return 1;
-> > +	return (udrv->match && udrv->match(udev));
-> 
->     Outer () not neccesary...
-
-I find it clearer. Unless there's a style guide that disagrees, I'll
-leave this as-is.
-
-Cheers
-
+greg k-h
