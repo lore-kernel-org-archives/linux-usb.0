@@ -2,160 +2,175 @@ Return-Path: <SRS0=VDyq=BF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C43E9C433E5
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 01:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A38BEC433E3
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 03:21:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EDE02070C
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 01:37:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78A852064C
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 03:21:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="azeCWOGl"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="GokgIL9v"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728121AbgGZBhE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 25 Jul 2020 21:37:04 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:50714 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726870AbgGZBhE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 25 Jul 2020 21:37:04 -0400
-Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com [10.205.2.133])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 9C6C240141;
-        Sun, 26 Jul 2020 01:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1595727423; bh=9bgh2AIL5X3+63v18H0ak1MkBkbSw9foGZ7QjuXB304=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=azeCWOGlh+d4fduuENvJIgnDTyiFnzpWzxk204fGR6OXSb/F7nTp9eRXQawr0ABYs
-         /wSt/+8TOJHX23j8QOx8KTxUXrynWg7sVb68f3hiV7/aBcyErWOG/lgqfQMUoJwjwP
-         eVJg9Q0+hWdKsl3Ep3p+pTtGD30OmrOUOx39dqIrxHeuUSBUGYrdtF70wJoBVW25aP
-         95wMClRT3GVOqp/tb6YkUIoPdpBsjmAE1pj2SGyB/Ya/In3iv6/PfTwvvIGp94VxwK
-         lmo+vz9LSLnWzN+x1X4mztfcVLCZgDpbuEH/NOw8LVDMYgsak9I5LJojmGeqV9iwan
-         WkLX2/hJ5Hasg==
-Received: from te-lab16 (nanobot.internal.synopsys.com [10.10.186.99])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 85D9FA0096;
-        Sun, 26 Jul 2020 01:37:02 +0000 (UTC)
-Received: by te-lab16 (sSMTP sendmail emulation); Sat, 25 Jul 2020 18:37:02 -0700
-Date:   Sat, 25 Jul 2020 18:37:02 -0700
-Message-Id: <bbbdc479b0d8835a0e290f1cd5bc4d2d2e56221d.1595727196.git.thinhn@synopsys.com>
-In-Reply-To: <cover.1595727196.git.thinhn@synopsys.com>
-References: <cover.1595727196.git.thinhn@synopsys.com>
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v4 11/12] usb: dwc3: gadget: Track connected lane and sublink speed
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-usb@vger.kernel.org
-Cc:     John Youn <John.Youn@synopsys.com>
+        id S1727936AbgGZDVu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 25 Jul 2020 23:21:50 -0400
+Received: from mail-am6eur05on2048.outbound.protection.outlook.com ([40.107.22.48]:22112
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726264AbgGZDVu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 25 Jul 2020 23:21:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g5RZOavu1q3n2siudf8X7UmuRbRO9P50DV2B8/5ORbq8k2kRW9vAUKsi6Z8hiHiew4EthEGdig0WrlibMk8TXD6yRjSvyzUqJ/tSOSjkN73nGPvcMrc/QFwMKQwwvytDAPOy+Wxwmdf4un6sHGT/fqqXu18pnJZreWdNxnS3/ynjWhqlGGsO1qW7HPL2o8Y/kLrGk3SrcelvndRTXMOk3WaABc1YbWoHWc8+DOUZiC8IUDKKPogOGOcZiEnaPJ6sJpBah/l7XpCx21HN92MiibTr1krO/gYH+fWzfVQrejpmf6GibGA+kZDn9ZvoQ6855Q7Ep+4QQk+wAgaQedCZuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V4UDJnfkMrYIy23N2wlKz3dRcOOMZKVKg1RTG/jjINQ=;
+ b=JT5AALy9MQ0gWQ/grku/FDeuSAglzqQQTVRMDSnA24assmXS3vfzkyF18DlUdp3mPGvfXjkQICvJTG/kfGK+H+/J6iyxPqKJLddIoiUXhWEeAbj52xQARcIgH7wNaiJY665qYFPHOy9GDm2ChblN9X2Yaih7fNSp/AjjYLPXfrwvV0i8pvTaS39VBkTRPggg9Ve1SD8RdaO1kczwik+Vz296Fu07imPcrEtw6gmUqchmpjrvRORcbmkBZrn8QBzY4KPpQNLiLh7+AjfvAAjBKIl/eRGHDpZnzDoNXQrqCGAnFAYoslhLHILgRwuJpANL7d20RUOJRAP5H46rhj9FRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V4UDJnfkMrYIy23N2wlKz3dRcOOMZKVKg1RTG/jjINQ=;
+ b=GokgIL9vasE9nGaAuS58MInb3iSfY/9Gl7zsG8WV+rHVg43WU7JEO4UkTIQuLe1nBRsqJJvYqC1kFbWkER59S4+e/ut6koAjOXcXJG1bIwBmfgnrGf0yR97Qe1hw92RH1s09xU3ODDLr7c6zjlFKdP34wOQ9Fz2/USNivI+Ey2M=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
+ by VI1PR0401MB2574.eurprd04.prod.outlook.com (2603:10a6:800:57::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Sun, 26 Jul
+ 2020 03:21:46 +0000
+Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::30e2:71b0:ffd3:e39e]) by VE1PR04MB6528.eurprd04.prod.outlook.com
+ ([fe80::30e2:71b0:ffd3:e39e%7]) with mapi id 15.20.3216.028; Sun, 26 Jul 2020
+ 03:21:46 +0000
+From:   Li Jun <jun.li@nxp.com>
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        Thinh.Nguyen@synopsys.com
+Subject: [PATCH v2] usb: dwc3: core: do not queue work if dr_mode is not USB_DR_MODE_OTG
+Date:   Sun, 26 Jul 2020 11:17:39 +0800
+Message-Id: <1595733459-22298-1-git-send-email-jun.li@nxp.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0002.apcprd02.prod.outlook.com
+ (2603:1096:3:17::14) To VE1PR04MB6528.eurprd04.prod.outlook.com
+ (2603:10a6:803:127::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.67) by SG2PR02CA0002.apcprd02.prod.outlook.com (2603:1096:3:17::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3216.20 via Frontend Transport; Sun, 26 Jul 2020 03:21:44 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.67]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 22d7e5bf-83e7-4f0b-a38f-08d8311306b6
+X-MS-TrafficTypeDiagnostic: VI1PR0401MB2574:
+X-Microsoft-Antispam-PRVS: <VI1PR0401MB2574C8DEA758A8FF6E6476A189750@VI1PR0401MB2574.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vdy1WqOPRsQk/k6MPukQElBd9qc46WnNhYBhcVZoircHP9bRXaF8aquGk985GIZvR4YGiw17BKYPsjq0qAN292FV/KoziIj45pEw0nRLQDBEUjMEqc6/z6Xd2D9irUydQpy+8LO6K52QfqEz8q7dCbizr023GgFRrgFcFViPXafcnPT5r9In5fIbyUC34PlzilIc4DI+7avDBWzo4i1k49gi2mEXPpXFXzTWVfVWPb+WYHontGjzIKnxsNkgItnc1ljnithnoGdvpi9zHcGNvhJe4yZr6axh03gDAgAVW6Z6uYS0+a4ymbuWGlnXrQkeDA06CfKugAXx2/xcqleRLBMpAdoY09EteCDUKr+wf6tH3HOoZ5uj10TDcGhVaV7H
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39850400004)(376002)(396003)(346002)(136003)(366004)(2616005)(2906002)(86362001)(316002)(8676002)(52116002)(69590400007)(956004)(478600001)(8936002)(36756003)(6916009)(45080400002)(66946007)(6666004)(6486002)(26005)(16526019)(186003)(66556008)(5660300002)(83380400001)(66476007)(6506007)(4326008)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: FGdt8VR1B0bQ07OQrHEdhOTc706JeI4D2P4Io/ZWHv/La+AF4N5RgqG0nDGNpoxI1G1aLpY4wGjH5bvt/2jxLMpaP1SJjlws+oMl+4iNbcZuyEXEdce14c/k5MoLtBg6j49bK95/q5p0JY3DbMawpVXzZ9IKmtnzU7e7sVfghDzX5UCGmzdj5AJwcDLUS9jCPLnSidH+12PCM493mQQNTYohlegtLYLNUiiujWiv4zKzZyl/9qcXbwsC7z5JMycADG3D+GPrHdAr2qigmVwcgjoto4Zc5HubGkRCEtAxAnPaJ/VAMuAJ5QSZXF2M40Xtn0s4jh4wk2LvPhPZlKaAxZS8WgO43GlaNT05jh+1Z5R4zjwEgjg/PCeiyIfebrvSbmdxCBsMxCTWaCq8H0N+nPsnxhueGAkjJs09LpBm8cej+WE5Ethbh5ZsgZPPb0oR1jNmDXkfKluiYjoUqfkY00OM02s6BGWCzfsNbEB2pjk=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22d7e5bf-83e7-4f0b-a38f-08d8311306b6
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6528.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2020 03:21:46.1986
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y6W5XkJ/SGT+dNFQKLC1da9jls1M4zMH+7lnzNCcuQWcQCtaetYJlnjH1cpwWDtG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2574
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Track the number of lanes connected in gadget->num_lanes and track the
-current sublink speed attribute ID for super-speed-plus operations.
+Do not try to queue a drd work if dr_mode is not USB_DR_MODE_OTG
+because the work is not inited, this may be triggered by user try
+to change mode file of debugfs on a single role port, which will
+cause below kernel dump:
+[   60.115529] ------------[ cut here ]------------
+[   60.120166] WARNING: CPU: 1 PID: 627 at kernel/workqueue.c:1473
+__queue_work+0x46c/0x520
+[   60.128254] Modules linked in:
+[   60.131313] CPU: 1 PID: 627 Comm: sh Not tainted
+5.7.0-rc4-00022-g914a586-dirty #135
+[   60.139054] Hardware name: NXP i.MX8MQ EVK (DT)
+[   60.143585] pstate: a0000085 (NzCv daIf -PAN -UAO)
+[   60.148376] pc : __queue_work+0x46c/0x520
+[   60.152385] lr : __queue_work+0x314/0x520
+[   60.156393] sp : ffff8000124ebc40
+[   60.159705] x29: ffff8000124ebc40 x28: ffff800011808018
+[   60.165018] x27: ffff800011819ef8 x26: ffff800011d39980
+[   60.170331] x25: ffff800011808018 x24: 0000000000000100
+[   60.175643] x23: 0000000000000013 x22: 0000000000000001
+[   60.180955] x21: ffff0000b7c08e00 x20: ffff0000b6c31080
+[   60.186267] x19: ffff0000bb99bc00 x18: 0000000000000000
+[   60.191579] x17: 0000000000000000 x16: 0000000000000000
+[   60.196891] x15: 0000000000000000 x14: 0000000000000000
+[   60.202202] x13: 0000000000000000 x12: 0000000000000000
+[   60.207515] x11: 0000000000000000 x10: 0000000000000040
+[   60.212827] x9 : ffff800011d55460 x8 : ffff800011d55458
+[   60.218138] x7 : ffff0000b7800028 x6 : 0000000000000000
+[   60.223450] x5 : ffff0000b7800000 x4 : 0000000000000000
+[   60.228762] x3 : ffff0000bb997cc0 x2 : 0000000000000001
+[   60.234074] x1 : 0000000000000000 x0 : ffff0000b6c31088
+[   60.239386] Call trace:
+[   60.241834]  __queue_work+0x46c/0x520
+[   60.245496]  queue_work_on+0x6c/0x90
+[   60.249075]  dwc3_set_mode+0x48/0x58
+[   60.252651]  dwc3_mode_write+0xf8/0x150
+[   60.256489]  full_proxy_write+0x5c/0xa8
+[   60.260327]  __vfs_write+0x18/0x40
+[   60.263729]  vfs_write+0xdc/0x1c8
+[   60.267045]  ksys_write+0x68/0xf0
+[   60.270360]  __arm64_sys_write+0x18/0x20
+[   60.274286]  el0_svc_common.constprop.0+0x68/0x160
+[   60.279077]  do_el0_svc+0x20/0x80
+[   60.282394]  el0_sync_handler+0x10c/0x178
+[   60.286403]  el0_sync+0x140/0x180
+[   60.289716] ---[ end trace 70b155582e2b7988 ]---
 
-Note: if the device is running in gen1x2, set the gadget->speed to
-USB_SPEED_SUPER_PLUS.
-
-Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+Signed-off-by: Li Jun <jun.li@nxp.com>
 ---
- Changes in v4:
- - None
- Changes in v3:
- - None
- Changes in v2:
- - None
+change for v2:
+- Move the condition check from debugfs to dwc3_set_mode()
+  to cover in any case, we queue work with drd work inited.
+  then we don't need this check in__dwc3_set_mode().
+ 
+ drivers/usb/dwc3/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/usb/dwc3/core.h   |  2 ++
- drivers/usb/dwc3/gadget.c | 21 ++++++++++++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 9466c4c36963..4a70b1e4d2a7 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -460,6 +460,8 @@
- #define DWC3_DEVTEN_USBRSTEN		BIT(1)
- #define DWC3_DEVTEN_DISCONNEVTEN	BIT(0)
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 6adaa7d..2fa50ec 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -120,9 +120,6 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 	unsigned long flags;
+ 	int ret;
  
-+#define DWC3_DSTS_CONNLANES(n)		(((n) >> 30) & 0x3) /* DWC_usb32 only */
-+
- /* Device Status Register */
- #define DWC3_DSTS_DCNRD			BIT(29)
+-	if (dwc->dr_mode != USB_DR_MODE_OTG)
+-		return;
+-
+ 	pm_runtime_get_sync(dwc->dev);
  
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index b7da4e1c81aa..05defaf0f745 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2328,6 +2328,10 @@ static void dwc3_gadget_set_speed(struct usb_gadget *g,
- 				reg |= DWC3_DCFG_SUPERSPEED_PLUS;
- 		}
- 	}
-+
-+	if (DWC3_IP_IS(DWC32) && speed < USB_SPEED_SUPER_PLUS)
-+		reg &= ~DWC3_DCFG_NUMLANES(~0);
-+
- 	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
+ 	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_OTG)
+@@ -205,6 +202,9 @@ void dwc3_set_mode(struct dwc3 *dwc, u32 mode)
+ {
+ 	unsigned long flags;
  
++	if (dwc->dr_mode != USB_DR_MODE_OTG)
++		return;
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	dwc->desired_dr_role = mode;
  	spin_unlock_irqrestore(&dwc->lock, flags);
-@@ -3199,12 +3203,19 @@ static void dwc3_gadget_conndone_interrupt(struct dwc3 *dwc)
- 	struct dwc3_ep		*dep;
- 	int			ret;
- 	u32			reg;
-+	u8			lanes = 1;
- 	u8			speed;
- 
- 	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
- 	speed = reg & DWC3_DSTS_CONNECTSPD;
- 	dwc->speed = speed;
- 
-+	if (DWC3_IP_IS(DWC32))
-+		lanes = DWC3_DSTS_CONNLANES(reg) + 1;
-+
-+	dwc->gadget.num_lanes = lanes;
-+	dwc->gadget.speed_ssid = 0;
-+
- 	/*
- 	 * RAMClkSel is reset to 0 after USB reset, so it must be reprogrammed
- 	 * each time on Connect Done.
-@@ -3219,6 +3230,7 @@ static void dwc3_gadget_conndone_interrupt(struct dwc3 *dwc)
- 		dwc3_gadget_ep0_desc.wMaxPacketSize = cpu_to_le16(512);
- 		dwc->gadget.ep0->maxpacket = 512;
- 		dwc->gadget.speed = USB_SPEED_SUPER_PLUS;
-+		dwc->gadget.speed_ssid = DWC3_SSP_SSID_GEN2;
- 		break;
- 	case DWC3_DSTS_SUPERSPEED:
- 		/*
-@@ -3239,7 +3251,13 @@ static void dwc3_gadget_conndone_interrupt(struct dwc3 *dwc)
- 
- 		dwc3_gadget_ep0_desc.wMaxPacketSize = cpu_to_le16(512);
- 		dwc->gadget.ep0->maxpacket = 512;
--		dwc->gadget.speed = USB_SPEED_SUPER;
-+
-+		if (lanes > 1) {
-+			dwc->gadget.speed = USB_SPEED_SUPER_PLUS;
-+			dwc->gadget.speed_ssid = DWC3_SSP_SSID_GEN1;
-+		} else {
-+			dwc->gadget.speed = USB_SPEED_SUPER;
-+		}
- 		break;
- 	case DWC3_DSTS_HIGHSPEED:
- 		dwc3_gadget_ep0_desc.wMaxPacketSize = cpu_to_le16(64);
-@@ -3720,6 +3738,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
- 	dwc->gadget.sg_supported	= true;
- 	dwc->gadget.name		= "dwc3-gadget";
- 	dwc->gadget.lpm_capable		= true;
-+	dwc->gadget.num_lanes		= 1;
- 
- 	/*
- 	 * FIXME We might be setting max_speed to <SUPER, however versions
 -- 
-2.11.0
+2.7.4
 
