@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC90C433E1
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 01:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A13C433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 01:36:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1DFF206D7
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 01:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF851206D7
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 01:36:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="NiNGvsfo"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Kbov/VRt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727982AbgGZBgk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 25 Jul 2020 21:36:40 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:44756 "EHLO
+        id S1728060AbgGZBgw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 25 Jul 2020 21:36:52 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:44764 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726870AbgGZBgk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 25 Jul 2020 21:36:40 -0400
-Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
+        by vger.kernel.org with ESMTP id S1726870AbgGZBgw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 25 Jul 2020 21:36:52 -0400
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 61D5CC00A4;
-        Sun, 26 Jul 2020 01:36:39 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B0A8CC00A4;
+        Sun, 26 Jul 2020 01:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1595727399; bh=B/sN0I1nxMyQzNfkznij0Z+y9CIFuqs1Uu00ejQjuA4=;
+        t=1595727411; bh=J/cZTYFQc7GJmEpeGYVEejAFKP3fdn61nUpOic6jVG8=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=NiNGvsfo1MGyWwhMZzSBnXhT/51detnj40cuQx2X8hP0q67lD8pIvz2wrLyk7xSCf
-         2DrLG52dsP3JEEizH4pfhCSI2wZOJZfOZQsyp+eUvxLethsYRjAlRlHsM7DFNZYgN/
-         voNs6Lpgn209a8SGOqvtJGsVubXY4IMUc56H6QAVw+1Ejzi9p8lPgeiUIRxPxqV4Q4
-         ErazA6PFOySeRKkj1oY/s1kD3enBCWnLQ5cRl9TCijG5q2V80Ajt7t8I22jPizsoea
-         nO6O0DXAhdE6O0lwU91bDwN+AVzBGHqZuHPhleodGOHFBDJUI8Tp0Z7Sr9n6AkAmxq
-         NTFckgag8l44g==
+        b=Kbov/VRtl9xoSFIFj5DqgYKfu2FQJ1zb/VHCLKamjQemasWCKoorSI9uERvYkaUfP
+         984eSd0LCNavy8aFHspoTWRRWwkeew22ZAJyKk02rmge9nvnGlpL7+G1/99Mlb/OWd
+         H8MgXDH65LfpJOpIdSCdYjRCbbnc/ndbm2Gh8zGJTmt59pnH7500YZE3W9GV7MvILc
+         qDAShM/n48MemDbDDAzxTSC9IjtE5DPA+Z+iBCo8wGettXQ8fKG4k/L60p7KSHP1hc
+         ow5e4clbL5fnkhRJS1X1GFhOtGsDqfJJ0fU/edcuveDn/jXv64zjpr/tk2tocj5cSP
+         VkCAqJetX57DQ==
 Received: from te-lab16 (nanobot.internal.synopsys.com [10.10.186.99])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 327ECA0096;
-        Sun, 26 Jul 2020 01:36:38 +0000 (UTC)
-Received: by te-lab16 (sSMTP sendmail emulation); Sat, 25 Jul 2020 18:36:38 -0700
-Date:   Sat, 25 Jul 2020 18:36:38 -0700
-Message-Id: <29a706f98413d6dc5df82fd24958ce47da1f0ebf.1595727196.git.thinhn@synopsys.com>
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 5D4AFA0070;
+        Sun, 26 Jul 2020 01:36:50 +0000 (UTC)
+Received: by te-lab16 (sSMTP sendmail emulation); Sat, 25 Jul 2020 18:36:50 -0700
+Date:   Sat, 25 Jul 2020 18:36:50 -0700
+Message-Id: <d3072c866013799d3919a23823a55b2087239015.1595727196.git.thinhn@synopsys.com>
 In-Reply-To: <cover.1595727196.git.thinhn@synopsys.com>
 References: <cover.1595727196.git.thinhn@synopsys.com>
 X-SNPS-Relay: synopsys.com
 From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v4 07/12] usb: common: Add and update common functions for SSP speeds
+Subject: [PATCH v4 09/12] usb: dwc3: gadget: Report sublink speed capability
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -58,143 +58,106 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB "maximum-speed" property now can take these new strings for
-super-speed-plus:
+Report the sublink speed attributes to the usb_gadget structure based on
+the HW capability from the device maximum_speed property.
 
-"super-speed-plus-gen2x2"
-"super-speed-plus-gen2x1"
-"super-speed-plus-gen1x2"
+Only DWC_usb32 supports 2 sublink speeds if it can operate with 2 lanes.
+(i.e. at SSP, it can operate as gen1x2)
 
-As a result, let's do the follow:
-* Update usb_get_maximum_speed() to parse these new speed strings
-* Add 2 new common functions to get the Gen number and number of lanes
+Note: the SSID DWC3_SSP_SSID_GEN2 and DWC3_SSP_SSID_GEN1 are arbitrary.
+There's no standard according to the USB 3.2 spec as long as they are
+unique and within 0-15.
 
 Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
 ---
 Changes in v4:
-- Create 2 functions to get the SSP gen and number of lanes from "maximum-speed" property
-- Update usb_get_maximum_speed() to check new SSP strings with genXxY
-- Update commit message and subject title to reflect the new changes
+- None
 Changes in v3:
-- Add new function to parse "maximum-speed" for lanes and transfer rate
-- Remove separate functions getting num_lanes and transfer rate properties
+- Update commit with updated field name
+- No longer use DWC3_LSM_5/10_GBPS macros
 Changes in v2:
-- New commit
+- Fix missing check for gen1x2 when writing to sublink speed attributes
+- Minor fix in commit message (first commit sentence ended with comma)
 
- drivers/usb/common/common.c | 46 ++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/usb/ch9.h     | 30 +++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/core.h   |  4 ++++
+ drivers/usb/dwc3/gadget.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
-diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
-index 1433260d99b4..b3b3972d5be7 100644
---- a/drivers/usb/common/common.c
-+++ b/drivers/usb/common/common.c
-@@ -86,12 +86,56 @@ enum usb_device_speed usb_get_maximum_speed(struct device *dev)
- 	if (ret < 0)
- 		return USB_SPEED_UNKNOWN;
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 3bbfbeaa67d8..0ec675327014 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -40,6 +40,10 @@
+ #define DWC3_XHCI_RESOURCES_NUM	2
+ #define DWC3_ISOC_MAX_RETRIES	5
  
--	ret = match_string(speed_names, ARRAY_SIZE(speed_names), maximum_speed);
-+	if (strncmp("super-speed-plus-gen2x2", maximum_speed, 23) == 0 ||
-+	    strncmp("super-speed-plus-gen2x1", maximum_speed, 23) == 0 ||
-+	    strncmp("super-speed-plus-gen1x2", maximum_speed, 23) == 0)
-+		return USB_SPEED_SUPER_PLUS;
++/* Sublink Speed Attribute ID */
++#define DWC3_SSP_SSID_GEN2	2
++#define DWC3_SSP_SSID_GEN1	1
++
+ #define DWC3_SCRATCHBUF_SIZE	4096	/* each buffer is assumed to be 4KiB */
+ #define DWC3_EVENT_BUFFERS_SIZE	4096
+ #define DWC3_EVENT_TYPE_MASK	0xfe
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index e44bfc3b5096..3038dae970f3 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -3686,6 +3686,55 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+ 				dwc->revision);
  
-+	ret = match_string(speed_names, ARRAY_SIZE(speed_names), maximum_speed);
- 	return (ret < 0) ? USB_SPEED_UNKNOWN : ret;
- }
- EXPORT_SYMBOL_GPL(usb_get_maximum_speed);
+ 	dwc->gadget.max_speed		= dwc->maximum_speed;
++	dwc->gadget.max_num_lanes	= dwc->maximum_num_lanes;
++
++	if (dwc->maximum_speed == USB_SPEED_SUPER_PLUS) {
++		struct usb_sublink_speed *ssa;
++		int i;
++
++		/*
++		 * Multiple sublink speeds are only available to DWC_usb32
++		 * devices that can operate at gen2x2 max.
++		 */
++		if (dwc->maximum_phy_gen == USB_PHY_GEN_2 &&
++		    dwc->maximum_num_lanes == 2) {
++			dwc->gadget.ssac = 3;
++			dwc->gadget.min_speed_ssid = DWC3_SSP_SSID_GEN1;
++			dwc->gadget.max_speed_ssid = DWC3_SSP_SSID_GEN2;
++		} else if (dwc->maximum_phy_gen == USB_PHY_GEN_1 &&
++			   dwc->maximum_num_lanes == 2) {
++			dwc->gadget.ssac = 1;
++			dwc->gadget.min_speed_ssid = DWC3_SSP_SSID_GEN1;
++			dwc->gadget.max_speed_ssid = DWC3_SSP_SSID_GEN1;
++		} else {
++			dwc->gadget.ssac = 1;
++			dwc->gadget.min_speed_ssid = DWC3_SSP_SSID_GEN2;
++			dwc->gadget.max_speed_ssid = DWC3_SSP_SSID_GEN2;
++		}
++
++		for (i = 0; i < dwc->gadget.ssac + 1; i++) {
++			ssa = &dwc->gadget.sublink_speed[i];
++
++			if (dwc->gadget.ssac > 1 && i > 1)
++				ssa->id = dwc->gadget.max_speed_ssid;
++			else
++				ssa->id = dwc->gadget.min_speed_ssid;
++
++			if (ssa->id == DWC3_SSP_SSID_GEN1)
++				ssa->mantissa = 5;
++			else
++				ssa->mantissa = 10;
++
++			/* First attribute is RX followed by TX */
++			if (i % 2)
++				ssa->type = USB_ST_SYMMETRIC_TX;
++			else
++				ssa->type = USB_ST_SYMMETRIC_RX;
++
++			ssa->exponent = USB_LSE_GBPS;
++			ssa->protocol = USB_LP_SSP;
++		}
++	}
  
-+u8 usb_get_ssp_num_lanes(struct device *dev)
-+{
-+	const char *maximum_speed;
-+	int ret;
-+
-+	ret = device_property_read_string(dev, "maximum-speed", &maximum_speed);
-+	if (ret < 0)
-+		return 0;
-+
-+	if (strncmp("super-speed-plus-gen2x1", maximum_speed, 23) == 0)
-+		return 1;
-+
-+	if (strncmp("super-speed-plus-gen2x2", maximum_speed, 23) == 0 ||
-+	    strncmp("super-speed-plus-gen1x2", maximum_speed, 23) == 0)
-+		return 2;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(usb_get_ssp_num_lanes);
-+
-+enum usb_phy_gen usb_get_ssp_phy_gen(struct device *dev)
-+{
-+	const char *maximum_speed;
-+	int ret;
-+
-+	ret = device_property_read_string(dev, "maximum-speed", &maximum_speed);
-+	if (ret < 0)
-+		return USB_PHY_GEN_UNKNOWN;
-+
-+	if (strncmp("super-speed-plus-gen1x2", maximum_speed, 23) == 0)
-+		return USB_PHY_GEN_1;
-+
-+	if (strncmp("super-speed-plus-gen2x2", maximum_speed, 23) == 0 ||
-+	    strncmp("super-speed-plus-gen2x1", maximum_speed, 23) == 0)
-+		return USB_PHY_GEN_2;
-+
-+	return USB_PHY_GEN_UNKNOWN;
-+}
-+EXPORT_SYMBOL_GPL(usb_get_ssp_phy_gen);
-+
- const char *usb_state_string(enum usb_device_state state)
- {
- 	static const char *const names[] = {
-diff --git a/include/linux/usb/ch9.h b/include/linux/usb/ch9.h
-index 01191649a0ad..bd13d27551e5 100644
---- a/include/linux/usb/ch9.h
-+++ b/include/linux/usb/ch9.h
-@@ -57,6 +57,13 @@ enum usb_link_protocol {
- 	USB_LP_SSP = 1,
- };
- 
-+/* USB phy signaling rate generation */
-+enum usb_phy_gen {
-+	USB_PHY_GEN_UNKNOWN,
-+	USB_PHY_GEN_1,
-+	USB_PHY_GEN_2,
-+};
-+
- /**
-  * struct usb_sublink_speed - sublink speed attribute
-  * @id: sublink speed attribute ID (SSID)
-@@ -105,6 +112,29 @@ extern const char *usb_speed_string(enum usb_device_speed speed);
-  */
- extern enum usb_device_speed usb_get_maximum_speed(struct device *dev);
- 
-+/**
-+ * usb_get_ssp_num_lanes - Get requested number of lanes for a given
-+ * super-speed-plus capable USB controller.
-+ * @dev: Pointer to the given USB controller device
-+ *
-+ * If the string from "maximum-speed" property is super-speed-plus-genXxY where
-+ * 'Y' is the number of lanes, then this function returns 1 for single lane and
-+ * 2 for dual-lane base on 'Y'. If the number of lanes is not specified, then it
-+ * returns 0.
-+ */
-+extern u8 usb_get_ssp_num_lanes(struct device *dev);
-+
-+/**
-+ * usb_get_ssp_phy_gen - Get requested phy signaling rate generation for a given
-+ * super-speed-plus capable USB controller.
-+ * @dev: Pointer to the given USB controller device
-+ *
-+ * If the string from "maximum-speed" property is super-speed-plus-genXxY where
-+ * 'X' is the Gen number, then this function returns the corresponding enum
-+ * usb_phy_gen base on 'X'.
-+ */
-+extern enum usb_phy_gen usb_get_ssp_phy_gen(struct device *dev);
-+
- /**
-  * usb_state_string - Returns human readable name for the state.
-  * @state: The state to return a human-readable name for. If it's not
+ 	/*
+ 	 * REVISIT: Here we should clear all pending IRQs to be
 -- 
 2.11.0
 
