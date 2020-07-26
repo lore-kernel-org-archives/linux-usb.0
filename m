@@ -2,90 +2,96 @@ Return-Path: <SRS0=VDyq=BF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8753C433E1
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 08:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B62B2C433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 08:59:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B88AB20714
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 08:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595752634;
-	bh=YVrX0fjLkypC7ddVmCMuGRAIn/E2H8OAJJh5MC2i+/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=rT/ZYTgahyzbYmvD82/SKeqrXQF6zQ5g1wNZRboed1UBPt+z0XB04boeOe0x6m5kq
-	 gmu5d7e579JH/rMXhmFF2s5Zil3qZeVrn8svaVdiZ4cRd7vhstmXaa4iFqgHEZGnsk
-	 D4aDVQaZ+NVjDDXj9v37Tfnz/ctNm4IxEH/iLSbA=
+	by mail.kernel.org (Postfix) with ESMTP id 659762065C
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jul 2020 08:59:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=elloe.vision header.i=@elloe.vision header.b="qXaRdKdb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725972AbgGZIhO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Jul 2020 04:37:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50764 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725848AbgGZIhO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 26 Jul 2020 04:37:14 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726072AbgGZI73 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 26 Jul 2020 04:59:29 -0400
+Received: from yes.iam.tj ([109.74.197.121]:51610 "EHLO iam.tj"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725794AbgGZI73 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 26 Jul 2020 04:59:29 -0400
+Received: from [10.0.40.34] (unknown [51.155.44.233])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 23517206E3;
-        Sun, 26 Jul 2020 08:37:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595752633;
-        bh=YVrX0fjLkypC7ddVmCMuGRAIn/E2H8OAJJh5MC2i+/o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RpZTvuJ9vDpimJwNIFkPwxDqB/lpWQPl15BUldDkFf/WXOv0rVxlHwRsVp8bt+UDx
-         67pAqEzLwVyCCLufDWqRKZK5k/GrI2p1HoLIDvISkezGsmBv/yxpSfXFyQU2VBGO4m
-         ra7qtm+kb9fYdvDks8fDzBvVU5y7EhFr0FAoPcw0=
-Date:   Sun, 26 Jul 2020 10:36:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 3/3 v5] USB: Fix device driver race
-Message-ID: <20200726083655.GA448215@kroah.com>
-References: <ab1fcd9c7e8f4aecd1f709a74a763bcc239fe6c4.camel@hadess.net>
- <20200725145922.GC1421097@rowland.harvard.edu>
- <fa8f94ff5d62b42569b559a10638f952b2037145.camel@hadess.net>
- <20200725195707.GB1426415@rowland.harvard.edu>
+        by iam.tj (Postfix) with ESMTPSA id 7C5B4340AD;
+        Sun, 26 Jul 2020 09:59:27 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=elloe.vision; s=2019;
+        t=1595753967; bh=Z+6zZoHgyo+ywsl9oUiHCaQvEG5RTt1/ToiG22ZopoM=;
+        h=Subject:From:To:References:Cc:Date:In-Reply-To:From;
+        b=qXaRdKdbK4OjMI8Mm2c9Ve2g8YjCfONPwZbh/Z4SFeRjGUcStWjrUE7P8iBCW+1t1
+         T28bs3gXpnsVStpzKOHCbGV8RllZXwoI8Ee3cR6vQvqlJHCDJpOThNBSD3xKFY+biR
+         NiLzsahFWPs11Rep3yBiS6rhz+QWpLmh0Vxb09eH3EFBsTjUVD0AtzY3N+jilE2EkX
+         4XIZRHBT3dAmtAcS4lc5s/8C1Ju5DNCWTZeE2+9DadhTw9fDsB7+zqIlHb1msjdrTe
+         WnrJ/5IFA1V1IzgP7SqKlV01A1bn309FPsJnppiG6uQEqJbqkRg+RPicayKrcN4It3
+         PASnVl+of+STA==
+Subject: Re: uas: bug: [turris-L1 #1096031] MOX Hardware Issue - USB
+ SuperSpeed ports resetting constantly
+From:   "Tj (Elloe Linux)" <ml.linux@elloe.vision>
+To:     linux-usb <linux-usb@vger.kernel.org>
+References: <9268a7b4-217e-e76d-af9a-9c5b4f6fe54a@elloe.vision>
+ <20200719110901.GE266150@kroah.com>
+ <c6720231-e30c-41e4-cd2b-1b4b9baa0852@elloe.vision>
+ <1595235102.2531.7.camel@suse.de>
+ <c280ec82-cc00-f4b6-cc1f-12317cc8c23c@elloe.vision>
+Cc:     Oliver Neukum <oneukum@suse.de>,
+        Greg KH <gregkh@linuxfoundation.org>, tech.support@turris.cz
+Organization: Elloe CIC
+Message-ID: <b3e83e56-93f7-b6ee-4fc4-d5421cf34bbd@elloe.vision>
+Date:   Sun, 26 Jul 2020 09:59:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200725195707.GB1426415@rowland.harvard.edu>
+In-Reply-To: <c280ec82-cc00-f4b6-cc1f-12317cc8c23c@elloe.vision>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jul 25, 2020 at 03:57:07PM -0400, Alan Stern wrote:
-> On Sat, Jul 25, 2020 at 05:24:20PM +0200, Bastien Nocera wrote:
-> > On Sat, 2020-07-25 at 10:59 -0400, Alan Stern wrote:
-> > <snip>
-> > > > +	udev = to_usb_device(dev);
-> > > > +	if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
-> > > > +	    (!new_udriver->match || new_udriver->match(udev) != 0))
-> > > > +		return 0;
-> > > > +
-> > > > +	(void)!device_reprobe(dev);
-> > > 
-> > > What's that '!' doing hiding in there?  It doesn't affect the final 
-> > > outcome, but it sure looks weird -- if people notice it at all.
-> > 
-> > It's how we stop gcc from complaining about the warn_unused_result
-> > attribute on device_reprobe()... (void) is enough with clang, but not
-> > with gcc.
-> 
-> Hmmm.  Maybe this is an indication that device_reprobe() doesn't really 
-> need to be __must_check.
-> 
-> Greg, do you know why it's annotated this way?
+On 20/07/2020 11:25, Tj (Elloe Linux) wrote:
+> We have limited windows of time to test due to the Mox being our primary
+> gateway but I've ordered another Mox A (the main CPU module) so we can> test at will.
 
-Because you really should pass up the return value if an error happens
-here.  Why do we think it is safe to ignore?
+We now have the second Mox A CPU module with USB3 module F attached in
+our lab and can do any tests required.
 
-And that "(void)!" is not ok, if the annotation is safe to ignore, then
-we need to remove the annotation, don't work around stuff like this
-without at the very least, a comment saying why it is ok.
+# lspci -nn
+00:00.0 PCI bridge [0604]: Marvell Technology Group Ltd. Device [1b4b:0100]
+01:00.0 USB controller [0c03]: VIA Technologies, Inc. VL805 USB 3.0 Host
+Controller [1106:3483] (rev 01)
 
-thanks,
+> I'll update with the additional logs later.
 
-greg k-h
+I've captured a couple of usbmon logs, firstly when uas is enabled, and
+then with it disabled via the quirk "0x152d:0x0562:u", and included the
+associated dmesg logs.
+
+They're available as text/plain and in a tar.gz with names prefixed
+jmicron+ dated 2020-07-26 at:
+
+https://elloe.vision/linux/
+
+> In our earlier tests the module A USB3 port wasn't active presumably
+> because we missed off a config option. Once we're corrected that we'll
+> test on the SoC USB3 port to help narrow down the responsible kernel
+> module(s) and layers.
+
+It's currently not possible to test on the CPU module's USB3 since it
+fails to initialise due to a fight between the firmware and OS because
+in recent kernels the OS tries to initialise the PHY layer - but that is
+already done by firmware. We've tested a suggested fix for that in uboot
+but so far not made progress on that one.
+
