@@ -2,74 +2,76 @@ Return-Path: <SRS0=SlCS=BG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 672D8C433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 10:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B9AC433E1
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 11:17:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F87B206E7
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 10:46:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E51322074F
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 11:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595848636;
+	bh=WKNdZwiHmI2go1vAvCKdmLTiEL+D/KkYKDaKE/YLv/4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=OKKsEbMXNKwimlR1ZbVc032eYj7xj397OdhPyH5VMB0krKVsRpGsEDEOO14WcS6GD
+	 zzarMqcgrWylXaejs110zcDSR8d8VipyzSs0xMwmqPDRU77BfTqRwtqnSGqC55bToO
+	 cbbBvzdYUfs9w94mDF0rA52fnSEYVmBphd7pKRYc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728265AbgG0Kqs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Jul 2020 06:46:48 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:34415 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728259AbgG0Kqs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Jul 2020 06:46:48 -0400
-X-Originating-IP: 82.255.60.242
-Received: from classic.redhat.com (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 455E020003;
-        Mon, 27 Jul 2020 10:46:46 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Bastien Nocera <hadess@hadess.net>
-Subject: [PATCH v6 2/3] USB: Also check for ->match
-Date:   Mon, 27 Jul 2020 12:46:43 +0200
-Message-Id: <20200727104644.149873-2-hadess@hadess.net>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200727104644.149873-1-hadess@hadess.net>
-References: <20200727104644.149873-1-hadess@hadess.net>
+        id S1727826AbgG0LRQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Jul 2020 07:17:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39858 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726269AbgG0LRP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 27 Jul 2020 07:17:15 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 268852075A;
+        Mon, 27 Jul 2020 11:17:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595848635;
+        bh=WKNdZwiHmI2go1vAvCKdmLTiEL+D/KkYKDaKE/YLv/4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DhYS/ZoE/PmKpwYCXPnGpT8RBzFlEeaaOUGY/M2DgV/oAU/WDiQNsJPGB0UHvbRWs
+         MoirvU7MtG6EVXfPRTFjj3/tBZIeyw8uiWk4v1COl1DbCFvME0J28pHgsB2LYFoge8
+         Qzi67fXnKUgag33SxbfwwM+sPA4cpOLeiTkLag7w=
+Date:   Mon, 27 Jul 2020 13:16:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [GIT PULL] USB changes for v5.9 merge window
+Message-ID: <20200727111652.GA3404483@kroah.com>
+References: <87d04hnrbx.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87d04hnrbx.fsf@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We only ever used the ID table matching before, but we should probably
-also support an open-coded match function.
+On Mon, Jul 27, 2020 at 02:13:38PM +0300, Felipe Balbi wrote:
+> 
+> Hi Greg,
+> 
+> here's my pull request for v5.9. I have rebase on your usb-next one week
+> ago to avoid merge conflicts. Let me know if you want anything to be
+> changed.
+> 
+> cheers
+> 
+> The following changes since commit c17536d0abde2fd24afca542e3bb73b45a299633:
+> 
+>   usb: usbfs: stop using compat_alloc_user_space (2020-07-22 13:13:22 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git tags/usb-for-v5.9
 
-Fixes: 88b7381a939de ("USB: Select better matching USB drivers when available")
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
-Changes since first version:
-- Fixed typo in commit message
+All looks good, thanks, pulled and pushed out.
 
- drivers/usb/core/generic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
-index b6f2d4b44754..2b2f1ab6e36a 100644
---- a/drivers/usb/core/generic.c
-+++ b/drivers/usb/core/generic.c
-@@ -205,8 +205,9 @@ static int __check_usb_generic(struct device_driver *drv, void *data)
- 	udrv = to_usb_device_driver(drv);
- 	if (udrv == &usb_generic_driver)
- 		return 0;
--
--	return usb_device_match_id(udev, udrv->id_table) != NULL;
-+	if (usb_device_match_id(udev, udrv->id_table) != NULL)
-+		return 1;
-+	return (udrv->match && udrv->match(udev));
- }
- 
- static bool usb_generic_driver_match(struct usb_device *udev)
--- 
-2.26.2
-
+greg k-h
