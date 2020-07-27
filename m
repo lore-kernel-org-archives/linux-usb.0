@@ -2,74 +2,169 @@ Return-Path: <SRS0=SlCS=BG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C74C433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 17:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FCE1C433EA
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 17:04:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C87032073E
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 17:02:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F14992078E
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 17:04:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="r37eGibO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728469AbgG0RCc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Jul 2020 13:02:32 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:36744 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728434AbgG0RCc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 27 Jul 2020 13:02:32 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 970C0F3E7EAD344E2C57;
-        Tue, 28 Jul 2020 01:02:26 +0800 (CST)
-Received: from kernelci-master.huawei.com (10.175.101.6) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 28 Jul 2020 01:02:16 +0800
-From:   Wei Yongjun <weiyongjun1@huawei.com>
-To:     Hulk Robot <hulkci@huawei.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Wei Yongjun <weiyongjun1@huawei.com>, <linux-usb@vger.kernel.org>
-Subject: [PATCH -next] xhci: dbc: Make function xhci_dbc_ring_alloc() static
-Date:   Tue, 28 Jul 2020 01:12:07 +0800
-Message-ID: <20200727171207.3101-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729796AbgG0REV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Jul 2020 13:04:21 -0400
+Received: from crapouillou.net ([89.234.176.41]:50942 "EHLO crapouillou.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728945AbgG0REV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 27 Jul 2020 13:04:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1595869459; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=eT2jj7Ti6DrN9oXU7iVezLcMMoelbwTnKJJCcgsMRyA=;
+        b=r37eGibOeuqtd+N5v/w3TcFBPfpIyU0J3ooSjYyHjhFZ55FavejAJqKmnq0Cmx7YZ+rwVh
+        FaLPjh8DRrjApyks/NvKEjs5LvCKuQDTagG9JGsWkr/2iRXVdEy6yi5ohY/hvdrPGe5Oau
+        0MT+YP7TZJ9mIDzxmKarnioOc4VmyRU=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     od@zcrc.me, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v2] usb: common: usb-conn-gpio: Register charger
+Date:   Mon, 27 Jul 2020 19:04:13 +0200
+Message-Id: <20200727170413.23131-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The sparse tool complains as follows:
+Register a power supply charger, whose online state depends on whether
+the USB role is set to device or not.
 
-drivers/usb/host/xhci-dbgcap.c:422:18: warning:
- symbol 'xhci_dbc_ring_alloc' was not declared. Should it be static?
+This is useful when the USB role is the only way to know if the device
+is charging from USB. The API is the standard power supply charger API,
+you get a /sys/class/power_supply/xxx/online node which tells you the
+state of the charger.
 
-This function is not used outside ofxhci-dbgcap.c, so this commit
-marks it static.
+The sole purpose of this is to give userspace applications a way to
+know whether or not the charger is plugged.
 
-Fixes: ac286428c69f ("xhci: dbc: don't use generic xhci ring allocation functions for dbc.")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/usb/host/xhci-dbgcap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index c57178db7994..fcc5ac5ce8b1 100644
---- a/drivers/usb/host/xhci-dbgcap.c
-+++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -419,7 +419,7 @@ dbc_alloc_ctx(struct device *dev, gfp_t flags)
- 	return ctx;
+Notes:
+    v2: Don't make charger registration optional
+
+ drivers/usb/common/Kconfig         |  1 +
+ drivers/usb/common/usb-conn-gpio.c | 45 ++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
+
+diff --git a/drivers/usb/common/Kconfig b/drivers/usb/common/Kconfig
+index d611477aae41..5e8a04e3dd3c 100644
+--- a/drivers/usb/common/Kconfig
++++ b/drivers/usb/common/Kconfig
+@@ -40,6 +40,7 @@ config USB_CONN_GPIO
+ 	tristate "USB GPIO Based Connection Detection Driver"
+ 	depends on GPIOLIB
+ 	select USB_ROLE_SWITCH
++	select POWER_SUPPLY
+ 	help
+ 	  The driver supports USB role switch between host and device via GPIO
+ 	  based USB cable detection, used typically if an input GPIO is used
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index ed204cbb63ea..fb7d35b040b7 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -17,6 +17,7 @@
+ #include <linux/of.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
++#include <linux/power_supply.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/usb/role.h>
+ 
+@@ -38,6 +39,9 @@ struct usb_conn_info {
+ 	struct gpio_desc *vbus_gpiod;
+ 	int id_irq;
+ 	int vbus_irq;
++
++	struct power_supply_desc desc;
++	struct power_supply *charger;
+ };
+ 
+ /**
+@@ -104,6 +108,8 @@ static void usb_conn_detect_cable(struct work_struct *work)
+ 
+ 	dev_dbg(info->dev, "vbus regulator is %s\n",
+ 		regulator_is_enabled(info->vbus) ? "enabled" : "disabled");
++
++	power_supply_changed(info->charger);
  }
  
--struct xhci_ring *
-+static struct xhci_ring *
- xhci_dbc_ring_alloc(struct device *dev, enum xhci_ring_type type, gfp_t flags)
+ static void usb_conn_queue_dwork(struct usb_conn_info *info,
+@@ -121,10 +127,35 @@ static irqreturn_t usb_conn_isr(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
++static enum power_supply_property usb_charger_properties[] = {
++	POWER_SUPPLY_PROP_ONLINE,
++};
++
++static int usb_charger_get_property(struct power_supply *psy,
++				    enum power_supply_property psp,
++				    union power_supply_propval *val)
++{
++	struct usb_conn_info *info = power_supply_get_drvdata(psy);
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_ONLINE:
++		val->intval = info->last_role == USB_ROLE_DEVICE;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int usb_conn_probe(struct platform_device *pdev)
  {
- 	struct xhci_ring *ring;
+ 	struct device *dev = &pdev->dev;
++	struct power_supply_desc *desc;
+ 	struct usb_conn_info *info;
++	struct power_supply_config cfg = {
++		.of_node = dev->of_node,
++	};
+ 	int ret = 0;
+ 
+ 	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
+@@ -203,6 +234,20 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	desc = &info->desc;
++	desc->name = "usb-charger";
++	desc->properties = usb_charger_properties;
++	desc->num_properties = ARRAY_SIZE(usb_charger_properties);
++	desc->get_property = usb_charger_get_property;
++	desc->type = POWER_SUPPLY_TYPE_USB;
++	cfg.drv_data = info;
++
++	info->charger = devm_power_supply_register(dev, desc, &cfg);
++	if (IS_ERR(info->charger)) {
++		dev_err(dev, "Unable to register charger\n");
++		return PTR_ERR(info->charger);
++	}
++
+ 	platform_set_drvdata(pdev, info);
+ 
+ 	/* Perform initial detection */
+-- 
+2.27.0
 
