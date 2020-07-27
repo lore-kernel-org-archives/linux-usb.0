@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C41C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 23:26:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E266AC43459
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 23:27:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0679208E4
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 23:26:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B226F20A8B
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jul 2020 23:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595892392;
-	bh=Jcg2bOCFaxvQaQmqPtBJ/NnpJgFsRnFkdboU3XNsS4Q=;
+	s=default; t=1595892430;
+	bh=aFwIehNjkrtNHgEAQFdf2TGEE0EjJC2wt9p3D5hWqBE=;
 	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=H46IXrRxdXYrTnqjSRkIYIQroTystmfuCP9t4pFfaVUSxSZZBLzKoe4IpTFoXMfkC
-	 2+bde2Q2YlGF51YK7C4FCr1/uoF6JUkQOBKdto1ZKiuHhSy143MuwvprVDHAuo8we+
-	 8vYRe3VP5irNN31ab/nEHLAuyJN/GGlcpw3gfOcs=
+	b=LWr8P5Mmc/4clQrMI6r2g4IXrB2BCoU29+i96Zq+7wzR+PE89TJb8aUgmMX6CDXXU
+	 KmrxFJJUeRwxanlB2anGWKFQBdHhEL1tr1NtkbIjGdmWT6jPLklBJuln//Gm9+MPpv
+	 ZK673uGNGgfZyO3RMNiypETVkIegR/GbxmSXJ1rE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728561AbgG0XZR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Jul 2020 19:25:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36556 "EHLO mail.kernel.org"
+        id S1728471AbgG0XZB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Jul 2020 19:25:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36266 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728553AbgG0XZR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 27 Jul 2020 19:25:17 -0400
+        id S1728463AbgG0XZB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 27 Jul 2020 19:25:01 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AD8C22BEB;
-        Mon, 27 Jul 2020 23:25:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D4FEB21744;
+        Mon, 27 Jul 2020 23:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595892316;
-        bh=Jcg2bOCFaxvQaQmqPtBJ/NnpJgFsRnFkdboU3XNsS4Q=;
+        s=default; t=1595892300;
+        bh=aFwIehNjkrtNHgEAQFdf2TGEE0EjJC2wt9p3D5hWqBE=;
         h=From:To:Cc:Subject:Date:From;
-        b=NeSdWxYDQT4paYMX66sgers1wlV/b8tGIJ+JFDRBhMEISsEnVlkEcB/zuPjO185nf
-         Yssg61Vyfx42kSxsnMZk1YT7PHuVvpHwkHDcSgEg+zGfH1StYCh1f3lhRyX4y0N7ND
-         QAviQl1ZOwoesiSiR6Ez7l/UBBpYp5kjzzbgNaWg=
+        b=VupQ49X4WSNnPsylIjL5bBzM53YuHNtxjKJEF5KAXMA1doRaob+cpDstGpCDDw9iA
+         wATW/SS+iI4rrwzGLgLLj7bTI7+o6RLlJFv367TH2zuPwIqkLcViJGd0O5cwhbpHzV
+         xKnxFj7vmD0We1qILxnghAZfKle1C5rF+RYe1aW8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/7] usb: hso: Fix debug compile warning on sparc32
-Date:   Mon, 27 Jul 2020 19:25:08 -0400
-Message-Id: <20200727232514.718265-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/10] usb: hso: Fix debug compile warning on sparc32
+Date:   Mon, 27 Jul 2020 19:24:49 -0400
+Message-Id: <20200727232458.718131-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index 27fc699d8be5b..2ae30db06bfa1 100644
+index 6597d1f8d68c3..7988c41bff1d5 100644
 --- a/drivers/net/usb/hso.c
 +++ b/drivers/net/usb/hso.c
-@@ -1404,8 +1404,9 @@ static void hso_serial_set_termios(struct tty_struct *tty, struct ktermios *old)
+@@ -1402,8 +1402,9 @@ static void hso_serial_set_termios(struct tty_struct *tty, struct ktermios *old)
  	unsigned long flags;
  
  	if (old)
