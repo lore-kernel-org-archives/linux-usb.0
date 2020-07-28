@@ -2,131 +2,245 @@ Return-Path: <SRS0=lntN=BH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 565AAC433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52430C433E5
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:59:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 380AA2070B
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:47:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="glGCVjGm"
+	by mail.kernel.org (Postfix) with ESMTP id 337CA20714
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729826AbgG1MrB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jul 2020 08:47:01 -0400
-Received: from mail-eopbgr10073.outbound.protection.outlook.com ([40.107.1.73]:15172
-        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729806AbgG1MrB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 28 Jul 2020 08:47:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LVDRTdyxCkRSZUuoc+EzlzQxJ4zf4EDwqM9Mdc8RhWRYrp664Z1SdwYezUbdYiPA3U2Q8imClw5ANNR0EG4RS4XZZfp9VB3/IEsfZbj74BZMdVz7KOkq1bJ1160btlHwSE4UW4hKgh40mdznh4CzkXAfpSzDaiovk+EDpz9Uyq5PjE20GQvsroKNWQ9nxqGmqF5QV+jqb4gKYznjfoWjjXC+fefDoXKhFjdUtNLhVwVLPOF1anoCOPOyeBZUvo6Z2TXI32SlBdgCum7fH++bIP/VvL8va/4tSHhYA63+ZEzEs0Pfkj7HvSNgLm4XlCoNZ6KksrNbGDjlOXfLaT8kwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i+Jyc0ZibbywfBE3UHE/M1Ilp+s96M8eNh3xWhrM284=;
- b=VM1dB3sYlvpyOOrKViR2c74n06S2byJYskBSx3S3Y/iQHARPpM8GulyRjXHLyHLUGcsAxBCNsodN0tqF9X5twPpAQ/R9VQbO043iNaeEMex91HU3tOLErHVlROEf35kMb2IXvfs7om2rJbkBk5f+Bnt/C50aOcxVzKbuuo3h+2AttpofmCT0Mz92xxuRIzuOYZllcnxK5YXktv8vLwiXsPmi2MP4g9AV/U7a/Qs8wnKr8Yzu5PBdujVq5fbNU52hxQ5/thvGavXBWmoggJeqoOCQLAMDtr6/knr6A4UhazZZZ/tQHQMTOq7Ro1qGeiU3a9WKwfZezedfwyV/MLv8yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i+Jyc0ZibbywfBE3UHE/M1Ilp+s96M8eNh3xWhrM284=;
- b=glGCVjGmEUGg2QHHquRZsp7HneF1ZqMPuEy+NlTkuO/fZQJcP0RTXcxwRPRz9OZjDm/arSd/Jli+8sPN0PDaVEqBxcnpPZzQkt09Z+C6D+uqmlZ5ZIlwzy2nbCV4sc3lJHIVgs9HdB/l8b9pPNFX9pvMy7N2YI8lvbS3Y0FwkGY=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
- by VI1PR0402MB2910.eurprd04.prod.outlook.com (2603:10a6:800:b6::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
- 2020 12:46:56 +0000
-Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
- ([fe80::30e2:71b0:ffd3:e39e]) by VE1PR04MB6528.eurprd04.prod.outlook.com
- ([fe80::30e2:71b0:ffd3:e39e%7]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
- 12:46:56 +0000
-From:   Li Jun <jun.li@nxp.com>
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-imx@nxp.com
-Subject: [PATCH 2/2] usb: dwc3: core: add phy cleanup for probe error handling
-Date:   Tue, 28 Jul 2020 20:42:41 +0800
-Message-Id: <1595940161-3700-2-git-send-email-jun.li@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1595940161-3700-1-git-send-email-jun.li@nxp.com>
-References: <1595940161-3700-1-git-send-email-jun.li@nxp.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0031.apcprd02.prod.outlook.com
- (2603:1096:3:18::19) To VE1PR04MB6528.eurprd04.prod.outlook.com
- (2603:10a6:803:127::18)
+        id S1729707AbgG1M7b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jul 2020 08:59:31 -0400
+Received: from mga12.intel.com ([192.55.52.136]:34132 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728990AbgG1M7b (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 28 Jul 2020 08:59:31 -0400
+IronPort-SDR: bLhCqAuuLQK2zIGNACmpgjis7A/JdYFDceHFEOwvI5P2K3peyFijjW3ckjO+NuQiX4D+jIjNMM
+ BkO5thSJxUZw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="130762073"
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
+   d="scan'208";a="130762073"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 05:59:30 -0700
+IronPort-SDR: LDtKmxS+RmqTsNXUXTH5IKulINkb0Qr1IRNPZBdc8U0/ZpxzK3o6Za2lm4YogFjW856vGmMmA2
+ nIJ8kwTskabw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
+   d="scan'208";a="394322233"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 28 Jul 2020 05:59:26 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 28 Jul 2020 15:59:27 +0300
+Date:   Tue, 28 Jul 2020 15:59:27 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] usb: typec: tcpm: Refactor
+ tcpm_handle_vdm_request payload handling
+Message-ID: <20200728125927.GI883641@kuha.fi.intel.com>
+References: <20200724174702.61754-1-hdegoede@redhat.com>
+ <20200724174702.61754-3-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.67) by SG2PR02CA0031.apcprd02.prod.outlook.com (2603:1096:3:18::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3216.21 via Frontend Transport; Tue, 28 Jul 2020 12:46:54 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.67]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5cd175ea-ac1a-4c66-2091-08d832f44f51
-X-MS-TrafficTypeDiagnostic: VI1PR0402MB2910:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0402MB2910987EB044A47D6A94C31E89730@VI1PR0402MB2910.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tNpOWrLGjtZXjmr84eRpMWzalzHT8rgB7QItHRjcCw/vNSa9Fd2BZHEUu5JND9+xVjbeK8mXth/Y0igKIeFrrPgOYMIv2ygI4c66N1pgJWP4lrjr1yY7B+I9VYFsv8WZQBOnU3PCLWN5ncWsAp81Tm8uwfrMT4r9sddX3hMNWxJpo5qreo0+WhB5rOADC8P8DOlI0cQoO7TWW4bB7Z4jpfbo4bhCLZr8UNfxYDhRGtIXoGsx7j8BWhazQSyVmQmZ3NwjqAgRgc/T1wRSE6B5LWaedPl5ea+cEp4RhkjS2jlwPgnPduxFCvbIeRvOY3qNWVV4RN0QMzdLnuGlCaTEn262vsqZheF4yPa/23AUi7RdwpVIHPt+CmJ947yKMfh1
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(26005)(83380400001)(956004)(5660300002)(2616005)(16526019)(186003)(36756003)(6506007)(66946007)(4326008)(66476007)(52116002)(66556008)(4744005)(2906002)(86362001)(6916009)(8676002)(69590400007)(8936002)(478600001)(6486002)(6666004)(316002)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 6vklZDHJzdkHPW643naKBRLSMZiMEA7uXoUyU+XfJrDuRw4JpDYHcS1JIZCRBA7j8WAseo+YuTyHT4SFGCVYQIhkNn51FimJqEGMQjGavLxQm86bccfJfMJBDH/zc5UeeJeg9zVb7ArzkFE+4mKHbji8eAYB5oXXko1j6pFDEyFd4l4khMkzozhg+8790VCwaeh9MoSrvvXzS7lbN8n3o6wMTn9FPmuMqAwp5p3jh5jRZHOJ5rT81UkNgyjXiaXOmM7V3Uxm7uvNFFVndLWYHNq6iNigbh9ThxNhS54gF1j4HTdCjcgL+pagMpIioAkiH3+fdSocPxgSObxXucW/wtUbcWc40EIkvaeWH+fe5BohAWNZrGBkaoOVkdT/oM/nbtCdYyyyPnL7LCglJl0DzD8fZN3tP9KoLobBf3/udb1z1VWKetL80jm+3/sDuFGLyJSjAjqnUipXNFf0J8Uteris+//RSgLTNIpjie6u82o=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cd175ea-ac1a-4c66-2091-08d832f44f51
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6528.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 12:46:55.9899
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vu3h5OdAalyf5/49bJo+byYjy1XqCcftbHHuk5ycPvCJtt0ipdFJdKB9LOsZy5CH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2910
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200724174702.61754-3-hdegoede@redhat.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the phy cleanup if dwc3 mode init fail, which is the missing part of
-de-init for dwc3 core init.
+On Fri, Jul 24, 2020 at 07:46:59PM +0200, Hans de Goede wrote:
+> Refactor the tcpm_handle_vdm_request payload handling by doing the
+> endianness conversion only once directly inside tcpm_handle_vdm_request
+> itself instead of doing it multiple times inside various helper functions
+> called by tcpm_handle_vdm_request.
+> 
+> This is a preparation patch for some further refactoring to fix an AB BA
+> lock inversion between the tcpm code and some altmode drivers.
+> 
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Fixes: c499ff71ff2a ("usb: dwc3: core: re-factor init and exit paths")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Li Jun <jun.li@nxp.com>
----
- drivers/usb/dwc3/core.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+One nit below, but nothing that would require a new version, so FWIW:
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 0444018..3d11a9f 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1555,6 +1555,17 @@ static int dwc3_probe(struct platform_device *pdev)
- 
- err5:
- 	dwc3_event_buffers_cleanup(dwc);
-+
-+	usb_phy_shutdown(dwc->usb2_phy);
-+	usb_phy_shutdown(dwc->usb3_phy);
-+	phy_exit(dwc->usb2_generic_phy);
-+	phy_exit(dwc->usb3_generic_phy);
-+
-+	usb_phy_set_suspend(dwc->usb2_phy, 1);
-+	usb_phy_set_suspend(dwc->usb3_phy, 1);
-+	phy_power_off(dwc->usb2_generic_phy);
-+	phy_power_off(dwc->usb3_generic_phy);
-+
- 	dwc3_ulpi_exit(dwc);
- 
- err4:
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 49 ++++++++++++++++-------------------
+>  1 file changed, 22 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 862c474b3ebd..ee239b54bcd8 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -981,16 +981,15 @@ static void tcpm_queue_vdm_unlocked(struct tcpm_port *port, const u32 header,
+>  	mutex_unlock(&port->lock);
+>  }
+>  
+> -static void svdm_consume_identity(struct tcpm_port *port, const __le32 *payload,
+> -				  int cnt)
+> +static void svdm_consume_identity(struct tcpm_port *port, const u32 *p, int cnt)
+>  {
+> -	u32 vdo = le32_to_cpu(payload[VDO_INDEX_IDH]);
+> -	u32 product = le32_to_cpu(payload[VDO_INDEX_PRODUCT]);
+> +	u32 vdo = p[VDO_INDEX_IDH];
+> +	u32 product = p[VDO_INDEX_PRODUCT];
+>  
+>  	memset(&port->mode_data, 0, sizeof(port->mode_data));
+>  
+>  	port->partner_ident.id_header = vdo;
+> -	port->partner_ident.cert_stat = le32_to_cpu(payload[VDO_INDEX_CSTAT]);
+> +	port->partner_ident.cert_stat = p[VDO_INDEX_CSTAT];
+>  	port->partner_ident.product = product;
+>  
+>  	typec_partner_set_identity(port->partner);
+> @@ -1000,17 +999,15 @@ static void svdm_consume_identity(struct tcpm_port *port, const __le32 *payload,
+>  		 PD_PRODUCT_PID(product), product & 0xffff);
+>  }
+>  
+> -static bool svdm_consume_svids(struct tcpm_port *port, const __le32 *payload,
+> -			       int cnt)
+> +static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
+>  {
+>  	struct pd_mode_data *pmdata = &port->mode_data;
+>  	int i;
+>  
+>  	for (i = 1; i < cnt; i++) {
+> -		u32 p = le32_to_cpu(payload[i]);
+>  		u16 svid;
+>  
+> -		svid = (p >> 16) & 0xffff;
+> +		svid = (p[i] >> 16) & 0xffff;
+>  		if (!svid)
+>  			return false;
+>  
+> @@ -1020,7 +1017,7 @@ static bool svdm_consume_svids(struct tcpm_port *port, const __le32 *payload,
+>  		pmdata->svids[pmdata->nsvids++] = svid;
+>  		tcpm_log(port, "SVID %d: 0x%x", pmdata->nsvids, svid);
+>  
+> -		svid = p & 0xffff;
+> +		svid = p[i] & 0xffff;
+>  		if (!svid)
+>  			return false;
+>  
+> @@ -1036,8 +1033,7 @@ static bool svdm_consume_svids(struct tcpm_port *port, const __le32 *payload,
+>  	return false;
+>  }
+>  
+> -static void svdm_consume_modes(struct tcpm_port *port, const __le32 *payload,
+> -			       int cnt)
+> +static void svdm_consume_modes(struct tcpm_port *port, const u32 *p, int cnt)
+>  {
+>  	struct pd_mode_data *pmdata = &port->mode_data;
+>  	struct typec_altmode_desc *paltmode;
+> @@ -1054,7 +1050,7 @@ static void svdm_consume_modes(struct tcpm_port *port, const __le32 *payload,
+>  
+>  		paltmode->svid = pmdata->svids[pmdata->svid_index];
+>  		paltmode->mode = i;
+> -		paltmode->vdo = le32_to_cpu(payload[i]);
+> +		paltmode->vdo = p[i];
+>  
+>  		tcpm_log(port, " Alternate mode %d: SVID 0x%04x, VDO %d: 0x%08x",
+>  			 pmdata->altmodes, paltmode->svid,
+> @@ -1082,21 +1078,17 @@ static void tcpm_register_partner_altmodes(struct tcpm_port *port)
+>  
+>  #define supports_modal(port)	PD_IDH_MODAL_SUPP((port)->partner_ident.id_header)
+>  
+> -static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+> +static int tcpm_pd_svdm(struct tcpm_port *port, const u32 *p, int cnt,
+>  			u32 *response)
+>  {
+>  	struct typec_altmode *adev;
+>  	struct typec_altmode *pdev;
+>  	struct pd_mode_data *modep;
+> -	u32 p[PD_MAX_PAYLOAD];
+>  	int rlen = 0;
+>  	int cmd_type;
+>  	int cmd;
+>  	int i;
+>  
+> -	for (i = 0; i < cnt; i++)
+> -		p[i] = le32_to_cpu(payload[i]);
+> -
+>  	cmd_type = PD_VDO_CMDT(p[0]);
+>  	cmd = PD_VDO_CMD(p[0]);
+>  
+> @@ -1157,13 +1149,13 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+>  		switch (cmd) {
+>  		case CMD_DISCOVER_IDENT:
+>  			/* 6.4.4.3.1 */
+> -			svdm_consume_identity(port, payload, cnt);
+> +			svdm_consume_identity(port, p, cnt);
+>  			response[0] = VDO(USB_SID_PD, 1, CMD_DISCOVER_SVID);
+>  			rlen = 1;
+>  			break;
+>  		case CMD_DISCOVER_SVID:
+>  			/* 6.4.4.3.2 */
+> -			if (svdm_consume_svids(port, payload, cnt)) {
+> +			if (svdm_consume_svids(port, p, cnt)) {
+>  				response[0] = VDO(USB_SID_PD, 1,
+>  						  CMD_DISCOVER_SVID);
+>  				rlen = 1;
+> @@ -1175,7 +1167,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+>  			break;
+>  		case CMD_DISCOVER_MODES:
+>  			/* 6.4.4.3.3 */
+> -			svdm_consume_modes(port, payload, cnt);
+> +			svdm_consume_modes(port, p, cnt);
+>  			modep->svid_index++;
+>  			if (modep->svid_index < modep->nsvids) {
+>  				u16 svid = modep->svids[modep->svid_index];
+> @@ -1238,15 +1230,18 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+>  static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>  				    const __le32 *payload, int cnt)
+>  {
+> -	int rlen = 0;
+> +	u32 p[PD_MAX_PAYLOAD];
+>  	u32 response[8] = { };
+> -	u32 p0 = le32_to_cpu(payload[0]);
+> +	int i, rlen = 0;
+> +
+> +	for (i = 0; i < cnt; i++)
+> +		p[i] = le32_to_cpu(payload[i]);
+>  
+>  	if (port->vdm_state == VDM_STATE_BUSY) {
+>  		/* If UFP responded busy retry after timeout */
+> -		if (PD_VDO_CMDT(p0) == CMDT_RSP_BUSY) {
+> +		if (PD_VDO_CMDT(p[0]) == CMDT_RSP_BUSY) {
+>  			port->vdm_state = VDM_STATE_WAIT_RSP_BUSY;
+> -			port->vdo_retry = (p0 & ~VDO_CMDT_MASK) |
+> +			port->vdo_retry = (p[0] & ~VDO_CMDT_MASK) |
+>  				CMDT_INIT;
+
+You could have changed that to:
+
+			port->vdo_retry = (p[0] & ~VDO_CMDT_MASK) | CMDT_INIT;
+
+while at it.
+
+>  			mod_delayed_work(port->wq, &port->vdm_state_machine,
+>  					 msecs_to_jiffies(PD_T_VDM_BUSY));
+> @@ -1255,8 +1250,8 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>  		port->vdm_state = VDM_STATE_DONE;
+>  	}
+>  
+> -	if (PD_VDO_SVDM(p0))
+> -		rlen = tcpm_pd_svdm(port, payload, cnt, response);
+> +	if (PD_VDO_SVDM(p[0]))
+> +		rlen = tcpm_pd_svdm(port, p, cnt, response);
+>  
+>  	if (rlen > 0)
+>  		tcpm_queue_vdm(port, response[0], &response[1], rlen - 1);
+> -- 
+> 2.26.2
+
+thanks,
+
 -- 
-2.7.4
-
+heikki
