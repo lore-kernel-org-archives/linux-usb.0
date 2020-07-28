@@ -2,98 +2,88 @@ Return-Path: <SRS0=lntN=BH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD600C433F2
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:11:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CBDC43457
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:32:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BDBF2065E
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595938316;
-	bh=5FXUPD3uMaggwhRl/CQq0zBP266WPWdILicuQw/Htqk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=C2J4FF6mzX5rGRxfPBY4FU4dSe9dOeoG7OvvcigTRY7m55PU39T6eWfciZHhzqEOl
-	 s6ByjC6w1o6zylxWkTfsBw/0Snu+oh1rOIQNgciL5cayTV/RGgj+9twFFi/AMenflc
-	 d4I672MZ1wf4j5klxv8MLsIurP+GGTyoJJ9K/3xo=
+	by mail.kernel.org (Postfix) with ESMTP id E74F020714
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729433AbgG1MLv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jul 2020 08:11:51 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45998 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728896AbgG1MLf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jul 2020 08:11:35 -0400
-Received: by mail-lj1-f193.google.com with SMTP id r19so20819382ljn.12;
-        Tue, 28 Jul 2020 05:11:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HZihSth8sxHseb5CAqThMzv8CFkUGVPv5HlzdDNm7OM=;
-        b=GDqVYmqogkSDDTnW7Z/rcVxLVf3JdisDrRurzlb9Mz5g99op6ls+PFvEqGYF4t7GcG
-         j+dYZJNyn4FN3+trOW8w1BVjL4bMAvmSWA/gEg2dgKzv17gA8x5ttSIuXl1hmeaEjUM4
-         pBhYNxMZHvj0OKu22Tl2tXRIN03GloifSaAtHebyQsmfMeWT+YKNzNMp7akA9UhvSdhv
-         UT0zS0j4yGFu3VlUIjMLrUndeFE27fK9aUtBWZdEsGLosVqNaZJ87FEJse03I3EbtHb2
-         caGR5FAkusyyEUrxh1qbrDk8HJgT/lCRkyJlYQkORZpAN/FYjHQCPxiyGMg+vYRV/Pqs
-         nQ7w==
-X-Gm-Message-State: AOAM533ffAb/ee3XL+UXPxcVDY5b083UrAshNGwDQJAvHa8gjbLYSeEt
-        0zgqKDAlGQMTH1ky9sU0+C8=
-X-Google-Smtp-Source: ABdhPJyrQt/ZrM783lj6kRb0W8svGfeXFa1wCBVVs2p98sADauOkMGa8ifznUUChWFLcrJmuV79hgA==
-X-Received: by 2002:a2e:9555:: with SMTP id t21mr12800427ljh.194.1595938292488;
-        Tue, 28 Jul 2020 05:11:32 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id g19sm3749699lfd.28.2020.07.28.05.11.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 05:11:30 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@xi.terra>)
-        id 1k0OS6-0003Ds-CH; Tue, 28 Jul 2020 14:11:26 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Woojung Huh <woojung.huh@microchip.com>
-Cc:     Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        "Woojung . Huh @ microchip . com" <Woojung.Huh@microchip.com>
-Subject: [PATCH net 2/3] net: lan78xx: fix transfer-buffer memory leak
-Date:   Tue, 28 Jul 2020 14:10:30 +0200
-Message-Id: <20200728121031.12323-3-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200728121031.12323-1-johan@kernel.org>
-References: <20200728121031.12323-1-johan@kernel.org>
+        id S1729701AbgG1McH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jul 2020 08:32:07 -0400
+Received: from mga11.intel.com ([192.55.52.93]:14685 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729571AbgG1McF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 28 Jul 2020 08:32:05 -0400
+IronPort-SDR: I8pWUMARg2m+9SG5GPJiipL7YRfaz2hIem85gMYMYDNmHbfjLLzaPTgAZ9wUy3+n5plwnqjiqU
+ FfDHIBbFR1qQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="149058119"
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
+   d="scan'208";a="149058119"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 05:32:04 -0700
+IronPort-SDR: 4YjtbwCd5BbR2ffPSzRSejd71IJXA9RDCTUG/Rj6Y8wr7IhPWeHpPKIEvnmK75T7nbnhpGU+qW
+ FzBO9DnLRDWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
+   d="scan'208";a="394317464"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 28 Jul 2020 05:32:01 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 28 Jul 2020 15:32:00 +0300
+Date:   Tue, 28 Jul 2020 15:32:00 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     =?iso-8859-1?Q?J=FCrgen?= Stauber <j.stauber@icloud.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: High load from process irq/65-i2c-INT3 - kernel module tps6598x
+Message-ID: <20200728123200.GF883641@kuha.fi.intel.com>
+References: <376EFB02-6CA2-4D5A-883B-7843B6F6B6EC@icloud.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <376EFB02-6CA2-4D5A-883B-7843B6F6B6EC@icloud.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The interrupt URB transfer-buffer was never freed on disconnect or after
-probe errors.
+Hi Jürgen,
 
-Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
-Cc: Woojung.Huh@microchip.com <Woojung.Huh@microchip.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/net/usb/lan78xx.c | 1 +
- 1 file changed, 1 insertion(+)
+I'm sorry about the late reply (vacation).
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index d7162690e3f3..ee062b27cfa7 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -3788,6 +3788,7 @@ static int lan78xx_probe(struct usb_interface *intf,
- 			usb_fill_int_urb(dev->urb_intr, dev->udev,
- 					 dev->pipe_intr, buf, maxp,
- 					 intr_complete, dev, period);
-+			dev->urb_intr->transfer_flags |= URB_FREE_BUFFER;
- 		}
- 	}
- 
+On Mon, Jul 20, 2020 at 06:31:04PM +0200, Jürgen Stauber wrote:
+> Hi all,
+> 
+> I was made aware in the following launchpad bug report, that I should report
+> the issue directly with the upstream maintainers:
+> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1883511
+> <https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1883511>
+> 
+> As mentioned in the report, I experience high cpu load due to an interrupted
+> irq/65-i2c-INT3 process. A short fix is to unload the kernel module tps6598x.
+> 
+> Please be lenient with me, since I’ve got no glue whether I’m doing this
+> correctly.
+> 
+> In case you need more details/logs/information, please let me know.
+
+There is one thing that you may be able to try. If you can enter the
+BIOS menu, then you should be able to disable an option called
+"UCMCx". Unfortunately I don't know the full path to that option in
+the BIOS menu of the NUC, or is entering the BIOS menu possible in the
+first place. It is also possible that there is no option "UCMCx" at
+all.
+
+Unfortunately I don't have access to NUC10 at the moment, but I'll try
+get one.
+
+Br,
+
 -- 
-2.26.2
-
+heikki
