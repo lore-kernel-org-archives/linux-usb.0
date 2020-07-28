@@ -2,92 +2,107 @@ Return-Path: <SRS0=lntN=BH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 570E9C433E3
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 11:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90621C433E4
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 405A7206D7
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 11:56:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 69E112070B
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 12:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595938296;
+	bh=z7k6UOCnAozQaZ5b9+HbexJNfnxw8lOBXCJ8+UaN1r8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=KO6qp3cQcmiu/+KPQ8hw57Vk/Mhvms2oAfuVKl+ibU2DO27KYMVLuTl1dK7nfUlCv
+	 6BGv13jmWZZnUU9tJa4kXaOi5ThLUpyovGDqBd+MOeAuJtLzcY8hD9KPMu+jJB7OOR
+	 oE1Ybd9Is+699LMaFhhYdlvgwAMHBkjuwTkXXs0g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729245AbgG1L4v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jul 2020 07:56:51 -0400
-Received: from mga09.intel.com ([134.134.136.24]:4606 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728268AbgG1L4u (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 28 Jul 2020 07:56:50 -0400
-IronPort-SDR: McS2wKE0XI3MB/Q3ZRFvefwgw9WUtPEYe9XON+y6C7US38VzFW8hf1wW9CicZMkqkQScbOSlGP
- zxAbM1Sen9rA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152445565"
-X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
-   d="scan'208";a="152445565"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 04:56:49 -0700
-IronPort-SDR: S2/dcYrIit3AWvum25eTbvPfg1pyeTNBZm4i1SqjNH/oUjcIdlDrGIHuycF+4og8shtMN/Htrh
- UDUc4MtqgIhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
-   d="scan'208";a="394310584"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 28 Jul 2020 04:56:47 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 28 Jul 2020 14:56:46 +0300
-Date:   Tue, 28 Jul 2020 14:56:46 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Kyle Tso <kyletso@google.com>
-Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org, badhri@google.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: typec: tcpm: Error handling for
- tcpm_register_partner_altmodes
-Message-ID: <20200728115646.GE883641@kuha.fi.intel.com>
-References: <20200714033453.4044482-1-kyletso@google.com>
- <20200714033453.4044482-3-kyletso@google.com>
+        id S1729174AbgG1MLf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jul 2020 08:11:35 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43489 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728840AbgG1MLe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jul 2020 08:11:34 -0400
+Received: by mail-lj1-f196.google.com with SMTP id f5so20838297ljj.10;
+        Tue, 28 Jul 2020 05:11:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hTBfJmBRO5Rb64D0GBJ0IiAqZ76bUdrzaMxwh1TXFb0=;
+        b=SxtkdkwgMSjEAcuV1Dh1I50cvoCjAQVjCl6D++s/CsUzq8Z4qf+3NfcCl/eI1Q2m1G
+         4jGS6LQ9YBUvW2OAaqTPtO/usjPSpS/OjWpDEDlCohJMpIa4tJe0LUZT8caKFoQDWQ2Q
+         YV1R1sFhQOUblymsyM2PMkXKHq+p7v2pmVOztJMqLrXHVv6DsI6W8sdlnAYkBpT0eagR
+         BFRf2ebsn2E0SzKma0GRnsmXNnL6a5B0t9GRu8lTwpfWsjqAJMxy5R3ibXqa2xbvT1zh
+         tWkSrI98H2j8w6c+UM7bb4ThimPM2+UoA8WqBoey6p5A3qfRKLR2Q9C1rYtqoKt/Ip/S
+         nycg==
+X-Gm-Message-State: AOAM533WefW2+4CXk3+Lc3q0ZftEBgQWBk/KSAxMRZ31BSlhHtbmAE3d
+        /71S/8HLtXmNfE+EY48ZP2vdBjQF
+X-Google-Smtp-Source: ABdhPJzC1SMcuOdVj/5aYJlv/u9WFtJAP1KL6sA78L8BZzYm79E/lc2vkanmCzzPMo2ko/B+G5/ZlQ==
+X-Received: by 2002:a05:651c:294:: with SMTP id b20mr5420677ljo.4.1595938291950;
+        Tue, 28 Jul 2020 05:11:31 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id o16sm1728264ljc.66.2020.07.28.05.11.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 05:11:30 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@xi.terra>)
+        id 1k0OS6-0003Dn-A8; Tue, 28 Jul 2020 14:11:26 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Woojung Huh <woojung.huh@microchip.com>
+Cc:     Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
+        "Woojung . Huh @ microchip . com" <Woojung.Huh@microchip.com>
+Subject: [PATCH net 1/3] net: lan78xx: add missing endpoint sanity check
+Date:   Tue, 28 Jul 2020 14:10:29 +0200
+Message-Id: <20200728121031.12323-2-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200728121031.12323-1-johan@kernel.org>
+References: <20200728121031.12323-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200714033453.4044482-3-kyletso@google.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 11:34:53AM +0800, Kyle Tso wrote:
-> typec_partner_register_altmode returns ERR_PTR. Reset the pointer
-> altmode to NULL on failure.
-> 
-> Signed-off-by: Kyle Tso <kyletso@google.com>
+Add the missing endpoint sanity check to prevent a NULL-pointer
+dereference should a malicious device lack the expected endpoints.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Note that the driver has a broken endpoint-lookup helper,
+lan78xx_get_endpoints(), which can end up accepting interfaces in an
+altsetting without endpoints as long as *some* altsetting has a bulk-in
+and a bulk-out endpoint.
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 82b19ebd7838..a6d4b03ec250 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -1061,9 +1061,11 @@ static void tcpm_register_partner_altmodes(struct tcpm_port *port)
->  	for (i = 0; i < modep->altmodes; i++) {
->  		altmode = typec_partner_register_altmode(port->partner,
->  						&modep->altmode_desc[i]);
-> -		if (!altmode)
-> +		if (IS_ERR(altmode)) {
->  			tcpm_log(port, "Failed to register partner SVID 0x%04x",
->  				 modep->altmode_desc[i].svid);
-> +			altmode = NULL;
-> +		}
->  		port->partner_altmode[i] = altmode;
->  	}
->  }
-> -- 
-> 2.27.0.389.gc38d7665816-goog
+Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
+Cc: Woojung.Huh@microchip.com <Woojung.Huh@microchip.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/net/usb/lan78xx.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-thanks,
-
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index eccbf4cd7149..d7162690e3f3 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -3759,6 +3759,11 @@ static int lan78xx_probe(struct usb_interface *intf,
+ 	netdev->max_mtu = MAX_SINGLE_PACKET_SIZE;
+ 	netif_set_gso_max_size(netdev, MAX_SINGLE_PACKET_SIZE - MAX_HEADER);
+ 
++	if (intf->cur_altsetting->desc.bNumEndpoints < 3) {
++		ret = -ENODEV;
++		goto out3;
++	}
++
+ 	dev->ep_blkin = (intf->cur_altsetting)->endpoint + 0;
+ 	dev->ep_blkout = (intf->cur_altsetting)->endpoint + 1;
+ 	dev->ep_intr = (intf->cur_altsetting)->endpoint + 2;
 -- 
-heikki
+2.26.2
+
