@@ -2,82 +2,121 @@ Return-Path: <SRS0=lntN=BH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC564C433E4
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 11:16:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74193C433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 11:52:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB102205CB
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 11:16:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595934972;
-	bh=HiW5GZ9EjuCvcBJQUd6El6hJn/dJ4M2iEn6pgpFkOks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Zrx3IxS+0POprL0I8yxSie6dEVsAPy3gQidKyVGGds3i8MI7Kr2ThvCIHJXkT2479
-	 ESUCvKwDEkxUTrD7whPia0XtKYIJ07jSMEfv0fqUtLz3c6DwRR+0X50+n2W6SG4lxY
-	 QAmfqfuUGDekUwrQpgH6TwDew6+DLWv/7IdCFIyc=
+	by mail.kernel.org (Postfix) with ESMTP id 4E397206D7
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jul 2020 11:52:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CQbFIRlB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729003AbgG1LQI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jul 2020 07:16:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41520 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728992AbgG1LQH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 28 Jul 2020 07:16:07 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CFE00205CB;
-        Tue, 28 Jul 2020 11:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595934967;
-        bh=HiW5GZ9EjuCvcBJQUd6El6hJn/dJ4M2iEn6pgpFkOks=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PBJlwVz/yulXo3nfeePJQRJ7gapiDCcecn2E5YzHZ3pmG8VzCf9/idbt+CPVn3TZe
-         Nl3Ar/nGdfQ+4LaltIvfJ9ntQ3jvRUy+fy3I+FjzJaGXKf/jda332De/hT8KCgzLIY
-         eBwbJczwmMpz3U2jEpDQ1ZyRpexKSdmeRo9x4nDI=
-Date:   Tue, 28 Jul 2020 13:16:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Forest Crossman <cyrozap@gmail.com>
-Cc:     linux-usb@vger.kernel.org, mathias.nyman@intel.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Small fixes for ASMedia host controllers
-Message-ID: <20200728111600.GA2950299@kroah.com>
-References: <20200727090629.169701-1-cyrozap@gmail.com>
- <20200728042408.180529-1-cyrozap@gmail.com>
+        id S1729151AbgG1LwV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jul 2020 07:52:21 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:33536 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728504AbgG1LwV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jul 2020 07:52:21 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06SBh9KY163452;
+        Tue, 28 Jul 2020 11:52:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=cqyB84Yg9vnvWQzL4ynV1Wo/dL93LyFsMcSQ/zk+ETQ=;
+ b=CQbFIRlBd/GMho1aI9nHmDRoSVrG2XZ+gvkyWT+qfkFL0hpI0L9VXodC4lpdFq7e8Vxe
+ yYPlrctRTfQViGB7weibBepWQask0U7TdfGAEbk2ilSAxKl3LR+aPCK+Vsk18vGBsfju
+ 8s47tpIbw73UCuMD7VEY0dubtEcFYO//i8zoDolxeNnEgVXQrXLqJPdW1++HsR5HaMZq
+ CuKFYky1u7idVlirpmuhuSj6VNT/LD+Neq+NhEDxIM6QdfeRvApYLe2kWgJhisJNMilo
+ Q5FUSIReGJIxcdtjg3dcpVVesrRdprvAvs9Sro8RxEcAADUD25dv2/ZsAFNK2Nvd/1RY 8w== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 32hu1j6yg6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 28 Jul 2020 11:52:19 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06SBgYJn047040;
+        Tue, 28 Jul 2020 11:52:19 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 32hu5srghk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 Jul 2020 11:52:19 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06SBpt3S029391;
+        Tue, 28 Jul 2020 11:51:59 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 28 Jul 2020 04:51:53 -0700
+Date:   Tue, 28 Jul 2020 14:51:48 +0300
+From:   <dan.carpenter@oracle.com>
+To:     zhouyanjie@wanyeetech.com
+Cc:     linux-usb@vger.kernel.org
+Subject: [bug report] USB: PHY: JZ4770: Add support for new Ingenic SoCs.
+Message-ID: <20200728115148.GA425911@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200728042408.180529-1-cyrozap@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=3 spamscore=0 mlxlogscore=869 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007280089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 clxscore=1011
+ malwarescore=0 spamscore=0 suspectscore=3 bulkscore=0 priorityscore=1501
+ phishscore=0 mlxlogscore=881 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007280089
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 11:24:06PM -0500, Forest Crossman wrote:
-> The first patch just defines some host controller device IDs to make the
-> code a bit easier to read (since the controller part number is not
-> always the same as the DID) and to prepare for the next patch.
-> 
-> The second patch defines a new device ID for the ASM1142 and enables the
-> XHCI_NO_64BIT_SUPPORT quirk for that device, since it has the same
-> problem with truncating the higher bits as the ASM2142/ASM3142.
-> 
-> 
-> Changes since v1:
->  - Added changelog text to the first patch.
-> 
-> 
-> Forest Crossman (2):
->   usb: xhci: define IDs for various ASMedia host controllers
->   usb: xhci: Fix ASMedia ASM1142 DMA addressing
-> 
->  drivers/usb/host/xhci-pci.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+Hello 周琰杰 (Zhou Yanjie),
 
-Mathias, any objection for me just taking these now?
+The patch 2a6c0b82e651: "USB: PHY: JZ4770: Add support for new
+Ingenic SoCs." from Jul 23, 2020, leads to the following static
+checker warning:
 
-thanks,
+	drivers/usb/phy/phy-jz4770.c:179 ingenic_usb_phy_init()
+	error: uninitialized symbol 'reg'.
 
-greg k-h
+drivers/usb/phy/phy-jz4770.c
+   157  static int ingenic_usb_phy_init(struct usb_phy *phy)
+   158  {
+   159          struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
+   160          int err;
+   161          u32 reg;
+                    ^^^
+   162  
+   163          err = regulator_enable(priv->vcc_supply);
+   164          if (err) {
+   165                  dev_err(priv->dev, "Unable to enable VCC: %d\n", err);
+   166                  return err;
+   167          }
+   168  
+   169          err = clk_prepare_enable(priv->clk);
+   170          if (err) {
+   171                  dev_err(priv->dev, "Unable to start clock: %d\n", err);
+   172                  return err;
+   173          }
+   174  
+   175          priv->soc_info->usb_phy_init(phy);
+   176  
+   177          /* Wait for PHY to reset */
+   178          usleep_range(30, 300);
+   179          writel(reg & ~USBPCR_POR, priv->base + REG_USBPCR_OFFSET);
+                       ^^^
+Not initialized any more.
+
+   180          usleep_range(300, 1000);
+   181  
+   182          return 0;
+   183  }
+
+regards,
+dan carpenter
