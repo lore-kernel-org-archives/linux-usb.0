@@ -2,104 +2,123 @@ Return-Path: <SRS0=4kCP=BI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83996C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jul 2020 17:49:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA5BC433E3
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jul 2020 18:00:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65FC92075F
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jul 2020 17:49:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E42B120809
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jul 2020 18:00:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wi+q2t/a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727113AbgG2RtW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jul 2020 13:49:22 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:43993 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbgG2RtV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jul 2020 13:49:21 -0400
-X-Originating-IP: 90.66.108.79
-Received: from localhost (lfbn-lyo-1-1932-79.w90-66.abo.wanadoo.fr [90.66.108.79])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id ECA161BF203;
-        Wed, 29 Jul 2020 17:49:19 +0000 (UTC)
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Trevor Woerner <twoerner@gmail.com>
-Cc:     jamesg@zaltys.org, linux-usb@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH] usb: ohci-nxp: add support for stotg04 phy
-Date:   Wed, 29 Jul 2020 19:49:18 +0200
-Message-Id: <20200729174918.321615-1-alexandre.belloni@bootlin.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200729172829.GA3679@piout.net>
+        id S1727850AbgG2SAI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jul 2020 14:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728102AbgG2SAH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jul 2020 14:00:07 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B63C061794
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2020 11:00:07 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id t6so13095504ljk.9
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2020 11:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iMUjt1EbRHtnKcY3nbQgc+zcV96eLfRF8PiQIrzK55c=;
+        b=Wi+q2t/anPOIDdVj0oYKM1C8KfZ3uh4jlKhII1zTCixBhgRyvBUWhHamthiAkL6vzL
+         f6fobesV+6xZ0kR4g0fqeUVHXqP1f4FAhHkmV7qUMbQhne9YUXLs34zfWZbdyTt64Exg
+         v0Zb73XoVD/IrsT/0YTPpeaTJ/CrtGcZFNaOaVQGUXAGP9Y5AaVUsE1gMkjD9WvGjvH7
+         fD4m8gP7KKl4Fd5FCtpiA7q+m4PerFmgDcEocOJiCuHvL4aJVxQhZqnFKAV2PiMngUQi
+         SMsDXQAjXEPVlHMSKeU7gQHa3on6KRkoybSrsg1142KsWrEUZYwyx2MTynl9xT0EzdjX
+         6z0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iMUjt1EbRHtnKcY3nbQgc+zcV96eLfRF8PiQIrzK55c=;
+        b=mbSafQ+ZrKJGlNCW5mfmV9aHwEXM8kFIkYt5bz1AhOZhok+ze42XO3A5Jc/OcQgiCv
+         RLcv7urJ5ikASRXSt5IYx5TBnHTdtCEXY5u5uCOOR+ecNZv5ezZH2CQ6MEdcnf2R/7Nw
+         fFyAJ7nMWsFhqPXSNbol1WlpZ+vnKwKToILDDDy8frIeYpphSvR4X3Rmi25Dh53c6yUU
+         FXpXN6MAzcs8cRnOvVO94JiMFoag7D18OEZvehe3+oxmCLi258mKGtM6cOoQVSADp8Qj
+         w4HJvmgU/4hANCNzLf20pyl8ttze1an7ceEZPibvGp9wlAesjaNeyrIScbyafTZ4qYTj
+         /Guw==
+X-Gm-Message-State: AOAM533gGiJXzorF/R6v0zsW1xmMuMhxBV9lYaHDor6IiLU7iDr/ySi+
+        tlrMzZuAe2H956nwgKDh2vCoRItM
+X-Google-Smtp-Source: ABdhPJyg0P88AsH/7rPcZcc1klrLotlGPgVj8l+SqdTLeQfVyFQ5sQZVy7KCxYHsBdMbUqV1fdbtLQ==
+X-Received: by 2002:a2e:8ed2:: with SMTP id e18mr2688862ljl.366.1596045605664;
+        Wed, 29 Jul 2020 11:00:05 -0700 (PDT)
+Received: from wasted.omprussia.ru ([2a00:1fa0:609:47e:1634:9053:a274:2373])
+        by smtp.gmail.com with ESMTPSA id x6sm604593lff.64.2020.07.29.11.00.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2020 11:00:05 -0700 (PDT)
+Subject: Re: [PATCH] usb: ohci-nxp: add support for stotg04 phy
+To:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Trevor Woerner <twoerner@gmail.com>
+Cc:     jamesg@zaltys.org, linux-usb@vger.kernel.org
 References: <20200729172829.GA3679@piout.net>
+ <20200729174918.321615-1-alexandre.belloni@bootlin.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <b5389371-3d47-f046-4d34-3d329276cb35@gmail.com>
+Date:   Wed, 29 Jul 2020 21:00:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200729174918.321615-1-alexandre.belloni@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The STOTG04 phy is used as a drop-in replacement of the ISP1301 but some
-bits doesn't have exactly the same meaning and this can lead to issues.
-Detect the phy dynamically and avoid writing to reserved bits.
+Hello!
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
----
+On 7/29/20 8:49 PM, Alexandre Belloni wrote:
 
-Hi Trevor, this is totally untested but at least it builds ;)
+> The STOTG04 phy is used as a drop-in replacement of the ISP1301 but some
+> bits doesn't have exactly the same meaning and this can lead to issues.
+> Detect the phy dynamically and avoid writing to reserved bits.
+> 
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> ---
+> 
+> Hi Trevor, this is totally untested but at least it builds ;)
+> 
+>  drivers/usb/host/ohci-nxp.c | 21 +++++++++++++++------
+>  1 file changed, 15 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ohci-nxp.c b/drivers/usb/host/ohci-nxp.c
+> index 85878e8ad331..36ab1501c28f 100644
+> --- a/drivers/usb/host/ohci-nxp.c
+> +++ b/drivers/usb/host/ohci-nxp.c
+> @@ -55,6 +55,15 @@ static struct clk *usb_host_clk;
+>  
+>  static void isp1301_configure_lpc32xx(void)
+>  {
+> +	u8 value, atx_is_stotg = 0;
 
- drivers/usb/host/ohci-nxp.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+   Why the flag is not *bool*?
 
-diff --git a/drivers/usb/host/ohci-nxp.c b/drivers/usb/host/ohci-nxp.c
-index 85878e8ad331..36ab1501c28f 100644
---- a/drivers/usb/host/ohci-nxp.c
-+++ b/drivers/usb/host/ohci-nxp.c
-@@ -55,6 +55,15 @@ static struct clk *usb_host_clk;
- 
- static void isp1301_configure_lpc32xx(void)
- {
-+	u8 value, atx_is_stotg = 0;
-+	s32 vendor, product;
-+
-+	vendor = i2c_smbus_read_word_data(isp1301_i2c_client, 0x00);
-+	product = i2c_smbus_read_word_data(isp1301_i2c_client, 0x02);
-+
-+	if (vendor == 0x0483 && product == 0xa0c4)
-+		atx_is_stotg = 1;
-+
- 	/* LPC32XX only supports DAT_SE0 USB mode */
- 	/* This sequence is important */
- 
-@@ -70,9 +79,11 @@ static void isp1301_configure_lpc32xx(void)
- 	i2c_smbus_write_byte_data(isp1301_i2c_client,
- 		  (ISP1301_I2C_MODE_CONTROL_2 | ISP1301_I2C_REG_CLEAR_ADDR),
- 		  ~0);
-+	value = MC2_BI_DI | MC2_PSW_EN;
-+	if (!atx_is_stotg)
-+		value |= MC2_SPD_SUSP_CTRL;
- 	i2c_smbus_write_byte_data(isp1301_i2c_client,
--		ISP1301_I2C_MODE_CONTROL_2,
--		(MC2_BI_DI | MC2_PSW_EN | MC2_SPD_SUSP_CTRL));
-+		ISP1301_I2C_MODE_CONTROL_2, value);
- 	i2c_smbus_write_byte_data(isp1301_i2c_client,
- 		(ISP1301_I2C_OTG_CONTROL_1 | ISP1301_I2C_REG_CLEAR_ADDR), ~0);
- 	i2c_smbus_write_byte_data(isp1301_i2c_client,
-@@ -91,10 +102,8 @@ static void isp1301_configure_lpc32xx(void)
- 	i2c_smbus_write_byte_data(isp1301_i2c_client,
- 		ISP1301_I2C_INTERRUPT_RISING | ISP1301_I2C_REG_CLEAR_ADDR, ~0);
- 
--	printk(KERN_INFO "ISP1301 Vendor ID  : 0x%04x\n",
--	      i2c_smbus_read_word_data(isp1301_i2c_client, 0x00));
--	printk(KERN_INFO "ISP1301 Product ID : 0x%04x\n",
--	      i2c_smbus_read_word_data(isp1301_i2c_client, 0x02));
-+	printk(KERN_INFO "ISP1301 Vendor ID  : 0x%04x\n", vendor);
-+	printk(KERN_INFO "ISP1301 Product ID : 0x%04x\n", product);
- 	printk(KERN_INFO "ISP1301 Version ID : 0x%04x\n",
- 	      i2c_smbus_read_word_data(isp1301_i2c_client, 0x14));
- }
--- 
-2.26.2
+> +	s32 vendor, product;
+> +
+> +	vendor = i2c_smbus_read_word_data(isp1301_i2c_client, 0x00);
+> +	product = i2c_smbus_read_word_data(isp1301_i2c_client, 0x02);
+> +
+> +	if (vendor == 0x0483 && product == 0xa0c4)
+> +		atx_is_stotg = 1;
+> +
+>  	/* LPC32XX only supports DAT_SE0 USB mode */
+>  	/* This sequence is important */
+>  
+[...]
 
+MBR, Sergei
