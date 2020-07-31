@@ -2,125 +2,94 @@ Return-Path: <SRS0=KDiq=BK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2D57C433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 31 Jul 2020 14:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD366C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 31 Jul 2020 14:22:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4DEE21744
-	for <linux-usb@archiver.kernel.org>; Fri, 31 Jul 2020 14:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596205006;
-	bh=5iQzshATlAp7fuUetrFCB169TtyWBBZhRlxLtl78oi0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=KakARVnDpDbenAIe0CRcF/ZT+WaUiH9lCr/TukFIwbYeNw+36Rjasb2PtXDPhVmgt
-	 Nos5mUcQck/ZLFswCfk7MlWHi7X1/CcZJ3U6oJoShXTPW4os7f51kiw4vPxhrrwWyp
-	 0lKiKCF7OGpfSy59U2RzSJxzmRSHvDwVtZrv93Vk=
+	by mail.kernel.org (Postfix) with ESMTP id 94ECC21744
+	for <linux-usb@archiver.kernel.org>; Fri, 31 Jul 2020 14:22:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729107AbgGaOQq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 31 Jul 2020 10:16:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60606 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727851AbgGaOQq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 31 Jul 2020 10:16:46 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E994F206DA;
-        Fri, 31 Jul 2020 14:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596205005;
-        bh=5iQzshATlAp7fuUetrFCB169TtyWBBZhRlxLtl78oi0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cV9qMDpz7EZR7+4PM0JCStLIcYgmUbL06rMZxgD5ZGmGxNWHTk4Ci747Jdt/FvhUv
-         8Mv1vuyhNgfw9AjZqGezRk9ygiBjagloI/2f7VcQmlKkKD/uXXFWs9gggNmiyPb7AJ
-         uQ9r+dUTRLu9aSjDXMOSSvCXjgk5JzAkfFRUneTg=
-Date:   Fri, 31 Jul 2020 16:16:32 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH 1/1] usb: gadget: core: wait gadget device .release
- finishing at usb_del_gadget_udc
-Message-ID: <20200731141632.GB1717752@kroah.com>
-References: <20200731095935.23034-1-peter.chen@nxp.com>
- <20200731115536.GB1648202@kroah.com>
- <DB8PR04MB7162B2FAC7FACD0A11F6D8218B4E0@DB8PR04MB7162.eurprd04.prod.outlook.com>
- <20200731122520.GB1655976@kroah.com>
- <20200731140553.GA8013@b29397-desktop>
+        id S1729184AbgGaOWN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 31 Jul 2020 10:22:13 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:56885 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729172AbgGaOWN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 31 Jul 2020 10:22:13 -0400
+Received: (qmail 37750 invoked by uid 1000); 31 Jul 2020 10:22:12 -0400
+Date:   Fri, 31 Jul 2020 10:22:12 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Macpaul Lin <macpaul.lin@mediatek.com>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
+        Macpaul Lin <macpaul.lin@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: mtu3: fix panic in mtu3_gadget_disconnect()
+Message-ID: <20200731142212.GE36650@rowland.harvard.edu>
+References: <1596177366-12029-1-git-send-email-macpaul.lin@mediatek.com>
+ <1596185878-24360-1-git-send-email-macpaul.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200731140553.GA8013@b29397-desktop>
+In-Reply-To: <1596185878-24360-1-git-send-email-macpaul.lin@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jul 31, 2020 at 02:06:20PM +0000, Peter Chen wrote:
-> On 20-07-31 14:25:20, Greg Kroah-Hartman wrote:
-> > On Fri, Jul 31, 2020 at 12:11:32PM +0000, Peter Chen wrote:
-> > 
-> > Grab a reference from somewhere else and do not give it up for a long
-> > time.
-> > 
+On Fri, Jul 31, 2020 at 04:57:58PM +0800, Macpaul Lin wrote:
+> This patch fixes a possible issue when mtu3_gadget_stop()
+> already assigned NULL to mtu->gadget_driver during mtu_gadget_disconnect().
+
 > 
-> So wait_for_completion_timeout is suitable?
-
-NO!!!
-
-> The similar use case is when
-> we open the file at the USB Drive at Windows, and we click "Eject", it
-> will say "The device is currently in use", and refuse our "Eject"
-> operation.
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Cc: stable@vger.kernel.org
+> ---
+> Changes for v2:
+>   - Check mtu_gadget_driver out of spin_lock might still not work.
+>     We use a temporary pointer to keep the callback function.
 > 
-> When we try to remove the gadget, if the gadget is in use, we could
-> refuse the remove operation, reasonable?
-
-Nope.  Remove it please.
-
-> > > > > -static void usb_udc_nop_release(struct device *dev)
-> > > > > +static void usb_gadget_release(struct device *dev)
-> > > > >  {
-> > > > > +	struct usb_gadget *gadget;
-> > > > > +
-> > > > >  	dev_vdbg(dev, "%s\n", __func__);
-> > > > > +
-> > > > > +	gadget = container_of(dev, struct usb_gadget, dev);
-> > > > > +	complete(&gadget->done);
-> > > > > +	memset(dev, 0x0, sizeof(*dev));
-> > > > 
-> > > > No, the memory should be freed here, not memset.
-> > > > 
-> > >  
-> > > This memory is allocated at UDC driver and is freed by UDC driver too.
-> > 
-> > That's wrong, the release function should be where this is released.
+>  drivers/usb/mtu3/mtu3_gadget.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> So, the release function should be at individual UDC driver, a common
-> release function is improper, right?
+> diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
+> index 68ea4395f871..40cb6626f496 100644
+> --- a/drivers/usb/mtu3/mtu3_gadget.c
+> +++ b/drivers/usb/mtu3/mtu3_gadget.c
+> @@ -840,10 +840,17 @@ void mtu3_gadget_suspend(struct mtu3 *mtu)
+>  /* called when VBUS drops below session threshold, and in other cases */
+>  void mtu3_gadget_disconnect(struct mtu3 *mtu)
+>  {
+> +	struct usb_gadget_driver *driver;
+> +
+>  	dev_dbg(mtu->dev, "gadget DISCONNECT\n");
+>  	if (mtu->gadget_driver && mtu->gadget_driver->disconnect) {
+> +		driver = mtu->gadget_driver;
+>  		spin_unlock(&mtu->lock);
+> -		mtu->gadget_driver->disconnect(&mtu->g);
+> +		/*
+> +		 * avoid kernel panic because mtu3_gadget_stop() assigned NULL
+> +		 * to mtu->gadget_driver.
+> +		 */
+> +		driver->disconnect(&mtu->g);
+>  		spin_lock(&mtu->lock);
+>  	}
 
-Depends on how this all works, but again, the release function needs to
-free the memory, otherwise this is broken.
+This is not the right approach; it might race with the gadget driver 
+unregistering itself.
 
-> > And this no-op function is horrid.  There used to be documentation in
-> > the kernel where I could rant about this, but instead, I'll just say,
-> > "why are people trying to work around warnings we put in the core kernel
-> > to fix common problems?  Do they think we did that just because we
-> > wanted to be mean???"
-> > 
-> 
-> So, like kernel doc for device_initialize said, a proper fix for dwc3
-> should be zeroed gadget device memory at its own driver before the 
-> gadget device register to driver core, right?
+Instead, mtu3_gadget_stop() should call synchronize_irq() after 
+releasing the IRQ line.  When synchronize_irq() returns, you'll know any 
+IRQ handlers have finished running, so you won't receive any more 
+disconnect notifications.  Then it will be safe to acquire the spinlock 
+and set mtu->gadget_driver to NULL.
 
-It should get a totally different, dynamically allocated structure.
-NEVER recycle them.
-
-thanks,
-
-greg k-h
+Alan Stern
