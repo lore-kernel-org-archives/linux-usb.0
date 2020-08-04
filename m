@@ -2,102 +2,120 @@ Return-Path: <SRS0=yKoG=BO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10663C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 11:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232EBC433E3
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 12:11:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC862208A9
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 11:59:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09C2D2177B
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 12:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596542356;
-	bh=Spm5JSI+Bd0FBYtapWeQzYxYTOs4IxRXrw2IzJwxVJc=;
+	s=default; t=1596543089;
+	bh=gey3esvl8wxAFJQ2OBCATSygwLbCiyTXxmuo4omuQjo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=c8eTu2ZF9PuXpfapsJ9XiMp/1dWSRNPPGb1yhaznHu6plUl8SBsN6CPk2IbRhrD2T
-	 dNB8arZD54IHrEB2NoHNXeifOkWiyNbq958vMg37wbOkWN3m94c5N3xKfgpINTuYeC
-	 KKVwyJIgojFAgQp9kGPh2lNESAU7hDOjO2TY1Pg0=
+	b=rw6AirZUl8X9yMHEon50C2u+usOCeLHCvX3aYCR9wob1pZ2349/d/UI8Hvr+ql1h/
+	 lSsd8Ti3AekZ4as+0g13uPf27B+fqyVexGdOCk0GHRK3TGOoJcnjMudX4ODczGAOZi
+	 gPzl8jQB6OmPxrd2yzg96HqdaQB/gO6bWbzGHDoI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730391AbgHDL6A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Aug 2020 07:58:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39268 "EHLO mail.kernel.org"
+        id S1726229AbgHDMLT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Aug 2020 08:11:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44392 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730377AbgHDL5s (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 4 Aug 2020 07:57:48 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1726198AbgHDMLC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 4 Aug 2020 08:11:02 -0400
+Received: from localhost (unknown [122.171.202.192])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 58EC42086A;
-        Tue,  4 Aug 2020 11:56:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E70462177B;
+        Tue,  4 Aug 2020 12:09:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596542212;
-        bh=Spm5JSI+Bd0FBYtapWeQzYxYTOs4IxRXrw2IzJwxVJc=;
+        s=default; t=1596542990;
+        bh=gey3esvl8wxAFJQ2OBCATSygwLbCiyTXxmuo4omuQjo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wyXPZZgFa5+HqVS3IVQz234H2sAk3JsRK2KlnBXBc6r/krMILu7wfABGRh2UACID4
-         mxWkHj5hiyM3wVf38rRwaE/2qwoenaBU/l42TJleXewd59ENcSyQ3DmfmrrdAznryS
-         Wu7DXeMNrc0OPPmMKdcdcOlxcxpgqDfFoyncc6JI=
-Date:   Tue, 4 Aug 2020 13:56:33 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v6 3/3] USB: Fix device driver race
-Message-ID: <20200804115633.GA203147@kroah.com>
-References: <20200727104644.149873-1-hadess@hadess.net>
- <20200727104644.149873-3-hadess@hadess.net>
- <64c8caa8ee054ed9106683f15238b2be74f77aa2.camel@hadess.net>
- <20200803153804.GA1172014@kroah.com>
- <8f1de4cc2813f0a8721a2f76421956056c0c6278.camel@hadess.net>
+        b=ZZOJqEZ7ULpCVvpaR+mEa6S1b07HmtrWcayO6oiJVvACUiM9YU99kR+7yCx509uj+
+         PqVDfLqST8/x5f9kYzlfz0llp8qz2n58fvd10CVoYrBGEspn96gmX4MXk1wNHuwGG3
+         oWqka7+RyZxNSFDocwiL3Av/TJINQWNRcXQbUhdc=
+Date:   Tue, 4 Aug 2020 17:39:46 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Konrad Dybcio <konradybcio@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        martin.botka1@gmail.com, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        zhengbin <zhengbin13@huawei.com>,
+        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        Krzysztof Wilczynski <kw@linux.com>,
+        Harigovindan P <harigovi@codeaurora.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Xiaozhe Shi <xiaozhes@codeaurora.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH 4/9] drm/msm/dsi: Add phy configuration for SDM630/636/660
+Message-ID: <20200804120946.GQ12965@vkoul-mobl>
+References: <20200726111215.22361-1-konradybcio@gmail.com>
+ <20200726111215.22361-5-konradybcio@gmail.com>
+ <20200803110016.GL12965@vkoul-mobl>
+ <CAF6AEGtW29BtJPq1xDEtvtkPHFVWEd_QJk5FpJEQPbmofnS64Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f1de4cc2813f0a8721a2f76421956056c0c6278.camel@hadess.net>
+In-Reply-To: <CAF6AEGtW29BtJPq1xDEtvtkPHFVWEd_QJk5FpJEQPbmofnS64Q@mail.gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 01:41:25PM +0200, Bastien Nocera wrote:
-> On Mon, 2020-08-03 at 17:38 +0200, Greg Kroah-Hartman wrote:
-> > On Mon, Aug 03, 2020 at 05:04:46PM +0200, Bastien Nocera wrote:
-> > > On Mon, 2020-07-27 at 12:46 +0200, Bastien Nocera wrote:
-> > > > When a new device with a specialised device driver is plugged in,
-> > > > the
-> > > > new driver will be modprobe()'d but the driver core will attach
-> > > > the
-> > > > "generic" driver to the device.
-> > > > 
-> > > > After that, nothing will trigger a reprobe when the modprobe()'d
-> > > > device
-> > > > driver has finished initialising, as the device has the "generic"
-> > > > driver attached to it.
-> > > > 
-> > > > Trigger a reprobe ourselves when new specialised drivers get
-> > > > registered.
-> > > > 
-> > > > Fixes: 88b7381a939d ("USB: Select better matching USB drivers
-> > > > when
-> > > > available")
-> > > > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > > 
-> > > Greg, Alan, are you happy with this iteration?
-> > > 
-> > > If so, I can send it again with Alan's acks, along with a fix for
-> > > the
-> > > function name Alan mentioned. I see that the first patch in the
-> > > list
-> > > landed in usb-next already.
-> > > 
-> > 
-> > Yes, please resend the remaining patches.  I don't recall seeing
-> > Alan's
-> > ack on it.
+On 03-08-20, 09:06, Rob Clark wrote:
+> On Mon, Aug 3, 2020 at 4:00 AM Vinod Koul <vkoul@kernel.org> wrote:
+> >
+> > On 26-07-20, 13:12, Konrad Dybcio wrote:
+> > > These SoCs make use of the 14nm phy, but at different
+> > > addresses than other 14nm units.
+> > >
+> > > Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
+> > > ---
+> > >  .../devicetree/bindings/display/msm/dsi.txt    |  1 +
+> > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c          |  2 ++
+> > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h          |  1 +
+> > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c     | 18 ++++++++++++++++++
+> >
+> > Is there a reason why dsi phy needs to be here and not in phy subsystem
+> > drivers/phy/ ?
 > 
-> Resent as v7. There's a new patch in the lot, based on a comment by
-> Alan in this thread which I thought appropriate to include.
+> *maybe* it would be possible to split out all of the dsi (and hdmi)
+> phy to drivers/phy.  But splitting out just the new ones wouldn't be
+> practical (it would duplicate a lot of code, and make the rest of the
+> dsi code have to deal with both cases).  And unlike dp/usb-c I'm not
+> really sure I see an advantage to justify the churn.
 
-Thanks, will look at them once 5.9-rc1 is out as I can't do anything
-with my tree until then.
+So the question would be if it helps in reuse if we do that and does it
+result in a better solution than dsi code managing the phy. The
+advantage of framework (like phy) is that different subsystems can use
+a (phy) driver and common framework helps reduce duplicates.
 
-greg k-h
+Yes sure the question was not for a new phy but about the whole
+msm/dsi/phy code and future for it.
+
+-- 
+~Vinod
