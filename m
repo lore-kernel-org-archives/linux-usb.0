@@ -2,83 +2,153 @@ Return-Path: <SRS0=yKoG=BO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 554BEC433E4
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 12:23:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85936C433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 14:49:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 453FD22BED
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 12:23:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6543C2086A
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 14:49:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jARuo43f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgHDMXz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Aug 2020 08:23:55 -0400
-Received: from mga02.intel.com ([134.134.136.20]:7366 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730120AbgHDLrW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 4 Aug 2020 07:47:22 -0400
-IronPort-SDR: f7soVae0dUonlP3OeFsGfxcBbCVVibF14bT4sWUYIdT+MwfnkvTpuyIhN2ubx9YQqOhdnIQZeR
- v6DY1eERqi6A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9702"; a="140210829"
-X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; 
-   d="scan'208";a="140210829"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2020 04:47:20 -0700
-IronPort-SDR: 4x+OmTL0vxeYDr8xwZ/uODc8EFXTsEz33UgReiJz43H8ipHQctuDY6A+XLqEZK1gHZjuuy6p+h
- QWqH/sliOsnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; 
-   d="scan'208";a="396549693"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 04 Aug 2020 04:47:17 -0700
-Received: by lahna (sSMTP sendmail emulation); Tue, 04 Aug 2020 14:47:17 +0300
-Date:   Tue, 4 Aug 2020 14:47:17 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Matt Turner <mattst88@gmail.com>
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: Thunderbolt hotplug fails on HP x360 13t-aw000/86FA with HP
- Thunderbolt 3 Dock
-Message-ID: <20200804114717.GN1375436@lahna.fi.intel.com>
-References: <20200731033620.GA4428@hp-x360.mattst88.com>
- <20200803105404.GQ1375436@lahna.fi.intel.com>
- <CAEdQ38FRBg_ptDWVr7yRwC4GCd5DxWkBzH+HyTJXL56v2cL4+Q@mail.gmail.com>
+        id S1729367AbgHDOtI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Aug 2020 10:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728478AbgHDOtC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Aug 2020 10:49:02 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D025C06174A;
+        Tue,  4 Aug 2020 07:49:01 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id c10so367736edk.6;
+        Tue, 04 Aug 2020 07:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g4HmwOYH2FipfU55YwXNgn+/KWI9nU6qQar00eEKnTI=;
+        b=jARuo43f4imeZbHxuoML4wNyRPTOwuEdSxdGaGmmEjiQMf0k+ARZ+35S8UliQueShq
+         eP0wC8Ag/bCp+Zrr1kaAC9ZuZGyh2J/cqvk1OBx0WpDyelZgZdAiRCd0WFo8tZmYqo0Y
+         7PiuhEGNILTeXGo46kKTLVePah8v3wCgRDJum0EXMPbocMpUleVTqO0Y272GXbjUyPH5
+         lYGAdiePK9a28RHry1cVndmlMfgRO4RvoJjBqJJDQK0K4ygPlXwB8/yGPyFFCbWItV6u
+         UQ9oavX098EpyXsAOA9V3NiotNgRWXOY0NuVucJnh4q/wfX2aBpvyy4qCt4UMFYOlEUY
+         KpZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g4HmwOYH2FipfU55YwXNgn+/KWI9nU6qQar00eEKnTI=;
+        b=uR4s7fc9k2GygDjZrzGQfdgslSJPqYUsMsgudBI6P6JrHsSCjsqa3ghYclKZsbviIs
+         maHrjwbUOu+MX6+bfmZxTyCKwnUKgYrV5Q0HQUfHXm67e7VVaV9TswcPioa5SnVLzJmI
+         +Mha3XjMjfIeOcTXUs1du3EV0h10LJjy2wej36TiqFAf4wpG0ICs0ofpCE98ootnAyce
+         ZQQHB05KaLvAXixjn4RmJt2PQ2Pi7zZ7jgYv5WcjMKM0xDYkgJBNu+duwgWIDEHGuunH
+         ViEfzHSZGoPE5yOduI3fOC9g9n0q4Mixzn2/fwMG0zEx/KD3LSfW1gplJfxBsGmhQDdt
+         d9hw==
+X-Gm-Message-State: AOAM530/c0gq4NONL6YrIlnQtKdGFPv+LIHPB0KgPRrAUsjwlPWOSH8Q
+        IEjjoyONn2j0TZCGH2XC+Txd05ALmpuSVHq7BI0=
+X-Google-Smtp-Source: ABdhPJzvDZkA05JzMe/6DGwbz7nTKib7xTiBIdtvgBQrjNjFlefh8ZT9iPjGtuAI7EG71+3trm7KlYtgLwGlIRjAHP0=
+X-Received: by 2002:aa7:da46:: with SMTP id w6mr17536741eds.7.1596552540239;
+ Tue, 04 Aug 2020 07:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEdQ38FRBg_ptDWVr7yRwC4GCd5DxWkBzH+HyTJXL56v2cL4+Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200726111215.22361-1-konradybcio@gmail.com> <20200726111215.22361-5-konradybcio@gmail.com>
+ <20200803110016.GL12965@vkoul-mobl> <CAF6AEGtW29BtJPq1xDEtvtkPHFVWEd_QJk5FpJEQPbmofnS64Q@mail.gmail.com>
+ <20200804120946.GQ12965@vkoul-mobl>
+In-Reply-To: <20200804120946.GQ12965@vkoul-mobl>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 4 Aug 2020 07:49:44 -0700
+Message-ID: <CAF6AEGttPJSy+PcspPgxj2OELEyh2Xj-Gm2Uiv7Pcv6JMDE-tg@mail.gmail.com>
+Subject: Re: [PATCH 4/9] drm/msm/dsi: Add phy configuration for SDM630/636/660
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Konrad Dybcio <konradybcio@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        martin.botka1@gmail.com, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        zhengbin <zhengbin13@huawei.com>,
+        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        Krzysztof Wilczynski <kw@linux.com>,
+        Harigovindan P <harigovi@codeaurora.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Xiaozhe Shi <xiaozhes@codeaurora.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 09:52:26AM -0700, Matt Turner wrote:
-> On Mon, Aug 3, 2020 at 3:54 AM Mika Westerberg
-> <mika.westerberg@linux.intel.com> wrote:
-> > Can you try the patch here?
+On Tue, Aug 4, 2020 at 5:09 AM Vinod Koul <vkoul@kernel.org> wrote:
+>
+> On 03-08-20, 09:06, Rob Clark wrote:
+> > On Mon, Aug 3, 2020 at 4:00 AM Vinod Koul <vkoul@kernel.org> wrote:
+> > >
+> > > On 26-07-20, 13:12, Konrad Dybcio wrote:
+> > > > These SoCs make use of the 14nm phy, but at different
+> > > > addresses than other 14nm units.
+> > > >
+> > > > Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
+> > > > ---
+> > > >  .../devicetree/bindings/display/msm/dsi.txt    |  1 +
+> > > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c          |  2 ++
+> > > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h          |  1 +
+> > > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c     | 18 ++++++++++++++++++
+> > >
+> > > Is there a reason why dsi phy needs to be here and not in phy subsystem
+> > > drivers/phy/ ?
 > >
-> >   https://lore.kernel.org/patchwork/patch/1257708/
-> 
-> Thanks.
-> 
-> It looks like that doesn't fix the problem. I hotplugged the dock
-> about 25 times this morning and it was only successful once, very
-> early in the testing. I didn't think it was going to be that rare, so
-> I didn't capture the log and now I can't reproduce it :(
-> 
-> Any other ideas or patches I should try?
+> > *maybe* it would be possible to split out all of the dsi (and hdmi)
+> > phy to drivers/phy.  But splitting out just the new ones wouldn't be
+> > practical (it would duplicate a lot of code, and make the rest of the
+> > dsi code have to deal with both cases).  And unlike dp/usb-c I'm not
+> > really sure I see an advantage to justify the churn.
+>
+> So the question would be if it helps in reuse if we do that and does it
+> result in a better solution than dsi code managing the phy. The
+> advantage of framework (like phy) is that different subsystems can use
+> a (phy) driver and common framework helps reduce duplicates.
 
-Can you try so that you boot without device connected. Then plug in the
-dock, and wait a bit for it to enumerate (you can check thunderbolt
-related messages in dmesg).
+I'm not aware of any re-use that would be possible by splitting it
+out.. if there were, it would be a more compelling argument.
 
-Then send me full dmesg and output of command 'sudo lspci -vv'.
+It does increase the complexity and possibilities for getting kernel
+config wrong.  There are devices like the aarch64 laptops which do not
+have a debug serial port, where debugging issues like that can be a
+pain when you get no display.  OTOH that might be balanced out a bit
+by using a common framework/api that others are familiar with.
 
-I also sugged to file a bug in kernel bugzilla
-(https://bugzilla.kernel.org/) and add these logs there as well.
+Overall, nowhere near high enough on my priority list to spend time
+on.. there are bigger fires.  If someone was really motivated about
+this and wanted to send (tested) patches, then I'd take a look and see
+how it turned out.
+
+BR,
+-R
+
+> Yes sure the question was not for a new phy but about the whole
+> msm/dsi/phy code and future for it.
+>
+> --
+> ~Vinod
