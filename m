@@ -2,139 +2,179 @@ Return-Path: <SRS0=yKoG=BO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52CEBC433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 00:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 438C7C433E1
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 02:00:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D1B22076C
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 00:46:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46E9E2076C
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Aug 2020 02:00:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="cTGEqVag"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sDm9jUv4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728515AbgHDAp7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 Aug 2020 20:45:59 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:22410 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727858AbgHDAp7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 Aug 2020 20:45:59 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1596501958; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=ugWW4SrG6TXCYnsKQHSW74f4XqUdJSZE/gMvulBquC4=; b=cTGEqVageuAflu1+P7uQD14x5zguhG6HaySlJA8tUu458acCJyXmAXt/jJ0xQpWQQJZwXmxj
- AIIjIeMrohuLYLsP0oAqD5ElKgdfLdEX66YyXDjVU6RhEe2HvxSDIOX4RnWCwqxEf5DtW6VY
- EhA9GZgj3Af4eYghDbHAhsfBfn0=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5f28afb2f89b692ba234fc4c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 04 Aug 2020 00:45:38
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 6F051C43395; Tue,  4 Aug 2020 00:45:37 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4241EC433C6;
-        Tue,  4 Aug 2020 00:45:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4241EC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     robh+dt@kernel.org, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, agross@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, sboyd@kernel.org,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v7 0/4] Introduce PMIC based USB type C detection
-Date:   Mon,  3 Aug 2020 17:45:19 -0700
-Message-Id: <20200804004523.7964-1-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
+        id S1726478AbgHDCAL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 Aug 2020 22:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725840AbgHDCAL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 Aug 2020 22:00:11 -0400
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com [IPv6:2607:f8b0:4864:20::a43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B0BCC06174A;
+        Mon,  3 Aug 2020 19:00:11 -0700 (PDT)
+Received: by mail-vk1-xa43.google.com with SMTP id j7so2798461vkk.12;
+        Mon, 03 Aug 2020 19:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zc/mDTVc/rFnmhpO6xOJDxe4g+T9tpksSNoSLdk5qXU=;
+        b=sDm9jUv4me+Jid9y9TV/h0O7dOHU3HW9DJx1YBNrF3oTm8AiEF0ODL8+DAF6wl758L
+         +w7bIHPwK4W2s0RIDFv6uuLB3/1sLWUXM/RNzIIhveY29u5PTsdLZ7YLwU6Xl86wCNQO
+         dDt7nGQaM/Kh/vRw+wUBGBIEkmTgmKzspVuO36Wo7if/AnO1RdGMd4BnTHuGHrFzdJ8h
+         kdZijy1JBJqDSwu43zMk5he4zlyQIDOdAJNxaEcMV0MKM/WewdqqcJcI+iQnS5NNglzP
+         J7rQI4wVkQPynaZuPM5ABcrhzToRWjZ7WjPNYoaBL1z0D/jOWVaTpzyFCxEoR4ClIKYM
+         qfSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zc/mDTVc/rFnmhpO6xOJDxe4g+T9tpksSNoSLdk5qXU=;
+        b=lMTGDTuxfebatWaEdbOnYo/xePBffj/00NK3yzpUpX006OEVo2g9HOIw8hXutVs55C
+         aUSMTpWUiGUfCHhPFrHptbq6juLdT2DplBagShawfKwM2HK8apHB9BO1H0jFmg29k1R0
+         Heb1oSYVmtFULY6SgJlPm7x7xB96Ddye4R9lz8PHNqSWmQQOhid5SHx+LMkWNKFDy94R
+         6499OoZZr8pTYC93EniMinliU7aBHVF2Oi0vejRcbBmuPaQgdAAKRCIyVPFO/BKBCyBa
+         IXt1FGsE+9kz8lMxDtSMah8Ec6UkQdCTaOcdU0b8/PrkUSsN/keH4p1Z/wAUDZ+tk5bt
+         cZvA==
+X-Gm-Message-State: AOAM530GST0zzDaNad1znN0zTfDlhwSmcmZJZoLa2j8kYVxfN2CgB/MD
+        hcbrSyWd+OccYMh6lAuTDkduIpWgZ5vWzlI8X7w=
+X-Google-Smtp-Source: ABdhPJxqSILvUbt6upgFKnK/lKdwxMBXuAZWR7u1jK9nL4WatYyKakwn3tn3ma89xTNZNfkHl/SrS1gaa5wGbAblTbA=
+X-Received: by 2002:a1f:2a48:: with SMTP id q69mr6191996vkq.69.1596506410281;
+ Mon, 03 Aug 2020 19:00:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1590415123.git.joglekar@synopsys.com> <83eba2e9f0069f20ccc94537e3b99cbaec209441.1590415123.git.joglekar@synopsys.com>
+ <5534d9d6-5452-dade-e46e-f4b0910becdb@synopsys.com> <877dvhqh2e.fsf@kernel.org>
+ <2f61133b-319d-80dc-f3f3-7e08e0228953@synopsys.com> <878sfdp5bk.fsf@kernel.org>
+ <48f1764e-4383-a149-b93b-3851095394e7@synopsys.com> <7ae08b3d-3b5e-73cf-d196-325501a44e44@synopsys.com>
+ <d4f895da-38c7-d553-cb3a-835da00ae687@synopsys.com>
+In-Reply-To: <d4f895da-38c7-d553-cb3a-835da00ae687@synopsys.com>
+From:   Jun Li <lijun.kernel@gmail.com>
+Date:   Tue, 4 Aug 2020 09:59:59 +0800
+Message-ID: <CAKgpwJVx_96zSgT+ANumOj-AymABu=aZ9KPgLt=bBVgQ5skH+A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] usb: dwc3: Add device property sgl-trb-cache-size-quirk
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        John Youn <John.Youn@synopsys.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Changes in v7:
- - Fixups in qcom-pmic-typec.c to remove uncesscary includes, printk formatting,
-   and revising some logic operations. 
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=884=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=888:46=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> Hi Rob,
+>
+> Tejas Joglekar wrote:
+> > Hello Rob,
+> > On 7/21/2020 10:27 PM, Tejas Joglekar wrote:
+> >> Hello,
+> >>
+> >> On 7/21/2020 3:17 PM, Felipe Balbi wrote:
+> >>> Tejas Joglekar <Tejas.Joglekar@synopsys.com> writes:
+> >>>
+> >>>> Hi Rob,
+> >>>>
+> >>>> On 7/6/2020 12:13 PM, Felipe Balbi wrote:
+> >>>>> Hi,
+> >>>>>
+> >>>>> Tejas Joglekar <Tejas.Joglekar@synopsys.com> writes:
+> >>>>>>> @@ -95,6 +95,10 @@ int dwc3_host_init(struct dwc3 *dwc)
+> >>>>>>>         if (dwc->usb2_lpm_disable)
+> >>>>>>>                 props[prop_idx++] =3D PROPERTY_ENTRY_BOOL("usb2-l=
+pm-disable");
+> >>>>>>>
+> >>>>>>> +       if (dwc->sgl_trb_cache_size_quirk)
+> >>>>>>> +               props[prop_idx++] =3D
+> >>>>>>> +                       PROPERTY_ENTRY_BOOL("sgl-trb-cache-size-q=
+uirk");
+> >>>>>>> +
+> >>>>>>>         /**
+> >>>>>>>          * WORKAROUND: dwc3 revisions <=3D3.00a have a limitation
+> >>>>>>>          * where Port Disable command doesn't work.
+> >>>>>>>
+> >>>>>> Does this implementation looks good to you? Rob has some concerned=
+ over the DT entries,
+> >>>>>> you suggested using compatible string with this quirk addition.
+> >>>>>> Can you please brief about how you would like to have this quirk i=
+mplemented?
+> >>>>>> I can send the updated patch. My patch series is pending for merge=
+ just because of the
+> >>>>>> DT and quirk issue. Can you please help?
+> >>>>> Yeah, you need to get into an agreement with Rob :-) I don't mind h=
+aving
+> >>>>> extra DT flags for things which can't be detected in runtime, Rob
+> >>>>> disagrees.
+> >>>>>
+> >>>> The compatible string is not suitable option as it does not work wit=
+h platform drivers
+> >>>> with PCI based system. Also Synopsys controllers IP version register=
+ is not visible to xhci
+> >>>> driver and hence we don't have separate compatible string for each S=
+ynopsys version on the
+> >>>> xhci driver side.
+> >>>> Due to which I depend on DT flag addition for the quirk. Can we add =
+these DT flags and quirk?
+> >>> As I said, I'm well aware of the situation regarding usage of compati=
+ble
+> >>> strings and the fact that dwc3 must work on PCI and non-PCI systems (=
+I
+> >>> wrote the thing as it is after all). The person blocking new quirk fl=
+ags
+> >>> is Rob, not me. You need to convince Rob that this is the way to go.
+> >>>
+> >> @Felipe: Sorry for confusion if any, previous mail was intended for Ro=
+b asking about his approval.
+> >>
+> >>> Rob, ball's in your court. Sorry.>
+> >> @Rob: As I and Felipe have mentioned before, it is very much necessary=
+ to have quirk flags
+> >> for the current changes as compatible string would not be a solution f=
+or PCI and non-PCI
+> >> systems. Can you please approve this change ? If you have any concern =
+about naming or any
+> >> other thing, please let us know.
+> >>
+> > Can you please comment?
+> >
+> > Thanks & Regards,
+> > Tejas Joglekar
+> >
+> >
+>
+> Can you help provide pointers and changes that Tejas can make to help
+> bring this issue to conclusion?
 
-Changes in v6:
- - Removed qcom_usb_vbus-regulator.c and qcom,usb-vbus-regulator.yaml from the
-   series as they have been merged on regulator.git
- - Added separate references to the usb-connector.yaml in qcom,pmic-typec.yaml
-   instead of referencing the entire schema.
+We really need a direction to handle growing dwc3 quirks/flags as dwc3
+is widly used,
+I have a patchset also pending there after tried both property[1] and
+platform data[2].
 
-Changes in v5:
- - Fix dt_binding_check warning/error in qcom,pmic-typec.yaml
+[1] https://www.spinics.net/lists/linux-usb/msg196055.html
+[2] https://www.spinics.net/lists/arm-kernel/msg824995.html
 
-Changes in v4:
- - Modified qcom,pmic-typec binding to include the SS mux and the DRD remote
-   endpoint nodes underneath port@1, which is assigned to the SSUSB path
-   according to usb-connector
- - Added usb-connector reference to the typec dt-binding
- - Added tags to the usb type c and vbus nodes
- - Removed "qcom" tags from type c and vbus nodes
- - Modified Kconfig module name, and removed module alias from the typec driver
- 
-Changes in v3:
- - Fix driver reference to match driver name in Kconfig for
-   qcom_usb_vbus-regulator.c
- - Utilize regulator bitmap helpers for enable, disable and is enabled calls in
-   qcom_usb_vbus-regulator.c
- - Use of_get_regulator_init_data() to initialize regulator init data, and to
-   set constraints in qcom_usb_vbus-regulator.c
- - Remove the need for a local device structure in the vbus regulator driver
- 
-Changes in v2:
- - Use devm_kzalloc() in qcom_pmic_typec_probe()
- - Add checks to make sure return value of typec_find_port_power_role() is
-   valid
- - Added a VBUS output regulator driver, which will be used by the PMIC USB
-   type c driver to enable/disable the source
- - Added logic to control vbus source from the PMIC type c driver when
-   UFP/DFP is detected
- - Added dt-binding for this new regulator driver
- - Fixed Kconfig typec notation to match others
- - Leave type C block disabled until enabled by a platform DTS
-
-Add the required drivers for implementing type C orientation and role
-detection using the Qualcomm PMIC.  Currently, PMICs such as the PM8150B
-have an integrated type C block, which can be utilized for this.  This
-series adds the dt-binding, PMIC type C driver, and DTS nodes.
-
-The PMIC type C driver will register itself as a type C port w/ a
-registered type C switch for orientation, and will fetch a USB role switch
-handle for the role notifications.  It will also have the ability to enable
-the VBUS output to any connected devices based on if the device is behaving
-as a UFP or DFP.
-
-Wesley Cheng (4):
-  usb: typec: Add QCOM PMIC typec detection driver
-  dt-bindings: usb: Add Qualcomm PMIC type C controller dt-binding
-  arm64: boot: dts: qcom: pm8150b: Add node for USB type C block
-  arm64: boot: dts: qcom: pm8150b: Add DTS node for PMIC VBUS booster
-
- .../bindings/usb/qcom,pmic-typec.yaml         | 131 +++++++++
- arch/arm64/boot/dts/qcom/pm8150b.dtsi         |  13 +
- arch/arm64/boot/dts/qcom/sm8150-mtp.dts       |   4 +
- drivers/usb/typec/Kconfig                     |  12 +
- drivers/usb/typec/Makefile                    |   1 +
- drivers/usb/typec/qcom-pmic-typec.c           | 272 ++++++++++++++++++
- 6 files changed, 433 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
- create mode 100644 drivers/usb/typec/qcom-pmic-typec.c
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+thanks
+Li Jun
+>
+> Thanks,
+> Thinh
