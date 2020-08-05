@@ -2,355 +2,132 @@ Return-Path: <SRS0=x5hE=BP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CAF4C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 00:18:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D46FC433E0
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 05:33:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42F2820738
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 00:18:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E5DD21744
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 05:33:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r9xD5cJq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VTNnHYzj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728009AbgHEASp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Aug 2020 20:18:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35036 "EHLO
+        id S1726684AbgHEFdJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Aug 2020 01:33:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726788AbgHEASo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Aug 2020 20:18:44 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A061CC06174A
-        for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2020 17:18:44 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id h22so2770574otq.11
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2020 17:18:44 -0700 (PDT)
+        with ESMTP id S1725372AbgHEFdJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Aug 2020 01:33:09 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87210C06174A
+        for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2020 22:33:08 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id j7so22171977oij.9
+        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2020 22:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=43Pq8pDWhTm0heuRgBcXTsBR1SFOi7oBIrM5Z7Up+h8=;
-        b=r9xD5cJq1eoTMyJw9G6QcNMvhSV50I9vQEL9CUrAYwhuXVGU1xEJVkBCUB8/FT7hzY
-         PdNgSkc97Su94ZC5lXv7o4ANTxrg39C7B6BK2hD4O5fBbFA69KL4yhBQKkQO1Tus2BC8
-         vSuHwH3speWoaRkIK2wLDgOXQOD3UhvYP4Tcju29OOVK0IrD58Xg6MQ1c3rlre8YvK9r
-         3RVuDPNCAorhxTOQ/0MTFbE9FGRqonrxl1e7QgshG0H3ojF7aFB+MuQ8r3PT3V8pfRpv
-         JxpFy2Pp6R8DvN9n3anKQ+BFJjn/I6Al6bll9lqYu837UkB1lcMQHPOK4V2K5NZmsNW6
-         ZgBw==
+        bh=PJh9idvhnYQu6+tHMsdjbpUMLjsbhkJrYBowuz2U7ew=;
+        b=VTNnHYzjcWpfKHEC0qnERLwRNAb3exZOQtSkHkZLl5RsU5L+uIu8VWcqKV/tvuqqgd
+         hGsrCUgVZKq1d1UxhA4jHeHNi8MP9aFSxKnTA3zTeAdfqvj3XcthlXllZAvq3VqbyW8/
+         gMcChaCbrTDFighbVIYvSPcEK42uS2/kn8cnRiWRek9GKsMxJzU9tbwI7vgtbOWm0Jxu
+         JwWaas5dhgiSQyljhb99Zr+MTVGJhcmsltG0u3KEOmS9znYrFU8vSBITlv0xUu1tFwkf
+         D+H65ZEehba4ur8v9Ghce3aLuHL8xQlJ7rIA3oDhiDBK0upZ3B6BQr+48qED9nhbsMF6
+         wGLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=43Pq8pDWhTm0heuRgBcXTsBR1SFOi7oBIrM5Z7Up+h8=;
-        b=PJyC8dnKWOlIgf80STkOovQH80lK85DN+r82jzPgA6p++3ZUOSWx2YR/5Xd7c38caq
-         6aNE9dCUO9WIvjV2CDd/mwHoCf88QpFeKKOpG65cNbjiVaa9gaUgOsOk7KOtRKIfsX1n
-         1aPxELB7xeqDL/glMNMKgCrOmNb/v0YozYUvnKHLIxpzWXtKA8RCxezjr4L0E/IgrHt1
-         Jo5luyTw7LM+yh4RiDLOTwZCI8aSV35b+6YjOu4zPl8ogCaUd6Vm63i4QqWXv5ZAGH6E
-         ebmoAmJB7y5zykdBeUI+qmMhjfGrkfu1Wk3XWo83a/CTM6xUvcKmXhZemzw0eobuwZCZ
-         0DDw==
-X-Gm-Message-State: AOAM532NuNNw8lPVVLy49sQ6MqgHgg07gnHvQAUf36Db+aeMNdIIlu7A
-        zMSjf14FARTn1dQshkGckhRmMJSyR7xRu4zVwbERmQ==
-X-Google-Smtp-Source: ABdhPJz/2ZY8cektLBUUlO9CRnMzgFWGE1VXaLk/gmnLx4qTwdqL+i2V99JxmTCkHyW/2vu6lwdzzJURWpMpMmokkhs=
-X-Received: by 2002:a05:6830:16d8:: with SMTP id l24mr531944otr.89.1596586723603;
- Tue, 04 Aug 2020 17:18:43 -0700 (PDT)
+        bh=PJh9idvhnYQu6+tHMsdjbpUMLjsbhkJrYBowuz2U7ew=;
+        b=VsJO5qnmZIqAATLX/XooK8Bykw8HMNcPGU1kSTCIR9EOsLoCDV2ckvXKTujJE+mNxW
+         mnNVVjxm7KJymA9xSVReFw98zVCWblY8JFobieTi2ZlhD7iKOtmva+VH4s/hDpwZp0fb
+         kHKvpzAC+IlNdu53IDhbPwBmS7opJTCbdhnuH8xYsBl2ADqIaEWFJcuqm1MP/XiATViH
+         6iV+D+B+zolSStQOPWEZh3vS0xp5Z3qJR2LwZvPSlJMouID9ltO4DiqbFG/jBd/ZIHgO
+         nrT9fHV6W/NIY3cWJmo2KjeUL2w3wy45GD8oxvVxOPwopNBjzPyCmV1L3cllD4c2qSaw
+         imEQ==
+X-Gm-Message-State: AOAM530m1jAf9U0ZvBtw8i9HaBArHzVFpgni9KPfpCLg3dXG7Gymm49V
+        JM6eJiLscDlO7GR0pqi1pGTzDClB+eXmw/6VrHCKTQ==
+X-Google-Smtp-Source: ABdhPJwwDq+gQJc4l2FSWDtEGHBjXEMEtV032PLCkcrbKSG+f9HrltjfmQ8CiEel6sFRDWO6vHlyR6f20PdhhPsu8wY=
+X-Received: by 2002:aca:1117:: with SMTP id 23mr1468870oir.97.1596605587860;
+ Tue, 04 Aug 2020 22:33:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200804065111.3889122-1-badhri@google.com> <28df079b-835d-9005-b711-df386e2b308b@roeck-us.net>
-In-Reply-To: <28df079b-835d-9005-b711-df386e2b308b@roeck-us.net>
-From:   Badhri Jagan Sridharan <badhri@google.com>
-Date:   Tue, 4 Aug 2020 17:18:07 -0700
-Message-ID: <CAPTae5JJ6sRshFxqWroQPSctJogbS_bQcnCCDBXFgxL5B6N6mQ@mail.gmail.com>
-Subject: Re: [PATCH v1] tcpm: Honour pSnkStdby requirement during negotiation
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, --validate@google.com
+References: <CALAqxLWAvvHGo1RYef1fJ_k65WqHAPCDhLfehO6_j_f8E2jB7Q@mail.gmail.com>
+ <CALAqxLXjByaYaNweqGiSyArJ=1J-D7bSm+sndCtH_wf7h2avTA@mail.gmail.com> <BYAPR02MB4933A269D7CFAF7AC540CCC7A76A0@BYAPR02MB4933.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB4933A269D7CFAF7AC540CCC7A76A0@BYAPR02MB4933.namprd02.prod.outlook.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Tue, 4 Aug 2020 22:32:56 -0700
+Message-ID: <CALAqxLWHgmJjoqxMqcs9Veco8Cf_cZZH0EG9DyLnLpyEyu77Lg@mail.gmail.com>
+Subject: Re: dwc3 inconsistent gadget connection state?
+To:     Anurag Kumar Vulisha <anuragku@xilinx.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Tejas Joglekar <tejas.joglekar@synopsys.com>,
+        Yang Fei <fei.yang@intel.com>,
+        YongQin Liu <yongqin.liu@linaro.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Thinh Nguyen <thinhn@synopsys.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Jun Li <lijun.kernel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Guenter,
+On Fri, Jul 3, 2020 at 12:57 AM Anurag Kumar Vulisha
+<anuragku@xilinx.com> wrote:
+> >On Thu, Jul 2, 2020 at 2:44 PM John Stultz <john.stultz@linaro.org> wrote:
+> >The one consistent difference between the working and not working case I
+> >saw was the DWC3_DSTS_COREIDLE bit in the DWC3_DSTS register.
+> >
+> >It seems when we get to gadget_start()/pullup() if the DSTS_COREIDLE bit
+> >isn't on we won't get the reset irq.
+> >
+> >I added a simple timeout loop to pullup() similar to the DSTS_DEVCTRLHLT
+> >loop, but in the failure mode it always times out with COREIDLE not being set.
+> >
+> >Searching around hasn't provided any info on what COREIDLE actually means,
+> >so I'm a bit in the dark.  Any clues?
+> >
+> DSTS.CoreIdle bit indicates that the core processed all the RXFIFO data, updated the
+> Descriptors and is in idle state.
+> From your previous mail I understood that the USB-C connection is configured for
+> USB 2.0 only. Since you are facing issue with reset, can u please try setting the
+> USB2PHYCFG. XCVRDLY bit. Enabling this bit adds an extra 2.5us delay after the
+> controller sending command to configure the ULPI transceiver to HS mode and
+> controller driving TxValid to 0,  for sending a HS chirp signal. Please check if this
+> workaround works for you.
 
-Your concern is very valid ! I was myself pondering at the
-significance and meaning of
-current_limit,  supply_voltage. I will pen down what I understood from
-reading the code.
-If it makes sense, I will add the documentation to the change as well.
-In TOT code i.e. without the patch in discussion, current_limit and
-supply_voltage gets
-in three places.
-1. tcpm_set_current_limit --------------> Actual current_limit
-/voltage requested to be set
-                                                             in the hardware.
-2. tcpm_pd_build_request --------------> current_limit /voltage
-requested to the port partner.
-                                                              Not yet
-accepted by port partner
-3. case PD_CTRL_ACCEPT:  ----------> PPS path: new
-current_limit/voltage to be set in hw &
-                                                               already
-accepted by the port partner.
-                switch (port->state) {
-                case SNK_NEGOTIATE_CAPABILITIES:
-                        port->pps_data.active = false;
-                        tcpm_set_state(port, SNK_TRANSITION_SINK, 0);
-                        break;
-                case SNK_NEGOTIATE_PPS_CAPABILITIES:
-                        port->pps_data.active = true;
-                        port->supply_voltage = port->pps_data.out_volt;
-                        port->current_limit = port->pps_data.op_curr;
-                        tcpm_set_state(port, SNK_TRANSITION_SINK, 0);
+Hey Anurag!
+  Sorry for the slow response! I finally took a bit more time to chase
+this issue today, and tried your suggestion above. Unfortunately
+adding the XCVRDLY bit to the USB2PHYCFG register doesn't seem to
+help. I see the same behavior either way. Thanks for the suggestion
+though!
 
-PPS path safely differentiates between new current_limit &
-supply_voltage requested
-to the port-partner and current_limit & supply_voltage  requested to
-be set in the
-hardware by caching the new requested values to partner in
-port->pps_data.op_curr/_volt (in tcpm_pd_select_pps_apdo) and updates
-port->supply_voltage, port->current_limit only when the port-partner responds
-with an accept packet (as pointed in the above code stub).
+I can consistently detect the problem when the COREIDLE bit isn't set
+after the dwc3_ep0_out_start() call in __dwc3_gadget_start():
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/usb/dwc3/gadget.c?h=v5.8#n2130
 
-However, when NOT IN PPS, TCPM code updates  port->current_limit &
-port->supply_voltage directly in tcpm_pd_build_request where the partner can
-still REJECT the request and port->current_limit & port->supply_voltage
-might go out of sync. So, there is already a need to introduce new variables to
-cache the requested values to port partners.
+When it gets stuck off, the COREIDLE bit doesn't seem to ever come
+back while the cable is plugged in.
+Since unplugging and replugging the cable does seem to unstick this,
+and since I can consistently detect when the problem has occured, I
+tweaked the code so we would return a error (and that error would be
+handled in the calling dwc3_gadget_start() code.  However, the device
+then tries to initialize over and over, but the COREIDLE is still
+stuck off. So I tried a few times to see if I could reset via
+dwc3_reset_gadget(), but that doesn't seem to actually do anything
+that unsticks the core. Then I tried to mimic something similar to the
+softreset code but that just ends up getting the code stuck elsewhere
+(i see hard hangs and rcu warnings, but not sure where it goes awry).
+So not much luck...
 
-Now coming to addressing  pSnkStdby, Once the partner accepts the new request,
-PD spec wants the sink to limit the power consumption to pSnkStdby (2.5W) till
-source sends the PS_RDY. i.e. while TCPM waits in SNK_TRANSITION_SINK,
-the sink's power consumption has to be limited to 2.5W. Sink can enforce or draw
-new partner accepted current & voltage at the hardware level only
-after PS_RDY is received from the port-partner.
+Is there some recommendation for how to best reset the hardware from
+the gadget.c code? Or is there a better place to try to detect this
+COREIDLE stuck-off state and do something about it?
 
-With the patch that I am submitting, I am hoping to cleanly
-differentiate between the
-current limit/voltage requested to be set in hardware(
-tcpm_set_current_limit) Vs
-the current limit/voltage requested to the port partner.
-
- current_limit, supply_voltage -> Requested to be set in hardware.
- req_current_limit, req_supply_voltage -> Newly requested value to the
-port partner.
-
-Perhaps doing the following alleviates current_limit/supply_voltage ambiguity:
-1. renaming current_limit, supply_voltage to hw_current_limit, hw_supply_voltage
-2. making a comment saying hw_current_limit, hw_supply_voltage should only
-be set in tcpm_set_current_limit.
-3. Instead of calling requested values to port-partner as
-req_current_limit/req_supply_voltage, maybe partner_req_current_limit,
-partner_req_supply_voltage is a better name.
-4. Adding a comment to state significance of hw_current_limit,
-hw_supply_voltage,
-partner_req_current_limit, partner_req_supply_voltage in tcpm struct.
-
-Let me know if it makes sense I will update the patch (may be even
-split if it makes
-sense) and resend.
-
-Thanks,
-Badhri
-
-
-
-
-On Tue, Aug 4, 2020 at 9:59 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 8/3/20 11:51 PM, Badhri Jagan Sridharan wrote:
-> >>From PD Spec:
-> > The Sink Shall transition to Sink Standby before a positive or
-> > negative voltage transition of VBUS. During Sink Standby
-> > the Sink Shall reduce its power draw to pSnkStdby. This allows
-> > the Source to manage the voltage transition as well as
-> > supply sufficient operating current to the Sink to maintain PD
-> > operation during the transition. The Sink Shall
-> > complete this transition to Sink Standby within tSnkStdby
-> > after evaluating the Accept Message from the Source. The
-> > transition when returning to Sink operation from Sink Standby
-> > Shall be completed within tSnkNewPower. The
-> > pSnkStdby requirement Shall only apply if the Sink power draw
-> > is higher than this level.
-> >
-> > The above requirement needs to be met to prevent hard resets
-> > from port partner.
-> >
-> > Introducing psnkstdby_after_accept flag to accommodate systems
-> > where the input current limit loops are not fast enough to meet
-> > tSnkStby(15 msec).
-> >
-> > When not set, port requests PD_P_SNK_STDBY upon entering SNK_DISCOVERY and
-> > the actual currrent limit after RX of PD_CTRL_PSRDY for PD link,
-> > SNK_READY for non-pd link.
-> >
-> > When set, port requests CC advertisement based current limit during
-> > SNK_DISCOVERY, current gets limited to PD_P_SNK_STDBY during
-> > SNK_TRANSITION_SINK, PD based current limit gets set after RX of
-> > PD_CTRL_PSRDY. However, in this case it has to be made sure that the
-> > tSnkStdby (15 msec) is met.
-> >
-> > Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-> > ---
-> >  drivers/usb/typec/tcpm/tcpm.c | 52 +++++++++++++++++++++++++++--------
-> >  include/linux/usb/pd.h        |  5 +++-
-> >  2 files changed, 44 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> > index 3ef37202ee37..e46da41940b9 100644
-> > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > @@ -293,9 +293,12 @@ struct tcpm_port {
-> >       unsigned int operating_snk_mw;
-> >       bool update_sink_caps;
-> >
-> > -     /* Requested current / voltage */
-> > +     /* Set current / voltage */
-> >       u32 current_limit;
-> >       u32 supply_voltage;
-> > +     /* current / voltage requested to partner */
-> > +     u32 req_current_limit;
-> > +     u32 req_supply_voltage;
->
-> I don't see a clear delineation where, when, and why supply_voltage vs. req_supply_voltage
-> and current_limit vs. req_current_limit is used. Maybe someone else does and can give a
-> Reviewed-by: tag, but for my part I'll have to spend some time trying to understand
-> what each variable and its use now means. Overall this suggests that the code may now be
-> a bit fragile. If those two sets of variables are now indeed needed, I think it would help
-> to have a detailed explanation for each use. This would help reducing the probability
-> of errors if the code has to be touched again in the future.
->
-> >
-> >       /* Used to export TA voltage and current */
-> >       struct power_supply *psy;
-> > @@ -323,13 +326,27 @@ struct tcpm_port {
-> >       struct pd_mode_data mode_data;
-> >       struct typec_altmode *partner_altmode[ALTMODE_DISCOVERY_MAX];
-> >       struct typec_altmode *port_altmode[ALTMODE_DISCOVERY_MAX];
-> > -
-> >       /* Deadline in jiffies to exit src_try_wait state */
-> >       unsigned long max_wait;
-> >
-> >       /* port belongs to a self powered device */
-> >       bool self_powered;
-> >
-> > +     /*
-> > +      * Honour psnkstdby after accept is received.
-> > +      * However, in this case it has to be made sure that the tSnkStdby (15
-> > +      * msec) is met.
-> > +      *
-> > +      * When not set, port requests PD_P_SNK_STDBY_5V upon entering SNK_DISCOVERY and
-> > +      * the actual currrent limit after RX of PD_CTRL_PSRDY for PD link,
-> > +      * SNK_READY for non-pd link.
-> > +      *
-> > +      * When set, port requests CC advertisement based current limit during
-> > +      * SNK_DISCOVERY, current gets limited to PD_P_SNK_STDBY_5V during SNK_TRANSITION_SINK,
-> > +      * PD based current limit gets set after RX of PD_CTRL_PSRDY.
-> > +      */
-> > +     bool psnkstdby_after_accept;
-> > +
-> >  #ifdef CONFIG_DEBUG_FS
-> >       struct dentry *dentry;
-> >       struct mutex logbuffer_lock;    /* log buffer access lock */
-> > @@ -1787,9 +1804,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
-> >               switch (port->state) {
-> >               case SNK_TRANSITION_SINK:
-> >                       if (port->vbus_present) {
-> > -                             tcpm_set_current_limit(port,
-> > -                                                    port->current_limit,
-> > -                                                    port->supply_voltage);
-> > +                             tcpm_set_current_limit(port, port->req_current_limit,
-> > +                                                    port->req_supply_voltage);
-> >                               port->explicit_contract = true;
-> >                               tcpm_set_state(port, SNK_READY, 0);
-> >                       } else {
-> > @@ -1861,8 +1877,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
-> >                       break;
-> >               case SNK_NEGOTIATE_PPS_CAPABILITIES:
-> >                       port->pps_data.active = true;
-> > -                     port->supply_voltage = port->pps_data.out_volt;
-> > -                     port->current_limit = port->pps_data.op_curr;
-> > +                     port->req_supply_voltage = port->pps_data.out_volt;
-> > +                     port->req_current_limit = port->pps_data.op_curr;
-> >                       tcpm_set_state(port, SNK_TRANSITION_SINK, 0);
-> >                       break;
-> >               case SOFT_RESET_SEND:
-> > @@ -2463,8 +2479,8 @@ static int tcpm_pd_build_request(struct tcpm_port *port, u32 *rdo)
-> >                        flags & RDO_CAP_MISMATCH ? " [mismatch]" : "");
-> >       }
-> >
-> > -     port->current_limit = ma;
-> > -     port->supply_voltage = mv;
-> > +     port->req_current_limit = ma;
-> > +     port->req_supply_voltage = mv;
-> >
-> >       return 0;
-> >  }
-> > @@ -3235,9 +3251,11 @@ static void run_state_machine(struct tcpm_port *port)
-> >               break;
-> >       case SNK_DISCOVERY:
-> >               if (port->vbus_present) {
-> > -                     tcpm_set_current_limit(port,
-> > -                                            tcpm_get_current_limit(port),
-> > -                                            5000);
-> > +                     if (port->psnkstdby_after_accept || tcpm_get_current_limit(port) <=
-> > +                         PD_P_SNK_STDBY_5V)
-> > +                             tcpm_set_current_limit(port, tcpm_get_current_limit(port), 5000);
-> > +                     else
-> > +                             tcpm_set_current_limit(port, PD_P_SNK_STDBY_5V, 5000);
-> >                       tcpm_set_charge(port, true);
-> >                       tcpm_set_state(port, SNK_WAIT_CAPABILITIES, 0);
-> >                       break;
-> > @@ -3318,6 +3336,10 @@ static void run_state_machine(struct tcpm_port *port)
-> >               }
-> >               break;
-> >       case SNK_TRANSITION_SINK:
-> > +             if (port->psnkstdby_after_accept)
-> > +                     tcpm_set_current_limit(port, tcpm_get_current_limit(port) >
-> > +                                            PD_P_SNK_STDBY_5V ? PD_P_SNK_STDBY_5V :
-> > +                                            tcpm_get_current_limit(port), 5000);
-> >       case SNK_TRANSITION_SINK_VBUS:
-> >               tcpm_set_state(port, hard_reset_state(port),
-> >                              PD_T_PS_TRANSITION);
-> > @@ -3331,6 +3353,10 @@ static void run_state_machine(struct tcpm_port *port)
-> >                       port->pwr_opmode = TYPEC_PWR_MODE_PD;
-> >               }
-> >
-> > +             /* Set current limit for NON-PD link when psnkstdby_after_accept is not set*/
-> > +             if (!port->pd_capable && !port->psnkstdby_after_accept)
-> > +                     tcpm_set_current_limit(port, tcpm_get_current_limit(port), 5000);
-> > +
-> >               tcpm_swap_complete(port, 0);
-> >               tcpm_typec_connect(port);
-> >               tcpm_check_send_discover(port);
-> > @@ -4513,6 +4539,8 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
-> >       port->typec_caps.type = ret;
-> >       port->port_type = port->typec_caps.type;
-> >
-> > +     port->psnkstdby_after_accept = fwnode_property_read_bool(fwnode, "psnkstdby-after-accept");
-> > +
->
-> I think this will need to be documented.
->
-> Guenter
->
-> >       if (port->port_type == TYPEC_PORT_SNK)
-> >               goto sink;
-> >
-> > diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-> > index b6c233e79bd4..6bd70f77045e 100644
-> > --- a/include/linux/usb/pd.h
-> > +++ b/include/linux/usb/pd.h
-> > @@ -483,5 +483,8 @@ static inline unsigned int rdo_max_power(u32 rdo)
-> >  #define PD_N_CAPS_COUNT              (PD_T_NO_RESPONSE / PD_T_SEND_SOURCE_CAP)
-> >  #define PD_N_HARD_RESET_COUNT        2
-> >
-> > -#define PD_T_BIST_CONT_MODE  50 /* 30 - 60 ms */
-> > +#define PD_T_BIST_CONT_MODE  50      /* 30 - 60 ms */
-> > +
-> > +#define PD_P_SNK_STDBY_5V    500     /* 2500 mw - 500mA @ 5V */
-> > +
-> >  #endif /* __LINUX_USB_PD_H */
-> >
->
+thanks
+-john
