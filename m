@@ -2,112 +2,98 @@ Return-Path: <SRS0=x5hE=BP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0DDC433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 19:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 846BAC433E0
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 20:08:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25DA120842
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 19:55:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oRqR7NCw"
+	by mail.kernel.org (Postfix) with ESMTP id 5FD4A22CA1
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Aug 2020 20:08:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729527AbgHETyw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Aug 2020 15:54:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46376 "EHLO
+        id S1728895AbgHEUIZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Aug 2020 16:08:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728074AbgHEQsi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Aug 2020 12:48:38 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6655EC03461F;
-        Wed,  5 Aug 2020 06:03:08 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id o23so18868977ejr.1;
-        Wed, 05 Aug 2020 06:03:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=o31JkXgtZ4KmGQwREdAQtnazhwrTeZbjodMq4WKIsR8=;
-        b=oRqR7NCwVz0YdCOq5y9Di9yY2c14OhBELXKVnCpcy4Sxg4toCn7APCbmlrHy8z8lws
-         rf5C587r2BGbwSCMjqJ5OXfM5DYCz39WS8x+eWVItfNkCF63iWBXoILLxWWzpumDFuJa
-         irLEN6Nlv3fAKULI0N963VBidezMzWD/fBHbD6Xv7BAIPnjFO0av2I/q0GprRI78SUrk
-         W/RfWxrBVe7c/6RazTgf15EvRN0noN1dKSyWjYuuBVUAVia0/CghPoH1dsXhfR33qpgL
-         RlZdAZNk4kmRhjHZmyLbUTIiNpRLmhbapykPgm13yM7tGXp3gPXrcNNprDozeRngTkgJ
-         0TdA==
+        with ESMTP id S1727064AbgHEQce (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Aug 2020 12:32:34 -0400
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC18C008691;
+        Wed,  5 Aug 2020 07:33:09 -0700 (PDT)
+Received: by mail-oo1-xc42.google.com with SMTP id x1so6635989oox.6;
+        Wed, 05 Aug 2020 07:33:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=o31JkXgtZ4KmGQwREdAQtnazhwrTeZbjodMq4WKIsR8=;
-        b=Bm9dynqgxw+qGhxkr3VWYZdM/Hbi48cJLGF3jha/OUVTJGGiYC86QOnLQJMV0fOvIr
-         kP0mrH21tVkCEZj/VYeruQ+gMgfaOL9Z0YIbw/JaatGx+Dnm/2vFwHTl58efnRHqP46T
-         F83aVY6YqjmXLHOEupR6kTz51qE355srgVTaT+E4YXtnIdJ1m6tthxnmD0VJGLnazCv0
-         9AoW93DWticUusI9Z48ovUDURijUetLSkzmZILq56B3+Qdjo7XegBs/1DWrZgcLU/f4E
-         5q5yY3pJaQIMTUo/KWnm4Meq7fFPvkmZtkIRU5ib6PKnXdgRNjk4FfnpvmuSI6NcyHbW
-         /D7g==
-X-Gm-Message-State: AOAM531grTnp+ppNFZM/FGqOs1RokwFrfBMX7WdgNRGyBmLqS80YQ3uo
-        4k9rx5wmIeRHHFq9WUZ1oyBwgczM+A1WTg==
-X-Google-Smtp-Source: ABdhPJwpV6jay6HnA4JCyBzViq2LRupyjuqyy2vGtx3iu8UAE5labTelSaY8awWs/xVtKFK9jILnnQ==
-X-Received: by 2002:a17:907:7090:: with SMTP id yj16mr2980056ejb.73.1596632586279;
-        Wed, 05 Aug 2020 06:03:06 -0700 (PDT)
-Received: from ci00583-linux.xsens-tech.local (2001-1c06-0702-ba00-8940-6ad0-42ef-6a6f.cable.dynamic.v6.ziggo.nl. [2001:1c06:702:ba00:8940:6ad0:42ef:6a6f])
-        by smtp.googlemail.com with ESMTPSA id o14sm1401851edi.27.2020.08.05.06.03.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 06:03:04 -0700 (PDT)
-From:   Patrick Riphagen <ppriphagen@gmail.com>
-X-Google-Original-From: Patrick Riphagen <patrick.riphagen@xsens.com>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     patrick.riphagen@xsens.com
-Subject: [PATCH] USB: serial: ftdi_sio: add IDs for Xsens Mti USB converter
-Date:   Wed,  5 Aug 2020 15:02:52 +0200
-Message-Id: <20200805130252.41973-1-patrick.riphagen@xsens.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tpO2xc5Co4QKfwe/fUkQqUFFAe1WeeGtz1oyCqUMySo=;
+        b=LhYz9i6I5AM4ZFtxHd+I9u1ASrO4rAxTxI/t4siugm6WhxTGylbyg693lSH2SkAJZg
+         IIGDv8cuq2Atkg6a/memP/3ZxkHNwXGhTlhzGgql3a+l8cb4BSqpY41/FoS2Dey738US
+         HNY7oS82tp4qxK0zU5KSG+5wR25XkLh17nddtBS+6isamMTdOSpgHAG7z+Dv3ZLvYKSj
+         WGny2c2fiRFPZvJ/1bYdsySXuQgp4q5b00waN4/XfIO6UGXfbhT3GB3aIdI6DdpTqwQf
+         PttRBBuebLldZ7pofLVcvbU+u/4I905HPTm1+H9J+KjyGphDBVlO8Qd1DI2oAJ/StVAp
+         dTsA==
+X-Gm-Message-State: AOAM533LjPC09EQ93J7+rqUEO7o2QGimyEUznlys74pspdXXuJB5yAAR
+        UXzpdrWWpUaJ+hWv1tXbOuarwbxyZUyw1hXSS06MMhU6
+X-Google-Smtp-Source: ABdhPJxign8Uk2fIcUs7RpIodong0uS1bWU72pwITdrYewzbK7L9StNz09TcvScLc02ZC/yaUnpVr8Fq/+75ppivh0g=
+X-Received: by 2002:a4a:9d19:: with SMTP id w25mr2320144ooj.11.1596626166283;
+ Wed, 05 Aug 2020 04:16:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-16-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-16-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 5 Aug 2020 13:15:54 +0200
+Message-ID: <CAMuHMdWzwQpjhOeVDkj1b1L7mJuxnLpVMO-3WMMLF3oJMzgAmg@mail.gmail.com>
+Subject: Re: [PATCH 15/20] arm64: dts: renesas: r8a774e1: Add audio support
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The device added has an FTDI chip inside.
-The device is used to connect Xsens USB Motion Trackers.
+On Thu, Jul 16, 2020 at 7:20 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add sound support for the RZ/G2H SoC (a.k.a. R8A774E1).
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-Signed-off-by: Patrick Riphagen <patrick.riphagen@xsens.com>
----
- drivers/usb/serial/ftdi_sio.c     | 1 +
- drivers/usb/serial/ftdi_sio_ids.h | 1 +
- 2 files changed, 2 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10.
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 9ad44a96dfe3..2c08cad32f1d 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -713,6 +713,7 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(XSENS_VID, XSENS_AWINDA_STATION_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_CONVERTER_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_MTDEVBOARD_PID) },
-+	{ USB_DEVICE(XSENS_VID, XSENS_MTIUSBCONVERTER_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_MTW_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_OMNI1509) },
- 	{ USB_DEVICE(MOBILITY_VID, MOBILITY_USB_SERIAL_PID) },
-diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
-index e8373528264c..b5ca17a5967a 100644
---- a/drivers/usb/serial/ftdi_sio_ids.h
-+++ b/drivers/usb/serial/ftdi_sio_ids.h
-@@ -160,6 +160,7 @@
- #define XSENS_AWINDA_DONGLE_PID 0x0102
- #define XSENS_MTW_PID		0x0200	/* Xsens MTw */
- #define XSENS_MTDEVBOARD_PID	0x0300	/* Motion Tracker Development Board */
-+#define XSENS_MTIUSBCONVERTER_PID	0x0301	/* MTi USB converter */
- #define XSENS_CONVERTER_PID	0xD00D	/* Xsens USB-serial converter */
- 
- /* Xsens devices using FTDI VID */
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
