@@ -2,109 +2,170 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DFDCC433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F45C433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:45:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8456D2312B
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:31:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dSCPQApD"
+	by mail.kernel.org (Postfix) with ESMTP id DB58623119
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:45:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728360AbgHFQbF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728205AbgHFQay (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:30:54 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CFD0C002178
-        for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2020 09:17:09 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id v65so14161386ybv.9
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2020 09:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=wOnxt8yJ8wg77ZYwwslQl282OLXtAHOuc/XW3sHDZ+4=;
-        b=dSCPQApDZWNb8zLFFjUFjAY9fD/PCQu3iRxIva+q4QmjH8g3OPE8/brbtMUtvu1bRH
-         oJwlqPOqq50y0js6N4JpTQrvOpRJlDl2ONhIBg+w4wD2Le2cNHRXBXmjNJukNICVIFzF
-         o0aAfxJMFx5baIPfdI50Pri8O2qAP7LSjxVaknyjwBn0WAolSM1kN/6CXbOaQ3Hj8wjN
-         W7Lp0yEBtuSe37lpDoDgyJjtecjxPFtCqZNzvd5ncW0w2qq3ighkCIRrYOSM/HvgSoIe
-         ay2s8lm5daQEBVKERfHELKBVJ/bDBRYynLveGuJMwl3wYpOEvdKvWzUDP7tlOna4MoMd
-         GJ5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=wOnxt8yJ8wg77ZYwwslQl282OLXtAHOuc/XW3sHDZ+4=;
-        b=KuVS1+vzadEsYUMzd7lSvTyIWu5rZFQX/obEXA6F8HScv2gdRGE0B+lYRpLo8lOi8q
-         5FbNsg2bDpujaJY79/JfzAIyx0bjHj/hoEpuV7pptLWWuLuBn6Wnkm9bURq6tMkvlNMp
-         e7fAdkPdEReOUQ17EnP5VXZMo/umBlFpJi5I7gRpYtT6t1C68cwCIomQcTU6kbJX0vyY
-         hu25YctJSrMFQhl0y6mhS5K7+wn5RLxO1u5kstgRWo4A3eAjU7a2AOnRQzXdW2a7ZlGH
-         Dy07ilUXcSafMhzz0WqdNVglPr0ec3Ld7YX9T8XAuwr9HM9jkq6mNN6TeB4HfezgKcZd
-         U+qA==
-X-Gm-Message-State: AOAM53143A4drdMYo64HkMODAxNSJvnMDQE0EvNL+LkF+tF3C2xCeIze
-        PjCOMoA2O7828ooF3hbmBw2qVlJQo51aJ+5U2mhpWi6d9ZwEi0aimEQ/C/Oow1Mh0x7c9AeWoh0
-        wnsrYAxVVGr4sD+C+RnQ52fd0GcjWevhja0Enf+m4cNjIAbvnU/bMoeBltaCoUM7mZTJ1
-X-Google-Smtp-Source: ABdhPJyf+qjy2HoOeZvualRq/ZB8GNjFUOkdkObedN/LaqBdivBfOVTGfIkvaqcCp3szFUCjD7/z8FmPZpbV
-X-Received: by 2002:a25:1f55:: with SMTP id f82mr14155954ybf.103.1596730628394;
- Thu, 06 Aug 2020 09:17:08 -0700 (PDT)
-Date:   Fri,  7 Aug 2020 01:16:43 +0900
-Message-Id: <20200806161643.1694266-1-lorenzo@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
-Subject: [PATCH] usb: gadget: u_ether: enable qmult on SuperSpeed Plus as well
-From:   Lorenzo Colitti <lorenzo@google.com>
-To:     linux-usb@vger.kernel.org
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        zenczykowski@gmail.com, Lorenzo Colitti <lorenzo@google.com>
+        id S1729233AbgHFQp1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:45:27 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55188 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729012AbgHFQno (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 6 Aug 2020 12:43:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 1B450AC7F;
+        Thu,  6 Aug 2020 14:07:26 +0000 (UTC)
+Message-ID: <1596722827.2488.8.camel@suse.com>
+Subject: [RFC]mooring API
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Eli Billauer <eli.billauer@gmail.com>, linux-usb@vger.kernel.org
+Date:   Thu, 06 Aug 2020 16:07:07 +0200
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The u_ether driver has a qmult setting that multiplies the
-transmit queue length (which by default is 2).
+Hi,
 
-The intent is that it should be enabled at high/super speed, but
-because the code does not explicitly check for USB_SUPER_PLUS,
-it is disabled at that speed.
+why this new API? Eli found a race with the existing API. Many
+drivers are acribing to it semantics it never had. Now we have
+sort of a fix, but it is not really elegant.
+The anchors have always been about making it easier to write drivers.
+Hence if driver authors are assumuning that they have a power, we
+better provide that facility. What users need is a facility
+to group URBs together and get rid of them no questions asked.
+It would be best if we can do that with minimal changes.
 
-Fix this by ensuring that the queue multiplier is enabled for any
-wired link at high speed or above. Using >= for USB_SPEED_*
-constants seems correct because it is what the gadget_is_xxxspeed
-functions do.
+Here is a V2 taking into account Alan's remarks, and using a separate
+flag.
 
-The queue multiplier substantially helps performance at higher
-speeds. On a direct SuperSpeed Plus link to a Linux laptop,
-iperf3 single TCP stream:
+	Regards
+		Oliver
 
-Before (qmult=1): 1.3 Gbps
-After  (qmult=5): 3.2 Gbps
+From 79df4240287b712bbe08404af7f900c3bccfca40 Mon Sep 17 00:00:00 2001
+From: Oliver Neukum <oneukum@suse.com>
+Date: Tue, 28 Jul 2020 11:38:23 +0200
+Subject: [PATCH] USB: add mooring API
 
-Signed-off-by: Lorenzo Colitti <lorenzo@google.com>
+This is a simplified and thereby better version of the anchor API.
+Anchors have the problem that they unanchor an URB upon giveback,
+which creates a window during which an URB is unanchored but not
+yet returned, leading to operations on anchors not having the
+semantics many driver errornously assume them to have.
+The new API keeps an URB on an anchor until it is explicitly
+unmoored.
+
+Signed-off-by: Oliver Neukum <oneukum@suse.de>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/gadget/function/u_ether.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/core/hcd.c |  4 +++-
+ drivers/usb/core/urb.c | 27 ++++++++++++++++++++++++++-
+ include/linux/usb.h    |  3 +++
+ 3 files changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index c3cc6bd14e..31ea76adcc 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -93,7 +93,7 @@ struct eth_dev {
- static inline int qlen(struct usb_gadget *gadget, unsigned qmult)
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index a33b849e8beb..e1d26cb595c3 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -1640,7 +1640,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+ 	unmap_urb_for_dma(hcd, urb);
+ 	usbmon_urb_complete(&hcd->self, urb, status);
+ 	usb_anchor_suspend_wakeups(anchor);
+-	usb_unanchor_urb(urb);
++	smp_rmb(); /* against usb_(un)moor_urb() */
++	if (!urb->moored)
++		usb_unanchor_urb(urb);
+ 	if (likely(status == 0))
+ 		usb_led_activity(USB_LED_EVENT_HOST);
+ 
+diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+index 7bc23469f4e4..ee3c6c7c2630 100644
+--- a/drivers/usb/core/urb.c
++++ b/drivers/usb/core/urb.c
+@@ -123,7 +123,7 @@ EXPORT_SYMBOL_GPL(usb_get_urb);
+  * This can be called to have access to URBs which are to be executed
+  * without bothering to track them
+  */
+-void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor)
++static void __usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor)
  {
- 	if (gadget_is_dualspeed(gadget) && (gadget->speed == USB_SPEED_HIGH ||
--					    gadget->speed == USB_SPEED_SUPER))
-+					    gadget->speed >= USB_SPEED_SUPER))
- 		return qmult * DEFAULT_QLEN;
- 	else
- 		return DEFAULT_QLEN;
+ 	unsigned long flags;
+ 
+@@ -137,8 +137,20 @@ void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor)
+ 
+ 	spin_unlock_irqrestore(&anchor->lock, flags);
+ }
++
++void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor)
++{
++	__usb_anchor_urb(urb, anchor);
++}
+ EXPORT_SYMBOL_GPL(usb_anchor_urb);
+ 
++void usb_moor_urb(struct urb *urb, struct usb_anchor *anchor)
++{
++	urb->moored = true;
++	__usb_anchor_urb(urb, anchor);
++}
++EXPORT_SYMBOL_GPL(usb_moor_urb);
++
+ static int usb_anchor_check_wakeup(struct usb_anchor *anchor)
+ {
+ 	return atomic_read(&anchor->suspend_wakeups) == 0 &&
+@@ -185,6 +197,19 @@ void usb_unanchor_urb(struct urb *urb)
+ }
+ EXPORT_SYMBOL_GPL(usb_unanchor_urb);
+ 
++void usb_unmoor_urb(struct urb *urb)
++{
++	struct usb_anchor *anchor;
++
++	urb->moored = false;
++	anchor = urb->anchor;
++	if (!anchor)
++		return;
++
++	__usb_unanchor_urb(urb, anchor);
++}
++EXPORT_SYMBOL_GPL(usb_unmoor_urb);
++
+ /*-------------------------------------------------------------------*/
+ 
+ static const int pipetypes[4] = {
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 20c555db4621..b9e1464a2552 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1565,6 +1565,7 @@ struct urb {
+ 	void *hcpriv;			/* private data for host controller */
+ 	atomic_t use_count;		/* concurrent submissions counter */
+ 	atomic_t reject;		/* submissions will fail */
++	bool moored;			/* the URB is moored not anchored */
+ 
+ 	/* public: documented fields in the urb that can be used by drivers */
+ 	struct list_head urb_list;	/* list head for use by the urb's
+@@ -1732,6 +1733,8 @@ extern void usb_anchor_suspend_wakeups(struct usb_anchor *anchor);
+ extern void usb_anchor_resume_wakeups(struct usb_anchor *anchor);
+ extern void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor);
+ extern void usb_unanchor_urb(struct urb *urb);
++extern void usb_moor_urb(struct urb *urb, struct usb_anchor *anchor);
++extern void usb_unmoor_urb(struct urb *urb);
+ extern int usb_wait_anchor_empty_timeout(struct usb_anchor *anchor,
+ 					 unsigned int timeout);
+ extern struct urb *usb_get_from_anchor(struct usb_anchor *anchor);
 -- 
-2.28.0.163.g6104cc2f0b6-goog
+2.16.4
 
