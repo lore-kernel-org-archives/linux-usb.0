@@ -2,163 +2,166 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F04C433DF
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:47:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B245C433E1
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:48:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E7FB2311A
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:47:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aIUKmjtc"
+	by mail.kernel.org (Postfix) with ESMTP id 6AB3C23119
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596732523;
+	bh=RDm3gl0Uxr6dxdsLlUrcFLzvueJ/vGVG+WrmJzHA6KU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=K8NPkbdWi34AES8FquwGKsUXLrT47Mc51/Co7e5RyuWeGMvYT1Y5xeE/+kkHnc/XQ
+	 UNE50HWKdjh2HRVBukzbwyVASCckiggqYHHES/7FXwMJi4UdycGEZGmAWda2Aqy6DY
+	 NRfJJzqjGk9IOmpTaKAuondUV5U7f0P0DFzNw4Ss=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729401AbgHFQrE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:47:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729203AbgHFQpH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:45:07 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43FF1C00215E;
-        Thu,  6 Aug 2020 09:02:52 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id i6so9906415edy.5;
-        Thu, 06 Aug 2020 09:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FNqcBw7gbdcsYAj3BqhT8zH10stbn01zoIqVBzt1ndI=;
-        b=aIUKmjtcRfg+2LmyFEYG1ZKfDaRGWTeFidf5qZnIa7woOEXLSv/NhvJ5ESpOQxO4IZ
-         9MEWqCc2LNCyqR9X9i10xzsTV7daNAESKymqsWecuAPz37090vufVngrd8fK579IWdVu
-         sibVIPxcQBqxrlx8FlQVx6IPGHSUgp7YPR1tdGSoj2P8qEOirB78nkmGpX00tvC1axQt
-         61EuuGL6Iu+W3cjKrZp8FbM7+hbENEgBBj9RDWxQa0xsMiQFAk95ZSPxn0GXr91S+Irj
-         xwZDTz2R/ktqBExnTB1qryOICMOHGyUt81jv7bNAsQxX2azKJloO4Rak1vP3AaDU7i4m
-         OyXg==
+        id S1729502AbgHFQsI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:48:08 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43481 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729009AbgHFQmt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:42:49 -0400
+Received: by mail-ed1-f66.google.com with SMTP id b18so4487958edv.10;
+        Thu, 06 Aug 2020 09:42:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FNqcBw7gbdcsYAj3BqhT8zH10stbn01zoIqVBzt1ndI=;
-        b=SBMMBBa1OKdGYvwRWadiEPx40GloMmjD83YYQduCio1EJZmtI8wBAvrWVW2tqK36ov
-         hT0BiCJf2LDqBPxytjHzVZnRhz6QkTFdSH71asSrp6wyfvdaTORJKodJfEQTdF6bv6/F
-         dbubRM86QrbPyd5+lm1JthJ2GFdeEAd5O3GeKD8DIgnXOeKF4glG3/eRC+eOV0ppPKmI
-         yLJD8BTyDOg14a5+ei9GBILRAZGMqbBj5hktq5knKpHxsPk07QGjgd3GvAkXTwfPJzTO
-         taF+hKn+Z0OPvKKauseBR2yfP+NQkTF0dg0IW8ERdBANZklJI0OTdbdvLDD1Pq0NWpGj
-         fX6A==
-X-Gm-Message-State: AOAM530W/NCdQvAGf0w5pB7i9hXEpqsybMiaBfmJfnLui6Hx/9lLu7bc
-        wOWTw7ShLESpBtd6W6AAEmRSs0xu
-X-Google-Smtp-Source: ABdhPJxwDwLDDqIGo1x+XgU/Gsphj/4xYfmbRbh1sLk+5KU7qOFlfnLdw9q6QsJUuM2roZoidr6Nmg==
-X-Received: by 2002:a05:6402:30a5:: with SMTP id df5mr4700529edb.18.1596729771005;
-        Thu, 06 Aug 2020 09:02:51 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id z5sm4005075ejm.111.2020.08.06.09.02.49
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=O7b6zzBbEswhT1r045fM/qsaYWnifcvdI3BJNWUghN0=;
+        b=dPs2Jf9mdsFOSfeP4RUxvVmNpO9ZC6St6BomLKCPcZiRclaDf7jZybK2NP+tjv8TdX
+         0xDi5O+UJIIk7CMl4g4WzT+b9BJli7e37ijstJo/E1GDs+xtMvbjJAZvHJ9UFiITNOZS
+         5zHqT+Vny61OrrUX24RQPyUJ0qVEY5nbMrfkkcn+RRRUExRev+B+Xqe+MPfoyOF7+xxC
+         cWiGIrpUs2peC+OieaEUQR9KbzyWN6TQB0FtVQXxcCB5LSOrCds4B+1k/DOmEYHdI/z+
+         Xfa2+7KD9OlT1Jpb/QTX4T/RJHnjisgB4rv9BmZIp69dNwxEOURZEWGCuJqwLWzy5z70
+         ymow==
+X-Gm-Message-State: AOAM530G/8vm2/bR+rIiC+oVpApKlXg9ut+u7HeZ0UxxQbr0GxBulMmj
+        UKCY0/OZopQB11o5Kr/JXIIIRs0vPUY=
+X-Google-Smtp-Source: ABdhPJyHniBgsghgZjB//lGvj5nz1YqjaBKR9ZEZZ2nKGP7t+QwlCAdzva9yQdEXnpi9Gds5MbvK5g==
+X-Received: by 2002:ac2:4d4f:: with SMTP id 15mr3791625lfp.163.1596717213497;
+        Thu, 06 Aug 2020 05:33:33 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id o23sm2658274lfr.67.2020.08.06.05.33.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 09:02:49 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 1/2] usb: common: usb-conn-gpio: Make VBUS supply optional
-Date:   Thu,  6 Aug 2020 18:02:47 +0200
-Message-Id: <20200806160248.3936771-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        Thu, 06 Aug 2020 05:33:32 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1k3f5T-0003Cq-KO; Thu, 06 Aug 2020 14:33:36 +0200
+Date:   Thu, 6 Aug 2020 14:33:35 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Manivannan Sadhasivam <mani@kernel.org>
+Cc:     Johan Hovold <johan@kernel.org>, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patong.mxl@gmail.com, linus.walleij@linaro.org,
+        mchehab+huawei@kernel.org
+Subject: Re: [RESEND PATCH v4 1/3] usb: serial: Add MaxLinear/Exar USB to
+ Serial driver
+Message-ID: <20200806123335.GS3634@localhost>
+References: <20200607162350.21297-1-mani@kernel.org>
+ <20200607162350.21297-2-mani@kernel.org>
+ <20200701103433.GC3334@localhost>
+ <20200726154928.GA12036@Mani-XPS-13-9360>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200726154928.GA12036@Mani-XPS-13-9360>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Sun, Jul 26, 2020 at 09:19:28PM +0530, Manivannan Sadhasivam wrote:
+> Hi,
+> 
+> Sorry for the late reply!
 
-If the connector is the child of a USB port and that USB port already
-has a VBUS supply attached to it, it would be redundant to require the
-connector to have a VBUS supply. In this case, allow the VBUS supply to
-be optional.
+No worries at all.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/usb/common/usb-conn-gpio.c | 30 ++++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+> On Wed, Jul 01, 2020 at 12:34:33PM +0200, Johan Hovold wrote:
+> > On Sun, Jun 07, 2020 at 09:53:48PM +0530, Manivannan Sadhasivam wrote:
+> > > Add support for MaxLinear/Exar USB to Serial converters. This driver
+> > > only supports XR21V141X series but it can be extended to other series
+> > > from Exar as well in future.
+> > > 
+> > > This driver is inspired from the initial one submitted by Patong Yang:
+> > > 
+> > > https://patchwork.kernel.org/patch/10543261/
+> > 
+> > You've also copied code from that driver so you need to maintain its
+> > copyright as well.
+> > 
+> > Probably better you link to lore than patchwork. Do that in the file
+> > header as well.
+> > 
+> > > While the initial driver was a custom tty USB driver exposing whole
+> > > new serial interface ttyXRUSBn, this version is completely based on USB
+> > > serial core thus exposing the interfaces as ttyUSBn. This will avoid
+> > > the overhead of exposing a new USB serial interface which the userspace
+> > > tools are unaware of.
+> > > 
+> > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Tested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
+> > > ---
+> > >  drivers/usb/serial/Kconfig     |   9 +
+> > >  drivers/usb/serial/Makefile    |   1 +
+> > >  drivers/usb/serial/xr_serial.c | 650 +++++++++++++++++++++++++++++++++
+> > >  3 files changed, 660 insertions(+)
+> > >  create mode 100644 drivers/usb/serial/xr_serial.c
 
-diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
-index 7b3a21360d7c..c5b516d327c7 100644
---- a/drivers/usb/common/usb-conn-gpio.c
-+++ b/drivers/usb/common/usb-conn-gpio.c
-@@ -91,14 +91,14 @@ static void usb_conn_detect_cable(struct work_struct *work)
- 		return;
- 	}
- 
--	if (info->last_role == USB_ROLE_HOST)
-+	if (info->last_role == USB_ROLE_HOST && info->vbus)
- 		regulator_disable(info->vbus);
- 
- 	ret = usb_role_switch_set_role(info->role_sw, role);
- 	if (ret)
- 		dev_err(info->dev, "failed to set role: %d\n", ret);
- 
--	if (role == USB_ROLE_HOST) {
-+	if (role == USB_ROLE_HOST && info->vbus) {
- 		ret = regulator_enable(info->vbus);
- 		if (ret)
- 			dev_err(info->dev, "enable vbus regulator failed\n");
-@@ -106,8 +106,9 @@ static void usb_conn_detect_cable(struct work_struct *work)
- 
- 	info->last_role = role;
- 
--	dev_dbg(info->dev, "vbus regulator is %s\n",
--		regulator_is_enabled(info->vbus) ? "enabled" : "disabled");
-+	if (info->vbus)
-+		dev_dbg(info->dev, "vbus regulator is %s\n",
-+			regulator_is_enabled(info->vbus) ? "enabled" : "disabled");
- 
- 	power_supply_changed(info->charger);
- }
-@@ -156,6 +157,7 @@ static int usb_conn_probe(struct platform_device *pdev)
- 	struct power_supply_config cfg = {
- 		.of_node = dev->of_node,
- 	};
-+	bool need_vbus = true;
- 	int ret = 0;
- 
- 	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
-@@ -185,7 +187,23 @@ static int usb_conn_probe(struct platform_device *pdev)
- 
- 	INIT_DELAYED_WORK(&info->dw_det, usb_conn_detect_cable);
- 
--	info->vbus = devm_regulator_get(dev, "vbus");
-+	/*
-+	 * If the USB connector is a child of a USB port and that port already provides the VBUS
-+	 * supply, there's no need for the USB connector to provide it again.
-+	 */
-+	if (dev->parent && dev->parent->of_node) {
-+		if (of_find_property(dev->parent->of_node, "vbus-supply", NULL))
-+			need_vbus = false;
-+	}
-+
-+	if (!need_vbus) {
-+		info->vbus = devm_regulator_get_optional(dev, "vbus");
-+		if (PTR_ERR(info->vbus) == -ENODEV)
-+			info->vbus = NULL;
-+	} else {
-+		info->vbus = devm_regulator_get(dev, "vbus");
-+	}
-+
- 	if (IS_ERR(info->vbus)) {
- 		if (PTR_ERR(info->vbus) != -EPROBE_DEFER)
- 			dev_err(dev, "failed to get vbus\n");
-@@ -266,7 +284,7 @@ static int usb_conn_remove(struct platform_device *pdev)
- 
- 	cancel_delayed_work_sync(&info->dw_det);
- 
--	if (info->last_role == USB_ROLE_HOST)
-+	if (info->last_role == USB_ROLE_HOST && info->vbus)
- 		regulator_disable(info->vbus);
- 
- 	usb_role_switch_put(info->role_sw);
--- 
-2.27.0
+> > > +#define XR21V141X_CLOCK_DIVISOR_0	0x4
+> > > +#define XR21V141X_CLOCK_DIVISOR_1	0x5
+> > > +#define XR21V141X_CLOCK_DIVISOR_2	0x6
+> > > +#define XR21V141X_TX_CLOCK_MASK_0	0x7
+> > > +#define XR21V141X_TX_CLOCK_MASK_1	0x8
+> > > +#define XR21V141X_RX_CLOCK_MASK_0	0x9
+> > > +#define XR21V141X_RX_CLOCK_MASK_1	0xa
+> > 
+> > Please 0-pad these are they are registers.
+> 
+> You mean adding 0 after 0x?
 
+Yes, exactly.
+
+> > > +static int xr_attach(struct usb_serial *serial)
+> > > +{
+> > > +	/* Do not register tty device for the control interface */
+> > > +	if (serial->interface->cur_altsetting->desc.bInterfaceNumber == 0)
+> > > +		return 1;
+> > 
+> > Ok, so you went for my first suggestion here instead of explicitly
+> > claiming the sibling interface.
+> > 
+> > I still think you should bind to the data interface and then explicitly
+> > claim the control interface instead, since that better reflects that
+> > these interfaces are used together (and allows for unbinding through
+> > sysfs etc).
+> 
+> How about something like below?
+> 
+> static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+> {
+>         struct usb_device *usb_dev = interface_to_usbdev(serial->interface);
+>         struct usb_driver *driver = serial->type->usb_driver;
+>         struct usb_interface *control_interface;
+> 
+>         /* Don't bind to control interface */
+>         if (serial->interface->cur_altsetting->desc.bInterfaceNumber == 0)
+>                 return -ENODEV;
+> 
+>         /* But claim the control interface during data interface probe */
+>         control_interface = usb_ifnum_to_if(usb_dev, 0);
+>         if (usb_driver_claim_interface(driver, control_interface, NULL) != 0)
+>                 dev_err(serial->interface->dev, "Can't claim control interface");
+> 
+>         return 0;
+> }
+
+Yes, something like that, but with error handling and a '\n' added to
+the error message. ;)
+
+Johan
