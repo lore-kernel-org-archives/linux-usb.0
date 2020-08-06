@@ -2,244 +2,145 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C63C433E1
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:29:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 980BFC433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:30:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0004221E3
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596734951;
-	bh=p1LfIyOAywA1eHWugbGqIm13REDJZngVkbKKQBjFk2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=OvGP1glB7pB3c+vp/iKux0dQlCkZxdY7sgpsnofG4miHEv+nciM95Pq5mkaBCIbGx
-	 /JQzCHooNnKt6/4Oa34IMp/vb3sT2+8xJ0GrDnFQWTW2EzRjPaBD6/DFdecki+H/Pw
-	 6WKSXUH+ao22vbwjUC4jB7arijnInkFLODB55qf4=
+	by mail.kernel.org (Postfix) with ESMTP id EECBF206C3
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:30:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuNBpQd/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729512AbgHFR3B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 13:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44964 "EHLO
+        id S1728717AbgHFR36 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 13:29:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729341AbgHFRA4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 13:00:56 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1B7C0F26C3;
-        Thu,  6 Aug 2020 08:46:19 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id g33so9550396pgb.4;
-        Thu, 06 Aug 2020 08:46:19 -0700 (PDT)
+        with ESMTP id S1729642AbgHFR3w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 13:29:52 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC75C061574
+        for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2020 10:29:51 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id d6so37356123ejr.5
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2020 10:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5w8kbDHckwyh+GU/sqIPsW3oE7ZiFebxCeNdaGkMSiY=;
+        b=UuNBpQd/4YvVi0Km+qhA4cgyHAB9y+K0GJgcJR98s26UTswZiXCXCOnGLccuzQSlXW
+         vUcAUMbuocg2E3yyUl6jMu8NAHVzsQ0giZr0JfTnzBdpeSPtuj7OSvvDvcRZfLkoRTwH
+         HuRqBnCL6Jk+gerqkchwFWv8hfnOHmn9vEaeM5USTbLAp2kJoeV8AgNwk8ps/Ca3mBTO
+         dNJAqda0yk94f5pjm4h8vLjXSwusnVAtf7xjlG1Vp4fUMSujRbhvcZmChqe/H2/JRP57
+         L207ZEhimBrqDijCIALyUkBcDgTZOJE/c13sQb0HCVNuQpqIHSXE+d8I7D+2cgQhLru4
+         NCBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xkd1MgDmKSnQMagegnqbBq4Ybb77vBr+wvZf4lFVvT8=;
-        b=GFUhZAal0eiMEDTGGlyqGHbjbyOBsk79KdmmuW6NuFP+pe69wZTcP+I1DnjXluHB2i
-         n+GGXX62gU2A59XB1CmLZ4sUOY44lwqEc/xXD/8qFPENoTVa1PEtWiNIQjd+g8UJ7X6x
-         /TXpBguELwja3XCz4oPoLpqHXpG2lQV6I8tF0cP8KqQ+Ap7i9YgboA6uyByGxXh6uX+k
-         qcwr12KRKZdva0jI3PDmJ/YU/UgEVEwUW2/FPfvOPhyLVSl1q3xb1NS2CvDgwy8ZwbV9
-         IJWPwYag9/bMI9B2bGRSat0RwRx29KmTGgzZ7LtC0u86udnMaqJzUt+47q5GoJr4dUyM
-         Dewg==
-X-Gm-Message-State: AOAM5306LI74mjVJrMRaUa0n+P36xADkFz9nbN+I+sCMiQu9J21G7i9x
-        5SZ2l62WKTgTPO2nzMBSk2hpw0k=
-X-Google-Smtp-Source: ABdhPJzo9OMzbx/duXxuwBxnWu2UK7KN01S4fbrj4N+yyrFXn8/CfTlaq0Z2ZwMY4KynL3zTy6rE9A==
-X-Received: by 2002:a92:9e48:: with SMTP id q69mr3142136ili.170.1596724149920;
-        Thu, 06 Aug 2020 07:29:09 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id q16sm4050392ile.22.2020.08.06.07.29.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 07:29:09 -0700 (PDT)
-Received: (nullmailer pid 805944 invoked by uid 1000);
-        Thu, 06 Aug 2020 14:29:06 -0000
-Date:   Thu, 6 Aug 2020 08:29:06 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Wesley Cheng <wcheng@codeaurora.org>
-Cc:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, sboyd@kernel.org
-Subject: Re: [PATCH v7 2/4] dt-bindings: usb: Add Qualcomm PMIC type C
- controller dt-binding
-Message-ID: <20200806142906.GA796067@bogus>
-References: <20200804004523.7964-1-wcheng@codeaurora.org>
- <20200804004523.7964-3-wcheng@codeaurora.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5w8kbDHckwyh+GU/sqIPsW3oE7ZiFebxCeNdaGkMSiY=;
+        b=gKqqcZlWU6Uri/ZXeovB0EuQcLjM+K49EuBz9muyoM/Dcwq+1GcqbDbwDC19aapEl3
+         Cs6ihtiSMi+Hvrb3moIzGvHQHb1CPr5jblWIEQ476ntP37rSbGWWv2Fr8jMdV5gHoYM8
+         4T9Mn1fPhXnHqPDmp9a4AkHldTNvoy0SLyYkMxjHcSq9LLwGWgKUB9kJOsdOuyRV19Dz
+         lPqi7IOvqpwZseX3N98iv3ISOVJgfne3EpRCXBgS3CfgLZFs/yDYeLx84rcLZPkCWIJh
+         FRAFweuTuqZvsU1D7LnB2Ao1H36fTzWnB/b61O1TYgmnPCuUaOJzTnASmz0cS7Etcrop
+         Bb5Q==
+X-Gm-Message-State: AOAM531EhwN4oyCMFsEUWt+Hl1iu9ipj4dDa/86i+W/ms4hDC5GIE70a
+        VJOz7JuwFYjBDES2e25RQtYMdI+Iyp4Giq3iirA=
+X-Google-Smtp-Source: ABdhPJxqAEflnBvvHqefUAAeUBtQXYcwRJg3QeukRrmqobJ0Jn6J0yQfwfHoutlbfcoKmGLnB+S2Cd/66DZy6wPLyRk=
+X-Received: by 2002:a17:906:1453:: with SMTP id q19mr5594976ejc.111.1596734990314;
+ Thu, 06 Aug 2020 10:29:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200804004523.7964-3-wcheng@codeaurora.org>
+References: <20200806161643.1694266-1-lorenzo@google.com>
+In-Reply-To: <20200806161643.1694266-1-lorenzo@google.com>
+From:   =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <zenczykowski@gmail.com>
+Date:   Thu, 6 Aug 2020 10:29:38 -0700
+Message-ID: <CAHo-Ooxh7OWkkGP58YPE-0aeQ5wn6juGb0rfgMmuHC53quJaZA@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_ether: enable qmult on SuperSpeed Plus as well
+To:     Lorenzo Colitti <lorenzo@google.com>
+Cc:     linux-usb@vger.kernel.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 05:45:21PM -0700, Wesley Cheng wrote:
-> Introduce the dt-binding for enabling USB type C orientation and role
-> detection using the PM8150B.  The driver will be responsible for receiving
-> the interrupt at a state change on the CC lines, reading the
-> orientation/role, and communicating this information to the remote
-> clients, which can include a role switch node and a type C switch.
-> 
-> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+On Thu, Aug 6, 2020 at 9:17 AM Lorenzo Colitti <lorenzo@google.com> wrote:
+>
+> The u_ether driver has a qmult setting that multiplies the
+> transmit queue length (which by default is 2).
+>
+> The intent is that it should be enabled at high/super speed, but
+> because the code does not explicitly check for USB_SUPER_PLUS,
+> it is disabled at that speed.
+>
+> Fix this by ensuring that the queue multiplier is enabled for any
+> wired link at high speed or above. Using >=3D for USB_SPEED_*
+> constants seems correct because it is what the gadget_is_xxxspeed
+> functions do.
+>
+> The queue multiplier substantially helps performance at higher
+> speeds. On a direct SuperSpeed Plus link to a Linux laptop,
+> iperf3 single TCP stream:
+>
+> Before (qmult=3D1): 1.3 Gbps
+> After  (qmult=3D5): 3.2 Gbps
+>
+> Signed-off-by: Lorenzo Colitti <lorenzo@google.com>
 > ---
->  .../bindings/usb/qcom,pmic-typec.yaml         | 131 ++++++++++++++++++
->  1 file changed, 131 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-> new file mode 100644
-> index 000000000000..877e979f413f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-> @@ -0,0 +1,131 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/usb/qcom,pmic-typec.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Qualcomm PMIC based USB type C Detection Driver
-> +
-> +maintainers:
-> +  - Wesley Cheng <wcheng@codeaurora.org>
-> +
-> +description: |
-> +  Qualcomm PMIC Type C Detect
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,pm8150b-usb-typec
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: Type C base address
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: CC change interrupt from PMIC
-> +
-> +  connector:
-> +    description: Connector type for remote endpoints
-> +    type: object
-> +
-> +    properties:
-> +      compatible:
-> +        $ref: /schemas/connector/usb-connector.yaml#/properties/compatible
+>  drivers/usb/gadget/function/u_ether.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/f=
+unction/u_ether.c
+> index c3cc6bd14e..31ea76adcc 100644
+> --- a/drivers/usb/gadget/function/u_ether.c
+> +++ b/drivers/usb/gadget/function/u_ether.c
+> @@ -93,7 +93,7 @@ struct eth_dev {
+>  static inline int qlen(struct usb_gadget *gadget, unsigned qmult)
+>  {
+>         if (gadget_is_dualspeed(gadget) && (gadget->speed =3D=3D USB_SPEE=
+D_HIGH ||
+> -                                           gadget->speed =3D=3D USB_SPEE=
+D_SUPER))
+> +                                           gadget->speed >=3D USB_SPEED_=
+SUPER))
+>                 return qmult * DEFAULT_QLEN;
+>         else
+>                 return DEFAULT_QLEN;
+> --
+> 2.28.0.163.g6104cc2f0b6-goog
+>
 
-usb-connector.yaml should be referenced from 'connector'.
+Reviewed-by: Maciej =C5=BBenczykowski <maze@google.com>
 
-> +        enum:
-> +          - usb-c-connector
-> +
-> +      power-role:
-> +        $ref: /schemas/connector/usb-connector.yaml#/properties/power-role
-> +        enum:
-> +         - dual
-> +         - source
-> +         - sink
+Though I think this probably deserves a fixes tag of some sort.
+Probably:
 
-Just 'power-role: true' is enough as this is the same set of possible 
-values.
+Fixes: 04617db7aa68 ("usb: gadget: add SS descriptors to Ethernet gadget")
 
-> +
-> +      data-role:
-> +        $ref: /schemas/connector/usb-connector.yaml#/properties/data-role
-> +        enum:
-> +          - dual
-> +          - host
-> +          - device
+since that's the commit that did:
 
-Same here
+-MODULE_PARM_DESC(qmult, "queue length multiplier at high speed");
++MODULE_PARM_DESC(qmult, "queue length multiplier at high/super speed");
 
-> +
-> +      ports:
-> +        description: Remote endpoint connections
-> +        type: object
-> +        $ref: /schemas/connector/usb-connector.yaml#/properties/ports
-> +
-> +        properties:
-> +          port@0:
-> +            description: Remote endpoints for the High Speed path
-> +            type: object
-> +
-> +          port@1:
-> +            description: Remote endpoints for the Super Speed path
-> +            type: object
-> +
-> +            properties:
-> +              endpoint@0:
-> +                description: Connection to USB type C mux node
-> +                type: object
-> +
-> +                properties:
-> +                  remote-endpoint:
-> +                    description: Node reference to the type C mux
+...
 
-You don't need to describe 'remote-endpoint'. You can assume that is 
-defined in a common graph schema (to be written).
-
-> +
-> +              endpoint@1:
-> +                description: Connection to role switch node
-> +                type: object
-> +
-> +                properties:
-> +                  remote-endpoint:
-> +                    description: Node reference to the role switch node
-> +
-> +    required:
-> +      - compatible
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - connector
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    pm8150b {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        pm8150b_typec: typec@1500 {
-> +            compatible = "qcom,pm8150b-usb-typec";
-> +            reg = <0x1500>;
-> +            interrupts = <0x2 0x15 0x5 IRQ_TYPE_EDGE_RISING>;
-> +
-> +            connector {
-> +                compatible = "usb-c-connector";
-> +                power-role = "dual";
-> +                data-role = "dual";
-> +                ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    port@0 {
-> +                        reg = <0>;
-> +                    };
-> +                    port@1 {
-> +                        reg = <1>;
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +                        usb3_data_ss: endpoint@0 {
-> +                            reg = <0>;
-> +                            remote-endpoint = <&qmp_ss_mux>;
-> +                        };
-> +                        usb3_role: endpoint@1 {
-> +                            reg = <1>;
-> +                            remote-endpoint = <&dwc3_drd_switch>;
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+-/* for dual-speed hardware, use deeper queues at highspeed */
++/* for dual-speed hardware, use deeper queues at high/super speed */
+ static inline int qlen(struct usb_gadget *gadget)
+ {
+-       if (gadget_is_dualspeed(gadget) && gadget->speed =3D=3D USB_SPEED_H=
+IGH)
++       if (gadget_is_dualspeed(gadget) && (gadget->speed =3D=3D USB_SPEED_=
+HIGH ||
++                                           gadget->speed =3D=3D USB_SPEED_=
+SUPER))
+                return qmult * DEFAULT_QLEN;
+        else
+                return DEFAULT_QLEN;
