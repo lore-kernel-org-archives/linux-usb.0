@@ -2,85 +2,116 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD5BC433E1
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5E3C433E1
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:59:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECA1023119
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596732961;
-	bh=xmngB9b1pASySSAse2Q2qo3sLWuxM41QAPHtkazssSk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Kus0A0c9Pb1uvSI3a9lC+nzyT0kOEpm4AQHy7FN7MMJM4pSpb/X3aIXapxClFAQzr
-	 sn2WfM/UjLRiBNRoBkBcu4S/Iji2GWrxup5/I8m/hMQl74rqi+8xMepdohdQbiZ32H
-	 9NG0vbOiGqVTt6n06wu+5asGq0+1lN1VBHFBKQYc=
+	by mail.kernel.org (Postfix) with ESMTP id 7D0A823119
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:59:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGsRgXCg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729298AbgHFQz7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:55:59 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:34184 "EHLO
-        mail-ej1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728675AbgHFQkn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:40:43 -0400
-Received: by mail-ej1-f66.google.com with SMTP id o23so23589775ejr.1;
-        Thu, 06 Aug 2020 09:39:43 -0700 (PDT)
+        id S1729757AbgHFQ7V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728846AbgHFQkm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:40:42 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543E4C002164;
+        Thu,  6 Aug 2020 09:04:26 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id c15so25873139edj.3;
+        Thu, 06 Aug 2020 09:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qCmIX3SPfcMY/8KgQ36Zj8ELVJJ7yBBvUBKlCJXwvCc=;
+        b=HGsRgXCg/m7TRIiAro1v+PhtaXEr1T2LI8B3dpBxOw6Ziu463cmElIgYv0AWs+rWBm
+         mcRz8ITNHfCMVkowiFsuY7YrFOMB/LWreAe+uDnzty6qCSL9YkPLrzDXcLhPxc0WP6pw
+         zR+jSNurDmGoZCsZn4QZs6uHrmJg4WXwnVTr96UP2ZW+eJFQ7AFe249clJQbGVty2gnJ
+         ocdqMVF/PpEXmTFs2NkQeob9OZDg44EsA/mUVjl7XORQjton4HCt48y6BK9/+NwUiSbQ
+         0YyjMiV6GKIWmBmaQA/vjYHy3payuc7en/8gJBl2UzFezLFbi1up6eQ47yRHyozmcnP0
+         p/0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xoKFt55sK0HZiVmtkkBW5XeAJUo7lWS0W4XNGkbYJRo=;
-        b=SkhBn1eWmDw1BaoB80754N7vh9SyPrdVbWRlsV5WH7lGgZnmpLetfq135Fs/11C0SY
-         v0wTBSQHtxh+iPzn7OVC3/toBfsJ+W3q/1IVmSAkALACmqKzenPiv5/N3EQGpB3q9ZE7
-         8EnCHzH4J4s01hlPs/PJ9y4dqyCC8UVNCHyqGXjdZyby241J/Ye1w/OQXiFcoKNEupk1
-         YEKeBG3jRbW49ZGa74AXmNfz//6Q2Z/HtoDmxrmqSysDPMONvTIVrJ0FcJIbsW8iWPE/
-         Ci7uGNWBeCMvlvRrQRuGP1sarv8MxuwqS1uEHNo9FaflVNzbCurl+XzhPQ78h5j2AWx4
-         zihQ==
-X-Gm-Message-State: AOAM5321naiscVaeezNDB1nBEVjO/FZsqr1gpx4HemKDeSMMHAEik0uj
-        KexV8Xqi+Wp/80rm50GxFUkYgN5tlx4=
-X-Google-Smtp-Source: ABdhPJwijY7JxNTtOMlVYw7kePlcC2ZLEmTCefhMzTWtAbbKb9KCZQ/Cqpfeyj4YjkJ2U8HamSc0dw==
-X-Received: by 2002:ac2:5f81:: with SMTP id r1mr3676654lfe.168.1596715248829;
-        Thu, 06 Aug 2020 05:00:48 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id g19sm2306729ljn.91.2020.08.06.05.00.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qCmIX3SPfcMY/8KgQ36Zj8ELVJJ7yBBvUBKlCJXwvCc=;
+        b=RH8CvFx5RS+vXYHjRm8hOlsmmeD5MqJe88ENHzdikZnE6frMHMw/zY1VfD3YvZPz1r
+         NaDdsqqoxA35cClu/4grtYQNwlS0fFrHOWOc6tt9m9NOUK+oYvovWJx0UsADphe6XC7u
+         jdwuKqXMaHW0cntw9R4B7oeTjHnb23nHgLMLlkSYPrTHAHv6zFLK60Ri6vkqgbU/B0SI
+         dPCUnFvVxiLAAJryCrKymo64i0MSzHz30y5W1WPS3pWPgOdQV554hEcgsED0ZI7HT4o7
+         ULDME8LaKyuU9iZQZpZJvf+I3JdltCTIS8ccg3K3c8fl6d6ykk6SJvgiHoXQVGb90yRD
+         pr2w==
+X-Gm-Message-State: AOAM532Kuoc3p4v6jm04MlaNQubbd/VAN7wzIPLqQX3ItAjC/aH3RyG3
+        p9C2OWuGpSk/v09P6KC2NOM=
+X-Google-Smtp-Source: ABdhPJxsWPXfofA+P/l31ulcPcRyvAWGFVgZby5LKhZRTkaZJJjrmRaQ1XvhtqmXiSW7LDNb9LIAzA==
+X-Received: by 2002:a50:ccd0:: with SMTP id b16mr4716994edj.148.1596729865067;
+        Thu, 06 Aug 2020 09:04:25 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id u18sm3694198edt.31.2020.08.06.09.04.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 05:00:48 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1k3eZn-0002y0-GA; Thu, 06 Aug 2020 14:00:51 +0200
-Date:   Thu, 6 Aug 2020 14:00:51 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Patrick Riphagen <ppriphagen@gmail.com>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patrick.riphagen@xsens.com, stable@vger.kernel.org
-Subject: Re: [PATCH V2] USB: serial: ftdi_sio: add IDs for Xsens Mti USB
- converter
-Message-ID: <20200806120051.GR3634@localhost>
-References: <20200806115547.8007-1-patrick.riphagen@xsens.com>
+        Thu, 06 Aug 2020 09:04:24 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 3/3] usb: gadget: tegra-xudc: Do not print errors on probe deferral
+Date:   Thu,  6 Aug 2020 18:04:17 +0200
+Message-Id: <20200806160417.3937056-3-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200806160417.3937056-1-thierry.reding@gmail.com>
+References: <20200806160417.3937056-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200806115547.8007-1-patrick.riphagen@xsens.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 01:55:47PM +0200, Patrick Riphagen wrote:
-> From: Patrick Riphagen <patrick.riphagen@xsens.com>
-> 
-> The device added has an FTDI chip inside.
-> The device is used to connect Xsens USB Motion Trackers.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Patrick Riphagen <patrick.riphagen@xsens.com>
-> ---
+From: Thierry Reding <treding@nvidia.com>
 
-Thanks for the update. I've queued this one up for 5.9.
+Probe deferral is an expected condition and can happen multiple times
+during boot. Make sure not to output an error message in that case
+because they are not useful.
 
-Johan
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index 838863ede1df..8b773f5d536e 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -3781,7 +3781,9 @@ static int tegra_xudc_probe(struct platform_device *pdev)
+ 
+ 	err = devm_clk_bulk_get(&pdev->dev, xudc->soc->num_clks, xudc->clks);
+ 	if (err) {
+-		dev_err(xudc->dev, "failed to request clocks: %d\n", err);
++		if (err != -EPROBE_DEFER)
++			dev_err(xudc->dev, "failed to request clocks: %d\n", err);
++
+ 		return err;
+ 	}
+ 
+@@ -3796,7 +3798,9 @@ static int tegra_xudc_probe(struct platform_device *pdev)
+ 	err = devm_regulator_bulk_get(&pdev->dev, xudc->soc->num_supplies,
+ 				      xudc->supplies);
+ 	if (err) {
+-		dev_err(xudc->dev, "failed to request regulators: %d\n", err);
++		if (err != -EPROBE_DEFER)
++			dev_err(xudc->dev, "failed to request regulators: %d\n", err);
++
+ 		return err;
+ 	}
+ 
+-- 
+2.27.0
+
