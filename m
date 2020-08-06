@@ -2,238 +2,139 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA668C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE56C433DF
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:49:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 348C3206C3
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:48:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8C7D206B2
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:49:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pg3dkv4M"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YiXxaTkB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730536AbgHFRsg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 13:48:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728851AbgHFQfR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:35:17 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F89CC002162;
-        Thu,  6 Aug 2020 09:04:22 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id b18so4400185edv.10;
-        Thu, 06 Aug 2020 09:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kZTh0PB6PtKkLmDSXAVhkUVZ2z542iKjjb2bge0x2uk=;
-        b=pg3dkv4MzAI4Vu5ecucgFGw78gwbzmI6iFNufzUy2Y9bX4U+MpEOvwWztz/Kr7NOpu
-         xtpjEUtJroaxQvp3Wyi5+D8C4VEfvJb0UTXMBshW76X9ox4sp+KuoPobM/0tJMW+COjX
-         2cJ1jHU9SESSA77GtlVxxauA1toSZHcaEfJ6sf77ihymwZ5ecD+W6fsyN3RmpnIG8J0l
-         Fxyy7FGyHYIgGv8YnfUIjgUOln56C/xs9Laon1VIVux7pkSZn8LFx/IjZH6HYhnPdxNA
-         973wA7+KuPyRFjtGEzITS2phpbPrIme1DqwooH+sCogjL/f5fPbY3voQvcDopdAYr425
-         +QcQ==
+        id S1730388AbgHFRt2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 13:49:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48801 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728303AbgHFQeJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:34:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596731641;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=iXXBsdFsjG0AvWbozS5TM/6jCyRmSiGnwGpTHsoFV+k=;
+        b=YiXxaTkBfEy3fQ5l6B08lgpuiaqBCll8BTHP2mOscfQl4hJh/8grinEJZTIjzCOy9Npuxy
+        sCJvz9m4T7oE76z5tO/YFQsBCvaGpZ46UdIm7kccxiKie/U+PmepqenJUIebmv8aOq2Lul
+        nlGowjML93Fb9SQZ17eGbf+NI7EKI0g=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-QDSbODw9ND2O2gkfovEvgQ-1; Thu, 06 Aug 2020 07:55:58 -0400
+X-MC-Unique: QDSbODw9ND2O2gkfovEvgQ-1
+Received: by mail-ed1-f69.google.com with SMTP id p26so13001973edt.11
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2020 04:55:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kZTh0PB6PtKkLmDSXAVhkUVZ2z542iKjjb2bge0x2uk=;
-        b=o90kZ3ov1bFQzhUM8ur2e35doBjJ/W4u88XjzteS1r2H2BqR/QYV7+5j20w9ik5rzs
-         NkReO0Pr8dyUs4BBqw3tQ0PjjwmwDxcXczsPHd+AmzxBq1Xgw0ScU/4BCm3xz6NQVEda
-         VAJPwYXKYaTwpR/k6/MGjX/Tbw0+hmmGvhWStSihUqoLWNAuaudx4tHe8wywTTLgnnBa
-         FKuEtr4lN6gmrN0D4kwu3Ki6rkyEvz2THivVAV5rs0CEL0YUu/fCm/nGm2ilXJbJW7+i
-         DJI0OWWNLd98/iEEdS/aAURI4NmUMmqg/60vAkFcVosQWTwumMgtN3q8YF/Gr3sbhdZK
-         5LeA==
-X-Gm-Message-State: AOAM532wfsx2CTsAI11VqPWreCVCXaCHJLmJEdUGUIKeNn9qIYfAd5b3
-        TQ8OZvrsmU4PPx4eIrhLBKA=
-X-Google-Smtp-Source: ABdhPJzSfarPrINxyfBxN7O8FB+1XmqNpoBkjHDOIgn+Hcw4GEthMJtAUMIwNZblwph/Ue9nS5ik0g==
-X-Received: by 2002:a50:ba84:: with SMTP id x4mr4954155ede.282.1596729860361;
-        Thu, 06 Aug 2020 09:04:20 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id bx22sm4051834ejc.18.2020.08.06.09.04.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 09:04:18 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 1/3] usb: gadget: tegra-xudc: Use consistent spelling and formatting
-Date:   Thu,  6 Aug 2020 18:04:15 +0200
-Message-Id: <20200806160417.3937056-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=iXXBsdFsjG0AvWbozS5TM/6jCyRmSiGnwGpTHsoFV+k=;
+        b=RcH8HYE+Bp9E8zYfJcoytnMiLOy4oTAquRhHpAcV33gg5T5riGZ1PIVbcES948TkR3
+         vAmQdAodu+NCErAJxlFyOeBePEQfw0qcZAABzzSOfo3YoT9468s92QW8jSYNAYmBCtoH
+         Gwqqqqr7Q7+Md5RLSxHPYuppwdyEwisGnlpPGINBlJn8QMD1CiH6RCviMe65/YiMONrm
+         bgW5YQDSUdoIgE0kNekWY6RAqZnjPXQIJ9qUc5rwkiaKxvwHQvzTzFi2bLhWUgxBEccD
+         01bfAwjxmD7px5r41aTwhDZHubkxhBck6oNBiXBuOFkKt7ofRtPcwXs0YzeyGY8MQsM0
+         LQCA==
+X-Gm-Message-State: AOAM531Su/Cpf4YnqyTmeSsS+E8tJZ1sGvHoK83wV6ct3yuT9Oz2o1/K
+        Xxuhm78nK0hEnuRb3gMrSGZluA7GIgJ0xlfKjgBAa7Jz0b35h1p3ht4/zUv1IlhAKMHpctB+dxA
+        ct1yciYoNbMthbpbJtAZD
+X-Received: by 2002:a17:906:3655:: with SMTP id r21mr4099931ejb.248.1596714957249;
+        Thu, 06 Aug 2020 04:55:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkc1TbZjRAKp60EvwpPCOeYlnZrMHIZrWTZOXDgsJQ8oSXINKO4Ub2JbAaMIw+YbsZpDKH1w==
+X-Received: by 2002:a17:906:3655:: with SMTP id r21mr4099916ejb.248.1596714957037;
+        Thu, 06 Aug 2020 04:55:57 -0700 (PDT)
+Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
+        by smtp.gmail.com with ESMTPSA id vr6sm3601089ejb.36.2020.08.06.04.55.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 04:55:56 -0700 (PDT)
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Christian Kellner <ckellner@redhat.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Mark Pearson <mpearson@lenovo.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: XHCI-PCI: existing allowlist for enabling auto-suspend/runtime-pm in
+ the kernel vs a userspace allowlist ?
+Message-ID: <b8b21ba3-0a8a-ff54-5e12-cf8960651086@redhat.com>
+Date:   Thu, 6 Aug 2020 13:55:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Hi All,
 
-Make sure to use consistent spelling and formatting in error messages.
+ATM the kernel has a allowlist (coded as a big if) for XHCI-PCI controllers on
+which to enable auto-suspend. This seems to consist solely of XHCI controllers
+embedded inside Intel Thunderbolt controllers:
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 36 ++++++++++++++---------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+         if (pdev->vendor == PCI_VENDOR_ID_INTEL &&
+             (pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_2C_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_2C_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_4C_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
+              pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
+                 xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index d6ff68c06911..ec43081f15bd 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -705,11 +705,11 @@ static void tegra_xudc_device_mode_on(struct tegra_xudc *xudc)
- 
- 	err = phy_power_on(xudc->curr_utmi_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "utmi power on failed %d\n", err);
-+		dev_err(xudc->dev, "UTMI power on failed: %d\n", err);
- 
- 	err = phy_power_on(xudc->curr_usb3_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "usb3 phy power on failed %d\n", err);
-+		dev_err(xudc->dev, "USB3 PHY power on failed: %d\n", err);
- 
- 	dev_dbg(xudc->dev, "device mode on\n");
- 
-@@ -759,11 +759,11 @@ static void tegra_xudc_device_mode_off(struct tegra_xudc *xudc)
- 
- 	err = phy_power_off(xudc->curr_utmi_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "utmi_phy power off failed %d\n", err);
-+		dev_err(xudc->dev, "UTMI PHY power off failed: %d\n", err);
- 
- 	err = phy_power_off(xudc->curr_usb3_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "usb3_phy power off failed %d\n", err);
-+		dev_err(xudc->dev, "USB3 PHY power off failed: %d\n", err);
- 
- 	pm_runtime_put(xudc->dev);
- }
-@@ -1539,7 +1539,7 @@ static int __tegra_xudc_ep_set_halt(struct tegra_xudc_ep *ep, bool halt)
- 		return -EINVAL;
- 
- 	if (usb_endpoint_xfer_isoc(ep->desc)) {
--		dev_err(xudc->dev, "can't halt isoc EP\n");
-+		dev_err(xudc->dev, "can't halt isochronous EP\n");
- 		return -ENOTSUPP;
- 	}
- 
-@@ -1788,7 +1788,7 @@ static int __tegra_xudc_ep_enable(struct tegra_xudc_ep *ep,
- 
- 	if (usb_endpoint_xfer_isoc(desc)) {
- 		if (xudc->nr_isoch_eps > XUDC_MAX_ISOCH_EPS) {
--			dev_err(xudc->dev, "too many isoch endpoints\n");
-+			dev_err(xudc->dev, "too many isochronous endpoints\n");
- 			return -EBUSY;
- 		}
- 		xudc->nr_isoch_eps++;
-@@ -3509,7 +3509,7 @@ static int tegra_xudc_phy_get(struct tegra_xudc *xudc)
- 		if (IS_ERR(xudc->utmi_phy[i])) {
- 			err = PTR_ERR(xudc->utmi_phy[i]);
- 			if (err != -EPROBE_DEFER)
--				dev_err(xudc->dev, "failed to get usb2-%d phy: %d\n",
-+				dev_err(xudc->dev, "failed to get usb2-%d PHY: %d\n",
- 					i, err);
- 
- 			goto clean_up;
-@@ -3539,12 +3539,12 @@ static int tegra_xudc_phy_get(struct tegra_xudc *xudc)
- 		if (IS_ERR(xudc->usb3_phy[i])) {
- 			err = PTR_ERR(xudc->usb3_phy[i]);
- 			if (err != -EPROBE_DEFER)
--				dev_err(xudc->dev, "failed to get usb3-%d phy: %d\n",
-+				dev_err(xudc->dev, "failed to get usb3-%d PHY: %d\n",
- 					usb3, err);
- 
- 			goto clean_up;
- 		} else if (xudc->usb3_phy[i])
--			dev_dbg(xudc->dev, "usb3_phy-%d registered", usb3);
-+			dev_dbg(xudc->dev, "usb3-%d PHY registered", usb3);
- 	}
- 
- 	return err;
-@@ -3577,13 +3577,13 @@ static int tegra_xudc_phy_init(struct tegra_xudc *xudc)
- 	for (i = 0; i < xudc->soc->num_phys; i++) {
- 		err = phy_init(xudc->utmi_phy[i]);
- 		if (err < 0) {
--			dev_err(xudc->dev, "utmi phy init failed: %d\n", err);
-+			dev_err(xudc->dev, "UTMI PHY #%u initialization failed: %d\n", i, err);
- 			goto exit_phy;
- 		}
- 
- 		err = phy_init(xudc->usb3_phy[i]);
- 		if (err < 0) {
--			dev_err(xudc->dev, "usb3 phy init failed: %d\n", err);
-+			dev_err(xudc->dev, "USB3 PHY #%u initialization failed: %d\n", i, err);
- 			goto exit_phy;
- 		}
- 	}
-@@ -3696,14 +3696,14 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 								"dev");
- 	if (IS_ERR(xudc->genpd_dev_device)) {
- 		err = PTR_ERR(xudc->genpd_dev_device);
--		dev_err(dev, "failed to get dev pm-domain: %d\n", err);
-+		dev_err(dev, "failed to get device power domain: %d\n", err);
- 		return err;
- 	}
- 
- 	xudc->genpd_dev_ss = dev_pm_domain_attach_by_name(dev, "ss");
- 	if (IS_ERR(xudc->genpd_dev_ss)) {
- 		err = PTR_ERR(xudc->genpd_dev_ss);
--		dev_err(dev, "failed to get superspeed pm-domain: %d\n", err);
-+		dev_err(dev, "failed to get SuperSpeed power domain: %d\n", err);
- 		return err;
- 	}
- 
-@@ -3711,7 +3711,7 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 					       DL_FLAG_PM_RUNTIME |
- 					       DL_FLAG_STATELESS);
- 	if (!xudc->genpd_dl_device) {
--		dev_err(dev, "adding usb device device link failed!\n");
-+		dev_err(dev, "failed to add USB device link\n");
- 		return -ENODEV;
- 	}
- 
-@@ -3719,7 +3719,7 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 					     DL_FLAG_PM_RUNTIME |
- 					     DL_FLAG_STATELESS);
- 	if (!xudc->genpd_dl_ss) {
--		dev_err(dev, "adding superspeed device link failed!\n");
-+		dev_err(dev, "failed to add SuperSpeed device link\n");
- 		return -ENODEV;
- 	}
- 
-@@ -3783,7 +3783,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 	err = devm_clk_bulk_get(&pdev->dev, xudc->soc->num_clks,
- 				      xudc->clks);
- 	if (err) {
--		dev_err(xudc->dev, "failed to request clks %d\n", err);
-+		dev_err(xudc->dev, "failed to request clocks: %d\n", err);
- 		return err;
- 	}
- 
-@@ -3798,7 +3798,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 	err = devm_regulator_bulk_get(&pdev->dev, xudc->soc->num_supplies,
- 				      xudc->supplies);
- 	if (err) {
--		dev_err(xudc->dev, "failed to request regulators %d\n", err);
-+		dev_err(xudc->dev, "failed to request regulators: %d\n", err);
- 		return err;
- 	}
- 
-@@ -3808,7 +3808,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 
- 	err = regulator_bulk_enable(xudc->soc->num_supplies, xudc->supplies);
- 	if (err) {
--		dev_err(xudc->dev, "failed to enable regulators %d\n", err);
-+		dev_err(xudc->dev, "failed to enable regulators: %d\n", err);
- 		goto put_padctl;
- 	}
- 
--- 
-2.27.0
+I noticed this because it seems that the product-id for the TB controller
+in the Lenovo T14 gen 1 is missing: 8086:15c1
+
+At the same time we also have a more generic allowlist for enabling
+auto-suspend/runtime-pm in userspace:
+
+https://github.com/systemd/systemd/blob/master/hwdb.d/60-autosuspend.hwdb
+
+ATM this only contains USB device ids, but there also is a second hwdb
+file, auto-generated baed on info from ChromeOS (to avoid having to
+duplicate this info):
+
+https://github.com/systemd/systemd/blob/master/tools/make-autosuspend-rules.py
+https://github.com/systemd/systemd/blob/master/tools/chromiumos/gen_autosuspend_rules.py
+
+As you can see this second file already contains a whole bunch of
+(mostly Intel vendor) PCI vid:pid pairs and udev will enable
+runtime-pm on these based on the auto generated hwdb file.
+
+To me it seems better for future XHCI controllers on which we
+want to auto-enable runtime-pm, such as the missing 8086:15c1
+model in userspace, together with the allowlist for runtime-pm
+on other PCI devices in userspace, rather then to add yet another
+quirk for this to to xhci-pci.c code.
+
+The downside would be that this is somewhat inconsistent with
+how we have done this before, still I believe that it would
+be better / easier to maintain this in userspace (hwdb) in the
+future.
+
+So I was wondering what other people think about this?
+
+Regards,
+
+Hans
+
+
+
+
 
