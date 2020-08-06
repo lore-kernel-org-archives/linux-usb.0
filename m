@@ -2,134 +2,93 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7DCC433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:25:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72DA1C433E1
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:28:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B975F206B5
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:25:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2A7C23119
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596734726;
-	bh=k8iBq3iIXDq4htt8trAvm9jAxQ8doG2q5lWR0BgJ1O8=;
+	s=default; t=1596734921;
+	bh=28d+J4ZbPNl40lknGronK+mAA8lqbwQ540gjSOJtLs8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=tseVPik1bYEPmWoIKIjftdrhfuoRhJfK8kfFKih1s7/oQPFeFfikguLfoXT7vvt/4
-	 a2H09k2IOiBeYx7ib0GQjTmQHCcdT1tyCqAK+f8r25+pZT4dPCTVOPE9i+3Ytmrqvi
-	 tr+R6jOIkf9IyYA7pRJjodPUCrhDqjZftKAMU9HU=
+	b=LUDJhERc7gvp8lq7Ar8lltn+9rDlGpH20eZltXewTMVYEA4hc3scniuvPixEC87VO
+	 obi6QZVsTKNY9ARAi+2a7G028UhQUHXzqrzaUyWJRG2Dc+l6TRJYLuTbvzxaf7eyh3
+	 qlcfArO8S/a7aY61fGRE9t5Pobbt5QiTRV6XwWP0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730074AbgHFRZY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 13:25:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48468 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730027AbgHFRZW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 6 Aug 2020 13:25:22 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3603622DCC;
-        Thu,  6 Aug 2020 12:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596716761;
-        bh=k8iBq3iIXDq4htt8trAvm9jAxQ8doG2q5lWR0BgJ1O8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YsXO9hK3InYg7pgSJ6nLzQ5D8wHm5YOUOH91tFlSDBM2kHvyCkz8n0ttipG/H5I9K
-         HhqyyYT3R+EsDEi/q9O3Nn0KpYTWUpd6uGY/GdIhi3DqtcNKNakKukjL5tlIErtc9V
-         IJf10IjCl3N/VhUyHh7s1aUQ00fo7E/sM/Bu++Po=
-Date:   Thu, 6 Aug 2020 14:26:17 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        Mark Pearson <mpearson@lenovo.com>
-Subject: Re: XHCI-PCI: existing allowlist for enabling
- auto-suspend/runtime-pm in the kernel vs a userspace allowlist ?
-Message-ID: <20200806122617.GA2856026@kroah.com>
-References: <b8b21ba3-0a8a-ff54-5e12-cf8960651086@redhat.com>
- <20200806121229.GA2852718@kroah.com>
- <2e9f2454-ad1b-5783-8418-4a4f38fb9ec1@redhat.com>
+        id S1729665AbgHFR2H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 13:28:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729716AbgHFRBX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 13:01:23 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96066C00215C;
+        Thu,  6 Aug 2020 09:00:10 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id g19so37061742ejc.9;
+        Thu, 06 Aug 2020 09:00:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SBTEh2IqzApKPGLI0KaDJEQ6Ul4GdQLwfypsWEkduQY=;
+        b=sWjQn00opEh3ysIjn9yrPdAgeXjcTwuT3o3t+i2zi0JErjCRanMTXP8fROnEfry+1L
+         Gk/hwXzq47+3x95GBseIKNxOkYYjuJnhdnCqVO6mt19wQMYUCkFU9BqEZP3CjitmJtTT
+         0Cfb+o4flyogFkMcTqzg22VcOsRU3k5G21fD1D/NQC0jFydcYdPgeqgHWHkJ0zzGb9BS
+         XfqLowVMxF0M3BHl0pIlFOIgCT08E33Xik6CJLT9M2u++R+R/QUtikuyd3jWspZV6Gp0
+         0p62Yc067oGjj24xI583NYwBbv+S9TCTPXi64M9qzdv7Xd2ThvJo0ty2pMf6L/RHUZvX
+         ZpSQ==
+X-Gm-Message-State: AOAM532GnkCcsu3tTenh8v9iKLjMNJhQ1DvLRfLnvWFaWK04hk0PK8DB
+        wPE5Fn8hZe2rj6YlmaHwGDuamBWk4cI=
+X-Google-Smtp-Source: ABdhPJzYCjbGWFMLwI24xTvZK2FCGeO8yRGXSjriQhaEyChLhcMZZcy8l1jLyxcGio03Lm1BK6EgYg==
+X-Received: by 2002:a2e:b175:: with SMTP id a21mr3732433ljm.385.1596714135558;
+        Thu, 06 Aug 2020 04:42:15 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id r1sm2553077lff.55.2020.08.06.04.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 04:42:14 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1k3eHp-0002pY-QG; Thu, 06 Aug 2020 13:42:17 +0200
+Date:   Thu, 6 Aug 2020 13:42:17 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Patrick Riphagen <ppriphagen@gmail.com>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patrick.riphagen@xsens.com, stable@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: ftdi_sio: add IDs for Xsens Mti USB
+ converter
+Message-ID: <20200806114217.GQ3634@localhost>
+References: <20200806090234.4130-1-patrick.riphagen@xsens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e9f2454-ad1b-5783-8418-4a4f38fb9ec1@redhat.com>
+In-Reply-To: <20200806090234.4130-1-patrick.riphagen@xsens.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 02:21:50PM +0200, Hans de Goede wrote:
-> Hi,
+On Thu, Aug 06, 2020 at 11:02:34AM +0200, Patrick Riphagen wrote:
+> The device added has an FTDI chip inside.
+> The device is used to connect Xsens USB Motion Trackers.
 > 
-> On 8/6/20 2:12 PM, Greg Kroah-Hartman wrote:
-> > On Thu, Aug 06, 2020 at 01:55:55PM +0200, Hans de Goede wrote:
-> > > Hi All,
-> > > 
-> > > ATM the kernel has a allowlist (coded as a big if) for XHCI-PCI controllers on
-> > > which to enable auto-suspend. This seems to consist solely of XHCI controllers
-> > > embedded inside Intel Thunderbolt controllers:
-> > > 
-> > >          if (pdev->vendor == PCI_VENDOR_ID_INTEL &&
-> > >              (pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_2C_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_2C_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_4C_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
-> > >               pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
-> > >                  xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
-> > > 
-> > > I noticed this because it seems that the product-id for the TB controller
-> > > in the Lenovo T14 gen 1 is missing: 8086:15c1
-> > > 
-> > > At the same time we also have a more generic allowlist for enabling
-> > > auto-suspend/runtime-pm in userspace:
-> > > 
-> > > https://github.com/systemd/systemd/blob/master/hwdb.d/60-autosuspend.hwdb
-> > > 
-> > > ATM this only contains USB device ids, but there also is a second hwdb
-> > > file, auto-generated baed on info from ChromeOS (to avoid having to
-> > > duplicate this info):
-> > > 
-> > > https://github.com/systemd/systemd/blob/master/tools/make-autosuspend-rules.py
-> > > https://github.com/systemd/systemd/blob/master/tools/chromiumos/gen_autosuspend_rules.py
-> > > 
-> > > As you can see this second file already contains a whole bunch of
-> > > (mostly Intel vendor) PCI vid:pid pairs and udev will enable
-> > > runtime-pm on these based on the auto generated hwdb file.
-> > > 
-> > > To me it seems better for future XHCI controllers on which we
-> > > want to auto-enable runtime-pm, such as the missing 8086:15c1
-> > > model in userspace, together with the allowlist for runtime-pm
-> > > on other PCI devices in userspace, rather then to add yet another
-> > > quirk for this to to xhci-pci.c code.
-> > > 
-> > > The downside would be that this is somewhat inconsistent with
-> > > how we have done this before, still I believe that it would
-> > > be better / easier to maintain this in userspace (hwdb) in the
-> > > future.
-> > > 
-> > > So I was wondering what other people think about this?
-> > 
-> > Whatever we do, it should all be done in just one place to unify it all
-> > please.
-> 
-> I agree. But we are going to be stuck (at least for a while)
-> with the current allowlist (hidden as a big if) in the kernel to
-> avoid regressions.
-> 
-> We could duplicate that list in hwdb now and then after some
-> to be decided time period we could consider removing the big if
-> from the xhci-pci.c code.
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Patrick Riphagen <patrick.riphagen@xsens.com>
+> ---
 
-That's fine, duplication should not cause a problem, and really, we
-could leave the list in the kernel for "forever" and just add a comment
-that says "do not add to this!".
+Almost there; would you mind resending with an added From: line before
+the commit message so that the authorship matches the SoB?
 
-thanks,
+Also, whenever you update a patch, please add a version number in the
+Subject line (e.g. "[PATCH v2]: USB: serial: ...") so we can keep track
+of which version is the latest one. You should also include a short
+changelog here under the "---" line so we know what changed.
 
-greg k-h
+Thanks,
+Johan
