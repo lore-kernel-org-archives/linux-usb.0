@@ -3,112 +3,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADCEC4345B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E30CC43460
 	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 11:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B0C322D02
+	by mail.kernel.org (Postfix) with ESMTP id CF5B923105
 	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 11:13:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWG8V9GD"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="rcujwhCQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728555AbgHFJC7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 05:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725927AbgHFJC6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 05:02:58 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C2CC061574;
-        Thu,  6 Aug 2020 02:02:58 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id q4so31369837edv.13;
-        Thu, 06 Aug 2020 02:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BtAZAsrc9ChZDBxja2M8CUkXA4o6z7WOsBQ2MhI4SX4=;
-        b=bWG8V9GDjLuWRiYWSTn7UBWGgM/968UMS6O8Tx/mmYR0zmowlkn5MuKiikjhedAAB5
-         EwBiDYLkx72AW0mhbdoONYQ7B3Yl7w4onYe9m8w7DaDtxpCDq5hsz4lD9Nto4OlYht/T
-         dypSlXuWgeifRwRCBkxYgFQy4N3TDKcVgo3Fts6qp60UBmbGxw0arRxB9hil5LMmhnbx
-         cp//gsQW5BEV+B/aEhBES/zY03mbQ5HotqnaIAgthtyR1uX182YIQHtr+U2HNZ7Oi/SI
-         pB0xsCFbAZFQeuVHwHrxGqALp5Pm1zNY6JuYSRRil1rKwxfRtyc8KRa99ih456Qxaopz
-         yUrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BtAZAsrc9ChZDBxja2M8CUkXA4o6z7WOsBQ2MhI4SX4=;
-        b=BE9X0uRD8nmHJZCVScXpuE4FNO7gEsvAP/pUcce42vxqaYgIgwj+JBrDiHws0uFbtj
-         R9bQF3VvPFZzC3KShU3GVisvTtx3tUcV5Ol8npdvTi8vBTPNIY1QolPY9n7D295i3kBU
-         W8PlycnKOwunpKOyewKD5/hw4+LS/fU5uaDGb8HUlprRxBg5GHAaZEAIiXptxRsUnFjL
-         EwnEdhD8DXyzVThjABu9wmxCfp5ebyzA7eDcgqtWV9y62akKeEZtnmL1/zS1MynQUPwW
-         wC2c3y6TNn1q/hbcFDXzuF6XPe9YIXlm2ORU8h1Yo+Jp5yMwfy+5O0+ODvJXAo99cacy
-         /o3w==
-X-Gm-Message-State: AOAM531u+kaxrr01poqrXzegc3Tw4EB52xBXV3S+z/LzdMVpml4D5Hu+
-        qLVM2sqH81auqbudyutVEGbLgnApAKxbYA==
-X-Google-Smtp-Source: ABdhPJxnRKDEntM+utjGsoNw8ngGGR4vhSsivH2K+Uec6jZBXKU45aCp4ORW6Vexm5d+0N3LVteGDQ==
-X-Received: by 2002:aa7:d1cc:: with SMTP id g12mr3172241edp.385.1596704570766;
-        Thu, 06 Aug 2020 02:02:50 -0700 (PDT)
-Received: from ci00583-linux.xsens-tech.local (2001-1c06-0702-ba00-88c2-8039-7a6c-c842.cable.dynamic.v6.ziggo.nl. [2001:1c06:702:ba00:88c2:8039:7a6c:c842])
-        by smtp.googlemail.com with ESMTPSA id x1sm3188987ejc.119.2020.08.06.02.02.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 02:02:50 -0700 (PDT)
-From:   Patrick Riphagen <ppriphagen@gmail.com>
-X-Google-Original-From: Patrick Riphagen <patrick.riphagen@xsens.com>
-To:     Johan Hovold <johan@kernel.org>,
+        id S1727819AbgHFJIX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 05:08:23 -0400
+Received: from mail-eopbgr70085.outbound.protection.outlook.com ([40.107.7.85]:51734
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727768AbgHFJIV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 6 Aug 2020 05:08:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i+A5nMv9Un4+vJovWGn5QrxJ1ZemthYkogYWCu56IvVog3ct4AsPJOGC5gt6sKdPoJYR7vjqKS7yaLfR4EQ20X4jeVuy2zOJItrbYcomB21biwlff1BziB69fAfSGnNP5isvmVtFrG8u7BXXWulf5neDhGFoSKgrb3Hw/PeXVTGIkvYndrYmLc6ufAF5xIhGXyxi+fV0Ly8vAVOcXpRmx0oM8SUxgudiROh/iZi6zJVcqk2pA+Ujcz1f5+JZ9uYrq4IkavG3DMBLL7bl/iH0/87rwKmHZA7redyUbEcvRQB+4LT6b82gJSYcirYMYvFmXMjYmaPzl+YMVpcJQBh3Fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I0+pIv5PXfNEoyX7Y90LeSoUiQZZXY0KaQLkQM6XAuA=;
+ b=PKa18jiwS2OE2W+B6Am04nbwV6MtvvEA2MIZGGcp7HIQwxIdMF5VAC/ArWSn26J56z6ArCP4XmhmcSsDpGhRidOptH/B5Sa9v7jbwu3oxqOLATfYtlueM8jNWMmAxQt1R2R1I0Dd04H2Md6cJ7+t/2hwfeXus8UAZzorP+sQMIFqr7NtwDkoZg22j6idQBe+VpDPgDtOVBkeFIilyzfxD/81ZrX2DmZJiQw6JEIKh9Kwu7j8XEmPdLukTOoKYRNMKg1lznwYtdkR3XA+uoHzrgdO64YZZPEOX9y85rdgBmF/Px9YZarDA9qqKZYOS6AgXVvRLg7ZSK0BTO5++L3hDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I0+pIv5PXfNEoyX7Y90LeSoUiQZZXY0KaQLkQM6XAuA=;
+ b=rcujwhCQylKH+sXusPjSWzkiis7Z7lGN+LdyIuQZmrTJ+jdAaJwoBOYOMWNwDbZAaYNjTKV6i31hUo5p3Vdnqg9T3HLd7gHLKnsZHp4OQeuk6CNKMGtth7ozBU3ouzrTD58DPr/OhJ9KEQNL36R+8yuZ7+mq81ZEsjnIJNYNAnU=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM6PR04MB5368.eurprd04.prod.outlook.com (2603:10a6:20b:9c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.18; Thu, 6 Aug
+ 2020 09:08:15 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::ed7f:8755:5994:7fcf]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::ed7f:8755:5994:7fcf%5]) with mapi id 15.20.3261.019; Thu, 6 Aug 2020
+ 09:08:15 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     balbi@kernel.org
+Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com,
+        Peter Chen <peter.chen@nxp.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     patrick.riphagen@xsens.com, stable@vger.kernel.org
-Subject: [PATCH] USB: serial: ftdi_sio: add IDs for Xsens Mti USB converter
-Date:   Thu,  6 Aug 2020 11:02:34 +0200
-Message-Id: <20200806090234.4130-1-patrick.riphagen@xsens.com>
-X-Mailer: git-send-email 2.25.1
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH 2/2] Revert "usb: udc: allow adding and removing the same gadget device"
+Date:   Thu,  6 Aug 2020 17:07:17 +0800
+Message-Id: <20200806090717.18657-2-peter.chen@nxp.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200806090717.18657-1-peter.chen@nxp.com>
+References: <20200806090717.18657-1-peter.chen@nxp.com>
+Content-Type: text/plain
+X-ClientProxiedBy: SGAP274CA0024.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::36)
+ To AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from b29397-desktop.ap.freescale.net (119.31.174.67) by SGAP274CA0024.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19 via Frontend Transport; Thu, 6 Aug 2020 09:08:11 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [119.31.174.67]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 47aa5e8f-d7d3-462d-015d-08d839e8409c
+X-MS-TrafficTypeDiagnostic: AM6PR04MB5368:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR04MB5368775C89476396C1C350C68B480@AM6PR04MB5368.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:196;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BGFrayqCDeJwkzHziCoeaIjXvi6nhDRwpTdUtYS+JU4mBseIY13gNZH6+XPne1yjH3ugt635TRTmH8DkoUkGW1M2hrNhMEo8p368PQeV9TaWQQHr9ZF/7dF2w2U5gGXQ1mvvVuyMtCSoMliuhvbSCxmOquzvNYDY2fPRt5zhnkx8Fpr/p+Y284zTdMZmY/JodMIqBrNxRAyV7m4u7KEbRk+nW8aefH4wRJy0TTgWmB/1vgb88L50OQGcigNFqVO/tL17WBRiEyU2V3pnvJAK6DE1bC7f8dJMNmxXh25o3HcH/UzCUbIFXt3YvyNpaMYWGuRQSOhgbhCzB+978PsMrw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(366004)(396003)(39860400002)(136003)(54906003)(8676002)(316002)(6916009)(6506007)(86362001)(8936002)(66476007)(66946007)(66556008)(4326008)(52116002)(2906002)(83380400001)(1076003)(5660300002)(36756003)(6512007)(478600001)(6486002)(4744005)(186003)(44832011)(2616005)(26005)(956004)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: Xo5BfUZYlt4SIx473QNUEE8Tb2WwDEUdGRwdhkkp045KWHYKK1amCUogMLdDUbWuC+/EJj4rT6efZMXW5ExXKzdWe7NgUClLlTMuIQ3i6rdE8GYkh7v2zINqWTqAQZPB/SDX2K/lEQAywuDY4anhTel4uR9dKs11L7B2VzVvjiDzL6UzqEplTJt6QKauKurO/kZcemz+w5Aprzig4fkVoWcC4ARGVEplohGjLgWCLmSXFmYYdlvIppo6fe22wBljsJfdSRHPcikIBRCp0OqctPVdA4vKfQ34qqKVlOFxYTDRjQhPv6n01K8YFRhdesZ7xjGDYXoDFgcSfYT7ctXvumJhdDn6R5YDkkHMQAZk1dVBo8CkJDMOzkQHzH6pkAPXMRBEkbPjpw7VF2q/0LAuh/+dg4LNOaUsYc7M4Xef1+NZ/1vj85+8Y7J+/rwcLFhqUDMqo7VOzrzFhYxUMCFWMUm1szUIdMzAlxTigy+xt867kPQw1xH/1jgFwLFUj5saPQ3o7KZ9CInxjGui15k3IVqSb2ARoEO4UEXe/75bxXbjDpomUd1QEReWifx0z8BEHRVgaPQEdm3p4w/h39zN60wq1I8P1r1NPYaHu041N7fow4rvIkBg8QJqedLlCQ8sk3EFomzkAjSg6a+l7MtTaQ==
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47aa5e8f-d7d3-462d-015d-08d839e8409c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2020 09:08:15.4964
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p8hywDuyXec1fWeGkZVDBAxxyee5Lmql5ShYxmbghcha7DaauzUgtddxqWJWp31TVG0Y1YtjW+wSPoWoLg/DtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5368
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The device added has an FTDI chip inside.
-The device is used to connect Xsens USB Motion Trackers.
+We have already allocated gadget structure dynamically at UDC (dwc3)
+driver, so commit fac323471df6 ("usb: udc: allow adding and removing
+the same gadget device")could be reverted.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Patrick Riphagen <patrick.riphagen@xsens.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
 ---
- drivers/usb/serial/ftdi_sio.c     | 1 +
- drivers/usb/serial/ftdi_sio_ids.h | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/usb/gadget/udc/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 9ad44a96dfe3..2c08cad32f1d 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -713,6 +713,7 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(XSENS_VID, XSENS_AWINDA_STATION_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_CONVERTER_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_MTDEVBOARD_PID) },
-+	{ USB_DEVICE(XSENS_VID, XSENS_MTIUSBCONVERTER_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_MTW_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_OMNI1509) },
- 	{ USB_DEVICE(MOBILITY_VID, MOBILITY_USB_SERIAL_PID) },
-diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
-index e8373528264c..b5ca17a5967a 100644
---- a/drivers/usb/serial/ftdi_sio_ids.h
-+++ b/drivers/usb/serial/ftdi_sio_ids.h
-@@ -160,6 +160,7 @@
- #define XSENS_AWINDA_DONGLE_PID 0x0102
- #define XSENS_MTW_PID		0x0200	/* Xsens MTw */
- #define XSENS_MTDEVBOARD_PID	0x0300	/* Motion Tracker Development Board */
-+#define XSENS_MTIUSBCONVERTER_PID	0x0301	/* MTi USB converter */
- #define XSENS_CONVERTER_PID	0xD00D	/* Xsens USB-serial converter */
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index ee226ad802a4..2170bb67cc9e 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -1338,7 +1338,6 @@ void usb_del_gadget_udc(struct usb_gadget *gadget)
+ 	flush_work(&gadget->work);
+ 	device_unregister(&udc->dev);
+ 	device_unregister(&gadget->dev);
+-	memset(&gadget->dev, 0x00, sizeof(gadget->dev));
+ }
+ EXPORT_SYMBOL_GPL(usb_del_gadget_udc);
  
- /* Xsens devices using FTDI VID */
 -- 
-2.25.1
+2.17.1
 
