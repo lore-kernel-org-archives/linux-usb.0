@@ -2,139 +2,100 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72941C433E3
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:49:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC631C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:52:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF67423119
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:49:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596732561;
-	bh=iArLv1KxUuzbXzGAtAlRwJFgWVQmsd235HnefreHjCs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=sjhs4VNmZuMg4+mPTK/sOwxFIh6YOlQRDNc/BJPMelEegzLyVoA8UlHZ9rn0fdE/s
-	 XNHxWHkqj8jspaWwxR0g0Mq8STn0nOto7TGdKKCdW1ZaYnnB9RbyXQtxflG+uD3PDq
-	 hSFf7dKzJIZVCDxRApAG/5k9LL7UWqfF6+5GmY/w=
+	by mail.kernel.org (Postfix) with ESMTP id 27B3D2086A
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:52:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729106AbgHFQtO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:49:14 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39862 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729104AbgHFQsx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:48:53 -0400
-Received: by mail-lj1-f193.google.com with SMTP id v9so18064113ljk.6;
-        Thu, 06 Aug 2020 09:48:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2CFr1WO/oeNCTJdjwIX/TiCWFfnGU5V/MdaXXMTg4nw=;
-        b=o2eaXiemnyv7kEoOxaj3PhunceF4k4Z5gP6KuR88evRcrlcJ//Fu3GjVJNVnqI5/EJ
-         o6e0AbJ073jvh4mgMPAHtaeN0xqCrnC9rWc7iTXEOG0ZoyOQdtS7RTZexPDisn+hS8yJ
-         iCKgntdqy57zhihUX3JH8BjeB461v45ZkVZs80w4mmyjXVehg6/6XR59bCmi7+L90Rqi
-         mPjYp1khXm1SzwOu8nFxNQGBFLzm4yDtX39jKkTHWeMxwjQSjSNOc52lawalfQZN5Qb3
-         1WPLFYVxr9OI9nvFTl8j/3INopkqzq5pYc6rEaqQ2H8/1HuEU4I9pfWsFG7Ic6Fqwm4J
-         XnVQ==
-X-Gm-Message-State: AOAM530n8Jv1UjRK2u5g22DFkMwiV55iV7QkJ6W9g8/uy5wknhqE3DmE
-        bpAuIestmCmzsah04tJ1obGg+WIL+r0=
-X-Google-Smtp-Source: ABdhPJzBoIhDGLnB9sT9oB5TM5Ps4uAmCPKjH7JBZrcf1F76+eu7r7+YJBa7FmB1d0p5KoyIofGB8g==
-X-Received: by 2002:a2e:5c5:: with SMTP id 188mr3701045ljf.466.1596721995016;
-        Thu, 06 Aug 2020 06:53:15 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id p11sm2670295lfo.71.2020.08.06.06.53.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 06:53:13 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1k3gKa-0003Vy-Vg; Thu, 06 Aug 2020 15:53:17 +0200
-Date:   Thu, 6 Aug 2020 15:53:16 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Manivannan Sadhasivam <mani@kernel.org>
-Cc:     Johan Hovold <johan@kernel.org>, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patong.mxl@gmail.com, linus.walleij@linaro.org,
-        mchehab+huawei@kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [RESEND PATCH v4 2/3] usb: serial: xr_serial: Add gpiochip
- support
-Message-ID: <20200806135316.GT3634@localhost>
-References: <20200607162350.21297-1-mani@kernel.org>
- <20200607162350.21297-3-mani@kernel.org>
- <20200701130206.GD3334@localhost>
- <20200726155223.GB12036@Mani-XPS-13-9360>
+        id S1729508AbgHFQwZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:52:25 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:52177 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729382AbgHFQv5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:51:57 -0400
+Received: (qmail 200331 invoked by uid 1000); 6 Aug 2020 11:20:39 -0400
+Date:   Thu, 6 Aug 2020 11:20:39 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Eli Billauer <eli.billauer@gmail.com>, linux-usb@vger.kernel.org
+Subject: Re: [RFC]mooring API
+Message-ID: <20200806152039.GC197575@rowland.harvard.edu>
+References: <1596722827.2488.8.camel@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200726155223.GB12036@Mani-XPS-13-9360>
+In-Reply-To: <1596722827.2488.8.camel@suse.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Jul 26, 2020 at 09:22:23PM +0530, Manivannan Sadhasivam wrote:
-> On Wed, Jul 01, 2020 at 03:02:06PM +0200, Johan Hovold wrote:
-> > On Sun, Jun 07, 2020 at 09:53:49PM +0530, Manivannan Sadhasivam wrote:
-> > > Add gpiochip support for Maxlinear/Exar USB to serial converter
-> > > for controlling the available gpios.
-> > > 
-> > > Inspired from cp210x usb to serial converter driver.
-> > > 
-> > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > Cc: linux-gpio@vger.kernel.org
-> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > > Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
-> > > ---
-> > >  drivers/usb/serial/xr_serial.c | 209 ++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 208 insertions(+), 1 deletion(-)
-
-> > > @@ -390,6 +408,13 @@ static void xr_set_flow_mode(struct tty_struct *tty,
-> > >  	 */
-> > >  	gpio_mode &= ~UART_MODE_GPIO_MASK;
-> > >  	if (cflag & CRTSCTS) {
-> > > +#ifdef CONFIG_GPIOLIB
-> > > +		/* Check if the CTS/RTS pins are occupied */
-> > > +		if (port_priv->pin_status[GPIO_RTS] ||
-> > > +		    port_priv->pin_status[GPIO_CTS])
-> > > +			return;
-> > > +#endif
-> > 
-> > You cannot just bail out as this could leave software flow enabled etc.
-> > 
-> > You also need to claim these pins once at open or leave them be. We
-> > don't want CRTSCTS to suddenly start toggling because a pin is released
-> > by gpiolib.
-> > 
-> > That is, determine who owns each pin at open() and keep it that way till
-> > close() (by setting some flags at open).
-> > 
-> > > +
-> > >  		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
-> > >  		flow = UART_FLOW_MODE_HW;
-> > >  		gpio_mode |= UART_MODE_RTS_CTS;
-> > > @@ -497,6 +522,17 @@ static int xr_tiocmset_port(struct usb_serial_port *port,
-> > >  	u8 gpio_set = 0;
-> > >  	u8 gpio_clr = 0;
-> > >  
-> > > +#ifdef CONFIG_GPIOLIB
-> > > +	/* Check if the RTS/DTR pins are occupied */
-> > > +	if (set & TIOCM_RTS || clear & TIOCM_RTS)
-> > > +		if (port_priv->pin_status[GPIO_RTS])
-> > > +			return -EBUSY;
-> > > +
-> > > +	if (set & TIOCM_DTR || clear & TIOCM_DTR)
-> > > +		if (port_priv->pin_status[GPIO_DTR])
-> > > +			return -EBUSY;
-> > > +#endif
-> > 
-> > Same here. And perhaps just ignoring the pins managed by gpiolib is
-> > better (cf. gpiolib and pinctrl being orthogonal).
+On Thu, Aug 06, 2020 at 04:07:07PM +0200, Oliver Neukum wrote:
+> Hi,
 > 
-> You mean, we can just make TX,RX,CTS,RTS pins controlled only by the serial
-> driver and the rest only by gpiolib?
+> why this new API? Eli found a race with the existing API. Many
+> drivers are acribing to it semantics it never had. Now we have
+> sort of a fix, but it is not really elegant.
+> The anchors have always been about making it easier to write drivers.
+> Hence if driver authors are assumuning that they have a power, we
+> better provide that facility. What users need is a facility
+> to group URBs together and get rid of them no questions asked.
+> It would be best if we can do that with minimal changes.
+> 
+> Here is a V2 taking into account Alan's remarks, and using a separate
+> flag.
+> 
+> 	Regards
+> 		Oliver
+> 
+> From 79df4240287b712bbe08404af7f900c3bccfca40 Mon Sep 17 00:00:00 2001
+> From: Oliver Neukum <oneukum@suse.com>
+> Date: Tue, 28 Jul 2020 11:38:23 +0200
+> Subject: [PATCH] USB: add mooring API
+> 
+> This is a simplified and thereby better version of the anchor API.
+> Anchors have the problem that they unanchor an URB upon giveback,
+> which creates a window during which an URB is unanchored but not
+> yet returned, leading to operations on anchors not having the
+> semantics many driver errornously assume them to have.
+> The new API keeps an URB on an anchor until it is explicitly
+> unmoored.
+> 
+> Signed-off-by: Oliver Neukum <oneukum@suse.de>
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>  drivers/usb/core/hcd.c |  4 +++-
+>  drivers/usb/core/urb.c | 27 ++++++++++++++++++++++++++-
+>  include/linux/usb.h    |  3 +++
+>  3 files changed, 32 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index a33b849e8beb..e1d26cb595c3 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -1640,7 +1640,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+>  	unmap_urb_for_dma(hcd, urb);
+>  	usbmon_urb_complete(&hcd->self, urb, status);
+>  	usb_anchor_suspend_wakeups(anchor);
+> -	usb_unanchor_urb(urb);
+> +	smp_rmb(); /* against usb_(un)moor_urb() */
 
-No, I think I just meant that you shouldn't return an error here for
-signals whose pins happen to be muxed for a different function (gpio).
+What is the race you want to protect against?
 
-Johan
+Wouldn't it be better to require drivers that want to moor an URB to do 
+so before submitting it?  And to unmoor an URB only in the completion 
+handler?  Then there wouldn't be any race.
+
+Alan Stern
+
+> +	if (!urb->moored)
+> +		usb_unanchor_urb(urb);
+>  	if (likely(status == 0))
+>  		usb_led_activity(USB_LED_EVENT_HOST);
