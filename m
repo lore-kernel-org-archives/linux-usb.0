@@ -2,95 +2,134 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A70C433E3
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7DCC433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:25:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AF4723119
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:21:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B975F206B5
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596734726;
+	bh=k8iBq3iIXDq4htt8trAvm9jAxQ8doG2q5lWR0BgJ1O8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=tseVPik1bYEPmWoIKIjftdrhfuoRhJfK8kfFKih1s7/oQPFeFfikguLfoXT7vvt/4
+	 a2H09k2IOiBeYx7ib0GQjTmQHCcdT1tyCqAK+f8r25+pZT4dPCTVOPE9i+3Ytmrqvi
+	 tr+R6jOIkf9IyYA7pRJjodPUCrhDqjZftKAMU9HU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729540AbgHFRVd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 13:21:33 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:59657 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1729279AbgHFRVc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 13:21:32 -0400
-Received: (qmail 199437 invoked by uid 1000); 6 Aug 2020 10:54:14 -0400
-Date:   Thu, 6 Aug 2020 10:54:14 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org, linux-imx@nxp.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] usb: dwc3: allocate gadget structure dynamically
-Message-ID: <20200806145414.GA197575@rowland.harvard.edu>
-References: <20200806090717.18657-1-peter.chen@nxp.com>
+        id S1730074AbgHFRZY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 13:25:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48468 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730027AbgHFRZW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 6 Aug 2020 13:25:22 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3603622DCC;
+        Thu,  6 Aug 2020 12:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596716761;
+        bh=k8iBq3iIXDq4htt8trAvm9jAxQ8doG2q5lWR0BgJ1O8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YsXO9hK3InYg7pgSJ6nLzQ5D8wHm5YOUOH91tFlSDBM2kHvyCkz8n0ttipG/H5I9K
+         HhqyyYT3R+EsDEi/q9O3Nn0KpYTWUpd6uGY/GdIhi3DqtcNKNakKukjL5tlIErtc9V
+         IJf10IjCl3N/VhUyHh7s1aUQ00fo7E/sM/Bu++Po=
+Date:   Thu, 6 Aug 2020 14:26:17 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Mark Pearson <mpearson@lenovo.com>
+Subject: Re: XHCI-PCI: existing allowlist for enabling
+ auto-suspend/runtime-pm in the kernel vs a userspace allowlist ?
+Message-ID: <20200806122617.GA2856026@kroah.com>
+References: <b8b21ba3-0a8a-ff54-5e12-cf8960651086@redhat.com>
+ <20200806121229.GA2852718@kroah.com>
+ <2e9f2454-ad1b-5783-8418-4a4f38fb9ec1@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200806090717.18657-1-peter.chen@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <2e9f2454-ad1b-5783-8418-4a4f38fb9ec1@redhat.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 05:07:16PM +0800, Peter Chen wrote:
-> The current code uses commit fac323471df6 ("usb: udc: allow adding
-> and removing the same gadget device") as the workaround to let
-> the gadget device is re-used, but it is not allowed from driver
-> core point. In this commit, we allocate gadget structure dynamically,
-> and free it at its release function. Since the gadget device's
-> driver_data has already occupied by usb_composite_dev structure, we have
-> to use gadget device's platform data to store dwc3 structure.
+On Thu, Aug 06, 2020 at 02:21:50PM +0200, Hans de Goede wrote:
+> Hi,
 > 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Peter Chen <peter.chen@nxp.com>
+> On 8/6/20 2:12 PM, Greg Kroah-Hartman wrote:
+> > On Thu, Aug 06, 2020 at 01:55:55PM +0200, Hans de Goede wrote:
+> > > Hi All,
+> > > 
+> > > ATM the kernel has a allowlist (coded as a big if) for XHCI-PCI controllers on
+> > > which to enable auto-suspend. This seems to consist solely of XHCI controllers
+> > > embedded inside Intel Thunderbolt controllers:
+> > > 
+> > >          if (pdev->vendor == PCI_VENDOR_ID_INTEL &&
+> > >              (pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_2C_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_2C_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_4C_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
+> > >               pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
+> > >                  xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+> > > 
+> > > I noticed this because it seems that the product-id for the TB controller
+> > > in the Lenovo T14 gen 1 is missing: 8086:15c1
+> > > 
+> > > At the same time we also have a more generic allowlist for enabling
+> > > auto-suspend/runtime-pm in userspace:
+> > > 
+> > > https://github.com/systemd/systemd/blob/master/hwdb.d/60-autosuspend.hwdb
+> > > 
+> > > ATM this only contains USB device ids, but there also is a second hwdb
+> > > file, auto-generated baed on info from ChromeOS (to avoid having to
+> > > duplicate this info):
+> > > 
+> > > https://github.com/systemd/systemd/blob/master/tools/make-autosuspend-rules.py
+> > > https://github.com/systemd/systemd/blob/master/tools/chromiumos/gen_autosuspend_rules.py
+> > > 
+> > > As you can see this second file already contains a whole bunch of
+> > > (mostly Intel vendor) PCI vid:pid pairs and udev will enable
+> > > runtime-pm on these based on the auto generated hwdb file.
+> > > 
+> > > To me it seems better for future XHCI controllers on which we
+> > > want to auto-enable runtime-pm, such as the missing 8086:15c1
+> > > model in userspace, together with the allowlist for runtime-pm
+> > > on other PCI devices in userspace, rather then to add yet another
+> > > quirk for this to to xhci-pci.c code.
+> > > 
+> > > The downside would be that this is somewhat inconsistent with
+> > > how we have done this before, still I believe that it would
+> > > be better / easier to maintain this in userspace (hwdb) in the
+> > > future.
+> > > 
+> > > So I was wondering what other people think about this?
+> > 
+> > Whatever we do, it should all be done in just one place to unify it all
+> > please.
+> 
+> I agree. But we are going to be stuck (at least for a while)
+> with the current allowlist (hidden as a big if) in the kernel to
+> avoid regressions.
+> 
+> We could duplicate that list in hwdb now and then after some
+> to be decided time period we could consider removing the big if
+> from the xhci-pci.c code.
 
-There's one problem with this patch...
+That's fine, duplication should not cause a problem, and really, we
+could leave the list in the kernel for "forever" and just add a comment
+that says "do not add to this!".
 
-> @@ -3670,21 +3685,22 @@ int dwc3_gadget_init(struct dwc3 *dwc)
->  
->  	ret = dwc3_gadget_init_endpoints(dwc, dwc->num_eps);
->  	if (ret)
-> -		goto err3;
-> +		goto err4;
->  
-> -	ret = usb_add_gadget_udc(dwc->dev, &dwc->gadget);
-> +	ret = usb_add_gadget_udc_release(dwc->dev, dwc->gadget, dwc_gadget_release);
->  	if (ret) {
->  		dev_err(dwc->dev, "failed to register udc\n");
-> -		goto err4;
-> +		goto err5;
->  	}
->  
-> -	dwc3_gadget_set_speed(&dwc->gadget, dwc->maximum_speed);
-> +	dwc3_gadget_set_speed(dwc->gadget, dwc->maximum_speed);
->  
->  	return 0;
->  
-> -err4:
-> +err5:
->  	dwc3_gadget_free_endpoints(dwc);
-> -
-> +err4:
-> +	kfree(dwc->gadget);
+thanks,
 
-Once you call usb_add_gadget_udc_release() -- even if the call fails --
-you must not call kfree() directly.  Instead you have to do
-put_device(&dwc->gadget.dev).  That's a little awkward given the code
-arrangement here.
-
-One of the advantages of the patch set I posted recently was that it
-straightens out this whole situation.  Immediately after allocating
-the gadget structure you can call usb_initialize_gadget(), and after
-that you call usb_put_gadget() to decrement the refcount -- just like
-everything else in the device model.
-
-Perhaps you should rewrite this part of your patch to rely on my work.
-
-Alan Stern
+greg k-h
