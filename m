@@ -2,116 +2,244 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC9FC433DF
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:28:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C63C433E1
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:29:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD64A22DCC
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:28:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="unzLLfAH"
+	by mail.kernel.org (Postfix) with ESMTP id A0004221E3
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 17:29:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596734951;
+	bh=p1LfIyOAywA1eHWugbGqIm13REDJZngVkbKKQBjFk2U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=OvGP1glB7pB3c+vp/iKux0dQlCkZxdY7sgpsnofG4miHEv+nciM95Pq5mkaBCIbGx
+	 /JQzCHooNnKt6/4Oa34IMp/vb3sT2+8xJ0GrDnFQWTW2EzRjPaBD6/DFdecki+H/Pw
+	 6WKSXUH+ao22vbwjUC4jB7arijnInkFLODB55qf4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729830AbgHFR2n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 13:28:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44904 "EHLO
+        id S1729512AbgHFR3B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 13:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729701AbgHFRA6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 13:00:58 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B37C0611E2;
-        Thu,  6 Aug 2020 04:55:55 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id bo3so27355717ejb.11;
-        Thu, 06 Aug 2020 04:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i/S5/6ro5vnkPW0QsQGxfYyHXJsq3PWIkSz7FKePTT4=;
-        b=unzLLfAH+rZML4MlQOvgwH6d4GmVqwjYK94T/kAmj17VHRJbmSeKf/ii0FBScS+rEB
-         GtPClBQgD6vTvW1tdb+J6xefIU2V2MSKTCSADqI0Di9xNpW07VzYSJMdPsJrT7eCxKjG
-         llef3L6bbJ34pmh1ji9vZQ1aBz4YR0nRjbSgUQvBtIWY9E+HhUP+8zkqRW+cC8TBW0t0
-         g7Jov0HEYjz3WohDLrpA4AhI4LvFouGU7QSJc6rVD9lSVjjXj0iwuo18wMQtESw7w5+x
-         GOsw85vFQjlZGCMuDZXm1ESOhYU/fbs5+/gBLpNQgV1bCsIfDINaa1a7zLGNvR2MMt4j
-         WcjA==
+        with ESMTP id S1729341AbgHFRA4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 13:00:56 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1B7C0F26C3;
+        Thu,  6 Aug 2020 08:46:19 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id g33so9550396pgb.4;
+        Thu, 06 Aug 2020 08:46:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i/S5/6ro5vnkPW0QsQGxfYyHXJsq3PWIkSz7FKePTT4=;
-        b=MhAd2NRGr0h4cjvD6MOE4B8qGBZjGGXPLzx9BqPefxDxkCjolv+jkiE6y/t1nEjkT2
-         2nlfbHkMbETW9+ZrovKpjo/pxc8yUctFU0MIFaRx8oJSrD2sgIuHG4RUWsZb4d+50CTy
-         zzipvH7hrCjXH2/Lf6yu35FZcCWnef+Gm9PXhGqUvhglRpZGF/Z8PbrjWIH+6GEVYQQ8
-         8y/Td4q7MkZB0vRgXY+b/Rk0P0loDqkhdRviuZcuYAjmULuG8he6C0o1NQbri+HP8yQG
-         ppU4caq66P8QNzXYMYJT99Ip2uuwK/DmgwZpeNA9Cl85pK7Q+Kzd3n+j1GWCc0P6b8uS
-         YePQ==
-X-Gm-Message-State: AOAM530X4PSPhTrRTXVhC8c+5hRcsmsSNyCU6d1xDvVabNbY41IYkBlS
-        BrIkqJQhp3AUIP9u+PpZ1pE=
-X-Google-Smtp-Source: ABdhPJweP3zqc4d6VrXhoiDQpQN9FYCJdIjzjviNT+ke6aNdM34mOc0oCp9NcnOOzpKpooZ8wA4puw==
-X-Received: by 2002:a17:907:94ce:: with SMTP id dn14mr3816428ejc.351.1596714954327;
-        Thu, 06 Aug 2020 04:55:54 -0700 (PDT)
-Received: from ci00583-linux.xsens-tech.local (2001-1c06-0702-ba00-2186-bbad-ad24-4c2a.cable.dynamic.v6.ziggo.nl. [2001:1c06:702:ba00:2186:bbad:ad24:4c2a])
-        by smtp.googlemail.com with ESMTPSA id gh24sm3628420ejb.45.2020.08.06.04.55.52
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xkd1MgDmKSnQMagegnqbBq4Ybb77vBr+wvZf4lFVvT8=;
+        b=GFUhZAal0eiMEDTGGlyqGHbjbyOBsk79KdmmuW6NuFP+pe69wZTcP+I1DnjXluHB2i
+         n+GGXX62gU2A59XB1CmLZ4sUOY44lwqEc/xXD/8qFPENoTVa1PEtWiNIQjd+g8UJ7X6x
+         /TXpBguELwja3XCz4oPoLpqHXpG2lQV6I8tF0cP8KqQ+Ap7i9YgboA6uyByGxXh6uX+k
+         qcwr12KRKZdva0jI3PDmJ/YU/UgEVEwUW2/FPfvOPhyLVSl1q3xb1NS2CvDgwy8ZwbV9
+         IJWPwYag9/bMI9B2bGRSat0RwRx29KmTGgzZ7LtC0u86udnMaqJzUt+47q5GoJr4dUyM
+         Dewg==
+X-Gm-Message-State: AOAM5306LI74mjVJrMRaUa0n+P36xADkFz9nbN+I+sCMiQu9J21G7i9x
+        5SZ2l62WKTgTPO2nzMBSk2hpw0k=
+X-Google-Smtp-Source: ABdhPJzo9OMzbx/duXxuwBxnWu2UK7KN01S4fbrj4N+yyrFXn8/CfTlaq0Z2ZwMY4KynL3zTy6rE9A==
+X-Received: by 2002:a92:9e48:: with SMTP id q69mr3142136ili.170.1596724149920;
+        Thu, 06 Aug 2020 07:29:09 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id q16sm4050392ile.22.2020.08.06.07.29.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 04:55:53 -0700 (PDT)
-From:   Patrick Riphagen <ppriphagen@gmail.com>
-X-Google-Original-From: Patrick Riphagen <patrick.riphagen@xsens.com>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     patrick.riphagen@xsens.com, stable@vger.kernel.org
-Subject: [PATCH V2] USB: serial: ftdi_sio: add IDs for Xsens Mti USB converter
-Date:   Thu,  6 Aug 2020 13:55:47 +0200
-Message-Id: <20200806115547.8007-1-patrick.riphagen@xsens.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 06 Aug 2020 07:29:09 -0700 (PDT)
+Received: (nullmailer pid 805944 invoked by uid 1000);
+        Thu, 06 Aug 2020 14:29:06 -0000
+Date:   Thu, 6 Aug 2020 08:29:06 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        jackp@codeaurora.org, sboyd@kernel.org
+Subject: Re: [PATCH v7 2/4] dt-bindings: usb: Add Qualcomm PMIC type C
+ controller dt-binding
+Message-ID: <20200806142906.GA796067@bogus>
+References: <20200804004523.7964-1-wcheng@codeaurora.org>
+ <20200804004523.7964-3-wcheng@codeaurora.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200804004523.7964-3-wcheng@codeaurora.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Patrick Riphagen <patrick.riphagen@xsens.com>
+On Mon, Aug 03, 2020 at 05:45:21PM -0700, Wesley Cheng wrote:
+> Introduce the dt-binding for enabling USB type C orientation and role
+> detection using the PM8150B.  The driver will be responsible for receiving
+> the interrupt at a state change on the CC lines, reading the
+> orientation/role, and communicating this information to the remote
+> clients, which can include a role switch node and a type C switch.
+> 
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> ---
+>  .../bindings/usb/qcom,pmic-typec.yaml         | 131 ++++++++++++++++++
+>  1 file changed, 131 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> new file mode 100644
+> index 000000000000..877e979f413f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> @@ -0,0 +1,131 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/usb/qcom,pmic-typec.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Qualcomm PMIC based USB type C Detection Driver
+> +
+> +maintainers:
+> +  - Wesley Cheng <wcheng@codeaurora.org>
+> +
+> +description: |
+> +  Qualcomm PMIC Type C Detect
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,pm8150b-usb-typec
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: Type C base address
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: CC change interrupt from PMIC
+> +
+> +  connector:
+> +    description: Connector type for remote endpoints
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        $ref: /schemas/connector/usb-connector.yaml#/properties/compatible
 
-The device added has an FTDI chip inside.
-The device is used to connect Xsens USB Motion Trackers.
+usb-connector.yaml should be referenced from 'connector'.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Patrick Riphagen <patrick.riphagen@xsens.com>
----
- drivers/usb/serial/ftdi_sio.c     | 1 +
- drivers/usb/serial/ftdi_sio_ids.h | 1 +
- 2 files changed, 2 insertions(+)
+> +        enum:
+> +          - usb-c-connector
+> +
+> +      power-role:
+> +        $ref: /schemas/connector/usb-connector.yaml#/properties/power-role
+> +        enum:
+> +         - dual
+> +         - source
+> +         - sink
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 9ad44a96dfe3..2c08cad32f1d 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -713,6 +713,7 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(XSENS_VID, XSENS_AWINDA_STATION_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_CONVERTER_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_MTDEVBOARD_PID) },
-+	{ USB_DEVICE(XSENS_VID, XSENS_MTIUSBCONVERTER_PID) },
- 	{ USB_DEVICE(XSENS_VID, XSENS_MTW_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_OMNI1509) },
- 	{ USB_DEVICE(MOBILITY_VID, MOBILITY_USB_SERIAL_PID) },
-diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
-index e8373528264c..b5ca17a5967a 100644
---- a/drivers/usb/serial/ftdi_sio_ids.h
-+++ b/drivers/usb/serial/ftdi_sio_ids.h
-@@ -160,6 +160,7 @@
- #define XSENS_AWINDA_DONGLE_PID 0x0102
- #define XSENS_MTW_PID		0x0200	/* Xsens MTw */
- #define XSENS_MTDEVBOARD_PID	0x0300	/* Motion Tracker Development Board */
-+#define XSENS_MTIUSBCONVERTER_PID	0x0301	/* MTi USB converter */
- #define XSENS_CONVERTER_PID	0xD00D	/* Xsens USB-serial converter */
- 
- /* Xsens devices using FTDI VID */
--- 
-2.25.1
-V2: Added CC to stable, From line to match SoB and version in subject
+Just 'power-role: true' is enough as this is the same set of possible 
+values.
 
+> +
+> +      data-role:
+> +        $ref: /schemas/connector/usb-connector.yaml#/properties/data-role
+> +        enum:
+> +          - dual
+> +          - host
+> +          - device
+
+Same here
+
+> +
+> +      ports:
+> +        description: Remote endpoint connections
+> +        type: object
+> +        $ref: /schemas/connector/usb-connector.yaml#/properties/ports
+> +
+> +        properties:
+> +          port@0:
+> +            description: Remote endpoints for the High Speed path
+> +            type: object
+> +
+> +          port@1:
+> +            description: Remote endpoints for the Super Speed path
+> +            type: object
+> +
+> +            properties:
+> +              endpoint@0:
+> +                description: Connection to USB type C mux node
+> +                type: object
+> +
+> +                properties:
+> +                  remote-endpoint:
+> +                    description: Node reference to the type C mux
+
+You don't need to describe 'remote-endpoint'. You can assume that is 
+defined in a common graph schema (to be written).
+
+> +
+> +              endpoint@1:
+> +                description: Connection to role switch node
+> +                type: object
+> +
+> +                properties:
+> +                  remote-endpoint:
+> +                    description: Node reference to the role switch node
+> +
+> +    required:
+> +      - compatible
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
+> +  - connector
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    pm8150b {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        pm8150b_typec: typec@1500 {
+> +            compatible = "qcom,pm8150b-usb-typec";
+> +            reg = <0x1500>;
+> +            interrupts = <0x2 0x15 0x5 IRQ_TYPE_EDGE_RISING>;
+> +
+> +            connector {
+> +                compatible = "usb-c-connector";
+> +                power-role = "dual";
+> +                data-role = "dual";
+> +                ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    port@0 {
+> +                        reg = <0>;
+> +                    };
+> +                    port@1 {
+> +                        reg = <1>;
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +                        usb3_data_ss: endpoint@0 {
+> +                            reg = <0>;
+> +                            remote-endpoint = <&qmp_ss_mux>;
+> +                        };
+> +                        usb3_role: endpoint@1 {
+> +                            reg = <1>;
+> +                            remote-endpoint = <&dwc3_drd_switch>;
+> +                        };
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> 
