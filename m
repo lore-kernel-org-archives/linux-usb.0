@@ -2,144 +2,161 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 455B1C433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:59:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D451C433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:59:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B09B23119
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:59:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E4D623119
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:59:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAfb3QXn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C/QlxNgy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729639AbgHFQ7d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41656 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728798AbgHFQkk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:40:40 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BC5DC002163;
-        Thu,  6 Aug 2020 09:04:24 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id i26so32215315edv.4;
-        Thu, 06 Aug 2020 09:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wvtR8z/Ani5mL9lIVRm1/m2dHqQzOTsxvy15+fulIQ4=;
-        b=hAfb3QXnetMzCCM6f0K5d7xWLZ6od+HWfvETq9oP8nHvptxq3CDGNLE4MnlTbhwyF9
-         ZN8V6Iv7hVqo7e/MCYY56K/4B0S1y60LQSCeA22qnLbWJXOA2DVY8SR/jnkbwPSQ4h2n
-         04nHcT9UsgxDQbukf/yuBS/Vjbcrav/jl/MpoXsVaSdNSLm4cNbaYYn61tWtCnSZdVV8
-         1c2lJVeDgBKdQePAHclpWJm/L19thSYwOLepxoSQV9dRct/WDl/BojHn1I4HcJ3x9HAl
-         Wc6wgfzZE3r2Zxyn6t0lsrasl4heCRVc+Q0E7qk1TMrgSOwC0gJAYyAJEd9oyzY3+gu+
-         qZ9w==
+        id S1729775AbgHFQ7s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:59:48 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54286 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728976AbgHFQ7g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:59:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596733174;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OwZdMvGZm2Yq1gCrONDkRAIzV9hRmTR7rzT+1tvSWhM=;
+        b=C/QlxNgyKq4aJjXcL9MsznCtBDhjZh3QdVZJCYyIYyOJBOdLlNqRqeCrBBw4jv9Abku4oy
+        pmKe5Z2D93XjKxeHAsWM8l/rGaBsbB+9BjEbf9jPmPMopaFbZinUQGEkc2zKY9kw6NMpx+
+        zwuLb8OcJ7cSwJ81DDnORyxrf36lOi4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-7an2AxLYPYKDSJTkpbd5ig-1; Thu, 06 Aug 2020 08:21:53 -0400
+X-MC-Unique: 7an2AxLYPYKDSJTkpbd5ig-1
+Received: by mail-ed1-f70.google.com with SMTP id v11so13419604edr.13
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2020 05:21:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wvtR8z/Ani5mL9lIVRm1/m2dHqQzOTsxvy15+fulIQ4=;
-        b=TZbM6hqOlUijjRRyGEnxyM7sWGv4dhe+zCQ5FeAuM6/qu1MJ5UpaZLXScfYTkiiuEU
-         Yu7baGrbV0EAS4LPs/ia4s+W8M3F5zHIvcPJeL/e0xogU87OWWfRRBUirpAfruKb73uB
-         hoomHNqLBt+9hnwWBASF1PRKT0OWHgiWOGLimCJatKzTVjJPNDahGcM4ka47/1X3P3tE
-         H9F8sMgslJbVpts3NBQLrLY77sC3yWfN3UyCX1lUT1UGKwcvmKjVll7cPT19KQEREbRY
-         jGlDbX1UzGUUH2gF/XkS2x6oRRpVzB6vPQ3Udg649f4YrFr90Cfv1F/wrPZNWoJ/7xmK
-         Ag2Q==
-X-Gm-Message-State: AOAM533T1BnscrHVfWe1usJOYvi5n6/v1atn+4deP0GoyPXUSGng9I9p
-        QG4RClff1Fm8lYYZPHQxf2k=
-X-Google-Smtp-Source: ABdhPJzIJ39IJgxEOhLOrwxk39vBOFHtszT0/siZj26nK2C1VupKiiAtm8wZXygdL+ZjCs7khoW4aw==
-X-Received: by 2002:aa7:db51:: with SMTP id n17mr3829923edt.222.1596729863006;
-        Thu, 06 Aug 2020 09:04:23 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id dc23sm3438405edb.50.2020.08.06.09.04.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 09:04:22 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 2/3] usb: gadget: tegra-xudc: Properly align parameters
-Date:   Thu,  6 Aug 2020 18:04:16 +0200
-Message-Id: <20200806160417.3937056-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200806160417.3937056-1-thierry.reding@gmail.com>
-References: <20200806160417.3937056-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OwZdMvGZm2Yq1gCrONDkRAIzV9hRmTR7rzT+1tvSWhM=;
+        b=RFMfScoS5DvXOwtpKz/I3cUKOVtBAdVNYWiNntdBBlhcxNQSHSTZuZubRrXeBGnBv9
+         SARQXeyDFBMJ6KBPYi+CIiPG1p1/s1hKQKtrh9B02bE9cg0lPnN6teWZ2Rq8k6WIzfOe
+         rl4jooB0BGAuIjQ73IzRTgyHmbnlkLe0YyH1/yNl6+Vtdf99ud7QdHHjkf3jnzspByt0
+         pZvF068nxVbu1+Gd3UiYPIEZBh8OcYEyeKFg1HylVBmh2PRmIOgkmrn+gHabAS35Afft
+         xMS8qbUwqAcGjv5+I64IWjCuaoNPE+ZkioLujG86UIU2HD8Q5nSM7TcyQOG6S1fkpPZK
+         yc1w==
+X-Gm-Message-State: AOAM5314iYkUB479VmN8M8pdvbRk5XJnNfT1hq1SkYr1AUtx5PMrRsWU
+        vl2Orn1eItwoWrdSl8FTPByQ8a7gJ9saSShZSXsv/gXD0UJlY8TclWHqblxpqU9LxbjpzI8J95f
+        AhRduyvHsDhywgdeAolgl
+X-Received: by 2002:a17:906:c310:: with SMTP id s16mr4098918ejz.466.1596716511805;
+        Thu, 06 Aug 2020 05:21:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJ5JEXKmX+PfnYKg3VVFfr1O6oh8ix6A/1yfXlz2PtORtiqAoC0rojD5hxDpDEmvYajKl2KQ==
+X-Received: by 2002:a17:906:c310:: with SMTP id s16mr4098899ejz.466.1596716511579;
+        Thu, 06 Aug 2020 05:21:51 -0700 (PDT)
+Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
+        by smtp.gmail.com with ESMTPSA id b18sm3683107ejc.41.2020.08.06.05.21.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 05:21:50 -0700 (PDT)
+Subject: Re: XHCI-PCI: existing allowlist for enabling auto-suspend/runtime-pm
+ in the kernel vs a userspace allowlist ?
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Mark Pearson <mpearson@lenovo.com>
+References: <b8b21ba3-0a8a-ff54-5e12-cf8960651086@redhat.com>
+ <20200806121229.GA2852718@kroah.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <2e9f2454-ad1b-5783-8418-4a4f38fb9ec1@redhat.com>
+Date:   Thu, 6 Aug 2020 14:21:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200806121229.GA2852718@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Hi,
 
-Align parameters on subsequent lines with the parameters on the first
-line for consistency.
+On 8/6/20 2:12 PM, Greg Kroah-Hartman wrote:
+> On Thu, Aug 06, 2020 at 01:55:55PM +0200, Hans de Goede wrote:
+>> Hi All,
+>>
+>> ATM the kernel has a allowlist (coded as a big if) for XHCI-PCI controllers on
+>> which to enable auto-suspend. This seems to consist solely of XHCI controllers
+>> embedded inside Intel Thunderbolt controllers:
+>>
+>>          if (pdev->vendor == PCI_VENDOR_ID_INTEL &&
+>>              (pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_2C_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_2C_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_4C_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
+>>               pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
+>>                  xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+>>
+>> I noticed this because it seems that the product-id for the TB controller
+>> in the Lenovo T14 gen 1 is missing: 8086:15c1
+>>
+>> At the same time we also have a more generic allowlist for enabling
+>> auto-suspend/runtime-pm in userspace:
+>>
+>> https://github.com/systemd/systemd/blob/master/hwdb.d/60-autosuspend.hwdb
+>>
+>> ATM this only contains USB device ids, but there also is a second hwdb
+>> file, auto-generated baed on info from ChromeOS (to avoid having to
+>> duplicate this info):
+>>
+>> https://github.com/systemd/systemd/blob/master/tools/make-autosuspend-rules.py
+>> https://github.com/systemd/systemd/blob/master/tools/chromiumos/gen_autosuspend_rules.py
+>>
+>> As you can see this second file already contains a whole bunch of
+>> (mostly Intel vendor) PCI vid:pid pairs and udev will enable
+>> runtime-pm on these based on the auto generated hwdb file.
+>>
+>> To me it seems better for future XHCI controllers on which we
+>> want to auto-enable runtime-pm, such as the missing 8086:15c1
+>> model in userspace, together with the allowlist for runtime-pm
+>> on other PCI devices in userspace, rather then to add yet another
+>> quirk for this to to xhci-pci.c code.
+>>
+>> The downside would be that this is somewhat inconsistent with
+>> how we have done this before, still I believe that it would
+>> be better / easier to maintain this in userspace (hwdb) in the
+>> future.
+>>
+>> So I was wondering what other people think about this?
+> 
+> Whatever we do, it should all be done in just one place to unify it all
+> please.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+I agree. But we are going to be stuck (at least for a while)
+with the current allowlist (hidden as a big if) in the kernel to
+avoid regressions.
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index ec43081f15bd..838863ede1df 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -3692,8 +3692,7 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 	struct device *dev = xudc->dev;
- 	int err;
- 
--	xudc->genpd_dev_device = dev_pm_domain_attach_by_name(dev,
--								"dev");
-+	xudc->genpd_dev_device = dev_pm_domain_attach_by_name(dev, "dev");
- 	if (IS_ERR(xudc->genpd_dev_device)) {
- 		err = PTR_ERR(xudc->genpd_dev_device);
- 		dev_err(dev, "failed to get device power domain: %d\n", err);
-@@ -3708,16 +3707,16 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 	}
- 
- 	xudc->genpd_dl_device = device_link_add(dev, xudc->genpd_dev_device,
--					       DL_FLAG_PM_RUNTIME |
--					       DL_FLAG_STATELESS);
-+						DL_FLAG_PM_RUNTIME |
-+						DL_FLAG_STATELESS);
- 	if (!xudc->genpd_dl_device) {
- 		dev_err(dev, "failed to add USB device link\n");
- 		return -ENODEV;
- 	}
- 
- 	xudc->genpd_dl_ss = device_link_add(dev, xudc->genpd_dev_ss,
--					     DL_FLAG_PM_RUNTIME |
--					     DL_FLAG_STATELESS);
-+					    DL_FLAG_PM_RUNTIME |
-+					    DL_FLAG_STATELESS);
- 	if (!xudc->genpd_dl_ss) {
- 		dev_err(dev, "failed to add SuperSpeed device link\n");
- 		return -ENODEV;
-@@ -3772,16 +3771,15 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	xudc->clks = devm_kcalloc(&pdev->dev, xudc->soc->num_clks,
--				      sizeof(*xudc->clks), GFP_KERNEL);
-+	xudc->clks = devm_kcalloc(&pdev->dev, xudc->soc->num_clks, sizeof(*xudc->clks),
-+				  GFP_KERNEL);
- 	if (!xudc->clks)
- 		return -ENOMEM;
- 
- 	for (i = 0; i < xudc->soc->num_clks; i++)
- 		xudc->clks[i].id = xudc->soc->clock_names[i];
- 
--	err = devm_clk_bulk_get(&pdev->dev, xudc->soc->num_clks,
--				      xudc->clks);
-+	err = devm_clk_bulk_get(&pdev->dev, xudc->soc->num_clks, xudc->clks);
- 	if (err) {
- 		dev_err(xudc->dev, "failed to request clocks: %d\n", err);
- 		return err;
--- 
-2.27.0
+We could duplicate that list in hwdb now and then after some
+to be decided time period we could consider removing the big if
+from the xhci-pci.c code.
+
+> I'd vote for the hwdb location, as all vendors contribute to it and it's
+> easier to keep up to date than manually changing the kernel all the time
+> when a new device is released.
+
+Using hwdb has my preference too.
+
+Regards,
+
+Hans
 
