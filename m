@@ -2,101 +2,109 @@ Return-Path: <SRS0=4r/C=BQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE22C433DF
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DFDCC433E0
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:31:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7817B23117
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:27:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8456D2312B
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Aug 2020 16:31:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z1PLwnz5"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dSCPQApD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727864AbgHFQ1j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37762 "EHLO
+        id S1728360AbgHFQbF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:31:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727081AbgHFQSr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:18:47 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283EBC00215F;
-        Thu,  6 Aug 2020 09:02:55 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id v22so24751828edy.0;
-        Thu, 06 Aug 2020 09:02:55 -0700 (PDT)
+        with ESMTP id S1728205AbgHFQay (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Aug 2020 12:30:54 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CFD0C002178
+        for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2020 09:17:09 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id v65so14161386ybv.9
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2020 09:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CECQrTdPbGjVPX2RCRIk8am23VvwhZ+qTSo0hSxBl3o=;
-        b=Z1PLwnz5/fx/Z6dzRP3Qg8AStjfCJB6bxY4Q5BbC/Wgxs6E3gpE97VG8FbsJpxuY2M
-         zVCfl8kTqJRQXVsI3XcAbbohpxUXhB2pQ7arkm8ajmV6xCaMGQ7S+gD+MhJ034iLfQf9
-         MqVmtVLiytju3ZSHmh5wEFSn7QcM67A+xj5w+xe0sZe42IwZZjUIy0jto/NFTWpOQJZn
-         ndREU01ar4OvfUT0osHmTkDB3zXoCxiNdboAkApDBwcsJbBBjCYTjIPm0oFlIsJZiPYz
-         kz6HqUpuaFjwe/lhWxNOpTSoOyhVVNjQ3Jx0FU8vg/cVAzvmJUj8jEXNpYz68nzZhXQQ
-         qOBg==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=wOnxt8yJ8wg77ZYwwslQl282OLXtAHOuc/XW3sHDZ+4=;
+        b=dSCPQApDZWNb8zLFFjUFjAY9fD/PCQu3iRxIva+q4QmjH8g3OPE8/brbtMUtvu1bRH
+         oJwlqPOqq50y0js6N4JpTQrvOpRJlDl2ONhIBg+w4wD2Le2cNHRXBXmjNJukNICVIFzF
+         o0aAfxJMFx5baIPfdI50Pri8O2qAP7LSjxVaknyjwBn0WAolSM1kN/6CXbOaQ3Hj8wjN
+         W7Lp0yEBtuSe37lpDoDgyJjtecjxPFtCqZNzvd5ncW0w2qq3ighkCIRrYOSM/HvgSoIe
+         ay2s8lm5daQEBVKERfHELKBVJ/bDBRYynLveGuJMwl3wYpOEvdKvWzUDP7tlOna4MoMd
+         GJ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CECQrTdPbGjVPX2RCRIk8am23VvwhZ+qTSo0hSxBl3o=;
-        b=HBCbEhqRFfnYDLTioCYQ/yRIbj/fME6zlxKeKBuxxIkh8anpNciiNIUNdvrp9rr6T9
-         +BMWLsp6864ET5jKZAmk4bcMxG+tgUiAd2bIXNe9NyZjMcs/6MsjkYgSgW0gzoYLdlk7
-         yUaGsCLENbLPa9QZE9IFqS57A98gmERqwNNXnqdb1w414KKDerUfVwgo1fnVp8TZblnt
-         4cizhUHKTv0HbxLQxqyhYr099WyCtl8sS+f+UUJvsnkhWZekybGApVvkZxPvENxJtKSw
-         80tIq6z5r6Bb9CJE9qBb2du5HJGx9dfwmzDr2QE7c5PP5fRcU/kBIJaEJh2FGPX0FVvi
-         SIYA==
-X-Gm-Message-State: AOAM531pZA0ujs3RHll8khEMbBl8UgCx77ASJ7IaHlk+hJyaCDt2Z2FU
-        PtDE0GMa/0161y8KNKiPUOA=
-X-Google-Smtp-Source: ABdhPJyjP6Tg6vGResi/PT4q25in8ESFmnFaAbhMRGP9vNUEC8yre8RyUHGTeEb31y1gXCLySX9zDQ==
-X-Received: by 2002:a50:d908:: with SMTP id t8mr4558574edj.373.1596729773914;
-        Thu, 06 Aug 2020 09:02:53 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id a16sm4011063ejy.78.2020.08.06.09.02.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 09:02:52 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 2/2] usb: common: usb-conn-gpio: Print error on failure to get VBUS
-Date:   Thu,  6 Aug 2020 18:02:48 +0200
-Message-Id: <20200806160248.3936771-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200806160248.3936771-1-thierry.reding@gmail.com>
-References: <20200806160248.3936771-1-thierry.reding@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=wOnxt8yJ8wg77ZYwwslQl282OLXtAHOuc/XW3sHDZ+4=;
+        b=KuVS1+vzadEsYUMzd7lSvTyIWu5rZFQX/obEXA6F8HScv2gdRGE0B+lYRpLo8lOi8q
+         5FbNsg2bDpujaJY79/JfzAIyx0bjHj/hoEpuV7pptLWWuLuBn6Wnkm9bURq6tMkvlNMp
+         e7fAdkPdEReOUQ17EnP5VXZMo/umBlFpJi5I7gRpYtT6t1C68cwCIomQcTU6kbJX0vyY
+         hu25YctJSrMFQhl0y6mhS5K7+wn5RLxO1u5kstgRWo4A3eAjU7a2AOnRQzXdW2a7ZlGH
+         Dy07ilUXcSafMhzz0WqdNVglPr0ec3Ld7YX9T8XAuwr9HM9jkq6mNN6TeB4HfezgKcZd
+         U+qA==
+X-Gm-Message-State: AOAM53143A4drdMYo64HkMODAxNSJvnMDQE0EvNL+LkF+tF3C2xCeIze
+        PjCOMoA2O7828ooF3hbmBw2qVlJQo51aJ+5U2mhpWi6d9ZwEi0aimEQ/C/Oow1Mh0x7c9AeWoh0
+        wnsrYAxVVGr4sD+C+RnQ52fd0GcjWevhja0Enf+m4cNjIAbvnU/bMoeBltaCoUM7mZTJ1
+X-Google-Smtp-Source: ABdhPJyf+qjy2HoOeZvualRq/ZB8GNjFUOkdkObedN/LaqBdivBfOVTGfIkvaqcCp3szFUCjD7/z8FmPZpbV
+X-Received: by 2002:a25:1f55:: with SMTP id f82mr14155954ybf.103.1596730628394;
+ Thu, 06 Aug 2020 09:17:08 -0700 (PDT)
+Date:   Fri,  7 Aug 2020 01:16:43 +0900
+Message-Id: <20200806161643.1694266-1-lorenzo@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
+Subject: [PATCH] usb: gadget: u_ether: enable qmult on SuperSpeed Plus as well
+From:   Lorenzo Colitti <lorenzo@google.com>
+To:     linux-usb@vger.kernel.org
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        zenczykowski@gmail.com, Lorenzo Colitti <lorenzo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+The u_ether driver has a qmult setting that multiplies the
+transmit queue length (which by default is 2).
 
-The exact error that happened trying to get the VBUS supply can be
-useful to troubleshoot what's going on.
+The intent is that it should be enabled at high/super speed, but
+because the code does not explicitly check for USB_SUPER_PLUS,
+it is disabled at that speed.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Fix this by ensuring that the queue multiplier is enabled for any
+wired link at high speed or above. Using >= for USB_SPEED_*
+constants seems correct because it is what the gadget_is_xxxspeed
+functions do.
+
+The queue multiplier substantially helps performance at higher
+speeds. On a direct SuperSpeed Plus link to a Linux laptop,
+iperf3 single TCP stream:
+
+Before (qmult=1): 1.3 Gbps
+After  (qmult=5): 3.2 Gbps
+
+Signed-off-by: Lorenzo Colitti <lorenzo@google.com>
 ---
- drivers/usb/common/usb-conn-gpio.c | 2 +-
+ drivers/usb/gadget/function/u_ether.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
-index c5b516d327c7..6c4e3a19f42c 100644
---- a/drivers/usb/common/usb-conn-gpio.c
-+++ b/drivers/usb/common/usb-conn-gpio.c
-@@ -206,7 +206,7 @@ static int usb_conn_probe(struct platform_device *pdev)
- 
- 	if (IS_ERR(info->vbus)) {
- 		if (PTR_ERR(info->vbus) != -EPROBE_DEFER)
--			dev_err(dev, "failed to get vbus\n");
-+			dev_err(dev, "failed to get vbus: %ld\n", PTR_ERR(info->vbus));
- 		return PTR_ERR(info->vbus);
- 	}
- 
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index c3cc6bd14e..31ea76adcc 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -93,7 +93,7 @@ struct eth_dev {
+ static inline int qlen(struct usb_gadget *gadget, unsigned qmult)
+ {
+ 	if (gadget_is_dualspeed(gadget) && (gadget->speed == USB_SPEED_HIGH ||
+-					    gadget->speed == USB_SPEED_SUPER))
++					    gadget->speed >= USB_SPEED_SUPER))
+ 		return qmult * DEFAULT_QLEN;
+ 	else
+ 		return DEFAULT_QLEN;
 -- 
-2.27.0
+2.28.0.163.g6104cc2f0b6-goog
 
