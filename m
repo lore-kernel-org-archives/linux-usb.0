@@ -2,87 +2,208 @@ Return-Path: <SRS0=NyL1=BR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DAFC433E1
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Aug 2020 14:22:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D793FC433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Aug 2020 15:51:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DE8020866
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Aug 2020 14:22:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1D042224D
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Aug 2020 15:51:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbgHGOWF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Aug 2020 10:22:05 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:55969 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726150AbgHGOWF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Aug 2020 10:22:05 -0400
-Received: (qmail 228067 invoked by uid 1000); 7 Aug 2020 10:22:03 -0400
-Date:   Fri, 7 Aug 2020 10:22:03 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     syzbot <syzbot+bb9cb5f2cd814f87212a@syzkaller.appspotmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, m.szyprowski@samsung.com,
-        noring@nocrew.org, syzkaller-bugs@googlegroups.com,
-        tweek@google.com
-Subject: Re: KASAN: use-after-free Read in __usb_hcd_giveback_urb
-Message-ID: <20200807142203.GD226516@rowland.harvard.edu>
-References: <0000000000004a381905ac444162@google.com>
+        id S1726489AbgHGPv1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Aug 2020 11:51:27 -0400
+Received: from cmta17.telus.net ([209.171.16.90]:34752 "EHLO cmta17.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725815AbgHGPv0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 7 Aug 2020 11:51:26 -0400
+X-Greylist: delayed 487 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Aug 2020 11:51:25 EDT
+Received: from montezuma.home ([154.5.226.127])
+        by cmsmtp with SMTP
+        id 44WZksqP9Ygvr44WbkWU4l; Fri, 07 Aug 2020 09:43:17 -0600
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=MIQeZ/Rl c=1 sm=1 tr=0
+ a=f8b3WT/FcTuUJCJtQO1udw==:117 a=f8b3WT/FcTuUJCJtQO1udw==:17
+ a=kj9zAlcOel0A:10 a=Br9LfDWDAAAA:8 a=UApgNeDKAAAA:8 a=k8DpGR8mBxDhxFg24IkA:9
+ a=FakQLnn0ZnYXp7S5:21 a=TC9FNFKBBgAIPtiy:21 a=5w_ofwJtw4dTZDfY:21
+ a=CjuIK1q_8ugA:10 a=TRW-o2S9CEoA:10 a=1V_mi3lkkEMA:10 a=Bg5cootq7XEA:10
+ a=gR_RJRYUad_6_ruzA8cR:22 a=fasyu4nNmrhVRyehPdzp:22
+Date:   Fri, 7 Aug 2020 08:43:15 -0700 (PDT)
+From:   Zwane Mwaikambo <zwane@yosper.io>
+To:     linux-usb@vger.kernel.org
+cc:     heikki.krogerus@linux.intel.com
+Subject: [PATCH v2] Fix USB Type C hub crash in typec_altmode_update_active
+Message-ID: <alpine.DEB.2.21.2008070831040.7310@montezuma.home>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0000000000004a381905ac444162@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+X-CMAE-Envelope: MS4wfJiM/8Rs5m6zjZ2hSMfAljRPZ97SXWwaDStsUqNq2Syw8tBBNO2mopZxaV2woAmY43TE4VuVpAnZ6+0d8XduxrbWMKD2Yq+QAtw/uWqT8Do0WB85czKb
+ ihqyWdPui3qfqHXSJNII7ysFBK0F27vGyMWEJYCv3g3LGwSZylZ1ZoX3gQ4yk1ndam9DK2xJH1LZJroh5gypjozWrD4TiLR9hFZ77LM5aky9B0YtPXLAVOIL
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Aug 07, 2020 at 12:07:16AM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    fffe3ae0 Merge tag 'for-linus-hmm' of git://git.kernel.org..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=12b22fda900000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=226c7a97d80bec54
-> dashboard link: https://syzkaller.appspot.com/bug?extid=bb9cb5f2cd814f87212a
-> compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+bb9cb5f2cd814f87212a@syzkaller.appspotmail.com
-> 
-> xpad 3-1:0.65: xpad_irq_in - usb_submit_urb failed with result -19
-> xpad 3-1:0.65: xpad_irq_out - usb_submit_urb failed with result -19
-> ==================================================================
-> BUG: KASAN: use-after-free in register_lock_class+0x12a8/0x1520 kernel/locking/lockdep.c:1250
-> Read of size 2 at addr ffff8880a1f5c092 by task systemd-udevd/1571
-> 
-> CPU: 0 PID: 1571 Comm: systemd-udevd Not tainted 5.8.0-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> Call Trace:
->  <IRQ>
->  __dump_stack lib/dump_stack.c:77 [inline]
->  dump_stack+0x1f0/0x31e lib/dump_stack.c:118
->  print_address_description+0x66/0x5a0 mm/kasan/report.c:383
->  __kasan_report mm/kasan/report.c:513 [inline]
->  kasan_report+0x132/0x1d0 mm/kasan/report.c:530
->  register_lock_class+0x12a8/0x1520 kernel/locking/lockdep.c:1250
->  __lock_acquire+0xfa/0x2ab0 kernel/locking/lockdep.c:4305
->  lock_acquire+0x160/0x730 kernel/locking/lockdep.c:5005
->  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
->  _raw_spin_lock_irqsave+0x9e/0xc0 kernel/locking/spinlock.c:159
->  __wake_up_common_lock kernel/sched/wait.c:122 [inline]
->  __wake_up+0xb8/0x150 kernel/sched/wait.c:142
->  __usb_hcd_giveback_urb+0x340/0x4b0 drivers/usb/core/hcd.c:1653
+This patch was posted previously on lkml. I've updated the patch to fix 
+another memory overrun in ucsi_unregister_altmodes
 
-It looks like xpad_disconnect() fails to call xpad_stop_input() if the 
-hardware isn't an Xbox 360W.
+The following crash occurs whilst plugging in a Thinkpad USB type C dock 
+and appears to be affecting other users as seen below;
 
-Alan Stern
+https://bbs.archlinux.org/viewtopic.php?id=256404
+https://forums.linuxmint.com/viewtopic.php?p=1826251
+
+My specific crash is;
+
+[  565.427757] input: USBPS2 as 
+/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.1/1-2.1.4/1-2.1.4:1.0/0003:0D3D:0001.0006/input/input31
+[  565.452023] BUG: kernel NULL pointer dereference, address: 00000000000002fe
+[  565.452025] #PF: supervisor read access in kernel mode
+[  565.452026] #PF: error_code(0x0000) - not-present page
+[  565.452026] PGD 0 P4D 0 
+[  565.452028] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[  565.452030] CPU: 0 PID: 502 Comm: kworker/0:3 Not tainted 5.8.0-rc3+ #1
+[  565.452031] Hardware name: LENOVO 20RD002VUS/20RD002VUS, BIOS R16ET25W (1.11 ) 04/21/2020
+[  565.452034] Workqueue: events ucsi_handle_connector_change [typec_ucsi]
+[  565.452039] RIP: 0010:typec_altmode_update_active+0x1f/0x100 [typec]
+[  565.452040] Code: 0f 1f 84 00 00 00 00 00 0f 1f 00 0f 1f 44 00 00 55 48 
+89 e5 41 54 53 48 83 ec 10 65 48 8b 04 25 28 00 00 00 48 89 45 e8 31 c0 
+<0f> b6 87 fc 02 00 00 83 e0 01 40 38 f0 0f 84 95 00 00 00 48 8b 47
+[  565.452041] RSP: 0018:ffffb729c066bdb0 EFLAGS: 00010246
+[  565.452042] RAX: 0000000000000000 RBX: ffffa067c3e64a70 RCX: 0000000000000000
+[  565.452043] RDX: ffffb729c066bd20 RSI: 0000000000000000 RDI: 0000000000000002
+[  565.452044] RBP: ffffb729c066bdd0 R08: 00000083a7910a4f R09: 0000000000000000
+[  565.452044] R10: ffffffffa106a220 R11: 0000000000000000 R12: 0000000000000000
+[  565.452045] R13: ffffa067c3e64a98 R14: ffffa067c3e64810 R15: ffffa067c3e64800
+[  565.452046] FS:  0000000000000000(0000) GS:ffffa067d1400000(0000) knlGS:0000000000000000
+[  565.452047] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  565.452048] CR2: 00000000000002fe CR3: 00000001b060a003 CR4: 00000000003606f0
+[  565.452048] Call Trace:
+[  565.452052]  ucsi_altmode_update_active+0x83/0xd0 [typec_ucsi]
+[  565.452054]  ucsi_handle_connector_change+0x1dc/0x320 [typec_ucsi]
+[  565.452057]  process_one_work+0x1df/0x3d0
+[  565.452059]  worker_thread+0x4d/0x3d0
+[  565.452060]  ? process_one_work+0x3d0/0x3d0
+[  565.452062]  kthread+0x127/0x170
+[  565.452063]  ? kthread_park+0x90/0x90
+[  565.452065]  ret_from_fork+0x1f/0x30
+
+The failing instruction is;
+
+0x0000000000000380 <+0>:     callq  0x385 <typec_altmode_update_active+5>
+0x0000000000000385 <+5>:     push   %rbp
+0x0000000000000386 <+6>:     mov    %rsp,%rbp
+0x0000000000000389 <+9>:     push   %r12
+0x000000000000038b <+11>:    push   %rbx
+0x000000000000038c <+12>:    sub    $0x10,%rsp
+0x0000000000000390 <+16>:    mov    %gs:0x28,%rax
+0x0000000000000399 <+25>:    mov    %rax,-0x18(%rbp)
+0x000000000000039d <+29>:    xor    %eax,%eax
+0x000000000000039f <+31>:    movzbl 0x2fc(%rdi),%eax <======
+0x00000000000003a6 <+38>:    and    $0x1,%eax
+
+(gdb) list  *typec_altmode_update_active+0x1f
+0x39f is in typec_altmode_update_active (drivers/usb/typec/class.c:221).
+216      */
+217     void typec_altmode_update_active(struct typec_altmode *adev, bool active)
+218     {
+219             char dir[6];
+220
+221             if (adev->active == active)
+222                     return;
+223
+224             if (!is_typec_port(adev->dev.parent) && adev->dev.driver) {
+225                     if (!active)
+
+(gdb) list *ucsi_altmode_update_active+0x83
+0x12a3 is in ucsi_altmode_update_active (drivers/usb/typec/ucsi/ucsi.c:221).
+216             }
+217
+218             if (cur < UCSI_MAX_ALTMODES)
+219                     altmode = typec_altmode_get_partner(con->port_altmode[cur]);
+220
+221             for (i = 0; con->partner_altmode[i]; i++)
+222                     typec_altmode_update_active(con->partner_altmode[i],
+223                                                con->partner_altmode[i] == altmode);
+224     }
+
+con->partner_altmode[i] ends up with the value 0x2 in the call and it's 
+because the array has been accessed out of bounds. There is also another 
+occurence of this which shows up as the following crash;
+
+[ 4372.429633] usb 1-2.1.4: USB disconnect, device number 16
+[ 4372.523235] usb 1-2.2: USB disconnect, device number 7
+[ 4372.570537] usb 1-2.5: USB disconnect, device number 9
+[ 4373.153246] BUG: kernel NULL pointer dereference, address: 00000000000002f2
+[ 4373.153267] #PF: supervisor read access in kernel mode
+[ 4373.153271] #PF: error_code(0x0000) - not-present page
+[ 4373.153275] PGD 0 P4D 0 
+[ 4373.153284] Oops: 0000 [#2] PREEMPT SMP NOPTI
+[ 4373.153292] CPU: 0 PID: 13242 Comm: kworker/0:0 Tainted: G      D           5.8.0-rc6+ #1
+[ 4373.153296] Hardware name: LENOVO 20RD002VUS/20RD002VUS, BIOS R16ET25W (1.11 ) 04/21/2020
+[ 4373.153308] Workqueue: events ucsi_handle_connector_change [typec_ucsi]
+[ 4373.153320] RIP: 0010:ucsi_unregister_altmodes+0x5f/0xa0 [typec_ucsi]
+[ 4373.153326] Code: 54 48 8b 3b 41 83 c4 01 e8 9e f9 0c 00 49 63 c4 48 c7 
+03 00 00 00 00 49 8d 5c c5 00 48 8b 3b 48 85 ff 74 31 41 80 fe 01 75 d7 
+<0f> b7 87 f0 02 00 00 66 3d 01 ff 74 0f 66 3d 55 09 75 c4 83 bf f8
+[ 4373.153332] RSP: 0018:ffffb2ef036b3dc8 EFLAGS: 00010246
+[ 4373.153338] RAX: 000000000000001e RBX: ffff94268b006a60 RCX: 0000000080800067
+[ 4373.153342] RDX: 0000000080800068 RSI: 0000000000000001 RDI: 0000000000000002
+[ 4373.153347] RBP: ffffb2ef036b3de8 R08: 0000000000000000 R09: ffffffff8dc65400
+[ 4373.153351] R10: ffff9426678d7200 R11: 0000000000000001 R12: 000000000000001e
+[ 4373.153355] R13: ffff94268b006970 R14: 0000000000000001 R15: ffff94268b006800
+[ 4373.153361] FS:  0000000000000000(0000) GS:ffff942691400000(0000) knlGS:0000000000000000
+[ 4373.153366] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 4373.153371] CR2: 00000000000002f2 CR3: 00000004445a6005 CR4: 00000000003606f0
+[ 4373.153375] Call Trace:
+[ 4373.153389]  ucsi_unregister_partner.part.0+0x17/0x30 [typec_ucsi]
+[ 4373.153400]  ucsi_handle_connector_change+0x25c/0x320 [typec_ucsi]
+[ 4373.153418]  process_one_work+0x1df/0x3d0
+[ 4373.153428]  worker_thread+0x4a/0x3d0
+[ 4373.153436]  ? process_one_work+0x3d0/0x3d0
+[ 4373.153444]  kthread+0x127/0x170
+[ 4373.153451]  ? kthread_park+0x90/0x90
+[ 4373.153461]  ret_from_fork+0x1f/0x30
+[ 4373.153661] CR2: 00000000000002f2
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index d0c63afaf..79061705e 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -218,9 +218,10 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
+ 	if (cur < UCSI_MAX_ALTMODES)
+ 		altmode = typec_altmode_get_partner(con->port_altmode[cur]);
+ 
+-	for (i = 0; con->partner_altmode[i]; i++)
+-		typec_altmode_update_active(con->partner_altmode[i],
+-					    con->partner_altmode[i] == altmode);
++	for (i = 0; i < UCSI_MAX_ALTMODES; i++)
++		if (con->partner_altmode[i])
++			typec_altmode_update_active(con->partner_altmode[i],
++										con->partner_altmode[i] == altmode);
+ }
+ 
+ static u8 ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
+@@ -479,7 +480,10 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
+ 		return;
+ 	}
+ 
+-	while (adev[i]) {
++	for (i = 0; i < UCSI_MAX_ALTMODES; i++) {
++		if (!adev[i])
++			break;
++
+ 		if (recipient == UCSI_RECIPIENT_SOP &&
+ 		    (adev[i]->svid == USB_TYPEC_DP_SID ||
+ 			(adev[i]->svid == USB_TYPEC_NVIDIA_VLINK_SID &&
+@@ -488,7 +492,7 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
+ 			ucsi_displayport_remove_partner((void *)pdev);
+ 		}
+ 		typec_unregister_altmode(adev[i]);
+-		adev[i++] = NULL;
++		adev[i] = NULL;
+ 	}
+ }
+ 
