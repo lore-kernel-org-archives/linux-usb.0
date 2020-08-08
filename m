@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25124C433E0
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Aug 2020 06:40:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2FB4C433E0
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Aug 2020 06:57:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F05E620855
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Aug 2020 06:40:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFA84221E5
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Aug 2020 06:57:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aC1uPMqs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hPsbfH8i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbgHHGk0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 8 Aug 2020 02:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52788 "EHLO
+        id S1726199AbgHHG5n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 8 Aug 2020 02:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725786AbgHHGkZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Aug 2020 02:40:25 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF64C061756
-        for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2020 23:40:25 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id u10so2243425plr.7
-        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2020 23:40:25 -0700 (PDT)
+        with ESMTP id S1726048AbgHHG5m (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Aug 2020 02:57:42 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7D0C061756
+        for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2020 23:57:42 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id a79so2328603pfa.8
+        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2020 23:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=Uqo+y2RVmAl9mwXgsjTPkG12cVgaTvPGHT93WHkzpyM=;
-        b=aC1uPMqsVLhsH4kmY3X37Y/wEuJfNn9HRBUOfcAQA08QLG6dJhmEvbTJJO7zjBqzHi
-         lVneCIYVtfIdGhN/8TZgl9znRMhAvwrZbeAFqUql3jT1LtvXRX84ETmc1HEGDzFhrHgP
-         TKZea/pGvXdHlPws4Iqxf5E1u+ETP+1Yo4NzsKZdapRQQ58wq+gcdf/j9VCPT5ucvsFE
-         sBpyjN0Da+jI3i9cq4RNVpX9QHF4JA8PoQa8yGLOpZdCjPx/VUvVWin8kwjGSmnpDa0n
-         3RvLJvh/F6qH7P3Kg/pPahnurD4ICa+cij8SlYXH/0Icw9b+R8aWcHwaufdJH2VFvxcl
-         FasQ==
+        b=hPsbfH8i3zqvFfJnbwXNFJw35Fbg79ui57idQm7/FNANqfQ63UlJR9KRjOHFLJ8dLY
+         wYqoIx1BvwHgz1IVi3sbOVw1EOqHerVJKfZNMOrsGwdivbvs4qNqZCRZkYgZY2lIUzCV
+         oXjdKzyNNwinFzQ1mUqO5vbUL185Ds9PSMbQjbsnb01J4hvWY/mwrnZlhYHDj6UoAaJ/
+         P+PcPGeRwr/vYkTPe/dgGMES+oOLrM8TH//HqF/RQP3VhgVK7yC22J2TJyH8IJnTmn19
+         /LhNfjGpqDAs0985yWdosId9oT218MWmREWc+qLHYbaMKI50iMFnxxUW18FcJzvLTowl
+         5Sng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=Uqo+y2RVmAl9mwXgsjTPkG12cVgaTvPGHT93WHkzpyM=;
-        b=ZXmvM3OUbd0cMNG1ZcaGlsUWjlNTYuVd76PbomOIvHgdQ6MF+H0V8JsrktS5FE1xTK
-         EEVmUwQ201mzFjPJsnlT+/E0hmNcKgYjQ0CU5+k67+zucQXgzrRyYfEkt1E5VU/vLTwl
-         9NmJDwHRlhHOCUW8gagyRytHrDB5irOhNJbXryxsGDH0XD57jhONNgMZ+70f9RO9l1ns
-         hx3G+KIy9gEwptuhIkAj3q1pCXELtDVkScnsRgeqsrnlcoUCOFEIzLH3LL5qUBSJIA7e
-         m7xoL8XThncGhkALXrpmYHOTg4+fWoYgU0ah22eH3oZRnVbIsm4Id3u0Hm0OiXs4g+G9
-         9uBg==
-X-Gm-Message-State: AOAM530F9C+eG+1cghOZRIHCKsPYQ7KBCOCIN+9+kQN/De7l8I6ItIpN
-        gAa0nvaRyRmZtyL0ZfMZlnpSPAhuh5ThFg==
-X-Google-Smtp-Source: ABdhPJwshS4B8G92W6bwwZ6SuY1p1ryeCe7A/+Col1r3qyuW6+U1IMtTn8x37hr8mzeB680dhn2Oug==
-X-Received: by 2002:a17:90a:77ca:: with SMTP id e10mr15932090pjs.150.1596868824028;
-        Fri, 07 Aug 2020 23:40:24 -0700 (PDT)
+        b=oQNTMiEJ/SqbOmHXtQSn01KjN43V8khKWMs6vfZj+Nq/Tt6XYxEieMP92rfiuPoEDf
+         c1XuMu7qtdKlWZIyAqpYTK6iOvCWZ9yN5rQOkaS40LVRFrxElsR64mJ53El0+dCFABgn
+         lz6Y8EOLkCL8jWVQDgl1tTBvSqxSgplg8TOC5JyioL7puJyec4GzXOkvwiQ8NuY1pHlr
+         8FYIN0MfrsN+Wn2f6ThzKH0loJx02JKrlAs5l4hsIKyuyipbj0x0utSzxcF9pqvGsYb7
+         I9bpEIFQ9Mbl4XSYlg2+1v3NncGtS+VzwUQdwgSpyRROtuxDjeoLPXFtpnvzAgUaEJ8k
+         29LQ==
+X-Gm-Message-State: AOAM531SHgR/xR5crRpZJIMV4YPuw7x+WaIPA6Zo3lj3B3g1T+gmOgpV
+        95h9/Ry61WluLrcSW+msQGC1G2sv/7FnOw==
+X-Google-Smtp-Source: ABdhPJyrAKo0J32v5Dp2Xe54Oob1HDwdqqZOWzNtQ36crvZf8w1cAlh+x/EM+PT6kzeaKTHvr5M8/w==
+X-Received: by 2002:a65:6384:: with SMTP id h4mr14412217pgv.196.1596869860514;
+        Fri, 07 Aug 2020 23:57:40 -0700 (PDT)
 Received: from lemmy.tees.ne.jp (153-125-65-70.catv.tees.ne.jp. [153.125.65.70])
-        by smtp.googlemail.com with ESMTPSA id a24sm14853790pfg.113.2020.08.07.23.40.21
+        by smtp.googlemail.com with ESMTPSA id fv7sm30704504pjb.2.2020.08.07.23.57.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 23:40:23 -0700 (PDT)
+        Fri, 07 Aug 2020 23:57:40 -0700 (PDT)
 From:   Yasushi Asano <yazzep@gmail.com>
 To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, erosca@de.adit-jv.com,
@@ -65,11 +65,11 @@ Cc:     linux-usb@vger.kernel.org, erosca@de.adit-jv.com,
         wnatsume@jp.adit-jv.com, nnishiguchi@jp.adit-jv.com,
         yasano@jp.adit-jv.com
 Subject: [PATCH] [RFC] USB: hub.c: decrease the number of attempts of enumeration scheme
-Date:   Sat,  8 Aug 2020 15:40:14 +0900
-Message-Id: <20200808064014.3199-1-yazzep@gmail.com>
+Date:   Sat,  8 Aug 2020 15:57:28 +0900
+Message-Id: <20200808065728.3405-1-yazzep@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAEt1RjrQsb6=reKUKV9uJTG4JoJXErhJFj=2TdVx=N1_Ad1GVg@mail.gmail.com>
-References: <CAEt1RjrQsb6=reKUKV9uJTG4JoJXErhJFj=2TdVx=N1_Ad1GVg@mail.gmail.com>
+In-Reply-To: <20200806151016.GB197575@rowland.harvard.edu>
+References: <20200806151016.GB197575@rowland.harvard.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
