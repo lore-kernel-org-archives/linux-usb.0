@@ -1,69 +1,71 @@
-Return-Path: <SRS0=B+jD=BS=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=oiZq=BT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 119BFC433E1
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Aug 2020 21:27:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05DE9C433DF
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Aug 2020 07:29:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBA75206C3
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Aug 2020 21:27:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E443820729
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Aug 2020 07:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbgHHV1l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 8 Aug 2020 17:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbgHHV1k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Aug 2020 17:27:40 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA32FC061756;
-        Sat,  8 Aug 2020 14:27:40 -0700 (PDT)
-Received: from localhost (50-47-102-2.evrt.wa.frontiernet.net [50.47.102.2])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id D5E51127359E8;
-        Sat,  8 Aug 2020 14:10:53 -0700 (PDT)
-Date:   Sat, 08 Aug 2020 14:27:38 -0700 (PDT)
-Message-Id: <20200808.142738.431277384120054736.davem@davemloft.net>
-To:     thierry.reding@gmail.com
-Cc:     kuba@kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-tegra@vger.kernel.org, ejh@nvidia.com
-Subject: Re: [PATCH net] r8152: Use MAC address from correct device tree
- node
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200807073632.63057-1-thierry.reding@gmail.com>
-References: <20200807073632.63057-1-thierry.reding@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sat, 08 Aug 2020 14:10:54 -0700 (PDT)
+        id S1726426AbgHIH3z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Aug 2020 03:29:55 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:57382 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbgHIH3z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Aug 2020 03:29:55 -0400
+Received: from localhost.localdomain ([93.22.150.139])
+        by mwinf5d64 with ME
+        id DKVq2300630hzCV03KVqWt; Sun, 09 Aug 2020 09:29:53 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 09 Aug 2020 09:29:53 +0200
+X-ME-IP: 93.22.150.139
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        nkristam@nvidia.com, yuehaibing@huawei.com,
+        heikki.krogerus@linux.intel.com
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] usb: gadget: tegra-xudc: Avoid GFP_ATOMIC where it is not needed
+Date:   Sun,  9 Aug 2020 09:29:48 +0200
+Message-Id: <20200809072948.743269-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <thierry.reding@gmail.com>
-Date: Fri,  7 Aug 2020 09:36:32 +0200
+There is no need to use GFP_ATOMIC here. It is a probe function, no
+spinlock is taken.
 
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Query the USB device's device tree node when looking for a MAC address.
-> The struct device embedded into the struct net_device does not have a
-> device tree node attached at all.
-> 
-> The reason why this went unnoticed is because the system where this was
-> tested was one of the few development units that had its OTP programmed,
-> as opposed to production systems where the MAC address is stored in a
-> separate EEPROM and is passed via device tree by the firmware.
-> 
-> Reported-by: EJ Hsu <ejh@nvidia.com>
-> Fixes: acb6d3771a03 ("r8152: Use MAC address from device tree if available")
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/usb/gadget/udc/tegra-xudc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thank you.
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index d6ff68c06911..9aa4815c1c59 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -3733,7 +3733,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
+ 	unsigned int i;
+ 	int err;
+ 
+-	xudc = devm_kzalloc(&pdev->dev, sizeof(*xudc), GFP_ATOMIC);
++	xudc = devm_kzalloc(&pdev->dev, sizeof(*xudc), GFP_KERNEL);
+ 	if (!xudc)
+ 		return -ENOMEM;
+ 
+-- 
+2.25.1
 
