@@ -2,54 +2,58 @@ Return-Path: <SRS0=oiZq=BT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A760C433E0
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Aug 2020 14:19:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 944EEC433E1
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Aug 2020 14:19:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EE88206E9
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Aug 2020 14:19:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DE1C206B2
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Aug 2020 14:19:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G9mnyjxh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BY1OlluB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726242AbgHIOTN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 9 Aug 2020 10:19:13 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23351 "EHLO
+        id S1726350AbgHIOTR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Aug 2020 10:19:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55389 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726070AbgHIOTM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Aug 2020 10:19:12 -0400
+        by vger.kernel.org with ESMTP id S1726321AbgHIOTQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Aug 2020 10:19:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596982750;
+        s=mimecast20190719; t=1596982754;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=KJfDvNtR06xu5KpjicQMLrqqiKfJr4YyEx0w8epCDm0=;
-        b=G9mnyjxhpWCrHhVhwzrTGfDLh8N9q43+cZgkBTJGzn4XhKoJb5MnkiuGuJBllxM4rA155g
-        HRhN3DnnnctWAHtm5bg2bPEr3cBDRsZIpsjvz2Ez1JYsDWEoffNOQttbJPzc9lLXWmOacd
-        L/rMnCfmwUPgtsbvJIpCJhT+t3w9TW8=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=wOpm/LW+Nh4/Mu7TFYJaCp9eVKMGAcoccGk5/CvTIYE=;
+        b=BY1OlluBMZpaDiQHeMMr3/pQk3YCDLWNypHcrZ1L81k0oqNtNQB5nndPU5hzin2PcCL6bk
+        e2ifoxNqtCO50V/KKub9njZ/YY63RMIXhKiX2rDDF52h83m1xNrEZXyg+HfJl9V9u5XsZC
+        MbA2PFITbsVetdWClJhC8coUmjt97Ck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-HOO6AugkOkWKRujTnEqQew-1; Sun, 09 Aug 2020 10:19:08 -0400
-X-MC-Unique: HOO6AugkOkWKRujTnEqQew-1
+ us-mta-498-o7ud7HIcOdy_f34dSmWQzQ-1; Sun, 09 Aug 2020 10:19:11 -0400
+X-MC-Unique: o7ud7HIcOdy_f34dSmWQzQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17DFF19200C0;
-        Sun,  9 Aug 2020 14:19:07 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 292768015CE;
+        Sun,  9 Aug 2020 14:19:10 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-112-24.ams2.redhat.com [10.36.112.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BDD2A8953D;
-        Sun,  9 Aug 2020 14:19:05 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E3FB589528;
+        Sun,  9 Aug 2020 14:19:08 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
-Subject: [PATCH 0/4] usb: typec: ucsi: Fix various locking issues
-Date:   Sun,  9 Aug 2020 16:19:00 +0200
-Message-Id: <20200809141904.4317-1-hdegoede@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH 2/4] usb: typec: ucsi: Fix 2 unlocked ucsi_run_command calls
+Date:   Sun,  9 Aug 2020 16:19:02 +0200
+Message-Id: <20200809141904.4317-3-hdegoede@redhat.com>
+In-Reply-To: <20200809141904.4317-1-hdegoede@redhat.com>
+References: <20200809141904.4317-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -58,33 +62,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Heikki, et al.,
+Fix 2 unlocked ucsi_run_command calls:
 
-As discussed before here is my fix for the AB BA lock inversion issue
-which lockdep found in the ucsi code.
+1. ucsi_handle_connector_change() contains one ucsi_send_command() call,
+which takes the ppm_lock for it; and one ucsi_run_command() call which
+relies on the caller have taking the ppm_lock.
+ucsi_handle_connector_change() does not take the lock, so the
+second (ucsi_run_command) calls should also be ucsi_send_command().
 
-While working on the AB BA fix I added a
-WARN_ON(!mutex_is_locked(&ucsi->ppm_lock)) to ucsi_run_command() and
-that found me some more unrelated issues of ucsi_run_command() getting
-called without the ppm_lock held. This is fixed in the second patch.
-This made me realize that the ppm_lock handling should probably just
-be pushed down to inside ucsi_run_command() instead of letting the
-callers worry about this.
+2. ucsi_get_pdos() gets called from ucsi_handle_connector_change() which
+does not hold the ppm_lock, so it also must use ucsi_send_command().
 
-In essence the first 3 patches are all related and all boil down to
-push the ppm_lock handling down into ucsi_run_command(), removing the
-difference between ucsi_run_command() and ucsi_send_command(). I have
-been thinking that we may want to just squash these 3 together. I've
-left them as separate patches now as thet document how I go to the
-end result after the 3th patch and having them separate might be
-easier for reviewing purposes. Let me know if you want a v2 of this
-patchset with them squashed into a single "usb: typec: ucsi: Rework
-ppm_lock handling" commit (with the commit messages merged).
+This commit also adds a WARN_ON(!mutex_is_locked(&ucsi->ppm_lock)); to
+ucsi_run_command() to avoid similar problems getting re-introduced in
+the future.
 
-The 4th patch makes the also already discussed change of holding
-con->lock for the entire duration of ucsi_register_port().
+Cc: stable@vger.kernel.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Regards,
-
-Hans
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index d9d93f83b2a6..2f586d6c54f4 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -152,6 +152,8 @@ static int ucsi_run_command(struct ucsi *ucsi, u64 command,
+ 	u8 length;
+ 	int ret;
+ 
++	WARN_ON(!mutex_is_locked(&ucsi->ppm_lock));
++
+ 	ret = ucsi_exec_command(ucsi, command);
+ 	if (ret < 0)
+ 		return ret;
+@@ -502,7 +504,7 @@ static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
+ 	command |= UCSI_GET_PDOS_PARTNER_PDO(is_partner);
+ 	command |= UCSI_GET_PDOS_NUM_PDOS(UCSI_MAX_PDOS - 1);
+ 	command |= UCSI_GET_PDOS_SRC_PDOS;
+-	ret = ucsi_run_command(ucsi, command, con->src_pdos,
++	ret = ucsi_send_command(ucsi, command, con->src_pdos,
+ 			       sizeof(con->src_pdos));
+ 	if (ret < 0) {
+ 		dev_err(ucsi->dev, "UCSI_GET_PDOS failed (%d)\n", ret);
+@@ -681,7 +683,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+ 		 */
+ 		command = UCSI_GET_CAM_SUPPORTED;
+ 		command |= UCSI_CONNECTOR_NUMBER(con->num);
+-		ucsi_run_command(con->ucsi, command, NULL, 0);
++		ucsi_send_command(con->ucsi, command, NULL, 0);
+ 	}
+ 
+ 	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE)
+-- 
+2.26.2
 
