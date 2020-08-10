@@ -2,148 +2,126 @@ Return-Path: <SRS0=jvRu=BU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF4A1C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3744AC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:32:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B409322CF6
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:31:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 171BA22B4B
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:32:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597087867;
-	bh=E5VFAU4pKlcc7oy2AktMdjxV68dwiIrYRVznhcynNiY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BRG2kzPyRMJPSZ7NeBpJHVCoHzsVZqt348dCfSnldIWuWG1LpTlEOcRIZYDzs3/hX
-	 1zjoGzDV0EWKOV1NeQHWf8Z6RSvWyHUqmgz1H3eACGOplY7hhO6brKXPCzK4q3ubRL
-	 hlekW33/wI1HTBs9gdQVI8WcX6r18tRvdLLET0Ns=
+	s=default; t=1597087957;
+	bh=rUDIeKM8GB143WlGBIFoXzStDAdg/RBllA8W91sAmkM=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=Sa8tll7tuKuBdJ4VU4T8dLSr8zlFoZ9b4brdM1981IeZLPTuVB7y+X27TyBf4+Nhr
+	 0hZ9hIyMx5Fvd16dg3QGM1ArxnCHsjyU4mh3AHkq72oGLgSIf3IY3mJlMzmzI8E2rG
+	 SV/nsQF+uMOu+Ontlx+Bzcwvkp0pW6doiBsyNty4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729441AbgHJTbD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:31:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37310 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728868AbgHJTKN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:10:13 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5FED322B49;
-        Mon, 10 Aug 2020 19:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086612;
-        bh=E5VFAU4pKlcc7oy2AktMdjxV68dwiIrYRVznhcynNiY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G7OO0XK/jQYrfGF+OBnsdya21GmeIWavFb3PBsF/NHqSlgId7J3qLh3EFffMQXogT
-         upMqq6vK4h9BjIVgnialLUusq58VYBFVbo2Ger00g1Y+d/ag+r80YyKStPS1Xh5jKY
-         7IgsqR3UK+Q9rrDusp6wQH42VUc+CREzMd5moA2Q=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sasi Kumar <sasi.kumar@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 53/64] bdc: Fix bug causing crash after multiple disconnects
-Date:   Mon, 10 Aug 2020 15:08:48 -0400
-Message-Id: <20200810190859.3793319-53-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
-References: <20200810190859.3793319-1-sashal@kernel.org>
+        id S1728739AbgHJTc3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728645AbgHJTJt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 15:09:49 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B1BC061787
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 12:09:48 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id k4so9927747oik.2
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 12:09:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vRzdrafv/FNOSfYeomOTItS2BwVVTrTYSwyncaMq87A=;
+        b=Fu5OgTjWhcoGoXlt2yWElgYtA1Ji8hUuug6RaeiIMnyrazW6Bl/v5mj7k9MePXssxY
+         w2gYGPeYFDTWZZlHVeyoi9x9LgdGLA+pdlga36Le3rscb4aA35KJizchz3a0nTd46+LP
+         RUR4N3qh41M6U66vEga4nfPqvO4hV1z0ZV+OU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vRzdrafv/FNOSfYeomOTItS2BwVVTrTYSwyncaMq87A=;
+        b=c3gj/MMDjcUXnZd1uqqNnv1mG9mf1V55Eifpq+pF1Hx9JF7yxIhM+lc2xYgYWb83Hz
+         xGhG0d+HUB2EayjdBx/RC0YtXR036iVdiLC9urm544pdyvGAiZNYSio34KQ2MXrRUYBn
+         dzMJ+0XOVsLZVKvfrTtGIrqdt3ZmMjxEwCXfpnA3+mCLmmMPA2PLM36gHdmWt4Qj7r9B
+         RLuFAF99OMWmoZveIacqSHcp2ucfc51g4X0I1lvCALTsL4RStqHuM7JKRhu+JZjSRvLa
+         ks5yti8W7iqQux/SBpIhnADI11nTVWGmOBxtexo9yQnwehSJfAluFhk/CGRxu2Lq5XHL
+         3iOQ==
+X-Gm-Message-State: AOAM531rqDdZuH+zFUn1W4ICV5vhWCXGf4rO19jB/f1GGa+EENBsZ7fu
+        HhCng4sX+c71v6nJlpsRe/tudw==
+X-Google-Smtp-Source: ABdhPJxknNG5tuqNi56LuzgZJEuj/QlI273m9hV+b5kpEgHMrrXN2rV/QXGecqi01dkP0VcdFN3bNA==
+X-Received: by 2002:aca:130f:: with SMTP id e15mr564195oii.173.1597086587361;
+        Mon, 10 Aug 2020 12:09:47 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id x5sm3763811oop.4.2020.08.10.12.09.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Aug 2020 12:09:46 -0700 (PDT)
+Subject: Re: [PATCH] usbip: Implement a match function to fix usbip
+To:     Bastien Nocera <hadess@hadess.net>,
+        "M. Vefa Bicakci" <m.v.b@runbox.com>, linux-usb@vger.kernel.org
+Cc:     stable@vger.kernel.org,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20200810160017.46002-1-m.v.b@runbox.com>
+ <6e450e16117afb9e1dd1e4270ef5c2e0d5885348.camel@hadess.net>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <a7351706-9933-a3e1-4e7d-b7ab6f289938@linuxfoundation.org>
+Date:   Mon, 10 Aug 2020 13:09:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <6e450e16117afb9e1dd1e4270ef5c2e0d5885348.camel@hadess.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sasi Kumar <sasi.kumar@broadcom.com>
+On 8/10/20 11:31 AM, Bastien Nocera wrote:
+> On Mon, 2020-08-10 at 19:00 +0300, M. Vefa Bicakci wrote:
+>> Commit 88b7381a939d ("USB: Select better matching USB drivers when
+>> available") introduced the use of a "match" function to select a
+>> non-generic/better driver for a particular USB device. This
+>> unfortunately breaks the operation of usbip in general, as reported
+>> in
+>> the kernel bugzilla with bug 208267 (linked below).
+>>
+>> Upon inspecting the aforementioned commit, one can observe that the
+>> original code in the usb_device_match function used to return 1
+>> unconditionally, but the aforementioned commit makes the
+>> usb_device_match
+>> function use identifier tables and "match" virtual functions, if
+>> either of
+>> them are available.
+>>
+>> Hence, this commit implements a match function for usbip that
+>> unconditionally returns true to ensure that usbip is functional
+>> again.
+>>
+>> This change has been verified to restore usbip functionality, with a
+>> v5.7.y kernel on an up-to-date version of Qubes OS 4.0, which uses
+>> usbip to redirect USB devices between VMs.
+>>
+>> Thanks to Jonathan Dieter for the effort in bisecting this issue down
+>> to the aforementioned commit.
+> 
+> Looks correct. Thanks for root causing the problem.
+> 
+> Reviewed-by: Bastien Nocera <hadess@hadess.net>
+> 
 
-[ Upstream commit a95bdfd22076497288868c028619bc5995f5cc7f ]
+Thank you for finding and fixing the problem.
 
-Multiple connects/disconnects can cause a crash on the second
-disconnect. The driver had a problem where it would try to send
-endpoint commands after it was disconnected which is not allowed
-by the hardware. The fix is to only allow the endpoint commands
-when the endpoint is connected. This will also fix issues that
-showed up when using configfs to create gadgets.
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Signed-off-by: Sasi Kumar <sasi.kumar@broadcom.com>
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/gadget/udc/bdc/bdc_core.c |  4 ++++
- drivers/usb/gadget/udc/bdc/bdc_ep.c   | 16 ++++++++++------
- 2 files changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index 02a3a774670b1..5fde5a8b065c1 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_core.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -282,6 +282,7 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
- 	 * in that case reinit is passed as 1
- 	 */
- 	if (reinit) {
-+		int i;
- 		/* Enable interrupts */
- 		temp = bdc_readl(bdc->regs, BDC_BDCSC);
- 		temp |= BDC_GIE;
-@@ -291,6 +292,9 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
- 		/* Initialize SRR to 0 */
- 		memset(bdc->srr.sr_bds, 0,
- 					NUM_SR_ENTRIES * sizeof(struct bdc_bd));
-+		/* clear ep flags to avoid post disconnect stops/deconfigs */
-+		for (i = 1; i < bdc->num_eps; ++i)
-+			bdc->bdc_ep_array[i]->flags = 0;
- 	} else {
- 		/* One time initiaization only */
- 		/* Enable status report function pointers */
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-index d49c6dc1082dc..9ddc0b4e92c9c 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-@@ -615,7 +615,6 @@ int bdc_ep_enable(struct bdc_ep *ep)
- 	}
- 	bdc_dbg_bd_list(bdc, ep);
- 	/* only for ep0: config ep is called for ep0 from connect event */
--	ep->flags |= BDC_EP_ENABLED;
- 	if (ep->ep_num == 1)
- 		return ret;
- 
-@@ -759,10 +758,13 @@ static int ep_dequeue(struct bdc_ep *ep, struct bdc_req *req)
- 					__func__, ep->name, start_bdi, end_bdi);
- 	dev_dbg(bdc->dev, "ep_dequeue ep=%p ep->desc=%p\n",
- 						ep, (void *)ep->usb_ep.desc);
--	/* Stop the ep to see where the HW is ? */
--	ret = bdc_stop_ep(bdc, ep->ep_num);
--	/* if there is an issue with stopping ep, then no need to go further */
--	if (ret)
-+	/* if still connected, stop the ep to see where the HW is ? */
-+	if (!(bdc_readl(bdc->regs, BDC_USPC) & BDC_PST_MASK)) {
-+		ret = bdc_stop_ep(bdc, ep->ep_num);
-+		/* if there is an issue, then no need to go further */
-+		if (ret)
-+			return 0;
-+	} else
- 		return 0;
- 
- 	/*
-@@ -1911,7 +1913,9 @@ static int bdc_gadget_ep_disable(struct usb_ep *_ep)
- 		__func__, ep->name, ep->flags);
- 
- 	if (!(ep->flags & BDC_EP_ENABLED)) {
--		dev_warn(bdc->dev, "%s is already disabled\n", ep->name);
-+		if (bdc->gadget.speed != USB_SPEED_UNKNOWN)
-+			dev_warn(bdc->dev, "%s is already disabled\n",
-+				 ep->name);
- 		return 0;
- 	}
- 	spin_lock_irqsave(&bdc->lock, flags);
--- 
-2.25.1
-
+thanks,
+-- Shuah
