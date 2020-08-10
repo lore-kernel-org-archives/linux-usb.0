@@ -2,84 +2,101 @@ Return-Path: <SRS0=jvRu=BU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C96C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 15:17:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D3BC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 16:01:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 192C32075F
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 15:17:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0C792078E
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 16:01:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoqLuUZh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbgHJPR0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 11:17:26 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:46727 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726284AbgHJPRZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 11:17:25 -0400
-Received: (qmail 302545 invoked by uid 1000); 10 Aug 2020 11:17:23 -0400
-Date:   Mon, 10 Aug 2020 11:17:23 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     Eli Billauer <eli.billauer@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: [RFC]mooring API
-Message-ID: <20200810151723.GE299045@rowland.harvard.edu>
-References: <1596722827.2488.8.camel@suse.com>
- <20200806152039.GC197575@rowland.harvard.edu>
- <1597070118.2515.3.camel@suse.com>
+        id S1727896AbgHJQBm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 12:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726720AbgHJQBm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 12:01:42 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AF83C061756
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 09:01:42 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id a15so8661684wrh.10
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 09:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:date:from:user-agent:mime-version:to:cc:subject
+         :references:in-reply-to:content-transfer-encoding;
+        bh=TDpOMHly03XIpe97gA3VRcmOBP2T7XSh9D1jyRNFDlw=;
+        b=aoqLuUZhRksq6iCvJoQHd+nj0xxwDXJ8Uk/04EYOgvdrl2PgUhv59pyyXXC/Ex1V/c
+         CzQbtFb0EsevI0HJirIr7S6iiBkPjJchRFaCNAzevjuy7AvtCA+hFZ2HrSjdA1fpS+Sc
+         QuG3UVEDONDINltutduqDlOWd73T9+hNnAELfYWttsWAAhnoJ5GA2hmNqIOui2MqNBV8
+         VyEASmuV9wI54d1m9ZkFdM2rzzRvLLzONJIlzbo1WzgvNm945UOa39yGpGCITVu3G0NG
+         Pzk1HmcWkL4x4WmBWLPwAAPBK4Wj+5/zdEwI1uvnBG4Odylptcr5oUKv1DSvi8EWMH6V
+         zhpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+         :cc:subject:references:in-reply-to:content-transfer-encoding;
+        bh=TDpOMHly03XIpe97gA3VRcmOBP2T7XSh9D1jyRNFDlw=;
+        b=gzRVKbK5dQ5QNG2Pro6F5NN2hPCET6wa9h6gHXQnwwo88MaXYvdqAnv4v1GUFVQ4tx
+         LSJ8/wNZRB1Bs3VIfDfz8vWrn39fIi4aWBomUgAOKG+xpeZ9//MrXGijUMD8ph1bj5B5
+         rbvg2XKzRaWGgLr0awjDGzClrMH+rP9bjlFbv1AZjSzfbUsM014cZ8zyRk9E3YZuCV3R
+         Jm3Low1G7xw84Zs1xPA9qp23cqglzF0/MlRU5lL8GKD9V0jKGodbyB9I/jRtLHkEGiI4
+         g3v0MjBeFy6yoHxdQP8FBHozJDtr0YjBJufnaBVoEfK5u2x/4UNirivuHpdYlxtX7tld
+         ORKw==
+X-Gm-Message-State: AOAM533rjFLx8wVOVFLg8+5BWCKQX8+wWF6r3pIfyw/l57kRHqP3ZmzX
+        vIgmD1E1+dfIMk0GYqSDt3T3UjMJ
+X-Google-Smtp-Source: ABdhPJx3C412XbUbN+e0mZQudWiQ+YH1fnSuoGkRH4IuBfsqw6b++2CpU6A9tZdVddqNZzkudvEhPA==
+X-Received: by 2002:adf:a106:: with SMTP id o6mr25370613wro.1.1597075299596;
+        Mon, 10 Aug 2020 09:01:39 -0700 (PDT)
+Received: from [46.117.37.149] (46-117-37-149.bb.netvision.net.il. [46.117.37.149])
+        by smtp.gmail.com with ESMTPSA id 128sm22130690wmz.43.2020.08.10.09.01.38
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Mon, 10 Aug 2020 09:01:38 -0700 (PDT)
+Message-ID: <5F316F60.5090506@gmail.com>
+Date:   Mon, 10 Aug 2020 19:01:36 +0300
+From:   Eli Billauer <eli.billauer@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.12) Gecko/20100907 Fedora/3.0.7-1.fc12 Thunderbird/3.0.7
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1597070118.2515.3.camel@suse.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+To:     Oliver Neukum <oneukum@suse.com>
+CC:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
+Subject: Re: [RFC]mooring API
+References: <1596722827.2488.8.camel@suse.com> <5F2C2C74.8000104@gmail.com> <1597070349.2515.6.camel@suse.com>
+In-Reply-To: <1597070349.2515.6.camel@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 10, 2020 at 04:35:18PM +0200, Oliver Neukum wrote:
-> Am Donnerstag, den 06.08.2020, 11:20 -0400 schrieb Alan Stern:
+On 10/08/20 17:39, Oliver Neukum wrote:
+>> To me the anchor API is great. If there is unclearances about its API, I
+>> >  suppose docs would help. The fact that the URB is unanchored prior to
+>> >  calling the completer is intuitive, so there's a clear benefit in that.
+>>      
+> But is it necessary? DO you ever move URBs between anchors?
+>    
+I don't think it's relevant what I would or wouldn't do. The question is 
+if someone out there would do that. Without any guidelines saying it's 
+explicitly disallowed, some will do it. Actually, even if there are such 
+guidelines.
+>    
+>> >  This requires some ungraceful code where almost nobody's looking, but if
+>> >  that makes the common programmer's life easier, I think it's a good deal.
+>>      
+> It would be, if the deal is necessary. In hindsight it still looks
+> to me like completion should unanchor an URB.
+>    
+Once again, I'm not sure that matters so much anymore. The anchor API 
+has been around for a while, and there are drivers using it. Adding 
+another API will undoubtedly create some confusion. That's why I think 
+that the question should be what is functionally flawed with the current 
+API, and if that can be fixed.
 
-> > > --- a/drivers/usb/core/hcd.c
-> > > +++ b/drivers/usb/core/hcd.c
-> > > @@ -1640,7 +1640,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
-> > >  	unmap_urb_for_dma(hcd, urb);
-> > >  	usbmon_urb_complete(&hcd->self, urb, status);
-> > >  	usb_anchor_suspend_wakeups(anchor);
-> > > -	usb_unanchor_urb(urb);
-> > > +	smp_rmb(); /* against usb_(un)moor_urb() */
-> > 
-> > What is the race you want to protect against?
-> 
-> It looks to me like I need to be sure that the URB could have
-> been moored on another CPU.
-
-You mean, the URB could have been anchored already, but another CPU 
-could moor it just as this CPU is unachoring it?
-
-For one thing, I doubt that a single smp_rmb() will provide any real 
-protection.  For another, it would be best to just avoid races in the 
-first place.  Can you think of any use case where it makes sense to moor 
-an URB just as it is completing (or indeed at any time while it is 
-active)?
-
-> > Wouldn't it be better to require drivers that want to moor an URB to do 
-> > so before submitting it?  And to unmoor an URB only in the completion 
-> > handler?  Then there wouldn't be any race.
-> 
-> I am afraid we cannot do that, as it must be possible to unmoor an
-> URb that needs to be unmoored before it is submitted, even on
-> another CPU.
-
-I should have said: require drivers that want to unmoor an URB to do so 
-either before it is submitted or in (or after) the completion handler.  
-In other words, don't moor or unmoor an URB while it is active.  How 
-about that?
-
-> What do you think of the API itself?
-
-It looks fine as far as I can tell.  But I haven't worked on any drivers 
-that use anchors.
-
-Alan Stern
+Regards,
+    Eli
