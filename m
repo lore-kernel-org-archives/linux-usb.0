@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3B4C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00EB9C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:11:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D157822BEB
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:10:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B62C72224D
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:11:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597086612;
+	s=default; t=1597086697;
 	bh=SNx4u4/k2IbtAP3EPJ8PZIqvxZtBKRyULR07bQ8PFZ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=waOnQgKhQFYILMM+Z5tXrf2I7K9VidjasYvdzrDyETVUPC8WVcjoSEm25AgybYxJr
-	 IpXpa4Wd+L4x3p3WYytIzXaw+UKHMwHD9JhoqtmWrRm9dm3j5jUBWyBCruLT2mILUk
-	 +EhKYArx4zOZC1c0NdvW/j7ZlLeXECzwc045frJA=
+	b=yNOHoeX6H73ISFs05c1grGbI7twuVj4toGYt8NWpkUFZ9jVKikYtbnUoWx9VwrzqO
+	 f613+4zvR2gL/HVrl5Ztr9ornRjMEkmlVbHvWvXnG+MISOo1SaROiEh1RUKfDWf777
+	 aIkNiHKYYQi6u5tqrFnULAguVTaYaxBctR27kl/g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbgHJTKM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:10:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37288 "EHLO mail.kernel.org"
+        id S1729350AbgHJTLg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:11:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40260 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728852AbgHJTKL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:10:11 -0400
+        id S1729335AbgHJTLf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:11:35 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D0A721775;
-        Mon, 10 Aug 2020 19:10:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A802B22BF3;
+        Mon, 10 Aug 2020 19:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086610;
+        s=default; t=1597086695;
         bh=SNx4u4/k2IbtAP3EPJ8PZIqvxZtBKRyULR07bQ8PFZ0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EDVUjsLFkcxemq7d/gouWC7rlLfG2xI5cYzHF6PB0B2RUzrT9/kHt164Ikq00XLZG
-         scahxhU7XFo61GJN15n8szyxxBw7YwolQl5k36UlFrw9jLtOm9XqMO6jBinVKyPHOY
-         V3B/NvGPVxAhqpN5hvwHE8pQBt9rMRrPqx9UqLU0=
+        b=v5/cSLPCeb8f0P1eksZb0hm98VgmYapXLIr70toAveatKyRFVVuB2G+U1iXn05HSi
+         3e1vGxTDyrGOoX4uazAHbDhOEbrVPXw8oFFd6KCDeXGH79abIZAbH4QLjQTfOmA9/H
+         yIWrmdU0tGxA1ptYPqwfp1AZ5cV9zkWCiGpqvVS4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Evgeny Novikov <novikov@ispras.ru>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 52/64] usb: gadget: net2280: fix memory leak on probe error handling paths
-Date:   Mon, 10 Aug 2020 15:08:47 -0400
-Message-Id: <20200810190859.3793319-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 48/60] usb: gadget: net2280: fix memory leak on probe error handling paths
+Date:   Mon, 10 Aug 2020 15:10:16 -0400
+Message-Id: <20200810191028.3793884-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
-References: <20200810190859.3793319-1-sashal@kernel.org>
+In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
+References: <20200810191028.3793884-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
