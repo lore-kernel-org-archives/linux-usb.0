@@ -2,75 +2,67 @@ Return-Path: <SRS0=jvRu=BU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66041C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 07:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 026CDC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 08:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 468D72065C
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 07:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597045619;
-	bh=d7yZTMaajyYYDp1xUH/+msJ7BOrEiV5LPH4/r1jiZps=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=xbrKlv88oi52de7t5R0XZmAqXrFNEZu5U+B0rh1UluqLQ+6c8A7S17Te4nERMVUCq
-	 ev7o3JiQrBXbh5sXLCVrJ1z8fhCtLDxD28HwtIfERDCOmyeaENXFHFvzmIyZ1jAwnD
-	 mvR4CdWIoO+eTFuhRGR0AeRDiE1ZLwYRfQdME7DQ=
+	by mail.kernel.org (Postfix) with ESMTP id DFF632065C
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 08:32:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbgHJHq4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 03:46:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52736 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgHJHqz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 03:46:55 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BF34D2065C;
-        Mon, 10 Aug 2020 07:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597045615;
-        bh=d7yZTMaajyYYDp1xUH/+msJ7BOrEiV5LPH4/r1jiZps=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xUMoQJ0Rj1qEx67OX2Ceqywy2Yyj+2T8X3o+e9FmDy8FR2gT+SJGFsA/UQvR136dN
-         CXt3WUVGCc0S2UXFpVGgzG9+umduUDstNjQc4eBhgYIN6uAYIMVf+Jd+R/xGfiV9Y4
-         JmfripfRyZPVjP09oPKx/jtALkGprinOP82Pn2Bs=
-Date:   Mon, 10 Aug 2020 09:47:06 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     syzbot <syzbot+a7e220df5a81d1ab400e@syzkaller.appspotmail.com>
-Cc:     andreyknvl@google.com, balbi@kernel.org, dan.carpenter@oracle.com,
-        glider@google.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: KMSAN: kernel-infoleak in raw_ioctl
-Message-ID: <20200810074706.GD1529187@kroah.com>
-References: <000000000000ce85c405ac744ff6@google.com>
+        id S1726304AbgHJIcO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 04:32:14 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:52026 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725857AbgHJIcN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 04:32:13 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1k53E3-0007V4-Ai; Mon, 10 Aug 2020 08:32:11 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] USB: storage: isd200: fix spelling mistake "removeable" -> "removable"
+Date:   Mon, 10 Aug 2020 09:32:11 +0100
+Message-Id: <20200810083211.48282-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000000000000ce85c405ac744ff6@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Aug 09, 2020 at 09:27:18AM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    ce8056d1 wip: changed copy_from_user where instrumented
-> git tree:       https://github.com/google/kmsan.git master
-> console output: https://syzkaller.appspot.com/x/log.txt?x=141eb8b2900000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
-> dashboard link: https://syzkaller.appspot.com/bug?extid=a7e220df5a81d1ab400e
-> compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-> userspace arch: i386
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
+From: Colin Ian King <colin.king@canonical.com>
 
-The irony of a kernel module written for syzbot testing, causing syzbot
-reports....
+There is a spelling mistake in a usb_stor_dbg debug message. Fix it.
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/usb/storage/isd200.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/storage/isd200.c b/drivers/usb/storage/isd200.c
+index 89f5e33a6e6d..3c76336e43bb 100644
+--- a/drivers/usb/storage/isd200.c
++++ b/drivers/usb/storage/isd200.c
+@@ -1383,7 +1383,7 @@ static int isd200_scsi_to_ata(struct scsi_cmnd *srb, struct us_data *us,
+ 				ATA_CMD_MEDIA_LOCK : ATA_CMD_MEDIA_UNLOCK;
+ 			isd200_srb_set_bufflen(srb, 0);
+ 		} else {
+-			usb_stor_dbg(us, "   Not removeable media, just report okay\n");
++			usb_stor_dbg(us, "   Not removable media, just report okay\n");
+ 			srb->result = SAM_STAT_GOOD;
+ 			sendToTransport = 0;
+ 		}
+-- 
+2.27.0
 
