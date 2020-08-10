@@ -4,61 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E5FC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 15:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C96C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 15:17:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36785206C3
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 15:00:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 192C32075F
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 15:17:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgHJPAc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 11:00:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38756 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726787AbgHJPAb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 11:00:31 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 974A1AE71;
-        Mon, 10 Aug 2020 15:00:50 +0000 (UTC)
-Message-ID: <1597070349.2515.6.camel@suse.com>
+        id S1726489AbgHJPR0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 11:17:26 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:46727 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726284AbgHJPRZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 11:17:25 -0400
+Received: (qmail 302545 invoked by uid 1000); 10 Aug 2020 11:17:23 -0400
+Date:   Mon, 10 Aug 2020 11:17:23 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Eli Billauer <eli.billauer@gmail.com>, linux-usb@vger.kernel.org
 Subject: Re: [RFC]mooring API
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Eli Billauer <eli.billauer@gmail.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
-Date:   Mon, 10 Aug 2020 16:39:09 +0200
-In-Reply-To: <5F2C2C74.8000104@gmail.com>
-References: <1596722827.2488.8.camel@suse.com> <5F2C2C74.8000104@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Message-ID: <20200810151723.GE299045@rowland.harvard.edu>
+References: <1596722827.2488.8.camel@suse.com>
+ <20200806152039.GC197575@rowland.harvard.edu>
+ <1597070118.2515.3.camel@suse.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1597070118.2515.3.camel@suse.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Donnerstag, den 06.08.2020, 19:14 +0300 schrieb Eli Billauer:
-> Hello,
+On Mon, Aug 10, 2020 at 04:35:18PM +0200, Oliver Neukum wrote:
+> Am Donnerstag, den 06.08.2020, 11:20 -0400 schrieb Alan Stern:
+
+> > > --- a/drivers/usb/core/hcd.c
+> > > +++ b/drivers/usb/core/hcd.c
+> > > @@ -1640,7 +1640,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+> > >  	unmap_urb_for_dma(hcd, urb);
+> > >  	usbmon_urb_complete(&hcd->self, urb, status);
+> > >  	usb_anchor_suspend_wakeups(anchor);
+> > > -	usb_unanchor_urb(urb);
+> > > +	smp_rmb(); /* against usb_(un)moor_urb() */
+> > 
+> > What is the race you want to protect against?
 > 
-> I feel I got more credit that I deserve. Hans de Goede discovered this 
-> issue and solved a specific problem that was related to the race back in 
-> 6ec4147. I was just lucky (or unlucky) enough to get a kernel panic on 
-> my machine due to another problem, for which I submitted a patch.
+> It looks to me like I need to be sure that the URB could have
+> been moored on another CPU.
+
+You mean, the URB could have been anchored already, but another CPU 
+could moor it just as this CPU is unachoring it?
+
+For one thing, I doubt that a single smp_rmb() will provide any real 
+protection.  For another, it would be best to just avoid races in the 
+first place.  Can you think of any use case where it makes sense to moor 
+an URB just as it is completing (or indeed at any time while it is 
+active)?
+
+> > Wouldn't it be better to require drivers that want to moor an URB to do 
+> > so before submitting it?  And to unmoor an URB only in the completion 
+> > handler?  Then there wouldn't be any race.
 > 
-> To me the anchor API is great. If there is unclearances about its API, I 
-> suppose docs would help. The fact that the URB is unanchored prior to 
-> calling the completer is intuitive, so there's a clear benefit in that.
+> I am afraid we cannot do that, as it must be possible to unmoor an
+> URb that needs to be unmoored before it is submitted, even on
+> another CPU.
 
-But is it necessary? DO you ever move URBs between anchors?
+I should have said: require drivers that want to unmoor an URB to do so 
+either before it is submitted or in (or after) the completion handler.  
+In other words, don't moor or unmoor an URB while it is active.  How 
+about that?
 
-> This requires some ungraceful code where almost nobody's looking, but if 
-> that makes the common programmer's life easier, I think it's a good deal.
+> What do you think of the API itself?
 
-It would be, if the deal is necessary. In hindsight it still looks
-to me like completion should unanchor an URB.
+It looks fine as far as I can tell.  But I haven't worked on any drivers 
+that use anchors.
 
-	Regards
-		Oliver
-
+Alan Stern
