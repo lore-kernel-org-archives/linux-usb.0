@@ -5,49 +5,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC410C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A469C433E1
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:17:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8EC322B47
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:17:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E776C22D06
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597087070;
-	bh=O9Hex2PI3iQ6/NXORTRno+6ERGMI/L7zK73tXL6N1SE=;
+	s=default; t=1597087078;
+	bh=J982j0pUCT6dEHzjO48L3Uiqi+YmVsxDWByPj/wuRbY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=FaqRzcHbIYy1PL4RQYa30+F8CfeNj+P2gRm0Ff8z2MozcVmxBDW2nEfehH1doT/2j
-	 O4vNiaA7Rp3nOg6NuUPLf0ltPW+O0axfYuZMFqfuyNc1FGlLMEeUYRyscy8UmX0NE9
-	 KnG4W3x2BdgNNoFe2vTS/0l6iHbluBg80XpQTWS8=
+	b=KLt3z+v7NqAoTJkdXgFYWJzX3jNGdVU4d8bjzVJIBQyce97jGmhl8XNBh7kLwFG2p
+	 OAiNSR+XuqaoDXbdWi0a1MGE11m9eARXENAbjGbf14gzr9UhbfLbQmC5yCGCCT85iL
+	 LGwscFJ/Q90XAIO20WKMjyZftJ0yIZS/mAs1lP3M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729973AbgHJTOO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:14:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46072 "EHLO mail.kernel.org"
+        id S1730174AbgHJTRz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:17:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46042 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729966AbgHJTOM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:14:12 -0400
+        id S1729964AbgHJTOK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:14:10 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 508F522C9E;
-        Mon, 10 Aug 2020 19:14:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C1EB1207FF;
+        Mon, 10 Aug 2020 19:14:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086851;
-        bh=O9Hex2PI3iQ6/NXORTRno+6ERGMI/L7zK73tXL6N1SE=;
+        s=default; t=1597086849;
+        bh=J982j0pUCT6dEHzjO48L3Uiqi+YmVsxDWByPj/wuRbY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HPsYT7GgHOsZULDJNhBZAazPFcj0rQlQsQ0WhwFLHjT2udATuWbD+ehxXMXNWSuwq
-         R/22N7XFcYsqsm1jzfr2sQJc231Ci5DpIoNH3j/ysMCHDHQGyE5aISq6eGCcU8RlWf
-         rP+yqiEG784NvNEUMtWNg6j1jFn6Fp7cKE1XB6fQ=
+        b=taEITOtO6Y3AOzqOfxOQ70eBn11xGUOJNGCXeG3UDiJJR/iZQSdfX0LzpNiLZyZ8V
+         y5iRctqb5OTKUi85w3L1yCkmUx9mDL+yTxuOuyb2Q7NhYknKymhE7eJp4bTgsWN7HW
+         sKUo/+5Eir7CullpAGrECtVom64JCYewLS8h89HQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Danesh Petigara <danesh.petigara@broadcom.com>,
+Cc:     Sasi Kumar <sasi.kumar@broadcom.com>,
         Al Cooper <alcooperx@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 18/22] usb: bdc: Halt controller on suspend
-Date:   Mon, 10 Aug 2020 15:13:40 -0400
-Message-Id: <20200810191345.3795166-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 17/22] bdc: Fix bug causing crash after multiple disconnects
+Date:   Mon, 10 Aug 2020 15:13:39 -0400
+Message-Id: <20200810191345.3795166-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810191345.3795166-1-sashal@kernel.org>
 References: <20200810191345.3795166-1-sashal@kernel.org>
@@ -60,49 +60,90 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Danesh Petigara <danesh.petigara@broadcom.com>
+From: Sasi Kumar <sasi.kumar@broadcom.com>
 
-[ Upstream commit 5fc453d7de3d0c345812453823a3a56783c5f82c ]
+[ Upstream commit a95bdfd22076497288868c028619bc5995f5cc7f ]
 
-GISB bus error kernel panics have been observed during S2 transition
-tests on the 7271t platform. The errors are a result of the BDC
-interrupt handler trying to access BDC register space after the
-system's suspend callbacks have completed.
+Multiple connects/disconnects can cause a crash on the second
+disconnect. The driver had a problem where it would try to send
+endpoint commands after it was disconnected which is not allowed
+by the hardware. The fix is to only allow the endpoint commands
+when the endpoint is connected. This will also fix issues that
+showed up when using configfs to create gadgets.
 
-Adding a suspend hook to the BDC driver that halts the controller before
-S2 entry thus preventing unwanted access to the BDC register space during
-this transition.
-
-Signed-off-by: Danesh Petigara <danesh.petigara@broadcom.com>
+Signed-off-by: Sasi Kumar <sasi.kumar@broadcom.com>
 Signed-off-by: Al Cooper <alcooperx@gmail.com>
 Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/bdc/bdc_core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/udc/bdc/bdc_core.c |  4 ++++
+ drivers/usb/gadget/udc/bdc/bdc_ep.c   | 16 ++++++++++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index 2660cc2e42a08..58ba04d858bab 100644
+index 7a8af4b916cff..2660cc2e42a08 100644
 --- a/drivers/usb/gadget/udc/bdc/bdc_core.c
 +++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -613,9 +613,14 @@ static int bdc_remove(struct platform_device *pdev)
- static int bdc_suspend(struct device *dev)
- {
- 	struct bdc *bdc = dev_get_drvdata(dev);
-+	int ret;
+@@ -288,6 +288,7 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
+ 	 * in that case reinit is passed as 1
+ 	 */
+ 	if (reinit) {
++		int i;
+ 		/* Enable interrupts */
+ 		temp = bdc_readl(bdc->regs, BDC_BDCSC);
+ 		temp |= BDC_GIE;
+@@ -297,6 +298,9 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
+ 		/* Initialize SRR to 0 */
+ 		memset(bdc->srr.sr_bds, 0,
+ 					NUM_SR_ENTRIES * sizeof(struct bdc_bd));
++		/* clear ep flags to avoid post disconnect stops/deconfigs */
++		for (i = 1; i < bdc->num_eps; ++i)
++			bdc->bdc_ep_array[i]->flags = 0;
+ 	} else {
+ 		/* One time initiaization only */
+ 		/* Enable status report function pointers */
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+index be9f40bc9c12b..bb2d5ebd97b52 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+@@ -621,7 +621,6 @@ int bdc_ep_enable(struct bdc_ep *ep)
+ 	}
+ 	bdc_dbg_bd_list(bdc, ep);
+ 	/* only for ep0: config ep is called for ep0 from connect event */
+-	ep->flags |= BDC_EP_ENABLED;
+ 	if (ep->ep_num == 1)
+ 		return ret;
  
--	clk_disable_unprepare(bdc->clk);
--	return 0;
-+	/* Halt the controller */
-+	ret = bdc_stop(bdc);
-+	if (!ret)
-+		clk_disable_unprepare(bdc->clk);
-+
-+	return ret;
- }
+@@ -765,10 +764,13 @@ static int ep_dequeue(struct bdc_ep *ep, struct bdc_req *req)
+ 					__func__, ep->name, start_bdi, end_bdi);
+ 	dev_dbg(bdc->dev, "ep_dequeue ep=%p ep->desc=%p\n",
+ 						ep, (void *)ep->usb_ep.desc);
+-	/* Stop the ep to see where the HW is ? */
+-	ret = bdc_stop_ep(bdc, ep->ep_num);
+-	/* if there is an issue with stopping ep, then no need to go further */
+-	if (ret)
++	/* if still connected, stop the ep to see where the HW is ? */
++	if (!(bdc_readl(bdc->regs, BDC_USPC) & BDC_PST_MASK)) {
++		ret = bdc_stop_ep(bdc, ep->ep_num);
++		/* if there is an issue, then no need to go further */
++		if (ret)
++			return 0;
++	} else
+ 		return 0;
  
- static int bdc_resume(struct device *dev)
+ 	/*
+@@ -1917,7 +1919,9 @@ static int bdc_gadget_ep_disable(struct usb_ep *_ep)
+ 		__func__, ep->name, ep->flags);
+ 
+ 	if (!(ep->flags & BDC_EP_ENABLED)) {
+-		dev_warn(bdc->dev, "%s is already disabled\n", ep->name);
++		if (bdc->gadget.speed != USB_SPEED_UNKNOWN)
++			dev_warn(bdc->dev, "%s is already disabled\n",
++				 ep->name);
+ 		return 0;
+ 	}
+ 	spin_lock_irqsave(&bdc->lock, flags);
 -- 
 2.25.1
 
