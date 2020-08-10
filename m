@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1595FC433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:12:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9A5C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:13:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5F2C2224D
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:12:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E233422BEB
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597086773;
-	bh=GojjC6uCeUIFjllzkZFs+d8HgBoSm/cfabwAnhoPo0Q=;
+	s=default; t=1597086820;
+	bh=ARaebd6r23AHRp7i41bEOBhp4oRUZXhVKblrjOHtCy8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CScbCC5rcTisSOcrzuiDo9jSUFFTxvbXOhc8t64ztxKPyazSRlgFcZFB6DG52IGG4
-	 h+cS70ueP2Tljl5t4pgCc5wcCPOltJtcn8XoiXwP6kflNCBsQWBqRSrMQ4CQPb5dSk
-	 FF4OMJko8bEcwvfJUFOmdH+Zy+3ID+PjKhMUbLEI=
+	b=cP5ubDrmLUdpDvfhezgWE9fdi6pl+Trh4+HX6Uyu6DXwnilAC4z+HECPo0BLhhImv
+	 tAKXJkD7eNOE3l2vZHIQ0IpxQmb64MAS2mi+G9G+kUwD35LwdIWqYGsNXktwDV6Y6y
+	 DQ0xcEDCMfhWzyUlCthcFoXy6aq5/qWbFxvJLpuI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729648AbgHJTMw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:12:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43042 "EHLO mail.kernel.org"
+        id S1729810AbgHJTNj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:13:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729630AbgHJTMu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:12:50 -0400
+        id S1729797AbgHJTNg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:13:36 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AEDD207FF;
-        Mon, 10 Aug 2020 19:12:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5DA482224D;
+        Mon, 10 Aug 2020 19:13:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086769;
-        bh=GojjC6uCeUIFjllzkZFs+d8HgBoSm/cfabwAnhoPo0Q=;
+        s=default; t=1597086816;
+        bh=ARaebd6r23AHRp7i41bEOBhp4oRUZXhVKblrjOHtCy8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tQm4DGKGLodYPLTL0Savup0Y7O82K5XM5sflKhN1Xz3Vb2A96O4umKh0NFXoXDZlH
-         P+itxycKqabQB/DWtGJ21zNsDTHRl7C+kUzCptBJpqLIWMuAbRT2KGvhBGSWOtjW1d
-         MsWiJpHh/Rl0PRRALSwRx4h2FvR0k5qaqNw5mh4A=
+        b=IvLs79vSfPs9UZeeNoKk0EoUofo+kwkWAN5m14Z5X4XfvhyDQaSxBu+xaaS/DRcmf
+         2HqBVDNepmQYZl6b+vgCrbWFPav5yl24D0QPxnKmFmoSw/whJ9Tdn+Km5kyXTsjQSC
+         RQC6a0n890s8N1KkC/sGdOwI1VKoMuO/uNXfkhmw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sasi Kumar <sasi.kumar@broadcom.com>,
@@ -45,12 +45,12 @@ Cc:     Sasi Kumar <sasi.kumar@broadcom.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 39/45] bdc: Fix bug causing crash after multiple disconnects
-Date:   Mon, 10 Aug 2020 15:11:47 -0400
-Message-Id: <20200810191153.3794446-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 25/31] bdc: Fix bug causing crash after multiple disconnects
+Date:   Mon, 10 Aug 2020 15:12:53 -0400
+Message-Id: <20200810191259.3794858-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191153.3794446-1-sashal@kernel.org>
-References: <20200810191153.3794446-1-sashal@kernel.org>
+In-Reply-To: <20200810191259.3794858-1-sashal@kernel.org>
+References: <20200810191259.3794858-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index cc4a16e253ac5..174555e94a6c0 100644
+index 01b44e1596237..4c557f3154460 100644
 --- a/drivers/usb/gadget/udc/bdc/bdc_core.c
 +++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -282,6 +282,7 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
+@@ -283,6 +283,7 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
  	 * in that case reinit is passed as 1
  	 */
  	if (reinit) {
@@ -93,7 +93,7 @@ index cc4a16e253ac5..174555e94a6c0 100644
  		/* Enable interrupts */
  		temp = bdc_readl(bdc->regs, BDC_BDCSC);
  		temp |= BDC_GIE;
-@@ -291,6 +292,9 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
+@@ -292,6 +293,9 @@ static void bdc_mem_init(struct bdc *bdc, bool reinit)
  		/* Initialize SRR to 0 */
  		memset(bdc->srr.sr_bds, 0,
  					NUM_SR_ENTRIES * sizeof(struct bdc_bd));
