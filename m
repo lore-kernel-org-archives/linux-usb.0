@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F947C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F85C433E3
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:31:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E7572080C
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:28:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2F3222CF6
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597087728;
-	bh=x9GG5gygsBiraECBSOqumUJcpCscr6B3l3sBiltVbKI=;
+	s=default; t=1597087863;
+	bh=qCjkvgmmU7mm/aDr1MGFWcs+iVYgV6a/xKFymDiO9U4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DiCC4EoYXD+bFFFbXlR25UrS2sk/9CaglznYbv9EfGIjCmaEDQ3Nt/LUDG7+g1MHW
-	 b+BcERgk/TTCFbzBzAg1wE1oihHewBa62XWl7tB+Wk0xeivZtn8DhA+3+TT470xLxB
-	 ChzC0tIZnjncMFYigr/I5FZhtRXpnCJ3pFOBMF0g=
+	b=h01hlwBCRlO8o5cMKTVcePqGeZdM997oGNA7ZmX1jhoefVzP5pF40xl0rh/igL9Co
+	 AzgmXpxsW035ynHAi3Q5WmX7F/jSsMrn4X6z2FO2M7xh918Kla34deQHwHS2wimI19
+	 bj+CPfXZ+Z1nmlLkzI0EeXsfCCZCEtZL81QxObhU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729132AbgHJTLD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:11:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38994 "EHLO mail.kernel.org"
+        id S1728894AbgHJTKP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:10:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729118AbgHJTLB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:11:01 -0400
+        id S1728877AbgHJTKO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:10:14 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 77BF42078D;
-        Mon, 10 Aug 2020 19:11:00 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A344E2224D;
+        Mon, 10 Aug 2020 19:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086661;
-        bh=x9GG5gygsBiraECBSOqumUJcpCscr6B3l3sBiltVbKI=;
+        s=default; t=1597086613;
+        bh=qCjkvgmmU7mm/aDr1MGFWcs+iVYgV6a/xKFymDiO9U4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YMscp0VU+h/1Of6GnSav01mq8r3K7Z47w9R4hc+Pee0ay3Q20yth+bAeo4s0cnKGA
-         fuyvG9flrdG6CisWRht0GBqOu4iMhpO4ranU+hca7kIVw9UzG+4iaWkjl0D2BQOslm
-         HoiSDVcbQ9u1LRKPE3Xy7zaUV3KoIdkN6Co4sy44=
+        b=kvWblY97h1njc0MfG2Kp3mhW85fJsreHzrO0CVSSsbjxwh4jPjCUT7bFOARYnDO0k
+         vNlCs7Cz70xpK8IMT454pFMjIOPNnIKtJzytJq5+0XPKZPj/1EOq0AQcwKZDfEcZma
+         JQmTP9UapArkeMWd9ocJmdf+RAQ8ZNH0NkdJSKUk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.7 24/60] usb: mtu3: clear dual mode of u3port when disable device
-Date:   Mon, 10 Aug 2020 15:09:52 -0400
-Message-Id: <20200810191028.3793884-24-sashal@kernel.org>
+Cc:     Danesh Petigara <danesh.petigara@broadcom.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 54/64] usb: bdc: Halt controller on suspend
+Date:   Mon, 10 Aug 2020 15:08:49 -0400
+Message-Id: <20200810190859.3793319-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
-References: <20200810191028.3793884-1-sashal@kernel.org>
+In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
+References: <20200810190859.3793319-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,39 +60,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+From: Danesh Petigara <danesh.petigara@broadcom.com>
 
-[ Upstream commit f1e51e99ed498d4aa9ae5df28e43d558ea627781 ]
+[ Upstream commit 5fc453d7de3d0c345812453823a3a56783c5f82c ]
 
-If not clear u3port's dual mode when disable device, the IP
-will fail to enter sleep mode when suspend.
+GISB bus error kernel panics have been observed during S2 transition
+tests on the 7271t platform. The errors are a result of the BDC
+interrupt handler trying to access BDC register space after the
+system's suspend callbacks have completed.
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Link: https://lore.kernel.org/r/1595834101-13094-10-git-send-email-chunfeng.yun@mediatek.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Adding a suspend hook to the BDC driver that halts the controller before
+S2 entry thus preventing unwanted access to the BDC register space during
+this transition.
+
+Signed-off-by: Danesh Petigara <danesh.petigara@broadcom.com>
+Signed-off-by: Al Cooper <alcooperx@gmail.com>
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/mtu3/mtu3_core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/udc/bdc/bdc_core.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index 9dd02160cca97..e3780d4d65149 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -131,8 +131,12 @@ static void mtu3_device_disable(struct mtu3 *mtu)
- 	mtu3_setbits(ibase, SSUSB_U2_CTRL(0),
- 		SSUSB_U2_PORT_DIS | SSUSB_U2_PORT_PDN);
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
+index 5fde5a8b065c1..2dca11f0a7444 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_core.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
+@@ -603,9 +603,14 @@ static int bdc_remove(struct platform_device *pdev)
+ static int bdc_suspend(struct device *dev)
+ {
+ 	struct bdc *bdc = dev_get_drvdata(dev);
++	int ret;
  
--	if (mtu->ssusb->dr_mode == USB_DR_MODE_OTG)
-+	if (mtu->ssusb->dr_mode == USB_DR_MODE_OTG) {
- 		mtu3_clrbits(ibase, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_OTG_SEL);
-+		if (mtu->is_u3_ip)
-+			mtu3_clrbits(ibase, SSUSB_U3_CTRL(0),
-+				     SSUSB_U3_PORT_DUAL_MODE);
-+	}
- 
- 	mtu3_setbits(ibase, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
+-	clk_disable_unprepare(bdc->clk);
+-	return 0;
++	/* Halt the controller */
++	ret = bdc_stop(bdc);
++	if (!ret)
++		clk_disable_unprepare(bdc->clk);
++
++	return ret;
  }
+ 
+ static int bdc_resume(struct device *dev)
 -- 
 2.25.1
 
