@@ -2,126 +2,97 @@ Return-Path: <SRS0=jvRu=BU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3744AC433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD6EC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:32:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 171BA22B4B
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:32:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A7A122B4B
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:32:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597087957;
-	bh=rUDIeKM8GB143WlGBIFoXzStDAdg/RBllA8W91sAmkM=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=Sa8tll7tuKuBdJ4VU4T8dLSr8zlFoZ9b4brdM1981IeZLPTuVB7y+X27TyBf4+Nhr
-	 0hZ9hIyMx5Fvd16dg3QGM1ArxnCHsjyU4mh3AHkq72oGLgSIf3IY3mJlMzmzI8E2rG
-	 SV/nsQF+uMOu+Ontlx+Bzcwvkp0pW6doiBsyNty4=
+	s=default; t=1597087966;
+	bh=x9GG5gygsBiraECBSOqumUJcpCscr6B3l3sBiltVbKI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=fmZJvk6ujV2VS1y+CTXP1wmniGgt7OSZDCXzWAxe7jhLAAfyWHTO/VOEFKdY3E9YM
+	 oF321T9wedcUkkmKWIDtjxYIdfZkw28EFOA8pnPOCdVi/6hpzfAnNjR1K5Xx4Jpihq
+	 ZTnzGRjCvkyl8lJRnQOhyICi+WuMEb+qmLju9BaI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728739AbgHJTc3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:32:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41894 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728645AbgHJTJt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 15:09:49 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B1BC061787
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 12:09:48 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id k4so9927747oik.2
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 12:09:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vRzdrafv/FNOSfYeomOTItS2BwVVTrTYSwyncaMq87A=;
-        b=Fu5OgTjWhcoGoXlt2yWElgYtA1Ji8hUuug6RaeiIMnyrazW6Bl/v5mj7k9MePXssxY
-         w2gYGPeYFDTWZZlHVeyoi9x9LgdGLA+pdlga36Le3rscb4aA35KJizchz3a0nTd46+LP
-         RUR4N3qh41M6U66vEga4nfPqvO4hV1z0ZV+OU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vRzdrafv/FNOSfYeomOTItS2BwVVTrTYSwyncaMq87A=;
-        b=c3gj/MMDjcUXnZd1uqqNnv1mG9mf1V55Eifpq+pF1Hx9JF7yxIhM+lc2xYgYWb83Hz
-         xGhG0d+HUB2EayjdBx/RC0YtXR036iVdiLC9urm544pdyvGAiZNYSio34KQ2MXrRUYBn
-         dzMJ+0XOVsLZVKvfrTtGIrqdt3ZmMjxEwCXfpnA3+mCLmmMPA2PLM36gHdmWt4Qj7r9B
-         RLuFAF99OMWmoZveIacqSHcp2ucfc51g4X0I1lvCALTsL4RStqHuM7JKRhu+JZjSRvLa
-         ks5yti8W7iqQux/SBpIhnADI11nTVWGmOBxtexo9yQnwehSJfAluFhk/CGRxu2Lq5XHL
-         3iOQ==
-X-Gm-Message-State: AOAM531rqDdZuH+zFUn1W4ICV5vhWCXGf4rO19jB/f1GGa+EENBsZ7fu
-        HhCng4sX+c71v6nJlpsRe/tudw==
-X-Google-Smtp-Source: ABdhPJxknNG5tuqNi56LuzgZJEuj/QlI273m9hV+b5kpEgHMrrXN2rV/QXGecqi01dkP0VcdFN3bNA==
-X-Received: by 2002:aca:130f:: with SMTP id e15mr564195oii.173.1597086587361;
-        Mon, 10 Aug 2020 12:09:47 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id x5sm3763811oop.4.2020.08.10.12.09.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Aug 2020 12:09:46 -0700 (PDT)
-Subject: Re: [PATCH] usbip: Implement a match function to fix usbip
-To:     Bastien Nocera <hadess@hadess.net>,
-        "M. Vefa Bicakci" <m.v.b@runbox.com>, linux-usb@vger.kernel.org
-Cc:     stable@vger.kernel.org,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
+        id S1729284AbgHJTco (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:32:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35948 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728574AbgHJTJf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:09:35 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3803320885;
+        Mon, 10 Aug 2020 19:09:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597086575;
+        bh=x9GG5gygsBiraECBSOqumUJcpCscr6B3l3sBiltVbKI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=xBDHpePKQL5pMA+GoiBseKk0AOvwfKnhO2/n1ne3M8EiQaLZTjBmGFwA2bej1gxpb
+         N8mdSuXadpCytpY3O+/XI/QPyUwmy08PB88bAQD+HZ7/3V19zm7yrXeMVIH6zUlJ1B
+         FdZLT1KaS2h+cG0GZZwThoklynFZ8oWivxDeOodg=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20200810160017.46002-1-m.v.b@runbox.com>
- <6e450e16117afb9e1dd1e4270ef5c2e0d5885348.camel@hadess.net>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <a7351706-9933-a3e1-4e7d-b7ab6f289938@linuxfoundation.org>
-Date:   Mon, 10 Aug 2020 13:09:45 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.8 26/64] usb: mtu3: clear dual mode of u3port when disable device
+Date:   Mon, 10 Aug 2020 15:08:21 -0400
+Message-Id: <20200810190859.3793319-26-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
+References: <20200810190859.3793319-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <6e450e16117afb9e1dd1e4270ef5c2e0d5885348.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/10/20 11:31 AM, Bastien Nocera wrote:
-> On Mon, 2020-08-10 at 19:00 +0300, M. Vefa Bicakci wrote:
->> Commit 88b7381a939d ("USB: Select better matching USB drivers when
->> available") introduced the use of a "match" function to select a
->> non-generic/better driver for a particular USB device. This
->> unfortunately breaks the operation of usbip in general, as reported
->> in
->> the kernel bugzilla with bug 208267 (linked below).
->>
->> Upon inspecting the aforementioned commit, one can observe that the
->> original code in the usb_device_match function used to return 1
->> unconditionally, but the aforementioned commit makes the
->> usb_device_match
->> function use identifier tables and "match" virtual functions, if
->> either of
->> them are available.
->>
->> Hence, this commit implements a match function for usbip that
->> unconditionally returns true to ensure that usbip is functional
->> again.
->>
->> This change has been verified to restore usbip functionality, with a
->> v5.7.y kernel on an up-to-date version of Qubes OS 4.0, which uses
->> usbip to redirect USB devices between VMs.
->>
->> Thanks to Jonathan Dieter for the effort in bisecting this issue down
->> to the aforementioned commit.
-> 
-> Looks correct. Thanks for root causing the problem.
-> 
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
-> 
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-Thank you for finding and fixing the problem.
+[ Upstream commit f1e51e99ed498d4aa9ae5df28e43d558ea627781 ]
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+If not clear u3port's dual mode when disable device, the IP
+will fail to enter sleep mode when suspend.
 
-thanks,
--- Shuah
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Link: https://lore.kernel.org/r/1595834101-13094-10-git-send-email-chunfeng.yun@mediatek.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/mtu3/mtu3_core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index 9dd02160cca97..e3780d4d65149 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -131,8 +131,12 @@ static void mtu3_device_disable(struct mtu3 *mtu)
+ 	mtu3_setbits(ibase, SSUSB_U2_CTRL(0),
+ 		SSUSB_U2_PORT_DIS | SSUSB_U2_PORT_PDN);
+ 
+-	if (mtu->ssusb->dr_mode == USB_DR_MODE_OTG)
++	if (mtu->ssusb->dr_mode == USB_DR_MODE_OTG) {
+ 		mtu3_clrbits(ibase, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_OTG_SEL);
++		if (mtu->is_u3_ip)
++			mtu3_clrbits(ibase, SSUSB_U3_CTRL(0),
++				     SSUSB_U3_PORT_DUAL_MODE);
++	}
+ 
+ 	mtu3_setbits(ibase, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
+ }
+-- 
+2.25.1
+
