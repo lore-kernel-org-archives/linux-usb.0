@@ -5,47 +5,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF69BC433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2176C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:21:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B89242080C
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:21:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84FFB22BF3
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 19:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597087261;
-	bh=9DgNbXuE12qTJhsSkDbD8Ork1WkIfuFJiXNEK4kiDKA=;
+	s=default; t=1597087301;
+	bh=rfUtZhsMXIoOiMMBGCFy1MRNH9HgQVcvEGbRUYRHj3A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Fx233lL7WCiyCbt2zACWkgZTvJn6VCBHWyeNn5Oz6FSRG60h07EgR62+oKY3ZVyYh
-	 kYKJSKJM7DKNpL6TAeZlU9mxyv92FsTENAspwJfRB205hgC6Q+OlbC9txjdLIY+I4i
-	 nOyIxQykVauilp7o2uxA5ZN58Jw86tdRDDBQpZyI=
+	b=jHnjoJZe8+rDkQvXbd3mlaxiJZ8nzFDTIk/+849PV8v6o5yZBtlTbr9K/gq4rc8yS
+	 bzOmciPOziRGgUMLOWszMjubJYn35KxFv42nMvo2EdUyA7lcR8bxLNvzZ57sTlcW4a
+	 29vOxoiQLLYWv3Og+mUDWEnwF1AF2Ohmviwuyh64=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729029AbgHJTNg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 15:13:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44688 "EHLO mail.kernel.org"
+        id S1730049AbgHJTVk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 15:21:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44150 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729793AbgHJTNf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:13:35 -0400
+        id S1729735AbgHJTNU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:13:20 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0FC1122B47;
-        Mon, 10 Aug 2020 19:13:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6E52B22CA1;
+        Mon, 10 Aug 2020 19:13:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086814;
-        bh=9DgNbXuE12qTJhsSkDbD8Ork1WkIfuFJiXNEK4kiDKA=;
+        s=default; t=1597086800;
+        bh=rfUtZhsMXIoOiMMBGCFy1MRNH9HgQVcvEGbRUYRHj3A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=csh1Kxv61Td2EhckGUQWpqeW6hCfeO3bA7qXq+cLNQtwCPYx27y3nhGNRHCXTOu3r
-         zElkGk6oRAg0xPHfKLOlhNNHCnMDO0V3Osh2eNyTBL+Wtc6FlYDd51GBTCPNcrSxvX
-         +RSOnGC1ILc39cVKy1Pdzp2hZwxVzwEcRXfNaiEk=
+        b=HDNppKxMLZQIJfOvl4ehcqtTIDTT0YoKI8aJdzTyLMrl067+voh64Bk+gEfVvlfgJ
+         DqcUKnAC8eYjkYBn3N5ZVWccLtl+DZJ15ZjoQRprfnALRybBWCVw79n9wb8lWDDlrg
+         lptoqGdE7cUGnSdZ0N5ol2CkobCuWUU5WXMVE26A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 24/31] usb: gadget: net2280: fix memory leak on probe error handling paths
-Date:   Mon, 10 Aug 2020 15:12:52 -0400
-Message-Id: <20200810191259.3794858-24-sashal@kernel.org>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 4.19 14/31] usb: mtu3: clear dual mode of u3port when disable device
+Date:   Mon, 10 Aug 2020 15:12:42 -0400
+Message-Id: <20200810191259.3794858-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810191259.3794858-1-sashal@kernel.org>
 References: <20200810191259.3794858-1-sashal@kernel.org>
@@ -58,40 +60,39 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-[ Upstream commit 2468c877da428ebfd701142c4cdfefcfb7d4c00e ]
+[ Upstream commit f1e51e99ed498d4aa9ae5df28e43d558ea627781 ]
 
-Driver does not release memory for device on error handling paths in
-net2280_probe() when gadget_release() is not registered yet.
+If not clear u3port's dual mode when disable device, the IP
+will fail to enter sleep mode when suspend.
 
-The patch fixes the bug like in other similar drivers.
-
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Link: https://lore.kernel.org/r/1595834101-13094-10-git-send-email-chunfeng.yun@mediatek.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/net2280.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/mtu3/mtu3_core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-index ee872cad52705..a87caad8d1c7e 100644
---- a/drivers/usb/gadget/udc/net2280.c
-+++ b/drivers/usb/gadget/udc/net2280.c
-@@ -3782,8 +3782,10 @@ static int net2280_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return 0;
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index 8606935201326..408e964522ab9 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -128,8 +128,12 @@ static void mtu3_device_disable(struct mtu3 *mtu)
+ 	mtu3_setbits(ibase, SSUSB_U2_CTRL(0),
+ 		SSUSB_U2_PORT_DIS | SSUSB_U2_PORT_PDN);
  
- done:
--	if (dev)
-+	if (dev) {
- 		net2280_remove(pdev);
-+		kfree(dev);
+-	if (mtu->ssusb->dr_mode == USB_DR_MODE_OTG)
++	if (mtu->ssusb->dr_mode == USB_DR_MODE_OTG) {
+ 		mtu3_clrbits(ibase, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_OTG_SEL);
++		if (mtu->is_u3_ip)
++			mtu3_clrbits(ibase, SSUSB_U3_CTRL(0),
++				     SSUSB_U3_PORT_DUAL_MODE);
 +	}
- 	return retval;
- }
  
+ 	mtu3_setbits(ibase, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
+ }
 -- 
 2.25.1
 
