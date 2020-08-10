@@ -2,72 +2,111 @@ Return-Path: <SRS0=jvRu=BU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8022C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 14:42:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDCA5C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 14:56:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C049D2070B
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 14:42:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC92920791
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Aug 2020 14:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbgHJOmN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Aug 2020 10:42:13 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:45427 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726111AbgHJOmL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Aug 2020 10:42:11 -0400
-Received: by mail-il1-f198.google.com with SMTP id 65so7917247ilb.12
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2020 07:42:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=OzRqCxKFuIBYd6uAIlx4xZOrodkSUu/+cChTzUG+OTk=;
-        b=Jo+zoNRRyc6yQJ67c8MNXTvjR31zUwCoDXR1OTFQHtejsO+rZ/PjnM/lIfdOlXCLtq
-         Nv63+lh5NE08gHe239bSPkRuR/KlCGl1/PRauihxXzliMuUibxSPphpb51RfGYOE9kZc
-         KfNnJ311BD7yVx1XojbT5i/CpjYOg7DZl2UeS3YoNY7sTszEjyEv8NkwuG+XkVDg7idt
-         MTb2vCyQHvKAAZM34JHgyRgF7Qow3UNeq2os1ndgFJvtP85mW0QkTpF3ys0+kx8fUo5T
-         /JHOdBJXTTZvPLOcivKYaI/rEnV1kRftWVzI5igWfnQn4nJYCVtFB7AL/IMluVoIK/rS
-         VTzg==
-X-Gm-Message-State: AOAM533pgUDQJ5++HU/YmYk0aYpWxZ/pNdOg4JinlpM5+wriGPgWbQzu
-        cPxHHIyp705VbiscY5DHReCA+FBw5fIS3UCYsbEWkdc/l5c7
-X-Google-Smtp-Source: ABdhPJxXFLShve5fwsxHgj+zHfvKDZxlj0s2XHM3ReDwNCMkS1tJ8mZ5yZkigLmULrkVBmjKY8LGwZ7Q9j1yKl+G27H/VtFlxZ3A
-MIME-Version: 1.0
-X-Received: by 2002:a5e:a607:: with SMTP id q7mr17629684ioi.16.1597070529854;
- Mon, 10 Aug 2020 07:42:09 -0700 (PDT)
-Date:   Mon, 10 Aug 2020 07:42:09 -0700
-In-Reply-To: <20200810142441.GB299045@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009d004605ac86f57b@google.com>
-Subject: Re: WARNING in slab_pre_alloc_hook
-From:   syzbot <syzbot+c2c3302f9c601a4b1be2@syzkaller.appspotmail.com>
-To:     andreyknvl@gmail.com, andreyknvl@google.com, balbi@kernel.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
-        syzkaller-bugs@googlegroups.com
+        id S1727780AbgHJO4l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Aug 2020 10:56:41 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35800 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726528AbgHJO4l (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Aug 2020 10:56:41 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 83522ACBA;
+        Mon, 10 Aug 2020 14:56:59 +0000 (UTC)
+Message-ID: <1597070118.2515.3.camel@suse.com>
+Subject: Re: [RFC]mooring API
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Eli Billauer <eli.billauer@gmail.com>, linux-usb@vger.kernel.org
+Date:   Mon, 10 Aug 2020 16:35:18 +0200
+In-Reply-To: <20200806152039.GC197575@rowland.harvard.edu>
+References: <1596722827.2488.8.camel@suse.com>
+         <20200806152039.GC197575@rowland.harvard.edu>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Am Donnerstag, den 06.08.2020, 11:20 -0400 schrieb Alan Stern:
+> On Thu, Aug 06, 2020 at 04:07:07PM +0200, Oliver Neukum wrote:
+> > Hi,
+> > 
+> > why this new API? Eli found a race with the existing API. Many
+> > drivers are acribing to it semantics it never had. Now we have
+> > sort of a fix, but it is not really elegant.
+> > The anchors have always been about making it easier to write drivers.
+> > Hence if driver authors are assumuning that they have a power, we
+> > better provide that facility. What users need is a facility
+> > to group URBs together and get rid of them no questions asked.
+> > It would be best if we can do that with minimal changes.
+> > 
+> > Here is a V2 taking into account Alan's remarks, and using a separate
+> > flag.
+> > 
+> > 	Regards
+> > 		Oliver
+> > 
+> > From 79df4240287b712bbe08404af7f900c3bccfca40 Mon Sep 17 00:00:00 2001
+> > From: Oliver Neukum <oneukum@suse.com>
+> > Date: Tue, 28 Jul 2020 11:38:23 +0200
+> > Subject: [PATCH] USB: add mooring API
+> > 
+> > This is a simplified and thereby better version of the anchor API.
+> > Anchors have the problem that they unanchor an URB upon giveback,
+> > which creates a window during which an URB is unanchored but not
+> > yet returned, leading to operations on anchors not having the
+> > semantics many driver errornously assume them to have.
+> > The new API keeps an URB on an anchor until it is explicitly
+> > unmoored.
+> > 
+> > Signed-off-by: Oliver Neukum <oneukum@suse.de>
+> > Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> > ---
+> >  drivers/usb/core/hcd.c |  4 +++-
+> >  drivers/usb/core/urb.c | 27 ++++++++++++++++++++++++++-
+> >  include/linux/usb.h    |  3 +++
+> >  3 files changed, 32 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> > index a33b849e8beb..e1d26cb595c3 100644
+> > --- a/drivers/usb/core/hcd.c
+> > +++ b/drivers/usb/core/hcd.c
+> > @@ -1640,7 +1640,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+> >  	unmap_urb_for_dma(hcd, urb);
+> >  	usbmon_urb_complete(&hcd->self, urb, status);
+> >  	usb_anchor_suspend_wakeups(anchor);
+> > -	usb_unanchor_urb(urb);
+> > +	smp_rmb(); /* against usb_(un)moor_urb() */
+> 
+> What is the race you want to protect against?
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+It looks to me like I need to be sure that the URB could have
+been moored on another CPU.
 
-Reported-and-tested-by: syzbot+c2c3302f9c601a4b1be2@syzkaller.appspotmail.com
+> Wouldn't it be better to require drivers that want to moor an URB to do 
+> so before submitting it?  And to unmoor an URB only in the completion 
+> handler?  Then there wouldn't be any race.
 
-Tested on:
+I am afraid we cannot do that, as it must be possible to unmoor an
+URb that needs to be unmoored before it is submitted, even on
+another CPU.
 
-commit:         449dc8c9 Merge tag 'for-v5.9' of git://git.kernel.org/pub/..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6ef84fa8ee48e528
-dashboard link: https://syzkaller.appspot.com/bug?extid=c2c3302f9c601a4b1be2
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=14ef8e52900000
+What do you think of the API itself?
 
-Note: testing is done by a robot and is best-effort only.
+	Regards
+		Oliver
+
