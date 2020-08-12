@@ -2,72 +2,87 @@ Return-Path: <SRS0=g/Ju=BW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69538C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 13:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4974BC433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 14:29:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 504EF207DA
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 13:20:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D1C620781
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 14:29:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728021AbgHLNUy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Aug 2020 09:20:54 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55752 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727961AbgHLNUt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 12 Aug 2020 09:20:49 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id DF7BEB76A;
-        Wed, 12 Aug 2020 13:21:09 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
-        linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 4/5] CDC-WDM: fix race reporting errors in flush
-Date:   Wed, 12 Aug 2020 15:20:33 +0200
-Message-Id: <20200812132034.14363-5-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200812132034.14363-1-oneukum@suse.com>
+        id S1726485AbgHLO3Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Aug 2020 10:29:25 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:51273 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726434AbgHLO3X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Aug 2020 10:29:23 -0400
+Received: from fsav103.sakura.ne.jp (fsav103.sakura.ne.jp [27.133.134.230])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 07CET67c023775;
+        Wed, 12 Aug 2020 23:29:06 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav103.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav103.sakura.ne.jp);
+ Wed, 12 Aug 2020 23:29:06 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav103.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 07CET6w9023771
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+        Wed, 12 Aug 2020 23:29:06 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [RFC 0/5] fix races in CDC-WDM
+To:     Oliver Neukum <oneukum@suse.com>
 References: <20200812132034.14363-1-oneukum@suse.com>
+Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <ee0af733-903f-8e8f-8027-b5490a37032f@i-love.sakura.ne.jp>
+Date:   Wed, 12 Aug 2020 23:29:02 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200812132034.14363-1-oneukum@suse.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In case a race was lost and multiple fds used,
-an error could be reported multiple times. To fix
-this a spinlock must be taken.
+On 2020/08/12 22:20, Oliver Neukum wrote:
+> CDC-WDM was not written with multithreaded users or
+> uncooperative devices in mind.
+> This leads to race conditions and hangs in flush(). 
+> 
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/class/cdc-wdm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+In patch "[RFC 2/5] CDC-WDM: introduce a timeout in flush()", since multiple users can
+share "desc", wouldn't someone's usb_submit_urb() from wdm_write() gets unexpectedly
+interfered by someone else's usb_kill_urb(desc->command) from wdm_open() ?
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index f442f34f38da..6071c9044574 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -610,10 +610,14 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 		return -EIO;
- 	if (rv < 0)
- 		return -EINTR;
-+
-+	spin_lock_irq(&desc->iuspin);
- 	rv = desc->werr;
-+	desc->werr = 0;
-+	spin_unlock_irq(&desc->iuspin);
-+
- 	if (rv < 0)
--		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--			rv);
-+		dev_err(&desc->intf->dev, "Error in flush path: %d\n", rv);
- 
- 	return usb_translate_errors(rv);
- }
--- 
-2.16.4
+In patch "[RFC 2/5] CDC-WDM: introduce a timeout in flush()", don't we need to similarly
+apply timeout to wait_event_interruptible() in wdm_write(), for the same problem will
+happen if hardware remained silent forever?
 
+In patch "[RFC 3/5] CDC-WDM: making flush() interruptible", it is legal to return -EINTR
+ from close(). But I think that returning -EINTR from close() is not recommended because
+it can confuse multithreaded application (retrying close() upon -EINTR is not safe).
+
+In patch "[RFC 5/5] CDC-WDM: remove use of intf->dev after potential disconnect",
+
+        /* cannot dereference desc->intf if WDM_DISCONNECTING */
+        if (test_bit(WDM_DISCONNECTING, &desc->flags))
+                return -ENODEV;
+
+can be also removed, for this check is meant for not to dereference desc->intf
+after disconnect ?
+
+Guessing from symmetry, do we need to check WDM_DISCONNECTING or WDM_RESETTING
+in wait_event_interruptible_timeout() from wdm_flush() when wait_event_interruptible()
+in wdm_write() is not checking WDM_DISCONNECTING nor WDM_RESETTING ?
+
+Does it make sense to wait for response of someone else's usb_submit_urb() when
+someone is calling close(), for there is no guarantee that failure notice received
+via wdm_flush() via some file descriptor corresponds to usb_submit_urb() request from
+wdm_write() call from that file descriptor?
