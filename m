@@ -6,74 +6,115 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3BBFC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 06:14:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD2DC433E1
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 06:16:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AFAFA2076B
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 06:14:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B22620786
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Aug 2020 06:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597212896;
-	bh=ErFhcoAMYuhrxLnnsYCXvg41ccul4mRcTS9Bau1CWn4=;
+	s=default; t=1597212966;
+	bh=hpdk68RNfOyfqiR186qS6WghZoc8ZwHoLkbwEJW/ck4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=VdfBv42/vUI/39aDfn7MjOCUPj0KYos23GO6d9WPeqlF7xJ7att4ULUYOqr15hdpF
-	 R1X1nkS7s+vvYTQXJd9aeSNRU1HxOCjes0R1GCM7RXSGqkIvKL21NGYsCypJAWnC0s
-	 UUGFBPxSBY6x5Y0CzOeY7HyIAqe+vIAk4GvHeLi8=
+	b=ZjEmMUezIuHLEzOY8QmQvD+eGlCQiWiysEX0xBC45fevXuWvUWbZJumGT3pFKq/zL
+	 v84tDweo3F6xFC4wGWdfrNviMk6nDpCLlIDvPdZFuuA0eYtQI1X56ESLaxIMn+TFlh
+	 oxROIRsLkNMbxsgGT95JJXM/BA++1D9NQRzQ7qpo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbgHLGO4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Aug 2020 02:14:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60302 "EHLO mail.kernel.org"
+        id S1726634AbgHLGQF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Aug 2020 02:16:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33442 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725944AbgHLGOy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 12 Aug 2020 02:14:54 -0400
+        id S1726507AbgHLGQE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 12 Aug 2020 02:16:04 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF3282076B;
-        Wed, 12 Aug 2020 06:14:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F84F20771;
+        Wed, 12 Aug 2020 06:16:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597212894;
-        bh=ErFhcoAMYuhrxLnnsYCXvg41ccul4mRcTS9Bau1CWn4=;
+        s=default; t=1597212963;
+        bh=hpdk68RNfOyfqiR186qS6WghZoc8ZwHoLkbwEJW/ck4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R1emLfLNRL8X1K/ZKnwMIcNMefIefP2YxvjsYSDXxSk3g6qH5Bd5DBxDWeXEMG50l
-         jESho6xB+C4EyNDE0skCUQ1nD4Pm9HQmS/fl/dX3q66yBFv4jMp5K9qmT231ZfPEnq
-         FoYlLLKrP0PCD5v6qRCWKm57QCktWqwf/UfKETg8=
-Date:   Wed, 12 Aug 2020 08:14:51 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Patrik Nilsson <nipatriknilsson@gmail.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
-Subject: Re: high speed data to usb disk makes the kernel think that is has
- been unmounted
-Message-ID: <20200812061451.GE1299081@kroah.com>
-References: <a161e45d-6ce8-2077-c513-380b67c4dfd8@gmail.com>
- <20200811175655.GB828356@kroah.com>
- <47a5804c-835a-f1a2-abce-50b3531f2556@gmail.com>
- <20200811193150.GA344152@rowland.harvard.edu>
- <ef2937d6-f8a8-fbc6-decd-eeb4af94e863@gmail.com>
+        b=EJcv03ur3QmZZLygKENaHo/iHqLccFTwrqqtryfG0cWoUTJQ5qKk8G6D4X+OFAy0N
+         6cX5bmyW52tdVEe6PHKoDhQ+cH+m+N7HYqabTWQNq+axMttMmkRkabqgNiByVje7BX
+         gJCRe+phlwbSCDU0nlKs9+YGVblQv+XQEb15Tf6I=
+Date:   Wed, 12 Aug 2020 08:16:00 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "M. Vefa Bicakci" <m.v.b@runbox.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Bastien Nocera <hadess@hadess.net>, linux-usb@vger.kernel.org,
+        stable@vger.kernel.org,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH] usbip: Implement a match function to fix usbip
+Message-ID: <20200812061600.GH1299081@kroah.com>
+References: <20200810160017.46002-1-m.v.b@runbox.com>
+ <6e450e16117afb9e1dd1e4270ef5c2e0d5885348.camel@hadess.net>
+ <a7351706-9933-a3e1-4e7d-b7ab6f289938@linuxfoundation.org>
+ <99330f61-ed16-7e27-6852-d3486f331ef5@runbox.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ef2937d6-f8a8-fbc6-decd-eeb4af94e863@gmail.com>
+In-Reply-To: <99330f61-ed16-7e27-6852-d3486f331ef5@runbox.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 11:14:09PM +0200, Patrik Nilsson wrote:
+On Wed, Aug 12, 2020 at 08:47:20AM +0300, M. Vefa Bicakci wrote:
+> On 10/08/2020 22.09, Shuah Khan wrote:
+> > On 8/10/20 11:31 AM, Bastien Nocera wrote:
+> > > On Mon, 2020-08-10 at 19:00 +0300, M. Vefa Bicakci wrote:
+> > > > Commit 88b7381a939d ("USB: Select better matching USB drivers when
+> > > > available") introduced the use of a "match" function to select a
+> > > > non-generic/better driver for a particular USB device. This
+> > > > unfortunately breaks the operation of usbip in general, as reported
+> > > > in
+> > > > the kernel bugzilla with bug 208267 (linked below).
+> > > > 
+> > > > Upon inspecting the aforementioned commit, one can observe that the
+> > > > original code in the usb_device_match function used to return 1
+> > > > unconditionally, but the aforementioned commit makes the
+> > > > usb_device_match
+> > > > function use identifier tables and "match" virtual functions, if
+> > > > either of
+> > > > them are available.
+> > > > 
+> > > > Hence, this commit implements a match function for usbip that
+> > > > unconditionally returns true to ensure that usbip is functional
+> > > > again.
+> > > > 
+> > > > This change has been verified to restore usbip functionality, with a
+> > > > v5.7.y kernel on an up-to-date version of Qubes OS 4.0, which uses
+> > > > usbip to redirect USB devices between VMs.
+> > > > 
+> > > > Thanks to Jonathan Dieter for the effort in bisecting this issue down
+> > > > to the aforementioned commit.
+> > > 
+> > > Looks correct. Thanks for root causing the problem.
+> > > 
+> > > Reviewed-by: Bastien Nocera <hadess@hadess.net>
+> > > 
+> > 
+> > Thank you for finding and fixing the problem.
+> > 
+> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 > 
-> On 11/08/2020 21:31, Alan Stern wrote:
-> > On Tue, Aug 11, 2020 at 08:34:53PM +0200, Patrik Nilsson wrote:
-> > > Hi Greg,
-> > > > Can you provide kernel logs?  Odds are the disk disconnects itself as it
-> > > > takes too much power or something.
-> > > udev-kernel logs can be found:
-> > > https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1886172
-> > The bug report doesn't seem to contain any dmesg kernel logs showing
-> > what happens when the problem occurs.
-> I'm compiling the latest kernel to supply the kernel logs when done testing.
-> It takes a while.
+> Hello Shuah and Bastien,
+> 
+> Thank you for reviewing the patch!
+> 
+> Just to confirm, should I re-publish this patch after having added your
+> Reviewed-by tags to the commit message? My current understanding is that
+> a re-spin of a patch is only necessary when changes are requested during
+> the code review. The development process documentation in the kernel
+> repository does not mention this aspect, but I might have missed it during
+> my quick search.
 
-'make localmodconfig' is your friend.  Should make a kernel that builds
-in 5-10 minutes at most depending on your system.
+No need to resend it, my tools will pick up these reviewed-by tags and
+add it to the final patch when I apply it.
+
+See the tool 'b4' if you are curious as to how that works.
 
 thanks,
 
