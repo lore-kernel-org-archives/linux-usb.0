@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D0FC433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Aug 2020 06:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B33C433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Aug 2020 06:25:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 796DA2078D
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Aug 2020 06:25:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6981A2080C
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Aug 2020 06:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597299945;
-	bh=SkbP4ZTX+OdxUjAQSgl4TfJe5CRXk0j/hLMKzcM4PMI=;
+	s=default; t=1597299947;
+	bh=sDrMmYcP4o7K9LD9J2okuR9gIb8aKW38EpjKeOsy/90=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zlvc981Qli+0N5FDRcOoc9wWBhXj1kJyrFrgySliK+SFq0hsGjbj1XzVAAtOdwova
-	 MVT8laKnUULa+nKgOanwK8SMGzTZ7rfrniYrYDpudHETC2hE2m33P2u2S4EhVJ9pYq
-	 YDSEiGLNdOdpTuIwqv450/OOh5T50X9P9v+c5OOY=
+	b=b4Yj04lEsgPnWPT/0vr0zCMZvX3TQcfuSyIyLTq7MhRpSMh0BQTzczvd5cbjz3uEd
+	 ADZSAkeFiRU274Cl8mIB7RJTmA19HdVHcAORQqMiOH/vcp7PROIujXx40Frkm/kzVF
+	 GjCNftGKBL2fPiXElLheYLomYFqIHXp9U6V2t30Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgHMGZm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Aug 2020 02:25:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38002 "EHLO mail.kernel.org"
+        id S1726144AbgHMGZp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Aug 2020 02:25:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38062 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726072AbgHMGZm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 13 Aug 2020 02:25:42 -0400
+        id S1726131AbgHMGZo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 13 Aug 2020 02:25:44 -0400
 Received: from saruman.elisa-laajakaista.fi (unknown [194.34.132.57])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D3D47206B5;
-        Thu, 13 Aug 2020 06:25:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A7012206B5;
+        Thu, 13 Aug 2020 06:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597299941;
-        bh=SkbP4ZTX+OdxUjAQSgl4TfJe5CRXk0j/hLMKzcM4PMI=;
+        s=default; t=1597299944;
+        bh=sDrMmYcP4o7K9LD9J2okuR9gIb8aKW38EpjKeOsy/90=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TapbqcMSkUQn+PHslfU3j7/aFNCYBCyV0nQRn+NVkUsavhuADlICBZboRFGSXvJvp
-         pOKZoqfUXN6uAsufv74IJEQdqw5cvVbkjgjAoj+v/h+XlZYuuGPCWGt19tpPuJ13Sy
-         PHBOTNAi7AwvJUMoXfhaVktu79VnagpMNeNkKMok=
+        b=pGYF8w4EZHa8EWzUiOBPqO+R+yoPZOQ6N0T+ryJjnEo40LpY33FhjvVIUY4ta6FgG
+         0IkB3Z2qJQax9She9ANU7nC5Ydj8U+mj7Mlh3erq6L7ow1PmnAbiGDTBUQVYQI6pLF
+         A4yeC6HeCu2n0LN1XqYR0TyhWUy75sgQj+2IwNDY=
 From:   balbi@kernel.org
 To:     Linux USB <linux-usb@vger.kernel.org>
 Cc:     Felipe Balbi <balbi@kernel.org>
-Subject: [PATCH 03/11] dwc3: meson: fix checkpatch errors and warnings
-Date:   Thu, 13 Aug 2020 09:25:24 +0300
-Message-Id: <20200813062532.829720-3-balbi@kernel.org>
+Subject: [PATCH 05/11] dwc3: trace: fix checkpatch warnings
+Date:   Thu, 13 Aug 2020 09:25:26 +0300
+Message-Id: <20200813062532.829720-5-balbi@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200813062532.829720-1-balbi@kernel.org>
 References: <20200813062532.829720-1-balbi@kernel.org>
@@ -56,73 +56,55 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Felipe Balbi <balbi@kernel.org>
 
-no functional changes.
+no functional changes
 
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-meson-g12a.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/usb/dwc3/trace.h | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
-index 9c50a8f2929e..6522187a40cf 100644
---- a/drivers/usb/dwc3/dwc3-meson-g12a.c
-+++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
-@@ -116,11 +116,11 @@ static struct clk_bulk_data meson_a1_clocks[] = {
- 	{ .id = "xtal_usb_ctrl" },
- };
- 
--static const char *meson_gxm_phy_names[] = {
-+static const char * const meson_gxm_phy_names[] = {
- 	"usb2-phy0", "usb2-phy1", "usb2-phy2",
- };
- 
--static const char *meson_g12a_phy_names[] = {
-+static const char * const meson_g12a_phy_names[] = {
- 	"usb2-phy0", "usb2-phy1", "usb3-phy0",
- };
- 
-@@ -132,7 +132,7 @@ static const char *meson_g12a_phy_names[] = {
-  * correctly when only the "usb2-phy1" phy is specified on-par with the
-  * DT bindings.
-  */
--static const char *meson_a1_phy_names[] = {
-+static const char * const meson_a1_phy_names[] = {
- 	"usb2-phy0", "usb2-phy1"
- };
- 
-@@ -143,7 +143,7 @@ struct dwc3_meson_g12a_drvdata {
- 	bool otg_phy_host_port_disable;
- 	struct clk_bulk_data *clks;
- 	int num_clks;
--	const char **phy_names;
-+	const char * const *phy_names;
- 	int num_phys;
- 	int (*setup_regmaps)(struct dwc3_meson_g12a *priv, void __iomem *base);
- 	int (*usb2_init_phy)(struct dwc3_meson_g12a *priv, int i,
-@@ -520,11 +520,7 @@ static int dwc3_meson_g12a_role_set(struct usb_role_switch *sw,
- 		return 0;
- 
- 	if (priv->drvdata->otg_phy_host_port_disable)
--		dev_warn_once(priv->dev, "Manual OTG switch is broken on this "\
--					 "SoC, when manual switching from "\
--					 "Host to device, DWC3 controller "\
--					 "will need to be resetted in order "\
--					 "to recover usage of the Host port");
-+		dev_warn_once(priv->dev, "Broken manual OTG switch\n");
- 
- 	return dwc3_meson_g12a_otg_mode_set(priv, mode);
- }
-@@ -906,8 +902,8 @@ static int __maybe_unused dwc3_meson_g12a_resume(struct device *dev)
- 			return ret;
- 	}
- 
--       if (priv->vbus && priv->otg_phy_mode == PHY_MODE_USB_HOST) {
--               ret = regulator_enable(priv->vbus);
-+	if (priv->vbus && priv->otg_phy_mode == PHY_MODE_USB_HOST) {
-+		ret = regulator_enable(priv->vbus);
- 		if (ret)
- 			return ret;
- 	}
+diff --git a/drivers/usb/dwc3/trace.h b/drivers/usb/dwc3/trace.h
+index da1be01637c8..97f4f1125a41 100644
+--- a/drivers/usb/dwc3/trace.h
++++ b/drivers/usb/dwc3/trace.h
+@@ -104,8 +104,8 @@ DECLARE_EVENT_CLASS(dwc3_log_request,
+ 	TP_STRUCT__entry(
+ 		__string(name, req->dep->name)
+ 		__field(struct dwc3_request *, req)
+-		__field(unsigned, actual)
+-		__field(unsigned, length)
++		__field(unsigned int, actual)
++		__field(unsigned int, length)
+ 		__field(int, status)
+ 		__field(int, zero)
+ 		__field(int, short_not_ok)
+@@ -246,6 +246,7 @@ DECLARE_EVENT_CLASS(dwc3_log_trb,
+ 		__entry->dequeue, __entry->bph, __entry->bpl,
+ 		({char *s;
+ 		int pcm = ((__entry->size >> 24) & 3) + 1;
++
+ 		switch (__entry->type) {
+ 		case USB_ENDPOINT_XFER_INT:
+ 		case USB_ENDPOINT_XFER_ISOC:
+@@ -291,12 +292,12 @@ DECLARE_EVENT_CLASS(dwc3_log_ep,
+ 	TP_ARGS(dep),
+ 	TP_STRUCT__entry(
+ 		__string(name, dep->name)
+-		__field(unsigned, maxpacket)
+-		__field(unsigned, maxpacket_limit)
+-		__field(unsigned, max_streams)
+-		__field(unsigned, maxburst)
+-		__field(unsigned, flags)
+-		__field(unsigned, direction)
++		__field(unsigned int, maxpacket)
++		__field(unsigned int, maxpacket_limit)
++		__field(unsigned int, max_streams)
++		__field(unsigned int, maxburst)
++		__field(unsigned int, flags)
++		__field(unsigned int, direction)
+ 		__field(u8, trb_enqueue)
+ 		__field(u8, trb_dequeue)
+ 	),
 -- 
 2.28.0
 
