@@ -2,202 +2,517 @@ Return-Path: <SRS0=IK8V=B2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A3DBC433E3
-	for <linux-usb@archiver.kernel.org>; Sun, 16 Aug 2020 12:18:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 842C8C433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Aug 2020 15:23:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75FBD20855
-	for <linux-usb@archiver.kernel.org>; Sun, 16 Aug 2020 12:18:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E423207FB
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Aug 2020 15:23:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Bc4OsO7v"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="QLxbG3Ee"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728794AbgHPMSr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 Aug 2020 08:18:47 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52480 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbgHPMSj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Aug 2020 08:18:39 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A3A229F;
-        Sun, 16 Aug 2020 14:18:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597580311;
-        bh=MuES0GAg6jVJbbv5zM7qHHkXA4xwbq1xmfJHtpWTwNg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bc4OsO7vUokbXdzoXVowO5aoYamxc7UUCNFadNJvbCLblPTnM5DJmVN1+mE/vOxjG
-         574M89+f9m0HQ6xmy6PLkpF9q3fscH3232gJ+o7sL5gD4XypZ1mrzl+Wg2Q8J9+sV+
-         J7efesawnxyoJ9osUSjfWERjoLspkH5XUejiamdo=
-Date:   Sun, 16 Aug 2020 15:18:16 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: Protecting uvcvideo againt USB device disconnect [Was: Re:
- Protecting usb_set_interface() against device removal]
-Message-ID: <20200816121816.GC32174@pendragon.ideasonboard.com>
-References: <b0a7247c-bed3-934b-2c73-7f4b0adb5e75@roeck-us.net>
- <20200815020739.GB52242@rowland.harvard.edu>
- <20200816003315.GA13826@roeck-us.net>
+        id S1726829AbgHPPX0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 Aug 2020 11:23:26 -0400
+Received: from mail-40132.protonmail.ch ([185.70.40.132]:26530 "EHLO
+        mail-40132.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726699AbgHPPXZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Aug 2020 11:23:25 -0400
+Date:   Sun, 16 Aug 2020 15:23:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1597591397;
+        bh=60EF42+uzI4fZLF+8YvOH0pcCTaa1/7yhqpZvJa8dIQ=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=QLxbG3EeVQni/ylkBnkgh03awLgA+PoGvx4c3rm3eK1tH0np6hRTWV/icUDJWPqIY
+         oTFQ+q19jVBsoenvVKjB7yCQOsQPVFHJeiWc8q0FzqbZ/TJxTkpeZeQsrgVqWwdEFn
+         lTJKV6NWQR+/dya/66wFBrGoh1Yhb7ib+me5FuxM=
+To:     jaap aarts <jaap.aarts1@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH V5] hwmon: add fan/pwm driver for corsair h100i platinum
+Message-ID: <W-BU2h4EaZ7Mkux9N8n5gAkJqGXf2DjXOpj8ik1rbBrdMBvc_OyDzUfJZdtaZ_BXMd2qTtQksE9ptwMkYa_igP-QXqaYlDG5RaMUBVAaM54=@protonmail.com>
+In-Reply-To: <20200816095500.123839-1-jaap.aarts1@gmail.com>
+References: <20200816095500.123839-1-jaap.aarts1@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200816003315.GA13826@roeck-us.net>
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Guenter,
+Hello,
 
-CC'ing Hans Verkuil and Sakari Ailus for the discussion about handling
-file operations and disconnect in V4L2.
+I added a couple notes about the code inline.
 
-On Sat, Aug 15, 2020 at 05:33:15PM -0700, Guenter Roeck wrote:
-> + linux-uvc-devel@lists.sourceforge.net
-> + linux-media@vger.kernel.org
-> + laurent.pinchart@ideasonboard.com
-> 
-> and changed subject
-> 
-> On Fri, Aug 14, 2020 at 10:07:39PM -0400, Alan Stern wrote:
-> > On Fri, Aug 14, 2020 at 04:07:03PM -0700, Guenter Roeck wrote:
-> > > Hi all,
-> > > 
-> > > over time, there have been a number of reports of crashes in usb_ifnum_to_if(),
-> > > called from usb_hcd_alloc_bandwidth, which is in turn called from usb_set_interface().
-> > > Examples are [1] [2] [3]. A typical backtrace is:
-> > > 
-> > > <3>[ 3489.445468] intel_sst_acpi 808622A8:00: sst: Busy wait failed, cant send this msg
-> > > <6>[ 3490.507273] usb 1-4: USB disconnect, device number 3
-> > > <1>[ 3490.516670] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
-> > > <6>[ 3490.516680] PGD 0 P4D 0
-> > > <4>[ 3490.516687] Oops: 0000 [#1] PREEMPT SMP PTI
-> > > <4>[ 3490.516693] CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
-> > > <4>[ 3490.516696] Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
-> > > <4>[ 3490.516706] RIP: 0010:usb_ifnum_to_if+0x29/0x40
-> > > <4>[ 3490.516710] Code: ee 0f 1f 44 00 00 55 48 89 e5 48 8b 8f f8 03 00 00 48 85 c9 74 27 44 0f b6 41 04 4d 85 c0 74 1d 31 ff 48 8b 84 f9 98 00 00 00 <48> 8b 10 0f b6 52 02 39 f2 74 0a 48 ff c7 4c 39 c7 72 e5 31 c0 5d
-> > > <4>[ 3490.516714] RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
-> > > <4>[ 3490.516718] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
-> > > <4>[ 3490.516721] RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
-> > > <4>[ 3490.516724] RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
-> > > <4>[ 3490.516727] R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
-> > > <4>[ 3490.516731] R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
-> > > <4>[ 3490.516735] FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
-> > > <4>[ 3490.516738] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > <4>[ 3490.516742] CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
-> > > <4>[ 3490.516745] Call Trace:
-> > > <4>[ 3490.516756] usb_hcd_alloc_bandwidth+0x1ee/0x30f
-> > > <4>[ 3490.516762] usb_set_interface+0x1a3/0x2b7
-> > > <4>[ 3490.516773] uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
-> > > <4>[ 3490.516781] uvc_video_start_streaming+0x91/0xdd [uvcvideo]
-> > > <4>[ 3490.516787] uvc_start_streaming+0x28/0x5d [uvcvideo]
-> > > <4>[ 3490.516795] vb2_start_streaming+0x61/0x143 [videobuf2_common]
-> > > <4>[ 3490.516801] vb2_core_streamon+0xf7/0x10f [videobuf2_common]
-> > > <4>[ 3490.516807] uvc_queue_streamon+0x2e/0x41 [uvcvideo]
-> > > <4>[ 3490.516814] uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
-> > > <4>[ 3490.516820] __video_do_ioctl+0x33d/0x42a
-> > > <4>[ 3490.516826] video_usercopy+0x34e/0x5ff
-> > > <4>[ 3490.516831] ? video_ioctl2+0x16/0x16
-> > > <4>[ 3490.516837] v4l2_ioctl+0x46/0x53
-> > > <4>[ 3490.516843] do_vfs_ioctl+0x50a/0x76f
-> > > <4>[ 3490.516848] ksys_ioctl+0x58/0x83
-> > > <4>[ 3490.516853] __x64_sys_ioctl+0x1a/0x1e
-> > > <4>[ 3490.516858] do_syscall_64+0x54/0xde
-> > > 
-> > > I have been able to reproduce the problem on a Chromebook by strategically placing
-> > > msleep() calls into usb_set_interface() and usb_disable_device(). Ultimately, the
-> > > problem boils down to lack of protection against device removal in usb_set_interface()
-> > > [and/or possibly other callers of usb_ifnum_to_if()].
-> > > 
-> > > Sequence of events is roughly as follows:
-> > > 
-> > > - usb_set_interface() is called and proceeds to some point, possibly to
-> > >   mutex_lock(hcd->bandwidth_mutex);
-> > > - Device removal event is detected, and usb_disable_device() is called
-> > 
-> > At this point all interface drivers get unbound (their disconnect 
-> > routines are called).
-> > 
-> > > - usb_disable_device() starts removing actconfig data. It has removed
-> > >   and cleared dev->actconfig->interface[i], but not dev->actconfig
-> > > - usb_set_interface() calls usb_hcd_alloc_bandwidth(), which calls
-> > >   usb_ifnum_to_if()
-> > > - In usb_ifnum_to_if(), dev->actconfig is not NULL, but
-> > >   dev->actconfig->interface[i] is NULL
-> > > - crash
-> > > 
-> > > Question is what we can do about this. Checking if dev->state != USB_STATE_NOTATTACHED
-> > > in usb_ifnum_to_if() might be a possible approach, but strictly speaking it would
-> > > still be racy since there is still no lock against device removal. I have not tried
-> > > calling usb_lock_device() in usb_set_interface() - would that possibly be an option ?
-> > 
-> > As far as I know, protecting against these races is the responsibility 
-> > of the USB interface drivers.  They must make sure that their disconnect 
-> > routines block until all outstanding calls to usb_set_interface return 
-> > (in fact, until all outstanding device accesses have finished).
-> > 
-> > For instance, in the log extract you showed, it's obvious that the 
-> > uvc_start_streaming routine was running after the disconnect routine had 
-> > returned, which looks like a bug in itself: Once the disconnect routine 
-> > returns, the driver is not supposed to try to access the device at all 
-> > because some other driver may now be bound to it.
-> > 
-> > We can't just call usb_lock_device from within usb_set_interface, 
-> > because usb_set_interface is often called with that lock already held.
-> > 
-> I had a closer look into the uvcvideo driver and compared it to other usb
-> drivers, including drivers in drivers/media/usb/ which connect to the video
-> subsystem.
-> 
-> The usbvideo driver lacks protection against calls to uvc_disconnect() while
 
-Are you confusing usbvideo and uvcvideo ? Both exist, and uvcvideo would
-have been called usbvideo if the former hadn't already been in use.
+> [...]
+> +#define MAX_FAN_COUNT 2
+> +#define MAX_PWM_CHANNEL_COUNT MAX_FAN_COUNT
+> +
+> +struct hwmon_data {
+> +=09struct hydro_i_pro_device *hdev;
+> +=09int channel_count;
 
-> calls into file operations are ongoing. This is pretty widespread, and not
-> even limited to file operations (for example, there is a worker which is only
-> canceled in uvc_delete, not in ucv_disconnect). The existing protection only
-> ensures that no file operations are started after the call to ucv_disconnect,
-> but that is insufficient.
-> 
-> Other drivers do have that protection and make sure that no usb operations
-> can happen after the disconnect call.
-> 
-> The only remedy I can see is to rework the usbvideo driver and add the
-> necessary protections. At first glance, it looks like this may be a
-> substantial amount of work. I'd sign up for that, but before I start,
-> I would like to get input from the usbvideo community. Is such an effort
-> already going on ? If yes, how can I help ? If not, is the problem
-> understood and accepted ? Are there any ideas on how to solve it ?
+This is a nitpick, but the 'channel_count' value comes from the 'fancount'
+of an entry of 'config_table', which has type 'u8', so I don't see any need=
+ for
+it to be an 'int'.
 
-This is something that has been discussed before, and needs to be solved
-in the V4L2 framework itself, not in individual drivers. Not only would
-this avoid rolling out the same code manually everywhere (in different
-incorrect ways, as races are difficult to solve and implementations are
-more often wrong than right), but it will also avoid similar issues for
-non-USB devices.
+> +=09void *channel_data[MAX_PWM_CHANNEL_COUNT];
+> +};
+> [...]
+> +struct curve_point quiet_curve[FAN_CURVE_COUNT] =3D {
 
-It shouldn't take more than two flags (to track user-space operations in
-progress and disconnection), a spinlock and a wait queue entry. I'm not
-sure if someone has already given it a try, and don't recall why this
-hasn't been done yet, as it should be fairly straightforward.
+This should be 'static' (and possibly 'const'?).
 
-On the UVC side, the work queue probably has to be flushed in
-uvc_disconnect(). I'd keep the destroy call in uvc_delete() though.
-Please make sure to look for potential race conditions between the URB
-completion handler and the .disconnect() handler (they shouldn't be any,
-but I haven't checked lately myself).
 
--- 
-Regards,
+> +=09{
+> +=09=09.temp =3D 0x1F,
+> +=09=09.pwm =3D 0x15,
+> +=09},
+> +=09{
+> +=09=09.temp =3D 0x21,
+> +=09=09.pwm =3D 0x1E,
+> +=09},
+> +=09{
+> +=09=09.temp =3D 0x24,
+> +=09=09.pwm =3D 0x25,
+> +=09},
+> +=09{
+> +=09=09.temp =3D 0x27,
+> +=09=09.pwm =3D 0x2D,
+> +=09},
+> +=09{
+> +=09=09.temp =3D 0x29,
+> +=09=09.pwm =3D 0x38,
+> +=09},
+> +=09{
+> +=09=09.temp =3D 0x2C,
+> +=09=09.pwm =3D 0x4A,
+> +=09},
+> +=09{
+> +=09=09.temp =3D 0x2F,
+> +=09=09.pwm =3D 0x64,
+> +=09},
+> +};
+> [...]
+> +static const struct device_config config_table[] =3D {
+> +=09{
+> +=09=09.vendor_id =3D 0x1b1c,
+> +=09=09.product_id =3D 0x0c15,
 
-Laurent Pinchart
+If I see it correctly, you never use 'vendor_id', nor 'product_id', right?
+
+
+> +=09=09.fancount =3D 2,
+> +=09=09.rpm_min =3D 200,
+> +=09=09.rpm_max =3D 3000,
+> +=09=09.pwm_max =3D 100,
+> +=09=09.name =3D "corsair_H100i_pro",
+> +=09=09.hwmon_info =3D dual_fan,
+> +=09},
+> +};
+> [...]
+> +
+> +#define SUCCES_LENGTH 3
+> +#define SUCCES_CODE 0x12, 0x34
+> +
+> +static bool check_succes(enum opcodes command, char ret[SUCCES_LENGTH])
+
+I missed this it seems, but my suggestion about the 'static' before the siz=
+e
+applies here as well.
+
+
+> +{
+> +=09char success[SUCCES_LENGTH] =3D { command, SUCCES_CODE };
+> +
+> +=09return memcmp(ret, success, SUCCES_LENGTH) =3D=3D 0;
+> +}
+> +
+> +static int acquire_lock(struct hydro_i_pro_device *hdev)
+> +{
+> +=09int retval =3D usb_autopm_get_interface(hdev->interface);
+> +
+> +=09if (retval)
+> +=09=09return retval;
+> +
+> +=09mutex_lock(&hdev->io_mutex);
+> +=09return 0;
+
+I think this should be
+
+return mutex_lock_interruptible(...);
+
+as per
+https://www.kernel.org/doc/html/latest/kernel-hacking/locking.html#locking-=
+only-in-user-context
+
+
+> +}
+> [...]
+> +static int set_fan_target_pwm(struct hydro_i_pro_device *hdev,
+> +=09=09=09      struct hwmon_fan_data *fan_data, u8 val)
+> +{
+> +=09int retval;
+> +=09unsigned char *send_buf =3D hdev->bulk_out_buffer;
+> +=09unsigned char *recv_buf =3D hdev->bulk_in_buffer;
+> +
+> +=09fan_data->fan_target =3D 0;
+> +=09fan_data->fan_pwm_target =3D val;
+
+Personally, I'd place these two lines at the end of the function so that th=
+ey
+are not modified if the USB transaction fails.
+(same applies to set_fan_pwm_curve() and set_fan_target_rpm())
+
+
+> +
+> +=09send_buf[0] =3D PWM_FAN_TARGET_CMD;
+> +=09send_buf[1] =3D fan_data->fan_channel;
+> +=09send_buf[2] =3D fan_data->fan_pwm_target;
+> +=09dev_info(&hdev->udev->dev, "debug:%d,%d,%d", send_buf[0], send_buf[1]=
+,
+> +=09=09 send_buf[2]);
+> +=09dev_info(&hdev->udev->dev, "val:%d", fan_data->fan_pwm_target);
+
+This should be dev_dbg() in my opinion if you intend to have such messages.
+
+
+> +
+> +=09retval =3D transfer_usb(hdev, send_buf, recv_buf, 3, 3);
+> +=09if (retval)
+> +=09=09return retval;
+> +
+> +=09if (!check_succes(send_buf[0], recv_buf)) {
+> +=09=09dev_warn(
+> +=09=09=09&hdev->udev->dev,
+> +=09=09=09"failed setting fan pwm for %s on channel %d %d,%d,%d\n",
+> +=09=09=09hdev->config->name, fan_data->fan_channel, recv_buf[0],
+> +=09=09=09recv_buf[1], recv_buf[2]);
+> +=09=09return -EINVAL;
+> +=09}
+> +=09return 0;
+> +}
+> [...]
+> +static int hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+> +=09=09       u32 attr, int channel, long val)
+> +{
+> +=09struct hwmon_data *data =3D dev_get_drvdata(dev);
+> +=09struct hydro_i_pro_device *hdev =3D data->hdev;
+> +=09struct hwmon_fan_data *fan_data;
+> +=09int retval =3D 0;
+> +
+> +=09switch (type) {
+> +=09case hwmon_fan:
+> +=09=09switch (attr) {
+> +=09=09case hwmon_fan_target:
+> +=09=09=09fan_data =3D data->channel_data[channel];
+> +=09=09=09if (fan_data->mode !=3D 1)
+> +=09=09=09=09return -EINVAL;
+> +
+> +=09=09=09val =3D clamp_val(val, hdev->config->rpm_min,
+> +=09=09=09=09=09hdev->config->rpm_max);
+> +
+> +=09=09=09retval =3D acquire_lock(hdev);
+> +=09=09=09if (retval)
+> +=09=09=09=09goto exit;
+> +
+> +=09=09=09retval =3D set_fan_target_rpm(hdev, fan_data, val);
+> +=09=09=09if (retval)
+> +=09=09=09=09goto cleanup;
+> +
+> +=09=09=09break;
+> +=09=09default:
+> +=09=09=09return -EINVAL;
+> +=09=09}
+> +=09=09break;
+> +=09case hwmon_pwm:
+> +=09=09switch (attr) {
+> +=09=09case hwmon_pwm_input:
+> +=09=09=09fan_data =3D data->channel_data[channel];
+> +=09=09=09if (fan_data->mode !=3D 1)
+> +=09=09=09=09return -EINVAL;
+> +
+> +=09=09=09val =3D clamp_val(val, 0, hdev->config->pwm_max);
+> +=09=09=09dev_info(&hdev->udev->dev, "val:%ld", val);
+
+Same here regarding dev_dbg().
+
+
+> +=09=09=09retval =3D acquire_lock(hdev);
+> +=09=09=09if (retval)
+> +=09=09=09=09goto exit;
+> +
+> +=09=09=09retval =3D set_fan_target_pwm(hdev, fan_data, val);
+> +=09=09=09if (retval)
+> +=09=09=09=09goto cleanup;
+> +
+> +=09=09=09break;
+> +=09=09case hwmon_pwm_enable:
+> +=09=09=09fan_data =3D data->channel_data[channel];
+> +
+> +=09=09=09switch (val) {
+> +=09=09=09case 2:
+> +=09=09=09case 0:
+> +=09=09=09=09retval =3D acquire_lock(hdev);
+> +=09=09=09=09if (retval)
+> +=09=09=09=09=09goto exit;
+> +
+> +=09=09=09=09retval =3D set_fan_pwm_curve(hdev, fan_data,
+> +=09=09=09=09=09=09=09   DEFAULT_CURVE);
+> +=09=09=09=09if (retval)
+> +=09=09=09=09=09goto cleanup;
+> +=09=09=09=09fan_data->mode =3D 0;
+
+This could be 'fan_data->mode =3D val', no?
+
+
+> +=09=09=09=09break;
+> +=09=09=09case 1:
+> +=09=09=09=09retval =3D acquire_lock(hdev);
+> +=09=09=09=09if (retval)
+> +=09=09=09=09=09goto exit;
+> +
+> +=09=09=09=09if (fan_data->fan_target !=3D 0) {
+> +=09=09=09=09=09retval =3D set_fan_target_rpm(
+> +=09=09=09=09=09=09hdev, fan_data,
+> +=09=09=09=09=09=09fan_data->fan_target);
+> +=09=09=09=09=09if (retval)
+> +=09=09=09=09=09=09goto cleanup;
+> +=09=09=09=09} else if (fan_data->fan_pwm_target !=3D 0) {
+> +=09=09=09=09=09retval =3D set_fan_target_pwm(
+> +=09=09=09=09=09=09hdev, fan_data,
+> +=09=09=09=09=09=09fan_data->fan_pwm_target);
+> +=09=09=09=09=09if (retval)
+> +=09=09=09=09=09=09goto cleanup;
+> +=09=09=09=09}
+> +=09=09=09=09fan_data->mode =3D 1;
+> +=09=09=09=09break;
+> +=09=09=09default:
+> +=09=09=09=09return -EINVAL;
+> +=09=09=09}
+> +=09=09=09break;
+> +=09=09default:
+> +=09=09=09return -EINVAL;
+> +=09=09}
+> +=09=09break;
+> +=09default:
+> +=09=09return -EINVAL;
+> +=09}
+> +
+> +cleanup:
+> +=09mutex_unlock(&hdev->io_mutex);
+> +=09usb_autopm_put_interface(hdev->interface);
+> +exit:
+> +=09return retval;
+> +}
+> +
+> +static int hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> +=09=09      u32 attr, int channel, long *val)
+> +{
+> +=09struct hwmon_data *data =3D dev_get_drvdata(dev);
+> +=09struct hydro_i_pro_device *hdev =3D data->hdev;
+> +=09struct hwmon_fan_data *fan_data;
+> +=09int retval =3D 0;
+> +
+> +=09switch (type) {
+> +=09case hwmon_fan:
+> +=09=09switch (attr) {
+> +=09=09case hwmon_fan_input:
+> +=09=09=09fan_data =3D data->channel_data[channel];
+> +
+> +=09=09=09retval =3D acquire_lock(hdev);
+> +=09=09=09if (retval)
+> +=09=09=09=09goto exit;
+> +
+> +=09=09=09retval =3D get_fan_current_rpm(hdev, fan_data, val);
+> +=09=09=09break;
+> +=09=09case hwmon_fan_target:
+> +=09=09=09fan_data =3D data->channel_data[channel];
+> +=09=09=09if (fan_data->mode !=3D 1) {
+> +=09=09=09=09*val =3D 0;
+> +=09=09=09=09goto exit;
+> +=09=09=09}
+> +=09=09=09*val =3D fan_data->fan_target;
+> +=09=09=09goto exit;
+> +=09=09case hwmon_fan_min:
+> +=09=09=09*val =3D hdev->config->rpm_min;
+> +=09=09=09goto exit;
+> +
+
+Any reason why you don't handle 'hwmon_fan_max' as well?
+
+
+> +=09=09default:
+> +=09=09=09return -EINVAL;
+> +=09=09}
+> +=09=09break;
+> +=09case hwmon_pwm:
+> +=09=09switch (attr) {
+> +=09=09case hwmon_pwm_enable:
+> +=09=09=09fan_data =3D data->channel_data[channel];
+> +=09=09=09*val =3D fan_data->mode;
+> +=09=09=09goto exit;
+> +=09=09default:
+> +=09=09=09return -EINVAL;
+> +=09=09}
+> +=09=09goto exit;
+> +
+> +=09default:
+> +=09=09return -EINVAL;
+> +=09}
+> +
+> +=09mutex_unlock(&hdev->io_mutex);
+> +=09usb_autopm_put_interface(hdev->interface);
+> +exit:
+> +=09return retval;
+> +}
+> +
+> +static const struct hwmon_ops i_pro_ops =3D {
+> +=09.is_visible =3D hwmon_is_visible,
+> +=09.read =3D hwmon_read,
+> +=09.write =3D hwmon_write,
+> +};
+> +
+> +static int hwmon_init(struct hydro_i_pro_device *hdev)
+> +{
+> +=09u8 fan_id;
+> +=09struct device *hwmon_dev;
+> +=09struct hwmon_fan_data *fan;
+> +=09struct hwmon_data *data;
+> +=09struct hwmon_chip_info *hwmon_info;
+> +
+> +=09data =3D devm_kzalloc(&hdev->udev->dev, sizeof(*data), GFP_KERNEL);
+> +=09hwmon_info =3D devm_kzalloc(&hdev->udev->dev,
+> +=09=09=09=09  sizeof(struct hwmon_chip_info), GFP_KERNEL);
+
+I think you missed this 'sizeof' when coverting to 'sizeof(*ptr)'.
+
+
+> +
+> +=09/* You did something bad!! Either adjust  MAX_FAN_COUNT or the fancou=
+nt for the config!*/
+> +=09WARN_ON(hdev->config->fancount >=3D MAX_PWM_CHANNEL_COUNT);
+> +=09data->channel_count =3D
+> +=09=09clamp_val(hdev->config->fancount, 0, MAX_PWM_CHANNEL_COUNT);
+> +
+> +=09/* For each fan create a data channel a fan config entry and a pwm co=
+nfig entry */
+> +=09for (fan_id =3D 0; fan_id < data->channel_count; fan_id++) {
+> +=09=09fan =3D devm_kzalloc(&hdev->udev->dev,
+> +=09=09=09=09   sizeof(struct hwmon_fan_data), GFP_KERNEL);
+
+And this one as well.
+
+
+> +=09=09fan->fan_channel =3D fan_id;
+> +=09=09fan->mode =3D 0;
+> +=09=09data->channel_data[fan_id] =3D fan;
+> +=09}
+> +
+> +=09hwmon_info->ops =3D &i_pro_ops;
+> +=09hwmon_info->info =3D hdev->config->hwmon_info;
+> +
+> +=09data->hdev =3D hdev;
+> +=09hwmon_dev =3D devm_hwmon_device_register_with_info(
+> +=09=09&hdev->udev->dev, hdev->config->name, data, hwmon_info, NULL);
+> +=09if (IS_ERR(hwmon_dev))
+> +=09=09return PTR_ERR(hwmon_dev);
+> +
+> +=09dev_info(&hdev->udev->dev, "setup hwmon for %s\n", hdev->config->name=
+);
+> +=09return 0;
+> +}
+
+It is still possible that hwmon_init() leaks memory on failure.
+
+
+> [...]
+> +static int astk_probe(struct usb_interface *interface,
+> +=09=09      const struct usb_device_id *id)
+> +{
+> +=09struct hydro_i_pro_device *hdev;
+> +=09int retval;
+> +=09struct usb_endpoint_descriptor *bulk_in, *bulk_out;
+> +
+> +=09hdev =3D kzalloc(sizeof(*hdev), GFP_KERNEL);
+> +
+> +=09if (!hdev) {
+> +=09=09kfree(hdev);
+
+If this 'if' is taken, then hdev =3D=3D NULL, so no need to free it.
+
+
+> +=09=09retval =3D -ENOMEM;
+> +=09=09goto exit;
+> +=09}
+> +
+> +=09hdev->config =3D (const struct device_config *)id->driver_info;
+> +=09/* You should set the driver_info to a pointer to the correct configu=
+ration!!*/
+> +=09WARN_ON(!hdev->config);
+> +
+> +=09retval =3D usb_find_common_endpoints(interface->cur_altsetting, &bulk=
+_in,
+> +=09=09=09=09=09   &bulk_out, NULL, NULL);
+> +=09if (retval) {
+> +=09=09kfree(hdev);
+> +=09=09goto exit;
+> +=09}
+> +
+> +=09hdev->udev =3D usb_get_dev(interface_to_usbdev(interface));
+> +=09hdev->interface =3D usb_get_intf(interface);
+> +
+> +=09/*
+> +=09 * set up the endpoint information
+> +=09 * use only the first bulk-in and bulk-out endpoints
+> +=09 */
+> +=09hdev->bulk_in_size =3D usb_endpoint_maxp(bulk_in);
+> +=09hdev->bulk_in_buffer =3D kmalloc(hdev->bulk_in_size, GFP_KERNEL);
+> +=09hdev->bulk_in_endpointAddr =3D bulk_in->bEndpointAddress;
+> +=09hdev->bulk_out_size =3D usb_endpoint_maxp(bulk_out);
+> +=09hdev->bulk_out_buffer =3D kmalloc(hdev->bulk_out_size, GFP_KERNEL);
+
+I think both allocations should be checked.
+
+
+> +=09hdev->bulk_out_endpointAddr =3D bulk_out->bEndpointAddress;
+> +
+> +=09retval =3D init_device(hdev->udev);
+> +=09if (retval) {
+> +=09=09dev_err(&interface->dev, "failed initialising %s:%d\n",
+> +=09=09=09hdev->config->name, retval);
+> +=09=09kfree(hdev);
+> +=09=09goto exit;
+> +=09}
+> +
+> +=09retval =3D hwmon_init(hdev);
+> +=09if (retval) {
+> +=09=09dev_err(&interface->dev, "failed initialising hwmon%s:%d\n",
+                                                                  ^^^^^^
+I think you need more spaces here.
+
+
+> +=09=09=09hdev->config->name, retval);
+> +=09=09kfree(hdev);
+> +=09=09goto exit;
+> +=09}
+> +
+> +=09usb_set_intfdata(interface, hdev);
+> +=09mutex_init(&hdev->io_mutex);
+> +exit:
+> +=09return retval;
+> +}
+> [...]
+
+
+Barnab=C3=A1s P=C5=91cze
