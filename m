@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F57C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 08:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAAC1C433E1
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 08:47:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3540A20829
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 08:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88CA220758
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 08:47:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQV3wEUW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PUJ1wLCx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728268AbgHQIqw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Aug 2020 04:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
+        id S1728424AbgHQIrI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Aug 2020 04:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728239AbgHQIqq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Aug 2020 04:46:46 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96ED1C061388;
-        Mon, 17 Aug 2020 01:46:46 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id r11so7873312pfl.11;
-        Mon, 17 Aug 2020 01:46:46 -0700 (PDT)
+        with ESMTP id S1728404AbgHQIrF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Aug 2020 04:47:05 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23FCFC061388;
+        Mon, 17 Aug 2020 01:47:05 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id y6so7169994plt.3;
+        Mon, 17 Aug 2020 01:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=nH6C6M25+CzKqxxJmBz37cFUdmu+SJpjvhFKePru7gE=;
-        b=OQV3wEUWhtMgiS/DMS1Gy3zAYDUvH3Hpm6bEgFlbXoP1jEqgeGCEEeewKOTaUPg62u
-         iK8lLhkQQhh5rE8LqAlkv+ufGPL3V45wQfxi527NBy3QLQH81eD4aILrnTtZsH4tRBMV
-         gbaog46WOaLnV5cq5lUXtXHzKgkAAPmVx/YB4L2/aogCJdpmvo+dBdwcXMkiz7ZhyeeH
-         kLAR39ByGDxmYcWWL0qWKd1Er1eBh4sBbfsKjHqpZCA8oCxI5ZlF1DAPcRT3bsdj2C5z
-         yCR1ElXbaVEIb6W3bdF+d808GOJTHRpOERQ8jgAO/68DEuhExdgmQCQk+YkKWJLRDk8W
-         vRuQ==
+        bh=XzAA7QZ/JwcFzI2XScQHE0IAe+dKTNTeiH53oeNSRfg=;
+        b=PUJ1wLCxWrpKBcdLb6Jc/e4ZqPX7SEPaggXzj9jp+/F16n/S3bnRJUytGqH6lbhkKi
+         4n9SEUEEjYiVNi4rZWGRjio8H1gVKsR83S8duAYNUVAut1ukyhrIsHBDgHSaJFbVCp1j
+         WCdd02yB7zx04gQlhsOLEAqHcKBT+pwxiWe0kDc1qsD1HdV1FpZBO7lepcK4nJGT/I0v
+         wxFeMGPvQBOwvrbMrK6X79sAhoylApFewxMl0JOaULSPpb9eAxl9HH4DB7Bf6xc1xWoq
+         bWsSpZldh3wyc/jg/gOEAh0vJhbvhXOOAypSuK+0ZJw60D3WkfY4/COfr6tNwnMoIZ76
+         7/3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=nH6C6M25+CzKqxxJmBz37cFUdmu+SJpjvhFKePru7gE=;
-        b=nXRKwxwK9HZ9CmJaZ7J8UtoIBuEntZHdvIF77mkyaVbyLInGdI79fjifi8lzOgZgmA
-         IGPtRlGKhMWZvoQt2zzWfAuuaL57greb0CiqqzDnz6/xIIVM7rivmWemszTNqPm9grdg
-         cvB0sy4P3MwmCYd8yE0dlYjgv99Ebfs1hUPD68L5TQhrqlJ0JOb8pyj5Hd1HnvP2mFyX
-         RniErMs9QwndZ2w0sFJE+t1LgBkXj8Wg6X0f3oQKfRBXTRph1HCzNr6hrkiQht7R0ws5
-         HrrbLgXVVvo4zlxM43n8NBXheXU6FgyBsWNFvvnfbd5r0lM11OlSKn6BZvgcThg7Ns59
-         65AQ==
-X-Gm-Message-State: AOAM532hhEE8/co8V+bXEntRCnGbbPWeaCX0chzwXNUT22qK9xb8s3Y4
-        AUOq9YhbgXk+sXgAYnSb9sM=
-X-Google-Smtp-Source: ABdhPJxnMU+Sz3Hxc2sacSZWKZ9Fo0PiAn5zYAAZRee+NBlJvdEuE0loVsvM1vjUdGFpohrXvp2ytQ==
-X-Received: by 2002:a65:6087:: with SMTP id t7mr9665677pgu.453.1597654006001;
-        Mon, 17 Aug 2020 01:46:46 -0700 (PDT)
+        bh=XzAA7QZ/JwcFzI2XScQHE0IAe+dKTNTeiH53oeNSRfg=;
+        b=JRJiVjqnAkaiLcLlJ4kE2utP1Pd1zUwG03Y6jn7k20u1bdEPDzvj0SCeAm0k2pPnf1
+         XJOTzpn4VDDVJPNCf5wkr0eElvNOoNuwsCAMOTLg264F7ykBq6Qqny5lmQPwN3MDOBGJ
+         MBWAunfNwtwnD7jH9ZbzUDDs/EBIABejfwGiiB/nOE5mYm+S3OJLZNxTG3MaEjgn6UFW
+         U+myXjbFtTv5EYnZnmPdJYQul3uoWaWXRfNmkGFUYY5fw+/z7j5DvfhYTsTSzdVWw+WF
+         OwNM7XrLoPqHdP8sR2lRWoU/7ciCaeHLZqo88uYcxChcXHBJNpC8an4aOUU8nJ2t3G0q
+         3P8g==
+X-Gm-Message-State: AOAM533m6YahuR7Bqdu4Fdu570UIS9LCe82O7+elx3snCJcaPNdX71A+
+        o+QY7kVqWwMIx/vgFxfqG+8=
+X-Google-Smtp-Source: ABdhPJzdKnoWl9RVy3K1G6BUrlM3wOchRsvYl2AOsspQKQL0EzzBUBSgvSm96fUrUjfFaqAYkWe+cw==
+X-Received: by 2002:a17:90a:3948:: with SMTP id n8mr8712576pjf.156.1597654024645;
+        Mon, 17 Aug 2020 01:47:04 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
-        by smtp.gmail.com with ESMTPSA id ml18sm16418443pjb.43.2020.08.17.01.46.41
+        by smtp.gmail.com with ESMTPSA id ml18sm16418443pjb.43.2020.08.17.01.47.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 01:46:45 -0700 (PDT)
+        Mon, 17 Aug 2020 01:47:04 -0700 (PDT)
 From:   Allen Pais <allen.cryptic@gmail.com>
 To:     m.grzeschik@pengutronix.de, davem@davemloft.net, paulus@samba.org,
         oliver@neukum.org, woojung.huh@microchip.com, petkan@nucleusys.com
@@ -64,9 +64,9 @@ Cc:     keescook@chromium.org, netdev@vger.kernel.org,
         linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Allen Pais <allen.lkml@gmail.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [PATCH 2/2] net: caif: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 17 Aug 2020 14:16:06 +0530
-Message-Id: <20200817084614.24263-5-allen.cryptic@gmail.com>
+Subject: [PATCH 5/9] net: lan78xx: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 17 Aug 2020 14:16:10 +0530
+Message-Id: <20200817084614.24263-9-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817084614.24263-1-allen.cryptic@gmail.com>
 References: <20200817084614.24263-1-allen.cryptic@gmail.com>
@@ -85,36 +85,34 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/net/caif/caif_virtio.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/net/usb/lan78xx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/caif/caif_virtio.c b/drivers/net/caif/caif_virtio.c
-index 80ea2e913c2b..23c2eb8ceeec 100644
---- a/drivers/net/caif/caif_virtio.c
-+++ b/drivers/net/caif/caif_virtio.c
-@@ -598,9 +598,9 @@ static netdev_tx_t cfv_netdev_tx(struct sk_buff *skb, struct net_device *netdev)
- 	return NETDEV_TX_OK;
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index 442507f25aad..557999a94ef9 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -3386,9 +3386,9 @@ static void lan78xx_rx_bh(struct lan78xx_net *dev)
+ 		netif_wake_queue(dev->net);
  }
  
--static void cfv_tx_release_tasklet(unsigned long drv)
-+static void cfv_tx_release_tasklet(struct tasklet_struct *t)
+-static void lan78xx_bh(unsigned long param)
++static void lan78xx_bh(struct tasklet_struct *t)
  {
--	struct cfv_info *cfv = (struct cfv_info *)drv;
-+	struct cfv_info *cfv = from_tasklet(cfv, t, tx_release_tasklet);
- 	cfv_release_used_buf(cfv->vq_tx);
- }
+-	struct lan78xx_net *dev = (struct lan78xx_net *)param;
++	struct lan78xx_net *dev = from_tasklet(dev, t, bh);
+ 	struct sk_buff *skb;
+ 	struct skb_data *entry;
  
-@@ -716,9 +716,7 @@ static int cfv_probe(struct virtio_device *vdev)
- 	cfv->ctx.head = USHRT_MAX;
- 	netif_napi_add(netdev, &cfv->napi, cfv_rx_poll, CFV_DEFAULT_QUOTA);
+@@ -3666,7 +3666,7 @@ static int lan78xx_probe(struct usb_interface *intf,
+ 	skb_queue_head_init(&dev->txq_pend);
+ 	mutex_init(&dev->phy_mutex);
  
--	tasklet_init(&cfv->tx_release_tasklet,
--		     cfv_tx_release_tasklet,
--		     (unsigned long)cfv);
-+	tasklet_setup(&cfv->tx_release_tasklet, cfv_tx_release_tasklet);
+-	tasklet_init(&dev->bh, lan78xx_bh, (unsigned long)dev);
++	tasklet_setup(&dev->bh, lan78xx_bh);
+ 	INIT_DELAYED_WORK(&dev->wq, lan78xx_delayedwork);
+ 	init_usb_anchor(&dev->deferred);
  
- 	/* Carrier is off until netdevice is opened */
- 	netif_carrier_off(netdev);
 -- 
 2.17.1
 
