@@ -2,120 +2,93 @@ Return-Path: <SRS0=DJv7=B3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF32C433E3
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 09:46:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BDBFC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 09:55:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EBD0206C0
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 09:46:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="mEEbQzIH"
+	by mail.kernel.org (Postfix) with ESMTP id 6920C20738
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 09:55:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597658153;
+	bh=JvGuTkC1cOJcFzi6SmhXDEslKd4rVs6/+DAvt3zZ2e4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=XcBu4j6cejMnMbbhNbz1jbyq5lRrWxtIlKuDEZfPNZZkzuS3W5UQ8B1EAsQOn6Jzd
+	 Xb+Y9ZJEtkep61QUhhJvhPU/MSyHlNi6zgoYvN4A4/rhAh4IuTLGnpJ6YRUdZ8QvVl
+	 UgCdDvMgJfC4f/Xq+jqYeTFuLsXTBLfjk6QE3pQM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbgHQJqq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Aug 2020 05:46:46 -0400
-Received: from mail-am6eur05on2050.outbound.protection.outlook.com ([40.107.22.50]:21473
-        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726424AbgHQJqm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Aug 2020 05:46:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EjdFpegxMBKk4m9RostACyAypNqtSL7RLi7xOcWjD1Y2pXvyp8HVGGs2h0mtF/H6PKe7ERUdNSMk1aDSUtmBkfVxhhYT6jPHKa7e22sHAATQV0Zwc3VDXk1ISN8wI8ywGkHKVrLeiiPuIv9hnUOVi+Q6DuI3drpqtb/bVMFoubNgHeJYix3K1lsC9AolKvn8iNWsTLpJzB6m3lgZsScOLoZ3jDWtLVdLqMC5aUjtnNTjNkYmjyFCVNgZXkPlLmmmmqrVqoNPFoBbVcO9sdXhU2lFECAq2dfyDIu/mJI+e8mx2x7RYcSBL5npEJ8fraC4/Q+vZnIGoWj6FS5B48Lcfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PgcZaYgbuwiFbGdaBEIDLaAnrZSORHj5FtQlfngPczQ=;
- b=C+T14CBUZ8BxCx526bkiAI1yUCnrNlLnIOT4az/tAMGIw9rAciO6axViwtNs6klV4ZzY5T+e9EAH6fiM2VK8GPv9oNlC75ABJicbbQYtWVycBCRvPJyZqpliCBOK7QPtjgBty56Er81VYOV8NR/Qp3vthou3HT5TPadRGEztLb0AAzyURqDGrbzYhHY2XW0DyH1W59BLbltw/tw0WU7htjvh8CtlJe599rG0emSG226uWyZJHlJFWdKMfDFNLV0rtDmTmPHC4p9tLjWS2LIBbMue3KFjTEUlXp7j6Nz9cZn+89rFQHALRliFilpVAv+NcUHbTk8Mf+6NWP4PuY26xA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PgcZaYgbuwiFbGdaBEIDLaAnrZSORHj5FtQlfngPczQ=;
- b=mEEbQzIHKtVgHW9law60UVn73hrqOEAk3lfc5Es11jCgfYx86D59TZgZXhvkct0Zfmf2nxChEMQBXcVp5dgluxjPj3l8+kdM8TSEzLaPYTyum2pGAb4ZE+K49RCK+8zCj5quMX/dl+cyT61mmC8di5NR1GqaMdHt+97wB6X22EU=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM7PR04MB7160.eurprd04.prod.outlook.com (2603:10a6:20b:119::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.26; Mon, 17 Aug
- 2020 09:46:02 +0000
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1023:be8d:40c:efe1]) by AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1023:be8d:40c:efe1%3]) with mapi id 15.20.3283.028; Mon, 17 Aug 2020
- 09:46:02 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     mathias.nyman@intel.com
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-imx@nxp.com, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH v2 5/7] usb: host: xhci-plat: add wakeup entry at sysfs
-Date:   Mon, 17 Aug 2020 17:44:38 +0800
-Message-Id: <20200817094440.23202-6-peter.chen@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200817094440.23202-1-peter.chen@nxp.com>
-References: <20200817094440.23202-1-peter.chen@nxp.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0094.apcprd02.prod.outlook.com
- (2603:1096:4:90::34) To AM7PR04MB7157.eurprd04.prod.outlook.com
- (2603:10a6:20b:118::20)
+        id S1726973AbgHQJzr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Aug 2020 05:55:47 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43306 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726385AbgHQJzq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Aug 2020 05:55:46 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v12so16758544ljc.10;
+        Mon, 17 Aug 2020 02:55:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=4nEjwbn3JPPjnvjnDGJFs8xT2ZWqJn/zT9YAgEPeUdk=;
+        b=D2FszZtqGbi9EHUF5WKi5yu17qQwKpl2t+F7h87P9O8j+TUNc7aAg3xfAq4eTKNbRR
+         Ikwz4xgaXYjlRJGvif3zPY6HRKUYMiTubWcZ+hm6fTFVrJ4HKR0jWFAwoIfyPa0+0LLE
+         WcDzoNzlnYzpWpwwR4HR0knC/Xcjgh+nM4C4Oh8XUuWYy8skcPsjjMGVyZfkmg+L9XJk
+         jP4lYCTV53qm/lVgtYgVr14ACiG8/xegYIkSVJiosy7a5f/A4VOloTRpfXUwXJbokQ0B
+         icaF6/6r4bE+DvOvTEJcD1N+P6p2Nc7iUqrzTbEEhT3f8mqZd7EymYe3f1AB3cGSdS0p
+         LFcA==
+X-Gm-Message-State: AOAM530BsHkDDoTmql1iGiPkVf9Qx1YAiqyX1CD4C+NyXOZMwWHbKAt2
+        hckn2DYJ54amUTMA8UdkmNA=
+X-Google-Smtp-Source: ABdhPJzuju/OypiGpEJSlFr7KcuLb4mAH49KUa6Y1vdxeC1rNvCO0+BsGDT7bkv8ZXaS8LfJuDiNog==
+X-Received: by 2002:a2e:91d2:: with SMTP id u18mr7274231ljg.436.1597658143751;
+        Mon, 17 Aug 2020 02:55:43 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id 185sm4913882ljf.82.2020.08.17.02.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 02:55:42 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1k7brh-00010R-67; Mon, 17 Aug 2020 11:55:41 +0200
+Date:   Mon, 17 Aug 2020 11:55:41 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     =?utf-8?B?UGjDuiBMxrB1?= An <luuanphu@gmail.com>
+Cc:     Johan Hovold <johan@kernel.org>, Phu Luu <Phu.Luu@silabs.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Brant Merryman <Brant.Merryman@silabs.com>,
+        Richard Hendricks <Richard.Hendricks@silabs.com>,
+        "hungnd3@fsoft.com.vn" <hungnd3@fsoft.com.vn>
+Subject: Re: [PATCH v3 2/2] USB: serial: cp210x: Proper RTS control when
+ buffers fill
+Message-ID: <20200817095541.GA3383@localhost>
+References: <ECCF8E73-91F3-4080-BE17-1714BC8818FB@silabs.com>
+ <20200626074206.GP3334@localhost>
+ <20200706101834.GI3453@localhost>
+ <CAP847ynZDozdA0kDEo6Zjuk0LOeaiTyW_fnU89hnFUD8ntL8uw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.67) by SG2PR02CA0094.apcprd02.prod.outlook.com (2603:1096:4:90::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16 via Frontend Transport; Mon, 17 Aug 2020 09:46:00 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [119.31.174.67]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e1f033fb-cb0f-496a-fd95-08d842925a2a
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7160:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR04MB7160FC9A438F1C69F1755F548B5F0@AM7PR04MB7160.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 28dZFsL2tKYeVIWhfNIvn1pa1PSDElgRjNgG4wLaKwYuTSvMSWPArAQLIFiDukH0Z+NF3QzH1QOd9kXs+km6MwTbbPZquys09gdV5fPeXt9IvuwCjRZUDJm3BjA+obpAbxuyYEYz1xbcDDI3/Pw1OLNkA4XWZPy33jgddnL0+atE0XkOCCpCKy9qJUNvbTcC35itMQvPWkuLAKZQZ96dMLQEx2l39phsm63DbKQem90+hwusG1WrI3ahNtuAzzsn6ezqzyXS/UNw1gZRSbgshHfpzHLtx+O995ghmvtgJcFs2z+waW9RuN3b4WY5/aSR
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(6506007)(6666004)(4326008)(66946007)(1076003)(2906002)(16526019)(5660300002)(4744005)(66476007)(52116002)(6512007)(6486002)(66556008)(26005)(186003)(478600001)(83380400001)(8676002)(2616005)(8936002)(956004)(44832011)(316002)(6916009)(36756003)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: imH/dUSAGtxmzyXFQYOosdJc/iXazu/2sdXt5JLKET7WkmuJ/JjTyv1BejWTsMZ/cSfhyR6GMUA6Sea8NI4LxcECh7Dp9Stk2qeiVvW6j/hyYXhJ5gMjhlEQKbVs1Qwtf1jLHuF+a/AmcqGcFCLc5tJyDnvqYOO27r3SZSF6oqISZJJ+sJaOmORx6dtxszEQ+xvxLrgl5SHK06blwuk56iVPApQ6mWPyzIp/Rqwi+/F87xRVDOBzU3+uSIALxcqUyl0+JH5q45GDs5SkLhiFMjNQ3wsdC5ssnrDlNYivZOIr77f1lbiersbrfpfFv13zS+chu5joZaYSOOFAT6rT9IdPEgkYyJG7cujUAGX68tZzZ4sVwEfRRyupq0OOsZBELQzyU2H/r/NUOK39iipJamVYCSLR7EGhJ9s4Ay5d1yesOAzSWKC60Tl+yX0VEhVMB6ckhkvcRyVeZRQ8EvdpiGJoyqUAQHTCvNGse0Qj97qYkdIRnxk9Ea4QF/8cgkd+mpAYoj3elMBPkC6Pg8gWUbECh01/PGwNXvEQ66rk1+kuxhBxq6uUP06bhcbuMEpJNr5D5Z90USdQ2WK86T7fzHmF0Y+4YqnuupIWumyY81C+SQtDw37h17W4nnFhZRsaszhKzZuFJkc4SX59lHHfUA==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1f033fb-cb0f-496a-fd95-08d842925a2a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2020 09:46:02.1964
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ji7JCv3o1XY3pL7i+TMB+zgPkfSfv329V4szoSu3DfjqPnU/eyPx89T2lLNaEwC+QYzFESowIYp0lQyBgHnkUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7160
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP847ynZDozdA0kDEo6Zjuk0LOeaiTyW_fnU89hnFUD8ntL8uw@mail.gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With this change, there will be a wakeup entry at /sys/../power/wakeup,
-and the user could use this entry to choose whether enable xhci wakeup
-features (wake up system from suspend) or not.
+On Mon, Aug 17, 2020 at 09:24:05AM +0700, Phú Lưu An wrote:
+> Hi Johan,
+> 
+> My customer asked me when this patch is applied to the community. So, could
+> you please tell me when it appears in a various distributions?
 
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
----
- drivers/usb/host/xhci-plat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You'll have to ask the distributions about that.
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 14ff65a387e8..cfca6fc8947c 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -287,7 +287,7 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 		*priv = *priv_match;
- 	}
- 
--	device_wakeup_enable(hcd->self.controller);
-+	device_set_wakeup_capable(&pdev->dev, true);
- 
- 	xhci->main_hcd = hcd;
- 	xhci->shared_hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
--- 
-2.17.1
+The patch in question is in Linus's tree since about two weeks and
+should be picked up and backported to the stable trees soon:
 
+	c7614ff9b73a ("USB: serial: cp210x: re-enable auto-RTS on open")
+
+Johan
