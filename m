@@ -2,84 +2,116 @@ Return-Path: <SRS0=DJv7=B3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00932C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 18:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F37CC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 18:38:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6A362075B
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 18:35:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7564520578
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Aug 2020 18:38:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gpPab2cf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390374AbgHQSfp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Aug 2020 14:35:45 -0400
-Received: from mga01.intel.com ([192.55.52.88]:15272 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389522AbgHQSfa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Aug 2020 14:35:30 -0400
-IronPort-SDR: WwPOFoZiwwXgR/g9rq/vrFZunKDVdye5OPkVodrJvOGIxuXfdmBrwCKd9zzazD6Mzx58+x1POh
- TjuliTUX67mw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="172823010"
-X-IronPort-AV: E=Sophos;i="5.76,324,1592895600"; 
-   d="scan'208";a="172823010"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 11:35:30 -0700
-IronPort-SDR: CgV+3nEf5TLUdisZjwZPgOHaw7zn3KUATxXICVyn5ur/jFKH7wgTccxcNiwC3WPThQDhyRe35C
- /4PX6NZWrj/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,324,1592895600"; 
-   d="scan'208";a="326490244"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 17 Aug 2020 11:35:29 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1k7jqF-009U8T-Nk; Mon, 17 Aug 2020 21:26:43 +0300
-Date:   Mon, 17 Aug 2020 21:26:43 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
-Subject: Re: [PATCH v1 3/3] usb: early: xhci-dbc: Sort headers alphabetically
-Message-ID: <20200817182643.GT1891694@smile.fi.intel.com>
-References: <20200817164226.49119-1-andriy.shevchenko@linux.intel.com>
- <20200817164226.49119-3-andriy.shevchenko@linux.intel.com>
- <20200817165020.GB721399@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200817165020.GB721399@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        id S2391199AbgHQSix (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Aug 2020 14:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391242AbgHQSik (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Aug 2020 14:38:40 -0400
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E4DCC061345
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2020 11:38:40 -0700 (PDT)
+Received: by mail-pl1-x649.google.com with SMTP id w20so1604234plp.8
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2020 11:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=fgr4lPs0or0iB5fosHxX2pUdsKpC2fZEoB73rKcd/Pw=;
+        b=gpPab2cfyT6hCpRcW9yoitZQ1bivgwHZ2ranIeUCOGVWqqdJJGkzeAsDn0bzKfK7Pv
+         1W4MAPW358Iw9HfcGsyY/MRlsoG1jAhst1mLKAxeiA3WkvVoCFW5l1RI3PxvKiiyJJBv
+         kJcZ0AfIMQzp3c8hLX8+a0afCnLugujKAGoq6Ie/0tf0eg12Noc2Jr6Cz8fPst3LhdMC
+         uvUQ5MfTFeRx7HoqNz+SCpcO7hNipmNDmKul8Y2G6P1xpHJG7tg6dKMFun424z7UB1k2
+         MbkGXjyU9qSymtGtHAtFaZfZLwooQK5Jtuffs1oqDB3ihKpPWVMwd1udcf54pBbB9e7M
+         0ILA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=fgr4lPs0or0iB5fosHxX2pUdsKpC2fZEoB73rKcd/Pw=;
+        b=EKxGwxT/pmg8Ja1iXlP5LcUwOykzuaxafQThtLx/oc0Cl+KraNgBxhReEvQLP/vE8N
+         I20+1lsHI84sCgL5pGXe2mIof3K87G9/Wh2jONYvqCnrC7y3aNlJ2gTILhR656QXc7Yv
+         4ZDcA5Ii8Rnxym0wVjxJN3s6NF9kzHyYpdgUIrd/b0Zg4XcldV81D4vYc+LUBqAHLlOl
+         fejiDSBGxkOAQVW70qNwLAagJ7mDNLiBrqYTt7AjVeFlV7VpA7NSwBvipDALECUq4h6a
+         jZ8X050ApZaz/StoAxBlDooJUd4TIv+PZHu4V5paiBAKnL+x+lxi+GM28alCB2PUn/YJ
+         rVJg==
+X-Gm-Message-State: AOAM533y+gC4cusdzsOLgVUbI8KcuN1gmJU9hYd8VXWBzNtA14/ZHnrI
+        nXrslHQAQjPmsTDZg8WC/1qWM1UqyuA=
+X-Google-Smtp-Source: ABdhPJx7JMQgnHKmRP+uG+1UdYLjI4cM9KQFTz6ra+2WZ/MkSR53JhDoU90OXmzlexcksXGhfm7i98cnzmw=
+X-Received: by 2002:a05:6a00:81:: with SMTP id c1mr12660793pfj.189.1597689518510;
+ Mon, 17 Aug 2020 11:38:38 -0700 (PDT)
+Date:   Mon, 17 Aug 2020 11:38:28 -0700
+In-Reply-To: <20200817183828.1895015-1-badhri@google.com>
+Message-Id: <20200817183828.1895015-2-badhri@google.com>
+Mime-Version: 1.0
+References: <20200817183828.1895015-1-badhri@google.com>
+X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
+Subject: [PATCH 2/2 v4] usb: typec: pd: Fix formatting in pd.h header
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Badhri Jagan Sridharan <badhri@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 06:50:20PM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Aug 17, 2020 at 07:42:26PM +0300, Andy Shevchenko wrote:
-> > For better maintenance sort headers alphabetically.
-> 
-> Maintenance of what?  That's pointless churn.
+Replacing spaces with tabs for PD_T_* constants.
 
-Of this driver. When adding a new header may bring a duplication.
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+Change history:
+-First version at v3. Keeping the version number same as the parent.
 
-> > While at it, move asm/*.h to be included after linux/*.h.
-> 
-> That's the only valid type of change, but why is a driver having asm/*.h
-> files included in the first place?  Shouldn't that be fixed?
+Changes since v3:
+-Added Reviewed-by tags
 
-I can't see how. fixmap.h is special header for early boot stage and there is
-no linux/* part to cover it (no need).
+---
+ include/linux/usb/pd.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The pci-direct.h is a specific arch-dependent way to access PCI configuration
-space without PCI core to be involved (also as above, to be used on early boot
-stages).
-
-That said, I simply move them and will preserve ordering as it's now.
-
+diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
+index 1df895e4680b..f842e4589bd2 100644
+--- a/include/linux/usb/pd.h
++++ b/include/linux/usb/pd.h
+@@ -471,9 +471,10 @@ static inline unsigned int rdo_max_power(u32 rdo)
+ #define PD_T_VCONN_SOURCE_ON	100
+ #define PD_T_SINK_REQUEST	100	/* 100 ms minimum */
+ #define PD_T_ERROR_RECOVERY	100	/* minimum 25 is insufficient */
+-#define PD_T_SRCSWAPSTDBY      625     /* Maximum of 650ms */
+-#define PD_T_NEWSRC            250     /* Maximum of 275ms */
++#define PD_T_SRCSWAPSTDBY	625	/* Maximum of 650ms */
++#define PD_T_NEWSRC		250	/* Maximum of 275ms */
+ #define PD_T_SWAP_SRC_START	20	/* Minimum of 20ms */
++#define PD_T_BIST_CONT_MODE	50	/* 30 - 60 ms */
+ 
+ #define PD_T_DRP_TRY		100	/* 75 - 150 ms */
+ #define PD_T_DRP_TRYWAIT	600	/* 400 - 800 ms */
+@@ -484,5 +485,4 @@ static inline unsigned int rdo_max_power(u32 rdo)
+ #define PD_N_CAPS_COUNT		(PD_T_NO_RESPONSE / PD_T_SEND_SOURCE_CAP)
+ #define PD_N_HARD_RESET_COUNT	2
+ 
+-#define PD_T_BIST_CONT_MODE	50 /* 30 - 60 ms */
+ #endif /* __LINUX_USB_PD_H */
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.28.0.236.gb10cc79966-goog
 
