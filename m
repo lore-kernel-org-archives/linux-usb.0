@@ -2,78 +2,75 @@ Return-Path: <SRS0=A6ac=B4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 693B1C433E1
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Aug 2020 07:30:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 763AEC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Aug 2020 08:08:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AD3C206B5
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Aug 2020 07:30:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597735849;
-	bh=Zii/iidjf7sBtv2hMWeEW5aoRhsRt7licNkclEoHalQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=LmpRtS/JKGMINX5kM1L1E+6HzmJO+Kcw8OoyLSgNdl8duDEr2YFdYtJ/Nd5cnRawp
-	 iq5HC5oRcJuKNgR67iHRpYkup57+WY/8qXgFYW6tZz/Qlt3fZVQ4uZooaQhc9sXKf0
-	 WDZxwEaj46mAxV22z6GQCHdCvyt4t/6l6qmFsRZo=
+	by mail.kernel.org (Postfix) with ESMTP id 4DD0B2076E
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Aug 2020 08:08:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbgHRHap (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Aug 2020 03:30:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57652 "EHLO mail.kernel.org"
+        id S1726681AbgHRII5 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Aug 2020 04:08:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53420 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726043AbgHRHao (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 Aug 2020 03:30:44 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F0D8A206B5;
-        Tue, 18 Aug 2020 07:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597735844;
-        bh=Zii/iidjf7sBtv2hMWeEW5aoRhsRt7licNkclEoHalQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=upwVUrQlyfYcs8wgdKov1dmuqlL2PsTH6A8esdjI78GAemOn894tzbyi6+zcc6lax
-         k3AXikO5RYWKF/I0fOMO70UsEPQgeZSs9iWusEpjhJ4jsem5pl2z5/4MoRjEYIFNc8
-         /3VUkRIafk7PqopN5DucRjegZXbWhCzb9nrxraE8=
-Date:   Tue, 18 Aug 2020 09:31:08 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] usb: renesas-xhci: remove version check
-Message-ID: <20200818073108.GE9254@kroah.com>
-References: <20200818071739.789720-1-vkoul@kernel.org>
+        id S1726403AbgHRII5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Aug 2020 04:08:57 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 208917] Webcam(earlier working) doesn't work now for Sony Vaio
+Date:   Tue, 18 Aug 2020 08:08:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tiwai@suse.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: component version assigned_to product
+Message-ID: <bug-208917-208809-Y6CTkQo029@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208917-208809@https.bugzilla.kernel.org/>
+References: <bug-208917-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200818071739.789720-1-vkoul@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 12:47:39PM +0530, Vinod Koul wrote:
-> Some devices in wild are reporting bunch of firmware versions, so remove
-> the check for versions in driver
-> 
-> Reported by: Anastasios Vacharakis <vacharakis@gmail.com>
-> Reported by: Glen Journeay <journeay@gmail.com>
-> Fixes: 2478be82de44 ("usb: renesas-xhci: Add ROM loader for uPD720201")
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=208911
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> ---
-> Changes in v3:
->  - drop additional firmware versions and remove the check
-> 
-> Greg, this fixes regression for folks with preprogrammed controllers
-> please mark as stable material
+https://bugzilla.kernel.org/show_bug.cgi?id=208917
 
-You could have done so by putting "Cc: stable..." in the s-o-b of the
-kernel, why force me to do that by hand?
+Takashi Iwai (tiwai@suse.de) changed:
 
-thanks,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|webcam                      |USB
+            Version|unspecified                 |2.5
+           Assignee|v4l-dvb_webcam@kernel-bugs. |drivers_usb@kernel-bugs.ker
+                   |osdl.org                    |nel.org
+            Product|v4l-dvb                     |Drivers
 
-greg k-h
+--- Comment #2 from Takashi Iwai (tiwai@suse.de) ---
+Lauren suggested in the opensuse bugzilla above:
+The rapid cycles of disconnect/connect seem to point to a USB host controller
+or USB core issue. If you open a bug upstream, I would recommend filing it with
+USB, not media or UVC.
+
+Let's reassign to USB people.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
