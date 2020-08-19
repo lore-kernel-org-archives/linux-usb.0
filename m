@@ -2,40 +2,41 @@ Return-Path: <SRS0=nq6N=B5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E82A4C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 11:59:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3879BC433E1
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:00:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D18722072D
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 11:59:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1658A207BB
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728455AbgHSL7S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Aug 2020 07:59:18 -0400
-Received: from mga12.intel.com ([192.55.52.136]:34054 "EHLO mga12.intel.com"
+        id S1728368AbgHSL7f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Aug 2020 07:59:35 -0400
+Received: from mga05.intel.com ([192.55.52.43]:49550 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728207AbgHSL7N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 19 Aug 2020 07:59:13 -0400
-IronPort-SDR: l/Vi+p/oYDFIQJwWbC5851F8JjEQnuFR0gtB1Y2dcbKHvvvjDDdn3MOvj/9K/deaTYGCWQ8nIn
- QBF+QwcqC7Pg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="134610550"
+        id S1728409AbgHSL7R (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 19 Aug 2020 07:59:17 -0400
+IronPort-SDR: Xm7ZGRSNj94zajWBfKi4BIzHJdynwp7wB/+rlRNW5GwM8Da2AACoGquuDQ+HPbOHpizpKc8weX
+ /hICI7GRNa/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="239922667"
 X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
-   d="scan'208";a="134610550"
+   d="scan'208";a="239922667"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 04:59:10 -0700
-IronPort-SDR: 0WeEkQrRE1815QZ5UKWM7RLitpA5/2/UWF8TiRGsVS+Dr5XU01lFBN42/NXfcjuBBt0n1uPYcK
- myHhCWxaOYtA==
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 04:59:14 -0700
+IronPort-SDR: +wZIaCmcceJ/nNxrZd5PHt1REUyEaecsb4eqtyJOril7LjqKk9j8IdkSWu9cJeQ7hMHKIFHDh0
+ TAOVRmQggITw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
-   d="scan'208";a="293095693"
+   d="scan'208";a="329310755"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 19 Aug 2020 04:59:07 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2020 04:59:11 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 493281FD; Wed, 19 Aug 2020 14:59:06 +0300 (EEST)
+        id A1A3E463; Wed, 19 Aug 2020 14:59:06 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -50,10 +51,12 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Len Brown <lenb@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: [PATCH 00/19] thunderbolt: Power Management improvements
-Date:   Wed, 19 Aug 2020 14:58:46 +0300
-Message-Id: <20200819115905.59834-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 08/19] thunderbolt: Tear down DP tunnels when suspending
+Date:   Wed, 19 Aug 2020 14:58:54 +0300
+Message-Id: <20200819115905.59834-9-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200819115905.59834-1-mika.westerberg@linux.intel.com>
+References: <20200819115905.59834-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -61,64 +64,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+DP tunnels do not need the same kind of treatment as others because they
+are created based on hot-plug events on DP adapter ports, and the
+display stack does not need the tunnels to be enabled when resuming from
+suspend. Also Tiger Lake Thunderbolt controller sends unplug event on D3
+exit so this avoids that as well.
 
-This series improves power management in the Thunderbolt driver. We already
-have a quite complete power management on systems where Firmware based
-Connection Manager is used (this is pretty much all non-Apple systems out
-there) so this series adds a couple of optimizations to make certain power
-transitions slightly faster, hopefully improving user experience.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/tb.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-Rest of the patches improve power management in the Software Connection
-manager side of the driver. USB4 spec covers power management for USB4
-hosts and devices, and also TBT3 compatible devices so these patches
-implement that. We also switch to use device links instead of PCI quirk to
-make sure the Thunderbolt/USB4 host controller is resumed before tunneled
-PCIe and USB 3.x ports (so that it gets the chance to restore the tunnels
-properly before). Tiger Lake systems with Software Connection Manager
-enabled describe these relationships using a new ACPI _DSD property that we
-parse in the driver and populate device links accordingly.
-
-Mika Westerberg (17):
-  thunderbolt: Software CM only should set force power in Tiger Lake
-  thunderbolt: Use bit 31 to check if Firmware CM is running in Tiger Lake
-  thunderbolt: Do not program NFC buffers for USB4 router protocol adapters
-  thunderbolt: No need to log an error if tb_switch_lane_bonding_enable() fails
-  thunderbolt: Send reset only to first generation routers
-  thunderbolt: Tear down DP tunnels when suspending
-  thunderbolt: Initialize TMU again on resume
-  thunderbolt: Do not change default USB4 router notification timeout
-  thunderbolt: Configure link after lane bonding is enabled
-  thunderbolt: Set port configured for both ends of the link
-  thunderbolt: Configure port for XDomain
-  thunderbolt: Disable lane 1 for XDomain connection
-  thunderbolt: Enable wakes from system suspend
-  PCI / thunderbolt: Switch to use device links instead of PCI quirk
-  ACPI: Export acpi_get_first_physical_node() to modules
-  thunderbolt: Create device links from ACPI description
-  thunderbolt: Add runtime PM for Software CM
-
-Rajmohan Mani (2):
-  thunderbolt: Optimize Force Power logic
-  thunderbolt: Optimize NHI LC mailbox command processing
-
- drivers/acpi/bus.c            |   1 +
- drivers/pci/quirks.c          |  57 --------
- drivers/thunderbolt/Makefile  |   2 +
- drivers/thunderbolt/acpi.c    | 117 ++++++++++++++++
- drivers/thunderbolt/domain.c  |   2 +
- drivers/thunderbolt/icm.c     |   5 +-
- drivers/thunderbolt/lc.c      | 151 ++++++++++++++++----
- drivers/thunderbolt/nhi.c     |  69 ++++++++++
- drivers/thunderbolt/nhi_ops.c |  31 +++--
- drivers/thunderbolt/switch.c  | 209 +++++++++++++++++++++++-----
- drivers/thunderbolt/tb.c      | 189 +++++++++++++++++++++++--
- drivers/thunderbolt/tb.h      |  35 ++++-
- drivers/thunderbolt/tb_regs.h |  16 +++
- drivers/thunderbolt/usb4.c    | 251 ++++++++++++++++++++++++++--------
- 14 files changed, 935 insertions(+), 200 deletions(-)
- create mode 100644 drivers/thunderbolt/acpi.c
-
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index a6da2d0567ae..c35d5fec48f4 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -910,6 +910,29 @@ static void tb_dp_resource_available(struct tb *tb, struct tb_port *port)
+ 	tb_tunnel_dp(tb);
+ }
+ 
++static void tb_disconnect_and_release_dp(struct tb *tb)
++{
++	struct tb_cm *tcm = tb_priv(tb);
++	struct tb_tunnel *tunnel, *n;
++
++	/*
++	 * Tear down all DP tunnels and release their resources. They
++	 * will be re-established after resume based on plug events.
++	 */
++	list_for_each_entry_safe_reverse(tunnel, n, &tcm->tunnel_list, list) {
++		if (tb_tunnel_is_dp(tunnel))
++			tb_deactivate_and_free_tunnel(tunnel);
++	}
++
++	while (!list_empty(&tcm->dp_resources)) {
++		struct tb_port *port;
++
++		port = list_first_entry(&tcm->dp_resources,
++					struct tb_port, list);
++		list_del_init(&port->list);
++	}
++}
++
+ static int tb_tunnel_pci(struct tb *tb, struct tb_switch *sw)
+ {
+ 	struct tb_port *up, *down, *port;
+@@ -1226,6 +1249,7 @@ static int tb_suspend_noirq(struct tb *tb)
+ 	struct tb_cm *tcm = tb_priv(tb);
+ 
+ 	tb_dbg(tb, "suspending...\n");
++	tb_disconnect_and_release_dp(tb);
+ 	tb_switch_suspend(tb->root_switch);
+ 	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
+ 	tb_dbg(tb, "suspend finished\n");
 -- 
 2.28.0
 
