@@ -2,85 +2,201 @@ Return-Path: <SRS0=nq6N=B5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F521C433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB47C433E1
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 13:39:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24EBB2072D
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:48:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 052D2204EC
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 13:39:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="KIsy7nfM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wBx0Dj8T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728160AbgHSMmx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Aug 2020 08:42:53 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:22437 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727944AbgHSMmw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Aug 2020 08:42:52 -0400
-X-UUID: 1e87b10db66649368522f6d0f9fe8a57-20200819
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=+3z+T7GeyoHeHwhU3UCJLeddq0B7PomhVS6LM+oEBwA=;
-        b=KIsy7nfMKkpkQgA/qcgtoxI4fmbl1kJLdsqYq9+YInT6PLqSXvxmOSQNgjUOZj39vB94nLDK10G1l89srJH8f64XSki9VUxfbiV5QxrTmedLU+7uBPca/ujyQMOizIUWulXLlCe0IQilOmCLX/j/LSBtB1/BzjudJLRPtvvpQ4k=;
-X-UUID: 1e87b10db66649368522f6d0f9fe8a57-20200819
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 221041000; Wed, 19 Aug 2020 20:42:45 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 19 Aug 2020 20:42:42 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 19 Aug 2020 20:42:42 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 01/10] usb: early: convert to readl_poll_timeout_atomic()
-Date:   Wed, 19 Aug 2020 20:40:56 +0800
-Message-ID: <1597840865-26631-1-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
+        id S1727827AbgHSNjk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Aug 2020 09:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726560AbgHSNji (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Aug 2020 09:39:38 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF491C061757
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2020 06:39:36 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id k4so20648474ilr.12
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2020 06:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=K750lhVhvQCGJRLgK465vJm+czXmMzEaBcFDRWtgZug=;
+        b=wBx0Dj8TY552WXXZXrlqOXix2xITA1QGNg6/X4+/dIYZQrzFzweSGq8AZr+8ksLI4D
+         b6Z1metQv84csOAztrgWKkDr2FHgLV3ijWbdJchoQ6aNahDapEyaOJPQyxiziCxBQQ6Q
+         aDwaEJwIHs7pG9omj5QDAyXsCugtn6YI3zqWzqnlu82C5H1xthsP2Yi4yXFx+DMM5agB
+         6+loghg4qEoEjLn/HfgE1HLaKPhUhXYlzQ4H2T8XdTLeUsly/xdrkPE4b6g3jL8LO4uk
+         +OYz60OTloDSivBnT2+UwE3yzQKbWLmABvfVin7rdN/Qe21BpUlD4w4eUi9DT2qPZMGj
+         aIBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=K750lhVhvQCGJRLgK465vJm+czXmMzEaBcFDRWtgZug=;
+        b=NYrTrXNbZEId5NZ4pzWCE2J2bGzkoPkzUAomuWfXseZLxqm4vvjXHoMFozNJCcxT6k
+         gv+dEl8k/5MmWplfulVXLcJQfNA4Pc4Dev53QlSDE+JFRAfcejd69zHCERQOLAGLj4PN
+         OP1YNgObIzJFaryiHlMpVxu+uXFNGd+eVYr0pDndF2+4T2BCoqW43a9bRCLj5siBdk5z
+         PFfe+1AmUXdWiSCsDyTJAUJWfxjS0N0uZpC4vVz0Fk5q7FiART2IssMHfRtd2ld/0aiZ
+         4qAKghBlL/QioA9DIy2O/hMQqjELxnPAqSYJ155mF8IeoPSJyfKiNxy7TEr742GuzkMY
+         bx1g==
+X-Gm-Message-State: AOAM5327uwCFjKarQO7LJCfswgEli+8lmher+mKcYmTeHYIJ7oDXznLO
+        5W68hV7dOxmSPdz/M3V06hhyVu1pYYY/b8j6PrifLg==
+X-Google-Smtp-Source: ABdhPJwS5BIyuWHOygJr8vGXgRiILhx6HW5gQgbZrzcX1uNX+XxZNH+pAR2e9Eh1aEyzVkxTX1LbqnRHerheERLYdpk=
+X-Received: by 2002:a92:98c8:: with SMTP id a69mr23477634ill.0.1597844375862;
+ Wed, 19 Aug 2020 06:39:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 11A0FBB927ECEBA7F7FD5B2A90D46DA3FD7D363E0C47726682BD5434B97E97B02000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <20200818165848.4117493-1-lorenzo@google.com> <20200818165848.4117493-3-lorenzo@google.com>
+ <CAHo-Oozepnrdw1ng1XvFURYZPc9L7FkmiMDJMsZ76PEyuDt8jw@mail.gmail.com>
+In-Reply-To: <CAHo-Oozepnrdw1ng1XvFURYZPc9L7FkmiMDJMsZ76PEyuDt8jw@mail.gmail.com>
+From:   Lorenzo Colitti <lorenzo@google.com>
+Date:   Wed, 19 Aug 2020 22:39:24 +0900
+Message-ID: <CAKD1Yr0bMB-4vJAHdtu5CQ6GH5UVf0zg=axc_XXN1MYVQnxqHg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] usb: gadget: f_ncm: allow using NCM in SuperSpeed
+ Plus gadgets.
+To:     =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <zenczykowski@gmail.com>
+Cc:     linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-VXNlIHJlYWRsX3BvbGxfdGltZW91dF9hdG9taWMoKSB0byBzaW1wbGlmeSBjb2RlDQoNCkNjOiBM
-dSBCYW9sdSA8YmFvbHUubHVAbGludXguaW50ZWwuY29tPg0KQ2M6IE1hdGhpYXMgTnltYW4gPG1h
-dGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPg0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVu
-IDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KLS0tDQogZHJpdmVycy91c2IvZWFybHkveGhj
-aS1kYmMuYyB8IDE0ICsrKystLS0tLS0tLS0tDQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
-cygrKSwgMTAgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9lYXJseS94
-aGNpLWRiYy5jIGIvZHJpdmVycy91c2IvZWFybHkveGhjaS1kYmMuYw0KaW5kZXggYzA1MDc3Ni4u
-YmU0ZWNiYSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvdXNiL2Vhcmx5L3hoY2ktZGJjLmMNCisrKyBi
-L2RyaXZlcnMvdXNiL2Vhcmx5L3hoY2ktZGJjLmMNCkBAIC0xNCw2ICsxNCw3IEBADQogI2luY2x1
-ZGUgPGxpbnV4L3BjaV9pZHMuaD4NCiAjaW5jbHVkZSA8bGludXgvbWVtYmxvY2suaD4NCiAjaW5j
-bHVkZSA8bGludXgvaW8uaD4NCisjaW5jbHVkZSA8bGludXgvaW9wb2xsLmg+DQogI2luY2x1ZGUg
-PGFzbS9wY2ktZGlyZWN0Lmg+DQogI2luY2x1ZGUgPGFzbS9maXhtYXAuaD4NCiAjaW5jbHVkZSA8
-bGludXgvYmNkLmg+DQpAQCAtMTM1LDE2ICsxMzYsOSBAQCBzdGF0aWMgaW50IGhhbmRzaGFrZSh2
-b2lkIF9faW9tZW0gKnB0ciwgdTMyIG1hc2ssIHUzMiBkb25lLCBpbnQgd2FpdCwgaW50IGRlbGF5
-KQ0KIHsNCiAJdTMyIHJlc3VsdDsNCiANCi0JZG8gew0KLQkJcmVzdWx0ID0gcmVhZGwocHRyKTsN
-Ci0JCXJlc3VsdCAmPSBtYXNrOw0KLQkJaWYgKHJlc3VsdCA9PSBkb25lKQ0KLQkJCXJldHVybiAw
-Ow0KLQkJdWRlbGF5KGRlbGF5KTsNCi0JCXdhaXQgLT0gZGVsYXk7DQotCX0gd2hpbGUgKHdhaXQg
-PiAwKTsNCi0NCi0JcmV0dXJuIC1FVElNRURPVVQ7DQorCXJldHVybiByZWFkbF9wb2xsX3RpbWVv
-dXRfYXRvbWljKHB0ciwgcmVzdWx0LA0KKwkJCQkJICgocmVzdWx0ICYgbWFzaykgPT0gZG9uZSks
-DQorCQkJCQkgZGVsYXksIHdhaXQpOw0KIH0NCiANCiBzdGF0aWMgdm9pZCBfX2luaXQgeGRiY19i
-aW9zX2hhbmRvZmYodm9pZCkNCi0tIA0KMS45LjENCg==
+On Wed, Aug 19, 2020 at 7:40 AM Maciej =C5=BBenczykowski
+<zenczykowski@gmail.com> wrote:
+> All the dongles I've looked at seem to place MaxBurst just after MaxPacke=
+tSize,
+> and not in a separate descriptor (and don't place burst on the
+> status/config channel).
 
+You're right, that looks wrong. In my patches, the companion
+descriptor sets max burst of 15 on ss_ncm_notify_comp_desc (and
+ss_ncm_notify_comp_desc), which is an interrupt IN endpoint with a max
+packet size of 16. This probably doesn't make sense, and in any case
+is prohibited by the spec:
+
+=3D=3D=3D=3D=3D=3D
+The only allowable maximum data payload size for interrupt endpoints
+is 1024 bytes for interrupt endpoints that support a burst size
+greater than one and can be any size from 1 to 1024 for an interrupt
+endpoint with a burst size equal to one. The maximum allowable burst
+size for interrupt endpoints is three.
+=3D=3D=3D=3D=3D=3D
+
+Will respin this series to leave ss_ncm_notify_comp_desc and
+ssp_ncm_notify_comp_desc at a burst of 0.
+
+> What does "lsusb -d ... -v" show from the host side?
+
+Output when on a 10 Gbps link:
+
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass          2 Communications
+      bFunctionSubClass      13
+      bFunctionProtocol       0
+      iFunction               7 CDC NCM
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         2 Communications
+      bInterfaceSubClass     13
+      bInterfaceProtocol      0
+      iInterface              4 CDC Network Control Model (NCM)
+      CDC Header:
+        bcdCDC               1.10
+      CDC Union:
+        bMasterInterface        0
+        bSlaveInterface         1
+      CDC Ethernet:
+        iMacAddress                      5 fab33fdead72
+        bmEthernetStatistics    0x00000000
+        wMaxSegmentSize               1514
+        wNumberMCFilters            0x0000
+        bNumberPowerFilters              0
+      CDC NCM:
+        bcdNcmVersion        1.00
+        bmNetworkCapabilities 0x11
+          crc mode
+          packet filter
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               9
+        bMaxBurst              15
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This looks wrong, see above.
+
+
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0
+      bInterfaceProtocol      1
+      iInterface              6 CDC Network Data
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           2
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0
+      bInterfaceProtocol      1
+      iInterface              6 CDC Network Data
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst              15
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This looks correct (max burst of 15 on the bulk in endpoint).
+
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x01  EP 1 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst              15
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This looks correct (max burst of 15 on the bulk out endpoint).
