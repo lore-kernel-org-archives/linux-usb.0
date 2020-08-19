@@ -2,97 +2,89 @@ Return-Path: <SRS0=nq6N=B5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0AB8C433E3
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A9DC433E1
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:09:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 896512075E
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:03:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62E97206DA
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Aug 2020 12:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597838984;
+	bh=ds1bI2FNOetemI0iGOxjd//vmJ7FuX5vgPU2SVW5nOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=I7obRtOJqzqujATYX7pz8N5e3YZugGJyXWT1lU6F1qvggj2OjjtNl8co14u0drLOS
+	 BY7vT3uBXoUhJ9NPByHCPCStRFHpKYoFQ2Ae+6gZ58DpDBnjtW6PrrNOIf3LrRXD/u
+	 27pP0RiRZvjSuPx+O/yCOAYbaPJzWWMrDMMlwypQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728156AbgHSMD5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Aug 2020 08:03:57 -0400
-Received: from mga17.intel.com ([192.55.52.151]:31808 "EHLO mga17.intel.com"
+        id S1728137AbgHSMJj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Aug 2020 08:09:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46818 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728428AbgHSL7R (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 19 Aug 2020 07:59:17 -0400
-IronPort-SDR: l8/2vkKrendYAOY5dt55fAjIQeqs/iwsYwBxdysla/ruPmxw9GrDpDrDYqQsFOrpSHcd2ri7xN
- ySuyWS8f2ZtQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="135160286"
-X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
-   d="scan'208";a="135160286"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 04:59:10 -0700
-IronPort-SDR: lftiw1FH3jp+HE7eT6XXBSDQojVdz98HP+OoElTmQvNIk8KupFMrlo9xWfunLeWueYq633x+Kz
- g/Qr0DEnZvBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
-   d="scan'208";a="336938679"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 19 Aug 2020 04:59:07 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 74B48374; Wed, 19 Aug 2020 14:59:06 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Dana Alkattan <dana.alkattan@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: [PATCH 04/19] thunderbolt: Use bit 31 to check if Firmware CM is running in Tiger Lake
-Date:   Wed, 19 Aug 2020 14:58:50 +0300
-Message-Id: <20200819115905.59834-5-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200819115905.59834-1-mika.westerberg@linux.intel.com>
-References: <20200819115905.59834-1-mika.westerberg@linux.intel.com>
+        id S1728200AbgHSMIe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 19 Aug 2020 08:08:34 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C9E36205CB;
+        Wed, 19 Aug 2020 12:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597838914;
+        bh=ds1bI2FNOetemI0iGOxjd//vmJ7FuX5vgPU2SVW5nOQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=p/C6dXOhGr5YrrBD8slToXpFiWvIHbiPDOvXWigza0lxxRXRnLPlwHZI9paHkeb1N
+         M4gl2HAbv84kIqey4gd+t1DIqIUOzNWzBwTs+HjZfQOz2ZzOHlBj8j0wQzyRs7DuNg
+         Werlhf12WnCxzoLwZubGDmLmSuSP0vTLPYlyy/EY=
+Date:   Wed, 19 Aug 2020 14:08:56 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     penghao <penghao@uniontech.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB HID: Add disabled wakeup from s3 by touchpad on byd
+ zhaoxin notebook
+Message-ID: <20200819120856.GA931936@kroah.com>
+References: <20200819115101.22532-1-penghao@uniontech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819115101.22532-1-penghao@uniontech.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In Tiger Lake the Firmware CM is always enabled (so bit 0 is always set)
-but it may be in "pass through" mode which means it requires Software CM
-instead. This can be determined by checking bit 31 instead.
+On Wed, Aug 19, 2020 at 07:51:01PM +0800, penghao wrote:
+> BYD Notebook built-in touch pad, USB interface,so disabled,the touch pad
+> device idVendor 0x0c45 idProduct 0x7056
+> 
+> Signed-off-by: penghao <penghao@uniontech.com>
+> ---
+>  drivers/hid/usbhid/hid-core.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+> index 492dd641a25d..630a3cad211f 100644
+> --- a/drivers/hid/usbhid/hid-core.c
+> +++ b/drivers/hid/usbhid/hid-core.c
+> @@ -1193,7 +1193,13 @@ static int usbhid_start(struct hid_device *hid)
+>  			interface->desc.bInterfaceProtocol ==
+>  				USB_INTERFACE_PROTOCOL_KEYBOARD) {
+>  		usbhid_set_leds(hid);
+> -		device_set_wakeup_enable(&dev->dev, 1);
+> +		/*
+> +		 * USB HID: Add disabled touchpad wakeup on byd zhaoxin notebook
+> +		 */
+> +		if ((hid->vendor == 0x0c45) && (hid->product == 0x7056))
+> +			device_set_wakeup_enable(&dev->dev, 0);
+> +		else
+> +			device_set_wakeup_enable(&dev->dev, 1);
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/icm.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Shouldn't this be a quirk somewhere instead of this core check?
 
-diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-index ffcc8c3459e5..b51fc3f62b1f 100644
---- a/drivers/thunderbolt/icm.c
-+++ b/drivers/thunderbolt/icm.c
-@@ -1635,11 +1635,14 @@ static void icm_icl_rtd3_veto(struct tb *tb, const struct icm_pkg_header *hdr)
- 
- static bool icm_tgl_is_supported(struct tb *tb)
- {
-+	u32 val;
-+
- 	/*
- 	 * If the firmware is not running use software CM. This platform
- 	 * should fully support both.
- 	 */
--	return icm_firmware_running(tb->nhi);
-+	val = ioread32(tb->nhi->iobase + REG_FW_STS);
-+	return !!(val & REG_FW_STS_NVM_AUTH_DONE);
- }
- 
- static void icm_handle_notification(struct work_struct *work)
--- 
-2.28.0
+thanks,
 
+greg k-h
