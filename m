@@ -2,105 +2,102 @@ Return-Path: <SRS0=SKhu=B6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CE2C433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 10:51:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F8CC433E3
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 11:34:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2B9620724
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 10:51:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00126204EA
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 11:34:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQKGf1p7"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="A+GDDwH6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731296AbgHTKvK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Aug 2020 06:51:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730228AbgHTKOo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Aug 2020 06:14:44 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7572BC061757;
-        Thu, 20 Aug 2020 03:14:44 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id c8so638773lfh.9;
-        Thu, 20 Aug 2020 03:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vIqpTmovFa8dVc4Ln43GhodOHY6DYWmxTNMxOIaUSmk=;
-        b=mQKGf1p7s26/YEZUJCDJw1Tu7tKxQjJkJbGshc8hEqWQ0aPATF1nLsD1c05MqNppYj
-         F7jcqy60M6TktK4f2Wp3LLFT1sdbnUNe/NNDlql4uUI1NzKxREGwwFn14IbP8avMucma
-         r9jei4zpVrMjL61VyCyH6hwunwyHB68u3Ls8drUYwxNlUC1ZYwt0nNupTO+1jIVjCjVe
-         BD9MynVK7jENWyxu3sjHrYYu1efw/Zbd4cm+0zg7DEX2+v4oU33KwNy5HSJcfoWUuTsw
-         wp5JP6ddhwrgggtUAiArIdP2nV6uH9hU/1rYqQh881fcMBGyenh6aClx2abnWiMyMlR6
-         LVMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=vIqpTmovFa8dVc4Ln43GhodOHY6DYWmxTNMxOIaUSmk=;
-        b=MTv5nZiKouMVjE74zMUuUt6SYrm0fVUzDL7LpM27k1jRbRgmyDrKyGDe78eddRC0FB
-         oJ7mVztlF6UvVuH8BVWv1T2Wk8dJhc8YCeDQpIMenq1/T3vL/TBZxAt4etHiNJxb23zI
-         wzUaOBNRxpVzcBa8MxKEKjLwH3axF1nZc2ToXrFLpMn+dUWoXd0jI7fWg8E1WVuHlp5k
-         p1pWetVb9mjnpzbdub2Bazds8AYAxsA7ZnJXGCwP+jYyClU32LGMMf59sV31iePF0cum
-         XwVchtXVG+kEEG7TdaAwKRuYpzmeWa+UlodXAZY/UGQXydZ94S72UbIp8ztTSp4R7sVh
-         I8RA==
-X-Gm-Message-State: AOAM531yKnyWO/VY44HgOC3mdViwwHPq2cbReq4TgVvhda1/u38+6xkt
-        8/1/0pa1pEsr2/FMsGJR2OE=
-X-Google-Smtp-Source: ABdhPJwkqxUCR2HlVxBFdk4S2ON7cs2z7amFEy/eH3RHaxNifp9RAtkK3fIzcr28JtSp2B8dyQlCSw==
-X-Received: by 2002:a19:c894:: with SMTP id y142mr1226308lff.74.1597918482964;
-        Thu, 20 Aug 2020 03:14:42 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:42ab:a165:4cb2:5f04:a1e8:63b? ([2a00:1fa0:42ab:a165:4cb2:5f04:a1e8:63b])
-        by smtp.gmail.com with ESMTPSA id a12sm400511lfi.83.2020.08.20.03.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2020 03:14:42 -0700 (PDT)
-Subject: Re: [PATCH v2 11/11] iopoll: update kerneldoc of
- read_poll_timeout_atomic()
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Felipe Balbi <balbi@kernel.org>,
+        id S1730501AbgHTLed (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Aug 2020 07:34:33 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:23926 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730641AbgHTLcw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Aug 2020 07:32:52 -0400
+X-UUID: 27818abae3ac436487b350805c46bc7e-20200820
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=O5d5u2bMk0CBgwkmmnX2HtVMierXd3uNnq40puMYOms=;
+        b=A+GDDwH6CoLFLE63WKZsRohewcuaNh+SCDVtHGk3Ff0Y6T/GVeDNMpgdQFFtUwvvleXjwsuCfXwZEynAbCBdS7pyhyEVti2CEE4/TZyg2dg8q+dFzFpwab7/8OOzggTR4DFYj1lAd7tefR0X2JSv+9Ce2HL/kilJAcAN46eKMDU=;
+X-UUID: 27818abae3ac436487b350805c46bc7e-20200820
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1953557955; Thu, 20 Aug 2020 19:32:32 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 Aug 2020 19:32:32 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 20 Aug 2020 19:32:30 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Lee Jones <lee.jones@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-References: <1597902349-8998-1-git-send-email-chunfeng.yun@mediatek.com>
- <1597902349-8998-11-git-send-email-chunfeng.yun@mediatek.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <49de5eaf-9870-522c-b1f2-037ecb122237@gmail.com>
-Date:   Thu, 20 Aug 2020 13:14:32 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Sasi Kumar <sasi.kumar@broadcom.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v2 09/11] usb: gadget: bdc: fix checkpatch.pl tab warning
+Date:   Thu, 20 Aug 2020 19:30:44 +0800
+Message-ID: <1597923046-12535-9-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1597923046-12535-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1597923046-12535-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <1597902349-8998-11-git-send-email-chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 8AD96B2B9CDB820FDA1CADA560B661B267FB1976B87AC4D637527658234CDB6A2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
+V0FSTklORzpTVVNQRUNUX0NPREVfSU5ERU5UOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25k
+aXRpb25hbCBzdGF0ZW1lbnRzDQpXQVJOSU5HOlRBQlNUT1A6IFN0YXRlbWVudHMgc2hvdWxkIHN0
+YXJ0IG9uIGEgdGFic3RvcA0KDQpDYzogRmxvcmlhbiBGYWluZWxsaSA8Zi5mYWluZWxsaUBnbWFp
+bC5jb20+DQpTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRl
+ay5jb20+DQotLS0NCnYyOiBuZXcgcGF0Y2gNCi0tLQ0KIGRyaXZlcnMvdXNiL2dhZGdldC91ZGMv
+YmRjL2JkY19jbWQuYyB8IDIgKy0NCiBkcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGNfZXAu
+YyAgfCA0ICsrLS0NCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
+bnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYmRjL2JkY19jbWQu
+YyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYmRjL2JkY19jbWQuYw0KaW5kZXggNDRjMmE1ZS4u
+OTk1Zjc5YyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYmRjL2JkY19jbWQu
+Yw0KKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2NtZC5jDQpAQCAtMTYzLDcg
+KzE2Myw3IEBAIGludCBiZGNfY29uZmlnX2VwKHN0cnVjdCBiZGMgKmJkYywgc3RydWN0IGJkY19l
+cCAqZXApDQogCQkJCQl1c2JfZW5kcG9pbnRfeGZlcl9pc29jKGRlc2MpKSB7DQogCQkJcGFyYW0y
+IHw9IHNpOw0KIAkJCWlmICh1c2JfZW5kcG9pbnRfeGZlcl9pc29jKGRlc2MpICYmIGNvbXBfZGVz
+YykNCi0JCQkJCW11bCA9IGNvbXBfZGVzYy0+Ym1BdHRyaWJ1dGVzOw0KKwkJCQltdWwgPSBjb21w
+X2Rlc2MtPmJtQXR0cmlidXRlczsNCiANCiAJCX0NCiAJCXBhcmFtMiB8PSBtdWwgPDwgRVBNX1NI
+SUZUOw0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYmRjL2JkY19lcC5jIGIv
+ZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2VwLmMNCmluZGV4IDNmYjM2YzguLmQyMjdk
+MjYgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGNfZXAuYw0KKysr
+IGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2VwLmMNCkBAIC0yNzUsNyArMjc1LDcg
+QEAgc3RhdGljIGlubGluZSBpbnQgZmluZF9lbmRfYmRpKHN0cnVjdCBiZGNfZXAgKmVwLCBpbnQg
+bmV4dF9od2RfYmRpKQ0KIAllbmRfYmRpID0gbmV4dF9od2RfYmRpIC0gMTsNCiAJaWYgKGVuZF9i
+ZGkgPCAwKQ0KIAkJZW5kX2JkaSA9IGVwLT5iZF9saXN0Lm1heF9iZGkgLSAxOw0KLQkgZWxzZSBp
+ZiAoKGVuZF9iZGkgJSAoZXAtPmJkX2xpc3QubnVtX2Jkc190YWJsZS0xKSkgPT0gMCkNCisJZWxz
+ZSBpZiAoKGVuZF9iZGkgJSAoZXAtPmJkX2xpc3QubnVtX2Jkc190YWJsZS0xKSkgPT0gMCkNCiAJ
+CWVuZF9iZGktLTsNCiANCiAJcmV0dXJuIGVuZF9iZGk7DQpAQCAtNzk1LDcgKzc5NSw3IEBAIHN0
+YXRpYyBpbnQgZXBfZGVxdWV1ZShzdHJ1Y3QgYmRjX2VwICplcCwgc3RydWN0IGJkY19yZXEgKnJl
+cSkNCiAJCQlzdGFydF9wZW5kaW5nID0gdHJ1ZTsNCiAJCQllbmRfcGVuZGluZyA9IHRydWU7DQog
+CQl9IGVsc2UgaWYgKGVuZF9iZGkgPj0gY3Vycl9od19kcXBpIHx8IGVuZF9iZGkgPD0gZXFwX2Jk
+aSkgew0KLQkJCQllbmRfcGVuZGluZyA9IHRydWU7DQorCQkJZW5kX3BlbmRpbmcgPSB0cnVlOw0K
+IAkJfQ0KIAl9IGVsc2Ugew0KIAkJaWYgKHN0YXJ0X2JkaSA+PSBjdXJyX2h3X2RxcGkpIHsNCi0t
+IA0KMS45LjENCg==
 
-On 20.08.2020 8:45, Chunfeng Yun wrote:
-
-> Arguments description of read_poll_timeout_atomic() if out of date,
-
-    s/if/is/?
-
-> update it.
-> 
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-[...]
-
-MBR, Sergei
