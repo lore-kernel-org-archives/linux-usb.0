@@ -5,140 +5,139 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F293C433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 09:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3103C433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 10:39:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2F7F20885
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 09:06:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90DDA20639
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Aug 2020 10:39:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jRSU7EbP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YUCUJvfr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgHTJGi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Aug 2020 05:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53242 "EHLO
+        id S1731318AbgHTKho (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Aug 2020 06:37:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbgHTJGg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Aug 2020 05:06:36 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F53C061757;
-        Thu, 20 Aug 2020 02:06:35 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id v15so546933lfg.6;
-        Thu, 20 Aug 2020 02:06:35 -0700 (PDT)
+        with ESMTP id S1730963AbgHTKSD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Aug 2020 06:18:03 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376A1C061757;
+        Thu, 20 Aug 2020 03:18:01 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id w14so1470935ljj.4;
+        Thu, 20 Aug 2020 03:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ZB4PCuqp8Bl2dkJy5Fm6Sj2/MRT/e7zYVg69/U7Iw3A=;
-        b=jRSU7EbPYuaZa+y1ww5c1uQFbyH05AS+4/y9F7u0zfd9hNB2tnzBPNp8je59myQNMQ
-         jHPH6tBd1Wwn7BdCa00KVXc60BSdX0Ndq10P7ka8NPFWg1ZJ3LsSZv0w8HBp6uQ3NiAh
-         dj5XA0KHwLfCp0cjSlMmH6bx+JfVFMeQqSseCHBBmtyfNIM9YIojgpQJL8XUFhtSBjsW
-         EUKBfwxwlk5cLYa8WcK31DAuysfcZ2hLaBPSEULzoNNVE+3ShAUapOTgWe+4CkfB57ZP
-         mL01BWILpPiVjIBecOCA99KxCmG02TPxV3cr0jcgUSZ2kUozu8reoSXmgLtmVOjnXzBX
-         ScIQ==
+        bh=kYwjflgRQVoui32eapBhBFxV9IoHyH7UykeWpPqQmtM=;
+        b=YUCUJvfrTEooGe2XmrcE5ooa0JrwV+Mh0xPCIgP0m4H3+6vDf4NkhTLQmKh322gIa7
+         y5EdIV0jnmdsV/BsN9zhxZBk2UnrRxTTKYU5Fg6pOXUGkEceJt3FK1uBmEPe0O6EZD4m
+         jxVmBi6A2rR492QA2Kdce72+QUA0XLeh3l8kHpIMy7NZqGq4p/CkGsw5SyRqov6ydrgh
+         26i3+kV0DS2CEoMpWYwj/l48eLpF6QMwCJXFt0nknR51Kf3yLPmkDbXbrC8/wSDimJ0R
+         pzOk4cjzaQzSm1E68kujkeGofsy0Z0JFM490+h698hLK6ZQznCqJzw7XTZwvqEig0QG1
+         gQTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=ZB4PCuqp8Bl2dkJy5Fm6Sj2/MRT/e7zYVg69/U7Iw3A=;
-        b=Lsh2CwfShDBkNd0QHhxQpJ5PFwQ1O8F9BGOG7/khoezcFf5LJAMoZGtHtZ+OGM4S1t
-         W0/XsySxQa++blbuW0C9ETdM8ZGWeMkPl38hwiELgHemG4gCp9ih2UGuzNe/GujRc+FC
-         54yc/StFO5BdUEj0vM0vKtS4C/Pg/3Gk28AvEaCqo98kxuQmVHyUJkd27LPGY6zFkm7t
-         njkNlXJVXwKYs4NuSCpDj1AnYMCIuS0R51n+YLWEkE/Qh4YFMYuYsS2EpGf36FnRaT5Q
-         6eca+EpWPxIo1Wz2rxy7H44u1N+LWAtrsRqZKkahr2MAkeNdt4uxFPLnMqXWJ4fL12lV
-         JS8w==
-X-Gm-Message-State: AOAM530BxC/WcGbim/ATHLCysKAIaCi3aeOFZKnI9gM7PGg/7HvA9a6O
-        Iv8QqWBaYwqN/6Vs1jhuHPI/GMgpAa/Iwgub
-X-Google-Smtp-Source: ABdhPJx586OB1ZFNi8bmTijB1iKrXx0pOQq+0PCvDWVugFZLEr8cnAEYNYIu9kBNKKo6DTiGbe/wQw==
-X-Received: by 2002:a05:6512:3185:: with SMTP id i5mr1144189lfe.205.1597914394167;
-        Thu, 20 Aug 2020 02:06:34 -0700 (PDT)
+        bh=kYwjflgRQVoui32eapBhBFxV9IoHyH7UykeWpPqQmtM=;
+        b=XB/db52PCEVlUKXtqjdd5u6ItwEonbhOWKMqrE4vS719nR3Wl5fUsAT17K2+ZxJt/+
+         LeqEnMxGMMvJIXWTb9wlApO8Qa9ayG5SK+OQCfEpx5MkPJ4uwY8xqqvIPc4yuW78Ki+Y
+         xwoDGE2/c0qBRc38XOCTiDD4tKl15PBe5/NHZY8RYaa7q8M/OXQ3F3Rgieyu0TtXzBzz
+         dJfZ3LeSOFQIkNS87gNDaeU+6zmxlZXU+qTz4WZaf1vBmmOpKYx02JMyW2baCpxMmboW
+         bPV/NHnOE3ElHWbA2gCDae/eKPpLFagMWA/JiMJKMTB8wnSlCfT5FPGl2iRWYAqVxzMq
+         DNaQ==
+X-Gm-Message-State: AOAM532H1gMXCG/wjpEpmRrGhHlsdUMHpL3FAwNalARYkVrzg5RDc98K
+        mT5NHUXADjxHmxKxdWQ4ZF0=
+X-Google-Smtp-Source: ABdhPJwjqkY0cuKDRZWTWyb21YTWtVQeguRgHHXFYAGtSOBhfdTWpQwdx2DJIDTAdHIjmI9++VNqjw==
+X-Received: by 2002:a2e:9d17:: with SMTP id t23mr1247335lji.456.1597918679697;
+        Thu, 20 Aug 2020 03:17:59 -0700 (PDT)
 Received: from ?IPv6:2a00:1fa0:42ab:a165:4cb2:5f04:a1e8:63b? ([2a00:1fa0:42ab:a165:4cb2:5f04:a1e8:63b])
-        by smtp.gmail.com with ESMTPSA id j2sm322988ljb.98.2020.08.20.02.06.32
+        by smtp.gmail.com with ESMTPSA id p8sm403098lfh.64.2020.08.20.03.17.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2020 02:06:33 -0700 (PDT)
-Subject: Re: [PATCH v8 4/4] arm64: boot: dts: qcom: pm8150b: Add DTS node for
- PMIC VBUS booster
-To:     Wesley Cheng <wcheng@codeaurora.org>, sboyd@kernel.org,
-        heikki.krogerus@linux.intel.com, agross@kernel.org,
-        robh+dt@kernel.org, gregkh@linuxfoundation.org,
-        bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20200812071925.315-1-wcheng@codeaurora.org>
- <20200812071925.315-5-wcheng@codeaurora.org>
- <1ed0a34c-6219-fe3d-7d9c-13a74ce2d4d0@gmail.com>
- <02111c69-73fd-5e8c-5594-27393865d458@codeaurora.org>
+        Thu, 20 Aug 2020 03:17:59 -0700 (PDT)
+Subject: Re: [PATCH v2 09/11] usb: phy: phy-mv-usb: convert to
+ readl_poll_timeout_atomic()
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Lee Jones <lee.jones@linaro.org>
+References: <1597902349-8998-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1597902349-8998-9-git-send-email-chunfeng.yun@mediatek.com>
 From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
 Organization: Brain-dead Software
-Message-ID: <eaf4618c-54da-c522-52c6-1edec7744872@gmail.com>
-Date:   Thu, 20 Aug 2020 12:06:23 +0300
+Message-ID: <c28a906c-ed1a-8884-3016-b8664a313331@gmail.com>
+Date:   Thu, 20 Aug 2020 13:17:49 +0300
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <02111c69-73fd-5e8c-5594-27393865d458@codeaurora.org>
+In-Reply-To: <1597902349-8998-9-git-send-email-chunfeng.yun@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 20.08.2020 10:47, Wesley Cheng wrote:
+On 20.08.2020 8:45, Chunfeng Yun wrote:
+
+> Use readl_poll_timeout_atomic() to simplify code
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v2: udelay 10us instead of 20us according to kerneldoc
+> ---
+>   drivers/usb/phy/phy-mv-usb.c | 16 +++++++---------
+>   1 file changed, 7 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/usb/phy/phy-mv-usb.c b/drivers/usb/phy/phy-mv-usb.c
+> index ce767ec..e801569 100644
+> --- a/drivers/usb/phy/phy-mv-usb.c
+> +++ b/drivers/usb/phy/phy-mv-usb.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/module.h>
+>   #include <linux/kernel.h>
+>   #include <linux/io.h>
+> +#include <linux/iopoll.h>
+>   #include <linux/uaccess.h>
+>   #include <linux/device.h>
+>   #include <linux/proc_fs.h>
+> @@ -135,8 +136,8 @@ static int mv_otg_set_timer(struct mv_otg *mvotg, unsigned int id,
+>   
+>   static int mv_otg_reset(struct mv_otg *mvotg)
+>   {
+> -	unsigned int loops;
+>   	u32 tmp;
+> +	int ret;
+>   
+>   	/* Stop the controller */
+>   	tmp = readl(&mvotg->op_regs->usbcmd);
+> @@ -146,15 +147,12 @@ static int mv_otg_reset(struct mv_otg *mvotg)
+>   	/* Reset the controller to get default values */
+>   	writel(USBCMD_CTRL_RESET, &mvotg->op_regs->usbcmd);
+>   
+> -	loops = 500;
+> -	while (readl(&mvotg->op_regs->usbcmd) & USBCMD_CTRL_RESET) {
+> -		if (loops == 0) {
+> -			dev_err(&mvotg->pdev->dev,
+> +	ret = readl_poll_timeout_atomic(&mvotg->op_regs->usbcmd, tmp,
+> +				(tmp & USBCMD_CTRL_RESET), 10, 10000);
+> +	if (ret < 0) {
+> +		dev_err(&mvotg->pdev->dev,
+>   				"Wait for RESET completed TIMEOUT\n");
+
+    You forgot to re-align this argument, it should start under & on the 
+previous line...
 
 [...]
->>> Add the required DTS node for the USB VBUS output regulator, which is
->>> available on PM8150B.  This will provide the VBUS source to connected
->>> peripherals.
->>>
->>> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
->>> ---
->>>    arch/arm64/boot/dts/qcom/pm8150b.dtsi   | 6 ++++++
->>>    arch/arm64/boot/dts/qcom/sm8150-mtp.dts | 4 ++++
->>>    2 files changed, 10 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/pm8150b.dtsi
->>> b/arch/arm64/boot/dts/qcom/pm8150b.dtsi
->>> index 053c659734a7..9e560c1ca30d 100644
->>> --- a/arch/arm64/boot/dts/qcom/pm8150b.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/pm8150b.dtsi
->>> @@ -53,6 +53,12 @@ power-on@800 {
->>>                status = "disabled";
->>>            };
->>>    +        pm8150b_vbus: dcdc@1100 {
->>
->>     s/dcdc/regulator/? What is "dcdc", anyway?
->>     The device nodes must have the generic names, according to the DT spec.
->>
-> 
-> Hi Sergei,
-> 
-> Thanks for the comment!
-
-     You're welcome.
-
-> DCDC is the label that we use for the DC to DC converter block, since
-> the VBUS booster will output 5V to the connected devices.  Would it make
-> more sense to have "dc-dc?"
-
-    Better use s/th like "regulator-dcdc". As I said, the names should be 
-generic, reflecting the device class.
-
-> Thanks
-> Wesley
-> 
->>> +            compatible = "qcom,pm8150b-vbus-reg";
->>> +            status = "disabled";
->>> +            reg = <0x1100>;
->>> +        };
->>> +
->>>            pm8150b_typec: typec@1500 {
->>>                compatible = "qcom,pm8150b-usb-typec";
->>>                status = "disabled";
->> [...]
 
 MBR, Sergei
