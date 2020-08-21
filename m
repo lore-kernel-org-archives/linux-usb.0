@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B104C433E1
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 09:12:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A508C433E3
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 09:12:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50A7720732
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 09:12:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBE982087D
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 09:12:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbgHUJMp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Aug 2020 05:12:45 -0400
-Received: from mga18.intel.com ([134.134.136.126]:65060 "EHLO mga18.intel.com"
+        id S1727909AbgHUJMr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Aug 2020 05:12:47 -0400
+Received: from mga12.intel.com ([192.55.52.136]:18835 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725965AbgHUJMo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 21 Aug 2020 05:12:44 -0400
-IronPort-SDR: eKNFLZc2P+Jnmh/4il2TmdyXHKcq/epj+JobJyk23hVqpSCpdsv8eqGKy7Uk+NZiRIEb/y10E6
- HNUqnHCipzwQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9719"; a="143128378"
+        id S1725965AbgHUJMr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 21 Aug 2020 05:12:47 -0400
+IronPort-SDR: u4d8Fd2yVH1CX3OiGtLr+7/JW5Hav2nLgQe2trSXmaPqItcr5Gdq+OAhW6VnSl/9lpneTsW8Jl
+ C9YHSII7LjtQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9719"; a="135030350"
 X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; 
-   d="scan'208";a="143128378"
+   d="scan'208";a="135030350"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2020 02:12:43 -0700
-IronPort-SDR: L1ZHWVWUhHwtoxg4o5YprUVrPG06hB6Cvi1y4bPasQYrTqFfnLZT1G/jr1j1kK6sI6hzLuVw4k
- /7Nhmxm05Ogw==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2020 02:12:46 -0700
+IronPort-SDR: 5edi+br547/00TzYXlNZS3wWA82DdxUEtmUQS17uugRd7FXzR1hgm0ceGVAdkkYaRJr3tWtTjB
+ kUeH2zXVg49A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; 
-   d="scan'208";a="321194890"
+   d="scan'208";a="321194905"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2020 02:12:42 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2020 02:12:46 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>, Li Jun <jun.li@nxp.com>,
+Cc:     <linux-usb@vger.kernel.org>, Ding Hui <dinghui@sangfor.com.cn>,
         stable <stable@vger.kernel.org>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 1/3] usb: host: xhci: fix ep context print mismatch in debugfs
-Date:   Fri, 21 Aug 2020 12:15:47 +0300
-Message-Id: <20200821091549.20556-2-mathias.nyman@linux.intel.com>
+Subject: [PATCH 3/3] xhci: Always restore EP_SOFT_CLEAR_TOGGLE even if ep reset failed
+Date:   Fri, 21 Aug 2020 12:15:49 +0300
+Message-Id: <20200821091549.20556-4-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200821091549.20556-1-mathias.nyman@linux.intel.com>
 References: <20200821091549.20556-1-mathias.nyman@linux.intel.com>
@@ -51,46 +51,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Li Jun <jun.li@nxp.com>
+From: Ding Hui <dinghui@sangfor.com.cn>
 
-dci is 0 based and xhci_get_ep_ctx() will do ep index increment to get
-the ep context.
+Some device drivers call libusb_clear_halt when target ep queue
+is not empty. (eg. spice client connected to qemu for usb redir)
 
-[rename dci to ep_index -Mathias]
-Cc: stable <stable@vger.kernel.org> # v4.15+
-Fixes: 02b6fdc2a153 ("usb: xhci: Add debugfs interface for xHCI driver")
-Signed-off-by: Li Jun <jun.li@nxp.com>
+Before commit f5249461b504 ("xhci: Clear the host side toggle
+manually when endpoint is soft reset"), that works well.
+But now, we got the error log:
+
+    EP not empty, refuse reset
+
+xhci_endpoint_reset failed and left ep_state's EP_SOFT_CLEAR_TOGGLE
+bit still set
+
+So all the subsequent urb sumbits to the ep will fail with the
+warn log:
+
+    Can't enqueue URB while manually clearing toggle
+
+We need to clear ep_state EP_SOFT_CLEAR_TOGGLE bit after
+xhci_endpoint_reset, even if it failed.
+
+Fixes: f5249461b504 ("xhci: Clear the host side toggle manually when endpoint is soft reset"
+Cc: stable <stable@vger.kernel.org> # v4.17+
+Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-debugfs.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/host/xhci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
-index 92e25a62fdb5..c88bffd68742 100644
---- a/drivers/usb/host/xhci-debugfs.c
-+++ b/drivers/usb/host/xhci-debugfs.c
-@@ -274,7 +274,7 @@ static int xhci_slot_context_show(struct seq_file *s, void *unused)
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 3c41b14ecce7..e9884ae9c77d 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -3236,10 +3236,11 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
  
- static int xhci_endpoint_context_show(struct seq_file *s, void *unused)
- {
--	int			dci;
-+	int			ep_index;
- 	dma_addr_t		dma;
- 	struct xhci_hcd		*xhci;
- 	struct xhci_ep_ctx	*ep_ctx;
-@@ -283,9 +283,9 @@ static int xhci_endpoint_context_show(struct seq_file *s, void *unused)
+ 	wait_for_completion(cfg_cmd->completion);
  
- 	xhci = hcd_to_xhci(bus_to_hcd(dev->udev->bus));
+-	ep->ep_state &= ~EP_SOFT_CLEAR_TOGGLE;
+ 	xhci_free_command(xhci, cfg_cmd);
+ cleanup:
+ 	xhci_free_command(xhci, stop_cmd);
++	if (ep->ep_state & EP_SOFT_CLEAR_TOGGLE)
++		ep->ep_state &= ~EP_SOFT_CLEAR_TOGGLE;
+ }
  
--	for (dci = 1; dci < 32; dci++) {
--		ep_ctx = xhci_get_ep_ctx(xhci, dev->out_ctx, dci);
--		dma = dev->out_ctx->dma + dci * CTX_SIZE(xhci->hcc_params);
-+	for (ep_index = 0; ep_index < 31; ep_index++) {
-+		ep_ctx = xhci_get_ep_ctx(xhci, dev->out_ctx, ep_index);
-+		dma = dev->out_ctx->dma + (ep_index + 1) * CTX_SIZE(xhci->hcc_params);
- 		seq_printf(s, "%pad: %s\n", &dma,
- 			   xhci_decode_ep_context(le32_to_cpu(ep_ctx->ep_info),
- 						  le32_to_cpu(ep_ctx->ep_info2),
+ static int xhci_check_streams_endpoint(struct xhci_hcd *xhci,
 -- 
 2.17.1
 
