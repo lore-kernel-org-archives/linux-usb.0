@@ -2,258 +2,273 @@ Return-Path: <SRS0=Ypd4=B7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 775CEC433DF
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 05:48:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE813C433E1
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 06:17:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59D6D21741
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 05:48:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D4232075E
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Aug 2020 06:17:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="FMH8kc2C"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbgHUFsz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Aug 2020 01:48:55 -0400
-Received: from goliath.siemens.de ([192.35.17.28]:41875 "EHLO
-        goliath.siemens.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbgHUFsz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Aug 2020 01:48:55 -0400
-X-Greylist: delayed 948 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 Aug 2020 01:48:54 EDT
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 07L5X0Xb000536
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 Aug 2020 07:33:00 +0200
-Received: from [167.87.31.209] ([167.87.31.209])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 07L5Wx6m017761;
-        Fri, 21 Aug 2020 07:32:59 +0200
-Subject: Re: [PATCH v3] usb-serial:cp210x: add support to software flow
- control
-To:     Sheng Long Wang <china_shenglong@163.com>,
-        Wang Sheng Long <shenglong.wang.ext@siemens.com>
-Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200820075240.13321-1-china_shenglong@163.com>
-From:   Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <97836b78-740b-cf70-4803-27305b6e0a4d@siemens.com>
-Date:   Fri, 21 Aug 2020 07:32:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726160AbgHUGRp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Aug 2020 02:17:45 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:42752 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725268AbgHUGRo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Aug 2020 02:17:44 -0400
+X-UUID: dd94b87bb0eb468788378cd7fe18f0db-20200821
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=zG2rBR1Cv/ocBKoIv4c+oxw9xYlO6U21iq7gaXrl03g=;
+        b=FMH8kc2ClCK1eha51FoxjmHVpa5M1gTKP4y8x+Cjln/no7eESaU2ipZMVZiCOOWvqXi6fUJygYc10j7STSRt/z5OwddSdktjJj+G3HcINpOEh8TD2CQNhAvQgdWPlKDWL/JvyFyfd6pi/lFwFuu/JxZEo+FQV7RvA6/Zlq00LjI=;
+X-UUID: dd94b87bb0eb468788378cd7fe18f0db-20200821
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 2020514180; Fri, 21 Aug 2020 14:17:08 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 21 Aug
+ 2020 14:17:06 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 21 Aug 2020 14:17:05 +0800
+Message-ID: <1597990555.21253.9.camel@mhfsdcap03>
+Subject: Re: [PATCH v6 2/3] usb: cdns3: add runtime PM support
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Peter Chen <peter.chen@nxp.com>
+CC:     <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-imx@nxp.com>, <pawell@cadence.com>, <rogerq@ti.com>,
+        <gregkh@linuxfoundation.org>, <jun.li@nxp.com>
+Date:   Fri, 21 Aug 2020 14:15:55 +0800
+In-Reply-To: <20200821024836.4472-3-peter.chen@nxp.com>
+References: <20200821024836.4472-1-peter.chen@nxp.com>
+         <20200821024836.4472-3-peter.chen@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20200820075240.13321-1-china_shenglong@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: CCEDF95062A123CB3463593842E74DD54068E7F748817A079AFBA36835B181312000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 20.08.20 09:52, Sheng Long Wang wrote:
-> From: Wang Sheng Long <shenglong.wang.ext@siemens.com>
-> 
-> When data is transmitted between two serial ports,
-> the phenomenon of data loss often occurs. The two kinds
-> of flow control commonly used in serial communication
-> are hardware flow control and software flow control.
-> 
-> In serial communication, If you only use RX/TX/GND Pins, you
-> can't do hardware flow. So we often used software flow control
-> and prevent data loss. The user sets the software flow control
-> through the application program, and the application program
-> sets the software flow control mode for the serial port
-> chip through the driver.
-> 
-> For the cp210 serial port chip, its driver lacks the
-> software flow control setting code, so the user cannot set
-> the software flow control function through the application
-> program. This adds the missing software flow control.
-> 
-> Signed-off-by: Wang Sheng Long <shenglong.wang.ext@siemens.com>
-> 
-> Changes in v3:
-> -fixed code style, It mainly adjusts the code style acccording
->  to kernel specification.
+T24gRnJpLCAyMDIwLTA4LTIxIGF0IDEwOjQ4ICswODAwLCBQZXRlciBDaGVuIHdyb3RlOg0KPiBJ
+bnRyb2R1Y2UgcnVudGltZSBQTSBhbmQgd2FrZXVwIGludGVycnVwdCBoYW5kbGVyIGZvciBjZG5z
+MywNCj4gdGhlIHJ1bnRpbWUgUE0gaXMgZGVmYXVsdCBvZmYgc2luY2Ugb3RoZXIgY2RuczMgbWF5
+IG5vdA0KPiBpbXBsZW1lbnQgZ2x1ZSBsYXllciBzdXBwb3J0IGZvciBydW50aW1lIFBNLg0KPiAN
+Cj4gT25lIHR5cGljYWwgd2FrZXVwIGV2ZW50IHVzZSBjYXNlIGlzIHhIQ0kgcnVudGltZSBzdXNw
+ZW5kIHdpbGwgY2xlYXINCj4gVVNCQ01ELlJTIGJpdCwgYWZ0ZXIgdGhhdCB0aGUgeEhDSSB3aWxs
+IG5vdCB0cmlnZ2VyIGFueSBpbnRlcnJ1cHRzLA0KPiBzbyBpdHMgcGFyZW50IChjZG5zIGNvcmUg
+ZGV2aWNlKSBuZWVkcyB0byByZXN1bWUgeEhDSSBkZXZpY2Ugd2hlbg0KPiBhbnkgKHdha2V1cCkg
+ZXZlbnRzIG9jY3VycyBhdCBob3N0IHBvcnQuDQo+IA0KPiBXaGVuIHRoZSBjb250cm9sbGVyIGlz
+IGluIGxvdyBwb3dlciBtb2RlLCB0aGUgbHBtIGZsYWcgd2lsbCBiZSBzZXQuDQo+IFRoZSBpbnRl
+cnJ1cHQgdHJpZ2dlcmVkIGxhdGVyIHRoYW4gbHBtIGZsYWcgaXMgc2V0IGNvbnNpZGVycyBhcw0K
+PiB3YWtldXAgaW50ZXJydXB0IGFuZCBoYW5kbGVkIGF0IGNkbnNfd2FrZXVwX2lycS4gT25jZSB0
+aGUgd2FrZXVwDQo+IG9jY3VycywgaXQgZmlyc3QgZGlzYWJsZXMgaW50ZXJydXB0IHRvIGF2b2lk
+IGxhdGVyIGludGVycnVwdA0KPiBvY2N1cnJlbmNlIHNpbmNlIHRoZSBjb250cm9sbGVyIGlzIGlu
+IGxvdyBwb3dlciBtb2RlIGF0IHRoYXQNCj4gdGltZSwgYW5kIGFjY2VzcyByZWdpc3RlcnMgbWF5
+IGJlIGludmFsaWQgYXQgdGhhdCB0aW1lLiBBdCB3YWtldXANCj4gaGFuZGxlciwgaXQgd2lsbCBj
+YWxsIHBtX3JlcXVlc3RfcmVzdW1lIHRvIHdha2V1cCB4SENJIGRldmljZSwgYW5kDQo+IGF0IHJ1
+bnRpbWUgcmVzdW1lIGhhbmRsZXIsIGl0IHdpbGwgZW5hYmxlIGludGVycnVwdCBhZ2Fpbi4NCj4g
+DQo+IFRoZSBBUEkgcGxhdGZvcm1fc3VzcGVuZCBpcyBpbnRyb2R1Y2VkIGZvciBnbHVlIGxheWVy
+IHRvIGltcGxlbWVudA0KPiBwbGF0Zm9ybSBzcGVjaWZpYyBQTSBzZXF1ZW5jZS4NCj4gDQo+IFJl
+dmlld2VkLWJ5OiBQYXdlbCBMYXN6Y3phayA8cGF3ZWxsQGNhZGVuY2UuY29tPg0KPiBTaWduZWQt
+b2ZmLWJ5OiBQZXRlciBDaGVuIDxwZXRlci5jaGVuQG54cC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVy
+cy91c2IvY2RuczMvY29yZS5jICAgfCAxNTMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KystLS0tLQ0KPiAgZHJpdmVycy91c2IvY2RuczMvY29yZS5oICAgfCAgMTYgKysrKw0KPiAgZHJp
+dmVycy91c2IvY2RuczMvZHJkLmMgICAgfCAgIDMgKw0KPiAgZHJpdmVycy91c2IvY2RuczMvZ2Fk
+Z2V0LmMgfCAgIDQgKw0KPiAgZHJpdmVycy91c2IvY2RuczMvaG9zdC5jICAgfCAgIDcgKysNCj4g
+IDUgZmlsZXMgY2hhbmdlZCwgMTY2IGluc2VydGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQ0KPiAN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2NkbnMzL2NvcmUuYyBiL2RyaXZlcnMvdXNiL2Nk
+bnMzL2NvcmUuYw0KPiBpbmRleCBlNTZkYmI2YTg5OGMuLjhlNTg4ZWVmMzhkZiAxMDA2NDQNCj4g
+LS0tIGEvZHJpdmVycy91c2IvY2RuczMvY29yZS5jDQo+ICsrKyBiL2RyaXZlcnMvdXNiL2NkbnMz
+L2NvcmUuYw0KPiBAQCAtMzkyLDYgKzM5MiwzMCBAQCBzdGF0aWMgdm9pZCBzZXRfcGh5X3Bvd2Vy
+X29mZihzdHJ1Y3QgY2RuczMgKmNkbnMpDQo+ICAJcGh5X3Bvd2VyX29mZihjZG5zLT51c2IyX3Bo
+eSk7DQo+ICB9DQo+ICANCj4gKy8qKg0KPiArICogY2RuczNfd2FrZXVwX2lycSAtIGludGVycnVw
+dCBoYW5kbGVyIGZvciB3YWtldXAgZXZlbnRzDQo+ICsgKg0KcmVtb3ZlIGJsYW5rIGxpbmU/DQoi
+RG8gbm90IGxlYXZlIGEgYmxhbmsgbGluZSBiZXR3ZWVuIHRoZSBmdW5jdGlvbiBkZXNjcmlwdGlv
+biBhbmQgdGhlDQphcmd1bWVudHMsIG5vciBiZXR3ZWVuIHRoZSBhcmd1bWVudHMiDQpzZWUga2Vy
+bmVsLWRvYy5yc3QsIEZ1bmN0aW9uIHBhcmFtZXRlcnMNCg0KPiArICogQGlycTogaXJxIG51bWJl
+ciBmb3IgY2RuczMgY29yZSBkZXZpY2UNCj4gKyAqIEBkYXRhOiBzdHJ1Y3R1cmUgb2YgY2RuczMN
+Cj4gKyAqDQo+ICsgKiBSZXR1cm5zIElSUV9IQU5ETEVEIG9yIElSUV9OT05FDQo+ICsgKi8NCj4g
+K3N0YXRpYyBpcnFyZXR1cm5fdCBjZG5zM193YWtldXBfaXJxKGludCBpcnEsIHZvaWQgKmRhdGEp
+DQo+ICt7DQo+ICsJc3RydWN0IGNkbnMzICpjZG5zID0gZGF0YTsNCj4gKw0KPiArCWlmIChjZG5z
+LT5pbl9scG0pIHsNCj4gKwkJZGlzYWJsZV9pcnFfbm9zeW5jKGlycSk7DQo+ICsJCWNkbnMtPndh
+a2V1cF9wZW5kaW5nID0gdHJ1ZTsNCj4gKwkJaWYgKChjZG5zLT5yb2xlID09IFVTQl9ST0xFX0hP
+U1QpICYmIGNkbnMtPmhvc3RfZGV2KQ0KPiArCQkJcG1fcmVxdWVzdF9yZXN1bWUoJmNkbnMtPmhv
+c3RfZGV2LT5kZXYpOw0KPiArDQo+ICsJCXJldHVybiBJUlFfSEFORExFRDsNCj4gKwl9DQo+ICsN
+Cj4gKwlyZXR1cm4gSVJRX05PTkU7DQo+ICt9DQo+ICsNCj4gIC8qKg0KPiAgICogY2RuczNfcHJv
+YmUgLSBwcm9iZSBmb3IgY2RuczMgY29yZSBkZXZpY2UNCj4gICAqIEBwZGV2OiBQb2ludGVyIHRv
+IGNkbnMzIGNvcmUgcGxhdGZvcm0gZGV2aWNlDQo+IEBAIC00MTgsNiArNDQyLDcgQEAgc3RhdGlj
+IGludCBjZG5zM19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgCQlyZXR1
+cm4gLUVOT01FTTsNCj4gIA0KPiAgCWNkbnMtPmRldiA9IGRldjsNCj4gKwljZG5zLT5wZGF0YSA9
+IGRldl9nZXRfcGxhdGRhdGEoZGV2KTsNCj4gIA0KPiAgCXBsYXRmb3JtX3NldF9kcnZkYXRhKHBk
+ZXYsIGNkbnMpOw0KPiAgDQo+IEBAIC00NjYsNiArNDkxLDE1IEBAIHN0YXRpYyBpbnQgY2RuczNf
+cHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gIA0KPiAgCWNkbnMtPm90Z19y
+ZXMgPSAqcmVzOw0KPiAgDQo+ICsJY2Rucy0+d2FrZXVwX2lycSA9IHBsYXRmb3JtX2dldF9pcnFf
+YnluYW1lX29wdGlvbmFsKHBkZXYsICJ3YWtldXAiKTsNCj4gKwlpZiAoY2Rucy0+d2FrZXVwX2ly
+cSA9PSAtRVBST0JFX0RFRkVSKQ0KPiArCQlyZXR1cm4gY2Rucy0+d2FrZXVwX2lycTsNCj4gKw0K
+PiArCWlmIChjZG5zLT53YWtldXBfaXJxIDwgMCkgew0KPiArCQlkZXZfZGJnKGRldiwgImNvdWxk
+bid0IGdldCB3YWtldXAgaXJxXG4iKTsNCj4gKwkJY2Rucy0+d2FrZXVwX2lycSA9IDB4MDsNCj4g
+Kwl9DQo+ICsNCj4gIAltdXRleF9pbml0KCZjZG5zLT5tdXRleCk7DQo+ICANCj4gIAljZG5zLT51
+c2IyX3BoeSA9IGRldm1fcGh5X29wdGlvbmFsX2dldChkZXYsICJjZG5zMyx1c2IyLXBoeSIpOw0K
+PiBAQCAtNTAyLDYgKzUzNiwxOSBAQCBzdGF0aWMgaW50IGNkbnMzX3Byb2JlKHN0cnVjdCBwbGF0
+Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAJCWdvdG8gZXJyMzsNCj4gIAl9DQo+ICANCj4gKwlpZiAo
+Y2Rucy0+d2FrZXVwX2lycSkgew0KPiArCQlyZXQgPSBkZXZtX3JlcXVlc3RfdGhyZWFkZWRfaXJx
+KGNkbnMtPmRldiwgY2Rucy0+d2FrZXVwX2lycSwNCj4gKwkJCQkJCWNkbnMzX3dha2V1cF9pcnEs
+DQo+ICsJCQkJCQlOVUxMLA0KPiArCQkJCQkJSVJRRl9TSEFSRUQsDQo+ICsJCQkJCQlkZXZfbmFt
+ZShjZG5zLT5kZXYpLCBjZG5zKTsNCj4gKw0KPiArCQlpZiAocmV0KSB7DQo+ICsJCQlkZXZfZXJy
+KGNkbnMtPmRldiwgImNvdWxkbid0IHJlZ2lzdGVyIHdha2V1cCBpcnEgaGFuZGxlclxuIik7DQo+
+ICsJCQlnb3RvIGVycjM7DQo+ICsJCX0NCj4gKwl9DQo+ICsNCj4gIAlyZXQgPSBjZG5zM19kcmRf
+aW5pdChjZG5zKTsNCj4gIAlpZiAocmV0KQ0KPiAgCQlnb3RvIGVycjQ7DQo+IEBAIC01MTAsOSAr
+NTU3LDExIEBAIHN0YXRpYyBpbnQgY2RuczNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
+cGRldikNCj4gIAlpZiAocmV0KQ0KPiAgCQlnb3RvIGVycjQ7DQo+ICANCj4gKwlzcGluX2xvY2tf
+aW5pdCgmY2Rucy0+bG9jayk7DQo+ICAJZGV2aWNlX3NldF93YWtldXBfY2FwYWJsZShkZXYsIHRy
+dWUpOw0KPiAgCXBtX3J1bnRpbWVfc2V0X2FjdGl2ZShkZXYpOw0KPiAgCXBtX3J1bnRpbWVfZW5h
+YmxlKGRldik7DQo+ICsJcG1fcnVudGltZV9mb3JiaWQoZGV2KTsNCj4gIA0KPiAgCS8qDQo+ICAJ
+ICogVGhlIGNvbnRyb2xsZXIgbmVlZHMgbGVzcyB0aW1lIGJldHdlZW4gYnVzIGFuZCBjb250cm9s
+bGVyIHN1c3BlbmQsDQo+IEBAIC01NTksNTIgKzYwOCwxMjIgQEAgc3RhdGljIGludCBjZG5zM19y
+ZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gIAlyZXR1cm4gMDsNCj4gIH0N
+Cj4gIA0KPiAtI2lmZGVmIENPTkZJR19QTV9TTEVFUA0KPiArI2lmZGVmIENPTkZJR19QTQ0KV2hh
+dCBhYm91dCB1c2luZyBfX21heWJlX3VudXNlZCBpbnN0ZWFkIG9mICNpZmRlZiA/DQo+ICANCj4g
+LXN0YXRpYyBpbnQgY2RuczNfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICtzdGF0aWMg
+aW50IGNkbnMzX3NldF9wbGF0Zm9ybV9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldiwNCj4gKwkJ
+Ym9vbCBzdXNwZW5kLCBib29sIHdha2V1cCkNCj4gK3sNCj4gKwlzdHJ1Y3QgY2RuczMgKmNkbnMg
+PSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gKwlpbnQgcmV0ID0gMDsNCj4gKw0KPiArCWlmIChj
+ZG5zLT5wZGF0YSAmJiBjZG5zLT5wZGF0YS0+cGxhdGZvcm1fc3VzcGVuZCkNCj4gKwkJcmV0ID0g
+Y2Rucy0+cGRhdGEtPnBsYXRmb3JtX3N1c3BlbmQoZGV2LCBzdXNwZW5kLCB3YWtldXApOw0KPiAr
+DQo+ICsJcmV0dXJuIHJldDsNCj4gK30NCj4gKw0KPiArc3RhdGljIGludCBjZG5zM19jb250cm9s
+bGVyX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2LCBwbV9tZXNzYWdlX3QgbXNnKQ0KPiAgew0K
+PiAgCXN0cnVjdCBjZG5zMyAqY2RucyA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiArCWJvb2wg
+d2FrZXVwOw0KPiAgCXVuc2lnbmVkIGxvbmcgZmxhZ3M7DQo+ICANCj4gLQlpZiAoY2Rucy0+cm9s
+ZSA9PSBVU0JfUk9MRV9IT1NUKQ0KPiArCWlmIChjZG5zLT5pbl9scG0pDQo+ICAJCXJldHVybiAw
+Ow0KPiAgDQo+IC0JaWYgKHBtX3J1bnRpbWVfc3RhdHVzX3N1c3BlbmRlZChkZXYpKQ0KPiAtCQlw
+bV9ydW50aW1lX3Jlc3VtZShkZXYpOw0KPiArCWlmIChQTVNHX0lTX0FVVE8obXNnKSkNCj4gKwkJ
+d2FrZXVwID0gdHJ1ZTsNCj4gKwllbHNlDQo+ICsJCXdha2V1cCA9IGRldmljZV9tYXlfd2FrZXVw
+KGRldik7DQo+ICANCj4gLQlpZiAoY2Rucy0+cm9sZXNbY2Rucy0+cm9sZV0tPnN1c3BlbmQpIHsN
+Cj4gLQkJc3Bpbl9sb2NrX2lycXNhdmUoJmNkbnMtPmdhZGdldF9kZXYtPmxvY2ssIGZsYWdzKTsN
+Cj4gLQkJY2Rucy0+cm9sZXNbY2Rucy0+cm9sZV0tPnN1c3BlbmQoY2RucywgZmFsc2UpOw0KPiAt
+CQlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZjZG5zLT5nYWRnZXRfZGV2LT5sb2NrLCBmbGFncyk7
+DQo+IC0JfQ0KPiArCWNkbnMzX3NldF9wbGF0Zm9ybV9zdXNwZW5kKGNkbnMtPmRldiwgdHJ1ZSwg
+d2FrZXVwKTsNCj4gKwlzZXRfcGh5X3Bvd2VyX29mZihjZG5zKTsNCj4gKwlzcGluX2xvY2tfaXJx
+c2F2ZSgmY2Rucy0+bG9jaywgZmxhZ3MpOw0KPiArCWNkbnMtPmluX2xwbSA9IHRydWU7DQo+ICsJ
+c3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmY2Rucy0+bG9jaywgZmxhZ3MpOw0KPiArCWRldl9kYmco
+Y2Rucy0+ZGV2LCAiJXMgZW5kc1xuIiwgX19mdW5jX18pOw0KPiAgDQo+ICAJcmV0dXJuIDA7DQo+
+ICB9DQo+ICANCj4gLXN0YXRpYyBpbnQgY2RuczNfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikN
+Cj4gK3N0YXRpYyBpbnQgY2RuczNfY29udHJvbGxlcl9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2
+LCBwbV9tZXNzYWdlX3QgbXNnKQ0KPiAgew0KPiAgCXN0cnVjdCBjZG5zMyAqY2RucyA9IGRldl9n
+ZXRfZHJ2ZGF0YShkZXYpOw0KPiArCWludCByZXQ7DQo+ICAJdW5zaWduZWQgbG9uZyBmbGFnczsN
+Cj4gIA0KPiAtCWlmIChjZG5zLT5yb2xlID09IFVTQl9ST0xFX0hPU1QpDQo+ICsJaWYgKCFjZG5z
+LT5pbl9scG0pDQo+ICAJCXJldHVybiAwOw0KPiAgDQo+IC0JaWYgKGNkbnMtPnJvbGVzW2NkbnMt
+PnJvbGVdLT5yZXN1bWUpIHsNCj4gLQkJc3Bpbl9sb2NrX2lycXNhdmUoJmNkbnMtPmdhZGdldF9k
+ZXYtPmxvY2ssIGZsYWdzKTsNCj4gKwlyZXQgPSBzZXRfcGh5X3Bvd2VyX29uKGNkbnMpOw0KPiAr
+CWlmIChyZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICsNCj4gKwljZG5zM19zZXRfcGxhdGZvcm1f
+c3VzcGVuZChjZG5zLT5kZXYsIGZhbHNlLCBmYWxzZSk7DQo+ICsNCj4gKwlzcGluX2xvY2tfaXJx
+c2F2ZSgmY2Rucy0+bG9jaywgZmxhZ3MpOw0KPiArCWlmIChjZG5zLT5yb2xlc1tjZG5zLT5yb2xl
+XS0+cmVzdW1lICYmICFQTVNHX0lTX0FVVE8obXNnKSkNCj4gIAkJY2Rucy0+cm9sZXNbY2Rucy0+
+cm9sZV0tPnJlc3VtZShjZG5zLCBmYWxzZSk7DQo+IC0JCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUo
+JmNkbnMtPmdhZGdldF9kZXYtPmxvY2ssIGZsYWdzKTsNCj4gKw0KPiArCWNkbnMtPmluX2xwbSA9
+IGZhbHNlOw0KPiArCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmNkbnMtPmxvY2ssIGZsYWdzKTsN
+Cj4gKwlpZiAoY2Rucy0+d2FrZXVwX3BlbmRpbmcpIHsNCj4gKwkJY2Rucy0+d2FrZXVwX3BlbmRp
+bmcgPSBmYWxzZTsNCj4gKwkJZW5hYmxlX2lycShjZG5zLT53YWtldXBfaXJxKTsNCj4gKwl9DQo+
+ICsJZGV2X2RiZyhjZG5zLT5kZXYsICIlcyBlbmRzXG4iLCBfX2Z1bmNfXyk7DQo+ICsNCj4gKwly
+ZXR1cm4gcmV0Ow0KPiArfQ0KPiArDQo+ICtzdGF0aWMgaW50IGNkbnMzX3J1bnRpbWVfc3VzcGVu
+ZChzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICt7DQo+ICsJcmV0dXJuIGNkbnMzX2NvbnRyb2xsZXJf
+c3VzcGVuZChkZXYsIFBNU0dfQVVUT19TVVNQRU5EKTsNCj4gK30NCj4gKw0KPiArc3RhdGljIGlu
+dCBjZG5zM19ydW50aW1lX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICt7DQo+ICsJcmV0
+dXJuIGNkbnMzX2NvbnRyb2xsZXJfcmVzdW1lKGRldiwgUE1TR19BVVRPX1JFU1VNRSk7DQo+ICt9
+DQo+ICsjaWZkZWYgQ09ORklHX1BNX1NMRUVQDQo+ICsNCj4gK3N0YXRpYyBpbnQgY2RuczNfc3Vz
+cGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICt7DQo+ICsJc3RydWN0IGNkbnMzICpjZG5zID0g
+ZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ICsJdW5zaWduZWQgbG9uZyBmbGFnczsNCj4gKw0KPiAr
+CWlmIChwbV9ydW50aW1lX3N0YXR1c19zdXNwZW5kZWQoZGV2KSkNCj4gKwkJcG1fcnVudGltZV9y
+ZXN1bWUoZGV2KTsNCj4gKw0KPiArCWlmIChjZG5zLT5yb2xlc1tjZG5zLT5yb2xlXS0+c3VzcGVu
+ZCkgew0KPiArCQlzcGluX2xvY2tfaXJxc2F2ZSgmY2Rucy0+bG9jaywgZmxhZ3MpOw0KPiArCQlj
+ZG5zLT5yb2xlc1tjZG5zLT5yb2xlXS0+c3VzcGVuZChjZG5zLCBmYWxzZSk7DQo+ICsJCXNwaW5f
+dW5sb2NrX2lycXJlc3RvcmUoJmNkbnMtPmxvY2ssIGZsYWdzKTsNCj4gIAl9DQo+ICANCj4gKwly
+ZXR1cm4gY2RuczNfY29udHJvbGxlcl9zdXNwZW5kKGRldiwgUE1TR19TVVNQRU5EKTsNCj4gK30N
+Cj4gKw0KPiArc3RhdGljIGludCBjZG5zM19yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQ0KPiAr
+ew0KPiArCWludCByZXQ7DQo+ICsNCj4gKwlyZXQgPSBjZG5zM19jb250cm9sbGVyX3Jlc3VtZShk
+ZXYsIFBNU0dfUkVTVU1FKTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gcmV0Ow0KPiArDQo+
+ICAJcG1fcnVudGltZV9kaXNhYmxlKGRldik7DQo+ICAJcG1fcnVudGltZV9zZXRfYWN0aXZlKGRl
+dik7DQo+ICAJcG1fcnVudGltZV9lbmFibGUoZGV2KTsNCj4gIA0KPiAtCXJldHVybiAwOw0KPiAr
+CXJldHVybiByZXQ7DQo+ICB9DQo+IC0jZW5kaWYNCj4gKyNlbmRpZiAvKiBDT05GSUdfUE1fU0xF
+RVAgKi8NCj4gKyNlbmRpZiAvKiBDT05GSUdfUE0gKi8NCj4gIA0KPiAgc3RhdGljIGNvbnN0IHN0
+cnVjdCBkZXZfcG1fb3BzIGNkbnMzX3BtX29wcyA9IHsNCj4gIAlTRVRfU1lTVEVNX1NMRUVQX1BN
+X09QUyhjZG5zM19zdXNwZW5kLCBjZG5zM19yZXN1bWUpDQo+ICsJU0VUX1JVTlRJTUVfUE1fT1BT
+KGNkbnMzX3J1bnRpbWVfc3VzcGVuZCwgY2RuczNfcnVudGltZV9yZXN1bWUsIE5VTEwpDQo+ICB9
+Ow0KPiAgDQo+ICAjaWZkZWYgQ09ORklHX09GDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9j
+ZG5zMy9jb3JlLmggYi9kcml2ZXJzL3VzYi9jZG5zMy9jb3JlLmgNCj4gaW5kZXggMWFkMWYxZmU2
+MWU5Li4xYjE3MDc3OTZkYjIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdXNiL2NkbnMzL2NvcmUu
+aA0KPiArKysgYi9kcml2ZXJzL3VzYi9jZG5zMy9jb3JlLmgNCj4gQEAgLTM4LDYgKzM4LDEyIEBA
+IHN0cnVjdCBjZG5zM19yb2xlX2RyaXZlciB7DQo+ICB9Ow0KPiAgDQo+ICAjZGVmaW5lIENETlMz
+X1hIQ0lfUkVTT1VSQ0VTX05VTQkyDQo+ICsNCj4gK3N0cnVjdCBjZG5zM19wbGF0Zm9ybV9kYXRh
+IHsNCj4gKwlpbnQgKCpwbGF0Zm9ybV9zdXNwZW5kKShzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ICsJ
+CQlib29sIHN1c3BlbmQsIGJvb2wgd2FrZXVwKTsNCj4gK307DQo+ICsNCj4gIC8qKg0KPiAgICog
+c3RydWN0IGNkbnMzIC0gUmVwcmVzZW50YXRpb24gb2YgQ2FkZW5jZSBVU0IzIERSRCBjb250cm9s
+bGVyLg0KPiAgICogQGRldjogcG9pbnRlciB0byBDYWRlbmNlIGRldmljZSBzdHJ1Y3QNCj4gQEAg
+LTUwLDYgKzU2LDcgQEAgc3RydWN0IGNkbnMzX3JvbGVfZHJpdmVyIHsNCj4gICAqIEBvdGdfcmVn
+czogcG9pbnRlciB0byBiYXNlIG9mIG90ZyByZWdpc3RlcnMNCj4gICAqIEBvdGdfaXJxOiBpcnEg
+bnVtYmVyIGZvciBvdGcgY29udHJvbGxlcg0KPiAgICogQGRldl9pcnE6IGlycSBudW1iZXIgZm9y
+IGRldmljZSBjb250cm9sbGVyDQo+ICsgKiBAd2FrZXVwX2lycTogaXJxIG51bWJlciBmb3Igd2Fr
+ZXVwIGV2ZW50LCBpdCBpcyBvcHRpb25hbA0KPiAgICogQHJvbGVzOiBhcnJheSBvZiBzdXBwb3J0
+ZWQgcm9sZXMgZm9yIHRoaXMgY29udHJvbGxlcg0KPiAgICogQHJvbGU6IGN1cnJlbnQgcm9sZQ0K
+PiAgICogQGhvc3RfZGV2OiB0aGUgY2hpbGQgaG9zdCBkZXZpY2UgcG9pbnRlciBmb3IgY2RuczMg
+Y29yZQ0KPiBAQCAtNjIsNiArNjksMTAgQEAgc3RydWN0IGNkbnMzX3JvbGVfZHJpdmVyIHsNCj4g
+ICAqICAgICAgICAgICBUaGlzIGZpZWxkIGJhc2VkIG9uIGZpcm13YXJlIHNldHRpbmcsIGtlcm5l
+bCBjb25maWd1cmF0aW9uDQo+ICAgKiAgICAgICAgICAgYW5kIGhhcmR3YXJlIGNvbmZpZ3VyYXRp
+b24uDQo+ICAgKiBAcm9sZV9zdzogcG9pbnRlciB0byByb2xlIHN3aXRjaCBvYmplY3QuDQo+ICsg
+KiBAaW5fbHBtOiBpbmRpY2F0ZSB0aGUgY29udHJvbGxlciBpcyBpbiBsb3cgcG93ZXIgbW9kZQ0K
+PiArICogQHdha2V1cF9wZW5kaW5nOiB3YWtldXAgaW50ZXJydXB0IHBlbmRpbmcNCj4gKyAqIEBw
+ZGF0YTogcGxhdGZvcm0gZGF0YSBmcm9tIGdsdWUgbGF5ZXINCj4gKyAqIEBsb2NrOiBzcGlubG9j
+ayBzdHJ1Y3R1cmUNCj4gICAqLw0KPiAgc3RydWN0IGNkbnMzIHsNCj4gIAlzdHJ1Y3QgZGV2aWNl
+CQkJKmRldjsNCj4gQEAgLTc5LDYgKzkwLDcgQEAgc3RydWN0IGNkbnMzIHsNCj4gIA0KPiAgCWlu
+dAkJCQlvdGdfaXJxOw0KPiAgCWludAkJCQlkZXZfaXJxOw0KPiArCWludAkJCQl3YWtldXBfaXJx
+Ow0KPiAgCXN0cnVjdCBjZG5zM19yb2xlX2RyaXZlcgkqcm9sZXNbVVNCX1JPTEVfREVWSUNFICsg
+MV07DQo+ICAJZW51bSB1c2Jfcm9sZQkJCXJvbGU7DQo+ICAJc3RydWN0IHBsYXRmb3JtX2Rldmlj
+ZQkJKmhvc3RfZGV2Ow0KPiBAQCAtODksNiArMTAxLDEwIEBAIHN0cnVjdCBjZG5zMyB7DQo+ICAJ
+c3RydWN0IG11dGV4CQkJbXV0ZXg7DQo+ICAJZW51bSB1c2JfZHJfbW9kZQkJZHJfbW9kZTsNCj4g
+IAlzdHJ1Y3QgdXNiX3JvbGVfc3dpdGNoCQkqcm9sZV9zdzsNCj4gKwlib29sCQkJCWluX2xwbTsN
+Cj4gKwlib29sCQkJCXdha2V1cF9wZW5kaW5nOw0KPiArCXN0cnVjdCBjZG5zM19wbGF0Zm9ybV9k
+YXRhCSpwZGF0YTsNCj4gKwlzcGlubG9ja190CQkJbG9jazsNCj4gIH07DQo+ICANCj4gIGludCBj
+ZG5zM19od19yb2xlX3N3aXRjaChzdHJ1Y3QgY2RuczMgKmNkbnMpOw0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy91c2IvY2RuczMvZHJkLmMgYi9kcml2ZXJzL3VzYi9jZG5zMy9kcmQuYw0KPiBpbmRl
+eCA2MjM0YmNkNjE1OGEuLjVmMjY4NWNhZGY1ZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy91c2Iv
+Y2RuczMvZHJkLmMNCj4gKysrIGIvZHJpdmVycy91c2IvY2RuczMvZHJkLmMNCj4gQEAgLTI5Myw2
+ICsyOTMsOSBAQCBzdGF0aWMgaXJxcmV0dXJuX3QgY2RuczNfZHJkX2lycShpbnQgaXJxLCB2b2lk
+ICpkYXRhKQ0KPiAgCWlmIChjZG5zLT5kcl9tb2RlICE9IFVTQl9EUl9NT0RFX09URykNCj4gIAkJ
+cmV0dXJuIElSUV9OT05FOw0KPiAgDQo+ICsJaWYgKGNkbnMtPmluX2xwbSkNCj4gKwkJcmV0dXJu
+IHJldDsNCj4gKw0KPiAgCXJlZyA9IHJlYWRsKCZjZG5zLT5vdGdfcmVncy0+aXZlY3QpOw0KPiAg
+DQo+ICAJaWYgKCFyZWcpDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jZG5zMy9nYWRnZXQu
+YyBiL2RyaXZlcnMvdXNiL2NkbnMzL2dhZGdldC5jDQo+IGluZGV4IGRlYTY0OWVlMTczYi4uOGJi
+YjM4Y2Q1NjBiIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9jZG5zMy9nYWRnZXQuYw0KPiAr
+KysgYi9kcml2ZXJzL3VzYi9jZG5zMy9nYWRnZXQuYw0KPiBAQCAtMTc2OSw5ICsxNzY5LDEzIEBA
+IHN0YXRpYyB2b2lkIGNkbnMzX2NoZWNrX3VzYl9pbnRlcnJ1cHRfcHJvY2VlZChzdHJ1Y3QgY2Ru
+czNfZGV2aWNlICpwcml2X2RldiwNCj4gIHN0YXRpYyBpcnFyZXR1cm5fdCBjZG5zM19kZXZpY2Vf
+aXJxX2hhbmRsZXIoaW50IGlycSwgdm9pZCAqZGF0YSkNCj4gIHsNCj4gIAlzdHJ1Y3QgY2RuczNf
+ZGV2aWNlICpwcml2X2RldiA9IGRhdGE7DQo+ICsJc3RydWN0IGNkbnMzICpjZG5zID0gZGV2X2dl
+dF9kcnZkYXRhKHByaXZfZGV2LT5kZXYpOw0KPiAgCWlycXJldHVybl90IHJldCA9IElSUV9OT05F
+Ow0KPiAgCXUzMiByZWc7DQo+ICANCj4gKwlpZiAoY2Rucy0+aW5fbHBtKQ0KPiArCQlyZXR1cm4g
+cmV0Ow0KPiArDQo+ICAJLyogY2hlY2sgVVNCIGRldmljZSBpbnRlcnJ1cHQgKi8NCj4gIAlyZWcg
+PSByZWFkbCgmcHJpdl9kZXYtPnJlZ3MtPnVzYl9pc3RzKTsNCj4gIAlpZiAocmVnKSB7DQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jZG5zMy9ob3N0LmMgYi9kcml2ZXJzL3VzYi9jZG5zMy9o
+b3N0LmMNCj4gaW5kZXggMzZjNjNkOWVjZDM3Li5iM2UyY2I2OTc2MmMgMTAwNjQ0DQo+IC0tLSBh
+L2RyaXZlcnMvdXNiL2NkbnMzL2hvc3QuYw0KPiArKysgYi9kcml2ZXJzL3VzYi9jZG5zMy9ob3N0
+LmMNCj4gQEAgLTEzLDExICsxMywxMyBAQA0KPiAgI2luY2x1ZGUgImNvcmUuaCINCj4gICNpbmNs
+dWRlICJkcmQuaCINCj4gICNpbmNsdWRlICJob3N0LWV4cG9ydC5oIg0KPiArI2luY2x1ZGUgPGxp
+bnV4L3VzYi9oY2QuaD4NCj4gIA0KPiAgc3RhdGljIGludCBfX2NkbnMzX2hvc3RfaW5pdChzdHJ1
+Y3QgY2RuczMgKmNkbnMpDQo+ICB7DQo+ICAJc3RydWN0IHBsYXRmb3JtX2RldmljZSAqeGhjaTsN
+Cj4gIAlpbnQgcmV0Ow0KPiArCXN0cnVjdCB1c2JfaGNkICpoY2Q7DQo+ICANCj4gIAljZG5zM19k
+cmRfaG9zdF9vbihjZG5zKTsNCj4gIA0KPiBAQCAtNDMsNiArNDUsMTEgQEAgc3RhdGljIGludCBf
+X2NkbnMzX2hvc3RfaW5pdChzdHJ1Y3QgY2RuczMgKmNkbnMpDQo+ICAJCWdvdG8gZXJyMTsNCj4g
+IAl9DQo+ICANCj4gKwkvKiBHbHVlIG5lZWRzIHRvIGFjY2VzcyB4SENJIHJlZ2lvbiByZWdpc3Rl
+ciBmb3IgUG93ZXIgbWFuYWdlbWVudCAqLw0KPiArCWhjZCA9IHBsYXRmb3JtX2dldF9kcnZkYXRh
+KHhoY2kpOw0KPiArCWlmIChoY2QpDQo+ICsJCWNkbnMtPnhoY2lfcmVncyA9IGhjZC0+cmVnczsN
+Cj4gKw0KPiAgCXJldHVybiAwOw0KPiAgZXJyMToNCj4gIAlwbGF0Zm9ybV9kZXZpY2VfcHV0KHho
+Y2kpOw0KDQo=
 
-Patch does not apply. You forgot to rebase over latest tty/tty-next or
-linux master.
-
-Jan
-
-> ---
->  drivers/usb/serial/cp210x.c | 118 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 113 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-> index e732949f65..c66a0e0fb9 100644
-> --- a/drivers/usb/serial/cp210x.c
-> +++ b/drivers/usb/serial/cp210x.c
-> @@ -380,6 +380,9 @@ static struct usb_serial_driver * const serial_drivers[] = {
->  #define CP210X_PARTNUM_CP2102N_QFN20	0x22
->  #define CP210X_PARTNUM_UNKNOWN	0xFF
->  
-> +#define CP210X_VSTART	0x11
-> +#define CP210X_VSTOP	0x13
-> +
->  /* CP210X_GET_COMM_STATUS returns these 0x13 bytes */
->  struct cp210x_comm_status {
->  	__le32   ulErrors;
-> @@ -391,6 +394,15 @@ struct cp210x_comm_status {
->  	u8       bReserved;
->  } __packed;
->  
-> +struct cp210x_chars_response {
-> +	u8	eofchar;
-> +	u8	errochar;
-> +	u8	breakchar;
-> +	u8	eventchar;
-> +	u8	xonchar;
-> +	u8	xoffchar;
-> +} __packed;
-> +
->  /*
->   * CP210X_PURGE - 16 bits passed in wValue of USB request.
->   * SiLabs app note AN571 gives a strange description of the 4 bits:
-> @@ -624,6 +636,45 @@ static int cp210x_read_vendor_block(struct usb_serial *serial, u8 type, u16 val,
->  	return result;
->  }
->  
-> +/*
-> + * Read and Write Character Responses operate
-> + * Register SET_CHARS/GET_CHATS
-> + */
-> +static int cp210x_operate_chars_block(struct usb_serial_port *port,
-> +				u8 req, u8 type, void *buf, int bufsize)
-> +{
-> +	struct usb_serial *serial = port->serial;
-> +	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
-> +	void *dmabuf;
-> +	int result;
-> +
-> +	dmabuf = kmemdup(buf, bufsize, GFP_KERNEL);
-> +	if (!dmabuf)
-> +		return -ENOMEM;
-> +
-> +	result = usb_control_msg(serial->dev,
-> +				usb_rcvctrlpipe(serial->dev, 0),
-> +				req, type, 0, port_priv->bInterfaceNumber,
-> +				dmabuf, bufsize, USB_CTRL_SET_TIMEOUT);
-> +
-> +	if (result == bufsize) {
-> +		if (type == REQTYPE_DEVICE_TO_HOST)
-> +			memcpy(buf, dmabuf, bufsize);
-> +
-> +		result = 0;
-> +	} else {
-> +		dev_err(&port->dev, "failed get req 0x%x size %d status: %d\n",
-> +			req, bufsize, result);
-> +		if (result >= 0)
-> +			result = -EIO;
-> +
-> +	}
-> +
-> +	kfree(dmabuf);
-> +
-> +	return result;
-> +}
-> +
->  /*
->   * Writes any 16-bit CP210X_ register (req) whose value is passed
->   * entirely in the wValue field of the USB request.
-> @@ -1134,11 +1185,17 @@ static void cp210x_set_termios(struct tty_struct *tty,
->  		struct usb_serial_port *port, struct ktermios *old_termios)
->  {
->  	struct device *dev = &port->dev;
-> -	unsigned int cflag, old_cflag;
-> +	struct cp210x_chars_response charsres;
-> +	struct cp210x_flow_ctl flow_ctl;
-> +	unsigned int cflag, old_cflag, iflag;
->  	u16 bits;
-> +	int result;
-> +	u32 ctl_hs;
-> +	u32 flow_repl;
->  
->  	cflag = tty->termios.c_cflag;
->  	old_cflag = old_termios->c_cflag;
-> +	iflag = tty->termios.c_iflag;
->  
->  	if (tty->termios.c_ospeed != old_termios->c_ospeed)
->  		cp210x_change_speed(tty, port, old_termios);
-> @@ -1212,10 +1269,6 @@ static void cp210x_set_termios(struct tty_struct *tty,
->  	}
->  
->  	if ((cflag & CRTSCTS) != (old_cflag & CRTSCTS)) {
-> -		struct cp210x_flow_ctl flow_ctl;
-> -		u32 ctl_hs;
-> -		u32 flow_repl;
-> -
->  		cp210x_read_reg_block(port, CP210X_GET_FLOW, &flow_ctl,
->  				sizeof(flow_ctl));
->  		ctl_hs = le32_to_cpu(flow_ctl.ulControlHandshake);
-> @@ -1252,6 +1305,61 @@ static void cp210x_set_termios(struct tty_struct *tty,
->  				sizeof(flow_ctl));
->  	}
->  
-> +	/*
-> +	 * Set Software  Flow  Control
-> +	 * Check the IXOFF/IXON status in the iflag component of the
-> +	 * termios structure.
-> +	 *
-> +	 */
-> +	if ((iflag & IXOFF) || (iflag & IXON)) {
-> +
-> +		result = cp210x_operate_chars_block(port,
-> +						CP210X_GET_CHARS,
-> +						REQTYPE_DEVICE_TO_HOST,
-> +						&charsres,
-> +						sizeof(charsres));
-> +
-> +		if (result < 0) {
-> +			dev_err(dev, "Read Characrter Responses failed\n");
-> +			return;
-> +		}
-> +		charsres.xonchar  = CP210X_VSTART;
-> +		charsres.xoffchar = CP210X_VSTOP;
-> +		result = cp210x_operate_chars_block(port,
-> +						CP210X_SET_CHARS,
-> +						REQTYPE_HOST_TO_INTERFACE,
-> +						&charsres,
-> +						sizeof(charsres));
-> +		if (result < 0) {
-> +			memset(&charsres, 0, sizeof(charsres));
-> +			dev_err(dev, "Write Characrter Responses failed\n");
-> +			return;
-> +		}
-> +
-> +		/*Set  Rx/Tx Flow Contrl  Flag in ulFlowReplace*/
-> +		cp210x_read_reg_block(port,
-> +					CP210X_GET_FLOW,
-> +					&flow_ctl,
-> +					sizeof(flow_ctl));
-> +
-> +		flow_repl = le32_to_cpu(flow_ctl.ulFlowReplace);
-> +
-> +		if (iflag & IXOFF)
-> +			flow_repl |= CP210X_SERIAL_AUTO_RECEIVE;
-> +		else
-> +			flow_repl &= ~CP210X_SERIAL_AUTO_RECEIVE;
-> +
-> +		if (iflag & IXON)
-> +			flow_repl |= CP210X_SERIAL_AUTO_TRANSMIT;
-> +		else
-> +			flow_repl &= ~CP210X_SERIAL_AUTO_TRANSMIT;
-> +
-> +		flow_ctl.ulFlowReplace = cpu_to_le32(flow_repl);
-> +		cp210x_write_reg_block(port,
-> +					CP210X_SET_FLOW,
-> +					&flow_ctl,
-> +					sizeof(flow_ctl));
-> +	}
->  }
->  
->  static int cp210x_tiocmset(struct tty_struct *tty,
-> 
-
--- 
-Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-Corporate Competence Center Embedded Linux
