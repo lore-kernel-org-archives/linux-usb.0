@@ -2,288 +2,89 @@ Return-Path: <SRS0=wGJW=CA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57E31C433E3
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 04:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB41CC433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 08:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CBD0214F1
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 04:42:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93EBE2072D
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 08:09:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="AujKItQ0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbgHVEmQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 22 Aug 2020 00:42:16 -0400
-Received: from mga11.intel.com ([192.55.52.93]:62111 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726414AbgHVEmK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 22 Aug 2020 00:42:10 -0400
-IronPort-SDR: Bd5xfcJjOo1huN9NdWgzi+ipkyMgC1M45J5A4BHXPbFVukWJBWBcK1cB78kxjkz+Xv911SdWn4
- SGopv4DxGj1g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9720"; a="153275283"
-X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; 
-   d="scan'208";a="153275283"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2020 21:42:01 -0700
-IronPort-SDR: 8i4hGeGeesJiGDSiCZhdtYrmz2gqvJ4jJAcmw6zUUM2qkDD8wA/cLpsxbnaCvXVmpeFryGgsYM
- ySOF44knnNHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; 
-   d="scan'208";a="327943118"
-Received: from glacier.sc.intel.com ([10.3.62.63])
-  by orsmga008.jf.intel.com with ESMTP; 21 Aug 2020 21:42:00 -0700
-From:   Rajmohan Mani <rajmohan.mani@intel.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S1726887AbgHVIJV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 22 Aug 2020 04:09:21 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:23490 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725877AbgHVIJU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Aug 2020 04:09:20 -0400
+X-UUID: 0700fcd758a1451bab937a628dfa4d54-20200822
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=glUu4ILa56NmCzEya+FLhC/5JYoRtBGd30upHM8qMX0=;
+        b=AujKItQ0PtargzNMc5jD/YMWIhajEGDAnWAnb95Fy4XT6NIqYQr4xfI2EchdnWcXI7iJemaN5I3rTpDxqfbSP5qf6GPNsMWLWALuvKy/LyqLqbOM4+GWHEBxUVi1N3bbl1FNs8pY8sjIIekV1F81LhH7p/h4JznQmwh2xZPm0PY=;
+X-UUID: 0700fcd758a1451bab937a628dfa4d54-20200822
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 396831244; Sat, 22 Aug 2020 16:09:13 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 22 Aug 2020 16:09:12 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 22 Aug 2020 16:09:10 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jithu Joseph <jithu.joseph@intel.com>,
-        =?UTF-8?q?Bla=C5=BE=20Hrastnik?= <blaz@mxxn.io>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     pmalani@chromium.org, bleung@chromium.org,
-        Rajmohan Mani <rajmohan.mani@intel.com>
-Subject: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager (IOM) driver
-Date:   Fri, 21 Aug 2020 21:05:06 -0700
-Message-Id: <20200822040508.23510-2-rajmohan.mani@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200822040508.23510-1-rajmohan.mani@intel.com>
-References: <20200822040508.23510-1-rajmohan.mani@intel.com>
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: [PATCH v3 05/11] usb: oxu210hp-hcd: convert to readl_poll_timeout_atomic()
+Date:   Sat, 22 Aug 2020 16:05:47 +0800
+Message-ID: <1598083553-31896-5-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1598083553-31896-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1598083553-31896-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 90167F4D4D50A24168BBC3B4AC9B44B4F7352DDF6393F3281A30FA7401C0BCE52000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Input Output Manager (IOM) is part of the Tiger Lake SoC that
-configures the Type-C Sub System (TCSS). IOM is a micro controller
-that handles Type-C topology, configuration and PM functions of
-various Type-C devices connected on the platform.
-
-This driver helps read relevant information such as Type-C port
-status (whether a device is connected to a Type-C port or not) and
-the activity type on the Type-C ports (such as USB, Display Port,
-Thunderbolt), for consumption by other drivers.
-
-Currently intel_iom_port_status() API is exported by this driver,
-that has information about the Type-C port status and port activity
-type.
-
-Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
----
- drivers/platform/x86/Kconfig                | 16 ++++
- drivers/platform/x86/Makefile               |  1 +
- drivers/platform/x86/intel_iom.c            | 95 +++++++++++++++++++++
- include/linux/platform_data/x86/intel_iom.h | 49 +++++++++++
- 4 files changed, 161 insertions(+)
- create mode 100644 drivers/platform/x86/intel_iom.c
- create mode 100644 include/linux/platform_data/x86/intel_iom.h
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 40219bba6801..f09b4b525ea5 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -837,6 +837,22 @@ config INTEL_INT0002_VGPIO
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called intel_int0002_vgpio.
- 
-+config INTEL_IOM
-+	tristate "Intel Input Output Manager (IOM) driver"
-+	depends on ACPI && PCI
-+	help
-+	  This driver helps read relevant information such as Type-C port
-+	  status (whether a device is connected to a Type-C port or not)
-+	  and the activity type on the Type-C ports (such as USB, Display
-+	  Port, Thunderbolt), for consumption by other drivers.
-+
-+	  Currently intel_iom_port_status() API is exported by this driver,
-+	  that has information about the Type-C port status and port activity
-+	  type.
-+
-+	  To compile this driver as a module, choose M here: the module will
-+	  be called intel_iom.
-+
- config INTEL_MENLOW
- 	tristate "Thermal Management driver for Intel menlow platform"
- 	depends on ACPI_THERMAL
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 5f823f7eff45..b44f706074c3 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -77,6 +77,7 @@ intel_cht_int33fe-objs			:= intel_cht_int33fe_common.o \
- 					   intel_cht_int33fe_microb.o
- obj-$(CONFIG_INTEL_HID_EVENT)		+= intel-hid.o
- obj-$(CONFIG_INTEL_INT0002_VGPIO)	+= intel_int0002_vgpio.o
-+obj-$(CONFIG_INTEL_IOM)			+= intel_iom.o
- obj-$(CONFIG_INTEL_MENLOW)		+= intel_menlow.o
- obj-$(CONFIG_INTEL_OAKTRAIL)		+= intel_oaktrail.o
- obj-$(CONFIG_INTEL_VBTN)		+= intel-vbtn.o
-diff --git a/drivers/platform/x86/intel_iom.c b/drivers/platform/x86/intel_iom.c
-new file mode 100644
-index 000000000000..cda7716410c6
---- /dev/null
-+++ b/drivers/platform/x86/intel_iom.c
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Intel Core SoC Input Output Manager (IOM) driver.
-+ *
-+ * This driver provides access to the Input Output Manager (IOM) (that
-+ * is part of Tiger Lake SoC) registers that can be used to know about
-+ * Type-C Sub System related information (such as Type-C port status,
-+ * activity type on Type-C ports).
-+ *
-+ * Copyright (C) 2020, Intel Corporation
-+ * Author: Rajmohan Mani <rajmohan.mani@intel.com>
-+ */
-+
-+#include <linux/io.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/platform_data/x86/intel_iom.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+
-+#define IOM_PORT_STATUS_OFFSET				0x560
-+
-+struct intel_iom {
-+	struct device *dev;
-+	void __iomem *regbar;
-+};
-+
-+static struct intel_iom *iom;
-+
-+/**
-+ * intel_iom_port_status() - Get status bits for the Type-C port
-+ * @port: Type-C port number
-+ * @status: pointer to receive the status bits
-+ *
-+ * Returns 0 on success, error otherwise.
-+ */
-+int intel_iom_port_status(u8 port, u32 *status)
-+{
-+	void __iomem *reg;
-+
-+	if (!iom || !iom->dev || !iom->regbar)
-+		return -ENODEV;
-+
-+	if (!status || (port > IOM_MAX_PORTS - 1))
-+		return -EINVAL;
-+
-+	reg = iom->regbar + IOM_PORT_STATUS_OFFSET + IOM_REG_LEN * port;
-+
-+	*status = ioread32(reg);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(intel_iom_port_status);
-+
-+static int intel_iom_probe(struct platform_device *pdev)
-+{
-+	void __iomem *addr;
-+
-+	/* only one IOM device is supported */
-+	if (iom)
-+		return -EBUSY;
-+
-+	iom = devm_kzalloc(&pdev->dev, sizeof(*iom), GFP_KERNEL);
-+	if (!iom)
-+		return -ENOMEM;
-+
-+	addr = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(addr))
-+		return PTR_ERR(addr);
-+
-+	iom->regbar = addr;
-+	iom->dev = &pdev->dev;
-+
-+	return 0;
-+}
-+
-+static const struct acpi_device_id intel_iom_acpi_ids[] = {
-+	{ "INTC1072" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(acpi, intel_iom_acpi_ids);
-+
-+static struct platform_driver intel_iom_driver = {
-+	.probe = intel_iom_probe,
-+	.driver = {
-+		.name = "intel_iom",
-+		.acpi_match_table = intel_iom_acpi_ids,
-+	},
-+};
-+
-+module_platform_driver_probe(intel_iom_driver, intel_iom_probe);
-+
-+MODULE_AUTHOR("Rajmohan Mani <rajmohan.mani@intel.com>");
-+MODULE_DESCRIPTION("Intel IOM driver");
-+MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/platform_data/x86/intel_iom.h b/include/linux/platform_data/x86/intel_iom.h
-new file mode 100644
-index 000000000000..e4c9a305e7a9
---- /dev/null
-+++ b/include/linux/platform_data/x86/intel_iom.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _PLATFORM_DATA_X86_INTEL_IOM_H_
-+#define _PLATFORM_DATA_X86_INTEL_IOM_H_
-+
-+#include <linux/bits.h>
-+#include <linux/types.h>
-+
-+/* Input Output Manager (IOM) PORT STATUS */
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_MASK		GENMASK(9, 6)
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_SHIFT		0x06
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_USB		0x03
-+/* activity type: Safe Mode */
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_SAFE_MODE		0x04
-+/* activity type: Display Port */
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_DP		0x05
-+/* activity type: Display Port Multi Function Device */
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_DP_MFD		0x06
-+/* activity type: Thunderbolt */
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_TBT		0x07
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_ALT_MODE_USB	0x0c
-+#define IOM_PORT_STATUS_ACTIVITY_TYPE_ALT_MODE_TBT_USB	0x0d
-+/* Upstream Facing Port Information */
-+#define IOM_PORT_STATUS_UFP				BIT(10)
-+/* Display Port Hot Plug Detect status */
-+#define IOM_PORT_STATUS_DHPD_HPD_STATUS_MASK		GENMASK(13, 12)
-+#define IOM_PORT_STATUS_DHPD_HPD_STATUS_SHIFT		0x0c
-+#define IOM_PORT_STATUS_DHPD_HPD_STATUS_ASSERT		0x01
-+#define IOM_PORT_STATUS_DHPD_HPD_SOURCE_TBT		BIT(14)
-+#define IOM_PORT_STATUS_CONNECTED			BIT(31)
-+
-+#define IOM_MAX_PORTS					4
-+/* Register length in bytes */
-+#define IOM_REG_LEN					4
-+
-+#ifdef CONFIG_ACPI
-+
-+int intel_iom_port_status(u8 port, u32 *status);
-+
-+#else
-+
-+int intel_iom_port_status(struct intel_iom *iom, u8 port, u32 *status)
-+{
-+	return 0;
-+}
-+
-+#endif
-+
-+#endif /* _PLATFORM_DATA_X86_INTEL_IOM_H_ */
--- 
-2.20.1
+VXNlIHJlYWRsX3BvbGxfdGltZW91dF9hdG9taWMoKSB0byBzaW1wbGlmeSBjb2RlDQoNClNpZ25l
+ZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCi0tLQ0K
+djJ+djM6IG5vIGNoYW5nZXMNCi0tLQ0KIGRyaXZlcnMvdXNiL2hvc3Qvb3h1MjEwaHAtaGNkLmMg
+fCAyMSArKysrKysrKysrLS0tLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9u
+cygrKSwgMTEgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L294
+dTIxMGhwLWhjZC5jIGIvZHJpdmVycy91c2IvaG9zdC9veHUyMTBocC1oY2QuYw0KaW5kZXggY2Zh
+N2RkMi4uMjdkYmJlMSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvdXNiL2hvc3Qvb3h1MjEwaHAtaGNk
+LmMNCisrKyBiL2RyaXZlcnMvdXNiL2hvc3Qvb3h1MjEwaHAtaGNkLmMNCkBAIC0yNCw2ICsyNCw3
+IEBADQogI2luY2x1ZGUgPGxpbnV4L21vZHVsZXBhcmFtLmg+DQogI2luY2x1ZGUgPGxpbnV4L2Rt
+YS1tYXBwaW5nLmg+DQogI2luY2x1ZGUgPGxpbnV4L2lvLmg+DQorI2luY2x1ZGUgPGxpbnV4L2lv
+cG9sbC5oPg0KIA0KICNpbmNsdWRlIDxhc20vaXJxLmg+DQogI2luY2x1ZGUgPGFzbS91bmFsaWdu
+ZWQuaD4NCkBAIC03NDgsMTggKzc0OSwxNiBAQCBzdGF0aWMgaW50IGhhbmRzaGFrZShzdHJ1Y3Qg
+b3h1X2hjZCAqb3h1LCB2b2lkIF9faW9tZW0gKnB0ciwNCiAJCQkJCXUzMiBtYXNrLCB1MzIgZG9u
+ZSwgaW50IHVzZWMpDQogew0KIAl1MzIgcmVzdWx0Ow0KKwlpbnQgcmV0Ow0KIA0KLQlkbyB7DQot
+CQlyZXN1bHQgPSByZWFkbChwdHIpOw0KLQkJaWYgKHJlc3VsdCA9PSB+KHUzMikwKQkJLyogY2Fy
+ZCByZW1vdmVkICovDQotCQkJcmV0dXJuIC1FTk9ERVY7DQotCQlyZXN1bHQgJj0gbWFzazsNCi0J
+CWlmIChyZXN1bHQgPT0gZG9uZSkNCi0JCQlyZXR1cm4gMDsNCi0JCXVkZWxheSgxKTsNCi0JCXVz
+ZWMtLTsNCi0JfSB3aGlsZSAodXNlYyA+IDApOw0KLQlyZXR1cm4gLUVUSU1FRE9VVDsNCisJcmV0
+ID0gcmVhZGxfcG9sbF90aW1lb3V0X2F0b21pYyhwdHIsIHJlc3VsdCwNCisJCQkJCSgocmVzdWx0
+ICYgbWFzaykgPT0gZG9uZSB8fA0KKwkJCQkJIHJlc3VsdCA9PSBVMzJfTUFYKSwNCisJCQkJCTEs
+IHVzZWMpOw0KKwlpZiAocmVzdWx0ID09IFUzMl9NQVgpCQkvKiBjYXJkIHJlbW92ZWQgKi8NCisJ
+CXJldHVybiAtRU5PREVWOw0KKw0KKwlyZXR1cm4gcmV0Ow0KIH0NCiANCiAvKiBGb3JjZSBIQyB0
+byBoYWx0IHN0YXRlIGZyb20gdW5rbm93biAoRUhDSSBzcGVjIHNlY3Rpb24gMi4zKSAqLw0KLS0g
+DQoxLjkuMQ0K
 
