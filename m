@@ -2,86 +2,219 @@ Return-Path: <SRS0=wGJW=CA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3276FC433E1
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 08:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE25DC433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 09:56:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11EE321734
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 08:10:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1D23207DA
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Aug 2020 09:56:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="S/2maIyl"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="W8f//rSH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726556AbgHVIJT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 22 Aug 2020 04:09:19 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:56568 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725877AbgHVIJT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Aug 2020 04:09:19 -0400
-X-UUID: ed0cf974d34d4e93b42088219df8827d-20200822
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=n+pceR4RMgmAMEAt4bZLKvLzwP+bC0iCUPc31NQ9+9s=;
-        b=S/2maIyluc5PF34fxaYVNsAJU4CK0sKgXLva0awErLbQQ1xkEU3eHDD+OfddueX9+0bjdErx3vZGt5sBrlKqyEmVQwZV5XMj/72BxrKL6jI4UxVUFe+Blz+L21RY4rMKWLifWb1VUcfq2j4iK45LHY+Xyr3BmoPIiGT7LYlvNys=;
-X-UUID: ed0cf974d34d4e93b42088219df8827d-20200822
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1461500314; Sat, 22 Aug 2020 16:09:09 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 22 Aug 2020 16:09:08 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 22 Aug 2020 16:09:05 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
+        id S1725973AbgHVJ4f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 22 Aug 2020 05:56:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725864AbgHVJ4e (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Aug 2020 05:56:34 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB60C061573
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2020 02:56:34 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id 17so2286884pfw.9
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2020 02:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l7aXGPl3X/xYs2Q5GHfUvsQEQDqjScmIL2WkfrO0/J8=;
+        b=W8f//rSHBcdDDAsG8jkW4n1pEPAn1sCr5nT9WKxAhYBi0vghHRt9UfcuHgFpsACI5U
+         C+z3wyhYGlhD9oeb4NKk28esSNgGE1m8J27cZUHtOD3HjttEpDu2TeIDuaAkeGDJOIXe
+         miAifO1v8Sg8eQJdQKLA6W26EUxo1pVleApV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=l7aXGPl3X/xYs2Q5GHfUvsQEQDqjScmIL2WkfrO0/J8=;
+        b=P68D8XDsT5X5RJCVVoHRhWJkUvFalbzCUmXiHpAFoySQRshRsJvf4zm8TeBO5Qj8Ku
+         mc9Khng+pQDF9JAb1VBVsgJS0C6Q1yLYSzy01GJZOEeSUN1lZVTvZvhgonG/uPeuURrM
+         EW4ZTeiF+AeMWYnEIj9gugWN4IFuQAU6SkFOajAU/2nKXbgb20h1DdS2ogWdt7YtUyQd
+         2AdAqrDKxUxJc4sY4enzVjjh+OHkXgzWU4urfUYt0XEOEtZ3heJqFVRdY1PTgQPPIzPy
+         HTwH1Ra20aNRk6AwuuOQ5yxcQ5v7iCfXt7j7edPd4+eUNxYodCEN0nY3CejKoPk7XHOx
+         wRzg==
+X-Gm-Message-State: AOAM532wO+wUiHStFN8g45BFyr17dNDqRGYI6VSNdDxczb3FJPQQcvNy
+        9rcgM5I8NIXZ5fmfPdA4T+sIrw==
+X-Google-Smtp-Source: ABdhPJypEzdvrBsNRY5wsHrDoJm1bHtjRZ4Qj+zqHGfH90ZVYoUQxjdEVGi8eLw5I6wC8PvJhUxBGA==
+X-Received: by 2002:aa7:8a08:: with SMTP id m8mr5770969pfa.135.1598090193532;
+        Sat, 22 Aug 2020 02:56:33 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
+        by smtp.gmail.com with ESMTPSA id e23sm4240486pgb.79.2020.08.22.02.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2020 02:56:32 -0700 (PDT)
+Date:   Sat, 22 Aug 2020 02:56:31 -0700
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Rajmohan Mani <rajmohan.mani@intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v3 01/11] usb: early: convert to readl_poll_timeout_atomic()
-Date:   Sat, 22 Aug 2020 16:05:43 +0800
-Message-ID: <1598083553-31896-1-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jithu Joseph <jithu.joseph@intel.com>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, bleung@chromium.org
+Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
+ (IOM) driver
+Message-ID: <20200822095631.GB2553024@google.com>
+References: <20200822040508.23510-1-rajmohan.mani@intel.com>
+ <20200822040508.23510-2-rajmohan.mani@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 710DD285F53E49DF8C43FE47D5677618B03991FFAEE3B920486DC39D6992D9992000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200822040508.23510-2-rajmohan.mani@intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-VXNlIHJlYWRsX3BvbGxfdGltZW91dF9hdG9taWMoKSB0byBzaW1wbGlmeSBjb2RlDQoNCkNjOiBM
-dSBCYW9sdSA8YmFvbHUubHVAbGludXguaW50ZWwuY29tPg0KQ2M6IE1hdGhpYXMgTnltYW4gPG1h
-dGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPg0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVu
-IDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KLS0tDQp2Mn52Mzogbm8gY2hhbmdlcw0KLS0t
-DQogZHJpdmVycy91c2IvZWFybHkveGhjaS1kYmMuYyB8IDE0ICsrKystLS0tLS0tLS0tDQogMSBm
-aWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL3VzYi9lYXJseS94aGNpLWRiYy5jIGIvZHJpdmVycy91c2IvZWFybHkveGhj
-aS1kYmMuYw0KaW5kZXggYzA1MDc3Ni4uYmU0ZWNiYSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvdXNi
-L2Vhcmx5L3hoY2ktZGJjLmMNCisrKyBiL2RyaXZlcnMvdXNiL2Vhcmx5L3hoY2ktZGJjLmMNCkBA
-IC0xNCw2ICsxNCw3IEBADQogI2luY2x1ZGUgPGxpbnV4L3BjaV9pZHMuaD4NCiAjaW5jbHVkZSA8
-bGludXgvbWVtYmxvY2suaD4NCiAjaW5jbHVkZSA8bGludXgvaW8uaD4NCisjaW5jbHVkZSA8bGlu
-dXgvaW9wb2xsLmg+DQogI2luY2x1ZGUgPGFzbS9wY2ktZGlyZWN0Lmg+DQogI2luY2x1ZGUgPGFz
-bS9maXhtYXAuaD4NCiAjaW5jbHVkZSA8bGludXgvYmNkLmg+DQpAQCAtMTM1LDE2ICsxMzYsOSBA
-QCBzdGF0aWMgaW50IGhhbmRzaGFrZSh2b2lkIF9faW9tZW0gKnB0ciwgdTMyIG1hc2ssIHUzMiBk
-b25lLCBpbnQgd2FpdCwgaW50IGRlbGF5KQ0KIHsNCiAJdTMyIHJlc3VsdDsNCiANCi0JZG8gew0K
-LQkJcmVzdWx0ID0gcmVhZGwocHRyKTsNCi0JCXJlc3VsdCAmPSBtYXNrOw0KLQkJaWYgKHJlc3Vs
-dCA9PSBkb25lKQ0KLQkJCXJldHVybiAwOw0KLQkJdWRlbGF5KGRlbGF5KTsNCi0JCXdhaXQgLT0g
-ZGVsYXk7DQotCX0gd2hpbGUgKHdhaXQgPiAwKTsNCi0NCi0JcmV0dXJuIC1FVElNRURPVVQ7DQor
-CXJldHVybiByZWFkbF9wb2xsX3RpbWVvdXRfYXRvbWljKHB0ciwgcmVzdWx0LA0KKwkJCQkJICgo
-cmVzdWx0ICYgbWFzaykgPT0gZG9uZSksDQorCQkJCQkgZGVsYXksIHdhaXQpOw0KIH0NCiANCiBz
-dGF0aWMgdm9pZCBfX2luaXQgeGRiY19iaW9zX2hhbmRvZmYodm9pZCkNCi0tIA0KMS45LjENCg==
+Hi Rajmohan,
+
+On Fri, Aug 21, 2020 at 09:05:06PM -0700, Rajmohan Mani wrote:
+> Input Output Manager (IOM) is part of the Tiger Lake SoC that
+> configures the Type-C Sub System (TCSS). IOM is a micro controller
+> that handles Type-C topology, configuration and PM functions of
+> various Type-C devices connected on the platform.
+> 
+> This driver helps read relevant information such as Type-C port
+> status (whether a device is connected to a Type-C port or not) and
+> the activity type on the Type-C ports (such as USB, Display Port,
+> Thunderbolt), for consumption by other drivers.
+> 
+> Currently intel_iom_port_status() API is exported by this driver,
+> that has information about the Type-C port status and port activity
+> type.
+> 
+> Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
+> ---
+
+Perhaps include a version log of changes since v1?
+> diff --git a/drivers/platform/x86/intel_iom.c b/drivers/platform/x86/intel_iom.c
+> new file mode 100644
+> index 000000000000..cda7716410c6
+> --- /dev/null
+> +++ b/drivers/platform/x86/intel_iom.c
+> +int intel_iom_port_status(u8 port, u32 *status)
+> +{
+> +	void __iomem *reg;
+> +
+> +	if (!iom || !iom->dev || !iom->regbar)
+
+Do we need to check for !iom->dev and !iom->regbar? Is there a valid
+situation where iom != NULL but iom->dev and/or iom->regbar == NULL?
+Sounds like it shouldn't, but I may be missing something.
+
+> +		return -ENODEV;
+> +
+> +	if (!status || (port > IOM_MAX_PORTS - 1))
+
+I think parentheses around "port > IOM_MAX_PORT - 1" aren't required.
+> +		return -EINVAL;
+> +
+> +	reg = iom->regbar + IOM_PORT_STATUS_OFFSET + IOM_REG_LEN * port;
+> +
+> +	*status = ioread32(reg);
+
+Perhaps just inline reg within the parentheses?
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(intel_iom_port_status);
+> +
+> +static int intel_iom_probe(struct platform_device *pdev)
+> +{
+> +	void __iomem *addr;
+> +
+> +	/* only one IOM device is supported */
+
+Minor nit: s/only/Only
+> +	if (iom)
+> +		return -EBUSY;
+> +
+> +	iom = devm_kzalloc(&pdev->dev, sizeof(*iom), GFP_KERNEL);
+> +	if (!iom)
+> +		return -ENOMEM;
+> +
+> +	addr = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(addr))
+> +		return PTR_ERR(addr);
+> +
+> +	iom->regbar = addr;
+> +	iom->dev = &pdev->dev;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct acpi_device_id intel_iom_acpi_ids[] = {
+> +	{ "INTC1072" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(acpi, intel_iom_acpi_ids);
+> +
+> +static struct platform_driver intel_iom_driver = {
+> +	.probe = intel_iom_probe,
+
+nit: I generally see ".probe" listed below ".driver".
+> +	.driver = {
+> +		.name = "intel_iom",
+> +		.acpi_match_table = intel_iom_acpi_ids,
+> +	},
+> +};
+> +
+> +module_platform_driver_probe(intel_iom_driver, intel_iom_probe);
+> +
+> +MODULE_AUTHOR("Rajmohan Mani <rajmohan.mani@intel.com>");
+> +MODULE_DESCRIPTION("Intel IOM driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/platform_data/x86/intel_iom.h b/include/linux/platform_data/x86/intel_iom.h
+> new file mode 100644
+> index 000000000000..e4c9a305e7a9
+> --- /dev/null
+> +++ b/include/linux/platform_data/x86/intel_iom.h
+> @@ -0,0 +1,49 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _PLATFORM_DATA_X86_INTEL_IOM_H_
+> +#define _PLATFORM_DATA_X86_INTEL_IOM_H_
+> +
+> +
+> +#define IOM_MAX_PORTS					4
+> +/* Register length in bytes */
+> +#define IOM_REG_LEN					4
+
+Do these two #define's need to be in the header, instead of directly in
+intel_iom.c ?
+
+> +
+> +#ifdef CONFIG_ACPI
+> +
+> +int intel_iom_port_status(u8 port, u32 *status);
+> +
+> +#else
+> +
+> +int intel_iom_port_status(struct intel_iom *iom, u8 port, u32 *status)
+
+Should the function signature be the same as the #ifdef case?
+
+Best regards,
+
+-Prashant
 
