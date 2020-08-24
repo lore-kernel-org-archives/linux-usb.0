@@ -2,140 +2,110 @@ Return-Path: <SRS0=p1xS=CC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D55EFC433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 09:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B57A2C433E3
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 09:46:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABFA4207D3
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 09:43:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9621B207D3
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 09:46:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598262198;
-	bh=xHVnEn8L+um93Z6eyZrHIj8jRh+WBincPKBqWKcafJE=;
+	s=default; t=1598262367;
+	bh=2nhCxMCmnO85Nd94oBEg/OZ0htG1dlbyZu4zPre8TWk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=At+8YG38PFz3Gd4lrg3kyQ5VnTRI2HiQCuTS2RZ1hcHCHCs9EZZImEg3HKpo1LIUp
-	 WVKBPJHtRM1vEqivf7AMVNEyucpdsPKJGyAbJkLcdEZhotXwfs18uxauPxqgMupmx/
-	 lEmNHBZN6JVdzR3CLrtAPvp2O3ZckUI9is+Tzc6I=
+	b=zZbUpMchl8/ub795/d/9YyH/zbMw1A5cOxgUkFbagxmqeBa2EBTGJN2j8j3NZG5AR
+	 rl0KA5IOS3TO4GW1zpp3yw3YBIiLqkn2G3BXNHSCMok/K0N2a7FFiiTHo5MV80caF+
+	 cli3HhCC03bZwKQ0/NaUGuWU4nfUH0d3/9C+p/ks=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729306AbgHXJnP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Aug 2020 05:43:15 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:38337 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729176AbgHXJnL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Aug 2020 05:43:11 -0400
-Received: by mail-lf1-f68.google.com with SMTP id k10so1144093lfm.5;
-        Mon, 24 Aug 2020 02:43:08 -0700 (PDT)
+        id S1728942AbgHXImY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Aug 2020 04:42:24 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33476 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728933AbgHXImT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Aug 2020 04:42:19 -0400
+Received: by mail-lj1-f193.google.com with SMTP id v4so8696243ljd.0
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2020 01:42:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=B+sPpbAS75cGxaYopa1UoLFzKyaPQjVAHOZZ21i/IqI=;
-        b=fu8wQ7QFQpFE0Uv2l3IpS1bvMo4pYxj6hnQyCsNhWJEHS6xKmP3Pdb8U6boyiSO1+3
-         oEdFS0jFXaQg15GC2JLhH7X+0Su15vp1Ar+T6V8VRqpgEYPwRkjJwbfbpBfanUizjXXg
-         rEvL6PUa4uQuwf/ilWe6prBafDVa6WNRHqRc2sqNii5WY7Ny3lEO//dGxFOwyBoIhBVU
-         fZPYHzaayXTDViJ0IV4bg875Q+OKBG5lGQqKtXTyNaq9xWs0UtbClqya/MSH2LHjGYTI
-         iKmSyNS8W/EmB5k8DkU9DWjbXqLXF+ickzVv7vfyKXw280CFgoQAWpdp9jdWGevG2WUV
-         vP8w==
-X-Gm-Message-State: AOAM533uasoIZKqtN5k0W/FOJXUh62mXSbPB+ZKy1gKD3l5LfgabZkWO
-        WWJMt6ADvcrm2UtuM9xPrbM=
-X-Google-Smtp-Source: ABdhPJwRaluAeFEm/kpc6gnTtpSDh+hopLCqZnp2vTegFRD1V8+piLnV+XMyENeg6g7FhPNgvxjnqw==
-X-Received: by 2002:ac2:5235:: with SMTP id i21mr2251097lfl.96.1598262188023;
-        Mon, 24 Aug 2020 02:43:08 -0700 (PDT)
+        bh=xF4+I7yz/q93sE1EkWzLpydwJ/6ThImcWnlbA6qH6yk=;
+        b=HX3jTj5sQP5kCKzd+ypy1i2Muc8pBpSE2p7MirT2TSOCm0idzGNCiEcy+/oZL7QuaW
+         hPckDRUxFiYbEHbbUbuczehG0qwjVp25Z/G2vX9FnCE49twaIjSiIe7h0sjQQPgkxhAQ
+         8LU67GYUJY7JcECdYgDIGh3mFoJDC1b1r1G89xz+Tx0lUO6IQZXHHPLZEAw4hP0Fj4Px
+         My+3Fpohq47Qp0IjolZwK/1FKbtDBw51VGSTR6hMI23fRWGgxefD/+NDX1e4D6f+VE70
+         AJeL+D3uoLuTiLSBGraAkYiT7Qett7N45XfmgkfdS0i/KApzgIdjEV9Kz65FVgTXhtyJ
+         2fOA==
+X-Gm-Message-State: AOAM533wjTOM8oRsU72HTKaxxOBTjzSpa7IOChyFfOOXWgwKnmGX5HmE
+        8IoKStFHMkOeRmgRKTvrV5Ureo5NAw+OFA==
+X-Google-Smtp-Source: ABdhPJyUtjFA9Goy36H6Su4s5VvgZNa8tw3JHVerT2P+7OxU2FnbhFqt6V6iGROvLooMCiC97oQxPg==
+X-Received: by 2002:a2e:b306:: with SMTP id o6mr1955840lja.361.1598258536073;
+        Mon, 24 Aug 2020 01:42:16 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id b17sm2105269ljp.9.2020.08.24.02.43.07
+        by smtp.gmail.com with ESMTPSA id 80sm2058675ljf.38.2020.08.24.01.42.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 02:43:07 -0700 (PDT)
+        Mon, 24 Aug 2020 01:42:15 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1kA90N-0007A7-1V; Mon, 24 Aug 2020 11:43:07 +0200
-Date:   Mon, 24 Aug 2020 11:43:07 +0200
+        id 1kA83S-0006kV-N0; Mon, 24 Aug 2020 10:42:14 +0200
+Date:   Mon, 24 Aug 2020 10:42:14 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Jan Kiszka <jan.kiszka@siemens.com>
-Cc:     "Wang, Sheng Long (EXT) (RC-CN DI FA R&D SW)" 
-        <shenglong.wang.ext@siemens.com>, Johan Hovold <johan@kernel.org>,
-        Sheng Long Wang <china_shenglong@163.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] usb-serial:cp210x: add support to software flow
- control
-Message-ID: <20200824094307.GE21288@localhost>
-References: <20200820075240.13321-1-china_shenglong@163.com>
- <97836b78-740b-cf70-4803-27305b6e0a4d@siemens.com>
- <20200824090948.GC21288@localhost>
- <f21d4cc8b12d4ec6870623472ca7df09@siemens.com>
- <faddf44e-db1d-46e5-b6db-88168b0cc808@siemens.com>
+To:     bugzilla-daemon@bugzilla.kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [Bug 208959] New: USB-serial (mct_u232): bit7=1 when tty is set
+ to cs7?
+Message-ID: <20200824084214.GA21288@localhost>
+References: <bug-208959-208809@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <faddf44e-db1d-46e5-b6db-88168b0cc808@siemens.com>
+In-Reply-To: <bug-208959-208809@https.bugzilla.kernel.org/>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 11:36:50AM +0200, Jan Kiszka wrote:
-> On 24.08.20 11:28, Wang, Sheng Long (EXT) (RC-CN DI FA R&D SW) wrote:
-> > Hi Johan,
-> > 
-> >     Thanks for your reminding. I am adjusting patch according to the latest Linux Master branch.
+On Wed, Aug 19, 2020 at 02:52:47AM +0000, bugzilla-daemon@bugzilla.kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=208959
 > 
-> Use git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git, branch
-> is likely usb-linus, as Johan requested - just in case there is another
-> conflict due to a patch not yet in Linux master but in that tree.
-
-The usb-next is used for new features like this one, but again,
-currently Linus's master branch works as well.
-
-> > -----Original Message-----
-> > From: Johan Hovold <johan@kernel.org> 
-> > Sent: Monday, August 24, 2020 5:10 PM
-> > To: Kiszka, Jan (CT RDA IOT SES-DE) <jan.kiszka@siemens.com>
-> > Cc: Sheng Long Wang <china_shenglong@163.com>; Wang, Sheng Long (EXT) (RC-CN DI FA R&D SW) <shenglong.wang.ext@siemens.com>; johan@kernel.org; gregkh@linuxfoundation.org; linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org
-> > Subject: Re: [PATCH v3] usb-serial:cp210x: add support to software flow control
-> > 
-> > On Fri, Aug 21, 2020 at 07:32:58AM +0200, Jan Kiszka wrote:
-> >> On 20.08.20 09:52, Sheng Long Wang wrote:
-> >>> From: Wang Sheng Long <shenglong.wang.ext@siemens.com>
-> >>>
-> >>> When data is transmitted between two serial ports, the phenomenon of 
-> >>> data loss often occurs. The two kinds of flow control commonly used 
-> >>> in serial communication are hardware flow control and software flow 
-> >>> control.
-> >>>
-> >>> In serial communication, If you only use RX/TX/GND Pins, you can't 
-> >>> do hardware flow. So we often used software flow control and prevent 
-> >>> data loss. The user sets the software flow control through the 
-> >>> application program, and the application program sets the software 
-> >>> flow control mode for the serial port chip through the driver.
-> >>>
-> >>> For the cp210 serial port chip, its driver lacks the software flow 
-> >>> control setting code, so the user cannot set the software flow 
-> >>> control function through the application program. This adds the 
-> >>> missing software flow control.
-> >>>
-> >>> Signed-off-by: Wang Sheng Long <shenglong.wang.ext@siemens.com>
-> >>>
-> >>> Changes in v3:
-> >>> -fixed code style, It mainly adjusts the code style acccording  to 
-> >>> kernel specification.
-> >>
-> >> Patch does not apply. You forgot to rebase over latest tty/tty-next or 
-> >> linux master.
-> > 
-> > That should be the usb-next branch of the usb-serial tree:
-> > 
-> > 	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/
-> > 
-> > or linux-next (or, currently, Linus's master branch).
-> > 
-> > You can use "scripts/get_maintainer.sh --scm" to determine which tree to base your work against.
+>             Bug ID: 208959
+>            Summary: USB-serial (mct_u232): bit7=1 when tty is set to cs7?
+>            Product: Drivers
+>            Version: 2.5
+>     Kernel Version: 5.7.0
+>           Hardware: All
+>                 OS: Linux
+>               Tree: Mainline
+>             Status: NEW
+>           Severity: low
+>           Priority: P1
+>          Component: USB
+>           Assignee: drivers_usb@kernel-bugs.kernel.org
+>           Reporter: mslade@epic-code.com.au
+>         Regression: No
 > 
-> Thanks for correcting! But it's scripts/get_maintainer.pl. ;)
+> I'm not 100% certain this is a bug, please let me know if this is expected
+> behavior.
+> 
+> I have hooked an old serial mouse up to a USB serial device, USB ID 0711:0230
+> (part of an circa 2000 Targus port replicator)
+> 
+> when I configure it with the appropriate 1200 baud and 7 bit char width, the
+> bytes that come through /dev/ttyUSB0 all have bit7 set to 1.
+> 
+> This behavior is in contrast to an old serial port on a box running a 2.4.19
+> kernel.
+> 
+> Is there a standard for the value that non-data bits should be set to?
 
-Heh. Thanks for catching that.
+This sounds like a configuration issue. If the mouse is indeed using
+7n1 and the converter is expecting 8n1 you could end up with bit 7
+always set on input.
+
+Can you verify that the converter is configured correctly, for example,
+by reading out the termios settings, enabling debugging and/or
+connecting it to another serial port configured for 7n1?
 
 Johan
