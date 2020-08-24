@@ -2,89 +2,111 @@ Return-Path: <SRS0=p1xS=CC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B847C433E1
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60284C433E1
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FCB6206B5
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:11:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47A2F206B5
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:11:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgHXOLN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Aug 2020 10:11:13 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:2505 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725904AbgHXOLC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Aug 2020 10:11:02 -0400
+        id S1726158AbgHXOL3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Aug 2020 10:11:29 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:5163 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726086AbgHXOLM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Aug 2020 10:11:12 -0400
 X-IronPort-AV: E=Sophos;i="5.76,348,1592838000"; 
-   d="scan'208";a="55383431"
+   d="scan'208";a="55166777"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Aug 2020 23:10:58 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 24 Aug 2020 23:11:07 +0900
 Received: from localhost.localdomain (unknown [172.29.53.152])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1A0FE40031C8;
-        Mon, 24 Aug 2020 23:10:55 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3990240031C8;
+        Mon, 24 Aug 2020 23:11:05 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-usb@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 0/5] Remodel HD3SS3220 device nodes
-Date:   Mon, 24 Aug 2020 15:10:48 +0100
-Message-Id: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 3/5] usb: typec: hd3ss3220: Use OF graph API to get the connector fwnode
+Date:   Mon, 24 Aug 2020 15:10:51 +0100
+Message-Id: <20200824141053.5062-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
+References: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some platforms have only super speed data bus connected to HD3SS3220 device
+Some platforms have only super speed data bus connected to this device
 and high speed data bus directly connected to the SoC. In such platforms
 modelling connector as a child of this device is making it non compliant
 with usb connector bindings. By modelling connector node as standalone
-device node along with HD3SS3220 device and the SoC data bus will make it
+device node along with this device and the SoC data bus will make it
 compliant with usb connector bindings.
+Update the driver to handle this model by using OF graph API to get the
+connector fwnode and usb role switch class API to get role switch handle.
 
-It is based on the below discussion threads
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+v2->v3: Added Heikki's reviewed by tag.
+v1->v2: Fixed the commit message (https://patchwork.kernel.org/patch/11700777/)
+Ref:https://patchwork.kernel.org/patch/11669423/
+---
+ drivers/usb/typec/hd3ss3220.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-1) https://patchwork.kernel.org/patch/11669423/
-2) https://patchwork.kernel.org/patch/11129567/
-
-v2->v3
-  * Added Heikkei's reviewed by tag
-  * Incorporated Shimoda-san's review comments for binding patch.
-    (https://patchwork.kernel.org/patch/11708831/)
-
-
-Biju Das (4):
-  dt-bindings: usb: renesas,usb3-peri: Document HS and SS data bus
-  usb: typec: hd3ss3220: Use OF graph API to get the connector fwnode
-  arm64: dts: renesas: cat874: Move connector node out of hd3ss3220
-    device
-  arm64: dts: renesas: beacon-renesom-baseboard: Move connector node out
-    of hd3ss3220 device
-
-Lad Prabhakar (1):
-  dt-bindings: usb: convert ti,hd3ss3220 bindings to json-schema
-
- .../bindings/usb/renesas,usb3-peri.yaml       | 34 ++++++--
- .../devicetree/bindings/usb/ti,hd3ss3220.txt  | 38 ---------
- .../devicetree/bindings/usb/ti,hd3ss3220.yaml | 81 +++++++++++++++++++
- .../dts/renesas/beacon-renesom-baseboard.dtsi | 67 +++++++++++----
- .../boot/dts/renesas/r8a774c0-cat874.dts      | 67 +++++++++++----
- drivers/usb/typec/hd3ss3220.c                 | 18 ++++-
- 6 files changed, 224 insertions(+), 81 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
- create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-
+diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+index 323dfa8160ab..f633ec15b1a1 100644
+--- a/drivers/usb/typec/hd3ss3220.c
++++ b/drivers/usb/typec/hd3ss3220.c
+@@ -155,7 +155,7 @@ static int hd3ss3220_probe(struct i2c_client *client,
+ {
+ 	struct typec_capability typec_cap = { };
+ 	struct hd3ss3220 *hd3ss3220;
+-	struct fwnode_handle *connector;
++	struct fwnode_handle *connector, *ep;
+ 	int ret;
+ 	unsigned int data;
+ 
+@@ -173,11 +173,21 @@ static int hd3ss3220_probe(struct i2c_client *client,
+ 
+ 	hd3ss3220_set_source_pref(hd3ss3220,
+ 				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
++	/* For backward compatibility check the connector child node first */
+ 	connector = device_get_named_child_node(hd3ss3220->dev, "connector");
+-	if (!connector)
+-		return -ENODEV;
++	if (connector) {
++		hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
++	} else {
++		ep = fwnode_graph_get_next_endpoint(dev_fwnode(hd3ss3220->dev), NULL);
++		if (!ep)
++			return -ENODEV;
++		connector = fwnode_graph_get_remote_port_parent(ep);
++		fwnode_handle_put(ep);
++		if (!connector)
++			return -ENODEV;
++		hd3ss3220->role_sw = usb_role_switch_get(hd3ss3220->dev);
++	}
+ 
+-	hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
+ 	if (IS_ERR(hd3ss3220->role_sw)) {
+ 		ret = PTR_ERR(hd3ss3220->role_sw);
+ 		goto err_put_fwnode;
 -- 
 2.17.1
 
