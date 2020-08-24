@@ -6,43 +6,42 @@ X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09837C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 10:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37BCAC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 10:23:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA41920738
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 10:18:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 200022074D
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 10:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725998AbgHXKSn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Aug 2020 06:18:43 -0400
-Received: from mga07.intel.com ([134.134.136.100]:23751 "EHLO mga07.intel.com"
+        id S1726336AbgHXKXg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Aug 2020 06:23:36 -0400
+Received: from mga12.intel.com ([192.55.52.136]:19397 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725906AbgHXKSm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Aug 2020 06:18:42 -0400
-IronPort-SDR: 4gSqMXReSc41Pga5mrb5b83H3813ZQ9xckZ3WiaXbcStXu1TobyT64C73WWi2fB2dmjxY212qA
- 2E+k3PzbqrwQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9722"; a="220141946"
+        id S1726037AbgHXKXf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 24 Aug 2020 06:23:35 -0400
+IronPort-SDR: d2EMnWb52uE3CtJY9FxddMUfaBr+4TG8Er1EwM0j1RVp9m7f+PlonoMPeiM8NA1YlWH0uMotsz
+ P9yoJReUnWaw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9722"; a="135417242"
 X-IronPort-AV: E=Sophos;i="5.76,348,1592895600"; 
-   d="scan'208";a="220141946"
+   d="scan'208";a="135417242"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 03:18:41 -0700
-IronPort-SDR: h6XJMyCDkjDoaKZMdd9xgkTX5id0vEKn9eX4vR3Qxx3t0ufC7vnA6IJBPUWQIit3fJ7zX6zedW
- pOQqsOQwYdpQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 03:23:34 -0700
+IronPort-SDR: QfHohbnfRKtaIH/cTSU5hcl2vCfuTFDbU1Lig4HRhcpXLzIoKmoxiJB1wcAxx4JUDex0TqLKNn
+ QtHkv5U+hD4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,348,1592895600"; 
-   d="scan'208";a="330963604"
+   d="scan'208";a="330965151"
 Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2020 03:18:40 -0700
-Subject: Re: Data toggles not reset on "set configuration" for ports handled
- by "xhci_hcd" driver
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Martin Thierer <mthierer@gmail.com>
-Cc:     linux-usb@vger.kernel.org
-References: <CAL3BvCzb6dGZOm6jy2PddSfioM7hThMEBm+aQ_gmMAWAXFYOuQ@mail.gmail.com>
- <20200821160321.GA256196@rowland.harvard.edu>
- <CAL3BvCyz3W+aRu0e=RE3teaMMh6KDYxu8NbFicY07Xt-=f9Whg@mail.gmail.com>
- <20200821170106.GB256196@rowland.harvard.edu>
+  by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2020 03:23:32 -0700
+Subject: Re: [PATCH 3/3] xhci: Always restore EP_SOFT_CLEAR_TOGGLE even if ep
+ reset failed
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Ding Hui <dinghui@sangfor.com.cn>,
+        stable <stable@vger.kernel.org>
+References: <20200821091549.20556-1-mathias.nyman@linux.intel.com>
+ <20200821091549.20556-4-mathias.nyman@linux.intel.com>
+ <20200823151251.GA2914810@kroah.com>
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
@@ -87,52 +86,51 @@ Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
  Gjynb3sXforM/GVbr4mnuxTdLXQYlj2EJ4O4f0tkLlADT7podzKSlSuZsLi2D+ohKxtP3U/r
  42i8PBnX2oAV0UIkYk7Oel/3hr0+BP666SnTls9RJuoXc7R5XQVsomqXID6GmjwFQR5Wh/RE
  IJtkiDAsk37cfZ9d1kZ2gCQryTV9lmflSOB6AFZkOLuEVSC5qW8M/s6IGDfYXN12YJaZPptJ fiD/
-Message-ID: <d11a91f5-2bb8-01ce-c8b8-4512a2cf2793@linux.intel.com>
-Date:   Mon, 24 Aug 2020 13:22:02 +0300
+Message-ID: <4101386a-f5c1-b4e8-d086-e155983320a6@linux.intel.com>
+Date:   Mon, 24 Aug 2020 13:26:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200821170106.GB256196@rowland.harvard.edu>
+In-Reply-To: <20200823151251.GA2914810@kroah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21.8.2020 20.01, Alan Stern wrote:
-> On Fri, Aug 21, 2020 at 06:34:55PM +0200, Martin Thierer wrote:
->> I read the usb 2.0 specs and generally came to the same conclusion,
->> except I wasn't 100% sure because 9.1.1.5 talks about "configuring" in
->> the context of bringing a device into the "configured" state, which
->> one could argue isn't really the case if a "set configuration" message
->> is sent to a device that is already configured with the exact same
->> configuration.
-> 
-> Nonsense.  The text explicitly says "configuration involves correctly 
-> processing a SetConfiguration() request with a non-zero configuration 
-> value."  There's no requirement about what state the device was in 
-> previously.
-> 
->>> Together these should explain the correct behavior.
+On 23.8.2020 18.12, Greg KH wrote:
+> On Fri, Aug 21, 2020 at 12:15:49PM +0300, Mathias Nyman wrote:
+>> From: Ding Hui <dinghui@sangfor.com.cn>
 >>
->> I'm not sure I understand what you're implying here. That the kernel's
->> behaviour is correct or not?
+>> Some device drivers call libusb_clear_halt when target ep queue
+>> is not empty. (eg. spice client connected to qemu for usb redir)
+>>
+>> Before commit f5249461b504 ("xhci: Clear the host side toggle
+>> manually when endpoint is soft reset"), that works well.
+>> But now, we got the error log:
+>>
+>>     EP not empty, refuse reset
+>>
+>> xhci_endpoint_reset failed and left ep_state's EP_SOFT_CLEAR_TOGGLE
+>> bit still set
+>>
+>> So all the subsequent urb sumbits to the ep will fail with the
+>> warn log:
+>>
+>>     Can't enqueue URB while manually clearing toggle
+>>
+>> We need to clear ep_state EP_SOFT_CLEAR_TOGGLE bit after
+>> xhci_endpoint_reset, even if it failed.
+>>
+>> Fixes: f5249461b504 ("xhci: Clear the host side toggle manually when endpoint is soft reset"
 > 
-> That the EHCI behavior is correct and the xHCI behavior is wrong.
+> Nit, you forgot the trailing ')' here...
+> 
 
-True, xHCI doesn't reset the toggle in this case.
-xHC only keeps track of added or dropped endpoints, it doesn't track
-which configuration or interface is set.
+Argh, I had one job.. 
+Odd that checkpatch didn't catch that.
+Thanks for fixing and applying
 
-If the SetConfiguration() request doesn't cause any endpoint add/drop change
-then xhci driver won't do anything.
-To reset the toggle we should mark the endpoints as both dropped and added,
-and issue a configure endpoint xhci command. 
-
-The same xhci codepath is called from other places as well, I need to check
-a change like this won't cause any other issues
-
--Mathias
- 
+-Mathias 
