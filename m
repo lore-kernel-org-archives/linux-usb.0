@@ -2,119 +2,214 @@ Return-Path: <SRS0=p1xS=CC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2851CC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE28C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:27:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02A8720738
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:12:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09889205CB
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Aug 2020 14:27:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=infinera.com header.i=@infinera.com header.b="NRoYwGlm"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="GQzOCkl7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725946AbgHXOM1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Aug 2020 10:12:27 -0400
-Received: from mail-mw2nam10on2058.outbound.protection.outlook.com ([40.107.94.58]:57238
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725781AbgHXOMW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Aug 2020 10:12:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tr/rFhnm/V3O7+E2+GIQQfKjWrWIFRYfGZJLp8FblX9rXRIca/yikXNiCjLUXJLwEGir6FqbPSLKUboJfSQUj0DCqBAISPz5snnR2ItprEtG7ZgwcUkGaAHfyq0AhIkAOVruoW+N9+vrp73S/UqBpsZqllMB8QApqmGGzQNFMUAhF0oNxFi/1Mbs8gW4MP3W0HEGr4YqEhHNzOGE3NRa6OrVJS9oYVc1mBs/X13tLOr+W9qHcSyHaQRwFMLC+CJ/lBtNETGo2qpUqHNuxyvMKC4kOe6tjpvfmpALxL4N6LzE7utBBSHbBOMNaFztXGdTtOQxGH+LGqLovhBfTbgGUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ve7Zexl5oIH2fMqK8V7bcneL3Ny5GwD+ragrv5d1M4U=;
- b=njJlp4Vo7+UICh0y9la4mF1fJVYEm7gci/VK+rinL/ye8vC+/sr9Lspv7LLX1k/zothOD3Ax2/ynzQpUB3/8fswstGTuSjS2Cb0kSpFr9GcIK1rn9GGutIVOID5uV2w7VRnaAXXvellqkCJFP+r2i7K9EBrsI/eGg+T/qxMj36IXuQhincKYZVy4prtX/rjd+IWS8bGQMCZl99oAt36jAYFHQshN0GMQmgqwz3mENyxnGFSjkEKgE9RmRSrHuqUtDMAlhRY0YLt9ahn4pRJ3c+oZJsUNVHmlibbDJsCMQuGryrj7y9kz9OvR8ipzazYjEKJ4+ULDk49YVi8IggZUaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ve7Zexl5oIH2fMqK8V7bcneL3Ny5GwD+ragrv5d1M4U=;
- b=NRoYwGlmR5J7XA5pacz3ApuqPWCUzYyQRysUD9Sb4cvg4fZ29F5+TV3LHPoEWRA+XNcDdm21evd+zLBls/US++wyhgoxEwMqrLrIsR9fDDx8qH+C+q33Z3nK6u5a+obd5RtM3HU4uHqCApD963kco1/yfyc6JW0tQwS7JUgjN4Y=
-Received: from CY4PR1001MB2389.namprd10.prod.outlook.com
- (2603:10b6:910:45::21) by CY4PR1001MB2310.namprd10.prod.outlook.com
- (2603:10b6:910:4a::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 14:12:19 +0000
-Received: from CY4PR1001MB2389.namprd10.prod.outlook.com
- ([fe80::7c3b:e8e3:3d1b:284d]) by CY4PR1001MB2389.namprd10.prod.outlook.com
- ([fe80::7c3b:e8e3:3d1b:284d%7]) with mapi id 15.20.3283.024; Mon, 24 Aug 2020
- 14:12:19 +0000
-From:   Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To:     "yebin10@huawei.com" <yebin10@huawei.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "balbi@kernel.org" <balbi@kernel.org>
-CC:     "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "leoyang.li@nxp.com" <leoyang.li@nxp.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: gadget: fsl: Fix unsigned expression compared with
- zero in fsl_udc_probe
-Thread-Topic: [PATCH] usb: gadget: fsl: Fix unsigned expression compared with
- zero in fsl_udc_probe
-Thread-Index: AQHWee+zZeLUHMNpPkKw58UdehD37KlG8waAgABWdYCAAAPLAA==
-Date:   Mon, 24 Aug 2020 14:12:19 +0000
-Message-ID: <2c2317ff8385f75466cbfa1f0109a1f2c3acbc48.camel@infinera.com>
-References: <20200824080437.229826-1-yebin10@huawei.com>
-         <20200824082122.GA336539@kroah.com>
-         <f61f4bc3916f852799edb6af9740afb2118ec84f.camel@infinera.com>
-         <87d03gjgbw.fsf@kernel.org>
-In-Reply-To: <87d03gjgbw.fsf@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.37.90 
-authentication-results: huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=none action=none header.from=infinera.com;
-x-originating-ip: [88.131.87.201]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 593d0e38-d6f5-41e7-5fd0-08d84837b68b
-x-ms-traffictypediagnostic: CY4PR1001MB2310:
-x-microsoft-antispam-prvs: <CY4PR1001MB2310401DA5E012FA2ECD342CF4560@CY4PR1001MB2310.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6cbQN6ntAJaZthepAH450Kz04mz0w8jyCSxEwa1CY4bsp6e9475w5KphmD8GGLfO5ubw11u/m3LQPiSD1UcxhiJCLtSBjbpstN47wMDG3acQHLrG/nSiDOfFtd/gJJ3EyN9K/rsqpOvdrRkI0u8AW4YLJRL4e33D5Q+ivxFeSQHLBqpkgApXAKqUCeFKB4tFszpJQVG0gGJjdgxt4OrcWSXRVOY8PDoyaLcF+Vui5WiM+q+X+n+EGeaSUdysWmp2ijsvY41REHhvc7bLHDBfQDrAkVQJ5EssojcYw/OsVpxvfWpOpx5m03PA4GQ0mlBG
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1001MB2389.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(396003)(366004)(376002)(136003)(5660300002)(2906002)(6486002)(478600001)(71200400001)(4326008)(66476007)(8936002)(76116006)(66946007)(91956017)(66446008)(64756008)(66556008)(2616005)(4744005)(83380400001)(6506007)(36756003)(110136005)(8676002)(316002)(26005)(186003)(86362001)(6512007)(54906003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: EYP9TRwnph8L8M/CjQeKqL2xH0HQDzHEcXrj/AHqpyvZL/qoMdW4YeP4Erx+6A/+VhZ/ntbwUPokga4A7AInVRmiKX38kG+v903xUxI27k0MgdJleHeBtf9HxE6LYgrvS37KM8sAmZ8W/ldWvepD3EukJ6ISgGqMwHe3qyHfeakKYP4keOO2j0n6KL+JtXcgFsUHP8TFR+s/NEwyCqQL8p4hwkJ232y4ohzMnhQezK5ZwVgQNR2nnixSg1LsPrWwBrsvDmoGV/Oh4QstpldIftEL9fIRI9KnZ/mSn1/2ONxOBglrmEqVf2YL1hOuHWKJwnfOKSu9ZtuudIHdz+H9Y4uY/BsVwLs0U0gn1ZpzxlezXcEFRtOaAtCgYSsNq3rrw4hZUVb298Caxhxa4tl45x5KuXlo33J2Y84u1wuR0Ds4QNyTVIq8ajF/yXEAXS5Y+DbpSfLQHsbP2cO5AfitI+sZFUpq5UX1eKvI++p8ZZ8h5X7W4xHgDggLB2/JyMfc1BIN54jRV0f2CVpuogX34HOdTOwgQr7SRVlUAuCB4kxuJYby5UZmYSvMOdmVIMWSWe2AM2RYrdaUYw/ufGgtYKPvECN03GrOiOinjak0cqbdQG8wyjfkgZmrixXLZD8JtoyNVJzBaWEExghXD+Ut5w==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0EF1F40D8FB9264A955F0CD3B04A6FA7@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1725958AbgHXO1D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Aug 2020 10:27:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbgHXO1C (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Aug 2020 10:27:02 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00729C061573
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2020 07:27:01 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id x7so2835481wro.3
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2020 07:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=references:user-agent:from:to:cc:subject:in-reply-to:date
+         :message-id:mime-version;
+        bh=2emyNJrlb5jnYs1P9Do7LS3bNbFY/IfjxvJcHgILF3A=;
+        b=GQzOCkl7SM0GbJfPqA1ei4ixX5vptg0iMa5giiWN7QkOrsE2WSMHk9TUdhiIrKu50s
+         koKvRmF43Xc/TpHOswEJxYEaN9i2Irra/INxrZWyy/FVkUbZDSG/OQkHUX4PZI8IXuUv
+         BGWHfMb8pa4ShXrMqslHqT8w+rIMz1MzexcHHCpSxpOZ2Qfu1N/E8O715mmI2sNFgrS9
+         Ika2iR/Z8CajnvnlE5937OjY8UsUO4BcG4ZqBjlASwMg7qKB6/PFpXH28DQLPuiwB0lC
+         OLML+ihQ4xyjndzsk58tMyJNhT/8LtJU28PxrQXi5iYabPModdvcBPV1hetRFdvWebkb
+         j2DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:date:message-id:mime-version;
+        bh=2emyNJrlb5jnYs1P9Do7LS3bNbFY/IfjxvJcHgILF3A=;
+        b=rgceJKugcvlEEBgF1vgw0P2l9p1ctSMIvTa87jLMSmnG/dZj6+NRiR0Tam7gguZKVQ
+         KNQLGZdXK8U4rnMiAQUy4yUHjE/Ch6ruedpraL0Hpnn0wEe2xVEWRGMorAOiJBrC35Qp
+         hw4+WsACDbtPyXMU84/x4NfIMTL4paItzLIf7zenjnkxfjZus8F1X7AMvAZNFPb2IA4Y
+         EeUzt88CqHr5Aoj++QnTETKh6Usjr1H84W6leHFrHTmAUVfaGve32sGwsQHIUCM/sL7/
+         zfpda2tx7Mn8q2AkSmKpFoo7ddKf33S5WLNCg883CL8XxZb/OF9OXYRhSskzmoCxW1cz
+         YXnQ==
+X-Gm-Message-State: AOAM531xczPkpGtxhzwAwr5OiuOBTWkQa2Y5dtYzSAZQNTzyolxnfMOG
+        OPPaXyCSKCpHHIggcV44RYc/RQ==
+X-Google-Smtp-Source: ABdhPJxhaK7T/M0F8uerHG/6BtyfrIa9WjDU8cbekxjYnSuxXuEXNdRACf99oX8emBSDFEB6g3LSgA==
+X-Received: by 2002:adf:ee11:: with SMTP id y17mr6040291wrn.294.1598279220534;
+        Mon, 24 Aug 2020 07:27:00 -0700 (PDT)
+Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id z8sm23264799wmf.10.2020.08.24.07.26.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2020 07:26:59 -0700 (PDT)
+References: <20200713160522.19345-1-dan@dlrobertson.com> <20200713160522.19345-2-dan@dlrobertson.com> <1jy2maekzf.fsf@starbuckisacylon.baylibre.com> <ff07b04450080fd14d8da4470aeb6e1c28e4215f.camel@pengutronix.de>
+User-agent: mu4e 1.3.3; emacs 26.3
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Dan Robertson <dan@dlrobertson.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>
+Cc:     linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, aouledameur@baylibre.com
+Subject: Re: [PATCH 1/1] usb: dwc3: meson-g12a: fix shared reset control use
+In-reply-to: <ff07b04450080fd14d8da4470aeb6e1c28e4215f.camel@pengutronix.de>
+Date:   Mon, 24 Aug 2020 16:26:59 +0200
+Message-ID: <1j8se43yrw.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1001MB2389.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 593d0e38-d6f5-41e7-5fd0-08d84837b68b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2020 14:12:19.4264
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 82To4yE+WL9oNiDp3wA60hBNMHrP9fUriYtgCJ1O2YIi1sG8ez0wqQjC+tDKZGIAyjzV8SbS+nQ8zQHwzGJTEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2310
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gTW9uLCAyMDIwLTA4LTI0IGF0IDE2OjU4ICswMzAwLCBGZWxpcGUgQmFsYmkgd3JvdGU6DQo+
-IEpvYWtpbSBUamVybmx1bmQgPEpvYWtpbS5UamVybmx1bmRAaW5maW5lcmEuY29tPiB3cml0ZXM6
-DQo+IA0KPiA+IE9uIE1vbiwgMjAyMC0wOC0yNCBhdCAxMDoyMSArMDIwMCwgR3JlZyBLSCB3cm90
-ZToNCj4gPiA+IA0KPiA+ID4gT24gTW9uLCBBdWcgMjQsIDIwMjAgYXQgMDQ6MDQ6MzdQTSArMDgw
-MCwgWWUgQmluIHdyb3RlOg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBZZSBCaW4gPHllYmluMTBA
-aHVhd2VpLmNvbT4NCj4gPiA+IA0KPiA+ID4gSSBjYW4ndCB0YWtlIHBhdGNoZXMgd2l0aG91dCBh
-bnkgY2hhbmdlbG9nIHRleHQsIHNvcnJ5Lg0KPiA+IA0KPiA+IFN0aWxsIHRha2luZyBwYXRjaGVz
-IGZvciBmc2xfdWRjX2NvcmUuYyA/DQo+ID4gSSBmaWd1cmVkIHRoaXMgZHJpdmVyIHdhcyBvYnNv
-bGV0ZSBhbmQgc2hvdWxkIGJlIG1vdmVkIHRvIG9uZSBvZiB0aGUgQ2hpcGlkZWEgZHJpdmVycy4N
-Cj4gDQo+IE5vYm9keSBzZW50IGFueSBwYXRjaGVzIHRvIHN3aXRjaCBvdmVyIHRoZSB1c2VycyBv
-ZiB0aGlzIGRyaXZlciB0bw0KPiBjaGlwaWRlYS4gSSB3b3VsZCBsb3ZlIHRvIGRlbGV0ZSB0aGlz
-IGRyaXZlciA6LSkNCg0KTWUgdG9vLCBJIGdvdCBhIGZldyBsb2NhbCBwYXRjaGVzIGhlcmUgYXMg
-dGhlIGRyaXZlciBpcyBxdWl0ZSBidWdneS4NCkdvdCB0byBsaXR0bGUgVVNCIGtub3dsZWRnZSB0
-byBzd2l0Y2ggaXQgb3ZlciB0aG91Z2ggOigNCg0KIEpvY2tlDQo=
+
+On Mon 24 Aug 2020 at 12:24, Philipp Zabel <p.zabel@pengutronix.de> wrote:
+
+> Hi Jerome,
+>
+> On Wed, 2020-08-19 at 17:03 +0200, Jerome Brunet wrote:
+>> On Mon 13 Jul 2020 at 18:05, Dan Robertson <dan@dlrobertson.com> wrote:
+>> 
+>> > The reset is a shared reset line, but reset_control_reset is still used
+>> > and reset_control_deassert is not guaranteed to have been called before
+>> > the first reset_control_assert call. When suspending the following
+>> > warning may be seen:
+>> 
+>> And now the same type of warning maybe seen on boot. This is
+>> happening for me on the libretech-cc (s905x - gxl).
+>> 
+>> [    1.863469] ------------[ cut here ]------------
+>> [    1.867914] WARNING: CPU: 1 PID: 16 at drivers/reset/core.c:309 reset_control_reset+0x130/0x150
+> [...]
+>> This breaks USB on this device. reverting the change brings it back.
+>> 
+>> Looking at the reset framework code, I don't think drivers sharing the
+>> same reset line should mix using reset_control_reset() VS
+>> reset_control_assert()/reset_control_deassert()
+>
+> That is correct, users must not mix the assert/deassert and reset calls
+> on shared resets:
+>
+> /**
+>  * reset_control_reset - reset the controlled device
+>  * @rstc: reset controller
+>  *
+>  * On a shared reset line the actual reset pulse is only triggered once for the
+>  * lifetime of the reset_control instance: for all but the first caller this is
+>  * a no-op.
+>  * Consumers must not use reset_control_(de)assert on shared reset lines when
+>  * reset_control_reset has been used.
+>  *
+>  * If rstc is NULL it is an optional reset and the function will just
+>  * return 0.
+>  */
+>
+> [...]
+> diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-
+> meson-g12a.c
+>> > index 1f7f4d88ed9d..88b75b5a039c 100644
+>> > --- a/drivers/usb/dwc3/dwc3-meson-g12a.c
+>> > +++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
+>> > @@ -737,13 +737,13 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
+>> >  		goto err_disable_clks;
+>> >  	}
+>> >  
+>> > -	ret = reset_control_reset(priv->reset);
+>> > +	ret = reset_control_deassert(priv->reset);
+>> 
+>> The change introduced here is significant. If the reset is not initially
+>> asserted, it never will be before the life of the device.
+>>
+>> This means that Linux will have to deal which whatever state is left by the
+>> bootloader. This looks sketchy ...
+>>
+>> I think the safer way solve the problem here would be to keep using
+>> reset_control_reset() and introduce a new API in the reset
+>> framework to decrement the reset line "triggered_count"
+>> (reset_control_clear() ??)
+>> 
+>> That way, if all device using the reset line go to suspend, the line will
+>> be "reset-able" again by the first device coming out of suspend ?
+>>
+>> Philip, would you be ok with such new API ?
+>
+> I'd like to first evaluate whether the already available APIs might be a
+> better fit. There is already the option of handing off exclusive control
+> between multiple drivers via the reset_control_acquire/release APIs on
+> exclusive reset controls.
+>
+> If all drivers that are now sharing the reset line would switch to
+> requesting resets via devm_reset_control_get_exclusive_released()
+> and then prepend their reset handling with reset_control_acquire() (but
+> ignore -EBUSY) and the driver that got exclusive control releases the
+> reset via reset_control_release() during suspend, this should do exactly
+> what you want. Note that reset_control_release() must not be called on a
+> reset control that has not been successfully acquired by the same
+> driver.
+
+In practice, I think your proposition would work since the drivers
+sharing this USB reset line are likely to be probed/suspended/resumed at
+the same time but ...
+
+If we imagine a situation where 2 device share a reset line, 1 go in
+suspend, the other does not - if the first device as control of the
+reset, it could trigger it and break the 2nd device. Same goes for
+probe/remove()
+
+I agree it could be seen as unlikely but leaving such race condition
+open looks dangerous to me.
+
+>
+> Is this something that would be feasible for your combination of
+> drivers? Otherwise it is be unclear to me under which condition a driver
+> should be allowed to call the proposed reset_control_clear().
+
+I was thinking of reset_control_clear() as the counter part of
+reset_control_reset().
+
+When a reset_control_reset() has been called once, "triggered_count" is
+incremented which signals that the ressource under the reset is
+"in_use" and the reset should not be done again. reset_control_clear()
+would be the way to state that the ressource is no longer used and, that
+from the caller perspective, the reset can fired again if necessary.
+
+If we take the probe / suspend / resume example:
+* 1st device using the shared will actually trigger it (as it is now)
+* following device just increase triggered_count
+
+If all devices go to suspend (calling reset_control_clear()) then
+triggered_count will reach zero, allowing the first device resuming to
+trigger the reset again ... this is important since it might not be the
+one which would have got the exclusive control
+
+If any device don't go to suspend, meaning the ressource under reset
+keep on being used, no reset will performed. With exlusive control,
+there is a risk that the resuming device resets something already in use.
+
+Regarding the condition, on shared resets, call reset_control_reset()
+should be balanced reset_control_clear() - no clear before reset.
+
+>
+>> In the meantime, I think this change should be reverted. A warning on
+>> suspend seems less critical than a regression breaking USB completly.
+>
+> Agreed.
+>
+> regards
+> Philipp
+
