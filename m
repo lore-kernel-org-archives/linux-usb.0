@@ -2,228 +2,205 @@ Return-Path: <SRS0=S/Z8=CD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CBD1C433E1
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 12:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82201C433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 12:27:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDF462074A
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 12:10:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CE712074A
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 12:27:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="qwXMXDf/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMKzNPGR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730164AbgHYMKn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Aug 2020 08:10:43 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:49400 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729051AbgHYMKl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Aug 2020 08:10:41 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07PC15DO016580;
-        Tue, 25 Aug 2020 07:01:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1598356865;
-        bh=x3r2gTj8CyI+Zc8dr6rfCAoHWCQlvOesBeP8eivIgl4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=qwXMXDf/sdI7BdRcin/O4A7tSMDHfeeB8x83oeVEZ+7q6TkYDBfrvprldM4FmcIT/
-         Gdrm2iSbzwDEA0DE0nf5GxLTs/MyuFGgLqhUsgDZJOfzFeHQXKmdymIT0Crxila2c1
-         WId08pMudng0UZnTNe/huLQXTx+UvPjfGf4ZMm3Q=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07PC15W7125369
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 25 Aug 2020 07:01:05 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 25
- Aug 2020 07:01:05 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 25 Aug 2020 07:01:05 -0500
-Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07PC10LB024089;
-        Tue, 25 Aug 2020 07:01:03 -0500
-From:   Roger Quadros <rogerq@ti.com>
-To:     <balbi@kernel.org>
-CC:     <pawell@cadence.com>, <kurahul@cadence.com>, <nsekhar@ti.com>,
-        <vigneshr@ti.com>, <robh+dt@kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Roger Quadros <rogerq@ti.com>
-Subject: [PATCH 1/3] dt-bindings: usb: Convert cdns-usb3.txt to YAML schema
-Date:   Tue, 25 Aug 2020 15:00:57 +0300
-Message-ID: <20200825120059.12436-2-rogerq@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200825120059.12436-1-rogerq@ti.com>
-References: <20200825120059.12436-1-rogerq@ti.com>
+        id S1726672AbgHYM07 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Aug 2020 08:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42274 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbgHYM06 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Aug 2020 08:26:58 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C913C061574;
+        Tue, 25 Aug 2020 05:26:58 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id g13so12216456ioo.9;
+        Tue, 25 Aug 2020 05:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Wzcj8m5vFo9wtP7uviYdKc5PC5IJoO+QABXYTEcm/QQ=;
+        b=QMKzNPGRrERw9HyuJHYh//aByTTYk6xved9OV+s/sN3XgKrdGYFCYUHeBvcE3n136J
+         ZDiAPI314pmDApXJ5v/gF3jWHyLPdpayfQDDkEr18AB92xc/P56ZJOba1trauDK2Y9tz
+         nywaxJwwsF1GdOh6yI68ObfqZb8rIzFXWucxmIQsWZAgcpvvMh56W265wRSQ9wLVXtcx
+         nfnFxcy0uC39ywWv9ujRDOUxvETaJeNrPwUP6mJQTLRi0hK+hhgCPQZzSgcomUeVaQAr
+         dDtzdBt98W/T6WByYwu+73euWPUHQ92ItBPAB+uQPkveTqdqmayB3pfRehukCFg3dlBe
+         0wgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wzcj8m5vFo9wtP7uviYdKc5PC5IJoO+QABXYTEcm/QQ=;
+        b=rSdaEZGx1VWFiQJpxrFWHGOnrbVoTxpyBqMmxsLlgjhSmkjVRNFM66zJzDWvoEopN7
+         Cm2alG7Tk84OjqLxOE2WinUfX/Cc2j6jmRplK4DsiBCl7IBD2glqvux4aWmpHb426PF0
+         /jIp4Tb/6s7qTDhFADUWeFLZk1l41rY+ADa9n9VAHFb9P/TOopn0WDHmgDa8ih05aJ5B
+         pBKnafDv8L2bSdw/pj145GoQOT3eYgNlBpbwURzDBSoYBtpFXUp7qVm/iWvWmhqDbMCS
+         srWbMf0fb7OCgBn79c0Sq5FHNEImCwx9KWmOrArMEvdZrCq8gwbdag4REwbFXJ9oTQNu
+         31hQ==
+X-Gm-Message-State: AOAM531UZoHew4Xk2dNKyW5uCWUPDfIJM0XikSfsWgp51QTyKucJdaDL
+        s6hZRPzTMNX73uglP0tIUXj840JfK6DowbGPnuM=
+X-Google-Smtp-Source: ABdhPJyGsUoC/LkI1d2bqGvQuY/p0TswaMdrh4UELE3XPT8OzGZIBRz06RutIQlDXcmCFjsUlnyiGQCLVwdzp0rcciA=
+X-Received: by 2002:a02:ce32:: with SMTP id v18mr10452366jar.28.1598358417617;
+ Tue, 25 Aug 2020 05:26:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200812202018.49046-1-alcooperx@gmail.com> <20200812202018.49046-2-alcooperx@gmail.com>
+ <20200824233040.GA3532378@bogus>
+In-Reply-To: <20200824233040.GA3532378@bogus>
+From:   Alan Cooper <alcooperx@gmail.com>
+Date:   Tue, 25 Aug 2020 08:26:46 -0400
+Message-ID: <CAOGqxeXWXkRD=agGL45D0sGe64TUBBq=OtibkX8AkiC5g0sWww@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: Add support for Broadcom USB pin map driver
+To:     Rob Herring <robh@kernel.org>
+Cc:     ": Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
+        DTML <devicetree@vger.kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "moderated list:BROADCOM BCM7XXX ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        USB list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Converts cdns-usb3.txt to YAML schema cdns,usb3.yaml
+On Mon, Aug 24, 2020 at 7:30 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Aug 12, 2020 at 04:20:16PM -0400, Al Cooper wrote:
+> > Add DT bindings for the Broadcom USB pin map driver. This driver allows
+> > some USB input and output signals to be mapped to any GPIO instead
+> > of the normal dedicated pins to/from the XHCI controller.
+>
+> Is this a driver or h/w block because bindings are for h/w blocks?
 
-Signed-off-by: Roger Quadros <rogerq@ti.com>
----
- .../devicetree/bindings/usb/cdns,usb3.yaml    | 89 +++++++++++++++++++
- .../devicetree/bindings/usb/cdns-usb3.txt     | 45 ----------
- 2 files changed, 89 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/cdns,usb3.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/cdns-usb3.txt
+This is a hardware block. I'll remove "driver" from the description.
 
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-new file mode 100644
-index 000000000000..7bc0263accee
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -0,0 +1,89 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/cdns,usb3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cadence USBSS-DRD controller bindings
-+
-+maintainers:
-+  - Pawel Laszczak <pawell@cadence.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: cdns,usb3
-+
-+  reg:
-+    items:
-+      - description: OTG controller registers
-+      - description: XHCI Host controller registers
-+      - description: DEVICE controller registers
-+
-+  reg-names:
-+    items:
-+      - const: otg
-+      - const: xhci
-+      - const: dev
-+
-+  interrupts:
-+    items:
-+      - description: OTG/DRD controller interrupt
-+      - description: XHCI host controller interrupt
-+      - description: Device controller interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: host
-+      - const: peripheral
-+      - const: otg
-+
-+  dr_mode:
-+    enum: [host, otg, peripheral]
-+
-+  maximum-speed:
-+    enum: [super-speed, high-speed, full-speed]
-+
-+  phys:
-+   minItems: 1
-+   maxItems: 2
-+
-+  phy-names:
-+    minItems: 1
-+    maxItems: 2
-+
-+  cdns,on-chip-buff-size:
-+    description:
-+      size of memory intended as internal memory for endpoints
-+      buffers expressed in KB
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    bus {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        usb@6000000 {
-+            compatible = "cdns,usb3";
-+            reg = <0x00 0x6000000 0x00 0x10000>,
-+                  <0x00 0x6010000 0x00 0x10000>,
-+                  <0x00 0x6020000 0x00 0x10000>;
-+            reg-names = "otg", "xhci", "dev";
-+            interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "host", "peripheral", "otg";
-+            maximum-speed = "super-speed";
-+            dr_mode = "otg";
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/usb/cdns-usb3.txt b/Documentation/devicetree/bindings/usb/cdns-usb3.txt
-deleted file mode 100644
-index b7dc606d37b5..000000000000
---- a/Documentation/devicetree/bindings/usb/cdns-usb3.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Binding for the Cadence USBSS-DRD controller
--
--Required properties:
-- - reg: Physical base address and size of the controller's register areas.
--	 Controller has 3 different regions:
--	 - HOST registers area
--	 - DEVICE registers area
--	 - OTG/DRD registers area
-- - reg-names - register memory area names:
--	"xhci" - for HOST registers space
--	"dev" - for DEVICE registers space
--	"otg" - for OTG/DRD registers space
-- - compatible: Should contain: "cdns,usb3"
-- - interrupts: Interrupts used by cdns3 controller:
--	"host" - interrupt used by XHCI driver.
--	"peripheral" - interrupt used by device driver
--	"otg" - interrupt used by DRD/OTG  part of driver
--
--Optional properties:
-- - maximum-speed : valid arguments are "super-speed", "high-speed" and
--                   "full-speed"; refer to usb/generic.txt
-- - dr_mode: Should be one of "host", "peripheral" or "otg".
-- - phys: reference to the USB PHY
-- - phy-names: from the *Generic PHY* bindings;
--	Supported names are:
--	- cdns3,usb2-phy
--	- cdns3,usb3-phy
--
-- - cdns,on-chip-buff-size : size of memory intended as internal memory for endpoints
--	buffers expressed in KB
--
--Example:
--	usb@f3000000 {
--		compatible = "cdns,usb3";
--		interrupts = <GIC_USB_IRQ 7 IRQ_TYPE_LEVEL_HIGH>,
--				<GIC_USB_IRQ  7 IRQ_TYPE_LEVEL_HIGH>,
--				<GIC_USB_IRQ  8 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "host", "peripheral", "otg";
--		reg = <0xf3000000 0x10000>,	/* memory area for HOST registers */
--			<0xf3010000 0x10000>,	/* memory area for DEVICE registers */
--			<0xf3020000 0x10000>;	/* memory area for OTG/DRD registers */
--		reg-names = "xhci", "dev", "otg";
--		phys = <&usb2_phy>, <&usb3_phy>;
--		phy-names = "cdns3,usb2-phy", "cnds3,usb3-phy";
--	};
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>
+> >
+> > Signed-off-by: Al Cooper <alcooperx@gmail.com>
+> > ---
+> >  .../bindings/usb/brcm,usb-pinmap.yaml         | 63 +++++++++++++++++++
+> >  1 file changed, 63 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml b/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
+> > new file mode 100644
+> > index 000000000000..19cf6ad36373
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
+> > @@ -0,0 +1,63 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/brcm,usb-pinmap.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Broadcom USB pin map Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Al Cooper <alcooperx@gmail.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +      items:
+> > +          - const: brcm,usb-pinmap
+>
+> 2 space indentation please.
 
+Fixed.
+
+>
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +    description: Must be defined if any out-gpios are specified.
+>
+> 'dependencies' can express this in schema.
+
+Okay.
+
+>
+> > +
+> > +  in-gpios:
+> > +    description: Array of one or more GPIO pins used for input signals.
+>
+> You need to define how many GPIOs are valid.
+
+I tried to avoid doing this because there is a possibility that future
+chips will have a few more signals added and the driver was written so
+new signals can be added entirely in device tree without any changes
+to the driver. If this is unacceptable, I can add the current max in
+and out valid gpios.
+
+>
+> > +
+> > +  in-names:
+> > +    description: Array of input signal names, one per gpio in in-gpios.
+>
+> No, this isn't how we name GPIOs. The part before '-gpios' is how.
+
+This is the meant to be a description of how each gpio is being used
+to help with error messages in the driver.
+What if I use "brcmstb,in-functions" instead?
+
+>
+> > +
+> > +  in-masks:
+> > +    description: Array of enable and mask pairs, one per gpio in-gpios.
+>
+> Needs a vendor prefix.
+
+I'll change it to "brcmstb,in-masks"
+
+>
+> > +
+> > +  out-gpios:
+> > +    description: Array of one or more GPIO pins used for output signals.
+> > +
+> > +  out-names:
+> > +    description: Array of output signal names, one per gpio in out-gpios.
+> > +
+> > +  out-masks:
+> > +    description: Array of enable, value, changed and clear masks, one
+> > +      per gpio in out-gpios.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    usb_pinmap: usb-pinmap@22000d0 {
+> > +        compatible = "brcm,usb-pinmap";
+> > +        reg = <0x22000d0 0x4>;
+> > +        in-gpios = <&gpio 18 0>, <&gpio 19 0>;
+> > +        in-names = "VBUS", "PWRFLT";
+> > +        in-masks = <0x8000 0x40000 0x10000 0x80000>;
+> > +        out-gpios = <&gpio 20 0>;
+> > +        out-names = "PWRON";
+> > +        out-masks = <0x20000 0x800000 0x400000 0x200000>;
+> > +        interrupts = <0x0 0xb2 0x4>;
+> > +    };
+> > +
+> > +...
+> > --
+> > 2.17.1
+> >
