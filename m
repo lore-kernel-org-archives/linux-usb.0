@@ -2,117 +2,105 @@ Return-Path: <SRS0=S/Z8=CD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6661BC433E1
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 08:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 387BAC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 09:07:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 424342071E
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 08:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598345612;
-	bh=48jdtfx0JIE9oh33ZlDmHSVtXKTWqEXHMhhg+xQ6RL0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=Ex/9jxW/xmISh9wj4FnfwtDiSEHmI/dI5MBgaYe+uho8/L/CL3n/a0uRJykrtUzfM
-	 8vaVhcexdzMHLpOmuEuUhlltyJxLyICL4R4UH5ORgCGO2dMJaCn8Qes8SdR92u+Rf9
-	 ctNqAU5CDh9KZcMTpmmH3VLJLneOZz2SSUjPjnZ4=
+	by mail.kernel.org (Postfix) with ESMTP id 0BBC42067C
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 09:07:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgHYIxb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Aug 2020 04:53:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45216 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725916AbgHYIxb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 25 Aug 2020 04:53:31 -0400
-Received: from saruman (unknown [194.34.132.59])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 453F52065F;
-        Tue, 25 Aug 2020 08:53:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598345610;
-        bh=48jdtfx0JIE9oh33ZlDmHSVtXKTWqEXHMhhg+xQ6RL0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=FpCcd+YnaQK51fsF4Mdu+gzQkmfevytY6LIFF128xwoldo7e0FZs0JI8071yvowTG
-         yjSz8HJbFCxnGrfMIqIpO5LcjhuGfvzpz1ou6KEyoboQNf80Pz9+67ZY08w+totrlW
-         1oGgWUqAjX0z5GsoDd8IY4UkA7nZNcKBwOyOZwqs=
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
-        "yebin10@huawei.com" <yebin10@huawei.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc:     "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "leoyang.li@nxp.com" <leoyang.li@nxp.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: gadget: fsl: Fix unsigned expression compared with
- zero in fsl_udc_probe
-In-Reply-To: <2c2317ff8385f75466cbfa1f0109a1f2c3acbc48.camel@infinera.com>
-References: <20200824080437.229826-1-yebin10@huawei.com>
- <20200824082122.GA336539@kroah.com>
- <f61f4bc3916f852799edb6af9740afb2118ec84f.camel@infinera.com>
- <87d03gjgbw.fsf@kernel.org>
- <2c2317ff8385f75466cbfa1f0109a1f2c3acbc48.camel@infinera.com>
-Date:   Tue, 25 Aug 2020 11:53:23 +0300
-Message-ID: <877dtnjed8.fsf@kernel.org>
+        id S1729180AbgHYJH4 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Aug 2020 05:07:56 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:57539 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729186AbgHYJHw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Aug 2020 05:07:52 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-72-wbod_bd6NRy5MRd_jCobBg-1; Tue, 25 Aug 2020 10:07:48 +0100
+X-MC-Unique: wbod_bd6NRy5MRd_jCobBg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 25 Aug 2020 10:07:47 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 25 Aug 2020 10:07:47 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Alex Dewar' <alex.dewar90@gmail.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "accessrunner-general@lists.sourceforge.net" 
+        <accessrunner-general@lists.sourceforge.net>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] usb: atm: don't use snprintf() for sysfs attrs
+Thread-Topic: [PATCH] usb: atm: don't use snprintf() for sysfs attrs
+Thread-Index: AQHWemUzoPleWxCDKky1KLXQzyLa5alIeCYw///ywACAAB0QkA==
+Date:   Tue, 25 Aug 2020 09:07:47 +0000
+Message-ID: <0d32d8092289498a9702b76d44074017@AcuMS.aculab.com>
+References: <20200824222322.22962-1-alex.dewar90@gmail.com>
+ <3e882693bb344424af37d4d35f3db605@AcuMS.aculab.com>
+ <20200825081752.hj3zyhg2qumzd64n@lenovo-laptop>
+In-Reply-To: <20200825081752.hj3zyhg2qumzd64n@lenovo-laptop>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+From: Alex Dewar
+> Sent: 25 August 2020 09:18
+> On Tue, Aug 25, 2020 at 08:12:05AM +0000, David Laight wrote:
+> > From: Alex Dewar
+> > > Sent: 24 August 2020 23:23
+> > > kernel/cpu.c: don't use snprintf() for sysfs attrs
+> > >
+> > > As per the documentation (Documentation/filesystems/sysfs.rst),
+> > > snprintf() should not be used for formatting values returned by sysfs.
+> > >
+> > > In all of these cases, sprintf() suffices as we know that the formatted
+> > > strings will be less than PAGE_SIZE in length.
+> >
+> > Hmmmm....
+> > I much prefer to see bounded string ops.
+> > sysfs really ought to be passing through the buffer length.
+> > The buffer size should probably be SYSFS_BUF_LEN not PAGE_SIZE
+> > (even it happens to typically be the same).
+> > If PAGE_SIZE is big (or small) passing a 4k buffer may be
+> > more appropriate than a PAGE_SIZE one.
+> >
+> > 	David
+> 
+> We could use scnprintf() instead I guess. But an expression like:
+> 	return sprintf(buf, "%d\n", value);
+> will never overflow if buf is PAGE_SIZE, right...?
 
-Joakim Tjernlund <Joakim.Tjernlund@infinera.com> writes:
+Certainly the return value from snprintf() isn't what you
+want here (it almost never is) - so scnprintf() is much better.
 
-> On Mon, 2020-08-24 at 16:58 +0300, Felipe Balbi wrote:
->> Joakim Tjernlund <Joakim.Tjernlund@infinera.com> writes:
->>=20
->> > On Mon, 2020-08-24 at 10:21 +0200, Greg KH wrote:
->> > >=20
->> > > On Mon, Aug 24, 2020 at 04:04:37PM +0800, Ye Bin wrote:
->> > > > Signed-off-by: Ye Bin <yebin10@huawei.com>
->> > >=20
->> > > I can't take patches without any changelog text, sorry.
->> >=20
->> > Still taking patches for fsl_udc_core.c ?
->> > I figured this driver was obsolete and should be moved to one of the C=
-hipidea drivers.
->>=20
->> Nobody sent any patches to switch over the users of this driver to
->> chipidea. I would love to delete this driver :-)
->
-> Me too, I got a few local patches here as the driver is quite buggy.
-> Got to little USB knowledge to switch it over though :(
+A simple "%d" or "%u" wont overflow, but a "%s" might (even
+if it is really expected that it shouldn't).
+Even a "%*d" can go horribly wrong.
 
-this wouldn't require USB knowledge. It only requires some minor DTS
-knowledge and HW for testing.
+	David
 
-=2D-=20
-balbi
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl9E0YMRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQZAaBAArJgp8dg8Bner+zJ32pLdsLJG8r9c0IFh
-bhLUKt9k0SHiA13MLsrrSiuRLTMSqXez9mIisB/SGei1qeybI7ut3ZxK69RgMX0/
-DqLk4TJJdl7ZniSrvT8gV4TL/z0zAIgPHbZwbTEGTeFxDLFPdtfW5GoTwYZroacG
-rOk8cRbwfA6yMItTEe8bnkcCSKIFp9CwdsryHhDth/RfiT4IrBldUSiyd1kdCMo7
-hRJlWPScmR+jnpvOWv6YKjU2766t7PFFpCjui6XgMxReZRQCCpeomWyOmE/0aw+r
-5PJGlgkoSjDPIq+KBULMp3FKy6NucorE1Fid1jWkTbKLTgWAaD+C9isLXookCZUF
-4Z+GYUoSqQSQgB2vYjaD0LJiUe1DggJTpLlubmEE+cLi/8/E+pDGbm4fdqntypBY
-Reso03GbaFn05OhKHWn382LXq3byRzQ1vK1pXoe7GZJ57J3tLS/tGiZmE0FppdjS
-tCEDUui7m+S/4IfFe4IJFvh2N0oJAfRWpOf0kPh3I1t/+u9uHNC3E46TFCW+iLjN
-Iye2Ql8b2dW0jDZ6SWawyXD2g/eh5nrgkCwp3SzJVuYC2kdLBYtc1YKovjv45KMe
-Yl7fFBIv5uma180fjXyxUwxKUR7DXcA7mwhDdhag3/JGu1V7xx6z9RtpHTuNdvoI
-f/19LIlQMdA=
-=Oe2R
------END PGP SIGNATURE-----
---=-=-=--
