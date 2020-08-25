@@ -2,205 +2,137 @@ Return-Path: <SRS0=S/Z8=CD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82201C433E1
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 12:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C12C433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 14:00:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5CE712074A
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 12:27:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMKzNPGR"
+	by mail.kernel.org (Postfix) with ESMTP id 7E71A2075F
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Aug 2020 14:00:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726672AbgHYM07 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Aug 2020 08:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbgHYM06 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Aug 2020 08:26:58 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C913C061574;
-        Tue, 25 Aug 2020 05:26:58 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id g13so12216456ioo.9;
-        Tue, 25 Aug 2020 05:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Wzcj8m5vFo9wtP7uviYdKc5PC5IJoO+QABXYTEcm/QQ=;
-        b=QMKzNPGRrERw9HyuJHYh//aByTTYk6xved9OV+s/sN3XgKrdGYFCYUHeBvcE3n136J
-         ZDiAPI314pmDApXJ5v/gF3jWHyLPdpayfQDDkEr18AB92xc/P56ZJOba1trauDK2Y9tz
-         nywaxJwwsF1GdOh6yI68ObfqZb8rIzFXWucxmIQsWZAgcpvvMh56W265wRSQ9wLVXtcx
-         nfnFxcy0uC39ywWv9ujRDOUxvETaJeNrPwUP6mJQTLRi0hK+hhgCPQZzSgcomUeVaQAr
-         dDtzdBt98W/T6WByYwu+73euWPUHQ92ItBPAB+uQPkveTqdqmayB3pfRehukCFg3dlBe
-         0wgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wzcj8m5vFo9wtP7uviYdKc5PC5IJoO+QABXYTEcm/QQ=;
-        b=rSdaEZGx1VWFiQJpxrFWHGOnrbVoTxpyBqMmxsLlgjhSmkjVRNFM66zJzDWvoEopN7
-         Cm2alG7Tk84OjqLxOE2WinUfX/Cc2j6jmRplK4DsiBCl7IBD2glqvux4aWmpHb426PF0
-         /jIp4Tb/6s7qTDhFADUWeFLZk1l41rY+ADa9n9VAHFb9P/TOopn0WDHmgDa8ih05aJ5B
-         pBKnafDv8L2bSdw/pj145GoQOT3eYgNlBpbwURzDBSoYBtpFXUp7qVm/iWvWmhqDbMCS
-         srWbMf0fb7OCgBn79c0Sq5FHNEImCwx9KWmOrArMEvdZrCq8gwbdag4REwbFXJ9oTQNu
-         31hQ==
-X-Gm-Message-State: AOAM531UZoHew4Xk2dNKyW5uCWUPDfIJM0XikSfsWgp51QTyKucJdaDL
-        s6hZRPzTMNX73uglP0tIUXj840JfK6DowbGPnuM=
-X-Google-Smtp-Source: ABdhPJyGsUoC/LkI1d2bqGvQuY/p0TswaMdrh4UELE3XPT8OzGZIBRz06RutIQlDXcmCFjsUlnyiGQCLVwdzp0rcciA=
-X-Received: by 2002:a02:ce32:: with SMTP id v18mr10452366jar.28.1598358417617;
- Tue, 25 Aug 2020 05:26:57 -0700 (PDT)
+        id S1726632AbgHYOAm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Aug 2020 10:00:42 -0400
+Received: from mga06.intel.com ([134.134.136.31]:59248 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726617AbgHYOAA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 Aug 2020 10:00:00 -0400
+IronPort-SDR: XPE+FM/tUJ+s1G5arXB+/fVUovOenPFgla/Aq32wKMQYMz2YKrlIm/2PR4soHpTCTzmjC8az4X
+ kFupwjGB3Hmg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="217659393"
+X-IronPort-AV: E=Sophos;i="5.76,352,1592895600"; 
+   d="scan'208";a="217659393"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 06:59:59 -0700
+IronPort-SDR: pDQXdFwToNlKkfdblllbE+aoEzT+aMTv9gRygqxsV/hlIxVFKPzG9hQ0Boa00BqvIfPOwMUsiQ
+ OY4WjPvF6d2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,352,1592895600"; 
+   d="scan'208";a="402725580"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2020 06:59:57 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: [PATCH 2/3] software node: Introduce device_add_software_node()
+Date:   Tue, 25 Aug 2020 16:59:50 +0300
+Message-Id: <20200825135951.53340-3-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200825135951.53340-1-heikki.krogerus@linux.intel.com>
+References: <20200825135951.53340-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-References: <20200812202018.49046-1-alcooperx@gmail.com> <20200812202018.49046-2-alcooperx@gmail.com>
- <20200824233040.GA3532378@bogus>
-In-Reply-To: <20200824233040.GA3532378@bogus>
-From:   Alan Cooper <alcooperx@gmail.com>
-Date:   Tue, 25 Aug 2020 08:26:46 -0400
-Message-ID: <CAOGqxeXWXkRD=agGL45D0sGe64TUBBq=OtibkX8AkiC5g0sWww@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: Add support for Broadcom USB pin map driver
-To:     Rob Herring <robh@kernel.org>
-Cc:     ": Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        DTML <devicetree@vger.kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "moderated list:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        USB list <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 7:30 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Aug 12, 2020 at 04:20:16PM -0400, Al Cooper wrote:
-> > Add DT bindings for the Broadcom USB pin map driver. This driver allows
-> > some USB input and output signals to be mapped to any GPIO instead
-> > of the normal dedicated pins to/from the XHCI controller.
->
-> Is this a driver or h/w block because bindings are for h/w blocks?
+This helper will register a software node and then assign
+it to device at the same time. The function will also make
+sure that the device can't have more than one software node.
 
-This is a hardware block. I'll remove "driver" from the description.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/base/swnode.c    | 45 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/property.h |  3 +++
+ 2 files changed, 48 insertions(+)
 
->
-> >
-> > Signed-off-by: Al Cooper <alcooperx@gmail.com>
-> > ---
-> >  .../bindings/usb/brcm,usb-pinmap.yaml         | 63 +++++++++++++++++++
-> >  1 file changed, 63 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml b/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
-> > new file mode 100644
-> > index 000000000000..19cf6ad36373
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
-> > @@ -0,0 +1,63 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/usb/brcm,usb-pinmap.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Broadcom USB pin map Controller Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Al Cooper <alcooperx@gmail.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +      items:
-> > +          - const: brcm,usb-pinmap
->
-> 2 space indentation please.
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 9a13a61a2f0bb..ec14f02565a65 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -1356,6 +1356,51 @@ void fwnode_remove_software_node(struct fwnode_handle *fwnode)
+ }
+ EXPORT_SYMBOL_GPL(fwnode_remove_software_node);
+ 
++/**
++ * device_add_software_node - Assign software node to a device
++ * @dev: The device the software node is meant for.
++ * @swnode: The software node.
++ *
++ * This function will register @swnode and make it the secondary firmware node
++ * pointer of @dev. If @dev has no primary node, then @swnode will become the primary
++ * node.
++ */
++int device_add_software_node(struct device *dev, const struct software_node *swnode)
++{
++	int ret;
++
++	/* Only one software node per device. */
++	if (dev_to_swnode(dev))
++		return -EBUSY;
++
++	ret = software_node_register(swnode);
++	if (ret)
++		return ret;
++
++	set_secondary_fwnode(dev, software_node_fwnode(swnode));
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(device_add_software_node);
++
++/**
++ * device_remove_software_node - Remove device's software node
++ * @dev: The device with the software node.
++ *
++ * This function will unregister the software node of @dev.
++ */
++void device_remove_software_node(struct device *dev)
++{
++	struct swnode *swnode;
++
++	swnode = dev_to_swnode(dev);
++	if (!swnode)
++		return;
++
++	kobject_put(&swnode->kobj);
++}
++EXPORT_SYMBOL_GPL(device_remove_software_node);
++
+ int software_node_notify(struct device *dev, unsigned long action)
+ {
+ 	struct swnode *swnode;
+diff --git a/include/linux/property.h b/include/linux/property.h
+index 4a2e0edb78275..5f84286183f9a 100644
+--- a/include/linux/property.h
++++ b/include/linux/property.h
+@@ -468,4 +468,7 @@ fwnode_create_software_node(const struct property_entry *properties,
+ 			    const struct fwnode_handle *parent);
+ void fwnode_remove_software_node(struct fwnode_handle *fwnode);
+ 
++int device_add_software_node(struct device *dev, const struct software_node *swnode);
++void device_remove_software_node(struct device *dev);
++
+ #endif /* _LINUX_PROPERTY_H_ */
+-- 
+2.28.0
 
-Fixed.
-
->
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +    description: Must be defined if any out-gpios are specified.
->
-> 'dependencies' can express this in schema.
-
-Okay.
-
->
-> > +
-> > +  in-gpios:
-> > +    description: Array of one or more GPIO pins used for input signals.
->
-> You need to define how many GPIOs are valid.
-
-I tried to avoid doing this because there is a possibility that future
-chips will have a few more signals added and the driver was written so
-new signals can be added entirely in device tree without any changes
-to the driver. If this is unacceptable, I can add the current max in
-and out valid gpios.
-
->
-> > +
-> > +  in-names:
-> > +    description: Array of input signal names, one per gpio in in-gpios.
->
-> No, this isn't how we name GPIOs. The part before '-gpios' is how.
-
-This is the meant to be a description of how each gpio is being used
-to help with error messages in the driver.
-What if I use "brcmstb,in-functions" instead?
-
->
-> > +
-> > +  in-masks:
-> > +    description: Array of enable and mask pairs, one per gpio in-gpios.
->
-> Needs a vendor prefix.
-
-I'll change it to "brcmstb,in-masks"
-
->
-> > +
-> > +  out-gpios:
-> > +    description: Array of one or more GPIO pins used for output signals.
-> > +
-> > +  out-names:
-> > +    description: Array of output signal names, one per gpio in out-gpios.
-> > +
-> > +  out-masks:
-> > +    description: Array of enable, value, changed and clear masks, one
-> > +      per gpio in out-gpios.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    usb_pinmap: usb-pinmap@22000d0 {
-> > +        compatible = "brcm,usb-pinmap";
-> > +        reg = <0x22000d0 0x4>;
-> > +        in-gpios = <&gpio 18 0>, <&gpio 19 0>;
-> > +        in-names = "VBUS", "PWRFLT";
-> > +        in-masks = <0x8000 0x40000 0x10000 0x80000>;
-> > +        out-gpios = <&gpio 20 0>;
-> > +        out-names = "PWRON";
-> > +        out-masks = <0x20000 0x800000 0x400000 0x200000>;
-> > +        interrupts = <0x0 0xb2 0x4>;
-> > +    };
-> > +
-> > +...
-> > --
-> > 2.17.1
-> >
