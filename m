@@ -2,70 +2,142 @@ Return-Path: <SRS0=EJeS=CE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 409FFC433DF
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 09:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9F1C433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 11:07:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DBD820897
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 09:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598434558;
-	bh=IZWrz3cPYGQ4M4Y/3HM1+4d2/Gy20OYuNIA7c4/HaT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=gyl9yVYCQk2Yq7+yYjkr8xGEzJdNymrC6KgO9YeEVNta0YF3JEhICGn7SO08wYnLX
-	 1q+YoiKDZCQDWX7sd97uj1MokEKJJJGS/jp0Jsol/ngCQupbk0ZTr1/+k4FtFmLdL6
-	 NYzIvaSRKnS7+H7N5AX4JL9NWJEZYtwOjHpYJ66Y=
+	by mail.kernel.org (Postfix) with ESMTP id 1571D2083B
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 11:07:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728439AbgHZJfg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Aug 2020 05:35:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33802 "EHLO mail.kernel.org"
+        id S1728614AbgHZLHk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Aug 2020 07:07:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:18806 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728344AbgHZJfT (ORCPT <rfc822;Linux-usb@vger.kernel.org>);
-        Wed, 26 Aug 2020 05:35:19 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F1F7D2087D;
-        Wed, 26 Aug 2020 09:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598434519;
-        bh=IZWrz3cPYGQ4M4Y/3HM1+4d2/Gy20OYuNIA7c4/HaT4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pe6mtTGS5s68tKMkuTEVEXaoauMBWW02LBUNne8/PBqJm8m1uejctFT/MRgWppQQU
-         htKeiZPqIjzQxmrcxGsHJXTFDKRhlNDwJtgy5ivid91KClNVcolf3ObdeyniRrlpOq
-         hx8sYApO2J8byQdUEeVMR3ZkVuyPtG+bUaDsW7rk=
-Date:   Wed, 26 Aug 2020 11:35:34 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     GARG Shivam <shivam.garg@thalesgroup.com>
-Cc:     Peter Chen <hzpeterchen@gmail.com>,
-        "Linux-usb@vger.kernel.org" <Linux-usb@vger.kernel.org>
-Subject: Re: Linux Crash with Gadget serial driver
-Message-ID: <20200826093534.GA2474406@kroah.com>
-References: <MRXP264MB0904FFAD5E50E6A6F4AB6419F8570@MRXP264MB0904.FRAP264.PROD.OUTLOOK.COM>
- <CAL411-oBThK1PqKWhbdUSEsCuApi6CWT5wzxye6P6RXsQuXhfg@mail.gmail.com>
- <MRXP264MB09048712EAB615DD8CF7AF5BF8540@MRXP264MB0904.FRAP264.PROD.OUTLOOK.COM>
+        id S1728605AbgHZLHk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 26 Aug 2020 07:07:40 -0400
+IronPort-SDR: xxxUN7c7ODGiwSrfTzAKpCR8jQ7F+/cme/Ls9molDvzb4MGL8AlZh2lgYqpYdp89B6A7az0L1e
+ 9unnQp/q3gcw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="136333399"
+X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
+   d="scan'208";a="136333399"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 04:07:39 -0700
+IronPort-SDR: cwE2FuYQA7wUBluc5SAsfjdlOa7PRdLjYq45CxLOlYvEcZ1WzthiLen+8tQsEsTYWUxo79y+qi
+ qYdoXWrqboUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
+   d="scan'208";a="339123429"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga007.jf.intel.com with ESMTP; 26 Aug 2020 04:07:37 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id D602F3D3; Wed, 26 Aug 2020 14:07:36 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Gil Fine <gil.fine@intel.com>, Lukas Wunner <lukas@wunner.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 2/9] thunderbolt: Introduce tb_port_next_cap()
+Date:   Wed, 26 Aug 2020 14:07:29 +0300
+Message-Id: <20200826110736.55186-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200826110736.55186-1-mika.westerberg@linux.intel.com>
+References: <20200826110736.55186-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MRXP264MB09048712EAB615DD8CF7AF5BF8540@MRXP264MB0904.FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 09:09:32AM +0000, GARG Shivam wrote:
-> I am with Kernel version 4.1.
+This function is useful for walking port config space (adapter)
+capability lists. Convert the tb_port_find_cap() to use this as well.
 
-4.1 is over 6 years old and over 500 thousand changes and fixes behind
-what we are all working with now.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/cap.c | 35 +++++++++++++++++++++++++++++++----
+ drivers/thunderbolt/tb.h  |  1 +
+ 2 files changed, 32 insertions(+), 4 deletions(-)
 
-Please work with your vendor who is forcing you to remain on an obsolete
-kernel version like this, as you are paying them for that type of
-support, there is nothing that we can do here with this, sorry.
+diff --git a/drivers/thunderbolt/cap.c b/drivers/thunderbolt/cap.c
+index 1582e4ebac56..c45b3a488412 100644
+--- a/drivers/thunderbolt/cap.c
++++ b/drivers/thunderbolt/cap.c
+@@ -59,23 +59,50 @@ static void tb_port_dummy_read(struct tb_port *port)
+ 	}
+ }
+ 
++/**
++ * tb_port_next_cap() - Return next capability in the linked list
++ * @port: Port to find the capability for
++ * @offset: Previous capability offset (%0 for start)
++ *
++ * Returns dword offset of the next capability in port config space
++ * capability list and returns it. Passing %0 returns the first entry in
++ * the capability list. If no next capability is found returns %0. In case
++ * of failure returns negative errno.
++ */
++int tb_port_next_cap(struct tb_port *port, unsigned int offset)
++{
++	struct tb_cap_any header;
++	int ret;
++
++	if (!offset)
++		return port->config.first_cap_offset;
++
++	ret = tb_port_read(port, &header, TB_CFG_PORT, offset, 1);
++	if (ret)
++		return ret;
++
++	return header.basic.next;
++}
++
+ static int __tb_port_find_cap(struct tb_port *port, enum tb_port_cap cap)
+ {
+-	u32 offset = 1;
++	int offset = 0;
+ 
+ 	do {
+ 		struct tb_cap_any header;
+ 		int ret;
+ 
++		offset = tb_port_next_cap(port, offset);
++		if (offset < 0)
++			return offset;
++
+ 		ret = tb_port_read(port, &header, TB_CFG_PORT, offset, 1);
+ 		if (ret)
+ 			return ret;
+ 
+ 		if (header.basic.cap == cap)
+ 			return offset;
+-
+-		offset = header.basic.next;
+-	} while (offset);
++	} while (offset > 0);
+ 
+ 	return -ENOENT;
+ }
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 7754c690addc..54e8fad78bee 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -823,6 +823,7 @@ int tb_port_get_link_speed(struct tb_port *port);
+ int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
+ int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
+ int tb_port_find_cap(struct tb_port *port, enum tb_port_cap cap);
++int tb_port_next_cap(struct tb_port *port, unsigned int offset);
+ bool tb_port_is_enabled(struct tb_port *port);
+ 
+ bool tb_usb3_port_is_enabled(struct tb_port *port);
+-- 
+2.28.0
 
-good luck!
-
-greg k-h
