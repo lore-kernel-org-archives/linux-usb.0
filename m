@@ -6,39 +6,39 @@ X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7516C433E1
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 13:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79597C433EA
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 13:55:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85B72208E4
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 13:54:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57180208E4
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 13:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598450090;
-	bh=NZ2cMt0HW+Dbrc0kOIp+FqahofdpE+bdP8CROB8xCE4=;
+	s=default; t=1598450102;
+	bh=P8Zfcu4xh+cWHlSmUEm/Nym6WeKbQs9WYrbqcwPGRzs=;
 	h=Date:From:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:
 	 List-ID:From;
-	b=rzgAm8+GaztEBdNQJO2AL+L18wcaRch/v8parTzSmQmE/gTdJEvyJbmIlajD1EY21
-	 xE2ci5Y8NFBrX7FoXzonXWOZpcojuSe2g7rOTWFbNZsOePMxdVxiFenjXHOiCKFLot
-	 lNyV33TMpdfyQK9AhAHQnjnyVxZxralejstt161k=
+	b=kSXJk2BzaCTED7lTdgYiNkQHX4RjH/HSkC4HtQjofEXbeV0C8lpXxCKrpDF78GrDg
+	 GvB6XK6Mh4FONVP7G7PO5NqgpfZXYH95CGF96jhIPLkDe4npRD9GcllpNXfZ8tQfsq
+	 QKbiP79cxB6JxLF1+YtvyRWNclsQZ/JrrXxHf7vQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730522AbgHZNyt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Aug 2020 09:54:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32874 "EHLO mail.kernel.org"
+        id S1730464AbgHZNyD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Aug 2020 09:54:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730482AbgHZNyJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 26 Aug 2020 09:54:09 -0400
+        id S1730422AbgHZNxw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 26 Aug 2020 09:53:52 -0400
 Received: from localhost (unknown [70.37.104.77])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 68A83221E2;
-        Wed, 26 Aug 2020 13:54:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99DB6208E4;
+        Wed, 26 Aug 2020 13:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598450047;
-        bh=NZ2cMt0HW+Dbrc0kOIp+FqahofdpE+bdP8CROB8xCE4=;
+        s=default; t=1598450029;
+        bh=P8Zfcu4xh+cWHlSmUEm/Nym6WeKbQs9WYrbqcwPGRzs=;
         h=Date:From:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:From;
-        b=uDhRJZuFyfkxcuh9vL41nusWJFcMAWdng2kvY4N8K7L1DysZzrIvVOus0mO+Nnt86
-         2ApZjF4NxV1zyvj50ybmXy0K2UNHGMBpsYiXsIEhZXIWOcYsAzg6jla0Tx0zl56Qev
-         wQnq+S3R8G9wHFoAsiUMRSG9ork/YvAXMw5ev3oA=
-Date:   Wed, 26 Aug 2020 13:54:06 +0000
+        b=f1xccvVBJC52ZI+WJgAcRheMChKU9IGj/ud1wlfbNnKxzFs5ePGnHMA4vLu67P0jm
+         6a36iZXOsNQK3kCaDmrrxBSPFGqX25Iy7sowgAHOCRLvtmzwUcqMTKAo+xlYlvQRVz
+         Ux3RhFyHhxVnXo7FgY6Sstk/iJAWBqDlc6g7dyo8=
+Date:   Wed, 26 Aug 2020 13:53:49 +0000
 From:   Sasha Levin <sashal@kernel.org>
 To:     Sasha Levin <sashal@kernel.org>
 To:     Hans de Goede <hdegoede@redhat.com>
@@ -46,10 +46,10 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
 Cc:     stable@vger.kernel.org
 Cc:     stable@vger.kernel.org
-Subject: Re: [PATCH 1/4] usb: typec: ucsi: Fix AB BA lock inversion
-In-Reply-To: <20200809141904.4317-2-hdegoede@redhat.com>
-References: <20200809141904.4317-2-hdegoede@redhat.com>
-Message-Id: <20200826135407.68A83221E2@mail.kernel.org>
+Subject: Re: [PATCH 3/4] usb: typec: ucsi: Rework ppm_lock handling
+In-Reply-To: <20200809141904.4317-4-hdegoede@redhat.com>
+References: <20200809141904.4317-4-hdegoede@redhat.com>
+Message-Id: <20200826135349.99DB6208E4@mail.kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -65,17 +65,21 @@ The stable tag indicates that it's relevant for the following trees: all
 The bot has tested the following trees: v5.8.2, v5.7.16, v5.4.59, v4.19.140, v4.14.193, v4.9.232, v4.4.232.
 
 v5.8.2: Build OK!
-v5.7.16: Build OK!
+v5.7.16: Failed to apply! Possible dependencies:
+    4dbc6a4ef06d ("usb: typec: ucsi: save power data objects in PD mode")
+    e2ac86ebc787 ("usb: typec: ucsi: Fix 2 unlocked ucsi_run_command calls")
+
 v5.4.59: Failed to apply! Possible dependencies:
     170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
     2ede55468ca8 ("usb: typec: ucsi: Remove the old API")
+    3cf657f07918 ("usb: typec: ucsi: Remove all bit-fields")
     470ce43a1a81 ("usb: typec: ucsi: Remove struct ucsi_control")
+    4dbc6a4ef06d ("usb: typec: ucsi: save power data objects in PD mode")
     6df475f804e6 ("usb: typec: ucsi: Start using struct typec_operations")
     71a1fa0df2a3 ("usb: typec: ucsi: Store the notification mask")
-    9521e47e9ab8 ("usb: typec: ucsi: Actually enable all the interface notifications")
+    abfe9cb3f1f9 ("usb: typec: ucsi: Fix AB BA lock inversion")
     bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
-    e32fd989ac1c ("usb: typec: ucsi: ccg: Move to the new API")
-    e716bb38edb4 ("usb: typec: ucsi: New error codes")
+    e2ac86ebc787 ("usb: typec: ucsi: Fix 2 unlocked ucsi_run_command calls")
 
 v4.19.140: Failed to apply! Possible dependencies:
     247c554a14aa ("usb: typec: ucsi: add support for Cypress CCGx")
@@ -102,6 +106,7 @@ v4.14.193: Failed to apply! Possible dependencies:
     956c36c297a2 ("USB: typec: add SPDX identifiers to some files")
     98076fa64a05 ("staging: typec: tcpm: Document data structures")
     ad74b8649bea ("usb: typec: ucsi: Preliminary support for alternate modes")
+    bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
     cf6e06cddf29 ("usb: typec: Start using ERR_PTR")
 
 v4.9.232: Failed to apply! Possible dependencies:
@@ -118,9 +123,13 @@ v4.9.232: Failed to apply! Possible dependencies:
     a121103c9228 ("Linux 4.10-rc3")
     ad74b8649bea ("usb: typec: ucsi: Preliminary support for alternate modes")
     b24413180f56 ("License cleanup: add SPDX GPL-2.0 license identifier to files with no license")
+    bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
     c1ae3cfa0e89 ("Linux 4.11-rc1")
+    c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
     c470abd4fde4 ("Linux 4.10")
+    d2061f9cc32d ("usb: typec: add driver for Intel Whiskey Cove PMIC USB Type-C PHY")
     d5adbfcd5f7b ("Linux 4.10-rc7")
+    fab9288428ec ("usb: USB Type-C connector class")
 
 v4.4.232: Failed to apply! Possible dependencies:
     1001354ca341 ("Linux 4.9-rc1")
@@ -128,21 +137,29 @@ v4.4.232: Failed to apply! Possible dependencies:
     1a695a905c18 ("Linux 4.7-rc1")
     29b4817d4018 ("Linux 4.8-rc1")
     2bd6bf03f4c1 ("Linux 4.14-rc1")
-    2dcd0af568b0 ("Linux 4.6")
     2ea659a9ef48 ("Linux 4.12-rc1")
     36f90b0a2ddd ("Linux 4.5-rc2")
     388f7b1d6e8c ("Linux 4.5-rc3")
     5771a8c08880 ("Linux v4.13-rc1")
+    6406c3d22637 ("usb: Kconfig: let USB_ULPI_BUS depends on USB_COMMON")
     7ce7d89f4883 ("Linux 4.10-rc1")
     81534d5fa973 ("usb: typec: ucsi: Remove debug.h file")
     81f70ba233d5 ("Linux 4.5-rc5")
     92e963f50fc7 ("Linux 4.5-rc1")
+    9360575c5837 ("usbip: vudc: Add vudc to Kconfig")
     ad74b8649bea ("usb: typec: ucsi: Preliminary support for alternate modes")
+    ad764c49f65a ("usb: Kconfig: move ulpi bus support out of host")
     b24413180f56 ("License cleanup: add SPDX GPL-2.0 license identifier to files with no license")
     b562e44f507e ("Linux 4.5")
+    b5a2a8ecb204 ("usbip: vudc: fix Kconfig dependencies")
+    bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
     c1ae3cfa0e89 ("Linux 4.11-rc1")
+    c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
+    cb9c1cfc8692 ("usb: Kconfig: using select for USB_COMMON dependency")
+    d2061f9cc32d ("usb: typec: add driver for Intel Whiskey Cove PMIC USB Type-C PHY")
     f55532a0c0b8 ("Linux 4.6-rc1")
     f6cede5b49e8 ("Linux 4.5-rc7")
+    fab9288428ec ("usb: USB Type-C connector class")
     fc77dbd34c5c ("Linux 4.5-rc6")
 
 
