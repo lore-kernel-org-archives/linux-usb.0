@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE36C433E1
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 11:07:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4A3C433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 11:07:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 367972087D
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 11:07:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1C762083B
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Aug 2020 11:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728674AbgHZLHl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Aug 2020 07:07:41 -0400
-Received: from mga02.intel.com ([134.134.136.20]:53924 "EHLO mga02.intel.com"
+        id S1728707AbgHZLHm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Aug 2020 07:07:42 -0400
+Received: from mga06.intel.com ([134.134.136.31]:15562 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728657AbgHZLHk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1728586AbgHZLHk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 26 Aug 2020 07:07:40 -0400
-IronPort-SDR: 7YFlyAbVOAINu8TzLa3D3rs2PGhphXmaYiQTJd9qn26OAz78z807g4q8jjPzuNAE/plj+uGHC8
- 9LKUyZ9XIHAg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="144040481"
+IronPort-SDR: nXcvERGA4xsFwGxuVcoubZMkmD2nSGtX3t9TNYmXh8NHxRHC0l01X31/tcbQTPOpvTQn2RJcUS
+ yx/qziMt0vWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="217817815"
 X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
-   d="scan'208";a="144040481"
+   d="scan'208";a="217817815"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 04:07:39 -0700
-IronPort-SDR: U6cplMGtJcOESDXb+WoKez6ddCdaPPBP2BFkVDihp8ZpWVv+AB0AAaStCz1sZIhOSVx/UqAlv7
- hWsSPeF8uYug==
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 04:07:39 -0700
+IronPort-SDR: YAY2uhONPZvKpQEYmQI0Lt8ylHiITgFV74Z7v5L1qRnhSZ5HqBtgkv4WrTbEORpPddFl+5hcD9
+ fO5duUaOZtjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
-   d="scan'208";a="281770064"
+   d="scan'208";a="499674041"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Aug 2020 04:07:37 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 26 Aug 2020 04:07:37 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id E9D04463; Wed, 26 Aug 2020 14:07:36 +0300 (EEST)
+        id C745B1B4; Wed, 26 Aug 2020 14:07:36 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -45,9 +45,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Gil Fine <gil.fine@intel.com>, Lukas Wunner <lukas@wunner.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 4/9] thunderbolt: Introduce tb_port_is_nhi()
-Date:   Wed, 26 Aug 2020 14:07:31 +0300
-Message-Id: <20200826110736.55186-5-mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/9] thunderbolt: Move struct tb_cap_any to tb_regs.h
+Date:   Wed, 26 Aug 2020 14:07:28 +0300
+Message-Id: <20200826110736.55186-2-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200826110736.55186-1-mika.westerberg@linux.intel.com>
 References: <20200826110736.55186-1-mika.westerberg@linux.intel.com>
@@ -58,44 +58,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is useful if one needs to check if adapter (port) is the host
-interface (NHI). Make tb_port_alloc_hopid() take advantage of this.
+This structure will be needed by the debugfs implementation so make it
+available outside of cap.c.
+
+While there add kernel-doc comments to the structure.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c | 2 +-
- drivers/thunderbolt/tb.h     | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/cap.c     |  8 --------
+ drivers/thunderbolt/tb_regs.h | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index f646bad88309..d7164843cf8b 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -789,7 +789,7 @@ static int tb_port_alloc_hopid(struct tb_port *port, bool in, int min_hopid,
- 	 * NHI can use HopIDs 1-max for other adapters HopIDs 0-7 are
- 	 * reserved.
- 	 */
--	if (port->config.type != TB_TYPE_NHI && min_hopid < TB_PATH_MIN_HOPID)
-+	if (!tb_port_is_nhi(port) && min_hopid < TB_PATH_MIN_HOPID)
- 		min_hopid = TB_PATH_MIN_HOPID;
+diff --git a/drivers/thunderbolt/cap.c b/drivers/thunderbolt/cap.c
+index 19db6cdc5b70..1582e4ebac56 100644
+--- a/drivers/thunderbolt/cap.c
++++ b/drivers/thunderbolt/cap.c
+@@ -15,14 +15,6 @@
+ #define VSE_CAP_OFFSET_MAX	0xffff
+ #define TMU_ACCESS_EN		BIT(20)
  
- 	if (max_hopid < 0 || max_hopid > port_max_hopid)
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index a1d5de53a349..6aee18b4f53d 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -464,6 +464,11 @@ static inline bool tb_port_is_null(const struct tb_port *port)
- 	return port && port->port && port->config.type == TB_TYPE_PORT;
- }
- 
-+static inline bool tb_port_is_nhi(const struct tb_port *port)
-+{
-+	return port && port->config.type == TB_TYPE_NHI;
-+}
-+
- static inline bool tb_port_is_pcie_down(const struct tb_port *port)
+-struct tb_cap_any {
+-	union {
+-		struct tb_cap_basic basic;
+-		struct tb_cap_extended_short extended_short;
+-		struct tb_cap_extended_long extended_long;
+-	};
+-} __packed;
+-
+ static int tb_port_enable_tmu(struct tb_port *port, bool enable)
  {
- 	return port && port->config.type == TB_TYPE_PCIE_DOWN;
+ 	struct tb_switch *sw = port->sw;
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index 0431e415e3bc..c33751be0f56 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -93,6 +93,20 @@ struct tb_cap_extended_long {
+ 	u16 length;
+ } __packed;
+ 
++/**
++ * struct tb_cap_any - Structure capable of hold every capability
++ * @basic: Basic capability
++ * @extended_short: Vendor specific capability
++ * @extended_long: Vendor specific extended capability
++ */
++struct tb_cap_any {
++	union {
++		struct tb_cap_basic basic;
++		struct tb_cap_extended_short extended_short;
++		struct tb_cap_extended_long extended_long;
++	};
++} __packed;
++
+ /* capabilities */
+ 
+ struct tb_cap_link_controller {
 -- 
 2.28.0
 
