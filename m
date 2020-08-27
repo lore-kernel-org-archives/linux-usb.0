@@ -2,150 +2,192 @@ Return-Path: <SRS0=VQXk=CF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD6BEC433E1
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 12:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABB3C433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 13:05:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6EB32177B
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 12:57:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="SA7PZ/M9"
+	by mail.kernel.org (Postfix) with ESMTP id 4649A22CBE
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 13:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598533517;
+	bh=LzWZBpCw/l+Ix/GXPE6nae42Wme8sXfeIYoOLqaRLsQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=fR9Pz2KPotlDuGeJMNZOoGEtat/Iw1jRTzZU0C+JMKiZ+Vaq39i1NeBBQuGfQhB7y
+	 rv89IBWxVYzDZVZVQTu49x8dpn2RLyfd9jHUYYqJm1i6pYp13M/9DvmRSedE6Zcsao
+	 mqJgx4vBA8y+nmK7BNNzFv0WX3vZb6CPE6T3GwiQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728973AbgH0M5H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Aug 2020 08:57:07 -0400
-Received: from crapouillou.net ([89.234.176.41]:42734 "EHLO crapouillou.net"
+        id S1726858AbgH0NFL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Aug 2020 09:05:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44070 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729085AbgH0Mnm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 27 Aug 2020 08:43:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1598532197; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=g0ZtwP1c/sJ4SdbZpKm+NV8oKuu6my90hUTCqZcK5Zw=;
-        b=SA7PZ/M9ll9qPxYzdGB92o6d3yUokaC42ro+k1uQk9KQfLQHFOuF4r8vlpy6goDKJrA2bk
-        +sdpEyCcF0I/7NZ38Jlk4GugnXVU0AzwlOcxsdLlYrd24CjMrMKNMWwHgkbjBrDkx4Ga7n
-        Qi2nj5M1KoAlyFD9e7F+jOaDpJSfyYE=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Felipe Balbi <balbi@kernel.org>,
-        =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0?= <zhouyanjie@wanyeetech.com>,
-        =?UTF-8?q?=E5=91=A8=E6=AD=A3?= <sernia.zhou@foxmail.com>,
-        =?UTF-8?q?=E6=BC=86=E9=B9=8F=E6=8C=AF?= <aric.pzqi@ingenic.com>
-Cc:     od@zcrc.me, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 1/1] USB: PHY: JZ4770: Fix uninitialized value written to HW register
-Date:   Thu, 27 Aug 2020 14:43:08 +0200
-Message-Id: <20200827124308.71963-2-paul@crapouillou.net>
-In-Reply-To: <20200827124308.71963-1-paul@crapouillou.net>
-References: <20200827124308.71963-1-paul@crapouillou.net>
+        id S1726845AbgH0NE7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Aug 2020 09:04:59 -0400
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi [91.155.214.58])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2095B207CD;
+        Thu, 27 Aug 2020 13:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598533367;
+        bh=LzWZBpCw/l+Ix/GXPE6nae42Wme8sXfeIYoOLqaRLsQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=y0Z196NIPvRRFED15YhQtorRsjOAL/5EHRTli8FDYNANC23zGBgTup+7OEOHNLZU6
+         yjR68sJL4gcNocA9V4maauV4CZLScAgY4aBIvQ56F73mQ0ZDQz2pwgAcE+d6Fjy4v6
+         tjj2go46yC/493h+pidRAT7l+Uzv/tpbV0gPSOx0=
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Roger Quadros <rogerq@ti.com>, Peter Chen <peter.chen@nxp.com>
+Cc:     Pawel Laszczak <pawell@cadence.com>,
+        Rahul Kumar <kurahul@cadence.com>,
+        "nsekhar@ti.com" <nsekhar@ti.com>,
+        "vigneshr@ti.com" <vigneshr@ti.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 3/3] usb: cdns3: Enable workaround for USB2.0 PHY Rx
+ compliance test PHY lockup
+In-Reply-To: <b083883d-b8c3-ee16-6b02-8987cade17ed@ti.com>
+References: <20200825120059.12436-1-rogerq@ti.com>
+ <20200825120059.12436-4-rogerq@ti.com>
+ <20200826031948.GA7646@b29397-desktop>
+ <DM6PR07MB5529A43AFDEB25993595DB59DD540@DM6PR07MB5529.namprd07.prod.outlook.com>
+ <20200826071504.GA19661@b29397-desktop>
+ <DM6PR07MB5529EB2FB7E3380321191B44DD540@DM6PR07MB5529.namprd07.prod.outlook.com>
+ <AM7PR04MB71576DF6C03387C7628DBE3A8B540@AM7PR04MB7157.eurprd04.prod.outlook.com>
+ <ab38721a-ef48-c6a7-aa33-3085ca7b8852@ti.com>
+ <20200827002339.GA17559@b29397-desktop>
+ <b083883d-b8c3-ee16-6b02-8987cade17ed@ti.com>
+Date:   Thu, 27 Aug 2020 16:02:39 +0300
+Message-ID: <87sgc8i6mo.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The 'reg' value was written to a hardware register in
-ingenic_usb_phy_init(), while not being initialized anywhere.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 2a6c0b82e651 ("USB: PHY: JZ4770: Add support for new Ingenic SoCs.")
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/usb/phy/phy-jz4770.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/usb/phy/phy-jz4770.c b/drivers/usb/phy/phy-jz4770.c
-index d4ee3cb721ea..58771a8688f2 100644
---- a/drivers/usb/phy/phy-jz4770.c
-+++ b/drivers/usb/phy/phy-jz4770.c
-@@ -97,7 +97,7 @@ enum ingenic_usb_phy_version {
- struct ingenic_soc_info {
- 	enum ingenic_usb_phy_version version;
- 
--	void (*usb_phy_init)(struct usb_phy *phy);
-+	u32 (*usb_phy_init)(struct usb_phy *phy);
- };
- 
- struct jz4770_phy {
-@@ -172,7 +172,8 @@ static int ingenic_usb_phy_init(struct usb_phy *phy)
- 		return err;
- 	}
- 
--	priv->soc_info->usb_phy_init(phy);
-+	reg = priv->soc_info->usb_phy_init(phy);
-+	writel(reg, priv->base + REG_USBPCR_OFFSET);
- 
- 	/* Wait for PHY to reset */
- 	usleep_range(30, 300);
-@@ -195,19 +196,15 @@ static void ingenic_usb_phy_remove(void *phy)
- 	usb_remove_phy(phy);
- }
- 
--static void jz4770_usb_phy_init(struct usb_phy *phy)
-+static u32 jz4770_usb_phy_init(struct usb_phy *phy)
- {
--	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
--	u32 reg;
--
--	reg = USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
-+	return USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
- 		USBPCR_COMPDISTUNE_DFT | USBPCR_OTGTUNE_DFT | USBPCR_SQRXTUNE_DFT |
- 		USBPCR_TXFSLSTUNE_DFT | USBPCR_TXRISETUNE_DFT | USBPCR_TXVREFTUNE_DFT |
- 		USBPCR_POR;
--	writel(reg, priv->base + REG_USBPCR_OFFSET);
- }
- 
--static void jz4780_usb_phy_init(struct usb_phy *phy)
-+static u32 jz4780_usb_phy_init(struct usb_phy *phy)
- {
- 	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
- 	u32 reg;
-@@ -216,11 +213,10 @@ static void jz4780_usb_phy_init(struct usb_phy *phy)
- 		USBPCR1_WORD_IF_16BIT;
- 	writel(reg, priv->base + REG_USBPCR1_OFFSET);
- 
--	reg = USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
--	writel(reg, priv->base + REG_USBPCR_OFFSET);
-+	return USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
- }
- 
--static void x1000_usb_phy_init(struct usb_phy *phy)
-+static u32 x1000_usb_phy_init(struct usb_phy *phy)
- {
- 	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
- 	u32 reg;
-@@ -228,13 +224,12 @@ static void x1000_usb_phy_init(struct usb_phy *phy)
- 	reg = readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_WORD_IF_16BIT;
- 	writel(reg, priv->base + REG_USBPCR1_OFFSET);
- 
--	reg = USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
-+	return USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
- 		USBPCR_TXHSXVTUNE_DCR_15MV | USBPCR_TXVREFTUNE_INC_25PPT |
- 		USBPCR_COMMONONN | USBPCR_POR;
--	writel(reg, priv->base + REG_USBPCR_OFFSET);
- }
- 
--static void x1830_usb_phy_init(struct usb_phy *phy)
-+static u32 x1830_usb_phy_init(struct usb_phy *phy)
- {
- 	struct jz4770_phy *priv = phy_to_jz4770_phy(phy);
- 	u32 reg;
-@@ -246,9 +241,8 @@ static void x1830_usb_phy_init(struct usb_phy *phy)
- 		USBPCR1_DMPD | USBPCR1_DPPD;
- 	writel(reg, priv->base + REG_USBPCR1_OFFSET);
- 
--	reg = USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT |	USBPCR_TXPREEMPHTUNE |
-+	return USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT | USBPCR_TXPREEMPHTUNE |
- 		USBPCR_COMMONONN | USBPCR_POR;
--	writel(reg, priv->base + REG_USBPCR_OFFSET);
- }
- 
- static const struct ingenic_soc_info jz4770_soc_info = {
--- 
-2.28.0
+Hi,
 
+Roger Quadros <rogerq@ti.com> writes:
+>>>>>>>>> From: Pawel Laszczak <pawell@cadence.com>
+>>>>>>>>>
+>>>>>>>>> USB2.0 PHY hangs in Rx Compliance test when the incoming packet
+>>>>>>>>> amplitude is varied below and above the Squelch Level of Receiver
+>>>>>>>>> during the active packet multiple times.
+>>>>>>>>>
+>>>>>>>>> Version 1 of the controller allows PHY to be reset when RX fail
+>>>>>>>>> condition is detected to work around the above issue. This feature
+>>>>>>>>> is disabled by default and needs to be enabled using a bit from
+>>>>>>>>> the newly added PHYRST_CFG register. This patch enables the worka=
+round.
+>>>>>>>>>
+>>>>>>>>> As there is no way to distinguish between the controller version
+>>>>>>>>> before the device controller is started we need to rely on a DT
+>>>>>>>>> property to decide when to apply the workaround.
+>>>>>>>>
+>>>>>>>> Pawel, it could know the controller version at cdns3_gadget_start,
+>>>>>>>> but the controller starts when it tries to bind gadget driver, at
+>>>>>>>> that time, it has already known the controller version.
+>>>>>>>>
+>>>>>>>> For me, the device controller starts is using USB_CONF.DEVEN (Devi=
+ce
+>>>>>>>> Enable) through usb_gadget_connect, I am not sure if it is the same
+>>>>>>>> with yours.
+>>>>>>>>
+>>>>>>>
+>>>>>>> Yes in device mode driver knows controller version but this
+>>>>>>> workaround Must be enabled also in host mode. In host mode the
+>>>>>>> controller doesn't have access to device registers. The controller
+>>>>>>> version is placed in device register.
+>>>>>>>
+>>>>>>
+>>>>>> You may suggest your design team adding CHIP_VER register at global
+>>>>>> register region, it will easy the software engineer life.
+>>>>>>
+>>>>> >From what I read, this register is only enabling USB2 PHY reset
+>>>>>> software control, it needs for all chips with rev 0x0002450D, and the
+>>>>>> place you current change is only for 0x0002450D, right?
+>>>>>
+>>>>> Even I could say that this workaround should be enabled only for Spec=
+ific USB2
+>>>>> PHY  (only 0x0002450D)
+>>>>>
+>>>>> This bit should not have any impact for Cadence PHY but it can has Im=
+pact for third
+>>>>> party PHYs.
+>>>>>
+>>>>
+>>>> So, it is related to specific PHY, but enable this specific PHY reset =
+bit is at controller region, why don't
+>>>> put this enable bit at PHY region?
+>>>
+>>> I think this is related to Controller + PHY combination.
+>>> The fix for the issue is via a bit in the controller, so it needs to be=
+ managed by the
+>>> controller driver.
+>>>
+>>>>
+>>>> So, you use controller's device property to know this specific PHY, ca=
+n controller know this specific
+>>>> PHY dynamically?
+>>>
+>>> Still the PHY will have to tell the controller the enable that bit. How=
+ to do that?
+>>>
+>>> Adding a dt-property that vendors can used was the simplest option.
+>>>
+>>=20
+>> Ok, does all controllers with ver 0x0002450D need this fix? I just think
+>> if we introduce a flag stands for ver 0x0002450D in case this ver has
+>> other issues in future or just using phy reset enable property?
+>>=20
+>> Pawel & Roger, what's your opinion?
+>>=20
+> I think it is best to keep the flags specific to the issue rather than
+> a one flag for all issues with a specific version. This way you can
+> re-use the flag irrespective of IP version.
+
+I second that. Specially when some SoC-manufacturers may implement ECO
+fixes and not change IP revision.
+
+> But best case is that Cadence put a IP revision register in common area a=
+s you
+> have previously suggested so driver can automatically apply quirks to spe=
+cific
+> versions.
+
+little too late for that :-)
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl9Hru8RHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQY8xg//WHz2GcqK1+sGxk+5lOGCP/rWdOLo+WMg
+UgBC36W9zMY0Cchh0rRluRfliavEkvtnIF12d8aQSg1tpqWQ+Mu2S8QwWUJCleaa
+wO77Ocyg3PfAOjHWEnWBJxrOoplNwnza/3uoKVfpPeJrHlqzwH9ibhe7MKdYlO13
+tTEHyGXL2G9tTiiF4KhEC0Q9W86i4lYscTfu9BZaRD0GESrnN+6BkLnBQHG7Eo2R
+fmj0ydezud89ezWtMhfSEXnsxRsylP/Nho5Rrd3mKyY4kL6A07JlGTzsZ5RDQmkp
+6V9MAyvw2IEIe41swFNf3VChP95c7eHmSVXlu0vuoJC+nluTqfHdCSq8LU6G1TQT
+BobJOm8/gSLfgNUua41wOf2HSDg0tNOzQ1FBPwJvphcLfDRJ0ExVjY12poRsaYV8
+ZISZzXrHddMVLOh5f36FeUkzEOVHl4Q13H9CjqOg+ehfqeXaY+iX7i3mVMkfpmsO
+eGCm5UUXxkcyvvlvCFYIcUTiWQ10y+M5Oql/HR5grD2MVEkUbWZyRU56WKRYkYgL
+VsOJ+lHx09MAo7aH2twsq/lf/A5zeo9f9qA/fyV0ppfCJBqeQOzuLGODD5r0zVWG
+F+tOI4MEAJyuQ4bKBPfENenFSck5oonFWZBtpMKYBD3JlG6u53MUFEIrMGTyUnl8
++ZbqFHkObCI=
+=7clK
+-----END PGP SIGNATURE-----
+--=-=-=--
