@@ -2,175 +2,213 @@ Return-Path: <SRS0=VQXk=CF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4028EC433E3
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:49:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C0CFC433DF
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:49:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E09D2054F
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:49:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C139222B4B
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:49:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/VyZuK6"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="OcCw9HFp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728156AbgH0OtB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Aug 2020 10:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32862 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728094AbgH0Osx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Aug 2020 10:48:53 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35837C061264;
-        Thu, 27 Aug 2020 07:48:53 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id c15so5635054wrs.11;
-        Thu, 27 Aug 2020 07:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AOFWO6hOSuRZQ3JE3lz6nNzyfi0JSc63kfPTYrfcnNA=;
-        b=X/VyZuK6gEKrvY/S0fJvysWZTY1bcQbACA+KzQo0uddcob93HHWkY1IkNgbaYPbLDp
-         CXRUNEsX95EHocaDwWFHMFfQbuzO49yV2+AbJYEi4lfNwJF2vE6x3ixPBSGtcgktfNFO
-         EmAXFR5cAdgLYMbAqisF+MmtHTo4dXlwfbjZnfH79DgJh8CeM4UBLSaio2OLbeL/eqY2
-         grYpjcCZo3/KsHRfg5PjoSpFD9j3LWzL/eUyfnRvmvP49UTLArqdfi2rsHrxJgIy5ggl
-         1V01H5GpCO4VfB3QV6/N9t4snx1jbRta5/CsGjy5GMWb0uO1eo+vETdXAOy3tdMHm9W/
-         3A+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AOFWO6hOSuRZQ3JE3lz6nNzyfi0JSc63kfPTYrfcnNA=;
-        b=h57n2PecWQoJ7eQoMIXxxveHtq3EZCzfXUa+JroMtwAW6ht+to10TwNADFDlxv1WPQ
-         wIZbr3CbQ1iIa2RrSVxzBzIP+Bm+Svmy84tcrmmCpq5WlD/HplzYcpQ6IoH5NzMMu0vG
-         c8KdAjgxCu6I9MyZ0KW6kqsZJCOxeqtGuSE8k6FksWV0JvJHoJlSDx3SZY86rA419K1r
-         xjtE1B/IjW10mbF84F754u+Ej1aO4EfuTkv9oF2WAhbcA1Dn53iM6kPEkP2sWCumzmev
-         +RtK8F7A0QUMRpp6r9xjILvRtuF0uorT6j33ermcCtKyoneHeHsyoApE+bmR24u5u+Kz
-         xsXA==
-X-Gm-Message-State: AOAM532tjKl0XthW48YoVdx8rXgnqKOo+rHZMnztwNq89HAJySt0UIB+
-        d5X2pqJL3vimW8wZwQOrtFk=
-X-Google-Smtp-Source: ABdhPJweHYE0sQb82yaSD/TLNUuNwKlbxXi4RLon3uJ1FLNlrDA6X5tISWP6DDD9/jeU4SMskex5wg==
-X-Received: by 2002:adf:cf10:: with SMTP id o16mr19158027wrj.380.1598539731825;
-        Thu, 27 Aug 2020 07:48:51 -0700 (PDT)
-Received: from lenovo-laptop (92.40.173.114.threembb.co.uk. [92.40.173.114])
-        by smtp.gmail.com with ESMTPSA id f17sm7055991wru.13.2020.08.27.07.48.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 07:48:51 -0700 (PDT)
-From:   Alex Dewar <alex.dewar90@gmail.com>
-X-Google-Original-From: Alex Dewar <alex.dewar@gmx.co.uk>
-Date:   Thu, 27 Aug 2020 15:48:46 +0100
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Alex Dewar <alex.dewar90@gmail.com>,
+        id S1727931AbgH0Osw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Aug 2020 10:48:52 -0400
+Received: from crapouillou.net ([89.234.176.41]:45044 "EHLO crapouillou.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726887AbgH0N6V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Aug 2020 09:58:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1598536659; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WXO+rgQw15X1NqYEkxv8ngSYDPbmqHU2BHsKBTowoN4=;
+        b=OcCw9HFpgmahQzfbw51wNLZGHul+MmTLwQtu3+zzRCklkZ2RHsqJsEBY+ZOoSR2nGctrxA
+        +xXRh1Ce98O9xsa24PJVNrm7qM0Sm0S6L5VjAQGteHxVhROylf9apICMH5pd3+yBFEDju0
+        gBq00ke4lZGXH9fw0sQYrVCGcqtrWT0=
+Date:   Thu, 27 Aug 2020 15:50:41 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 1/1] USB: PHY: JZ4770: Fix uninitialized value written to
+ HW register
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     =?UTF-8?b?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>,
+        =?UTF-8?b?5ZGo5q2j?= <sernia.zhou@foxmail.com>,
+        =?UTF-8?b?5ryG6bmP5oyv?= <aric.pzqi@ingenic.com>, od@zcrc.me,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        accessrunner-general@lists.sourceforge.net,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: atm: don't use snprintf() for sysfs attrs
-Message-ID: <20200827144846.yauuttjaqtxaldxg@lenovo-laptop>
-References: <20200824222322.22962-1-alex.dewar90@gmail.com>
- <48f2dc90-7852-eaf1-55d7-2c85cf954688@rasmusvillemoes.dk>
- <20200827071537.GA168593@kroah.com>
- <20200827131819.7rcl2f5js3hkoqj2@lenovo-laptop>
- <def24e9e-018c-9712-0d07-d4cbc84f07d9@rasmusvillemoes.dk>
+Message-Id: <HG6QFQ.KLMIR92DB2D02@crapouillou.net>
+In-Reply-To: <87bliwi5kx.fsf@kernel.org>
+References: <20200827124308.71963-1-paul@crapouillou.net>
+        <20200827124308.71963-2-paul@crapouillou.net> <87v9h4i6t5.fsf@kernel.org>
+        <PN4QFQ.KWNBY2ZWQ7XC2@crapouillou.net> <87bliwi5kx.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <def24e9e-018c-9712-0d07-d4cbc84f07d9@rasmusvillemoes.dk>
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 03:41:06PM +0200, Rasmus Villemoes wrote:
-> On 27/08/2020 15.18, Alex Dewar wrote:
-> > On Thu, Aug 27, 2020 at 09:15:37AM +0200, Greg Kroah-Hartman wrote:
-> >> On Thu, Aug 27, 2020 at 08:42:06AM +0200, Rasmus Villemoes wrote:
-> >>> On 25/08/2020 00.23, Alex Dewar wrote:
-> >>>> kernel/cpu.c: don't use snprintf() for sysfs attrs
-> >>>>
-> >>>> As per the documentation (Documentation/filesystems/sysfs.rst),
-> >>>> snprintf() should not be used for formatting values returned by sysfs.
-> >>>>
-> >>>
-> >>> Can we have a sysfs_sprintf() (could just be a macro that does sprintf)
-> >>> to make it clear to the next reader that we know we're in a sysfs show
-> >>> method? It would make auditing uses of sprintf() much easier.
-> >>
-> >> Code churn to keep code checkers quiet for pointless reasons?  What
-> >> could go wrong with that...
-> 
-> I did not (mean to) suggest replacing existing sprintf() calls in sysfs
-> show methods. But when changes _are_ being made, such as when replacing
-> snprintf() calls for whatever reasons, can we please not make it harder
-> for people doing manual audits (those are "code checkers" as well, I
-> suppose, but they do tend to only make noise when finding something).
-> 
-> >> It should be pretty obvious to any reader that you are in a sysfs show
-> >> method, as almost all of them are trivially tiny and obvious.
-> 
-> git grep doesn't immediately show that, not even with a suitable -C
-> argument, as you can't really know the potential callers unless you open
-> the file and see that the function is only assigned as a .show method.
-> And even that can be a pain because it's all hidden behind five levels
-> of magic macros that build identifiers with ##.
-> 
-> > Perhaps I should have mentioned this in the commit message, but the problem
-> > is that snprintf() doesn't return the number of bytes written to the
-> > destination buffer,
-> 
-> I'm perfectly well aware of that, TYVM (you may want to 'git log
-> --author Villemoes lib/vsprintf.c').
-> 
->  but the number of bytes that *would have been written if
-> > they fitted*, which may be more than the bounds specified [1]. So "return
-> > snprintf(...)" for sysfs attributes is an antipattern. If you need bounded
-> > string ops, scnprintf() is the way to go. Using snprintf() can give a
-> > false sense of security, because it isn't necessarily safe.
-> 
-> Huh? This all seems utterly irrelevant WRT a change that replaces
-> PAGE_SIZE by INT_MAX (because that's what sprintf() is going to pretend
-> you passed). You get the same return value.
-> 
-> But I'm not at all concerned about whether one passes the proper buffer
-> size or not in sysfs show methods; with my embedded hat on, I'm all for
-> saving a few bytes of .text here and there. The problem, as far as I'm
-> concerned, is merely that adding sprintf() callers makes it harder to
-> find the problematic sprintf() instances.
-> 
 
-Apologies, I think I might have expressed myself poorly, being a kernel noob
-;-). I know that this is a stylistic change rather than a functional
-one -- I meant that I was hoping that it would be helpful to get rid of bad
-uses of snprintf().
 
-I really like your idea of helper methods though :-). If in show()
-methods we could have something like:
-	return sysfs_itoa(buf, i);
-in place of:
-	return sprintf(buf, "%d\n", i);
+Le jeu. 27 ao=FBt 2020 =E0 16:25, Felipe Balbi <balbi@kernel.org> a=20
+=E9crit :
+>=20
+> Hi,
+>=20
+> Paul Cercueil <paul@crapouillou.net> writes:
+>>>>   @@ -172,7 +172,8 @@ static int ingenic_usb_phy_init(struct=20
+>>>> usb_phy
+>>>>  *phy)
+>>>>    		return err;
+>>>>    	}
+>>>>=20
+>>>>   -	priv->soc_info->usb_phy_init(phy);
+>>>>   +	reg =3D priv->soc_info->usb_phy_init(phy);
+>>>>   +	writel(reg, priv->base + REG_USBPCR_OFFSET);
+>>>=20
+>>>  not fixing any bug.
+>>>=20
+>>>  Looking at the code, the bug follows after this line. It would=20
+>>> suffice
+>>>  to read REG_USBPCR_OFFSET in order to initialize reg. This bug fix
+>>>  could
+>>>  have been a one liner.
+>>=20
+>>  There's no need to re-read a register when you have the value=20
+>> readily
+>>  available. It just needs to be returned from the usb_phy_init
+>>  callbacks. But yes, it's not a one-liner.
+>=20
+> there's a difference between making a bug fix and reworking the=20
+> behavior
+> of the driver ;-)
 
-... then we wouldn't be introducing any new calls to sprintf() as you
-say, but we'd still be removing a call to snprintf() (which also may be
-problematic). Plus we'd have type checking on the argument.
+The one-liner is actually what changes the behavior of the driver,=20
+since previously the code did not read back the register.
 
-For returning strings, we could have a bounded and unbounded variant of
-the function. As it seems like only single values should be returned via
-sysfs, if we did things this way then it would only be these
-string-returning functions which could cause buffer overflow problems
-and kernel devs could focus their attention accordingly...
+In this case I guess it's fine, because the register does not have=20
+volatile bits.
 
-What do people think? I'm happy to have a crack, provided this is
-actually a sensible thing to do! I'm looking for a newbie-level project
-to get started with.
+>>>>   @@ -195,19 +196,15 @@ static void ingenic_usb_phy_remove(void=20
+>>>> *phy)
+>>>>    	usb_remove_phy(phy);
+>>>>    }
+>>>>=20
+>>>>   -static void jz4770_usb_phy_init(struct usb_phy *phy)
+>>>>   +static u32 jz4770_usb_phy_init(struct usb_phy *phy)
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>    {
+>>>>   -	struct jz4770_phy *priv =3D phy_to_jz4770_phy(phy);
+>>>>   -	u32 reg;
+>>>>   -
+>>>>   -	reg =3D USBPCR_AVLD_REG | USBPCR_COMMONONN |=20
+>>>> USBPCR_IDPULLUP_ALWAYS
+>>>>  |
+>>>>   +	return USBPCR_AVLD_REG | USBPCR_COMMONONN |
+>>>>  USBPCR_IDPULLUP_ALWAYS |
+>>>>    		USBPCR_COMPDISTUNE_DFT | USBPCR_OTGTUNE_DFT |
+>>>>  USBPCR_SQRXTUNE_DFT |
+>>>>    		USBPCR_TXFSLSTUNE_DFT | USBPCR_TXRISETUNE_DFT |
+>>>>  USBPCR_TXVREFTUNE_DFT |
+>>>>    		USBPCR_POR;
+>>>>   -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>    }
+>>>>=20
+>>>>   -static void jz4780_usb_phy_init(struct usb_phy *phy)
+>>>>   +static u32 jz4780_usb_phy_init(struct usb_phy *phy)
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>   @@ -216,11 +213,10 @@ static void jz4780_usb_phy_init(struct
+>>>>  usb_phy *phy)
+>>>>    		USBPCR1_WORD_IF_16BIT;
+>>>>    	writel(reg, priv->base + REG_USBPCR1_OFFSET);
+>>>>=20
+>>>>   -	reg =3D USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
+>>>>   -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+>>>>   +	return USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>    }
+>>>>=20
+>>>>   -static void x1000_usb_phy_init(struct usb_phy *phy)
+>>>>   +static u32 x1000_usb_phy_init(struct usb_phy *phy)
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>    {
+>>>>    	struct jz4770_phy *priv =3D phy_to_jz4770_phy(phy);
+>>>>    	u32 reg;
+>>>>   @@ -228,13 +224,12 @@ static void x1000_usb_phy_init(struct=20
+>>>> usb_phy
+>>>>  *phy)
+>>>>    	reg =3D readl(priv->base + REG_USBPCR1_OFFSET) |
+>>>>  USBPCR1_WORD_IF_16BIT;
+>>>>    	writel(reg, priv->base + REG_USBPCR1_OFFSET);
+>>>>=20
+>>>>   -	reg =3D USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
+>>>>   +	return USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
+>>>>    		USBPCR_TXHSXVTUNE_DCR_15MV | USBPCR_TXVREFTUNE_INC_25PPT |
+>>>>    		USBPCR_COMMONONN | USBPCR_POR;
+>>>>   -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>    }
+>>>>=20
+>>>>   -static void x1830_usb_phy_init(struct usb_phy *phy)
+>>>>   +static u32 x1830_usb_phy_init(struct usb_phy *phy)
+>>>=20
+>>>  not a bug fix
+>>>=20
+>>>>    {
+>>>>    	struct jz4770_phy *priv =3D phy_to_jz4770_phy(phy);
+>>>>    	u32 reg;
+>>>>   @@ -246,9 +241,8 @@ static void x1830_usb_phy_init(struct usb_phy
+>>>>  *phy)
+>>>>    		USBPCR1_DMPD | USBPCR1_DPPD;
+>>>>    	writel(reg, priv->base + REG_USBPCR1_OFFSET);
+>>>>=20
+>>>>   -	reg =3D USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT
+>>>>  |	USBPCR_TXPREEMPHTUNE |
+>>>>   +	return USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT |
+>>>>  USBPCR_TXPREEMPHTUNE |
+>>>>    		USBPCR_COMMONONN | USBPCR_POR;
+>>>>   -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+>>>=20
+>>>  not a bug fix
+>>=20
+>>  Well, if you don't like my bug fix, next time wait for my=20
+>> Reviewed-by.
+>=20
+> why so angry? Take a break every once in a while. Besides, someone=20
+> else
+> already sent the oneliner before you ;-)
 
-Thanks for the feedback all,
-Alex
-> 
-> >> Anyway, we've had this for 20 years,
-> 
-> My bad, for a moment I forgot that code and patterns of that vintage
-> cannot have bugs.
-> 
-> Rasmus
+I'm just pissed that this patch has not been tested. I don't like=20
+sloppy work.
+
+> In any case, why should I wait for your Reviewed-by? Get maintainer
+> doesn't list you as the maintainer for it. Do you want to update
+> MAINTAINERS by any chance?
+
+Yes, I thought I was (I'm maintainer of all Ingenic drivers), that also=20
+explains why I wasn't Cc'd for the oneliner patch you mentioned...
+
+IIRC Zhou has a patch to move the driver to drivers/phy/, I'll add=20
+myself as maintainer once it's moved there.
+
+-Paul
+
+
