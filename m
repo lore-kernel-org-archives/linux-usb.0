@@ -2,60 +2,57 @@ Return-Path: <SRS0=VQXk=CF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D4ACC433DF
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 13:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D10FC433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 13:05:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B2B522CBE
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 13:05:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58A7A22CAE
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 13:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598533527;
-	bh=Bi9r01y/oAwP2vlIGYEvJd0db7VUaWRQRZh/kykfMJk=;
+	s=default; t=1598533540;
+	bh=d4Bbz6immrh2cuagoKGQb8dRAnNcJbLXhsZf4tTIDuo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=wUgs1bUAFV+ADFt6h5HaVOUy9O1uVDnIwbWVPcUxfhnczDuUGKHm+FZXaHwMX9h0g
-	 cmLgCtH+DNofW+vPCM+yC09wliNHT5NnwALx12QvjF6+Pb9mmKqb1jtQ1agdvOOZom
-	 4dap2dxXKef2FtfxEadSXAaR+jUQaqign3aRa9p8=
+	b=y9Qm9kTG/NpVem/BVLEWbcB+r7NeIaaskROFjW1tBXWdgKjnONCKjOIN+RkSQI5oP
+	 tp/H6JHOl59LAPFFkIOELfVIsEr+6WDQiKztbLSh/AHKIXZ6hOz2jgN5cLROaBO+0j
+	 foiW0lH46DWmNX0+RfnZFjMYy8w5mga6InFGPJVM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbgH0NFP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Aug 2020 09:05:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44892 "EHLO mail.kernel.org"
+        id S1726289AbgH0NAF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Aug 2020 09:00:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41070 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726207AbgH0NE7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 27 Aug 2020 09:04:59 -0400
+        id S1726073AbgH0M7O (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Aug 2020 08:59:14 -0400
 Received: from saruman (91-155-214-58.elisa-laajakaista.fi [91.155.214.58])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC9BD22CB2;
-        Thu, 27 Aug 2020 13:03:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 43E1D2177B;
+        Thu, 27 Aug 2020 12:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598533434;
-        bh=Bi9r01y/oAwP2vlIGYEvJd0db7VUaWRQRZh/kykfMJk=;
+        s=default; t=1598533134;
+        bh=d4Bbz6immrh2cuagoKGQb8dRAnNcJbLXhsZf4tTIDuo=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=EKheZYsk+i9D/SZWLSwwwgH5/wMI9ndeycv8LzX2TwhOCzJKdQ4c1PxaolOoO5qcj
-         bqiw9EnLZFDZHlGopD7a7/SyhwivnFqCm2EUXSHr/E1FZ3zXuuf1bvhXiJmwxGKgZO
-         xB9vsq9i2/TByOTvUuFhNH6l3GyNUtViwepcmJtc=
+        b=AQ/wQXnZJKoZcYs1/FwK94+TQjXENo2Hjf2OAsdhJNc5Et0ZXE6XJ1r5mXTmj3D9Z
+         xIXd+o3pg9l25PF2JOobM50WTJK4Au0fCL1nLs+dugKc0tlEiIMdQdJ6aqXSt/CnKO
+         to651qbL2bf1UTwBv8tnKPkMuV6WXpzmID7X2wP4=
 From:   Felipe Balbi <balbi@kernel.org>
-To:     Macpaul Lin <macpaul.lin@mediatek.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Cc:     Ainge Hsu <ainge.hsu@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Macpaul Lin <macpaul.lin@mediatek.com>,
-        Macpaul Lin <macpaul.lin@gmail.com>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3] usb: mtu3: fix panic in mtu3_gadget_stop()
-In-Reply-To: <1598520178-17301-1-git-send-email-macpaul.lin@mediatek.com>
-References: <1596185878-24360-1-git-send-email-macpaul.lin@mediatek.com>
- <1598520178-17301-1-git-send-email-macpaul.lin@mediatek.com>
-Date:   Thu, 27 Aug 2020 16:03:46 +0300
-Message-ID: <87pn7ci6kt.fsf@kernel.org>
+To:     Paul Cercueil <paul@crapouillou.net>,
+        =?utf-8?B?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>,
+        =?utf-8?B?5ZGo5q2j?= <sernia.zhou@foxmail.com>,
+        =?utf-8?B?5ryG6bmP5oyv?= <aric.pzqi@ingenic.com>
+Cc:     od@zcrc.me, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 1/1] USB: PHY: JZ4770: Fix uninitialized value written
+ to HW register
+In-Reply-To: <20200827124308.71963-2-paul@crapouillou.net>
+References: <20200827124308.71963-1-paul@crapouillou.net>
+ <20200827124308.71963-2-paul@crapouillou.net>
+Date:   Thu, 27 Aug 2020 15:58:46 +0300
+Message-ID: <87v9h4i6t5.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -68,54 +65,130 @@ X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-Macpaul Lin <macpaul.lin@mediatek.com> writes:
 
-> This patch fixes a possible issue when mtu3_gadget_stop()
-> already assigned NULL to mtu->gadget_driver during mtu_gadget_disconnect(=
-).
->
-> [<ffffff9008161974>] notifier_call_chain+0xa4/0x128
-> [<ffffff9008161fd4>] __atomic_notifier_call_chain+0x84/0x138
-> [<ffffff9008162ec0>] notify_die+0xb0/0x120
-> [<ffffff900809e340>] die+0x1f8/0x5d0
-> [<ffffff90080d03b4>] __do_kernel_fault+0x19c/0x280
-> [<ffffff90080d04dc>] do_bad_area+0x44/0x140
-> [<ffffff90080d0f9c>] do_translation_fault+0x4c/0x90
-> [<ffffff9008080a78>] do_mem_abort+0xb8/0x258
-> [<ffffff90080849d0>] el1_da+0x24/0x3c
-> [<ffffff9009bde01c>] mtu3_gadget_disconnect+0xac/0x128
-> [<ffffff9009bd576c>] mtu3_irq+0x34c/0xc18
-> [<ffffff90082ac03c>] __handle_irq_event_percpu+0x2ac/0xcd0
-> [<ffffff90082acae0>] handle_irq_event_percpu+0x80/0x138
-> [<ffffff90082acc44>] handle_irq_event+0xac/0x148
-> [<ffffff90082b71cc>] handle_fasteoi_irq+0x234/0x568
-> [<ffffff90082a8708>] generic_handle_irq+0x48/0x68
-> [<ffffff90082a96ac>] __handle_domain_irq+0x264/0x1740
-> [<ffffff90080819f4>] gic_handle_irq+0x14c/0x250
-> [<ffffff9008084cec>] el1_irq+0xec/0x194
-> [<ffffff90085b985c>] dma_pool_alloc+0x6e4/0xae0
-> [<ffffff9008d7f890>] cmdq_mbox_pool_alloc_impl+0xb0/0x238
-> [<ffffff9008d80904>] cmdq_pkt_alloc_buf+0x2dc/0x7c0
-> [<ffffff9008d80f60>] cmdq_pkt_add_cmd_buffer+0x178/0x270
-> [<ffffff9008d82320>] cmdq_pkt_perf_begin+0x108/0x148
-> [<ffffff9008d824d8>] cmdq_pkt_create+0x178/0x1f0
-> [<ffffff9008f96230>] mtk_crtc_config_default_path+0x328/0x7a0
-> [<ffffff90090246cc>] mtk_drm_idlemgr_kick+0xa6c/0x1460
-> [<ffffff9008f9bbb4>] mtk_drm_crtc_atomic_begin+0x1a4/0x1a68
-> [<ffffff9008e8df9c>] drm_atomic_helper_commit_planes+0x154/0x878
-> [<ffffff9008f2fb70>] mtk_atomic_complete.isra.16+0xe80/0x19c8
-> [<ffffff9008f30910>] mtk_atomic_commit+0x258/0x898
-> [<ffffff9008ef142c>] drm_atomic_commit+0xcc/0x108
-> [<ffffff9008ef7cf0>] drm_mode_atomic_ioctl+0x1c20/0x2580
-> [<ffffff9008ebc768>] drm_ioctl_kernel+0x118/0x1b0
-> [<ffffff9008ebcde8>] drm_ioctl+0x5c0/0x920
-> [<ffffff900863b030>] do_vfs_ioctl+0x188/0x1820
-> [<ffffff900863c754>] SyS_ioctl+0x8c/0xa0
->
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> Cc: stable@vger.kernel.org
+Hi,
 
-missing a Fixes: line here
+Paul Cercueil <paul@crapouillou.net> writes:
+> The 'reg' value was written to a hardware register in
+> ingenic_usb_phy_init(), while not being initialized anywhere.
+
+your patch does a lot more than fix the bug :-)
+
+> Fixes: 2a6c0b82e651 ("USB: PHY: JZ4770: Add support for new Ingenic SoCs.=
+")
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/usb/phy/phy-jz4770.c | 28 +++++++++++-----------------
+>  1 file changed, 11 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/usb/phy/phy-jz4770.c b/drivers/usb/phy/phy-jz4770.c
+> index d4ee3cb721ea..58771a8688f2 100644
+> --- a/drivers/usb/phy/phy-jz4770.c
+> +++ b/drivers/usb/phy/phy-jz4770.c
+> @@ -97,7 +97,7 @@ enum ingenic_usb_phy_version {
+>  struct ingenic_soc_info {
+>  	enum ingenic_usb_phy_version version;
+>=20=20
+> -	void (*usb_phy_init)(struct usb_phy *phy);
+> +	u32 (*usb_phy_init)(struct usb_phy *phy);
+
+this is not fixing any bug
+
+> @@ -172,7 +172,8 @@ static int ingenic_usb_phy_init(struct usb_phy *phy)
+>  		return err;
+>  	}
+>=20=20
+> -	priv->soc_info->usb_phy_init(phy);
+> +	reg =3D priv->soc_info->usb_phy_init(phy);
+> +	writel(reg, priv->base + REG_USBPCR_OFFSET);
+
+not fixing any bug.
+
+Looking at the code, the bug follows after this line. It would suffice
+to read REG_USBPCR_OFFSET in order to initialize reg. This bug fix could
+have been a one liner.
+
+> @@ -195,19 +196,15 @@ static void ingenic_usb_phy_remove(void *phy)
+>  	usb_remove_phy(phy);
+>  }
+>=20=20
+> -static void jz4770_usb_phy_init(struct usb_phy *phy)
+> +static u32 jz4770_usb_phy_init(struct usb_phy *phy)
+
+not a bug fix
+
+>  {
+> -	struct jz4770_phy *priv =3D phy_to_jz4770_phy(phy);
+> -	u32 reg;
+> -
+> -	reg =3D USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
+> +	return USBPCR_AVLD_REG | USBPCR_COMMONONN | USBPCR_IDPULLUP_ALWAYS |
+>  		USBPCR_COMPDISTUNE_DFT | USBPCR_OTGTUNE_DFT | USBPCR_SQRXTUNE_DFT |
+>  		USBPCR_TXFSLSTUNE_DFT | USBPCR_TXRISETUNE_DFT | USBPCR_TXVREFTUNE_DFT |
+>  		USBPCR_POR;
+> -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+
+not a bug fix
+
+>  }
+>=20=20
+> -static void jz4780_usb_phy_init(struct usb_phy *phy)
+> +static u32 jz4780_usb_phy_init(struct usb_phy *phy)
+
+not a bug fix
+
+> @@ -216,11 +213,10 @@ static void jz4780_usb_phy_init(struct usb_phy *phy)
+>  		USBPCR1_WORD_IF_16BIT;
+>  	writel(reg, priv->base + REG_USBPCR1_OFFSET);
+>=20=20
+> -	reg =3D USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
+> -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+> +	return USBPCR_TXPREEMPHTUNE | USBPCR_COMMONONN | USBPCR_POR;
+
+not a bug fix
+
+>  }
+>=20=20
+> -static void x1000_usb_phy_init(struct usb_phy *phy)
+> +static u32 x1000_usb_phy_init(struct usb_phy *phy)
+
+not a bug fix
+
+>  {
+>  	struct jz4770_phy *priv =3D phy_to_jz4770_phy(phy);
+>  	u32 reg;
+> @@ -228,13 +224,12 @@ static void x1000_usb_phy_init(struct usb_phy *phy)
+>  	reg =3D readl(priv->base + REG_USBPCR1_OFFSET) | USBPCR1_WORD_IF_16BIT;
+>  	writel(reg, priv->base + REG_USBPCR1_OFFSET);
+>=20=20
+> -	reg =3D USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
+> +	return USBPCR_SQRXTUNE_DCR_20PCT | USBPCR_TXPREEMPHTUNE |
+>  		USBPCR_TXHSXVTUNE_DCR_15MV | USBPCR_TXVREFTUNE_INC_25PPT |
+>  		USBPCR_COMMONONN | USBPCR_POR;
+> -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+
+not a bug fix
+
+>  }
+>=20=20
+> -static void x1830_usb_phy_init(struct usb_phy *phy)
+> +static u32 x1830_usb_phy_init(struct usb_phy *phy)
+
+not a bug fix
+
+>  {
+>  	struct jz4770_phy *priv =3D phy_to_jz4770_phy(phy);
+>  	u32 reg;
+> @@ -246,9 +241,8 @@ static void x1830_usb_phy_init(struct usb_phy *phy)
+>  		USBPCR1_DMPD | USBPCR1_DPPD;
+>  	writel(reg, priv->base + REG_USBPCR1_OFFSET);
+>=20=20
+> -	reg =3D USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT |	USBPCR_TXPREEMPHTUNE |
+> +	return USBPCR_IDPULLUP_OTG | USBPCR_VBUSVLDEXT | USBPCR_TXPREEMPHTUNE |
+>  		USBPCR_COMMONONN | USBPCR_POR;
+> -	writel(reg, priv->base + REG_USBPCR_OFFSET);
+
+not a bug fix
 
 =2D-=20
 balbi
@@ -125,19 +198,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl9HrzIRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQZO7xAAm9sZr6+KnTpU/DKiIVja1ris7ncWwhNs
-bxcz1Idubfaxfe+v/+u66DxuOhBSuJhvUo3jXEZdvvKIP7iEpU6Ei2VuCN3d6Shu
-uImPZhqqio4JQVBAGDE5YOdLEQQt9tnJL0fH2MnE6IdaLSPuU9/FFtz6oa8iZrFa
-JJqbs6iiJsgQUUJIO59Rh1eNJNAX4oU+aIKYjjU6zefSUIEJ+tGnYfjP14bCIZaN
-lB90TrO96W26M65sZq1C16aF8+m6FWEqxB8vJDx9csJT1muiki1Gal4TB2X7+94v
-bbJcZsOZQlsYeT9YXOxkxJcavVuByyH28W7HdjLEe8YIs21vSwla7L1YFrt9dNP6
-7pzCsvnecuQtGRZACDFn5fPSQ12wLGlw0Tm1ViI6YLtZshfWWFeKYufk6cIHiksD
-PILbl4ulERm2+GhEtJX2k9h4EypKjEmzsjdzzi+/CqF22qWphqP9IIwXClQ3ZOU1
-RrM0M1eIR4UBW4pPUeOxAX1evZHmMU0kS1MyAYwzzGwwk3foMrtQd4h5jt/G06+/
-E6yIjFoMrtUGMxcFQr/fFQwMYG1BJByE5XsS1l8p2JS7CfH3b7CadfA6sGrDCRqF
-QVj0EgD7JKgrpwjgAm8pnTkskZAxxSWyFNMiJyWRhKfhCjfv0pmjYIaeJJAXtK3j
-nR/RQXhFEv4=
-=iB0O
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl9HrgYRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQaT/w/+JlNAlTBK+BeN8ZHhLCNQ6q9UGiD4uzhE
+dROf/8FE7LYMOOu+gU/eP0srxyxnWaDFNINb2JTpwb+jlyPyzYCLgncIYdGN0thD
+DgtItb3aGkq8o0pDKr/Ql/7+GP8NBcIxFHKz/MFp3hHOzccOqMzCsIeirIj0mvNT
+S6UYLJUjkEMwed37CXKIt72kxnIv02H48opi8FxFd0Jx2je8PFl+/CL/V+Yq4Ovg
+VmcSc2X8lIhIxcE24TNwBSNP8uvpB9beCqh9Olih+fbJRE0Di9SpZXJFQJx9gBm3
+6zm0CpjaD3K1T50GIXaHNmBRBS94SqywhxTQyoDLAghqNKYLCVpMcfezJZQoqGr+
+ExTY4aFgScrgNEubJ+aq1MPZsirhZW/wzW9Ov7//mQr/yahhUzNkQCkOeyiRdN1E
+Qphcr3RFlucqEoDjASRYetQTwI761snTt1nBIfTtJgKqMOKuL4P9vJ3yblmKsqm6
+5XXqDsfyI4oKjLLsEpDF1ckX3/IlXYFNPZ0tq95H8UOrO2x/X6e/jhToHG6DdPcJ
+9578H9gk1ALmhnRqqyHUBmILgSDRynjOLssPN+OGiuLB1u5SEtt8ist7FLKkh9LU
+upM9GjxAzLzdIb4/l5VprnMYPslkVKII0MXWkuM0pQcM/PslwB+HuyXmLa8jKDGf
+JLBfkngI1QE=
+=YW/H
 -----END PGP SIGNATURE-----
 --=-=-=--
