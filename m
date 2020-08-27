@@ -2,159 +2,94 @@ Return-Path: <SRS0=VQXk=CF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18ADEC433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C21BC433E5
 	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:48:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB77B2054F
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:48:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="S4pcjGYX"
+	by mail.kernel.org (Postfix) with ESMTP id 4358022B4B
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Aug 2020 14:48:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727986AbgH0Osl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Aug 2020 10:48:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728043AbgH0Os3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Aug 2020 10:48:29 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72880C061232
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2020 07:48:28 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a65so5426332wme.5
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2020 07:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=US0rKLWi0Ij67svDuIlZzqQZrRksxzdQhyeGx2i0lHA=;
-        b=S4pcjGYXLbtMtCdpP90WCSGT29fBBzW7vj9f/R0GaIuYOTidERM3wLubMrY4hB2pbg
-         blCZiFzfpu7LOlZm6YLit8h2vBenAXIDzbDKpM1nyGz68tCsEf6aFR2LSVWXDA7UQFCi
-         WdYhRjw+1HzPQng1fIkDEVMVYcChzzL2se2+/0o39WTH6pL6dzkjK9YOX3zfOt59Hpov
-         GFIB09ihBviRr0RBGQ/59DE1I0zW9GY3AXKRJmmsRdkAzy83fGSOOEGX4+VsQReIfA77
-         o1ay6NYxCmZ3A6ZpgyPhpvuXQanBmWwCd5U0T9nIpgxp/O7eFuV6j2CmKkNpXrP58sHC
-         l3SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=US0rKLWi0Ij67svDuIlZzqQZrRksxzdQhyeGx2i0lHA=;
-        b=J9xwYFnLXF0rx+kbiawvz5FXpJpCQqrqjjxDMds4wmnR8E8l/NPxW0WzMNZdA9eLqn
-         YB4Z7I+FretrO8EBBFOjgE86Ejw65m3q8H+yW2rQzDb10vKU0YgdsHTYfhfkFOZihgMK
-         bI3Av3kEsl/tzE+VSXWRXtg6rA6Z5lCiAQtrmC9o3a6/KS3JjYPOJSn6TZNWjg8Wi7E4
-         Xiczm6Emsj1pOsMN4e8yic7FGlHcpveVCJ9u2LCbZMtGu8npaZxxUR7eWuHfBw8mkr/I
-         4raR7Z72m2GRqxznP4z7enzuDyrWL+fPCEbhIwjX91XLFr6c+3wKNW0SL5h4VFW1OCii
-         dSKA==
-X-Gm-Message-State: AOAM530YeQ8gelVVGpChx7yFdobqzXrM4K/fpaBDUTwypEVEPqeHEdeG
-        dThPRBYFv7XIFJTnmLW3bVS08A==
-X-Google-Smtp-Source: ABdhPJz1h5Fc45F5daqe66MhiGIVffd268qdCjCnPYhDLTXCqIsKqtcM61Fi0N5Ml5xq7+km3yCXYw==
-X-Received: by 2002:a1c:7c11:: with SMTP id x17mr10242160wmc.122.1598539707094;
-        Thu, 27 Aug 2020 07:48:27 -0700 (PDT)
-Received: from amjad-ThinkPad-T490.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id 33sm6756659wri.16.2020.08.27.07.48.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 07:48:26 -0700 (PDT)
-From:   Amjad Ouled-Ameur <aouledameur@baylibre.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Amjad Ouled-Ameur <aouledameur@baylibre.com>,
-        Dan Robertson <dan@dlrobertson.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "usb: dwc3: meson-g12a: fix shared reset control use"
-Date:   Thu, 27 Aug 2020 16:48:10 +0200
-Message-Id: <20200827144810.26657-1-aouledameur@baylibre.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728219AbgH0OB2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Aug 2020 10:01:28 -0400
+Received: from mga12.intel.com ([192.55.52.136]:48117 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728169AbgH0OAV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Aug 2020 10:00:21 -0400
+IronPort-SDR: kHbK7rczgrEqwcttoqW3iGJ5Ke99C21DUBS3+6J5okZuDvnTQfW3Q4OpdihBVCC0DDVDe4mgDZ
+ Zl7sbKg7k+sA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="136029221"
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; 
+   d="scan'208";a="136029221"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 07:00:06 -0700
+IronPort-SDR: 2uPs2ch9V4+cMSNTnQsUhQEEE0Q8ba0a1DGS157MvdQRqo9rVDlG6U+m1CNhZdpQtd5CcvzNRb
+ DsH4qQBWeYrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; 
+   d="scan'208";a="403408069"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 27 Aug 2020 07:00:02 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 27 Aug 2020 17:00:01 +0300
+Date:   Thu, 27 Aug 2020 17:00:01 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     cy_huang <u0084500@gmail.com>
+Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, linux@roeck-us.net, cy_huang@richtek.com,
+        gene_chen@richtek.com, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] usb typec: mt6360: Add support for mt6360 Type-C
+ driver
+Message-ID: <20200827140001.GE813478@kuha.fi.intel.com>
+References: <1598527137-6915-1-git-send-email-u0084500@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1598527137-6915-1-git-send-email-u0084500@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit 7a410953d1fb4dbe91ffcfdee9cbbf889d19b0d7.
+On Thu, Aug 27, 2020 at 07:18:55PM +0800, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Mediatek MT6360 is a multi-functional IC that includes USB Type-C.
+> It works with Type-C Port Controller Manager to provide USB PD
+> and USB Type-C functionalities.
+> 
+> v1 to v2
+> 1. Add fix to Prevent the race condition from interrupt and tcpci port
+> unregister during module remove.
+> 
+> v2 to v3
+> 1. Change comment style for the head of source code.
+> 2. No need to print error for platform_get_irq_byname.
+> 3. Fix tcpci_register_port check from IS_ERR_OR_NULL to IS_ERR.
+> 4. Rename driver/Kconfig/Makefile form mt6360 to mt636x.
+> 5. Rename DT binding documents from mt6360 to mt636x.
 
-This commit breaks USB on meson-gxl-s905x-libretech-cc. Reverting
-the change solves the issue.
+You don't place additional changelog here...
 
-In fact, according to the reset framework code, consumers must not use
-reset_control_(de)assert() on shared reset lines when reset_control_reset
-has been used, and vice-versa.
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
 
-Moreover, with this commit, usb is not guaranted to be reset since the
-reset is likely to be initially deasserted.
+You put it here, after that '---' marker:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
 
-Reverting the commit will bring back the suspend warning mentioned in the
-commit description. Nevertheless, a warning is much less critical than
-breaking dwc3-meson-g12a USB completely. We will address the warning
-issue in another way as a 2nd step.
 
-Signed-off-by: Amjad Ouled-Ameur <aouledameur@baylibre.com>
-Reported-by: Jerome Brunet <jbrunet@baylibre.com>
----
- drivers/usb/dwc3/dwc3-meson-g12a.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+>  drivers/usb/typec/tcpm/Kconfig        |   8 ++
+>  drivers/usb/typec/tcpm/Makefile       |   1 +
+>  drivers/usb/typec/tcpm/tcpci_mt6360.c | 212 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 221 insertions(+)
+>  create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6360.c
 
-diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
-index 88b75b5a039c..1f7f4d88ed9d 100644
---- a/drivers/usb/dwc3/dwc3-meson-g12a.c
-+++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
-@@ -737,13 +737,13 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 		goto err_disable_clks;
- 	}
- 
--	ret = reset_control_deassert(priv->reset);
-+	ret = reset_control_reset(priv->reset);
- 	if (ret)
--		goto err_assert_reset;
-+		goto err_disable_clks;
- 
- 	ret = dwc3_meson_g12a_get_phys(priv);
- 	if (ret)
--		goto err_assert_reset;
-+		goto err_disable_clks;
- 
- 	ret = priv->drvdata->setup_regmaps(priv, base);
- 	if (ret)
-@@ -752,7 +752,7 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 	if (priv->vbus) {
- 		ret = regulator_enable(priv->vbus);
- 		if (ret)
--			goto err_assert_reset;
-+			goto err_disable_clks;
- 	}
- 
- 	/* Get dr_mode */
-@@ -765,13 +765,13 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 
- 	ret = priv->drvdata->usb_init(priv);
- 	if (ret)
--		goto err_assert_reset;
-+		goto err_disable_clks;
- 
- 	/* Init PHYs */
- 	for (i = 0 ; i < PHY_COUNT ; ++i) {
- 		ret = phy_init(priv->phys[i]);
- 		if (ret)
--			goto err_assert_reset;
-+			goto err_disable_clks;
- 	}
- 
- 	/* Set PHY Power */
-@@ -809,9 +809,6 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 	for (i = 0 ; i < PHY_COUNT ; ++i)
- 		phy_exit(priv->phys[i]);
- 
--err_assert_reset:
--	reset_control_assert(priv->reset);
--
- err_disable_clks:
- 	clk_bulk_disable_unprepare(priv->drvdata->num_clks,
- 				   priv->drvdata->clks);
+thanks,
+
 -- 
-2.17.1
-
+heikki
