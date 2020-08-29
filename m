@@ -2,91 +2,124 @@ Return-Path: <SRS0=c3nw=CH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748E0C433E7
-	for <linux-usb@archiver.kernel.org>; Sat, 29 Aug 2020 05:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E9AEC433E2
+	for <linux-usb@archiver.kernel.org>; Sat, 29 Aug 2020 06:27:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AA0C20BED
-	for <linux-usb@archiver.kernel.org>; Sat, 29 Aug 2020 05:59:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="RTOaLivY"
+	by mail.kernel.org (Postfix) with ESMTP id 6D77520936
+	for <linux-usb@archiver.kernel.org>; Sat, 29 Aug 2020 06:27:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598682447;
+	bh=nmPv6vDLuaeXHEYBEjQxMedQhS6gWik2Zx2Xfd6Z2rs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=omjBsgSDpHWOkHxK92hU7y0bMuG39r4HemD9n8tQXClwNa8HlU7AAH0gRTGcfcqKb
+	 Y5coNmnpO2UsxGFPH9eMusauId3nGftO1NXZW/H/V8HCyLGH3pP01VmGIswXi0eCTv
+	 TxWtSTC0cTgqNS5ulmisvqaNW2hQOxGZDdyTPLIU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbgH2F7m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 29 Aug 2020 01:59:42 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:46731 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726954AbgH2F7h (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 29 Aug 2020 01:59:37 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1598680776; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=oacjS+8nW5DDPS+H6t/D36miAAICLdql0i6Q5+uJLhw=; b=RTOaLivY0y484VuMUykjPJn3Dwu1C+bIq4AYKC+rhL7RLuHf2Jali3rOeOParAmBTfFor+os
- KDDcx18tB1eOW8d99GVZYuRohH38LNevAksmaFSsu0MT/LpqJ4nfwVTB1eox9+yplYlm40iG
- NpreZ4jk3LRwfTWH2uUJAD8FIn4=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 5f49ee9c03d128697e4131d0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 29 Aug 2020 05:58:52
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 59F3DC43391; Sat, 29 Aug 2020 05:58:52 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        id S1726280AbgH2G1X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 29 Aug 2020 02:27:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58030 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725886AbgH2G1X (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 29 Aug 2020 02:27:23 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 81A16C433CB;
-        Sat, 29 Aug 2020 05:58:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 81A16C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     robh+dt@kernel.org, bjorn.andersson@linaro.org, balbi@kernel.org,
-        gregkh@linuxfoundation.org, agross@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [RFC v5 2/6] arm64: boot: dts: qcom: sm8150: Enable dynamic TX FIFO resize logic
-Date:   Fri, 28 Aug 2020 22:58:42 -0700
-Message-Id: <20200829055846.19034-3-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200829055846.19034-1-wcheng@codeaurora.org>
-References: <20200829055846.19034-1-wcheng@codeaurora.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id A177E20936;
+        Sat, 29 Aug 2020 06:27:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598682442;
+        bh=nmPv6vDLuaeXHEYBEjQxMedQhS6gWik2Zx2Xfd6Z2rs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oyZgoHlz2pgoYTLWrnFmo74kMioGJkgPCP1NRq+fVd7PJUqXibhyxvSyKSumdkiDE
+         9aqwGIuCeubslJ3WGVgY6u/TH/7Tj7Gd+q1D+d+ra0jFquK6gPaPj4p/p0733JprTB
+         EH3rYPFsdo73/1bCtWAn+jU8J24hIHG9zROoeHA8=
+Date:   Sat, 29 Aug 2020 08:27:19 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Mani, Rajmohan" <rajmohan.mani@intel.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "pmalani@chromium.org" <pmalani@chromium.org>,
+        "bleung@chromium.org" <bleung@chromium.org>
+Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
+ (IOM) driver
+Message-ID: <20200829062719.GA80106@kroah.com>
+References: <20200822040508.23510-1-rajmohan.mani@intel.com>
+ <20200822040508.23510-2-rajmohan.mani@intel.com>
+ <20200828074359.GC942935@kroah.com>
+ <20200828090832.GB174928@kuha.fi.intel.com>
+ <DM6PR11MB3963228D43B50604AE4D0F3AF6520@DM6PR11MB3963.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR11MB3963228D43B50604AE4D0F3AF6520@DM6PR11MB3963.namprd11.prod.outlook.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable the flexible TX FIFO resize logic on SM8150.  Using a larger TX FIFO
-SZ can help account for situations when system latency is greater than the
-USB bus transmission latency.
+On Fri, Aug 28, 2020 at 03:20:22PM +0000, Mani, Rajmohan wrote:
+> Hi Greg,
+> 
+> > Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
+> > (IOM) driver
+> > 
+> > Hi Greg,
+> > 
+> > On Fri, Aug 28, 2020 at 09:43:59AM +0200, Greg Kroah-Hartman wrote:
+> > > I still find this crazy that a whole separate driver is created just
+> > > to read a single 32bit value.
+> > >
+> > > Why not put this logic in the driver that wants to read that value?
+> > > That would be much simpler, smaller, and more obvious.
+> > 
+> > That would mean that we start maintaining something like DMI quirk table in
+> > those drivers. Unfortunately the IOM device is not available on every platform.
+> > Also, even on platforms that do have it, there is no guarantee that the device is
+> > always going to be mapped to the same address.
+> > 
+> > Nevertheless, I was originally hoping that we could hide the handling of IOM
+> > somehow in ACPI without the need for an actual device object, but it now
+> > turns out that the other features of the IOM chip have created interest. At
+> > least our i915 guys probable have some use for it (I don't know exactly what
+> > they are planning to use it for).
+> > 
+> > So the fact that we may later need the device for something else, on top of the
+> > clumsiness and most importantly risks involved with using ACPI to take care of
+> > extra tasks (ASL tends to have bugs - bugs that may never ever get fixed), I
+> > think the IOM device object, and the driver that binds to it, do have a valid
+> > reason for existing.
+> > 
+> 
+> Intel PMC USB mux device is part of the PCH, while IOM is part of the SoC.
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sm8150.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+I have no idea what a "PCH" is, what "IOM" is, and how any of this
+relates to a "SoC" :)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-index 7a0c5b419ff0..169ac4c8e298 100644
---- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-@@ -717,6 +717,7 @@ usb_1_dwc3: dwc3@a600000 {
- 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
- 				snps,dis_u2_susphy_quirk;
- 				snps,dis_enblslpm_quirk;
-+				tx-fifo-resize;
- 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
- 				phy-names = "usb2-phy", "usb3-phy";
- 			};
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Don't impose arbritrary hardware "splits" to kernel code when the kernel
+has no such "partitioning" please.
 
+> This was another reason we had to have a separate ACPI device.
+
+That sounds like a firmware issue you can solve in UEFI.
+
+I think this is the most TLA-laden email I have ever written, and I used
+to work at IBM :)
+
+greg k-h
