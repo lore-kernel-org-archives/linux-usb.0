@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E46B7C433E2
-	for <linux-usb@archiver.kernel.org>; Sun, 30 Aug 2020 19:15:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E4A4C433E2
+	for <linux-usb@archiver.kernel.org>; Sun, 30 Aug 2020 19:17:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6BC32078D
-	for <linux-usb@archiver.kernel.org>; Sun, 30 Aug 2020 19:15:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBF83206F0
+	for <linux-usb@archiver.kernel.org>; Sun, 30 Aug 2020 19:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598814933;
-	bh=KyZLMnOgAtut6dERRvxdzmUWPKzuwGYpyubNqZwnyfE=;
+	s=default; t=1598815051;
+	bh=/TH6jSnK48SMc2KpuWvdXeXdpDFfMz53qEWnp34BeF4=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=H23P6+m2A41fliBuogF2jg5kWzZ1ZvhmT7OIho56fJ0+5xxnOvxCUS1Dp2mdMxEVH
-	 /jK1MzGQxco6BGXBF8747JKg1suZpj+/CKeTPeU7NISQ0Cc9gJxGLPk+/GHFQJuszj
-	 JfZtcE9IUwhXp8e6VOZfF8so9Ld2JuX7tlF3FktY=
+	b=n3AM/BF8zcJKEkxeWxBcbBHUxTP58HUWsUWZI/Kfd778hnw7anz6Guq0V+N6Zscrz
+	 lcIqn+pdaWqOhhvoZJEf8i/ChDjPvk3GwI+VqsqV99KMdhbZnS8om1EP5i1SvYoQcr
+	 GRI59jW0cqhPc+BBhurP5DRj/YpXhzh0muwciDNI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbgH3TPb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 30 Aug 2020 15:15:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44270 "EHLO mail.kernel.org"
+        id S1726565AbgH3TPa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 30 Aug 2020 15:15:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44234 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726543AbgH3TPW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 30 Aug 2020 15:15:22 -0400
-Subject: Re: [GIT PULL] USB fixes for 5.9-rc3 - take 2
+        id S1726178AbgH3TPV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 30 Aug 2020 15:15:21 -0400
+Subject: Re: [GIT PULL] USB fixes for 5.9-rc3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598814922;
-        bh=KyZLMnOgAtut6dERRvxdzmUWPKzuwGYpyubNqZwnyfE=;
+        s=default; t=1598814921;
+        bh=/TH6jSnK48SMc2KpuWvdXeXdpDFfMz53qEWnp34BeF4=;
         h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=TAoiSYiSKcdCBn2ti9+A/CG7Y+ujCtK3xHeqyvC69unS4HVAO9/hwOVZ5iL0urjRN
-         1lmLshMCqDRR9MPmYiglix6kK5E78+uqV5UbPYYXFd/jCxxtzRfZi6MwC9ou9MvzGB
-         rey7g6/GRh5qGNXq4MfoSmBBhzHDKbbCzkbxdzk8=
+        b=zLHlXTN6mFF2OLq73Nx1YQKNVU+4qNxB3MTI1hiLn2AQ2DQJ9UvpIBlmIxYL+Semi
+         i/DI8PDK9N4ACgpYIudtGIkLo9oo3B/2umdwq4JIteP1nLn5vpmnR7QZLoBbeaDdGb
+         ENPJDmyOnUQqIUGnhsCquO6cYLp0mbbC95XFr0Mg=
 From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200830100156.GA129097@kroah.com>
-References: <20200830100156.GA129097@kroah.com>
+In-Reply-To: <20200826134315.GA3882506@kroah.com>
+References: <20200826134315.GA3882506@kroah.com>
 X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200830100156.GA129097@kroah.com>
+X-PR-Tracked-Message-Id: <20200826134315.GA3882506@kroah.com>
 X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.9-rc3
-X-PR-Tracked-Commit-Id: 20934c0de13b49a072fb1e0ca79fe0fe0e40eae5
+X-PR-Tracked-Commit-Id: 23e26d0577535f5ffe4ff8ed6d06e009553c0bca
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6f0306d1bfbc4d3e3fcfb949ee2c4af21071920a
-Message-Id: <159881492243.11937.12394656114937153114.pr-tracker-bot@kernel.org>
-Date:   Sun, 30 Aug 2020 19:15:22 +0000
+X-PR-Merge-Commit-Id: 068834a2773b6a12805105cfadbb3d4229fc6e0a
+Message-Id: <159881492157.11937.12778329216839262691.pr-tracker-bot@kernel.org>
+Date:   Sun, 30 Aug 2020 19:15:21 +0000
 To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -54,12 +54,12 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Sun, 30 Aug 2020 12:01:56 +0200:
+The pull request you sent on Wed, 26 Aug 2020 15:43:15 +0200:
 
 > git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.9-rc3
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6f0306d1bfbc4d3e3fcfb949ee2c4af21071920a
+https://git.kernel.org/torvalds/c/068834a2773b6a12805105cfadbb3d4229fc6e0a
 
 Thank you!
 
