@@ -2,105 +2,67 @@ Return-Path: <SRS0=omxl=CJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C113C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 13:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E8BC433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 13:51:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E39020782
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 13:24:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 589F6208CA
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 13:51:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbgHaNY3 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Aug 2020 09:24:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52482 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726121AbgHaNY1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 31 Aug 2020 09:24:27 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 208891] Thunderbolt hotplug fails on HP x360 13t-aw000/86FA
- with HP Thunderbolt 3 Dock
-Date:   Mon, 31 Aug 2020 13:24:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mika.westerberg@linux.intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208891-208809-yD96IYJwa7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208891-208809@https.bugzilla.kernel.org/>
-References: <bug-208891-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1727884AbgHaNvw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 Aug 2020 09:51:52 -0400
+Received: from out28-76.mail.aliyun.com ([115.124.28.76]:33484 "EHLO
+        out28-76.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727824AbgHaNvs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Aug 2020 09:51:48 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.1641472|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0633989-0.0157613-0.92084;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03308;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.IQkeIH2_1598881885;
+Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.IQkeIH2_1598881885)
+          by smtp.aliyun-inc.com(10.147.43.230);
+          Mon, 31 Aug 2020 21:51:42 +0800
+From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
+        <zhouyanjie@wanyeetech.com>
+To:     kishon@ti.com, vkoul@kernel.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        paul@crapouillou.net, christophe.jaillet@wanadoo.fr,
+        aric.pzqi@ingenic.com, dongsheng.qiu@ingenic.com,
+        rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
+        sernia.zhou@foxmail.com, zhenwenjin@gmail.com
+Subject: [PATCH v2 0/1] Use the generic PHY framework for Ingenic USB PHY.
+Date:   Mon, 31 Aug 2020 21:50:45 +0800
+Message-Id: <20200831135046.54460-1-zhouyanjie@wanyeetech.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208891
+v1->v2:
+Fix bug, ".of_match_table = of_match_ptr(ingenic_usb_phy_of_matches)" is wrong
+and should be replaced with ".of_match_table = ingenic_usb_phy_of_matches".
 
---- Comment #32 from Mika Westerberg (mika.westerberg@linux.intel.com) ---
-Thanks for the logs. I think I know what is going on. From the failure log:
+周琰杰 (Zhou Yanjie) (1):
+  USB: PHY: JZ4770: Use the generic PHY framework.
 
-Registers get saved:
-[   80.292442] pci 0000:2d:00.0: saving config space at offset 0x1c (reading
-0x101)
-[   80.292446] pci 0000:2d:00.0: saving config space at offset 0x20 (reading
-0x0)
-[   80.292450] pci 0000:2d:00.0: saving config space at offset 0x24 (reading
-0x10001)
-[   80.292454] pci 0000:2d:00.0: saving config space at offset 0x28 (reading
-0x0)
-[   80.292458] pci 0000:2d:00.0: saving config space at offset 0x2c (reading
-0x0)
-
-Resources are assigned:
-[   80.293725] pci 0000:2d:00.0: BAR 8: assigned [mem 0x68000000-0x680fffff]
-[   80.293727] pci 0000:2d:00.0: BAR 9: assigned [mem 0x6000000000-0x60000fffff
-64bit pref]
-[   80.293752] pci 0000:2d:00.0: BAR 7: assigned [io  0x5000-0x5fff]
-...
-[   80.293803] pci 0000:2d:00.0: PCI bridge to [bus 2e]
-[   80.293807] pci 0000:2d:00.0:   bridge window [io  0x5000-0x5fff]
-[   80.293816] pci 0000:2d:00.0:   bridge window [mem 0x68000000-0x680fffff]
-[   80.293823] pci 0000:2d:00.0:   bridge window [mem 0x6000000000-0x60000fffff
-64bit pref]
-
-Note that there is no save happening here. Then shortly after there is register
-restore:
-
-[   80.294748] pcieport 0000:2d:00.0: runtime IRQ mapping not provided by arch
-[   80.294830] pcieport 0000:2d:00.0: restoring config space at offset 0x2c
-(was 0x60, writing 0x0)
-[   80.294835] pcieport 0000:2d:00.0: restoring config space at offset 0x28
-(was 0x60, writing 0x0)
-[   80.294839] pcieport 0000:2d:00.0: restoring config space at offset 0x24
-(was 0x10001, writing 0x10001)
-[   80.294844] pcieport 0000:2d:00.0: restoring config space at offset 0x20
-(was 0x68006800, writing 0x0)
-                                                                               
- ^^^^^^^^^^          ^^^
-[   80.294848] pcieport 0000:2d:00.0: restoring config space at offset 0x1c
-(was 0x5151, writing 0x101)
-
-This ends up clearing the bridge window registers of 2d:00.0 downstream port. I
-guess this does not happen always because it is dependent on timing.
+ drivers/phy/Kconfig                                |   1 +
+ drivers/phy/Makefile                               |   1 +
+ drivers/phy/ingenic/Kconfig                        |  12 +
+ drivers/phy/ingenic/Makefile                       |   2 +
+ .../phy-jz4770.c => phy/ingenic/phy-ingenic-usb.c} | 256 ++++++++++++---------
+ drivers/usb/phy/Kconfig                            |   8 -
+ drivers/usb/phy/Makefile                           |   1 -
+ 7 files changed, 165 insertions(+), 116 deletions(-)
+ create mode 100644 drivers/phy/ingenic/Kconfig
+ create mode 100644 drivers/phy/ingenic/Makefile
+ rename drivers/{usb/phy/phy-jz4770.c => phy/ingenic/phy-ingenic-usb.c} (63%)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.11.0
+
