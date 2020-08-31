@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67ED0C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 19:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68ECEC433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 19:30:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A4552083E
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 19:30:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EB492083E
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 19:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728857AbgHaTaG convert rfc822-to-8bit (ORCPT
+        id S1728941AbgHaTak convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Aug 2020 15:30:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38938 "EHLO mail.kernel.org"
+        Mon, 31 Aug 2020 15:30:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40248 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726085AbgHaTaG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 31 Aug 2020 15:30:06 -0400
+        id S1726085AbgHaTak (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 31 Aug 2020 15:30:40 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 208891] Thunderbolt hotplug fails on HP x360 13t-aw000/86FA
  with HP Thunderbolt 3 Dock
-Date:   Mon, 31 Aug 2020 19:30:05 +0000
+Date:   Mon, 31 Aug 2020 19:30:39 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208891-208809-L60iLpKsdU@https.bugzilla.kernel.org/>
+Message-ID: <bug-208891-208809-9pbn61LHUK@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208891-208809@https.bugzilla.kernel.org/>
 References: <bug-208891-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,11 +53,11 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208891
 
---- Comment #34 from Matt Turner (mattst88@gmail.com) ---
-Created attachment 292269
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292269&action=edit
-hotplugged-dmesg failure with CONFIG_PCI_DEBUG=y, initcall_debug, and patch
-from comment #33
+--- Comment #35 from Matt Turner (mattst88@gmail.com) ---
+Created attachment 292271
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292271&action=edit
+sudo lspci -vv failure with CONFIG_PCI_DEBUG=y, initcall_debug, and patch from
+comment #33
 
 -- 
 You are receiving this mail because:
