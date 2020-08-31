@@ -6,23 +6,23 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D4DC433E6
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 07:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B877BC433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 07:56:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F124E206FA
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 07:55:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92BC32073A
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 07:56:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728102AbgHaHzi convert rfc822-to-8bit (ORCPT
+        id S1727984AbgHaH4h convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Aug 2020 03:55:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59358 "EHLO mail.kernel.org"
+        Mon, 31 Aug 2020 03:56:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59780 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728058AbgHaHzg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 31 Aug 2020 03:55:36 -0400
+        id S1727844AbgHaH4f (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 31 Aug 2020 03:56:35 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 203419] Logitech Group USB audio stopped working in 5.1-rc6
-Date:   Mon, 31 Aug 2020 07:55:35 +0000
+Date:   Mon, 31 Aug 2020 07:56:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -37,8 +37,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-203419-208809-TjWUZSnjJi@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-203419-208809-jttiHkD292@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-203419-208809@https.bugzilla.kernel.org/>
 References: <bug-203419-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,16 +53,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=203419
 
-olivier@r-dt.net changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |olivier@r-dt.net
-
---- Comment #38 from olivier@r-dt.net ---
-Created attachment 292255
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292255&action=edit
-trace ubuntu 20.04 5.8.4-050804-generic
+--- Comment #39 from olivier@r-dt.net ---
+Created attachment 292257
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292257&action=edit
+dmesg ubuntu 20.04 5.8.4-050804-generic
 
 -- 
 You are receiving this mail because:
