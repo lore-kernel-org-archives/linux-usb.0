@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CFA5C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 15:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 645F0C433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 15:34:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 308E5214D8
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 15:33:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33B7E214D8
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Aug 2020 15:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598888019;
-	bh=21dXZEn0O1G96r2416vRzRVa6C2P3RoJxIOadJDE+Tc=;
+	s=default; t=1598888097;
+	bh=HWo7a+zaZDcLbM6xcgIY2aLd24V2n8iLT/OWYBTrpHQ=;
 	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=vYeODFp8Gj6U/Z3vSPHDlsz+psHUuILlw49GOarCP/+BCmxF79moyqpkStwDTfV0G
-	 Ye/M+A9wBZxUfPsuGyEsjmJyx0WrPvO5t5OS0v7rgXPD8xa9hl+QWVOHARfmRJJPXA
-	 /vhCT1btLwFtDAc6oiRW0Gf/Nq7QW4h32EW+J9tc=
+	b=gffd1KSlBp54ySHOHMA0/tpTZVaxGY1nnYl/ozt1nrNYUyNTzrjaQI4w/zFgRoit4
+	 yeN3MMIBSKhtQ+9FX13iNT6RirX98UUMq/+rIcsCnXBGp6SY43WaFj9Ly0GQ+6s5lm
+	 OEeNrMFLzr56du91lHUkiv5JyxFZ6kq9p217zKUU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728956AbgHaPbk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Aug 2020 11:31:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42712 "EHLO mail.kernel.org"
+        id S1729233AbgHaPel (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 Aug 2020 11:34:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42040 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728941AbgHaPbi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 31 Aug 2020 11:31:38 -0400
+        id S1728846AbgHaPbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 31 Aug 2020 11:31:20 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 62DD1214D8;
-        Mon, 31 Aug 2020 15:31:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 050DF21531;
+        Mon, 31 Aug 2020 15:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598887898;
-        bh=21dXZEn0O1G96r2416vRzRVa6C2P3RoJxIOadJDE+Tc=;
+        s=default; t=1598887880;
+        bh=HWo7a+zaZDcLbM6xcgIY2aLd24V2n8iLT/OWYBTrpHQ=;
         h=From:To:Cc:Subject:Date:From;
-        b=Jz2YNJ2Uu9QmDShASf17E/4JUGi0I54FYimTjzm4xzJpW0ukTxH2PK3FD7yjnUx9Z
-         V/5LT4FpCEZ8fxe53kAzWSQR79kUP9lMN2shuL5oXBvmtTMtfM0zAYPaSK6dg5PXzt
-         xwHExx9O/pNnUFe0rvS/nLKv70CvyVAqdzV9QA2k=
+        b=xnWCVu+vQ+I2UIT2tNFeNg0NkHA0p30a69A/B6Rie/Sdty+MA9ano4sjb5VDgtcWz
+         xiA6ER8cWrxgUlJXpVEGehOJwNVyfl25Ee5dMAcftRq69SQwsYnNeFjGa1ZDgWwreM
+         HNaNnZWiIETK5FSJMc+sy8IU2WnX6KKnCe8up/Gs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
@@ -45,9 +45,9 @@ Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 1/9] HID: hiddev: Fix slab-out-of-bounds write in hiddev_ioctl_usage()
-Date:   Mon, 31 Aug 2020 11:31:28 -0400
-Message-Id: <20200831153136.1024676-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 01/11] HID: hiddev: Fix slab-out-of-bounds write in hiddev_ioctl_usage()
+Date:   Mon, 31 Aug 2020 11:31:07 -0400
+Message-Id: <20200831153117.1024537-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-stable: review
@@ -76,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-index d9602f3a359e1..5f56feb468c15 100644
+index c34ef95d7cef3..2dff663847c69 100644
 --- a/drivers/hid/usbhid/hiddev.c
 +++ b/drivers/hid/usbhid/hiddev.c
 @@ -532,12 +532,16 @@ static noinline int hiddev_ioctl_usage(struct hiddev *hiddev, unsigned int cmd,
