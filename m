@@ -3,25 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D458C433E2
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 15:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B52C433E2
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 16:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE816206EF
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 15:52:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 023FA204EC
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 16:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgIAPwW convert rfc822-to-8bit (ORCPT
+        id S1731441AbgIAQKp convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Sep 2020 11:52:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39302 "EHLO mail.kernel.org"
+        Tue, 1 Sep 2020 12:10:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47512 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728674AbgIAPrv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Sep 2020 11:47:51 -0400
+        id S1731340AbgIAQKn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Sep 2020 12:10:43 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 209089] USB storage devices appear as SATA devices
-Date:   Tue, 01 Sep 2020 15:47:50 +0000
+Date:   Tue, 01 Sep 2020 16:10:43 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -30,14 +31,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: bourne.identity@hotmail.com
+X-Bugzilla-Who: stern@rowland.harvard.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209089-208809-gBTIndJGBV@https.bugzilla.kernel.org/>
+Message-ID: <bug-209089-208809-sAfX4t36jf@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209089-208809@https.bugzilla.kernel.org/>
 References: <bug-209089-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,38 +53,26 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209089
 
---- Comment #8 from Manish Jain (bourne.identity@hotmail.com) ---
-Hi Allan,
+--- Comment #9 from Alan Stern (stern@rowland.harvard.edu) ---
+(I bet you could have fixed the fstab contents by booting from the pen drive in
+"rescue" mode, with no need to have FreeBSD installed.)
 
-Thanks for tuning in.
+Changing the monikers is only a partial solution.  For example, devices that
+show up as uda and udb one day could very well show up as udb and uda the next
+day.
 
-The following has happened to me a couple of times, and the only way a third
-occurrence could be avoided is if USB mass storage devices nodes use a
-different nomenclature series vis-a-vis SATA disks.
+Also, suppose your system's primary hard disk was attached by USB rather than
+SATA.  Then the pen drive could have been labelled uda and the primary drive
+labelled udb, and your fstab would still be messed up.  This is part of the
+reason why people recommend using filesystem or GUID labels for fstab entries
+rather than drive names and partition numbers.
 
-Here is the incident:
+In short, changing the monikers isn't going to happen, and even if it did
+happen it wouldn't fully fix your original problem.
 
-I installed Linux using a memstick (USB pen drive), which got enumerated as sda
-while my internal hard disk got enumerated as sdb. When installation finished,
-my system was ready for reboot - except that I was not aware that my hard disk
-will next time appear as sda, not sdb as was the case during installation. So
-my fstab was all a mess, and it took me hours to figure out why my Linux was
-failing to boot. The only way I could correct the situation was to boot into
-FreeBSD and set up my Linux fstab correctly.
-
-Now as for your assertion "many USB drives actually are SATA drives attached
-via a USB-SATA adapter". It could not be more true. I have an internal SATA SSD
-myself that I occasionally attach to my system as an external USB device using
-a USB-SATA adapter. The right thing for Linux to do is allocate the device node
-for the SSD depending on the interface via which it was plugged in. Meaning, if
-it was plugged in as an internal SATA disk, it will acquire the moniker sd*.
-But if it is plugged in via the USB interface, it should get the moniker ud*
-(or anything different from sd*).
-
-I hope I have made my case clearly enough.
-
-Thank you,
-Manish Jain
+However, there is a way to set up your system to use permanently fixed drive
+names that you assign.  All you have to do is write and install an appropriate
+udev script.  Then you can make the drive names be anything you want.
 
 -- 
 You are receiving this mail because:
