@@ -2,182 +2,147 @@ Return-Path: <SRS0=VIq2=CK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45437C433E6
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 03:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E6CC433E6
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 03:49:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17C14212CC
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 03:01:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3ACC2083B
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 03:49:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="b+VstZsY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URABT8Pm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728015AbgIADA7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Aug 2020 23:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51220 "EHLO
+        id S1726102AbgIADt3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 Aug 2020 23:49:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726771AbgIAC7g (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Aug 2020 22:59:36 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2550BC061366
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 19:59:36 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id y2so4184108qvs.14
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 19:59:36 -0700 (PDT)
+        with ESMTP id S1725987AbgIADt3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Aug 2020 23:49:29 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0933C0612FE
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 20:49:27 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id w14so48841eds.0
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 20:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=qMuz0tDiyM6xgc3F2ycLbUd+YSVfhp2If+qrKeRaQS0=;
-        b=b+VstZsY60zzTJxDii/Ms+Dlf5sEAK5lchBEEqNdPfobP2ROiBQsdppnvVBMRrJbVJ
-         7CHjktoiRw2rl+FM+rQiR8hhZ+5q2AMb8S9kX1E8P9ohiClY3cdaeIm6MkfgwTshGm48
-         jnYx48Xg8KyR7Ze8pqhYWIDt4yPsSJeeiYrplXJZUO1XjT1L4qcX1wzMPGXH4BXcEkCn
-         CmwVR0nKKw3xNFiw59YQ05NpQLnpoxWPLYEsflPFIVa6yKTFYauSDIcRJVTgkqF7+wgp
-         EaaWAYkqHLFW1dRnBFgTcEhhSqZLL8W0UxDRG+cmuMegJOAoB8sH8BTcs2gbBxupMuox
-         1u3Q==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yGnO401VJHee8tld9vBJFCvzyhmUXUCdoPGxNKVZlA4=;
+        b=URABT8PmD9jvxsM4ZfwAqvdM4QNTeAHUaLoIcr4DTRGeIqIi72VctfX4RMUdAPy5ve
+         WvIEZFwG7h5O+slzi4TrjmK+YIF6VKiIN+6fKim44q2w46UAVqjt1o49ce9hapP0CgVs
+         4Z3YP43OxmInVJtVN/O7XTivWEh6Fa8KiQtATEJ8tw6JWtu5Nia5iWHKAf42lxAV7nnq
+         8O4ApbdipmnulbF4NDi1DeV+Bm15+n4spy8A+We6koCLspYEJ84+6jwNdZb8/gsjyYcS
+         iTOCU900vDhNmUTbEFvupBpJaUONpKpadUXY4322lgkGsb3XA6pP5NHpnAdjdxvblqnv
+         to9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=qMuz0tDiyM6xgc3F2ycLbUd+YSVfhp2If+qrKeRaQS0=;
-        b=myu6Xb3AOVHJzrtdAJbjiFBwDQrQycUd0zH3vQB7m1rHz3raXphQyvHe2DPhm1Qiw3
-         uTaJPB1FuvRL72+Xi2tAgS4NOvnEa0/6Aixug8tIawAIz6HBlLmhnD1/4suYr5eUK9U+
-         8ltsVxTfJRTQZhIk692Q6A4sLNEb8W1MXIneQoFnyTmRBPyndu5yUpggX3iEPo7REqll
-         btg+jIXBkE/X363R3Qt2WRiUgToZbbbSKXuZTOXGq/ZtbHb/PWzTetABjIpHyk10+S7C
-         66XKyKpBJF0xPAfrmdA2VGR8xTgKxQyyisHlY7m0F8aN0R/pvXWJwK/mIb8AAiyYJx8x
-         Ho0w==
-X-Gm-Message-State: AOAM530w6CQO7+uQQXKduE1uWwNLQOe9w5UvjZy8dMiN6uFtRddqcG3X
-        /IQF7VWgRqaKj4vYY9mj9W8qWinXoYA=
-X-Google-Smtp-Source: ABdhPJxfycQ6HHOfI1C4Ie03dA4++YjSUdkJ/5TuMsEs71huC4DhP424xgCPeUEKy1R4J3E8SKcYKx8Tric=
-X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a0c:a789:: with SMTP id v9mr1397617qva.2.1598929174616;
- Mon, 31 Aug 2020 19:59:34 -0700 (PDT)
-Date:   Mon, 31 Aug 2020 19:59:15 -0700
-In-Reply-To: <20200901025927.3596190-1-badhri@google.com>
-Message-Id: <20200901025927.3596190-3-badhri@google.com>
-Mime-Version: 1.0
-References: <20200901025927.3596190-1-badhri@google.com>
-X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
-Subject: [PATCH v6 02/14] usb: typec: tcpci: Add support when hidden tx
- registers are inaccessible
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Badhri Jagan Sridharan <badhri@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yGnO401VJHee8tld9vBJFCvzyhmUXUCdoPGxNKVZlA4=;
+        b=S+ZuNJMrddJISFtlaEIPrWxTXTPvOKlxe/U8eWXnXcCKHUbr9P0dB5bUVaO7/VjlGb
+         GECDu3wSmLWRKsaajFMMy0Pdt2KKcj/rBZBQqkXfUp4pmFL5QSe/7N0/qLIbGUQBamxe
+         bljcK99noVV3EuPoaORgVhNPLCf5yxGcXU30Gx8WjoprJrgyKKvuX6kVB+nn4DvKw6Kv
+         E5Hdw1a1k9eKNU2dj2kraTIk1Ejl7lvZ5Kg1StoD65juokWqDJM3Pg6zsqT9Y0tm7YMQ
+         uwHKEGfwohPrQ6W8ZAkIcTaUgEHjHWE2MBmE3C6Gjjv/KqHvSFOx9o3StNlgt9egC8/y
+         XGMg==
+X-Gm-Message-State: AOAM530ScJ94jNu0q02OlHyld69DdkbWSfjlBhGO60kuHtjA3SwaukES
+        4N4AmsZHXC4M2J03E5WGx6wqP/PJyXDfDRF/8Gw=
+X-Google-Smtp-Source: ABdhPJyH+71h/9rE7aXIeKdqQjPLJfuEVqfB5evxT76m7wpyOWLlZNHYH/bwHg73hrimJ43B1I81hJub5i60qOXuZdQ=
+X-Received: by 2002:aa7:d458:: with SMTP id q24mr55999edr.23.1598932166175;
+ Mon, 31 Aug 2020 20:49:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAGnHSEnKNZFyjF6E+QCLESzuOX-Fz-4ejuhmZNnGRaN8GQbM7g@mail.gmail.com>
+ <20200901020757.GC571008@rowland.harvard.edu>
+In-Reply-To: <20200901020757.GC571008@rowland.harvard.edu>
+From:   Tom Yan <tom.ty89@gmail.com>
+Date:   Tue, 1 Sep 2020 11:49:15 +0800
+Message-ID: <CAGnHSEkweSB6N5=mRtWWD_rtY+m=VuVx=NY-yzNKYWmF5+1MJQ@mail.gmail.com>
+Subject: Re: About clamping max_sectors to (ambiguous) dma_max_mapping_size
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org,
+        cyrozap@gmail.com, gregkh@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TCPCI spec forbids direct access of TX_BUF_BYTE_x register.
-The existing version of tcpci driver assumes that those registers
-are directly addressible. Add support for tcpci chips which do
-not support direct access to TX_BUF_BYTE_x registers. TX_BUF_BYTE_x
-can only be accessed by I2C_WRITE_BYTE_COUNT.
+On Tue, 1 Sep 2020 at 10:07, Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> On Tue, Sep 01, 2020 at 08:55:07AM +0800, Tom Yan wrote:
+> > Hi,
+> >
+> > So a recent commit that disable 64 bit dma addressing for ASM1142:
+> > https://github.com/torvalds/linux/commit/ec37198acca7b4c17b96247697406e47aafe0605
+> >
+> > I notice that it also causes (hw) max_sectors of uas drives connected
+> > to the controller to drop from 1024 blocks (SCSI_DEFAULT_MAX_SECTORS)
+> > to 512 blocks, because we clamp it against
+> > dma_max_mapping_size($some_device).
+> >
+> > For uas drives, $some_device is `sdev->host->dma_dev`:
+> > https://github.com/torvalds/linux/blob/v5.8/drivers/scsi/scsi_lib.c#L1778
+> > (`shost` is `sdev->host`:
+> > https://github.com/torvalds/linux/blob/v5.8/drivers/scsi/scsi_lib.c#L1873)
+> >
+> > But for bot/msc drives: $some_device is some other device:
+> > https://github.com/torvalds/linux/blob/v5.8/drivers/usb/storage/scsiglue.c#L92
+> >
+> > In that case, max_sectors remains to be 2048 blocks for SS BOT drives
+> > connected to the ASM1142 controller.
+> >
+> > I tried to change it to `sdev->host->dma_dev`. It lowered their
+> > max_sectors to 512 blocks.
+> >
+> > So my questions are:
+> > 1. Do we really need to do any clamping to max_sectors in either (uas/bot) case?
+> > 2. If so, should we change the $some_device in either case?
+> >
+> > For the record, in the original commit (for BOT drives):
+> > https://github.com/torvalds/linux/commit/d74ffae8b8dd17eaa8b82fc163e6aa2076dc8fb1
+> > The commit message states that the clamping is needed because of some
+> > other change, which is supposed to cause max_segment_size to raise
+> > from 0x10000 to 0xffffffff, but when I check the sysfs files for both
+> > kinds of drives, all of the values are 0x10000.
+> >
+> > Also see https://github.com/virtio-win/kvm-guest-drivers-windows/issues/498
+>
+> You should take a look at Arnd Bergmann's commit a8c06e407ef9 ("usb:
+> separate out sysdev pointer from usb_bus"), which is what introduced
+> this difference originally.
+>
+> As far as I know, both drivers (usb-storage and uas) should be using the
+> bus->sysdev device for the purpose of clamping max_sectors.  If uas
+> doesn't use that device then it should be fixed.
 
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
----
-Changes since v1:
- - Refactored the code to check for TX_BUF_BYTE_x_hidden as suggested by
-   Heikki.
- - Not formatting the tcpci_pd_transmit to follow the 100 character/line
-   limit as suggested by Heikki. (Should be a separate change).
- - Changing patch version to v6 to fix version number confusion.
----
- drivers/usb/typec/tcpm/tcpci.c | 46 ++++++++++++++++++++++++++--------
- drivers/usb/typec/tcpm/tcpci.h |  8 ++++++
- 2 files changed, 43 insertions(+), 11 deletions(-)
+The uas driver relies on the scsi driver
+(https://github.com/torvalds/linux/blob/v5.8/drivers/scsi/scsi_lib.c#L1796)
+for max_sector setting and clamping (except when US_FL_MAX_SECTORS_64
+or US_FL_MAX_SECTORS_240 is set, where the clamping will be
+overridden):
+https://github.com/torvalds/linux/blob/v5.8/drivers/usb/storage/uas.c#L816
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index bd80e03b2b6f..7d36d5e2d3f7 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -330,23 +330,47 @@ static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
- 	int ret;
- 
- 	cnt = msg ? pd_header_cnt(header) * 4 : 0;
--	ret = regmap_write(tcpci->regmap, TCPC_TX_BYTE_CNT, cnt + 2);
--	if (ret < 0)
--		return ret;
-+	/**
-+	 * TCPCI spec forbids direct access of TCPC_TX_DATA.
-+	 * But, since some of the chipsets offer this capability,
-+	 * it's fair to support both.
-+	 */
-+	if (tcpci->data->TX_BUF_BYTE_x_hidden) {
-+		u8 buf[TCPC_TRANSMIT_BUFFER_MAX_LEN] = {0,};
-+		u8 pos = 0;
- 
--	ret = tcpci_write16(tcpci, TCPC_TX_HDR, header);
--	if (ret < 0)
--		return ret;
-+		/* Payload + header + TCPC_TX_BYTE_CNT */
-+		buf[pos++] = cnt + 2;
-+
-+		if (msg)
-+			memcpy(&buf[pos], &msg->header, sizeof(msg->header));
-+
-+		pos += sizeof(header);
- 
--	if (cnt > 0) {
--		ret = regmap_raw_write(tcpci->regmap, TCPC_TX_DATA,
--				       &msg->payload, cnt);
-+		if (cnt > 0)
-+			memcpy(&buf[pos], msg->payload, cnt);
-+
-+		pos += cnt;
-+		ret = regmap_raw_write(tcpci->regmap, TCPC_TX_BYTE_CNT, buf, pos);
-+		if (ret < 0)
-+			return ret;
-+	} else {
-+		ret = regmap_write(tcpci->regmap, TCPC_TX_BYTE_CNT, cnt + 2);
- 		if (ret < 0)
- 			return ret;
-+
-+		ret = tcpci_write16(tcpci, TCPC_TX_HDR, header);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (cnt > 0) {
-+			ret = regmap_raw_write(tcpci->regmap, TCPC_TX_DATA, &msg->payload, cnt);
-+			if (ret < 0)
-+				return ret;
-+		}
- 	}
- 
--	reg = (PD_RETRY_COUNT << TCPC_TRANSMIT_RETRY_SHIFT) |
--		(type << TCPC_TRANSMIT_TYPE_SHIFT);
-+	reg = (PD_RETRY_COUNT << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
- 	ret = regmap_write(tcpci->regmap, TCPC_TRANSMIT, reg);
- 	if (ret < 0)
- 		return ret;
-diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
-index fd26ca35814c..cf9d8b63adcb 100644
---- a/drivers/usb/typec/tcpm/tcpci.h
-+++ b/drivers/usb/typec/tcpm/tcpci.h
-@@ -128,9 +128,17 @@
- #define TCPC_VBUS_VOLTAGE_ALARM_HI_CFG		0x76
- #define TCPC_VBUS_VOLTAGE_ALARM_LO_CFG		0x78
- 
-+/* I2C_WRITE_BYTE_COUNT + 1 when TX_BUF_BYTE_x is only accessible I2C_WRITE_BYTE_COUNT */
-+#define TCPC_TRANSMIT_BUFFER_MAX_LEN		31
-+
-+/*
-+ * @TX_BUF_BYTE_x_hidden
-+ *		optional; Set when TX_BUF_BYTE_x can only be accessed through I2C_WRITE_BYTE_COUNT.
-+ */
- struct tcpci;
- struct tcpci_data {
- 	struct regmap *regmap;
-+	unsigned char TX_BUF_BYTE_x_hidden:1;
- 	int (*init)(struct tcpci *tcpci, struct tcpci_data *data);
- 	int (*set_vconn)(struct tcpci *tcpci, struct tcpci_data *data,
- 			 bool enable);
--- 
-2.28.0.402.g5ffc5be6b7-goog
+They (uas and scsiglue/bot) call `blk_queue_max_hw_sectors` in
+different functions btw (`uas_slave_alloc` vs `slave_configure`,
+instead of `slave_alloc`, that is). I suppose we should do all the
+clamping and setting in `uas_slave_configure` instead as well?
 
+I faintly remember I asked about it but allow me to ask again, should
+we really NOT raise max_sectors to 2048 blocks for **SS UAS** drives
+like we do for SS BOT drives?
+
+>
+> And yes, the clamping is necessary.
+
+As I mentioned, if the clamping is done against the max mapping size
+of `bus->sysdev`, max_sectors will not be actually lowered in both
+cases (XHCI_NO_64BIT_SUPPORT or not). So basically it does nothing, at
+least on my devices. Allow me to confirm, is that a correct/expected
+behaviour?
+
+>
+> Alan Stern
