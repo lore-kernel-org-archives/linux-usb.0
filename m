@@ -2,72 +2,103 @@ Return-Path: <SRS0=VIq2=CK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09405C433E7
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 16:45:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEDCC433E6
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 16:48:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4D5520767
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 16:45:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F026B21707
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 16:48:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730660AbgIAQpY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Sep 2020 12:45:24 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37340 "EHLO mx2.suse.de"
+        id S1730237AbgIAQsU convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Sep 2020 12:48:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53280 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730014AbgIAP1a (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Sep 2020 11:27:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5AA32ACC3;
-        Tue,  1 Sep 2020 15:27:29 +0000 (UTC)
-Date:   Tue, 1 Sep 2020 17:27:28 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Salvatore Bonaccorso <carnil@debian.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Dirk Kostrewa <dirk.kostrewa@mailbox.org>
-Subject: Re: kworker/0:3+pm hogging CPU
-Message-ID: <20200901152728.GI16650@dhcp22.suse.cz>
-References: <20200720173807.GJ1228057@rowland.harvard.edu>
- <20200720174530.GB4061@dhcp22.suse.cz>
- <20200720174812.GK1228057@rowland.harvard.edu>
- <20200720181605.GC4061@dhcp22.suse.cz>
- <20200720200243.GA1244989@rowland.harvard.edu>
- <20200721055917.GD4061@dhcp22.suse.cz>
- <20200721143325.GB1272082@rowland.harvard.edu>
- <20200829095003.GA2446485@eldamar.local>
- <20200829155949.GA499295@rowland.harvard.edu>
- <38dfdef4-f9ab-1755-8418-2285d843af86@linux.intel.com>
+        id S1728077AbgIAQsP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Sep 2020 12:48:15 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 209089] USB storage devices appear as SATA devices
+Date:   Tue, 01 Sep 2020 16:48:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: bourne.identity@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209089-208809-8WJd5sUx5T@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209089-208809@https.bugzilla.kernel.org/>
+References: <bug-209089-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <38dfdef4-f9ab-1755-8418-2285d843af86@linux.intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon 31-08-20 14:37:10, Mathias Nyman wrote:
-[...]
-> I can't come up with any good solution to this right now.
-> Only bad ideas such as
-> a. Add a sleep to the over-current case, 
->    doesn't solve anything else than the ~100% cpu hogging part of the problem 
+https://bugzilla.kernel.org/show_bug.cgi?id=209089
 
-This sounds like a better thing from the user space point of view. I do
-not have any insight on what kind of other side effects this might have
-so I didn't dare to try that on my piece of (broken) HW. I do not see
-the problem all the time and I plan to replace it soon anyway.
+--- Comment #10 from Manish Jain (bourne.identity@hotmail.com) ---
+Hi Allan,
 
-Considering that tweaking the power management helps maybe that could be
-done automagically after many consecutive failures.
+Although I am pretty much resigned that the change I am requesting won't
+happen, our discussion certainly keeps getting more interesting - particularly
+if you are willing to accept the possibility that each of your statements in
+the previous message was incorrect.
 
-Just my 2c
+Here are your statements:
+
+1) "Changing the monikers is only a partial solution.  For example, devices
+that show up as uda and udb one day could very well show up as udb and uda the
+next day." I have been using my computer for I don't remember how many years,
+but it has never happened even once that I needed to simultaneously attach two
+USB mass storage devices. In other words, you don't have to worry about udb -
+there will usually only be a uda in the ud* series.
+
+2) "Also, suppose your system's primary hard disk was attached by USB rather
+than SATA.  Then the pen drive could have been labelled uda and the primary
+drive labelled udb, and your fstab would still be messed up.  This is part of
+the reason why people recommend using filesystem or GUID labels for fstab
+entries rather than drive names and partition numbers." a) We should perhaps
+restrict ourselves to the the real world where people want their primary hard
+disk to never be attached by USB. The primary hard disk will always be attached
+via SATA/NVME. The SSD that I attach to my system via USB is not my primary
+hard disk and never will be - it is my backup device to which I perform my
+daily rsync. b) I find using UUIDs to be a bad idea, perhaps even abhorrent. I
+strongly prefer my fstab and grub configuration wired for device nodes, so that
+when I need to fsck, I clearly remember which device nodes to fsck. There is
+another use-case - folks might want a triple-boot computer with Windows 10 +
+Linux + FreeBSD with Windows 10 somewhere outside the first primary disk. That,
+as it happens, is only possible by disabling UUIDs in Linux's fstab/grub. I am
+emailing to you my document on how to set up such a computer. Once you have
+read the document, you will probably realize that such use cases might exist
+where UUID usage was strongly undesirable.
+
+3) "In short, changing the monikers isn't going to happen, and even if it did
+happen it wouldn't fully fix your original problem." My bad luck if the
+monikers cannot be changed. But the change WOULD fully fix my original problem,
+I humbly assure you.
+
+4) "However, there is a way to set up your system to use permanently fixed
+drive names that you assign.  All you have to do is write and install an
+appropriate udev script. Then you can make the drive names be anything you
+want." This is a post-install procedure. The moniker fix will solve the problem
+when it occurs at Linux installation time.
+
 -- 
-Michal Hocko
-SUSE Labs
+You are receiving this mail because:
+You are watching the assignee of the bug.
