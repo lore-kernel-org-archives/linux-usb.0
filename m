@@ -2,147 +2,94 @@ Return-Path: <SRS0=VIq2=CK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E6CC433E6
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 03:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F0CC433E6
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 05:10:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3ACC2083B
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 03:49:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URABT8Pm"
+	by mail.kernel.org (Postfix) with ESMTP id 5B2002098B
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 05:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbgIADt3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Aug 2020 23:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbgIADt3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Aug 2020 23:49:29 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0933C0612FE
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 20:49:27 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id w14so48841eds.0
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 20:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yGnO401VJHee8tld9vBJFCvzyhmUXUCdoPGxNKVZlA4=;
-        b=URABT8PmD9jvxsM4ZfwAqvdM4QNTeAHUaLoIcr4DTRGeIqIi72VctfX4RMUdAPy5ve
-         WvIEZFwG7h5O+slzi4TrjmK+YIF6VKiIN+6fKim44q2w46UAVqjt1o49ce9hapP0CgVs
-         4Z3YP43OxmInVJtVN/O7XTivWEh6Fa8KiQtATEJ8tw6JWtu5Nia5iWHKAf42lxAV7nnq
-         8O4ApbdipmnulbF4NDi1DeV+Bm15+n4spy8A+We6koCLspYEJ84+6jwNdZb8/gsjyYcS
-         iTOCU900vDhNmUTbEFvupBpJaUONpKpadUXY4322lgkGsb3XA6pP5NHpnAdjdxvblqnv
-         to9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yGnO401VJHee8tld9vBJFCvzyhmUXUCdoPGxNKVZlA4=;
-        b=S+ZuNJMrddJISFtlaEIPrWxTXTPvOKlxe/U8eWXnXcCKHUbr9P0dB5bUVaO7/VjlGb
-         GECDu3wSmLWRKsaajFMMy0Pdt2KKcj/rBZBQqkXfUp4pmFL5QSe/7N0/qLIbGUQBamxe
-         bljcK99noVV3EuPoaORgVhNPLCf5yxGcXU30Gx8WjoprJrgyKKvuX6kVB+nn4DvKw6Kv
-         E5Hdw1a1k9eKNU2dj2kraTIk1Ejl7lvZ5Kg1StoD65juokWqDJM3Pg6zsqT9Y0tm7YMQ
-         uwHKEGfwohPrQ6W8ZAkIcTaUgEHjHWE2MBmE3C6Gjjv/KqHvSFOx9o3StNlgt9egC8/y
-         XGMg==
-X-Gm-Message-State: AOAM530ScJ94jNu0q02OlHyld69DdkbWSfjlBhGO60kuHtjA3SwaukES
-        4N4AmsZHXC4M2J03E5WGx6wqP/PJyXDfDRF/8Gw=
-X-Google-Smtp-Source: ABdhPJyH+71h/9rE7aXIeKdqQjPLJfuEVqfB5evxT76m7wpyOWLlZNHYH/bwHg73hrimJ43B1I81hJub5i60qOXuZdQ=
-X-Received: by 2002:aa7:d458:: with SMTP id q24mr55999edr.23.1598932166175;
- Mon, 31 Aug 2020 20:49:26 -0700 (PDT)
+        id S1726050AbgIAFKa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Sep 2020 01:10:30 -0400
+Received: from aclms3.advantech.com.tw ([125.252.70.86]:13166 "EHLO
+        ACLMS3.advantech.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbgIAFKa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Sep 2020 01:10:30 -0400
+X-Greylist: delayed 602 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Sep 2020 01:10:29 EDT
+Received: from taipei09.ADVANTECH.CORP (unverified [172.20.0.236]) by ACLMS3.advantech.com.tw
+ (Clearswift SMTPRS 5.6.0) with ESMTP id <Te15629d385ac1401c88d0@ACLMS3.advantech.com.tw>;
+ Tue, 1 Sep 2020 13:00:23 +0800
+Received: from localhost (172.16.12.96) by taipei09.ADVANTECH.CORP
+ (172.20.0.236) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Tue, 1 Sep
+ 2020 13:00:22 +0800
+From:   William Sung <william.sung@advantech.com.tw>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        William Sung <william.sung@advantech.com.tw>,
+        Campion Kang <campion.kang@advantech.com.tw>
+Subject: [PATCH 2/2] usb: serial: usb_wwan: Fix lackage for Quectel EG95 LTE modem support
+Date:   Tue, 1 Sep 2020 13:00:22 +0800
+Message-ID: <20200901050022.3319-2-william.sung@advantech.com.tw>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200901050022.3319-1-william.sung@advantech.com.tw>
+References: <20200901050022.3319-1-william.sung@advantech.com.tw>
 MIME-Version: 1.0
-References: <CAGnHSEnKNZFyjF6E+QCLESzuOX-Fz-4ejuhmZNnGRaN8GQbM7g@mail.gmail.com>
- <20200901020757.GC571008@rowland.harvard.edu>
-In-Reply-To: <20200901020757.GC571008@rowland.harvard.edu>
-From:   Tom Yan <tom.ty89@gmail.com>
-Date:   Tue, 1 Sep 2020 11:49:15 +0800
-Message-ID: <CAGnHSEkweSB6N5=mRtWWD_rtY+m=VuVx=NY-yzNKYWmF5+1MJQ@mail.gmail.com>
-Subject: Re: About clamping max_sectors to (ambiguous) dma_max_mapping_size
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org,
-        cyrozap@gmail.com, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [172.16.12.96]
+X-ClientProxiedBy: ACLDAG.ADVANTECH.CORP (172.20.2.88) To
+ taipei09.ADVANTECH.CORP (172.20.0.236)
+X-StopIT: No
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 1 Sep 2020 at 10:07, Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Tue, Sep 01, 2020 at 08:55:07AM +0800, Tom Yan wrote:
-> > Hi,
-> >
-> > So a recent commit that disable 64 bit dma addressing for ASM1142:
-> > https://github.com/torvalds/linux/commit/ec37198acca7b4c17b96247697406e47aafe0605
-> >
-> > I notice that it also causes (hw) max_sectors of uas drives connected
-> > to the controller to drop from 1024 blocks (SCSI_DEFAULT_MAX_SECTORS)
-> > to 512 blocks, because we clamp it against
-> > dma_max_mapping_size($some_device).
-> >
-> > For uas drives, $some_device is `sdev->host->dma_dev`:
-> > https://github.com/torvalds/linux/blob/v5.8/drivers/scsi/scsi_lib.c#L1778
-> > (`shost` is `sdev->host`:
-> > https://github.com/torvalds/linux/blob/v5.8/drivers/scsi/scsi_lib.c#L1873)
-> >
-> > But for bot/msc drives: $some_device is some other device:
-> > https://github.com/torvalds/linux/blob/v5.8/drivers/usb/storage/scsiglue.c#L92
-> >
-> > In that case, max_sectors remains to be 2048 blocks for SS BOT drives
-> > connected to the ASM1142 controller.
-> >
-> > I tried to change it to `sdev->host->dma_dev`. It lowered their
-> > max_sectors to 512 blocks.
-> >
-> > So my questions are:
-> > 1. Do we really need to do any clamping to max_sectors in either (uas/bot) case?
-> > 2. If so, should we change the $some_device in either case?
-> >
-> > For the record, in the original commit (for BOT drives):
-> > https://github.com/torvalds/linux/commit/d74ffae8b8dd17eaa8b82fc163e6aa2076dc8fb1
-> > The commit message states that the clamping is needed because of some
-> > other change, which is supposed to cause max_segment_size to raise
-> > from 0x10000 to 0xffffffff, but when I check the sysfs files for both
-> > kinds of drives, all of the values are 0x10000.
-> >
-> > Also see https://github.com/virtio-win/kvm-guest-drivers-windows/issues/498
->
-> You should take a look at Arnd Bergmann's commit a8c06e407ef9 ("usb:
-> separate out sysdev pointer from usb_bus"), which is what introduced
-> this difference originally.
->
-> As far as I know, both drivers (usb-storage and uas) should be using the
-> bus->sysdev device for the purpose of clamping max_sectors.  If uas
-> doesn't use that device then it should be fixed.
+As required by the USB protocol, add zero packet support for Quectel
+EG95 LTE modem module.
 
-The uas driver relies on the scsi driver
-(https://github.com/torvalds/linux/blob/v5.8/drivers/scsi/scsi_lib.c#L1796)
-for max_sector setting and clamping (except when US_FL_MAX_SECTORS_64
-or US_FL_MAX_SECTORS_240 is set, where the clamping will be
-overridden):
-https://github.com/torvalds/linux/blob/v5.8/drivers/usb/storage/uas.c#L816
+Fixes: f815dd5cf48b ("net: usb: qmi_wwan: add support for Quectel EG95
+LTE modem"
 
-They (uas and scsiglue/bot) call `blk_queue_max_hw_sectors` in
-different functions btw (`uas_slave_alloc` vs `slave_configure`,
-instead of `slave_alloc`, that is). I suppose we should do all the
-clamping and setting in `uas_slave_configure` instead as well?
+Signed-off-by: William Sung <william.sung@advantech.com.tw>
+---
+ drivers/usb/serial/usb_wwan.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-I faintly remember I asked about it but allow me to ask again, should
-we really NOT raise max_sectors to 2048 blocks for **SS UAS** drives
-like we do for SS BOT drives?
+diff --git a/drivers/usb/serial/usb_wwan.c b/drivers/usb/serial/usb_wwan.c
+index 4b9845807bee..75495c939ac6 100644
+--- a/drivers/usb/serial/usb_wwan.c
++++ b/drivers/usb/serial/usb_wwan.c
+@@ -467,6 +467,7 @@ static struct urb *usb_wwan_setup_urb(struct usb_serial_port *port,
+ 	struct usb_serial *serial = port->serial;
+ 	struct usb_wwan_intf_private *intfdata = usb_get_serial_data(serial);
+ 	struct urb *urb;
++	struct usb_device_descriptor *desc = &serial->dev->descriptor;
+ 
+ 	urb = usb_alloc_urb(0, GFP_KERNEL);	/* No ISO */
+ 	if (!urb)
+@@ -476,8 +477,15 @@ static struct urb *usb_wwan_setup_urb(struct usb_serial_port *port,
+ 			  usb_sndbulkpipe(serial->dev, endpoint) | dir,
+ 			  buf, len, callback, ctx);
+ 
+-	if (intfdata->use_zlp && dir == USB_DIR_OUT)
+-		urb->transfer_flags |= URB_ZERO_PACKET;
++	if (dir == USB_DIR_OUT) {
++		if (intfdata->use_zlp)
++			urb->transfer_flags |= URB_ZERO_PACKET;
++
++		/* Add zero packet support for Quectel EG95 */
++		if (desc->idVendor == cpu_to_le16(0x2C7C) &&
++			desc->idProduct == cpu_to_le16(0x0195))
++			urb->transfer_flags |= URB_ZERO_PACKET;
++	}
+ 
+ 	return urb;
+ }
+-- 
+2.17.1
 
->
-> And yes, the clamping is necessary.
-
-As I mentioned, if the clamping is done against the max mapping size
-of `bus->sysdev`, max_sectors will not be actually lowered in both
-cases (XHCI_NO_64BIT_SUPPORT or not). So basically it does nothing, at
-least on my devices. Allow me to confirm, is that a correct/expected
-behaviour?
-
->
-> Alan Stern
