@@ -2,89 +2,185 @@ Return-Path: <SRS0=VIq2=CK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D04BC433E6
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 05:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DBAC433E2
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 05:54:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 288062087D
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 05:10:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 551CF2087D
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Sep 2020 05:54:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FdxEeyxs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726139AbgIAFKf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Sep 2020 01:10:35 -0400
-Received: from aclms1.advantech.com.tw ([61.58.41.199]:34525 "EHLO
-        ACLMS1.advantech.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725930AbgIAFKf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Sep 2020 01:10:35 -0400
-X-Greylist: delayed 606 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Sep 2020 01:10:34 EDT
-Received: from taipei09.ADVANTECH.CORP (unverified [172.20.0.236]) by ACLMS1.advantech.com.tw
- (Clearswift SMTPRS 5.6.0) with ESMTP id <Te15629d267ac14014b1cfc@ACLMS1.advantech.com.tw>;
- Tue, 1 Sep 2020 13:00:23 +0800
-Received: from localhost (172.16.12.96) by taipei09.ADVANTECH.CORP
- (172.20.0.236) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Tue, 1 Sep
- 2020 13:00:22 +0800
-From:   William Sung <william.sung@advantech.com.tw>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        William Sung <william.sung@advantech.com.tw>,
-        Campion Kang <campion.kang@advantech.com.tw>
-Subject: [PATCH 1/2] usb: serial: option: Fix the lackage for Quectel EG95 LTE modem support
-Date:   Tue, 1 Sep 2020 13:00:21 +0800
-Message-ID: <20200901050022.3319-1-william.sung@advantech.com.tw>
-X-Mailer: git-send-email 2.17.1
+        id S1726044AbgIAFyt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Sep 2020 01:54:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbgIAFyt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Sep 2020 01:54:49 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3EC0C0612A3
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 22:54:48 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id d19so101367pgl.10
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2020 22:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c8C8KNu0LvtUft86eR0DAIxVBonTyO27+DmOTnmOqSo=;
+        b=FdxEeyxso7Kq7U+PB4j8Ou+WjF1TF0CYI1gsdqs3F/JwbhHk6XMPKrDtHe0oSJ40WD
+         t00C9bzku4T7SSthZfxoQ6p5NrwXIie/NBoQjxKUphBHAhIZyf1UVshSZjc/DEhzf+0i
+         XgfsGjLLdjIC9uSACmE3r/ibtFSo4wk67y7Bng6nH/WQW/vqAI/SHt+wj8bF7zudzmVX
+         bcbvwuES3WYypQCHZltY0PG64DlRaehb7X5WpfRhf/DDKKZUqZanshLGqT/WC+13sRHe
+         RdES5tZoMAeP94TqwdrXDxNQ5iBrZ21iDjOE17L2ojqs+vvBAbfBRzRegoDsDnF1tj7E
+         5Fkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c8C8KNu0LvtUft86eR0DAIxVBonTyO27+DmOTnmOqSo=;
+        b=Ssfr7AfABeLFMyyWQpWsr1d1hPn4/gJgc1g+quzIQjEGEX+H7FndxBw6gzVgoUDiUY
+         G5H15Omk15H948aOY+J9jQYg5/D1pXnX69X+9aUHtP4jBPBBY6bGF2Q70p6+OvNGS4Mf
+         LmyiLHLLDw4jGU0WZ6eCFwTokFMd4n90fJfu/njsYZwCTVkeHs9blfdQPCqbuo8Rv3NY
+         zMbCfzLOoTQ2wUw1WCifAZ8kcxGalxeD31JoqG7vDZlGED67Q79eKxEBrEv6iQ6lLqcr
+         pQuLG1jf02ujlIFv42+wWj73wbU5mU1GWiL5+0HVVPGXozCagPV1nyb9tHhKukWBcNTh
+         jHqA==
+X-Gm-Message-State: AOAM533M6+UeTeczKLtYk/Wi5Z+gRnvopWfrK2EQfeDsKKzz+ryng/R+
+        kXB0T8lU71qNh4kLHWRQfOSLtrMZC7w=
+X-Google-Smtp-Source: ABdhPJyXZKRvKtlf36XyhEGyKo1an7QaudEjqTfbOJ8mJ4ehL/Vgv/hc8o6gNXLNkVW9+YUANtNymg==
+X-Received: by 2002:aa7:9781:: with SMTP id o1mr336033pfp.93.1598939687801;
+        Mon, 31 Aug 2020 22:54:47 -0700 (PDT)
+Received: from localhost.localdomain ([161.81.62.213])
+        by smtp.gmail.com with ESMTPSA id 9sm230941pfv.22.2020.08.31.22.54.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2020 22:54:47 -0700 (PDT)
+From:   Tom Yan <tom.ty89@gmail.com>
+To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        stern@rowland.harvard.edu, arnd@arndb.de
+Cc:     cyrozap@gmail.com, Tom Yan <tom.ty89@gmail.com>
+Subject: [PATCH] usb-storage: always set hw_max_sectors in slave_configure to avoid inappropriate clamping
+Date:   Tue,  1 Sep 2020 13:54:17 +0800
+Message-Id: <20200901055417.1732-1-tom.ty89@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.12.96]
-X-ClientProxiedBy: ACLDAG.ADVANTECH.CORP (172.20.2.88) To
- taipei09.ADVANTECH.CORP (172.20.0.236)
-X-StopIT: No
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-* Add reset-resume callback for resetting USB devices after MCU exits
-from suspend/sleep mode.
+When the scsi request queue is initialized/allocated, the scsi driver clamps hw_max_sectors against the dma max mapping size of sdev->host->dma_dev. The clamping is apparently inappriorate to USB drives.
 
-* Because Quectel EG95 uses USB interface 4 as a USB network device, so
-return from option_startup() to prevent being used as a USB serial
-device.
+Either way we are calling blk_queue_max_hw_sectors() in the usb drivers for some (but not all) cases, which causes the clamping to be overriden (inconsistently) anyway.
 
-Fixes: da6902e5b6db ("USB: serial: option: add Quectel EG95 LTE modem"
+Therefore the usb driver should always set hw_max_sectors and do the clamping against the right device itself.
 
-Signed-off-by: William Sung <william.sung@advantech.com.tw>
+Signed-off-by: Tom Yan <tom.ty89@gmail.com>
 ---
- drivers/usb/serial/option.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/storage/scsiglue.c | 37 ++++++++++++++++------------------
+ drivers/usb/storage/uas.c      | 23 ++++++++++++++++-----
+ 2 files changed, 35 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 89b3192af326..9de8aec47e5e 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2069,6 +2069,7 @@ static struct usb_serial_driver option_1port_device = {
- #ifdef CONFIG_PM
- 	.suspend           = usb_wwan_suspend,
- 	.resume            = usb_wwan_resume,
-+	.reset_resume      = usb_wwan_resume,
- #endif
- };
+diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
+index e5a971b83e3f..804cbc0ba4da 100644
+--- a/drivers/usb/storage/scsiglue.c
++++ b/drivers/usb/storage/scsiglue.c
+@@ -120,6 +120,23 @@ static int slave_configure(struct scsi_device *sdev)
+ 		 * better throughput on most devices.
+ 		 */
+ 		blk_queue_max_hw_sectors(sdev->request_queue, 2048);
++	} else {
++	    /*
++	     * Some devices are known to choke with anything larger. It seems like
++	     * the problem stems from the fact that original IDE controllers had
++	     * only an 8-bit register to hold the number of sectors in one transfer
++	     * and even those couldn't handle a full 256 sectors.
++	     *
++	     * Because we want to make sure we interoperate with as many devices as
++	     * possible, we will maintain a 240 sector transfer size limit for USB
++	     * Mass Storage devices.
++	     *
++	     * Tests show that other operating have similar limits with Microsoft
++	     * Windows 7 limiting transfers to 128 sectors for both USB2 and USB3
++	     * and Apple Mac OS X 10.11 limiting transfers to 256 sectors for USB2
++	     * and 2048 for USB3 devices.
++	     */
++		blk_queue_max_hw_sectors(sdev->request_queue, 240);
+ 	}
  
-@@ -2104,6 +2105,11 @@ static int option_probe(struct usb_serial *serial,
- 	if (device_flags & NUMEP2 && iface_desc->bNumEndpoints != 2)
- 		return -ENODEV;
+ 	/*
+@@ -626,26 +643,6 @@ static const struct scsi_host_template usb_stor_host_template = {
+ 	/* lots of sg segments can be handled */
+ 	.sg_tablesize =			SG_MAX_SEGMENTS,
  
-+	/* Quectel EC25 & EC21 & EG91 & EG95 ... interface 4 can be used as USB network device */
-+	if (serial->dev->descriptor.idVendor == cpu_to_le16(0x2c7c) &&
-+		serial->interface->cur_altsetting->desc.bInterfaceNumber >= 4)
-+		return -ENODEV;
+-
+-	/*
+-	 * Limit the total size of a transfer to 120 KB.
+-	 *
+-	 * Some devices are known to choke with anything larger. It seems like
+-	 * the problem stems from the fact that original IDE controllers had
+-	 * only an 8-bit register to hold the number of sectors in one transfer
+-	 * and even those couldn't handle a full 256 sectors.
+-	 *
+-	 * Because we want to make sure we interoperate with as many devices as
+-	 * possible, we will maintain a 240 sector transfer size limit for USB
+-	 * Mass Storage devices.
+-	 *
+-	 * Tests show that other operating have similar limits with Microsoft
+-	 * Windows 7 limiting transfers to 128 sectors for both USB2 and USB3
+-	 * and Apple Mac OS X 10.11 limiting transfers to 256 sectors for USB2
+-	 * and 2048 for USB3 devices.
+-	 */
+-	.max_sectors =                  240,
+-
+ 	/* emulated HBA */
+ 	.emulated =			1,
+ 
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 08f9296431e9..cffa435afd84 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -827,11 +827,6 @@ static int uas_slave_alloc(struct scsi_device *sdev)
+ 	 */
+ 	blk_queue_update_dma_alignment(sdev->request_queue, (512 - 1));
+ 
+-	if (devinfo->flags & US_FL_MAX_SECTORS_64)
+-		blk_queue_max_hw_sectors(sdev->request_queue, 64);
+-	else if (devinfo->flags & US_FL_MAX_SECTORS_240)
+-		blk_queue_max_hw_sectors(sdev->request_queue, 240);
+-
+ 	return 0;
+ }
+ 
+@@ -839,6 +834,24 @@ static int uas_slave_configure(struct scsi_device *sdev)
+ {
+ 	struct uas_dev_info *devinfo = sdev->hostdata;
+ 
++	struct us_data *us = host_to_us(sdev->host);
++	struct device *dev = us->pusb_dev->bus->sysdev;
 +
- 	/* Store the device flags so we can use them during attach. */
- 	usb_set_serial_data(serial, (void *)device_flags);
++	if (devinfo->flags & US_FL_MAX_SECTORS_64)
++		blk_queue_max_hw_sectors(sdev->request_queue, 64);
++	else if (devinfo->flags & US_FL_MAX_SECTORS_240)
++		blk_queue_max_hw_sectors(sdev->request_queue, 240);
++	else
++		blk_queue_max_hw_sectors(sdev->request_queue, SCSI_DEFAULT_MAX_SECTORS);
++
++	/*
++	 * The max_hw_sectors should be up to maximum size of a mapping for
++	 * the device. Otherwise, a DMA API might fail on swiotlb environment.
++	 */
++	blk_queue_max_hw_sectors(sdev->request_queue,
++		min_t(size_t, queue_max_hw_sectors(sdev->request_queue),
++		      dma_max_mapping_size(dev) >> SECTOR_SHIFT));
++
+ 	if (devinfo->flags & US_FL_NO_REPORT_OPCODES)
+ 		sdev->no_report_opcodes = 1;
  
 -- 
-2.17.1
+2.28.0
 
