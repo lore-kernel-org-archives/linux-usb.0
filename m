@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D17C433E7
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 07:59:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D426C43461
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 07:59:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE765208B3
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 07:59:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 437522087D
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 07:59:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="hIukKkx0"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="oSi7JJH+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726686AbgIBH6w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 03:58:52 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:10540 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726140AbgIBH5m (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 03:57:42 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0827kdhp000525;
-        Wed, 2 Sep 2020 09:57:17 +0200
+        id S1727020AbgIBH7S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 03:59:18 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:20200 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726674AbgIBH6w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 03:58:52 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0827ldTB002930;
+        Wed, 2 Sep 2020 09:57:18 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=E0OlX12Uh1E9X9WriKudw2kH7GGPXD0HUts6bxpjA8Y=;
- b=hIukKkx0kRVQLpJAmxF4LT7C9vm/Xq2wyfpFA5Q57/SsAwu7Ph61o9P3dOAlSFDZl3i8
- 2wB++52ro/OIDSw2m3u95eF2uFJvW0OWFOhvPgZfAwQz0s9SiM0Q6Z3+PyuDYFp3WXGp
- 0d5F94Ceylk/8Ou4Potye4l/pWaebfUUA5VfA07h6cVasahcPib9wloTacM1iVODhIyE
- 822eYGohyQPrVMTI+nC7BdzKkvjCYecHxfs+n15D5Zte28xnFIB1WCRSN4YDptxo8J19
- ANC8HgoHBDBGWu9JNw9E2q2niTLW/D+yrXmaOtS9tHftgXbMOJP3uL5cQ3B35cv+NaIO +A== 
+ bh=jmfCrpD7iRQhB8zV3oMdul3HfOkcvL9AiInxyBT3bBE=;
+ b=oSi7JJH+juyI0L0PAxPJzmo71a5DPIFjaHKMVlZfF5icmR4ubrmwUp2cm6h9izrGySSi
+ qlBcZA+TLL7a4Fqkm1iXVknCcmD4Hr+kKXrnoTNWjq/3FgXaNMKx/l5/D9ncHKNVXpw9
+ Fobd6jJmE1Ir4wQSflifS8MqF5rM/nroIThhW8gWHDhBwZir5G6MPjyVL02oMo+cPdTD
+ Vwn2XXv6EphmkTMjefi2gflpw4KO0w7u46LbFs2ipTr1TRrOKk+3WCKT99SsYsvxQz5c
+ Sqp6949VtypCRx1BDzxem44hbQ0RcQ29v3Yj/dEBIxtBEJBtKYxtoGCf618R3ny3bnol gw== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 337c58mbs9-1
+        by mx07-00178001.pphosted.com with ESMTP id 337csvv4tc-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Sep 2020 09:57:17 +0200
+        Wed, 02 Sep 2020 09:57:18 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 38E51100034;
-        Wed,  2 Sep 2020 09:57:16 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7BCBF10002A;
+        Wed,  2 Sep 2020 09:57:18 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2119E212FBA;
-        Wed,  2 Sep 2020 09:57:16 +0200 (CEST)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Sep 2020 09:57:15
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6AA4D212FB9;
+        Wed,  2 Sep 2020 09:57:18 +0200 (CEST)
+Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Sep 2020 09:57:17
  +0200
 From:   Amelie Delaunay <amelie.delaunay@st.com>
 To:     Rob Herring <robh+dt@kernel.org>,
@@ -59,16 +59,16 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Amelie Delaunay <amelie.delaunay@st.com>,
         Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [RESEND PATCH v2 1/6] dt-bindings: connector: add power-opmode optional property to usb-connector
-Date:   Wed, 2 Sep 2020 09:57:02 +0200
-Message-ID: <20200902075707.9052-2-amelie.delaunay@st.com>
+Subject: [RESEND PATCH v2 3/6] dt-bindings: usb: Add DT bindings for STUSB160x Type-C controller
+Date:   Wed, 2 Sep 2020 09:57:04 +0200
+Message-ID: <20200902075707.9052-4-amelie.delaunay@st.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200902075707.9052-1-amelie.delaunay@st.com>
 References: <20200902075707.9052-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG5NODE1.st.com (10.75.127.13) To SFHDAG3NODE2.st.com
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG3NODE2.st.com
  (10.75.127.8)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-09-02_03:2020-09-02,2020-09-02 signatures=0
@@ -77,49 +77,108 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Power operation mode may depends on hardware design, so, add the optional
-property power-opmode for usb-c connector to select the power operation
-mode capability.
+Add binding documentation for the STMicroelectronics STUSB160x Type-C port
+controller.
 
 Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
 ---
-Changes in v2:
-- Add description for possible operation current values
+No changes in v2.
 ---
- .../bindings/connector/usb-connector.yaml     | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../devicetree/bindings/usb/st,stusb160x.yaml | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/st,stusb160x.yaml
 
-diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-index 9bd52e63c935..2fd85b9a7e1a 100644
---- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-+++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-@@ -88,6 +88,26 @@ properties:
-       - device
-       - dual
- 
-+  power-opmode:
-+    description: Determines the power operation mode that the Type C connector
-+      will support and will advertise through CC pins.
-+      - "default" corresponds to default USB voltage and current defined by the
-+        USB 2.0 and USB 3.2 specifications, 5V 500mA for USB 2.0 ports and
-+        5V 900mA or 1500mA for USB 3.2 ports in single-lane or dual-lane
-+        operation respectively.
-+      - "1.5A" and "3.0A", 5V 1.5A and 5V 3.0A respectively, as defined in USB
-+        Type-C Cable and Connector specification, when Power Delivery is not
-+        supported.
-+      - "usb_power_delivery" when Power Delivery is supported, as defined in
-+        USB Power Delivery specification.
-+    allOf:
-+      - $ref: /schemas/types.yaml#definitions/string
-+    enum:
-+      - default
-+      - 1.5A
-+      - 3.0A
-+      - usb_power_delivery
+diff --git a/Documentation/devicetree/bindings/usb/st,stusb160x.yaml b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
+new file mode 100644
+index 000000000000..12a996cd9405
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/usb/st,stusb160x.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
-   # The following are optional properties for "usb-c-connector" with power
-   # delivery support.
-   source-pdos:
++title: STMicroelectronics STUSB160x Type-C controller bindings
++
++maintainers:
++  - Amelie Delaunay <amelie.delaunay@st.com>
++
++properties:
++  compatible:
++    enum:
++      - st,stusb1600
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  vdd-supply:
++    description: main power supply (4.1V-22V)
++
++  vsys-supply:
++    description: low power supply (3.0V-5.5V)
++
++  vconn-supply:
++    description: power supply (2.7V-5.5V) used to supply VConn on CC pin in
++      source or dual power role
++
++  connector:
++    type: object
++
++    allOf:
++      - $ref: ../connector/usb-connector.yaml
++
++    properties:
++      compatible:
++        const: usb-c-connector
++
++      power-role: true
++
++      power-opmode: true
++
++    required:
++      - compatible
++
++required:
++  - compatible
++  - reg
++  - connector
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c4 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec: stusb1600@28 {
++            compatible = "st,stusb1600";
++            reg = <0x28>;
++            vdd-supply = <&vbus_drd>;
++            vsys-supply = <&vdd_usb>;
++            interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
++            interrupt-parent = <&gpioi>;
++
++            typec_con: connector {
++                compatible = "usb-c-connector";
++                label = "USB-C";
++                power-role = "dual";
++                power-opmode = "default";
++                data-role = "dual";
++
++                port {
++                    typec_con_ep: endpoint {
++                        remote-endpoint = <&usbotg_hs_ep>;
++                    };
++                };
++            };
++        };
++    };
++...
 -- 
 2.17.1
 
