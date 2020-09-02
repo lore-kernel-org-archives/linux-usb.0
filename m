@@ -2,76 +2,114 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D66AEC43461
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FD4C2BD11
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:36:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A58C820C56
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599060801;
-	bh=PafC4luDUVsLd0CvhpVv+0h3RiIUnGou8VQWTyXKaH4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=lA9S2RtB2n+r1KRhW8WSShHUQ/TKEHde9N6SBz8xeTNBz6sSXFWRMZqnOC+SV9W2j
-	 OZeJnnMdtPnCaoHwmZEhyLQKsXVDFlwlWRxACt8twRhrOJfEdG3FoKUcB+Zjktt37E
-	 XS2Rn5sRQ9bbkFh921/Y1LnpxsB9BJqgxAsh/XR8=
+	by mail.kernel.org (Postfix) with ESMTP id 66EA120678
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:36:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kHDTXriP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728350AbgIBPc1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 11:32:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52168 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726722AbgIBPWW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 2 Sep 2020 11:22:22 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB09B20767;
-        Wed,  2 Sep 2020 15:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599060142;
-        bh=PafC4luDUVsLd0CvhpVv+0h3RiIUnGou8VQWTyXKaH4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0vlvv5xkZfFzOch2k7oTHhJc577RFRmad/f4nIOgptOpLm4VyphiT4+lWXH9Ch9Mb
-         f/q94ZLdLFwBvqo5pW9SGyvATymfNUxqK6GeqGoWJIfp5jQpSX0XTTcfwkMkUHfoji
-         78aMyrwzA/VJvMJl5zab+f+IAe9ZuMdDJ/In0okI=
-Date:   Wed, 2 Sep 2020 17:22:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     himadrispandya@gmail.com, dvyukov@google.com,
-        linux-usb@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
-        stern@rowland.harvard.ed, linux-kernel@vger.kernel.org,
-        marcel@holtmann.org, johan.hedberg@gmail.com,
-        linux-bluetooth@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 7/9] sound: line6: convert to use new usb control
- function...
-Message-ID: <20200902152248.GB2032878@kroah.com>
-References: <20200902110115.1994491-1-gregkh@linuxfoundation.org>
- <20200902110115.1994491-9-gregkh@linuxfoundation.org>
- <s5ha6y89r6u.wl-tiwai@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <s5ha6y89r6u.wl-tiwai@suse.de>
+        id S1728386AbgIBPfz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 11:35:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728312AbgIBPfr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 11:35:47 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDEDC061244;
+        Wed,  2 Sep 2020 08:35:45 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id k15so3033008pfc.12;
+        Wed, 02 Sep 2020 08:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=HEqwK4t3Jbhbn9WZdb3oUG7FILqb8kl/CCgidI15uDY=;
+        b=kHDTXriPodcCimTodp4iPeVr/AekjfXT50p2ukyjZp6e16RJa0u708YWek45zszv3C
+         Fp/vea5VhkArLmNoriItDE91gvIqPHZqGRqPoqHdCstr8iMz+E4qo/0PmUCarHxcTZNk
+         D3fUssP5yY2hYcM3XuyVinhVsdzjSf2puMyTiHDZFxyHRbDEveX0UqmxAA9xsBU/I0W9
+         OTNVmSrDeEy26aw3cdSrEfzEsR8QuM4li2SKqNmzDgMqvBwdoN6n45bZlV8kADcH7Nai
+         NVI4/vnFlm8Kwwl0g/Rl28VIKAF5XpuVcG70+0X5LKFhMqsakOHeOL6TUHBms+IqOKgh
+         akTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=HEqwK4t3Jbhbn9WZdb3oUG7FILqb8kl/CCgidI15uDY=;
+        b=LMRGay1Jo0UkPqbCq0Ekes8MZGMy1S9hsyFf9OaBCn9on3BTJd9LB3O676BW/Y8LlU
+         Pt1iIOL4PqAexliK166L5DZZ/BhOfcku9jZBPZopsiHHwfqVSNhpG7NF3aIAxid2l0lx
+         wVWDkKEVvTxXZIBwf/wht1FJQIAWEHdX36SB8nr6GR3zwcfcv5gP4FujF9F0/X6jCXVK
+         RamFzXXX4Hloxm1d42vY9QYoWgz7sy3ZaX06bi8fz4OHUExBIHKKTCd/QOfbc8VR25eK
+         lN+m7OJ6Er0jbwaU7Xl8oGaGdWpy1GPJ3V3lz2xYjZSg37CWdqpRoBVRJk+AQFU3+Dhi
+         2OYQ==
+X-Gm-Message-State: AOAM533Xlovo6igmRtMbwlBamcDQ3m7Bql+JTxxQm0l5G7o6oHBF4WVF
+        ca27zG9GXhbdWAbujgDCz+Y=
+X-Google-Smtp-Source: ABdhPJxHJXPfvXBk6OiHcYKsndf2R7W1LPm3hgGc5pDEcgNbal5oYmhxvi2HRzhZgeA3KaOaKDJWiw==
+X-Received: by 2002:a63:f804:: with SMTP id n4mr2278378pgh.155.1599060944940;
+        Wed, 02 Sep 2020 08:35:44 -0700 (PDT)
+Received: from localhost.localdomain ([123.241.84.106])
+        by smtp.gmail.com with ESMTPSA id m3sm4835402pjn.28.2020.09.02.08.35.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 02 Sep 2020 08:35:43 -0700 (PDT)
+From:   cy_huang <u0084500@gmail.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, cy_huang@richtek.com
+Subject: [PATCH] usb: typec: tcpm: Fix if vbus before cc, hard_reset_count not reset issue
+Date:   Wed,  2 Sep 2020 23:35:33 +0800
+Message-Id: <1599060933-8092-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 02, 2020 at 04:41:29PM +0200, Takashi Iwai wrote:
-> On Wed, 02 Sep 2020 13:01:10 +0200,
-> Greg Kroah-Hartman wrote:
-> > 
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> I guess this and a few others with (x/9) are stale patches, right?
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Ugh, yes, those were still in my directory, my fault for using 'git
-send-email *patch'
+Fix: If vbus event is before cc_event trigger, hard_reset_count
+won't bt reset for some case.
 
-:(
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+Below's the flow.
 
-greg k-h
+_tcpm_pd_vbus_off() -> run_state_machine to change state to SNK_UNATTACHED
+call tcpm_snk_detach() -> tcpm_snk_detach() -> tcpm_detach()
+tcpm_port_is_disconnected() will be called.
+But port->attached is still true and port->cc1=open and port->cc2=open
+
+It cause tcpm_port_is_disconnected return false, then hard_reset_count won't be reset.
+After that, tcpm_reset_port() is called.
+port->attached become false.
+
+After that, cc now trigger cc_change event, the hard_reset_count will be kept.
+Even tcpm_detach will be called, due to port->attached is false, tcpm_detach()
+will directly return.
+
+CC_EVENT will only trigger drp toggling again.
+---
+ drivers/usb/typec/tcpm/tcpm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index a48e3f90..5c73e1d 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -2797,8 +2797,7 @@ static void tcpm_detach(struct tcpm_port *port)
+ 		port->tcpc->set_bist_data(port->tcpc, false);
+ 	}
+ 
+-	if (tcpm_port_is_disconnected(port))
+-		port->hard_reset_count = 0;
++	port->hard_reset_count = 0;
+ 
+ 	tcpm_reset_port(port);
+ }
+-- 
+2.7.4
+
