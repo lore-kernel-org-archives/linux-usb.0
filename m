@@ -2,126 +2,103 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C328FC433E7
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 11:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CCAC433E2
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 12:05:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72F8C2078B
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 11:50:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=imt-atlantique.fr header.i=@imt-atlantique.fr header.b="iOTtx8Tk"
+	by mail.kernel.org (Postfix) with ESMTP id A3ECD2078E
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 12:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599048326;
+	bh=u+4ibBvp2QzwwGZqBQIQYYibjqDiypNttDcy+bmGWpI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=nYiaLgWxU8Q2kveCklQf4yPoGcRJqxtIZFkK9B+OI+3mW3k/cNE193miLIZ1qoKxc
+	 1n0jXC+kR/4XtIRa2UZIkhLmbBlajsLl6g5qvB9wQeN8KYB7O4oXBXOMgc4vuWpevc
+	 ngNZEknX0Ur+16YyVXe5nhEK3SuNDxtyfUrHxom0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgIBLuD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 07:50:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43894 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726510AbgIBLr7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 07:47:59 -0400
-Received: from zproxy130.enst.fr (zproxy130.enst.fr [IPv6:2001:660:330f:2::c2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF34C061244
-        for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2020 04:47:53 -0700 (PDT)
-Received: from localhost (localhost [IPv6:::1])
-        by zproxy130.enst.fr (Postfix) with ESMTP id E8466120A7B;
-        Wed,  2 Sep 2020 13:47:19 +0200 (CEST)
-Received: from zproxy130.enst.fr ([IPv6:::1])
-        by localhost (zproxy130.enst.fr [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id ggx5qKN8hUrw; Wed,  2 Sep 2020 13:47:19 +0200 (CEST)
-Received: from localhost (localhost [IPv6:::1])
-        by zproxy130.enst.fr (Postfix) with ESMTP id 6E786120D4D;
-        Wed,  2 Sep 2020 13:47:19 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zproxy130.enst.fr 6E786120D4D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imt-atlantique.fr;
-        s=50EA75E8-DE22-11E6-A6DE-0662BA474D24; t=1599047239;
-        bh=lgqI3BHiaCdFjF9DUgHtSQr46rLPna1Dx5J8GFjgG68=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=iOTtx8Tkcda7LaxgjUMnbJtKA5tYsSL0oDXTR/WTyieYQ2+gGXoQQJvkmcRp64kRU
-         hBFT5TQqLVNLrqTvW0lnRZymWWy/i7LRsS5Psuq/2duAMQBSgi7CnJOa31Smtk1EX5
-         FsVOxRoELDI4pEGE/yYHDB5inag83nYXUXUsVFB0=
-X-Virus-Scanned: amavisd-new at zproxy130.enst.fr
-Received: from zproxy130.enst.fr ([IPv6:::1])
-        by localhost (zproxy130.enst.fr [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id e-3VPomxjFA8; Wed,  2 Sep 2020 13:47:19 +0200 (CEST)
-Received: from localhost (unknown [10.29.225.220])
-        by zproxy130.enst.fr (Postfix) with ESMTPSA id 39A7F120A7B;
-        Wed,  2 Sep 2020 13:47:19 +0200 (CEST)
-Date:   Wed, 2 Sep 2020 13:47:18 +0200
-From:   Santiago Ruano =?iso-8859-1?Q?Rinc=F3n?= 
+        id S1726377AbgIBMF0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 08:05:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49320 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbgIBMFV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Sep 2020 08:05:21 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE1282078B;
+        Wed,  2 Sep 2020 12:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599048321;
+        bh=u+4ibBvp2QzwwGZqBQIQYYibjqDiypNttDcy+bmGWpI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EkbLsyVQeqtFP3lPZhdCdBoNoyzY1duYw73OYPQOBF1m0SMudE1DhtKZw7dZy3h0F
+         UtlagFn8x1V9EzgOrPgJUQx54U2C9f7KdRTU9nYezzM6WrAGb9ImIrQdQWhjwqrH/u
+         klr5mPzoErU9rMbjGGm5RSs5uhT0c3XrsOqiO36Q=
+Date:   Wed, 2 Sep 2020 14:05:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Santiago Ruano =?iso-8859-1?Q?Rinc=F3n?= 
         <santiago.ruano-rincon@imt-atlantique.fr>
-To:     linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.de>, miguel@det.uvigo.es,
-        965074@bugs.debian.org
+Cc:     linux-usb@vger.kernel.org, Oliver Neukum <oneukum@suse.de>,
+        miguel@det.uvigo.es, 965074@bugs.debian.org
 Subject: Re: Patches to make multicast proccesing on CDC NCM drivers
-Message-ID: <20200902114718.GB242939@bartik>
+Message-ID: <20200902120546.GA2008696@kroah.com>
 References: <20200730135334.GN1496479@bartik>
  <1596118042.2508.6.camel@suse.de>
+ <20200902114718.GB242939@bartik>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Yylu36WmvOXNoKYn"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1596118042.2508.6.camel@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200902114718.GB242939@bartik>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
---Yylu36WmvOXNoKYn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-El 30/07/20 a las 16:07, Oliver Neukum escribi=C3=B3:
-> Am Donnerstag, den 30.07.2020, 15:53 +0200 schrieb Santiago Ruano
-> Rinc=C3=B3n:
+On Wed, Sep 02, 2020 at 01:47:18PM +0200, Santiago Ruano Rincón wrote:
+> El 30/07/20 a las 16:07, Oliver Neukum escribió:
+> > Am Donnerstag, den 30.07.2020, 15:53 +0200 schrieb Santiago Ruano
+> > Rincón:
+> > > Hi,
+> > > 
+> > > Miguel Rodríguez sent this set of patches two years ago to fix the lack
+> > > of multicast processing on CDC NCM driver:
+> > > 
+> > > https://www.spinics.net/lists/linux-usb/msg170611.html
+> > > https://www.spinics.net/lists/linux-usb/msg170603.html
+> > > https://www.spinics.net/lists/linux-usb/msg170567.html
+> > > https://www.spinics.net/lists/linux-usb/msg170568.html
+> > > 
+> > > I've using a DKMS version of them, available in
+> > > https://github.com/stbuehler/fixed-cdc-ether-ncm/tree/wip/patches
+> > > since more than a year ago, and they are working fine with my Dell D6000
+> > > docking station. IPv6 connectivity is broken without them.
+> > > 
+> > > Is there any chance to consider those patches (or what would be needed
+> > > to make it happen)?
+> > > It would be great to have them upstream!
+> > 
 > > Hi,
-> >=20
-> > Miguel Rodr=C3=ADguez sent this set of patches two years ago to fix the=
- lack
-> > of multicast processing on CDC NCM driver:
-> >=20
-> > https://www.spinics.net/lists/linux-usb/msg170611.html
-> > https://www.spinics.net/lists/linux-usb/msg170603.html
-> > https://www.spinics.net/lists/linux-usb/msg170567.html
-> > https://www.spinics.net/lists/linux-usb/msg170568.html
-> >=20
-> > I've using a DKMS version of them, available in
-> > https://github.com/stbuehler/fixed-cdc-ether-ncm/tree/wip/patches
-> > since more than a year ago, and they are working fine with my Dell D6000
-> > docking station. IPv6 connectivity is broken without them.
-> >=20
-> > Is there any chance to consider those patches (or what would be needed
-> > to make it happen)?
-> > It would be great to have them upstream!
->=20
-> Hi,
->=20
-> they have been merged on Wednesday.
-=E2=80=A6
+> > 
+> > they have been merged on Wednesday.
+> …
+> 
+> Great, thanks!
+> 
+> It would be possible to apply/backport Miguel's patches (along with
+> 5fd99b5d9950d6300467ded18ff4e44af0b4ae55) to stable versions please?
 
-Great, thanks!
+I don't see that git commit id in Linus's tree, are you sure it is
+correct?
 
-It would be possible to apply/backport Miguel's patches (along with
-5fd99b5d9950d6300467ded18ff4e44af0b4ae55) to stable versions please?
+> FWIW, in the context of Debian, I'm personally interested in 4.19.y.
 
-FWIW, in the context of Debian, I'm personally interested in 4.19.y.
+What specific list of commits are you wanting to see backported?
 
-Best regards,
+thanks,
 
- -- Santiago
-
---Yylu36WmvOXNoKYn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRZVjztY8b+Ty43oH1itBCJKh26HQUCX0+GLAAKCRBitBCJKh26
-HVoxAQC/u2K6ZbVv6h6JH5iLIwf898TveKClRkHECoHfFIlbFAEA/zzWGPo0JtH3
-+xivsR9kn0WuW8xkfLKl0Sxh6UBdcQk=
-=idff
------END PGP SIGNATURE-----
-
---Yylu36WmvOXNoKYn--
+greg k-h
