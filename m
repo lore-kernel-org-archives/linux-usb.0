@@ -2,123 +2,106 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAC11C433E2
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 18:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DE6C43461
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 18:12:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C26A9206EB
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 18:07:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C35F2206EB
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 18:12:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bHBkkk3T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLZeJhgv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728169AbgIBSH5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 14:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46190 "EHLO
+        id S1727957AbgIBSMu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 14:12:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728142AbgIBSHq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 14:07:46 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F0A2C061245
-        for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2020 11:07:45 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id v196so96876pfc.1
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2020 11:07:45 -0700 (PDT)
+        with ESMTP id S1726310AbgIBSMp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 14:12:45 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE50C061245;
+        Wed,  2 Sep 2020 11:12:44 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id mw10so188358pjb.2;
+        Wed, 02 Sep 2020 11:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VSHJHG5+upzM/goEP/xSDgS82DC6KInUZGDcM8Rgka0=;
-        b=bHBkkk3TDfWb/oc46NO3T9Wcl1C1+WCRl3YsWSAYw6GuX8yxbSXolnyMtfb3PrpZQh
-         XyZOf4ZwPmAQlmCGZ40oUd2zSE2aeefFxGG/1nZ9Hi0C0axG51w/+1I6O3Rra9oWYSrQ
-         7xrsZTSbA/p1tYeU1w9VSaskHsyDopzrWLxA4=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YlP++aNo5WyMtGJ0CAnpVmn1PYqVs1MEomEwiDLDlvE=;
+        b=SLZeJhgvzy1SwbnBEyEm39X14VGdB+s6VaQ/yLOmSqZ40TLeICXfNEyos2uBSsp415
+         ef7Qi8KYVMZY/7DYizQBs+BrO6KJVwM3a8pOF+26udAKw8VaUT91w5sJiIq79+2LP1x7
+         wE1onhmhnhYrsJFRGGXFHOG77WhzSopANFDW8QeKk1S30fE2iCLJ5hwvi9tI+iuKR9Hv
+         DQkWZOcYDhW5izPLwcyqFth7mIWLdTpwBXKtOZzrh9U6VoKY7FS8KvTfH0lGIL9bsmR3
+         9tsS0SC+hZ/xCGlGTzqnOjHPHYg/D01LWoZFWcRvv4vrgO1IzTR9DK0QtDLv04/rUcx7
+         v4bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VSHJHG5+upzM/goEP/xSDgS82DC6KInUZGDcM8Rgka0=;
-        b=UD5Smau/JhPcW5U56MHyQP6fuNHOwb+y9MD1TEDV6nlykH377QndPfbN/XvPHyqsCF
-         988R6Qu6XNtWHedsInfldB8iBIyEAAASfyYjMXUt169Ct8YJUfMn2hLjneB8OG5ibJRc
-         LofjfRs/ABpXtNAAwcEZnYFVYEihbka8iEeA8dBy6Eweo5fSfYGTjJ9+r6LTUGVE1T6w
-         Nvj/iKpP5Q5c2lEiMWW3EXmZlQaE+3zaFHVG58V121M3XRjNPzwbKSsAQSdzbeM+dapE
-         RfPujUKw1Dz6unPsfyoxt5tm7trELd8QtWMR/LXx1bjzrPD9huORCRPRSmcIL4AzLoWx
-         jgVw==
-X-Gm-Message-State: AOAM531JxhgtrEz3/jK8iKDZNv/KJmB6rhY/NXTDTslpfBEZP0ICTwNN
-        0q0scUdXqdo8btL0wv/jR2WE7g==
-X-Google-Smtp-Source: ABdhPJxRtv/WZ5Qf90LITBn6Dc7Kzt8ZqfLowhGcvjpbau0PdWMveSmIGMrmf35bUmCxHnp16pPGkw==
-X-Received: by 2002:a63:2a91:: with SMTP id q139mr2847387pgq.391.1599070065402;
-        Wed, 02 Sep 2020 11:07:45 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
-        by smtp.gmail.com with ESMTPSA id i1sm25205pgq.41.2020.09.02.11.07.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2020 11:07:44 -0700 (PDT)
-Date:   Wed, 2 Sep 2020 11:07:43 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [RFC PATCH] USB: misc: Add usb_hub_pwr driver
-Message-ID: <20200902180743.GF3419728@google.com>
-References: <20200901132005.RFC.1.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
- <20200902060744.GA142357@kroah.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YlP++aNo5WyMtGJ0CAnpVmn1PYqVs1MEomEwiDLDlvE=;
+        b=WQg1tDOAHB+KesluGWabmPeNN9IkR7jczMeYhZvplAwjQxETX7yopuc3HmyzbT5mUU
+         NgoCzUtCFTCRNykTAYYpdlY5QdCSnHnMAtiMapTdNBBC2OOS3MLWr6c+d59AFapcNTdI
+         L0xWzGvZSExIC5E8HtCnaITZA2GlNDPalIUHmMWR7sTyOMknyQ3NsWQBTb5M3koVxvaj
+         eKe+s94T6nKFquXDfmqHINwSuFfHMd6Ds7qJ7TVqHhrWkITFdFb1UAOLX4xHe57OmlqU
+         ynoo0UrJS77Oo6JlVV4xuytIn4TV8sPqQGDVctDqPbjkKhnQl/7ryktue8jh5Mo4vsUh
+         zOtw==
+X-Gm-Message-State: AOAM533+yTOz8hyefjkKp5LRuh9jqAlUhanEfci8JHX0Hm30lb4/2JtQ
+        JnajUp+CnPIK5YU0UxYEfsPyWjPZJmo=
+X-Google-Smtp-Source: ABdhPJxyAoeqcuz+tnhtvw279R9EQntj/xjvELk+nr6rkRC6rcP4eI7+rxiJxihTY3+IvWDlXHTkiA==
+X-Received: by 2002:a17:90a:a005:: with SMTP id q5mr3026666pjp.152.1599070364055;
+        Wed, 02 Sep 2020 11:12:44 -0700 (PDT)
+Received: from localhost.localdomain (cpe-172-112-234-200.socal.res.rr.com. [172.112.234.200])
+        by smtp.gmail.com with ESMTPSA id u123sm148993pfb.209.2020.09.02.11.12.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 02 Sep 2020 11:12:43 -0700 (PDT)
+From:   lindsey.stanpoor@gmail.com
+To:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org
+Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org, heiko@sntech.de,
+        balbi@kernel.org, cnemo@tutanota.com
+Subject: [PATCH v4 2/4] usb: dwc3: of-simple: Add compatible for rk3328
+Date:   Wed,  2 Sep 2020 11:12:32 -0700
+Message-Id: <20200902181234.13955-2-lindsey.stanpoor@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200902181234.13955-1-lindsey.stanpoor@gmail.com>
+References: <20200902181234.13955-1-lindsey.stanpoor@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200902060744.GA142357@kroah.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+From: Cameron Nemo <cnemo@tutanota.com>
 
-On Wed, Sep 02, 2020 at 08:07:44AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Sep 01, 2020 at 01:21:43PM -0700, Matthias Kaehlcke wrote:
-> > diff --git a/drivers/usb/misc/Makefile b/drivers/usb/misc/Makefile
-> > index da39bddb0604..2bd02388ca62 100644
-> > --- a/drivers/usb/misc/Makefile
-> > +++ b/drivers/usb/misc/Makefile
-> > @@ -31,3 +31,4 @@ obj-$(CONFIG_USB_CHAOSKEY)		+= chaoskey.o
-> >  
-> >  obj-$(CONFIG_USB_SISUSBVGA)		+= sisusbvga/
-> >  obj-$(CONFIG_USB_LINK_LAYER_TEST)	+= lvstest.o
-> > +obj-$(CONFIG_USB_HUB_PWR)		+= usb_hub_pwr.o usb_hub_psupply.o
-> 
-> Why is this 2 files?  Why can't it just be one?
+Add a compatible to be hooked into by the Rockchip rk3328 device tree.
 
-It's effectively two drivers that work together, it seemed cleaner to me
-to have a file for every driver.
+The rk3399 compatible cannot be reused because the rk3328 SoCs may
+require a specialized driver in the future, and old device trees must
+remain compatible with newer kernels.
 
-The 'usb_hub_psupply' driver (which probably should be named
-'onboard_usb_hub' or similar) would even be useful on its own (taking
-care of powering the hub on and potentially other setup actions)
-with a bit of rework.
+Signed-off-by: Cameron Nemo <cnemo@tutanota.com>
+---
+ drivers/usb/dwc3/dwc3-of-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> And isn't this much the same thing as many of the other "misc" hub
-> controller drivers we have?
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index 7df115012935..0727bf2304b1 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -171,6 +171,7 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
+ };
+ 
+ static const struct of_device_id of_dwc3_simple_match[] = {
++	{ .compatible = "rockchip,rk3328-dwc3" },
+ 	{ .compatible = "rockchip,rk3399-dwc3" },
+ 	{ .compatible = "xlnx,zynqmp-dwc3" },
+ 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
+-- 
+2.28.0
 
-There are some commonalities, however most of these drivers seem to
-target USB hubs with an I2C bus, using custom 'commands' for initialization
-and putting the hub in/out of standby.
-
-The drivers in this patch have two goals:
-
-- provide a generic (configurable) solution for powering up/initializing
-  a USB hub
-- enable support for powering down a USB hub during system suspend
-
-> And to make it easier to review, can you split out the device tree
-> descriptions so that the DT maintainers can review that?
-
-Sure, I wasn't sure if this is the right approach, hence I only sent
-an RFC without formal bindings to get initial feedback. As of now it
-seems that you are at least not frontally opposed it ;-)
