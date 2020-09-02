@@ -2,91 +2,99 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B53C433E7
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6793AC433E2
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F84020829
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:57:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C1892078E
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:58:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xOrbSudm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbgIBO5R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 10:57:17 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:57781 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726247AbgIBO5C (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 10:57:02 -0400
-Received: (qmail 624961 invoked by uid 1000); 2 Sep 2020 10:57:01 -0400
-Date:   Wed, 2 Sep 2020 10:57:01 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     himadrispandya@gmail.com, dvyukov@google.com,
-        linux-usb@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
-        stern@rowland.harvard.ed, linux-kernel@vger.kernel.org,
-        marcel@holtmann.org, johan.hedberg@gmail.com,
-        linux-bluetooth@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 04/10] USB: core: hub.c: use usb_control_msg_send() in a
- few places
-Message-ID: <20200902145701.GA624583@rowland.harvard.edu>
-References: <20200902110115.1994491-1-gregkh@linuxfoundation.org>
- <20200902110115.1994491-5-gregkh@linuxfoundation.org>
+        id S1727788AbgIBO5w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 10:57:52 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:51498 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726947AbgIBN4z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 09:56:55 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 082DZqkm126151;
+        Wed, 2 Sep 2020 08:35:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1599053752;
+        bh=+OataKjcHaS2/yUx/zgmwoW6NcsuC7JMXVcJUiQn8J0=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=xOrbSudmxkxw2W04FYoQyGdhwbMsMv63n2u26Dg3K5sNA516c7A/OQVuSBdZwQ1iQ
+         YWLRvFmkb9kt5/JTPpdM4zGtJwInR5rR0uKewhYSKGo0QMopK5lzQBoDAqXMmLE/Zl
+         DorswhPx6hzif6KlX8d2K7srl/MglzqaBmj7Cwko=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 082DZqqE056989
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 2 Sep 2020 08:35:52 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 2 Sep
+ 2020 08:35:52 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 2 Sep 2020 08:35:52 -0500
+Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 082DZiGB065816;
+        Wed, 2 Sep 2020 08:35:50 -0500
+From:   Roger Quadros <rogerq@ti.com>
+To:     <balbi@kernel.org>
+CC:     <pawell@cadence.com>, <kurahul@cadence.com>, <nsekhar@ti.com>,
+        <vigneshr@ti.com>, <robh+dt@kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, Roger Quadros <rogerq@ti.com>
+Subject: [PATCH v2 2/3] dt-bindings: usb: cdns,usb3: Add cdns,phyrst-a-enable property
+Date:   Wed, 2 Sep 2020 16:35:42 +0300
+Message-ID: <20200902133543.17222-3-rogerq@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200902133543.17222-1-rogerq@ti.com>
+References: <20200902133543.17222-1-rogerq@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200902110115.1994491-5-gregkh@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 02, 2020 at 01:01:06PM +0200, Greg Kroah-Hartman wrote:
-> There are a few calls to usb_control_msg() that can be converted to use
-> usb_control_msg_send() instead, so do that in order to make the error
-> checking a bit simpler and the code smaller.
-> 
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Controller version 0x0002450D has USB2 PHY RX sensitivity issues
+that needs to be worked around by enabling phyrst-a-enable bit
+in PHYRST_CFG register.
 
-One problem in this patch...
+There is no way to know controller version before device controller
+is started and the workaround needs to be applied for both host and
+device modes, so we add this DT property.
 
-> @@ -3896,27 +3875,14 @@ static int usb_req_set_sel(struct usb_device *udev, enum usb3_link_state state)
->  	if (u2_pel > USB3_LPM_MAX_U2_SEL_PEL)
->  		u2_pel = USB3_LPM_MAX_U2_SEL_PEL;
->  
-> -	/*
-> -	 * usb_enable_lpm() can be called as part of a failed device reset,
-> -	 * which may be initiated by an error path of a mass storage driver.
-> -	 * Therefore, use GFP_NOIO.
-> -	 */
-> -	sel_values = kmalloc(sizeof *(sel_values), GFP_NOIO);
-> -	if (!sel_values)
-> -		return -ENOMEM;
-> -
-> -	sel_values->u1_sel = u1_sel;
-> -	sel_values->u1_pel = u1_pel;
-> -	sel_values->u2_sel = cpu_to_le16(u2_sel);
-> -	sel_values->u2_pel = cpu_to_le16(u2_pel);
-> +	sel_values.u1_sel = u1_sel;
-> +	sel_values.u1_pel = u1_pel;
-> +	sel_values.u2_sel = cpu_to_le16(u2_sel);
-> +	sel_values.u2_pel = cpu_to_le16(u2_pel);
->  
-> -	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-> -			USB_REQ_SET_SEL,
-> -			USB_RECIP_DEVICE,
-> -			0, 0,
-> -			sel_values, sizeof *(sel_values),
-> -			USB_CTRL_SET_TIMEOUT);
-> -	kfree(sel_values);
-> +	ret = usb_control_msg_send(udev, 0, USB_REQ_SET_SEL, USB_RECIP_DEVICE,
-> +				   0, 0, &sel_values, sizeof(sel_values),
-> +				   USB_CTRL_SET_TIMEOUT);
+Signed-off-by: Roger Quadros <rogerq@ti.com>
+---
+ Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-This effectively changes GFP_NOIO to GFP_KERNEL.  Probably you should
-leave this particular call alone.
+diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+index 7bc0263accee..e670adc955e1 100644
+--- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
++++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+@@ -58,6 +58,10 @@ properties:
+       buffers expressed in KB
+     $ref: /schemas/types.yaml#/definitions/uint32
+ 
++  cdns,phyrst-a-enable:
++    description: Enable resetting of PHY if Rx fail is detected
++    type: boolean
++
+ required:
+   - compatible
+   - reg
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
-Alan Stern
