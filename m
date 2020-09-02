@@ -2,227 +2,285 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4EAC433E7
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 978EBC433E7
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:35:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C28C20767
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:32:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="aaJfJ0Zl"
+	by mail.kernel.org (Postfix) with ESMTP id 6BE2E207D3
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 14:35:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727094AbgIBOcl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 10:32:41 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:43740 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727099AbgIBObu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 10:31:50 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 082DZoZm028430;
-        Wed, 2 Sep 2020 08:35:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1599053750;
-        bh=x3r2gTj8CyI+Zc8dr6rfCAoHWCQlvOesBeP8eivIgl4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=aaJfJ0Zl2YItpVlHR/NrFJ1UoWWwdsg1iriJocJWlB7K3D+9Vqrke0cWijlG+EWc6
-         zxSIfFvfrLzQUnV4SiCKSoC72Y6PR26X+lblXojSxkM51yqS9pd69o8/y3TQFUxN0f
-         buzCRFNgT9QduAjtypcCulXRGbYFvumaA5DD95qM=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 082DZoNa056958
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 2 Sep 2020 08:35:50 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 2 Sep
- 2020 08:35:49 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 2 Sep 2020 08:35:49 -0500
-Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 082DZiGA065816;
-        Wed, 2 Sep 2020 08:35:47 -0500
-From:   Roger Quadros <rogerq@ti.com>
-To:     <balbi@kernel.org>
-CC:     <pawell@cadence.com>, <kurahul@cadence.com>, <nsekhar@ti.com>,
-        <vigneshr@ti.com>, <robh+dt@kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Roger Quadros <rogerq@ti.com>
-Subject: [PATCH v2 1/3] dt-bindings: usb: Convert cdns-usb3.txt to YAML schema
-Date:   Wed, 2 Sep 2020 16:35:41 +0300
-Message-ID: <20200902133543.17222-2-rogerq@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200902133543.17222-1-rogerq@ti.com>
-References: <20200902133543.17222-1-rogerq@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1728129AbgIBOfp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 10:35:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57068 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727044AbgIBOfh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Sep 2020 10:35:37 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 4F2C7B1AE;
+        Wed,  2 Sep 2020 14:35:36 +0000 (UTC)
+Date:   Wed, 02 Sep 2020 16:35:33 +0200
+Message-ID: <s5hh7sg9rgq.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     himadrispandya@gmail.com, dvyukov@google.com,
+        linux-usb@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
+        stern@rowland.harvard.ed, linux-kernel@vger.kernel.org,
+        marcel@holtmann.org, johan.hedberg@gmail.com,
+        linux-bluetooth@vger.kernel.org, alsa-devel@alsa-project.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Eli Billauer <eli.billauer@gmail.com>,
+        Emiliano Ingrassia <ingrassia@epigenesys.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Tsoy <alexander@tsoy.me>,
+        "Geoffrey D. Bennett" <g@b4.vu>, Jussi Laako <jussi@sonarnerd.net>,
+        Nick Kossifidis <mickflemm@gmail.com>,
+        Dmitry Panchenko <dmitry@d-systems.ee>,
+        Chris Wulff <crwulff@gmail.com>,
+        Jesus Ramos <jesus-ramos@live.com>
+Subject: Re: [PATCH 01/10] USB: move snd_usb_pipe_sanity_check into the USB core
+In-Reply-To: <20200902110115.1994491-2-gregkh@linuxfoundation.org>
+References: <20200902110115.1994491-1-gregkh@linuxfoundation.org>
+        <20200902110115.1994491-2-gregkh@linuxfoundation.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Converts cdns-usb3.txt to YAML schema cdns,usb3.yaml
+On Wed, 02 Sep 2020 13:01:03 +0200,
+Greg Kroah-Hartman wrote:
+> 
+> snd_usb_pipe_sanity_check() is a great function, so let's move it into
+> the USB core so that other parts of the kernel, including the USB core,
+> can call it.
+> 
+> Name it usb_pipe_type_check() to match the existing
+> usb_urb_ep_type_check() call, which now uses this function.
+> 
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: Eli Billauer <eli.billauer@gmail.com>
+> Cc: Emiliano Ingrassia <ingrassia@epigenesys.com>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Alexander Tsoy <alexander@tsoy.me>
+> Cc: "Geoffrey D. Bennett" <g@b4.vu>
+> Cc: Jussi Laako <jussi@sonarnerd.net>
+> Cc: Nick Kossifidis <mickflemm@gmail.com>
+> Cc: Dmitry Panchenko <dmitry@d-systems.ee>
+> Cc: Chris Wulff <crwulff@gmail.com>
+> Cc: Jesus Ramos <jesus-ramos@live.com>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Signed-off-by: Roger Quadros <rogerq@ti.com>
----
- .../devicetree/bindings/usb/cdns,usb3.yaml    | 89 +++++++++++++++++++
- .../devicetree/bindings/usb/cdns-usb3.txt     | 45 ----------
- 2 files changed, 89 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/cdns,usb3.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/cdns-usb3.txt
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-new file mode 100644
-index 000000000000..7bc0263accee
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -0,0 +1,89 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/cdns,usb3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cadence USBSS-DRD controller bindings
-+
-+maintainers:
-+  - Pawel Laszczak <pawell@cadence.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: cdns,usb3
-+
-+  reg:
-+    items:
-+      - description: OTG controller registers
-+      - description: XHCI Host controller registers
-+      - description: DEVICE controller registers
-+
-+  reg-names:
-+    items:
-+      - const: otg
-+      - const: xhci
-+      - const: dev
-+
-+  interrupts:
-+    items:
-+      - description: OTG/DRD controller interrupt
-+      - description: XHCI host controller interrupt
-+      - description: Device controller interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: host
-+      - const: peripheral
-+      - const: otg
-+
-+  dr_mode:
-+    enum: [host, otg, peripheral]
-+
-+  maximum-speed:
-+    enum: [super-speed, high-speed, full-speed]
-+
-+  phys:
-+   minItems: 1
-+   maxItems: 2
-+
-+  phy-names:
-+    minItems: 1
-+    maxItems: 2
-+
-+  cdns,on-chip-buff-size:
-+    description:
-+      size of memory intended as internal memory for endpoints
-+      buffers expressed in KB
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    bus {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        usb@6000000 {
-+            compatible = "cdns,usb3";
-+            reg = <0x00 0x6000000 0x00 0x10000>,
-+                  <0x00 0x6010000 0x00 0x10000>,
-+                  <0x00 0x6020000 0x00 0x10000>;
-+            reg-names = "otg", "xhci", "dev";
-+            interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "host", "peripheral", "otg";
-+            maximum-speed = "super-speed";
-+            dr_mode = "otg";
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/usb/cdns-usb3.txt b/Documentation/devicetree/bindings/usb/cdns-usb3.txt
-deleted file mode 100644
-index b7dc606d37b5..000000000000
---- a/Documentation/devicetree/bindings/usb/cdns-usb3.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Binding for the Cadence USBSS-DRD controller
--
--Required properties:
-- - reg: Physical base address and size of the controller's register areas.
--	 Controller has 3 different regions:
--	 - HOST registers area
--	 - DEVICE registers area
--	 - OTG/DRD registers area
-- - reg-names - register memory area names:
--	"xhci" - for HOST registers space
--	"dev" - for DEVICE registers space
--	"otg" - for OTG/DRD registers space
-- - compatible: Should contain: "cdns,usb3"
-- - interrupts: Interrupts used by cdns3 controller:
--	"host" - interrupt used by XHCI driver.
--	"peripheral" - interrupt used by device driver
--	"otg" - interrupt used by DRD/OTG  part of driver
--
--Optional properties:
-- - maximum-speed : valid arguments are "super-speed", "high-speed" and
--                   "full-speed"; refer to usb/generic.txt
-- - dr_mode: Should be one of "host", "peripheral" or "otg".
-- - phys: reference to the USB PHY
-- - phy-names: from the *Generic PHY* bindings;
--	Supported names are:
--	- cdns3,usb2-phy
--	- cdns3,usb3-phy
--
-- - cdns,on-chip-buff-size : size of memory intended as internal memory for endpoints
--	buffers expressed in KB
--
--Example:
--	usb@f3000000 {
--		compatible = "cdns,usb3";
--		interrupts = <GIC_USB_IRQ 7 IRQ_TYPE_LEVEL_HIGH>,
--				<GIC_USB_IRQ  7 IRQ_TYPE_LEVEL_HIGH>,
--				<GIC_USB_IRQ  8 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "host", "peripheral", "otg";
--		reg = <0xf3000000 0x10000>,	/* memory area for HOST registers */
--			<0xf3010000 0x10000>,	/* memory area for DEVICE registers */
--			<0xf3020000 0x10000>;	/* memory area for OTG/DRD registers */
--		reg-names = "xhci", "dev", "otg";
--		phys = <&usb2_phy>, <&usb3_phy>;
--		phy-names = "cdns3,usb2-phy", "cnds3,usb3-phy";
--	};
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
+thanks,
+
+Takashi
+
+
+> ---
+>  drivers/usb/core/urb.c          | 29 ++++++++++++++++++++++-------
+>  include/linux/usb.h             |  1 +
+>  sound/usb/helper.c              | 16 +---------------
+>  sound/usb/helper.h              |  1 -
+>  sound/usb/mixer_scarlett_gen2.c |  2 +-
+>  sound/usb/quirks.c              | 12 ++++++------
+>  6 files changed, 31 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+> index 27e83e55a590..45bc2914c1ba 100644
+> --- a/drivers/usb/core/urb.c
+> +++ b/drivers/usb/core/urb.c
+> @@ -192,24 +192,39 @@ static const int pipetypes[4] = {
+>  };
+>  
+>  /**
+> - * usb_urb_ep_type_check - sanity check of endpoint in the given urb
+> - * @urb: urb to be checked
+> + * usb_pipe_type_check - sanity check of a specific pipe for a usb device
+> + * @dev: struct usb_device to be checked
+> + * @pipe: pipe to check
+>   *
+>   * This performs a light-weight sanity check for the endpoint in the
+> - * given urb.  It returns 0 if the urb contains a valid endpoint, otherwise
+> - * a negative error code.
+> + * given usb device.  It returns 0 if the pipe is a valid for the specific usb
+> + * device, otherwise a negative error code.
+>   */
+> -int usb_urb_ep_type_check(const struct urb *urb)
+> +int usb_pipe_type_check(struct usb_device *dev, unsigned int pipe)
+>  {
+>  	const struct usb_host_endpoint *ep;
+>  
+> -	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
+> +	ep = usb_pipe_endpoint(dev, pipe);
+>  	if (!ep)
+>  		return -EINVAL;
+> -	if (usb_pipetype(urb->pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
+> +	if (usb_pipetype(pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
+>  		return -EINVAL;
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(usb_pipe_type_check);
+> +
+> +/**
+> + * usb_urb_ep_type_check - sanity check of endpoint in the given urb
+> + * @urb: urb to be checked
+> + *
+> + * This performs a light-weight sanity check for the endpoint in the
+> + * given urb.  It returns 0 if the urb contains a valid endpoint, otherwise
+> + * a negative error code.
+> + */
+> +int usb_urb_ep_type_check(const struct urb *urb)
+> +{
+> +	return usb_pipe_type_check(urb->dev, urb->pipe);
+> +}
+>  EXPORT_SYMBOL_GPL(usb_urb_ep_type_check);
+>  
+>  /**
+> diff --git a/include/linux/usb.h b/include/linux/usb.h
+> index 20c555db4621..0b3963d7ec38 100644
+> --- a/include/linux/usb.h
+> +++ b/include/linux/usb.h
+> @@ -1764,6 +1764,7 @@ static inline int usb_urb_dir_out(struct urb *urb)
+>  	return (urb->transfer_flags & URB_DIR_MASK) == URB_DIR_OUT;
+>  }
+>  
+> +int usb_pipe_type_check(struct usb_device *dev, unsigned int pipe);
+>  int usb_urb_ep_type_check(const struct urb *urb);
+>  
+>  void *usb_alloc_coherent(struct usb_device *dev, size_t size,
+> diff --git a/sound/usb/helper.c b/sound/usb/helper.c
+> index 4c12cc5b53fd..cf92d7110773 100644
+> --- a/sound/usb/helper.c
+> +++ b/sound/usb/helper.c
+> @@ -63,20 +63,6 @@ void *snd_usb_find_csint_desc(void *buffer, int buflen, void *after, u8 dsubtype
+>  	return NULL;
+>  }
+>  
+> -/* check the validity of pipe and EP types */
+> -int snd_usb_pipe_sanity_check(struct usb_device *dev, unsigned int pipe)
+> -{
+> -	static const int pipetypes[4] = {
+> -		PIPE_CONTROL, PIPE_ISOCHRONOUS, PIPE_BULK, PIPE_INTERRUPT
+> -	};
+> -	struct usb_host_endpoint *ep;
+> -
+> -	ep = usb_pipe_endpoint(dev, pipe);
+> -	if (!ep || usb_pipetype(pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
+> -		return -EINVAL;
+> -	return 0;
+> -}
+> -
+>  /*
+>   * Wrapper for usb_control_msg().
+>   * Allocates a temp buffer to prevent dmaing from/to the stack.
+> @@ -89,7 +75,7 @@ int snd_usb_ctl_msg(struct usb_device *dev, unsigned int pipe, __u8 request,
+>  	void *buf = NULL;
+>  	int timeout;
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, pipe))
+> +	if (usb_pipe_type_check(dev, pipe))
+>  		return -EINVAL;
+>  
+>  	if (size > 0) {
+> diff --git a/sound/usb/helper.h b/sound/usb/helper.h
+> index 5e8a18b4e7b9..f5b4c6647e4d 100644
+> --- a/sound/usb/helper.h
+> +++ b/sound/usb/helper.h
+> @@ -7,7 +7,6 @@ unsigned int snd_usb_combine_bytes(unsigned char *bytes, int size);
+>  void *snd_usb_find_desc(void *descstart, int desclen, void *after, u8 dtype);
+>  void *snd_usb_find_csint_desc(void *descstart, int desclen, void *after, u8 dsubtype);
+>  
+> -int snd_usb_pipe_sanity_check(struct usb_device *dev, unsigned int pipe);
+>  int snd_usb_ctl_msg(struct usb_device *dev, unsigned int pipe,
+>  		    __u8 request, __u8 requesttype, __u16 value, __u16 index,
+>  		    void *data, __u16 size);
+> diff --git a/sound/usb/mixer_scarlett_gen2.c b/sound/usb/mixer_scarlett_gen2.c
+> index 0ffff7640892..9609c6d9655c 100644
+> --- a/sound/usb/mixer_scarlett_gen2.c
+> +++ b/sound/usb/mixer_scarlett_gen2.c
+> @@ -1978,7 +1978,7 @@ static int scarlett2_mixer_status_create(struct usb_mixer_interface *mixer)
+>  		return 0;
+>  	}
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, pipe))
+> +	if (usb_pipe_type_check(dev, pipe))
+>  		return -EINVAL;
+>  
+>  	mixer->urb = usb_alloc_urb(0, GFP_KERNEL);
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index abf99b814a0f..fc3aab04a0bc 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -846,7 +846,7 @@ static int snd_usb_accessmusic_boot_quirk(struct usb_device *dev)
+>  	static const u8 seq[] = { 0x4e, 0x73, 0x52, 0x01 };
+>  	void *buf;
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, usb_sndintpipe(dev, 0x05)))
+> +	if (usb_pipe_type_check(dev, usb_sndintpipe(dev, 0x05)))
+>  		return -EINVAL;
+>  	buf = kmemdup(seq, ARRAY_SIZE(seq), GFP_KERNEL);
+>  	if (!buf)
+> @@ -875,7 +875,7 @@ static int snd_usb_nativeinstruments_boot_quirk(struct usb_device *dev)
+>  {
+>  	int ret;
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, usb_sndctrlpipe(dev, 0)))
+> +	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
+>  		return -EINVAL;
+>  	ret = usb_control_msg(dev, usb_sndctrlpipe(dev, 0),
+>  				  0xaf, USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+> @@ -984,7 +984,7 @@ static int snd_usb_axefx3_boot_quirk(struct usb_device *dev)
+>  
+>  	dev_dbg(&dev->dev, "Waiting for Axe-Fx III to boot up...\n");
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, usb_sndctrlpipe(dev, 0)))
+> +	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
+>  		return -EINVAL;
+>  	/* If the Axe-Fx III has not fully booted, it will timeout when trying
+>  	 * to enable the audio streaming interface. A more generous timeout is
+> @@ -1018,7 +1018,7 @@ static int snd_usb_motu_microbookii_communicate(struct usb_device *dev, u8 *buf,
+>  {
+>  	int err, actual_length;
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, usb_sndintpipe(dev, 0x01)))
+> +	if (usb_pipe_type_check(dev, usb_sndintpipe(dev, 0x01)))
+>  		return -EINVAL;
+>  	err = usb_interrupt_msg(dev, usb_sndintpipe(dev, 0x01), buf, *length,
+>  				&actual_length, 1000);
+> @@ -1030,7 +1030,7 @@ static int snd_usb_motu_microbookii_communicate(struct usb_device *dev, u8 *buf,
+>  
+>  	memset(buf, 0, buf_size);
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, usb_rcvintpipe(dev, 0x82)))
+> +	if (usb_pipe_type_check(dev, usb_rcvintpipe(dev, 0x82)))
+>  		return -EINVAL;
+>  	err = usb_interrupt_msg(dev, usb_rcvintpipe(dev, 0x82), buf, buf_size,
+>  				&actual_length, 1000);
+> @@ -1117,7 +1117,7 @@ static int snd_usb_motu_m_series_boot_quirk(struct usb_device *dev)
+>  {
+>  	int ret;
+>  
+> -	if (snd_usb_pipe_sanity_check(dev, usb_sndctrlpipe(dev, 0)))
+> +	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
+>  		return -EINVAL;
+>  	ret = usb_control_msg(dev, usb_sndctrlpipe(dev, 0),
+>  			      1, USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+> -- 
+> 2.28.0
+> 
