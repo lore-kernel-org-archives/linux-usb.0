@@ -2,122 +2,104 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6B4C433E2
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EEBC433E7
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:30:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D9B8206E7
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:26:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAA78207D3
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 15:30:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbgIBP0U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 11:26:20 -0400
-Received: from mr05.mx01.tldhost.de ([62.108.36.228]:38805 "EHLO
-        mr05.mx01.tldhost.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727944AbgIBPZs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 11:25:48 -0400
-X-Greylist: delayed 73218 seconds by postgrey-1.27 at vger.kernel.org; Wed, 02 Sep 2020 11:25:46 EDT
-Received: from mx01.tldhost.de (localhost [127.0.0.1])
-        by mx01.tldhost.de (Postfix) with ESMTP id 100B6120803
-        for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2020 17:25:15 +0200 (CEST)
-Received: by mx01.tldhost.de (Postfix, from userid 1001)
-        id 059B6120868; Wed,  2 Sep 2020 17:25:15 +0200 (CEST)
-Received: from server12.tldhost.de (server12.tldhost.de [84.19.26.112])
-        by mx01.tldhost.de (Postfix) with ESMTPS id 49E491205BF;
-        Wed,  2 Sep 2020 17:25:14 +0200 (CEST)
-Received: from fw-emea.rohde-schwarz.com (fw-emea.rohde-schwarz.com
- [80.246.32.33]) by webmail.kiener-muenchen.de (Horde Framework) with HTTPS;
- Wed, 02 Sep 2020 15:25:14 +0000
-Date:   Wed, 02 Sep 2020 15:25:14 +0000
-Message-ID: <20200902152514.Horde.-6-I20fjCayIQgkkuxwk-o2@webmail.kiener-muenchen.de>
-From:   guido@kiener-muenchen.de
-To:     George McCollister <george.mccollister@gmail.com>
-Cc:     linux-usb@vger.kernel.org, guido.kiener@rohde-schwarz.com
-Subject: Re: usbtmc: stb race condition introduced by
- 4f3c8d6eddc272b386464524235440a418ed2029
-References: <CAFSKS=Pv1Ji4XqHjVMCAnszq_HjFYYk7GuzeeCCScHd1NMumDA@mail.gmail.com>
- <20200901185903.Horde.NHT9rmY1GQT34m6C6YMUCNF@webmail.kiener-muenchen.de>
- <CAFSKS=M8xh3UVFEt+QxcCr_Ghie8tBkudrbLO15hpvEzQEbGfQ@mail.gmail.com>
-In-Reply-To: <CAFSKS=M8xh3UVFEt+QxcCr_Ghie8tBkudrbLO15hpvEzQEbGfQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+        id S1728315AbgIBPaX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 11:30:23 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:34337 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728312AbgIBPaJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 11:30:09 -0400
+Received: (qmail 626846 invoked by uid 1000); 2 Sep 2020 11:30:08 -0400
+Date:   Wed, 2 Sep 2020 11:30:08 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Tom Yan <tom.ty89@gmail.com>
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, cyrozap@gmail.com, yoshihiro.shimoda.uh@renesas.com
+Subject: Re: [PATCH v2 1/2] uas: bump hw_max_sectors to 2048 blocks for SS or
+ faster drives
+Message-ID: <20200902153008.GE624583@rowland.harvard.edu>
+References: <20200901145535.GC587030@rowland.harvard.edu>
+ <20200902000937.2204-1-tom.ty89@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-PPP-Message-ID: <20200902152515.1001.63715@server12.tldhost.de>
-X-PPP-Vhost: kiener-muenchen.de
-X-POWERED-BY: TLDHost.de - AV:CLEAN SPAM:OK
+In-Reply-To: <20200902000937.2204-1-tom.ty89@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
->> More info see:
->> https://github.com/GuidoKiener/linux-usbtmc/blob/master/README.md
->>
->> > My USBTMC device has an interrupt endpoint with a 1ms interval.
->> >
->> > 1) A query is sent to the USBTMC device.
->> >
->> > 2) An SRQ is reported via the interrupt endpoint with MAV set.
->> >
->> > 3) Userspace performs a read to get the reply since MAV is set after
->> > being notified by poll().
->>
->> Did you start reading (read()) without checking the Status Byte after
->> poll() event?
->
-> I check the status byte after poll(). The problem seems to be that I
-> also check the status byte in a loop (until there is nothing to
-> service) before calling poll again.
+On Wed, Sep 02, 2020 at 08:09:36AM +0800, Tom Yan wrote:
+> There's no reason for uas to use a smaller value of max_sectors than
+> usb-storage.
+> 
+> Also copying the dma max mapping size clamping from usb-storage.
+> 
+> Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+> ---
+>  drivers/usb/storage/uas.c | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 08f9296431e9..813c49914b9a 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+> @@ -827,11 +827,6 @@ static int uas_slave_alloc(struct scsi_device *sdev)
+>  	 */
+>  	blk_queue_update_dma_alignment(sdev->request_queue, (512 - 1));
+>  
+> -	if (devinfo->flags & US_FL_MAX_SECTORS_64)
+> -		blk_queue_max_hw_sectors(sdev->request_queue, 64);
+> -	else if (devinfo->flags & US_FL_MAX_SECTORS_240)
+> -		blk_queue_max_hw_sectors(sdev->request_queue, 240);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -839,6 +834,20 @@ static int uas_slave_configure(struct scsi_device *sdev)
+>  {
+>  	struct uas_dev_info *devinfo = sdev->hostdata;
+>  
+> +	struct us_data *us = host_to_us(sdev->host);
+> +	struct device *dev = us->pusb_dev->bus->sysdev;
 
-This is not a problem. You can check the status byte several times
-as long as you like. When RQS Bit (0x40) is set, then you know it was
-an intermediate SRQ, sent according to chapter 3.4.1
-(USBTMC_usb488_subclass_1_00.pdf). Otherwise it is a requested status
-byte according to chapter 3.4.2.
+Yeah, this won't work.  The uas driver doesn't use struct us_data at 
+all.  Instead you should have:
 
-> As long as you only check the
-> status byte when there is a cached value available it should be no
-> problem. However if you call USBTMC488_IOCTL_READ_STB when there is
-> not a cached SRQ value an SRQ can occur after the lock is released in
-> usbtmc488_ioctl_read_stb() and cache an older value (which will be
-> read by the next USBTMC488_IOCTL_READ_STB) than the one returned.
+	struct device *dev = devinfo->udev->bus->sysdev;
 
-Yes, interrupts (here SRQ) can happen at any time. Therefore the user
-can enable/disable interrupts (e.g. with SCPI command SRE) and
-postpone interrupt handling.
+except that now you probably don't need it.
 
-The SRQ sends a status byte with RQS bit set (chapter 3.4.1) and the
-request initiated by the client returns a status byte without RQS bit
-(chapter 3.4.2).
+> +
+> +	if (devinfo->flags & US_FL_MAX_SECTORS_64)
+> +		blk_queue_max_hw_sectors(sdev->request_queue, 64);
+> +	else if (devinfo->flags & US_FL_MAX_SECTORS_240)
+> +		blk_queue_max_hw_sectors(sdev->request_queue, 240);
+> +	else if (us->pusb_dev->speed >= USB_SPEED_SUPER)
 
-> This
-> is a race condition and sounds broken to me but if this is the
-> intended behavior I can adjust my userspace code to only do
-> USBTMC488_IOCTL_READ_STB once after poll indicates an SRQ and live
-> with it.
-> It doesn't seem right for USBTMC488_IOCTL_READ_STB to ever report an
-> older value than what was reported on the previous call.
+Same thing here: devinfo->udev->speed.
 
-I agree that this can result in an odd behavior (E.g. the MAV bit
-is unset with reading the subsequent cached status byte).
-I was not aware about this problem and I need to check whether this is
-a common problem in VISA implementations or whether we just need to fix
-the kernel (e.g. drop requested status byte and return older cached value).
+> +		blk_queue_max_hw_sectors(sdev->request_queue, 2048);
 
-A workaround to avoid this odd behavior is to read the status byte
-again with USBTMC488_IOCTL_READ_STB when your user application detects
-the RQS bit.
+Also, you might want to check before doing this.  If it would decrease 
+the max_hw_sectors value, there's no point doing it.
 
-BTW when you look at the old implementation
-https://elixir.bootlin.com/linux/v4.7.10/source/drivers/usb/class/usbtmc.c#L1332
-then you can see that you will never get a status byte with RQS bit set.
-The status byte was never stored in data->bNotify2
+> +
+> +	blk_queue_max_hw_sectors(sdev->request_queue,
+> +		min_t(size_t, queue_max_hw_sectors(sdev->request_queue),
+> +		      dma_max_mapping_size(dev) >> SECTOR_SHIFT));
 
-Regards,
+And presumably this will be unnecessary.
 
-Guido
-
-
-
+Alan Stern
