@@ -2,70 +2,74 @@ Return-Path: <SRS0=Ur+j=CL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74ABDC433E2
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 07:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 564E6C433E7
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 08:48:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5259820826
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 07:59:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E90C207EA
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Sep 2020 08:48:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="uUUYzTOV"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="IqU0htvZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgIBH7M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Sep 2020 03:59:12 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:58048 "EHLO
+        id S1726771AbgIBIs0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Sep 2020 04:48:26 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:37915 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726586AbgIBH6w (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 03:58:52 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0827ldTA002930;
-        Wed, 2 Sep 2020 09:57:17 +0200
+        by vger.kernel.org with ESMTP id S1726446AbgIBIsY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Sep 2020 04:48:24 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0828lxdr005740;
+        Wed, 2 Sep 2020 10:48:06 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=zt14ziy4OTTPyQeA+zhrodnOKfhhzc5gP1zGODBiazA=;
- b=uUUYzTOVb8DO2xvv/x53D7ok3TQpAJbCsuUq3N1NkRQZbf0mkq1s4pAWFj5LBhc6Jvme
- SnHRBhvzcDdl+ls3TlbKaLa2WZh6FHNqK8oohJi2p/aQ+VEF7SElcfz4wM5/vS9b7mSu
- RNHLP6q96wScOGAWHrGIX1pfFFOIaYQHuHc4TsgIMjvryM7UZJeZ9ZeZlHYyHtOnupgh
- iYBtIBe6KzPi0cGaLSQWcrakSV1n95AduNjcduG2VZh1dlASGK7LV6fVHsApkcGlA/zv
- 3lrog+CUB4UgKFzKkbyKmKTtn+oTJdLkYfQf+DPlMhT7Vuwa4yS5fKbiERQ3zxMgdJWI uw== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=bsrtrM02fgWv2bRv4Bhe+o5W+4DzyVAwKGr6eUnXvqA=;
+ b=IqU0htvZikfnFJyrcTNf3wI9NrajXvq7CIFzK5I4g2CBL/5xdG1pcO1MsCy+6j3a4vPp
+ tYsqEjVyXAHqVT9n35yK8lp+yC6kMlfE4JCPTXQ/oBauVr3Lci+9UbU4bHN+IQoksHqh
+ 5krdDcD0xE31fPJj+1+wm+zZZdlB0pBsrohZXH3IQbZ4fTtaLIm+KuHSjW+XWi6KWrx+
+ ri3CkTSNC6RrCiSIOK4VmHxh5+jPmxmczjZleBVdJ3wjm2yaEeTtFokyyR+9R4F61c8s
+ JVjoAfIByuQJDJIko7IfeKER9jGLgbfLGeLHxeuMtH+TEmdQLAhw7FQpPqRVZrV8+zs6 CQ== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 337csvv4t7-1
+        by mx07-00178001.pphosted.com with ESMTP id 337cg1mg4v-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Sep 2020 09:57:17 +0200
+        Wed, 02 Sep 2020 10:48:06 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2BA2F10002A;
-        Wed,  2 Sep 2020 09:57:15 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9EF4010003E;
+        Wed,  2 Sep 2020 10:48:05 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 080F5212FB9;
-        Wed,  2 Sep 2020 09:57:15 +0200 (CEST)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Sep 2020 09:57:14
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8F2E12A7D62;
+        Wed,  2 Sep 2020 10:48:05 +0200 (CEST)
+Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Sep 2020 10:48:05
  +0200
 From:   Amelie Delaunay <amelie.delaunay@st.com>
-To:     Rob Herring <robh+dt@kernel.org>,
+To:     Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>
+CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
         Amelie Delaunay <amelie.delaunay@st.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [RESEND PATCH v2 0/6] Add STUSB160x Type-C port controller support
-Date:   Wed, 2 Sep 2020 09:57:01 +0200
-Message-ID: <20200902075707.9052-1-amelie.delaunay@st.com>
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: [RESEND PATCH v5 3/3] usb: dwc2: don't use ID/Vbus detection if usb-role-switch on STM32MP15 SoCs
+Date:   Wed, 2 Sep 2020 10:48:00 +0200
+Message-ID: <20200902084800.12105-4-amelie.delaunay@st.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200902084800.12105-1-amelie.delaunay@st.com>
+References: <20200902084800.12105-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG1NODE1.st.com (10.75.127.1) To SFHDAG3NODE2.st.com
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG5NODE3.st.com (10.75.127.15) To SFHDAG3NODE2.st.com
  (10.75.127.8)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-09-02_03:2020-09-02,2020-09-02 signatures=0
@@ -74,46 +78,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds support for STMicroelectronics STUSB160x Type-C port
-controllers [1].
-STUSB160x driver requires to get power operation mode via device tree,
-that's why this series also adds the optional DT property power-opmode
-for usb-c-connector to select the power operation mode capability and
-a function to convert the power operation mode string into power
-operation mode value.
-This driver has been tested on stm32mp157c-dk2 [2], which has a Type-C
-connector managed by STUSB1600, and connected to USB OTG controller. 
+If usb-role-switch is present in the device tree, it means that ID and Vbus
+signals are not connected to the OTG controller but to an external
+component (GPIOs, Type-C controller). In this configuration, usb role
+switch is used to force valid sessions on STM32MP15 SoCs.
 
-[1] https://www.st.com/en/interfaces-and-transceivers/usb-type-c-and-power-delivery-controllers.html
-[2] https://www.st.com/en/evaluation-tools/stm32mp157c-dk2.html
-
-Amelie Delaunay (6):
-  dt-bindings: connector: add power-opmode optional property to
-    usb-connector
-  usb: typec: add typec_find_pwr_opmode
-  dt-bindings: usb: Add DT bindings for STUSB160x Type-C controller
-  usb: typec: add support for STUSB160x Type-C controller family
-  ARM: dts: stm32: add STUSB1600 Type-C using I2C4 on stm32mp15xx-dkx
-  ARM: multi_v7_defconfig: enable STUSB160X Type-C port controller
-    support
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
 ---
-Changes in v2:
-- power-opmode DT property description updated.
+Changes in v5:
+- Use device_property_read_bool instead of of_read_property_bool
 ---
- .../bindings/connector/usb-connector.yaml     |  20 +
- .../devicetree/bindings/usb/st,stusb160x.yaml |  85 ++
- arch/arm/boot/dts/stm32mp15-pinctrl.dtsi      |   7 +
- arch/arm/boot/dts/stm32mp15xx-dkx.dtsi        |  38 +
- arch/arm/configs/multi_v7_defconfig           |   2 +
- drivers/usb/typec/Kconfig                     |  12 +
- drivers/usb/typec/Makefile                    |   1 +
- drivers/usb/typec/class.c                     |  15 +
- drivers/usb/typec/stusb160x.c                 | 875 ++++++++++++++++++
- include/linux/usb/typec.h                     |   1 +
- 10 files changed, 1056 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/st,stusb160x.yaml
- create mode 100644 drivers/usb/typec/stusb160x.c
+ drivers/usb/dwc2/params.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index a3611cdd1dea..50df72f32b4c 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -185,7 +185,7 @@ static void dwc2_set_stm32mp15_hsotg_params(struct dwc2_hsotg *hsotg)
+ 	struct dwc2_core_params *p = &hsotg->params;
+ 
+ 	p->otg_cap = DWC2_CAP_PARAM_NO_HNP_SRP_CAPABLE;
+-	p->activate_stm_id_vb_detection = true;
++	p->activate_stm_id_vb_detection = !device_property_read_bool(hsotg->dev, "usb-role-switch");
+ 	p->host_rx_fifo_size = 440;
+ 	p->host_nperio_tx_fifo_size = 256;
+ 	p->host_perio_tx_fifo_size = 256;
 -- 
 2.17.1
 
