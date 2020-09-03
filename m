@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3188C433E2
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40481C433E9
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD4D72072A
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1971C2072A
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="htUjP8MO"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="bNYvg+rq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728629AbgICPO7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Sep 2020 11:14:59 -0400
-Received: from crapouillou.net ([89.234.176.41]:52000 "EHLO crapouillou.net"
+        id S1728692AbgICLfs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Sep 2020 07:35:48 -0400
+Received: from crapouillou.net ([89.234.176.41]:51956 "EHLO crapouillou.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728654AbgICLhg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 3 Sep 2020 07:37:36 -0400
+        id S1728687AbgICLfd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 3 Sep 2020 07:35:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1599132411; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1599132405; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:mime-version:
          content-type:content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=RNukebu5FJc21AaatW8pIDM/jN+mPnsQcQWuh8bpr7A=;
-        b=htUjP8MOznKj63TiyERDMqJINFETb7XOkyxP8ClwaFkoSfOGrFLr+VLzUvyD3xNeQSswbg
-        p7LZQ5cWe25wPNMfmzaec40O/ElUOkQRnNQGhJbuEk9+6OaARXOMTpUdcXLUSy2DnephH1
-        XwmA8yVt8pDGFouQrnH2pvmVwN+h2mo=
+        bh=TaaXhuQwpGfBU2Mff+uP9EGClNX7jlEbfP7HfZOJNPw=;
+        b=bNYvg+rqcT9I6lnK9NOk6dQ3I3ikbPyWzzWj+7j7zASSo8UWh2eNXEhZT6A0FlMbpwnKuO
+        AqKMlucd0Apm1bT4Mtxx1jBksZGS1c2rOj5Az/A5Z0OoSkipsXVWktFPoEIL7xqgBcr9Cy
+        snbEctfTNJq76cOvdt179trzl0YEbQc=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Chen <Peter.Chen@nxp.com>,
@@ -54,9 +54,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
         Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 18/20] usb/gadget/udc: pch: Use pm_ptr() macro
-Date:   Thu,  3 Sep 2020 13:25:52 +0200
-Message-Id: <20200903112554.34263-19-paul@crapouillou.net>
+Subject: [PATCH 16/20] usb/gadget/udc: bdc: Use pm_ptr() macro
+Date:   Thu,  3 Sep 2020 13:25:50 +0200
+Message-Id: <20200903112554.34263-17-paul@crapouillou.net>
 In-Reply-To: <20200903112554.34263-1-paul@crapouillou.net>
 References: <20200903112554.34263-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -74,50 +74,50 @@ simply be discarded by the compiler.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/usb/gadget/udc/pch_udc.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/usb/gadget/udc/bdc/bdc_core.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index 8afc31d94b0e..9e26b5ab3058 100644
---- a/drivers/usb/gadget/udc/pch_udc.c
-+++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -3042,8 +3042,7 @@ static void pch_udc_remove(struct pci_dev *pdev)
- 	pch_udc_exit(dev);
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
+index 5ff36525044e..da3a7a59ccae 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_core.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
+@@ -597,8 +597,7 @@ static int bdc_remove(struct platform_device *pdev)
+ 	return 0;
  }
  
 -#ifdef CONFIG_PM_SLEEP
--static int pch_udc_suspend(struct device *d)
-+static int __maybe_unused pch_udc_suspend(struct device *d)
+-static int bdc_suspend(struct device *dev)
++static int __maybe_unused bdc_suspend(struct device *dev)
  {
- 	struct pch_udc_dev *dev = dev_get_drvdata(d);
+ 	struct bdc *bdc = dev_get_drvdata(dev);
+ 	int ret;
+@@ -611,7 +610,7 @@ static int bdc_suspend(struct device *dev)
+ 	return ret;
+ }
  
-@@ -3053,16 +3052,12 @@ static int pch_udc_suspend(struct device *d)
+-static int bdc_resume(struct device *dev)
++static int __maybe_unused bdc_resume(struct device *dev)
+ {
+ 	struct bdc *bdc = dev_get_drvdata(dev);
+ 	int ret;
+@@ -630,8 +629,6 @@ static int bdc_resume(struct device *dev)
  	return 0;
  }
  
--static int pch_udc_resume(struct device *d)
-+static int __maybe_unused pch_udc_resume(struct device *d)
- {
- 	return 0;
- }
- 
- static SIMPLE_DEV_PM_OPS(pch_udc_pm, pch_udc_suspend, pch_udc_resume);
--#define PCH_UDC_PM_OPS		(&pch_udc_pm)
--#else
--#define PCH_UDC_PM_OPS		NULL
 -#endif /* CONFIG_PM_SLEEP */
+-
+ static SIMPLE_DEV_PM_OPS(bdc_pm_ops, bdc_suspend,
+ 		bdc_resume);
  
- static int pch_udc_probe(struct pci_dev *pdev,
- 			  const struct pci_device_id *id)
-@@ -3171,7 +3166,7 @@ static struct pci_driver pch_udc_driver = {
- 	.remove =	pch_udc_remove,
- 	.shutdown =	pch_udc_shutdown,
- 	.driver = {
--		.pm = PCH_UDC_PM_OPS,
-+		.pm = pm_ptr(&pch_udc_pm),
+@@ -644,7 +641,7 @@ static const struct of_device_id bdc_of_match[] = {
+ static struct platform_driver bdc_driver = {
+ 	.driver		= {
+ 		.name	= BRCM_BDC_NAME,
+-		.pm = &bdc_pm_ops,
++		.pm = pm_ptr(&bdc_pm_ops),
+ 		.of_match_table	= bdc_of_match,
  	},
- };
- 
+ 	.probe		= bdc_probe,
 -- 
 2.28.0
 
