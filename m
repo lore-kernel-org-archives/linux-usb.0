@@ -2,120 +2,71 @@ Return-Path: <SRS0=pd4M=CM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D81CC433E9
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:19:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52290C433E9
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:29:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4563C20786
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:19:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="cZdEy8G+"
+	by mail.kernel.org (Postfix) with ESMTP id 2E9342072A
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:29:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729182AbgICPTt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Sep 2020 11:19:49 -0400
-Received: from crapouillou.net ([89.234.176.41]:50454 "EHLO crapouillou.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728500AbgICL1B (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 3 Sep 2020 07:27:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1599132368; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=x3OFdNgDOF418fBVzdMohbSbtTKgDO7T8r5jfdzMW+Y=;
-        b=cZdEy8G+8PzfzbjNeQPWjcgH4RuZLLGYI+UFG+0EM4Os/uxIEVg9VRlPSPIq0MFzGom6gZ
-        xf4dLy8m8gUtlKR5m97mL6G9y/7iwJwSW2++d6wxv8RwkniTcl5k/Tiuz3zY1TYlGlBDPl
-        PtCEqNNndRth3fbZkYtNmah952TlGGE=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Tony Prisk <linux@prisktech.co.nz>, Bin Liu <b-liu@ti.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
-        Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 02/20] usb/host: ehci-spear: Use pm_ptr() macro
-Date:   Thu,  3 Sep 2020 13:25:36 +0200
-Message-Id: <20200903112554.34263-3-paul@crapouillou.net>
-In-Reply-To: <20200903112554.34263-1-paul@crapouillou.net>
-References: <20200903112554.34263-1-paul@crapouillou.net>
+        id S1728446AbgICP3k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Sep 2020 11:29:40 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:56323 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728382AbgICP3j (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Sep 2020 11:29:39 -0400
+Received: (qmail 662975 invoked by uid 1000); 3 Sep 2020 11:29:37 -0400
+Date:   Thu, 3 Sep 2020 11:29:37 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Penghao <penghao@uniontech.com>
+Cc:     gregkh@linuxfoundation.org, johan@kernel.org, hdegoede@redhat.com,
+        dlaz@chromium.org, kerneldev@karsmulder.nl, jonathan@jdcox.net,
+        tomasz@meresinski.eu, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: quirks: Add USB_QUIRK_IGNORE_REMOTE_WAKEUP quirk
+ for BYD zhaoxin notebook
+Message-ID: <20200903152937.GA662845@rowland.harvard.edu>
+References: <20200903100326.5327-1-penghao@uniontech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200903100326.5327-1-penghao@uniontech.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the newly introduced pm_ptr() macro, and mark the suspend/resume
-functions __maybe_unused. These functions can then be moved outside the
-CONFIG_PM_SUSPEND block, and the compiler can then process them and
-detect build failures independently of the config. If unused, they will
-simply be discarded by the compiler.
+On Thu, Sep 03, 2020 at 06:03:26PM +0800, Penghao wrote:
+> Add a USB_QUIRK_IGNORE_REMOTE_WAKEUP quirk for the BYD zhaoxin notebook.
+> This notebook come with usb touchpad. And we would like to disable touchpad
+> wakeup on this notebook by default.
+> 
+> Signed-off-by: Penghao <penghao@uniontech.com>
+> ---
+>  drivers/usb/core/quirks.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 7c1198f80c23..5fa3f2416967 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -387,6 +387,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+>  	{ USB_DEVICE(0x0b05, 0x17e0), .driver_info =
+>  			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
+>  
+> +	/* SONiX USB DEVICE Touchpad */
+> +	{ USB_DEVICE(0x0c45, 0x7056), .driver_info =
+> +			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
+> +
+>  	/* Realtek hub in Dell WD19 (Type-C) */
+>  	{ USB_DEVICE(0x0bda, 0x0487), .driver_info = USB_QUIRK_NO_LPM },
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/usb/host/ehci-spear.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Please follow the instructions at the start of the file about keeping 
+the entries sorted by vendor ID and product ID.
 
-diff --git a/drivers/usb/host/ehci-spear.c b/drivers/usb/host/ehci-spear.c
-index add796c78561..3694e450a11a 100644
---- a/drivers/usb/host/ehci-spear.c
-+++ b/drivers/usb/host/ehci-spear.c
-@@ -34,8 +34,7 @@ struct spear_ehci {
- 
- static struct hc_driver __read_mostly ehci_spear_hc_driver;
- 
--#ifdef CONFIG_PM_SLEEP
--static int ehci_spear_drv_suspend(struct device *dev)
-+static int __maybe_unused ehci_spear_drv_suspend(struct device *dev)
- {
- 	struct usb_hcd *hcd = dev_get_drvdata(dev);
- 	bool do_wakeup = device_may_wakeup(dev);
-@@ -43,14 +42,13 @@ static int ehci_spear_drv_suspend(struct device *dev)
- 	return ehci_suspend(hcd, do_wakeup);
- }
- 
--static int ehci_spear_drv_resume(struct device *dev)
-+static int __maybe_unused ehci_spear_drv_resume(struct device *dev)
- {
- 	struct usb_hcd *hcd = dev_get_drvdata(dev);
- 
- 	ehci_resume(hcd, false);
- 	return 0;
- }
--#endif /* CONFIG_PM_SLEEP */
- 
- static SIMPLE_DEV_PM_OPS(ehci_spear_pm_ops, ehci_spear_drv_suspend,
- 		ehci_spear_drv_resume);
-@@ -155,7 +153,7 @@ static struct platform_driver spear_ehci_hcd_driver = {
- 	.driver		= {
- 		.name = "spear-ehci",
- 		.bus = &platform_bus_type,
--		.pm = &ehci_spear_pm_ops,
-+		.pm = pm_ptr(&ehci_spear_pm_ops),
- 		.of_match_table = spear_ehci_id_table,
- 	}
- };
--- 
-2.28.0
-
+Alan Stern
