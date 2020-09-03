@@ -2,165 +2,122 @@ Return-Path: <SRS0=pd4M=CM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC09AC433E9
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 14:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3188C433E2
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A422B206EF
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 14:43:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD4D72072A
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Id7LbTS7"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="htUjP8MO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729366AbgICOnC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Sep 2020 10:43:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729223AbgICOmt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Sep 2020 10:42:49 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49DCC061244
-        for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2020 07:42:48 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id 109so2944988otv.3
-        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2020 07:42:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=N5TUuc1XOvK4T6yIQRxcVcIYjn6rnH3UmWFsDj9pqFk=;
-        b=Id7LbTS7IHY4Jh/htA2L+gcJaXROGfKo+bJRGY94wst3aO5dGRNiXxdXHtz20I0nO4
-         a5zP90FanpmAHmDUf/LQ1o40G8YwVtAC+9kMtMHZo5a6J+lTAx/7LaGFOF+ANr0Bo0UD
-         jvSGVXqF3cG9mVOaOwCPxoUf0/Dr2oZGFz2A8d3PwvhHM2pCe+fMxKiuEmSCIEDUJTtC
-         0nLihRhZzk3zmVD8H/kasJwPiQE/GVPmUl6dWjLC0/8RwjbS0j5tR1YnJxW2EdE2wM5k
-         md9CfscATmbyw5r/xJIO4F39TfryeHmdg2qFvSKIZO3SGP4j+1HDjNpkVq5okJG/hoRl
-         dhIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=N5TUuc1XOvK4T6yIQRxcVcIYjn6rnH3UmWFsDj9pqFk=;
-        b=ICMmNIlCSrMRJmj3QTdCYUamy/It+JAl1Z9GlPT/vU1bqMGPjhYDWXZftPTEOmkHbZ
-         oQWMzjCm05j2g1Yc53uxpWxbe1p1MObcP1M0CbyikXOzDYMuoCDxd7/zjFLVif85+fcH
-         iPPhjZO43hzneelLdsBgxzbhzVcVfhJCMQdK/TSxyLMwnPVeH4D1BbE/03+5IqDxxQGw
-         vbxvoUmxBfhptMDupj3efz9tH/4wvkMiJ8Hmlv/q15pj7yo+jlbupeuliDWiWi8bFnIN
-         ihx3K9Tp36MtBDWO8hwWiuJ7nfwUSR1VEJsk/x+R9wqpjvlH/6Uk0lCd0qDZVVoxpebQ
-         XxfQ==
-X-Gm-Message-State: AOAM533TEGddb+wEn4s/i9YxMvmkshAUh4R5WaT5Uz59ya4fJXAR9aEw
-        /hwnKoDBJcfcoeFa9E6AKGOlufZdYmPi+1uKYQ==
-X-Google-Smtp-Source: ABdhPJyzo2A8y12Po3f7KKJ2XAB5feybBrNT0GjqxGOrVooNbSHQExD/WObwbPNN0xTPT9QA+NqYCYqAuS/qjNJyTJE=
-X-Received: by 2002:a9d:7e93:: with SMTP id m19mr1802326otp.132.1599144166389;
- Thu, 03 Sep 2020 07:42:46 -0700 (PDT)
+        id S1728629AbgICPO7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Sep 2020 11:14:59 -0400
+Received: from crapouillou.net ([89.234.176.41]:52000 "EHLO crapouillou.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728654AbgICLhg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 3 Sep 2020 07:37:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1599132411; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RNukebu5FJc21AaatW8pIDM/jN+mPnsQcQWuh8bpr7A=;
+        b=htUjP8MOznKj63TiyERDMqJINFETb7XOkyxP8ClwaFkoSfOGrFLr+VLzUvyD3xNeQSswbg
+        p7LZQ5cWe25wPNMfmzaec40O/ElUOkQRnNQGhJbuEk9+6OaARXOMTpUdcXLUSy2DnephH1
+        XwmA8yVt8pDGFouQrnH2pvmVwN+h2mo=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Tony Prisk <linux@prisktech.co.nz>, Bin Liu <b-liu@ti.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH 18/20] usb/gadget/udc: pch: Use pm_ptr() macro
+Date:   Thu,  3 Sep 2020 13:25:52 +0200
+Message-Id: <20200903112554.34263-19-paul@crapouillou.net>
+In-Reply-To: <20200903112554.34263-1-paul@crapouillou.net>
+References: <20200903112554.34263-1-paul@crapouillou.net>
 MIME-Version: 1.0
-References: <CAFSKS=Pv1Ji4XqHjVMCAnszq_HjFYYk7GuzeeCCScHd1NMumDA@mail.gmail.com>
- <20200901185903.Horde.NHT9rmY1GQT34m6C6YMUCNF@webmail.kiener-muenchen.de>
- <CAFSKS=M8xh3UVFEt+QxcCr_Ghie8tBkudrbLO15hpvEzQEbGfQ@mail.gmail.com> <20200902152514.Horde.-6-I20fjCayIQgkkuxwk-o2@webmail.kiener-muenchen.de>
-In-Reply-To: <20200902152514.Horde.-6-I20fjCayIQgkkuxwk-o2@webmail.kiener-muenchen.de>
-From:   George McCollister <george.mccollister@gmail.com>
-Date:   Thu, 3 Sep 2020 09:42:32 -0500
-Message-ID: <CAFSKS=P-kY=CJhbf_QCAPRJKrZQ1OR9FyrrMSzm-7Wm6BxSgYA@mail.gmail.com>
-Subject: Re: usbtmc: stb race condition introduced by 4f3c8d6eddc272b386464524235440a418ed2029
-To:     guido@kiener-muenchen.de
-Cc:     linux-usb@vger.kernel.org, guido.kiener@rohde-schwarz.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 2, 2020 at 10:25 AM <guido@kiener-muenchen.de> wrote:
->
-> >> More info see:
-> >> https://github.com/GuidoKiener/linux-usbtmc/blob/master/README.md
-> >>
-> >> > My USBTMC device has an interrupt endpoint with a 1ms interval.
-> >> >
-> >> > 1) A query is sent to the USBTMC device.
-> >> >
-> >> > 2) An SRQ is reported via the interrupt endpoint with MAV set.
-> >> >
-> >> > 3) Userspace performs a read to get the reply since MAV is set after
-> >> > being notified by poll().
-> >>
-> >> Did you start reading (read()) without checking the Status Byte after
-> >> poll() event?
-> >
-> > I check the status byte after poll(). The problem seems to be that I
-> > also check the status byte in a loop (until there is nothing to
-> > service) before calling poll again.
->
-> This is not a problem. You can check the status byte several times
-> as long as you like. When RQS Bit (0x40) is set, then you know it was
-> an intermediate SRQ, sent according to chapter 3.4.1
-> (USBTMC_usb488_subclass_1_00.pdf). Otherwise it is a requested status
-> byte according to chapter 3.4.2.
+Use the newly introduced pm_ptr() macro, and mark the suspend/resume
+functions __maybe_unused. These functions can then be moved outside the
+CONFIG_PM_SUSPEND block, and the compiler can then process them and
+detect build failures independently of the config. If unused, they will
+simply be discarded by the compiler.
 
-I wouldn't call myself a USBTMC or 488 expert. I read the USBTMC spec,
-488.1 and 488.2 but it's been three years since I implemented most of
-my device firmware and wrote the userspace code. It runs in a
-contained environment so I haven't done any interoperability testing.
-However, my understanding is that MSS shares the same bit with RQS and
-if something is still needing service the MSS bit will be set in the
-status byte given in reply to a READ_STATUS_BYTE request. If that is
-the case how would you tell a status byte sent as an SRQ vs one with
-MSS sent in reply to READ_STATUS_BYTE? See IEEE Std 488.2-1992 Figure
-11-3=E2=80=94Service Request Enabling.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/usb/gadget/udc/pch_udc.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
->
-> > As long as you only check the
-> > status byte when there is a cached value available it should be no
-> > problem. However if you call USBTMC488_IOCTL_READ_STB when there is
-> > not a cached SRQ value an SRQ can occur after the lock is released in
-> > usbtmc488_ioctl_read_stb() and cache an older value (which will be
-> > read by the next USBTMC488_IOCTL_READ_STB) than the one returned.
->
-> Yes, interrupts (here SRQ) can happen at any time. Therefore the user
-> can enable/disable interrupts (e.g. with SCPI command SRE) and
-> postpone interrupt handling.
+diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+index 8afc31d94b0e..9e26b5ab3058 100644
+--- a/drivers/usb/gadget/udc/pch_udc.c
++++ b/drivers/usb/gadget/udc/pch_udc.c
+@@ -3042,8 +3042,7 @@ static void pch_udc_remove(struct pci_dev *pdev)
+ 	pch_udc_exit(dev);
+ }
+ 
+-#ifdef CONFIG_PM_SLEEP
+-static int pch_udc_suspend(struct device *d)
++static int __maybe_unused pch_udc_suspend(struct device *d)
+ {
+ 	struct pch_udc_dev *dev = dev_get_drvdata(d);
+ 
+@@ -3053,16 +3052,12 @@ static int pch_udc_suspend(struct device *d)
+ 	return 0;
+ }
+ 
+-static int pch_udc_resume(struct device *d)
++static int __maybe_unused pch_udc_resume(struct device *d)
+ {
+ 	return 0;
+ }
+ 
+ static SIMPLE_DEV_PM_OPS(pch_udc_pm, pch_udc_suspend, pch_udc_resume);
+-#define PCH_UDC_PM_OPS		(&pch_udc_pm)
+-#else
+-#define PCH_UDC_PM_OPS		NULL
+-#endif /* CONFIG_PM_SLEEP */
+ 
+ static int pch_udc_probe(struct pci_dev *pdev,
+ 			  const struct pci_device_id *id)
+@@ -3171,7 +3166,7 @@ static struct pci_driver pch_udc_driver = {
+ 	.remove =	pch_udc_remove,
+ 	.shutdown =	pch_udc_shutdown,
+ 	.driver = {
+-		.pm = PCH_UDC_PM_OPS,
++		.pm = pm_ptr(&pch_udc_pm),
+ 	},
+ };
+ 
+-- 
+2.28.0
 
-This wasn't necessary before but perhaps it could be used to work
-around the issue.
-
->
-> The SRQ sends a status byte with RQS bit set (chapter 3.4.1) and the
-> request initiated by the client returns a status byte without RQS bit
-> (chapter 3.4.2).
-
-Again maybe I'm confused by how MSS is supposed to work.
-
->
-> > This
-> > is a race condition and sounds broken to me but if this is the
-> > intended behavior I can adjust my userspace code to only do
-> > USBTMC488_IOCTL_READ_STB once after poll indicates an SRQ and live
-> > with it.
-> > It doesn't seem right for USBTMC488_IOCTL_READ_STB to ever report an
-> > older value than what was reported on the previous call.
->
-> I agree that this can result in an odd behavior (E.g. the MAV bit
-> is unset with reading the subsequent cached status byte).
-> I was not aware about this problem and I need to check whether this is
-> a common problem in VISA implementations or whether we just need to fix
-> the kernel (e.g. drop requested status byte and return older cached value=
-).
->
-> A workaround to avoid this odd behavior is to read the status byte
-> again with USBTMC488_IOCTL_READ_STB when your user application detects
-> the RQS bit.
->
-> BTW when you look at the old implementation
-> https://elixir.bootlin.com/linux/v4.7.10/source/drivers/usb/class/usbtmc.=
-c#L1332
-> then you can see that you will never get a status byte with RQS bit set.
-> The status byte was never stored in data->bNotify2
->
-> Regards,
->
-> Guido
->
->
->
