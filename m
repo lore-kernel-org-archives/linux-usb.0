@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42066C433E9
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD6AC433E2
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F1DF2072A
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7668020775
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Sep 2020 15:16:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Vx2UPtjt"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="p43itBv7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728826AbgICPQb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Sep 2020 11:16:31 -0400
-Received: from crapouillou.net ([89.234.176.41]:51966 "EHLO crapouillou.net"
+        id S1728657AbgICLeb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Sep 2020 07:34:31 -0400
+Received: from crapouillou.net ([89.234.176.41]:51770 "EHLO crapouillou.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728697AbgICLfu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 3 Sep 2020 07:35:50 -0400
+        id S1728644AbgICLdm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 3 Sep 2020 07:33:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1599132408; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1599132392; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:mime-version:
          content-type:content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=zOk90+M51eZ5tI9ivTHZKHwy00IhaQlS+1+ArcDDDCo=;
-        b=Vx2UPtjtliAswHBk8SZCaP2DvtJN/jS6azp/jPeSUY3YkmCg1BzYIeaJpaw714tuYK6Qx+
-        0klYFlkQoHxQb+65paN2wu1ttyLFHuygxhLsf0p7lfhCwwhL2+WeAod4Kqkx5M4WFpPvhz
-        M5pLVSy7NtvEdOvBNIZc0rt4QQ/FUAI=
+        bh=9XW0R3A7h61kqVO9LHIfPbKDh6AHGGvcxGKCBLPMwEw=;
+        b=p43itBv7pIcpgpQk29PzyvPKV0bvvqU7w2NCQtGv28IZlDXG/g383913UyPEdgcZy94ccQ
+        wWQOhhbDp8JG5qUeiMANp5kO0L3OYfS3eVJPL5lXk2mG+o/wGUWDI+myv9l6KgdOj40ue3
+        KU6GbN4Ags8dJ5BehODyZ4GCKabfjO4=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Chen <Peter.Chen@nxp.com>,
@@ -54,9 +54,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
         Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 17/20] usb/gadget/udc: mv-u3d: Use pm_ptr() macro
-Date:   Thu,  3 Sep 2020 13:25:51 +0200
-Message-Id: <20200903112554.34263-18-paul@crapouillou.net>
+Subject: [PATCH 11/20] usb/musb: musb_dsps: Use pm_ptr() macro
+Date:   Thu,  3 Sep 2020 13:25:45 +0200
+Message-Id: <20200903112554.34263-12-paul@crapouillou.net>
 In-Reply-To: <20200903112554.34263-1-paul@crapouillou.net>
 References: <20200903112554.34263-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -74,49 +74,80 @@ simply be discarded by the compiler.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/usb/gadget/udc/mv_u3d_core.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/musb/musb_dsps.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/mv_u3d_core.c b/drivers/usb/gadget/udc/mv_u3d_core.c
-index 5486f5a70868..a7e3736fd0c1 100644
---- a/drivers/usb/gadget/udc/mv_u3d_core.c
-+++ b/drivers/usb/gadget/udc/mv_u3d_core.c
-@@ -1988,8 +1988,7 @@ static int mv_u3d_probe(struct platform_device *dev)
- 	return retval;
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index 30085b2be7b9..cb196bb6661d 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -665,26 +665,22 @@ dsps_dma_controller_create(struct musb *musb, void __iomem *base)
+ 	return controller;
  }
  
 -#ifdef CONFIG_PM_SLEEP
--static int mv_u3d_suspend(struct device *dev)
-+static int __maybe_unused mv_u3d_suspend(struct device *dev)
+-static void dsps_dma_controller_suspend(struct dsps_glue *glue)
++static void __maybe_unused dsps_dma_controller_suspend(struct dsps_glue *glue)
  {
- 	struct mv_u3d *u3d = dev_get_drvdata(dev);
+ 	void __iomem *usbss_base = glue->usbss_base;
  
-@@ -2012,7 +2011,7 @@ static int mv_u3d_suspend(struct device *dev)
+ 	musb_writel(usbss_base, USBSS_IRQ_CLEARR, USBSS_IRQ_PD_COMP);
+ }
+ 
+-static void dsps_dma_controller_resume(struct dsps_glue *glue)
++static void __maybe_unused dsps_dma_controller_resume(struct dsps_glue *glue)
+ {
+ 	void __iomem *usbss_base = glue->usbss_base;
+ 
+ 	musb_writel(usbss_base, USBSS_IRQ_ENABLER, USBSS_IRQ_PD_COMP);
+ }
+-#endif
+ #else /* CONFIG_USB_TI_CPPI41_DMA */
+-#ifdef CONFIG_PM_SLEEP
+-static void dsps_dma_controller_suspend(struct dsps_glue *glue) {}
+-static void dsps_dma_controller_resume(struct dsps_glue *glue) {}
+-#endif
++static void __maybe_unused dsps_dma_controller_suspend(struct dsps_glue *glue) {}
++static void __maybe_unused dsps_dma_controller_resume(struct dsps_glue *glue) {}
+ #endif /* CONFIG_USB_TI_CPPI41_DMA */
+ 
+ static struct musb_platform_ops dsps_ops = {
+@@ -961,8 +957,7 @@ static const struct of_device_id musb_dsps_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, musb_dsps_of_match);
+ 
+-#ifdef CONFIG_PM_SLEEP
+-static int dsps_suspend(struct device *dev)
++static int __maybe_unused dsps_suspend(struct device *dev)
+ {
+ 	struct dsps_glue *glue = dev_get_drvdata(dev);
+ 	const struct dsps_musb_wrapper *wrp = glue->wrp;
+@@ -996,7 +991,7 @@ static int dsps_suspend(struct device *dev)
  	return 0;
  }
  
--static int mv_u3d_resume(struct device *dev)
-+static int __maybe_unused mv_u3d_resume(struct device *dev)
+-static int dsps_resume(struct device *dev)
++static int __maybe_unused dsps_resume(struct device *dev)
  {
- 	struct mv_u3d *u3d = dev_get_drvdata(dev);
- 	int retval;
-@@ -2031,7 +2030,6 @@ static int mv_u3d_resume(struct device *dev)
+ 	struct dsps_glue *glue = dev_get_drvdata(dev);
+ 	const struct dsps_musb_wrapper *wrp = glue->wrp;
+@@ -1024,7 +1019,6 @@ static int dsps_resume(struct device *dev)
  
  	return 0;
  }
 -#endif
  
- static SIMPLE_DEV_PM_OPS(mv_u3d_pm_ops, mv_u3d_suspend, mv_u3d_resume);
+ static SIMPLE_DEV_PM_OPS(dsps_pm_ops, dsps_suspend, dsps_resume);
  
-@@ -2051,7 +2049,7 @@ static struct platform_driver mv_u3d_driver = {
- 	.shutdown	= mv_u3d_shutdown,
- 	.driver		= {
- 		.name	= "mv-u3d",
--		.pm	= &mv_u3d_pm_ops,
-+		.pm	= pm_ptr(&mv_u3d_pm_ops),
+@@ -1033,7 +1027,7 @@ static struct platform_driver dsps_usbss_driver = {
+ 	.remove         = dsps_remove,
+ 	.driver         = {
+ 		.name   = "musb-dsps",
+-		.pm	= &dsps_pm_ops,
++		.pm	= pm_ptr(&dsps_pm_ops),
+ 		.of_match_table	= musb_dsps_of_match,
  	},
  };
- 
 -- 
 2.28.0
 
