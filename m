@@ -4,34 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13DD2C43461
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Sep 2020 01:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A855BC2BC11
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Sep 2020 01:52:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E055D20767
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Sep 2020 01:49:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B6F2206EF
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Sep 2020 01:52:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729502AbgIDBs7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Sep 2020 21:48:59 -0400
-Received: from lucky1.263xmail.com ([211.157.147.135]:46848 "EHLO
+        id S1729563AbgIDBwF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Sep 2020 21:52:05 -0400
+Received: from lucky1.263xmail.com ([211.157.147.130]:55484 "EHLO
         lucky1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728288AbgIDBs6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Sep 2020 21:48:58 -0400
+        with ESMTP id S1728311AbgIDBwE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Sep 2020 21:52:04 -0400
+X-Greylist: delayed 396 seconds by postgrey-1.27 at vger.kernel.org; Thu, 03 Sep 2020 21:52:02 EDT
 Received: from localhost (unknown [192.168.167.209])
-        by lucky1.263xmail.com (Postfix) with ESMTP id 22EE5A27C5;
-        Fri,  4 Sep 2020 09:48:57 +0800 (CST)
+        by lucky1.263xmail.com (Postfix) with ESMTP id A068FCC32F;
+        Fri,  4 Sep 2020 09:45:20 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED4: 1
 X-ANTISPAM-LEVEL: 2
 X-ABS-CHECKED: 0
 Received: from localhost.localdomain (250.19.126.124.broad.bjtelecom.net [124.126.19.250])
-        by smtp.263.net (postfix) whith ESMTP id P26187T140084735092480S1599184137120717_;
-        Fri, 04 Sep 2020 09:48:57 +0800 (CST)
+        by smtp.263.net (postfix) whith ESMTP id P26187T140084141602560S1599183920504328_;
+        Fri, 04 Sep 2020 09:45:20 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <11421c5600f03eaf668671430d14ed55>
+X-UNIQUE-TAG: <3994b269af9c38a21cceaaaa8aa79b91>
 X-RL-SENDER: penghao@uniontech.com
 X-SENDER: penghao@uniontech.com
 X-LOGIN-NAME: penghao@uniontech.com
@@ -42,22 +43,38 @@ X-DNS-TYPE: 5
 X-System-Flag: 0
 From:   Penghao <penghao@uniontech.com>
 To:     gregkh@linuxfoundation.org
-Cc:     johan@kernel.org, hdegoede@redhat.com, dlaz@chromium.org,
-        stern@rowland.harvard.edu, kerneldev@karsmulder.nl,
-        penghao@uniontech.com, jonathan@jdcox.net, tomasz@meresinski.eu,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: quirks: Add USB_QUIRK_IGNORE_REMOTE_WAKEUP quirk for BYD zhaoxin notebook
-Date:   Fri,  4 Sep 2020 09:48:54 +0800
-Message-Id: <20200904014854.12577-1-penghao@uniontech.com>
+Cc:     johan@kernel.org, jonathan@jdcox.net, kai.heng.feng@canonical.com,
+        gustavo.padovan@collabora.com, tomasz@meresinski.eu,
+        hdegoede@redhat.com, kerneldev@karsmulder.nl,
+        penghao@uniontech.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: quirks: Add USB_QUIRK_DISCONNECT_SUSPEND quirk for Lenovo A630Z TIO built-in usb audio card
+Date:   Fri,  4 Sep 2020 09:45:16 +0800
+Message-Id: <20200904014516.12298-1-penghao@uniontech.com>
 X-Mailer: git-send-email 2.11.0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a USB_QUIRK_IGNORE_REMOTE_WAKEUP quirk for the BYD zhaoxin notebook.
-This notebook come with usb touchpad. And we would like to disable touchpad
-wakeup on this notebook by default.
+Add a USB_QUIRK_DISCONNECT_SUSPEND quirk for the Lenovo TIO built-in
+usb-audio.when A630Z going into S3,the system immediately wakeup 7-8
+seconds later by usb-audio disconnect interrupt.to avoids the issue.
+
+Seeking a better fix, we've tried a lot of things, including:
+ - Check that the device's power/wakeup is disabled
+ - Check that remote wakeup is off at the USB level
+ - All the quirks in drivers/usb/core/quirks.c e.g. USB_QUIRK_RESET_RESUME,
+   USB_QUIRK_RESET, USB_QUIRK_IGNORE_REMOTE_WAKEUP, USB_QUIRK_NO_LPM.
+
+but none of that makes any difference.
+
+There are no errors in the logs showing any suspend/resume-related issues.
+When the system wakes up due to the modem, log-wise it appears to be a
+normal resume.
+
+Introduce a quirk to disable the port during suspend when the modem is
+detected.
 
 Signed-off-by: Penghao <penghao@uniontech.com>
 ---
@@ -65,19 +82,19 @@ Signed-off-by: Penghao <penghao@uniontech.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 7c1198f80c23..5fa3f2416967 100644
+index 7c1198f80c23..d2a9493cc360 100644
 --- a/drivers/usb/core/quirks.c
 +++ b/drivers/usb/core/quirks.c
-@@ -387,6 +387,10 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	{ USB_DEVICE(0x0b05, 0x17e0), .driver_info =
- 			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
+@@ -403,6 +403,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	{ USB_DEVICE(0x12d1, 0x15c3), .driver_info =
+ 			USB_QUIRK_DISCONNECT_SUSPEND },
  
-+	/* SONiX USB DEVICE Touchpad */
-+	{ USB_DEVICE(0x0c45, 0x7056), .driver_info =
-+			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
++	/* Lenovo A630Z TIO build-in usb sound card */
++	{ USB_DEVICE9(0x17ef, 0xa012), driver_info =
++			USB_QUIRK_DISCONNECT_SUSPEND },
 +
- 	/* Realtek hub in Dell WD19 (Type-C) */
- 	{ USB_DEVICE(0x0bda, 0x0487), .driver_info = USB_QUIRK_NO_LPM },
+ 	/* SKYMEDI USB_DRIVE */
+ 	{ USB_DEVICE(0x1516, 0x8628), .driver_info = USB_QUIRK_RESET_RESUME },
  
 -- 
 2.11.0
