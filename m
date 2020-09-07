@@ -2,159 +2,213 @@ Return-Path: <SRS0=Mbrg=CQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CBD7C43461
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:03:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76433C43461
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:30:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17F652080A
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599494603;
-	bh=TunUPIzcYuVLQPmKAkSuBmmotsT9zvhar8CTxXKkGPE=;
-	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
-	b=XkM7jwHLlws8upIWmCHAsZ69DqfQdCtYOxuTaiwlguXK0QQBdSp4Nm2kTSz4pn7Xv
-	 um7D6Q0VyWDb+xjz0j2coXT32YRj7/El3btZb9/Yofpzylo29OKYxTEnHbUWgjWDxW
-	 bzsFrd1UhdUq0a/R/MHH7s5PTutWyXvdk++GfYuk=
+	by mail.kernel.org (Postfix) with ESMTP id 49CBB207DE
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:30:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729896AbgIGQDS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Sep 2020 12:03:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56072 "EHLO mail.kernel.org"
+        id S1729803AbgIGO0W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Sep 2020 10:26:22 -0400
+Received: from mga17.intel.com ([192.55.52.151]:19492 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730295AbgIGP77 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 7 Sep 2020 11:59:59 -0400
-Received: from mail.kernel.org (ip5f5ad5cf.dynamic.kabel-deutschland.de [95.90.213.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6CB4121775;
-        Mon,  7 Sep 2020 15:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599494379;
-        bh=TunUPIzcYuVLQPmKAkSuBmmotsT9zvhar8CTxXKkGPE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CKcoOBGzwouJOQ5MyfPX/KssWFHddHkDTzS9/Dz883Jye0V4rWJJmuEK1T0Us+V7M
-         IGMszREvPk8I3rEpCPGdvp/tUJ1rYHeC7pgLvSoGV5mCvWWwIgqW7031KpSUnP5og2
-         flHmYb4wkINQ/EUqQ3CXCGJDIHsRXg/z//KB1vGw=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kFJYP-00ATv0-DP; Mon, 07 Sep 2020 17:59:37 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/11] dwc3-of-simple: add support for Hikey 970
-Date:   Mon,  7 Sep 2020 17:59:34 +0200
-Message-Id: <83393769e4391d038c4ab69a67ac77e2ca34efd4.1599493845.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1599493845.git.mchehab+huawei@kernel.org>
-References: <cover.1599493845.git.mchehab+huawei@kernel.org>
+        id S1729838AbgIGOYe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Sep 2020 10:24:34 -0400
+IronPort-SDR: eH887xN8jM0cHeOtgpASmo9yUDwclJl8uSMmuIgX6hh79HDxpoZTiq27dXj0VgGBnlFWgZZ6np
+ 2T5nM1iCNX/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="138058731"
+X-IronPort-AV: E=Sophos;i="5.76,402,1592895600"; 
+   d="scan'208";a="138058731"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 07:24:33 -0700
+IronPort-SDR: ivpi4LG/6g2NSaQLULYQ0F00GwvQvNX2JNmpG7lKe5Fdsa942t0TYCg3tj5pkR1vugtSbUa+eq
+ OM/rJgfTt+fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,402,1592895600"; 
+   d="scan'208";a="406851366"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2020 07:24:32 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        Utkarsh Patel <utkarsh.h.patel@intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v3 2/2] usb: typec: intel_pmc_mux: Support for device role (UFP)
+Date:   Mon,  7 Sep 2020 17:24:28 +0300
+Message-Id: <20200907142428.35838-3-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200907142428.35838-1-heikki.krogerus@linux.intel.com>
+References: <20200907142428.35838-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This binding driver is needed for Hikey 970 to work,
-as otherwise a Serror is produced:
+This adds support for device data role, and data role
+swapping. The driver no longer relies on the cached role, as
+it may not be valid (for example after bootup). Instead, the
+role is always checked by readding the port status from IOM.
 
-    [    1.837458] SError Interrupt on CPU0, code 0xbf000002 -- SError
-    [    1.837462] CPU: 0 PID: 74 Comm: kworker/0:1 Not tainted 5.8.0+ #205
-    [    1.837463] Hardware name: HiKey970 (DT)
-    [    1.837465] Workqueue: events deferred_probe_work_func
-    [    1.837467] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
-    [    1.837468] pc : _raw_spin_unlock_irqrestore+0x18/0x50
-    [    1.837469] lr : regmap_unlock_spinlock+0x14/0x20
-    [    1.837470] sp : ffff8000124dba60
-    [    1.837471] x29: ffff8000124dba60 x28: 0000000000000000
-    [    1.837474] x27: ffff0001b7e854c8 x26: ffff80001204ea18
-    [    1.837476] x25: 0000000000000005 x24: ffff800011f918f8
-    [    1.837479] x23: ffff800011fbb588 x22: ffff0001b7e40e00
-    [    1.837481] x21: 0000000000000100 x20: 0000000000000000
-    [    1.837483] x19: ffff0001b767ec00 x18: 00000000ff10c000
-    [    1.837485] x17: 0000000000000002 x16: 0000b0740fdb9950
-    [    1.837488] x15: ffff8000116c1198 x14: ffffffffffffffff
-    [    1.837490] x13: 0000000000000030 x12: 0101010101010101
-    [    1.837493] x11: 0000000000000020 x10: ffff0001bf17d130
-    [    1.837495] x9 : 0000000000000000 x8 : ffff0001b6938080
-    [    1.837497] x7 : 0000000000000000 x6 : 000000000000003f
-    [    1.837500] x5 : 0000000000000000 x4 : 0000000000000000
-    [    1.837502] x3 : ffff80001096a880 x2 : 0000000000000000
-    [    1.837505] x1 : ffff0001b7e40e00 x0 : 0000000100000001
-    [    1.837507] Kernel panic - not syncing: Asynchronous SError Interrupt
-    [    1.837509] CPU: 0 PID: 74 Comm: kworker/0:1 Not tainted 5.8.0+ #205
-    [    1.837510] Hardware name: HiKey970 (DT)
-    [    1.837511] Workqueue: events deferred_probe_work_func
-    [    1.837513] Call trace:
-    [    1.837514]  dump_backtrace+0x0/0x1e0
-    [    1.837515]  show_stack+0x18/0x24
-    [    1.837516]  dump_stack+0xc0/0x11c
-    [    1.837517]  panic+0x15c/0x324
-    [    1.837518]  nmi_panic+0x8c/0x90
-    [    1.837519]  arm64_serror_panic+0x78/0x84
-    [    1.837520]  do_serror+0x158/0x15c
-    [    1.837521]  el1_error+0x84/0x100
-    [    1.837522]  _raw_spin_unlock_irqrestore+0x18/0x50
-    [    1.837523]  regmap_write+0x58/0x80
-    [    1.837524]  hi3660_reset_deassert+0x28/0x34
-    [    1.837526]  reset_control_deassert+0x50/0x260
-    [    1.837527]  reset_control_deassert+0xf4/0x260
-    [    1.837528]  dwc3_probe+0x5dc/0xe6c
-    [    1.837529]  platform_drv_probe+0x54/0xb0
-    [    1.837530]  really_probe+0xe0/0x490
-    [    1.837531]  driver_probe_device+0xf4/0x160
-    [    1.837532]  __device_attach_driver+0x8c/0x114
-    [    1.837533]  bus_for_each_drv+0x78/0xcc
-    [    1.837534]  __device_attach+0x108/0x1a0
-    [    1.837535]  device_initial_probe+0x14/0x20
-    [    1.837537]  bus_probe_device+0x98/0xa0
-    [    1.837538]  deferred_probe_work_func+0x88/0xe0
-    [    1.837539]  process_one_work+0x1cc/0x350
-    [    1.837540]  worker_thread+0x2c0/0x470
-    [    1.837541]  kthread+0x154/0x160
-    [    1.837542]  ret_from_fork+0x10/0x30
-    [    1.837569] SMP: stopping secondary CPUs
-    [    1.837570] Kernel Offset: 0x1d0000 from 0xffff800010000000
-    [    1.837571] PHYS_OFFSET: 0x0
-    [    1.837572] CPU features: 0x240002,20882004
-    [    1.837573] Memory Limit: none
+Note. After this, the orientation is always only cached, so
+the driver does not support scenario where the role is set
+before orientation. It means the typec drivers must always
+set the orientation first before role.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: Rajmohan Mani <rajmohan.mani@intel.com>
+Reviewed-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+Tested-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
 ---
- drivers/usb/dwc3/dwc3-of-simple.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/typec/mux/intel_pmc_mux.c | 68 ++++++++++++++-------------
+ 1 file changed, 35 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
-index 8852fbfdead4..2d497165efe2 100644
---- a/drivers/usb/dwc3/dwc3-of-simple.c
-+++ b/drivers/usb/dwc3/dwc3-of-simple.c
-@@ -49,7 +49,8 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
- 	 * Some controllers need to toggle the usb3-otg reset before trying to
- 	 * initialize the PHY, otherwise the PHY times out.
- 	 */
--	if (of_device_is_compatible(np, "rockchip,rk3399-dwc3"))
-+	if (of_device_is_compatible(np, "rockchip,rk3399-dwc3") ||
-+	    of_device_is_compatible(np, "hisilicon,hi3670-dwc3"))
- 		simple->need_reset = true;
+diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+index 4ee14423a2e3d..067313af79708 100644
+--- a/drivers/usb/typec/mux/intel_pmc_mux.c
++++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+@@ -221,9 +221,6 @@ pmc_usb_mux_dp(struct pmc_usb_port *port, struct typec_mux_state *state)
+ 		return pmc_usb_mux_dp_hpd(port, state->data);
+ 	}
  
- 	simple->resets = of_reset_control_array_get(np, false, true,
-@@ -176,6 +177,7 @@ static const struct of_device_id of_dwc3_simple_match[] = {
- 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
- 	{ .compatible = "sprd,sc9860-dwc3" },
- 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
-+	{ .compatible = "hisilicon,hi3670-dwc3" },
- 	{ /* Sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, of_dwc3_simple_match);
+-	if (data->status & DP_STATUS_IRQ_HPD)
+-		return pmc_usb_mux_dp_hpd(port, state->data);
+-
+ 	req.usage = PMC_USB_ALT_MODE;
+ 	req.usage |= port->usb3_port << PMC_USB_MSG_USB3_PORT_SHIFT;
+ 	req.mode_type = PMC_USB_MODE_TYPE_DP << PMC_USB_MODE_TYPE_SHIFT;
+@@ -333,39 +330,52 @@ static int pmc_usb_mux_safe_state(struct pmc_usb_port *port)
+ 	return pmc_usb_command(port, &msg, sizeof(msg));
+ }
+ 
+-static int pmc_usb_connect(struct pmc_usb_port *port)
++static int pmc_usb_disconnect(struct pmc_usb_port *port)
+ {
++	struct typec_displayport_data data = { };
+ 	u8 msg[2];
+ 
+-	if (port->iom_status & IOM_PORT_STATUS_CONNECTED)
++	if (!(port->iom_status & IOM_PORT_STATUS_CONNECTED))
+ 		return 0;
+ 
+-	msg[0] = PMC_USB_CONNECT;
++	/* Clear DisplayPort HPD if it's still asserted. */
++	if (IOM_PORT_HPD_ASSERTED(port->iom_status))
++		pmc_usb_mux_dp_hpd(port, &data);
++
++	msg[0] = PMC_USB_DISCONNECT;
+ 	msg[0] |= port->usb3_port << PMC_USB_MSG_USB3_PORT_SHIFT;
+ 
+ 	msg[1] = port->usb2_port << PMC_USB_MSG_USB2_PORT_SHIFT;
+-	msg[1] |= hsl_orientation(port) << PMC_USB_MSG_ORI_HSL_SHIFT;
+-	msg[1] |= sbu_orientation(port) << PMC_USB_MSG_ORI_AUX_SHIFT;
+ 
+ 	return pmc_usb_command(port, msg, sizeof(msg));
+ }
+ 
+-static int pmc_usb_disconnect(struct pmc_usb_port *port)
++static int pmc_usb_connect(struct pmc_usb_port *port, enum usb_role role)
+ {
+-	struct typec_displayport_data data = { };
++	u8 ufp = role == USB_ROLE_DEVICE ? 1 : 0;
+ 	u8 msg[2];
++	int ret;
+ 
+-	if (!(port->iom_status & IOM_PORT_STATUS_CONNECTED))
+-		return 0;
++	if (port->orientation == TYPEC_ORIENTATION_NONE)
++		return -EINVAL;
+ 
+-	/* Clear DisplayPort HPD if it's still asserted. */
+-	if (IOM_PORT_HPD_ASSERTED(port->iom_status))
+-		pmc_usb_mux_dp_hpd(port, &data);
++	if (port->iom_status & IOM_PORT_STATUS_CONNECTED) {
++		if (port->role == role || port->role == USB_ROLE_NONE)
++			return 0;
+ 
+-	msg[0] = PMC_USB_DISCONNECT;
++		/* Role swap */
++		ret = pmc_usb_disconnect(port);
++		if (ret)
++			return ret;
++	}
++
++	msg[0] = PMC_USB_CONNECT;
+ 	msg[0] |= port->usb3_port << PMC_USB_MSG_USB3_PORT_SHIFT;
+ 
+ 	msg[1] = port->usb2_port << PMC_USB_MSG_USB2_PORT_SHIFT;
++	msg[1] |= ufp << PMC_USB_MSG_UFP_SHIFT;
++	msg[1] |= hsl_orientation(port) << PMC_USB_MSG_ORI_HSL_SHIFT;
++	msg[1] |= sbu_orientation(port) << PMC_USB_MSG_ORI_AUX_SHIFT;
+ 
+ 	return pmc_usb_command(port, msg, sizeof(msg));
+ }
+@@ -383,7 +393,7 @@ pmc_usb_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
+ 	if (state->mode == TYPEC_STATE_SAFE)
+ 		return pmc_usb_mux_safe_state(port);
+ 	if (state->mode == TYPEC_STATE_USB)
+-		return pmc_usb_connect(port);
++		return pmc_usb_connect(port, port->role);
+ 
+ 	if (state->alt) {
+ 		switch (state->alt->svid) {
+@@ -398,7 +408,7 @@ pmc_usb_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
+ 			/* REVISIT: Try with usb3_port set to 0? */
+ 			break;
+ 		case TYPEC_MODE_USB3:
+-			return pmc_usb_connect(port);
++			return pmc_usb_connect(port, port->role);
+ 		case TYPEC_MODE_USB4:
+ 			return pmc_usb_mux_usb4(port, state);
+ 		}
+@@ -416,32 +426,24 @@ static int pmc_usb_set_orientation(struct typec_switch *sw,
+ 
+ 	port->orientation = orientation;
+ 
+-	if (port->role) {
+-		if (orientation == TYPEC_ORIENTATION_NONE)
+-			return pmc_usb_disconnect(port);
+-		else
+-			return pmc_usb_connect(port);
+-	}
+-
+ 	return 0;
+ }
+ 
+ static int pmc_usb_set_role(struct usb_role_switch *sw, enum usb_role role)
+ {
+ 	struct pmc_usb_port *port = usb_role_switch_get_drvdata(sw);
++	int ret;
+ 
+ 	update_port_status(port);
+ 
+-	port->role = role;
++	if (role == USB_ROLE_NONE)
++		ret = pmc_usb_disconnect(port);
++	else
++		ret = pmc_usb_connect(port, role);
+ 
+-	if (port->orientation) {
+-		if (role == USB_ROLE_NONE)
+-			return pmc_usb_disconnect(port);
+-		else
+-			return pmc_usb_connect(port);
+-	}
++	port->role = role;
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int pmc_usb_register_port(struct pmc_usb *pmc, int index,
 -- 
-2.26.2
+2.28.0
 
