@@ -5,51 +5,51 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92FC4C43461
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F3D3C2BB84
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:50:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D6402080A
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:49:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35638208C7
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599497356;
-	bh=RVxEar8vD0mPwWMghOaEsGuVyW2pF6wXmGmSCVwUICY=;
+	s=default; t=1599497423;
+	bh=pWPCQxYkwcrRSwkB1/hw9MYm8NdGPFIuQ7QBFDTRK/A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Nk6NDCuzWzxij9vZN8sIM+Gwlb0wCT7zrZYOC8etm75ZybGb4gj7OZMttmTiVgD8c
-	 x8IMqJEYux2NDVZKhMcOfT3TAbBlTTrGHuv7OBYZFdqsacH/bhCDFzXHMJUKhMIa/n
-	 lu0xLoQjvwNgnwmqYmeB9dsIxPcSBPNg1z4EbHO0=
+	b=HVN66KWMqfbT34xrDoCPBO+k8KgQWe1bxF6EbpBVX0AiUWLXBqFxlGWvDTURuTGvh
+	 EBwgInucF3WTG2yQfIseaTE6nN9azLHqxRyuBWA2oaETPOv4P6zw0CqjsmGSl4pVGS
+	 CsUUzcALwyft8Z4kdyssolOps9/7Rck2HyNJ+JyI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730935AbgIGQr5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Sep 2020 12:47:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48718 "EHLO mail.kernel.org"
+        id S1731095AbgIGQuS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Sep 2020 12:50:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48734 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730775AbgIGQfN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 7 Sep 2020 12:35:13 -0400
+        id S1730780AbgIGQe7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Sep 2020 12:34:59 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A86421D80;
-        Mon,  7 Sep 2020 16:35:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E8B5221D80;
+        Mon,  7 Sep 2020 16:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599496513;
-        bh=RVxEar8vD0mPwWMghOaEsGuVyW2pF6wXmGmSCVwUICY=;
+        s=default; t=1599496494;
+        bh=pWPCQxYkwcrRSwkB1/hw9MYm8NdGPFIuQ7QBFDTRK/A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yUeLWVY0p26iz4jUflNlfh1HtsPKsJRvlPZH5iBUzvCR/f3MPfTrtd2pnWxUceQZb
-         ZpFSrO8IdNKalz+dSFyArawISueFeC6s/2Be6Lr5YiRcbwh22amV92c7ScW34ggjJ/
-         EnUglzJcU3A2U37WJjGEkSDuHTauSotHTipTMlIs=
+        b=COJvUydhjBSkaTAy/BeEiNOGiC5XdWFjkECczjddh51FeQf4wMTksQTRxeUMoW2ga
+         UPzqTq4/AbtAzH3Z1D2kBcStGPCEZ62hjLIrIkm1uZqfrJGRZIyQ524qzpRgp4puhn
+         8T3RI+6NJca75Ku/+hEBWthifXfPmOfc73Pl5fzw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Himadri Pandya <himadrispandya@gmail.com>,
+Cc:     Kamil Lorenc <kamil@re-ws.pl>,
         "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 09/17] net: usb: Fix uninit-was-stored issue in asix_read_phy_addr()
-Date:   Mon,  7 Sep 2020 12:34:52 -0400
-Message-Id: <20200907163500.1281543-9-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 22/26] net: usb: dm9601: Add USB ID of Keenetic Plus DSL
+Date:   Mon,  7 Sep 2020 12:34:22 -0400
+Message-Id: <20200907163426.1281284-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907163500.1281543-1-sashal@kernel.org>
-References: <20200907163500.1281543-1-sashal@kernel.org>
+In-Reply-To: <20200907163426.1281284-1-sashal@kernel.org>
+References: <20200907163426.1281284-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,36 +59,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Himadri Pandya <himadrispandya@gmail.com>
+From: Kamil Lorenc <kamil@re-ws.pl>
 
-[ Upstream commit a092b7233f0e000cc6f2c71a49e2ecc6f917a5fc ]
+[ Upstream commit a609d0259183a841621f252e067f40f8cc25d6f6 ]
 
-The buffer size is 2 Bytes and we expect to receive the same amount of
-data. But sometimes we receive less data and run into uninit-was-stored
-issue upon read. Hence modify the error check on the return value to match
-with the buffer size as a prevention.
+Keenetic Plus DSL is a xDSL modem that uses dm9620 as its USB interface.
 
-Reported-and-tested by: syzbot+a7e220df5a81d1ab400e@syzkaller.appspotmail.com
-Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
+Signed-off-by: Kamil Lorenc <kamil@re-ws.pl>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/asix_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/usb/dm9601.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-index e9fcf6ef716a8..9bf18127e63a1 100644
---- a/drivers/net/usb/asix_common.c
-+++ b/drivers/net/usb/asix_common.c
-@@ -309,7 +309,7 @@ int asix_read_phy_addr(struct usbnet *dev, int internal)
+diff --git a/drivers/net/usb/dm9601.c b/drivers/net/usb/dm9601.c
+index b91f92e4e5f22..915ac75b55fc7 100644
+--- a/drivers/net/usb/dm9601.c
++++ b/drivers/net/usb/dm9601.c
+@@ -625,6 +625,10 @@ static const struct usb_device_id products[] = {
+ 	 USB_DEVICE(0x0a46, 0x1269),	/* DM9621A USB to Fast Ethernet Adapter */
+ 	 .driver_info = (unsigned long)&dm9601_info,
+ 	},
++	{
++	 USB_DEVICE(0x0586, 0x3427),	/* ZyXEL Keenetic Plus DSL xDSL modem */
++	 .driver_info = (unsigned long)&dm9601_info,
++	},
+ 	{},			// END
+ };
  
- 	netdev_dbg(dev->net, "asix_get_phy_addr()\n");
- 
--	if (ret < 0) {
-+	if (ret < 2) {
- 		netdev_err(dev->net, "Error reading PHYID register: %02x\n", ret);
- 		goto out;
- 	}
 -- 
 2.25.1
 
