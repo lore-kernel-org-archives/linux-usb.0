@@ -2,127 +2,109 @@ Return-Path: <SRS0=Mbrg=CQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F838C433E2
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:00:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16002C433E2
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:01:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 310802087D
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599494452;
-	bh=ANCtn+AqrVoqXK8gIeKZzyV4OK17LI5KeXkQ+B1zwmg=;
-	h=From:Cc:Subject:Date:To:List-ID:From;
-	b=sDonwEjyqMfjC9wl9tXFzSdCG19TeE0mS96fKDbH2kNozfCQm/WBHp7H3O9ckkz+4
-	 9SLxp8ZrJf2CRBuChk1VwlN0Z72LT/ORLEJfCOmRCS8kFeYMdVY+m7fvh2twuxv0O/
-	 nHC+8WEDsi45xQ4qdA0xqaMUh/aPbgmK+yq0k6Dk=
+	by mail.kernel.org (Postfix) with ESMTP id CABA92087D
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 16:01:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="qfXjG9Bj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730303AbgIGQAd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Sep 2020 12:00:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56410 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730194AbgIGQAS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 7 Sep 2020 12:00:18 -0400
-Received: from mail.kernel.org (ip5f5ad5cf.dynamic.kabel-deutschland.de [95.90.213.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7153A21897;
-        Mon,  7 Sep 2020 15:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599494379;
-        bh=ANCtn+AqrVoqXK8gIeKZzyV4OK17LI5KeXkQ+B1zwmg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=i3JR/5AnCkvxkXl9IzkDKNpONVXnsOYFK5jkLYMIYUjlLlEmwjI1z5DuvQC4zi/fv
-         K3NBAVFqx4Tut3AvaRAqlfaeelZTtNmkL4tcUrQ9FD0CJCuLLCiDHxFQT0ckP/rTpD
-         h07kQhVqEuQGpHoF59zQFBEQ6nyjoElL4tD0OIEg=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kFJYP-00ATuf-3b; Mon, 07 Sep 2020 17:59:37 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Rob Herring <robh@kernel.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Wei Xu <xuwei5@hisilicon.com>, Yu Chen <chenyu56@huawei.com>
-Subject: [PATCH v2 00/11] Add USB support for Hikey 970
-Date:   Mon,  7 Sep 2020 17:59:24 +0200
-Message-Id: <cover.1599493845.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S1730287AbgIGQB0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Sep 2020 12:01:26 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:24968 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730175AbgIGQAy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Sep 2020 12:00:54 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 087FwmWY007780;
+        Mon, 7 Sep 2020 18:00:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=5hJXgMmfM7j2x45Htgd+XTxABN7i6bZcNnBR7TltiQc=;
+ b=qfXjG9BjlvQUBOqflF5p7z3776fBAB+qsPwWEZdiK0zDCeI4eZlhV+vIE30OMOhK6nKH
+ v5Br7aHHIf03skfADKd+dUjh8REcY+xHif2Z00oSIxnDDVakh5MqoguroyyTy1B3ewfq
+ LBb0FF5ojDUpzkXbtm7SbS5yU8IZ7DUF5CxuqcVHsLHSy2uOuzlIo/45KbMxJpFkf+xm
+ wJlgRlpSV8g6A/amCIf0niKXL+LA9S25AnAnNyB+A90AaWWIndeFprq6Egb60U4XndZB
+ DdB8W7GqnqBkDQMRAV9rhj1PWtDhSXtoUoGo4pUEag+zFJhethRBN9fkK12MqlIak0PR Mw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 33c0eujvvw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Sep 2020 18:00:41 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C336F10002A;
+        Mon,  7 Sep 2020 18:00:40 +0200 (CEST)
+Received: from Webmail-eu.st.com (gpxdag3node5.st.com [10.75.127.72])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8526B212132;
+        Mon,  7 Sep 2020 18:00:40 +0200 (CEST)
+Received: from lmecxl0995.lme.st.com (10.75.127.46) by GPXDAG3NODE5.st.com
+ (10.75.127.72) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 7 Sep
+ 2020 18:00:39 +0200
+Subject: Re: [balbi-usb:testing/next 29/33] drivers/usb/dwc2/drd.c:83:37:
+ error: 'struct dwc2_hsotg' has no member named 'test_mode'
+To:     Felipe Balbi <balbi@kernel.org>, kernel test robot <lkp@intel.com>
+CC:     "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
+References: <202009072101.xr4ImAoy%lkp@intel.com> <877dt5ofhf.fsf@kernel.org>
+From:   Amelie DELAUNAY <amelie.delaunay@st.com>
+Message-ID: <8ede307b-ccd1-21eb-fcab-826f8939c695@st.com>
+Date:   Mon, 7 Sep 2020 18:00:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <877dt5ofhf.fsf@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To GPXDAG3NODE5.st.com
+ (10.75.127.72)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-07_10:2020-09-07,2020-09-07 signatures=0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the PHY layer for Hikey 970 and a misc driver that it is
-required for the USB hub to work. The same USB hub is needed
-by Hikey 960. 
+Hi Felipe,
 
-That's the second version, addressing the points raised by
-Mark on the RFC version and adding an extra patch in order for
-it to use the dwc3-of-simple driver. Such binding is required,
-as using dwc3 directly causes an Serror on ARM.
+On 9/7/20 3:58 PM, Felipe Balbi wrote:
+> kernel test robot <lkp@intel.com> writes:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git testing/next
+>> head:   c9bb389c50ce07f0e4e105eb84f5541916bea8e8
+>> commit: 0e9bd6770c25a3dbd9cb1c9fc132b9e4a65da7cd [29/33] usb: dwc2: override PHY input signals with usb role switch support
+>> config: arm64-randconfig-s031-20200907 (attached as .config)
+>> compiler: aarch64-linux-gcc (GCC) 9.3.0
+>> reproduce:
+>>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # apt-get install sparse
+>>          # sparse version: v0.6.2-191-g10164920-dirty
+>>          git checkout 0e9bd6770c25a3dbd9cb1c9fc132b9e4a65da7cd
+>>          # save the attached .config to linux build tree
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=arm64
+>>
+>> If you fix the issue, kindly add following tag as appropriate
+>> Reported-by: kernel test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     drivers/usb/dwc2/drd.c: In function 'dwc2_drd_role_sw_set':
+>>>> drivers/usb/dwc2/drd.c:83:37: error: 'struct dwc2_hsotg' has no member named 'test_mode'
+>>        83 |   if (role == USB_ROLE_NONE && hsotg->test_mode) {
+>>           |                                     ^~
+> 
+> patch dropped now. Amelie, can you send a fixed up version?
+> 
 
--
+This issue is already fixed in v5: 
+https://lore.kernel.org/patchwork/project/lkml/list/?series=455508
 
-PS.: I'll be sending the dts bindings later on. We need first to
-add a small quirk to dwc3:
-
-    https://patchwork.kernel.org/patch/10909965/
-
-I'll be sending a newer version of this specific patch probably
-tomorrow.
-
-Mauro Carvalho Chehab (8):
-  phy: hisilicon: phy-hi3670-usb3: use a consistent namespace
-  phy: hisilicon: phy-hi3670-usb3: fix coding style
-  phy: hisilicon: phy-hi3670-usb3: change some DT properties
-  dt-bindings: phy: convert phy-kirin970-usb3.txt to yaml
-  MAINTAINERS: add myself as maintainer for Kirin 970 USB PHY
-  misc: hisi_hikey_usb: add support for Hikey 970
-  dwc3-of-simple: add support for Hikey 970
-  dts: hisilicon: add support for USB3 on Hikey 970
-
-Yu Chen (3):
-  phy: hisilicon: add USB physical layer for Kirin 3670
-  phy: hisilicon: phy-hi3670-usb3: fix some issues at the init code
-  misc: hisi_hikey_usb: Driver to support onboard USB gpio hub on
-    Hikey960
-
- .../bindings/phy/hisilicon,hi3670-usb3.yaml   |  72 ++
- MAINTAINERS                                   |  16 +-
- .../boot/dts/hisilicon/hi3670-hikey970.dts    | 102 +++
- arch/arm64/boot/dts/hisilicon/hi3670.dtsi     |  58 ++
- drivers/misc/Kconfig                          |   9 +
- drivers/misc/Makefile                         |   1 +
- drivers/misc/hisi_hikey_usb.c                 | 274 +++++++
- drivers/phy/hisilicon/Kconfig                 |  10 +
- drivers/phy/hisilicon/Makefile                |   1 +
- drivers/phy/hisilicon/phy-hi3670-usb3.c       | 671 ++++++++++++++++++
- drivers/usb/dwc3/dwc3-of-simple.c             |   4 +-
- 11 files changed, 1216 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
- create mode 100644 drivers/misc/hisi_hikey_usb.c
- create mode 100644 drivers/phy/hisilicon/phy-hi3670-usb3.c
-
--- 
-2.26.2
-
-
+Could you apply this version of the patchset ?
