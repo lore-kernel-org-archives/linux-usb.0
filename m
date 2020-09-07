@@ -2,87 +2,140 @@ Return-Path: <SRS0=Mbrg=CQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4083C433E2
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BB5C433E2
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:53:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9D93206B8
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:52:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 740DA206B8
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599493995;
+	bh=7qCTpFFNqVHtpIMDAKfKXUS+bFE7hzcYks7b6ByyYYk=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=sdTqnAKKo1fYX3eWsqnzyn0AxnPusnSBbSlyaWdbPHK/8ZAuxiv6PSTIatYluL53a
+	 wFW+6TlK1yS1mLK+WFfXon7yoXBZ98zikS8d23fTvhKrzJaCOCAveOsaDaZlqg3xxl
+	 cEtB4KqGWq5ifDKCGYf+3VR9C3C9tD31LM5I6Vd0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730269AbgIGPwi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Sep 2020 11:52:38 -0400
-Received: from mga17.intel.com ([192.55.52.151]:25785 "EHLO mga17.intel.com"
+        id S1730030AbgIGOvS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Sep 2020 10:51:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730221AbgIGPwe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 7 Sep 2020 11:52:34 -0400
-IronPort-SDR: XLendpVzhN8Mt4KG5/sHo+UV+ChOat8WTxaIMm+uZ3LxioFTEqDPeohrIl6Z6l32MRP34fxeXL
- QiKrR/wwhlxA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9737"; a="138066938"
-X-IronPort-AV: E=Sophos;i="5.76,402,1592895600"; 
-   d="scan'208";a="138066938"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 08:52:29 -0700
-IronPort-SDR: OKawkKFMoTnSGMbguXThLtl8NtjcwhxLsewqqLKPYgFmHyfSdylAm5yyICdAjMpdfR2/DEblnQ
- njoVBfvoFnZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,402,1592895600"; 
-   d="scan'208";a="333197015"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2020 08:52:26 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kFJNC-00EzvH-KL; Mon, 07 Sep 2020 18:48:02 +0300
-Date:   Mon, 7 Sep 2020 18:48:02 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     himadrispandya@gmail.com, dvyukov@google.com,
-        linux-usb@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
-        stern@rowland.harvard.ed, linux-kernel@vger.kernel.org,
-        marcel@holtmann.org, johan.hedberg@gmail.com,
-        linux-bluetooth@vger.kernel.org, alsa-devel@alsa-project.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH v2 03/11] USB: core: message.c: use
- usb_control_msg_send() in a few places
-Message-ID: <20200907154802.GO1891694@smile.fi.intel.com>
-References: <20200907145108.3766613-1-gregkh@linuxfoundation.org>
- <20200907145108.3766613-4-gregkh@linuxfoundation.org>
- <20200907145644.GA3767938@kroah.com>
+        id S1730019AbgIGOvC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Sep 2020 10:51:02 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE3772176B;
+        Mon,  7 Sep 2020 14:51:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599490261;
+        bh=7qCTpFFNqVHtpIMDAKfKXUS+bFE7hzcYks7b6ByyYYk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=i7cbHqNM8H80YrBKKrffwXGThOtzzgcasGBvFkRfT7FH9nFjKPReIo6OfblvqC8J8
+         dcFzGdDcEzRsAq9FHSI69+mXJXBePLE+tU9T7CxLvPOaFBeO7Qt7ENNJqN0ouv/WHx
+         p+qTucob7AxMxRRcAJKUFp7Nutzrjr2zfrQTAv1Y=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     himadrispandya@gmail.com, dvyukov@google.com,
+        linux-usb@vger.kernel.org
+Cc:     perex@perex.cz, tiwai@suse.com, stern@rowland.harvard.ed,
+        linux-kernel@vger.kernel.org, marcel@holtmann.org,
+        johan.hedberg@gmail.com, linux-bluetooth@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2 00/11] USB: new USB control message helper functions
+Date:   Mon,  7 Sep 2020 16:50:57 +0200
+Message-Id: <20200907145108.3766613-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200907145644.GA3767938@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 04:56:44PM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Sep 07, 2020 at 04:51:00PM +0200, Greg Kroah-Hartman wrote:
-> > There are a few calls to usb_control_msg() that can be converted to use
-> > usb_control_msg_send() instead, so do that in order to make the error
-> > checking a bit simpler.
-> > 
-> > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: linux-usb@vger.kernel.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> Oops, Andy, sorry, you gave me a Reviewed-by: Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> on the previous version of this,
-> I'll add it next round, or when it's queued up.
+In a recent discussion about a USB networking bug found by syzbot, and
+fixed by Himadri Pandya, the design of the existing usb_control_msg()
+call was brought up as not being the "nicest" thing to use by Dmitry
+Vyukov:
+        https://lore.kernel.org/r/CACT4Y+YbDODLRFn8M5QcY4CazhpeCaunJnP_udXtAs0rYoASSg@mail.gmail.com
 
-NP! Whatever works better for you.
+The function makes it hard to get right, in that it will return the
+number of bytes sent/received, but almost no one checks to see if a
+short read/write happens.  With a malicious, or broken, USB device, this
+can cause drivers to act on data that they did not anticipate, and
+sometimes copy internal kernel data out to userspace.
+
+So let's fix this up by creating two new functions,
+usb_control_msg_send() and usb_control_msg_recv().  These functions
+either complete the full transation, or they return an error, a short
+send/recv is now an error.
+
+They also accept data off of the stack, saving individual drivers the
+pain of having to constantly allocate memory on their own for tiny
+messages, thereby saving overall kernel code space.
+
+The api also does not require a raw USB "pipe" to be sent to the
+function, as we know the direction, so just pass in the endpoint number
+instead, again making it easier on the USB driver author to use.
+
+This series first takes a helper function out of the sound core for
+verifying USB endpoints to be able to use internally, and then adds the
+new functions, converts over some internal USB code to use them, and
+then starts to clean up some drivers using these new functions, as an
+example of the savings that can happen by using these functions.
+
+Thanks to Dmitry and Himadri for the idea on how to do all of this.
+
+greg k-h
+
+Changes from v1:
+	- added acks from Takashi Iwai
+	- dropped changes to one function in patch 04 thanks to review
+	  from Alan Stern
+	- typo fix in comment in patch 01
+	- added new patch 11 to remove some unneeded checks in the sound
+	  drivers for endpoint statuses that would always be true.
+
+*** BLURB HERE ***
+
+Greg Kroah-Hartman (11):
+  USB: move snd_usb_pipe_sanity_check into the USB core
+  USB: add usb_control_msg_send() and usb_control_msg_recv()
+  USB: core: message.c: use usb_control_msg_send() in a few places
+  USB: core: hub.c: use usb_control_msg_send() in a few places
+  USB: legousbtower: use usb_control_msg_recv()
+  sound: usx2y: move to use usb_control_msg_send()
+  sound: 6fire: move to use usb_control_msg_send() and
+    usb_control_msg_recv()
+  sound: line6: move to use usb_control_msg_send() and
+    usb_control_msg_recv()
+  sound: hiface: move to use usb_control_msg_send()
+  Bluetooth: ath3k: use usb_control_msg_send() and
+    usb_control_msg_recv()
+  ALSA: remove calls to usb_pipe_type_check for control endpoints
+
+ drivers/bluetooth/ath3k.c       |  90 +++++------------
+ drivers/usb/core/hub.c          |  99 ++++++++----------
+ drivers/usb/core/message.c      | 171 ++++++++++++++++++++++++++++----
+ drivers/usb/core/urb.c          |  31 ++++--
+ drivers/usb/misc/legousbtower.c |  60 ++++-------
+ include/linux/usb.h             |   7 ++
+ sound/usb/6fire/firmware.c      |  38 +++----
+ sound/usb/helper.c              |  16 +--
+ sound/usb/helper.h              |   1 -
+ sound/usb/hiface/pcm.c          |  14 ++-
+ sound/usb/line6/driver.c        |  69 +++++--------
+ sound/usb/line6/podhd.c         |  17 ++--
+ sound/usb/line6/toneport.c      |   8 +-
+ sound/usb/mixer_scarlett_gen2.c |   2 +-
+ sound/usb/quirks.c              |  12 +--
+ sound/usb/usx2y/us122l.c        |  42 ++------
+ 16 files changed, 335 insertions(+), 342 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.28.0
 
