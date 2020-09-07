@@ -2,75 +2,57 @@ Return-Path: <SRS0=Mbrg=CQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39ABAC433E2
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:51:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13F57C433E2
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:52:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E57E121473
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:51:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skkuWt3N"
+	by mail.kernel.org (Postfix) with ESMTP id CFCD121473
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Sep 2020 15:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599493920;
+	bh=hkO0EMVvCu8X7CeNAbfTmSK1pWFJrTzl3nDdebnZHHI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=TY/tpi9vHLL3LQRUZqj5iF8gh5h+lj2jdXQYisdxek54t6HURgcz8P0TDXEpSts6H
+	 xoEAJtZgUo/P/EoqGUWA7cqmioTog1FnZa0Ldjt0oGxCBlQLTy1LKnSiKSXEmbX4AS
+	 zuEIjVMrbiUenCC9pwGwGsOfzYZU5owft/waoSfY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730174AbgIGPva (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Sep 2020 11:51:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730111AbgIGPvS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Sep 2020 11:51:18 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91B0C061573
-        for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2020 08:51:17 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id m8so2911372pgi.3
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2020 08:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VvY1GEzuf8T2kaF3CS/CkcCv0h1MLXohSCilQwaVKF8=;
-        b=skkuWt3NnJwMYWD44M46Ohp+WuZnz1LTwyHrc7LdjQyRo7Q9Cplsbuy+dsWfykUIXh
-         ZXXz26Vy7/Z/i+dPtPoU8WK/xXoVCx416Cwp5gtYc5LjCehSwfzYqEuGFUMDZl8r6Ren
-         A3203DVA/aa2TGW66NZChHQ0CLBBxBzhRIlQevJTrvnm6lHDcnsMsAIwgXomXnT2AdS4
-         2htSOX/MdtUc2VtURY2d3EyNnABdtcnz+MqJMuJbGYhBUKYWnjF0FRJOHVN0Eu7Pbevz
-         nGKHi1eVfmrkCk/0hFFa450ltVslh2uFdeZEGC5TGS2G/kUMpINblSGt3+WI3Wh2HjKY
-         ougQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VvY1GEzuf8T2kaF3CS/CkcCv0h1MLXohSCilQwaVKF8=;
-        b=aCzf8CfLhbSOYSTCvHql+rGhT2/XZbgi+mTzAquaTOpQtwhwitv7GMkulhZv6/UR4v
-         p99m25QQ1xlFb0TfY/9dERbHjK4+b9OnSzUx1UI197X6K/DUkCCjQvFoJHtAEVoIUUpz
-         FGuGqvxh2HtfjcIuY6PAIcSP4Y3LJ0zrUGroAUuLNik6cDnATe7lHRLEZEsX/BYwGM+l
-         ruc3FJPJNEJyVuNrKhrmHzwy2E3+KSnl6dBoYAcXDyufNOH7SIGhrX/OXt59Zl55Apqt
-         Jtn9euv2oVlmsNGVALJoei3mEU4xzlcUoME3ry6DsZ/knMO23GlRkj9gr/zxiy1LpmOr
-         CHuQ==
-X-Gm-Message-State: AOAM531Zt/Q7SooNkMXeuoDSxo9cu4/aegItyANq16oFwZBq5kgis7D3
-        GG7bC+4IdwKCbxmwXtz5UCE=
-X-Google-Smtp-Source: ABdhPJzNXgz4QtMHkRwnfmvhxX6rI5Kx8c4cV38/v27gtDTmL0+G7KDfqLwhSgHwDyKOksWYwOEyeQ==
-X-Received: by 2002:a62:e108:: with SMTP id q8mr3587860pfh.214.1599493877348;
-        Mon, 07 Sep 2020 08:51:17 -0700 (PDT)
-Received: from lemmy.tees.ne.jp (153-125-65-70.catv.tees.ne.jp. [153.125.65.70])
-        by smtp.googlemail.com with ESMTPSA id g17sm12745967pjl.30.2020.09.07.08.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 08:51:16 -0700 (PDT)
-From:   Yasushi Asano <yazzep@gmail.com>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, erosca@de.adit-jv.com,
-        andrew_gabbasov@mentor.com, jim_baxter@mentor.com,
-        wnatsume@jp.adit-jv.com, nnishiguchi@jp.adit-jv.com,
-        yasano@jp.adit-jv.com, kernel test robot <rong.a.chen@intel.com>
-Subject: [PATCH v3] USB: hub.c: decrease the number of attempts of enumeration scheme
-Date:   Tue,  8 Sep 2020 00:50:52 +0900
-Message-Id: <20200907155052.2450-2-yazzep@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907155052.2450-1-yazzep@gmail.com>
-References: <CAEt1Rjq+Fz85KU-aKO+boNE5yL7GiwdopmRd3-FxEL+mzEui-g@mail.gmail.com>
- <20200907155052.2450-1-yazzep@gmail.com>
+        id S1730207AbgIGPvg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Sep 2020 11:51:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58642 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730029AbgIGOvu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Sep 2020 10:51:50 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 515BD218AC;
+        Mon,  7 Sep 2020 14:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599490277;
+        bh=hkO0EMVvCu8X7CeNAbfTmSK1pWFJrTzl3nDdebnZHHI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=zgTDrp7IPbcWgWNaaD690SP+mq2VsJpUKvsnVgZIc8ntfUU/bjkTDvxpZQEo2M/mE
+         Ob9YzTDMdNI3mym+y907RGeutk8dZShkABagM/ShmcOwO7IjuexA1gpjfz7EgIxyg+
+         /HsNxeWuxRRH0vGn2j8mY0AVJDBQXDeiW44Ad6zw=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     himadrispandya@gmail.com, dvyukov@google.com,
+        linux-usb@vger.kernel.org
+Cc:     perex@perex.cz, tiwai@suse.com, stern@rowland.harvard.ed,
+        linux-kernel@vger.kernel.org, marcel@holtmann.org,
+        johan.hedberg@gmail.com, linux-bluetooth@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v2 04/11] USB: core: hub.c: use usb_control_msg_send() in a few places
+Date:   Mon,  7 Sep 2020 16:51:01 +0200
+Message-Id: <20200907145108.3766613-5-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200907145108.3766613-1-gregkh@linuxfoundation.org>
+References: <20200907145108.3766613-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -78,141 +60,211 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Yasushi Asano <yasano@jp.adit-jv.com>
+There are a few calls to usb_control_msg() that can be converted to use
+usb_control_msg_send() instead, so do that in order to make the error
+checking a bit simpler and the code smaller.
 
-According to 6.7.22 A-UUT "Device No Response" for connection timeout
-of USB OTG and EH automated compliance plan v1.2, the enumeration
-failure has to be detected within 30 seconds. However, the old and new
-enumeration schemes made a total of 16 attempts, and each attempt can
-take 5 seconds to timeout, so it failed with PET test. Modify it to
-reduce the number of attempts to 5 and pass PET test.
-
-in case of old_schene_first=N and use_both_schemes=Y
-attempt 3 * new scheme, then 2 * old scheme
-in case of old_schene_first=Y and use_both_schemes=Y
-attempt 2 * old scheme, then 3 * new scheme
-
-Before applying the patch. please see [2]-[1].
-The PETtest fails during device enumeration procedure[3] because the device
-enumeration failure[4] can not be detected within 30 seconds of starting
-the test.
-
-[   99.864751] *** Ready OK Test Start***
-[  102.806542] usb 1-1.1: new full-speed USB device number 7 using ehci-platform ...[1]
-[  118.608538] usb 1-1.1: device descriptor read/64, error -110
-[  134.480542] usb 1-1.1: device descriptor read/64, error -110
-[  134.669542] usb 1-1.1: new full-speed USB device number 8 using ehci-platform
-[  150.352537] usb 1-1.1: device descriptor read/64, error -110                  ...[2]
-[  152.071247] *** End of Test        ***                                        ...[3]
-[  154.290867] usb 1-1-port1: unable to enumerate USB device                     ...[4]
-
-After applying this patch. please see [6]-[5].
-device enumeration failure[6] is detected within 30 seconds after
-starting the PETtest. The test passed.
-
-[  134.632165] *** Ready OK Test Start***
-[  137.880705] usb 1-1.1: new full-speed USB device number 11 using ehci-platform ..[5]
-[  143.184698] usb 1-1.1: device descriptor read/64, error -110
-[  148.815699] usb 1-1.1: device descriptor read/64, error -110
-[  149.005691] usb 1-1.1: new full-speed USB device number 12 using ehci-platform
-[  154.448695] usb 1-1.1: device descriptor read/64, error -110
-[  154.561696] usb 1-1.1: Invalid ep0 maxpacket: 0
-[  154.567354] usb 1-1-port1: attempt power cycle
-[  156.445704] usb 1-1.1: new full-speed USB device number 13 using ehci-platform
-[  161.745697] usb 1-1.1: device not accepting address 13, error -110
-[  161.827694] usb 1-1.1: new full-speed USB device number 14 using ehci-platform
-[  167.377693] usb 1-1.1: device not accepting address 14, error -110
-[  167.395415] usb 1-1-port1: unable to enumerate USB device                      ..[6]
-[  176.678418] *** End of Test        ***
-
-------
-[7] https://www.usb.org/sites/default/files/otgeh_compliance_plan_1_2.pdf
-6.7.22 A-UUT "Device No Response" for connection timeout
-6.7.22.2 Test Procedure for A-UUT which does not support sessions
-
-1. Start with cable still attached, PET applying 10 micro F capacitance and
-   10K Ohm pull-down resistance between VBUS and ground, data lines not
-   pulled up.
-2. Wait 1s.
-3. PET connects using D+.
-4. Display Message "Click OK when 'Device No Response' indication
-   displayed on UUT".
-5. If operator clicks OK before 30s elapses since VBUS went on, then
-   UUT passes test.
-6. If 30s elapses first, then UUT fails test.
-7. PET leaves 10 micro F capacitance and 10K Ohm pull-down resistance
-   across VBUS.
-8. PET disconnects D+.
-9. Wait 2s. to allow disconnection to be recognized.
-
-Reported-by: kernel test robot <rong.a.chen@intel.com>
-Signed-off-by: Yasushi Asano <yasano@jp.adit-jv.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/core/hub.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
+v2:
+ - dropped changes to usb_req_set_sel() thanks to review from Alan
+
+ drivers/usb/core/hub.c | 99 +++++++++++++++++-------------------------
+ 1 file changed, 39 insertions(+), 60 deletions(-)
 
 diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 052d5ac..725e5b6 100644
+index 5b768b80d1ee..bbb41993d4ba 100644
 --- a/drivers/usb/core/hub.c
 +++ b/drivers/usb/core/hub.c
-@@ -2706,7 +2706,6 @@ static unsigned hub_is_wusb(struct usb_hub *hub)
+@@ -410,8 +410,8 @@ static int get_hub_descriptor(struct usb_device *hdev,
+  */
+ static int clear_hub_feature(struct usb_device *hdev, int feature)
+ {
+-	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+-		USB_REQ_CLEAR_FEATURE, USB_RT_HUB, feature, 0, NULL, 0, 1000);
++	return usb_control_msg_send(hdev, 0, USB_REQ_CLEAR_FEATURE, USB_RT_HUB,
++				    feature, 0, NULL, 0, 1000);
+ }
  
+ /*
+@@ -419,9 +419,8 @@ static int clear_hub_feature(struct usb_device *hdev, int feature)
+  */
+ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
+ {
+-	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+-		USB_REQ_CLEAR_FEATURE, USB_RT_PORT, feature, port1,
+-		NULL, 0, 1000);
++	return usb_control_msg_send(hdev, 0, USB_REQ_CLEAR_FEATURE, USB_RT_PORT,
++				    feature, port1, NULL, 0, 1000);
+ }
  
- #define PORT_RESET_TRIES	5
--#define SET_ADDRESS_TRIES	2
- #define GET_DESCRIPTOR_TRIES	2
- #define SET_CONFIG_TRIES	(2 * (use_both_schemes + 1))
- #define USE_NEW_SCHEME(i, scheme)	((i) / 2 == (int)(scheme))
-@@ -4539,7 +4538,7 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 	struct usb_device	*hdev = hub->hdev;
- 	struct usb_hcd		*hcd = bus_to_hcd(hdev->bus);
- 	struct usb_port		*port_dev = hub->ports[port1 - 1];
--	int			retries, operations, retval, i;
-+	int			retries, retval, i;
- 	unsigned		delay = HUB_SHORT_RESET_TIME;
- 	enum usb_device_speed	oldspeed = udev->speed;
- 	const char		*speed;
-@@ -4684,7 +4683,7 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 			 * 255 is for WUSB devices, we actually need to use
- 			 * 512 (WUSB1.0[4.8.1]).
- 			 */
--			for (operations = 0; operations < 3; ++operations) {
-+			if (!((retry_counter % 2 != 0) && (retries != 0))) {
- 				buf->bMaxPacketSize0 = 0;
- 				r = usb_control_msg(udev, usb_rcvaddr0pipe(),
- 					USB_REQ_GET_DESCRIPTOR, USB_DIR_IN,
-@@ -4704,16 +4703,6 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 						r = -EPROTO;
- 					break;
- 				}
--				/*
--				 * Some devices time out if they are powered on
--				 * when already connected. They need a second
--				 * reset. But only on the first attempt,
--				 * lest we get into a time out/reset loop
--				 */
--				if (r == 0 || (r == -ETIMEDOUT &&
--						retries == 0 &&
--						udev->speed > USB_SPEED_FULL))
--					break;
- 			}
- 			udev->descriptor.bMaxPacketSize0 =
- 					buf->bMaxPacketSize0;
-@@ -4744,12 +4733,8 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 		 * authorization will assign the final address.
- 		 */
- 		if (udev->wusb == 0) {
--			for (operations = 0; operations < SET_ADDRESS_TRIES; ++operations) {
--				retval = hub_set_address(udev, devnum);
--				if (retval >= 0)
--					break;
--				msleep(200);
--			}
-+			retval = hub_set_address(udev, devnum);
-+			msleep(200);
- 			if (retval < 0) {
- 				if (retval != -ENODEV)
- 					dev_err(&udev->dev, "device not accepting address %d, error %d\n",
+ /*
+@@ -429,9 +428,8 @@ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
+  */
+ static int set_port_feature(struct usb_device *hdev, int port1, int feature)
+ {
+-	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+-		USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
+-		NULL, 0, 1000);
++	return usb_control_msg_send(hdev, 0, USB_REQ_SET_FEATURE, USB_RT_PORT,
++				    feature, port1, NULL, 0, 1000);
+ }
+ 
+ static char *to_led_name(int selector)
+@@ -755,15 +753,14 @@ hub_clear_tt_buffer(struct usb_device *hdev, u16 devinfo, u16 tt)
+ 	/* Need to clear both directions for control ep */
+ 	if (((devinfo >> 11) & USB_ENDPOINT_XFERTYPE_MASK) ==
+ 			USB_ENDPOINT_XFER_CONTROL) {
+-		int status = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+-				HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
+-				devinfo ^ 0x8000, tt, NULL, 0, 1000);
++		int status = usb_control_msg_send(hdev, 0, 
++						  HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
++						  devinfo ^ 0x8000, tt, NULL, 0, 1000);
+ 		if (status)
+ 			return status;
+ 	}
+-	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+-			       HUB_CLEAR_TT_BUFFER, USB_RT_PORT, devinfo,
+-			       tt, NULL, 0, 1000);
++	return usb_control_msg_send(hdev, 0, HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
++				    devinfo, tt, NULL, 0, 1000);
+ }
+ 
+ /*
+@@ -1049,11 +1046,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+ 	 */
+ 	if (type != HUB_RESUME) {
+ 		if (hdev->parent && hub_is_superspeed(hdev)) {
+-			ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+-					HUB_SET_DEPTH, USB_RT_HUB,
+-					hdev->level - 1, 0, NULL, 0,
+-					USB_CTRL_SET_TIMEOUT);
+-			if (ret < 0)
++			ret = usb_control_msg_send(hdev, 0, HUB_SET_DEPTH, USB_RT_HUB,
++						   hdev->level - 1, 0, NULL, 0,
++						   USB_CTRL_SET_TIMEOUT);
++			if (ret)
+ 				dev_err(hub->intfdev,
+ 						"set hub depth failed\n");
+ 		}
+@@ -2329,13 +2325,10 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
+ 		/* enable HNP before suspend, it's simpler */
+ 		if (port1 == bus->otg_port) {
+ 			bus->b_hnp_enable = 1;
+-			err = usb_control_msg(udev,
+-				usb_sndctrlpipe(udev, 0),
+-				USB_REQ_SET_FEATURE, 0,
+-				USB_DEVICE_B_HNP_ENABLE,
+-				0, NULL, 0,
+-				USB_CTRL_SET_TIMEOUT);
+-			if (err < 0) {
++			err = usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, 0,
++						   USB_DEVICE_B_HNP_ENABLE, 0,
++						   NULL, 0, USB_CTRL_SET_TIMEOUT);
++			if (err) {
+ 				/*
+ 				 * OTG MESSAGE: report errors here,
+ 				 * customize to match your product.
+@@ -2347,13 +2340,10 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
+ 		} else if (desc->bLength == sizeof
+ 				(struct usb_otg_descriptor)) {
+ 			/* Set a_alt_hnp_support for legacy otg device */
+-			err = usb_control_msg(udev,
+-				usb_sndctrlpipe(udev, 0),
+-				USB_REQ_SET_FEATURE, 0,
+-				USB_DEVICE_A_ALT_HNP_SUPPORT,
+-				0, NULL, 0,
+-				USB_CTRL_SET_TIMEOUT);
+-			if (err < 0)
++			err = usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, 0,
++						   USB_DEVICE_A_ALT_HNP_SUPPORT, 0,
++						   NULL, 0, USB_CTRL_SET_TIMEOUT);
++			if (err)
+ 				dev_err(&udev->dev,
+ 					"set a_alt_hnp_support failed: %d\n",
+ 					err);
+@@ -3121,10 +3111,8 @@ int usb_disable_ltm(struct usb_device *udev)
+ 	if (!udev->actconfig)
+ 		return 0;
+ 
+-	return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-			USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
+-			USB_DEVICE_LTM_ENABLE, 0, NULL, 0,
+-			USB_CTRL_SET_TIMEOUT);
++	return usb_control_msg_send(udev, 0, USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
++				    USB_DEVICE_LTM_ENABLE, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+ }
+ EXPORT_SYMBOL_GPL(usb_disable_ltm);
+ 
+@@ -3143,10 +3131,8 @@ void usb_enable_ltm(struct usb_device *udev)
+ 	if (!udev->actconfig)
+ 		return;
+ 
+-	usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-			USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
+-			USB_DEVICE_LTM_ENABLE, 0, NULL, 0,
+-			USB_CTRL_SET_TIMEOUT);
++	usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
++			     USB_DEVICE_LTM_ENABLE, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+ }
+ EXPORT_SYMBOL_GPL(usb_enable_ltm);
+ 
+@@ -3163,17 +3149,14 @@ EXPORT_SYMBOL_GPL(usb_enable_ltm);
+ static int usb_enable_remote_wakeup(struct usb_device *udev)
+ {
+ 	if (udev->speed < USB_SPEED_SUPER)
+-		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-				USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
+-				USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
+-				USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
++					    USB_DEVICE_REMOTE_WAKEUP, 0,
++					    NULL, 0, USB_CTRL_SET_TIMEOUT);
+ 	else
+-		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-				USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
+-				USB_INTRF_FUNC_SUSPEND,
+-				USB_INTRF_FUNC_SUSPEND_RW |
+-					USB_INTRF_FUNC_SUSPEND_LP,
+-				NULL, 0, USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
++					    USB_INTRF_FUNC_SUSPEND,
++					    USB_INTRF_FUNC_SUSPEND_RW | USB_INTRF_FUNC_SUSPEND_LP,
++					    NULL, 0, USB_CTRL_SET_TIMEOUT);
+ }
+ 
+ /*
+@@ -3189,15 +3172,11 @@ static int usb_enable_remote_wakeup(struct usb_device *udev)
+ static int usb_disable_remote_wakeup(struct usb_device *udev)
+ {
+ 	if (udev->speed < USB_SPEED_SUPER)
+-		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-				USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
+-				USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
+-				USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg_send(udev, 0, USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
++					    USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+ 	else
+-		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-				USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
+-				USB_INTRF_FUNC_SUSPEND,	0, NULL, 0,
+-				USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
++					    USB_INTRF_FUNC_SUSPEND, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+ }
+ 
+ /* Count of wakeup-enabled devices at or below udev */
+@@ -4056,7 +4035,7 @@ static void usb_enable_link_state(struct usb_hcd *hcd, struct usb_device *udev,
+ 	 * associated with the link state we're about to enable.
+ 	 */
+ 	ret = usb_req_set_sel(udev, state);
+-	if (ret < 0) {
++	if (ret) {
+ 		dev_warn(&udev->dev, "Set SEL for device-initiated %s failed.\n",
+ 				usb3_lpm_names[state]);
+ 		return;
 -- 
-2.7.4
+2.28.0
 
