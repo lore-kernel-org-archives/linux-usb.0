@@ -2,271 +2,177 @@ Return-Path: <SRS0=JTgO=CR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED795C433E2
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 19:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6747C43461
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 19:46:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA81C2166E
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 19:38:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 995A020768
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 19:46:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QThMjlLv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731911AbgIHThu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Sep 2020 15:37:50 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48792 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730849AbgIHPzp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 8 Sep 2020 11:55:45 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id E7EC8B603;
-        Tue,  8 Sep 2020 15:54:18 +0000 (UTC)
-Subject: Re: PROBLEM: Long Workqueue delays V2
-To:     Jim Baxter <jim_baxter@mentor.com>, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-block@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org,
-        "Frkuska, Joshua" <Joshua_Frkuska@mentor.com>,
-        "Resch Carsten (CM/ESO6)" <Carsten.Resch@de.bosch.com>,
-        "Rosca, Eugeniu (ADITG/ESB)" <erosca@de.adit-jv.com>,
-        "Craske, Mark" <Mark_Craske@mentor.com>,
-        "Brown, Michael" <michael_brown@mentor.com>
-References: <625615f2-3a6b-3136-35f9-2f2fb3c110cf@mentor.com>
- <066753ec-eddc-d7f6-5cc8-fe282baba6ec@mentor.com>
- <bf3d7f89-e652-a26b-bb27-c6dbef08e28c@mentor.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <335b22f6-e579-5ff1-5353-7ab14ca43662@suse.cz>
-Date:   Tue, 8 Sep 2020 17:54:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <bf3d7f89-e652-a26b-bb27-c6dbef08e28c@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1732121AbgIHTqS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Sep 2020 15:46:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732441AbgIHTqF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Sep 2020 15:46:05 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CE1C061573;
+        Tue,  8 Sep 2020 12:46:05 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id 60so264759otw.3;
+        Tue, 08 Sep 2020 12:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=JmiVWVDB3TpbnIb/5gCkSZi9W6L4r23R5cfyKL7mkAo=;
+        b=QThMjlLvd5iNXbd9On5sMrcIp9yZfNJse35xtUEnHgvzg6Gxmcr27dqoj5gkYKez1m
+         OCxvkQrdRZmUmhCQF0TQ83rl1NMy2NVd7+cUoTDLJby+IhYgD6hDcKFnzTFPX8AP3Wkf
+         LnaKSn9vvMr5PGuG4x3AmKGJPkrnPNmuFpd5aTK9Vfj420EoWg37CAhk73t7ivAXn3Bt
+         wbZsgSIJdkUjKvVMvHNNdicqXnrKgNyiI7lgf/iXh1Z2RoA7N7g+O1GQCI97TtgHTmuD
+         jacKpRgituabLtjpaz4QQlonRNVW4Cyn6OGRUDuCJ/0bZRtCmajN5RjtkPZN3NNxacLq
+         LIVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references;
+        bh=JmiVWVDB3TpbnIb/5gCkSZi9W6L4r23R5cfyKL7mkAo=;
+        b=iYHW4yExnDKQdrWmA0a1fNJLAqjay2rssgyn+BK/jjj3/DivUl6u9eybxFCyl8bIec
+         IJfdUA1KF+Qn1GkjnKB81CxjfY3JDwBGAqMuWXq2W5kc8r7Rm/fssvTzIrM8h0fOIKdb
+         ugVoFIJj01KPYXVEjWJ6Fi2srI3bxCoMhVburzHRLrdPPpfoswQ/8W0+jQxhfZBE/Cni
+         uWlKmQR/IYaku29OJJdLde2K2kRHcxQ2BzUYC3zuuLS0nSFrb4ERg9HvVenx2S19hNCg
+         tY732X6F0XtoGp9uHfnSzH8n5/9epmQG3ilL8ai23z4mE+mlKQZNvQF5bfVITAvQo4F7
+         CzMg==
+X-Gm-Message-State: AOAM532EKeweCKB+Ew6bF2NiYsT01YeiOOOU5l5koGL7rNpUsdlxyQqb
+        2M+attnb49uIijFynKt6h40=
+X-Google-Smtp-Source: ABdhPJzKwnake8Bgg7vdXO/V5ROgBS7wYgHdU3WNyCWJMT7DpjD1EyWNp+aF2dk3LqalbfLXpBX7pw==
+X-Received: by 2002:a9d:6492:: with SMTP id g18mr421329otl.331.1599594364674;
+        Tue, 08 Sep 2020 12:46:04 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f50sm31012otf.47.2020.09.08.12.46.03
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 08 Sep 2020 12:46:04 -0700 (PDT)
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2 1/5] media: uvcvideo: Cancel async worker earlier
+Date:   Tue,  8 Sep 2020 12:45:53 -0700
+Message-Id: <20200908194557.198335-2-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200908194557.198335-1-linux@roeck-us.net>
+References: <20200908194557.198335-1-linux@roeck-us.net>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/27/20 2:06 PM, Jim Baxter wrote:
-> Has anyone any ideas of how to investigate this delay further?
-> 
-> Comparing the perf output for unplugging the USB stick and using umount
-> which does not cause these delays in other workqueues the main difference
+So far the asynchronous control worker was canceled only in
+uvc_ctrl_cleanup_device. This is much later than the call to
+uvc_disconnect. However, after the call to uvc_disconnect returns,
+there must be no more USB activity. This can result in all kinds
+of problems in the USB code. One observed example:
 
-I don't have that much insight in this, but isn't it that in case of umount, the
-exactly same work is done in the umount process context and not workqueues? So
-it might take the same time and cpu, stress the same paths, but as it's
-attributed to the process, there are no workqueue delays reported? Or does your
-measurements suggest otherwise?
+URB ffff993e83d0bc00 submitted while active
+WARNING: CPU: 0 PID: 4046 at drivers/usb/core/urb.c:364 usb_submit_urb+0x4ba/0x55e
+Modules linked in: <...>
+CPU: 0 PID: 4046 Comm: kworker/0:35 Not tainted 4.19.139 #18
+Hardware name: Google Phaser/Phaser, BIOS Google_Phaser.10952.0.0 08/09/2018
+Workqueue: events uvc_ctrl_status_event_work [uvcvideo]
+RIP: 0010:usb_submit_urb+0x4ba/0x55e
+Code: <...>
+RSP: 0018:ffffb08d471ebde8 EFLAGS: 00010246
+RAX: a6da85d923ea5d00 RBX: ffff993e71985928 RCX: 0000000000000000
+RDX: ffff993f37a1de90 RSI: ffff993f37a153d0 RDI: ffff993f37a153d0
+RBP: ffffb08d471ebe28 R08: 000000000000003b R09: 001424bf85822e96
+R10: 0000001000000000 R11: ffffffff975a4398 R12: ffff993e83d0b000
+R13: ffff993e83d0bc00 R14: 0000000000000000 R15: 00000000fffffff0
+FS:  0000000000000000(0000) GS:ffff993f37a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000ec9c0000 CR3: 000000025b160000 CR4: 0000000000340ef0
+Call Trace:
+ uvc_ctrl_status_event_work+0xd6/0x107 [uvcvideo]
+ process_one_work+0x19b/0x4c5
+ worker_thread+0x10d/0x286
+ kthread+0x138/0x140
+ ? process_one_work+0x4c5/0x4c5
+ ? kthread_associate_blkcg+0xc1/0xc1
+ ret_from_fork+0x1f/0x40
 
-> is that the problem case is executing the code in invalidate_mapping_pages()
-> and a large part of that arch_local_irq_restore() which is part of
-> releasing a lock, I would usually expect that requesting a lock would be
-> where delays may occur.
-> 
-> 	--94.90%--invalidate_partition
-> 	   __invalidate_device
-> 	   |          
-> 	   |--64.55%--invalidate_bdev
-> 	   |  |          
-> 	   |   --64.13%--invalidate_mapping_pages
-> 	   |     |          
-> 	   |     |--24.09%--invalidate_inode_page
-> 	   |     |   |          
-> 	   |     |   --23.44%--remove_mapping
-> 	   |     |     |          
-> 	   |     |      --23.20%--__remove_mapping
-> 	   |     |        |          
-> 	   |     |         --21.90%--arch_local_irq_restore
-> 	   |     |          
-> 	   |     |--22.44%--arch_local_irq_enable
-> 
-> Best regards,
-> Jim
-> 
-> -------- Original Message --------
-> Subject: Re: PROBLEM: Long Workqueue delays V2
-> From: Jim Baxter <jim_baxter@mentor.com>
-> To: 
-> Date: Wed Aug 19 2020 14:12:24 GMT+0100 (British Summer Time)
-> 
->> Added linux-block List which may also be relevant to this issue.
->> 
->> -------- Original Message --------
->> Subject: PROBLEM: Long Workqueue delays V2
->> From: Jim Baxter <jim_baxter@mentor.com>
->> To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
->> CC: "Resch Carsten (CM/ESO6)" <Carsten.Resch@de.bosch.com>, "Rosca, Eugeniu (ADITG/ESB)" <erosca@de.adit-jv.com>
->> Date: Tue, 18 Aug 2020 12:58:13 +0100
->> 
->>> I am asking this question again to include the fs-devel list.
->>>
->>>
->>> We have issues with the workqueue of the kernel overloading the CPU 0 
->>> when we we disconnect a USB stick.
->>>
->>> This results in other items on the shared workqueue being delayed by
->>> around 6.5 seconds with a default kernel configuration and 2.3 seconds
->>> on a config tailored for our RCar embedded platform.
->>>
->>>
->>>
->>> We first noticed this issue on custom hardware and we have recreated it
->>> on an RCar Starter Kit using a test module [1] to replicate the
->>> behaviour, the test module outputs any delays of greater then 9ms.
->>>
->>> To run the test we have a 4GB random file on a USB stick and perform
->>> the following test.
->>> The stick is mounted as R/O and we are copying data from the stick:
->>>
->>> - Mount the stick.
->>> mount -o ro,remount /dev/sda1
->>>
->>> - Load the Module:
->>> # taskset -c 0 modprobe latency-mon
->>>
->>> - Copy large amount of data from the stick:
->>> # dd if=/run/media/sda1/sample.txt of=/dev/zero
->>> [ 1437.517603] DELAY: 10
->>> 8388607+1 records in
->>> 8388607+1 records out
->>>
->>>
->>> - Disconnect the USB stick:
->>> [ 1551.796792] usb 2-1: USB disconnect, device number 2
->>> [ 1558.625517] DELAY: 6782
->>>
->>>
->>> The Delay output 6782 is in milliseconds.
->>>
->>>
->>>
->>> Using umount stops the issue occurring but is unfortunately not guaranteed
->>> in our particular system.
->>>
->>>
->>> From my analysis the hub_event workqueue kworker/0:1+usb thread uses around
->>> 98% of the CPU.
->>>
->>> I have traced the workqueue:workqueue_queue_work function while unplugging the USB
->>> and there is no particular workqueue function being executed a lot more then the 
->>> others for the kworker/0:1+usb thread.
->>>
->>>
->>> Using perf I identified the hub_events workqueue was spending a lot of time in
->>> invalidate_partition(), I have included a cut down the captured data from perf in
->>> [2] which shows the additional functions where the kworker spends most of its time.
->>>
->>>
->>> I am aware there will be delays on the shared workqueue, are the delays
->>> we are seeing considered normal?
->>>
->>>
->>> Is there any way to mitigate or identify where the delay is?
->>> I am unsure if this is a memory or filesystem subsystem issue.
->>>
->>>
->>> Thank you for you help.
->>>
->>> Thanks,
->>> Jim Baxter
->>>
->>> [1] Test Module:
->>> // SPDX-License-Identifier: GPL-2.0
->>> /*
->>>  * Simple WQ latency monitoring
->>>  *
->>>  * Copyright (C) 2020 Advanced Driver Information Technology.
->>>  */
->>>
->>> #include <linux/init.h>
->>> #include <linux/ktime.h>
->>> #include <linux/module.h>
->>>
->>> #define PERIOD_MS 100
->>>
->>> static struct delayed_work wq;
->>> static u64 us_save;
->>>
->>> static void wq_cb(struct work_struct *work)
->>> {
->>> 	u64 us = ktime_to_us(ktime_get());
->>> 	u64 us_diff = us - us_save;
->>> 	u64 us_print = 0;
->>>
->>> 	if (!us_save)
->>> 		goto skip_print;
->>>
->>>
->>> 	us_print = us_diff / 1000 - PERIOD_MS;
->>> 	if (us_print > 9)
->>> 		pr_crit("DELAY: %lld\n", us_print);
->>>
->>> skip_print:
->>> 	us_save = us;
->>> 	schedule_delayed_work(&wq, msecs_to_jiffies(PERIOD_MS));
->>> }
->>>
->>> static int latency_mon_init(void)
->>> {
->>> 	us_save = 0;
->>> 	INIT_DELAYED_WORK(&wq, wq_cb);
->>> 	schedule_delayed_work(&wq, msecs_to_jiffies(PERIOD_MS));
->>>
->>> 	return 0;
->>> }
->>>
->>> static void latency_mon_exit(void)
->>> {
->>> 	cancel_delayed_work_sync(&wq);
->>> 	pr_info("%s\n", __func__);
->>> }
->>>
->>> module_init(latency_mon_init);
->>> module_exit(latency_mon_exit);
->>> MODULE_AUTHOR("Eugeniu Rosca <erosca@de.adit-jv.com>");
->>> MODULE_LICENSE("GPL");
->>>
->>>
->>> [2] perf trace:
->>>     95.22%     0.00%  kworker/0:2-eve  [kernel.kallsyms]
->>>     |
->>>     ---ret_from_fork
->>>        kthread
->>>        worker_thread
->>>        |          
->>>         --95.15%--process_one_work
->>> 		  |          
->>> 		   --94.99%--hub_event
->>> 			 |          
->>> 			  --94.99%--usb_disconnect
->>> 			  <snip>
->>> 				|  
->>> 				--94.90%--invalidate_partition
->>> 				   __invalidate_device
->>> 				   |          
->>> 				   |--64.55%--invalidate_bdev
->>> 				   |  |          
->>> 				   |   --64.13%--invalidate_mapping_pages
->>> 				   |     |          
->>> 				   |     |--24.09%--invalidate_inode_page
->>> 				   |     |   |          
->>> 				   |     |   --23.44%--remove_mapping
->>> 				   |     |     |          
->>> 				   |     |      --23.20%--__remove_mapping
->>> 				   |     |        |          
->>> 				   |     |         --21.90%--arch_local_irq_restore
->>> 				   |     |          
->>> 				   |     |--22.44%--arch_local_irq_enable
->>> 				   |          
->>> 					--30.35%--shrink_dcache_sb 
->>> 					<snip>
->>> 					  |      
->>> 					  --30.17%--truncate_inode_pages_range
->>>
-> 
+Introduce new function uvc_ctrl_stop_device() to cancel the worker
+and call it from uvc_unregister_video() to solve the problem.
+
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: No change
+
+ drivers/media/usb/uvc/uvc_ctrl.c   | 11 +++++++----
+ drivers/media/usb/uvc/uvc_driver.c |  1 +
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e399b9fad757..130c56e0063d 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -2340,14 +2340,17 @@ static void uvc_ctrl_cleanup_mappings(struct uvc_device *dev,
+ 	}
+ }
+ 
+-void uvc_ctrl_cleanup_device(struct uvc_device *dev)
++void uvc_ctrl_stop_device(struct uvc_device *dev)
+ {
+-	struct uvc_entity *entity;
+-	unsigned int i;
+-
+ 	/* Can be uninitialized if we are aborting on probe error. */
+ 	if (dev->async_ctrl.work.func)
+ 		cancel_work_sync(&dev->async_ctrl.work);
++}
++
++void uvc_ctrl_cleanup_device(struct uvc_device *dev)
++{
++	struct uvc_entity *entity;
++	unsigned int i;
+ 
+ 	/* Free controls and control mappings for all entities. */
+ 	list_for_each_entry(entity, &dev->entities, list) {
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 431d86e1c94b..bfba67a69185 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1952,6 +1952,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
+ 	}
+ 
+ 	uvc_status_unregister(dev);
++	uvc_ctrl_stop_device(dev);
+ 
+ 	if (dev->vdev.dev)
+ 		v4l2_device_unregister(&dev->vdev);
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 6ab972c643e3..543afcd9fd26 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -830,6 +830,7 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
+ int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+ 			 const struct uvc_control_mapping *mapping);
+ int uvc_ctrl_init_device(struct uvc_device *dev);
++void uvc_ctrl_stop_device(struct uvc_device *dev);
+ void uvc_ctrl_cleanup_device(struct uvc_device *dev);
+ int uvc_ctrl_restore_values(struct uvc_device *dev);
+ bool uvc_ctrl_status_event(struct urb *urb, struct uvc_video_chain *chain,
+-- 
+2.17.1
 
