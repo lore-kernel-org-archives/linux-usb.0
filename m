@@ -2,58 +2,60 @@ Return-Path: <SRS0=JTgO=CR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 697D6C2BBD0
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 07:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AAFC2BBD0
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 07:21:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 345C121D47
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 07:21:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91D4B21D20
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 07:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599549682;
-	bh=xVxVAtIHJcO6KUDLBsqaTImTwuMgwUwnIEbsGDNDDvI=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=XmOK7BsnUkA/15VPniPTyFQczgEqBmlVyNI98h5qN1JuCKaUa/0eVhdqEEudPWDI+
-	 sA4C7kGqxjjIJl1R9sZuOd1965kn39/W0pvAcGYvQZMxUkPtLRRYjxzi8L+wayKaB7
-	 MILCgDTlpum74/3PqtVSRZj/PsUA5+AI53dfpouo=
+	s=default; t=1599549685;
+	bh=3RA+i6QTf0e+6r8Ow0OB8zriaIcwdyH7gCxtrDU5S44=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=mkV/rO8Br9gL/hdqqAlY+1p9BV8THS6HAu4ZhV3d+ceO2DW9EUi4LJAYxAMbip5Xy
+	 NiRxPjHLuEbl2TaTNMjzRx2HNyIg6z5wtDhx7fhgwur2b5bmcHhzNf7gr9qNO44YIv
+	 IUf+5WaAQE5i67GWvqq/UUrYaE61PeF8N5ahQIpw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729289AbgIHHVH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Sep 2020 03:21:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43772 "EHLO mail.kernel.org"
+        id S1729229AbgIHHVG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Sep 2020 03:21:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729080AbgIHHVE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1728654AbgIHHVE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 8 Sep 2020 03:21:04 -0400
 Received: from mail.kernel.org (ip5f5ad5ce.dynamic.kabel-deutschland.de [95.90.213.206])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6900521D42;
-        Tue,  8 Sep 2020 07:21:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 94D4721D20;
+        Tue,  8 Sep 2020 07:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599549664;
-        bh=xVxVAtIHJcO6KUDLBsqaTImTwuMgwUwnIEbsGDNDDvI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gDattiwIJ9kvnvaLvHyrlCjlIfTNE+KPZ4aOsRzrTCFUNLAQPPy8TNnVyaOZesMwU
-         2LLhi/WXS/z3H2/+9KwI3tXFP53gpc4/bEAIX3V1awgpGiIcQJA0hFyXulDNWcRq6a
-         HXkY9rjBpYYfFuGtKXD8g0i3XqL7Q0HunpYj/H2E=
+        s=default; t=1599549663;
+        bh=3RA+i6QTf0e+6r8Ow0OB8zriaIcwdyH7gCxtrDU5S44=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ddLk4uJFdcOt7i8EcVnVsPaYxQokicf1yMYCxre0SL+3GAFL/mKtrUkWVDf0irPBr
+         FmThMyeDtAsSjKzxIPDNIHT7rOX7DOdGNsZzgm5nNDU2CHLHIzprFYdL8W8kj+RUKx
+         qiIMx84OLAQtRbN6aFM/k/mUxojYEhCRINPphBsM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kFXw5-00Axvl-3g; Tue, 08 Sep 2020 09:21:01 +0200
+        id 1kFXw5-00Axvp-5p; Tue, 08 Sep 2020 09:21:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Felipe Balbi <balbi@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         John Stultz <john.stultz@linaro.org>,
         Manivannan Sadhasivam <mani@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 0/2] Add a quirk for dwc3 driver, requred for Hikey 970 USB to work
-Date:   Tue,  8 Sep 2020 09:20:55 +0200
-Message-Id: <cover.1599549364.git.mchehab+huawei@kernel.org>
+        Rob Herring <robh+dt@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] dt-bindings: document a new quirk for dwc3
+Date:   Tue,  8 Sep 2020 09:20:57 +0200
+Message-Id: <cb821a8b5ef2d44ce32c8ce1d01c34b7afb70eb2.1599549364.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1599549364.git.mchehab+huawei@kernel.org>
+References: <cover.1599549364.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -61,33 +63,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This small patch series add a new quirk for the dwc3 driver. The first patch
-was submitted previously to the USB mailing list:
+At Hikey 970, setting the SPLIT disable at the General
+User Register 3 is required.
 
-	https://patchwork.kernel.org/patch/10909965/
+Without that, the URBs generated by the usbhid driver
+return -EPROTO errors. That causes the code at
+hid-core.c to call hid_io_error(), which schedules
+a reset_work, causing a call to hid_reset().
 
-This quirk is also present at the official Linaro's tree for Hikey 970.
+In turn, the code there will call:
 
-Without that, the URBs produced by the USB HID driver returns -EPROTO
-errors, causing an endless reset loop, on every 0.5 seconds.
+	usb_queue_reset_device(usbhid->intf);
 
-Please notice that I don't have any documentation about Synopsys
-dwc3 driver. So, I tried my best to document this quirk at patch 2,
-but I can't add anything more specifics, as I don't have any datasheets
-from such IP.
+The net result is that the input devices won't work, and
+will be reset on every 0.5 seconds:
 
-Mauro Carvalho Chehab (1):
-  dt-bindings: document a new quirk for dwc3
+	[   33.122384] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+	[   33.378220] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+	[   33.698394] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+	[   34.882365] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+	[   35.138217] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+	[   35.458617] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+	[   36.642392] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+	[   36.898207] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+	[   37.218598] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+	[   38.402368] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+	[   38.658174] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+	[   38.978594] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+	[   40.162361] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+	[   40.418148] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+	...
+	[  397.698132] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
 
-Yu Chen (1):
-  usb: dwc3: Add splitdisable quirk for Hisilicon Kirin Soc
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/dwc3.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
- .../devicetree/bindings/usb/dwc3.txt          |  3 +++
- drivers/usb/dwc3/core.c                       | 25 +++++++++++++++++++
- drivers/usb/dwc3/core.h                       |  7 ++++++
- 3 files changed, 35 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index d03edf9d3935..1aae2b6160c1 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -78,6 +78,9 @@ Optional properties:
+ 			park mode are disabled.
+  - snps,dis_metastability_quirk: when set, disable metastability workaround.
+ 			CAUTION: use only if you are absolutely sure of it.
++ - snps,dis-split-quirk: when set, change the way URBs are handled by the
++			 driver. Needed to avoid -EPROTO errors with usbhid
++			 on some devices (Hikey 970).
+  - snps,is-utmi-l1-suspend: true when DWC3 asserts output signal
+ 			utmi_l1_suspend_n, false when asserts utmi_sleep_n
+  - snps,hird-threshold: HIRD threshold
 -- 
 2.26.2
-
 
