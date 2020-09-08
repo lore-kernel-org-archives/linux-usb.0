@@ -2,165 +2,394 @@ Return-Path: <SRS0=JTgO=CR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6999DC433E2
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 18:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A552DC43461
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 19:04:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26C422080A
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 18:26:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Tb+z06cf";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="NIhlaYMy"
+	by mail.kernel.org (Postfix) with ESMTP id 7806A2087D
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 19:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731653AbgIHSTV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Sep 2020 14:19:21 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:49972 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731711AbgIHSRd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Sep 2020 14:17:33 -0400
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 476DF4016B;
-        Tue,  8 Sep 2020 18:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1599589053; bh=c9UvMl5NE/r93c0ZdlAL9sfJALoLWopGWfdrxa9Ctio=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=Tb+z06cfG/04Ykiaa2h83g8dSoG1H+DUZkJdc02GLJuGFC4o8WMeSTbe2i6se3KJ5
-         sIj1beLB86h96kP1Tv1rXxhtveM5nkNro2NsHDx48cYFT1M59YJ5WR9MYGh7tCwigg
-         TossN7pqsWtO+62nJSdtQa3ViSiDDnzcx3QhEfYb36EK03SxzHEeK2Lo5CEbL6+0Ru
-         nbmlxHTE5cfhDCguFCaxFBBw6HWqlRS/H3hwfdj/7JpxpDeM1nUNyG8rf0YtdfevuO
-         Uk+0YAJCMraOppbyhUF4XzLCua7k6aj40RZKTbAAOXoPxbvhwlZLpz4gxLdZmoqpqV
-         qeZuSPgHyehYw==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id F403DA005C;
-        Tue,  8 Sep 2020 18:17:32 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2044.outbound.protection.outlook.com [104.47.74.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id B6B44801B4;
-        Tue,  8 Sep 2020 18:17:31 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="NIhlaYMy";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ko1gTYjc0hWJxccvJzf0D6VtC+D1rNuJfU8LkPuzieRGAT+yJuvkAUDbykOsUc/O4uVYgqxfwoYsS2WKXPWjaqraxkd5AUWoV8ZB6aEsb0Na/kix78kB7CiRz3QaKnvrEQQX8kOgy4KweAXtcG2Aq4/9jqaK54wCCEe/I3gR56ZKSpZ6b68m64CylNyhbf6885G7ixsPEcg2D6NXJGZN4wnXvi/LjVUoxLne27YXLT3tVmXqWqIg0hWSRYcSqZrMoA5ShZU1+K7WHIB1xaOPDJ0QcrYAu8guKUmPR8TG9A/MBc0ntrYaMYavBe+mtUj9z5KAI0GssocCc9o5gxflGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c9UvMl5NE/r93c0ZdlAL9sfJALoLWopGWfdrxa9Ctio=;
- b=Zykd/0qalmhhaW3jZTxGT50RSYAjVUlA8UI/iIpnWjTcZL4Xc1RgwnB6j2dJmwDcauuKQXnLpbF58PwRlHh32F3cw/SGNeUJrWBBf4/uw5gFgvlOtT7JJ5HZFWAeNMTCnSqpuAHrwMtGFhfXu+X52uLyXx/v+ShPOkCd/iSd6AQ4x8vx3lTEQzBgeN56Ivt5u8bIJMhzfjz1nOGrmh0TYZZ0KtohTwF93El8h/vQTuuNMfUvm7P69ZDRjxAm7BBzVB85rnU44tRBsZDbO0ZS5IF5iuWeh/Uug5jBSZ3nS847RCusUd9SW2J3ZJyzQfvwXp5qLyFzvCFsXSAu4tJoiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c9UvMl5NE/r93c0ZdlAL9sfJALoLWopGWfdrxa9Ctio=;
- b=NIhlaYMyx5eUF1pqxpPjDZFxBxbXLw/nndVy4m984YyN3IiWl9WcAQOxxnlQPFDlRQOWzZORCypwbjavhE0EAoPZ/TTnrPIxJ/xG17lmLrfq0TKuqOQEsXH6VR90Nr2AL7SYYRFHfpDQUsZGBOEneCYDpdM/INPdCWe0cfhmFfY=
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com (2603:10b6:a03:130::14)
- by BY5PR12MB4146.namprd12.prod.outlook.com (2603:10b6:a03:20d::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Tue, 8 Sep
- 2020 18:17:29 +0000
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::c98f:a13f:fd88:c209]) by BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::c98f:a13f:fd88:c209%7]) with mapi id 15.20.3348.019; Tue, 8 Sep 2020
- 18:17:29 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-CC:     John Youn <John.Youn@synopsys.com>
-Subject: Re: [PATCH v3 1/4] usb: dwc3: gadget: Refactor preparing TRBs
-Thread-Topic: [PATCH v3 1/4] usb: dwc3: gadget: Refactor preparing TRBs
-Thread-Index: AQHWgZbNTEZOx0iSuEi9Jwc7ud8GZ6lcvAOAgAJZbQA=
-Date:   Tue, 8 Sep 2020 18:17:29 +0000
-Message-ID: <5be0e8a8-2a32-e160-9b69-04ef791df511@synopsys.com>
-References: <cover.1599098161.git.thinhn@synopsys.com>
- <66fa061307b6f4eff00fb279ae5130c3bd8720f7.1599098161.git.thinhn@synopsys.com>
- <87lfhm14ui.fsf@kernel.org>
-In-Reply-To: <87lfhm14ui.fsf@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [98.248.94.126]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 571d88c7-f09a-438b-6d3f-08d854237263
-x-ms-traffictypediagnostic: BY5PR12MB4146:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR12MB4146225E7A0CC5F38A9C2672AA290@BY5PR12MB4146.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xPc7gDGsyg+cshR8ILtrsAi4SEUhrFU2SiPfI2H9B9/l7mAHBobI4DrMmoM+NGsOo1cb6xk5X1ak0oBCKtgln+g5nsTqMzQCB3ETl4xpQqi2FoRPqQTPq9eoa8iVvW2VIvUm/zVO5SFKKWi+8csFAmta4O/T/w1frcY7XL8fR3L8zEGpvhZBF9ReumDn6kQykat6jZlVcZHQ14efOZLZBiR0XXqYtc1jWGdzPVzVxqg/2GGInFgoFHoH95PydcMPpsEAXePvTZVCCRHIpy2vvVW1RDDduor7JKN6j7u9zPw/d/znZVPstv59TGY/I3JTnAuDf0XUPAf+7OOxmTPp6ZvmcrraoPIjVgxRJnWUKvSpyjf1gLAJLCgdrFD5QdjX
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2917.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(376002)(366004)(346002)(136003)(396003)(66476007)(66946007)(8676002)(6512007)(478600001)(76116006)(64756008)(2906002)(316002)(26005)(66446008)(186003)(110136005)(2616005)(71200400001)(6486002)(31696002)(4326008)(8936002)(66556008)(31686004)(107886003)(86362001)(6506007)(36756003)(83380400001)(5660300002)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: NKpmslGNadTakQlax9n+ZCmpkmMXVlUYqm+Y6dJJauF0bB9SjkCOSibktQPavHYlqTiobTC3MBGZG6YgR+Cdv8u9C/OaKfcJhxmUKhvD+W2h7k3RacLx1nHQJWS+mm06rk5uw9oIED8frCUNjCqAVWn27byYP2sBio4oUJMdwDB4Copd8mB56TxPf7dLYnzYjQYFiq9bmiwqMJHRTYySFTU9nibH4vYLagL+zSyucTw5GfDnjr+tgv1z+R3Psc+ZjMuCUUfeBWOSd7YTdvEOb6BAn0N3xlOCIN+AVZF7ZZQFj3MA/sBUG+w+IQ/kb01/dzS+DgP+anoYIJfqPan8HNClh+R4cabzsmkJNbZ/SOsF324dtWp/eZRRMYgvWibc6XfUadA8QSZ9W59BmbwTqXFX8WPD4ycULfc+jpLD6cR0Wcp9frAjoUlK2SjPwMVrGwoAag8q2axvJwORK7UfC5stAz1Pgdhnc0CCA1kXDcW0jdohgdDymXtukRiAzIk7049Vkv0YxM30Qn+rKMibzxjp+KetfGdnHVAMpB/k2/1rRCQ1vvXHDfOAtnEOFi2Bfvcj7LKCvNGHVTw7OxvO3lZmTIDpZVe+Su0eqKEPh5jzC7S4w4cJV8WXPzXiGbM1vJ8aSIkyR4MH8bbOo6ww7Q==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9CA97A6EDEDEB445ABC8D08FADBC4F84@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1731666AbgIHTEH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Sep 2020 15:04:07 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:50389 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1731463AbgIHTEF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Sep 2020 15:04:05 -0400
+Received: (qmail 799481 invoked by uid 1000); 8 Sep 2020 15:04:02 -0400
+Date:   Tue, 8 Sep 2020 15:04:02 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Yasushi Asano <yazzep@gmail.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        erosca@de.adit-jv.com, andrew_gabbasov@mentor.com,
+        jim_baxter@mentor.com, wnatsume@jp.adit-jv.com,
+        nnishiguchi@jp.adit-jv.com, yasano@jp.adit-jv.com,
+        kernel test robot <rong.a.chen@intel.com>
+Subject: Re: [PATCH v3] USB: hub.c: decrease the number of attempts of
+ enumeration scheme
+Message-ID: <20200908190402.GA797206@rowland.harvard.edu>
+References: <CAEt1Rjq+Fz85KU-aKO+boNE5yL7GiwdopmRd3-FxEL+mzEui-g@mail.gmail.com>
+ <20200907155052.2450-1-yazzep@gmail.com>
+ <20200907155052.2450-2-yazzep@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2917.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 571d88c7-f09a-438b-6d3f-08d854237263
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2020 18:17:29.2132
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dL2bdsgpBKcsGVx52gmlQYG5m6pZUik//Ke5gkWjdZBLD1N5MzRwzM9T+UKOToy6x/s30kyS6s7Ll+SFRmFy8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4146
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200907155052.2450-2-yazzep@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-RmVsaXBlIEJhbGJpIHdyb3RlOg0KPiBUaGluaCBOZ3V5ZW4gPFRoaW5oLk5ndXllbkBzeW5vcHN5
-cy5jb20+IHdyaXRlczoNCj4NCj4+IFRoZXJlIGFyZSBhIGxvdCBvZiBjb21tb24gY29kZXMgZm9y
-IHByZXBhcmluZyBTRyBhbmQgbGluZWFyIFRSQnMuIExldCdzDQo+PiByZWZhY3RvciB0aGVtIGZv
-ciBlYXNpZXIgcmVhZC4gTm8gZnVuY3Rpb25hbCBjaGFuZ2UgaGVyZS4NCj4+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBUaGluaCBOZ3V5ZW4gPHRoaW5obkBzeW5vcHN5cy5jb20+DQo+IGVtYWlsIGhlcmUg
-ZG9lc24ndCBtYXRjaCBhdXRob3IncyA7LSkNCg0KV2hlbmV2ZXIgSSBzZW5kIGVtYWlsIG91dHNp
-ZGUgb2Ygb3VyIG9yZ2FuaXphdGlvbiwgdGhlICJGcm9tIiBoZWFkZXINCndpbGwgYmUgbW9kaWZp
-ZWQgdG8gYW4gYWxpYXMgZW1haWwgYWRkcmVzcy4gSSdtIHdvcmtpbmcgd2l0aCBvdXIgSVQgdG8N
-CnNlZSBpZiB3ZSBjYW4gZG8gc29tZXRoaW5nIGFib3V0IGl0LiBUaGlzIG1heSB0YWtlIHNvbWUg
-dGltZS4gSSBob3BlDQp0aGF0IHRoaXMgZG9lc24ndCBjYXVzZSB0b28gbXVjaCBpc3N1ZSBhY2Nl
-cHRpbmcgbXkgcGF0Y2hlcyBpbiB0aGUNCm1lYW53aGlsZS4NCg0KPg0KPj4gQEAgLTEwOTEsNiAr
-MTA5MSw2NSBAQCBzdGF0aWMgdm9pZCBkd2MzX3ByZXBhcmVfb25lX3RyYihzdHJ1Y3QgZHdjM19l
-cCAqZGVwLA0KPj4gIAkJCXN0cmVhbV9pZCwgc2hvcnRfbm90X29rLCBub19pbnRlcnJ1cHQsIGlz
-X2xhc3QpOw0KPj4gIH0NCj4+ICANCj4+ICsvKioNCj4+ICsgKiBkd2MzX3ByZXBhcmVfbGFzdF9z
-ZyAtIHByZXBhcmUgVFJCcyBmb3IgdGhlIGxhc3QgU0cgZW50cnkNCj4+ICsgKiBAZGVwOiBUaGUg
-ZW5kcG9pbnQgdGhhdCB0aGUgcmVxdWVzdCBiZWxvbmdzIHRvDQo+PiArICogQHJlcTogVGhlIHJl
-cXVlc3QgdG8gcHJlcGFyZQ0KPj4gKyAqIEBlbnRyeV9sZW5ndGg6IFRoZSBsYXN0IFNHIGVudHJ5
-IHNpemUNCj4+ICsgKiBAbm9kZTogSW5kaWNhdGVzIHdoZXRoZXIgdGhpcyBpcyBub3QgdGhlIGZp
-cnN0IGVudHJ5IChmb3IgaXNvYyBvbmx5KQ0KPj4gKyAqLw0KPj4gK3N0YXRpYyB2b2lkIGR3YzNf
-cHJlcGFyZV9sYXN0X3NnKHN0cnVjdCBkd2MzX2VwICpkZXAsDQo+PiArCQkJCSBzdHJ1Y3QgZHdj
-M19yZXF1ZXN0ICpyZXEsDQo+PiArCQkJCSB1bnNpZ25lZCBpbnQgZW50cnlfbGVuZ3RoLA0KPj4g
-KwkJCQkgdW5zaWduZWQgaW50IG5vZGUpDQo+IEkgdGhpbmsgc29tZSBvZiB0aGVzZSBjYW4gYmUg
-Y29tYmluZWQgaW50byBhIHNpbmdsZSBsaW5lLiBBbHNvLCB3aHkgc28NCj4gZmFyIHRvIHRoZSBy
-aWdodCBvbiB0aGUgbGluZSBicmVha3M/IENvdWxkIHlvdSBrZWVwIHRoZSBleGlzdGluZyBzdHls
-ZT8NCg0KDQpJdCdzIGJlY2F1c2Ugb2Ygb3BlbiBwYXJlbnRoZXNpcyBkZXNjZW5kYW50IGFsaWdu
-bWVudCBzdHlsZS4gSSdsbCBjaGFuZ2UNCnRvIG5vdCBkbyB0aGF0Lg0KDQo+PiArew0KPj4gKwl1
-bnNpZ25lZCBpbnQgbWF4cCA9IHVzYl9lbmRwb2ludF9tYXhwKGRlcC0+ZW5kcG9pbnQuZGVzYyk7
-DQo+PiArCXVuc2lnbmVkIGludCByZW0gPSByZXEtPnJlcXVlc3QubGVuZ3RoICUgbWF4cDsNCj4+
-ICsJdW5zaWduZWQgaW50IG51bV9leHRyYV90cmJzID0gMDsNCj4+ICsJdW5zaWduZWQgaW50IGk7
-DQo+PiArCWJvb2wgZG9femxwID0gZmFsc2U7DQo+PiArDQo+PiArCWlmICghdXNiX2VuZHBvaW50
-X3hmZXJfaXNvYyhkZXAtPmVuZHBvaW50LmRlc2MpICYmDQo+PiArCSAgICByZXEtPnJlcXVlc3Qu
-emVybyAmJiByZXEtPnJlcXVlc3QubGVuZ3RoICYmICFyZW0pIHsNCj4gc3BhY2VzIGZvciBpbmRl
-bnRhdGlvbj8NCj4NCg0KU2FtZSBjb21tZW50IGFzIGFib3ZlLg0KDQpUaGFua3MsDQpUaGluaA0K
+On Tue, Sep 08, 2020 at 12:50:52AM +0900, Yasushi Asano wrote:
+> From: Yasushi Asano <yasano@jp.adit-jv.com>
+> 
+> According to 6.7.22 A-UUT "Device No Response" for connection timeout
+> of USB OTG and EH automated compliance plan v1.2, the enumeration
+> failure has to be detected within 30 seconds. However, the old and new
+> enumeration schemes made a total of 16 attempts, and each attempt can
+> take 5 seconds to timeout, so it failed with PET test. Modify it to
+> reduce the number of attempts to 5 and pass PET test.
+> 
+> in case of old_schene_first=N and use_both_schemes=Y
+> attempt 3 * new scheme, then 2 * old scheme
+> in case of old_schene_first=Y and use_both_schemes=Y
+> attempt 2 * old scheme, then 3 * new scheme
+
+There are several issues this patch does not take into account, such as 
+resets between retries and port-power cycling.  Also, you did not 
+restructure the code appropriately.
+
+Please review and test the patch below.  Does it do what you think it 
+should?
+
+Alan Stern
+
+
+Index: usb-devel/drivers/usb/core/hub.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/hub.c
++++ usb-devel/drivers/usb/core/hub.c
+@@ -2707,9 +2707,7 @@ static unsigned hub_is_wusb(struct usb_h
+ 
+ #define PORT_RESET_TRIES	5
+ #define SET_ADDRESS_TRIES	2
+-#define GET_DESCRIPTOR_TRIES	2
+-#define SET_CONFIG_TRIES	(2 * (use_both_schemes + 1))
+-#define USE_NEW_SCHEME(i, scheme)	((i) / 2 == (int)(scheme))
++#define PORT_INIT_TRIES		5
+ 
+ #define HUB_ROOT_RESET_TIME	60	/* times are in msec */
+ #define HUB_SHORT_RESET_TIME	10
+@@ -2717,23 +2715,31 @@ static unsigned hub_is_wusb(struct usb_h
+ #define HUB_LONG_RESET_TIME	200
+ #define HUB_RESET_TIMEOUT	800
+ 
+-/*
+- * "New scheme" enumeration causes an extra state transition to be
+- * exposed to an xhci host and causes USB3 devices to receive control
+- * commands in the default state.  This has been seen to cause
+- * enumeration failures, so disable this enumeration scheme for USB3
+- * devices.
+- */
+ static bool use_new_scheme(struct usb_device *udev, int retry,
+ 			   struct usb_port *port_dev)
+ {
+ 	int old_scheme_first_port =
+-		port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME;
++		(port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME) ||
++		old_scheme_first;
+ 
++	/*
++	 * "New scheme" enumeration causes an extra state transition to be
++	 * exposed to an xhci host and causes USB3 devices to receive control
++	 * commands in the default state.  This has been seen to cause
++	 * enumeration failures, so disable this enumeration scheme for USB3
++	 * devices.
++	 */
+ 	if (udev->speed >= USB_SPEED_SUPER)
+ 		return false;
+ 
+-	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first);
++	/*
++	 * If use_both_schemes is set, use the first scheme (whichever
++	 * it is) for the larger half of the retries, then use the other
++	 * scheme.  Otherwise, use the first scheme for all the retries.
++	 */
++	if (use_both_schemes && retry >= (PORT_INIT_TRIES + 1) / 2)
++		return old_scheme_first_port;	/* Second half */
++	return !old_scheme_first_port;		/* First half or all */
+ }
+ 
+ /* Is a USB 3.0 port in the Inactive or Compliance Mode state?
+@@ -4539,12 +4545,13 @@ hub_port_init(struct usb_hub *hub, struc
+ 	struct usb_device	*hdev = hub->hdev;
+ 	struct usb_hcd		*hcd = bus_to_hcd(hdev->bus);
+ 	struct usb_port		*port_dev = hub->ports[port1 - 1];
+-	int			retries, operations, retval, i;
++	int			operations, retval, i;
+ 	unsigned		delay = HUB_SHORT_RESET_TIME;
+ 	enum usb_device_speed	oldspeed = udev->speed;
+ 	const char		*speed;
+ 	int			devnum = udev->devnum;
+ 	const char		*driver_name;
++	bool			do_new_scheme;
+ 
+ 	/* root hub ports have a slightly longer reset period
+ 	 * (from USB 2.0 spec, section 7.1.7.5)
+@@ -4657,130 +4664,106 @@ hub_port_init(struct usb_hub *hub, struc
+ 	 * first 8 bytes of the device descriptor to get the ep0 maxpacket
+ 	 * value.
+ 	 */
+-	for (retries = 0; retries < GET_DESCRIPTOR_TRIES; (++retries, msleep(100))) {
+-		bool did_new_scheme = false;
+-
+-		if (use_new_scheme(udev, retry_counter, port_dev)) {
+-			struct usb_device_descriptor *buf;
+-			int r = 0;
++	do_new_scheme = use_new_scheme(udev, retry_counter, port_dev);
+ 
+-			did_new_scheme = true;
+-			retval = hub_enable_device(udev);
+-			if (retval < 0) {
+-				dev_err(&udev->dev,
+-					"hub failed to enable device, error %d\n",
+-					retval);
+-				goto fail;
+-			}
++	if (do_new_scheme) {
++		struct usb_device_descriptor *buf;
++		int r = 0;
++
++		retval = hub_enable_device(udev);
++		if (retval < 0) {
++			dev_err(&udev->dev,
++				"hub failed to enable device, error %d\n",
++				retval);
++			goto fail;
++		}
+ 
+ #define GET_DESCRIPTOR_BUFSIZE	64
+-			buf = kmalloc(GET_DESCRIPTOR_BUFSIZE, GFP_NOIO);
+-			if (!buf) {
+-				retval = -ENOMEM;
+-				continue;
+-			}
++		buf = kmalloc(GET_DESCRIPTOR_BUFSIZE, GFP_NOIO);
++		if (!buf) {
++			retval = -ENOMEM;
++			goto fail;
++		}
+ 
+-			/* Retry on all errors; some devices are flakey.
+-			 * 255 is for WUSB devices, we actually need to use
+-			 * 512 (WUSB1.0[4.8.1]).
+-			 */
+-			for (operations = 0; operations < 3; ++operations) {
+-				buf->bMaxPacketSize0 = 0;
+-				r = usb_control_msg(udev, usb_rcvaddr0pipe(),
+-					USB_REQ_GET_DESCRIPTOR, USB_DIR_IN,
+-					USB_DT_DEVICE << 8, 0,
+-					buf, GET_DESCRIPTOR_BUFSIZE,
+-					initial_descriptor_timeout);
+-				switch (buf->bMaxPacketSize0) {
+-				case 8: case 16: case 32: case 64: case 255:
+-					if (buf->bDescriptorType ==
+-							USB_DT_DEVICE) {
+-						r = 0;
+-						break;
+-					}
+-					fallthrough;
+-				default:
+-					if (r == 0)
+-						r = -EPROTO;
+-					break;
+-				}
+-				/*
+-				 * Some devices time out if they are powered on
+-				 * when already connected. They need a second
+-				 * reset. But only on the first attempt,
+-				 * lest we get into a time out/reset loop
+-				 */
+-				if (r == 0 || (r == -ETIMEDOUT &&
+-						retries == 0 &&
+-						udev->speed > USB_SPEED_FULL))
+-					break;
++		/*
++		 * 255 is for WUSB devices, we actually need to use
++		 * 512 (WUSB1.0[4.8.1]).
++		 */
++		buf->bMaxPacketSize0 = 0;
++		r = usb_control_msg(udev, usb_rcvaddr0pipe(),
++			USB_REQ_GET_DESCRIPTOR, USB_DIR_IN,
++			USB_DT_DEVICE << 8, 0,
++			buf, GET_DESCRIPTOR_BUFSIZE,
++			initial_descriptor_timeout);
++		switch (buf->bMaxPacketSize0) {
++		case 8: case 16: case 32: case 64: case 255:
++			if (buf->bDescriptorType == USB_DT_DEVICE) {
++				r = 0;
++				break;
+ 			}
+-			udev->descriptor.bMaxPacketSize0 =
+-					buf->bMaxPacketSize0;
++			fallthrough;
++		default:
++			if (r == 0)
++				r = -EPROTO;
++			if (r != -ENODEV)
++				dev_err(&udev->dev, "device descriptor read/64, error %d\n", r);
++			retval = r;
+ 			kfree(buf);
++			goto fail;
++		}
++		udev->descriptor.bMaxPacketSize0 = buf->bMaxPacketSize0;
++		kfree(buf);
+ 
+-			retval = hub_port_reset(hub, port1, udev, delay, false);
+-			if (retval < 0)		/* error or disconnect */
+-				goto fail;
+-			if (oldspeed != udev->speed) {
+-				dev_dbg(&udev->dev,
+-					"device reset changed speed!\n");
+-				retval = -ENODEV;
+-				goto fail;
+-			}
+-			if (r) {
+-				if (r != -ENODEV)
+-					dev_err(&udev->dev, "device descriptor read/64, error %d\n",
+-							r);
+-				retval = -EMSGSIZE;
+-				continue;
+-			}
++		retval = hub_port_reset(hub, port1, udev, delay, false);
++		if (retval < 0)		/* error or disconnect */
++			goto fail;
++		if (oldspeed != udev->speed) {
++			dev_dbg(&udev->dev, "device reset changed speed!\n");
++			retval = -ENODEV;
++			goto fail;
++		}
+ #undef GET_DESCRIPTOR_BUFSIZE
++	}
++
++	/*
++	 * If device is WUSB, we already assigned an
++	 * unauthorized address in the Connect Ack sequence;
++	 * authorization will assign the final address.
++	 */
++	if (udev->wusb == 0) {
++		for (operations = 0; operations < SET_ADDRESS_TRIES; ++operations) {
++			retval = hub_set_address(udev, devnum);
++			if (retval >= 0)
++				break;
++			msleep(200);
++		}
++		if (retval < 0) {
++			if (retval != -ENODEV)
++				dev_err(&udev->dev, "device not accepting address %d, error %d\n",
++						devnum, retval);
++			goto fail;
++		}
++		if (udev->speed >= USB_SPEED_SUPER) {
++			devnum = udev->devnum;
++			dev_info(&udev->dev,
++					"%s SuperSpeed%s%s USB device number %d using %s\n",
++					(udev->config) ? "reset" : "new",
++				 (udev->speed == USB_SPEED_SUPER_PLUS) ?
++						"Plus Gen 2" : " Gen 1",
++				 (udev->rx_lanes == 2 && udev->tx_lanes == 2) ?
++						"x2" : "",
++				 devnum, driver_name);
+ 		}
+ 
+ 		/*
+-		 * If device is WUSB, we already assigned an
+-		 * unauthorized address in the Connect Ack sequence;
+-		 * authorization will assign the final address.
++		 * cope with hardware quirkiness:
++		 *  - let SET_ADDRESS settle, some device hardware wants it
++		 *  - read ep0 maxpacket even for high and low speed,
+ 		 */
+-		if (udev->wusb == 0) {
+-			for (operations = 0; operations < SET_ADDRESS_TRIES; ++operations) {
+-				retval = hub_set_address(udev, devnum);
+-				if (retval >= 0)
+-					break;
+-				msleep(200);
+-			}
+-			if (retval < 0) {
+-				if (retval != -ENODEV)
+-					dev_err(&udev->dev, "device not accepting address %d, error %d\n",
+-							devnum, retval);
+-				goto fail;
+-			}
+-			if (udev->speed >= USB_SPEED_SUPER) {
+-				devnum = udev->devnum;
+-				dev_info(&udev->dev,
+-						"%s SuperSpeed%s%s USB device number %d using %s\n",
+-						(udev->config) ? "reset" : "new",
+-					 (udev->speed == USB_SPEED_SUPER_PLUS) ?
+-							"Plus Gen 2" : " Gen 1",
+-					 (udev->rx_lanes == 2 && udev->tx_lanes == 2) ?
+-							"x2" : "",
+-					 devnum, driver_name);
+-			}
+-
+-			/* cope with hardware quirkiness:
+-			 *  - let SET_ADDRESS settle, some device hardware wants it
+-			 *  - read ep0 maxpacket even for high and low speed,
+-			 */
+-			msleep(10);
+-			/* use_new_scheme() checks the speed which may have
+-			 * changed since the initial look so we cache the result
+-			 * in did_new_scheme
+-			 */
+-			if (did_new_scheme)
+-				break;
+-		}
++		msleep(10);
++	}
+ 
++	if (!do_new_scheme) {
+ 		retval = usb_get_device_descriptor(udev, 8);
+ 		if (retval < 8) {
+ 			if (retval != -ENODEV)
+@@ -4804,7 +4787,6 @@ hub_port_init(struct usb_hub *hub, struc
+ 					retval);
+ 				retval = 0;
+ 			}
+-			break;
+ 		}
+ 	}
+ 	if (retval)
+@@ -5106,7 +5088,7 @@ static void hub_port_connect(struct usb_
+ 		unit_load = 100;
+ 
+ 	status = 0;
+-	for (i = 0; i < SET_CONFIG_TRIES; i++) {
++	for (i = 0; i < PORT_INIT_TRIES; i++) {
+ 
+ 		/* reallocate for each attempt, since references
+ 		 * to the previous one can escape in various ways
+@@ -5239,7 +5221,7 @@ loop:
+ 			break;
+ 
+ 		/* When halfway through our retry count, power-cycle the port */
+-		if (i == (SET_CONFIG_TRIES / 2) - 1) {
++		if (i == (PORT_INIT_TRIES / 2) - 1) {
+ 			dev_info(&port_dev->dev, "attempt power cycle\n");
+ 			usb_hub_set_port_power(hdev, hub, port1, false);
+ 			msleep(2 * hub_power_on_good_delay(hub));
+@@ -5770,7 +5752,7 @@ static int usb_reset_and_verify_device(s
+ 	bos = udev->bos;
+ 	udev->bos = NULL;
+ 
+-	for (i = 0; i < SET_CONFIG_TRIES; ++i) {
++	for (i = 0; i < PORT_INIT_TRIES; ++i) {
+ 
+ 		/* ep0 maxpacket size may change; let the HCD know about it.
+ 		 * Other endpoints will be handled by re-enumeration. */
+
