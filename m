@@ -2,89 +2,93 @@ Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F71C433E2
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 10:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C2EC43461
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 11:02:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 219D6206F4
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 10:40:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599648048;
-	bh=/uoeLxvdnAM7fxQswYJcfDtLDxf5ByEIff/HZMqRk50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=JTu+ndVLOqZKVNcDa4GuFQaqbcKJoTMHXZL9u7a8WYuJriD25c9RkuC5Jx/PTZjbf
-	 WkbjN701V/YpiK/rmJt600uHZqn7sOk8+N5DH/tYqnXB5onYzCCfkOL9+hgr+6a/Z+
-	 JnuK8aCj74Ic2gkyeF4NjFYWDdag3efRmEtFiUWY=
+	by mail.kernel.org (Postfix) with ESMTP id 15E2621D7B
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 11:02:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbgIIKkq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Sep 2020 06:40:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34568 "EHLO mail.kernel.org"
+        id S1726036AbgIILB6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Sep 2020 07:01:58 -0400
+Received: from mga06.intel.com ([134.134.136.31]:60640 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726293AbgIIKko (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 9 Sep 2020 06:40:44 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3FBA206F4;
-        Wed,  9 Sep 2020 10:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599648044;
-        bh=/uoeLxvdnAM7fxQswYJcfDtLDxf5ByEIff/HZMqRk50=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zy/os9uAYjHUY8OakLoDAgR1bJ8L3Z3g66LsG4b9aualfs5rU+vOODr67K5HgStuZ
-         L3i1uf0s3/5N6B3ewfGiEbqDwzRy0nR01CrYLvImyIJ7QBiSqmsp4kW2UaKu6DlogH
-         SfJvyjSTqvShRTzdpLjZaoMrLMgUViaJ7lsT/Xds=
-Date:   Wed, 9 Sep 2020 12:40:54 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Lorenzo Colitti <lorenzo@google.com>, balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org, zenczykowski@gmail.com
-Subject: Re: [PATCH v3 0/3] usb: gadget: f_ncm: support SuperSpeed Plus,
- improve on SuperSpeed
-Message-ID: <20200909104054.GA615992@kroah.com>
-References: <20200825055505.765782-1-lorenzo@google.com>
+        id S1727893AbgIILAU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 9 Sep 2020 07:00:20 -0400
+IronPort-SDR: 4+1h/rOKHltkhKnLk9c3sXMQCOfuI5Sgo0U2dG6yzl0GkzCrhCeHbfCtEKjumLrRnKOecwLkL9
+ Qs1ZjpoURgnQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="219865932"
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
+   d="scan'208";a="219865932"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 04:00:05 -0700
+IronPort-SDR: GLECYUfF+Em21M5+RmHlv+k0qoL1gx4ABgSD+5pvNZ09+20j8LFewXYsgCN94N61xwDSWD00d7
+ rCk5MWkATP3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
+   d="scan'208";a="284828211"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 09 Sep 2020 04:00:02 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 1C1FD29A; Wed,  9 Sep 2020 14:00:02 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 3/7] thunderbolt: Use "if USB4" instead of "depends on" in Kconfig
+Date:   Wed,  9 Sep 2020 13:59:57 +0300
+Message-Id: <20200909110001.71603-4-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200909110001.71603-1-mika.westerberg@linux.intel.com>
+References: <20200909110001.71603-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825055505.765782-1-lorenzo@google.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 02:55:02PM +0900, Lorenzo Colitti wrote:
-> This patch series makes the NCM gadget usable at SuperSpeed Plus
-> speeds (currently, it crashes with an oops). It also improves the
-> behaviour on SuperSpeed and above by making simple performance
-> improvements and by fixing the speeds that are reported to the
-> host (currently 851 Mbps, which is much below actual throughput).
-> 
-> Tested on a gadget directly connected to a Linux laptop running
-> 5.6.14 and cdc_ncm, using both 5 Gbps and 10 Gbps cables. iperf3
-> single TCP connection throughput (gadget to host) is > 2 Gbps on
-> SuperSpeed and > 4 Gbps on SuperSpeed Plus.
-> 
-> Changes since v1:
-> - Set bMaxBurst to 15 on endpoints.
-> - Report more realistic speeds than 851 Mbps.
-> 
-> Changes since v2:
-> - Remove the separate SuperSpeed Plus descriptors and function
->   which were just a copy of the SuperSpeed descriptors and
->   function. Instead, just pass the SuperSpeed function to
->   usb_assign_descriptors for both SuperSpeed and SuperSpeed
->   Plus.
-> - Don't set bMaxBurst on the interrupt endpoint. This is
->   incorrect/useless and forbidden by the spec.
-> - Make the speed constants unsigned literals.
-> 
-> 
+This groups the USB4 options more nicely, and also does not require that
+every config option lists explicit depends on USB4.
 
-Felipe, did you miss this series, or is it still in your to-review queue
-you are working your way through?
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/Kconfig | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/drivers/thunderbolt/Kconfig b/drivers/thunderbolt/Kconfig
+index afa3551633aa..7fc058f81d00 100644
+--- a/drivers/thunderbolt/Kconfig
++++ b/drivers/thunderbolt/Kconfig
+@@ -16,9 +16,10 @@ menuconfig USB4
+ 	  To compile this driver a module, choose M here. The module will be
+ 	  called thunderbolt.
+ 
++if USB4
++
+ config USB4_DEBUGFS_WRITE
+ 	bool "Enable write by debugfs to configuration spaces (DANGEROUS)"
+-	depends on USB4
+ 	help
+ 	  Enables writing to device configuration registers through
+ 	  debugfs interface.
+@@ -28,5 +29,6 @@ config USB4_DEBUGFS_WRITE
+ 
+ config USB4_KUNIT_TEST
+ 	bool "KUnit tests"
+-	depends on USB4
+ 	depends on KUNIT=y
++
++endif # USB4
+-- 
+2.28.0
 
-greg k-h
