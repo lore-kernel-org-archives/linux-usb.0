@@ -2,41 +2,40 @@ Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B9DC43461
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 11:03:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDE2C433E2
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 11:03:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E7E521D7E
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 11:03:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 868F621D7B
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 11:03:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729621AbgIILDO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Sep 2020 07:03:14 -0400
-Received: from mga12.intel.com ([192.55.52.136]:27169 "EHLO mga12.intel.com"
+        id S1729808AbgIILDR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Sep 2020 07:03:17 -0400
+Received: from mga17.intel.com ([192.55.52.151]:41543 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729622AbgIILAX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1727976AbgIILAX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 9 Sep 2020 07:00:23 -0400
-IronPort-SDR: W2N2lz3Q+Ped+zCvQaWbQefp6DjwLIpq3U/wcGT5du7rX/5ct1J3VEmG+CJrFlLdMQTHqB2Si4
- Cf7mtPhzjMNQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="137823860"
+IronPort-SDR: 408r7hK2/TNFIW6b8BjcbiyD5SFFB5SY+WL4YvWGJFtReHv5XdXju1pRqbEWmnD1TUyxbkWCLy
+ lBR+K2AhmT0A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="138348286"
 X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="137823860"
+   d="scan'208";a="138348286"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 04:00:07 -0700
-IronPort-SDR: 7Wgw1HllePHPv1hkpDEkBozMd05umPLO1WdBOR2X6jsWwpeXCfbBZA+7ElHd2VT/2rK4gRWvaC
- nQtQPiVNwaMg==
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 04:00:05 -0700
+IronPort-SDR: tfdgNGiFbAlzDNI8DWaWA54nTIMqRB5s8zVdogIbRZJsI1MZI9VuytQunfdtPwruxerkuarpAz
+ gZGyG5lwTRIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="286187788"
+   d="scan'208";a="505415435"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2020 04:00:05 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 09 Sep 2020 04:00:02 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3A164411; Wed,  9 Sep 2020 14:00:02 +0300 (EEST)
+        id 01C0B163; Wed,  9 Sep 2020 14:00:01 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -44,12 +43,10 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 7/7] thunderbolt: Capitalize comment on top of QUIRK_FORCE_POWER_LINK_CONTROLLER
-Date:   Wed,  9 Sep 2020 14:00:01 +0300
-Message-Id: <20200909110001.71603-8-mika.westerberg@linux.intel.com>
+Subject: [PATCH 0/7] thunderbolt: Additional minor improvements
+Date:   Wed,  9 Sep 2020 13:59:54 +0300
+Message-Id: <20200909110001.71603-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200909110001.71603-1-mika.westerberg@linux.intel.com>
-References: <20200909110001.71603-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -57,26 +54,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-To keep it consistent with the other single line comments in the driver.
+Hi all,
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/tb.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series has some additional minor improvements and cleanups from my
+internal development tree. All of this is v5.10 material and apply on top
+of thunderbolt.git/next.
 
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 5687bcf38a9e..7754b0b2ea66 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1007,7 +1007,7 @@ int usb4_usb3_port_allocate_bandwidth(struct tb_port *port, int *upstream_bw,
- int usb4_usb3_port_release_bandwidth(struct tb_port *port, int *upstream_bw,
- 				     int *downstream_bw);
- 
--/* keep link controller awake during update */
-+/* Keep link controller awake during update */
- #define QUIRK_FORCE_POWER_LINK_CONTROLLER		BIT(0)
- 
- void tb_check_quirks(struct tb_switch *sw);
+Mika Westerberg (7):
+  thunderbolt: Only stop control channel when entering freeze
+  thunderbolt: Allow KUnit tests to be built also when CONFIG_USB4=m
+  thunderbolt: Use "if USB4" instead of "depends on" in Kconfig
+  thunderbolt: Handle ERR_LOCK notification
+  thunderbolt: Log correct zeroX entries in decode_error()
+  thunderbolt: Correct tb_check_quirks() kernel-doc
+  thunderbolt: Capitalize comment on top of QUIRK_FORCE_POWER_LINK_CONTROLLER
+
+ drivers/thunderbolt/Kconfig   |  6 ++++--
+ drivers/thunderbolt/Makefile  |  3 +--
+ drivers/thunderbolt/ctl.c     | 18 +++++++++++++++---
+ drivers/thunderbolt/domain.c  | 31 +++++++++++++++++++++++++++++++
+ drivers/thunderbolt/nhi.c     | 21 ++++++++++++++++++---
+ drivers/thunderbolt/quirks.c  |  2 +-
+ drivers/thunderbolt/tb.c      | 18 ++++++++++++++++++
+ drivers/thunderbolt/tb.h      | 16 +++++++++++++++-
+ drivers/thunderbolt/tb_msgs.h |  1 +
+ drivers/thunderbolt/test.c    | 13 ++++++++++++-
+ 10 files changed, 116 insertions(+), 13 deletions(-)
+
 -- 
 2.28.0
 
