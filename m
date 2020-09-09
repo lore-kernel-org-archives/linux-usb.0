@@ -1,233 +1,112 @@
-Return-Path: <SRS0=JTgO=CR=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E50CC2BC11
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 23:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E31BC43461
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 00:00:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E3632145D
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Sep 2020 23:05:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D321720757
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 00:00:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="qLsvN6fI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729719AbgIHXFz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Sep 2020 19:05:55 -0400
-Received: from mga06.intel.com ([134.134.136.31]:3675 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726657AbgIHXFy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 8 Sep 2020 19:05:54 -0400
-IronPort-SDR: sqePyzWwRtXyBSq4EzYdokjaCzeV3O9XmHF0CMRaRXxhpBewX1p9OvifqHOmTUTfyyP51Iw7ZV
- 9m8czciZcczA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="219797020"
-X-IronPort-AV: E=Sophos;i="5.76,407,1592895600"; 
-   d="scan'208";a="219797020"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 16:05:42 -0700
-IronPort-SDR: Xv+yBSlKq4QLKUgK5cBPgpbc+GifsUloqjohvyMn0CYCUwpX1uqULUtb8edQ9VXlA3MFxxYqQq
- 9OhVk3WF5/Bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,407,1592895600"; 
-   d="scan'208";a="343696973"
-Received: from lkp-server01.sh.intel.com (HELO fc0154cbc871) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Sep 2020 16:05:41 -0700
-Received: from kbuild by fc0154cbc871 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kFmgG-0000Fz-IR; Tue, 08 Sep 2020 23:05:40 +0000
-Date:   Wed, 09 Sep 2020 07:05:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     linux-omap@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [balbi-usb:testing/next] BUILD REGRESSION
- 3c9722514c3fb74bbe0af87c20bc6b4c47121287
-Message-ID: <5f580e1d.DexYB40yBbPBm9uF%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1728483AbgIIAAy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Sep 2020 20:00:54 -0400
+Received: from mail-eopbgr1320100.outbound.protection.outlook.com ([40.107.132.100]:60976
+        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726738AbgIIAAx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 8 Sep 2020 20:00:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R2f28KVv7M+QsSJCBY2IA2q4NoPhkjprRctshcXSE6Vl8ASiZYitMYnvXEyx/BzpyCYbcCcAsi+Z7qG6GX3ZQx5SGccfOldz8u7a5xQNEwnfkkwD91FNC8dmLR30LPgvcPb/KapirOq7pZ+BDjmwxnWpYygXK+re+RUZTWL8Iw2CFAeNMKMau+RhijAD5XX2vZwCe+rQbyRDgQBd0vPodPvEbW6517maTcTalkn13vSFQJjh+oLBZ2dpwSBPW+EqXbM6e7RQpq4m8uI8LIS0SQ7BO89HyKLz7zJHLEza9Q53S9Nr4NPlnneHrlZvqNi8sS6LGPL1b6TaCtDKjOVjeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yeUyeAALGVi9XNSlYTvgxa9quki6W4ladADyUJM2hq4=;
+ b=n9O1bvhhzFcey0OsPTFICEZM5qrWd8bE28BnSSnDNbyr5VsfDtGWqapMkp5F9yKr5RlgW1huR68Oyxde+9wxSO7tNs9VKq/mASlC3nVuoqvgIrukylSo5sLjkE9mf7MNnHlh50JPfJVKtKW8rTwxBIM6PPzmNj4n9cujLS3WsEygS7VYWA78kKKXOvGelW3x8d4RfxETjst+Tu7y2+q3TxxlNRJXX7AJ5Oufm8LO13YuKk8hyqWg2Md4jRpZUrbhwRtjtZFnNfwiUFbyj6/yr3bPu/5BjuCSLD7WZcO9JnbBO0uMox+sZQCNH/5VuUj2FfyOpViFS+pqSwq7LJP/6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yeUyeAALGVi9XNSlYTvgxa9quki6W4ladADyUJM2hq4=;
+ b=qLsvN6fI+P2EvC3w43qVcDhBCvuSTa1nywuBEn+w/bdVdKhfLE5adCNBGMYzINvi/YYjWrhLb/gI1okb+BF76MndEi8LaVve1DRlowmw2aZQugwXQLBNsUM9Q3S5UzgEo1S1ujCmO1EH5VL/Eowuw1tjJk/0IfXrq6/DpsrIU2s=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB4297.jpnprd01.prod.outlook.com (2603:1096:404:111::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Wed, 9 Sep
+ 2020 00:00:46 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9055:525d:2d64:b625]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9055:525d:2d64:b625%5]) with mapi id 15.20.3348.019; Wed, 9 Sep 2020
+ 00:00:46 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "balbi@kernel.org" <balbi@kernel.org>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] usb: gadget: u_serial: clear suspended flag when
+ discnnecting
+Thread-Topic: [PATCH] usb: gadget: u_serial: clear suspended flag when
+ discnnecting
+Thread-Index: AQHWd5j55bEosn9b8EG0P31GanvMHalfiPKA
+Date:   Wed, 9 Sep 2020 00:00:46 +0000
+Message-ID: <TY2PR01MB3692DC484D2E128508E85E6AD8260@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1598000179-28417-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1598000179-28417-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: renesas.com; dkim=none (message not signed)
+ header.d=none;renesas.com; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [240f:60:5f3e:1:750c:6815:ec54:30db]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 2f7227f7-8b61-433c-ac64-08d854536755
+x-ms-traffictypediagnostic: TY2PR01MB4297:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY2PR01MB429701576B46F352ADD84257D8260@TY2PR01MB4297.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1443;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: t64G9plb0YWVEpbDb7ext7q4dtUfzGWlBjW+DYUh0DhKnwSdkbeujg8ZoJ6Vp1VOM9o8iW/d5mn5iBZEJsrhL1gHnrtwqUUa80DceAOyoDWm68DMMSKJUDqv5CEnbbCQ5M5Bnv810gHhNHLjlJm7uVMqK1BaTRTzasQ3QBxE3BY+yanfMfJviejo/nUhsAObgnAsD7dRBGy0xt2KIs8RPBZMt8wnJaJdNncj6fO+drOpLZkPU2KjOcrP00ZONmn7UXLAynfixzIP8peXK4GVDG3+3f/hFF/l+Do8u0ZteFK6pAsSj3XP8Lzr7+AxmuQwN0hE9ZunS95UWbsirPFqvg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(366004)(39850400004)(66476007)(66556008)(52536014)(2906002)(54906003)(8936002)(110136005)(55016002)(478600001)(9686003)(83380400001)(558084003)(8676002)(5660300002)(7696005)(86362001)(186003)(66946007)(76116006)(64756008)(66446008)(15650500001)(71200400001)(6506007)(33656002)(53546011)(316002)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 6aTyxxuFhfEePMJFZJRe7KpyNT8rccd5DCrwNlACFptP41dm41aLE8VYRnll1OdfDBxs5028DFcfXlTb3gMGXkLSU4tiea2n+1PYW4Owh2yC+zmSZHZaSHkSKdeLaXS03oZZAs31CQnNgUa1+uvv2hz9AXKg7QppP+chTUnPUoN5RQdxzlCU5t4DqvvGcdZ+Zk0IR7t58gpqc5TbOn1HjYFtWX4G+CUGKCaGIfEERplzBlUeNZgPmoyXUUIDZPcXsUS0pgXb5n6+l+q8a3CeQ7PmISXh0X/mHB/uwlW1XXSj5L+PaiqG9GoIhh0fQ82Hj3Mulhq3MLWw1JWTYxsutvXA04FRxUBlXHOq39cXgSu6LTq3OiF5KydylAisDSG/x7YvGx6jlhXts6rgNFCKnSqn6NRlxbDE5Y+3D4uwHaUJ/W6ZQuvUkk9Bp+xtXZ1+DYGum5rJC0BDTbqvJouyXwFnobx9Bd6c9U1hseXZadlTksIhCRR5nMl5tdne5d9U3Ek2nAyoJlQmq38aU74yLl3fLmFXMFV09k8ZJnAIIaVyRwaxmMH33ERrOoN0WOhLeaOb/BXLz4Ss96NwUioUNpsRRzjn7/8z/2WJsaAqoFT4z0rWnTlj2W8VBMbeLQdtKYyGeiVtmxDJ+g0LPKJJUjWd0D++owLAdD/vn1vQc8fjg3qBHq0gv/EGaOrrNkWy7kPMaMOGZVMTq2kZkICsdA==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f7227f7-8b61-433c-ac64-08d854536755
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2020 00:00:46.4682
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nlHMxdOOQB0KdDQfBs8g+6k712/lFM8ejEDuXJ16a/+uUCpMZaMq2esO2P3d4pXH6FOAmyQx/4xJnw4H8DL3GaWPJJiE1Uw9PE5tPsajwRLiYjj06kEEI9YGbvRelKZe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4297
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git  testing/next
-branch HEAD: 3c9722514c3fb74bbe0af87c20bc6b4c47121287  dt-bindings: usb: renesas,usb-xhci: Document r8a774e1 support
+Hi,
 
-Error/Warning in current branch:
+> From: Yoshihiro Shimoda, Sent: Friday, August 21, 2020 5:56 PM
+> Subject: [PATCH] usb: gadget: u_serial: clear suspended flag when discnne=
+cting
 
-arceb-elf-ld: drd.c:(.text+0x1c0): undefined reference to `usb_role_switch_register'
-arceb-elf-ld: drd.c:(.text+0x2c4): undefined reference to `usb_role_switch_unregister'
-arceb-elf-ld: drd.c:(.text+0x82): undefined reference to `usb_role_switch_get_drvdata'
-drd.c:(.text+0x1c0): undefined reference to `usb_role_switch_register'
-drd.c:(.text+0x2c4): undefined reference to `usb_role_switch_unregister'
-drd.c:(.text+0x82): undefined reference to `usb_role_switch_get_drvdata'
+I realized the subject had typo. So, I'll resubmit v2 patch soon.
 
-Error/Warning ids grouped by kconfigs:
+Best regards,
+Yoshihiro Shimoda
 
-gcc_recent_errors
-`-- arc-randconfig-r016-20200908
-    |-- arceb-elf-ld:drd.c:(.text):undefined-reference-to-usb_role_switch_get_drvdata
-    |-- arceb-elf-ld:drd.c:(.text):undefined-reference-to-usb_role_switch_register
-    |-- arceb-elf-ld:drd.c:(.text):undefined-reference-to-usb_role_switch_unregister
-    |-- drd.c:(.text):undefined-reference-to-usb_role_switch_get_drvdata
-    |-- drd.c:(.text):undefined-reference-to-usb_role_switch_register
-    `-- drd.c:(.text):undefined-reference-to-usb_role_switch_unregister
-
-elapsed time: 725m
-
-configs tested: 143
-configs skipped: 10
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-xtensa                    xip_kc705_defconfig
-arm                          iop32x_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-powerpc                      pasemi_defconfig
-sh                   secureedge5410_defconfig
-sh                        sh7757lcr_defconfig
-microblaze                    nommu_defconfig
-mips                           ip27_defconfig
-arm                   milbeaut_m10v_defconfig
-alpha                               defconfig
-arc                              alldefconfig
-m68k                        m5272c3_defconfig
-mips                 decstation_r4k_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                     ep8248e_defconfig
-xtensa                              defconfig
-arm                          pxa910_defconfig
-arm                        spear3xx_defconfig
-c6x                        evmc6457_defconfig
-arc                              allyesconfig
-sh                   sh7724_generic_defconfig
-mips                          ath79_defconfig
-sh                          lboxre2_defconfig
-nios2                               defconfig
-arm                      pxa255-idp_defconfig
-arm                  colibri_pxa270_defconfig
-powerpc                     powernv_defconfig
-arm                            lart_defconfig
-csky                             alldefconfig
-arm                         lubbock_defconfig
-arm                          badge4_defconfig
-arm                         hackkit_defconfig
-powerpc                 linkstation_defconfig
-arm                      footbridge_defconfig
-arm                         cm_x300_defconfig
-arm                         lpc32xx_defconfig
-riscv                             allnoconfig
-sh                            hp6xx_defconfig
-openrisc                    or1ksim_defconfig
-arm                           spitz_defconfig
-arm                          ep93xx_defconfig
-arm                       versatile_defconfig
-sh                          r7785rp_defconfig
-openrisc                 simple_smp_defconfig
-riscv                          rv32_defconfig
-s390                       zfcpdump_defconfig
-arm                       mainstone_defconfig
-powerpc                      ppc64e_defconfig
-sh                            shmin_defconfig
-mips                           ci20_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-x86_64               randconfig-a006-20200907
-x86_64               randconfig-a004-20200907
-x86_64               randconfig-a003-20200907
-x86_64               randconfig-a005-20200907
-x86_64               randconfig-a001-20200907
-x86_64               randconfig-a002-20200907
-i386                 randconfig-a004-20200908
-i386                 randconfig-a005-20200908
-i386                 randconfig-a006-20200908
-i386                 randconfig-a002-20200908
-i386                 randconfig-a001-20200908
-i386                 randconfig-a003-20200908
-i386                 randconfig-a004-20200907
-i386                 randconfig-a005-20200907
-i386                 randconfig-a006-20200907
-i386                 randconfig-a002-20200907
-i386                 randconfig-a003-20200907
-i386                 randconfig-a001-20200907
-x86_64               randconfig-a013-20200908
-x86_64               randconfig-a016-20200908
-x86_64               randconfig-a011-20200908
-x86_64               randconfig-a012-20200908
-x86_64               randconfig-a015-20200908
-x86_64               randconfig-a014-20200908
-i386                 randconfig-a016-20200908
-i386                 randconfig-a015-20200908
-i386                 randconfig-a011-20200908
-i386                 randconfig-a013-20200908
-i386                 randconfig-a014-20200908
-i386                 randconfig-a012-20200908
-i386                 randconfig-a016-20200907
-i386                 randconfig-a015-20200907
-i386                 randconfig-a011-20200907
-i386                 randconfig-a013-20200907
-i386                 randconfig-a014-20200907
-i386                 randconfig-a012-20200907
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a004-20200908
-x86_64               randconfig-a006-20200908
-x86_64               randconfig-a003-20200908
-x86_64               randconfig-a001-20200908
-x86_64               randconfig-a005-20200908
-x86_64               randconfig-a002-20200908
-x86_64               randconfig-a013-20200907
-x86_64               randconfig-a011-20200907
-x86_64               randconfig-a016-20200907
-x86_64               randconfig-a012-20200907
-x86_64               randconfig-a015-20200907
-x86_64               randconfig-a014-20200907
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
