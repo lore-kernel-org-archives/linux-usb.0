@@ -2,161 +2,172 @@ Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF146C2D0A8
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 08:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D3E6C433E2
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 09:14:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A024B218AC
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 08:59:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 094BB2145D
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 09:14:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="f6RMNWkM"
+	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="rzBpADcB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730157AbgIII65 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Sep 2020 04:58:57 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:41570 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730140AbgIII6z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Sep 2020 04:58:55 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0898uYub012708;
-        Wed, 9 Sep 2020 10:58:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=8Q8hbmpKmLDr8ySOBVadqHaRhu/OOLiYjRmW/bi0PCk=;
- b=f6RMNWkM5LQ8NMtOe+rRJny/CX5p7ZlMjBWaPYrKkEbrMJVst5FO5kfHvk6KK3fQtZOB
- PT7g6TSdN9lsS2mUuDPylGhzO8MKBEUexZ4e+ZJdaKRZyHAgt0Rq96FRLx/0+0yF68dS
- 5FQm4qHI/r+ayP0NiiOuZCnMU2XGwA1V3bw8tY5/TbMYMqBYiZdRrp+UeuVkLJ8HK7hY
- APXMtcgn99CypqC287n/8a7QbqkPdh099xDJgjAt5eKfq+etzufKVafBZhk/zHf9kbE+
- 3VQ8gEr34mldcIbOqmfKyXLwjrEkDWfVjjWjt32/Od4kDKD+L2c0cQDbY/K10Y5kEWsH Pw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 33c0euuwx6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Sep 2020 10:58:43 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B15C210002A;
-        Wed,  9 Sep 2020 10:58:40 +0200 (CEST)
-Received: from Webmail-eu.st.com (gpxdag3node5.st.com [10.75.127.72])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5B26621F679;
-        Wed,  9 Sep 2020 10:58:40 +0200 (CEST)
-Received: from lmecxl0995.lme.st.com (10.75.127.50) by GPXDAG3NODE5.st.com
- (10.75.127.72) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
- 2020 10:58:39 +0200
-Subject: Re: [balbi-usb:testing/next 32/38] drd.c:undefined reference to
- `usb_role_switch_get_drvdata'
-From:   Amelie DELAUNAY <amelie.delaunay@st.com>
-To:     Felipe Balbi <balbi@kernel.org>, kernel test robot <lkp@intel.com>
-CC:     "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
-References: <202009090044.0oZdDUmk%lkp@intel.com> <87eenbld3z.fsf@kernel.org>
- <91a69ea7-71b8-be3c-19ad-980306681b2c@st.com>
-Message-ID: <55abf0b6-2b21-faf2-7581-9be7da4475f2@st.com>
-Date:   Wed, 9 Sep 2020 10:58:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <91a69ea7-71b8-be3c-19ad-980306681b2c@st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+        id S1728363AbgIIJOP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Sep 2020 05:14:15 -0400
+Received: from mail-dm6nam12on2045.outbound.protection.outlook.com ([40.107.243.45]:61537
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726169AbgIIJOK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 9 Sep 2020 05:14:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eqvC2s8jgXv4b7KfSbrmG9Ov5geAQj+atr0objk0BESrWKNxDtsD0OM4NSlPm4TpQ3esy+uNpCDRSr+tux3TizEMyGmXVPY7TUrq/Ryi9QkTFZF41TUucmYO8k3sZ6+Tubzt5tETFxGib2RkKcAfxVxVNLLFn91q8ticR5PzSuqHJbAKPNkkoXOu1aapY77V77MBLt39oQHYH+0CDMs3bVVx49eOjadJEbGieX2rI6zI1QKb9Ac4HN01DSC+7fF/NlJ4lQOs5FFIvBSxgQZbV/smhXIe9NfA+S5Qok6wiUySXVuh4+tPnEmx0aDAXiXLG1n5ubvZZk+6yWWwOty/lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uZYJJ1ZuQtyAmROiyc2fKI0GtEfo/aVs6uGvsTqUvHg=;
+ b=Wvl0+AUQDn4FBXFclsevkpc9PhX/RbrngBFEyxDf/GM0Uw4lnUS/jXaHmvrKbp2y+eehquhDahfKoZ6T2PFRbErgEO197Y/mZ7eMeHXCS/++hS6CFPSsxXJ0qqXjxj1SF2r6J/8BjD4axqqZnvHud6RTij2ihpy5ZWcPJe1FPuNfLAonJRK20Iju/ASofYTneVjArZppI01fKnEqkE+JnPIg3BaujC3lKILYBAkjHAmDHZzK2sVdbm2qcUK7iQTz2QEv2jPDOXFZuf2IyrQnRt5kJrMPXDF/bB2F4u75P99JXXmgxiBU0rijIri0JkYE9Z4/+XxuQs4Dx3rI/ljptQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uZYJJ1ZuQtyAmROiyc2fKI0GtEfo/aVs6uGvsTqUvHg=;
+ b=rzBpADcBia7AHq3VuxESNjA9yKHow3qnGVroWOBvk+C7jiovaHRiDdIA1daayXWQhJ9bT0cIHE5qHEryVsabfMN2nQU62zh47Rm2TuDPSeCi7O+tKntlrxUVh+RexyYNFzTSxvUvxqEKHY5QDlzfwB6BXlYu6Zxr1NdYjz3YuSE=
+Received: from BYAPR02MB5896.namprd02.prod.outlook.com (2603:10b6:a03:122::10)
+ by BYAPR02MB5975.namprd02.prod.outlook.com (2603:10b6:a03:118::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Wed, 9 Sep
+ 2020 09:14:05 +0000
+Received: from BYAPR02MB5896.namprd02.prod.outlook.com
+ ([fe80::84b5:71be:1584:f314]) by BYAPR02MB5896.namprd02.prod.outlook.com
+ ([fe80::84b5:71be:1584:f314%7]) with mapi id 15.20.3370.016; Wed, 9 Sep 2020
+ 09:14:05 +0000
+From:   Manish Narani <MNARANI@xilinx.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Michal Simek <michals@xilinx.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        git <git@xilinx.com>
+Subject: RE: [PATCH 2/2] usb: dwc3: Add driver for Xilinx platforms
+Thread-Topic: [PATCH 2/2] usb: dwc3: Add driver for Xilinx platforms
+Thread-Index: AQHWe9kSXk9fyd29ekqKVsSVp3b0nKlLf7MAgAHFp1CABnYHgIAMTv+w
+Date:   Wed, 9 Sep 2020 09:14:05 +0000
+Message-ID: <BYAPR02MB58960AA4C87C76223C04D71BC1260@BYAPR02MB5896.namprd02.prod.outlook.com>
+References: <1598467441-124203-1-git-send-email-manish.narani@xilinx.com>
+ <1598467441-124203-3-git-send-email-manish.narani@xilinx.com>
+ <87y2m0ioql.fsf@kernel.org>
+ <BYAPR02MB5896669D47783D06F779608BC1520@BYAPR02MB5896.namprd02.prod.outlook.com>
+ <877dtd7kxc.fsf@kernel.org>
+In-Reply-To: <877dtd7kxc.fsf@kernel.org>
+Accept-Language: en-IN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To GPXDAG3NODE5.st.com
- (10.75.127.72)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-09_03:2020-09-08,2020-09-09 signatures=0
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.130]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 1d0c1704-cf41-4de8-f1e2-08d854a0b349
+x-ms-traffictypediagnostic: BYAPR02MB5975:
+x-ld-processed: 657af505-d5df-48d0-8300-c31994686c5c,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB5975A6BA9DEBC3EE8533A193C1260@BYAPR02MB5975.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1227;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RhN0KPM21mp3JwdLYVscTb1/3BA4QLvz+BGDZCkGw7qjAe62w27s0s4ceGx626h/WWKy3rdLJD3HLW/D0BxEa+fTjm6s8vU7EbZc0lEBw5bWF9zTDOH4x7qzX1O7Ihj9gDrfAy9GQKg7co8ses+pbsrv1NjbG1bN9erpOnloz1AHhFXiD1t067MJ6baZENj5f2tZlWWteN75bkYu3fs108BhvqqULvpwr/B6Mj4t5l6DlyuRYytKLCAuewt7NO6zhvuDWhLsSARK0zPZrbkG7EPuQf33xNaKsk73JeO+9mRIq6v6c6VoIDz0XRzJSEdsgVRPiRoMWW6EgeJUvqVOXQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB5896.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(136003)(396003)(39860400002)(376002)(346002)(186003)(52536014)(107886003)(7416002)(316002)(86362001)(478600001)(33656002)(5660300002)(66946007)(76116006)(26005)(7696005)(83380400001)(6506007)(71200400001)(4326008)(9686003)(66476007)(66556008)(66446008)(64756008)(55016002)(2906002)(54906003)(8936002)(8676002)(110136005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 9LTeryk/WLcFmVJxOkWoW7pjNsjM93K+EJGk+SBoYG0fCeO93j7a/MToD4qRuwCkGvNXCX/y37UU2UgBHbzx8Ina+QJw/1st/6SYQEiqhdXdtr/uq4hA9zVdloVuLaUzoq+AkWXO8TaGgPmgmo83pbP7fyySTVCYvqy7MLCfO16tZIKHdK1QjNBHYlwuI4Qry/9t1y/XlpwZT/qsAf1RW0PLfrFrGBGV2OPeGdmqE8ywc7CVNhLcAVbQXCXhp9fJ2Y34R1VocVdAG9H90H9K8bd7+R7Z5sySaE4JFHgXZXD7b3b17peXgtjq05YsqxvskeO6osxlrR2YWKT/tvNzC+L4QePejiE/ceCv9F3sm9qV6WWWyrZoJeD1Dxz2FwXC4ZeQKHsAsYM580ZhI3SD6IUfKQ6ef0ZHp+XR7Oay8qQljBqLmAS7D/JjXlWCQmb/nNpcOrA1heb7HDulzWVHQWCMgSLbuznU+H1Jc/oHONX96tQTnARDOAAL5TzMSmkz9renPtDMtMyAWp/9caWiQoYgnPc0diwaDyiqNSXFjQbnKgXsskE+/ZG1t7Dq7tVxr6OEKd/m+Lijpg1ccgWkyP7wxokpK/e9Ll9mM3K64ZBctCT0tL2zVwJebBh4jMErEVxqocmQVaGrEUPHTKeG5Q==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5896.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d0c1704-cf41-4de8-f1e2-08d854a0b349
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2020 09:14:05.1084
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0AX987tusCbLt1sDpjt5/DE3PbQwK+L6JTeMPKoTrZGJzq13kZHZwwi4wouCTbETaw1IH7yjDUR0LAnEmNbNdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5975
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Felipe,
 
+Thanks for the response.
 
-On 9/9/20 9:33 AM, Amelie DELAUNAY wrote:
-> Hi,
-> 
-> On 9/9/20 7:42 AM, Felipe Balbi wrote:
->>
->> Hi,
->>
->> kernel test robot <lkp@intel.com> writes:
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git 
->>> testing/next
->>> head:   3c9722514c3fb74bbe0af87c20bc6b4c47121287
->>> commit: a0f0bc95705446b8b1476338056bf869271ba36a [32/38] usb: dwc2: 
->>> override PHY input signals with usb role switch support
->>> config: arc-randconfig-r016-20200908 (attached as .config)
->>> compiler: arceb-elf-gcc (GCC) 9.3.0
->>> reproduce (this is a W=1 build):
->>>          wget 
->>> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross 
->>> -O ~/bin/make.cross
->>>          chmod +x ~/bin/make.cross
->>>          git checkout a0f0bc95705446b8b1476338056bf869271ba36a
->>>          # save the attached .config to linux build tree
->>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 
->>> make.cross ARCH=arc
->>>
->>> If you fix the issue, kindly add following tag as appropriate
->>> Reported-by: kernel test robot <lkp@intel.com>
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>     arceb-elf-ld: lib/stackdepot.o: in function `filter_irq_stacks':
->>>     stackdepot.c:(.text+0x5a): undefined reference to 
->>> `__irqentry_text_start'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x5a): undefined reference to 
->>> `__irqentry_text_start'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x62): undefined reference to 
->>> `__irqentry_text_end'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x62): undefined reference to 
->>> `__irqentry_text_end'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x6a): undefined reference to 
->>> `__softirqentry_text_start'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x6a): undefined reference to 
->>> `__softirqentry_text_start'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x72): undefined reference to 
->>> `__softirqentry_text_end'
->>>     arceb-elf-ld: stackdepot.c:(.text+0x72): undefined reference to 
->>> `__softirqentry_text_end'
->>>     arceb-elf-ld: drivers/usb/dwc2/drd.o: in function 
->>> `dwc2_drd_role_sw_set':
->>>>> drd.c:(.text+0x82): undefined reference to 
->>>>> `usb_role_switch_get_drvdata'
->>>>> arceb-elf-ld: drd.c:(.text+0x82): undefined reference to 
->>>>> `usb_role_switch_get_drvdata'
->>>     arceb-elf-ld: drivers/usb/dwc2/drd.o: in function `dwc2_drd_init':
->>>>> drd.c:(.text+0x1c0): undefined reference to `usb_role_switch_register'
->>>>> arceb-elf-ld: drd.c:(.text+0x1c0): undefined reference to 
->>>>> `usb_role_switch_register'
->>>     arceb-elf-ld: drivers/usb/dwc2/drd.o: in function `dwc2_drd_exit':
->>>>> drd.c:(.text+0x2c4): undefined reference to 
->>>>> `usb_role_switch_unregister'
->>>>> arceb-elf-ld: drd.c:(.text+0x2c4): undefined reference to 
->>>>> `usb_role_switch_unregister'
->>
->> Amelie? Have you seen this? Is it ARC-specific?
->>
-> Never seen this before. But looking at DWC2 Kconfig and Makefile, I 
-> should have add the 'select USB_ROLE_SWITCH' as it is in DWC3 Kconfig. 
-> Because in my patch, USB_ROLE_SWITCH is selected if USB_DWC2_DUAL_ROLE, 
-> but drd.c (using USB role switch API) is compiled if CONFIG_USB_DWC2 is 
-> enabled, whatever DWC2 mode.
-> 
-> So, an update of DWC2 Kconfig/Makefile as DWC3 seems required.
-> I send a v6 or a fixup of "usb: dwc2: override PHY input signals with 
-> usb role switch support" can be done ?
+> -----Original Message-----
+> From: Felipe Balbi <balbi@kernel.org>
+> Sent: Tuesday, September 1, 2020 5:45 PM
+>=20
+> >> > +		goto err;
+> >> > +	}
+> >> > +
+> >> > +	ret =3D dwc3_xlnx_rst_assert(priv_data->apbrst);
+> >> > +	if (ret < 0) {
+> >> > +		dev_err(dev, "%s: %d: Failed to assert reset\n",
+> >> > +			__func__, __LINE__);
+> >>
+> >> 		dev_err(dev, "Failed to assert APB reset\n");
+> >>
+> >> > +		goto err;
+> >> > +	}
+> >> > +
+> >> > +	ret =3D phy_init(priv_data->usb3_phy);
+> >>
+> >> dwc3 core should be handling this already
+> >
+> > The USB controller used in Xilinx ZynqMP platform uses xilinx GT phy
+> > which has 4 GT lanes and can used by 4 peripherals at a time.
+>=20
+> At the same time or are they mutually exclusive?
 
-ARC DWC2/USB_ROLE_SWITCH config is:
-CONFIG_USB_DWC2=y
-CONFIG_USB_DWC2_DUAL_ROLE=n
-CONFIG_USB_DWC2_HOST=y
-CONFIG_USB_DWC2_PERIPHERAL=n
-CONFIG_USB_ROLE_SWITCH=m
+The lanes are mutually exclusive.
 
-I succeed to reproduce the issue with this configuration. I'm preparing 
-a fix.
+ [...]
+> >> > +	if (ret < 0) {
+> >> > +		dev_err(dev, "%s: %d: Failed to release reset\n",
+> >> > +			__func__, __LINE__);
+> >> > +		goto err;
+> >> > +	}
+> >> > +
+> >> > +	/* Set PIPE power present signal */
+> >> > +	writel(PIPE_POWER_ON, priv_data->regs + PIPE_POWER_OFFSET);
+> >> > +
+> >> > +	/* Clear PIPE CLK signal */
+> >> > +	writel(PIPE_CLK_OFF, priv_data->regs + PIPE_CLK_OFFSET);
+> >>
+> >> shouldn't this be hidden under clk_enable()?
+> >
+> > Though its naming suggests something related to clock framework, it is
+> > a register in the Xilinx USB controller space which configures the
+> > PIPE clock coming from Serdes.
+>=20
+> PIPE clock is a clock. It just so happens that the source is the PHY
+> itself.
+
+This bit is used to choose between PIPE clock coming from SerDes
+and the Suspend Clock. When the controller is out of reset, this bit
+needs to be reset in order to make the USB controller work. This
+register is added in Xilinx USB controller register space. I will
+add more description about the same in v2.
+
+Thanks,
+Manish
+
