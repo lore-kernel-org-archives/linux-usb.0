@@ -2,102 +2,86 @@ Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E20C43461
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 16:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F9F1C433E2
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 17:03:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F60E2087C
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 16:53:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="MWcvAepi"
+	by mail.kernel.org (Postfix) with ESMTP id 4703E21D40
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 17:03:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730914AbgIIQxt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:53:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730901AbgIIQET (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Sep 2020 12:04:19 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B80C061757
-        for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2020 09:04:17 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id l9so2928576wme.3
-        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2020 09:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fqHDfmvrn1k16mVJQ5+b/SIXRz53SpIEt2htZWi6LBw=;
-        b=MWcvAepihDTzFeQEhYY4dmVrfX1hYZrzB4rWEGRs4dmjdbtUj+2Qif01qedSuWuIzF
-         pTWkOigok9A72v58KpF1HrnrSkw/q3gV/pNBzM6lsDcPtpzwJCjXF0KuVhlOMqmAibM4
-         BNvWlMPLHGrYmjmq9cFMO84V6elPjUgSJ8rXi+n8phF5NJ/1ifTr68u4FfK+28F7B30F
-         KG+s1lHKyfT1hW3fITFNV+T1cPG6rE7Dz2jvtP+F4NxMMDki7qWh6xf8J/yJzRRk5j0J
-         5siS673YwqOMAvBMZZELYYn9H1wEUUvN4WMzsE2eYMOtKM74f29o/BQN8TPAj51/dUHU
-         ikTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fqHDfmvrn1k16mVJQ5+b/SIXRz53SpIEt2htZWi6LBw=;
-        b=BPgQM9X9eofKq+fCAFnZEXd2dgc9s8yDm1ucYiMUWB5peBBzdqCDSIpO8drmNmbSIu
-         JEvtyWqcy5zuos7rzaDxY9UIhihY/eXLngVx3IVMWJK9cv9h9o1SeZp9dhLUT8hnXaK6
-         BwGWbMgUtOm43XwAVPDMbqw240eeGBKDLosBcPTEe25oMSdOumUnsQRlmGpmS1mVd5Xg
-         9JPbSL8YqXaP6MqsEf4K6pqhiKFjUf/wB6HzYRYfkkO+aTXXQIjXuyYlPTYzbnWeK1Tq
-         I48ILBDpO+PT/hXjNELQxyaiOGklXni/tCnlrPzMZNRpD6hFVsx7SW2eyINpSuKknDMt
-         MAew==
-X-Gm-Message-State: AOAM533dTI9/jU2LzaPSNvU/xEnY6frEQX80O2fcFRqsWa/t1mXA4o2r
-        5KsDgDjcEzRx6xP96rUSueGWEw==
-X-Google-Smtp-Source: ABdhPJwPM+/b2ZDI+b2lSlT6ZtTWsjPKk0PA8OlwP8p9CqXazyikXgs/36KZ9HFCJYOviAo2mF99NQ==
-X-Received: by 2002:a1c:81c6:: with SMTP id c189mr4178443wmd.124.1599667455779;
-        Wed, 09 Sep 2020 09:04:15 -0700 (PDT)
-Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
-        by smtp.gmail.com with ESMTPSA id y6sm4850700wrn.41.2020.09.09.09.04.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 09:04:15 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     khilman@baylibre.com, kishon@ti.com, balbi@kernel.org,
-        martin.blumenstingl@googlemail.com
-Cc:     linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 0/5] usb: dwc-meson-g12a: Add support for USB on S400 board
-Date:   Wed,  9 Sep 2020 18:04:04 +0200
-Message-Id: <20200909160409.8678-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
+        id S1730521AbgIIRDf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:03:35 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:11760 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730429AbgIIPqd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 9 Sep 2020 11:46:33 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id F39D713A618DF6ED4B13;
+        Wed,  9 Sep 2020 21:44:13 +0800 (CST)
+Received: from localhost (10.174.179.108) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
+ 21:44:07 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
+        <gustavoars@kernel.org>, <yuehaibing@huawei.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] usb: host: ehci-sched: Remove ununsed function tt_start_uframe()
+Date:   Wed, 9 Sep 2020 21:44:05 +0800
+Message-ID: <20200909134405.34036-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Amlogic AXG is close from the GXL Glue but with a single OTG PHY.
+commit b35c5009bbf6 ("USB: EHCI: create per-TT bandwidth tables")
+left behind this, remove it.
 
-It needs the same init sequence as GXL & GXM, but it seems it doesn't need
-the host disconnect bit.
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/usb/host/ehci-sched.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
-The Glue driver reuses the already implemented GXL & GXM work.
-
-The USB2 PHY driver needs a slight tweak to keep the OTG detection working.
-
-Neil Armstrong (5):
-  phy: amlogic: phy-meson-gxl-usb2: keep ID pull-up even in Host mode
-  dt-bindings: usb: amlogic,meson-g12a-usb-ctrl: add the Amlogic AXG
-    Families USB Glue Bindings
-  usb: dwc-meson-g12a: Add support for USB on AXG SoCs
-  arm64: dts: meson-axg: add USB nodes
-  arm64: dts: meson-axg-s400: enable USB OTG
-
- .../usb/amlogic,meson-g12a-usb-ctrl.yaml      | 22 +++++++-
- .../arm64/boot/dts/amlogic/meson-axg-s400.dts | 10 ++++
- arch/arm64/boot/dts/amlogic/meson-axg.dtsi    | 51 +++++++++++++++++++
- drivers/phy/amlogic/phy-meson-gxl-usb2.c      |  3 +-
- drivers/usb/dwc3/dwc3-meson-g12a.c            | 17 +++++++
- 5 files changed, 101 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/usb/host/ehci-sched.c b/drivers/usb/host/ehci-sched.c
+index 847979f265b1..6dfb242f9a4b 100644
+--- a/drivers/usb/host/ehci-sched.c
++++ b/drivers/usb/host/ehci-sched.c
+@@ -307,26 +307,6 @@ static int __maybe_unused same_tt(struct usb_device *dev1,
+ 
+ #ifdef CONFIG_USB_EHCI_TT_NEWSCHED
+ 
+-/* Which uframe does the low/fullspeed transfer start in?
+- *
+- * The parameter is the mask of ssplits in "H-frame" terms
+- * and this returns the transfer start uframe in "B-frame" terms,
+- * which allows both to match, e.g. a ssplit in "H-frame" uframe 0
+- * will cause a transfer in "B-frame" uframe 0.  "B-frames" lag
+- * "H-frames" by 1 uframe.  See the EHCI spec sec 4.5 and figure 4.7.
+- */
+-static inline unsigned char tt_start_uframe(struct ehci_hcd *ehci, __hc32 mask)
+-{
+-	unsigned char smask = hc32_to_cpu(ehci, mask) & QH_SMASK;
+-
+-	if (!smask) {
+-		ehci_err(ehci, "invalid empty smask!\n");
+-		/* uframe 7 can't have bw so this will indicate failure */
+-		return 7;
+-	}
+-	return ffs(smask) - 1;
+-}
+-
+ static const unsigned char
+ max_tt_usecs[] = { 125, 125, 125, 125, 125, 125, 30, 0 };
+ 
 -- 
-2.22.0
+2.17.1
+
 
