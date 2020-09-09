@@ -2,122 +2,193 @@ Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55532C433E2
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 14:58:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D37C43461
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 15:07:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E3002166E
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 14:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599663518;
-	bh=4HhY12y7N+KPVF8QmaBcDAWyMvyvMqqXX3wDvyIDGr8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ioQSiyDg6xr/lvkTt5uKKD4XzRsvAiXWse1J/KjgZ0ADNndjUQb2IN7u/tXl6eJbT
-	 2T29EPJdE/oygQ5RgogIiJtwEk1wP+9LKYUnkPGj3yZ2soX0Tsvznj2sjDdojdFtl0
-	 fGg8DSY4XnOFefeJeN0CYbyQNHSRkLlOShYE3Jjc=
+	by mail.kernel.org (Postfix) with ESMTP id 3689F22268
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 15:07:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dx57dff1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730140AbgIIO5z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Sep 2020 10:57:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33736 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729479AbgIIMaS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 9 Sep 2020 08:30:18 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A58E421D81;
-        Wed,  9 Sep 2020 12:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599654523;
-        bh=4HhY12y7N+KPVF8QmaBcDAWyMvyvMqqXX3wDvyIDGr8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Fq5z/fdOUgdQz6osW2YWSoPe2iEk2C6WZ8VI+Hi2t+rVU+jPzMiesRwgWZINIq1y1
-         HVGLuIdUQQx0+h+NKiNQDnlxzVjUCTCr/bs9xEEV1anVH+5xAyKz3aQXBokqOlz93E
-         /3J1RYqWtoDPftxicbW2OZC3B0XoisiA7u90LVEg=
-Date:   Wed, 9 Sep 2020 14:28:53 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Daniele Palmas <dnlplm@gmail.com>
-Cc:     =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>,
+        id S1729908AbgIIL77 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Sep 2020 07:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727856AbgIIL6M (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Sep 2020 07:58:12 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E56CC0617A4;
+        Wed,  9 Sep 2020 04:58:12 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id di5so1290165qvb.13;
+        Wed, 09 Sep 2020 04:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=S7pK42JR8PhzlEF2s3CckSD6djfyBOFE5c0JqG2pCls=;
+        b=dx57dff1QA07ETKN9BI0XxhIYsz0c3omPzQmJhHYvB2PDQQJpwdiLXRdKwwl1ED00h
+         7ygmPVdvTE6lUpqEeqQ/HfvY1hDcj5OuH/WDNqKFEQR1Cz3EFem5BR3bCpgAda88zvjP
+         RGJ7vUppfKpuLGYOXuZmmeMedzrJ6NdVkUvNcyjLslHse3pt4eW80TtiGRvK5kyYGflt
+         PAs6P1yMbrRYYKuNqYhxGX9rKwaVZTMC/yADhHIKEp0kxjhVnf1GrEUIAIceqlXeMADs
+         o4UVWmCVO/Y1vhzURizrnTbIlmRkZ7BeFwJbaSFQDr9jvs1FIXYn4ypsHM+JrRDcnq27
+         jcIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=S7pK42JR8PhzlEF2s3CckSD6djfyBOFE5c0JqG2pCls=;
+        b=TKCxAjtnk2vJR0JwMyjo9KIG8iOmtlZW3WYS0JY4po8/8B3aOLayicreZXc7mnYyTT
+         tRsfhCaJ/tfpWLHygI4WOiJgUlkH0iCbiy3i/7+HprZDe4JAc2aZ20+s90tIxnXj9QHd
+         keuPuEETGUg37/wVSbhnZePYjxRSvXLT6cgTlWOTpNBpFG2LMAHNJ8BnGi+pSYOiHOdF
+         gZyPaZM0mL/78F0A4oe/Lod2MsOF3ifyQuQsB1nChoLXmliPUPi4+MxEjrDGQEZ/d8v7
+         cWmmdkM7Phbp3M36TeFe7V6099woMJbCJmrvSk/2TlOlZuOydp+dvro5Rhq0jdxgW/oh
+         Nfzg==
+X-Gm-Message-State: AOAM5303DFYhAEe39nuvWVcwjyQSuOOt1Cv6ARIm+wLlo6JWZBz0cHzS
+        FqhixKF+2tBQTTsr3aMmpOQuF+xfwgW5Xf2bNmwvNwDe/7XVSA==
+X-Google-Smtp-Source: ABdhPJzgihLNxZLqAj7YH/xgvSRBOyhb4C/njPRBvOh2FOgfr4sQyQKonBtopoJd3oso1dxppdIUTSD0lKUugQLEzYs=
+X-Received: by 2002:ad4:534c:: with SMTP id v12mr3546153qvs.27.1599652691437;
+ Wed, 09 Sep 2020 04:58:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200909091302.20992-1-dnlplm@gmail.com> <HK2PR06MB35077179EE3FDE04A1EB612786260@HK2PR06MB3507.apcprd06.prod.outlook.com>
+In-Reply-To: <HK2PR06MB35077179EE3FDE04A1EB612786260@HK2PR06MB3507.apcprd06.prod.outlook.com>
+From:   Daniele Palmas <dnlplm@gmail.com>
+Date:   Wed, 9 Sep 2020 13:57:58 +0200
+Message-ID: <CAGRyCJFuMv5PmLC2iUGOgbBufWUKhmVoYgrK_hXTgqmj1P1Yjw@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/1] net: usb: qmi_wwan: add default rx_urb_size
+To:     =?UTF-8?B?Q2FybCBZaW4o5q635byg5oiQKQ==?= <carl.yin@quectel.com>
+Cc:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>,
         Kristian Evensen <kristian.evensen@gmail.com>,
         Paul Gildea <paul.gildea@gmail.com>,
-        Carl Yin <carl.yin@quectel.com>,
         "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH net-next 1/1] net: usb: qmi_wwan: add default rx_urb_size
-Message-ID: <20200909122853.GA669308@kroah.com>
-References: <20200909091302.20992-1-dnlplm@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200909091302.20992-1-dnlplm@gmail.com>
+        Jakub Kicinski <kuba@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 09, 2020 at 11:13:02AM +0200, Daniele Palmas wrote:
-> Add default rx_urb_size to support QMAP download data aggregation
-> without needing additional setup steps in userspace.
-> 
-> The value chosen is the current highest one seen in available modems.
-> 
-> The patch has the side-effect of fixing a babble issue in raw-ip mode
-> reported by multiple users.
-> 
-> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+Hi Carl,
 
-Any specific kernel commit that this "fixes:"?
+Il giorno mer 9 set 2020 alle ore 13:09 Carl Yin(=E6=AE=B7=E5=BC=A0=E6=88=
+=90)
+<carl.yin@quectel.com> ha scritto:
+>
+> Hi Deniele:
+>
+>         I have an idea, by now in order to use QMAP,
+>         must execute shell command 'echo mux_id > /sys/class/net/<iface>/=
+add_mux' in user space,
+>         maybe we can expand usage of sys attribute 'add_mux', like next:
+>         'echo mux_id mux_size mux_version > /sys/class/net/<iface>/add_mu=
+x'.
+>         Users can set correct 'mux_size and mux_version' according to the=
+ response of 'QMI_WDA_SET_DATA_FORMAT '.
+>         If 'mux_size and mux_version' miss, qmi_wwan can use default valu=
+es.
+>
 
-> ---
-> Resending with mailing lists added: sorry for the noise.
-> 
-> Hi Bjørn and all,
-> 
-> this patch tries to address the issue reported in the following threads
-> 
-> https://www.spinics.net/lists/netdev/msg635944.html
-> https://www.spinics.net/lists/linux-usb/msg198846.html
-> https://www.spinics.net/lists/linux-usb/msg198025.html
-> 
-> so I'm adding the people involved, maybe you can give it a try to
-> double check if this is good for you.
-> 
-> On my side, I performed tests with different QC chipsets without
-> experiencing problems.
-> 
-> Thanks,
-> Daniele
-> ---
->  drivers/net/usb/qmi_wwan.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-> index 07c42c0719f5..92d568f982b6 100644
-> --- a/drivers/net/usb/qmi_wwan.c
-> +++ b/drivers/net/usb/qmi_wwan.c
-> @@ -815,6 +815,10 @@ static int qmi_wwan_bind(struct usbnet *dev, struct usb_interface *intf)
->  	}
->  	dev->net->netdev_ops = &qmi_wwan_netdev_ops;
->  	dev->net->sysfs_groups[0] = &qmi_wwan_sysfs_attr_group;
-> +
-> +	/* Set rx_urb_size to allow QMAP rx data aggregation */
-> +	dev->rx_urb_size = 32768;
+not sure this is something acceptable, let's wait for Bj=C3=B8rn to comment=
+.
 
-Where did this "magic number" come from?
+>         If fixed set as 32KB, but MDM9x07 chips only support 4KB, or uses=
+ do not enable QMAP,
+>         Maybe cannot reach max throughput for no enough rx urbs.
+>
 
-And making an urb size that big can keep some pipelines full, it also
-comes at the expense of other potential issues, have you tested this to
-see that it really does help in throughput?
+I did not test for performance, but you could be right since for
+example, if I'm not wrong, rx_qlen for an high-speed device would be 2
+with the changed rx_urb_size.
 
-And if it does, does this size really need to be that big?  What is it
-set to today, the endpoint size?  If so, that's a huge jump...
+So, we'll probably need to modify also usbnet_update_max_qlen, but not
+sure about the direction (maybe fallback to a default value to
+guarantee a minimum number if rx_qlen is < than a threshold?). And
+this is also a change affecting all the drivers using usbnet, so it
+requires additional care.
 
-thanks,
+Let's wait for the maintainers' advice also on this.
 
-greg k-h
+Regards,
+Daniele
+
+>
+> > -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Daniele Palmas [mailto:dnlplm@gmail.com]
+> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: Wednesday, September 09, 2020 5:1=
+3 PM
+> > =E6=94=B6=E4=BB=B6=E4=BA=BA: Bj=C3=B8rn Mork <bjorn@mork.no>
+> > =E6=8A=84=E9=80=81: Kristian Evensen <kristian.evensen@gmail.com>; Paul=
+ Gildea
+> > <paul.gildea@gmail.com>; Carl Yin(=E6=AE=B7=E5=BC=A0=E6=88=90) <carl.yi=
+n@quectel.com>; David S .
+> > Miller <davem@davemloft.net>; Jakub Kicinski <kuba@kernel.org>;
+> > netdev@vger.kernel.org; linux-usb@vger.kernel.org; Daniele Palmas
+> > <dnlplm@gmail.com>
+> > =E4=B8=BB=E9=A2=98: [PATCH net-next 1/1] net: usb: qmi_wwan: add defaul=
+t rx_urb_size
+> >
+> > Add default rx_urb_size to support QMAP download data aggregation witho=
+ut
+> > needing additional setup steps in userspace.
+> >
+> > The value chosen is the current highest one seen in available modems.
+> >
+> > The patch has the side-effect of fixing a babble issue in raw-ip mode r=
+eported by
+> > multiple users.
+> >
+> > Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+> > ---
+> > Resending with mailing lists added: sorry for the noise.
+> >
+> > Hi Bj=C3=B8rn and all,
+> >
+> > this patch tries to address the issue reported in the following threads
+> >
+> > https://www.spinics.net/lists/netdev/msg635944.html
+> > https://www.spinics.net/lists/linux-usb/msg198846.html
+> > https://www.spinics.net/lists/linux-usb/msg198025.html
+> >
+> > so I'm adding the people involved, maybe you can give it a try to doubl=
+e check if
+> > this is good for you.
+> >
+> > On my side, I performed tests with different QC chipsets without experi=
+encing
+> > problems.
+> >
+> > Thanks,
+> > Daniele
+> > ---
+> >  drivers/net/usb/qmi_wwan.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c in=
+dex
+> > 07c42c0719f5..92d568f982b6 100644
+> > --- a/drivers/net/usb/qmi_wwan.c
+> > +++ b/drivers/net/usb/qmi_wwan.c
+> > @@ -815,6 +815,10 @@ static int qmi_wwan_bind(struct usbnet *dev, struc=
+t
+> > usb_interface *intf)
+> >       }
+> >       dev->net->netdev_ops =3D &qmi_wwan_netdev_ops;
+> >       dev->net->sysfs_groups[0] =3D &qmi_wwan_sysfs_attr_group;
+> > +
+> > +     /* Set rx_urb_size to allow QMAP rx data aggregation */
+> > +     dev->rx_urb_size =3D 32768;
+> > +
+> >  err:
+> >       return status;
+> >  }
+> > --
+> > 2.17.1
+>
