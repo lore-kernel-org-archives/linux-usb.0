@@ -2,128 +2,120 @@ Return-Path: <SRS0=YJIA=CS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2275C10DAA
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 07:34:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 571DBC433E2
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 07:35:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BAB021919
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 07:34:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1785320732
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Sep 2020 07:35:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="B6yGYAMp"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Pu/6zr7b"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726226AbgIIHeR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Sep 2020 03:34:17 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:41790 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725826AbgIIHeQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Sep 2020 03:34:16 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0897WasX015026;
-        Wed, 9 Sep 2020 09:34:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=nJoWXENwzX8IkQRyurkSrFL8QbwKvU8YmcsUGSgc++0=;
- b=B6yGYAMpWSlI3eW0v8R+ppPJeRBD/Frc2SKw4MduIaf5jpmj5IX0sFZ9FHIP4IDOMPgs
- hHXsmYxSsXE1dQ0NVOWakS0AEtENAwTAC0OYAD7GJm8KqTEkOU8ULrHytRzpW661BZkL
- CndItiqpMqJz8i1+K01Cn2tGuHdI6awCNrLGunLUklp45rK4JowDOGVCsXAIlK2PcJ4T
- bo+yU52eWKZ0tK1zUOCH9GSJbRdo2svVNtXPaZJ4ndzjBAg8kljDcbsrwy7tXEYpJ3zc
- m0N3qV9ZJGDXPxkPyur+hg8367gvJSwxpn+G6MbXoxGJS8tLttx6M3kktOrdInIZuU0Z LA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 33c0euudsm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Sep 2020 09:34:04 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EC99110002A;
-        Wed,  9 Sep 2020 09:33:59 +0200 (CEST)
-Received: from Webmail-eu.st.com (gpxdag3node5.st.com [10.75.127.72])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 97BE721CA7C;
-        Wed,  9 Sep 2020 09:33:59 +0200 (CEST)
-Received: from lmecxl0995.lme.st.com (10.75.127.48) by GPXDAG3NODE5.st.com
- (10.75.127.72) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
- 2020 09:33:59 +0200
-Subject: Re: [balbi-usb:testing/next 32/38] drd.c:undefined reference to
- `usb_role_switch_get_drvdata'
-To:     Felipe Balbi <balbi@kernel.org>, kernel test robot <lkp@intel.com>
-CC:     "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
-References: <202009090044.0oZdDUmk%lkp@intel.com> <87eenbld3z.fsf@kernel.org>
-From:   Amelie DELAUNAY <amelie.delaunay@st.com>
-Message-ID: <91a69ea7-71b8-be3c-19ad-980306681b2c@st.com>
-Date:   Wed, 9 Sep 2020 09:33:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729953AbgIIHfX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Sep 2020 03:35:23 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:21901 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727804AbgIIHfW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Sep 2020 03:35:22 -0400
+X-UUID: cedc222713be415ea212ba4adc16479c-20200909
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=L++qiABiAzjVbnpi2fjLv+qiJlqqsDdE0Ctsz0YdEqI=;
+        b=Pu/6zr7bMaVpb7Tf0+Ysfji8WU7+fx3erunVWwgGlfYbhuz5Wtgey3gChgGdFI1KQkE6Hbm22XRoZFW7Ef0Rs9llYZ1w5l5+4AIhtx4yxC0v6pqXeO7ZJVD7Ad120nyd69lrIKvpSe977fn5LGUtV3rzppP3Twx2BXLf8yuKJ58=;
+X-UUID: cedc222713be415ea212ba4adc16479c-20200909
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1890887831; Wed, 09 Sep 2020 15:35:11 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 9 Sep 2020 15:35:10 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 9 Sep 2020 15:35:09 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Peter Chen <peter.chen@nxp.com>, Bin Liu <b-liu@ti.com>,
+        Sasi Kumar <sasi.kumar@broadcom.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v3 05/11] usb: gadget: bdc: fix check warning of block comments alignment
+Date:   Wed, 9 Sep 2020 15:32:56 +0800
+Message-ID: <1599636782-7654-5-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1599636782-7654-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1599636782-7654-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <87eenbld3z.fsf@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG4NODE3.st.com (10.75.127.12) To GPXDAG3NODE5.st.com
- (10.75.127.72)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-09_03:2020-09-08,2020-09-09 signatures=0
+Content-Type: text/plain
+X-TM-SNTS-SMTP: DD16086163576B271617247AF4A04ADBA9B69AF6347209373CFBDBA2295189502000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Zml4IHRoZSB3YXJuaW5nOg0KICBXQVJOSU5HOkJMT0NLX0NPTU1FTlRfU1RZTEU6DQogIEJsb2Nr
+IGNvbW1lbnRzIHNob3VsZCBhbGlnbiB0aGUgKiBvbiBlYWNoIGxpbmUNCg0KQ2M6IEZsb3JpYW4g
+RmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21haWwuY29tPg0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcg
+WXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KQWNrZWQtYnk6IEZsb3JpYW4gRmFpbmVs
+bGkgPGYuZmFpbmVsbGlAZ21haWwuY29tPg0KLS0tDQp2MzogYWRkIGFja2VkLWJ5IEZsb3JpYW4N
+Cg0KdjI6IGFkZCBDYyBGbG9yaWFuDQotLS0NCiBkcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9i
+ZGMuaCAgICAgfCAyICstDQogZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2VwLmMgIHwg
+MiArLQ0KIGRyaXZlcnMvdXNiL2dhZGdldC91ZGMvYmRjL2JkY191ZGMuYyB8IDYgKysrLS0tDQog
+MyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQoNCmRpZmYg
+LS1naXQgYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGMuaCBiL2RyaXZlcnMvdXNiL2dh
+ZGdldC91ZGMvYmRjL2JkYy5oDQppbmRleCBmY2JhNzdlLi5jMGVlNzM1IDEwMDY0NA0KLS0tIGEv
+ZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjLmgNCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdl
+dC91ZGMvYmRjL2JkYy5oDQpAQCAtMzUsNyArMzUsNyBAQA0KIC8qDQogICogTWF4aW11bSBzaXpl
+IG9mIGVwMCByZXNwb25zZSBidWZmZXIgZm9yIGNoOSByZXF1ZXN0cywNCiAgKiB0aGUgc2V0X3Nl
+bCByZXF1ZXN0IHVzZXMgNiBzbyBmYXIsIHRoZSBtYXguDQotKi8NCisgKi8NCiAjZGVmaW5lIEVQ
+MF9SRVNQT05TRV9CVUZGICA2DQogLyogU3RhcnQgd2l0aCBTUyBhcyBkZWZhdWx0ICovDQogI2Rl
+ZmluZSBFUDBfTUFYX1BLVF9TSVpFIDUxMg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdl
+dC91ZGMvYmRjL2JkY19lcC5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2VwLmMN
+CmluZGV4IDQ0ZjNhMTIuLjNmYjM2YzggMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQv
+dWRjL2JkYy9iZGNfZXAuYw0KKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2Vw
+LmMNCkBAIC02OCw3ICs2OCw3IEBAIHN0YXRpYyB2b2lkIGVwX2JkX2xpc3RfZnJlZShzdHJ1Y3Qg
+YmRjX2VwICplcCwgdTMyIG51bV90YWJzKQ0KIAkJICogY2hlY2sgaWYgdGhlIGJkX3RhYmxlIHN0
+cnVjdCBpcyBhbGxvY2F0ZWQgPw0KIAkJICogaWYgeWVzLCB0aGVuIGNoZWNrIGlmIGJkIG1lbW9y
+eSBoYXMgYmVlbiBhbGxvY2F0ZWQsIHRoZW4NCiAJCSAqIGZyZWUgdGhlIGRtYV9wb29sIGFuZCBh
+bHNvIHRoZSBiZF90YWJsZSBzdHJ1Y3QgbWVtb3J5DQotCQkqLw0KKwkJICovDQogCQliZF90YWJs
+ZSA9IGJkX2xpc3QtPmJkX3RhYmxlX2FycmF5W2luZGV4XTsNCiAJCWRldl9kYmcoYmRjLT5kZXYs
+ICJiZF90YWJsZTolcCBpbmRleDolZFxuIiwgYmRfdGFibGUsIGluZGV4KTsNCiAJCWlmICghYmRf
+dGFibGUpIHsNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGNfdWRj
+LmMgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGNfdWRjLmMNCmluZGV4IDI0ODQyNmEu
+LjBjMWFiOTUgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGNfdWRj
+LmMNCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYmRjL2JkY191ZGMuYw0KQEAgLTE2NCw3
+ICsxNjQsNyBAQCBzdGF0aWMgdm9pZCBiZGNfZnVuY193YWtlX3RpbWVyKHN0cnVjdCB3b3JrX3N0
+cnVjdCAqd29yaykNCiAJLyoNCiAJICogQ2hlY2sgaWYgaG9zdCBoYXMgc3RhcnRlZCB0cmFuc2Zl
+cnJpbmcgb24gZW5kcG9pbnRzDQogCSAqIEZVTkNfV0FLRV9JU1NVRUQgaXMgY2xlYXJlZCB3aGVu
+IHRyYW5zZmVyIGhhcyBzdGFydGVkIGFmdGVyIHJlc3VtZQ0KLQkqLw0KKwkgKi8NCiAJaWYgKGJk
+Yy0+ZGV2c3RhdHVzICYgRlVOQ19XQUtFX0lTU1VFRCkgew0KIAkJZGV2X2RiZyhiZGMtPmRldiwg
+IkZVTkNfV0FLRV9JU1NVRUQgRkxBRyBJUyBTVElMTCBTRVRcbiIpOw0KIAkJLyogZmxhZyBpcyBz
+dGlsbCBzZXQsIHNvIGFnYWluIHNlbmQgZnVuYyB3YWtlICovDQpAQCAtMjA1LDcgKzIwNSw3IEBA
+IHN0YXRpYyB2b2lkIGhhbmRsZV9saW5rX3N0YXRlX2NoYW5nZShzdHJ1Y3QgYmRjICpiZGMsIHUz
+MiB1c3BjKQ0KIAkJCQkgKiBpZiBub3QgdGhlbiBzZW5kIGZ1bmN0aW9uIHdha2UgYWdhaW4gZXZl
+cnkNCiAJCQkJICogVE5vdGlmaWNhdGlvbiBzZWNzIHVudGlsIGhvc3QgaW5pdGlhdGVzDQogCQkJ
+CSAqIHRyYW5zZmVyIHRvIEJEQywgVVNCMyBzcGVjIFRhYmxlIDguMTMNCi0JCQkJKi8NCisJCQkJ
+ICovDQogCQkJCXNjaGVkdWxlX2RlbGF5ZWRfd29yaygNCiAJCQkJCQkmYmRjLT5mdW5jX3dha2Vf
+bm90aWZ5LA0KIAkJCQkJCW1zZWNzX3RvX2ppZmZpZXMoQkRDX1ROT1RJRlkpKTsNCkBAIC0zNzks
+NyArMzc5LDcgQEAgc3RhdGljIGludCBiZGNfdWRjX3N0YXJ0KHN0cnVjdCB1c2JfZ2FkZ2V0ICpn
+YWRnZXQsDQogCSAqIFJ1biB0aGUgY29udHJvbGxlciBmcm9tIGhlcmUgYW5kIHdoZW4gQkRDIGlz
+IGNvbm5lY3RlZCB0bw0KIAkgKiBIb3N0IHRoZW4gZHJpdmVyIHdpbGwgcmVjZWl2ZSBhIFVTUEMg
+U1Igd2l0aCBWQlVTIHByZXNlbnQNCiAJICogYW5kIHRoZW4gZHJpdmVyIHdpbGwgZG8gYSBzb2Z0
+Y29ubmVjdC4NCi0JKi8NCisJICovDQogCXJldCA9IGJkY19ydW4oYmRjKTsNCiAJaWYgKHJldCkg
+ew0KIAkJZGV2X2VycihiZGMtPmRldiwgIiVzIGJkYyBydW4gZmFpbFxuIiwgX19mdW5jX18pOw0K
+LS0gDQoxLjkuMQ0K
 
-On 9/9/20 7:42 AM, Felipe Balbi wrote:
-> 
-> Hi,
-> 
-> kernel test robot <lkp@intel.com> writes:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git testing/next
->> head:   3c9722514c3fb74bbe0af87c20bc6b4c47121287
->> commit: a0f0bc95705446b8b1476338056bf869271ba36a [32/38] usb: dwc2: override PHY input signals with usb role switch support
->> config: arc-randconfig-r016-20200908 (attached as .config)
->> compiler: arceb-elf-gcc (GCC) 9.3.0
->> reproduce (this is a W=1 build):
->>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>          chmod +x ~/bin/make.cross
->>          git checkout a0f0bc95705446b8b1476338056bf869271ba36a
->>          # save the attached .config to linux build tree
->>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=arc
->>
->> If you fix the issue, kindly add following tag as appropriate
->> Reported-by: kernel test robot <lkp@intel.com>
->>
->> All errors (new ones prefixed by >>):
->>
->>     arceb-elf-ld: lib/stackdepot.o: in function `filter_irq_stacks':
->>     stackdepot.c:(.text+0x5a): undefined reference to `__irqentry_text_start'
->>     arceb-elf-ld: stackdepot.c:(.text+0x5a): undefined reference to `__irqentry_text_start'
->>     arceb-elf-ld: stackdepot.c:(.text+0x62): undefined reference to `__irqentry_text_end'
->>     arceb-elf-ld: stackdepot.c:(.text+0x62): undefined reference to `__irqentry_text_end'
->>     arceb-elf-ld: stackdepot.c:(.text+0x6a): undefined reference to `__softirqentry_text_start'
->>     arceb-elf-ld: stackdepot.c:(.text+0x6a): undefined reference to `__softirqentry_text_start'
->>     arceb-elf-ld: stackdepot.c:(.text+0x72): undefined reference to `__softirqentry_text_end'
->>     arceb-elf-ld: stackdepot.c:(.text+0x72): undefined reference to `__softirqentry_text_end'
->>     arceb-elf-ld: drivers/usb/dwc2/drd.o: in function `dwc2_drd_role_sw_set':
->>>> drd.c:(.text+0x82): undefined reference to `usb_role_switch_get_drvdata'
->>>> arceb-elf-ld: drd.c:(.text+0x82): undefined reference to `usb_role_switch_get_drvdata'
->>     arceb-elf-ld: drivers/usb/dwc2/drd.o: in function `dwc2_drd_init':
->>>> drd.c:(.text+0x1c0): undefined reference to `usb_role_switch_register'
->>>> arceb-elf-ld: drd.c:(.text+0x1c0): undefined reference to `usb_role_switch_register'
->>     arceb-elf-ld: drivers/usb/dwc2/drd.o: in function `dwc2_drd_exit':
->>>> drd.c:(.text+0x2c4): undefined reference to `usb_role_switch_unregister'
->>>> arceb-elf-ld: drd.c:(.text+0x2c4): undefined reference to `usb_role_switch_unregister'
-> 
-> Amelie? Have you seen this? Is it ARC-specific?
-> 
-Never seen this before. But looking at DWC2 Kconfig and Makefile, I 
-should have add the 'select USB_ROLE_SWITCH' as it is in DWC3 Kconfig. 
-Because in my patch, USB_ROLE_SWITCH is selected if USB_DWC2_DUAL_ROLE, 
-but drd.c (using USB role switch API) is compiled if CONFIG_USB_DWC2 is 
-enabled, whatever DWC2 mode.
-
-So, an update of DWC2 Kconfig/Makefile as DWC3 seems required.
-I send a v6 or a fixup of "usb: dwc2: override PHY input signals with 
-usb role switch support" can be done ?
