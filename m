@@ -2,129 +2,150 @@ Return-Path: <SRS0=IRyt=CT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CF6C43461
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:14:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3CAC2D0E2
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:15:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B90B20882
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:14:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="qn43HHcR"
+	by mail.kernel.org (Postfix) with ESMTP id 2EA06207DE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729449AbgIJJOc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 05:14:32 -0400
-Received: from mail-eopbgr40061.outbound.protection.outlook.com ([40.107.4.61]:49482
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726847AbgIJJNy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:13:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T0aYqAUJ1Zd8CN+GRSdg+xL0SD0LZ9nLTJpuu2ov79m44A3B/4q3BYmrmd7015P90fSlqUyzoHVSw24vLt4qi/HOuWR77CxWghlBwsjI1kqf6pkZ8r39Vg/7nUkDkZcpWH7x4myF120XeCpV0Mdn3rbGNoRnRsnE/8MHy6rXaRqQMDYEk9kxirPj1u417gI8Iss3Hqat82s9aayAXyaJmMKavNCI4iFBnj4rUMKeQukCVb8Z1SxWMvkZBR0+BmLQ+ucfH7kUkHmsQObJIhYHlHuVLaBbkcLg84oK3jreWlne4Qn8pUgZYh92pJVmN8N1B3JFembYInRCf6D6BhcVmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=20UMUvYcOTfXzDTccHSiMZloHtWNpfoflBsj8t1KCz4=;
- b=WqW3AW9z0GQ3qEYLvUdirvJ6xLqPyLD7Sf0g8GFkgifalQOLtD7IUYUw2yBqSUApBEeWGJgMXrFbYcJxrWOhdpPSOCjXgiNHnrPmrpXO5EC3Cywi1Kh4GC/A4PW0g8sdPZPaAEm+qm9dFGhzsGlfOcAaRWraCafuKKyvo3QGVhlC7EJwEcGddgsSMZkY5QFqtO7b9pPdDc3810ul8AW2wJ7LlL2/MDSm773y3rSHXM/n77c+q+zR5342y/InELVFxaq856zd5rZ98SVqeGvzMgEYrKWIgdFvnvIv6lUo5MnKX15IHEtDwDxiOGb3E6PwszuGHjJp1OUet6ZgdTsZRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=20UMUvYcOTfXzDTccHSiMZloHtWNpfoflBsj8t1KCz4=;
- b=qn43HHcR8JRdyzcD0IeVUlDQBTUoTii4NbQI4YEufoWL9qjZYVutlpv8hPSjlOq95TpR9gu7EsJs9eNA5fI8F5LigWRECW80AlK1Q42RDkhzrC4b54HSqq7tLemEOtrbE6J0KiGjVFw/is73znoIzqVGUiog0jNBtYkj1u3Nk2o=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM6PR04MB4168.eurprd04.prod.outlook.com (2603:10a6:209:43::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Thu, 10 Sep
- 2020 09:12:33 +0000
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1023:be8d:40c:efe1]) by AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1023:be8d:40c:efe1%3]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
- 09:12:33 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com, pawell@cadence.com,
-        rogerq@ti.com, gregkh@linuxfoundation.org, jun.li@nxp.com,
-        Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH v2 7/8] usb: cdns3: gadget: sg_support is only for DEV_VER_V2 or above
-Date:   Thu, 10 Sep 2020 17:11:29 +0800
-Message-Id: <20200910091130.20937-8-peter.chen@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200910091130.20937-1-peter.chen@nxp.com>
-References: <20200910091130.20937-1-peter.chen@nxp.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0134.apcprd06.prod.outlook.com
- (2603:1096:1:1f::12) To AM7PR04MB7157.eurprd04.prod.outlook.com
- (2603:10a6:20b:118::20)
+        id S1730165AbgIJJOs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 05:14:48 -0400
+Received: from verein.lst.de ([213.95.11.211]:60117 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727090AbgIJJOC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 10 Sep 2020 05:14:02 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 7F59E6736F; Thu, 10 Sep 2020 11:13:51 +0200 (CEST)
+Date:   Thu, 10 Sep 2020 11:13:51 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Greg KH <greg@kroah.com>
+Cc:     Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org,
+        Russell King <linux@armlinux.org.uk>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Jim Quinlan <james.quinlan@broadcom.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 3/3] dma-mapping: introduce DMA range map, supplanting
+ dma_pfn_offset
+Message-ID: <20200910091351.GA25883@lst.de>
+References: <20200910054038.324517-1-hch@lst.de> <20200910054038.324517-4-hch@lst.de> <20200910075351.GA1092435@kroah.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.66) by SG2PR06CA0134.apcprd06.prod.outlook.com (2603:1096:1:1f::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 09:12:31 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [119.31.174.66]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 87657771-b5d4-47c9-3aaf-08d85569a6fc
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4168:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB4168E2DEB36B9DCEE0C08E2F8B270@AM6PR04MB4168.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EYC43CkcB5cCiKLw5Jh227O2ht0T+zH5rukVkxtCtzfmqpIcqq3CYd2whrF64m0uoptzbDah7ckBKA3v6Dl9iv84o3QrgYdJJrL+HFq+E+lvu1kQQHtw6BZ+430MiIgYxhwaM3TzITyXB5aFJo3O5MWBpNq362tmo8wZEt3O4k2Oe4N/rJ6SSmHFbB7nYhpMCbTklugxPKkMHt8JgEex/fzJ/IbF4f8fAiLNOms7UG6iVsv0o42MCfibfiQPEqOCstKvJ6IfI4qrA/0u6qbcjGLG3gH9/1QIZvTxjUE14s7lB7vTGHrCumx/596GRfCh
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(4326008)(6512007)(83380400001)(186003)(6486002)(16526019)(36756003)(66946007)(66556008)(1076003)(8936002)(66476007)(52116002)(26005)(478600001)(44832011)(316002)(2616005)(2906002)(8676002)(956004)(5660300002)(6916009)(6506007)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: UkZ5ZDP3pW83BUUoTmNgLkGQHtT3QE9KIGMNSwiJOvHs0SUuSk7Zhw2hbIGEKWhw6JyeU5aRL52VD7l7d4goz560i6nu3ejKPGIyYJQ4XERrHdR9a5BapjX1c0dlh2woyvTVd5RsSk5+zcbuosam//JF729quqKyFNomngKho6Ru8bLuTxr4R+aHay8s44dMYPSurO2x8stpnpXBQfLO6/ThhMYYq+QJvYo7Mjf7Vv+1dyqw4eV5otlVvLPvoMnD+WKkbJ7f77PEBs/Dw+3pGykFNH27inKmmLVtDxc2XtXuqjt9iEgjlwn8yu+yTnZ4xS2wPzqz+G5S1SdcqyrhVWLeSs/YCxWkBamyNzFnNljLs2INa4a6HCRXDbn3cI1/mj0Isl9XXMZOrXgBvTOgt9lcXMOrSvP/Ezwp5JoOXFb7Q3AyHhqJpN5cwnxSgIBbHpuyjf3Sg/Skx0KMahwai5TgcPjR98vVPFSWM6oe7VJY20Pz17IzDwULN2wm8twp3Sp0GWlVcAyuUGS13ufHEtoArXVQzsoyJ+QNE9Ut1662B1B8yoy0Bm2A10oX4D12NkDUaET1dwe2jPxkAJzMeZS2L/DjWYpdxyOQw4lTes2MgccRP/PaNbKnxOQQj8V8mfyrmTvKPHLLM3Y4S0fWjw==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87657771-b5d4-47c9-3aaf-08d85569a6fc
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 09:12:33.7406
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NmaymI6SlsTiarTurKbLoRZX4/LclrEuEWZ4ZPcOMGivjd5loV+axAwhI6+LBuhy40j0QbQGeokXoNWePT6Fuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4168
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910075351.GA1092435@kroah.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The scatter buffer list support earlier than DEV_VER_V2 is not
-good enough, software can't know well about short transfer for it.
+On Thu, Sep 10, 2020 at 09:53:51AM +0200, Greg KH wrote:
+> >  		/*
+> >  		 * Please refer to usb_alloc_dev() to see why we set
+> > -		 * dma_mask and dma_pfn_offset.
+> > +		 * dma_mask and dma_range_map.
+> >  		 */
+> >  		intf->dev.dma_mask = dev->dev.dma_mask;
+> > -		intf->dev.dma_pfn_offset = dev->dev.dma_pfn_offset;
+> > +		if (dma_direct_copy_range_map(&intf->dev, &dev->dev))
+> > +			dev_err(&dev->dev, "failed to copy DMA map\n");
+> 
+> We tell the user, but then just keep on running?  Is there anything that
+> we can do here?
+> 
+> If not, why not have dma_direct_copy_range_map() print out the error?
 
-Cc: Pawel Laszczak <pawell@cadence.com>
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
+At least for USB I'm pretty sure this isn't required at all.  I've been
+running with the patch below on my desktop for two days now trying all
+the usb toys I have (in addition to grepping for obvious abuses in
+the drivers).  remoteproc is a different story, but the DMA handling
+seems there is sketchy to start with..
+
 ---
- drivers/usb/cdns3/gadget.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+From 8bae3e6833f2ca431dcfcbc8f9cced7d5e972a01 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Wed, 9 Sep 2020 08:28:59 +0200
+Subject: usb: don't inherity DMA properties for USB devices
 
-diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
-index e2c12212dba4..90a66bdc30ba 100644
---- a/drivers/usb/cdns3/gadget.c
-+++ b/drivers/usb/cdns3/gadget.c
-@@ -3160,7 +3160,6 @@ static int cdns3_gadget_start(struct cdns3 *cdns)
- 	priv_dev->gadget.speed = USB_SPEED_UNKNOWN;
- 	priv_dev->gadget.ops = &cdns3_gadget_ops;
- 	priv_dev->gadget.name = "usb-ss-gadget";
--	priv_dev->gadget.sg_supported = 1;
- 	priv_dev->gadget.quirk_avoids_skb_reserve = 1;
- 	priv_dev->gadget.irq = cdns->dev_irq;
- 
-@@ -3199,6 +3198,8 @@ static int cdns3_gadget_start(struct cdns3 *cdns)
- 		readl(&priv_dev->regs->usb_cap2));
- 
- 	priv_dev->dev_ver = GET_DEV_BASE_VERSION(priv_dev->dev_ver);
-+	if (priv_dev->dev_ver >= DEV_VER_V2)
-+		priv_dev->gadget.sg_supported = 1;
- 
- 	priv_dev->zlp_buf = kzalloc(CDNS3_EP_ZLP_BUF_SIZE, GFP_KERNEL);
- 	if (!priv_dev->zlp_buf) {
+As the comment in usb_alloc_dev correctly states, drivers can't use
+the DMA API on usb device, and at least calling dma_set_mask on them
+is highly dangerous.  Unlike what the comment states upper level drivers
+also can't really use the presence of a dma mask to check for DMA
+support, as the dma_mask is set by default for most busses.
+
+Remove the copying over of DMA information, and remove the now unused
+dma_direct_copy_range_map export.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/usb/core/message.c |  7 -------
+ drivers/usb/core/usb.c     | 13 -------------
+ kernel/dma/direct.c        |  1 -
+ 3 files changed, 21 deletions(-)
+
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index 935ee98e049f65..9e45732dc1d1d1 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -1954,13 +1954,6 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+ 		intf->dev.bus = &usb_bus_type;
+ 		intf->dev.type = &usb_if_device_type;
+ 		intf->dev.groups = usb_interface_groups;
+-		/*
+-		 * Please refer to usb_alloc_dev() to see why we set
+-		 * dma_mask and dma_range_map.
+-		 */
+-		intf->dev.dma_mask = dev->dev.dma_mask;
+-		if (dma_direct_copy_range_map(&intf->dev, &dev->dev))
+-			dev_err(&dev->dev, "failed to copy DMA map\n");
+ 		INIT_WORK(&intf->reset_ws, __usb_queue_reset_device);
+ 		intf->minor = -1;
+ 		device_initialize(&intf->dev);
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 23d451f6894d70..9b4ac4415f1a47 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -599,19 +599,6 @@ struct usb_device *usb_alloc_dev(struct usb_device *parent,
+ 	dev->dev.bus = &usb_bus_type;
+ 	dev->dev.type = &usb_device_type;
+ 	dev->dev.groups = usb_device_groups;
+-	/*
+-	 * Fake a dma_mask/offset for the USB device:
+-	 * We cannot really use the dma-mapping API (dma_alloc_* and
+-	 * dma_map_*) for USB devices but instead need to use
+-	 * usb_alloc_coherent and pass data in 'urb's, but some subsystems
+-	 * manually look into the mask/offset pair to determine whether
+-	 * they need bounce buffers.
+-	 * Note: calling dma_set_mask() on a USB device would set the
+-	 * mask for the entire HCD, so don't do that.
+-	 */
+-	dev->dev.dma_mask = bus->sysdev->dma_mask;
+-	if (dma_direct_copy_range_map(&dev->dev, bus->sysdev))
+-		dev_err(&dev->dev, "failed to copy DMA map\n");
+ 	set_dev_node(&dev->dev, dev_to_node(bus->sysdev));
+ 	dev->state = USB_STATE_ATTACHED;
+ 	dev->lpm_disable_count = 1;
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index fc815f7375e282..3af257571a3b42 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -552,4 +552,3 @@ int dma_direct_copy_range_map(struct device *to, struct device *from)
+ 	to->dma_range_map = new_map;
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(dma_direct_copy_range_map);
 -- 
-2.17.1
+2.28.0
 
