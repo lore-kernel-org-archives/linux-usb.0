@@ -2,41 +2,40 @@ Return-Path: <SRS0=IRyt=CT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAD0C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 05:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF9ECC433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 05:41:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 875E2207EA
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 05:41:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5698D207FB
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 05:41:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kah51+Sh"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rXra2los"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726474AbgIJFlF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 01:41:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58348 "EHLO
+        id S1727787AbgIJFlp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 01:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725855AbgIJFkx (ORCPT
+        with ESMTP id S1725868AbgIJFkx (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Sep 2020 01:40:53 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4389C061756;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C0AC061573;
         Wed,  9 Sep 2020 22:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=jUBa0iu1eX5jIcAMx7CVSwzh+xe4DajZ3p568CeYFVQ=; b=kah51+ShOTTV+Jr+aRlgd0UmMs
-        NcPtLrFn4E7MudK1Si/fT7/TqxK5SWVfKBVWRLJ8+JXu/KdY+ku4LFycLe+BAZegN1VB+rAFo76U3
-        S177eVeSuDFVbkgbXgW0Sqyz3T3mkIm7NOn80nM5T/BGthD1RASCpvExnNdOBjrnYuw6+AB/Sa2Q+
-        ckdaHE+5oXGeq3oExrsn4dz+C7/TGleVTseKtHQJPCdiCPjhMrCwXAfn7da2bLCiIDf0F7/L+sWzn
-        +4HLw8QEwdsFmUsWlbEg59eM7RHmgcuGNXffoy8tU/lFefCjWvyaTfcdBvtznJphl6AMvKHV8R+WY
-        hRZEQN4w==;
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=GAlHdOT6xNBIXoRJTGjDfO8yxN+XWkHMSyYrbndYoes=; b=rXra2losZTDAUND7ZVSHxWZYp9
+        O0bLx1ptf6BcC5QeKhuW38Lf8UWBywKGkwCs/qUGI5fa6K3Wo47yLmh+ur6K/PaChoT/tGFAxhcfB
+        ub0IkMkCNn8zmoDDxv5Ga1FM9H3Llnp4yAc4H38rVR/D87e4VVNPsmj3sTrqj4NY/ll95s+l7RlB0
+        aeZms3/a23jfo8wlpZ1fWP3dtIV+nqpRDfJEM1YB/0RAcM9KRXd9eflYS3vfBKqRTkX8ewEJaAWKu
+        EB2yqu8Vmg5QAIVSz+rH5SsKaWoc/Avpgn0ZFhqfwiDyyGYPXlholm/TZWUcvLJuu7lgJQ3Z+5U2M
+        v9Uq/JMA==;
 Received: from [2001:4bb8:184:af1:d8d0:3027:a666:4c4e] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGFK5-0001tZ-IQ; Thu, 10 Sep 2020 05:40:42 +0000
+        id 1kGFK2-0001sv-Sk; Thu, 10 Sep 2020 05:40:39 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     iommu@lists.linux-foundation.org,
         Russell King <linux@armlinux.org.uk>,
@@ -51,12 +50,10 @@ Cc:     Jim Quinlan <james.quinlan@broadcom.com>,
         linux-sh@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH 2/3] ARM/keystone: move the DMA offset handling under ifdef CONFIG_ARM_LPAE
-Date:   Thu, 10 Sep 2020 07:40:37 +0200
-Message-Id: <20200910054038.324517-3-hch@lst.de>
+Subject: support range based offsets in dma-direct
+Date:   Thu, 10 Sep 2020 07:40:35 +0200
+Message-Id: <20200910054038.324517-1-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200910054038.324517-1-hch@lst.de>
-References: <20200910054038.324517-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -65,48 +62,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DMA offset notifier can only be used if PHYS_OFFSET is at least
-KEYSTONE_HIGH_PHYS_START, which can't be represented by a 32-bit
-phys_addr_t.  Currently the code compiles fine despite that, a pending
-change to the DMA offset handling would create a compiler warning for
-this case.  Add an ifdef to not compile the code except for LPAE
-configs.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/arm/mach-keystone/keystone.c | 4 ++++
- 1 file changed, 4 insertions(+)
+this series adds range-based offsets to the dma-direct implementation.  The
+guts of the change are a patch from Jim with some modifications from me,
+but to do it nicely we need to ARM patches to prepare for it as well.
 
-diff --git a/arch/arm/mach-keystone/keystone.c b/arch/arm/mach-keystone/keystone.c
-index 638808c4e12247..dcd031ba84c2e0 100644
---- a/arch/arm/mach-keystone/keystone.c
-+++ b/arch/arm/mach-keystone/keystone.c
-@@ -24,6 +24,7 @@
- 
- #include "keystone.h"
- 
-+#ifdef CONFIG_ARM_LPAE
- static unsigned long keystone_dma_pfn_offset __read_mostly;
- 
- static int keystone_platform_notifier(struct notifier_block *nb,
-@@ -48,14 +49,17 @@ static int keystone_platform_notifier(struct notifier_block *nb,
- static struct notifier_block platform_nb = {
- 	.notifier_call = keystone_platform_notifier,
- };
-+#endif /* CONFIG_ARM_LPAE */
- 
- static void __init keystone_init(void)
- {
-+#ifdef CONFIG_ARM_LPAE
- 	if (PHYS_OFFSET >= KEYSTONE_HIGH_PHYS_START) {
- 		keystone_dma_pfn_offset = PFN_DOWN(KEYSTONE_HIGH_PHYS_START -
- 						   KEYSTONE_LOW_PHYS_START);
- 		bus_register_notifier(&platform_bus_type, &platform_nb);
- 	}
-+#endif
- 	keystone_pm_runtime_init();
- }
- 
--- 
-2.28.0
-
+Diffstat:
+ arch/arm/common/dmabounce.c                        |    2 
+ arch/arm/include/asm/dma-direct.h                  |   69 +++++++++++++++++
+ arch/arm/include/asm/dma-mapping.h                 |   70 ------------------
+ arch/arm/mach-keystone/keystone.c                  |   21 +++--
+ arch/sh/drivers/pci/pcie-sh7786.c                  |    9 +-
+ arch/x86/pci/sta2x11-fixup.c                       |    6 +
+ drivers/acpi/arm64/iort.c                          |    6 +
+ drivers/base/core.c                                |    2 
+ drivers/gpu/drm/sun4i/sun4i_backend.c              |    8 +-
+ drivers/iommu/io-pgtable-arm.c                     |    2 
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c |    9 ++
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c |   11 ++
+ drivers/of/address.c                               |   73 ++++++++----------
+ drivers/of/device.c                                |   44 +++++++----
+ drivers/of/of_private.h                            |   11 +-
+ drivers/of/unittest.c                              |   34 ++++++--
+ drivers/remoteproc/remoteproc_core.c               |    4 -
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c     |   10 ++
+ drivers/usb/core/message.c                         |    5 -
+ drivers/usb/core/usb.c                             |    3 
+ include/linux/device.h                             |    4 -
+ include/linux/dma-direct.h                         |   52 +++++++++++--
+ include/linux/dma-mapping.h                        |   19 ++++
+ kernel/dma/coherent.c                              |    7 -
+ kernel/dma/direct.c                                |   81 ++++++++++++++++++++-
+ 25 files changed, 373 insertions(+), 189 deletions(-)
