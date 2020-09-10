@@ -4,77 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FD5C2D0E1
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B69C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:54:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C061220731
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:53:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F293220719
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728711AbgIJVnC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:43:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54886 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730507AbgIJMYT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Sep 2020 08:24:19 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 47E85B020;
-        Thu, 10 Sep 2020 12:21:34 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
-        linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 5/6] CDC-WDM: remove use of intf->dev after potential disconnect
-Date:   Thu, 10 Sep 2020 14:21:04 +0200
-Message-Id: <20200910122105.13398-5-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200910122105.13398-1-oneukum@suse.com>
-References: <20200910122105.13398-1-oneukum@suse.com>
+        id S1728612AbgIJVmv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:42:51 -0400
+Received: from cmccmta3.chinamobile.com ([221.176.66.81]:18257 "EHLO
+        cmccmta3.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730567AbgIJL5g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Sep 2020 07:57:36 -0400
+Received: from spf.mail.chinamobile.com (unknown[172.16.121.13]) by rmmx-syy-dmz-app10-12010 (RichMail) with SMTP id 2eea5f5a1432a09-8b324; Thu, 10 Sep 2020 19:55:30 +0800 (CST)
+X-RM-TRANSID: 2eea5f5a1432a09-8b324
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from localhost.localdomain (unknown[223.112.105.130])
+        by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee75f5a142f81d-8c931;
+        Thu, 10 Sep 2020 19:55:30 +0800 (CST)
+X-RM-TRANSID: 2ee75f5a142f81d-8c931
+From:   Tang Bin <tangbin@cmss.chinamobile.com>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Tang Bin <tangbin@cmss.chinamobile.com>,
+        Zhang Shengju <zhangshengju@cmss.chinamobile.com>
+Subject: [PATCH] usb: phy: tegra: Use IS_ERR() to check and simplify code
+Date:   Thu, 10 Sep 2020 19:56:07 +0800
+Message-Id: <20200910115607.11392-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.20.1.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-After a disconnect intf->dev is not a valid pointer any longer
-as flush() uses it only for logging purposes logging is not
-worth it. Remove the dev_err()
+Use IS_ERR() and PTR_ERR() instead of PTR_ERR_OR_ZERO() to
+simplify code, avoid redundant judgements.
 
-Reported-by: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Zhang Shengju <zhangshengju@cmss.chinamobile.com>
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 ---
- drivers/usb/class/cdc-wdm.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/usb/phy/phy-tegra-usb.c | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index 930000b1d43b..89929f6438e3 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -603,7 +603,11 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 			test_bit(WDM_DISCONNECTING, &desc->flags),
- 			WDM_FLUSH_TIMEOUT);
+diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+index 6153cc35a..3b901429d 100644
+--- a/drivers/usb/phy/phy-tegra-usb.c
++++ b/drivers/usb/phy/phy-tegra-usb.c
+@@ -1121,10 +1121,9 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 		return PTR_ERR(tegra_phy->vbus);
  
--	/* cannot dereference desc->intf if WDM_DISCONNECTING */
-+	/*
-+	 * to report the correct error.
-+	 * This is best effort
-+	 * We are inevitably racing with the hardware.
-+	 */
- 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
- 		return -ENODEV;
- 	if (!rv)
-@@ -616,9 +620,6 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 	desc->werr = 0;
- 	spin_unlock_irq(&desc->iuspin);
+ 	tegra_phy->pll_u = devm_clk_get(&pdev->dev, "pll_u");
+-	err = PTR_ERR_OR_ZERO(tegra_phy->pll_u);
+-	if (err) {
++	if (IS_ERR(tegra_phy->pll_u)) {
+ 		dev_err(&pdev->dev, "Failed to get pll_u clock: %d\n", err);
+-		return err;
++		return PTR_ERR(tegra_phy->pll_u);
+ 	}
  
--	if (rv < 0)
--		dev_err(&desc->intf->dev, "Error in flush path: %d\n", rv);
--
- 	return usb_translate_errors(rv);
- }
+ 	phy_type = of_usb_get_phy_mode(np);
+@@ -1135,20 +1134,18 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 			return err;
+ 
+ 		tegra_phy->pad_clk = devm_clk_get(&pdev->dev, "utmi-pads");
+-		err = PTR_ERR_OR_ZERO(tegra_phy->pad_clk);
+-		if (err) {
++		if (IS_ERR(tegra_phy->pad_clk)) {
+ 			dev_err(&pdev->dev,
+ 				"Failed to get UTMIP pad clock: %d\n", err);
+-			return err;
++			return PTR_ERR(tegra_phy->pad_clk);
+ 		}
+ 
+ 		reset = devm_reset_control_get_optional_shared(&pdev->dev,
+ 							       "utmi-pads");
+-		err = PTR_ERR_OR_ZERO(reset);
+-		if (err) {
++		if (IS_ERR(reset)) {
+ 			dev_err(&pdev->dev,
+ 				"Failed to get UTMI-pads reset: %d\n", err);
+-			return err;
++			return PTR_ERR(reset);
+ 		}
+ 		tegra_phy->pad_rst = reset;
+ 		break;
+@@ -1157,22 +1154,20 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 		tegra_phy->is_ulpi_phy = true;
+ 
+ 		tegra_phy->clk = devm_clk_get(&pdev->dev, "ulpi-link");
+-		err = PTR_ERR_OR_ZERO(tegra_phy->clk);
+-		if (err) {
++		if (IS_ERR(tegra_phy->clk)) {
+ 			dev_err(&pdev->dev,
+ 				"Failed to get ULPI clock: %d\n", err);
+-			return err;
++			return PTR_ERR(tegra_phy->clk);
+ 		}
+ 
+ 		gpiod = devm_gpiod_get_from_of_node(&pdev->dev, np,
+ 						    "nvidia,phy-reset-gpio",
+ 						    0, GPIOD_OUT_HIGH,
+ 						    "ulpi_phy_reset_b");
+-		err = PTR_ERR_OR_ZERO(gpiod);
+-		if (err) {
++		if (IS_ERR(gpiod)) {
+ 			dev_err(&pdev->dev,
+ 				"Request failed for reset GPIO: %d\n", err);
+-			return err;
++			return PTR_ERR(gpiod);
+ 		}
+ 		tegra_phy->reset_gpio = gpiod;
  
 -- 
-2.16.4
+2.20.1.windows.1
+
+
 
