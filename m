@@ -2,96 +2,96 @@ Return-Path: <SRS0=IRyt=CT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC44C43461
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 10:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622CEC43461
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4906F21556
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 10:52:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MfR+kaqr"
+	by mail.kernel.org (Postfix) with ESMTP id 26629208FE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730413AbgIJKwq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 06:52:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730403AbgIJKuP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Sep 2020 06:50:15 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7860AC061799
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2020 03:50:06 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id z23so7960128ejr.13
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2020 03:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dl+Puul4vVPh8oSiqSBQlazGVFYUlaK2t3JkMD3S8VU=;
-        b=MfR+kaqr9Ijvrx9g8wnfe7FFqLLww8qX3LZ9b84v4pCfAz/g6fGA42sPm0CJpfWGGE
-         qYE7rUatAHQDiitWJVs+uVxotoSAZqt3zr7GoxqZGh1X3QFe7FU352wH11BltiJNbHql
-         5AEqFDggtRG3ieScrHb1PF00WL7dA2G8E61ESpi3lxr5RGIVR5IxhnyQQ0zgnrTAX3WJ
-         VCZedtySvxPz/rXfJbYgpG31Vva3nJGgcQW74ksuK5HiDq8OoQimF9YEDA7bng/B1Prl
-         fHM3laMutRyVCPg1OtxDzcu3uQx4vqauE5jF35lEQWUua+8X9EvtaD00ZrmplRoQ5jGi
-         HkCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dl+Puul4vVPh8oSiqSBQlazGVFYUlaK2t3JkMD3S8VU=;
-        b=bqV/BNdEcIxGkczbBR2ZHbB2XF+ZPbvhDrk2gTSdNnbGVD0Dcb7uySeCtGLnAzZpuC
-         Zx3EE0XH+G8jrBMBg8al/6Pe0/mgTZIHMT//PRNzDyox3pJvanWmSCjRwBOeV5PX0IH9
-         5aflhkLhy7tFUkd6dr9ityix6nS2ORFUwNcdld5NB3n5gIWnctu9IlAYmlF9zfTDGPoW
-         uYHQzRQbW77cRELuiCSGKc4WOc1rPEmbt2LQiwHnBcKPwPttosL+qtwGv7HXSr74daEF
-         ID4rvfgOfVowianIdNMK/ftu1L8Zx2+GbD7YplIMG6z0sl5xeI49TeyYJCT8Dxm07LiZ
-         kYMQ==
-X-Gm-Message-State: AOAM533W0pNS87rlAOrPmIW/W5VceC5xEPfSsv1BIx7p1brMnjXyOIk3
-        VrTAcs/apSD+1QWImBy2C44NpqROw4KMaXfTXiJ3qQ==
-X-Google-Smtp-Source: ABdhPJz2QEjAlqXQ/OoQNuvXwR82jdCqI8EOUurylTRWYYiFSskudC59oTiUg29MEX2zzBztMwvKMOU5vvzGeJ0jq6k=
-X-Received: by 2002:a17:907:94cf:: with SMTP id dn15mr8438636ejc.114.1599735004965;
- Thu, 10 Sep 2020 03:50:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <1599726112-4439-1-git-send-email-chunfeng.yun@mediatek.com>
-In-Reply-To: <1599726112-4439-1-git-send-email-chunfeng.yun@mediatek.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 10 Sep 2020 12:49:38 +0200
-Message-ID: <CAG48ez1jLVcj=BAAsSA5i-k+gCtRNn+OhfwAWAxFJSKLwZKQ=A@mail.gmail.com>
-Subject: Re: [PATCH RESEND v3 01/11] usb: early: convert to readl_poll_timeout_atomic()
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Jason Yan <yanaijie@huawei.com>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Saurav Girepunje <saurav.girepunje@gmail.com>,
-        linux-usb@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1729911AbgIJMX6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 08:23:58 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53628 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730507AbgIJMVc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 10 Sep 2020 08:21:32 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 664D8B016;
+        Thu, 10 Sep 2020 12:21:33 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
+        linux-usb@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [RFC 1/6] CDC-WDM: fix hangs in flush()
+Date:   Thu, 10 Sep 2020 14:21:00 +0200
+Message-Id: <20200910122105.13398-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 10:24 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
-> Use readl_poll_timeout_atomic() to simplify code
->
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+In a multithreaded scenario  a flush() and a write() may be waiting for the same
+IO to complete. Hence completion of output must use wake_up_all(),
+even in error handling, while a flush may be waiting for an intended but
+not started Io.
 
-Reviewed-by: Jann Horn <jannh@google.com>
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/usb/class/cdc-wdm.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index e3db6fbeadef..adb3fc307083 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -151,7 +151,7 @@ static void wdm_out_callback(struct urb *urb)
+ 	kfree(desc->outbuf);
+ 	desc->outbuf = NULL;
+ 	clear_bit(WDM_IN_USE, &desc->flags);
+-	wake_up(&desc->wait);
++	wake_up_all(&desc->wait);
+ }
+ 
+ static void wdm_in_callback(struct urb *urb)
+@@ -424,6 +424,7 @@ static ssize_t wdm_write
+ 	if (rv < 0) {
+ 		desc->outbuf = NULL;
+ 		clear_bit(WDM_IN_USE, &desc->flags);
++		wake_up_all(&desc->wait); /* for flush() */
+ 		dev_err(&desc->intf->dev, "Tx URB error: %d\n", rv);
+ 		rv = usb_translate_errors(rv);
+ 		goto out_free_mem_pm;
+@@ -586,6 +587,7 @@ static ssize_t wdm_read
+ static int wdm_flush(struct file *file, fl_owner_t id)
+ {
+ 	struct wdm_device *desc = file->private_data;
++	int rv;
+ 
+ 	wait_event(desc->wait,
+ 			/*
+@@ -600,11 +602,12 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
+ 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
+ 		return -ENODEV;
+-	if (desc->werr < 0)
++	rv = desc->werr;
++	if (rv < 0)
+ 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
+-			desc->werr);
++			rv);
+ 
+-	return usb_translate_errors(desc->werr);
++	return usb_translate_errors(rv);
+ }
+ 
+ static __poll_t wdm_poll(struct file *file, struct poll_table_struct *wait)
+-- 
+2.16.4
+
