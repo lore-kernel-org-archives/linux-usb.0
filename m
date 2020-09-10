@@ -7,91 +7,67 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 622CEC43461
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B90C43461
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26629208FE
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 916D6206A2
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729911AbgIJMX6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 08:23:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53628 "EHLO mx2.suse.de"
+        id S1730067AbgIJMY3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 08:24:29 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53666 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730507AbgIJMVc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1730522AbgIJMVc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 10 Sep 2020 08:21:32 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 664D8B016;
-        Thu, 10 Sep 2020 12:21:33 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 00F3DB01F;
+        Thu, 10 Sep 2020 12:21:34 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
         linux-usb@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 1/6] CDC-WDM: fix hangs in flush()
-Date:   Thu, 10 Sep 2020 14:21:00 +0200
-Message-Id: <20200910122105.13398-1-oneukum@suse.com>
+Subject: [RFC 4/6] CDC-WDM: fix race reporting errors in flush
+Date:   Thu, 10 Sep 2020 14:21:03 +0200
+Message-Id: <20200910122105.13398-4-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20200910122105.13398-1-oneukum@suse.com>
+References: <20200910122105.13398-1-oneukum@suse.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In a multithreaded scenario  a flush() and a write() may be waiting for the same
-IO to complete. Hence completion of output must use wake_up_all(),
-even in error handling, while a flush may be waiting for an intended but
-not started Io.
+In case a race was lost and multiple fds used,
+an error could be reported multiple times. To fix
+this a spinlock must be taken.
 
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/class/cdc-wdm.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/usb/class/cdc-wdm.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index e3db6fbeadef..adb3fc307083 100644
+index eee19532e67e..930000b1d43b 100644
 --- a/drivers/usb/class/cdc-wdm.c
 +++ b/drivers/usb/class/cdc-wdm.c
-@@ -151,7 +151,7 @@ static void wdm_out_callback(struct urb *urb)
- 	kfree(desc->outbuf);
- 	desc->outbuf = NULL;
- 	clear_bit(WDM_IN_USE, &desc->flags);
--	wake_up(&desc->wait);
-+	wake_up_all(&desc->wait);
+@@ -610,10 +610,14 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 		return -EIO;
+ 	if (rv < 0)
+ 		return -EINTR;
++
++	spin_lock_irq(&desc->iuspin);
+ 	rv = desc->werr;
++	desc->werr = 0;
++	spin_unlock_irq(&desc->iuspin);
++
+ 	if (rv < 0)
+-		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
+-			rv);
++		dev_err(&desc->intf->dev, "Error in flush path: %d\n", rv);
+ 
+ 	return usb_translate_errors(rv);
  }
- 
- static void wdm_in_callback(struct urb *urb)
-@@ -424,6 +424,7 @@ static ssize_t wdm_write
- 	if (rv < 0) {
- 		desc->outbuf = NULL;
- 		clear_bit(WDM_IN_USE, &desc->flags);
-+		wake_up_all(&desc->wait); /* for flush() */
- 		dev_err(&desc->intf->dev, "Tx URB error: %d\n", rv);
- 		rv = usb_translate_errors(rv);
- 		goto out_free_mem_pm;
-@@ -586,6 +587,7 @@ static ssize_t wdm_read
- static int wdm_flush(struct file *file, fl_owner_t id)
- {
- 	struct wdm_device *desc = file->private_data;
-+	int rv;
- 
- 	wait_event(desc->wait,
- 			/*
-@@ -600,11 +602,12 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
- 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
- 		return -ENODEV;
--	if (desc->werr < 0)
-+	rv = desc->werr;
-+	if (rv < 0)
- 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--			desc->werr);
-+			rv);
- 
--	return usb_translate_errors(desc->werr);
-+	return usb_translate_errors(rv);
- }
- 
- static __poll_t wdm_poll(struct file *file, struct poll_table_struct *wait)
 -- 
 2.16.4
 
