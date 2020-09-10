@@ -2,119 +2,88 @@ Return-Path: <SRS0=IRyt=CT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31ACFC433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 273FDC433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:26:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F092121D92
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:25:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B45F21D92
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 21:26:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="lvCWAmz3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbgIJVYm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:24:42 -0400
-Received: from foss.arm.com ([217.140.110.172]:37282 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731004AbgIJOXM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Sep 2020 10:23:12 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3BEB11B3;
-        Thu, 10 Sep 2020 07:21:17 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B4783F66E;
-        Thu, 10 Sep 2020 07:21:08 -0700 (PDT)
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-To:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <trivial@kernel.org>
-Cc:     linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
-        dm-devel@redhat.com, linux-mtd@lists.infradead.org,
-        linux-i2c@vger.kernel.org, sparclinux@vger.kernel.org,
-        kvmarm@lists.cs.columbia.edu, linux-rtc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, coreteam@netfilter.org,
-        intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Kees Cook <kees.cook@canonical.com>,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
-        storagedev@microchip.com, ceph-devel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Will Deacon <will@kernel.org>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <9372456a-8dcf-2735-57a4-e126aa5df3a6@arm.com>
-Date:   Thu, 10 Sep 2020 15:21:05 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726760AbgIJV0A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:26:00 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:49522 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726301AbgIJVZ3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Sep 2020 17:25:29 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 8C6AE891B0;
+        Fri, 11 Sep 2020 09:25:26 +1200 (NZST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1599773126;
+        bh=qqHU8t6MUhQ7iFPaaO3/oB5D4eqjg20+i952QRb+1fM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=lvCWAmz3PLpRblqQoHVR1T6wswyx4Q9rXsLMKwXsg83nOrerMKec3ssfW/nSSr1zP
+         nu4fYf7vlzz3RYsyeTfEzVVowMUbx5BZyP5/6MA2Bz9frbMbyRf6izWQh0w2E0oBLI
+         dtUpV2tfeiyiXV4OUlauQ0+S2lgbe3zW5Bp2KZPAQ82XZoltvoFySRASONt4VGYErT
+         seD2VDn7FMUGSniBA7uN358lO8T0JmokTqtOjhp604x4bByHqZzHmkKkiyQm0Fo3/O
+         DuKbKPuzkcijTlpd4fwflXUjszhXZWcOu3baORvtjulxccNRTwyHi7BVRO8ZgCsl71
+         kUX6PF2M3nUhQ==
+Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5f5a99c50000>; Fri, 11 Sep 2020 09:25:25 +1200
+Received: from hamishm-dl.ws.atlnz.lc (hamishm-dl.ws.atlnz.lc [10.33.24.30])
+        by smtp (Postfix) with ESMTP id 0A44013EEB7;
+        Fri, 11 Sep 2020 09:25:25 +1200 (NZST)
+Received: by hamishm-dl.ws.atlnz.lc (Postfix, from userid 1133)
+        id 60FB02A2AB9; Fri, 11 Sep 2020 09:25:26 +1200 (NZST)
+From:   Hamish Martin <hamish.martin@alliedtelesis.co.nz>
+To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hamish Martin <hamish.martin@alliedtelesis.co.nz>
+Subject: [PATCH v2 2/2] usb: ohci: Make distrust_firmware param default to false
+Date:   Fri, 11 Sep 2020 09:25:12 +1200
+Message-Id: <20200910212512.16670-2-hamish.martin@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200910212512.16670-1-hamish.martin@alliedtelesis.co.nz>
+References: <20200910212512.16670-1-hamish.martin@alliedtelesis.co.nz>
 MIME-Version: 1.0
-In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+x-atlnz-ls: pat
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2020-09-09 21:06, Joe Perches wrote:
-> fallthrough to a separate case/default label break; isn't very readable.
-> 
-> Convert pseudo-keyword fallthrough; statements to a simple break; when
-> the next label is case or default and the only statement in the next
-> label block is break;
-> 
-> Found using:
-> 
-> $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
-> 
-> Miscellanea:
-> 
-> o Move or coalesce a couple label blocks above a default: block.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
-> 
-> Compiled allyesconfig x86-64 only.
-> A few files for other arches were not compiled.
-> 
+The 'distrust_firmware' module parameter dates from 2004 and the USB
+subsystem is a lot more mature and reliable now than it was then.
+Alter the default to false now.
 
-[...]
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index c192544e874b..743db1abec40 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -3777,7 +3777,7 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
->   	switch (FIELD_GET(IDR0_TTF, reg)) {
->   	case IDR0_TTF_AARCH32_64:
->   		smmu->ias = 40;
-> -		fallthrough;
-> +		break;
->   	case IDR0_TTF_AARCH64:
->   		break;
->   	default:
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
+---
+ drivers/usb/host/ohci-hcd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have to say I don't really agree with the readability argument for 
-this one - a fallthrough is semantically correct here, since the first 
-case is a superset of the second. It just happens that anything we would 
-do for the common subset is implicitly assumed (there are other 
-potential cases we simply haven't added support for at the moment), thus 
-the second case is currently empty.
+diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+index 2845ea328a06..73e13e7c2b46 100644
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -102,7 +102,7 @@ static void io_watchdog_func(struct timer_list *t);
+=20
+=20
+ /* Some boards misreport power switching/overcurrent */
+-static bool distrust_firmware =3D true;
++static bool distrust_firmware;
+ module_param (distrust_firmware, bool, 0);
+ MODULE_PARM_DESC (distrust_firmware,
+ 	"true to distrust firmware power/overcurrent setup");
+--=20
+2.28.0
 
-This change actively obfuscates that distinction.
-
-Robin.
