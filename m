@@ -2,120 +2,152 @@ Return-Path: <SRS0=IRyt=CT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6E9C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96181C2BB84
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:12:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC0FA20795
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:12:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 394BC20795
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:12:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="QdwWYgti"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="FuP6cLoZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729913AbgIJJMe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 05:12:34 -0400
-Received: from mail-eopbgr40061.outbound.protection.outlook.com ([40.107.4.61]:49482
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        id S1730082AbgIJJMl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 05:12:41 -0400
+Received: from mail-eopbgr70080.outbound.protection.outlook.com ([40.107.7.80]:35972
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727075AbgIJJMP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:12:15 -0400
+        id S1727830AbgIJJMX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 10 Sep 2020 05:12:23 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZbMQPhda7e3bjQCSwGamuOeTadLoX/Q9aUjJKaEr3DfG63Xu9C/ZBeBmtrxKxASAAMDc/fkT/v8JFdwI7V5DU5WsLIuMK/WpuPbnvqFpD70RdUP0TtvP4wWw/0DR1sEAtR/nIpV5dQ8svZvJ2FP1P4zLgeYlJSFa0SG+BpcZUcnOw5rbcp3YeB7MPaCvoaKO0voHm1snfUyiQ1lEROwbvdSzZUYsnFzkd7u9gwXVE3T24N82EdiVwtT2s5RI6EPXsoD6+hL4bqlmu6yokQVel1amP2uRZNLV8iHOBfjlHyejo6pLBK7JhHe61Z9luXe65qzWgV9F7UhXhV+XpqmBzQ==
+ b=Gh/RCexH003wLdyNDyFBuKy9SNvk0M3KRv3cR6MHZeNL6khvFpfw+6bcvx+33I1yTEebSZb7357bXbuUx51DST/+Q5niPW9VrlRmMVOZR0oFP/Xiqj7PgeJ4j2YPlegIqDdkNu+592BeXbVpL1ZpRaMYtAm6bAuE1pgAyB51cLACWSHMH3Wtr0Awh+cmtiaAGRiBpq5qoN+Tk6Swo+tZEzYTrlKxwFyp8zDX4NvepOmVLBAHMLLDo1t7agomMkCnIyCAMvpdfw2X/hbVeihZfNHn+Mdu8ZRObSeZfJUOHJlc2jokosYNJg7ubWV9Pp16OxYqtbUeTqRrwGpZcaaftg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQnQCoxfDZzGcDXwZP0Fboc3D9V0JONxKYcrGeXscxQ=;
- b=T0Pud58o8Rd2BdoL1OZ6AL83X1dNSqTN0+JpJZOcgafqQ6Cko+v05MOftMBKNDogqhC3XgDmDu5nA6+ADKWIGJWJQtzTB/izWqiuU4jv4cv1ZnE1edlQeOS/NnyER7oztNJLESbq5otWIPfsriPwR+snzxxV/IJyIXCgIltMK3s2UP80i1LpwKObeWMw8t4BELx/1mIRTpQMWPd2C5PUnbGliOwkAvaZmCrrOkXkHco6zqi6gJ5jcNRJQwdl8e80m5IQfKUIPGavjqdzEjPA29lTUdWIFLs24J6rcEHWZvIlnImrio+3i7vb+r9/bqFu/UPaJlJdX0OxGYAh8apn4A==
+ bh=266tlUmODVkdkh6EJmvdr3/HwYf9TNVafTHakNqFGFw=;
+ b=GOBOr1YIRP0+7A3nmgSx+pMJNzBbAekpLjagWx6EUlwekfy2GjNSi7gijRN407ur0xPudSWmhzxTuKQ9rcrUnIshKb9+X0SXkZAM4LH1csr2fa/1gaZkFgQuaUdBytIYD26Q8/Jzp6AgoQlkysI7ElPdLcCyHrngCTFR3PFnHUKHKX7/mvXSpnOtMuIdtgyrdTR8ScXxkjnfAO4KOre+m8MhLjf568ZMy39oGP+Z1+/U9D1ENvvTiMcCCgVZZIl9ryVf6PhCnMjkwJhJbIjCJfOmPBmN3h8acwYiWGOIMvaDl0wD5F1ulsQeOYqAVf5BI7uHyVBhP2rLh8/0iQrZtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQnQCoxfDZzGcDXwZP0Fboc3D9V0JONxKYcrGeXscxQ=;
- b=QdwWYgtiNnDBngeN1H3On533PCerA5Uvj/YS6W4BZyQCleGlhP8Id8EezJy1N7NQAmOD6V82JMsy+h6Rd/bVLFFiJPpB9lJ3ZBQgA9Tyj8B/qDkbXvIRvVGgW2fO8Pfe1jQYB0pdf0FOFw1PantdU+mNkPKP4XEZEZK4fiukoKQ=
+ bh=266tlUmODVkdkh6EJmvdr3/HwYf9TNVafTHakNqFGFw=;
+ b=FuP6cLoZuTCXrPEWeiM1pKzIKSWIJQ1Z5zQAEy+QqPS8pN4oOOR0DKpR/PuWBsxE5AUtWfSvxryf3sWM92goBcXGXF3SUF0/64L7SMrlv8t3LLMumCVgwgL7AWJIvEMOIMPzdO0vndGXzZxc94CTqqlwoTI4My0+LqT3U0pLcok=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM6PR04MB4168.eurprd04.prod.outlook.com (2603:10a6:209:43::11) with
+ by AM6PR04MB5368.eurprd04.prod.outlook.com (2603:10a6:20b:9c::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Thu, 10 Sep
- 2020 09:12:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
+ 2020 09:12:19 +0000
 Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
  ([fe80::1023:be8d:40c:efe1]) by AM7PR04MB7157.eurprd04.prod.outlook.com
  ([fe80::1023:be8d:40c:efe1%3]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
- 09:12:13 +0000
+ 09:12:19 +0000
 From:   Peter Chen <peter.chen@nxp.com>
 To:     balbi@kernel.org
 Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com, pawell@cadence.com,
         rogerq@ti.com, gregkh@linuxfoundation.org, jun.li@nxp.com,
         Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH v2 0/8] usb: cdns3: improve the sg use case
-Date:   Thu, 10 Sep 2020 17:11:22 +0800
-Message-Id: <20200910091130.20937-1-peter.chen@nxp.com>
+Subject: [PATCH v2 2/8] usb: cdns3: gadget: improve the dump TRB operation at cdns3_ep_run_transfer
+Date:   Thu, 10 Sep 2020 17:11:24 +0800
+Message-Id: <20200910091130.20937-3-peter.chen@nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200910091130.20937-1-peter.chen@nxp.com>
+References: <20200910091130.20937-1-peter.chen@nxp.com>
 Content-Type: text/plain
 X-ClientProxiedBy: SG2PR06CA0134.apcprd06.prod.outlook.com
  (2603:1096:1:1f::12) To AM7PR04MB7157.eurprd04.prod.outlook.com
  (2603:10a6:20b:118::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.66) by SG2PR06CA0134.apcprd06.prod.outlook.com (2603:1096:1:1f::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 09:12:10 +0000
+Received: from b29397-desktop.ap.freescale.net (119.31.174.66) by SG2PR06CA0134.apcprd06.prod.outlook.com (2603:1096:1:1f::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 09:12:16 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [119.31.174.66]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 80219acd-d73a-4311-73c6-08d855699af1
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4168:
+X-MS-Office365-Filtering-Correlation-Id: fda2ea5f-cae0-48e5-b54b-08d855699e6b
+X-MS-TrafficTypeDiagnostic: AM6PR04MB5368:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB416809C4F8829BB5BBFFFB678B270@AM6PR04MB4168.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM6PR04MB5368EA5580F1C316E7FCA2EF8B270@AM6PR04MB5368.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:383;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PiY3ZRgin9nyTenCJLXULOtc7FB6r0RpGGGgiDu+75fKDF3zS3fWMGaz5NO6IhfNQpFSzr7Gd7GxHMHVH01OG3we1GhMU1Vlj7LaGYQzrJ4ITClWtCyk1Z5023wAGqWNrpl3vT1tkDFsziMh7ExXHM54E/R5G87+ZYdwo39HUY8GbNcoV7JRXVjm+cvF8JYykTlbKPBbHazGnoNzyKQye3lUacDU9J7oB9tGl0CkYn1RDvMEpUspv57sznluCIFAc5Tzx+Gq9ONMWPKOnBOKrCZPYhLgN2K/PWvGVFC70W00N2OwHtbjP5JU6a8nCt0HvbXxctbNVkg+5+nCljknRg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(4326008)(6512007)(83380400001)(186003)(6486002)(16526019)(36756003)(66946007)(66556008)(1076003)(8936002)(66476007)(52116002)(26005)(478600001)(44832011)(6666004)(316002)(2616005)(2906002)(8676002)(956004)(5660300002)(6916009)(4744005)(6506007)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: BfxGqB0fU4M3k9gk9vReipvxWlE4Ydf9qtBMzRruYFy16k88XHMLnQ4mCpx5RxqKPXOKbTW3/LF4qTM5VDLK5WSvrKc9PEGxGljfoV5zR/whg71hD85qk26YZyVEyhaVSL+tHtSE6qjoHfdm0y7askrjBDZ34zzImQNxl+uEMVG3glCdhQSoqowTC3TI8g2YMS/yhREIVCPRdVNgkqXEP0jhfnlYosxC/fqKbhA9TuHnj2z2YqivtFHwtvTnSHr4KVFyelk5VIocaU8JBj1mhO8S/aj4JqjTh+oqrOYrlCBAHlUlh3M8iccVLrkAn3TmFS0NHSoqVU+0Gi6fQzJWrQzD3tM0iRZTuPKFUdZR0AOdqRfe8TSzKUOKcuQFODK4U4JJs6dffzLDLLLFjMEtGXPgpGO+lf92/ux6Myhjw5uPictO2erkuLBDIsroTnp/yKn+GG3xk4tzUBiv1YFdrN1x/Jb45O6Lzu04gm1LE+aorZzyPvFrkv/UkJPnkl2K69bSNziQSOzqkWtTZ9qBPnLunVbKVkSP/Y33uuBcFQeiXAHNB4g6ShAGgiqnVIaG3OAFGV0EaYgVuybAiBFT9WO2aAUjUYXwVsU5+ToLbm4TWQjtWOCl/gdcuconZtPmsJmBtLNNrYq+YulWtYBqqA==
+X-Microsoft-Antispam-Message-Info: XlNJANJCZYKl3dPvGZi7IyZFCxIS8PBeoUpxBosxOiekWFdoRs99upTC+H4Q6fqEIRabakSDn6BRmQV0AXDqlcBlI2F4GL0M73K02Pm62C4y2sNpod/AeeV7DiOpH9P14rGGh0ETVZyotzBt5F/gwJmr6JF/ImHpiegmzzqWTUXtes2od+CV52uwfMD5HSQ/tXjfmqPD1kBKc/rePMSbMEkeEqmTG9BSoSNyZAqrh79a0FudHoxchNJMgLPeWMfZpv/XpvwH/IKvng0/IEgDh5GwpTFmocbi9Nf321y6dFf+b4smADQwdfpKyIQLyPz2p/rnZVRXcPNhWbOpLozu4g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(36756003)(2616005)(5660300002)(66946007)(66476007)(8936002)(956004)(83380400001)(66556008)(44832011)(316002)(52116002)(26005)(6666004)(6916009)(2906002)(186003)(16526019)(6512007)(8676002)(6486002)(86362001)(4326008)(1076003)(478600001)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: hxu0pTOGi0V4OUDIG9TRnHgIpLid9gfh2MVz+U9CeBMfIV+iS8ZLg7h6icwWQqRiNVg9WVebEwpH0Ukd4B3BCobcS1ub4DBbFLO+bTdcbfSBcXDBJT36FCQkU+i3Z20psDhr7xdLN7GMdU2B6nqRhhoHFzzmx9E7zID6q4IYFj/NPOWQAYSlBk79KQcuL9eAX+aeZ8BvXqQksVjGJ3e4bYf4X3LBdZ5WFefCqhmlO8nV2+UbfA8YbJXh0ns7EUGLtySwbQ/X0yJvaax4m10GxWrpDrGeT55fq0l0I5crCDwf2B389ueos6DLfSFpi3A+NF20gD+9ACoRnVpFxDiqmO1hsNDb/qxW0aDNY9OWr6ihmI9ZbvibfcKvpOdL2rQZNgE/Xv6Bh3BTXQ7M1MEf/pgxjLcuaqt3pOrkEws3oFxT/I/Nl3sB33xGYAPZRdZ5z5ETGGWyttebDwQH9/0JiieGwdti4foPc+PsYGEz8exCBOrUu0YEn3zkunafEAk2S2OXYW2NhA4AOxYoKdSYfV/FyWSpa3YSczHOgv0dYkiWUxHJR3xbWeQGMoSIW+0bAo6EFdevU8FXBLxb1ekXGkgUfDV4w3jP1VxkbCeL2+vQC4BzsRvGJhmMQrqehe4gcJgxf2NelfVi0lnz1kyuRg==
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80219acd-d73a-4311-73c6-08d855699af1
+X-MS-Exchange-CrossTenant-Network-Message-Id: fda2ea5f-cae0-48e5-b54b-08d855699e6b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 09:12:13.5403
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 09:12:19.2363
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xQj0XzKXgMVXDURgSs0aiV87gv2mrGBjV0T00WUD101Cy0gSqCAa6LUjJNB1C8Q0T6rrIobzff+eRUTL83/pfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4168
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7/tav9tsPAq65TuRcsnmLQtUOqqp1blrutLADDR6WlQsvy3/B6jHmsnpRTblMQCwSj3+2o5KvpEXaCKiFBn6ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5368
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For sg use cases, there will be serveral TRBs in TD, and the short transfer
-may occur during the TD, current code doesn't handle it well, improve it
-through this series. Tested by Android MTP and ADB use case.
+It only dumps the first TRB per request, it is not useful if only dump
+the first TRB when there are several TRBs per request. We improve it by
+dumpping all TRBs per request in this commit.
 
-Changes for v2:
-- Fix some coding style and typo issues. [Patch 1, 2, 3, 5]
-- Improve the comments [Patch 6,8]
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
+---
+ drivers/usb/cdns3/gadget.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-Peter Chen (8):
-  usb: cdns3: gadget: using correct sg operations
-  usb: cdns3: gadget: improve the dump TRB operation at
-    cdns3_ep_run_transfer
-  usb: cdns3: gadget: calculate TDL correctly
-  usb: cdns3: gadget: add CHAIN and ISP bit for sg list use case
-  usb: cdns3: gadget: handle sg list use case at completion correctly
-  usb: cdns3: gadget: need to handle sg case for workaround 2 case
-  usb: cdns3: gadget: sg_support is only for DEV_VER_V2 or above
-  usb: cdns3: gadget: enlarge the TRB ring length
-
- drivers/usb/cdns3/gadget.c | 202 +++++++++++++++++++++++++------------
- drivers/usb/cdns3/gadget.h |  11 +-
- 2 files changed, 149 insertions(+), 64 deletions(-)
-
+diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
+index 2d6dd6896937..d8eb5b1717f8 100644
+--- a/drivers/usb/cdns3/gadget.c
++++ b/drivers/usb/cdns3/gadget.c
+@@ -1090,6 +1090,7 @@ static int cdns3_ep_run_transfer(struct cdns3_endpoint *priv_ep,
+ 	struct cdns3_device *priv_dev = priv_ep->cdns3_dev;
+ 	struct cdns3_request *priv_req;
+ 	struct cdns3_trb *trb;
++	struct cdns3_trb *link_trb;
+ 	dma_addr_t trb_dma;
+ 	u32 togle_pcs = 1;
+ 	int sg_iter = 0;
+@@ -1130,7 +1131,6 @@ static int cdns3_ep_run_transfer(struct cdns3_endpoint *priv_ep,
+ 
+ 	/* prepare ring */
+ 	if ((priv_ep->enqueue + num_trb)  >= (priv_ep->num_trbs - 1)) {
+-		struct cdns3_trb *link_trb;
+ 		int doorbell, dma_index;
+ 		u32 ch_bit = 0;
+ 
+@@ -1266,7 +1266,22 @@ static int cdns3_ep_run_transfer(struct cdns3_endpoint *priv_ep,
+ 	if (priv_dev->dev_ver <= DEV_VER_V2)
+ 		cdns3_wa1_tray_restore_cycle_bit(priv_dev, priv_ep);
+ 
+-	trace_cdns3_prepare_trb(priv_ep, priv_req->trb);
++	if (num_trb > 1) {
++		int i = 0;
++
++		while (i < num_trb) {
++			trace_cdns3_prepare_trb(priv_ep, trb + i);
++			if (trb + i == link_trb) {
++				trb = priv_ep->trb_pool;
++				num_trb = num_trb - i;
++				i = 0;
++			} else {
++				i++;
++			}
++		}
++	} else {
++		trace_cdns3_prepare_trb(priv_ep, priv_req->trb);
++	}
+ 
+ 	/*
+ 	 * Memory barrier - Cycle Bit must be set before trb->length  and
 -- 
 2.17.1
 
