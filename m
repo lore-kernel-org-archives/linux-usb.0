@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B90C43461
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65884C43461
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:25:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 916D6206A2
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:24:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A13F20C09
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 12:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730067AbgIJMY3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 08:24:29 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53666 "EHLO mx2.suse.de"
+        id S1730477AbgIJMYt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 08:24:49 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53638 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730522AbgIJMVc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Sep 2020 08:21:32 -0400
+        id S1730508AbgIJMVb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 10 Sep 2020 08:21:31 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 00F3DB01F;
-        Thu, 10 Sep 2020 12:21:34 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 65F6EAFF6;
+        Thu, 10 Sep 2020 12:21:33 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
         linux-usb@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 4/6] CDC-WDM: fix race reporting errors in flush
-Date:   Thu, 10 Sep 2020 14:21:03 +0200
-Message-Id: <20200910122105.13398-4-oneukum@suse.com>
+Subject: [RFC 2/6] CDC-WDM: introduce a timeout in flush()
+Date:   Thu, 10 Sep 2020 14:21:01 +0200
+Message-Id: <20200910122105.13398-2-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200910122105.13398-1-oneukum@suse.com>
 References: <20200910122105.13398-1-oneukum@suse.com>
@@ -38,36 +38,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In case a race was lost and multiple fds used,
-an error could be reported multiple times. To fix
-this a spinlock must be taken.
+Malicious or defective hardware may cease communication while
+flush() is running. In last consequence we need a timeout,
+as hardware that remains silent must be ignored.
 
+The 30 seconds are coming out of thin air.
+
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/class/cdc-wdm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/usb/class/cdc-wdm.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index eee19532e67e..930000b1d43b 100644
+index adb3fc307083..fef011dc8dc4 100644
 --- a/drivers/usb/class/cdc-wdm.c
 +++ b/drivers/usb/class/cdc-wdm.c
-@@ -610,10 +610,14 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 		return -EIO;
- 	if (rv < 0)
- 		return -EINTR;
-+
-+	spin_lock_irq(&desc->iuspin);
- 	rv = desc->werr;
-+	desc->werr = 0;
-+	spin_unlock_irq(&desc->iuspin);
-+
- 	if (rv < 0)
--		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--			rv);
-+		dev_err(&desc->intf->dev, "Error in flush path: %d\n", rv);
+@@ -58,6 +58,9 @@ MODULE_DEVICE_TABLE (usb, wdm_ids);
  
- 	return usb_translate_errors(rv);
- }
+ #define WDM_MAX			16
+ 
++/* flush() is uninterruptible, but we cannot wait forever */
++#define WDM_FLUSH_TIMEOUT	(30 * HZ)
++
+ /* CDC-WMC r1.1 requires wMaxCommand to be "at least 256 decimal (0x100)" */
+ #define WDM_DEFAULT_BUFSIZE	256
+ 
+@@ -589,7 +592,7 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 	struct wdm_device *desc = file->private_data;
+ 	int rv;
+ 
+-	wait_event(desc->wait,
++	rv = wait_event_timeout(desc->wait,
+ 			/*
+ 			 * needs both flags. We cannot do with one
+ 			 * because resetting it would cause a race
+@@ -597,11 +600,15 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 			 * a disconnect
+ 			 */
+ 			!test_bit(WDM_IN_USE, &desc->flags) ||
+-			test_bit(WDM_DISCONNECTING, &desc->flags));
++			test_bit(WDM_DISCONNECTING, &desc->flags),
++			WDM_FLUSH_TIMEOUT);
+ 
+ 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
+ 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
+ 		return -ENODEV;
++	if (!rv)
++		return -EIO;
++
+ 	rv = desc->werr;
+ 	if (rv < 0)
+ 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
+@@ -662,6 +669,8 @@ static int wdm_open(struct inode *inode, struct file *file)
+ 	/* using write lock to protect desc->count */
+ 	mutex_lock(&desc->wlock);
+ 	if (!desc->count++) {
++		/* in case flush() had timed out */
++		usb_kill_urb(desc->command);
+ 		desc->werr = 0;
+ 		desc->rerr = 0;
+ 		rv = usb_submit_urb(desc->validity, GFP_KERNEL);
 -- 
 2.16.4
 
