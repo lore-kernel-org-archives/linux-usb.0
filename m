@@ -2,127 +2,172 @@ Return-Path: <SRS0=IRyt=CT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAABC433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:15:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B3FC433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:19:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C01A206B8
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:15:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6576821941
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Sep 2020 09:19:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="BBPhLKRR"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="m+S0uISl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730077AbgIJJPa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Sep 2020 05:15:30 -0400
-Received: from mail-eopbgr130043.outbound.protection.outlook.com ([40.107.13.43]:44418
-        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730136AbgIJJOM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:14:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i42lLiKkIOmBs/0BjmxBSJaROz2MIfUNzCDOlWLeulNftCSnfBsKjuohE3cOoLOIeppMV/rXOmiv7o1wobXClbNvlHaaCh6TIgtSKlIvvLQR/LcptpVMykWEbk5jC3QTSYjJCAz3+cBB0HDudM/zCXpLSFi2eGAFfMBS59frEfcCRis9poXM1VoduyBWKUr7A4OuhAXZKNFW+t9XHppFQxT8n1sbQ2+Baf9MX1SJijrVzLnhscQ0pfTxT81DCouCclrLRVkJ59aQxerUYjOFcf32+XIQVYUpFiLDQr/XNhpRyGIsYdZ4XTsf63+Xu7zsPjuPoPdDEp4KIm/ZO76ycw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TpZdgKq9DZl2AjKkEUrsMJ2D2ENEjCvSEhJf02WL91M=;
- b=DngewARLgZKl6U10iKpmmrzM+pq00I06fbVDY3EQ5HapNwTZ0ocZMezPf16b61MK2LwaFnM6fnAgU3saeSuhzDwJcWj3jnru06U+z+5RRNTT+mMfzI+J2ieUEzqIxYnQnit8cI7yXjPe9cVwcVWv/dmFI6w7rmaZx1TRcup/JeWbGLwYsj/H+l4rQ8+yqRYzgcnKfFgJfSc3ESL7XfsDgssGF34Wk1KgovhMDBtoRXEXsiqSsLbHDpVTBv5eVy1qrSQ9W9qbhHZVADY87cbRDT21Foe8Kbz4HeR926N6qC1gERci+yG4W948yVHE9QK2o3dDgTg7jLaef0K+wcCZug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TpZdgKq9DZl2AjKkEUrsMJ2D2ENEjCvSEhJf02WL91M=;
- b=BBPhLKRRqKQCiB/+Ue0pAjn0lNARQ5Kba/w7WzkaBv9aGqR85g7Y/i+0KylxdgfDkQNoVcbkOhkRVJmkDkQkYZFtop1DKqzgXXWw18fKCjnUzLw3OqVlmhrI1BzpqK6I2cehvKCOyq67OlLirrJjv77nJQ8BI/SosJIkzlyB9JM=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
- by AM6PR04MB4168.eurprd04.prod.outlook.com (2603:10a6:209:43::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Thu, 10 Sep
- 2020 09:12:36 +0000
-Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1023:be8d:40c:efe1]) by AM7PR04MB7157.eurprd04.prod.outlook.com
- ([fe80::1023:be8d:40c:efe1%3]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
- 09:12:36 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com, pawell@cadence.com,
-        rogerq@ti.com, gregkh@linuxfoundation.org, jun.li@nxp.com,
-        Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH v2 8/8] usb: cdns3: gadget: enlarge the TRB ring length
-Date:   Thu, 10 Sep 2020 17:11:30 +0800
-Message-Id: <20200910091130.20937-9-peter.chen@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200910091130.20937-1-peter.chen@nxp.com>
-References: <20200910091130.20937-1-peter.chen@nxp.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0134.apcprd06.prod.outlook.com
- (2603:1096:1:1f::12) To AM7PR04MB7157.eurprd04.prod.outlook.com
- (2603:10a6:20b:118::20)
+        id S1730383AbgIJJTg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Sep 2020 05:19:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34946 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730093AbgIJJTZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Sep 2020 05:19:25 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08A92VZj043273;
+        Thu, 10 Sep 2020 05:18:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : subject : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lbijph5Taiyv+LvsJ/sM7F9hRJYgXJ1/OeIBGv1V4zI=;
+ b=m+S0uISl4zEUpQGOdqBmign+zGpGsKWZr0M8gyz4QB85tpAWWy9P9TsdEALPMOQc3bzS
+ HTmLUO+a8FzA6nkFFUM33SJxJVALimBUdqlyOa2QZAPtF+c5k3tdLE9Ja5lY/NITAiC6
+ 7HCRwKAifhDAW7efbtBkvvOJ9noreWSpBIsRvblR2Hd6QlL3Ql+0LiOJ/5ZV1/0dyGOl
+ ERG9aDbHT//+EVNVz7T31D+HrD6qNbB+7sB3Bj+uKnN/s2x03LNnlPZVOOElWWQIxfaC
+ VUv4NZ3PEML96IaUY9CGtxDOOL3o1HTtA4I8YY6eO/McXjX1bfFSSUd+pDdF2Re/VmW7 tg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33fh5s0eur-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 05:18:39 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08A92b39043665;
+        Thu, 10 Sep 2020 05:18:37 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33fh5s0etk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 05:18:37 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08A9DDHx028675;
+        Thu, 10 Sep 2020 09:18:34 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma03fra.de.ibm.com with ESMTP id 33c2a8bckn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 09:18:34 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 08A9GxlP65470906
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Sep 2020 09:16:59 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6C217AE055;
+        Thu, 10 Sep 2020 09:18:32 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 299C6AE04D;
+        Thu, 10 Sep 2020 09:18:30 +0000 (GMT)
+Received: from oc4120165700.ibm.com (unknown [9.145.14.177])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 10 Sep 2020 09:18:30 +0000 (GMT)
+From:   Steffen Maier <maier@linux.ibm.com>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+To:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Benjamin Block <bblock@linux.ibm.com>
+Cc:     Kees Cook <kees.cook@canonical.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        storagedev@microchip.com, sparclinux@vger.kernel.org,
+        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+        alsa-devel <alsa-devel@alsa-project.org>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Message-ID: <0c66fbe5-c48b-7dc1-f7fe-1498da9cc1a3@linux.ibm.com>
+Date:   Thu, 10 Sep 2020 11:18:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.66) by SG2PR06CA0134.apcprd06.prod.outlook.com (2603:1096:1:1f::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 09:12:34 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [119.31.174.66]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ee0cd50d-963c-436f-c04c-08d85569a8c4
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4168:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB4168B2F32EA45FC00618C76A8B270@AM6PR04MB4168.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vFPgQW5a5m0GovzM6uN9aTBgoxVdrEp5E0n0X8xlIdQ23E01NypWLZ94ylmYdT32MIEh5FTrP24iard4WCXaKcVpGP2YjcjxH3bUoBmU51VS5PsRTaCrDXxV3odRd4YCMBauEpUZwMaGngxcE3jtlFysoDhBGbpDlTLaWpoXN2ZGIToTcL5DvCpFrTOdphjz7YD0bgs+LEC/vlHw6xQ0n8acGzhmcQFTrlR+HCKoKA1y8pwqThWXceo3ZWfwk3Oh3wF698mJ/D1VaVNX5zTz2Vj5aaD+egvd9lgHpd7cPmpg1Sgr3U/goEb1hAeXhpq0d5AsWC17RkpUqZIDKFvm4KPDFWhgwEcRWHFOeZ6stMiXtGa2I9t0prLchyNpGqJcJwehjNBP4Ce+YA8LHHKTZA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7157.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(4326008)(6512007)(83380400001)(186003)(6486002)(16526019)(36756003)(66946007)(66556008)(1076003)(8936002)(66476007)(52116002)(26005)(478600001)(44832011)(6666004)(316002)(2616005)(2906002)(8676002)(956004)(5660300002)(6916009)(6506007)(86362001)(161623001)(147533002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: WRKA/O4gcxXeTRCJBWFLw50z+V4f36F3X1ioNL0ha/EqpjJ1O8tvpng4s+m6k87EmPBeWvIsyNK3fUNnezjqQqC9WJt5E1F4Px0v8ABuLKCLpOmkfA0bKskBWbiZCpNvrsvZczsxSg74nUcIXP3TUB3xB3QJXv3o7bRifk2Zub0DHewa4qfZw3fDy72pFlpiVLfH2qaWqGyOYEEk7vNe2KdnVL3DOHbO80+uQ6QL88wuqM2G2WxwsLQ27sbftGXtprGrDkkpNOARNIwxE70iwi5qCzEA3IdETeCBiE6XZoEXbhfG/uu0HYcaqs0HcA+boTTQQTqPj1hKUSNOD+OgV0FVTRFz1IhKCu4U2uk61dKQ0iz24AdomOrgPmifZww4GYk3El1NYmHE7IkaZRWVe1q+1+sjLdVbF23JXzEVvkdOuIt9iEYVAWvlYIYrkrVPzxHOO+/CTyLPoln3I+4LMMhIIDiDmJFgTcjBd+0O7Kq8TktxQrV+KgFxzpTZIeLcqCfauPTXR5TReDOKu0jQpSP9zmdgzvNEV5w2VgbWiVTk8JK8CB0UGIH7kcQWkzjCY1G97/QecV1xMPu1sBji5kSmAJoGBENeNakN1WzDWCjTGq+gt1CCibo8JQxKg2EbC+APwwdhmgZyHQ//IEJ2ZQ==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee0cd50d-963c-436f-c04c-08d85569a8c4
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 09:12:36.7206
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w7abVB0rFuW29LxrFB8xXtdxzKdFn0LDSb6xUrDxmVjmnTuCj6/aXHqYtHqI5iFsOJzWBlc1MocRXF8ipmiHQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4168
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-10_01:2020-09-10,2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxlogscore=940 adultscore=0 bulkscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009100080
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-At Android ADB and MTP use case, it uses f_fs which supports scatter list,
-it means one request may need several TRBs for it. Besides, TRB consumes
-very fast compared to TRB has prepared for above use case, there are at
-most 120 pending requests, the date size is 16KB for each request, so four
-TRBs (4KB per TRB) per sg entry at worst case. so we need to enlarge the
-TRB ring length to avoid "no free TRB error". Since each TRB only consumes
-12 bytes (3 * 32 bits), we enlarge the TRB length to 600, it leaves some
-buffers for potential "no free TRB error", and only increases a little
-memory cost.
+On 9/9/20 10:06 PM, Joe Perches wrote:
+> fallthrough to a separate case/default label break; isn't very readable.
+> 
+> Convert pseudo-keyword fallthrough; statements to a simple break; when
+> the next label is case or default and the only statement in the next
+> label block is break;
+> 
+> Found using:
+> 
+> $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
+> 
+> Miscellanea:
+> 
+> o Move or coalesce a couple label blocks above a default: block.
+> 
+> Signed-off-by: Joe Perches <joe@perches.com>
+> ---
+> 
+> Compiled allyesconfig x86-64 only.
+> A few files for other arches were not compiled.
 
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
----
- drivers/usb/cdns3/gadget.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/s390/scsi/zfcp_fsf.c                              |  2 +-
 
-diff --git a/drivers/usb/cdns3/gadget.h b/drivers/usb/cdns3/gadget.h
-index 9f8bd452847e..1ccecd237530 100644
---- a/drivers/usb/cdns3/gadget.h
-+++ b/drivers/usb/cdns3/gadget.h
-@@ -966,7 +966,7 @@ struct cdns3_usb_regs {
- /*
-  * USBSS-DEV DMA interface.
-  */
--#define TRBS_PER_SEGMENT	40
-+#define TRBS_PER_SEGMENT	600
- 
- #define ISO_MAX_INTERVAL	10
- 
+>   82 files changed, 109 insertions(+), 112 deletions(-)
+
+> diff --git a/drivers/s390/scsi/zfcp_fsf.c b/drivers/s390/scsi/zfcp_fsf.c
+> index 140186fe1d1e..2741a07df692 100644
+> --- a/drivers/s390/scsi/zfcp_fsf.c
+> +++ b/drivers/s390/scsi/zfcp_fsf.c
+> @@ -2105,7 +2105,7 @@ static void zfcp_fsf_open_lun_handler(struct zfcp_fsf_req *req)
+>   
+>   	case FSF_PORT_HANDLE_NOT_VALID:
+>   		zfcp_erp_adapter_reopen(adapter, 0, "fsouh_1");
+> -		fallthrough;
+> +		break;
+>   	case FSF_LUN_ALREADY_OPEN:
+>   		break;
+>   	case FSF_PORT_BOXED:
+
+Acked-by: Steffen Maier <maier@linux.ibm.com> # for zfcp
+
+
 -- 
-2.17.1
+Mit freundlichen Gruessen / Kind regards
+Steffen Maier
 
+Linux on IBM Z Development
+
+https://www.ibm.com/privacy/us/en/
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Matthias Hartmann
+Geschaeftsfuehrung: Dirk Wittkopp
+Sitz der Gesellschaft: Boeblingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
