@@ -2,116 +2,89 @@ Return-Path: <SRS0=9hDM=CU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F37D9C433E2
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Sep 2020 05:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EAA9C43461
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Sep 2020 06:09:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B79C321D90
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Sep 2020 05:57:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jzm76A5J"
+	by mail.kernel.org (Postfix) with ESMTP id 153C8221EC
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Sep 2020 06:09:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599804578;
+	bh=i4EvJQ4Hd4XUMCwTQL0NZfkrCdHx7ugse8XeINccp6U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=U+kMk7y9vKwumtB5C8Dnfpj0Ds0v7lQK22SonOl90voR/Yd3LaThpqsCYKXcvUfA6
+	 sapzbCd001oPuqwK0SkUK+rRfsXI/k02w94TYl5Glruq2fg68hE0QeGHPNjPUfWlDm
+	 K3ZLlglpIlTreW1lRFh8l1MmpIbQiHmA4G46qc3Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbgIKF5H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Sep 2020 01:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgIKF5E (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Sep 2020 01:57:04 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B6BC061573;
-        Thu, 10 Sep 2020 22:57:03 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id u25so7422291otq.6;
-        Thu, 10 Sep 2020 22:57:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bXRDcpcdk/Mv5GNEux60X8UU9ajHOjMM0sdDWglatzg=;
-        b=Jzm76A5J/d1K96oMaHeTblKjAR7NYcEU5JmyKqGN9TfouTYNAkZH9bYa4o4dSvuvGl
-         vVTb3FWIRo1E/kicwmEyTW49kQeGF56csdG9I60QXBWjZZUo8JV+3W4+yIE2xw9arWbV
-         6LEwfObp38nOgKLo2gc473gb+QeI21sPdfrB9Ky+cJY8ttK02BHNM9xg14W1/cX3W/tV
-         CnVt225QGFltT7CtUNX2p0bn7FLAyfYpvdLgHjkLRaVuqsYoutPzHQSD0HAMXYxb2ZwI
-         paPAE7jqIImE/1RQNc+GALcruF18UBi1TX8NsB0Mq0WwM+Tti2Wt4jTNSy5i/JV1l9Lc
-         YpJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bXRDcpcdk/Mv5GNEux60X8UU9ajHOjMM0sdDWglatzg=;
-        b=EvysNWDEBcioW5bcXySpbPbIqdG3aqS1eK3+KlPhLJGEAX5kfo09aQLOzMYSbWgDzW
-         IqfKKA/6XuUyB/XwGGGDEq8zPLvfwiTUjaslYpoAMX09CV4tKoEOYhBqSu71e0mcKR18
-         zB9dfGSEMGc5j9Ipen8j8++fkyCTM2VNpd0fhLK0OhQnfmEZChgsfWHBSkN2Po/v/fkU
-         W43o4LyEPCcnYsyOdMBnie1bqUlWZvGC4pa8d57ifd8InzNR/3JSEY6NvL9BXInlAgue
-         LdymfVwpsiwzpDFZ2J7wwJYJYbSIfacfuVoiBfXJHaeYIpzXL/uV7+JLFQNxJ90IyAVc
-         2pKg==
-X-Gm-Message-State: AOAM533/3iLsyXwU6jcZbkickGGgB+3Ody/5NouZbvJty80w52gxlI8g
-        d5toZAiqTTJCS4C432+98pqvIfKR1rIHRJ6+/9M=
-X-Google-Smtp-Source: ABdhPJwZlCcBfE23ZIWj4B9Fbnh0ADcF5CcKkBnr4rjFillgbSG1GAfMsJ8VnQfF5J6jUdkURyR45XlLMBnhmHTGTB4=
-X-Received: by 2002:a05:6830:2246:: with SMTP id t6mr242842otd.264.1599803823245;
- Thu, 10 Sep 2020 22:57:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200817084614.24263-1-allen.cryptic@gmail.com>
-In-Reply-To: <20200817084614.24263-1-allen.cryptic@gmail.com>
-From:   Allen <allen.lkml@gmail.com>
-Date:   Fri, 11 Sep 2020 11:26:52 +0530
-Message-ID: <CAOMdWSJohOLK023ZM-yTnZiNHdy2TfyyWV3+iuuQiALiYV2NLQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] drivers: net: convert tasklets to use new tasklet_setup()
-To:     David Miller <davem@davemloft.net>
-Cc:     m.grzeschik@pengutronix.de, paulus@samba.org, oliver@neukum.org,
-        woojung.huh@microchip.com, petkan@nucleusys.com,
-        Kees Cook <keescook@chromium.org>, netdev@vger.kernel.org,
-        linux-ppp@vger.kernel.org,
+        id S1725792AbgIKGJa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Sep 2020 02:09:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34788 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725768AbgIKGJ3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 11 Sep 2020 02:09:29 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 766E121D7E;
+        Fri, 11 Sep 2020 06:09:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599804569;
+        bh=i4EvJQ4Hd4XUMCwTQL0NZfkrCdHx7ugse8XeINccp6U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dfi+I0kMUG1tla9siuFgxikCDgMn+UD1N3AnfGGyzlFtj38Z1iUNuP4s85al6DOKV
+         aQx9yQ4lpuzx12l1wn2CjqpCuyspjqn1oKprCxxFnxGRvFDRlYTQ7K97MZQ39P6b65
+         siLwfoBGTDyORuQxpw93n2jSqCHoCi4DdHvcozPA=
+Date:   Fri, 11 Sep 2020 08:09:25 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hector Martin <hector@marcansoft.com>
+Cc:     James Hilliard <james.hilliard1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Lars Melin <larsm17@gmail.com>,
+        Oliver Neukum <oneukum@suse.de>, linux-usb@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Russ Dill <Russ.Dill@gmail.com>
+Subject: Re: [PATCH v2] usb: serial: Repair FTDI FT232R bricked eeprom
+Message-ID: <20200911060925.GA553486@kroah.com>
+References: <20200909193419.2006744-1-james.hilliard1@gmail.com>
+ <1599706954.10822.3.camel@suse.de>
+ <a1161f77-5b37-39ea-eb91-7b0b59278960@gmail.com>
+ <20200910080850.GD24441@localhost>
+ <CADvTj4rDdj8KtLhGZEZP+XZcF4DTE4oW9sNf=zNWaRPzkny93A@mail.gmail.com>
+ <20200910085541.GA1099591@kroah.com>
+ <CADvTj4pYR9H1X1_f4DYTkb5ViXAdx9sO5yBgHgM5vFaDMs_miQ@mail.gmail.com>
+ <26a723e4-e166-6377-875a-f737a15dc6b1@marcansoft.com>
+ <CADvTj4o9GL5p6eZq+0Q_Pw_ZKuYHvAtav79==CJDdnTj7q+bBg@mail.gmail.com>
+ <0bcb0208-04bc-40c8-7b42-56b4dcf93f21@marcansoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0bcb0208-04bc-40c8-7b42-56b4dcf93f21@marcansoft.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-David,
->
-> Commit 12cc923f1ccc ("tasklet: Introduce new initialization API")'
-> introduced a new tasklet initialization API. This series converts
-> all the net/* drivers to use the new tasklet_setup() API
->
-> Allen Pais (8):
->   net: dccp: convert tasklets to use new tasklet_setup() API
->   net: ipv4: convert tasklets to use new tasklet_setup() API
->   net: mac80211: convert tasklets to use new tasklet_setup() API
->   net: mac802154: convert tasklets to use new tasklet_setup() API
->   net: rds: convert tasklets to use new tasklet_setup() API
->   net: sched: convert tasklets to use new tasklet_setup() API
->   net: smc: convert tasklets to use new tasklet_setup() API
->   net: xfrm: convert tasklets to use new tasklet_setup() API
->
->  net/dccp/timer.c           | 10 +++++-----
->  net/ipv4/tcp_output.c      |  8 +++-----
->  net/mac80211/ieee80211_i.h |  4 ++--
->  net/mac80211/main.c        | 14 +++++---------
->  net/mac80211/tx.c          |  5 +++--
->  net/mac80211/util.c        |  5 +++--
->  net/mac802154/main.c       |  8 +++-----
->  net/rds/ib_cm.c            | 14 ++++++--------
->  net/sched/sch_atm.c        |  9 +++++----
->  net/smc/smc_cdc.c          |  6 +++---
->  net/smc/smc_wr.c           | 14 ++++++--------
->  net/xfrm/xfrm_input.c      |  7 +++----
->  12 files changed, 47 insertions(+), 57 deletions(-)
->
-> --
-> 2.17.1
->
+On Fri, Sep 11, 2020 at 04:54:08AM +0900, Hector Martin wrote:
+> On 11/09/2020 03.51, James Hilliard wrote:
+> > I haven't tested this yet but my assumption was that either a kernel driver
+> > or libusb can issue usb control messages, but both can not be bound to
+> > a device at the same time. I figured this wouldn't have come up when you
+> > tested your python script since the script likely predated adding the brick PID
+> > to the ftdi_sio Linux kernel driver.
+> 
+> Binding to interfaces is exclusive, but global device control messages are
+> not issued to an interface. I think it should work even if the kernel driver
+> is bound (this is how lsusb works too, since it issues control requests even
+> to devices bound to drivers). Even if it is necessary to unbind it, though,
+> libusb already provides a single function to do that
+> (libusb_detach_kernel_driver).
 
-Will you pick these up or should I send these out again when I
-have fixed the two patches on the other thread.
+You really should unbind the device from the driver when doing stuff
+like this, so the kernel doesn't get confused.
 
-Thanks,
+thanks,
 
-
--- 
-       - Allen
+greg k-h
