@@ -2,72 +2,135 @@ Return-Path: <SRS0=K4zX=CW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7148C2D0A7
-	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 06:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA14C43461
+	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 08:40:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85A3320665
-	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 06:35:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72A1120719
+	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 08:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599986431;
+	bh=nkOkHmUG9ZCpI51sdLBC63sJIZFR7gM0zcVLDsrsFjs=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=CkRL/gecuSDb83/EX1d08mOuEAhceR2EIcU0NBASPyCbsP4AV4KoXGtZM9MoJPNPh
+	 6OApA0V6GYDCpq1uX3gW34OaWXw1VeeXpNUOkGvULt9f/YvDYJSpT9An1hVoglZwy2
+	 bO+IxKKBHhNjEPqcWgSm2KNnZ2hhMlWb9Q6TIyZo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725918AbgIMGfW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 13 Sep 2020 02:35:22 -0400
-Received: from out28-171.mail.aliyun.com ([115.124.28.171]:56984 "EHLO
-        out28-171.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbgIMGfT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 13 Sep 2020 02:35:19 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.2063323|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0678196-0.0202119-0.911969;FP=0|0|0|0|0|-1|-1|-1;HT=e01l04362;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.IWSCCS3_1599978900;
-Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.IWSCCS3_1599978900)
-          by smtp.aliyun-inc.com(10.147.42.16);
-          Sun, 13 Sep 2020 14:35:15 +0800
-From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
-        <zhouyanjie@wanyeetech.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org, kishon@ti.com,
-        vkoul@kernel.org, paul@crapouillou.net
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        dongsheng.qiu@ingenic.com, aric.pzqi@ingenic.com,
-        rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
-        sernia.zhou@foxmail.com, zhenwenjin@gmail.com
-Subject: [PATCH v3 0/2] Use the generic PHY framework for Ingenic USB PHY.
-Date:   Sun, 13 Sep 2020 14:34:28 +0800
-Message-Id: <20200913063430.9622-1-zhouyanjie@wanyeetech.com>
-X-Mailer: git-send-email 2.11.0
+        id S1726057AbgIMIkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 13 Sep 2020 04:40:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34146 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725937AbgIMIkX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 13 Sep 2020 04:40:23 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95194207C3;
+        Sun, 13 Sep 2020 08:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599986423;
+        bh=nkOkHmUG9ZCpI51sdLBC63sJIZFR7gM0zcVLDsrsFjs=;
+        h=Date:From:To:Cc:Subject:From;
+        b=ERGW9DQ6D1XKu5HK78vNiKWhRAj+EgVjnaebVeUFr8hB9EVc0JoBM60dn6Zc9NORo
+         XWmIB9Gw4f3UGTo1n/YYcYyxeMW43+pI5AWeDMid8z3UdPbxGETkciW/fpFJUutHmd
+         0ut7hiOk3In6oT1XaqgvtttxaX1wWxFZS+c51Gfw=
+Date:   Sun, 13 Sep 2020 10:40:24 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB/Thunderbolt fixes for 5.9-rc5
+Message-ID: <20200913084024.GA907010@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-v2->v3:
-1.Remove unnecessary "of_match_ptr()" before the move to the generic PHY.
-2.Change "depends on (MACH_INGENIC && MIPS) || COMPILE_TEST" to
-  "depends on MIPS || COMPILE_TEST".
-3.Keep the adjustments of "ingenic_usb_phy_init()" and "ingenic_usb_phu_exit()"
-  positions in v2 to make them consistent with the order in "ingenic_usb_phy_ops",
-  keep the adjustments to the positions of "ingenic_usb_phy_of_matches[]" in v2
-  to keep them consistent with the styles of other USB PHY drivers. And remove
-  some unnecessary changes to reduce the diff size.
+The following changes since commit f75aef392f869018f78cfedf3c320a6b3fcfda6b:
 
-周琰杰 (Zhou Yanjie) (2):
-  USB: PHY: JZ4770: Remove unnecessary function calls.
-  USB: PHY: JZ4770: Use the generic PHY framework.
+  Linux 5.9-rc3 (2020-08-30 16:01:54 -0700)
 
- drivers/phy/Kconfig                                |   1 +
- drivers/phy/Makefile                               |   1 +
- drivers/phy/ingenic/Kconfig                        |  12 ++
- drivers/phy/ingenic/Makefile                       |   2 +
- .../phy-jz4770.c => phy/ingenic/phy-ingenic-usb.c} | 211 +++++++++++----------
- drivers/usb/phy/Kconfig                            |   8 -
- drivers/usb/phy/Makefile                           |   1 -
- 7 files changed, 129 insertions(+), 107 deletions(-)
- create mode 100644 drivers/phy/ingenic/Kconfig
- create mode 100644 drivers/phy/ingenic/Makefile
- rename drivers/{usb/phy/phy-jz4770.c => phy/ingenic/phy-ingenic-usb.c} (70%)
+are available in the Git repository at:
 
--- 
-2.11.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.9-rc5
 
+for you to fetch changes up to a29c0adbb688ddee61b731804fb360898412fe7e:
+
+  Merge tag 'usb-serial-5.9-rc5' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus (2020-09-08 17:50:58 +0200)
+
+----------------------------------------------------------------
+USB/Thunderbolt fixes for 5.9-rc5
+
+Here are some small USB and Thunderbolt driver fixes for 5.9-rc5.
+
+Nothing huge, just a number of bugfixes and new device ids for problems
+reported:
+	- new USB serial driver ids
+	- bug fixes for syzbot reported problems
+	- typec driver fixes
+	- thunderbolt driver fixes
+	- revert of reported broken commit
+
+All of these have been in linux-next with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Aleksander Morgado (1):
+      USB: serial: option: add support for SIM7070/SIM7080/SIM7090 modules
+
+Amjad Ouled-Ameur (1):
+      Revert "usb: dwc3: meson-g12a: fix shared reset control use"
+
+Bj�rn Mork (1):
+      USB: serial: option: support dynamic Quectel USB compositions
+
+Greg Kroah-Hartman (2):
+      Merge tag 'thunderbolt-for-v5.9-rc4' of git://git.kernel.org/.../westeri/thunderbolt into usb-linus
+      Merge tag 'usb-serial-5.9-rc5' of https://git.kernel.org/.../johan/usb-serial into usb-linus
+
+Heikki Krogerus (1):
+      usb: typec: ucsi: acpi: Check the _DEP dependencies
+
+Madhusudanarao Amara (1):
+      usb: typec: intel_pmc_mux: Un-register the USB role switch
+
+Mathias Nyman (1):
+      usb: Fix out of sync data toggle if a configured device is reconfigured
+
+Mika Westerberg (1):
+      thunderbolt: Use maximum USB3 link rate when reclaiming if link is not up
+
+Nikunj A. Dadhania (1):
+      thunderbolt: Disable ports that are not implemented
+
+Patrick Riphagen (1):
+      USB: serial: ftdi_sio: add IDs for Xsens Mti USB converter
+
+Utkarsh Patel (2):
+      usb: typec: intel_pmc_mux: Do not configure Altmode HPD High
+      usb: typec: intel_pmc_mux: Do not configure SBU and HSL Orientation in Alternate modes
+
+Zeng Tao (1):
+      usb: core: fix slab-out-of-bounds Read in read_descriptors
+
+ drivers/thunderbolt/switch.c          |  1 +
+ drivers/thunderbolt/tb.h              |  2 +-
+ drivers/thunderbolt/tunnel.c          | 12 ++++-
+ drivers/usb/core/message.c            | 91 ++++++++++++++++-------------------
+ drivers/usb/core/sysfs.c              |  5 ++
+ drivers/usb/dwc3/dwc3-meson-g12a.c    | 15 +++---
+ drivers/usb/serial/ftdi_sio.c         |  1 +
+ drivers/usb/serial/ftdi_sio_ids.h     |  1 +
+ drivers/usb/serial/option.c           | 22 ++++++---
+ drivers/usb/typec/mux/intel_pmc_mux.c | 14 +-----
+ drivers/usb/typec/ucsi/ucsi_acpi.c    |  4 ++
+ 11 files changed, 87 insertions(+), 81 deletions(-)
