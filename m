@@ -2,27 +2,26 @@ Return-Path: <SRS0=K4zX=CW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CABFC43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7148C2D0A7
 	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 06:35:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE03320665
-	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 06:35:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85A3320665
+	for <linux-usb@archiver.kernel.org>; Sun, 13 Sep 2020 06:35:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbgIMGfX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 13 Sep 2020 02:35:23 -0400
-Received: from out28-3.mail.aliyun.com ([115.124.28.3]:35078 "EHLO
-        out28-3.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbgIMGfT (ORCPT
+        id S1725918AbgIMGfW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 13 Sep 2020 02:35:22 -0400
+Received: from out28-171.mail.aliyun.com ([115.124.28.171]:56984 "EHLO
+        out28-171.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725902AbgIMGfT (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 13 Sep 2020 02:35:19 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.2109629|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0209685-0.000903972-0.978128;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16367;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.IWSCCS3_1599978900;
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.2063323|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0678196-0.0202119-0.911969;FP=0|0|0|0|0|-1|-1|-1;HT=e01l04362;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.IWSCCS3_1599978900;
 Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.IWSCCS3_1599978900)
           by smtp.aliyun-inc.com(10.147.42.16);
-          Sun, 13 Sep 2020 14:35:16 +0800
+          Sun, 13 Sep 2020 14:35:15 +0800
 From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
         <zhouyanjie@wanyeetech.com>
 To:     balbi@kernel.org, gregkh@linuxfoundation.org, kishon@ti.com,
@@ -31,12 +30,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         dongsheng.qiu@ingenic.com, aric.pzqi@ingenic.com,
         rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
         sernia.zhou@foxmail.com, zhenwenjin@gmail.com
-Subject: [PATCH v3 1/2] USB: PHY: JZ4770: Remove unnecessary function calls.
-Date:   Sun, 13 Sep 2020 14:34:29 +0800
-Message-Id: <20200913063430.9622-2-zhouyanjie@wanyeetech.com>
+Subject: [PATCH v3 0/2] Use the generic PHY framework for Ingenic USB PHY.
+Date:   Sun, 13 Sep 2020 14:34:28 +0800
+Message-Id: <20200913063430.9622-1-zhouyanjie@wanyeetech.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200913063430.9622-1-zhouyanjie@wanyeetech.com>
-References: <20200913063430.9622-1-zhouyanjie@wanyeetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -45,33 +42,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Remove unnecessary "of_match_ptr()", because Ingenic SoCs all
-depend on Device Tree.
+v2->v3:
+1.Remove unnecessary "of_match_ptr()" before the move to the generic PHY.
+2.Change "depends on (MACH_INGENIC && MIPS) || COMPILE_TEST" to
+  "depends on MIPS || COMPILE_TEST".
+3.Keep the adjustments of "ingenic_usb_phy_init()" and "ingenic_usb_phu_exit()"
+  positions in v2 to make them consistent with the order in "ingenic_usb_phy_ops",
+  keep the adjustments to the positions of "ingenic_usb_phy_of_matches[]" in v2
+  to keep them consistent with the styles of other USB PHY drivers. And remove
+  some unnecessary changes to reduce the diff size.
 
-Suggested-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
----
+周琰杰 (Zhou Yanjie) (2):
+  USB: PHY: JZ4770: Remove unnecessary function calls.
+  USB: PHY: JZ4770: Use the generic PHY framework.
 
-Notes:
-    v3:
-    New patch.
+ drivers/phy/Kconfig                                |   1 +
+ drivers/phy/Makefile                               |   1 +
+ drivers/phy/ingenic/Kconfig                        |  12 ++
+ drivers/phy/ingenic/Makefile                       |   2 +
+ .../phy-jz4770.c => phy/ingenic/phy-ingenic-usb.c} | 211 +++++++++++----------
+ drivers/usb/phy/Kconfig                            |   8 -
+ drivers/usb/phy/Makefile                           |   1 -
+ 7 files changed, 129 insertions(+), 107 deletions(-)
+ create mode 100644 drivers/phy/ingenic/Kconfig
+ create mode 100644 drivers/phy/ingenic/Makefile
+ rename drivers/{usb/phy/phy-jz4770.c => phy/ingenic/phy-ingenic-usb.c} (70%)
 
- drivers/usb/phy/phy-jz4770.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/phy/phy-jz4770.c b/drivers/usb/phy/phy-jz4770.c
-index f6d3731581eb..4025da20b3fd 100644
---- a/drivers/usb/phy/phy-jz4770.c
-+++ b/drivers/usb/phy/phy-jz4770.c
-@@ -350,7 +350,7 @@ static struct platform_driver ingenic_phy_driver = {
- 	.probe		= jz4770_phy_probe,
- 	.driver		= {
- 		.name	= "jz4770-phy",
--		.of_match_table = of_match_ptr(ingenic_usb_phy_of_matches),
-+		.of_match_table = ingenic_usb_phy_of_matches,
- 	},
- };
- module_platform_driver(ingenic_phy_driver);
 -- 
 2.11.0
 
