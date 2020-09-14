@@ -2,103 +2,69 @@ Return-Path: <SRS0=w69b=CX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF565C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B402C433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:24:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2CE2208DB
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:14:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D9E7208DB
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726048AbgINUOG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Sep 2020 16:14:06 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:48333 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1725914AbgINUOF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 16:14:05 -0400
-Received: (qmail 978548 invoked by uid 1000); 14 Sep 2020 16:14:03 -0400
-Date:   Mon, 14 Sep 2020 16:14:03 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        linux-usb@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-        devicetree@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Peter Chen <peter.chen@nxp.com>, linux-kernel@vger.kernel.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 2/2] USB: misc: Add onboard_usb_hub driver
-Message-ID: <20200914201403.GA977844@rowland.harvard.edu>
-References: <20200914112716.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
- <20200914112716.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200914112716.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726361AbgINUYo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Sep 2020 16:24:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726255AbgINUYl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 16:24:41 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA858C06174A;
+        Mon, 14 Sep 2020 13:24:40 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 39C461273FF76;
+        Mon, 14 Sep 2020 13:07:52 -0700 (PDT)
+Date:   Mon, 14 Sep 2020 13:24:38 -0700 (PDT)
+Message-Id: <20200914.132438.1323071673363556958.davem@davemloft.net>
+To:     allen.lkml@gmail.com
+Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
+        oliver@neukum.org, woojung.huh@microchip.com,
+        UNGLinuxDriver@microchip.com, petkan@nucleusys.com,
+        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-ppp@vger.kernel.org, apais@linux.microsoft.com
+Subject: Re: [RESEND net-next v2 00/12]drivers: net: convert tasklets to
+ use new tasklet_setup() API
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200914073131.803374-1-allen.lkml@gmail.com>
+References: <20200914073131.803374-1-allen.lkml@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 27.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [2620:137:e000::1:9]); Mon, 14 Sep 2020 13:07:52 -0700 (PDT)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 11:27:49AM -0700, Matthias Kaehlcke wrote:
-> The main issue this driver addresses is that a USB hub needs to be
-> powered before it can be discovered. For onboard hubs this is often
-> solved by supplying the hub with an 'always-on' regulator, which is
-> kind of a hack. Some onboard hubs may require further initialization
-> steps, like changing the state of a GPIO or enabling a clock, which
-> requires further hacks. This driver creates a platform device
-> representing the hub which performs the necessary initialization.
-> Currently it only supports switching on a single regulator, support
-> for multiple regulators or other actions can be added as needed.
-> Different initialization sequences can be supported based on the
-> compatible string.
-> 
-> Besides performing the initialization the driver can be configured
-> to power the hub off during system suspend. This can help to extend
-> battery life on battery powered devices, which have no requirements
-> to keep the hub powered during suspend. The driver can also be
-> configured to leave the hub powered when a wakeup capable USB device
-> is connected when suspending, and keeping it powered otherwise.
-> 
-> Technically the driver consists of two drivers, the platform driver
-> described above and a very thin USB driver that subclasses the
-> generic hub driver.
+From: Allen Pais <allen.lkml@gmail.com>
+Date: Mon, 14 Sep 2020 13:01:19 +0530
 
-Actually it subclasses the generic usb device driver, not the hub 
-driver.
-
->  The purpose of this driver is to provide the
-> platform driver with the USB devices corresponding to the hub(s)
-> (a hub controller may provide multiple 'logical' hubs, e.g. one
-> to support USB 2.0 and another for USB 3.x).
+> From: Allen Pais <apais@linux.microsoft.com>
 > 
-> Co-developed-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
-> Signed-off-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
-> This is an evolution of '[RFC] USB: misc: Add usb_hub_pwr driver'
-> (https://lore.kernel.org/patchwork/patch/1299239/).
+> ommit 12cc923f1ccc ("tasklet: Introduce new initialization API")'
+> introduced a new tasklet initialization API. This series converts
+> all the net/* drivers to use the new tasklet_setup() API
 > 
-> Changes in v1:
-> - renamed the driver to 'onboard_usb_hub'
-> - single file for platform and USB driver
-> - USB hub devices register with the platform device
->   - the DT includes a phandle of the platform device
-> - the platform device now controls when power is turned off
-> - the USB driver became a very thin subclass of the generic hub
->   driver
-> - enabled autosuspend support
+> This series is based on v5.9-rc5
 
-See https://marc.info/?l=linux-usb&m=159914635920888&w=2 and the 
-accompanying submissions.  You'll probably want to include those updates 
-in your driver.
+I don't understand how this works, you're not passing the existing
+parameter any more so won't that crash until the final parts of the
+conversion?
 
-Alan Stern
+This is like a half-transformation that will break bisection.
+
+I'm not applying this series, sorry.
