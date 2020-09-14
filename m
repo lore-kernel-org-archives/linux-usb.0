@@ -4,82 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E259DC43461
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:27:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B02EC43461
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:27:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E90D20897
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:27:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9A8120757
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 20:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600115231;
-	bh=d8SSQ/KO7XM7p3yI8GW7bvRJG6YvhGqoirwEHHv9Qw4=;
+	s=default; t=1600115248;
+	bh=Mrh5sruABIeWJ88XEfesAQN68RpwUFqI0XlQIDDSkfI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=QEBeHYPXiXvnXcsVzfUexzUsMwGI5pa0fZkz89m7UQc8idzydcO+ca3rGBZKxn+Zh
-	 R5/w/Zph06w1aRaNr/m+ak0xF44qzskqVTbwUiCcmGbTpKYoRo5myMbLoz6dI38t/Q
-	 htodhOElppXZ156X3i5XeJ+1k/ktorFDIqk/NXQ8=
+	b=lfRx8gS2Fxngfg+b+kaqk4+9wpiOWx8JTTbYEL+pb+jMKdg5IUhQ8YH0r3j1qUOGe
+	 emGsMSjG+djMBk7TpB9HMCXCT9cqrep7Tver6kjvDtXgx152L128ap3DegT9XBtqp2
+	 WNMX1mywilqyu3g+SeW22ZmZN9/1Y0NWXWUQoN9M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbgINU0x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Sep 2020 16:26:53 -0400
-Received: from mail-io1-f45.google.com ([209.85.166.45]:43602 "EHLO
-        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbgINU01 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 16:26:27 -0400
-Received: by mail-io1-f45.google.com with SMTP id z25so1539256iol.10;
-        Mon, 14 Sep 2020 13:26:26 -0700 (PDT)
+        id S1726144AbgINU12 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Sep 2020 16:27:28 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:46062 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbgINUUm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 16:20:42 -0400
+Received: by mail-il1-f196.google.com with SMTP id h2so796959ilo.12;
+        Mon, 14 Sep 2020 13:20:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=pBnFBkWoZFvBeLIVMIY+de1Tgg4+VMrP2i4DNdIGX9U=;
-        b=kWa8ehsWlAtLnVB4/59Ys0+l5KpQUH+USeUyPfrzjhCOawIrKeubr0LlTeDJH7YZgj
-         liD0ume+SDIXyIgQ1XLZ56LlJVZtOoXVKJhrMVVFrGtXNFyGTwdssVI4fwdN8j1WgdIR
-         XslxeEnwRkFLumXqXejW476v0Au4Nihr16jLnp0jswhNJ9OU9c6qb7oZD5XGpAPEn8Th
-         oEfZOEzF5h/xYMdO/qfERu/B/bQ0fuPhA4EiUsLGAghSESJ9mE31pNNqlz3teaWPmk1o
-         Uh47bxZdoXTe/VHvvP9rtWuYyJx3Fziki7f1pmYY8g1YyCVQj+hmBrFV05o+25I7Wymq
-         voIQ==
-X-Gm-Message-State: AOAM530TtFv+95HAG9VE1z9PoWdHMJBN9woDlR0N2Tdj+Qs60yltfSlx
-        FraqR/X1dHvfUm6Ik/Uyuw==
-X-Google-Smtp-Source: ABdhPJzG7fU1g8IWiJZlne66hAGC8Dn0qryW6T3XCfP9dBS3ABXnxukUIIwe8+M6m34CHZdHTDe2uQ==
-X-Received: by 2002:a02:9f0d:: with SMTP id z13mr14871940jal.60.1600115186421;
-        Mon, 14 Sep 2020 13:26:26 -0700 (PDT)
+        bh=rUyPHCHQEwPP/UDzdYJFMAZiINJSksvQiqUhUUenKjc=;
+        b=XoU7Cts/ELDYceZ4+lQkqtDbMmL/w1MRN2aqkoEBjq0WAHP7GWewuhCww4E692Oroh
+         8w0sOX1x27VH/Bd/K2pxPZV+twe98SMdh+kfI4p3EBKQYDmuPcySBufmeZR6eHaUzsG6
+         TGX7RoujtQJ/06iEt1JfFXiclPzvP7uGbcZ7B2YBCsO1QxeTugqT3QMAOQs2TUg62BLn
+         PnUddJ1JQjFNw0AzBar7koLQh1vSUieZmHkRDR4TfRw+TATBxEDeVW1JizGOfHaegT3G
+         H+Sfjx9ejAznyzbFQ8W+BcCImU9V5qXQvUc6xtvLXmMYqiNhlFGjB9HuXwyqqFo6Dd5m
+         u3SA==
+X-Gm-Message-State: AOAM533tRYKbBvGyUGR+ACpylc9wTSbgpmSF0lpmBPZlO2bZ4p5SRApf
+        qYXPlnGYMAZ/wDoneP14LH30oLQFn797
+X-Google-Smtp-Source: ABdhPJz9ptvMqoc8d/p3+5vlGGVvOKt7rZJyyR98uWDlpicTHg4KwGw+aFbOr33BBIGvLMG6DDT0HA==
+X-Received: by 2002:a92:910a:: with SMTP id t10mr13542078ild.256.1600114841074;
+        Mon, 14 Sep 2020 13:20:41 -0700 (PDT)
 Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id i14sm7679165ilb.28.2020.09.14.13.26.24
+        by smtp.gmail.com with ESMTPSA id d23sm6489497ioh.22.2020.09.14.13.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 13:26:25 -0700 (PDT)
-Received: (nullmailer pid 183633 invoked by uid 1000);
-        Mon, 14 Sep 2020 20:26:23 -0000
-Date:   Mon, 14 Sep 2020 14:26:23 -0600
+        Mon, 14 Sep 2020 13:20:40 -0700 (PDT)
+Received: (nullmailer pid 173854 invoked by uid 1000);
+        Mon, 14 Sep 2020 20:20:38 -0000
+Date:   Mon, 14 Sep 2020 14:20:38 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     lindsey.stanpoor@gmail.com
-Cc:     devicetree@vger.kernel.org, cnemo@tutanota.com, balbi@kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-rockchip@lists.infradead.org, heiko@sntech.de,
-        robh+dt@kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 1/4] dt-bindings: usb: add rk3328 dwc3 docs
-Message-ID: <20200914202623.GA183582@bogus>
-References: <20200902181234.13955-1-lindsey.stanpoor@gmail.com>
+To:     Roger Quadros <rogerq@ti.com>
+Cc:     pawell@cadence.com, vigneshr@ti.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nsekhar@ti.com,
+        devicetree@vger.kernel.org, balbi@kernel.org, kurahul@cadence.com,
+        robh+dt@kernel.org
+Subject: Re: [PATCH v2 2/3] dt-bindings: usb: cdns,usb3: Add
+ cdns,phyrst-a-enable property
+Message-ID: <20200914202038.GA173798@bogus>
+References: <20200902133543.17222-1-rogerq@ti.com>
+ <20200902133543.17222-3-rogerq@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200902181234.13955-1-lindsey.stanpoor@gmail.com>
+In-Reply-To: <20200902133543.17222-3-rogerq@ti.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 02 Sep 2020 11:12:31 -0700, lindsey.stanpoor@gmail.com wrote:
-> From: Cameron Nemo <cnemo@tutanota.com>
+On Wed, 02 Sep 2020 16:35:42 +0300, Roger Quadros wrote:
+> Controller version 0x0002450D has USB2 PHY RX sensitivity issues
+> that needs to be worked around by enabling phyrst-a-enable bit
+> in PHYRST_CFG register.
 > 
-> Document compatible for dwc3 on the Rockchip rk3328 platform.
+> There is no way to know controller version before device controller
+> is started and the workaround needs to be applied for both host and
+> device modes, so we add this DT property.
 > 
-> Signed-off-by: Cameron Nemo <cnemo@tutanota.com>
+> Signed-off-by: Roger Quadros <rogerq@ti.com>
 > ---
->  Documentation/devicetree/bindings/usb/dwc3.txt          | 1 +
->  Documentation/devicetree/bindings/usb/rockchip,dwc3.txt | 3 ++-
->  2 files changed, 3 insertions(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
