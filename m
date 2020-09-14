@@ -2,48 +2,48 @@ Return-Path: <SRS0=w69b=CX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05999C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 16:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F9A9C43461
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 16:58:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B77321D1A
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 16:58:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2209520719
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 16:58:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="OBFhYAD1";
-	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="NBvYhWbS"
+	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="gTl6TAsy";
+	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="bo2SxkCQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbgINQ6R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Sep 2020 12:58:17 -0400
-Received: from node.akkea.ca ([192.155.83.177]:44358 "EHLO node.akkea.ca"
+        id S1726322AbgINQ6c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Sep 2020 12:58:32 -0400
+Received: from node.akkea.ca ([192.155.83.177]:44352 "EHLO node.akkea.ca"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726375AbgINQ46 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 14 Sep 2020 12:56:58 -0400
+        id S1726296AbgINQ4d (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 14 Sep 2020 12:56:33 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by node.akkea.ca (Postfix) with ESMTP id 7E3024E2056;
-        Mon, 14 Sep 2020 16:47:21 +0000 (UTC)
+        by node.akkea.ca (Postfix) with ESMTP id 40D6B4E205C;
+        Mon, 14 Sep 2020 16:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
-        t=1600102041; bh=fxhz9YwO5XJH2hLeJM1ruD1l/zt98gVzzUx2K7IMdw4=;
-        h=From:To:Cc:Subject:Date;
-        b=OBFhYAD1AzFovgnP8HqHm0OosdAjdqZ6lsilMPuCoOuGIUKEjXt4SMe6bREKh2x0l
-         0FSWpQbScNpBZ51JvpFTMWTHJX4jNs+RkNzxoKGctkM7oNTvpjLkuJROZYCUU5nfJf
-         38SZK8WOrf37Sffp8VOw+CDqjWe5pMSBYjPibkMg=
+        t=1600102042; bh=4sMRdE+rG/PgDdKpsPvpvVdnhKqwo1fAxtPVNdKCgNo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=gTl6TAsy+i8ljwalO3DivrqaCwae8jyi7qkB1JTFNDgCEmm4B1lDMVlVFIhmgqz3z
+         WEAhf40iXgzB+rpshLekDmIGSELOzNVCe5Vxt7xu2IxQgWUghmFyHJHQ/gO9kJFWA0
+         DumTq7Dmj+NVIZSZB+yz1LaTZLWPWpl/7pcQQy0M=
 X-Virus-Scanned: Debian amavisd-new at mail.akkea.ca
 Received: from node.akkea.ca ([127.0.0.1])
         by localhost (mail.akkea.ca [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id FKHYRESkzSGd; Mon, 14 Sep 2020 16:47:20 +0000 (UTC)
+        with ESMTP id sIoAfzm_I-FF; Mon, 14 Sep 2020 16:47:21 +0000 (UTC)
 Received: from midas.localdomain (S0106788a2041785e.gv.shawcable.net [70.66.86.75])
-        by node.akkea.ca (Postfix) with ESMTPSA id 9AF2A4E201A;
-        Mon, 14 Sep 2020 16:47:20 +0000 (UTC)
+        by node.akkea.ca (Postfix) with ESMTPSA id 7F1214E204B;
+        Mon, 14 Sep 2020 16:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
-        t=1600102040; bh=fxhz9YwO5XJH2hLeJM1ruD1l/zt98gVzzUx2K7IMdw4=;
-        h=From:To:Cc:Subject:Date;
-        b=NBvYhWbS/7RyE+eges0GEmILai84po6DJ8AkZl/ktWIdJmxyDkpYMRWhpAjSqQ5Ze
-         jEXMU5BTpKWfiEv8RwQn9IhvzfSrFxw+XFuICeArnHX3dZp5rYBHcgGh51YkadFoD8
-         WYOvrBKBGSR/20+mebJMLEQexscsALF0g3SrGPtU=
+        t=1600102041; bh=4sMRdE+rG/PgDdKpsPvpvVdnhKqwo1fAxtPVNdKCgNo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=bo2SxkCQmVhKaerqqadwJmipOGPlITxg9J3nWlnK19Ng/ktTR6eoUPCHO1P8MPuRJ
+         BqcLGIheyjD5UZsriWNofqXcCVr1cGBzrKdozcoGE8ksNXxobrCi207LcF6zr4NfFp
+         HMCLkL8j74MuTEABhJHzA+Y3I+9RnDFcS1vF1/Y0=
 From:   Angus Ainslie <angus@akkea.ca>
 To:     kernel@puri.sm
 Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
@@ -52,10 +52,12 @@ Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         bryan.odonoghue@linaro.org, Angus Ainslie <angus@akkea.ca>
-Subject: [PATCH 0/4] RFC: USB C extcon patchset for the tps6598x
-Date:   Mon, 14 Sep 2020 09:46:35 -0700
-Message-Id: <20200914164639.1487650-1-angus@akkea.ca>
+Subject: [PATCH 2/4] usb: typec: tps6589x: register as an extcon provider
+Date:   Mon, 14 Sep 2020 09:46:37 -0700
+Message-Id: <20200914164639.1487650-3-angus@akkea.ca>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200914164639.1487650-1-angus@akkea.ca>
+References: <20200914164639.1487650-1-angus@akkea.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -63,56 +65,223 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We have a complex set of hardware components to manage our USB C data and
-power. For these to work together we decided to use extcon to communicate
-the system changes as various cables and devices are plugged in/out. We did
-look at usb_roleswitch and the charging framework but thought it would be
-preferable to keep all of the information together in one system.
+The tps6598x type C chip can negotiate the VBUS sink/source status as
+well as the VBUS voltage and current. Notify the extcon consumers of
+these changes.
 
-The components we have in the system are:
+Signed-off-by: Angus Ainslie <angus@akkea.ca>
+---
+ drivers/usb/typec/tps6598x.c | 138 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 138 insertions(+)
 
-1) TPS65982 type USB type C controller
-2) dwc3 IP in the imx8mq
-3) BQ25895 battery charger
-
-I'll break this into 2 parts the data role and the power role.
-
-For the data role the TPS65982 senses connect and disconnect as well as data
-source/sink. It is also controlling the USB 3 data lanes. The display port and
-USB 3 muxing is handled by a different chip and we'll submit patches for that
-later on. The dwc3 controls the USB 2 data lanes.
-
-On the power side there are even more moving pieces. The TPS65982 negotiates
-the power delivery contract, the dwc3 senses the BC1.2 charging current and the
-BQ25895 sets whether we are sinking or sourcing current and what the current
-limit is of the sink and source.
-
-For both the data and power roles no single chip has all of the required
-information. Is using extcon the correct way of doing this and if not what
-are the alternatives ?
-
-The extcon extensions allow us to communicate the the power roles amongst
-the various chips.
-
-This patch series has been tested with the 5.9-rc4 kernel on the Purism
-Librem5 HW. Assuming this is the correct way to use extcon there will be
-follow on patches to the BQ25895 and dwc3 drivers.
-
-Strictly speaking only the first 3 patches are needed for extcon support, the
-forth patch decodes the power delivery contracts which makes use of the extcon
-system.
-
-
-Angus Ainslie (4):
-  extcon: Add USB VBUS properties
-  usb: typec: tps6589x: register as an extcon provider
-  usb: typec: tps6598x: Add the extcon USB chargers
-  usb: typec: tps6598x: Add the power delivery irq
-
- drivers/usb/typec/tps6598x.c | 488 ++++++++++++++++++++++++++++++++++-
- include/linux/extcon.h       |  17 +-
- 2 files changed, 503 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
+index 3db33bb622c3..3b06d43c810d 100644
+--- a/drivers/usb/typec/tps6598x.c
++++ b/drivers/usb/typec/tps6598x.c
+@@ -8,6 +8,8 @@
+ 
+ #include <linux/i2c.h>
+ #include <linux/acpi.h>
++#include <linux/extcon.h>
++#include <linux/extcon-provider.h>
+ #include <linux/module.h>
+ #include <linux/regmap.h>
+ #include <linux/interrupt.h>
+@@ -95,7 +97,12 @@ struct tps6598x {
+ 	struct typec_port *port;
+ 	struct typec_partner *partner;
+ 	struct usb_pd_identity partner_identity;
++
+ 	struct usb_role_switch *role_sw;
++
++#ifdef CONFIG_EXTCON
++	struct extcon_dev *edev;
++#endif
+ };
+ 
+ /*
+@@ -209,6 +216,62 @@ static void tps6598x_set_data_role(struct tps6598x *tps,
+ 	typec_set_data_role(tps->port, role);
+ }
+ 
++#ifdef CONFIG_EXTCON
++static void tps6589x_set_extcon_state(struct tps6598x *tps,
++				      u32 status, u16 pwr_status, bool state)
++{
++	union extcon_property_value val;
++	int max_current;
++
++	if (TPS_STATUS_DATAROLE(status)) {
++		extcon_set_state(tps->edev, EXTCON_USB, false);
++		extcon_set_state(tps->edev, EXTCON_USB_HOST, state);
++	} else {
++		extcon_set_state(tps->edev, EXTCON_USB, state);
++		extcon_set_state(tps->edev, EXTCON_USB_HOST, false);
++	}
++
++	val.intval = TPS_STATUS_PORTROLE(status);
++	extcon_set_property(tps->edev, EXTCON_USB_HOST,
++			    EXTCON_PROP_USB_VBUS_SRC,
++			    val);
++
++	extcon_set_property(tps->edev, EXTCON_USB,
++			    EXTCON_PROP_USB_VBUS_SRC,
++			    val);
++
++	switch (TPS_POWER_STATUS_PWROPMODE(pwr_status)) {
++	case TYPEC_PWR_MODE_USB:
++		max_current = 500;
++		extcon_set_state(tps->edev, EXTCON_CHG_USB_SDP, state);
++		extcon_set_state(tps->edev, EXTCON_CHG_USB_SLOW, state);
++		break;
++	case TYPEC_PWR_MODE_1_5A:
++		max_current = 1500;
++		break;
++	case TYPEC_PWR_MODE_3_0A:
++		max_current = 3000;
++		break;
++	case TYPEC_PWR_MODE_PD:
++		max_current = 500;
++		break;
++	}
++
++	val.intval = max_current;
++	extcon_set_property(tps->edev, EXTCON_USB,
++			    EXTCON_PROP_USB_VBUS_CURRENT,
++			    val);
++	extcon_set_property(tps->edev, EXTCON_USB_HOST,
++			    EXTCON_PROP_USB_VBUS_CURRENT,
++			    val);
++
++	extcon_sync(tps->edev, EXTCON_USB);
++	extcon_sync(tps->edev, EXTCON_USB_HOST);
++	extcon_sync(tps->edev, EXTCON_CHG_USB_SDP);
++	extcon_sync(tps->edev, EXTCON_CHG_USB_SLOW);
++}
++#endif
++
+ static int tps6598x_connect(struct tps6598x *tps, u32 status)
+ {
+ 	struct typec_partner_desc desc;
+@@ -248,18 +311,41 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
+ 	if (desc.identity)
+ 		typec_partner_set_identity(tps->partner);
+ 
++#ifdef CONFIG_EXTCON
++	tps6598x_set_extcon_state(tps, status, pwr_status, true);
++#endif
++
+ 	return 0;
+ }
+ 
+ static void tps6598x_disconnect(struct tps6598x *tps, u32 status)
+ {
++	enum typec_pwr_opmode mode;
++	u16 pwr_status;
++	int ret;
++
+ 	if (!IS_ERR(tps->partner))
+ 		typec_unregister_partner(tps->partner);
+ 	tps->partner = NULL;
+ 	typec_set_pwr_opmode(tps->port, TYPEC_PWR_MODE_USB);
+ 	typec_set_pwr_role(tps->port, TPS_STATUS_PORTROLE(status));
+ 	typec_set_vconn_role(tps->port, TPS_STATUS_VCONN(status));
++	typec_set_data_role(tps->port, TPS_STATUS_DATAROLE(status));
+ 	tps6598x_set_data_role(tps, TPS_STATUS_DATAROLE(status), false);
++
++	ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
++	if (ret < 0)
++		return;
++
++	mode = TPS_POWER_STATUS_PWROPMODE(pwr_status);
++
++	dev_dbg(tps->dev, "%s: mode 0x%x pwr_role %d vconn_role %d data_role %d\n",
++		__func__, mode, TPS_STATUS_PORTROLE(status),
++		TPS_STATUS_VCONN(status), TPS_STATUS_DATAROLE(status));
++
++#ifdef CONFIG_EXTCON
++	tps6598x_set_extcon_state(tps, status, 0, false);
++#endif
+ }
+ 
+ static int tps6598x_exec_cmd(struct tps6598x *tps, const char *cmd,
+@@ -407,6 +493,9 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
+ 		goto err_unlock;
+ 	}
+ 
++	dev_dbg(tps->dev, "Received irq event: 0x%llx: 0x%x 0x%x", event1,
++	       (u32)((event1 & 0xFFFFFFFF00000000) >> 32), (u32)(event1 & 0xFFFFFFFF));
++
+ 	ret = tps6598x_read32(tps, TPS_REG_STATUS, &status);
+ 	if (ret) {
+ 		dev_err(tps->dev, "%s: failed to read status\n", __func__);
+@@ -467,6 +556,18 @@ static const struct regmap_config tps6598x_regmap_config = {
+ 	.max_register = 0x7F,
+ };
+ 
++#ifdef CONFIG_EXTCON
++/* List of detectable cables */
++static const unsigned int tps6598x_extcon_cable[] = {
++	EXTCON_USB,
++	EXTCON_USB_HOST,
++	EXTCON_CHG_USB_SDP,
++	EXTCON_CHG_USB_SLOW,
++	EXTCON_CHG_USB_FAST,
++	EXTCON_NONE,
++};
++#endif
++
+ static int tps6598x_probe(struct i2c_client *client)
+ {
+ 	struct typec_capability typec_cap = { };
+@@ -567,10 +668,47 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	}
+ 	fwnode_handle_put(fwnode);
+ 
++#ifdef CONFIG_EXTCON
++	/* Allocate extcon device */
++	tps->edev = devm_extcon_dev_allocate(tps->dev, tps6598x_extcon_cable);
++	if (IS_ERR(tps->edev)) {
++		dev_err(tps->dev, "failed to allocate memory for extcon\n");
++		typec_unregister_port(tps->port);
++		return -ENOMEM;
++	}
++
++	/* Register extcon device */
++	ret = devm_extcon_dev_register(tps->dev, tps->edev);
++	if (ret) {
++		dev_err(tps->dev, "failed to register extcon device\n");
++		typec_unregister_port(tps->port);
++		return ret;
++	}
++
++	extcon_set_property_capability(tps->edev, EXTCON_USB,
++				       EXTCON_PROP_USB_VBUS);
++	extcon_set_property_capability(tps->edev, EXTCON_USB,
++				       EXTCON_PROP_USB_VBUS_SRC);
++	extcon_set_property_capability(tps->edev, EXTCON_USB,
++				       EXTCON_PROP_USB_VBUS_VOLTAGE);
++	extcon_set_property_capability(tps->edev, EXTCON_USB,
++				       EXTCON_PROP_USB_VBUS_CURRENT);
++	extcon_set_property_capability(tps->edev, EXTCON_USB_HOST,
++				       EXTCON_PROP_USB_VBUS);
++	extcon_set_property_capability(tps->edev, EXTCON_USB_HOST,
++				       EXTCON_PROP_USB_VBUS_SRC);
++	extcon_set_property_capability(tps->edev, EXTCON_USB_HOST,
++				       EXTCON_PROP_USB_VBUS_VOLTAGE);
++	extcon_set_property_capability(tps->edev, EXTCON_USB_HOST,
++				       EXTCON_PROP_USB_VBUS_CURRENT);
++#endif
++
+ 	if (status & TPS_STATUS_PLUG_PRESENT) {
+ 		ret = tps6598x_connect(tps, status);
+ 		if (ret)
+ 			dev_err(&client->dev, "failed to register partner\n");
++	} else {
++		tps6598x_disconnect(tps, status);
+ 	}
+ 
+ 	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
 -- 
 2.25.1
 
