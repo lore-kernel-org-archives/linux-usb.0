@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CA3C433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42545C43461
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 597402192A
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFFFF2192A
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fhnc0u7/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXK8eRC4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726127AbgINHdh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Sep 2020 03:33:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57904 "EHLO
+        id S1726170AbgINHdi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Sep 2020 03:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726175AbgINHcP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 03:32:15 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 045EAC061788;
-        Mon, 14 Sep 2020 00:32:12 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id v14so3569801pjd.4;
-        Mon, 14 Sep 2020 00:32:11 -0700 (PDT)
+        with ESMTP id S1726007AbgINHcA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 03:32:00 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC39C06174A;
+        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id t14so10812624pgl.10;
+        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vXVn2f2CIbFk/dtG+DnZgKzF4bw+yeaDsB5JX4aytA8=;
-        b=Fhnc0u7/xXp5L8O7sHdpLvzT28gX2N1VjTFJz5kOgLz2knWODextBYJwoa0N/71bI9
-         7XBRXxHlw2SCrC7UWbrOO7S03aoPlTuqb6A13U/EH6b0VMZhvjpv2Q2M3+J2gVCwWuZP
-         Pna9VshaGE2oFwJrGos6KgqzWOwf49KZYUap6uAwV/bkW6ivj3zXmS3/AgsxmCY96wga
-         w8dVsptH03Wa2oYIBYG/A8T2jOEhj6goTBwZOhNP9Y5ssLg2x9GhiT5lwf0bY1ZLOwRV
-         KCBtowYImV67Xr2NhTenRmCr8nKpV54GgTggZBb92SEpJanQx8xTSOCZDkF0p1y4XKQB
-         wxRg==
+        bh=nCXxnuAt1fX5hvo8OyzQOdQYZNM/qXDUgrQxb+zH55Y=;
+        b=TXK8eRC4ymOFFPb5FEZ5hfqhu3SqIqp8KgGjsSnFjHG+4ZwGPPB1w8dT9F0o6IB9yd
+         PihDn2ti9IbQP79VXVTKlDwvvmE9hfv10T2IDCbZ9Ep+/lEizQzDo+8GG43b3jwZyKL5
+         VqUeEZNERg9yYjc0rqsIVdlJVIq0wjYnAprUAWY8xPKAAvqQVb97Duc42uJtZzFj4h1Q
+         eszf10GtTDv2A/BNf/d8Dx52GWak+80GqJWva4MQ569SMV+PpmEXz6rvt0MSJGGTvm2i
+         VWNyBci6/cminKGi8US/5Lzs2XQOPeQvzxfFrw6uJFun2HVs+WfRwNFf68vtMVyB1Nty
+         6VAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vXVn2f2CIbFk/dtG+DnZgKzF4bw+yeaDsB5JX4aytA8=;
-        b=EWrPmBN3Yv3942rMKQiG6sbsj8Fa2FGq25Z0sowb6Qmj+2/cy1cKM5o63BveLoKvCA
-         OunUcT2HV5F5am75+1iiSjhjz/V7kRgs3kRptxDaHAdLdCehazP9yNhyoLOKqdNOrerQ
-         pXbX+nnDz8dU/KRD2E7Yw4uE52fVE4mPe7yEprgQKzDJqjIeHOLK2ZY5toTdL9u9MBV5
-         30mN9XAe2Fene9nKqKKoCOPb5EitUeP3y/LUwA5O/o62MbIdQsD0uKEQDlcu4Rh35Wh2
-         q309sgC8ub6aUMqwsELJJiT0XmlTDHUZyUNlMBHW0YibroDjqp3ia3Lp1D2f2hOqCsT+
-         4vYg==
-X-Gm-Message-State: AOAM531UiImaZSdimywpvkhcNvaXJ2ZFjGln6HS49KdWwNFlaqHC43cq
-        uwUguWfTsDEmBLZa/OkGy/4=
-X-Google-Smtp-Source: ABdhPJw7dqp1dh8Kwsl4s5SEoaDCbfDmR3ZWlmjMgVAkvwkGRtX9Id5c/g+PqPJG9HSGwkaL+zQYiA==
-X-Received: by 2002:a17:90a:f187:: with SMTP id bv7mr11756514pjb.63.1600068731511;
-        Mon, 14 Sep 2020 00:32:11 -0700 (PDT)
+        bh=nCXxnuAt1fX5hvo8OyzQOdQYZNM/qXDUgrQxb+zH55Y=;
+        b=rfEeTGRjZvg3sW216g/xhnqgqQ1T6pTU85pcF6yGV1IE6fRjew7KBm1O/SMKhevRIN
+         aXt+EezXYEcKU+7MetfSeWceP3lISh/Cz9y6lbGdenO3KSaJVu4B0LHBytL8+Q5Lf6eh
+         ZP+BnUWBRjxRs9bR/1BHDpJwl4t7hWQ5Ci0nkbYtN+Ip/Q+xUcVMGx9hiDLfQDRvbngA
+         wUrvsoAjbn2Z8F1HKKz5UBAZteE/yAPD9gOP67h2TASLvZvnCKyxRc7E6+XPsFC+x1uN
+         6gBoZQT9OfklIOTshnKN2tNB/IEVtUeFgFnyPw9Gp2Ts3oup/0HCvs/oOR9Y7b5vN2V5
+         bvQw==
+X-Gm-Message-State: AOAM533a8oOGeyWUTkJgi1H/iivckd4fB1NWIy7l/C55uYKTpelEilV0
+        GExFEBqpCxX1dWUqMkOnG8E=
+X-Google-Smtp-Source: ABdhPJzvtQsUGPxp4EH5pqtUt3Z3HA3HPD+xFngiqPjH8Tw/S5S8TRNGyI9N9SNegylxmQGF7JCN4A==
+X-Received: by 2002:a17:902:28:: with SMTP id 37mr12795896pla.107.1600068718597;
+        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.192.250])
-        by smtp.gmail.com with ESMTPSA id o1sm9128626pfg.83.2020.09.14.00.32.07
+        by smtp.gmail.com with ESMTPSA id o1sm9128626pfg.83.2020.09.14.00.31.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 00:32:11 -0700 (PDT)
+        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
 From:   Allen Pais <allen.lkml@gmail.com>
 To:     davem@davemloft.net
 Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
@@ -66,9 +66,9 @@ Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-ppp@vger.kernel.org, Allen Pais <apais@linux.microsoft.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [RESEND net-next v2 07/12] net: hso: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 14 Sep 2020 13:01:26 +0530
-Message-Id: <20200914073131.803374-8-allen.lkml@gmail.com>
+Subject: [RESEND net-next v2 04/12] net: ifb: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 14 Sep 2020 13:01:23 +0530
+Message-Id: <20200914073131.803374-5-allen.lkml@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200914073131.803374-1-allen.lkml@gmail.com>
 References: <20200914073131.803374-1-allen.lkml@gmail.com>
@@ -89,38 +89,35 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <apais@linux.microsoft.com>
 ---
- drivers/net/usb/hso.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/net/ifb.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index 2bb28db89432..3b08a6b5db05 100644
---- a/drivers/net/usb/hso.c
-+++ b/drivers/net/usb/hso.c
-@@ -1213,9 +1213,10 @@ static void hso_std_serial_read_bulk_callback(struct urb *urb)
-  * This needs to be a tasklet otherwise we will
-  * end up recursively calling this function.
-  */
--static void hso_unthrottle_tasklet(unsigned long data)
-+static void hso_unthrottle_tasklet(struct tasklet_struct *t)
- {
--	struct hso_serial *serial = (struct hso_serial *)data;
-+	struct hso_serial *serial = from_tasklet(serial, t,
-+						 unthrottle_tasklet);
- 	unsigned long flags;
+diff --git a/drivers/net/ifb.c b/drivers/net/ifb.c
+index 7fe306e76281..a2d6027362d2 100644
+--- a/drivers/net/ifb.c
++++ b/drivers/net/ifb.c
+@@ -59,9 +59,9 @@ static netdev_tx_t ifb_xmit(struct sk_buff *skb, struct net_device *dev);
+ static int ifb_open(struct net_device *dev);
+ static int ifb_close(struct net_device *dev);
  
- 	spin_lock_irqsave(&serial->serial_lock, flags);
-@@ -1264,9 +1265,8 @@ static int hso_serial_open(struct tty_struct *tty, struct file *filp)
- 		serial->rx_state = RX_IDLE;
- 		/* Force default termio settings */
- 		_hso_serial_set_termios(tty, NULL);
--		tasklet_init(&serial->unthrottle_tasklet,
--			     hso_unthrottle_tasklet,
--			     (unsigned long)serial);
-+		tasklet_setup(&serial->unthrottle_tasklet,
-+			      hso_unthrottle_tasklet);
- 		result = hso_start_serial_device(serial->parent, GFP_KERNEL);
- 		if (result) {
- 			hso_stop_serial_device(serial->parent);
+-static void ifb_ri_tasklet(unsigned long _txp)
++static void ifb_ri_tasklet(struct tasklet_struct *t)
+ {
+-	struct ifb_q_private *txp = (struct ifb_q_private *)_txp;
++	struct ifb_q_private *txp = from_tasklet(txp, t, ifb_tasklet);
+ 	struct netdev_queue *txq;
+ 	struct sk_buff *skb;
+ 
+@@ -170,8 +170,7 @@ static int ifb_dev_init(struct net_device *dev)
+ 		__skb_queue_head_init(&txp->tq);
+ 		u64_stats_init(&txp->rsync);
+ 		u64_stats_init(&txp->tsync);
+-		tasklet_init(&txp->ifb_tasklet, ifb_ri_tasklet,
+-			     (unsigned long)txp);
++		tasklet_setup(&txp->ifb_tasklet, ifb_ri_tasklet);
+ 		netif_tx_start_queue(netdev_get_tx_queue(dev, i));
+ 	}
+ 	return 0;
 -- 
 2.25.1
 
