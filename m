@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F328FC433E2
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC9AC43461
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B6DE2192A
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4E922192A
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CcnFiM+y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jsGB4evR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbgINHdZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Sep 2020 03:33:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57892 "EHLO
+        id S1726212AbgINHd5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Sep 2020 03:33:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbgINHcZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 03:32:25 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FD7C06174A;
-        Mon, 14 Sep 2020 00:32:24 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id l126so11878106pfd.5;
-        Mon, 14 Sep 2020 00:32:24 -0700 (PDT)
+        with ESMTP id S1726113AbgINHbv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 03:31:51 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AC2C061788;
+        Mon, 14 Sep 2020 00:31:50 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id b124so11835803pfg.13;
+        Mon, 14 Sep 2020 00:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jwBSQkwxFDmuxnhyMb2b19ee2+rUfqniVLHpZYtKUdU=;
-        b=CcnFiM+yywZ1hWJKc0oQLwb63YKZFFUEQ7k4r3aOiFjYEQxFvBXb3DH4xKX5HyU6Mo
-         Kg/QvbkQclgjIBxT8yhzqbBt3I16v97MsmKYULWbr3/228COyZH1msIaq839WxwTI2Wz
-         tehc9LHApHk9MWU+upofP/S2ocYaw+xA2EPqZ9/iaMBmIBMoPnaUVtNkMUDBJhR3ZZJO
-         sWiJ2GcaO2E7zu1qVQQxPBKH8gm/QDonq3GvV2bOjfISyO2vQHODuBbvcq4O63n/1VJu
-         jDDgsJZUghcIxXReZCINf9eC4JOfhMh5hjOWVoPtNbzV4esPeZj1fIlLXPK1Y3gCC9jI
-         ztnQ==
+        bh=5qy3qYBgQmVFP6Fnj6Ev/w5c8PK7dcFkRXw7SXFpot8=;
+        b=jsGB4evR9SXWXf1aaoA3dDmLPhgHJuigBwqPHjew2meI6+BdmXqQqU0Oe1pJkMQ+1D
+         rbcc/uVNs0H5XOj4gVtyh9gv/7VHVmABTxQAnJFn03Qtl6kV0QzWbrDFHak+K+/fFjrH
+         imPA9hFGBjLYkqcH//hvnR/USFMvEcttBHHNPP/bEOj9Y3Xw7hoYuZX1SXeIH8yTk56q
+         bnjlCMWF3XDeGKxlO8wVjpPNJhe+h7Y95/oRGN6B7OudA0KpTVGkEL3hnSx31YxZsRMv
+         T7oObB3MG2CY0wAazwSlsqrjh3YjgIV4nkhayYNXQvNKulHCaOiDxnesJysdrDaWXsKO
+         XVew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jwBSQkwxFDmuxnhyMb2b19ee2+rUfqniVLHpZYtKUdU=;
-        b=X+7r3JnI10CT3Rg6DM/9MgzdZ/Aw0pI8MlfhuopxWkqyujXsa188P6lFLN4nyQOwf3
-         r9GgcIN5Zs5woRoqTOR6yOeR3OtYhB6mUuozgiSmxveRtpvo6TyxsuWQSjXQ3YXOKCZc
-         OFbk1SQ+g+w4vSYzIeaNL6u6OmpBjsJF46I6qerl+f5wLvmTk/eB2KrazHAt1GTkP3qg
-         o+xPmowUobINU9mig7QzqejSfMtp2rWHYSDNpSXltk7ZaGbQRIF8WV7LqIPhJPIkTO4O
-         R2Bb3EScNfav3MbjZcAowoln+xdLsap3oUfGF2fLd4y0izYZf36yIUqzfieQ5p81i+/l
-         dVxA==
-X-Gm-Message-State: AOAM532NGRlu10BkyCQfhiz8ETIds+wjIlpDCPs9SCcdh990SIBDkKBo
-        7WmAPS9Dsm7NztuxQpGuTGk=
-X-Google-Smtp-Source: ABdhPJzN+0NqSopntb5zrOiedCWU/1GO532NjylMRNFzb35Ce9i6VUKEm4RvEXZemKErD8wsLVd+lw==
-X-Received: by 2002:a17:902:c253:: with SMTP id 19mr12931535plg.65.1600068744361;
-        Mon, 14 Sep 2020 00:32:24 -0700 (PDT)
+        bh=5qy3qYBgQmVFP6Fnj6Ev/w5c8PK7dcFkRXw7SXFpot8=;
+        b=e5RF+tN4ZhR3kPuwi3Ai9i9GQlNHiCzjbiQfC2My1s2s/BUTfOkb8WMXPcPE3ytGaj
+         6xYqTTCrHHxJ6dKnF5mFOLo/UCI4TbPYBXyc1lq57EGO05FrxMy4O/jXyl2EdZtaX9NY
+         tHDekZvS8KDRC/ZLRg/K8Vk7xsgNXhFcjoMbMQUyAQThpPp4Uw5z/KMvbEmfGfBlq0Yr
+         Cg4Z2KxBzO+e4QSYnpT/fsH+LcLCDiePC7iM//6LdqXj+NTG1bXhYJKtXvns6vlYGNKt
+         zR9+X1v7nxUM+E4gUvmuCtZnXAlvDhF1f4OtbHXkRN+LZKt17DVlIwpqMZi1KsTUdY1c
+         WqQw==
+X-Gm-Message-State: AOAM5329CCVGMjFLMRzb9RoTa/rRt5leRzWJPB+PYptYQDfoUOU0T3Gz
+        +Ogn90Ode7CNvz6ipxYxPCI=
+X-Google-Smtp-Source: ABdhPJzXGO1egFidctuNwYUiqKWrwPKAhY7P1+XJ3OYrJYb/VII4ZQBvsxmpihyPMwzmSApbLyqo4g==
+X-Received: by 2002:a63:f606:: with SMTP id m6mr10016873pgh.193.1600068710095;
+        Mon, 14 Sep 2020 00:31:50 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.192.250])
-        by smtp.gmail.com with ESMTPSA id o1sm9128626pfg.83.2020.09.14.00.32.20
+        by smtp.gmail.com with ESMTPSA id o1sm9128626pfg.83.2020.09.14.00.31.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 00:32:23 -0700 (PDT)
+        Mon, 14 Sep 2020 00:31:49 -0700 (PDT)
 From:   Allen Pais <allen.lkml@gmail.com>
 To:     davem@davemloft.net
 Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
@@ -66,9 +66,9 @@ Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-ppp@vger.kernel.org, Allen Pais <apais@linux.microsoft.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [RESEND net-next v2 10/12] net: r8152: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 14 Sep 2020 13:01:29 +0530
-Message-Id: <20200914073131.803374-11-allen.lkml@gmail.com>
+Subject: [RESEND net-next v2 02/12] net: arcnet: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 14 Sep 2020 13:01:21 +0530
+Message-Id: <20200914073131.803374-3-allen.lkml@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200914073131.803374-1-allen.lkml@gmail.com>
 References: <20200914073131.803374-1-allen.lkml@gmail.com>
@@ -89,36 +89,35 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <apais@linux.microsoft.com>
 ---
- drivers/net/usb/r8152.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/net/arcnet/arcnet.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index b1770489aca5..2d706cdbf9a2 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -2410,11 +2410,9 @@ static void tx_bottom(struct r8152 *tp)
- 	} while (res == 0);
+diff --git a/drivers/net/arcnet/arcnet.c b/drivers/net/arcnet/arcnet.c
+index e04efc0a5c97..69d8920e394b 100644
+--- a/drivers/net/arcnet/arcnet.c
++++ b/drivers/net/arcnet/arcnet.c
+@@ -393,9 +393,9 @@ static void arcnet_timer(struct timer_list *t)
+ 	}
  }
  
--static void bottom_half(unsigned long data)
-+static void bottom_half(struct tasklet_struct *t)
+-static void arcnet_reply_tasklet(unsigned long data)
++static void arcnet_reply_tasklet(struct tasklet_struct *t)
  {
--	struct r8152 *tp;
--
--	tp = (struct r8152 *)data;
-+	struct r8152 *tp = from_tasklet(tp, t, tx_tl);
+-	struct arcnet_local *lp = (struct arcnet_local *)data;
++	struct arcnet_local *lp = from_tasklet(lp, t, reply_tasklet);
  
- 	if (test_bit(RTL8152_UNPLUG, &tp->flags))
- 		return;
-@@ -6730,7 +6728,7 @@ static int rtl8152_probe(struct usb_interface *intf,
- 	mutex_init(&tp->control);
- 	INIT_DELAYED_WORK(&tp->schedule, rtl_work_func_t);
- 	INIT_DELAYED_WORK(&tp->hw_phy_work, rtl_hw_phy_work_func_t);
--	tasklet_init(&tp->tx_tl, bottom_half, (unsigned long)tp);
-+	tasklet_setup(&tp->tx_tl, bottom_half);
- 	tasklet_disable(&tp->tx_tl);
+ 	struct sk_buff *ackskb, *skb;
+ 	struct sock_exterr_skb *serr;
+@@ -483,8 +483,7 @@ int arcnet_open(struct net_device *dev)
+ 		arc_cont(D_PROTO, "\n");
+ 	}
  
- 	netdev->netdev_ops = &rtl8152_netdev_ops;
+-	tasklet_init(&lp->reply_tasklet, arcnet_reply_tasklet,
+-		     (unsigned long)lp);
++	tasklet_setup(&lp->reply_tasklet, arcnet_reply_tasklet);
+ 
+ 	arc_printk(D_INIT, dev, "arcnet_open: resetting card.\n");
+ 
 -- 
 2.25.1
 
