@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42545C43461
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D89EAC433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFFFF2192A
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 888012192A
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Sep 2020 07:33:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXK8eRC4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JQAf75xc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726170AbgINHdi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Sep 2020 03:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
+        id S1726053AbgINHde (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Sep 2020 03:33:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbgINHcA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 03:32:00 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC39C06174A;
-        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id t14so10812624pgl.10;
-        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
+        with ESMTP id S1726176AbgINHcV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Sep 2020 03:32:21 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B8FC06178B;
+        Mon, 14 Sep 2020 00:32:20 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id v14so3569991pjd.4;
+        Mon, 14 Sep 2020 00:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nCXxnuAt1fX5hvo8OyzQOdQYZNM/qXDUgrQxb+zH55Y=;
-        b=TXK8eRC4ymOFFPb5FEZ5hfqhu3SqIqp8KgGjsSnFjHG+4ZwGPPB1w8dT9F0o6IB9yd
-         PihDn2ti9IbQP79VXVTKlDwvvmE9hfv10T2IDCbZ9Ep+/lEizQzDo+8GG43b3jwZyKL5
-         VqUeEZNERg9yYjc0rqsIVdlJVIq0wjYnAprUAWY8xPKAAvqQVb97Duc42uJtZzFj4h1Q
-         eszf10GtTDv2A/BNf/d8Dx52GWak+80GqJWva4MQ569SMV+PpmEXz6rvt0MSJGGTvm2i
-         VWNyBci6/cminKGi8US/5Lzs2XQOPeQvzxfFrw6uJFun2HVs+WfRwNFf68vtMVyB1Nty
-         6VAQ==
+        bh=cd71yq/lAASqvcH4C2Jtz3wuu5v0StzhHrHHOcVra4g=;
+        b=JQAf75xcEztoyinIIDsx1TWKkL/AJ4wVKElWlJKiEycTkNg4NaU89AjUPZuklCIivF
+         ZHn7CWNqeXB2ZXURJiBJFWqh3YlCUJwzAr4Xr4SUB0WbBkkj7sTBbKq8NiC3ZvloTLTl
+         TlYFAPlniWvALfFaWjP+I4TSWA/VmOb1G6MGIt0twZ02SNFIpR2oMhFwXlNI6kgpXnWB
+         G5oQXIOq79hdf/BjUETwLXPQjVlGA0Lm8+lYsgUnqVtEIg4Mzvn8cWO4wtE8dncji0UQ
+         xUuZHmZr1yrfoRF7QnMC3dFlj33H84UAy31UrljaFlQzqlggOE0YKpmgr43y2pqmnefm
+         TGwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nCXxnuAt1fX5hvo8OyzQOdQYZNM/qXDUgrQxb+zH55Y=;
-        b=rfEeTGRjZvg3sW216g/xhnqgqQ1T6pTU85pcF6yGV1IE6fRjew7KBm1O/SMKhevRIN
-         aXt+EezXYEcKU+7MetfSeWceP3lISh/Cz9y6lbGdenO3KSaJVu4B0LHBytL8+Q5Lf6eh
-         ZP+BnUWBRjxRs9bR/1BHDpJwl4t7hWQ5Ci0nkbYtN+Ip/Q+xUcVMGx9hiDLfQDRvbngA
-         wUrvsoAjbn2Z8F1HKKz5UBAZteE/yAPD9gOP67h2TASLvZvnCKyxRc7E6+XPsFC+x1uN
-         6gBoZQT9OfklIOTshnKN2tNB/IEVtUeFgFnyPw9Gp2Ts3oup/0HCvs/oOR9Y7b5vN2V5
-         bvQw==
-X-Gm-Message-State: AOAM533a8oOGeyWUTkJgi1H/iivckd4fB1NWIy7l/C55uYKTpelEilV0
-        GExFEBqpCxX1dWUqMkOnG8E=
-X-Google-Smtp-Source: ABdhPJzvtQsUGPxp4EH5pqtUt3Z3HA3HPD+xFngiqPjH8Tw/S5S8TRNGyI9N9SNegylxmQGF7JCN4A==
-X-Received: by 2002:a17:902:28:: with SMTP id 37mr12795896pla.107.1600068718597;
-        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
+        bh=cd71yq/lAASqvcH4C2Jtz3wuu5v0StzhHrHHOcVra4g=;
+        b=Y26hpk0NG4n81/g6kdHV2XhcYoz/lkgEUyw9W1GwQQpNo7BOtsMCBvaKjOnvceT8or
+         qb7h9axSk1qDSu8IVKrFU4n7nu4zr5KV1M6HzFWpE+V/Lc6lJ1U1lepVtd7edqrfJXv4
+         c/uJ7CvzEm1arVAH1lBBNUPeoF4pp5TxueNNn23zug/82wm+5KGDhGAE6BZJpuQOkhE5
+         Am7n7dFInMc5HrI4aPQh1RzNeJt2AE7/qVlJqm5PjTRz1uQT1kGQgxOkGpVDFrHdAVQe
+         dX49K/gwRy5/h9VxHJffka3ICQsc41w+CH+ycxV3QjchCqnybRqYSLPPokvAALmCvOSO
+         bnZQ==
+X-Gm-Message-State: AOAM5337ybrm6DmxfThxRx99bDvNosqlSqx1FRoNn1aVYSGwJbyCJPlv
+        Qe9OLyI9s7E0hNqEF6wRwh0=
+X-Google-Smtp-Source: ABdhPJyxn4lCfqiv+OVxmW576cCaSzWQhjtVvF1qvhnzNVPCURZEq0END9+HC31olr2Y4/lnztzaNg==
+X-Received: by 2002:a17:90b:104f:: with SMTP id gq15mr12445937pjb.215.1600068740380;
+        Mon, 14 Sep 2020 00:32:20 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.192.250])
-        by smtp.gmail.com with ESMTPSA id o1sm9128626pfg.83.2020.09.14.00.31.54
+        by smtp.gmail.com with ESMTPSA id o1sm9128626pfg.83.2020.09.14.00.32.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 00:31:58 -0700 (PDT)
+        Mon, 14 Sep 2020 00:32:19 -0700 (PDT)
 From:   Allen Pais <allen.lkml@gmail.com>
 To:     davem@davemloft.net
 Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
@@ -66,9 +66,9 @@ Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-ppp@vger.kernel.org, Allen Pais <apais@linux.microsoft.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [RESEND net-next v2 04/12] net: ifb: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 14 Sep 2020 13:01:23 +0530
-Message-Id: <20200914073131.803374-5-allen.lkml@gmail.com>
+Subject: [RESEND net-next v2 09/12] net: pegasus: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 14 Sep 2020 13:01:28 +0530
+Message-Id: <20200914073131.803374-10-allen.lkml@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200914073131.803374-1-allen.lkml@gmail.com>
 References: <20200914073131.803374-1-allen.lkml@gmail.com>
@@ -89,35 +89,37 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <apais@linux.microsoft.com>
 ---
- drivers/net/ifb.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/net/usb/pegasus.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ifb.c b/drivers/net/ifb.c
-index 7fe306e76281..a2d6027362d2 100644
---- a/drivers/net/ifb.c
-+++ b/drivers/net/ifb.c
-@@ -59,9 +59,9 @@ static netdev_tx_t ifb_xmit(struct sk_buff *skb, struct net_device *dev);
- static int ifb_open(struct net_device *dev);
- static int ifb_close(struct net_device *dev);
+diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
+index e92cb51a2c77..1f11e586037f 100644
+--- a/drivers/net/usb/pegasus.c
++++ b/drivers/net/usb/pegasus.c
+@@ -565,12 +565,12 @@ static void read_bulk_callback(struct urb *urb)
+ 	tasklet_schedule(&pegasus->rx_tl);
+ }
  
--static void ifb_ri_tasklet(unsigned long _txp)
-+static void ifb_ri_tasklet(struct tasklet_struct *t)
+-static void rx_fixup(unsigned long data)
++static void rx_fixup(struct tasklet_struct *t)
  {
--	struct ifb_q_private *txp = (struct ifb_q_private *)_txp;
-+	struct ifb_q_private *txp = from_tasklet(txp, t, ifb_tasklet);
- 	struct netdev_queue *txq;
- 	struct sk_buff *skb;
+ 	pegasus_t *pegasus;
+ 	int status;
  
-@@ -170,8 +170,7 @@ static int ifb_dev_init(struct net_device *dev)
- 		__skb_queue_head_init(&txp->tq);
- 		u64_stats_init(&txp->rsync);
- 		u64_stats_init(&txp->tsync);
--		tasklet_init(&txp->ifb_tasklet, ifb_ri_tasklet,
--			     (unsigned long)txp);
-+		tasklet_setup(&txp->ifb_tasklet, ifb_ri_tasklet);
- 		netif_tx_start_queue(netdev_get_tx_queue(dev, i));
+-	pegasus = (pegasus_t *) data;
++	pegasus = from_tasklet(pegasus, t, rx_tl);
+ 	if (pegasus->flags & PEGASUS_UNPLUG)
+ 		return;
+ 
+@@ -1141,7 +1141,7 @@ static int pegasus_probe(struct usb_interface *intf,
+ 		goto out1;
  	}
- 	return 0;
+ 
+-	tasklet_init(&pegasus->rx_tl, rx_fixup, (unsigned long) pegasus);
++	tasklet_setup(&pegasus->rx_tl, rx_fixup);
+ 
+ 	INIT_DELAYED_WORK(&pegasus->carrier_check, check_carrier);
+ 
 -- 
 2.25.1
 
