@@ -2,104 +2,117 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 582EFC43461
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 11:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4500C43461
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 12:10:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A43521D7E
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 11:59:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="nEwnaHQT"
+	by mail.kernel.org (Postfix) with ESMTP id B4DA42078E
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 12:10:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbgIOL5j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 07:57:39 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:45578 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbgIOLqq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 07:46:46 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08FBjlfE009318;
-        Tue, 15 Sep 2020 06:45:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600170347;
-        bh=ketyk4tDTWG0vyPaqHUk09xlVnIAaXeWFX/wwUSaBIo=;
-        h=From:To:CC:Subject:Date;
-        b=nEwnaHQTyXb0sViQ6nLLuW9qgsUcV628vFNGZpeVyVBL8jwRpC0tMKuZGd/e0EavX
-         agdF28J0AQ6OPDzv8VnAxGneIfzK7PP4D9COGG8oktCrUpNNh/JTJr0yvTwmbhDtkF
-         UvNbIbKmAJvaQ55P4U2tY5CqPPE4dKnrEa/e7S24=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08FBjl7X055474
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 15 Sep 2020 06:45:47 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Sep 2020 06:45:47 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Sep 2020 06:45:47 -0500
-Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08FBjin6091853;
-        Tue, 15 Sep 2020 06:45:45 -0500
-From:   Roger Quadros <rogerq@ti.com>
-To:     <balbi@kernel.org>
-CC:     <pawell@cadence.com>, <kurahul@cadence.com>, <nsekhar@ti.com>,
-        <vigneshr@ti.com>, <robh+dt@kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Roger Quadros <rogerq@ti.com>
-Subject: [PATCH v3 0/3] usb: cdns,usb3: Convert DT binding to YAML
-Date:   Tue, 15 Sep 2020 14:45:40 +0300
-Message-ID: <20200915114543.2599-1-rogerq@ti.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726444AbgIOMKW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 08:10:22 -0400
+Received: from mga04.intel.com ([192.55.52.120]:45448 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726525AbgIOMJu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Sep 2020 08:09:50 -0400
+IronPort-SDR: pW9dv9gQlygV3P8PyPYWcE8OxSkYE2xVbuZzm0oo4XNdbNpHqFfey6EUi9lRh+GjuNY7rDl5lN
+ l5LM+55Xmmzw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="156635715"
+X-IronPort-AV: E=Sophos;i="5.76,429,1592895600"; 
+   d="scan'208";a="156635715"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 05:09:30 -0700
+IronPort-SDR: OpWECFioi/uB+JIHVoGKyrUR/3crHOVfLtUiFAzcVeHGWhFbEeLEPQyNAi1CCsSQgglLz5f7l6
+ sjUV+OglDI7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,429,1592895600"; 
+   d="scan'208";a="409182339"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 15 Sep 2020 05:09:27 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 15 Sep 2020 15:09:27 +0300
+Date:   Tue, 15 Sep 2020 15:09:27 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/14] TCPM support for FRS and AutoDischarge
+ Disconnect
+Message-ID: <20200915120927.GA1139641@kuha.fi.intel.com>
+References: <20200901025927.3596190-1-badhri@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200901025927.3596190-1-badhri@google.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Felipe,
+On Mon, Aug 31, 2020 at 07:59:13PM -0700, Badhri Jagan Sridharan wrote:
+> First of all apologies for mixing up the patch version as noted by
+> Heikki and Greg. All of them were v1's but since I was manually adding
+> the version numbers I mixed them up. Using the --reroll-count option
+> now. Updating the patch version to v6 (highest version number in the
+> previous patchset + 1) to avoid confusion.
 
-This series converts DT binding to YAML schema.
-Then adds a new property to enable workaround for USB2.0 PHY
-Rx compliance issues.
+If this is v6, then where are v2 - v5? And what changed? Why didn't
+you just make this v2?
 
-cheers,
--roger
 
-Changelog:
-v3:
-- removed oneOf from compatible. Added items in phy-names.
-
-v2:
-- updated commit log to better describe why DT property is required
-for the quirk.
-
-Pawel Laszczak (1):
-  usb: cdns3: Enable workaround for USB2.0 PHY Rx compliance test PHY
-    lockup
-
-Roger Quadros (2):
-  dt-bindings: usb: Convert cdns-usb3.txt to YAML schema
-  dt-bindings: usb: cdns,usb3: Add cdns,phyrst-a-enable property
-
- .../devicetree/bindings/usb/cdns,usb3.yaml    | 96 +++++++++++++++++++
- .../devicetree/bindings/usb/cdns-usb3.txt     | 45 ---------
- drivers/usb/cdns3/core.c                      |  2 +
- drivers/usb/cdns3/core.h                      |  1 +
- drivers/usb/cdns3/drd.c                       | 12 +++
- drivers/usb/cdns3/drd.h                       |  5 +-
- 6 files changed, 115 insertions(+), 46 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/cdns,usb3.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/cdns-usb3.txt
+> I also rebased on to off of the recent usb-next tip:
+> 5fedf0d295d3 (origin/usb-testing, origin/usb-next) Merge 5.9-rc3 into usb-next
+> Which had the following changes causing merge conflict:
+> 3ed8e1c2ac99 usb: typec: tcpm: Migrate workqueue to RT priority for processing events
+> 6bbe2a90a0bb usb: typec: tcpm: During PR_SWAP, source caps should be sent only after tSwapSourceStart
+> 
+> Addressed comments from Heikki and Randy which have described in the
+> individual commit's change history as well.
+> 
+> Badhri Jagan Sridharan (14):
+>   usb: typec: tcpci: Add register definitions to tcpci
+>   usb: typec: tcpci: Add support when hidden tx registers are
+>     inaccessible
+>   usb: typec: tcpci: update ROLE_CONTROL for DRP
+>   usb: typec: tcpci: Add a getter method to retrieve tcpm_port reference
+>   usb: typec: tcpci: Add set_vbus tcpci callback
+>   dt-bindings: usb: Maxim type-c controller device tree binding document
+>   usb: typec: tcpci_maxim: Chip level TCPC driver
+>   dt-bindings: connector: Add property to set initial current cap for
+>     FRS
+>   usb: typec: tcpm: Add support for Sink Fast Role SWAP(FRS)
+>   usb: typec: tcpci: Implement callbacks for FRS
+>   usb: typec: tcpci_maxim: Add support for Sink FRS
+>   usb: typec: tcpm: Implement enabling Auto Discharge disconnect support
+>   usb: typec: tcpci: Implement Auto discharge disconnect callbacks
+>   usb: typec: tcpci_maxim: Implemnent set_auto_vbus_discharge_threshold
+> 
+>  .../bindings/connector/usb-connector.txt      | 128 ++++
+>  .../devicetree/bindings/usb/maxim,tcpci.txt   |  44 ++
+>  drivers/usb/typec/tcpm/Kconfig                |   5 +
+>  drivers/usb/typec/tcpm/Makefile               |  13 +-
+>  drivers/usb/typec/tcpm/tcpci.c                | 146 ++++-
+>  drivers/usb/typec/tcpm/tcpci.h                |  43 ++
+>  drivers/usb/typec/tcpm/tcpci_maxim.c          | 564 ++++++++++++++++++
+>  drivers/usb/typec/tcpm/tcpm.c                 | 291 ++++++++-
+>  include/dt-bindings/usb/pd.h                  |  10 +
+>  include/linux/usb/pd.h                        |  19 +-
+>  include/linux/usb/tcpm.h                      |  24 +-
+>  include/linux/usb/typec.h                     |  13 +
+>  12 files changed, 1266 insertions(+), 34 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/connector/usb-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/maxim,tcpci.txt
+>  create mode 100644 drivers/usb/typec/tcpm/tcpci_maxim.c
+> 
+> 
+> base-commit: 5fedf0d295d3ef69fd85fdee4cb68fd3756b54c2
+> -- 
+> 2.28.0.402.g5ffc5be6b7-goog
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+heikki
