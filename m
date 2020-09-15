@@ -5,23 +5,23 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB20C433E2
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 23:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2941C43461
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 23:32:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E4E321655
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 23:13:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84F5220936
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 23:32:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbgIOXNP convert rfc822-to-8bit (ORCPT
+        id S1727233AbgIOXcI convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 19:13:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48796 "EHLO mail.kernel.org"
+        Tue, 15 Sep 2020 19:32:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47680 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727272AbgIOOki (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Sep 2020 10:40:38 -0400
+        id S1727163AbgIOOhi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Sep 2020 10:37:38 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 209089] USB storage devices appear as SATA devices
-Date:   Tue, 15 Sep 2020 14:30:31 +0000
+Date:   Tue, 15 Sep 2020 14:27:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -37,7 +37,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209089-208809-UjU9Pu1bbW@https.bugzilla.kernel.org/>
+Message-ID: <bug-209089-208809-Ahezwz46WG@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209089-208809@https.bugzilla.kernel.org/>
 References: <bug-209089-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,16 +52,38 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209089
 
---- Comment #16 from Manish Jain (bourne.identity@hotmail.com) ---
-"This one has an advantage: one character less to type, plus the comfort of the
-knowledge that USB have their own series"
+--- Comment #15 from Manish Jain (bourne.identity@hotmail.com) ---
+Hi Alan,
 
-was meant to be:
+Nice to see your response to the reopened PR.
 
-"This one has an advantage: one character less to type, plus the comfort of the
-knowledge that USB mass storage devices have their own series"
+1)
+'mount /dev/uda<TAB>' : I think you are missing the point about USB disk
+attachments. As I said earlier, there usually there will usually be only one of
+those (I never had to attach 2 pen drives simultaneously). So there will
+usually be only a /dev/uda in the ud* - or else nothing in the ud* series.
 
-Sorry for the typo.
+So you can start tabbing at 'd' : mount /dev/ud<TAB>.
+
+So that definitely provides the adavantage of 1 character less to type at a
+time when you want to type less.
+
+2)
+'it would be one more thing to remember, so worse in that respect'. Sir, my
+humble intuition is this would be an advantage. So many changes (eth0 ->
+enp9s0) happen with no real benefit to the end user. This one has an advantage:
+one character less to type, plus the comfort of the knowledge that USB have
+their own series. People will welcome this change, if it were permitted to
+happen.
+
+3)
+'it would mean changing all the existing shell scripts and /etc/fstab files
+that already use the /dev/sdb* names' :
+
+find . -type f -name '*.sh' -exec sed 's/sdb/uda/g' {} \;;
+
+Thanks again for your response.
+Manish Jain
 
 -- 
 You are receiving this mail because:
