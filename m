@@ -2,92 +2,128 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5D88C433E2
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 20:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DB9C2D0E3
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 22:13:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 873B92078E
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 20:02:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="eB8YoYOS"
+	by mail.kernel.org (Postfix) with ESMTP id E3F2D21D24
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 22:13:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600208018;
+	bh=4Mrz8W4yVHSrjm/2NolY9eyeH8z6bCUGwiVV7IwY/mc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=2i/4iWGdZwquruaPuNt8YoVRRY4yRjFbVd1SCcO+DkQ6twE3Xcfj+n/TkcWkH4oi7
+	 sbhwII/+KIFZPUPGhOl4wRoaeBx51KGz5hgGenMP5Lxs4BwM3/8Aj9RIDicN3AV6wf
+	 HUchvZx2+Ux1fYYkZyWbcdjZ/aSFgwN0CwIQcSFs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727818AbgIOUBs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 16:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727816AbgIOT7k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 15:59:40 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207D6C06174A;
-        Tue, 15 Sep 2020 12:59:39 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id a12so4212228eds.13;
-        Tue, 15 Sep 2020 12:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E7RLNR+VirUb/uAODVT/yUShu7jNp0ygawaN/ILApZ0=;
-        b=eB8YoYOSeUIcRxhZrwQXxQ7Ig+nfGWQ8X1kdmSJ6LXacs3Z+6fAoDmzyEuNu/UXFxz
-         hFxMFIT4OwzrCM3u7RJQbbk9fOt2E/0QoAALEYHDE1RXD77ffAYyULXacOTWy6lvlGKL
-         l/8T+XO2R7Cm4rcLfPr7Am+NMLDG2NwAMgq1gwISC9waz/kKvysx3B/0XB5+ZRHWfboK
-         nW/sSOsc1fiX/10VLy5UWOyBOjWyOuKybtn3OiPKEUIORoYcpTFuvcUA7SI1vAunN+3I
-         zMJA3pxY9vR3rv8Lhjpyk74PBEcu03w5oW/ZwbMMMxWbGGyRkvbDxY7s2W8meXR2Ee1b
-         tDtg==
+        id S1727708AbgIOWNe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:13:34 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:39134 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727620AbgIOQjA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 12:39:00 -0400
+Received: by mail-il1-f196.google.com with SMTP id s88so3621978ilb.6;
+        Tue, 15 Sep 2020 09:38:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E7RLNR+VirUb/uAODVT/yUShu7jNp0ygawaN/ILApZ0=;
-        b=QiT3wTqP8YKI6e1pTt+kn92Mk4iEB4qt0iIBI1We6wkr+vqgkrBoSa4DlvsGlfoKsT
-         oih3gYgaSnimLMc+sS87It07AQUVx34XwxdOINQrjusIzSNqfGTVEr9JXxLHYqFoHUbp
-         c4GDyALEAzfTLzf9EVzzo9mKsDGs69BRy7f0lPyx4rMpXFUKNRN3d2MyziE/R+ONt6d9
-         b/SSDnH0io5dVKu+kk5x7h77C/2HXV4oTxaTpiigcDi7w/PNhnzi81Uh0wNJ9ZrC6T1w
-         54WOyx67nPKmewDIPg+CsAfqI1mqot1DyMqq40jxw3KzEXuxCw2WxZC5Vj4ed+g2tqKC
-         74lg==
-X-Gm-Message-State: AOAM532izhO5ht6cTeOS1VIV7Sgup5WIykd1vCoW793x2pCzEQAEaAbA
-        vwkyqAttD4u5nlchTk+5tc7jiHPj6M7iTfmD7JY=
-X-Google-Smtp-Source: ABdhPJwVckPjSdsQxJxnp2l2KOi29DouQvL+6SIfp1k9vTQ6+NG83TwB0YzKYH20/8Q9jWJxUFa8oVUilVv1QfP7MXA=
-X-Received: by 2002:aa7:c0d3:: with SMTP id j19mr24940978edp.40.1600199977756;
- Tue, 15 Sep 2020 12:59:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fQjq4psADqOTnHj/5X1me47R++0Wgzo4u+nIQzoreps=;
+        b=Sfo3JtsgiNdG5PPVa8FD/kozMhckR1uaP64Uz22YZhAq/5arVVSQodJuwgBo6RpdlN
+         Z3CD6i/BmLIbCqTrOF80KjoEuF5OTTn4Oxx50F5GPP1H6D/9oDmW+BCnsI8m4JSnEMr+
+         bcyGOZkBB+VZgL6LvpUAlAeEmXnh/d8YMCJT6A9lhN43a81ffrWep8uSJO7TLTDlanis
+         p2mU6zOOS/q0q7Js6b10gJglXiMxYGs94VwaHadainnql8j4lUpCCWQzLSwz9tRFF5um
+         SkZ05777oNU82U4OeKFjxkihWOJEKKIv+3YDIJcSBv1vAnAQaBYWC0ncFFU3ZLfd8FjH
+         yESg==
+X-Gm-Message-State: AOAM53186k5WOOMn5NJVd2NQ+IxH70Uiojbqb0fBu05fF5C9tjQdKOqQ
+        6s+bG0hRwU0OjnE/ZAH5Cg==
+X-Google-Smtp-Source: ABdhPJyc/WK+I+3WGB3O4e0d/McGvpjNZjWv2eTGNesdR8lUL+lh2ZG1y+ZQBTzSh6qPvBnsqH/w/w==
+X-Received: by 2002:a92:6f0a:: with SMTP id k10mr15682854ilc.5.1600187897117;
+        Tue, 15 Sep 2020 09:38:17 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id v20sm9059138ile.42.2020.09.15.09.38.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 09:38:16 -0700 (PDT)
+Received: (nullmailer pid 2088114 invoked by uid 1000);
+        Tue, 15 Sep 2020 16:38:14 -0000
+Date:   Tue, 15 Sep 2020 10:38:14 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Felipe Balbi <balbi@kernel.org>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, John Stultz <john.stultz@linaro.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: document a new quirk for dwc3
+Message-ID: <20200915163814.GA2084568@bogus>
+References: <cover.1599549364.git.mchehab+huawei@kernel.org>
+ <cb821a8b5ef2d44ce32c8ce1d01c34b7afb70eb2.1599549364.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20200909160409.8678-1-narmstrong@baylibre.com> <20200909160409.8678-4-narmstrong@baylibre.com>
-In-Reply-To: <20200909160409.8678-4-narmstrong@baylibre.com>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Tue, 15 Sep 2020 21:59:26 +0200
-Message-ID: <CAFBinCCFmb7S9iR7_z7w5=_sOQZ6sMjo7YWdsETObyNa7MP6XA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] usb: dwc-meson-g12a: Add support for USB on AXG SoCs
-To:     Neil Armstrong <narmstrong@baylibre.com>
-Cc:     khilman@baylibre.com, balbi@kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb821a8b5ef2d44ce32c8ce1d01c34b7afb70eb2.1599549364.git.mchehab+huawei@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Neil,
+On Tue, Sep 08, 2020 at 09:20:57AM +0200, Mauro Carvalho Chehab wrote:
+> At Hikey 970, setting the SPLIT disable at the General
+> User Register 3 is required.
+> 
+> Without that, the URBs generated by the usbhid driver
+> return -EPROTO errors. That causes the code at
+> hid-core.c to call hid_io_error(), which schedules
+> a reset_work, causing a call to hid_reset().
+> 
+> In turn, the code there will call:
+> 
+> 	usb_queue_reset_device(usbhid->intf);
+> 
+> The net result is that the input devices won't work, and
+> will be reset on every 0.5 seconds:
+> 
+> 	[   33.122384] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> 	[   33.378220] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> 	[   33.698394] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> 	[   34.882365] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> 	[   35.138217] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> 	[   35.458617] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> 	[   36.642392] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> 	[   36.898207] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> 	[   37.218598] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> 	[   38.402368] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> 	[   38.658174] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> 	[   38.978594] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> 	[   40.162361] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> 	[   40.418148] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> 	...
+> 	[  397.698132] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/usb/dwc3.txt | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+> index d03edf9d3935..1aae2b6160c1 100644
+> --- a/Documentation/devicetree/bindings/usb/dwc3.txt
+> +++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+> @@ -78,6 +78,9 @@ Optional properties:
+>  			park mode are disabled.
+>   - snps,dis_metastability_quirk: when set, disable metastability workaround.
+>  			CAUTION: use only if you are absolutely sure of it.
+> + - snps,dis-split-quirk: when set, change the way URBs are handled by the
+> +			 driver. Needed to avoid -EPROTO errors with usbhid
+> +			 on some devices (Hikey 970).
 
-On Wed, Sep 9, 2020 at 6:04 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
->
-> The Amlogic AXG is close from the GXL Glue but with a single OTG PHY.
-s/close from/close to/
+Can't this be implied by the compatible string? Yes we have quirk 
+properties already, but the problem with them is you can't address them 
+without a DT change.
 
-[...]
-> +static struct dwc3_meson_g12a_drvdata axg_drvdata = {
-> +       .otg_switch_supported = true,
-> +       .clks = meson_gxl_clocks,
-> +       .num_clks = ARRAY_SIZE(meson_gxl_clocks),
-> +       .phy_names = meson_a1_phy_names,
-> +       .num_phys = ARRAY_SIZE(meson_a1_phy_names),
-I wonder if we should also update the comment for meson_a1_phy_names
-to understand that part I had to go back to the dt-bindings patch
-
-
-Best regards,
-Martin
+Rob
