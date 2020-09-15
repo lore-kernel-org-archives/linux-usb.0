@@ -2,117 +2,82 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF8CC433E2
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 18:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0C0C2D0E0
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 18:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5795205F4
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 18:24:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E0652145D
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 18:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600195296;
+	bh=SoUZZsKOQIbZ78/zMPmJwVf5LaBME5QR6YEqSuHOLK4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=upN/hMwF1Hzcx1a+5HTeLI9Q5I8pptYrKxABYXNf2qaDeZ8hqzHs3dWQIK1wpaNaO
+	 DmdB792SwUdHTNaLQ8e1k7i0n5AVU4jl1KbCWEljFDg8ghLEwZ+khFXGWoTJgcGXKe
+	 GpSat3Iz9SIeiga4aTlz4KLIk45Oy61BqEVy2Kn8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727982AbgIOSYs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 14:24:48 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:36603 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727804AbgIOSYg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 14:24:36 -0400
-Received: (qmail 1012504 invoked by uid 1000); 15 Sep 2020 14:24:14 -0400
-Date:   Tue, 15 Sep 2020 14:24:14 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Patrik Nilsson <nipatriknilsson@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Subject: Re: high speed data to usb disk makes the kernel think that is has
- been unmounted
-Message-ID: <20200915182414.GB1010655@rowland.harvard.edu>
-References: <20200811175655.GB828356@kroah.com>
- <47a5804c-835a-f1a2-abce-50b3531f2556@gmail.com>
- <20200811193150.GA344152@rowland.harvard.edu>
- <ef2937d6-f8a8-fbc6-decd-eeb4af94e863@gmail.com>
- <20200812061451.GE1299081@kroah.com>
- <95be674d-ee98-b904-6856-2f662ac7838f@gmail.com>
- <20200818085502.GB28036@kroah.com>
- <83a5be3e-9f93-e601-5161-cbb5d1957c5a@gmail.com>
- <20200818183420.GB152667@rowland.harvard.edu>
- <0975cb43-5520-543c-987c-57de5e7b258b@gmail.com>
+        id S1727935AbgIORgs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 13:36:48 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:37429 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727896AbgIORdL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 13:33:11 -0400
+Received: by mail-il1-f193.google.com with SMTP id q4so3804597ils.4;
+        Tue, 15 Sep 2020 10:32:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uulJ0/uPh+foHiGNPCNz1hwqcPZlO72vLvw5DYaUH18=;
+        b=XdKL8HdVqYS++emo3SfB9Lo9ogmaYFhRyxk1Z/b0RBL119R31n2MarDmcfT3fGDEu6
+         t9YH3nGsTs4I88TtB/M4gmCHl5+nY+byxmC4BjwJyv4f1bdJW2ePzGwybpuIgA1xUE5Y
+         ThW8HpTKY57el8BF9WIaLfePZ9HY9rtMvY68r6go+XATKMtYxof8PLIEXZoUJ7yx8G8k
+         dm1b+QN9QznPgnAdZHMce5xKqW3cSedXa0RHlz9nfq+l3/KBe1wEFt52uSTqtCCKalY6
+         Lh/q4demj8aj77gOYw6fTXw/HhIr/ncTjVhP+ujf4M9NeYaYRYGQJUbQjTy6yNKDonD/
+         e3eA==
+X-Gm-Message-State: AOAM532jxtGJW4vYzBe9rDQtjo2KtEWa7CiMYjHuoFjyQIeK84O6Zu54
+        nZpyVEQ8rSI+Hq8kNqORX3497JOtb5zeHMM=
+X-Google-Smtp-Source: ABdhPJw1Y7mhGsOLEdrqCVwLfhzbJ/8rNa80uaRT0MVEVBVau28or814vSSqDbkIUCKAQEpOQ+MtOg==
+X-Received: by 2002:a92:194b:: with SMTP id e11mr17113785ilm.43.1600191170055;
+        Tue, 15 Sep 2020 10:32:50 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id k2sm7840357ioj.2.2020.09.15.10.32.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 10:32:49 -0700 (PDT)
+Received: (nullmailer pid 2175348 invoked by uid 1000);
+        Tue, 15 Sep 2020 17:32:47 -0000
+Date:   Tue, 15 Sep 2020 11:32:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Neil Armstrong <narmstrong@baylibre.com>
+Cc:     martin.blumenstingl@googlemail.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, khilman@baylibre.com
+Subject: Re: [PATCH 2/5] dt-bindings: usb: amlogic, meson-g12a-usb-ctrl: add
+ the Amlogic AXG Families USB Glue Bindings
+Message-ID: <20200915173247.GA2175318@bogus>
+References: <20200909160409.8678-1-narmstrong@baylibre.com>
+ <20200909160409.8678-3-narmstrong@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0975cb43-5520-543c-987c-57de5e7b258b@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200909160409.8678-3-narmstrong@baylibre.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 06:43:49PM +0200, Patrik Nilsson wrote:
-> Hi Alan,
+On Wed, 09 Sep 2020 18:04:06 +0200, Neil Armstrong wrote:
+> The Amlogic AXG is close from the GXL Glue but with a single OTG PHY.
 > 
-> Unfortunately the options you suggested didn't help.
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  .../usb/amlogic,meson-g12a-usb-ctrl.yaml      | 22 ++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
 > 
-> The patch below works and is tested with Ubuntu kernel 5.4.0.47.50.
-> 
-> I have stress tested the usb system. To the USB is now seven mechanical hard
-> disks and two ssd disks connected. Six processes are at the same time
-> writing random data to the disks. One of them is to the ssd disk I couldn't
-> write data to before without it failed. Also the other usb-ssd disk is my
-> root partition.
-> 
-> Before I applied the patch, my root partition sometimes failed to be kept
-> mounted. Now I have not had any crashes.
-> 
-> This is a quick fix for hard disks, but working. It continued to work when I
-> started three virtualbox guests and let them also do work. The guests' hard
-> disks is on my usb-root partition.
-> 
-> It doesn't work if I also use my usb2ethernet adapter (ID 2001:4a00 D-Link
-> Corp.), although my root partition and two randomize tests survived. Maybe a
-> much larger timeout in this case will help? But this I don't find as a good
-> solution.
-> 
-> The behavior is the same on the other (much slower) computer with a
-> different usb hub. I have also tested it with exactly the same setup as
-> earlier, with no mechanical hard disks, and it works with the patch and not
-> without it.
 
-Is there any way you can capture a usbmon trace that shows the problem?
-
-> Any suggestion on how to solve this? In a good way.
-> 
-> Best regards,
-> Patrik
-> 
-> ---start of diff---
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 5b768b80d1ee..3c550934815c 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -105,7 +105,7 @@ MODULE_PARM_DESC(use_both_schemes,
->  DECLARE_RWSEM(ehci_cf_port_reset_rwsem);
->  EXPORT_SYMBOL_GPL(ehci_cf_port_reset_rwsem);
-> 
-> -#define HUB_DEBOUNCE_TIMEOUT    2000
-> +#define HUB_DEBOUNCE_TIMEOUT    10000
->  #define HUB_DEBOUNCE_STEP      25
->  #define HUB_DEBOUNCE_STABLE     100
-> 
-> diff --git a/include/linux/usb.h b/include/linux/usb.h
-> index 20c555db4621..e64d441bb78f 100644
-> --- a/include/linux/usb.h
-> +++ b/include/linux/usb.h
-> @@ -1841,8 +1841,8 @@ extern int usb_set_configuration(struct usb_device
-> *dev, int configuration);
->   * USB identifies 5 second timeouts, maybe more in a few cases, and a few
->   * slow devices (like some MGE Ellipse UPSes) actually push that limit.
->   */
-> -#define USB_CTRL_GET_TIMEOUT    5000
-> -#define USB_CTRL_SET_TIMEOUT    5000
-> +#define USB_CTRL_GET_TIMEOUT    10000
-> +#define USB_CTRL_SET_TIMEOUT    10000
-
-What happens if you leave these two lines unchanged and increase only 
-the HUB_DEBOUNCE_TIMEOUT value?
-
-Alan Stern
+Reviewed-by: Rob Herring <robh@kernel.org>
