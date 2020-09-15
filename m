@@ -2,175 +2,83 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E3EC433E2
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 13:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C669BC2D0E0
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 14:47:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F98920738
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 13:39:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AE2E206B5
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 14:47:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgIONiY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 09:38:24 -0400
-Received: from mga09.intel.com ([134.134.136.24]:43500 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726664AbgIONbd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Sep 2020 09:31:33 -0400
-IronPort-SDR: VCvbYezxSr6U7uUPgBYbMM/QcGWpcKRz1PLvy6NElDVpDCMnx7VMUyTQeLOea7tqLmzAd65xCI
- y6cOv+6bOTWA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="160186331"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="160186331"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 06:26:01 -0700
-IronPort-SDR: X/LAgiXrHQkEEyDEpen6n/OPzoT4qPjXcZp29hFeNe3FOcq5vSx25iJXDd90z6KIRlkmJTAJeW
- zWzTkBG/X7SA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="409200767"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 15 Sep 2020 06:25:58 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 15 Sep 2020 16:25:57 +0300
-Date:   Tue, 15 Sep 2020 16:25:57 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 11/14] usb: typec: tcpci_maxim: Add support for Sink
- FRS
-Message-ID: <20200915132557.GJ1139641@kuha.fi.intel.com>
-References: <20200901025927.3596190-1-badhri@google.com>
- <20200901025927.3596190-12-badhri@google.com>
+        id S1727270AbgIOOq3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 10:46:29 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:56145 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726902AbgIOOqB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 10:46:01 -0400
+Received: (qmail 1003810 invoked by uid 1000); 15 Sep 2020 10:45:48 -0400
+Date:   Tue, 15 Sep 2020 10:45:48 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Sid Spry <sid@aeam.us>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: USB Hardware Power Control, IOCTL_USB_HUB_CYCLE_PORT Equivalent
+Message-ID: <20200915144548.GA1002979@rowland.harvard.edu>
+References: <33a6b755-f1ba-4c9c-9320-601365afbd67@www.fastmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200901025927.3596190-12-badhri@google.com>
+In-Reply-To: <33a6b755-f1ba-4c9c-9320-601365afbd67@www.fastmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 31, 2020 at 07:59:24PM -0700, Badhri Jagan Sridharan wrote:
-> Upon receiving ALERT_EXTENDED.TCPC_SINK_FAST_ROLE_SWAP signal
-> tcpm to start Sink fast role swap signal.
-> 
-> Inform when TCPM is sourcing vbus.
-> 
-> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+On Mon, Sep 14, 2020 at 09:14:44PM -0500, Sid Spry wrote:
+> Hi, after a fair bit of looking I do not see a way to do a hard reset of
+> a device. Windows seems to expose some functionality that hints these things
+> are possible. Does anyone know if it is and is implemented in the Linux
+> drivers?
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+As Greg mentioned, on many systems it is not possible.  On systems where 
+it is possible, it can be performed by running a utility program.
 
-> ---
-> Changes since v1:
-> - Changing patch version to v6 to fix version number confusion.
-> ---
->  drivers/usb/typec/tcpm/tcpci_maxim.c | 50 +++++++++++++++++++++++++---
->  1 file changed, 46 insertions(+), 4 deletions(-)
+> I only find reference to automatic power management in /sys.
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> index b61f290a8f96..6ba808ad901a 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> @@ -106,13 +106,22 @@ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
->  		return;
->  	}
->  
-> +	ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED, 0xff);
-> +	if (ret < 0) {
-> +		dev_err(chip->dev, "Unable to clear TCPC_ALERT_EXTENDED ret:%d\n", ret);
-> +		return;
-> +	}
-> +
->  	alert_mask = TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_DISCARDED | TCPC_ALERT_TX_FAILED |
->  		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_RX_STATUS | TCPC_ALERT_CC_STATUS |
-> -		TCPC_ALERT_VBUS_DISCNCT | TCPC_ALERT_RX_BUF_OVF | TCPC_ALERT_POWER_STATUS;
-> +		TCPC_ALERT_VBUS_DISCNCT | TCPC_ALERT_RX_BUF_OVF | TCPC_ALERT_POWER_STATUS |
-> +		/* Enable Extended alert for detecting Fast Role Swap Signal */
-> +		TCPC_ALERT_EXTND;
->  
->  	ret = max_tcpci_write16(chip, TCPC_ALERT_MASK, alert_mask);
->  	if (ret < 0) {
-> -		dev_err(chip->dev, "Error writing to TCPC_ALERT_MASK ret:%d\n", ret);
-> +		dev_err(chip->dev,
-> +			"Error enabling TCPC_ALERT: TCPC_ALERT_MASK write failed ret:%d\n", ret);
->  		return;
->  	}
->  
-> @@ -122,6 +131,10 @@ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
->  		dev_err(chip->dev, "Error writing to TCPC_POWER_CTRL ret:%d\n", ret);
->  		return;
->  	}
-> +
-> +	ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED_MASK, TCPC_SINK_FAST_ROLE_SWAP);
-> +	if (ret < 0)
-> +		return;
->  }
->  
->  static void process_rx(struct max_tcpci_chip *chip, u16 status)
-> @@ -225,10 +238,23 @@ static void process_power_status(struct max_tcpci_chip *chip)
->  	if (ret < 0)
->  		return;
->  
-> -	if (pwr_status == 0xff)
-> +	if (pwr_status == 0xff) {
->  		max_tcpci_init_regs(chip);
-> -	else
-> +	} else if (pwr_status & TCPC_POWER_STATUS_SOURCING_VBUS) {
-> +		tcpm_sourcing_vbus(chip->port);
-> +		/*
-> +		 * Alawys re-enable boost here.
-> +		 * In normal case, when say an headset is attached, TCPM would
-> +		 * have instructed to TCPC to enable boost, so the call is a
-> +		 * no-op.
-> +		 * But for Fast Role Swap case, Boost turns on autonomously without
-> +		 * AP intervention, but, needs AP to enable source mode explicitly
-> +		 * for AP to regain control.
-> +		 */
-> +		max_tcpci_set_vbus(chip->tcpci, &chip->data, true, false);
-> +	} else {
->  		tcpm_vbus_change(chip->port);
-> +	}
->  }
->  
->  static void process_tx(struct max_tcpci_chip *chip, u16 status)
-> @@ -249,6 +275,7 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
->  {
->  	u16 mask;
->  	int ret;
-> +	u8 reg_status;
->  
->  	/*
->  	 * Clear alert status for everything except RX_STATUS, which shouldn't
-> @@ -274,6 +301,21 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
->  		}
->  	}
->  
-> +	if (status & TCPC_ALERT_EXTND) {
-> +		ret = max_tcpci_read8(chip, TCPC_ALERT_EXTENDED, &reg_status);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED, reg_status);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		if (reg_status & TCPC_SINK_FAST_ROLE_SWAP) {
-> +			dev_info(chip->dev, "FRS Signal");
-> +			tcpm_sink_frs(chip->port);
-> +		}
-> +	}
-> +
->  	if (status & TCPC_ALERT_RX_STATUS)
->  		process_rx(chip, status);
->  
-> -- 
-> 2.28.0.402.g5ffc5be6b7-goog
+> The ioctl in the title (IOCTL_USB_HUB_CYCLE_PORT) is joined by others that seem
+> to actually control the power to the port.
 
--- 
-heikki
+I don't understand this sentence.  What do you mean when you say that 
+IOCTL_USB_HUB_CYCLE_PORT is joined by others?
+
+And I don't see how there can be any ioctls that control power to a USB 
+port when the hardware itself doesn't permit power to be turned off.
+
+> I recently saw patches that would control hub power state via additional
+> hardware.
+
+URLs for these patches?
+
+>  It would be good to have a uniform way for userspace to take
+> advantage of this power control. Userspace may have further hints that can be
+> applied to power consumption, and may need to decide to undertake device
+> recovery.
+> 
+> What originally made me investigate this issue was a series of MCU development
+> boards that crash needing power removed to recover. This seems to be impossible
+> to do on most hardware. Why?
+
+Indeed, it is impossible on a lot of hardware.  But how come you are 
+asking us why?  You should be asking the hardware designers.
+
+>  There's no good reason to remove a complete power
+> down from the spec. There are also instances where a hard reset for PCIe, e.g.
+> cards malfunctioning when used with VFIO-VGA would have saved hardware from
+> being hopelessly broken. So if you are involved in hardware design please
+> consider these things.
+
+We are involved in software design, not hardware design.
+
+Alan Stern
