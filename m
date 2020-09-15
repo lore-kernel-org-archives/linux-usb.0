@@ -2,108 +2,168 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC0DC43461
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 11:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F92C43461
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 11:48:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79BA321D43
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 11:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600168284;
-	bh=wFfE5fiM4ubdhDZUDuxOI8nMSLN4cvgcqiQR3bGu0Xs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=yHJWqBDZajLOf2Aq3vr3v51NsB3Pd5FZ5bzzdBZtX7tHzk/LGwF3wR0AsEXJiSTK5
-	 5y9OOb54AxBCd4MaQcDE55ZWhvr8AW8IUZ6ERjIIRylRIrdY3c1tA+qiZrB1a0FP2+
-	 SbiDCddfZr86kwWP7IyXzHBv5OiI1KOs5hRjxU+E=
+	by mail.kernel.org (Postfix) with ESMTP id 1E56320732
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 11:48:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="qdfqgzoL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726185AbgIOLLS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 07:11:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57360 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726131AbgIOLKa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Sep 2020 07:10:30 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E35C9218AC;
-        Tue, 15 Sep 2020 11:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600167674;
-        bh=wFfE5fiM4ubdhDZUDuxOI8nMSLN4cvgcqiQR3bGu0Xs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PMVLeHv0REyxe99q8amMjinAlAsMG5wWbWH2GaUPW+Eb4ZnO3u6d5rQMha5WYQiZu
-         b2jqBRwRYCSyBymfWRfb/mkOTzC2oiJ0ZLI75hyE3cEBhM6YSqrNAWCOyXfPMWNgib
-         ST19kempafe2Kp/veIU/nmWxwbSMmaR+xvLJwJNA=
-Date:   Tue, 15 Sep 2020 13:01:11 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, andrew_gabbasov@mentor.com,
-        Baxter Jim <jim_baxter@mentor.com>,
-        "Natsume, Wataru (ADITJ/SWG)" <wnatsume@jp.adit-jv.com>,
-        "Nishiguchi, Naohiro (ADITJ/SWG)" <nnishiguchi@jp.adit-jv.com>,
-        =?utf-8?B?5rWF6YeO5oGt5Y+y?= <yasano@jp.adit-jv.com>,
-        kernel test robot <rong.a.chen@intel.com>,
-        yasushi asano <yazzep@gmail.com>,
-        Martin Mueller <Martin.Mueller5@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v3] USB: hub.c: decrease the number of attempts of
- enumeration scheme
-Message-ID: <20200915110111.GA269380@kroah.com>
-References: <CAEt1Rjq+Fz85KU-aKO+boNE5yL7GiwdopmRd3-FxEL+mzEui-g@mail.gmail.com>
- <20200907155052.2450-1-yazzep@gmail.com>
- <20200907155052.2450-2-yazzep@gmail.com>
- <20200908190402.GA797206@rowland.harvard.edu>
- <CAEt1RjquJZzTctN6dNQSDbUZ9YG2FnEtzTZsoA3a9RtXHxwUmA@mail.gmail.com>
- <CAEt1RjpGcZ4T70tr83pmcD--PzAMboBkbv55qFcRfMz11ZUggw@mail.gmail.com>
- <20200911151228.GA883311@rowland.harvard.edu>
- <20200915094531.GA8046@lxhi-065.adit-jv.com>
+        id S1726135AbgIOLsM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 07:48:12 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:45588 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726471AbgIOLqq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 07:46:46 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08FBjtqr009346;
+        Tue, 15 Sep 2020 06:45:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600170355;
+        bh=3APtkbHYrt+xP2S/hKgF189ShFm5BX6uKlppIWy5V58=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=qdfqgzoLlIfknsIFP6Wbhr9fPKk3BkikrD9cAjjTkpORW1njh7m2s/kSpv6gzCfPe
+         h9vVgHeFSikbCPvROXjraDy3vm5ld2vM6J/Njh1Q+hFzUYcI+l4PgoxeeZDnQdI5kj
+         x5B/Ls84qLCjlZv3V8zs90+M2URbKHknZTBOk2eA=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08FBjt7f055540
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 15 Sep 2020 06:45:55 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
+ Sep 2020 06:45:55 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 15 Sep 2020 06:45:55 -0500
+Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08FBjin9091853;
+        Tue, 15 Sep 2020 06:45:53 -0500
+From:   Roger Quadros <rogerq@ti.com>
+To:     <balbi@kernel.org>
+CC:     <pawell@cadence.com>, <kurahul@cadence.com>, <nsekhar@ti.com>,
+        <vigneshr@ti.com>, <robh+dt@kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, Roger Quadros <rogerq@ti.com>
+Subject: [PATCH v3 3/3] usb: cdns3: Enable workaround for USB2.0 PHY Rx compliance test PHY lockup
+Date:   Tue, 15 Sep 2020 14:45:43 +0300
+Message-ID: <20200915114543.2599-4-rogerq@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200915114543.2599-1-rogerq@ti.com>
+References: <20200915114543.2599-1-rogerq@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915094531.GA8046@lxhi-065.adit-jv.com>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 11:45:31AM +0200, Eugeniu Rosca wrote:
-> Dear Alan,
-> Dear Greg,
-> 
-> On Fri, Sep 11, 2020 at 11:12:28AM -0400, Alan Stern wrote:
-> 
-> > The thing is, I'm afraid that without these retry loops, some devices
-> > will stop working.  If that happens, we will not be able to keep this
-> > patch in place; we will just have to accept that we fail the PET test.
-> > 
-> > Alan Stern
-> 
-> Does this mean that Linux community leaves no choice but to ship a
-> forked kernel (with no chance of alignment to upstream) for
-> organizations which design embedded devices where USB plays a key
-> role, hence requires passing the USB-IF Compliance Program [*]?
+From: Pawel Laszczak <pawell@cadence.com>
 
-We are saying that if you ship such a kernel, we _KNOW_ that it will
-fail to work in a number of known systems.  I doubt you want that to
-happen if you care about shipping a device, right?
+USB2.0 PHY hangs in Rx Compliance test when the incoming packet
+amplitude is varied below and above the Squelch Level of
+Receiver during the active packet multiple times.
 
-> Is there hope to give users a knob (build-time or run-time) which would
-> enable the behavior expected and thoroughly described in compliance
-> docs, particularly chapter "6.7.22 A-UUT Device No Response for
-> connection timeout" of "USB On-The-Go and Embedded Host Automated
-> Compliance Plan" [**]?
+Version 1 of the controller allows PHY to be reset when RX fail condition
+is detected to work around the above issue. This feature is
+disabled by default and needs to be enabled using a bit from
+the newly added PHYRST_CFG register. This patch enables the workaround.
 
-Given that the USB-IF has explicitly kicked-out the Linux community from
-its specification work and orginization, I personally don't really care
-what they say here.  If you are a member of the USB-IF, please work with
-them to fix the test to reflect real-world systems and not an idealized
-system.  Last I heard, they wanted nothing to do with Linux systems at
-all :(
+There is no way to know controller version before device controller
+is started and the workaround needs to be applied for both host and
+device modes, so we rely on a DT property do decide when to
+apply the workaround.
 
-thanks,
+Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+Signed-off-by: Roger Quadros <rogerq@ti.com>
+---
+ drivers/usb/cdns3/core.c |  2 ++
+ drivers/usb/cdns3/core.h |  1 +
+ drivers/usb/cdns3/drd.c  | 12 ++++++++++++
+ drivers/usb/cdns3/drd.h  |  5 ++++-
+ 4 files changed, 19 insertions(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
+index 5c1586ec7824..34b36487682b 100644
+--- a/drivers/usb/cdns3/core.c
++++ b/drivers/usb/cdns3/core.c
+@@ -443,6 +443,8 @@ static int cdns3_probe(struct platform_device *pdev)
+ 		return -ENXIO;
+ 	}
+ 
++	cdns->phyrst_a_enable = device_property_read_bool(dev, "cdns,phyrst-a-enable");
++
+ 	cdns->otg_res = *res;
+ 
+ 	mutex_init(&cdns->mutex);
+diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
+index 1ad1f1fe61e9..24cf0f1b5726 100644
+--- a/drivers/usb/cdns3/core.h
++++ b/drivers/usb/cdns3/core.h
+@@ -76,6 +76,7 @@ struct cdns3 {
+ #define CDNS3_CONTROLLER_V0	0
+ #define CDNS3_CONTROLLER_V1	1
+ 	u32				version;
++	bool				phyrst_a_enable;
+ 
+ 	int				otg_irq;
+ 	int				dev_irq;
+diff --git a/drivers/usb/cdns3/drd.c b/drivers/usb/cdns3/drd.c
+index 6234bcd6158a..b74803e9703d 100644
+--- a/drivers/usb/cdns3/drd.c
++++ b/drivers/usb/cdns3/drd.c
+@@ -42,6 +42,18 @@ int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
+ 			reg = readl(&cdns->otg_v1_regs->override);
+ 			reg |= OVERRIDE_IDPULLUP;
+ 			writel(reg, &cdns->otg_v1_regs->override);
++
++			/*
++			 * Enable work around feature built into the
++			 * controller to address issue with RX Sensitivity
++			 * est (EL_17) for USB2 PHY. The issue only occures
++			 * for 0x0002450D controller version.
++			 */
++			if (cdns->phyrst_a_enable) {
++				reg = readl(&cdns->otg_v1_regs->phyrst_cfg);
++				reg |= PHYRST_CFG_PHYRST_A_ENABLE;
++				writel(reg, &cdns->otg_v1_regs->phyrst_cfg);
++			}
+ 		} else {
+ 			reg = readl(&cdns->otg_v0_regs->ctrl1);
+ 			reg |= OVERRIDE_IDPULLUP_V0;
+diff --git a/drivers/usb/cdns3/drd.h b/drivers/usb/cdns3/drd.h
+index 7e7cf7fa2dd3..f1ccae285a16 100644
+--- a/drivers/usb/cdns3/drd.h
++++ b/drivers/usb/cdns3/drd.h
+@@ -31,7 +31,7 @@ struct cdns3_otg_regs {
+ 	__le32 simulate;
+ 	__le32 override;
+ 	__le32 susp_ctrl;
+-	__le32 reserved4;
++	__le32 phyrst_cfg;
+ 	__le32 anasts;
+ 	__le32 adp_ramp_time;
+ 	__le32 ctrl1;
+@@ -153,6 +153,9 @@ struct cdns3_otg_common_regs {
+ /* Only for CDNS3_CONTROLLER_V0 version */
+ #define OVERRIDE_IDPULLUP_V0		BIT(24)
+ 
++/* PHYRST_CFG - bitmasks */
++#define PHYRST_CFG_PHYRST_A_ENABLE     BIT(0)
++
+ #define CDNS3_ID_PERIPHERAL		1
+ #define CDNS3_ID_HOST			0
+ 
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
