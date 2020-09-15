@@ -2,82 +2,118 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0C0C2D0E0
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 18:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 551D7C43461
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 19:35:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E0652145D
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 18:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600195296;
-	bh=SoUZZsKOQIbZ78/zMPmJwVf5LaBME5QR6YEqSuHOLK4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=upN/hMwF1Hzcx1a+5HTeLI9Q5I8pptYrKxABYXNf2qaDeZ8hqzHs3dWQIK1wpaNaO
-	 DmdB792SwUdHTNaLQ8e1k7i0n5AVU4jl1KbCWEljFDg8ghLEwZ+khFXGWoTJgcGXKe
-	 GpSat3Iz9SIeiga4aTlz4KLIk45Oy61BqEVy2Kn8=
+	by mail.kernel.org (Postfix) with ESMTP id 13EF02064B
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 19:35:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HerVUrgP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727935AbgIORgs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 13:36:48 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:37429 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727896AbgIORdL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 13:33:11 -0400
-Received: by mail-il1-f193.google.com with SMTP id q4so3804597ils.4;
-        Tue, 15 Sep 2020 10:32:50 -0700 (PDT)
+        id S1727737AbgIOTfe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 15:35:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727859AbgIOTbe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 15:31:34 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29593C061797
+        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2020 12:31:32 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id d19so1870340pld.0
+        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2020 12:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H/84KilK/yYDMqufI+fBihaymg1pJldWkGRLE+l3DQE=;
+        b=HerVUrgPph0zlRiFhPoYvKWEpao1oZETxmQapcrIWiGPHFmlHH3eruPAHqF6sl3wBQ
+         57zOjsD6mbX/9IWin9wq5XTRQivLhsB7vxMDRNydY0bDpJykaA104NKOQvJTalIodWME
+         9UyALo+PRO4jvlkwT3R4NQezWa4QRMzF/zF5M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uulJ0/uPh+foHiGNPCNz1hwqcPZlO72vLvw5DYaUH18=;
-        b=XdKL8HdVqYS++emo3SfB9Lo9ogmaYFhRyxk1Z/b0RBL119R31n2MarDmcfT3fGDEu6
-         t9YH3nGsTs4I88TtB/M4gmCHl5+nY+byxmC4BjwJyv4f1bdJW2ePzGwybpuIgA1xUE5Y
-         ThW8HpTKY57el8BF9WIaLfePZ9HY9rtMvY68r6go+XATKMtYxof8PLIEXZoUJ7yx8G8k
-         dm1b+QN9QznPgnAdZHMce5xKqW3cSedXa0RHlz9nfq+l3/KBe1wEFt52uSTqtCCKalY6
-         Lh/q4demj8aj77gOYw6fTXw/HhIr/ncTjVhP+ujf4M9NeYaYRYGQJUbQjTy6yNKDonD/
-         e3eA==
-X-Gm-Message-State: AOAM532jxtGJW4vYzBe9rDQtjo2KtEWa7CiMYjHuoFjyQIeK84O6Zu54
-        nZpyVEQ8rSI+Hq8kNqORX3497JOtb5zeHMM=
-X-Google-Smtp-Source: ABdhPJw1Y7mhGsOLEdrqCVwLfhzbJ/8rNa80uaRT0MVEVBVau28or814vSSqDbkIUCKAQEpOQ+MtOg==
-X-Received: by 2002:a92:194b:: with SMTP id e11mr17113785ilm.43.1600191170055;
-        Tue, 15 Sep 2020 10:32:50 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id k2sm7840357ioj.2.2020.09.15.10.32.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 10:32:49 -0700 (PDT)
-Received: (nullmailer pid 2175348 invoked by uid 1000);
-        Tue, 15 Sep 2020 17:32:47 -0000
-Date:   Tue, 15 Sep 2020 11:32:47 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Neil Armstrong <narmstrong@baylibre.com>
-Cc:     martin.blumenstingl@googlemail.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, khilman@baylibre.com
-Subject: Re: [PATCH 2/5] dt-bindings: usb: amlogic, meson-g12a-usb-ctrl: add
- the Amlogic AXG Families USB Glue Bindings
-Message-ID: <20200915173247.GA2175318@bogus>
-References: <20200909160409.8678-1-narmstrong@baylibre.com>
- <20200909160409.8678-3-narmstrong@baylibre.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H/84KilK/yYDMqufI+fBihaymg1pJldWkGRLE+l3DQE=;
+        b=tgQmhGBRBUaU3Km0Z/q6YtvDHl8BLPjzUJo2bHuJgT7kEvuPiW8XL5JK1gZOD2mW5p
+         VpXp1z/A5tMhX883DYvYlzqdwIEyY4xdGZX3nrx5AIXBjy27pbDjC7yBIJF/M79RAy8I
+         0+CjlTboCcSNGyFkQjX/Mprfsdqqb1xdYlQ3NLmiUrfEAN7iL+4fGcJSSREkjSSwOCME
+         9+9UQMJ9hCBiSdREOLsUjXpFpUHyiKQG01ET3tkbbn+26/+BghQ2zk9nf+bmPyNueMhh
+         z4VCU1SgnZQJLKOLaWq9kLK3Og7JBjKBtIIXnBv1gkOxXdKb3j+OnzeSJhYQULCoZKiE
+         2ZSQ==
+X-Gm-Message-State: AOAM533Ou2qJMK9bawyImJGoEgwm2/QFRzIk9S1ASW0B60CTi31BrRgi
+        1BKsAwaG7aTHFwjrLledrny4sw==
+X-Google-Smtp-Source: ABdhPJz2BH4aN9m5Pjn2y0ZasLLXxhEDmhLCBpS2FE4HSo2+hTi8vG4iL+uZbkQeBJK3AuqtAv4teQ==
+X-Received: by 2002:a17:902:9349:b029:d0:cb2d:f26c with SMTP id g9-20020a1709029349b02900d0cb2df26cmr20038047plp.5.1600198291608;
+        Tue, 15 Sep 2020 12:31:31 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
+        by smtp.gmail.com with ESMTPSA id r15sm12456663pgg.17.2020.09.15.12.31.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2020 12:31:31 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Douglas Anderson <dianders@chromium.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
+        Matthias Kaehlcke <mka@chromium.org>
+Subject: [PATCH] usb: dwc3: qcom: Honor wakeup enabled/disabled state
+Date:   Tue, 15 Sep 2020 12:31:27 -0700
+Message-Id: <20200915123123.1.I44954d9e1169f2cf5c44e6454d357c75ddfa99a2@changeid>
+X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200909160409.8678-3-narmstrong@baylibre.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 09 Sep 2020 18:04:06 +0200, Neil Armstrong wrote:
-> The Amlogic AXG is close from the GXL Glue but with a single OTG PHY.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  .../usb/amlogic,meson-g12a-usb-ctrl.yaml      | 22 ++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-> 
+The dwc3-qcom currently enables wakeup interrupts unconditionally
+when suspending, however this should not be done when wakeup is
+disabled (e.g. through the sysfs attribute power/wakeup). Only
+enable wakeup interrupts when device_may_wakeup() returns true.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+---
+
+ drivers/usb/dwc3/dwc3-qcom.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index e1e78e9824b1..56d14c09506d 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -251,8 +251,10 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--)
+ 		clk_disable_unprepare(qcom->clks[i]);
+ 
++	if (device_may_wakeup(qcom->dev))
++		dwc3_qcom_enable_interrupts(qcom);
++
+ 	qcom->is_suspended = true;
+-	dwc3_qcom_enable_interrupts(qcom);
+ 
+ 	return 0;
+ }
+@@ -265,7 +267,8 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom)
+ 	if (!qcom->is_suspended)
+ 		return 0;
+ 
+-	dwc3_qcom_disable_interrupts(qcom);
++	if (device_may_wakeup(qcom->dev))
++		dwc3_qcom_disable_interrupts(qcom);
+ 
+ 	for (i = 0; i < qcom->num_clocks; i++) {
+ 		ret = clk_prepare_enable(qcom->clks[i]);
+-- 
+2.28.0.618.gf4bc123cb7-goog
+
