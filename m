@@ -2,228 +2,94 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C23C43461
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5825AC2D0E3
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:12:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9C8120756
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:01:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I182+EMg"
+	by mail.kernel.org (Postfix) with ESMTP id 1D2D220739
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:12:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600215124;
+	bh=scyhgd3VmsafSl7Zt98dhk+r7cWGfTn6eGr16ow1X9w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=TBYm9QeUekF4Bm2V9lt5glyIbCaDQKw7tIAsxEPIYLtyYCbZYX/xdHyatbt9pTv/8
+	 D7thY8ANeNHG0jC36yzRZd9pvsps62VhcSg1BUxMhve3Rnc5ZWVduvEP6KdAyVDvf1
+	 MtS06vs1E+q3PE0WqgxTBII+HkaLNc0Vu9He4z6c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727111AbgIPABp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727198AbgIPAAK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 20:00:10 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3570C06174A
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2020 17:00:09 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id k13so2189274plk.3
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2020 17:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RX3pgRSaqwuA91vHSgRiOLr6fZp+r278bl7l934MXzo=;
-        b=I182+EMgnVlXeJ47Jpn+7tZxBNwd0Q4oeX34HqBM9qVe+Kc3Ch8LGnghFtFaFDoiI+
-         HGm8fXrJUu2L+YhOwQAi8t6WDe4uJ4ADZRBofop4MrMgBTQdJC1IICusIXpVTxM24MYu
-         CHV5T8SHE9ZaD5FzAtY921nrac1crYXcu8ErQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RX3pgRSaqwuA91vHSgRiOLr6fZp+r278bl7l934MXzo=;
-        b=EPNqAyQJZckibBSlALWpro2wybbVARgkTWyQDhRRF8LAlq8wafw3hViziYY/vO3bOc
-         ZVWxaxiypEqu46ZPqaQz/+FyfeSMQ2YXPwVgnYxgw6g80Jizv+z5zO3usaHLG5YfxF8e
-         UlmIofOVx4nKk7lDYJImeD4blQWzjjVtHh+7khKWs7Ius69FoWxiMILr9t3cljPfOMGd
-         g80LutC8yGiDvYnHGD89IdNYpf9zLgQuLqMCqWoF60HzkYYKUo7WKPOqBtDhbByAJ8/S
-         cOi1kOZ/wutaNtMyGWhWusxrQjBpbvGM0AmFzlOeM/R6j4Ah3erblQISdP4NFzgbrvrk
-         FIRw==
-X-Gm-Message-State: AOAM53021uT/xjIz0Fw6yoclXEHIleoaa0YQEsyDohffb4yzD2sd4Mmt
-        I80DnAEM7rQ/LYB2ylubh6hi0w==
-X-Google-Smtp-Source: ABdhPJx2q0kjfen9gHcVuYxqbdmmHRWRJidwPFOESeIQIJnD+CHVVXk6+U17mQhEWN8yg8Sb2ToONw==
-X-Received: by 2002:a17:90a:8981:: with SMTP id v1mr1640899pjn.54.1600214409487;
-        Tue, 15 Sep 2020 17:00:09 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
-        by smtp.gmail.com with ESMTPSA id e10sm542754pjj.32.2020.09.15.17.00.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2020 17:00:09 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 17:00:08 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        linux-usb@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-        devicetree@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Peter Chen <peter.chen@nxp.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: usb: Add binding for onboard USB hubs
-Message-ID: <20200916000008.GG2771744@google.com>
-References: <20200914112716.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
- <20200915142145.GA1861636@bogus>
+        id S1727150AbgIPAMC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:12:02 -0400
+Received: from forward4-smtp.messagingengine.com ([66.111.4.238]:36407 "EHLO
+        forward4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726847AbgIOO0a (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 10:26:30 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailforward.nyi.internal (Postfix) with ESMTP id 1FE201940B9D;
+        Tue, 15 Sep 2020 10:01:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 15 Sep 2020 10:01:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Tj1t3x
+        ABHZjsC2NjqJwZYpMhXu3dpb7qewiHFHSRUdc=; b=J0GR7UMVLfoLYUWKI+xxmz
+        fCPrr0ZNYS9aVHuzp7DoFy2XsMNfiBoD8RNdWPVQQu5rl+DelMBPZQsLrNsHvUq4
+        yu8nzbWi7qGAakcgJeHSwEhFHIhfgEy8x0BGCNAtQP+Aoe49zkZ0rc1SXA7Tfh2h
+        C/NE+zKeFLH+TyGMV58+7mPWyqo1BmhMsUkWPzlu0cKloB3eh+yPHBFWhU849tYC
+        xLl9wNIHohfE09fZmchBRk9jUETgYIzSpm1Cth6dSrIo9maShjUZ4Ruad2H9Gz7R
+        B3ncBRqar3R8DB3X8ZwAyvfhSP8BchCgimGU3qyETGZ2pkZmvWW+2CNSLVl4S+pA
+        ==
+X-ME-Sender: <xms:HclgX9ltR_85DNvwb-Fa2CzmFuKCyoVl8CWMPdcLIoBC8SqSJ8iwlA>
+    <xme:HclgX43XHJiQ0-miLzuPzvRat_N8jXpU3vlh-BKs6e8C9DFeN0RZLojbIBD8Z9Hz6
+    LopKkazpPysKg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtddtgdegtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvghfmjfeslhhinhhugihfohhunhgurghtihhonhdrohhrgheqnecuggftrf
+    grthhtvghrnheptedvleegfffguddtledvvddtteffjeetgfevveeugefgleelhfevveef
+    udeuuddvnecukfhppeekfedrkeeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:HclgXzrNTKEpyDtPFHNSH_BcTBJ_qP4tQSGiIw_3KYwjOZBOiisymw>
+    <xmx:HclgX9npcHAvNopZ_XnVgm1FnKnO-sWmX_6bvZLPQI8N9XuceX_TUA>
+    <xmx:HclgX71LfFAwsVhlfbAVJJC_0TeRlUPHEy_-wuKFdAuZpJkmiohoRQ>
+    <xmx:HslgXwiPva-ZQuxM2p6GcMcdZqRulYohXcKnMd6sVXdk_nutAEWnIQ>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 33E7C306468F;
+        Tue, 15 Sep 2020 10:01:01 -0400 (EDT)
+Date:   Tue, 15 Sep 2020 16:00:58 +0200
+From:   Greg KH <gregKH@linuxfoundation.org>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] UAS: fix disconnect by unplugging a hub
+Message-ID: <20200915140058.GA914700@kroah.com>
+References: <20200915134501.13947-1-oneukum@suse.com>
+ <20200915134501.13947-3-oneukum@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200915142145.GA1861636@bogus>
+In-Reply-To: <20200915134501.13947-3-oneukum@suse.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Rob,
-
-On Tue, Sep 15, 2020 at 08:21:45AM -0600, Rob Herring wrote:
-> On Mon, Sep 14, 2020 at 11:27:48AM -0700, Matthias Kaehlcke wrote:
-> > Onboard USB hubs need to be powered and may require initiaization of
-> > other resources (like GPIOs or clocks) to work properly. This adds
-> > a device tree binding for these hubs.
+On Tue, Sep 15, 2020 at 03:45:01PM +0200, Oliver Neukum wrote:
+> The SCSI layer can go into an ugly loop if you ignore that a device
+> is gone. You need to report an error in the command rather than
+> in the return value of the queue method.
+> We need to specifically check for ENODEV..
 > 
-> We already have bindings for these. 2 in fact as I2C controlled hubs are 
-> often described under the I2C bus.
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>  drivers/usb/storage/uas.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 
-Yes, these are I2C controlled hubs, which need hub specific drivers. This
-driver is for hubs without an additional bus that share similar
-initialization requirements and can benefit from common functionality.
+Should this one go to the stable kernels?
 
-> > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> > ---
-> > 
-> >  .../bindings/usb/onboard_usb_hub.yaml         | 70 +++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml b/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-> > new file mode 100644
-> > index 000000000000..f82d8f459eed
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-> > @@ -0,0 +1,70 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/usb/onboard_usb_hub.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Binding for onboard USB hubs
-> > +
-> > +maintainers:
-> > +  - Matthias Kaehlcke <mka@chromium.org>
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/usb/onboard_usb_hub.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - onboard-usb-hub
-> > +      - realtek,rts5411
-> > +
-> > +  power-off-in-suspend:
-> > +    description:
-> > +      The hub should be powered off during system suspend. When the
-> > +      "wakeup-source" property is also provided the hub is only powered
-> > +      off during suspend when no wakeup capable descendants are connected.
-> > +    type: boolean
-> > +
-> > +  vdd-supply:
-> > +    description:
-> > +      phandle to the regulator that provides power to the hub.
-> > +
-> > +  wakeup-source:
-> > +    description:
-> > +      Wakeup capable USB devices connected to this hub can be used as
-> > +      wakeup source.
-> > +    type: boolean
-> > +
-> > +required:
-> > +  - compatible
-> > +  - vdd-supply
-> > +
-> > +examples:
-> > +  - |
-> > +    usb_hub: usb-hub {
-> > +        compatible = "realtek,rts5411", "onboard-usb-hub";
-> > +        vdd-supply = <&pp3300_hub>;
-> > +        power-off-in-suspend;
-> > +        wakeup-source;
-> 
-> This is the hub device?
+thanks,
 
-This is the physical hub device on the platform bus, which is the
-equivalent to this entry for a usb2512b hub on an I2C bus:
-
-    usb2512b@2c {
-        compatible = "microchip,usb2512b";
-	reg = <0x2c>;
-	reset-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
-    };
-
-(source: Documentation/devicetree/bindings/usb/usb251xb.txt)
-
-It doesn't have an I2C, SPI or other bus, hence the platform bus is
-used.
-
-> > +    };
-> > +
-> > +    &usb_1_dwc3 {
-> > +	dr_mode = "host";
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +
-> > +	/* 2.0 hub on port 1 */
-> > +	hub@1 {
-> > +		compatible = "usbbda,5411";
-> > +		reg = <1>;
-> > +		hub = <&usb_hub>;
-> 
-> Or this node is?
-
-It is the USB 2.0 part of the hub. The device is instantiated by
-Linux even without this node, but the system associates the node
-with the device, which suggests it 'exists'.
-
-The usb2512b mentioned above implicitly also has a node here, it just
-isn't specified since the USB controller autodetects it.
-
-> > +	};
-> > +
-> > +	/* 3.0 hub on port 2 */
-> > +	hub@2 {
-> > +		compatible = "usbbda,411";
-> > +		reg = <2>;
-> > +		hub = <&usb_hub>;
-> 
-> Or this node is?
-
-It is the USB 3.0 part of the hub.
-
-> The hub node belongs here.
-
-The platform device isn't probed when the node is inside the USB
-controller node. I haven't investigated why that's the case.
-
-> If you really have it connected to 2 upstream ports, then just do
-> one node with 'reg = <1 2>;'.
-
-Yes, it is connected to two upstream ports. The platform driver needs a
-reference to both/all hubs, to be able to determine whether to keep the
-hub powered during system suspend or not.
-
-Technically the hub with product id 0x5411 is connected to port 1 and the
-one with product id 0x411 to port 2, so I would say the above is more
-accurate than pretending one of the hubs is connected to both ports.
-
-I would argue that the two hub nodes are similar to a SDIO BT/WiFi combo,
-where you have one chip/module with multiple functions. The DT has entries
-for both functions, even though they reside in the same chip and share the
-same bus.
+greg k-h
