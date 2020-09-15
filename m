@@ -2,82 +2,79 @@ Return-Path: <SRS0=Z06V=CY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DFEC43461
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 22:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7452EC43461
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 22:32:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E579320809
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 22:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600208096;
-	bh=XzIQaXzHkLl4MsqlmZsN6EenQAf8a0jP0i0TDdWUQJs=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=clO1Lsd55mLZMhsrs/YFXCOEmOJqrpj0EFDMFnx4TO9Gb/S1BxaOLaNf5fUAARZQe
-	 4D+r8gTvgBD2KETUa7pzvN9+F7DU4pwZCsJNiSCrPswEaU4Nl2Uqc0ZA+fAXhLyhmo
-	 gtolTTQQhoUX5XaK9q0DDgzdxDQob6rkLSeIvNSM=
+	by mail.kernel.org (Postfix) with ESMTP id 38FE420770
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Sep 2020 22:32:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ln7C0LzI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbgIOWOr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
+        id S1727635AbgIOWcz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:32:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727752AbgIOQit (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 12:38:49 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89288C06174A
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2020 09:37:50 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id t76so4561614oif.7
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2020 09:37:50 -0700 (PDT)
+        with ESMTP id S1727576AbgIOQRP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 12:17:15 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0587FC061A30;
+        Tue, 15 Sep 2020 09:15:14 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id u21so3341739ljl.6;
+        Tue, 15 Sep 2020 09:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=j1IjPX42QV4ZtmFRWDiz+pKpHRVz7JIwU6XXJfdBbV8=;
-        b=B0GnAyAMlkdBkFa/WL3TZAE+Js/7ZQOwxfCf8Ri+PiqaQ5dm3hLmTuwobKrbCRpMAz
-         jTRuGgQ+xvJJ9LYvdbVGkrxJTR4ta9884mUF16m/oS6CNFPmbJEBdaBClf+rUMUKoz4j
-         Yn0sH7WN0aSs9dW1P7Lrfknf7+/lJhZDZEP28=
+        bh=oDmwZqV69ONfDlP5WkAsuibEHA5OimwIA2UcgWGM9tY=;
+        b=Ln7C0LzIknZfvK3onMWkZDezxGy8+BvyqOBTBe4pH7X5j6N6dbeSEetYtfct3AY9Te
+         3r3dV/KOffGDN7VNdsIfTTS4vyWiLTcI/vRm3C06lx4Vq171QMVBhMNva9Wa7YWBB44i
+         QRGSf/QrFsV7RjhihAqcpcA6pLQ0pmOCoNmWYjiAat1QkeK7T6bhcp4rUEpfz1ebpvdN
+         EPm89o1fXcon8YhNLk+pLrXxgNhS5sXOLkcI/7BKQpSyCgMtuRy8xgqz/NCjWD8oYTjH
+         mqNtJjasPPPPDR9krXG7oYR/ob2Smk01TgcTx7DiaLI0xuJtvWXzmK4x1IXumNKi6TR3
+         leGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=j1IjPX42QV4ZtmFRWDiz+pKpHRVz7JIwU6XXJfdBbV8=;
-        b=IibOPwx7WgpCMSl3Tg30jSFlJDJsJB2FI8eCZKZu8dckBP70rtJsSnf9W1saO+EBjY
-         EvxqXx0Iozb6ppuweuAoplOtgCheSc1fx31r18A4z2SnHqxADCqPRZ/58poK8VR71ztv
-         tFV6GmaJUQtfTvqxqw/gBpx9XETVgmYycB78TLq7wW9G05B+oisrr8mh2mPSHB+06jhm
-         vM++CW6U6qphJ/IXT1DrDV34van3ZwqdIeU/rnpLZHBqvEka6Qjxf8sumI/zjuHOna2L
-         7iYSlk50syB7DPYvpjFipDJk/7BtfNhAAN/Q6GRefPbXAOzFoP6SsTvgOWLIrzcjkjFC
-         J7oA==
-X-Gm-Message-State: AOAM53084dkuw6jkZVfysiSbeOgEFJAzSZAMM4zXrtsSWXEWtJjhm0Uu
-        YA4pfHOnZirJLp4jbcU4UFf9/w==
-X-Google-Smtp-Source: ABdhPJw6wj4ib5lJiJmrAZyhwGegpz0slieqSzCh8ct3zcoOAsww+au1Sc+hbv/5x4nr4RYgZFZwOg==
-X-Received: by 2002:aca:fd95:: with SMTP id b143mr203924oii.68.1600187869898;
-        Tue, 15 Sep 2020 09:37:49 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id m20sm7553821oof.23.2020.09.15.09.37.48
+        bh=oDmwZqV69ONfDlP5WkAsuibEHA5OimwIA2UcgWGM9tY=;
+        b=pWXcnr/82ipHC0n7Wm4g9oq9rs8PszkPqz3cJ6sXhHhCL5JKsze6LUXylLgaPq0IMk
+         MgwS3pPr87/YLbof06lhNMMDrOxTk/obpnzKWwaTFfuG9fRj/auM/B4E+Fm9WDVdnpGD
+         wWU203pIbBuzFeEq2J/Cx56B43feGc1ud+9jd44RyXwZPOtLuW23/1pnwxjOIHhcLgMs
+         J7eeIQGlsJXeyOJ71lsaaH+Hm252tD6SUkt5gjIiLBEZZgEnN1Al7h/M/RAWlRaLCP+6
+         j1MIAX6cUOcOZYj9+3FGBwcVKgTQLM2dgFKWPAgHRhZYnlpSVJJdsNpJOCrwCToNu4xs
+         sxZA==
+X-Gm-Message-State: AOAM5330isw+ZuuLW+6/bBsTzg/lPQtTyJcyRquIUTBXIZVlPVxDY5It
+        /0/IDDYwbA5bhcRJKFv3H8zrCml+QzBFlA==
+X-Google-Smtp-Source: ABdhPJyRIxD4Fa1CsUoi3GwfVw9/SasDPCay69suX7DD07Z92Pf/ekdBRCTI1PWOOkU0Ucn5gVba9A==
+X-Received: by 2002:a2e:8616:: with SMTP id a22mr6595908lji.466.1600186512213;
+        Tue, 15 Sep 2020 09:15:12 -0700 (PDT)
+Received: from wasted.omprussia.ru ([2a00:1fa0:42d3:da34:6ad8:5c64:8a52:942b])
+        by smtp.gmail.com with ESMTPSA id b141sm4076671lfd.236.2020.09.15.09.15.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2020 09:37:49 -0700 (PDT)
-Subject: Re: [PATCH -next] usbip: simplify the return expression of
- usbip_core_init()
-To:     Liu Shixin <liushixin2@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20200915032631.1772673-1-liushixin2@huawei.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <81ff1561-ab22-905c-7fd1-424814e96c41@linuxfoundation.org>
-Date:   Tue, 15 Sep 2020 10:37:48 -0600
+        Tue, 15 Sep 2020 09:15:11 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] dt-bindings: usb: cdns,usb3: Add
+ cdns,phyrst-a-enable property
+To:     Roger Quadros <rogerq@ti.com>, balbi@kernel.org
+Cc:     pawell@cadence.com, kurahul@cadence.com, nsekhar@ti.com,
+        vigneshr@ti.com, robh+dt@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20200915114543.2599-1-rogerq@ti.com>
+ <20200915114543.2599-3-rogerq@ti.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <1b45d695-0874-69c7-8398-5d14033f0788@gmail.com>
+Date:   Tue, 15 Sep 2020 19:15:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200915032631.1772673-1-liushixin2@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200915114543.2599-3-rogerq@ti.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -85,38 +82,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 9/14/20 9:26 PM, Liu Shixin wrote:
-> Simplify the return expression.
+Hello!
+
+On 9/15/20 2:45 PM, Roger Quadros wrote:
+
+> Controller version 0x0002450D has USB2 PHY RX sensitivity issues
+> that needs to be worked around by enabling phyrst-a-enable bit
+> in PHYRST_CFG register.
 > 
-> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+> There is no way to know controller version before device controller
+> is started and the workaround needs to be applied for both host and
+> device modes, so we add this DT property.
+> 
+> Signed-off-by: Roger Quadros <rogerq@ti.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 > ---
->   drivers/usb/usbip/usbip_common.c | 8 +-------
->   1 file changed, 1 insertion(+), 7 deletions(-)
+>  Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/usb/usbip/usbip_common.c b/drivers/usb/usbip/usbip_common.c
-> index e4b96674c405..4ce6c6a45eb1 100644
-> --- a/drivers/usb/usbip/usbip_common.c
-> +++ b/drivers/usb/usbip/usbip_common.c
-> @@ -755,13 +755,7 @@ EXPORT_SYMBOL_GPL(usbip_recv_xbuff);
->   
->   static int __init usbip_core_init(void)
->   {
-> -	int ret;
-> -
-> -	ret = usbip_init_eh();
-> -	if (ret)
-> -		return ret;
-> -
-> -	return 0;
-> +	return usbip_init_eh();
->   }
->   
->   static void __exit usbip_core_exit(void)
-> 
+> diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+> index 9b14c8443d39..ac20b98e9910 100644
+> --- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+> @@ -61,6 +61,10 @@ properties:
+>        buffers expressed in KB
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>  
+> +  cdns,phyrst-a-enable:
+> +    description: Enable resetting of PHY if Rx fail is detected
 
-Looks good to me.
+   Failure?
 
-Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+[...]
 
-thanks,
--- Shuah
+MBR, Sergei
