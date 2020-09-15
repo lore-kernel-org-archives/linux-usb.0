@@ -2,132 +2,81 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBD9C43461
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F80C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:26:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EF4120756
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600215406;
-	bh=npnO+iegIXZPSDBKqy7AopryQmSfMlDeEx5QRhUBtsI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=kSAFWaO99sz7mRSiFdFicqWEEmV73ZgbGk0IGoL2rAMAZjm39VcWLcHGJywizhK0W
-	 3Ae9aeS+iV93ZJ5ioC3Lbd2ccPG3LfA8QrzSb360tlvql4bcsqYHQNrX6/sO93GSmA
-	 RLPrP77VL22zfOF9PpidDiNsggP8Wc5jpyYhJlkA=
+	by mail.kernel.org (Postfix) with ESMTP id CD1DA20663
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 00:26:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbgIPAQd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:16:33 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:38413 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbgIOOXr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Sep 2020 10:23:47 -0400
-Received: by mail-il1-f195.google.com with SMTP id t18so3165012ilp.5;
-        Tue, 15 Sep 2020 07:21:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mv7dyR4sjl+BVQ9RdeFPf0paoZFTYPDkq70MlZEfWDQ=;
-        b=iDfEoSWo32MjSNwMX7a2+EMX832f+0ombq9JJntlHfF3jFhT6SZc00MwPf8QxqlrgT
-         /60zssamyvjLg+WQo+kN0BGlPr2FZ5dYo95JJ+QRxxHjk+anDFIfaqAaLjR85PK3eLuH
-         VzWntuzxeUziwvxLQLYI36lC4Sf7o+PKZMty8aDMSsaP4Ln6OtilrkvKtyQ+32OtjvrM
-         p8ErnfKn5u1wVgHGCOj1n3xnPySma34Tu/t90MUxwiVq0GL5ItcOOsQLF/WA5aHBZBB+
-         040k6+7o6/wiIG4Spph/QxrpI7vRAbqKdZjBONNApWX2V1odvSkr3M364gDULnPwGSdL
-         ynVQ==
-X-Gm-Message-State: AOAM531wwtWq3xCIl7VnJJEn27/s4YIHMBfTIvC94zDKgm43zbkhssCa
-        wZurp6+phVNITlnxTmrkjA==
-X-Google-Smtp-Source: ABdhPJyyM19BYSpWbpH3kwRqswRw9fK5YfGImOr7xdoFoH6gheQZQGCGUsYKmRyVAw4pJCa4LotBRQ==
-X-Received: by 2002:a92:4f:: with SMTP id 76mr15938072ila.11.1600179715629;
-        Tue, 15 Sep 2020 07:21:55 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id m19sm9007665ila.40.2020.09.15.07.21.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 07:21:54 -0700 (PDT)
-Received: (nullmailer pid 1873453 invoked by uid 1000);
-        Tue, 15 Sep 2020 14:21:53 -0000
-Date:   Tue, 15 Sep 2020 08:21:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Peter Chen <peter.chen@nxp.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] dt-bindings: usb: Add binding for onboard USB hubs
-Message-ID: <20200915142153.GB1861636@bogus>
-References: <20200914112716.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+        id S1727236AbgIPA0b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:26:31 -0400
+Received: from mga12.intel.com ([192.55.52.136]:48098 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726701AbgIOOMf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Sep 2020 10:12:35 -0400
+IronPort-SDR: uuk7rt+Bx5gRn6vhLtoIv0hXsKasV/ilT5Q9LcHstlAKPealUwj6CV3oeAChZowsSIuQvA1my4
+ d8oH0ovxb4vQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="138760631"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="138760631"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 06:33:50 -0700
+IronPort-SDR: j6TeeDyGh39bdU5PkSMdU1urcJOKOPuTNaIj4Pkf8xXLqQVkzQolliJ1Drn9AqnVOPjYEIKWfJ
+ +H33ywpqXyDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="409202130"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 15 Sep 2020 06:33:48 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 15 Sep 2020 16:33:47 +0300
+Date:   Tue, 15 Sep 2020 16:33:47 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/14] TCPM support for FRS and AutoDischarge
+ Disconnect
+Message-ID: <20200915133347.GK1139641@kuha.fi.intel.com>
+References: <20200901025927.3596190-1-badhri@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200914112716.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+In-Reply-To: <20200901025927.3596190-1-badhri@google.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 14 Sep 2020 11:27:48 -0700, Matthias Kaehlcke wrote:
-> Onboard USB hubs need to be powered and may require initiaization of
-> other resources (like GPIOs or clocks) to work properly. This adds
-> a device tree binding for these hubs.
+On Mon, Aug 31, 2020 at 07:59:13PM -0700, Badhri Jagan Sridharan wrote:
+> First of all apologies for mixing up the patch version as noted by
+> Heikki and Greg. All of them were v1's but since I was manually adding
+> the version numbers I mixed them up. Using the --reroll-count option
+> now. Updating the patch version to v6 (highest version number in the
+> previous patchset + 1) to avoid confusion.
 > 
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
+> I also rebased on to off of the recent usb-next tip:
+> 5fedf0d295d3 (origin/usb-testing, origin/usb-next) Merge 5.9-rc3 into usb-next
+> Which had the following changes causing merge conflict:
+> 3ed8e1c2ac99 usb: typec: tcpm: Migrate workqueue to RT priority for processing events
+> 6bbe2a90a0bb usb: typec: tcpm: During PR_SWAP, source caps should be sent only after tSwapSourceStart
 > 
->  .../bindings/usb/onboard_usb_hub.yaml         | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-> 
+> Addressed comments from Heikki and Randy which have described in the
+> individual commit's change history as well.
 
+I'll try to study the AutoDischarge a bit before reviewing the last
+patches. They all appeared to be only about AutoDischarge. Sorry, I
+didn't have time for that yet. If Guenter is fine with those, then
+feel free to add my ACK to those patches. But Guenter really should
+review these in any case. Hope he has time.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Br,
 
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 343, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 111, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 773, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 848, in _ruamel_yaml.CParser._compose_sequence_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.scanner.ScannerError: while scanning a block scalar
-  in "<unicode string>", line 43, column 5
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 52, column 1
-make[1]: *** [Documentation/devicetree/bindings/Makefile:18: Documentation/devicetree/bindings/usb/onboard_usb_hub.example.dts] Error 1
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/usb/onboard_usb_hub.example.dts'
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml:  while scanning a block scalar
-  in "<unicode string>", line 43, column 5
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 52, column 1
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-make: *** [Makefile:1366: dt_binding_check] Error 2
-
-
-See https://patchwork.ozlabs.org/patch/1363875
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
+-- 
+heikki
