@@ -2,92 +2,76 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84210C433E2
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 19:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FEFDC433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 19:14:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3560320715
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 19:09:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E091B20708
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 19:14:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600283681;
+	bh=lFBiwHtK6AFv8tNn9lt8ZEVeIHstWsf8bfrVPBe167s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=D/x22nptxLZ5lBBao+AicIxyHtHorvSy0Phdr7vlyl+KcksflK2dc6J5TCJ7HXER0
+	 8rGVXRQ+qdj/iI5TLV+yamPOmWBUSbzSKrAMuwbGQuy8l0FpNcVqDTebyff4mMTVze
+	 8okcVeIJ9QqR/XTr89f9R5DoxEbOxaYJXTQVqaNk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727555AbgIPTJ2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 15:09:28 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:54312 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727395AbgIPRo0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 13:44:26 -0400
-Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 3BED73AE1EF
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2020 14:41:09 +0000 (UTC)
-Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id D67D3240011;
-        Wed, 16 Sep 2020 14:39:40 +0000 (UTC)
-Message-ID: <9d329243e4ed6b09afade2659e09b847e9c780fc.camel@hadess.net>
-Subject: Re: USB driver ID matching broken
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrey Konovalov <andreyknvl@google.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        syzkaller <syzkaller@googlegroups.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "M. Vefa Bicakci" <m.v.b@runbox.com>
-Date:   Wed, 16 Sep 2020 16:39:40 +0200
-In-Reply-To: <20200916141513.GA2977321@kroah.com>
-References: <CAAeHK+zOrHnxjRFs=OE8T=O9208B9HP_oo8RZpyVOZ9AJ54pAA@mail.gmail.com>
-         <20200916141513.GA2977321@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.37.90 (3.37.90-1.fc33) 
+        id S1727358AbgIPTOk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 15:14:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56002 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727314AbgIPRka (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 13:40:30 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 909172076D;
+        Wed, 16 Sep 2020 11:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600254274;
+        bh=lFBiwHtK6AFv8tNn9lt8ZEVeIHstWsf8bfrVPBe167s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HbYou1Uleay1Ns6v0dFkL5dnxzRbUGZu7vtK5KaOuXn1vEPoAs/hq7W22Oqf3iNRk
+         tId7LuzG4GsxuZogz5khUK/cuiDXnX032ijC+sUGAz5gjWzltocw0umRVB3iwXeO7p
+         CiHcnYuyT15VsDEakoe6glA6S4awoOzQYK+JNs2o=
+Date:   Wed, 16 Sep 2020 13:05:08 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/14] TCPM support for FRS and AutoDischarge
+ Disconnect
+Message-ID: <20200916110508.GA825656@kroah.com>
+References: <20200901025927.3596190-1-badhri@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200901025927.3596190-1-badhri@google.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 2020-09-16 at 16:15 +0200, Greg Kroah-Hartman wrote:
-> On Wed, Sep 16, 2020 at 03:33:25PM +0200, Andrey Konovalov wrote:
-> > Hi Bastien, Greg, Alan,
-> > 
-> > Looks like commit adb6e6ac20ee ("USB: Also match device drivers
-> > using
-> > the ->match vfunc") broke the USB driver ID matching process. This,
-> > in
-> > turn, led to a complete breakage of the USB fuzzing instance.
-> > 
-> > This is how an attempt to connect a USB device looks now:
-> > 
-> > [   39.781642][   T12] usb 1-1: new high-speed USB device number 2
-> > using dummy_hcd
-> > [   40.299955][   T12] usb 1-1: New USB device found,
-> > idVendor=0cf3,
-> > idProduct=9271, bcdDevice= 1.08
-> > [   40.303072][   T12] usb 1-1: New USB device strings: Mfr=1,
-> > Product=2, SerialNumber=3
-> > [   40.305678][   T12] usb 1-1: Product: syz
-> > [   40.307041][   T12] usb 1-1: Manufacturer: syz
-> > [   40.308556][   T12] usb 1-1: SerialNumber: syz
-> > [   40.314825][   T12] usbip-host 1-1: 1-1 is not in match_busid
-> > table... skip!
-> > [   42.500114][   T51] usb 1-1: USB disconnect, device number 2
-> > 
-> > It seems that when going through the list of registered IDs the
-> > code
-> > tries to match against USB/IP and succeeds as usbip_match() always
-> > returns true.
-> > 
-> > I'm not sure what's the best fix for this is.
+On Mon, Aug 31, 2020 at 07:59:13PM -0700, Badhri Jagan Sridharan wrote:
+> First of all apologies for mixing up the patch version as noted by
+> Heikki and Greg. All of them were v1's but since I was manually adding
+> the version numbers I mixed them up. Using the --reroll-count option
+> now. Updating the patch version to v6 (highest version number in the
+> previous patchset + 1) to avoid confusion.
 > 
-> I thought that is what the patch from Bastien was supposed to fix?
+> I also rebased on to off of the recent usb-next tip:
+> 5fedf0d295d3 (origin/usb-testing, origin/usb-next) Merge 5.9-rc3 into usb-next
+> Which had the following changes causing merge conflict:
+> 3ed8e1c2ac99 usb: typec: tcpm: Migrate workqueue to RT priority for processing events
+> 6bbe2a90a0bb usb: typec: tcpm: During PR_SWAP, source caps should be sent only after tSwapSourceStart
 > 
-> If it didn't, we can revert it.
+> Addressed comments from Heikki and Randy which have described in the
+> individual commit's change history as well.
 
-It wasn't. Are you thinking of "usbip: Implement a match function to
-fix usbip" by M. Vefa Bicakci (CC:ed)?
+First 3 patches now queued up, thanks.
 
-Seems to me that usbip wants to match *every* device. Wouldn't that be
-a bug in usbip?
-
+greg k-h
