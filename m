@@ -2,110 +2,77 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5501BC43461
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 10:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F5AC2BB84
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 10:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29CFE2076B
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 10:03:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30C7D2076B
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 10:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbgIPKDV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 06:03:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58608 "EHLO mx2.suse.de"
+        id S1726727AbgIPKTv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 06:19:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42194 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726536AbgIPKDQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 16 Sep 2020 06:03:16 -0400
+        id S1726612AbgIPKSM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 06:18:12 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id D61F3AED9;
-        Wed, 16 Sep 2020 10:03:29 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id D7382AC24;
+        Wed, 16 Sep 2020 10:18:26 +0000 (UTC)
+Message-ID: <1600251486.2424.17.camel@suse.com>
+Subject: Re: [RFC 0/5] fix races in CDC-WDM
 From:   Oliver Neukum <oneukum@suse.com>
-To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH] microtek: use set_host_byte()
-Date:   Wed, 16 Sep 2020 12:03:02 +0200
-Message-Id: <20200916100302.30855-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
+Date:   Wed, 16 Sep 2020 12:18:06 +0200
+In-Reply-To: <4b8f6305-52fd-cb72-eb13-9d0a0bf07319@i-love.sakura.ne.jp>
+References: <20200812132034.14363-1-oneukum@suse.com>
+         <ee0af733-903f-8e8f-8027-b5490a37032f@i-love.sakura.ne.jp>
+         <1599728957.10822.9.camel@suse.com>
+         <4f285044-aae9-c3be-23ba-90790cd624f1@i-love.sakura.ne.jp>
+         <1600161279.2424.5.camel@suse.com>
+         <4b8f6305-52fd-cb72-eb13-9d0a0bf07319@i-love.sakura.ne.jp>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The SCSI layer is providing a new macro. Let's use it.
+Am Dienstag, den 15.09.2020, 19:30 +0900 schrieb Tetsuo Handa:
+> On 2020/09/15 18:14, Oliver Neukum wrote
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/image/microtek.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+> > Is there something we can do in flush()?
+> 
+> I consider that wdm_flush() is a wrong place to return an error. It is possible that
 
-diff --git a/drivers/usb/image/microtek.c b/drivers/usb/image/microtek.c
-index 360416680e82..59b02a539963 100644
---- a/drivers/usb/image/microtek.c
-+++ b/drivers/usb/image/microtek.c
-@@ -389,7 +389,7 @@ void mts_int_submit_urb (struct urb* transfer,
- 	res = usb_submit_urb( transfer, GFP_ATOMIC );
- 	if ( unlikely(res) ) {
- 		MTS_INT_ERROR( "could not submit URB! Error was %d\n",(int)res );
--		context->srb->result = DID_ERROR << 16;
-+		set_host_byte(context->srb, DID_ERROR);
- 		mts_transfer_cleanup(transfer);
- 	}
- }
-@@ -438,7 +438,7 @@ static void mts_data_done( struct urb* transfer )
- 		scsi_set_resid(context->srb, context->data_length -
- 			       transfer->actual_length);
- 	} else if ( unlikely(status) ) {
--		context->srb->result = (status == -ENOENT ? DID_ABORT : DID_ERROR)<<16;
-+		set_host_byte(context->srb, (status == -ENOENT ? DID_ABORT : DID_ERROR));
- 	}
- 
- 	mts_get_status(transfer);
-@@ -455,12 +455,12 @@ static void mts_command_done( struct urb *transfer )
- 	        if (status == -ENOENT) {
- 		        /* We are being killed */
- 			MTS_DEBUG_GOT_HERE();
--			context->srb->result = DID_ABORT<<16;
-+			set_host_byte(context->srb, DID_ABORT);
-                 } else {
- 		        /* A genuine error has occurred */
- 			MTS_DEBUG_GOT_HERE();
- 
--		        context->srb->result = DID_ERROR<<16;
-+		        set_host_byte(context->srb, DID_ERROR);
-                 }
- 		mts_transfer_cleanup(transfer);
- 
-@@ -495,7 +495,7 @@ static void mts_do_sg (struct urb* transfer)
- 	                                          scsi_sg_count(context->srb));
- 
- 	if (unlikely(status)) {
--                context->srb->result = (status == -ENOENT ? DID_ABORT : DID_ERROR)<<16;
-+                set_host_byte(context->srb, (status == -ENOENT ? DID_ABORT : DID_ERROR));
- 		mts_transfer_cleanup(transfer);
-         }
- 
-@@ -578,7 +578,7 @@ mts_scsi_queuecommand_lck(struct scsi_cmnd *srb, mts_scsi_cmnd_callback callback
- 
- 		MTS_DEBUG("this device doesn't exist\n");
- 
--		srb->result = DID_BAD_TARGET << 16;
-+		set_host_byte(srb, DID_BAD_TARGET);
- 
- 		if(likely(callback != NULL))
- 			callback(srb);
-@@ -605,7 +605,7 @@ mts_scsi_queuecommand_lck(struct scsi_cmnd *srb, mts_scsi_cmnd_callback callback
- 
- 	if(unlikely(res)){
- 		MTS_ERROR("error %d submitting URB\n",(int)res);
--		srb->result = DID_ERROR << 16;
-+		set_host_byte(srb, DID_ERROR);
- 
- 		if(likely(callback != NULL))
- 			callback(srb);
--- 
-2.16.4
+I am afraid that is a basic problem we need to resolve. As I understand
+ it, flush() as a method exists precisely to report errors. Otherwise
+you could implement it in release(). But this is not called for every
+close().
+
+Hence a driver is supposed to start IO upon write() and report the
+result to the next call, which can be either write() or close(), the
+latter corresponding to flush().
+
+> a userspace process reaches wdm_flush() due to being killed by SIGKILL (rather than
+> via calling close() syscall). Then, that userspace process will never receive the error
+
+If you are killed by a signal you are in a race condition
+anyway. It cannot be handled.
+
+> fetched from wdm_flush(). Also, if that userspace process is killed by the OOM killer,
+> being able to terminate and release resources as soon as possible is more preferable
+> than try to wait for response.
+
+Right, so should we just proceed in case of a dieing task? How do we
+do that?
+
+	Regards
+		Oliver
 
