@@ -2,94 +2,148 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C31C43461
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 14:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE109C433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 17:32:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 554A020936
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 14:02:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7A3522204
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 17:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600277546;
+	bh=MQJPQUU49Ig49sb0z71114UXRnPXtQC9EbfuBVLjS+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Y4BE2mhWMLGDoBkE4WNIpoJunVypwWhCwVh3+lhtKmkmuysaCg262KxWzYj8uMNS2
+	 5Y8IlU4Jlgl8Yh0rg0sk2+fRihFisbs47e07xsQQzYJ9CMwi/bfw+l6WPiyT/cdGTD
+	 JLUZr31jICsDDtqkDa758DCH5xBUxxyrhG3BOeC0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbgIPN6c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 09:58:32 -0400
-Received: from mga12.intel.com ([192.55.52.136]:30867 "EHLO mga12.intel.com"
+        id S1727177AbgIPRcG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 13:32:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726648AbgIPNlo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 16 Sep 2020 09:41:44 -0400
-IronPort-SDR: 5oPOXgeW7uQ1mYhiHfWexAC+QwexYWCU3h2AcJk+UIdFpWmYIV1LpUyug21XegkvoVAt7ZZkn8
- K2/Y71ZgAhVQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="138954082"
-X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
-   d="scan'208";a="138954082"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 05:43:52 -0700
-IronPort-SDR: WOynIPceZCbhvv68/lf6IeVOaC2paax4n3bYUpPxg3kFa4mILFaNYtswptGHf859A0EEZOTdlJ
- dodjpcBiToWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
-   d="scan'208";a="451838929"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by orsmga004.jf.intel.com with ESMTP; 16 Sep 2020 05:43:50 -0700
-Subject: Re: [PATCH] xhci: workaround for S3 issue on AMD SNPS 3.0 xHC
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Nehal Bakulchandra Shah <Nehal-bakulchandra.Shah@amd.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sandeep.Singh@amd.com, yuanmei@lenovo.com
-References: <20200831065246.1166470-1-Nehal-bakulchandra.Shah@amd.com>
- <20200916080611.GA486670@kroah.com>
-From:   Mathias Nyman <mathias.nyman@intel.com>
-Message-ID: <86106f56-68a7-8d58-0ba8-7e19788688f2@intel.com>
-Date:   Wed, 16 Sep 2020 15:47:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727080AbgIPRbd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 13:31:33 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B46922080C;
+        Wed, 16 Sep 2020 17:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600277492;
+        bh=MQJPQUU49Ig49sb0z71114UXRnPXtQC9EbfuBVLjS+A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vk5wC7FqKr8EArfA9fDKEcS7av3gAmdnlclKvwdRmhjOt9C/AMl4x0eYVXRcyRCJg
+         RkrpSTTnTTxFuNp4ClS88fKjhtHG7d3bDcK7mPfxqJpIWETXgKjRIG3gIncUq008D8
+         WU+zrGoxiXuk97FUXvigYyFFDsyqOtKzug8S7zlo=
+Date:   Wed, 16 Sep 2020 19:32:06 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Quentin Perret <qperret@google.com>
+Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gprocida@google.com,
+        maennich@google.com, kernel-team@android.com
+Subject: Re: [PATCH] ehci-hcd: Move include to keep CRC stable
+Message-ID: <20200916173206.GA3070014@kroah.com>
+References: <20200916171825.3228122-1-qperret@google.com>
+ <20200916173127.GB3068942@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20200916080611.GA486670@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200916173127.GB3068942@kroah.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 16.9.2020 11.06, Greg KH wrote:
-> On Mon, Aug 31, 2020 at 06:52:46AM +0000, Nehal Bakulchandra Shah wrote:
->> From: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
->>
->> On some platform of AMD, S3 fails with HCE and SRE errors.To fix this,
->> sparse controller enable bit has to be disabled.
->>
->> Signed-off-by: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
->> ---
->>  drivers/usb/host/xhci-pci.c | 12 ++++++++++++
->>  drivers/usb/host/xhci.h     |  1 +
->>  2 files changed, 13 insertions(+)
->>
->> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c  
->> @@ -371,6 +374,15 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
->>  	/* USB 2.0 roothub is stored in the PCI device now. */
->>  	hcd = dev_get_drvdata(&dev->dev);
->>  	xhci = hcd_to_xhci(hcd);
->> +
->> +	if (xhci->quirks & XHCI_DISABLE_SPARSE) {
->> +		u32 reg;
->> +
->> +		reg = readl(hcd->regs + 0xC12C);
->> +		reg &=  ~BIT(17); 
->
-> And is this the proper place to be testing for quirks and applying them?
-> Why not do the above in the xhci_pci_quirks() call?
+On Wed, Sep 16, 2020 at 07:31:27PM +0200, Greg KH wrote:
+> On Wed, Sep 16, 2020 at 06:18:25PM +0100, Quentin Perret wrote:
+> > The CRC calculation done by genksyms is triggered when the parser hits
+> > EXPORT_SYMBOL*() macros. At this point, genksyms recursively expands the
+> > types of the function parameters, and uses that as the input for the CRC
+> > calculation. In the case of forward-declared structs, the type expands
+> > to 'UNKNOWN'. Following this, it appears that the result of the
+> > expansion of each type is cached somewhere, and seems to be re-used
+> > when/if the same type is seen again for another exported symbol in the
+> > same C file.
+> > 
+> > Unfortunately, this can cause CRC 'stability' issues when a struct
+> > definition becomes visible in the middle of a C file. For example, let's
+> > assume code with the following pattern:
+> > 
+> >     struct foo;
+> > 
+> >     int bar(struct foo *arg)
+> >     {
+> > 	/* Do work ... */
+> >     }
+> >     EXPORT_SYMBOL_GPL(bar);
+> > 
+> >     /* This contains struct foo's definition */
+> >     #include "foo.h"
+> > 
+> >     int baz(struct foo *arg)
+> >     {
+> > 	/* Do more work ... */
+> >     }
+> >     EXPORT_SYMBOL_GPL(baz);
+> > 
+> > Here, baz's CRC will be computed using the expansion of struct foo that
+> > was cached after bar's CRC calculation ('UNKOWN' here). But if
+> > EXPORT_SYMBOL_GPL(bar) is removed from the file (because of e.g. symbol
+> > trimming using CONFIG_TRIM_UNUSED_KSYMS), struct foo will be expanded
+> > late, during baz's CRC calculation, which now has visibility over the
+> > full struct definition, hence resulting in a different CRC for baz.
+> > 
+> > The proper fix for this certainly is in genksyms, but that will take me
+> > some time to get right. In the meantime, we have seen one occurrence of
+> > this in the ehci-hcd code which hits this problem because of the way it
+> > includes C files halfway through the code together with an unlucky mix
+> > of symbol trimming.
+> > 
+> > In order to workaround this, move the include done in ehci-hub.c early
+> > in ehci-hcd.c, hence making sure the struct definitions are visible to
+> > the entire file. This improves CRC stability of the ehci-hcd exports
+> > even when symbol trimming is enabled.
+> > 
+> > Signed-off-by: Quentin Perret <qperret@google.com>
+> > ---
+> >  drivers/usb/host/ehci-hcd.c | 1 +
+> >  drivers/usb/host/ehci-hub.c | 1 -
+> >  2 files changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+> > index 6257be4110ca..3575b7201881 100644
+> > --- a/drivers/usb/host/ehci-hcd.c
+> > +++ b/drivers/usb/host/ehci-hcd.c
+> > @@ -22,6 +22,7 @@
+> >  #include <linux/interrupt.h>
+> >  #include <linux/usb.h>
+> >  #include <linux/usb/hcd.h>
+> > +#include <linux/usb/otg.h>
+> >  #include <linux/moduleparam.h>
+> >  #include <linux/dma-mapping.h>
+> >  #include <linux/debugfs.h>
+> > diff --git a/drivers/usb/host/ehci-hub.c b/drivers/usb/host/ehci-hub.c
+> > index ce0eaf7d7c12..087402aec5cb 100644
+> > --- a/drivers/usb/host/ehci-hub.c
+> > +++ b/drivers/usb/host/ehci-hub.c
+> > @@ -14,7 +14,6 @@
+> >   */
+> >  
+> >  /*-------------------------------------------------------------------------*/
+> > -#include <linux/usb/otg.h>
+> >  
+> >  #define	PORT_WAKE_BITS	(PORT_WKOC_E|PORT_WKDISC_E|PORT_WKCONN_E)
+> 
+> Thanks for root-causing this issue.  genksyms is a fragile beast, good
+> luck trying to resolve that!
+> 
+> I'll go queue this up and mark it for stable kernels, thanks.
 
-xhci_pci_quirks() is a confusing name, it actually only sets quirk flags based on PCI
-vendor/device.
+I'll queue it up after I get Alan's review first :)
 
-Anyway, point is still valid, this level of bitops in probe isn't very nice.
-Turn it into a separate function, and call it from xhci_pci_setup(), or if flag
-needs to be cleared more often, and is related to S3 problems then possibly from xhci_pci_suspend()
+thanks,
 
--Mathias
+greg k-h
