@@ -2,164 +2,105 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 147A9C433E2
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 20:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13F89C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 20:37:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B63872087D
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 20:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600288517;
-	bh=MVH8tbMmvrcot7muP3ACDZ/U/NEQIR8r3oYTcaxKlSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=vNmDFXK+1CpcgxkFfvNqL6YmCMesnhPzoisQA7IbRnd5fCPsk0B9/3LbxaTUeCTfL
-	 NgzZnUM2Rg7zKAecYs7kZWjb4iI1wberc1y9qR5HGMLOmnvbFe1yJOGoOqjuUFnF5+
-	 EJMWyaccL+wFOnRiPMNMp/2Ncb9f4H7zuyG4z7x0=
+	by mail.kernel.org (Postfix) with ESMTP id B49F92087D
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 20:37:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgIPUfQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 16:35:16 -0400
-Received: from forward1-smtp.messagingengine.com ([66.111.4.223]:44489 "EHLO
-        forward1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726885AbgIPRK5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 13:10:57 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailforward.nyi.internal (Postfix) with ESMTP id DDD741940C9B;
-        Wed, 16 Sep 2020 11:24:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 16 Sep 2020 11:24:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=HN8qKO
-        wB+t8DL49LcVLpo1otYPRmS/hrPL8n5jdfGD0=; b=pEXX1g2upe6I5VYMHwVLGb
-        FbwksNJbc+HTYrAt008MWVc9DaEj2N8r67LJKTncyAUneWwXt7XYHAwnJhq26hV7
-        hUXEImI2T491yZp2bAHoxVY06mZzCfb7Zq2U4vzvCDDVktZG88Udy9xDq1nlFU0d
-        1Z4PbS4QG8pNJJSOHqOqatoFaECL/Zh87zMW4FVXGMbHhbr3Ryo2uhEB7X0aXMXH
-        +xWuyXSTcLN/CfRjHX4WnLf6XgbhDwwyFtisu+k3AFE2B1ERHXO1Ray6sSnjkHBk
-        EoJDgNXwBFUOASVbZkdQl1lcPEISY0G243CWKIWg+sFqDIVYQ9D7jf+197bY0cjw
-        ==
-X-ME-Sender: <xms:QS5iXzRRv353yNIXVkxgIz6pYp4EIy1YzUz5bWwK0kwssjz6SVRG4Q>
-    <xme:QS5iX0xnUBZytdF1vSupd-f_olB6KCgsYyJOH5iQczCIpWOozeAnQfjIYNVLtR0Jo
-    Noie1Y3KS_LnA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtddvgdekkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvghfmjfeslhhinhhugihfohhunhgurghtihhonhdrohhrgheqnecuggftrf
-    grthhtvghrnheptedvleegfffguddtledvvddtteffjeetgfevveeugefgleelhfevveef
-    udeuuddvnecukfhppeekfedrkeeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:QS5iX42betYAJoiuia6yjnISi6R5rvYcnA2nNPvy7lk9wKubhx1hwg>
-    <xmx:QS5iXzBV1GpK4no-UXHj9LHwmAqPtnSCbSeJ9_sC0yVIrwHI6TVOfg>
-    <xmx:QS5iX8gpdaVE_wFv53Gv5vfg40cfHQ4Uvv0Xmo0eOxSd5KixzU8Zow>
-    <xmx:QS5iX0K9GAOLUNeHYycMW3dRf69QN0D34Ab7XL7IPx8cWofPzvRU_g>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4CD2A3280066;
-        Wed, 16 Sep 2020 11:24:49 -0400 (EDT)
-Date:   Wed, 16 Sep 2020 17:25:16 +0200
-From:   Greg KH <gregKH@linuxfoundation.org>
-To:     Oliver Neukum <oneukum@suse.de>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
-Subject: Re: memory allocations dring device removal
-Message-ID: <20200916152516.GC3018065@kroah.com>
-References: <1600266411.2424.32.camel@suse.de>
+        id S1728437AbgIPUgl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 16:36:41 -0400
+Received: from mga02.intel.com ([134.134.136.20]:21154 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726793AbgIPRKV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 13:10:21 -0400
+IronPort-SDR: L9i3YG3xSoZc/0ZTN1Lu/XgFkpizjcUbzLq06j2flQRUS5MqVo8AWWHEQG6kSVp+3y/9+xwy3Q
+ dnB3l2hHmMZg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="147137498"
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
+   d="scan'208";a="147137498"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 05:26:43 -0700
+IronPort-SDR: p7/YuHpQIogTkInWLhal8vzrvsLtpNi254IL9RX3AA6hWTXoyG5ZN/rgH0eN/0RtWo9F/B+uOQ
+ ipuMsEyloMzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
+   d="scan'208";a="451832627"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga004.jf.intel.com with ESMTP; 16 Sep 2020 05:26:41 -0700
+Subject: Re: [PATCH] xhci: workaround for S3 issue on AMD SNPS 3.0 xHC
+To:     Nehal Bakulchandra Shah <Nehal-bakulchandra.Shah@amd.com>,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sandeep.Singh@amd.com,
+        yuanmei@lenovo.com
+References: <20200831065246.1166470-1-Nehal-bakulchandra.Shah@amd.com>
+From:   Mathias Nyman <mathias.nyman@intel.com>
+Message-ID: <897a7917-5ea6-025b-c516-482188759e0a@intel.com>
+Date:   Wed, 16 Sep 2020 15:30:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1600266411.2424.32.camel@suse.de>
+In-Reply-To: <20200831065246.1166470-1-Nehal-bakulchandra.Shah@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 04:26:51PM +0200, Oliver Neukum wrote:
-> Hi,
+On 31.8.2020 9.52, Nehal Bakulchandra Shah wrote:
+> From: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
 > 
-> I am cleaning up house, electronically speaking.
-> Reading the thread about the keyboard with the storage device
-> reminded me about a potential issue. What happens if you
-> allocate memory during disconnect()?
-
-Does any driver do that today?
-
-If so, I think we might have seen issues there already, but perhaps not,
-it's a tricky codepath...
-
-> If the storage device is second, the storage driver will
-> still be bound and the SCSI device will still exist. The
-> kernel may use it to launder pages. This will fail, as the
-> device is physically gone. So can we deadlock?
-
-The notifier callback worries me, who knows what can happen on that code
-path.  So yes, I think your patch might be needed :(
-
-
+> On some platform of AMD, S3 fails with HCE and SRE errors.To fix this,
+> sparse controller enable bit has to be disabled.
 > 
-> Is this patch necessary?
-> 
-> 	Regards
-> 		Oliver
-> 
-> >From 97b7e91af588b7489795e3eaf773be032bc91b70 Mon Sep 17 00:00:00 2001
-> From: Oliver Neukum <oneukum@suse.com>
-> Date: Tue, 28 May 2019 11:43:02 +0200
-> Subject: [PATCH] base: force NOIO allocations during unplug
-> 
-> There is one overlooked situation under which a driver
-> must not do IO to allocate memory. You cannot do that
-> while disconnecting a device. A device being disconnected
-> is no longer functional in most cases, yet IO may fail
-> only when the handler runs.
-> 
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> Signed-off-by: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
 > ---
->  drivers/base/core.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/usb/host/xhci-pci.c | 12 ++++++++++++
+>  drivers/usb/host/xhci.h     |  1 +
+>  2 files changed, 13 insertions(+)
 > 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index bb5806a2bd4c..509306a4ea89 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -26,6 +26,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/netdevice.h>
->  #include <linux/sched/signal.h>
-> +#include <linux/sched/mm.h>
->  #include <linux/sysfs.h>
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 3feaafebfe58..865a16e6c1ed 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -160,6 +160,9 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+>  	    (pdev->device == 0x15e0 || pdev->device == 0x15e1))
+>  		xhci->quirks |= XHCI_SNPS_BROKEN_SUSPEND;
 >  
->  #include "base.h"
-> @@ -3062,6 +3063,7 @@ void device_del(struct device *dev)
->  	struct device *parent = dev->parent;
->  	struct kobject *glue_dir = NULL;
->  	struct class_interface *class_intf;
-> +	unsigned int noio_flag;
+> +	if (pdev->vendor == PCI_VENDOR_ID_AMD && pdev->device == 0x15e5)
+> +		xhci->quirks |= XHCI_DISABLE_SPARSE;
+> +
+>  	if (pdev->vendor == PCI_VENDOR_ID_AMD)
+>  		xhci->quirks |= XHCI_TRUST_TX_LENGTH;
 >  
->  	device_lock(dev);
->  	kill_device(dev);
-> @@ -3073,6 +3075,7 @@ void device_del(struct device *dev)
->  	/* Notify clients of device removal.  This call must come
->  	 * before dpm_sysfs_remove().
->  	 */
-> +	noio_flag = memalloc_noio_save();
->  	if (dev->bus)
->  		blocking_notifier_call_chain(&dev->bus->p->bus_notifier,
->  					     BUS_NOTIFY_DEL_DEVICE, dev);
-> @@ -3106,6 +3109,7 @@ void device_del(struct device *dev)
->  	device_platform_notify(dev, KOBJ_REMOVE);
->  	device_remove_properties(dev);
->  	device_links_purge(dev);
-> +	memalloc_noio_restore(noio_flag);
->  
->  	if (dev->bus)
->  		blocking_notifier_call_chain(&dev->bus->p->bus_notifier,
+> @@ -371,6 +374,15 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+>  	/* USB 2.0 roothub is stored in the PCI device now. */
+>  	hcd = dev_get_drvdata(&dev->dev);
+>  	xhci = hcd_to_xhci(hcd);
+> +
+> +	if (xhci->quirks & XHCI_DISABLE_SPARSE) {
+> +		u32 reg;
+> +
+> +		reg = readl(hcd->regs + 0xC12C);
+> +		reg &=  ~BIT(17);
+> +		writel(reg, hcd->regs + 0xC12C);
+> +	}
+> +
 
-Can you move memalloc_noio_restore() down below here, odds are it should
-just go after the last put_device(parent) to be safe.
+Is disabling the bit once in probe enough?
+xHC will be reset after hibernation as well, does this bit need to be cleared after that?
 
-thanks,
+Also consider turning this into a separate function with a proper description,
+see xhci_pme_quirk() for example. Avoids cluttering probe.
+Actually if this bit only needs to be cleared once then that function could be called from xhci_pci_setup()
 
-greg k-h
+-Mathias
