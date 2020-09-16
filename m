@@ -2,180 +2,94 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3DFC433E2
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 10:29:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C31C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 14:02:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3125D20738
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 10:29:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yvj+jhCX"
+	by mail.kernel.org (Postfix) with ESMTP id 554A020936
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 14:02:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgIPKSE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 06:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbgIPKRz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 06:17:55 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4F5C06178C;
-        Wed, 16 Sep 2020 03:17:46 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id y2so5930352ilp.7;
-        Wed, 16 Sep 2020 03:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hW6e225ijIrEmLkhjbGVuIZvBM+RSB3R3ImDbnUzot8=;
-        b=Yvj+jhCX3XKId2mi6F3O/iS4wvJQVHSzqADg4yKDRqqW3QfXKlAySlc8eQiH07XrGJ
-         uxxkbW9sCDIW+odUB5ConUwdQ59wFckut5NIVKB+We3cYn3/wy1kfyp7A5myfdKc/g1x
-         qeuqQQ++ooSltJ/NcuAd/IGqIYtwXTufg9E+aWPY5Jsc5Wdmy93tjA5Myh+1+B9tRVWm
-         3d5ibW+l5OHya3eSG8RMweI3o2HPtKjK+C51OoKdc5JBJYhR4LQuRgQbqsDa5PRhr1bx
-         HNUpw6Wf02a5kMmPQW6vMo/1Z4UtdEPgibOm6FgMucXw6i+TzVsq5p1GxkHe/ZkVGhiY
-         cFMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hW6e225ijIrEmLkhjbGVuIZvBM+RSB3R3ImDbnUzot8=;
-        b=bQBVRtMXGhhvnxw4uTGmecJNk6Dgnj7Cz8rBZl5+MJSldGBETvKDBJPK4FqGnZuczL
-         FgVMmZFxkRle7uYoLEAKR9/WV+x545h/YDWhf15qvWSoiAUJiPXsUfJNS2jc4hSEO0Ua
-         afQub8tvUyZ4n+39W7ZYl5m4O2hMxCtusGTknvqYZzqstqR10xBfN5WMQyvLskWVd9Kp
-         t/gnQCUqzJocytPh2HHhbKvYnhp0hSjcIV8cXzqXQTjfa0K+nP7Rv7y5cdCeeSjdOvJm
-         cQkzaa/tLhKZW1fKquYPAj9ICO9up9Bp23OFYGEJckdo9ZeZvt2MCU6HhZftsmE6Gc14
-         yy6A==
-X-Gm-Message-State: AOAM533hB0b4/VHNBhGiMR12pVMTQxUqKrsspNTqjrZ5tOD7ALHFdtvL
-        9YZAez1bz/yD8Xgm+44woFJM0IrMqZfklwVAYqsqOxqEo+MIew==
-X-Google-Smtp-Source: ABdhPJwgeXw7cH6/4tJhD9dQcHPMy5Fw0lx3J5BYxdms+cUD4V+jUWNg7NGm8QNBEZE9nTPcBazKKLCyixUuIU0XrOE=
-X-Received: by 2002:a05:6e02:1210:: with SMTP id a16mr14597556ilq.183.1600251465924;
- Wed, 16 Sep 2020 03:17:45 -0700 (PDT)
+        id S1726210AbgIPN6c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 09:58:32 -0400
+Received: from mga12.intel.com ([192.55.52.136]:30867 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726648AbgIPNlo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 09:41:44 -0400
+IronPort-SDR: 5oPOXgeW7uQ1mYhiHfWexAC+QwexYWCU3h2AcJk+UIdFpWmYIV1LpUyug21XegkvoVAt7ZZkn8
+ K2/Y71ZgAhVQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="138954082"
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
+   d="scan'208";a="138954082"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 05:43:52 -0700
+IronPort-SDR: WOynIPceZCbhvv68/lf6IeVOaC2paax4n3bYUpPxg3kFa4mILFaNYtswptGHf859A0EEZOTdlJ
+ dodjpcBiToWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
+   d="scan'208";a="451838929"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga004.jf.intel.com with ESMTP; 16 Sep 2020 05:43:50 -0700
+Subject: Re: [PATCH] xhci: workaround for S3 issue on AMD SNPS 3.0 xHC
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Nehal Bakulchandra Shah <Nehal-bakulchandra.Shah@amd.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sandeep.Singh@amd.com, yuanmei@lenovo.com
+References: <20200831065246.1166470-1-Nehal-bakulchandra.Shah@amd.com>
+ <20200916080611.GA486670@kroah.com>
+From:   Mathias Nyman <mathias.nyman@intel.com>
+Message-ID: <86106f56-68a7-8d58-0ba8-7e19788688f2@intel.com>
+Date:   Wed, 16 Sep 2020 15:47:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <CAEt1Rjq+Fz85KU-aKO+boNE5yL7GiwdopmRd3-FxEL+mzEui-g@mail.gmail.com>
- <20200907155052.2450-1-yazzep@gmail.com> <20200907155052.2450-2-yazzep@gmail.com>
- <20200908190402.GA797206@rowland.harvard.edu> <CAEt1RjquJZzTctN6dNQSDbUZ9YG2FnEtzTZsoA3a9RtXHxwUmA@mail.gmail.com>
- <CAEt1RjpGcZ4T70tr83pmcD--PzAMboBkbv55qFcRfMz11ZUggw@mail.gmail.com>
- <20200911151228.GA883311@rowland.harvard.edu> <20200915094531.GA8046@lxhi-065.adit-jv.com>
- <20200915110111.GA269380@kroah.com> <20200915145258.GC1002979@rowland.harvard.edu>
-In-Reply-To: <20200915145258.GC1002979@rowland.harvard.edu>
-From:   yasushi asano <yazzep@gmail.com>
-Date:   Wed, 16 Sep 2020 19:16:44 +0900
-Message-ID: <CAEt1Rjop72j8Hb8s+yW5edfF0+dSV2DQHtqsPoK65QQ-+HRwZg@mail.gmail.com>
-Subject: Re: [PATCH v3] USB: hub.c: decrease the number of attempts of
- enumeration scheme
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andrew_gabbasov@mentor.com, Baxter Jim <jim_baxter@mentor.com>,
-        "Natsume, Wataru (ADITJ/SWG)" <wnatsume@jp.adit-jv.com>,
-        "Nishiguchi, Naohiro (ADITJ/SWG)" <nnishiguchi@jp.adit-jv.com>,
-        =?UTF-8?B?5rWF6YeO5oGt5Y+y?= <yasano@jp.adit-jv.com>,
-        kernel test robot <rong.a.chen@intel.com>,
-        Martin Mueller <Martin.Mueller5@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200916080611.GA486670@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dear Alan
-Dear Greg
-
-Thank you very much for your feedback.
-I understood that there is a gap between real system and ideal specificatio=
-n,
-and the Linux community stands on the real system side.(of course).
-
-I really appreciate your proposal(Kconfig option).
-
-> But let's start with
-> testing the patch I sent you.  After all, the first step is to get
-> something that does what you want correctly.
-
-The patch you provided worked fine.
-https://marc.info/?l=3Dlinux-usb&m=3D159984230312068&w=3D4
-An excerpt from dmesg is as follows.
-It detected the enumeration failure after 27.7seconds since the test starte=
-d.
-so,the PET test passed. [2]-[1] =3D27.7seconds
-
-[  111.482541] *** Setting Test Suite ***
-[  130.226648] *** Ready OK Test Start***
-[  134.808206] usb 1-1.1: new full-speed USB device number 7 using
-ehci-platform ... [1]
-[  140.034944] usb 1-1.1: device descriptor read/64, error -110
-[  140.118069] usb 1-1.1: new full-speed USB device number 8 using ehci-pla=
-tform
-[  145.155142] usb 1-1.1: device descriptor read/64, error -110
-[  145.163074] usb 1-1-port1: attempt power cycle
-[  147.037094] usb 1-1.1: new full-speed USB device number 9 using ehci-pla=
-tform
-[  152.323168] usb 1-1.1: device descriptor read/64, error -110
-[  152.407069] usb 1-1.1: new full-speed USB device number 10 using
-ehci-platform
-[  157.442518] usb 1-1.1: device not accepting address 10, error -110
-[  157.527067] usb 1-1.1: new full-speed USB device number 11 using
-ehci-platform
-[  162.563123] usb 1-1.1: device not accepting address 11, error -110
-[  162.571302] usb 1-1-port1: unable to enumerate USB device ... [2]
-[  176.523060] *** End of Test        ***
-
-2020=E5=B9=B49=E6=9C=8815=E6=97=A5(=E7=81=AB) 23:52 Alan Stern <stern@rowla=
-nd.harvard.edu>:
+On 16.9.2020 11.06, Greg KH wrote:
+> On Mon, Aug 31, 2020 at 06:52:46AM +0000, Nehal Bakulchandra Shah wrote:
+>> From: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
+>>
+>> On some platform of AMD, S3 fails with HCE and SRE errors.To fix this,
+>> sparse controller enable bit has to be disabled.
+>>
+>> Signed-off-by: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
+>> ---
+>>  drivers/usb/host/xhci-pci.c | 12 ++++++++++++
+>>  drivers/usb/host/xhci.h     |  1 +
+>>  2 files changed, 13 insertions(+)
+>>
+>> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c  
+>> @@ -371,6 +374,15 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+>>  	/* USB 2.0 roothub is stored in the PCI device now. */
+>>  	hcd = dev_get_drvdata(&dev->dev);
+>>  	xhci = hcd_to_xhci(hcd);
+>> +
+>> +	if (xhci->quirks & XHCI_DISABLE_SPARSE) {
+>> +		u32 reg;
+>> +
+>> +		reg = readl(hcd->regs + 0xC12C);
+>> +		reg &=  ~BIT(17); 
 >
-> On Tue, Sep 15, 2020 at 01:01:11PM +0200, Greg KH wrote:
-> > On Tue, Sep 15, 2020 at 11:45:31AM +0200, Eugeniu Rosca wrote:
-> > > Dear Alan,
-> > > Dear Greg,
-> > >
-> > > On Fri, Sep 11, 2020 at 11:12:28AM -0400, Alan Stern wrote:
-> > >
-> > > > The thing is, I'm afraid that without these retry loops, some devic=
-es
-> > > > will stop working.  If that happens, we will not be able to keep th=
-is
-> > > > patch in place; we will just have to accept that we fail the PET te=
-st.
-> > > >
-> > > > Alan Stern
-> > >
-> > > Does this mean that Linux community leaves no choice but to ship a
-> > > forked kernel (with no chance of alignment to upstream) for
-> > > organizations which design embedded devices where USB plays a key
-> > > role, hence requires passing the USB-IF Compliance Program [*]?
-> >
-> > We are saying that if you ship such a kernel, we _KNOW_ that it will
-> > fail to work in a number of known systems.  I doubt you want that to
-> > happen if you care about shipping a device, right?
-> >
-> > > Is there hope to give users a knob (build-time or run-time) which wou=
-ld
-> > > enable the behavior expected and thoroughly described in compliance
-> > > docs, particularly chapter "6.7.22 A-UUT Device No Response for
-> > > connection timeout" of "USB On-The-Go and Embedded Host Automated
-> > > Compliance Plan" [**]?
-> >
-> > Given that the USB-IF has explicitly kicked-out the Linux community fro=
-m
-> > its specification work and orginization, I personally don't really care
-> > what they say here.  If you are a member of the USB-IF, please work wit=
-h
-> > them to fix the test to reflect real-world systems and not an idealized
-> > system.  Last I heard, they wanted nothing to do with Linux systems at
-> > all :(
->
-> <irony>If the USB-IF were the final authority regarding USB devices, we
-> wouldn't have this problem in the first place.</irony> Every device
-> would respond properly to the very first port initialization attempt and
-> no retries would be needed.
->
-> But real hardware doesn't always follow the official spec.  And then
-> when it fails to work with Linux, _we_ are the people who get blamed.
->
-> Alan Stern
+> And is this the proper place to be testing for quirks and applying them?
+> Why not do the above in the xhci_pci_quirks() call?
+
+xhci_pci_quirks() is a confusing name, it actually only sets quirk flags based on PCI
+vendor/device.
+
+Anyway, point is still valid, this level of bitops in probe isn't very nice.
+Turn it into a separate function, and call it from xhci_pci_setup(), or if flag
+needs to be cleared more often, and is related to S3 problems then possibly from xhci_pci_suspend()
+
+-Mathias
