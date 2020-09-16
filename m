@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E358DC43461
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 08:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D57CCC43461
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 08:16:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8A7420872
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 08:16:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85D2220872
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 08:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726507AbgIPIQ2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 04:16:28 -0400
+        id S1726531AbgIPIQf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 04:16:35 -0400
 Received: from mga18.intel.com ([134.134.136.126]:38802 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726424AbgIPIQX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 16 Sep 2020 04:16:23 -0400
-IronPort-SDR: DnMnCKjlB61hGiLRvCyIqfY/tZfmfrVLfgAReEOoV1U0ewqrD3I2LU/KsFw0SOSWtOixxEZect
- JZG0PPrGyXcw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="147174210"
+        id S1726498AbgIPIQ1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 04:16:27 -0400
+IronPort-SDR: ZLy+TkxImBd46usKNs6YTMPCjgPUCOTyJuGPXuI44PCmeSSH1+Zun250UyMHk59XRio78kDWDV
+ 3lZKVgWywSQA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="147174212"
 X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
-   d="scan'208";a="147174210"
+   d="scan'208";a="147174212"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 01:16:23 -0700
-IronPort-SDR: BOY9ro9w6WQIFfLQiHA8q8ky/Fu+81WfybJuX8Mmp4nar2m6b8Ap0U6rRZ9rhBrYIMPFWVA38V
- 08FgfYlRIWdw==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 01:16:26 -0700
+IronPort-SDR: 5c81Lo2DL8GxSOz46R8fGbz1IlrtyKB3tLaOGu3z9z2+fTrpAu9vr1POJ+ZDBIlE3epfyKu453
+ z7ubwQGNB4sA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; 
-   d="scan'208";a="409471843"
+   d="scan'208";a="409471858"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Sep 2020 01:16:21 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 16 Sep 2020 01:16:24 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     "Mani, Rajmohan" <rajmohan.mani@intel.com>,
-        linux-usb@vger.kernel.org, stable@vger.kernel.org,
-        Zwane Mwaikambo <zwanem@gmail.com>
-Subject: [PATCH 2/5] usb: typec: ucsi: Prevent mode overrun
-Date:   Wed, 16 Sep 2020 11:16:14 +0300
-Message-Id: <20200916081617.17146-3-heikki.krogerus@linux.intel.com>
+        linux-usb@vger.kernel.org, Azhar Shaikh <azhar.shaikh@intel.com>,
+        Utkarsh Patel <utkarsh.h.patel@intel.com>
+Subject: [PATCH 4/5] usb: typec: intel_pmc_mux: Pass correct USB Type-C port number to SoC
+Date:   Wed, 16 Sep 2020 11:16:16 +0300
+Message-Id: <20200916081617.17146-5-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200916081617.17146-1-heikki.krogerus@linux.intel.com>
 References: <20200916081617.17146-1-heikki.krogerus@linux.intel.com>
@@ -53,81 +53,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sometimes the embedded controller firmware does not
-terminate the list of alternate modes that the partner
-supports in its response to the GET_ALTERNATE_MODES command.
-Instead the firmware returns the supported alternate modes
-over and over again until the driver stops requesting them.
+From: Azhar Shaikh <azhar.shaikh@intel.com>
 
-If that happens, the number of modes for each alternate mode
-will exceed the maximum 6 that is defined in the USB Power
-Delivery specification. Making sure that can't happen by
-adding a check for it.
+The SoC expects the USB Type-C ports numbers to be starting with 0.
+If the port number is passed as it is, the IOM status will not be
+updated. The IOM port status check fails which will eventually
+lead to PMC IPC communication failure.
 
-This fixes NULL pointer dereference that is caused by the
-overrun.
-
-Fixes: ad74b8649beaf ("usb: typec: ucsi: Preliminary support for alternate modes")
-Cc: stable@vger.kernel.org
-Reported-by: Zwane Mwaikambo <zwanem@gmail.com>
+Fixes: 43d596e32276 ("usb: typec: intel_pmc_mux: Check the port status before connect")
+Suggested-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+Signed-off-by: Azhar Shaikh <azhar.shaikh@intel.com>
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+ drivers/usb/typec/mux/intel_pmc_mux.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index e680fcfdee609..758b988ac518a 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -216,14 +216,18 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
- 					    con->partner_altmode[i] == altmode);
- }
+diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+index 307830b374ec7..109c1a796e844 100644
+--- a/drivers/usb/typec/mux/intel_pmc_mux.c
++++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+@@ -148,8 +148,13 @@ struct pmc_usb {
  
--static u8 ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
-+static int ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
+ static void update_port_status(struct pmc_usb_port *port)
  {
- 	u8 mode = 1;
- 	int i;
- 
--	for (i = 0; alt[i]; i++)
-+	for (i = 0; alt[i]; i++) {
-+		if (i > MODE_DISCOVERY_MAX)
-+			return -ERANGE;
++	u8 port_num;
 +
- 		if (alt[i]->svid == svid)
- 			mode++;
-+	}
- 
- 	return mode;
++	/* SoC expects the USB Type-C port numbers to start with 0 */
++	port_num = port->usb3_port - 1;
++
+ 	port->iom_status = readl(port->pmc->iom_base + IOM_PORT_STATUS_OFFSET +
+-				 port->usb3_port * sizeof(u32));
++				 port_num * sizeof(u32));
  }
-@@ -258,8 +262,11 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- 			goto err;
- 		}
  
--		desc->mode = ucsi_altmode_next_mode(con->port_altmode,
--						    desc->svid);
-+		ret = ucsi_altmode_next_mode(con->port_altmode, desc->svid);
-+		if (ret < 0)
-+			return ret;
-+
-+		desc->mode = ret;
- 
- 		switch (desc->svid) {
- 		case USB_TYPEC_DP_SID:
-@@ -292,8 +299,11 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- 			goto err;
- 		}
- 
--		desc->mode = ucsi_altmode_next_mode(con->partner_altmode,
--						    desc->svid);
-+		ret = ucsi_altmode_next_mode(con->partner_altmode, desc->svid);
-+		if (ret < 0)
-+			return ret;
-+
-+		desc->mode = ret;
- 
- 		alt = typec_partner_register_altmode(con->partner, desc);
- 		if (IS_ERR(alt)) {
+ static int sbu_orientation(struct pmc_usb_port *port)
 -- 
 2.28.0
 
