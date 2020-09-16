@@ -2,119 +2,63 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F66C433E2
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 21:07:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9371C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 22:30:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F014A206DB
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 21:07:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F049206B5
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 22:30:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbgIPVH3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 17:07:29 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:49839 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbgIPQDk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 12:03:40 -0400
-Received: from fsav403.sakura.ne.jp (fsav403.sakura.ne.jp [133.242.250.102])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08GBEmB0006139;
-        Wed, 16 Sep 2020 20:14:48 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav403.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp);
- Wed, 16 Sep 2020 20:14:48 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08GBEmTf006134
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Wed, 16 Sep 2020 20:14:48 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [RFC 0/5] fix races in CDC-WDM
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
-References: <20200812132034.14363-1-oneukum@suse.com>
- <ee0af733-903f-8e8f-8027-b5490a37032f@i-love.sakura.ne.jp>
- <1599728957.10822.9.camel@suse.com>
- <4f285044-aae9-c3be-23ba-90790cd624f1@i-love.sakura.ne.jp>
- <1600161279.2424.5.camel@suse.com>
- <4b8f6305-52fd-cb72-eb13-9d0a0bf07319@i-love.sakura.ne.jp>
- <1600251486.2424.17.camel@suse.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <4e724e07-3993-bcaa-79e9-45a2f7e1f759@i-love.sakura.ne.jp>
-Date:   Wed, 16 Sep 2020 20:14:47 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726269AbgIPWac convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 18:30:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41674 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726187AbgIPWaa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 18:30:30 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 208911] Renesas USB controller - FW has invalid version :8224
+Date:   Wed, 16 Sep 2020 21:13:01 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: neoweb@hackspherelabs.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208911-208809-KbJGy4vo32@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208911-208809@https.bugzilla.kernel.org/>
+References: <bug-208911-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <1600251486.2424.17.camel@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2020/09/16 19:18, Oliver Neukum wrote:
-> Am Dienstag, den 15.09.2020, 19:30 +0900 schrieb Tetsuo Handa:
->> On 2020/09/15 18:14, Oliver Neukum wrote
-> 
->>> Is there something we can do in flush()?
->>
->> I consider that wdm_flush() is a wrong place to return an error. It is possible that
-> 
-> I am afraid that is a basic problem we need to resolve. As I understand
->  it, flush() as a method exists precisely to report errors. Otherwise
-> you could implement it in release(). But this is not called for every
-> close().
+https://bugzilla.kernel.org/show_bug.cgi?id=208911
 
-I think fsync() or ioctl() is a better method for reporting errors.
+--- Comment #18 from neoweb@hackspherelabs.com ---
+I get it now.  I can even find it on the website now.  The title of it:  usb:
+renesas-xhci: remove version check and then I can find it in the log: 
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/log/?h=linux-5.8.y&ofs=200.
 
-But anyway I consider that any error from N'th write() request should be
-returned by N'th write() request.
+It was released in 5.8.6
 
-> 
-> Hence a driver is supposed to start IO upon write() and report the
-> result to the next call, which can be either write() or close(), the
-> latter corresponding to flush().
-
-Whether N'th write() request succeeded remains unknown until (N+1)'th
-write() request or close() request is issued? That sounds a strange design.
-
-If there is nothing more to write(), how userspace process knows whether
-N'th write() request succeeded? Wait for writability using poll() ?
-
-How do we guarantee that N'th write() request already set desc->werr before
-(N+1)'th next write() request is issued? If (N+1)'th write() request reached
-memdup_user() before desc->werr is set by callback of N'th write() request,
-(N+1)'th write() request will fail to report the error from N'th write() request.
-Yes, that error would be reported by (N+2)'th write() request, but the userspace
-process might have already discarded data needed for taking some actions (e.g.
-print error messages, retry the write() request with same argument).
-
-> 
->> a userspace process reaches wdm_flush() due to being killed by SIGKILL (rather than
->> via calling close() syscall). Then, that userspace process will never receive the error
-> 
-> If you are killed by a signal you are in a race condition
-> anyway. It cannot be handled.
-
-What is the purpose of sending the error to the userspace process via write() or close()?
-Isn't the purpose to allow userspace process to do something (e.g. print error messages,
-retry the write() request with same argument) ? If close() returned an error, it might be
-too late to retry the write() request with same argument.
-
-> 
->> fetched from wdm_flush(). Also, if that userspace process is killed by the OOM killer,
->> being able to terminate and release resources as soon as possible is more preferable
->> than try to wait for response.
-> 
-> Right, so should we just proceed in case of a dieing task? How do we
-> do that?
-
-We need to avoid waiting at wdm_flush() if killed.
-
-And I think that wdm_flush() is a strange interface for reporting the error.
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
