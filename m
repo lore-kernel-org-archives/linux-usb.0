@@ -2,95 +2,72 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26033C35256
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 09:40:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39501C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 09:42:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D20E4206D4
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 09:40:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F030F20809
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 09:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600249342;
+	bh=Zyz1k6+4C95Uq9AAHgQJys/Qg/hwN8GgPH4IQdZSgmU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=spFdCYtwDp/6or24+MKSTRNs6TTgDRhNSpQcJyFC+I6S+EcIT9lywmZ/tcf8Xljnf
+	 s8zaCsObbbZ/CBt6ZoyOGx3d7/1qSusvfuuHj++1238MXf7v0NtFz9ISrNPHHmeDKj
+	 raQpVoMn+vpvDs7NDdlZPJFXLXQp+As/H3xyVZ04=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726699AbgIPJkr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 05:40:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48306 "EHLO mx2.suse.de"
+        id S1726699AbgIPJmQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 05:42:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56904 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726610AbgIPJkk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 16 Sep 2020 05:40:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 35142B211;
-        Wed, 16 Sep 2020 09:40:55 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 2/2] UAS: use macro for reporting results
-Date:   Wed, 16 Sep 2020 11:40:26 +0200
-Message-Id: <20200916094026.30085-3-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200916094026.30085-1-oneukum@suse.com>
-References: <20200916094026.30085-1-oneukum@suse.com>
+        id S1726392AbgIPJmN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 16 Sep 2020 05:42:13 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C477721974;
+        Wed, 16 Sep 2020 09:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600249333;
+        bh=Zyz1k6+4C95Uq9AAHgQJys/Qg/hwN8GgPH4IQdZSgmU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pfhppxslLK+WkRCPGNnOPmAorHZQA4r7hh+thJND1dlVKOHspJa7NN+Fs2aXIbpzS
+         Jyl9rWhj7KSy78QtPhGdSToxHVgipbetcrq5nD2vjv42FHnW7VQViAhrhks45OMjYF
+         PvAj9ch9n6qYridTAAm0t45QDDj2cfYWLZw5eSng=
+Date:   Wed, 16 Sep 2020 11:42:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        linux-usb@vger.kernel.org,
+        Madhusudanarao Amara <madhusudanarao.amara@intel.com>
+Subject: Re: [PATCH 3/3] usb: typec: intel_pmc_mux: Handle SCU IPC error
+ conditions
+Message-ID: <20200916094248.GA740415@kroah.com>
+References: <20200916091102.27118-1-heikki.krogerus@linux.intel.com>
+ <20200916091102.27118-4-heikki.krogerus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200916091102.27118-4-heikki.krogerus@linux.intel.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The SCSI layer has introduced a new macro for recording the result
-of a command. Use it.
+On Wed, Sep 16, 2020 at 12:11:02PM +0300, Heikki Krogerus wrote:
+> From: Madhusudanarao Amara <madhusudanarao.amara@intel.com>
+> 
+> Check and return if there are errors. The response bits are valid
+> only on no errors.
+> 
+> Fixes: b7404a29cd3d ("usb: typec: intel_pmc_mux: Definitions for response status bits")
 
-v2: reorder patches
+This is in 5.9-rc4, so shouldn't it go in for 5.9-final?
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/storage/uas.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+thanks,
 
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 13696f03f800..19e730f9ad19 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -279,17 +279,17 @@ static bool uas_evaluate_response_iu(struct response_iu *riu, struct scsi_cmnd *
- 
- 	switch (response_code) {
- 	case RC_INCORRECT_LUN:
--		cmnd->result = DID_BAD_TARGET << 16;
-+		set_host_byte(cmnd, DID_BAD_TARGET);
- 		break;
- 	case RC_TMF_SUCCEEDED:
--		cmnd->result = DID_OK << 16;
-+		set_host_byte(cmnd, DID_OK);
- 		break;
- 	case RC_TMF_NOT_SUPPORTED:
--		cmnd->result = DID_TARGET_FAILURE << 16;
-+		set_host_byte(cmnd, DID_TARGET_FAILURE);
- 		break;
- 	default:
- 		uas_log_cmd_state(cmnd, "response iu", response_code);
--		cmnd->result = DID_ERROR << 16;
-+		set_host_byte(cmnd, DID_ERROR);
- 		break;
- 	}
- 
-@@ -660,7 +660,7 @@ static int uas_queuecommand_lck(struct scsi_cmnd *cmnd,
- 	spin_lock_irqsave(&devinfo->lock, flags);
- 
- 	if (devinfo->resetting) {
--		cmnd->result = DID_ERROR << 16;
-+		set_host_byte(cmnd, DID_ERROR);
- 		cmnd->scsi_done(cmnd);
- 		goto zombie;
- 	}
-@@ -704,7 +704,7 @@ static int uas_queuecommand_lck(struct scsi_cmnd *cmnd,
- 	 * of queueing, no matter how fatal the error
- 	 */
- 	if (err == -ENODEV) {
--		cmnd->result = DID_ERROR << 16;
-+		set_host_byte(cmnd, DID_ERROR);
- 		cmnd->scsi_done(cmnd);
- 		goto zombie;
- 	}
--- 
-2.16.4
-
+greg k-h
