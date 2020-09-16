@@ -2,166 +2,90 @@ Return-Path: <SRS0=9a5V=CZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5002C2D0E1
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 02:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C86C433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 02:06:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B722620936
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 02:06:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD35720BED
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Sep 2020 02:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726168AbgIPCG2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Sep 2020 22:06:28 -0400
-Received: from freecalypso.org ([195.154.163.71]:32908 "EHLO freecalypso.org"
+        id S1726171AbgIPCGz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Sep 2020 22:06:55 -0400
+Received: from freecalypso.org ([195.154.163.71]:32914 "EHLO freecalypso.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726100AbgIPCGZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Sep 2020 22:06:25 -0400
+        id S1726100AbgIPCGy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Sep 2020 22:06:54 -0400
 Received: by freecalypso.org (Postfix, from userid 1001)
-        id B89E1374026F; Wed, 16 Sep 2020 01:56:44 +0000 (UTC)
+        id EFCDA374023F; Wed, 16 Sep 2020 01:56:21 +0000 (UTC)
 From:   "Mychaela N. Falconia" <falcon@freecalypso.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, mychaela.falconia@gmail.com
-Subject: [PATCH 3/3] USB: serial: ftdi_sio: add support for FreeCalypso
- DUART28C adapter
-Message-Id: <20200916015644.B89E1374026F@freecalypso.org>
-Date:   Wed, 16 Sep 2020 01:56:44 +0000 (UTC)
+Subject: [PATCH 0/3] a family of FTDI-based devices that need ftdi_sio quirks
+Message-Id: <20200916015621.EFCDA374023F@freecalypso.org>
+Date:   Wed, 16 Sep 2020 01:56:21 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
-with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
-on the chip) have been repurposed to drive power and reset controls
-on Calypso targets.  The circuit is wired such that BDBUS[24] high
-(RTS/DTR inactive) is the normal state with power/reset control
-NOT activated, whereas BDBUS[24] low (RTS or DTR active) turn ON
-the corresponding power/reset control drivers.
+Hello Johan,
 
-A special ftdi_sio driver quirk is needed in order to suppress
-automatic assertion of DTR & RTS on device open: this device's
-special power and reset control drivers MUST NOT be activated
-when the port is ordinarily opened for plain serial communication,
-instead they must only be activated when a special userspace
-application explicitly requests such activation with a TIOCMBIS ioctl.
+This patch series adds support for a family of FTDI-based devices that
+need special quirks in the ftdi_sio driver.  The devices in question
+are produced by my hobby company Falconia Partners LLC, and I got a
+block of PIDs from FTDI (from their VID), so I assign custom USB IDs
+when I program FT2232 EEPROMs on my boards.  These custom USD IDs are
+intended to facilitate conditionalized quirks in the ftdi_sio driver,
+as implemented in this patch series.
 
-The special quirk is conditionalized on the DUART28C adapter's custom
-USB ID, and is further limited to FT2232D Channel B only: Channel A
-is wired normally, with the chip's ADBUS2 and ADBUS4 outputs
-actually being RTS and DTR rather than something else.
+The 3 devices (3 USB IDs) for which this patch series adds support
+consist of two JTAG+UART adapters and one dual UART adapter.  Support
+for the two JTAG+UART adapters consists of nothing more than adding
+them to the USB ID table with the already existing ftdi_jtag_quirk
+applied, but the dual UART adapter (DUART28C) is more involved.
 
-Signed-off-by: Mychaela N. Falconia <falcon@freecalypso.org>
----
- drivers/usb/serial/ftdi_sio.c | 51 +++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 47 insertions(+), 4 deletions(-)
+The special quirk with DUART28C is that FT2232D BDBUS2 and BDBUS4
+outputs (which would normally be Channel B RTS and DTR, respectively)
+have been repurposed to drive power and reset controls to Calypso
+targets, and these power and reset controls must not be triggered
+on their own - instead their control needs to be left to special
+userspace applications.  The problem is that the standard behaviour
+of all tty devices under Linux (not just ftdi_sio and not just USB
+serial, but apparently all ttys) is that DTR and RTS are always
+unconditionally asserted as soon as the tty device (ttyUSB in the
+present case) is opened, and userspace does not get a chance to
+intervene.  It is not my place to debate whether this behaviour is
+good or not for true serial ports where DTR/RTS really are DTR/RTS,
+but it is a total killer for non-standard hardware where the USB to
+serial chip's DTR & RTS outputs have been repurposed to do something
+disruptive like power and reset control.
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index cdf4f4e05fb2..73c6b4e2c3e4 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -69,6 +69,8 @@ struct ftdi_private {
- 				   this value */
- 	int force_rtscts;	/* if non-zero, force RTS-CTS to always
- 				   be enabled */
-+	int no_auto_dtr_rts;	/* if non-zero, suppress automatic assertion
-+				   of DTR & RTS on device open */
- 
- 	unsigned int latency;		/* latency setting in use */
- 	unsigned short max_packet_size;
-@@ -99,6 +101,8 @@ static void  ftdi_USB_UIRT_setup(struct usb_serial_port *port,
- 				 struct ftdi_private *priv);
- static void  ftdi_HE_TIRA1_setup(struct usb_serial_port *port,
- 				 struct ftdi_private *priv);
-+static void  ftdi_duart28c_setup(struct usb_serial_port *port,
-+				 struct ftdi_private *priv);
- 
- static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
- 	.probe	= ftdi_jtag_probe,
-@@ -124,6 +128,10 @@ static const struct ftdi_sio_quirk ftdi_8u2232c_quirk = {
- 	.probe	= ftdi_8u2232c_probe,
- };
- 
-+static const struct ftdi_sio_quirk ftdi_duart28c_quirk = {
-+	.port_probe = ftdi_duart28c_setup,
-+};
-+
- /*
-  * The 8U232AM has the same API as the sio except for:
-  * - it can support MUCH higher baudrates; up to:
-@@ -1044,6 +1052,8 @@ static const struct usb_device_id id_table_combined[] = {
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
- 	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_UNBUF_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_DUART28C_PID),
-+		.driver_info = (kernel_ulong_t)&ftdi_duart28c_quirk },
- 	{ }					/* Terminating entry */
- };
- 
-@@ -2388,6 +2398,37 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
- 	return 0;
- }
- 
-+/*
-+ * FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
-+ * with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
-+ * on the chip) have been repurposed to drive power and reset controls
-+ * on Calypso targets.  The circuit is wired such that BDBUS[24] high
-+ * (RTS/DTR inactive) is the normal state with power/reset control
-+ * NOT activated, whereas BDBUS[24] low (RTS or DTR active) turn ON
-+ * the corresponding power/reset control drivers.
-+ *
-+ * A special ftdi_sio driver quirk is needed in order to suppress
-+ * automatic assertion of DTR & RTS on device open: this device's
-+ * special power and reset control drivers MUST NOT be activated
-+ * when the port is ordinarily opened for plain serial communication,
-+ * instead they must only be activated when a special userspace
-+ * application explicitly requests such activation with a TIOCMBIS ioctl.
-+ *
-+ * The special quirk must be applied only to FT2232D Channel B:
-+ * Channel A is wired normally, with the chip's ADBUS2 and ADBUS4 outputs
-+ * actually being RTS and DTR rather than something else.
-+ */
-+static void ftdi_duart28c_setup(struct usb_serial_port *port,
-+				struct ftdi_private *priv)
-+{
-+	struct usb_serial *serial = port->serial;
-+	struct usb_device *udev = serial->dev;
-+	struct usb_interface *interface = serial->interface;
-+
-+	if (interface == udev->actconfig->interface[1])
-+		priv->no_auto_dtr_rts = 1;
-+}
-+
- static int ftdi_sio_port_remove(struct usb_serial_port *port)
- {
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
-@@ -2440,9 +2481,10 @@ static void ftdi_dtr_rts(struct usb_serial_port *port, int on)
- 		}
- 	}
- 	/* drop RTS and DTR */
--	if (on)
--		set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
--	else
-+	if (on) {
-+		if (!priv->no_auto_dtr_rts)
-+			set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
-+	} else
- 		clear_mctrl(port, TIOCM_DTR | TIOCM_RTS);
- }
- 
-@@ -2790,7 +2832,8 @@ static void ftdi_set_termios(struct tty_struct *tty,
- 			dev_err(ddev, "%s urb failed to set baudrate\n", __func__);
- 		mutex_unlock(&priv->cfg_lock);
- 		/* Ensure RTS and DTR are raised when baudrate changed from 0 */
--		if (old_termios && (old_termios->c_cflag & CBAUD) == B0)
-+		if (old_termios && (old_termios->c_cflag & CBAUD) == B0
-+		    && !priv->no_auto_dtr_rts)
- 			set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
- 	}
- 
+The solution that works beautifully in my own hardware lab is contained
+in the present patch series: the new DUART28C-specific quirk simply
+suppresses automatic assertion of DTR&RTS for Channel B on this device.
+Userspace can then trigger PWON and RESET actions as needed with
+TIOCMBIS ioctls (followed by a delay and TIOCMBIC to make a pulse),
+and everything works beautifully.  If I could get this DUART28C quirk
+(conditionalized on the USB ID which FTDI officially allocated to me)
+mainlined, it would spare my users the pain of having to apply this
+patch themselves locally.
+
+TIA,
+Mychaela
+
+Mychaela N. Falconia (3):
+  USB: serial: ftdi_sio: add support for FreeCalypso JTAG+UART adapters
+  USB: serial: ftdi_sio: pass port to quirk port_probe functions
+  USB: serial: ftdi_sio: add support for FreeCalypso DUART28C adapter
+
+ drivers/usb/serial/ftdi_sio.c     | 72 +++++++++++++++++++++++++++++++++------
+ drivers/usb/serial/ftdi_sio_ids.h |  8 +++++
+ 2 files changed, 70 insertions(+), 10 deletions(-)
+
 -- 
 2.9.0
 
+base-commit: 2bb70f0a4b238323e4e2f392fc3ddeb5b7208c9e
