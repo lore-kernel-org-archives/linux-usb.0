@@ -5,63 +5,63 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E73C43461
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:22:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53365C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:22:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B160208DB
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:22:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0256B2087D
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:22:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="dsLchTaK"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="SgmGKmY0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbgIQKWI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:22:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48258 "EHLO
+        id S1726659AbgIQKWl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726648AbgIQKTy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 06:19:54 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DABDC061220
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:21 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id r8so1118757pgh.1
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:21 -0700 (PDT)
+        with ESMTP id S1726640AbgIQKTx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 06:19:53 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DA62C06121C
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:17 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id o21so1091530pfd.14
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=rSelLwuthAAPkVKKgQOggAPjlAjJFhRrpVlRLEhgpkQ=;
-        b=dsLchTaK8f1sFrPHXB+GhZQnVdLDUqIvh/GnHAm9AHDuFCi5tG5Qtr+z7BMqWoeBdX
-         4xBaoylerz06RpcPDBdxm5d5K/Y0rCwUB08U2bRxTMAL81gseH0pAjFHaR8Cr1VvQfQD
-         /OnjrnF12o3IGY9+WQklpxvgJJUbGVWZNz4VtE1Thwzy+6WBuz3kZHmQM39zKQvXxXmY
-         MYaABkdhEfX6FqMmCkGtyF1kX1D5syy9Dcxfqrf3iZ+cMQuo04QP8PCrPzI1yQAlcW0s
-         ovimQSqkpX+/oyApf2SC6kEnT6VDr+udR3ICBEL0RMthCDQDulHazoFTyd0SefCA5FSL
-         mJJQ==
+        bh=rCORbbdZXpLr1jRW5bHtDoOyOswjXYpwM2DgJbJUV30=;
+        b=SgmGKmY0AFdXXW5YDFIFzA4MbZBFNkye7rP3zlYviy7ENJbOY2WgZPUTSAD/3JBeac
+         JVhlUCAU62s4BUETZuvADtF5c2A2yD2EN8YD7b8IyMFQjqa2f1/kDTQc85FoOjz/Njx8
+         iUcYhZkbqJiWUyqPCwFRrsxS6jCKG/LG8RpxQa+FsJkVNCbBAWv5aATafKIk+BAHvAtC
+         GB0nBf3a0zZew6sn/l09+mBuRBvdsFaduolzyE8oPRXYuC1pvPqknN9h4TVmCA8d4csx
+         6cg0qGa62BNGh/vsSHidWg+INwC+ZETkLiWFLS0xcdW6XzxCx+QZMhAx3SBBWXtlm34d
+         RfAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=rSelLwuthAAPkVKKgQOggAPjlAjJFhRrpVlRLEhgpkQ=;
-        b=GGBxkkE2rPnrpG9tGx6Wjxm3ww8rY6y+ZTmr3y2KW4XV3QgINh5QvdadBKUT7JoVBZ
-         tMlmvMJ4ebL7HZE9IrpRxD86UpZrzpXuokSDolrOiwtonifNEVjHW2BIcqDnmSIR3/W0
-         satc2RKKZ9wPGGJ9HFcqvnaDKrGZ/ytw8opNq7Va2jMu4B4cVIEooe414UyT/vayO/54
-         7yz/KIfxguXjL2vdj9Df9sypP3lC4oqPPN9m7DKwuoyTjVJy34o888GNH9QxmON/hFqu
-         dsR7QSLsoQn8wDcv3dF20RA8+l+dility3NV8cZsvh7fAlkwCC1QVWyJp404j8hZ/kpP
-         PIfQ==
-X-Gm-Message-State: AOAM530/u0libwKppCAfy4B80cJeGfdm4i1JYbDgwJfU8d0cKBslniRa
-        l4adZRIHQUchrdggrwuVMjtPz2NMkq8=
-X-Google-Smtp-Source: ABdhPJxeMIFzmJQ/SM9BVhk0fJSJAaU5fKHIlw4zaysv/qI9apU/x+dO7aIE9WrAE4jIujwy+dzZjF0cNTE=
+        bh=rCORbbdZXpLr1jRW5bHtDoOyOswjXYpwM2DgJbJUV30=;
+        b=jkSO5xa67Cla3++4qL6HUng4VbpD//qGxgxlEYhkY4w658DQHpI0TI1yLBHLGwMn+y
+         FGiLFEexe0to8FoBtsH9Z4GeEeJiOIhgtAyw2LswCyiST9rsCXB2xXlLGtgwsSXi/tQq
+         J29asBRMQNeHobXcxooCI8C/jjMsU/O+at9sE/njBVDYDTNqB0yxdmP0VjZhliUelhtP
+         ZPkwLljedQtFDG4hZvJttTq+ZOgB350p5BTy8MaWD+q7BZPb5DZffI+lpPBoDDFV8JaQ
+         JePy/4Vx4k29+yrt0i6EW98Apbzm7YvoVRXkUZ7RYkBlpITH6DEW1vxCBq6qRGVhckRg
+         tGtg==
+X-Gm-Message-State: AOAM530U3bkonTHgUaPZBpxOT8y7oSlaT3v09j7HI+tuxO0EUbLW6mEQ
+        25SEGAv4O9CgeDzH3WQAAaAWp6pAwUY=
+X-Google-Smtp-Source: ABdhPJytm5HIUjwimE5zxuFROIFy5AoAa5tq9pXltY2pKBPXfYXYXP/6qKusaxyCtR28QAbPocfqiMVA4NY=
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a17:90a:c255:: with SMTP id
- d21mr8137282pjx.212.1600337960530; Thu, 17 Sep 2020 03:19:20 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 03:18:55 -0700
+ (user=badhri job=sendgmr) by 2002:a17:90a:ead8:: with SMTP id
+ ev24mr7933994pjb.89.1600337956665; Thu, 17 Sep 2020 03:19:16 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 03:18:53 -0700
 In-Reply-To: <20200917101856.3156869-1-badhri@google.com>
-Message-Id: <20200917101856.3156869-10-badhri@google.com>
+Message-Id: <20200917101856.3156869-8-badhri@google.com>
 Mime-Version: 1.0
 References: <20200917101856.3156869-1-badhri@google.com>
 X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
-Subject: [PATCH v7 10/11] usb: typec: tcpci: Implement Auto discharge
- disconnect callbacks
+Subject: [PATCH v7 08/11] usb: typec: tcpci_maxim: Add support for Sink FRS
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -73,152 +73,120 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implement callbacks for enabling/disabling
-POWER_CONTROL.AutoDischargeDisconnect.
+Upon receiving ALERT_EXTENDED.TCPC_SINK_FAST_ROLE_SWAP signal
+tcpm to start Sink fast role swap signal.
 
-TCPCI spec allows TCPC hardware to autonomously discharge the vbus
-capacitance upon disconnect. The expectation is that the TCPM enables
-AutoDischargeDisconnect while entering SNK/SRC_ATTACHED states. Hardware
-then automously discharges vbus when the vbus falls below a certain
-threshold i.e. VBUS_SINK_DISCONNECT_THRESHOLD.
-
-Apart from enabling the vbus discharge circuit, AutoDischargeDisconnect
-is also used a flag to move TCPCI based TCPC implementations into
-Attached.Snk/Attached.Src state as mentioned in
-Figure 4-15. TCPC State Diagram before a Connection of the
-USB Type-C Port Controller Interface Specification.
-In such TCPC implementations, setting AutoDischargeDisconnect would
-prevent TCPC into entering "Connection_Invalid" state as well.
+Inform when TCPM is sourcing vbus.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
 Changes since v1:
 - Changing patch version to v6 to fix version number confusion.
 
 Changes since v6:
-- Rebase on usb-next.
+- rebase on usb-next
+- Added Reviewed-by: Heikki
 ---
- drivers/usb/typec/tcpm/tcpci.c | 33 +++++++++++++++++++++++++++++++++
- drivers/usb/typec/tcpm/tcpci.h | 22 ++++++++++++++++++++--
- 2 files changed, 53 insertions(+), 2 deletions(-)
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 50 +++++++++++++++++++++++++---
+ 1 file changed, 46 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index f9f0af64da5f..4ca64e8c8fe8 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -268,6 +268,33 @@ static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
- 				enable ? TCPC_POWER_CTRL_VCONN_ENABLE : 0);
- }
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index 91337ddb4962..723d7dd38f75 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -106,13 +106,22 @@ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
+ 		return;
+ 	}
  
-+static int tcpci_enable_auto_vbus_discharge(struct tcpc_dev *dev, bool enable)
-+{
-+	struct tcpci *tcpci = tcpc_to_tcpci(dev);
-+	int ret;
-+
-+	ret = regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL, TCPC_POWER_CTRL_AUTO_DISCHARGE,
-+				 enable ? TCPC_POWER_CTRL_AUTO_DISCHARGE : 0);
-+	return ret;
-+}
-+
-+static int tcpci_set_auto_vbus_discharge_threshold(struct tcpc_dev *dev, enum typec_role port_role,
-+						   enum typec_pwr_opmode mode, bool pps_active,
-+						   u32 requested_vbus_voltage)
-+{
-+	struct tcpci *tcpci = tcpc_to_tcpci(dev);
-+	int (*set_auto_vbus_threshold)(struct tcpci *tcpci, struct tcpci_data *data,
-+				       enum typec_role port_role, enum typec_pwr_opmode mode,
-+				       bool pps_active, u32 requested_vbus_voltage);
-+
-+	set_auto_vbus_threshold = tcpci->data->set_auto_vbus_discharge_threshold;
-+	if (set_auto_vbus_threshold)
-+		return set_auto_vbus_threshold(tcpci, tcpci->data, port_role, mode, pps_active,
-+					       requested_vbus_voltage);
-+
-+	return 0;
-+}
-+
- static int tcpci_enable_frs(struct tcpc_dev *dev, bool enable)
- {
- 	struct tcpci *tcpci = tcpc_to_tcpci(dev);
-@@ -629,6 +656,12 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
- 	tcpci->tcpc.set_bist_data = tcpci_set_bist_data;
- 	tcpci->tcpc.enable_frs = tcpci_enable_frs;
- 
-+	if (tcpci->data->auto_discharge_disconnect) {
-+		tcpci->tcpc.enable_auto_vbus_discharge = tcpci_enable_auto_vbus_discharge;
-+		tcpci->tcpc.set_auto_vbus_discharge_threshold =
-+			tcpci_set_auto_vbus_discharge_threshold;
++	ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED, 0xff);
++	if (ret < 0) {
++		dev_err(chip->dev, "Unable to clear TCPC_ALERT_EXTENDED ret:%d\n", ret);
++		return;
 +	}
 +
- 	err = tcpci_parse_config(tcpci);
- 	if (err < 0)
- 		return ERR_PTR(err);
-diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
-index 5ef07a56d67a..6a0aea34e544 100644
---- a/drivers/usb/typec/tcpm/tcpci.h
-+++ b/drivers/usb/typec/tcpm/tcpci.h
-@@ -8,6 +8,8 @@
- #ifndef __LINUX_USB_TCPCI_H
- #define __LINUX_USB_TCPCI_H
+ 	alert_mask = TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_DISCARDED | TCPC_ALERT_TX_FAILED |
+ 		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_RX_STATUS | TCPC_ALERT_CC_STATUS |
+-		TCPC_ALERT_VBUS_DISCNCT | TCPC_ALERT_RX_BUF_OVF | TCPC_ALERT_POWER_STATUS;
++		TCPC_ALERT_VBUS_DISCNCT | TCPC_ALERT_RX_BUF_OVF | TCPC_ALERT_POWER_STATUS |
++		/* Enable Extended alert for detecting Fast Role Swap Signal */
++		TCPC_ALERT_EXTND;
  
-+#include <linux/usb/typec.h>
+ 	ret = max_tcpci_write16(chip, TCPC_ALERT_MASK, alert_mask);
+ 	if (ret < 0) {
+-		dev_err(chip->dev, "Error writing to TCPC_ALERT_MASK ret:%d\n", ret);
++		dev_err(chip->dev,
++			"Error enabling TCPC_ALERT: TCPC_ALERT_MASK write failed ret:%d\n", ret);
+ 		return;
+ 	}
+ 
+@@ -122,6 +131,10 @@ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
+ 		dev_err(chip->dev, "Error writing to TCPC_POWER_CTRL ret:%d\n", ret);
+ 		return;
+ 	}
 +
- #define TCPC_VENDOR_ID			0x0
- #define TCPC_PRODUCT_ID			0x2
- #define TCPC_BCD_DEV			0x4
-@@ -67,6 +69,7 @@
++	ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED_MASK, TCPC_SINK_FAST_ROLE_SWAP);
++	if (ret < 0)
++		return;
+ }
  
- #define TCPC_POWER_CTRL			0x1c
- #define TCPC_POWER_CTRL_VCONN_ENABLE	BIT(0)
-+#define TCPC_POWER_CTRL_AUTO_DISCHARGE	BIT(4)
- #define TCPC_FAST_ROLE_SWAP_EN		BIT(7)
+ static void process_rx(struct max_tcpci_chip *chip, u16 status)
+@@ -225,10 +238,23 @@ static void process_power_status(struct max_tcpci_chip *chip)
+ 	if (ret < 0)
+ 		return;
  
- #define TCPC_CC_STATUS			0x1d
-@@ -133,6 +136,8 @@
+-	if (pwr_status == 0xff)
++	if (pwr_status == 0xff) {
+ 		max_tcpci_init_regs(chip);
+-	else
++	} else if (pwr_status & TCPC_POWER_STATUS_SOURCING_VBUS) {
++		tcpm_sourcing_vbus(chip->port);
++		/*
++		 * Alawys re-enable boost here.
++		 * In normal case, when say an headset is attached, TCPM would
++		 * have instructed to TCPC to enable boost, so the call is a
++		 * no-op.
++		 * But for Fast Role Swap case, Boost turns on autonomously without
++		 * AP intervention, but, needs AP to enable source mode explicitly
++		 * for AP to regain control.
++		 */
++		max_tcpci_set_vbus(chip->tcpci, &chip->data, true, false);
++	} else {
+ 		tcpm_vbus_change(chip->port);
++	}
+ }
  
- #define TCPC_VBUS_VOLTAGE			0x70
- #define TCPC_VBUS_SINK_DISCONNECT_THRESH	0x72
-+#define TCPC_VBUS_SINK_DISCONNECT_THRESH_LSB	25
-+#define TCPC_VBUS_SINK_DISCONNECT_THRESH_MAX	1023
- #define TCPC_VBUS_STOP_DISCHARGE_THRESH		0x74
- #define TCPC_VBUS_VOLTAGE_ALARM_HI_CFG		0x76
- #define TCPC_VBUS_VOLTAGE_ALARM_LO_CFG		0x78
-@@ -140,20 +145,33 @@
- /* I2C_WRITE_BYTE_COUNT + 1 when TX_BUF_BYTE_x is only accessible I2C_WRITE_BYTE_COUNT */
- #define TCPC_TRANSMIT_BUFFER_MAX_LEN		31
+ static void process_tx(struct max_tcpci_chip *chip, u16 status)
+@@ -249,6 +275,7 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
+ {
+ 	u16 mask;
+ 	int ret;
++	u8 reg_status;
  
-+struct tcpci;
+ 	/*
+ 	 * Clear alert status for everything except RX_STATUS, which shouldn't
+@@ -274,6 +301,21 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
+ 		}
+ 	}
+ 
++	if (status & TCPC_ALERT_EXTND) {
++		ret = max_tcpci_read8(chip, TCPC_ALERT_EXTENDED, &reg_status);
++		if (ret < 0)
++			return ret;
 +
- /*
-- * @TX_BUF_BYTE_x_hidden
-+ * @TX_BUF_BYTE_x_hidden:
-  *		optional; Set when TX_BUF_BYTE_x can only be accessed through I2C_WRITE_BYTE_COUNT.
-+ * @auto_discharge_disconnect:
-+ *		Optional; Enables TCPC to autonously discharge vbus on disconnect.
-+ * @set_auto_vbus_discharge_threshold:
-+ *		Mandatory when @auto_discharge_disconnect is sets. Allows
-+ *		programming the voltage threshold of vbus below which TCPC
-+ *		enables the vbus discharge circuit.
-  */
--struct tcpci;
- struct tcpci_data {
- 	struct regmap *regmap;
- 	unsigned char TX_BUF_BYTE_x_hidden:1;
-+	unsigned char auto_discharge_disconnect:1;
++		ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED, reg_status);
++		if (ret < 0)
++			return ret;
 +
- 	int (*init)(struct tcpci *tcpci, struct tcpci_data *data);
- 	int (*set_vconn)(struct tcpci *tcpci, struct tcpci_data *data,
- 			 bool enable);
- 	int (*start_drp_toggling)(struct tcpci *tcpci, struct tcpci_data *data,
- 				  enum typec_cc_status cc);
- 	int (*set_vbus)(struct tcpci *tcpci, struct tcpci_data *data, bool source, bool sink);
-+	int (*set_auto_vbus_discharge_threshold)(struct tcpci *tcpci, struct tcpci_data *data,
-+						 enum typec_role port_role,
-+						 enum typec_pwr_opmode mode, bool pps_active,
-+						 u32 requested_vbus_voltage);
- };
++		if (reg_status & TCPC_SINK_FAST_ROLE_SWAP) {
++			dev_info(chip->dev, "FRS Signal");
++			tcpm_sink_frs(chip->port);
++		}
++	}
++
+ 	if (status & TCPC_ALERT_RX_STATUS)
+ 		process_rx(chip, status);
  
- struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data);
 -- 
 2.28.0.618.gf4bc123cb7-goog
 
