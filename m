@@ -2,191 +2,147 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53365C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDE5C2BBD1
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:23:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0256B2087D
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:22:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="SgmGKmY0"
+	by mail.kernel.org (Postfix) with ESMTP id 0FCBE2083B
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbgIQKWl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726640AbgIQKTx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 06:19:53 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DA62C06121C
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:17 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id o21so1091530pfd.14
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=rCORbbdZXpLr1jRW5bHtDoOyOswjXYpwM2DgJbJUV30=;
-        b=SgmGKmY0AFdXXW5YDFIFzA4MbZBFNkye7rP3zlYviy7ENJbOY2WgZPUTSAD/3JBeac
-         JVhlUCAU62s4BUETZuvADtF5c2A2yD2EN8YD7b8IyMFQjqa2f1/kDTQc85FoOjz/Njx8
-         iUcYhZkbqJiWUyqPCwFRrsxS6jCKG/LG8RpxQa+FsJkVNCbBAWv5aATafKIk+BAHvAtC
-         GB0nBf3a0zZew6sn/l09+mBuRBvdsFaduolzyE8oPRXYuC1pvPqknN9h4TVmCA8d4csx
-         6cg0qGa62BNGh/vsSHidWg+INwC+ZETkLiWFLS0xcdW6XzxCx+QZMhAx3SBBWXtlm34d
-         RfAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=rCORbbdZXpLr1jRW5bHtDoOyOswjXYpwM2DgJbJUV30=;
-        b=jkSO5xa67Cla3++4qL6HUng4VbpD//qGxgxlEYhkY4w658DQHpI0TI1yLBHLGwMn+y
-         FGiLFEexe0to8FoBtsH9Z4GeEeJiOIhgtAyw2LswCyiST9rsCXB2xXlLGtgwsSXi/tQq
-         J29asBRMQNeHobXcxooCI8C/jjMsU/O+at9sE/njBVDYDTNqB0yxdmP0VjZhliUelhtP
-         ZPkwLljedQtFDG4hZvJttTq+ZOgB350p5BTy8MaWD+q7BZPb5DZffI+lpPBoDDFV8JaQ
-         JePy/4Vx4k29+yrt0i6EW98Apbzm7YvoVRXkUZ7RYkBlpITH6DEW1vxCBq6qRGVhckRg
-         tGtg==
-X-Gm-Message-State: AOAM530U3bkonTHgUaPZBpxOT8y7oSlaT3v09j7HI+tuxO0EUbLW6mEQ
-        25SEGAv4O9CgeDzH3WQAAaAWp6pAwUY=
-X-Google-Smtp-Source: ABdhPJytm5HIUjwimE5zxuFROIFy5AoAa5tq9pXltY2pKBPXfYXYXP/6qKusaxyCtR28QAbPocfqiMVA4NY=
-X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a17:90a:ead8:: with SMTP id
- ev24mr7933994pjb.89.1600337956665; Thu, 17 Sep 2020 03:19:16 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 03:18:53 -0700
-In-Reply-To: <20200917101856.3156869-1-badhri@google.com>
-Message-Id: <20200917101856.3156869-8-badhri@google.com>
-Mime-Version: 1.0
-References: <20200917101856.3156869-1-badhri@google.com>
-X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
-Subject: [PATCH v7 08/11] usb: typec: tcpci_maxim: Add support for Sink FRS
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Badhri Jagan Sridharan <badhri@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726582AbgIQKXN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:23:13 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:49674 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726547AbgIQKWz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 06:22:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+         s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
+        :Message-Id:Date:Subject:Cc:To:From;
+        bh=kpt1sggtJASaMvrimJ66PNXLqT9hiDnQLE2RQbWv6IU=; b=FvvCPINQe5ac7bv8thM9SsRBF9
+        7i3WJlwygaQXlZg2VmSKad8Yzhai4IrTP9BPv/oFksqgLtz5cYUv/459p4hjOHhhg85swzHqUvgDU
+        7aDIUEr0Ys0jKHNmWwmDj3k+DsGef8NXkjE5y9mqb4cCTmyLFH+dIGjkLyYCxCpAJoP1owi8aqCBj
+        JqR1O18XaWMVopxKgMRliwt4OPMIvLo4v2xE1XEKcraB9UPOW0x/kxxV3icBTbvjXsCYA/NwIIUMz
+        digk/ePuq6hpwPA+nXlW5lwoY+6YGUliNSLPwTb7QF+jcMh6F51ycu7JlzhiE10Ga50V50p05ES6f
+        qnsL2aUw==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <m.v.b@runbox.com>)
+        id 1kIqiB-0007AO-7P; Thu, 17 Sep 2020 12:00:22 +0200
+Received: by submission02.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1kIqi6-00076h-VT; Thu, 17 Sep 2020 12:00:15 +0200
+From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
+To:     linux-usb@vger.kernel.org
+Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Bastien Nocera <hadess@hadess.net>, syzkaller@googlegroups.com
+Subject: [PATCH 1/2] usbcore/driver: Fix specific driver selection
+Date:   Thu, 17 Sep 2020 12:59:58 +0300
+Message-Id: <20200917095959.174378-1-m.v.b@runbox.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <359d080c-5cbb-250a-0ebd-aaba5f5c530d@runbox.com>
+References: <359d080c-5cbb-250a-0ebd-aaba5f5c530d@runbox.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Upon receiving ALERT_EXTENDED.TCPC_SINK_FAST_ROLE_SWAP signal
-tcpm to start Sink fast role swap signal.
+This commit resolves two minor bugs in the selection/discovery of more
+specific USB device drivers for devices that are currently bound to
+generic USB device drivers.
 
-Inform when TCPM is sourcing vbus.
+The first bug is related to the way a candidate USB device driver is
+compared against the generic USB device driver. The code in
+is_dev_usb_generic_driver() used to unconditionally use
+to_usb_device_driver() on each device driver, without verifying that
+the device driver in question is a USB device driver (as opposed to a
+USB interface driver).
 
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+The second bug is related to the logic that determines whether a device
+currently bound to a generic USB device driver should be re-probed by a
+more specific USB device driver or not. The code in
+__usb_bus_reprobe_drivers() used to have the following lines:
+
+  if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
+      (!new_udriver->match || new_udriver->match(udev) != 0))
+ 		return 0;
+
+  ret = device_reprobe(dev);
+
+As the reader will notice, the code checks whether the USB device in
+consideration matches the identifier table (id_table) of a specific
+USB device_driver (new_udriver), followed by a similar check, but this
+time with the USB device driver's match function. However, the match
+function's return value is not checked correctly. When match() returns
+zero, it means that the specific USB device driver is *not* applicable
+to the USB device in question, but the code then goes on to reprobe the
+device with the new USB device driver under consideration. All this to
+say, the logic is inverted.
+
+This commit resolves both of the bugs, which were found by code
+inspection and instrumentation after Andrey Konovalov's report
+indicating USB/IP subsystem's misbehaviour with the generic USB device
+driver matching code.
+
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Fixes: d5643d2249 ("USB: Fix device driver race")
+Link: https://lore.kernel.org/linux-usb/CAAeHK+zOrHnxjRFs=OE8T=O9208B9HP_oo8RZpyVOZ9AJ54pAA@mail.gmail.com/
+Cc: <stable@vger.kernel.org> # 5.8
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Bastien Nocera <hadess@hadess.net>
+Cc: <syzkaller@googlegroups.com>
+Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
 ---
-Changes since v1:
-- Changing patch version to v6 to fix version number confusion.
+ drivers/usb/core/driver.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-Changes since v6:
-- rebase on usb-next
-- Added Reviewed-by: Heikki
----
- drivers/usb/typec/tcpm/tcpci_maxim.c | 50 +++++++++++++++++++++++++---
- 1 file changed, 46 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-index 91337ddb4962..723d7dd38f75 100644
---- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-+++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-@@ -106,13 +106,22 @@ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
- 		return;
- 	}
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index c976ea9f9582..509bb0d5fa4f 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -907,10 +907,18 @@ static int usb_uevent(struct device *dev, struct kobj_uevent_env *env)
  
-+	ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED, 0xff);
-+	if (ret < 0) {
-+		dev_err(chip->dev, "Unable to clear TCPC_ALERT_EXTENDED ret:%d\n", ret);
-+		return;
-+	}
-+
- 	alert_mask = TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_DISCARDED | TCPC_ALERT_TX_FAILED |
- 		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_RX_STATUS | TCPC_ALERT_CC_STATUS |
--		TCPC_ALERT_VBUS_DISCNCT | TCPC_ALERT_RX_BUF_OVF | TCPC_ALERT_POWER_STATUS;
-+		TCPC_ALERT_VBUS_DISCNCT | TCPC_ALERT_RX_BUF_OVF | TCPC_ALERT_POWER_STATUS |
-+		/* Enable Extended alert for detecting Fast Role Swap Signal */
-+		TCPC_ALERT_EXTND;
- 
- 	ret = max_tcpci_write16(chip, TCPC_ALERT_MASK, alert_mask);
- 	if (ret < 0) {
--		dev_err(chip->dev, "Error writing to TCPC_ALERT_MASK ret:%d\n", ret);
-+		dev_err(chip->dev,
-+			"Error enabling TCPC_ALERT: TCPC_ALERT_MASK write failed ret:%d\n", ret);
- 		return;
- 	}
- 
-@@ -122,6 +131,10 @@ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
- 		dev_err(chip->dev, "Error writing to TCPC_POWER_CTRL ret:%d\n", ret);
- 		return;
- 	}
-+
-+	ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED_MASK, TCPC_SINK_FAST_ROLE_SWAP);
-+	if (ret < 0)
-+		return;
- }
- 
- static void process_rx(struct max_tcpci_chip *chip, u16 status)
-@@ -225,10 +238,23 @@ static void process_power_status(struct max_tcpci_chip *chip)
- 	if (ret < 0)
- 		return;
- 
--	if (pwr_status == 0xff)
-+	if (pwr_status == 0xff) {
- 		max_tcpci_init_regs(chip);
--	else
-+	} else if (pwr_status & TCPC_POWER_STATUS_SOURCING_VBUS) {
-+		tcpm_sourcing_vbus(chip->port);
-+		/*
-+		 * Alawys re-enable boost here.
-+		 * In normal case, when say an headset is attached, TCPM would
-+		 * have instructed to TCPC to enable boost, so the call is a
-+		 * no-op.
-+		 * But for Fast Role Swap case, Boost turns on autonomously without
-+		 * AP intervention, but, needs AP to enable source mode explicitly
-+		 * for AP to regain control.
-+		 */
-+		max_tcpci_set_vbus(chip->tcpci, &chip->data, true, false);
-+	} else {
- 		tcpm_vbus_change(chip->port);
-+	}
- }
- 
- static void process_tx(struct max_tcpci_chip *chip, u16 status)
-@@ -249,6 +275,7 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
+ static bool is_dev_usb_generic_driver(struct device *dev)
  {
- 	u16 mask;
- 	int ret;
-+	u8 reg_status;
- 
- 	/*
- 	 * Clear alert status for everything except RX_STATUS, which shouldn't
-@@ -274,6 +301,21 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
- 		}
- 	}
- 
-+	if (status & TCPC_ALERT_EXTND) {
-+		ret = max_tcpci_read8(chip, TCPC_ALERT_EXTENDED, &reg_status);
-+		if (ret < 0)
-+			return ret;
+-	struct usb_device_driver *udd = dev->driver ?
+-		to_usb_device_driver(dev->driver) : NULL;
++	/* A non-existing driver can never be equal to &usb_generic_driver. */
++	if (!dev->driver)
++		return 0;
 +
-+		ret = max_tcpci_write8(chip, TCPC_ALERT_EXTENDED, reg_status);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (reg_status & TCPC_SINK_FAST_ROLE_SWAP) {
-+			dev_info(chip->dev, "FRS Signal");
-+			tcpm_sink_frs(chip->port);
-+		}
-+	}
-+
- 	if (status & TCPC_ALERT_RX_STATUS)
- 		process_rx(chip, status);
++	/* Check whether the driver is a USB interface driver, which is not
++	 * a USB device driver, and hence cannot be &usb_generic_driver.
++	 * (Plus, to_usb_device_driver is only valid for USB device drivers.)
++	 */
++	if (!is_usb_device_driver(dev->driver))
++		return 0;
  
+-	return udd == &usb_generic_driver;
++	return to_usb_device_driver(dev->driver) == &usb_generic_driver;
+ }
+ 
+ static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
+@@ -924,7 +932,7 @@ static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
+ 
+ 	udev = to_usb_device(dev);
+ 	if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
+-	    (!new_udriver->match || new_udriver->match(udev) != 0))
++	    (!new_udriver->match || new_udriver->match(udev) == 0))
+ 		return 0;
+ 
+ 	ret = device_reprobe(dev);
+
+base-commit: 871e6496207c6aa94134448779c77631a11bfa2e
 -- 
-2.28.0.618.gf4bc123cb7-goog
+2.26.2
 
