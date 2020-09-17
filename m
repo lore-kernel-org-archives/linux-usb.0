@@ -2,159 +2,77 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76BEC433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 18:47:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04513C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 18:52:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6608A21973
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 18:47:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B0752087D
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 18:52:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Xae7ET4U"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="cC6pZQe6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbgIQSrq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 14:47:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42684 "EHLO
+        id S1726518AbgIQSuq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 14:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726580AbgIQSq1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 14:46:27 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECE0C061756
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 11:46:26 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id f18so1777051pfa.10
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 11:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7o3w2ZljyTuQVHbahsukje0ozegX2dCahOw0WdwnSA8=;
-        b=Xae7ET4Ul07KEANd1GC1XpwFqbRNBrwvC7P/TlsoTZ9JzLa7Uilmu+ByvrA+CEGul1
-         sqw0DWGQ04zdSYKz8LP7ioPbmXDjHXRR6BsE8Pi+5NYGJTXkDBOs8x2n10wGCCIBux0l
-         44oh7eCb9aVgQGmDCl/Wg2NzZuSPwg4tpRWKI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7o3w2ZljyTuQVHbahsukje0ozegX2dCahOw0WdwnSA8=;
-        b=rTZQpEV48KgsfTP63NE/tzdwfxBr2YG/FSun8d8epxTI1t3lQOKn1s45wsKJK63rXR
-         t+8zOKNp5l5Pbv8F+uxM+VKyMuBsgEY9JbqLKGRJFidDqtsQBVNXSW2AUUd3CExzJN+3
-         IbpJZIG0HT603gBxJdrDZyJGqeajg5sPS0WNSJQAq/jn8SwoQ/kyz+F6DtdZqTsnoJSM
-         r7GSTrGaP4N4Sc6IVEo0OA2LewdnYjlSMVJGvYPQUKIcSdT/VBdHpO7f37qKSqfyEAqO
-         XqsEGzP5GaTYidX35Eyr1j4HPdrkvmZrz1CtcIAKM8LPfmaOMNPr+Eer1tLZhW0EfWZb
-         Puew==
-X-Gm-Message-State: AOAM531cqL3EXFcFGKUInBY9JJCXiPGYxJHqfMKkckGYHo7I9lfbp9i+
-        yH7+HEYeimhAW4nR1x9NGOhiCQ==
-X-Google-Smtp-Source: ABdhPJwBY0Ueko3lifnLlfdJ7jGPT979jk4aaCf1YVAxOig8ukJ1ACmMa5qUfN/6yhO8MTzXomOLuw==
-X-Received: by 2002:a63:491:: with SMTP id 139mr7179336pge.147.1600368386353;
-        Thu, 17 Sep 2020 11:46:26 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
-        by smtp.gmail.com with ESMTPSA id c6sm346444pfd.83.2020.09.17.11.46.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 11:46:25 -0700 (PDT)
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-usb@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        devicetree@vger.kernel.org,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Peter Chen <peter.chen@nxp.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Subject: [PATCH v2 1/2] dt-bindings: usb: Add binding for onboard USB hubs
-Date:   Thu, 17 Sep 2020 11:46:21 -0700
-Message-Id: <20200917114600.v2.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
-X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
+        with ESMTP id S1726480AbgIQSug (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 14:50:36 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB7F6C06174A;
+        Thu, 17 Sep 2020 11:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=6Q8VF9smAnRjFS0P3NC4Izw/nS3vTJ+bH1/J/rL7LP4=; b=cC6pZQe6zDxvf3f3ImKC0hNfP
+        bWOfQlntbC48RzdQlXmr0LDkFSGL155T3CXmkwUBSHr/bcLSi0CYDn2SoBczcYa+kmmqzXTSJ2nRx
+        XsK7xC91w/HB6/h0gINjtU8jIfXRlmhmDNr/wUAq8rHhHYjjjZHbu3UKV7HgAKf46Z3f/SYigOp5y
+        5Ey9q185lXCbLXSK7YU074l9W8DCEwv9D99S4BJD2GyKk4jWAxwW2khYrhcNhJ6nblq9Jug7N+9tg
+        VKZIMQ2hyta3ahZvH/dVKBo5JoQdXrJXOwTFiNvtSVY6sqMxeGgnsbH5kAq+FOqttlhVNqxQd2ah5
+        xnrLyTd/g==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34894)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1kIyz6-00065L-Je; Thu, 17 Sep 2020 19:50:20 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1kIyyw-0005xb-3Z; Thu, 17 Sep 2020 19:50:10 +0100
+Date:   Thu, 17 Sep 2020 19:50:10 +0100
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Tony Lindgren <tony@atomide.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        iommu@lists.linux-foundation.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 3/4] ARM/dma-mapping: don't handle NULL devices in
+ dma-direct.h
+Message-ID: <20200917185009.GB1559@shell.armlinux.org.uk>
+References: <20200917173229.3311382-1-hch@lst.de>
+ <20200917173229.3311382-4-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200917173229.3311382-4-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Onboard USB hubs need to be powered and may require initiaization of
-other resources (like GPIOs or clocks) to work properly. This adds
-a device tree binding for these hubs.
+On Thu, Sep 17, 2020 at 07:32:28PM +0200, Christoph Hellwig wrote:
+> The DMA API removed support for not passing in a device a long time
+> ago, so remove the NULL checks.
 
-Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
----
+What happens with ISA devices?
 
-Changes in v2:
-- removed 'wakeup-source' and 'power-off-in-suspend' properties
-- consistently use spaces for indentation in example
-
- .../bindings/usb/onboard_usb_hub.yaml         | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-
-diff --git a/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml b/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-new file mode 100644
-index 000000000000..66d67aa64e3f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/onboard_usb_hub.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/onboard_usb_hub.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Binding for onboard USB hubs
-+
-+maintainers:
-+  - Matthias Kaehlcke <mka@chromium.org>
-+
-+allOf:
-+  - $ref: /schemas/usb/onboard_usb_hub.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - onboard-usb-hub
-+      - realtek,rts5411
-+
-+  vdd-supply:
-+    description:
-+      phandle to the regulator that provides power to the hub.
-+
-+required:
-+  - compatible
-+  - vdd-supply
-+
-+examples:
-+  - |
-+    usb_hub: usb-hub {
-+        compatible = "realtek,rts5411", "onboard-usb-hub";
-+        vdd-supply = <&pp3300_hub>;
-+    };
-+
-+    &usb_1_dwc3 {
-+        dr_mode = "host";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        /* 2.0 hub on port 1 */
-+        hub@1 {
-+            compatible = "usbbda,5411";
-+            reg = <1>;
-+            hub = <&usb_hub>;
-+        };
-+
-+        /* 3.0 hub on port 2 */
-+        hub@2 {
-+            compatible = "usbbda,411";
-+            reg = <2>;
-+            hub = <&usb_hub>;
-+        };
-+    };
-+
-+...
 -- 
-2.28.0.681.g6f77f65b4e-goog
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
