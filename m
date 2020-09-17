@@ -2,122 +2,74 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 912EBC43461
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12ED2C43461
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:34:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A99C20678
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:25:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B20412087D
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:34:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="sZXLpVdl"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=suse.com header.i=@suse.com header.b="BSeWZ7Ix"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbgIQKZh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726604AbgIQKTF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 06:19:05 -0400
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1986DC061788
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:05 -0700 (PDT)
-Received: by mail-pg1-x549.google.com with SMTP id r24so1082356pgu.23
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=lTFIRTR1zNwvJ04BgZN6fFlBDrcI3QRsPDim78iCLb4=;
-        b=sZXLpVdl+nNo2cP9flul5No44LJwj8N0mPdruUaP6v2aqiRrUHLUsX2r3kJ6R2lgEY
-         5pcMgvASvtXPMvdOZjcZtRoHpY9EGMi3Fw9TQ9bjtLy/4KfF6ZihSWfduHQs+kUmynKs
-         KINImWENB/1MfEWHxhQdM7W7nssHpp67TB17hk2KoafoNA0tUqMbcZH8FF8+x1BDfzke
-         YUm2sev4F2W3BfhD6cZvas1PRNN9xgXg5x7YsNT+bqgjP0W4xgpuWDctKIzDynNHIrfz
-         3BODPguF7t/VhrlueO3gI+jWZNZzJlMAQ9uVoh7TgTMpoexsThUTdhr34m9GnR6iT8lG
-         R2ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=lTFIRTR1zNwvJ04BgZN6fFlBDrcI3QRsPDim78iCLb4=;
-        b=D9a3wTFf8hcrsq+Am3pC2Xq0L6H2/kexnzGK6XuWzpvHX1r/v9fWXvHr76SDw71uL6
-         Av4BM0IOzwXrKQ+H9tekVOgFlt/VLRs8P3jticMl8Z6SbFNihJfQcK+Upd2uursV5MCd
-         Nu4PmLSVchAddZEzm+2/JTMljYJdFZ1axj0u7ddUgWE3YTIKyUwVmp8PpAWJHmzJT1vw
-         GmdFfi5LkbkUB35sD7RaJsD5rkbIpOr6NqwiIRYl22ZVseLvDTHbt/Go19UcNeMECn2L
-         UhjwavN+8jBcGAQG2g5m9xQGqS6Q4W4BecIfkDDNweWCduptNRs7XVAuB2fVUHvgJxrm
-         eBWg==
-X-Gm-Message-State: AOAM530DAH3UZo1UDeqlPiII0cZchdh2L1Iq4Bzc8JPXWBbvL5apymtk
-        Bm3J7imkcfjD5xoup0HJ0+flqpX+Cb8=
-X-Google-Smtp-Source: ABdhPJz2NDBYgm2dEJ0aYPOKY7ua+ImoHCM7sFC3Sx2DEdycXosdR3QJHU4KT70Qvt68Krz6YZCEGJZbKwo=
-X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a17:90b:941:: with SMTP id
- dw1mr733475pjb.1.1600337944220; Thu, 17 Sep 2020 03:19:04 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 03:18:47 -0700
-In-Reply-To: <20200917101856.3156869-1-badhri@google.com>
-Message-Id: <20200917101856.3156869-2-badhri@google.com>
-Mime-Version: 1.0
-References: <20200917101856.3156869-1-badhri@google.com>
-X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
-Subject: [PATCH v7 02/11] usb: typec: tcpci: Add set_vbus tcpci callback
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Badhri Jagan Sridharan <badhri@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726410AbgIQKeo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:34:44 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33434 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726200AbgIQKen (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 06:34:43 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=cantorsusede;
+        t=1600338881;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=Bla3SM8EE1d/RcCyOYItOCiX01fGJhJlFQzYVwmBFsY=;
+        b=BSeWZ7Ixq3m5mfygQX6JYLxL1Rx6k30zOmIu/ne8vdtLqV09q90xOhBR5ydRdjPtQPjbvK
+        0xwoA00NmUPJobPcKjh9QJO7KZHwObN2CSuutIMkTB/G8YyMKcKQL5xVgZizhPIfiGj+Q/
+        Gu1wuPWNYldk2RDhyNx+yohWjJ+QnYW3jaPogW/t8NbpqAAU58qtvfoAGE0YjMhgIr62Ex
+        3ODS18mwwT2GPBlFWl/ELTPXHUoxi8nrYQA/gYaAfOJrKM97RRlIoEYptjSmE8OkFgqF3J
+        D3qzLAn6EuCahF37T9VJ8iHB0XIBk2Y/VVzmXGyDX7Fq1cJvlDR0YWjjYCZb3g==
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 53400ABC4;
+        Thu, 17 Sep 2020 10:35:15 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH] usblp: fix race between disconnect() and read()
+Date:   Thu, 17 Sep 2020 12:34:27 +0200
+Message-Id: <20200917103427.15740-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-set_vbus callback allows TCPC which are TCPCI based, however,
-does not support turning on sink and source mode through
-Command.SinkVbus and Command.SourceVbusDefaultVoltage.
+read() needs to check whether the device has been
+disconnected before it tries to talk to the device.
 
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Reported-by: syzbot+be5b5f86a162a6c281e6@syzkaller.appspotmail.com
 ---
-Changes since v1:
-- Changing patch version to v6 to fix version number confusion.
+ drivers/usb/class/usblp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Changes since v6:
-- Rebase on usb-next
----
- drivers/usb/typec/tcpm/tcpci.c | 7 +++++++
- drivers/usb/typec/tcpm/tcpci.h | 1 +
- 2 files changed, 8 insertions(+)
-
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index b960fe5a0f28..d6a6fac82d48 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -328,6 +328,13 @@ static int tcpci_set_vbus(struct tcpc_dev *tcpc, bool source, bool sink)
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
- 	int ret;
+diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
+index 084c48c5848f..67cbd42421be 100644
+--- a/drivers/usb/class/usblp.c
++++ b/drivers/usb/class/usblp.c
+@@ -827,6 +827,11 @@ static ssize_t usblp_read(struct file *file, char __user *buffer, size_t len, lo
+ 	if (rv < 0)
+ 		return rv;
  
-+	if (tcpci->data->set_vbus) {
-+		ret = tcpci->data->set_vbus(tcpci, tcpci->data, source, sink);
-+		/* Bypass when ret > 0 */
-+		if (ret != 0)
-+			return ret < 0 ? ret : 0;
++	if (!usblp->present) {
++		count = -ENODEV;
++		goto done;
 +	}
 +
- 	/* Disable both source and sink first before enabling anything */
- 
- 	if (!source) {
-diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
-index 04c49a0b0368..4d441bdf24d5 100644
---- a/drivers/usb/typec/tcpm/tcpci.h
-+++ b/drivers/usb/typec/tcpm/tcpci.h
-@@ -144,6 +144,7 @@ struct tcpci_data {
- 			 bool enable);
- 	int (*start_drp_toggling)(struct tcpci *tcpci, struct tcpci_data *data,
- 				  enum typec_cc_status cc);
-+	int (*set_vbus)(struct tcpci *tcpci, struct tcpci_data *data, bool source, bool sink);
- };
- 
- struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data);
+ 	if ((avail = usblp->rstatus) < 0) {
+ 		printk(KERN_ERR "usblp%d: error %d reading from printer\n",
+ 		    usblp->minor, (int)avail);
 -- 
-2.28.0.618.gf4bc123cb7-goog
+2.16.4
 
