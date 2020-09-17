@@ -2,134 +2,249 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D828CC43461
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 07:07:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D8F5C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 07:19:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E1F921D7F
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 07:07:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="GVoDkghg"
+	by mail.kernel.org (Postfix) with ESMTP id 44D952072E
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 07:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600327156;
+	bh=3I60/8uee5JdTC1wzIM0oifYi5h2PnGd3DovxMRXkrk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=UbE8p0PkQ82Susg3gJGWgcyUv3IV3hSjkSwy9Xn0ukXMe5aQpbIXIMB1S3lKhccxK
+	 om1PB5V0Mkh9GG6+yp+OjIuAznk8ji3PxNk06r0AM+YOruqjFHHJPrv9PzYxg9PgP5
+	 0FPa1R4VyAEIGPda9K0iws0s7q/IwI6eq2JzsKCg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbgIQHH0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 03:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbgIQHAO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 03:00:14 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D3B2C061351
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 00:00:05 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id e16so797316wrm.2
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 00:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZG6N/rhNc2zEd0OmlssDRFgV4b5KjiPy9hIEmRV9zOc=;
-        b=GVoDkghgcAlUKt8WnZ0zuyGHxFOF6iJbX0CkdJ7VSuHnfyB0eSkmYBJmJvknoWmN16
-         W67hTuQ48S68jHaxzPwVVIfNmpEwkoQSUT+VWRyQEX4g+RDNfoS+wJ7nHegZ838E6JKO
-         RO4T9m2u9wQybkMXV0I+cZUqNZ/lCmsSgyWOSiF45JI8c6fQffCao9QuIdIhrRoGTOkP
-         7PiyoG3oz1C7hBbcp4POtOnEWC44Ptmtzb4RXImlH2Jov0oKcidiEN+TOIU9FV+AaiCk
-         4BmiXKy7ZPY5P8V2hDihIKzLqvG0Sp2INBAqC72OYYVBlZ7oduR9EMFdVsgzA2rUGSsF
-         fHcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZG6N/rhNc2zEd0OmlssDRFgV4b5KjiPy9hIEmRV9zOc=;
-        b=I7jmbTPCixTKWCP6r1eZfk8cTNVukgytazM+WaKNy1q7gkkVIb6KFsxq6yShQ6+U/y
-         2zFOz4GDoV/U/lWA+5dgSmkOyXaBQs+a0Xtlng0qc6vlfzagflreEU7+tVtOzGyDdkCw
-         dDd/7fwWu8ZNcbrjxcP/QbN59I7Pag1CjZJqBU4dY1XD8UwA3awkAC2zZRjO/xTXA0Ds
-         MYBysOo8gdGD6bVK2uGGrBXR0CjX3+Jp3fwchUawTEp3FzyFnTYG9RryiPAvJ5uyGXjc
-         E7pqLdyLG07Zi2xy/Q5D/BXj4FEKYCNwUE0miql0294gzuQGa05PNmaGVBsE33BMqPVA
-         dVRQ==
-X-Gm-Message-State: AOAM531RZl34i554SVWOdzrtk/zumc6Da943c5Km3K/vEdTR9gDRwxIS
-        ddXcJCjh/Ju1ZnXKQ0xgucUQgQ==
-X-Google-Smtp-Source: ABdhPJyKfXYnIS4ErZB/cswC92sAGdSNdhniNnIBWbPAMUoVrHd/CFYke/iib87+7iJgpTBeQrIDnA==
-X-Received: by 2002:adf:e989:: with SMTP id h9mr32555878wrm.38.1600326003291;
-        Thu, 17 Sep 2020 00:00:03 -0700 (PDT)
-Received: from bender.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id z14sm35709055wrh.14.2020.09.17.00.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 00:00:02 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     khilman@baylibre.com, balbi@kernel.org,
-        martin.blumenstingl@googlemail.com
-Cc:     linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH v2 3/5] usb: dwc-meson-g12a: Add support for USB on AXG SoCs
-Date:   Thu, 17 Sep 2020 08:59:47 +0200
-Message-Id: <20200917065949.3476-4-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200917065949.3476-1-narmstrong@baylibre.com>
-References: <20200917065949.3476-1-narmstrong@baylibre.com>
+        id S1726301AbgIQHSd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 03:18:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60092 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbgIQHSc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 03:18:32 -0400
+Received: from coco.lan (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 002B12072E;
+        Thu, 17 Sep 2020 07:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600327106;
+        bh=3I60/8uee5JdTC1wzIM0oifYi5h2PnGd3DovxMRXkrk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=0cLAmgIV0JzEar4JMGHLpAWNNqQa3GziotUuRM9TmL33nbyi3WRIyIwK7hiI4pYfN
+         fno0GuzDnQ4yZEqD1mp2yXnfhnQMmGBCzZXy06jR5wtrv6r5SOj/0fbl+9X4zgek9o
+         Z5qjIPFeBOxCvZwrXCN5Ey3DGGIgqzdHZ8THSmPs=
+Date:   Thu, 17 Sep 2020 09:18:21 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Rob Herring <robh@kernel.org>, Felipe Balbi <balbi@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        John Stultz <john.stultz@linaro.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: document a new quirk for dwc3
+Message-ID: <20200917091821.0de18caa@coco.lan>
+In-Reply-To: <20200915163814.GA2084568@bogus>
+References: <cover.1599549364.git.mchehab+huawei@kernel.org>
+        <cb821a8b5ef2d44ce32c8ce1d01c34b7afb70eb2.1599549364.git.mchehab+huawei@kernel.org>
+        <20200915163814.GA2084568@bogus>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Amlogic AXG is close to the GXL Glue but with a single OTG PHY.
+Em Tue, 15 Sep 2020 10:38:14 -0600
+Rob Herring <robh@kernel.org> escreveu:
 
-It needs the same init sequence as GXL & GXM, but it seems it doesn't need
-the host disconnect bit.
+> On Tue, Sep 08, 2020 at 09:20:57AM +0200, Mauro Carvalho Chehab wrote:
+> > At Hikey 970, setting the SPLIT disable at the General
+> > User Register 3 is required.
+> > 
+> > Without that, the URBs generated by the usbhid driver
+> > return -EPROTO errors. That causes the code at
+> > hid-core.c to call hid_io_error(), which schedules
+> > a reset_work, causing a call to hid_reset().
+> > 
+> > In turn, the code there will call:
+> > 
+> > 	usb_queue_reset_device(usbhid->intf);
+> > 
+> > The net result is that the input devices won't work, and
+> > will be reset on every 0.5 seconds:
+> > 
+> > 	[   33.122384] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> > 	[   33.378220] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> > 	[   33.698394] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> > 	[   34.882365] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> > 	[   35.138217] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> > 	[   35.458617] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> > 	[   36.642392] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> > 	[   36.898207] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> > 	[   37.218598] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> > 	[   38.402368] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> > 	[   38.658174] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> > 	[   38.978594] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0000
+> > 	[   40.162361] hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0002
+> > 	[   40.418148] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> > 	...
+> > 	[  397.698132] usb 1-1.1: reset low-speed USB device number 3 using xhci-hcd
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/usb/dwc3.txt | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+> > index d03edf9d3935..1aae2b6160c1 100644
+> > --- a/Documentation/devicetree/bindings/usb/dwc3.txt
+> > +++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+> > @@ -78,6 +78,9 @@ Optional properties:
+> >  			park mode are disabled.
+> >   - snps,dis_metastability_quirk: when set, disable metastability workaround.
+> >  			CAUTION: use only if you are absolutely sure of it.
+> > + - snps,dis-split-quirk: when set, change the way URBs are handled by the
+> > +			 driver. Needed to avoid -EPROTO errors with usbhid
+> > +			 on some devices (Hikey 970).  
+> 
+> Can't this be implied by the compatible string? Yes we have quirk 
+> properties already, but the problem with them is you can't address them 
+> without a DT change.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Reviewed-by: Kevin Hilman <khilman@baylibre.com>
----
- drivers/usb/dwc3/dwc3-meson-g12a.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Short answer:
 
-diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
-index 1f7f4d88ed9d..784e7eafc9ce 100644
---- a/drivers/usb/dwc3/dwc3-meson-g12a.c
-+++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
-@@ -127,6 +127,7 @@ static const char *meson_g12a_phy_names[] = {
- /*
-  * Amlogic A1 has a single physical PHY, in slot 1, but still has the
-  * two U2 PHY controls register blocks like G12A.
-+ * AXG has the similar scheme, thus needs the same tweak.
-  * Handling the first PHY on slot 1 would need a large amount of code
-  * changes, and the current management is generic enough to handle it
-  * correctly when only the "usb2-phy1" phy is specified on-par with the
-@@ -215,6 +216,19 @@ static struct dwc3_meson_g12a_drvdata gxm_drvdata = {
- 	.usb_post_init = dwc3_meson_gxl_usb_post_init,
- };
- 
-+static struct dwc3_meson_g12a_drvdata axg_drvdata = {
-+	.otg_switch_supported = true,
-+	.clks = meson_gxl_clocks,
-+	.num_clks = ARRAY_SIZE(meson_gxl_clocks),
-+	.phy_names = meson_a1_phy_names,
-+	.num_phys = ARRAY_SIZE(meson_a1_phy_names),
-+	.setup_regmaps = dwc3_meson_gxl_setup_regmaps,
-+	.usb2_init_phy = dwc3_meson_gxl_usb2_init_phy,
-+	.set_phy_mode = dwc3_meson_gxl_set_phy_mode,
-+	.usb_init = dwc3_meson_g12a_usb_init,
-+	.usb_post_init = dwc3_meson_gxl_usb_post_init,
-+};
-+
- static struct dwc3_meson_g12a_drvdata g12a_drvdata = {
- 	.otg_switch_supported = true,
- 	.clks = meson_g12a_clocks,
-@@ -930,6 +944,10 @@ static const struct of_device_id dwc3_meson_g12a_match[] = {
- 		.compatible = "amlogic,meson-gxm-usb-ctrl",
- 		.data = &gxm_drvdata,
- 	},
-+	{
-+		.compatible = "amlogic,meson-axg-usb-ctrl",
-+		.data = &axg_drvdata,
-+	},
- 	{
- 		.compatible = "amlogic,meson-g12a-usb-ctrl",
- 		.data = &g12a_drvdata,
--- 
-2.22.0
+While technically doable, I don't think that this would be a good idea.
 
+-
+
+Long answer:
+
+The first thing is related to the compatible namespace: should such
+quirk be added at SoC level or at board level?
+
+I don't know if the need to disable split mode came from a different
+dwc3 variant used by the Kirin 970 SoC, or if this is due to the way
+USB is wired at the Hikey 970 board.
+
+Right now, I'm assuming the latter, but Felipe suggested that this
+might be due to a different version of the IP. Currently, we have
+no means to check.
+
+So, I'm placing all Hikey 970 specific quirks under the board-specific
+part, e. g., at:
+
+	arch/arm64/boot/dts/hisilicon/hi3670-hikey970.dts
+
+This sounds more flexible, as, if some different hardware based on
+the same chipset reaches upstream, it could use a different set of
+quirks, if needed.
+
+However, if we decide to bind quirks with compatible strings,
+we need to know if we would create a board-specific compatible
+or just SoC-specific ones.
+
+-
+
+Another possibility would be to add generic compatible bindings
+for each quirk featureset. Right now the dwc3 core driver accepts
+only two compatible strings:
+
+       .compatible = "snps,dwc3"
+       .compatible = "synopsys,dwc3"
+
+And both are equivalent. No quirks are added there via compatible
+strings.
+
+Ok, we might start adding different compatible strings for different
+sets of quirks, like:
+
+	.compatible = "snps,dwc3-splitdisable"
+
+but, this sounds really ugly, specially when multiple quirks
+would be required.
+
+We might also deprecate the usage of "snps,dwc3"/"synopsys,dwc3",
+in favor of SoC-specific and board-specific compatible strings, 
+but that would add a long list of boards there, with lots of code
+to set quirks. IMHO, it is a lot nicer to rely on DT to enable
+or disable those SoC and board-specific optional features of the
+Designware IP.
+
+-
+
+In the specific case of Hikey 970, there are two other
+alternatives:
+
+1) we ended needing to create a new compatible for the Kirin 970
+SoC, for it to be probed via this driver:
+
+	drivers/usb/dwc3/dwc3-of-simple.c
+
+as, otherwise an async ARM error happens, making the SoC to
+crash. All dwc3-of-simple driver does is to use a different 
+code for initializing the clocks.
+
+However, dwc3-of-simple driver is completely independent from
+dwc3: it doesn't pass platform data to the main dwc3 driver. 
+So, it doesn't propagate any quirk to the main driver. 
+
+One possible hack would be to make dwc3 driver to also
+accept platform data, using it as an interface for the
+dwc3-of-simple to pass quirks.
+
+If we go on that direction, we could also remove all other
+quirks from Kirin 970 dwc3, coding them inside the driver,
+instead of using DT, e. g. the driver would do something like:
+
+	if (of_device_is_compatible(np,
+				   "hisilicon,hi3670-dwc3")) {
+		cfg->dis_split_quirk = true;
+		cfg->foo = true;
+		cfg->bar = true;
+		...
+
+	}
+
+such change would require a re-design at the logic around
+dwc3_get_properties(), as the driver should start accepting
+quirks either from platform_data or from DT (or both?).
+
+2) Because this specific device uses the dwc3-of-simple driver, 
+the actual DT binding is:
+
+	usb3: hisi_dwc3 {
+		compatible = "hisilicon,hi3670-dwc3";
+	...
+		dwc3: dwc3@ff100000 {
+			compatible = "snps,dwc3";
+	...
+		};
+	};
+
+
+For boards that use dwc3-of-simple drivers, we could add a hack
+at the dwc3 core that would seek for the parent's device's 
+compatible string with something like (not tested):
+
+	if (of_device_is_compatible(pdev->parent->dev.of_node,
+				   "hisilicon,hi3670-dwc3"))
+		dwc->dis_split_quirk = true;
+
+It should be noticed that both platform_data and pdev->parent
+alternatives will only work for boards using dwc3-of-simple driver.
+This could limit this quirk usage on future devices.
+
+-
+
+IMO, adding a new quirk is cleaner, and adopts the same solution
+that it is currently used by other drivers with Designware IP.
+
+Thanks,
+Mauro
