@@ -2,189 +2,115 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F38EFC2BBD1
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 13:06:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D2BC433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 14:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B420821974
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 13:06:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F51B206DB
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 14:44:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbgIQNGs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 09:06:48 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:54953 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727058AbgIQNGe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 09:06:34 -0400
-Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08HBP26l040207;
-        Thu, 17 Sep 2020 20:25:02 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp);
- Thu, 17 Sep 2020 20:25:02 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08HBOvnT040186
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Thu, 17 Sep 2020 20:25:01 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [RFC 0/5] fix races in CDC-WDM
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
-References: <20200812132034.14363-1-oneukum@suse.com>
- <ee0af733-903f-8e8f-8027-b5490a37032f@i-love.sakura.ne.jp>
- <1599728957.10822.9.camel@suse.com>
- <4f285044-aae9-c3be-23ba-90790cd624f1@i-love.sakura.ne.jp>
- <1600161279.2424.5.camel@suse.com>
- <4b8f6305-52fd-cb72-eb13-9d0a0bf07319@i-love.sakura.ne.jp>
- <1600251486.2424.17.camel@suse.com>
- <4e724e07-3993-bcaa-79e9-45a2f7e1f759@i-love.sakura.ne.jp>
- <1600336214.2424.39.camel@suse.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <0bd0995d-d8a0-321a-0695-f4013bbc88ec@i-love.sakura.ne.jp>
-Date:   Thu, 17 Sep 2020 20:24:57 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1727685AbgIQOng (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 10:43:36 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:44960 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727641AbgIQOmQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 10:42:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+         s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
+        :Message-Id:Date:Subject:Cc:To:From;
+        bh=jYC5vfpyAOB01Xz9fU7PjyTQCLGjlSBNPFV1rX8wF80=; b=UdIyK5YcbcJK/sE20vl9eIdY+0
+        7Yuwn/2NTwL2mPvPbiwx+wmxKwJ/2E3jSMUZ48DFehw6Sr1pkR4vPZN24T+Smi+iTkCS185isl9V9
+        VpV7avfNrKsAPgUHUZAJTiQt7ucOtwFlM7A7nq6E7MXaLuMZiQ1b9FiFfIt7vml6PJ0wLYwwdX/kK
+        pS4kw/8+Ezf6SPMhEZffiohd8jKkWR0JU4l/1clxSvCvtgxf31OkwUhsk39hV3fk+lWrdBR+qKWSz
+        oPJm/avtxGWfBCJw9Ovupm0nWEmMJ6lvr8wX0dCK0+s4qtBD3VwMAo1T3WkH8JpyWgfRMPDwGbSJc
+        GYIag1lA==;
+Received: from [10.9.9.72] (helo=submission01.runbox)
+        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <m.v.b@runbox.com>)
+        id 1kIv6y-0001Ko-KU; Thu, 17 Sep 2020 16:42:12 +0200
+Received: by submission01.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1kIv6p-0002ee-CS; Thu, 17 Sep 2020 16:42:03 +0200
+From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
+To:     linux-usb@vger.kernel.org
+Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        stable@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        syzkaller@googlegroups.com
+Subject: [PATCH 3/3] usbip: Make the driver's match function specific
+Date:   Thu, 17 Sep 2020 17:41:51 +0300
+Message-Id: <20200917144151.355848-3-m.v.b@runbox.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200917144151.355848-1-m.v.b@runbox.com>
+References: <a6e14983a8849d5f75a43f403c7cc721b6e4a420.camel@hadess.net>
+ <20200917144151.355848-1-m.v.b@runbox.com>
 MIME-Version: 1.0
-In-Reply-To: <1600336214.2424.39.camel@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2020/09/17 18:50, Oliver Neukum wrote:
-> Am Mittwoch, den 16.09.2020, 20:14 +0900 schrieb Tetsuo Handa:
->> On 2020/09/16 19:18, Oliver Neukum wrote:
->>> Am Dienstag, den 15.09.2020, 19:30 +0900 schrieb Tetsuo Handa:
->>>> On 2020/09/15 18:14, Oliver Neukum wrote
->>>>> Is there something we can do in flush()?
->>>>
->>>> I consider that wdm_flush() is a wrong place to return an error. It is possible that
->>>
->>> I am afraid that is a basic problem we need to resolve. As I understand
->>>  it, flush() as a method exists precisely to report errors. Otherwise
->>> you could implement it in release(). But this is not called for every
->>> close().
->>
->> I think fsync() or ioctl() is a better method for reporting errors.
-> 
-> Very well, I am implementing fsync(). However, I must say that the very
-> existance of fsync() tells us that write() is not expected to push
-> data out to devices and hence report results.
+Prior to this commit, the USB-IP subsystem's USB device driver match
+function used to match all USB devices (by returning true
+unconditionally). Unfortunately, this is not correct behaviour and is
+likely the root cause of the bug reported by Andrey Konovalov.
 
-If you ask userspace programs to be updated to call fsync(), we can ask
-userspace programs be updated to call ioctl().
+USB-IP should only match USB devices that the user-space asked the kernel
+to handle via USB-IP, by writing to the match_busid sysfs file, which is
+what this commit aims to achieve. This is done by making the match
+function check that the passed in USB device was indeed requested by the
+user-space to be handled by USB-IP.
 
-I expected you to implement wdm_ioctl() for fetching last error code. Then,
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Fixes: 7a2f2974f2 ("usbip: Implement a match function to fix usbip")
+Link: https://lore.kernel.org/linux-usb/CAAeHK+zOrHnxjRFs=OE8T=O9208B9HP_oo8RZpyVOZ9AJ54pAA@mail.gmail.com/
+Cc: <stable@vger.kernel.org> # 5.8
+Cc: Bastien Nocera <hadess@hadess.net>
+Cc: Valentina Manea <valentina.manea.m@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: <syzkaller@googlegroups.com>
+Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+---
+ drivers/usb/usbip/stub_dev.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-> 
->> Whether N'th write() request succeeded remains unknown until (N+1)'th
->> write() request or close() request is issued? That sounds a strange design.
-> 
-> Welcome to the world of Unix. This is necessary if you want to block
-> as rarely as possible.
-
-we can apply my proposal (wait for response at wdm_write() by default) as a baseline
-for not to break existing userspace programs (except latency), followed by a patch
-which allows userspace programs to use that wdm_ioctl() in order not to wait for
-response at wdm_write(), which is enabled by calling wdm_ioctl() (in order to
-recover latency caused by waiting for response at wdm_write()).
-
-
-
->> What is the purpose of sending the error to the userspace process via write() or close()?
-> 
-> Yes. However to do so, user space must be running. That the death
-> of a process interferes with error handling is independent from that.
-
-Why need to send the error to the userspace process when that process was killed?
-My question
-
-  Isn't the purpose to allow userspace process to do something (e.g. print error messages,
-  retry the write() request with same argument) ? If close() returned an error, it might be
-  too late to retry the write() request with same argument.
-
-which is unrelated to the userspace process being killed. My suggestion is that we can send
-the error from wdm_write() (for synchronous mode) or wdm_ioctl() (for asynchronous mode).
-
-> 
->> And I think that wdm_flush() is a strange interface for reporting the error.
-> 
-> Well, POSIX is what it is.The close() syscall is supposed to return
-> errors. Hence flush() must report them.
-
-If we check the error at wdm_write() or wdm_ioctl(), there is no error to report at
-wdm_flush(). Therefore, we can remove wdm_flush() completely.
-
-
-
-I can't read this series without squashing into single patch. Making changes which
-will be after all removed in [RFC 5/7] is sad. Please do [RFC 5/7] before [RFC 4/7].
-Then, you won't need to make unneeded modifications. I'd like to see one cleanup
-patch, one possible unsafe dereference fix patch, and one deadlock avoidance patch.
-
-
-
-You did not answer to
-
-  How do we guarantee that N'th write() request already set desc->werr before
-  (N+1)'th next write() request is issued? If (N+1)'th write() request reached
-  memdup_user() before desc->werr is set by callback of N'th write() request,
-  (N+1)'th write() request will fail to report the error from N'th write() request.
-  Yes, that error would be reported by (N+2)'th write() request, but the userspace
-  process might have already discarded data needed for taking some actions (e.g.
-  print error messages, retry the write() request with same argument).
-
-. At least I think that
-
-        spin_lock_irq(&desc->iuspin);
-        we = desc->werr;
-        desc->werr = 0;
-        spin_unlock_irq(&desc->iuspin);
-        if (we < 0)
-                return usb_translate_errors(we);
-
-in wdm_write() should be moved to after !test_bit(WDM_IN_USE, &desc->flags).
-
-
-
-In [RFC 2/7], I think that
-
-                /* in case flush() had timed out */
-                usb_kill_urb(desc->command);
-
-which is called only when desc->count == 0 in wdm_open() is pointless, for since
-desc->count is incremented/decremented with wdm_mutex held, kill_urbs(desc) which
-is called when desc->count == 0 in wdm_release() must have already called
-usb_kill_urb(desc->command) before allowing wdm_open() to reach there.
-
-In addition, is
-
-        /* using write lock to protect desc->count */
-        mutex_lock(&desc->wlock);
-
-required? Isn't wdm_mutex that is actually protecting desc->count from modification?
-If it is desc->wlock that is actually protecting desc->count, the !desc->count check
-in wdm_release() and the desc->count == 1 check in wdm_open() have to be done with
-desc->wlock held.
-
-
-
-In [RFC 3/7], patch description says
-
-  There is no need for flush() to be uninterruptible. close(2)
-  is allowed to return -EAGAIN. Change it.
-
-but the code does
-
-	if (rv < 0)
-		return -EINTR;
-
-. Which error code do you want to use? (I still prefer removing wdm_flush() completely...)
+diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+index 9d7d642022d1..3d9c8ff6762e 100644
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -463,7 +463,20 @@ static void stub_disconnect(struct usb_device *udev)
+ 
+ static bool usbip_match(struct usb_device *udev)
+ {
+-	return true;
++	bool match;
++	struct bus_id_priv *busid_priv;
++	const char *udev_busid = dev_name(&udev->dev);
++
++	busid_priv = get_busid_priv(udev_busid);
++	if (!busid_priv)
++		return false;
++
++	match = (busid_priv->status != STUB_BUSID_REMOV &&
++		 busid_priv->status != STUB_BUSID_OTHER);
++
++	put_busid_priv(busid_priv);
++
++	return match;
+ }
+ 
+ #ifdef CONFIG_PM
+-- 
+2.26.2
 
