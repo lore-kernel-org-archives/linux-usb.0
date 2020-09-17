@@ -2,156 +2,120 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62565C2BBD1
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 15:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7723C43461
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 16:19:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A11C2224F
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 15:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600357309;
-	bh=Ek7j0W7fZJOyj5quMmPpneD18e0d2JvWRQ+kGtkl3F8=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=04f7UYK4dR/sWUjP2DZ9YRlwVWp2JaEXzbYuATfZPSkkJfCza0DyBUfeIryW6Tmhk
-	 CWokfyHizSKCHyiDrn4cyHJjL6qJDFu16dxwZq7JSQzmMxlxYVt8rnPuJ+AfCvjSmb
-	 w05Dy8trP1mNT+ayJ8PpTSr3L4kclpcoaFBlE+N0=
+	by mail.kernel.org (Postfix) with ESMTP id 89AE521D7F
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 16:19:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d7RlsgYH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728134AbgIQPlh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 11:41:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38940 "EHLO
+        id S1728410AbgIQQTL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 12:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728120AbgIQPVM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 11:21:12 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA958C06174A
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 08:21:11 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id c10so2215283otm.13
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 08:21:11 -0700 (PDT)
+        with ESMTP id S1728391AbgIQQSo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 12:18:44 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17AC1C06178C
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 08:54:06 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id g29so1616652pgl.2
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 08:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MTVVCrJVa8GUaPAcJjmBPCpJDItiRuSaBMYiXKb62FU=;
-        b=iYZlm72Rmim58xVUQGXw4xVLjxW8sc4ZJsks9PXXs9yKAWaFXAGBJyn1wVZoptvzSf
-         546VR0MJqQn9jICAjPJspzktWQDV5PatKrdTpU3x2Ur4Fyv54fMqoPGds/BIi56gaMtF
-         C6a+WBjlxkuIRPDK1rhR0jKN85MFZyNUHYgPg=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SLbdaPRsUm17Oxy4TshTtUDtovCxhCm/CCE1+IYwJv8=;
+        b=d7RlsgYHVPiVpsrOpvAWEc4RvTmn1+NdIwLr6SDhRJVU1RnMyCgMfxJ1KWUX88M71x
+         EiuWvXsBPc1t1n+DA4dM4TZB6/w+CJJ4wJ0xQXy7zQ/dWeWNHofW1gzGdH28Z8h/Vh1y
+         7fqvBfBwFXFjgEnzwLmO0AtTXxY2rKi+dbGAE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MTVVCrJVa8GUaPAcJjmBPCpJDItiRuSaBMYiXKb62FU=;
-        b=cZpmer6YGZuvjnD0SMjshJjc/SWiQEG+/LJ8LKs1SoUQV9u2CX2iAPHP5EaGO+6NsC
-         Py86SVG+EPbk1N4NukL06mIAOX9tIPMz+YgU2kgnmTL+tBX0qW8DNXWcHxdUUBv1Logd
-         gSBV2JYsameSZga5jXwxReqS5J+9pgHFxoCA3w9qc6kvp2KPy7wjSHif3B5LGb5ZuB+a
-         utL096QMKiGJSLfogSMDAy32KLn3TjQdmUT+oOqbq2iQDRA9Ems0SD6BVlvfNr0a4iKx
-         H6rogbx1gD3CsbNJ8loKYgMCD9jgI+GrOWhnHwJhK16r2sh2JGPFYy1NBp+EF8WifDcv
-         ZOQA==
-X-Gm-Message-State: AOAM530ph1iu8L/NKsTg8cBHGuscXMIYZXP00FOCVld7dEZp9tKHsFKe
-        2kxBKT+MeeXs/tYLk85XlGcn/g==
-X-Google-Smtp-Source: ABdhPJyYyPOcQ0DOIqvmXsmP4TVnPt7Wz94HKJTHhcrEzgh+sw123ahOhmwlWS3JMchquydogOZugQ==
-X-Received: by 2002:a9d:2d87:: with SMTP id g7mr963838otb.320.1600356069612;
-        Thu, 17 Sep 2020 08:21:09 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id s20sm107133oot.15.2020.09.17.08.21.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SLbdaPRsUm17Oxy4TshTtUDtovCxhCm/CCE1+IYwJv8=;
+        b=Dqc51v79VPCIK0/S6WsEuV7a+MdDDHFmoBds+c8zbn7gynXOx/BkPPLD5lEg4Xa+ro
+         RuRjZ/05rLt+SMyUugsTmBNxsuZPsGYu7d8Qe/+GGwcYw7OFsp8NVcUPdzuEmBNcvvuG
+         A3tdTrZnoPW6Yx/kuo+finEfmTloDEcregL815v4LlB4jZ5+mwppPDnHe+NOFClfpd7G
+         X38ZMYkauoxqbUaIx9k1iNRPgbEfIizAQ+vOzbr6JZjN5g6spEDQwYDuMnH5Y9QAENu6
+         mqWvtEvYbbLCb534uCuM1TPV4LPzNTia9RGg48QY9yrdDtRkoSJ5x2+hkE3AtDibyT1E
+         B72w==
+X-Gm-Message-State: AOAM530WB1KnJvsaOnktsrWehW4ImVf87rOZs03qZIMB+xqOVNMTFHB9
+        G/VpUkTsex/f3GTVDHr1Dc10Gw==
+X-Google-Smtp-Source: ABdhPJx3sAJiavm4slDW3NkgOwvuqia4sXV+vKNmPQVo6YaTKWma2qu3v9hvtwlfbebcMPf1/2VNiA==
+X-Received: by 2002:a65:4984:: with SMTP id r4mr22470809pgs.261.1600358044925;
+        Thu, 17 Sep 2020 08:54:04 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
+        by smtp.gmail.com with ESMTPSA id 1sm21247pfx.126.2020.09.17.08.54.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 08:21:09 -0700 (PDT)
-Subject: Re: [PATCH 3/3] usbip: Make the driver's match function specific
-To:     "M. Vefa Bicakci" <m.v.b@runbox.com>, linux-usb@vger.kernel.org
-Cc:     Andrey Konovalov <andreyknvl@google.com>, stable@vger.kernel.org,
-        Bastien Nocera <hadess@hadess.net>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu, 17 Sep 2020 08:54:04 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 08:54:03 -0700
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
         Alan Stern <stern@rowland.harvard.edu>,
-        syzkaller@googlegroups.com, Shuah Khan <skhan@linuxfoundation.org>
-References: <a6e14983a8849d5f75a43f403c7cc721b6e4a420.camel@hadess.net>
- <20200917144151.355848-1-m.v.b@runbox.com>
- <20200917144151.355848-3-m.v.b@runbox.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <45badff8-53e9-359d-4bf2-b0f71b910b2f@linuxfoundation.org>
-Date:   Thu, 17 Sep 2020 09:21:06 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] USB: misc: Add onboard_usb_hub driver
+Message-ID: <20200917155403.GA21107@google.com>
+References: <20200914112716.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
+ <20200915025426.GA17450@b29397-desktop>
+ <20200915050207.GF2022397@google.com>
+ <AM7PR04MB715735A8A102F3EC9041EA328B200@AM7PR04MB7157.eurprd04.prod.outlook.com>
+ <20200915230345.GF2771744@google.com>
+ <20200916081821.GA14376@b29397-desktop>
+ <20200916191607.GB3560556@google.com>
+ <20200917002646.GA23310@b29397-desktop>
+ <20200917004758.GD3560556@google.com>
+ <AM7PR04MB7157872B1019B748119B7DBA8B3E0@AM7PR04MB7157.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200917144151.355848-3-m.v.b@runbox.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <AM7PR04MB7157872B1019B748119B7DBA8B3E0@AM7PR04MB7157.eurprd04.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 9/17/20 8:41 AM, M. Vefa Bicakci wrote:
-> Prior to this commit, the USB-IP subsystem's USB device driver match
-> function used to match all USB devices (by returning true
-> unconditionally). Unfortunately, this is not correct behaviour and is
-> likely the root cause of the bug reported by Andrey Konovalov.
+On Thu, Sep 17, 2020 at 01:24:30AM +0000, Peter Chen wrote:
+> > > >
+> > >
+> > > You may need both (glue & xhci), it depends on system design, and
+> > > usually, these two kinds of wakeup setting isn't conflict.
+> > 
+> > Ok, thanks. So if I understand correctly the onboard hub driver should check the
+> > wakeup state of the xHCI to determine if remote wakeup is enabled for the
+> > controller (after all it doesn't know anything about the platform device).
+> > Wakeup might not work properly if it is disabled for the platform device, but it's
+> > the responsability of the board software/config to make sure it is enabled
+> > (possibly this could be done by making the dwc3-qcom driver understand the
+> > 'wakeup-source' property, as the xhci-mtk driver does).
 > 
-> USB-IP should only match USB devices that the user-space asked the kernel
-> to handle via USB-IP, by writing to the match_busid sysfs file, which is
-> what this commit aims to achieve. This is done by making the match
-> function check that the passed in USB device was indeed requested by the
-> user-space to be handled by USB-IP.
+> No, every level should handle its own wakeup setting. You may have to do this since the USB bus and platform bus
+> are two different buses, you should not visit device structure across the bus. And you don't need a device tree property
+> to do it. For platform driver, you could use device_may_wakeup, for onboard hub power driver, you could use
+> usb_wakeup_enabled_descendants since you need to cover descendants.
 > 
+> The purpose of these two wakeup logic is different, for USB bus, it is used to tell USB devices to enable remote wakeup
+> and do not power off its regulator; for platform bus, it is used to tell the controller to enable its wakeup setting and keep
+> the regulator for its USB controller and USB PHY (if needed).
 
-I see two patches 2/2 and 3/3 back to back. What is the difference
-between 2/2 and 3/3 versions? They look identical. Please include
-changes if any from version to version to make it easier for me to
-review.
-
-> Reported-by: Andrey Konovalov <andreyknvl@google.com>
-> Fixes: 7a2f2974f2 ("usbip: Implement a match function to fix usbip")
-> Link: https://lore.kernel.org/linux-usb/CAAeHK+zOrHnxjRFs=OE8T=O9208B9HP_oo8RZpyVOZ9AJ54pAA@mail.gmail.com/
-> Cc: <stable@vger.kernel.org> # 5.8
-> Cc: Bastien Nocera <hadess@hadess.net>
-> Cc: Valentina Manea <valentina.manea.m@gmail.com>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: <syzkaller@googlegroups.com>
-> Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
-> ---
->   drivers/usb/usbip/stub_dev.c | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
-> index 9d7d642022d1..3d9c8ff6762e 100644
-> --- a/drivers/usb/usbip/stub_dev.c
-> +++ b/drivers/usb/usbip/stub_dev.c
-> @@ -463,7 +463,20 @@ static void stub_disconnect(struct usb_device *udev)
->   
->   static bool usbip_match(struct usb_device *udev)
->   {
-> -	return true;
-> +	bool match;
-> +	struct bus_id_priv *busid_priv;
-> +	const char *udev_busid = dev_name(&udev->dev);
-> +
-> +	busid_priv = get_busid_priv(udev_busid);
-> +	if (!busid_priv)
-> +		return false;
-> +
-> +	match = (busid_priv->status != STUB_BUSID_REMOV &&
-> +		 busid_priv->status != STUB_BUSID_OTHER);
-> +
-> +	put_busid_priv(busid_priv);
-> +
-> +	return match;
->   }
->   
->   #ifdef CONFIG_PM
-> 
-
-Did you happen to run the usbip test on this patch? If not, can you
-please run tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
-and make sure there are no regressions.
-
-thanks,
--- Shuah
-
+Sorry, I didn't express myself clearly. With the platform device I was
+referring to the dwc3-qcom ('glue') in this case, which could check
+it's own 'wakeup-source' attribute to enable wakeup at boot. The driver
+currently enables wakeup statically. The onboard_hub driver is agnostic
+of this device.
