@@ -7,55 +7,56 @@ X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED2A5C43461
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 02:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEDFC2BB84
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 02:33:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD0B320715
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 02:33:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD3662078D
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 02:33:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rXF1ktbs"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kw5kfNxb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726279AbgIQCdc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 22:33:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
+        id S1726199AbgIQCdH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Sep 2020 22:33:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbgIQCdI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 22:33:08 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E6ACC06178B;
-        Wed, 16 Sep 2020 19:26:03 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id e23so499034otk.7;
-        Wed, 16 Sep 2020 19:26:03 -0700 (PDT)
+        with ESMTP id S1726126AbgIQCdF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 22:33:05 -0400
+X-Greylist: delayed 422 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Sep 2020 22:32:59 EDT
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2003C061788;
+        Wed, 16 Sep 2020 19:25:58 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id a3so710794oib.4;
+        Wed, 16 Sep 2020 19:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/A6QIUaW6dlUrLIR6jblGA3Qz+aguMCDfamOgN/GW2I=;
-        b=rXF1ktbsVWvCNRHAereegMKhwrjFhW8bsgVCjuOt1bHlGZ73432oT0ENfpoEZHiKC1
-         UcFm9/UdGlJR1QgMWJyJNQo51AcV/TmDl4ri1TkiiNyxBxIl6hEjY7ruHf/giqw/m3Cc
-         aJiOivu1MLpuIf9roq9HB3hB6NsRSyTwSTXtEd9rC+BMACv3Q/yGSIX/jCpQgKkTLzL9
-         cTfFjRnEV3374ShZ1EZUs7+3XnzFqGKTQRbMdmagIaavKO6gv7aGsJ3jDdXvNtL4o4us
-         Jpe4QtjbDTUCbvJM9iIZ/3yV616BOH89wZGrOsb20m4OyHXc9DYQJu0hp2h+B1F+CSgo
-         GxzA==
+        bh=OYzNNlQnqbfdrR5BIEiLRBleJJxXkTs1ZX+qGsGLh84=;
+        b=Kw5kfNxbCNSwQ3WQmWI6GvliNkdIylyC0MxBfS2e+M7zdPbkMIEnJugB6m7u3syIR3
+         rfbefbWpi4jZxy2V/aRPfHaBRqZVlRpfo5ZfPigRcCZHRQvRATFFPM/rayZd+pO24Oin
+         187TSfKeH+sCZJsBGdf30ToS9irvZLXto+fWs4lcnK22TEoGSCHVceT6R9bssJuzMknj
+         KocFqydyvDdVpLFGS2ebV/by8KzlsH/euM3vI3/ffWRgsBZH2jHr31ee5S7I0xjDHXLw
+         qtv/u2WJupZh4h8AN/XPxvqO53/r8TpflM60lIH+X+go0CVW132xbp2jm2j/7pJ0JsMV
+         +FhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=/A6QIUaW6dlUrLIR6jblGA3Qz+aguMCDfamOgN/GW2I=;
-        b=XK71hGl2rkuZKfdrGg6QkK157h79B+2RAru5mIVa9QOrx9bjIksDx7x1bPhjTGtnD+
-         d93bIrSJ3vOygkXzkoe8HH436L1q+9MWfkH1dZfnc4cvr2ddFXMQ1TqyofSX/q9GWVDz
-         fronI3twc8g6h3KlMT4GcNuYLKKO+T552hZJqtgg3bGxARbvsftIF6dWoQ7cwdcsze/k
-         E/Um5QWurFpxsiioOjv4H2Pvo5PO6ZT2IPMjZNDq9+x0nIkD9EbEcIg1UlRdryonXUzJ
-         BwyZgjOE/GFnZiYK1hOVzQ0NMLcMZiPK0fjRrE4VTywrO5Sq3vLvMr7xPqxbnfcZMVa0
-         c54Q==
-X-Gm-Message-State: AOAM533N2JpqzRrQ5idCetIRXmW7jatfjjXHzJP+ZuRV2M4243itGuKy
-        buiXKlAjaJ8y7dCokDlutyg=
-X-Google-Smtp-Source: ABdhPJw/Uh3+Ji2abPEMqgJxGbyg9IDcfaxS248kkZAyODqJoAftiP27qHhrvS5zUWrLqjXsHK0Yjg==
-X-Received: by 2002:a9d:ee2:: with SMTP id 89mr19056795otj.194.1600309562877;
-        Wed, 16 Sep 2020 19:26:02 -0700 (PDT)
+        bh=OYzNNlQnqbfdrR5BIEiLRBleJJxXkTs1ZX+qGsGLh84=;
+        b=W/cqo/EzNedY690mha7u1XV2c1worosIs2aGsBHyfoJ30Zmh2vnI7rGXJsuKiFkoW4
+         IpsakuURXxZW4ZC7vuqVmQjzXaB1phpR1obQMxaAYgIpiWS13fK6ZezSxTAvQSeFabYb
+         TP7fiBE2I3jksa5Y1gykMID6nOy1XibKJvBiNH8G6vxEgvp0NvjYo4EBMqy1oOso0B/W
+         p0NR3xR+8xNUfpdYoKG7AGXHCQM9diQt4XrjJlQEHB/zB+OUJCeFMH0Chhsg4QkGZ7Ac
+         DxCT7fN5ZYrN7qDRR6qz/su8IOTjBP9kyTW1dYH43XYGHHvFo+R9H2PfXqgz3YMv5NaJ
+         /+6g==
+X-Gm-Message-State: AOAM530INiVFcSCOJlrMgIk5U5uG1e6Q6TOVXoeRSzo3I2/zEVvbpzSu
+        pCdv2kvLLE4ZlEOQwFl2waY=
+X-Google-Smtp-Source: ABdhPJyp3XtQT6FlujdXWJ0eiRUp+uKRdlEga8puYb7QEa0JfwDoXyKQLKHRq2s4Z8SUoRmxG/otJg==
+X-Received: by 2002:aca:d946:: with SMTP id q67mr4913457oig.27.1600309558374;
+        Wed, 16 Sep 2020 19:25:58 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 187sm10756368oie.42.2020.09.16.19.26.02
+        by smtp.gmail.com with ESMTPSA id l23sm9484893otk.79.2020.09.16.19.25.57
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 16 Sep 2020 19:26:02 -0700 (PDT)
+        Wed, 16 Sep 2020 19:25:57 -0700 (PDT)
 From:   Guenter Roeck <linux@roeck-us.net>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -65,9 +66,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Alan Stern <stern@rowland.harvard.edu>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH RESEND v3 4/5] media: uvcvideo: Protect uvc queue file operations against disconnect
-Date:   Wed, 16 Sep 2020 19:25:46 -0700
-Message-Id: <20200917022547.198090-5-linux@roeck-us.net>
+Subject: [PATCH RESEND v3 1/5] media: uvcvideo: Cancel async worker earlier
+Date:   Wed, 16 Sep 2020 19:25:43 -0700
+Message-Id: <20200917022547.198090-2-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200917022547.198090-1-linux@roeck-us.net>
 References: <20200917022547.198090-1-linux@roeck-us.net>
@@ -75,83 +76,101 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-uvc queue file operations have no mutex protection against USB
-disconnect. This is questionable at least for the poll operation,
-which has to wait for the uvc queue mutex. By the time that mutex
-has been acquired, is it possible that the video device has been
-unregistered.
+So far the asynchronous control worker was canceled only in
+uvc_ctrl_cleanup_device. This is much later than the call to
+uvc_disconnect. However, after the call to uvc_disconnect returns,
+there must be no more USB activity. This can result in all kinds
+of problems in the USB code. One observed example:
 
-Protect all file operations by using the queue mutex to avoid
-possible race conditions. After acquiring the mutex, check if
-the video device is still registered, and bail out if not.
+URB ffff993e83d0bc00 submitted while active
+WARNING: CPU: 0 PID: 4046 at drivers/usb/core/urb.c:364 usb_submit_urb+0x4ba/0x55e
+Modules linked in: <...>
+CPU: 0 PID: 4046 Comm: kworker/0:35 Not tainted 4.19.139 #18
+Hardware name: Google Phaser/Phaser, BIOS Google_Phaser.10952.0.0 08/09/2018
+Workqueue: events uvc_ctrl_status_event_work [uvcvideo]
+RIP: 0010:usb_submit_urb+0x4ba/0x55e
+Code: <...>
+RSP: 0018:ffffb08d471ebde8 EFLAGS: 00010246
+RAX: a6da85d923ea5d00 RBX: ffff993e71985928 RCX: 0000000000000000
+RDX: ffff993f37a1de90 RSI: ffff993f37a153d0 RDI: ffff993f37a153d0
+RBP: ffffb08d471ebe28 R08: 000000000000003b R09: 001424bf85822e96
+R10: 0000001000000000 R11: ffffffff975a4398 R12: ffff993e83d0b000
+R13: ffff993e83d0bc00 R14: 0000000000000000 R15: 00000000fffffff0
+FS:  0000000000000000(0000) GS:ffff993f37a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000ec9c0000 CR3: 000000025b160000 CR4: 0000000000340ef0
+Call Trace:
+ uvc_ctrl_status_event_work+0xd6/0x107 [uvcvideo]
+ process_one_work+0x19b/0x4c5
+ worker_thread+0x10d/0x286
+ kthread+0x138/0x140
+ ? process_one_work+0x4c5/0x4c5
+ ? kthread_associate_blkcg+0xc1/0xc1
+ ret_from_fork+0x1f/0x40
+
+Introduce new function uvc_ctrl_stop_device() to cancel the worker
+and call it from uvc_unregister_video() to solve the problem.
 
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Alan Stern <stern@rowland.harvard.edu>
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/media/usb/uvc/uvc_queue.c | 32 +++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c   | 11 +++++++----
+ drivers/media/usb/uvc/uvc_driver.c |  1 +
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-index cd60c6c1749e..b2c59ce38008 100644
---- a/drivers/media/usb/uvc/uvc_queue.c
-+++ b/drivers/media/usb/uvc/uvc_queue.c
-@@ -358,24 +358,52 @@ int uvc_queue_streamoff(struct uvc_video_queue *queue, enum v4l2_buf_type type)
- 
- int uvc_queue_mmap(struct uvc_video_queue *queue, struct vm_area_struct *vma)
- {
--	return vb2_mmap(&queue->queue, vma);
-+	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-+	int ret;
-+
-+	mutex_lock(&queue->mutex);
-+	if (!video_is_registered(&stream->vdev)) {
-+		ret = -ENODEV;
-+		goto unlock;
-+	}
-+	ret = vb2_mmap(&queue->queue, vma);
-+unlock:
-+	mutex_unlock(&queue->mutex);
-+	return ret;
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e399b9fad757..130c56e0063d 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -2340,14 +2340,17 @@ static void uvc_ctrl_cleanup_mappings(struct uvc_device *dev,
+ 	}
  }
  
- #ifndef CONFIG_MMU
- unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
- 		unsigned long pgoff)
+-void uvc_ctrl_cleanup_device(struct uvc_device *dev)
++void uvc_ctrl_stop_device(struct uvc_device *dev)
  {
--	return vb2_get_unmapped_area(&queue->queue, 0, 0, pgoff, 0);
-+	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-+	unsigned long ret;
+-	struct uvc_entity *entity;
+-	unsigned int i;
+-
+ 	/* Can be uninitialized if we are aborting on probe error. */
+ 	if (dev->async_ctrl.work.func)
+ 		cancel_work_sync(&dev->async_ctrl.work);
++}
 +
-+	mutex_lock(&queue->mutex);
-+	if (!video_is_registered(&stream->vdev)) {
-+		ret = -ENODEV;
-+		goto unlock;
-+	}
-+	ret = vb2_get_unmapped_area(&queue->queue, 0, 0, pgoff, 0);
-+unlock:
-+	mutex_unlock(&queue->mutex);
-+	return ret;
- }
- #endif
++void uvc_ctrl_cleanup_device(struct uvc_device *dev)
++{
++	struct uvc_entity *entity;
++	unsigned int i;
  
- __poll_t uvc_queue_poll(struct uvc_video_queue *queue, struct file *file,
- 			    poll_table *wait)
- {
-+	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
- 	__poll_t ret;
+ 	/* Free controls and control mappings for all entities. */
+ 	list_for_each_entry(entity, &dev->entities, list) {
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 431d86e1c94b..bfba67a69185 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1952,6 +1952,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
+ 	}
  
- 	mutex_lock(&queue->mutex);
-+	if (!video_is_registered(&stream->vdev)) {
-+		ret = EPOLLERR;
-+		goto unlock;
-+	}
- 	ret = vb2_poll(&queue->queue, file, wait);
-+unlock:
- 	mutex_unlock(&queue->mutex);
+ 	uvc_status_unregister(dev);
++	uvc_ctrl_stop_device(dev);
  
- 	return ret;
+ 	if (dev->vdev.dev)
+ 		v4l2_device_unregister(&dev->vdev);
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 6ab972c643e3..543afcd9fd26 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -830,6 +830,7 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
+ int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+ 			 const struct uvc_control_mapping *mapping);
+ int uvc_ctrl_init_device(struct uvc_device *dev);
++void uvc_ctrl_stop_device(struct uvc_device *dev);
+ void uvc_ctrl_cleanup_device(struct uvc_device *dev);
+ int uvc_ctrl_restore_values(struct uvc_device *dev);
+ bool uvc_ctrl_status_event(struct urb *urb, struct uvc_video_chain *chain,
 -- 
 2.17.1
 
