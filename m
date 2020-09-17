@@ -5,64 +5,63 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25088C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:24:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9766C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:24:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCBB42087D
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:24:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FBBC2083B
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 10:24:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="mCzsehzb"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="IyeJguhV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726592AbgIQKYP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:24:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
+        id S1726609AbgIQKYS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:24:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726618AbgIQKTi (ORCPT
+        with ESMTP id S1726614AbgIQKTi (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 06:19:38 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6E4C06178C
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:07 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id x191so1197800qkb.3
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:07 -0700 (PDT)
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A18C061352
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:11 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id i199so1751736ybg.22
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2020 03:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=RX+6Qhr618+Jmg2ZrMqvcKnkrQM1L81+sxgM+9sQd8s=;
-        b=mCzsehzbgob0T9s2K5+oEPxrF0SCZUTUzob4D9z9vOCUlBa8Zu4RaUQXWqPpt6TLEI
-         IS4ciTbnS33Vha/W9PVDqOTLNCeyj4ux6G8h/JlO9prRAxR2H6l4xoDSVSjtxhcscMdp
-         7kGEw+l4mBSlnXbHfvlmISaB+HnM2o8tFsNAKWCXnjgiJl2bNRNe0D4BbMWHZsEPbik9
-         XCX4UcOIJuUgm2nxAB//89RCneQUopohLw04rO4b46QeYlKIE9CRo/7ryjPIcaH0FI/r
-         aEcuRRG8v5CC+knFUmZk807LjRVVmLbNddT1h27MpSgEYRMSa6kDwjV649JeSmoOYlp6
-         79og==
+        bh=AKddxXKoSBr/Ui16sBeVbUiUy40nfOjktjv5vdlCV0c=;
+        b=IyeJguhVM+MqT6WynOWJNvkjqJJoF6ckc/wY1084n4doa+8r/e0tMQ16vtJ7mwXl9a
+         gvFinSRkiHUxe7jXD/E1BztmB9JGJ7iTtUfuVikjAakVmge7kf2sNprbXJcPf2taKr61
+         8v1mFws5nXXM0oowPJnNw0ODyJGB28OYxFVARpr9psD8+z6AcAr2idaQsHeLnL9Fuvu3
+         zeyUFDpz2OBhffjCROzvPDx7EEEF/YSIAbDYYi5TQT5rLnje2wgPOdmmRoxJvJrMX8iE
+         I2aNY984oMoa/kmUDKiA2P5qFFQobYO36h95+CSZuA30NJc2VgXXHHbVXxGXDnQg2z8G
+         qklQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=RX+6Qhr618+Jmg2ZrMqvcKnkrQM1L81+sxgM+9sQd8s=;
-        b=XPnUkGofZ/UKTo8kP74kGra045xAhyOGqiqPXyHieYMCHrpDYaRTvfCYQW6jl5Pe5d
-         3ZN7kK2xJaDkANBJuGLDyh838E4hNBuFadtrEWOxgms1FTfujYVNU45z5KyDF0OQjJ3X
-         LJguijyXvbDVNHG30nnCe6Lp6peYUJnuz8xPolXA9Tt6+R6gCQ1HngqiFzMqQAYR7lFw
-         LGZNr56y7v+zbzWUg2X9Y2TpJG6iOYUQrLnlD31nMrG6nYpb/5Xfd89Ez6Etbp8sWWuY
-         aDJ2zhY3AS1atcfbt/fxTzL/XknBjKQc1Xjvgq6z45+Vrg0bggpSUDKt51KO0DlLjAa7
-         xtuw==
-X-Gm-Message-State: AOAM533qPvCj1TdDFNV6BCnz57JvQweI1coPBFFg4mssOewk+LHNHp9G
-        RsRGXgzgx2QfLgSkhhWaBhg3OyT2/XM=
-X-Google-Smtp-Source: ABdhPJwxZ7NvJNv7Zuokgq3yxPc04wFAvBxhQCc5GSzzBIH72QbI7P3xWNXCleHOd6qqRCvRRbhlakFDg58=
+        bh=AKddxXKoSBr/Ui16sBeVbUiUy40nfOjktjv5vdlCV0c=;
+        b=LHFodBOaE8i++O6aOP4P9R2vCIQ203vJZYmTmdJlZQbzZA7XtgQJVYk05GCpOG5wHx
+         qa0Dyq2HREfecilPBudu5nJGN9HKLBURaEVqe0R5pb11WDPJWlVFoFg8kRIp0FcZfDbL
+         EHZqJ+tN4PEuGfGhI3B0dEFKNFydW+VhhOeG8rMmxLMf9EFjkoCJtOUCo7yi6yxUPI88
+         D6pZyb5iFYrg0lvtvGWqxTA8/1k0Zhc+pkLN5aVw/1vcE1ugS1vEhGhYWUtFSC1ZSH/n
+         0GkB2xUDt5vYz9fpk+6NIwR3GgZZwFm2H9hrkJ4te57SBzufMdIkxrHBh0KiBf9UuzR1
+         eCjw==
+X-Gm-Message-State: AOAM5331mo1NZ3sNkkxrVekX5dIxPwZcwD9PX/nrRQxk7iaQ7ulVrJUL
+        Aoejqy0XMnHSkRVvb0yHyT0z/FAsL8Q=
+X-Google-Smtp-Source: ABdhPJzqCtkrgUGnjoOS9KZS2ntAuCcunV+rmSBkA1ZpLjJFjF+fBtIQ8ZZx26yNeMQgWLPA7zICr89/fVE=
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a0c:8d84:: with SMTP id t4mr11496884qvb.36.1600337946327;
- Thu, 17 Sep 2020 03:19:06 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 03:18:48 -0700
+ (user=badhri job=sendgmr) by 2002:a25:dc13:: with SMTP id y19mr25750484ybe.405.1600337950914;
+ Thu, 17 Sep 2020 03:19:10 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 03:18:50 -0700
 In-Reply-To: <20200917101856.3156869-1-badhri@google.com>
-Message-Id: <20200917101856.3156869-3-badhri@google.com>
+Message-Id: <20200917101856.3156869-5-badhri@google.com>
 Mime-Version: 1.0
 References: <20200917101856.3156869-1-badhri@google.com>
 X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
-Subject: [PATCH v7 03/11] dt-bindings: usb: Maxim type-c controller device
- tree binding document
+Subject: [PATCH v7 05/11] dt-bindings: connector: Add property to set initial
+ current cap for FRS
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -74,7 +73,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add device tree binding document for Maxim TCPCI based Type-C chip driver
+This change adds frs-typec-current which allows setting the initial current
+capability of the new source when vSafe5V is applied during PD3.0
+sink Fast Role Swap.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
@@ -82,81 +83,53 @@ Changes since v1:
 - Changing patch version to v6 to fix version number confusion.
 
 Changes since v6:
-- Migrated to yaml format.
+- Removed the redundant usb-connector.txt that I created by mistake.
+- Moved to yaml.
 ---
- .../devicetree/bindings/usb/maxim,tcpci.txt   | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/maxim,tcpci.txt
+ .../devicetree/bindings/connector/usb-connector.yaml   |  8 ++++++++
+ include/dt-bindings/usb/pd.h                           | 10 ++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/maxim,tcpci.yaml b/Documentation/devicetree/bindings/usb/maxim,tcpci.yaml
-new file mode 100644
-index 000000000000..8e646b4483eb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/maxim,tcpci.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/usb/maxim,tcpci.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index 9bd52e63c935..1ca8e6a337e5 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -142,6 +142,14 @@ properties:
+     required:
+       - port@0
+ 
++  frs-typec-current:
++    description: Initial current capability of the new source when vSafe5V
++      is applied during PD3.0 Fast Role Swap. "Table 6-14 Fixed Supply PDO - Sink"
++      of "USB Power Delivery Specification Revision 3.0, Version 1.2" provides the
++      different power levels and "6.4.1.3.1.6 Fast Role Swap USB Type-C Current"
++      provides a detailed description of the field.
++    $ref: /schemas/types.yaml#/definitions/uint32
 +
-+title: Maxim TCPCI Type-C PD controller DT bindings
+ required:
+   - compatible
+ 
+diff --git a/include/dt-bindings/usb/pd.h b/include/dt-bindings/usb/pd.h
+index 985f2bbd4d24..db1ad4532197 100644
+--- a/include/dt-bindings/usb/pd.h
++++ b/include/dt-bindings/usb/pd.h
+@@ -35,6 +35,16 @@
+ 
+ #define VSAFE5V 5000 /* mv units */
+ 
++/*
++ * Based on "Table 6-14 Fixed Supply PDO - Sink" of "USB Power Delivery Specification Revision 3.0,
++ * Version 1.2"
++ * Initial current capability of the new source when vSafe5V is applied.
++ */
++#define FRS_NOT_SUPPORTED	0
++#define FRS_DEFAULT_POWER	1
++#define FRS_5V_1P5A		2
++#define FRS_5V_3A		3
 +
-+maintainers:
-+  - Badhri Jagan Sridharan <badhri@google.com>
-+
-+description: Maxim TCPCI Type-C PD controller
-+
-+properties:
-+  compatible:
-+    enum:
-+      - maxim,tcpci
-+  reg:
-+    const: 0x25
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        maxtcpc@25 {
-+            compatible = "maxim,tcpc";
-+            reg = <0x25>;
-+            interrupt-parent = <&gpa8>;
-+            interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+
-+            connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+                data-role = "dual";
-+                power-role = "dual";
-+                try-power-role = "sink";
-+                self-powered;
-+                op-sink-microwatt = <2600000>;
-+                source-pdos = <PDO_FIXED(5000, 900,
-+                                         PDO_FIXED_SUSPEND |
-+                                         PDO_FIXED_USB_COMM |
-+                                         PDO_FIXED_DATA_SWAP |
-+                                         PDO_FIXED_DUAL_ROLE)>;
-+                sink-pdos = <PDO_FIXED(5000, 3000,
-+                                       PDO_FIXED_USB_COMM |
-+                                       PDO_FIXED_DATA_SWAP |
-+                                       PDO_FIXED_DUAL_ROLE)
-+                                       PDO_FIXED(9000, 2000, 0)
-+                frs-typec-current = <FRS_5V_1P5A>;
-+        };
-+    };
-+...
+ #define PDO_BATT_MAX_VOLT_SHIFT	20	/* 50mV units */
+ #define PDO_BATT_MIN_VOLT_SHIFT	10	/* 50mV units */
+ #define PDO_BATT_MAX_PWR_SHIFT	0	/* 250mW units */
 -- 
 2.28.0.618.gf4bc123cb7-goog
 
