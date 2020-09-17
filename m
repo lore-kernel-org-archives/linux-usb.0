@@ -2,117 +2,105 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A247EC2BBD1
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 19:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80486C43465
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 20:05:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8E1620717
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 19:57:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5358A206BE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 20:05:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727696AbgIQOoA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 10:44:00 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:55470 "EHLO aibo.runbox.com"
+        id S1726670AbgIQUFf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 16:05:35 -0400
+Received: from mga06.intel.com ([134.134.136.31]:35244 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727648AbgIQOmS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 17 Sep 2020 10:42:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-         s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
-        :Message-Id:Date:Subject:Cc:To:From;
-        bh=WaCu4zldHM3wFml3XoeYbHVyOElXbVex+B6UOeOoYQs=; b=K5nbWtU2dkwkGPzspMmSTpOjNX
-        lXlAcg9cV3ApcaEGvrjC/EaeltW8ObTwpXDVerxkdpOMJFeHdnaJSkZwzGW0gr3Fm3YSRljTAohW2
-        H6K+q/asalUdLPBBh9zmyqt+1rDaieydvu8fD4IJPy2RMzNuVa4BOLf9HZsTpixmh6TgALK3aIqPq
-        bYd5tMkGTS0+gB2/gyuK3nD7WSrLhFKc0OKW4/EkXTb/qj4cWj6RagaVXI26mGVa4AGLNQttj3Dot
-        nAM0gtLKF3aq2NQBGa9f5uar92GpNBZVx26DOLyBoa5a6n5IOPOPv9Hirnq+wazpNNSAhMFkCKHNV
-        /lqiI7QQ==;
-Received: from [10.9.9.72] (helo=submission01.runbox)
-        by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <m.v.b@runbox.com>)
-        id 1kIv6z-0007ku-MD; Thu, 17 Sep 2020 16:42:13 +0200
-Received: by submission01.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        id 1kIv6m-0002ee-8o; Thu, 17 Sep 2020 16:42:00 +0200
-From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
-To:     linux-usb@vger.kernel.org
-Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Bastien Nocera <hadess@hadess.net>, syzkaller@googlegroups.com
-Subject: [PATCH 1/3] usbcore/driver: Fix specific driver selection
-Date:   Thu, 17 Sep 2020 17:41:49 +0300
-Message-Id: <20200917144151.355848-1-m.v.b@runbox.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <a6e14983a8849d5f75a43f403c7cc721b6e4a420.camel@hadess.net>
-References: <a6e14983a8849d5f75a43f403c7cc721b6e4a420.camel@hadess.net>
+        id S1726438AbgIQUFc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 16:05:32 -0400
+IronPort-SDR: 1EqDDV9SWySMMXQjgrHW1/Tq43ZTXe22s50bgNybd15hjg4bWdlaVn0ZUNNKZFGLILKPh0ZVw+
+ 9up+rZjLo4DQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="221336979"
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
+   d="scan'208";a="221336979"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 12:40:16 -0700
+IronPort-SDR: OJtaUmUU2VRk9KtKnU2JOdZ0Wx6lNOu+0+CFBjlBeB4odozE5Gxp9wTpGmmaUJi2k6Nfsj2iiR
+ 1ryN5FpIrCvQ==
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
+   d="scan'208";a="483882946"
+Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.212.151.155]) ([10.212.151.155])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 12:40:13 -0700
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+To:     Keith Busch <kbusch@kernel.org>, Joe Perches <joe@perches.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Kees Cook <kees.cook@canonical.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        storagedev@microchip.com, sparclinux@vger.kernel.org,
+        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+        alsa-devel <alsa-devel@alsa-project.org>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+ <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <321069c8-a4c1-56ff-49fb-4c2bce1e6352@intel.com>
+Date:   Thu, 17 Sep 2020 12:40:13 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This commit resolves a bug in the selection/discovery of more
-specific USB device drivers for devices that are currently bound to
-generic USB device drivers.
 
-The bug is in the logic that determines whether a device currently
-bound to a generic USB device driver should be re-probed by a
-more specific USB device driver or not. The code in
-__usb_bus_reprobe_drivers() used to have the following lines:
 
-  if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
-      (!new_udriver->match || new_udriver->match(udev) != 0))
- 		return 0;
+On 9/9/2020 1:55 PM, Keith Busch wrote:
+> On Wed, Sep 09, 2020 at 01:06:39PM -0700, Joe Perches wrote:
+>> diff --git a/crypto/tcrypt.c b/crypto/tcrypt.c
+>> index eea0f453cfb6..8aac5bc60f4c 100644
+>> --- a/crypto/tcrypt.c
+>> +++ b/crypto/tcrypt.c
+>> @@ -2464,7 +2464,7 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
+>>  		test_hash_speed("streebog512", sec,
+>>  				generic_hash_speed_template);
+>>  		if (mode > 300 && mode < 400) break;
+>> -		fallthrough;
+>> +		break;
+>>  	case 399:
+>>  		break;
+> 
+> Just imho, this change makes the preceding 'if' look even more
+> pointless. Maybe the fallthrough was a deliberate choice? Not that my
+> opinion matters here as I don't know this module, but it looked a bit
+> odd to me.
+> 
 
-  ret = device_reprobe(dev);
-
-As the reader will notice, the code checks whether the USB device in
-consideration matches the identifier table (id_table) of a specific
-USB device_driver (new_udriver), followed by a similar check, but this
-time with the USB device driver's match function. However, the match
-function's return value is not checked correctly. When match() returns
-zero, it means that the specific USB device driver is *not* applicable
-to the USB device in question, but the code then goes on to reprobe the
-device with the new USB device driver under consideration. All this to
-say, the logic is inverted.
-
-This bug was found by code inspection and instrumentation after
-Andrey Konovalov's report indicating USB/IP subsystem's misbehaviour
-with the generic USB device driver matching code.
-
-Reported-by: Andrey Konovalov <andreyknvl@google.com>
-Fixes: d5643d2249 ("USB: Fix device driver race")
-Link: https://lore.kernel.org/linux-usb/CAAeHK+zOrHnxjRFs=OE8T=O9208B9HP_oo8RZpyVOZ9AJ54pAA@mail.gmail.com/
-Cc: <stable@vger.kernel.org> # 5.8
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Bastien Nocera <hadess@hadess.net>
-Cc: <syzkaller@googlegroups.com>
-Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
----
- drivers/usb/core/driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index c976ea9f9582..950044a6e77f 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -924,7 +924,7 @@ static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
- 
- 	udev = to_usb_device(dev);
- 	if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
--	    (!new_udriver->match || new_udriver->match(udev) != 0))
-+	    (!new_udriver->match || new_udriver->match(udev) == 0))
- 		return 0;
- 
- 	ret = device_reprobe(dev);
-
-base-commit: 871e6496207c6aa94134448779c77631a11bfa2e
--- 
-2.26.2
-
+Yea this does look very odd..
