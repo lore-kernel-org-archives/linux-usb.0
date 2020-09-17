@@ -2,156 +2,240 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B43E1C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 19:16:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E26C43461
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 19:54:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68D8F20874
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 19:16:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22B6B235F9
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 19:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728405AbgIQQSj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 12:18:39 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:63575 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728322AbgIQQSL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 12:18:11 -0400
-Received: from fsav403.sakura.ne.jp (fsav403.sakura.ne.jp [133.242.250.102])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08HGHfrp094255;
-        Fri, 18 Sep 2020 01:17:41 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav403.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp);
- Fri, 18 Sep 2020 01:17:41 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08HGHegj094225
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Fri, 18 Sep 2020 01:17:41 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [RFC 0/5] fix races in CDC-WDM
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
-References: <20200812132034.14363-1-oneukum@suse.com>
- <ee0af733-903f-8e8f-8027-b5490a37032f@i-love.sakura.ne.jp>
- <1599728957.10822.9.camel@suse.com>
- <4f285044-aae9-c3be-23ba-90790cd624f1@i-love.sakura.ne.jp>
- <1600161279.2424.5.camel@suse.com>
- <4b8f6305-52fd-cb72-eb13-9d0a0bf07319@i-love.sakura.ne.jp>
- <1600251486.2424.17.camel@suse.com>
- <4e724e07-3993-bcaa-79e9-45a2f7e1f759@i-love.sakura.ne.jp>
- <1600336214.2424.39.camel@suse.com>
- <0bd0995d-d8a0-321a-0695-f4013bbc88ec@i-love.sakura.ne.jp>
- <1600352222.2424.57.camel@suse.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <52714f66-c2ec-7a31-782a-9365ba900111@i-love.sakura.ne.jp>
-Date:   Fri, 18 Sep 2020 01:17:39 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726476AbgIQTyX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 15:54:23 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:57121 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726475AbgIQTyW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Sep 2020 15:54:22 -0400
+Received: (qmail 1101981 invoked by uid 1000); 17 Sep 2020 15:54:16 -0400
+Date:   Thu, 17 Sep 2020 15:54:16 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-usb@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Peter Chen <peter.chen@nxp.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v2 2/2] USB: misc: Add onboard_usb_hub driver
+Message-ID: <20200917195416.GA1099735@rowland.harvard.edu>
+References: <20200917114600.v2.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+ <20200917114600.v2.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
 MIME-Version: 1.0
-In-Reply-To: <1600352222.2424.57.camel@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200917114600.v2.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2020/09/17 23:17, Oliver Neukum wrote:
-> The API and its semantics are clear. Write schedules a write:
+On Thu, Sep 17, 2020 at 11:46:22AM -0700, Matthias Kaehlcke wrote:
+> The main issue this driver addresses is that a USB hub needs to be
+> powered before it can be discovered. For onboard hubs this is often
+> solved by supplying the hub with an 'always-on' regulator, which is
+> kind of a hack. Some onboard hubs may require further initialization
+> steps, like changing the state of a GPIO or enabling a clock, which
+> requires further hacks. This driver creates a platform device
+> representing the hub which performs the necessary initialization.
+> Currently it only supports switching on a single regulator, support
+> for multiple regulators or other actions can be added as needed.
+> Different initialization sequences can be supported based on the
+> compatible string.
 > 
->        A  successful  return  from  write() does not make any guarantee that data has been committed to disk.  On some filesystems, including NFS, it does not even guarantee that space has successfully been reserved for the data.  In this case, some errors might be
->        delayed until a future write(2), fsync(2), or even close(2).  The only way to be sure is to call fsync(2) after you are done writing all your data.
-
-But I think that this leaves a room for allowing write() to imply fflush()
-(i.e. write() is allowed to wait for data to be committed to disk).
-
+> Besides performing the initialization the driver can be configured
+> to power the hub off during system suspend. This can help to extend
+> battery life on battery powered devices which have no requirements
+> to keep the hub powered during suspend. The driver can also be
+> configured to leave the hub powered when a wakeup capable USB device
+> is connected when suspending, and power it off otherwise.
 > 
-> Fsync flushes data:
+> Technically the driver consists of two drivers, the platform driver
+> described above and a very thin USB driver that subclasses the
+> generic driver. The purpose of this driver is to provide the platform
+> driver with the USB devices corresponding to the hub(s) (a hub
+> controller may provide multiple 'logical' hubs, e.g. one to support
+> USB 2.0 and another for USB 3.x).
 > 
->        fsync()  transfers ("flushes") all modified in-core data of (i.e., modified buffer cache pages for) the file referred to by the file descriptor fd to the disk device (or other permanent storage device) so that all changed information can be retrieved even if
->        the system crashes or is rebooted.  This includes writing through or flushing a disk cache if present.  The call blocks until the device reports that the transfer has completed.
-> 
-> If user space does not call fsync(), the error is supposed to be reported
-> by the next write() and if there is no next write(), close() shall report it.
+> Co-developed-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
+> Signed-off-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
+> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
 
-Where does "the next" (and not "the next after the next") write() come from?
+> +config USB_ONBOARD_HUB
+> +	tristate "Onboard USB hub support"
+> +	depends on OF
+> +	help
+> +	  Say Y here if you want to support onboard USB hubs. The driver
+> +	  powers supported hubs on and may perform other initialization
+> +	  steps.
 
->> You did not answer to
->>
->>   How do we guarantee that N'th write() request already set desc->werr before
->>   (N+1)'th next write() request is issued? If (N+1)'th write() request reached
->>   memdup_user() before desc->werr is set by callback of N'th write() request,
->>   (N+1)'th write() request will fail to report the error from N'th write() request.
->>   Yes, that error would be reported by (N+2)'th write() request, but the userspace
->>   process might have already discarded data needed for taking some actions (e.g.
->>   print error messages, retry the write() request with same argument).
-> 
-> We don't, nor do we have to. You are right, error reporting can be
-> improved. I implemented fsync() to do so.
+I have a nagging feeling that this description may be too vague for a
+lot of people to understand.  Does everybody know what an "onboard"
+USB hub is?
 
-You are saying that if user space does not call fsync(), the error is allowed to be
-reported by the next after the next (in other words, (N+2)'th) write() ?
+Consider for example that Intel's current EHCI host controllers all
+come with a USB hub built into the chipset.  That built-in hub
+certainly could be considered "onboard", but it doesn't need this
+driver.
 
-> 
->> . At least I think that
->>
->>         spin_lock_irq(&desc->iuspin);
->>         we = desc->werr;
->>         desc->werr = 0;
->>         spin_unlock_irq(&desc->iuspin);
->>         if (we < 0)
->>                 return usb_translate_errors(we);
->>
->> in wdm_write() should be moved to after !test_bit(WDM_IN_USE, &desc->flags).
-> 
-> Why?
-
-Otherwise, we can't make sure (N+1)'th write() will report error from N'th write().
-
-Since I don't know the characteristics of data passed via wdm_write() (I guess that
-the data is some stateful controlling commands rather than meaningless byte stream),
-I guess that (N+1)'th wdm_write() attempt should be made only after confirming that
-N'th wdm_write() attempt received wdm_callback() response. To preserve state / data
-used by N'th wdm_write() attempt, reporting the error from too late write() attempt
-would be useless.
+Maybe also give some examples of devices that require this driver, to
+help make the idea clear to readers.
 
 
+> +static int __maybe_unused onboard_hub_suspend(struct device *dev)
+> +{
+> +	struct onboard_hub *hub = dev_get_drvdata(dev);
+> +	struct udev_node *node;
+> +	int rc = 0;
+> +
+> +	hub->has_wakeup_capable_descendants = false;
+> +
+> +	if (!hub->power_off_in_suspend)
+> +		return 0;
+> +
+> +	mutex_lock(&hub->lock);
+> +
+> +	list_for_each_entry(node, &hub->udev_list, list) {
+> +		if (!device_may_wakeup(node->udev->bus->controller))
+> +			break;
 
->> In addition, is
->>
->>         /* using write lock to protect desc->count */
->>         mutex_lock(&desc->wlock);
->>
->> required? Isn't wdm_mutex that is actually protecting desc->count from modification?
->> If it is desc->wlock that is actually protecting desc->count, the !desc->count check
->> in wdm_release() and the desc->count == 1 check in wdm_open() have to be done with
->> desc->wlock held.
-> 
-> Correct. So should wdm_mutex be dropped earlier?
+You're assuming that node->udev->bus->controller is going to be the
+same for the nodes on the list, right?
 
-If recover_from_urb_loss() can tolerate stale desc->count value, wdm_mutex already
-protects desc->count. I don't know how this module works. I don't know whether
-wdm_mutex and/or desc->wlock is held when recover_from_urb_loss() is called from
-wdm_resume(). It seems that desc->wlock is held but wdm_mutex is not held when
-recover_from_urb_loss() is called from wdm_post_reset().
+> +
+> +		if (usb_wakeup_enabled_descendants(node->udev)) {
+> +			hub->has_wakeup_capable_descendants = true;
+> +			break;
+> +		}
+> +	}
+> +
+> +	mutex_unlock(&hub->lock);
+> +
+> +	if (!hub->has_wakeup_capable_descendants)
+> +		rc = onboard_hub_power_off(hub);
+> +
+> +	return rc;
+> +}
+> +
+> +static int __maybe_unused onboard_hub_resume(struct device *dev)
+> +{
+> +	struct onboard_hub *hub = dev_get_drvdata(dev);
+> +	int rc = 0;
+> +
+> +	if (hub->power_off_in_suspend && !hub->has_wakeup_capable_descendants)
 
+Instead of this cumbersome two-condition test, how about simply
+having a hub->is_powered_on flag?  Then
+hub->has_wakeup_capable_descendants wouldn't be needed.
 
+> +		rc = onboard_hub_power_on(hub);
+> +
+> +	return rc;
+> +}
 
-By the way, after the fixes, we could replace
+> +static int onboard_hub_remove_usbdev(struct onboard_hub *hub, struct usb_device *udev)
+> +{
+> +	struct udev_node *node;
+> +
+> +	mutex_lock(&hub->lock);
+> +
+> +	list_for_each_entry(node, &hub->udev_list, list) {
+> +		if (node->udev == udev) {
+> +			list_del(&node->list);
+> +			devm_kfree(hub->dev, node);
 
-  spin_lock_irq(&desc->iuspin);
-  rv = desc->werr;
-  desc->werr = 0;
-  spin_unlock_irq(&desc->iuspin);
+Why have an explicit kfree here but not anywhere else?  And if you do
+have an explicit kfree, why use devm_kzalloc rather than plain kzalloc?
 
-with
+> +			break;
+> +		}
+> +	}
+> +
+> +	mutex_unlock(&hub->lock);
+> +
+> +	if (node == NULL)
+> +		return -EINVAL;
 
-  rv = xchg(&desc->werr, 0);
+This test is wrong.  Look at the definition of list_for_each_entry;
+node will never be NULL.  Probably the best approach is to use a local
+"ret" variable.
 
-and avoid spin_lock_irq()/spin_unlock_irq() because there are many
-locations which needs to check and clear the error...
+> +
+> +	return 0;
+> +}
 
+> +static int onboard_hub_remove(struct platform_device *pdev)
+> +{
+> +	struct onboard_hub *hub = dev_get_drvdata(&pdev->dev);
+> +
+> +	sysfs_remove_file(&pdev->dev.kobj, &dev_attr_power_off_in_suspend.attr);
+> +
+> +	return onboard_hub_power_off(hub);
+> +}
+
+Shouldn't this routine unbind the onboard_hub_usbdev driver from all
+the associated devices?  Otherwise you end up with more-or-less
+dangling references to hub (I say more-or-less because with the devm
+allocations, the structures will hang around as zombies for a while).
+
+Relying on the onboard_hub_power_off call to do this for you isn't a
+great idea, because the effect won't happen immediately.
+
+> +static int onboard_hub_usbdev_probe(struct usb_device *udev)
+> +{
+> +	struct device *dev = &udev->dev;
+> +	struct onboard_hub *hub;
+> +
+> +	/* ignore supported hubs without device tree node */
+> +	if (!dev->of_node)
+> +		return -ENODEV;
+> +
+> +	hub = _find_onboard_hub(dev);
+> +	if (IS_ERR(hub))
+> +		return PTR_ERR(dev);
+> +
+> +	dev_set_drvdata(dev, hub);
+> +
+> +	onboard_hub_add_usbdev(hub, udev);
+
+Ignoring the return code?  Then why does that routine return int rather
+than void?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void onboard_hub_usbdev_disconnect(struct usb_device *udev)
+> +{
+> +	struct onboard_hub *hub = dev_get_drvdata(&udev->dev);
+> +
+> +	onboard_hub_remove_usbdev(hub, udev);
+
+Ditto.
+
+> +
+> +	put_device(hub->dev);
+
+Is there a matching get_device somewhere (like in _find_onboard_hub)?
+If so, I didn't see it.  And I don't see any reason for it.
+
+Alan Stern
