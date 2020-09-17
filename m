@@ -2,158 +2,190 @@ Return-Path: <SRS0=L0ZS=C2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77C83C433E2
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 02:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CCC9C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 04:28:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35F1F20770
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 02:34:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9UjUCYO"
+	by mail.kernel.org (Postfix) with ESMTP id 28AFE2075E
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Sep 2020 04:28:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgIQCdy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Sep 2020 22:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60652 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbgIQCdH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Sep 2020 22:33:07 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6541FC061756;
-        Wed, 16 Sep 2020 19:25:57 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id i17so674444oig.10;
-        Wed, 16 Sep 2020 19:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=R5XYK+FD12SBr+zByKiW7lJ2AXayCleve7wGCw+emfg=;
-        b=V9UjUCYOOdeSu2uHFLTg7/KcyyISDs1n0pfeaYK3t4TaGUl8l5NpOAGQCUzEFZ1Ire
-         57sYAG3FYfR4OZzOGFq335xtt6YTXKZz0FTqrUrnLL3QDEyWiuwqmNKwAPYgSrQOWMun
-         xnV6RqwF7NlC8RNPGk0ub9VhlU6J86rmNN/4YCtbGqmK+n1PFa20qE8wPhxSNVHuSkTr
-         Ir31bTJGeNEzfFK2rGRFqp2QCjFAl/B6KM9c+bztlk1Y3ZqD3YMw/6Wzk0/E7b9xk6KM
-         iDWBiMIWHDD6+BuT0nGYs7NaBhQT2EjvkvaRhyMmep72hgezTK1lT+qQm1rLWHtcmJQp
-         QXCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=R5XYK+FD12SBr+zByKiW7lJ2AXayCleve7wGCw+emfg=;
-        b=aCyXrqAvvruF/NkUpi9O8leJoGnoe6WdNIst8sCfHUejV0I5NLj2xHHej45dBlZjTE
-         Vhy9QeZoAg9UJry6pyKA/FI6t4xc9qqYlk4I8x2qQW3eMwmrqfVt27Xs0sOegk9m5CWz
-         jttfiurC/p4pwt04VnG5FcdtNx46BxmI4NjZncFq5OfEhY3PB0xiJB92cFaRhCpa8BRG
-         28LEW9K99zcX6fzbjo0r5MH8KIAhCELcfOvrxRlB7AQtkDuep8MDig/+pZN9h5odHMih
-         9HvRFVMNBjZZ1O4vu5I5OpOoBmldvaUIXtiZLU1GrKXUo3UNwIsnRRiBbXEG7MzocCe5
-         EJmQ==
-X-Gm-Message-State: AOAM532amXfPDHMM0JuyikeujNioVnJ9mL0sUFNdqJZxBLoMweHditEj
-        /nWq7YyJbYBYyQb9vbxvp+WtNGNibbA=
-X-Google-Smtp-Source: ABdhPJzPPJOoGkQ+eWqM+gcoZekSgumJCUcku3YiZ/oKUVcrJKQGqOqnkjl9KwukPmqXoKDf6g5X0g==
-X-Received: by 2002:a54:440f:: with SMTP id k15mr1096762oiw.131.1600309556810;
-        Wed, 16 Sep 2020 19:25:56 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b16sm9424322otq.31.2020.09.16.19.25.55
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 16 Sep 2020 19:25:55 -0700 (PDT)
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
-Date:   Wed, 16 Sep 2020 19:25:42 -0700
-Message-Id: <20200917022547.198090-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
+        id S1725886AbgIQE2w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 00:28:52 -0400
+Received: from mga09.intel.com ([134.134.136.24]:2889 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725267AbgIQE2v (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 00:28:51 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 00:28:51 EDT
+IronPort-SDR: Fo0SRXJctn0nY2ukI/7TurawSKiAz1tJp6VaCeCy5ARh4JzEsK2Dj+MnAjtw26DFdmz898fnnu
+ IUWr7/C4dZZg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="160551263"
+X-IronPort-AV: E=Sophos;i="5.76,435,1592895600"; 
+   d="scan'208";a="160551263"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 21:21:44 -0700
+IronPort-SDR: a2KZHtg3XCgFACfSHEChJKPjzWFR1DraS5jjZigpSJsnTNsARgyUhXqfmGBm7yb41Ef3xfMkEr
+ zwJCu5lvs0jA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,435,1592895600"; 
+   d="scan'208";a="336277407"
+Received: from lkp-server02.sh.intel.com (HELO bdcb92cf8b4e) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 16 Sep 2020 21:21:42 -0700
+Received: from kbuild by bdcb92cf8b4e with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kIlQU-0000PB-7T; Thu, 17 Sep 2020 04:21:42 +0000
+Date:   Thu, 17 Sep 2020 12:20:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ d69030c91b3765934048151792f141f0571efa86
+Message-ID: <5f62e41e.02KQ+8iJoOu29vsF%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Something seems to have gone wrong with v3 of this patch series.
-I am sure I sent it out, but I don't find it anywhere.
-Resending. Sorry for any duplicates.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
+branch HEAD: d69030c91b3765934048151792f141f0571efa86  usb: typec: intel_pmc_mux: Handle SCU IPC error conditions
 
-The uvcvideo code has no lock protection against USB disconnects
-while video operations are ongoing. This has resulted in random
-error reports, typically pointing to a crash in usb_ifnum_to_if(),
-called from usb_hcd_alloc_bandwidth(). A typical traceback is as
-follows.
+elapsed time: 1029m
 
-usb 1-4: USB disconnect, device number 3
-BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
-PGD 0 P4D 0
-Oops: 0000 [#1] PREEMPT SMP PTI
-CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
-Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
-RIP: 0010:usb_ifnum_to_if+0x29/0x40
-Code: <...>
-RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
-RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
-R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
-R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
-FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
-CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
-Call Trace:
- usb_hcd_alloc_bandwidth+0x1ee/0x30f
- usb_set_interface+0x1a3/0x2b7
- uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
- uvc_video_start_streaming+0x91/0xdd [uvcvideo]
- uvc_start_streaming+0x28/0x5d [uvcvideo]
- vb2_start_streaming+0x61/0x143 [videobuf2_common]
- vb2_core_streamon+0xf7/0x10f [videobuf2_common]
- uvc_queue_streamon+0x2e/0x41 [uvcvideo]
- uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
- __video_do_ioctl+0x33d/0x42a
- video_usercopy+0x34e/0x5ff
- ? video_ioctl2+0x16/0x16
- v4l2_ioctl+0x46/0x53
- do_vfs_ioctl+0x50a/0x76f
- ksys_ioctl+0x58/0x83
- __x64_sys_ioctl+0x1a/0x1e
- do_syscall_64+0x54/0xde
+configs tested: 117
+configs skipped: 2
 
-While there are not many references to this problem on mailing lists, it is
-reported on a regular basis on various Chromebooks (roughly 300 reports
-per month). The problem is relatively easy to reproduce by adding msleep()
-calls into the code.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I tried to reproduce the problem with non-uvcvideo webcams, but was
-unsuccessful. I was unable to get Philips (pwc) webcams to work. gspca
-based webcams don't experience the problem, or at least I was unable to
-reproduce it (The gspa driver does not trigger sending USB messages in the
-open function, and otherwise uses the locking mechanism provided by the
-v4l2/vb2 core).
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                     decstation_defconfig
+mips                      malta_kvm_defconfig
+sh                        sh7763rdp_defconfig
+arm                          pcm027_defconfig
+powerpc                  storcenter_defconfig
+mips                         cobalt_defconfig
+riscv                            alldefconfig
+sh                   secureedge5410_defconfig
+sh                            shmin_defconfig
+m68k                       m5475evb_defconfig
+arm                          tango4_defconfig
+sh                  sh7785lcr_32bit_defconfig
+powerpc                    sam440ep_defconfig
+arm                         axm55xx_defconfig
+arm                         at91_dt_defconfig
+parisc                           allyesconfig
+powerpc                     kilauea_defconfig
+arm                          imote2_defconfig
+powerpc                  mpc885_ads_defconfig
+nios2                            allyesconfig
+arm                           sama5_defconfig
+sh                ecovec24-romimage_defconfig
+arm                           efm32_defconfig
+mips                         tb0287_defconfig
+mips                         db1xxx_defconfig
+arc                             nps_defconfig
+arm                        trizeps4_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                      tqm8xx_defconfig
+powerpc                      katmai_defconfig
+sh                        apsh4ad0a_defconfig
+powerpc                         wii_defconfig
+arm                          exynos_defconfig
+ia64                         bigsur_defconfig
+mips                         rt305x_defconfig
+powerpc                  mpc866_ads_defconfig
+alpha                            alldefconfig
+m68k                         apollo_defconfig
+alpha                               defconfig
+powerpc                 mpc8313_rdb_defconfig
+um                             i386_defconfig
+powerpc                       holly_defconfig
+arm                         assabet_defconfig
+mips                      pistachio_defconfig
+m68k                          multi_defconfig
+arc                      axs103_smp_defconfig
+powerpc                   lite5200b_defconfig
+sh                           se7343_defconfig
+powerpc                 mpc85xx_cds_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20200916
+x86_64               randconfig-a004-20200916
+x86_64               randconfig-a003-20200916
+x86_64               randconfig-a002-20200916
+x86_64               randconfig-a001-20200916
+x86_64               randconfig-a005-20200916
+i386                 randconfig-a004-20200916
+i386                 randconfig-a006-20200916
+i386                 randconfig-a003-20200916
+i386                 randconfig-a001-20200916
+i386                 randconfig-a002-20200916
+i386                 randconfig-a005-20200916
+i386                 randconfig-a015-20200916
+i386                 randconfig-a014-20200916
+i386                 randconfig-a011-20200916
+i386                 randconfig-a013-20200916
+i386                 randconfig-a016-20200916
+i386                 randconfig-a012-20200916
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-I don't presume to claim that I found every issue, but this patch series
-should fix at least the major problems.
+clang tested configs:
+x86_64               randconfig-a014-20200916
+x86_64               randconfig-a011-20200916
+x86_64               randconfig-a016-20200916
+x86_64               randconfig-a012-20200916
+x86_64               randconfig-a015-20200916
+x86_64               randconfig-a013-20200916
 
-The patch series was tested exensively on a Chromebook running chromeos-4.19
-and on a Linux system running a v5.8.y based kernel.
-
-v3:
-- In patch 5/5, add missing calls to usb_autopm_put_interface() and kfree()
-  to failure code path
-
-v2:
-- Added details about problem frequency and testing with non-uvc webcams
-  to summary
-- In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
-- Fix description in patch 5/5
-
-----------------------------------------------------------------
-Guenter Roeck (5):
-      media: uvcvideo: Cancel async worker earlier
-      media: uvcvideo: Lock video streams and queues while unregistering
-      media: uvcvideo: Release stream queue when unregistering video device
-      media: uvcvideo: Protect uvc queue file operations against disconnect
-      media: uvcvideo: Abort uvc_v4l2_open if video device is unregistered
-
- drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
- drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
- drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
- drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++++++++++--
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 5 files changed, 93 insertions(+), 8 deletions(-)
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
