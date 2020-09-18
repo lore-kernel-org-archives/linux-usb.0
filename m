@@ -2,97 +2,75 @@ Return-Path: <SRS0=N1Cw=C3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B953CC43464
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:41:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD1CC43465
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:46:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85DD523444
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600396905;
-	bh=DdvzAaC6J6nQLYIT469vWi39O8jo+T55pCFGjJn94oo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=NCadHy3+gPU+cKVVYZQFem2sh0hDJfnzka01r3ROLNdAqOWBrBKONHynrdn6fZ7qe
-	 Dop/zlBZSEWICq/Emd/SAkbhI9hHB/19CKOH3kkqkdN+Xft+J9GDPnA6mIB8CW1BqU
-	 hq1LMJ/nLfSL2bCi4N69qnrafG71ETK5o5mysbKw=
+	by mail.kernel.org (Postfix) with ESMTP id 438C12075B
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:46:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728572AbgIRCle (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 22:41:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36682 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726708AbgIRCLS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:11:18 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 517A623447;
-        Fri, 18 Sep 2020 02:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600395078;
-        bh=DdvzAaC6J6nQLYIT469vWi39O8jo+T55pCFGjJn94oo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nyms4stBkYziPgGYFQLc8VzzIEor4xI8RRfaJnIcuxFg+suWq8Dv118AVyz8P6ORw
-         2uge38LSkrlfrQdPmwf5ARWxN4yaAYvLSEXLowjt+vKC0Oq1WVB7ZVcBO9Mp4WA1GS
-         RvKSkYif4MVOR4BSJCkYRUhhdaRndhlGyXIS0BMQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Tang Bin <tangbin@cmss.chinamobile.com>,
-        Zhang Shengju <zhangshengju@cmss.chinamobile.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 161/206] USB: EHCI: ehci-mv: fix error handling in mv_ehci_probe()
-Date:   Thu, 17 Sep 2020 22:07:17 -0400
-Message-Id: <20200918020802.2065198-161-sashal@kernel.org>
+        id S1728573AbgIRCqT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 22:46:19 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:13284 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728070AbgIRCqI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:46:08 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 2C04DC9A7DFDD0AEF78B;
+        Fri, 18 Sep 2020 10:46:06 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Fri, 18 Sep 2020
+ 10:45:59 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] USB: bcma: use module_bcma_driver to simplify the code
+Date:   Fri, 18 Sep 2020 11:08:30 +0800
+Message-ID: <20200918030830.3946254-1-liushixin2@huawei.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
-References: <20200918020802.2065198-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tang Bin <tangbin@cmss.chinamobile.com>
+module_bcma_driver() makes the code simpler by eliminating
+boilerplate code.
 
-[ Upstream commit c856b4b0fdb5044bca4c0acf9a66f3b5cc01a37a ]
-
-If the function platform_get_irq() failed, the negative value
-returned will not be detected here. So fix error handling in
-mv_ehci_probe(). And when get irq failed, the function
-platform_get_irq() logs an error message, so remove redundant
-message here.
-
-Signed-off-by: Zhang Shengju <zhangshengju@cmss.chinamobile.com>
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
-Link: https://lore.kernel.org/r/20200508114305.15740-1-tangbin@cmss.chinamobile.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/usb/host/ehci-mv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/usb/host/bcma-hcd.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
-index de764459e05a6..4edcd7536a01b 100644
---- a/drivers/usb/host/ehci-mv.c
-+++ b/drivers/usb/host/ehci-mv.c
-@@ -193,9 +193,8 @@ static int mv_ehci_probe(struct platform_device *pdev)
- 	hcd->regs = ehci_mv->op_regs;
- 
- 	hcd->irq = platform_get_irq(pdev, 0);
--	if (!hcd->irq) {
--		dev_err(&pdev->dev, "Cannot get irq.");
--		retval = -ENODEV;
-+	if (hcd->irq < 0) {
-+		retval = hcd->irq;
- 		goto err_disable_clk;
- 	}
- 
+diff --git a/drivers/usb/host/bcma-hcd.c b/drivers/usb/host/bcma-hcd.c
+index b1b777f33521..337b425dd4b0 100644
+--- a/drivers/usb/host/bcma-hcd.c
++++ b/drivers/usb/host/bcma-hcd.c
+@@ -498,15 +498,4 @@ static struct bcma_driver bcma_hcd_driver = {
+ 	.suspend	= bcma_hcd_suspend,
+ 	.resume		= bcma_hcd_resume,
+ };
+-
+-static int __init bcma_hcd_init(void)
+-{
+-	return bcma_driver_register(&bcma_hcd_driver);
+-}
+-module_init(bcma_hcd_init);
+-
+-static void __exit bcma_hcd_exit(void)
+-{
+-	bcma_driver_unregister(&bcma_hcd_driver);
+-}
+-module_exit(bcma_hcd_exit);
++module_bcma_driver(bcma_hcd_driver);
 -- 
 2.25.1
 
