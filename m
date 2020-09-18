@@ -5,47 +5,48 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA97C43465
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B33C43463
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:31:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0492623600
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:31:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 755A923772
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Sep 2020 02:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600396280;
-	bh=Qnb7v+IqHLj39Yydb1cSs7Vz5UOoaqF/j5QMD0w0o8Y=;
+	s=default; t=1600396302;
+	bh=sEnncAE7swknYM9ucIJ06y04dkrQWy4QGw1RueM3EMs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=bzFTDdM1gYI/8uGtTbi8i1EU/mT60h/EZ4qBj1AQwubUSd3b5PeMtRG8xW5oSG/9D
-	 6JDN+QqrQ0YK/C2prF/STCI0kTwC1ZsukfWvK0iYpZJhAd7c0A1dgQUGN79aghKBif
-	 QJTdu616zC6+qoC//r9b8Wq1aDfpgLP9n/iuAfno=
+	b=jmKn29xJ9eVEeJw7TNcfsz1YL9Gctu7NoYFnpl3lv0d8GemSYMdme/jCk4D+MAxaX
+	 k99FqZtLoNm9X57FIitSbTjYR5vSZ0xtf+wFLsmxQIcDcqORF1sDs9Wg+yXjMU6ZVB
+	 2LB4p9wLEn2Ch46tLJ9yC9JOMns/L8ehDBeMHjOU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729259AbgIRCbT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Sep 2020 22:31:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42514 "EHLO mail.kernel.org"
+        id S1728988AbgIRCb1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Sep 2020 22:31:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42288 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729074AbgIRCO0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:14:26 -0400
+        id S1728731AbgIRCOT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:14:19 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4D831239D1;
-        Fri, 18 Sep 2020 02:14:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AF3A92376E;
+        Fri, 18 Sep 2020 02:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600395264;
-        bh=Qnb7v+IqHLj39Yydb1cSs7Vz5UOoaqF/j5QMD0w0o8Y=;
+        s=default; t=1600395258;
+        bh=sEnncAE7swknYM9ucIJ06y04dkrQWy4QGw1RueM3EMs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DaA19Hd/YvWUKPWLCcHvQMUFdFTQxgXjgOMnI7vBgx13Tg291iu2YuCnxssH13Zub
-         klb7Dn0jng2ut2HSVpKGFiCtRCKhjWOve06ZIIpHva8Fj22jDEyzjZRpR5uNvQISvV
-         3wYeQC8d3al7vdp+nrwgLv8y+dDx8PC37uzMjx1E=
+        b=NKh6FxlqN1iw2xHoI+aX/Uqm2stLJC+sa4rqkdUf+6HQnoGNR224Mxt9FRW6Uln9S
+         faLYAPMFEvhUfcWlKbysnvSw9dGaPTaYEzgNmQ90IZhu0K1/5L6RCTUxzps4yY8YRe
+         RjmuuNhH7ULDTEsRxQW/c7Isir+TZFO5Tw9TOTcM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Colin Ian King <colin.king@canonical.com>,
+Cc:     Tang Bin <tangbin@cmss.chinamobile.com>,
+        Zhang Shengju <zhangshengju@cmss.chinamobile.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 104/127] USB: EHCI: ehci-mv: fix less than zero comparison of an unsigned int
-Date:   Thu, 17 Sep 2020 22:11:57 -0400
-Message-Id: <20200918021220.2066485-104-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 099/127] USB: EHCI: ehci-mv: fix error handling in mv_ehci_probe()
+Date:   Thu, 17 Sep 2020 22:11:52 -0400
+Message-Id: <20200918021220.2066485-99-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918021220.2066485-1-sashal@kernel.org>
 References: <20200918021220.2066485-1-sashal@kernel.org>
@@ -57,44 +58,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Tang Bin <tangbin@cmss.chinamobile.com>
 
-[ Upstream commit a7f40c233a6b0540d28743267560df9cfb571ca9 ]
+[ Upstream commit c856b4b0fdb5044bca4c0acf9a66f3b5cc01a37a ]
 
-The comparison of hcd->irq to less than zero for an error check will
-never be true because hcd->irq is an unsigned int.  Fix this by
-assigning the int retval to the return of platform_get_irq and checking
-this for the -ve error condition and assigning hcd->irq to retval.
+If the function platform_get_irq() failed, the negative value
+returned will not be detected here. So fix error handling in
+mv_ehci_probe(). And when get irq failed, the function
+platform_get_irq() logs an error message, so remove redundant
+message here.
 
-Addresses-Coverity: ("Unsigned compared against 0")
-Fixes: c856b4b0fdb5 ("USB: EHCI: ehci-mv: fix error handling in mv_ehci_probe()")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Link: https://lore.kernel.org/r/20200515165453.104028-1-colin.king@canonical.com
+Signed-off-by: Zhang Shengju <zhangshengju@cmss.chinamobile.com>
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+Link: https://lore.kernel.org/r/20200508114305.15740-1-tangbin@cmss.chinamobile.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/ehci-mv.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/usb/host/ehci-mv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
-index 273736e1d33fa..b29610899c9f6 100644
+index 849806a75f1ce..273736e1d33fa 100644
 --- a/drivers/usb/host/ehci-mv.c
 +++ b/drivers/usb/host/ehci-mv.c
-@@ -196,11 +196,10 @@ static int mv_ehci_probe(struct platform_device *pdev)
- 	hcd->rsrc_len = resource_size(r);
+@@ -197,9 +197,8 @@ static int mv_ehci_probe(struct platform_device *pdev)
  	hcd->regs = ehci_mv->op_regs;
  
--	hcd->irq = platform_get_irq(pdev, 0);
--	if (hcd->irq < 0) {
--		retval = hcd->irq;
-+	retval = platform_get_irq(pdev, 0);
-+	if (retval < 0)
+ 	hcd->irq = platform_get_irq(pdev, 0);
+-	if (!hcd->irq) {
+-		dev_err(&pdev->dev, "Cannot get irq.");
+-		retval = -ENODEV;
++	if (hcd->irq < 0) {
++		retval = hcd->irq;
  		goto err_disable_clk;
--	}
-+	hcd->irq = retval;
+ 	}
  
- 	ehci = hcd_to_ehci(hcd);
- 	ehci->caps = (struct ehci_caps *) ehci_mv->cap_regs;
 -- 
 2.25.1
 
