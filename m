@@ -2,661 +2,202 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B8BC35257
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 19:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA1CC4363C
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 20:55:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E7AE2193E
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 19:56:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 632B123A61
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 20:55:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M3hp9y82"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="NrPrJ7zf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728413AbgIUT4o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 15:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728113AbgIUT4P (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 15:56:15 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B93C0613CF
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 12:56:15 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id p20so9801841qvl.4
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 12:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=5omKMHGrqT1FMvI/mN9PGdF8I/6+6W4daRXYUBtnBhs=;
-        b=M3hp9y82v5/uCa0TLYspv5gN8Pc/jGsNGiVpnv4E1dPkhCJYjHy42Zem+5cHEZCq9F
-         w2WCU/rVKubzqIXZsVNOUzTwq7oAO3EL2Nk/oXfIXV42BtReX37BnfHCWpS6t80bsViL
-         7cPNzfsVWwOh3NtneUPF7FWOMo8OIGCx/QCVg63L3hcNjpc3KVuldt1Q8Gn9ggPLQU6R
-         Jt/94o9AlwUgs3+Kqo8rc9zGgiYOY+Yg2lwHMB5e1JR94ZQOCr32gtDf6Xpd02GaPVSm
-         Z6s0QJQPkAOX/onCG2Ib7+ajHyeV+9fY0Qs3OwW5lrYYiyDBdpdfYJz2+vz2z5a0pHAg
-         ieNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=5omKMHGrqT1FMvI/mN9PGdF8I/6+6W4daRXYUBtnBhs=;
-        b=OOt91q4ju3efG6lkHmOI3d1UlOLeHEdXmClLhnIVPsTtSVsLwT8I0b/94Ed6pZKoPL
-         dqL5pCOFNo0jhIryU5O6JQSwdWYHMyf7TEjDLRIjQw6yk2IaIEnJGEfchkJV6cBBR6jP
-         ChOPXxaMpts6DvkcBdWTKhMSME7IfZP8W8yppsm1MD+Jxo8XTEN9vekMRA6H70cDD9HO
-         ioarLKpw3G58d3IeUp5Qne3LDfhOTGiTr325sd8YYV40gFBIy8FixhFyPtBptMsIc/Cl
-         xTsbvb75g1uUk5rysC1NXUnaM1lMO8uGSX5lSf4grjUoHU+ECahHTOOEw3I2RPYt5nzd
-         /ycg==
-X-Gm-Message-State: AOAM532vK9MDmRk2V0Dmf/Fh9laK9VdUzOUCVprJrUeeDIEJFUekHzez
-        39vyANWovOY19wauVs4rhqhni9WiSPE=
-X-Google-Smtp-Source: ABdhPJz3fDVqtn4McvHIQysiiXVccrbhSx9UghFfQiFWNFDhT8HJvQ0pFFULE/HL3kttdmqDWoGAsQFAx/c=
-Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
-X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a0c:b60c:: with SMTP id f12mr1950331qve.2.1600718174118;
- Mon, 21 Sep 2020 12:56:14 -0700 (PDT)
-Date:   Mon, 21 Sep 2020 12:55:50 -0700
-In-Reply-To: <20200921195555.1050731-1-badhri@google.com>
-Message-Id: <20200921195555.1050731-6-badhri@google.com>
-Mime-Version: 1.0
-References: <20200921195555.1050731-1-badhri@google.com>
-X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
-Subject: [PATCH v8 06/11] usb: typec: tcpm: Add support for Sink Fast Role SWAP(FRS)
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Prashant Malani <pmalani@chromium.org>,
-        Badhri Jagan Sridharan <badhri@google.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1726727AbgIUUzN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 16:55:13 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5776 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726427AbgIUUzN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 16:55:13 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 16:55:13 EDT
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f6911d50000>; Mon, 21 Sep 2020 13:49:25 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 21 Sep
+ 2020 20:50:06 +0000
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Mon, 21 Sep 2020 20:50:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gk8i5d3H44Uru1jHsWLd+B6NrKRomUQJG7d9kDfYuwbiMUEhDUajMDebAx1tlZYDg6ECoVUFMubbclObdQznjdXpsEbNBWTukzyHfFXJEkhgUDoFQUVpEmRdWfwSN04Lc6TXB6glpJEPJU9dhjjdVOeec9MV1AS7hsqHRNE05NlQ8KK8EFMprhMU36BAbZMKX6qWYPKlkCkyPoeFtjKb2MPdy7AXe2UbBaRLmr7cxSOUXdNaqR814pWh8JvdFpEcT01HcrkOeGoVE1LoPJrhQC2aeC95M0Qi9o9zxsGdoDFAP9ZUlQL8wwq8cLf2BoUOgeaOIxRjxCZ2NBeyzVcuBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYfYSj8zcLHNXz9IBMvtxTFSOLEjW1vdKgS3gdiAV08=;
+ b=Eza1fztOcMgMTTwDTQIeaznO9wabl/F3fdjJA3B1bGbL5gd6KQy70dlUt72Zi7d6+HJj1qzxsJjv1PXqhOzudhiikOco1gNnitXo7yagPqunXYjOFxVE5KGkfswP1s47YMuR+rzJsEzZZHXuUCNaj71A/1HNhvcD0Qo+HA5zkmH0J3bOAqliSgGIplp+Oo6qyREzHN55KI6XItX4Ub8Ot/oUEvNve8UtCh03cvDdGT2uAZNG4EhL/064Rk8jhQQ9Y7BsJ8uEYsTJUdO51rkzrB64dESc+iIKgtXZlfQD8wGoSLjCuiPMTIJdLzxBR4CZNUKkWJpYT+5yts4PBRcQ0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB3953.namprd12.prod.outlook.com (2603:10b6:a03:194::22)
+ by BYAPR12MB2886.namprd12.prod.outlook.com (2603:10b6:a03:12d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Mon, 21 Sep
+ 2020 20:50:04 +0000
+Received: from BY5PR12MB3953.namprd12.prod.outlook.com
+ ([fe80::4458:4eac:63ef:5a09]) by BY5PR12MB3953.namprd12.prod.outlook.com
+ ([fe80::4458:4eac:63ef:5a09%6]) with mapi id 15.20.3391.011; Mon, 21 Sep 2020
+ 20:50:04 +0000
+From:   Ajay Gupta <ajayg@nvidia.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Ajay Gupta <ajaykuee@gmail.com>
+CC:     "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH] usb: typec: ucsi_ccg: use dev_info for timeout error
+Thread-Topic: [PATCH] usb: typec: ucsi_ccg: use dev_info for timeout error
+Thread-Index: AQHWkD6liAyFp+D0JUimlD153ehl1KlzcMsAgAAf/tA=
+Date:   Mon, 21 Sep 2020 20:50:04 +0000
+Message-ID: <BY5PR12MB3953FD500F1F72A32A5BEC07DC3A0@BY5PR12MB3953.namprd12.prod.outlook.com>
+References: <20200921174216.2862-1-ajayg@nvidia.com>
+ <20200921185432.GA1484407@kroah.com>
+In-Reply-To: <20200921185432.GA1484407@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=ajayg@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-09-21T20:50:03.4276043Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=9e8f88f4-cd2f-46c8-8669-99dc5c738678;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=nvidia.com;
+x-originating-ip: [216.228.112.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9355419c-ee08-4c9e-3a36-08d85e6feaef
+x-ms-traffictypediagnostic: BYAPR12MB2886:
+x-microsoft-antispam-prvs: <BYAPR12MB2886E63C7EE18FFA666D39B8DC3A0@BYAPR12MB2886.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: awl/Mw6BXNy//h5pSIW9PyTbmLozH/JqABvJ/LdlubHlrpDYOe++H2rkOh8OD8MxvJUgKnhjPI+GD3yxEsliGJlUbu11aA7epye7Yt6q8ZuJF6ymPv5PRo/po6miWfdDTG02xJev8EBPrZQa1Gm0l07J1kgK42dxJctfUMejsUm8gPdx4zJ33QUBDvzs2eaQnF8Uwsjp4mc39R9CcypGFFxQx8zcde6asGfQxZKuwko01Mfsh5yJQlyyHBAn57/plK0n9By4u0Z7T7nGmvUu501IAW8qJFILxyEpQO7q1cVu0jq7BxyYNHLTx19HNF3+FlKgEqOoL5LB9LXQbcWtnNv0Jvu0Z7tVlGwJyn6Vx7p1YPouHIGqTbNtziyLkbe/XYqb7ZVsAhHFo7fe74Zgy/w5GJsX9tyPvoC1YxBIVSpqnScQLNy7R+eLylTyB/f7mulGEraKl3P/fYgNBf4GuA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3953.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(39860400002)(346002)(136003)(110136005)(7696005)(66476007)(966005)(71200400001)(66946007)(86362001)(66446008)(2906002)(64756008)(66556008)(76116006)(53546011)(6506007)(4326008)(26005)(316002)(55016002)(478600001)(186003)(54906003)(9686003)(52536014)(83380400001)(5660300002)(33656002)(8936002)(8676002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: oLne1e5CPfYBJ4ez0Gm1KprqVlXdwAp58EDHS2bYNTt0Fu2RnF6D6kjZ2QCSeG9nJcqO+Cj4xTaJ+wNkLq32xNAqLPuTpgBnpSOR9rUAeqFSkWfY5urX5nbde4ocSezKlyNU8SpSgrFRcdyjW6MBNxs13ya7mBoE6rKP617Ga3ja6XuhnwL/G+nLm0KS4I6Fn4MtKq2glV/bZ0zgqZ38v6o8b/2z04DZ+h64Ld0o+Z8Yp0Dt3kehRJiW+r+BhiGByiteW/GTxpJnjKZPRGNkaZ9xHqPAVvHvv4veSyh97324J/DoucJzMtBh9ooiPMlTEufAne6Vwm71spKJlBMjwCL6rtKJzIgd+YDEewKqlJA6DjIYbjJwvDhVpnsd06RVoMjHQQ2xMM08C2RrjdA7Ui/A4bnD7v2krIvEq4HZi/DxTIxKpbw/aODTsvBwfLAyCY0/QFA5dlfU1UICxDsanHs1wpzyHrQp0agbZ0DJGo1bdJ1dXEQurCt9/lSOtsJbdQW4pcgiKjqTBWV44lyeJMLbNzWyO4O+WSMbRl6BFOR+lcYxve0QAh5Pjq+ex+4mPfzDv+JseSREwaAHTIe/VW5JJ3baKbPacLRURjEBz/v5G2OU+SCTOHk+qs9Bg0C31kb1/KOO6Owmit/OL/FToQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3953.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9355419c-ee08-4c9e-3a36-08d85e6feaef
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2020 20:50:04.7363
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0cdDwn9BrNDjZ2xhUCVeXYTYuEGIqfr+upDJtWsD9ugD9848FQb4pLrO2nGP3YXV6SqbsB2+eOSIcYpY57w1cg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2886
+X-OriginatorOrg: Nvidia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1600721365; bh=KYfYSj8zcLHNXz9IBMvtxTFSOLEjW1vdKgS3gdiAV08=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
+         CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
+         In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
+         X-MS-TNEF-Correlator:msip_labels:authentication-results:
+         x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+         x-microsoft-antispam-prvs:x-ms-oob-tlc-oobclassifiers:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam:
+         x-microsoft-antispam-message-info:x-forefront-antispam-report:
+         x-ms-exchange-antispam-messagedata:x-ms-exchange-transport-forked:
+         Content-Type:Content-Transfer-Encoding:MIME-Version:
+         X-MS-Exchange-CrossTenant-AuthAs:
+         X-MS-Exchange-CrossTenant-AuthSource:
+         X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-CrossTenant-userprincipalname:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+        b=NrPrJ7zfXNkQ2YHdhzDwM5XAbOrKHfng4bUL5Qryd+1MeXvNQ80WMfG79/dLslTFC
+         0tL6QyIMjtxOuhn5Nwxy54qjCBsMX08ni4fWBPmsnCPZTwE8ATd4MnZSUwYV/gHnC9
+         5yBJl4+7eYSZq8drWEYwPcCTjawengqUtiWROHmkaWIMqDgS5tAq7yQnzNp6B8XZ7x
+         IqWDzRBna0KMxQQ0PhU/z3/zxnfdOSQ6A6deIOD+J9H+0G1kVFD6BwiWWPOuHcfVnX
+         jGX4U/oAQZotxfUbZxw7D4l4jNxW6XbJ6Bx1eGU7ULcjNxHpgXhFdH+UyItme4EhZs
+         FP2psZIVW14pw==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PD 3.0 spec defines a new mechanism for power role swap called
-Fast role swap. This change enables TCPM to support FRS when
-acting as sink.
+Hi Greg
 
-Once the explicit contract is negotiated, sink port is
-expected to query the source port for sink caps to
-determine whether the source is FRS capable.
-Bits 23 & 24 of fixed pdo of the sink caps from the source, when
-set, indicates the current needed by the source when fast role
-swap is in progress(Implicit contract phasae). 0 indicates that
-the source does not support Fast Role Swap.
+> -----Original Message-----
+> From: Greg KH <gregkh@linuxfoundation.org>
+> Sent: Monday, September 21, 2020 11:55 AM
+> To: Ajay Gupta <ajaykuee@gmail.com>
+> Cc: heikki.krogerus@linux.intel.com; linux-usb@vger.kernel.org; Ajay Gupt=
+a
+> <ajayg@nvidia.com>
+> Subject: Re: [PATCH] usb: typec: ucsi_ccg: use dev_info for timeout error
+>=20
+> External email: Use caution opening links or attachments
+>=20
+>=20
+> On Mon, Sep 21, 2020 at 10:42:16AM -0700, Ajay Gupta wrote:
+> > From: Ajay Gupta <ajayg@nvidia.com>
+> >
+> > Timeout error may be seen due to missing USB Type-C UCSI controller on
+> > some NVIDIA GPU card. Currently we don't have a correct way to
+> > identify these cards.
+>=20
+> No unique id anywhere???  That feels like someone really messed up :(
+Yes, there is none.
+>=20
+> >
+> > Tools like Plymouth (splashscreen) doesn't like dev_err so changing
+> > timeout status log to dev_info.
+> >
+> > Bug information:
+> > https://bugzilla.kernel.org/show_bug.cgi?id=3D206653
+> >
+> > Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
+> > ---
+> >  drivers/usb/typec/ucsi/ucsi_ccg.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c
+> > b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> > index bff96d64dddf..d69432df866e 100644
+> > --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
+> > +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> > @@ -252,7 +252,7 @@ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u=
+8
+> *data, u32 len)
+> >               put_unaligned_le16(rab, buf);
+> >               status =3D i2c_transfer(client->adapter, msgs, ARRAY_SIZE=
+(msgs));
+> >               if (status < 0) {
+> > -                     dev_err(uc->dev, "i2c_transfer failed %d\n", stat=
+us);
+> > +                     dev_info(uc->dev, "i2c_transfer failed %d\n",
+> > + status);
+>=20
+> It's an error, leave it an error.
+>=20
+> If it's not an error, don't log it.
+Looks like this is the best option we have.
 
-Upon receiving the FRS signal from the source,
-TCPC(TCPM_FRS_EVENT) informs TCPM to start the Fast role swap sequence.
-
-1. TCPM sends FRS PD message: FR_SWAP_SEND
-2. If response is not received within the expiry of
-   SenderResponseTimer, Error recovery is triggered.:
-   FR_SWAP_SEND_TIMEOUT
-3. Upon receipt of the accept message, TCPM waits for
-   PSSourceOffTimer for PS_READY message from the partner:
-   FR_SWAP_SNK_SRC_NEW_SINK_READY.
-
-TCPC is expected to autonomously turn on vbus once the FRS
-signal is received and vbus voltage falls below vsafe5v within
-tSrcFrSwap. This is different from traditional power role swap
-where the vbus sourcing is turned on by TCPM.
-
-4. By this time, TCPC most likely would have started to
-   source vbus, TCPM waits for tSrcFrSwap to see  if the
-   lower level TCPC driver signals TCPM_SOURCING_VBUS event:
-   FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED.
-5. When TCPC signals sourcing vbus, TCPM sends PS_READY msg and
-   changes the CC pin from Rd to Rp. This is the end of fast
-   role swap sequence and TCPM initiates the sequnce to negotiate
-   explicit contract by transitioning into SRC_STARTUP after
-   SwapSrcStart.
-
-The code is written based on the sequence described in "Figure 8-107:
-Dual-role Port in Sink to Source Fast Role Swap State Diagram" of
-USB Power Delivery Specification Revision 3.0, Version 1.2.
-
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
-Changes since v1:
-- Changing patch version to v6 to fix version number confusion.
-- Rebased on top of usb-next and resolved conflicts due to the below
-  changes:
-  3ed8e1c2ac99 usb: typec: tcpm: Migrate workqueue to RT priority for processing events
-  6bbe2a90a0bb usb: typec: tcpm: During PR_SWAP, source caps should be sent only after tSwapSourceStart
-- enable_frs sequence is now run as part of the same kthread that runs
-  the state machines.
-- Fixed the implicit fallthrough warning in the switch case for
-  FR_SWAP_CANCEL case.
-
-Changes since v6:
-- Moved frs_current from caps to tcpm_port as Heikki suggested.
-
-Changes since v7:
-- Added Reviewed-by: Heikki
----
- drivers/usb/typec/tcpm/tcpm.c | 229 +++++++++++++++++++++++++++++++++-
- include/linux/usb/pd.h        |  19 +--
- include/linux/usb/tcpm.h      |   8 +-
- 3 files changed, 244 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 92806547f485..55535c4f66bf 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -106,6 +106,13 @@
- 	S(VCONN_SWAP_TURN_ON_VCONN),		\
- 	S(VCONN_SWAP_TURN_OFF_VCONN),		\
- 						\
-+	S(FR_SWAP_SEND),			\
-+	S(FR_SWAP_SEND_TIMEOUT),		\
-+	S(FR_SWAP_SNK_SRC_TRANSITION_TO_OFF),			\
-+	S(FR_SWAP_SNK_SRC_NEW_SINK_READY),		\
-+	S(FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED),	\
-+	S(FR_SWAP_CANCEL),			\
-+						\
- 	S(SNK_TRY),				\
- 	S(SNK_TRY_WAIT),			\
- 	S(SNK_TRY_WAIT_DEBOUNCE),               \
-@@ -127,6 +134,9 @@
- 	S(GET_PPS_STATUS_SEND),			\
- 	S(GET_PPS_STATUS_SEND_TIMEOUT),		\
- 						\
-+	S(GET_SINK_CAP),			\
-+	S(GET_SINK_CAP_TIMEOUT),		\
-+						\
- 	S(ERROR_RECOVERY),			\
- 	S(PORT_RESET),				\
- 	S(PORT_RESET_WAIT_OFF)
-@@ -170,11 +180,25 @@ enum adev_actions {
- 	ADEV_ATTENTION,
- };
- 
-+/*
-+ * Initial current capability of the new source when vSafe5V is applied during PD3.0 Fast Role Swap.
-+ * Based on "Table 6-14 Fixed Supply PDO - Sink" of "USB Power Delivery Specification Revision 3.0,
-+ * Version 1.2"
-+ */
-+enum frs_typec_current {
-+	FRS_NOT_SUPPORTED,
-+	FRS_DEFAULT_POWER,
-+	FRS_5V_1P5A,
-+	FRS_5V_3A,
-+};
-+
- /* Events from low level driver */
- 
- #define TCPM_CC_EVENT		BIT(0)
- #define TCPM_VBUS_EVENT		BIT(1)
- #define TCPM_RESET_EVENT	BIT(2)
-+#define TCPM_FRS_EVENT		BIT(3)
-+#define TCPM_SOURCING_VBUS	BIT(4)
- 
- #define LOG_BUFFER_ENTRIES	1024
- #define LOG_BUFFER_ENTRY_SIZE	128
-@@ -184,6 +208,8 @@ enum adev_actions {
- #define SVID_DISCOVERY_MAX	16
- #define ALTMODE_DISCOVERY_MAX	(SVID_DISCOVERY_MAX * MODE_DISCOVERY_MAX)
- 
-+#define GET_SINK_CAP_RETRY_MS	100
-+
- struct pd_mode_data {
- 	int svid_index;		/* current SVID index		*/
- 	int nsvids;
-@@ -261,6 +287,8 @@ struct tcpm_port {
- 	struct kthread_work state_machine;
- 	struct hrtimer vdm_state_machine_timer;
- 	struct kthread_work vdm_state_machine;
-+	struct hrtimer enable_frs_timer;
-+	struct kthread_work enable_frs;
- 	bool state_machine_running;
- 
- 	struct completion tx_complete;
-@@ -335,6 +363,12 @@ struct tcpm_port {
- 	/* port belongs to a self powered device */
- 	bool self_powered;
- 
-+	/* FRS */
-+	enum frs_typec_current frs_current;
-+
-+	/* Sink caps have been queried */
-+	bool sink_cap_done;
-+
- #ifdef CONFIG_DEBUG_FS
- 	struct dentry *dentry;
- 	struct mutex logbuffer_lock;	/* log buffer access lock */
-@@ -940,6 +974,16 @@ static void mod_vdm_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
- 	}
- }
- 
-+static void mod_enable_frs_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
-+{
-+	if (delay_ms) {
-+		hrtimer_start(&port->enable_frs_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
-+	} else {
-+		hrtimer_cancel(&port->enable_frs_timer);
-+		kthread_queue_work(port->wq, &port->enable_frs);
-+	}
-+}
-+
- static void tcpm_set_state(struct tcpm_port *port, enum tcpm_state state,
- 			   unsigned int delay_ms)
- {
-@@ -1669,6 +1713,9 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 	unsigned int cnt = pd_header_cnt_le(msg->header);
- 	unsigned int rev = pd_header_rev_le(msg->header);
- 	unsigned int i;
-+	enum frs_typec_current frs_current;
-+	bool frs_enable;
-+	int ret;
- 
- 	switch (type) {
- 	case PD_DATA_SOURCE_CAP:
-@@ -1738,7 +1785,21 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 		/* We don't do anything with this at the moment... */
- 		for (i = 0; i < cnt; i++)
- 			port->sink_caps[i] = le32_to_cpu(msg->payload[i]);
-+
-+		frs_current = (port->sink_caps[0] & PDO_FIXED_FRS_CURR_MASK) >>
-+			PDO_FIXED_FRS_CURR_SHIFT;
-+		frs_enable = frs_current && (frs_current <= port->frs_current);
-+		tcpm_log(port,
-+			 "Port partner FRS capable partner_frs_current:%u port_frs_current:%u enable:%c",
-+			 frs_current, port->frs_current, frs_enable ? 'y' : 'n');
-+		if (frs_enable) {
-+			ret  = port->tcpc->enable_frs(port->tcpc, true);
-+			tcpm_log(port, "Enable FRS %s, ret:%d\n", ret ? "fail" : "success", ret);
-+		}
-+
- 		port->nr_sink_caps = cnt;
-+		port->sink_cap_done = true;
-+		tcpm_set_state(port, SNK_READY, 0);
- 		break;
- 	case PD_DATA_VENDOR_DEF:
- 		tcpm_handle_vdm_request(port, msg->payload, cnt);
-@@ -1833,6 +1894,9 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 		case VCONN_SWAP_WAIT_FOR_VCONN:
- 			tcpm_set_state(port, VCONN_SWAP_TURN_OFF_VCONN, 0);
- 			break;
-+		case FR_SWAP_SNK_SRC_TRANSITION_TO_OFF:
-+			tcpm_set_state(port, FR_SWAP_SNK_SRC_NEW_SINK_READY, 0);
-+			break;
- 		default:
- 			break;
- 		}
-@@ -1872,6 +1936,13 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 					     -EAGAIN : -EOPNOTSUPP);
- 			tcpm_set_state(port, VCONN_SWAP_CANCEL, 0);
- 			break;
-+		case FR_SWAP_SEND:
-+			tcpm_set_state(port, FR_SWAP_CANCEL, 0);
-+			break;
-+		case GET_SINK_CAP:
-+			port->sink_cap_done = true;
-+			tcpm_set_state(port, ready_state(port), 0);
-+			break;
- 		default:
- 			break;
- 		}
-@@ -1906,6 +1977,9 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 		case VCONN_SWAP_SEND:
- 			tcpm_set_state(port, VCONN_SWAP_START, 0);
- 			break;
-+		case FR_SWAP_SEND:
-+			tcpm_set_state(port, FR_SWAP_SNK_SRC_TRANSITION_TO_OFF, 0);
-+			break;
- 		default:
- 			break;
- 		}
-@@ -2806,6 +2880,10 @@ static void tcpm_reset_port(struct tcpm_port *port)
- 	port->try_src_count = 0;
- 	port->try_snk_count = 0;
- 	port->usb_type = POWER_SUPPLY_USB_TYPE_C;
-+	port->nr_sink_caps = 0;
-+	port->sink_cap_done = false;
-+	if (port->tcpc->enable_frs)
-+		port->tcpc->enable_frs(port->tcpc, false);
- 
- 	power_supply_changed(port->psy);
- }
-@@ -3356,10 +3434,9 @@ static void run_state_machine(struct tcpm_port *port)
- 		tcpm_swap_complete(port, 0);
- 		tcpm_typec_connect(port);
- 		tcpm_check_send_discover(port);
-+		mod_enable_frs_delayed_work(port, 0);
- 		tcpm_pps_complete(port, port->pps_status);
--
- 		power_supply_changed(port->psy);
--
- 		break;
- 
- 	/* Accessory states */
-@@ -3383,9 +3460,13 @@ static void run_state_machine(struct tcpm_port *port)
- 		tcpm_set_state(port, HARD_RESET_START, 0);
- 		break;
- 	case HARD_RESET_START:
-+		port->sink_cap_done = false;
-+		if (port->tcpc->enable_frs)
-+			port->tcpc->enable_frs(port->tcpc, false);
- 		port->hard_reset_count++;
- 		port->tcpc->set_pd_rx(port->tcpc, false);
- 		tcpm_unregister_altmodes(port);
-+		port->nr_sink_caps = 0;
- 		port->send_discover = true;
- 		if (port->pwr_role == TYPEC_SOURCE)
- 			tcpm_set_state(port, SRC_HARD_RESET_VBUS_OFF,
-@@ -3517,6 +3598,35 @@ static void run_state_machine(struct tcpm_port *port)
- 		tcpm_set_state(port, ready_state(port), 0);
- 		break;
- 
-+	case FR_SWAP_SEND:
-+		if (tcpm_pd_send_control(port, PD_CTRL_FR_SWAP)) {
-+			tcpm_set_state(port, ERROR_RECOVERY, 0);
-+			break;
-+		}
-+		tcpm_set_state_cond(port, FR_SWAP_SEND_TIMEOUT, PD_T_SENDER_RESPONSE);
-+		break;
-+	case FR_SWAP_SEND_TIMEOUT:
-+		tcpm_set_state(port, ERROR_RECOVERY, 0);
-+		break;
-+	case FR_SWAP_SNK_SRC_TRANSITION_TO_OFF:
-+		tcpm_set_state(port, ERROR_RECOVERY, PD_T_PS_SOURCE_OFF);
-+		break;
-+	case FR_SWAP_SNK_SRC_NEW_SINK_READY:
-+		if (port->vbus_source)
-+			tcpm_set_state(port, FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED, 0);
-+		else
-+			tcpm_set_state(port, ERROR_RECOVERY, PD_T_RECEIVER_RESPONSE);
-+		break;
-+	case FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED:
-+		tcpm_set_pwr_role(port, TYPEC_SOURCE);
-+		if (tcpm_pd_send_control(port, PD_CTRL_PS_RDY)) {
-+			tcpm_set_state(port, ERROR_RECOVERY, 0);
-+			break;
-+		}
-+		tcpm_set_cc(port, tcpm_rp_cc(port));
-+		tcpm_set_state(port, SRC_STARTUP, PD_T_SWAP_SRC_START);
-+		break;
-+
- 	/* PR_Swap states */
- 	case PR_SWAP_ACCEPT:
- 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-@@ -3640,6 +3750,12 @@ static void run_state_machine(struct tcpm_port *port)
- 		else
- 			tcpm_set_state(port, SNK_READY, 0);
- 		break;
-+	case FR_SWAP_CANCEL:
-+		if (port->pwr_role == TYPEC_SOURCE)
-+			tcpm_set_state(port, SRC_READY, 0);
-+		else
-+			tcpm_set_state(port, SNK_READY, 0);
-+		break;
- 
- 	case BIST_RX:
- 		switch (BDO_MODE_MASK(port->bist_request)) {
-@@ -3674,6 +3790,14 @@ static void run_state_machine(struct tcpm_port *port)
- 	case GET_PPS_STATUS_SEND_TIMEOUT:
- 		tcpm_set_state(port, ready_state(port), 0);
- 		break;
-+	case GET_SINK_CAP:
-+		tcpm_pd_send_control(port, PD_CTRL_GET_SINK_CAP);
-+		tcpm_set_state(port, GET_SINK_CAP_TIMEOUT, PD_T_SENDER_RESPONSE);
-+		break;
-+	case GET_SINK_CAP_TIMEOUT:
-+		port->sink_cap_done = true;
-+		tcpm_set_state(port, ready_state(port), 0);
-+		break;
- 	case ERROR_RECOVERY:
- 		tcpm_swap_complete(port, -EPROTO);
- 		tcpm_pps_complete(port, -EPROTO);
-@@ -3889,6 +4013,13 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
- 		 * Ignore it.
- 		 */
- 		break;
-+	case FR_SWAP_SEND:
-+	case FR_SWAP_SEND_TIMEOUT:
-+	case FR_SWAP_SNK_SRC_TRANSITION_TO_OFF:
-+	case FR_SWAP_SNK_SRC_NEW_SINK_READY:
-+	case FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED:
-+		/* Do nothing, CC change expected */
-+		break;
- 
- 	case PORT_RESET:
- 	case PORT_RESET_WAIT_OFF:
-@@ -3959,6 +4090,9 @@ static void _tcpm_pd_vbus_on(struct tcpm_port *port)
- 	case SRC_TRY_DEBOUNCE:
- 		/* Do nothing, waiting for sink detection */
- 		break;
-+	case FR_SWAP_SNK_SRC_NEW_SINK_READY:
-+		tcpm_set_state(port, FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED, 0);
-+		break;
- 
- 	case PORT_RESET:
- 	case PORT_RESET_WAIT_OFF:
-@@ -4038,6 +4172,14 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
- 		 */
- 		break;
- 
-+	case FR_SWAP_SEND:
-+	case FR_SWAP_SEND_TIMEOUT:
-+	case FR_SWAP_SNK_SRC_TRANSITION_TO_OFF:
-+	case FR_SWAP_SNK_SRC_NEW_SINK_READY:
-+	case FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED:
-+		/* Do nothing, vbus drop expected */
-+		break;
-+
- 	default:
- 		if (port->pwr_role == TYPEC_SINK &&
- 		    port->attached)
-@@ -4092,6 +4234,25 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
- 			if (port->tcpc->get_cc(port->tcpc, &cc1, &cc2) == 0)
- 				_tcpm_cc_change(port, cc1, cc2);
- 		}
-+		if (events & TCPM_FRS_EVENT) {
-+			if (port->state == SNK_READY)
-+				tcpm_set_state(port, FR_SWAP_SEND, 0);
-+			else
-+				tcpm_log(port, "Discarding FRS_SIGNAL! Not in sink ready");
-+		}
-+		if (events & TCPM_SOURCING_VBUS) {
-+			tcpm_log(port, "sourcing vbus");
-+			/*
-+			 * In fast role swap case TCPC autonomously sources vbus. Set vbus_source
-+			 * true as TCPM wouldn't have called tcpm_set_vbus.
-+			 *
-+			 * When vbus is sourced on the command on TCPM i.e. TCPM called
-+			 * tcpm_set_vbus to source vbus, vbus_source would already be true.
-+			 */
-+			port->vbus_source = true;
-+			_tcpm_pd_vbus_on(port);
-+		}
-+
- 		spin_lock(&port->pd_event_lock);
- 	}
- 	spin_unlock(&port->pd_event_lock);
-@@ -4125,6 +4286,50 @@ void tcpm_pd_hard_reset(struct tcpm_port *port)
- }
- EXPORT_SYMBOL_GPL(tcpm_pd_hard_reset);
- 
-+void tcpm_sink_frs(struct tcpm_port *port)
-+{
-+	spin_lock(&port->pd_event_lock);
-+	port->pd_events = TCPM_FRS_EVENT;
-+	spin_unlock(&port->pd_event_lock);
-+	kthread_queue_work(port->wq, &port->event_work);
-+}
-+EXPORT_SYMBOL_GPL(tcpm_sink_frs);
-+
-+void tcpm_sourcing_vbus(struct tcpm_port *port)
-+{
-+	spin_lock(&port->pd_event_lock);
-+	port->pd_events = TCPM_SOURCING_VBUS;
-+	spin_unlock(&port->pd_event_lock);
-+	kthread_queue_work(port->wq, &port->event_work);
-+}
-+EXPORT_SYMBOL_GPL(tcpm_sourcing_vbus);
-+
-+static void tcpm_enable_frs_work(struct kthread_work *work)
-+{
-+	struct tcpm_port *port = container_of(work, struct tcpm_port, enable_frs);
-+
-+	mutex_lock(&port->lock);
-+	/* Not FRS capable */
-+	if (!port->connected || port->port_type != TYPEC_PORT_DRP ||
-+	    port->pwr_opmode != TYPEC_PWR_MODE_PD ||
-+	    !port->tcpc->enable_frs ||
-+	    /* Sink caps queried */
-+	    port->sink_cap_done || port->negotiated_rev < PD_REV30)
-+		goto unlock;
-+
-+	/* Send when the state machine is idle */
-+	if (port->state != SNK_READY || port->vdm_state != VDM_STATE_DONE || port->send_discover)
-+		goto resched;
-+
-+	tcpm_set_state(port, GET_SINK_CAP, 0);
-+	port->sink_cap_done = true;
-+
-+resched:
-+	mod_enable_frs_delayed_work(port, GET_SINK_CAP_RETRY_MS);
-+unlock:
-+	mutex_unlock(&port->lock);
-+}
-+
- static int tcpm_dr_set(struct typec_port *p, enum typec_data_role data)
- {
- 	struct tcpm_port *port = typec_get_drvdata(p);
-@@ -4532,7 +4737,7 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
- {
- 	const char *cap_str;
- 	int ret;
--	u32 mw;
-+	u32 mw, frs_current;
- 
- 	if (!fwnode)
- 		return -EINVAL;
-@@ -4601,6 +4806,13 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
- 
- 	port->self_powered = fwnode_property_read_bool(fwnode, "self-powered");
- 
-+	/* FRS can only be supported byb DRP ports */
-+	if (port->port_type == TYPEC_PORT_DRP) {
-+		ret = fwnode_property_read_u32(fwnode, "frs-typec-current", &frs_current);
-+		if (ret >= 0 && frs_current <= FRS_5V_3A)
-+			port->frs_current = frs_current;
-+	}
-+
- 	return 0;
- }
- 
-@@ -4845,6 +5057,14 @@ static enum hrtimer_restart vdm_state_machine_timer_handler(struct hrtimer *time
- 	return HRTIMER_NORESTART;
- }
- 
-+static enum hrtimer_restart enable_frs_timer_handler(struct hrtimer *timer)
-+{
-+	struct tcpm_port *port = container_of(timer, struct tcpm_port, enable_frs_timer);
-+
-+	kthread_queue_work(port->wq, &port->enable_frs);
-+	return HRTIMER_NORESTART;
-+}
-+
- struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
- {
- 	struct tcpm_port *port;
-@@ -4874,10 +5094,13 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
- 	kthread_init_work(&port->state_machine, tcpm_state_machine_work);
- 	kthread_init_work(&port->vdm_state_machine, vdm_state_machine_work);
- 	kthread_init_work(&port->event_work, tcpm_pd_event_handler);
-+	kthread_init_work(&port->enable_frs, tcpm_enable_frs_work);
- 	hrtimer_init(&port->state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- 	port->state_machine_timer.function = state_machine_timer_handler;
- 	hrtimer_init(&port->vdm_state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- 	port->vdm_state_machine_timer.function = vdm_state_machine_timer_handler;
-+	hrtimer_init(&port->enable_frs_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	port->enable_frs_timer.function = enable_frs_timer_handler;
- 
- 	spin_lock_init(&port->pd_event_lock);
- 
-diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-index f842e4589bd2..3a805e2ecbc9 100644
---- a/include/linux/usb/pd.h
-+++ b/include/linux/usb/pd.h
-@@ -219,14 +219,16 @@ enum pd_pdo_type {
- #define PDO_CURR_MASK		0x3ff
- #define PDO_PWR_MASK		0x3ff
- 
--#define PDO_FIXED_DUAL_ROLE	BIT(29)	/* Power role swap supported */
--#define PDO_FIXED_SUSPEND	BIT(28) /* USB Suspend supported (Source) */
--#define PDO_FIXED_HIGHER_CAP	BIT(28) /* Requires more than vSafe5V (Sink) */
--#define PDO_FIXED_EXTPOWER	BIT(27) /* Externally powered */
--#define PDO_FIXED_USB_COMM	BIT(26) /* USB communications capable */
--#define PDO_FIXED_DATA_SWAP	BIT(25) /* Data role swap supported */
--#define PDO_FIXED_VOLT_SHIFT	10	/* 50mV units */
--#define PDO_FIXED_CURR_SHIFT	0	/* 10mA units */
-+#define PDO_FIXED_DUAL_ROLE		BIT(29)	/* Power role swap supported */
-+#define PDO_FIXED_SUSPEND		BIT(28) /* USB Suspend supported (Source) */
-+#define PDO_FIXED_HIGHER_CAP		BIT(28) /* Requires more than vSafe5V (Sink) */
-+#define PDO_FIXED_EXTPOWER		BIT(27) /* Externally powered */
-+#define PDO_FIXED_USB_COMM		BIT(26) /* USB communications capable */
-+#define PDO_FIXED_DATA_SWAP		BIT(25) /* Data role swap supported */
-+#define PDO_FIXED_FRS_CURR_MASK		(BIT(24) | BIT(23)) /* FR_Swap Current (Sink) */
-+#define PDO_FIXED_FRS_CURR_SHIFT	23
-+#define PDO_FIXED_VOLT_SHIFT		10	/* 50mV units */
-+#define PDO_FIXED_CURR_SHIFT		0	/* 10mA units */
- 
- #define PDO_FIXED_VOLT(mv)	((((mv) / 50) & PDO_VOLT_MASK) << PDO_FIXED_VOLT_SHIFT)
- #define PDO_FIXED_CURR(ma)	((((ma) / 10) & PDO_CURR_MASK) << PDO_FIXED_CURR_SHIFT)
-@@ -454,6 +456,7 @@ static inline unsigned int rdo_max_power(u32 rdo)
- #define PD_T_DB_DETECT		10000	/* 10 - 15 seconds */
- #define PD_T_SEND_SOURCE_CAP	150	/* 100 - 200 ms */
- #define PD_T_SENDER_RESPONSE	60	/* 24 - 30 ms, relaxed */
-+#define PD_T_RECEIVER_RESPONSE	15	/* 15ms max */
- #define PD_T_SOURCE_ACTIVITY	45
- #define PD_T_SINK_ACTIVITY	135
- #define PD_T_SINK_WAIT_CAP	240
-diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-index 89f58760cf48..09762d26fa0c 100644
---- a/include/linux/usb/tcpm.h
-+++ b/include/linux/usb/tcpm.h
-@@ -78,8 +78,11 @@ enum tcpm_transmit_type {
-  *		automatically if a connection is established.
-  * @try_role:	Optional; called to set a preferred role
-  * @pd_transmit:Called to transmit PD message
-- * @mux:	Pointer to multiplexer data
-  * @set_bist_data: Turn on/off bist data mode for compliance testing
-+ * @enable_frs:
-+ *		Optional; Called to enable/disable PD 3.0 fast role swap.
-+ *		Enabling frs is accessory dependent as not all PD3.0
-+ *		accessories support fast role swap.
-  */
- struct tcpc_dev {
- 	struct fwnode_handle *fwnode;
-@@ -105,6 +108,7 @@ struct tcpc_dev {
- 	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
- 			   const struct pd_message *msg);
- 	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
-+	int (*enable_frs)(struct tcpc_dev *dev, bool enable);
- };
- 
- struct tcpm_port;
-@@ -114,6 +118,8 @@ void tcpm_unregister_port(struct tcpm_port *port);
- 
- void tcpm_vbus_change(struct tcpm_port *port);
- void tcpm_cc_change(struct tcpm_port *port);
-+void tcpm_sink_frs(struct tcpm_port *port);
-+void tcpm_sourcing_vbus(struct tcpm_port *port);
- void tcpm_pd_receive(struct tcpm_port *port,
- 		     const struct pd_message *msg);
- void tcpm_pd_transmit_complete(struct tcpm_port *port,
--- 
-2.28.0.681.g6f77f65b4e-goog
-
+Thanks
+> nvpublic
+>=20
+> Or better yet, fix the hardware :)
+>=20
+> thanks,
+>=20
+> greg k-h
