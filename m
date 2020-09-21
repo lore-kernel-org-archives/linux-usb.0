@@ -2,158 +2,105 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB5C9C43466
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4131C43465
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E45220756
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC32D20866
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600696807;
-	bh=XaGvPDobjPLnZV1wSfgqDV//Dl3wwxhQh33+hdlHjP0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=U5XFNCq452H9tvPUbhgeoaFq6bsRdxtEMDV9eGCDMNdDfjnZWW3vaLrd3xyE8oyAM
-	 TZAFV/D9yHff6jmUGo0SADqSgUN2gmhufG6idtzAPGw1FBjLbYsoTsiDeXwMGtYNrt
-	 KUjPvbfOVAT3PFMaZsbk3dVMpzg7LtRKUZNv1vcw=
+	s=default; t=1600696808;
+	bh=9/ooRWLIdUL7Lq0cCSnyT3QU6FyZIn7avzDJL6Sw680=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=p35deROntSU8rLHc9Wzux1JsMao4ep4uvwzQWQbGOZPKrk/5alycv4zZaI1MQoG4R
+	 vMruHcqH8aKAKndQ3qLiRdl+MjDU4zeFib+Dd2lNvseBh3JSCgbd3G4rIJeprhfAr1
+	 bb6cnhYW5Nry76aYdxa53HYNoJhvdiLir34CxrLY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727371AbgIUOAG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 10:00:06 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34166 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727356AbgIUOAG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 10:00:06 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v23so11218328ljd.1
+        id S1727378AbgIUOAI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 10:00:08 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:46585 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727289AbgIUOAF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 10:00:05 -0400
+Received: by mail-lf1-f66.google.com with SMTP id b22so14088356lfs.13
         for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 07:00:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2pgMmvVc6BBJkuon8x/rXqtpns3TbySrtqQAZSWvaOE=;
-        b=iwFMfk3bPMNP0TlvJuaWhQLDV591ZphhnvdvToAXqfNq+lH+s+6cxA/DOxmXN1P4Kq
-         s1trMTOY0Fmnb6qrcGYFk3SBwlowKKWZIpbgoOhDi424ZG0N1PMNRn87rVupRon/c+/V
-         MfLK088nOMEM2a6TBtgdijb6AmPS0Ar5dGaenHn54SGGsbzKKB5bF7hapiEYmnGwJAx4
-         68blnuosMxmd0HiUBHbMrITcDKRVcRIyqhgMPk/AiYJE1xfsrNDWMOtLETR77Zzt8iPj
-         891Lc/ZRiNRg1Wdjw7Ig7UOBwfhmP+eAz3af32lCbmMrcgfB9NZ/Jp/V5ENV2rr/qbVb
-         shAg==
-X-Gm-Message-State: AOAM532QgVm9pt531M0JHkTqgTmOfAzfa2mnq/j54+yP9D7JXLqJqVhY
-        B8iYExROCE8ed/rJuOmtRus=
-X-Google-Smtp-Source: ABdhPJxt8Kw0D8C7U/bO9Mdxdzf3tferk6c7J5YWwY1Mneldo05FdeSJ2MKu3okgUlVsupmMaHqqnQ==
-X-Received: by 2002:a2e:964a:: with SMTP id z10mr15589284ljh.463.1600696803928;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OI2cnB/a4/t0sodHBTZ/TB95ZqeNGflX+6nW0RfeM84=;
+        b=hNrOR6Btc6T12/AUlYKw+gYrmVz6o7y6RGdnO7rEYqIVN8f6uvdgqSX5HE9gLy2WY5
+         lRPYuSKdZYPswfMZpWmy2qkM2quZiD/Z3TW8mKEdTbTHCWZJM0Fu+za7lBEgBK26jNIA
+         MsiBUrjx6FIwi+KMrOXnYvHtsQCgr8wWEpEC52TEsnZfDS0OYH//8onbjGPGM78yFfPC
+         uU/ScPlSWDd6UyJIhD2KAEkqFi6SrfvW4FBOeqGvqaPeGdW68wPm8AvNUNcv0+4PlRTv
+         7YAHO5KwIaSJMmO7edQUpitO8cfOkQ3+Y3hnNUMBOa0NHepEQPh3vCWAE7UDkF1RQADu
+         Bjqg==
+X-Gm-Message-State: AOAM5321a12MIO839CdhGTvFjfRF0/w1GY09Sv3eKRbd4P2BqYcaIhlz
+        tswqrSZQCTEQCzz0MgZ6St8=
+X-Google-Smtp-Source: ABdhPJyUqpmCz6hnLUclnkzZ8IQOzjT1k/4IlrEA+RKkWtGKXa1orHt28U/Bw1mBaUFwnIAQyQLQ9w==
+X-Received: by 2002:a05:6512:10d1:: with SMTP id k17mr36495lfg.179.1600696803401;
         Mon, 21 Sep 2020 07:00:03 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id i63sm2751718lji.66.2020.09.21.07.00.01
+        by smtp.gmail.com with ESMTPSA id q6sm2780682lji.0.2020.09.21.07.00.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 21 Sep 2020 07:00:01 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1kKMMF-0006H4-7V; Mon, 21 Sep 2020 15:59:55 +0200
+        id 1kKMME-0006Gl-6J; Mon, 21 Sep 2020 15:59:54 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org,
         Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2 4/4] USB: cdc-acm: clean up no-union-descriptor handling
-Date:   Mon, 21 Sep 2020 15:59:51 +0200
-Message-Id: <20200921135951.24045-5-johan@kernel.org>
+Subject: [PATCH v2 0/4] USB: cdc-acm: handle broken union descriptors
+Date:   Mon, 21 Sep 2020 15:59:47 +0200
+Message-Id: <20200921135951.24045-1-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200921135951.24045-1-johan@kernel.org>
-References: <20200921135951.24045-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For interfaces that lack a union descriptor, probe for a
-"combined-interface" before falling back to the call-management
-descriptor instead of the other way round.
+This series adds support for handling broken union descriptors by
+falling back to "combined-interface" probing.
 
-This allows for the removal of the NO_DATA_INTERFACE quirk and makes the
-probe algorithm somewhat easier to follow.
+The first patch drops some bogus altsetting sanity checks which would
+otherwise have had to be needlessly reproduced for consistency. The
+third patch drops the driver specific data class define in favour of the
+common one. The last one, cleans up the no-union-descriptor handling by
+probing for a "combined-interface" before falling back to the
+call-management descriptor.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/class/cdc-acm.c | 32 ++++++++++----------------------
- drivers/usb/class/cdc-acm.h | 11 +++++------
- 2 files changed, 15 insertions(+), 28 deletions(-)
+Note that I changed my mind on the stable tag; we can't be overly
+paranoid about a theoretical risk of breaking some quirky devices. And
+if we do, we still want to know about it, right?
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index a361b937684a..357e896a4fc0 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -1218,26 +1218,19 @@ static int acm_probe(struct usb_interface *intf,
- 		call_intf_num = cmgmd->bDataInterface;
- 
- 	if (!union_header) {
--		if (call_intf_num > 0) {
-+		if (intf->cur_altsetting->desc.bNumEndpoints == 3) {
-+			dev_dbg(&intf->dev, "No union descriptor, assuming single interface\n");
-+			combined_interfaces = 1;
-+			control_interface = data_interface = intf;
-+			goto look_for_collapsed_interface;
-+		} else if (call_intf_num > 0) {
- 			dev_dbg(&intf->dev, "No union descriptor, using call management descriptor\n");
--			/* quirks for Droids MuIn LCD */
--			if (quirks & NO_DATA_INTERFACE) {
--				data_interface = usb_ifnum_to_if(usb_dev, 0);
--			} else {
--				data_intf_num = call_intf_num;
--				data_interface = usb_ifnum_to_if(usb_dev, data_intf_num);
--			}
-+			data_intf_num = call_intf_num;
-+			data_interface = usb_ifnum_to_if(usb_dev, data_intf_num);
- 			control_interface = intf;
- 		} else {
--			if (intf->cur_altsetting->desc.bNumEndpoints != 3) {
--				dev_dbg(&intf->dev,"No union descriptor, giving up\n");
--				return -ENODEV;
--			} else {
--				dev_warn(&intf->dev,"No union descriptor, testing for castrated device\n");
--				combined_interfaces = 1;
--				control_interface = data_interface = intf;
--				goto look_for_collapsed_interface;
--			}
-+			dev_dbg(&intf->dev, "No union descriptor, giving up\n");
-+			return -ENODEV;
- 		}
- 	} else {
- 		int class = -1;
-@@ -1881,11 +1874,6 @@ static const struct usb_device_id acm_ids[] = {
- 
- 	/* NOTE: non-Nokia COMM/ACM/0xff is likely MSFT RNDIS... NOT a modem! */
- 
--	/* Support for Droids MuIn LCD */
--	{ USB_DEVICE(0x04d8, 0x000b),
--	.driver_info = NO_DATA_INTERFACE,
--	},
--
- #if IS_ENABLED(CONFIG_INPUT_IMS_PCU)
- 	{ USB_DEVICE(0x04d8, 0x0082),	/* Application mode */
- 	.driver_info = IGNORE_DEVICE,
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index b7174a0098a5..b2135095898f 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -135,9 +135,8 @@ struct acm {
- #define NO_UNION_NORMAL			BIT(0)
- #define SINGLE_RX_URB			BIT(1)
- #define NO_CAP_LINE			BIT(2)
--#define NO_DATA_INTERFACE		BIT(4)
--#define IGNORE_DEVICE			BIT(5)
--#define QUIRK_CONTROL_LINE_STATE	BIT(6)
--#define CLEAR_HALT_CONDITIONS		BIT(7)
--#define SEND_ZERO_PACKET		BIT(8)
--#define DISABLE_ECHO			BIT(9)
-+#define IGNORE_DEVICE			BIT(3)
-+#define QUIRK_CONTROL_LINE_STATE	BIT(4)
-+#define CLEAR_HALT_CONDITIONS		BIT(5)
-+#define SEND_ZERO_PACKET		BIT(6)
-+#define DISABLE_ECHO			BIT(7)
+Daniel, would you mind giving these a spin as well?
+
+Johan
+
+v2
+ - add stable tag to 2/2 as it enables a new class of devices
+ - demote a broken-union warning to dev_dbg
+ - replace the fourth RFC patch with a clean up of the
+   no-union-descriptor case only
+
+
+Johan Hovold (4):
+  Revert "cdc-acm: hardening against malicious devices"
+  USB: cdc-acm: handle broken union descriptors
+  USB: cdc-acm: use common data-class define
+  USB: cdc-acm: clean up no-union-descriptor handling
+
+ drivers/usb/class/cdc-acm.c | 55 ++++++++++++++++---------------------
+ drivers/usb/class/cdc-acm.h | 13 ++++-----
+ 2 files changed, 29 insertions(+), 39 deletions(-)
+
 -- 
 2.26.2
 
