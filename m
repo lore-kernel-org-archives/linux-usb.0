@@ -2,103 +2,94 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B77CC43464
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B817AC43463
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:25:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC71A2151B
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:22:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EE46216C4
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:25:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="PbNnOhsE"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="TTPAujd9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbgIUMWW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 08:22:22 -0400
-Received: from crapouillou.net ([89.234.176.41]:33266 "EHLO crapouillou.net"
+        id S1726643AbgIUMZK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 08:25:10 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40902 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726518AbgIUMWW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Sep 2020 08:22:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1600690536; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
+        id S1726537AbgIUMZJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Sep 2020 08:25:09 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1600691108;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=mGprzFFJYLo0M14pXaYLkW50BlwftPDtwFiBapOegOI=;
-        b=PbNnOhsEZJRJ+6ZpIJp3hyYfB2GUIhUwlOCyHB8EMYs7AsSr0Ww9sv90EA2OM9W0SFYLIx
-        lZJAk7noufQ48+Dtci6Qg30F8/RIoi9g+CUVCtWx6J7Lzup+1ckV4dtUwOSuY1nxUTHbdj
-        X4F/+hwyA8iblmw9tjvhjS7lXko4Bn4=
-Date:   Mon, 21 Sep 2020 14:15:23 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v4 1/2] USB: PHY: JZ4770: Remove unnecessary function
- calls.
-To:     =?UTF-8?b?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, kishon@ti.com,
-        vkoul@kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, christophe.jaillet@wanadoo.fr,
-        dongsheng.qiu@ingenic.com, aric.pzqi@ingenic.com,
-        rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
-        sernia.zhou@foxmail.com, zhenwenjin@gmail.com
-Message-Id: <NPC0HQ.G7SR799C7LIL3@crapouillou.net>
-In-Reply-To: <20200919084225.112072-2-zhouyanjie@wanyeetech.com>
-References: <20200919084225.112072-1-zhouyanjie@wanyeetech.com>
-        <20200919084225.112072-2-zhouyanjie@wanyeetech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+        bh=Xi88G/T/Ke4IpBIm5Oy0pNETwvmeWGhrwcyE3mpgIIE=;
+        b=TTPAujd9IzUCDyyq2m9ZiMJADYiSSGuQMObA5pjcAdHMUJno4eoD6UihbxnZ5ju75rjP08
+        BgBjVxfWyrXL++9xTbMLEkwTu6hnJR9PT8ltkRSuXUo4s/jO/YGe04Uu0WbPFQzJYMla8Z
+        eEhK4mm0PRDb8DEjIMr9nO2T0UR1RWw=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0F724ACAF;
+        Mon, 21 Sep 2020 12:25:44 +0000 (UTC)
+Message-ID: <1600691092.2424.85.camel@suse.com>
+Subject: Re: [PATCH] usb: yurex: Rearrange code not to need GFP_ATOMIC
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Pavel Machek <pavel@denx.de>, gregkh@linuxfoundation.org,
+        stern@rowland.harvard.edu, johan@kernel.org, gustavoars@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 21 Sep 2020 14:24:52 +0200
+In-Reply-To: <20200920084452.GA2257@amd>
+References: <20200920084452.GA2257@amd>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Am Sonntag, den 20.09.2020, 10:44 +0200 schrieb Pavel Machek:
+> Move prepare to wait around, so that normal GFP_KERNEL allocation can
+> be used.
+> 
+> Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
+> Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
+Ehm. Please recheck.
 
-Le sam. 19 sept. 2020 =C3=A0 16:42, =E5=91=A8=E7=90=B0=E6=9D=B0 (Zhou Yanji=
-e)=20
-<zhouyanjie@wanyeetech.com> a =C3=A9crit :
-> Remove unnecessary "of_match_ptr()", because Ingenic SoCs all
-> depend on Device Tree.
->=20
-> Suggested-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: =E5=91=A8=E7=90=B0=E6=9D=B0 (Zhou Yanjie) <zhouyanjie@wany=
-eetech.com>
+> diff --git a/drivers/usb/misc/yurex.c b/drivers/usb/misc/yurex.c
+> index b2e09883c7e2..071f1debebba 100644
+> --- a/drivers/usb/misc/yurex.c
+> +++ b/drivers/usb/misc/yurex.c
+> @@ -489,10 +489,10 @@ static ssize_t yurex_write(struct file *file, const char __user *user_buffer,
+>  	}
+>  
+>  	/* send the data as the control msg */
+> -	prepare_to_wait(&dev->waitq, &wait, TASK_INTERRUPTIBLE);
+>  	dev_dbg(&dev->interface->dev, "%s - submit %c\n", __func__,
+>  		dev->cntl_buffer[0]);
+> -	retval = usb_submit_urb(dev->cntl_urb, GFP_ATOMIC);
+> +	retval = usb_submit_urb(dev->cntl_urb, GFP_KERNEL);
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+URB completes here. wake_up() returns the task to RUNNING.
 
-Cheers,
--Paul
+> +	prepare_to_wait(&dev->waitq, &wait, TASK_INTERRUPTIBLE);
 
-> ---
->=20
-> Notes:
->     v3:
->     New patch.
->=20
->     v3->v4:
->     No change.
->=20
->  drivers/usb/phy/phy-jz4770.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/usb/phy/phy-jz4770.c=20
-> b/drivers/usb/phy/phy-jz4770.c
-> index f6d3731581eb..4025da20b3fd 100644
-> --- a/drivers/usb/phy/phy-jz4770.c
-> +++ b/drivers/usb/phy/phy-jz4770.c
-> @@ -350,7 +350,7 @@ static struct platform_driver ingenic_phy_driver=20
-> =3D {
->  	.probe		=3D jz4770_phy_probe,
->  	.driver		=3D {
->  		.name	=3D "jz4770-phy",
-> -		.of_match_table =3D of_match_ptr(ingenic_usb_phy_of_matches),
-> +		.of_match_table =3D ingenic_usb_phy_of_matches,
->  	},
->  };
->  module_platform_driver(ingenic_phy_driver);
-> --
-> 2.11.0
->=20
+Task goes to TASK_INTERRUPTIBLE
 
+>  	if (retval >= 0)
+>  		timeout = schedule_timeout(YUREX_WRITE_TIMEOUT);
+
+Task turns into Sleeping Beauty until timeout
+
+>  	finish_wait(&dev->waitq, &wait);
+
+And here task goes into error reporting as it checks timeout.
+
+	Regards
+		Oliver
 
