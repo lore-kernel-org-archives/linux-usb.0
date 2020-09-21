@@ -5,64 +5,65 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB832C46466
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 19:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 466FCC35257
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 19:56:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FF2D2311D
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 19:56:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08C482223E
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 19:56:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n+ZIG19/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UpV3Hicb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728341AbgIUT4Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 15:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35558 "EHLO
+        id S1728393AbgIUT4g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 15:56:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728278AbgIUT4R (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 15:56:17 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43BF6C0613D1
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 12:56:17 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id f185so13908362ybf.17
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 12:56:17 -0700 (PDT)
+        with ESMTP id S1728328AbgIUT4X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 15:56:23 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30467C0613D8
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 12:56:21 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 140so12863990ybf.2
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 12:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=bm2T+CrCpRo3vv+J+7TT/LPjfYta6ghVQoeicKU+M4k=;
-        b=n+ZIG19/CrRbjvYH5MKj96POy8PjEe+b1pxFwzwz5ohqNcAkjQFC/wiyCLMFDauK5i
-         6qBQ50qbJ4Phb6YhXgRTpgDj3rW1e6qjQwK6/FS0TBRIrVD5qWTcCl9aMp+idI4j76EV
-         5+BjrE6V+FPGBFSLB+kahfzcLhSC/o+XiXs5r2hIKqfTMQ0ByMMBzqv4M8hOXp25wVC7
-         HupwBUauPOQh7pwWEI1ZRhimvyu7IywcDE9PfQKTxrDLECGgPI83R9PoBO5oqzO0hQLk
-         2dhDjdSOH6XtWhRuP0TQ6hsU6GYTEek0uyGTv8tk/xdVMw4gX1bMwevpz1OOvssgOC7x
-         POjw==
+        bh=PpfXbwP5h561OnIXDrzldax9t/sUHIL5wMhDCaaaIt8=;
+        b=UpV3Hicb3hTUuqUhuf+XEZX4SNcRpCJLpT0XnZc6eMzGRt6lOz8zyAPmKCeye2TOOn
+         t7mDyGPGlBkjWpQSTz81abNXTim4uFIDf9SetTi9i39jnuCR14bWaBBzxO01/6hQH297
+         kBqRlxGWPi0CDmpi8nbrcjBcQcJDOzS0B3+tpYYqx070dKnb9D8TDYOXGyrD96Xz6yQp
+         Yzt4cPn9KgSnsOXYv13hKIyprBBPkZ8v+D2/JPmXLWlDOm3uGwzkMZbqBNcbnk2a8r6t
+         LKu2y58wMRG44TtHyYuBdeDMT/vJCyW8mFkZJx81DfF7sK2EeFhBkQLkupFbumP7I/6D
+         4Kfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=bm2T+CrCpRo3vv+J+7TT/LPjfYta6ghVQoeicKU+M4k=;
-        b=PS2PohqbQyYgN5uM4xrJHmTD9fQLvJXRRG+jnr2fgR8KpwbbLtbd1+56IUlLlR+mh1
-         AC0rv07Ovthh2Kmoimk82KNLKR39npdK+8ULibNBgrBcl7xvasOftX51mI2nhe+Ov67p
-         rqw3dN3sDIEkIfxry8QNWYJMkFj1rG7tkkNWN64O6m9p4tzO2z5NdYOIgxjNOlLxqaTu
-         MCVvEe0E+16feBjfPfCHWrXxOmiX/BQ3QuyDZAI6fQ/XcXUTgL0eDXcgJ/a0lDUEQObL
-         bvMiy08YEY2fowdi/M+5RaYs2vEf37tc/Yaw+/lyVtW+hJ3c/tYLHwmXuh9S/OSBHcDo
-         uSdA==
-X-Gm-Message-State: AOAM533UGSXsD6Mr45npnPVdWzf8yVm4w7RMKdHYyi/o4KKL85q9a6rS
-        CzFphMTuf+IxDQ7O+gnwnnRvI6XX2J4=
-X-Google-Smtp-Source: ABdhPJwCgp50wVGLJdMUT75HsueAsOaD8yLJ6RjGJWNpyXbIT9EoLmTnoIe+EwvShpnEPpFiNhgwMUqTLxA=
+        bh=PpfXbwP5h561OnIXDrzldax9t/sUHIL5wMhDCaaaIt8=;
+        b=SL7VK8RpADu0gwYuzw5+wb/6C/UiygX3PENkQuWmzHYX/NYUEA84UJ8s2m2T0QONC8
+         KUUe/gzFlkxO1ixIEC52GqqGIA4Gvse0E/8o288KbtI48hnzrHKCQ4fMY8umYV4tvobP
+         9EAU4osnGDqErV7+O3Xr0LnVYfWMExR3vuJsqaw0KxCrSAftjrIsVD9qmGt6xhzskwyv
+         HC6r9hSiAvzS3IBoqv+nrhjqUD4mpBNzROkNEKJkZjyxqSf5FhJziGKmm67dCnRXHq4m
+         vYZaP/e49C1CNVeqqZtgEmQTXBcbVffBSjtSsuclD71XUJsrA9LHCeR3M/H/6mOZRHdw
+         kfeg==
+X-Gm-Message-State: AOAM530I62GtpAwjXhHKsCbfHo5Dp4PZYHfL79gYrXQLZrUCp5dMs1RV
+        4KFUIpVX0fCRFWCISSDxqoiLQ1wE8Xw=
+X-Google-Smtp-Source: ABdhPJyyHgl5vZ2F2DjF/eQZyiOiGSCC2TgiZ3KwSfW+7TuMzC+cnMAo8DZM/Z7aLGtBvV8wdzuD+sZguSQ=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a25:2f85:: with SMTP id v127mr2189523ybv.372.1600718176459;
- Mon, 21 Sep 2020 12:56:16 -0700 (PDT)
-Date:   Mon, 21 Sep 2020 12:55:51 -0700
+ (user=badhri job=sendgmr) by 2002:a25:d950:: with SMTP id q77mr2161784ybg.402.1600718180389;
+ Mon, 21 Sep 2020 12:56:20 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 12:55:53 -0700
 In-Reply-To: <20200921195555.1050731-1-badhri@google.com>
-Message-Id: <20200921195555.1050731-7-badhri@google.com>
+Message-Id: <20200921195555.1050731-9-badhri@google.com>
 Mime-Version: 1.0
 References: <20200921195555.1050731-1-badhri@google.com>
 X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
-Subject: [PATCH v8 07/11] usb: typec: tcpci: Implement callbacks for FRS
+Subject: [PATCH v8 09/11] usb: typec: tcpm: Implement enabling Auto Discharge
+ disconnect support
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -82,110 +83,231 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implement tcpc.enable_frs to enable TCPC to receive
-Fast role swap signal.
+TCPCI spec allows TCPC hardware to autonomously discharge the vbus
+capacitance upon disconnect. The expectation is that the TCPM enables
+AutoDischargeDisconnect while entering SNK/SRC_ATTACHED states. Hardware
+then automously discharges vbus when the vbus falls below a certain
+threshold i.e. VBUS_SINK_DISCONNECT_THRESHOLD.
 
-Additionally set the sink disconnect threshold to 4v
-to prevent disconnect during Fast Role swap.
+Apart from enabling the vbus discharge circuit, AutoDischargeDisconnect
+is also used a flag to move TCPCI based TCPC implementations into
+Attached.Snk/Attached.Src state as mentioned in
+Figure 4-15. TCPC State Diagram before a Connection of the
+USB Type-C Port Controller Interface Specification.
+In such TCPC implementations, setting AutoDischargeDisconnect would
+prevent TCPC into entering "Connection_Invalid" state as well.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
 Changes since v1:
 - Changing patch version to v6 to fix version number confusion.
 
 Changes since v6:
-- Rebase on usb-next.
-- Fixed formatting error.
-- Added Reviewed-by: Heikki.
+- Fixed incorrect data_role error that I introduced by mistake in
+  the previous version.
 
 Changes since v7:
-- Rebase on usb-next.
+- Rebase on usb-next
 ---
- drivers/usb/typec/tcpm/tcpci.c | 17 +++++++++++++++++
- drivers/usb/typec/tcpm/tcpci.h |  8 ++++++++
- 2 files changed, 25 insertions(+)
+ drivers/usb/typec/tcpm/tcpm.c | 74 +++++++++++++++++++++++++++++++++--
+ include/linux/usb/tcpm.h      | 16 ++++++++
+ 2 files changed, 86 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index d6a6fac82d48..f9f0af64da5f 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -268,6 +268,22 @@ static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
- 				enable ? TCPC_POWER_CTRL_VCONN_ENABLE : 0);
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 55535c4f66bf..d6b2a757a564 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -1706,6 +1706,25 @@ static void tcpm_handle_alert(struct tcpm_port *port, const __le32 *payload,
+ 	}
  }
  
-+static int tcpci_enable_frs(struct tcpc_dev *dev, bool enable)
++static int tcpm_set_auto_vbus_discharge_threshold(struct tcpm_port *port, enum typec_role port_role,
++						  enum typec_pwr_opmode mode, bool pps_active,
++						  u32 requested_vbus_voltage)
 +{
-+	struct tcpci *tcpci = tcpc_to_tcpci(dev);
 +	int ret;
 +
-+	/* To prevent disconnect during FRS, set disconnect threshold to 3.5V */
-+	ret = tcpci_write16(tcpci, TCPC_VBUS_SINK_DISCONNECT_THRESH, enable ? 0 : 0x8c);
-+	if (ret < 0)
-+		return ret;
++	if (!port->tcpc->set_auto_vbus_discharge_threshold)
++		return 0;
 +
-+	ret = regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL, TCPC_FAST_ROLE_SWAP_EN, enable ?
-+				 TCPC_FAST_ROLE_SWAP_EN : 0);
++	ret = port->tcpc->set_auto_vbus_discharge_threshold(port->tcpc, port_role, mode, pps_active,
++							    requested_vbus_voltage);
++	tcpm_log_force(port,
++		       "set_auto_vbus_discharge_threshold pwr_role:%s mode:%d pps_active:%c vbus:%u ret:%d",
++		       port_role == TYPEC_SINK ? "sink" : "source", mode, pps_active ? 'y' : 'n',
++		       requested_vbus_voltage, ret);
 +
 +	return ret;
 +}
 +
- static int tcpci_set_bist_data(struct tcpc_dev *tcpc, bool enable)
+ static void tcpm_pd_data_request(struct tcpm_port *port,
+ 				 const struct pd_message *msg)
  {
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
-@@ -611,6 +627,7 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
- 	tcpci->tcpc.set_roles = tcpci_set_roles;
- 	tcpci->tcpc.pd_transmit = tcpci_pd_transmit;
- 	tcpci->tcpc.set_bist_data = tcpci_set_bist_data;
-+	tcpci->tcpc.enable_frs = tcpci_enable_frs;
+@@ -1875,6 +1894,10 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+ 						       port->current_limit,
+ 						       port->supply_voltage);
+ 				port->explicit_contract = true;
++				tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SINK,
++								       TYPEC_PWR_MODE_PD,
++								       port->pps_data.active,
++								       port->supply_voltage);
+ 				tcpm_set_state(port, SNK_READY, 0);
+ 			} else {
+ 				/*
+@@ -2789,8 +2812,14 @@ static int tcpm_src_attach(struct tcpm_port *port)
+ 	if (ret < 0)
+ 		return ret;
  
- 	err = tcpci_parse_config(tcpci);
- 	if (err < 0)
-diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
-index 82f021a82456..5ef07a56d67a 100644
---- a/drivers/usb/typec/tcpm/tcpci.h
-+++ b/drivers/usb/typec/tcpm/tcpci.h
-@@ -16,6 +16,7 @@
- #define TCPC_PD_INT_REV			0xa
- 
- #define TCPC_ALERT			0x10
-+#define TCPC_ALERT_EXTND		BIT(14)
- #define TCPC_ALERT_EXTENDED_STATUS	BIT(13)
- #define TCPC_ALERT_VBUS_DISCNCT		BIT(11)
- #define TCPC_ALERT_RX_BUF_OVF		BIT(10)
-@@ -37,6 +38,9 @@
- #define TCPC_EXTENDED_STATUS_MASK		0x16
- #define TCPC_EXTENDED_STATUS_MASK_VSAFE0V	BIT(0)
- 
-+#define TCPC_ALERT_EXTENDED_MASK	0x17
-+#define TCPC_SINK_FAST_ROLE_SWAP	BIT(0)
+-	ret = tcpm_set_roles(port, true, TYPEC_SOURCE,
+-			     tcpm_data_role_for_source(port));
++	if (port->tcpc->enable_auto_vbus_discharge) {
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SOURCE, TYPEC_PWR_MODE_USB,
++						       false, VSAFE5V);
++		ret = port->tcpc->enable_auto_vbus_discharge(port->tcpc, true);
++		tcpm_log_force(port, "enable vbus discharge ret:%d", ret);
++	}
 +
- #define TCPC_CONFIG_STD_OUTPUT		0x18
++	ret = tcpm_set_roles(port, true, TYPEC_SOURCE, tcpm_data_role_for_source(port));
+ 	if (ret < 0)
+ 		return ret;
  
- #define TCPC_TCPC_CTRL			0x19
-@@ -63,6 +67,7 @@
+@@ -2857,6 +2886,12 @@ static void tcpm_unregister_altmodes(struct tcpm_port *port)
  
- #define TCPC_POWER_CTRL			0x1c
- #define TCPC_POWER_CTRL_VCONN_ENABLE	BIT(0)
-+#define TCPC_FAST_ROLE_SWAP_EN		BIT(7)
- 
- #define TCPC_CC_STATUS			0x1d
- #define TCPC_CC_STATUS_TOGGLING		BIT(5)
-@@ -74,11 +79,14 @@
- 
- #define TCPC_POWER_STATUS		0x1e
- #define TCPC_POWER_STATUS_UNINIT	BIT(6)
-+#define TCPC_POWER_STATUS_SOURCING_VBUS	BIT(4)
- #define TCPC_POWER_STATUS_VBUS_DET	BIT(3)
- #define TCPC_POWER_STATUS_VBUS_PRES	BIT(2)
- 
- #define TCPC_FAULT_STATUS		0x1f
- 
-+#define TCPC_ALERT_EXTENDED		0x21
+ static void tcpm_reset_port(struct tcpm_port *port)
+ {
++	int ret;
 +
- #define TCPC_COMMAND			0x23
- #define TCPC_CMD_WAKE_I2C		0x11
- #define TCPC_CMD_DISABLE_VBUS_DETECT	0x22
++	if (port->tcpc->enable_auto_vbus_discharge) {
++		ret = port->tcpc->enable_auto_vbus_discharge(port->tcpc, false);
++		tcpm_log_force(port, "Disable vbus discharge ret:%d", ret);
++	}
+ 	tcpm_unregister_altmodes(port);
+ 	tcpm_typec_disconnect(port);
+ 	port->attached = false;
+@@ -2921,8 +2956,14 @@ static int tcpm_snk_attach(struct tcpm_port *port)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = tcpm_set_roles(port, true, TYPEC_SINK,
+-			     tcpm_data_role_for_sink(port));
++	if (port->tcpc->enable_auto_vbus_discharge) {
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SINK, TYPEC_PWR_MODE_USB, false,
++						       VSAFE5V);
++		ret = port->tcpc->enable_auto_vbus_discharge(port->tcpc, true);
++		tcpm_log_force(port, "enable vbus discharge ret:%d", ret);
++	}
++
++	ret = tcpm_set_roles(port, true, TYPEC_SINK, tcpm_data_role_for_sink(port));
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -3482,6 +3523,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 		 * drive VBUS to vSafe0V as shown in Figure 7-9.
+ 		 */
+ 		tcpm_set_vconn(port, false);
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SOURCE, TYPEC_PWR_MODE_USB,
++						       false, 0);
+ 		tcpm_set_vbus(port, false);
+ 		tcpm_set_roles(port, port->self_powered, TYPEC_SOURCE,
+ 			       tcpm_data_role_for_source(port));
+@@ -3503,9 +3546,13 @@ static void run_state_machine(struct tcpm_port *port)
+ 		tcpm_set_vbus(port, true);
+ 		port->tcpc->set_pd_rx(port->tcpc, true);
+ 		tcpm_set_attached_state(port, true);
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SOURCE, TYPEC_PWR_MODE_USB,
++						       false, VSAFE5V);
+ 		tcpm_set_state(port, SRC_UNATTACHED, PD_T_PS_SOURCE_ON);
+ 		break;
+ 	case SNK_HARD_RESET_SINK_OFF:
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SINK, TYPEC_PWR_MODE_USB, false,
++						       0);
+ 		memset(&port->pps_data, 0, sizeof(port->pps_data));
+ 		tcpm_set_vconn(port, false);
+ 		if (port->pd_capable)
+@@ -3548,6 +3595,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 			tcpm_set_charge(port, true);
+ 		}
+ 		tcpm_set_attached_state(port, true);
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SINK, TYPEC_PWR_MODE_USB, false,
++						       VSAFE5V);
+ 		tcpm_set_state(port, SNK_STARTUP, 0);
+ 		break;
+ 
+@@ -3649,6 +3698,12 @@ static void run_state_machine(struct tcpm_port *port)
+ 			tcpm_set_state(port, PR_SWAP_SNK_SRC_SINK_OFF, 0);
+ 		break;
+ 	case PR_SWAP_SRC_SNK_TRANSITION_OFF:
++		/*
++		 * Prevent vbus discharge circuit from turning on during PR_SWAP
++		 * as this is not a disconnect.
++		 */
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SOURCE, TYPEC_PWR_MODE_USB,
++						       port->pps_data.active, 0);
+ 		tcpm_set_vbus(port, false);
+ 		port->explicit_contract = false;
+ 		/* allow time for Vbus discharge, must be < tSrcSwapStdby */
+@@ -3677,9 +3732,18 @@ static void run_state_machine(struct tcpm_port *port)
+ 		tcpm_set_state_cond(port, SNK_UNATTACHED, PD_T_PS_SOURCE_ON);
+ 		break;
+ 	case PR_SWAP_SRC_SNK_SINK_ON:
++		/* Set the vbus disconnect threshold for implicit contract */
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SINK, TYPEC_PWR_MODE_USB, false,
++						       VSAFE5V);
+ 		tcpm_set_state(port, SNK_STARTUP, 0);
+ 		break;
+ 	case PR_SWAP_SNK_SRC_SINK_OFF:
++		/*
++		 * Prevent vbus discharge circuit from turning on during PR_SWAP
++		 * as this is not a disconnect.
++		 */
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SINK, TYPEC_PWR_MODE_USB,
++						       port->pps_data.active, 0);
+ 		tcpm_set_charge(port, false);
+ 		tcpm_set_state(port, hard_reset_state(port),
+ 			       PD_T_PS_SOURCE_OFF);
+@@ -3705,6 +3769,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 		 */
+ 		tcpm_set_pwr_role(port, TYPEC_SOURCE);
+ 		tcpm_pd_send_control(port, PD_CTRL_PS_RDY);
++		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_SOURCE, TYPEC_PWR_MODE_USB,
++						       false, VSAFE5V);
+ 		tcpm_set_state(port, SRC_STARTUP, PD_T_SWAP_SRC_START);
+ 		break;
+ 
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 09762d26fa0c..a1707def51c3 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -83,6 +83,18 @@ enum tcpm_transmit_type {
+  *		Optional; Called to enable/disable PD 3.0 fast role swap.
+  *		Enabling frs is accessory dependent as not all PD3.0
+  *		accessories support fast role swap.
++ * @enable_auto_vbus_discharge:
++ *		Optional; TCPCI spec based TCPC implementations can optionally
++ *		support hardware to autonomously dischrge vbus upon disconnecting
++ *		as sink or source. TCPM signals TCPC to enable the mechanism upon
++ *		entering connected state and signals disabling upon disconnect.
++ * @set_auto_vbus_discharge_threshold:
++ *		Mandatory when enable_auto_vbus_discharge is implemented. TCPM
++ *		calls this function to allow lower levels drivers to program the
++ *		vbus threshold voltage below which the vbus discharge circuit
++ *		will be turned on. requested_vbus_voltage is set to 0 when vbus
++ *		is going to disappear knowingly i.e. during PR_SWAP and
++ *		HARD_RESET etc.
+  */
+ struct tcpc_dev {
+ 	struct fwnode_handle *fwnode;
+@@ -109,6 +121,10 @@ struct tcpc_dev {
+ 			   const struct pd_message *msg);
+ 	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
+ 	int (*enable_frs)(struct tcpc_dev *dev, bool enable);
++	int (*enable_auto_vbus_discharge)(struct tcpc_dev *dev, bool enable);
++	int (*set_auto_vbus_discharge_threshold)(struct tcpc_dev *dev, enum typec_role port_role,
++						 enum typec_pwr_opmode mode, bool pps_active,
++						 u32 requested_vbus_voltage);
+ };
+ 
+ struct tcpm_port;
 -- 
 2.28.0.681.g6f77f65b4e-goog
 
