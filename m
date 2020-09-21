@@ -2,112 +2,66 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1FEC43465
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE4AC43464
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:37:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4FFD820EDD
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:36:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 687AF20BED
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600688184;
-	bh=aBB7PJLGloTLJSayybz8B582NjI4EP0M/t58gISF1X0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IBfCpO/aecGILbumO1fVQUeGXb8oAyvDvkCOVAza6OipVsEGrJ7m5tFXv+k7Idkji
-	 V60naYrBKzc+oIDT9MakK1SsC6HMgtbJWQMxJT50Qfx89lihzRpnLs6yC1cG6dNgfE
-	 KmIjVaSG3is6k5PuueXLCORqmlnapDSAy+8ynvtE=
+	s=default; t=1600688261;
+	bh=9AdHOOiwkBvVaWNKqDxReKJzBIpM2azxE/0lbd7Zlkw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=oVvn5EYyqZXfPgY5mCqoC6GiyUyMdrTB84iXt3CBfZ/X0Ls+FVQOc0PjiwNQRlLAg
+	 3Nj4uX4ax+iPAiMoWQiuV/v6QgZGwRG0ziBAHe/4Eohq2dDDkA4W8nrhTzGGARoUk8
+	 Q4NUHYV+766GHEIcXxJEDGEOZ58hm44Dz0BCxE6E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbgIULgX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 07:36:23 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38361 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbgIULgW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 07:36:22 -0400
-Received: by mail-lj1-f194.google.com with SMTP id w3so10774719ljo.5
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 04:36:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LPkgVcY9ITc2c7lL7eTIAvOiaRX9cWDsucFq3t5mnnE=;
-        b=I0omz30ZAAuzCG6NcwiEb2pqlrimpFU4ldeG9xq8bTPUULZ6uzyaUWKe/kM1jdoKJc
-         BQDcc4AK5r2SyKkPRDMatGjWbNlQvGdQ/P42SlmfS+CmKC7antggQ+0a63yLSQdk//3N
-         xRWaRCrafykkcDBxssMYK4XOHwi0rRzQb4JyH4qQxS70K3B+LlNZGMjwDxYuCiZb5cps
-         +J6Kq6BsJh82jCJW5w4AxTClVvTdcwFVTIUZyJRVGqHSGX0AOAmEgODVB4E5FXZ0Sw5P
-         II0xZbvBoVzf2gTkAA8BmyVoPbzHiyZlnlbNUGtku46N0sQaUsMcDi/6Lf6AA9KBtwNb
-         HIig==
-X-Gm-Message-State: AOAM532v9uoROr0pyIEjWWMwJXmUYEEJcruykBQ5I0PF68qoGyF2hh2d
-        L+JYKfOCi+65Q0DOc3iMvrs=
-X-Google-Smtp-Source: ABdhPJytgBMaq5FjPwWrRcpVbj6C3q7Rd2kWAItdx/uYK47RoPTyCOhWI5qZAMKfsRYGdT0KW1EGhg==
-X-Received: by 2002:a05:651c:200b:: with SMTP id s11mr15418397ljo.196.1600688179909;
-        Mon, 21 Sep 2020 04:36:19 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id s11sm2649689ljh.56.2020.09.21.04.36.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 04:36:18 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@xi.terra>)
-        id 1kKK79-0008OL-B5; Mon, 21 Sep 2020 13:36:11 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 3/4] USB: cdc-acm: use common data-class define
-Date:   Mon, 21 Sep 2020 13:35:24 +0200
-Message-Id: <20200921113525.32187-4-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200921113525.32187-1-johan@kernel.org>
-References: <20200921113525.32187-1-johan@kernel.org>
+        id S1726696AbgIULhh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 07:37:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58706 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726444AbgIULhh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Sep 2020 07:37:37 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3F7DF20BED;
+        Mon, 21 Sep 2020 11:37:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600688256;
+        bh=9AdHOOiwkBvVaWNKqDxReKJzBIpM2azxE/0lbd7Zlkw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=guM7Bz418LoW1F/aqJ4PoUN2dkgYQmGqL30duJ3BVAx97cvEPF5hf6cwANj0Flb4X
+         PGV9kkUPC1Xydm0WDxpTxNwVcJJwFF+MDvcNA+l5f7Y7ny100jcAqvXQaVqz29n431
+         xwPUC+ZWrY7tcgZkwybz0XtY2bg2C4yF0kLz8Y0Q=
+Date:   Mon, 21 Sep 2020 13:38:00 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Pavel Machek <pavel@denx.de>
+Cc:     stern@rowland.harvard.edu, kai.heng.feng@canonical.com,
+        johan@kernel.org, tomasz@meresinski.eu, jonathan@jdcox.net,
+        kerneldev@karsmulder.nl, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: quirks: simplify quirk handling.
+Message-ID: <20200921113800.GA26212@kroah.com>
+References: <20200921113039.GA19862@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200921113039.GA19862@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the data-class define provided by USB core and drop the
-driver-specific one.
+On Mon, Sep 21, 2020 at 01:30:39PM +0200, Pavel Machek wrote:
+> Simplify quirk handling.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/class/cdc-acm.c | 6 ++----
- drivers/usb/class/cdc-acm.h | 2 --
- 2 files changed, 2 insertions(+), 6 deletions(-)
+In what way?
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 5b1a1cd0168d..2758e295871e 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -1287,10 +1287,8 @@ static int acm_probe(struct usb_interface *intf,
- skip_normal_probe:
- 
- 	/*workaround for switched interfaces */
--	if (data_interface->cur_altsetting->desc.bInterfaceClass
--						!= CDC_DATA_INTERFACE_TYPE) {
--		if (control_interface->cur_altsetting->desc.bInterfaceClass
--						== CDC_DATA_INTERFACE_TYPE) {
-+	if (data_interface->cur_altsetting->desc.bInterfaceClass != USB_CLASS_CDC_DATA) {
-+		if (control_interface->cur_altsetting->desc.bInterfaceClass == USB_CLASS_CDC_DATA) {
- 			dev_dbg(&intf->dev,
- 				"Your device has switched interfaces.\n");
- 			swap(control_interface, data_interface);
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index cd5e9d8ab237..b7174a0098a5 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -131,8 +131,6 @@ struct acm {
- 	unsigned long quirks;
- };
- 
--#define CDC_DATA_INTERFACE_TYPE	0x0a
--
- /* constants describing various quirks and errors */
- #define NO_UNION_NORMAL			BIT(0)
- #define SINGLE_RX_URB			BIT(1)
--- 
-2.26.2
+Please be more descriptive in your changelog and resend.
 
+thanks,
+
+greg k-h
