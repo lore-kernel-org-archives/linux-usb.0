@@ -2,44 +2,44 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2992C43463
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE7AEC43466
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:21:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F3FE207BC
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:21:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98F5C20EDD
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:21:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="btKs0g1v"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ZH5NCXjw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726649AbgIULVR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 07:21:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58094 "EHLO mx2.suse.de"
+        id S1726654AbgIULVS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 07:21:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58110 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726578AbgIULVQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Sep 2020 07:21:16 -0400
+        id S1726532AbgIULVR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Sep 2020 07:21:17 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600687275;
+        t=1600687276;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=FeAcLLM341BKKNzjslQfIRBdgdtgiXj38Xh/Q56X87Y=;
-        b=btKs0g1vrlBu/YgGrMQ1YBrlGHcTF0+KALecmSaGELUtvPdlSx4PMepp/rfi3kEIRQR2Mo
-        pCi+5XS+AhoBO7EzQOUv5ZzYh/dmkig6HIjsWUuowFpTAS4GkKoWHk0SbtDDib3oQssGMg
-        pPeJJ7AmE0lNPDxIrr3lLHNKtI4alA0=
+        bh=/ngJDL6/z4BJCeT0oPCblUO16rv/1+hCOitTErETCi0=;
+        b=ZH5NCXjwyacORxWak9yPY8h/p1Ab6S6o8DhyEpemCng4vexkRw0mGlpbHw2IspJfCdD2OH
+        pCHDtpqjpRpQ/YBJNdkGUq2gSVVYSXRS4DzppypFxIRX3boLI6KKB245384dFP/FW3Ep7z
+        5ic+98WKbaVAsdxGJUJcIb6tXt2AqGo=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 10D10B200;
-        Mon, 21 Sep 2020 11:21:51 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 8B98EB20B;
+        Mon, 21 Sep 2020 11:21:52 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
         linux-usb@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 3/8] CDC-WDM: making flush() interruptible
-Date:   Mon, 21 Sep 2020 13:20:47 +0200
-Message-Id: <20200921112052.27943-4-oneukum@suse.com>
+Subject: [RFC 8/8] CDC-WDM: reduce scope of wdm_mutex
+Date:   Mon, 21 Sep 2020 13:20:52 +0200
+Message-Id: <20200921112052.27943-9-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200921112052.27943-1-oneukum@suse.com>
 References: <20200921112052.27943-1-oneukum@suse.com>
@@ -47,38 +47,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is no need for flush() to be uninterruptible. close(2)
-is allowed to return -EINTR. Change it.
+Use the global mutex for as short as possible in open()
 
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/class/cdc-wdm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/usb/class/cdc-wdm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index fef011dc8dc4..eee19532e67e 100644
+index 7607ab2bbe07..230fe66828e3 100644
 --- a/drivers/usb/class/cdc-wdm.c
 +++ b/drivers/usb/class/cdc-wdm.c
-@@ -592,7 +592,7 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 	struct wdm_device *desc = file->private_data;
- 	int rv;
+@@ -704,6 +704,7 @@ static int wdm_open(struct inode *inode, struct file *file)
  
--	rv = wait_event_timeout(desc->wait,
-+	rv = wait_event_interruptible_timeout(desc->wait,
- 			/*
- 			 * needs both flags. We cannot do with one
- 			 * because resetting it would cause a race
-@@ -608,7 +608,8 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 		return -ENODEV;
- 	if (!rv)
- 		return -EIO;
--
-+	if (rv < 0)
-+		return -EINTR;
- 	rv = desc->werr;
- 	if (rv < 0)
- 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
+ 	/* using write lock to protect desc->count */
+ 	mutex_lock(&desc->wlock);
++	mutex_unlock(&wdm_mutex);
+ 	if (!desc->count++) {
+ 		/* in case flush() had timed out */
+ 		usb_kill_urb(desc->command);
+@@ -716,13 +717,14 @@ static int wdm_open(struct inode *inode, struct file *file)
+ 				"Error submitting int urb - %d\n", rv);
+ 			rv = usb_translate_errors(rv);
+ 		}
++		if (desc->count == 1)
++			desc->manage_power(intf, 1);
+ 	} else {
+ 		rv = 0;
+ 	}
+ 	mutex_unlock(&desc->wlock);
+-	if (desc->count == 1)
+-		desc->manage_power(intf, 1);
+ 	usb_autopm_put_interface(desc->intf);
++	return rv;
+ out:
+ 	mutex_unlock(&wdm_mutex);
+ 	return rv;
 -- 
 2.16.4
 
