@@ -5,39 +5,39 @@ X-Spam-Level:
 X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EBEC43466
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:36:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83735C43465
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D900239D1
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:36:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D1D823998
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600706186;
-	bh=t4o0uZQ/5koxmxtTEtKG+DzYSHnVW3ZMyp9xG2l3kNw=;
+	s=default; t=1600706586;
+	bh=hcubLVqPrBqXU0+oe6Qa2Fuo6ElvZgAx30ZYQhLXOjY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kytsDEyLCFvIRy5DiexYSuQml6NP1r/kVNS1j5zzhceghFMIO5U8ExWyGYHMOnBov
-	 H3IgTS0c2oFpP+YjidWlcrGm75sZIKNPWCXbtUdzWA0/FLOHxCy0rNXFH65VWQJ/Ms
-	 qhOeCVOhZm+Ph+9ABr8KX2ceosPk2BGJrk0p1ie8=
+	b=Fm0SATVodeExmR59dAPFKUDvYH6wwI1kp/Bo0O3LZTJKyZEJi4oNpm8y7LIf3LE1V
+	 i/p4zZIPipSqYQZ1yl8YZpOVFjhJJakEKytHZ39yCbbI6dmy7Nrza4zxv0UYrqV4Cw
+	 DoE2ZmCiWJOjCN4RsceypNepikbPO8JkGhp0wFl4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728965AbgIUQgZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 12:36:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36086 "EHLO mail.kernel.org"
+        id S1729536AbgIUQm5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 12:42:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47180 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728596AbgIUQgV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Sep 2020 12:36:21 -0400
+        id S1729089AbgIUQmw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:42:52 -0400
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 77B56238EE;
-        Mon, 21 Sep 2020 16:36:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2DA792076B;
+        Mon, 21 Sep 2020 16:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600706181;
-        bh=t4o0uZQ/5koxmxtTEtKG+DzYSHnVW3ZMyp9xG2l3kNw=;
+        s=default; t=1600706571;
+        bh=hcubLVqPrBqXU0+oe6Qa2Fuo6ElvZgAx30ZYQhLXOjY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hAExR0U/1dt5Hdete+CV+OmCsuglIb0ajyLfIKDpiryTeVIjeDxwJxwihuEDxV9uZ
-         KzrODP9w83a30YgSvNBQWV5qE+jy/QGKrF33UrUzWQdNr9UMWIIzNedRzzbbYuhtT8
-         aBn5Hw7PoqWOZIp4XokuYh+VGUN31/WW3Ei+A0+Q=
+        b=qnRGH+joui3XuDsFpM6bL2k9h80Em1aQ8OFxnUI4Hpn0AxluIA1IbLIe9/+RGnndF
+         kUiHcRIdaKLtA/O3daHgSlr/qeYT62HHsOenBuoMFGC63QHCjnXedId+7eNj//e6Ml
+         hg8aoxKdU+aKy6nh8e4jw3gY0LdrnsykZC42PcPM=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -47,12 +47,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         linux-usb@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH 4.9 70/70] x86/defconfig: Enable CONFIG_USB_XHCI_HCD=y
-Date:   Mon, 21 Sep 2020 18:28:10 +0200
-Message-Id: <20200921162038.338051963@linuxfoundation.org>
+Subject: [PATCH 4.19 49/49] x86/defconfig: Enable CONFIG_USB_XHCI_HCD=y
+Date:   Mon, 21 Sep 2020 18:28:33 +0200
+Message-Id: <20200921162036.823911923@linuxfoundation.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200921162035.136047591@linuxfoundation.org>
-References: <20200921162035.136047591@linuxfoundation.org>
+In-Reply-To: <20200921162034.660953761@linuxfoundation.org>
+References: <20200921162034.660953761@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -90,7 +90,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/arch/x86/configs/i386_defconfig
 +++ b/arch/x86/configs/i386_defconfig
-@@ -246,6 +246,7 @@ CONFIG_USB_HIDDEV=y
+@@ -245,6 +245,7 @@ CONFIG_USB_HIDDEV=y
  CONFIG_USB=y
  CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
  CONFIG_USB_MON=y
