@@ -6,103 +6,95 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7748C43465
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BAAC43464
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:15:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7278B216C4
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:03:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C330A20708
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 12:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600689792;
-	bh=sBDvdw5RZAREDMyNV1FqrenP4gOZwo6GSutvf36Vse4=;
+	s=default; t=1600690535;
+	bh=oAS7RI0x+4s42kQWTcS2n8nt2hcZf6fbZcwtpYfV5nk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=zo6MtJyuq1R3k4o+KyhxC4DIhdGoliaaG7sffp8ouq2UpkYNgj2f2h4HiEhp+Ir/s
-	 628KJ63uPzI4UUeLu+tYmYpkon/TMPOXrjHUb86MhzZ1xZa3xlg8gUUX/ILurMiLt4
-	 xfxP0rNySmIVwGPg2xmviiRKe7dqvu+4Iq9T7CGE=
+	b=2L3zSX7PgwxCmMZTXDn7JnwmO0o6h7Y2MQXJZ4lm4Lq8SCfQ9WBl71jWGGpZFg5y/
+	 i4b30cc2glLUPe4W82Nz4WiJvBD5lWupMKfczjbvGHMjImQ0e4LeyowJXEpu02NEP1
+	 7Z1bekvWHpXn2FEruUvaSiY6t36/XzyPd59KmsEY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbgIUMDL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 08:03:11 -0400
-Received: from mail-lf1-f44.google.com ([209.85.167.44]:39172 "EHLO
-        mail-lf1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726413AbgIUMDL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 08:03:11 -0400
-Received: by mail-lf1-f44.google.com with SMTP id q8so13692245lfb.6;
-        Mon, 21 Sep 2020 05:03:10 -0700 (PDT)
+        id S1726445AbgIUMPf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 08:15:35 -0400
+Received: from mail-lj1-f177.google.com ([209.85.208.177]:44279 "EHLO
+        mail-lj1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726341AbgIUMPf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 08:15:35 -0400
+Received: by mail-lj1-f177.google.com with SMTP id b19so10864529lji.11
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 05:15:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=+QI8mTIy0Eft8z2TjdteLwGuaZdvxggWE9Qg6IcauVw=;
-        b=fTTEuQpRQiYen3wlgkU38kPA3n4KBCjf/9KVJ9ocl8kj3UoSfimhsYdYVqCMMR64Vo
-         PXwkoiX6KrvRUCfwOGeufZQGWwbX/nC2VoKvx47DMRalTijpeaR0i0YoP4scoByUqj73
-         ITcMeTFfpZlV7shY5IL99XOXx2DRXSe4Uh0KPqdfIDFR+pZLTPQq99nszGYH9B5cDI6Z
-         +p7rV28zbuH1LtZHQL8voSSGmOKqsqf2jUM/1PcpaHqy8eLbsotw2YldbJtsgLoKDRdR
-         d8nm0G4fhPvtlv5IaHTpok/vq3vY+/I6OBISy+zgE90vaPvTXOKELXt/xegIX4q7i7op
-         g3DA==
-X-Gm-Message-State: AOAM531GubAorwxQDLz0bGfklVsXYm5jprlpEFhRGZOKONTimubunuI0
-        OjYCIwxMoW8KyFvV8bgD5Jw=
-X-Google-Smtp-Source: ABdhPJxdjtM6vpjl17ORbFrP8CgY69mUCFUTz49xDT59p6xw6fjC7zTUkILj4y0C1vObC+RLgxP+4A==
-X-Received: by 2002:a19:4e:: with SMTP id 75mr14633741lfa.159.1600689789491;
-        Mon, 21 Sep 2020 05:03:09 -0700 (PDT)
+        bh=PucaVNZG7a2BDgaEJBx2aQDY3Mss+7fBpx/BFNuY4ng=;
+        b=PK5tGjd3TAf49zhOxr4p70fNV80DbbKAtaKPAFw6sZsiwhvHEu/7aeajdhmIvp+SV5
+         xa5nbhquk350Fiq4PxLOs2NoWGkWH630mPJoYTp9Kiq/Z15oRqzY69CoEWgr19q+ATMF
+         gFkrYaCtm/PLsTLNFw2DqYRiwrCqU97wEjTLabY5QU6cP2jv9MDjpzW1lfDhGE2sV9jx
+         jYv6VxeWg6+LuE4Pb7EcXGX+lGJ3E+YaRwTPRHyWOrAS2PQJ8iFM7C43HoNARDBX1j9A
+         47SFahYx4sPx0mYjZW5SPHz5XGChHj7ySIDU3DDFOR0W+g6BJA7tMQAbJl4+NrdPi/iQ
+         xYmQ==
+X-Gm-Message-State: AOAM533hG1RtbozANQBqBMtZY38Nq/xhbwJdGh/jH8jPqgMdetw8Vq/r
+        3u6VaWPsm33Ux2hZYlkMiDU=
+X-Google-Smtp-Source: ABdhPJzClL+ZxOH4BRK4jk0KvTMv7gFM4i3a6qWAn9brm/Iva/xSL1kb3JaAKpByIjsyGCMwR47mgw==
+X-Received: by 2002:a2e:980c:: with SMTP id a12mr14635527ljj.26.1600690532853;
+        Mon, 21 Sep 2020 05:15:32 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id n2sm2667943lji.97.2020.09.21.05.03.08
+        by smtp.gmail.com with ESMTPSA id b141sm2553336lfd.236.2020.09.21.05.15.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 05:03:08 -0700 (PDT)
+        Mon, 21 Sep 2020 05:15:32 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1kKKX8-0000WD-Av; Mon, 21 Sep 2020 14:03:02 +0200
-Date:   Mon, 21 Sep 2020 14:03:02 +0200
+        id 1kKKj7-0000Zr-R8; Mon, 21 Sep 2020 14:15:25 +0200
+Date:   Mon, 21 Sep 2020 14:15:25 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>
 Cc:     Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org,
-        Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v2] USB: cdc-acm: add Whistler radio scanners TRX series
- support
-Message-ID: <20200921120302.GU24441@localhost>
-References: <20200921081022.6881-1-johan@kernel.org>
- <1600677792.2424.61.camel@suse.com>
- <20200921093145.GS24441@localhost>
- <1600684156.2424.65.camel@suse.com>
- <20200921113601.GT24441@localhost>
- <1600688954.2424.76.camel@suse.com>
+        Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>
+Subject: Re: [RFC 4/4] USB: cdc-acm: clean up handling of quirky devices
+Message-ID: <20200921121525.GV24441@localhost>
+References: <20200921113525.32187-1-johan@kernel.org>
+ <20200921113525.32187-5-johan@kernel.org>
+ <1600689232.2424.78.camel@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1600688954.2424.76.camel@suse.com>
+In-Reply-To: <1600689232.2424.78.camel@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 01:49:14PM +0200, Oliver Neukum wrote:
-> Am Montag, den 21.09.2020, 13:36 +0200 schrieb Johan Hovold:
-> > On Mon, Sep 21, 2020 at 12:29:16PM +0200, Oliver Neukum wrote:
+On Mon, Sep 21, 2020 at 01:53:52PM +0200, Oliver Neukum wrote:
+> Am Montag, den 21.09.2020, 13:35 +0200 schrieb Johan Hovold:
+> > Instead of falling back to "combined-interface" probing when detecting
+> > broken union and call-management descriptors, assume all interfaces with
+> > three endpoints are of "combined-interface" type.
 > 
 > Hi,
 > 
-> > I meant that instead of falling back to "combined-interface" probing we
-> > could assume that all interfaces with three endpoints are "combined" and
-> > simply ignore the union and call managementy. descriptors and all the ways
-> > that devices may have gotten those wrong.
-> 
-> I am afraid we would break the spec. I cannot recall a prohibition on
-> having more endpoints than necessary. Heuristics and ignoring invalid
-> descriptors is one things. Ignoring valid descriptors is something
-> else.
+> this just ignores a union header. I am afraid that is not correct.
+> Could you move it into the !union_header clause?
 
-That depends on how you read the spec (see "3.3.1 Communication Class
-Interface"). But sure, it's probably be better to err on the safe-side.
+And probe for a combined interface before falling back to the management
+descriptor then? Along the lines of
 
-> > I was thinking more of the individual entries in the device-id table
-> > whose control interfaces may not even be of the Communication class. But
-> > hopefully that was verified when adding them.
-> 
-> Now you are confusing me. In case of a quirky device, why change
-> the current logic?
-
-Just because they have a quirk defined, doesn't mean they don't rely on
-the generic probe algorithm (e.g. a USB_DEVICE entry which matches all
-interface classes and only specifies SEND_ZERO_PACKET).
-
+	if (!union_desc) {
+		if (bNumEndpoints == 3) {
+			goto probe_combined_interface;
+		} else if (call_intf_num > 0) {
+			data_intf_num = call_intf_num;
+			...
+		} else {
+			return -ENODEV;
+		}
+	} else {
+		...
+	}
+			
 Johan
