@@ -2,112 +2,103 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4871CC43466
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:21:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0BFC43465
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:30:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E66802145D
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:21:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ge7sQTBC"
+	by mail.kernel.org (Postfix) with ESMTP id 417CC2145D
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:30:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgIULVW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 07:21:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58074 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726367AbgIULVQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Sep 2020 07:21:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600687274;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=qJjJjJ8liZ8RUpbm0zpKhZs3JIhUIbUCld6FGwXTjKs=;
-        b=ge7sQTBCMxh280t5RfKq+JSlq4X678mNsMqAhzPDylc4ofVFA8GCQT0oIFoXCsYDAww3u6
-        n+5b9T6azRsC7etWWfQHlge5iVciuMphXQzCkL9YW2sUk7HKSU6rgz+28afFPxfeUzT1IX
-        k/pw4y0uPdEtg+uyOb6UYPBP6gxognU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id BC3CCB182;
-        Mon, 21 Sep 2020 11:21:50 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
-        linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 2/8] CDC-WDM: introduce a timeout in flush()
-Date:   Mon, 21 Sep 2020 13:20:46 +0200
-Message-Id: <20200921112052.27943-3-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200921112052.27943-1-oneukum@suse.com>
-References: <20200921112052.27943-1-oneukum@suse.com>
+        id S1726875AbgIULal (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 07:30:41 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35902 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726457AbgIULal (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 07:30:41 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id CF8711C0B81; Mon, 21 Sep 2020 13:30:39 +0200 (CEST)
+Date:   Mon, 21 Sep 2020 13:30:39 +0200
+From:   Pavel Machek <pavel@denx.de>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        kai.heng.feng@canonical.com, johan@kernel.org,
+        tomasz@meresinski.eu, jonathan@jdcox.net, kerneldev@karsmulder.nl,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] USB: quirks: simplify quirk handling.
+Message-ID: <20200921113039.GA19862@duo.ucw.cz>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Malicious or defective hardware may cease communication while
-flush() is running. In last consequence we need a timeout,
-as hardware that remains silent must be ignored.
 
-The 30 seconds are coming out of thin air.
+--5vNYLRcllDrimb99
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/class/cdc-wdm.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Simplify quirk handling.
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index adb3fc307083..fef011dc8dc4 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -58,6 +58,9 @@ MODULE_DEVICE_TABLE (usb, wdm_ids);
- 
- #define WDM_MAX			16
- 
-+/* flush() is uninterruptible, but we cannot wait forever */
-+#define WDM_FLUSH_TIMEOUT	(30 * HZ)
-+
- /* CDC-WMC r1.1 requires wMaxCommand to be "at least 256 decimal (0x100)" */
- #define WDM_DEFAULT_BUFSIZE	256
- 
-@@ -589,7 +592,7 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 	struct wdm_device *desc = file->private_data;
- 	int rv;
- 
--	wait_event(desc->wait,
-+	rv = wait_event_timeout(desc->wait,
- 			/*
- 			 * needs both flags. We cannot do with one
- 			 * because resetting it would cause a race
-@@ -597,11 +600,15 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 			 * a disconnect
- 			 */
- 			!test_bit(WDM_IN_USE, &desc->flags) ||
--			test_bit(WDM_DISCONNECTING, &desc->flags));
-+			test_bit(WDM_DISCONNECTING, &desc->flags),
-+			WDM_FLUSH_TIMEOUT);
- 
- 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
- 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
- 		return -ENODEV;
-+	if (!rv)
-+		return -EIO;
-+
- 	rv = desc->werr;
- 	if (rv < 0)
- 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
-@@ -662,6 +669,8 @@ static int wdm_open(struct inode *inode, struct file *file)
- 	/* using write lock to protect desc->count */
- 	mutex_lock(&desc->wlock);
- 	if (!desc->count++) {
-+		/* in case flush() had timed out */
-+		usb_kill_urb(desc->command);
- 		desc->werr = 0;
- 		desc->rerr = 0;
- 		rv = usb_submit_urb(desc->validity, GFP_KERNEL);
--- 
-2.16.4
+Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
 
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index f232914de5fd..167b6ac428a3 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -56,18 +56,13 @@ static int quirks_param_set(const char *value, const st=
+ruct kernel_param *kp)
+ 		if (val[i] =3D=3D ',')
+ 			quirk_count++;
+=20
+-	if (quirk_list) {
+-		kfree(quirk_list);
+-		quirk_list =3D NULL;
+-	}
+-
++	kfree(quirk_list);
+ 	quirk_list =3D kcalloc(quirk_count, sizeof(struct quirk_entry),
+ 			     GFP_KERNEL);
+ 	if (!quirk_list) {
+ 		quirk_count =3D 0;
+-		mutex_unlock(&quirk_mutex);
+-		kfree(val);
+-		return -ENOMEM;
++		err =3D -ENOMEM;
++		goto unlock;
+ 	}
+=20
+ 	for (i =3D 0, p =3D val; p && *p;) {
+@@ -153,7 +148,7 @@ static int quirks_param_set(const char *value, const st=
+ruct kernel_param *kp)
+ 	mutex_unlock(&quirk_mutex);
+ 	kfree(val);
+=20
+-	return 0;
++	return err;
+ }
+=20
+ static const struct kernel_param_ops quirks_param_ops =3D {
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--5vNYLRcllDrimb99
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2iO3wAKCRAw5/Bqldv6
+8vwSAJwOXFVGsbOUYjR9k1gNqz+YYCNksgCfQ2QxZWEU2bWe4x6HL22QjO5mjP8=
+=A++X
+-----END PGP SIGNATURE-----
+
+--5vNYLRcllDrimb99--
