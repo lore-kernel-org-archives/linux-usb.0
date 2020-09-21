@@ -2,105 +2,135 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4131C43465
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F08C43466
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:03:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC32D20866
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600696808;
-	bh=9/ooRWLIdUL7Lq0cCSnyT3QU6FyZIn7avzDJL6Sw680=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=p35deROntSU8rLHc9Wzux1JsMao4ep4uvwzQWQbGOZPKrk/5alycv4zZaI1MQoG4R
-	 vMruHcqH8aKAKndQ3qLiRdl+MjDU4zeFib+Dd2lNvseBh3JSCgbd3G4rIJeprhfAr1
-	 bb6cnhYW5Nry76aYdxa53HYNoJhvdiLir34CxrLY=
+	by mail.kernel.org (Postfix) with ESMTP id 17AD520B1F
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:03:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q/cS9VBb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727378AbgIUOAI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 10:00:08 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:46585 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727289AbgIUOAF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 10:00:05 -0400
-Received: by mail-lf1-f66.google.com with SMTP id b22so14088356lfs.13
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 07:00:04 -0700 (PDT)
+        id S1726496AbgIUODy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 10:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgIUODx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 10:03:53 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130C3C061755
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 07:03:53 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id l126so9326708pfd.5
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 07:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tAeIRa3VqxftcoxgnhacaYdMVbJKOqRUMbFtY1HDm5g=;
+        b=q/cS9VBb365FK/JG7LtouMFSKam9+eHMJe8YgNCU49CfGKMEZ4P4g9WuGSQbGT2o/d
+         UplwjFyx5YFlYmhjgVf3TEthku/J4WYNvbngHT/j0EsFobqNHCpu5se6kbh2NpG3Y4Um
+         q+dQAvYHNJn+LE0Q9w6ihbEFTVO8OJ0/HsMNNSneaKp85D7NbO+O87h/i8LNmX0TVLL3
+         c7BFlYVwBROx5YpAjD4xAiWm+F0VZTgumssgieZjEOORvY2KikjLfNgUtelOcLBx4jiQ
+         osW/wtKp26pLg7edTXQnK/R+4+YL1ypWYTz/DT9glINKuysykjrbvoCqikCvodhQdss0
+         Tv0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OI2cnB/a4/t0sodHBTZ/TB95ZqeNGflX+6nW0RfeM84=;
-        b=hNrOR6Btc6T12/AUlYKw+gYrmVz6o7y6RGdnO7rEYqIVN8f6uvdgqSX5HE9gLy2WY5
-         lRPYuSKdZYPswfMZpWmy2qkM2quZiD/Z3TW8mKEdTbTHCWZJM0Fu+za7lBEgBK26jNIA
-         MsiBUrjx6FIwi+KMrOXnYvHtsQCgr8wWEpEC52TEsnZfDS0OYH//8onbjGPGM78yFfPC
-         uU/ScPlSWDd6UyJIhD2KAEkqFi6SrfvW4FBOeqGvqaPeGdW68wPm8AvNUNcv0+4PlRTv
-         7YAHO5KwIaSJMmO7edQUpitO8cfOkQ3+Y3hnNUMBOa0NHepEQPh3vCWAE7UDkF1RQADu
-         Bjqg==
-X-Gm-Message-State: AOAM5321a12MIO839CdhGTvFjfRF0/w1GY09Sv3eKRbd4P2BqYcaIhlz
-        tswqrSZQCTEQCzz0MgZ6St8=
-X-Google-Smtp-Source: ABdhPJyUqpmCz6hnLUclnkzZ8IQOzjT1k/4IlrEA+RKkWtGKXa1orHt28U/Bw1mBaUFwnIAQyQLQ9w==
-X-Received: by 2002:a05:6512:10d1:: with SMTP id k17mr36495lfg.179.1600696803401;
-        Mon, 21 Sep 2020 07:00:03 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id q6sm2780682lji.0.2020.09.21.07.00.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tAeIRa3VqxftcoxgnhacaYdMVbJKOqRUMbFtY1HDm5g=;
+        b=tkUvcsb8ZO8h98kXb3HT6jy3NwnBnQtM+svROupC0YLRC6kNW7elZ0FfbYdhBg2Gl4
+         FCgOHhmtJVSB/NM/d/O1IRbahRsTifIQNBA5NjSjn1f//a4+o+k8seFw9Do5PFCX8Ml8
+         /vldyG/SblwvSmBfeXkHW6pJn1iUJPmo0yrn3RVlG7D9cHdpwhOA6fsXUSLNgbbJ3gM/
+         d8Q7nJfL5NsO6zyk6pxzi9C6TUYeZhU2NsMm+5ZoUcgv1zgocMMzXJgozpIPL7xVCSQ3
+         ON1K2J4NKXRt+oIjVF7XznYziyaV2YSazsSaSeTUfSyHaiIGxkC7Jx4KYg0CEZf9SE3q
+         AMpA==
+X-Gm-Message-State: AOAM533j2xUfuU9kUTuFNpp/pkppzJ1Atfuaotwbn75OvCH8ZOEXSbui
+        UPLIVsnv2VrxIV2XbsC1tnU=
+X-Google-Smtp-Source: ABdhPJyCfgqBgx8cPjgInhHeJOcF13lTelEEX8MnkKXCkYQg3Bhoa6B4eLTYJUU1JVfdsCMuUrxWtw==
+X-Received: by 2002:a63:ea16:: with SMTP id c22mr17275567pgi.326.1600697032585;
+        Mon, 21 Sep 2020 07:03:52 -0700 (PDT)
+Received: from lemmy.tees.ne.jp (153-125-65-70.catv.tees.ne.jp. [153.125.65.70])
+        by smtp.googlemail.com with ESMTPSA id q24sm12018585pfs.206.2020.09.21.07.03.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 07:00:01 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@xi.terra>)
-        id 1kKMME-0006Gl-6J; Mon, 21 Sep 2020 15:59:54 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2 0/4] USB: cdc-acm: handle broken union descriptors
-Date:   Mon, 21 Sep 2020 15:59:47 +0200
-Message-Id: <20200921135951.24045-1-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        Mon, 21 Sep 2020 07:03:52 -0700 (PDT)
+From:   Yasushi Asano <yazzep@gmail.com>
+To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, erosca@de.adit-jv.com,
+        andrew_gabbasov@mentor.com, jim_baxter@mentor.com,
+        wnatsume@jp.adit-jv.com, nnishiguchi@jp.adit-jv.com,
+        yasano@jp.adit-jv.com
+Subject: [PATCH] Re: [PATCH v3] USB: hub.c: decrease the number of attempts of enumeration scheme
+Date:   Mon, 21 Sep 2020 23:03:42 +0900
+Message-Id: <20200921140342.3813-1-yazzep@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200920192114.GB1190206@rowland.harvard.edu>
+References: <20200920192114.GB1190206@rowland.harvard.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds support for handling broken union descriptors by
-falling back to "combined-interface" probing.
+From: Yasushi Asano <yasano@jp.adit-jv.com>
 
-The first patch drops some bogus altsetting sanity checks which would
-otherwise have had to be needlessly reproduced for consistency. The
-third patch drops the driver specific data class define in favour of the
-common one. The last one, cleans up the no-union-descriptor handling by
-probing for a "combined-interface" before falling back to the
-call-management descriptor.
+Dear Alan
 
-Note that I changed my mind on the stable tag; we can't be overly
-paranoid about a theoretical risk of breaking some quirky devices. And
-if we do, we still want to know about it, right?
+Thank you very much for providing the patch.
+I really appreciate your kindness.
 
-Daniel, would you mind giving these a spin as well?
+When I added a pseudo error code and checked it,
+the for statement of the "operation" in the new scheme
+runs unconditionally three times. Therefore It doesn't
+seem to meet the requirements (30seconds).
 
-Johan
+After applying your patch, I added a patch that can
+change the loop number of "operation" as shown below,
+and it worked fine in the pseudo error environment.
+Is this modification acceptable?
 
-v2
- - add stable tag to 2/2 as it enables a new class of devices
- - demote a broken-union warning to dev_dbg
- - replace the fourth RFC patch with a clean up of the
-   no-union-descriptor case only
+If it is good, I'll add this patch and test it.
+Since the PET tool is only in the customer,
+I will ask the customer to test it. I will report the
+result when I receive the results.
 
+Signed-off-by: Yasushi Asano <yasano@jp.adit-jv.com>
+---
+ drivers/usb/core/hub.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Johan Hovold (4):
-  Revert "cdc-acm: hardening against malicious devices"
-  USB: cdc-acm: handle broken union descriptors
-  USB: cdc-acm: use common data-class define
-  USB: cdc-acm: clean up no-union-descriptor handling
-
- drivers/usb/class/cdc-acm.c | 55 ++++++++++++++++---------------------
- drivers/usb/class/cdc-acm.h | 13 ++++-----
- 2 files changed, 29 insertions(+), 39 deletions(-)
-
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 61effd5..2f07f7c 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2709,12 +2709,14 @@ static unsigned hub_is_wusb(struct usb_hub *hub)
+ #define PORT_RESET_TRIES	2
+ #define SET_ADDRESS_TRIES	1
+ #define GET_DESCRIPTOR_TRIES	1
++#define GET_DESCRIPTOR_OPERATIONS	1
+ #define PORT_INIT_TRIES		5
+ 
+ #else
+ #define PORT_RESET_TRIES	5
+ #define SET_ADDRESS_TRIES	2
+ #define GET_DESCRIPTOR_TRIES	2
++#define GET_DESCRIPTOR_OPERATIONS	3
+ #define PORT_INIT_TRIES		4
+ #endif	/* CONFIG_USB_FEW_INIT_RETRIES */
+ 
+@@ -4699,7 +4701,7 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 			 * 255 is for WUSB devices, we actually need to use
+ 			 * 512 (WUSB1.0[4.8.1]).
+ 			 */
+-			for (operations = 0; operations < 3; ++operations) {
++			for (operations = 0; operations < GET_DESCRIPTOR_OPERATIONS; ++operations) {
+ 				buf->bMaxPacketSize0 = 0;
+ 				r = usb_control_msg(udev, usb_rcvaddr0pipe(),
+ 					USB_REQ_GET_DESCRIPTOR, USB_DIR_IN,
 -- 
-2.26.2
+2.7.4
 
