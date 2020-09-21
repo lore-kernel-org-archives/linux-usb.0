@@ -7,59 +7,59 @@ X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AD3C43465
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CB1C43468
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39A5A20B1F
+	by mail.kernel.org (Postfix) with ESMTP id C686120756
 	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 14:00:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1600696806;
-	bh=0nVXFxKlv3B/GshEQOcN9O2mcYuufyoFZnV3PZOywDs=;
+	bh=zvcSKdka8MWJDFF0L4+TxqQovqXBODY1v6/sOJYC9yo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Krz5CgBvjIZfxZS6vfyMI+PVtiFbup77N+df07wm1I9r1VwKMZB1V9x892wv9X+DK
-	 3YIdIL4ctdzSVPJHb2oaDzfEPkyMWLHq/inCiKBWr20DdGCrgpg8wZHK+gbIE/J20j
-	 YgpHKkvMo6FxgoETqUbk6rdQyF5D47ZmOCDMr3Qs=
+	b=zFvnTB3WjuK2/jai/1D6HhIHDJHh53/OuJQeOQ78OlQ6/vmicUpCh85BQbsf1AOT5
+	 Zu3rRoMXedNS7ITO9ItY+HFluKP8USxyAxuiseEiWWfuhs5t77NX4uxnpa8CX78lSR
+	 CUYj9cda56/F5TNvhhzRxx2jcP//V1HKOuhXCph4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727365AbgIUOAF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1727369AbgIUOAF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Mon, 21 Sep 2020 10:00:05 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40367 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727212AbgIUOAE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 10:00:04 -0400
-Received: by mail-lj1-f195.google.com with SMTP id s205so11170317lja.7;
-        Mon, 21 Sep 2020 07:00:03 -0700 (PDT)
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40286 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727263AbgIUOAF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 10:00:05 -0400
+Received: by mail-lf1-f66.google.com with SMTP id m5so14129333lfp.7
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 07:00:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Hb+hvNgCGvB638VQzdE3NIGwCfs5oVJCLR3se4p/iOQ=;
-        b=mmArRY58tz1JUoF4Mt13TyuEU2tR1XntFGnzjmQZIURnM8V4zoV+WGF4Go2XSqQe6f
-         IKc40KM285evvj9AiLc66SixWYy5Fb0rqiwyEKe9nYSqvH8NKx9+VxGl9h8RzXYqHB95
-         J0L5K4WiVm0VUo7tarqlkVaSnKdRJGEZUi3/F1WbbAjUOq1siiNlGn71SjBPpjqmmSn7
-         n0cbYDN7sMVrMj6y8TgvTfdjBvnXc3rGXCXSz4gUq4BdxdsmwEp17jBPl4Hiuoy74EMp
-         8QFwGpZaG6bCMc3gdx9CRQl4TbMZiZ8aCC5qEkTOKYvOz1iAhfDUFBCAKFQHNAgVXt+L
-         5dLw==
-X-Gm-Message-State: AOAM530RPtuzKJjdOevWz0D+fUvTMpq/Zh/GsJVxNqlkK5sKeHYhs+gd
-        aFHur82lGooDK3R3+pzJKfE=
-X-Google-Smtp-Source: ABdhPJz7LguBTd+8s7pivgoffUS7JzHCqg1FrpvAy9NmuriFUwh+MTpgAq7UPuAEvXTmBIZ/FLMscg==
-X-Received: by 2002:a2e:7215:: with SMTP id n21mr16504713ljc.438.1600696801854;
-        Mon, 21 Sep 2020 07:00:01 -0700 (PDT)
+        bh=QeNREgn/VBFyeE24M7SC8hPxyEUzwzXz3H+WzHOfyA8=;
+        b=VaWg0KccWh2iTrvGn3X2EsuHqbEM7OMPgKKBOyHAOYgnaNr39/6hGGeRzW4MB8+urq
+         oL+kZOFkPRDNN0C/oHNOkrAODSCDC1JNbFZ2FemG0ZItb6KPJTIOO9lCyPYTCHaYZskd
+         B2LZLe6CS/S2uF42gS8uUv2fVs1IdA+QwYnljVg8d5nDSRtmJXtqQvvjBtXJAs0DdmgT
+         krpwN2gCByVX30fDUSLDWdr/QPBwLPr3kP0iqdboiT8MOBrUCn6DAas5qcUppCvzOwax
+         7HJjIuVaZh+AZvDlqglZHFlxPrRhUf0Ckiho0tNdTdKuBSkUwVvowPgmpvCyHLyk0Ysi
+         KDfA==
+X-Gm-Message-State: AOAM530OgEtCwwBQIIbpRGnARORDUZSUP85NPwXRhLLityJdcCEwdGY0
+        91YKKvK7edHXvOq764Jiwxs=
+X-Google-Smtp-Source: ABdhPJyh55m81LxK+3KDLEWRsL2Kcu587mqoByGkpYzlEOYWzN0SGP6JbwghNNl7WHwUWL+sqLz8xw==
+X-Received: by 2002:a19:521a:: with SMTP id m26mr35819lfb.133.1600696802810;
+        Mon, 21 Sep 2020 07:00:02 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id k205sm2594711lfk.19.2020.09.21.07.00.00
+        by smtp.gmail.com with ESMTPSA id y21sm2728739ljk.110.2020.09.21.07.00.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 21 Sep 2020 07:00:01 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1kKMMF-0006Gu-2Q; Mon, 21 Sep 2020 15:59:55 +0200
+        id 1kKMME-0006Go-WC; Mon, 21 Sep 2020 15:59:55 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org,
         Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>,
-        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH v2 2/4] USB: cdc-acm: handle broken union descriptors
-Date:   Mon, 21 Sep 2020 15:59:49 +0200
-Message-Id: <20200921135951.24045-3-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 1/4] Revert "cdc-acm: hardening against malicious devices"
+Date:   Mon, 21 Sep 2020 15:59:48 +0200
+Message-Id: <20200921135951.24045-2-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200921135951.24045-1-johan@kernel.org>
 References: <20200921135951.24045-1-johan@kernel.org>
@@ -69,52 +69,39 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Handle broken union functional descriptors where the master-interface
-doesn't exist or where its class is of neither Communication or Data
-type (as required by the specification) by falling back to
-"combined-interface" probing.
+This reverts commit 2ad9d544f2497a7bf239c34bd2b86fd19683dbb5.
 
-Note that this still allows for handling union descriptors with switched
-interfaces.
+Drop bogus sanity check; an interface in the active configuration will
+always have a current altsetting assigned by USB core.
 
-This specifically makes the Whistler radio scanners TRX series devices
-work with the driver without adding further quirks to the device-id
-table.
-
-Link: https://lore.kernel.org/r/5f4ca4f8.1c69fb81.a4487.0f5f@mx.google.com
-Reported-by: Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>
-Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/class/cdc-acm.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/usb/class/cdc-acm.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index e28ac640ff9c..f42ade505569 100644
+index 7f6f3ab5b8a6..e28ac640ff9c 100644
 --- a/drivers/usb/class/cdc-acm.c
 +++ b/drivers/usb/class/cdc-acm.c
-@@ -1240,9 +1240,21 @@ static int acm_probe(struct usb_interface *intf,
- 			}
- 		}
- 	} else {
-+		int class = -1;
-+
- 		data_intf_num = union_header->bSlaveInterface0;
- 		control_interface = usb_ifnum_to_if(usb_dev, union_header->bMasterInterface0);
- 		data_interface = usb_ifnum_to_if(usb_dev, data_intf_num);
-+
-+		if (control_interface)
-+			class = control_interface->cur_altsetting->desc.bInterfaceClass;
-+
-+		if (class != USB_CLASS_COMM && class != USB_CLASS_CDC_DATA) {
-+			dev_dbg(&intf->dev, "Broken union descriptor, assuming single interface\n");
-+			combined_interfaces = 1;
-+			control_interface = data_interface = intf;
-+			goto look_for_collapsed_interface;
-+		}
+@@ -1196,9 +1196,6 @@ static int acm_probe(struct usb_interface *intf,
+ 		return -EINVAL;
  	}
  
- 	if (!control_interface || !data_interface) {
+-	if (!intf->cur_altsetting)
+-		return -EINVAL;
+-
+ 	if (!buflen) {
+ 		if (intf->cur_altsetting->endpoint &&
+ 				intf->cur_altsetting->endpoint->extralen &&
+@@ -1252,8 +1249,6 @@ static int acm_probe(struct usb_interface *intf,
+ 		dev_dbg(&intf->dev, "no interfaces\n");
+ 		return -ENODEV;
+ 	}
+-	if (!data_interface->cur_altsetting || !control_interface->cur_altsetting)
+-		return -ENODEV;
+ 
+ 	if (data_intf_num != call_intf_num)
+ 		dev_dbg(&intf->dev, "Separate call control interface. That is not fully supported.\n");
 -- 
 2.26.2
 
