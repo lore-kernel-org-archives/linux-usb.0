@@ -2,42 +2,58 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0FDC43465
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:25:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC78C43466
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:33:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAA5B23718
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:25:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A0AE239D3
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 16:33:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600706001;
+	bh=kcpOePPk9Oa0xA+RHgt1wPgGHNQUOeL2zZ/g8BSu8Fo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=pgRe6bu1rTUpGgTWnoVRIBlYS400/gRLQacBc6FsH8idK+zdqZb8MZdQTOyBMVhBW
+	 TMGMFnITbNmRj7HX+oi0SXRnDM/wsRXOux2dSxQa7Tul/+pHDaKBEkc4IMDJjPSp1O
+	 T6G/BAVIy3MKz9EUbUgm56jKV/79GFHj2TuWWfAg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728330AbgIUQY6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 12:24:58 -0400
-Received: from out28-123.mail.aliyun.com ([115.124.28.123]:42357 "EHLO
-        out28-123.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728274AbgIUQY6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 12:24:58 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.1922966|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0141755-0.0008202-0.985004;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03278;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.IaJ0p8G_1600705483;
-Received: from localhost.localdomain(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.IaJ0p8G_1600705483)
-          by smtp.aliyun-inc.com(10.147.40.44);
-          Tue, 22 Sep 2020 00:24:53 +0800
-From:   =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0=20=28Zhou=20Yanjie=29?= 
-        <zhouyanjie@wanyeetech.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org, kishon@ti.com,
-        vkoul@kernel.org, paul@crapouillou.net
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        christophe.jaillet@wanadoo.fr, dongsheng.qiu@ingenic.com,
-        aric.pzqi@ingenic.com, rick.tyliu@ingenic.com,
-        yanfei.li@ingenic.com, sernia.zhou@foxmail.com,
-        zhenwenjin@gmail.com
-Subject: [PATCH v5 1/2] USB: PHY: JZ4770: Remove unnecessary function calls.
-Date:   Tue, 22 Sep 2020 00:24:16 +0800
-Message-Id: <20200921162417.52004-2-zhouyanjie@wanyeetech.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200921162417.52004-1-zhouyanjie@wanyeetech.com>
-References: <20200921162417.52004-1-zhouyanjie@wanyeetech.com>
+        id S1728602AbgIUQdR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 12:33:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59324 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728599AbgIUQdQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:33:16 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7802B2396F;
+        Mon, 21 Sep 2020 16:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600705996;
+        bh=kcpOePPk9Oa0xA+RHgt1wPgGHNQUOeL2zZ/g8BSu8Fo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=igcBcA6KAeOtWunDaMFF0CiXCWYbBW7gXe9rY/ooMiGynOy7/gWgCBUDjWYxeR8zr
+         bOCjuVbDQsf92x790HagIcEgZDtleCHjouAEPEtBD4c2SS0Sy4R9bKGlxJtkf15aNk
+         tXIOvRXvIIHaoBWGq9BL8BSs/0awrHXBif/7O7ng=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-usb@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH 4.4 46/46] x86/defconfig: Enable CONFIG_USB_XHCI_HCD=y
+Date:   Mon, 21 Sep 2020 18:28:02 +0200
+Message-Id: <20200921162035.393246797@linuxfoundation.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200921162033.346434578@linuxfoundation.org>
+References: <20200921162033.346434578@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -45,40 +61,52 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Remove unnecessary "of_match_ptr()", because Ingenic SoCs all
-depend on Device Tree.
+From: Adam Borowski <kilobyte@angband.pl>
 
-Suggested-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+commit 72a9c673636b779e370983fea08e40f97039b981 upstream.
+
+A spanking new machine I just got has all but one USB ports wired as 3.0.
+Booting defconfig resulted in no keyboard or mouse, which was pretty
+uncool.  Let's enable that -- USB3 is ubiquitous rather than an oddity.
+As 'y' not 'm' -- recovering from initrd problems needs a keyboard.
+
+Also add it to the 32-bit defconfig.
+
+Signed-off-by: Adam Borowski <kilobyte@angband.pl>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-usb@vger.kernel.org
+Link: http://lkml.kernel.org/r/20181009062803.4332-1-kilobyte@angband.pl
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
 ---
+ arch/x86/configs/i386_defconfig   |    1 +
+ arch/x86/configs/x86_64_defconfig |    1 +
+ 2 files changed, 2 insertions(+)
 
-Notes:
-    v3:
-    New patch.
-    
-    v3->v4:
-    No change.
-    
-    v4->v5:
-    Add Paul Cercueil's Reviewed-by.
+--- a/arch/x86/configs/i386_defconfig
++++ b/arch/x86/configs/i386_defconfig
+@@ -247,6 +247,7 @@ CONFIG_USB_HIDDEV=y
+ CONFIG_USB=y
+ CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
+ CONFIG_USB_MON=y
++CONFIG_USB_XHCI_HCD=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_EHCI_TT_NEWSCHED=y
+ CONFIG_USB_OHCI_HCD=y
+--- a/arch/x86/configs/x86_64_defconfig
++++ b/arch/x86/configs/x86_64_defconfig
+@@ -241,6 +241,7 @@ CONFIG_USB_HIDDEV=y
+ CONFIG_USB=y
+ CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
+ CONFIG_USB_MON=y
++CONFIG_USB_XHCI_HCD=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_EHCI_TT_NEWSCHED=y
+ CONFIG_USB_OHCI_HCD=y
 
- drivers/usb/phy/phy-jz4770.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/phy/phy-jz4770.c b/drivers/usb/phy/phy-jz4770.c
-index f6d3731581eb..4025da20b3fd 100644
---- a/drivers/usb/phy/phy-jz4770.c
-+++ b/drivers/usb/phy/phy-jz4770.c
-@@ -350,7 +350,7 @@ static struct platform_driver ingenic_phy_driver = {
- 	.probe		= jz4770_phy_probe,
- 	.driver		= {
- 		.name	= "jz4770-phy",
--		.of_match_table = of_match_ptr(ingenic_usb_phy_of_matches),
-+		.of_match_table = ingenic_usb_phy_of_matches,
- 	},
- };
- module_platform_driver(ingenic_phy_driver);
--- 
-2.11.0
 
