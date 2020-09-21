@@ -2,90 +2,75 @@ Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B33C43464
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:37:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E50B4C43464
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:47:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 249BD20EDD
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:37:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="hWQ1cc0r"
+	by mail.kernel.org (Postfix) with ESMTP id B85392145D
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 11:47:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbgIULh6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 07:37:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45724 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726803AbgIULh4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Sep 2020 07:37:56 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600688275;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=kOAvk89wVGacoYWtvsN0jTXXcK4NTRAGpet9z8LSDX4=;
-        b=hWQ1cc0r7FtbcFH+mFfjk5QF2rQYf134LDMF0EEG4C4wzQeWxOLr6qksdmbhlVUhYkv6Dm
-        1r50H1ca1OXNXj/XuuXtsHexLf/h2ACVEyj35g9YHxNbVZnvz4rwlexV78bh9VNdEIyFGL
-        8vVffhrCo8jQp0gaYEXAWzB30ruqj3U=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B621AB54D;
-        Mon, 21 Sep 2020 11:38:31 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     keithp@keithp.com, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFT 4/4] chaoskey: request data asynchronously
-Date:   Mon, 21 Sep 2020 13:37:32 +0200
-Message-Id: <20200921113732.11524-5-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200921113732.11524-1-oneukum@suse.com>
-References: <20200921113732.11524-1-oneukum@suse.com>
+        id S1726460AbgIULrd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 07:47:33 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:40406 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726402AbgIULrc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 07:47:32 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id CED471C0B7A; Mon, 21 Sep 2020 13:47:29 +0200 (CEST)
+Date:   Mon, 21 Sep 2020 13:47:29 +0200
+From:   Pavel Machek <pavel@denx.de>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Pavel Machek <pavel@denx.de>, stern@rowland.harvard.edu,
+        kai.heng.feng@canonical.com, johan@kernel.org,
+        tomasz@meresinski.eu, jonathan@jdcox.net, kerneldev@karsmulder.nl,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: quirks: simplify quirk handling.
+Message-ID: <20200921114729.GA21368@duo.ucw.cz>
+References: <20200921113039.GA19862@duo.ucw.cz>
+ <20200921113800.GA26212@kroah.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
+In-Reply-To: <20200921113800.GA26212@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This requests more data if a read has exhausted the buffer
-just to have it ready sooner.
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/misc/chaoskey.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/usb/misc/chaoskey.c b/drivers/usb/misc/chaoskey.c
-index 0d80cba162a4..5773cf477e4d 100644
---- a/drivers/usb/misc/chaoskey.c
-+++ b/drivers/usb/misc/chaoskey.c
-@@ -358,6 +358,9 @@ static int chaoskey_request_fill(struct chaoskey *dev)
- 		return -ENODEV;
- 	}
- 
-+	if (dev->reading)
-+		return -EBUSY;
-+
- 	/* Make sure the device is awake */
- 	result = usb_autopm_get_interface(dev->interface);
- 	if (result) {
-@@ -500,13 +503,16 @@ static ssize_t chaoskey_read(struct file *file,
- 		dev->used += this_time;
- 		mutex_unlock(&dev->lock);
- 	}
-+	/* request data on suspicion that it will eventually be used */
-+	if (dev->valid == dev->used)
-+		(void)chaoskey_request_fill(dev);
- bail:
- 	if (read_count) {
- 		usb_dbg(dev->interface, "read %zu bytes", read_count);
- 		return read_count;
- 	}
- 	usb_dbg(dev->interface, "empty read, result %d", result);
--	if (result == -ETIMEDOUT)
-+	if (result == -ETIMEDOUT || result == -EBUSY)
- 		result = -EAGAIN;
- 	return result;
- }
--- 
-2.16.4
+On Mon 2020-09-21 13:38:00, Greg KH wrote:
+> On Mon, Sep 21, 2020 at 01:30:39PM +0200, Pavel Machek wrote:
+> > Simplify quirk handling.
+>=20
+> In what way?
+>=20
+> Please be more descriptive in your changelog and resend.
 
+Have you looked at the patch below? Please apply the patch. You are
+free to edit the changelog if you feel the need.
+
+								Pavel
+--=20
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2iS0QAKCRAw5/Bqldv6
+8ujBAJ9B5HOkcqxDoaHZMtSxoV1LRbLZKQCgwZ0qh0oimerhxavrreqLlAfugvM=
+=Hw2D
+-----END PGP SIGNATURE-----
+
+--IS0zKkzwUGydFO0o--
