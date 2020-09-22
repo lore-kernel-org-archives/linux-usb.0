@@ -1,203 +1,306 @@
-Return-Path: <SRS0=kiWP=C6=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=MsX+=C7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA1CC4363C
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 20:55:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF100C4727F
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 00:42:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 632B123A61
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Sep 2020 20:55:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F19923A9A
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 00:42:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="NrPrJ7zf"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UVWVU0fb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbgIUUzN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Sep 2020 16:55:13 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5776 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726427AbgIUUzN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 16:55:13 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 16:55:13 EDT
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f6911d50000>; Mon, 21 Sep 2020 13:49:25 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 21 Sep
- 2020 20:50:06 +0000
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Mon, 21 Sep 2020 20:50:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gk8i5d3H44Uru1jHsWLd+B6NrKRomUQJG7d9kDfYuwbiMUEhDUajMDebAx1tlZYDg6ECoVUFMubbclObdQznjdXpsEbNBWTukzyHfFXJEkhgUDoFQUVpEmRdWfwSN04Lc6TXB6glpJEPJU9dhjjdVOeec9MV1AS7hsqHRNE05NlQ8KK8EFMprhMU36BAbZMKX6qWYPKlkCkyPoeFtjKb2MPdy7AXe2UbBaRLmr7cxSOUXdNaqR814pWh8JvdFpEcT01HcrkOeGoVE1LoPJrhQC2aeC95M0Qi9o9zxsGdoDFAP9ZUlQL8wwq8cLf2BoUOgeaOIxRjxCZ2NBeyzVcuBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KYfYSj8zcLHNXz9IBMvtxTFSOLEjW1vdKgS3gdiAV08=;
- b=Eza1fztOcMgMTTwDTQIeaznO9wabl/F3fdjJA3B1bGbL5gd6KQy70dlUt72Zi7d6+HJj1qzxsJjv1PXqhOzudhiikOco1gNnitXo7yagPqunXYjOFxVE5KGkfswP1s47YMuR+rzJsEzZZHXuUCNaj71A/1HNhvcD0Qo+HA5zkmH0J3bOAqliSgGIplp+Oo6qyREzHN55KI6XItX4Ub8Ot/oUEvNve8UtCh03cvDdGT2uAZNG4EhL/064Rk8jhQQ9Y7BsJ8uEYsTJUdO51rkzrB64dESc+iIKgtXZlfQD8wGoSLjCuiPMTIJdLzxBR4CZNUKkWJpYT+5yts4PBRcQ0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BY5PR12MB3953.namprd12.prod.outlook.com (2603:10b6:a03:194::22)
- by BYAPR12MB2886.namprd12.prod.outlook.com (2603:10b6:a03:12d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Mon, 21 Sep
- 2020 20:50:04 +0000
-Received: from BY5PR12MB3953.namprd12.prod.outlook.com
- ([fe80::4458:4eac:63ef:5a09]) by BY5PR12MB3953.namprd12.prod.outlook.com
- ([fe80::4458:4eac:63ef:5a09%6]) with mapi id 15.20.3391.011; Mon, 21 Sep 2020
- 20:50:04 +0000
-From:   Ajay Gupta <ajayg@nvidia.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Ajay Gupta <ajaykuee@gmail.com>
-CC:     "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH] usb: typec: ucsi_ccg: use dev_info for timeout error
-Thread-Topic: [PATCH] usb: typec: ucsi_ccg: use dev_info for timeout error
-Thread-Index: AQHWkD6liAyFp+D0JUimlD153ehl1KlzcMsAgAAf/tA=
-Date:   Mon, 21 Sep 2020 20:50:04 +0000
-Message-ID: <BY5PR12MB3953FD500F1F72A32A5BEC07DC3A0@BY5PR12MB3953.namprd12.prod.outlook.com>
-References: <20200921174216.2862-1-ajayg@nvidia.com>
- <20200921185432.GA1484407@kroah.com>
-In-Reply-To: <20200921185432.GA1484407@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=ajayg@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-09-21T20:50:03.4276043Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=9e8f88f4-cd2f-46c8-8669-99dc5c738678;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=nvidia.com;
-x-originating-ip: [216.228.112.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9355419c-ee08-4c9e-3a36-08d85e6feaef
-x-ms-traffictypediagnostic: BYAPR12MB2886:
-x-microsoft-antispam-prvs: <BYAPR12MB2886E63C7EE18FFA666D39B8DC3A0@BYAPR12MB2886.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: awl/Mw6BXNy//h5pSIW9PyTbmLozH/JqABvJ/LdlubHlrpDYOe++H2rkOh8OD8MxvJUgKnhjPI+GD3yxEsliGJlUbu11aA7epye7Yt6q8ZuJF6ymPv5PRo/po6miWfdDTG02xJev8EBPrZQa1Gm0l07J1kgK42dxJctfUMejsUm8gPdx4zJ33QUBDvzs2eaQnF8Uwsjp4mc39R9CcypGFFxQx8zcde6asGfQxZKuwko01Mfsh5yJQlyyHBAn57/plK0n9By4u0Z7T7nGmvUu501IAW8qJFILxyEpQO7q1cVu0jq7BxyYNHLTx19HNF3+FlKgEqOoL5LB9LXQbcWtnNv0Jvu0Z7tVlGwJyn6Vx7p1YPouHIGqTbNtziyLkbe/XYqb7ZVsAhHFo7fe74Zgy/w5GJsX9tyPvoC1YxBIVSpqnScQLNy7R+eLylTyB/f7mulGEraKl3P/fYgNBf4GuA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3953.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(39860400002)(346002)(136003)(110136005)(7696005)(66476007)(966005)(71200400001)(66946007)(86362001)(66446008)(2906002)(64756008)(66556008)(76116006)(53546011)(6506007)(4326008)(26005)(316002)(55016002)(478600001)(186003)(54906003)(9686003)(52536014)(83380400001)(5660300002)(33656002)(8936002)(8676002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: oLne1e5CPfYBJ4ez0Gm1KprqVlXdwAp58EDHS2bYNTt0Fu2RnF6D6kjZ2QCSeG9nJcqO+Cj4xTaJ+wNkLq32xNAqLPuTpgBnpSOR9rUAeqFSkWfY5urX5nbde4ocSezKlyNU8SpSgrFRcdyjW6MBNxs13ya7mBoE6rKP617Ga3ja6XuhnwL/G+nLm0KS4I6Fn4MtKq2glV/bZ0zgqZ38v6o8b/2z04DZ+h64Ld0o+Z8Yp0Dt3kehRJiW+r+BhiGByiteW/GTxpJnjKZPRGNkaZ9xHqPAVvHvv4veSyh97324J/DoucJzMtBh9ooiPMlTEufAne6Vwm71spKJlBMjwCL6rtKJzIgd+YDEewKqlJA6DjIYbjJwvDhVpnsd06RVoMjHQQ2xMM08C2RrjdA7Ui/A4bnD7v2krIvEq4HZi/DxTIxKpbw/aODTsvBwfLAyCY0/QFA5dlfU1UICxDsanHs1wpzyHrQp0agbZ0DJGo1bdJ1dXEQurCt9/lSOtsJbdQW4pcgiKjqTBWV44lyeJMLbNzWyO4O+WSMbRl6BFOR+lcYxve0QAh5Pjq+ex+4mPfzDv+JseSREwaAHTIe/VW5JJ3baKbPacLRURjEBz/v5G2OU+SCTOHk+qs9Bg0C31kb1/KOO6Owmit/OL/FToQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1729391AbgIVAmB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Sep 2020 20:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729332AbgIVAmB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Sep 2020 20:42:01 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A6EC0613D0
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 17:42:01 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id g29so10520474pgl.2
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2020 17:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CaGeSvPYLRYBm98UO6Jry86VMBCqcS8gmrX0rLLRuOo=;
+        b=UVWVU0fbt3UEKUYJ92XpmWL02+0ZZG+3A1SSfXv4mzj9EmM+5wPT0JugLs1A1pTkgs
+         GvwFgkaLyI7j3I22oeHMuDDE7hUnqOrHHOkP8Msf3V+Ax6fnak1f0BqDfabxgg9kmDXb
+         fEd7tC05asleoEk921rx4kEVfKq3LyTKxAUdg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CaGeSvPYLRYBm98UO6Jry86VMBCqcS8gmrX0rLLRuOo=;
+        b=YljsHLtYe4crGyGnkbRX98xz7sGQsk72ZaUzxakH38Dqj084C2U1L7whwOrFZYPMHL
+         Wb8AvngddrxUmxSOIgamwQ9wBTjaXgApkRhdo7ud7kcF8AEXIeu1Re1HN9u4bYLa98m9
+         fSNFZadb1fr0qGCw5AO3kQZM8Igx9cUzRyz8I9m1TfBIJNmzGIDGkIFAA2GUPyZlEj6X
+         3FSw10K94pOCcWd7VCyIOOJj5NdcF6qpcH/111mkKk2XLLa3DF+FkdlLhtm4q/iDfOZ6
+         hI9h458ven/xpDlQON0sBQK+ereOSqS3b6QMFUmz6KeOKOFd3fWkirzrXh6qUBznn2kA
+         Y27Q==
+X-Gm-Message-State: AOAM532kcDVyX5qHSYwpvw1t+XJ9eWWP2Flz/j/NB3uu3y/x7L41DU7s
+        TFUuBcuIAdHOMJSjR1VBQ5pJRw==
+X-Google-Smtp-Source: ABdhPJzrP7IAhyFSlSdePZhYT6llTUXfmudyC5btRBnQE8UwmQ3o815KAwRkrvJlha1c1bQQjUFnZw==
+X-Received: by 2002:a63:3645:: with SMTP id d66mr1639938pga.167.1600735320822;
+        Mon, 21 Sep 2020 17:42:00 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
+        by smtp.gmail.com with ESMTPSA id e123sm13488203pfh.167.2020.09.21.17.41.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2020 17:42:00 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 17:41:58 -0700
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-usb@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Peter Chen <peter.chen@nxp.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v2 2/2] USB: misc: Add onboard_usb_hub driver
+Message-ID: <20200922004158.GC21107@google.com>
+References: <20200917114600.v2.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+ <20200917114600.v2.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
+ <20200917195416.GA1099735@rowland.harvard.edu>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3953.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9355419c-ee08-4c9e-3a36-08d85e6feaef
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2020 20:50:04.7363
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0cdDwn9BrNDjZ2xhUCVeXYTYuEGIqfr+upDJtWsD9ugD9848FQb4pLrO2nGP3YXV6SqbsB2+eOSIcYpY57w1cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2886
-X-OriginatorOrg: Nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1600721365; bh=KYfYSj8zcLHNXz9IBMvtxTFSOLEjW1vdKgS3gdiAV08=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
-         CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
-         In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
-         X-MS-TNEF-Correlator:msip_labels:authentication-results:
-         x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-microsoft-antispam-prvs:x-ms-oob-tlc-oobclassifiers:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam:
-         x-microsoft-antispam-message-info:x-forefront-antispam-report:
-         x-ms-exchange-antispam-messagedata:x-ms-exchange-transport-forked:
-         Content-Type:Content-Transfer-Encoding:MIME-Version:
-         X-MS-Exchange-CrossTenant-AuthAs:
-         X-MS-Exchange-CrossTenant-AuthSource:
-         X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-        b=NrPrJ7zfXNkQ2YHdhzDwM5XAbOrKHfng4bUL5Qryd+1MeXvNQ80WMfG79/dLslTFC
-         0tL6QyIMjtxOuhn5Nwxy54qjCBsMX08ni4fWBPmsnCPZTwE8ATd4MnZSUwYV/gHnC9
-         5yBJl4+7eYSZq8drWEYwPcCTjawengqUtiWROHmkaWIMqDgS5tAq7yQnzNp6B8XZ7x
-         IqWDzRBna0KMxQQ0PhU/z3/zxnfdOSQ6A6deIOD+J9H+0G1kVFD6BwiWWPOuHcfVnX
-         jGX4U/oAQZotxfUbZxw7D4l4jNxW6XbJ6Bx1eGU7ULcjNxHpgXhFdH+UyItme4EhZs
-         FP2psZIVW14pw==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200917195416.GA1099735@rowland.harvard.edu>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+Hi Alan,
 
-> -----Original Message-----
-> From: Greg KH <gregkh@linuxfoundation.org>
-> Sent: Monday, September 21, 2020 11:55 AM
-> To: Ajay Gupta <ajaykuee@gmail.com>
-> Cc: heikki.krogerus@linux.intel.com; linux-usb@vger.kernel.org; Ajay Gupt=
-a
-> <ajayg@nvidia.com>
-> Subject: Re: [PATCH] usb: typec: ucsi_ccg: use dev_info for timeout error
->=20
-> External email: Use caution opening links or attachments
->=20
->=20
-> On Mon, Sep 21, 2020 at 10:42:16AM -0700, Ajay Gupta wrote:
-> > From: Ajay Gupta <ajayg@nvidia.com>
-> >
-> > Timeout error may be seen due to missing USB Type-C UCSI controller on
-> > some NVIDIA GPU card. Currently we don't have a correct way to
-> > identify these cards.
->=20
-> No unique id anywhere???  That feels like someone really messed up :(
-Yes, there is none.
->=20
-> >
-> > Tools like Plymouth (splashscreen) doesn't like dev_err so changing
-> > timeout status log to dev_info.
-> >
-> > Bug information:
-> > https://bugzilla.kernel.org/show_bug.cgi?id=3D206653
-> >
-> > Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
-> > ---
-> >  drivers/usb/typec/ucsi/ucsi_ccg.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > index bff96d64dddf..d69432df866e 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > @@ -252,7 +252,7 @@ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u=
-8
-> *data, u32 len)
-> >               put_unaligned_le16(rab, buf);
-> >               status =3D i2c_transfer(client->adapter, msgs, ARRAY_SIZE=
-(msgs));
-> >               if (status < 0) {
-> > -                     dev_err(uc->dev, "i2c_transfer failed %d\n", stat=
-us);
-> > +                     dev_info(uc->dev, "i2c_transfer failed %d\n",
-> > + status);
->=20
-> It's an error, leave it an error.
->=20
-> If it's not an error, don't log it.
-Looks like this is the best option we have.
+thanks for taking time to review!
 
-Thanks
-> nvpublic
->=20
-> Or better yet, fix the hardware :)
->=20
-> thanks,
->=20
-> greg k-h
+On Thu, Sep 17, 2020 at 03:54:16PM -0400, Alan Stern wrote:
+> On Thu, Sep 17, 2020 at 11:46:22AM -0700, Matthias Kaehlcke wrote:
+> > The main issue this driver addresses is that a USB hub needs to be
+> > powered before it can be discovered. For onboard hubs this is often
+> > solved by supplying the hub with an 'always-on' regulator, which is
+> > kind of a hack. Some onboard hubs may require further initialization
+> > steps, like changing the state of a GPIO or enabling a clock, which
+> > requires further hacks. This driver creates a platform device
+> > representing the hub which performs the necessary initialization.
+> > Currently it only supports switching on a single regulator, support
+> > for multiple regulators or other actions can be added as needed.
+> > Different initialization sequences can be supported based on the
+> > compatible string.
+> > 
+> > Besides performing the initialization the driver can be configured
+> > to power the hub off during system suspend. This can help to extend
+> > battery life on battery powered devices which have no requirements
+> > to keep the hub powered during suspend. The driver can also be
+> > configured to leave the hub powered when a wakeup capable USB device
+> > is connected when suspending, and power it off otherwise.
+> > 
+> > Technically the driver consists of two drivers, the platform driver
+> > described above and a very thin USB driver that subclasses the
+> > generic driver. The purpose of this driver is to provide the platform
+> > driver with the USB devices corresponding to the hub(s) (a hub
+> > controller may provide multiple 'logical' hubs, e.g. one to support
+> > USB 2.0 and another for USB 3.x).
+> > 
+> > Co-developed-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
+> > Signed-off-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
+> > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+> 
+> > +config USB_ONBOARD_HUB
+> > +	tristate "Onboard USB hub support"
+> > +	depends on OF
+> > +	help
+> > +	  Say Y here if you want to support onboard USB hubs. The driver
+> > +	  powers supported hubs on and may perform other initialization
+> > +	  steps.
+> 
+> I have a nagging feeling that this description may be too vague for a
+> lot of people to understand.  Does everybody know what an "onboard"
+> USB hub is?
+> 
+> Consider for example that Intel's current EHCI host controllers all
+> come with a USB hub built into the chipset.  That built-in hub
+> certainly could be considered "onboard", but it doesn't need this
+> driver.
+> 
+> Maybe also give some examples of devices that require this driver, to
+> help make the idea clear to readers.
+
+Ok, I'll try to come up with a better description.
+
+> > +static int __maybe_unused onboard_hub_suspend(struct device *dev)
+> > +{
+> > +	struct onboard_hub *hub = dev_get_drvdata(dev);
+> > +	struct udev_node *node;
+> > +	int rc = 0;
+> > +
+> > +	hub->has_wakeup_capable_descendants = false;
+> > +
+> > +	if (!hub->power_off_in_suspend)
+> > +		return 0;
+> > +
+> > +	mutex_lock(&hub->lock);
+> > +
+> > +	list_for_each_entry(node, &hub->udev_list, list) {
+> > +		if (!device_may_wakeup(node->udev->bus->controller))
+> > +			break;
+> 
+> You're assuming that node->udev->bus->controller is going to be the
+> same for the nodes on the list, right?
+
+Yes, that is the assumption, although you have a point that this isn't
+necessarily the case. It's probably true in the vast majority of cases,
+but a hub could be wired up to multiple controllers. I'll change the
+loop to set the flag without breaking, it's a micro-optimization
+anyway.
+
+> > +
+> > +		if (usb_wakeup_enabled_descendants(node->udev)) {
+> > +			hub->has_wakeup_capable_descendants = true;
+> > +			break;
+> > +		}
+> > +	}
+> > +
+> > +	mutex_unlock(&hub->lock);
+> > +
+> > +	if (!hub->has_wakeup_capable_descendants)
+> > +		rc = onboard_hub_power_off(hub);
+> > +
+> > +	return rc;
+> > +}
+> > +
+> > +static int __maybe_unused onboard_hub_resume(struct device *dev)
+> > +{
+> > +	struct onboard_hub *hub = dev_get_drvdata(dev);
+> > +	int rc = 0;
+> > +
+> > +	if (hub->power_off_in_suspend && !hub->has_wakeup_capable_descendants)
+> 
+> Instead of this cumbersome two-condition test, how about simply
+> having a hub->is_powered_on flag?  Then
+> hub->has_wakeup_capable_descendants wouldn't be needed.
+
+Ok, less cumbersome code is always good :)
+
+> > +		rc = onboard_hub_power_on(hub);
+> > +
+> > +	return rc;
+> > +}
+> 
+> > +static int onboard_hub_remove_usbdev(struct onboard_hub *hub, struct usb_device *udev)
+> > +{
+> > +	struct udev_node *node;
+> > +
+> > +	mutex_lock(&hub->lock);
+> > +
+> > +	list_for_each_entry(node, &hub->udev_list, list) {
+> > +		if (node->udev == udev) {
+> > +			list_del(&node->list);
+> > +			devm_kfree(hub->dev, node);
+> 
+> Why have an explicit kfree here but not anywhere else?  And if you do
+> have an explicit kfree, why use devm_kzalloc rather than plain kzalloc?
+
+The motivation of the explicit kfree was to avoid hogging memory if the
+USB device disappears and reappears repeatedly. However this doesn't seem
+to be a very common scenario so maybe we can ignore it.
+
+> > +			break;
+> > +		}
+> > +	}
+> > +
+> > +	mutex_unlock(&hub->lock);
+> > +
+> > +	if (node == NULL)
+> > +		return -EINVAL;
+> 
+> This test is wrong.  Look at the definition of list_for_each_entry;
+> node will never be NULL.  Probably the best approach is to use a local
+> "ret" variable.
+
+Ack, thanks for catching!
+
+> > +
+> > +	return 0;
+> > +}
+> 
+> > +static int onboard_hub_remove(struct platform_device *pdev)
+> > +{
+> > +	struct onboard_hub *hub = dev_get_drvdata(&pdev->dev);
+> > +
+> > +	sysfs_remove_file(&pdev->dev.kobj, &dev_attr_power_off_in_suspend.attr);
+> > +
+> > +	return onboard_hub_power_off(hub);
+> > +}
+> 
+> Shouldn't this routine unbind the onboard_hub_usbdev driver from all
+> the associated devices?  Otherwise you end up with more-or-less
+> dangling references to hub (I say more-or-less because with the devm
+> allocations, the structures will hang around as zombies for a while).
+
+True, the dangling references aren't a good idea. Initially I thought
+that the USB devices holding a reference of the hub device would prevent
+this, but apparently that was wishful thinking. IIUC unbinding would be
+done through device_driver_detach().
+
+> Relying on the onboard_hub_power_off call to do this for you isn't a
+> great idea, because the effect won't happen immediately.
+> 
+> > +static int onboard_hub_usbdev_probe(struct usb_device *udev)
+> > +{
+> > +	struct device *dev = &udev->dev;
+> > +	struct onboard_hub *hub;
+> > +
+> > +	/* ignore supported hubs without device tree node */
+> > +	if (!dev->of_node)
+> > +		return -ENODEV;
+> > +
+> > +	hub = _find_onboard_hub(dev);
+> > +	if (IS_ERR(hub))
+> > +		return PTR_ERR(dev);
+> > +
+> > +	dev_set_drvdata(dev, hub);
+> > +
+> > +	onboard_hub_add_usbdev(hub, udev);
+> 
+> Ignoring the return code?  Then why does that routine return int rather
+> than void?
+
+Ok, will abort if the function returns an error.
+
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void onboard_hub_usbdev_disconnect(struct usb_device *udev)
+> > +{
+> > +	struct onboard_hub *hub = dev_get_drvdata(&udev->dev);
+> > +
+> > +	onboard_hub_remove_usbdev(hub, udev);
+> 
+> Ditto.
+
+In this case it's probably better to change the return type to void, since
+there is not really an alternative course of action.
+
+> > +
+> > +	put_device(hub->dev);
+> 
+> Is there a matching get_device somewhere (like in _find_onboard_hub)?
+> If so, I didn't see it.  And I don't see any reason for it.
+
+Yes, implicitly, of_find_device_by_node() "takes a reference to the
+embedded struct device which needs to be dropped after use."
