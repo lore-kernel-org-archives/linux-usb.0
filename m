@@ -2,49 +2,49 @@ Return-Path: <SRS0=MsX+=C7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C92DC2D0E2
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2873CC2D0E2
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 12:11:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A63823600
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:49:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD108239A1
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 12:11:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="IzoJxjOb"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="XbIZFEX5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbgIVLtl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Sep 2020 07:49:41 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57570 "EHLO mx2.suse.de"
+        id S1726550AbgIVMLM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Sep 2020 08:11:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49278 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726522AbgIVLth (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Sep 2020 07:49:37 -0400
+        id S1726505AbgIVMLL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Sep 2020 08:11:11 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600775376;
+        t=1600776670;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iuOJkQS1x63lbThbroA3hbvRtG+6W/hfeFY6CNa3sY0=;
-        b=IzoJxjObZ+QXs5cpzivGfRJBWBlaaVG8HBQNneTEODDuHvo91yjdb0vfcH6t7NOrxSgC3u
-        XdVoHoCODn+QIvUKiateJUaAv1wuvVdCINFa1A/1IipiXw4nk56m7Ku87TXxtQKACi+NmJ
-        N/BfIBCZDjFyp6OLg+a9WeWskEruvsk=
+        bh=ixF9c+z/unmfEj6OGF+/pDUyaTJ8vYdDVd2OqyFf+uc=;
+        b=XbIZFEX5kdJgbFTgQC3BZLH082UFnz3umpJvB2PbuTWDZhGRlLXaq9k3//fBuDPNBMs5JG
+        jqYBA5mrYBjUbNtO8mUd9k6CuDIBZvAwaHy0L/1MTKcMH4uhsGGh0SFm8Lim/aXLiFmNQI
+        OZ0tk7nnd0QaVQrSk5TcgT3r0k6/zWE=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 179ABAE7B;
-        Tue, 22 Sep 2020 11:50:13 +0000 (UTC)
-Message-ID: <1600775358.6926.20.camel@suse.com>
-Subject: Re: [RFC 7/7] CDC-WDM: making flush() interruptible
+        by mx2.suse.de (Postfix) with ESMTP id 80E79B52E;
+        Tue, 22 Sep 2020 12:11:47 +0000 (UTC)
+Message-ID: <1600776653.6926.21.camel@suse.com>
+Subject: Re: [PATCH v2 0/4] USB: cdc-acm: handle broken union descriptors
 From:   Oliver Neukum <oneukum@suse.com>
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
-Date:   Tue, 22 Sep 2020 13:49:18 +0200
-In-Reply-To: <5277d73f-725c-7960-669e-8c7a81532d73@i-love.sakura.ne.jp>
-References: <20200922112126.16919-1-oneukum@suse.com>
-         <20200922112126.16919-8-oneukum@suse.com>
-         <5277d73f-725c-7960-669e-8c7a81532d73@i-love.sakura.ne.jp>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>
+Date:   Tue, 22 Sep 2020 14:10:53 +0200
+In-Reply-To: <20200921135951.24045-1-johan@kernel.org>
+References: <20200921135951.24045-1-johan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.26.6 
 Mime-Version: 1.0
@@ -53,27 +53,19 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Dienstag, den 22.09.2020, 20:38 +0900 schrieb Tetsuo Handa:
-> On 2020/09/22 20:21, Oliver Neukum wrote:
-> > There is no need for flush() to be uninterruptible. close(2)
-> > is allowed to return -EINTR.
-> > 
-> > 30 seconds is quite long a time to sleep in an uninterruptible state.
-> > Change it to an interruptible sleep.
+Am Montag, den 21.09.2020, 15:59 +0200 schrieb Johan Hovold:
+> This series adds support for handling broken union descriptors by
+> falling back to "combined-interface" probing.
 > 
-> Doesn't this conflict with
+> The first patch drops some bogus altsetting sanity checks which would
+> otherwise have had to be needlessly reproduced for consistency. The
+> third patch drops the driver specific data class define in favour of the
+> common one. The last one, cleans up the no-union-descriptor handling by
+> probing for a "combined-interface" before falling back to the
+> call-management descriptor.
 > 
->   Making the wait for IO interruptible would not solve the
->   issue. While it would avoid a hang, it would not allow any progress
->   and we would end up with an unclosable fd.
-> 
-> in [RFC 2/7] ? I suggested killable version, for giving up upon SIGKILL
-> implies automatically closing fds by terminating that userspace process.
+> Note that I changed my mind on the stable tag; we can't be overly
+> paranoid about a theoretical risk of breaking some quirky devices. And
+> if we do, we still want to know about it, right?
 
-No. That we state in an earlier patch that an issue needs a timeout
-instead of an interruptible sleep, does not mean that another issue
-could not be solved by using an interruptible sleep.
-
-	Regards
-		Oliver
-
+Acked-by: Oliver Neukum <oneukum@suse.com>
