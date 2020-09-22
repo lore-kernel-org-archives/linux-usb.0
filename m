@@ -2,79 +2,87 @@ Return-Path: <SRS0=MsX+=C7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 223DDC2D0E2
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 10:07:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D533C2D0E2
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 10:13:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA4B22395B
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 10:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600769244;
-	bh=l1IJbXqwZisxk/UzEVWo5tEQWVJBQZsFK2hjF8bvsgg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=qtj2paFjhvc2vQ0Bpu5x5KjE/Nfag7n9WX2D4mPnycS/viWD5KL6/u7LN4ci2yCLS
-	 0BeduiDa1hZ72auA69M7LnCJklWkjyqmDc4YZTzRjznOzmY2Kspo5XU1BjX+3+APZ6
-	 6rYRoRiA8rb6ORE6WGm1SAy6eo/q9zq74+7O9lSs=
+	by mail.kernel.org (Postfix) with ESMTP id 40C752395B
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 10:13:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="m/ttvBtC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbgIVKHY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Sep 2020 06:07:24 -0400
-Received: from mail-lf1-f45.google.com ([209.85.167.45]:43503 "EHLO
-        mail-lf1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbgIVKHY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Sep 2020 06:07:24 -0400
-Received: by mail-lf1-f45.google.com with SMTP id y2so17346235lfy.10
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2020 03:07:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=g8AhtFNZ8B0u/Su5uMsQVep65Pu2+oZVvNFtSm1Q8jA=;
-        b=dvDhIwJO8I77yPO0DtoDbWsstKXI+K/gVioS7fqMsIJnjOKSPN1wftp2unOdAHSMcv
-         FNga5Qm5WHXmSQANZQNGm7d6sYqXCxnx11uCJMNuxswdBa3AGZO2YOKF1xc1bcm/phkT
-         Bl/UjA1+a5hm+woyQ9UPWKECdWfSlrtsZDGGCcPeSzd05+ySwSeHBesQa7RU2Fsd7Lq8
-         RPM0r9CoA+NNqBME7j3QWGp1XWI2RfwHf6PawoSmtq9jqaLpAuFR9U20dwIGBNlzx5FK
-         oBoKYtMfcnbHkL1oU9Z2J/s2psi6Q1GkvBnaZSiRONVjRM8F/g4JhwcP77r3d+/xUcd3
-         hE1w==
-X-Gm-Message-State: AOAM532YADfy0NEuKKnZCDE3GgPksQx0MhWwgWuUs9CxaoUvkdDjrmPS
-        9HnQE7OKvOvLc1t9ZH+VdEw=
-X-Google-Smtp-Source: ABdhPJw51V0MqSA/f/VeYa3aoxN6B+nsbJNMH4ncAWSL7F9Bn9K64kg32nsaxprIi+kc/FanHjr1qA==
-X-Received: by 2002:a19:7fc8:: with SMTP id a191mr1318889lfd.591.1600769242217;
-        Tue, 22 Sep 2020 03:07:22 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id z27sm3359593lfg.14.2020.09.22.03.07.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 03:07:21 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1kKfCc-0001Lq-Ca; Tue, 22 Sep 2020 12:07:15 +0200
-Date:   Tue, 22 Sep 2020 12:07:14 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     "<Daniel Caujolle-Bert>" <f1rmb.daniel@gmail.com>
-Cc:     Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726607AbgIVKNy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Sep 2020 06:13:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57334 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726604AbgIVKNy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Sep 2020 06:13:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1600769633;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
+        bh=RxFQPXtnIY8PwL4wcaQVQPCXz6qQ+yIZN0Kpgnlyksg=;
+        b=m/ttvBtCfIEOJJJwtIHFToehD7wQ20YaUX4a8XvM+B5UpiIzar//Vl6dIh0eV5loFVPPtI
+        q+NJzZjvdj153zK2nAZ5IepWat1iojtBzElToDtRusz0501scdqKKrPnjwuR5uXBAip0gi
+        R8gqZvNWUuKOGdImyB/3IUsuZrtFrm0=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C748BB213;
+        Tue, 22 Sep 2020 10:14:29 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
         linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] USB: cdc-acm: handle broken union descriptors
-Message-ID: <20200922100714.GB24441@localhost>
-References: <20200921135951.24045-1-johan@kernel.org>
- <5f68d281.1c69fb81.86428.99fb@mx.google.com>
- <20200922070818.GA24441@localhost>
- <5f69ca33.1c69fb81.f95dc.2c96@mx.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f69ca33.1c69fb81.f95dc.2c96@mx.google.com>
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [RFC 3/6] CDC-WDM: remove use of intf->dev after potential disconnect
+Date:   Tue, 22 Sep 2020 12:13:26 +0200
+Message-Id: <20200922101329.14801-4-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20200922101329.14801-1-oneukum@suse.com>
+References: <20200922101329.14801-1-oneukum@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 22, 2020 at 11:56:02AM +0200, <Daniel Caujolle-Bert> wrote:
-> Hi Johan,
-> 
->    Okay, I replied to the second patch, hope I didn't make any mistake.
+After a disconnect intf->dev is not a valid pointer any longer.
+As flush() uses it only for logging purposes logging is not
+worth it. Remove the dev_err()
 
-Looks good. Thanks again!
+Reported-by: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/usb/class/cdc-wdm.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Johan
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index b3a3f249a915..1ca2c85a977d 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -603,16 +603,17 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 			test_bit(WDM_DISCONNECTING, &desc->flags),
+ 			WDM_FLUSH_TIMEOUT);
+ 
+-	/* cannot dereference desc->intf if WDM_DISCONNECTING */
++	/*
++	 * to report the correct error.
++	 * This is best effort
++	 * We are inevitably racing with the hardware.
++	 */
+ 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
+ 		return -ENODEV;
+ 	if (!rv)
+ 		return -EIO;
+ 
+ 	rv = desc->werr;
+-	if (rv < 0)
+-		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
+-			rv);
+ 
+ 	return usb_translate_errors(rv);
+ }
+-- 
+2.16.4
+
