@@ -2,180 +2,107 @@ Return-Path: <SRS0=MsX+=C7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7A4C4727E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5890C4727D
 	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:21:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30549239D2
+	by mail.kernel.org (Postfix) with ESMTP id 804352388B
 	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:21:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="tS/6ob5F"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="s1oMw01G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726563AbgIVLVw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726566AbgIVLVw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 22 Sep 2020 07:21:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37326 "EHLO mx2.suse.de"
+Received: from mx2.suse.de ([195.135.220.15]:37332 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726487AbgIVLVv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1726506AbgIVLVv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 22 Sep 2020 07:21:51 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
         t=1600773710;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc; bh=PfmCcgEWFUe5gSUt+rUCF5D83LJQw2gbytbY2DB1JFg=;
-        b=tS/6ob5FZmRoMzJifhgDI1mgCloMw78fCMQ+rzdEqh8uK9wSjSLLMaRQCU4wpnxOXQPBqG
-        R99PJiwrgE/08EyWgKzm0ooq9vXNh+Vm6HM/bZJ1KCRodL+TRqZpBuIXGs+4x19cOIG+gM
-        WPCsQRmInHoTmAsTQAWAvgSa/nsdvSA=
+         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
+        bh=A1zUt81juSwPNJhRNl1BNHYKJV8/bvmy1vlgpsFmi6U=;
+        b=s1oMw01GjiHG2xmptKnt9Q2lWKveDNE6c84bpQBhddT4Oq+aksN74m3nX9PllxLN+LPNup
+        GNWnpTQHB85uWphy5+S+NCwYNkcpqLim4m05pysNT2wYdrXUf8R4wlO697lihuAy/lszxf
+        rgPze7vEtvEGb//i677PqyBkLvs3dnE=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C0815AD3C;
+        by mx2.suse.de (Postfix) with ESMTP id D3207AE08;
         Tue, 22 Sep 2020 11:22:26 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
         linux-usb@vger.kernel.org
-Subject: [RFC] fixes for hangs and error reporting in CDC_WDM
-Date:   Tue, 22 Sep 2020 13:21:19 +0200
-Message-Id: <20200922112126.16919-1-oneukum@suse.com>
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [RFC 2/7] CDC-WDM: introduce a timeout in flush()
+Date:   Tue, 22 Sep 2020 13:21:21 +0200
+Message-Id: <20200922112126.16919-3-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20200922112126.16919-1-oneukum@suse.com>
+References: <20200922112126.16919-1-oneukum@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Stress testing has shown that CDC-WDM has some issues with hangs
-and error reporting
+Malicious or defective hardware may cease communication while
+flush() is running. In last consequence we need a timeout,
+as hardware that remains silent must be ignored.
 
-1. wakeups are not correctly handled in multhreaded environments
-2. unresponsive hardware is not handled
-3. errors are not correctly reported. This needs flush() to be
-implemented.
+Making the wait for IO interruptible would not solve the
+issue. While it would avoid a hang, it would not allow any progress
+and we would end up with an unclosable fd.
 
-This version makes wdm_flush() use interruptible sleep.
+The 30 seconds are coming out of thin air.
 
-For easier review all squashed together:
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/usb/class/cdc-wdm.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index adb3fc307083..b3a3f249a915 100644
 --- a/drivers/usb/class/cdc-wdm.c
 +++ b/drivers/usb/class/cdc-wdm.c
 @@ -58,6 +58,9 @@ MODULE_DEVICE_TABLE (usb, wdm_ids);
  
- #define WDM_MAX                        16
+ #define WDM_MAX			16
  
 +/* flush() is uninterruptible, but we cannot wait forever */
-+#define WDM_FLUSH_TIMEOUT      (30 * HZ)
++#define WDM_FLUSH_TIMEOUT	(30 * HZ)
 +
  /* CDC-WMC r1.1 requires wMaxCommand to be "at least 256 decimal (0x100)" */
- #define WDM_DEFAULT_BUFSIZE    256
+ #define WDM_DEFAULT_BUFSIZE	256
  
-@@ -151,7 +154,7 @@ static void wdm_out_callback(struct urb *urb)
-        kfree(desc->outbuf);
-        desc->outbuf = NULL;
-        clear_bit(WDM_IN_USE, &desc->flags);
--       wake_up(&desc->wait);
-+       wake_up_all(&desc->wait);
- }
+@@ -589,7 +592,7 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 	struct wdm_device *desc = file->private_data;
+ 	int rv;
  
- static void wdm_in_callback(struct urb *urb)
-@@ -393,6 +396,9 @@ static ssize_t wdm_write
-        if (test_bit(WDM_RESETTING, &desc->flags))
-                r = -EIO;
+-	wait_event(desc->wait,
++	rv = wait_event_timeout(desc->wait,
+ 			/*
+ 			 * needs both flags. We cannot do with one
+ 			 * because resetting it would cause a race
+@@ -597,11 +600,15 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 			 * a disconnect
+ 			 */
+ 			!test_bit(WDM_IN_USE, &desc->flags) ||
+-			test_bit(WDM_DISCONNECTING, &desc->flags));
++			test_bit(WDM_DISCONNECTING, &desc->flags),
++			WDM_FLUSH_TIMEOUT);
  
-+       if (test_bit(WDM_DISCONNECTING, &desc->flags))
-+               r = -ENODEV;
+ 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
+ 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
+ 		return -ENODEV;
++	if (!rv)
++		return -EIO;
 +
-        if (r < 0) {
-                rv = r;
-                goto out_free_mem_pm;
-@@ -424,6 +430,7 @@ static ssize_t wdm_write
-        if (rv < 0) {
-                desc->outbuf = NULL;
-                clear_bit(WDM_IN_USE, &desc->flags);
-+               wake_up_all(&desc->wait); /* for flush() */
-                dev_err(&desc->intf->dev, "Tx URB error: %d\n", rv);
-                rv = usb_translate_errors(rv);
-                goto out_free_mem_pm;
-@@ -583,11 +590,39 @@ static ssize_t wdm_read
-        return rv;
- }
- 
-+/*
-+ * The difference to flush is that we wait forever. If you don't like
-+ * that behavior, you need to send a signal.
-+ */
-+
-+static int wdm_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-+{
-+       struct wdm_device *desc = file->private_data;
-+       int rv;
-+
-+       rv = wait_event_interruptible(desc->wait,
-+                       !test_bit(WDM_IN_USE, &desc->flags) ||
-+                       test_bit(WDM_DISCONNECTING, &desc->flags));
-+
-+       if (test_bit(WDM_DISCONNECTING, &desc->flags))
-+               return -ENODEV;
-+       if (rv < 0)
-+               return -EINTR;
-+
-+       spin_lock_irq(&desc->iuspin);
-+       rv = desc->werr;
-+       desc->werr = 0;
-+       spin_unlock_irq(&desc->iuspin);
-+
-+       return usb_translate_errors(rv);
-+}
-+
- static int wdm_flush(struct file *file, fl_owner_t id)
- {
-        struct wdm_device *desc = file->private_data;
-+       int rv;
- 
--       wait_event(desc->wait,
-+       rv = wait_event_interruptible_timeout(desc->wait,
-                        /*
-                         * needs both flags. We cannot do with one
-                         * because resetting it would cause a race
-@@ -595,16 +630,27 @@ static int wdm_flush(struct file *file, fl_owner_t id)
-                         * a disconnect
-                         */
-                        !test_bit(WDM_IN_USE, &desc->flags) ||
--                       test_bit(WDM_DISCONNECTING, &desc->flags));
-+                       test_bit(WDM_DISCONNECTING, &desc->flags),
-+                       WDM_FLUSH_TIMEOUT);
- 
--       /* cannot dereference desc->intf if WDM_DISCONNECTING */
-+       /*
-+        * to report the correct error.
-+        * This is best effort
-+        * We are inevitably racing with the hardware.
-+        */
-        if (test_bit(WDM_DISCONNECTING, &desc->flags))
-                return -ENODEV;
--       if (desc->werr < 0)
--               dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--                       desc->werr);
-+       if (!rv)
-+               return -EIO;
-+       if (rv < 0)
-+               return -EINTR;
-+
-+       spin_lock_irq(&desc->iuspin);
-+       rv = desc->werr;
-+       desc->werr = 0;
-+       spin_unlock_irq(&desc->iuspin);
- 
--       return usb_translate_errors(desc->werr);
-+       return usb_translate_errors(rv);
- }
- 
- static __poll_t wdm_poll(struct file *file, struct poll_table_struct *wait)
-@@ -729,6 +775,7 @@ static const struct file_operations wdm_fops = {
-        .owner =        THIS_MODULE,
-        .read =         wdm_read,
-        .write =        wdm_write,
-+       .fsync =        wdm_fsync,
-        .open =         wdm_open,
-        .flush =        wdm_flush,
-        .release =      wdm_release,
-
+ 	rv = desc->werr;
+ 	if (rv < 0)
+ 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
+-- 
+2.16.4
 
