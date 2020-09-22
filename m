@@ -2,108 +2,67 @@ Return-Path: <SRS0=MsX+=C7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E98C4727D
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 244D2C2D0E2
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:38:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF5622388B
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:21:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="XGqEUDXY"
+	by mail.kernel.org (Postfix) with ESMTP id C4C82214F1
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Sep 2020 11:38:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgIVLV6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Sep 2020 07:21:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37322 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726454AbgIVLVw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Sep 2020 07:21:52 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600773710;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=2uWvnpc3bmPq2wl5EDlk5vxdx9IFG3yUbr1P4YdA22Y=;
-        b=XGqEUDXYCWlfarTkTCSiNrs+9Ira5kwfsfmAL1RSXehIzZ1hs7bS/MyBmc8viji7BSGLOo
-        y9rboFvu37+Ldy5L4bErPsD7U2QlTcXOqfvwykk0iVPdBRcVD9uelGxSdMp8I5b9qH7Ds5
-        GXpGIxNQpSEXRHkNGe6gZGEStoslGG4=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C08BFAD63;
-        Tue, 22 Sep 2020 11:22:26 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
-        linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 1/7] CDC-WDM: fix hangs in flush() in multithreaded cases
-Date:   Tue, 22 Sep 2020 13:21:20 +0200
-Message-Id: <20200922112126.16919-2-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200922112126.16919-1-oneukum@suse.com>
+        id S1726543AbgIVLia (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Sep 2020 07:38:30 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:58838 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726518AbgIVLi3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Sep 2020 07:38:29 -0400
+Received: from fsav105.sakura.ne.jp (fsav105.sakura.ne.jp [27.133.134.232])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08MBcHCG043679;
+        Tue, 22 Sep 2020 20:38:17 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav105.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav105.sakura.ne.jp);
+ Tue, 22 Sep 2020 20:38:17 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav105.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08MBcHWH043636
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+        Tue, 22 Sep 2020 20:38:17 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [RFC 7/7] CDC-WDM: making flush() interruptible
+To:     Oliver Neukum <oneukum@suse.com>
 References: <20200922112126.16919-1-oneukum@suse.com>
+ <20200922112126.16919-8-oneukum@suse.com>
+Cc:     bjorn@mork.no, linux-usb@vger.kernel.org
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <5277d73f-725c-7960-669e-8c7a81532d73@i-love.sakura.ne.jp>
+Date:   Tue, 22 Sep 2020 20:38:14 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <20200922112126.16919-8-oneukum@suse.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In a multithreaded scenario an arbitrary number of threads
-can be in wdm_write() and in wdm_flush(). Hence whenever
-WDM_IN_USE is reset, all possible waiters need to be notified.
-This is true whether this is due to IO completing or
-to an error starting IO.
+On 2020/09/22 20:21, Oliver Neukum wrote:
+> There is no need for flush() to be uninterruptible. close(2)
+> is allowed to return -EINTR.
+> 
+> 30 seconds is quite long a time to sleep in an uninterruptible state.
+> Change it to an interruptible sleep.
 
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/class/cdc-wdm.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Doesn't this conflict with
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index e3db6fbeadef..adb3fc307083 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -151,7 +151,7 @@ static void wdm_out_callback(struct urb *urb)
- 	kfree(desc->outbuf);
- 	desc->outbuf = NULL;
- 	clear_bit(WDM_IN_USE, &desc->flags);
--	wake_up(&desc->wait);
-+	wake_up_all(&desc->wait);
- }
- 
- static void wdm_in_callback(struct urb *urb)
-@@ -424,6 +424,7 @@ static ssize_t wdm_write
- 	if (rv < 0) {
- 		desc->outbuf = NULL;
- 		clear_bit(WDM_IN_USE, &desc->flags);
-+		wake_up_all(&desc->wait); /* for flush() */
- 		dev_err(&desc->intf->dev, "Tx URB error: %d\n", rv);
- 		rv = usb_translate_errors(rv);
- 		goto out_free_mem_pm;
-@@ -586,6 +587,7 @@ static ssize_t wdm_read
- static int wdm_flush(struct file *file, fl_owner_t id)
- {
- 	struct wdm_device *desc = file->private_data;
-+	int rv;
- 
- 	wait_event(desc->wait,
- 			/*
-@@ -600,11 +602,12 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
- 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
- 		return -ENODEV;
--	if (desc->werr < 0)
-+	rv = desc->werr;
-+	if (rv < 0)
- 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--			desc->werr);
-+			rv);
- 
--	return usb_translate_errors(desc->werr);
-+	return usb_translate_errors(rv);
- }
- 
- static __poll_t wdm_poll(struct file *file, struct poll_table_struct *wait)
--- 
-2.16.4
+  Making the wait for IO interruptible would not solve the
+  issue. While it would avoid a hang, it would not allow any progress
+  and we would end up with an unclosable fd.
 
+in [RFC 2/7] ? I suggested killable version, for giving up upon SIGKILL
+implies automatically closing fds by terminating that userspace process.
