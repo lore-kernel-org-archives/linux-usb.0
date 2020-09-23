@@ -2,44 +2,45 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A965C2D0E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2065C4741F
 	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E24D621D92
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A34DA21D92
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="eJ81hEHg"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="NYKRF1l9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726672AbgIWNoV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 09:44:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33444 "EHLO mx2.suse.de"
+        id S1726632AbgIWNoW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 09:44:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33436 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726632AbgIWNoT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1726627AbgIWNoT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 23 Sep 2020 09:44:19 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600868657;
+        t=1600868656;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=4phvKJ0SZ2JhYuDOrybT7FClnROMhg12sNuEuEf1yK0=;
-        b=eJ81hEHgbXpojNbe3Kx9GDvdPxG2RSK71WpUiM5FjDJph6G9t/FJBwSlN5+mwdW6uUaRDZ
-        OpBvQ1b/AcIEBvZkVXjohFjIA9afChi4xmtOSau7PYcMayYa3g5U4PjlYQIuBUT+Al5hNO
-        Bubabj5UKpOEhcEk3J6X4hNxB1rBKUo=
+        bh=jWlZzVcLaX5SUMbRVSLkTMFn2o+DHHEtT5myBaffZPA=;
+        b=NYKRF1l9vD5AdXT+5F5iSUK+FTgS09gjtQCuLHWufj0hu9vM0eaBNIS7u+l3fR/+efnPqw
+        AsTNQURplOGq6L3tKpFqwyTUGSYQfniZaxaukDP/QXcG/VE0fVP0AV/L7AYi1LlIRxKMxU
+        Z76l/8t+LtkRG8wq/OLCUWCfb+RxYEU=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7EDACADEE;
-        Wed, 23 Sep 2020 13:44:54 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id D2954AC55;
+        Wed, 23 Sep 2020 13:44:53 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     himadrispandya@gmail.com, gregKH@linuxfoundation.org,
         stern@rowland.harvard.edu, linux-usb@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 08/14] USB: correct API of usb_control_msg_send/recv
-Date:   Wed, 23 Sep 2020 15:43:42 +0200
-Message-Id: <20200923134348.23862-9-oneukum@suse.com>
+Subject: [RFC 05/14] Revert "sound: 6fire: move to use usb_control_msg_send() and usb_control_msg_recv()"
+Date:   Wed, 23 Sep 2020 15:43:39 +0200
+Message-Id: <20200923134348.23862-6-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200923134348.23862-1-oneukum@suse.com>
 References: <20200923134348.23862-1-oneukum@suse.com>
@@ -47,140 +48,117 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-They need to specify how memory is to be allocated,
-as control messages need to work in contexts that require GFP_NOIO.
+This reverts commit aea67cc1418252d07b9b56688f1b5fa70fcae813.
+The API has to be changed.
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/core/message.c | 25 ++++++++++++++++---------
- include/linux/usb.h        |  6 ++++--
- 2 files changed, 20 insertions(+), 11 deletions(-)
+ sound/usb/6fire/firmware.c | 38 +++++++++++++++++++++++++-------------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 1580694e3b95..f4107b9e8c38 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -174,6 +174,7 @@ EXPORT_SYMBOL_GPL(usb_control_msg);
-  * @size: length in bytes of the data to send
-  * @timeout: time in msecs to wait for the message to complete before timing
-  *	out (if 0 the wait is forever)
-+ * @memflags: the flags for memory allocation for buffers
-  *
-  * Context: !in_interrupt ()
-  *
-@@ -196,7 +197,8 @@ EXPORT_SYMBOL_GPL(usb_control_msg);
-  */
- int usb_control_msg_send(struct usb_device *dev, __u8 endpoint, __u8 request,
- 			 __u8 requesttype, __u16 value, __u16 index,
--			 const void *driver_data, __u16 size, int timeout)
-+			 const void *driver_data, __u16 size, int timeout,
-+			 gfp_t memflags)
+diff --git a/sound/usb/6fire/firmware.c b/sound/usb/6fire/firmware.c
+index 5b8994070c96..69137c14d0dc 100644
+--- a/sound/usb/6fire/firmware.c
++++ b/sound/usb/6fire/firmware.c
+@@ -158,17 +158,29 @@ static int usb6fire_fw_ihex_init(const struct firmware *fw,
+ static int usb6fire_fw_ezusb_write(struct usb_device *device,
+ 		int type, int value, char *data, int len)
  {
- 	unsigned int pipe = usb_sndctrlpipe(dev, endpoint);
- 	int ret;
-@@ -206,7 +208,7 @@ int usb_control_msg_send(struct usb_device *dev, __u8 endpoint, __u8 request,
- 		return -EINVAL;
- 
- 	if (size) {
--		data = kmemdup(driver_data, size, GFP_KERNEL);
-+		data = kmemdup(driver_data, size, memflags);
- 		if (!data)
- 			return -ENOMEM;
- 	}
-@@ -235,6 +237,7 @@ EXPORT_SYMBOL_GPL(usb_control_msg_send);
-  * @size: length in bytes of the data to be received
-  * @timeout: time in msecs to wait for the message to complete before timing
-  *	out (if 0 the wait is forever)
-+ * @memflags: the flags for memory allocation for buffers
-  *
-  * Context: !in_interrupt ()
-  *
-@@ -263,7 +266,8 @@ EXPORT_SYMBOL_GPL(usb_control_msg_send);
-  */
- int usb_control_msg_recv(struct usb_device *dev, __u8 endpoint, __u8 request,
- 			 __u8 requesttype, __u16 value, __u16 index,
--			 void *driver_data, __u16 size, int timeout)
-+			 void *driver_data, __u16 size, int timeout,
-+			 gfp_t memflags)
- {
- 	unsigned int pipe = usb_rcvctrlpipe(dev, endpoint);
- 	int ret;
-@@ -272,7 +276,7 @@ int usb_control_msg_recv(struct usb_device *dev, __u8 endpoint, __u8 request,
- 	if (!size || !driver_data || usb_pipe_type_check(dev, pipe))
- 		return -EINVAL;
- 
--	data = kmalloc(size, GFP_KERNEL);
-+	data = kmalloc(size, memflags);
- 	if (!data)
- 		return -ENOMEM;
- 
-@@ -1085,7 +1089,8 @@ int usb_set_isoch_delay(struct usb_device *dev)
- 			USB_REQ_SET_ISOCH_DELAY,
- 			USB_DIR_OUT | USB_TYPE_STANDARD | USB_RECIP_DEVICE,
- 			dev->hub_delay, 0, NULL, 0,
--			USB_CTRL_SET_TIMEOUT);
-+			USB_CTRL_SET_TIMEOUT,
-+			GFP_NOIO);
+-	return usb_control_msg_send(device, 0, type,
+-				    USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-				    value, 0, data, len, HZ);
++	int ret;
++
++	ret = usb_control_msg(device, usb_sndctrlpipe(device, 0), type,
++			USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
++			value, 0, data, len, HZ);
++	if (ret < 0)
++		return ret;
++	else if (ret != len)
++		return -EIO;
++	return 0;
  }
  
- /**
-@@ -1206,7 +1211,7 @@ int usb_clear_halt(struct usb_device *dev, int pipe)
- 	result = usb_control_msg_send(dev, 0,
- 				      USB_REQ_CLEAR_FEATURE, USB_RECIP_ENDPOINT,
- 				      USB_ENDPOINT_HALT, endp, NULL, 0,
--				      USB_CTRL_SET_TIMEOUT);
-+				      USB_CTRL_SET_TIMEOUT, GFP_NOIO);
+ static int usb6fire_fw_ezusb_read(struct usb_device *device,
+ 		int type, int value, char *data, int len)
+ {
+-	return usb_control_msg_recv(device, 0, type,
+-				    USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-				    value, 0, data, len, HZ);
++	int ret = usb_control_msg(device, usb_rcvctrlpipe(device, 0), type,
++			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE, value,
++			0, data, len, HZ);
++	if (ret < 0)
++		return ret;
++	else if (ret != len)
++		return -EIO;
++	return 0;
+ }
  
- 	/* don't un-halt or force to DATA0 except on success */
- 	if (result)
-@@ -1574,7 +1579,8 @@ int usb_set_interface(struct usb_device *dev, int interface, int alternate)
- 		ret = usb_control_msg_send(dev, 0,
- 					   USB_REQ_SET_INTERFACE,
- 					   USB_RECIP_INTERFACE, alternate,
--					   interface, NULL, 0, 5000);
-+					   interface, NULL, 0, 5000,
-+					   GFP_NOIO);
+ static int usb6fire_fw_fpga_write(struct usb_device *device,
+@@ -218,7 +230,7 @@ static int usb6fire_fw_ezusb_upload(
+ 	/* upload firmware image */
+ 	data = 0x01; /* stop ezusb cpu */
+ 	ret = usb6fire_fw_ezusb_write(device, 0xa0, 0xe600, &data, 1);
+-	if (ret) {
++	if (ret < 0) {
+ 		kfree(rec);
+ 		release_firmware(fw);
+ 		dev_err(&intf->dev,
+@@ -230,7 +242,7 @@ static int usb6fire_fw_ezusb_upload(
+ 	while (usb6fire_fw_ihex_next_record(rec)) { /* write firmware */
+ 		ret = usb6fire_fw_ezusb_write(device, 0xa0, rec->address,
+ 				rec->data, rec->len);
+-		if (ret) {
++		if (ret < 0) {
+ 			kfree(rec);
+ 			release_firmware(fw);
+ 			dev_err(&intf->dev,
+@@ -245,7 +257,7 @@ static int usb6fire_fw_ezusb_upload(
+ 	if (postdata) { /* write data after firmware has been uploaded */
+ 		ret = usb6fire_fw_ezusb_write(device, 0xa0, postaddr,
+ 				postdata, postlen);
+-		if (ret) {
++		if (ret < 0) {
+ 			dev_err(&intf->dev,
+ 				"unable to upload ezusb firmware %s: post urb.\n",
+ 				fwname);
+@@ -255,7 +267,7 @@ static int usb6fire_fw_ezusb_upload(
  
- 	/* 9.4.10 says devices don't need this and are free to STALL the
- 	 * request if the interface only has one alternate setting.
-@@ -1710,7 +1716,8 @@ int usb_reset_configuration(struct usb_device *dev)
- 	}
- 	retval = usb_control_msg_send(dev, 0, USB_REQ_SET_CONFIGURATION, 0,
- 				      config->desc.bConfigurationValue, 0,
--				      NULL, 0, USB_CTRL_SET_TIMEOUT);
-+				      NULL, 0, USB_CTRL_SET_TIMEOUT,
-+				      GFP_NOIO);
- 	if (retval) {
- 		usb_hcd_alloc_bandwidth(dev, NULL, NULL, NULL);
- 		usb_enable_lpm(dev);
-@@ -2098,7 +2105,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+ 	data = 0x00; /* resume ezusb cpu */
+ 	ret = usb6fire_fw_ezusb_write(device, 0xa0, 0xe600, &data, 1);
+-	if (ret) {
++	if (ret < 0) {
+ 		dev_err(&intf->dev,
+ 			"unable to upload ezusb firmware %s: end message.\n",
+ 			fwname);
+@@ -290,7 +302,7 @@ static int usb6fire_fw_fpga_upload(
+ 	end = fw->data + fw->size;
  
- 	ret = usb_control_msg_send(dev, 0, USB_REQ_SET_CONFIGURATION, 0,
- 				   configuration, 0, NULL, 0,
--				   USB_CTRL_SET_TIMEOUT);
-+				   USB_CTRL_SET_TIMEOUT, GFP_NOIO);
- 	if (ret && cp) {
- 		/*
- 		 * All the old state is gone, so what else can we do?
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index a5460f08126e..7d72c4e0713c 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -1804,10 +1804,12 @@ extern int usb_bulk_msg(struct usb_device *usb_dev, unsigned int pipe,
- /* wrappers around usb_control_msg() for the most common standard requests */
- int usb_control_msg_send(struct usb_device *dev, __u8 endpoint, __u8 request,
- 			 __u8 requesttype, __u16 value, __u16 index,
--			 const void *data, __u16 size, int timeout);
-+			 const void *data, __u16 size, int timeout,
-+			 gfp_t memflags);
- int usb_control_msg_recv(struct usb_device *dev, __u8 endpoint, __u8 request,
- 			 __u8 requesttype, __u16 value, __u16 index,
--			 void *data, __u16 size, int timeout);
-+			 void *data, __u16 size, int timeout,
-+			 gfp_t memflags);
- extern int usb_get_descriptor(struct usb_device *dev, unsigned char desctype,
- 	unsigned char descindex, void *buf, int size);
- extern int usb_get_status(struct usb_device *dev,
+ 	ret = usb6fire_fw_ezusb_write(device, 8, 0, NULL, 0);
+-	if (ret) {
++	if (ret < 0) {
+ 		kfree(buffer);
+ 		release_firmware(fw);
+ 		dev_err(&intf->dev,
+@@ -315,7 +327,7 @@ static int usb6fire_fw_fpga_upload(
+ 	kfree(buffer);
+ 
+ 	ret = usb6fire_fw_ezusb_write(device, 9, 0, NULL, 0);
+-	if (ret) {
++	if (ret < 0) {
+ 		dev_err(&intf->dev,
+ 			"unable to upload fpga firmware: end urb.\n");
+ 		return ret;
+@@ -351,7 +363,7 @@ int usb6fire_fw_init(struct usb_interface *intf)
+ 	u8 buffer[12];
+ 
+ 	ret = usb6fire_fw_ezusb_read(device, 1, 0, buffer, 8);
+-	if (ret) {
++	if (ret < 0) {
+ 		dev_err(&intf->dev,
+ 			"unable to receive device firmware state.\n");
+ 		return ret;
 -- 
 2.16.4
 
