@@ -2,263 +2,85 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A04C4727E
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0906FC2D0E2
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:52:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49C8321D92
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rEQ7U6ur"
+	by mail.kernel.org (Postfix) with ESMTP id D31D7221F0
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:52:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgIWNoa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 09:44:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33286 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726620AbgIWNoS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 09:44:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600868656;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=V6JRcipxax8FcSm4zmu9Qp+/xjOsZSxBR9zTTxqihxc=;
-        b=rEQ7U6urZ0rygxvWqor5CT7txptNaEWAWL7zyQAFZaCI2UC9i53x2wOgT+HfdwLiUoJAFw
-        mewRR9OvnfgKg144HLipECuuyFI7Q9IMN5wGSEP8Cqlr8CagBdPrFaCbi8wJrxX4/H8Vks
-        yN2052oBOr9ra+k/MAm4Ay+Gywfine8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9C6B7ADBB;
-        Wed, 23 Sep 2020 13:44:53 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     himadrispandya@gmail.com, gregKH@linuxfoundation.org,
-        stern@rowland.harvard.edu, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 04/14] Revert "sound: line6: move to use usb_control_msg_send() and usb_control_msg_recv()"
-Date:   Wed, 23 Sep 2020 15:43:38 +0200
-Message-Id: <20200923134348.23862-5-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200923134348.23862-1-oneukum@suse.com>
-References: <20200923134348.23862-1-oneukum@suse.com>
+        id S1726609AbgIWNwZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 09:52:25 -0400
+Received: from out28-124.mail.aliyun.com ([115.124.28.124]:46049 "EHLO
+        out28-124.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726516AbgIWNwZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Sep 2020 09:52:25 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.09110986|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_social|0.0116857-0.00287512-0.985439;FP=0|0|0|0|0|-1|-1|-1;HT=e01l04362;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.IbEOa8W_1600869136;
+Received: from 192.168.10.195(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.IbEOa8W_1600869136)
+          by smtp.aliyun-inc.com(10.147.41.120);
+          Wed, 23 Sep 2020 21:52:17 +0800
+Subject: Re: [PATCH v5 2/2] PHY: Ingenic: Add USB PHY driver using generic PHY
+ framework.
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, kishon@ti.com,
+        paul@crapouillou.net, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, christophe.jaillet@wanadoo.fr,
+        dongsheng.qiu@ingenic.com, aric.pzqi@ingenic.com,
+        rick.tyliu@ingenic.com, yanfei.li@ingenic.com,
+        sernia.zhou@foxmail.com, zhenwenjin@gmail.com
+References: <20200921162417.52004-1-zhouyanjie@wanyeetech.com>
+ <20200921162417.52004-3-zhouyanjie@wanyeetech.com>
+ <20200923053500.GD2968@vkoul-mobl>
+From:   Zhou Yanjie <zhouyanjie@wanyeetech.com>
+Message-ID: <cf9537d3-3b86-aa23-74fe-9cd49987c845@wanyeetech.com>
+Date:   Wed, 23 Sep 2020 21:52:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
+MIME-Version: 1.0
+In-Reply-To: <20200923053500.GD2968@vkoul-mobl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit f7ef7614f89e943d7511ee121b0b849f27b60cb2.
-The API has to be changed.
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- sound/usb/line6/driver.c   | 69 ++++++++++++++++++++++++++++------------------
- sound/usb/line6/podhd.c    | 17 ++++++++----
- sound/usb/line6/toneport.c |  8 +++---
- 3 files changed, 57 insertions(+), 37 deletions(-)
+Hello Vinod,
 
-diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
-index 601292c51491..60674ce4879b 100644
---- a/sound/usb/line6/driver.c
-+++ b/sound/usb/line6/driver.c
-@@ -337,18 +337,23 @@ int line6_read_data(struct usb_line6 *line6, unsigned address, void *data,
- {
- 	struct usb_device *usbdev = line6->usbdev;
- 	int ret;
--	u8 len;
-+	unsigned char *len;
- 	unsigned count;
- 
- 	if (address > 0xffff || datalen > 0xff)
- 		return -EINVAL;
- 
-+	len = kmalloc(1, GFP_KERNEL);
-+	if (!len)
-+		return -ENOMEM;
-+
- 	/* query the serial number: */
--	ret = usb_control_msg_send(usbdev, 0, 0x67,
--				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--				   (datalen << 8) | 0x21, address, NULL, 0,
--				   LINE6_TIMEOUT * HZ);
--	if (ret) {
-+	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0), 0x67,
-+			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
-+			      (datalen << 8) | 0x21, address,
-+			      NULL, 0, LINE6_TIMEOUT * HZ);
-+
-+	if (ret < 0) {
- 		dev_err(line6->ifcdev, "read request failed (error %d)\n", ret);
- 		goto exit;
- 	}
-@@ -357,41 +362,45 @@ int line6_read_data(struct usb_line6 *line6, unsigned address, void *data,
- 	for (count = 0; count < LINE6_READ_WRITE_MAX_RETRIES; count++) {
- 		mdelay(LINE6_READ_WRITE_STATUS_DELAY);
- 
--		ret = usb_control_msg_recv(usbdev, 0, 0x67,
--					   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--					   0x0012, 0x0000, &len, 1,
--					   LINE6_TIMEOUT * HZ);
--		if (ret) {
-+		ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0), 0x67,
-+				      USB_TYPE_VENDOR | USB_RECIP_DEVICE |
-+				      USB_DIR_IN,
-+				      0x0012, 0x0000, len, 1,
-+				      LINE6_TIMEOUT * HZ);
-+		if (ret < 0) {
- 			dev_err(line6->ifcdev,
- 				"receive length failed (error %d)\n", ret);
- 			goto exit;
- 		}
- 
--		if (len != 0xff)
-+		if (*len != 0xff)
- 			break;
- 	}
- 
- 	ret = -EIO;
--	if (len == 0xff) {
-+	if (*len == 0xff) {
- 		dev_err(line6->ifcdev, "read failed after %d retries\n",
- 			count);
- 		goto exit;
--	} else if (len != datalen) {
-+	} else if (*len != datalen) {
- 		/* should be equal or something went wrong */
- 		dev_err(line6->ifcdev,
- 			"length mismatch (expected %d, got %d)\n",
--			(int)datalen, len);
-+			(int)datalen, (int)*len);
- 		goto exit;
- 	}
- 
- 	/* receive the result: */
--	ret = usb_control_msg_recv(usbdev, 0, 0x67,
--				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--				   0x0013, 0x0000, data, datalen, LINE6_TIMEOUT * HZ);
--	if (ret)
-+	ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0), 0x67,
-+			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
-+			      0x0013, 0x0000, data, datalen,
-+			      LINE6_TIMEOUT * HZ);
-+
-+	if (ret < 0)
- 		dev_err(line6->ifcdev, "read failed (error %d)\n", ret);
- 
- exit:
-+	kfree(len);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(line6_read_data);
-@@ -414,10 +423,12 @@ int line6_write_data(struct usb_line6 *line6, unsigned address, void *data,
- 	if (!status)
- 		return -ENOMEM;
- 
--	ret = usb_control_msg_send(usbdev, 0, 0x67,
--				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--				   0x0022, address, data, datalen, LINE6_TIMEOUT * HZ);
--	if (ret) {
-+	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0), 0x67,
-+			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
-+			      0x0022, address, data, datalen,
-+			      LINE6_TIMEOUT * HZ);
-+
-+	if (ret < 0) {
- 		dev_err(line6->ifcdev,
- 			"write request failed (error %d)\n", ret);
- 		goto exit;
-@@ -426,10 +437,14 @@ int line6_write_data(struct usb_line6 *line6, unsigned address, void *data,
- 	for (count = 0; count < LINE6_READ_WRITE_MAX_RETRIES; count++) {
- 		mdelay(LINE6_READ_WRITE_STATUS_DELAY);
- 
--		ret = usb_control_msg_recv(usbdev, 0, 0x67,
--					   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--					   0x0012, 0x0000, status, 1, LINE6_TIMEOUT * HZ);
--		if (ret) {
-+		ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0),
-+				      0x67,
-+				      USB_TYPE_VENDOR | USB_RECIP_DEVICE |
-+				      USB_DIR_IN,
-+				      0x0012, 0x0000,
-+				      status, 1, LINE6_TIMEOUT * HZ);
-+
-+		if (ret < 0) {
- 			dev_err(line6->ifcdev,
- 				"receiving status failed (error %d)\n", ret);
- 			goto exit;
-diff --git a/sound/usb/line6/podhd.c b/sound/usb/line6/podhd.c
-index a1261f55d62b..eef45f7fef0d 100644
---- a/sound/usb/line6/podhd.c
-+++ b/sound/usb/line6/podhd.c
-@@ -183,25 +183,29 @@ static const struct attribute_group podhd_dev_attr_group = {
- static int podhd_dev_start(struct usb_line6_podhd *pod)
- {
- 	int ret;
--	u8 init_bytes[8];
-+	u8 *init_bytes;
- 	int i;
- 	struct usb_device *usbdev = pod->line6.usbdev;
- 
--	ret = usb_control_msg_send(usbdev, 0,
-+	init_bytes = kmalloc(8, GFP_KERNEL);
-+	if (!init_bytes)
-+		return -ENOMEM;
-+
-+	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0),
- 					0x67, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
- 					0x11, 0,
- 					NULL, 0, LINE6_TIMEOUT * HZ);
--	if (ret) {
-+	if (ret < 0) {
- 		dev_err(pod->line6.ifcdev, "read request failed (error %d)\n", ret);
- 		goto exit;
- 	}
- 
- 	/* NOTE: looks like some kind of ping message */
--	ret = usb_control_msg_recv(usbdev, 0, 0x67,
-+	ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0), 0x67,
- 					USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
- 					0x11, 0x0,
- 					init_bytes, 3, LINE6_TIMEOUT * HZ);
--	if (ret) {
-+	if (ret < 0) {
- 		dev_err(pod->line6.ifcdev,
- 			"receive length failed (error %d)\n", ret);
- 		goto exit;
-@@ -216,12 +220,13 @@ static int podhd_dev_start(struct usb_line6_podhd *pod)
- 			goto exit;
- 	}
- 
--	ret = usb_control_msg_send(usbdev, 0,
-+	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0),
- 					USB_REQ_SET_FEATURE,
- 					USB_TYPE_STANDARD | USB_RECIP_DEVICE | USB_DIR_OUT,
- 					1, 0,
- 					NULL, 0, LINE6_TIMEOUT * HZ);
- exit:
-+	kfree(init_bytes);
- 	return ret;
- }
- 
-diff --git a/sound/usb/line6/toneport.c b/sound/usb/line6/toneport.c
-index a9b56085b76a..94dd5e7ab2e6 100644
---- a/sound/usb/line6/toneport.c
-+++ b/sound/usb/line6/toneport.c
-@@ -126,11 +126,11 @@ static int toneport_send_cmd(struct usb_device *usbdev, int cmd1, int cmd2)
- {
- 	int ret;
- 
--	ret = usb_control_msg_send(usbdev, 0, 0x67,
--				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--				   cmd1, cmd2, NULL, 0, LINE6_TIMEOUT * HZ);
-+	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0), 0x67,
-+			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
-+			      cmd1, cmd2, NULL, 0, LINE6_TIMEOUT * HZ);
- 
--	if (ret) {
-+	if (ret < 0) {
- 		dev_err(&usbdev->dev, "send failed (error %d)\n", ret);
- 		return ret;
- 	}
--- 
-2.16.4
+在 2020/9/23 下午1:35, Vinod Koul 写道:
+> On 22-09-20, 00:24, 周琰杰 (Zhou Yanjie) wrote:
+>
+>> +#define USBPCR_IDPULLUP_LSB	28
+>> +#define USBPCR_IDPULLUP_MASK		GENMASK(29, USBPCR_IDPULLUP_LSB)
+>> +#define USBPCR_IDPULLUP_ALWAYS		(0x2 << USBPCR_IDPULLUP_LSB)
+>> +#define USBPCR_IDPULLUP_SUSPEND		(0x1 << USBPCR_IDPULLUP_LSB)
+>> +#define USBPCR_IDPULLUP_OTG			(0x0 << USBPCR_IDPULLUP_LSB)
+> why not define these as 0, 1, 2 and then use
+> FIELD_PREP(value, USBPCR_IDPULLUP_MASK), please do this for rest as
+> well.
+
+
+Sure.
+
+>> +static int ingenic_usb_phy_set_mode(struct phy *phy,
+>> +				  enum phy_mode mode, int submode)
+>> +{
+>> +	struct ingenic_usb_phy *priv = phy_get_drvdata(phy);
+>> +	u32 reg;
+>> +
+>> +	switch (mode) {
+>> +	case PHY_MODE_USB_HOST:
+>> +		reg = readl(priv->base + REG_USBPCR_OFFSET);
+>> +		reg &= ~(USBPCR_VBUSVLDEXT | USBPCR_VBUSVLDEXTSEL | USBPCR_OTG_DISABLE);
+> use u32_encode_bits or u32p_replace_bit to program registers using mask
+> defined
+
+
+Sure.
+
+Thanks and best regards!
 
