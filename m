@@ -7,41 +7,39 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D07EC2D0A8
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B478C4727E
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 177C821D92
+	by mail.kernel.org (Postfix) with ESMTP id B629521D92
 	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="esDU2k41"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="o9fZ1GD+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbgIWNoZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 09:44:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33520 "EHLO mx2.suse.de"
+        id S1726668AbgIWNoU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 09:44:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33198 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726648AbgIWNoV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 09:44:21 -0400
+        id S1726514AbgIWNoS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 09:44:18 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600868658;
+        t=1600868655;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=A0SLqdQOgt7r1yxVF4MnON32ZU4vIOB9jRiWgTSt+L4=;
-        b=esDU2k41bvxKjjzDDZsqXmy+Riu2rJ0TkOfRRs7gS1p0iNuJr5Nbchp164DX9Gfx3DxKCq
-        K3R8d3qMGXd9ElYelsoSuvPbkN/TqLRlb/7+RSLlGAjIiRKQmrRD0tB8YAXNDvztl7yVIg
-        VBLzUzoAdwFmYRE/j/YR2rJk2FzOOCw=
+        bh=4MkCnxprN0Wp2xxSH9di7m6bGYaZJPoL1At3UWd9ysE=;
+        b=o9fZ1GD+IA9PEhwpX+orTd1/pckpACwkHoNHgjjBQXD9JlWGLP8ABf6TL7cYkrD33Dg+kS
+        56G8u3KmCu6Uts9TRsgLat5GP05Ag4V9c5hz/tzJMrjAWCM5YlEVcIckRYwtreR8053ujK
+        SSrR/C75OUpN7+jjWCeUzcTkuZPUa74=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7C833AD2C;
-        Wed, 23 Sep 2020 13:44:55 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 1E194B1AD;
+        Wed, 23 Sep 2020 13:44:53 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     himadrispandya@gmail.com, gregKH@linuxfoundation.org,
         stern@rowland.harvard.edu, linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: [RFC 12/14] sound: line6: move to use usb_control_msg_send() and usb_control_msg_recv()
-Date:   Wed, 23 Sep 2020 15:43:46 +0200
-Message-Id: <20200923134348.23862-13-oneukum@suse.com>
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [RFC 01/14] Revert "USB: core: hub.c: use usb_control_msg_send() in a few places"
+Date:   Wed, 23 Sep 2020 15:43:35 +0200
+Message-Id: <20200923134348.23862-2-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200923134348.23862-1-oneukum@suse.com>
 References: <20200923134348.23862-1-oneukum@suse.com>
@@ -49,236 +47,207 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+This reverts commit d6a499249543356002a1efbb26254c7272e62f4c.
+Control messages are needed in contexts when memory allocations
+are restricted, such as handling device resets and runtime PM.
 
-The usb_control_msg_send() and usb_control_msg_recv() calls can return
-an error if a "short" write/read happens, and they can handle data off
-of the stack, so move the driver over to using those calls instead,
-saving some logic when dynamically allocating memory.
+For this reason the control message API internally uses GFP_NOIO.
+This is a band aid introduced because when we recognized the issue,
+the call chains were highly convoluted. Continuing this trend
+is not a good idea.
 
-v2: API change of use usb_control_msg_send() and usb_control_msg_recv()
+So I am shooting the whole kennel here.
 
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
-Link: https://lore.kernel.org/r/20200914153756.3412156-9-gregkh@linuxfoundation.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- sound/usb/line6/driver.c   | 72 +++++++++++++++++++---------------------------
- sound/usb/line6/podhd.c    | 23 ++++++---------
- sound/usb/line6/toneport.c |  9 +++---
- 3 files changed, 44 insertions(+), 60 deletions(-)
+ drivers/usb/core/hub.c | 99 ++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 59 insertions(+), 40 deletions(-)
 
-diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
-index 60674ce4879b..a030dd65eb28 100644
---- a/sound/usb/line6/driver.c
-+++ b/sound/usb/line6/driver.c
-@@ -337,23 +337,18 @@ int line6_read_data(struct usb_line6 *line6, unsigned address, void *data,
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 5742ddeb0455..5b768b80d1ee 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -410,8 +410,8 @@ static int get_hub_descriptor(struct usb_device *hdev,
+  */
+ static int clear_hub_feature(struct usb_device *hdev, int feature)
  {
- 	struct usb_device *usbdev = line6->usbdev;
- 	int ret;
--	unsigned char *len;
-+	u8 len;
- 	unsigned count;
+-	return usb_control_msg_send(hdev, 0, USB_REQ_CLEAR_FEATURE, USB_RT_HUB,
+-				    feature, 0, NULL, 0, 1000);
++	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++		USB_REQ_CLEAR_FEATURE, USB_RT_HUB, feature, 0, NULL, 0, 1000);
+ }
  
- 	if (address > 0xffff || datalen > 0xff)
- 		return -EINVAL;
+ /*
+@@ -419,8 +419,9 @@ static int clear_hub_feature(struct usb_device *hdev, int feature)
+  */
+ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
+ {
+-	return usb_control_msg_send(hdev, 0, USB_REQ_CLEAR_FEATURE, USB_RT_PORT,
+-				    feature, port1, NULL, 0, 1000);
++	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++		USB_REQ_CLEAR_FEATURE, USB_RT_PORT, feature, port1,
++		NULL, 0, 1000);
+ }
  
--	len = kmalloc(1, GFP_KERNEL);
--	if (!len)
--		return -ENOMEM;
--
- 	/* query the serial number: */
--	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0), 0x67,
--			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			      (datalen << 8) | 0x21, address,
--			      NULL, 0, LINE6_TIMEOUT * HZ);
--
--	if (ret < 0) {
-+	ret = usb_control_msg_send(usbdev, 0, 0x67,
-+				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
-+				   (datalen << 8) | 0x21, address, NULL, 0,
-+				   LINE6_TIMEOUT * HZ, GFP_KERNEL);
-+	if (ret) {
- 		dev_err(line6->ifcdev, "read request failed (error %d)\n", ret);
- 		goto exit;
+ /*
+@@ -428,8 +429,9 @@ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
+  */
+ static int set_port_feature(struct usb_device *hdev, int port1, int feature)
+ {
+-	return usb_control_msg_send(hdev, 0, USB_REQ_SET_FEATURE, USB_RT_PORT,
+-				    feature, port1, NULL, 0, 1000);
++	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++		USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
++		NULL, 0, 1000);
+ }
+ 
+ static char *to_led_name(int selector)
+@@ -753,14 +755,15 @@ hub_clear_tt_buffer(struct usb_device *hdev, u16 devinfo, u16 tt)
+ 	/* Need to clear both directions for control ep */
+ 	if (((devinfo >> 11) & USB_ENDPOINT_XFERTYPE_MASK) ==
+ 			USB_ENDPOINT_XFER_CONTROL) {
+-		int status = usb_control_msg_send(hdev, 0,
+-						  HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
+-						  devinfo ^ 0x8000, tt, NULL, 0, 1000);
++		int status = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++				HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
++				devinfo ^ 0x8000, tt, NULL, 0, 1000);
+ 		if (status)
+ 			return status;
  	}
-@@ -362,45 +357,42 @@ int line6_read_data(struct usb_line6 *line6, unsigned address, void *data,
- 	for (count = 0; count < LINE6_READ_WRITE_MAX_RETRIES; count++) {
- 		mdelay(LINE6_READ_WRITE_STATUS_DELAY);
+-	return usb_control_msg_send(hdev, 0, HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
+-				    devinfo, tt, NULL, 0, 1000);
++	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++			       HUB_CLEAR_TT_BUFFER, USB_RT_PORT, devinfo,
++			       tt, NULL, 0, 1000);
+ }
  
--		ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0), 0x67,
--				      USB_TYPE_VENDOR | USB_RECIP_DEVICE |
--				      USB_DIR_IN,
--				      0x0012, 0x0000, len, 1,
--				      LINE6_TIMEOUT * HZ);
--		if (ret < 0) {
-+		ret = usb_control_msg_recv(usbdev, 0, 0x67,
-+					   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
-+					   0x0012, 0x0000, &len, 1,
-+					   LINE6_TIMEOUT * HZ, GFP_KERNEL);
-+		if (ret) {
- 			dev_err(line6->ifcdev,
- 				"receive length failed (error %d)\n", ret);
- 			goto exit;
+ /*
+@@ -1046,10 +1049,11 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+ 	 */
+ 	if (type != HUB_RESUME) {
+ 		if (hdev->parent && hub_is_superspeed(hdev)) {
+-			ret = usb_control_msg_send(hdev, 0, HUB_SET_DEPTH, USB_RT_HUB,
+-						   hdev->level - 1, 0, NULL, 0,
+-						   USB_CTRL_SET_TIMEOUT);
+-			if (ret)
++			ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++					HUB_SET_DEPTH, USB_RT_HUB,
++					hdev->level - 1, 0, NULL, 0,
++					USB_CTRL_SET_TIMEOUT);
++			if (ret < 0)
+ 				dev_err(hub->intfdev,
+ 						"set hub depth failed\n");
  		}
+@@ -2325,10 +2329,13 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
+ 		/* enable HNP before suspend, it's simpler */
+ 		if (port1 == bus->otg_port) {
+ 			bus->b_hnp_enable = 1;
+-			err = usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, 0,
+-						   USB_DEVICE_B_HNP_ENABLE, 0,
+-						   NULL, 0, USB_CTRL_SET_TIMEOUT);
+-			if (err) {
++			err = usb_control_msg(udev,
++				usb_sndctrlpipe(udev, 0),
++				USB_REQ_SET_FEATURE, 0,
++				USB_DEVICE_B_HNP_ENABLE,
++				0, NULL, 0,
++				USB_CTRL_SET_TIMEOUT);
++			if (err < 0) {
+ 				/*
+ 				 * OTG MESSAGE: report errors here,
+ 				 * customize to match your product.
+@@ -2340,10 +2347,13 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
+ 		} else if (desc->bLength == sizeof
+ 				(struct usb_otg_descriptor)) {
+ 			/* Set a_alt_hnp_support for legacy otg device */
+-			err = usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, 0,
+-						   USB_DEVICE_A_ALT_HNP_SUPPORT, 0,
+-						   NULL, 0, USB_CTRL_SET_TIMEOUT);
+-			if (err)
++			err = usb_control_msg(udev,
++				usb_sndctrlpipe(udev, 0),
++				USB_REQ_SET_FEATURE, 0,
++				USB_DEVICE_A_ALT_HNP_SUPPORT,
++				0, NULL, 0,
++				USB_CTRL_SET_TIMEOUT);
++			if (err < 0)
+ 				dev_err(&udev->dev,
+ 					"set a_alt_hnp_support failed: %d\n",
+ 					err);
+@@ -3111,8 +3121,10 @@ int usb_disable_ltm(struct usb_device *udev)
+ 	if (!udev->actconfig)
+ 		return 0;
  
--		if (*len != 0xff)
-+		if (len != 0xff)
- 			break;
- 	}
- 
- 	ret = -EIO;
--	if (*len == 0xff) {
-+	if (len == 0xff) {
- 		dev_err(line6->ifcdev, "read failed after %d retries\n",
- 			count);
- 		goto exit;
--	} else if (*len != datalen) {
-+	} else if (len != datalen) {
- 		/* should be equal or something went wrong */
- 		dev_err(line6->ifcdev,
- 			"length mismatch (expected %d, got %d)\n",
--			(int)datalen, (int)*len);
-+			(int)datalen, len);
- 		goto exit;
- 	}
- 
- 	/* receive the result: */
--	ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0), 0x67,
--			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--			      0x0013, 0x0000, data, datalen,
--			      LINE6_TIMEOUT * HZ);
--
--	if (ret < 0)
-+	ret = usb_control_msg_recv(usbdev, 0, 0x67,
-+				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
-+				   0x0013, 0x0000, data, datalen, LINE6_TIMEOUT * HZ,
-+				   GFP_KERNEL);
-+	if (ret)
- 		dev_err(line6->ifcdev, "read failed (error %d)\n", ret);
- 
- exit:
--	kfree(len);
- 	return ret;
+-	return usb_control_msg_send(udev, 0, USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
+-				    USB_DEVICE_LTM_ENABLE, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
++	return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++			USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
++			USB_DEVICE_LTM_ENABLE, 0, NULL, 0,
++			USB_CTRL_SET_TIMEOUT);
  }
- EXPORT_SYMBOL_GPL(line6_read_data);
-@@ -423,12 +415,11 @@ int line6_write_data(struct usb_line6 *line6, unsigned address, void *data,
- 	if (!status)
- 		return -ENOMEM;
+ EXPORT_SYMBOL_GPL(usb_disable_ltm);
  
--	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0), 0x67,
--			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			      0x0022, address, data, datalen,
--			      LINE6_TIMEOUT * HZ);
--
--	if (ret < 0) {
-+	ret = usb_control_msg_send(usbdev, 0, 0x67,
-+				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
-+				   0x0022, address, data, datalen, LINE6_TIMEOUT * HZ,
-+				   GFP_KERNEL);
-+	if (ret) {
- 		dev_err(line6->ifcdev,
- 			"write request failed (error %d)\n", ret);
- 		goto exit;
-@@ -437,14 +428,11 @@ int line6_write_data(struct usb_line6 *line6, unsigned address, void *data,
- 	for (count = 0; count < LINE6_READ_WRITE_MAX_RETRIES; count++) {
- 		mdelay(LINE6_READ_WRITE_STATUS_DELAY);
+@@ -3131,8 +3143,10 @@ void usb_enable_ltm(struct usb_device *udev)
+ 	if (!udev->actconfig)
+ 		return;
  
--		ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0),
--				      0x67,
--				      USB_TYPE_VENDOR | USB_RECIP_DEVICE |
--				      USB_DIR_IN,
--				      0x0012, 0x0000,
--				      status, 1, LINE6_TIMEOUT * HZ);
--
--		if (ret < 0) {
-+		ret = usb_control_msg_recv(usbdev, 0, 0x67,
-+					   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
-+					   0x0012, 0x0000, status, 1, LINE6_TIMEOUT * HZ,
-+					   GFP_KERNEL);
-+		if (ret) {
- 			dev_err(line6->ifcdev,
- 				"receiving status failed (error %d)\n", ret);
- 			goto exit;
-diff --git a/sound/usb/line6/podhd.c b/sound/usb/line6/podhd.c
-index eef45f7fef0d..28794a35949d 100644
---- a/sound/usb/line6/podhd.c
-+++ b/sound/usb/line6/podhd.c
-@@ -183,29 +183,25 @@ static const struct attribute_group podhd_dev_attr_group = {
- static int podhd_dev_start(struct usb_line6_podhd *pod)
+-	usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
+-			     USB_DEVICE_LTM_ENABLE, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
++	usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++			USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
++			USB_DEVICE_LTM_ENABLE, 0, NULL, 0,
++			USB_CTRL_SET_TIMEOUT);
+ }
+ EXPORT_SYMBOL_GPL(usb_enable_ltm);
+ 
+@@ -3149,14 +3163,17 @@ EXPORT_SYMBOL_GPL(usb_enable_ltm);
+ static int usb_enable_remote_wakeup(struct usb_device *udev)
  {
- 	int ret;
--	u8 *init_bytes;
-+	u8 init_bytes[8];
- 	int i;
- 	struct usb_device *usbdev = pod->line6.usbdev;
- 
--	init_bytes = kmalloc(8, GFP_KERNEL);
--	if (!init_bytes)
--		return -ENOMEM;
--
--	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0),
-+	ret = usb_control_msg_send(usbdev, 0,
- 					0x67, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
- 					0x11, 0,
--					NULL, 0, LINE6_TIMEOUT * HZ);
--	if (ret < 0) {
-+					NULL, 0, LINE6_TIMEOUT * HZ, GFP_KERNEL);
-+	if (ret) {
- 		dev_err(pod->line6.ifcdev, "read request failed (error %d)\n", ret);
- 		goto exit;
- 	}
- 
- 	/* NOTE: looks like some kind of ping message */
--	ret = usb_control_msg(usbdev, usb_rcvctrlpipe(usbdev, 0), 0x67,
-+	ret = usb_control_msg_recv(usbdev, 0, 0x67,
- 					USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
- 					0x11, 0x0,
--					init_bytes, 3, LINE6_TIMEOUT * HZ);
--	if (ret < 0) {
-+					init_bytes, 3, LINE6_TIMEOUT * HZ, GFP_KERNEL);
-+	if (ret) {
- 		dev_err(pod->line6.ifcdev,
- 			"receive length failed (error %d)\n", ret);
- 		goto exit;
-@@ -220,13 +216,12 @@ static int podhd_dev_start(struct usb_line6_podhd *pod)
- 			goto exit;
- 	}
- 
--	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0),
-+	ret = usb_control_msg_send(usbdev, 0,
- 					USB_REQ_SET_FEATURE,
- 					USB_TYPE_STANDARD | USB_RECIP_DEVICE | USB_DIR_OUT,
- 					1, 0,
--					NULL, 0, LINE6_TIMEOUT * HZ);
-+					NULL, 0, LINE6_TIMEOUT * HZ, GFP_KERNEL);
- exit:
--	kfree(init_bytes);
- 	return ret;
+ 	if (udev->speed < USB_SPEED_SUPER)
+-		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
+-					    USB_DEVICE_REMOTE_WAKEUP, 0,
+-					    NULL, 0, USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++				USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
++				USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
++				USB_CTRL_SET_TIMEOUT);
+ 	else
+-		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
+-					    USB_INTRF_FUNC_SUSPEND,
+-					    USB_INTRF_FUNC_SUSPEND_RW | USB_INTRF_FUNC_SUSPEND_LP,
+-					    NULL, 0, USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++				USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
++				USB_INTRF_FUNC_SUSPEND,
++				USB_INTRF_FUNC_SUSPEND_RW |
++					USB_INTRF_FUNC_SUSPEND_LP,
++				NULL, 0, USB_CTRL_SET_TIMEOUT);
  }
  
-diff --git a/sound/usb/line6/toneport.c b/sound/usb/line6/toneport.c
-index 94dd5e7ab2e6..4e5693c97aa4 100644
---- a/sound/usb/line6/toneport.c
-+++ b/sound/usb/line6/toneport.c
-@@ -126,11 +126,12 @@ static int toneport_send_cmd(struct usb_device *usbdev, int cmd1, int cmd2)
+ /*
+@@ -3172,13 +3189,15 @@ static int usb_enable_remote_wakeup(struct usb_device *udev)
+ static int usb_disable_remote_wakeup(struct usb_device *udev)
  {
- 	int ret;
+ 	if (udev->speed < USB_SPEED_SUPER)
+-		return usb_control_msg_send(udev, 0, USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
+-					    USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
+-					    USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++				USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
++				USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
++				USB_CTRL_SET_TIMEOUT);
+ 	else
+-		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
+-					    USB_INTRF_FUNC_SUSPEND, 0, NULL, 0,
+-					    USB_CTRL_SET_TIMEOUT);
++		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++				USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
++				USB_INTRF_FUNC_SUSPEND,	0, NULL, 0,
++				USB_CTRL_SET_TIMEOUT);
+ }
  
--	ret = usb_control_msg(usbdev, usb_sndctrlpipe(usbdev, 0), 0x67,
--			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			      cmd1, cmd2, NULL, 0, LINE6_TIMEOUT * HZ);
-+	ret = usb_control_msg_send(usbdev, 0, 0x67,
-+				   USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
-+				   cmd1, cmd2, NULL, 0, LINE6_TIMEOUT * HZ,
-+				   GFP_KERNEL);
- 
--	if (ret < 0) {
-+	if (ret) {
- 		dev_err(&usbdev->dev, "send failed (error %d)\n", ret);
- 		return ret;
- 	}
+ /* Count of wakeup-enabled devices at or below udev */
 -- 
 2.16.4
 
