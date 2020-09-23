@@ -2,117 +2,86 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18675C52D72
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:23:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FAABC47438
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:23:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF87623119
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:23:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rUuUIJ0j"
+	by mail.kernel.org (Postfix) with ESMTP id DF16A238A1
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:23:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600856598;
+	bh=vbe7KhLEZRy4OEuhFJNKIUNqjK+4f7n+EAp2CYmrpyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=lHKifHNU8PbNeiUozmklyaic8HHsN81WmNWkKeMBxjDdSEURd5NdAjb4RC+RE16gt
+	 mfRyj2w15a6HUVkedctyOldGsqQwfucte9KdPYFpHnjPqriVVp9ShBxyvzfMNlzh/f
+	 zv9qQWvVzEFpYZoHWN9ERFzh1jLCkgag0neIy46A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbgIWKW6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 06:22:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60038 "EHLO mx2.suse.de"
+        id S1726785AbgIWKXN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 06:23:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45378 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726314AbgIWKW6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 06:22:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600856577;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jbE3xqWmrav8NliPhuXnwoHoxrt72ZS1tqSJlMbrbqs=;
-        b=rUuUIJ0j6ln/3DCMxMrtfIeELX/iS75yliSp+iYcNLunbappoz/0BURyQiFr1m7mjZq7WL
-        xDiiqnO3Kz9T5khtGzgVo7s9tFvcvmbLWu0IBTMncSxWcCxcAtMNSNwaIsax54twjDHMs2
-        nUgOTeGhu7fNiGKZdzBacZ6kxIggVyo=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 504AFB009;
-        Wed, 23 Sep 2020 10:23:34 +0000 (UTC)
-Message-ID: <1600856557.26851.6.camel@suse.com>
-Subject: Re: [PATCH 3/4] net: usb: rtl8150: use usb_control_msg_recv() and
- usb_control_msg_send()
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Himadri Pandya <himadrispandya@gmail.com>, davem@davemloft.net,
-        kuba@kernel.org, pankaj.laxminarayan.bharadiya@intel.com,
-        keescook@chromium.org, yuehaibing@huawei.com, petkan@nucleusys.com,
-        ogiannou@gmail.com
-Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        id S1726332AbgIWKXL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 06:23:11 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 70D10238D7;
+        Wed, 23 Sep 2020 10:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600856591;
+        bh=vbe7KhLEZRy4OEuhFJNKIUNqjK+4f7n+EAp2CYmrpyI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K1hQRymbnkZkbCaJfs7jUvv1JxrUwU4Z6Nl9qJwa5StOAbwQv4gM3cVnqrE6VuDr1
+         6ymn5CiB7/D1c0bpifdyydecHdfJWw6nTtOlgZMLUX4FNTzjUheVGgGtb/s+VFJtAz
+         DacfhjfPQxE1VqvdcGhcmTkd30hsdFOknC4gcMoI=
+Date:   Wed, 23 Sep 2020 12:23:30 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Himadri Pandya <himadrispandya@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, oneukum@suse.com,
+        pankaj.laxminarayan.bharadiya@intel.com, keescook@chromium.org,
+        yuehaibing@huawei.com, petkan@nucleusys.com, ogiannou@gmail.com,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        gregkh@linuxfoundation.org
-Date:   Wed, 23 Sep 2020 12:22:37 +0200
-In-Reply-To: <20200923090519.361-4-himadrispandya@gmail.com>
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 0/4] net: usb: avoid using usb_control_msg() directly
+Message-ID: <20200923102330.GB3154647@kroah.com>
 References: <20200923090519.361-1-himadrispandya@gmail.com>
-         <20200923090519.361-4-himadrispandya@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200923090519.361-1-himadrispandya@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Mittwoch, den 23.09.2020, 14:35 +0530 schrieb Himadri Pandya:
-
-Hi,
-
-> Many usage of usb_control_msg() do not have proper error check on return
-> value leaving scope for bugs on short reads. New usb_control_msg_recv()
-> and usb_control_msg_send() nicely wraps usb_control_msg() with proper
-> error check. Hence use the wrappers instead of calling usb_control_msg()
-> directly.
+On Wed, Sep 23, 2020 at 02:35:15PM +0530, Himadri Pandya wrote:
+> A recent bug-fix shaded light on possible incorrect use of
+> usb_control_msg() without proper error check. This resulted in
+> introducing new usb core api wrapper functions usb_control_msg_send()
+> and usb_control_msg_recv() by Greg KH. This patch series continue the
+> clean-up using the new functions.
 > 
-> Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
-Nacked-by: Oliver Neukum <oneukum@suse.com>
-
-> ---
->  drivers/net/usb/rtl8150.c | 32 ++++++--------------------------
->  1 file changed, 6 insertions(+), 26 deletions(-)
+> Himadri Pandya (4):
+>   net: usbnet: use usb_control_msg_recv() and usb_control_msg_send()
+>   net: sierra_net: use usb_control_msg_recv()
+>   net: usb: rtl8150: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   net: rndis_host: use usb_control_msg_recv() and usb_control_msg_send()
 > 
-> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-> index 733f120c852b..e3002b675921 100644
-> --- a/drivers/net/usb/rtl8150.c
-> +++ b/drivers/net/usb/rtl8150.c
-> @@ -152,36 +152,16 @@ static const char driver_name [] = "rtl8150";
->  */
->  static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
->  {
-> -	void *buf;
-> -	int ret;
-> -
-> -	buf = kmalloc(size, GFP_NOIO);
+>  drivers/net/usb/rndis_host.c | 44 +++++++++++++---------------------
+>  drivers/net/usb/rtl8150.c    | 32 +++++--------------------
+>  drivers/net/usb/sierra_net.c | 17 ++++++-------
+>  drivers/net/usb/usbnet.c     | 46 ++++--------------------------------
+>  4 files changed, 34 insertions(+), 105 deletions(-)
+> 
 
-GFP_NOIO is used here for a reason. You need to use this helper
-while in contexts of error recovery and runtime PM.
+Note, all of these depend on a set of patches in my usb tree, so they
+should probably wait to be sent to the networking developers until after
+5.10-rc1 is out.
 
-> -	if (!buf)
-> -		return -ENOMEM;
-> -
-> -	ret = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
-> -			      RTL8150_REQ_GET_REGS, RTL8150_REQT_READ,
-> -			      indx, 0, buf, size, 500);
-> -	if (ret > 0 && ret <= size)
-> -		memcpy(data, buf, ret);
-> -	kfree(buf);
-> -	return ret;
-> +	return usb_control_msg_recv(dev->udev, 0, RTL8150_REQ_GET_REGS,
-> +				    RTL8150_REQT_READ, indx, 0, data,
-> +				    size, 500);
+thanks,
 
-This internally uses kmemdup() with GFP_KERNEL.
-You cannot make this change. The API does not support it.
-I am afraid we will have to change the API first, before more
-such changes are done.
-
-I would suggest dropping the whole series for now.
-
-	Regards
-		Oliver
-
+greg k-h
