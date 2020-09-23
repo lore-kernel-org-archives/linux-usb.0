@@ -2,45 +2,45 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2065C4741F
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86774C2D0A8
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A34DA21D92
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FF9A21D92
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="NYKRF1l9"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="C0f4Huxo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgIWNoW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 09:44:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33436 "EHLO mx2.suse.de"
+        id S1726674AbgIWNoX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 09:44:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33568 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726627AbgIWNoT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 09:44:19 -0400
+        id S1726662AbgIWNoU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 09:44:20 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600868656;
+        t=1600868658;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=jWlZzVcLaX5SUMbRVSLkTMFn2o+DHHEtT5myBaffZPA=;
-        b=NYKRF1l9vD5AdXT+5F5iSUK+FTgS09gjtQCuLHWufj0hu9vM0eaBNIS7u+l3fR/+efnPqw
-        AsTNQURplOGq6L3tKpFqwyTUGSYQfniZaxaukDP/QXcG/VE0fVP0AV/L7AYi1LlIRxKMxU
-        Z76l/8t+LtkRG8wq/OLCUWCfb+RxYEU=
+        bh=J8kb2Y6xVaUgs3fR1w109xfB+LPi5dm748aQ+V80RFQ=;
+        b=C0f4HuxoJGjDTusjunJxM43U+Mb5MGuZvObd4nVGyLiCCN0kqn4x3Zn781VrdoQxk2FnHo
+        gYUSQ9lW95TKHb/2648cYbbo1/4FuwGQUbeB0stf62cNqDVCyV0kBsWDrYdS61fEakfY4C
+        h/buFd6zpDSEHax74R08lDZlYFyfaq4=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id D2954AC55;
-        Wed, 23 Sep 2020 13:44:53 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id B2569AD57;
+        Wed, 23 Sep 2020 13:44:55 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     himadrispandya@gmail.com, gregKH@linuxfoundation.org,
         stern@rowland.harvard.edu, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 05/14] Revert "sound: 6fire: move to use usb_control_msg_send() and usb_control_msg_recv()"
-Date:   Wed, 23 Sep 2020 15:43:39 +0200
-Message-Id: <20200923134348.23862-6-oneukum@suse.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>
+Subject: [RFC 13/14] sound: hiface: move to use usb_control_msg_send()
+Date:   Wed, 23 Sep 2020 15:43:47 +0200
+Message-Id: <20200923134348.23862-14-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200923134348.23862-1-oneukum@suse.com>
 References: <20200923134348.23862-1-oneukum@suse.com>
@@ -48,117 +48,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit aea67cc1418252d07b9b56688f1b5fa70fcae813.
-The API has to be changed.
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+The usb_control_msg_send() call can return an error if a "short" write
+happens, so move the driver over to using that call instead.
+
+v2: API change of use usb_control_msg_send()
+
+Cc: Jaroslav Kysela <perex@perex.cz>
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
+Link: https://lore.kernel.org/r/20200914153756.3412156-10-gregkh@linuxfoundation.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- sound/usb/6fire/firmware.c | 38 +++++++++++++++++++++++++-------------
- 1 file changed, 25 insertions(+), 13 deletions(-)
+ sound/usb/hiface/pcm.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/sound/usb/6fire/firmware.c b/sound/usb/6fire/firmware.c
-index 5b8994070c96..69137c14d0dc 100644
---- a/sound/usb/6fire/firmware.c
-+++ b/sound/usb/6fire/firmware.c
-@@ -158,17 +158,29 @@ static int usb6fire_fw_ihex_init(const struct firmware *fw,
- static int usb6fire_fw_ezusb_write(struct usb_device *device,
- 		int type, int value, char *data, int len)
- {
--	return usb_control_msg_send(device, 0, type,
--				    USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
--				    value, 0, data, len, HZ);
-+	int ret;
-+
-+	ret = usb_control_msg(device, usb_sndctrlpipe(device, 0), type,
-+			USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+			value, 0, data, len, HZ);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret != len)
-+		return -EIO;
-+	return 0;
+diff --git a/sound/usb/hiface/pcm.c b/sound/usb/hiface/pcm.c
+index a148caa5f48e..d942179ca095 100644
+--- a/sound/usb/hiface/pcm.c
++++ b/sound/usb/hiface/pcm.c
+@@ -156,16 +156,14 @@ static int hiface_pcm_set_rate(struct pcm_runtime *rt, unsigned int rate)
+ 	 * This control message doesn't have any ack from the
+ 	 * other side
+ 	 */
+-	ret = usb_control_msg(device, usb_sndctrlpipe(device, 0),
+-			      HIFACE_SET_RATE_REQUEST,
+-			      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+-			      rate_value, 0, NULL, 0, 100);
+-	if (ret < 0) {
++	ret = usb_control_msg_send(device, 0,
++				   HIFACE_SET_RATE_REQUEST,
++				   USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_OTHER,
++				   rate_value, 0, NULL, 0, 100, GFP_KERNEL);
++	if (ret)
+ 		dev_err(&device->dev, "Error setting samplerate %d.\n", rate);
+-		return ret;
+-	}
+ 
+-	return 0;
++	return ret;
  }
  
- static int usb6fire_fw_ezusb_read(struct usb_device *device,
- 		int type, int value, char *data, int len)
- {
--	return usb_control_msg_recv(device, 0, type,
--				    USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
--				    value, 0, data, len, HZ);
-+	int ret = usb_control_msg(device, usb_rcvctrlpipe(device, 0), type,
-+			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE, value,
-+			0, data, len, HZ);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret != len)
-+		return -EIO;
-+	return 0;
- }
- 
- static int usb6fire_fw_fpga_write(struct usb_device *device,
-@@ -218,7 +230,7 @@ static int usb6fire_fw_ezusb_upload(
- 	/* upload firmware image */
- 	data = 0x01; /* stop ezusb cpu */
- 	ret = usb6fire_fw_ezusb_write(device, 0xa0, 0xe600, &data, 1);
--	if (ret) {
-+	if (ret < 0) {
- 		kfree(rec);
- 		release_firmware(fw);
- 		dev_err(&intf->dev,
-@@ -230,7 +242,7 @@ static int usb6fire_fw_ezusb_upload(
- 	while (usb6fire_fw_ihex_next_record(rec)) { /* write firmware */
- 		ret = usb6fire_fw_ezusb_write(device, 0xa0, rec->address,
- 				rec->data, rec->len);
--		if (ret) {
-+		if (ret < 0) {
- 			kfree(rec);
- 			release_firmware(fw);
- 			dev_err(&intf->dev,
-@@ -245,7 +257,7 @@ static int usb6fire_fw_ezusb_upload(
- 	if (postdata) { /* write data after firmware has been uploaded */
- 		ret = usb6fire_fw_ezusb_write(device, 0xa0, postaddr,
- 				postdata, postlen);
--		if (ret) {
-+		if (ret < 0) {
- 			dev_err(&intf->dev,
- 				"unable to upload ezusb firmware %s: post urb.\n",
- 				fwname);
-@@ -255,7 +267,7 @@ static int usb6fire_fw_ezusb_upload(
- 
- 	data = 0x00; /* resume ezusb cpu */
- 	ret = usb6fire_fw_ezusb_write(device, 0xa0, 0xe600, &data, 1);
--	if (ret) {
-+	if (ret < 0) {
- 		dev_err(&intf->dev,
- 			"unable to upload ezusb firmware %s: end message.\n",
- 			fwname);
-@@ -290,7 +302,7 @@ static int usb6fire_fw_fpga_upload(
- 	end = fw->data + fw->size;
- 
- 	ret = usb6fire_fw_ezusb_write(device, 8, 0, NULL, 0);
--	if (ret) {
-+	if (ret < 0) {
- 		kfree(buffer);
- 		release_firmware(fw);
- 		dev_err(&intf->dev,
-@@ -315,7 +327,7 @@ static int usb6fire_fw_fpga_upload(
- 	kfree(buffer);
- 
- 	ret = usb6fire_fw_ezusb_write(device, 9, 0, NULL, 0);
--	if (ret) {
-+	if (ret < 0) {
- 		dev_err(&intf->dev,
- 			"unable to upload fpga firmware: end urb.\n");
- 		return ret;
-@@ -351,7 +363,7 @@ int usb6fire_fw_init(struct usb_interface *intf)
- 	u8 buffer[12];
- 
- 	ret = usb6fire_fw_ezusb_read(device, 1, 0, buffer, 8);
--	if (ret) {
-+	if (ret < 0) {
- 		dev_err(&intf->dev,
- 			"unable to receive device firmware state.\n");
- 		return ret;
+ static struct pcm_substream *hiface_pcm_get_substream(struct snd_pcm_substream
 -- 
 2.16.4
 
