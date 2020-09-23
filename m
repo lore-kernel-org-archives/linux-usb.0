@@ -7,39 +7,40 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B478C4727E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B759C2D0E2
 	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B629521D92
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44FF1221EB
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 13:44:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="o9fZ1GD+"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="APPqQsXi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbgIWNoU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 09:44:20 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33198 "EHLO mx2.suse.de"
+        id S1726582AbgIWNo1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 09:44:27 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33504 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726514AbgIWNoS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 09:44:18 -0400
+        id S1726638AbgIWNoU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 09:44:20 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600868655;
+        t=1600868657;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=4MkCnxprN0Wp2xxSH9di7m6bGYaZJPoL1At3UWd9ysE=;
-        b=o9fZ1GD+IA9PEhwpX+orTd1/pckpACwkHoNHgjjBQXD9JlWGLP8ABf6TL7cYkrD33Dg+kS
-        56G8u3KmCu6Uts9TRsgLat5GP05Ag4V9c5hz/tzJMrjAWCM5YlEVcIckRYwtreR8053ujK
-        SSrR/C75OUpN7+jjWCeUzcTkuZPUa74=
+        bh=0j5VCmMIJ14KVmA4epSj7Ta0DdTeBsCFpXJBB5X6zEA=;
+        b=APPqQsXizDvNRgCGp2WDWpaaOu52zh3eGM6rl56Kiw8Q3hL1/J30qFXVaEjnuID9uV9+YB
+        gJQTb1sWAaXytH0Rg8yCrsZnhFNFQu8vlJb4PSFtr/56LCaI7NY0P9yMpu1oe47HRF/0FO
+        q8lBHb363NX0JY7UxG2Ubleg3acKUQY=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 1E194B1AD;
-        Wed, 23 Sep 2020 13:44:53 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id B853AB1A4;
+        Wed, 23 Sep 2020 13:44:54 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     himadrispandya@gmail.com, gregKH@linuxfoundation.org,
         stern@rowland.harvard.edu, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 01/14] Revert "USB: core: hub.c: use usb_control_msg_send() in a few places"
-Date:   Wed, 23 Sep 2020 15:43:35 +0200
-Message-Id: <20200923134348.23862-2-oneukum@suse.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>
+Subject: [RFC 09/14] sound: usx2y: move to use usb_control_msg_send()
+Date:   Wed, 23 Sep 2020 15:43:43 +0200
+Message-Id: <20200923134348.23862-10-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200923134348.23862-1-oneukum@suse.com>
 References: <20200923134348.23862-1-oneukum@suse.com>
@@ -47,207 +48,93 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit d6a499249543356002a1efbb26254c7272e62f4c.
-Control messages are needed in contexts when memory allocations
-are restricted, such as handling device resets and runtime PM.
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-For this reason the control message API internally uses GFP_NOIO.
-This is a band aid introduced because when we recognized the issue,
-the call chains were highly convoluted. Continuing this trend
-is not a good idea.
+The usb_control_msg_send() call can handle data on the stack, as well as
+returning an error if a "short" write happens, so move the driver over
+to using that call instead.  This ends up removing a helper function
+that is no longer needed.
 
-So I am shooting the whole kennel here.
+v2: API change in usb_control_msg_send()
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
+Link: https://lore.kernel.org/r/20200914153756.3412156-7-gregkh@linuxfoundation.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/core/hub.c | 99 ++++++++++++++++++++++++++++++--------------------
- 1 file changed, 59 insertions(+), 40 deletions(-)
+ sound/usb/usx2y/us122l.c | 44 +++++++++-----------------------------------
+ 1 file changed, 9 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5742ddeb0455..5b768b80d1ee 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -410,8 +410,8 @@ static int get_hub_descriptor(struct usb_device *hdev,
+diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
+index f86f7a61fb36..3614e6802dc1 100644
+--- a/sound/usb/usx2y/us122l.c
++++ b/sound/usb/usx2y/us122l.c
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
++// SPDX-License-Identifier: GPL-2.0-or-late
+ /*
+  * Copyright (C) 2007, 2008 Karsten Wiese <fzu@wemgehoertderstaat.de>
   */
- static int clear_hub_feature(struct usb_device *hdev, int feature)
+@@ -82,40 +82,13 @@ static int us144_create_usbmidi(struct snd_card *card)
+ 				  &US122L(card)->midi_list, &quirk);
+ }
+ 
+-/*
+- * Wrapper for usb_control_msg().
+- * Allocates a temp buffer to prevent dmaing from/to the stack.
+- */
+-static int us122l_ctl_msg(struct usb_device *dev, unsigned int pipe,
+-			  __u8 request, __u8 requesttype,
+-			  __u16 value, __u16 index, void *data,
+-			  __u16 size, int timeout)
+-{
+-	int err;
+-	void *buf = NULL;
+-
+-	if (size > 0) {
+-		buf = kmemdup(data, size, GFP_KERNEL);
+-		if (!buf)
+-			return -ENOMEM;
+-	}
+-	err = usb_control_msg(dev, pipe, request, requesttype,
+-			      value, index, buf, size, timeout);
+-	if (size > 0) {
+-		memcpy(data, buf, size);
+-		kfree(buf);
+-	}
+-	return err;
+-}
+-
+ static void pt_info_set(struct usb_device *dev, u8 v)
  {
--	return usb_control_msg_send(hdev, 0, USB_REQ_CLEAR_FEATURE, USB_RT_HUB,
--				    feature, 0, NULL, 0, 1000);
-+	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-+		USB_REQ_CLEAR_FEATURE, USB_RT_HUB, feature, 0, NULL, 0, 1000);
+ 	int ret;
+ 
+-	ret = usb_control_msg(dev, usb_sndctrlpipe(dev, 0),
+-			      'I',
+-			      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-			      v, 0, NULL, 0, 1000);
++	ret = usb_control_msg_send(dev, 0, 'I',
++				   USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
++				   v, 0, NULL, 0, 1000, GFP_NOIO);
+ 	snd_printdd(KERN_DEBUG "%i\n", ret);
  }
  
- /*
-@@ -419,8 +419,9 @@ static int clear_hub_feature(struct usb_device *hdev, int feature)
-  */
- int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
- {
--	return usb_control_msg_send(hdev, 0, USB_REQ_CLEAR_FEATURE, USB_RT_PORT,
--				    feature, port1, NULL, 0, 1000);
-+	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-+		USB_REQ_CLEAR_FEATURE, USB_RT_PORT, feature, port1,
-+		NULL, 0, 1000);
- }
- 
- /*
-@@ -428,8 +429,9 @@ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
-  */
- static int set_port_feature(struct usb_device *hdev, int port1, int feature)
- {
--	return usb_control_msg_send(hdev, 0, USB_REQ_SET_FEATURE, USB_RT_PORT,
--				    feature, port1, NULL, 0, 1000);
-+	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-+		USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
-+		NULL, 0, 1000);
- }
- 
- static char *to_led_name(int selector)
-@@ -753,14 +755,15 @@ hub_clear_tt_buffer(struct usb_device *hdev, u16 devinfo, u16 tt)
- 	/* Need to clear both directions for control ep */
- 	if (((devinfo >> 11) & USB_ENDPOINT_XFERTYPE_MASK) ==
- 			USB_ENDPOINT_XFER_CONTROL) {
--		int status = usb_control_msg_send(hdev, 0,
--						  HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
--						  devinfo ^ 0x8000, tt, NULL, 0, 1000);
-+		int status = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-+				HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
-+				devinfo ^ 0x8000, tt, NULL, 0, 1000);
- 		if (status)
- 			return status;
- 	}
--	return usb_control_msg_send(hdev, 0, HUB_CLEAR_TT_BUFFER, USB_RT_PORT,
--				    devinfo, tt, NULL, 0, 1000);
-+	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-+			       HUB_CLEAR_TT_BUFFER, USB_RT_PORT, devinfo,
-+			       tt, NULL, 0, 1000);
- }
- 
- /*
-@@ -1046,10 +1049,11 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
- 	 */
- 	if (type != HUB_RESUME) {
- 		if (hdev->parent && hub_is_superspeed(hdev)) {
--			ret = usb_control_msg_send(hdev, 0, HUB_SET_DEPTH, USB_RT_HUB,
--						   hdev->level - 1, 0, NULL, 0,
--						   USB_CTRL_SET_TIMEOUT);
--			if (ret)
-+			ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-+					HUB_SET_DEPTH, USB_RT_HUB,
-+					hdev->level - 1, 0, NULL, 0,
-+					USB_CTRL_SET_TIMEOUT);
-+			if (ret < 0)
- 				dev_err(hub->intfdev,
- 						"set hub depth failed\n");
- 		}
-@@ -2325,10 +2329,13 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
- 		/* enable HNP before suspend, it's simpler */
- 		if (port1 == bus->otg_port) {
- 			bus->b_hnp_enable = 1;
--			err = usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, 0,
--						   USB_DEVICE_B_HNP_ENABLE, 0,
--						   NULL, 0, USB_CTRL_SET_TIMEOUT);
--			if (err) {
-+			err = usb_control_msg(udev,
-+				usb_sndctrlpipe(udev, 0),
-+				USB_REQ_SET_FEATURE, 0,
-+				USB_DEVICE_B_HNP_ENABLE,
-+				0, NULL, 0,
-+				USB_CTRL_SET_TIMEOUT);
-+			if (err < 0) {
- 				/*
- 				 * OTG MESSAGE: report errors here,
- 				 * customize to match your product.
-@@ -2340,10 +2347,13 @@ static int usb_enumerate_device_otg(struct usb_device *udev)
- 		} else if (desc->bLength == sizeof
- 				(struct usb_otg_descriptor)) {
- 			/* Set a_alt_hnp_support for legacy otg device */
--			err = usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, 0,
--						   USB_DEVICE_A_ALT_HNP_SUPPORT, 0,
--						   NULL, 0, USB_CTRL_SET_TIMEOUT);
--			if (err)
-+			err = usb_control_msg(udev,
-+				usb_sndctrlpipe(udev, 0),
-+				USB_REQ_SET_FEATURE, 0,
-+				USB_DEVICE_A_ALT_HNP_SUPPORT,
-+				0, NULL, 0,
-+				USB_CTRL_SET_TIMEOUT);
-+			if (err < 0)
- 				dev_err(&udev->dev,
- 					"set a_alt_hnp_support failed: %d\n",
- 					err);
-@@ -3111,8 +3121,10 @@ int usb_disable_ltm(struct usb_device *udev)
- 	if (!udev->actconfig)
- 		return 0;
- 
--	return usb_control_msg_send(udev, 0, USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
--				    USB_DEVICE_LTM_ENABLE, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
-+	return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+			USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
-+			USB_DEVICE_LTM_ENABLE, 0, NULL, 0,
-+			USB_CTRL_SET_TIMEOUT);
- }
- EXPORT_SYMBOL_GPL(usb_disable_ltm);
- 
-@@ -3131,8 +3143,10 @@ void usb_enable_ltm(struct usb_device *udev)
- 	if (!udev->actconfig)
- 		return;
- 
--	usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
--			     USB_DEVICE_LTM_ENABLE, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
-+	usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+			USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
-+			USB_DEVICE_LTM_ENABLE, 0, NULL, 0,
-+			USB_CTRL_SET_TIMEOUT);
- }
- EXPORT_SYMBOL_GPL(usb_enable_ltm);
- 
-@@ -3149,14 +3163,17 @@ EXPORT_SYMBOL_GPL(usb_enable_ltm);
- static int usb_enable_remote_wakeup(struct usb_device *udev)
- {
- 	if (udev->speed < USB_SPEED_SUPER)
--		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
--					    USB_DEVICE_REMOTE_WAKEUP, 0,
--					    NULL, 0, USB_CTRL_SET_TIMEOUT);
-+		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+				USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
-+				USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
-+				USB_CTRL_SET_TIMEOUT);
- 	else
--		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
--					    USB_INTRF_FUNC_SUSPEND,
--					    USB_INTRF_FUNC_SUSPEND_RW | USB_INTRF_FUNC_SUSPEND_LP,
--					    NULL, 0, USB_CTRL_SET_TIMEOUT);
-+		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+				USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
-+				USB_INTRF_FUNC_SUSPEND,
-+				USB_INTRF_FUNC_SUSPEND_RW |
-+					USB_INTRF_FUNC_SUSPEND_LP,
-+				NULL, 0, USB_CTRL_SET_TIMEOUT);
- }
- 
- /*
-@@ -3172,13 +3189,15 @@ static int usb_enable_remote_wakeup(struct usb_device *udev)
- static int usb_disable_remote_wakeup(struct usb_device *udev)
- {
- 	if (udev->speed < USB_SPEED_SUPER)
--		return usb_control_msg_send(udev, 0, USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
--					    USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
--					    USB_CTRL_SET_TIMEOUT);
-+		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+				USB_REQ_CLEAR_FEATURE, USB_RECIP_DEVICE,
-+				USB_DEVICE_REMOTE_WAKEUP, 0, NULL, 0,
-+				USB_CTRL_SET_TIMEOUT);
- 	else
--		return usb_control_msg_send(udev, 0, USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
--					    USB_INTRF_FUNC_SUSPEND, 0, NULL, 0,
--					    USB_CTRL_SET_TIMEOUT);
-+		return usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+				USB_REQ_SET_FEATURE, USB_RECIP_INTERFACE,
-+				USB_INTRF_FUNC_SUSPEND,	0, NULL, 0,
-+				USB_CTRL_SET_TIMEOUT);
- }
- 
- /* Count of wakeup-enabled devices at or below udev */
+@@ -305,10 +278,11 @@ static int us122l_set_sample_rate(struct usb_device *dev, int rate)
+ 	data[0] = rate;
+ 	data[1] = rate >> 8;
+ 	data[2] = rate >> 16;
+-	err = us122l_ctl_msg(dev, usb_sndctrlpipe(dev, 0), UAC_SET_CUR,
+-			     USB_TYPE_CLASS|USB_RECIP_ENDPOINT|USB_DIR_OUT,
+-			     UAC_EP_CS_ATTR_SAMPLE_RATE << 8, ep, data, 3, 1000);
+-	if (err < 0)
++	err = usb_control_msg_send(dev, 0, UAC_SET_CUR,
++				   USB_TYPE_CLASS | USB_RECIP_ENDPOINT | USB_DIR_OUT,
++				   UAC_EP_CS_ATTR_SAMPLE_RATE << 8, ep, data, 3,
++				   1000, GFP_NOIO);
++	if (err)
+ 		snd_printk(KERN_ERR "%d: cannot set freq %d to ep 0x%x\n",
+ 			   dev->devnum, rate, ep);
+ 	return err;
 -- 
 2.16.4
 
