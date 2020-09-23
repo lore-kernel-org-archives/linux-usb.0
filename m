@@ -2,44 +2,44 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EA9C2D0A8
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 09:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CA6C4741F
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 09:22:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0C2020719
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 09:22:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 488B020719
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 09:22:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="mUIO5NW/"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="PT5nUMNm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgIWJWF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 05:22:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53630 "EHLO mx2.suse.de"
+        id S1726584AbgIWJWI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 05:22:08 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53656 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726381AbgIWJWF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 05:22:05 -0400
+        id S1726526AbgIWJWG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 05:22:06 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
         t=1600852924;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=RxFQPXtnIY8PwL4wcaQVQPCXz6qQ+yIZN0Kpgnlyksg=;
-        b=mUIO5NW/8IJArEX3K4UmRa4SvPA3x+0KulOs8+GWS1EydKnoTGCKkH6GZ4zfhLC3I3KwM+
-        QSOIK8IJClQrm5vvw6bw5dkFv5eDrY6Aichf8PXXdH01wjzJSpy6keuV34B6Oo+PGABHKI
-        mir72r8FbQROMhjZ7PkHPFlQ5aBRi8I=
+        bh=A1zUt81juSwPNJhRNl1BNHYKJV8/bvmy1vlgpsFmi6U=;
+        b=PT5nUMNmW3byPn81UNWfcNmziuM2eZhCvC7e6jc1jUA/I2d8+Vms3GU071vganIUJAcyW3
+        Q6NpSU9FKD8kY5sBktWD1YSWvlYxDx5EhlVq5Rzh0ppv/ou8gYzR33JXrksTVHym1eC1VB
+        erT4hHiG6NDKmH6DwfwTnJSl/nG0lFE=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A7AEBACD0;
+        by mx2.suse.de (Postfix) with ESMTP id A8721AD2E;
         Wed, 23 Sep 2020 09:22:41 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
         linux-usb@vger.kernel.org, gregKH@linuxfoundation.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 3/7] CDC-WDM: remove use of intf->dev after potential disconnect
-Date:   Wed, 23 Sep 2020 11:21:32 +0200
-Message-Id: <20200923092136.14824-4-oneukum@suse.com>
+Subject: [PATCH 2/7] CDC-WDM: introduce a timeout in flush()
+Date:   Wed, 23 Sep 2020 11:21:31 +0200
+Message-Id: <20200923092136.14824-3-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200923092136.14824-1-oneukum@suse.com>
 References: <20200923092136.14824-1-oneukum@suse.com>
@@ -47,42 +47,62 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-After a disconnect intf->dev is not a valid pointer any longer.
-As flush() uses it only for logging purposes logging is not
-worth it. Remove the dev_err()
+Malicious or defective hardware may cease communication while
+flush() is running. In last consequence we need a timeout,
+as hardware that remains silent must be ignored.
 
-Reported-by: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Making the wait for IO interruptible would not solve the
+issue. While it would avoid a hang, it would not allow any progress
+and we would end up with an unclosable fd.
+
+The 30 seconds are coming out of thin air.
+
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/class/cdc-wdm.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/usb/class/cdc-wdm.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index b3a3f249a915..1ca2c85a977d 100644
+index adb3fc307083..b3a3f249a915 100644
 --- a/drivers/usb/class/cdc-wdm.c
 +++ b/drivers/usb/class/cdc-wdm.c
-@@ -603,16 +603,17 @@ static int wdm_flush(struct file *file, fl_owner_t id)
- 			test_bit(WDM_DISCONNECTING, &desc->flags),
- 			WDM_FLUSH_TIMEOUT);
+@@ -58,6 +58,9 @@ MODULE_DEVICE_TABLE (usb, wdm_ids);
  
--	/* cannot dereference desc->intf if WDM_DISCONNECTING */
-+	/*
-+	 * to report the correct error.
-+	 * This is best effort
-+	 * We are inevitably racing with the hardware.
-+	 */
+ #define WDM_MAX			16
+ 
++/* flush() is uninterruptible, but we cannot wait forever */
++#define WDM_FLUSH_TIMEOUT	(30 * HZ)
++
+ /* CDC-WMC r1.1 requires wMaxCommand to be "at least 256 decimal (0x100)" */
+ #define WDM_DEFAULT_BUFSIZE	256
+ 
+@@ -589,7 +592,7 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 	struct wdm_device *desc = file->private_data;
+ 	int rv;
+ 
+-	wait_event(desc->wait,
++	rv = wait_event_timeout(desc->wait,
+ 			/*
+ 			 * needs both flags. We cannot do with one
+ 			 * because resetting it would cause a race
+@@ -597,11 +600,15 @@ static int wdm_flush(struct file *file, fl_owner_t id)
+ 			 * a disconnect
+ 			 */
+ 			!test_bit(WDM_IN_USE, &desc->flags) ||
+-			test_bit(WDM_DISCONNECTING, &desc->flags));
++			test_bit(WDM_DISCONNECTING, &desc->flags),
++			WDM_FLUSH_TIMEOUT);
+ 
+ 	/* cannot dereference desc->intf if WDM_DISCONNECTING */
  	if (test_bit(WDM_DISCONNECTING, &desc->flags))
  		return -ENODEV;
- 	if (!rv)
- 		return -EIO;
- 
++	if (!rv)
++		return -EIO;
++
  	rv = desc->werr;
--	if (rv < 0)
--		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--			rv);
- 
- 	return usb_translate_errors(rv);
- }
+ 	if (rv < 0)
+ 		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
 -- 
 2.16.4
 
