@@ -2,42 +2,43 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FAABC47438
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C8C9C4742B
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:24:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF16A238A1
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:23:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE82D23119
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:24:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600856598;
-	bh=vbe7KhLEZRy4OEuhFJNKIUNqjK+4f7n+EAp2CYmrpyI=;
+	s=default; t=1600856651;
+	bh=4axLnYFaEHtr9+q27LR9CjkX1jMW8YKOSTMnO3OD97o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=lHKifHNU8PbNeiUozmklyaic8HHsN81WmNWkKeMBxjDdSEURd5NdAjb4RC+RE16gt
-	 mfRyj2w15a6HUVkedctyOldGsqQwfucte9KdPYFpHnjPqriVVp9ShBxyvzfMNlzh/f
-	 zv9qQWvVzEFpYZoHWN9ERFzh1jLCkgag0neIy46A=
+	b=TAA92/QZFpHrXc8UzK6rYGwe1eLPFtPEn1fmsSz9WNNvjoofDKWmiQ/n9Wm24CY32
+	 akkZ6o6g+0c95c0bVBLnGb8oVFZYZnWEVKnUtl/2GMc5pZIsRBKZKYmLCqZUJaTSu7
+	 M6fMjxw5dv4H+qh16At40pZctU7Hs9yOd2Itf4U4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbgIWKXN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 06:23:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45378 "EHLO mail.kernel.org"
+        id S1726515AbgIWKYG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 06:24:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47078 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726332AbgIWKXL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Sep 2020 06:23:11 -0400
+        id S1726130AbgIWKYG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 06:24:06 -0400
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 70D10238D7;
-        Wed, 23 Sep 2020 10:23:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 86EF521BE5;
+        Wed, 23 Sep 2020 10:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600856591;
-        bh=vbe7KhLEZRy4OEuhFJNKIUNqjK+4f7n+EAp2CYmrpyI=;
+        s=default; t=1600856646;
+        bh=4axLnYFaEHtr9+q27LR9CjkX1jMW8YKOSTMnO3OD97o=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K1hQRymbnkZkbCaJfs7jUvv1JxrUwU4Z6Nl9qJwa5StOAbwQv4gM3cVnqrE6VuDr1
-         6ymn5CiB7/D1c0bpifdyydecHdfJWw6nTtOlgZMLUX4FNTzjUheVGgGtb/s+VFJtAz
-         DacfhjfPQxE1VqvdcGhcmTkd30hsdFOknC4gcMoI=
-Date:   Wed, 23 Sep 2020 12:23:30 +0200
+        b=QaY6iA3xkR5TGJx2K7V/+m5EtdlK9/Fu/ZBAOuocOaJy3KikVsEt/NfipxIsN+KVk
+         XcJGR+N15eWXOgxJ+xF6P8Edsu1vbtiUGfcJeEINxQnvOsmq5C5VStjK9T2r3RuHlH
+         7NkOmNhwoViSSUm97fxeC28Hzl/9eCFGd8Zvgx9w=
+Date:   Wed, 23 Sep 2020 12:24:25 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Himadri Pandya <himadrispandya@gmail.com>
 Cc:     davem@davemloft.net, kuba@kernel.org, oneukum@suse.com,
@@ -46,41 +47,72 @@ Cc:     davem@davemloft.net, kuba@kernel.org, oneukum@suse.com,
         linux-usb@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 0/4] net: usb: avoid using usb_control_msg() directly
-Message-ID: <20200923102330.GB3154647@kroah.com>
+Subject: Re: [PATCH 1/4] net: usbnet: use usb_control_msg_recv() and
+ usb_control_msg_send()
+Message-ID: <20200923102425.GC3154647@kroah.com>
 References: <20200923090519.361-1-himadrispandya@gmail.com>
+ <20200923090519.361-2-himadrispandya@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200923090519.361-1-himadrispandya@gmail.com>
+In-Reply-To: <20200923090519.361-2-himadrispandya@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 23, 2020 at 02:35:15PM +0530, Himadri Pandya wrote:
-> A recent bug-fix shaded light on possible incorrect use of
-> usb_control_msg() without proper error check. This resulted in
-> introducing new usb core api wrapper functions usb_control_msg_send()
-> and usb_control_msg_recv() by Greg KH. This patch series continue the
-> clean-up using the new functions.
+On Wed, Sep 23, 2020 at 02:35:16PM +0530, Himadri Pandya wrote:
+> Potential incorrect use of usb_control_msg() has resulted in new wrapper
+> functions to enforce its correct usage with proper error check. Hence
+> use these new wrapper functions instead of calling usb_control_msg()
+> directly.
 > 
-> Himadri Pandya (4):
->   net: usbnet: use usb_control_msg_recv() and usb_control_msg_send()
->   net: sierra_net: use usb_control_msg_recv()
->   net: usb: rtl8150: use usb_control_msg_recv() and
->     usb_control_msg_send()
->   net: rndis_host: use usb_control_msg_recv() and usb_control_msg_send()
+> Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
+> ---
+>  drivers/net/usb/usbnet.c | 46 ++++------------------------------------
+>  1 file changed, 4 insertions(+), 42 deletions(-)
 > 
->  drivers/net/usb/rndis_host.c | 44 +++++++++++++---------------------
->  drivers/net/usb/rtl8150.c    | 32 +++++--------------------
->  drivers/net/usb/sierra_net.c | 17 ++++++-------
->  drivers/net/usb/usbnet.c     | 46 ++++--------------------------------
->  4 files changed, 34 insertions(+), 105 deletions(-)
-> 
+> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+> index 2b2a841cd938..a38a85bef46a 100644
+> --- a/drivers/net/usb/usbnet.c
+> +++ b/drivers/net/usb/usbnet.c
+> @@ -1982,64 +1982,26 @@ EXPORT_SYMBOL(usbnet_link_change);
+>  static int __usbnet_read_cmd(struct usbnet *dev, u8 cmd, u8 reqtype,
+>  			     u16 value, u16 index, void *data, u16 size)
+>  {
+> -	void *buf = NULL;
+> -	int err = -ENOMEM;
+> -
+>  	netdev_dbg(dev->net, "usbnet_read_cmd cmd=0x%02x reqtype=%02x"
+>  		   " value=0x%04x index=0x%04x size=%d\n",
+>  		   cmd, reqtype, value, index, size);
+>  
+> -	if (size) {
+> -		buf = kmalloc(size, GFP_KERNEL);
+> -		if (!buf)
+> -			goto out;
+> -	}
+> -
+> -	err = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
+> -			      cmd, reqtype, value, index, buf, size,
+> +	return usb_control_msg_recv(dev->udev, 0,
+> +			      cmd, reqtype, value, index, data, size,
+>  			      USB_CTRL_GET_TIMEOUT);
+> -	if (err > 0 && err <= size) {
+> -        if (data)
+> -            memcpy(data, buf, err);
+> -        else
+> -            netdev_dbg(dev->net,
+> -                "Huh? Data requested but thrown away.\n");
+> -    }
+> -	kfree(buf);
+> -out:
+> -	return err;
+>  }
 
-Note, all of these depend on a set of patches in my usb tree, so they
-should probably wait to be sent to the networking developers until after
-5.10-rc1 is out.
+Now there is no real need for these wrapper functions at all, except for
+the debugging which I doubt anyone needs anymore.
+
+So how about just deleting these and calling the real function instead?
 
 thanks,
 
