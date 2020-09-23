@@ -2,109 +2,149 @@ Return-Path: <SRS0=WBK0=DA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6EF7C2D0A8
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 057F7C52D1A
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:22:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B8532076E
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:05:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="ExALYf+e"
+	by mail.kernel.org (Postfix) with ESMTP id C8FB62388A
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Sep 2020 10:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600856563;
+	bh=XWz+vZF1g9LHOoSDkcsY0DgfgY9ECKBeXlo0tAjLp3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=W+O4O9AqTPF4Lj+q4GwhiMMRI9YJ8JR9+K3VdCD0i2rwUbNiv0bR94TEZm7xz0WcC
+	 xrXuMpJiUHNXDDBul59H0GudhyeX06S/VoyChlGErO8igCf1XPBRC4zUAqsBn6hUwS
+	 8T3oIcCqPGKrMf7e1KeRbHH2ELcYIwyR9mo0WUSk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgIWKFv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Sep 2020 06:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49342 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbgIWKFu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Sep 2020 06:05:50 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE48C0613CE;
-        Wed, 23 Sep 2020 03:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=R+6pH9MDXo8iBZE23VD1Qz4m/pWUZJggcrrvmXTMzlM=; b=ExALYf+eJ59NgDjFaLDDQWGEv
-        kB/1C35EtyKiUIkhcLpRwt2PDcrbvVbTxhs5IFERtgqltUk4aum3IZLfl3DHn6oOk9imExkrI/DfF
-        mhzaVNsUaMpkkbLQhXKHTfbSg+y1REpp59J3d6P0iUGuK+hCHce1nXIJLzjTZYeRCszvJQrLToSs/
-        oNJZZEEsiAO8/Qqf+ddRW6OOUdIs6920AV7bpoyEPBvg5E6hV5Dp93UemFxEtQR7f1J/JJ2Wm7pWb
-        MCUqyTvOeTNTsDJry0yRevPBt1739ZZIX6np7q6l66wqe3+7/ZHiM+bdessUmZturVDq2QUPP4Dpl
-        6rGa0uQ7A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37216)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1kL1eW-0003vf-NC; Wed, 23 Sep 2020 11:05:32 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1kL1eQ-0003HJ-Ot; Wed, 23 Sep 2020 11:05:26 +0100
-Date:   Wed, 23 Sep 2020 11:05:26 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tony Lindgren <tony@atomide.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Robin Murphy <robin.murphy@arm.com>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/4] ARM/omap1: switch to use dma_direct_set_offset for
- lbus DMA offsets
-Message-ID: <20200923100526.GD1559@shell.armlinux.org.uk>
-References: <20200917173229.3311382-1-hch@lst.de>
- <20200917173229.3311382-2-hch@lst.de>
- <20200918054933.GK7101@atomide.com>
- <2184547.ElGaqSPkdT@z50>
- <20200921064418.GM7101@atomide.com>
- <20200921064723.GA18559@lst.de>
+        id S1726815AbgIWKWi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Sep 2020 06:22:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43996 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726630AbgIWKWi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Sep 2020 06:22:38 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 71CFC21BE5;
+        Wed, 23 Sep 2020 10:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600856557;
+        bh=XWz+vZF1g9LHOoSDkcsY0DgfgY9ECKBeXlo0tAjLp3E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2i1jUvoLRFBz01yCEMI3AOBl7f7kw3YeK1wDQAayGCIXdpUkkkYqac305/pA+Xk2t
+         rz8XlHaWtW2W13ht3sKCDS3XCKPPmcTSwwMVrPaFlfp9A5sW4wbcJ1BozSbPzVhOsl
+         2czFjN+d/NXfHtVMK4ZP3O4jv8B36hSznoXXwG7Q=
+Date:   Wed, 23 Sep 2020 12:22:56 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Himadri Pandya <himadrispandya@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, oneukum@suse.com,
+        pankaj.laxminarayan.bharadiya@intel.com, keescook@chromium.org,
+        yuehaibing@huawei.com, petkan@nucleusys.com, ogiannou@gmail.com,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 4/4] net: rndis_host: use usb_control_msg_recv() and
+ usb_control_msg_send()
+Message-ID: <20200923102256.GA3154647@kroah.com>
+References: <20200923090519.361-1-himadrispandya@gmail.com>
+ <20200923090519.361-5-himadrispandya@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200921064723.GA18559@lst.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+In-Reply-To: <20200923090519.361-5-himadrispandya@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 08:47:23AM +0200, Christoph Hellwig wrote:
-> On Mon, Sep 21, 2020 at 09:44:18AM +0300, Tony Lindgren wrote:
-> > * Janusz Krzysztofik <jmkrzyszt@gmail.com> [200919 22:29]:
-> > > Hi Tony,
-> > > 
-> > > On Friday, September 18, 2020 7:49:33 A.M. CEST Tony Lindgren wrote:
-> > > > * Christoph Hellwig <hch@lst.de> [200917 17:37]:
-> > > > > Switch the omap1510 platform ohci device to use dma_direct_set_offset
-> > > > > to set the DMA offset instead of using direct hooks into the DMA
-> > > > > mapping code and remove the now unused hooks.
-> > > > 
-> > > > Looks nice to me :) I still can't test this probably for few more weeks
-> > > > though but hopefully Aaro or Janusz (Added to Cc) can test it.
-> > > 
-> > > Works for me on Amstrad Delta (tested with a USB ethernet adapter).
-> > > 
-> > > Tested-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > 
-> > Great, good to hear! And thanks for testing it.
-> > 
-> > Christoph, feel free to queue this along with the other patches:
-> > 
-> > Acked-by: Tony Lindgren <tony@atomide.com>
-> > 
-> > Or let me know if you want me to pick it up.
+On Wed, Sep 23, 2020 at 02:35:19PM +0530, Himadri Pandya wrote:
+> The new usb_control_msg_recv() and usb_control_msg_send() nicely wraps
+> usb_control_msg() with proper error check. Hence use the wrappers
+> instead of calling usb_control_msg() directly.
 > 
-> I'd prefer to pick it up through the dma-mapping tree, but preferably
-> I'd pick the whole series up once Russell has tested footwinder.
+> Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
+> ---
+>  drivers/net/usb/rndis_host.c | 44 ++++++++++++++----------------------
+>  1 file changed, 17 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
+> index 6fa7a009a24a..30fc4a7183d3 100644
+> --- a/drivers/net/usb/rndis_host.c
+> +++ b/drivers/net/usb/rndis_host.c
+> @@ -113,14 +113,13 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+>  		buf->request_id = (__force __le32) xid;
+>  	}
+>  	master_ifnum = info->control->cur_altsetting->desc.bInterfaceNumber;
+> -	retval = usb_control_msg(dev->udev,
+> -		usb_sndctrlpipe(dev->udev, 0),
+> -		USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> -		USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -		0, master_ifnum,
+> -		buf, le32_to_cpu(buf->msg_len),
+> -		RNDIS_CONTROL_TIMEOUT_MS);
+> -	if (unlikely(retval < 0 || xid == 0))
+> +	retval = usb_control_msg_send(dev->udev, 0,
+> +				      USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> +				      USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +				      0, master_ifnum, buf,
+> +				      le32_to_cpu(buf->msg_len),
+> +				      RNDIS_CONTROL_TIMEOUT_MS);
+> +	if (unlikely(xid == 0))
+>  		return retval;
+>  
+>  	/* Some devices don't respond on the control channel until
+> @@ -139,14 +138,11 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+>  	/* Poll the control channel; the request probably completed immediately */
+>  	rsp = le32_to_cpu(buf->msg_type) | RNDIS_MSG_COMPLETION;
+>  	for (count = 0; count < 10; count++) {
+> -		memset(buf, 0, CONTROL_BUFFER_SIZE);
+> -		retval = usb_control_msg(dev->udev,
+> -			usb_rcvctrlpipe(dev->udev, 0),
+> -			USB_CDC_GET_ENCAPSULATED_RESPONSE,
+> -			USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -			0, master_ifnum,
+> -			buf, buflen,
+> -			RNDIS_CONTROL_TIMEOUT_MS);
+> +		retval = usb_control_msg_recv(dev->udev, 0,
+> +					      USB_CDC_GET_ENCAPSULATED_RESPONSE,
+> +					      USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +					      0, master_ifnum, buf, buflen,
+> +					      RNDIS_CONTROL_TIMEOUT_MS);
+>  		if (likely(retval >= 8)) {
 
-I don't think that's going to happen very soon... seems way too much
-effort to pull down the appropriate tree to build and test.  Sorry.
+retval here is never going to be positive, right?  So I don't think this
+patch is correct :(
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+>  			msg_type = le32_to_cpu(buf->msg_type);
+>  			msg_len = le32_to_cpu(buf->msg_len);
+> @@ -178,17 +174,11 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+>  				msg->msg_type = cpu_to_le32(RNDIS_MSG_KEEPALIVE_C);
+>  				msg->msg_len = cpu_to_le32(sizeof *msg);
+>  				msg->status = cpu_to_le32(RNDIS_STATUS_SUCCESS);
+> -				retval = usb_control_msg(dev->udev,
+> -					usb_sndctrlpipe(dev->udev, 0),
+> -					USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> -					USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -					0, master_ifnum,
+> -					msg, sizeof *msg,
+> -					RNDIS_CONTROL_TIMEOUT_MS);
+> -				if (unlikely(retval < 0))
+> -					dev_dbg(&info->control->dev,
+> -						"rndis keepalive err %d\n",
+> -						retval);
+> +				retval = usb_control_msg_send(dev->udev, 0,
+> +							      USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> +							      USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +							      0, master_ifnum, msg, sizeof(*msg),
+> +							      RNDIS_CONTROL_TIMEOUT_MS);
+
+You lost the error message that the previous call had if something went
+wrong.  Don't know if it's really needed, but there's no reason to
+remove it here.
+
+thanks,
+
+greg k-h
