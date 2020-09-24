@@ -2,185 +2,76 @@ Return-Path: <SRS0=JkLY=DB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56563C4363D
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46010C4346E
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:41:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B27821D91
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:28:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F15ED2311A
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:41:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b="bcW/P9rA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728440AbgIXP2v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Sep 2020 11:28:51 -0400
-Received: from mail-out.m-online.net ([212.18.0.9]:60383 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728368AbgIXP2v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Sep 2020 11:28:51 -0400
-X-Greylist: delayed 369 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Sep 2020 11:28:49 EDT
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 4BxzLl4qF3z1qs0Y;
-        Thu, 24 Sep 2020 17:22:39 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 4BxzLl42xcz1r12t;
-        Thu, 24 Sep 2020 17:22:39 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id zCXoiBsYmpzO; Thu, 24 Sep 2020 17:22:38 +0200 (CEST)
-X-Auth-Info: Mg4TILaI2HacphWNVRN/Ss+p9Lq0ghtD8wz7YWPogA8=
-Received: from maia.denx.de (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Thu, 24 Sep 2020 17:22:38 +0200 (CEST)
-Message-ID: <f6946d36092ab6c6160f0ef8abc8cfb5686df22b.camel@denx.de>
-Subject: Re: [PATCH] USB: gadget: f_ncm: Fix NDP16 datagram validation
-From:   Harald Seiler <hws@denx.de>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     Ilja Van Sprundel <ivansprundel@ioactive.com>,
-        Brooke Basile <brookebasile@gmail.com>,
-        stable <stable@kernel.org>, balbi@kernel.org,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Date:   Thu, 24 Sep 2020 17:22:28 +0200
-In-Reply-To: <20200920170158.1217068-1-bryan.odonoghue@linaro.org>
-References: <20200920170158.1217068-1-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        id S1728419AbgIXPk4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Sep 2020 11:40:56 -0400
+Received: from lan.nucleusys.com ([92.247.61.126]:32904 "EHLO
+        zztop.nucleusys.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728139AbgIXPk4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Sep 2020 11:40:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=nucleusys.com; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
+        Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Q/o5cuCHNMfZCC5DXURaTMfkvGumctmEhF5/EQbiobo=; b=bcW/P9rAhkU6dQ/Y+qika/Jg25
+        ECxp3eVyEuMkpAf9XsRDNWEZKhx3qRYj3Z2ZZZfQdIafBMGmLaBgbGOM/uKEXifVGoiqk4whfC9ld
+        9XywUqHm1tgliViap8mdaLSrl2EjqaqPD88EO4NwYqd5j6nfohlGOq8xmMkwbAGlybc0=;
+Received: from [94.26.108.4] (helo=carbon.lan)
+        by zztop.nucleusys.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <petkan@nucleusys.com>)
+        id 1kLTMC-0000QU-Sy; Thu, 24 Sep 2020 18:40:29 +0300
+Date:   Thu, 24 Sep 2020 18:40:26 +0300
+From:   Petko Manolov <petkan@nucleusys.com>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Himadri Pandya <himadrispandya@gmail.com>, davem@davemloft.net,
+        kuba@kernel.org, pankaj.laxminarayan.bharadiya@intel.com,
+        keescook@chromium.org, yuehaibing@huawei.com, ogiannou@gmail.com,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH 3/4] net: usb: rtl8150: use usb_control_msg_recv() and
+ usb_control_msg_send()
+Message-ID: <20200924154026.GA9761@carbon.lan>
+References: <20200923090519.361-1-himadrispandya@gmail.com>
+ <20200923090519.361-4-himadrispandya@gmail.com>
+ <1600856557.26851.6.camel@suse.com>
+ <20200923144832.GA11151@karbon>
+ <2f997848ed05c1f060125f7567f6bc3fae7410bb.camel@suse.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f997848ed05c1f060125f7567f6bc3fae7410bb.camel@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, 2020-09-20 at 18:01 +0100, Bryan O'Donoghue wrote:
-> commit 2b74b0a04d3e ("USB: gadget: f_ncm: add bounds checks to ncm_unwrap_ntb()")
-> adds important bounds checking however it unfortunately also introduces  a
-> bug with respect to section 3.3.1 of the NCM specification.
+On 20-09-24 13:09:05, Oliver Neukum wrote:
+> Am Mittwoch, den 23.09.2020, 17:48 +0300 schrieb Petko Manolov:
 > 
-> wDatagramIndex[1] : "Byte index, in little endian, of the second datagram
-> described by this NDP16. If zero, then this marks the end of the sequence
-> of datagrams in this NDP16."
+> > One possible fix is to add yet another argument to usb_control_msg_recv(), 
+> > which would be the GFP_XYZ flag to pass on to kmemdup().  Up to Greg, of 
+> > course.
 > 
-> wDatagramLength[1]: "Byte length, in little endian, of the second datagram
-> described by this NDP16. If zero, then this marks the end of the sequence
-> of datagrams in this NDP16."
-> 
-> wDatagramIndex[1] and wDatagramLength[1] respectively then may be zero but
-> that does not mean we should throw away the data referenced by
-> wDatagramIndex[0] and wDatagramLength[0] as is currently the case.
-> 
-> Breaking the loop on (index2 == 0 || dg_len2 == 0) should come at the end
-> as was previously the case and checks for index2 and dg_len2 should be
-> removed since zero is valid.
-> 
-> I'm not sure how much testing the above patch received but for me right now
-> after enumeration ping doesn't work. Reverting the commit restores ping,
-> scp, etc.
+> submitted. The problem is those usages that are very hard to trace. I'd 
+> dislike to just slab GFP_NOIO on them for no obvious reason.
 
-Same regression for me.  The last datagram of any NTB from the host is
-ignored so most networking is broken.  With this patch, I'm able to
-communicate from host to device again.
+Do you mean you submitted a patch for usb_control_msg_recv() (because i don't 
+see it on linux-netdev) or i'm reading this all wrong?
 
-> The extra validation associated with wDatagramIndex[0] and
-> wDatagramLength[0] appears to be valid so, this change removes the incorrect
-> restriction on wDatagramIndex[1] and wDatagramLength[1] restoring data
-> processing between host and device.
-> 
-> Fixes: 2b74b0a04d3e ("USB: gadget: f_ncm: add bounds checks to ncm_unwrap_ntb()")
-> Cc: Ilja Van Sprundel <ivansprundel@ioactive.com>
-> Cc: Brooke Basile <brookebasile@gmail.com>
-> Cc: stable <stable@kernel.org>
 
-Tested-by: Harald Seiler <hws@denx.de>
-Reviewed-by: Harald Seiler <hws@denx.de>
-
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/usb/gadget/function/f_ncm.c | 30 ++---------------------------
->  1 file changed, 2 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
-> index b4206b0dede5..1f638759a953 100644
-> --- a/drivers/usb/gadget/function/f_ncm.c
-> +++ b/drivers/usb/gadget/function/f_ncm.c
-> @@ -1189,7 +1189,6 @@ static int ncm_unwrap_ntb(struct gether *port,
->  	const struct ndp_parser_opts *opts = ncm->parser_opts;
->  	unsigned	crc_len = ncm->is_crc ? sizeof(uint32_t) : 0;
->  	int		dgram_counter;
-> -	bool		ndp_after_header;
->  
->  	/* dwSignature */
->  	if (get_unaligned_le32(tmp) != opts->nth_sign) {
-> @@ -1216,7 +1215,6 @@ static int ncm_unwrap_ntb(struct gether *port,
->  	}
->  
->  	ndp_index = get_ncm(&tmp, opts->ndp_index);
-> -	ndp_after_header = false;
->  
->  	/* Run through all the NDP's in the NTB */
->  	do {
-> @@ -1232,8 +1230,6 @@ static int ncm_unwrap_ntb(struct gether *port,
->  			     ndp_index);
->  			goto err;
->  		}
-> -		if (ndp_index == opts->nth_size)
-> -			ndp_after_header = true;
->  
->  		/*
->  		 * walk through NDP
-> @@ -1312,37 +1308,13 @@ static int ncm_unwrap_ntb(struct gether *port,
->  			index2 = get_ncm(&tmp, opts->dgram_item_len);
->  			dg_len2 = get_ncm(&tmp, opts->dgram_item_len);
->  
-> -			if (index2 == 0 || dg_len2 == 0)
-> -				break;
-> -
->  			/* wDatagramIndex[1] */
-> -			if (ndp_after_header) {
-> -				if (index2 < opts->nth_size + opts->ndp_size) {
-> -					INFO(port->func.config->cdev,
-> -					     "Bad index: %#X\n", index2);
-> -					goto err;
-> -				}
-> -			} else {
-> -				if (index2 < opts->nth_size + opts->dpe_size) {
-> -					INFO(port->func.config->cdev,
-> -					     "Bad index: %#X\n", index2);
-> -					goto err;
-> -				}
-> -			}
->  			if (index2 > block_len - opts->dpe_size) {
->  				INFO(port->func.config->cdev,
->  				     "Bad index: %#X\n", index2);
->  				goto err;
->  			}
->  
-> -			/* wDatagramLength[1] */
-> -			if ((dg_len2 < 14 + crc_len) ||
-> -					(dg_len2 > frame_max)) {
-> -				INFO(port->func.config->cdev,
-> -				     "Bad dgram length: %#X\n", dg_len);
-> -				goto err;
-> -			}
-> -
->  			/*
->  			 * Copy the data into a new skb.
->  			 * This ensures the truesize is correct
-> @@ -1359,6 +1331,8 @@ static int ncm_unwrap_ntb(struct gether *port,
->  			ndp_len -= 2 * (opts->dgram_item_len * 2);
->  
->  			dgram_counter++;
-> +			if (index2 == 0 || dg_len2 == 0)
-> +				break;
->  		} while (ndp_len > 2 * (opts->dgram_item_len * 2));
->  	} while (ndp_index);
->  
-> -- 
-> 2.27.0
-> 
--- 
-Harald
-
+		Petko
