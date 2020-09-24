@@ -4,50 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5765FC4727D
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 08:22:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F0FC4346E
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 08:27:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1056323772
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 08:22:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AADA12376F
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 08:27:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="gvb/XJlS"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="UtIgfyzd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727280AbgIXIWD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Sep 2020 04:22:03 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:40390 "EHLO
+        id S1727237AbgIXI1m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Sep 2020 04:27:42 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:36044 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727279AbgIXIWD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Sep 2020 04:22:03 -0400
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+        by vger.kernel.org with ESMTP id S1727031AbgIXI1l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Sep 2020 04:27:41 -0400
+X-Greylist: delayed 356 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Sep 2020 04:27:41 EDT
+Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com [10.205.2.133])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0106B402F6;
-        Thu, 24 Sep 2020 08:22:03 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3D3D4C0358;
+        Thu, 24 Sep 2020 08:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1600935723; bh=0GekWrqSOZaGKm3e1vDH+zdSTIClRyA8pjVIm08Ryfk=;
+        t=1600935735; bh=q78RPO7lq6RVCF3Lh3j0ZFxwGtGsivEE4E76RnVjC0c=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=gvb/XJlSwdnsl+vlUomHuVIx+RqGukTF+3SgEvKULTeEv8iUtETgU44iMAZWVNrNP
-         P6OvyLABHgwxcxHdW67x4LnROwG7jguzaJ5sb1+OxdiG5qCpNJbVfJFkVJ5NG0v9fb
-         bTPg86OJjwzpjMyb7+eWhwEhOL+t3axH0q6fPUvB4PFC+3MMpoIcQVwLunvI8c0VEq
-         GpStKCBLciLu/p3XGANDtvcpT1SOPEVAGrNk2S4dfWSuRkUQGAsdA7ud6P5mw++pPK
-         JN1z8YBVUjOnc0iQQHQRZRKxFKCxz3BbuZ7IAi3wzCSpT8dB3E9PoTHlQhdpU8vATZ
-         KF3lt8/M0t5EA==
+        b=UtIgfyzdWCJfapVM6FNG070GukzYr5ka5dH63vArPKKrx97NWfIotHj3jz8NZRbve
+         If+h+Fd5+O/z41lp6ziExzLJ3v674g3mitvPGUfCpjGumJKUmCfwKw6v6fz30lKgKV
+         Mmrsf0RAL1WiIqgIij9vFNczWqBIfZlWaZNOaRD2frIsC1803rwujBStMhUSb9yGm7
+         Jo5oKa1mkVPIi1hdS2IDWR09tA5OZJ586o0cxFxfRPdyubgpgNTdYfMQaqXS2JBsxG
+         hmeJmZbJZ46yPu++kZD6uDgW+kk4aGvcImlpVc75KPsr6QN4wihPV+evMvC7SFoeLS
+         gWXczUwV/YpWg==
 Received: from te-lab16 (nanobot.internal.synopsys.com [10.10.186.99])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id DFD1CA01F1;
-        Thu, 24 Sep 2020 08:22:01 +0000 (UTC)
-Received: by te-lab16 (sSMTP sendmail emulation); Thu, 24 Sep 2020 01:22:01 -0700
-Date:   Thu, 24 Sep 2020 01:22:01 -0700
-Message-Id: <bbc364093decd1806a021f0548313ec103230a39.1600935293.git.Thinh.Nguyen@synopsys.com>
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 0FDB3A009A;
+        Thu, 24 Sep 2020 08:22:14 +0000 (UTC)
+Received: by te-lab16 (sSMTP sendmail emulation); Thu, 24 Sep 2020 01:22:14 -0700
+Date:   Thu, 24 Sep 2020 01:22:14 -0700
+Message-Id: <4ae2ecebcd9fd1c72aa40e5808fe016631dc0879.1600935293.git.Thinh.Nguyen@synopsys.com>
 In-Reply-To: <cover.1600935293.git.Thinh.Nguyen@synopsys.com>
 References: <cover.1600935293.git.Thinh.Nguyen@synopsys.com>
 X-SNPS-Relay: synopsys.com
 From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH 08/10] usb: dwc3: gadget: Set IOC if not enough for extra TRBs
+Subject: [PATCH 10/10] usb: dwc3: gadget: Rename misleading function names
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org
@@ -56,47 +57,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If we run out of TRBs because we need extra TRBs, make sure to set the
-IOC bit for the previously prepared TRB to get completion notification
-to free up TRBs to resume later.
+The functions dwc3_prepare_one_trb_sg and dwc3_prepare_one_trb_linear
+are not necessarily preparing "one" TRB, it can prepare multiple TRBs.
+Rename these functions as follow:
+
+dwc3_prepare_one_trb_sg -> dwc3_prepare_trbs_sg
+dwc3_prepare_one_trb_linear -> dwc3_prepare_trbs_linear
 
 Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 ---
- drivers/usb/dwc3/gadget.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/usb/dwc3/gadget.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index f43421246f89..840d6e49f668 100644
+index e6fa2d295439..ca10619c64a3 100644
 --- a/drivers/usb/dwc3/gadget.c
 +++ b/drivers/usb/dwc3/gadget.c
-@@ -1197,7 +1197,27 @@ static int dwc3_prepare_one_trb_sg(struct dwc3_ep *dep,
- 			break;
- 	}
+@@ -1135,7 +1135,7 @@ static int dwc3_prepare_last_sg(struct dwc3_ep *dep,
+ 	return num_trbs;
+ }
  
-+	return req->num_trbs - num_trbs;
-+
- out:
-+	/*
-+	 * If we run out of TRBs for MPS alignment setup, then set IOC on the
-+	 * previous TRB to get notified for TRB completion to resume when more
-+	 * TRBs are available.
-+	 *
-+	 * Note: normally we shouldn't update the TRB after the HWO bit is set.
-+	 * However, the controller doesn't update its internal cache to handle
-+	 * the newly prepared TRBs until UPDATE_TRANSFER or START_TRANSFER
-+	 * command is executed. At this point, it doesn't happen yet, so we
-+	 * should be fine modifying it here.
-+	 */
-+	if (i) {
-+		struct dwc3_trb	*trb;
-+
-+		trb = dwc3_ep_prev_trb(dep, dep->trb_enqueue);
-+		trb->ctrl |= DWC3_TRB_CTRL_IOC;
-+	}
-+
+-static int dwc3_prepare_one_trb_sg(struct dwc3_ep *dep,
++static int dwc3_prepare_trbs_sg(struct dwc3_ep *dep,
+ 		struct dwc3_request *req)
+ {
+ 	struct scatterlist *sg = req->start_sg;
+@@ -1231,7 +1231,7 @@ static int dwc3_prepare_one_trb_sg(struct dwc3_ep *dep,
  	return req->num_trbs - num_trbs;
  }
  
+-static int dwc3_prepare_one_trb_linear(struct dwc3_ep *dep,
++static int dwc3_prepare_trbs_linear(struct dwc3_ep *dep,
+ 		struct dwc3_request *req)
+ {
+ 	return dwc3_prepare_last_sg(dep, req, req->request.length, 0);
+@@ -1266,7 +1266,7 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
+ 	 */
+ 	list_for_each_entry(req, &dep->started_list, list) {
+ 		if (req->num_pending_sgs > 0) {
+-			ret = dwc3_prepare_one_trb_sg(dep, req);
++			ret = dwc3_prepare_trbs_sg(dep, req);
+ 			if (!ret)
+ 				return ret;
+ 		}
+@@ -1297,9 +1297,9 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
+ 		req->num_pending_sgs	= req->request.num_mapped_sgs;
+ 
+ 		if (req->num_pending_sgs > 0)
+-			ret = dwc3_prepare_one_trb_sg(dep, req);
++			ret = dwc3_prepare_trbs_sg(dep, req);
+ 		else
+-			ret = dwc3_prepare_one_trb_linear(dep, req);
++			ret = dwc3_prepare_trbs_linear(dep, req);
+ 
+ 		if (!ret || !dwc3_calc_trbs_left(dep))
+ 			return ret;
 -- 
 2.28.0
 
