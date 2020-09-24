@@ -2,256 +2,175 @@ Return-Path: <SRS0=JkLY=DB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBE0C4363D
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E64C4727E
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:28:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A9E72344C
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:09:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A79F721D91
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 15:28:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728357AbgIXPJs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Sep 2020 11:09:48 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:59829 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728285AbgIXPJs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Sep 2020 11:09:48 -0400
-Received: from fsav302.sakura.ne.jp (fsav302.sakura.ne.jp [153.120.85.133])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08OF9iqm095236;
-        Fri, 25 Sep 2020 00:09:44 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav302.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp);
- Fri, 25 Sep 2020 00:09:44 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08OF9h7I095232
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Fri, 25 Sep 2020 00:09:44 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: [PATCH] USB: cdc-wdm: Make wdm_flush() interruptible and add
- wdm_fsync().
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-To:     Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Mork <bjorn@mork.no>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Colin Ian King <colin.king@canonical.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzbot <syzbot+854768b99f19e89d7f81@syzkaller.appspotmail.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <1590408381.2838.4.camel@suse.com>
- <CAAeHK+ww0YLUKGjQF5KfzoUUsdfLJdv5guUXRq4q46VfPiQubQ@mail.gmail.com>
- <27b7545e-8f41-10b8-7c02-e35a08eb1611@i-love.sakura.ne.jp>
- <CAAeHK+ww0u0G94z_Y7VXLCVTQVZ9thO0q69n+Fj3jKT6MtpPng@mail.gmail.com>
- <20200528194057.GA21709@rowland.harvard.edu>
- <CAAeHK+ySAnU03cvg1=+yHh0YK1UFO4mrv-N9FcDDMt_0AfGZSQ@mail.gmail.com>
- <20200528205807.GB21709@rowland.harvard.edu>
- <1590852311.14886.3.camel@suse.com>
- <20200530154728.GB29298@rowland.harvard.edu>
- <0c43caf8-1135-1d38-cb57-9c0f84c4394d@i-love.sakura.ne.jp>
- <254939d4-f3a1-8c7e-94e5-9862c02774fa@i-love.sakura.ne.jp>
- <CAAeHK+w+wBNksK_wpczad3AU4oLQRsjL_5G8p1R55Zh_FLhprg@mail.gmail.com>
- <c85331fc-874c-6e46-a77f-0ef1dc075308@i-love.sakura.ne.jp>
- <b347b882-a986-24c6-2b37-0b1a092931b9@i-love.sakura.ne.jp>
- <1593674666.3609.3.camel@suse.com>
- <f6de3d3a-6825-1904-65f4-8d96594a9846@i-love.sakura.ne.jp>
- <c7e9ab26-7a6b-7adb-0208-cf946a97b7d8@i-love.sakura.ne.jp>
-Message-ID: <b27841ab-a88c-13e2-a66f-6df7af1f46b4@i-love.sakura.ne.jp>
-Date:   Fri, 25 Sep 2020 00:09:41 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1728384AbgIXP2H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Sep 2020 11:28:07 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:39619 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728413AbgIXP2A (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Sep 2020 11:28:00 -0400
+Received: (qmail 1340421 invoked by uid 1000); 24 Sep 2020 11:27:58 -0400
+Date:   Thu, 24 Sep 2020 11:27:58 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-usb@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Peter Chen <peter.chen@nxp.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v3 2/2] USB: misc: Add onboard_usb_hub driver
+Message-ID: <20200924152758.GA1337044@rowland.harvard.edu>
+References: <20200923180952.v3.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+ <20200923180952.v3.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
 MIME-Version: 1.0
-In-Reply-To: <c7e9ab26-7a6b-7adb-0208-cf946a97b7d8@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200923180952.v3.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Based on https://lkml.kernel.org/r/20200923092136.14824-1-oneukum@suse.com from Oliver Neukum <oneukum@suse.com>:
+On Wed, Sep 23, 2020 at 06:10:12PM -0700, Matthias Kaehlcke wrote:
+> The main issue this driver addresses is that a USB hub needs to be
+> powered before it can be discovered. For discrete onboard hubs (an
+> example for such a hub is the Realtek RTS5411) this is often solved
+> by supplying the hub with an 'always-on' regulator, which is kind
+> of a hack. Some onboard hubs may require further initialization
+> steps, like changing the state of a GPIO or enabling a clock, which
+> requires even more hacks. This driver creates a platform device
+> representing the hub which performs the necessary initialization.
+> Currently it only supports switching on a single regulator, support
+> for multiple regulators or other actions can be added as needed.
+> Different initialization sequences can be supported based on the
+> compatible string.
+> 
+> Besides performing the initialization the driver can be configured
+> to power the hub off during system suspend. This can help to extend
+> battery life on battery powered devices which have no requirements
+> to keep the hub powered during suspend. The driver can also be
+> configured to leave the hub powered when a wakeup capable USB device
+> is connected when suspending, and power it off otherwise.
+> 
+> Technically the driver consists of two drivers, the platform driver
+> described above and a very thin USB driver that subclasses the
+> generic driver. The purpose of this driver is to provide the platform
+> driver with the USB devices corresponding to the hub(s) (a hub
+> controller may provide multiple 'logical' hubs, e.g. one to support
+> USB 2.0 and another for USB 3.x).
+> 
+> Co-developed-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
+> Signed-off-by: Ravi Chandra Sadineni <ravisadineni@chromium.org>
+> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+> ---
 
-syzbot is reporting hung task at wdm_flush() [1], for there is a circular
-dependency that wdm_flush() from flip_close() for /dev/cdc-wdm0 forever
-waits for /dev/raw-gadget to be closed while close() for /dev/raw-gadget
-cannot be called unless close() for /dev/cdc-wdm0 completes.
+> --- a/drivers/usb/misc/Kconfig
+> +++ b/drivers/usb/misc/Kconfig
+> @@ -275,3 +275,19 @@ config USB_CHAOSKEY
+>  
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called chaoskey.
+> +
+> +config USB_ONBOARD_HUB
+> +	tristate "Onboard USB hub support"
+> +	depends on OF || COMPILE_TEST
+> +	help
+> +	  Say Y here if you want to support discrete onboard USB hubs that
+> +	  don't require an additional control bus for initialization (an
 
-Tetsuo Handa considered that such circular dependency is an usage error [2]
-which corresponds to an unresponding broken hardware [3]. But Alan Stern
-responded that we should be prepared for such hardware [4]. Therefore,
-this patch changes wdm_flush() to use wait_event_interruptible_timeout()
-which gives up after 30 seconds, for hardware that remains silent must be
-ignored. The 30 seconds are coming out of thin air.
+... but does require nontrivial form of initialization, such as
+enabling a power regulator.
 
-Changing wait_event() to wait_event_interruptible_timeout() makes error
-reporting from close() syscall less reliable. To compensate it, this patch
-also implements wdm_fsync() which does not use timeout. Those who want to
-be very sure that data has gone out to the device are now advised to call
-fsync(), with a caveat that fsync() can return -EINVAL when running on
-older kernels which do not implement wdm_fsync().
 
-This patch also fixes three more problems (listed below) found during
-exhaustive discussion and testing.
+> +static void onboard_hub_remove_usbdev(struct onboard_hub *hub, struct usb_device *udev)
+> +{
+> +	struct udev_node *node;
+> +
+> +	smp_rmb();
+> +	if (hub->going_away) {
+> +		/*
+> +		 * We are most likely being called as a result of unbinding a USB device from
+> +		 * onboard_hub_remove(). This function also holds the lock and iterates over
+> +		 * 'udev_list'. Skip deleting the node in this case to avoid a self deadlock,
+> +		 * keeping the node in the list isn't a problem, since the device is about to go
+> +		 * away.
+> +		 */
+> +		return;
+> +	}
 
-  Since multiple threads can concurrently call wdm_write()/wdm_flush(),
-  we need to use wake_up_all() whenever clearing WDM_IN_USE in order to
-  make sure that all waiters are woken up. Also, error reporting needs
-  to use fetch-and-clear approach in order not to report same error for
-  multiple times.
+This part has a suspicious look.  For one thing, there's no comment
+explaining the purpose of the smp_rmb().  For another, that barrier
+doesn't seem to pair with any other memory barrier in the driver.
 
-  Since wdm_flush() checks WDM_DISCONNECTING, wdm_write() should as well
-  check WDM_DISCONNECTING.
+I get that you want to avoid self-deadlock here.  But there must be a
+better way.  See below.
 
-  In wdm_flush(), since locks are not held, it is not safe to dereference
-  desc->intf after checking that WDM_DISCONNECTING is not set [5]. Thus,
-  remove dev_err() from wdm_flush().
+> +static int onboard_hub_remove(struct platform_device *pdev)
+> +{
+> +	struct onboard_hub *hub = dev_get_drvdata(&pdev->dev);
+> +	struct udev_node *node;
+> +
+> +	hub->going_away = true;
+> +
+> +	mutex_lock(&hub->lock);
+> +
+> +	/* unbind the USB devices to avoid dangling references to this device */
+> +	list_for_each_entry(node, &hub->udev_list, list)
+> +		device_release_driver(&node->udev->dev);
+> +
+> +	mutex_unlock(&hub->lock);
 
-[1] https://syzkaller.appspot.com/bug?id=e7b761593b23eb50855b9ea31e3be5472b711186
-[2] https://lkml.kernel.org/r/27b7545e-8f41-10b8-7c02-e35a08eb1611@i-love.sakura.ne.jp
-[3] https://lkml.kernel.org/r/79ba410f-e0ef-2465-b94f-6b9a4a82adf5@i-love.sakura.ne.jp
-[4] https://lkml.kernel.org/r/20200530011040.GB12419@rowland.harvard.edu
-[5] https://lkml.kernel.org/r/c85331fc-874c-6e46-a77f-0ef1dc075308@i-love.sakura.ne.jp
+Alternative approach:
 
-Reported-by: syzbot <syzbot+854768b99f19e89d7f81@syzkaller.appspotmail.com>
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Debugged-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Alan Stern <stern@rowland.harvard.edu>
----
- drivers/usb/class/cdc-wdm.c | 72 ++++++++++++++++++++++++++++---------
- 1 file changed, 55 insertions(+), 17 deletions(-)
+	/* unbind the USB devices to avoid dangling references to this device */
+	mutex_lock(&hub->lock);
+	while (!list_empty(&hub->udev_list)) {
+		node = list_first_entry(&hub->udev_list, struct udev_node, list);
+		udev = node->udev;
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index 7f5de956a2fc..02d0cfd23bb2 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -58,6 +58,9 @@ MODULE_DEVICE_TABLE (usb, wdm_ids);
- 
- #define WDM_MAX			16
- 
-+/* we cannot wait forever at flush() */
-+#define WDM_FLUSH_TIMEOUT	(30 * HZ)
-+
- /* CDC-WMC r1.1 requires wMaxCommand to be "at least 256 decimal (0x100)" */
- #define WDM_DEFAULT_BUFSIZE	256
- 
-@@ -151,7 +154,7 @@ static void wdm_out_callback(struct urb *urb)
- 	kfree(desc->outbuf);
- 	desc->outbuf = NULL;
- 	clear_bit(WDM_IN_USE, &desc->flags);
--	wake_up(&desc->wait);
-+	wake_up_all(&desc->wait);
- }
- 
- static void wdm_in_callback(struct urb *urb)
-@@ -393,6 +396,9 @@ static ssize_t wdm_write
- 	if (test_bit(WDM_RESETTING, &desc->flags))
- 		r = -EIO;
- 
-+	if (test_bit(WDM_DISCONNECTING, &desc->flags))
-+		r = -ENODEV;
-+
- 	if (r < 0) {
- 		rv = r;
- 		goto out_free_mem_pm;
-@@ -424,6 +430,7 @@ static ssize_t wdm_write
- 	if (rv < 0) {
- 		desc->outbuf = NULL;
- 		clear_bit(WDM_IN_USE, &desc->flags);
-+		wake_up_all(&desc->wait); /* for wdm_wait_for_response() */
- 		dev_err(&desc->intf->dev, "Tx URB error: %d\n", rv);
- 		rv = usb_translate_errors(rv);
- 		goto out_free_mem_pm;
-@@ -583,28 +590,58 @@ static ssize_t wdm_read
- 	return rv;
- }
- 
--static int wdm_flush(struct file *file, fl_owner_t id)
-+static int wdm_wait_for_response(struct file *file, long timeout)
- {
- 	struct wdm_device *desc = file->private_data;
-+	long rv; /* Use long here because (int) MAX_SCHEDULE_TIMEOUT < 0. */
-+
-+	/*
-+	 * Needs both flags. We cannot do with one because resetting it would
-+	 * cause a race with write() yet we need to signal a disconnect.
-+	 */
-+	rv = wait_event_interruptible_timeout(desc->wait,
-+			      !test_bit(WDM_IN_USE, &desc->flags) ||
-+			      test_bit(WDM_DISCONNECTING, &desc->flags),
-+			      timeout);
- 
--	wait_event(desc->wait,
--			/*
--			 * needs both flags. We cannot do with one
--			 * because resetting it would cause a race
--			 * with write() yet we need to signal
--			 * a disconnect
--			 */
--			!test_bit(WDM_IN_USE, &desc->flags) ||
--			test_bit(WDM_DISCONNECTING, &desc->flags));
--
--	/* cannot dereference desc->intf if WDM_DISCONNECTING */
-+	/*
-+	 * To report the correct error. This is best effort.
-+	 * We are inevitably racing with the hardware.
-+	 */
- 	if (test_bit(WDM_DISCONNECTING, &desc->flags))
- 		return -ENODEV;
--	if (desc->werr < 0)
--		dev_err(&desc->intf->dev, "Error in flush path: %d\n",
--			desc->werr);
-+	if (!rv)
-+		return -EIO;
-+	if (rv < 0)
-+		return -EINTR;
-+
-+	spin_lock_irq(&desc->iuspin);
-+	rv = desc->werr;
-+	desc->werr = 0;
-+	spin_unlock_irq(&desc->iuspin);
-+
-+	return usb_translate_errors(rv);
-+
-+}
-+
-+/*
-+ * You need to send a signal when you react to malicious or defective hardware.
-+ * Also, don't abort when fsync() returned -EINVAL, for older kernels which do
-+ * not implement wdm_flush() will return -EINVAL.
-+ */
-+static int wdm_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-+{
-+	return wdm_wait_for_response(file, MAX_SCHEDULE_TIMEOUT);
-+}
- 
--	return usb_translate_errors(desc->werr);
-+/*
-+ * Same with wdm_fsync(), except it uses finite timeout in order to react to
-+ * malicious or defective hardware which ceased communication after close() was
-+ * implicitly called due to process termination.
-+ */
-+static int wdm_flush(struct file *file, fl_owner_t id)
-+{
-+	return wdm_wait_for_response(file, WDM_FLUSH_TIMEOUT);
- }
- 
- static __poll_t wdm_poll(struct file *file, struct poll_table_struct *wait)
-@@ -729,6 +766,7 @@ static const struct file_operations wdm_fops = {
- 	.owner =	THIS_MODULE,
- 	.read =		wdm_read,
- 	.write =	wdm_write,
-+	.fsync =	wdm_fsync,
- 	.open =		wdm_open,
- 	.flush =	wdm_flush,
- 	.release =	wdm_release,
--- 
-2.25.1
+		/*
+		 * Unbinding the driver will call onboard_hub_remove_usbdev(),
+		 * which acquires hub->lock.  We must release the lock first.
+		 */
+		usb_get_device(udev);
+		mutex_unlock(&hub->lock);
+		device_release_driver(&udev->dev);
+		usb_put_device(udev);
+		mutex_lock(&hub->lock);
+	}
+	mutex_unlock(&hub->lock);
 
+> +static int onboard_hub_usbdev_probe(struct usb_device *udev)
+> +{
+> +	struct device *dev = &udev->dev;
+> +	struct onboard_hub *hub;
+> +
+> +	/* ignore supported hubs without device tree node */
+> +	if (!dev->of_node)
+> +		return -ENODEV;
+> +
+> +	hub = _find_onboard_hub(dev);
+> +	if (IS_ERR(hub))
+> +		return PTR_ERR(dev);
+
+hub, not dev.
+
+Alan Stern
