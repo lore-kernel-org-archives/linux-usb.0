@@ -2,81 +2,97 @@ Return-Path: <SRS0=JkLY=DB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B9FC4727E
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 16:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285C5C4363D
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 20:54:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2ABF2388A
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 16:00:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E33AD221EB
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Sep 2020 20:54:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600963255;
-	bh=r67kiC0WjaNVmOhYLjf6JYjUJqRLU6Z2/EyBhfyzyvU=;
+	s=default; t=1600980860;
+	bh=tVjYj9L6bZlyfmQII/W2YskHWml8UCyVZRJQUGN3Hew=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=1fb1JMdVKZonM8kwouST3Z94e7Tob2kdtGvjf4bxhWWkRcFpMrt7krWZGKUgwKaGb
-	 sW4TOdadzR0u2LlmiNaDjQqfardPlziWPvWYccI0Hjj2js3GGJi0NfPSm8ws1ONEz7
-	 xKSSYdr6J6HmoqO/F0MlBNAiRJHwdsAk6oqemzqo=
+	b=FaZVxVxzB+Yr97pxgyYuGoVI3PHqGgiw/hbHPfi/30uRnebRgxE4BvoghgSn1FEzl
+	 rr0I4p3y4E/FrGPES1AOeZo8NaQxK/atUOlz0W0Y3mqskTw+uNBRGHv/RUTnAb3CPh
+	 6uWhYxOFn9Il5rKqSi9QbzCgKkyXZNLJzGxqTWfs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728513AbgIXQAv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Sep 2020 12:00:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32952 "EHLO mail.kernel.org"
+        id S1726637AbgIXUyR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Sep 2020 16:54:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46226 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728381AbgIXQAv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 24 Sep 2020 12:00:51 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        id S1726242AbgIXUyR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 24 Sep 2020 16:54:17 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6ADA3235FD;
-        Thu, 24 Sep 2020 16:00:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 928AF221EB;
+        Thu, 24 Sep 2020 20:54:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600963251;
-        bh=r67kiC0WjaNVmOhYLjf6JYjUJqRLU6Z2/EyBhfyzyvU=;
+        s=default; t=1600980856;
+        bh=tVjYj9L6bZlyfmQII/W2YskHWml8UCyVZRJQUGN3Hew=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AwScAfRx9Njhn+CsDf0vIPl1vMTCryCGmJiCCir1LBP2pGPpRObRPiwsIoyRYH6N/
-         xUCfZrh4aCjPZwNIHlxf0aMfv2SW539VKPcmv4ErcMaOcXInPHNESLWt4RHU02/Yyp
-         fForhBgGlJDyPOtPYa/UHZ89hPiCuqNi9WgX4ljA=
-Date:   Thu, 24 Sep 2020 18:01:07 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Petko Manolov <petkan@nucleusys.com>
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        Himadri Pandya <himadrispandya@gmail.com>, davem@davemloft.net,
-        kuba@kernel.org, pankaj.laxminarayan.bharadiya@intel.com,
-        keescook@chromium.org, yuehaibing@huawei.com, ogiannou@gmail.com,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 3/4] net: usb: rtl8150: use usb_control_msg_recv() and
- usb_control_msg_send()
-Message-ID: <20200924160107.GA1174357@kroah.com>
-References: <20200923090519.361-1-himadrispandya@gmail.com>
- <20200923090519.361-4-himadrispandya@gmail.com>
- <1600856557.26851.6.camel@suse.com>
- <20200923144832.GA11151@karbon>
- <2f997848ed05c1f060125f7567f6bc3fae7410bb.camel@suse.com>
- <20200924154026.GA9761@carbon.lan>
+        b=iSnYpDRhlNSQLE336fF32Fw3x7t7F7vSL4XkGh8Ah/H0Y9tPbXGBZJs0x/j3SqtKA
+         pu6F0VIA+ia1EI+gcsnbPDrAUQO9GPIpyQQdaXVpIk85n7VwtJhn74SfswoKAEdv4+
+         m7dm/7zkj42sSjYFFleRXcs0C8HBfnxz4uIr8z08=
+Date:   Thu, 24 Sep 2020 16:54:15 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.4 041/330] USB: serial: mos7840: fix probe
+ error handling
+Message-ID: <20200924205415.GQ2431@sasha-vm>
+References: <20200918020110.2063155-1-sashal@kernel.org>
+ <20200918020110.2063155-41-sashal@kernel.org>
+ <20200918065300.GA21896@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20200924154026.GA9761@carbon.lan>
+In-Reply-To: <20200918065300.GA21896@localhost>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 06:40:26PM +0300, Petko Manolov wrote:
-> On 20-09-24 13:09:05, Oliver Neukum wrote:
-> > Am Mittwoch, den 23.09.2020, 17:48 +0300 schrieb Petko Manolov:
-> > 
-> > > One possible fix is to add yet another argument to usb_control_msg_recv(), 
-> > > which would be the GFP_XYZ flag to pass on to kmemdup().  Up to Greg, of 
-> > > course.
-> > 
-> > submitted. The problem is those usages that are very hard to trace. I'd 
-> > dislike to just slab GFP_NOIO on them for no obvious reason.
-> 
-> Do you mean you submitted a patch for usb_control_msg_recv() (because i don't 
-> see it on linux-netdev) or i'm reading this all wrong?
+On Fri, Sep 18, 2020 at 08:53:00AM +0200, Johan Hovold wrote:
+>On Thu, Sep 17, 2020 at 09:56:21PM -0400, Sasha Levin wrote:
+>> From: Johan Hovold <johan@kernel.org>
+>>
+>> [ Upstream commit 960fbd1ca584a5b4cd818255769769d42bfc6dbe ]
+>>
+>> The driver would return success and leave the port structures
+>> half-initialised if any of the register accesses during probe fails.
+>>
+>> This would specifically leave the port control urb unallocated,
+>> something which could trigger a NULL pointer dereference on interrupt
+>> events.
+>>
+>> Fortunately the interrupt implementation is completely broken and has
+>> never even been enabled...
+>>
+>> Note that the zero-length-enable register write used to set the zle-flag
+>> for all ports is moved to attach.
+>>
+>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Signed-off-by: Johan Hovold <johan@kernel.org>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+>Please drop this from all stable queues. As the commit message and
+>missing stable-cc tag suggests, it's not needed.
+>
+>Sasha, please stop sending AUTOSEL patches for usb-serial. I think this
+>the fourth time I ask you now.
 
-It's on the linux-usb list:
-	https://lore.kernel.org/r/20200923134348.23862-1-oneukum@suse.com
+Right, this series is a bit different because it didn't originate from
+the AUTOSEL work but rather was an audit of patches picked up by
+downstream kernels as fixes.
+
+I'll drop it, sorry for the noise.
+
+-- 
+Thanks,
+Sasha
