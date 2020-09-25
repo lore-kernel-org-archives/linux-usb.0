@@ -2,84 +2,245 @@ Return-Path: <SRS0=W/rD=DC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B0CC4363D
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 06:02:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8990C4727E
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 06:03:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2AB0B21D7F
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 06:02:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="u/IHtzil"
+	by mail.kernel.org (Postfix) with ESMTP id 6C76620936
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 06:03:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgIYGB0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Sep 2020 02:01:26 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:52869 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726990AbgIYGB0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Sep 2020 02:01:26 -0400
-X-UUID: 3dffde2c96cc46efb8af3660c358bd1e-20200925
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=tnTXrW+viUcET7ilMySC0jNd0vhu5XBB0MZp5smjZUo=;
-        b=u/IHtzilf8Woc4tmjsedC7idEaWm/mJwddQKsVC0oyJ30BoR4enEw+TU5NcZeeyvKSQezkyzr4UqtL9BraOSEQaHD/lhQeByaAp52ory+zxYcnX9Rf94IO2NnJ4Ao8CwZ8gMGTofWME0nf20KzaZCnm05+Del6Sek3/9gIMublw=;
-X-UUID: 3dffde2c96cc46efb8af3660c358bd1e-20200925
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1958158567; Fri, 25 Sep 2020 14:01:20 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 25 Sep 2020 14:01:18 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 25 Sep 2020 14:01:17 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Felipe Balbi <balbi@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Sasi Kumar <sasi.kumar@broadcom.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH 03/11] usb: gadget: bdc: prefer pointer dereference to pointer type
-Date:   Fri, 25 Sep 2020 13:58:11 +0800
-Message-ID: <1601013499-28920-3-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1601013499-28920-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1601013499-28920-1-git-send-email-chunfeng.yun@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 6A5CBFBC10784D0BF179ABE74E3B3DCC5998AE9FCFEF7BBE740656628695DA722000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        id S1727174AbgIYGDr convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Sep 2020 02:03:47 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:53659 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727016AbgIYGDo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Sep 2020 02:03:44 -0400
+Received: from mail-pf1-f199.google.com ([209.85.210.199])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1kLgpa-0005mB-1N
+        for linux-usb@vger.kernel.org; Fri, 25 Sep 2020 06:03:42 +0000
+Received: by mail-pf1-f199.google.com with SMTP id d198so1296570pfd.15
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2020 23:03:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=1yvwZFftP3xTcobSpqJkVCGIkCDtLpkz77Q75FFnu3Y=;
+        b=kaKe1kQ+/ZucMcxyLA0bxXblix6CbKeTCdlxtbnRd2d40eSRPjiMTwKzualbVueoDI
+         6FFDaRM7QDiXLHHJpI+estiwR57Su2dtHJmeyU6RWyuvC5sT0beVlh0o3qStiGT6FzD5
+         9iBkl3pxYcVHPg2ccZfbwxjifTFcUIoCbV1A8CRzioOgZ/7qj6XmkHCf5LJRa47ExNtM
+         ermdfrVxBCIPs19YaT9Hr3qR7zA4CdrFTmH/Z9dYAAOaxr/0y9bQExXXoy0Tyqa/S5qA
+         GfGSxBaH2xgGFC/c7NE8CTo0Md2TXd21+ZBp5kM9ukjvFnancacRX7cO/eax2/97CIPO
+         OqUQ==
+X-Gm-Message-State: AOAM533UWdqguVHu8yrqqYBP9dm9TbYm8IvJKYg8ohcymBSFmZ9fJoIy
+        jOhUhoSeMLJt+SnolDN62EcjRt44qCk+ILF7muwb7sy8PnfNtJx54mqR9kMrU6avPeCaRLFBSaU
+        H0AlBIaGGhg27pFat6xdCgLzJ0HUFLqUbITG00w==
+X-Received: by 2002:a17:90a:bd8b:: with SMTP id z11mr1252544pjr.2.1601013819767;
+        Thu, 24 Sep 2020 23:03:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0eE+7B6RPzAMojOVsY1JICA+CjPuJqwRSCmBlDjFS5gUnDiI2EvpjiLEGxEyGWcGQTy+y9A==
+X-Received: by 2002:a17:90a:bd8b:: with SMTP id z11mr1252502pjr.2.1601013819085;
+        Thu, 24 Sep 2020 23:03:39 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
+        by smtp.gmail.com with ESMTPSA id a9sm938208pjm.40.2020.09.24.23.03.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 24 Sep 2020 23:03:38 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [PATCH] Bluetooth: btusb: Avoid unnecessary reset upon system
+ resume
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <CANFp7mVJZTizHJDss5BJmdm5ydrfrVy4sBhXRX4vLBmK2sRGSA@mail.gmail.com>
+Date:   Fri, 25 Sep 2020 14:03:34 +0800
+Cc:     Alex Lu <alex_lu@realsil.com.cn>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <C9D4A438-0CF8-42A2-8B9D-F5EF117AEF9B@canonical.com>
+References: <20200923175602.9523-1-kai.heng.feng@canonical.com>
+ <CANFp7mV7fC9_EZHd7B0Cu-owgCVdA6CNd2bb7XwFf5+6b7FVpg@mail.gmail.com>
+ <A6F728DB-A07B-4323-83A5-3DABA8FDC156@canonical.com>
+ <CANFp7mVJZTizHJDss5BJmdm5ydrfrVy4sBhXRX4vLBmK2sRGSA@mail.gmail.com>
+To:     Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-UHJlZmVyIGt6YWxsb2Moc2l6ZW9mKCpiZF90YWJsZSkuLi4pIG92ZXINCmt6YWxsb2Moc2l6ZW9m
-KHN0cnVjdCBiZF90YWJsZSkNCg0KQ2hhbmdlLUlkOiBJZjc4Y2M5MjkyODdmYTQ1YTNmOWRlMzhm
-MmU3MDU3MzA3Y2QyOTVkZA0KQ2M6IEZsb3JpYW4gRmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21haWwu
-Y29tPg0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsu
-Y29tPg0KQWNrZWQtYnk6IEZsb3JpYW4gRmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21haWwuY29tPg0K
-LS0tDQogZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2VwLmMgfCAyICstDQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL3VzYi9nYWRnZXQvdWRjL2JkYy9iZGNfZXAuYyBiL2RyaXZlcnMvdXNiL2dhZGdldC91
-ZGMvYmRjL2JkY19lcC5jDQppbmRleCBmYWZkYzlmLi43NjQ2M2RlIDEwMDY0NA0KLS0tIGEvZHJp
-dmVycy91c2IvZ2FkZ2V0L3VkYy9iZGMvYmRjX2VwLmMNCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdl
-dC91ZGMvYmRjL2JkY19lcC5jDQpAQCAtMTQ3LDcgKzE0Nyw3IEBAIHN0YXRpYyBpbnQgZXBfYmRf
-bGlzdF9hbGxvYyhzdHJ1Y3QgYmRjX2VwICplcCkNCiAJLyogQWxsb2NhdGUgbWVtb3J5IGZvciBl
-YWNoIHRhYmxlICovDQogCWZvciAoaW5kZXggPSAwOyBpbmRleCA8IG51bV90YWJzOyBpbmRleCsr
-KSB7DQogCQkvKiBBbGxvY2F0ZSBtZW1vcnkgZm9yIGJkX3RhYmxlIHN0cnVjdHVyZSAqLw0KLQkJ
-YmRfdGFibGUgPSBremFsbG9jKHNpemVvZihzdHJ1Y3QgYmRfdGFibGUpLCBHRlBfQVRPTUlDKTsN
-CisJCWJkX3RhYmxlID0ga3phbGxvYyhzaXplb2YoKmJkX3RhYmxlKSwgR0ZQX0FUT01JQyk7DQog
-CQlpZiAoIWJkX3RhYmxlKQ0KIAkJCWdvdG8gZmFpbDsNCiANCi0tIA0KMS44LjEuMS5kaXJ0eQ0K
+Hi Abhishek,
+> On Sep 25, 2020, at 11:33, Abhishek Pandit-Subedi <abhishekpandit@chromium.org> wrote:
+> 
+> + Alex Lu (who contributed the original change)
+> 
+> Hi Kai-Heng,
+> 
+> 
+> On Thu, Sep 24, 2020 at 12:10 AM Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
+>> 
+>> [+Cc linux-usb]
+>> 
+>> Hi Abhishek,
+>> 
+>>> On Sep 24, 2020, at 04:41, Abhishek Pandit-Subedi <abhishekpandit@chromium.org> wrote:
+>>> 
+>>> Hi Kai-Heng,
+>>> 
+>>> Which Realtek controller is this on?'
+>> 
+>> The issue happens on 8821CE.
+>> 
+>>> 
+>>> Specifically for RTL8822CE, we tested without reset_resume being set
+>>> and that was causing the controller being reset without bluez ever
+>>> learning about it (resulting in devices being unusable without
+>>> toggling the BT power).
+>> 
+>> The reset is done by the kernel, so how does that affect bluez?
+>> 
+>> From what you described, it sounds more like runtime resume since bluez is already running.
+>> If we need reset resume for runtime resume, maybe it's another bug which needs to be addressed?
+> 
+> From btusb.c:  https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git/tree/drivers/bluetooth/btusb.c#n4189
+> /* Realtek devices lose their updated firmware over global
+> * suspend that means host doesn't send SET_FEATURE
+> * (DEVICE_REMOTE_WAKEUP)
+> */
+> 
+> Runtime suspend always requires remote wakeup to be set and reset
+> resume isn't used there.
+
+Thanks for the clarification.
+
+> 
+> During system suspend, when remote wakeup is not set, RTL8822CE loses
+> the FW loaded by the driver and any state currently in the controller.
+> This causes the kernel and the controller state to go out of sync.
+> One of the issues we observed on the Realtek controller without the
+> reset resume quirk was that paired or connected devices would just
+> stop working after resume.
+> 
+>> 
+>>> If the firmware doesn't cut off power during suspend, maybe you
+>>> shouldn't set the BTUSB_WAKEUP_DISABLE flag for that controller.
+>> 
+>> We don't know beforehand if the platform firmware (BIOS for my case) will cut power off or not.
+>> 
+>> In general, laptops will cut off the USB power during S3.
+>> When AC is plugged, some laptops cuts USB power off and some don't. This also applies to many desktops. Not to mention there can be BIOS options to control USB power under S3/S4/S5...
+>> 
+>> So we don't know beforehand.
+>> 
+> 
+> I think the confusion here stems from what is actually being turned
+> off between our two boards and what we're referring to as firmware :)
+
+Yes :)
+
+> 
+> In your case, the Realtek controller retains firmware unless the
+> platform cuts of power to USB (which it does during S3).
+
+Not all platform firmware (i.e. BIOS for x86) cut USB power during S3, as I describe in last reply.
+
+> In my case, the Realtek controller loses firmware when Remote Wakeup
+> isn't set, even if the platform doesn't cut power to USB.
+
+Thanks for the clarification, I believe it's a case that should to be handled separately.
+
+> 
+> In your case, since you don't need to enforce the 'Remote Wakeup' bit,
+> if you unset the BTUSB_WAKEUP_DISABLE for that VID:PID, you should get
+> the desirable behavior (which is actually the default behavior; remote
+> wake will always be asserted instead of only during Runtime Suspend).
+
+So we have three cases here. Assuming reset_resume isn't flagged by btusb:
+
+1) Both USB power and BT firmware were lost during suspend.
+USB core finds out power was lost, try to reset resume the device. Since btusb doesn't have reset_resume callback, USB core calls probe instead.
+
+2) Both USB power and BT firmware were kept during suspend. This is my case.
+Regular resume handles everything.
+
+3) USB power was kept but BT firmware was lost. This is your case.
+USB core finds out power was kept, use regular resume. However the BT firmware was lost, so resume fails.
+For this case, maybe we can use btrtl_setup_realtek() in btusb_resume()? It won't re-upload firmware if firmware is retained, and will do proper initializing if firmware was lost.
+
+Kai-Heng
+
+> 
+> @Alex -- What is the common behavior for Realtek controllers? Should
+> we set BTUSB_WAKEUP_DISABLE only on RTL8822CE or should we unset it
+> only on RTL8821CE?
+> 
+>>> 
+>>> I would prefer this doesn't get accepted in its current state.
+>> 
+>> Of course.
+>> I think we need to find the root cause for your case before applying this one.
+>> 
+>> Kai-Heng
+>> 
+>>> 
+>>> Abhishek
+>>> 
+>>> On Wed, Sep 23, 2020 at 10:56 AM Kai-Heng Feng
+>>> <kai.heng.feng@canonical.com> wrote:
+>>>> 
+>>>> Realtek bluetooth controller may fail to work after system sleep:
+>>>> [ 1272.707670] Bluetooth: hci0: command 0x1001 tx timeout
+>>>> [ 1280.835712] Bluetooth: hci0: RTL: HCI_OP_READ_LOCAL_VERSION failed (-110)
+>>>> 
+>>>> If platform firmware doesn't cut power off during suspend, the firmware
+>>>> is considered retained in controller but the driver is still asking USB
+>>>> core to perform a reset-resume. This can make bluetooth controller
+>>>> unusable.
+>>>> 
+>>>> So avoid unnecessary reset to resolve the issue.
+>>>> 
+>>>> For devices that really lose power during suspend, USB core will detect
+>>>> and handle reset-resume correctly.
+>>>> 
+>>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>>> ---
+>>>> drivers/bluetooth/btusb.c | 8 +++-----
+>>>> 1 file changed, 3 insertions(+), 5 deletions(-)
+>>>> 
+>>>> diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
+>>>> index 8d2608ddfd08..de86ef4388f9 100644
+>>>> --- a/drivers/bluetooth/btusb.c
+>>>> +++ b/drivers/bluetooth/btusb.c
+>>>> @@ -4255,17 +4255,15 @@ static int btusb_suspend(struct usb_interface *intf, pm_message_t message)
+>>>>               enable_irq(data->oob_wake_irq);
+>>>>       }
+>>>> 
+>>>> -       /* For global suspend, Realtek devices lose the loaded fw
+>>>> -        * in them. But for autosuspend, firmware should remain.
+>>>> -        * Actually, it depends on whether the usb host sends
+>>>> +       /* For global suspend, Realtek devices lose the loaded fw in them if
+>>>> +        * platform firmware cut power off. But for autosuspend, firmware
+>>>> +        * should remain.  Actually, it depends on whether the usb host sends
+>>>>        * set feature (enable wakeup) or not.
+>>>>        */
+>>>>       if (test_bit(BTUSB_WAKEUP_DISABLE, &data->flags)) {
+>>>>               if (PMSG_IS_AUTO(message) &&
+>>>>                   device_can_wakeup(&data->udev->dev))
+>>>>                       data->udev->do_remote_wakeup = 1;
+>>>> -               else if (!PMSG_IS_AUTO(message))
+>>>> -                       data->udev->reset_resume = 1;
+>>>>       }
+>>>> 
+>>>>       return 0;
+>>>> --
+>>>> 2.17.1
 
