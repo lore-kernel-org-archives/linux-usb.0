@@ -2,140 +2,103 @@ Return-Path: <SRS0=W/rD=DC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F4FDC4363D
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 15:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB162C4363D
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 15:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0ED0E21D42
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 15:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601046500;
-	bh=k/epizE4EWRRk0EwSCVPw+gXMS+6917ZvnzD5AFeMNM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=MNErz/AoYv2Vvce2KxcRvmhPVUChdI5Hpphj1sedar8dmuTlGXqBobZlSF0JRvfGj
-	 vi/z1jzy8Wy0gSUmxpsZUMmYbXI5AOQ99w6cb2b/sxeTAXcGBB00ONW6YmaVXqAkcw
-	 QfiZ4DSVL/HUokuWzatJWZ4Ierl7NDW2l7Xq9eGs=
+	by mail.kernel.org (Postfix) with ESMTP id 4FCD5206A2
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Sep 2020 15:10:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="KJMy3H3k";
+	dkim=temperror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="afPMLPwE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728843AbgIYPIT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Sep 2020 11:08:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728406AbgIYPIT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:08:19 -0400
+        id S1728970AbgIYPKu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Sep 2020 11:10:50 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:52389 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728333AbgIYPKu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Sep 2020 11:10:50 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 800BE5C016C;
+        Fri, 25 Sep 2020 11:10:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 25 Sep 2020 11:10:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=ZjyiV4ZLaZhd9qCoOmBaw6cI9e6
+        s2oreSnUOxVr7WW0=; b=KJMy3H3khtzgIBKL/jGMtx26vHLE6CI0jryt5WT+Tw9
+        v+Dv9VnhBoQiANjyqk6fWvoZsXc2zCbkuMhDhiMVDQYighsmRiBrjiI75ZxwRBxG
+        bvLpf+nEteFNZey3mGRng1RbNuizKqYClg9cbbNKGQjPGKRlMOmBf1IwaWd6xpQU
+        BTZIaD3qM57VEmusnIUykkn3WjeFe45eTrr9DmogcL6vvAeKSniroyHXmx3aRfwF
+        PdBxFGvY76QNEsMmC7kd3afmwvpwNoEFHhEcKy35KpyIBYFNNuF7mS2Uyui830ME
+        TOGMtS/JFPWJXNnxBSDA32jw1IFrk5Ny3BqZQpYI5cQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZjyiV4
+        ZLaZhd9qCoOmBaw6cI9e6s2oreSnUOxVr7WW0=; b=afPMLPwEopY9NH+f1HzkFl
+        GmLhNDEoVVGaK/XcxlXk9x286WGhgj7hQGfIPwlV1X9MqSrmSMviYLhEny9maFc4
+        L0GlWA+fLnKKQcAuPXPWiFIIqmldr/b29qEm5W+SNNfbWfmep7HW+too0BFhrTM8
+        shXZFP8/iY8/ERiNVm9fuk1fnLRmlxq+/nL9isw3VKXHvPgDwvyJZGoqS8apZCWn
+        b4pOrSdtP9OUFvaOQHUfG7cM8RyRPKpvJzDkayvVCfH5fOwi5xi/+RJ0NXRG64cg
+        d+ueZNhG6gV7DXhOgZwGn057oEGgX7eho+KYX8J4l+0CtyAJM21JjoHSZedqLj0g
+        ==
+X-ME-Sender: <xms:eAhuX5D7lUIK6m1-n62WTUKpxMh68VQBPlWmfV1zYWJ5f3E9s3_iBQ>
+    <xme:eAhuX3iYlSp_tFaiKV3S8Q9lDMGxEJuSoDQPpvDVzi5uQDbN0UA-v65Sg0Vt9zvJP
+    7RrMnWo4nj-3A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:eAhuX0kTrh79MoC_M--Vi_25yf6M2uNyVhg_FJpWJ2jY5cWlF3nhXg>
+    <xmx:eAhuXzw4oc-SFCAyqqb_-WebWlWZSY95Ahwf6bqtouTGDmdLe6ehyg>
+    <xmx:eAhuX-SdvltE1v6Qlz0T9Lephfl5M5P7wcXB6NtNMz2HaelJT2ktaw>
+    <xmx:eQhuXxKPuGU7CyoqKtxzsziQhyN1CpG7_Q_L3JHvG_adGelGK3lRkA>
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3DD9C20878;
-        Fri, 25 Sep 2020 15:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601046498;
-        bh=k/epizE4EWRRk0EwSCVPw+gXMS+6917ZvnzD5AFeMNM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lLvCWT6BliaL5efo/ps82uXz/i79NA7Hbv1k7IWk1DC8lBqQvz91nabjjPL2sbaDH
-         vAzbIN/rnjWYPlYNAj/KmOE3rgFbBsvbd2ts4IwgOWhy1I1RjmJRMkmQ+5op7BaoGH
-         FB4ein7U6evhfhWdcsUu+sO6zJE8mZjCXx3XK+kE=
-Date:   Fri, 25 Sep 2020 17:08:32 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        John Youn <John.Youn@synopsys.com>
-Subject: Re: [PATCH v5 01/12] usb: ch9: Add sublink speed struct
-Message-ID: <20200925150832.GA3173449@kroah.com>
-References: <cover.1601001199.git.Thinh.Nguyen@synopsys.com>
- <069433c7c7dc08220cc4a4a2154cf36c57b411af.1601001199.git.Thinh.Nguyen@synopsys.com>
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6BE733064684;
+        Fri, 25 Sep 2020 11:10:48 -0400 (EDT)
+Date:   Fri, 25 Sep 2020 17:11:03 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     penguin-kernel@i-love.sakura.ne.jp, bjorn@mork.no,
+        linux-usb@vger.kernel.org
+Subject: Re: [RFC] fixes for hangs and error reporting in CDC_WDM
+Message-ID: <20200925151103.GB3173449@kroah.com>
+References: <20200922112126.16919-1-oneukum@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <069433c7c7dc08220cc4a4a2154cf36c57b411af.1601001199.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <20200922112126.16919-1-oneukum@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 07:41:49PM -0700, Thinh Nguyen wrote:
-> USB 3.2 specification supports dual-lane for super-speed-plus. USB
-> devices may operate at different sublink speeds. To avoid using magic
-> numbers and capture the sublink speed better, introduce the
-> usb_sublink_speed structure and various sublink speed attribute enum.
+On Tue, Sep 22, 2020 at 01:21:19PM +0200, Oliver Neukum wrote:
+> Stress testing has shown that CDC-WDM has some issues with hangs
+> and error reporting
 > 
-> See SSP BOS descriptor in USB 3.2 specification section 9.6.2.5
+> 1. wakeups are not correctly handled in multhreaded environments
+> 2. unresponsive hardware is not handled
+> 3. errors are not correctly reported. This needs flush() to be
+> implemented.
 > 
-> Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> ---
-> Changes in v5:
-> - Rebase on Felipe's testing/next branch
-> - Changed Signed-off-by email to match From: email header
-> Changes in v4:
-> - None
-> Changes in v3:
-> - None
-> Changes in v2:
-> - Move to include/linux/usb/ch9.h instead of under uapi
+> This version makes wdm_flush() use interruptible sleep.
 > 
->  include/linux/usb/ch9.h | 43 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
+> For easier review all squashed together:
 > 
-> diff --git a/include/linux/usb/ch9.h b/include/linux/usb/ch9.h
-> index 604c6c514a50..01191649a0ad 100644
-> --- a/include/linux/usb/ch9.h
-> +++ b/include/linux/usb/ch9.h
-> @@ -36,6 +36,49 @@
->  #include <linux/device.h>
->  #include <uapi/linux/usb/ch9.h>
->  
-> +/* USB 3.2 sublink speed attributes */
-> +
-> +enum usb_lane_speed_exponent {
-> +	USB_LSE_BPS = 0,
-> +	USB_LSE_KBPS = 1,
-> +	USB_LSE_MBPS = 2,
-> +	USB_LSE_GBPS = 3,
-> +};
-> +
-> +enum usb_sublink_type {
-> +	USB_ST_SYMMETRIC_RX = 0,
-> +	USB_ST_ASYMMETRIC_RX = 1,
-> +	USB_ST_SYMMETRIC_TX = 2,
-> +	USB_ST_ASYMMETRIC_TX = 3,
-> +};
-> +
-> +enum usb_link_protocol {
-> +	USB_LP_SS = 0,
-> +	USB_LP_SSP = 1,
-> +};
-> +
-> +/**
-> + * struct usb_sublink_speed - sublink speed attribute
-> + * @id: sublink speed attribute ID (SSID)
-> + * @mantissa: lane speed mantissa
-> + * @exponent: lane speed exponent
-> + * @type: sublink type
-> + * @protocol: sublink protocol
-> + *
-> + * Super-speed-plus supports multiple lanes. Use the sublink speed attributes to
-> + * describe the sublink speed.
-> + *
-> + * See USB 3.2 spec section 9.6.2.6 for super-speed-plus capability for more
-> + * information.
-> + */
-> +struct usb_sublink_speed {
-> +	u8				id;
 
-__u8?
+I have like 3 or 4 different "RFC" series here from you for this driver,
+which one is the "newest"?
 
-> +	u16				mantissa;
-
-What endian is this?
-
-> +	enum usb_lane_speed_exponent	exponent;
-> +	enum usb_sublink_type		type;
-> +	enum usb_link_protocol		protocol;
-
-
-Crazy packing, is this really the way the field is set up?
+And can you send a series that isn't RFC so that I can know you feel it
+is good enough to be merged?
 
 thanks,
 
