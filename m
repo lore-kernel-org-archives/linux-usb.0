@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F00C4346E
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032DEC4727E
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:57:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2B8423A5A
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:57:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BED3A23A61
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:57:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KbehhohW";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cWc0Cj3h"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="18wUYjsd";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Uk0vLGNo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgI0T5U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:57:20 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:40808 "EHLO
+        id S1727014AbgI0T5W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:57:22 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41032 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726876AbgI0T5Q (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:16 -0400
-Message-Id: <20200927194920.437625772@linutronix.de>
+        with ESMTP id S1726885AbgI0T5T (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:19 -0400
+Message-Id: <20200927194920.730139599@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236633;
+        s=2020; t=1601236636;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Nr+HwxG8LNdSmT94mAamQPUuBl65nafz2ip56wkroJ0=;
-        b=KbehhohWE2i0RJJ/I4NPEnvmzRPqQAwTJ9c795tOfUYyQoKJ1QT3SZdKrdNNY0yFoQZY5H
-        Rriou1lrgdkocgTrlrPnbRpu2IiQc+I5ybI6hf2y7FJRJcxRW5lXQHWE+ZqgBQ4Gx1gEah
-        5saPaD1AeNCkcvophqbUNF8e2L8NxLUVk06WFGvAnnSUjwvOcPQF6o5IFK7xzNa2Zpd2CI
-        1QxIChyN4I5dHa9UKRW1gAOgIToLg11A14tDhL7jtoBH5ee30muaiSywjrjn9wpIOOFvs3
-        EWQvhHRwO8Eh7ZInAnN71OVEM2pAMgf15hno4dnlQd53rMB2TtDg6/qVcLJJDg==
+        bh=EEFvcB/PwX9I89XLy131RQtWz3cYksfF3sbWg1NgDKQ=;
+        b=18wUYjsdKMHJjgk4Us6khomilIdN25/SxDKIyuwyy0mSiSW/AeUP1NyRsE5FG33qrGO7QW
+        jAw9J0tpj7pkffmpsb/I2xP+dFW27rpV0wEiciSCAhxQ4lnNpojA/FRCq5TQQMHJs+lphz
+        fgNiUXBSNsmvPrgof215OGNS4MuZnGdrVxgP/w3I5rVQS+sGNlkRrVZGKmKgjWg+gIT3ZC
+        R3cytjZp8ns5FunZ7qOWr6CiFfel+oq9NIgBWersYnxzOkskjX86LkiuElpQ5nTvA14pAx
+        TSOmfZ9AKUnaegaoe9jBxklb5wqP3NKRYyZYH2Da+kRNpZ7XfqbG/dYW5gWETg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236633;
+        s=2020e; t=1601236636;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Nr+HwxG8LNdSmT94mAamQPUuBl65nafz2ip56wkroJ0=;
-        b=cWc0Cj3hMdO2yBy/o5JKdrFUXDXwIiJqV12pCuzu1xmC2epM8ctXhUBINnzLyDh82L8Iox
-        bnLfDgsDy3FKXbDw==
-Date:   Sun, 27 Sep 2020 21:48:52 +0200
+        bh=EEFvcB/PwX9I89XLy131RQtWz3cYksfF3sbWg1NgDKQ=;
+        b=Uk0vLGNob7iKmswDXccCQehW+RKFAsRxN//Pf6BDgW08Dcoqm6jDgpCxycTWKPE0t0GELZ
+        tesv+y7MgSj9WRBg==
+Date:   Sun, 27 Sep 2020 21:48:55 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Linus Torvalds <torvalds@linuxfoundation.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
@@ -58,10 +58,10 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-doc@vger.kernel.org,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jay Cliburn <jcliburn@gmail.com>,
         Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
         Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         intel-wired-lan@lists.osuosl.org,
         Shannon Nelson <snelson@pensando.io>,
@@ -98,7 +98,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 06/35] net: cxgb3: Cleanup in_interrupt() usage
+Subject: [patch 09/35] net: fec_mpc52xx: Replace in_interrupt() usage
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -107,115 +107,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-t3_sge_stop() is called from task context and from error handlers in
-interrupt context. It relies on in_interrupt() to differentiate the
-contexts.
+The usage of in_interrupt() in drivers is phased out and Linus clearly
+requested that code which changes behaviour depending on context should
+either be seperated or the context be conveyed in an argument passed by the
+caller, which usually knows the context.
 
-in_interrupt() is deprecated as it is ill defined and does not provide what
-it suggests.
+mpc52xx_fec_stop() uses in_interrupt() to check if it is safe to sleep. All
+callers run in well defined contexts.
 
-Instead of replacing it with some other construct, simply split the
-function into t3_sge_stop_dma(), which can be called from any context, and
-t3_sge_stop() which can be only called from task context.
+Pass an argument from the callers indicating whether it is safe to sleep.
 
-This has the advantage that any bogus invocation of t3_sge_stop() from
-wrong contexts can be caught by debug kernels instead of being papered over
-by the conditional.
-
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vishal Kulkarni <vishal@chelsio.com>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 
 ---
- drivers/net/ethernet/chelsio/cxgb3/adapter.h    |    1 
- drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c |    2 -
- drivers/net/ethernet/chelsio/cxgb3/sge.c        |   44 ++++++++++++++----------
- 3 files changed, 29 insertions(+), 18 deletions(-)
+ drivers/net/ethernet/freescale/fec_mpc52xx.c |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---- a/drivers/net/ethernet/chelsio/cxgb3/adapter.h
-+++ b/drivers/net/ethernet/chelsio/cxgb3/adapter.h
-@@ -313,6 +313,7 @@ void t3_os_link_fault(struct adapter *ad
- void t3_os_link_fault_handler(struct adapter *adapter, int port_id);
+--- a/drivers/net/ethernet/freescale/fec_mpc52xx.c
++++ b/drivers/net/ethernet/freescale/fec_mpc52xx.c
+@@ -74,7 +74,7 @@ struct mpc52xx_fec_priv {
+ static irqreturn_t mpc52xx_fec_interrupt(int, void *);
+ static irqreturn_t mpc52xx_fec_rx_interrupt(int, void *);
+ static irqreturn_t mpc52xx_fec_tx_interrupt(int, void *);
+-static void mpc52xx_fec_stop(struct net_device *dev);
++static void mpc52xx_fec_stop(struct net_device *dev, bool may_sleep);
+ static void mpc52xx_fec_start(struct net_device *dev);
+ static void mpc52xx_fec_reset(struct net_device *dev);
  
- void t3_sge_start(struct adapter *adap);
-+void t3_sge_stop_dma(struct adapter *adap);
- void t3_sge_stop(struct adapter *adap);
- void t3_start_sge_timers(struct adapter *adap);
- void t3_stop_sge_timers(struct adapter *adap);
---- a/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
-+++ b/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
-@@ -2996,7 +2996,7 @@ void t3_fatal_err(struct adapter *adapte
- 	unsigned int fw_status[4];
+@@ -283,7 +283,7 @@ static int mpc52xx_fec_close(struct net_
  
- 	if (adapter->flags & FULL_INIT_DONE) {
--		t3_sge_stop(adapter);
-+		t3_sge_stop_dma(adapter);
- 		t3_write_reg(adapter, A_XGM_TX_CTRL, 0);
- 		t3_write_reg(adapter, A_XGM_RX_CTRL, 0);
- 		t3_write_reg(adapter, XGM_REG(A_XGM_TX_CTRL, 1), 0);
---- a/drivers/net/ethernet/chelsio/cxgb3/sge.c
-+++ b/drivers/net/ethernet/chelsio/cxgb3/sge.c
-@@ -3271,30 +3271,40 @@ void t3_sge_start(struct adapter *adap)
- }
+ 	netif_stop_queue(dev);
  
- /**
-- *	t3_sge_stop - disable SGE operation
-+ *	t3_sge_stop_dma - Disable SGE DMA engine operation
-  *	@adap: the adapter
+-	mpc52xx_fec_stop(dev);
++	mpc52xx_fec_stop(dev, true);
+ 
+ 	mpc52xx_fec_free_rx_buffers(dev, priv->rx_dmatsk);
+ 
+@@ -693,7 +693,7 @@ static void mpc52xx_fec_start(struct net
   *
-- *	Disables the DMA engine.  This can be called in emeregencies (e.g.,
-- *	from error interrupts) or from normal process context.  In the latter
-- *	case it also disables any pending queue restart tasklets.  Note that
-- *	if it is called in interrupt context it cannot disable the restart
-- *	tasklets as it cannot wait, however the tasklets will have no effect
-- *	since the doorbells are disabled and the driver will call this again
-- *	later from process context, at which time the tasklets will be stopped
-- *	if they are still running.
-+ *	Can be invoked from interrupt context e.g.  error handler.
-+ *
-+ *	Note that this function cannot disable the restart of tasklets as
-+ *	it cannot wait if called from interrupt context, however the
-+ *	tasklets will have no effect since the doorbells are disabled. The
-+ *	driver will call tg3_sge_stop() later from process context, at
-+ *	which time the tasklets will be stopped if they are still running.
+  * stop all activity on fec and empty dma buffers
   */
--void t3_sge_stop(struct adapter *adap)
-+void t3_sge_stop_dma(struct adapter *adap)
+-static void mpc52xx_fec_stop(struct net_device *dev)
++static void mpc52xx_fec_stop(struct net_device *dev, bool may_sleep)
  {
- 	t3_set_reg_field(adap, A_SG_CONTROL, F_GLOBALENABLE, 0);
+ 	struct mpc52xx_fec_priv *priv = netdev_priv(dev);
+ 	struct mpc52xx_fec __iomem *fec = priv->fec;
+@@ -706,7 +706,7 @@ static void mpc52xx_fec_stop(struct net_
+ 	bcom_disable(priv->rx_dmatsk);
+ 
+ 	/* Wait for tx queue to drain, but only if we're in process context */
 -	if (!in_interrupt()) {
--		int i;
-+}
-+
-+/**
-+ *	t3_sge_stop - disable SGE operation completly
-+ *	@adap: the adapter
-+ *
-+ *	Called from process context. Disables the DMA engine and any
-+ *	pending queue restart tasklets.
-+ */
-+void t3_sge_stop(struct adapter *adap)
-+{
-+	int i;
-+
-+	t3_sge_stop_dma(adap);
++	if (may_sleep) {
+ 		timeout = jiffies + msecs_to_jiffies(2000);
+ 		while (time_before(jiffies, timeout) &&
+ 				!bcom_queue_empty(priv->tx_dmatsk))
+@@ -738,7 +738,7 @@ static void mpc52xx_fec_reset(struct net
+ 	struct mpc52xx_fec_priv *priv = netdev_priv(dev);
+ 	struct mpc52xx_fec __iomem *fec = priv->fec;
  
--		for (i = 0; i < SGE_QSETS; ++i) {
--			struct sge_qset *qs = &adap->sge.qs[i];
-+	for (i = 0; i < SGE_QSETS; ++i) {
-+		struct sge_qset *qs = &adap->sge.qs[i];
+-	mpc52xx_fec_stop(dev);
++	mpc52xx_fec_stop(dev, false);
  
--			tasklet_kill(&qs->txq[TXQ_OFLD].qresume_tsk);
--			tasklet_kill(&qs->txq[TXQ_CTRL].qresume_tsk);
--		}
-+		tasklet_kill(&qs->txq[TXQ_OFLD].qresume_tsk);
-+		tasklet_kill(&qs->txq[TXQ_CTRL].qresume_tsk);
- 	}
- }
- 
+ 	out_be32(&fec->rfifo_status, in_be32(&fec->rfifo_status));
+ 	out_be32(&fec->reset_cntrl, FEC_RESET_CNTRL_RESET_FIFO);
 
