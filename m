@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A78D9C4727E
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00670C4346E
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E00923A5B
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9E7223A58
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ABAxgXDp";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SlxksY1D"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qDV71a+1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VP4vqOvB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727178AbgI0T6C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:58:02 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:41944 "EHLO
+        id S1727153AbgI0T6B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:58:01 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:40792 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbgI0T5e (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:34 -0400
-Message-Id: <20200927194921.948595516@linutronix.de>
+        with ESMTP id S1726931AbgI0T5U (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:20 -0400
+Message-Id: <20200927194920.824108021@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236651;
+        s=2020; t=1601236638;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=oz7MMx0m+YY+xDPxolgjEAAvNxkqMEkx+5nIefnzl+w=;
-        b=ABAxgXDpnDlG0Iml8NGidsjTDhZ+eA7uUHX1jdoAJ5LhUnn3435WseXwB6lsJP+8OVPO73
-        op3/YKII8cBU49VJx6qwb1fYHXy3gfjigdThQJMxq+gmvxL+kXa7pOlK9iOXXQPGOOE1uw
-        OkF/7YY3ZhdxwUhZ8ZGcRYt9Fu/Aa5s3U6qTW/fQI4ATOeEm4DmLa9sbhYMOsnkFK5A200
-        vmPrLUeKrIcET+nzYoyRZORuQ3J0F38/3kY+D1zrGUl7sprauO/ELTgD6H/Jz5OC8ksD2L
-        LKicMP7DamTEmDzyP6dV2aBydduGST9aDeVgYKnrK4P2oewaYm94my+D+EN4wQ==
+        bh=83qDvGuLXzUs/9fusW5YkDt4paS3sBnoEIk7Nou3kd0=;
+        b=qDV71a+1GCvWhc9lufX4zEQV7QRn9/bZHT8FQITekgxUS3UAIr0pogPAdA1ExY69S+jY/y
+        fkbAjNZifsS1uaBZ56OIZlb/i3fbugRM4FDd4AfJ2FXShvtx00KA5Db9UVXjW6mUGqUgfg
+        rinNQlXj5sEvgqNILV8BDzifz0AdiMlUsSB1znzPo1Q6Pmi+re17ux1P+Oi4e3ZiLtwaIg
+        Bsr9UzJiR/me2V1yYQ6eX720Q8Itoag1PNITz/wjwjbcca850NRUnYK12EbcnOuGtOvg5Z
+        7iEEqlEw6MUfb6qe7q0AmBk4MYMjT4fHF9lFdtOJUh92ScVj2MbYTXe8t+QmQg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236651;
+        s=2020e; t=1601236638;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=oz7MMx0m+YY+xDPxolgjEAAvNxkqMEkx+5nIefnzl+w=;
-        b=SlxksY1DEj9Xd72qZhNr1PYdEXP1s7TeRioy++tK3x9WpjFqV+l/nEVl7L74WkCZoo3wiA
-        TGnvuw6z6DcmmnAg==
-Date:   Sun, 27 Sep 2020 21:49:07 +0200
+        bh=83qDvGuLXzUs/9fusW5YkDt4paS3sBnoEIk7Nou3kd0=;
+        b=VP4vqOvBpurOsdqBLfFebJsD1S6lOmeXln+fiJ3timSPl/o5O/7c6kKdrszLlbgNceW6o4
+        F9IPNZN2VRbcQUDg==
+Date:   Sun, 27 Sep 2020 21:48:56 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,10 +50,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
@@ -64,7 +63,6 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Jay Cliburn <jcliburn@gmail.com>,
         Chris Snook <chris.snook@gmail.com>,
         Vishal Kulkarni <vishal@chelsio.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         intel-wired-lan@lists.osuosl.org,
         Shannon Nelson <snelson@pensando.io>,
         Pensando Drivers <drivers@pensando.io>,
@@ -78,7 +76,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
         Ulrich Kunitz <kune@deine-taler.de>,
         Kalle Valo <kvalo@codeaurora.org>,
-        linux-wireless@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arend van Spriel <arend.vanspriel@broadcom.com>,
         Franky Lin <franky.lin@broadcom.com>,
         Hante Meuleman <hante.meuleman@broadcom.com>,
@@ -99,7 +98,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 21/35] net: usb: kaweth: Remove last user of kaweth_control()
+Subject: [patch 10/35] net: intel: Remove in_interrupt() warnings
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -110,265 +109,130 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-kaweth_async_set_rx_mode() invokes kaweth_contol() and has two callers:
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
 
-- kaweth_open() which is invoked from preemptible context
-.
-- kaweth_start_xmit() which holds a spinlock and has bottom halfs disabled.
+In this case the checks cover only parts of the contexts in which these
+functions cannot be called. They fail to detect preemption or interrupt
+disabled invocations.
 
-If called from kaweth_start_xmit() kaweth_async_set_rx_mode() obviously
-cannot block, which means it can't call kaweth_control(). This is detected
-with an in_interrupt() check.
+As the functions which are invoked from the various places contain already
+a broad variety of checks (always enabled or debug option dependent) cover
+all invalid conditions already, there is no point in having inconsistent
+warnings in those drivers.
 
-Replace the in_interrupt() check in kaweth_async_set_rx_mode() with an
-argument which is set true by the caller if the context is safe to sleep,
-otherwise false.
-
-Now kaweth_control() is only called from preemptible context which means
-there is no need for GFP_ATOMIC allocations anymore. Replace it with
-usb_control_msg(). Cleanup the code a bit while at it.
-
-Finally remove kaweth_control() since the last user is gone.
+Just remove them.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/usb/kaweth.c |  168 ++++-------------------------------------------
- 1 file changed, 17 insertions(+), 151 deletions(-)
+ drivers/net/ethernet/intel/e1000/e1000_main.c     |    1 -
+ drivers/net/ethernet/intel/fm10k/fm10k_pci.c      |    2 --
+ drivers/net/ethernet/intel/i40e/i40e_main.c       |    4 ----
+ drivers/net/ethernet/intel/ice/ice_main.c         |    1 -
+ drivers/net/ethernet/intel/igb/igb_main.c         |    1 -
+ drivers/net/ethernet/intel/igc/igc_main.c         |    1 -
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c     |    1 -
+ drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c |    2 --
+ 8 files changed, 13 deletions(-)
 
---- a/drivers/net/usb/kaweth.c
-+++ b/drivers/net/usb/kaweth.c
-@@ -103,10 +103,6 @@ static int kaweth_probe(
- 		const struct usb_device_id *id	/* from id_table */
- 	);
- static void kaweth_disconnect(struct usb_interface *intf);
--static int kaweth_internal_control_msg(struct usb_device *usb_dev,
--				       unsigned int pipe,
--				       struct usb_ctrlrequest *cmd, void *data,
--				       int len, int timeout);
- static int kaweth_suspend(struct usb_interface *intf, pm_message_t message);
- static int kaweth_resume(struct usb_interface *intf);
+--- a/drivers/net/ethernet/intel/e1000/e1000_main.c
++++ b/drivers/net/ethernet/intel/e1000/e1000_main.c
+@@ -534,7 +534,6 @@ void e1000_down(struct e1000_adapter *ad
  
-@@ -236,48 +232,6 @@ struct kaweth_device
- };
- 
- /****************************************************************
-- *     kaweth_control
-- ****************************************************************/
--static int kaweth_control(struct kaweth_device *kaweth,
--			  unsigned int pipe,
--			  __u8 request,
--			  __u8 requesttype,
--			  __u16 value,
--			  __u16 index,
--			  void *data,
--			  __u16 size,
--			  int timeout)
--{
--	struct usb_ctrlrequest *dr;
--	int retval;
--
--	if(in_interrupt()) {
--		netdev_dbg(kaweth->net, "in_interrupt()\n");
--		return -EBUSY;
--	}
--
--	dr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_ATOMIC);
--	if (!dr)
--		return -ENOMEM;
--
--	dr->bRequestType = requesttype;
--	dr->bRequest = request;
--	dr->wValue = cpu_to_le16(value);
--	dr->wIndex = cpu_to_le16(index);
--	dr->wLength = cpu_to_le16(size);
--
--	retval = kaweth_internal_control_msg(kaweth->dev,
--					     pipe,
--					     dr,
--					     data,
--					     size,
--					     timeout);
--
--	kfree(dr);
--	return retval;
--}
--
--/****************************************************************
-  *     kaweth_read_configuration
-  ****************************************************************/
- static int kaweth_read_configuration(struct kaweth_device *kaweth)
-@@ -531,7 +485,8 @@ static int kaweth_resubmit_rx_urb(struct
- 	return result;
- }
- 
--static void kaweth_async_set_rx_mode(struct kaweth_device *kaweth);
-+static void kaweth_async_set_rx_mode(struct kaweth_device *kaweth,
-+				     bool may_sleep);
- 
- /****************************************************************
-  *     kaweth_usb_receive
-@@ -661,7 +616,7 @@ static int kaweth_open(struct net_device
- 
- 	netif_start_queue(net);
- 
--	kaweth_async_set_rx_mode(kaweth);
-+	kaweth_async_set_rx_mode(kaweth, true);
- 	return 0;
- 
- err_out:
-@@ -749,7 +704,7 @@ static netdev_tx_t kaweth_start_xmit(str
- 
- 	spin_lock_irq(&kaweth->device_lock);
- 
--	kaweth_async_set_rx_mode(kaweth);
-+	kaweth_async_set_rx_mode(kaweth, false);
- 	netif_stop_queue(net);
- 	if (IS_BLOCKED(kaweth->status)) {
- 		goto skip;
-@@ -826,36 +781,31 @@ static void kaweth_set_rx_mode(struct ne
- /****************************************************************
-  *     kaweth_async_set_rx_mode
-  ****************************************************************/
--static void kaweth_async_set_rx_mode(struct kaweth_device *kaweth)
-+static void kaweth_async_set_rx_mode(struct kaweth_device *kaweth,
-+				     bool may_sleep)
+ void e1000_reinit_locked(struct e1000_adapter *adapter)
  {
--	int result;
-+	int ret;
- 	__u16 packet_filter_bitmap = kaweth->packet_filter_bitmap;
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__E1000_RESETTING, &adapter->flags))
+ 		msleep(1);
  
- 	kaweth->packet_filter_bitmap = 0;
- 	if (packet_filter_bitmap == 0)
- 		return;
+--- a/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
++++ b/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
+@@ -221,8 +221,6 @@ static bool fm10k_prepare_for_reset(stru
+ {
+ 	struct net_device *netdev = interface->netdev;
  
--	if (in_interrupt())
-+	if (!may_sleep)
- 		return;
+-	WARN_ON(in_interrupt());
+-
+ 	/* put off any impending NetWatchDogTimeout */
+ 	netif_trans_update(netdev);
  
--	result = kaweth_control(kaweth,
--				usb_sndctrlpipe(kaweth->dev, 0),
--				KAWETH_COMMAND_SET_PACKET_FILTER,
--				USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
--				packet_filter_bitmap,
--				0,
--				(void *)&kaweth->scratch,
--				0,
--				KAWETH_CONTROL_TIMEOUT);
--
--	if(result < 0) {
-+	ret = usb_control_msg(kaweth->dev, usb_sndctrlpipe(kaweth->dev, 0),
-+			      KAWETH_COMMAND_SET_PACKET_FILTER,
-+			      USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
-+			      packet_filter_bitmap, 0,
-+			      &kaweth->scratch, 0,
-+			      KAWETH_CONTROL_TIMEOUT);
-+	if (ret < 0)
- 		dev_err(&kaweth->intf->dev, "Failed to set Rx mode: %d\n",
--			result);
--	}
--	else {
-+			ret);
-+	else
- 		netdev_dbg(kaweth->net, "Set Rx mode to %d\n",
- 			   packet_filter_bitmap);
--	}
- }
+--- a/drivers/net/ethernet/intel/i40e/i40e_main.c
++++ b/drivers/net/ethernet/intel/i40e/i40e_main.c
+@@ -6689,7 +6689,6 @@ static void i40e_vsi_reinit_locked(struc
+ {
+ 	struct i40e_pf *pf = vsi->back;
  
- /****************************************************************
-@@ -1163,88 +1113,4 @@ static void kaweth_disconnect(struct usb
- }
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__I40E_CONFIG_BUSY, pf->state))
+ 		usleep_range(1000, 2000);
+ 	i40e_down(vsi);
+@@ -8462,9 +8461,6 @@ void i40e_do_reset(struct i40e_pf *pf, u
+ {
+ 	u32 val;
  
+-	WARN_ON(in_interrupt());
+-
+-
+ 	/* do the biggest reset indicated */
+ 	if (reset_flags & BIT_ULL(__I40E_GLOBAL_RESET_REQUESTED)) {
  
--// FIXME this completion stuff is a modified clone of
--// an OLD version of some stuff in usb.c ...
--struct usb_api_data {
--	wait_queue_head_t wqh;
--	int done;
--};
+--- a/drivers/net/ethernet/intel/ice/ice_main.c
++++ b/drivers/net/ethernet/intel/ice/ice_main.c
+@@ -486,7 +486,6 @@ static void ice_do_reset(struct ice_pf *
+ 	struct ice_hw *hw = &pf->hw;
+ 
+ 	dev_dbg(dev, "reset_type 0x%x requested\n", reset_type);
+-	WARN_ON(in_interrupt());
+ 
+ 	ice_prepare_for_reset(pf);
+ 
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -2220,7 +2220,6 @@ void igb_down(struct igb_adapter *adapte
+ 
+ void igb_reinit_locked(struct igb_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__IGB_RESETTING, &adapter->state))
+ 		usleep_range(1000, 2000);
+ 	igb_down(adapter);
+--- a/drivers/net/ethernet/intel/igc/igc_main.c
++++ b/drivers/net/ethernet/intel/igc/igc_main.c
+@@ -3831,7 +3831,6 @@ void igc_down(struct igc_adapter *adapte
+ 
+ void igc_reinit_locked(struct igc_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__IGC_RESETTING, &adapter->state))
+ 		usleep_range(1000, 2000);
+ 	igc_down(adapter);
+--- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
++++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+@@ -5677,7 +5677,6 @@ static void ixgbe_up_complete(struct ixg
+ 
+ void ixgbe_reinit_locked(struct ixgbe_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	/* put off any impending NetWatchDogTimeout */
+ 	netif_trans_update(adapter->netdev);
+ 
+--- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
++++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+@@ -2526,8 +2526,6 @@ void ixgbevf_down(struct ixgbevf_adapter
+ 
+ void ixgbevf_reinit_locked(struct ixgbevf_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
 -
--/*-------------------------------------------------------------------*
-- * completion handler for compatibility wrappers (sync control/bulk) *
-- *-------------------------------------------------------------------*/
--static void usb_api_blocking_completion(struct urb *urb)
--{
--        struct usb_api_data *awd = (struct usb_api_data *)urb->context;
--
--	awd->done=1;
--	wake_up(&awd->wqh);
--}
--
--/*-------------------------------------------------------------------*
-- *                         COMPATIBILITY STUFF                       *
-- *-------------------------------------------------------------------*/
--
--// Starts urb and waits for completion or timeout
--static int usb_start_wait_urb(struct urb *urb, int timeout, int* actual_length)
--{
--	struct usb_api_data awd;
--        int status;
--
--        init_waitqueue_head(&awd.wqh);
--        awd.done = 0;
--
--        urb->context = &awd;
--        status = usb_submit_urb(urb, GFP_ATOMIC);
--        if (status) {
--                // something went wrong
--                usb_free_urb(urb);
--                return status;
--        }
--
--	if (!wait_event_timeout(awd.wqh, awd.done, timeout)) {
--                // timeout
--                dev_warn(&urb->dev->dev, "usb_control/bulk_msg: timeout\n");
--                usb_kill_urb(urb);  // remove urb safely
--                status = -ETIMEDOUT;
--        }
--	else {
--                status = urb->status;
--	}
--
--        if (actual_length) {
--                *actual_length = urb->actual_length;
--	}
--
--        usb_free_urb(urb);
--        return status;
--}
--
--/*-------------------------------------------------------------------*/
--// returns status (negative) or length (positive)
--static int kaweth_internal_control_msg(struct usb_device *usb_dev,
--				       unsigned int pipe,
--				       struct usb_ctrlrequest *cmd, void *data,
--				       int len, int timeout)
--{
--        struct urb *urb;
--        int retv;
--        int length = 0; /* shut up GCC */
--
--	urb = usb_alloc_urb(0, GFP_ATOMIC);
--        if (!urb)
--                return -ENOMEM;
--
--        usb_fill_control_urb(urb, usb_dev, pipe, (unsigned char*)cmd, data,
--			 len, usb_api_blocking_completion, NULL);
--
--        retv = usb_start_wait_urb(urb, timeout, &length);
--        if (retv < 0) {
--                return retv;
--	}
--        else {
--                return length;
--	}
--}
--
- module_usb_driver(kaweth_driver);
+ 	while (test_and_set_bit(__IXGBEVF_RESETTING, &adapter->state))
+ 		msleep(1);
+ 
 
