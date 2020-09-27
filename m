@@ -7,45 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F7EC4346E
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01391C4727E
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2323022207
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C431022207
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PcTPGmyn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HW82wROg"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CtRgXZy1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fOw8Y7qT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbgI0UAz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Sep 2020 16:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38600 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727049AbgI0T50 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:26 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB49C0613D6;
-        Sun, 27 Sep 2020 12:57:25 -0700 (PDT)
-Message-Id: <20200927194921.344476620@linutronix.de>
+        id S1727522AbgI0UBW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Sep 2020 16:01:22 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41008 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726956AbgI0T5V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:21 -0400
+Message-Id: <20200927194920.918550822@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236644;
+        s=2020; t=1601236639;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=zSaSCj9Lkxu4/pcxMR81Hr3g1YwRhUy6jZEIpStU97M=;
-        b=PcTPGmyn+7ilzainipblbRFvODqGUQvMaNV94fvbYEfNqsVCPg/cowPt1kZO+op6hlsmX9
-        LzxggLRNI8vuoxsZw1VR3YIF8ETp+fDQPfYMj+V5kAs27G5M6/CQvJtQqiJPeqJYQAOlz0
-        XqHG82dmNHX3ypjyehoRugJGCu9pcSm+GITns2K0CPrypjShvVaESPH5lP2LHQ8qVFRRl1
-        haxkNPDk2xDCkZqwuxdVS0/UBNr/Jj1ANnMKXHmifYcj71fidmJuPTRJgi7zQPw0t8Lmh+
-        4NXz5Yf2+H0Y6ANZIYneBnDbjmSBdWL//QN6el3aDF+pMWXMc2+w6BrqJWs9gQ==
+        bh=/fpa+toQOmOckTk4P8bpyLB4MBbJ8JHunUi6QvsD4Yo=;
+        b=CtRgXZy1ytX0/p5X9xftiTfTn0VPr01EWM6ZZHsLKvgzshhk7j4Q6rrIgVfvsR+VinKo2J
+        x1oBanNQRWjFumbU68u5+JAcFUCxfvPsdOqghKCDpl5FP+27bwJDHEV0R4KceCasrV6t4z
+        EJicpEbJi88VxuekWda8z4ATJtjRgwh9cW/ttclV5jMEQe+zMGdbrMw4/BNbtxFLA04eP2
+        rdoQyFA0iNXXmD2ZX5Q1A88SeU/JIQ+0WmrT1h3mUuC+M3gFYkn9M6Us3KbmXYh3NB+Kkp
+        mjOW4NRPtwalK1I89k1bvvG6rHL3DLE4QdfqZRnkgmK/qsf6nxt1Yz2EwXiz2w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236644;
+        s=2020e; t=1601236639;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=zSaSCj9Lkxu4/pcxMR81Hr3g1YwRhUy6jZEIpStU97M=;
-        b=HW82wROg+eV51ogDnTUAcxBWmVh3qs8TCjxdc12awvPmZTJ0k6XtQyWTH472kLtKEUa1l+
-        Rm4E8/1CcD+McSCQ==
-Date:   Sun, 27 Sep 2020 21:49:01 +0200
+        bh=/fpa+toQOmOckTk4P8bpyLB4MBbJ8JHunUi6QvsD4Yo=;
+        b=fOw8Y7qTo4iLde0u11Ekj1AAZR2ePbfjT+y8Hd2a4xm2+O+r2fibRhuAj395bp2J0WLTcL
+        gvs7HcgEwIbgycBA==
+Date:   Sun, 27 Sep 2020 21:48:57 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -53,9 +50,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
-        Edward Cree <ecree@solarflare.com>,
-        Martin Habets <mhabets@solarflare.com>,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
@@ -69,13 +65,13 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Chris Snook <chris.snook@gmail.com>,
         Vishal Kulkarni <vishal@chelsio.com>,
         Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        intel-wired-lan@lists.osuosl.org,
-        Shannon Nelson <snelson@pensando.io>,
-        Pensando Drivers <drivers@pensando.io>,
-        Andrew Lunn <andrew@lunn.ch>,
+        intel-wired-lan@lists.osuosl.org, Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
         Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
         Ulrich Kunitz <kune@deine-taler.de>,
         Kalle Valo <kvalo@codeaurora.org>,
@@ -101,7 +97,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 15/35] net: sfc: Replace in_interrupt() usage.
+Subject: [patch 11/35] net: ionic: Replace in_interrupt() usage.
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -112,197 +108,212 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-efx_ef10_try_update_nic_stats_vf() uses in_interrupt() to figure out
-whether it is safe to sleep or not.
+The in_interrupt() usage in this driver tries to figure out which context
+may sleep and which context may not sleep. in_interrupt() is not really
+suitable as it misses both preemption disabled and interrupt disabled
+invocations from task context.
 
-The following callers are involved:
+Conditionals like that in driver code are frowned upon in general because
+invocations of functions from invalid contexts might not be detected
+as the conditional papers over it.
 
-- efx_start_all() and efx_stop_all() are fully preemptible because a
-  mutex is acquired near by.
+ionic_lif_addr() can be called from:
 
-- efx_ethtool_get_stats() is ivoked from ethtool_ops->get_ethtool_stats()
-  and is fully preemptible.
+ 1) ->ndo_set_rx_mode() which is under netif_addr_lock_bh()) so it must not
+    sleep.
 
-- efx_net_stats() which can be invoked under dev_base_lock from
-  net-sysfs::netstat_show(). dev_base_lock is a rwlock_t which disables
-  preemption implicitly. 
+ 2) Init and setup functions which are in fully preemptible task context.
 
-  in_interrupt() cannot detect context which has only preemption disabled
-  so the check fails to detect that this calling context is not safe to
-  sleep.
+_ionic_lif_rx_mode() has only one call path with BH disabled.
 
-  Obviously this is a bug and clearly this has never been tested with any
-  of the relevant and mandatory debug options enabled, which would have
-  caught it.
+ionic_link_status_check_request() has two call paths:
 
-  Changing the condition to preemptible() is not useful either because on
-  CONFIG_PREEMPT_COUNT=n kernels preemptible() is useless.
+ 1) NAPI which obviously cannot sleep
 
-  Aside of that Linus clearly requested that functions which change their
-  behaviour depending on execution context should either be split up or the
-  callers provide context information via an argument.
+ 2) Setup which is again fully preemptible task context
 
-Add a 'can_sleep' argument to efx_ef10_try_update_nic_stats_vf() and let
-the callers indicate the context from which this is called.
+Add 'can_sleep' arguments to the affected functions and let the callers
+provide the context instead of letting the functions deduce it.
 
-Another oddity of that code is that it uses GFP_ATOMIC _after_ establishing
-that the context is safe to sleep.
-
-Convert it to GFP_KERNEL while at it.
-
-Note, that the fixes tag is empty as it is unclear which of the commits to
-blame.
-
-Fixes: ????
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Solarflare linux maintainers <linux-net-drivers@solarflare.com>
-Cc: Edward Cree <ecree@solarflare.com>
-Cc: Martin Habets <mhabets@solarflare.com>
+Cc: Shannon Nelson <snelson@pensando.io>
+Cc: Pensando Drivers <drivers@pensando.io>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
 ---
- drivers/net/ethernet/sfc/ef10.c           |   18 +++++++++---------
- drivers/net/ethernet/sfc/ef100_nic.c      |    3 ++-
- drivers/net/ethernet/sfc/efx_common.c     |    6 +++---
- drivers/net/ethernet/sfc/ethtool_common.c |    2 +-
- drivers/net/ethernet/sfc/net_driver.h     |    3 ++-
- drivers/net/ethernet/sfc/siena.c          |    3 ++-
- 6 files changed, 19 insertions(+), 16 deletions(-)
 
---- a/drivers/net/ethernet/sfc/ef10.c
-+++ b/drivers/net/ethernet/sfc/ef10.c
-@@ -1797,7 +1797,8 @@ static size_t efx_ef10_update_stats_comm
+While reviewing the callpaths, a couple of things were observed which could
+be improved:
+
+- ionic_lif_deferred_work() can iterate over the list. There is no need
+  to schedule the work item after each iteration
+
+- ionic_link_status_check_request() could have ionic_deferred_work within
+  ionic_lif(). This would avoid memory allocation from NAPI. More
+  important, once IONIC_LIF_F_LINK_CHECK_REQUESTED is set and that alloc
+  fails, the link check never happens.
+
+- ionic_lif_handle_fw_down() sets IONIC_LIF_F_FW_RESET. Invokes then
+  ionic_lif_deinit() which only invokes cancel_work_sync() if
+  IONIC_LIF_F_FW_RESET is not set. I think the logic is wrong here as
+  the work must always be cancled. Also the list with ionic_deferred
+  work items needs a clean up.
+
+---
+ drivers/net/ethernet/pensando/ionic/ionic_dev.c |    2 -
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c |   43 +++++++++++-------------
+ drivers/net/ethernet/pensando/ionic/ionic_lif.h |    2 -
+ 3 files changed, 22 insertions(+), 25 deletions(-)
+
+--- a/drivers/net/ethernet/pensando/ionic/ionic_dev.c
++++ b/drivers/net/ethernet/pensando/ionic/ionic_dev.c
+@@ -22,7 +22,7 @@ static void ionic_watchdog_cb(struct tim
+ 	hb = ionic_heartbeat_check(ionic);
+ 
+ 	if (hb >= 0 && ionic->master_lif)
+-		ionic_link_status_check_request(ionic->master_lif);
++		ionic_link_status_check_request(ionic->master_lif, false);
  }
  
- static size_t efx_ef10_update_stats_pf(struct efx_nic *efx, u64 *full_stats,
--				       struct rtnl_link_stats64 *core_stats)
-+				       struct rtnl_link_stats64 *core_stats,
-+				       bool can_sleep)
- {
- 	struct efx_ef10_nic_data *nic_data = efx->nic_data;
- 	DECLARE_BITMAP(mask, EF10_STAT_COUNT);
-@@ -1836,7 +1837,7 @@ static size_t efx_ef10_update_stats_pf(s
- 	return efx_ef10_update_stats_common(efx, full_stats, core_stats);
+ void ionic_init_devinfo(struct ionic *ionic)
+--- a/drivers/net/ethernet/pensando/ionic/ionic_lif.c
++++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.c
+@@ -135,7 +135,7 @@ static void ionic_link_status_check(stru
+ 	clear_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state);
  }
  
--static int efx_ef10_try_update_nic_stats_vf(struct efx_nic *efx)
-+static int efx_ef10_try_update_nic_stats_vf(struct efx_nic *efx, bool can_sleep)
- 	__must_hold(&efx->stats_lock)
+-void ionic_link_status_check_request(struct ionic_lif *lif)
++void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep)
  {
- 	MCDI_DECLARE_BUF(inbuf, MC_CMD_MAC_STATS_IN_LEN);
-@@ -1849,20 +1850,18 @@ static int efx_ef10_try_update_nic_stats
- 	__le64 *dma_stats;
- 	int rc;
+ 	struct ionic_deferred_work *work;
  
--	spin_unlock_bh(&efx->stats_lock);
--
+@@ -143,7 +143,7 @@ void ionic_link_status_check_request(str
+ 	if (test_and_set_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state))
+ 		return;
+ 
 -	if (in_interrupt()) {
 +	if (!can_sleep) {
- 		/* If in atomic context, cannot update stats.  Just update the
- 		 * software stats and return so the caller can continue.
+ 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+ 		if (!work)
+ 			return;
+@@ -751,7 +751,7 @@ static bool ionic_notifyq_service(struct
+ 
+ 	switch (le16_to_cpu(comp->event.ecode)) {
+ 	case IONIC_EVENT_LINK_CHANGE:
+-		ionic_link_status_check_request(lif);
++		ionic_link_status_check_request(lif, false);
+ 		break;
+ 	case IONIC_EVENT_RESET:
+ 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+@@ -928,7 +928,8 @@ static int ionic_lif_addr_del(struct ion
+ 	return 0;
+ }
+ 
+-static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add)
++static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add,
++			  bool can_sleep)
+ {
+ 	struct ionic *ionic = lif->ionic;
+ 	struct ionic_deferred_work *work;
+@@ -957,7 +958,7 @@ static int ionic_lif_addr(struct ionic_l
+ 			lif->nucast--;
+ 	}
+ 
+-	if (in_interrupt()) {
++	if (!can_sleep) {
+ 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+ 		if (!work) {
+ 			netdev_err(lif->netdev, "%s OOM\n", __func__);
+@@ -983,12 +984,12 @@ static int ionic_lif_addr(struct ionic_l
+ 
+ static int ionic_addr_add(struct net_device *netdev, const u8 *addr)
+ {
+-	return ionic_lif_addr(netdev_priv(netdev), addr, true);
++	return ionic_lif_addr(netdev_priv(netdev), addr, true, false);
+ }
+ 
+ static int ionic_addr_del(struct net_device *netdev, const u8 *addr)
+ {
+-	return ionic_lif_addr(netdev_priv(netdev), addr, false);
++	return ionic_lif_addr(netdev_priv(netdev), addr, false, false);
+ }
+ 
+ static void ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode)
+@@ -1032,19 +1033,15 @@ static void _ionic_lif_rx_mode(struct io
+ {
+ 	struct ionic_deferred_work *work;
+ 
+-	if (in_interrupt()) {
+-		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+-		if (!work) {
+-			netdev_err(lif->netdev, "%s OOM\n", __func__);
+-			return;
+-		}
+-		work->type = IONIC_DW_TYPE_RX_MODE;
+-		work->rx_mode = rx_mode;
+-		netdev_dbg(lif->netdev, "deferred: rx_mode\n");
+-		ionic_lif_deferred_enqueue(&lif->deferred, work);
+-	} else {
+-		ionic_lif_rx_mode(lif, rx_mode);
++	work = kzalloc(sizeof(*work), GFP_ATOMIC);
++	if (!work) {
++		netdev_err(lif->netdev, "%s OOM\n", __func__);
++		return;
+ 	}
++	work->type = IONIC_DW_TYPE_RX_MODE;
++	work->rx_mode = rx_mode;
++	netdev_dbg(lif->netdev, "deferred: rx_mode\n");
++	ionic_lif_deferred_enqueue(&lif->deferred, work);
+ }
+ 
+ static void ionic_set_rx_mode(struct net_device *netdev)
+@@ -1312,7 +1309,7 @@ static int ionic_set_mac_address(struct
+ 	eth_commit_mac_addr_change(netdev, addr);
+ 	netdev_info(netdev, "updating mac addr %pM\n", mac);
+ 
+-	return ionic_addr_add(netdev, mac);
++	return ionic_lif_addr(netdev_priv(netdev), mac, true, true);
+ }
+ 
+ static int ionic_change_mtu(struct net_device *netdev, int new_mtu)
+@@ -2252,7 +2249,7 @@ static void ionic_lif_handle_fw_up(struc
+ 	}
+ 
+ 	clear_bit(IONIC_LIF_F_FW_RESET, lif->state);
+-	ionic_link_status_check_request(lif);
++	ionic_link_status_check_request(lif, true);
+ 	netif_device_attach(lif->netdev);
+ 	dev_info(ionic->dev, "FW Up: LIFs restarted\n");
+ 
+@@ -2468,7 +2465,7 @@ static int ionic_station_set(struct ioni
  		 */
--		spin_lock_bh(&efx->stats_lock);
- 		efx_update_sw_stats(efx, stats);
- 		return 0;
- 	}
+ 		if (!ether_addr_equal(ctx.comp.lif_getattr.mac,
+ 				      netdev->dev_addr))
+-			ionic_lif_addr(lif, netdev->dev_addr, true);
++			ionic_lif_addr(lif, netdev->dev_addr, true, true);
+ 	} else {
+ 		/* Update the netdev mac with the device's mac */
+ 		memcpy(addr.sa_data, ctx.comp.lif_getattr.mac, netdev->addr_len);
+@@ -2485,7 +2482,7 @@ static int ionic_station_set(struct ioni
  
-+	spin_unlock_bh(&efx->stats_lock);
- 	efx_ef10_get_stat_mask(efx, mask);
+ 	netdev_dbg(lif->netdev, "adding station MAC addr %pM\n",
+ 		   netdev->dev_addr);
+-	ionic_lif_addr(lif, netdev->dev_addr, true);
++	ionic_lif_addr(lif, netdev->dev_addr, true, true);
  
--	rc = efx_nic_alloc_buffer(efx, &stats_buf, dma_len, GFP_ATOMIC);
-+	rc = efx_nic_alloc_buffer(efx, &stats_buf, dma_len, GFP_KERNEL);
- 	if (rc) {
- 		spin_lock_bh(&efx->stats_lock);
- 		return rc;
-@@ -1910,9 +1909,10 @@ static int efx_ef10_try_update_nic_stats
+ 	return 0;
  }
+--- a/drivers/net/ethernet/pensando/ionic/ionic_lif.h
++++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.h
+@@ -237,7 +237,7 @@ static inline u32 ionic_coal_usec_to_hw(
  
- static size_t efx_ef10_update_stats_vf(struct efx_nic *efx, u64 *full_stats,
--				       struct rtnl_link_stats64 *core_stats)
-+				       struct rtnl_link_stats64 *core_stats,
-+				       bool can_sleep)
- {
--	if (efx_ef10_try_update_nic_stats_vf(efx))
-+	if (efx_ef10_try_update_nic_stats_vf(efx, can_sleep))
- 		return 0;
+ typedef void (*ionic_reset_cb)(struct ionic_lif *lif, void *arg);
  
- 	return efx_ef10_update_stats_common(efx, full_stats, core_stats);
---- a/drivers/net/ethernet/sfc/ef100_nic.c
-+++ b/drivers/net/ethernet/sfc/ef100_nic.c
-@@ -599,7 +599,8 @@ static size_t ef100_update_stats_common(
- 
- static size_t ef100_update_stats(struct efx_nic *efx,
- 				 u64 *full_stats,
--				 struct rtnl_link_stats64 *core_stats)
-+				 struct rtnl_link_stats64 *core_stats,
-+				 bool can_sleep)
- {
- 	__le64 *mc_stats = kmalloc(array_size(efx->num_mac_stats, sizeof(__le64)), GFP_ATOMIC);
- 	struct ef100_nic_data *nic_data = efx->nic_data;
---- a/drivers/net/ethernet/sfc/efx_common.c
-+++ b/drivers/net/ethernet/sfc/efx_common.c
-@@ -552,7 +552,7 @@ void efx_start_all(struct efx_nic *efx)
- 		efx->type->start_stats(efx);
- 		efx->type->pull_stats(efx);
- 		spin_lock_bh(&efx->stats_lock);
--		efx->type->update_stats(efx, NULL, NULL);
-+		efx->type->update_stats(efx, NULL, NULL, true);
- 		spin_unlock_bh(&efx->stats_lock);
- 	}
- }
-@@ -576,7 +576,7 @@ void efx_stop_all(struct efx_nic *efx)
- 		 */
- 		efx->type->pull_stats(efx);
- 		spin_lock_bh(&efx->stats_lock);
--		efx->type->update_stats(efx, NULL, NULL);
-+		efx->type->update_stats(efx, NULL, NULL, true);
- 		spin_unlock_bh(&efx->stats_lock);
- 		efx->type->stop_stats(efx);
- 	}
-@@ -600,7 +600,7 @@ void efx_net_stats(struct net_device *ne
- 	struct efx_nic *efx = netdev_priv(net_dev);
- 
- 	spin_lock_bh(&efx->stats_lock);
--	efx->type->update_stats(efx, NULL, stats);
-+	efx->type->update_stats(efx, NULL, stats, false);
- 	spin_unlock_bh(&efx->stats_lock);
- }
- 
---- a/drivers/net/ethernet/sfc/ethtool_common.c
-+++ b/drivers/net/ethernet/sfc/ethtool_common.c
-@@ -502,7 +502,7 @@ void efx_ethtool_get_stats(struct net_de
- 	spin_lock_bh(&efx->stats_lock);
- 
- 	/* Get NIC statistics */
--	data += efx->type->update_stats(efx, data, NULL);
-+	data += efx->type->update_stats(efx, data, NULL, true);
- 
- 	/* Get software statistics */
- 	for (i = 0; i < EFX_ETHTOOL_SW_STAT_COUNT; i++) {
---- a/drivers/net/ethernet/sfc/net_driver.h
-+++ b/drivers/net/ethernet/sfc/net_driver.h
-@@ -1358,7 +1358,8 @@ struct efx_nic_type {
- 	void (*finish_flr)(struct efx_nic *efx);
- 	size_t (*describe_stats)(struct efx_nic *efx, u8 *names);
- 	size_t (*update_stats)(struct efx_nic *efx, u64 *full_stats,
--			       struct rtnl_link_stats64 *core_stats);
-+			       struct rtnl_link_stats64 *core_stats,
-+			       bool can_sleep);
- 	void (*start_stats)(struct efx_nic *efx);
- 	void (*pull_stats)(struct efx_nic *efx);
- 	void (*stop_stats)(struct efx_nic *efx);
---- a/drivers/net/ethernet/sfc/siena.c
-+++ b/drivers/net/ethernet/sfc/siena.c
-@@ -587,7 +587,8 @@ static int siena_try_update_nic_stats(st
- }
- 
- static size_t siena_update_nic_stats(struct efx_nic *efx, u64 *full_stats,
--				     struct rtnl_link_stats64 *core_stats)
-+				     struct rtnl_link_stats64 *core_stats,
-+				     bool can_sleep)
- {
- 	struct siena_nic_data *nic_data = efx->nic_data;
- 	u64 *stats = nic_data->stats;
+-void ionic_link_status_check_request(struct ionic_lif *lif);
++void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep);
+ void ionic_get_stats64(struct net_device *netdev,
+ 		       struct rtnl_link_stats64 *ns);
+ void ionic_lif_deferred_enqueue(struct ionic_deferred *def,
 
