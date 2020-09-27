@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA682C4346E
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9026FC4346E
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7DA6423A54
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51E8F23A54
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tqeU52EO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wKmY7sgd"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ibSynXzN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="r7tOoEsY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727094AbgI0UAV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Sep 2020 16:00:21 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:42202 "EHLO
+        id S1727436AbgI0UAY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Sep 2020 16:00:24 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41624 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726420AbgI0T5i (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:38 -0400
-Message-Id: <20200927194922.245750969@linutronix.de>
+        with ESMTP id S1727057AbgI0T52 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 15:57:28 -0400
+Message-Id: <20200927194921.454020115@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236655;
+        s=2020; t=1601236645;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Fz/Y8tdPmcPxNZ39xs6OXP7t7GmeJEA09IH+iG5eqPY=;
-        b=tqeU52EO2XBZK/ddxUU5a112arkeHUUJxxE9PSVyDXEDKqBLkWy/SqNPHHwWYyb3sGz1JZ
-        lGkGMNhtwBDXIrEFaClRwhU7/O0vbRat1U/HPln4Q+oDTdQQBOI3q84qp9pf16Ab5g85pJ
-        QlJCaUVOiCLDkYSh2yx2xZN5Noqozpd/Li1JhhqRUGYrArnUjtd0jKAyZYEFp/ajaRPpJD
-        eyOmp0cGo2JKISaMxw/wevnANPyTs9dg/RX9PVhj7eacVPKFmZJwmM2GFlq7wE8TYP6JWV
-        eiML7z2T/jG7bgMjXY9Xv+i/fNSvkYhHG+xKystktSgzm9NEOxUntE/v+kEGnQ==
+        bh=nEdxrHzmEZ13nc2oNAX4mlZl848es00xkT/DnJHA5RU=;
+        b=ibSynXzNFO24Tr+9mg9CXt5EtKiOcQOu6V+70RX3ktyhWeVX/mh8yC4e7VKa9o+57Capkj
+        KhAWmT+9NH/kiSAKQWbRNfrwXJSfqUQIIgwqWaNAptujCvdwBy3v9Et11/IKP/zJH5Pclb
+        8ZbPidNYRCIECUt2qnjfkf4v2JwYhqC/T8VEOiCeWQRjnIYDMg1Sxb6O0oTFw8zDUFRdUX
+        5ikkLCLQod9OvgM8+5f6VGE5fFEBxbjLkAl+jK/BRvgHR+W+1leJSduGhEdpl5a2HbciY1
+        ywv3iCDrWrYyuYcB9ZmvZA22aq92oipmto6n+2gX1YQkd5OQjgkNgcDb+QA+Rg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236655;
+        s=2020e; t=1601236645;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Fz/Y8tdPmcPxNZ39xs6OXP7t7GmeJEA09IH+iG5eqPY=;
-        b=wKmY7sgdpiakGLwk3efR391mD4s4Ls4MU5X6793GEBWur5GfvH8AeOH68vsN1rg1N5GERz
-        9mCHkioqeemMDuAw==
-Date:   Sun, 27 Sep 2020 21:49:10 +0200
+        bh=nEdxrHzmEZ13nc2oNAX4mlZl848es00xkT/DnJHA5RU=;
+        b=r7tOoEsYPpAyx40OdwJ0cukY0N3wA8XromAerzwrBBcIuUAvAIEt2D90A1YdSbKuPruQ8y
+        EaBYrjJM5fK8whAg==
+Date:   Sun, 27 Sep 2020 21:49:02 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,17 +50,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Arend van Spriel <arend.vanspriel@broadcom.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Wright Feng <wright.feng@cypress.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211-dev-list@cypress.com, netdev@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
@@ -83,8 +74,17 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Edward Cree <ecree@solarflare.com>,
         Martin Habets <mhabets@solarflare.com>,
         Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
-        Ulrich Kunitz <kune@deine-taler.de>, linux-usb@vger.kernel.org,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
         Stanislav Yakovlev <stas.yakovlev@gmail.com>,
         Stanislaw Gruszka <stf_xl@wp.pl>,
         Johannes Berg <johannes.berg@intel.com>,
@@ -98,7 +98,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 24/35] net: brcmfmac: Replace in_interrupt()
+Subject: [patch 16/35] net: sunbmac: Replace in_interrupt() usage
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -109,82 +109,108 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-brcmf_sdio_isr() is using in_interrupt() to distinguish if it is called
-from a interrupt service routine or from a worker thread.
+bigmac_init_rings() has an argument signaling if it is called from the
+interrupt handler. This is used to decide between GFP_KERNEL and GFP_ATOMIC
+for memory allocations.
 
-Passing such information from the calling context is preferred and
-requested by Linus, so add an argument `in_isr' to brcmf_sdio_isr() and let
-the callers pass the information about the calling context.
+But it also checks in_interrupt() to handle invocations which come from the
+timer callback bigmac_timer() via bigmac_hw_init(), which is invoked with
+'in_irq = 0'. While the timer callback is clearly not in hard interrupt
+context it is still not sleepable context.
+
+Rename the argument to `non_blocking' and set it to true if invoked from
+the timer callback or the interrupt handler which allows to remove the
+in_interrupt() check and makes the code consistent.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: Franky Lin <franky.lin@broadcom.com>
-Cc: Hante Meuleman <hante.meuleman@broadcom.com>
-Cc: Chi-Hsien Lin <chi-hsien.lin@cypress.com>
-Cc: Wright Feng <wright.feng@cypress.com>
-Cc: Kalle Valo <kvalo@codeaurora.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-wireless@vger.kernel.org
-Cc: brcm80211-dev-list.pdl@broadcom.com
-Cc: brcm80211-dev-list@cypress.com
 Cc: netdev@vger.kernel.org
----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c |    4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c   |    4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h   |    2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
 
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-@@ -73,7 +73,7 @@ static irqreturn_t brcmf_sdiod_oob_irqha
- 		sdiodev->irq_en = false;
- 	}
- 
--	brcmf_sdio_isr(sdiodev->bus);
-+	brcmf_sdio_isr(sdiodev->bus, true);
- 
- 	return IRQ_HANDLED;
- }
-@@ -85,7 +85,7 @@ static void brcmf_sdiod_ib_irqhandler(st
- 
- 	brcmf_dbg(INTR, "IB intr triggered\n");
- 
--	brcmf_sdio_isr(sdiodev->bus);
-+	brcmf_sdio_isr(sdiodev->bus, false);
- }
- 
- /* dummy handler for SDIO function 2 interrupt */
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-@@ -3625,7 +3625,7 @@ void brcmf_sdio_trigger_dpc(struct brcmf
+---
+ drivers/net/ethernet/sun/sunbmac.c |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+--- a/drivers/net/ethernet/sun/sunbmac.c
++++ b/drivers/net/ethernet/sun/sunbmac.c
+@@ -209,13 +209,13 @@ static void bigmac_clean_rings(struct bi
  	}
  }
  
--void brcmf_sdio_isr(struct brcmf_sdio *bus)
-+void brcmf_sdio_isr(struct brcmf_sdio *bus, bool in_isr)
+-static void bigmac_init_rings(struct bigmac *bp, int from_irq)
++static void bigmac_init_rings(struct bigmac *bp, bool non_blocking)
  {
- 	brcmf_dbg(TRACE, "Enter\n");
+ 	struct bmac_init_block *bb = bp->bmac_block;
+ 	int i;
+ 	gfp_t gfp_flags = GFP_KERNEL;
  
-@@ -3636,7 +3636,7 @@ void brcmf_sdio_isr(struct brcmf_sdio *b
+-	if (from_irq || in_interrupt())
++	if (non_blocking)
+ 		gfp_flags = GFP_ATOMIC;
  
- 	/* Count the interrupt call */
- 	bus->sdcnt.intrcount++;
--	if (in_interrupt())
-+	if (in_isr)
- 		atomic_set(&bus->ipend, 1);
- 	else
- 		if (brcmf_sdio_intr_rstatus(bus)) {
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
-@@ -372,7 +372,7 @@ int brcmf_sdiod_remove(struct brcmf_sdio
+ 	bp->rx_new = bp->rx_old = bp->tx_new = bp->tx_old = 0;
+@@ -489,7 +489,7 @@ static void bigmac_tcvr_init(struct bigm
+ 	}
+ }
  
- struct brcmf_sdio *brcmf_sdio_probe(struct brcmf_sdio_dev *sdiodev);
- void brcmf_sdio_remove(struct brcmf_sdio *bus);
--void brcmf_sdio_isr(struct brcmf_sdio *bus);
-+void brcmf_sdio_isr(struct brcmf_sdio *bus, bool in_isr);
+-static int bigmac_init_hw(struct bigmac *, int);
++static int bigmac_init_hw(struct bigmac *, bool);
  
- void brcmf_sdio_wd_timer(struct brcmf_sdio *bus, bool active);
- void brcmf_sdio_wowl_config(struct device *dev, bool enabled);
+ static int try_next_permutation(struct bigmac *bp, void __iomem *tregs)
+ {
+@@ -549,7 +549,7 @@ static void bigmac_timer(struct timer_li
+ 				if (ret == -1) {
+ 					printk(KERN_ERR "%s: Link down, cable problem?\n",
+ 					       bp->dev->name);
+-					ret = bigmac_init_hw(bp, 0);
++					ret = bigmac_init_hw(bp, true);
+ 					if (ret) {
+ 						printk(KERN_ERR "%s: Error, cannot re-init the "
+ 						       "BigMAC.\n", bp->dev->name);
+@@ -617,7 +617,7 @@ static void bigmac_begin_auto_negotiatio
+ 	add_timer(&bp->bigmac_timer);
+ }
+ 
+-static int bigmac_init_hw(struct bigmac *bp, int from_irq)
++static int bigmac_init_hw(struct bigmac *bp, bool non_blocking)
+ {
+ 	void __iomem *gregs        = bp->gregs;
+ 	void __iomem *cregs        = bp->creg;
+@@ -635,7 +635,7 @@ static int bigmac_init_hw(struct bigmac
+ 	qec_init(bp);
+ 
+ 	/* Alloc and reset the tx/rx descriptor chains. */
+-	bigmac_init_rings(bp, from_irq);
++	bigmac_init_rings(bp, non_blocking);
+ 
+ 	/* Initialize the PHY. */
+ 	bigmac_tcvr_init(bp);
+@@ -749,7 +749,7 @@ static void bigmac_is_medium_rare(struct
+ 	}
+ 
+ 	printk(" RESET\n");
+-	bigmac_init_hw(bp, 1);
++	bigmac_init_hw(bp, true);
+ }
+ 
+ /* BigMAC transmit complete service routines. */
+@@ -921,7 +921,7 @@ static int bigmac_open(struct net_device
+ 		return ret;
+ 	}
+ 	timer_setup(&bp->bigmac_timer, bigmac_timer, 0);
+-	ret = bigmac_init_hw(bp, 0);
++	ret = bigmac_init_hw(bp, false);
+ 	if (ret)
+ 		free_irq(dev->irq, bp);
+ 	return ret;
+@@ -945,7 +945,7 @@ static void bigmac_tx_timeout(struct net
+ {
+ 	struct bigmac *bp = netdev_priv(dev);
+ 
+-	bigmac_init_hw(bp, 0);
++	bigmac_init_hw(bp, true);
+ 	netif_wake_queue(dev);
+ }
+ 
 
