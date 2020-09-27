@@ -7,35 +7,34 @@ X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F6BEC4346E
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 13:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A44C4727D
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 13:53:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CCB92389F
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 13:51:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AFCE221E5
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Sep 2020 13:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgI0Nvr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Sep 2020 09:51:47 -0400
-Received: from cmccmta2.chinamobile.com ([221.176.66.80]:24100 "EHLO
-        cmccmta2.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726185AbgI0Nvr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 09:51:47 -0400
-X-Greylist: delayed 545 seconds by postgrey-1.27 at vger.kernel.org; Sun, 27 Sep 2020 09:51:45 EDT
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.7]) by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee75f7096be93d-df9df; Sun, 27 Sep 2020 21:42:23 +0800 (CST)
-X-RM-TRANSID: 2ee75f7096be93d-df9df
+        id S1726280AbgI0Nxc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Sep 2020 09:53:32 -0400
+Received: from cmccmta1.chinamobile.com ([221.176.66.79]:59586 "EHLO
+        cmccmta1.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726244AbgI0Nxb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Sep 2020 09:53:31 -0400
+Received: from spf.mail.chinamobile.com (unknown[172.16.121.11]) by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee35f709942f9b-dd0da; Sun, 27 Sep 2020 21:53:08 +0800 (CST)
+X-RM-TRANSID: 2ee35f709942f9b-dd0da
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG: 00000000
 Received: from localhost.localdomain (unknown[112.0.144.153])
-        by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee45f7096bbeea-169d4;
-        Sun, 27 Sep 2020 21:42:23 +0800 (CST)
-X-RM-TRANSID: 2ee45f7096bbeea-169d4
+        by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee65f709942d77-83015;
+        Sun, 27 Sep 2020 21:53:08 +0800 (CST)
+X-RM-TRANSID: 2ee65f709942d77-83015
 From:   Tang Bin <tangbin@cmss.chinamobile.com>
 To:     balbi@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Tang Bin <tangbin@cmss.chinamobile.com>,
         Zhang Shengju <zhangshengju@cmss.chinamobile.com>
-Subject: [PATCH] usb: bdc: Remove duplicate error message in bdc_probe()
-Date:   Sun, 27 Sep 2020 21:42:18 +0800
-Message-Id: <20200927134218.20028-1-tangbin@cmss.chinamobile.com>
+Subject: [PATCH] usb: bdc: Fix unused assignment in bdc_probe()
+Date:   Sun, 27 Sep 2020 21:53:04 +0800
+Message-Id: <20200927135304.26036-1-tangbin@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.20.1.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,33 +42,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In this function, we don't need dev_err() message because
-when something goes wrong, devm_platform_ioremap_resource()
-can print an error message itself, so remove the redundant
-one.
+Delete unused initialized value of 'ret', because it will
+be assigned by the function clk_prepare_enable().
 
 Signed-off-by: Zhang Shengju <zhangshengju@cmss.chinamobile.com>
 Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 ---
- drivers/usb/gadget/udc/bdc/bdc_core.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/usb/gadget/udc/bdc/bdc_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
-index 02a3a7746..9454f179e 100644
+index 9454f179e..f079c1fac 100644
 --- a/drivers/usb/gadget/udc/bdc/bdc_core.c
 +++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
-@@ -508,10 +508,8 @@ static int bdc_probe(struct platform_device *pdev)
- 	bdc->clk = clk;
- 
- 	bdc->regs = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(bdc->regs)) {
--		dev_err(dev, "ioremap error\n");
-+	if (IS_ERR(bdc->regs))
- 		return -ENOMEM;
--	}
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
- 		return irq;
+@@ -480,7 +480,7 @@ static void bdc_phy_exit(struct bdc *bdc)
+ static int bdc_probe(struct platform_device *pdev)
+ {
+ 	struct bdc *bdc;
+-	int ret = -ENOMEM;
++	int ret;
+ 	int irq;
+ 	u32 temp;
+ 	struct device *dev = &pdev->dev;
 -- 
 2.20.1.windows.1
 
