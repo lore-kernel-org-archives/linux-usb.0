@@ -2,77 +2,141 @@ Return-Path: <SRS0=Yi4h=DF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B925C4727E
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 06:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97BB0C4727E
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 06:50:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2397621775
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 06:40:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="g0OwGmWS"
+	by mail.kernel.org (Postfix) with ESMTP id 597822388B
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 06:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601275811;
+	bh=9RLOX5t9/gxEad4ACFbvcDY/LFaF2xfXrQ+4kIuB910=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=2PLt8EcnFUNhhosMu1sNF4Dor0Fx9d+34KNW4+1ktOgTvoQ+XgVFH2IhfmN+IERv0
+	 R1cjZfy01vv2jWtAfVy46Nj56UwJbaXJ8zjVhasUKr1RGMGbYWT6M6obA7G1vMRYFz
+	 /O9DbpZseV9V/0D72FgrPX3S0ZFIVN0Bkj21hXXg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726672AbgI1GkE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Sep 2020 02:40:04 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:54687 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725290AbgI1GkD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Sep 2020 02:40:03 -0400
-X-UUID: e6c616e87d7f4171aa3467c6e9969704-20200928
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=+HdmJUlYIhIyB79Xpt5EornlfjSODCsjG1SM502RXk8=;
-        b=g0OwGmWS+eD/xl3H2/+7A1y7nJJ0avrhHq1MB41kw8rfrb/J1JADPWeT7nl2NnnZVztVLtVpTClMc89BcjbtORY/S+eL4Jqhky2F5DHFYMIMXac4cJc9jTDn8t9ZL4HeMBjMQ+Ywt/oJpC0nf1RsgBOszK1GznEKawY5fOFd+/k=;
-X-UUID: e6c616e87d7f4171aa3467c6e9969704-20200928
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1958731539; Mon, 28 Sep 2020 14:39:57 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 28 Sep 2020 14:39:51 +0800
-Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 28 Sep 2020 14:39:51 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: [PATCH] dt-bindings: usb: add properties for hard wired devices
-Date:   Mon, 28 Sep 2020 14:39:50 +0800
-Message-ID: <20200928063950.64722-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        id S1726558AbgI1GuF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Sep 2020 02:50:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725308AbgI1GuE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Sep 2020 02:50:04 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B6B5F23119;
+        Mon, 28 Sep 2020 06:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601275803;
+        bh=9RLOX5t9/gxEad4ACFbvcDY/LFaF2xfXrQ+4kIuB910=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=og/c53pjfRJcUKFeQP/+XI4TOYNopKOah3CJmIRZAuZ+nrH0Uy20x6XZnt3Z/X1dh
+         JeK8r/a3UKPHoivUomFM2K1bM9dcKwGFsDHijBQ1CCRza4shtATy1PrMIsKBAhOnw2
+         rdb1pWc6X3HzXQVcC44b8MBTu/96Qe9iId0hF4pE=
+Date:   Mon, 28 Sep 2020 08:50:11 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: Re: [patch 21/35] net: usb: kaweth: Remove last user of
+ kaweth_control()
+Message-ID: <20200928065011.GB381927@kroah.com>
+References: <20200927194846.045411263@linutronix.de>
+ <20200927194921.948595516@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: C715C36883DF571B2943D3C2BC8449FA8642EE6F54243D31B2C87CA6628503F52000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200927194921.948595516@linutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-QWRkIHNvbWUgb3B0aW9uYWwgcHJvcGVydGllcyB3aGljaCBhcmUgbmVlZGVkIGZvciBoYXJkIHdp
-cmVkIGRldmljZXMNCg0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5A
-bWVkaWF0ZWsuY29tPg0KLS0tDQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Vz
-Yi91c2ItaGNkLnlhbWwgfCAxMSArKysrKysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNl
-cnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvdXNiL3VzYi1oY2QueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91
-c2IvdXNiLWhjZC55YW1sDQppbmRleCA3MjYzYjdmMmI1MTAuLjExOTRhODI4ODdlNyAxMDA2NDQN
-Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvdXNiLWhjZC55YW1s
-DQorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3VzYi1oY2QueWFt
-bA0KQEAgLTIyLDYgKzIyLDE3IEBAIHByb3BlcnRpZXM6DQogICAgIGRlc2NyaXB0aW9uOg0KICAg
-ICAgIE5hbWUgc3BlY2lmaWVyIGZvciB0aGUgVVNCIFBIWQ0KIA0KKyAgIiNhZGRyZXNzLWNlbGxz
-IjoNCisgICAgY29uc3Q6IDENCisNCisgICIjc2l6ZS1jZWxscyI6DQorICAgIGNvbnN0OiAwDQor
-DQorcGF0dGVyblByb3BlcnRpZXM6DQorICAiXmh1YnxkZXZpY2VAWzAtOWEtZl0rJCI6DQorICAg
-IHR5cGU6IG9iamVjdA0KKyAgICBkZXNjcmlwdGlvbjogVGhlIGhhcmQgd2lyZWQgVVNCIGRldmlj
-ZXMuIFNlZSB1c2IvdXNiLWRldmljZS50eHQNCisNCiBleGFtcGxlczoNCiAgIC0gfA0KICAgICB1
-c2Igew0KLS0gDQoyLjE4LjANCg==
+On Sun, Sep 27, 2020 at 09:49:07PM +0200, Thomas Gleixner wrote:
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> 
+> kaweth_async_set_rx_mode() invokes kaweth_contol() and has two callers:
+> 
+> - kaweth_open() which is invoked from preemptible context
+> .
+> - kaweth_start_xmit() which holds a spinlock and has bottom halfs disabled.
+> 
+> If called from kaweth_start_xmit() kaweth_async_set_rx_mode() obviously
+> cannot block, which means it can't call kaweth_control(). This is detected
+> with an in_interrupt() check.
+> 
+> Replace the in_interrupt() check in kaweth_async_set_rx_mode() with an
+> argument which is set true by the caller if the context is safe to sleep,
+> otherwise false.
+> 
+> Now kaweth_control() is only called from preemptible context which means
+> there is no need for GFP_ATOMIC allocations anymore. Replace it with
+> usb_control_msg(). Cleanup the code a bit while at it.
+> 
+> Finally remove kaweth_control() since the last user is gone.
+> 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: netdev@vger.kernel.org
 
+Thanks for the cleanup, that driver really needed it!
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
