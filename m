@@ -2,111 +2,79 @@ Return-Path: <SRS0=Yi4h=DF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6A7C2D0A8
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 17:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A87C2D0A8
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 17:50:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEEFB208D5
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 17:49:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3B95208D5
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Sep 2020 17:50:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601315446;
+	bh=DtmjWP3bxklOw2yPoWKGOJ2ab6CvFBGzDnh+KmCO9Iw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Onv6OS6eOya2zqFz5XjkieAejCjZ/bZJRmkOVKsMBAZAOvE/GW0/FD4xjsS4PktUa
+	 aOlEQdkdZjtmlFMEnQ3igKf/YSXXqDjtsvkycR1cOjfB0+kDDhianULvd9pzf+VpmF
+	 vWngBrxtxA6aIJOGiawCe3JNDnLeB5p5/oj0dYSA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbgI1Rtn convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Sep 2020 13:49:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53418 "EHLO mail.kernel.org"
+        id S1726655AbgI1Ruq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Sep 2020 13:50:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53926 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726310AbgI1Rtn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Sep 2020 13:49:43 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 209411] When retrieving string descriptor from mobile device
- returns eproto error
-Date:   Mon, 28 Sep 2020 17:49:42 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: greg@kroah.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209411-208809-f6NfPKg92P@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
-References: <bug-209411-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1726409AbgI1Ruq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Sep 2020 13:50:46 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E4B320739;
+        Mon, 28 Sep 2020 17:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601315445;
+        bh=DtmjWP3bxklOw2yPoWKGOJ2ab6CvFBGzDnh+KmCO9Iw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hE9IUU1nUneaD2uBTQbkAqT2xaXQbz7UyaD4ueFsEGYLPJjtS88dDvJncg33l/Ra8
+         CD9JO4aUC5DdbYz+Z6nVPfgP1kDzM0qZuRuzbG3O5rTAimbIewjbI0MCxSEr7b+5zS
+         uUJEp3N3OzAsTzYiEkAzixKX2RwbDyhrFnFhvwIM=
+Date:   Mon, 28 Sep 2020 19:50:53 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Kiran <kiranmkota@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: /net/usb/ipheth.c incompatibility with Apple iOS 14
+Message-ID: <20200928175053.GA2202486@kroah.com>
+References: <CAAn0qaXmysJ9vx3ZEMkViv_B19ju-_ExN8Yn_uSefxpjS6g4Lw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAn0qaXmysJ9vx3ZEMkViv_B19ju-_ExN8Yn_uSefxpjS6g4Lw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209411
+On Sun, Sep 27, 2020 at 07:14:39AM -0700, Kiran wrote:
+> Effect on end user: when a linux machine is connected via USB to an
+> iPhone that has been updated to iOS 14 and has personal hotspot mode
+> turned on, the user cannot connect to the internet.
+> 
+> Troubleshooting: DNS works, the linux machine can ping the iPhone
+> gateway, pinging google.com hangs. It appears that there is a change
+> to the USB packets that iOS expects.
+> 
+> Here is a link to what I think is the most relevant part of a Github
+> issue discussion with more specific details:
+> 
+> https://github.com/libimobiledevice/libimobiledevice/issues/1038#issuecomment-699630379
+> 
+> This is my first linux bug report and I'm not familiar with kernel
+> development. The other people in the Github post will be better to
+> talk to regarding a fix. But if I can provide more info, just let me
+> know.
 
---- Comment #1 from Greg Kroah-Hartman (greg@kroah.com) ---
-On Sun, Sep 27, 2020 at 05:51:20PM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=209411
-> 
->             Bug ID: 209411
->            Summary: When retrieving string descriptor from mobile device
->                     returns eproto error
->            Product: Drivers
->            Version: 2.5
->     Kernel Version: 4.19
->           Hardware: All
->                 OS: Linux
->               Tree: Mainline
->             Status: NEW
->           Severity: normal
->           Priority: P1
->          Component: USB
->           Assignee: drivers_usb@kernel-bugs.kernel.org
->           Reporter: rachithas104@gmail.com
->         Regression: No
-> 
-> I am trying to get get string descriptor from mobile phone,however when
-> trying
-> to retrieve one particular index it returns EPROTO,
-> 
-> dev->fd, USB_DIR_IN,USB_REQ_GET_DESCRIPTOR,DESCRIPT_STRING * 256 + index,     
->                                               languageid, sizeof buf, buf);
-> 
-> Return value is -1 for  ioctl(fd, USBDEVFS_CONTROL, &ioctl_ctrl);
-> 
-> kernel: [ 7084.327097] usb 1-1.2: reset high-speed USB device number 12 using
-> ehci-pci
-> kernel: [ 7084.831056] usb 1-1.2: device not accepting address 12, error -71
-> kernel: [ 7085.119075] usb 1-1.2: reset high-speed USB device number 12 using
-> ehci-pci
->  kernel: [ 7085.431054] usb 1-1.2: reset high-speed USB device number 12
->  using
-> ehci-pci
-> [ 7085.935069] usb 1-1.2: device not accepting address 12, error -71
-> [ 7086.227132] usb 1-1.2: reset high-speed USB device number 12 using
-> ehci-pci
-> S[ 7087.321929] usb 1-1.2: usbfs: USBDEVFS_CONTROL failed cmd ctxusb rqt 128
-> rq
-> 6 len 255 ret -71
->   kernel: [ 7087.607093] usb 1-1.2: reset high-speed USB device number 12
->   using
-> ehci-pci
-> 
-> My URB request and without my program in picture request is same
+Not much we can do about this, but if you come up with a patch that
+works, please let us know and we will be glad to review it.
 
-Not all strings are readable from the device, are you sure that is a
-valid string descriptor index to be requesting?
+good luck!
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+greg k-h
