@@ -2,54 +2,64 @@ Return-Path: <SRS0=WwEB=DG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0D6C4741F
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A91B5C4741F
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:50:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D8BC206F7
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:50:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FA5F2065C
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:50:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730724AbgI2Lu0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 07:50:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53796 "EHLO mail.kernel.org"
+        id S1731037AbgI2Lux convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 07:50:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55232 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730967AbgI2Lt5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 29 Sep 2020 07:49:57 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1BA84206F7;
-        Tue, 29 Sep 2020 11:49:54 +0000 (UTC)
-Date:   Tue, 29 Sep 2020 13:06:34 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: qcserial: fix altsetting probing
-Message-ID: <20200929110634.GB1160194@kroah.com>
-References: <20200929104239.7214-1-johan@kernel.org>
+        id S1730695AbgI2Lup (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 29 Sep 2020 07:50:45 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 207065] C-media USB audio device stops working from 5.2.0-rc3
+ onwards
+Date:   Tue, 29 Sep 2020 11:50:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: florianmey@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-207065-208809-C4e5vU4iXZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207065-208809@https.bugzilla.kernel.org/>
+References: <bug-207065-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200929104239.7214-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 12:42:39PM +0200, Johan Hovold wrote:
-> Drivers should not assume that interface descriptors have been parsed in
-> any particular order so use the interface number to look up the second
-> alternate setting. That number is also what the driver later use to
-> switch setting.
-> 
-> Note that although the driver could end up verifying the existence of
-> the expected endpoints on the wrong interface, a later sanity check in
-> usb_wwan_port_probe() would have caught this before it could cause any
-> real damage.
-> 
-> Fixes: a78b42824dd7 ("USB: serial: add qualcomm wireless modem driver")
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+https://bugzilla.kernel.org/show_bug.cgi?id=207065
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+--- Comment #16 from Florian Meyer (florianmey@gmx.de) ---
+Created attachment 292709
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292709&action=edit
+Content of /sys/kernel/debug/tracing/trace
+
+Created as per previous comment. Uploaded at:
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
