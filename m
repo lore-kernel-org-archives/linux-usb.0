@@ -5,64 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B8AC4727E
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C075DC4727E
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E518921531
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BB75208FE
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eThgSYYw"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YOzN/rOv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727511AbgI2Cki (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Sep 2020 22:40:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40054 "EHLO
+        id S1727555AbgI2Ckq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Sep 2020 22:40:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727457AbgI2Ckb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Sep 2020 22:40:31 -0400
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BCAC0613CF
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:31 -0700 (PDT)
-Received: by mail-qt1-x84a.google.com with SMTP id g1so1999156qtc.22
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:31 -0700 (PDT)
+        with ESMTP id S1727531AbgI2Ckm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Sep 2020 22:40:42 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E771C0613DA
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:41 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id e2so3243427ybc.17
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=+8V9XbF+nrhvOeFjlq1gqGlcRl5hrQT9omJcJW0tz7E=;
-        b=eThgSYYws9kLpLHXJUFr8JlqfR0wyD59aDcTKSpqbsx6KIFxXcnLhU123aJufAG5WH
-         aDXDmzpTpskIbia0MgBBXSxSbn9D49hM95Y5gcdvk5KasouU/EUxaaOkgaLoA7gLHbBZ
-         mLFZyzCFBFplneMO5kRnVhmXU8OVM+0SxYVaiILHXuCSd5etox30tyBSlB1pyq8j7vnl
-         p+pt0YFFe0+KCPJNLCrOm6lKk/HCz3ASuUm/CgmjIvExOL/8MBztejPq9+WfTWQp84JX
-         EqRvZ+FPJAi8dDJwpQAygrOGlF2gYOv2HypGFKuUp3WW+ZQz0YWAss5U+aX+fjVmfCzW
-         QSWg==
+        bh=ETPAsWHvLyLNkSHJ+gS6oA+OTExuVARAMVUjKC9Fc/4=;
+        b=YOzN/rOvca1uPt9PY3XDoEf2RUnhEyq0eKxdF8Fg+uNyxFSFrujusub6QGt672Jep3
+         QQAQ1lYV+wvQ0XYYYxJrqwdRFZfO2FbRewFO+oty1wXCTAsmmK5tEmgyl0xi8oCvmsMi
+         BUgFbkwEWW32XL+iyuCv5n5sGW2/bfdQGc4XxpLppVKIgyXxlVX54V5fnETAwQOBUurf
+         kO+XGzvUsGuHa9ncWogKv+vLs2sUo+8z38OyopD8nZAaW0RpmXFU1oIlWwp8hY9Vyl2M
+         algRGGfrfjDNQmXqY81pqW6LXhe2dneFr05VEUk0eHVhjIAljJpvrH94ot4Z89qeNJxD
+         lJfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=+8V9XbF+nrhvOeFjlq1gqGlcRl5hrQT9omJcJW0tz7E=;
-        b=GTa/mmyLt+7lh8vXI8tcD2eZLBDnnWbZfNYFt4psH5kiD64L7cECojHQJ4jmACsn2j
-         4r63ezrudIvLrD8e8E/KOQCoSOaB8lHXODZCcSEp/nUQ7PDb9jxn4CDrtsxaIQ5MQE4b
-         oElLzc5BzCbZCN7pKPMepbLDA8tL9KQlhYjhs46vsUyrr2yfqBFl3uPeihe7bK2OwMK8
-         NlWkXbEbrLX0PgRopvQTOUd0dtUql2My9orS7Ywck22amIzSEkvDltp7Tp5CtkYvl2Jo
-         WhdgMfzHnd3etftolN6kdqNUIU63OD2XO8LYUV1ZnzojELfp/mp7BfLJ2WyIG3MjZH1w
-         DMmA==
-X-Gm-Message-State: AOAM532798mTzyv20nQB5e3PhYFHlDdUh+7tIhIA7uN2xg/uh6Nzhg0B
-        VOLrspPrtr/9QKkeL6iXciFUXtLNr6g=
-X-Google-Smtp-Source: ABdhPJzwsg7Sc8wZ0WPfTkzvJTJdAdYy3e+MUHpTHIttV5fY2N8t9NGM6qfFCPHu+ad0WPdZNkpCdjyfmhM=
+        bh=ETPAsWHvLyLNkSHJ+gS6oA+OTExuVARAMVUjKC9Fc/4=;
+        b=i4A+vi2dZRcDINa/LPR4UeTEHR7+vjmji9A5QRIhCWzEW4LYZyKSn8nlsNbZ1Gr8kQ
+         PNNjzz41rtJ7ejHZb/IqY+lxgzcenSj6cHWG+VFNZzAO/OAzzj0eC0r2U7lSkpbG7u9N
+         NLQQREFmgq5kFnkjwzNggne393/MoXvXz+vC86IvOa8hyC/rT3+A3E1YvqS4EuuqHVz9
+         MxzechYkxaY8CRSMvR8zJtcJY/jBNE6vY6DRX16WFJJ0vd46LfUhvZSkFZs35AaJI5oU
+         rXxagN48v9Anh6I8VvNORoVShQr7i9w5vP06DL1W9Y6Cr2OqVuSo+wZZytm9twUuYx3L
+         i21w==
+X-Gm-Message-State: AOAM532A8+ujQP/yZjLbW3bXEK14AVxYgu9vxGD6votfy5HyV0BsafaQ
+        UG9W9oDp/79wnln2U7RIJPHnkSQrymo=
+X-Google-Smtp-Source: ABdhPJxq3i3a+BB6LOmVW3EbE+nzVKJocf8lveCUAVDznppOElFjuLfBgYnTIP44KqRmyroDeGUQ0rVuSp4=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:ad4:58c7:: with SMTP id dh7mr2723471qvb.20.1601347230306;
- Mon, 28 Sep 2020 19:40:30 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 19:39:59 -0700
+ (user=badhri job=sendgmr) by 2002:a25:d45:: with SMTP id 66mr3316010ybn.231.1601347240323;
+ Mon, 28 Sep 2020 19:40:40 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 19:40:04 -0700
 In-Reply-To: <20200929024004.244992-1-badhri@google.com>
-Message-Id: <20200929024004.244992-11-badhri@google.com>
+Message-Id: <20200929024004.244992-16-badhri@google.com>
 Mime-Version: 1.0
 References: <20200929024004.244992-1-badhri@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v9 10/15] usb: typec: tcpci: frs sourcing vbus callback
+Subject: [PATCH v9 15/15] usb: typec: tcpci_maxim: Enable auto discharge disconnect
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -82,68 +82,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-During FRS hardware autonomously starts to source vbus. Provide
-callback to perform chip specific operations.
+Enable auto discharge disconnect for Maxim TCPC.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
-v9 is the first version of this patch in the series. Added to fix
-occasional bug of vbus turning back on when disconnecting the FRS accessory
-after disconnect.
----
- drivers/usb/typec/tcpm/tcpci.c | 9 +++++++++
- drivers/usb/typec/tcpm/tcpci.h | 4 ++++
- 2 files changed, 13 insertions(+)
+Changes since v1:
+- Changing patch version to v6 to fix version number confusion.
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index f9f0af64da5f..f91688e43991 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -284,6 +284,14 @@ static int tcpci_enable_frs(struct tcpc_dev *dev, bool enable)
- 	return ret;
- }
+Changes since v6:
+- Rebase on usb-next.
+
+Changes since v7:
+- Heikki's suggestion:
+Moved the actual write of TCPC_VBUS_SINK_DISCONNECT_THRES
+register to tcpci code.
+
+Changes since v8:
+- Moved the logic to program the default values of
+  TCPC_VBUS_SINK_DISCONNECT_THRESH into the tcpci code.
+---
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index 43dcad95e897..55dea33387ec 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -441,6 +441,7 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+ 	chip->data.TX_BUF_BYTE_x_hidden = true;
+ 	chip->data.init = tcpci_init;
+ 	chip->data.frs_sourcing_vbus = max_tcpci_frs_sourcing_vbus;
++	chip->data.auto_discharge_disconnect = true;
  
-+static void tcpci_frs_sourcing_vbus(struct tcpc_dev *dev)
-+{
-+	struct tcpci *tcpci = tcpc_to_tcpci(dev);
-+
-+	if (tcpci->data->frs_sourcing_vbus)
-+		tcpci->data->frs_sourcing_vbus(tcpci, tcpci->data);
-+}
-+
- static int tcpci_set_bist_data(struct tcpc_dev *tcpc, bool enable)
- {
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
-@@ -628,6 +636,7 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
- 	tcpci->tcpc.pd_transmit = tcpci_pd_transmit;
- 	tcpci->tcpc.set_bist_data = tcpci_set_bist_data;
- 	tcpci->tcpc.enable_frs = tcpci_enable_frs;
-+	tcpci->tcpc.frs_sourcing_vbus = tcpci_frs_sourcing_vbus;
- 
- 	err = tcpci_parse_config(tcpci);
- 	if (err < 0)
-diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
-index 5ef07a56d67a..b418fe11b527 100644
---- a/drivers/usb/typec/tcpm/tcpci.h
-+++ b/drivers/usb/typec/tcpm/tcpci.h
-@@ -143,6 +143,9 @@
- /*
-  * @TX_BUF_BYTE_x_hidden
-  *		optional; Set when TX_BUF_BYTE_x can only be accessed through I2C_WRITE_BYTE_COUNT.
-+ * @frs_sourcing_vbus:
-+ *		Optional; Callback to perform chip specific operations when FRS
-+ *		is sourcing vbus.
-  */
- struct tcpci;
- struct tcpci_data {
-@@ -154,6 +157,7 @@ struct tcpci_data {
- 	int (*start_drp_toggling)(struct tcpci *tcpci, struct tcpci_data *data,
- 				  enum typec_cc_status cc);
- 	int (*set_vbus)(struct tcpci *tcpci, struct tcpci_data *data, bool source, bool sink);
-+	void (*frs_sourcing_vbus)(struct tcpci *tcpci, struct tcpci_data *data);
- };
- 
- struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data);
+ 	max_tcpci_init_regs(chip);
+ 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
