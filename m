@@ -5,65 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ADEFC4727E
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC033C2D0A8
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68171216C4
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82A132193E
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 02:40:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V2HGIAtr"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="raUIMniW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727442AbgI2Ck3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Sep 2020 22:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
+        id S1727461AbgI2Ckb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Sep 2020 22:40:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727437AbgI2Ck2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Sep 2020 22:40:28 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F116BC0613D8
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:24 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id c26so1977699pgl.9
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:24 -0700 (PDT)
+        with ESMTP id S1727423AbgI2Cka (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Sep 2020 22:40:30 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41DC2C0613CE
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:29 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id w126so1832275qka.5
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2020 19:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=x75HFZapwymuUzmD7TSk+DIPW4mnSh+u9U5hvOiIQ9E=;
-        b=V2HGIAtrM4/NiDd7cJAJDQWJfnMFj+h/XnxOrAkJeKV3ATi42p07OXaZKcR2UB81GC
-         2iM1rR/kf6fSEWdrIzTHLvrKEcucX/Nr3u71MNgzTbmR0DMf4F4GjM0nsYi9zfQU7Do5
-         uKDHitwlbeJWEYu+BPTg70TNx3EjZLcV1dZ8zmxIOSnWB3O73LlGHYKoVrPsyTESXIGr
-         0k/nXFCSYXT4TDEnNG61zxQ66YV9RZgqLwpqzSKvUSg0ohTbPmvxKeJS8tYjeWDXAqmq
-         32LeIqU3FMyKWK/4X+FSm5kkMitBdwk4BhcBjiIcYewHw6zQV4NvyB7b5kGWTvyTXkQS
-         rl2Q==
+        bh=FDE8JH5iPBDdMZrcw0lHN45wyLg7MEGTUUjFxal7+nQ=;
+        b=raUIMniWFSZ0XB/SBEGAMmIRKuxTIUmhAwfUPEeRgwKwrS0VhS9LFiMv4ov9J76dWm
+         MAiICCi//cuOlghcOvFW+lTvn0blowtmmfMjdzZ2OzW2DODV/5Q2ntkJPww93OL/OVws
+         FhBm/h/6uBTJteA/Nr5UGyS1bolh7zak8xpPrZJGRf6VYVoau5S4h2TX98vfSVDa4Kb0
+         /kCh5vLbfT4b8oTO7+aZFPcWJLoYYOm0smXmwwl7MndyL7F+z6wmrIrg3T6QU/tkcXXR
+         oxWnGdncgc08GfbOJdog4xjlExV+/n/Iq3BrEpyM0Mi2JmRuaqczcZF6lBH8GQlWJiGb
+         f3rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=x75HFZapwymuUzmD7TSk+DIPW4mnSh+u9U5hvOiIQ9E=;
-        b=knSKl+Epln/BJuTJ4ZQsymYA3YQ4u4nxyzRtbD9GWXjQub1sg9VhXc1aoG2oMH/P5s
-         16xHPi8kBEqoxtalF2kvRpcQ937b1bbmGACeJcp9vYgenCji5M17a1Xj0AoNkuya6wfQ
-         MO7faHEdNXDlyc1eX5moE8xkUYm0DT4jw6Nuq6yAESTYUC8SnjcEA+CS+8/2D2pL6oBp
-         WS975LOmGYl6N1TBYyoyRQfrqeRouZUGqD5e6ZxcZrv5pPe1zWXAdNui4MyJ2jFg29iO
-         HleASAGZoyJ75RdF1jqq7CJKnoRYDixNAVSOzF3QZQhYv8PqFuYr/qkWgza0ID/GxD1D
-         3jrA==
-X-Gm-Message-State: AOAM530xx4K6eHmr9CX2mpfdHtLnP6jDcIujz3pml1Ke8PwwXhT92tfb
-        P9NBUd1qtZf/a5PxZ526/SovZu5KQNQ=
-X-Google-Smtp-Source: ABdhPJx2Frl4PW5qns9bDls5tNgyMVgp3BzkB/qYlLCNxpnAaIG5fk3ikqHr6IJEQ6Ri8WZSrZ2Wu+HbQxI=
+        bh=FDE8JH5iPBDdMZrcw0lHN45wyLg7MEGTUUjFxal7+nQ=;
+        b=lhlgSm4SIOibPoYBnxg9xsVm8FSqmXl9u8aF/qQBwYTDTljW1QBBDLCWPUR+cgKmOJ
+         dYqpRIPrUDWRwamIQ/+TYUFTA6Vf9oV7HiSOsUTl8w9viZWOrmzb2k9+XfDQE/wjBIVK
+         KbFQeVUfkySVjtzDsVE4UOeG9mFEBdquGXdefykp44kxDvnM54qDTtUuoJxLfmBwT68f
+         weEgSwVG00fTHWKS6yNIJNCHV408UyHW8d0TlI0oPSnBcv99qyVDfGLN/OSfr89pp9xJ
+         ze65L/1PtAOkQm6pHeyopZjpOnEQW54nJBHU1XkSWlg4ZeVKQPoSGqRcoduA0EL6kQtd
+         A5uA==
+X-Gm-Message-State: AOAM533XKKoBnfLjpGrthyY2O0/eyJQvF50BBdBgMljw0QBxp3LYCT3u
+        dUezYbEvtm1IsF3xEoIaxgepIi9DiuU=
+X-Google-Smtp-Source: ABdhPJyZs/dmhKwr7BM1wdaY5P3GGRaW3k2Mgh5jtN8BX2KtLRIlyMDXyL73gFUCdW+/5EluuTcoWKsJFVc=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:aa7:8612:0:b029:142:2501:3967 with SMTP id
- p18-20020aa786120000b029014225013967mr2139357pfn.44.1601347224432; Mon, 28
- Sep 2020 19:40:24 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 19:39:56 -0700
+ (user=badhri job=sendgmr) by 2002:ad4:4891:: with SMTP id bv17mr2555873qvb.20.1601347228391;
+ Mon, 28 Sep 2020 19:40:28 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 19:39:58 -0700
 In-Reply-To: <20200929024004.244992-1-badhri@google.com>
-Message-Id: <20200929024004.244992-8-badhri@google.com>
+Message-Id: <20200929024004.244992-10-badhri@google.com>
 Mime-Version: 1.0
 References: <20200929024004.244992-1-badhri@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v9 07/15] usb: typec: tcpci: Implement callbacks for FRS
+Subject: [PATCH v9 09/15] usb: typec: tcpm: frs sourcing vbus callback
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -83,113 +82,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implement tcpc.enable_frs to enable TCPC to receive
-Fast role swap signal.
-
-Additionally set the sink disconnect threshold to 4v
-to prevent disconnect during Fast Role swap.
+During FRS hardware autonomously starts to source vbus. Provide
+callback to perform chip specific operations.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
-Changes since v1:
-- Changing patch version to v6 to fix version number confusion.
+ drivers/usb/typec/tcpm/tcpm.c | 9 +++++++++
+ include/linux/usb/tcpm.h      | 4 ++++
+ 2 files changed, 13 insertions(+)
 
-Changes since v6:
-- Rebase on usb-next.
-- Fixed formatting error.
-- Added Reviewed-by: Heikki.
-
-Changes since v7:
-- Rebase on usb-next.
-
-Changes since v8:
-- None.
----
- drivers/usb/typec/tcpm/tcpci.c | 17 +++++++++++++++++
- drivers/usb/typec/tcpm/tcpci.h |  8 ++++++++
- 2 files changed, 25 insertions(+)
-
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index d6a6fac82d48..f9f0af64da5f 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -268,6 +268,22 @@ static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
- 				enable ? TCPC_POWER_CTRL_VCONN_ENABLE : 0);
- }
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 55535c4f66bf..02b7f623f584 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -4090,7 +4090,16 @@ static void _tcpm_pd_vbus_on(struct tcpm_port *port)
+ 	case SRC_TRY_DEBOUNCE:
+ 		/* Do nothing, waiting for sink detection */
+ 		break;
++	case FR_SWAP_SEND:
++	case FR_SWAP_SEND_TIMEOUT:
++	case FR_SWAP_SNK_SRC_TRANSITION_TO_OFF:
++	case FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED:
++		if (port->tcpc->frs_sourcing_vbus)
++			port->tcpc->frs_sourcing_vbus(port->tcpc);
++		break;
+ 	case FR_SWAP_SNK_SRC_NEW_SINK_READY:
++		if (port->tcpc->frs_sourcing_vbus)
++			port->tcpc->frs_sourcing_vbus(port->tcpc);
+ 		tcpm_set_state(port, FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED, 0);
+ 		break;
  
-+static int tcpci_enable_frs(struct tcpc_dev *dev, bool enable)
-+{
-+	struct tcpci *tcpci = tcpc_to_tcpci(dev);
-+	int ret;
-+
-+	/* To prevent disconnect during FRS, set disconnect threshold to 3.5V */
-+	ret = tcpci_write16(tcpci, TCPC_VBUS_SINK_DISCONNECT_THRESH, enable ? 0 : 0x8c);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL, TCPC_FAST_ROLE_SWAP_EN, enable ?
-+				 TCPC_FAST_ROLE_SWAP_EN : 0);
-+
-+	return ret;
-+}
-+
- static int tcpci_set_bist_data(struct tcpc_dev *tcpc, bool enable)
- {
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
-@@ -611,6 +627,7 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
- 	tcpci->tcpc.set_roles = tcpci_set_roles;
- 	tcpci->tcpc.pd_transmit = tcpci_pd_transmit;
- 	tcpci->tcpc.set_bist_data = tcpci_set_bist_data;
-+	tcpci->tcpc.enable_frs = tcpci_enable_frs;
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 09762d26fa0c..7303f518ba49 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -83,6 +83,9 @@ enum tcpm_transmit_type {
+  *		Optional; Called to enable/disable PD 3.0 fast role swap.
+  *		Enabling frs is accessory dependent as not all PD3.0
+  *		accessories support fast role swap.
++ * @frs_sourcing_vbus:
++ *		Optional; Called to notify that vbus is now being sourced.
++ *		Low level drivers can perform chip specific operations, if any.
+  */
+ struct tcpc_dev {
+ 	struct fwnode_handle *fwnode;
+@@ -109,6 +112,7 @@ struct tcpc_dev {
+ 			   const struct pd_message *msg);
+ 	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
+ 	int (*enable_frs)(struct tcpc_dev *dev, bool enable);
++	void (*frs_sourcing_vbus)(struct tcpc_dev *dev);
+ };
  
- 	err = tcpci_parse_config(tcpci);
- 	if (err < 0)
-diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
-index 82f021a82456..5ef07a56d67a 100644
---- a/drivers/usb/typec/tcpm/tcpci.h
-+++ b/drivers/usb/typec/tcpm/tcpci.h
-@@ -16,6 +16,7 @@
- #define TCPC_PD_INT_REV			0xa
- 
- #define TCPC_ALERT			0x10
-+#define TCPC_ALERT_EXTND		BIT(14)
- #define TCPC_ALERT_EXTENDED_STATUS	BIT(13)
- #define TCPC_ALERT_VBUS_DISCNCT		BIT(11)
- #define TCPC_ALERT_RX_BUF_OVF		BIT(10)
-@@ -37,6 +38,9 @@
- #define TCPC_EXTENDED_STATUS_MASK		0x16
- #define TCPC_EXTENDED_STATUS_MASK_VSAFE0V	BIT(0)
- 
-+#define TCPC_ALERT_EXTENDED_MASK	0x17
-+#define TCPC_SINK_FAST_ROLE_SWAP	BIT(0)
-+
- #define TCPC_CONFIG_STD_OUTPUT		0x18
- 
- #define TCPC_TCPC_CTRL			0x19
-@@ -63,6 +67,7 @@
- 
- #define TCPC_POWER_CTRL			0x1c
- #define TCPC_POWER_CTRL_VCONN_ENABLE	BIT(0)
-+#define TCPC_FAST_ROLE_SWAP_EN		BIT(7)
- 
- #define TCPC_CC_STATUS			0x1d
- #define TCPC_CC_STATUS_TOGGLING		BIT(5)
-@@ -74,11 +79,14 @@
- 
- #define TCPC_POWER_STATUS		0x1e
- #define TCPC_POWER_STATUS_UNINIT	BIT(6)
-+#define TCPC_POWER_STATUS_SOURCING_VBUS	BIT(4)
- #define TCPC_POWER_STATUS_VBUS_DET	BIT(3)
- #define TCPC_POWER_STATUS_VBUS_PRES	BIT(2)
- 
- #define TCPC_FAULT_STATUS		0x1f
- 
-+#define TCPC_ALERT_EXTENDED		0x21
-+
- #define TCPC_COMMAND			0x23
- #define TCPC_CMD_WAKE_I2C		0x11
- #define TCPC_CMD_DISABLE_VBUS_DETECT	0x22
+ struct tcpm_port;
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
