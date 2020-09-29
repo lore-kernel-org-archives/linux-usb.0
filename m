@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D8AC54EF1
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D33CC54F50
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF3652074B
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 247F8208FE
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EIPi0Lnt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="X42r9W9i"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GxWZdTII";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CyXJ7UyY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729672AbgI2UjV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:39:21 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:49530 "EHLO
+        id S1729603AbgI2Ujm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:39:42 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49174 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729166AbgI2UgB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:36:01 -0400
-Message-Id: <20200929203501.174106828@linutronix.de>
+        with ESMTP id S1729417AbgI2UgA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:36:00 -0400
+Message-Id: <20200929203500.979315007@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411759;
+        s=2020; t=1601411757;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=N9BRw1yz6NFV8std4SkT3Uzzn3VXu0GqYfIKNTG6X5E=;
-        b=EIPi0LntqhK+k+BiAUZDRhJJMmDcnV+kcgrq+bczSg+aGDSssk7Ea3eApBpnVjKGhwoL+n
-        72qsKzhkNehonIJ+8illeSoepKWSxXbg4Cqe5sFdvOC6QaqgCM4ahPin4JASuZdOGvNApz
-        24RaaXBvEejgj8YZw1E+geQD5RX30tIl6sgQMjsIb2ji0+z3EmzkvgGIqDM1jVU4akJkNz
-        YCTrOqpB88fM2lmqVAkBWoI6xAnyYK+o1reKhe1OdLqC789iXzyeN5dOSrJRtgJz/aAiyi
-        xuWrTjxhShzL5soeTTapyamaGIcyMGfGxCjgAhjo8Y/borFi7swOz6cSeA49mg==
+        bh=p8noynpUYoUVoCA3AcE8IXexBkfCyLsxGEPrAE+AsI4=;
+        b=GxWZdTIIqHgC4sHF/8+MlpMTpyE+Ys7tQM9ClxFYteeOzpdW9CUV+RfZQVpPshQ3Jab8uF
+        VwiNSF1l+v37TyOEY0oLQ1Mg3WesnhOVDP4eOsDsAcBRO1CSdyL+HeQVl2qEEE0ZPmurlk
+        mKSrHiTvvwoUUrs5H3BmGYzLfYENz7JzMWcY7ns6CZKAkEtFM1xIL8z67wRo57YMJHSeEL
+        9foUpmZNYtmQKmUriWGskXls5938ymTN43trd/XooNNNzixOQUY9vxDqYaInxzFmlXyrKF
+        /IpsVlVqLnsucsRLF4dHfWjutANDXz4i/LF4lPR/sjWVffc1CNwwAam73IGyRg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411759;
+        s=2020e; t=1601411757;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=N9BRw1yz6NFV8std4SkT3Uzzn3VXu0GqYfIKNTG6X5E=;
-        b=X42r9W9iZllVNjva3r1f0qOSVOALGkcIzlwQM/efS+ROnTSVq2BO4tKuw6c6noyU1EHvkt
-        ZU9zXa3tqQEudFCg==
-Date:   Tue, 29 Sep 2020 22:25:26 +0200
+        bh=p8noynpUYoUVoCA3AcE8IXexBkfCyLsxGEPrAE+AsI4=;
+        b=CyXJ7UyYA/JETWPHQnDFpdz/d1SjcViFnqKn1ddsxKPw2C0BkbX2Q7Dvp3KSrmhyLaB6Qq
+        amDNkvL368OqZVAA==
+Date:   Tue, 29 Sep 2020 22:25:24 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -96,7 +96,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 17/36] net: sunbmac: Replace in_interrupt() usage
+Subject: [patch V2 15/36] net: sfc: Replace in_interrupt() usage
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -105,109 +105,136 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+From: Edward Cree <ecree@solarflare.com>
 
-bigmac_init_rings() has an argument signaling if it is called from the
-interrupt handler. This is used to decide between GFP_KERNEL and GFP_ATOMIC
-for memory allocations.
+efx_ef10_try_update_nic_stats_vf() used in_interrupt() to figure out
+whether it is safe to sleep (for MCDI) or not.
 
-But it also checks in_interrupt() to handle invocations which come from the
-timer callback bigmac_timer() via bigmac_hw_init(), which is invoked with
-'in_irq = 0'. While the timer callback is clearly not in hard interrupt
-context it is still not sleepable context.
+The only caller from which it was not is efx_net_stats(), which can be
+invoked under dev_base_lock from net-sysfs::netstat_show().
 
-Rename the argument to `non_blocking' and set it to true if invoked from
-the timer callback or the interrupt handler which allows to remove the
-in_interrupt() check and makes the code consistent.
+So add a new update_stats_atomic() method to struct efx_nic_type, and call
+it from efx_net_stats(), removing the need for
+efx_ef10_try_update_nic_stats_vf() to behave differently for this case
+(which it wasn't doing correctly anyway).
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+For all nic_types other than EF10 VF, this method is NULL so the the
+regular update_stats() methods are invoked , which are happy with being
+called from atomic contexts.
+
+Fixes: f00bf2305cab ("sfc: don't update stats on VF when called in atomic context")
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Edward Cree <ecree@solarflare.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-
+Reviewed-by: Martin Habets <mhabets@solarflare.com>
 
 ---
- drivers/net/ethernet/sun/sunbmac.c |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Only compile-tested so far, because I'm waiting for my kernel to
+ finish rebuilding with CONFIG_DEBUG_ATOMIC_SLEEP which I'm hoping
+ is the right thing to detect the bug in the existing code.
+I also wasn't quite sure how to give credit to the thorough analysis
+ in the commit message of Sebastian's patch.  I don't think we have
+ a Whatever-by: tag to cover that, do we?
+And this doesn't include your GFP_KERNEL change, which should
+ probably go in separately if you take this.
 
---- a/drivers/net/ethernet/sun/sunbmac.c
-+++ b/drivers/net/ethernet/sun/sunbmac.c
-@@ -209,13 +209,13 @@ static void bigmac_clean_rings(struct bi
- 	}
- }
- 
--static void bigmac_init_rings(struct bigmac *bp, int from_irq)
-+static void bigmac_init_rings(struct bigmac *bp, bool non_blocking)
- {
- 	struct bmac_init_block *bb = bp->bmac_block;
- 	int i;
- 	gfp_t gfp_flags = GFP_KERNEL;
- 
--	if (from_irq || in_interrupt())
-+	if (non_blocking)
- 		gfp_flags = GFP_ATOMIC;
- 
- 	bp->rx_new = bp->rx_old = bp->tx_new = bp->tx_old = 0;
-@@ -489,7 +489,7 @@ static void bigmac_tcvr_init(struct bigm
- 	}
- }
- 
--static int bigmac_init_hw(struct bigmac *, int);
-+static int bigmac_init_hw(struct bigmac *, bool);
- 
- static int try_next_permutation(struct bigmac *bp, void __iomem *tregs)
- {
-@@ -549,7 +549,7 @@ static void bigmac_timer(struct timer_li
- 				if (ret == -1) {
- 					printk(KERN_ERR "%s: Link down, cable problem?\n",
- 					       bp->dev->name);
--					ret = bigmac_init_hw(bp, 0);
-+					ret = bigmac_init_hw(bp, true);
- 					if (ret) {
- 						printk(KERN_ERR "%s: Error, cannot re-init the "
- 						       "BigMAC.\n", bp->dev->name);
-@@ -617,7 +617,7 @@ static void bigmac_begin_auto_negotiatio
- 	add_timer(&bp->bigmac_timer);
- }
- 
--static int bigmac_init_hw(struct bigmac *bp, int from_irq)
-+static int bigmac_init_hw(struct bigmac *bp, bool non_blocking)
- {
- 	void __iomem *gregs        = bp->gregs;
- 	void __iomem *cregs        = bp->creg;
-@@ -635,7 +635,7 @@ static int bigmac_init_hw(struct bigmac
- 	qec_init(bp);
- 
- 	/* Alloc and reset the tx/rx descriptor chains. */
--	bigmac_init_rings(bp, from_irq);
-+	bigmac_init_rings(bp, non_blocking);
- 
- 	/* Initialize the PHY. */
- 	bigmac_tcvr_init(bp);
-@@ -749,7 +749,7 @@ static void bigmac_is_medium_rare(struct
- 	}
- 
- 	printk(" RESET\n");
--	bigmac_init_hw(bp, 1);
-+	bigmac_init_hw(bp, true);
- }
- 
- /* BigMAC transmit complete service routines. */
-@@ -921,7 +921,7 @@ static int bigmac_open(struct net_device
- 		return ret;
- 	}
- 	timer_setup(&bp->bigmac_timer, bigmac_timer, 0);
--	ret = bigmac_init_hw(bp, 0);
-+	ret = bigmac_init_hw(bp, false);
- 	if (ret)
- 		free_irq(dev->irq, bp);
- 	return ret;
-@@ -945,7 +945,7 @@ static void bigmac_tx_timeout(struct net
- {
- 	struct bigmac *bp = netdev_priv(dev);
- 
--	bigmac_init_hw(bp, 0);
-+	bigmac_init_hw(bp, true);
- 	netif_wake_queue(dev);
- }
- 
+ drivers/net/ethernet/sfc/ef10.c       |   22 +++++++++++++---------
+ drivers/net/ethernet/sfc/efx_common.c |    2 +-
+ drivers/net/ethernet/sfc/net_driver.h |    5 +++++
+ drivers/net/ethernet/sfc/nic_common.h |    7 +++++++
+ 4 files changed, 26 insertions(+), 10 deletions(-)
 
+--- a/drivers/net/ethernet/sfc/ef10.c
++++ b/drivers/net/ethernet/sfc/ef10.c
+@@ -1871,15 +1871,6 @@ static int efx_ef10_try_update_nic_stats
+ 
+ 	spin_unlock_bh(&efx->stats_lock);
+ 
+-	if (in_interrupt()) {
+-		/* If in atomic context, cannot update stats.  Just update the
+-		 * software stats and return so the caller can continue.
+-		 */
+-		spin_lock_bh(&efx->stats_lock);
+-		efx_update_sw_stats(efx, stats);
+-		return 0;
+-	}
+-
+ 	efx_ef10_get_stat_mask(efx, mask);
+ 
+ 	rc = efx_nic_alloc_buffer(efx, &stats_buf, dma_len, GFP_ATOMIC);
+@@ -1938,6 +1929,18 @@ static size_t efx_ef10_update_stats_vf(s
+ 	return efx_ef10_update_stats_common(efx, full_stats, core_stats);
+ }
+ 
++static size_t efx_ef10_update_stats_atomic_vf(struct efx_nic *efx, u64 *full_stats,
++					      struct rtnl_link_stats64 *core_stats)
++{
++	struct efx_ef10_nic_data *nic_data = efx->nic_data;
++
++	/* In atomic context, cannot update HW stats.  Just update the
++	 * software stats and return so the caller can continue.
++	 */
++	efx_update_sw_stats(efx, nic_data->stats);
++	return efx_ef10_update_stats_common(efx, full_stats, core_stats);
++}
++
+ static void efx_ef10_push_irq_moderation(struct efx_channel *channel)
+ {
+ 	struct efx_nic *efx = channel->efx;
+@@ -3998,6 +4001,7 @@ const struct efx_nic_type efx_hunt_a0_vf
+ 	.finish_flr = efx_port_dummy_op_void,
+ 	.describe_stats = efx_ef10_describe_stats,
+ 	.update_stats = efx_ef10_update_stats_vf,
++	.update_stats_atomic = efx_ef10_update_stats_atomic_vf,
+ 	.start_stats = efx_port_dummy_op_void,
+ 	.pull_stats = efx_port_dummy_op_void,
+ 	.stop_stats = efx_port_dummy_op_void,
+--- a/drivers/net/ethernet/sfc/efx_common.c
++++ b/drivers/net/ethernet/sfc/efx_common.c
+@@ -602,7 +602,7 @@ void efx_net_stats(struct net_device *ne
+ 	struct efx_nic *efx = netdev_priv(net_dev);
+ 
+ 	spin_lock_bh(&efx->stats_lock);
+-	efx->type->update_stats(efx, NULL, stats);
++	efx_nic_update_stats_atomic(efx, NULL, stats);
+ 	spin_unlock_bh(&efx->stats_lock);
+ }
+ 
+--- a/drivers/net/ethernet/sfc/net_driver.h
++++ b/drivers/net/ethernet/sfc/net_driver.h
+@@ -1172,6 +1172,9 @@ struct efx_udp_tunnel {
+  * @describe_stats: Describe statistics for ethtool
+  * @update_stats: Update statistics not provided by event handling.
+  *	Either argument may be %NULL.
++ * @update_stats_atomic: Update statistics while in atomic context, if that
++ *	is more limiting than @update_stats.  Otherwise, leave %NULL and
++ *	driver core will call @update_stats.
+  * @start_stats: Start the regular fetching of statistics
+  * @pull_stats: Pull stats from the NIC and wait until they arrive.
+  * @stop_stats: Stop the regular fetching of statistics
+@@ -1316,6 +1319,8 @@ struct efx_nic_type {
+ 	size_t (*describe_stats)(struct efx_nic *efx, u8 *names);
+ 	size_t (*update_stats)(struct efx_nic *efx, u64 *full_stats,
+ 			       struct rtnl_link_stats64 *core_stats);
++	size_t (*update_stats_atomic)(struct efx_nic *efx, u64 *full_stats,
++				      struct rtnl_link_stats64 *core_stats);
+ 	void (*start_stats)(struct efx_nic *efx);
+ 	void (*pull_stats)(struct efx_nic *efx);
+ 	void (*stop_stats)(struct efx_nic *efx);
+--- a/drivers/net/ethernet/sfc/nic_common.h
++++ b/drivers/net/ethernet/sfc/nic_common.h
+@@ -244,6 +244,13 @@ void efx_nic_update_stats(const struct e
+ 			  const unsigned long *mask, u64 *stats,
+ 			  const void *dma_buf, bool accumulate);
+ void efx_nic_fix_nodesc_drop_stat(struct efx_nic *efx, u64 *stat);
++static inline size_t efx_nic_update_stats_atomic(struct efx_nic *efx, u64 *full_stats,
++						 struct rtnl_link_stats64 *core_stats)
++{
++	if (efx->type->update_stats_atomic)
++		return efx->type->update_stats_atomic(efx, full_stats, core_stats);
++	return efx->type->update_stats(efx, full_stats, core_stats);
++}
+ 
+ #define EFX_MAX_FLUSH_TIME 5000
+ 
 
