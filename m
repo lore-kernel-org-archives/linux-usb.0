@@ -4,31 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA772C47423
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8FD8C4727C
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90D712158C
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89107207C4
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727946AbgI2KsK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 06:48:10 -0400
+        id S1728185AbgI2KsN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 06:48:13 -0400
 Received: from alexa-out.qualcomm.com ([129.46.98.28]:59739 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbgI2KsJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 06:48:09 -0400
+        with ESMTP id S1728107AbgI2KsL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 06:48:11 -0400
 Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com) ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 29 Sep 2020 03:48:09 -0700
+  by alexa-out.qualcomm.com with ESMTP; 29 Sep 2020 03:48:11 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA; 29 Sep 2020 03:48:07 -0700
+  by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA; 29 Sep 2020 03:48:09 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 29 Sep 2020 16:17:58 +0530
+  by ironmsg02-blr.qualcomm.com with ESMTP; 29 Sep 2020 16:17:55 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 2ED8B2D57; Tue, 29 Sep 2020 16:17:57 +0530 (IST)
+        id 864802D57; Tue, 29 Sep 2020 16:17:54 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -43,9 +43,9 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Manu Gautam <mgautam@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v3 4/5] arm64: dts: qcom: sc7180: Use pdc interrupts for USB instead of GIC interrupts
-Date:   Tue, 29 Sep 2020 16:17:31 +0530
-Message-Id: <1601376452-31839-5-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v3 2/5] usb: dwc3: host: Add suspend_quirk for dwc3 host
+Date:   Tue, 29 Sep 2020 16:17:29 +0530
+Message-Id: <1601376452-31839-3-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1601376452-31839-1-git-send-email-sanm@codeaurora.org>
 References: <1601376452-31839-1-git-send-email-sanm@codeaurora.org>
@@ -53,34 +53,89 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Using pdc interrupts for USB instead of GIC interrupts to
-support wake up in case xo shutdown.
+Adding suspend quirk function for dwc3 host which will be called
+during xhci suspend.
+Setting hs_phy_flags, ss_phy_flags and phy mode during host suspend.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/dwc3/host.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 6678f1e..b196764 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -2687,10 +2687,10 @@
- 					  <&gcc GCC_USB30_PRIM_MASTER_CLK>;
- 			assigned-clock-rates = <19200000>, <150000000>;
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index e195176..7f316fa 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -11,6 +11,13 @@
+ #include <linux/platform_device.h>
  
--			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 488 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 489 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts-extended = <&intc GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
-+					      <&pdc 6 IRQ_TYPE_LEVEL_HIGH>,
-+					      <&pdc 8 IRQ_TYPE_LEVEL_HIGH>,
-+					      <&pdc 9 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "hs_phy_irq", "ss_phy_irq",
- 					  "dm_hs_phy_irq", "dp_hs_phy_irq";
+ #include "core.h"
++#include "../host/xhci.h"
++#include "../host/xhci-plat.h"
++int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd);
++
++static const struct xhci_plat_priv xhci_plat_dwc3_xhci = {
++	.suspend_quirk = xhci_dwc3_suspend_quirk,
++};
  
+ static int dwc3_host_get_irq(struct dwc3 *dwc)
+ {
+@@ -115,6 +122,13 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 		}
+ 	}
+ 
++	ret = platform_device_add_data(xhci, &xhci_plat_dwc3_xhci,
++			sizeof(struct xhci_plat_priv));
++	if (ret) {
++		dev_err(dwc->dev, "failed to add data to xHCI\n");
++		goto err;
++	}
++
+ 	ret = platform_device_add(xhci);
+ 	if (ret) {
+ 		dev_err(dwc->dev, "failed to register xHCI device\n");
+@@ -127,6 +141,41 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	return ret;
+ }
+ 
++static void dwc3_set_phy_speed_flags(struct usb_hcd *hcd)
++{
++
++	int i, num_ports;
++	u32 reg;
++	struct device *dev = hcd->self.controller;
++	struct dwc3 *dwc = dev_get_drvdata(dev->parent);
++	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
++
++	dwc->hs_phy_flags = 0;
++
++	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
++
++	num_ports = HCS_MAX_PORTS(reg);
++	for (i = 0; i < num_ports; i++) {
++		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
++		if (reg & PORT_PE) {
++			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
++				dwc->hs_phy_flags |= PHY_MODE_USB_HOST_HS;
++			else if (DEV_LOWSPEED(reg))
++				dwc->hs_phy_flags |= PHY_MODE_USB_HOST_LS;
++			if (DEV_SUPERSPEED(reg))
++				dwc->ss_phy_flags |= PHY_MODE_USB_HOST_SS;
++		}
++	}
++	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_flags);
++	phy_set_mode(dwc->usb3_generic_phy, dwc->ss_phy_flags);
++}
++
++int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
++{
++	dwc3_set_phy_speed_flags(hcd);
++	return 0;
++}
++
+ void dwc3_host_exit(struct dwc3 *dwc)
+ {
+ 	platform_device_unregister(dwc->xhci);
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
