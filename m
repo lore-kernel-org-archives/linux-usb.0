@@ -2,108 +2,105 @@ Return-Path: <SRS0=WwEB=DG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 382A4C4727F
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:59:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1760C4727C
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 12:47:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAAF02076A
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:59:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtT92NPW"
+	by mail.kernel.org (Postfix) with ESMTP id 6A6C1208B8
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 12:47:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601383644;
+	bh=9rCrCU/IlF42dXf6kWQ22ZRUzkR1Au7ZM8NK732koDk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=1i5Kth51uHtC0RZt4lefU/vTIBFAGAdfY8090Muisp0qEXSL82rGk2ni1bN16edqx
+	 NoVlgPBURnktGA3qRCWf4woI3+AWkaGJlFTX235cj4UwfHLFWCpYmZC318CBFekKnu
+	 RmltWjlglyshOsZMxy3/vK42Y7JVhn1g6JzrEcto=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730960AbgI2L7H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 07:59:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730315AbgI2Lla (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 07:41:30 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18360C0613D1;
-        Tue, 29 Sep 2020 04:41:30 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id a22so3715513ljp.13;
-        Tue, 29 Sep 2020 04:41:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DKj1Mi05r/lPkJStEzGXk91YP8pjP5KDZ2CpBgL5/fY=;
-        b=VtT92NPWEcjOGfhJuW86rj6W4WZTh2U8cHuHVrjGwqFoNczhNyPIJnekCrseB6gbud
-         pXXTV7ZV5Rvffb+ND/Mw84w0sOy0cgauXMCMjbPQj6mCayHpaCwGC0eApOV8aXJkkHqU
-         gsX0iXZkHRGTuQl4OLDlqVHJqzBNrrzCivUsGWYjo3P0fbVwVVtsI5N613V0i+SKNvQ9
-         CwHj4wFKqZDrMcFHDX/GobZ0kWMvP9Nhd504rUVIUygsEVsN0Wf6tHpJqZz2NL2yxEfa
-         NwB/QByCqqCaAizWPhDclWoLfgTSvAuiyM8VsNzeloj+V4kOGdGzYB1IhvTiAaAi2sF+
-         yIjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=DKj1Mi05r/lPkJStEzGXk91YP8pjP5KDZ2CpBgL5/fY=;
-        b=uHkKDU68d6nVy/ID+vFg2DgBhBTTcWFYSNzxWY+C3quQSvPRh7JUxgyKjN7q4vtoJL
-         Kmu9dMk5TPQeMamLA8xObPC3Sm5kuywKsfXtIbWmmTLPpRPCg/E00gMA1kNmxn5qb+Z0
-         Rilj/UIH1PzxHkbOXqWSMTlwHyQu2+YoIMWsuHD2u53Oz2KriMsAR/QDajX/Wh7YxN5D
-         K67Gt/wNfCa4Gskv+djmWEb9pJ5h0/MhuXhGAebdY0ppaTHP0z/68oYSDmqXNatSHBjv
-         Omeel7sPuxKPtkjHa8+bb28b8njA/MloC756x0WLfSVjM/njqHdMT+XaGeOk6uMS9rto
-         rlBg==
-X-Gm-Message-State: AOAM530HwHvUffIaRrjm62tgVI5zr+Vm/BUJ9gNDTBPvsfkQhTD7CPW7
-        +UCmC8L1+UAeHHXlA6OPgBU=
-X-Google-Smtp-Source: ABdhPJwcjlq0rjwvPdAuofQsWvJsOAit69kPFga73785R9VtbDaR1mTaMCt2hikSTX5+1iG4kI5CHw==
-X-Received: by 2002:a2e:8798:: with SMTP id n24mr948762lji.373.1601379688550;
-        Tue, 29 Sep 2020 04:41:28 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:861:66d4:f163:48a3:b6d3:9d73? ([2a00:1fa0:861:66d4:f163:48a3:b6d3:9d73])
-        by smtp.gmail.com with ESMTPSA id v17sm3197612lfr.42.2020.09.29.04.41.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 04:41:28 -0700 (PDT)
-Subject: Re: [PATCH v3 4/5] arm64: dts: qcom: sc7180: Use pdc interrupts for
- USB instead of GIC interrupts
-To:     Sandeep Maheswaram <sanm@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manu Gautam <mgautam@codeaurora.org>
-References: <1601376452-31839-1-git-send-email-sanm@codeaurora.org>
- <1601376452-31839-5-git-send-email-sanm@codeaurora.org>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <07de71c5-71d0-fbf1-8aa7-c039aeb9dffd@gmail.com>
-Date:   Tue, 29 Sep 2020 14:41:19 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1732781AbgI2MrL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 08:47:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43162 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728818AbgI2LGM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 29 Sep 2020 07:06:12 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B4B8321D46;
+        Tue, 29 Sep 2020 11:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601377571;
+        bh=9rCrCU/IlF42dXf6kWQ22ZRUzkR1Au7ZM8NK732koDk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=vLN47IcCv+02TtMy39Ki5OQQeSkY6tqmy55VgoWoO3itK7B3l2D+TswXT8Cdkc7Ju
+         glO3f4W0ko11rHnkiSlyZgBpidgodNt5eVwTlc+kXEWbX1OmAjRxqf77TOmRfQMuaN
+         YfEZWCAEBmIiYbvriksi5NAnDqTKA/dzBzDjQHE0=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Jiri Slaby <jslaby@suse.cz>,
+        Thomas Winischhofer <thomas@winischhofer.net>,
+        linux-usb@vger.kernel.org,
+        Jean-Christophe Plagniol-Villard <plagnioj@jcrosoft.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        "James E.J. Bottomley" <jejb@parisc-linux.org>,
+        Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+        linux-parisc@vger.kernel.org, Ajay Kaher <akaher@vmware.com>
+Subject: [PATCH 4.4 80/85] tty: vt, consw->con_scrolldelta cleanup
+Date:   Tue, 29 Sep 2020 13:00:47 +0200
+Message-Id: <20200929105932.191358795@linuxfoundation.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200929105928.198942536@linuxfoundation.org>
+References: <20200929105928.198942536@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-In-Reply-To: <1601376452-31839-5-git-send-email-sanm@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
+From: Jiri Slaby <jslaby@suse.cz>
 
-On 29.09.2020 13:47, Sandeep Maheswaram wrote:
+commit 97293de977365fe672daec2523e66ef457104921 upstream.
 
-> Using pdc interrupts for USB instead of GIC interrupts to
-> support wake up in case xo shutdown.
+* allow NULL consw->con_scrolldelta (some consoles define an empty
+  hook)
+* => remove empty hooks now
+* return value of consw->con_scrolldelta is never checked => make the
+  function void
+* document consw->con_scrolldelta a bit
 
-    s/xo/of/?
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Cc: Thomas Winischhofer <thomas@winischhofer.net>
+Cc: linux-usb@vger.kernel.org
+Cc: Jean-Christophe Plagniol-Villard <plagnioj@jcrosoft.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: "James E.J. Bottomley" <jejb@parisc-linux.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: Ajay Kaher <akaher@vmware.com>
+[ for 4.4.y backport, only do the first change above, to prevent
+.con_scrolldelta from being called if not present - gregkh]
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/tty/vt/vt.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-[...]
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -2484,7 +2484,7 @@ static void console_callback(struct work
+ 	if (scrollback_delta) {
+ 		struct vc_data *vc = vc_cons[fg_console].d;
+ 		clear_selection();
+-		if (vc->vc_mode == KD_TEXT)
++		if (vc->vc_mode == KD_TEXT && vc->vc_sw->con_scrolldelta)
+ 			vc->vc_sw->con_scrolldelta(vc, scrollback_delta);
+ 		scrollback_delta = 0;
+ 	}
 
-MBR, Sergei
 
