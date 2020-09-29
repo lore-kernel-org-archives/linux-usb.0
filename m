@@ -2,47 +2,50 @@ Return-Path: <SRS0=WwEB=DG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A2DC4742A
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7A8C47436
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:36:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C00342184D
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:35:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 347A9221E7
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:36:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dEktkI17";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pmrmwnMC"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pLhqEL6Z";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BTy/4a8H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729309AbgI2Ufr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:35:47 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:48362 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbgI2Ufl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:35:41 -0400
-Message-Id: <20200929202509.673358734@linutronix.de>
+        id S1729398AbgI2Uf4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37222 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729166AbgI2Ufz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:35:55 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA2CC0613D6;
+        Tue, 29 Sep 2020 13:35:52 -0700 (PDT)
+Message-Id: <20200929203500.481750554@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411738;
+        s=2020; t=1601411750;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=A9VmTcwkFTXzbdbbw121qWEfo2p4m5jmwhJ1CmJQMec=;
-        b=dEktkI17Grpony7lZDKecnFEOdfjaxY0ryQd1B5sA+JU4DH7ltvZM5y90/S5ZbQN7kor0p
-        nLbgJyFkDdibeBt0Ws0AFUWAwfpK6RKbtbq32hFBmipn16rznFFbSlROeQFlp+ycGanNWP
-        QRMD1DrNO0zkyj7xOFwIs6S016IM/aeJPP/9HiWrKgxBMq9Sp/2CemfdS7b/xDowDOdaxh
-        oUQcMLQPDEHoUThhcs+bMPyOJgTUxDiH6L6XKP3eajz21AjfzkSNNqe1W42cLHSqj4tk8o
-        0aWkLxpZPgyBQNI6QCrDgY/PPpvKnuff2Aj0OUVYn/NAyfr2M4CjSm3+dt2zUw==
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=VICDOx2EIISDwW+YF3QvD5vk142qLSDR+atrWMc+BeY=;
+        b=pLhqEL6ZGWSBgJ9nzOjc+QUMoPVWpE4jz349MJWEFKO5TI348m5PQgXEUEoRJaUXnvFLAO
+        Npm+2XlTIkv74YUj7zNV4u3Sc6cTkrdvLjUoxP2HL6M+cfwsbuwusfS/1zRw16DETrQ9MY
+        o1WplOBvkiBCZTbs0NtfUjdRB7LfRyDt8OTmfHQgltGY9H0XG8JYxQxmG2jlRaxsD71vnh
+        vi+3+E067kHa7BSdTsAe5CSthJW6Qb0/ACt9F9YKnWCgIQ5Rg1Qw+MBBSs9Zaqq9dfwcC8
+        XgIGjeEQzb35lFbyQCXkP2jYh3mzF6jSSPUJJsM4l60uyICjlXCZ/SjqGLmoZg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411738;
+        s=2020e; t=1601411751;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=A9VmTcwkFTXzbdbbw121qWEfo2p4m5jmwhJ1CmJQMec=;
-        b=pmrmwnMCbZFXDvPzt7v5jtJqkDoyPinCfkEKPf5sb51+5GYnhW1aOS8+hkZk3HEdGnrxXP
-        lrF/CHb/+X9mNiBw==
-Date:   Tue, 29 Sep 2020 22:25:09 +0200
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=VICDOx2EIISDwW+YF3QvD5vk142qLSDR+atrWMc+BeY=;
+        b=BTy/4a8HncmpoDwnXDEurZSKOP5mWdJwALMMKLG/chU7a6Y2N0g2DffQlMJcSEODI7DDYP
+        CD/HFFakt7GQE8AQ==
+Date:   Tue, 29 Sep 2020 22:25:19 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -95,151 +98,141 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Xinming Hu <huxinming820@gmail.com>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
-        Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 00/36] net: in_interrupt() cleanup and fixes
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Subject: [patch V2 10/36] net: intel: Remove in_interrupt() warnings
+References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8-bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rm9sa3MsCgppbiB0aGUgZGlzY3Vzc2lvbiBhYm91dCBwcmVlbXB0IGNvdW50IGNvbnNpc3RlbmN5
-IGFjY3Jvc3Mga2VybmVsIGNvbmZpZ3VyYXRpb25zOgoKICBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9yLzIwMjAwOTE0MjA0MjA5LjI1NjI2NjA5M0BsaW51dHJvbml4LmRlLwoKTGludXMgY2xlYXJs
-eSByZXF1ZXN0ZWQgdGhhdCBjb2RlIGluIGRyaXZlcnMgYW5kIGxpYnJhcmllcyB3aGljaCBjaGFu
-Z2VzCmJlaGF2aW91ciBiYXNlZCBvbiBleGVjdXRpb24gY29udGV4dCBzaG91bGQgZWl0aGVyIGJl
-IHNwbGl0IHVwIHNvIHRoYXQKZS5nLiB0YXNrIGNvbnRleHQgaW52b2NhdGlvbnMgYW5kIEJIIGlu
-dm9jYXRpb25zIGhhdmUgZGlmZmVyZW50IGludGVyZmFjZXMKb3IgaWYgdGhhdCdzIG5vdCBwb3Nz
-aWJsZSB0aGUgY29udGV4dCBpbmZvcm1hdGlvbiBoYXMgdG8gYmUgcHJvdmlkZWQgYnkgdGhlCmNh
-bGxlciB3aGljaCBrbm93cyBpbiB3aGljaCBjb250ZXh0IGl0IGlzIGV4ZWN1dGluZy4KClRoaXMg
-aW5jbHVkZXMgY29uZGl0aW9uYWwgbG9ja2luZywgYWxsb2NhdGlvbiBtb2RlIChHRlBfKikgZGVj
-aXNpb25zIGFuZAphdm9pZGFuY2Ugb2YgY29kZSBwYXRocyB3aGljaCBtaWdodCBzbGVlcC4KCklu
-IHRoZSBsb25nIHJ1biwgdXNhZ2Ugb2YgJ3ByZWVtcHRpYmxlLCBpbl8qaXJxIGV0Yy4nIHNob3Vs
-ZCBiZSBiYW5uZWQgZnJvbQpkcml2ZXIgY29kZSBjb21wbGV0ZWx5LgoKVGhpcyBpcyB0aGUgc2Vj
-b25kIHZlcnNpb24gb2YgdGhlIGZpcnN0IGJhdGNoIG9mIHJlbGF0ZWQgY2hhbmdlcy4gVjEgY2Fu
-IGJlCmZvdW5kIGhlcmU6CgogICAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMDA5Mjcx
-OTQ4NDYuMDQ1NDExMjYzQGxpbnV0cm9uaXguZGUKCkNoYW5nZXMgdnMuIFYxOgoKICAtIFJlYmFz
-ZWQgdG8gbmV0LW5leHQKCiAgLSBGaXhlZCB0aGUgaGFsZiBkb25lIHJlbmFtZSBzaWxseW5lc3Mg
-aW4gdGhlIEVOSUMgcGF0Y2guCgogIC0gRml4ZWQgdGhlIElPTklDIGRyaXZlciBmYWxsb3V0LgoK
-ICAtIFBpY2tlZCB1cCB0aGUgU0ZDIGZpeCBmcm9tIEVkd2FyZCBhbmQgYWRqdXN0ZWQgdGhlIEdG
-UF9LRVJORUwgY2hhbmdlCiAgICBhY2NvcmRpbmdseS4KCiAgLSBBZGRyZXNzZWQgdGhlIHJldmll
-dyBjb21tZW50cyB2cy4gQkNSRk1BQy4KCiAgLSBDb2xsZWN0ZWQgUmV2aWV3ZWQvQWNrZWQtYnkg
-dGFncyBhcyBhcHByb3ByaWF0ZS4KClRoZSBwaWxlIGlzIGFsc28gYXZhaWxhYmxlIGZyb206Cgog
-ICAgZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RnbHgvZGV2
-ZWwuZ2l0IG5ldC9jbGVhbnVwCgpUaGFua3MsCgoJdGdseAotLS0KIERvY3VtZW50YXRpb24vbmV0
-d29ya2luZy9jYWlmL3NwaV9wb3J0aW5nLnJzdCAgICAgICAgICAgICAgICAgICB8ICAyMjkgLS0K
-IGIvRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nL2NhaWYvaW5kZXgucnN0ICAgICAgICAgICAgICAg
-ICAgICAgICB8ICAgIDEgCiBiL2RyaXZlcnMvbmV0L2NhaWYvS2NvbmZpZyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDE5IAogYi9kcml2ZXJzL25ldC9jYWlmL01ha2Vm
-aWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgNCAKIGIvZHJpdmVy
-cy9uZXQvY2FpZi9jYWlmX2hzaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-ICAgMTkgCiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2FtZC9zdW4zbGFuY2UuYyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfCAgIDExIAogYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9hdGhlcm9zL2F0
-bDFjL2F0bDFjX21haW4uYyAgICAgICAgICAgICAgIHwgICAgMSAKIGIvZHJpdmVycy9uZXQvZXRo
-ZXJuZXQvYXRoZXJvcy9hdGwxZS9hdGwxZV9tYWluLmMgICAgICAgICAgICAgICB8ICAgIDIgCiBi
-L2RyaXZlcnMvbmV0L2V0aGVybmV0L2F0aGVyb3MvYXRseC9hdGwyLmMgICAgICAgICAgICAgICAg
-ICAgICAgfCAgICAxIAogYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9jaGVsc2lvL2N4Z2IzL2FkYXB0
-ZXIuaCAgICAgICAgICAgICAgICAgIHwgICAgMSAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvY2hl
-bHNpby9jeGdiMy9jeGdiM19tYWluLmMgICAgICAgICAgICAgICB8ICAgIDIgCiBiL2RyaXZlcnMv
-bmV0L2V0aGVybmV0L2NoZWxzaW8vY3hnYjMvc2dlLmMgICAgICAgICAgICAgICAgICAgICAgfCAg
-IDQ0IAogYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9jaGVsc2lvL2N4Z2I0L3NnZS5jICAgICAgICAg
-ICAgICAgICAgICAgIHwgICAgMyAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvY2lzY28vZW5pYy9l
-bmljLmggICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDEgCiBiL2RyaXZlcnMvbmV0L2V0aGVy
-bmV0L2Npc2NvL2VuaWMvZW5pY19hcGkuYyAgICAgICAgICAgICAgICAgICAgfCAgICA2IAogYi9k
-cml2ZXJzL25ldC9ldGhlcm5ldC9jaXNjby9lbmljL2VuaWNfbWFpbi5jICAgICAgICAgICAgICAg
-ICAgIHwgICAyNyAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvZnJlZXNjYWxlL2ZlY19tcGM1Mnh4
-LmMgICAgICAgICAgICAgICAgICB8ICAgMTAgCiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ludGVs
-L2UxMDAuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICA0IAogYi9kcml2ZXJzL25l
-dC9ldGhlcm5ldC9pbnRlbC9lMTAwMC9lMTAwMF9tYWluLmMgICAgICAgICAgICAgICAgIHwgICAg
-MSAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvaW50ZWwvZm0xMGsvZm0xMGtfcGNpLmMgICAgICAg
-ICAgICAgICAgICB8ICAgIDIgCiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ludGVsL2k0MGUvaTQw
-ZV9tYWluLmMgICAgICAgICAgICAgICAgICAgfCAgICA0IAogYi9kcml2ZXJzL25ldC9ldGhlcm5l
-dC9pbnRlbC9pY2UvaWNlX21haW4uYyAgICAgICAgICAgICAgICAgICAgIHwgICAgMSAKIGIvZHJp
-dmVycy9uZXQvZXRoZXJuZXQvaW50ZWwvaWdiL2lnYl9tYWluLmMgICAgICAgICAgICAgICAgICAg
-ICB8ICAgIDEgCiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ludGVsL2lnYy9pZ2NfbWFpbi5jICAg
-ICAgICAgICAgICAgICAgICAgfCAgICAxIAogYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9pbnRlbC9p
-eGdiZS9peGdiZV9tYWluLmMgICAgICAgICAgICAgICAgIHwgICAgMSAKIGIvZHJpdmVycy9uZXQv
-ZXRoZXJuZXQvaW50ZWwvaXhnYmV2Zi9peGdiZXZmX21haW4uYyAgICAgICAgICAgICB8ICAgIDIg
-CiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L25hdHNlbWkvc29uaWMuYyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgfCAgIDI0IAogYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9uYXRzZW1pL3NvbmljLmgg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgMiAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQv
-bmV0ZXJpb24vdnhnZS92eGdlLWNvbmZpZy5jICAgICAgICAgICAgICB8ICAgIDkgCiBiL2RyaXZl
-cnMvbmV0L2V0aGVybmV0L25ldGVyaW9uL3Z4Z2UvdnhnZS1jb25maWcuaCAgICAgICAgICAgICAg
-fCAgICA3IAogYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9wZW5zYW5kby9pb25pYy9pb25pY19kZXYu
-YyAgICAgICAgICAgICAgIHwgICAgMiAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvcGVuc2FuZG8v
-aW9uaWMvaW9uaWNfbGlmLmMgICAgICAgICAgICAgICB8ICAgNjQgCiBiL2RyaXZlcnMvbmV0L2V0
-aGVybmV0L3BlbnNhbmRvL2lvbmljL2lvbmljX2xpZi5oICAgICAgICAgICAgICAgfCAgICAyIAog
-Yi9kcml2ZXJzL25ldC9ldGhlcm5ldC9wZW5zYW5kby9pb25pYy9pb25pY19tYWluLmMgICAgICAg
-ICAgICAgIHwgICAgNCAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmMTAuYyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB8ICAgMjQgCiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3Nm
-Yy9lZnhfY29tbW9uLmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAyIAogYi9kcml2ZXJz
-L25ldC9ldGhlcm5ldC9zZmMvbmV0X2RyaXZlci5oICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-ICAgNSAKIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL25pY19jb21tb24uaCAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICAgIDcgCiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3N1bi9zdW5ibWFj
-LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDE4IAogYi9kcml2ZXJzL25ldC9waHkv
-bWRpb19idXMuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAxNSAKIGIv
-ZHJpdmVycy9uZXQvdXNiL2thd2V0aC5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB8ICAyNjEgLS0KIGIvZHJpdmVycy9uZXQvdXNiL25ldDEwODAuYyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDEgCiBiL2RyaXZlcnMvbmV0L3dhbi9sbWMvbG1j
-X2RlYnVnLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDE4IAogYi9kcml2ZXJz
-L25ldC93YW4vbG1jL2xtY19kZWJ1Zy5oICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-ICAgMSAKIGIvZHJpdmVycy9uZXQvd2FuL2xtYy9sbWNfbWFpbi5jICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICAxMDUgLQogYi9kcml2ZXJzL25ldC93YW4vbG1jL2xtY19tZWRpYS5j
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgNCAKIGIvZHJpdmVycy9uZXQvd2Fu
-L2xtYy9sbWNfcHJvdG8uYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMTYgCiBi
-L2RyaXZlcnMvbmV0L3dpcmVsZXNzL2Jyb2FkY29tL2JyY204MDIxMS9icmNtZm1hYy9iY2RjLmMg
-ICAgICAgfCAgICA0IAogYi9kcml2ZXJzL25ldC93aXJlbGVzcy9icm9hZGNvbS9icmNtODAyMTEv
-YnJjbWZtYWMvYmNtc2RoLmMgICAgIHwgICAgNCAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvYnJv
-YWRjb20vYnJjbTgwMjExL2JyY21mbWFjL2J1cy5oICAgICAgICB8ICAgIDMgCiBiL2RyaXZlcnMv
-bmV0L3dpcmVsZXNzL2Jyb2FkY29tL2JyY204MDIxMS9icmNtZm1hYy9jb3JlLmMgICAgICAgfCAg
-IDI2IAogYi9kcml2ZXJzL25ldC93aXJlbGVzcy9icm9hZGNvbS9icmNtODAyMTEvYnJjbWZtYWMv
-Y29yZS5oICAgICAgIHwgICAgMiAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvYnJvYWRjb20vYnJj
-bTgwMjExL2JyY21mbWFjL2Z3ZWguYyAgICAgICB8ICAgIDggCiBiL2RyaXZlcnMvbmV0L3dpcmVs
-ZXNzL2Jyb2FkY29tL2JyY204MDIxMS9icmNtZm1hYy9md2VoLmggICAgICAgfCAgICA3IAogYi9k
-cml2ZXJzL25ldC93aXJlbGVzcy9icm9hZGNvbS9icmNtODAyMTEvYnJjbWZtYWMvZndzaWduYWwu
-YyAgIHwgICAxMCAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvYnJvYWRjb20vYnJjbTgwMjExL2Jy
-Y21mbWFjL2Z3c2lnbmFsLmggICB8ICAgIDIgCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2Jyb2Fk
-Y29tL2JyY204MDIxMS9icmNtZm1hYy9tc2didWYuYyAgICAgfCAgICA3IAogYi9kcml2ZXJzL25l
-dC93aXJlbGVzcy9icm9hZGNvbS9icmNtODAyMTEvYnJjbWZtYWMvcHJvdG8uaCAgICAgIHwgICAg
-NiAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvYnJvYWRjb20vYnJjbTgwMjExL2JyY21mbWFjL3Nk
-aW8uYyAgICAgICB8ICAgIDggCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2Jyb2FkY29tL2JyY204
-MDIxMS9icmNtZm1hYy9zZGlvLmggICAgICAgfCAgICAyIAogYi9kcml2ZXJzL25ldC93aXJlbGVz
-cy9icm9hZGNvbS9icmNtODAyMTEvYnJjbWZtYWMvdXNiLmMgICAgICAgIHwgICAgMiAKIGIvZHJp
-dmVycy9uZXQvd2lyZWxlc3MvaW50ZWwvaXB3MngwMC9pcHcyMTAwLmMgICAgICAgICAgICAgICAg
-ICB8ICAgIDMgCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2ludGVsL2lwdzJ4MDAvaXB3MjIwMC5o
-ICAgICAgICAgICAgICAgICAgfCAgICA2IAogYi9kcml2ZXJzL25ldC93aXJlbGVzcy9pbnRlbC9p
-cHcyeDAwL2xpYmlwdy5oICAgICAgICAgICAgICAgICAgIHwgICAgMyAKIGIvZHJpdmVycy9uZXQv
-d2lyZWxlc3MvaW50ZWwvaXdsZWdhY3kvY29tbW9uLmggICAgICAgICAgICAgICAgICB8ICAgIDQg
-CiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2ludGVsL2l3bHdpZmkvaXdsLWRlYnVnLmMgICAgICAg
-ICAgICAgICAgfCAgICA1IAogYi9kcml2ZXJzL25ldC93aXJlbGVzcy9pbnRlbC9pd2x3aWZpL2l3
-bC1kZXZ0cmFjZS1tc2cuaCAgICAgICAgIHwgICAgNiAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3Mv
-aW50ZXJzaWwvaG9zdGFwL2hvc3RhcF9ody5jICAgICAgICAgICAgICB8ICAgMTIgCiBiL2RyaXZl
-cnMvbmV0L3dpcmVsZXNzL21hcnZlbGwvbGliZXJ0YXMvZGVmcy5oICAgICAgICAgICAgICAgICAg
-fCAgICAzIAogYi9kcml2ZXJzL25ldC93aXJlbGVzcy9tYXJ2ZWxsL2xpYmVydGFzL3J4LmMgICAg
-ICAgICAgICAgICAgICAgIHwgICAxMSAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvbWFydmVsbC9s
-aWJlcnRhc190Zi9kZWJfZGVmcy5oICAgICAgICAgICB8ICAgIDMgCiBiL2RyaXZlcnMvbmV0L3dp
-cmVsZXNzL21hcnZlbGwvbXdpZmlleC91YXBfdHhyeC5jICAgICAgICAgICAgICAgfCAgICA2IAog
-Yi9kcml2ZXJzL25ldC93aXJlbGVzcy9tYXJ2ZWxsL213aWZpZXgvdXRpbC5jICAgICAgICAgICAg
-ICAgICAgIHwgICAgNiAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGx3aWZpL2Jh
-c2UuYyAgICAgICAgICAgICAgICAgICB8ICAgNDcgCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3Jl
-YWx0ZWsvcnRsd2lmaS9iYXNlLmggICAgICAgICAgICAgICAgICAgfCAgICAzIAogYi9kcml2ZXJz
-L25ldC93aXJlbGVzcy9yZWFsdGVrL3J0bHdpZmkvYnRjb2V4aXN0L2hhbGJ0Y291dHNyYy5jIHwg
-ICAxMiAKIGIvZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGx3aWZpL2NvcmUuYyAgICAg
-ICAgICAgICAgICAgICB8ICAgIDYgCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnRs
-d2lmaS9kZWJ1Zy5jICAgICAgICAgICAgICAgICAgfCAgIDIwIAogYi9kcml2ZXJzL25ldC93aXJl
-bGVzcy9yZWFsdGVrL3J0bHdpZmkvZGVidWcuaCAgICAgICAgICAgICAgICAgIHwgICAgOCAKIGIv
-ZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGx3aWZpL3BjaS5jICAgICAgICAgICAgICAg
-ICAgICB8ICAgIDQgCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnRsd2lmaS9wcy5j
-ICAgICAgICAgICAgICAgICAgICAgfCAgIDI3IAogYi9kcml2ZXJzL25ldC93aXJlbGVzcy9yZWFs
-dGVrL3J0bHdpZmkvcHMuaCAgICAgICAgICAgICAgICAgICAgIHwgICAxMCAKIGIvZHJpdmVycy9u
-ZXQvd2lyZWxlc3MvcmVhbHRlay9ydGx3aWZpL3dpZmkuaCAgICAgICAgICAgICAgICAgICB8ICAg
-IDMgCiBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3p5ZGFzL3pkMTIxMXJ3L3pkX3VzYi5jICAgICAg
-ICAgICAgICAgICAgfCAgICAxIAogYi9pbmNsdWRlL2xpbnV4L25ldGRldmljZS5oICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgMSAKIGIvbmV0L2NvcmUvZGV2LmMgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMTUgCiBkcml2
-ZXJzL25ldC9jYWlmL2NhaWZfc3BpLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgfCAgODc0IC0tLS0tLS0tLS0KIGRyaXZlcnMvbmV0L2NhaWYvY2FpZl9zcGlfc2xhdmUuYyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyNTQgLS0KIGluY2x1ZGUvbmV0L2NhaWYv
-Y2FpZl9zcGkuaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxNTUgLQog
-ODkgZmlsZXMgY2hhbmdlZCwgMzU0IGluc2VydGlvbnMoKyksIDIyMzQgZGVsZXRpb25zKC0pCgo=
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
+
+In this case the checks cover only parts of the contexts in which these
+functions cannot be called. They fail to detect preemption or interrupt
+disabled invocations.
+
+As the functions which are invoked from the various places contain already
+a broad variety of checks (always enabled or debug option dependent) cover
+all invalid conditions already, there is no point in having inconsistent
+warnings in those drivers.
+
+Just remove them.
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+
+---
+ drivers/net/ethernet/intel/e1000/e1000_main.c     |    1 -
+ drivers/net/ethernet/intel/fm10k/fm10k_pci.c      |    2 --
+ drivers/net/ethernet/intel/i40e/i40e_main.c       |    4 ----
+ drivers/net/ethernet/intel/ice/ice_main.c         |    1 -
+ drivers/net/ethernet/intel/igb/igb_main.c         |    1 -
+ drivers/net/ethernet/intel/igc/igc_main.c         |    1 -
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c     |    1 -
+ drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c |    2 --
+ 8 files changed, 13 deletions(-)
+
+--- a/drivers/net/ethernet/intel/e1000/e1000_main.c
++++ b/drivers/net/ethernet/intel/e1000/e1000_main.c
+@@ -534,7 +534,6 @@ void e1000_down(struct e1000_adapter *ad
+ 
+ void e1000_reinit_locked(struct e1000_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__E1000_RESETTING, &adapter->flags))
+ 		msleep(1);
+ 
+--- a/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
++++ b/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
+@@ -221,8 +221,6 @@ static bool fm10k_prepare_for_reset(stru
+ {
+ 	struct net_device *netdev = interface->netdev;
+ 
+-	WARN_ON(in_interrupt());
+-
+ 	/* put off any impending NetWatchDogTimeout */
+ 	netif_trans_update(netdev);
+ 
+--- a/drivers/net/ethernet/intel/i40e/i40e_main.c
++++ b/drivers/net/ethernet/intel/i40e/i40e_main.c
+@@ -6689,7 +6689,6 @@ static void i40e_vsi_reinit_locked(struc
+ {
+ 	struct i40e_pf *pf = vsi->back;
+ 
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__I40E_CONFIG_BUSY, pf->state))
+ 		usleep_range(1000, 2000);
+ 	i40e_down(vsi);
+@@ -8462,9 +8461,6 @@ void i40e_do_reset(struct i40e_pf *pf, u
+ {
+ 	u32 val;
+ 
+-	WARN_ON(in_interrupt());
+-
+-
+ 	/* do the biggest reset indicated */
+ 	if (reset_flags & BIT_ULL(__I40E_GLOBAL_RESET_REQUESTED)) {
+ 
+--- a/drivers/net/ethernet/intel/ice/ice_main.c
++++ b/drivers/net/ethernet/intel/ice/ice_main.c
+@@ -486,7 +486,6 @@ static void ice_do_reset(struct ice_pf *
+ 	struct ice_hw *hw = &pf->hw;
+ 
+ 	dev_dbg(dev, "reset_type 0x%x requested\n", reset_type);
+-	WARN_ON(in_interrupt());
+ 
+ 	ice_prepare_for_reset(pf);
+ 
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -2220,7 +2220,6 @@ void igb_down(struct igb_adapter *adapte
+ 
+ void igb_reinit_locked(struct igb_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__IGB_RESETTING, &adapter->state))
+ 		usleep_range(1000, 2000);
+ 	igb_down(adapter);
+--- a/drivers/net/ethernet/intel/igc/igc_main.c
++++ b/drivers/net/ethernet/intel/igc/igc_main.c
+@@ -3831,7 +3831,6 @@ void igc_down(struct igc_adapter *adapte
+ 
+ void igc_reinit_locked(struct igc_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__IGC_RESETTING, &adapter->state))
+ 		usleep_range(1000, 2000);
+ 	igc_down(adapter);
+--- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
++++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+@@ -5677,7 +5677,6 @@ static void ixgbe_up_complete(struct ixg
+ 
+ void ixgbe_reinit_locked(struct ixgbe_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	/* put off any impending NetWatchDogTimeout */
+ 	netif_trans_update(adapter->netdev);
+ 
+--- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
++++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+@@ -2526,8 +2526,6 @@ void ixgbevf_down(struct ixgbevf_adapter
+ 
+ void ixgbevf_reinit_locked(struct ixgbevf_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+-
+ 	while (test_and_set_bit(__IXGBEVF_RESETTING, &adapter->state))
+ 		msleep(1);
+ 
+
+
