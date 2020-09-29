@@ -7,42 +7,45 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF7B5C54F51
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 719A8C54F5D
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:40:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62AF220774
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B8B0208B8
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:40:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jVCtw2lj";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cz/fvbwE"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yiY42gne";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3/6QNokw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730134AbgI2Ujp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:39:45 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:48614 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729388AbgI2Uf6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:35:58 -0400
-Message-Id: <20200929203500.870136509@linutronix.de>
+        id S1729345AbgI2Ufv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:35:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728301AbgI2Ufo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:35:44 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C11E6C061755;
+        Tue, 29 Sep 2020 13:35:43 -0700 (PDT)
+Message-Id: <20200929203459.759549699@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411756;
+        s=2020; t=1601411742;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=z3moHQN6gl51QG697Ig4fcwx454n2NJK4rp8mf5cNuM=;
-        b=jVCtw2ljxAFvqhAGfu6tMOO+k6YrsNVclMOkPke8dvG+YpIVNxH2QBcy0bO04sbuPXYwUw
-        xZrde8ZuN+JyPv2TTYVvIiktfDoyR2T7ZurcH+IieZjs0HigDqt30ptzHdpdtWBukvdhDI
-        15A+imKV1yQ80015acETWy241+VdPwNHT7wGtVOmknIM1heY5YZlS5kDdHn3V1/YxpTj9z
-        uA+iH1qXViLCb14RpMVnHLY16VbqN045hZ4D1VKoO5b1XKcZ0H0EgJazSX7k51qG2fZYSu
-        KvB/j2+KnuKsoN3n7nceS1o28YzQCbFp4VUvjyRG6BujSIVZZFBAtyeBKTL+9w==
+        bh=9gno+yzKOdLMuJ9Xz4faTO6ILG5b04BLHvO+JheY75g=;
+        b=yiY42gneBjiDDqh0Y79DvBn3YqjkNpXchXD4e5CBIFn2QkSAqgIMEPREJCO8X9Kq3D176D
+        jFnHDZKvazk50QBJBdOtZSUcTqLU9VBRYM+WRqpysnukd6P6CkcgWCXDciWZ9Fu2SK0n2r
+        4Pcp0StXIFuSxY2o0/TgPe7hShkmc6K3lo6O03bsnZiTIIOco6NIHJIptMdz84OB67sc99
+        nLxCK/dvG4VTSg9AmFz2HwFCpVu/l5STefw3m1/13gKhUEDnfk12sH5lrgfP7r8oVQf5RH
+        jQYhL5BVFTVjpLC6jnX5mj7/YIRaOAnJZAHVe6CAfHIiVAcZ+F6Ejyd1lc9AoA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411756;
+        s=2020e; t=1601411742;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=z3moHQN6gl51QG697Ig4fcwx454n2NJK4rp8mf5cNuM=;
-        b=cz/fvbwEmtU2I7VB5GFxobVdz4+igLoEhz0hFG5h/u9T4PsPi5iWQ70/vcLbBgcyROmgwp
-        Hr2Z0yFyRFjlJqAg==
-Date:   Tue, 29 Sep 2020 22:25:23 +0200
+        bh=9gno+yzKOdLMuJ9Xz4faTO6ILG5b04BLHvO+JheY75g=;
+        b=3/6QNokwXiifx/c6QT6thjfpjkax60IAdQdnv3k6ZHYGzaNff0p7Z8rVmKlXH8pDtcCSsC
+        4g3HKTgLr4tZQcBA==
+Date:   Tue, 29 Sep 2020 22:25:12 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -96,7 +99,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 14/36] net: natsemi: Replace in_interrupt() usage.
+Subject: [patch V2 03/36] net: Add netif_rx_any_context()
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -105,144 +108,68 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The usage of in_interrupt() in drivers is phased out and Linus clearly
-requested that code which changes behaviour depending on context should
-either be seperated or the context be conveyed in an argument passed by the
-caller, which usually knows the context.
+Quite some drivers make conditional decisions based on in_interrupt() to
+invoke either netif_rx() or netif_rx_ni().
 
-sonic_quiesce() uses 'in_interrupt() || irqs_disabled()' to chose either
-udelay() or usleep_range() in the wait loop.
+Conditionals based on in_interrupt() or other variants of preempt count
+checks in drivers should not exist for various reasons and Linus clearly
+requested to either split the code pathes or pass an argument to the
+common functions which provides the context.
 
-In all callchains leading to it the context is well defined and known.
+This is obviously the correct solution, but for some of the affected
+drivers this needs a major rewrite due to their convoluted structure.
 
-Add a 'may_sleep' argument and pass it through the various callchains
-leading to this function.
+As in_interrupt() usage in drivers needs to be phased out, provide
+netif_rx_any_context() as a stop gap for these drivers.
 
+This confines the in_interrupt() conditional to core code which in turn
+allows to remove the access to this check for driver code and provides one
+central place to do further modifications once the driver maze is cleaned
+up.
+
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-
 ---
- drivers/net/ethernet/natsemi/sonic.c |   24 ++++++++++++------------
- drivers/net/ethernet/natsemi/sonic.h |    2 +-
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ include/linux/netdevice.h |    1 +
+ net/core/dev.c            |   15 +++++++++++++++
+ 2 files changed, 16 insertions(+)
 
---- a/drivers/net/ethernet/natsemi/sonic.c
-+++ b/drivers/net/ethernet/natsemi/sonic.c
-@@ -143,7 +143,7 @@ static int sonic_open(struct net_device
- 	/*
- 	 * Initialize the SONIC
- 	 */
--	sonic_init(dev);
-+	sonic_init(dev, true);
- 
- 	netif_start_queue(dev);
- 
-@@ -153,7 +153,7 @@ static int sonic_open(struct net_device
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -3785,6 +3785,7 @@ void generic_xdp_tx(struct sk_buff *skb,
+ int do_xdp_generic(struct bpf_prog *xdp_prog, struct sk_buff *skb);
+ int netif_rx(struct sk_buff *skb);
+ int netif_rx_ni(struct sk_buff *skb);
++int netif_rx_any_context(struct sk_buff *skb);
+ int netif_receive_skb(struct sk_buff *skb);
+ int netif_receive_skb_core(struct sk_buff *skb);
+ void netif_receive_skb_list(struct list_head *head);
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -4841,6 +4841,21 @@ int netif_rx_ni(struct sk_buff *skb)
  }
+ EXPORT_SYMBOL(netif_rx_ni);
  
- /* Wait for the SONIC to become idle. */
--static void sonic_quiesce(struct net_device *dev, u16 mask)
-+static void sonic_quiesce(struct net_device *dev, u16 mask, bool may_sleep)
++int netif_rx_any_context(struct sk_buff *skb)
++{
++	/*
++	 * If invoked from contexts which do not invoke bottom half
++	 * processing either at return from interrupt or when softrqs are
++	 * reenabled, use netif_rx_ni() which invokes bottomhalf processing
++	 * directly.
++	 */
++	if (in_interrupt())
++		return netif_rx(skb);
++	else
++		return netif_rx_ni(skb);
++}
++EXPORT_SYMBOL(netif_rx_any_context);
++
+ static __latent_entropy void net_tx_action(struct softirq_action *h)
  {
- 	struct sonic_local * __maybe_unused lp = netdev_priv(dev);
- 	int i;
-@@ -163,7 +163,7 @@ static void sonic_quiesce(struct net_dev
- 		bits = SONIC_READ(SONIC_CMD) & mask;
- 		if (!bits)
- 			return;
--		if (irqs_disabled() || in_interrupt())
-+		if (!may_sleep)
- 			udelay(20);
- 		else
- 			usleep_range(100, 200);
-@@ -187,7 +187,7 @@ static int sonic_close(struct net_device
- 	 * stop the SONIC, disable interrupts
- 	 */
- 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS);
--	sonic_quiesce(dev, SONIC_CR_ALL);
-+	sonic_quiesce(dev, SONIC_CR_ALL, true);
- 
- 	SONIC_WRITE(SONIC_IMR, 0);
- 	SONIC_WRITE(SONIC_ISR, 0x7fff);
-@@ -229,7 +229,7 @@ static void sonic_tx_timeout(struct net_
- 	 * disable all interrupts before releasing DMA buffers
- 	 */
- 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS);
--	sonic_quiesce(dev, SONIC_CR_ALL);
-+	sonic_quiesce(dev, SONIC_CR_ALL, false);
- 
- 	SONIC_WRITE(SONIC_IMR, 0);
- 	SONIC_WRITE(SONIC_ISR, 0x7fff);
-@@ -246,7 +246,7 @@ static void sonic_tx_timeout(struct net_
- 		}
- 	}
- 	/* Try to restart the adaptor. */
--	sonic_init(dev);
-+	sonic_init(dev, false);
- 	lp->stats.tx_errors++;
- 	netif_trans_update(dev); /* prevent tx timeout */
- 	netif_wake_queue(dev);
-@@ -692,9 +692,9 @@ static void sonic_multicast_list(struct
- 
- 			/* LCAM and TXP commands can't be used simultaneously */
- 			spin_lock_irqsave(&lp->lock, flags);
--			sonic_quiesce(dev, SONIC_CR_TXP);
-+			sonic_quiesce(dev, SONIC_CR_TXP, false);
- 			SONIC_WRITE(SONIC_CMD, SONIC_CR_LCAM);
--			sonic_quiesce(dev, SONIC_CR_LCAM);
-+			sonic_quiesce(dev, SONIC_CR_LCAM, false);
- 			spin_unlock_irqrestore(&lp->lock, flags);
- 		}
- 	}
-@@ -708,7 +708,7 @@ static void sonic_multicast_list(struct
- /*
-  * Initialize the SONIC ethernet controller.
-  */
--static int sonic_init(struct net_device *dev)
-+static int sonic_init(struct net_device *dev, bool may_sleep)
- {
- 	struct sonic_local *lp = netdev_priv(dev);
- 	int i;
-@@ -730,7 +730,7 @@ static int sonic_init(struct net_device
- 	 */
- 	SONIC_WRITE(SONIC_CMD, 0);
- 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS | SONIC_CR_STP);
--	sonic_quiesce(dev, SONIC_CR_ALL);
-+	sonic_quiesce(dev, SONIC_CR_ALL, may_sleep);
- 
- 	/*
- 	 * initialize the receive resource area
-@@ -759,7 +759,7 @@ static int sonic_init(struct net_device
- 	netif_dbg(lp, ifup, dev, "%s: issuing RRRA command\n", __func__);
- 
- 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RRRA);
--	sonic_quiesce(dev, SONIC_CR_RRRA);
-+	sonic_quiesce(dev, SONIC_CR_RRRA, may_sleep);
- 
- 	/*
- 	 * Initialize the receive descriptors so that they
-@@ -834,7 +834,7 @@ static int sonic_init(struct net_device
- 	 * load the CAM
- 	 */
- 	SONIC_WRITE(SONIC_CMD, SONIC_CR_LCAM);
--	sonic_quiesce(dev, SONIC_CR_LCAM);
-+	sonic_quiesce(dev, SONIC_CR_LCAM, may_sleep);
- 
- 	/*
- 	 * enable receiver, disable loopback
---- a/drivers/net/ethernet/natsemi/sonic.h
-+++ b/drivers/net/ethernet/natsemi/sonic.h
-@@ -338,7 +338,7 @@ static void sonic_rx(struct net_device *
- static int sonic_close(struct net_device *dev);
- static struct net_device_stats *sonic_get_stats(struct net_device *dev);
- static void sonic_multicast_list(struct net_device *dev);
--static int sonic_init(struct net_device *dev);
-+static int sonic_init(struct net_device *dev, bool may_sleep);
- static void sonic_tx_timeout(struct net_device *dev, unsigned int txqueue);
- static void sonic_msg_init(struct net_device *dev);
- static int sonic_alloc_descriptors(struct net_device *dev);
-
+ 	struct softnet_data *sd = this_cpu_ptr(&softnet_data);
 
