@@ -2,203 +2,156 @@ Return-Path: <SRS0=WwEB=DG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4819CC47420
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 23:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D26FCC4727D
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 23:17:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F240420897
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 23:13:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C6562145D
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 23:17:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=aeam.us header.i=@aeam.us header.b="Z6qGxHLH";
+	dkim=temperror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PmkUVF/T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728384AbgI2XNI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 19:13:08 -0400
-Received: from freecalypso.org ([195.154.163.71]:38988 "EHLO freecalypso.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728471AbgI2XNI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 29 Sep 2020 19:13:08 -0400
-Received: by freecalypso.org (Postfix, from userid 1001)
-        id 4195737403AE; Tue, 29 Sep 2020 23:05:25 +0000 (UTC)
-From:   "Mychaela N. Falconia" <falcon@freecalypso.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, mychaela.falconia@gmail.com
-Subject: [PATCH v2 2/2] USB: serial: ftdi_sio: add support for FreeCalypso
- DUART28C adapter
-Message-Id: <20200929230525.4195737403AE@freecalypso.org>
-Date:   Tue, 29 Sep 2020 23:05:24 +0000 (UTC)
+        id S1728471AbgI2XRB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 19:17:01 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:47879 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728206AbgI2XRB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 19:17:01 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id B36725C01B7;
+        Tue, 29 Sep 2020 19:17:00 -0400 (EDT)
+Received: from imap21 ([10.202.2.71])
+  by compute1.internal (MEProxy); Tue, 29 Sep 2020 19:17:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aeam.us; h=
+        mime-version:message-id:in-reply-to:references:date:from:to
+        :subject:content-type:content-transfer-encoding; s=fm2; bh=UZQus
+        BmYk+20Lo+h5akVoOg62n+utPgekj+0Z64SmXY=; b=Z6qGxHLHT2C1vil8A5rvl
+        9/yyyLPuC0RTzHpOkG35/w+QeGj/mgxGGIOdV9ai2MKryx25if5KjPaxlviX8F/w
+        h2+rtVGCy6vTh7oLFsDXmRrBs6lTaokWvKPqybXraKMjU7vGnijTaJXAoRWql0oG
+        97Ehaw8k5gtPKD87e0/DNpI0zbKdCYnsdR9PCzMfN+8YY0DL1pYeg+kleuklMm76
+        l22FvaBGOJk6sNQUXZDm+WRQnqf4koJhifM8w/jt8NhuSabAw7sftXKNEfSdVZzp
+        p0L2lMFYKVlavQeF+6HM00CQMdYW7lB2Qav5LwRXaOuIwQnS4a4etCfy69cjTMfa
+        Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=UZQusBmYk+20Lo+h5akVoOg62n+utPgekj+0Z64Sm
+        XY=; b=PmkUVF/TWbZNcloZiZcXMVsLjbUke3gYb5hS8rBGLovixUlC0IJUYyVCt
+        GCkynMc4CMMj3fIo0fUJQMMcKqxKrMCmHA9L+5DrYr5+VkGxrZhgCqXBqzl7UJRr
+        Czfm1oD5ULXID0HYFFqrZGZUKnyvGsGpEIVGQBP0MEbM73K4T718/KUECsm2XAbD
+        jePNyQE4wtjIeMz4RTsaZxO8jMuAHaUAy+u6UvfAgPZAdN7huAc0Dfc53tdIvz8l
+        SKhUpgR2VTDuc89xAj7gn7aWgeRt9bOFHKyp8MMVMpnal24Yt0lTCsy0o+TdpMU/
+        y9P2MtWDzBKBX0nPzsNJ/+n/bG22g==
+X-ME-Sender: <xms:bMBzX4yeR78Dw79AqRFYd7cDFvHn8ImEJts_knhaCobfw8PwIn2Eag>
+    <xme:bMBzX8Rl9qJnZDP8LRNd8mGK1zowIC9yPPGc8exqAqouQdBh2gGLFpc8W6wGjq3mv
+    wwx8kxj4UnkjkgwYF8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedtgddujecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdfuihgu
+    ucfuphhrhidfuceoshhiugesrggvrghmrdhusheqnecuggftrfgrthhtvghrnhepvdetud
+    ffudejgfegueeuffekgfejheeuhffffefgteffffffhfehffetjedtgedvnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhiugesrggvrghmrd
+    hush
+X-ME-Proxy: <xmx:bMBzX6XEZ4KmQpZgMcXY2WUZgCoreC6NVadRFOApTCSzCbIgFDR8wA>
+    <xmx:bMBzX2hk2mNRXwjDU-icXJioZ-eo_AymkdkvzPWDX8qb4IvwSd8c6g>
+    <xmx:bMBzX6D0VbZRLUfFwPshW7os92r-keCpr0jZCJHOEmNq0NxNXR33Eg>
+    <xmx:bMBzXx8NEOxCdFCyzusqIW-GGuKIL2SBsyy8iV0KAr5xrg-bUQAllQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 5A7D9660069; Tue, 29 Sep 2020 19:16:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-382-ge235179-fm-20200928.002-ge2351794
+Mime-Version: 1.0
+Message-Id: <8baba7f6-35aa-49a6-89eb-f57164cab41f@www.fastmail.com>
+In-Reply-To: <87k0wd9jog.fsf@kernel.org>
+References: <ce4fc6f6-726e-48b3-97bb-0de2b3801615@www.fastmail.com>
+ <87k0wd9jog.fsf@kernel.org>
+Date:   Tue, 29 Sep 2020 18:16:40 -0500
+From:   "Sid Spry" <sid@aeam.us>
+To:     "Felipe Balbi" <balbi@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: ConfigFS: bcdUSB forced to 0x0210
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
-with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
-on the chip) have been repurposed to drive PWON and RESET controls
-on Calypso targets.  The circuit is wired such that BDBUS[24] high
-(RTS/DTR inactive) is the normal state with Iota VRPC controls
-NOT activated, whereas BDBUS[24] low (RTS or DTR active) turn ON
-the corresponding open drain control signal drivers.
+On Tue, Sep 29, 2020, at 1:33 AM, Felipe Balbi wrote:
+>=20
+> Hi,
+>=20
+> "Sid Spry" <sid@aeam.us> writes:
+> > Hi, I can't enable USB3 with e.g. f_ncm because bcdUSB is always res=
+et to 0x0210:
+> >
+> > $ sudo sh -c 'echo "0x0300" > /sys/kernel/config/usb_gadget/g11/bcdU=
+SB'
+> > $ cat /sys/kernel/config/usb_gadget/g11/bcdUSB=20
+> > 0x0300
+> > $ sudo sh -c 'echo "fe800000.usb" > /sys/kernel/config/usb_gadget/g1=
+1/UDC'
+> > $ cat /sys/kernel/config/usb_gadget/g11/bcdUSB=20
+> > 0x0210
+> > $ tree /sys/kernel/config/usb_gadget/g11
+> > /sys/kernel/config/usb_gadget/g11
+> > =E2=94=9C=E2=94=80=E2=94=80 bcdDevice
+> > =E2=94=9C=E2=94=80=E2=94=80 bcdUSB
+> > =E2=94=9C=E2=94=80=E2=94=80 bDeviceClass
+> > =E2=94=9C=E2=94=80=E2=94=80 bDeviceProtocol
+> > =E2=94=9C=E2=94=80=E2=94=80 bDeviceSubClass
+> > =E2=94=9C=E2=94=80=E2=94=80 bMaxPacketSize0
+> > =E2=94=9C=E2=94=80=E2=94=80 configs
+> > =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 c.1
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 bmAttributes
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 MaxPower
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 ncm.0 -> ../..=
+/../../usb_gadget/g11/functions/ncm.0
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=94=E2=94=80=E2=94=80 strings
+> > =E2=94=82=C2=A0=C2=A0         =E2=94=94=E2=94=80=E2=94=80 0x409
+> > =E2=94=82=C2=A0=C2=A0             =E2=94=94=E2=94=80=E2=94=80 config=
+uration
+> > =E2=94=9C=E2=94=80=E2=94=80 functions
+> > =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 ncm.0
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 dev_addr
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 host_addr
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 ifname
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 os_desc
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=
+=94=80 interface.ncm
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=
+=E2=94=80 compatible_id
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=82=C2=A0=C2=A0     =E2=94=94=E2=94=80=
+=E2=94=80 sub_compatible_id
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=94=E2=94=80=E2=94=80 qmult
+> > =E2=94=9C=E2=94=80=E2=94=80 idProduct
+> > =E2=94=9C=E2=94=80=E2=94=80 idVendor
+> > =E2=94=9C=E2=94=80=E2=94=80 max_speed
+> > =E2=94=9C=E2=94=80=E2=94=80 os_desc
+> > =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 b_vendor_code
+> > =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 qw_sign
+> > =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 use
+> > =E2=94=9C=E2=94=80=E2=94=80 strings
+> > =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 0x409
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 manufacturer
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=9C=E2=94=80=E2=94=80 product
+> > =E2=94=82=C2=A0=C2=A0     =E2=94=94=E2=94=80=E2=94=80 serialnumber
+> > =E2=94=94=E2=94=80=E2=94=80 UDC
+> >
+> > Board is a RK3399 based RockPro64.
+>=20
+> what's your max_speed?
+>=20
 
-A special ftdi_sio driver quirk is needed in order to suppress
-automatic assertion of DTR & RTS on device open: this device's
-special PWON and RESET control drivers MUST NOT be activated
-when the port is ordinarily opened for plain serial communication,
-instead they must only be activated when a special userspace
-application explicitly requests such activation with a TIOCMBIS ioctl.
-These special userspace applications are responsible for making the
-needed pulse with a TIOCMBIS, delay, TIOCMBIC sequence.
+$ cat /sys/kernel/config/usb_gadget/g11/max_speed=20
+super-speed
 
-The special quirk is conditionalized on the DUART28C adapter's custom
-USB ID, and is further limited to FT2232D Channel B only: Channel A
-is wired normally, with the chip's ADBUS2 and ADBUS4 outputs
-actually being RTS and DTR rather than something else.
+Looks ok. From Windows, the xHCI driver reports that the device supports=
 
-Signed-off-by: Mychaela N. Falconia <falcon@freecalypso.org>
----
-
-Changes from the first version of this patch:
-
-* The logic in the quirk port_probe function for determining which
-interface number is being considered has been changed as asked by
-the reviewer.  The specific magic for retrieving the interface number
-has been copied from the existing ftdi_determine_type() function,
-which is called immediately after quirk->port_probe().
-
-* Comments have been updated in the hope of providing a better
-explanation of how this quirk works in the hardware and why it is
-needed.
-
----
- drivers/usb/serial/ftdi_sio.c     | 60 +++++++++++++++++++++++++++++++++++----
- drivers/usb/serial/ftdi_sio_ids.h |  1 +
- 2 files changed, 56 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 1e401898f2f6..5b550f1927a2 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -69,6 +69,8 @@ struct ftdi_private {
- 				   this value */
- 	int force_rtscts;	/* if non-zero, force RTS-CTS to always
- 				   be enabled */
-+	int no_auto_dtr_rts;	/* if non-zero, suppress automatic assertion
-+				   of DTR & RTS on device open */
- 
- 	unsigned int latency;		/* latency setting in use */
- 	unsigned short max_packet_size;
-@@ -97,6 +99,7 @@ static int   ftdi_stmclite_probe(struct usb_serial *serial);
- static int   ftdi_8u2232c_probe(struct usb_serial *serial);
- static void  ftdi_USB_UIRT_setup(struct usb_serial_port *port);
- static void  ftdi_HE_TIRA1_setup(struct usb_serial_port *port);
-+static void  ftdi_duart28c_setup(struct usb_serial_port *port);
- 
- static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
- 	.probe	= ftdi_jtag_probe,
-@@ -122,6 +125,10 @@ static const struct ftdi_sio_quirk ftdi_8u2232c_quirk = {
- 	.probe	= ftdi_8u2232c_probe,
- };
- 
-+static const struct ftdi_sio_quirk ftdi_duart28c_quirk = {
-+	.port_probe = ftdi_duart28c_setup,
-+};
-+
- /*
-  * The 8U232AM has the same API as the sio except for:
-  * - it can support MUCH higher baudrates; up to:
-@@ -1042,6 +1049,8 @@ static const struct usb_device_id id_table_combined[] = {
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
- 	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_UNBUF_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_DUART28C_PID),
-+		.driver_info = (kernel_ulong_t)&ftdi_duart28c_quirk },
- 	{ }					/* Terminating entry */
- };
- 
-@@ -2388,6 +2397,38 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
- 	return 0;
- }
- 
-+/*
-+ * FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
-+ * with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
-+ * on the chip) have been repurposed to drive PWON and RESET controls
-+ * on Calypso targets.  The circuit is wired such that BDBUS[24] high
-+ * (RTS/DTR inactive) is the normal state with Iota VRPC controls
-+ * NOT activated, whereas BDBUS[24] low (RTS or DTR active) turn ON
-+ * the corresponding open drain control signal drivers.
-+ *
-+ * A special ftdi_sio driver quirk is needed in order to suppress
-+ * automatic assertion of DTR & RTS on device open: this device's
-+ * special PWON and RESET control drivers MUST NOT be activated
-+ * when the port is ordinarily opened for plain serial communication,
-+ * instead they must only be activated when a special userspace
-+ * application explicitly requests such activation with a TIOCMBIS ioctl.
-+ * These special userspace applications are responsible for making the
-+ * needed pulse with a TIOCMBIS, delay, TIOCMBIC sequence.
-+ *
-+ * The special quirk must be applied only to FT2232D Channel B:
-+ * Channel A is wired normally, with the chip's ADBUS2 and ADBUS4 outputs
-+ * actually being RTS and DTR rather than something else.
-+ */
-+static void ftdi_duart28c_setup(struct usb_serial_port *port)
-+{
-+	struct ftdi_private *priv = usb_get_serial_port_data(port);
-+	struct usb_serial *serial = port->serial;
-+	int ifnum = serial->interface->altsetting->desc.bInterfaceNumber;
-+
-+	if (ifnum == 1)
-+		priv->no_auto_dtr_rts = 1;
-+}
-+
- static int ftdi_sio_port_remove(struct usb_serial_port *port)
- {
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
-@@ -2439,10 +2480,18 @@ static void ftdi_dtr_rts(struct usb_serial_port *port, int on)
- 			dev_err(&port->dev, "error from flowcontrol urb\n");
- 		}
- 	}
--	/* drop RTS and DTR */
--	if (on)
--		set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
--	else
-+	/*
-+	 * Assert or negate RTS and DTR as requested.  When DUART28C
-+	 * quirk is applied, we suppress automatic assertion, but
-+	 * automatic negation on device close is retained - these
-+	 * special control signals are meant to be pulsed, and leaving
-+	 * either of them stuck on when the responsible userspace
-+	 * program has terminated unexpectedly is undesirable.
-+	 */
-+	if (on) {
-+		if (!priv->no_auto_dtr_rts)
-+			set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
-+	} else
- 		clear_mctrl(port, TIOCM_DTR | TIOCM_RTS);
- }
- 
-@@ -2790,7 +2839,8 @@ static void ftdi_set_termios(struct tty_struct *tty,
- 			dev_err(ddev, "%s urb failed to set baudrate\n", __func__);
- 		mutex_unlock(&priv->cfg_lock);
- 		/* Ensure RTS and DTR are raised when baudrate changed from 0 */
--		if (old_termios && (old_termios->c_cflag & CBAUD) == B0)
-+		if (old_termios && (old_termios->c_cflag & CBAUD) == B0
-+		    && !priv->no_auto_dtr_rts)
- 			set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
- 	}
- 
-diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
-index 3d47c6d72256..3081b8916a0a 100644
---- a/drivers/usb/serial/ftdi_sio_ids.h
-+++ b/drivers/usb/serial/ftdi_sio_ids.h
-@@ -45,6 +45,7 @@
-  */
- #define FTDI_FALCONIA_JTAG_BUF_PID	0x7150
- #define FTDI_FALCONIA_JTAG_UNBUF_PID	0x7151
-+#define FTDI_FALCONIA_DUART28C_PID	0x7152
- 
- /* Sienna Serial Interface by Secyourit GmbH */
- #define FTDI_SIENNA_PID		0x8348
--- 
-2.9.0
-
+super speed but chooses high speed. I can't see this info from a Linux h=
+ost.
