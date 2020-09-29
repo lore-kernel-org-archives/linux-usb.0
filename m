@@ -2,106 +2,66 @@ Return-Path: <SRS0=WwEB=DG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E718C4727C
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99BC5C4727F
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:50:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57C3D2076A
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:43:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iqjn2aZl"
+	by mail.kernel.org (Postfix) with ESMTP id 5B15D206F7
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 11:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601380226;
+	bh=73vELVkbudOyu5/cNMZZUkpOORrJRg3cL+YzLgIiOJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=lZISzZygH759+S+J+C+dGCL3chYwFbUIn0j6YCuU01+BPiAZa5qs2pP7jrUmUgCh9
+	 srEl4cQVlS2yyWYRq+zXTC+u6adq2fQqp0kY2iwO1uGptyS8XK6i9AdtRdDtdO8OP2
+	 oAamDyXk61YHqHnjXn7Na9SPVOGZXyUt9WqIDX7s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728570AbgI2LnH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 07:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729962AbgI2Lmw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 07:42:52 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB62FC061755;
-        Tue, 29 Sep 2020 04:42:51 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id b12so5105730lfp.9;
-        Tue, 29 Sep 2020 04:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gtW6Ox/3tUcCMKN4N8mUtDGypoU61VjKgzz6aPgmqcA=;
-        b=Iqjn2aZlDpnRRfZsWasVKK2tWH7Kx/6zoFdoSRQry34hejCBL+DLEq5kpn21ybyjDN
-         Zx86B7ghjQk2nlXmyBDh3CDhhlun5ACLmB7FDKMcl3sck3TZzWoMI0elKE+uS+eA01ac
-         0UNV9sXEQc2/HtsDpBzgux2Ur4jQW7VwCLKxuSqaXIdjHWuKYGhSVgw50ajKcgTpZb0I
-         1Sgppf/q0fpwX1AmxciPjqA4t6QJmfHpoKMC/trevhXrZYwNT8WaGR+zJwWWGZ7HAyOb
-         asrx51fU4MZsa1RbfFI/OfxQldGyyCT7iTGJx5u19lgSP2Uz1v8VjctWF8eleAj7oxXA
-         aGZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=gtW6Ox/3tUcCMKN4N8mUtDGypoU61VjKgzz6aPgmqcA=;
-        b=Jcd3bBQ3dAaA9jXJ9ZQFguuwZ4uH/5O0aEcgeaa7u6dm9Gqd0UA6WI4WuUl2yFLdq2
-         LAIm0PSyq47ajn33/D6v75H2QHVYVuKIKCEiBt1UZgavNGnYs5ofsokgEN5QxsXEwJhA
-         papWTiAAqM1yatKrHExp12Yz13h722QLDxDp9sFFo0r9xDuTV3I9YIG46pKJfw9MtWOX
-         idExtqbCOJHaq0LXS2PzJ8H12tTRIyFwo08byrrhfpvERR9WmSYRLvjR7euU/b5i4UuC
-         10T1woaf4+1dTYQi9k2q3i7FyossVCQrcUJobvaYAAVNT035oI470NU/4kLZnidWmLL8
-         L+Xg==
-X-Gm-Message-State: AOAM530sayWgPEjdsFbe5lcyMTZaUHgk+KhN6mHSSjDV6DrsVV1oCN0+
-        vUo3YHqFWvO75jEYHMkg0aQ=
-X-Google-Smtp-Source: ABdhPJy7h4tqQ3d4mYBYflORtUUy/5CjRN5eJiXyPb52nc6lCUyBtXJfPSXVfNEwwQygCrOsCUNl5g==
-X-Received: by 2002:a19:ee12:: with SMTP id g18mr1173677lfb.515.1601379770277;
-        Tue, 29 Sep 2020 04:42:50 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:861:66d4:f163:48a3:b6d3:9d73? ([2a00:1fa0:861:66d4:f163:48a3:b6d3:9d73])
-        by smtp.gmail.com with ESMTPSA id w9sm3242107lfr.220.2020.09.29.04.42.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 04:42:49 -0700 (PDT)
-Subject: Re: [PATCH v3 1/5] usb: dwc3: core: Host wake up support from system
- suspend
-To:     Sandeep Maheswaram <sanm@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manu Gautam <mgautam@codeaurora.org>
-References: <1601376452-31839-1-git-send-email-sanm@codeaurora.org>
- <1601376452-31839-2-git-send-email-sanm@codeaurora.org>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <84c8d18a-f339-b140-a784-1ad489d41a23@gmail.com>
-Date:   Tue, 29 Sep 2020 14:42:41 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1730693AbgI2LuZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 07:50:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53892 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731269AbgI2Lt6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 29 Sep 2020 07:49:58 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 542DF206E5;
+        Tue, 29 Sep 2020 11:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601380197;
+        bh=73vELVkbudOyu5/cNMZZUkpOORrJRg3cL+YzLgIiOJ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sPXyhVTbStN2i5gM0Y1uA3apKBiOK3iTu8REBIqbOtL5a0GLPco+KDuqXxdpJTYXp
+         6617Ads6rJAo329jOHMygDEEm3GDT3iJpq47xKCa0RknQoYIFTUJX8l4D2pFbONTOa
+         O4osHHI+W9u4bW8mNELQoCIUd+GYVcvU3ui6hB2Q=
+Date:   Tue, 29 Sep 2020 13:06:51 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org,
+        "Mychaela N . Falconia" <falcon@freecalypso.org>
+Subject: Re: [PATCH] USB: serial: ftdi_sio: clean up jtag quirks
+Message-ID: <20200929110651.GC1160194@kroah.com>
+References: <20200929104116.7107-1-johan@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1601376452-31839-2-git-send-email-sanm@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929104116.7107-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 29.09.2020 13:47, Sandeep Maheswaram wrote:
-
-> Avoiding phy powerdown in host mode so that it can be wake up by devices.
-
-    s/wake/woken/?
-
-> Added hs_phy_flags and ss_phy_flags to check connection status and
-> set phy mode and configure interrupts.
+On Tue, Sep 29, 2020 at 12:41:16PM +0200, Johan Hovold wrote:
+> Drivers should not assume that interface descriptors have been parsed in
+> any particular order so match on interface number instead when rejecting
+> JTAG interfaces.
 > 
-> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-[...]
+> Also use the interface struct device for notifications so that the
+> interface number is included.
+> 
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-MBR, Sergei
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
