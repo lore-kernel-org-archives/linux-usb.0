@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC162C4727C
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC57C4346E
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2E2520C09
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9684208FE
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 10:48:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728241AbgI2KsT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 06:48:19 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:8025 "EHLO
+        id S1728225AbgI2KsR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 06:48:17 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:56398 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728126AbgI2KsN (ORCPT
+        with ESMTP id S1728186AbgI2KsN (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 06:48:13 -0400
-Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com) ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 29 Sep 2020 03:48:11 -0700
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 29 Sep 2020 03:48:13 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA; 29 Sep 2020 03:48:09 -0700
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 29 Sep 2020 03:48:11 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 29 Sep 2020 16:17:57 +0530
+  by ironmsg02-blr.qualcomm.com with ESMTP; 29 Sep 2020 16:17:59 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 1A7E52D68; Tue, 29 Sep 2020 16:17:56 +0530 (IST)
+        id 292172D68; Tue, 29 Sep 2020 16:17:58 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -43,9 +43,9 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Manu Gautam <mgautam@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v3 3/5] usb: dwc3: qcom: Configure wakeup interrupts and set genpd active wakeup flag
-Date:   Tue, 29 Sep 2020 16:17:30 +0530
-Message-Id: <1601376452-31839-4-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v3 5/5] arm64: dts: qcom: sc7180: Add wakeup-source property for USB controller node
+Date:   Tue, 29 Sep 2020 16:17:32 +0530
+Message-Id: <1601376452-31839-6-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1601376452-31839-1-git-send-email-sanm@codeaurora.org>
 References: <1601376452-31839-1-git-send-email-sanm@codeaurora.org>
@@ -53,151 +53,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Configure interrupts based on hs_phy_flag to avoid triggering of
-interrupts during system suspend and suspends successfully.
-Set genpd active wakeup flag for usb gdsc if wakeup capable devices
-are connected so that wake up happens without reenumeration.
+Adding wakeup-source property for USB controller for SC7180 boards.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 74 +++++++++++++++++++++++++++++++++++---------
- 1 file changed, 59 insertions(+), 15 deletions(-)
+ arch/arm64/boot/dts/qcom/sc7180-idp.dts      | 1 +
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index c703d55..b6f36bd 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -17,9 +17,11 @@
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-+#include <linux/pm_domain.h>
- #include <linux/usb/of.h>
- #include <linux/reset.h>
- #include <linux/iopoll.h>
-+#include <linux/usb/hcd.h>
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+index e77a792..fe1366a 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
++++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+@@ -369,6 +369,7 @@
  
- #include "core.h"
+ &usb_1 {
+ 	status = "okay";
++	wakeup-source;
+ };
  
-@@ -293,19 +295,33 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
+ &usb_1_dwc3 {
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+index bf87558..c320c09 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+@@ -818,6 +818,7 @@ ap_spi_fp: &spi10 {
  
- static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
- {
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+
- 	if (qcom->hs_phy_irq) {
- 		disable_irq_wake(qcom->hs_phy_irq);
- 		disable_irq_nosync(qcom->hs_phy_irq);
- 	}
+ &usb_1 {
+ 	status = "okay";
++	wakeup-source;
+ };
  
--	if (qcom->dp_hs_phy_irq) {
--		disable_irq_wake(qcom->dp_hs_phy_irq);
--		disable_irq_nosync(qcom->dp_hs_phy_irq);
--	}
-+	if (dwc->hs_phy_flags & PHY_MODE_USB_HOST_LS) {
-+		if (qcom->dp_hs_phy_irq) {
-+			disable_irq_wake(qcom->dp_hs_phy_irq);
-+			disable_irq_nosync(qcom->dp_hs_phy_irq);
-+		}
-+	} else if (dwc->hs_phy_flags & PHY_MODE_USB_HOST_HS) {
-+		if (qcom->dm_hs_phy_irq) {
-+			disable_irq_wake(qcom->dm_hs_phy_irq);
-+			disable_irq_nosync(qcom->dm_hs_phy_irq);
-+		}
-+	} else {
-+		if (qcom->dp_hs_phy_irq) {
-+			disable_irq_wake(qcom->dp_hs_phy_irq);
-+			disable_irq_nosync(qcom->dp_hs_phy_irq);
-+		}
- 
--	if (qcom->dm_hs_phy_irq) {
--		disable_irq_wake(qcom->dm_hs_phy_irq);
--		disable_irq_nosync(qcom->dm_hs_phy_irq);
-+		if (qcom->dm_hs_phy_irq) {
-+			disable_irq_wake(qcom->dm_hs_phy_irq);
-+			disable_irq_nosync(qcom->dm_hs_phy_irq);
-+		}
- 	}
- 
- 	if (qcom->ss_phy_irq) {
-@@ -316,19 +332,33 @@ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
- 
- static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- {
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+
- 	if (qcom->hs_phy_irq) {
- 		enable_irq(qcom->hs_phy_irq);
- 		enable_irq_wake(qcom->hs_phy_irq);
- 	}
- 
--	if (qcom->dp_hs_phy_irq) {
--		enable_irq(qcom->dp_hs_phy_irq);
--		enable_irq_wake(qcom->dp_hs_phy_irq);
--	}
-+	if (dwc->hs_phy_flags & PHY_MODE_USB_HOST_LS) {
-+		if (qcom->dp_hs_phy_irq) {
-+			enable_irq(qcom->dp_hs_phy_irq);
-+			enable_irq_wake(qcom->dp_hs_phy_irq);
-+		}
-+	} else if (dwc->hs_phy_flags & PHY_MODE_USB_HOST_HS) {
-+		if (qcom->dm_hs_phy_irq) {
-+			enable_irq(qcom->dm_hs_phy_irq);
-+			enable_irq_wake(qcom->dm_hs_phy_irq);
-+		}
-+	} else {
-+		if (qcom->dp_hs_phy_irq) {
-+			enable_irq(qcom->dp_hs_phy_irq);
-+			enable_irq_wake(qcom->dp_hs_phy_irq);
-+		}
- 
--	if (qcom->dm_hs_phy_irq) {
--		enable_irq(qcom->dm_hs_phy_irq);
--		enable_irq_wake(qcom->dm_hs_phy_irq);
-+		if (qcom->dm_hs_phy_irq) {
-+			enable_irq(qcom->dm_hs_phy_irq);
-+			enable_irq_wake(qcom->dm_hs_phy_irq);
-+		}
- 	}
- 
- 	if (qcom->ss_phy_irq) {
-@@ -341,6 +371,15 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
- {
- 	u32 val;
- 	int i, ret;
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+	struct usb_hcd  *hcd;
-+	struct generic_pm_domain *genpd = pd_to_genpd(qcom->dev->pm_domain);
-+
-+	if (dwc->xhci) {
-+		hcd = platform_get_drvdata(dwc->xhci);
-+		if (usb_wakeup_enabled_descendants(hcd->self.root_hub))
-+			genpd->flags |= GENPD_FLAG_ACTIVE_WAKEUP;
-+	}
- 
- 	if (qcom->is_suspended)
- 		return 0;
-@@ -366,6 +405,11 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom)
- {
- 	int ret;
- 	int i;
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+	struct generic_pm_domain *genpd = pd_to_genpd(qcom->dev->pm_domain);
-+
-+	if (dwc->xhci)
-+		genpd->flags &= ~GENPD_FLAG_ACTIVE_WAKEUP;
- 
- 	if (!qcom->is_suspended)
- 		return 0;
-@@ -764,7 +808,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto interconnect_exit;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, of_property_read_bool(np, "wakeup-source"));
- 	qcom->is_suspended = false;
- 	pm_runtime_set_active(dev);
- 	pm_runtime_enable(dev);
+ &usb_1_dwc3 {
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
