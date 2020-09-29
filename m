@@ -7,45 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4384C49EC7
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13AD7C52D56
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E1242076B
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE55F2076B
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="X5jRvRte";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3NH8ludg"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="h2OUx/Xl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lwhz4b57"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729843AbgI2UiD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:38:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37312 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729562AbgI2UgX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:36:23 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4DEC0613D4;
-        Tue, 29 Sep 2020 13:36:09 -0700 (PDT)
-Message-Id: <20200929203501.797721723@linutronix.de>
+        id S1729529AbgI2UgV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:36:21 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49174 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728657AbgI2Ufz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Sep 2020 16:35:55 -0400
+Message-Id: <20200929203500.675706419@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411767;
+        s=2020; t=1601411753;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=ZYBXpJ38nCHBGNGrQ61L4m29u8uExLNlXY3Uz9kDNqQ=;
-        b=X5jRvRteDmwr01pblgOHbT+cmMPQ+zeutwNA9Ip0pQzvNAGvglRSUXiwCc6J8ibqVGvGik
-        2/vWk7vjtl/UPDwX2wRtIAWwhfwVMC/BbBhOWZWw/LU1q4c43akgBy+Tu61fxvlm7G0zh5
-        8U9eAYzVkS+cruk4SnaN4qyPzMQKyz2+tpqq7OMOskGjJZ5c8d+M6L63fNJfKhEWO2nlC/
-        puKijlzCJMpkAByo6ONP9KJVe668411YpfUdvzfpufI3e3axleWluXBcJepPBTAbRb+TkJ
-        LEGCqnlcnBOGl6MpRtgRCfN57/L1OgIwtmzpPhA+QVm0s+g//Rmok3fbt6vifw==
+        bh=DMPTCCaBsiS/4xahmtxtf/uVQ4ddpwEhLX/qD7/JBWU=;
+        b=h2OUx/XlVZ4Z35Rj+pvIpshipqwoK40wQ89KyKxeF4ya9XeIMB0j3rZxunF237sg+8h2DN
+        qS+BG1tGqWtCl6QG9X7XRXQ8jpIaW9pbBaZ9shAjht11QpoQIrf5gttLChLh2bUqxuXtQo
+        hHiXrbqGbBcwFUGmMsSYU02ZU9+XBapeWcnKbCK5WgboaUgJfx2MI5ebOsIpxuciTGBstJ
+        9xtdxiBP2ZCdZ4tD9sEenQJwri+Ygee6K7c57EcR9DuEr541RqodDbiXbPjdvbn8L9/bR/
+        fZE6ArqG6pG/rl8E8Uz5qlR0AO96g7/2FV0n+fVHzkz60ORAns644ebeA7SKyQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411767;
+        s=2020e; t=1601411753;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=ZYBXpJ38nCHBGNGrQ61L4m29u8uExLNlXY3Uz9kDNqQ=;
-        b=3NH8ludgbodQd0V2uVIUw0fn0ZtVDhjw2a1CAmrPkaYLThKoM5c9vJm4klq9HoenfYtqfI
-        6PEdzQCwIZeC4MAw==
-Date:   Tue, 29 Sep 2020 22:25:32 +0200
+        bh=DMPTCCaBsiS/4xahmtxtf/uVQ4ddpwEhLX/qD7/JBWU=;
+        b=Lwhz4b57yzj5XJOSuBaw/4kkL6sUSqxL5Ln27+2v/4Oj6s51o7T50veSK1FO3iJrapr/yw
+        qTKgCLmwqmbZweAg==
+Date:   Tue, 29 Sep 2020 22:25:21 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -99,7 +96,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 23/36] net: usb: net1080: Remove in_interrupt() comment
+Subject: [patch V2 12/36] net: ionic: Remove WARN_ON(in_interrupt()).
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -110,33 +107,48 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The comment above nc_vendor_write() suggests that the function could become
-async so that is usable in `in_interrupt()' context or that it already is
-safe to be called from such a context.
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
 
-Eitherway: The function did not become async since v2.4.9.2 (2002) and it
-must be not be called from `in_interrupt()' context because it sleeps on
-mutltiple occations.
+In this case the check covers only parts of the contexts in which these
+functions cannot be called. It fails to detect preemption or interrupt
+disabled invocations.
 
-Remove the misleading comment.
+As the functions which are invoked from ionic_adminq_post() and
+ionic_dev_cmd_wait() contain a broad variety of checks (always enabled or
+debug option dependent) which cover all invalid conditions already, there
+is no point in having inconsistent warnings in those drivers.
+
+Just remove them.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-
+Acked-by: Shannon Nelson <snelson@pensando.io>
 
 ---
- drivers/net/usb/net1080.c |    1 -
- 1 file changed, 1 deletion(-)
+ drivers/net/ethernet/pensando/ionic/ionic_main.c |    4 ----
+ 1 file changed, 4 deletions(-)
 
---- a/drivers/net/usb/net1080.c
-+++ b/drivers/net/usb/net1080.c
-@@ -113,7 +113,6 @@ nc_register_read(struct usbnet *dev, u8
- 	return nc_vendor_read(dev, REQUEST_REGISTER, regnum, retval_ptr);
- }
+--- a/drivers/net/ethernet/pensando/ionic/ionic_main.c
++++ b/drivers/net/ethernet/pensando/ionic/ionic_main.c
+@@ -255,8 +255,6 @@ static int ionic_adminq_post(struct ioni
+ 	struct ionic_queue *q;
+ 	int err = 0;
  
--// no retval ... can become async, usable in_interrupt()
- static void
- nc_vendor_write(struct usbnet *dev, u8 req, u8 regnum, u16 value)
- {
-
+-	WARN_ON(in_interrupt());
+-
+ 	if (!lif->adminqcq)
+ 		return -EIO;
+ 
+@@ -328,8 +326,6 @@ int ionic_dev_cmd_wait(struct ionic *ion
+ 	int done;
+ 	int err;
+ 
+-	WARN_ON(in_interrupt());
+-
+ 	/* Wait for dev cmd to complete, retrying if we get EAGAIN,
+ 	 * but don't wait any longer than max_seconds.
+ 	 */
 
