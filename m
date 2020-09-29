@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F34BC4727F
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 01:33:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 624F9C2D0A8
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 01:34:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 050DE2075A
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 01:33:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F0822080A
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Sep 2020 01:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601343195;
-	bh=XHhT+BWI5pRqE+V74UmBpgVn+ChE0exEXSay7jL+qHA=;
+	s=default; t=1601343241;
+	bh=fdfSUfuqrP6v5BOz4Lj512uAGEUUlzP7Hf+dNXo6xxU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=z+WiAPi/4ie+HyVi/MzJkVk+S6GnB6a8Bg5s0q9nmGZ4DxuY+J9dL3+YGzJr+N9OU
-	 lK37+vkLpXO+SHOGD5pzxwd/QyV1NtCC6QaTCDnj2r6JrBcV/2m4COidVtRMmu5vFZ
-	 0wPaon30LK//Ldp1PWbhPfo2EQP25aSvMdLkRrCs=
+	b=lSlQw4lv91EUElpmrAp/YQXlbGM7UFmGNe3VfELH4WyLhMFldqYAzm5eZGQvKK1iZ
+	 HWYpdDeiVyKhd9X6Lg084bDJ8OflsOwKyc9cJSrc2o5CKMLaIIj+LnZocmvfrEVIWs
+	 EpwJjtcLxg0aahsDUMhA6ohRFHikyuuNzPzK2U1I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727877AbgI2Bc7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Sep 2020 21:32:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41828 "EHLO mail.kernel.org"
+        id S1727757AbgI2BcH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Sep 2020 21:32:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40918 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727762AbgI2BcI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Sep 2020 21:32:08 -0400
+        id S1727454AbgI2Bbm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Sep 2020 21:31:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06838221E7;
-        Tue, 29 Sep 2020 01:31:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E249D21734;
+        Tue, 29 Sep 2020 01:31:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601343120;
-        bh=XHhT+BWI5pRqE+V74UmBpgVn+ChE0exEXSay7jL+qHA=;
+        s=default; t=1601343095;
+        bh=fdfSUfuqrP6v5BOz4Lj512uAGEUUlzP7Hf+dNXo6xxU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZcNGD3C1cO8wc9UvvsdI7BSs7km3jsh3Ov5CWEEY9zbLka57Lvi2RlpeZKnxnQZeo
-         j5loQBYAquhAIo52z+LsGxgUikwG8R+hHQCd1W5JvxKq2weR6JfecthfP7GELBZSoe
-         MnRB+ieeok5B69FRTZoQ5qeAUsqlwWnMIsS5qfwE=
+        b=The6mXqhLyUtJIxNMxwY9oMx26I9hv1V0tvwJgnPhx/4QTqHpYnhYR+ufZ4ysIE0S
+         Kk4tb9K5zHf6Y2aUl0MW/vW9LJ8/0rw+2g0b3CKDFOjeus5dn0doQobZ4doXU1doiQ
+         SZoVI0WrMwobKfixnaJYNqe4az0Jv6z5ek00BvDA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Olympia Giannou <ogiannou@gmail.com>,
@@ -45,12 +45,12 @@ Cc:     Olympia Giannou <ogiannou@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/5] rndis_host: increase sleep time in the query-response loop
-Date:   Mon, 28 Sep 2020 21:31:54 -0400
-Message-Id: <20200929013157.2407108-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 04/11] rndis_host: increase sleep time in the query-response loop
+Date:   Mon, 28 Sep 2020 21:31:22 -0400
+Message-Id: <20200929013129.2406832-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200929013157.2407108-1-sashal@kernel.org>
-References: <20200929013157.2407108-1-sashal@kernel.org>
+In-Reply-To: <20200929013129.2406832-1-sashal@kernel.org>
+References: <20200929013129.2406832-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -88,7 +88,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
-index 4f4f71b2966ba..9ccbdf1431063 100644
+index b807c91abe1da..a22ae3137a3f8 100644
 --- a/drivers/net/usb/rndis_host.c
 +++ b/drivers/net/usb/rndis_host.c
 @@ -213,7 +213,7 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
