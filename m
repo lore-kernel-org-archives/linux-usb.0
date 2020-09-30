@@ -2,109 +2,87 @@ Return-Path: <SRS0=1fts=DH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D4BEC47420
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CEFC4727C
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:52:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FECD2076B
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:51:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 821ED207C3
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:52:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730605AbgI3OvR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Sep 2020 10:51:17 -0400
-Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:36549 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728149AbgI3OvQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Sep 2020 10:51:16 -0400
-Received: from tomoyo.flets-east.jp ([153.230.197.127])
-        by mwinf5d69 with ME
-        id aEqx2300T2lQRaH03Er8kM; Wed, 30 Sep 2020 16:51:15 +0200
-X-ME-Helo: tomoyo.flets-east.jp
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 30 Sep 2020 16:51:15 +0200
-X-ME-IP: 153.230.197.127
-From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-To:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-can@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S . Miller" <davem@davemloft.net>
-Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>,
-        linux-usb@vger.kernel.org (open list:USB ACM DRIVER)
-Subject: [PATCH v2 2/6] can: dev: add a helper function to get the correct length of Classical frames
-Date:   Wed, 30 Sep 2020 23:45:29 +0900
-Message-Id: <20200930144602.10290-3-mailhol.vincent@wanadoo.fr>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
-References: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
+        id S1730520AbgI3OwV convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:52:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52388 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729767AbgI3OwV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 30 Sep 2020 10:52:21 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 209411] When retrieving string descriptor from mobile device
+ returns eproto error
+Date:   Wed, 30 Sep 2020 14:52:21 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rachithas104@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209411-208809-VI9sxx3xmo@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
+References: <bug-209411-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In classical CAN, the length of the data (i.e. CAN payload) is not
-always equal to the DLC! If the frame is a Remote Transmission Request
-(RTR), data length is always zero regardless of DLC value and else, if
-the DLC is greater than 8, the length is 8. Contrary to common belief,
-ISO 11898-1 Chapter 8.4.2.3 (DLC field) do allow DLCs greater than 8
-for Classical Frames and specifies that those DLCs shall indicate that
-the data field is 8 bytes long.
+https://bugzilla.kernel.org/show_bug.cgi?id=209411
 
-Above facts are widely unknown and so many developpers uses the "len"
-field of "struct canfd_frame" to get the length of classical CAN
-frames: this is incorrect!
+--- Comment #12 from rachithas104@gmail.com ---
+(In reply to Alan Stern from comment #11)
+> The traces aren't really complete, because you didn't start them until after
+> the USB cable was plugged in.  Also, the traces start out with the computer
+> reading string descriptors 1, 2, 3, 4, and 6 (in the non-working trace), and
+> the values of the descriptors are different in the two traces.  In the
+> working trace, the values are:
+> 
+>   1: "Xiaomi"
+>   2: "MI MAX"
+>   3: "d553b4b6"
+>   4: "ADB Interface"
+> 
+> In the non-working trace:
+> 
+>   1: "Xiaomi"
+>   2: "Redmi K30 5G"
+>   3: "c2a85d7"
+>   4: "ptp_adb"
+>   6: "ADB Interface"
+> 
+> It looks like you used two different phones for the tests, or one phone with
+> two different ROMs installed.  Is that what you did?
+> 
+> Are you asking why one phone works and the other phone doesn't?
 
-This patch introduces function get_can_len() which can be used in
-remediation. The function takes the SKB as an input in order to be
-able to determine if the frame is classical or FD.
+Yes Mi Max works ,Redmi doesn't. The traces were taken after  I have plugged
+the device and changed it to PTP mode
+Mainly the traces has info when my program starts enumerating. Can I know is
+there any tool you used to get this info
 
-Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
----
- include/linux/can/dev.h | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/include/linux/can/dev.h b/include/linux/can/dev.h
-index 5e3d45525bd3..72a8a60c0094 100644
---- a/include/linux/can/dev.h
-+++ b/include/linux/can/dev.h
-@@ -177,6 +177,29 @@ u8 can_dlc2len(u8 can_dlc);
- /* map the sanitized data length to an appropriate data length code */
- u8 can_len2dlc(u8 len);
- 
-+/*
-+ * get_can_len(skb) - get the length of the CAN payload.
-+ *
-+ * In classical CAN, the length of the data (i.e. CAN payload) is not
-+ * always equal to the DLC! If the frame is a Remote Transmission
-+ * Request (RTR), data length is always zero regardless of DLC value
-+ * and else, if the DLC is greater than 8, the length is 8. Contrary
-+ * to common belief, ISO 11898-1 Chapter 8.4.2.3 (DLC field) do allow
-+ * DLCs greater than 8 for Classical Frames and specifies that those
-+ * DLCs shall indicate that the data field is 8 bytes long.
-+ */
-+static inline int get_can_len(struct sk_buff *skb)
-+{
-+	struct canfd_frame *cf = (struct canfd_frame *)skb->data;
-+
-+	if (can_is_canfd_skb(skb))
-+		return min_t(__u8, cf->len, CANFD_MAX_DLEN);
-+	else if (cf->can_id & CAN_RTR_FLAG)
-+		return 0;
-+	else
-+		return min_t(__u8, cf->len, CAN_MAX_DLEN);
-+}
-+
- struct net_device *alloc_candev_mqs(int sizeof_priv, unsigned int echo_skb_max,
- 				    unsigned int txqs, unsigned int rxqs);
- #define alloc_candev(sizeof_priv, echo_skb_max) \
 -- 
-2.26.2
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
