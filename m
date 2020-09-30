@@ -2,82 +2,105 @@ Return-Path: <SRS0=1fts=DH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA10C4727C
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1534C4727C
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:48:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7584A20789
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:47:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A263920789
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:48:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729903AbgI3Or7 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Sep 2020 10:47:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48848 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726680AbgI3Or6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 30 Sep 2020 10:47:58 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 209411] When retrieving string descriptor from mobile device
- returns eproto error
-Date:   Wed, 30 Sep 2020 14:47:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209411-208809-fnXB08JlRB@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
-References: <bug-209411-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1730653AbgI3Ost (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:48:49 -0400
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:23166 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730586AbgI3Ost (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Sep 2020 10:48:49 -0400
+Received: from tomoyo.flets-east.jp ([153.230.197.127])
+        by mwinf5d69 with ME
+        id aEoZ2300H2lQRaH03EohP6; Wed, 30 Sep 2020 16:48:47 +0200
+X-ME-Helo: tomoyo.flets-east.jp
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 30 Sep 2020 16:48:47 +0200
+X-ME-IP: 153.230.197.127
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-usb@vger.kernel.org (open list:USB ACM DRIVER)
+Subject: [PATCH v2 1/6] can: dev: can_get_echo_skb(): prevent call to kfree_skb() in hard IRQ context
+Date:   Wed, 30 Sep 2020 23:45:28 +0900
+Message-Id: <20200930144602.10290-2-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
+References: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209411
+If a driver calls can_get_echo_skb() during a hardware IRQ (which is
+often, but not always, the case), the 'WARN_ON(in_irq)' in
+net/core/skbuff.c#skb_release_head_state() might be triggered, under
+network congestion circumstances, together with the potential risk of
+a NULL pointer dereference.
 
---- Comment #11 from Alan Stern (stern@rowland.harvard.edu) ---
-The traces aren't really complete, because you didn't start them until after
-the USB cable was plugged in.  Also, the traces start out with the computer
-reading string descriptors 1, 2, 3, 4, and 6 (in the non-working trace), and
-the values of the descriptors are different in the two traces.  In the working
-trace, the values are:
+The root cause of this issue is the call to kfree_skb() instead of
+dev_kfree_skb_irq() in net/core/dev.c#enqueue_to_backlog().
 
-  1: "Xiaomi"
-  2: "MI MAX"
-  3: "d553b4b6"
-  4: "ADB Interface"
+This patch prevents the skb to be freed within the call to netif_rx()
+by incrementing its reference count with skb_get(). The skb is finally
+freed by one of the in-irq-context safe functions:
+dev_consume_skb_any() or dev_kfree_skb_any().  The "any" version is
+used because some drivers might call can_get_echo_skb() in a normal
+context.
 
-In the non-working trace:
+The reason for this issue to occur is that initially, in the core
+network stack, loopback skb were not supposed to be received in
+hardware IRQ context. The CAN stack is an exeption.
 
-  1: "Xiaomi"
-  2: "Redmi K30 5G"
-  3: "c2a85d7"
-  4: "ptp_adb"
-  6: "ADB Interface"
+This bug was previously reported back in 2017 in [1] but the proposed
+patch never got accepted.
 
-It looks like you used two different phones for the tests, or one phone with
-two different ROMs installed.  Is that what you did?
+While [1] directly modifies net/core/dev.c, we try to propose here a
+smoother modification local to CAN network stack (the assumption
+behind is that only CAN devices are affected by this issue).
 
-Are you asking why one phone works and the other phone doesn't?
+[1] https://patchwork.ozlabs.org/patch/835236/
 
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+ drivers/net/can/dev.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/can/dev.c b/drivers/net/can/dev.c
+index 68834a2853c9..e291fda395a0 100644
+--- a/drivers/net/can/dev.c
++++ b/drivers/net/can/dev.c
+@@ -512,7 +512,11 @@ unsigned int can_get_echo_skb(struct net_device *dev, unsigned int idx)
+ 	if (!skb)
+ 		return 0;
+ 
+-	netif_rx(skb);
++	skb_get(skb);
++	if (netif_rx(skb) == NET_RX_SUCCESS)
++		dev_consume_skb_any(skb);
++	else
++		dev_kfree_skb_any(skb);
+ 
+ 	return len;
+ }
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2
+
