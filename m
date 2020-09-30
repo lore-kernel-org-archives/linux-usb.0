@@ -2,85 +2,125 @@ Return-Path: <SRS0=1fts=DH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD37C4727C
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 16:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 209E7C4727C
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 18:00:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C500F207FB
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 16:54:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF29E2145D
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 18:00:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gIyzm/LM"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WlaLzAfI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728292AbgI3QyR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Sep 2020 12:54:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55550 "EHLO
+        id S1729395AbgI3SA5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Sep 2020 14:00:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725355AbgI3QyR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Sep 2020 12:54:17 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A68C061755;
-        Wed, 30 Sep 2020 09:54:15 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id f1so1382386plo.13;
-        Wed, 30 Sep 2020 09:54:15 -0700 (PDT)
+        with ESMTP id S1728031AbgI3SA4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Sep 2020 14:00:56 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30896C0613D1
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2020 11:00:55 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id n26so716172uao.8
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2020 11:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=a+511h/yRt0hAA530rhVf+uoJRBXRfwSraxYw7O/kA4=;
-        b=gIyzm/LMhzk6FmcrH/7F0RNZbSSNuIox03V/NLAc7uhQqZOnGw/v9WAuwtjpk4/RQY
-         XEpq9jhXtvSdVu94k5qKQOY3C5IEKNbbw5Bvf0KfJCtDCzFqXGNuWsXiBHXvhWSYSSLC
-         LkMgyB5FEeg5osBePET6/2KYORZWx7FaA54whxElkY+wMODcQ1mWmgEF2rxIa99COPLs
-         Du3GQhn5WOMk1QnHxrVk5fyHenVzPaJ0WuPTdRshqMsDj6smYr400lgsVHYIVG7f+CUd
-         tufeR0zq0+xx5Dw9a5Qx6WFxekg7M+70Da60wDPBpZoBeb7pSlWA/U1MmPVaLKhnBN7t
-         WukQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ION+wzhBe/H3HfVhVn+aQX6OzRaoZpbpam2ANPg8S4M=;
+        b=WlaLzAfIf8gOrN61qUpliyZBNgObrr8xUTvxW9ednPw5sEUmkOlDoTRsT+tZIJiEk+
+         us0nNAvOS0At26rSTh8xkL+17Pg+KGnqWPys/tJv23e2ngAd5AyuMaDSTJvI2/Vj8E1d
+         52d5VerCqA/Zzxk3XPVyGQoWIzXc6R5108cCk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=a+511h/yRt0hAA530rhVf+uoJRBXRfwSraxYw7O/kA4=;
-        b=LFfxyHhgKtSQmpuvTFxvdgcwPds5xnkEL70cFXmd/9whLUnXTUn+OYstQ/F410Vwiw
-         6PBYHDisfnp6Y3IgV8b+iM/hq8ehvLBJ4fpA84BP6C3kp24xFlP0Jf7NbnugYZ1neva1
-         nxH4KAj8sFcEmM7Pwam0b+LOHBeznIR5xkMHwiC8BGXFUX5x13wumgBtYfpS8pVYmfPC
-         q+AxRzneWMVt4BOh+iJ7HYQiC7NopTahhZdE9JptVfDvu95DeNv/p15p5v2rprO5yCkR
-         8xK0Mgpycu42ly1CNSagA5MfwT+mvv0CZ+vXr1BHsKQqlHxz7vUiZ3pG1F0hyh2YwcUf
-         2deA==
-X-Gm-Message-State: AOAM530OwpzbEKjibhP9SK3urVOCtiT1LVs5uZD3Twe7NO5AIsypnXuA
-        ztHC/c+6loOqS7HFPcJECVs=
-X-Google-Smtp-Source: ABdhPJxwezn+YlJ0I0Lsa/QSD/QW96cOmMj3PWOOxNwHQmumz6Lo0kuB7h+fFEjaG5LEvcuSBTpVLg==
-X-Received: by 2002:a17:90a:bc08:: with SMTP id w8mr3317041pjr.168.1601484855301;
-        Wed, 30 Sep 2020 09:54:15 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
-        by smtp.gmail.com with ESMTPSA id l141sm2960368pfd.47.2020.09.30.09.54.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 Sep 2020 09:54:14 -0700 (PDT)
-Date:   Wed, 30 Sep 2020 09:54:12 -0700
-From:   Tao Ren <rentao.bupt@gmail.com>
-To:     Ryan Chen <ryan_chen@aspeedtech.com>
-Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, bmc-sw@aspeedtech.com
-Subject: Re: [PATCH 3/3] ARM: dts: add ehci uhci enable in evb dts
-Message-ID: <20200930165411.GC25872@taoren-ubuntu-R90MNF91>
-References: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
- <20200930040823.26065-4-ryan_chen@aspeedtech.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ION+wzhBe/H3HfVhVn+aQX6OzRaoZpbpam2ANPg8S4M=;
+        b=ZF7v/A5bUW8k8NaiVnoacZSpgpSTEl7z5qW3k2QgjdRc1JPNtn1vGySNIZFqmwWXHN
+         DLR1QbFMJ9+2Zrvv7RNZdXJ6W3oTBeXws2SKPZSz+6WVqcUYqUqZ6tM/jXcoxs1EEW8A
+         njQMFpRgwbpHLsMDRzc+/jzIVlw7SvdzPpA2/X3DUltx827Cytpgd91ShLYbOhEi9A54
+         WOGYHXUuTeosXtyVRTBJDIMJeChnKOmkOo1JFFySzcCi6fRX6XhSN57vKar+nwlYpGCC
+         0SPViMzBVUQAgEZ4Zn7C+iDaFKHVfaiW/iIlmGjNXRUrggW4Cez+dsF0ZBW35wHN4izz
+         gi/g==
+X-Gm-Message-State: AOAM531F4USpQthPRHpTfjRVc3gYqPp6OQvUBl8NDBsMrfFTxCxDJVym
+        bZ871O/YZnim8qLpdqAm7FXnkRWZgG4vAQ==
+X-Google-Smtp-Source: ABdhPJz17RFpmKg2OQ+6mWg8vj5aevYxqs83ITpDTIWU+h3k8bOPn7BLcDnd/eoMVJ6IY024BMEvfg==
+X-Received: by 2002:ab0:130a:: with SMTP id g10mr2629586uae.100.1601488853809;
+        Wed, 30 Sep 2020 11:00:53 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id f3sm351027vkk.32.2020.09.30.11.00.51
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2020 11:00:52 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id 7so1384996vsp.6
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2020 11:00:51 -0700 (PDT)
+X-Received: by 2002:a05:6102:2f7:: with SMTP id j23mr2430596vsj.37.1601488851471;
+ Wed, 30 Sep 2020 11:00:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200928101326.v4.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+ <20200929201701.GA1080459@bogus> <20200929220912.GF1621304@google.com>
+ <20200930013229.GB194665@rowland.harvard.edu> <20200930124915.GA1826870@google.com>
+ <CAL_JsqLq9ZJm_CMiqWwbQhgGeu_ac_j43pvk4+xCFueSbyL4wA@mail.gmail.com> <CAD=FV=WcDzgcHNn1+gH+gq_WEwpD0XXdJGm2fBVpAB=3fVbzZA@mail.gmail.com>
+In-Reply-To: <CAD=FV=WcDzgcHNn1+gH+gq_WEwpD0XXdJGm2fBVpAB=3fVbzZA@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 30 Sep 2020 11:00:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WhowcppEhmd=QG7YFk5iSVaCKsfGJkGBQJTwMs=bwekA@mail.gmail.com>
+Message-ID: <CAD=FV=WhowcppEhmd=QG7YFk5iSVaCKsfGJkGBQJTwMs=bwekA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: usb: Add binding for discrete onboard
+ USB hubs
+To:     Rob Herring <robh@kernel.org>
+Cc:     Matthias Kaehlcke <mka@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Peter Chen <peter.chen@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 12:08:23PM +0800, Ryan Chen wrote:
-> Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+Hi,
 
-Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+> On Wed, Sep 30, 2020 at 7:44 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > We already have hubs in DT. See [1][2][3][4]. What's new here?
+
+After I sent my response I kept thinking about this and I realized
+that I have prior art I can point out too!  :-)  Check out
+"smsc,usb3503a".  That is describing a USB hub too and, at least on
+"exynos5250-spring.dts" is is a top level node.  Since "smsc,usb3503a"
+can be optionally connected to an i2c bus too, it could be listed
+under an i2c controller as well (I believe it wasn't hooked up to i2c
+on spring).
+
+Interestingly enough, the USB Hub that Matthias is trying to add
+support for can _also_ be hooked up to i2c.  We don't actually have
+i2c hooked up on our board, but conceivably it could be.  Presumably,
+if i2c was hooked up, we would have no other choice but to represent
+this chip as several device tree nodes: at least one under the i2c
+controller and one (or two) under the USB controller.  Just because
+(on this board) i2c isn't hooked up doesn't change the fact that there
+is some extra control logic that could be represented in its own
+device tree node.  To me, this seems to give extra evidence that the
+correct way to model this device in device tree is with several nodes.
+
+I'll point out that on "exynos5250-spring.dts" we didn't have to solve
+the problem that Matthias is trying to solve here because we never
+actually supported waking up from USB devices there.  Thus the
+regulator for the hub on spring can be unconditionally powered off in
+suspend.  On newer boards we'd like to support waking up from USB
+devices but also to save power if no wakeup devices are plugged into
+USB.  In order to achieve this we need some type of link from the
+top-level hub device to the actual USB devices that were enumerated.
+
+-Doug
