@@ -2,60 +2,151 @@ Return-Path: <SRS0=1fts=DH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE7EC4727C
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3835C47426
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:55:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47ECA2076B
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:53:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2741207C3
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:55:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730247AbgI3OxV convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Sep 2020 10:53:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52830 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730107AbgI3OxV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 30 Sep 2020 10:53:21 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 209411] When retrieving string descriptor from mobile device
- returns eproto error
-Date:   Wed, 30 Sep 2020 14:53:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rachithas104@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209411-208809-htBsQqPZHl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
-References: <bug-209411-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1730680AbgI3Ozs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:55:48 -0400
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:60221 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730229AbgI3Ozr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Sep 2020 10:55:47 -0400
+Received: from tomoyo.flets-east.jp ([153.230.197.127])
+        by mwinf5d69 with ME
+        id aEvY230022lQRaH03EvhPd; Wed, 30 Sep 2020 16:55:45 +0200
+X-ME-Helo: tomoyo.flets-east.jp
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 30 Sep 2020 16:55:45 +0200
+X-ME-IP: 153.230.197.127
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>,
+        linux-usb@vger.kernel.org (open list:USB ACM DRIVER)
+Subject: [PATCH v2 4/6] can: dev: add a helper function to calculate the duration of one bit
+Date:   Wed, 30 Sep 2020 23:45:31 +0900
+Message-Id: <20200930144602.10290-5-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
+References: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209411
+Rename macro CAN_CALC_SYNC_SEG to CAN_SYNC_SEG and make it available
+through include/linux/can/dev.h
 
---- Comment #13 from rachithas104@gmail.com ---
-My program issues reset command, it works with MiMax ,but fails with other
-device
+Add an helper function can_bit_time() which returns the duration (in
+time quanta) of one CAN bit.
 
+Rationale for this patch: the sync segment and the bit time are two
+concepts which are defined in the CAN ISO standard. Device drivers for
+CAN might need those.
+
+Please refer to ISO 11898-1:2015, section 11.3.1.1 "Bit time" for
+additional information.
+
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+ drivers/net/can/dev.c   | 13 ++++++-------
+ include/linux/can/dev.h | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/net/can/dev.c b/drivers/net/can/dev.c
+index 8c3e11820e03..6070b4ab3bd8 100644
+--- a/drivers/net/can/dev.c
++++ b/drivers/net/can/dev.c
+@@ -60,7 +60,6 @@ EXPORT_SYMBOL_GPL(can_len2dlc);
+ 
+ #ifdef CONFIG_CAN_CALC_BITTIMING
+ #define CAN_CALC_MAX_ERROR 50 /* in one-tenth of a percent */
+-#define CAN_CALC_SYNC_SEG 1
+ 
+ /* Bit-timing calculation derived from:
+  *
+@@ -86,8 +85,8 @@ can_update_sample_point(const struct can_bittiming_const *btc,
+ 	int i;
+ 
+ 	for (i = 0; i <= 1; i++) {
+-		tseg2 = tseg + CAN_CALC_SYNC_SEG -
+-			(sample_point_nominal * (tseg + CAN_CALC_SYNC_SEG)) /
++		tseg2 = tseg + CAN_SYNC_SEG -
++			(sample_point_nominal * (tseg + CAN_SYNC_SEG)) /
+ 			1000 - i;
+ 		tseg2 = clamp(tseg2, btc->tseg2_min, btc->tseg2_max);
+ 		tseg1 = tseg - tseg2;
+@@ -96,8 +95,8 @@ can_update_sample_point(const struct can_bittiming_const *btc,
+ 			tseg2 = tseg - tseg1;
+ 		}
+ 
+-		sample_point = 1000 * (tseg + CAN_CALC_SYNC_SEG - tseg2) /
+-			(tseg + CAN_CALC_SYNC_SEG);
++		sample_point = 1000 * (tseg + CAN_SYNC_SEG - tseg2) /
++			(tseg + CAN_SYNC_SEG);
+ 		sample_point_error = abs(sample_point_nominal - sample_point);
+ 
+ 		if (sample_point <= sample_point_nominal &&
+@@ -145,7 +144,7 @@ static int can_calc_bittiming(struct net_device *dev, struct can_bittiming *bt,
+ 	/* tseg even = round down, odd = round up */
+ 	for (tseg = (btc->tseg1_max + btc->tseg2_max) * 2 + 1;
+ 	     tseg >= (btc->tseg1_min + btc->tseg2_min) * 2; tseg--) {
+-		tsegall = CAN_CALC_SYNC_SEG + tseg / 2;
++		tsegall = CAN_SYNC_SEG + tseg / 2;
+ 
+ 		/* Compute all possible tseg choices (tseg=tseg1+tseg2) */
+ 		brp = priv->clock.freq / (tsegall * bt->bitrate) + tseg % 2;
+@@ -223,7 +222,7 @@ static int can_calc_bittiming(struct net_device *dev, struct can_bittiming *bt,
+ 
+ 	/* real bitrate */
+ 	bt->bitrate = priv->clock.freq /
+-		(bt->brp * (CAN_CALC_SYNC_SEG + tseg1 + tseg2));
++		(bt->brp * (CAN_SYNC_SEG + tseg1 + tseg2));
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/can/dev.h b/include/linux/can/dev.h
+index 72a8a60c0094..30b327f1a4bd 100644
+--- a/include/linux/can/dev.h
++++ b/include/linux/can/dev.h
+@@ -82,6 +82,21 @@ struct can_priv {
+ #endif
+ };
+ 
++#define CAN_SYNC_SEG 1
++
++/*
++ * can_bit_time() - Duration of one bit
++ *
++ * Please refer to ISO 11898-1:2015, section 11.3.1.1 "Bit time" for
++ * additional information.
++ *
++ * Return: the number of time quanta in one bit.
++ */
++static inline int can_bit_time(struct can_bittiming *bt)
++{
++	return CAN_SYNC_SEG + bt->prop_seg + bt->phase_seg1 + bt->phase_seg2;
++}
++
+ /*
+  * get_can_dlc(value) - helper macro to cast a given data length code (dlc)
+  * to __u8 and ensure the dlc value to be max. 8 bytes.
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2
+
