@@ -2,87 +2,85 @@ Return-Path: <SRS0=1fts=DH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CEFC4727C
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:52:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28443C4727C
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:53:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 821ED207C3
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:52:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0260206FC
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Sep 2020 14:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730520AbgI3OwV convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Sep 2020 10:52:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52388 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729767AbgI3OwV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 30 Sep 2020 10:52:21 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 209411] When retrieving string descriptor from mobile device
- returns eproto error
-Date:   Wed, 30 Sep 2020 14:52:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rachithas104@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209411-208809-VI9sxx3xmo@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
-References: <bug-209411-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1730519AbgI3OxO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:53:14 -0400
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:19132 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730195AbgI3OxN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Sep 2020 10:53:13 -0400
+Received: from tomoyo.flets-east.jp ([153.230.197.127])
+        by mwinf5d69 with ME
+        id aEsz2300N2lQRaH03Et73J; Wed, 30 Sep 2020 16:53:12 +0200
+X-ME-Helo: tomoyo.flets-east.jp
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 30 Sep 2020 16:53:12 +0200
+X-ME-IP: 153.230.197.127
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-usb@vger.kernel.org (open list:USB ACM DRIVER)
+Subject: [PATCH v2 3/6] can: dev: __can_get_echo_skb(): fix the return length
+Date:   Wed, 30 Sep 2020 23:45:30 +0900
+Message-Id: <20200930144602.10290-4-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
+References: <20200926175810.278529-1-mailhol.vincent@wanadoo.fr>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209411
+The length of Remote Transmission Request (RTR) frames is always 0
+bytes. The DLC represents the requested length, not the actual length
+of the RTR. But __can_get_echo_skb() returns the DLC value regardless.
 
---- Comment #12 from rachithas104@gmail.com ---
-(In reply to Alan Stern from comment #11)
-> The traces aren't really complete, because you didn't start them until after
-> the USB cable was plugged in.  Also, the traces start out with the computer
-> reading string descriptors 1, 2, 3, 4, and 6 (in the non-working trace), and
-> the values of the descriptors are different in the two traces.  In the
-> working trace, the values are:
-> 
->   1: "Xiaomi"
->   2: "MI MAX"
->   3: "d553b4b6"
->   4: "ADB Interface"
-> 
-> In the non-working trace:
-> 
->   1: "Xiaomi"
->   2: "Redmi K30 5G"
->   3: "c2a85d7"
->   4: "ptp_adb"
->   6: "ADB Interface"
-> 
-> It looks like you used two different phones for the tests, or one phone with
-> two different ROMs installed.  Is that what you did?
-> 
-> Are you asking why one phone works and the other phone doesn't?
+Apply get_can_len() function to retrieve the correct length.
 
-Yes Mi Max works ,Redmi doesn't. The traces were taken after  I have plugged
-the device and changed it to PTP mode
-Mainly the traces has info when my program starts enumerating. Can I know is
-there any tool you used to get this info
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+ drivers/net/can/dev.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
+diff --git a/drivers/net/can/dev.c b/drivers/net/can/dev.c
+index e291fda395a0..8c3e11820e03 100644
+--- a/drivers/net/can/dev.c
++++ b/drivers/net/can/dev.c
+@@ -481,14 +481,9 @@ __can_get_echo_skb(struct net_device *dev, unsigned int idx, u8 *len_ptr)
+ 	}
+ 
+ 	if (priv->echo_skb[idx]) {
+-		/* Using "struct canfd_frame::len" for the frame
+-		 * length is supported on both CAN and CANFD frames.
+-		 */
+ 		struct sk_buff *skb = priv->echo_skb[idx];
+-		struct canfd_frame *cf = (struct canfd_frame *)skb->data;
+-		u8 len = cf->len;
+ 
+-		*len_ptr = len;
++		*len_ptr = get_can_len(skb);
+ 		priv->echo_skb[idx] = NULL;
+ 
+ 		return skb;
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2
+
