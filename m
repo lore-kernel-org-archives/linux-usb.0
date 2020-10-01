@@ -2,121 +2,171 @@ Return-Path: <SRS0=7R6y=DI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91ACDC47425
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Oct 2020 05:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E818CC4727C
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Oct 2020 07:33:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 412EB221EC
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Oct 2020 05:10:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5350206D9
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Oct 2020 07:33:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="NuANVy6t"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D72DiC0Y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730723AbgJAFKG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Oct 2020 01:10:06 -0400
-Received: from mail-eopbgr70057.outbound.protection.outlook.com ([40.107.7.57]:55458
-        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725952AbgJAFKF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 1 Oct 2020 01:10:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BXGQLxzqhN3JRHylinhJi0eLRiIWfFQQo0ccVgXTGWHDuZgwhneqyr5H3873ah8gcVcAM6eDksLJcoeeU19pDKpX6hVIv1VSNgSArgO90o/K/tLIyrgAO1wAtk/W0ekIPCckApBGwLSTN/Xv0BK3eYvI3BqnYpZ5XXrCbJ8iuCUsym0Z1uicjxJ9INjfawUO5F/WTcyAn7TZfvs5IyW1dI+2inQoR87ALacJwRJRP+a+e36/F6ajifCigoQEk5V6SkYADzibIKfqimsBG8SSirL/xPTcROZvP0F2ZjlZ2GIA7Jz97ylyYoV4ckdq9LxUZifcZ/Y6MqoDNBHF0rBNOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D8Qa49CsSudhF1+O8+6QH/uDpcce8pGm0cWzq047nRc=;
- b=D11HPQPyRwCUOCT/gqfFBri9tf40TvC+PGTR8GJogNSHBUDImcrwBcsNQhAW7qdDm3vNUNoSDRzSJgV1e5Rw+PdeR+j8Nh7njkX1JAb3CWwm0IESBsFcHNBZ0ISKGRC2to4XpOMkS7OSh6NYcfVa7M8yEbXDygXPOnrzo99aDERGCSNupQ31RvUhGRfqmpgXeUPp/usOWzoTrftfsbbj89IHYf9EyZynIHikRwyt0Q+6Rsul2TGZFGllPj37Uvdue7/wPJbH09008Qotpljgcl01/Cg8T7WntQhIdSz5fuHVQfLgzyiWx2xSuZz6GW4KQ+lh/O9pT7voduGnYYYdpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D8Qa49CsSudhF1+O8+6QH/uDpcce8pGm0cWzq047nRc=;
- b=NuANVy6tIq61389w/wQyIwckreab2kZKDfaQfCzOMPkVhC1V+azZ5xSoe+oYCBs6WXO6jrLAOmtlSDRtY7AYIHy9ANFwrlKRTWQs1dz37jGXOqzeHVa2BTA9dvPbP7DblSgFWk+wrCUo0e8QOzAwl92GWTN7fn5Fz58YrxowEGw=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM8PR04MB7300.eurprd04.prod.outlook.com (2603:10a6:20b:1c7::12)
- by AM0PR04MB7137.eurprd04.prod.outlook.com (2603:10a6:208:19c::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Thu, 1 Oct
- 2020 05:10:01 +0000
-Received: from AM8PR04MB7300.eurprd04.prod.outlook.com
- ([fe80::ad01:9b1c:3b4b:3a77]) by AM8PR04MB7300.eurprd04.prod.outlook.com
- ([fe80::ad01:9b1c:3b4b:3a77%7]) with mapi id 15.20.3433.032; Thu, 1 Oct 2020
- 05:10:01 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org, pawell@cadence.com,
-        Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH for felipe/next 1/1] MAINTINAERS: correct Peter Chen's email address
-Date:   Thu,  1 Oct 2020 13:08:37 +0800
-Message-Id: <20201001050837.14499-1-peter.chen@nxp.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-Originating-IP: [119.31.174.67]
-X-ClientProxiedBy: SG2P153CA0017.APCP153.PROD.OUTLOOK.COM (2603:1096::27) To
- AM8PR04MB7300.eurprd04.prod.outlook.com (2603:10a6:20b:1c7::12)
+        id S1731349AbgJAHdW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Oct 2020 03:33:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50224 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725878AbgJAHdW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Oct 2020 03:33:22 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3E0C0613D0;
+        Thu,  1 Oct 2020 00:33:20 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id k8so3703531pfk.2;
+        Thu, 01 Oct 2020 00:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MMQaSvH0Kx6bA3nvjTwxRxny7XPXqNvhRkFHeW4802Q=;
+        b=D72DiC0Y4x01OSsq8PYVmh2eyPP1awTN2KmJxwDa2llYQkx4PYUuNyQN/dmE6ZDm2P
+         NbUUEkSI0e/8ZqqVSO2NmXqzvDVFTO5Sf8Ylmd/SqzLrhK7fx6Pp+5msfOi8tH+43zxS
+         yX7dALP9mpNFLvpC++q6WplnJaKkvI2e/vu/Kpvi+U+5no6MKrwTcsZjP7wq+mt0pQae
+         1WZ3AHCJrH8Bn9KokXVZd3139UU9OZYe6z3NnnfEMN7/71YgzjgKqMM3F8ErL8Af/WxG
+         HCVr0MOemfFzIx3ZjE/PX5wk5UuxEpPlsPjBTwCmDL6o/R5a7FOHlzF4gLBVlPQi67HM
+         9DDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MMQaSvH0Kx6bA3nvjTwxRxny7XPXqNvhRkFHeW4802Q=;
+        b=FsetFPlwztg5Y+ZdW8AzDsPdVzjwUy9DnRrE5IEOEiMjzX+SXNXbWNpEHRH81JXJlv
+         MDfxD0tav2LrxU1bAuvBS3vbnUUuIp+Pc47RzSS3tVWKriY4p0Zohb948ASro4XdrG0E
+         kb3dvD7Dct5mGOCqxYYpaWINRK7nRpix/OOPNgVni707Qr5ra1vPFUp1GBb5w4/6mM/i
+         LVpAjQYX7fndWT7T0ev454V7IWSzOndr8USfjjNGwOdvl7YfiC83gfLJFZMEjvWz4kgh
+         m2wnu6Anzw2WoC2VgfAwOGbPpbj0bHo7lBz0x7qQtDkN/tkzUE/BV2YxE0HbgJkes6E1
+         R/pQ==
+X-Gm-Message-State: AOAM533qhgSPwk4KsGP8NVWXl4ecRem7Ok4GUgyS5NHAk3m3HsC+1gTn
+        On7cm/ghIGUwLxXq8Oy1WZ0=
+X-Google-Smtp-Source: ABdhPJwuU76xzp1pRklPBcovrJe7OwB7CKUmZLAEVCOio2OiSt94fQu2tR4KKcbO4pQVITEWWqgagQ==
+X-Received: by 2002:a63:e1a:: with SMTP id d26mr5191223pgl.190.1601537599777;
+        Thu, 01 Oct 2020 00:33:19 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.212.76])
+        by smtp.gmail.com with ESMTPSA id u14sm5058589pfm.80.2020.10.01.00.33.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2020 00:33:18 -0700 (PDT)
+From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
+        Petko Manolov <petkan@nucleusys.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees][PATCH v2] net: usb: rtl8150: prevent set_ethernet_addr from setting uninit address
+Date:   Thu,  1 Oct 2020 13:02:20 +0530
+Message-Id: <20201001073221.239618-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.67) by SG2P153CA0017.APCP153.PROD.OUTLOOK.COM (2603:1096::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.7 via Frontend Transport; Thu, 1 Oct 2020 05:09:59 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: acc045aa-2b25-4ba2-c3d7-08d865c83fee
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7137:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR04MB713792A20560439CE5B45C428B300@AM0PR04MB7137.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:741;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rUqQa0jBb44LgoPwo6DdR27zaxepecup6soVgWUV3m93tp77q0WzS9ieg/rNB0OHU2HTlCVunUUqAVx6XwBlifoIS7S9E/9QOiEuCaedGsN20GUy1RhNiMX+GzbM/+q576kz1Fuf9yaq5L+jzgI48zfH9NN/ClkWnwEvLMhc6g6LD4V584OiELBwI6zb4x3hHFjMo6+8r52jc8Ly6+h6bSnZFTNz/4946PVor25lY8KLo32HPQeSMJRgFNVcF4VElLgaXedEoX1HyiFlSo6K1Zq7w1xZF9wweMPgcWeBSOtj98S85sMNz3FmHiJp2FizsZKONRpJc0aAFHsg9qrS3CoM6Q8xNLUZCISV49T59lpsrv/jCn6Pknp1DT8kdZEl
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7300.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39860400002)(396003)(376002)(366004)(136003)(4744005)(44832011)(2906002)(66946007)(52116002)(8676002)(66556008)(478600001)(5660300002)(66476007)(6506007)(6486002)(6916009)(86362001)(956004)(2616005)(6666004)(316002)(4326008)(83380400001)(36756003)(6512007)(16526019)(26005)(1076003)(186003)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: wtZnNv/JiRSMbJtw/bsPd9FebaEwbzac3Lkf/mppr1v9xbTO7ZSjWdov1caa9R+Qgy+fNA6/DOl/Ep9RGwylRQDUgaJQNelFZ4W1bFIJzXHTY2j7B1yORl4GGQ9uMVAmo90HjvqMBVLSh9rpyFswbf11xoHAwE7bBPXcrjb2dazuBOHI3a54h0nSrjJCo0O9REaV/wKnPmt8MNG5I7geSDzst8L1NVsPg4r8WGDBbweKVHQvijF94ugqHJ/v8CCVHqYNVZVS+GZAnxd9LanX3Vu0u879K9w2w03IUhdzm9nFzndOvU7yeUi1LaYmZQv/WMKIheUKCZSaUqYKKCt4yCLlWqOu3PP0z/A6UVwQCkTikv6Iy6zuoHVrONphHyPA+NRo6fYpcasQKsTeZjCfI5+h1B3dnWDYFZhoL/VUVrXv9+DL5kBT5ApulOyFQjjj7iyz7Z7mRtCn7QOQA9W6sIViEgskoyBmvJL8Pc4DgY4VH5OfgUAWxD+hn/IjZuFqucLB0vfNfKZrBlkSm4P2GA5Vf86CMq0qsygKIBVfk46VrJa9z54NqLm/xjRNunwO4S/E7l9BsRswXgILyrvw7IbLotB2/JuHbkGiE2CxXrGILx6hk0uAOOPIutxh5d09ag5p60blKZrMy/FJoXx1qg==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acc045aa-2b25-4ba2-c3d7-08d865c83fee
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7300.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2020 05:10:01.6697
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EDr9dlzP+P1KRbuJoVulaQ0NgoZxaKwnk/zRNSIpVb+uTfSE3WnGrk5BqCuYVime5AoQD5hNpP1RpbuJ53dX8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB7137
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Correct Peter Chen's email address
+When get_registers() fails (which happens when usb_control_msg() fails)
+in set_ethernet_addr(), the uninitialized value of node_id gets copied
+as the address.
 
-Reported-by: Pawel Laszczak <pawell@cadence.com>
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
+Checking for the return values appropriately, and handling the case
+wherein set_ethernet_addr() fails like this, helps in avoiding the
+mac address being incorrectly set in this manner.
+
+Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Acked-by: Petko Manolov <petkan@nucleusys.com>
 ---
-Hi Felipe,
+Changes in v2:
+	* Modified condition checking get_registers()'s return value to 
+		ret == sizeof(node_id)
+	  for stricter checking in compliance with the new usb_control_msg_recv()
+	  API
+	* Added Acked-by: Petko Manolov
 
-I am sorry I wrote my email address wrongly, the related patch
-746a439775fb ("MAINTAINERS: add Cadence USB3 DRD IP driver entry)
-is still at your test branch. If you agree, you could squash
-it, or apply on top of your test tree, both are ok. Thanks.
+Since Petko didn't explicitly mention an email-id in his Ack, I put the
+email-id present in the MAINTAINERS file. I hope that's not an issue.
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 47816f4c1d81..f1acb31f7dc9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3857,7 +3857,7 @@ F:	Documentation/devicetree/bindings/mtd/cadence-nand-controller.txt
- F:	drivers/mtd/nand/raw/cadence-nand-controller.c
+ drivers/net/usb/rtl8150.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+index 733f120c852b..e542a9ab2ff8 100644
+--- a/drivers/net/usb/rtl8150.c
++++ b/drivers/net/usb/rtl8150.c
+@@ -150,7 +150,7 @@ static const char driver_name [] = "rtl8150";
+ **	device related part of the code
+ **
+ */
+-static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
++static int get_registers(rtl8150_t *dev, u16 indx, u16 size, void *data)
+ {
+ 	void *buf;
+ 	int ret;
+@@ -274,12 +274,17 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
+ 		return 1;
+ }
  
- CADENCE USB3 DRD IP DRIVER
--M:	Peter Chen <peter.chen@nxp.org>
-+M:	Peter Chen <peter.chen@nxp.com>
- M:	Pawel Laszczak <pawell@cadence.com>
- M:	Roger Quadros <rogerq@ti.com>
- L:	linux-usb@vger.kernel.org
+-static inline void set_ethernet_addr(rtl8150_t * dev)
++static bool set_ethernet_addr(rtl8150_t *dev)
+ {
+ 	u8 node_id[6];
++	int ret;
+ 
+-	get_registers(dev, IDR, sizeof(node_id), node_id);
+-	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
++	ret = get_registers(dev, IDR, sizeof(node_id), node_id);
++	if (ret == sizeof(node_id)) {
++		memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
++		return true;
++	}
++	return false;
+ }
+ 
+ static int rtl8150_set_mac_address(struct net_device *netdev, void *p)
+@@ -909,21 +914,24 @@ static int rtl8150_probe(struct usb_interface *intf,
+ 		goto out1;
+ 	}
+ 	fill_skb_pool(dev);
+-	set_ethernet_addr(dev);
+-
++	if (!set_ethernet_addr(dev)) {
++		dev_err(&intf->dev, "couldn't set the ethernet address for the device\n");
++		goto out2;
++	}
+ 	usb_set_intfdata(intf, dev);
+ 	SET_NETDEV_DEV(netdev, &intf->dev);
+ 	if (register_netdev(netdev) != 0) {
+ 		dev_err(&intf->dev, "couldn't register the device\n");
+-		goto out2;
++		goto out3;
+ 	}
+ 
+ 	dev_info(&intf->dev, "%s: rtl8150 is detected\n", netdev->name);
+ 
+ 	return 0;
+ 
+-out2:
++out3:
+ 	usb_set_intfdata(intf, NULL);
++out2:
+ 	free_skb_pool(dev);
+ out1:
+ 	free_all_urbs(dev);
 -- 
-2.17.1
+2.25.1
 
