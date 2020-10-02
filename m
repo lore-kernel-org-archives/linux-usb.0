@@ -2,192 +2,112 @@ Return-Path: <SRS0=OYMf=DJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F4BC4363D
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Oct 2020 17:08:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9995C35257
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Oct 2020 18:23:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EDA320758
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Oct 2020 17:08:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F96220758
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Oct 2020 18:23:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CZpsJgYy"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="Irswezj4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387957AbgJBRIb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:08:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51038 "EHLO
+        id S2388034AbgJBSXu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Oct 2020 14:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733260AbgJBRIb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Oct 2020 13:08:31 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1768EC0613D0
-        for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2020 10:08:31 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id r24so954911vsp.8
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2020 10:08:31 -0700 (PDT)
+        with ESMTP id S1726017AbgJBSXu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Oct 2020 14:23:50 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A89CC0613D0
+        for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2020 11:23:48 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id q123so1858961pfb.0
+        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2020 11:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PbIvQOosZgo3R2BZJc8GACD4WYs5J2seBOEgLzJ9hBM=;
-        b=CZpsJgYy8Zu1oH8utkKUY6fcC7xmaRZvupW4XBuX1ERHa99qsoAgCEsacauygHGyOw
-         a0sRG5fZlNs27aC1wNw//vRECILHOTEvvJja90QWG6g5CHF6BT5msQEGWa+NZiA1tFNb
-         AiiJsTtFWWGUwe6oIWGmSlzioRe6qjG8nLib0=
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=dLt24jZaXpKoPfrpAQsTNoIii0wynpAMSCaMsOeaq/8=;
+        b=Irswezj4+vTXLAGewGL2mUj0idT6ulXfb+ykyqeUCPq7sCA/aOBGuVzlRafWNEi1jL
+         AhctfN4YLXT5o/AMzF/42Yfz0u+HXCrQXjM88bUXqvzqj1h9VeiXdpE8+bqcZhx3iPPn
+         kAA4w46fJBE+Fs7Hylbxe7OcSDx7sK1aY6d1qQqcE5ytSZh7puRMFSPpeH5pIDQS1nbY
+         VlTbvf49Tj53TuKeIrKX3gE3z2V8PC3f1qFbu6VtkKJUHqojbBLTWqxWmC/OFOuFKapy
+         HIHpj6z5OcmWohPx20bCjgXy2dCC9WrNupkThuKx8lVmTPxHehGBSv6Dp5wpPoAT+cFQ
+         5Upg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PbIvQOosZgo3R2BZJc8GACD4WYs5J2seBOEgLzJ9hBM=;
-        b=C5AVs0ti7BbRZ+hNyZFqqR1BDx+8REYPov359Ay6OJ15uj6gUD4uNQc+t6WASrBnAO
-         GZnzMHwL0mI6b8Ven6BkeHqhhJUd9RAsHLpn0XV9NYRLKEYvNvL6DJ07uYYmRDDIoUX9
-         45jGxBqEdc0xgWpIJ7Sd/oKzug+MMs1a0rjNJbHrI31zi7iNOl3S2YhVwjhbOvu4AGye
-         a+aBd3l/erqClUAbh9rQCPovwYjAr+49WFP7kLJw2uCIJLnp7AmdCNzpKIVELrQTMiQx
-         TeoUo4om5VBB9ERIvivXi520Ptt7BE5VCkSGjYEcfL4Rw4pOPB7/UZ6XOiE4xAxV2/T6
-         9zPw==
-X-Gm-Message-State: AOAM533J4HMCXhr+3z6BVIHNXtpqgjCYM34mhiv/R7S3EVbehGSfs071
-        KPpq2Wk6jwkVSKLCvdJe80OiFDXzme2IOA==
-X-Google-Smtp-Source: ABdhPJw+dTtxBOd8oEJAGlrmU9ZDNlOnnY2D7zoR067s36r46EcyACOlLxVjGxYxgoF/Jx7nHDOW/w==
-X-Received: by 2002:a67:fac4:: with SMTP id g4mr1909932vsq.9.1601658510242;
-        Fri, 02 Oct 2020 10:08:30 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id 89sm295068uaq.9.2020.10.02.10.08.29
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2020 10:08:30 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id e2so960722vsr.7
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2020 10:08:29 -0700 (PDT)
-X-Received: by 2002:a67:f4c2:: with SMTP id s2mr1917881vsn.4.1601658509277;
- Fri, 02 Oct 2020 10:08:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=dLt24jZaXpKoPfrpAQsTNoIii0wynpAMSCaMsOeaq/8=;
+        b=Q+s/3KtoOdDkIouHwHIR0yd+mLLhq/rruqbompdex+fnHeDZNUxFn2HSvoNYq7LfJ0
+         tWnp0fVIEpSZnBHFzvDtdY+TyMKMqJddzpW6Eh7YVH8Gqp7WFhBAC5UllzfTTmdD4P5j
+         lkcx3dCI3CpYc7YQ8R/3Qj/7afeXilxIAcIhng0QfA5ls/LMy0dLLxIKSoZ1sBPA+4At
+         kQIIIzkP73/fxPuwORzDfh3hTw+lc++dYX8Kha74S8qZXsZu7i/5fuk3MLJy2Rs7f195
+         yelrLKwonV+FiRmk+9utshGwXbGU92OXYROMIe41eQnyUtRuZg1d5MVVaA8U89dPAopW
+         Apcg==
+X-Gm-Message-State: AOAM532wVwPP9PMMog6bnemSOw3tmWWrAdYyAbyrXM0aOfyH14fwNr4Q
+        Jx3VgwsY05ywJw96brHol5zeBg==
+X-Google-Smtp-Source: ABdhPJw+m163+8+A3NNIguhVHp83jAAmQeDChZRqJPzFkbCuCqkvLTCPyC93EbyZCnoE8aNRIPdUWg==
+X-Received: by 2002:a63:30b:: with SMTP id 11mr1533550pgd.253.1601663027882;
+        Fri, 02 Oct 2020 11:23:47 -0700 (PDT)
+Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
+        by smtp.gmail.com with ESMTPSA id e10sm2385564pgb.45.2020.10.02.11.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 11:23:47 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Neil Armstrong <narmstrong@baylibre.com>, kishon@ti.com,
+        balbi@kernel.org, martin.blumenstingl@googlemail.com
+Cc:     linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] usb: dwc-meson-g12a: Add support for USB on S400 board
+In-Reply-To: <30e2c174-c94b-f42a-1dd4-ae05c317d618@baylibre.com>
+References: <20200917065949.3476-1-narmstrong@baylibre.com> <30e2c174-c94b-f42a-1dd4-ae05c317d618@baylibre.com>
+Date:   Fri, 02 Oct 2020 11:23:46 -0700
+Message-ID: <7hpn60mqq5.fsf@baylibre.com>
 MIME-Version: 1.0
-References: <20200928101326.v4.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
- <20200929201701.GA1080459@bogus> <20200929220912.GF1621304@google.com>
- <20200930013229.GB194665@rowland.harvard.edu> <20200930124915.GA1826870@google.com>
- <CAL_JsqLq9ZJm_CMiqWwbQhgGeu_ac_j43pvk4+xCFueSbyL4wA@mail.gmail.com>
- <CAD=FV=WcDzgcHNn1+gH+gq_WEwpD0XXdJGm2fBVpAB=3fVbzZA@mail.gmail.com> <CAL_Jsq+Zi+hCmUEiSmYw=pVK472=OW1ZjLnkH1NodWUm8FA5+g@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+Zi+hCmUEiSmYw=pVK472=OW1ZjLnkH1NodWUm8FA5+g@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 2 Oct 2020 10:08:17 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WJrvWBLk3oLpv6Q3uY4w7YeQBXVdkpn+SAS5dnxp9-=Q@mail.gmail.com>
-Message-ID: <CAD=FV=WJrvWBLk3oLpv6Q3uY4w7YeQBXVdkpn+SAS5dnxp9-=Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: usb: Add binding for discrete onboard
- USB hubs
-To:     Rob Herring <robh@kernel.org>
-Cc:     Matthias Kaehlcke <mka@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Peter Chen <peter.chen@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Neil Armstrong <narmstrong@baylibre.com> writes:
 
-On Wed, Sep 30, 2020 at 1:20 PM Rob Herring <robh@kernel.org> wrote:
+> Hi Kevin,
 >
-> > > > Datasheets from different manufacturers refer to these ICs as "USB hub
-> > > > controller". Calling the node "usb-hub-controller" would indeed help to
-> > > > distinguish it from the USB hub devices and represent existing hardware.
-> > > > And the USB device could have a "hub-controller" property, which also
-> > > > would be clearer than the current "hub" property.
-> > >
-> > > There aren't 2 (or 3) devices here. There's a single USB device (a
-> > > hub) and the DT representation should reflect that.
-> >
-> > That's not completely true, though, is it?
+> On 17/09/2020 08:59, Neil Armstrong wrote:
+>> The Amlogic AXG is close to the GXL Glue but with a single OTG PHY.
+>> 
+>> It needs the same init sequence as GXL & GXM, but it seems it doesn't need
+>> the host disconnect bit.
+>> 
+>> The Glue driver reuses the already implemented GXL & GXM work.
+>> 
+>> The USB2 PHY driver needs a slight tweak to keep the OTG detection working.
+>> 
+>> Changes since v1 at [1]:
+>> - s/close from/close to/g
+>> - collected review tags
+>> - added small comment about phy management in patch 3
+>> - removed status = "okay" in patch 4
+>> - removed invalid phy-supply of phy1 in patch 5
+>> 
+>> [1] http://lore.kernel.org/r/20200909160409.8678-1-narmstrong@baylibre.com
+>> 
+>> Neil Armstrong (5):
+>>   phy: amlogic: phy-meson-gxl-usb2: keep ID pull-up even in Host mode
+>>   dt-bindings: usb: amlogic,meson-g12a-usb-ctrl: add the Amlogic AXG
+>>     Families USB Glue Bindings
+>>   usb: dwc-meson-g12a: Add support for USB on AXG SoCs
+>>   arm64: dts: meson-axg: add USB nodes
+>>   arm64: dts: meson-axg-s400: enable USB OTG
 >
-> I was referring to the hub. I only see 1 datasheet, 1 IC and 1 block
-> diagram... Lots of devices have more than one interface though usually
-> not different speeds of the same thing.
+> Can you pick the DT patches ?
 
-Right, there is certainly more than one way to look at it and the way
-to look at it is based on how it's most convenient, I guess.  I mean,
-an SoC often has 1 (very long) datasheet, 1 IC, and 1 block diagram
-too...
+Yes, queued up.
 
-As a more similar example of single device that is listed in more than
-one location in the device tree, we can also look at embedded SDIO
-BT/WiFi combo cards.  This single device often provides WiFi under an
-SDIO bus and BT under a serial / USB bus.  I'm not 100% sure there are
-actually cases were the same board provides device tree data to both
-at the same time, but "brcm,bcm43540-bt" is an example of providing
-data to the Bluetooth (connected over serial port) and
-"brcm,bcm4329-fmac" to the WiFi (connected over the SDIO bus).  Of
-course WiFi/BT cheat in that the control logic is represented by the
-SDIO power sequencing stuff...
+Since we're already at -rc7, this may not make it until v5.11.
 
-
-Back to our case, though.  I guess the issue here is that we're the
-child of more than one bus.  Let's first pretend that the i2c lines of
-this hub are actually hooked up and establish how that would look
-first.  Then we can think about how it looks if this same device isn't
-hooked up via i2c.  In this case, it sounds as if you still don't want
-the device split among two nodes.  So I guess you'd prefer something
-like:
-
-i2c {
-  usb-hub@xx {
-    reg = <xx>;
-    compatible = "realtek,rts5411", "onboard-usb-hub";
-    vdd-supply = <&pp3300_hub>;
-    usb-devices = <&usb_controller 1>;
-  };
-};
-
-...and then you wouldn't have anything under the USB controller
-itself.  Is that correct?  So even though there are existing bindings
-saying that a USB device should be listed via VID/PID, the desire to
-represent this as a single node overrides that, right?  (NOTE: this is
-similar to what Matthias proposed in his response except that I've
-added an index so that we don't need _anything_ under the controller).
-
-Having this primarily listed under the i2c bus makes sense because the
-control logic for the hub is hooked up via i2c.  Having the power
-supply associated with it also makes some amount of sense since it's a
-control signal.  It's also convenient that i2c devices have their
-probe called _before_ we try to detect if they're there because it's
-common that i2c devices need power applied first.
-
-Now, just because we don't have the i2c bus hooked up doesn't change
-the fact that there is control logic.  We also certainly wouldn't want
-two ways of describing this same hub: one way if the i2c is hooked up
-and one way if it's not hooked up.  To me this means that the we
-should be describing this hub as a top-level node if i2c isn't hooked
-up, just like we do with "smsc,usb3503a"
-
-Said another way, we have these points:
-
-a) The control logic for this bus could be hooked up to an i2c bus.
-
-b) If the control logic is hooked up to an i2c bus it feels like
-that's where the device's primary node should be placed, not under the
-USB controller.
-
-c) To keep the i2c and non-i2c case as similar as possible, if the i2c
-bus isn't hooked up the hub's primary node should be a top-level node,
-not under the USB controller.
-
-
-NOTE ALSO: the fact that we might want to list this hub under an i2c
-controller also seems like it's a good argument against putting this
-logic in the xhci-platform driver?
-
-
-I _think_ the above representation would be OK with Rob (right?) and I
-think it'd be pretty easy to adapt Matthias's existing code to work
-with it.  We'd have to make sure we were careful that things worked in
-either probe ordering (in case the firmware happened to leave the
-power rail on sometimes and the USB devices started probing before the
-hub driver did), but it feels like it should be possible, right?
-
-
- -Doug
+Kevin
