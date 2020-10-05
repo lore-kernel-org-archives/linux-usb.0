@@ -2,220 +2,119 @@ Return-Path: <SRS0=CmUQ=DM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDDAFC4363A
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Oct 2020 10:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CC6C4363D
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Oct 2020 10:59:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C15F20774
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Oct 2020 10:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601895452;
-	bh=JVgfE+3esb8Liol/0kiuXVPP2MJGJayVxJb8bIExq7c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=l6S1VWEoZUOyb3A4BT35ry2WFnCYR1YlkEZMzqMTz+ommz2/v0Lkc6TRebkhfW5wy
-	 hsKffdJOmiD3hbI0V11RiNsB51fGAgbZcCwKVFoUMS1rBn+JuR59+h4+NWasFdGONR
-	 TaKanF27PSw40+7MywT/aa95G1pFhmNMUO8zXaOI=
+	by mail.kernel.org (Postfix) with ESMTP id 04B812080A
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Oct 2020 10:59:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725935AbgJEK5c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Oct 2020 06:57:32 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46434 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbgJEK5c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Oct 2020 06:57:32 -0400
-Received: by mail-lf1-f67.google.com with SMTP id b22so10255551lfs.13
-        for <linux-usb@vger.kernel.org>; Mon, 05 Oct 2020 03:57:28 -0700 (PDT)
+        id S1725984AbgJEK7Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Oct 2020 06:59:24 -0400
+Received: from mail-il1-f205.google.com ([209.85.166.205]:46588 "EHLO
+        mail-il1-f205.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725843AbgJEK7Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Oct 2020 06:59:24 -0400
+Received: by mail-il1-f205.google.com with SMTP id z8so6934974ilh.13
+        for <linux-usb@vger.kernel.org>; Mon, 05 Oct 2020 03:59:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wuUTpGgA3PXxAm+sJRiE79VXoTjKRT6I2hgC9BMS9YU=;
-        b=KHHRSYOPjM+2Ya/amOg7qMT7qRFK53tDKXHUvmgOaQ3qdaehsjjUicgr3wLabpoRZA
-         6ZaE+rd+xb6ob1MzGTOQ00njHZ+7GHeXX+HqQE40JidUqulEwsaB7f7i1hmMJ1UVyAue
-         WiIhWae337wNl3kz7GS4aBXq1s6vPqCt8lEzF3z/GBIw8ASoGR+fefIM/2qAnl6l9Njs
-         vNMDhIKUwAFRCZN82yV9YxQ62G4qaHCfVpFomVmDWzvGoumFSy3qLCMQyHqSEA1Vliki
-         lTuX+FoeBvjMroMya/Dv03G5bJ3+1p2UVI/5ff9deMdD/A/dQJOUedm7dBm9wqHGUXPB
-         YfZA==
-X-Gm-Message-State: AOAM531IRoLtLevV2UCdla3/ClljD+pFs013XXVi0pa1wSbaA0fSYnEb
-        HSyQ5YIDMcw/Jwz0NlV3vL4Y6+JIyGs=
-X-Google-Smtp-Source: ABdhPJzPe1B+/k6rZlDDn2chdvZgNuQc5CWH61+1XXOz6HK2N/OEQB5Q3jhsb5PXMSL8HOK2QQtlzg==
-X-Received: by 2002:a05:6512:695:: with SMTP id t21mr763396lfe.24.1601895447857;
-        Mon, 05 Oct 2020 03:57:27 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id p9sm2511073ljj.52.2020.10.05.03.57.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 03:57:26 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1kPOBG-0004V0-O7; Mon, 05 Oct 2020 12:57:23 +0200
-Date:   Mon, 5 Oct 2020 12:57:22 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Mychaela Falconia <mychaela.falconia@gmail.com>
-Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 0/3] a family of FTDI-based devices that need ftdi_sio
- quirks
-Message-ID: <20201005105722.GN5141@localhost>
-References: <20200916015621.EFCDA374023F@freecalypso.org>
- <20200929101330.GQ24441@localhost>
- <CA+uuBqY83q+UiRsYxBckXvbtYf4sRxqB_8eXXPgEKAOqTwD=vg@mail.gmail.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=2/Mj8FDFri+XG8cVI9LneAyoK8CTL+BJOVDPJiMNGio=;
+        b=VnmiG6z39ritMqCdyPVt3C6Yde2Tw+fsvdDCbaPO+upyzKhKUbfz175unc1RQnOoUA
+         jBoWovXBEH7rUBOiQeNq+raD6RUGtbYukhz6MwyiH5NipvdDOYCWddmIllPglrQvpRhQ
+         eKC47bBWgNg24D+q/MPEWbK/RC9tElaIKXsJdELJzgpq8CZBRAT2xrpWrTLcRS44nvVE
+         68TRsDTTYPxhnlGeuCFlNptlQMEb3DJEu5Z9VlwG5V3Yp3ooQN0xnN0CxWWqv63MWBzo
+         iYEhcNafX+YqeB3SU2rkrNeMFET6Cj5SimOQHAlEU1PtQJlS0Zf6rzudFnzxMVVbfTmn
+         05Cg==
+X-Gm-Message-State: AOAM532oXw8y/kWie5m1aXeh0FRULM00bTgrE2qkkJ1HN6ZFxq1EDejc
+        gSlONl4ib0/w0tOWWv6uotqDmMxkAmnhZQGOM/UGmGRIoEHm
+X-Google-Smtp-Source: ABdhPJynhHtOJjCs6CIzE2sskBMvBeqsYDZRgldzDPd3GKv2jwlA44VsXCbcLG7TqikZMFV9pUSmMVG44ROO2vEgFD/tMOvBCY4P
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+uuBqY83q+UiRsYxBckXvbtYf4sRxqB_8eXXPgEKAOqTwD=vg@mail.gmail.com>
+X-Received: by 2002:a92:998d:: with SMTP id t13mr4085498ilk.256.1601895563138;
+ Mon, 05 Oct 2020 03:59:23 -0700 (PDT)
+Date:   Mon, 05 Oct 2020 03:59:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000021e6b05b0ea60bd@google.com>
+Subject: WARNING in hif_usb_send/usb_submit_urb
+From:   syzbot <syzbot+f5378bcf0f0cab45c1c6@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, eli.billauer@gmail.com,
+        gregkh@linuxfoundation.org, gustavoars@kernel.org,
+        ingrassia@epigenesys.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
+        syzkaller-bugs@googlegroups.com, tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 11:40:47AM -0800, Mychaela Falconia wrote:
+Hello,
 
-> > Did you try inverting the signals so that they can be used on any serial
-> > port to power on and release reset on open, and then just clear HUPCL if
-> > you want the connected device to remain powered after the port is closed?
-> 
-> The first problem with asking for a hardware design change is that the
-> hardware has already been physically built - here are some photos:
-> 
-> https://www.freecalypso.org/members/falcon/pictures/duart28/
-> 
-> I got 20 fully assembled boards plus 20 more unpopulated PCBs, and
-> asking our community to throw this hardware out is a non-starter.
-> 
-> Also the idea of "so that they can be used on any serial port" is
-> meaningless in the context of this application: there is no "any
-> serial port", instead there exists a custom piece of hardware
-> (depicted above) that contains an FT2232D chip as one of its
-> components.  FTDI chips are powerful multifunction beasts, they are a
-> lot more than just serial ports, and on this particular board the I/O
-> channels coming out of the FT2232D chip are used in a mixed manner:
-> ADBUS0 through ADBUS7 form UART channel 0, BDBUS0 and BDBUS1 (data
-> leads only) form UART channel 1 (no flow control or modem control),
-> and BDBUS2 and BDBUS4 (which would otherwise be Channel B RTS & DTR)
-> are used essentially as GPIOs that have nothing to do with either of
-> the two serial ports.
-> 
-> Aside from already built hardware, inverting the sense of the signals
-> running between FT2232D and the open drain buffer (replacing the non-
-> inverting 74LVC2G07 buffer with an inverting one) would not work: in
-> that case both control signals would be immediately asserted as soon
-> as the USB cable is connected between the adapter board and the host
-> computer, resulting in the connected Calypso target being held down
-> both in reset and in the PWON pulse - bad.
+syzbot found the following issue on:
 
-Yeah, your application would then need to deassert after open.
+HEAD commit:    168ae5a7 Merge 5.9-rc8 into usb-next
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1073b7ff900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5429f3643ebc37a
+dashboard link: https://syzkaller.appspot.com/bug?extid=f5378bcf0f0cab45c1c6
+compiler:       gcc (GCC) 10.1.0-syz 20200507
 
-I believe some arduino boards use a capacitor to trigger a reset pulse
-whenever DTR/RTS is asserted instead.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-I wasn't expecting you to support "any serial port"; my point was that
-when possible it's better to accommodate the standard behaviour of these
-signals and have it work on any OS (version) rather than requiring
-patching drivers.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f5378bcf0f0cab45c1c6@syzkaller.appspotmail.com
 
-> I also realize that I may have been a little unclear in my original
-> explanation as to what the hardware signals really do.  FT2232D BDBUS2
-> and BDBUS4 outputs are conventionally defined to be RTS and DTR,
-> respectively, but their CMOS logic levels are the opposite of RS-232:
-> RS-232 DTR & RTS asserted means CMOS low on BDBUS[24], and RS-232 DTR
-> & RTS negated means CMOS high on BDBUS[24].  Both signals are CMOS
-> high initially on USB power application, and with my patch they become
-> CMOS low only as a result of an explicit TIOCMBIS ioctl setting DTR or
-> RTS.  These signals go to a Nexperia 74LVC2G07 non-inverting open
-> drain buffer IC (tiny U7 chip visible in the photos linked above), and
-> the open drain outputs are wired to J5 header pins that are labeled
-> CTL1 and CTL2 on the PCB silk screen - so they are not really DTR and
-> RTS at all as far as this custom hw is concerned, instead they are
-> special open drain pulse outputs.
-> 
-> CTL1 will be connected to PWON and CTL2 will be connected to RESET on
-> the Calypso target board.  The pulse nature of these two open drain
-> outputs is crucial: PWON is not a power on/off control where one
-> steady state means on and the other steady state means off, instead it
-> is a pulse control.  Virtually every handheld battery-powered device
-> has a "soft power" button that is physically wired between the power
-> management chip's dedicated PWON pin and ground, and Calypso is no
-> different: the pulse put out on CTL1 by the DUART28C adapter (produced
-> by userspace doing TIOCMBIS, delay, TIOCMBIC) simulates the action of
-> a user pressing the red power button on her dumbphone.  RESET works
-> the same way: having the target held down in reset long-term is bad,
-> instead whenever a reset pulse is needed, we do a TIOCMBIS, delay,
-> TIOCMBIC sequence.
-> 
-> In short, I will not change our hardware design, and I will continue
-> running with my patch whether it is mainlined or not.
-> 
-> > As you probably expected, I'm a bit reluctant to adding quirks like this
-> > (e.g. as it makes the code harder to read and maintain):
-> 
-> Right now I am instructing my user community to apply the needed patch
-> locally.  I am making my best-faith attempt to get this patch mainlined
-> as a matter of due diligence - had I not even bothered to try, my users
-> would be bound to ask "why don't you get this patch mainlined".  If
-> our patch is rejected, I will document this rejection in the user
-> documentation for the hardware product, with links to the relevant
-> messages in the linux-usb mailing list archive, so that my users will
-> know that I have honestly tried and that I am not the one to blame -
-> it is all I can do.
+------------[ cut here ]------------
+usb 4-1: BOGUS urb xfer, pipe 1 != type 3
+WARNING: CPU: 0 PID: 10570 at drivers/usb/core/urb.c:493 usb_submit_urb+0xce2/0x14e0 drivers/usb/core/urb.c:493
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 10570 Comm: kworker/0:9 Not tainted 5.9.0-rc8-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: events request_firmware_work_func
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x107/0x16e lib/dump_stack.c:118
+ panic+0x2cb/0x702 kernel/panic.c:231
+ __warn.cold+0x20/0x44 kernel/panic.c:600
+ report_bug+0x1bd/0x210 lib/bug.c:198
+ handle_bug+0x41/0x80 arch/x86/kernel/traps.c:234
+ exc_invalid_op+0x14/0x40 arch/x86/kernel/traps.c:254
+ asm_exc_invalid_op+0x12/0x20 arch/x86/include/asm/idtentry.h:536
+RIP: 0010:usb_submit_urb+0xce2/0x14e0 drivers/usb/core/urb.c:493
+Code: 84 04 03 00 00 e8 3e 98 c6 fd 4c 89 ef e8 66 b6 12 ff 41 89 d8 44 89 e1 4c 89 f2 48 89 c6 48 c7 c7 20 b3 5d 86 e8 d0 ba 9a fd <0f> 0b e9 c6 f8 ff ff e8 12 98 c6 fd 48 81 c5 40 06 00 00 e9 f2 f7
+RSP: 0018:ffff8881ab1bf808 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
+RDX: ffff8881ca76cbc0 RSI: ffffffff8129efa3 RDI: ffffed1035637ef3
+RBP: ffff8881a27dfc00 R08: 0000000000000001 R09: ffff8881db22f50f
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000001
+R13: ffff8881d8fab0a0 R14: ffff8881c7299168 R15: ffff8881cc24a700
+ hif_usb_send_regout drivers/net/wireless/ath/ath9k/hif_usb.c:127 [inline]
+ hif_usb_send+0x4c1/0xcf0 drivers/net/wireless/ath/ath9k/hif_usb.c:470
+ htc_issue_send drivers/net/wireless/ath/ath9k/htc_hst.c:34 [inline]
+ htc_connect_service+0x705/0xa00 drivers/net/wireless/ath/ath9k/htc_hst.c:275
+ ath9k_wmi_connect+0xc9/0x190 drivers/net/wireless/ath/ath9k/wmi.c:268
+ ath9k_init_htc_services.constprop.0+0xb3/0x640 drivers/net/wireless/ath/ath9k/htc_drv_init.c:146
+ ath9k_htc_probe_device+0x25f/0x1e10 drivers/net/wireless/ath/ath9k/htc_drv_init.c:962
+ ath9k_htc_hw_init+0x31/0x60 drivers/net/wireless/ath/ath9k/htc_hst.c:501
+ ath9k_hif_usb_firmware_cb+0x274/0x530 drivers/net/wireless/ath/ath9k/hif_usb.c:1220
+ request_firmware_work_func+0x126/0x250 drivers/base/firmware_loader/main.c:1006
+ process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
+ worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+ kthread+0x392/0x470 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
-Right. But let's see where we end up on this, the more general the
-solution we can come up with the better.
 
-> I am going to prepare a second version of this patch series (down to
-> just two patches now) with the changes you have requested for 2/3 and
-> 3/3.
-> 
-> Oh, and a couple of comments from 3/3 that are worth addressing:
-> 
-> > If we are to add this, then you shouldn't allow for automatic deassert
-> > either.
-> 
-> Because of the pulse nature of CTL1 and CTL2 outputs, automatic
-> deassertion (in case a userspace program exited without having done
-> TIOCMBIC) makes good sense here - but I am perfectly fine with
-> disabling automatic deassertion for this quirk if it would help
-> getting the patch mainlined.  If the patch gets mainlined with
-> automatic deassertion disabled, the resulting system would be a little
-> less robust against the contrived corner case of a userspace program
-> crashing in the middle of a pulse, but it is not a deal breaker - if
-> that very unlikely corner case happens, just unplug the USB cable and
-> plug it back in to release the open drain outputs and to restore the
-> internal signals to CMOS high.  I can also add a trivial "clean up"
-> utility to our userspace software suite that opens the serial port,
-> clears both controls with TIOCMBIC and exits.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Good.
-
-> > And then there's CRTSCTS of course...
-> 
-> The second serial channel whose RTS & DTR outputs are being "stolen"
-> and repurposed for a use not related to this serial channel per se is
-> a data leads only UART with *no* flow control and no modem control -
-> thus if a userspace program were to set CRTSCTS on this channel, it
-> would be totally invalid usage, no different from a user trying to
-> run, say, a modem dialer program (one that talks AT commands) against
-> a /dev/ttyUSBx device connected to, say, an RS-232 thermometer, and
-> expecting it to work - surely it is not the kernel's job to guard
-> against such completely invalid usage?
-
-You're quirk flag was named no-auto-dtr-rts or similar, so it doesn't
-seem unreasonable to honour it also in case someone, perhaps
-unknowingly, sets CRTSCTS.
-
-But a less-intrusive patch for this is of course preferred so we can
-probably leave CRTSCTS handling unchanged. But then the same should be
-done for B0 I think.
-
-> I realize that all of my answers are highly specific to my one
-> particular custom hardware toy and aren't generalized in the
-> slightest, but in my defense, the quirk which I am asking to mainline
-> is conditionalized on one specific USB VID:PID, a specific USB VID:PID
-> that belongs only to my specific hardware piece and to no one else -
-> so where is the harm?
-
-Right. But we should still try to aim at general solution that can be
-reused by other devices if needed (cf. the jtag quirk).
-
-Let me give this some more thought.
-
-Johan
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
