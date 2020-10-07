@@ -2,101 +2,96 @@ Return-Path: <SRS0=hcfR=DO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C41EC4363D
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 10:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FEAC4363C
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 11:22:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07111207EA
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 10:28:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA1A420872
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 11:22:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dQZAzOpL"
+	dkim=pass (1024-bit key) header.d=jms.id.au header.i=@jms.id.au header.b="V4ewLRuS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727694AbgJGK2p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Oct 2020 06:28:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50902 "EHLO
+        id S1726861AbgJGLWy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Oct 2020 07:22:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727460AbgJGK2p (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Oct 2020 06:28:45 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0B97C061755;
-        Wed,  7 Oct 2020 03:28:44 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id a7so601064lfk.9;
-        Wed, 07 Oct 2020 03:28:44 -0700 (PDT)
+        with ESMTP id S1726129AbgJGLWy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Oct 2020 07:22:54 -0400
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC879C061755;
+        Wed,  7 Oct 2020 04:22:53 -0700 (PDT)
+Received: by mail-qv1-xf44.google.com with SMTP id w5so880783qvn.12;
+        Wed, 07 Oct 2020 04:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=H2N8UG6dic65TiBzlWgQu1CisgZIiaE0Rlzl4pcozag=;
-        b=dQZAzOpLSe+lUXEaHN6i1aw7a5TaOeFrdXOH2fNI2pe6gMyFxHCoX25QpUjcmwtSff
-         SqhLOXoXM5nmrEmv/gkd8R79Oe2MU4SnwRyzKBg9QN0pvUTMjMRFOzQda266SPjRJuCD
-         rOku4rtjcbgptU43sta5UXoalx33PAsqNisO/dA2x05z3Rgfvpy3fUZrdqcMJy3zn3pP
-         lvTbI5fSElsHhLyjBtR8uTLE1TNZmD2Fk5bC2EltQ7fSJDh6EP6mTqXtrvriABmsawGz
-         EKCt+0sig1cn70EJ8vKfsAMK5Ic92jUFl8J1qJVqE6b0bMRlhKljp2aZ5zJ6cV4lEqAg
-         IhIQ==
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VDZ7366PYXV+EES+h1SP5kqwgNb+8wXHAp/x+TfkHHQ=;
+        b=V4ewLRuSp54/Es30G+9lHydPGsIBHA/iBPNIIFC6wqeHjmE+cKVoD2hVaFWbdOjWLk
+         ArfNdh0xsJdlKSi8t+YbszArS+osss156prcP2g6lNyME0srRiGPuyE2+ytEXTRrAlLq
+         hMWDB7UsNJMXpmaNx5oGxvmksdmRwpWkv65Iw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=H2N8UG6dic65TiBzlWgQu1CisgZIiaE0Rlzl4pcozag=;
-        b=SPV3QDtSo30h4KEiR7qkLQv3v04swWw4FToP/RwZ/mhnqbhHlzx5hMKWlZi8RJyklC
-         Pd2cI87yEKq6DVT/MDpEg+nfTlLARzJS4CxETLOjUVgjylM2fEyf6ab/NOuNkK4tEyo5
-         +DJ+SSIha/EJqsH8wWyC/cjEQTU6MUnIentrku5VRq79kNcqPpJNC/sRyJmAwnpXM6+O
-         BNE5fYNzDIyoAmLQUrW489Bo480ZCaJEy4pz3qKTq3cQFbeVVFKUuYCZWwERY9/8XULl
-         AeB/L+6tQsk89bXkOQUDeYeMibcWlOSTdONdLNyM9+Agmm1KiJaUH/c3itUyPwnF93Jj
-         yd/Q==
-X-Gm-Message-State: AOAM533HWSvuhbQoq5n5NciVXT9r/ROUeNS7p30GkHkNrB6ZF4AdxBP9
-        N2YHjZpOquQem0HfYHOYsp4=
-X-Google-Smtp-Source: ABdhPJzuS/fxGr0bBPYvubbiVZY9aJgTugLhxEnxd2+B2P4zw8n4WX1edPzG52Mqq3TE4dwGb5/H4A==
-X-Received: by 2002:a19:4151:: with SMTP id o78mr694102lfa.408.1602066523199;
-        Wed, 07 Oct 2020 03:28:43 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:826:1518:6ea7:4f6b:1e21:3742])
-        by smtp.gmail.com with ESMTPSA id c20sm271406lfg.15.2020.10.07.03.28.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2020 03:28:42 -0700 (PDT)
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCAyLzJdIHVzYjogY2RuczM6IFZhcmlhYmxlIOKAmGxl?=
- =?UTF-8?Q?ngth=e2=80=99_set_but_not_used?=
-To:     Roger Quadros <rogerq@ti.com>, Pawel Laszczak <pawell@cadence.com>,
-        balbi@kernel.org
-Cc:     peter.chen@nxp.com, nsekhar@ti.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kurahul@cadence.com
-References: <20201007033932.23050-1-pawell@cadence.com>
- <8994106d-2cc5-fa2c-bbcc-6526632ff80b@ti.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <18bf46b7-d86a-fbf0-9ce7-c2d0765758f1@gmail.com>
-Date:   Wed, 7 Oct 2020 13:28:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VDZ7366PYXV+EES+h1SP5kqwgNb+8wXHAp/x+TfkHHQ=;
+        b=cS7fI1DqYl+j2oJTHNnY6leXaaBTpx//K3JLfyZlrQt4sSD1eOWoS0gR9QoprgdTfe
+         5C98gZbZqzF9j0Ysmp9NzqBMxoUQ0d4b6wPqu+HlWyAd7MxsPU3KB7fv9BtLxeppYwmB
+         h4cfnrs8Fq6lTuOW9OPwikfspds5Z2394bsHl6FZcxD7o/p7X8hpbOM5GQmLvvoWTqkG
+         KaYojDPjGmTbEPXeqVjk7816aD5wBaWgGWgLdRQIwlF6mziG2OM8+Uvzawz/v+5fEfj7
+         yZZkyURqXfxku5NJoThXLihIfSEmdbkEtqecoSUX8HmKsz5bKe1PNzmLQrgycUwwAWMo
+         Ufcg==
+X-Gm-Message-State: AOAM532tL96RzI7nR47417do4FIFpGAGEsDq2eRAJUp8hFbHojAsePRY
+        vubQF6J8//NTueliIZR2ghcTuT7NyQE96COCpOQ=
+X-Google-Smtp-Source: ABdhPJzKVQdBmFZCKKWSEm97o3B7rUKLuxjDE9PQwX6qhes4HRH5nA7bRHEpXLl2xuSjOCJ4fc5lYvanqO7avGGYxDI=
+X-Received: by 2002:a05:6214:11e4:: with SMTP id e4mr2447677qvu.61.1602069773219;
+ Wed, 07 Oct 2020 04:22:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8994106d-2cc5-fa2c-bbcc-6526632ff80b@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200930040823.26065-1-ryan_chen@aspeedtech.com> <20200930040823.26065-2-ryan_chen@aspeedtech.com>
+In-Reply-To: <20200930040823.26065-2-ryan_chen@aspeedtech.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Wed, 7 Oct 2020 11:22:41 +0000
+Message-ID: <CACPK8XfBQgFk8oCaN_YAoKrvmV7QaOTFrHCWcjpEQv3bbjm70w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] configs: aspeed: enable UHCI driver in defconfig
+To:     Ryan Chen <ryan_chen@aspeedtech.com>
+Cc:     Andrew Jeffery <andrew@aj.id.au>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org, bmc-sw@aspeedtech.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
+On Wed, 30 Sep 2020 at 04:08, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
+>
+> Enable UHCI driver in aspeed_g5_defconfig.
+>
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 
-On 10/7/20 11:15 AM, Roger Quadros wrote:
+Reviewed-by: Joel Stanley <Joel@jms.id.au>
 
-[...]
->> Patch removes not used variable 'length' from
->> cdns3_wa2_descmiss_copy_data function.
->>
->> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
-> 
-> Fixes: commit 141e70fef4ee ("usb: cdns3: gadget: need to handle sg case for workaround 2 case")
-
-   No "commit" is needed here.
-
-> Acked-by: Roger Quadros <rogerq@ti.com>
-[...]
-
-MBR, Sergei
+> ---
+>  arch/arm/configs/aspeed_g5_defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+> index 2bacd8c90f4b..a57009d1a3b8 100644
+> --- a/arch/arm/configs/aspeed_g5_defconfig
+> +++ b/arch/arm/configs/aspeed_g5_defconfig
+> @@ -212,6 +212,7 @@ CONFIG_USB_DYNAMIC_MINORS=y
+>  CONFIG_USB_EHCI_HCD=y
+>  CONFIG_USB_EHCI_ROOT_HUB_TT=y
+>  CONFIG_USB_EHCI_HCD_PLATFORM=y
+> +CONFIG_USB_UHCI_HCD=y
+>  CONFIG_USB_GADGET=y
+>  CONFIG_USB_ASPEED_VHUB=y
+>  CONFIG_USB_CONFIGFS=y
+> --
+> 2.17.1
+>
