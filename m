@@ -2,100 +2,224 @@ Return-Path: <SRS0=hcfR=DO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022D4C4363C
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 11:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38943C4363D
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 13:56:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95CE92076C
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 11:28:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=jms.id.au header.i=@jms.id.au header.b="c/ECYqqt"
+	by mail.kernel.org (Postfix) with ESMTP id E0BAC21531
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 13:56:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602079019;
+	bh=FvLpKO56kcl+Lzfb2qCx6R80NAfgBJdug9iifDAJu4k=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=IJSjImH1tWthDKu3yH24XHfbSh7wBnHhtB5Pos0EB4phbogzMcYvmv7WlmdNURGgR
+	 engqlnacdauWLeuLWjsbAzzE+7WZKVZMrUteWiXuirncjs9MbDWfcGujviVUdw5Dzq
+	 GnyuwQ2k+gPiUBG2iDkAFKFxawuAxl3iLJ+AoVBE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgJGL16 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Oct 2020 07:27:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59988 "EHLO
+        id S1728506AbgJGN46 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Oct 2020 09:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726411AbgJGL15 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Oct 2020 07:27:57 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E393C061755;
-        Wed,  7 Oct 2020 04:27:56 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id s4so2209693qkf.7;
-        Wed, 07 Oct 2020 04:27:56 -0700 (PDT)
+        with ESMTP id S1728177AbgJGN45 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Oct 2020 09:56:57 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9124FC061755
+        for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2020 06:56:57 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id y20so2433560iod.5
+        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2020 06:56:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CHSgzvUJzj+APwFwvwmmcNiA4VcGl2fPcumULSWSX8E=;
-        b=c/ECYqqttNUHkb/rdwaudk7Ge5bDGTkXWp+GuaXmR5nf2B1B7OR04YMDqmQQUcZrml
-         kyC8FbP0vVlCgoIrJmAxt6crEpI+f4zYVvEiIGAAPzn1eGkoZ7ESi/YLMUFBRpPjv+Hu
-         B+7EnimfWa4SIazl2fO5wUAkMWh4e2twcqfzw=
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8oRD8LT/3S5G8509ul/PnBl5dx6h253AKwvEmRsvyAc=;
+        b=QPkocxYM9HKwOzMQjAFecDlkLau2QjNN5OfM7Y/VT1h4Jz7MYWSHOY5dwlsNTi+/zZ
+         Ls2/32jguM+Awpix2QoNHROaqzKIZlZ16cBIBp2QA8arIzqaOtJlGN/ePOaORWVxzi53
+         CaMtnvw2UoxPG/jimGUPV8LtsHtSqsSjZzg4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CHSgzvUJzj+APwFwvwmmcNiA4VcGl2fPcumULSWSX8E=;
-        b=WhxXCTabdvx0VCMB7iozbgO3326q/2Fjz3kX/TcjAm6mkISTkUQhcB5XQ9myP2xwdh
-         jKvpLwm7JFwx7AKu4k5/I00vxDi4Up81JveU0rJDT0RRUSO/fsEGDly8IlzgDqYTLloC
-         wMTsmEXKodus8W8sbyux180gRx5otGxyLjHj9n905iXnAvWRZ5Dhr+PXGEox+Ua04Ixq
-         C/7zH+mbI10nzidKnkYP6GqFu5AXqLdHSm0PNdnwkJ757Tn+xMG8WngV4N7loz87Khd2
-         pW0IvcjrjReuqe74D1Let4HaASv8dFSK1N9gQ0Bh8Rncdpsa0aQkcRbppkIZc4aeZs+w
-         WrVQ==
-X-Gm-Message-State: AOAM531rA/uiU1Ob42jI54FB0fjyFEWDZ+k2Ysic/9s3e777b2ObjRlV
-        7+FBIjbO0+V+2ubXqq78/xbefIg3qu98K2QIq4g=
-X-Google-Smtp-Source: ABdhPJygdE+BClw6ls4Og5yZ5qX4nBMePZyf8d4tQiZAmni7tHPrS48fCxUgkBF3nEu7mFLoy6cRw85nRlHoGhT68vU=
-X-Received: by 2002:a37:2c06:: with SMTP id s6mr2271040qkh.55.1602070075400;
- Wed, 07 Oct 2020 04:27:55 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8oRD8LT/3S5G8509ul/PnBl5dx6h253AKwvEmRsvyAc=;
+        b=TVd+5d5TyYa4d+YtdE2+k8sZYQUeCPxAWdyL1VI9HPquDn8Feu4os2jjIIqe9lMWd+
+         C6DEJmQ4OOVXBwcdeKvTRWhg+moUOQN3LKLHKI1svvYfG1JgpEbJCpCD0alSgJl/O+A7
+         q+T3f0WFcZfIuKL9LwCiNSdJz6tmOfoENeIXutO0bvbXecQs5FiFo/WyWRP4Pg7S42yy
+         HZGQnH1KV6mJDCr3GRqwF2VBm7TguIrDAtsBigxebLOmLdiRRmUM0yLgZtJJZcr1wZWs
+         GMUyCWCz4nJRSWF2N5bCy8QsGwHDk5WP01i91exfjlNRMEUYc4eOSghe+STI1cmFYSV8
+         YhWA==
+X-Gm-Message-State: AOAM531rmW9AvDmTC03jaBw+QtdZ3q/FGbyGjBDGL+jSFaOiEbSIUec9
+        JWUqsm/b+UYfl8Fw0JiClyTKoQ==
+X-Google-Smtp-Source: ABdhPJxtY+3tYBU2t4rrYYVoTab7aPCIfemauQQXHc8OJstFGnIcBLcl6zgbpJvelmLA082jkRfN3w==
+X-Received: by 2002:a05:6638:2512:: with SMTP id v18mr3087951jat.106.1602079016842;
+        Wed, 07 Oct 2020 06:56:56 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id v9sm902611ioq.41.2020.10.07.06.56.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Oct 2020 06:56:55 -0700 (PDT)
+Subject: Re: KASAN: null-ptr-deref Write in event_handler
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>,
+        Nazime Hande Harputluoglu <handeharputlu@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <000000000000810a4405b0ece316@google.com>
+ <CAAeHK+xWQp87S=bF2RfUjcudGaLVjk3yKLL-bxRzVM=YNRtzRA@mail.gmail.com>
+ <2947473d-76cd-a663-049a-4d51a97e2a3e@linuxfoundation.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <4b6c9d53-a4de-8749-e0b1-055dbb42703b@linuxfoundation.org>
+Date:   Wed, 7 Oct 2020 07:56:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200930040823.26065-1-ryan_chen@aspeedtech.com> <20200930040823.26065-4-ryan_chen@aspeedtech.com>
-In-Reply-To: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Wed, 7 Oct 2020 11:27:43 +0000
-Message-ID: <CACPK8XcmA49S4mJmkmoyTyJ=cWkgyXLrXC-mbWVSO0M_tZAZ1w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ARM: dts: add ehci uhci enable in evb dts
-To:     Ryan Chen <ryan_chen@aspeedtech.com>
-Cc:     Andrew Jeffery <andrew@aj.id.au>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-usb@vger.kernel.org, bmc-sw@aspeedtech.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <2947473d-76cd-a663-049a-4d51a97e2a3e@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 30 Sep 2020 at 04:08, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
->
-> Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
->
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+On 10/5/20 2:44 PM, Shuah Khan wrote:
+> On 10/5/20 8:04 AM, Andrey Konovalov wrote:
+>> On Mon, Oct 5, 2020 at 3:59 PM syzbot
+>> <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com> wrote:
+>>>
+>>> Hello,
+>>>
+>>> syzbot found the following issue on:
+>>>
+>>> HEAD commit:    d3d45f82 Merge tag 'pinctrl-v5.9-2' of 
+>>> git://git.kernel.or..
+>>> git tree:       upstream
+>>> console output: https://syzkaller.appspot.com/x/log.txt?x=15781d8f900000
+>>> kernel config:  
+>>> https://syzkaller.appspot.com/x/.config?x=89ab6a0c48f30b49
+>>> dashboard link: 
+>>> https://syzkaller.appspot.com/bug?extid=bf1a360e305ee719e364
+>>> compiler:       gcc (GCC) 10.1.0-syz 20200507
+>>> syz repro:      
+>>> https://syzkaller.appspot.com/x/repro.syz?x=16cbaa7d900000
+>>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1364f367900000
+>>>
+>>> IMPORTANT: if you fix the issue, please add the following tag to the 
+>>> commit:
+>>> Reported-by: syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com
+>>>
+>>> vhci_hcd: stop threads
+>>> vhci_hcd: release socket
+>>> vhci_hcd: disconnect device
+>>> ==================================================================
+>>> BUG: KASAN: null-ptr-deref in instrument_atomic_write 
+>>> include/linux/instrumented.h:71 [inline]
+>>> BUG: KASAN: null-ptr-deref in atomic_fetch_add_relaxed 
+>>> include/asm-generic/atomic-instrumented.h:142 [inline]
+>>> BUG: KASAN: null-ptr-deref in refcount_add 
+>>> include/linux/refcount.h:201 [inline]
+>>> BUG: KASAN: null-ptr-deref in refcount_inc 
+>>> include/linux/refcount.h:241 [inline]
+>>> BUG: KASAN: null-ptr-deref in get_task_struct 
+>>> include/linux/sched/task.h:104 [inline]
+>>> BUG: KASAN: null-ptr-deref in kthread_stop+0x90/0x7e0 
+>>> kernel/kthread.c:591
+>>> Write of size 4 at addr 000000000000001c by task kworker/u4:5/2519
+>>>
+>>> CPU: 1 PID: 2519 Comm: kworker/u4:5 Not tainted 5.9.0-rc7-syzkaller #0
+>>> Hardware name: Google Google Compute Engine/Google Compute Engine, 
+>>> BIOS Google 01/01/2011
+>>> Workqueue: usbip_event event_handler
+>>> Call Trace:
+>>>   __dump_stack lib/dump_stack.c:77 [inline]
+>>>   dump_stack+0x198/0x1fd lib/dump_stack.c:118
+>>>   __kasan_report mm/kasan/report.c:517 [inline]
+>>>   kasan_report.cold+0x5/0x37 mm/kasan/report.c:530
+>>>   check_memory_region_inline mm/kasan/generic.c:186 [inline]
+>>>   check_memory_region+0x13d/0x180 mm/kasan/generic.c:192
+>>>   instrument_atomic_write include/linux/instrumented.h:71 [inline]
+>>>   atomic_fetch_add_relaxed 
+>>> include/asm-generic/atomic-instrumented.h:142 [inline]
+>>>   refcount_add include/linux/refcount.h:201 [inline]
+>>>   refcount_inc include/linux/refcount.h:241 [inline]
+>>>   get_task_struct include/linux/sched/task.h:104 [inline]
+>>>   kthread_stop+0x90/0x7e0 kernel/kthread.c:591
+>>>   vhci_shutdown_connection+0x170/0x2a0 drivers/usb/usbip/vhci_hcd.c:1015
+>>>   event_handler+0x1a5/0x450 drivers/usb/usbip/usbip_event.c:78
+>>>   process_one_work+0x94c/0x1670 kernel/workqueue.c:2269
+>>>   worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+>>>   kthread+0x3b5/0x4a0 kernel/kthread.c:292
+>>>   ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+>>> ==================================================================
+>>> Kernel panic - not syncing: panic_on_warn set ...
+>>> CPU: 1 PID: 2519 Comm: kworker/u4:5 Tainted: G    B             
+>>> 5.9.0-rc7-syzkaller #0
+>>> Hardware name: Google Google Compute Engine/Google Compute Engine, 
+>>> BIOS Google 01/01/2011
+>>> Workqueue: usbip_event event_handler
+>>> Call Trace:
+>>>   __dump_stack lib/dump_stack.c:77 [inline]
+>>>   dump_stack+0x198/0x1fd lib/dump_stack.c:118
+>>>   panic+0x382/0x7fb kernel/panic.c:231
+>>>   end_report+0x4d/0x53 mm/kasan/report.c:104
+>>>   __kasan_report mm/kasan/report.c:520 [inline]
+>>>   kasan_report.cold+0xd/0x37 mm/kasan/report.c:530
+>>>   check_memory_region_inline mm/kasan/generic.c:186 [inline]
+>>>   check_memory_region+0x13d/0x180 mm/kasan/generic.c:192
+>>>   instrument_atomic_write include/linux/instrumented.h:71 [inline]
+>>>   atomic_fetch_add_relaxed 
+>>> include/asm-generic/atomic-instrumented.h:142 [inline]
+>>>   refcount_add include/linux/refcount.h:201 [inline]
+>>>   refcount_inc include/linux/refcount.h:241 [inline]
+>>>   get_task_struct include/linux/sched/task.h:104 [inline]
+>>>   kthread_stop+0x90/0x7e0 kernel/kthread.c:591
+>>>   vhci_shutdown_connection+0x170/0x2a0 drivers/usb/usbip/vhci_hcd.c:1015
+>>>   event_handler+0x1a5/0x450 drivers/usb/usbip/usbip_event.c:78
+>>>   process_one_work+0x94c/0x1670 kernel/workqueue.c:2269
+>>>   worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+>>>   kthread+0x3b5/0x4a0 kernel/kthread.c:292
+>>>   ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+>>> Kernel Offset: disabled
+>>> Rebooting in 86400 seconds..
+>>
+>> Hi Valentina and Shuah,
+>>
+>> There appears to be a race condition in the USB/IP vhci_hcd shutdown
+>> procedure. It happens quite often during fuzzing with syzkaller, and
+>> prevents us from going deeper into the USB/IP code.
+>>
+>> Could you advise us what would be the best fix for this?
+>>
+> 
+> Hi Andrey,
+> 
+> Reading the comments for this routine, looks like there is an assumption
+> that context begins cleanup and race conditions aren't considered.
+> 
+> The right fix is holding vhci->lock and vdev->priv_lock to protect
+> critical sections in this routine. I will send a patch for this.
+> 
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Hi Andrey,
 
-> ---
->  arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-> index 89be13197780..2772796e215e 100644
-> --- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-> +++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-> @@ -237,3 +237,11 @@
->  &fsim0 {
->         status = "okay";
->  };
-> +
-> +&ehci1 {
-> +       status = "okay";
-> +};
-> +
-> +&uhci {
-> +       status = "okay";
-> +};
-> --
-> 2.17.1
->
+I have been unable to reproduce the problem with the reproducer
+so far. You mentioned it happens quite often.
+
+- matched config with yours
+- load vhci_hcd module and run the reproducer
+
+I do see the messages during shutdown - stop threads etc.
+
+What am I missing?
+
+thanks,
+-- Shuah
+
+
+
