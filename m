@@ -2,70 +2,91 @@ Return-Path: <SRS0=hcfR=DO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF82DC4363C
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 04:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7987C4363C
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 05:22:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E83A208C7
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 04:54:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DF7620B1F
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Oct 2020 05:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602048175;
+	bh=mQ4OBvHHVxi9Cmqmaui+les7s/4m9yZpRWGhkHp46Ew=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=BnLW316LNxPu0CO4QLHHTOjsdzUbYtq2mMxJgPfiygsrSD62AY3vAArqtIt5xw0Rb
+	 P5eiznZZVXtLXAMC7gbRk2/siKoyicr0PLlYIN8fzCh3cneNyma5qG3dBSFRx3fEj1
+	 4GB9SifP4Z2Zqis9wIcYn0N/clnJaIzhYkWeRvNg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727155AbgJGEyl convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Oct 2020 00:54:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58756 "EHLO mail.kernel.org"
+        id S1726627AbgJGFWz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Oct 2020 01:22:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36604 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726520AbgJGEyk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 7 Oct 2020 00:54:40 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 209411] When retrieving string descriptor from mobile device
- returns eproto error
-Date:   Wed, 07 Oct 2020 04:54:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rachithas104@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209411-208809-n31Dfozt7N@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
-References: <bug-209411-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1726009AbgJGFWy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 7 Oct 2020 01:22:54 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5519720B1F;
+        Wed,  7 Oct 2020 05:22:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602048172;
+        bh=mQ4OBvHHVxi9Cmqmaui+les7s/4m9yZpRWGhkHp46Ew=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1SndXToSiEEWsmRYCcEXWRcR0KDbqNU5aHVBVTbc6wGqe7F1Q/WV/IJm30DQIPKc6
+         Zx88eANa0GOs5bqTYM658czsxv8pJIJn5m/iEi5SQLDsB6PZr0VmvoOHmG4j9HhK4Y
+         9vn5KZZeVmiIa7aFIXWde8w+PIceYpId2ataQkLM=
+Date:   Wed, 7 Oct 2020 07:22:50 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Rob Landley <rob@landley.net>
+Cc:     linux-usb@vger.kernel.org, "D. Jeff Dionne" <jeff@coresemi.io>,
+        johan@kernel.org
+Subject: Re: USB panic on one machine, hang on another.
+Message-ID: <20201007052250.GA48615@kroah.com>
+References: <6A0F5F09-112C-4BB0-9ECF-16395A9D27F1@coresemi.io>
+ <fdae51af-8f0a-f9c6-2dfa-d6ecade04128@landley.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fdae51af-8f0a-f9c6-2dfa-d6ecade04128@landley.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209411
-
---- Comment #27 from rachithas104@gmail.com ---
-(In reply to Alan Stern from comment #25)
-> If your software isn't running, then what software issues the
-> Get-String-Descriptor request for string descriptor 4 that causes the EPROTO
-> error?
+On Tue, Oct 06, 2020 at 11:56:16PM -0500, Rob Landley wrote:
+> We've been implementing a new USB device (starting by adapting the Joris example
+> CDC-ACM VHDL to a new I/O chip, although we're more interested in EEM), and
+> attempting to talk to the result makes Linux VERY unhappy.
 > 
-> If the same packets are present with or without your software, then your
-> software isn't sending any packets.  Is this really what you mean?
+> On one machine it panics the kernel, on another it makes the USB subsystem fork
+> off multiple kernel threads stuck eating 100% CPU until a reboot, and also not
+> notice when we physically unplug the device afterwards.
 > 
-> In any case, the EPROTO error is caused by the code running on the phone.  I
-> can't give you much advice about that.
+> I'm aware our device is wrong (haven't figured out HOW it's wrong yet), but...
+> Linux's USB stack should not be doing that? MacOS instead times something out
+> and disables the device. (Which again doesn't help us debug it, but at least
+> doesn't require a reboot afterwards.)
+> 
+> We finally got a good packet capture, alas from a windows GUI tool we had to
+> take screenshots of, which totals 6 megabytes so I threw the files in a
+> temporary directory on my web server. (I apologize in advance for dreamhost:
+> it's cheap.)
+> 
+>   https://landley.net/isb_usb_weallsb
+> 
+> Here are two emails about it, the first is an earlier message with the kernel
+> panic dump and the second is yesterday's packet capture. Does anybody understand
+> what's going on here?
 
-Also bus reset is happening when I call selectconfiguration from my app
+5.3.0 is pretty old, we have fixed a number of issues like this in newer
+kernels (or at the very least, the stable kernel trees).  So if you
+could test there, that would be great.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Also, do you have the output of 'lsusb -v' of your device?  Perhaps your
+descriptors are incorrect?
+
+thanks,
+
+greg k-h
