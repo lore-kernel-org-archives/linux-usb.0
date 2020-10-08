@@ -8,62 +8,61 @@ X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E88BC433E7
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Oct 2020 06:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46BEBC04EBE
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Oct 2020 06:16:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 574A520760
+	by mail.kernel.org (Postfix) with ESMTP id EF43D20760
 	for <linux-usb@archiver.kernel.org>; Thu,  8 Oct 2020 06:16:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uTtb7+of"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dLyHE+NK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728839AbgJHGQ5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728911AbgJHGQ5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 8 Oct 2020 02:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36802 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728853AbgJHGQj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Oct 2020 02:16:39 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B9C0C0613D5
-        for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2020 23:16:28 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id u2so3190021qka.2
-        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2020 23:16:28 -0700 (PDT)
+        with ESMTP id S1728837AbgJHGQi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Oct 2020 02:16:38 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10288C0613E6
+        for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2020 23:16:34 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id e190so4367540ybf.18
+        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2020 23:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=0afO4rLOQPn7gMI304N6qXvrtGMWMCYRRtjs+1Xakek=;
-        b=uTtb7+ofg2OG2cMxwvSTM2ldRGL9kdaDpJYxmAGOxlU+yr3Pf6MYmh72p3yN1ZAsZX
-         efWu1MU32eMvtPiiJncf7TWqHAsFyz9sVVk1tK/Jn3evALFgUaRvRTYo8vQuhjXjHnzz
-         SfWLx1OmApfzw3IecLiCLTq1fBw6yQd9mdE/9QxOCaUxm/2BNej6YvCmmRF6lKwYwqAs
-         ls6P5dVR7LD3cCOzYYHO2EVlY8F80qCr85fLvtYibkuQnHsns8ugy0J3vfdB/Zoapaik
-         z9++1Y3n+yOfk6SONNEaV+M0Fm3xu2FyqMJoiG+Un/GFJWCO03WFSxx4BkSEVouFDpuF
-         QJvw==
+        bh=6GCQRlFJvWAm6bVyoR4JADJgZDrlGQ+tF0P2tDjAwQ4=;
+        b=dLyHE+NKdQx6N3xp8Uj0u2R2VKofMtLTZbJqX8MtTRl8FhWle9nCzpI2P9+fYPIo0m
+         63b5xQhRL/DjD/toLWYMiH1Ax8C/upXf/Sj8+oSDqMga8KA9ZzrOzMQ/W4hWBmW+tH2y
+         +ohwZCkSNbr4REb60eP9JKyuul04eKFo3xMlrFyauZ8sZKfy18SK5nhSEY51H2EbJn0R
+         X5MPqZEAUaTsF9GdTK+OPZ7lbomAv6YIPCSVfDJ34wGFbFAQ2zMj7jwCM8Uz9J1hIOQ4
+         71ByrlPz2ptjDEhJXFkIHnDUSCAlxtuhc0gLPLOd+1jFS52qb0s51Jonjsakkt2de7Vm
+         ZU6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=0afO4rLOQPn7gMI304N6qXvrtGMWMCYRRtjs+1Xakek=;
-        b=lyH3i5aw6pxWhJl8HnC1A3r0YTQpWUKWu6KBUgD9PLS9/veJ9lPNl4Fgrvgau/I4DB
-         BdrpiR6z69jutZ80JzmRS9wWl4bHxauqzV48bEwBeAGR10phHxVNwt9p3PnR4mNKYb9Q
-         TLX+cHtY8akriMg3NzT7t6FTdF1NGiGxa2hlBO8F5fWmduFo9Sjvo1dj6F07w/HnN+ry
-         8LW5yELiCXy38RYDhtgBZ5ffMaWJJzqE3pYrvCkIlW1N+TGhEbckyxKKpcW8OiQPFnjM
-         EBOasD4mq71VObnWkeI+lpkZenKPGrz+sALFgU9YsmzTFEKmnEf1n8Af1H6X2tEgWDs/
-         zwOg==
-X-Gm-Message-State: AOAM530dtEpyMa+Eergdc188Dx6wTtHNreVJF1OHzsgK98/xjXnZ522F
-        r6KuJMHdz2Yw9KoMZnAbGJrTDxDsKls=
-X-Google-Smtp-Source: ABdhPJw7WhaRaqeR0L0lv1rj1FaUtUibazC8dkI2MQFvFXuAhurO32cj3J0XQeNK5domXhl9EEiQoRnQ7lY=
+        bh=6GCQRlFJvWAm6bVyoR4JADJgZDrlGQ+tF0P2tDjAwQ4=;
+        b=N83DSuM+x4uM+SLgRqa7iosdETfvyokbYJsvDVFsVtCF+lhbY6RCpTBdICOSAOOwPO
+         koxZReuzFiosVLYTVQU0mNcB/i94o8T3o97dmqxI725AXXVnwArNIwz5B8usQIsEAoZw
+         HQZiIY0fSbrUPymu8f6sapwSBXm66LyoppzfohTkCRoL3ob9Bvsq37V99AyhYEdPQTog
+         R7jVKyO2Ry2En4Kf5QyXmBuSdHuWVx6PhPixfT3TOp6n59rTZqxGx+4XN5AJnLsfZGTK
+         qymHE9Gm1CwsmT0mgxdCUpfTQdNHbdbgzQiiSUdmEEiXs6zT3+MyDi663+7H79XMrt0x
+         XHIw==
+X-Gm-Message-State: AOAM533xQ3mRFY5mD9QnFuesILZfnwDCiD/Ylsfg9zsE/bQo+PJPAom6
+        bvUVy0SUJ5RA8nXpSDk6cCH3SmJ7jDU=
+X-Google-Smtp-Source: ABdhPJzR1jVNVW1InfbNo/DsP2kOzfsXrTXKg75iI2BfBahjQzKg4bl254IPLZohE8W45uopVL6I/TAa6Us=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a0c:b39a:: with SMTP id t26mr6518189qve.19.1602137787303;
- Wed, 07 Oct 2020 23:16:27 -0700 (PDT)
-Date:   Wed,  7 Oct 2020 23:15:53 -0700
+ (user=badhri job=sendgmr) by 2002:a25:3184:: with SMTP id x126mr9152093ybx.141.1602137793300;
+ Wed, 07 Oct 2020 23:16:33 -0700 (PDT)
+Date:   Wed,  7 Oct 2020 23:15:56 -0700
 In-Reply-To: <20201008061556.1402293-1-badhri@google.com>
-Message-Id: <20201008061556.1402293-13-badhri@google.com>
+Message-Id: <20201008061556.1402293-16-badhri@google.com>
 Mime-Version: 1.0
 References: <20201008061556.1402293-1-badhri@google.com>
 X-Mailer: git-send-email 2.28.0.806.g8561365e88-goog
-Subject: [PATCH v10 12/15] usb: typec: tcpm: Parse frs type-c current from
- device tree
+Subject: [PATCH v10 15/15] usb: typec: tcpci_maxim: Enable auto discharge disconnect
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -83,134 +82,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-New source's current capability is now defined as string based
-device tree property through new-source-frs-typec-current.
-Refactor tcpm code to parse new-source-frs-typec-current and
-infer local port's new source current capability during frs.
+Enable auto discharge disconnect for Maxim TCPC.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
-v9 is the first version of this patch in this series to rebase
-TCPM code to read new source frs current from
-new-source-frs-typec-current. No changes since v9.
----
- drivers/usb/typec/tcpm/tcpm.c | 41 +++++++++++++++++++----------------
- include/linux/usb/typec.h     | 12 ++++++++++
- 2 files changed, 34 insertions(+), 19 deletions(-)
+Changes since v1:
+- Changing patch version to v6 to fix version number confusion.
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 02b7f623f584..d5a3e2b3bea2 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -180,16 +180,11 @@ enum adev_actions {
- 	ADEV_ATTENTION,
- };
+Changes since v6:
+- Rebase on usb-next.
+
+Changes since v7:
+- Heikki's suggestion:
+Moved the actual write of TCPC_VBUS_SINK_DISCONNECT_THRES
+register to tcpci code.
+
+Changes since v8:
+- Moved the logic to program the default values of
+  TCPC_VBUS_SINK_DISCONNECT_THRESH into the tcpci code.
+
+Changes since v9:
+- none.
+---
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index 43dcad95e897..55dea33387ec 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -441,6 +441,7 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+ 	chip->data.TX_BUF_BYTE_x_hidden = true;
+ 	chip->data.init = tcpci_init;
+ 	chip->data.frs_sourcing_vbus = max_tcpci_frs_sourcing_vbus;
++	chip->data.auto_discharge_disconnect = true;
  
--/*
-- * Initial current capability of the new source when vSafe5V is applied during PD3.0 Fast Role Swap.
-- * Based on "Table 6-14 Fixed Supply PDO - Sink" of "USB Power Delivery Specification Revision 3.0,
-- * Version 1.2"
-- */
--enum frs_typec_current {
--	FRS_NOT_SUPPORTED,
--	FRS_DEFAULT_POWER,
--	FRS_5V_1P5A,
--	FRS_5V_3A,
-+static const char * const typec_new_source_frs_current[] = {
-+	[FRS_NOT_SUPPORTED]	= "not-supported",
-+	[FRS_DEFAULT_POWER]	= "default",
-+	[FRS_5V_1P5A]		= "1.5A",
-+	[FRS_5V_3A]		= "3.0A",
- };
- 
- /* Events from low level driver */
-@@ -364,7 +359,7 @@ struct tcpm_port {
- 	bool self_powered;
- 
- 	/* FRS */
--	enum frs_typec_current frs_current;
-+	enum typec_new_source_frs_current new_source_frs_current;
- 
- 	/* Sink caps have been queried */
- 	bool sink_cap_done;
-@@ -1713,7 +1708,7 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 	unsigned int cnt = pd_header_cnt_le(msg->header);
- 	unsigned int rev = pd_header_rev_le(msg->header);
- 	unsigned int i;
--	enum frs_typec_current frs_current;
-+	enum typec_new_source_frs_current partner_frs_current;
- 	bool frs_enable;
- 	int ret;
- 
-@@ -1786,12 +1781,13 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 		for (i = 0; i < cnt; i++)
- 			port->sink_caps[i] = le32_to_cpu(msg->payload[i]);
- 
--		frs_current = (port->sink_caps[0] & PDO_FIXED_FRS_CURR_MASK) >>
-+		partner_frs_current = (port->sink_caps[0] & PDO_FIXED_FRS_CURR_MASK) >>
- 			PDO_FIXED_FRS_CURR_SHIFT;
--		frs_enable = frs_current && (frs_current <= port->frs_current);
-+		frs_enable = partner_frs_current && (partner_frs_current <=
-+						     port->new_source_frs_current);
- 		tcpm_log(port,
- 			 "Port partner FRS capable partner_frs_current:%u port_frs_current:%u enable:%c",
--			 frs_current, port->frs_current, frs_enable ? 'y' : 'n');
-+			 partner_frs_current, port->new_source_frs_current, frs_enable ? 'y' : 'n');
- 		if (frs_enable) {
- 			ret  = port->tcpc->enable_frs(port->tcpc, true);
- 			tcpm_log(port, "Enable FRS %s, ret:%d\n", ret ? "fail" : "success", ret);
-@@ -4746,7 +4742,8 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
- {
- 	const char *cap_str;
- 	int ret;
--	u32 mw, frs_current;
-+	u32 mw;
-+	const char *new_source_frs_current;
- 
- 	if (!fwnode)
- 		return -EINVAL;
-@@ -4817,9 +4814,15 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
- 
- 	/* FRS can only be supported byb DRP ports */
- 	if (port->port_type == TYPEC_PORT_DRP) {
--		ret = fwnode_property_read_u32(fwnode, "frs-typec-current", &frs_current);
--		if (ret >= 0 && frs_current <= FRS_5V_3A)
--			port->frs_current = frs_current;
-+		ret = fwnode_property_read_string(fwnode, "new-source-frs-typec-current",
-+						  &new_source_frs_current);
-+		if (!ret) {
-+			ret = match_string(typec_new_source_frs_current,
-+					   ARRAY_SIZE(typec_new_source_frs_current),
-+					   new_source_frs_current);
-+			if (ret >= 0)
-+				port->new_source_frs_current = ret;
-+		}
- 	}
- 
- 	return 0;
-diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-index 6be558045942..3198b89fa451 100644
---- a/include/linux/usb/typec.h
-+++ b/include/linux/usb/typec.h
-@@ -72,6 +72,18 @@ enum typec_orientation {
- 	TYPEC_ORIENTATION_REVERSE,
- };
- 
-+/*
-+ * Based on "Table 6-14 Fixed Supply PDO - Sink" of "USB Power Delivery Specification Revision 3.0,
-+ * Version 1.2"
-+ * Initial current capability of the new source when vSafe5V is applied.
-+ */
-+enum typec_new_source_frs_current {
-+	FRS_NOT_SUPPORTED,
-+	FRS_DEFAULT_POWER,
-+	FRS_5V_1P5A,
-+	FRS_5V_3A,
-+};
-+
- /*
-  * struct enter_usb_data - Enter_USB Message details
-  * @eudo: Enter_USB Data Object
+ 	max_tcpci_init_regs(chip);
+ 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
 -- 
 2.28.0.806.g8561365e88-goog
 
