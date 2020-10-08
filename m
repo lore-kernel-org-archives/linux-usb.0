@@ -1,49 +1,50 @@
-Return-Path: <SRS0=gWik=DP=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=9XAl=DQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7DAC43467
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Oct 2020 23:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39443C43467
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 00:00:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8827A22254
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Oct 2020 23:59:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D681122254
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 00:00:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="kOfyBT/T"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="rPooc77z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbgJHX7x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Oct 2020 19:59:53 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:17646 "EHLO z5.mailgun.us"
+        id S1730965AbgJIAAO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Oct 2020 20:00:14 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:53891 "EHLO m42-4.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728538AbgJHX7v (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 8 Oct 2020 19:59:51 -0400
+        id S1729829AbgJIAAK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Oct 2020 20:00:10 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602201590; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=iMZsobu4errj1Xerzmr09tWrD5DMJzqIEKBDLcR17/I=; b=kOfyBT/TIXHirJL89gV6YJLNWGvCuKinMqt6u6PMvLsMvBV4+VFz5e7wn7jdbIrnc8IqGKSB
- +4FeicyyanOCnFT9xojgDCOKfEVp6aBQKsuHNuIt1Z68sSxoBkh3RHiYEbtR5288Y7h6eZ95
- 4yMeAdrR1vbpmIdXSEbf4Rep9Z4=
-X-Mailgun-Sending-Ip: 104.130.96.5
+ s=smtp; t=1602201610; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=svOoRqtJ5cLu3s1vASk0kRY90uC+P608o+2VET2Fo2I=; b=rPooc77zqaYxfNeKTjhkPYQmWAwQ4XJ0RkHdkbAX+eSDA6msybnPozR0JjLWuwJOZAKT4fy7
+ 2RAIeL0rETohCNpx7ACOyuQct5N6UWzo2QOQ8V06tie7kyr6qfr8RpQrAh74OAfCT5GA9rfw
+ faoxbBEmA22Wikfg/ywWZl5O5OA=
+X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 5f7fa7edd6d00c7a9e28beb9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Oct 2020 23:59:40
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 5f7fa7f2d6d00c7a9e28c5eb (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Oct 2020 23:59:45
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E421FC433B2; Thu,  8 Oct 2020 23:59:39 +0000 (UTC)
+        id B77F5C43452; Thu,  8 Oct 2020 23:59:42 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4FE3CC433FE;
-        Thu,  8 Oct 2020 23:59:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4FE3CC433FE
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9131DC43443;
+        Thu,  8 Oct 2020 23:59:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9131DC43443
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -54,109 +55,60 @@ Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         jackp@codeaurora.org, sergei.shtylyov@gmail.com,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v10 0/4] Introduce PMIC based USB type C detection
-Date:   Thu,  8 Oct 2020 16:59:30 -0700
-Message-Id: <20201008235934.8931-1-wcheng@codeaurora.org>
+Subject: [PATCH v10 4/4] arm64: boot: dts: qcom: pm8150b: Add DTS node for PMIC VBUS booster
+Date:   Thu,  8 Oct 2020 16:59:34 -0700
+Message-Id: <20201008235934.8931-5-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201008235934.8931-1-wcheng@codeaurora.org>
+References: <20201008235934.8931-1-wcheng@codeaurora.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Changes in v10:
- - Modified the type c dt-binding to remove the DRD switch node outside of the
-   connector, as it is more of a SW entity, whereas the USB connector model
-   focuses more on how the connector pins are connected in the HW design.  The
-   binding now matches what is specified in the usb-connector binding.
- - Change the fwnode to search for the remote endpoint referencing the usb role
-   switch device in qcom-pmic-typec
- - Rename typec node from "typec" to "usb-typec"
+Add the required DTS node for the USB VBUS output regulator, which is
+available on PM8150B.  This will provide the VBUS source to connected
+peripherals.
 
-Changes in v9:
- - Fixed dt-binding to reference usb-connector from the 'connector' node,
-   removed properties that didn't have further constraints (than specified in
-   usb-connector.yaml), and make 'reg' a required property.
- - Moved vbus_reg get call into probe(), and will fail if the regulator is not
-   available.
- - Removed some references from qcom_pmic_typec, as they were not needed after
-   probe().
- - Moved interrupt registration until after all used variables were initialized.
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+---
+ arch/arm64/boot/dts/qcom/pm8150b.dtsi   | 6 ++++++
+ arch/arm64/boot/dts/qcom/sm8150-mtp.dts | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-Changes in v8:
- - Simplified some property definitions, and corrected the
-   connector reference in the dt binding.
-
-Changes in v7:
- - Fixups in qcom-pmic-typec.c to remove uncesscary includes, printk formatting,
-   and revising some logic operations. 
-
-Changes in v6:
- - Removed qcom_usb_vbus-regulator.c and qcom,usb-vbus-regulator.yaml from the
-   series as they have been merged on regulator.git
- - Added separate references to the usb-connector.yaml in qcom,pmic-typec.yaml
-   instead of referencing the entire schema.
-
-Changes in v5:
- - Fix dt_binding_check warning/error in qcom,pmic-typec.yaml
-
-Changes in v4:
- - Modified qcom,pmic-typec binding to include the SS mux and the DRD remote
-   endpoint nodes underneath port@1, which is assigned to the SSUSB path
-   according to usb-connector
- - Added usb-connector reference to the typec dt-binding
- - Added tags to the usb type c and vbus nodes
- - Removed "qcom" tags from type c and vbus nodes
- - Modified Kconfig module name, and removed module alias from the typec driver
+diff --git a/arch/arm64/boot/dts/qcom/pm8150b.dtsi b/arch/arm64/boot/dts/qcom/pm8150b.dtsi
+index 2bf385f5a55a..49ea597cc0c5 100644
+--- a/arch/arm64/boot/dts/qcom/pm8150b.dtsi
++++ b/arch/arm64/boot/dts/qcom/pm8150b.dtsi
+@@ -53,6 +53,12 @@ power-on@800 {
+ 			status = "disabled";
+ 		};
  
-Changes in v3:
- - Fix driver reference to match driver name in Kconfig for
-   qcom_usb_vbus-regulator.c
- - Utilize regulator bitmap helpers for enable, disable and is enabled calls in
-   qcom_usb_vbus-regulator.c
- - Use of_get_regulator_init_data() to initialize regulator init data, and to
-   set constraints in qcom_usb_vbus-regulator.c
- - Remove the need for a local device structure in the vbus regulator driver
++		pm8150b_vbus: regulator@1100 {
++			compatible = "qcom,pm8150b-vbus-reg";
++			status = "disabled";
++			reg = <0x1100>;
++		};
++
+ 		pm8150b_typec: usb-typec@1500 {
+ 			compatible = "qcom,pm8150b-usb-typec";
+ 			status = "disabled";
+diff --git a/arch/arm64/boot/dts/qcom/sm8150-mtp.dts b/arch/arm64/boot/dts/qcom/sm8150-mtp.dts
+index 6c6325c3af59..ba3b5b802954 100644
+--- a/arch/arm64/boot/dts/qcom/sm8150-mtp.dts
++++ b/arch/arm64/boot/dts/qcom/sm8150-mtp.dts
+@@ -409,6 +409,10 @@ &ufs_mem_phy {
+ 	vdda-pll-max-microamp = <19000>;
+ };
  
-Changes in v2:
- - Use devm_kzalloc() in qcom_pmic_typec_probe()
- - Add checks to make sure return value of typec_find_port_power_role() is
-   valid
- - Added a VBUS output regulator driver, which will be used by the PMIC USB
-   type c driver to enable/disable the source
- - Added logic to control vbus source from the PMIC type c driver when
-   UFP/DFP is detected
- - Added dt-binding for this new regulator driver
- - Fixed Kconfig typec notation to match others
- - Leave type C block disabled until enabled by a platform DTS
-
-Add the required drivers for implementing type C orientation and role
-detection using the Qualcomm PMIC.  Currently, PMICs such as the PM8150B
-have an integrated type C block, which can be utilized for this.  This
-series adds the dt-binding, PMIC type C driver, and DTS nodes.
-
-The PMIC type C driver will register itself as a type C port w/ a
-registered type C switch for orientation, and will fetch a USB role switch
-handle for the role notifications.  It will also have the ability to enable
-the VBUS output to any connected devices based on if the device is behaving
-as a UFP or DFP.
-
-Wesley Cheng (4):
-  usb: typec: Add QCOM PMIC typec detection driver
-  dt-bindings: usb: Add Qualcomm PMIC type C controller dt-binding
-  arm64: boot: dts: qcom: pm8150b: Add node for USB type C block
-  arm64: boot: dts: qcom: pm8150b: Add DTS node for PMIC VBUS booster
-
- .../bindings/usb/qcom,pmic-typec.yaml         | 115 ++++++++
- arch/arm64/boot/dts/qcom/pm8150b.dtsi         |  13 +
- arch/arm64/boot/dts/qcom/sm8150-mtp.dts       |   4 +
- drivers/usb/typec/Kconfig                     |  12 +
- drivers/usb/typec/Makefile                    |   1 +
- drivers/usb/typec/qcom-pmic-typec.c           | 262 ++++++++++++++++++
- 6 files changed, 407 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
- create mode 100644 drivers/usb/typec/qcom-pmic-typec.c
-
++&pm8150b_vbus {
++	status = "okay";
++};
++
+ &usb_1_hsphy {
+ 	status = "okay";
+ 	vdda-pll-supply = <&vdd_usb_hs_core>;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
