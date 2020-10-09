@@ -2,95 +2,154 @@ Return-Path: <SRS0=9XAl=DQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D29C433E7
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 316DFC433E7
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:31:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2184E222B9
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:29:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFCC722240
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:31:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="H8+hU8PA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YZ1TXijB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732855AbgJII3U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Oct 2020 04:29:20 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:12872 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732445AbgJII3T (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 9 Oct 2020 04:29:19 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602232159; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=uf4TnRUZvsyH9PBe5TksQ6NqIrwgHTUAWa5148sHftE=; b=H8+hU8PA5Lt2KEvQ5Gg5watw31nN6pYuElebbVXreleSJTBCn/+8hFhBLP8TwUvRZHZtp+Y2
- XDavffzeT/4U4YY08A54bJ8qIikG0L247DrqWtixzLXsIsB+Fqt4lh2nDmp9Yhhh//41Zduc
- 8q8XCYp8svFs4SSb6xDNOFJ/GnA=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5f801f41aad2c3cd1c5820cb (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Oct 2020 08:28:49
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 49108C433FF; Fri,  9 Oct 2020 08:28:48 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id AEEABC433FF;
-        Fri,  9 Oct 2020 08:28:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AEEABC433FF
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     vkoul@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
-        kishon@ti.com, balbi@kernel.org, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v2 0/4] Enable USB type C support on SM8150
-Date:   Fri,  9 Oct 2020 01:28:39 -0700
-Message-Id: <20201009082843.28503-1-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
+        id S1732664AbgJIIbW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Oct 2020 04:31:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20947 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732588AbgJIIbV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Oct 2020 04:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1602232279;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=w88CjEh5DGPG+OvvFpYPp9Ob3qQjnkFqi0cSeZc/Stc=;
+        b=YZ1TXijB9pa+bWI7RjdEHFe9k0C3S2sI2Kx7Q+o7XGBQwKuA8Ht+FA/DBkO5gLx63QYCHx
+        gHnshUAQUUjFeODygG6y/3m0tPGyVFnXUTpKfmXzLybd9CiL1hNyQxNvJgX+cXpTiMCg0w
+        FzZQXC58FKsfWNWGtHGXj3D+e2JPNGU=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-6FXTIZ9MNJyu5T8u90MoWg-1; Fri, 09 Oct 2020 04:31:16 -0400
+X-MC-Unique: 6FXTIZ9MNJyu5T8u90MoWg-1
+Received: by mail-pg1-f199.google.com with SMTP id g5so6082665pgn.1
+        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2020 01:31:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w88CjEh5DGPG+OvvFpYPp9Ob3qQjnkFqi0cSeZc/Stc=;
+        b=PFYSBylxfS6C1ACvI9MrSb15zQPULhj3FZQ9r26aWQiyCbHPsj3M8AOrbsTi1WGLUE
+         6fHI2PhJ/CCM3D/WA4t9vPaq5zlvDpmRUbZZaTgwMhadACTUYNE9+bdNSVG7s7IeHruw
+         SzX65gO7CJ9xSa5hAtW2K+EnFEb28SESiv/BtjZMbxgh/HRfBSBRsCoUXD1mjC2BgoUC
+         KMxMTkGC22hUFykdIFhD5CNTxeECOXqUs15yWLDhp7sBedYRMKPZQ2tL7ZOaSItKlpb7
+         ghwwVTqZHXKdBbfzgVk2Kv9IYtU2DRy5wYAEMoWBRQifNhjl4mm1DstQccErChkKfIjT
+         RKkQ==
+X-Gm-Message-State: AOAM530hXlcVYp3VXpYiZmSwu6UfWMclne2LQAnlb1Pbb93jHNCZm8hX
+        pBKIq+pNwqsS+8JaLkHzLhQEPYM6Ch7Ax+M7tTQHdDCEiprZOjKS9wsezrAn9qm+KgqIUaVTl97
+        Mko1np/TyfMkTHVSS5x7dmJyoILlvWLtdJMQW
+X-Received: by 2002:a63:490e:: with SMTP id w14mr2553456pga.275.1602232275587;
+        Fri, 09 Oct 2020 01:31:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzN6PrgTEVSDz0+cEbBmurVWkmBYakoT6dmDghlIIii5XZOYY7qjAD5Gmb5Kkd3av8aMxliKX9dSHmoBL3lLQY=
+X-Received: by 2002:a63:490e:: with SMTP id w14mr2553438pga.275.1602232275242;
+ Fri, 09 Oct 2020 01:31:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <bug-209137-208809@https.bugzilla.kernel.org/> <bug-209137-208809-GmYB1n8NUL@https.bugzilla.kernel.org/>
+ <20201008143542.GC495091@rowland.harvard.edu>
+In-Reply-To: <20201008143542.GC495091@rowland.harvard.edu>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 9 Oct 2020 10:31:03 +0200
+Message-ID: <CAO-hwJL1gMscTkzaiuKBcmftuG8TGmUXqNDrkA3wqQxyuKxZUg@mail.gmail.com>
+Subject: Re: [Bug 209137] USB is not working since update from 5.0 to
+ 5.3.0-26. And with 5.4 still not working.
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Changes in v2:
- - Added patch to fix a typo in dwc3_qcom_vbus_override_enable()
- - Modified dwc3_qcom_find_usb_connector_match() to search the child nodes for
-   the connector device as well
- - Moved out the DRD switch remote endpoint from the connector node in the
-   pm8150b_typec device
+Hi Alan,
 
-This series adds support for setting of the orientation multiplexor within the
-QMP PHY based on the detection output from the PM8150B.  It will also introduce
-a role switch in DWC3 QCOM, which is used so that the DWC3 QCOM glue can receive
-role switch change events, and set the vbus override accordingly.  This event
-will then be propagated down to the DWC3 core driver, by the DWC3 QCOM getting a
-handle to the DWC3 core's role switch.
+On Thu, Oct 8, 2020 at 4:42 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> Jiri and Benjamin:
+>
+> Please look at Bugzilla # 209137:
+>
+>         https://bugzilla.kernel.org/show_bug.cgi?id=209137
+>
+> Somewhere between 5.0 and 5.4, the logitech-djreceiver driver stopped
+> binding to the user's Logitech wireless device.  Here are relevant parts
+> of the kernel logs.  From 5.0 (working):
+>
+> [    2.857770] logitech-djreceiver 0003:046D:C52B.0003: hiddev0,hidraw0: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-4/input2
+> [    2.985339] input: Logitech Unifying Device. Wireless PID:1024 Mouse as /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4:1.2/0003:046D:C52B.0003/0003:046D:1024.0004/input/input13
+> [    2.985410] hid-generic 0003:046D:1024.0004: input,hidraw1: USB HID v1.11 Mouse [Logitech Unifying Device. Wireless PID:1024] on usb-0000:00:14.0-4:1
+> [    2.995266] input: Logitech K520 as /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4:1.2/0003:046D:C52B.0003/0003:046D:2011.0005/input/input17
+> [    3.026985] logitech-hidpp-device 0003:046D:2011.0005: input,hidraw1: USB HID v1.11 Keyboard [Logitech K520] on usb-0000:00:14.0-4:2
+> [    3.033173] input: Logitech M310 as /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4:1.2/0003:046D:C52B.0003/0003:046D:1024.0004/input/input18
+> [    3.033358] logitech-hidpp-device 0003:046D:1024.0004: input,hidraw2: USB HID v1.11 Mouse [Logitech M310] on usb-0000:00:14.0-4:1
+>
+> From 5.4 (non-working):
+>
+> [    2.908901] hid-generic 0003:046D:C52B.0001: input,hidraw0: USB HID v1.11 Keyboard [Logitech USB Receiver] on usb-0000:00:14.0-4/input0
+> [    2.909003] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.909016] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.909019] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.909023] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.909030] hid-generic 0003:046D:C52B.0002: unexpected long global item
+> [    2.909038] hid-generic: probe of 0003:046D:C52B.0002 failed with error -22
+> [    2.909196] hid-generic 0003:046D:C52B.0003: hiddev0,hidraw1: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-4/input2
+> [    2.910586] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.910601] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.910605] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.910609] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+> [    2.910616] logitech-djreceiver 0003:046D:C52B.0002: unexpected long global item
+> [    2.910620] logitech-djreceiver 0003:046D:C52B.0002: logi_dj_probe: parse failed
+> [    2.910623] logitech-djreceiver: probe of 0003:046D:C52B.0002 failed with error -22
+>
+> FYI, intf 0 is a boot-interface keyboard, intf 1 is a boot-interface
+> mouse, and intf 2 is the wireless HID interface.
 
-Wesley Cheng (4):
-  arm64: boot: dts: qcom: sm8150: Add nodes for PMIC based typec
-    detection
-  phy: qcom-qmp: Register as a typec switch for orientation detection
-  usb: dwc3: dwc3-qcom: Find USB connector and register role switch
-  usb: dwc3: dwc3-qcom: Fix typo in the dwc3 vbus override API
+That is weird. I also have (several) C52B devices here, and I don't
+see the problem (though arguably there are several firmware versions
+out in the open).
 
- arch/arm64/boot/dts/qcom/sm8150-mtp.dts |  40 +++++++-
- drivers/phy/qualcomm/Kconfig            |  11 ++
- drivers/phy/qualcomm/phy-qcom-qmp.c     |  70 ++++++++++++-
- drivers/usb/dwc3/dwc3-qcom.c            | 128 ++++++++++++++++++++++--
- 4 files changed, 239 insertions(+), 10 deletions(-)
+The first part of failures show that even hid-generic can not parse
+the report descriptor. This means that the provided report descriptor
+is incorrect, which is weird because the one I just tested works fine.
+The second part (with logitech-dj) is showing the same errors, so
+that's expected given the previous problem.
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+To actually get the report descriptors, `lsub -v` works fine if the
+HID subsystem is not bounded. So there we need to ask the reporter to
+run the command with the HID subsystem not handling the device, or
+simply in the working case use hid-recorder from
+https://gitlab.freedesktop.org/libevdev/hid-tools/.
+
+Another solution if the report descriptor is identical to what I have
+here (in the working case), would be to write a BPF kprobe to dump
+what hid_parse sees. It should be straightforward to write one, I got
+everything in place for i2c-hid at
+https://gitlab.freedesktop.org/bentiss/hid-bpf (though for using the
+CO-RE BPF program, I am not sure 5.4 is recent enough).
+
+>
+> It's not immediately obvious to me where the problem lies.
+
+Not obvious to me either...
+
+Cheers,
+Benjamin
+
+>
+> Thanks,
+>
+> Alan Stern
+>
 
