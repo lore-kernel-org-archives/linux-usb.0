@@ -2,98 +2,249 @@ Return-Path: <SRS0=9XAl=DQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CD4C43457
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE01C433DF
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:28:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DEB522251
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:22:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9F1822251
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:28:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvEcPpSs"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="iknENUPg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732710AbgJIIW4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Oct 2020 04:22:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732337AbgJIIWz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Oct 2020 04:22:55 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765B1C0613D2;
-        Fri,  9 Oct 2020 01:22:55 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id y16so7602435ljk.1;
-        Fri, 09 Oct 2020 01:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=z4PYgixxEo74naXVTGCu473YIzjZyoMssDBGjCVNhz8=;
-        b=DvEcPpSsHXvt+QCKNgFD0OGbS0cOIPIHELaLxGjbP37VbXYPPozfcIRAdrSmOR8HvV
-         S0tXg49NuxysApDt+TalMm467uLyRoSZH2lrDZZLGXmK8gSf7V+wzyQgEb6o61PcH5Eu
-         /SuIDyKLxzATkYuFFkoZlx6a4PFXw02IiWr6VZs+tCcpjLnbSgJe1xMkU7OsWzpp2T83
-         6oc/b4AfsTwrDsWLkm4NURIQhxqyyTGdolrTaI2z401NHkwA98DrBFAPgRZL6kXk6lIi
-         fTcClX+nTlqX7peXiWnk3fFFg5pFFegtt5+0QvuQbsaFt8F9gJcm5/zw03TVhozozCz1
-         ecHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=z4PYgixxEo74naXVTGCu473YIzjZyoMssDBGjCVNhz8=;
-        b=EZP3mKv6UWLm2Fzb8sDRCOBHfqyZuK/JNitwyNLdU9KWPegQi+ebRwVJQM3E+qQHwJ
-         y0W/rk26qUpOLsgejP2c8A7nCwGDpuMfVRDsql+SxUlg+fyxFRexJViFORPFrgsMnQ3m
-         8uLd6awEHOhJE0Q8Eet/Ag619jZAAABC5iqnh/HQ6zX44cz9ESI2JrAqS2NDo7DUTof4
-         OnK8eXJFK+ZfpODTU0OIGuKXErTQQFhvaD9ZkEGx0uW4V8lMAXwaLxrDnfs9EzvbtEyr
-         1WJnbYwfKAqIGB3KnRlUQgoe3lxoDMslW3N86fmcgrDJFuYa1IvAfMp3+wtg+UlbZ3l2
-         r0Ww==
-X-Gm-Message-State: AOAM532UpHeaDg7xyTOWiga+bPxoXqvpvfcdeL5JuQRbeigfkwjjiBaa
-        C+eClQM3ZjZsYeWvrUMH4lQVuBAd/P7Vwg==
-X-Google-Smtp-Source: ABdhPJyCc0AibnzQbXHWDVK6b5qd4dQXk2CIZ+rxQ8FfNIh/3E1HoS8vWe1fFdjiMjJKICo8WL7eRw==
-X-Received: by 2002:a2e:8159:: with SMTP id t25mr4863515ljg.137.1602231773820;
-        Fri, 09 Oct 2020 01:22:53 -0700 (PDT)
-Received: from [192.168.1.100] ([213.87.137.199])
-        by smtp.gmail.com with ESMTPSA id v11sm682269ljk.109.2020.10.09.01.22.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Oct 2020 01:22:53 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
-To:     Ryan Chen <ryan_chen@aspeedtech.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, bmc-sw@aspeedtech.com,
-        Alan Stern <stern@rowland.harvard.edu>
-References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
- <20201009024937.11246-1-ryan_chen@aspeedtech.com>
- <20201009024937.11246-4-ryan_chen@aspeedtech.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <4efff4e7-27e0-35be-c112-5377f222a478@gmail.com>
-Date:   Fri, 9 Oct 2020 11:22:38 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1732779AbgJII2x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Oct 2020 04:28:53 -0400
+Received: from z5.mailgun.us ([104.130.96.5]:64698 "EHLO z5.mailgun.us"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732507AbgJII2w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 9 Oct 2020 04:28:52 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1602232131; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Tlq4T/iAuD/awcC5v4dNjmM0vVkqaQtyhvxY9GC4/4Q=; b=iknENUPgyOs1FsDcLfIC7O0GbnB0n2oIV+OoHm/HHC0p1Xh8kBDyjEOQGGXhJpRtXYUx7Cr/
+ tXkGob+Yn1+beTwA9H2SEuetJ+dRnvUqTqap7RKYRxy4xPYn7Gu/Or2uUPW5WiqKVOmyeOBV
+ S/aAxJpBllV5UVb1zAPvQtyNoMY=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 5f801f433711fec7b1bd7b6f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Oct 2020 08:28:51
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 833A8C433CB; Fri,  9 Oct 2020 08:28:50 +0000 (UTC)
+Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 40FB7C433AF;
+        Fri,  9 Oct 2020 08:28:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 40FB7C433AF
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     vkoul@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
+        kishon@ti.com, balbi@kernel.org, gregkh@linuxfoundation.org,
+        robh+dt@kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
+Subject: [PATCH v2 3/4] usb: dwc3: dwc3-qcom: Find USB connector and register role switch
+Date:   Fri,  9 Oct 2020 01:28:42 -0700
+Message-Id: <20201009082843.28503-4-wcheng@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201009082843.28503-1-wcheng@codeaurora.org>
+References: <20201009082843.28503-1-wcheng@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20201009024937.11246-4-ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-HEllo!
+If registering a USB typeC connector, the connector node may not be a child
+of the DWC3 QCOM device.  Utilize devcon graph search to lookup if any
+remote endpoints contain the connector.  If a connector is present, the
+DWC3 QCOM will register a USB role switch to receive role change events, as
+well as attain a reference to the DWC3 core role switch to pass the event
+down.
 
-On 09.10.2020 5:49, Ryan Chen wrote:
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 120 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 118 insertions(+), 2 deletions(-)
 
-> Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index e1e78e9824b1..340760ef0e01 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -19,6 +19,8 @@
+ #include <linux/usb/of.h>
+ #include <linux/reset.h>
+ #include <linux/iopoll.h>
++#include <linux/fwnode.h>
++#include <linux/usb/role.h>
+ 
+ #include "core.h"
+ 
+@@ -71,6 +73,9 @@ struct dwc3_qcom {
+ 	struct notifier_block	vbus_nb;
+ 	struct notifier_block	host_nb;
+ 
++	struct usb_role_switch *role_sw;
++	struct usb_role_switch *dwc3_drd_sw;
++
+ 	const struct dwc3_acpi_pdata *acpi_pdata;
+ 
+ 	enum usb_dr_mode	mode;
+@@ -190,6 +195,73 @@ static int dwc3_qcom_register_extcon(struct dwc3_qcom *qcom)
+ 	return 0;
+ }
+ 
++static int dwc3_qcom_usb_role_switch_set(struct usb_role_switch *sw,
++					 enum usb_role role)
++{
++	struct dwc3_qcom *qcom = usb_role_switch_get_drvdata(sw);
++	struct fwnode_handle *child;
++	bool enable = false;
++
++	if (!qcom->dwc3_drd_sw) {
++		child = device_get_next_child_node(qcom->dev, NULL);
++		if (child) {
++			qcom->dwc3_drd_sw = usb_role_switch_find_by_fwnode(child);
++			fwnode_handle_put(child);
++			if (IS_ERR(qcom->dwc3_drd_sw)) {
++				qcom->dwc3_drd_sw = NULL;
++				return 0;
++			}
++		}
++	}
++
++	usb_role_switch_set_role(qcom->dwc3_drd_sw, role);
++
++	if (role == USB_ROLE_DEVICE)
++		enable = true;
++	else
++		enable = false;
++
++	qcom->mode = (role == USB_ROLE_HOST) ? USB_DR_MODE_HOST :
++					       USB_DR_MODE_PERIPHERAL;
++	dwc3_qcom_vbus_overrride_enable(qcom, enable);
++	return 0;
++}
++
++static enum usb_role dwc3_qcom_usb_role_switch_get(struct usb_role_switch *sw)
++{
++	struct dwc3_qcom *qcom = usb_role_switch_get_drvdata(sw);
++	enum usb_role role;
++
++	switch (qcom->mode) {
++	case USB_DR_MODE_HOST:
++		role = USB_ROLE_HOST;
++		break;
++	case USB_DR_MODE_PERIPHERAL:
++		role = USB_ROLE_DEVICE;
++		break;
++	default:
++		role = USB_ROLE_DEVICE;
++		break;
++	}
++
++	return role;
++}
++
++static int dwc3_qcom_setup_role_switch(struct dwc3_qcom *qcom)
++{
++	struct usb_role_switch_desc dwc3_role_switch = {NULL};
++
++	dwc3_role_switch.fwnode = dev_fwnode(qcom->dev);
++	dwc3_role_switch.set = dwc3_qcom_usb_role_switch_set;
++	dwc3_role_switch.get = dwc3_qcom_usb_role_switch_get;
++	dwc3_role_switch.driver_data = qcom;
++	qcom->role_sw = usb_role_switch_register(qcom->dev, &dwc3_role_switch);
++	if (IS_ERR(qcom->role_sw))
++		return PTR_ERR(qcom->role_sw);
++
++	return 0;
++}
++
+ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+ {
+ 	if (qcom->hs_phy_irq) {
+@@ -540,6 +612,42 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static int dwc3_qcom_connector_check(struct fwnode_handle *fwnode)
++{
++	if (fwnode && (!fwnode_property_match_string(fwnode, "compatible",
++						     "gpio-usb-b-connector") ||
++	    !fwnode_property_match_string(fwnode, "compatible",
++					  "usb-c-connector")))
++		return 1;
++
++	return 0;
++}
++
++static void *dwc3_qcom_find_usb_connector_match(struct device_connection *con,
++						int ep, void *data)
++{
++	struct fwnode_handle *fwnode;
++
++	/* Check if the "connector" node is the parent of the remote endpoint */
++	if (dwc3_qcom_connector_check(con->fwnode))
++		return fwnode;
++
++	/* else, check if it is a child node */
++	fwnode = fwnode_get_named_child_node(con->fwnode, "connector");
++	if (dwc3_qcom_connector_check(fwnode))
++		return fwnode;
++
++	return 0;
++}
++
++static bool dwc3_qcom_find_usb_connector(struct platform_device *pdev)
++{
++	struct fwnode_handle *fwnode = pdev->dev.fwnode;
++
++	return fwnode_connection_find_match(fwnode, "connector", NULL,
++					    dwc3_qcom_find_usb_connector_match);
++}
++
+ static int dwc3_qcom_probe(struct platform_device *pdev)
+ {
+ 	struct device_node	*np = pdev->dev.of_node;
+@@ -644,8 +752,13 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	if (qcom->mode == USB_DR_MODE_PERIPHERAL)
+ 		dwc3_qcom_vbus_overrride_enable(qcom, true);
+ 
+-	/* register extcon to override sw_vbus on Vbus change later */
+-	ret = dwc3_qcom_register_extcon(qcom);
++	if (dwc3_qcom_find_usb_connector(pdev)) {
++		ret = dwc3_qcom_setup_role_switch(qcom);
++	} else {
++		/* register extcon to override sw_vbus on Vbus change later */
++		ret = dwc3_qcom_register_extcon(qcom);
++	}
++
+ 	if (ret)
+ 		goto depopulate;
+ 
+@@ -679,6 +792,9 @@ static int dwc3_qcom_remove(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	int i;
+ 
++	usb_role_switch_unregister(qcom->role_sw);
++	usb_role_switch_put(qcom->dwc3_drd_sw);
++
+ 	of_platform_depopulate(dev);
+ 
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--) {
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-    Enable ECHI/UHCI for the  Aspeed AST2600 EVB, perhaps?
-
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-[...]
-
-MBR, Sergei
