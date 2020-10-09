@@ -2,287 +2,150 @@ Return-Path: <SRS0=9XAl=DQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAE15C433E7
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 16:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A02D1C43457
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 18:55:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6567A2225D
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 16:06:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGwkmFzp"
+	by mail.kernel.org (Postfix) with ESMTP id 530FA222BA
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 18:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389492AbgJIQG3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Oct 2020 12:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40324 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389144AbgJIQG2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Oct 2020 12:06:28 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04111C0613D2;
-        Fri,  9 Oct 2020 09:06:27 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id r127so11208209lff.12;
-        Fri, 09 Oct 2020 09:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hVM3wtpHG/QwknzCZDjPbZZwN5F8vjj/ZrYHWh9NZ7g=;
-        b=RGwkmFzpAa0LIDU2sfh/kpdO8Ob+aaYCKuip5WJdj2QHrvE3saKd97qgpp+Hr80zIp
-         aSJN4aeRp80n9lH7FPHxjaY3eOVDZUYyhAM3M74QgiBBU2nXvfBoVgAjsWIE8Tfv9lhh
-         lGnyFgXlhAkOL7ZMBTeVNLDKNeptoifLMhFoLTCfSz5ApxWKk1HFXCk+yiLwiOtd14P/
-         6evWyAsxIlfwsJR7cITVLgQb8d1q7BuX4A3lwcRBgWATA3/7Qb4QxnTXIbHZxDxvMoqI
-         KxvvFeZuUEVzjDWsLcVbfqY3MOElL3Rp7cWX+YafA9XgcJMExgHKaSIYdfy6hTc69OQK
-         EUkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hVM3wtpHG/QwknzCZDjPbZZwN5F8vjj/ZrYHWh9NZ7g=;
-        b=JGAZg/FaVfZS7/xLNecX3nqAyDnha6Zv2+7/LHGr0UisZxIXtaSrpCWyhpJ425Vy+F
-         dbCHH+DOFTPITCahdfs3HZfjBwjzKkH7UbYPBemEIsf1LguPlZ1beCUfjsqzVvLeU1/D
-         D1FhYDf0Uv3u83DmPjMFzE/H9kOk76Q3Jeqcv/xRegb/c/pFZuPawkbYpPesvmvxmKBi
-         qlaiQ5kCRXA6OBAtelinvpxaAeaSa3arXgRZscPKc8zvTV6qD1nJPWIFLrSnyWTIlw/M
-         b6+eJ0ym6tESKsE9lghfDN++XEzgGzvh/WBfpYo8JlHD6xMrikm5ANL3/txDVjsk3at+
-         av2g==
-X-Gm-Message-State: AOAM53290vJG1b4Cs7eZIYvHRLLCyB1SMmaNT/3xlw6vTUn5naSJQFug
-        Injs5KYSC2T0EyeNWy4QeOk8uqY6gZuNNxNc5Lg=
-X-Google-Smtp-Source: ABdhPJzS/RTF66VORQsC5HkYJjNUswX0Xrsu3VrHvwmmlzhy+F9N8feTY4i+IP9TTtVNQj74Mu0nO46k0vqCQ8KwIS8=
-X-Received: by 2002:a19:2346:: with SMTP id j67mr4213461lfj.427.1602259585224;
- Fri, 09 Oct 2020 09:06:25 -0700 (PDT)
+        id S2388239AbgJISzu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Oct 2020 14:55:50 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:42695 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S2388193AbgJISzu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Oct 2020 14:55:50 -0400
+Received: (qmail 547642 invoked by uid 1000); 9 Oct 2020 14:55:48 -0400
+Date:   Fri, 9 Oct 2020 14:55:48 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     syzbot <syzbot+f5378bcf0f0cab45c1c6@syzkaller.appspotmail.com>,
+        QCA ath9k Development <ath9k-devel@qca.qualcomm.com>
+Cc:     andreyknvl@google.com, eli.billauer@gmail.com,
+        gregkh@linuxfoundation.org, gustavoars@kernel.org,
+        ingrassia@epigenesys.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, oneukum@suse.com,
+        linux-wireless@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        tiwai@suse.de
+Subject: Re: WARNING in hif_usb_send/usb_submit_urb
+Message-ID: <20201009185548.GA546075@rowland.harvard.edu>
+References: <000000000000021e6b05b0ea60bd@google.com>
+ <00000000000069707b05b13da267@google.com>
 MIME-Version: 1.0
-References: <1599060933-8092-1-git-send-email-u0084500@gmail.com>
- <20200902165713.GG56237@roeck-us.net> <CADiBU3_iHk4aoM8o6GcaTmWDZT4ymvb0Ff-XeLLZ0C9dhCnLZQ@mail.gmail.com>
- <fd2a33fc-2383-66cb-0fd7-d5aa0cc9111f@roeck-us.net> <CADiBU3_vYAmHDCONrExzyM+1CTfqJx_eS1hYG8aHkNWFzTcwfg@mail.gmail.com>
- <63c7f5e4-eff2-1420-30a5-a0b98a7815e0@roeck-us.net> <CADiBU3-83rVLqhVAqqSGc0qQ66PHsGVVcp_m3sm_4ZS5A+GXKQ@mail.gmail.com>
- <CADiBU3_c5O-yUac-ytp5WoQQ12edkU+4wn+WNBOVGRGM15NBJA@mail.gmail.com>
- <20201002133145.GA3384841@kroah.com> <c2d689eb-5538-6af2-614f-766521100273@roeck-us.net>
- <20201005110808.GA298743@kroah.com> <88586992-650f-a4a1-2fa0-8cef313380fb@roeck-us.net>
- <CADiBU38wk825SqtFRAiYqqV47Wwi43AuWKut19qeTbGBZFqPow@mail.gmail.com>
- <CAKgpwJWwyvUyVj+jQ0y2i_eK1XEN2g3NvR0zgrRLfcmtgn8DDg@mail.gmail.com>
- <CADiBU3_TADpGmV7-BXJd3YaPNiv8Eg8zmKUD_OoB9CG1MT12mg@mail.gmail.com>
- <CADiBU392ZL6AHf6Dns61KXFVuvwh6grfnJjXmcFE4Ma2gjK6EA@mail.gmail.com> <VE1PR04MB6528CF55BE68A8DCF4B7904689080@VE1PR04MB6528.eurprd04.prod.outlook.com>
-In-Reply-To: <VE1PR04MB6528CF55BE68A8DCF4B7904689080@VE1PR04MB6528.eurprd04.prod.outlook.com>
-From:   ChiYuan Huang <u0084500@gmail.com>
-Date:   Sat, 10 Oct 2020 00:06:13 +0800
-Message-ID: <CADiBU38-jX=4sbQ9aFoA=Xr6S7cFbfQy8tpdohoZdpaY-AK-Vw@mail.gmail.com>
-Subject: Re: [PATCH] usb: typec: tcpm: Fix if vbus before cc, hard_reset_count
- not reset issue
-To:     Jun Li <jun.li@nxp.com>
-Cc:     Jun Li <lijun.kernel@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        cy_huang <cy_huang@richtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000069707b05b13da267@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Jun Li <jun.li@nxp.com> =E6=96=BC 2020=E5=B9=B410=E6=9C=889=E6=97=A5 =E9=80=
-=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:12=E5=AF=AB=E9=81=93=EF=BC=9A
->
->
->
-> > -----Original Message-----
-> > From: ChiYuan Huang <u0084500@gmail.com>
-> > Sent: Wednesday, October 7, 2020 6:13 PM
-> > To: Jun Li <lijun.kernel@gmail.com>
-> > Cc: Guenter Roeck <linux@roeck-us.net>; Greg KH
-> > <gregkh@linuxfoundation.org>; Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com>; Linux USB List
-> > <linux-usb@vger.kernel.org>; lkml <linux-kernel@vger.kernel.org>;
-> > cy_huang <cy_huang@richtek.com>; Jun Li <jun.li@nxp.com>
-> > Subject: Re: [PATCH] usb: typec: tcpm: Fix if vbus before cc, hard_rese=
-t_count
-> > not reset issue
-> >
-> > ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=9C=887=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=881:39=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> > >
-> > > Jun Li <lijun.kernel@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=9C=887=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:52=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> > > >
-> > > > ChiYuan Huang <u0084500@gmail.com> =E4=BA=8E2020=E5=B9=B410=E6=9C=
-=886=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=8812:38=E5=86=99
-> > =E9=81=93=EF=BC=9A
-> > > > >
-> > > > > Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2020=E5=B9=B410=E6=
-=9C=885=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:30
-> > =E5=AF=AB=E9=81=93=EF=BC=9A
-> > > > > >
-> > > > > > On 10/5/20 4:08 AM, Greg KH wrote:
-> > > > > > [ ... ]
-> > > > > > >>> What ever happened with this patch, is there still disagree=
-ment?
-> > > > > > >>>
-> > > > > > >>
-> > > > > > >> Yes, there is. I wouldn't have added the conditional without
-> > > > > > >> reason, and I am concerned that removing it entirely will op=
-en
-> > another problem.
-> > > > > > >> Feel free to apply, though - I can't prove that my concern i=
-s
-> > > > > > >> valid, and after all we'll get reports from the field later =
-if
-> > it is.
-> > > > > > >
-> > > > > > > Ok, can I get an ack so I know who to come back to in the
-> > > > > > > future if there are issues?  :)
-> > > > > > >
-> > > > > >
-> > > > > > Not from me, for the reasons I stated. I would be ok with somet=
-hing
-> > like:
-> > > > > >
-> > > > > > -       if (tcpm_port_is_disconnected(port))
-> > > > > > +       if (tcpm_port_is_disconnected(port) ||
-> > > > > > +           (tcpm_cc_is_open(port->cc1) &&
-> > > > > > + tcpm_cc_is_open(port->cc2)))
-> > > > > >
-> > > > > > to narrow down the condition.
-> > > > >
-> > > > > I have tried the above comment and It doesn't work.
-> > > > > How about to change the judgement like as below
-> > > > >
-> > > > > -       if (tcpm_port_is_disconnected(port))
-> > > > > +       if (tcpm_port_is_disconnected(port) ||
-> > > > > + !port->vbus_present)
-> > > > >
-> > > > > The hard_reset_count not reset issue is following by the below
-> > > > > order 1. VBUS off ( at the same time, cc is still detected as
-> > > > > attached)
-> > > > > port->attached become false and cc is not open
-> > > > > 2. After that, cc detached.
-> > > > > due to port->attached is false, tcpm_detach() directly return.
-> > > >
-> > > > If tcpm_detach() return directly, then how your patch can reset
-> > > > hard_reset_count?
-> > > >
-> > > Yes, it can. We know vbus_present change from true to false and cc
-> > > detach both trigger tcpm_detach.
-> > > My change is whenever tcpm_detach to be called, hard_reset_count will
-> > > be reset to zero.
-> > >
-> > > > I am seeing the same issue on my platform, the proposed change:
-> > > > -       if (tcpm_port_is_disconnected(port))
-> > > > -               port->hard_reset_count =3D 0;
-> > > > +       port->hard_reset_count =3D 0;
-> > > > can't resolve it on my platform.
-> > > >
-> > > I'm not sure what's your condition. Could you directly paste the tcpm
-> > > log for the check?
-> > > > How about reset hard_reset_count in SNK_READY?
-> > > > @@ -3325,6 +3329,7 @@ static void run_state_machine(struct tcpm_por=
-t
-> > *port)
-> > > >         case SNK_READY:
-> > > >                 port->try_snk_count =3D 0;
-> > > >                 port->update_sink_caps =3D false;
-> > > > +               port->hard_reset_count =3D 0;
-> > > >                 if (port->explicit_contract) {
-> > > >                         typec_set_pwr_opmode(port->typec_port,
-> > > >                                              TYPEC_PWR_MODE_PD);
-> > > >
-> > > > can this resolve your problem?
-> > > I'm not sure. It need to have a try, then I can answer you.
-> > > But from USBPD spec, the hard_reset_count need to reset zero only whe=
-n
-> > > 1. At src state, pe_src_send_cap and receive GoodCRC 2. At snk state,
-> > > pe_snk_evaluate_cap need to reset hard_reset_count
->
-> 3.
-> 8.3.3.3.8 PE_SNK_Hard_Reset state
-> "Note: The HardResetCounter is reset on a power cycle or Detach."
->
-> > > >
-> > > > Li Jun
-> > > > >
-> > > > > And that's why hard_reset_count is not reset to 0.
-> >
-> > I tried in snk_ready to reset hard_reset_count.
-> > At normal case, it works.
-> > But it seems still the possible fail case like as below.
-> > 200ms -> cc debounce max time
-> > 240ms -> snk_waitcap max time
-> > If the plugin/out period is between (200+240) and (200+ 2* 240)ms , and=
- the
-> > src side plug out like as the described scenario.
-> > From this case, hard_reset_count may still 1.
-> > And we expect the next plugin hard_reset_count is 0. But not, actually =
-it
-> > never reset.
-> > So at next plugin, only one hard_reset will be sent and reach hard_rese=
-t_count
-> > max (2).
-> >
-> > This case is hard to reproduce. But actually it's possible.
->
-> Make sense.
->
-> Then I propose doing this at SNK_UNATTACHED
-> @@ -3156,6 +3156,7 @@ static void run_state_machine(struct tcpm_port *por=
-t)
->                 if (!port->non_pd_role_swap)
->                         tcpm_swap_complete(port, -ENOTCONN);
->                 tcpm_pps_complete(port, -ENOTCONN);
-> +               port->hard_reset_count =3D 0;
->                 tcpm_snk_detach(port);
->                 if (tcpm_start_toggling(port, TYPEC_CC_RD)) {
->                         tcpm_set_state(port, TOGGLING, 0);
-> Li Jun
+To the ath9k_htc maintainers:
 
-For the current power role is snk, I think it may work.
-How about the src role? src role only reset the hard_reset_count in
-tcpm_detach and src_ready state?
+This is an attempt to fix a bug detected by the syzbot fuzzer.  The bug 
+arises when a USB device claims to be an ATH9K but doesn't have the 
+expected endpoints.  (In this case there was a bulk endpoint where the 
+driver expected an interrupt endpoint.)  The kernel needs to be able to 
+handle such devices without getting an internal error.
 
-I check the flow that  you mentioned in the previous mail. It's really
-a special case from any state to port_reset.
-If the case is considered, how about to reset  the hard_reset_count
-and don't care the port is attached or not in tcpm_detach function
-like as below.
+On Fri, Oct 09, 2020 at 07:19:19AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    6c8cf369 usb: typec: Add QCOM PMIC typec detection driver
 
-@@ -2789,6 +2789,8 @@ static void tcpm_reset_port(struct tcpm_port *port)
+Andrey, why doesn't syzbot put a 12-digit commit ID here?
 
- static void tcpm_detach(struct tcpm_port *port)
- {
-+       port->hard_reset_count =3D 0;
+> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14ea791b900000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=df3bb4023c36d114
+> dashboard link: https://syzkaller.appspot.com/bug?extid=f5378bcf0f0cab45c1c6
+> compiler:       gcc (GCC) 10.1.0-syz 20200507
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1087bfe7900000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1327b010500000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+f5378bcf0f0cab45c1c6@syzkaller.appspotmail.com
+> 
+> usb 1-1: Manufacturer: syz
+> usb 1-1: SerialNumber: syz
+> usb 1-1: ath9k_htc: Firmware ath9k_htc/htc_9271-1.4.0.fw requested
+> usb 1-1: ath9k_htc: Transferred FW: ath9k_htc/htc_9271-1.4.0.fw, size: 51008
+> ------------[ cut here ]------------
+> usb 1-1: BOGUS urb xfer, pipe 1 != type 3
+> WARNING: CPU: 1 PID: 72 at drivers/usb/core/urb.c:493 usb_submit_urb+0xce2/0x14e0 drivers/usb/core/urb.c:493
+> Kernel panic - not syncing: panic_on_warn set ...
+> CPU: 1 PID: 72 Comm: kworker/1:2 Not tainted 5.9.0-rc8-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Workqueue: events request_firmware_work_func
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:77 [inline]
+>  dump_stack+0x107/0x16e lib/dump_stack.c:118
+>  panic+0x2cb/0x702 kernel/panic.c:231
+>  __warn.cold+0x20/0x44 kernel/panic.c:600
+>  report_bug+0x1bd/0x210 lib/bug.c:198
+>  handle_bug+0x41/0x80 arch/x86/kernel/traps.c:234
+>  exc_invalid_op+0x14/0x40 arch/x86/kernel/traps.c:254
+>  asm_exc_invalid_op+0x12/0x20 arch/x86/include/asm/idtentry.h:536
+> RIP: 0010:usb_submit_urb+0xce2/0x14e0 drivers/usb/core/urb.c:493
+> Code: 84 04 03 00 00 e8 3e 98 c6 fd 4c 89 ef e8 66 b6 12 ff 41 89 d8 44 89 e1 4c 89 f2 48 89 c6 48 c7 c7 20 b3 5d 86 e8 d0 ba 9a fd <0f> 0b e9 c6 f8 ff ff e8 12 98 c6 fd 48 81 c5 40 06 00 00 e9 f2 f7
+> RSP: 0018:ffff8881d4757808 EFLAGS: 00010286
+> RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
+> RDX: ffff8881d4ffe500 RSI: ffffffff8129efa3 RDI: ffffed103a8eaef3
+> RBP: ffff8881cde7d800 R08: 0000000000000001 R09: ffff8881db32f50f
+> R10: 0000000000000000 R11: 0000000000003754 R12: 0000000000000001
+> R13: ffff8881d1edd0a0 R14: ffff8881d9bc9320 R15: ffff8881d9ba8600
+>  hif_usb_send_regout drivers/net/wireless/ath/ath9k/hif_usb.c:127 [inline]
+>  hif_usb_send+0x4c1/0xcf0 drivers/net/wireless/ath/ath9k/hif_usb.c:470
+>  htc_issue_send drivers/net/wireless/ath/ath9k/htc_hst.c:34 [inline]
+>  htc_connect_service+0x705/0xa00 drivers/net/wireless/ath/ath9k/htc_hst.c:275
+>  ath9k_wmi_connect+0xc9/0x190 drivers/net/wireless/ath/ath9k/wmi.c:268
+>  ath9k_init_htc_services.constprop.0+0xb3/0x640 drivers/net/wireless/ath/ath9k/htc_drv_init.c:146
+>  ath9k_htc_probe_device+0x25f/0x1e10 drivers/net/wireless/ath/ath9k/htc_drv_init.c:962
+>  ath9k_htc_hw_init+0x31/0x60 drivers/net/wireless/ath/ath9k/htc_hst.c:501
+>  ath9k_hif_usb_firmware_cb+0x274/0x530 drivers/net/wireless/ath/ath9k/hif_usb.c:1220
+>  request_firmware_work_func+0x126/0x250 drivers/base/firmware_loader/main.c:1006
+>  process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
+>  worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+>  kthread+0x392/0x470 kernel/kthread.c:292
+>  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> Kernel Offset: disabled
+> Rebooting in 86400 seconds..
+
+I don't know if all the devices used by the ath9k_htc driver are 
+expected to have all of these endpoints and no others.  I just added 
+checks for the ones listed in the hif_usb.h file.
+
+Alan Stern
+
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git 6c8cf369
+
+Index: usb-devel/drivers/net/wireless/ath/ath9k/hif_usb.c
+===================================================================
+--- usb-devel.orig/drivers/net/wireless/ath/ath9k/hif_usb.c
++++ usb-devel/drivers/net/wireless/ath/ath9k/hif_usb.c
+@@ -1307,6 +1307,20 @@ static int ath9k_hif_usb_probe(struct us
+ 	struct usb_device *udev = interface_to_usbdev(interface);
+ 	struct hif_device_usb *hif_dev;
+ 	int ret = 0;
++	struct usb_host_interface *alt;
++	struct usb_endpoint_descriptor *epd;
 +
-        if (!port->attached)
-                return;
++	/* Verify the expected endpoints are present */
++	alt = interface->cur_altsetting;
++	if (!usb_find_int_in_endpoint(alt, &epd) ||
++			usb_endpoint_num(epd) != USB_REG_IN_PIPE ||
++	    !usb_find_int_out_endpoint(alt, &epd) ||
++			usb_endpoint_num(epd) != USB_REG_OUT_PIPE ||
++	    !usb_find_bulk_in(endpoint(alt, &epd) ||
++			usb_endpoint_num(epd) != USB_WLAN_RX_PIPE ||
++	    !usb_find_bulk_out(endpoint(alt, &epd) ||
++			usb_endpoint_num(epd) != USB_WLAN_TX_PIPE)
++		return -ENODEV;
+ 
+ 	if (id->driver_info == STORAGE_DEVICE)
+ 		return send_eject_command(interface);
 
-@@ -2797,9 +2799,6 @@ static void tcpm_detach(struct tcpm_port *port)
-                port->tcpc->set_bist_data(port->tcpc, false);
-        }
 
--       if (tcpm_port_is_disconnected(port))
--               port->hard_reset_count =3D 0;
--
-        tcpm_reset_port(port);
- }
-
-Like I mentioned before, whatever the condition is, hard_reset_count
-must be reset to zero during tcpm_detach.
-
-But refer to Guenter's mail,  he prefer to narrow down the condition
-to reset this counter.
-
-I think the original thought is important why to put this line there.
-
-Hi, Guenter:
-   From the discussion, we really need to know why you put the reset
-line below port attached is false and also make some judgement.
-I think there may be ome condition that we don't considered.
-
->
-> >
-> > > > > >
-> > > > > > Guenter
