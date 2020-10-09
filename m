@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC66C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 02:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68952C433E7
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 02:50:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C4DD22251
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 02:50:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DFD722251
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 02:50:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731360AbgJICur (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Oct 2020 22:50:47 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:40911 "EHLO
+        id S1731162AbgJICuj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Oct 2020 22:50:39 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:40909 "EHLO
         twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731012AbgJICuj (ORCPT
+        with ESMTP id S1726547AbgJICuj (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Oct 2020 22:50:39 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 0992ljQ6054350;
-        Fri, 9 Oct 2020 10:47:45 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 0992lmTI054359;
+        Fri, 9 Oct 2020 10:47:48 +0800 (GMT-8)
         (envelope-from ryan_chen@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 9 Oct
- 2020 10:49:42 +0800
+ 2020 10:49:45 +0800
 From:   Ryan Chen <ryan_chen@aspeedtech.com>
 To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
         <linux-arm-kernel@lists.infradead.org>,
@@ -33,9 +33,9 @@ To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
         <linux-usb@vger.kernel.org>, <bmc-sw@aspeedtech.com>,
         Alan Stern <stern@rowland.harvard.edu>
 CC:     Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: [PATCH v2 1/3] configs: aspeed: enable UHCI driver in defconfig
-Date:   Fri, 9 Oct 2020 10:49:35 +0800
-Message-ID: <20201009024937.11246-2-ryan_chen@aspeedtech.com>
+Subject: [PATCH v2 2/3] usb: host: add uhci compatible support for ast2600-uhci
+Date:   Fri, 9 Oct 2020 10:49:36 +0800
+Message-ID: <20201009024937.11246-3-ryan_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201009024937.11246-1-ryan_chen@aspeedtech.com>
 References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
@@ -46,43 +46,35 @@ X-Originating-IP: [192.168.10.9]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0992ljQ6054350
+X-MAIL: twspam01.aspeedtech.com 0992lmTI054359
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 v2:
- -Changed : Add SCSI, BLK_DEV_SD, USB_STORAGE support.
+ - Fix continuation lines, align with "of_device"
 v1:
- -Enable UHCI driver in aspeed_g5_defconfig.
+ - Add support for AST2600 SOC UHCI driver.
 
 Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 ---
- arch/arm/configs/aspeed_g5_defconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/host/uhci-platform.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
-index 2bacd8c90f4b..7a6b0b79be9f 100644
---- a/arch/arm/configs/aspeed_g5_defconfig
-+++ b/arch/arm/configs/aspeed_g5_defconfig
-@@ -90,6 +90,8 @@ CONFIG_BLK_DEV_NBD=y
- CONFIG_MCTP_LPC=y
- CONFIG_EEPROM_AT24=y
- CONFIG_EEPROM_AT25=y
-+CONFIG_SCSI=y
-+CONFIG_BLK_DEV_SD=y
- CONFIG_MD=y
- CONFIG_BLK_DEV_DM=y
- CONFIG_DM_VERITY=y
-@@ -212,6 +214,8 @@ CONFIG_USB_DYNAMIC_MINORS=y
- CONFIG_USB_EHCI_HCD=y
- CONFIG_USB_EHCI_ROOT_HUB_TT=y
- CONFIG_USB_EHCI_HCD_PLATFORM=y
-+CONFIG_USB_UHCI_HCD=y
-+CONFIG_USB_STORAGE=y
- CONFIG_USB_GADGET=y
- CONFIG_USB_ASPEED_VHUB=y
- CONFIG_USB_CONFIGFS=y
+diff --git a/drivers/usb/host/uhci-platform.c b/drivers/usb/host/uhci-platform.c
+index 70dbd95c3f06..be9e9db7cad1 100644
+--- a/drivers/usb/host/uhci-platform.c
++++ b/drivers/usb/host/uhci-platform.c
+@@ -113,7 +113,8 @@ static int uhci_hcd_platform_probe(struct platform_device *pdev)
+ 				num_ports);
+ 		}
+ 		if (of_device_is_compatible(np, "aspeed,ast2400-uhci") ||
+-		    of_device_is_compatible(np, "aspeed,ast2500-uhci")) {
++		    of_device_is_compatible(np, "aspeed,ast2500-uhci") ||
++		    of_device_is_compatible(np, "aspeed,ast2600-uhci")) {
+ 			uhci->is_aspeed = 1;
+ 			dev_info(&pdev->dev,
+ 				 "Enabled Aspeed implementation workarounds\n");
 -- 
 2.17.1
 
