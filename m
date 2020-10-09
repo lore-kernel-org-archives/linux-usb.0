@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E5AC433E7
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:29:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B282C4363D
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:29:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E384C22251
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:29:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 146FC22251
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 08:29:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="kpRDS3b0"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="TmsgU4YR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732807AbgJII3C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Oct 2020 04:29:02 -0400
+        id S1732838AbgJII3J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Oct 2020 04:29:09 -0400
 Received: from z5.mailgun.us ([104.130.96.5]:64698 "EHLO z5.mailgun.us"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732778AbgJII24 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 9 Oct 2020 04:28:56 -0400
+        id S1732801AbgJII3F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 9 Oct 2020 04:29:05 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602232136; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1602232145; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=3OGkE5T/mqe2LhK7mSuuihEmVBB2lO/Hejwh/04yGvY=; b=kpRDS3b00A7nBUUT3mlvyc7EzLYtqtFhz7FC4yyBkY3vzG4XUHb10joYE1PGxnijg6FIlePY
- L2XV1GILiyWpg/L6BzYxSs0p7RLHSCiZHj0WyGIGofPnG+qBfcexZk/kgYNVO9ViOaDIIuQS
- eX0KIXGqA8jetSgaOm8ETubbO3M=
+ Sender; bh=kONjvJS0RvHBNA3ckVrjHd8i1nrVYQN5I4UTud+UJyg=; b=TmsgU4YRnOkEmw8zaEfOdikR3ii/9siOjYICx111LgwoY55RFH+tQu/zm1b1XeIl1p794xTL
+ 0rIg14W+n/yfgdNVg88rt6zJ+gGmmHtoDeczY22MAnIvSGuC404/vFTok+WbB+FXTSqjMyaf
+ KnkAxMRoMlspbeLhxdRxlGQaUCA=
 X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f801f41aad2c3cd1c58215d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Oct 2020 08:28:49
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5f801f4306d81bc48da4f908 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Oct 2020 08:28:51
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id DFD62C43385; Fri,  9 Oct 2020 08:28:48 +0000 (UTC)
+        id 12282C433FF; Fri,  9 Oct 2020 08:28:51 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 8F1D1C43382;
-        Fri,  9 Oct 2020 08:28:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8F1D1C43382
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1373EC433BA;
+        Fri,  9 Oct 2020 08:28:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1373EC433BA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -54,9 +54,9 @@ To:     vkoul@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
 Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v2 1/4] arm64: boot: dts: qcom: sm8150: Add nodes for PMIC based typec detection
-Date:   Fri,  9 Oct 2020 01:28:40 -0700
-Message-Id: <20201009082843.28503-2-wcheng@codeaurora.org>
+Subject: [PATCH v2 4/4] usb: dwc3: dwc3-qcom: Fix typo in the dwc3 vbus override API
+Date:   Fri,  9 Oct 2020 01:28:43 -0700
+Message-Id: <20201009082843.28503-5-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201009082843.28503-1-wcheng@codeaurora.org>
 References: <20201009082843.28503-1-wcheng@codeaurora.org>
@@ -66,78 +66,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Introduce required child nodes to enable the PMIC based USB type C driver.
-This consits of connector and endpoint nodes to drivers, which manage the
-type C mux and the USB role switch.
+There was an extra character in the dwc3_qcom_vbus_override_enable()
+function.  Removed the extra character.
 
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- arch/arm64/boot/dts/qcom/sm8150-mtp.dts | 40 ++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/dwc3-qcom.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8150-mtp.dts b/arch/arm64/boot/dts/qcom/sm8150-mtp.dts
-index ba3b5b802954..06ad01dde080 100644
---- a/arch/arm64/boot/dts/qcom/sm8150-mtp.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8150-mtp.dts
-@@ -413,6 +413,31 @@ &pm8150b_vbus {
- 	status = "okay";
- };
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 340760ef0e01..236afbfe01d9 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -107,7 +107,7 @@ static inline void dwc3_qcom_clrbits(void __iomem *base, u32 offset, u32 val)
+ 	readl(base + offset);
+ }
  
-+&pm8150b_typec {
-+	status = "okay";
-+	connector {
-+		compatible = "usb-c-connector";
-+		power-role = "dual";
-+		data-role = "dual";
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@1 {
-+				reg = <1>;
-+				usb3_data_ss: endpoint@0 {
-+					remote-endpoint = <&qmp_ss_mux>;
-+				};
-+			};
-+		};
-+	};
-+
-+	port {
-+		usb3_role: endpoint {
-+			remote-endpoint = <&dwc3_drd_switch>;
-+		};
-+	};
-+};
-+
- &usb_1_hsphy {
- 	status = "okay";
- 	vdda-pll-supply = <&vdd_usb_hs_core>;
-@@ -424,12 +449,25 @@ &usb_1_qmpphy {
- 	status = "okay";
- 	vdda-phy-supply = <&vreg_l3c_1p2>;
- 	vdda-pll-supply = <&vdda_usb_ss_dp_core_1>;
-+	orientation-switch;
-+	port {
-+		qmp_ss_mux: endpoint@0 {
-+			remote-endpoint = <&usb3_data_ss>;
-+		};
-+	};
- };
+-static void dwc3_qcom_vbus_overrride_enable(struct dwc3_qcom *qcom, bool enable)
++static void dwc3_qcom_vbus_override_enable(struct dwc3_qcom *qcom, bool enable)
+ {
+ 	if (enable) {
+ 		dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_SS_PHY_CTRL,
+@@ -128,7 +128,7 @@ static int dwc3_qcom_vbus_notifier(struct notifier_block *nb,
+ 	struct dwc3_qcom *qcom = container_of(nb, struct dwc3_qcom, vbus_nb);
  
- &usb_1 {
- 	status = "okay";
-+	usb-role-switch;
-+	port {
-+		dwc3_drd_switch: endpoint@0 {
-+			remote-endpoint = <&usb3_role>;
-+		};
-+	};
- };
+ 	/* enable vbus override for device mode */
+-	dwc3_qcom_vbus_overrride_enable(qcom, event);
++	dwc3_qcom_vbus_override_enable(qcom, event);
+ 	qcom->mode = event ? USB_DR_MODE_PERIPHERAL : USB_DR_MODE_HOST;
  
- &usb_1_dwc3 {
--	dr_mode = "peripheral";
-+	dr_mode = "otg";
-+	usb-role-switch;
- };
+ 	return NOTIFY_DONE;
+@@ -140,7 +140,7 @@ static int dwc3_qcom_host_notifier(struct notifier_block *nb,
+ 	struct dwc3_qcom *qcom = container_of(nb, struct dwc3_qcom, host_nb);
+ 
+ 	/* disable vbus override in host mode */
+-	dwc3_qcom_vbus_overrride_enable(qcom, !event);
++	dwc3_qcom_vbus_override_enable(qcom, !event);
+ 	qcom->mode = event ? USB_DR_MODE_HOST : USB_DR_MODE_PERIPHERAL;
+ 
+ 	return NOTIFY_DONE;
+@@ -223,7 +223,7 @@ static int dwc3_qcom_usb_role_switch_set(struct usb_role_switch *sw,
+ 
+ 	qcom->mode = (role == USB_ROLE_HOST) ? USB_DR_MODE_HOST :
+ 					       USB_DR_MODE_PERIPHERAL;
+-	dwc3_qcom_vbus_overrride_enable(qcom, enable);
++	dwc3_qcom_vbus_override_enable(qcom, enable);
+ 	return 0;
+ }
+ 
+@@ -750,7 +750,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 
+ 	/* enable vbus override for device mode */
+ 	if (qcom->mode == USB_DR_MODE_PERIPHERAL)
+-		dwc3_qcom_vbus_overrride_enable(qcom, true);
++		dwc3_qcom_vbus_override_enable(qcom, true);
+ 
+ 	if (dwc3_qcom_find_usb_connector(pdev)) {
+ 		ret = dwc3_qcom_setup_role_switch(qcom);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
