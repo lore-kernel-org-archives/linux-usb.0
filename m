@@ -2,205 +2,78 @@ Return-Path: <SRS0=9XAl=DQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 882DEC43467
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 00:19:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD14C433E7
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 02:50:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C0BD22257
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 00:19:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="bPpD+qH8"
+	by mail.kernel.org (Postfix) with ESMTP id 02B4C22251
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 02:50:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730071AbgJIASr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Oct 2020 20:18:47 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:14887 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730048AbgJIASW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 8 Oct 2020 20:18:22 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602202701; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=wDVs1PAj7F1rFnf4cJYNxOR+1RfxIRCwHdZr9KslO8o=; b=bPpD+qH8I8Em3S9Mku3hV4fdX0t1WolOVXOZmKFRG6/WC8yHg4Ow2EY2A/YpKYjtQR/7B8H5
- N7/NwNTRztiy5/vOZvhmuF8FulbaZ1fTYLJJBH+gHiYFdkVChKXLthmOC+J1QxNqVTYZnO+F
- 4I494SgdjNAbOeF4ZGPNiEpLpFo=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5f7fac4bd63768e57bce4427 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Oct 2020 00:18:19
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 2705BC43442; Thu,  8 Oct 2020 23:59:41 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id DB618C433B1;
-        Thu,  8 Oct 2020 23:59:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DB618C433B1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     sboyd@kernel.org, heikki.krogerus@linux.intel.com,
-        agross@kernel.org, robh+dt@kernel.org, gregkh@linuxfoundation.org,
-        bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jackp@codeaurora.org, sergei.shtylyov@gmail.com,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v10 2/4] dt-bindings: usb: Add Qualcomm PMIC type C controller dt-binding
-Date:   Thu,  8 Oct 2020 16:59:32 -0700
-Message-Id: <20201008235934.8931-3-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201008235934.8931-1-wcheng@codeaurora.org>
-References: <20201008235934.8931-1-wcheng@codeaurora.org>
+        id S1731313AbgJICuj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Oct 2020 22:50:39 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:40906 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729274AbgJICuj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Oct 2020 22:50:39 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 0992lngv054366;
+        Fri, 9 Oct 2020 10:47:49 +0800 (GMT-8)
+        (envelope-from ryan_chen@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 9 Oct
+ 2020 10:49:46 +0800
+From:   Ryan Chen <ryan_chen@aspeedtech.com>
+To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <bmc-sw@aspeedtech.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+CC:     Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
+Date:   Fri, 9 Oct 2020 10:49:37 +0800
+Message-ID: <20201009024937.11246-4-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201009024937.11246-1-ryan_chen@aspeedtech.com>
+References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
+ <20201009024937.11246-1-ryan_chen@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.9]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 0992lngv054366
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Introduce the dt-binding for enabling USB type C orientation and role
-detection using the PM8150B.  The driver will be responsible for receiving
-the interrupt at a state change on the CC lines, reading the
-orientation/role, and communicating this information to the remote
-clients, which can include a role switch node and a type C switch.
+Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 ---
- .../bindings/usb/qcom,pmic-typec.yaml         | 115 ++++++++++++++++++
- 1 file changed, 115 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-new file mode 100644
-index 000000000000..40e0a296f922
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-@@ -0,0 +1,115 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/usb/qcom,pmic-typec.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+index 89be13197780..2772796e215e 100644
+--- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+@@ -237,3 +237,11 @@
+ &fsim0 {
+ 	status = "okay";
+ };
 +
-+title: Qualcomm PMIC based USB type C Detection Driver
++&ehci1 {
++	status = "okay";
++};
 +
-+maintainers:
-+  - Wesley Cheng <wcheng@codeaurora.org>
-+
-+description: |
-+  Qualcomm PMIC Type C Detect
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,pm8150b-usb-typec
-+
-+  reg:
-+    maxItems: 1
-+    description: Type C base address
-+
-+  interrupts:
-+    maxItems: 1
-+    description: CC change interrupt from PMIC
-+
-+  port:
-+    description: Remote endpoint connection to the DRD switch
-+    type: object
-+
-+    properties:
-+      endpoint:
-+        description: Connection to the DRD switch being used
-+        type: object
-+
-+  connector:
-+    $ref: /connector/usb-connector.yaml#
-+    description: Connector type for remote endpoints
-+    type: object
-+
-+    properties:
-+      compatible:
-+        enum:
-+          - usb-c-connector
-+
-+      power-role: true
-+      data-role: true
-+
-+      ports:
-+        description: Remote endpoint connections for type C paths
-+        type: object
-+
-+        properties:
-+          port@1:
-+            description: Remote endpoints for the Super Speed path
-+            type: object
-+
-+            properties:
-+              endpoint:
-+                description: Connection to USB type C mux node
-+                type: object
-+
-+    required:
-+      - compatible
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - connector
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    pm8150b {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        pm8150b_typec: usb-typec@1500 {
-+            compatible = "qcom,pm8150b-usb-typec";
-+            reg = <0x1500>;
-+            interrupts = <0x2 0x15 0x5 IRQ_TYPE_EDGE_RISING>;
-+
-+            port {
-+                usb3_role: endpoint {
-+                    remote-endpoint = <&dwc3_drd_switch>;
-+                };
-+            };
-+
-+            connector {
-+                compatible = "usb-c-connector";
-+                power-role = "dual";
-+                data-role = "dual";
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+                    port@0 {
-+                        reg = <0>;
-+                    };
-+                    port@1 {
-+                        reg = <1>;
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+                        usb3_data_ss: endpoint {
-+                            remote-endpoint = <&qmp_ss_mux>;
-+                        };
-+                    };
-+                };
-+            };
-+        };
-+    };
-+...
++&uhci {
++	status = "okay";
++};
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.17.1
 
