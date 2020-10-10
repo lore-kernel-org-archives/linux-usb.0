@@ -7,51 +7,47 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F389C433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:08:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C34C433E7
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1ED132075E
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:08:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 583DD2075E
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728555AbgJJXH6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1727261AbgJJXH6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sat, 10 Oct 2020 19:07:58 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57906 "EHLO
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57896 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726454AbgJJXH5 (ORCPT
+        with ESMTP id S1726353AbgJJXH5 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 19:07:57 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 1EE4E80023F8;
-        Sat, 10 Oct 2020 22:41:36 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id DC6488002547;
+        Sat, 10 Oct 2020 22:41:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id FKiHrwcyaWL1; Sun, 11 Oct 2020 01:41:35 +0300 (MSK)
+        with ESMTP id 4maO7b5Sdc2M; Sun, 11 Oct 2020 01:41:37 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
         Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>
-Subject: [PATCH 15/18] dt-bindings: usb: meson-g12a-usb: Discard FL-adj property
-Date:   Sun, 11 Oct 2020 01:41:18 +0300
-Message-ID: <20201010224121.12672-16-Sergey.Semin@baikalelectronics.ru>
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+Subject: [PATCH 18/18] dt-bindings: usb: qcom,dwc3: Validate DWC3 sub-node
+Date:   Sun, 11 Oct 2020 01:41:21 +0300
+Message-ID: <20201010224121.12672-19-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -62,32 +58,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-An empty snps,quirk-frame-length-adjustment won't cause any change
-performed by the driver. Moreover the DT schema validation will fail,
-since it expects the property being assigned with some value. So just
-discard the property declaration then from the example.
+Qualcomm msm8996/sc7180/sdm845 DWC3 compatible DT nodes are supposed to
+have a DWC USB3 compatible sub-node to describe a fully functioning USB
+interface. Let's use the available DWC USB3 DT schema to validate
+the Qualcomm DWC3 sub-nodes.
+
+Note since the generic DWC USB3 DT node is supposed to be named as
+generic USB HCD ("^usb(@.*)?") we have to accordingly extend the sub-nodes
+naming space and fix the DT node example.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 
 ---
 
-Note the same problem is in the DT source file
-arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi .
+Alas there are many Qualcomm DTS files, which have got the Qualcomm DWC3
+node defined with sub-nodes named as "^dwc3@.*". Since the generic DWC USB3
+DT schema will be automatically selected for them and the naming doesn't
+comply with the USB HCD DT schema, the dtbs_check procedure will fail.
+I don't really know what is a most suitable way to fix that. It's either
+to alter all the Qualcomm DTS files, or extend the USB HCD schema to
+accept the "dwc3@.*" nodes, or redesign the usb-hcd.yaml schema. What do
+you think?
 ---
- .../devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml     | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-index 5b04a7dfa018..88184d7e26cc 100644
---- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-+++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-@@ -209,6 +209,5 @@ examples:
-               interrupts = <30>;
-               dr_mode = "host";
-               snps,dis_u2_susphy_quirk;
--              snps,quirk-frame-length-adjustment;
-           };
-     };
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index dac10848dd7f..b3737f0e4dc1 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -103,11 +103,8 @@ properties:
+ # Required child node:
+ 
+ patternProperties:
+-  "^dwc3@[0-9a-f]+$":
+-    type: object
+-    description:
+-      A child node must exist to represent the core DWC3 IP block
+-      The content of the node is defined in dwc3.txt.
++  "^(usb|dwc3)@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
+ 
+ required:
+   - compatible
+@@ -160,7 +157,7 @@ examples:
+ 
+             resets = <&gcc GCC_USB30_PRIM_BCR>;
+ 
+-            dwc3@a600000 {
++            usb@a600000 {
+                 compatible = "snps,dwc3";
+                 reg = <0 0x0a600000 0 0xcd00>;
+                 interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.27.0
 
