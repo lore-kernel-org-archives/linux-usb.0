@@ -2,131 +2,63 @@ Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABFB8C388CD
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD50C35272
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9155C2083B
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A779021655
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602370307;
+	bh=FUxvZW8qseqLImkWEVbDqiMAcUyT7ih9B7xfIOIhTyo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=HfWPi8K1K0BDg04mrcrdVQzMnKYFGaAiHeeYEY3nBF4oDlV7+apxuEsWxQAQBaPrz
+	 j+1tzB4+bIaqJozJVc56dxGJ9DACRRok6fc0cbYGvQrDFdf+egPV55BoUEc1LiyD9e
+	 tXgn9imYGl5wk3Sr9DKlOCBkAWeQW/3JtEJJYe9c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731890AbgJJWXO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:23:14 -0400
-Received: from hosting.gsystem.sk ([212.5.213.30]:49448 "EHLO
-        hosting.gsystem.sk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387537AbgJJURp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 16:17:45 -0400
-Received: from gsql.ggedos.sk (off-20.infotel.telecom.sk [212.5.213.20])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1731712AbgJJWUC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:20:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50712 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731367AbgJJTM3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 10 Oct 2020 15:12:29 -0400
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by hosting.gsystem.sk (Postfix) with ESMTPSA id 54AAB7A0414;
-        Sat, 10 Oct 2020 16:01:23 +0200 (CEST)
-From:   Ondrej Zary <linux@zary.sk>
-To:     Oliver Neukum <oneukum@suse.com>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] cx82310_eth: use netdev_err instead of dev_err
-Date:   Sat, 10 Oct 2020 16:00:47 +0200
-Message-Id: <20201010140048.12067-2-linux@zary.sk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201010140048.12067-1-linux@zary.sk>
-References: <20201010140048.12067-1-linux@zary.sk>
+        by mail.kernel.org (Postfix) with ESMTPSA id E0EF62246B;
+        Sat, 10 Oct 2020 17:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602351837;
+        bh=FUxvZW8qseqLImkWEVbDqiMAcUyT7ih9B7xfIOIhTyo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mIsM2iI1yh5yHk66D1V9RjqUo34TvQzymncGxDC4hOi3sFDjFbr8qpZzn0fC1VvND
+         0+emEoUquzrOnuENdzzX732Gbn4m/A4l6zsbIh1HIIBbJtri5aYEDNZ0XWfvS+zi5O
+         cWYtKOimCgqaqaNRhieBmHUYtnkvLUflxQJGwqts=
+Date:   Sat, 10 Oct 2020 10:43:55 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        David Miller <davem@davemloft.net>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [PATCH net-next] net: usbnet: remove driver version
+Message-ID: <20201010104355.36ef60d8@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <bb7c95e6-30a5-dbd9-f335-51553e48d628@gmail.com>
+References: <bb7c95e6-30a5-dbd9-f335-51553e48d628@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use netdev_err for better device identification in syslog.
+On Fri, 9 Oct 2020 14:10:57 +0200 Heiner Kallweit wrote:
+> Obviously this driver version doesn't make sense. Go with the default
+> and let ethtool display the kernel version.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Signed-off-by: Ondrej Zary <linux@zary.sk>
----
- drivers/net/usb/cx82310_eth.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/net/usb/cx82310_eth.c b/drivers/net/usb/cx82310_eth.c
-index 043679311399..ca89d8258dd3 100644
---- a/drivers/net/usb/cx82310_eth.c
-+++ b/drivers/net/usb/cx82310_eth.c
-@@ -71,8 +71,8 @@ static int cx82310_cmd(struct usbnet *dev, enum cx82310_cmd cmd, bool reply,
- 			   CMD_PACKET_SIZE, &actual_len, CMD_TIMEOUT);
- 	if (ret < 0) {
- 		if (cmd != CMD_GET_LINK_STATUS)
--			dev_err(&dev->udev->dev, "send command %#x: error %d\n",
--				cmd, ret);
-+			netdev_err(dev->net, "send command %#x: error %d\n",
-+				   cmd, ret);
- 		goto end;
- 	}
- 
-@@ -84,30 +84,27 @@ static int cx82310_cmd(struct usbnet *dev, enum cx82310_cmd cmd, bool reply,
- 					   CMD_TIMEOUT);
- 			if (ret < 0) {
- 				if (cmd != CMD_GET_LINK_STATUS)
--					dev_err(&dev->udev->dev,
--						"reply receive error %d\n",
--						ret);
-+					netdev_err(dev->net, "reply receive error %d\n",
-+						   ret);
- 				goto end;
- 			}
- 			if (actual_len > 0)
- 				break;
- 		}
- 		if (actual_len == 0) {
--			dev_err(&dev->udev->dev, "no reply to command %#x\n",
--				cmd);
-+			netdev_err(dev->net, "no reply to command %#x\n", cmd);
- 			ret = -EIO;
- 			goto end;
- 		}
- 		if (buf[0] != cmd) {
--			dev_err(&dev->udev->dev,
--				"got reply to command %#x, expected: %#x\n",
--				buf[0], cmd);
-+			netdev_err(dev->net, "got reply to command %#x, expected: %#x\n",
-+				   buf[0], cmd);
- 			ret = -EIO;
- 			goto end;
- 		}
- 		if (buf[1] != STATUS_SUCCESS) {
--			dev_err(&dev->udev->dev, "command %#x failed: %#x\n",
--				cmd, buf[1]);
-+			netdev_err(dev->net, "command %#x failed: %#x\n", cmd,
-+				   buf[1]);
- 			ret = -EIO;
- 			goto end;
- 		}
-@@ -194,7 +191,7 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
- 		msleep(500);
- 	}
- 	if (!timeout) {
--		dev_err(&udev->dev, "firmware not ready in time\n");
-+		netdev_err(dev->net, "firmware not ready in time\n");
- 		ret = -ETIMEDOUT;
- 		goto err;
- 	}
-@@ -207,7 +204,7 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
- 	ret = cx82310_cmd(dev, CMD_GET_MAC_ADDR, true, NULL, 0,
- 			  dev->net->dev_addr, ETH_ALEN);
- 	if (ret) {
--		dev_err(&udev->dev, "unable to read MAC address: %d\n", ret);
-+		netdev_err(dev->net, "unable to read MAC address: %d\n", ret);
- 		goto err;
- 	}
- 
-@@ -284,8 +281,7 @@ static int cx82310_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 			netdev_info(dev->net, "router was rebooted, re-enabling ethernet mode");
- 			schedule_work(&priv->reenable_work);
- 		} else if (len > CX82310_MTU) {
--			dev_err(&dev->udev->dev, "RX packet too long: %d B\n",
--				len);
-+			netdev_err(dev->net, "RX packet too long: %d B\n", len);
- 			return 0;
- 		}
- 
--- 
-Ondrej Zary
-
+Applied, thank you!
