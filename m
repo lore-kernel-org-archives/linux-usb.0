@@ -4,33 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93991C43467
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C29C433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:15:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 688C5207FB
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:15:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9A112078B
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:15:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387796AbgJJXPe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 19:15:34 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57830 "EHLO
+        id S2387978AbgJJXPk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 19:15:40 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57820 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387953AbgJJWxG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:53:06 -0400
+        with ESMTP id S2387961AbgJJWxD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:53:03 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 457D380023E8;
-        Sat, 10 Oct 2020 22:41:35 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id B6737803202E;
+        Sat, 10 Oct 2020 22:41:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id b3wUIH7K5n06; Sun, 11 Oct 2020 01:41:34 +0300 (MSK)
+        with ESMTP id GE601xBXO58u; Sun, 11 Oct 2020 01:41:31 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -39,15 +41,13 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Manu Gautam <mgautam@codeaurora.org>,
         Roger Quadros <rogerq@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 14/18] dt-bindings: usb: dwc3: Add Frame Length Adj restrictions
-Date:   Sun, 11 Oct 2020 01:41:17 +0300
-Message-ID: <20201010224121.12672-15-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 09/18] dt-bindings: usb: renesas-xhci: Refer to the usb-xhci.yaml file
+Date:   Sun, 11 Oct 2020 01:41:12 +0300
+Message-ID: <20201010224121.12672-10-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,29 +58,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the IP core databook the
-snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
-Let's make sure the DT schema applies a correct restriction on the
-property.
+With minor peculiarities (like uploading some vendor-specific firmware)
+these are just Generic xHCI controllers fully compatible with its
+properties. Make sure the Renesas USB xHCI DT nodes are also validated
+against the Generic xHCI DT schema.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 36d4b8060d7c..f1e6c3dab1ff 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -226,6 +226,8 @@ properties:
-       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
-       incorrect.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0x3f
+diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+index add9f7b66da0..4491567152a1 100644
+--- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+@@ -11,7 +11,7 @@ maintainers:
+   - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
  
-   snps,rx-thr-num-pkt-prd:
-     description: |
+ allOf:
+-  - $ref: "usb-hcd.yaml"
++  - $ref: "usb-xhci.yaml"
+ 
+ properties:
+   compatible:
+@@ -68,7 +68,7 @@ required:
+   - power-domains
+   - resets
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 -- 
 2.27.0
 
