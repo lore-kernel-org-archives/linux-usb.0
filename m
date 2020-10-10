@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D89ACC43457
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72001C433E7
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:15:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A86E920760
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:14:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B6BB2078B
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:15:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387440AbgJJXOM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 19:14:12 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57870 "EHLO
+        id S1728890AbgJJXPX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 19:15:23 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57842 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388780AbgJJWyo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:54:44 -0400
+        with ESMTP id S2388005AbgJJWxL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:53:11 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id EEDAB8030833;
-        Sat, 10 Oct 2020 22:41:33 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 9E11A80307C2;
+        Sat, 10 Oct 2020 22:41:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 23KIEEBbMuUq; Sun, 11 Oct 2020 01:41:33 +0300 (MSK)
+        with ESMTP id aTt1827-0AGG; Sun, 11 Oct 2020 01:41:29 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Kevin Hilman <khilman@baylibre.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 12/18] dt-bindings: usb: dwc3: Add synopsys,dwc3 compatible string
-Date:   Sun, 11 Oct 2020 01:41:15 +0300
-Message-ID: <20201010224121.12672-13-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 06/18] dt-bindings: usb: usb-hcd: Add generic "usb-phy" property
+Date:   Sun, 11 Oct 2020 01:41:09 +0300
+Message-ID: <20201010224121.12672-7-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,33 +58,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
-expects the DWC USB3 DT node to have the compatible string with the
-"synopsys" vendor prefix. Let's add the corresponding compatible string to
-the controller DT schema, but mark it as deprecated seeing the Synopsys,
-Inc. is presented with just "snps" vendor prefix.
+Even though the Generic PHY framework is the more preferable way of
+setting the USB PHY up, there are still many dts-files and DT bindings
+which rely on having the legacy "usb-phy" specified to attach particular
+USB PHYs to USB cores. Let's have the "usb-phy" property described in
+the generic USB HCD binding file so it would be validated against the
+nodes in which it's specified. Mark the property as deprecated to
+discourage the developers from using it.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 6857086920c2..fe1b372fda80 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -20,7 +20,10 @@ allOf:
- properties:
-   compatible:
-     contains:
--      const: "snps,dwc3"
-+      oneOf:
-+        - const: "snps,dwc3"
-+        - const: "synopsys,dwc3"
-+          deprecated: true
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index c898166a8c6c..95b1dbf2a4f2 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -22,6 +22,13 @@ properties:
+     description:
+       Name specifier for the USB PHY
  
-   interrupts:
-     description: |
++  usb-phy:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      List of all the USB PHYs on this HCD to be accepted by the legacy USB
++      Physical Layer subsystem.
++    deprecated: true
++
+   maximum-speed:
+    description: |
+      Tells USB controllers we want to work up to a certain speed. In case this
 -- 
 2.27.0
 
