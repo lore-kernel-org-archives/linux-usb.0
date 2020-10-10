@@ -2,61 +2,134 @@ Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 119A8C352BA
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BECBAC433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8DC5215A4
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602370308;
-	bh=d0LFuyXXJbRxphXVoTE7xJapgi4yM0kVr93JTctrCqc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=EzPX61QdPJnWT04tWfYETQS5Q5u4CIdLDmW7omSmtQ8qx1rE+RK8o+G4//2slclXh
-	 9o1LP7nOm+Gg/M9XU1FK1JnSW3p/tPTFyeYDhQoZ+Z17zaOTUTAWSfCMBDPMELPuVS
-	 BlK+Avyl+mG+JlKeOOisldPbJcg/fhfjy4k3HQz0=
+	by mail.kernel.org (Postfix) with ESMTP id 9BEB32075E
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731740AbgJJWWF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:22:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54030 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731883AbgJJTh4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 10 Oct 2020 15:37:56 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 49131221FE;
-        Sat, 10 Oct 2020 17:03:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602349428;
-        bh=d0LFuyXXJbRxphXVoTE7xJapgi4yM0kVr93JTctrCqc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nif7FEXAZPFBPMgF+HoD/XN8C3N3jzWD+luDeDHzdcoHuFElMVxv2+DtBRzbsp+Hi
-         ff7M7YsK8mSPltbzzjTZ5G10WFGrbxs7vIx2TqN6xsiks5aA6gHgh4wmB2XP+dqrSw
-         5lD2YnIGYc6KQzz0Z8t05rBRMn5gCTxmMMpEnaXI=
-Date:   Sat, 10 Oct 2020 10:03:46 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Oliver Neukum <oneukum@suse.com>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: usbnet: update  __usbnet_{read|write}_cmd()
- to use new API
-Message-ID: <20201010100346.158cbf62@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
-References: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
+        id S2390721AbgJJW62 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:58:28 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57338 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732494AbgJJWdM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:33:12 -0400
+X-Greylist: delayed 463 seconds by postgrey-1.27 at vger.kernel.org; Sat, 10 Oct 2020 18:33:08 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id C0F7D8030833;
+        Sat, 10 Oct 2020 22:23:56 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at baikalelectronics.ru
+Received: from mail.baikalelectronics.ru ([127.0.0.1])
+        by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id SvYALCWbsivP; Sun, 11 Oct 2020 01:23:56 +0300 (MSK)
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        David Cohen <david.a.cohen@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 3/3] usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression
+Date:   Sun, 11 Oct 2020 01:23:51 +0300
+Message-ID: <20201010222351.7323-4-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 10 Oct 2020 12:26:23 +0530 Anant Thazhemadam wrote:
-> GPF_KERNEL
+First of all the commit e0082698b689 ("usb: dwc3: ulpi: conditionally
+resume ULPI PHY") introduced the Suspend USB2.0 HS/FS/LS PHY regression,
+as by design of the fix any attempt to read/write from/to the PHY control
+registers will completely disable the PHY suspension, which consequently
+will increase the USB bus power consumption. Secondly the fix won't work
+well for the very first attempt of the ULPI PHY control registers IO,
+because after disabling the USB2.0 PHY suspension functionality it will
+still take some time for the bus to resume from the sleep state if one has
+been reached before it. So the very first PHY register read/write
+operation will take more time than the busy-loop provides and the IO
+timeout error might be returned anyway.
 
-You haven't even built this, let alone tested :/
+Here we suggest to fix the denoted problems in the following way. First of
+all let's not disable the Suspend USB2.0 HS/FS/LS PHY functionality so to
+make the controller and the USB2.0 bus more power efficient. Secondly
+instead of that we'll extend the PHY IO op wait procedure with 1 - 1.2 ms
+sleep if the PHY suspension is enabled (1ms should be enough as by LPM
+specification it is at most how long it takes for the USB2.0 bus to resume
+from L1 (Sleep) state). Finally in case if the USB2.0 PHY suspension
+functionality has been disabled on the DWC USB3 controller setup procedure
+we'll compensate the USB bus resume process latency by extending the
+busy-loop attempts counter.
+
+Fixes: e0082698b689 ("usb: dwc3: ulpi: conditionally resume ULPI PHY")
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+---
+ drivers/usb/dwc3/ulpi.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index 0dbc826355a5..f23f4c9a557e 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -24,7 +24,7 @@
+ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ {
+ 	unsigned long ns = 5L * DWC3_ULPI_BASE_DELAY;
+-	unsigned count = 1000;
++	unsigned int count = 10000;
+ 	u32 reg;
+ 
+ 	if (addr >= ULPI_EXT_VENDOR_SPECIFIC)
+@@ -33,6 +33,10 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ 	if (read)
+ 		ns += DWC3_ULPI_BASE_DELAY;
+ 
++	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
++	if (reg & DWC3_GUSB2PHYCFG_SUSPHY)
++		usleep_range(1000, 1200);
++
+ 	while (count--) {
+ 		ndelay(ns);
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+@@ -50,12 +54,6 @@ static int dwc3_ulpi_read(struct device *dev, u8 addr)
+ 	u32 reg;
+ 	int ret;
+ 
+-	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+-	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
+-		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
+-		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+-	}
+-
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+@@ -73,12 +71,6 @@ static int dwc3_ulpi_write(struct device *dev, u8 addr, u8 val)
+ 	struct dwc3 *dwc = dev_get_drvdata(dev);
+ 	u32 reg;
+ 
+-	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+-	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
+-		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
+-		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+-	}
+-
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	reg |= DWC3_GUSB2PHYACC_WRITE | val;
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+-- 
+2.27.0
+
