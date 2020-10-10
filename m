@@ -2,51 +2,47 @@ Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 541AEC43457
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B7C8C433DF
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:07:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 203F2207FB
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:07:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E9042067C
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390762AbgJJW6b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:58:31 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57404 "EHLO
+        id S2390748AbgJJW6a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:58:30 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57330 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733007AbgJJWmw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:42:52 -0400
+        with ESMTP id S1732482AbgJJWdz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:33:55 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id CE73B8030808;
-        Sat, 10 Oct 2020 22:41:27 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 49A0B8030808;
+        Sat, 10 Oct 2020 22:23:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xogfVj1ipFTm; Sun, 11 Oct 2020 01:41:26 +0300 (MSK)
+        with ESMTP id ytOE92rPNRRA; Sun, 11 Oct 2020 01:23:55 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
+To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        David Cohen <david.a.cohen@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Roger Quadros <rogerq@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 00/18] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
-Date:   Sun, 11 Oct 2020 01:41:03 +0300
-Message-ID: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Felipe Balbi <balbi@ti.com>
+Subject: [PATCH 2/3] usb: dwc3: ulpi: Replace CPU-based busyloop with Protocol-based one
+Date:   Sun, 11 Oct 2020 01:23:50 +0300
+Message-ID: <20201010222351.7323-3-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -55,120 +51,88 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We've performed some work on the Generic USB HCD, xHCI and DWC USB3 DT
-bindings in the framework of the Baikal-T1 SoC support integration into
-the kernel. This patchset is a result of that work.
+Originally the procedure of the ULPI transaction finish detection has been
+developed as a simple busy-loop with just decrementing counter and no
+delays. It's wrong since on different systems the loop will take a
+different time to complete. So if the system bus and CPU are fast enough
+to overtake the ULPI bus and the companion PHY reaction, then we'll get to
+take a false timeout error. Fix this by converting the busy-loop procedure
+to take the standard bus speed, address value and the registers access
+mode into account for the busy-loop delay calculation.
 
-First of all we moved the generic USB properties from the legacy text
-bindings into the USB HCD DT schema. So now the generic USB HCD-compatible
-DT nodes are validated taking into account the optional properties like:
-maximum-speed, dr_mode, otg-rev, usb-role-switch, etc. We've fixed these
-properties a bit so they would correspond to what functionality kernel
-currently supports.
+Here is the way the fix works. It's known that the ULPI bus is clocked
+with 60MHz signal. In accordance with [1] the ULPI bus protocol is created
+so to spend 5 and 6 clock periods for immediate register write and read
+operations respectively, and 6 and 7 clock periods - for the extended
+register writes and reads. Based on that we can easily pre-calculate the
+time which will be needed for the controller to perform a requested IO
+operation. Note we'll still preserve the attempts counter in case if the
+DWC USB3 controller has got some internals delays.
 
-Secondly we converted generic USB xHCI text bindings file into the DT
-schema. It had to be split up into two bindings: DT schema with generic
-xHCI properties and a generic xHCI device DT schema. The later will be
-used to validate the pure xHCI-based nodes, while the former can be
-utilized by some vendor-specific versions of xHCI.
+[1] UTMI+ Low Pin Interface (ULPI) Specification, Revision 1.1,
+    October 20, 2004, pp. 30 - 36.
 
-Thirdly, what was primarily intended to be done for Baikal-T1 SoC USB we
-converted the legacy text-based DWC USB3 bindings to DT schema and altered
-the result a bit so it would be more coherent with what actually
-controller and its driver support. Since we've now got the DWC USB3 DT
-schema, we made it used to validate the sub-nodes of the Qualcom, TI and
-Amlogic DWC3 DT nodes.
-
-Alas the new DWC USB3 DT schema doesn't support all the DT nodes defined
-as compatible with "snps,dwc3". There are next problems we've discovered
-while were working on this patchset:
-
-1) There are many "snps,dwc3"-compatible DT nodes, which names are defined
-as "^usb[0-9](@.*)", "^dwc3(@.*)" and even "^dwusb(@.*)". It contradicts
-to what usb-hcd.yaml requires. Since it's included into the allOf property
-of the DWC USB3 DT binding, some USB DT nodes declared for Freescale,
-Qualcomm, HiSilicon, Exynos, Allwinner, Omap, Stih and APM will fail the
-dtbs_check validation. This is the main problem and currently I don't
-really know how to fix it better. Ideally we should convert all the
-problematic DT nodes to have "usb@"-prefixed names. But it will be very
-painful due to having a lot of such nodes defined. On the other hand we
-could just fix the usb-hcd.yaml file either by detaching the generic
-properties into a separate DT schema and allOf-ing it in the HCDs with
-non-standard node-names instead of using usb-hcd.yaml there, or just add
-the non-standard node-names into the usb-hcd.yaml file. What do you think
-would be better?
-
-2) amlogic/meson-g12-common.dtsi has got a USB controller node defined
-with boolean "snps,quirk-frame-length-adjustment", which actually is
-supposed to have u32 type.
-
-3) freescale/imx8mq.dtsi defines a USB controller node with unknown
-"usb3-resume-missing-cas" property.
-
-4) marvell/armada-37xx.dtsi defines a USB controller with unknown
-"marvell,usb-misc-reg" property.
-
-5) socionext/uniphier-pxs3.dtsi, uniphier-pxs2.dtsi define a USB
-controller with too many PHYs.
-
-We haven't fixed the problems denoted above in this patchset for now.
-So any help, suggestions on how they (especially #1) could be fixed,
-following up fixup patches would be appropriate.
-
+Fixes: 88bc9d194ff6 ("usb: dwc3: add ULPI interface support")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-Cc: Andy Gross <agross@kernel.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Manu Gautam <mgautam@codeaurora.org>
-Cc: Roger Quadros <rogerq@ti.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+---
+ drivers/usb/dwc3/ulpi.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-Serge Semin (18):
-  dt-bindings: usb: usb-hcd: Convert generic USB properties to DT schema
-  dt-bindings: usb: usb-hcd: Add "wireless" maximum-speed property value
-  dt-bindings: usb: usb-hcd: Add "otg-rev" property restriction
-  dt-bindings: usb: usb-hcd: Add "ulpi/serial/hsic" PHY types
-  dt-bindings: usb: usb-hcd: Add "tpl-support" property
-  dt-bindings: usb: usb-hcd: Add generic "usb-phy" property
-  dt-bindings: usb: Convert xHCI bindings to DT schema
-  dt-bindings: usb: xhci: Add Broadcom STB v2 compatible device
-  dt-bindings: usb: renesas-xhci: Refer to the usb-xhci.yaml file
-  dt-bindings: usb: Convert DWC USB3 bindings to DT schema
-  dt-bindings: usb: dwc3: Add interrupt-names property support
-  dt-bindings: usb: dwc3: Add synopsys,dwc3 compatible string
-  dt-bindings: usb: dwc3: Add Tx De-emphasis restrictions
-  dt-bindings: usb: dwc3: Add Frame Length Adj restrictions
-  dt-bindings: usb: meson-g12a-usb: Discard FL-adj property
-  dt-bindings: usb: meson-g12a-usb: Validate DWC2/DWC3 sub-nodes
-  dt-bindings: usb: keystone-dwc3: Validate DWC3 sub-node
-  dt-bindings: usb: qcom,dwc3: Validate DWC3 sub-node
-
- .../usb/amlogic,meson-g12a-usb-ctrl.yaml      |  16 +-
- .../devicetree/bindings/usb/dwc3.txt          | 125 -------
- .../devicetree/bindings/usb/generic-xhci.yaml |  65 ++++
- .../devicetree/bindings/usb/generic.txt       |  57 ----
- .../devicetree/bindings/usb/qcom,dwc3.yaml    |   9 +-
- .../bindings/usb/renesas,usb-xhci.yaml        |   4 +-
- .../devicetree/bindings/usb/snps,dwc3.yaml    | 315 ++++++++++++++++++
- .../bindings/usb/ti,keystone-dwc3.yaml        |   4 +-
- .../devicetree/bindings/usb/usb-hcd.yaml      | 100 ++++++
- .../devicetree/bindings/usb/usb-xhci.txt      |  41 ---
- .../devicetree/bindings/usb/usb-xhci.yaml     |  40 +++
- 11 files changed, 540 insertions(+), 236 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
- create mode 100644 Documentation/devicetree/bindings/usb/generic-xhci.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/generic.txt
- create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.txt
- create mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.yaml
-
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index 20f5d9aba317..0dbc826355a5 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -7,6 +7,8 @@
+  * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+  */
+ 
++#include <linux/delay.h>
++#include <linux/time64.h>
+ #include <linux/ulpi/regs.h>
+ 
+ #include "core.h"
+@@ -17,12 +19,22 @@
+ 		DWC3_GUSB2PHYACC_ADDR(ULPI_ACCESS_EXTENDED) | \
+ 		DWC3_GUSB2PHYACC_EXTEND_ADDR(a) : DWC3_GUSB2PHYACC_ADDR(a))
+ 
+-static int dwc3_ulpi_busyloop(struct dwc3 *dwc)
++#define DWC3_ULPI_BASE_DELAY	DIV_ROUND_UP(NSEC_PER_SEC, 60000000L)
++
++static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ {
++	unsigned long ns = 5L * DWC3_ULPI_BASE_DELAY;
+ 	unsigned count = 1000;
+ 	u32 reg;
+ 
++	if (addr >= ULPI_EXT_VENDOR_SPECIFIC)
++		ns += DWC3_ULPI_BASE_DELAY;
++
++	if (read)
++		ns += DWC3_ULPI_BASE_DELAY;
++
+ 	while (count--) {
++		ndelay(ns);
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+ 		if (reg & DWC3_GUSB2PHYACC_DONE)
+ 			return 0;
+@@ -47,7 +59,7 @@ static int dwc3_ulpi_read(struct device *dev, u8 addr)
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+-	ret = dwc3_ulpi_busyloop(dwc);
++	ret = dwc3_ulpi_busyloop(dwc, addr, true);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -71,7 +83,7 @@ static int dwc3_ulpi_write(struct device *dev, u8 addr, u8 val)
+ 	reg |= DWC3_GUSB2PHYACC_WRITE | val;
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+-	return dwc3_ulpi_busyloop(dwc);
++	return dwc3_ulpi_busyloop(dwc, addr, false);
+ }
+ 
+ static const struct ulpi_ops dwc3_ulpi_ops = {
 -- 
 2.27.0
 
