@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA1FC43457
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A501BC433E7
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEA672075E
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E5212075E
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390774AbgJJW6d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:58:33 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57460 "EHLO
+        id S1730272AbgJJW6e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:58:34 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57434 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733016AbgJJWm5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:42:57 -0400
+        with ESMTP id S1733009AbgJJWnD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:43:03 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 4DAEE8030866;
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 27736803202A;
         Sat, 10 Oct 2020 22:41:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id pFacclicVXNm; Sun, 11 Oct 2020 01:41:27 +0300 (MSK)
+        with ESMTP id OmWut_ia_7Qn; Sun, 11 Oct 2020 01:41:27 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Kevin Hilman <khilman@baylibre.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 03/18] dt-bindings: usb: usb-hcd: Add "otg-rev" property restriction
-Date:   Sun, 11 Oct 2020 01:41:06 +0300
-Message-ID: <20201010224121.12672-4-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 02/18] dt-bindings: usb: usb-hcd: Add "wireless" maximum-speed property value
+Date:   Sun, 11 Oct 2020 01:41:05 +0300
+Message-ID: <20201010224121.12672-3-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,27 +58,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are only four OTG revisions are currently supported by the kernel:
-0x0100, 0x0120, 0x0130, 0x0200. Any another value is considered as
-invalid.
+It appears that the "maximum-speed" property can also accept the
+"wireless" value. Add it to the enumeration of the possible property
+values then.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index e1a82a2b3295..39e90147dfcc 100644
+index 815de24127db..e1a82a2b3295 100644
 --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
 +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -56,6 +56,7 @@ properties:
-       features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
-       0x0200 or above.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0x0100, 0x0120, 0x0130, 0x0200]
+@@ -28,7 +28,7 @@ properties:
+      isn't passed via DT, USB controllers should default to their maximum HW
+      capability.
+    $ref: /schemas/types.yaml#/definitions/string
+-   enum: ["low-speed", "full-speed", "high-speed", "super-speed",
++   enum: ["low-speed", "full-speed", "high-speed", "wireless", "super-speed",
+           "super-speed-plus"]
  
-   companion:
-     description: Phandle of a companion device
+   dr_mode:
 -- 
 2.27.0
 
