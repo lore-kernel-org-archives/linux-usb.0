@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A501BC433E7
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5697C433E7
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:07:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E5212075E
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 801EB2067C
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:07:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730272AbgJJW6e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:58:34 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57434 "EHLO
+        id S2390769AbgJJW6c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:58:32 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57486 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733009AbgJJWnD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:43:03 -0400
+        with ESMTP id S1733020AbgJJWmx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:42:53 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 27736803202A;
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 9E3F5803202B;
         Sat, 10 Oct 2020 22:41:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id OmWut_ia_7Qn; Sun, 11 Oct 2020 01:41:27 +0300 (MSK)
+        with ESMTP id 1vI9s3Fw8Nc2; Sun, 11 Oct 2020 01:41:28 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Kevin Hilman <khilman@baylibre.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 02/18] dt-bindings: usb: usb-hcd: Add "wireless" maximum-speed property value
-Date:   Sun, 11 Oct 2020 01:41:05 +0300
-Message-ID: <20201010224121.12672-3-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 04/18] dt-bindings: usb: usb-hcd: Add "ulpi/serial/hsic" PHY types
+Date:   Sun, 11 Oct 2020 01:41:07 +0300
+Message-ID: <20201010224121.12672-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,28 +58,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It appears that the "maximum-speed" property can also accept the
-"wireless" value. Add it to the enumeration of the possible property
-values then.
+Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
+can be specified in the phy_type HCD property. Add them to the
+enumeration of the acceptable values.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index 815de24127db..e1a82a2b3295 100644
+index 39e90147dfcc..1eddcbf0a9d8 100644
 --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
 +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -28,7 +28,7 @@ properties:
-      isn't passed via DT, USB controllers should default to their maximum HW
-      capability.
-    $ref: /schemas/types.yaml#/definitions/string
--   enum: ["low-speed", "full-speed", "high-speed", "super-speed",
-+   enum: ["low-speed", "full-speed", "high-speed", "wireless", "super-speed",
-           "super-speed-plus"]
+@@ -42,11 +42,13 @@ properties:
+   phy_type:
+     description: |
+       Tells USB controllers that we want to configure the core to support a
+-      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
+-      this isn't passed via DT, USB controllers should default to HW
+-      capability.
++      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
++      pin interface if ULPI is specified, Serial core/PHY interconnect if
++      serial is specified and High-Speed Inter-Chip feature if HSIC is
++      selected. In case this isn't passed via DT, USB controllers should
++      default to HW capability.
+     $ref: /schemas/types.yaml#/definitions/string
+-    enum: ["utmi", "utmi_wide"]
++    enum: ["utmi", "utmi_wide", "ulpi", "serial", "hsic"]
  
-   dr_mode:
+   otg-rev:
+     description: |
 -- 
 2.27.0
 
