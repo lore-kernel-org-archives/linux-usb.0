@@ -2,55 +2,59 @@ Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E53C35271
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CF1C43467
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A8A4208C7
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 830FD215A4
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602370307;
-	bh=sLoHu4Fmfk0Nq0w8TdeuFODgOJ4sZF27hA5hc3Z4lxM=;
+	s=default; t=1602370308;
+	bh=1rFFenx5YaOoyjN6AOp5kOMJV7iSmN0ey8iVvvT9Ck0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=gMHGK6fi2m08mVhvbpjqzwWGIQF/TykTobu3qxXMGJwEYm4OsT+ItiJPPIZFVpUWG
-	 NoBPOS7vAu/Mu8PpNLDsGTBllawDpSgrh2CR0ijMAyFGzWVKUwJKHgGnChiV+azqsz
-	 w2wQ1yy2pXO5AYVTFZhQZEqvZ0j0GReUyOneyO44=
+	b=uWYuTJr4eKuK+IAqMGR4sMpOhwydnlUg/CuoG6JcaqeDJqACcML9ByQEw+s6sCtlt
+	 nmS2QUHXlG/PP3FFWR1q0ZOUl0c9ueK9+JZSvwGGnI4oqL/NoOAh/wKTmhUC0TfwaK
+	 2Hu+hB15K1MyrxgkJMwn380gYLWizI2Moa+LIkBg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731556AbgJJWSV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:18:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50678 "EHLO mail.kernel.org"
+        id S1731755AbgJJWV2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:21:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51952 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731359AbgJJTMW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 10 Oct 2020 15:12:22 -0400
+        id S1731406AbgJJTU1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 10 Oct 2020 15:20:27 -0400
 Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 74275224D2;
-        Sat, 10 Oct 2020 18:16:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D56B22258;
+        Sat, 10 Oct 2020 19:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602353807;
-        bh=sLoHu4Fmfk0Nq0w8TdeuFODgOJ4sZF27hA5hc3Z4lxM=;
+        s=default; t=1602357626;
+        bh=1rFFenx5YaOoyjN6AOp5kOMJV7iSmN0ey8iVvvT9Ck0=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PO3hbo570m8zLVc7tkeR02Z1xJ24W0DnKQpgawOGaNATo0sOHXDeWP2OK9NT+xIX3
-         Ylkj4e/s9IuCBXVlqUiVavK4xH84UKtgxeSNw4UFL9Ji7t6g9z5Z0onpZOs9SumNNz
-         ivOmZIqbqR+0EqtyMggbvqSRPqhe6lALjfKrHhJs=
-Date:   Sat, 10 Oct 2020 11:16:45 -0700
+        b=u1uXILE4wH+0QAJm6IeD5VwS/QkS3cEJnyAbweMQ2CZGsWfc1JVZHAL9qTYl/K+Fa
+         ZBu/bchAgrF/5CmgDG3BM/ajQaUBEbepcDnZGCLlSAZtSQpTg2f8wpmeJOsqKXixhy
+         cRBEorT0By3F6D1EY3DuANtfFgrE53GazWxPUNTc=
+Date:   Sat, 10 Oct 2020 12:20:24 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>
 Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
         Petko Manolov <petkan@nucleusys.com>,
         "David S. Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
 Subject: Re: [PATCH] net: usb: rtl8150: don't incorrectly assign random MAC
  addresses
-Message-ID: <20201010111645.334647af@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <0de8e509-7ca5-7faf-70bf-5880ce0fc15c@gmail.com>
+Message-ID: <20201010122024.0ec7c2f1@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <e772b9f0-f5cd-c50b-86a7-fde22b6e13e3@gmail.com>
 References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
         <20201010095302.5309c118@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
         <0de8e509-7ca5-7faf-70bf-5880ce0fc15c@gmail.com>
+        <20201010111645.334647af@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <e772b9f0-f5cd-c50b-86a7-fde22b6e13e3@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -58,33 +62,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 10 Oct 2020 23:34:51 +0530 Anant Thazhemadam wrote:
-> On 10/10/20 10:29 pm, Jakub Kicinski wrote:
-> > On Sat, 10 Oct 2020 12:14:59 +0530 Anant Thazhemadam wrote: =20
-> >> get_registers() directly returns the return value of
-> >> usb_control_msg_recv() - 0 if successful, and negative error number=20
-> >> otherwise. =20
-> > Are you expecting Greg to take this as a part of some USB subsystem
-> > changes? I don't see usb_control_msg_recv() in my tree, and the
-> > semantics of usb_control_msg() are not what you described. =20
+On Sun, 11 Oct 2020 00:14:05 +0530 Anant Thazhemadam wrote:
+> Ah, my apologies. You're right. It doesn't look like those helpers have m=
+ade
+> their way into the networking tree yet.
 >=20
-> No, I'm not. usb_control_msg_recv() is an API that was recently
-> introduced, and get_registers() in rtl8150.c was also modified to
-> use it in order to prevent partial reads.
+> (This gets mentioned here as well,
+> =C2=A0=C2=A0=C2=A0 https://www.mail-archive.com/netdev@vger.kernel.org/ms=
+g357843.html)
 >=20
-> By your tree, I assume you mean
-> =C2=A0=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/kuba/l=
-inux.git/
-> (it was the only one I could find).
+> The commit ID pointed to by the fixes tag is correct.
+> The change introduced by said commit looks right, but is logically incorr=
+ect.
 >=20
-> I don't see the commit that this patch is supposed to fix in your
-> tree either... :/
+> get_registers() directly returns the return value of usb_control_msg_recv=
+(),
+> and usb_control_msg_recv() returns 0 on success and negative error number
+> otherwise.
 >=20
-> Nonetheless, this commit fixes an issue that was applied to the
-> networking tree, and has made its way into linux-next as well, if
-> I'm not mistaken.
+> (You can find more about the new helpers here
+> =C2=A0=C2=A0=C2=A0 https://lore.kernel.org/alsa-devel/20200914153756.3412=
+156-1-gregkh@linuxfoundation.org/ )
+>=20
+> The commit ID mentioned introduces a change that is supposed to copy over
+> the ethernet only when get_registers() succeeds, i.e., a complete read oc=
+curs,
+> and generate and set a random ethernet address otherwise (reading the
+> commit message should give some more insight).
+>=20
+> The condition that checks if get_registers() succeeds (as specified in f4=
+5a4248ea4c)
+> was,
+> =C2=A0=C2=A0=C2=A0 ret =3D=3D sizeof(node_id)
+> where ret is the return value of get_registers().
+>=20
+> However, ret will never equal sizeof(node_id), since ret can only be equa=
+l to 0
+> or a negative number.
+>=20
+> Thus, even in case where get_registers() succeeds, a randomly generated M=
+AC
+> address would get copied over, instead of copying the appropriate ethernet
+> address, which is logically incorrect and not optimal.
+>=20
+> Hence, we need to modify this to check if (ret =3D=3D 0), and copy over t=
+he correct
+> ethernet address in that case, instead of randomly generating one and ass=
+igning
+> that.
 
-I mean the networking tree, what's the commit ID in linux-next?
+I see... so we ended up with your fix applied to net, and Petko's
+rework applied to the usb/usb-next tree.
 
-Your fixes tag points to f45a4248ea4c, but looks like the code was
-quite correct at that point.
+What you're actually fixing is the improper resolution of the resulting
+conflict in linux-next!
+
+CCing Stephen and linux-next.
