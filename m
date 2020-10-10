@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49CBDC433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92BDFC43467
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:14:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1918C20760
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:14:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68B8A20795
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 23:14:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728978AbgJJXOL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 19:14:11 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57874 "EHLO
+        id S2387554AbgJJXOM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 19:14:12 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57876 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388775AbgJJWyo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:54:44 -0400
+        with ESMTP id S2388779AbgJJWyn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:54:43 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id F1A198030867;
-        Sat, 10 Oct 2020 22:41:28 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 129FA803202C;
+        Sat, 10 Oct 2020 22:41:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 5yd1RSH1bPYm; Sun, 11 Oct 2020 01:41:28 +0300 (MSK)
+        with ESMTP id 9cOJf5P2ftra; Sun, 11 Oct 2020 01:41:30 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Kevin Hilman <khilman@baylibre.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 05/18] dt-bindings: usb: usb-hcd: Add "tpl-support" property
-Date:   Sun, 11 Oct 2020 01:41:08 +0300
-Message-ID: <20201010224121.12672-6-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 08/18] dt-bindings: usb: xhci: Add Broadcom STB v2 compatible device
+Date:   Sun, 11 Oct 2020 01:41:11 +0300
+Message-ID: <20201010224121.12672-9-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,32 +58,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The host controller device might be designed to work for the particular
-products or applications. In that case it' DT node is supposed to be
-equipped with the tpl-support property.
+For some reason the "brcm,xhci-brcm-v2" compatible string has been missing
+in the original bindings file. Add it to the Generic xHCI Controllers DT
+schema since driver expects it to be supported.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/devicetree/bindings/usb/generic-xhci.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index 1eddcbf0a9d8..c898166a8c6c 100644
---- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -97,6 +97,12 @@ properties:
-     enum: ["host", "peripheral"]
-     default: "peripheral"
- 
-+  tpl-support:
-+    description: |
-+      Indicates if the Targeted Peripheral List is supported for given
-+      targeted hosts (non-PC hosts).
-+    type: boolean
-+
- examples:
-   - |
-     usb {
+diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+index 1ea1d49a8175..23d73df96ea3 100644
+--- a/Documentation/devicetree/bindings/usb/generic-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+@@ -26,7 +26,9 @@ properties:
+               - marvell,armada-8k-xhci
+           - const: generic-xhci
+       - description: Broadcom STB SoCs with xHCI
+-        const: brcm,bcm7445-xhci
++        enum:
++          - brcm,xhci-brcm-v2
++          - brcm,bcm7445-xhci
+       - description: Generic xHCI device
+         const: xhci-platform
+         deprecated: true
 -- 
 2.27.0
 
