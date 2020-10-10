@@ -2,158 +2,104 @@ Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 381C9C2BD0C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F328CC2D0A4
 	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E3D402080C
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBBF920795
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PP8wruc2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oDOJ/GnH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730852AbgJJWHm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59712 "EHLO
+        id S1730899AbgJJWJi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:09:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726923AbgJJSoN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 14:44:13 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41008C08EC69;
-        Sat, 10 Oct 2020 11:44:12 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id b193so9246562pga.6;
-        Sat, 10 Oct 2020 11:44:12 -0700 (PDT)
+        with ESMTP id S1730153AbgJJSyk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 14:54:40 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE00CC08EC25;
+        Sat, 10 Oct 2020 10:48:17 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id 10so184193pfp.5;
+        Sat, 10 Oct 2020 10:48:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=gynpyUuQDJw4i2zEOnQ/TzhcGgZ8EQ2u4/0CzfNkcPA=;
-        b=PP8wruc20jQM8T83GoLi/Knij4+w2yw9tO1aTlXlcIsTYNXpJyAV8Kfeq2zkxwSHFu
-         bJDH3Qv2ziU1I6RrSFSyCujLEyo1GAEqoODxL5gwNVaoMfCnBiRtxcH4g2izXFZy90bz
-         1H+su+nHeimqvt98MprOMJPquTyyWz8CvfnGRRA5c9IIK4Mt1AJ3FoCPRbPo2Mw4KqDh
-         J7B1rv7L5U42qX78zV9UA0H34TrmKTnFd08PecGMaqX90TyN7ZCqc35JMAnp912MJYRC
-         IZ1hIE4V68kwMSeFOAvcz6t+T5DpRNLf69Z97oh3HkMoO4VFhbye5je/i1dBWIjRjyxQ
-         p4jg==
+        bh=UsvyoolCXPGifPPput5EkvxYqIiH/fv+ohqKnbks3LY=;
+        b=oDOJ/GnHCr6v2RHN7CitzpPwAsdyNuQVzl1AmdPweTLbtzJF5YvAtlgHh+rWf1R5Q8
+         vU2NdYIlI22hDKgUHAkZ3zMAQ7goFtKHR+4hm5Pz3zCLyWDvYFVxfks3H4PyfkY3Au0y
+         1QWF9mC5UIE9s1pg0MSDMKnV2bx9ndgvDMZ/sDfODAossxH63zeiZJvfSLfjdMQtM56E
+         L8JW2LKeyODqV/wi7xEKdm8xs4oyp7jMI2p734Gh9DSDjOZ7Nphx35klhJXZjOlp9B7/
+         GtHrFcrbxqBPUETOta6ulKS2PS30whxTqqd8e5MoSngklEjQV00awzXHmLwr7YgcHXCv
+         L1rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=gynpyUuQDJw4i2zEOnQ/TzhcGgZ8EQ2u4/0CzfNkcPA=;
-        b=hxfwg8v9AYYxFsiG8q6lhr8Lkt1zzQjsWSx4viPqmO2S7zSa9kdjPkCw2kIzs1RW+h
-         Le5UfXjiEJBhiZuFKuC91OOq/UdJYvrcDXZuGnGhc1a9MscVQCLbVk0xhzyVLVIamkIa
-         VHa2PL78d4bcBlwD++5NKAsOw4ZKz/5m6FKEB54SsOlSjKOowHsf6JEubDhNhaDI1scw
-         ds4Eeow9/6gqQA8pKVNaJX+6qpS7C2RFJ41ryov9lKT8XOqXW6sPI/6x5wk7NxUWTxMk
-         4laNkuUneJNVropi25MYt/UwN6AjoQsHqTBmOO1QQn3DBhD3cXvavABCeUHt0eh/Pd32
-         61zg==
-X-Gm-Message-State: AOAM530cFcoNDqnMIBbV55xcxRml2tJRo9z8V1eo6AXT6mzHoqsaoPwT
-        evLYo8DzBNpyUYUT1bkTbsAOe2/R3iejbl6M0nw=
-X-Google-Smtp-Source: ABdhPJxb3+zbTfMJcsyP1PxCgumZYXS1XW5ek5s8hcWpHWs2UUAnHPFE+FPOSUMIZEmMuR/zho2IAQ==
-X-Received: by 2002:a17:90a:c297:: with SMTP id f23mr8599068pjt.72.1602355451020;
-        Sat, 10 Oct 2020 11:44:11 -0700 (PDT)
+        bh=UsvyoolCXPGifPPput5EkvxYqIiH/fv+ohqKnbks3LY=;
+        b=ZXAoGORxz06f6528i8UvYDmSZVTsklRH+wBfsTy/V6YJ1lyqdMz9FMtTVRw2yHyfhz
+         VKDQZapS/JKHbATlxWPVXXpfCBQjUzhuuw+oyuKj8JVYQwU81hPh9b8oCp8x6/9bzlv3
+         /nA7vRTbOfdv2Djy2mi2H9q71P7lUbr4n3UvwNFJa5/dvHO8WcUrYzqN+Lpslc6Cj4Gd
+         AjmA9ZEGfda+V2qlNHfumlFtidHjpN77d4XMZePc+Kn9PvsoxetBiHlLjrXR+hAd7F+N
+         nSE+jN3K/kEedBvz+t51BQb2UNiRlIPf8m5u8SNKE1+ivnaUKh7nkfxzKFplkCnOOYAF
+         wl4A==
+X-Gm-Message-State: AOAM533VC/MhEw+sraLc2HVb7Fj+0TOxE3NCGJ6hAIZeUg6yGcnEXAqW
+        dDldYxKkbF5OshOVebZ+ua+k61fnPcG3FL2+Fzo=
+X-Google-Smtp-Source: ABdhPJw7WCTIgQ8Skg+SBGmSpdINI/2sBT2t0utzFWNf3VFe7deMusnEM5z10SkPi1B2LyQcKIsYUA==
+X-Received: by 2002:a17:90a:e453:: with SMTP id jp19mr11518525pjb.34.1602352096486;
+        Sat, 10 Oct 2020 10:48:16 -0700 (PDT)
 Received: from [192.168.0.104] ([49.207.200.2])
-        by smtp.gmail.com with ESMTPSA id u69sm16023601pfc.27.2020.10.10.11.44.07
+        by smtp.gmail.com with ESMTPSA id g4sm14652311pgg.75.2020.10.10.10.48.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Oct 2020 11:44:10 -0700 (PDT)
-Subject: Re: [PATCH] net: usb: rtl8150: don't incorrectly assign random MAC
- addresses
+        Sat, 10 Oct 2020 10:48:15 -0700 (PDT)
+Subject: Re: [PATCH] net: usb: usbnet: update __usbnet_{read|write}_cmd() to
+ use new API
 To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Petko Manolov <petkan@nucleusys.com>,
-        "David S. Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
- <20201010095302.5309c118@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <0de8e509-7ca5-7faf-70bf-5880ce0fc15c@gmail.com>
- <20201010111645.334647af@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        Oliver Neukum <oneukum@suse.com>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
+ <20201010100346.158cbf62@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <e772b9f0-f5cd-c50b-86a7-fde22b6e13e3@gmail.com>
-Date:   Sun, 11 Oct 2020 00:14:05 +0530
+Message-ID: <c7a7c934-1971-612e-a783-997a36bb69a3@gmail.com>
+Date:   Sat, 10 Oct 2020 23:18:11 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201010111645.334647af@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201010100346.158cbf62@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
-On 10/10/20 11:46 pm, Jakub Kicinski wrote:
-> On Sat, 10 Oct 2020 23:34:51 +0530 Anant Thazhemadam wrote:
->> On 10/10/20 10:29 pm, Jakub Kicinski wrote:
->>> On Sat, 10 Oct 2020 12:14:59 +0530 Anant Thazhemadam wrote:  
->>>> get_registers() directly returns the return value of
->>>> usb_control_msg_recv() - 0 if successful, and negative error number 
->>>> otherwise.  
->>> Are you expecting Greg to take this as a part of some USB subsystem
->>> changes? I don't see usb_control_msg_recv() in my tree, and the
->>> semantics of usb_control_msg() are not what you described.  
->> No, I'm not. usb_control_msg_recv() is an API that was recently
->> introduced, and get_registers() in rtl8150.c was also modified to
->> use it in order to prevent partial reads.
->>
->> By your tree, I assume you mean
->>     https://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git/
->> (it was the only one I could find).
->>
->> I don't see the commit that this patch is supposed to fix in your
->> tree either... :/
->>
->> Nonetheless, this commit fixes an issue that was applied to the
->> networking tree, and has made its way into linux-next as well, if
->> I'm not mistaken.
-> I mean the networking tree, what's the commit ID in linux-next?
->
-> Your fixes tag points to f45a4248ea4c, but looks like the code was
-> quite correct at that point.
+On 10/10/20 10:33 pm, Jakub Kicinski wrote:
+> On Sat, 10 Oct 2020 12:26:23 +0530 Anant Thazhemadam wrote:
+>> GPF_KERNEL
+> You haven't even built this, let alone tested :/
 
+I'm really sorry about this.
+Turns out, my .config wasn't set generated by make allyesconfig, and thus
+this regression went undetected.
 
-Ah, my apologies. You're right. It doesn't look like those helpers have made
-their way into the networking tree yet.
+I can submit a v2 that doesn't break the build, and which is build tested
+properly.
+However, I'm not clear on how else I could locally run unit tests pertaining to this
+patch. I understand the critical requirement for testing changes and would really
+appreciate it if someone could direct me towards some resource or another that
+could help me figure that out too.
 
-(This gets mentioned here as well,
-    https://www.mail-archive.com/netdev@vger.kernel.org/msg357843.html)
-
-The commit ID pointed to by the fixes tag is correct.
-The change introduced by said commit looks right, but is logically incorrect.
-
-get_registers() directly returns the return value of usb_control_msg_recv(),
-and usb_control_msg_recv() returns 0 on success and negative error number
-otherwise.
-
-(You can find more about the new helpers here
-    https://lore.kernel.org/alsa-devel/20200914153756.3412156-1-gregkh@linuxfoundation.org/ )
-
-The commit ID mentioned introduces a change that is supposed to copy over
-the ethernet only when get_registers() succeeds, i.e., a complete read occurs,
-and generate and set a random ethernet address otherwise (reading the
-commit message should give some more insight).
-
-The condition that checks if get_registers() succeeds (as specified in f45a4248ea4c)
-was,
-    ret == sizeof(node_id)
-where ret is the return value of get_registers().
-
-However, ret will never equal sizeof(node_id), since ret can only be equal to 0
-or a negative number.
-
-Thus, even in case where get_registers() succeeds, a randomly generated MAC
-address would get copied over, instead of copying the appropriate ethernet
-address, which is logically incorrect and not optimal.
-
-Hence, we need to modify this to check if (ret == 0), and copy over the correct
-ethernet address in that case, instead of randomly generating one and assigning
-that.
-Hope this helps.
+Once again, I'm really sorry for this oversight.
+Thank you for your time.
 
 Thanks,
 Anant
-
-
