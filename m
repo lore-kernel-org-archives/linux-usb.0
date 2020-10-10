@@ -2,173 +2,61 @@ Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F1EC41604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 119A8C352BA
 	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 791462080C
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8DC5215A4
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602370308;
+	bh=d0LFuyXXJbRxphXVoTE7xJapgi4yM0kVr93JTctrCqc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=EzPX61QdPJnWT04tWfYETQS5Q5u4CIdLDmW7omSmtQ8qx1rE+RK8o+G4//2slclXh
+	 9o1LP7nOm+Gg/M9XU1FK1JnSW3p/tPTFyeYDhQoZ+Z17zaOTUTAWSfCMBDPMELPuVS
+	 BlK+Avyl+mG+JlKeOOisldPbJcg/fhfjy4k3HQz0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731881AbgJJWXA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:23:00 -0400
-Received: from hosting.gsystem.sk ([212.5.213.30]:49450 "EHLO
-        hosting.gsystem.sk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387535AbgJJURp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 16:17:45 -0400
-X-Greylist: delayed 4183 seconds by postgrey-1.27 at vger.kernel.org; Sat, 10 Oct 2020 16:17:42 EDT
-Received: from gsql.ggedos.sk (off-20.infotel.telecom.sk [212.5.213.20])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1731740AbgJJWWF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:22:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54030 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731883AbgJJTh4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 10 Oct 2020 15:37:56 -0400
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by hosting.gsystem.sk (Postfix) with ESMTPSA id 3147D7A02E9;
-        Sat, 10 Oct 2020 16:01:23 +0200 (CEST)
-From:   Ondrej Zary <linux@zary.sk>
-To:     Oliver Neukum <oneukum@suse.com>, netdev@vger.kernel.org,
+        by mail.kernel.org (Postfix) with ESMTPSA id 49131221FE;
+        Sat, 10 Oct 2020 17:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602349428;
+        bh=d0LFuyXXJbRxphXVoTE7xJapgi4yM0kVr93JTctrCqc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nif7FEXAZPFBPMgF+HoD/XN8C3N3jzWD+luDeDHzdcoHuFElMVxv2+DtBRzbsp+Hi
+         ff7M7YsK8mSPltbzzjTZ5G10WFGrbxs7vIx2TqN6xsiks5aA6gHgh4wmB2XP+dqrSw
+         5lD2YnIGYc6KQzz0Z8t05rBRMn5gCTxmMMpEnaXI=
+Date:   Sat, 10 Oct 2020 10:03:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        Oliver Neukum <oneukum@suse.com>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] cx82310_eth: re-enable ethernet mode after router reboot
-Date:   Sat, 10 Oct 2020 16:00:46 +0200
-Message-Id: <20201010140048.12067-1-linux@zary.sk>
-X-Mailer: git-send-email 2.20.1
+Subject: Re: [PATCH] net: usb: usbnet: update  __usbnet_{read|write}_cmd()
+ to use new API
+Message-ID: <20201010100346.158cbf62@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
+References: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When the router is rebooted without a power cycle, the USB device
-remains connected but its configuration is reset. This results in
-a non-working ethernet connection with messages like this in syslog:
-	usb 2-2: RX packet too long: 65535 B
+On Sat, 10 Oct 2020 12:26:23 +0530 Anant Thazhemadam wrote:
+> GPF_KERNEL
 
-Re-enable ethernet mode when receiving a packet with invalid size of
-0xffff.
-
-Signed-off-by: Ondrej Zary <linux@zary.sk>
----
- drivers/net/usb/cx82310_eth.c | 50 ++++++++++++++++++++++++++++++-----
- 1 file changed, 44 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/net/usb/cx82310_eth.c b/drivers/net/usb/cx82310_eth.c
-index 32b08b18e120..043679311399 100644
---- a/drivers/net/usb/cx82310_eth.c
-+++ b/drivers/net/usb/cx82310_eth.c
-@@ -40,6 +40,11 @@ enum cx82310_status {
- #define CX82310_MTU	1514
- #define CMD_EP		0x01
- 
-+struct cx82310_priv {
-+	struct work_struct reenable_work;
-+	struct usbnet *dev;
-+};
-+
- /*
-  * execute control command
-  *  - optionally send some data (command parameters)
-@@ -115,6 +120,23 @@ static int cx82310_cmd(struct usbnet *dev, enum cx82310_cmd cmd, bool reply,
- 	return ret;
- }
- 
-+static int cx82310_enable_ethernet(struct usbnet *dev)
-+{
-+	int ret = cx82310_cmd(dev, CMD_ETHERNET_MODE, true, "\x01", 1, NULL, 0);
-+
-+	if (ret)
-+		netdev_err(dev->net, "unable to enable ethernet mode: %d\n",
-+			   ret);
-+	return ret;
-+}
-+
-+static void cx82310_reenable_work(struct work_struct *work)
-+{
-+	struct cx82310_priv *priv = container_of(work, struct cx82310_priv,
-+						 reenable_work);
-+	cx82310_enable_ethernet(priv->dev);
-+}
-+
- #define partial_len	data[0]		/* length of partial packet data */
- #define partial_rem	data[1]		/* remaining (missing) data length */
- #define partial_data	data[2]		/* partial packet data */
-@@ -126,6 +148,7 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
- 	struct usb_device *udev = dev->udev;
- 	u8 link[3];
- 	int timeout = 50;
-+	struct cx82310_priv *priv;
- 
- 	/* avoid ADSL modems - continue only if iProduct is "USB NET CARD" */
- 	if (usb_string(udev, udev->descriptor.iProduct, buf, sizeof(buf)) > 0
-@@ -152,6 +175,15 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
- 	if (!dev->partial_data)
- 		return -ENOMEM;
- 
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv) {
-+		ret = -ENOMEM;
-+		goto err_partial;
-+	}
-+	dev->driver_priv = priv;
-+	INIT_WORK(&priv->reenable_work, cx82310_reenable_work);
-+	priv->dev = dev;
-+
- 	/* wait for firmware to become ready (indicated by the link being up) */
- 	while (--timeout) {
- 		ret = cx82310_cmd(dev, CMD_GET_LINK_STATUS, true, NULL, 0,
-@@ -168,12 +200,8 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
- 	}
- 
- 	/* enable ethernet mode (?) */
--	ret = cx82310_cmd(dev, CMD_ETHERNET_MODE, true, "\x01", 1, NULL, 0);
--	if (ret) {
--		dev_err(&udev->dev, "unable to enable ethernet mode: %d\n",
--			ret);
-+	if (cx82310_enable_ethernet(dev))
- 		goto err;
--	}
- 
- 	/* get the MAC address */
- 	ret = cx82310_cmd(dev, CMD_GET_MAC_ADDR, true, NULL, 0,
-@@ -190,13 +218,19 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
- 
- 	return 0;
- err:
-+	kfree(dev->driver_priv);
-+err_partial:
- 	kfree((void *)dev->partial_data);
- 	return ret;
- }
- 
- static void cx82310_unbind(struct usbnet *dev, struct usb_interface *intf)
- {
-+	struct cx82310_priv *priv = dev->driver_priv;
-+
- 	kfree((void *)dev->partial_data);
-+	cancel_work_sync(&priv->reenable_work);
-+	kfree(dev->driver_priv);
- }
- 
- /*
-@@ -211,6 +245,7 @@ static int cx82310_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- {
- 	int len;
- 	struct sk_buff *skb2;
-+	struct cx82310_priv *priv = dev->driver_priv;
- 
- 	/*
- 	 * If the last skb ended with an incomplete packet, this skb contains
-@@ -245,7 +280,10 @@ static int cx82310_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 			break;
- 		}
- 
--		if (len > CX82310_MTU) {
-+		if (len == 0xffff) {
-+			netdev_info(dev->net, "router was rebooted, re-enabling ethernet mode");
-+			schedule_work(&priv->reenable_work);
-+		} else if (len > CX82310_MTU) {
- 			dev_err(&dev->udev->dev, "RX packet too long: %d B\n",
- 				len);
- 			return 0;
--- 
-Ondrej Zary
-
+You haven't even built this, let alone tested :/
