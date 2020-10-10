@@ -7,42 +7,49 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BECBAC433DF
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63937C433E7
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BEB32075E
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 310E020829
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 22:58:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390721AbgJJW62 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:58:28 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:57338 "EHLO
+        id S2390755AbgJJW6a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:58:30 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:57362 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732494AbgJJWdM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:33:12 -0400
-X-Greylist: delayed 463 seconds by postgrey-1.27 at vger.kernel.org; Sat, 10 Oct 2020 18:33:08 EDT
+        with ESMTP id S1733006AbgJJWmm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Oct 2020 18:42:42 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id C0F7D8030833;
-        Sat, 10 Oct 2020 22:23:56 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id A673F803016F;
+        Sat, 10 Oct 2020 22:41:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id SvYALCWbsivP; Sun, 11 Oct 2020 01:23:56 +0300 (MSK)
+        with ESMTP id fI0EB88EmJ3x; Sun, 11 Oct 2020 01:41:26 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Felipe Balbi <balbi@kernel.org>,
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        David Cohen <david.a.cohen@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        Rob Herring <robh+dt@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression
-Date:   Sun, 11 Oct 2020 01:23:51 +0300
-Message-ID: <20201010222351.7323-4-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 01/18] dt-bindings: usb: usb-hcd: Convert generic USB properties to DT schema
+Date:   Sun, 11 Oct 2020 01:41:04 +0300
+Message-ID: <20201010224121.12672-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -51,85 +58,179 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-First of all the commit e0082698b689 ("usb: dwc3: ulpi: conditionally
-resume ULPI PHY") introduced the Suspend USB2.0 HS/FS/LS PHY regression,
-as by design of the fix any attempt to read/write from/to the PHY control
-registers will completely disable the PHY suspension, which consequently
-will increase the USB bus power consumption. Secondly the fix won't work
-well for the very first attempt of the ULPI PHY control registers IO,
-because after disabling the USB2.0 PHY suspension functionality it will
-still take some time for the bus to resume from the sleep state if one has
-been reached before it. So the very first PHY register read/write
-operation will take more time than the busy-loop provides and the IO
-timeout error might be returned anyway.
+The generic USB HCD properties have been described in the legacy bindings
+text file: Documentation/devicetree/bindings/usb/generic.txt . Let's
+convert it' content into the USB HCD DT schema properties so all USB DT
+nodes would be validated to have them properly utilized.
 
-Here we suggest to fix the denoted problems in the following way. First of
-all let's not disable the Suspend USB2.0 HS/FS/LS PHY functionality so to
-make the controller and the USB2.0 bus more power efficient. Secondly
-instead of that we'll extend the PHY IO op wait procedure with 1 - 1.2 ms
-sleep if the PHY suspension is enabled (1ms should be enough as by LPM
-specification it is at most how long it takes for the USB2.0 bus to resume
-from L1 (Sleep) state). Finally in case if the USB2.0 PHY suspension
-functionality has been disabled on the DWC USB3 controller setup procedure
-we'll compensate the USB bus resume process latency by extending the
-busy-loop attempts counter.
-
-Fixes: e0082698b689 ("usb: dwc3: ulpi: conditionally resume ULPI PHY")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/usb/dwc3/ulpi.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ .../devicetree/bindings/usb/generic.txt       | 57 -------------
+ .../devicetree/bindings/usb/usb-hcd.yaml      | 84 +++++++++++++++++++
+ 2 files changed, 84 insertions(+), 57 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/generic.txt
 
-diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
-index 0dbc826355a5..f23f4c9a557e 100644
---- a/drivers/usb/dwc3/ulpi.c
-+++ b/drivers/usb/dwc3/ulpi.c
-@@ -24,7 +24,7 @@
- static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
- {
- 	unsigned long ns = 5L * DWC3_ULPI_BASE_DELAY;
--	unsigned count = 1000;
-+	unsigned int count = 10000;
- 	u32 reg;
+diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
+deleted file mode 100644
+index ba472e7aefc9..000000000000
+--- a/Documentation/devicetree/bindings/usb/generic.txt
++++ /dev/null
+@@ -1,57 +0,0 @@
+-Generic USB Properties
+-
+-Optional properties:
+- - maximum-speed: tells USB controllers we want to work up to a certain
+-			speed. Valid arguments are "super-speed-plus",
+-			"super-speed", "high-speed", "full-speed" and
+-			"low-speed". In case this isn't passed via DT, USB
+-			controllers should default to their maximum HW
+-			capability.
+- - dr_mode: tells Dual-Role USB controllers that we want to work on a
+-			particular mode. Valid arguments are "host",
+-			"peripheral" and "otg". In case this attribute isn't
+-			passed via DT, USB DRD controllers should default to
+-			OTG.
+- - phy_type: tells USB controllers that we want to configure the core to support
+-			a UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is
+-			selected. Valid arguments are "utmi" and "utmi_wide".
+-			In case this isn't passed via DT, USB controllers should
+-			default to HW capability.
+- - otg-rev: tells usb driver the release number of the OTG and EH supplement
+-			with which the device and its descriptors are compliant,
+-			in binary-coded decimal (i.e. 2.0 is 0200H). This
+-			property is used if any real OTG features(HNP/SRP/ADP)
+-			is enabled, if ADP is required, otg-rev should be
+-			0x0200 or above.
+- - companion: phandle of a companion
+- - hnp-disable: tells OTG controllers we want to disable OTG HNP, normally HNP
+-			is the basic function of real OTG except you want it
+-			to be a srp-capable only B device.
+- - srp-disable: tells OTG controllers we want to disable OTG SRP, SRP is
+-			optional for OTG device.
+- - adp-disable: tells OTG controllers we want to disable OTG ADP, ADP is
+-			optional for OTG device.
+- - usb-role-switch: boolean, indicates that the device is capable of assigning
+-			the USB data role (USB host or USB device) for a given
+-			USB connector, such as Type-C, Type-B(micro).
+-			see connector/usb-connector.yaml.
+- - role-switch-default-mode: indicating if usb-role-switch is enabled, the
+-			device default operation mode of controller while usb
+-			role is USB_ROLE_NONE. Valid arguments are "host" and
+-			"peripheral". Defaults to "peripheral" if not
+-			specified.
+-
+-
+-This is an attribute to a USB controller such as:
+-
+-dwc3@4a030000 {
+-	compatible = "synopsys,dwc3";
+-	reg = <0x4a030000 0xcfff>;
+-	interrupts = <0 92 4>
+-	usb-phy = <&usb2_phy>, <&usb3,phy>;
+-	maximum-speed = "super-speed";
+-	dr_mode = "otg";
+-	phy_type = "utmi_wide";
+-	otg-rev = <0x0200>;
+-	adp-disable;
+-};
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 7263b7f2b510..815de24127db 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -22,9 +22,93 @@ properties:
+     description:
+       Name specifier for the USB PHY
  
- 	if (addr >= ULPI_EXT_VENDOR_SPECIFIC)
-@@ -33,6 +33,10 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
- 	if (read)
- 		ns += DWC3_ULPI_BASE_DELAY;
- 
-+	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
-+	if (reg & DWC3_GUSB2PHYCFG_SUSPHY)
-+		usleep_range(1000, 1200);
++  maximum-speed:
++   description: |
++     Tells USB controllers we want to work up to a certain speed. In case this
++     isn't passed via DT, USB controllers should default to their maximum HW
++     capability.
++   $ref: /schemas/types.yaml#/definitions/string
++   enum: ["low-speed", "full-speed", "high-speed", "super-speed",
++          "super-speed-plus"]
 +
- 	while (count--) {
- 		ndelay(ns);
- 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
-@@ -50,12 +54,6 @@ static int dwc3_ulpi_read(struct device *dev, u8 addr)
- 	u32 reg;
- 	int ret;
- 
--	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
--	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
--		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
--		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
--	}
--
- 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
- 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
- 
-@@ -73,12 +71,6 @@ static int dwc3_ulpi_write(struct device *dev, u8 addr, u8 val)
- 	struct dwc3 *dwc = dev_get_drvdata(dev);
- 	u32 reg;
- 
--	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
--	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
--		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
--		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
--	}
--
- 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
- 	reg |= DWC3_GUSB2PHYACC_WRITE | val;
- 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
++  dr_mode:
++    description: |
++      Tells Dual-Role USB controllers that we want to work on a particular
++      mode. In case this attribute isn't passed via DT, USB DRD controllers
++      should default to OTG.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: ["host", "peripheral", "otg"]
++
++  phy_type:
++    description: |
++      Tells USB controllers that we want to configure the core to support a
++      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
++      this isn't passed via DT, USB controllers should default to HW
++      capability.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: ["utmi", "utmi_wide"]
++
++  otg-rev:
++    description: |
++      Tells usb driver the release number of the OTG and EH supplement with
++      which the device and its descriptors are compliant, in binary-coded
++      decimal (i.e. 2.0 is 0200H). This property is used if any real OTG
++      features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
++      0x0200 or above.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  companion:
++    description: Phandle of a companion device
++    $ref: /schemas/types.yaml#/definitions/phandle
++
++  hnp-disable:
++    description: |
++      Tells OTG controllers we want to disable OTG HNP. Normally HNP is the
++      basic function of real OTG except you want it to be a srp-capable only B
++      device.
++    type: boolean
++
++  srp-disable:
++    description: |
++      Tells OTG controllers we want to disable OTG SRP. SRP is optional for OTG
++      device.
++    type: boolean
++
++  adp-disable:
++    description: |
++      Tells OTG controllers we want to disable OTG ADP. ADP is optional for OTG
++      device.
++    type: boolean
++
++  usb-role-switch:
++    description: |
++      Indicates that the device is capable of assigning the USB data role
++      (USB host or USB device) for a given USB connector, such as Type-C,
++      Type-B(micro). See connector/usb-connector.yaml.
++
++  role-switch-default-mode:
++    description: |
++      Indicates if usb-role-switch is enabled, the device default operation
++      mode of controller while usb role is USB_ROLE_NONE.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: ["host", "peripheral"]
++    default: "peripheral"
++
+ examples:
+   - |
+     usb {
+         phys = <&usb2_phy1>, <&usb3_phy1>;
+         phy-names = "usb";
+     };
++  - |
++    usb@4a030000 {
++        compatible = "snps,dwc3";
++        reg = <0x4a030000 0xcfff>;
++        interrupts = <0 92 4>;
++        usb-phy = <&usb2_phy>, <&usb3_phy>;
++        maximum-speed = "super-speed";
++        dr_mode = "otg";
++        phy_type = "utmi_wide";
++        otg-rev = <0x0200>;
++        adp-disable;
++    };
 -- 
 2.27.0
 
