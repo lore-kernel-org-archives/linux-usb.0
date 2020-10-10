@@ -1,140 +1,79 @@
-Return-Path: <SRS0=9XAl=DQ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wmHi=DR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D777C433DF
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 23:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B51AC433E7
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 01:22:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A960D2072C
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Oct 2020 23:44:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hDmBTJvL"
+	by mail.kernel.org (Postfix) with ESMTP id D56B0206D9
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Oct 2020 01:22:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728071AbgJIXnE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Oct 2020 19:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728004AbgJIXka (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Oct 2020 19:40:30 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01DDFC0613D2;
-        Fri,  9 Oct 2020 16:40:12 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id f19so8131848pfj.11;
-        Fri, 09 Oct 2020 16:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MQ0KpWnDNeVxw8ddnKLR7x7PrOHy9mrx1gHHEVR4YTk=;
-        b=hDmBTJvLU+MIdtrIERvGrZtc+8C0P9oZrj1hYTssasKwOlKfF6VIa9dbL0mgxWU9w9
-         1+b5srOqfK9+VBMHs+kNLk3kQP8fhH/xwuJohUlgZF4iKjas0F8Mdam3nDoIk5i8Wts7
-         6Ney0/ge19sTB785apk8kXZpnEHrUyXocc6qIXmhJN6ZHN6xPXAPq2AY2PcW5rg+H2tj
-         d827grvw4cHpteJ9p0wKAaFYYvLIAtHTlETEK4Tc8JcH8FAyzhcWDRJwyCEY0p8VeuDj
-         JOa+o+Dg5+/hq+bcq4JNCjgzVcPUfEBaLy53AZXyougFBlMb8p7V7hhFRDvg2hcVGyuO
-         UWNg==
+        id S1729362AbgJJBVc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Oct 2020 21:21:32 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:53816 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729246AbgJJBF3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Oct 2020 21:05:29 -0400
+Received: by mail-io1-f70.google.com with SMTP id m23so6804433ioj.20
+        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2020 18:04:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MQ0KpWnDNeVxw8ddnKLR7x7PrOHy9mrx1gHHEVR4YTk=;
-        b=ND92xUal7cUl2sBMtQowEWWyhwr0L3H+CK7pOfMtZlMpjKt5p1EQTBfGSdMhJ41ewy
-         8DbbMoeIrJ4IZBoqaRKGSBpXn54UhJCSQ7tfc+ulbtUPayC0QRMUALgqzeHyg8CnG/ku
-         4nDD48o7tO19oVal7cnp6O4IGoOCE92w337V+qv7ca8W53bS7yWsTUnt8IBVaUnJTENp
-         Aymxz0yGq9YS5dUpcok7WRcWpXAk9toSy+I0+Wfxwjg4Kis9ues/bb1I6ifeEGNFSbLE
-         b8Kw8lJEp6sWsLrmqaEiZvEAtTdnNIukmT6o0SSJZqDjDvM3kCc/RnttCjzBWx3wCzd7
-         AsvA==
-X-Gm-Message-State: AOAM531cdNreXd8LUmKpQ8Q7r2PvXVwlGkFAeL8W6pDL2ujFo/LKwFrx
-        p8hgKsiwabYfi7rD5wzdbIw=
-X-Google-Smtp-Source: ABdhPJwFQIBy/uYMt1NSfSfYgTEXiSJCzmSoTmkhClRQ3AbICj+NmlbuQ/4Npd8rPY1ODaGP3HOLnw==
-X-Received: by 2002:a17:90a:a394:: with SMTP id x20mr7043686pjp.213.1602286811513;
-        Fri, 09 Oct 2020 16:40:11 -0700 (PDT)
-Received: from [10.230.29.112] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id jx17sm12684399pjb.10.2020.10.09.16.40.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Oct 2020 16:40:10 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] usb: Add driver to allow any GPIO to be used for
- 7211 USB signals
-To:     Al Cooper <alcooperx@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-References: <20201009190839.12612-1-alcooperx@gmail.com>
- <20201009190839.12612-3-alcooperx@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <134cbb66-6d46-bef5-fa4c-eeae78ec1b53@gmail.com>
-Date:   Fri, 9 Oct 2020 16:40:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.3.2
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=DDEseMxMpm+8pa9N0R0ZiF/fCUt6kdwa1OOWpeK33r0=;
+        b=b3dKUtMX6zagGYrh1rxmfobvctY7aWxFQzvpTdCwQdpiljm0W0NW3nGGsOmq8ol2Jd
+         twQ1HN6IqA95qcwV2HXm8Di1WzizluIyRzyLjqPrxpayB/Bz48HpshM/e9FB4FPCI1O5
+         jeFbv5sU/dwn8y5ogsLDlkn3yQO9NZHDIq429HBtZ3rA/DNxPdt9JmHyfdz5Czukg+CN
+         KIV1U8pAcdTYMCRo6Yjcw9GV8KbPqEbeOnMAGdAQR1rqMXWX5DOfa7BQ3KPXUq5kKUG4
+         QMixhHcd6tzPDcvNiVLdVwWYR6WWkPTvln9nWJorqa8/8Ks5/54cH5/YcUeim7/t4eC3
+         1ByQ==
+X-Gm-Message-State: AOAM533BF6TNEYkLcj2pv53JKmiL426hx6uz9Pqpwk8LclakThvpZkGp
+        WrxWLd4KajtJ4fdP9HF4QPvhtV7HSy0TQfKxiFdQRM8V9VlK
+X-Google-Smtp-Source: ABdhPJwpfQNcKTazaWHy8QlWB9Y2DbphQW9rWJEsyRGOF2rnSosmcJqpeOxXfurwX5byo3kvylWCHJvvHUPE+AYPC4qGeVPsiN8a
 MIME-Version: 1.0
-In-Reply-To: <20201009190839.12612-3-alcooperx@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a92:360d:: with SMTP id d13mr10658529ila.99.1602291369987;
+ Fri, 09 Oct 2020 17:56:09 -0700 (PDT)
+Date:   Fri, 09 Oct 2020 17:56:09 -0700
+In-Reply-To: <20201010004944.GB557008@rowland.harvard.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ef564605b1468771@google.com>
+Subject: Re: WARNING in hif_usb_send/usb_submit_urb
+From:   syzbot <syzbot+f5378bcf0f0cab45c1c6@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, ath9k-devel@qca.qualcomm.com,
+        eli.billauer@gmail.com, gregkh@linuxfoundation.org,
+        gustavoars@kernel.org, ingrassia@epigenesys.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, oneukum@suse.com,
+        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
+        tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hello,
+
+syzbot tried to test the proposed patch but the build/boot failed:
+
+drivers/net/wireless/ath/ath9k/hif_usb.c:1319:7: error: implicit declaration of function 'usb_find_bulk_in'; did you mean 'usb_fill_bulk_urb'? [-Werror=implicit-function-declaration]
+drivers/net/wireless/ath/ath9k/hif_usb.c:1319:24: error: implicit declaration of function 'endpoint' [-Werror=implicit-function-declaration]
+drivers/net/wireless/ath/ath9k/hif_usb.c:1321:7: error: implicit declaration of function 'usb_find_bulk_out'; did you mean 'usb_fill_bulk_urb'? [-Werror=implicit-function-declaration]
+drivers/net/wireless/ath/ath9k/hif_usb.c:1322:46: error: expected ')' before 'return'
+drivers/net/wireless/ath/ath9k/hif_usb.c:1357:13: error: expected ')' before '}' token
+drivers/net/wireless/ath/ath9k/hif_usb.c:1358:1: error: expected expression before '}' token
 
 
-On 10/9/2020 12:08 PM, Al Cooper wrote:
-> The Broadcom 7211 has new functionality that allows some USB low
-> speed side band signals, that go from the XHCI host controller to
-> pins on the chip, to be remapped to use any GPIO pin instead of the
-> limited set selectable by hardware. This can be done without changing
-> the standard driver for the host controller. There is currently
-> support for three USB signals, PWRON, VBUS_PRESENT and PWRFLT. This
-> driver will allow the remapping of any of these three signals based
-> on settings in the Device Tree node for the driver. The driver was
-> written so that it could handle additional signals added in the
-> future by just adding the correct properties to the DT node.
-> 
-> Below is an example of a DT node that would remap all three
-> signals:
-> 
-> usb_pinmap: usb-pinmap@22000d0 {
-> 	compatible = "brcm,usb-pinmap";
-> 	reg = <0x22000d0 0x4>;
-> 	in-gpios = <&gpio 18 0>, <&gpio 19 0>;
-> 	brcm,in-functions = "VBUS", "PWRFLT";
-> 	brcm,in-masks = <0x8000 0x40000 0x10000 0x80000>;
-> 	out-gpios = <&gpio 20 0>;
-> 	brcm,out-functions = "PWRON";
-> 	brcm,out-masks = <0x20000 0x800000 0x400000 0x200000>;
-> 	interrupts = <0x0 0xb2 0x4>;
-> };
-> 
-> Signed-off-by: Al Cooper <alcooperx@gmail.com>
-> ---
+Tested on:
 
-[snip]
+commit:         549738f1 Linux 5.9-rc8
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git v5.9-rc8
+dashboard link: https://syzkaller.appspot.com/bug?extid=f5378bcf0f0cab45c1c6
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1200b51b900000
 
-> +config BRCM_USB_PINMAP
-> +	tristate "Broadcom pinmap driver support"
-> +	depends on (ARCH_BRCMSTB && PHY_BRCM_USB) || COMPILE_TEST
-> +	default y if (ARCH_BRCMSTB && PHY_BRCM_USB)
-
-default ARCH_BRCMSTB && PHY_BRCM_USB should work as well.
-
-
-> +static int __init brcmstb_usb_pinmap_init(void)
-> +{
-> +	return platform_driver_probe(&brcmstb_usb_pinmap_driver,
-> +				     brcmstb_usb_pinmap_probe);
-> +}
-> +
-> +module_init(brcmstb_usb_pinmap_init);
-
-You would need MODULE_AUTHOR(), LICENSE and DESCRIPTION() in case you 
-make this modular.
-
--- 
-Florian
