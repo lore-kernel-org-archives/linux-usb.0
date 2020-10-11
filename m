@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BBFFC433E7
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7FADC433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:45:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6315C2145D
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82AD92145D
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:45:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C8xvNbM+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UbL1Gtjq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbgJKTof (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Oct 2020 15:44:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34892 "EHLO
+        id S1726896AbgJKTpB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Oct 2020 15:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726658AbgJKToc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 15:44:32 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B128DC0613D0;
-        Sun, 11 Oct 2020 12:44:31 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id x1so14743138eds.1;
-        Sun, 11 Oct 2020 12:44:31 -0700 (PDT)
+        with ESMTP id S1726615AbgJKToo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 15:44:44 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF903C0613D2;
+        Sun, 11 Oct 2020 12:44:43 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id a3so20268705ejy.11;
+        Sun, 11 Oct 2020 12:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sVZWFKmWX+WTmfjlAyUC3V6edudq39GypRePR5bJKiI=;
-        b=C8xvNbM+J7NKyEsbDZKiT8wqKhDzG1DFSSWlnrqPaai0Klv4u9p1zLokAKzvkxFwWp
-         zO2dkU1AsYfjQWsCvKmHA/Umrz4lQuwDVoZbNLIM1uc/OHlpSqGR2avkysv2IPZbmtFY
-         EUoeHDUxGsRKq3XKvExP6ZRH3KjwfwPI3+L0y2ABlu4NYIkjCozJ32JDRRjFMGYQul+K
-         1Ia8AZLZdMeNkGuLeSe1XbRtZ9YRMCbBdorm/KGI7i3sHpoJq6w2Ym7s4Vmv5IjHykPT
-         NFqvGj3F79yfbFktAU8x/oRbKmOI4pHJUFSlHJLA8YqOAoJbM4xIjkxlLZT5J9M7bkUG
-         PQrg==
+        bh=gfr3ALYPLKmxZda8jB3ld1N0hpEXjoqgwocV8/nd3X0=;
+        b=UbL1GtjqXIjEGis5eM/8DwyMsHni206CGfZbq8bJ4Cq/dPqLWTpDUaxfFfzUN/NQ0R
+         WNmYW3qdxh0pnWXQaoDe1nChSTIh6UTJ1SUMKcaQwRu7tQHbnHMJYc9b60vNWy4nh2aR
+         39ZLS52ZJ30L2HF+21PL5XB8xlAqyxKt0lsCWZO9rcVudZySuROSZS34XHNWL3VL6POI
+         W9VRr+t4S9PS8gPdJ6DjdYR+h3OE9rx1F5wr5xgIPwYgalHlaXejI9sL//flzgCHykQy
+         G2u1erqZ9fsK4FIHDpNBHaAuHIFP5hkKTLCqnvVJlEoUoVZHPXw9YfD1SP1dRKmk2vw8
+         oFFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sVZWFKmWX+WTmfjlAyUC3V6edudq39GypRePR5bJKiI=;
-        b=CBb9KIuu4B5kYCxqh9CbykE7fZYjJsaS3pY4onPbpKDpxf32YJ0m/RCSSQNxpMtvk8
-         jjoQu2AwfQyuCKyfzafVy+AIkUi2/X8vgIAPgPLkFF5U6KwOPmauuhreH+lMWFRpc5y/
-         0IYGqawYuY4s5ifEVdDOrdCl1aGvAs+uPj9yw21mgHJJ5GlHfQIxr36ScKmU1dHHqH6D
-         I4/MqYQTw3WdK+kK4oMgWtMtXK/CPFaSJs7IewktIsk51UcHqKp9a8VRXqqJUJHy+bvo
-         w3P/a0FL7bwdHL0SZmIPFsErl+97OtyB1qHBFfs/d5TqLPEcJJVMCMmKhh4VW/d8bmnM
-         uKKQ==
-X-Gm-Message-State: AOAM530GwWIohamaECElnwOOCTYIbCV6QLznVG3uRzkfQDtWC4IfBwfL
-        AH1sc7wagR7FspjjcO2VHxk=
-X-Google-Smtp-Source: ABdhPJzZJhkP+n3UkxYwLmk7JgckORy+47i3n3MoP9Tt1H2VvGYHQ/kfQZo17UJuOkKtwIFsZaczLg==
-X-Received: by 2002:a50:bb0d:: with SMTP id y13mr11033369ede.317.1602445470380;
-        Sun, 11 Oct 2020 12:44:30 -0700 (PDT)
+        bh=gfr3ALYPLKmxZda8jB3ld1N0hpEXjoqgwocV8/nd3X0=;
+        b=MPS8gWxuoWD0lAHGlDXclV+YC03sstt2YKZCeFV8O2dkaFeZvDZhYf+w2n0P/o7UzT
+         seZmKvwm65yOlLlIDeesn6niKkypnEmcFZoKAiiF/rD59QyaqwySIBK+0BwLdZuGu0eO
+         kbco1S2FXMnHECukeSS0NGDJvhGYdNsqeLpre+5t2uNmJhANj+OrdWysHxkGeVFGnvy6
+         kPEdA5U1OAnTz23ijGx6K3ulhPfirCrpJB3uIWnlrb0yl0aWwMJM4kfSydFxcQEDfHbK
+         p/jK2jCxKYpDZf7kIWh1CUaeKDEzx28f915SsAjThtm5RYKCka79SgX9jgXHbZf1wKIz
+         sH+w==
+X-Gm-Message-State: AOAM531HnnsYQ+4PZWwdq2ZgDI2SMzB+lVQ5H5j7+XQjb25OxqhVRgok
+        kNrBkeCY+h9H96NJOY1Kw2I=
+X-Google-Smtp-Source: ABdhPJxJzVcxYYhChoisYAA0WC0eftqGze9+lsho48XfvKPZgGEASN1Fa9S6xPslx35aOFc2I6gM5Q==
+X-Received: by 2002:a17:906:3b91:: with SMTP id u17mr24104083ejf.504.1602445482592;
+        Sun, 11 Oct 2020 12:44:42 -0700 (PDT)
 Received: from ?IPv6:2003:ea:8f00:6a00:51b7:bf4f:604:7d3d? (p200300ea8f006a0051b7bf4f06047d3d.dip0.t-ipconnect.de. [2003:ea:8f00:6a00:51b7:bf4f:604:7d3d])
-        by smtp.googlemail.com with ESMTPSA id p3sm9442717edp.28.2020.10.11.12.44.29
+        by smtp.googlemail.com with ESMTPSA id x2sm9504409edr.65.2020.10.11.12.44.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Oct 2020 12:44:29 -0700 (PDT)
-Subject: [PATCH net-next 03/12] net: macsec: use new function
+        Sun, 11 Oct 2020 12:44:42 -0700 (PDT)
+Subject: [PATCH net-next 11/12] net: openvswitch: use new function
  dev_fetch_sw_netstats
 From:   Heiner Kallweit <hkallweit1@gmail.com>
 To:     David Miller <davem@davemloft.net>,
@@ -87,8 +87,8 @@ Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         linux-wireless <linux-wireless@vger.kernel.org>,
         bridge@lists.linux-foundation.org
 References: <a46f539e-a54d-7e92-0372-cd96bb280729@gmail.com>
-Message-ID: <26abd317-928e-3e52-698c-6b5feca2072f@gmail.com>
-Date:   Sun, 11 Oct 2020 21:38:05 +0200
+Message-ID: <7debf7e5-ea7f-6fec-4f58-7dd6c8f28b7b@gmail.com>
+Date:   Sun, 11 Oct 2020 21:43:18 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
@@ -104,45 +104,46 @@ Simplify the code by using new function dev_fetch_sw_netstats().
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/net/macsec.c | 25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+ net/openvswitch/vport-internal_dev.c | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/net/macsec.c b/drivers/net/macsec.c
-index 2b0c8f01d..e74483279 100644
---- a/drivers/net/macsec.c
-+++ b/drivers/net/macsec.c
-@@ -3647,30 +3647,7 @@ static int macsec_change_mtu(struct net_device *dev, int new_mtu)
- static void macsec_get_stats64(struct net_device *dev,
- 			       struct rtnl_link_stats64 *s)
+diff --git a/net/openvswitch/vport-internal_dev.c b/net/openvswitch/vport-internal_dev.c
+index d8fe66eea..1e30d8df3 100644
+--- a/net/openvswitch/vport-internal_dev.c
++++ b/net/openvswitch/vport-internal_dev.c
+@@ -86,31 +86,13 @@ static void internal_dev_destructor(struct net_device *dev)
+ static void
+ internal_get_stats(struct net_device *dev, struct rtnl_link_stats64 *stats)
  {
--	int cpu;
+-	int i;
 -
--	if (!dev->tstats)
--		return;
--
--	for_each_possible_cpu(cpu) {
--		struct pcpu_sw_netstats *stats;
--		struct pcpu_sw_netstats tmp;
--		int start;
--
--		stats = per_cpu_ptr(dev->tstats, cpu);
--		do {
--			start = u64_stats_fetch_begin_irq(&stats->syncp);
--			tmp.rx_packets = stats->rx_packets;
--			tmp.rx_bytes   = stats->rx_bytes;
--			tmp.tx_packets = stats->tx_packets;
--			tmp.tx_bytes   = stats->tx_bytes;
--		} while (u64_stats_fetch_retry_irq(&stats->syncp, start));
--
--		s->rx_packets += tmp.rx_packets;
--		s->rx_bytes   += tmp.rx_bytes;
--		s->tx_packets += tmp.tx_packets;
--		s->tx_bytes   += tmp.tx_bytes;
--	}
-+	dev_fetch_sw_netstats(s, dev->tstats);
+ 	memset(stats, 0, sizeof(*stats));
+ 	stats->rx_errors  = dev->stats.rx_errors;
+ 	stats->tx_errors  = dev->stats.tx_errors;
+ 	stats->tx_dropped = dev->stats.tx_dropped;
+ 	stats->rx_dropped = dev->stats.rx_dropped;
  
- 	s->rx_dropped = dev->stats.rx_dropped;
- 	s->tx_dropped = dev->stats.tx_dropped;
+-	for_each_possible_cpu(i) {
+-		const struct pcpu_sw_netstats *percpu_stats;
+-		struct pcpu_sw_netstats local_stats;
+-		unsigned int start;
+-
+-		percpu_stats = per_cpu_ptr(dev->tstats, i);
+-
+-		do {
+-			start = u64_stats_fetch_begin_irq(&percpu_stats->syncp);
+-			local_stats = *percpu_stats;
+-		} while (u64_stats_fetch_retry_irq(&percpu_stats->syncp, start));
+-
+-		stats->rx_bytes         += local_stats.rx_bytes;
+-		stats->rx_packets       += local_stats.rx_packets;
+-		stats->tx_bytes         += local_stats.tx_bytes;
+-		stats->tx_packets       += local_stats.tx_packets;
+-	}
++	dev_fetch_sw_netstats(stats, dev->tstats);
+ }
+ 
+ static const struct net_device_ops internal_dev_netdev_ops = {
 -- 
 2.28.0
 
