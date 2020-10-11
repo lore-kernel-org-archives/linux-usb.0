@@ -8,58 +8,59 @@ X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 599FDC433DF
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5B5C433E7
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:45:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 292EB2145D
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:45:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EB53215A4
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Oct 2020 19:45:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rPx+oLh0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GRfTQACP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728858AbgJKTpC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Oct 2020 15:45:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34946 "EHLO
+        id S1727130AbgJKTpA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Oct 2020 15:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbgJKTop (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 15:44:45 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787A0C0613D5;
-        Sun, 11 Oct 2020 12:44:45 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id g4so14768794edk.0;
-        Sun, 11 Oct 2020 12:44:45 -0700 (PDT)
+        with ESMTP id S1726896AbgJKToj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 15:44:39 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35143C0613CE;
+        Sun, 11 Oct 2020 12:44:39 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id e22so20353944ejr.4;
+        Sun, 11 Oct 2020 12:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=t6mBah8f7Cbtv+XC/jNYzc0qx0/PRMeIzqK4sBdTEL4=;
-        b=rPx+oLh0oDeejrIAjThcqiU01bY+NR/k9Ak/q2AE42r8Gg7pRz3M+Uy3dqcWg/5a0y
-         sU6Fu8p8hMgV+DxLdyXWUXNi/WlICSn/J74p/bkR5B8QMpgSNJ7i78VvvbKZTvTWUmUO
-         ssIM5hWV8fer6aBzRCJ3ILF+cF6tNEy173XU7jOQnTqZ7TmIGacbgP1mzVWthRP4ZkfF
-         n6sU8bfkOVjw3SuQlW30E4i4blnq1TTgch31KKRt16pVpCDmYF4xhrum7E1h5HVGQl0k
-         YF6X/p8B3lKJqZLDYJYVza3bSDkW/GBL26emjt3oHzNjoXOna1w3iNOSMd0OYAoxPq2H
-         jTiA==
+        bh=WQbLDoFSeSltH3nftOw/NOzLE5EP1LZ6y+xL/a85h+w=;
+        b=GRfTQACPyYtR9pqybfVbLmIpJpuRl0C7wsrFoWXj0QX2wcH42Nf5udem/k1aVfah6x
+         5vyHB7w2Bv/AM6CamTx3zwA3DYcGCYNGJArU2vV3132pEcwY9490f1rV9XqSsKjP2P6P
+         uxm6ihfKy1Z0s9suALkvOACSWG9AS0rfoXB5Ev8q5jjvCRxdzC5SialMoEui+aiDT2OO
+         Nav4/AveRUsUVI91sXydnB/YWzuq6GtOeFMFMELGgiFo2RLcSvAabyKUnJK34V7pMJII
+         op63g+Mx29KT9idfNKqGYQ0Z3lXoirpktiUjywSNtNwi0K3Dd9JCFhi2raiJVTREJtBZ
+         jn4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=t6mBah8f7Cbtv+XC/jNYzc0qx0/PRMeIzqK4sBdTEL4=;
-        b=QrU48prxfFnwpIUIYlpgO9u+YHbaBNaOeIBFI9wnbhwVEg1OTQEZ9VYyqe3zRQ5s7u
-         AesB9AMSjI0J1RgoRXjPlSW4SJVbyTtSRNwxJr0nkh5mmEs/S+Y4Nd1g8SiM/WPUu9Wp
-         osqTtsKH+7Fxlw72qjlrOai1/PU22djKjYISb6hkr73ln4D0yW7o9vOcHVI6BJ/Dmaua
-         GveX3YeHk2Db4fORzNREvg32Ngib5WUPqn9RBL71ukBLqvFiWMlQWbK6pIzX5GRDhZ6m
-         6zdabCHjIw3TR40mawMopq8e5UjxuCfcWrjuY4YsT2gnX7BSr1qAnVoTAVdVqTW31r2c
-         9dUA==
-X-Gm-Message-State: AOAM530DkeqnO+aO3UkbXy7fMoJGuzHlq5a3mqCbQOF8nSbSC0k2rj4f
-        mwOYi5cyrbj96/YPSeXHgAs=
-X-Google-Smtp-Source: ABdhPJze22jzr28NBfMCWqu+FyuYjUDaaRfQd4k9/kJxDSiAjQKlgPzLiPicrGF5qB1uFU4ILMcjtw==
-X-Received: by 2002:aa7:dc16:: with SMTP id b22mr10482539edu.252.1602445484162;
-        Sun, 11 Oct 2020 12:44:44 -0700 (PDT)
+        bh=WQbLDoFSeSltH3nftOw/NOzLE5EP1LZ6y+xL/a85h+w=;
+        b=jZ0aWFPBXjPS2MHEao0wLymGxrcNfj8S/2IadXNfHTah75cdPNKYM2Mi7/BlyOMhi3
+         n4b6uzNt52fY4QfbKZ4uKqXmP1/P00CKdaawuao6s/+B7V96xDh7oMSBVQPj0xaRGLGD
+         Ba91Y/nUbj7y1FJIStXbeeZc2Vn+zlV2OWBtay65PqMeGSnhN+25oUeGivUOw916AmTI
+         pPsSFo4PS5zejPUfOb/cwpwfrYWa3nhB4CN2lDVGZGUJM7hEiJFpI/Au0Y8MV/EIXl7D
+         9qTyHhNW5+hxdeN0ESTcJbZPuIEFXdXxLY3FhB6NWiMn08FeQjpehBLcjLfAZh7hM68y
+         uG3A==
+X-Gm-Message-State: AOAM532QWdaqkDPgyH0EPpOn3B74NeRsN3a7RJm03RvVc8GyE4vF+JuP
+        14IE7sndkrlhTHqxLkIhK3g=
+X-Google-Smtp-Source: ABdhPJwypu1FksPcYviHGb0G07n2BgDDWUAYOGS5F17YYuqk194tB3z/pT1ejI1KbvTYlJisRN0Xdw==
+X-Received: by 2002:a17:906:9702:: with SMTP id k2mr2309183ejx.494.1602445477904;
+        Sun, 11 Oct 2020 12:44:37 -0700 (PDT)
 Received: from ?IPv6:2003:ea:8f00:6a00:51b7:bf4f:604:7d3d? (p200300ea8f006a0051b7bf4f06047d3d.dip0.t-ipconnect.de. [2003:ea:8f00:6a00:51b7:bf4f:604:7d3d])
-        by smtp.googlemail.com with ESMTPSA id s6sm9816029ejx.79.2020.10.11.12.44.43
+        by smtp.googlemail.com with ESMTPSA id o3sm9487479edv.63.2020.10.11.12.44.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Oct 2020 12:44:43 -0700 (PDT)
-Subject: [PATCH net-next 12/12] xfrm: use new function dev_fetch_sw_netstats
+        Sun, 11 Oct 2020 12:44:37 -0700 (PDT)
+Subject: [PATCH net-next 08/12] net: dsa: use new function
+ dev_fetch_sw_netstats
 From:   Heiner Kallweit <hkallweit1@gmail.com>
 To:     David Miller <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -86,8 +87,8 @@ Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         linux-wireless <linux-wireless@vger.kernel.org>,
         bridge@lists.linux-foundation.org
 References: <a46f539e-a54d-7e92-0372-cd96bb280729@gmail.com>
-Message-ID: <b0edee7e-4594-e3b3-ea75-68b4f33509df@gmail.com>
-Date:   Sun, 11 Oct 2020 21:44:02 +0200
+Message-ID: <4c7b9a8d-caa2-52dd-8973-10f4e2892dd6@gmail.com>
+Date:   Sun, 11 Oct 2020 21:41:27 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
@@ -103,42 +104,43 @@ Simplify the code by using new function dev_fetch_sw_netstats().
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- net/xfrm/xfrm_interface.c | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+ net/dsa/slave.c | 21 +--------------------
+ 1 file changed, 1 insertion(+), 20 deletions(-)
 
-diff --git a/net/xfrm/xfrm_interface.c b/net/xfrm/xfrm_interface.c
-index 5b120936d..aa4cdcf69 100644
---- a/net/xfrm/xfrm_interface.c
-+++ b/net/xfrm/xfrm_interface.c
-@@ -541,27 +541,7 @@ static int xfrmi_update(struct xfrm_if *xi, struct xfrm_if_parms *p)
- static void xfrmi_get_stats64(struct net_device *dev,
- 			       struct rtnl_link_stats64 *s)
+diff --git a/net/dsa/slave.c b/net/dsa/slave.c
+index e7c1d62fd..3bc5ca40c 100644
+--- a/net/dsa/slave.c
++++ b/net/dsa/slave.c
+@@ -1221,28 +1221,9 @@ static void dsa_slave_get_stats64(struct net_device *dev,
+ 				  struct rtnl_link_stats64 *stats)
  {
--	int cpu;
--
--	for_each_possible_cpu(cpu) {
--		struct pcpu_sw_netstats *stats;
--		struct pcpu_sw_netstats tmp;
--		int start;
--
--		stats = per_cpu_ptr(dev->tstats, cpu);
--		do {
--			start = u64_stats_fetch_begin_irq(&stats->syncp);
--			tmp.rx_packets = stats->rx_packets;
--			tmp.rx_bytes   = stats->rx_bytes;
--			tmp.tx_packets = stats->tx_packets;
--			tmp.tx_bytes   = stats->tx_bytes;
--		} while (u64_stats_fetch_retry_irq(&stats->syncp, start));
--
--		s->rx_packets += tmp.rx_packets;
--		s->rx_bytes   += tmp.rx_bytes;
--		s->tx_packets += tmp.tx_packets;
--		s->tx_bytes   += tmp.tx_bytes;
--	}
-+	dev_fetch_sw_netstats(s, dev->tstats);
+ 	struct dsa_slave_priv *p = netdev_priv(dev);
+-	struct pcpu_sw_netstats *s;
+-	unsigned int start;
+-	int i;
  
- 	s->rx_dropped = dev->stats.rx_dropped;
- 	s->tx_dropped = dev->stats.tx_dropped;
+ 	netdev_stats_to_stats64(stats, &dev->stats);
+-	for_each_possible_cpu(i) {
+-		u64 tx_packets, tx_bytes, rx_packets, rx_bytes;
+-
+-		s = per_cpu_ptr(p->stats64, i);
+-		do {
+-			start = u64_stats_fetch_begin_irq(&s->syncp);
+-			tx_packets = s->tx_packets;
+-			tx_bytes = s->tx_bytes;
+-			rx_packets = s->rx_packets;
+-			rx_bytes = s->rx_bytes;
+-		} while (u64_stats_fetch_retry_irq(&s->syncp, start));
+-
+-		stats->tx_packets += tx_packets;
+-		stats->tx_bytes += tx_bytes;
+-		stats->rx_packets += rx_packets;
+-		stats->rx_bytes += rx_bytes;
+-	}
++	dev_fetch_sw_netstats(stats, p->stats64);
+ }
+ 
+ static int dsa_slave_get_rxnfc(struct net_device *dev,
 -- 
 2.28.0
 
