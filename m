@@ -2,41 +2,42 @@ Return-Path: <SRS0=YZLH=DT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 839D2C352BC
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DBDC433E7
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:58:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 444DA208B8
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:41:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26B622076E
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602517298;
-	bh=pXjYnodGKT31pxw4McVgCRDMJZ9+6CNCCIWwEIQu/gI=;
+	s=default; t=1602518318;
+	bh=liPwYfK8PstYEsxOdTqBv3Uz10zosMn4dq0jRK+FncA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=bKCmomUY2qfSZli5H1BzRfEVc8CXa2esMwwyfsPWAJ8gmjDxqFr+waRRMtStx03Hv
-	 E7dRhJUPEwt3Sq138EFyWl04mIAmH3HSeJ4zsFipRu+kDNz3J6038QPE55yzDrym4K
-	 H/FfYhTTPEkbDrXg9ioP7B8CXXtyoB8GCyiVs6vM=
+	b=x03PN68afe5Krw4fk5ajCK+3LobRwKk0GMJGeXYFgFg8H8Sd9itRn0MjtT5vqXn20
+	 FwXEQApEbjUySu1Tjh2ElSm7wJG90f2v+6riIScmiSn2ZvxtAh59vt2DWipLWEr2Fm
+	 cA2Ttbrs8rvrDWBLDjbg5Np//SfL2FamWaRRdb8c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390816AbgJLPlh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 11:41:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44818 "EHLO mail.kernel.org"
+        id S1730481AbgJLP6h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 11:58:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53684 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390298AbgJLPkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Oct 2020 11:40:00 -0400
+        id S1726742AbgJLP6h (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Oct 2020 11:58:37 -0400
 Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F29FA208D5;
-        Mon, 12 Oct 2020 15:39:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 24C3E2067C;
+        Mon, 12 Oct 2020 15:58:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602517200;
-        bh=pXjYnodGKT31pxw4McVgCRDMJZ9+6CNCCIWwEIQu/gI=;
+        s=default; t=1602518315;
+        bh=liPwYfK8PstYEsxOdTqBv3Uz10zosMn4dq0jRK+FncA=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=mibUuWdilDLPpFgfUC5jP5SbDtbLACMnIXY3wiUL42E9mZjmpSbE+vS39+ER3iFqk
-         +d9+dn8+ExijWDt6cGKDtXbzo7l8EHbmdYTZIAJxOzr/uCfNqXtbZEgCAMvtuqNSdt
-         pgRTwstQYUknFZZMTBhRIq7DYF8bhldluq0hQL2w=
+        b=NMLxUavgck+LKSq02E3y/nrc5dWz52ZKrnIFwgmi2yl6XVP7/aUZ16IMDdFU9URnj
+         KuXYtVwLgScFqxrpfE+ixYBi27st24uRiJ38yKL1MKqs5Fm5rbLAi6+4g/952vTIbD
+         kqf4ZsgFc9QnKkiwPUoe8Lb927yyGijmItV8R76s=
 From:   Felipe Balbi <balbi@kernel.org>
 To:     rickyniu <rickyniu@google.com>, gregkh@linuxfoundation.org,
         astrachan@google.com, rickyniu@google.com, amit.pundir@linaro.org,
@@ -44,11 +45,13 @@ To:     rickyniu <rickyniu@google.com>, gregkh@linuxfoundation.org,
         vvreddy@codeaurora.org
 Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         kyletso@google.com
-Subject: Re: [PATCH 0/3] f_accessory upstream
-In-Reply-To: <20201012111024.2259162-1-rickyniu@google.com>
+Subject: Re: [PATCH 1/3] ANDROID: usb: gadget: f_accessory: Add Android
+ Accessory function
+In-Reply-To: <20201012111024.2259162-2-rickyniu@google.com>
 References: <20201012111024.2259162-1-rickyniu@google.com>
-Date:   Mon, 12 Oct 2020 18:39:52 +0300
-Message-ID: <87eem3lagn.fsf@kernel.org>
+ <20201012111024.2259162-2-rickyniu@google.com>
+Date:   Mon, 12 Oct 2020 18:58:27 +0300
+Message-ID: <87blh7l9lo.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -64,28 +67,451 @@ Content-Transfer-Encoding: quoted-printable
 Hi,
 
 rickyniu <rickyniu@google.com> writes:
-> Below commit is to add log and send uevent:
-> 0003-ANDROID-usb-f_accessory-send-uevent-for-51-52-reques.patch
+> From: Benoit Goby <benoit@android.com>
 
-if you're sending something new...
+missing Signed-off-by for author
 
-> Benoit Goby (1):
->   ANDROID: usb: gadget: f_accessory: Add Android Accessory function
+> USB accessory mode allows users to connect USB host hardware
+> specifically designed for Android-powered devices. The accessories
+> must adhere to the Android accessory protocol outlined in the
+> http://accessories.android.com documentation. This allows
+> Android devices that cannot act as a USB host to still interact with
+> USB hardware. When an Android device is in USB accessory mode, the
+> attached Android USB accessory acts as the host, provides power
+> to the USB bus, and enumerates connected devices.
+
+The protocol is still a HID protocol, is it? Why couldn't you use f_hid.c?
+
+> Signed-off-by: Mike Lockwood <lockwood@android.com>
+> [AmitP: Folded following android-4.9 commit changes into this patch
+>         ceb2f0aac624 ("ANDROID: usb: gadget: accessory: Fix section misma=
+tch")
+>         Parts of e27543931009 ("ANDROID: usb: gadget: Fixes and hacks to =
+make android usb gadget compile on 3.8")
+>         1b07ec751563 ("ANDROID: drivers: usb: gadget: 64-bit related type=
+ fixes")]
+> Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
+> [astrachan: Folded the following changes into this patch:
+>             9d5891d516e2 ("ANDROID: usb: gadget: f_accessory: Add ACCESSO=
+RY_SET_AUDIO_MODE control request and ioctl")
+>             dc66cfce9622 ("ANDROID: usb: gadget: f_accessory: Add support=
+ for HID input devices")
+>             5f1ac9c2871b ("ANDROID: usb: gadget: f_accessory: move usersp=
+ace interface to uapi")
+>             9a6241722cd8 ("ANDROID: usb: gadget: f_accessory: Enabled Zer=
+o Length Packet (ZLP) for acc_write")
+>             31a0ecd5a825 ("ANDROID: usb: gadget: f_accessory: check for a=
+ccessory device before disconnecting HIDs")
+>             580721fa6cbc ("ANDROID: usb: gadget: f_accessory: Migrate to =
+USB_FUNCTION API")
+>             7f407172fb28 ("ANDROID: usb: gadget: f_accessory: Fix for Usb=
+Accessory clean unbind.")
+>             ebc98ac5a22f ("ANDROID: usb: gadget: f_accessory: fix false d=
+isconnect due to a signal sent to the reading process")
+>             71c6dc5ffdab ("ANDROID: usb: gadget: f_accessory: assign no-o=
+p request complete callbacks")
+>             675047ee68e9 ("ANDROID: usb: gadget: f_accessory: Move gadget=
+ functions code")
+>             b2bedaa5c7df ("CHROMIUM: usb: gadget: f_accessory: add .raw_r=
+equest callback")]
+> Signed-off-by: Alistair Strachan <astrachan@google.com>
+> Signed-off-by: rickyniu <rickyniu@google.com>
+
+We need an actual name here, IIRC.
+
+> diff --git a/drivers/usb/gadget/function/f_accessory.c b/drivers/usb/gadg=
+et/function/f_accessory.c
+> new file mode 100644
+> index 000000000000..514eadee1793
+> --- /dev/null
+> +++ b/drivers/usb/gadget/function/f_accessory.c
+> @@ -0,0 +1,1352 @@
+
+missing SPDX license identifier comment
+
+> +/*
+> + * Gadget Function Driver for Android USB accessories
+> + *
+> + * Copyright (C) 2011 Google, Inc.
+> + * Author: Mike Lockwood <lockwood@android.com>
+> + *
+> + * This software is licensed under the terms of the GNU General Public
+> + * License version 2, as published by the Free Software Foundation, and
+> + * may be copied, distributed, and modified under those terms.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + */
+> +
+> +/* #define DEBUG */
+> +/* #define VERBOSE_DEBUG */
+
+these shouldn't be necessary
+
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/poll.h>
+> +#include <linux/delay.h>
+> +#include <linux/wait.h>
+> +#include <linux/err.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kthread.h>
+> +#include <linux/freezer.h>
+> +
+> +#include <linux/types.h>
+> +#include <linux/file.h>
+> +#include <linux/device.h>
+> +#include <linux/miscdevice.h>
+> +
+> +#include <linux/hid.h>
+> +#include <linux/hiddev.h>
 >
-> Vijayavardhan Vennapusa (1):
->   ANDROID: USB: f_accessory: Check dev pointer before decoding ctrl
->     request
->
-> rickyniu (1):
->   ANDROID: usb: f_accessory: send uevent for 51,52 requests
+> +#include <linux/usb.h>
+> +#include <linux/usb/ch9.h>
+> +#include <linux/usb/f_accessory.h>
+> +
+> +#include <linux/configfs.h>
+> +#include <linux/usb/composite.h>
+> +
+> +#define MAX_INST_NAME_LEN        40
+> +#define BULK_BUFFER_SIZE    16384
+> +#define ACC_STRING_SIZE     256
+> +
+> +#define PROTOCOL_VERSION    2
+> +
+> +/* String IDs */
+> +#define INTERFACE_STRING_INDEX	0
+> +
+> +/* number of tx and rx requests to allocate */
+> +#define TX_REQ_MAX 4
+> +#define RX_REQ_MAX 2
+> +
+> +struct acc_hid_dev {
+> +	struct list_head	list;
+> +	struct hid_device *hid;
+> +	struct acc_dev *dev;
+> +	/* accessory defined ID */
+> +	int id;
+> +	/* HID report descriptor */
+> +	u8 *report_desc;
+> +	/* length of HID report descriptor */
+> +	int report_desc_len;
+> +	/* number of bytes of report_desc we have received so far */
+> +	int report_desc_offset;
+> +};
+> +
+> +struct acc_dev {
+> +	struct usb_function function;
+> +	struct usb_composite_dev *cdev;
+> +	spinlock_t lock;
+> +
+> +	struct usb_ep *ep_in;
+> +	struct usb_ep *ep_out;
+> +
+> +	/* online indicates state of function_set_alt & function_unbind
+> +	 * set to 1 when we connect
+> +	 */
 
-why do you send me a broken version with two fixes? Send me a single
-patch. Also, please correct the subject line for the patch to match
-what's used in the framework. Something like:
+wrong multi-line comment style
 
-	usb: gadget: function: add Android Accessory function
+> +	int online:1;
+> +
+> +	/* disconnected indicates state of open & release
+> +	 * Set to 1 when we disconnect.
+> +	 * Not cleared until our file is closed.
+> +	 */
+> +	int disconnected:1;
+> +
+> +	/* strings sent by the host */
+> +	char manufacturer[ACC_STRING_SIZE];
+> +	char model[ACC_STRING_SIZE];
+> +	char description[ACC_STRING_SIZE];
+> +	char version[ACC_STRING_SIZE];
+> +	char uri[ACC_STRING_SIZE];
+> +	char serial[ACC_STRING_SIZE];
+> +
+> +	/* for acc_complete_set_string */
+> +	int string_index;
+> +
+> +	/* set to 1 if we have a pending start request */
+> +	int start_requested;
+> +
+> +	int audio_mode;
+> +
+> +	/* synchronize access to our device file */
+> +	atomic_t open_excl;
+> +
+> +	struct list_head tx_idle;
+> +
+> +	wait_queue_head_t read_wq;
+> +	wait_queue_head_t write_wq;
+> +	struct usb_request *rx_req[RX_REQ_MAX];
+> +	int rx_done;
+> +
+> +	/* delayed work for handling ACCESSORY_START */
+> +	struct delayed_work start_work;
+> +
+> +	/* worker for registering and unregistering hid devices */
+> +	struct work_struct hid_work;
 
-should do the trick
+why are these workers needed?
+
+> +static struct usb_interface_descriptor acc_interface_desc =3D {
+> +	.bLength                =3D USB_DT_INTERFACE_SIZE,
+> +	.bDescriptorType        =3D USB_DT_INTERFACE,
+> +	.bInterfaceNumber       =3D 0,
+> +	.bNumEndpoints          =3D 2,
+> +	.bInterfaceClass        =3D USB_CLASS_VENDOR_SPEC,
+> +	.bInterfaceSubClass     =3D USB_SUBCLASS_VENDOR_SPEC,
+> +	.bInterfaceProtocol     =3D 0,
+> +};
+
+const?
+
+> +static struct usb_endpoint_descriptor acc_highspeed_in_desc =3D {
+> +	.bLength                =3D USB_DT_ENDPOINT_SIZE,
+> +	.bDescriptorType        =3D USB_DT_ENDPOINT,
+> +	.bEndpointAddress       =3D USB_DIR_IN,
+> +	.bmAttributes           =3D USB_ENDPOINT_XFER_BULK,
+> +	.wMaxPacketSize         =3D __constant_cpu_to_le16(512),
+> +};
+
+const?
+
+> +static struct usb_endpoint_descriptor acc_highspeed_out_desc =3D {
+> +	.bLength                =3D USB_DT_ENDPOINT_SIZE,
+> +	.bDescriptorType        =3D USB_DT_ENDPOINT,
+> +	.bEndpointAddress       =3D USB_DIR_OUT,
+> +	.bmAttributes           =3D USB_ENDPOINT_XFER_BULK,
+> +	.wMaxPacketSize         =3D __constant_cpu_to_le16(512),
+> +};
+
+const?
+
+> +static struct usb_endpoint_descriptor acc_fullspeed_in_desc =3D {
+> +	.bLength                =3D USB_DT_ENDPOINT_SIZE,
+> +	.bDescriptorType        =3D USB_DT_ENDPOINT,
+> +	.bEndpointAddress       =3D USB_DIR_IN,
+> +	.bmAttributes           =3D USB_ENDPOINT_XFER_BULK,
+> +};
+
+const?
+
+> +static struct usb_endpoint_descriptor acc_fullspeed_out_desc =3D {
+> +	.bLength                =3D USB_DT_ENDPOINT_SIZE,
+> +	.bDescriptorType        =3D USB_DT_ENDPOINT,
+> +	.bEndpointAddress       =3D USB_DIR_OUT,
+> +	.bmAttributes           =3D USB_ENDPOINT_XFER_BULK,
+> +};
+
+const?
+
+> +static struct usb_descriptor_header *fs_acc_descs[] =3D {
+> +	(struct usb_descriptor_header *) &acc_interface_desc,
+> +	(struct usb_descriptor_header *) &acc_fullspeed_in_desc,
+> +	(struct usb_descriptor_header *) &acc_fullspeed_out_desc,
+> +	NULL,
+> +};
+
+const?
+
+> +static struct usb_descriptor_header *hs_acc_descs[] =3D {
+> +	(struct usb_descriptor_header *) &acc_interface_desc,
+> +	(struct usb_descriptor_header *) &acc_highspeed_in_desc,
+> +	(struct usb_descriptor_header *) &acc_highspeed_out_desc,
+> +	NULL,
+> +};
+
+const?
+
+> +/* temporary variable used between acc_open() and acc_gadget_bind() */
+> +static struct acc_dev *_acc_dev;
+
+why?
+
+> +struct acc_instance {
+> +	struct usb_function_instance func_inst;
+> +	const char *name;
+> +};
+> +
+> +static inline struct acc_dev *func_to_dev(struct usb_function *f)
+> +{
+> +	return container_of(f, struct acc_dev, function);
+> +}
+
+this can be a define, but fine :-)
+
+> +static void acc_request_free(struct usb_request *req, struct usb_ep *ep)
+> +{
+> +	if (req) {
+
+why would req ever be NULL here?
+
+> +static void req_put(struct acc_dev *dev, struct list_head *head,
+
+how about we use a more descriptive name? Usually this would be called $pre=
+fix_enqueue().
+
+> +		struct usb_request *req)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&dev->lock, flags);
+> +	list_add_tail(&req->list, head);
+> +	spin_unlock_irqrestore(&dev->lock, flags);
+> +}
+> +
+> +/* remove a request from the head of a list */
+> +static struct usb_request *req_get(struct acc_dev *dev, struct list_head=
+ *head)
+> +{
+> +	unsigned long flags;
+> +	struct usb_request *req;
+> +
+> +	spin_lock_irqsave(&dev->lock, flags);
+> +	if (list_empty(head)) {
+> +		req =3D 0;
+> +	} else {
+> +		req =3D list_first_entry(head, struct usb_request, list);
+> +		list_del(&req->list);
+> +	}
+
+list_first_entry_or_null()?
+
+> +static void acc_complete_in(struct usb_ep *ep, struct usb_request *req)
+> +{
+> +	struct acc_dev *dev =3D _acc_dev;
+> +
+> +	if (req->status =3D=3D -ESHUTDOWN) {
+> +		pr_debug("acc_complete_in set disconnected");
+
+yeah, we need something with a dev* for these prints.
+
+> +static int acc_hid_start(struct hid_device *hid)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void acc_hid_stop(struct hid_device *hid)
+> +{
+> +}
+> +
+> +static int acc_hid_open(struct hid_device *hid)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void acc_hid_close(struct hid_device *hid)
+> +{
+> +}
+> +
+> +static int acc_hid_raw_request(struct hid_device *hid, unsigned char rep=
+ortnum,
+> +	__u8 *buf, size_t len, unsigned char rtype, int reqtype)
+> +{
+> +	return 0;
+> +}
+
+what's with all the unimplemented methods?
+
+> +static long acc_ioctl(struct file *fp, unsigned code, unsigned long valu=
+e)
+> +{
+> +	struct acc_dev *dev =3D fp->private_data;
+> +	char *src =3D NULL;
+> +	int ret;
+> +
+> +	switch (code) {
+> +	case ACCESSORY_GET_STRING_MANUFACTURER:
+> +		src =3D dev->manufacturer;
+> +		break;
+> +	case ACCESSORY_GET_STRING_MODEL:
+> +		src =3D dev->model;
+> +		break;
+> +	case ACCESSORY_GET_STRING_DESCRIPTION:
+> +		src =3D dev->description;
+> +		break;
+> +	case ACCESSORY_GET_STRING_VERSION:
+> +		src =3D dev->version;
+> +		break;
+> +	case ACCESSORY_GET_STRING_URI:
+> +		src =3D dev->uri;
+> +		break;
+> +	case ACCESSORY_GET_STRING_SERIAL:
+> +		src =3D dev->serial;
+> +		break;
+> +	case ACCESSORY_IS_START_REQUESTED:
+> +		return dev->start_requested;
+> +	case ACCESSORY_GET_AUDIO_MODE:
+> +		return dev->audio_mode;
+> +	}
+> +	if (!src)
+> +		return -EINVAL;
+
+add this part as a default on the switch above?
+
+> +
+> +	ret =3D strlen(src) + 1;
+> +	if (copy_to_user((void __user *)value, src, ret))
+> +		ret =3D -EFAULT;
+> +	return ret;
+> +}
+> +
+> +static int acc_open(struct inode *ip, struct file *fp)
+> +{
+> +	printk(KERN_INFO "acc_open\n");
+
+no printk() calls!
+
+why couldn't you get your acc_dev from fp->private_data?
+
+> +	if (atomic_xchg(&_acc_dev->open_excl, 1))
+
+do you really need this to be an atomic_t?
+
+> +int acc_ctrlrequest(struct usb_composite_dev *cdev,
+> +				const struct usb_ctrlrequest *ctrl)
+> +{
+> +	struct acc_dev	*dev =3D _acc_dev;
+> +	int	value =3D -EOPNOTSUPP;
+> +	struct acc_hid_dev *hid;
+> +	int offset;
+> +	u8 b_requestType =3D ctrl->bRequestType;
+> +	u8 b_request =3D ctrl->bRequest;
+> +	u16	w_index =3D le16_to_cpu(ctrl->wIndex);
+> +	u16	w_value =3D le16_to_cpu(ctrl->wValue);
+> +	u16	w_length =3D le16_to_cpu(ctrl->wLength);
+> +	unsigned long flags;
+> +
+> +/*
+> +	printk(KERN_INFO "acc_ctrlrequest "
+> +			"%02x.%02x v%04x i%04x l%u\n",
+> +			b_requestType, b_request,
+> +			w_value, w_index, w_length);
+> +*/
+
+commented out code? Please remove.
+
+> +	if (b_requestType =3D=3D (USB_DIR_OUT | USB_TYPE_VENDOR)) {
+> +		if (b_request =3D=3D ACCESSORY_START) {
+
+looks like a switch statement is fitting here?
+
+> +EXPORT_SYMBOL_GPL(acc_ctrlrequest);
+
+why do you export this for any caller? Who is going to call this?
+
+> +void acc_disconnect(void)
+> +{
+> +	/* unregister all HID devices if USB is disconnected */
+> +	kill_all_hid_devices(_acc_dev);
+> +}
+> +EXPORT_SYMBOL_GPL(acc_disconnect);
+
+why exported?
 
 =2D-=20
 balbi
@@ -95,19 +521,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+EeMgRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQbCZxAA2S4smOmwKpTF1vu+EAZs+iMXhGMnVMim
-HNQaodbCpLJkyqePitIrmTRg23rg/zPw6r3HWlIYeMY2sXJIfS9xBSXrn0CM6FVm
-/YTIAeLeZ7cEqiaTt/ApTugn0sr7iFCowuP15PzmkJ77Yuuylaa67bAu0w6njwGK
-HLAdaa+EUHY3eYGs9PCKulHPE601Z2M8mv9SD8QlPEN45OQeC3+LaMQZBRAR8ix6
-6Wyl97ygzBVbEAoBV2HzYpI9yWpaxcP6qV45H3r5GBdF0vs/Zg01HBJybXluMLtF
-kGDPSxd1rAoQFsIMfmiEncupneIKVEt98d1ew5UUpEWHYAeolZ9ICfSupiznYQAB
-1OGORGVxpIkaF77V0JBTafYSEbwLnFLd3yT72gGjB2L0B6Qj5PNsTGkpLPsH4ko6
-mw3xVgUMru5FqdI8IEiI6UjZqRmuQ6zZFhU0jgqCz7QxFhKtLEv2RgAXznF0+D3B
-AGQKAsen3h91YKIFoFwsZKdblLtA9+2dihsSHWdpF9p+8lgihKdeElsVvZnNtbzS
-rHV0x7rIcznngKUfqB8cqAY/dv3GmijkTlV2DFJ9h2LdvMaxcMRrarNnO/OKgAfh
-mV7VVKRS57YNxaJ6ADmYFCDzWJKtn+GNc9SdirOajA9T2eGw9/XOAByBuFomx8X4
-U6CZNcb0dks=
-=70gn
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+EfSMRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQZhtw//Xfko0STxsJ3+/9f+LCsuifkWT0c2ju6R
+KOszmTDUn8TQykvKVPyAoH3JIppgbTpV4l1s335O7Qs3LeRhp3/FWGCZCsLWjeBm
+4du0Z/ZdGlsOF6DWdolGfWunPxOv30jVe7+wLs2gpEID4NL7+9Fqjg7o08CcgQ+E
++Jt2gwi39NMYMuoEtNPmOBaJw5ASmL2vvJXbUMTJN3zidixIfKeHbUky4Fdq5LEe
+T8m7BE/BEcRDQ7gX7RMBHn8kmJnzpaSXSRY8ieknmyjGCcL/JSATiZmoMCQVz28L
+J6MCBgenEAnCgMJ9NxIQj4BSLPuichHCzlq7o9JJ2bo1LbkTQ0IWPHW5gs/6gUQr
+hCIIbQTQFOKlQQqGibS+YQplp/eu4AMcZSbWIhfbt0vzL4pRBC6VrwqNSclpjZp/
+OBUC9KxlVyMO8if6ouMLX7nWZ/I+s4Oeq+NnRNS5joNN/biDtUiwNNa6FxqZec1Y
+hLN6ITMXaRcINo7V0qRgfyW429yx2kFPxq8JMoS6BCNcZpa14U8zIcYOyCuFWsFv
+NOnZvvP6N2WN+DBPBkzNLbvKp0FDGaxKgGATl97a9TyRnrWfhww5NloZ8DlAX3kG
+sVgQJvqB1KkHlyQJzJVCrQlxFq2WJiCa7OwNuRW7YkCPUwA+Zg+NFn9N0MHxoJla
+AguHkx2woPY=
+=nf/7
 -----END PGP SIGNATURE-----
 --=-=-=--
