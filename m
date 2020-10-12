@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FE9C433E7
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:08:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0ECDC433E7
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:08:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E61520878
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:08:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B7EA20878
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602529688;
-	bh=I1XsZeVmpItT7tBlG6tp50V00Zxc9iD3Rn5Nhi1zOeU=;
+	s=default; t=1602529724;
+	bh=/11yYPFBHQOT+4upP8tZijZHl27k2jneMtbDOcUOZew=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=piUp+2RtQgoxPcHNzUBu0Ied/nsMQlYiObVSAZ7u3DAW8AQsx/IjOFsws90QqjKbA
-	 +m9zPO/BgabKxyX3lgoZM8lSqI9KVdQfUxYhfFIO13K3Wm+zh2UFWLy0ppw4wY5JFy
-	 pwJ2HFou0oxn6tWeOu22WmKIhNEGbrU9NVDiZSyg=
+	b=2DVtC5cViJtm0ccVAS9M07JC8GOeY1Bp5YYyFxtor4vGb2bs9r9HMPJ/nubXEMTlx
+	 No1ZlmzDorMAW8gksBny8qLcs3achQNv20SiGvsz/Y28Tky/4vsYhxL/vMK8LLYWIl
+	 uRofcjlzjlj+Ubgkx70uQdin2I1dD5ll1ucFvgqA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391238AbgJLTIH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:08:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52928 "EHLO mail.kernel.org"
+        id S2391640AbgJLTII (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:08:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52926 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390610AbgJLTD0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S2390640AbgJLTD0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 12 Oct 2020 15:03:26 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ABADF2067C;
-        Mon, 12 Oct 2020 19:03:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 503BF221FC;
+        Mon, 12 Oct 2020 19:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529404;
-        bh=I1XsZeVmpItT7tBlG6tp50V00Zxc9iD3Rn5Nhi1zOeU=;
+        s=default; t=1602529403;
+        bh=/11yYPFBHQOT+4upP8tZijZHl27k2jneMtbDOcUOZew=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kniNQNC+UwDGdIYlNJ+yCYrZS+DfnkaeHOWobCuP9PPafhg357CEXj2I3qu4w/9Y4
-         YWOrgySnNssXX/rfje+I0hsA5KytMA7qP+qAWI/Pk8dhKVZjcWeg/Xt41Qh2bem7Ps
-         Oq/z/r+62WsRKB1uKeoyFfXs19ivfNigITMCD5nY=
+        b=gpLBm6PacWKWcXg6BNw9XwGqJji2/u4k9vXYG4TqDWo3o8uDyXoHL39pX4mfJvUqx
+         uKUuv0yeeeJQU6UcJuebPhWNOd2SnShL022274Wq22YBtmm2Mrhlmyxk54q/aIFgjo
+         KZC+NiDPZwCSOnobHDKyIK4Kz6MmYv3zPvtjA/cc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wilken Gottwalt <wilken.gottwalt@mailbox.org>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 08/15] net: usb: ax88179_178a: add MCT usb 3.0 adapter
-Date:   Mon, 12 Oct 2020 15:03:05 -0400
-Message-Id: <20201012190313.3279397-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 07/15] net: usb: ax88179_178a: add Toshiba usb 3.0 adapter
+Date:   Mon, 12 Oct 2020 15:03:04 -0400
+Message-Id: <20201012190313.3279397-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201012190313.3279397-1-sashal@kernel.org>
 References: <20201012190313.3279397-1-sashal@kernel.org>
@@ -60,10 +60,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Wilken Gottwalt <wilken.gottwalt@mailbox.org>
 
-[ Upstream commit c92a79829c7c169139874aa1d4bf6da32d10c38a ]
+[ Upstream commit e42d72fea91f8f2e82b65808739ca04b7a8cd7a8 ]
 
-Adds the driver_info and usb ids of the AX88179 based MCT U3-A9003 USB
-3.0 ethernet adapter.
+Adds the driver_info and usb ids of the AX88179 based Toshiba USB 3.0
+ethernet adapter.
 
 Signed-off-by: Wilken Gottwalt <wilken.gottwalt@mailbox.org>
 Signed-off-by: David S. Miller <davem@davemloft.net>
@@ -73,21 +73,21 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 17 insertions(+)
 
 diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index 37caa93f7d49a..9297cbc8d5c03 100644
+index df2f7cc6dc03a..37caa93f7d49a 100644
 --- a/drivers/net/usb/ax88179_178a.c
 +++ b/drivers/net/usb/ax88179_178a.c
-@@ -1737,6 +1737,19 @@ static const struct driver_info toshiba_info = {
+@@ -1724,6 +1724,19 @@ static const struct driver_info belkin_info = {
  	.tx_fixup = ax88179_tx_fixup,
  };
  
-+static const struct driver_info mct_info = {
-+	.description = "MCT USB 3.0 Gigabit Ethernet Adapter",
++static const struct driver_info toshiba_info = {
++	.description = "Toshiba USB Ethernet Adapter",
 +	.bind	= ax88179_bind,
-+	.unbind	= ax88179_unbind,
-+	.status	= ax88179_status,
++	.unbind = ax88179_unbind,
++	.status = ax88179_status,
 +	.link_reset = ax88179_link_reset,
 +	.reset	= ax88179_reset,
-+	.stop	= ax88179_stop,
++	.stop = ax88179_stop,
 +	.flags	= FLAG_ETHER | FLAG_FRAMING_AX,
 +	.rx_fixup = ax88179_rx_fixup,
 +	.tx_fixup = ax88179_tx_fixup,
@@ -96,14 +96,14 @@ index 37caa93f7d49a..9297cbc8d5c03 100644
  static const struct usb_device_id products[] = {
  {
  	/* ASIX AX88179 10/100/1000 */
-@@ -1774,6 +1787,10 @@ static const struct usb_device_id products[] = {
- 	/* Toshiba USB 3.0 GBit Ethernet Adapter */
- 	USB_DEVICE(0x0930, 0x0a13),
- 	.driver_info = (unsigned long)&toshiba_info,
+@@ -1757,6 +1770,10 @@ static const struct usb_device_id products[] = {
+ 	/* Belkin B2B128 USB 3.0 Hub + Gigabit Ethernet Adapter */
+ 	USB_DEVICE(0x050d, 0x0128),
+ 	.driver_info = (unsigned long)&belkin_info,
 +}, {
-+	/* Magic Control Technology U3-A9003 USB 3.0 Gigabit Ethernet Adapter */
-+	USB_DEVICE(0x0711, 0x0179),
-+	.driver_info = (unsigned long)&mct_info,
++	/* Toshiba USB 3.0 GBit Ethernet Adapter */
++	USB_DEVICE(0x0930, 0x0a13),
++	.driver_info = (unsigned long)&toshiba_info,
  },
  	{ },
  };
