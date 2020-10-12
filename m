@@ -5,39 +5,39 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 454F7C43457
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE678C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:06:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 073BC21BE5
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:05:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9251622227
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:06:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602529505;
-	bh=RnZtjUDSLtE32FJ+gtQIaBWPjQ1eFyjx75Cy4UXfb6k=;
+	s=default; t=1602529569;
+	bh=CnE2lC2lYtQSLtaPahgvjcCkXoR6mNxAYKvONxHRGsY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=wC+I7OJz0cXgNdCvfoazXyKQMfx/45tQbbt8p+pMkHXeLzr32hfQ7m20PozODP8TJ
-	 En/hacHN4yPFbqO/kjlw6BigAxuf/LSJnHDx9CeldUSu2U8FKqRQYesyqnxUPtLZmb
-	 KBkdMHitkr0rj6A7OGaA6YgLE2Je8Mh4QaOP5lG8=
+	b=ps9Se5TvK3IaIEkto5j9uVu3r/f/tH6v0Lgy9DA638PkKrFP2ml0/Nw7S/6L3TD0L
+	 nPPz6pNWCXRQcMaQ2nToAdNWs2OovmEKU06MtS31FhK225nuy+nOJsiMjadekxt8Iz
+	 KgsPFokMmBvvun2/vDv8fATivPHQKC6xdjNSoB3c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391480AbgJLTFD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:05:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54336 "EHLO mail.kernel.org"
+        id S1730706AbgJLTF5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:05:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391311AbgJLTEZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Oct 2020 15:04:25 -0400
+        id S2391315AbgJLTEY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Oct 2020 15:04:24 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C1A122246;
-        Mon, 12 Oct 2020 19:04:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D595E2073A;
+        Mon, 12 Oct 2020 19:04:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529457;
-        bh=RnZtjUDSLtE32FJ+gtQIaBWPjQ1eFyjx75Cy4UXfb6k=;
+        s=default; t=1602529443;
+        bh=CnE2lC2lYtQSLtaPahgvjcCkXoR6mNxAYKvONxHRGsY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nn7KGsqQbCsBUWP3jeq+WaW8eSkYtPeZy+eaS0SKnpAtCPMvm7St7QNLiqPbPzmhA
-         g5iIwQfrGtOQ/SIahdL9F12QOIuYNAoXXUrPouKQV5HRunQC2yG7hCWQoJE9JFTnWa
-         u6KT6yWcRlP7obY1IX3JeLL2SVyN4k0IqBheT4iY=
+        b=1dqDD/6tucuPQHmuNN1utudWdPf1fT0AN9rk4Te501NsKJZGsX8RI/Z41FoTMbPJa
+         ohxtCFpFwMZAdXGf5bCHUq/zz3ysH8KFzw/cawS7b+I6lr7B9Puy5D8+x1mdIMx8NL
+         I/ztvXJP5lsntJE+re2k1M3t2eWsGjw/aSnpmr8Q=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
@@ -46,12 +46,12 @@ Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 6/6] net: usb: rtl8150: set random MAC address when set_ethernet_addr() fails
-Date:   Mon, 12 Oct 2020 15:04:08 -0400
-Message-Id: <20201012190408.3279779-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 08/11] net: usb: rtl8150: set random MAC address when set_ethernet_addr() fails
+Date:   Mon, 12 Oct 2020 15:03:50 -0400
+Message-Id: <20201012190353.3279662-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201012190408.3279779-1-sashal@kernel.org>
-References: <20201012190408.3279779-1-sashal@kernel.org>
+In-Reply-To: <20201012190353.3279662-1-sashal@kernel.org>
+References: <20201012190353.3279662-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,7 +86,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-index 9504800217edd..4455493723681 100644
+index 48ba80a8ca5ce..3f4fc78498e03 100644
 --- a/drivers/net/usb/rtl8150.c
 +++ b/drivers/net/usb/rtl8150.c
 @@ -277,12 +277,20 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
