@@ -2,111 +2,89 @@ Return-Path: <SRS0=YZLH=DT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D99A7C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 00:43:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCBDC433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 01:26:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A026E20735
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 00:43:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4B0020790
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 01:26:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="egZlOpHp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbgJLAnR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Oct 2020 20:43:17 -0400
-Received: from mail-eopbgr1300098.outbound.protection.outlook.com ([40.107.130.98]:45915
-        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726735AbgJLAnR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 11 Oct 2020 20:43:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ogd0+jxjh6OZ8HHCOPNiLm+XvTYy0Vm+ZU5GuksMY6JCiT4cnGa00K2B47QAFuleD1AtgG6JdheYP6rPuf9ZJz/8dm4dh27x9wn5Ewf2L/J3dGr0h/eDBSUDXynKbI/nGwhMTJzxXfbM17lyRumPa3ZnzakoKq6/SHRgrUh93SIJfU8sneEJHtojyiw/PZ9+/LezrJJ+r6W7jcMXch6hR5i+vVMlcUth3+bqYGsmjKz7F01tHii3aMRYsmfOHa2x5ELP35b5BsvXKLTbIWC9Bh8grDnoCQCcCfUtuLae6KTHcDVOGfoNhmM9YVoTOoo09CS5cKJIEXSQOOZio19vGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ma9wBT3/tnT1HM6IZdPIhzTPGazG/RTkUHdWfIJYmZ4=;
- b=lGVH3+SxnmZ7TtM9eKnSmmT/zfU8qu7Fks3e8L1xWXkLATmLr5fOrFiglu+Si5q/rm0VSw9inJerZFprBE8CSvoy1DiEfcfpqVcsboP+KrA6qzRGOHr5eMMlQuVlNRfpEhM2OQpLdMtwRQuSixCcpZ4PM8s4/PqOvHyZEV/B9vzNGztZA+6S83pqYfIuw2M7tt3IEQxKUf807weyqIL8WCO9cYL9isyaL+pRq8vlohS0ohidLjnLUYEMsqk5BcDgJ++DQmApfNIQVGv6C/TuQVvkuxxqRfkBjaOOjXwWB3YAqmaVVBN40hYlTz9HyTRJvVP98qVj2pKsWpFuZ4Vovw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
- by HK0PR06MB2836.apcprd06.prod.outlook.com (2603:1096:203:5d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Mon, 12 Oct
- 2020 00:43:13 +0000
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5]) by HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5%6]) with mapi id 15.20.3455.027; Mon, 12 Oct 2020
- 00:43:13 +0000
-From:   Ryan Chen <ryan_chen@aspeedtech.com>
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        "linux-arm-kernel@lists.infradead.org" 
+        id S1727325AbgJLB0K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Oct 2020 21:26:10 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:52733 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725917AbgJLB0K (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 21:26:10 -0400
+X-UUID: e35f3a41522b44ab82b04b3a3d4f211d-20201012
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=R1q9dfekP6mSdsS/ET+QXDzN+e6bl0PwJAWHtliaE3M=;
+        b=egZlOpHpLj25rSinPIGxOKpqyurq2TpQOT20FwDiNgAfNvECWFMWSyCr+SAHzfaxkwKNJEvCdR67oSDNGVQnZETgTvtNHj/FBlSwUVqUerWH0iqvdt+opb+5SmYvCmIUN09yEgsy+GHV9R0DnlahxdRMVJwPMYupm/L6nEVu7NM=;
+X-UUID: e35f3a41522b44ab82b04b3a3d4f211d-20201012
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 562371480; Mon, 12 Oct 2020 09:25:58 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Oct
+ 2020 09:25:56 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 12 Oct 2020 09:25:55 +0800
+Message-ID: <1602465955.29336.57.camel@mhfsdcap03>
+Subject: Re: [PATCH v2 4/4] dt-bindings: usb: use preferred license tag
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        BMC-SW <BMC-SW@aspeedtech.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: RE: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
-Thread-Topic: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
-Thread-Index: AQHWnebb86S5YSDou02D04yeRF7kFKmO7uQAgAQ2c5A=
-Date:   Mon, 12 Oct 2020 00:43:13 +0000
-Message-ID: <HK0PR06MB3380D499BCF164951167FCE2F2070@HK0PR06MB3380.apcprd06.prod.outlook.com>
-References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
- <20201009024937.11246-1-ryan_chen@aspeedtech.com>
- <20201009024937.11246-4-ryan_chen@aspeedtech.com>
- <4efff4e7-27e0-35be-c112-5377f222a478@gmail.com>
-In-Reply-To: <4efff4e7-27e0-35be-c112-5377f222a478@gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d7c87532-6818-430b-6f6d-08d86e47ccec
-x-ms-traffictypediagnostic: HK0PR06MB2836:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB2836218AF628A2F751920AABF2070@HK0PR06MB2836.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: TuqnMkEAhVvXrVHgMiZGD0HjBQzH6R1FpYX+FUMdVSD3myIBfIFKxaSmuCuXo0zXoYBqQGPCClhfV2bdgCBMQhxaVckc2oIaoEnODE4iBkGpUH5GJG8ywejj0QAs9DYwVhoFsDfstsLCfKDYHuRt3EeAaY8MoSkeep3g4VoHshZsAX8ZXZKMv3gQfCnsFWpw9/oGJogYSiAJDnYY8wntBNaAEzoasY682PbYZQNW6MPAsb7HilnLnlADwJya/Z9baG6uuLsdz8I4GhZrdwe9SA/BBqJBiv/JBGg8ALD2s300y14yNS5GLxPYd0y+6wj9iSzOqXdzdtJhkxPyecZdtA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3380.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(39830400003)(366004)(376002)(396003)(83380400001)(186003)(66476007)(66946007)(66446008)(8676002)(7696005)(5660300002)(76116006)(52536014)(55236004)(64756008)(66556008)(2906002)(71200400001)(53546011)(33656002)(55016002)(478600001)(6506007)(86362001)(316002)(8936002)(4744005)(26005)(110136005)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: blyFVfQMheYH/EBsZ7d3QTxByDP6SwCCFHlRVBmJpliJzVCJDOs6AQnqFK2DZIVVNJYAM4etNNYMpkwihEt+CBguOPx4uR6lB0/M8GR5cChctWwzuiPUj9tX4qnfXUXBcfvEoC2jFwFyMTC9FZZSjBTkkodzKv4WKEAfVMR+gTlQ7k/KARMhv/QWNSDqnSF5fyTEJEFffOiJNNmYMajlcWGpvB+0h6qaROHYzdpI4GRNOI905EAbIiHV0KQLeaxCkYjCymsPH2hiGeSm6XF+3jHCoDDpMKOm+naUQS1QFK68+MDsKSzWASY32nl3fXRDk9OELM3haO+ieMT0a3KNKu29YH7F3Eiww3shPksFaGS/a3U1jNGMgFOnyGtuYNM9WJXrDHqjSVwxkgrniOHTLEkL3olvvbl08bcdutaiWpYCJ+nDUMsn0VWq2mi6r/fAP7l1g8sua1cRz3p+yTjU16Jp/Ghf9lLkRg9MvvrbMbXscopLovbQ/SdeZmJyHRFp1BccRuJprevWNWAKS6YuxhI+4dznzoO3i4cjh26FBmNsFpIh/OIao1YdU/W0aVL7qCMzrWSMZvmhCc04oLO+4eklpqVh8pjmwY4rIcX7hA97e1RU/6W+ay1UdzTLQ+mBJ3C6+4xq3flcAvBhgkG77w==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        <linux-mediatek@lists.infradead.org>
+Date:   Mon, 12 Oct 2020 09:25:55 +0800
+In-Reply-To: <20201010095052.GA989257@kroah.com>
+References: <3db52d534065dcf28e9a10b8129bea3eced0193e.1602318869.git.chunfeng.yun@mediatek.com>
+         <d76ca8b2d64c7c017e3ddaca8497eb38ee514204.1602318869.git.chunfeng.yun@mediatek.com>
+         <20201010095052.GA989257@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7c87532-6818-430b-6f6d-08d86e47ccec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2020 00:43:13.1636
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1YvIrRXXwFVwYwhpqHQX6iEcNIYIlc0TrbCcmdsjJknPb9O55s5A2gveRr+AeGRQfFJBy6991+H9X3IhfwfTpygvNqgyfoQwMNYVn/ZuVmo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2836
+X-TM-SNTS-SMTP: 29B9D6F8DD7D8A01EEF75DC90A0B763AD3F7D6CA7860AF3A06EB30669984C0B72000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGVsbG8gU2VnZWksDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2Vy
-Z2VpIFNodHlseW92IDxzZXJnZWkuc2h0eWx5b3ZAZ21haWwuY29tPg0KPiBTZW50OiBGcmlkYXks
-IE9jdG9iZXIgOSwgMjAyMCA0OjIzIFBNDQo+IFRvOiBSeWFuIENoZW4gPHJ5YW5fY2hlbkBhc3Bl
-ZWR0ZWNoLmNvbT47IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+Ow0KPiBBbmRyZXcgSmVm
-ZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQu
-b3JnOw0KPiBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZzsgbGludXgta2VybmVsQHZnZXIu
-a2VybmVsLm9yZzsNCj4gbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgQk1DLVNXIDxCTUMtU1dA
-YXNwZWVkdGVjaC5jb20+OyBBbGFuIFN0ZXJuDQo+IDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1
-Pg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDMvM10gQVJNOiBkdHM6IGFkZCBlaGNpIHVoY2kg
-ZW5hYmxlIGluIGV2YiBkdHMNCj4gDQo+IEhFbGxvIQ0KPiANCj4gT24gMDkuMTAuMjAyMCA1OjQ5
-LCBSeWFuIENoZW4gd3JvdGU6DQo+IA0KPiA+IEFkZCBFSENJIFVIQ0kgZW5hYmxlIGJ1aWxkIGlu
-IGFzcGVlZC1hc3QyNjAwLWV2Yi5kdHMNCj4gDQo+ICAgICBFbmFibGUgRUNISS9VSENJIGZvciB0
-aGUgIEFzcGVlZCBBU1QyNjAwIEVWQiwgcGVyaGFwcz8NCj4gDQoNClllcywgaXQgaXMgZW5hYmxl
-IGZvciBBU1QyNjAwIEVWQi4gDQoNCj4gPiBTaWduZWQtb2ZmLWJ5OiBSeWFuIENoZW4gPHJ5YW5f
-Y2hlbkBhc3BlZWR0ZWNoLmNvbT4NCj4gWy4uLl0NCj4gDQo+IE1CUiwgU2VyZ2VpDQo=
+T24gU2F0LCAyMDIwLTEwLTEwIGF0IDExOjUwICswMjAwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
+dGU6DQo+IE9uIFNhdCwgT2N0IDEwLCAyMDIwIGF0IDA0OjQzOjE0UE0gKzA4MDAsIENodW5mZW5n
+IFl1biB3cm90ZToNCj4gPiBUaGlzIGlzIHVzZWQgdG8gZml4IHRoZSBjaGVja3BhY2gucGwgV0FS
+TklORzpTUERYX0xJQ0VOU0VfVEFHDQo+ID4gDQo+ID4gU2VlIGJpbmRpbmdzL3N1Ym1pdHRpbmct
+cGF0Y2hlcy5yc3Q6DQo+ID4gIkRUIGJpbmRpbmcgZmlsZXMgc2hvdWxkIGJlIGR1YWwgbGljZW5z
+ZWQuIFRoZSBwcmVmZXJyZWQgbGljZW5zZSB0YWcgaXMNCj4gPiAgKEdQTC0yLjAtb25seSBPUiBC
+U0QtMi1DbGF1c2UpLiINCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNo
+dW5mZW5nLnl1bkBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gdjI6IG5ldyBwYXRjaA0KPiA+
+IC0tLQ0KPiA+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3VzYi1oY2Qu
+eWFtbCB8IDIgKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy91c2IvdXNiLWhjZC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL3VzYi91c2ItaGNkLnlhbWwNCj4gPiBpbmRleCA0MmIyOTVhZmRmMzIuLjExYjliOWVlMmI1
+NCAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNi
+L3VzYi1oY2QueWFtbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy91c2IvdXNiLWhjZC55YW1sDQo+ID4gQEAgLTEsNCArMSw0IEBADQo+ID4gLSMgU1BEWC1MaWNl
+bnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
+KEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpDQo+IA0KPiBBcmUgeW91IHN1cmUgeW91IGFy
+ZSBhbGxvd2VkIHRvIGNoYW5nZSB0aGUgbGljZW5zZSBvZiB0aGlzIGZpbGU/ICBMYXN0IEkNCj4g
+Y2hlY2tlZCwgeW91IGRpZCBub3Qgd3JpdGUgdGhpcyBmaWxlLCBhbmQgc28sIHlvdSBjYW4ndCBj
+aGFuZ2UgdGhlDQo+IGxpY2Vuc2Ugb2YgaXQuICBZb3UgbmVlZCB0byBnZXQgdGhlIG93bmVycyBv
+ZiB0aGUgZmlsZSB0byBkbyBzby4NCkdvdCBpdCwgd2lsbCBhYmFuZG9uIGl0IGluIG5leHQgdmVy
+c2lvbg0KDQpUaGFua3MNCg0KPiANCj4gdGhhbmtzLA0KPiANCj4gZ3JlZyBrLWgNCg0K
+
