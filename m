@@ -2,89 +2,112 @@ Return-Path: <SRS0=YZLH=DT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCBDC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 01:26:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 813D5C43467
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 01:49:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A4B0020790
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 01:26:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 424F320790
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 01:49:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="egZlOpHp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YatStj6J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727325AbgJLB0K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Oct 2020 21:26:10 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:52733 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725917AbgJLB0K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 21:26:10 -0400
-X-UUID: e35f3a41522b44ab82b04b3a3d4f211d-20201012
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=R1q9dfekP6mSdsS/ET+QXDzN+e6bl0PwJAWHtliaE3M=;
-        b=egZlOpHpLj25rSinPIGxOKpqyurq2TpQOT20FwDiNgAfNvECWFMWSyCr+SAHzfaxkwKNJEvCdR67oSDNGVQnZETgTvtNHj/FBlSwUVqUerWH0iqvdt+opb+5SmYvCmIUN09yEgsy+GHV9R0DnlahxdRMVJwPMYupm/L6nEVu7NM=;
-X-UUID: e35f3a41522b44ab82b04b3a3d4f211d-20201012
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 562371480; Mon, 12 Oct 2020 09:25:58 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Oct
- 2020 09:25:56 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Oct 2020 09:25:55 +0800
-Message-ID: <1602465955.29336.57.camel@mhfsdcap03>
-Subject: Re: [PATCH v2 4/4] dt-bindings: usb: use preferred license tag
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
+        id S1727453AbgJLBtW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Oct 2020 21:49:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbgJLBtV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Oct 2020 21:49:21 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDC4C0613CE;
+        Sun, 11 Oct 2020 18:49:21 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id q21so1556062pgi.13;
+        Sun, 11 Oct 2020 18:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rIbb0/SViFEAq3N3skmCoQu+YzgDQ+YxSiq/Tk6Jyjs=;
+        b=YatStj6JeisBAbir+YmU7Y5u3EZpGBGxbKaXAmw1CVHxTUc6NcIKpPqjbiRhurBwTi
+         9+/cysSBOniaSGTCjhfXMLOFLQ1wQHQuw0bdIqd4Z92Hmkv4PL0lszVvOvrbEK8jdOkM
+         sA5idgF+CcK58S1mlBzS4oJwDDX/f16/4ock0VZbnFal3wyWoA5qrRNDCgtEhlIsPcBD
+         fksa9vLGqLi7PndXJtXuZSSbdTIf92YYTPLiTcG0/O/6uOE+/2R7TEDcX6qaOK7xBobz
+         /I2Q4ZfZKhD18n2wf2Qb8rrn+HxwwIF7YwWylf6De1dZ0XhJo6DjT1h2S1IhR99CK/au
+         cOpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rIbb0/SViFEAq3N3skmCoQu+YzgDQ+YxSiq/Tk6Jyjs=;
+        b=P1khmQyt6XcIK9iZBdVMGA5yyOa0thxfr0siejD7Yk/F41QBbFx87amCp4UtaAJKCb
+         0/aPWtqmtyFcCsFj9w+OwOTkydmXNG0sL79VGnGNbI4RlEFBJzWXztJjqRdmC5bc930i
+         WBC+kYQhbI90l0kShk+DftX11Gtc4DiAyGfUecJQV5wbaSq7w3RSzLAfK7GcfLruGpDg
+         HUl5W7HMYgEMS7qHn99Bp0Wt/RrIUWG3AUEkfQvZvClXNxQJjnAF3KaWfiE7N6JAuMDJ
+         tvk8lUBpiBP+UCBHnGvW3/UtB8dcoW3+DJbew3bxhXyVoB6yqAPZlwj3KlgaDF/6Eelo
+         LaoA==
+X-Gm-Message-State: AOAM530FXK9j0TQduaJmK7YMwrrFpIwAewOsBrWcW/v0IbY+CuZtMyJH
+        YsxTMVo4Rseag1+C4YaZi9A=
+X-Google-Smtp-Source: ABdhPJw4Pe7H9he+gRS6c+vGPBxNBkJ5eYwam9urDtnsK8QiQhWjspuehNW3K1oIiXedZsnV0pVyCw==
+X-Received: by 2002:a62:5bc2:0:b029:13e:d13d:a130 with SMTP id p185-20020a625bc20000b029013ed13da130mr21501632pfb.24.1602467361220;
+        Sun, 11 Oct 2020 18:49:21 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
+        by smtp.gmail.com with ESMTPSA id g3sm21133168pjl.6.2020.10.11.18.49.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Oct 2020 18:49:20 -0700 (PDT)
+Subject: Re: [PATCH net-next 08/12] net: dsa: use new function
+ dev_fetch_sw_netstats
+To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        David Miller <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Date:   Mon, 12 Oct 2020 09:25:55 +0800
-In-Reply-To: <20201010095052.GA989257@kroah.com>
-References: <3db52d534065dcf28e9a10b8129bea3eced0193e.1602318869.git.chunfeng.yun@mediatek.com>
-         <d76ca8b2d64c7c017e3ddaca8497eb38ee514204.1602318869.git.chunfeng.yun@mediatek.com>
-         <20201010095052.GA989257@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        =?UTF-8?Q?Bj=c3=b8rn_Mork?= <bjorn@mork.no>,
+        Oliver Neukum <oneukum@suse.com>,
+        Igor Mitsyanko <imitsyanko@quantenna.com>,
+        Sergey Matyukevich <geomatsi@gmail.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <nikolay@nvidia.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Pravin B Shelar <pshelar@ovn.org>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        linux-rdma@vger.kernel.org,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        bridge@lists.linux-foundation.org
+References: <a46f539e-a54d-7e92-0372-cd96bb280729@gmail.com>
+ <4c7b9a8d-caa2-52dd-8973-10f4e2892dd6@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <44356f33-2191-c5a6-4c38-50c2934d16b0@gmail.com>
+Date:   Sun, 11 Oct 2020 18:49:17 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.3.2
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 29B9D6F8DD7D8A01EEF75DC90A0B763AD3F7D6CA7860AF3A06EB30669984C0B72000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <4c7b9a8d-caa2-52dd-8973-10f4e2892dd6@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gU2F0LCAyMDIwLTEwLTEwIGF0IDExOjUwICswMjAwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
-dGU6DQo+IE9uIFNhdCwgT2N0IDEwLCAyMDIwIGF0IDA0OjQzOjE0UE0gKzA4MDAsIENodW5mZW5n
-IFl1biB3cm90ZToNCj4gPiBUaGlzIGlzIHVzZWQgdG8gZml4IHRoZSBjaGVja3BhY2gucGwgV0FS
-TklORzpTUERYX0xJQ0VOU0VfVEFHDQo+ID4gDQo+ID4gU2VlIGJpbmRpbmdzL3N1Ym1pdHRpbmct
-cGF0Y2hlcy5yc3Q6DQo+ID4gIkRUIGJpbmRpbmcgZmlsZXMgc2hvdWxkIGJlIGR1YWwgbGljZW5z
-ZWQuIFRoZSBwcmVmZXJyZWQgbGljZW5zZSB0YWcgaXMNCj4gPiAgKEdQTC0yLjAtb25seSBPUiBC
-U0QtMi1DbGF1c2UpLiINCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNo
-dW5mZW5nLnl1bkBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gdjI6IG5ldyBwYXRjaA0KPiA+
-IC0tLQ0KPiA+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3VzYi1oY2Qu
-eWFtbCB8IDIgKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy91c2IvdXNiLWhjZC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL3VzYi91c2ItaGNkLnlhbWwNCj4gPiBpbmRleCA0MmIyOTVhZmRmMzIuLjExYjliOWVlMmI1
-NCAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNi
-L3VzYi1oY2QueWFtbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy91c2IvdXNiLWhjZC55YW1sDQo+ID4gQEAgLTEsNCArMSw0IEBADQo+ID4gLSMgU1BEWC1MaWNl
-bnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-KEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpDQo+IA0KPiBBcmUgeW91IHN1cmUgeW91IGFy
-ZSBhbGxvd2VkIHRvIGNoYW5nZSB0aGUgbGljZW5zZSBvZiB0aGlzIGZpbGU/ICBMYXN0IEkNCj4g
-Y2hlY2tlZCwgeW91IGRpZCBub3Qgd3JpdGUgdGhpcyBmaWxlLCBhbmQgc28sIHlvdSBjYW4ndCBj
-aGFuZ2UgdGhlDQo+IGxpY2Vuc2Ugb2YgaXQuICBZb3UgbmVlZCB0byBnZXQgdGhlIG93bmVycyBv
-ZiB0aGUgZmlsZSB0byBkbyBzby4NCkdvdCBpdCwgd2lsbCBhYmFuZG9uIGl0IGluIG5leHQgdmVy
-c2lvbg0KDQpUaGFua3MNCg0KPiANCj4gdGhhbmtzLA0KPiANCj4gZ3JlZyBrLWgNCg0K
 
+
+On 10/11/2020 12:41 PM, Heiner Kallweit wrote:
+> Simplify the code by using new function dev_fetch_sw_netstats().
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
