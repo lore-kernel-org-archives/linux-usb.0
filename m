@@ -7,52 +7,50 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2EF1C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:07:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C61AC433E7
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:07:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E1EE20878
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:07:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C098D20E65
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602529648;
-	bh=Vfi0vXl7mXFBASrya4e5Ty5OzH1koMJicQLz0Kiey4g=;
+	s=default; t=1602529663;
+	bh=oExfZzcB/cB/TLYZPs0rtpwRF71fcM4e3u1D5ml+csQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VTutqikEPJWAe/hHtyHVf3zSJaeYZJEdR9bO62LIQ4ZKOZuh6ApHNfvLONKSULane
-	 a3VXlfBai7z5o/To6KEh+wylyHsvb6pqSDpOcGc9//DMTWV6Cn8w8wWxLbWDCvKb3e
-	 r5rx9ZzG895Gm3x8275og49J34GJx7EDn43L5UnQ=
+	b=xcCj3atw32JG4T6o4qSk8R6Dk1I8R2seLpTuAL0uk+MYmvGWb9VBL62DGpkbjDCwm
+	 eFWirW/QyzFIZm9e3ELpXGg0ve2sVpU7yjVN3W4hJe3gplcBzkwex7bT5bxmQ1/1pg
+	 S+tEmy0v5Gh7PeyayZMkrSfMRA7zq1DsZYDEx5z8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391145AbgJLTHQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:07:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53108 "EHLO mail.kernel.org"
+        id S1731205AbgJLTHm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:07:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390975AbgJLTDe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Oct 2020 15:03:34 -0400
+        id S2390878AbgJLTD2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Oct 2020 15:03:28 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF1AC2222E;
-        Mon, 12 Oct 2020 19:03:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 442E421BE5;
+        Mon, 12 Oct 2020 19:03:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529413;
-        bh=Vfi0vXl7mXFBASrya4e5Ty5OzH1koMJicQLz0Kiey4g=;
+        s=default; t=1602529408;
+        bh=oExfZzcB/cB/TLYZPs0rtpwRF71fcM4e3u1D5ml+csQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wVeKxfHbgdw9rhnhGEdB7bDadJ84vFVpmGeEnMXUnEpaj7umRLHCHiKJUq+b2SwkO
-         m1Ty7k8JTWpnrayd1VABa8+uI9stRGjB3s/hlf0qwAvvE68JPU2QOp16cXeyY3Uom1
-         YE9JzZ3JF/MUQ5nHZrfIJ5UGZe4XblTJjXN5/Y5U=
+        b=KBwKfi81ZDRPwqx6PrWy3IAWm8ck9Yvu5zOf8z0H0xf6gLywMF1JIRQmsOwFGUkAf
+         jzBp6ZuHAentjjkZhuBsMHaOn4YMLQVjNh5LRDbV+Wg9lDOCd6oPb4XI2MLfDSLtUZ
+         8xfBYS9hvTHDy75fv7K/KeQalLyBscAcTsoXFtHo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wilken Gottwalt <wilken.gottwalt@mailbox.org>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        Jakub Kicinski <kuba@kernel.org>,
+Cc:     Petko Manolov <petko.manolov@konsulko.com>,
+        "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 15/15] net: usb: qmi_wwan: add Cellient MPL200 card
-Date:   Mon, 12 Oct 2020 15:03:12 -0400
-Message-Id: <20201012190313.3279397-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 11/15] net: usb: pegasus: Proper error handing when setting pegasus' MAC address
+Date:   Mon, 12 Oct 2020 15:03:08 -0400
+Message-Id: <20201012190313.3279397-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201012190313.3279397-1-sashal@kernel.org>
 References: <20201012190313.3279397-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -60,32 +58,89 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wilken Gottwalt <wilken.gottwalt@mailbox.org>
+From: Petko Manolov <petko.manolov@konsulko.com>
 
-[ Upstream commit 28802e7c0c9954218d1830f7507edc9d49b03a00 ]
+[ Upstream commit f30e25a9d1b25ac8d40071c4dc2679ad0fcdc55a ]
 
-Add usb ids of the Cellient MPL200 card.
+v2:
 
-Signed-off-by: Wilken Gottwalt <wilken.gottwalt@mailbox.org>
-Acked-by: Bjørn Mork <bjorn@mork.no>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+If reading the MAC address from eeprom fail don't throw an error, use randomly
+generated MAC instead.  Either way the adapter will soldier on and the return
+type of set_ethernet_addr() can be reverted to void.
+
+v1:
+
+Fix a bug in set_ethernet_addr() which does not take into account possible
+errors (or partial reads) returned by its helpers.  This can potentially lead to
+writing random data into device's MAC address registers.
+
+Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/usb/pegasus.c | 35 +++++++++++++++++++++++++++--------
+ 1 file changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index e57d59b0a7ae9..21d905d90650b 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1375,6 +1375,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0104, 4)},	/* Fibocom NL678 series */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b5, 0)},	/* Foxconn T77W968 LTE with eSIM support*/
-+	{QMI_FIXED_INTF(0x2692, 0x9025, 4)},    /* Cellient MPL200 (rebranded Qualcomm 05c6:9025) */
+diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
+index f7d117d80cfbb..ffa7f5adeea3f 100644
+--- a/drivers/net/usb/pegasus.c
++++ b/drivers/net/usb/pegasus.c
+@@ -359,28 +359,47 @@ fail:
+ }
+ #endif				/* PEGASUS_WRITE_EEPROM */
  
- 	/* 4. Gobi 1000 devices */
- 	{QMI_GOBI1K_DEVICE(0x05c6, 0x9212)},	/* Acer Gobi Modem Device */
+-static inline void get_node_id(pegasus_t *pegasus, __u8 *id)
++static inline int get_node_id(pegasus_t *pegasus, u8 *id)
+ {
+-	int i;
+-	__u16 w16;
++	int i, ret;
++	u16 w16;
+ 
+ 	for (i = 0; i < 3; i++) {
+-		read_eprom_word(pegasus, i, &w16);
++		ret = read_eprom_word(pegasus, i, &w16);
++		if (ret < 0)
++			return ret;
+ 		((__le16 *) id)[i] = cpu_to_le16(w16);
+ 	}
++
++	return 0;
+ }
+ 
+ static void set_ethernet_addr(pegasus_t *pegasus)
+ {
+-	__u8 node_id[6];
++	int ret;
++	u8 node_id[6];
+ 
+ 	if (pegasus->features & PEGASUS_II) {
+-		get_registers(pegasus, 0x10, sizeof(node_id), node_id);
++		ret = get_registers(pegasus, 0x10, sizeof(node_id), node_id);
++		if (ret < 0)
++			goto err;
+ 	} else {
+-		get_node_id(pegasus, node_id);
+-		set_registers(pegasus, EthID, sizeof(node_id), node_id);
++		ret = get_node_id(pegasus, node_id);
++		if (ret < 0)
++			goto err;
++		ret = set_registers(pegasus, EthID, sizeof(node_id), node_id);
++		if (ret < 0)
++			goto err;
+ 	}
++
+ 	memcpy(pegasus->net->dev_addr, node_id, sizeof(node_id));
++
++	return;
++err:
++	eth_hw_addr_random(pegasus->net);
++	dev_info(&pegasus->intf->dev, "software assigned MAC address.\n");
++
++	return;
+ }
+ 
+ static inline int reset_mac(pegasus_t *pegasus)
 -- 
 2.25.1
 
