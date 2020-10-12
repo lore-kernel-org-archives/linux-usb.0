@@ -2,229 +2,118 @@ Return-Path: <SRS0=YZLH=DT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7669C433E7
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:34:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3B8C35272
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:41:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E86A2087E
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:34:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A018A20575
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 15:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602516856;
-	bh=CUfWRDrdege/4mUu3Byf/E7KOoJ4W1SpYhsZy9ReoW0=;
+	s=default; t=1602517294;
+	bh=4zjbxbiZnTcWfsU0KfqSsCdB4lRjPlB+YmVxhvhPiZg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=INLkE1ObcgnEGcW04d6cXQxvVG9/z5/9MvAvY2DwzfQOcHjrSVY0R2SuCp6dBnQ8i
-	 3vIknx/h1QXqO1GYehtamU2i2LFz+6jeLR8lmOlrkSxcBg7rE9AwuZ/vHCXNW/yVH+
-	 f6MdmyUxM4eGit+cMeVFFNhFqgw+H7B/OoG9Zhe4=
+	b=kYc0v5KbHPGlz4186E21p4T5I+vGHNZIdOQtqUpi1gkJiuC+TMh1uiUiM4QRHdp6g
+	 58CnzrOD+UGBFn4dUZ6+glJo/iTwUto9k6ex0/pgckB07NfUTNVjB0gaGIXYexnHIp
+	 DXmwbnOswdJ8bfVamP6KXM7+e6FOV5NXmDTAmCBo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390094AbgJLPeL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 11:34:11 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:38802 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390076AbgJLPeL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Oct 2020 11:34:11 -0400
-Received: by mail-oi1-f194.google.com with SMTP id h10so6447418oie.5;
-        Mon, 12 Oct 2020 08:34:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yH7pwuj6aDPry47UxD5seXqTX0RCln/LrihgtVI0KrI=;
-        b=Re9pUUYPsUwbyQPGPuxsaP3QyjF6tZOLjyovGY56zdB08ik15EUU9lz6ky4rSj+LxO
-         xJtrHnBC5M15GpraUibNJW/vJbR+zagGHsDS6Ylm685OttOOYXR/OaZ45sSPwDHDK0vu
-         2jbErMgQfL4AoPdN8cf1L2cHmdSSUeuqLw1V/1VcL2DqpK3zxPR5C5OnauVb/MhwXXn5
-         dYxLKtDz/xwu66r1ra2zzB5NyCURtBhOFNvPIOGJhi/8xLPDZbs9TUIv2sSSk5AMpIyL
-         qTOGZq6CcDjHFgJ+ZpyAyGTq/+smbfqgCcxsXZiRRB4sDATFBIpiLJ216H1HxYP1VoY9
-         sp9A==
-X-Gm-Message-State: AOAM531vvU/XVm3VnEZjL5YO0HHF8hne36yojRsrdARH9PfbMvveyyB+
-        e8TIM1ZF8JlGlcS8Lb4VPOuvQa8UQfdk
-X-Google-Smtp-Source: ABdhPJxdhAZwzIPrUakClUoKKQgxW4+bRdUuktTipl2x2JvJ74I2wXS5IDDG8BnmrxssZxJf8oQDcA==
-X-Received: by 2002:aca:f40b:: with SMTP id s11mr10554362oih.66.1602516849115;
-        Mon, 12 Oct 2020 08:34:09 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p4sm1065874oib.9.2020.10.12.08.34.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 08:34:08 -0700 (PDT)
-Received: (nullmailer pid 1589228 invoked by uid 1000);
-        Mon, 12 Oct 2020 15:34:07 -0000
-Date:   Mon, 12 Oct 2020 10:34:07 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: usb: convert usb-device.txt to YAML
- schema
-Message-ID: <20201012153407.GA1588894@bogus>
-References: <3db52d534065dcf28e9a10b8129bea3eced0193e.1602318869.git.chunfeng.yun@mediatek.com>
+        id S2390287AbgJLPlU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 11:41:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47000 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390230AbgJLPlM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Oct 2020 11:41:12 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB9F120575;
+        Mon, 12 Oct 2020 15:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602517271;
+        bh=4zjbxbiZnTcWfsU0KfqSsCdB4lRjPlB+YmVxhvhPiZg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cJBagWKjX7tJj7n4ywqPFBnd86pkp4ggzcfQCBjYW2yHHYsXaA+Tm6GCio0To5+g8
+         zFlm2o6pEI/EjzJrGwT7tI/V529Xn8t8/1R3pW5+WOvnraD68gGF8K7QB/HwdSXD/S
+         ho3Y771Y3HUr+R/d5siOkIMP54u+89ki4nKdSe04=
+Date:   Mon, 12 Oct 2020 17:41:50 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/18] dt-bindings: usb: usb-hcd: Add "wireless"
+ maximum-speed property value
+Message-ID: <20201012154150.GA1565332@kroah.com>
+References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
+ <20201010224121.12672-3-Sergey.Semin@baikalelectronics.ru>
+ <20201011144236.GA271079@kroah.com>
+ <20201011175333.2v46x6kiugqnvlpk@mobilestation>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3db52d534065dcf28e9a10b8129bea3eced0193e.1602318869.git.chunfeng.yun@mediatek.com>
+In-Reply-To: <20201011175333.2v46x6kiugqnvlpk@mobilestation>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 10 Oct 2020 16:43:11 +0800, Chunfeng Yun wrote:
-> Convert usb-device.txt to YAML schema usb-device.yaml
+On Sun, Oct 11, 2020 at 08:53:33PM +0300, Serge Semin wrote:
+> On Sun, Oct 11, 2020 at 04:42:36PM +0200, Greg Kroah-Hartman wrote:
+> > On Sun, Oct 11, 2020 at 01:41:05AM +0300, Serge Semin wrote:
+> > > It appears that the "maximum-speed" property can also accept the
+> > > "wireless" value. Add it to the enumeration of the possible property
+> > > values then.
+> > > 
+> > > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> > > ---
+> > >  Documentation/devicetree/bindings/usb/usb-hcd.yaml | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > > index 815de24127db..e1a82a2b3295 100644
+> > > --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > > +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > > @@ -28,7 +28,7 @@ properties:
+> > >       isn't passed via DT, USB controllers should default to their maximum HW
+> > >       capability.
+> > >     $ref: /schemas/types.yaml#/definitions/string
+> > > -   enum: ["low-speed", "full-speed", "high-speed", "super-speed",
+> > > +   enum: ["low-speed", "full-speed", "high-speed", "wireless", "super-speed",
+> > >            "super-speed-plus"]
+> > 
 > 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
-> v2: new patch suggested by Rob
-> ---
->  .../devicetree/bindings/usb/usb-device.txt    | 102 --------------
->  .../devicetree/bindings/usb/usb-device.yaml   | 129 ++++++++++++++++++
->  2 files changed, 129 insertions(+), 102 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/usb-device.txt
->  create mode 100644 Documentation/devicetree/bindings/usb/usb-device.yaml
+> > Are you sure?  wireless usb has been removed from the kernel, where do
+> > you see a user of this?  If it's still in there, we need to just drop
+> > it.
 > 
+> My decision on suggesting this patch has been based purely on the speed types
+> the USB core API supports and what usb_get_maximum_speed() can return.
+> USB_SPEED_WIRELESS type is one of the possible return values. As I can see
+> aside the rest of the USB speeds the wireless speed is also defined
+> in the kernel USB subsystem. Moreover it is used in some kernel drivers.
+> (See the USB_SPEED_WIRELESS enumeration constant usage.)
+> Are you sure that the wireless speed support has been really removed?
 
+All of the drivers that implement and support this should have been
+removed.  Code in the USB core is probably not removed, but patches are
+gladly welcome.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Please do not add new wireless support as it is not going to happen,
+because there are no wireless devices in the world.
 
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.example.dt.yaml: cec@100: compatible:0: 'amlogic,meson-gx-ao-cec' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.example.dt.yaml: cec@100: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/st,stm32-cec.example.dt.yaml: cec@40006c00: compatible:0: 'st,stm32-cec' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/st,stm32-cec.example.dt.yaml: cec@40006c00: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/google,cros-ec-regulator.example.dt.yaml: ec@0: compatible:0: 'google,cros-ec-spi' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/google,cros-ec-regulator.example.dt.yaml: ec@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.example.dt.yaml: dcdc@1100: compatible:0: 'qcom,pm8150b-vbus-reg' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.example.dt.yaml: dcdc@1100: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.example.dt.yaml: ec@0: compatible:0: 'google,cros-ec-spi' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.example.dt.yaml: ec@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.example.dt.yaml: dac@0: compatible:0: 'lltc,ltc1660' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.example.dt.yaml: dac@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.example.dt.yaml: dac@40017000: compatible:0: 'st,stm32h7-dac-core' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.example.dt.yaml: dac@40017000: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.example.dt.yaml: dac@1: compatible:0: 'st,stm32-dac' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.example.dt.yaml: dac@1: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.example.dt.yaml: dac@2: compatible:0: 'st,stm32-dac' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.example.dt.yaml: dac@2: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.example.dt.yaml: adc@0: compatible:0: 'microchip,mcp3911' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/ingenic,adc.example.dt.yaml: adc@10070000: compatible:0: 'ingenic,jz4740-adc' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/ingenic,adc.example.dt.yaml: adc@10070000: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7192.example.dt.yaml: adc@0: compatible:0: 'adi,ad7192' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7192.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.example.dt.yaml: adc@12d10000: compatible:0: 'samsung,exynos-adc-v1' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.example.dt.yaml: adc@12d10000: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.example.dt.yaml: adc@126c0000: compatible:0: 'samsung,exynos3250-adc' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.example.dt.yaml: adc@126c0000: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7923.example.dt.yaml: adc@0: compatible:0: 'adi,ad7928' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7923.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/maxim,max1241.example.dt.yaml: adc@0: compatible:0: 'maxim,max1241' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/maxim,max1241.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad9467.example.dt.yaml: adc@0: compatible:0: 'adi,ad9467' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad9467.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@40012000: compatible:0: 'st,stm32f4-adc-core' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@40012000: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@0: compatible:0: 'st,stm32f4-adc' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@48003000: compatible:0: 'st,stm32mp1-adc-core' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@48003000: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@0: compatible:0: 'st,stm32mp1-adc' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7292.example.dt.yaml: adc@0: compatible:0: 'adi,ad7292' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7292.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7606.example.dt.yaml: adc@0: compatible:0: 'adi,ad7606-8' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7606.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7780.example.dt.yaml: adc@0: compatible:0: 'adi,ad7780' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7780.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/maxim,max1238.example.dt.yaml: adc@36: compatible:0: 'maxim,max1238' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/maxim,max1238.example.dt.yaml: adc@36: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/maxim,max1363.example.dt.yaml: adc@36: compatible:0: 'maxim,max1363' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/maxim,max1363.example.dt.yaml: adc@36: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/ti,ads8688.example.dt.yaml: adc@0: compatible:0: 'ti,ads8688' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/ti,ads8688.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.example.dt.yaml: adc@0: compatible:0: 'lltc,ltc2496' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7091r5.example.dt.yaml: adc@2f: compatible:0: 'adi,ad7091r5' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7091r5.example.dt.yaml: adc@2f: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7124.example.dt.yaml: adc@0: compatible:0: 'adi,ad7124-4' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/adi,ad7124.example.dt.yaml: adc@0: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/qcom,spmi-vadc.example.dt.yaml: adc@3100: compatible:0: 'qcom,spmi-vadc' does not match '^usb[0-9a-f]+,[0-9a-f]+$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/adc/qcom,spmi-vadc.example.dt.yaml: adc@3100: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.dt.yaml: adc@10: 'compatile' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-device.yaml
+thanks,
 
-
-See https://patchwork.ozlabs.org/patch/1379982
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
+greg k-h
