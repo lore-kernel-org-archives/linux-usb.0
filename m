@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A32CC43467
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:05:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D512BC4363A
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:05:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB39621BE5
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:05:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 862C121BE5
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602529501;
-	bh=qQVBYMs7ZDnK8BZFBY28pXVb2LQyRcbTQR52f/I30ps=;
+	s=default; t=1602529504;
+	bh=vV9wmbcADAb5Dh1VawYPG1PxJcQTb+4VCrJw8GEDFLc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CsL/xqi0rR8TU3ST4hAHGSZp/+oK3MHUNXfufjU90gIq0sTxOvHTVkWBXWULtCWkJ
-	 VwQ3oalF7bbuiUWMSa1NjrBEju+fIVRXTa1vX1We5jXUKs2UN1guU/bwdy0nXbvXUP
-	 i/L41Ehp6aZRMw7Sr5pVgosWD14hI0PWqUgeLdwI=
+	b=QmbQxLPmM5qQ100jifE7Y51rMymIJ5ww+y0PpOlMr9pik05OwXrohP56dJk9GD0LP
+	 6ydUtDzYQWOn2dV32nNmcVZwmiQE5r8qpQ52/MGXZZCDn4gVhZt4tbtB9ZixJMnUkQ
+	 h7RkA4Ch4SZkysr4gnJa+MvzAEezwSOUQBgK3c/Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391382AbgJLTE0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:04:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54338 "EHLO mail.kernel.org"
+        id S2391472AbgJLTFD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:05:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53904 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391310AbgJLTEZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S2391316AbgJLTEZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 12 Oct 2020 15:04:25 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3189422248;
-        Mon, 12 Oct 2020 19:04:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B2F172222C;
+        Mon, 12 Oct 2020 19:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529456;
-        bh=qQVBYMs7ZDnK8BZFBY28pXVb2LQyRcbTQR52f/I30ps=;
+        s=default; t=1602529442;
+        bh=vV9wmbcADAb5Dh1VawYPG1PxJcQTb+4VCrJw8GEDFLc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JUzCDSjkBuq6BPwRS5wnUXbz+WTN3EdPKcnVy455HtAaZRF5hJ1J+D9HnAZuhVZqy
-         CRCPgnXRwQIyOlgpoj2HVbs6htXSXO9Bh8M9DnNFArZnhFsZKlVa91OJbTQV8krZy1
-         dPuqsgJPn3Dg8q+CRUzuuWUnEtVf1PQ3tZspVIQQ=
+        b=FaDNAZkSp7eEcaUmhmERC7CeHqUeQB+OXa979JHPVonrbay+vxJVeNSpibuz0N7GL
+         Bij9UyHVhcUEIFCKbCrgwvbD3saVLejwbOZFQZLp4bKVblq449+m3kcQDKHidMZjT9
+         2ziIz9CILmGoDBjhnJQcE0FfFvqAc2R+/K1YDZLo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Petko Manolov <petko.manolov@konsulko.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 5/6] net: usb: pegasus: Proper error handing when setting pegasus' MAC address
-Date:   Mon, 12 Oct 2020 15:04:07 -0400
-Message-Id: <20201012190408.3279779-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 07/11] net: usb: pegasus: Proper error handing when setting pegasus' MAC address
+Date:   Mon, 12 Oct 2020 15:03:49 -0400
+Message-Id: <20201012190353.3279662-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201012190408.3279779-1-sashal@kernel.org>
-References: <20201012190408.3279779-1-sashal@kernel.org>
+In-Reply-To: <20201012190353.3279662-1-sashal@kernel.org>
+References: <20201012190353.3279662-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,7 +82,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 27 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
-index 5fe9f1273fe20..13115b4a9c54d 100644
+index 5435c34dfcc76..a7db3f6fa6498 100644
 --- a/drivers/net/usb/pegasus.c
 +++ b/drivers/net/usb/pegasus.c
 @@ -362,28 +362,47 @@ fail:
