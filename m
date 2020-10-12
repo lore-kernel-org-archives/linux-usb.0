@@ -2,166 +2,127 @@ Return-Path: <SRS0=YZLH=DT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F60C433E7
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 20:01:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D1F6C43457
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 21:01:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F74221655
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 20:01:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A32D208D5
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 21:01:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qyTLhIW0"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b="cyr+pQNI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389350AbgJLUAd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 16:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388845AbgJLUA2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Oct 2020 16:00:28 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95850C0613D1;
-        Mon, 12 Oct 2020 13:00:27 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id y14so14555589pfp.13;
-        Mon, 12 Oct 2020 13:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=WZMccl/fSc9Ch0A1iiQRgWO5Br2L8QOy57a18abEHXk=;
-        b=qyTLhIW0Map0DCfGuRs4bETqgPA1ukwaCuvRfW5Ti1KvZK4EwY0CIzb6kxljvlZyvE
-         AFOPmyx9Iscxf+sh8SKUWwlmbdkHujkv/f1o7PTKDLqjSR6/ETDY2Y0hj0OmSuZCXxM2
-         PLOXH6cVvuN7EzXnl+6dCN4p2V75dPC+h46JXoCkD6vQ7HeHs9c5LK8kX8I2/qSCEmKo
-         vc8+tPPYB8dqZEUnI1geKxy6guBHJJf41y44PlU7a/pJYFMX9rB2ckPFbfhwZ5ioqszg
-         BVN/i7anf69yUS6QA0gRpUZ0Hp4KbRTOM/vCw0vW17qBrIcAB9NKR5jEZ6U1lz7EaBsu
-         hY3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=WZMccl/fSc9Ch0A1iiQRgWO5Br2L8QOy57a18abEHXk=;
-        b=m1JVFbFS1JZA4HcKptA/mQrO7zX37wAtTJTTUYR37D3pPbHJTdtGWkiV2f6zd6rB/N
-         wp68QBIRlmB+3XKsTY1BPIGtycEdo/43YmLEKxSJpdsCZusy4KJC9pCy+f/okAuoMmRf
-         U+w1GF8g/9o5pqMuwpns6mk/5GGoaLWlFjGuQWbEps8DSSqG/9r8sJBZLR0x8Midb6No
-         HupJgIKSIDOzO00QeYUdeoYhU//0wSCO8lr5E9ZgQAvHeJ1e7ufFrOWmApzizuSrjRke
-         8XYkxccEU0/bOw2MMcrSwyAsHhmNtfkwjIY5KrYBBHZ29RvVQ1lWwrvWw9dXgft8j5D9
-         9JOA==
-X-Gm-Message-State: AOAM532snIeDIDBmRpLV7lMzI2ZWUthWAhdkZse4PQRvVTwqcjZuebJe
-        M9ZnRl9weDNbr7XStx0aV8fIW22uXw0=
-X-Google-Smtp-Source: ABdhPJx/5WHy1S4sRhK4n9EJ832Bt19hQhlIxvtPVQv2tamP/45LxKgoloK4Ijwu75E2oTNDM65gdA==
-X-Received: by 2002:a17:90a:ff06:: with SMTP id ce6mr21152224pjb.38.1602532826844;
-        Mon, 12 Oct 2020 13:00:26 -0700 (PDT)
-Received: from stbsrv-and-01.and.broadcom.net ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id y124sm13556909pfy.28.2020.10.12.13.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 13:00:26 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v3 1/2] dt-bindings: Add support for Broadcom USB pin map driver
-Date:   Mon, 12 Oct 2020 16:00:06 -0400
-Message-Id: <20201012200007.8862-2-alcooperx@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201012200007.8862-1-alcooperx@gmail.com>
-References: <20201012200007.8862-1-alcooperx@gmail.com>
+        id S1732067AbgJLVBU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 17:01:20 -0400
+Received: from lan.nucleusys.com ([92.247.61.126]:36686 "EHLO
+        zztop.nucleusys.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729639AbgJLVBU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Oct 2020 17:01:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=nucleusys.com; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
+        Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=CJIzxj74bRbK6s07BM0CYFriStr95mhUR/FUtxsHOVI=; b=cyr+pQNICJxG1pzmfwF4K8B77P
+        xbKi8vFMvJcXOeKnMkdUYQn+MEsresCGmf29nTQmbd+YE8gU2/8BmXmi5H0vPXAG8SOyc+5Wxrkja
+        tTbvRUyzQ9l0MqbHI/cn0jK0BjZGcZrQFqIXMZbwNb59/nzYODrQ56QYd6+q01k8GwZA=;
+Received: from lan.nucleusys.com ([92.247.61.126] helo=nucleusys.com)
+        by zztop.nucleusys.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <petkan@nucleusys.com>)
+        id 1kS4wN-0007CC-HJ; Tue, 13 Oct 2020 00:01:07 +0300
+Date:   Tue, 13 Oct 2020 00:01:06 +0300
+From:   Petko Manolov <petkan@nucleusys.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org,
+        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
+        "David S . Miller" <davem@davemloft.net>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.8 18/24] net: usb: rtl8150: set random MAC
+ address when set_ethernet_addr() fails
+Message-ID: <20201012210105.GA26582@nucleusys.com>
+References: <20201012190239.3279198-1-sashal@kernel.org>
+ <20201012190239.3279198-18-sashal@kernel.org>
+ <c93d120c850c5fecadaea845517f0fdbfd9a61c7.camel@perches.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c93d120c850c5fecadaea845517f0fdbfd9a61c7.camel@perches.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add DT bindings for the Broadcom USB pin map driver. This driver allows
-some USB input and output signals to be mapped to any GPIO instead
-of the normal dedicated pins to/from the XHCI controller.
+On 20-10-12 12:11:18, Joe Perches wrote:
+> On Mon, 2020-10-12 at 15:02 -0400, Sasha Levin wrote:
+> > From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+> > 
+> > [ Upstream commit f45a4248ea4cc13ed50618ff066849f9587226b2 ]
+> > 
+> > When get_registers() fails in set_ethernet_addr(),the uninitialized
+> > value of node_id gets copied over as the address.
+> > So, check the return value of get_registers().
+> > 
+> > If get_registers() executed successfully (i.e., it returns
+> > sizeof(node_id)), copy over the MAC address using ether_addr_copy()
+> > (instead of using memcpy()).
+> > 
+> > Else, if get_registers() failed instead, a randomly generated MAC
+> > address is set as the MAC address instead.
+> 
+> This autosel is premature.
+> 
+> This patch always sets a random MAC.
+> See the follow on patch: https://lkml.org/lkml/2020/10/11/131
+> To my knowledge, this follow-ob has yet to be applied:
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
----
- .../bindings/usb/brcm,usb-pinmap.yaml         | 70 +++++++++++++++++++
- 1 file changed, 70 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
+ACK, the follow-on patch has got the correct semantics.
 
-diff --git a/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml b/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
-new file mode 100644
-index 000000000000..ffa148b9eaa8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
-@@ -0,0 +1,70 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/brcm,usb-pinmap.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Broadcom USB pin map Controller Device Tree Bindings
-+
-+maintainers:
-+  - Al Cooper <alcooperx@gmail.com>
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: brcm,usb-pinmap
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+    description: Interrupt for signals mirrored to out-gpios.
-+
-+  in-gpios:
-+    description: Array of one or two GPIO pins used for input signals.
-+
-+  brcm,in-functions:
-+    $ref: /schemas/types.yaml#/definitions/string-array
-+    description: Array of input signal names, one per gpio in in-gpios.
-+
-+  brcm,in-masks:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: Array of enable and mask pairs, one per gpio in-gpios.
-+
-+  out-gpios:
-+    description: Array of one GPIO pin used for output signals.
-+
-+  brcm,out-functions:
-+    $ref: /schemas/types.yaml#/definitions/string-array
-+    description: Array of output signal names, one per gpio in out-gpios.
-+
-+  brcm,out-masks:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: Array of enable, value, changed and clear masks, one
-+      per gpio in out-gpios.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+dependencies:
-+  in-gpios: [ interrupts ]
-+
-+examples:
-+  - |
-+    usb_pinmap: usb-pinmap@22000d0 {
-+        compatible = "brcm,usb-pinmap";
-+        reg = <0x22000d0 0x4>;
-+        in-gpios = <&gpio 18 0>, <&gpio 19 0>;
-+        brcm,in-functions = "VBUS", "PWRFLT";
-+        brcm,in-masks = <0x8000 0x40000 0x10000 0x80000>;
-+        out-gpios = <&gpio 20 0>;
-+        brcm,out-functions = "PWRON";
-+        brcm,out-masks = <0x20000 0x800000 0x400000 0x200000>;
-+        interrupts = <0x0 0xb2 0x4>;
-+    };
-+
-+...
--- 
-2.17.1
 
+		Petko
+
+
+> > diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+> []
+> > @@ -274,12 +274,20 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
+> >  		return 1;
+> >  }
+> >  
+> > -static inline void set_ethernet_addr(rtl8150_t * dev)
+> > +static void set_ethernet_addr(rtl8150_t *dev)
+> >  {
+> > -	u8 node_id[6];
+> > +	u8 node_id[ETH_ALEN];
+> > +	int ret;
+> > +
+> > +	ret = get_registers(dev, IDR, sizeof(node_id), node_id);
+> >  
+> > -	get_registers(dev, IDR, sizeof(node_id), node_id);
+> > -	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
+> > +	if (ret == sizeof(node_id)) {
+> 
+> So this needs to use
+> 	if (!ret) {
+> 
+> or 
+> 	if (ret < 0)
+> 
+> and reversed code blocks
+> 
+> > +		ether_addr_copy(dev->netdev->dev_addr, node_id);
+> > +	} else {
+> > +		eth_hw_addr_random(dev->netdev);
+> > +		netdev_notice(dev->netdev, "Assigned a random MAC address: %pM\n",
+> > +			      dev->netdev->dev_addr);
+> > +	}
+> >  }
+> >  
+> >  static int rtl8150_set_mac_address(struct net_device *netdev, void *p)
+> 
+> 
