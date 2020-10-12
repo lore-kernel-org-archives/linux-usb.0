@@ -2,76 +2,118 @@ Return-Path: <SRS0=YZLH=DT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5620AC433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 18:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F77C433E7
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:03:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AF6E20870
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 18:50:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DEB1215A4
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Oct 2020 19:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602529388;
+	bh=VoG2Q+uPn83jjMZIAFrjMusN+OEJ9rV2uXrL2GMwtvI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=SSvN8Qn5c1JFr+tE1gOnu5Notzc7pRUiuiHgABx44g/SnwM+JoxGH1/jK3295UGUJ
+	 F9zEo2mewJucCZRWP6yYBiAutzhpEu0N8vHpfjSwaqzmbTq0XYELvK6c2hpapVlf2V
+	 F6c9TqiI09tLPrxKf669aDcgF/yZ2QZG7T1Ao4Do=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730073AbgJLSuT convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Oct 2020 14:50:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48108 "EHLO mail.kernel.org"
+        id S2389775AbgJLTDH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:03:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52404 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726267AbgJLSuT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Oct 2020 14:50:19 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 209411] When retrieving string descriptor from mobile device
- returns eproto error
-Date:   Mon, 12 Oct 2020 18:50:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rachithas104@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209411-208809-YuzEHCgL2a@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
-References: <bug-209411-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S2389111AbgJLTDE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Oct 2020 15:03:04 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 499DD20BED;
+        Mon, 12 Oct 2020 19:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602529383;
+        bh=VoG2Q+uPn83jjMZIAFrjMusN+OEJ9rV2uXrL2GMwtvI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gmu1z8QPCXfG/V//yRJ+vxCqlYMLXkFmquYFoQ2t4bSAo9PLxMn1LBzii/XfXvlLu
+         bJYoR+23wEuncmp8sUUO9uxyg0ivfpKd9DE9oAbUsPdlhoc/Jp2A8Jh4rR/VijWRYS
+         ojQIdb9hU2rbOpiNsDxZQBdBusQkXiCr6J9SZFHk=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
+        Petko Manolov <petkan@nucleusys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 18/24] net: usb: rtl8150: set random MAC address when set_ethernet_addr() fails
+Date:   Mon, 12 Oct 2020 15:02:33 -0400
+Message-Id: <20201012190239.3279198-18-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201012190239.3279198-1-sashal@kernel.org>
+References: <20201012190239.3279198-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209411
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 
---- Comment #39 from rachithas104@gmail.com ---
-(In reply to Alan Stern from comment #38)
-> \Is there any way to find out exactly what Windows sends to the device? 
-> Maybe it's different from what your program sends.
-> 
-> Keep in mind also that the kernel sends a Set-Config request to the device
-> when you plug it into the computer.  That request doesn't appear to cause
-> problems either.
-> 
-> The only logs which might give you more information about what's happening
-> on the device are the device's own logs.  Maybe you can learn something, for
-> example, by running dmesg in a terminal app on the device.
+[ Upstream commit f45a4248ea4cc13ed50618ff066849f9587226b2 ]
 
-Keep in mind also that the kernel sends a Set-Config request to the device when
-you plug it into the computer.  That request doesn't appear to cause problems
-either-This doesn't cause problem when the kernel first sends set-config,only
-problem happens when there is one more select-config call on the same device
+When get_registers() fails in set_ethernet_addr(),the uninitialized
+value of node_id gets copied over as the address.
+So, check the return value of get_registers().
 
-Its happening only with mobile,other devices are working fine
+If get_registers() executed successfully (i.e., it returns
+sizeof(node_id)), copy over the MAC address using ether_addr_copy()
+(instead of using memcpy()).
 
+Else, if get_registers() failed instead, a randomly generated MAC
+address is set as the MAC address instead.
+
+Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Acked-by: Petko Manolov <petkan@nucleusys.com>
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/usb/rtl8150.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+index e7c630d375899..63a4da0b2d6dd 100644
+--- a/drivers/net/usb/rtl8150.c
++++ b/drivers/net/usb/rtl8150.c
+@@ -274,12 +274,20 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
+ 		return 1;
+ }
+ 
+-static inline void set_ethernet_addr(rtl8150_t * dev)
++static void set_ethernet_addr(rtl8150_t *dev)
+ {
+-	u8 node_id[6];
++	u8 node_id[ETH_ALEN];
++	int ret;
++
++	ret = get_registers(dev, IDR, sizeof(node_id), node_id);
+ 
+-	get_registers(dev, IDR, sizeof(node_id), node_id);
+-	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
++	if (ret == sizeof(node_id)) {
++		ether_addr_copy(dev->netdev->dev_addr, node_id);
++	} else {
++		eth_hw_addr_random(dev->netdev);
++		netdev_notice(dev->netdev, "Assigned a random MAC address: %pM\n",
++			      dev->netdev->dev_addr);
++	}
+ }
+ 
+ static int rtl8150_set_mac_address(struct net_device *netdev, void *p)
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.25.1
+
