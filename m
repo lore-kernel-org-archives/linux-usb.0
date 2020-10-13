@@ -2,117 +2,141 @@ Return-Path: <SRS0=J28a=DU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 354D4C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 12:49:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C05EBC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 13:44:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD85522510
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 12:49:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 722B52475B
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 13:44:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602593393;
-	bh=I0ZZGZt1iGQfBt5b9NlO0Qt+ZeFdmO4HJeQFWOnAC5Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=PfXzflelBVSAFwnNmABpYex8/ATdD0TmOlor499NNqXvFZYZm4hca/K/in8gLdhW/
-	 VTh94EpTbHPrb8PcDBalEABXPeugm0zGT0Sfv6vSMhteUUPDVDkF8KOqwHyVoJLSiT
-	 0UQ52EZuQZ/uzGmr05X+afpdkIOcMGRsKbU5cDNs=
+	s=default; t=1602596640;
+	bh=YO2PDs3lYloGofhsa8LTWOri/oY42O9bpA7iUsBsEf8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=CgFKonMJ5uASjrcjGlyy1XiLaf6BtYEBn4V91lR0zuFD9id+n1Z/aEqZPhu+B1ixd
+	 W2CzlNuYigmVVtJqeJ3z6Rnoq8d1UYGXGBFRAUlyGccOyk8jXZ9IOMAM/oPrxyo5rs
+	 KC7k723Z59afRx5d5EVj/oqeqx219/opLRzUNnCA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbgJMMtu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:49:50 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41305 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727260AbgJMMtt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Oct 2020 08:49:49 -0400
-Received: by mail-oi1-f196.google.com with SMTP id q136so21153854oic.8;
-        Tue, 13 Oct 2020 05:49:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=h+4lx1NmWtXfOrC3rFHXIicegWjQFHB1Qz6MGdDJkro=;
-        b=o9sHpTqXW2nFNeJUT+Xgmp4506jhKUYxCeTnrydwZDYP1AJCacrtpnmYwqn4jdFpW/
-         GagM+s7eMz+efvyDpPS5b5MXvh9XjRJIbn7aSRMWvj83/jg5KpUPOkllahEIK4Tn34pz
-         8PoNHNI55hkc3RaUKMfEWcbaiiaHFduQpMTZgwOYJNwsq02YfbLEiTcsjmDUzSty/Mb3
-         zfgbbTmpT/pALGX85QQqdhEPNI9dIGn0g5AdtqUw5xucXSL9rRiuJkElzY2i3uVnKjFS
-         /d09dF2+Ce8KvGLr92Rs8Mec+1FYKtTtLN+xSuWaqhEIzjQcz8Cy5OO2w4MhdUE1dueQ
-         CKDQ==
-X-Gm-Message-State: AOAM531dru8v7/exEIlaYXTa3w/Bugl2K6AZG4sdBhzZNqz8RwGz4Msu
-        I/UzZGVRsIihqJt1Iyc+uw==
-X-Google-Smtp-Source: ABdhPJzzBhpFlOx96qHNV3x8rQzmHhlP80ozoqo1sj8XLzaIjsAHsnPOnKQvXA/PKTfjxDJM1j/OZA==
-X-Received: by 2002:a05:6808:f:: with SMTP id u15mr6766651oic.34.1602593388830;
-        Tue, 13 Oct 2020 05:49:48 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a192sm7632544ooc.12.2020.10.13.05.49.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2020 05:49:47 -0700 (PDT)
-Received: (nullmailer pid 3322788 invoked by uid 1000);
-        Tue, 13 Oct 2020 12:49:46 -0000
-Date:   Tue, 13 Oct 2020 07:49:46 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>, CK Hu <ck.hu@mediatek.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        devicetree@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Min Guo <min.guo@mediatek.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Daniel Vetter <daniel@ffwll.ch>, linux-usb@vger.kernel.org,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Stanley Chu <stanley.chu@mediatek.com>
-Subject: Re: [PATCH v2 7/8] dt-bindings: usb: convert mediatek,mtu3.txt to
- YAML schema
-Message-ID: <20201013124946.GA3322281@bogus>
-References: <20201013085207.17749-1-chunfeng.yun@mediatek.com>
- <20201013085207.17749-7-chunfeng.yun@mediatek.com>
+        id S2387736AbgJMNn4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Oct 2020 09:43:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44102 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387694AbgJMNn4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 13 Oct 2020 09:43:56 -0400
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DD3DF2475A;
+        Tue, 13 Oct 2020 13:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602596636;
+        bh=YO2PDs3lYloGofhsa8LTWOri/oY42O9bpA7iUsBsEf8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QRB5ToLr1XeghspTWZnX4kPUDWAoFuDwTVI7OgTShxQtoE+nJQq0lESdtJfAz540G
+         QJxTqFHOZMa0FSQHGfBulHZzGYSxdW5deUGMstZGL1betVugqs99Vk/ZZJxI7FEr1a
+         s2fXHiIry1wsvxx7Xgwx7OxHzExGxDVTWFk7lFKw=
+Received: by mail-ot1-f42.google.com with SMTP id m11so19035250otk.13;
+        Tue, 13 Oct 2020 06:43:55 -0700 (PDT)
+X-Gm-Message-State: AOAM533wa5r8KEtS4NB8dGcQdMKkLG3qoTwmkQEhseaqFq2V3I9EDQfo
+        d02JktiOcrhvCDYnVValOdTEu13b3eg/E0qJIA==
+X-Google-Smtp-Source: ABdhPJx8BldmCpfMxn+SFOS5Dwk2xbrqTUFXlkpLHjC3ZhXrXyxuJZCFCnxfbBvRV1KtGLA76IMsOGHqg/L39PJZqs4=
+X-Received: by 2002:a9d:7993:: with SMTP id h19mr18795049otm.129.1602596635090;
+ Tue, 13 Oct 2020 06:43:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201013085207.17749-7-chunfeng.yun@mediatek.com>
+References: <20200929024004.244992-1-badhri@google.com> <20200929024004.244992-4-badhri@google.com>
+ <20201005144618.GA154206@bogus> <CAPTae5+e74k22Vcf-cnFLFGnR-mBdb9qvN6i-E-31VexhpUSeA@mail.gmail.com>
+In-Reply-To: <CAPTae5+e74k22Vcf-cnFLFGnR-mBdb9qvN6i-E-31VexhpUSeA@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 13 Oct 2020 08:43:44 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLqs2qZqwmCOMgCeiGsw4Hj2xMAbRYqWCphH92+8T6qUg@mail.gmail.com>
+Message-ID: <CAL_JsqLqs2qZqwmCOMgCeiGsw4Hj2xMAbRYqWCphH92+8T6qUg@mail.gmail.com>
+Subject: Re: [PATCH v9 03/15] dt-bindings: usb: Maxim type-c controller device
+ tree binding document
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 13 Oct 2020 16:52:06 +0800, Chunfeng Yun wrote:
-> Convert mediatek,mtu3.txt to YAML schema mediatek,mtu3.yaml
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
-> v2: new patch
-> ---
->  .../devicetree/bindings/usb/mediatek,mtu3.txt | 108 ---------
->  .../bindings/usb/mediatek,mtu3.yaml           | 227 ++++++++++++++++++
->  2 files changed, 227 insertions(+), 108 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
->  create mode 100644 Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> 
+On Wed, Oct 7, 2020 at 7:43 PM Badhri Jagan Sridharan <badhri@google.com> wrote:
+>
+> Hi Robb,
+>
+> Thanks for the reviews ! Responses inline.
+>
+> Regards,
+> Badhri
+>
+> On Mon, Oct 5, 2020 at 7:46 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Mon, Sep 28, 2020 at 07:39:52PM -0700, Badhri Jagan Sridharan wrote:
+> > > Add device tree binding document for Maxim TCPCI based Type-C chip driver
+> > >
+> > > Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> > > ---
+> > > Changes since v1:
+> > > - Changing patch version to v6 to fix version number confusion.
+> > >
+> > > Changes since v6:
+> > > - Migrated to yaml format.
+> > >
+> > > Changes since v7:
+> > > - Rebase on usb-next
+> > >
+> > > Changes since v8:
+> > > - Fix errors from make dt_binding_check as suggested by
+> > >   Rob Herring.
+> > > ---
+> > >  .../devicetree/bindings/usb/maxim,tcpci.yaml  | 68 +++++++++++++++++++
+> > >  1 file changed, 68 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/usb/maxim,tcpci.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/usb/maxim,tcpci.yaml b/Documentation/devicetree/bindings/usb/maxim,tcpci.yaml
+> > > new file mode 100644
+> > > index 000000000000..f4b5f1a09b98
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/usb/maxim,tcpci.yaml
+> > > @@ -0,0 +1,68 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: "http://devicetree.org/schemas/usb/maxim,tcpci.yaml#"
+> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > +
+> > > +title: Maxim TCPCI Type-C PD controller DT bindings
+> > > +
+> > > +maintainers:
+> > > +  - Badhri Jagan Sridharan <badhri@google.com>
+> > > +
+> > > +description: Maxim TCPCI Type-C PD controller
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - maxim,tcpci
+> >
+> > Is there a datasheet for this? Searching for 'tcpci' doesn't really come
+> > up with anything other than this patch. Only chip I found is MAX77958.
+> > Bindings are for specific h/w devices.
+>
+> Unfortunately the datasheet cannot be made public yet. Has the datasheet
+> have to be made public before sending the bindings ?
 
+No, but we need a part number or some assurance that 'tcpci' is a specific part.
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: usb@11271000: compatible: ['mediatek,mt8173-mtu3'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: usb@11271000: 'clocks' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: usb@11271000: 'clock-names' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-
-
-See https://patchwork.ozlabs.org/patch/1381414
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
+Rob
