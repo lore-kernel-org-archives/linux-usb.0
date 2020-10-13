@@ -2,183 +2,87 @@ Return-Path: <SRS0=J28a=DU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D57EAC43457
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C673C433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:39:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8811B24859
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:38:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECF082485D
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:39:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tQKWMv0G"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2ORlbvHK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BdtfAdjz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730024AbgJMOiQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Oct 2020 10:38:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729854AbgJMOiP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Oct 2020 10:38:15 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C65C0613D0
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2020 07:38:13 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id h2so10805788pll.11
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2020 07:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=R/zhEg0dNpXhH+pDUGJuAqxBZu+cNp3JAbQ0iH2743s=;
-        b=tQKWMv0GMGQ69/NG2DriXticCxNTeqK/pUl2tLRujmpxtMkz35U1QateWHn8+8ptX8
-         U9XimeECJknPPs8xDaaEEpUO/hyq0ivzblk+bSCq7zQ/LXiWt0hEv/603zXTrBACaJSu
-         O2lWxusOEyxvuwHnqDVErqw7/XykmxgwAN0Nd+npLLeDuslnz/4wN5JPOJ0rv2HV1oiU
-         vEIZ0F+Df44j/wJPTpJxxrKdLbGofiUG1phspFrlRDuEwhLcjoG09EoZ/IZv0n0LaTUc
-         a47bYnsRuBIIGFW/BGr2Jyqp6U1+5jqyopj6hmymkk2tMN5a8tw/y2oj8qFM8kqL1cuo
-         jpFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R/zhEg0dNpXhH+pDUGJuAqxBZu+cNp3JAbQ0iH2743s=;
-        b=R43pfogdZ1jO5q/MAIrameHGpiO6wwi/mMp4yK0JOjpGQdlQQs+C52WbHtvoOOaT7P
-         9PgsurcOTdpWmGOQJ2HiH6vUBSSU5bygJ5Rf7tkEZ4i/d+VgdwNvnNizZu24eNxhoBKD
-         Ql3SaAo1SrYOBKhA0vLE0skrANrD1Vn3I2f7IJyNYjRmsmh7BjCkjDwlzof/vVnTkIZW
-         kJBT+2t2Cs6sBNATpinfOV9l11Vj+bR8u1KTChRj2z9cERGkWa7/D063Gg5H9MVl+UzE
-         5oXc/VeUb5rrUXdyY/6uVhyRbRMqdD0mdM6I5wlS+mgMQk3Ri15JzlOwdX7xKd3O6ZNs
-         /0kw==
-X-Gm-Message-State: AOAM531m1Jj6O8WcWIBks32c/I6mN2wn+ju6jFgWpFV4dY17mlJfa+7C
-        ppUNmrz1uDWoFhjO31HaCvP7fE9dgAJWLttXBf4Ez5svMNA=
-X-Google-Smtp-Source: ABdhPJxQvBIwmfXGqjOkxhwNlRVLccTZxw4vK/ybW7FaIYErIJGyCaqrw3P60glbbdZ07hvQ63ceVQkiO6z3WOj2rys=
-X-Received: by 2002:a17:902:b40a:b029:d4:e1c7:db59 with SMTP id
- x10-20020a170902b40ab02900d4e1c7db59mr91867plr.85.1602599892643; Tue, 13 Oct
- 2020 07:38:12 -0700 (PDT)
+        id S1730014AbgJMOjY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Oct 2020 10:39:24 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:52370 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729656AbgJMOjY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Oct 2020 10:39:24 -0400
+Message-Id: <20201013142616.118697527@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1602599962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WYttoZQBVnlZi5CIrd2nl7FrtaNidcslV10mrzt6KO8=;
+        b=2ORlbvHKKR7ZAqZuOj8rj/14hza1IdaFe/bNqRgEl8hlzSBgZBLDNRwN1NQ5J0ZtZ0u70K
+        qiGCbjDUBGIuEqqO+HohqaxM2USAsyPEzQlyHlwLC4Tlag3oz1mv3S/jXW8vGyQ6UIxkyy
+        iPGHqF65deDukz1KUZwP42l0H7W939cLU6g3zU9oQ8WeZ5FGzRRgfCmwji77WmxL+Sc1ws
+        lbQzE0Vn+saniEGA/xjoKzqNunpBWlrltr2bPtSH7QzuVCIHaFi+eHfmTGBJ510GZapEoK
+        bfzDapgU5bE1bwpVvdilBE0Vb78yKguynbbtYzKNW9sMAYoxAFkYouMvXmuKlw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1602599962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WYttoZQBVnlZi5CIrd2nl7FrtaNidcslV10mrzt6KO8=;
+        b=BdtfAdjzrcIrQ1EVLKI5m7Ukon1T7gtMt66OfUEBNDCo8ClXSr7/lPmULdKFFtT9+Diku5
+        4HNAtPyRr+MkAHAw==
+Date:   Tue, 13 Oct 2020 16:26:16 +0200
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [patch 0/4] media: Cleanup in_interrupt() usage
 MIME-Version: 1.0
-References: <c229372e5526b84ed0542028437111c2eb83d55f.1602522784.git.andreyknvl@google.com>
- <CACT4Y+aX-LN=tz2Xu3509K1tfrGiLWWKZQwMtRCg059whv-Gvg@mail.gmail.com>
- <CAAeHK+zur-CpmCj2bBucwVSAKkk8XBKZsQoGA8AmWraXuDctvA@mail.gmail.com> <CACT4Y+ZYUWqFemUE8_xJ-XyBrvnkmiNxokrwUNjjq3ShTLTz9Q@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZYUWqFemUE8_xJ-XyBrvnkmiNxokrwUNjjq3ShTLTz9Q@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 13 Oct 2020 16:38:01 +0200
-Message-ID: <CAAeHK+zWaurHxxo0VwvbRmOsRBDGV3wbzhEzGwTBZqO2iAZtXA@mail.gmail.com>
-Subject: Re: [PATCH v4] kcov, usb: specify contexts for remote coverage sections
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>,
-        Aleksandr Nogikh <nogikh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 4:15 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Tue, Oct 13, 2020 at 3:58 PM Andrey Konovalov <andreyknvl@google.com> wrote:
-> > > > Currently there's a KCOV remote coverage collection section in
-> > > > __usb_hcd_giveback_urb(). Initially that section was added based on the
-> > > > assumption that usb_hcd_giveback_urb() can only be called in interrupt
-> > > > context as indicated by a comment before it. This is what happens when
-> > > > syzkaller is fuzzing the USB stack via the dummy_hcd driver.
-> > > >
-> > > > As it turns out, it's actually valid to call usb_hcd_giveback_urb() in task
-> > > > context, provided that the caller turned off the interrupts; USB/IP does
-> > > > exactly that. This can lead to a nested KCOV remote coverage collection
-> > > > sections both trying to collect coverage in task context. This isn't
-> > > > supported by KCOV, and leads to a WARNING.
-> > >
-> > > How does this recursion happen? There is literal recursion in the task
-> > > context? A function starts a remote coverage section and calls another
-> > > function that also starts a remote coverage section?
-> >
-> > Yes, a literal recursion. Background thread for processing requests
-> > for USB/IP hub (which we collect coverage from) calls
-> > __usb_hcd_giveback_urb().
-> >
-> > Here's the stack trace:
-> >
-> >  kcov_remote_start_usb include/linux/kcov.h:52 [inline]
-> >  __usb_hcd_giveback_urb+0x284/0x4b0 drivers/usb/core/hcd.c:1649
-> >  usb_hcd_giveback_urb+0x367/0x410 drivers/usb/core/hcd.c:1716
-> >  vhci_urb_enqueue.cold+0x37f/0x4c5 drivers/usb/usbip/vhci_hcd.c:801
-> >  usb_hcd_submit_urb+0x2b1/0x20d0 drivers/usb/core/hcd.c:1547
-> >  usb_submit_urb+0x6e5/0x13b0 drivers/usb/core/urb.c:570
-> >  usb_start_wait_urb+0x10f/0x2c0 drivers/usb/core/message.c:58
-> >  usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
-> >  usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
-> >  hub_set_address drivers/usb/core/hub.c:4472 [inline]
-> >  hub_port_init+0x23f6/0x2d20 drivers/usb/core/hub.c:4748
-> >  hub_port_connect drivers/usb/core/hub.c:5140 [inline]
-> >  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
-> >  port_event drivers/usb/core/hub.c:5494 [inline]
-> >  hub_event+0x1cc9/0x38d0 drivers/usb/core/hub.c:5576
-> >  process_one_work+0x7b6/0x1190 kernel/workqueue.c:2269
-> >  worker_thread+0x94/0xdc0 kernel/workqueue.c:2415
-> >  kthread+0x372/0x450 kernel/kthread.c:292
-> >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-> >
-> > > Or is there recursion between task context and softirq context?
-> >
-> > No. This kind of recursion is actually supported by kcov right now. A
-> > softirq with a coverage collection section can come in the middle of a
-> > coverage collection section for a task.
-> >
-> > > But
-> > > this should not happen if softirq's disabled around
-> > > usb_hcd_giveback_urb call in task context...
-> >
-> > [...]
-> >
-> > > We do want to collect coverage from usb_hcd_giveback_urb in the task
-> > > context eventually, right?
-> >
-> > Ideally, eventually, yes.
-> >
-> > > Is this API supposed to be final? Or it only puts down fire re the warning?
-> >
-> > Only puts down the fire.
-> >
-> > > I don't understand how this API can be used in other contexts.
-> > > Let's say there is recursion in task context and we want to collect
-> > > coverage in task context (the function is only called in task
-> > > context). This API won't help.
-> >
-> > No, it won't. Full recursion support is required for this.
-> >
-> > > Let's say a function is called from both task and softirq context and
-> > > these can recurse (softirq arrive while in remote task section). This
-> > > API won't help. It will force to choose either task or softirq, but
-> > > let's say you can't make that choice because they are equally
-> > > important.
-> >
-> > This currently works, everything that happens in a softirq gets
-> > associated with softirq, everything else - with the task. This seems
-> > to be the only logical approach here, it makes no sense to associate
-> > what happens in a softirq with the task where the softirq happened.
-> >
-> > > The API helps to work around the unimplemented recursion in KCOV, but
-> > > it's also specific to this particular case. It's not necessary that
-> > > recursion is specific to one context only and it's not necessary that
-> > > a user can choose to sacrifice one of the contexts.
-> > > Also, if we support recursion in one way or another, we will never
-> > > want to use this API, right?
-> >
-> > Correct.
->
->
-> I see.
-> The following is simpler option that does what this patch achieves but
-> in a more direct way:
->
-> // Because ...
-> if (in_serving_softirq())
->     kcov_remote_start_usb((u64)urb->dev->bus->busnum);
-
-Hmm, this actually makes a lot of sense. I wonder why I haven't
-thought of that :) Will do in v4.
+Rm9sa3MsCgppbiB0aGUgZGlzY3Vzc2lvbiBhYm91dCBwcmVlbXB0IGNvdW50IGNvbnNpc3RlbmN5
+IGFjY3Jvc3Mga2VybmVsCmNvbmZpZ3VyYXRpb25zOgoKIGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L3IvMjAyMDA5MTQyMDQyMDkuMjU2MjY2MDkzQGxpbnV0cm9uaXguZGUvCgppdCB3YXMgY29uY2x1
+ZGVkIHRoYXQgdGhlIHVzYWdlIG9mIGluX2ludGVycnVwdCgpIGFuZCByZWxhdGVkIGNvbnRleHQK
+Y2hlY2tzIHNob3VsZCBiZSByZW1vdmVkIGZyb20gbm9uLWNvcmUgY29kZS4KClRoZSBtZWRpYSBz
+dWJzeXN0ZW0gaGFzIGEgZmV3IGluc3RhbmNlcyBvZiBpbl9pbnRlcnJ1cHQoKSB1c2FnZToKCiAx
+KSBCVUdfT04oaW5faW50ZXJydXB0KCkKCiAgICBCVUdfT04oKSBpcyBjb25zaWRlcmVkIHRoZSBs
+YXN0IHJlc29ydCBhbmQgdGhlIHVzYWdlIHRoZXJlIGlzIGNsZWFybHkKICAgIG5vdCBpbiB0aGF0
+IGNhdGVnb3J5LiBJdCBjb3VsZCBiZSByZXBsYWNlZCBieSBhCiAgICBsb2NrZGVwX2Fzc2VydF9w
+cmVlbXB0aW9uX2VuYWJsZWQoKSwgYnV0IGFsbCB0aGVzZSB1c2FnZSBzaXRlcyBpbnZva2UKICAg
+IGNvcmUgZnVuY3Rpb25hbGl0eSB3aGljaCB3aWxsIGNhdGNoIGluY29ycmVjdCBjb250ZXh0IGFs
+cmVhZHkuIFNvCiAgICBhZGRpbmcgbW9yZSB0aGVyZSBpcyBub3QgcmVhbGx5IHVzZWZ1bAoKIDIp
+IENvbW1lbnRzIGFuZCBwcmludGsoKSdzCgogICAgVGhlIGNvbW1lbnQgaXMgbWlzbGVhZGluZyBh
+bmQgdGhlIGNoZWNrcyBpbiB0aGUgcHJpbnRrKCkncyBhcmUKICAgIHBvaW50bGVzcyBhcyB0aGUg
+Y29kZSBjYW4gbmV2ZXIgYmUgY2FsbGVkIGZyb20gaW5faW50ZXJydXB0KCkgYXMgaXQKICAgIGNv
+bnRhaW5zIEdGUF9LRVJORUwgYWxsb2NhdGlvbnMuCgpJJ20gY29sbGVjdGluZyByZWxhdGVkIGNs
+ZWFudXBzIGFsbCBvdmVyIHRoZSB0cmVlLCBidXQgZmVlbCBmcmVlIHRvIHJvdXRlCnRoZW0gdGhy
+b3VnaCB0aGUgbWVkaWEgdHJlZSBhcyB0aGV5IGhhdmUgbm8gZGVwZW5kZW5jaWVzLiBMZXQgbWUg
+a25vdyB3aGljaApyb3V0ZSB5b3UgcHJlZmVyLgoKVGhhbmtzLAoKCXRnbHgKLS0tCiBjb21tb24v
+c2FhNzE0Ni9zYWE3MTQ2X2ZvcHMuYyB8ICAgIDIgLS0KIHBjaS9idDh4eC9idHR2LXJpc2MuYyAg
+ICAgICAgIHwgICAgMSAtCiBwY2kvY3gyMzg4NS9jeDIzODg1LWNvcmUuYyAgICB8ICAgIDEgLQog
+cGNpL2N4MjU4MjEvY3gyNTgyMS1jb3JlLmMgICAgfCAgICAxIC0KIHBsYXRmb3JtL2ZzbC12aXUu
+YyAgICAgICAgICAgIHwgICAgMiAtLQogcGxhdGZvcm0vb21hcDNpc3AvaXNwY2NkYy5jICAgfCAg
+ICA1ICsrLS0tCiB1c2IvYXUwODI4L2F1MDgyOC12aWRlby5jICAgICB8ICAgIDUgKystLS0KIHVz
+Yi9jeDIzMXh4L2N4MjMxeHgtY29yZS5jICAgIHwgICAxMCArKysrLS0tLS0tCiB1c2IvY3gyMzF4
+eC9jeDIzMXh4LXZiaS5jICAgICB8ICAgIDMgKy0tCiB1c2IvdG02MDAwL3RtNjAwMC12aWRlby5j
+ICAgICB8ICAgIDIgLS0KIHVzYi96cjM2NHh4L3pyMzY0eHguYyAgICAgICAgIHwgICAgMiAtLQog
+MTEgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKCg==
