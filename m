@@ -2,81 +2,267 @@ Return-Path: <SRS0=J28a=DU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06EC6C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 629A7C433E7
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:29:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B526224810
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602598968;
-	bh=XdozIILjI02aO0fXxqgUBFKkk6lYbUtrKu/YALBirnk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=NFFDzBvV7Sq+Y6QoEJhgP7oAeGxOIl+G3IJiQIbLp/VCUp5UnO7cJ7AHFgHxaAKM7
-	 ERVqcLClZpTmQ8YoUGnt9eOL49GuTL2bdmi8selaaRaQtd4laOY9xn0veI1LmF8UXm
-	 SAVthKqPKN12pZRLF9gsQUddRxEjLnT4zEcgJzdA=
+	by mail.kernel.org (Postfix) with ESMTP id 1064424829
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 14:29:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729992AbgJMOWp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Oct 2020 10:22:45 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:33509 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729683AbgJMOWp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Oct 2020 10:22:45 -0400
-Received: by mail-ot1-f66.google.com with SMTP id t15so166524otk.0;
-        Tue, 13 Oct 2020 07:22:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=X2OPUF6hLvyo2zbCRQtk4GShfyN48+lkdnulYVh78p0=;
-        b=h0P9nSrS9YiEzSjS1fagP9qiVty9VuKBjSv9Fu8aOuRhf62k48xHibAzqgXw48D9S2
-         sJG8V7BXdzNm6RtvENEV2WBWduWwr9qwAU+c4tHSiBu6XzJ4HigX8Ej1WGyheKgL0mxw
-         SV6DITcaaNZUYoBgdh/OJJgEioSTwYRG7dZ5JOKuFRM7omlQF2Epj+U4vngxN/wv/T+w
-         rEPywlBnB2jExlNW4zmWWqi5iJtISKJWuhWujpnPEhQm2f44BTwbPKk5TiuGaEOFgRWs
-         pt1nbGNwcXWesXr/nF90kkIpXjhywtlpRwos94Vza1T7HEsk3jlHyzMs7/tsyfTL7zti
-         qfyA==
-X-Gm-Message-State: AOAM531kxViOeJ19k6NT8cuXn0r9B1Zst4bDQJkmFtrkOxKAI6IDTYT7
-        J6+AxTRKkwOJ/wvioX+k9g==
-X-Google-Smtp-Source: ABdhPJxx9u6/kZVY8K22eqdOb8C41IRPu74rOUg09vn74HyLEKIVhnueMVZw5SBfmuk1ASMt6aBa1A==
-X-Received: by 2002:a9d:5547:: with SMTP id h7mr23056541oti.248.1602598964628;
-        Tue, 13 Oct 2020 07:22:44 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d11sm2366320oti.69.2020.10.13.07.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2020 07:22:43 -0700 (PDT)
-Received: (nullmailer pid 3448875 invoked by uid 1000);
-        Tue, 13 Oct 2020 14:22:43 -0000
-Date:   Tue, 13 Oct 2020 09:22:43 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Manish Narani <manish.narani@xilinx.com>
-Cc:     devicetree@vger.kernel.org, git@xilinx.com, p.zabel@pengutronix.de,
-        linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org, balbi@kernel.org,
-        linux-arm-kernel@lists.infradead.org, michal.simek@xilinx.com
-Subject: Re: [PATCH v3 1/2] dt-bindings: usb: dwc3-xilinx: Add documentation
- for Versal DWC3 Controller
-Message-ID: <20201013142243.GA3448825@bogus>
-References: <1602162416-28058-1-git-send-email-manish.narani@xilinx.com>
- <1602162416-28058-2-git-send-email-manish.narani@xilinx.com>
+        id S2388602AbgJMO3W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Oct 2020 10:29:22 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:41132 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387516AbgJMO3W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Oct 2020 10:29:22 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id D035D8030719;
+        Tue, 13 Oct 2020 14:29:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at baikalelectronics.ru
+Received: from mail.baikalelectronics.ru ([127.0.0.1])
+        by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id M3o6heArBTLz; Tue, 13 Oct 2020 17:29:13 +0300 (MSK)
+Date:   Tue, 13 Oct 2020 17:29:11 +0300
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Rob Herring <robh@kernel.org>
+CC:     Serge Semin <fancer.lancer@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 07/18] dt-bindings: usb: Convert xHCI bindings to DT
+ schema
+Message-ID: <20201013142911.pay7g6gi2a5d72q3@mobilestation>
+References: <20201010224121.12672-1-Sergey.Semin@baikalelectronics.ru>
+ <20201010224121.12672-8-Sergey.Semin@baikalelectronics.ru>
+ <20201013123004.GB3269269@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <1602162416-28058-2-git-send-email-manish.narani@xilinx.com>
+In-Reply-To: <20201013123004.GB3269269@bogus>
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 08 Oct 2020 18:36:55 +0530, Manish Narani wrote:
-> Add documentation for Versal DWC3 controller. Add required property
-> 'reg' for the same. Also add optional properties for snps,dwc3.
-> 
-> Signed-off-by: Manish Narani <manish.narani@xilinx.com>
-> ---
->  .../devicetree/bindings/usb/dwc3-xilinx.txt     | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
+On Tue, Oct 13, 2020 at 07:30:04AM -0500, Rob Herring wrote:
+> On Sun, Oct 11, 2020 at 01:41:10AM +0300, Serge Semin wrote:
+> > Currently the DT bindings of Generic xHCI Controllers are described by means
+> > of the legacy text file. Since such format is deprecated in favor of the
+> > DT schema, let's convert the Generic xHCI Controllers bindings file to the
+> > corresponding yaml files. There will be two of them: a DT schema for the
+> > xHCI controllers on a generic platform and a DT schema validating a generic
+> > xHCI controllers properties. The later will be used to validate the xHCI
+> > controllers, which aside from some vendor-specific features support the
+> > basic xHCI functionality.
+> > 
+> > An xHCI-compatible DT node shall support the standard USB HCD properties
+> > and custom ones like: usb2-lpm-disable, usb3-lpm-capable,
+> > quirk-broken-port-ped and imod-interval-ns. In addition if a generic xHCI
+> > controller is being validated against the DT schema it is also supposed to
+> > be equipped with mandatory compatible string, single registers range,
+> > single interrupts source, and is supposed to optionally contain up to two
+> > reference clocks for the controller core and CSRs.
+> > 
+> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> > ---
+> >  .../devicetree/bindings/usb/generic-xhci.yaml | 63 +++++++++++++++++++
+> >  .../devicetree/bindings/usb/usb-xhci.txt      | 41 ------------
+> >  .../devicetree/bindings/usb/usb-xhci.yaml     | 40 ++++++++++++
+> >  3 files changed, 103 insertions(+), 41 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/usb/generic-xhci.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.txt
+> >  create mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+> > new file mode 100644
+> > index 000000000000..1ea1d49a8175
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+> > @@ -0,0 +1,63 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: USB xHCI Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Mathias Nyman <mathias.nyman@intel.com>
+> > +
+> > +allOf:
+> > +  - $ref: "usb-xhci.yaml#"
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - description: Generic xHCI device
+> > +        const: generic-xhci
+> > +      - description: Armada 37xx/375/38x/8k SoCs
+> > +        items:
+> > +          - enum:
+> > +              - marvell,armada3700-xhci
+> > +              - marvell,armada-375-xhci
+> > +              - marvell,armada-380-xhci
+> > +              - marvell,armada-8k-xhci
+> > +          - const: generic-xhci
+> > +      - description: Broadcom STB SoCs with xHCI
+> > +        const: brcm,bcm7445-xhci
+> > +      - description: Generic xHCI device
+> > +        const: xhci-platform
+> > +        deprecated: true
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +
+> > +  clock-names:
+> > +    minItems: 1
+> > +    items:
+> > +      - const: core
+> > +      - const: reg
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +
+> > +examples:
+> > +  - |
+> > +    usb@f0931000 {
+> > +      compatible = "generic-xhci";
+> > +      reg = <0xf0931000 0x8c8>;
+> > +      interrupts = <0x0 0x4e 0x0>;
+> > +    };
+> > diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+> > deleted file mode 100644
+> > index 0c5cff84a969..000000000000
+> > --- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
+> > +++ /dev/null
+> > @@ -1,41 +0,0 @@
+> > -USB xHCI controllers
+> > -
+> > -Required properties:
+> > -  - compatible: should be one or more of
+> > -
+> > -    - "generic-xhci" for generic XHCI device
+> > -    - "marvell,armada3700-xhci" for Armada 37xx SoCs
+> > -    - "marvell,armada-375-xhci" for Armada 375 SoCs
+> > -    - "marvell,armada-380-xhci" for Armada 38x SoCs
+> > -    - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
+> > -    - "xhci-platform" (deprecated)
+> > -
+> > -    When compatible with the generic version, nodes must list the
+> > -    SoC-specific version corresponding to the platform first
+> > -    followed by the generic version.
+> > -
+> > -  - reg: should contain address and length of the standard XHCI
+> > -    register set for the device.
+> > -  - interrupts: one XHCI interrupt should be described here.
+> > -
+> > -Optional properties:
+> > -  - clocks: reference to the clocks
+> > -  - clock-names: mandatory if there is a second clock, in this case
+> > -    the name must be "core" for the first clock and "reg" for the
+> > -    second one
+> > -  - usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
+> > -  - usb3-lpm-capable: determines if platform is USB3 LPM capable
+> > -  - quirk-broken-port-ped: set if the controller has broken port disable mechanism
+> > -  - imod-interval-ns: default interrupt moderation interval is 5000ns
+> > -  - phys : see usb-hcd.yaml in the current directory
+> > -
+> > -additionally the properties from usb-hcd.yaml (in the current directory) are
+> > -supported.
+> > -
+> > -
+> > -Example:
+> > -	usb@f0931000 {
+> > -		compatible = "generic-xhci";
+> > -		reg = <0xf0931000 0x8c8>;
+> > -		interrupts = <0x0 0x4e 0x0>;
+> > -	};
+> > diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+> > new file mode 100644
+> > index 000000000000..c5c177f2e055
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+> > @@ -0,0 +1,40 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/usb-xhci.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Generic USB xHCI Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Mathias Nyman <mathias.nyman@intel.com>
+> > +
+> > +allOf:
+> > +  - $ref: "usb-hcd.yaml#"
+> > +
+> > +properties:
+> > +  usb2-lpm-disable:
+> > +    description: Indicates if we don't want to enable USB2 HW LPM
+> > +    type: boolean
+> > +
+> > +  usb3-lpm-capable:
+> > +    description: Determines if platform is USB3 LPM capable
+> > +    type: boolean
+> > +
+> > +  quirk-broken-port-ped:
+> > +    description: Set if the controller has broken port disable mechanism
+> > +    type: boolean
+> > +
+> > +  imod-interval-ns:
+> > +    description: Interrupt moderation interval
+> > +    default: 5000
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> Having additionalProperties or unevaluatedProperties is going to be 
+> mandatory, so for this add:
+> 
+> additionalProperties: true
+
+Ok. I'll get to remember this.
+
+-Sergey
+
+> 
+> > +
+> > +examples:
+> > +  - |
+> > +    usb@f0930000 {
+> > +      compatible = "generic-xhci";
+> > +      reg = <0xf0930000 0x8c8>;
+> > +      interrupts = <0x0 0x4e 0x0>;
+> > +      usb2-lpm-disable;
+> > +      usb3-lpm-capable;
+> > +    };
+> > -- 
+> > 2.27.0
+> > 
