@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB1BC433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:56:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 647E0C433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:58:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 493CB25393
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:56:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12CB825393
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:58:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727278AbgJMR4k convert rfc822-to-8bit (ORCPT
+        id S1727323AbgJMR6U convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Oct 2020 13:56:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56222 "EHLO mail.kernel.org"
+        Tue, 13 Oct 2020 13:58:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56564 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727190AbgJMR4k (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 13 Oct 2020 13:56:40 -0400
+        id S1727190AbgJMR6U (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 13 Oct 2020 13:58:20 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 209411] When retrieving string descriptor from mobile device
  returns eproto error
-Date:   Tue, 13 Oct 2020 17:56:39 +0000
+Date:   Tue, 13 Oct 2020 17:58:19 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -37,8 +37,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209411-208809-UP1QSzvoUm@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209411-208809-NwfjtwBj43@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
 References: <bug-209411-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,12 +52,21 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209411
 
---- Comment #49 from rachithas104@gmail.com ---
-Created attachment 292947
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292947&action=edit
-device in ptp mode  calling SelectConfiguration
+--- Comment #50 from rachithas104@gmail.com ---
+(In reply to Lars Melin from comment #44)
+> (In reply to rachithas104 from comment #43)
+>  
+> > There is only one configuration
+> 
+> So why do you then select configuration when the configuration descriptor
+> tells you that there is only one?
+> 
+> You have a 'user space driver' attached to the PTP interface, are you
+> running under a virtual machine or what is that driver?
 
-device in ptp mode  calling SelectConfiguration
+I have attached traces when I am trying to enumerate mobile device in PTP mode 
+Working-without calling SelectConfiguration
+Non-working -calling SelectConfiguration
 
 -- 
 You are receiving this mail because:
