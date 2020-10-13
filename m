@@ -5,24 +5,24 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 333E1C433DF
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:55:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB1BC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:56:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA58325393
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:55:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 493CB25393
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Oct 2020 17:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727237AbgJMRzw convert rfc822-to-8bit (ORCPT
+        id S1727278AbgJMR4k convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Oct 2020 13:55:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56172 "EHLO mail.kernel.org"
+        Tue, 13 Oct 2020 13:56:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56222 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727190AbgJMRzv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 13 Oct 2020 13:55:51 -0400
+        id S1727190AbgJMR4k (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 13 Oct 2020 13:56:40 -0400
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 209411] When retrieving string descriptor from mobile device
  returns eproto error
-Date:   Tue, 13 Oct 2020 17:55:51 +0000
+Date:   Tue, 13 Oct 2020 17:56:39 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209411-208809-r9DDcemfKN@https.bugzilla.kernel.org/>
+Message-ID: <bug-209411-208809-UP1QSzvoUm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209411-208809@https.bugzilla.kernel.org/>
 References: <bug-209411-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,12 +52,12 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209411
 
---- Comment #48 from rachithas104@gmail.com ---
-Created attachment 292945
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292945&action=edit
-device in ptp mode without calling SelectConfiguration
+--- Comment #49 from rachithas104@gmail.com ---
+Created attachment 292947
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292947&action=edit
+device in ptp mode  calling SelectConfiguration
 
-device in ptp mode without calling SelectConfiguration
+device in ptp mode  calling SelectConfiguration
 
 -- 
 You are receiving this mail because:
