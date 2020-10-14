@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C646BC3279D
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB901C35266
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82AB321D81
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75D112222E
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730375AbgJNKOl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Oct 2020 06:14:41 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:46074 "EHLO
+        id S1729881AbgJNKOn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Oct 2020 06:14:43 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:46092 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729984AbgJNKOT (ORCPT
+        with ESMTP id S1729993AbgJNKOT (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Oct 2020 06:14:19 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 74D888001384;
-        Wed, 14 Oct 2020 10:14:13 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 13EF980023F8;
+        Wed, 14 Oct 2020 10:14:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id dAu2Sp9vJkSs; Wed, 14 Oct 2020 13:14:12 +0300 (MSK)
+        with ESMTP id DsxEGLhxyhtr; Wed, 14 Oct 2020 13:14:13 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -47,9 +47,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 11/20] dt-bindings: usb: dwc3: Add synopsys,dwc3 compatible string
-Date:   Wed, 14 Oct 2020 13:13:53 +0300
-Message-ID: <20201014101402.18271-12-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 12/20] dt-bindings: usb: dwc3: Add Tx De-emphasis restrictions
+Date:   Wed, 14 Oct 2020 13:13:54 +0300
+Message-ID: <20201014101402.18271-13-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -60,38 +60,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
-expects the DWC USB3 DT node to have the compatible string with the
-"synopsys" vendor prefix. Let's add the corresponding compatible string to
-the controller DT schema, but mark it as deprecated seeing the Synopsys,
-Inc. is presented with just "snps" vendor prefix.
+In accordance with the driver comments the PIPE3 de-emphasis can be tuned
+to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
+property restriction so the DT schema would make sure the controller DT
+node is equipped with correct value.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 
 ---
 
 Changelog v2:
-- Drop quotes from around the compat string constant.
+- Grammar fix: "s/tunned/tuned"
+- Grammar fix: remove redundant "or" conjunction.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 12102a84faf6..2f746ac64e71 100644
+index 2f746ac64e71..307affb669aa 100644
 --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -20,7 +20,10 @@ allOf:
- properties:
-   compatible:
-     contains:
--      const: snps,dwc3
-+      oneOf:
-+        - const: snps,dwc3
-+        - const: synopsys,dwc3
-+          deprecated: true
+@@ -145,6 +145,10 @@ properties:
+       The value driven to the PHY is controlled by the LTSSM during USB3
+       Compliance mode.
+     $ref: /schemas/types.yaml#/definitions/uint8
++    enum:
++      - 0 # -6dB de-emphasis
++      - 1 # -3.5dB de-emphasis
++      - 2 # No de-emphasis
  
-   interrupts:
-     description: |
+   snps,dis_u3_susphy_quirk:
+     description: When set core will disable USB3 suspend phy
 -- 
 2.27.0
 
