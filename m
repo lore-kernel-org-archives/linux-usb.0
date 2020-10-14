@@ -2,101 +2,127 @@ Return-Path: <SRS0=JYuW=DV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E320EC43467
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 05:42:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E112C43457
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 07:07:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9ED632222F
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 05:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602654178;
-	bh=w10HAUvHzI4K2dPPA6eBw0IIFtp11qCCa0wUzKaUmD8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Otf5pop1PgUWd8Wl6NuUEWcwkRAKYuw5w35j/zOZJwhVJG84ePpQd7RZAoFJcSi/k
-	 dPU4LNWeZEzbFOk3FKBwmso0N691S/KC8wvziUCWb24QqOvR0pSfCSMqg0SUOxAJbT
-	 p22JoaqrBZAqTo0cZ5lTRY2ih7/bFHWt7/l40YVU=
+	by mail.kernel.org (Postfix) with ESMTP id B95C22073A
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 07:07:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="rJ47ziML"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgJNFmz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Oct 2020 01:42:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44624 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725983AbgJNFmz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 14 Oct 2020 01:42:55 -0400
-Received: from localhost (unknown [213.57.247.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 936BB2177B;
-        Wed, 14 Oct 2020 05:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602654174;
-        bh=w10HAUvHzI4K2dPPA6eBw0IIFtp11qCCa0wUzKaUmD8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cKsoRdZk0/7P9W5KQIcB78oxj7gSK1YWQM+hrVcStVlKqV5euxdawGaIKjsJO+YUU
-         /usInNdGonQCzHNv/4cuzYg3D1kAHdZbtEGHplDqaWK5j6M3yEug5qW6hLhVGcPu6C
-         Ur12VOGAV45LDfAlhlt9kErfzTLPyFZ2XWjKnbEc=
-Date:   Wed, 14 Oct 2020 08:42:50 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        David Miller <davem@davemloft.net>,
-        =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>,
-        Oliver Neukum <oneukum@suse.com>,
-        Igor Mitsyanko <imitsyanko@quantenna.com>,
-        Sergey Matyukevich <geomatsi@gmail.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <nikolay@nvidia.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Pravin B Shelar <pshelar@ovn.org>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        linux-rdma@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        bridge@lists.linux-foundation.org
-Subject: Re: [PATCH net-next v2 00/12] net: add and use function
- dev_fetch_sw_netstats for fetching pcpu_sw_netstats
-Message-ID: <20201014054250.GB6305@unreal>
-References: <d77b65de-1793-f808-66b5-aaa4e7c8a8f0@gmail.com>
- <20201013173951.25677bcc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        id S1727925AbgJNHHq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Oct 2020 03:07:46 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:61231 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726141AbgJNHHq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Oct 2020 03:07:46 -0400
+X-UUID: 597ff07714d449a18eed34164f43ca0d-20201014
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=liqqNPZ7bhnTmHQkiIXmgSnZuggaH0is3HAOFrjhmfI=;
+        b=rJ47ziMLdbDOQz4WrNOmGUq+hrZ/ysAxMX2mxZGu1FikYksj9EtRVM+/pNzT6Lsn0OYVrvm+jySBPKJPYnhlVIQ5fv0TCz0g7DD6k29OSMWQVDSfWz4SdfVJmtqJjJsc6wpwm8QWZZe2spDEwvIo7C8tv4P7MEje4TzBUwDAU5o=;
+X-UUID: 597ff07714d449a18eed34164f43ca0d-20201014
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1753992200; Wed, 14 Oct 2020 15:07:36 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 14 Oct
+ 2020 15:07:33 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 14 Oct 2020 15:07:32 +0800
+Message-ID: <1602659253.29336.79.camel@mhfsdcap03>
+Subject: Re: [PATCH v2 4/8] dt-bindings: phy: convert HDMI PHY binding to
+ YAML schema
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     CK Hu <ck.hu@mediatek.com>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        "Kishon Vijay Abraham I" <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Min Guo <min.guo@mediatek.com>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
+Date:   Wed, 14 Oct 2020 15:07:33 +0800
+In-Reply-To: <1602650671.27998.2.camel@mtksdaap41>
+References: <20201013085207.17749-1-chunfeng.yun@mediatek.com>
+         <20201013085207.17749-4-chunfeng.yun@mediatek.com>
+         <1602650671.27998.2.camel@mtksdaap41>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201013173951.25677bcc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+X-TM-SNTS-SMTP: 7D3A8E0BF2FC977AE7986068420E20580FCD3FFE574376E72318CF014D5E6D432000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 05:39:51PM -0700, Jakub Kicinski wrote:
-> On Mon, 12 Oct 2020 10:00:11 +0200 Heiner Kallweit wrote:
-> > In several places the same code is used to populate rtnl_link_stats64
-> > fields with data from pcpu_sw_netstats. Therefore factor out this code
-> > to a new function dev_fetch_sw_netstats().
-> >
-> > v2:
-> > - constify argument netstats
-> > - don't ignore netstats being NULL or an ERRPTR
-> > - switch to EXPORT_SYMBOL_GPL
->
-> Applied, thank you!
+T24gV2VkLCAyMDIwLTEwLTE0IGF0IDEyOjQ0ICswODAwLCBDSyBIdSB3cm90ZToNCj4gSGksIENo
+dW5mZW5nOg0KPiANCj4gT24gVHVlLCAyMDIwLTEwLTEzIGF0IDE2OjUyICswODAwLCBDaHVuZmVu
+ZyBZdW4gd3JvdGU6DQo+ID4gQ29udmVydCBIRE1JIFBIWSBiaW5kaW5nIHRvIFlBTUwgc2NoZW1h
+IG1lZGlhdGVrLHVmcy1waHkueWFtbA0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IENodW5mZW5n
+IFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiB2MjogZml4IGJp
+bmRpbmcgY2hlY2sgd2FybmluZyBvZiByZWcgaW4gZXhhbXBsZQ0KPiA+IC0tLQ0KPiA+ICAuLi4v
+ZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxoZG1pLnR4dCAgICAgICAgfCAxNyArLS0tDQo+ID4g
+IC4uLi9iaW5kaW5ncy9waHkvbWVkaWF0ZWssaGRtaS1waHkueWFtbCAgICAgICB8IDkwICsrKysr
+KysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA5MSBpbnNlcnRpb25zKCspLCAx
+NiBkZWxldGlvbnMoLSkNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9waHkvbWVkaWF0ZWssaGRtaS1waHkueWFtbA0KPiA+IA0KPiA+IGRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRp
+YXRlay9tZWRpYXRlayxoZG1pLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGhkbWkudHh0DQo+ID4gaW5kZXggN2IxMjQyNDJi
+MGM1Li5lZGFjMTg5NTFhNzUgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssaGRtaS50eHQNCj4gPiArKysg
+Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
+YXRlayxoZG1pLnR4dA0KPiA+IEBAIC01MCwyMiArNTAsNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVz
+Og0KPiA+ICANCj4gPiAgSERNSSBQSFkNCj4gPiAgPT09PT09PT0NCj4gPiAtDQo+ID4gLVRoZSBI
+RE1JIFBIWSBzZXJpYWxpemVzIHRoZSBIRE1JIGVuY29kZXIncyB0aHJlZSBjaGFubmVsIDEwLWJp
+dCBwYXJhbGxlbA0KPiA+IC1vdXRwdXQgYW5kIGRyaXZlcyB0aGUgSERNSSBwYWRzLg0KPiA+IC0N
+Cj4gPiAtUmVxdWlyZWQgcHJvcGVydGllczoNCj4gPiAtLSBjb21wYXRpYmxlOiAibWVkaWF0ZWss
+PGNoaXA+LWhkbWktcGh5Ig0KPiA+IC0tIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFuZCBs
+ZW5ndGggb2YgdGhlIG1vZHVsZSdzIHJlZ2lzdGVycw0KPiA+IC0tIGNsb2NrczogUExMIHJlZmVy
+ZW5jZSBjbG9jaw0KPiA+IC0tIGNsb2NrLW5hbWVzOiBtdXN0IGNvbnRhaW4gInBsbF9yZWYiDQo+
+ID4gLS0gY2xvY2stb3V0cHV0LW5hbWVzOiBtdXN0IGJlICJoZG1pdHhfZGlnX2N0cyIgb24gbXQ4
+MTczDQo+ID4gLS0gI3BoeS1jZWxsczogbXVzdCBiZSA8MD4NCj4gPiAtLSAjY2xvY2stY2VsbHM6
+IG11c3QgYmUgPDA+DQo+ID4gLQ0KPiA+IC1PcHRpb25hbCBwcm9wZXJ0aWVzOg0KPiA+IC0tIG1l
+ZGlhdGVrLGliaWFzOiBUWCBEUlYgYmlhcyBjdXJyZW50IGZvciA8MS42NUdicHMsIGRlZmF1bHRz
+IHRvIDB4YQ0KPiA+IC0tIG1lZGlhdGVrLGliaWFzX3VwOiBUWCBEUlYgYmlhcyBjdXJyZW50IGZv
+ciA+MS42NUdicHMsIGRlZmF1bHRzIHRvIDB4MWMNCj4gPiArU2VlIHBoeS9tZWRpYXRlayxoZG1p
+LXBoeS55YW1sDQo+ID4gIA0KPiA+ICBFeGFtcGxlOg0KPiA+ICANCj4gPiBkaWZmIC0tZ2l0IGEv
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BoeS9tZWRpYXRlayxoZG1pLXBoeS55
+YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BoeS9tZWRpYXRlayxoZG1p
+LXBoeS55YW1sDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAw
+MDAuLjc3ZGY1MDIwNDYwNg0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcGh5L21lZGlhdGVrLGhkbWktcGh5LnlhbWwNCj4gPiBA
+QCAtMCwwICsxLDkwIEBADQo+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4w
+LW9ubHkgT1IgQlNELTItQ2xhdXNlKQ0KPiA+ICsjIENvcHlyaWdodCAoYykgMjAyMCBNZWRpYVRl
+aw0KPiA+ICslWUFNTCAxLjINCj4gPiArLS0tDQo+ID4gKyRpZDogaHR0cDovL2RldmljZXRyZWUu
+b3JnL3NjaGVtYXMvcGh5L21lZGlhdGVrLGhkbWktcGh5LnlhbWwjDQo+ID4gKyRzY2hlbWE6IGh0
+dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KPiA+ICsNCj4gPiAr
+dGl0bGU6IE1lZGlhVGVrIEhpZ2ggRGVmaW5pdGlvbiBNdWx0aW1lZGlhIEludGVyZmFjZSAoSERN
+SSkgUEhZIGJpbmRpbmcNCj4gPiArDQo+ID4gK21haW50YWluZXJzOg0KPiA+ICsgIC0gQ0sgSHUg
+PGNrLmh1QG1lZGlhdGVrLmNvbT4NCj4gDQo+IEkgdGhpbmsgeW91IHNob3VsZCByZW1vdmUgIkNL
+IEh1IDxjay5odUBtZWRpYXRlay5jb20+IiBhbmQgYWRkIGxhdGVzdA0KPiBtZWRpYXRlayBkcm0g
+bWFpbnRhaW5lcjoNCk9rLCB3aWxsIGRvIGl0LCB0aGFua3MNCg0KPiANCj4gRFJNIERSSVZFUlMg
+Rk9SIE1FRElBVEVLDQo+IE06CUNodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3Jn
+Pg0KPiBNOglQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPg0KPiBMOglkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IFM6CVN1cHBvcnRlZA0KPiBGOglEb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay8NCj4gRjoJZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrLw0KPiANCj4gUmVnYXJkcywNCj4gQ0sNCg0K
 
-Jakub,
-
-Is it possible to make sure that changelogs are not part of the commit
-messages? We don't store previous revisions in the git repo, so it doesn't
-give too much to anyone who is looking on git log later. The lore link
-to the patch is more than enough.
-
-44fa32f008ab ("net: add function dev_fetch_sw_netstats for fetching pcpu_sw_netstats")
-
-Thanks
