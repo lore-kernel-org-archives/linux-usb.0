@@ -7,32 +7,30 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD622C43467
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C946C433DF
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56E7720848
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8DFF20BED
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:14:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730103AbgJNKOV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Oct 2020 06:14:21 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:45970 "EHLO
+        id S1730220AbgJNKO0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Oct 2020 06:14:26 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:46184 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729679AbgJNKOR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Oct 2020 06:14:17 -0400
+        with ESMTP id S1730071AbgJNKOZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Oct 2020 06:14:25 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 1FAF580023F4;
-        Wed, 14 Oct 2020 10:14:11 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 99950800254B;
+        Wed, 14 Oct 2020 10:14:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id VZIHMCMbYz7W; Wed, 14 Oct 2020 13:14:10 +0300 (MSK)
+        with ESMTP id bLgVXv8eo580; Wed, 14 Oct 2020 13:14:16 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        Rob Herring <robh+dt@kernel.org>, Roger Quadros <rogerq@ti.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -40,16 +38,17 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Manu Gautam <mgautam@codeaurora.org>,
-        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 08/20] dt-bindings: usb: renesas-xhci: Refer to the usb-xhci.yaml file
-Date:   Wed, 14 Oct 2020 13:13:50 +0300
-Message-ID: <20201014101402.18271-9-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 16/20] dt-bindings: usb: keystone-dwc3: Validate DWC3 sub-node
+Date:   Wed, 14 Oct 2020 13:13:58 +0300
+Message-ID: <20201014101402.18271-17-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -60,38 +59,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With minor peculiarities (like uploading some vendor-specific firmware)
-these are just Generic xHCI controllers fully compatible with its
-properties. Make sure the Renesas USB xHCI DT nodes are also validated
-against the Generic xHCI DT schema.
+TI Keystone DWC3 compatible DT node is supposed to have a DWC USB3
+compatible sub-node to describe a fully functioning USB interface.
+Since DWC USB3 has now got a DT schema describing its DT node, let's make
+sure the TI Keystone DWC3 sub-node passes validation against it.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
----
- Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-index add9f7b66da0..4491567152a1 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-@@ -11,7 +11,7 @@ maintainers:
-   - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+
+Changelog v2:
+- Grammar fix: "s/it'/its"
+---
+ Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+index c1b19fc5d0a2..ca7fbe3ed22e 100644
+--- a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+@@ -64,9 +64,7 @@ properties:
  
- allOf:
--  - $ref: "usb-hcd.yaml"
-+  - $ref: "usb-xhci.yaml"
+ patternProperties:
+   "usb@[a-f0-9]+$":
+-    type: object
+-    description: This is the node representing the DWC3 controller instance
+-      Documentation/devicetree/bindings/usb/dwc3.txt
++    $ref: snps,dwc3.yaml#
  
- properties:
-   compatible:
-@@ -68,7 +68,7 @@ required:
-   - power-domains
-   - resets
- 
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
+ required:
+   - compatible
 -- 
 2.27.0
 
