@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA1EAC2BB1B
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B95F2C433E7
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:15:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 759E92068E
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:15:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7415C21D81
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Oct 2020 10:15:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387909AbgJNKPY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Oct 2020 06:15:24 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:45952 "EHLO
+        id S1730069AbgJNKPr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Oct 2020 06:15:47 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:45950 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729669AbgJNKOQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Oct 2020 06:14:16 -0400
+        with ESMTP id S1729661AbgJNKOO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Oct 2020 06:14:14 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 1ECCD803073C;
-        Wed, 14 Oct 2020 10:14:09 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 837F0800163F;
+        Wed, 14 Oct 2020 10:14:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id jXLq2i-h9V0q; Wed, 14 Oct 2020 13:14:08 +0300 (MSK)
+        with ESMTP id hmYmAbkdTfZP; Wed, 14 Oct 2020 13:14:10 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -47,9 +47,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 05/20] dt-bindings: usb: usb-hcd: Add generic "usb-phy" property
-Date:   Wed, 14 Oct 2020 13:13:47 +0300
-Message-ID: <20201014101402.18271-6-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 07/20] dt-bindings: usb: xhci: Add Broadcom STB v2 compatible device
+Date:   Wed, 14 Oct 2020 13:13:49 +0300
+Message-ID: <20201014101402.18271-8-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -60,43 +60,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Even though the Generic PHY framework is the more preferable way of
-setting the USB PHY up, there are still many dts-files and DT bindings
-which rely on having the legacy "usb-phy" specified to attach particular
-USB PHYs to USB cores. Let's have the "usb-phy" property described in
-the generic USB HCD binding file so it would be validated against the
-nodes in which it's specified. Mark the property as deprecated to
-discourage the developers from using it.
+For some reason the "brcm,xhci-brcm-v2" compatible string has been missing
+in the original bindings file. Add it to the Generic xHCI Controllers DT
+schema since the controller driver expects it to be supported.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-
 ---
+ Documentation/devicetree/bindings/usb/generic-xhci.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Changelog v2:
-- Discard '|' from the property description, since we don't need to preserve
-  the text formatting.
----
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index 1f9b40fdea70..264a660dc6ea 100644
---- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -22,6 +22,13 @@ properties:
-     description:
-       Name specifier for the USB PHY
- 
-+  usb-phy:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description:
-+      List of all the USB PHYs on this HCD to be accepted by the legacy USB
-+      Physical Layer subsystem.
-+    deprecated: true
-+
-   maximum-speed:
-    description:
-      Tells USB controllers we want to work up to a certain speed. In case this
+diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+index 1ea1d49a8175..23d73df96ea3 100644
+--- a/Documentation/devicetree/bindings/usb/generic-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+@@ -26,7 +26,9 @@ properties:
+               - marvell,armada-8k-xhci
+           - const: generic-xhci
+       - description: Broadcom STB SoCs with xHCI
+-        const: brcm,bcm7445-xhci
++        enum:
++          - brcm,xhci-brcm-v2
++          - brcm,bcm7445-xhci
+       - description: Generic xHCI device
+         const: xhci-platform
+         deprecated: true
 -- 
 2.27.0
 
