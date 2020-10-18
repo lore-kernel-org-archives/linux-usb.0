@@ -2,89 +2,257 @@ Return-Path: <SRS0=e3Q4=DZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8ECC433DF
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:54:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD96BC43467
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:56:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37D7B2226B
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:54:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9326022268
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:56:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603050879;
-	bh=lYYbu+LHVs/lI42o9GlVg5xf4fVuj6IuC281Ogm3UKg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=GRBPGfSXvlCCtRM0kEMVYxy63mhcmyUJmarRaPRbW1aofyUxmqMoXJM3PiMw1epfz
-	 ryna8c3D2ocoS1/mcllvkGxX24FxhaNKcV9aSvHFvL8IpSzlLAu09dr/gQnEBUcvSi
-	 bo4YGtWfx/cGAPsy6qhsO0wg3PpOWnVlQ8DhviaY=
+	s=default; t=1603051004;
+	bh=qr0E/mLVXlW4R/QaOClmg50Frl404tTAizVhPzqfEgo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=P1L+/4niy8/BuyOiQDfXJ9Jlea3XQ1DVr4ZBf4BINQTXuBD5tAGLLgGSfrCOqmVC3
+	 INrMSFMzO2sFnvZHFR8y8tCrWBV9sKnkfY5LQYDjoc7qQy1GC4ntG/gJySfbFF7XE/
+	 I68sMxQ0SODBuRAD02mdUsQYcHHz3gEhFnm51mwE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388235AbgJRTyb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 18 Oct 2020 15:54:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43532 "EHLO mail.kernel.org"
+        id S1728729AbgJRTUP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 18 Oct 2020 15:20:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59524 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388229AbgJRTy1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:54:27 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728709AbgJRTUM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:20:12 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2DFB22263;
-        Sun, 18 Oct 2020 19:54:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F7C6222C8;
+        Sun, 18 Oct 2020 19:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603050867;
-        bh=lYYbu+LHVs/lI42o9GlVg5xf4fVuj6IuC281Ogm3UKg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eH87+V9t24jrCyts1XE4BPOlv/zkzt1xVw5KzK9qWvsLfSDe9MQuPqGunvGiubzgP
-         dwOBj7YgdFy7GWJ6uAk/TBKbT4RxRfbIux+UZ7Xy1A3SIPCx5NQValsuU0XRPmOBqK
-         Ngku01mhuYSPoejY2vD0Wc17FLgZ5JWoL6MgAXnM=
-Date:   Sun, 18 Oct 2020 12:54:25 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Greg KH <greg@kroah.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
-        petkan@nucleusys.com, davem@davemloft.net,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-next@vger.kernel.org
-Subject: Re: [PATCH v2] net: usb: rtl8150: don't incorrectly assign random
- MAC addresses
-Message-ID: <20201018125425.05ef059d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201015153700.1e97b354@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
-        <20201011173030.141582-1-anant.thazhemadam@gmail.com>
-        <20201012091428.103fc2be@canb.auug.org.au>
-        <20201016085922.4a2b90d1@canb.auug.org.au>
-        <20201015152451.125895b1@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20201015153700.1e97b354@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        s=default; t=1603048812;
+        bh=qr0E/mLVXlW4R/QaOClmg50Frl404tTAizVhPzqfEgo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Q9ie61LZnkb/F9Tj5Rolel2f7a8H0dU3LLEfMMJoWb3S1TNoIWuV19mYBd2Pij205
+         Eik/x4nUm597aDlqtiw2J8N9DPe5sjQ3JRow4PCiXACGE+VnYY/wazsBHSBMOsNTbk
+         E5rAxaq+Er0qb3hRafQvdaPHRXRaimAgoeMoYLQU=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Eli Billauer <eli.billauer@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 102/111] usb: core: Solve race condition in anchor cleanup functions
+Date:   Sun, 18 Oct 2020 15:17:58 -0400
+Message-Id: <20201018191807.4052726-102-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201018191807.4052726-1-sashal@kernel.org>
+References: <20201018191807.4052726-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 15 Oct 2020 15:37:00 -0700 Jakub Kicinski wrote:
-> On Thu, 15 Oct 2020 15:24:51 -0700 Jakub Kicinski wrote:
-> > On Fri, 16 Oct 2020 08:59:22 +1100 Stephen Rothwell wrote:  
-> > > > I will apply the above patch to the merge of the usb tree today to fix
-> > > > up a semantic conflict between the usb tree and Linus' tree.      
-> > > 
-> > > It looks like you forgot to mention this one to Linus :-(
-> > > 
-> > > It should probably say:
-> > > 
-> > > Fixes: b2a0f274e3f7 ("net: rtl8150: Use the new usb control message API.")    
-> > 
-> > Umpf. I think Greg sent his changes first, so this is on me.
-> > 
-> > The networking PR is still outstanding, can we reply to the PR with
-> > the merge guidance. Or is it too late?  
-> 
-> I take that back, this came through net, not net-next so our current
-> PR is irrelevant :)
+From: Eli Billauer <eli.billauer@gmail.com>
 
-Looks like the best thing to do right now is to put this fix in net,
-so let me do just that (with the Fixes tag from Stephen).
+[ Upstream commit fbc299437c06648afcc7891e6e2e6638dd48d4df ]
 
-Thanks Anant!
+usb_kill_anchored_urbs() is commonly used to cancel all URBs on an
+anchor just before releasing resources which the URBs rely on. By doing
+so, users of this function rely on that no completer callbacks will take
+place from any URB on the anchor after it returns.
+
+However if this function is called in parallel with __usb_hcd_giveback_urb
+processing a URB on the anchor, the latter may call the completer
+callback after usb_kill_anchored_urbs() returns. This can lead to a
+kernel panic due to use after release of memory in interrupt context.
+
+The race condition is that __usb_hcd_giveback_urb() first unanchors the URB
+and then makes the completer callback. Such URB is hence invisible to
+usb_kill_anchored_urbs(), allowing it to return before the completer has
+been called, since the anchor's urb_list is empty.
+
+Even worse, if the racing completer callback resubmits the URB, it may
+remain in the system long after usb_kill_anchored_urbs() returns.
+
+Hence list_empty(&anchor->urb_list), which is used in the existing
+while-loop, doesn't reliably ensure that all URBs of the anchor are gone.
+
+A similar problem exists with usb_poison_anchored_urbs() and
+usb_scuttle_anchored_urbs().
+
+This patch adds an external do-while loop, which ensures that all URBs
+are indeed handled before these three functions return. This change has
+no effect at all unless the race condition occurs, in which case the
+loop will busy-wait until the racing completer callback has finished.
+This is a rare condition, so the CPU waste of this spinning is
+negligible.
+
+The additional do-while loop relies on usb_anchor_check_wakeup(), which
+returns true iff the anchor list is empty, and there is no
+__usb_hcd_giveback_urb() in the system that is in the middle of the
+unanchor-before-complete phase. The @suspend_wakeups member of
+struct usb_anchor is used for this purpose, which was introduced to solve
+another problem which the same race condition causes, in commit
+6ec4147e7bdb ("usb-anchor: Delay usb_wait_anchor_empty_timeout wake up
+till completion is done").
+
+The surely_empty variable is necessary, because usb_anchor_check_wakeup()
+must be called with the lock held to prevent races. However the spinlock
+must be released and reacquired if the outer loop spins with an empty
+URB list while waiting for the unanchor-before-complete passage to finish:
+The completer callback may very well attempt to take the very same lock.
+
+To summarize, using usb_anchor_check_wakeup() means that the patched
+functions can return only when the anchor's list is empty, and there is
+no invisible URB being processed. Since the inner while loop finishes on
+the empty list condition, the new do-while loop will terminate as well,
+except for when the said race condition occurs.
+
+Signed-off-by: Eli Billauer <eli.billauer@gmail.com>
+Acked-by: Oliver Neukum <oneukum@suse.com>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Link: https://lore.kernel.org/r/20200731054650.30644-1-eli.billauer@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/core/urb.c | 89 +++++++++++++++++++++++++-----------------
+ 1 file changed, 54 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+index 7bc23469f4e4e..27e83e55a5901 100644
+--- a/drivers/usb/core/urb.c
++++ b/drivers/usb/core/urb.c
+@@ -772,11 +772,12 @@ void usb_block_urb(struct urb *urb)
+ EXPORT_SYMBOL_GPL(usb_block_urb);
+ 
+ /**
+- * usb_kill_anchored_urbs - cancel transfer requests en masse
++ * usb_kill_anchored_urbs - kill all URBs associated with an anchor
+  * @anchor: anchor the requests are bound to
+  *
+- * this allows all outstanding URBs to be killed starting
+- * from the back of the queue
++ * This kills all outstanding URBs starting from the back of the queue,
++ * with guarantee that no completer callbacks will take place from the
++ * anchor after this function returns.
+  *
+  * This routine should not be called by a driver after its disconnect
+  * method has returned.
+@@ -784,20 +785,26 @@ EXPORT_SYMBOL_GPL(usb_block_urb);
+ void usb_kill_anchored_urbs(struct usb_anchor *anchor)
+ {
+ 	struct urb *victim;
++	int surely_empty;
+ 
+-	spin_lock_irq(&anchor->lock);
+-	while (!list_empty(&anchor->urb_list)) {
+-		victim = list_entry(anchor->urb_list.prev, struct urb,
+-				    anchor_list);
+-		/* we must make sure the URB isn't freed before we kill it*/
+-		usb_get_urb(victim);
+-		spin_unlock_irq(&anchor->lock);
+-		/* this will unanchor the URB */
+-		usb_kill_urb(victim);
+-		usb_put_urb(victim);
++	do {
+ 		spin_lock_irq(&anchor->lock);
+-	}
+-	spin_unlock_irq(&anchor->lock);
++		while (!list_empty(&anchor->urb_list)) {
++			victim = list_entry(anchor->urb_list.prev,
++					    struct urb, anchor_list);
++			/* make sure the URB isn't freed before we kill it */
++			usb_get_urb(victim);
++			spin_unlock_irq(&anchor->lock);
++			/* this will unanchor the URB */
++			usb_kill_urb(victim);
++			usb_put_urb(victim);
++			spin_lock_irq(&anchor->lock);
++		}
++		surely_empty = usb_anchor_check_wakeup(anchor);
++
++		spin_unlock_irq(&anchor->lock);
++		cpu_relax();
++	} while (!surely_empty);
+ }
+ EXPORT_SYMBOL_GPL(usb_kill_anchored_urbs);
+ 
+@@ -816,21 +823,27 @@ EXPORT_SYMBOL_GPL(usb_kill_anchored_urbs);
+ void usb_poison_anchored_urbs(struct usb_anchor *anchor)
+ {
+ 	struct urb *victim;
++	int surely_empty;
+ 
+-	spin_lock_irq(&anchor->lock);
+-	anchor->poisoned = 1;
+-	while (!list_empty(&anchor->urb_list)) {
+-		victim = list_entry(anchor->urb_list.prev, struct urb,
+-				    anchor_list);
+-		/* we must make sure the URB isn't freed before we kill it*/
+-		usb_get_urb(victim);
+-		spin_unlock_irq(&anchor->lock);
+-		/* this will unanchor the URB */
+-		usb_poison_urb(victim);
+-		usb_put_urb(victim);
++	do {
+ 		spin_lock_irq(&anchor->lock);
+-	}
+-	spin_unlock_irq(&anchor->lock);
++		anchor->poisoned = 1;
++		while (!list_empty(&anchor->urb_list)) {
++			victim = list_entry(anchor->urb_list.prev,
++					    struct urb, anchor_list);
++			/* make sure the URB isn't freed before we kill it */
++			usb_get_urb(victim);
++			spin_unlock_irq(&anchor->lock);
++			/* this will unanchor the URB */
++			usb_poison_urb(victim);
++			usb_put_urb(victim);
++			spin_lock_irq(&anchor->lock);
++		}
++		surely_empty = usb_anchor_check_wakeup(anchor);
++
++		spin_unlock_irq(&anchor->lock);
++		cpu_relax();
++	} while (!surely_empty);
+ }
+ EXPORT_SYMBOL_GPL(usb_poison_anchored_urbs);
+ 
+@@ -970,14 +983,20 @@ void usb_scuttle_anchored_urbs(struct usb_anchor *anchor)
+ {
+ 	struct urb *victim;
+ 	unsigned long flags;
++	int surely_empty;
++
++	do {
++		spin_lock_irqsave(&anchor->lock, flags);
++		while (!list_empty(&anchor->urb_list)) {
++			victim = list_entry(anchor->urb_list.prev,
++					    struct urb, anchor_list);
++			__usb_unanchor_urb(victim, anchor);
++		}
++		surely_empty = usb_anchor_check_wakeup(anchor);
+ 
+-	spin_lock_irqsave(&anchor->lock, flags);
+-	while (!list_empty(&anchor->urb_list)) {
+-		victim = list_entry(anchor->urb_list.prev, struct urb,
+-				    anchor_list);
+-		__usb_unanchor_urb(victim, anchor);
+-	}
+-	spin_unlock_irqrestore(&anchor->lock, flags);
++		spin_unlock_irqrestore(&anchor->lock, flags);
++		cpu_relax();
++	} while (!surely_empty);
+ }
+ 
+ EXPORT_SYMBOL_GPL(usb_scuttle_anchored_urbs);
+-- 
+2.25.1
+
