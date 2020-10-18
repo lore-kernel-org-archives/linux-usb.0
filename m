@@ -7,45 +7,46 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2604C433E7
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:44:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 038A1C433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:44:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB1E1207DE
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:44:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C128F207DE
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:44:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603050265;
-	bh=YnKoK56twkUq+7zHFZ2YQYk/Z3q+R8LdT6ACfeu8ZvA=;
+	s=default; t=1603050297;
+	bh=UtP+tJzWMCU2MNhdc3WMbQ3Hu8Mg1nKtbnrfwoqBn2U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BBL9eMIsGJN0Oz4HGBgl5MKEYxAvQ3eW0rTRF7wF2goMCoMkBxT7RZ6wZIcGNisiR
-	 gn/uuLt6waF5AiOZ4MCKAhqka6YkyF9BbFVxj9Lxroqh81Fld0ce7vA1miGeGwYgqn
-	 yOZTAfwmmqV655PpW533slYNUvpODc/1Y/lWZwIs=
+	b=TQyT8+53HjKshgvC+OtSOMyWH//34528prU5YDwYBfdXEKlnBUUwJmO/DsZVsTiJP
+	 IPnMwE2i+EzIkW1Tj8EiJzPfGwF8EAoZVuG3u4lKS5VRw6nWFL5CUS1IxsjIgV5F5r
+	 bSQrcnRdtx9M+jr+I3zfMNdJTlKRm4BR4axkPEGg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733202AbgJRToU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 18 Oct 2020 15:44:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36648 "EHLO mail.kernel.org"
+        id S1730420AbgJRTom (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 18 Oct 2020 15:44:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36488 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730286AbgJRTX0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:23:26 -0400
+        id S1730253AbgJRTXV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:23:21 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 432A1207DE;
-        Sun, 18 Oct 2020 19:23:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A1644222EC;
+        Sun, 18 Oct 2020 19:23:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603049005;
-        bh=YnKoK56twkUq+7zHFZ2YQYk/Z3q+R8LdT6ACfeu8ZvA=;
+        s=default; t=1603049000;
+        bh=UtP+tJzWMCU2MNhdc3WMbQ3Hu8Mg1nKtbnrfwoqBn2U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Uk8x8UxY/inryQ9D2gvKcDTgciNVErq7km0DE7NuAh61d0pAhIaWPvG8Zf+41vGP3
-         TC++W2zMM0z343H2tPgG30yV3YsUrpVNafbC/eD+JuE5IyuuQwXYrtqlQTjDFqVoeY
-         5fd1ZVLR2uCQt6vVKMjT6gKOAHibCRogZWBwG9Vg=
+        b=TD08oNgfvGVsFcbqQBOCrGAq0d4hrH7dZ0FWXZZ+GFL0MSOqaMbQr/MKvLuBvfJ/6
+         5CCF1i+u1HhAH6YfgOQS8GqHhV1Ke+e4Oer+f3H9uW7VX8Jb5ecauoj6ShJtZS7qvB
+         eNvxAcBcdRQ8YvRgqOjRYsKTHiRogTspY+7fZg4A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc:     Zqiang <qiang.zhang@windriver.com>,
+        Kyungtae Kim <kt0755@gmail.com>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 42/80] usb: dwc3: simple: add support for Hikey 970
-Date:   Sun, 18 Oct 2020 15:21:53 -0400
-Message-Id: <20201018192231.4054535-42-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 37/80] usb: gadget: function: printer: fix use-after-free in __lock_acquire
+Date:   Sun, 18 Oct 2020 15:21:48 -0400
+Message-Id: <20201018192231.4054535-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018192231.4054535-1-sashal@kernel.org>
 References: <20201018192231.4054535-1-sashal@kernel.org>
@@ -57,93 +58,179 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Zqiang <qiang.zhang@windriver.com>
 
-[ Upstream commit b68d9251561f33661e53dd618f1cafe7ec9ec3c2 ]
+[ Upstream commit e8d5f92b8d30bb4ade76494490c3c065e12411b1 ]
 
-This binding driver is needed for Hikey 970 to work,
-as otherwise a Serror is produced:
+Fix this by increase object reference count.
 
-    [    1.837458] SError Interrupt on CPU0, code 0xbf000002 -- SError
-    [    1.837462] CPU: 0 PID: 74 Comm: kworker/0:1 Not tainted 5.8.0+ #205
-    [    1.837463] Hardware name: HiKey970 (DT)
-    [    1.837465] Workqueue: events deferred_probe_work_func
-    [    1.837467] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
-    [    1.837468] pc : _raw_spin_unlock_irqrestore+0x18/0x50
-    [    1.837469] lr : regmap_unlock_spinlock+0x14/0x20
-    [    1.837470] sp : ffff8000124dba60
-    [    1.837471] x29: ffff8000124dba60 x28: 0000000000000000
-    [    1.837474] x27: ffff0001b7e854c8 x26: ffff80001204ea18
-    [    1.837476] x25: 0000000000000005 x24: ffff800011f918f8
-    [    1.837479] x23: ffff800011fbb588 x22: ffff0001b7e40e00
-    [    1.837481] x21: 0000000000000100 x20: 0000000000000000
-    [    1.837483] x19: ffff0001b767ec00 x18: 00000000ff10c000
-    [    1.837485] x17: 0000000000000002 x16: 0000b0740fdb9950
-    [    1.837488] x15: ffff8000116c1198 x14: ffffffffffffffff
-    [    1.837490] x13: 0000000000000030 x12: 0101010101010101
-    [    1.837493] x11: 0000000000000020 x10: ffff0001bf17d130
-    [    1.837495] x9 : 0000000000000000 x8 : ffff0001b6938080
-    [    1.837497] x7 : 0000000000000000 x6 : 000000000000003f
-    [    1.837500] x5 : 0000000000000000 x4 : 0000000000000000
-    [    1.837502] x3 : ffff80001096a880 x2 : 0000000000000000
-    [    1.837505] x1 : ffff0001b7e40e00 x0 : 0000000100000001
-    [    1.837507] Kernel panic - not syncing: Asynchronous SError Interrupt
-    [    1.837509] CPU: 0 PID: 74 Comm: kworker/0:1 Not tainted 5.8.0+ #205
-    [    1.837510] Hardware name: HiKey970 (DT)
-    [    1.837511] Workqueue: events deferred_probe_work_func
-    [    1.837513] Call trace:
-    [    1.837514]  dump_backtrace+0x0/0x1e0
-    [    1.837515]  show_stack+0x18/0x24
-    [    1.837516]  dump_stack+0xc0/0x11c
-    [    1.837517]  panic+0x15c/0x324
-    [    1.837518]  nmi_panic+0x8c/0x90
-    [    1.837519]  arm64_serror_panic+0x78/0x84
-    [    1.837520]  do_serror+0x158/0x15c
-    [    1.837521]  el1_error+0x84/0x100
-    [    1.837522]  _raw_spin_unlock_irqrestore+0x18/0x50
-    [    1.837523]  regmap_write+0x58/0x80
-    [    1.837524]  hi3660_reset_deassert+0x28/0x34
-    [    1.837526]  reset_control_deassert+0x50/0x260
-    [    1.837527]  reset_control_deassert+0xf4/0x260
-    [    1.837528]  dwc3_probe+0x5dc/0xe6c
-    [    1.837529]  platform_drv_probe+0x54/0xb0
-    [    1.837530]  really_probe+0xe0/0x490
-    [    1.837531]  driver_probe_device+0xf4/0x160
-    [    1.837532]  __device_attach_driver+0x8c/0x114
-    [    1.837533]  bus_for_each_drv+0x78/0xcc
-    [    1.837534]  __device_attach+0x108/0x1a0
-    [    1.837535]  device_initial_probe+0x14/0x20
-    [    1.837537]  bus_probe_device+0x98/0xa0
-    [    1.837538]  deferred_probe_work_func+0x88/0xe0
-    [    1.837539]  process_one_work+0x1cc/0x350
-    [    1.837540]  worker_thread+0x2c0/0x470
-    [    1.837541]  kthread+0x154/0x160
-    [    1.837542]  ret_from_fork+0x10/0x30
-    [    1.837569] SMP: stopping secondary CPUs
-    [    1.837570] Kernel Offset: 0x1d0000 from 0xffff800010000000
-    [    1.837571] PHYS_OFFSET: 0x0
-    [    1.837572] CPU features: 0x240002,20882004
-    [    1.837573] Memory Limit: none
+BUG: KASAN: use-after-free in __lock_acquire+0x3fd4/0x4180
+kernel/locking/lockdep.c:3831
+Read of size 8 at addr ffff8880683b0018 by task syz-executor.0/3377
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CPU: 1 PID: 3377 Comm: syz-executor.0 Not tainted 5.6.11 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xce/0x128 lib/dump_stack.c:118
+ print_address_description.constprop.4+0x21/0x3c0 mm/kasan/report.c:374
+ __kasan_report+0x131/0x1b0 mm/kasan/report.c:506
+ kasan_report+0x12/0x20 mm/kasan/common.c:641
+ __asan_report_load8_noabort+0x14/0x20 mm/kasan/generic_report.c:135
+ __lock_acquire+0x3fd4/0x4180 kernel/locking/lockdep.c:3831
+ lock_acquire+0x127/0x350 kernel/locking/lockdep.c:4488
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x35/0x50 kernel/locking/spinlock.c:159
+ printer_ioctl+0x4a/0x110 drivers/usb/gadget/function/f_printer.c:723
+ vfs_ioctl fs/ioctl.c:47 [inline]
+ ksys_ioctl+0xfb/0x130 fs/ioctl.c:763
+ __do_sys_ioctl fs/ioctl.c:772 [inline]
+ __se_sys_ioctl fs/ioctl.c:770 [inline]
+ __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:770
+ do_syscall_64+0x9e/0x510 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x4531a9
+Code: ed 60 fc ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48
+89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
+01 f0 ff ff 0f 83 bb 60 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007fd14ad72c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000000000073bfa8 RCX: 00000000004531a9
+RDX: fffffffffffffff9 RSI: 000000000000009e RDI: 0000000000000003
+RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000004bbd61
+R13: 00000000004d0a98 R14: 00007fd14ad736d4 R15: 00000000ffffffff
+
+Allocated by task 2393:
+ save_stack+0x21/0x90 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ __kasan_kmalloc.constprop.3+0xa7/0xd0 mm/kasan/common.c:515
+ kasan_kmalloc+0x9/0x10 mm/kasan/common.c:529
+ kmem_cache_alloc_trace+0xfa/0x2d0 mm/slub.c:2813
+ kmalloc include/linux/slab.h:555 [inline]
+ kzalloc include/linux/slab.h:669 [inline]
+ gprinter_alloc+0xa1/0x870 drivers/usb/gadget/function/f_printer.c:1416
+ usb_get_function+0x58/0xc0 drivers/usb/gadget/functions.c:61
+ config_usb_cfg_link+0x1ed/0x3e0 drivers/usb/gadget/configfs.c:444
+ configfs_symlink+0x527/0x11d0 fs/configfs/symlink.c:202
+ vfs_symlink+0x33d/0x5b0 fs/namei.c:4201
+ do_symlinkat+0x11b/0x1d0 fs/namei.c:4228
+ __do_sys_symlinkat fs/namei.c:4242 [inline]
+ __se_sys_symlinkat fs/namei.c:4239 [inline]
+ __x64_sys_symlinkat+0x73/0xb0 fs/namei.c:4239
+ do_syscall_64+0x9e/0x510 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+Freed by task 3368:
+ save_stack+0x21/0x90 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ kasan_set_free_info mm/kasan/common.c:337 [inline]
+ __kasan_slab_free+0x135/0x190 mm/kasan/common.c:476
+ kasan_slab_free+0xe/0x10 mm/kasan/common.c:485
+ slab_free_hook mm/slub.c:1444 [inline]
+ slab_free_freelist_hook mm/slub.c:1477 [inline]
+ slab_free mm/slub.c:3034 [inline]
+ kfree+0xf7/0x410 mm/slub.c:3995
+ gprinter_free+0x49/0xd0 drivers/usb/gadget/function/f_printer.c:1353
+ usb_put_function+0x38/0x50 drivers/usb/gadget/functions.c:87
+ config_usb_cfg_unlink+0x2db/0x3b0 drivers/usb/gadget/configfs.c:485
+ configfs_unlink+0x3b9/0x7f0 fs/configfs/symlink.c:250
+ vfs_unlink+0x287/0x570 fs/namei.c:4073
+ do_unlinkat+0x4f9/0x620 fs/namei.c:4137
+ __do_sys_unlink fs/namei.c:4184 [inline]
+ __se_sys_unlink fs/namei.c:4182 [inline]
+ __x64_sys_unlink+0x42/0x50 fs/namei.c:4182
+ do_syscall_64+0x9e/0x510 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+The buggy address belongs to the object at ffff8880683b0000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 24 bytes inside of
+ 1024-byte region [ffff8880683b0000, ffff8880683b0400)
+The buggy address belongs to the page:
+page:ffffea0001a0ec00 refcount:1 mapcount:0 mapping:ffff88806c00e300
+index:0xffff8880683b1800 compound_mapcount: 0
+flags: 0x100000000010200(slab|head)
+raw: 0100000000010200 0000000000000000 0000000600000001 ffff88806c00e300
+raw: ffff8880683b1800 000000008010000a 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Reported-by: Kyungtae Kim <kt0755@gmail.com>
+Signed-off-by: Zqiang <qiang.zhang@windriver.com>
 Signed-off-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-of-simple.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/gadget/function/f_printer.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
-index bdac3e7d7b184..d055e00f81808 100644
---- a/drivers/usb/dwc3/dwc3-of-simple.c
-+++ b/drivers/usb/dwc3/dwc3-of-simple.c
-@@ -183,6 +183,7 @@ static const struct of_device_id of_dwc3_simple_match[] = {
- 	{ .compatible = "amlogic,meson-axg-dwc3" },
- 	{ .compatible = "amlogic,meson-gxl-dwc3" },
- 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
-+	{ .compatible = "hisilicon,hi3670-dwc3" },
- 	{ /* Sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, of_dwc3_simple_match);
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index 9c7ed2539ff77..8ed1295d7e350 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -31,6 +31,7 @@
+ #include <linux/types.h>
+ #include <linux/ctype.h>
+ #include <linux/cdev.h>
++#include <linux/kref.h>
+ 
+ #include <asm/byteorder.h>
+ #include <linux/io.h>
+@@ -64,7 +65,7 @@ struct printer_dev {
+ 	struct usb_gadget	*gadget;
+ 	s8			interface;
+ 	struct usb_ep		*in_ep, *out_ep;
+-
++	struct kref             kref;
+ 	struct list_head	rx_reqs;	/* List of free RX structs */
+ 	struct list_head	rx_reqs_active;	/* List of Active RX xfers */
+ 	struct list_head	rx_buffers;	/* List of completed xfers */
+@@ -218,6 +219,13 @@ static inline struct usb_endpoint_descriptor *ep_desc(struct usb_gadget *gadget,
+ 
+ /*-------------------------------------------------------------------------*/
+ 
++static void printer_dev_free(struct kref *kref)
++{
++	struct printer_dev *dev = container_of(kref, struct printer_dev, kref);
++
++	kfree(dev);
++}
++
+ static struct usb_request *
+ printer_req_alloc(struct usb_ep *ep, unsigned len, gfp_t gfp_flags)
+ {
+@@ -348,6 +356,7 @@ printer_open(struct inode *inode, struct file *fd)
+ 
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 
++	kref_get(&dev->kref);
+ 	DBG(dev, "printer_open returned %x\n", ret);
+ 	return ret;
+ }
+@@ -365,6 +374,7 @@ printer_close(struct inode *inode, struct file *fd)
+ 	dev->printer_status &= ~PRINTER_SELECTED;
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 
++	kref_put(&dev->kref, printer_dev_free);
+ 	DBG(dev, "printer_close\n");
+ 
+ 	return 0;
+@@ -1350,7 +1360,8 @@ static void gprinter_free(struct usb_function *f)
+ 	struct f_printer_opts *opts;
+ 
+ 	opts = container_of(f->fi, struct f_printer_opts, func_inst);
+-	kfree(dev);
++
++	kref_put(&dev->kref, printer_dev_free);
+ 	mutex_lock(&opts->lock);
+ 	--opts->refcnt;
+ 	mutex_unlock(&opts->lock);
+@@ -1419,6 +1430,7 @@ static struct usb_function *gprinter_alloc(struct usb_function_instance *fi)
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
++	kref_init(&dev->kref);
+ 	++opts->refcnt;
+ 	dev->minor = opts->minor;
+ 	dev->pnp_string = opts->pnp_string;
 -- 
 2.25.1
 
