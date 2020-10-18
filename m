@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A1CC433DF
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5573BC433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:28:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA4ED22275
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:27:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EFF12137B
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:28:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603049247;
-	bh=gzZhv0vxwAseOChN9Gr4jeyJXvCLNj1Lc/qd9dh4pHY=;
+	s=default; t=1603049328;
+	bh=su9/pJGjPY+qEW2WVw2I4xGslHZmGrOOu2YrtpavM/U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=GvzPXLX7JwFU4Qnn0o0UMt8p/514yB2sGyCqDtHainrhhBeFDQVwSYK3b9T8Ua1zn
-	 iRNJnSKS3f1y1pgHRULvusG6wgna2a+Cy023/n7L/ZxCkfbUtt6cXuOQASYlTuUOHb
-	 ffaocoD1yg1ssqzckxqPlw1qw8m84IeL9HosU/vM=
+	b=pkhmVr0KkdBc2kShLzV5DfIAI1nEbHXUB7HX7LGeFztR03qPiVukPxyfXHNJmPrIV
+	 Hn9NZJUEoUS40AGGU2Ui+LQm5sDBkS6Z5qBEwWo6R+z8Jm3080fM4pgOtbvyLnvBtg
+	 VlAHzIs9QqtYXtum151dqpC6tetOHojegVFYTJow=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732090AbgJRT11 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 18 Oct 2020 15:27:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43236 "EHLO mail.kernel.org"
+        id S1732254AbgJRT2J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 18 Oct 2020 15:28:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732075AbgJRT10 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:27:26 -0400
+        id S1732241AbgJRT2I (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:28:08 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1FEAC207DE;
-        Sun, 18 Oct 2020 19:27:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8C19320791;
+        Sun, 18 Oct 2020 19:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603049245;
-        bh=gzZhv0vxwAseOChN9Gr4jeyJXvCLNj1Lc/qd9dh4pHY=;
+        s=default; t=1603049287;
+        bh=su9/pJGjPY+qEW2WVw2I4xGslHZmGrOOu2YrtpavM/U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KgVeOTscp2d3zXAar48mUzx+j6OLX/ffrJUg6U1jIuWtOhIEJtbMmPl5qNQhAK3sX
-         FcZEDayxJopws/xy3Ozeflo9Tbhgr0dP0Q9FJdSZq8zkaM8b3iqDJBtD7JcuEZCZ96
-         PI+7PDXQVp3s9ShAvN9NAldv3nBOSjhcuq1BhX8s=
+        b=XvN7+acmJtalpKFHsutXvv0AdoKUxtOebggdeK/GbsXcPYG7Go9mM5l8C6mnGTdM1
+         m4qLyl0rmK8GkVjv/OOnC2n2SvB+dsui5frFPvX/lab50SkwrKr1dsqWFTX2A3HArL
+         9xJVJH+TmiemJNreVkrjZQtVJFwjMdU19vmwhCBs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Eli Billauer <eli.billauer@gmail.com>,
@@ -45,12 +45,12 @@ Cc:     Eli Billauer <eli.billauer@gmail.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 40/41] usb: core: Solve race condition in anchor cleanup functions
-Date:   Sun, 18 Oct 2020 15:26:34 -0400
-Message-Id: <20201018192635.4056198-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 32/33] usb: core: Solve race condition in anchor cleanup functions
+Date:   Sun, 18 Oct 2020 15:27:27 -0400
+Message-Id: <20201018192728.4056577-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018192635.4056198-1-sashal@kernel.org>
-References: <20201018192635.4056198-1-sashal@kernel.org>
+In-Reply-To: <20201018192728.4056577-1-sashal@kernel.org>
+References: <20201018192728.4056577-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -126,10 +126,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 54 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
-index 56dcc0820898c..6785ebc078047 100644
+index c095cde55329c..8c4bfd42f785d 100644
 --- a/drivers/usb/core/urb.c
 +++ b/drivers/usb/core/urb.c
-@@ -765,11 +765,12 @@ void usb_block_urb(struct urb *urb)
+@@ -767,11 +767,12 @@ void usb_block_urb(struct urb *urb)
  EXPORT_SYMBOL_GPL(usb_block_urb);
  
  /**
@@ -145,7 +145,7 @@ index 56dcc0820898c..6785ebc078047 100644
   *
   * This routine should not be called by a driver after its disconnect
   * method has returned.
-@@ -777,20 +778,26 @@ EXPORT_SYMBOL_GPL(usb_block_urb);
+@@ -779,20 +780,26 @@ EXPORT_SYMBOL_GPL(usb_block_urb);
  void usb_kill_anchored_urbs(struct usb_anchor *anchor)
  {
  	struct urb *victim;
@@ -184,7 +184,7 @@ index 56dcc0820898c..6785ebc078047 100644
  }
  EXPORT_SYMBOL_GPL(usb_kill_anchored_urbs);
  
-@@ -809,21 +816,27 @@ EXPORT_SYMBOL_GPL(usb_kill_anchored_urbs);
+@@ -811,21 +818,27 @@ EXPORT_SYMBOL_GPL(usb_kill_anchored_urbs);
  void usb_poison_anchored_urbs(struct usb_anchor *anchor)
  {
  	struct urb *victim;
@@ -225,7 +225,7 @@ index 56dcc0820898c..6785ebc078047 100644
  }
  EXPORT_SYMBOL_GPL(usb_poison_anchored_urbs);
  
-@@ -963,14 +976,20 @@ void usb_scuttle_anchored_urbs(struct usb_anchor *anchor)
+@@ -965,14 +978,20 @@ void usb_scuttle_anchored_urbs(struct usb_anchor *anchor)
  {
  	struct urb *victim;
  	unsigned long flags;
