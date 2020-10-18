@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAE1C433E7
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:23:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C1BC433DF
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:23:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEE68222E7
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:23:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A58320791
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:23:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603049002;
-	bh=Zp+BGGRaGoF3RiAfCHel5BMpxYQffGD7eJ2NVlauwlQ=;
+	s=default; t=1603049009;
+	bh=qAnh+vrLGPL7KCrI1zAkhrziG/CFv+LUFxKOfyozpLw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RkLYRWDigCzYddeAjnnnixswaeZyV2RbUyaQfpkh1xS3CxRStq+k0Cx3/UQcNnEEb
-	 ZIQP9q2xRTCST9HFsZQZRnyNnaHMLVWd2pPX5qg57fO6dqNSGoYwWZURbv9P0yRF2k
-	 MsGVrb5tVHiSzNzdvi6YDX5EiQghPgtZJ5kUZap4=
+	b=D1pagdExJLC0UyIGiiQCNpqPb6rqLHG1G4gHjuQh6Z/ibWwgq6sw01FZ+i504Y5hd
+	 3bTm5jQatbtaY7V5vxfZnLPNWptT7EM2V9rEdpy6YDgXxGpg2oXPliKECAYQmEa9Bd
+	 5VUS91vSal0TkahuZ7E4RdD6kjJyGT1Sdh4GwQZw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730262AbgJRTXV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 18 Oct 2020 15:23:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36458 "EHLO mail.kernel.org"
+        id S1730317AbgJRTX2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 18 Oct 2020 15:23:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36636 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730247AbgJRTXU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:23:20 -0400
+        id S1728599AbgJRTXZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:23:25 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 78F9E207DE;
-        Sun, 18 Oct 2020 19:23:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F1B5A22314;
+        Sun, 18 Oct 2020 19:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603048999;
-        bh=Zp+BGGRaGoF3RiAfCHel5BMpxYQffGD7eJ2NVlauwlQ=;
+        s=default; t=1603049004;
+        bh=qAnh+vrLGPL7KCrI1zAkhrziG/CFv+LUFxKOfyozpLw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B6S6h7AlbG7H1LOHH4ub2CUwk1YBLsWWyVwrRNi5N6GzrjAIVwzEcT4z/T81r51IT
-         u/CzdOdEW7y5y5iHaA1Y4E4Y9ZlxjhlfVujb/pCUPDlGu8E3CX5+1/xAcJnBBSuesX
-         yQmbgjcq5by+bgXsAXpu8an2ySaThUMy7vJVKmN0=
+        b=vnzYuMS6KWDv1oNWYKbfeKScYeBnGRqVs7ipfbCOCO45FoCzg57EwcAIJxtj2HM8p
+         dJx4LjPjDvJFj189ORZFdhUj0p1hOP1DB+2ZPGu4jOXn5UbE5u10EkZsw8BJ9wYGCw
+         VtKaoVAe+vHU+mbnSIYYANEDMFNnqeBeRrisxCdE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yu Chen <chenyu56@huawei.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Johan Hovold <johan@kernel.org>,
+        Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 36/80] usb: dwc3: Add splitdisable quirk for Hisilicon Kirin Soc
-Date:   Sun, 18 Oct 2020 15:21:47 -0400
-Message-Id: <20201018192231.4054535-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 41/80] USB: cdc-acm: handle broken union descriptors
+Date:   Sun, 18 Oct 2020 15:21:52 -0400
+Message-Id: <20201018192231.4054535-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018192231.4054535-1-sashal@kernel.org>
 References: <20201018192231.4054535-1-sashal@kernel.org>
@@ -58,124 +59,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Yu Chen <chenyu56@huawei.com>
+From: Johan Hovold <johan@kernel.org>
 
-[ Upstream commit f580170f135af14e287560d94045624d4242d712 ]
+[ Upstream commit 960c7339de27c6d6fec13b54880501c3576bb08d ]
 
-SPLIT_BOUNDARY_DISABLE should be set for DesignWare USB3 DRD Core
-of Hisilicon Kirin Soc when dwc3 core act as host.
+Handle broken union functional descriptors where the master-interface
+doesn't exist or where its class is of neither Communication or Data
+type (as required by the specification) by falling back to
+"combined-interface" probing.
 
-[mchehab: dropped a dev_dbg() as only traces are now allowwed on this driver]
+Note that this still allows for handling union descriptors with switched
+interfaces.
 
-Signed-off-by: Yu Chen <chenyu56@huawei.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+This specifically makes the Whistler radio scanners TRX series devices
+work with the driver without adding further quirks to the device-id
+table.
+
+Reported-by: Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>
+Tested-by: Daniel Caujolle-Bert <f1rmb.daniel@gmail.com>
+Acked-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+Link: https://lore.kernel.org/r/20200921135951.24045-3-johan@kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/core.c | 25 +++++++++++++++++++++++++
- drivers/usb/dwc3/core.h |  7 +++++++
- 2 files changed, 32 insertions(+)
+ drivers/usb/class/cdc-acm.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 526c275ad0bc5..4cbf295390062 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -117,6 +117,7 @@ static void __dwc3_set_mode(struct work_struct *work)
- 	struct dwc3 *dwc = work_to_dwc(work);
- 	unsigned long flags;
- 	int ret;
-+	u32 reg;
- 
- 	if (dwc->dr_mode != USB_DR_MODE_OTG)
- 		return;
-@@ -168,6 +169,11 @@ static void __dwc3_set_mode(struct work_struct *work)
- 				otg_set_vbus(dwc->usb2_phy->otg, true);
- 			phy_set_mode(dwc->usb2_generic_phy, PHY_MODE_USB_HOST);
- 			phy_set_mode(dwc->usb3_generic_phy, PHY_MODE_USB_HOST);
-+			if (dwc->dis_split_quirk) {
-+				reg = dwc3_readl(dwc->regs, DWC3_GUCTL3);
-+				reg |= DWC3_GUCTL3_SPLITDISABLE;
-+				dwc3_writel(dwc->regs, DWC3_GUCTL3, reg);
-+			}
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 7499ba118665a..c02488d469185 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1243,9 +1243,21 @@ static int acm_probe(struct usb_interface *intf,
+ 			}
  		}
- 		break;
- 	case DWC3_GCTL_PRTCAP_DEVICE:
-@@ -1323,6 +1329,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
- 	dwc->dis_metastability_quirk = device_property_read_bool(dev,
- 				"snps,dis_metastability_quirk");
- 
-+	dwc->dis_split_quirk = device_property_read_bool(dev,
-+				"snps,dis-split-quirk");
+ 	} else {
++		int class = -1;
 +
- 	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
- 	dwc->tx_de_emphasis = tx_de_emphasis;
- 
-@@ -1835,10 +1844,26 @@ static int dwc3_resume(struct device *dev)
- 
- 	return 0;
- }
+ 		data_intf_num = union_header->bSlaveInterface0;
+ 		control_interface = usb_ifnum_to_if(usb_dev, union_header->bMasterInterface0);
+ 		data_interface = usb_ifnum_to_if(usb_dev, data_intf_num);
 +
-+static void dwc3_complete(struct device *dev)
-+{
-+	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	u32		reg;
++		if (control_interface)
++			class = control_interface->cur_altsetting->desc.bInterfaceClass;
 +
-+	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_HOST &&
-+			dwc->dis_split_quirk) {
-+		reg = dwc3_readl(dwc->regs, DWC3_GUCTL3);
-+		reg |= DWC3_GUCTL3_SPLITDISABLE;
-+		dwc3_writel(dwc->regs, DWC3_GUCTL3, reg);
-+	}
-+}
-+#else
-+#define dwc3_complete NULL
- #endif /* CONFIG_PM_SLEEP */
++		if (class != USB_CLASS_COMM && class != USB_CLASS_CDC_DATA) {
++			dev_dbg(&intf->dev, "Broken union descriptor, assuming single interface\n");
++			combined_interfaces = 1;
++			control_interface = data_interface = intf;
++			goto look_for_collapsed_interface;
++		}
+ 	}
  
- static const struct dev_pm_ops dwc3_dev_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(dwc3_suspend, dwc3_resume)
-+	.complete = dwc3_complete,
- 	SET_RUNTIME_PM_OPS(dwc3_runtime_suspend, dwc3_runtime_resume,
- 			dwc3_runtime_idle)
- };
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index ce4acbf7fef90..4dfbffa944de1 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -136,6 +136,7 @@
- #define DWC3_GEVNTCOUNT(n)	(0xc40c + ((n) * 0x10))
- 
- #define DWC3_GHWPARAMS8		0xc600
-+#define DWC3_GUCTL3		0xc60c
- #define DWC3_GFLADJ		0xc630
- 
- /* Device Registers */
-@@ -375,6 +376,9 @@
- /* Global User Control Register 2 */
- #define DWC3_GUCTL2_RST_ACTBITLATER		BIT(14)
- 
-+/* Global User Control Register 3 */
-+#define DWC3_GUCTL3_SPLITDISABLE		BIT(14)
-+
- /* Device Configuration Register */
- #define DWC3_DCFG_DEVADDR(addr)	((addr) << 3)
- #define DWC3_DCFG_DEVADDR_MASK	DWC3_DCFG_DEVADDR(0x7f)
-@@ -1038,6 +1042,7 @@ struct dwc3_scratchpad_array {
-  * 	2	- No de-emphasis
-  * 	3	- Reserved
-  * @dis_metastability_quirk: set to disable metastability quirk.
-+ * @dis_split_quirk: set to disable split boundary.
-  * @imod_interval: set the interrupt moderation interval in 250ns
-  *                 increments or 0 to disable.
-  */
-@@ -1229,6 +1234,8 @@ struct dwc3 {
- 
- 	unsigned		dis_metastability_quirk:1;
- 
-+	unsigned		dis_split_quirk:1;
-+
- 	u16			imod_interval;
- };
- 
+ 	if (!control_interface || !data_interface) {
 -- 
 2.25.1
 
