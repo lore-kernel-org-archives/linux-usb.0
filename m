@@ -2,130 +2,148 @@ Return-Path: <SRS0=e3Q4=DZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFBDC388CD
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3262C433E7
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:19:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D1B17222B9
-	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:18:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="WcP5INjn";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="WcP5INjn"
+	by mail.kernel.org (Postfix) with ESMTP id 9D637222E8
+	for <linux-usb@archiver.kernel.org>; Sun, 18 Oct 2020 19:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603048760;
+	bh=by8PCla8nBNecYy63NxCAi83eTHjY7YRJAxSnYTWab8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=ApVjALG+7sg9MKCuH2dQLa0B1sSAGq8HeMIBepCXIAbwrCrCjVsSyNZCiUNMXncNZ
+	 bhGTb9kFcch59U/bbIv8UkcGml1NN8Gc1K8HipfPQAD9/vsaEQenb/+xcjeGmVUblT
+	 s6xl1QQOq1lyFnUyq75BLn3xpO+TKwErSbcZBLsk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbgJRTSF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 18 Oct 2020 15:18:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726885AbgJRTSD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 18 Oct 2020 15:18:03 -0400
-X-Greylist: delayed 264 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 18 Oct 2020 12:18:03 PDT
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA74C061755;
-        Sun, 18 Oct 2020 12:18:03 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 7A1D5128046A;
-        Sun, 18 Oct 2020 12:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1603048682;
-        bh=aTHhEGSm6DrUFNt/hKuOWL0f+WzaMvx/rc4IP5RJYRs=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=WcP5INjnqihCMCJ+2ZkHdzEWBsqi3wavZOcf0NGlcoun37UNiQ4GoZk+2AoMrr8hd
-         1s2t7Y8IzQcDUGm581+QcIuy/enpzpZm6HswhyX4zoKl9l3S5fk96frr/LU4I9kVw8
-         r8s7AtR/5wOGbwEsua/QdQrVgo3j6VSqYIXYukhg=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ywWMwLsGscQI; Sun, 18 Oct 2020 12:18:02 -0700 (PDT)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::c447])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728143AbgJRTTT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 18 Oct 2020 15:19:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57820 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728124AbgJRTTQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:19:16 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 340C31280456;
-        Sun, 18 Oct 2020 12:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1603048682;
-        bh=aTHhEGSm6DrUFNt/hKuOWL0f+WzaMvx/rc4IP5RJYRs=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=WcP5INjnqihCMCJ+2ZkHdzEWBsqi3wavZOcf0NGlcoun37UNiQ4GoZk+2AoMrr8hd
-         1s2t7Y8IzQcDUGm581+QcIuy/enpzpZm6HswhyX4zoKl9l3S5fk96frr/LU4I9kVw8
-         r8s7AtR/5wOGbwEsua/QdQrVgo3j6VSqYIXYukhg=
-Message-ID: <0a739bcd421a3154c2521b49779b287e6c0d08a2.camel@HansenPartnership.com>
-Subject: Re: [Ocfs2-devel] [RFC] treewide: cleanup unreachable breaks
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     trix@redhat.com, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org, clang-built-linux@googlegroups.com,
-        linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
-        storagedev@microchip.com, dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
-        ath10k@lists.infradead.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-nvdimm@lists.01.org, amd-gfx@lists.freedesktop.org,
-        linux-acpi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-pci@vger.kernel.org, spice-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-nfc@lists.01.org, linux-pm@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-gpio@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-amlogic@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
-        bpf@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-        linux-power@fi.rohmeurope.com
-Date:   Sun, 18 Oct 2020 12:17:59 -0700
-In-Reply-To: <20201018191618.GO20115@casper.infradead.org>
-References: <20201017160928.12698-1-trix@redhat.com>
-         <20201018185943.GM20115@casper.infradead.org>
-         <45efa7780c79972eae9ca9bdeb9f7edbab4f3643.camel@HansenPartnership.com>
-         <20201018191618.GO20115@casper.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        by mail.kernel.org (Postfix) with ESMTPSA id B3850222B9;
+        Sun, 18 Oct 2020 19:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603048755;
+        bh=by8PCla8nBNecYy63NxCAi83eTHjY7YRJAxSnYTWab8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=e9IMhbAuIByX+9aueBTRtA3JypK53ckkwtCYul9j3oE7yswMRd0Lmh1L+XbuvowfU
+         vvPkZzZOF0f/GFAk9JzCOETtgI5sSA+rZPX0cVYdqIi0c+AUWVlIv8iASufkGJT4JD
+         EyiXQNBHseXbGUqIWECLBE52ZPiQoOnZ92h/uKag=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 056/111] usb: dwc3: simple: add support for Hikey 970
+Date:   Sun, 18 Oct 2020 15:17:12 -0400
+Message-Id: <20201018191807.4052726-56-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201018191807.4052726-1-sashal@kernel.org>
+References: <20201018191807.4052726-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, 2020-10-18 at 20:16 +0100, Matthew Wilcox wrote:
-> On Sun, Oct 18, 2020 at 12:13:35PM -0700, James Bottomley wrote:
-> > On Sun, 2020-10-18 at 19:59 +0100, Matthew Wilcox wrote:
-> > > On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
-> > > > clang has a number of useful, new warnings see
-> > > > https://urldefense.com/v3/__https://clang.llvm.org/docs/DiagnosticsReference.html__;!!GqivPVa7Brio!Krxz78O3RKcB9JBMVo_F98FupVhj_jxX60ddN6tKGEbv_cnooXc1nnBmchm-e_O9ieGnyQ$ 
-> > > 
-> > > Please get your IT department to remove that stupidity.  If you
-> > > can't, please send email from a non-Red Hat email address.
-> > 
-> > Actually, the problem is at Oracle's end somewhere in the ocfs2
-> > list ... if you could fix it, that would be great.  The usual real
-> > mailing lists didn't get this transformation
-> > 
-> > https://lore.kernel.org/bpf/20201017160928.12698-1-trix@redhat.com/
-> > 
-> > but the ocfs2 list archive did:
-> > 
-> > https://oss.oracle.com/pipermail/ocfs2-devel/2020-October/015330.html
-> > 
-> > I bet Oracle IT has put some spam filter on the list that mangles
-> > URLs this way.
-> 
-> *sigh*.  I'm sure there's a way.  I've raised it with someone who
-> should be able to fix it.
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As someone who works for IBM I can only say I feel your pain ...
+[ Upstream commit b68d9251561f33661e53dd618f1cafe7ec9ec3c2 ]
 
-James
+This binding driver is needed for Hikey 970 to work,
+as otherwise a Serror is produced:
 
+    [    1.837458] SError Interrupt on CPU0, code 0xbf000002 -- SError
+    [    1.837462] CPU: 0 PID: 74 Comm: kworker/0:1 Not tainted 5.8.0+ #205
+    [    1.837463] Hardware name: HiKey970 (DT)
+    [    1.837465] Workqueue: events deferred_probe_work_func
+    [    1.837467] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
+    [    1.837468] pc : _raw_spin_unlock_irqrestore+0x18/0x50
+    [    1.837469] lr : regmap_unlock_spinlock+0x14/0x20
+    [    1.837470] sp : ffff8000124dba60
+    [    1.837471] x29: ffff8000124dba60 x28: 0000000000000000
+    [    1.837474] x27: ffff0001b7e854c8 x26: ffff80001204ea18
+    [    1.837476] x25: 0000000000000005 x24: ffff800011f918f8
+    [    1.837479] x23: ffff800011fbb588 x22: ffff0001b7e40e00
+    [    1.837481] x21: 0000000000000100 x20: 0000000000000000
+    [    1.837483] x19: ffff0001b767ec00 x18: 00000000ff10c000
+    [    1.837485] x17: 0000000000000002 x16: 0000b0740fdb9950
+    [    1.837488] x15: ffff8000116c1198 x14: ffffffffffffffff
+    [    1.837490] x13: 0000000000000030 x12: 0101010101010101
+    [    1.837493] x11: 0000000000000020 x10: ffff0001bf17d130
+    [    1.837495] x9 : 0000000000000000 x8 : ffff0001b6938080
+    [    1.837497] x7 : 0000000000000000 x6 : 000000000000003f
+    [    1.837500] x5 : 0000000000000000 x4 : 0000000000000000
+    [    1.837502] x3 : ffff80001096a880 x2 : 0000000000000000
+    [    1.837505] x1 : ffff0001b7e40e00 x0 : 0000000100000001
+    [    1.837507] Kernel panic - not syncing: Asynchronous SError Interrupt
+    [    1.837509] CPU: 0 PID: 74 Comm: kworker/0:1 Not tainted 5.8.0+ #205
+    [    1.837510] Hardware name: HiKey970 (DT)
+    [    1.837511] Workqueue: events deferred_probe_work_func
+    [    1.837513] Call trace:
+    [    1.837514]  dump_backtrace+0x0/0x1e0
+    [    1.837515]  show_stack+0x18/0x24
+    [    1.837516]  dump_stack+0xc0/0x11c
+    [    1.837517]  panic+0x15c/0x324
+    [    1.837518]  nmi_panic+0x8c/0x90
+    [    1.837519]  arm64_serror_panic+0x78/0x84
+    [    1.837520]  do_serror+0x158/0x15c
+    [    1.837521]  el1_error+0x84/0x100
+    [    1.837522]  _raw_spin_unlock_irqrestore+0x18/0x50
+    [    1.837523]  regmap_write+0x58/0x80
+    [    1.837524]  hi3660_reset_deassert+0x28/0x34
+    [    1.837526]  reset_control_deassert+0x50/0x260
+    [    1.837527]  reset_control_deassert+0xf4/0x260
+    [    1.837528]  dwc3_probe+0x5dc/0xe6c
+    [    1.837529]  platform_drv_probe+0x54/0xb0
+    [    1.837530]  really_probe+0xe0/0x490
+    [    1.837531]  driver_probe_device+0xf4/0x160
+    [    1.837532]  __device_attach_driver+0x8c/0x114
+    [    1.837533]  bus_for_each_drv+0x78/0xcc
+    [    1.837534]  __device_attach+0x108/0x1a0
+    [    1.837535]  device_initial_probe+0x14/0x20
+    [    1.837537]  bus_probe_device+0x98/0xa0
+    [    1.837538]  deferred_probe_work_func+0x88/0xe0
+    [    1.837539]  process_one_work+0x1cc/0x350
+    [    1.837540]  worker_thread+0x2c0/0x470
+    [    1.837541]  kthread+0x154/0x160
+    [    1.837542]  ret_from_fork+0x10/0x30
+    [    1.837569] SMP: stopping secondary CPUs
+    [    1.837570] Kernel Offset: 0x1d0000 from 0xffff800010000000
+    [    1.837571] PHYS_OFFSET: 0x0
+    [    1.837572] CPU features: 0x240002,20882004
+    [    1.837573] Memory Limit: none
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/dwc3/dwc3-of-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index 7df1150129354..2816e4a9813ad 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -176,6 +176,7 @@ static const struct of_device_id of_dwc3_simple_match[] = {
+ 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
+ 	{ .compatible = "sprd,sc9860-dwc3" },
+ 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
++	{ .compatible = "hisilicon,hi3670-dwc3" },
+ 	{ /* Sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, of_dwc3_simple_match);
+-- 
+2.25.1
 
