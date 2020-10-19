@@ -2,92 +2,86 @@ Return-Path: <SRS0=WfwZ=D2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41479C433DF
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 10:30:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D1EC433E7
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 11:27:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7EF4207DE
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 10:29:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A27C322263
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 11:27:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOS6tTX/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727027AbgJSK3z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Oct 2020 06:29:55 -0400
-Received: from smtp1-g21.free.fr ([212.27.42.1]:26149 "EHLO smtp1-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726791AbgJSK3z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 19 Oct 2020 06:29:55 -0400
-Received: from [IPv6:2a01:e0a:255:1000:418c:f3f1:2ca7:834] (unknown [IPv6:2a01:e0a:255:1000:418c:f3f1:2ca7:834])
-        (Authenticated sender: duncan.sands@free.fr)
-        by smtp1-g21.free.fr (Postfix) with ESMTPSA id C5434B0052C;
-        Mon, 19 Oct 2020 12:28:33 +0200 (CEST)
-Subject: Re: [patch V2 13/13] usb: atm: Replace in_interrupt() usage in
- comment
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Thomas Winischhofer <thomas@winischhofer.net>,
-        Johan Hovold <johan@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-omap@vger.kernel.org, Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
-References: <20201019100629.419020859@linutronix.de>
- <20201019101110.944939915@linutronix.de>
-From:   Duncan Sands <duncan.sands@free.fr>
-Message-ID: <0fe3d019-3c5d-fd11-dcc7-6c4ff8b04403@free.fr>
-Date:   Mon, 19 Oct 2020 12:28:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1727436AbgJSL1s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Oct 2020 07:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725800AbgJSL1r (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Oct 2020 07:27:47 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980D9C0613CE
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2020 04:27:47 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id k25so12465635ioh.7
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2020 04:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=lnnlmXT2smNsFULtRy5NWN+lEjO92ZjkCQFdwtEXrZs=;
+        b=jOS6tTX/dteBzHOHrNsWD7V5IM6mqVgehEoSffj1cvPCKBMd5fz5Ecnex8OzALQ7g/
+         iGF/hbTd4VB/GNoROzCswB5hKtRp8f3UxDhdC/RnnM+o5bUd2bAcgE4HZNBJg2jB/Eai
+         +eX7Ob47tOLapfAB52lgJuPGs9G92JJF57EWzYCYzz1yXfW4CtByL9IUk26LLBbAFPjW
+         4Er9asTfMe7LGazwRVnmYXF/OBYlKzBqOAna9DRfBG7KvEq3Jf8b19BrwmGjzcr8FWZf
+         XmO+tcHUd1fCZ6DOjiNuTj0Aju2OyUO+Ck3jZDkHTwLqvIBZdAaL+QSzTEvzFS8+0Rw/
+         zEuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=lnnlmXT2smNsFULtRy5NWN+lEjO92ZjkCQFdwtEXrZs=;
+        b=sxLzmvA5J/62b5HaqyDYWn8Q3pOwAjd9HglOEeSJIKb4Hc9/rm3ukSf8YymChodISI
+         pj07HvNyFLlEqYmap+wH+NwPkN5SP+F/20/qVHrxRZltEvD8OOEc7VUt7Hgb00Spfl7V
+         M7MBjT+zcria+PhY44VoZxd9RHjnLAQiNtzK2szajIrRunpDPs2p4uNh7UbFT3pHq9B2
+         FQ3ytKQLcioniMQwghnUxPf0k0kFl9hg7cNzB9la+a6NuZuWtoJUbDnzlTKAoAuRsv0T
+         IWKr7gamwmUFEPnmuHaZOwDX9LzdHeiJ6TJD4aQq5af5EmkpRgbwRMt7qS/tvFZmz1cI
+         SUZw==
+X-Gm-Message-State: AOAM531fuBncs2eHiNbUVLX1+CSpz8zsqzRme/1xlPSxoRHwij9S0+bK
+        YW7lLW2x1EkQOUbJErxbwFe0uqQHdLS5Qtrf1gJ/aeNbVoFkNA==
+X-Google-Smtp-Source: ABdhPJzveoyBFOay0UBHOPvGZKKhXwKuYko1dpBBmi925fDP4InqNgdqUFJ9PNbX+j9bbKMwKMr5vctAsr6d3p3EI8c=
+X-Received: by 2002:a6b:8e08:: with SMTP id q8mr9962921iod.83.1603106866799;
+ Mon, 19 Oct 2020 04:27:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201019101110.944939915@linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   "Dmitry N. Mikushin" <maemarcus@gmail.com>
+Date:   Mon, 19 Oct 2020 13:27:35 +0200
+Message-ID: <CAGR4S9HQiZCsA7Y5_47j-xBOkydKiT2Exam=36L=-vwRjt+UWA@mail.gmail.com>
+Subject: Any example of USB gadget for DRD device mode on Intel Gemini Lake?
+To:     linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 10/19/20 12:06 PM, Thomas Gleixner wrote:
-> in_interrupt() is a pretty vague context description as it means: hard
-> interrupt, soft interrupt or bottom half disabled regions.
-> 
-> Replace the vague comment with a proper reasoning why spin_lock_irqsave()
-> needs to be used.
-> 
-> Signed-off-by: Ahmed S. Darwish <a.darwish@linutronix.de>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Duncan Sands <duncan.sands@free.fr>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> 
-> ---
->   drivers/usb/atm/usbatm.c |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> --- a/drivers/usb/atm/usbatm.c
-> +++ b/drivers/usb/atm/usbatm.c
-> @@ -249,7 +249,7 @@ static void usbatm_complete(struct urb *
->   	/* vdbg("%s: urb 0x%p, status %d, actual_length %d",
->   	     __func__, urb, status, urb->actual_length); */
->   
-> -	/* usually in_interrupt(), but not always */
-> +	/* Can be invoked from task context, protect against interrupts */
->   	spin_lock_irqsave(&channel->lock, flags);
->   
->   	/* must add to the back when receiving; doesn't matter when sending */
-> 
+Dear All,
+
+I'm confused by the USB gadget mode on the recent Intel SoCs, such as
+Gemini Lake. The /sys/class/udc is empty, and a SoC can't present
+itself as a IoT gadget this way, yet definitely being designed as
+such. I've noticed the concept of dual-role-device, which seems to
+replace the OTG. Particularly, Harry Pan mentioned that Gemini Lake
+supports DRD in port 0.
+
+Indeed, if I do:
+
+sudo sh -c "echo device >/sys/class/usb_role/intel_xhci_usb_sw-role-switch/role"
 
 
-Signed-off-by: Duncan Sands <duncan.sands@free.fr>
+then one of the ports gets successfully recognized as a new USB
+device, if connected with a cable to another laptop.
+
+But I'm wondering, how exactly could I construct a logical device
+class for this case, e.g. similarly to uvc gadget for OTG? Completely
+lacking any example of code, currently it's a big confusion.
+
+Thanks & Kind regards,
+- Dmitry.
