@@ -1,32 +1,32 @@
 Return-Path: <SRS0=WfwZ=D2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: **
-X-Spam-Status: No, score=2.1 required=3.0 tests=BAYES_50,DATE_IN_PAST_03_06,
+X-Spam-Level: 
+X-Spam-Status: No, score=0.6 required=3.0 tests=BAYES_50,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB73AC433E7
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 13:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C02CCC433E7
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 13:34:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5668222C3
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 13:15:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64FB220747
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 13:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727933AbgJSNP3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Oct 2020 09:15:29 -0400
-Received: from 340352.cloudwaysapps.com ([157.245.90.55]:37768 "EHLO
+        id S1727893AbgJSNeY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Oct 2020 09:34:24 -0400
+Received: from 340352.cloudwaysapps.com ([157.245.90.55]:40588 "EHLO
         340352.cloudwaysapps.com" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727860AbgJSNP2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Oct 2020 09:15:28 -0400
+        by vger.kernel.org with ESMTP id S1727811AbgJSNeY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Oct 2020 09:34:24 -0400
 Received: by 340352.cloudwaysapps.com (Postfix, from userid 1006)
-        id D56E0ECFB3; Mon, 19 Oct 2020 09:12:07 +0000 (UTC)
+        id 2E5EEE7322; Mon, 19 Oct 2020 11:22:36 +0000 (UTC)
 To:     linux-usb@vger.kernel.org
 Subject: Re: YOUR DIPLOMATIC PACKAGE
 X-PHP-Originating-Script: 1006:plexos.php
-Date:   Mon, 19 Oct 2020 09:12:07 +0000
+Date:   Mon, 19 Oct 2020 11:22:36 +0000
 From:   OPEN DOORS <support@wholesalehilltribesilver.com>
 Reply-To: clintonmorgan@paymentcenteroffice.com
-Message-ID: <37d23f7ca426e4c4e7c38cde400b2ab1@wholesalehilltribesilver.com>
+Message-ID: <d9d8d6904907a9973f8a2f9d8f7adea2@wholesalehilltribesilver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
