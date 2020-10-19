@@ -2,86 +2,67 @@ Return-Path: <SRS0=WfwZ=D2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.6 required=3.0 tests=BAYES_50,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D1EC433E7
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 11:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C4B9C433DF
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 11:30:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A27C322263
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 11:27:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOS6tTX/"
+	by mail.kernel.org (Postfix) with ESMTP id AC72A22263
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Oct 2020 11:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727436AbgJSL1s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Oct 2020 07:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbgJSL1r (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Oct 2020 07:27:47 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980D9C0613CE
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2020 04:27:47 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id k25so12465635ioh.7
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2020 04:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=lnnlmXT2smNsFULtRy5NWN+lEjO92ZjkCQFdwtEXrZs=;
-        b=jOS6tTX/dteBzHOHrNsWD7V5IM6mqVgehEoSffj1cvPCKBMd5fz5Ecnex8OzALQ7g/
-         iGF/hbTd4VB/GNoROzCswB5hKtRp8f3UxDhdC/RnnM+o5bUd2bAcgE4HZNBJg2jB/Eai
-         +eX7Ob47tOLapfAB52lgJuPGs9G92JJF57EWzYCYzz1yXfW4CtByL9IUk26LLBbAFPjW
-         4Er9asTfMe7LGazwRVnmYXF/OBYlKzBqOAna9DRfBG7KvEq3Jf8b19BrwmGjzcr8FWZf
-         XmO+tcHUd1fCZ6DOjiNuTj0Aju2OyUO+Ck3jZDkHTwLqvIBZdAaL+QSzTEvzFS8+0Rw/
-         zEuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=lnnlmXT2smNsFULtRy5NWN+lEjO92ZjkCQFdwtEXrZs=;
-        b=sxLzmvA5J/62b5HaqyDYWn8Q3pOwAjd9HglOEeSJIKb4Hc9/rm3ukSf8YymChodISI
-         pj07HvNyFLlEqYmap+wH+NwPkN5SP+F/20/qVHrxRZltEvD8OOEc7VUt7Hgb00Spfl7V
-         M7MBjT+zcria+PhY44VoZxd9RHjnLAQiNtzK2szajIrRunpDPs2p4uNh7UbFT3pHq9B2
-         FQ3ytKQLcioniMQwghnUxPf0k0kFl9hg7cNzB9la+a6NuZuWtoJUbDnzlTKAoAuRsv0T
-         IWKr7gamwmUFEPnmuHaZOwDX9LzdHeiJ6TJD4aQq5af5EmkpRgbwRMt7qS/tvFZmz1cI
-         SUZw==
-X-Gm-Message-State: AOAM531fuBncs2eHiNbUVLX1+CSpz8zsqzRme/1xlPSxoRHwij9S0+bK
-        YW7lLW2x1EkQOUbJErxbwFe0uqQHdLS5Qtrf1gJ/aeNbVoFkNA==
-X-Google-Smtp-Source: ABdhPJzveoyBFOay0UBHOPvGZKKhXwKuYko1dpBBmi925fDP4InqNgdqUFJ9PNbX+j9bbKMwKMr5vctAsr6d3p3EI8c=
-X-Received: by 2002:a6b:8e08:: with SMTP id q8mr9962921iod.83.1603106866799;
- Mon, 19 Oct 2020 04:27:46 -0700 (PDT)
-MIME-Version: 1.0
-From:   "Dmitry N. Mikushin" <maemarcus@gmail.com>
-Date:   Mon, 19 Oct 2020 13:27:35 +0200
-Message-ID: <CAGR4S9HQiZCsA7Y5_47j-xBOkydKiT2Exam=36L=-vwRjt+UWA@mail.gmail.com>
-Subject: Any example of USB gadget for DRD device mode on Intel Gemini Lake?
+        id S1727524AbgJSLaS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Oct 2020 07:30:18 -0400
+Received: from 340352.cloudwaysapps.com ([157.245.90.55]:48112 "EHLO
+        340352.cloudwaysapps.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725799AbgJSLaR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Oct 2020 07:30:17 -0400
+Received: by 340352.cloudwaysapps.com (Postfix, from userid 1006)
+        id F3F941CCAD7; Mon, 19 Oct 2020 10:45:17 +0000 (UTC)
 To:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: YOUR DIPLOMATIC PACKAGE
+X-PHP-Originating-Script: 1006:plexos.php
+Date:   Mon, 19 Oct 2020 10:45:17 +0000
+From:   OPEN DOORS <support@wholesalehilltribesilver.com>
+Reply-To: clintonmorgan@paymentcenteroffice.com
+Message-ID: <33a75a964b11acd296e434e3f7f5c225@wholesalehilltribesilver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dear All,
+I am Clinton Morgan, I have been instructed to notify you of the availability of a package deposited by your relative (our client) in your name at the event of demise.
 
-I'm confused by the USB gadget mode on the recent Intel SoCs, such as
-Gemini Lake. The /sys/class/udc is empty, and a SoC can't present
-itself as a IoT gadget this way, yet definitely being designed as
-such. I've noticed the concept of dual-role-device, which seems to
-replace the OTG. Particularly, Harry Pan mentioned that Gemini Lake
-supports DRD in port 0.
-
-Indeed, if I do:
-
-sudo sh -c "echo device >/sys/class/usb_role/intel_xhci_usb_sw-role-switch/role"
+We are entrusted and empowered with diplomatic immunity and status to safe keep valuable packages and baggage in trust for our reputable clients.
+We work in collaboration with top firms and government bodies of various countries as we have earned a reputation as a service whose hallmarks in reliability and confidentiality are revered.
+Our clienteles also includes international missions, fellow diplomats as well as embassies of different countries.
 
 
-then one of the ports gets successfully recognized as a new USB
-device, if connected with a cable to another laptop.
+A financial security package was deposited by a benefactor whose identity can not be disclosed due to a binding Non-Disclosure Agreement, specifically instructing us to contact you in the event of demise. The Non Circumvention and Non Disclosure Agreement signed with the benefactor  mandates and authorities us to fully divulge and disclose the benefactor's identity 18 months after the beneficiary has received the funds.
+We confirm that these funds are fully free of any liens or encumbrances and are clean, clear and non-criminal origin and are available in the form of CASH.
+By this notice, you are hereby advised to send your Full Contact Information as well as the name of the closest airport to your city in the format stated below. The funds with the documentations of origin will be brought to your country of residence by 3 Diplomats. You will be accompanied to your bank (solely by your request) to deposit the funds in your name with the documentations of its origin which authenticates the facts that the funds are clean with no link to terrorism or drugs as well as exonerates you from any form of investigations and interrogation.
+ 
 
-But I'm wondering, how exactly could I construct a logical device
-class for this case, e.g. similarly to uvc gadget for OTG? Completely
-lacking any example of code, currently it's a big confusion.
+Kindly ensure that no mistake or error is made in the information provide below and it should be forwarded in the manner stated below:
 
-Thanks & Kind regards,
-- Dmitry.
+
+Your Full Name: ______________________________
+
+Your cell number:______________________________
+
+Your Complete Address: __________________________
+
+Name of City of Residence: ____________________
+
+Name of Closest Airport to your city of Residence:_________________________________
+
+I hereby confirm the information provided above is correct and accurate to the best of my knowledge.
+
+Congratulations in advance.
+
+Thank you and I sincerely Remain,
+
+Clinton Morgan
+
