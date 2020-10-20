@@ -7,43 +7,42 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37EE9C388F9
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31C6C43457
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1AD622282
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:01:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D0EC20770
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394042AbgJTMA0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 08:00:26 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:51966 "EHLO
+        id S2405349AbgJTMCC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:02:02 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51980 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394024AbgJTMA0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:26 -0400
+        with ESMTP id S2393880AbgJTMAZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:25 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 536D6803016F;
-        Tue, 20 Oct 2020 12:00:24 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id CFC278030816;
+        Tue, 20 Oct 2020 12:00:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id WDZAmvbWJfJB; Tue, 20 Oct 2020 15:00:23 +0300 (MSK)
+        with ESMTP id X2UL7bdmYx2x; Tue, 20 Oct 2020 15:00:23 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+        <bcm-kernel-feedback-list@broadcom.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 17/29] arm64: dts: marvell: cp11x: Harmonize xHCI DT nodes name
-Date:   Tue, 20 Oct 2020 14:59:47 +0300
-Message-ID: <20201020115959.2658-18-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 16/29] arm: dts: bcm5301x: Harmonize xHCI DT nodes name
+Date:   Tue, 20 Oct 2020 14:59:46 +0300
+Message-ID: <20201020115959.2658-17-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -62,31 +61,22 @@ correctly named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- arch/arm64/boot/dts/marvell/armada-cp11x.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/bcm5301x.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/marvell/armada-cp11x.dtsi b/arch/arm64/boot/dts/marvell/armada-cp11x.dtsi
-index 9dcf16beabf5..1e37ae181acf 100644
---- a/arch/arm64/boot/dts/marvell/armada-cp11x.dtsi
-+++ b/arch/arm64/boot/dts/marvell/armada-cp11x.dtsi
-@@ -275,7 +275,7 @@ CP11X_LABEL(thermal): thermal-sensor@70 {
- 			};
- 		};
+diff --git a/arch/arm/boot/dts/bcm5301x.dtsi b/arch/arm/boot/dts/bcm5301x.dtsi
+index bf5656d79a55..cf89a44673c5 100644
+--- a/arch/arm/boot/dts/bcm5301x.dtsi
++++ b/arch/arm/boot/dts/bcm5301x.dtsi
+@@ -314,7 +314,7 @@ usb3: usb3@23000 {
  
--		CP11X_LABEL(usb3_0): usb3@500000 {
-+		CP11X_LABEL(usb3_0): usb@500000 {
- 			compatible = "marvell,armada-8k-xhci",
- 			"generic-xhci";
- 			reg = <0x500000 0x4000>;
-@@ -287,7 +287,7 @@ CP11X_LABEL(usb3_0): usb3@500000 {
- 			status = "disabled";
- 		};
+ 			interrupt-parent = <&gic>;
  
--		CP11X_LABEL(usb3_1): usb3@510000 {
-+		CP11X_LABEL(usb3_1): usb@510000 {
- 			compatible = "marvell,armada-8k-xhci",
- 			"generic-xhci";
- 			reg = <0x510000 0x4000>;
+-			xhci: xhci@23000 {
++			xhci: usb@23000 {
+ 				#usb-cells = <0>;
+ 
+ 				compatible = "generic-xhci";
 -- 
 2.27.0
 
