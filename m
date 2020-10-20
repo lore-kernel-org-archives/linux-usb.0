@@ -7,40 +7,43 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD36C388F9
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:01:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2DCC433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:01:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C2F322282
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:01:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2131622454
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:01:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394066AbgJTMA3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 08:00:29 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:52112 "EHLO
+        id S2393968AbgJTMA2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:00:28 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:52094 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394047AbgJTMA2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:28 -0400
+        with ESMTP id S2394028AbgJTMA0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:26 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 0E339803073D;
-        Tue, 20 Oct 2020 12:00:27 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id E3F97803073F;
+        Tue, 20 Oct 2020 12:00:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AOlri3A3n04V; Tue, 20 Oct 2020 15:00:26 +0300 (MSK)
+        with ESMTP id R7jKJxTb7x82; Tue, 20 Oct 2020 15:00:24 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-Date:   Tue, 20 Oct 2020 14:59:51 +0300
-Message-ID: <20201020115959.2658-22-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 18/29] arm: dts: marvell: armada-375: Harmonize DWC USB3 DT nodes name
+Date:   Tue, 20 Oct 2020 14:59:48 +0300
+Message-ID: <20201020115959.2658-19-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -59,22 +62,22 @@ named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- arch/arm/boot/dts/ls1021a.dtsi | 2 +-
+ arch/arm/boot/dts/armada-375.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/ls1021a.dtsi b/arch/arm/boot/dts/ls1021a.dtsi
-index 827373ef1a54..5c4104d301f1 100644
---- a/arch/arm/boot/dts/ls1021a.dtsi
-+++ b/arch/arm/boot/dts/ls1021a.dtsi
-@@ -874,7 +874,7 @@ usb2: usb@8600000 {
- 			phy_type = "ulpi";
- 		};
+diff --git a/arch/arm/boot/dts/armada-375.dtsi b/arch/arm/boot/dts/armada-375.dtsi
+index 9805e507c695..7f2f24a29e6c 100644
+--- a/arch/arm/boot/dts/armada-375.dtsi
++++ b/arch/arm/boot/dts/armada-375.dtsi
+@@ -426,7 +426,7 @@ usb1: usb@54000 {
+ 				status = "disabled";
+ 			};
  
--		usb3: usb3@3100000 {
-+		usb3: usb@3100000 {
- 			compatible = "snps,dwc3";
- 			reg = <0x0 0x3100000 0x0 0x10000>;
- 			interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
+-			usb2: usb3@58000 {
++			usb2: usb@58000 {
+ 				compatible = "marvell,armada-375-xhci";
+ 				reg = <0x58000 0x20000>,<0x5b880 0x80>;
+ 				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.27.0
 
