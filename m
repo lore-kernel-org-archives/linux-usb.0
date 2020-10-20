@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D5DC433E7
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AC4C43457
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AFABA22409
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4978C2223C
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393576AbgJTLV2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 07:21:28 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:51318 "EHLO
+        id S2393605AbgJTLVc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 07:21:32 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51548 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392686AbgJTLV0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:26 -0400
+        with ESMTP id S2393570AbgJTLVa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:30 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id A99A58030867;
-        Tue, 20 Oct 2020 11:21:23 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id E2E288030171;
+        Tue, 20 Oct 2020 11:21:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id S-ECj01RbAp1; Tue, 20 Oct 2020 14:21:22 +0300 (MSK)
+        with ESMTP id cjSKv4RvSeTS; Tue, 20 Oct 2020 14:21:25 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -49,9 +49,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 04/16] dt-bindings: usb: usb-hcd: Add "tpl-support" property
-Date:   Tue, 20 Oct 2020 14:20:49 +0300
-Message-ID: <20201020112101.19077-5-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 11/16] dt-bindings: usb: dwc3: Add Tx De-emphasis constraints
+Date:   Tue, 20 Oct 2020 14:20:56 +0300
+Message-ID: <20201020112101.19077-12-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -62,9 +62,10 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The host controller device might be designed to work for the particular
-products or applications. In that case its DT node is supposed to be
-equipped with the tpl-support property.
+In accordance with the driver comments the PIPE3 de-emphasis can be tuned
+to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
+property constraints so the DT schema would make sure the controller DT
+node is equipped with correct value.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -72,30 +73,27 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Grammar fix: "s/it'/its"
-- Discard '|' from the property description, since we don't need to preserve
-  the text formatting.
+- Grammar fix: "s/tunned/tuned"
+- Grammar fix: remove redundant "or" conjunction.
 ---
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index a1a6cde7327d..1f9b40fdea70 100644
---- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -101,6 +101,12 @@ properties:
-     enum: [host, peripheral]
-     default: peripheral
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 23f07222d3d7..6ab7cba56059 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -149,6 +149,10 @@ properties:
+       The value driven to the PHY is controlled by the LTSSM during USB3
+       Compliance mode.
+     $ref: /schemas/types.yaml#/definitions/uint8
++    enum:
++      - 0 # -6dB de-emphasis
++      - 1 # -3.5dB de-emphasis
++      - 2 # No de-emphasis
  
-+  tpl-support:
-+    description:
-+      Indicates if the Targeted Peripheral List is supported for given
-+      targeted hosts (non-PC hosts).
-+    type: boolean
-+
- examples:
-   - |
-     usb {
+   snps,dis_u3_susphy_quirk:
+     description: When set core will disable USB3 suspend phy
 -- 
 2.27.0
 
