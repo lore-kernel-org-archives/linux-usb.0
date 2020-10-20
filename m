@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D29C388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5EC5C43467
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:22:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F404422242
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 638372224A
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:22:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393619AbgJTLVd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 07:21:33 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:51600 "EHLO
+        id S2406104AbgJTLWU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 07:22:20 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51554 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392424AbgJTLVb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:31 -0400
+        with ESMTP id S2393572AbgJTLVa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:30 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 307C6803071B;
-        Tue, 20 Oct 2020 11:21:28 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 6235A803071C;
+        Tue, 20 Oct 2020 11:21:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id rGfb2P_QZAGl; Tue, 20 Oct 2020 14:21:27 +0300 (MSK)
+        with ESMTP id GdLIEJJnqmaq; Tue, 20 Oct 2020 14:21:25 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>
+        Rob Herring <robh+dt@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
         Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -49,10 +49,10 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>, <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v3 16/16] dt-bindings: usb: qcom,dwc3: Validate DWC3 sub-node
-Date:   Tue, 20 Oct 2020 14:21:01 +0300
-Message-ID: <20201020112101.19077-17-Sergey.Semin@baikalelectronics.ru>
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 12/16] dt-bindings: usb: dwc3: Add Frame Length Adj constraints
+Date:   Tue, 20 Oct 2020 14:20:57 +0300
+Message-ID: <20201020112101.19077-13-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,53 +63,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Qualcomm msm8996/sc7180/sdm845 DWC3 compatible DT nodes are supposed to
-have a DWC USB3 compatible sub-node to describe a fully functioning USB
-interface. Let's use the available DWC USB3 DT schema to validate the
-Qualcomm DWC3 sub-nodes.
-
-Note since the generic DWC USB3 DT node is supposed to be named as generic
-USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-nodes name
-regexp and fix the DT node example.
+In accordance with the IP core databook the
+snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
+Let's make sure the DT schema applies a correct constraints on the
+property.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
-
 ---
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changelog v2:
-- Discard the "^dwc3@[0-9a-f]+$" nodes from being acceptable as sub-nodes.
----
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index dac10848dd7f..8f8d781e73a0 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -103,11 +103,8 @@ properties:
- # Required child node:
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 6ab7cba56059..2a269624983a 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -230,6 +230,8 @@ properties:
+       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
+       incorrect.
+     $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 0x3f
  
- patternProperties:
--  "^dwc3@[0-9a-f]+$":
--    type: object
--    description:
--      A child node must exist to represent the core DWC3 IP block
--      The content of the node is defined in dwc3.txt.
-+  "^usb@[0-9a-f]+$":
-+    $ref: snps,dwc3.yaml#
- 
- required:
-   - compatible
-@@ -160,7 +157,7 @@ examples:
- 
-             resets = <&gcc GCC_USB30_PRIM_BCR>;
- 
--            dwc3@a600000 {
-+            usb@a600000 {
-                 compatible = "snps,dwc3";
-                 reg = <0 0x0a600000 0 0xcd00>;
-                 interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
+   snps,rx-thr-num-pkt-prd:
+     description:
 -- 
 2.27.0
 
