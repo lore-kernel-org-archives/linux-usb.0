@@ -4,57 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69CA6C43467
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03116C43467
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:00:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2121422240
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:22:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADD4522283
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406146AbgJTLWr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 07:22:47 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:51286 "EHLO
+        id S2393967AbgJTMAT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:00:19 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51926 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392667AbgJTLVZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:25 -0400
+        with ESMTP id S2393918AbgJTMAS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:18 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 6B198803073F;
-        Tue, 20 Oct 2020 11:21:23 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 820918030816;
+        Tue, 20 Oct 2020 12:00:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id nLjgCbHIG9FU; Tue, 20 Oct 2020 14:21:22 +0300 (MSK)
+        with ESMTP id p8m-byuZBAOQ; Tue, 20 Oct 2020 15:00:16 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
+To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
+        Santosh Shilimkar <ssantosh@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Roger Quadros <rogerq@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 03/16] dt-bindings: usb: usb-hcd: Add "ulpi/serial/hsic" PHY types
-Date:   Tue, 20 Oct 2020 14:20:48 +0300
-Message-ID: <20201020112101.19077-4-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 02/29] arm: dts: keystone: Correct DWC USB3 compatible string
+Date:   Tue, 20 Oct 2020 14:59:32 +0300
+Message-ID: <20201020115959.2658-3-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -63,44 +51,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
-that can be specified in the phy_type HCD property. Add them to the
-enumeration of the acceptable values.
+Syonpsys IP cores are supposed to be defined with "snps" vendor-prefix.
+Use it instead of the deprecated "synopsys" one.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Rob Herring <robh@kernel.org>
-
 ---
+ arch/arm/boot/dts/keystone-k2e.dtsi | 2 +-
+ arch/arm/boot/dts/keystone.dtsi     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Changelog v2:
-- Grammar fix: "s/PHY types can be/PHY types that can be"
-- Drop quotes from around the string constants.
----
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index e01d8a54971e..a1a6cde7327d 100644
---- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -46,11 +46,13 @@ properties:
-   phy_type:
-     description:
-       Tells USB controllers that we want to configure the core to support a
--      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
--      this isn't passed via DT, USB controllers should default to HW
--      capability.
-+      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
-+      pin interface if ULPI is specified, Serial core/PHY interconnect if
-+      serial is specified and High-Speed Inter-Chip feature if HSIC is
-+      selected. In case this isn't passed via DT, USB controllers should
-+      default to HW capability.
-     $ref: /schemas/types.yaml#/definitions/string
--    enum: [utmi, utmi_wide]
-+    enum: [utmi, utmi_wide, ulpi, serial, hsic]
+diff --git a/arch/arm/boot/dts/keystone-k2e.dtsi b/arch/arm/boot/dts/keystone-k2e.dtsi
+index 2d94faf31fab..fa1b8499c5a7 100644
+--- a/arch/arm/boot/dts/keystone-k2e.dtsi
++++ b/arch/arm/boot/dts/keystone-k2e.dtsi
+@@ -79,7 +79,7 @@ keystone_usb1: usb@25000000 {
+ 			status = "disabled";
  
-   otg-rev:
-     description:
+ 			usb1: dwc3@25010000 {
+-				compatible = "synopsys,dwc3";
++				compatible = "snps,dwc3";
+ 				reg = <0x25010000 0x70000>;
+ 				interrupts = <GIC_SPI 414 IRQ_TYPE_EDGE_RISING>;
+ 				usb-phy = <&usb1_phy>, <&usb1_phy>;
+diff --git a/arch/arm/boot/dts/keystone.dtsi b/arch/arm/boot/dts/keystone.dtsi
+index c298675a29a5..8d046a1b690c 100644
+--- a/arch/arm/boot/dts/keystone.dtsi
++++ b/arch/arm/boot/dts/keystone.dtsi
+@@ -218,7 +218,7 @@ keystone_usb0: usb@2680000 {
+ 			status = "disabled";
+ 
+ 			usb0: dwc3@2690000 {
+-				compatible = "synopsys,dwc3";
++				compatible = "snps,dwc3";
+ 				reg = <0x2690000 0x70000>;
+ 				interrupts = <GIC_SPI 393 IRQ_TYPE_EDGE_RISING>;
+ 				usb-phy = <&usb_phy>, <&usb_phy>;
 -- 
 2.27.0
 
