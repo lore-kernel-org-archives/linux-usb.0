@@ -4,45 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB35C43457
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F92C433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:03:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A765922282
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A13222253
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:03:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405540AbgJTMCr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 08:02:47 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:52058 "EHLO
+        id S2394048AbgJTMC4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:02:56 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51956 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393970AbgJTMAV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:21 -0400
+        with ESMTP id S2393962AbgJTMAT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:19 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 5995A803071C;
-        Tue, 20 Oct 2020 12:00:19 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 6F67D803073D;
+        Tue, 20 Oct 2020 12:00:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 9WNRu8GWigpf; Tue, 20 Oct 2020 15:00:18 +0300 (MSK)
+        with ESMTP id Sg3fMQROG6FQ; Tue, 20 Oct 2020 15:00:17 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>
+        Kukjin Kim <kgene@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 07/29] arm: dts: bcm53x: Harmonize EHCI/OHCI DT nodes name
-Date:   Tue, 20 Oct 2020 14:59:37 +0300
-Message-ID: <20201020115959.2658-8-Sergey.Semin@baikalelectronics.ru>
+        <linux-kernel@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>
+Subject: [PATCH 04/29] arm: dts: exynos: Correct DWC USB3 compatible string
+Date:   Tue, 20 Oct 2020 14:59:34 +0300
+Message-ID: <20201020115959.2658-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -53,63 +51,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the Generic EHCI/OHCI bindings the corresponding node
-name is suppose to comply with the Generic USB HCD DT schema, which
-requires the USB nodes to have the name acceptable by the regexp:
-"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
-nodes are correctly named.
+Syonpsys IP cores are supposed to be defined with "snps" vendor-prefix.
+Use it instead of the deprecated "synopsys" one.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 ---
- arch/arm/boot/dts/bcm5301x.dtsi | 4 ++--
- arch/arm/boot/dts/bcm53573.dtsi | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/exynos5250.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/bcm5301x.dtsi b/arch/arm/boot/dts/bcm5301x.dtsi
-index 0016720ce530..bf5656d79a55 100644
---- a/arch/arm/boot/dts/bcm5301x.dtsi
-+++ b/arch/arm/boot/dts/bcm5301x.dtsi
-@@ -261,7 +261,7 @@ usb2: usb2@21000 {
+diff --git a/arch/arm/boot/dts/exynos5250.dtsi b/arch/arm/boot/dts/exynos5250.dtsi
+index e3dbe4166836..6daeba7d6b49 100644
+--- a/arch/arm/boot/dts/exynos5250.dtsi
++++ b/arch/arm/boot/dts/exynos5250.dtsi
+@@ -630,7 +630,7 @@ usb_dwc3 {
+ 			ranges;
  
- 			interrupt-parent = <&gic>;
- 
--			ehci: ehci@21000 {
-+			ehci: usb@21000 {
- 				#usb-cells = <0>;
- 
- 				compatible = "generic-ehci";
-@@ -283,7 +283,7 @@ ehci_port2: port@2 {
- 				};
- 			};
- 
--			ohci: ohci@22000 {
-+			ohci: usb@22000 {
- 				#usb-cells = <0>;
- 
- 				compatible = "generic-ohci";
-diff --git a/arch/arm/boot/dts/bcm53573.dtsi b/arch/arm/boot/dts/bcm53573.dtsi
-index 4af8e3293cff..51546fccc616 100644
---- a/arch/arm/boot/dts/bcm53573.dtsi
-+++ b/arch/arm/boot/dts/bcm53573.dtsi
-@@ -135,7 +135,7 @@ usb2: usb2@4000 {
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 
--			ehci: ehci@4000 {
-+			ehci: usb@4000 {
- 				compatible = "generic-ehci";
- 				reg = <0x4000 0x1000>;
- 				interrupt-parent = <&gic>;
-@@ -155,7 +155,7 @@ ehci_port2: port@2 {
- 				};
- 			};
- 
--			ohci: ohci@d000 {
-+			ohci: usb@d000 {
- 				#usb-cells = <0>;
- 
- 				compatible = "generic-ohci";
+ 			usbdrd_dwc3: dwc3@12000000 {
+-				compatible = "synopsys,dwc3";
++				compatible = "snps,dwc3";
+ 				reg = <0x12000000 0x10000>;
+ 				interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+ 				phys = <&usbdrd_phy 0>, <&usbdrd_phy 1>;
 -- 
 2.27.0
 
