@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 616F4C43467
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE22CC43457
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:38:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15BFD22240
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:37:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B8FD22265
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:38:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603197478;
-	bh=7tWJFj4qFJQSXuphHF1Qmqv4XIlW3+xZjOGM8nXj4wk=;
+	s=default; t=1603197505;
+	bh=08SpB1Pb99+lBTdG9rHd3JV7Ac6POqIAceY0/ugBbX8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=z/TyttK+tUPLP5mE8yJHcRZYwdhsaXHuFn7DWPeqoVbwU0eghZLVDmIMnRKJGprFP
-	 TiPkf9oeQ7vv5lfHzoBog8CjpeJOx0hfqr9nSo+GSOUoSMk7e/oBMtO+BCwaqKtwWS
-	 5MmR40Fqi6/jlHb+6Fht3FmyCTz/otUBEtMnCi94=
+	b=aM3X7atvS0oPqrtnIFAfrgLtBvPGStjeD13Iu5dZpKN1eOAoA1uehdlaP41k967li
+	 CLICRnPuou7WNexXPBSe+vLjXyovKBxnfyKCwu8akM0BXDf8ZeZqR+L7Q21q10nv9j
+	 sMtOCzhRSqIx8Xzj/sqnC6+nVPhhIOZtsDfJ5EGg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406295AbgJTMhy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 08:37:54 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33514 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405915AbgJTMhx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:37:53 -0400
-Received: by mail-wr1-f67.google.com with SMTP id b8so1958594wrn.0;
-        Tue, 20 Oct 2020 05:37:52 -0700 (PDT)
+        id S2406312AbgJTMiW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:38:22 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34735 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406208AbgJTMiV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:38:21 -0400
+Received: by mail-wr1-f66.google.com with SMTP id i1so1946229wro.1;
+        Tue, 20 Oct 2020 05:38:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=z0iW0LyevPTiV403AK0/H1nZ2VDwTNJUowS/2f0kD0E=;
-        b=YYSuV6IJdFCBjjI8BEIm3W+luDLoqBK9jOEMPmJ4JdyAPBQXaOZAs+uMJJhdnyjT/5
-         gT6OqndXQEggK3wC3P3aqdAC6TxmrFIK+mcSTIUJA3C7u/GSgxFA1RTA9WL7XnweeegM
-         sjcap6dWpakiA+SFiORFx6SdSCSWe2B9LixRt/XWzkbGGVRmAIekmzU8qXKcfYSfBtHx
-         Mi/tsNls/bITs0IIdL1DlY0+2E2DuywfoDekys/UMsElyxKo59xGkSP3hC3Xl7guIM5N
-         0cLYiIgEtGTo22c9r3MdXAgvnHRWJ6qSt3vd+x+4ZfsMPxw049ifz7fr/Q8qEG7CYYHT
-         G2gQ==
-X-Gm-Message-State: AOAM533HheZnoQh2cyi8ODxI3C60zEAZB9Y7JvPrSvfDJLVNs+9f6HlL
-        Y9+f523fFZCbZLt27/00wGc=
-X-Google-Smtp-Source: ABdhPJwKVS9/IJQVbna2Ae1zlEWxSElMPrnxYPvK43yFS9+C8lodkVORZwHVe1SRrPe97owj99GcGA==
-X-Received: by 2002:adf:ed8f:: with SMTP id c15mr3186579wro.136.1603197471522;
-        Tue, 20 Oct 2020 05:37:51 -0700 (PDT)
+        bh=sCAzGCkxAJS3QlgrbYIRbXlNmhdT/0i2DpUXZfdaEjI=;
+        b=Y3kqfsKymMJxjolnLkIkp9v4OMCKbY3HDKrtDmspcT5qvhafV9ZGhXP6mXq+HW82QO
+         xGfm3nc42rCXUU2kPvpPk23EDiEd7tcTEcDYy8Y7x5Abr6U7UzWTVeGO1r6Ry1FFa4yE
+         fLjcJ04cbYe4js0a3+e+Iw10GjkXd+sJH+FSINGrMsIg/TOuR6g3Fh7qIL7pPIG+6pw4
+         CwVFCCAc4eq+ykoujkNPLU2qHCPb2fGNVgKfy5uvmJNK0pv+Ms5+eivniG01EImftaAe
+         2pSYEjXF/gnixBLV9y4LETVTGO6ORbxWYssOi2RIQRJ9AAc3dTCDUCi1qvBEZ1/wN5gu
+         5Frw==
+X-Gm-Message-State: AOAM530y0AP2qQFtILb3QWPZcn0XYmygvVbgg0h/6jXvkjJDoZz3lO9r
+        IzYHEwFi01JD88xOwMfiAno=
+X-Google-Smtp-Source: ABdhPJzP87nGP+zRq7oU13xo36adkNHri9YodfysJBp6ywOxu++5gLSynVhnDoAKx2V1SiafO/n07w==
+X-Received: by 2002:a5d:5748:: with SMTP id q8mr3280781wrw.299.1603197497943;
+        Tue, 20 Oct 2020 05:38:17 -0700 (PDT)
 Received: from kozik-lap ([194.230.155.171])
-        by smtp.googlemail.com with ESMTPSA id t12sm2653758wrm.25.2020.10.20.05.37.49
+        by smtp.googlemail.com with ESMTPSA id v6sm2952473wrp.69.2020.10.20.05.38.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2020 05:37:50 -0700 (PDT)
-Date:   Tue, 20 Oct 2020 14:37:47 +0200
+        Tue, 20 Oct 2020 05:38:16 -0700 (PDT)
+Date:   Tue, 20 Oct 2020 14:38:14 +0200
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Cc:     Felipe Balbi <balbi@kernel.org>,
@@ -56,23 +56,25 @@ Cc:     Felipe Balbi <balbi@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Serge Semin <fancer.lancer@gmail.com>,
         linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org
-Subject: Re: [PATCH 13/29] mips: dts: sead3: Harmonize EHCI/OHCI DT nodes name
-Message-ID: <20201020123747.GJ127386@kozik-lap>
+        linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 14/29] mips: dts: ralink: mt7628a: Harmonize EHCI/OHCI DT
+ nodes name
+Message-ID: <20201020123814.GK127386@kozik-lap>
 References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
- <20201020115959.2658-14-Sergey.Semin@baikalelectronics.ru>
+ <20201020115959.2658-15-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201020115959.2658-14-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201020115959.2658-15-Sergey.Semin@baikalelectronics.ru>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 02:59:43PM +0300, Serge Semin wrote:
+On Tue, Oct 20, 2020 at 02:59:44PM +0300, Serge Semin wrote:
 > In accordance with the Generic EHCI/OHCI bindings the corresponding node
 > name is suppose to comply with the Generic USB HCD DT schema, which
 > requires the USB nodes to have the name acceptable by the regexp:
@@ -81,7 +83,7 @@ On Tue, Oct 20, 2020 at 02:59:43PM +0300, Serge Semin wrote:
 > 
 > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 > ---
->  arch/mips/boot/dts/mti/sead3.dts | 2 +-
+>  arch/mips/boot/dts/ralink/mt7628a.dtsi | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
