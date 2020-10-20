@@ -7,42 +7,40 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46847C433E7
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BB7C43457
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0247322253
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 018CB22244
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405314AbgJTMCB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 08:02:01 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:52112 "EHLO
+        id S2394021AbgJTMAX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:00:23 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51966 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394011AbgJTMAZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:25 -0400
+        with ESMTP id S2393987AbgJTMAX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:23 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 6D1D4803017C;
-        Tue, 20 Oct 2020 12:00:23 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 1DEA5803071B;
+        Tue, 20 Oct 2020 12:00:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id KUtGQohIc08n; Tue, 20 Oct 2020 15:00:22 +0300 (MSK)
+        with ESMTP id GCKvxQpGmnuM; Tue, 20 Oct 2020 15:00:20 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>
+        Wei Xu <xuwei5@hisilicon.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>
-Subject: [PATCH 15/29] powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
-Date:   Tue, 20 Oct 2020 14:59:45 +0300
-Message-ID: <20201020115959.2658-16-Sergey.Semin@baikalelectronics.ru>
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 11/29] arm64: dts: hisi: Harmonize EHCI/OHCI DT nodes name
+Date:   Tue, 20 Oct 2020 14:59:41 +0300
+Message-ID: <20201020115959.2658-12-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -61,39 +59,77 @@ nodes are correctly named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- arch/powerpc/boot/dts/akebono.dts | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/hisilicon/hi3798cv200.dtsi | 4 ++--
+ arch/arm64/boot/dts/hisilicon/hip06.dtsi       | 4 ++--
+ arch/arm64/boot/dts/hisilicon/hip07.dtsi       | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/powerpc/boot/dts/akebono.dts b/arch/powerpc/boot/dts/akebono.dts
-index df18f8dc4642..343326c30380 100644
---- a/arch/powerpc/boot/dts/akebono.dts
-+++ b/arch/powerpc/boot/dts/akebono.dts
-@@ -126,7 +126,7 @@ SATA0: sata@30000010000 {
- 			interrupts = <93 2>;
+diff --git a/arch/arm64/boot/dts/hisilicon/hi3798cv200.dtsi b/arch/arm64/boot/dts/hisilicon/hi3798cv200.dtsi
+index 12bc1d3ed424..a4acecb75c89 100644
+--- a/arch/arm64/boot/dts/hisilicon/hi3798cv200.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hi3798cv200.dtsi
+@@ -585,7 +585,7 @@ pcie: pcie@9860000 {
+ 			status = "disabled";
  		};
  
--		EHCI0: ehci@30010000000 {
-+		EHCI0: usb@30010000000 {
- 			compatible = "ibm,476gtr-ehci", "generic-ehci";
- 			reg = <0x300 0x10000000 0x0 0x10000>;
- 			interrupt-parent = <&MPIC>;
-@@ -140,14 +140,14 @@ SD0: sd@30000000000 {
- 			interrupt-parent = <&MPIC>;
+-		ohci: ohci@9880000 {
++		ohci: usb@9880000 {
+ 			compatible = "generic-ohci";
+ 			reg = <0x9880000 0x10000>;
+ 			interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>;
+@@ -600,7 +600,7 @@ ohci: ohci@9880000 {
+ 			status = "disabled";
  		};
  
--		OHCI0: ohci@30010010000 {
-+		OHCI0: usb@30010010000 {
- 			compatible = "ibm,476gtr-ohci", "generic-ohci";
- 			reg = <0x300 0x10010000 0x0 0x10000>;
- 			interrupt-parent = <&MPIC>;
- 			interrupts = <89 1>;
- 			};
+-		ehci: ehci@9890000 {
++		ehci: usb@9890000 {
+ 			compatible = "generic-ehci";
+ 			reg = <0x9890000 0x10000>;
+ 			interrupts = <GIC_SPI 66 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm64/boot/dts/hisilicon/hip06.dtsi b/arch/arm64/boot/dts/hisilicon/hip06.dtsi
+index 50ceaa959bdc..1226440d54ad 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip06.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hip06.dtsi
+@@ -373,7 +373,7 @@ refclk: refclk {
+ 			#clock-cells = <0>;
+ 		};
  
--		OHCI1: ohci@30010020000 {
-+		OHCI1: usb@30010020000 {
- 			compatible = "ibm,476gtr-ohci", "generic-ohci";
- 			reg = <0x300 0x10020000 0x0 0x10000>;
- 			interrupt-parent = <&MPIC>;
+-		usb_ohci: ohci@a7030000 {
++		usb_ohci: usb@a7030000 {
+ 			compatible = "generic-ohci";
+ 			reg = <0x0 0xa7030000 0x0 0x10000>;
+ 			interrupt-parent = <&mbigen_usb>;
+@@ -382,7 +382,7 @@ usb_ohci: ohci@a7030000 {
+ 			status = "disabled";
+ 		};
+ 
+-		usb_ehci: ehci@a7020000 {
++		usb_ehci: usb@a7020000 {
+ 			compatible = "generic-ehci";
+ 			reg = <0x0 0xa7020000 0x0 0x10000>;
+ 			interrupt-parent = <&mbigen_usb>;
+diff --git a/arch/arm64/boot/dts/hisilicon/hip07.dtsi b/arch/arm64/boot/dts/hisilicon/hip07.dtsi
+index 4773a533fce5..93f99a5255ac 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip07.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hip07.dtsi
+@@ -1253,7 +1253,7 @@ uart0: uart@602b0000 {
+ 			status = "disabled";
+ 		};
+ 
+-		usb_ohci: ohci@a7030000 {
++		usb_ohci: usb@a7030000 {
+ 			compatible = "generic-ohci";
+ 			reg = <0x0 0xa7030000 0x0 0x10000>;
+ 			interrupt-parent = <&mbigen_usb>;
+@@ -1262,7 +1262,7 @@ usb_ohci: ohci@a7030000 {
+ 			status = "disabled";
+ 		};
+ 
+-		usb_ehci: ehci@a7020000 {
++		usb_ehci: usb@a7020000 {
+ 			compatible = "generic-ehci";
+ 			reg = <0x0 0xa7020000 0x0 0x10000>;
+ 			interrupt-parent = <&mbigen_usb>;
 -- 
 2.27.0
 
