@@ -5,65 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34402C43467
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 09:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB38C433DF
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 09:37:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCE32222C8
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 09:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0B89222E8
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 09:37:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a58rDllF"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZR2wc6ds"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405787AbgJTJhM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 05:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51102 "EHLO
+        id S2405715AbgJTJhO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 05:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405678AbgJTJgr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 05:36:47 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF29CC061755
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2020 02:36:46 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id b189so1501266ybh.5
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2020 02:36:46 -0700 (PDT)
+        with ESMTP id S2405702AbgJTJgn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 05:36:43 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8C7C0613D4
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2020 02:36:41 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id j10so1432373ybl.19
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2020 02:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=jTQTcdSgoIgGHUCr3kLKKiyuBYT4mT7d+yfkxv0fkh0=;
-        b=a58rDllFinqB4k+cUYO4eWmLlfnl4ntED7dZK9CCDWURetwtYw79zjzeQEN/F7L9/R
-         nkw0jvX3ULQ+MMqJu9np9JALeGN/9DVHJkCryGiaPf73fxpd2qGLKHPzvVV8bLSMV81q
-         7x8ANZaqH4xIRz00xHHitEBXxhQD16T2qLJAl7t4XwSvQnSzVK5b7ugNGv/cKg83GpTl
-         Pg73iM38n+kSrgsPwHMcQkMZpqPHhDXHTKPgJbfl0eOMjf7yoRop0ARu204JDukthIT8
-         Osu7z7IBOCHA3pmXv6BSUnNEDIuTQOcPVr9HufSTQeRCG5ih7CLs/U87smP1fxZxN5FP
-         eg7Q==
+        bh=68+qkqJJ0yGLVD99S4hdTLHhp4Q61Io/XotXvcoBiV8=;
+        b=ZR2wc6dslObVvINB9BUikIlKrnpZm/ejNhWBSswVwuHXvxAX9xWLlasnBYoDLa2QFX
+         S3aAcemb9GkFUrue0XxER8DBdvl91wF3vcDl7FtI8k+F4cNA+/8PcCwYjSz/Klcs37SW
+         zI7QywfZicOrHzgPcypyayEfKcsIE3m7k0jgGsDoGEh386tmay9J3AwoAPUcMit7307F
+         1kvgZAJJ33mie4RXZSuuw4BXx+AdTYXnoEWClQ+HzXuTIti4Y5YXApZgujTAoa2c+1ve
+         aGmsQoyeXW0qPmqWKsLQ3JdYooQko3Lu8UDl+FINeY1tWZGngo+nglwnFAv5W/AEPLLL
+         hWjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=jTQTcdSgoIgGHUCr3kLKKiyuBYT4mT7d+yfkxv0fkh0=;
-        b=LMUndBzJnVsdIuRot1+G9goBAb1G8wFRIM3McQHSU0hvi3DL1/9NfaTSHsb4o9c4A8
-         n9GCEs1hMW9q0BXAgm9MF7XWo1+YcgSI8xjUrnYZytonyyPncwKbD8ZXHg4kb02cECL7
-         crc5Kvnn0wdTkr84zSySqfPrVxnFhOrH9eNyKBto1TrincoOThRCnDlcudUtcKnaUkLo
-         HyxmG8cEWhBEZSLg3ezlJ14BSGqUtgKyxLGhZRK/toIMvUuBi6OttONGk0pkz3zWcNue
-         Fn6DlVTDH1g13a0+41bSrEnQ5A4z2YszwJ3C9NCF11PQWivG2zrCx+pm//18UpJm+TNs
-         orig==
-X-Gm-Message-State: AOAM531jx2dPBy/KHRFUzQIzaXH7fXNshgll46P+hjyEenepXtntqeu5
-        R5rYH+7UnGnFk6eu5xF9UbuPBfbyNNs=
-X-Google-Smtp-Source: ABdhPJy2kafnfx1Z0ACqlLOm3yxSpl8G/Af7OLk8B1zAJkXmFPZkRtQLA0Lh7Eb2Z80QRHBzG1/KIfFpstU=
+        bh=68+qkqJJ0yGLVD99S4hdTLHhp4Q61Io/XotXvcoBiV8=;
+        b=nd6MyXdwHbQFabN98QQCJSrTKHFMdyrxTcOO9mxzQaBvEOXgheUEELU/biIc5WPaTC
+         vovnRI01fEf3HA7SqVL2SjI4quXOZCZFVoMrseTuKjPDwVOlK1yzJSJeRiB9aMnypfU3
+         VhuC+Qy08/yM5fsn5xFNMoyMLstF4EVcOCxz8HjrLt0VYhfBjXWiEHPUbTiv47RaLaot
+         qDeqz33DVAaR+U886iXvR+PpuXcMu5hGAzHhHfzp84V2jugQEKVvYrX6HIao4bth0epN
+         J223VfFfrpDyfsjmENVB1NrfX4Nk0vckwA13VxCAtoKUiEXSQJfeOrd5DZ/F1Jxrzje0
+         OSpQ==
+X-Gm-Message-State: AOAM532uH1/DbLJelv2dE80FQOmaTJ0TcWjiY8bNyqqohppRgRWoUA8Y
+        wTzfk/b2DX6lYFIP2h+KlNZAT7Klpnc=
+X-Google-Smtp-Source: ABdhPJyil+TPK0fD0mAFL5BbejbF9pJeXKE7dbv/JGrJAocl14Pd/3zIJQ3exhUfNX3qiZIpkT8FNM8G4Os=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:1:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a25:2054:: with SMTP id g81mr2919567ybg.490.1603186606144;
- Tue, 20 Oct 2020 02:36:46 -0700 (PDT)
-Date:   Tue, 20 Oct 2020 02:36:24 -0700
+ (user=badhri job=sendgmr) by 2002:a25:84cd:: with SMTP id x13mr2587479ybm.430.1603186600445;
+ Tue, 20 Oct 2020 02:36:40 -0700 (PDT)
+Date:   Tue, 20 Oct 2020 02:36:21 -0700
 In-Reply-To: <20201020093627.256885-1-badhri@google.com>
-Message-Id: <20201020093627.256885-8-badhri@google.com>
+Message-Id: <20201020093627.256885-5-badhri@google.com>
 Mime-Version: 1.0
 References: <20201020093627.256885-1-badhri@google.com>
 X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-Subject: [PATCH v11 07/10] usb: typec: tcpci_maxim: Fix vbus stuck on upon
- diconnecting sink
+Subject: [PATCH v11 04/10] usb: typec: tcpm: Refactor logic for new-source-frs-typec-current
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -83,74 +82,77 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Occasionally, POWER_STATUS.sourcing_vbus takes a while to clear after
-writing to  MAX_BUCK_BOOST_OP register. This causes vbus to turn back
-on while disconnecting the sink. Overcome this issue by writing into
-MAX_BUCK_BOOST_OP during frs while sourcing vbu, instead of always
-into the register whenever POWER_STATUS.sourcing_vbus is set.
+New source's current capability is now defined through
+new-source-frs-typec-current. Refactor tcpm code to parse
+new-source-frs-typec-current and infer local port's new source current
+capability during frs.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
-v9 is the first version of this patch. Added to fix
-occasional bug of vbus turning back on when disconnecting the FRS accessory
-after disconnect. No changes since v9.
+v9 is the first version of this patch in this series to rebase
+TCPM code to read new source frs current from
+new-source-frs-typec-current.
 
 Changes since v10:
-Added Reviewed-by: Heikki Krogerus
+- Moving back to u32 for new-source-frs-typec-current.
 ---
- drivers/usb/typec/tcpm/tcpci_maxim.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/usb/typec/tcpm/tcpm.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-index 82cc257fefd4..aa54b0cf7a64 100644
---- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-+++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-@@ -238,23 +238,22 @@ static void process_power_status(struct max_tcpci_chip *chip)
- 	if (ret < 0)
- 		return;
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 55535c4f66bf..561480b67bce 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -363,8 +363,8 @@ struct tcpm_port {
+ 	/* port belongs to a self powered device */
+ 	bool self_powered;
  
--	if (pwr_status == 0xff) {
-+	if (pwr_status == 0xff)
- 		max_tcpci_init_regs(chip);
--	} else if (pwr_status & TCPC_POWER_STATUS_SOURCING_VBUS) {
-+	else if (pwr_status & TCPC_POWER_STATUS_SOURCING_VBUS)
- 		tcpm_sourcing_vbus(chip->port);
--		/*
--		 * Alawys re-enable boost here.
--		 * In normal case, when say an headset is attached, TCPM would
--		 * have instructed to TCPC to enable boost, so the call is a
--		 * no-op.
--		 * But for Fast Role Swap case, Boost turns on autonomously without
--		 * AP intervention, but, needs AP to enable source mode explicitly
--		 * for AP to regain control.
--		 */
--		max_tcpci_set_vbus(chip->tcpci, &chip->data, true, false);
--	} else {
-+	else
- 		tcpm_vbus_change(chip->port);
--	}
-+}
-+
-+static void max_tcpci_frs_sourcing_vbus(struct tcpci *tcpci, struct tcpci_data *tdata)
-+{
-+	/*
-+	 * For Fast Role Swap case, Boost turns on autonomously without
-+	 * AP intervention, but, needs AP to enable source mode explicitly
-+	 * for AP to regain control.
-+	 */
-+	max_tcpci_set_vbus(tcpci, tdata, true, false);
- }
+-	/* FRS */
+-	enum frs_typec_current frs_current;
++	/* Sink FRS */
++	enum frs_typec_current new_source_frs_current;
  
- static void process_tx(struct max_tcpci_chip *chip, u16 status)
-@@ -441,6 +440,7 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
- 	chip->data.start_drp_toggling = max_tcpci_start_toggling;
- 	chip->data.TX_BUF_BYTE_x_hidden = true;
- 	chip->data.init = tcpci_init;
-+	chip->data.frs_sourcing_vbus = max_tcpci_frs_sourcing_vbus;
+ 	/* Sink caps have been queried */
+ 	bool sink_cap_done;
+@@ -1713,7 +1713,7 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
+ 	unsigned int cnt = pd_header_cnt_le(msg->header);
+ 	unsigned int rev = pd_header_rev_le(msg->header);
+ 	unsigned int i;
+-	enum frs_typec_current frs_current;
++	enum frs_typec_current partner_frs_current;
+ 	bool frs_enable;
+ 	int ret;
  
- 	max_tcpci_init_regs(chip);
- 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
+@@ -1786,12 +1786,13 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
+ 		for (i = 0; i < cnt; i++)
+ 			port->sink_caps[i] = le32_to_cpu(msg->payload[i]);
+ 
+-		frs_current = (port->sink_caps[0] & PDO_FIXED_FRS_CURR_MASK) >>
++		partner_frs_current = (port->sink_caps[0] & PDO_FIXED_FRS_CURR_MASK) >>
+ 			PDO_FIXED_FRS_CURR_SHIFT;
+-		frs_enable = frs_current && (frs_current <= port->frs_current);
++		frs_enable = partner_frs_current && (partner_frs_current <=
++						     port->new_source_frs_current);
+ 		tcpm_log(port,
+ 			 "Port partner FRS capable partner_frs_current:%u port_frs_current:%u enable:%c",
+-			 frs_current, port->frs_current, frs_enable ? 'y' : 'n');
++			 partner_frs_current, port->new_source_frs_current, frs_enable ? 'y' : 'n');
+ 		if (frs_enable) {
+ 			ret  = port->tcpc->enable_frs(port->tcpc, true);
+ 			tcpm_log(port, "Enable FRS %s, ret:%d\n", ret ? "fail" : "success", ret);
+@@ -4808,9 +4809,10 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
+ 
+ 	/* FRS can only be supported byb DRP ports */
+ 	if (port->port_type == TYPEC_PORT_DRP) {
+-		ret = fwnode_property_read_u32(fwnode, "frs-typec-current", &frs_current);
++		ret = fwnode_property_read_u32(fwnode, "new-source-frs-typec-current",
++					       &frs_current);
+ 		if (ret >= 0 && frs_current <= FRS_5V_3A)
+-			port->frs_current = frs_current;
++			port->new_source_frs_current = frs_current;
+ 	}
+ 
+ 	return 0;
 -- 
 2.29.0.rc1.297.gfa9743e501-goog
 
