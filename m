@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 402C5C43457
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D5DC433E7
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D32D122454
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFABA22409
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 11:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393550AbgJTLV1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 07:21:27 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:51240 "EHLO
+        id S2393576AbgJTLV2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 07:21:28 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51318 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392424AbgJTLVZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:25 -0400
+        with ESMTP id S2392686AbgJTLV0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 07:21:26 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 596AA803073D;
-        Tue, 20 Oct 2020 11:21:22 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id A99A58030867;
+        Tue, 20 Oct 2020 11:21:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ElfdNTPZ7c9O; Tue, 20 Oct 2020 14:21:21 +0300 (MSK)
+        with ESMTP id S-ECj01RbAp1; Tue, 20 Oct 2020 14:21:22 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -49,9 +49,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 02/16] dt-bindings: usb: usb-hcd: Add "otg-rev" property restriction
-Date:   Tue, 20 Oct 2020 14:20:47 +0300
-Message-ID: <20201020112101.19077-3-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 04/16] dt-bindings: usb: usb-hcd: Add "tpl-support" property
+Date:   Tue, 20 Oct 2020 14:20:49 +0300
+Message-ID: <20201020112101.19077-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -62,28 +62,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are only four OTG revisions are currently supported by the kernel:
-0x0100, 0x0120, 0x0130, 0x0200. Any another value is considered as
-invalid.
+The host controller device might be designed to work for the particular
+products or applications. In that case its DT node is supposed to be
+equipped with the tpl-support property.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
+
 ---
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 1 +
- 1 file changed, 1 insertion(+)
+
+Changelog v2:
+- Grammar fix: "s/it'/its"
+- Discard '|' from the property description, since we don't need to preserve
+  the text formatting.
+---
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index ee7ea205c71d..e01d8a54971e 100644
+index a1a6cde7327d..1f9b40fdea70 100644
 --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
 +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -60,6 +60,7 @@ properties:
-       features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
-       0x0200 or above.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0x0100, 0x0120, 0x0130, 0x0200]
+@@ -101,6 +101,12 @@ properties:
+     enum: [host, peripheral]
+     default: peripheral
  
-   companion:
-     description: Phandle of a companion device
++  tpl-support:
++    description:
++      Indicates if the Targeted Peripheral List is supported for given
++      targeted hosts (non-PC hosts).
++    type: boolean
++
+ examples:
+   - |
+     usb {
 -- 
 2.27.0
 
