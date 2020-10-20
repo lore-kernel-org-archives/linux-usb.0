@@ -4,44 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E959C43457
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:03:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F233C43457
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:03:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA95422282
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:03:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 194BF22283
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Oct 2020 12:03:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394216AbgJTMDC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Oct 2020 08:03:02 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:51940 "EHLO
+        id S2393953AbgJTMAR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Oct 2020 08:00:17 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:51906 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393947AbgJTMAT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:19 -0400
+        with ESMTP id S2393907AbgJTMAR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Oct 2020 08:00:17 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 006E3803073C;
-        Tue, 20 Oct 2020 12:00:17 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 092A3803071A;
+        Tue, 20 Oct 2020 12:00:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ly27iAvja4vw; Tue, 20 Oct 2020 15:00:16 +0300 (MSK)
+        with ESMTP id e6ZRpNfjWlC2; Tue, 20 Oct 2020 15:00:15 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>
-Subject: [PATCH 03/29] arm: dts: am437x: Correct DWC USB3 compatible string
-Date:   Tue, 20 Oct 2020 14:59:33 +0300
-Message-ID: <20201020115959.2658-4-Sergey.Semin@baikalelectronics.ru>
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 01/29] usb: dwc3: Discard synopsys,dwc3 compatibility string
+Date:   Tue, 20 Oct 2020 14:59:31 +0300
+Message-ID: <20201020115959.2658-2-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -53,35 +51,28 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 Syonpsys IP cores are supposed to be defined with "snps" vendor-prefix.
-Use it instead of the deprecated "synopsys" one.
+Discard a DW USB3 compatible string with the deprecated prefix seeing
+one isn't used by any dts file anymore.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- arch/arm/boot/dts/am437x-l4.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/dwc3/core.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/am437x-l4.dtsi b/arch/arm/boot/dts/am437x-l4.dtsi
-index 3d393fe252c6..59eeff217844 100644
---- a/arch/arm/boot/dts/am437x-l4.dtsi
-+++ b/arch/arm/boot/dts/am437x-l4.dtsi
-@@ -2386,7 +2386,7 @@ dwc3_1: omap_dwc3@0 {
- 				ranges = <0 0 0x20000>;
- 
- 				usb1: usb@10000 {
--					compatible = "synopsys,dwc3";
-+					compatible = "snps,dwc3";
- 					reg = <0x10000 0x10000>;
- 					interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
- 						     <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-@@ -2466,7 +2466,7 @@ dwc3_2: omap_dwc3@0 {
- 				ranges = <0 0 0x20000>;
- 
- 				usb2: usb@10000 {
--					compatible = "synopsys,dwc3";
-+					compatible = "snps,dwc3";
- 					reg = <0x10000 0x10000>;
- 					interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>,
- 						     <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>,
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 2eb34c8b4065..28440250e798 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1878,9 +1878,6 @@ static const struct of_device_id of_dwc3_match[] = {
+ 	{
+ 		.compatible = "snps,dwc3"
+ 	},
+-	{
+-		.compatible = "synopsys,dwc3"
+-	},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, of_dwc3_match);
 -- 
 2.27.0
 
