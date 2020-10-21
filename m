@@ -2,225 +2,210 @@ Return-Path: <SRS0=msI8=D4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A205C56201
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Oct 2020 19:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3F4C4363A
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Oct 2020 19:45:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E25F2415A
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Oct 2020 19:14:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="kwLu3rHt";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="cgY4XT/a"
+	by mail.kernel.org (Postfix) with ESMTP id F3D3324171
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Oct 2020 19:45:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504842AbgJUTOz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Oct 2020 15:14:55 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:51168 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2409949AbgJUTOz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Oct 2020 15:14:55 -0400
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 09D754019C;
-        Wed, 21 Oct 2020 19:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1603307694; bh=mnqZVXHsbYcyCCAWtkM0B9K8pQIfTzLF0F5KerLvUNE=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=kwLu3rHt7lHBp5oluxP4MhXNEZkeVAbTnU01mY+GJlJw70bsm0V45K85jo9KCGj1O
-         KVBvtPQa2QbS/fbisR9/05RLElZIPuReeEFJOQmHJLrPtB+ntAcsfxZYIQzpWg1JTM
-         OGKnICbm9rKyDkXXBgM0QHxhnEmvL8DvEUa+0jANA/AiHqaOhKHkf+GO6v34tF9WOr
-         kwYvd3cCjnMOVlhNFEpvYDazF2VqjzkLIO56K/U9T8poPfZbU/T7BH8gnvT58P9ldS
-         bOTlfnps+7YF6A/583zwk9i5Fh2BTBwdcepBcNk+IVPQa2X1IYd3KP4laKRnFX0g4+
-         OVr66707wduaQ==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id A3083A0071;
-        Wed, 21 Oct 2020 19:14:52 +0000 (UTC)
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2058.outbound.protection.outlook.com [104.47.36.58])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 8850340044;
-        Wed, 21 Oct 2020 19:14:51 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="cgY4XT/a";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K/Khpg02iO4prP89MmE6DNJVirHBaEC6KRMhoE/DL+E4TzdMYrufOzhWtfcQ1PqjWFdlGsoHzdEg1VEcQuPmdTCWcs/VO7Bjcbg5jUmWeD2MtRQGI++TLqEOX4KNYvTgNgUfJJrbpaJMFOLPuGOp0S071mC1Hz+Ct+7M/TebvGDM3E1oXJ5z3eqlVzDa71ALw4QkDKiJqhdh4MZJAFY/jTUZ3yTKBdixa5T3EwtO8HuiDndW2Kff6V4lXO1YVBMyxDXZDZARsfYqhU1QWtTY72ThXux3F6ThPVR/z/k2aKkkJuoKHjWejaVop/WsmDmQ/ZgrJSREZyNNenjP/tmywA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mnqZVXHsbYcyCCAWtkM0B9K8pQIfTzLF0F5KerLvUNE=;
- b=XqS4Na3ufGtbiX8Dtdzrcx0GIelEpFMX26ci0LeAM5eHRIRhtPBTTNkAyst+7tlB/ATb7EWJLZfhXDSFr9djsC9OobX+RQdUbBYpBGq/0JlFQc2VF9IhBrY78Y6ZylkdWfPw46b8n6Z1jNUpna4WrFN6UbKlkArjIaoDMzKBZ/s465BdOji7M6tPu3md7jJ2UV9olyIhDp5Ig93DCAGF8dPB1X27mcHfyvpmL7kLKRdWlHaIXtw+Lwy+KLCvyeMhiBXkXY2c1QB4nLjLh0+SGYi2e7vSFhVlkFcVPRfdfs2sL7cgts4z3b71VRV+W7iS11pGeT13z+Aw/VIh7TrOpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mnqZVXHsbYcyCCAWtkM0B9K8pQIfTzLF0F5KerLvUNE=;
- b=cgY4XT/alAhexxPtNaDJQus2G+REwIiw1IlOOVc47BfLlYf8ZroQHRUrzJXbpSQVl5MgerrZ/SSTNKqhUSWnPjzretAuQ3NQpc+BEdp4F+JB6V1SRfmWZ8ZuvNXac9rxzGR24kC/Rf7lT/pIxWr30+YZsB83YxVKxNd3zyW8FY4=
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com (2603:10b6:a03:130::14)
- by BYAPR12MB3064.namprd12.prod.outlook.com (2603:10b6:a03:da::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 21 Oct
- 2020 19:14:48 +0000
-Received: from BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::c17e:c3dd:7cda:e2dc]) by BYAPR12MB2917.namprd12.prod.outlook.com
- ([fe80::c17e:c3dd:7cda:e2dc%4]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 19:14:48 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>
-CC:     Yu Chen <chenyu56@huawei.com>, Felipe Balbi <balbi@kernel.org>,
-        Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
-        Yang Fei <fei.yang@intel.com>,
-        YongQin Liu <yongqin.liu@linaro.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Jun Li <lijun.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [RFC][PATCH] usb: dwc3: Add quirk to trigger a GCTL soft reset
- for Hisilicon Kirin Soc Platform
-Thread-Topic: [RFC][PATCH] usb: dwc3: Add quirk to trigger a GCTL soft reset
- for Hisilicon Kirin Soc Platform
-Thread-Index: AQHWp9aIkJFDKNCGCUiVTQabIh4cmKmibTSA
-Date:   Wed, 21 Oct 2020 19:14:48 +0000
-Message-ID: <77de4aaa-14a5-6078-bd0b-c4942e97ab36@synopsys.com>
-References: <20201021181803.79650-1-john.stultz@linaro.org>
-In-Reply-To: <20201021181803.79650-1-john.stultz@linaro.org>
-Accept-Language: en-US
+        id S2394722AbgJUTps (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Oct 2020 15:45:48 -0400
+Received: from static.214.254.202.116.clients.your-server.de ([116.202.254.214]:42068
+        "EHLO ciao.gmane.io" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbgJUTps (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Oct 2020 15:45:48 -0400
+Received: from list by ciao.gmane.io with local (Exim 4.92)
+        (envelope-from <glug-linux-usb@m.gmane-mx.org>)
+        id 1kVK3N-0007u2-Kk
+        for linux-usb@vger.kernel.org; Wed, 21 Oct 2020 21:45:45 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To:     linux-usb@vger.kernel.org
+From:   Ferry Toth <fntoth@gmail.com>
+Subject: Re: BUG with linux 5.9.0 with dwc3 in gadget mode
+Date:   Wed, 21 Oct 2020 21:45:36 +0200
+Message-ID: <2b6586e6-528c-86e8-9d92-0061bc44866d@gmail.com>
+References: <913dccca-500d-1938-b199-6eb67cfb60cc@gmail.com>
+ <87a6wig461.fsf@kernel.org> <a565dc52-27ab-f5be-4fee-5a8f96d66456@gmail.com>
+ <874kmpf583.fsf@kernel.org> <d0aca346-353c-d74e-6f00-ccd2a4ed26ef@gmail.com>
+ <976cea12-e54e-fbca-6c53-e6ef5c554094@synopsys.com>
+ <645b6ddc-d4f5-3f5b-b85f-b3d27fc365f5@synopsys.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+Cc:     "felipe.balbi-VuQAYsv1563Yd54FQh9/CA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org" 
+        <felipe.balbi-VuQAYsv1563Yd54FQh9/CA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+In-Reply-To: <645b6ddc-d4f5-3f5b-b85f-b3d27fc365f5@synopsys.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [98.248.94.126]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8e2f2ebc-88cd-4eb0-ed39-08d875f59430
-x-ms-traffictypediagnostic: BYAPR12MB3064:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB3064E18327D3EF3B2B4703A7AA1C0@BYAPR12MB3064.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: v6I2LdCh3t4gTV05vFHBxc1nCz5tepnj1loJfarVkZeIwZa0G8phRiEhl4E5wsUMHi70+rm/B8/1xG5mI/pBDwCEFH+WzTRONZKT5qaZn5cvQ0c4CMgPs7cix8r58ZlCb1qH0SHam9Jr+kE/PjMMpGAw788iZp4abKy+Gq1kIA29Aky80arKSb5T62y1uRF0qiR3gQs2lkAFv/xKfVVGPkxeUGix8ztcem9jYr7A+qqDoO2qGdqdjcUVQOO8SmuGMY+gGJmzlbo1obthdeBClCiApINRr+vAA+HPpSNy9gxVOuP6Aw0qoMFWObqzsAWzeeuWz/+4tMTBTUI8KgLyScFZOf1PMIuvtA1seNL+ZwXC+tAVlNXCNQixaXJjULCu
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2917.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(366004)(346002)(136003)(396003)(7416002)(31696002)(186003)(83380400001)(71200400001)(4326008)(2616005)(31686004)(8936002)(6486002)(26005)(36756003)(54906003)(6512007)(5660300002)(86362001)(8676002)(110136005)(66476007)(2906002)(66946007)(6506007)(478600001)(64756008)(76116006)(66446008)(66556008)(316002)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: NutFe08r/bMUivGDVeSHgdmAJ7tF5UeX+N3I0pRAEILQHm3vbTgwWzma27R5EszAeGtbIcHc7/Kxz9pNBWbidk4kkOA4RxccNyrmzyVXlHFqtPzOBEXWi1eGkRsDlny2OgtuhK9HYwXUAJvfBpMZIX80WPJ3vGrv9LWfQW6Qwp0AFeAnJrIBPInx6Uq9JAExa7R4dqh60WnALnPfynwZudnlIIU11gXaM1yP2HdoZs66/+yoc/9hxDNCVDVDmuPe7TTzU+iJrj+nNDnn/LbRjrvVFbFDj3ljR5S+tx67LfWqQtQ9XhQI6A0Mv7zGc1UAWMp237I0LoARiiWtzoFPNNc0o7BsxuAxO9eXxO8D55X6tqlK9cPd16Gsk35+DZ3L4xEWF0BJvDGumGJT1TiFN/FmI0jUpT47Gr2eTu7iYdJyi4g92bosnxjxB+iLs+6TbV4q1a5Kc7glVXUrQP1xb+wCQYRUpn2IIZ55043TKXAThh0Yg+YcQjzWrodKtGkJAXpU/4i5ZjQc5NRfpZxnSn7tpFmdokyUW/QHJyhkUvqMcqLM2M6qDMLEGhttn55bW+x+oM68QNjqoi8xsc5WIrFTiT15HmokSvgt9Igb1Q4z27w/wq3V17FV+Xranr/ixdkWNM4SetN4zgyMD0Jc0A==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <54B41B6F1F1D4F488ED3958D9B1A2DBB@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2917.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e2f2ebc-88cd-4eb0-ed39-08d875f59430
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2020 19:14:48.5407
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cW17g4rbZnPrVS90XiOGx6GdwaZfq9bXub5raM3LBHZI2Ip/ZfxZqpxVgycE3GxyBS4SAKre03sYaboBy6y4ZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3064
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sm9obiBTdHVsdHogd3JvdGU6DQo+IEZyb206IFl1IENoZW4gPGNoZW55dTU2QGh1YXdlaS5jb20+
-DQo+DQo+IFdpdGggdGhlIGN1cnJlbnQgZHdjMyBjb2RlIG9uIHRoZSBIaUtleTk2MCB3ZSBvZnRl
-biBzZWUgdGhlDQo+IENPUkVJRExFIGZsYWcgZ2V0IHN0dWNrIG9mZiBpbiBfX2R3YzNfZ2FkZ2V0
-X3N0YXJ0KCksIHdoaWNoDQo+IHNlZW1zIHRvIHByZXZlbnQgdGhlIHJlc2V0IGlycSBhbmQgY2F1
-c2VzIHRoZSBVU0IgZ2FkZ2V0IHRvDQo+IGZhaWwgdG8gaW5pdGlhbGl6ZS4NCj4NCj4gV2UgaGFk
-IHNlZW4gb2NjYXNpb25hbCBpbml0aWFsaXphdGlvbiBmYWlsdXJlcyB3aXRoIG9sZGVyDQo+IGtl
-cm5lbHMgYnV0IHdpdGggcmVjZW50IDUueCBlcmEga2VybmVscyBpdCBzZWVtZWQgdG8gYmUgYmVj
-b21pbmcNCj4gbXVjaCBtb3JlIGNvbW1vbiwgc28gSSBkdWcgYmFjayB0aHJvdWdoIHNvbWUgb2xk
-ZXIgdHJlZXMgYW5kDQo+IHJlYWxpemVkIEkgZHJvcHBlZCB0aGlzIHF1aXJrIGZyb20gWXUgQ2hl
-biBkdXJpbmcgdXBzdHJlYW1pbmcNCj4gYXMgSSBjb3VsZG4ndCBwcm92aWRlIGEgcHJvcGVyIHJh
-dGlvbmFsIGZvciBpdCBhbmQgaXQgZGlkbid0DQo+IHNlZW0gdG8gYmUgbmVjZXNzYXJ5LiBJIG5v
-dyByZWFsaXplIEkgd2FzIHdyb25nLg0KPg0KPiBPbiB0aGUgdXBzaWRlLCBJIGNhbiBub3cgdW5k
-ZXJzdGFuZCBtb3JlIHdoeSBzdWNoIGEgcXVpcmsgaXMNCj4gbmVlZGVkLg0KDQpUaGlzIHNob3Vs
-ZG4ndCBiZSBhIHF1aXJrLiBJdCdzIHBhcnQgb2YgdGhlIHByb2dyYW1taW5nIGd1aWRlIHdoZW4N
-CnN3aXRjaGluZyBtb2RlIGluIERSRC4gSSBkb24ndCBrbm93IGhvdyB3ZSBtaXNzZWQgdGhpcy4N
-Cg0KPg0KPiBTbyB0byBhZGRyZXNzIGEgcXVpcmsgaW4gdGhlIERlc2lnbldhcmUgVVNCMyBEUkQg
-Q29yZSBvZg0KPiBIaXNpbGljb24gS2lyaW4gU29DcywgdGhpcyBwYXRjaCBhZGRzIGEgcXVpcmsg
-ZmxhZyB3aGljaA0KPiBleGVjdXRlcyBhIEdDVEwgc29mdCByZXNldCB3aGVuIHdlIHN3aXRjaCBt
-b2Rlcy4NCj4NCj4gQ2M6IEZlbGlwZSBCYWxiaSA8YmFsYmlAa2VybmVsLm9yZz4NCj4gQ2M6IFRl
-amFzIEpvZ2xla2FyIDx0ZWphcy5qb2dsZWthckBzeW5vcHN5cy5jb20+DQo+IENjOiBZYW5nIEZl
-aSA8ZmVpLnlhbmdAaW50ZWwuY29tPg0KPiBDYzogWW9uZ1FpbiBMaXUgPHlvbmdxaW4ubGl1QGxp
-bmFyby5vcmc+DQo+IENjOiBBbmRyemVqIFBpZXRyYXNpZXdpY3ogPGFuZHJ6ZWoucEBjb2xsYWJv
-cmEuY29tPg0KPiBDYzogVGhpbmggTmd1eWVuIDx0aGluaG5Ac3lub3BzeXMuY29tPg0KPiBDYzog
-SnVuIExpIDxsaWp1bi5rZXJuZWxAZ21haWwuY29tPg0KPiBDYzogTWF1cm8gQ2FydmFsaG8gQ2hl
-aGFiIDxtY2hlaGFiK2h1YXdlaUBrZXJuZWwub3JnPg0KPiBDYzogUm9iIEhlcnJpbmcgPHJvYmgr
-ZHRAa2VybmVsLm9yZz4NCj4gQ2M6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91
-bmRhdGlvbi5vcmc+DQo+IENjOiBsaW51eC11c2JAdmdlci5rZXJuZWwub3JnDQo+IENjOiBkZXZp
-Y2V0cmVlQHZnZXIua2VybmVsLm9yZw0KPiBTaWduZWQtb2ZmLWJ5OiBZdSBDaGVuIDxjaGVueXU1
-NkBodWF3ZWkuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpA
-bGluYXJvLm9yZz4NCj4gLS0tDQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvZHdjMy50
-eHQgICAgICAgICAgfCAgMyArKysNCj4gIGRyaXZlcnMvdXNiL2R3YzMvY29yZS5jICAgICAgICAg
-ICAgICAgICAgICAgICB8IDE5ICsrKysrKysrKysrKysrKysrKysNCj4gIGRyaXZlcnMvdXNiL2R3
-YzMvY29yZS5oICAgICAgICAgICAgICAgICAgICAgICB8ICAxICsNCj4gIDMgZmlsZXMgY2hhbmdl
-ZCwgMjMgaW5zZXJ0aW9ucygrKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy91c2IvZHdjMy50eHQNCj4gaW5kZXggMWFhZTJiNjE2MGMxLi5mNDM1YmFlMGYxNzIg
-MTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvZHdj
-My50eHQNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2Mz
-LnR4dA0KPiBAQCAtODEsNiArODEsOSBAQCBPcHRpb25hbCBwcm9wZXJ0aWVzOg0KPiAgIC0gc25w
-cyxkaXMtc3BsaXQtcXVpcms6IHdoZW4gc2V0LCBjaGFuZ2UgdGhlIHdheSBVUkJzIGFyZSBoYW5k
-bGVkIGJ5IHRoZQ0KPiAgCQkJIGRyaXZlci4gTmVlZGVkIHRvIGF2b2lkIC1FUFJPVE8gZXJyb3Jz
-IHdpdGggdXNiaGlkDQo+ICAJCQkgb24gc29tZSBkZXZpY2VzIChIaWtleSA5NzApLg0KPiArIC0g
-c25wcyxnY3RsLXJlc2V0LXF1aXJrOiBXaGVuIHNldCwgZXhlY3V0ZSBhIHNvZnQgcmVzZXQgb24g
-bW9kZSBjaGFuZ2VzLg0KPiArICAgICAgICAgICAgICAgICAgICAgICAgTmVlZGVkIHRvIGF2b2lk
-IENPUkVJRExFIGdldHRpbmcgc3R1Y2sgb2ZmIGFuZCB0aGUNCj4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgIGdhZGdldCB0byBmYWlsIHRvIGluaXRpYWxpemUgKEhpS2V5OTYwKS4NCj4gICAtIHNu
-cHMsaXMtdXRtaS1sMS1zdXNwZW5kOiB0cnVlIHdoZW4gRFdDMyBhc3NlcnRzIG91dHB1dCBzaWdu
-YWwNCj4gIAkJCXV0bWlfbDFfc3VzcGVuZF9uLCBmYWxzZSB3aGVuIGFzc2VydHMgdXRtaV9zbGVl
-cF9uDQo+ICAgLSBzbnBzLGhpcmQtdGhyZXNob2xkOiBISVJEIHRocmVzaG9sZA0KPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy91c2IvZHdjMy9jb3JlLmMgYi9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYw0K
-PiBpbmRleCBiZGYwOTI1ZGE2YjYuLmIxMzhjNjdlMzg5MiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
-cy91c2IvZHdjMy9jb3JlLmMNCj4gKysrIGIvZHJpdmVycy91c2IvZHdjMy9jb3JlLmMNCj4gQEAg
-LTExNCw2ICsxMTQsMTkgQEAgdm9pZCBkd2MzX3NldF9wcnRjYXAoc3RydWN0IGR3YzMgKmR3Yywg
-dTMyIG1vZGUpDQo+ICAJZHdjLT5jdXJyZW50X2RyX3JvbGUgPSBtb2RlOw0KPiAgfQ0KPiAgDQo+
-ICtzdGF0aWMgdm9pZCBkd2MzX2djdGxfY29yZV9zb2Z0X3Jlc2V0KHN0cnVjdCBkd2MzICpkd2Mp
-DQo+ICt7DQo+ICsJaW50IHJlZzsNCj4gKw0KPiArCXJlZyA9IGR3YzNfcmVhZGwoZHdjLT5yZWdz
-LCBEV0MzX0dDVEwpOw0KPiArCXJlZyB8PSAoRFdDM19HQ1RMX0NPUkVTT0ZUUkVTRVQpOw0KPiAr
-CWR3YzNfd3JpdGVsKGR3Yy0+cmVncywgRFdDM19HQ1RMLCByZWcpOw0KPiArDQo+ICsJcmVnID0g
-ZHdjM19yZWFkbChkd2MtPnJlZ3MsIERXQzNfR0NUTCk7DQo+ICsJcmVnICY9IH4oRFdDM19HQ1RM
-X0NPUkVTT0ZUUkVTRVQpOw0KPiArCWR3YzNfd3JpdGVsKGR3Yy0+cmVncywgRFdDM19HQ1RMLCBy
-ZWcpOw0KPiArfQ0KPiArDQo+ICBzdGF0aWMgdm9pZCBfX2R3YzNfc2V0X21vZGUoc3RydWN0IHdv
-cmtfc3RydWN0ICp3b3JrKQ0KPiAgew0KPiAgCXN0cnVjdCBkd2MzICpkd2MgPSB3b3JrX3RvX2R3
-Yyh3b3JrKTsNCj4gQEAgLTE3OCw2ICsxOTEsMTAgQEAgc3RhdGljIHZvaWQgX19kd2MzX3NldF9t
-b2RlKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykNCj4gIAkJfQ0KPiAgCQlicmVhazsNCj4gIAlj
-YXNlIERXQzNfR0NUTF9QUlRDQVBfREVWSUNFOg0KPiArCQkvKiBFeGVjdXRlIGEgR0NUTCBDb3Jl
-IFNvZnQgUmVzZXQgd2hlbiBzd2l0Y2ggbW9kZSAqLw0KPiArCQlpZiAoZHdjLT5nY3RsX3Jlc2V0
-X3F1aXJrKQ0KPiArCQkJZHdjM19nY3RsX2NvcmVfc29mdF9yZXNldChkd2MpOw0KPiArDQoNClRo
-aXMgc2hvdWxkIGJlIGRvbmUgYmVmb3JlIGR3YzNfc2V0X3BydGNhcCgpLCBhbmQgdGhpcyBhcHBs
-aWVzIHdoZW4NCnN3aXRjaGluZyBmcm9tIGRldmljZSB0byBob3N0IG1vZGUgYWxzby4gTWFrZSBz
-dXJlIHRvIGNoZWNrIGlmIHRoZQ0KY29udHJvbGxlciBpcyBEUkQgYmVmb3JlIGRvaW5nIHRoaXMu
-DQoNCj4gIAkJZHdjM19ldmVudF9idWZmZXJzX3NldHVwKGR3Yyk7DQo+ICANCj4gIAkJaWYgKGR3
-Yy0+dXNiMl9waHkpDQo+IEBAIC0xMzU3LDYgKzEzNzQsOCBAQCBzdGF0aWMgdm9pZCBkd2MzX2dl
-dF9wcm9wZXJ0aWVzKHN0cnVjdCBkd2MzICpkd2MpDQo+ICANCj4gIAlkd2MtPmRpc19zcGxpdF9x
-dWlyayA9IGRldmljZV9wcm9wZXJ0eV9yZWFkX2Jvb2woZGV2LA0KPiAgCQkJCSJzbnBzLGRpcy1z
-cGxpdC1xdWlyayIpOw0KPiArCWR3Yy0+Z2N0bF9yZXNldF9xdWlyayA9IGRldmljZV9wcm9wZXJ0
-eV9yZWFkX2Jvb2woZGV2LA0KPiArCQkJCSJzbnBzLGdjdGwtcmVzZXQtcXVpcmsiKTsNCj4gIA0K
-PiAgCWR3Yy0+bHBtX255ZXRfdGhyZXNob2xkID0gbHBtX255ZXRfdGhyZXNob2xkOw0KPiAgCWR3
-Yy0+dHhfZGVfZW1waGFzaXMgPSB0eF9kZV9lbXBoYXNpczsNCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvdXNiL2R3YzMvY29yZS5oIGIvZHJpdmVycy91c2IvZHdjMy9jb3JlLmgNCj4gaW5kZXggNzQz
-MjNiMTBhNjRhLi45OTNmMjQzYWVkYzggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzMv
-Y29yZS5oDQo+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5oDQo+IEBAIC0xMjUyLDYgKzEy
-NTIsNyBAQCBzdHJ1Y3QgZHdjMyB7DQo+ICAJdW5zaWduZWQJCWRpc19tZXRhc3RhYmlsaXR5X3F1
-aXJrOjE7DQo+ICANCj4gIAl1bnNpZ25lZAkJZGlzX3NwbGl0X3F1aXJrOjE7DQo+ICsJdW5zaWdu
-ZWQJCWdjdGxfcmVzZXRfcXVpcms6MTsNCj4gIA0KPiAgCXUxNgkJCWltb2RfaW50ZXJ2YWw7DQo+
-ICB9Ow0KDQpCUiwNClRoaW5oDQo=
+Op 21-10-2020 om 00:58 schreef Thinh Nguyen:
+> Thinh Nguyen wrote:
+>> Hi,
+>>
+>> Ferry Toth wrote:
+>>> Op 20-10-2020 om 14:32 schreef Felipe Balbi:
+>>>> Hi,
+>>>>
+>>>> Ferry Toth <fntoth@gmail.com> writes:
+>>>>
+>>>> 8< snip
+>>>>
+>>>>>>> [   12.657416] CR2: 0000000100000000
+>>>>>>> [   12.660729] ---[ end trace 9b92dea6da33c71e ]---
+>>>>>> It this something you can reproduce on your end? Ferry, can you get
+>>>>>> dwc3
+>>>>>> trace logs when this happens? ftrace_dump_on_oops may help here.
+>>>>> I will do that tonight. Is flipping on ftrace_dump_on_oops
+>>>>> sufficient or
+>>>>> do I need to do more?
+>>>> you'd have to enable dwc3 trace events first ;-)
+>>>>
+>>>>> BTW after posting this I found in host mode dwc3 is not working
+>>>>> properly
+>>>>> either. No oops, but no driver get loaded on device plug in.
+>>>> okay
+>>>>
+>>> Ehem, you maybe only me to enable /dwc3/dwc3_ep_dequeue/enable:
+>>>
+>>> root@edison:/boot# uname -a
+>>> Linux edison 5.9.0-edison-acpi-standard #1 SMP Mon Oct 19 20:17:04 UTC
+>>> 2020 x86_64 x86_64 x86_64 GNU/Linux
+>>> root@edison:/boot# echo 1 >
+>>> /sys/kernel/debug/tracing/events/dwc3/dwc3_ep_dequeue/enable
+>>> root@edison:/boot# echo 1 > /proc/sys/kernel/ftrace_dump_on_oops
+>>> root@edison:/boot#
+>>> root@edison:/boot# [ 2608.585323] BUG: kernel NULL pointer
+>>> dereference, address: 0000000000000000
+>>> [ 2608.592288] #PF: supervisor read access in kernel mode
+>>> [ 2608.597419] #PF: error_code(0x0000) - not-present page
+>>> [ 2608.602549] PGD 0 P4D 0
+>>> [ 2608.605090] Oops: 0000 [#1] SMP PTI
+>>> [ 2608.608580] CPU: 1 PID: 733 Comm: irq/15-dwc3 Not tainted
+>>> 5.9.0-edison-acpi-standard #1
+>>> [ 2608.616571] Hardware name: Intel Corporation Merrifield/BODEGA BAY,
+>>> BIOS 542 2015.01.21:18.19.48
+>>> [ 2608.625356] RIP: 0010:dwc3_gadget_ep_dequeue+0x41/0x1c0
+>>> [ 2608.630580] Code: e9 51 01 00 00 4c 8d a3 30 01 00 00 4c 89 e7 e8
+>>> 15 e6 42 00 49 8b 4e 48 49 89 c5 49 8d 46 48 48 8d 51 a0 48 39 c8 75
+>>> 0f eb 2e <48> 8b 4a 60 48 8d 51 a0 48 39 c8 74 21 48 39 d5 75 ee 45 31
+>>> f6 4c
+>>> [ 2608.649320] RSP: 0018:ffffa838002a7c40 EFLAGS: 00010087
+>>> [ 2608.654543] RAX: ffff9a5f4609c048 RBX: ffff9a5f46f48028 RCX:
+>>> 0000000000000000
+>>> [ 2608.661666] RDX: ffffffffffffffa0 RSI: 0000000000000008 RDI:
+>>> ffff9a5f46f48158
+>>> [ 2608.668790] RBP: ffff9a5f7bd09b40 R08: 00000000000002d8 R09:
+>>> ffff9a5f7dd6a000
+>>> [ 2608.675913] R10: ffffa838002a7d90 R11: ffff9a5f46f48300 R12:
+>>> ffff9a5f46f48158
+>>> [ 2608.683039] R13: 0000000000000046 R14: ffff9a5f4609c000 R15:
+>>> ffff9a5f7ad77e00
+>>> [ 2608.690165] FS:  0000000000000000(0000) GS:ffff9a5f7e300000(0000)
+>>> knlGS:0000000000000000
+>>> [ 2608.698244] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [ 2608.703980] CR2: 0000000000000000 CR3: 000000003780a000 CR4:
+>>> 00000000001006e0
+>>> [ 2608.711102] Call Trace:
+>>> [ 2608.713561]  usb_ep_dequeue+0x19/0x80
+>>> [ 2608.717234]  u_audio_stop_capture+0x54/0x9a [u_audio]
+>>> [ 2608.722289]  afunc_set_alt+0x73/0x80 [usb_f_uac2]
+>> I took a look at how the audio function is handling switching alternate
+>> setting and dequeuing endpoints, and I think I found the issue.
+>>
+>> Here's a snippet of the free_ep() code in u_audio.c:
+>>
+>> static inline void free_ep(struct uac_rtd_params *prm, struct usb_ep *ep)
+>> {
+>>      .....
+>>          for (i = 0; i < params->req_number; i++) {
+>>                  if (prm->ureq[i].req) {
+>>                          usb_ep_dequeue(ep, prm->ureq[i].req);
+>>                          usb_ep_free_request(ep, prm->ureq[i].req);
+>>                          prm->ureq[i].req = NULL;
+>>                  }
+>>          }
+>>    ....
+>>
+>>
+>> usb_ep_dequeue() can be asynchronous. The dwc3 still has ownership of
+>> the request until it gives back the request. Freeing the request
+>> immediately here will cause a problem.
+> 
+> To confirm my suspicion, can you try this and see if you still get oops?
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index eec8e9a9e3ed..b66eb24ec070 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -2031,6 +2031,7 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+>                          list_for_each_entry_safe(r, t,
+> &dep->started_list, list)
+>                                  dwc3_gadget_move_cancelled_request(r);
+>   
+> +                       dwc3_gadget_ep_cleanup_cancelled_requests(dep);
+>                          goto out;
+>                  }
+>          }
+> 
+> 
+> This will make usb_ep_dequeue() synchronous. (Note that this is not tested).
+
+Unfortunately, it doesn't work. The trace changes to:
+root@edison:~# [  104.418264] BUG: kernel NULL pointer dereference, 
+address: 0000000000000000
+[  104.425227] #PF: supervisor instruction fetch in kernel mode
+[  104.430877] #PF: error_code(0x0010) - not-present page
+[  104.436007] PGD 0 P4D 0
+[  104.438547] Oops: 0010 [#1] SMP PTI
+[  104.442039] CPU: 1 PID: 605 Comm: irq/15-dwc3 Not tainted 
+5.9.0-edison-acpi-standard #1
+[  104.450027] Hardware name: Intel Corporation Merrifield/BODEGA BAY, 
+BIOS 542 2015.01.21:18.19.48
+[  104.458802] RIP: 0010:0x0
+[  104.461425] Code: Bad RIP value.
+[  104.464649] RSP: 0018:ffffae584034fbf8 EFLAGS: 00010046
+[  104.469870] RAX: 0000000000000000 RBX: ffff8c198608a028 RCX: 
+ffff8c19bb87fa00
+[  104.476993] RDX: 00000000ffffff94 RSI: ffff8c19bafa54e0 RDI: 
+ffff8c198609ee00
+[  104.484118] RBP: ffff8c19bafa54e0 R08: 0000000000000046 R09: 
+0000000000000238
+[  104.491241] R10: 000000000000002c R11: ffff8c19bcf62490 R12: 
+ffff8c198609ee00
+[  104.498366] R13: ffff8c198608a028 R14: 0000000000000002 R15: 
+ffff8c19bb8ff000
+[  104.505493] FS:  0000000000000000(0000) GS:ffff8c19be300000(0000) 
+knlGS:0000000000000000
+[  104.513572] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  104.519309] CR2: ffffffffffffffd6 CR3: 000000002e80a000 CR4: 
+00000000001006e0
+[  104.526432] Call Trace:
+[  104.528892]  dwc3_gadget_giveback+0xbf/0x120
+[  104.533169]  __dwc3_gadget_ep_disable+0xc5/0x250
+[  104.537789]  dwc3_gadget_ep_disable+0x3d/0xd0
+[  104.542149]  usb_ep_disable+0x1d/0x80
+[  104.545823]  u_audio_stop_capture+0x87/0x9a [u_audio]
+[  104.550880]  afunc_set_alt+0x73/0x80 [usb_f_uac2]
+[  104.555594]  composite_setup+0x20f/0x1b20 [libcomposite]
+[  104.560912]  ? configfs_composite_setup+0x6b/0x90 [libcomposite]
+[  104.566921]  configfs_composite_setup+0x6b/0x90 [libcomposite]
+[  104.572752]  dwc3_ep0_delegate_req+0x24/0x40
+[  104.577022]  dwc3_ep0_interrupt+0x40a/0x9d8
+[  104.581205]  dwc3_thread_interrupt+0x880/0xf70
+
+> BR,
+> Thinh
+> 
+
+
