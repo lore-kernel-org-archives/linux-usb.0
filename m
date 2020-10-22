@@ -2,116 +2,130 @@ Return-Path: <SRS0=/5h6=D5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90753C388F9
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:55:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BC2C388F7
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:55:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6285E24182
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:55:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D47122249
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900522AbgJVNzs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S2900524AbgJVNzs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 22 Oct 2020 09:55:48 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:51528 "EHLO aibo.runbox.com"
+Received: from aibo.runbox.com ([91.220.196.211]:54286 "EHLO aibo.runbox.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2895101AbgJVNzr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:55:47 -0400
+        id S2443376AbgJVNzs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 22 Oct 2020 09:55:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
          s=selector1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
         :Message-Id:Date:Subject:Cc:To:From;
-        bh=+MXeMYFQO8thYieih8I7NJ7PuJN+lO/UerkNKTkxNCc=; b=DBIHJr/yWc11cM5gXSvzurrKET
-        l34GuGPIG/g64leqdKja9p7oAD0dOS4nc1RQD7i9WuxzSkcmVnfyaGY4xYV+iFOGj4wBlSFsIGEmS
-        7PmmxZUsVYJSxJ8G8hphZuqkJE3W4nDAaPNfOTBRoSTSKiLit+Yu+V1t6ocwhekbQAMn7BA21xlMD
-        FEEiX0eqLPYlMeK9PW5MnAOc6hzks7ujY8doEgQRoU7yMIbbaGDQugVj2CMnh9zKWpU4dcuNZXwrr
-        a3506aXekyDtF6aClszB36IFcxciSLhovX5VsK17suTMnDQ6rgT3PF90+JTfbWl9o0FRp0ZehNN8s
-        pCicnGzA==;
+        bh=dwydMXV798nhciCIFQ/gte+aPSvBA0iFTXl8RFK4Cx4=; b=hNqwVXzGsLM879CRLqo7vbFSmL
+        9AD/XCUxnDAWHTP4tT61cCBrlQA00txU4cdgAN32aVImTfHlvhHB+wxnB2Egyyvevr5FB5qXmqA3Q
+        bZpdVet/Suf1T5ZWqndbrBFhTFgxUF5gLXLprcG90qvjgxvVplhzPCqRle6RN2NDjuJD6wueNg8S6
+        3LzAetKGpJ96kOIbEMZb2Grzv/x4Upr0X8M35Rc4laTlzM9d+tY++WME0kGbPBLjF8wBy2TYAnFLx
+        I2Ql14cnrbQYg3kLMTRPebSS1mdbgL+cDbvEYb8nonDr3hbh05UFZ+xnO28yXJCOkyDGX03SJD7rq
+        gtpszkzQ==;
 Received: from [10.9.9.72] (helo=submission01.runbox)
-        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        by mailtransmit03.runbox with esmtp (Exim 4.86_2)
         (envelope-from <m.v.b@runbox.com>)
-        id 1kVb4D-0001P2-7u; Thu, 22 Oct 2020 15:55:45 +0200
+        id 1kVb4C-0001Z9-7V; Thu, 22 Oct 2020 15:55:44 +0200
 Received: by submission01.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.90_1)
-        id 1kVb41-0008Qw-Ec; Thu, 22 Oct 2020 15:55:33 +0200
+        id 1kVb44-0008Qw-6o; Thu, 22 Oct 2020 15:55:36 +0200
 From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
 To:     linux-usb@vger.kernel.org
-Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>,
-        Bastien Nocera <hadess@hadess.net>,
+Cc:     Bastien Nocera <hadess@hadess.net>, Pany <pany@fedoraproject.org>,
+        stable@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>,
-        Pany <pany@fedoraproject.org>
-Subject: [PATCH 0/2] Patches to prevent re-probing all Apple USB devices on apple-mfi-fastcharge load
-Date:   Thu, 22 Oct 2020 09:55:19 -0400
-Message-Id: <20201022135521.375211-1-m.v.b@runbox.com>
+        "M . Vefa Bicakci" <m.v.b@runbox.com>
+Subject: [PATCH 2/2] USB: apple-mfi-fastcharge: don't probe unhandled devices
+Date:   Thu, 22 Oct 2020 09:55:21 -0400
+Message-Id: <20201022135521.375211-3-m.v.b@runbox.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
+In-Reply-To: <20201022135521.375211-1-m.v.b@runbox.com>
 References: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
+ <20201022135521.375211-1-m.v.b@runbox.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello all,
+From: Bastien Nocera <hadess@hadess.net>
 
-This thread is intended to continue the thread at [1], where Pany
-reported an issue involving the apple-mfi-fastcharge driver. The
-bug in question causes a re-probe of all Apple USB devices when the
-driver in question is loaded, including an Apple SD card reader,
-which in turn causes a boot-up failure. (The original bug report
-is in the RedHat Bugzilla at [2].)
+From: Bastien Nocera <hadess@hadess.net>
 
-These two patches aim to resolve this issue by implementing a match
-function in the apple-mfi-fastcharge driver to ensure that this driver
-is only matched with devices it is intended to be used with, and by
-modifying the USB core to ensure that when a device driver has an
-ID table and a match function, they are both taken into account.
-(The previous behaviour did not check the result of the driver's
-match() if the driver's id_table matched the device.)
+Contrary to the comment above the id table, we didn't implement a match
+function. This meant that every single Apple device that was already
+plugged in to the computer would have its device driver reprobed
+when the apple-mfi-fastcharge driver was loaded, eg. the SD card reader
+could be reprobed when the apple-mfi-fastcharge after pivoting root
+during boot up and the module became available.
 
-These changes have been verified to not cause regressions on a
-5.8.16-based kernel by (1) verifying apple-mfi-fastcharge behaviour
-with an iPhone, (2) running the usbip regression test to ensure that
-the changes in USB core are harmless to usbip, and (3) using the
-patched kernel with other USB devices (a keyboard, a mouse and a
-webcam). Greg Kroah-Hartman's usb-next tree has been verified to
-compile with these patches and was briefly runtime tested as well.
-(The base commit in usb-next is listed below.)
+Make sure that the driver probe isn't being run for unsupported
+devices by adding a match function that checks the product ID, in
+addition to the id_table checking the vendor ID.
 
-Credits: The first patch was co-developed by Bastien Nocera and
-myself, with the main idea (i.e., the use of id_table *and* the
-match function) coming from Bastien. The second patch was
-developed solely by Bastien, and I only added a few tags to the
-patch description.
-
-Bastien, sorry for the delay!
-
-Thank you,
-
-Vefa
-
-[1] https://lore.kernel.org/linux-usb/CAE3RAxt0WhBEz8zkHrVO5RiyEOasayy1QUAjsv-pB0fAbY1GSw@mail.gmail.com/
-[2] https://bugzilla.redhat.com/show_bug.cgi?id=1878347
-
-Cc: Bastien Nocera <hadess@hadess.net>
+Fixes: 249fa8217b84 ("USB: Add driver to control USB fast charge for iOS devices")
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+Reported-by: Pany <pany@fedoraproject.org>
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=1878347
+Link: https://lore.kernel.org/linux-usb/CAE3RAxt0WhBEz8zkHrVO5RiyEOasayy1QUAjsv-pB0fAbY1GSw@mail.gmail.com/
+Cc: <stable@vger.kernel.org> # 5.8
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Pany <pany@fedoraproject.org>
+[m.v.b: Add Link and Reported-by tags to the commit message]
+Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+---
+ drivers/usb/misc/apple-mfi-fastcharge.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Bastien Nocera (2):
-  usbcore: Check both id_table and match() when both available
-  USB: apple-mfi-fastcharge: don't probe unhandled devices
-
- drivers/usb/core/driver.c               | 30 +++++++++++++++++--------
- drivers/usb/core/generic.c              |  4 +---
- drivers/usb/core/usb.h                  |  2 ++
- drivers/usb/misc/apple-mfi-fastcharge.c | 17 +++++++++-----
- 4 files changed, 36 insertions(+), 17 deletions(-)
-
-
-base-commit: 270315b8235e3d10c2e360cff56c2f9e0915a252
+diff --git a/drivers/usb/misc/apple-mfi-fastcharge.c b/drivers/usb/misc/apple-mfi-fastcharge.c
+index b403094a6b3a..579d8c84de42 100644
+--- a/drivers/usb/misc/apple-mfi-fastcharge.c
++++ b/drivers/usb/misc/apple-mfi-fastcharge.c
+@@ -163,17 +163,23 @@ static const struct power_supply_desc apple_mfi_fc_desc = {
+ 	.property_is_writeable  = apple_mfi_fc_property_is_writeable
+ };
+ 
++static bool mfi_fc_match(struct usb_device *udev)
++{
++	int idProduct;
++
++	idProduct = le16_to_cpu(udev->descriptor.idProduct);
++	/* See comment above mfi_fc_id_table[] */
++	return (idProduct >= 0x1200 && idProduct <= 0x12ff);
++}
++
+ static int mfi_fc_probe(struct usb_device *udev)
+ {
+ 	struct power_supply_config battery_cfg = {};
+ 	struct mfi_device *mfi = NULL;
+-	int err, idProduct;
++	int err;
+ 
+-	idProduct = le16_to_cpu(udev->descriptor.idProduct);
+-	/* See comment above mfi_fc_id_table[] */
+-	if (idProduct < 0x1200 || idProduct > 0x12ff) {
++	if (!mfi_fc_match(udev))
+ 		return -ENODEV;
+-	}
+ 
+ 	mfi = kzalloc(sizeof(struct mfi_device), GFP_KERNEL);
+ 	if (!mfi) {
+@@ -220,6 +226,7 @@ static struct usb_device_driver mfi_fc_driver = {
+ 	.probe =	mfi_fc_probe,
+ 	.disconnect =	mfi_fc_disconnect,
+ 	.id_table =	mfi_fc_id_table,
++	.match =	mfi_fc_match,
+ 	.generic_subclass = 1,
+ };
+ 
 -- 
 2.26.2
 
