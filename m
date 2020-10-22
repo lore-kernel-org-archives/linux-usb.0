@@ -2,106 +2,170 @@ Return-Path: <SRS0=/5h6=D5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41540C388F7
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA81C388F2
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:55:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD34220BED
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:42:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SX8oMJpC"
+	by mail.kernel.org (Postfix) with ESMTP id 2F36A241A3
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Oct 2020 13:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503632AbgJVNmx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Oct 2020 09:42:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2444568AbgJVNmx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Oct 2020 09:42:53 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E655CC0613CE
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2020 06:42:52 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id t14so971238pgg.1
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2020 06:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kxwesvm7CvQAxawGi5468guP8tm7KIPJfw/4s/j0Bsk=;
-        b=SX8oMJpC5qG0LtCMCHeJr52q5pYquJWCj84Eaa2SGn/H0K6n5F5j66AGyEhh6fbY76
-         Sx4blFtO6WXRbbUAVSGSYuW0IA78//PIZXNAM6+65tpQr260RB/Shy3XkdNUA3OAO09h
-         oeEgo9KJFV/bKafxminOQHgT2e6hva9rjG/VOS9Oiow7j/LmvSgX6wmCOEV/hYjvt8LN
-         nUVDZSF2i1oJOl2rk2zjUGh+TgKlVE1oI/DNuoCKEQf5vRt4Lq2fvGVAmtVxP5X6vhxu
-         GdLN8am5wwvPsLSv8Q+VX1HjXPg18/f5WFWyWPnPFQy3u3SD1rlK/2FVtCGfLqU6IufQ
-         5JsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kxwesvm7CvQAxawGi5468guP8tm7KIPJfw/4s/j0Bsk=;
-        b=cSAvZzPMue4WRO8CU9IWpQudyeB0op9LIujo62+M5PXEWwLSMBVAp/YhfPqnQR8NuC
-         UcihL9znpm1eMXbHMk2RaMsGhaCSXw8Cs8tRx4iU6h9AOKg/9+yE023c2J5du7dypABy
-         AcUyGjuUGm5I7IVHmk5n8hJP8uZUJT8A6Vs2fFm25SoRPTJo2vk2Jz93+61hOJPsq2Uv
-         3H/U5NOY67YG9v5d8XixkUsOlljLlZsEFUFDq2iH/jVqnG0E0CA2GnPQAU6ARNaxdYpJ
-         q+tW/iadLU0hzS8o7nwWYghc0yv8/Wuo2SwVQXM3SqT4sUM5BE+HJ9p4JPgjulDLsJ4g
-         jajA==
-X-Gm-Message-State: AOAM5322jKcOFQn6ERY+Hkd1rlsFwt3U6OReDw04kZSKkTVwSfUIFXcF
-        N9S+PbzAYIrzpXbxSWUax16gIcGf73ts1dnFIgU=
-X-Google-Smtp-Source: ABdhPJxBdG0GBrLxP8DCQkSebCavm+/dBNJpdB0Dlx1J/b3sgtC+jppQqYQhM0qeG5cpNhgdKDyAGgusZnRZFKnA/Gk=
-X-Received: by 2002:a65:47c2:: with SMTP id f2mr2249904pgs.4.1603374172514;
- Thu, 22 Oct 2020 06:42:52 -0700 (PDT)
+        id S2900521AbgJVNzr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Oct 2020 09:55:47 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:54282 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2442869AbgJVNzr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 22 Oct 2020 09:55:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+         s=selector1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
+        :Message-Id:Date:Subject:Cc:To:From;
+        bh=RLOsQAWw+vGlqNwVSZlDdr2JvP1N7nTxGdiLPOxd2ig=; b=mndfz1QUR5OU9krOjL1SwlCZmm
+        Ovvlf5HCkf39Cd0aXktZJRlYPatwQULtaM8xc0CQtmnW8q3Io1Tym60/A2Jz2fjdth/Nlu6gPVibt
+        WxQ+CI3qjniHav7Y9LpJ6bo0IGRN2roRURDYChNi7dxy5NP89Jod+Fj61yjqy+Td0i1v5AtG8AeRS
+        GBnwUv7D1BTeIcKoQn1GJPg/ZDehQNSOIV2R5bEmcTW2RkMJBjMUE/U3D2teLNB7eorO3IVq5Yw/O
+        Bm8alus2125OOoh9Ojl+GTSJyq3smYtty+XST4zZoCKhzgaefuRogPpBTxTj5jQev48+ovw9FZknb
+        ah4FoncQ==;
+Received: from [10.9.9.72] (helo=submission01.runbox)
+        by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <m.v.b@runbox.com>)
+        id 1kVb4C-0001ZH-JV; Thu, 22 Oct 2020 15:55:44 +0200
+Received: by submission01.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1kVb42-0008Qw-OZ; Thu, 22 Oct 2020 15:55:35 +0200
+From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Bastien Nocera <hadess@hadess.net>, stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "M . Vefa Bicakci" <m.v.b@runbox.com>
+Subject: [PATCH 1/2] usbcore: Check both id_table and match() when both available
+Date:   Thu, 22 Oct 2020 09:55:20 -0400
+Message-Id: <20201022135521.375211-2-m.v.b@runbox.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201022135521.375211-1-m.v.b@runbox.com>
+References: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
+ <20201022135521.375211-1-m.v.b@runbox.com>
 MIME-Version: 1.0
-References: <913dccca-500d-1938-b199-6eb67cfb60cc@gmail.com>
- <87a6wig461.fsf@kernel.org> <a565dc52-27ab-f5be-4fee-5a8f96d66456@gmail.com>
- <874kmpf583.fsf@kernel.org> <d0aca346-353c-d74e-6f00-ccd2a4ed26ef@gmail.com>
- <976cea12-e54e-fbca-6c53-e6ef5c554094@synopsys.com> <645b6ddc-d4f5-3f5b-b85f-b3d27fc365f5@synopsys.com>
- <2b6586e6-528c-86e8-9d92-0061bc44866d@gmail.com> <aad327a8-95bc-40ec-abf7-ad216a02fad0@synopsys.com>
- <2cc783ac-6b71-190b-49fc-9e2bceeacd4b@gmail.com> <920590dc-5430-7f8b-b2e1-1a4c37f4dfbe@synopsys.com>
-In-Reply-To: <920590dc-5430-7f8b-b2e1-1a4c37f4dfbe@synopsys.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 22 Oct 2020 16:43:41 +0300
-Message-ID: <CAHp75Vfs9AoOYSVGTpw30h11ptPOSPNf1AsWBKdiVrDL=9X3PQ@mail.gmail.com>
-Subject: Re: BUG with linux 5.9.0 with dwc3 in gadget mode
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Ferry Toth <fntoth@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "felipe.balbi-VuQAYsv1563Yd54FQh9/CA-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org" 
-        <felipe.balbi-VuQAYsv1563Yd54FQh9/CA-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>,
-        Heikki Krogerus 
-        <heikki.krogerus-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>,
-        Andy Shevchenko 
-        <andriy.shevchenko-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 4:21 PM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
-> Ferry Toth wrote:
-> > Op 21-10-2020 om 21:50 schreef Thinh Nguyen:
-> >> Ferry Toth wrote:
+From: Bastien Nocera <hadess@hadess.net>
 
-...
+From: Bastien Nocera <hadess@hadess.net>
 
-> >> Oops, looks like I can't make it synchronous this way. Can you try
-> >> Jack's change to the u_audio.c instead?
-> >
-> > Oops indeed goes away with Jack's change, but usb connection goes
-> > up/down continuously, meaning: my host sees usb network and audio
-> > device appearing / disappearing.
->
-> Ok, thanks for verifying that it went away.
->
-> > mass_storage device does not appear all.
->
-> There are some fixes to dwc3 in kernel mainline. Is it possible to test
-> this against linux-next?
+When a USB device driver has both an id_table and a match() function, make
+sure to check both to find a match, first matching the id_table, then
+checking the match() function.
 
-I think the best is to wait for v5.10-rc1 and retest.
+This makes it possible to have module autoloading done through the
+id_table when devices are plugged in, before checking for further
+device eligibility in the match() function.
 
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+Cc: <stable@vger.kernel.org> # 5.8
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Co-developed-by: M. Vefa Bicakci <m.v.b@runbox.com>
+Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+---
+ drivers/usb/core/driver.c  | 30 +++++++++++++++++++++---------
+ drivers/usb/core/generic.c |  4 +---
+ drivers/usb/core/usb.h     |  2 ++
+ 3 files changed, 24 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 98b7449c11f3..4dfa44d6cc3c 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -839,6 +839,22 @@ const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
+ 	return NULL;
+ }
+ 
++bool usb_driver_applicable(struct usb_device *udev,
++			   struct usb_device_driver *udrv)
++{
++	if (udrv->id_table && udrv->match)
++		return usb_device_match_id(udev, udrv->id_table) != NULL &&
++		       udrv->match(udev);
++
++	if (udrv->id_table)
++		return usb_device_match_id(udev, udrv->id_table) != NULL;
++
++	if (udrv->match)
++		return udrv->match(udev);
++
++	return false;
++}
++
+ static int usb_device_match(struct device *dev, struct device_driver *drv)
+ {
+ 	/* devices and interfaces are handled separately */
+@@ -853,17 +869,14 @@ static int usb_device_match(struct device *dev, struct device_driver *drv)
+ 		udev = to_usb_device(dev);
+ 		udrv = to_usb_device_driver(drv);
+ 
+-		if (udrv->id_table)
+-			return usb_device_match_id(udev, udrv->id_table) != NULL;
+-
+-		if (udrv->match)
+-			return udrv->match(udev);
+-
+ 		/* If the device driver under consideration does not have a
+ 		 * id_table or a match function, then let the driver's probe
+ 		 * function decide.
+ 		 */
+-		return 1;
++		if (!udrv->id_table && !udrv->match)
++			return 1;
++
++		return usb_driver_applicable(udev, udrv);
+ 
+ 	} else if (is_usb_interface(dev)) {
+ 		struct usb_interface *intf;
+@@ -941,8 +954,7 @@ static int __usb_bus_reprobe_drivers(struct device *dev, void *data)
+ 		return 0;
+ 
+ 	udev = to_usb_device(dev);
+-	if (usb_device_match_id(udev, new_udriver->id_table) == NULL &&
+-	    (!new_udriver->match || new_udriver->match(udev) == 0))
++	if (!usb_driver_applicable(udev, new_udriver))
+ 		return 0;
+ 
+ 	ret = device_reprobe(dev);
+diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
+index 22c887f5c497..26f9fb9f67ca 100644
+--- a/drivers/usb/core/generic.c
++++ b/drivers/usb/core/generic.c
+@@ -205,9 +205,7 @@ static int __check_for_non_generic_match(struct device_driver *drv, void *data)
+ 	udrv = to_usb_device_driver(drv);
+ 	if (udrv == &usb_generic_driver)
+ 		return 0;
+-	if (usb_device_match_id(udev, udrv->id_table) != NULL)
+-		return 1;
+-	return (udrv->match && udrv->match(udev));
++	return usb_driver_applicable(udev, udrv);
+ }
+ 
+ static bool usb_generic_driver_match(struct usb_device *udev)
+diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+index c893f54a3420..82538daac8b8 100644
+--- a/drivers/usb/core/usb.h
++++ b/drivers/usb/core/usb.h
+@@ -74,6 +74,8 @@ extern int usb_match_device(struct usb_device *dev,
+ 			    const struct usb_device_id *id);
+ extern const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
+ 				const struct usb_device_id *id);
++extern bool usb_driver_applicable(struct usb_device *udev,
++				  struct usb_device_driver *udrv);
+ extern void usb_forced_unbind_intf(struct usb_interface *intf);
+ extern void usb_unbind_and_rebind_marked_interfaces(struct usb_device *udev);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.26.2
+
