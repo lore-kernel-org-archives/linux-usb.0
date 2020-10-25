@@ -4,62 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02423C55179
-	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:47:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D73C388F7
+	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:47:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C52C421707
-	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:47:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 082872222F
+	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603648044;
-	bh=v2BOd+QUQFFWXXNT01OTC5UMUZwR2lHturpiS/yUz+o=;
+	s=default; t=1603648077;
+	bh=noUNEYlylHnzHTY2CrwJfTMODh4hhkeYQ9BH/0VZmYs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jdVEuEZ6nwq8hBK5xuywAwmLV3DN8KVc/c4UF2tzckC4lnqOcBZmxQwKXTRI7wXOy
-	 8nUWs1flIp8StyBv6rbc78z4ACYAUkEVru8p8ObB2mHE4hksYXvvWyu1KjquQ3tjNT
-	 HI5PIu32teqg74PGupG7vxGURePoy8W2FuJozeUk=
+	b=A8Q1Zj5B7781WBQcm1a2mhmdbMSyRlc5W7mxq4tPd7NF6n3G+hzUYUS6wC7NZtrys
+	 wqgBLwK/AIxcEKga9uLp/TY6IAGsOfXY0smku9xD45T09Ge+tRKgJSwHgcKiOmhUOO
+	 8yBkGaTDRWlgTCzL2WeLfyCeaPBbVeZGUCKLRpw4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1417820AbgJYRrX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 25 Oct 2020 13:47:23 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:40288 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1417725AbgJYRql (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 25 Oct 2020 13:46:41 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 23so7281525ljv.7;
-        Sun, 25 Oct 2020 10:46:39 -0700 (PDT)
+        id S1417855AbgJYRrx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 25 Oct 2020 13:47:53 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44306 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1417714AbgJYRqk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 25 Oct 2020 13:46:40 -0400
+Received: by mail-lf1-f67.google.com with SMTP id b1so8902342lfp.11;
+        Sun, 25 Oct 2020 10:46:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sp4NdDzvf7ets2jCUs0u83t/aBTY5svl7aNfj78wdxY=;
-        b=h7jNzDOmVwgFf2D3YwOAOjz3CNfuy1HX8SfkjA1P2x46kFJLkcIOVYFmkxlO2bse6F
-         SuaGHJQERta5t5YAdza0O5Ok+26IwJGzVSCraHUW6+kTQFVh7qhB9zGVfMMSD2vqZlXV
-         4acav2/ispsXnR0ddYXtq3I7WagSI4aBHDkeTdgo/XhOgoECjKwQbHWj93X2m8Zfe0p4
-         5PlN3li5mLfeyAM43TaNubMPklybV53TO1sY7DKnHsUriuDfTMACAJXoRU4UjNEuLUmz
-         wA+Ubu0+IMpuntZG6OwYspL7BFUO1+5hW8tLcrnl+7lMZIejBB5VWL0rhSqusOTUaI1u
-         1RHQ==
-X-Gm-Message-State: AOAM5326LsypoMhWbKv+Noh+B5cgA8k78B7c4q2Cbbt2D8pZIzH1uJFV
-        4jTFNdoaTZT8xEAT00EwW4U3ZdrG8lzGKg==
-X-Google-Smtp-Source: ABdhPJynCx+XhHjVnmOHl6Fu5cj+2GpR6klM2BYqazOdZ/vWLANJctsuC9wd3+Pkihwx3V8OM4LTuA==
-X-Received: by 2002:a2e:a375:: with SMTP id i21mr4278088ljn.135.1603647998662;
-        Sun, 25 Oct 2020 10:46:38 -0700 (PDT)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id 28sm794158lfp.295.2020.10.25.10.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=mLH2jEE7RKRcoLwhkzgaqRtvr7bnr4NSOoTQehYo+/Y=;
+        b=Xjxtzz1LK6LO3HD8pQsXTS/iV5qEUHxTR5bytGUfmHoF8eBnUMAiH7orhn63C+NJ8F
+         gWi9oxbpP2XcugGYtZngexfeeUWYCSr1EjUUlSmZrQoeqvopAH8DjbXMrHP6LI/8V1lL
+         OZELH7DMyJLcaiw403lRxTDPPBWl1krq0enjnw4Fy5ghApqxIcjPA6qIZJ90Tm8ubipA
+         bHlSr0AfVZdihzhVZJOVYPKXKN3GyYhFJVFKi2/1lkWoeETiyPXa2Gqw5ceSN3jyVqG6
+         BAnS/GFPkWUUgNEDEf4zCDVWfnAjDSEQNZbaUMNbjsqnd8Pe7fWcJeFKce/T3MMv+p5N
+         0DgQ==
+X-Gm-Message-State: AOAM5312DOIdYYyBQbyDeaEuN8M4n47LabFdFiRGlwfCSKONv4YDPgJd
+        iKZjhzHAHUy7RLF/MTdMbl25HdCoSjPswQ==
+X-Google-Smtp-Source: ABdhPJwIu5JxZA5EikW7OmQwczCYOMug3Pz2X03kVWfXjycmiVx42exfzXnPBhNcDMbR5/FXYpDbzg==
+X-Received: by 2002:ac2:5a03:: with SMTP id q3mr4135228lfn.527.1603647997449;
         Sun, 25 Oct 2020 10:46:37 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id l6sm799335lfk.267.2020.10.25.10.46.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2020 10:46:34 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1kWk6J-0007He-18; Sun, 25 Oct 2020 18:46:39 +0100
+        id 1kWk6I-0007HP-P6; Sun, 25 Oct 2020 18:46:38 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     "Ahmed S . Darwish" <a.darwish@linutronix.de>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 07/14] USB: serial: keyspan_pda: refactor write-room handling
-Date:   Sun, 25 Oct 2020 18:45:53 +0100
-Message-Id: <20201025174600.27896-8-johan@kernel.org>
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable@vger.kernel.org
+Subject: [PATCH 04/14] USB: serial: keyspan_pda: fix write-wakeup use-after-free
+Date:   Sun, 25 Oct 2020 18:45:50 +0100
+Message-Id: <20201025174600.27896-5-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201025174600.27896-1-johan@kernel.org>
 References: <20201025174600.27896-1-johan@kernel.org>
@@ -69,170 +70,76 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add helper to retrieve the available device transfer-buffer space.
+The driver's deferred write wakeup was never flushed on disconnect,
+something which could lead to the driver port data being freed while the
+wakeup work is still scheduled.
 
+Fix this by using the usb-serial write wakeup which gets cancelled
+properly on disconnect.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/keyspan_pda.c | 113 ++++++++++++++-----------------
- 1 file changed, 50 insertions(+), 63 deletions(-)
+ drivers/usb/serial/keyspan_pda.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/usb/serial/keyspan_pda.c b/drivers/usb/serial/keyspan_pda.c
-index 39ed3ad32365..54a21a99c001 100644
+index d6ebde779e85..d91180ab5f3b 100644
 --- a/drivers/usb/serial/keyspan_pda.c
 +++ b/drivers/usb/serial/keyspan_pda.c
-@@ -98,6 +98,42 @@ static const struct usb_device_id id_table_fake_xircom[] = {
+@@ -43,8 +43,7 @@
+ struct keyspan_pda_private {
+ 	int			tx_room;
+ 	int			tx_throttled;
+-	struct work_struct			wakeup_work;
+-	struct work_struct			unthrottle_work;
++	struct work_struct	unthrottle_work;
+ 	struct usb_serial	*serial;
+ 	struct usb_serial_port	*port;
+ };
+@@ -97,15 +96,6 @@ static const struct usb_device_id id_table_fake_xircom[] = {
  };
  #endif
  
-+static int keyspan_pda_get_write_room(struct keyspan_pda_private *priv)
-+{
-+	struct usb_serial_port *port = priv->port;
-+	struct usb_serial *serial = priv->serial;
-+	u8 *room;
-+	int rc;
-+
-+	room = kmalloc(1, GFP_KERNEL);
-+	if (!room)
-+		return -ENOMEM;
-+
-+	rc = usb_control_msg(serial->dev,
-+			     usb_rcvctrlpipe(serial->dev, 0),
-+			     6, /* write_room */
-+			     USB_TYPE_VENDOR | USB_RECIP_INTERFACE
-+			     | USB_DIR_IN,
-+			     0, /* value: 0 means "remaining room" */
-+			     0, /* index */
-+			     room,
-+			     1,
-+			     2000);
-+	if (rc != 1) {
-+		if (rc >= 0)
-+			rc = -EIO;
-+		dev_dbg(&port->dev, "roomquery failed: %d\n", rc);
-+		goto out_free;
-+	}
-+
-+	dev_dbg(&port->dev, "roomquery says %d\n", *room);
-+	rc = *room;
-+out_free:
-+	kfree(room);
-+
-+	return rc;
-+}
-+
+-static void keyspan_pda_wakeup_write(struct work_struct *work)
+-{
+-	struct keyspan_pda_private *priv =
+-		container_of(work, struct keyspan_pda_private, wakeup_work);
+-	struct usb_serial_port *port = priv->port;
+-
+-	tty_port_tty_wakeup(&port->port);
+-}
+-
  static void keyspan_pda_request_unthrottle(struct work_struct *work)
  {
  	struct keyspan_pda_private *priv =
-@@ -436,7 +472,6 @@ static int keyspan_pda_tiocmset(struct tty_struct *tty,
- static int keyspan_pda_write(struct tty_struct *tty,
- 	struct usb_serial_port *port, const unsigned char *buf, int count)
- {
--	struct usb_serial *serial = port->serial;
- 	int request_unthrottle = 0;
- 	int rc = 0;
- 	struct keyspan_pda_private *priv;
-@@ -479,38 +514,11 @@ static int keyspan_pda_write(struct tty_struct *tty,
- 	   device how much room it really has.  This is done only on
- 	   scheduler time, since usb_control_msg() sleeps. */
- 	if (count > priv->tx_room && !in_interrupt()) {
--		u8 *room;
--
--		room = kmalloc(1, GFP_KERNEL);
--		if (!room) {
--			rc = -ENOMEM;
-+		rc = keyspan_pda_get_write_room(priv);
-+		if (rc < 0)
- 			goto exit;
--		}
+@@ -183,7 +173,7 @@ static void keyspan_pda_rx_interrupt(struct urb *urb)
+ 		case 2: /* tx unthrottle interrupt */
+ 			priv->tx_throttled = 0;
+ 			/* queue up a wakeup at scheduler time */
+-			schedule_work(&priv->wakeup_work);
++			usb_serial_port_softint(port);
+ 			break;
+ 		default:
+ 			break;
+@@ -563,7 +553,7 @@ static void keyspan_pda_write_bulk_callback(struct urb *urb)
+ 	priv = usb_get_serial_port_data(port);
  
--		rc = usb_control_msg(serial->dev,
--				     usb_rcvctrlpipe(serial->dev, 0),
--				     6, /* write_room */
--				     USB_TYPE_VENDOR | USB_RECIP_INTERFACE
--				     | USB_DIR_IN,
--				     0, /* value: 0 means "remaining room" */
--				     0, /* index */
--				     room,
--				     1,
--				     2000);
--		if (rc > 0) {
--			dev_dbg(&port->dev, "roomquery says %d\n", *room);
--			priv->tx_room = *room;
--		}
--		kfree(room);
--		if (rc < 0) {
--			dev_dbg(&port->dev, "roomquery failed\n");
--			goto exit;
--		}
--		if (rc == 0) {
--			dev_dbg(&port->dev, "roomquery returned 0 bytes\n");
--			rc = -EIO; /* device didn't return any data */
--			goto exit;
--		}
-+		priv->tx_room = rc;
- 	}
- 
- 	if (count >= priv->tx_room) {
-@@ -614,48 +622,27 @@ static void keyspan_pda_dtr_rts(struct usb_serial_port *port, int on)
- static int keyspan_pda_open(struct tty_struct *tty,
- 					struct usb_serial_port *port)
- {
--	struct usb_serial *serial = port->serial;
--	u8 *room;
--	int rc = 0;
--	struct keyspan_pda_private *priv;
-+	struct keyspan_pda_private *priv = usb_get_serial_port_data(port);
-+	int rc;
- 
- 	/* find out how much room is in the Tx ring */
--	room = kmalloc(1, GFP_KERNEL);
--	if (!room)
--		return -ENOMEM;
-+	rc = keyspan_pda_get_write_room(priv);
-+	if (rc < 0)
-+		return rc;
- 
--	rc = usb_control_msg(serial->dev, usb_rcvctrlpipe(serial->dev, 0),
--			     6, /* write_room */
--			     USB_TYPE_VENDOR | USB_RECIP_INTERFACE
--			     | USB_DIR_IN,
--			     0, /* value */
--			     0, /* index */
--			     room,
--			     1,
--			     2000);
--	if (rc < 0) {
--		dev_dbg(&port->dev, "%s - roomquery failed\n", __func__);
--		goto error;
--	}
--	if (rc == 0) {
--		dev_dbg(&port->dev, "%s - roomquery returned 0 bytes\n", __func__);
--		rc = -EIO;
--		goto error;
--	}
--	priv = usb_get_serial_port_data(port);
--	priv->tx_room = *room;
--	priv->tx_throttled = *room ? 0 : 1;
-+	priv->tx_room = rc;
-+	priv->tx_throttled = rc ? 0 : 1;
- 
- 	/*Start reading from the device*/
- 	rc = usb_submit_urb(port->interrupt_in_urb, GFP_KERNEL);
- 	if (rc) {
- 		dev_dbg(&port->dev, "%s - usb_submit_urb(read int) failed\n", __func__);
--		goto error;
-+		return rc;
- 	}
--error:
--	kfree(room);
--	return rc;
-+
-+	return 0;
+ 	/* queue up a wakeup at scheduler time */
+-	schedule_work(&priv->wakeup_work);
++	usb_serial_port_softint(port);
  }
-+
- static void keyspan_pda_close(struct usb_serial_port *port)
- {
- 	struct keyspan_pda_private *priv = usb_get_serial_port_data(port);
+ 
+ 
+@@ -715,7 +705,6 @@ static int keyspan_pda_port_probe(struct usb_serial_port *port)
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+-	INIT_WORK(&priv->wakeup_work, keyspan_pda_wakeup_write);
+ 	INIT_WORK(&priv->unthrottle_work, keyspan_pda_request_unthrottle);
+ 	priv->serial = port->serial;
+ 	priv->port = port;
 -- 
 2.26.2
 
