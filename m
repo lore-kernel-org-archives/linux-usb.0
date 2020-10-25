@@ -2,146 +2,108 @@ Return-Path: <SRS0=7VGP=EA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A638C388F7
-	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:16:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 806D1C388F7
+	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:46:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 153DF208E4
-	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:16:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3659621707
+	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603646180;
-	bh=GCGSoNUaKCqE3WleP8Xd4OeMKnqUfcTe7PkF5Fp4PAM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=bPIdWaTr+4ZZzvm4CpMslJQ7DcZdPvnWINWYvczmasJXxsJ33uOAeXZL7rN5oIyb7
-	 Xawb7VM8awmkaqNXZ4/ZGsFDy7/4HMSR3xFNjjSMB3sMXDyxQVpcNMyNU3EtKm5Qxj
-	 TB6emb6fOpE3kdnufPiWINshlorgf+v+Xa6JNzl0=
+	s=default; t=1603648001;
+	bh=LPrg6dLW7sGXa35L0giBDfda+ByF0261ZFvh0hJ1k2g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=fxMOqS1227SHdxjjT48d/andrFAmkOtiffJIwrlvuhrCZbUsTiJoQinhZ1t7CeebV
+	 FiehfP3AzmgKBoo6M1RcaxkXyOTO0VbKegojjJLpjzBjlSsgce07tNioUmwAZudcrE
+	 AnUL4o7P3d/xTrSSiiPndY2uPSDz4ZXKjr2kCpI8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1417588AbgJYRQO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 25 Oct 2020 13:16:14 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:46275 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729178AbgJYRQO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 25 Oct 2020 13:16:14 -0400
-Received: by mail-lj1-f193.google.com with SMTP id c21so7225496ljn.13;
-        Sun, 25 Oct 2020 10:16:12 -0700 (PDT)
+        id S1417724AbgJYRqj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 25 Oct 2020 13:46:39 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38412 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1417705AbgJYRqi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 25 Oct 2020 13:46:38 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m20so7303258ljj.5;
+        Sun, 25 Oct 2020 10:46:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PMXldS4frrwc3ZqG31YTvYd9N3hWa1nWp8tHb7QPcuo=;
-        b=A5o35qXcJnIGGKDb2vQ8pWHU+FKjlNnKTLLPC5Vt2qWiYh+N6qz07YK/YejopSG1L8
-         C8M3pmOOyIV430OJDKRwkl+JEoAEAQrAr1qxorvdqLCSvhW3QU1AM+bm9gOmZYExW0dH
-         jgPYG37sjcMZAefYy9X1jKzIWBVdp5mFn9B9dOHmFZcOGy+qaV1yrF7hkzpKjLytI2Ep
-         eOvCubBtr6MbusPHD66WVq57Ln9kuGjgiDRfikQfFtf9wXk8wXquHXjAPCYv0sc/+0iI
-         hg/TqP2AiRnyxG+ueiZhLL1pVTv4ZDcwhFk5Sg21rW15ift1LnJBP4/5d1Y1qexCLSBa
-         3FsQ==
-X-Gm-Message-State: AOAM533r4RdersgUCyPeqjiaxhOOzfokAwIgFDyl+qU7iweWwAOBpvfg
-        tIECSoZeyf+fDg6UGQEbfd8tHcQRANe/fA==
-X-Google-Smtp-Source: ABdhPJxXubjA+MMwIxWygGmgjStosuhUXTqdl0C1uXV6556piPV6UdgHcGYW5JHodk1O0FLDjxTXBg==
-X-Received: by 2002:a2e:9955:: with SMTP id r21mr4069846ljj.124.1603646171409;
-        Sun, 25 Oct 2020 10:16:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ryLZzM6AeLljw7FhT9jJjorgcKimBmMyaAgnsuFGOJ8=;
+        b=sw5KEo9n0mtrgSpZuX/PubMGgcYb3gohfDN5lssABBRCO+RvKNN64gML3g10fjGosE
+         a36zHJouFKw+7bkVI+EcGta0Yt0mvlvYX3pyspeR/Yv5y6FFjGmXOKztJ+2UlEqhH5Z7
+         WAYKRlH2mx7wawrPgo+e++z2usFodGWwmhVgRE/PK20yj6KqNSQyiAh7dsFvZlimqctO
+         tRDAoAhhdbUuk5IcAanZluJQnQfc1p20am79AcnHbvrlFl7R+8kb/rOTB+92Pzf7bl/E
+         73H6GQr/58lHDF71G/DKI3zCKNvtWTz12+K9CrjWorFxdL04h7NN09U1CpM/lR9xy6+O
+         9bdg==
+X-Gm-Message-State: AOAM532BJ4aMpf+sR+TGy66kdxwf5MmedfpzHxy25sGHjfK5YdU9CKCb
+        0+CzPGf1cfeTzEwUTMreoGbHIMQQWMTfxA==
+X-Google-Smtp-Source: ABdhPJzp9+8tU7hNK8dUch6AG4rzoM8aZWmKlQbR7EyEo7boJbW7ZHtMArRSx2nMe9x4IKw+v/7V6A==
+X-Received: by 2002:a2e:8096:: with SMTP id i22mr3937528ljg.176.1603647995906;
+        Sun, 25 Oct 2020 10:46:35 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id y21sm789025lfk.49.2020.10.25.10.16.10
+        by smtp.gmail.com with ESMTPSA id d7sm875735ljg.140.2020.10.25.10.46.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 10:16:10 -0700 (PDT)
+        Sun, 25 Oct 2020 10:46:34 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1kWjcr-0004lp-Dw; Sun, 25 Oct 2020 18:16:14 +0100
-Date:   Sun, 25 Oct 2020 18:16:13 +0100
+        (envelope-from <johan@xi.terra>)
+        id 1kWk6I-0007HA-G8; Sun, 25 Oct 2020 18:46:38 +0100
 From:   Johan Hovold <johan@kernel.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+To:     linux-usb@vger.kernel.org
+Cc:     "Ahmed S . Darwish" <a.darwish@linutronix.de>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Thomas Winischhofer <thomas@winischhofer.net>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-omap@vger.kernel.org, Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
-        Duncan Sands <duncan.sands@free.fr>
-Subject: Re: [patch V2 04/13] USB: serial: digi_acceleport: Remove
- in_interrupt() usage
-Message-ID: <20201025171613.GT26280@localhost>
-References: <20201019100629.419020859@linutronix.de>
- <20201019101110.019266389@linutronix.de>
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 01/14] USB: serial: keyspan_pda: fix dropped unthrottle interrupts
+Date:   Sun, 25 Oct 2020 18:45:47 +0100
+Message-Id: <20201025174600.27896-2-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201025174600.27896-1-johan@kernel.org>
+References: <20201025174600.27896-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201019101110.019266389@linutronix.de>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 12:06:33PM +0200, Thomas Gleixner wrote:
-> From: Ahmed S. Darwish <a.darwish@linutronix.de>
-> 
-> The usage of in_interrupt() in drivers is phased out and Linus clearly
-> requested that code which changes behaviour depending on context should
-> either be separated or the context be conveyed in an argument passed by the
-> caller, which usually knows the context.
-> 
-> The debug printk() in digi_write() prints in_interrupt() as context
-> information. TTY writes happen always in preemptible task context and
-> console writes can happen from almost any context, so in_interrupt() is not
-> really helpful.
+Commit c528fcb116e6 ("USB: serial: keyspan_pda: fix receive sanity
+checks") broke write-unthrottle handling by dropping well-formed
+unthrottle-interrupt packets which are precisely two bytes long. This
+could lead to blocked writers not being woken up when buffer space again
+becomes available.
 
-The above statement is not correct, TTY writes can and do happen from
-other contexts, including soft IRQ (e.g. PPP).
+Instead, stop unconditionally printing the third byte which is
+(presumably) only valid on modem-line changes.
 
-> Aside of that issuing a printk() from a console->write() callback is not a
-> really brilliant idea for obvious reasons.
+Fixes: c528fcb116e6 ("USB: serial: keyspan_pda: fix receive sanity checks")
+Cc: stable <stable@vger.kernel.org>     # 4.11
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/keyspan_pda.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-True, but we don't need to sprinkle conditionals for the benefit of
-people trying to debug USB serial drivers using a USB serial console.
-They get what they deserve. ;)
+diff --git a/drivers/usb/serial/keyspan_pda.c b/drivers/usb/serial/keyspan_pda.c
+index c1333919716b..2d5ad579475a 100644
+--- a/drivers/usb/serial/keyspan_pda.c
++++ b/drivers/usb/serial/keyspan_pda.c
+@@ -172,11 +172,11 @@ static void keyspan_pda_rx_interrupt(struct urb *urb)
+ 		break;
+ 	case 1:
+ 		/* status interrupt */
+-		if (len < 3) {
++		if (len < 2) {
+ 			dev_warn(&port->dev, "short interrupt message received\n");
+ 			break;
+ 		}
+-		dev_dbg(&port->dev, "rx int, d1=%d, d2=%d\n", data[1], data[2]);
++		dev_dbg(&port->dev, "rx int, d1=%d\n", data[1]);
+ 		switch (data[1]) {
+ 		case 1: /* modemline change */
+ 			break;
+-- 
+2.26.2
 
-> Remove the in_interrupt() printout and make the printk() depend on tty.
-> 
-> Signed-off-by: Ahmed S. Darwish <a.darwish@linutronix.de>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Johan Hovold <johan@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> 
-> ---
->  drivers/usb/serial/digi_acceleport.c |    7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> --- a/drivers/usb/serial/digi_acceleport.c
-> +++ b/drivers/usb/serial/digi_acceleport.c
-> @@ -911,9 +911,10 @@ static int digi_write(struct tty_struct
->  	unsigned char *data = port->write_urb->transfer_buffer;
->  	unsigned long flags = 0;
->  
-> -	dev_dbg(&port->dev,
-> -		"digi_write: TOP: port=%d, count=%d, in_interrupt=%ld\n",
-> -		priv->dp_port_num, count, in_interrupt());
-> +	if (tty) {
-> +		dev_dbg(&port->dev, "digi_write: TOP: port=%d, count=%d\n",
-> +			priv->dp_port_num, count);
-> +	}
-
-So just drop the in_interrupt() here.
-
-Also note that we already have another unconditional dev_dbg() at the
-end of this function.
-
->  
->  	/* copy user data (which can sleep) before getting spin lock */
->  	count = min(count, port->bulk_out_size-2);
-> 
-
-Johan
