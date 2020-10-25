@@ -2,65 +2,64 @@ Return-Path: <SRS0=7VGP=EA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806D1C388F7
-	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9850C388F7
+	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:46:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3659621707
-	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:46:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4A7921707
+	for <linux-usb@archiver.kernel.org>; Sun, 25 Oct 2020 17:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603648001;
-	bh=LPrg6dLW7sGXa35L0giBDfda+ByF0261ZFvh0hJ1k2g=;
+	s=default; t=1603648004;
+	bh=4SlHM5j/5vNgv2PmVV06G73zvgqVqCPshjp33FH6ViQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=fxMOqS1227SHdxjjT48d/andrFAmkOtiffJIwrlvuhrCZbUsTiJoQinhZ1t7CeebV
-	 FiehfP3AzmgKBoo6M1RcaxkXyOTO0VbKegojjJLpjzBjlSsgce07tNioUmwAZudcrE
-	 AnUL4o7P3d/xTrSSiiPndY2uPSDz4ZXKjr2kCpI8=
+	b=U0Z5OlcW7oX3ehg9SrhTWB/378VSJSAPodnzE428kJvB7G4bo71svN0nfhkm8xTde
+	 ynrAOIgrwKgH5pe6QARzer8ZGytDrCuuWF5BGiyiYtFdgcCuS9ge4IGRbA8n1wWFle
+	 rkKq6EcaBsPR3c6kzFaZwlzUIAJxTq7zQMLk1jRI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1417724AbgJYRqj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 25 Oct 2020 13:46:39 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38412 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1417705AbgJYRqi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 25 Oct 2020 13:46:38 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m20so7303258ljj.5;
-        Sun, 25 Oct 2020 10:46:36 -0700 (PDT)
+        id S1417746AbgJYRqn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 25 Oct 2020 13:46:43 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44310 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1417729AbgJYRqm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 25 Oct 2020 13:46:42 -0400
+Received: by mail-lf1-f68.google.com with SMTP id b1so8902419lfp.11;
+        Sun, 25 Oct 2020 10:46:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ryLZzM6AeLljw7FhT9jJjorgcKimBmMyaAgnsuFGOJ8=;
-        b=sw5KEo9n0mtrgSpZuX/PubMGgcYb3gohfDN5lssABBRCO+RvKNN64gML3g10fjGosE
-         a36zHJouFKw+7bkVI+EcGta0Yt0mvlvYX3pyspeR/Yv5y6FFjGmXOKztJ+2UlEqhH5Z7
-         WAYKRlH2mx7wawrPgo+e++z2usFodGWwmhVgRE/PK20yj6KqNSQyiAh7dsFvZlimqctO
-         tRDAoAhhdbUuk5IcAanZluJQnQfc1p20am79AcnHbvrlFl7R+8kb/rOTB+92Pzf7bl/E
-         73H6GQr/58lHDF71G/DKI3zCKNvtWTz12+K9CrjWorFxdL04h7NN09U1CpM/lR9xy6+O
-         9bdg==
-X-Gm-Message-State: AOAM532BJ4aMpf+sR+TGy66kdxwf5MmedfpzHxy25sGHjfK5YdU9CKCb
-        0+CzPGf1cfeTzEwUTMreoGbHIMQQWMTfxA==
-X-Google-Smtp-Source: ABdhPJzp9+8tU7hNK8dUch6AG4rzoM8aZWmKlQbR7EyEo7boJbW7ZHtMArRSx2nMe9x4IKw+v/7V6A==
-X-Received: by 2002:a2e:8096:: with SMTP id i22mr3937528ljg.176.1603647995906;
-        Sun, 25 Oct 2020 10:46:35 -0700 (PDT)
+        bh=tGTT39jWlLeV6qw6JuECAsw5LeIu6htUw8WodmgXEVI=;
+        b=XkVvJzDzd3Qn/fZ4eBvE/vaL7nah2jIhXOw59rXgbUpCPGNfg+Zj46Oa79BtXIc0zF
+         zDzUsR7JkjpzrQgB3f6ywCFuI55suyyBb6gGV/Y9eYY4fisoSUEymxN8gXdcMnnv1oEd
+         eCs4SgHH9y6aOiVqZhq3vKfylG+v2btIXlv40y7hwe9cWGnkpCOET52hTARxoOm6ukzD
+         Q+7IqBDPoTtxqJ9EHRexx+cAP66LB4KB65gfJYi5whc5l58C363RyhgwlPnIlJ4WSWJj
+         7lnKZ1MwbW1ViSPEH0InGRQc0ZnNEI9jfZPUaVbHTuGU7NkB+A73ZBwWix5hvxjYfUJg
+         dueA==
+X-Gm-Message-State: AOAM532f/qlMDOcE6WgqXsNVduhsSQls3JSIcg/xTkxm3h/lZuEJnpTG
+        f8ldaNp6A+1qxXgXRYYOiV22MwccWg4fHg==
+X-Google-Smtp-Source: ABdhPJyg3MdoMNccmbHEu+WlbVdesSjkOhQXLYIvMsk57nibY5czw5DG9W3f7mjm8LuJdCh4vy7v6g==
+X-Received: by 2002:a19:407:: with SMTP id 7mr3676131lfe.291.1603647999803;
+        Sun, 25 Oct 2020 10:46:39 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id d7sm875735ljg.140.2020.10.25.10.46.34
+        by smtp.gmail.com with ESMTPSA id e19sm793673lfn.241.2020.10.25.10.46.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 10:46:34 -0700 (PDT)
+        Sun, 25 Oct 2020 10:46:37 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@xi.terra>)
-        id 1kWk6I-0007HA-G8; Sun, 25 Oct 2020 18:46:38 +0100
+        id 1kWk6J-0007Hn-6X; Sun, 25 Oct 2020 18:46:39 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     "Ahmed S . Darwish" <a.darwish@linutronix.de>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH 01/14] USB: serial: keyspan_pda: fix dropped unthrottle interrupts
-Date:   Sun, 25 Oct 2020 18:45:47 +0100
-Message-Id: <20201025174600.27896-2-johan@kernel.org>
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 09/14] USB: serial: keyspan_pda: increase transmitter threshold
+Date:   Sun, 25 Oct 2020 18:45:55 +0100
+Message-Id: <20201025174600.27896-10-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201025174600.27896-1-johan@kernel.org>
 References: <20201025174600.27896-1-johan@kernel.org>
@@ -70,40 +69,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit c528fcb116e6 ("USB: serial: keyspan_pda: fix receive sanity
-checks") broke write-unthrottle handling by dropping well-formed
-unthrottle-interrupt packets which are precisely two bytes long. This
-could lead to blocked writers not being woken up when buffer space again
-becomes available.
+Increase the transmitter threshold so that writing isn't resumed until
+128 bytes are available in the device buffer thereby allowing for larger
+and more efficient transfers.
 
-Instead, stop unconditionally printing the third byte which is
-(presumably) only valid on modem-line changes.
-
-Fixes: c528fcb116e6 ("USB: serial: keyspan_pda: fix receive sanity checks")
-Cc: stable <stable@vger.kernel.org>     # 4.11
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/keyspan_pda.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/serial/keyspan_pda.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/serial/keyspan_pda.c b/drivers/usb/serial/keyspan_pda.c
-index c1333919716b..2d5ad579475a 100644
+index b3fb2ecefb31..3816bbc928b2 100644
 --- a/drivers/usb/serial/keyspan_pda.c
 +++ b/drivers/usb/serial/keyspan_pda.c
-@@ -172,11 +172,11 @@ static void keyspan_pda_rx_interrupt(struct urb *urb)
- 		break;
- 	case 1:
- 		/* status interrupt */
--		if (len < 3) {
-+		if (len < 2) {
- 			dev_warn(&port->dev, "short interrupt message received\n");
- 			break;
- 		}
--		dev_dbg(&port->dev, "rx int, d1=%d, d2=%d\n", data[1], data[2]);
-+		dev_dbg(&port->dev, "rx int, d1=%d\n", data[1]);
- 		switch (data[1]) {
- 		case 1: /* modemline change */
- 			break;
+@@ -40,7 +40,7 @@
+ #define DRIVER_AUTHOR "Brian Warner <warner@lothar.com>"
+ #define DRIVER_DESC "USB Keyspan PDA Converter driver"
+ 
+-#define KEYSPAN_TX_THRESHOLD	16
++#define KEYSPAN_TX_THRESHOLD	128
+ 
+ struct keyspan_pda_private {
+ 	int			tx_room;
 -- 
 2.26.2
 
