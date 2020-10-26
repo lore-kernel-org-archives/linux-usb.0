@@ -2,174 +2,214 @@ Return-Path: <SRS0=02k9=EB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FD4C5DF9D
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F187FC4363A
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 10:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FBE322400
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="IB4Ke4Cd";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="iXDmJIEc"
+	by mail.kernel.org (Postfix) with ESMTP id 9ADA620809
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 10:44:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603709049;
+	bh=n4iFkymtLxF5rrZ+vGFbw6988gixaHLJZYvVtAIqHGY=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=K0xz1fnqFgCnK0wlNOcxiFJ5j8KElKgAWpYX4PxjMTzrF9eX3lT/Q/BExPdUiQ6+a
+	 Ao0xd6tuMgUC44n1wc1s5xHbvCnfgVBw12TgwIPnmbWWMiZpj5YCC+0jtt69v+wzCM
+	 QRSYRgESpdIce+z6TS1XEvvXDpnBzxOI0k8yeIsE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1769187AbgJZKOg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 06:14:36 -0400
-Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:61402 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1768390AbgJZJrs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Oct 2020 05:47:48 -0400
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
-        by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09Q9i1Ns019155;
-        Mon, 26 Oct 2020 02:47:39 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint;
- bh=OKtHjvOGgAx+uNLbxdZq2/y5SE1pejZmoepEflYQVnE=;
- b=IB4Ke4Cdvx5+7vhdk4CCMLfcxBVwiCgH//CvkbBGNS7FW6U3hneO1MfatCM7g3NPTvh+
- JxEJ/6w8XWRvDUksvNDVM53klyJg9O1FPFVyUSdh4UBaDsoFPQZnYgU8hCurbfXxfejz
- SHJbluhZV6EOCMMkwd9yGUckutWsKYkiNP7DvPvvzO6AgzgkVAKhoR4C1949uwF1gQO4
- 7NoVlQwaFJVjdZVwJOEpeeknY6qSfgmYsMRAdeB4+5UOmtQL28T+0GOx6NxkQGSf5tku
- TF0wG2kZAzFW1ynA+UAF/m4BlVscBB4aSGDXH1ctsM9ZtXej1kl2ByfRfIjLsZb1MfMz Dw== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
-        by mx0b-0014ca01.pphosted.com with ESMTP id 34cfuwxtmp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Oct 2020 02:47:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GgXmEcrUexroA/nAdr5C2UxpcqDCeizrz3gzMav2Qkkw2cR1K3Y2f+CRFtmYxzczbhKrIivAIxNbUnA0A944mDYtogWVUP311D/RFjkoGmovPUsrgYbHt91JmD+G72R6j/c0WyQPsyzUF3u7ZWIsvLH4CiBgchpXg+Ovw70mNKjZ/Fuo8Va3toRRPimVM3tS6GzyR7MLjCE9CYH6yJKwgmL/+PNsaNkc+qrxckJlIUzZu9DXXDUo8Rlw8GdIBuVOs/rU2Ut8+70AdcTmg6CkgVhZztuieAtrYH0L1PsCj/js1bjLLESU1B9nJNm+vNj599SL6cYSJ6GqpOC8Abvwrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OKtHjvOGgAx+uNLbxdZq2/y5SE1pejZmoepEflYQVnE=;
- b=UxTYbF7iYQfrsf/c9jozZ7753pb4tlXv21CQtRPRU7ULOEHr6cOS/QB2hhbbaTqUjUId+Il6w3wNywEcfBzWDyp/SmZKOg7KrW9IoLpc0cRAvVio+4chzohwdRuWtioiU9LSiEJKfe5NeYtbok3DNjh+RlpUjStGhaesRcpDE+yHYwvZQ4psrDQdFaQlH891Mg++nYfDuKm5MOyZ74fA5qAhOl2fepG8V0NX/S530ifTcxrrLGvGzhlODVh3UZVWHNfBfc2x/EFPWdLcLNN3w97/vmpOlWUSFc0wSaNJNxFVpm0PFR42xGl4yyFTQENMjjlMhGVsqAGEgYa7s/pD3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cadence.com; dmarc=pass action=none header.from=cadence.com;
- dkim=pass header.d=cadence.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OKtHjvOGgAx+uNLbxdZq2/y5SE1pejZmoepEflYQVnE=;
- b=iXDmJIEcENkQk2gP0jRtW/SLaqeIW9vkYlfw0lRnTh8yA0k3UhjsKDSGoyNKATwUztZLWJgYo3uccnYx+pBnS4w8CqIe24ZjVmuFcxhkF6bXPK6lB6WviDlERWn/POdWpeUlSG9LWoLrETzzkyiS3IdY4ViKs0efX6adjDO+JpE=
-Received: from DM6PR07MB5529.namprd07.prod.outlook.com (2603:10b6:5:7a::30) by
- DM6PR07MB5676.namprd07.prod.outlook.com (2603:10b6:5:78::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3477.26; Mon, 26 Oct 2020 09:47:36 +0000
-Received: from DM6PR07MB5529.namprd07.prod.outlook.com
- ([fe80::2087:7f2b:5dc6:a960]) by DM6PR07MB5529.namprd07.prod.outlook.com
- ([fe80::2087:7f2b:5dc6:a960%6]) with mapi id 15.20.3477.027; Mon, 26 Oct 2020
- 09:47:36 +0000
-From:   Pawel Laszczak <pawell@cadence.com>
-To:     "peter.chen@nxp.com" <peter.chen@nxp.com>
-CC:     "balbi@kernel.org" <balbi@kernel.org>,
-        "rogerq@ti.com" <rogerq@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Rahul Kumar <kurahul@cadence.com>
-Subject: RE: [PATCH v3] usb: cdns3: Variable 'length' set but not used
-Thread-Topic: [PATCH v3] usb: cdns3: Variable 'length' set but not used
-Thread-Index: AQHWoq93MTVmC9gJQEy5qA/nl7dl3ampshBw
-Date:   Mon, 26 Oct 2020 09:47:36 +0000
-Message-ID: <DM6PR07MB55290EA090C418457C1E293BDD190@DM6PR07MB5529.namprd07.prod.outlook.com>
-References: <20201015045529.2022-1-pawell@cadence.com>
-In-Reply-To: <20201015045529.2022-1-pawell@cadence.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNccGF3ZWxsXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctNDRhMDRmNDEtMTc3MC0xMWViLTg3NmItMWM0ZDcwMWRmYmE0XGFtZS10ZXN0XDQ0YTA0ZjQyLTE3NzAtMTFlYi04NzZiLTFjNGQ3MDFkZmJhNGJvZHkudHh0IiBzej0iMTU1MSIgdD0iMTMyNDgxNzkyNTMwNTE0NDgwIiBoPSJwenlic1RRRkUvYkluUXU4R3J2am4ySHhaSUE9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: true
-authentication-results: nxp.com; dkim=none (message not signed)
- header.d=none;nxp.com; dmarc=none action=none header.from=cadence.com;
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 92a48583-1ebc-43dd-4913-08d879942b63
-x-ms-traffictypediagnostic: DM6PR07MB5676:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR07MB5676BCE6E64B356840BE1113DD190@DM6PR07MB5676.namprd07.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jEzPiGAxk9rv1fvIQ4l8dcHQn+27BVmbT2xRS+qAU8fkVCtWB+WDkAITrQCCkhCToZnmzHKIsm8t85fPwPILtAQoc4Ij6Io62CX2hCJ03nErUzqV22P8eA5jL5vP4yQtwtGRtics71Mkis1KcKjeZpjoHAiIx7nz/Hu1j/KtonVWl/4V6dwMnlnUPrIqoBORX4MjFUUsUBl5Mtry+M6SeoeAjZdgyOI8Q6DCHo4kFeIbkUnGOsvViGUiuPSov79H1NVdfGNP4HUm3hRJ8f1UIm85y+CLW1T8rucMduBRm5rOQ1WvnX5rkxP4tJ1yH/nx4DKwavnNOyOg2kRiDz47nm5l92Ji8e/rCvZvCdWlvjpAZwJOrue7cLHO1IpaZAhf
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR07MB5529.namprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39860400002)(366004)(136003)(36092001)(186003)(26005)(8936002)(6916009)(316002)(107886003)(8676002)(83380400001)(71200400001)(6506007)(2906002)(7696005)(5660300002)(33656002)(9686003)(52536014)(54906003)(55016002)(4326008)(478600001)(76116006)(66446008)(64756008)(66556008)(86362001)(66476007)(66946007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: x6eMWNP+/mzXSunWuVfDmkgDLuHSN5/iIawnw3pt/v1adxVlgOghmzVFctzU1LoSVIbsTVgVj823B9wW/mC/mzQqHvwCd4ai+wJRd9M/i6o1rhHiGnDMog6jKlbBujoVhYBeUyF/XTK899njOjPKRqYNi2CA0L2n++cmI6j0dyAOs0S5QqAuL439I2wcA0XkuTErbRaj1roFeEk39ugm0P4mp6lPWJVb+eNpcUmJS7sZZPRo5meawdnZeF2y7zD/l1JRZjA8bKp0wOP/pNhUuKHaSW+g1/7dYIqnMqkTx3gpaTWLALSgsRkBEZXdzVXecxQhWaWdRJheFou1/l4fboYJMbpUkGkOAKGBYZH7QoeYaNPBwUf66WQHd+pirJSBPVqnFT6IavoWn95W49MZ7upnTgSsjP5rty2wocz0uMlm7Lio0BZwyT04s7uevAiCGh47FpmU6VTZF8lLDYI1SLb4kQArWF9O5yW3XAgxF/vBqHx89flXNEkfM5UtVghD5Jc36sHoWRfgdXTEo+dG/Zkdc3QtlZxtlvG/vvS+QLRdk1crhYq6+DXHOs1Xz01vd//lD0QV7y6gYxVeXuQkyuFul//dpB/qTKfwyGc1xEeqNJ+wva9wfBtme7dgjM4ptPLqOvjvzRbhLTEIZPlxhg==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1770542AbgJZKoI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 06:44:08 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:36019 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1770474AbgJZKoI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Oct 2020 06:44:08 -0400
+Received: by mail-lf1-f68.google.com with SMTP id h6so11079867lfj.3;
+        Mon, 26 Oct 2020 03:44:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Krd96NyjTrIz4kGk8+eicuNx9zWNUJ7PdywyCrNz6qU=;
+        b=A+vNjyOWMn3A1BeLmILAxVXFZpfoTpyBDOZJh0tIMwvdrm9EWabChScqL+uCxaHyr0
+         mGeROvybhFtFw73XDwi4GwfR+abnjYZqkLtn4dd9RDScH98cl44tfHpAZ7MzIg8Q7kc+
+         N1CcEc0ywy4crYLZQ7s5/NiKtcGuGAa5r5db9Z1VaWBIC/dFg+DHYt8z+VMJjCPf79OO
+         +ZAWeq0t8ROKW/3vdNOXr0yKAepdibClQoIiov4YOvR7Y/1ixskG50LDh2EHdqdXl5zK
+         IlCGkPWDIIARklr3mCHR2YhrE/FYfCYLzG99BY+F29vwQOxSq68CNJl1a046wJqZXofO
+         9aIA==
+X-Gm-Message-State: AOAM533t2hgYFrmZCNLjihriLeRXNnL4q3WNp6JIXomwi1i+4/DJHrEX
+        e2T7Zs9fQbpVmJCRsNuTTh/Huc25ZETeRQ==
+X-Google-Smtp-Source: ABdhPJwsC2tWbOlt8miCx+4lCBmAwDaJmA+WGb1hzoaD7lJ6H+/XFyKEtxtIB1xBhf87Qvz/jtFMHA==
+X-Received: by 2002:a19:40ca:: with SMTP id n193mr4306914lfa.96.1603709043819;
+        Mon, 26 Oct 2020 03:44:03 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id i5sm12737lfe.29.2020.10.26.03.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2020 03:44:03 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@xi.terra>)
+        id 1kWzyy-0007iU-Fb; Mon, 26 Oct 2020 11:44:09 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] USB: serial: digi_acceleport: fix write-wakeup deadlocks
+Date:   Mon, 26 Oct 2020 11:43:06 +0100
+Message-Id: <20201026104306.29576-1-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR07MB5529.namprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92a48583-1ebc-43dd-4913-08d879942b63
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2020 09:47:36.0804
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7pDHq1h3l+tsipo8BotGvoZZ+8TVZM8Augulf2Bj8YdoyBCrm6cXAUDvAIoEQ4c1TPzGRdkTB8AfBB4Y23cxS9CJoVhbmjtcGfMv/gv1W00=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB5676
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.737
- definitions=2020-10-26_06:2020-10-26,2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0 mlxlogscore=808
- priorityscore=1501 suspectscore=0 spamscore=0 adultscore=0 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010260069
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Peter,
+The driver must not call tty_wakeup() while holding its private lock as
+line disciplines are allowed to call back into write() from
+write_wakeup(), leading to a deadlock.
 
-A gentle ping.
+Also remove the unneeded work struct that was used to defer wakeup in
+order to work around a possible race in ancient times (see comment about
+n_tty write_chan() in commit 14b54e39b412 ("USB: serial: remove
+changelogs and old todo entries")).
 
-I assume that you should add this and the rest overdue cdsn3 patches as fir=
-st to you ci-for-usb-next branch.
-Am I right?
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/digi_acceleport.c | 45 ++++++++--------------------
+ 1 file changed, 13 insertions(+), 32 deletions(-)
 
-Pawel
-
->Patch removes not used variable 'length' from
->cdns3_wa2_descmiss_copy_data function.
->
->Fixes: 141e70fef4ee ("usb: cdns3: gadget: need to handle sg case for worka=
-round 2 case")
->Signed-off-by: Pawel Laszczak <pawell@cadence.com>
->Acked-by: Roger Quadros <rogerq@ti.com>
->---
->Changelog:
->v3
->- added "Acked-by" tag.
->v2
->- added "Fixes" tag.
->
-> drivers/usb/cdns3/gadget.c | 2 --
-> 1 file changed, 2 deletions(-)
->
->diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
->index 6e7b70a2e352..692acf7b9b14 100644
->--- a/drivers/usb/cdns3/gadget.c
->+++ b/drivers/usb/cdns3/gadget.c
->@@ -506,7 +506,6 @@ static void cdns3_wa2_descmiss_copy_data(struct cdns3_=
-endpoint *priv_ep,
->
-> 	while (!list_empty(&priv_ep->wa2_descmiss_req_list)) {
-> 		int chunk_end;
->-		int length;
->
-> 		descmiss_priv_req =3D
-> 			cdns3_next_priv_request(&priv_ep->wa2_descmiss_req_list);
->@@ -517,7 +516,6 @@ static void cdns3_wa2_descmiss_copy_data(struct cdns3_=
-endpoint *priv_ep,
-> 			break;
->
-> 		chunk_end =3D descmiss_priv_req->flags & REQUEST_INTERNAL_CH;
->-		length =3D request->actual + descmiss_req->actual;
-> 		request->status =3D descmiss_req->status;
-> 		__cdns3_descmiss_copy_data(request, descmiss_req);
-> 		list_del_init(&descmiss_priv_req->list);
->--
->2.17.1
+diff --git a/drivers/usb/serial/digi_acceleport.c b/drivers/usb/serial/digi_acceleport.c
+index 91055a191995..0d606fa9fdca 100644
+--- a/drivers/usb/serial/digi_acceleport.c
++++ b/drivers/usb/serial/digi_acceleport.c
+@@ -19,7 +19,6 @@
+ #include <linux/tty_flip.h>
+ #include <linux/module.h>
+ #include <linux/spinlock.h>
+-#include <linux/workqueue.h>
+ #include <linux/uaccess.h>
+ #include <linux/usb.h>
+ #include <linux/wait.h>
+@@ -198,14 +197,12 @@ struct digi_port {
+ 	int dp_throttle_restart;
+ 	wait_queue_head_t dp_flush_wait;
+ 	wait_queue_head_t dp_close_wait;	/* wait queue for close */
+-	struct work_struct dp_wakeup_work;
+ 	struct usb_serial_port *dp_port;
+ };
+ 
+ 
+ /* Local Function Declarations */
+ 
+-static void digi_wakeup_write_lock(struct work_struct *work);
+ static int digi_write_oob_command(struct usb_serial_port *port,
+ 	unsigned char *buf, int count, int interruptible);
+ static int digi_write_inb_command(struct usb_serial_port *port,
+@@ -356,26 +353,6 @@ __releases(lock)
+ 	return timeout;
+ }
+ 
+-
+-/*
+- *  Digi Wakeup Write
+- *
+- *  Wake up port, line discipline, and tty processes sleeping
+- *  on writes.
+- */
+-
+-static void digi_wakeup_write_lock(struct work_struct *work)
+-{
+-	struct digi_port *priv =
+-			container_of(work, struct digi_port, dp_wakeup_work);
+-	struct usb_serial_port *port = priv->dp_port;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&priv->dp_port_lock, flags);
+-	tty_port_tty_wakeup(&port->port);
+-	spin_unlock_irqrestore(&priv->dp_port_lock, flags);
+-}
+-
+ /*
+  *  Digi Write OOB Command
+  *
+@@ -986,6 +963,7 @@ static void digi_write_bulk_callback(struct urb *urb)
+ 	unsigned long flags;
+ 	int ret = 0;
+ 	int status = urb->status;
++	bool wakeup;
+ 
+ 	/* port and serial sanity check */
+ 	if (port == NULL || (priv = usb_get_serial_port_data(port)) == NULL) {
+@@ -1012,6 +990,7 @@ static void digi_write_bulk_callback(struct urb *urb)
+ 	}
+ 
+ 	/* try to send any buffered data on this port */
++	wakeup = true;
+ 	spin_lock_irqsave(&priv->dp_port_lock, flags);
+ 	priv->dp_write_urb_in_use = 0;
+ 	if (priv->dp_out_buf_len > 0) {
+@@ -1027,19 +1006,18 @@ static void digi_write_bulk_callback(struct urb *urb)
+ 		if (ret == 0) {
+ 			priv->dp_write_urb_in_use = 1;
+ 			priv->dp_out_buf_len = 0;
++			wakeup = false;
+ 		}
+ 	}
+-	/* wake up processes sleeping on writes immediately */
+-	tty_port_tty_wakeup(&port->port);
+-	/* also queue up a wakeup at scheduler time, in case we */
+-	/* lost the race in write_chan(). */
+-	schedule_work(&priv->dp_wakeup_work);
+-
+ 	spin_unlock_irqrestore(&priv->dp_port_lock, flags);
++
+ 	if (ret && ret != -EPERM)
+ 		dev_err_console(port,
+ 			"%s: usb_submit_urb failed, ret=%d, port=%d\n",
+ 			__func__, ret, priv->dp_port_num);
++
++	if (wakeup)
++		tty_port_tty_wakeup(&port->port);
+ }
+ 
+ static int digi_write_room(struct tty_struct *tty)
+@@ -1239,7 +1217,6 @@ static int digi_port_init(struct usb_serial_port *port, unsigned port_num)
+ 	init_waitqueue_head(&priv->dp_transmit_idle_wait);
+ 	init_waitqueue_head(&priv->dp_flush_wait);
+ 	init_waitqueue_head(&priv->dp_close_wait);
+-	INIT_WORK(&priv->dp_wakeup_work, digi_wakeup_write_lock);
+ 	priv->dp_port = port;
+ 
+ 	init_waitqueue_head(&port->write_wait);
+@@ -1508,13 +1485,14 @@ static int digi_read_oob_callback(struct urb *urb)
+ 			rts = C_CRTSCTS(tty);
+ 
+ 		if (tty && opcode == DIGI_CMD_READ_INPUT_SIGNALS) {
++			bool wakeup = false;
++
+ 			spin_lock_irqsave(&priv->dp_port_lock, flags);
+ 			/* convert from digi flags to termiox flags */
+ 			if (val & DIGI_READ_INPUT_SIGNALS_CTS) {
+ 				priv->dp_modem_signals |= TIOCM_CTS;
+-				/* port must be open to use tty struct */
+ 				if (rts)
+-					tty_port_tty_wakeup(&port->port);
++					wakeup = true;
+ 			} else {
+ 				priv->dp_modem_signals &= ~TIOCM_CTS;
+ 				/* port must be open to use tty struct */
+@@ -1533,6 +1511,9 @@ static int digi_read_oob_callback(struct urb *urb)
+ 				priv->dp_modem_signals &= ~TIOCM_CD;
+ 
+ 			spin_unlock_irqrestore(&priv->dp_port_lock, flags);
++
++			if (wakeup)
++				tty_port_tty_wakeup(&port->port);
+ 		} else if (opcode == DIGI_CMD_TRANSMIT_IDLE) {
+ 			spin_lock_irqsave(&priv->dp_port_lock, flags);
+ 			priv->dp_transmit_idle = 1;
+-- 
+2.26.2
 
