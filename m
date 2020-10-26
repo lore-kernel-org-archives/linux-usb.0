@@ -2,29 +2,30 @@ Return-Path: <SRS0=02k9=EB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5BE0C2D0A3
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 16:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B38B4C4363A
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 16:41:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA2742224A
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 16:41:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AD57221FC
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 16:41:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1786281AbgJZQlP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 12:41:15 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:55834 "EHLO
+        id S1786252AbgJZQlC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 12:41:02 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:55822 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1786238AbgJZQlC (ORCPT
+        with ESMTP id S2443361AbgJZQlC (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Oct 2020 12:41:02 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 488068030867;
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 03DA38030833;
         Mon, 26 Oct 2020 16:40:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AxqfK58WGdc8; Mon, 26 Oct 2020 19:40:52 +0300 (MSK)
+        with ESMTP id i9TDtR52sTFo; Mon, 26 Oct 2020 19:40:54 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -36,9 +37,11 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v2 0/3] usb: dwc3: ulpi: Fix UPLI registers read/write ops
-Date:   Mon, 26 Oct 2020 19:40:47 +0300
-Message-ID: <20201026164050.30380-1-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v2 3/3] usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression
+Date:   Mon, 26 Oct 2020 19:40:50 +0300
+Message-ID: <20201026164050.30380-4-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201026164050.30380-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201026164050.30380-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -47,70 +50,86 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Our Baikal-T1 SoC is equipped with DWC USB3 IP core as a USB2.0 bus
-controller. In general the DWC USB3 driver is working well for it except
-the ULPI-bus part. We've found out that the DWC USB3 ULPI-bus driver detected
-PHY with VID:PID tuple as 0x0000:0x0000, which of course wasn't true since
-it was supposed to be 0x0424:0x0006. After a short digging inside the
-ulpi.c code and studying the DWC USB3 documentation, it has been
-discovered that the ULPI bus IO ops didn't work quite correct. The
-busy-loop had stopped waiting before the actual operation was finished. We
-found out that the problem was caused by several bugs hidden in the DWC
-USB3 ULPI-bus IO implementation.
+First of all the commit e0082698b689 ("usb: dwc3: ulpi: conditionally
+resume ULPI PHY") introduced the Suspend USB2.0 HS/FS/LS PHY regression,
+as by design of the fix any attempt to read/write from/to the PHY control
+registers will completely disable the PHY suspension, which consequently
+will increase the USB bus power consumption. Secondly the fix won't work
+well for the very first attempt of the ULPI PHY control registers IO,
+because after disabling the USB2.0 PHY suspension functionality it will
+still take some time for the bus to resume from the sleep state if one has
+been reached before it. So the very first PHY register read/write
+operation will take more time than the busy-loop provides and the IO
+timeout error might be returned anyway.
 
-First of all in accordance with the DWC USB3 databook [1] the ULPI IO
-busy-loop is supposed to use the GUSB2PHYACCn.VStsDone flag as an
-indication of the PHY vendor control access completion. Instead it polled
-the GUSB2PHYACCn.VStsBsy flag, which as we discovered can be cleared a
-bit before the VStsDone flag.
-
-Secondly having the simple counter-based loop in the modern kernel is
-really a weak design of the busy-looping pattern especially seeing the
-ULPI operations delay can be easily estimated [2], since the bus clock is
-fixed to 60MHz.
-
-Finally the root cause of the denoted in the prologue problem was due to
-the Suspend PHY DWC USB3 feature perception. The commit e0082698b689
-("usb: dwc3: ulpi: conditionally resume ULPI PHY") introduced the Suspend
-USB2.0 HS/FS/LS PHY regression as the Low-power consumption mode would be
-disable after a first attempt to read/write from the ULPI PHY control
-registers, and still didn't fix the problem it was originally intended for
-since the very first attempt of the ULPI PHY control registers IO would
-need much more time than the busy-loop provided. So instead of disabling
-the Suspend USB2.0 HS/FS/LS PHY feature we suggest to just extend the
-busy-loop delay in case if the GUSB2PHYCFGn.SusPHY flag set to 1. By doing
-so we'll eliminate the regression and fix the false busy-loop timeout
-problem.
-
-[1] Synopsys DesignWare Cores SuperSpeed USB 3.0 xHCI Host Controller
-    Databook, 2.70a, December 2013, p.388
-
-[2] UTMI+ Low Pin Interface (ULPI) Specification, Revision 1.1,
-    October 20, 2004, pp. 30 - 36.
-
-Link: https://lore.kernel.org/linux-usb/20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru
-Changelog v2:
-- Add Heikki'es acked-byt tag.
-- Resend the series so it wouldn't be lost but merged in the kernel 5.10.
+Here we suggest to fix the denoted problems in the following way. First of
+all let's not disable the Suspend USB2.0 HS/FS/LS PHY functionality so to
+make the controller and the USB2.0 bus more power efficient. Secondly
+instead of that we'll extend the PHY IO op wait procedure with 1 - 1.2 ms
+sleep if the PHY suspension is enabled (1ms should be enough as by LPM
+specification it is at most how long it takes for the USB2.0 bus to resume
+from L1 (Sleep) state). Finally in case if the USB2.0 PHY suspension
+functionality has been disabled on the DWC USB3 controller setup procedure
+we'll compensate the USB bus resume process latency by extending the
+busy-loop attempts counter.
 
 Fixes: e0082698b689 ("usb: dwc3: ulpi: conditionally resume ULPI PHY")
-Fixes: 88bc9d194ff6 ("usb: dwc3: add ULPI interface support")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+---
+ drivers/usb/dwc3/ulpi.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-Serge Semin (3):
-  usb: dwc3: ulpi: Use VStsDone to detect PHY regs access completion
-  usb: dwc3: ulpi: Replace CPU-based busyloop with Protocol-based one
-  usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression
-
- drivers/usb/dwc3/core.h |  1 +
- drivers/usb/dwc3/ulpi.c | 38 +++++++++++++++++++++-----------------
- 2 files changed, 22 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index 0dbc826355a5..f23f4c9a557e 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -24,7 +24,7 @@
+ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ {
+ 	unsigned long ns = 5L * DWC3_ULPI_BASE_DELAY;
+-	unsigned count = 1000;
++	unsigned int count = 10000;
+ 	u32 reg;
+ 
+ 	if (addr >= ULPI_EXT_VENDOR_SPECIFIC)
+@@ -33,6 +33,10 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ 	if (read)
+ 		ns += DWC3_ULPI_BASE_DELAY;
+ 
++	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
++	if (reg & DWC3_GUSB2PHYCFG_SUSPHY)
++		usleep_range(1000, 1200);
++
+ 	while (count--) {
+ 		ndelay(ns);
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+@@ -50,12 +54,6 @@ static int dwc3_ulpi_read(struct device *dev, u8 addr)
+ 	u32 reg;
+ 	int ret;
+ 
+-	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+-	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
+-		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
+-		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+-	}
+-
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+@@ -73,12 +71,6 @@ static int dwc3_ulpi_write(struct device *dev, u8 addr, u8 val)
+ 	struct dwc3 *dwc = dev_get_drvdata(dev);
+ 	u32 reg;
+ 
+-	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+-	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
+-		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
+-		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+-	}
+-
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	reg |= DWC3_GUSB2PHYACC_WRITE | val;
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
 -- 
 2.28.0
 
