@@ -2,182 +2,138 @@ Return-Path: <SRS0=02k9=EB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF635C4363A
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 15:33:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2673BC4363A
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 16:41:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC0132242A
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 15:33:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E404320791
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 16:41:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1783937AbgJZPds (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 11:33:48 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40057 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1769833AbgJZPds (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Oct 2020 11:33:48 -0400
-Received: by mail-oi1-f195.google.com with SMTP id m128so10869797oig.7;
-        Mon, 26 Oct 2020 08:33:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Npr8JFXnNVuOd5JBeJSU1d/jU6NcSqcvSBeX3MQnMCw=;
-        b=sH8yJaENEr9zRQqaDTeQATgawIviJucH7DkUXXsgh8DUOOgsVqXmevMa7ZuxmlFGmy
-         1ohrWmb9/tj16yPG2s5pYTUROLtqGX/V10vi7a47Jgx1G2P18lLhl/NRZoc2dtnuTq9V
-         iVyOzl5cucanZmyyOk6EuYGtLfig1zg1LplGrstjAUprL4QMyZxP9eeOtIL4T9KcASBy
-         dPAqu+c9EVn3dbX04FohmSHSW+og8a7/byFE3+GVynRI9ZrKm5Ptkr7U8K3dpMPA10ky
-         4e7T0lFGmuvfJdjGN0eTaDtE7O6PF/pANZLirGwbTY+4ntfDrCUB2bj+Nk2Z+8MEGODV
-         J7Aw==
-X-Gm-Message-State: AOAM530FuyZkAkAPmr4PIiuMp5gaI7duxLyjIIOJe72FXaJ7sHD2h1pZ
-        tIVjAA9nkCzA72riuBn4rTS73gPBeriHdAJbV4Q=
-X-Google-Smtp-Source: ABdhPJwLqZF2nUpKrvhcxyI34nr4X7bBy8icWsJGObwdQ8i/5k3Ztdf2PJq2vrTAVMJP3VVhuKLd7HTBbICac/wUeIE=
-X-Received: by 2002:aca:c490:: with SMTP id u138mr13399294oif.54.1603726426441;
- Mon, 26 Oct 2020 08:33:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200916061500.1970090-1-hch@lst.de> <20200916061500.1970090-7-hch@lst.de>
-In-Reply-To: <20200916061500.1970090-7-hch@lst.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Oct 2020 16:33:34 +0100
-Message-ID: <CAMuHMdX9c0va_EqBw1wfD_JiVPpjiBPLzE88EmLGVLfVhECugw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] dma-mapping: introduce DMA range map, supplanting dma_pfn_offset
-To:     Christoph Hellwig <hch@lst.de>,
-        Jim Quinlan <james.quinlan@broadcom.com>
-Cc:     Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
+        id S1786260AbgJZQlC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 12:41:02 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:55806 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502504AbgJZQlC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Oct 2020 12:41:02 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 653A380307CB;
+        Mon, 26 Oct 2020 16:40:54 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at baikalelectronics.ru
+Received: from mail.baikalelectronics.ru ([127.0.0.1])
+        by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Xcyr2yLLC3PA; Mon, 26 Oct 2020 19:40:53 +0300 (MSK)
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        David Cohen <david.a.cohen@linux.intel.com>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Felipe Balbi <balbi@ti.com>
+Subject: [PATCH v2 2/3] usb: dwc3: ulpi: Replace CPU-based busyloop with Protocol-based one
+Date:   Mon, 26 Oct 2020 19:40:49 +0300
+Message-ID: <20201026164050.30380-3-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201026164050.30380-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201026164050.30380-1-Sergey.Semin@baikalelectronics.ru>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Christoph, Jim,
+Originally the procedure of the ULPI transaction finish detection has been
+developed as a simple busy-loop with just decrementing counter and no
+delays. It's wrong since on different systems the loop will take a
+different time to complete. So if the system bus and CPU are fast enough
+to overtake the ULPI bus and the companion PHY reaction, then we'll get to
+take a false timeout error. Fix this by converting the busy-loop procedure
+to take the standard bus speed, address value and the registers access
+mode into account for the busy-loop delay calculation.
 
-On Wed, Sep 16, 2020 at 8:30 AM Christoph Hellwig <hch@lst.de> wrote:
-> From: Jim Quinlan <james.quinlan@broadcom.com>
->
-> The new field 'dma_range_map' in struct device is used to facilitate the
-> use of single or multiple offsets between mapping regions of cpu addrs and
-> dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
-> capable of holding a single uniform offset and had no region bounds
-> checking.
->
-> The function of_dma_get_range() has been modified so that it takes a single
-> argument -- the device node -- and returns a map, NULL, or an error code.
-> The map is an array that holds the information regarding the DMA regions.
-> Each range entry contains the address offset, the cpu_start address, the
-> dma_start address, and the size of the region.
->
-> of_dma_configure() is the typical manner to set range offsets but there are
-> a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
-> driver code.  These cases now invoke the function
-> dma_direct_set_offset(dev, cpu_addr, dma_addr, size).
->
-> Signed-off-by: Jim Quinlan <james.quinlan@broadcom.com>
-> [hch: various interface cleanups]
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+Here is the way the fix works. It's known that the ULPI bus is clocked
+with 60MHz signal. In accordance with [1] the ULPI bus protocol is created
+so to spend 5 and 6 clock periods for immediate register write and read
+operations respectively, and 6 and 7 clock periods - for the extended
+register writes and reads. Based on that we can easily pre-calculate the
+time which will be needed for the controller to perform a requested IO
+operation. Note we'll still preserve the attempts counter in case if the
+DWC USB3 controller has got some internals delays.
 
-Thanks for your patch, which is now commit e0d072782c734d27
-("dma-mapping: introduce DMA range map, supplanting dma_pfn_offset") in
-v5.10-rc1, and to which I have bisected a PCIe failure on R-Car M2-W
-(r8a7791/koelsch).
+[1] UTMI+ Low Pin Interface (ULPI) Specification, Revision 1.1,
+    October 20, 2004, pp. 30 - 36.
 
-The first PCI host bridge, containing USB, probes fine:
+Fixes: 88bc9d194ff6 ("usb: dwc3: add ULPI interface support")
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/dwc3/ulpi.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
- pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
- pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff -> 0x00ee080000
- pci-rcar-gen2 ee090000.pci: PCI: revision 11
- pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
- pci_bus 0000:00: root bus resource [bus 00]
- pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
- pci 0000:00:00.0: [1033:0000] type 00 class 0x060000
- pci 0000:00:00.0: reg 0x10: [mem 0xee090800-0xee090bff]
- pci 0000:00:00.0: reg 0x14: [mem 0x40000000-0x7fffffff pref]
- pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310
- pci 0000:00:01.0: reg 0x10: [mem 0x00000000-0x00000fff]
- pci 0000:00:01.0: supports D1 D2
- pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
- pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320
- pci 0000:00:02.0: reg 0x10: [mem 0x00000000-0x000000ff]
- pci 0000:00:02.0: supports D1 D2
- pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
- PCI: bus0: Fast back to back transfers disabled
- pci 0000:00:01.0: BAR 0: assigned [mem 0xee080000-0xee080fff]
- pci 0000:00:02.0: BAR 0: assigned [mem 0xee081000-0xee0810ff]
- pci 0000:00:01.0: enabling device (0140 -> 0142)
- pci 0000:00:02.0: enabling device (0140 -> 0142)
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index 20f5d9aba317..0dbc826355a5 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -7,6 +7,8 @@
+  * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+  */
+ 
++#include <linux/delay.h>
++#include <linux/time64.h>
+ #include <linux/ulpi/regs.h>
+ 
+ #include "core.h"
+@@ -17,12 +19,22 @@
+ 		DWC3_GUSB2PHYACC_ADDR(ULPI_ACCESS_EXTENDED) | \
+ 		DWC3_GUSB2PHYACC_EXTEND_ADDR(a) : DWC3_GUSB2PHYACC_ADDR(a))
+ 
+-static int dwc3_ulpi_busyloop(struct dwc3 *dwc)
++#define DWC3_ULPI_BASE_DELAY	DIV_ROUND_UP(NSEC_PER_SEC, 60000000L)
++
++static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ {
++	unsigned long ns = 5L * DWC3_ULPI_BASE_DELAY;
+ 	unsigned count = 1000;
+ 	u32 reg;
+ 
++	if (addr >= ULPI_EXT_VENDOR_SPECIFIC)
++		ns += DWC3_ULPI_BASE_DELAY;
++
++	if (read)
++		ns += DWC3_ULPI_BASE_DELAY;
++
+ 	while (count--) {
++		ndelay(ns);
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+ 		if (reg & DWC3_GUSB2PHYACC_DONE)
+ 			return 0;
+@@ -47,7 +59,7 @@ static int dwc3_ulpi_read(struct device *dev, u8 addr)
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+-	ret = dwc3_ulpi_busyloop(dwc);
++	ret = dwc3_ulpi_busyloop(dwc, addr, true);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -71,7 +83,7 @@ static int dwc3_ulpi_write(struct device *dev, u8 addr, u8 val)
+ 	reg |= DWC3_GUSB2PHYACC_WRITE | val;
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+-	return dwc3_ulpi_busyloop(dwc);
++	return dwc3_ulpi_busyloop(dwc, addr, false);
+ }
+ 
+ static const struct ulpi_ops dwc3_ulpi_ops = {
+-- 
+2.28.0
 
-The second PCI host bridge, connected to an (empty) PCIe slot, fails:
-
- pci-rcar-gen2 ee0d0000.pci: host bridge /soc/pci@ee0d0000 ranges:
- pci-rcar-gen2 ee0d0000.pci:      MEM 0x00ee0c0000..0x00ee0cffff -> 0x00ee0c0000
- pci-rcar-gen2 ee0d0000.pci: PCI: revision 11
- pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
- pci_bus 0001:01: root bus resource [bus 01]
- pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0cffff]
- pci 0001:01:00.0: [1033:0000] type 00 class 0x060000
- pci 0001:01:00.0: reg 0x10: [mem 0xee0d0800-0xee0d0bff]
- pci 0001:01:00.0: reg 0x14: [mem 0x40000000-0x7fffffff pref]
- pci 0001:01:01.0: [1033:0035] type 00 class 0x0c0310
- pci 0001:01:01.0: reg 0x10: [mem 0x00000000-0x00000fff]
- pci 0001:01:01.0: supports D1 D2
- pci 0001:01:01.0: PME# supported from D0 D1 D2 D3hot
- pci 0001:01:02.0: [1033:00e0] type 00 class 0x0c0320
- pci 0001:01:02.0: reg 0x10: [mem 0x00000000-0x000000ff]
- pci 0001:01:02.0: supports D1 D2
- pci 0001:01:02.0: PME# supported from D0 D1 D2 D3hot
- PCI: bus1: Fast back to back transfers disabled
- pci 0001:01:01.0: BAR 0: assigned [mem 0xee0c0000-0xee0c0fff]
- pci 0001:01:02.0: BAR 0: assigned [mem 0xee0c1000-0xee0c10ff]
- pci 0001:01:01.0: enabling device (0140 -> 0142)
- pci 0001:01:02.0: enabling device (0140 -> 0142)
--rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
--rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
--rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
--rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
--rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
--rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
--rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
--rcar-pcie fe000000.pcie: PCIe link down
-+rcar-pcie fe000000.pcie: Adjusted size 0x0 invalid
-+rcar-pcie: probe of fe000000.pcie failed with error -22
-
-I've posted a patch "[PATCH] dma-mapping: Fix 32-bit overflow with
-CONFIG_ARM_LPAE=n"
-(https://lore.kernel.org/linux-arm-kernel/20201026152755.3738293-1-geert+renesas@glider.be/).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
