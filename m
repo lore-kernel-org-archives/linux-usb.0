@@ -2,136 +2,115 @@ Return-Path: <SRS0=02k9=EB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 352C3C55178
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 13:07:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5E88C4363A
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 13:44:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0566824640
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 13:07:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 842BD21BE5
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 13:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1774536AbgJZNHy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 09:07:54 -0400
-Received: from mga01.intel.com ([192.55.52.88]:18176 "EHLO mga01.intel.com"
+        id S1780574AbgJZNoy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 09:44:54 -0400
+Received: from mga17.intel.com ([192.55.52.151]:54108 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1773920AbgJZNHx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 26 Oct 2020 09:07:53 -0400
-IronPort-SDR: z1ZAUR0Ecj3TGol77GdcYiKbGoNSYdERzGWf+KeEc7x60KZNVtcv2ucHclM4RVt3Vcxw+BqwWs
- qttJFUvr0m5g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9785"; a="185644041"
+        id S2441715AbgJZNoy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Oct 2020 09:44:54 -0400
+IronPort-SDR: gngGPUxDeoCpU0FLO98+O34Vv3L5cW0m//aeEn7fN7biPHioRyBVPxL2H7PvKi9jwD+CSI3JSn
+ PXA3FYmiD1pw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9785"; a="147777754"
 X-IronPort-AV: E=Sophos;i="5.77,419,1596524400"; 
-   d="scan'208";a="185644041"
+   d="scan'208";a="147777754"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2020 06:05:25 -0700
-IronPort-SDR: zM/xi1SkIfHhwXPa0Want6A593UHClAIAWlA9t1jJoEYhWIxF/AQQ8gYEm4x/J9ly4paZhtCUD
- rY57F6XYcOyQ==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2020 06:44:53 -0700
+IronPort-SDR: x4PBEaw6wWNuAwqoAKlDsHAJdxRL2GqqLyCXvALJkKo16tSj9Mgef/bgNNi6dIzVcBN/RtH77Z
+ O8oxeZ0rI0nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,419,1596524400"; 
-   d="scan'208";a="424088518"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 26 Oct 2020 06:05:22 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 26 Oct 2020 15:05:22 +0200
-Date:   Mon, 26 Oct 2020 15:05:22 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Sriharsha Allenki <sallenki@codeaurora.org>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jackp@codeaurora.org,
-        mgautam@codeaurora.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: Prevent setting invalid opmode value
-Message-ID: <20201026130522.GC1442058@kuha.fi.intel.com>
-References: <1603359734-2931-1-git-send-email-sallenki@codeaurora.org>
+   d="scan'208";a="467929096"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga004.jf.intel.com with ESMTP; 26 Oct 2020 06:44:52 -0700
+Subject: Re: [PATCH] xhci: Fix sizeof() mismatch
+To:     Colin King <colin.king@canonical.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20201008171151.198996-1-colin.king@canonical.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ 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 fiD/
+Message-ID: <43dc0950-c76e-713d-8d51-cdc3be9c9f46@linux.intel.com>
+Date:   Mon, 26 Oct 2020 15:46:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1603359734-2931-1-git-send-email-sallenki@codeaurora.org>
+In-Reply-To: <20201008171151.198996-1-colin.king@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 03:12:14PM +0530, Sriharsha Allenki wrote:
-> Setting opmode to invalid values would lead to a
-> paging fault failure when there is an access to the
-> power_operation_mode.
+On 8.10.2020 20.11, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Prevent this by checking the validity of the value
-> that the opmode is being set.
+> An incorrect sizeof() is being used, sizeof(rhub->ports) is not
+> correct, it should be sizeof(*rhub->ports).  This bug did not
+> cause any issues because it just so happens the sizes are the same.
 > 
-> Cc: <stable@vger.kernel.org>
-> Fixes: fab9288428ec ("usb: USB Type-C connector class")
-> Signed-off-by: Sriharsha Allenki <sallenki@codeaurora.org>
+> Addresses-Coverity: ("Sizeof not portable (SIZEOF_MISMATCH)")
+> Fixes: bcaa9d5c5900 ("xhci: Create new structures to store xhci port information")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 > ---
->  drivers/usb/typec/class.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 35eec70..63efe16 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1427,7 +1427,8 @@ void typec_set_pwr_opmode(struct typec_port *port,
->  {
->  	struct device *partner_dev;
->  
-> -	if (port->pwr_opmode == opmode)
-> +	if ((port->pwr_opmode == opmode) || (opmode < TYPEC_PWR_MODE_USB) ||
 
-You don't need to check if opmode < anything. opmode is enum which
-apparently means that GCC handles it as unsigned. Since
-TYPEC_PWR_MODE_USB is 0 it means opmode < TYPEC_PWR_MODE_USB is never
-true.
+Thanks, added
 
-> +						(opmode > TYPEC_PWR_MODE_PD))
->  		return;
+-Mathias
 
-You really need to print an error at the very least. Otherwise we will
-just silently hide possible driver bugs.
-
-To be honest, I'm not a big fan of this kind of checks. They have
-created more problems than they have fixed in more than one occasion
-to me. For example, there really is no guarantee that the maximum will
-always be TYPEC_PWR_MODE_PD, which means we probable should have
-something like TYPEC_PWR_MODE_MAX defined somewhere that you compare
-the opmode value to instead of TYPEC_PWR_MODE_PD to play it safe, but
-let's not bother with that for now (it will create other problems).
-
-Basically, with functions like this, especially since it doesn't
-return anything, the responsibility of checking the validity of the
-parameters that the caller supplies to it belongs to the caller IMO,
-not the function itself. I would be happy to explain that in the
-kernel doc style comment of the function.
-
-If you still feel that this change is really necessary, meaning you
-have some actual case where the caller can _not_ check the range
-before calling this function, then explain the case you have carefully
-in the commit message and add the check as a separate condition:
-
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 35eec707cb512..7de6913d90f9c 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -1430,6 +1430,11 @@ void typec_set_pwr_opmode(struct typec_port *port,
-        if (port->pwr_opmode == opmode)
-                return;
- 
-+       if (opmode > TYPEC_PWR_OPMODE_PD) {
-+               dev_err(&port->dev, "blah-blah-blah\n");
-+               return;
-+       }
-+
-        port->pwr_opmode = opmode;
-        sysfs_notify(&port->dev.kobj, NULL, "power_operation_mode");
-        kobject_uevent(&port->dev.kobj, KOBJ_CHANGE);
-
-Otherwise you can just propose a patch that improves the documentation
-of this function, explaining that it does not take any responsibility
-over the parameters passed to it for now.
-
-
-thanks,
-
--- 
-heikki
