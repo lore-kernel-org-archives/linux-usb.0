@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C800EC55178
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 23:50:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B743BC4363A
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 23:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 92191217A0
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 23:50:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 878DC21655
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 23:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603756245;
-	bh=LEOzesVKSbDDx512NULGkFfnLWlkMR5U4KXl2lzpGSk=;
+	s=default; t=1603756573;
+	bh=UsP5Op/3imQ3f2V8/G0OczM1OdRKveFc8e0d0Jr0dZY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0hFgHDAQtGEHPY5IrE5lkk51WFighzZfTENWollTBfUH3QyDiY6lwF4Pbit8reR57
-	 ORdNzShVtFM0vbGsNvSfQGBcNYwJlN/MPsvtLWT6Si1DVxrYXuTVkecAIwm7wBZr2y
-	 9G3lIdtmVGBRMwF85Cr04gsqf0/z5XSX4XWlDHxY=
+	b=unhdmBd6ajoktFhdiUq15+u+QgrD3IdU1FkgeEPqIaKJwFH54SrppmKdCtc65hxiM
+	 Kbzjn9NKCq9uC5PUU8xForqy6bgKNwzUyw6Ka6Z5MKbqpdeOMHKN2cidKajQY3TM1U
+	 Qm1YkXGUbmA81PHy3uAMCj0BrACFkHDKpfTXXsNc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409181AbgJZXun (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 19:50:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50466 "EHLO mail.kernel.org"
+        id S2411055AbgJZX4L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 19:56:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35366 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409172AbgJZXum (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 26 Oct 2020 19:50:42 -0400
+        id S2411035AbgJZX4H (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Oct 2020 19:56:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 444F320882;
-        Mon, 26 Oct 2020 23:50:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D8DA7221FC;
+        Mon, 26 Oct 2020 23:56:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603756242;
-        bh=LEOzesVKSbDDx512NULGkFfnLWlkMR5U4KXl2lzpGSk=;
+        s=default; t=1603756566;
+        bh=UsP5Op/3imQ3f2V8/G0OczM1OdRKveFc8e0d0Jr0dZY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RKHv3nsPpheBYMXp0+Q1umftxh3vBeSMEPFzeSDjqZHGRZNUWsGO9WLmuMM3OZ4qd
-         G4BkK1uXI3hQnykoJm5rpoxY7VZMmjhb2ZLWZn7B2g85JH1uxFZLr9JqXlc6np0x3L
-         4r0SawbOtBHdc1vKgPPvixwafpz3wk9nWhqrWcCs=
+        b=NKDnrXuH91vc5woM9Gxl2u+cr89qz+JDF9g+RsmbiNqp6///c3p0bwibujGBX1SRj
+         r7dppPKsJdGTdwO2oPl8s0VXGL5YOU09Ia+dUwNMSkP1ptVm6ZIVK+lhH/xJSJSz3A
+         AGMXujZYt7mCdBJI+7YZMoNPEcUa1H76iQqrFYp8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>,
         Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 078/147] usb: xhci: omit duplicate actions when suspending a runtime suspended host.
-Date:   Mon, 26 Oct 2020 19:47:56 -0400
-Message-Id: <20201026234905.1022767-78-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 41/80] usb: xhci: omit duplicate actions when suspending a runtime suspended host.
+Date:   Mon, 26 Oct 2020 19:54:37 -0400
+Message-Id: <20201026235516.1025100-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201026234905.1022767-1-sashal@kernel.org>
-References: <20201026234905.1022767-1-sashal@kernel.org>
+In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
+References: <20201026235516.1025100-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,7 +86,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index f4cedcaee14b3..4cfb95104c26b 100644
+index bad154f446f8d..51116030852e9 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
 @@ -982,12 +982,15 @@ int xhci_suspend(struct xhci_hcd *xhci, bool do_wakeup)
