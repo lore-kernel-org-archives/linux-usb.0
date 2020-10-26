@@ -2,150 +2,111 @@ Return-Path: <SRS0=02k9=EB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8EFC4363A
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 19:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C800EC55178
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 23:50:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 732EA20872
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 19:39:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aG7bhzWd"
+	by mail.kernel.org (Postfix) with ESMTP id 92191217A0
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Oct 2020 23:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603756245;
+	bh=LEOzesVKSbDDx512NULGkFfnLWlkMR5U4KXl2lzpGSk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=0hFgHDAQtGEHPY5IrE5lkk51WFighzZfTENWollTBfUH3QyDiY6lwF4Pbit8reR57
+	 ORdNzShVtFM0vbGsNvSfQGBcNYwJlN/MPsvtLWT6Si1DVxrYXuTVkecAIwm7wBZr2y
+	 9G3lIdtmVGBRMwF85Cr04gsqf0/z5XSX4XWlDHxY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1786281AbgJZTjx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 15:39:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47674 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1786141AbgJZTjw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Oct 2020 15:39:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603741191;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=lCWigmNkQYdFYX02ynyqvoR8Vn8yvpoh4XRQOBQT06E=;
-        b=aG7bhzWdQ0t7DYabcFq0HhBegsbo9SIlVEmHpzKzzJgkHGZ1RL2jCKrJ8hS4SrM8bYb5FS
-        Vf3t0JFnv0+NSZAPjgG7VO5G1hLcuoGghFp5i8YHjGieiSe1tUG6EF6aScb88IzKprEna1
-        wE9idhKosV/j+QOcyYbavRDZ/f3bNws=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-Vza5GNftN1q10DYLudCWGw-1; Mon, 26 Oct 2020 15:39:49 -0400
-X-MC-Unique: Vza5GNftN1q10DYLudCWGw-1
-Received: by mail-ot1-f70.google.com with SMTP id i25so4021407otj.0
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2020 12:39:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=lCWigmNkQYdFYX02ynyqvoR8Vn8yvpoh4XRQOBQT06E=;
-        b=SjY6ZUJYSfFVw8WD75qrJWjuGDknqHPKbeZi2oy8PlzsRH2E/UG2kLWfFpEAyQ/BG1
-         u8Hp7VZIP7bkrsnzCnoBtW2J369btopHieb/ZLkjHUbhQhZI4lL5GgcubsDwqQSxcWvk
-         ieCdOXn0gf21okpuRpMTS1IFc0ec1VLZoX1s7MCZrCpJ2pvAZAqTUjjS1o59HkFVf6bQ
-         2aQGVJHemHaK3AmNlO1PeNroQQUJuFfc3ozsjYUiKFIsgWt947cr1adG+oCixFh1dJdn
-         GyCVhiB1PG3071/6C/95fQfK2lCUgRElC2phl9UqiTOKnVXKh7LA4aKZURjDsm0ulZG5
-         9I7A==
-X-Gm-Message-State: AOAM530bLYscWMp3X1yBVUgRQVcg4dYMHlbuA7xuR5HTTeceWLPP1KpV
-        wqybqIdWHRpZzhebbvciqLjWqLuRqM7IVHZcT9VWMAuTKGyRQlmQu7dliAtoIPsuRoVRsglRANi
-        c3v2F9EHesy7cdVO5yQ0R
-X-Received: by 2002:a9d:2a88:: with SMTP id e8mr12231287otb.122.1603741188410;
-        Mon, 26 Oct 2020 12:39:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsyhAyUP2n2wv1fWsYURWnBm/cPB7m0J6DqoavC6i6FD6IAtB7NM8dGRZmoMdpumanQCoxXA==
-X-Received: by 2002:a9d:2a88:: with SMTP id e8mr12231270otb.122.1603741188215;
-        Mon, 26 Oct 2020 12:39:48 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id t29sm4230509otd.51.2020.10.26.12.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2020 12:39:47 -0700 (PDT)
-From:   trix@redhat.com
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        gustavoars@kernel.org, viro@zeniv.linux.org.uk
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH v2] usb: gadget: f_hid: remove unneeded break
-Date:   Mon, 26 Oct 2020 12:39:33 -0700
-Message-Id: <20201026193933.1434490-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
+        id S2409181AbgJZXun (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 19:50:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50466 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2409172AbgJZXum (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Oct 2020 19:50:42 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 444F320882;
+        Mon, 26 Oct 2020 23:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603756242;
+        bh=LEOzesVKSbDDx512NULGkFfnLWlkMR5U4KXl2lzpGSk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RKHv3nsPpheBYMXp0+Q1umftxh3vBeSMEPFzeSDjqZHGRZNUWsGO9WLmuMM3OZ4qd
+         G4BkK1uXI3hQnykoJm5rpoxY7VZMmjhb2ZLWZn7B2g85JH1uxFZLr9JqXlc6np0x3L
+         4r0SawbOtBHdc1vKgPPvixwafpz3wk9nWhqrWcCs=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 078/147] usb: xhci: omit duplicate actions when suspending a runtime suspended host.
+Date:   Mon, 26 Oct 2020 19:47:56 -0400
+Message-Id: <20201026234905.1022767-78-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201026234905.1022767-1-sashal@kernel.org>
+References: <20201026234905.1022767-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+From: Peter Chen <peter.chen@nxp.com>
 
-A break is not needed if it is preceded by a goto.
+[ Upstream commit 18a367e8947d72dd91b6fc401e88a2952c6363f7 ]
 
-Signed-off-by: Tom Rix <trix@redhat.com>
+If the xhci-plat.c is the platform driver, after the runtime pm is
+enabled, the xhci_suspend is called if nothing is connected on
+the port. When the system goes to suspend, it will call xhci_suspend again
+if USB wakeup is enabled.
+
+Since the runtime suspend wakeup setting is not always the same as
+system suspend wakeup setting, eg, at runtime suspend we always need
+wakeup if the controller is in low power mode; but at system suspend,
+we may not need wakeup. So, we move the judgement after changing
+wakeup setting.
+
+[commit message rewording -Mathias]
+
+Reviewed-by: Jun Li <jun.li@nxp.com>
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20200918131752.16488-8-mathias.nyman@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-v2: split from larger patch
----
- drivers/usb/gadget/function/f_hid.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/usb/host/xhci.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 1125f4715830..5204769834d1 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -511,9 +511,7 @@ static int hidg_setup(struct usb_function *f,
- 		/* send an empty report */
- 		length = min_t(unsigned, length, hidg->report_length);
- 		memset(req->buf, 0x0, length);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index f4cedcaee14b3..4cfb95104c26b 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -982,12 +982,15 @@ int xhci_suspend(struct xhci_hcd *xhci, bool do_wakeup)
+ 			xhci->shared_hcd->state != HC_STATE_SUSPENDED)
+ 		return -EINVAL;
+ 
+-	xhci_dbc_suspend(xhci);
 -
- 		goto respond;
--		break;
+ 	/* Clear root port wake on bits if wakeup not allowed. */
+ 	if (!do_wakeup)
+ 		xhci_disable_port_wake_on_bits(xhci);
  
- 	case ((USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE) << 8
- 		  | HID_REQ_GET_PROTOCOL):
-@@ -521,13 +519,11 @@ static int hidg_setup(struct usb_function *f,
- 		length = min_t(unsigned int, length, 1);
- 		((u8 *) req->buf)[0] = hidg->protocol;
- 		goto respond;
--		break;
- 
- 	case ((USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE) << 8
- 		  | HID_REQ_SET_REPORT):
- 		VDBG(cdev, "set_report | wLength=%d\n", ctrl->wLength);
- 		goto stall;
--		break;
- 
- 	case ((USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE) << 8
- 		  | HID_REQ_SET_PROTOCOL):
-@@ -544,7 +540,6 @@ static int hidg_setup(struct usb_function *f,
- 			goto respond;
- 		}
- 		goto stall;
--		break;
- 
- 	case ((USB_DIR_IN | USB_TYPE_STANDARD | USB_RECIP_INTERFACE) << 8
- 		  | USB_REQ_GET_DESCRIPTOR):
-@@ -562,7 +557,6 @@ static int hidg_setup(struct usb_function *f,
- 						   hidg_desc_copy.bLength);
- 			memcpy(req->buf, &hidg_desc_copy, length);
- 			goto respond;
--			break;
- 		}
- 		case HID_DT_REPORT:
- 			VDBG(cdev, "USB_REQ_GET_DESCRIPTOR: REPORT\n");
-@@ -570,13 +564,11 @@ static int hidg_setup(struct usb_function *f,
- 						   hidg->report_desc_length);
- 			memcpy(req->buf, hidg->report_desc, length);
- 			goto respond;
--			break;
- 
- 		default:
- 			VDBG(cdev, "Unknown descriptor request 0x%x\n",
- 				 value >> 8);
- 			goto stall;
--			break;
- 		}
- 		break;
- 
-@@ -584,7 +576,6 @@ static int hidg_setup(struct usb_function *f,
- 		VDBG(cdev, "Unknown request 0x%x\n",
- 			 ctrl->bRequest);
- 		goto stall;
--		break;
- 	}
- 
- stall:
++	if (!HCD_HW_ACCESSIBLE(hcd))
++		return 0;
++
++	xhci_dbc_suspend(xhci);
++
+ 	/* Don't poll the roothubs on bus suspend. */
+ 	xhci_dbg(xhci, "%s: stopping port polling.\n", __func__);
+ 	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
 -- 
-2.18.1
+2.25.1
 
