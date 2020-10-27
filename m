@@ -2,67 +2,101 @@ Return-Path: <SRS0=zRYX=EC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED96C56202
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 17:28:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E57BDC388F9
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 17:59:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2666321D24
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 17:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C3D52076D
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 17:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751653AbgJ0OwX convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Oct 2020 10:52:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49780 "EHLO mail.kernel.org"
+        id S1823654AbgJ0R7Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Oct 2020 13:59:25 -0400
+Received: from mga03.intel.com ([134.134.136.65]:34126 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1768200AbgJ0Otj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 27 Oct 2020 10:49:39 -0400
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 207045] uvcvideo: properly handle UVC payloads that occur in
- the middle of bulk URBs
-Date:   Tue, 27 Oct 2020 14:49:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: luciomf@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-207045-208809-eq1RnNdmWr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207045-208809@https.bugzilla.kernel.org/>
-References: <bug-207045-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1823203AbgJ0R6L (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 27 Oct 2020 13:58:11 -0400
+IronPort-SDR: fW7T60hx1U28IPgMbQ/ufL/NsJsLrDr8h6qOpKkB5QSrnKFjB6eeDphAXriX73rCczz297b1SU
+ KEzTXfMmJZLg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="168230686"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="168230686"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 10:58:10 -0700
+IronPort-SDR: pVBI96o6WMqJ6mq5a8oXe8bATKbSaxP/VCM1wYfH+mNa36hNrOtpMcv+1HKUfbt7UIprRLPVTs
+ BcddLyFjzpHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="303841822"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 27 Oct 2020 10:58:07 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id E4DE0179; Tue, 27 Oct 2020 19:58:06 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
+        linux-usb@vger.kernel.org, Peng Hao <peng.hao2@zte.com.cn>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v1 1/5] driver core: platform: Introduce platform_get_mem_or_io_resource()
+Date:   Tue, 27 Oct 2020 19:58:02 +0200
+Message-Id: <20201027175806.20305-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207045
+There are at least few existing users of the proposed API which
+retrieves either MEM or IO resource from platform device.
 
-Lucio MF (luciomf@gmail.com) changed:
+Make it common to utilize in the existing and new users.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |luciomf@gmail.com
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: kvm@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: Peng Hao <peng.hao2@zte.com.cn>
+Cc: Arnd Bergmann <arnd@arndb.de>
+---
+ include/linux/platform_device.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
---- Comment #4 from Lucio MF (luciomf@gmail.com) ---
-Hi Julian,
-I've been testing this for a few days now, mostly with google meets at 720p.
-Working like a charm. I'll post if something goes wrong.
-
+diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+index 77a2aada106d..eb8d74744e29 100644
+--- a/include/linux/platform_device.h
++++ b/include/linux/platform_device.h
+@@ -52,6 +52,19 @@ extern struct device platform_bus;
+ 
+ extern struct resource *platform_get_resource(struct platform_device *,
+ 					      unsigned int, unsigned int);
++static inline
++struct resource *platform_get_mem_or_io_resource(struct platform_device *pdev,
++						 unsigned int num)
++{
++	struct resource *res;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, num);
++	if (res)
++		return res;
++
++	return platform_get_resource(pdev, IORESOURCE_IO, num);
++}
++
+ extern struct device *
+ platform_find_device_by_driver(struct device *start,
+ 			       const struct device_driver *drv);
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.28.0
+
