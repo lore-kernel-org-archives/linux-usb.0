@@ -2,120 +2,123 @@ Return-Path: <SRS0=zRYX=EC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 202D0C388F9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 987F6C4363A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:18:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7CF72222C
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:13:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4826F2072D
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:18:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rfoTQNnu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1830987AbgJ0UNU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Oct 2020 16:13:20 -0400
-Received: from mail.baikalelectronics.com ([87.245.175.226]:34028 "EHLO
-        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1830982AbgJ0UNT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 16:13:19 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 4C56480307C2;
-        Tue, 27 Oct 2020 20:13:17 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at baikalelectronics.ru
-Received: from mail.baikalelectronics.ru ([127.0.0.1])
-        by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id R07BQISyW5GJ; Tue, 27 Oct 2020 23:13:16 +0300 (MSK)
-Date:   Tue, 27 Oct 2020 23:13:15 +0300
-From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Felipe Balbi <balbi@kernel.org>
-CC:     Serge Semin <fancer.lancer@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        John Youn <John.Youn@synopsys.com>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] usb: dwc3: ulpi: Use VStsDone to detect PHY regs
- access completion
-Message-ID: <20201027201315.zp7tmb2eztz5gwjj@mobilestation>
-References: <20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru>
- <20201010222351.7323-2-Sergey.Semin@baikalelectronics.ru>
- <87k0vcc9n7.fsf@kernel.org>
+        id S1831142AbgJ0USQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Oct 2020 16:18:16 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:46078 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1831139AbgJ0USQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 16:18:16 -0400
+Received: by mail-vs1-f67.google.com with SMTP id r1so1600340vsi.12
+        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2020 13:18:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=x5S85K1yKGbYgWkn0d3djUo2W9yMnfITU9bTMzcWbVQ=;
+        b=rfoTQNnuz/KOqhjOmm1Hr4/CrQ/T/INA9njPNTxujMU7pKLDfcKhfXxmuyL19uOQ8f
+         5qcJ2Jdnm+1/g1SrU65xypkqe5lHYe7ZGM5fGEYp8q1mn7KlGAiNBdmTtXzPhCOpVhaX
+         vh8vGe7Cx4h3X4Fom43GMdiGhFjnB2SigrPOXbVz+OlLj6UaW35GWH3YDneFy8sYAgwx
+         MQCaIVj8ofIfgNnKGN0qE3kPv07gcutZU+SBXaXtTEhvMka59YSE4f+RhpyXsEZvW5gL
+         zeaZ8PlYKZLE+ijf+sCe+++qLzU4wfnr4puDWYbRSmWNqPU3qjJuXIPhk6vGTe7zg0BR
+         elXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=x5S85K1yKGbYgWkn0d3djUo2W9yMnfITU9bTMzcWbVQ=;
+        b=oOOWgUhe5MrgsrH6ouA32U5fNnGYfzaMbL4hmGjS9AJfnMiACK3HqIEeBYuUqrHodZ
+         pbbMmHglda7RHmtn05koaSq/AZQ4A1Bx/b9lYwGgCdi544QBqVZrCGYakzC3acn8X9eh
+         KOdVz+M+/+hD7qgLBAGKOdBzggM3SCyGmPDqqH7Yn6atw2cDxkkTmQgkByHQiHnO3A0b
+         Gzt1Z7QOMbGc3hdbsynM590mcD3xae9FaZD3tjsEoUMqJEv7sw4q55gW6wDNowapqHgk
+         Q9OVQhuocvUehF09R67iUoVeyePrdiLwQX+YZcHu7OIjcE03SOJmOdQuQrKTxOeEAf0G
+         WayA==
+X-Gm-Message-State: AOAM5332xYS3xLwXIWspqYENvyK6avD9P78Uq+Kcgzl4jaFhtdrYAnRL
+        OasJsR5utc6pdc/4EZkz8ONGAIfgkCd94/+CApM=
+X-Google-Smtp-Source: ABdhPJwEemBe8i7dpwG1HeYmK2mQxRuoJA2pec9dJzUnB6ddimBe3hN6RY0ecmJ4TYyq5x5o1fjiuPY+GBY1gPmFEt4=
+X-Received: by 2002:a67:798e:: with SMTP id u136mr3361341vsc.47.1603829893715;
+ Tue, 27 Oct 2020 13:18:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87k0vcc9n7.fsf@kernel.org>
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+Received: by 2002:a9f:264f:0:0:0:0:0 with HTTP; Tue, 27 Oct 2020 13:18:13
+ -0700 (PDT)
+In-Reply-To: <CA+uuBqZ6JhCq1ydU-9A+en3QO=9zX9LuEJ8+P0YvEzUE+9sYoA@mail.gmail.com>
+References: <20200916015621.EFCDA374023F@freecalypso.org> <20200929101330.GQ24441@localhost>
+ <CA+uuBqY83q+UiRsYxBckXvbtYf4sRxqB_8eXXPgEKAOqTwD=vg@mail.gmail.com>
+ <20201005105722.GN5141@localhost> <CA+uuBqZ6JhCq1ydU-9A+en3QO=9zX9LuEJ8+P0YvEzUE+9sYoA@mail.gmail.com>
+From:   Mychaela Falconia <mychaela.falconia@gmail.com>
+Date:   Tue, 27 Oct 2020 12:18:13 -0800
+Message-ID: <CA+uuBqZSozH_513OyiDyuh1DcvPrCkBer=_wedLQEEFSbdDrkw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] a family of FTDI-based devices that need ftdi_sio quirks
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 11:15:24AM +0200, Felipe Balbi wrote:
-> 
-> Hi,
-> 
-> Serge Semin <Sergey.Semin@baikalelectronics.ru> writes:
-> 
-> > In accordance with [1] the DWC_usb3 core sets the GUSB2PHYACCn.VStsDone
-> > bit when the PHY vendor control access is done and clears it when the
-> > application initiates a new transaction. The doc doesn't say anything
-> > about the GUSB2PHYACCn.VStsBsy flag serving for the same purpose. Moreover
-> > we've discovered that the VStsBsy flag can be cleared before the VStsDone
-> > bit. So using the former as a signal of the PHY control registers
-> > completion might be dangerous. Let's have the VStsDone flag utilized
-> > instead then.
-> >
-> > [1] Synopsys DesignWare Cores SuperSpeed USB 3.0 xHCI Host Controller
-> >     Databook, 2.70a, December 2013, p.388
-> >
-> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> > ---
-> >  drivers/usb/dwc3/core.h | 1 +
-> >  drivers/usb/dwc3/ulpi.c | 2 +-
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-> > index 2f04b3e42bf1..8d5e5bba1bc2 100644
-> > --- a/drivers/usb/dwc3/core.h
-> > +++ b/drivers/usb/dwc3/core.h
-> > @@ -284,6 +284,7 @@
-> >  
-> >  /* Global USB2 PHY Vendor Control Register */
-> >  #define DWC3_GUSB2PHYACC_NEWREGREQ	BIT(25)
-> > +#define DWC3_GUSB2PHYACC_DONE		BIT(24)
-> >  #define DWC3_GUSB2PHYACC_BUSY		BIT(23)
-> >  #define DWC3_GUSB2PHYACC_WRITE		BIT(22)
-> >  #define DWC3_GUSB2PHYACC_ADDR(n)	(n << 16)
-> > diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
-> > index e6e6176386a4..20f5d9aba317 100644
-> > --- a/drivers/usb/dwc3/ulpi.c
-> > +++ b/drivers/usb/dwc3/ulpi.c
-> > @@ -24,7 +24,7 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc)
-> >  
-> >  	while (count--) {
-> >  		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
-> > -		if (!(reg & DWC3_GUSB2PHYACC_BUSY))
-> > +		if (reg & DWC3_GUSB2PHYACC_DONE)
-> 
+Hi Johan,
 
-> are you sure this works in all supported versions of the core?
+Our last exchange regarding my proposed ftdi_sio driver patch adding
+the needed quirk for DUART28C took place 3 weeks ago on October 5.
+Your last argument against my patch was this one:
 
-I can't be sure about that since I've got only the 2.70a version of the
-core. But as I said in the patch log it was a bit incorrect to use the
-BUSY flag here in the first place. So if there is no IP core peculiarity
-here which had been workarounded by polling the BUSY-flag, then I'd stick
-with the DONE-flag in the busy-loop. In the former case I'd suggest to add
-a useful comment why the BUSY-flag is required to be polled though...
+https://marc.info/?l=linux-usb&m=160189545216969&w=2
 
--Sergey
+And here is my rebuttal to that argument made the same day:
 
-> 
-> John, could you confirm this for us?
-> 
-> thanks
-> 
-> -- 
-> balbi
+https://marc.info/?l=linux-usb&m=160192817717108&w=2
 
+In your October 5 argument you wrote:
 
+> Let me give this some more thought.
+
+It has been 3 weeks - do you have any more thoughts that address my
+not yet answered rebuttal arguments in defense of my patch?  My key
+arguments are:
+
+* The "standard" behaviour of Linux and other Unix-derived OSes of
+unconditionally asserting DTR & RTS on tty port open (or upon leaving
+B0 state) without giving userspace any ability to say "no, please
+don't do it" is a philosophical design bug, one that goes all the way
+back to original 1970s UNIX - but long-standing tradition does not
+make right.
+
+* Particularly in the present age of USB-serial adapters with LVCMOS
+rather than RS-232 electrical signals, this Unix/POSIX/Linux serial
+port handling philosophical design bug is hampering hardware engineers'
+ability to produce otherwise clean and elegant circuit designs.
+
+* Because Windows does NOT exhibit the same philosophical design bug
+in this regard as Unix/POSIX/Linux, there may be hw devices that were
+made for use with Windows, that depend on glitch-free DTR and/or RTS,
+and which will fail to work correctly with current Linux.  When such
+cases occur, the party at fault is Linux and not the hardware design -
+the hardware engineers were merely exercising their natural right to
+make simple and elegant circuit designs that work well with OSes that
+are free of philosophical design bugs, it is not our fault as hw
+engineers that Linux inherited a philosophical design bug from Ancient
+UNIX by way of POSIX.
+
+* A minimally invasive surgical solution in the form of driver quirks
+that suppress the traditional DTR & RTS behaviour for those specific
+hw devices for which it is unacceptable is more practical than trying
+to fix the root-cause Unix philosophical design bug 45 y too late.
+
+I would appreciate a response to my arguments.
+
+Sincerely,
+Mychaela,
+custom hardware designer,
+she/her/hers
