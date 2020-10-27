@@ -4,77 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F40C4363A
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4393C388F9
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:43:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3D3722202
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:38:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E20D2224E
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603787900;
-	bh=5BPZM0FlOnbe2GbLrnm2QdGezyf8fau+ODpmxorLYag=;
+	s=default; t=1603788205;
+	bh=RegJobqhmSB6T+WDL7Mw/Jh52LdVBjlOAFsHjnF7DSc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=nJcMFh4o7/mqqe7rMQ+aax0sK5HpcNERYiWKTsclVvW1mYK9NOV9IVEaogYiFi35F
-	 /CTCBUadDQBWGKplGLn5bJS5FNGVWN4uDCAPFQxKa8j+k/tQkGE/TVn+k1BW1vUrld
-	 yfJfKlS2fYVjvBOKC2S3o16x4DWE9YtbT2fTJ9k4=
+	b=i9rtjT4izzTeRv1hWUtH9HKptlm3YLKVZAusbGMm/Z44VcGxg/EvDwgHxDIlCJHVC
+	 DO3LnV4DYA0FK/Jy8oSWbbvLkTqQBNlx0c8ct4sPjgC1gVwBlqEFPwtt4vQfS0aeSD
+	 GaZQUHMWJsACa/GLX3QUMSjMtaCTMrH6XusXemVM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895019AbgJ0IiQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Oct 2020 04:38:16 -0400
-Received: from mail-lj1-f169.google.com ([209.85.208.169]:44615 "EHLO
-        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2895016AbgJ0IiO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 04:38:14 -0400
-Received: by mail-lj1-f169.google.com with SMTP id a5so772417ljj.11;
-        Tue, 27 Oct 2020 01:38:13 -0700 (PDT)
+        id S2509202AbgJ0InV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Oct 2020 04:43:21 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43553 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2509198AbgJ0InU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 04:43:20 -0400
+Received: by mail-lj1-f196.google.com with SMTP id d24so788470ljg.10;
+        Tue, 27 Oct 2020 01:43:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CI+M02FKP/0fuxVvjWM2p8vdvFe6OXxoGA9OeBYXfls=;
-        b=H6cAlwxpO31aH1MwxMKbpKWuTEEWm/x1GaEK5WjebgNUsl2NuFWsEenveYAaCAWRPj
-         dMxKuY6WE5fOkEo9FoQxRnyA9+ycm6g+3lwKc9p7Fk1kpHp9RxAmR9VhJM8XEQQm4Lql
-         wXkS46yPDK1aNPyIDQ/1Jl/xXH9LQaRiecSp8M6Qo+bh3CLZP0jFIOT/FiwK5vei8cez
-         MnOm2J6cjyl7JAChQn8B5mUHI9Ng3qs58i5KamUx8jHIhu4taMtC9+Arv669Y4BYokQo
-         UbeQfI7xjddIjh2oNO9neuNgfjzCSzgOT/i3QEVGfE61xbya++cJ/1W07tIruB0GPirY
-         XesA==
-X-Gm-Message-State: AOAM532x7MCI4mdSaMFYHZLygTc1L8kKZWwC/jex2r0W3FTlY+QSWE31
-        Mtyf5QuIEvwaMRUqOEeaATY=
-X-Google-Smtp-Source: ABdhPJz+Vb6IYKU5jyyeCAqww4MeAeD3hIetBRiYei8AbOeO3Ocj0bFHaS239d0frfiuFnSQRsQd+A==
-X-Received: by 2002:a2e:7811:: with SMTP id t17mr654160ljc.308.1603787892930;
-        Tue, 27 Oct 2020 01:38:12 -0700 (PDT)
+        bh=IDGEgmFavpKO4fp7M3bkMj6x/TJd1CMCX/SREqDS2mM=;
+        b=Jhv5r3gXXI1gG/b5EmJ9P4BxODNc1pN/990DMFojBNjvZqEJHHUmY0LUiG+l4RXJ2t
+         waIzDNrYU3H4MRnIIllTPLp5cM6KCJ3DfYj/nNKFQwwNxE1Z+pN8IegZ9H9zWiJzNPgB
+         ZSStgBWAiYUKBdeVdn/W94x+YEfgnya2g/OZbL8K8U/UN8cc2DAzIWvZXMjHR2yawcgk
+         Z2yQ9yVuN9VWDS87VE2vTdPO2hPUMWLVmMQZTDs48BuaGu65WBXmQRr04iloKlaCd2Pv
+         BYt96GRBqGkLf6zg0prL1XmPD7n/Z6Ke4n53xNvmRxn439e83g97Gki6MVxS0zWZb+RI
+         Hjqw==
+X-Gm-Message-State: AOAM531Wc9UzHh3t75+qiCKKN5sax5tkgyfsx39TkejjPqL+tU0F/TqG
+        7pqdGLYiF+CJ/mJaJskiM904Nn0eghY3xA==
+X-Google-Smtp-Source: ABdhPJx8PIV6r0X1nC7Ris/OSi6eqnU1e6uJSJQkT+2XugtfL6xEn0af0F+zj7O/brQCgwdiHZCASQ==
+X-Received: by 2002:a2e:b619:: with SMTP id r25mr631316ljn.465.1603788198601;
+        Tue, 27 Oct 2020 01:43:18 -0700 (PDT)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id q15sm96895lfr.239.2020.10.27.01.38.11
+        by smtp.gmail.com with ESMTPSA id x18sm95794ljx.2.2020.10.27.01.43.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 01:38:11 -0700 (PDT)
+        Tue, 27 Oct 2020 01:43:17 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1kXKUc-0002AX-VK; Tue, 27 Oct 2020 09:38:11 +0100
-Date:   Tue, 27 Oct 2020 09:38:10 +0100
+        id 1kXKZZ-0002C1-3B; Tue, 27 Oct 2020 09:43:17 +0100
+Date:   Tue, 27 Oct 2020 09:43:17 +0100
 From:   Johan Hovold <johan@kernel.org>
-To:     trix@redhat.com
-Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: serial: iuu_phoenix remove unneeded break
-Message-ID: <20201027083810.GE4085@localhost>
-References: <20201026191450.1429945-1-trix@redhat.com>
+To:     Ziyi Cao <kernel@septs.pw>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] usb: serial: option: add Quectel EC200T module
+ support
+Message-ID: <20201027084317.GF4085@localhost>
+References: <17f8a2a3-ce0f-4be7-8544-8fdf286907d0@www.fastmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201026191450.1429945-1-trix@redhat.com>
+In-Reply-To: <17f8a2a3-ce0f-4be7-8544-8fdf286907d0@www.fastmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 12:14:50PM -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
+On Tue, Oct 20, 2020 at 12:08:06AM +0800, Ziyi Cao wrote:
+> Add usb product id of the Quectel EC200T module.
 > 
-> A break is not needed if it is preceded by a return.
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> Signed-off-by: Ziyi Cao <kernel@septs.pw>
 > ---
-> v2: split from original larger patch
 
-Applied, thanks.
+For reference, can you provide the output of "lsusb -v" for this device?
 
 Johan
