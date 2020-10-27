@@ -2,53 +2,53 @@ Return-Path: <SRS0=zRYX=EC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 159D8C388F9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 09:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE78C388F9
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 09:11:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFEE022258
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 09:08:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79FB322258
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 09:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603789701;
-	bh=Ft33R9Ev+Zc7HxyRbaNM+wWYeTEEzN+s0u2NApGSJHY=;
+	s=default; t=1603789879;
+	bh=3nJVYPqAmda6ppGiGO4U2OH69glESivKp8oHSZq5RgQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=iy9yUGi6V6ZHMIDqg4w3IF0y3AF0W8Otneq0WX4Iztzj1HSAE+ICTIPQ5mVOhpNae
-	 NyvPenmqYioJxVJAtDVmMXnFlvR77SIOOi4qvAsWMH/L0pYT1K4JvwHrDYIezxKNcR
-	 Rsrk0Nj1OdJqQHysduXaKXwdh68XpZefaIOjOW1o=
+	b=sRhDDe2KmhkTMfK2muz2Wwzj4hkNtC6D2x/F35+RR2r1Pkc9fbwyEYmHG5/9RF8FK
+	 MJt6e1xlD8z6FQ3TMMuXVd1w1hebQmoJC+CbRsT4rlMOKkm3snp1nQ6ddHEptgcmdl
+	 5PjyA4MoO6PUFpaCA5Jeu92FK4/0oP2DMGCMf0hk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409054AbgJ0JIV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Oct 2020 05:08:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58362 "EHLO mail.kernel.org"
+        id S2895453AbgJ0JLS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Oct 2020 05:11:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408763AbgJ0JIV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:08:21 -0400
+        id S2895450AbgJ0JLS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 27 Oct 2020 05:11:18 -0400
 Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 21F3320870;
-        Tue, 27 Oct 2020 09:08:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E405B20747;
+        Tue, 27 Oct 2020 09:11:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603789700;
-        bh=Ft33R9Ev+Zc7HxyRbaNM+wWYeTEEzN+s0u2NApGSJHY=;
+        s=default; t=1603789878;
+        bh=3nJVYPqAmda6ppGiGO4U2OH69glESivKp8oHSZq5RgQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=CBXKlxfZQGUlJEudBLEevDv6XD8CQqgV4El6ZuBturIzp23Rj+xs/7iDDtnq8ZKok
-         J6OdKYfj7OwmTaHHgL0ev7ffqaoU5gxNM5mBXs+Lq8Hv4KPaKGp3sH3mTxIGgTubgG
-         naBUVSVHaNe7eGraNvwTxnB7U9RnTVECn361gX+o=
+        b=BQQ5PYMeAAZOQBfDzfWSSSm1iXaA0ftEvw9m0C3jTA4gElvkiXn39YZX/bhjF0quH
+         F8A9lQk6EBD+k5bHnuv8kBDYkPJoWDICDEbEwAxF6jPMN4+5hkvm+emddAXor9FlpA
+         ENOszDhRCQ+zbSYHIVDp8iHX5LQ9Ybsdb7Vwek38=
 From:   Felipe Balbi <balbi@kernel.org>
 To:     Peter Chen <peter.chen@nxp.com>, pawell@cadence.com, rogerq@ti.com
 Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com,
-        gregkh@linuxfoundation.org, jun.li@nxp.com,
+        gregkh@linuxfoundation.org, jun.li@nxp.com, stable@vger.kernel.org,
         Peter Chen <peter.chen@nxp.com>
-Subject: Re: [PATCH 2/3] usb: cdns3: gadget: own the lock wrongly at the
- suspend routine
-In-Reply-To: <20201016101659.29482-3-peter.chen@nxp.com>
+Subject: Re: [PATCH 3/3] usb: cdns3: Fix on-chip memory overflow issue
+In-Reply-To: <20201016101659.29482-4-peter.chen@nxp.com>
 References: <20201016101659.29482-1-peter.chen@nxp.com>
- <20201016101659.29482-3-peter.chen@nxp.com>
-Date:   Tue, 27 Oct 2020 11:08:16 +0200
-Message-ID: <87v9ewc9z3.fsf@kernel.org>
+ <20201016101659.29482-4-peter.chen@nxp.com>
+Date:   Tue, 27 Oct 2020 11:11:13 +0200
+Message-ID: <87sga0c9u6.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -59,28 +59,27 @@ X-Mailing-List: linux-usb@vger.kernel.org
 Hi,
 
 Peter Chen <peter.chen@nxp.com> writes:
-> @@ -1783,7 +1780,9 @@ static void cdns3_check_usb_interrupt_proceed(struct cdns3_device *priv_dev,
->  
->  	/* Disconnection detected */
->  	if (usb_ists & (USB_ISTS_DIS2I | USB_ISTS_DISI)) {
-> +		spin_unlock(&priv_dev->lock);
->  		cdns3_disconnect_gadget(priv_dev);
-> +		spin_lock(&priv_dev->lock);
+> From: Pawel Laszczak <pawell@cadence.com>
+>
+> Patch fixes issue caused setting On-chip memory overflow bit in usb_sts
+> register. The issue occurred because EP_CFG register was set twice
+> before USB_STS.CFGSTS was set. Every write operation on EP_CFG.BUFFERING
+> causes that controller increases internal counter holding the number
+> of reserved on-chip buffers. First time this register was updated in
+> function cdns3_ep_config before delegating SET_CONFIGURATION request
+> to class driver and again it was updated when class wanted to enable
+> endpoint.  This patch fixes this issue by configuring endpoints
+> enabled by class driver in cdns3_gadget_ep_enable and others just
+> before status stage.
+>
+> Cc: <stable@vger.kernel.org> #v5.8+
+> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+> Reported-and-tested-by: Peter Chen <peter.chen@nxp.com>
+> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+> Signed-off-by: Peter Chen <peter.chen@nxp.com>
 
-don't you need to add sparse __releases() an __acquires() markers?
-
->  		priv_dev->gadget.speed = USB_SPEED_UNKNOWN;
->  		usb_gadget_set_state(&priv_dev->gadget, USB_STATE_NOTATTACHED);
->  		cdns3_hw_reset_eps_config(priv_dev);
-> @@ -3266,7 +3265,9 @@ static int cdns3_gadget_suspend(struct cdns3 *cdns, bool do_wakeup)
->  {
->  	struct cdns3_device *priv_dev = cdns->gadget_dev;
->  
-> +	spin_unlock(&cdns->lock);
->  	cdns3_disconnect_gadget(priv_dev);
-> +	spin_lock(&cdns->lock);
-
-ditto
+This looks very large for a fix, are you sure there isn't a minimal fix
+hidden somewhere?
 
 -- 
 balbi
