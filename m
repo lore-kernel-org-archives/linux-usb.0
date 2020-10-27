@@ -2,109 +2,79 @@ Return-Path: <SRS0=zRYX=EC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB714C55179
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:33:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F40C4363A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:38:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B23B2070E
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:33:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3D3722202
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 08:38:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603787604;
-	bh=wdgjE1mW9Gtb6qoZEGa/P3kKvyZpArLH7eHRde/bpmA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=SJS35Kps9jh4+Kpd4K0Q/OxGW4dqPes7KkgiWIt/U9ULLyb7qawwbxC+u5iZT3GVA
-	 OV0eQmrJArvf1yk7Ah2FQZklexBxuvXoeAOu6a7MVmWaAPq9jKdeKO6yJzpQ/aSM5P
-	 XuIef6sLHBDLEUe1j4v64OkDbI3A2cBudN3PCgFE=
+	s=default; t=1603787900;
+	bh=5BPZM0FlOnbe2GbLrnm2QdGezyf8fau+ODpmxorLYag=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=nJcMFh4o7/mqqe7rMQ+aax0sK5HpcNERYiWKTsclVvW1mYK9NOV9IVEaogYiFi35F
+	 /CTCBUadDQBWGKplGLn5bJS5FNGVWN4uDCAPFQxKa8j+k/tQkGE/TVn+k1BW1vUrld
+	 yfJfKlS2fYVjvBOKC2S3o16x4DWE9YtbT2fTJ9k4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2894944AbgJ0IdT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Oct 2020 04:33:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44826 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2894935AbgJ0IdR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 27 Oct 2020 04:33:17 -0400
-Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B82A32070E;
-        Tue, 27 Oct 2020 08:33:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603787597;
-        bh=wdgjE1mW9Gtb6qoZEGa/P3kKvyZpArLH7eHRde/bpmA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LlworunyfhWsNDoJJ1Nea71XDrxG3oj2OJ6mvb99C87rZULcu15ZO1DLx4iaQ9EvU
-         TYoe76CYZmN286N0bO9g0W4tdT+jcVN07Q5xDVlanl7YPWkT2JMTVwMsRA9R0l/wFS
-         RproVUIBnrb6vgCoXrSyEcUAjdLOTVE4AxOLL+m4=
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Dejin Zheng <zhengdejin5@gmail.com>, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: Re: [PATCH v3] usb: dwc3: core: fix a issue about clear connect state
-In-Reply-To: <20201020135806.30268-1-zhengdejin5@gmail.com>
-References: <20201020135806.30268-1-zhengdejin5@gmail.com>
-Date:   Tue, 27 Oct 2020 10:33:09 +0200
-Message-ID: <875z6wdq62.fsf@kernel.org>
+        id S2895019AbgJ0IiQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Oct 2020 04:38:16 -0400
+Received: from mail-lj1-f169.google.com ([209.85.208.169]:44615 "EHLO
+        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2895016AbgJ0IiO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 04:38:14 -0400
+Received: by mail-lj1-f169.google.com with SMTP id a5so772417ljj.11;
+        Tue, 27 Oct 2020 01:38:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CI+M02FKP/0fuxVvjWM2p8vdvFe6OXxoGA9OeBYXfls=;
+        b=H6cAlwxpO31aH1MwxMKbpKWuTEEWm/x1GaEK5WjebgNUsl2NuFWsEenveYAaCAWRPj
+         dMxKuY6WE5fOkEo9FoQxRnyA9+ycm6g+3lwKc9p7Fk1kpHp9RxAmR9VhJM8XEQQm4Lql
+         wXkS46yPDK1aNPyIDQ/1Jl/xXH9LQaRiecSp8M6Qo+bh3CLZP0jFIOT/FiwK5vei8cez
+         MnOm2J6cjyl7JAChQn8B5mUHI9Ng3qs58i5KamUx8jHIhu4taMtC9+Arv669Y4BYokQo
+         UbeQfI7xjddIjh2oNO9neuNgfjzCSzgOT/i3QEVGfE61xbya++cJ/1W07tIruB0GPirY
+         XesA==
+X-Gm-Message-State: AOAM532x7MCI4mdSaMFYHZLygTc1L8kKZWwC/jex2r0W3FTlY+QSWE31
+        Mtyf5QuIEvwaMRUqOEeaATY=
+X-Google-Smtp-Source: ABdhPJz+Vb6IYKU5jyyeCAqww4MeAeD3hIetBRiYei8AbOeO3Ocj0bFHaS239d0frfiuFnSQRsQd+A==
+X-Received: by 2002:a2e:7811:: with SMTP id t17mr654160ljc.308.1603787892930;
+        Tue, 27 Oct 2020 01:38:12 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id q15sm96895lfr.239.2020.10.27.01.38.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2020 01:38:11 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1kXKUc-0002AX-VK; Tue, 27 Oct 2020 09:38:11 +0100
+Date:   Tue, 27 Oct 2020 09:38:10 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     trix@redhat.com
+Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: serial: iuu_phoenix remove unneeded break
+Message-ID: <20201027083810.GE4085@localhost>
+References: <20201026191450.1429945-1-trix@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026191450.1429945-1-trix@redhat.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 26, 2020 at 12:14:50PM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> A break is not needed if it is preceded by a return.
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+> v2: split from original larger patch
 
+Applied, thanks.
 
-Hi,
-
-Dejin Zheng <zhengdejin5@gmail.com> writes:
-> According to Synopsys Programming Guide chapter 2.2 Register Resets,
-> it cannot reset the DCTL register by setting DCTL.CSFTRST for core soft
-> reset, if DWC3 controller as a slave device and stay connected with a usb
-> host, then, while rebooting linux, it will fail to reinitialize dwc3 as a
-> slave device when the DWC3 controller did not power off. because the
-> connection status is incorrect, so we also need to clear DCTL.RUN_STOP
-> bit for disabling connect when doing core soft reset. There will still
-> be other stale configuration in DCTL, so reset the other fields of DCTL
-> to the default value 0.
-
-This commit log is a bit hard to understand. When does this problem
-actually happen? It seems like it's in the case of, perhaps, kexecing
-into a new kernel, is that right?
-
-At the time dwc3_core_soft_reset() is called, the assumption is that
-we're starting with a clean core, from power up. If we have stale
-configuration from a previous run, we should fix this on the exit
-path. Note that if we're reaching probe with pull up connected, we
-already have issues elsewhere.
-
-I think this is not the right fix for the problem.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+X20YRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQYvPBAA0dAVUpFk1ZWtu2G8dmKzdZH5mqolEUqW
-Vr8KwPcqSwv6nDdBvFGJjVd0qYXWWDD5DWk7Sn/YN485BOKEHHaMIF0P08dANIW7
-AFYa8QjP2iW1gfQAqTXNJLpzzC9n1/AqChugYnBAQDCmnbjddIYW7T/qhBhllhDj
-uDFJVRnFPMJi1Zn3HabDFprQ1L1uh0EdvtvggX91J7TggNGV9aeCsnWNkloVFExG
-ZqVuLqPogpZeMhIges6U0Qd16E94g4d+pkPw8DluQGH7++tNXItsh7kVQ5/MJ40r
-rk6XsGL/fy3So3F9HsTZKSJKmO1av3XobfyUiyi7AR1RsW1S5KoyGtuY/GJunsad
-9mOQmYk3LmxaaL1w05eTcqOi1IlEEusi9So7rNEUNzfPMyZedXbay8HY6WPdXgxo
-2VoNph/hD5uKTH6UeeHcuBi5M3KZQ5JbnMKuelxHCaovS/i49o2jqKBVu4Tmb5Ne
-0/EAOo6uET4DMKzpGC5k/lNf8h10775E+vNIbDQBsw3VRIiQv3PF2sTvrphlM8Jn
-fYi2STtU7HeVmWClJlDMdne2V/CgnWFofMfIxMxQvSINjnW9XLH04ynEqmRItBoW
-ZTTqPZBfE2FIIgPUTx3ftUby3qOCS0vlqOc7oLXM4F0GIZlRYOQxMQJJBQAQlfrq
-lxS8TOqH5jU=
-=D0Nn
------END PGP SIGNATURE-----
---=-=-=--
+Johan
