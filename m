@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F216C388F9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4D95C388F9
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:39:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B51521D41
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:39:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6367220725
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 20:39:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1831813AbgJ0Uit (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Oct 2020 16:38:49 -0400
+        id S1831849AbgJ0UjQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Oct 2020 16:39:16 -0400
 Received: from alexa-out.qualcomm.com ([129.46.98.28]:36842 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1831799AbgJ0Uir (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 16:38:47 -0400
+        with ESMTP id S1831803AbgJ0Uis (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Oct 2020 16:38:48 -0400
 Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 27 Oct 2020 13:38:46 -0700
+  by alexa-out.qualcomm.com with ESMTP; 27 Oct 2020 13:38:48 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 27 Oct 2020 13:38:44 -0700
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 27 Oct 2020 13:38:46 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Oct 2020 02:08:18 +0530
+  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Oct 2020 02:08:22 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 9E7762EC8; Wed, 28 Oct 2020 02:08:17 +0530 (IST)
+        id 0E60F2EC8; Wed, 28 Oct 2020 02:08:22 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -43,9 +43,9 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Manu Gautam <mgautam@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v4 2/5] usb: dwc3: host: Add suspend_quirk for dwc3 host
-Date:   Wed, 28 Oct 2020 02:08:00 +0530
-Message-Id: <1603831083-2025-3-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v4 5/5] arm64: dts: qcom: sc7180: Add wakeup-source property for USB node in IDP and trogdor
+Date:   Wed, 28 Oct 2020 02:08:03 +0530
+Message-Id: <1603831083-2025-6-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1603831083-2025-1-git-send-email-sanm@codeaurora.org>
 References: <1603831083-2025-1-git-send-email-sanm@codeaurora.org>
@@ -53,91 +53,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding suspend quirk function for dwc3 host which will be called
-during xhci suspend.
-Setting hs_phy_mode, ss_phy_mode flags and phy mode during host suspend.
+Adding wakeup-source property for USB controller in
+SC7180 IDP and trogdor boards.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/usb/dwc3/host.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7180-idp.dts      | 1 +
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index e195176..db03db8 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -11,6 +11,13 @@
- #include <linux/platform_device.h>
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+index e77a792..fe1366a 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
++++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+@@ -369,6 +369,7 @@
  
- #include "core.h"
-+#include "../host/xhci.h"
-+#include "../host/xhci-plat.h"
-+int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd);
-+
-+static const struct xhci_plat_priv xhci_plat_dwc3_xhci = {
-+	.suspend_quirk = xhci_dwc3_suspend_quirk,
-+};
+ &usb_1 {
+ 	status = "okay";
++	wakeup-source;
+ };
  
- static int dwc3_host_get_irq(struct dwc3 *dwc)
- {
-@@ -115,6 +122,13 @@ int dwc3_host_init(struct dwc3 *dwc)
- 		}
- 	}
+ &usb_1_dwc3 {
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+index bf87558..c320c09 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+@@ -818,6 +818,7 @@ ap_spi_fp: &spi10 {
  
-+	ret = platform_device_add_data(xhci, &xhci_plat_dwc3_xhci,
-+			sizeof(struct xhci_plat_priv));
-+	if (ret) {
-+		dev_err(dwc->dev, "failed to add data to xHCI\n");
-+		goto err;
-+	}
-+
- 	ret = platform_device_add(xhci);
- 	if (ret) {
- 		dev_err(dwc->dev, "failed to register xHCI device\n");
-@@ -127,6 +141,43 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	return ret;
- }
+ &usb_1 {
+ 	status = "okay";
++	wakeup-source;
+ };
  
-+static void dwc3_set_phy_mode(struct usb_hcd *hcd)
-+{
-+
-+	int i, num_ports;
-+	u32 reg;
-+	unsigned int ss_phy_mode = 0;
-+	struct device *dev = hcd->self.controller;
-+	struct dwc3 *dwc = dev_get_drvdata(dev->parent);
-+	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
-+
-+	dwc->hs_phy_mode = 0;
-+
-+	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
-+
-+	num_ports = HCS_MAX_PORTS(reg);
-+	for (i = 0; i < num_ports; i++) {
-+		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
-+		if (reg & PORT_PE) {
-+			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
-+				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_HS;
-+			else if (DEV_LOWSPEED(reg))
-+				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_LS;
-+
-+			if (DEV_SUPERSPEED(reg))
-+				ss_phy_mode |= PHY_MODE_USB_HOST_SS;
-+		}
-+	}
-+	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_mode);
-+	phy_set_mode(dwc->usb3_generic_phy, ss_phy_mode);
-+}
-+
-+int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
-+{
-+	dwc3_set_phy_mode(hcd);
-+	return 0;
-+}
-+
- void dwc3_host_exit(struct dwc3 *dwc)
- {
- 	platform_device_unregister(dwc->xhci);
+ &usb_1_dwc3 {
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
