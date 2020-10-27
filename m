@@ -2,126 +2,130 @@ Return-Path: <SRS0=zRYX=EC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23612C4363A
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 01:50:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FD3C4363A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 03:58:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A456D20872
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 01:50:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BB812084C
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 03:58:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="a2s2s+0G"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="GCueQc7R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504154AbgJ0Bui (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 21:50:38 -0400
-Received: from mail-eopbgr80070.outbound.protection.outlook.com ([40.107.8.70]:25821
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        id S2441484AbgJ0D6v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 23:58:51 -0400
+Received: from mail-eopbgr40057.outbound.protection.outlook.com ([40.107.4.57]:19884
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2504152AbgJ0Bug (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 26 Oct 2020 21:50:36 -0400
+        id S2410312AbgJ0D6v (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Oct 2020 23:58:51 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCAnHsMCdX46n6Ei0KHlsj2b1ASo97oayQtrpUoOoBBTqOTJmT4XCDvCjOry9ZRqBLaZEvMPbu+l1O3tIV4K2WQ7P7HDFDoIg68Qd1/oBoeKPgmusp0OwP1s2OKSL4g5vsBXhBLnKctXgZd7IMHOBisgdrPjo8Gklr74naxmEHW/iJN4rlMaWXgpzWP+7aC8yZ7bYut4VdHTd03gKnhzmeLdpKF/HuHDpOxYASG57jaZyLb1+1GfqatQY3ueE98hpBf/ekt1/EC5Cfd1FvOWZAmCFONCiee3SyHTtjRruEhQ76OBVLubJtHy/vos9BBNf4KB3q6ZJ6OyFnRgQUc7LA==
+ b=Gxrb584Ftt2m/1CHF0p9hu+6TZWnrlvcqqAn8139/x0rfZYIqzyoJz6WUpImczk/kr9iAUksMTbEPJGBaSWUwY5NhXp5BWBToAnc0kA/OZrss7cQepNB/f7rt3gYjELK9+f2nWOOc1j5WHnWFC7no9V9WfUbRlypU3ffTqDJLzphLVh24sPTqu8weOdBzcraTMyPqEBy4p+NkXt7LIE8ojBEoVIGrcwl+gpG7ku8XbgQp5V5xp4JkS6tWsQgtcw8/sty7sWPs2O6+MSSfMKsJiSkeK0Yi1/mP60V5aPtNLWpCkkVeYcrAcHeJqXBsQJ9zLCd0kIEhG07BeM2XmCEYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GvcDzMCSt0obsPlNNK8Jj/YovFxR2Kb95bcbMCWnUD0=;
- b=XZZNsijE+dxp4FgYMk+ueZshNm4olChGKwFBj5+4S467sgPzhpSyE0cLWZlIBamHCOes6qUgdOucradTtQS5krE/fUqKEw7l2csyDJoJgTYJKHcp1loZar6YMUkXDvOvLYIb6/FWV4M7ZJqKGqlcziJnd8gaogVxhzoyDyJJ26rqW96WlpvL0190A8dDqk+ORylPAo9o4dwj+elPwGDCZkAc1vVkrBgOr/Kj2QthxUpYFjpxNGjr6s3NpMX6TxyLZydP1lF+5NPr6kzmpM/nLnbiDj0tMsydHywsC1YBFEQ9okMGMxhqvyyikFR7anJN7RXx/ArYSUS/IvLwdd+gWw==
+ bh=01gCwYe9DzWJBqadbCka6Dds9VvntxqIHF6+vwIi1uU=;
+ b=OOhEyncIy813ERS1B6nyXHsApjnXabqJPozM418NlhjtVLvwEY8ISyODDwX1LinqUXY24Gsx/hSKTNBdkCiBVT2Pa23fCCAxOPKRbRJ+WUsoobwqt1oGPkTEFzWB7Ussqh38ZDPa7yUcCA3rLS7pCnrA7ExOEcctq/VeHm4xpW++wwlw+X9twEQK31tp17MAlwoqUdKWlekPxoi6YwOh58FoLEI8yG52gs3F+3pHYc/NN9489Kiu5mYFevQlK/IaONfBjU4uqhQilIqfnycJhk4n4bqH/bNBmK+dldFhPfK27x7QTmSRrT3IB6p0yYWQLqT5QVwcqxQGwqPryBhH1Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GvcDzMCSt0obsPlNNK8Jj/YovFxR2Kb95bcbMCWnUD0=;
- b=a2s2s+0Gmcy3QyEQsp+oWe0wOxrpN7DAWYUpb26Pjb7AyesibU6pab3SmUp9hpCjrYI4RRru1KkEsJJrxp6OxEGPcKP28qpFCIS+jfZ0g49qToFlYjYS7U1UZjfestcQliwtIiLVnyMUeoAGTbPXI6kJ8a1W/Qk8I0Ss6lNK8S8=
+ bh=01gCwYe9DzWJBqadbCka6Dds9VvntxqIHF6+vwIi1uU=;
+ b=GCueQc7RtGMcN/Fq4bX3lPoPtzH7i8snTF08ImKyrPYg5UkX4029hFjjS2uy8GAmIZcWZ3WHzMRh1GiwkXNlQ3Ss81rI6wFkww+OU6gC8iJ1DFBjonm/mAJsiXr1WMHSBRuF2FPYTI+zja6sadffpomxMr6W/OGQS6vBm6yW4z0=
 Received: from AM8PR04MB7300.eurprd04.prod.outlook.com (2603:10a6:20b:1c7::12)
- by AM0PR0402MB3364.eurprd04.prod.outlook.com (2603:10a6:208:17::28) with
+ by AM9PR04MB7633.eurprd04.prod.outlook.com (2603:10a6:20b:2d9::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Tue, 27 Oct
- 2020 01:50:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
+ 2020 03:58:48 +0000
 Received: from AM8PR04MB7300.eurprd04.prod.outlook.com
  ([fe80::b902:6be0:622b:26c2]) by AM8PR04MB7300.eurprd04.prod.outlook.com
  ([fe80::b902:6be0:622b:26c2%4]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
- 01:50:32 +0000
+ 03:58:48 +0000
 From:   Peter Chen <peter.chen@nxp.com>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+To:     Pawel Laszczak <pawell@cadence.com>
+CC:     "balbi@kernel.org" <balbi@kernel.org>,
+        "rogerq@ti.com" <rogerq@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        dl-linux-imx <linux-imx@nxp.com>, Jun Li <jun.li@nxp.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@ti.com>
-Subject: RE: [PATCH 1/2] usb: host: add XHCI_CDNS_HOST flag
-Thread-Topic: [PATCH 1/2] usb: host: add XHCI_CDNS_HOST flag
-Thread-Index: AQHWqB+8EkbyC5HZU0qhM2+GN/QOFamqAbAAgAC07bA=
-Date:   Tue, 27 Oct 2020 01:50:32 +0000
-Message-ID: <AM8PR04MB73003D7F9CD52561E69616108B160@AM8PR04MB7300.eurprd04.prod.outlook.com>
-References: <20201022030133.19528-1-peter.chen@nxp.com>
- <e3f75fb0-8fab-357f-d3f4-ca122995166a@linux.intel.com>
-In-Reply-To: <e3f75fb0-8fab-357f-d3f4-ca122995166a@linux.intel.com>
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rahul Kumar <kurahul@cadence.com>
+Subject: RE: [PATCH v3] usb: cdns3: Variable 'length' set but not used
+Thread-Topic: [PATCH v3] usb: cdns3: Variable 'length' set but not used
+Thread-Index: AQHWoq98xx7XZYJdVkmeSngJp6ePZqmptLIAgAAh+NCAAQ3WQA==
+Date:   Tue, 27 Oct 2020 03:58:48 +0000
+Message-ID: <AM8PR04MB73000CE28EC53B3402BFC5BE8B160@AM8PR04MB7300.eurprd04.prod.outlook.com>
+References: <20201015045529.2022-1-pawell@cadence.com>
+ <DM6PR07MB55290EA090C418457C1E293BDD190@DM6PR07MB5529.namprd07.prod.outlook.com>
+ <AM8PR04MB7300C4C0BB37319ABC1680528B190@AM8PR04MB7300.eurprd04.prod.outlook.com>
+In-Reply-To: <AM8PR04MB7300C4C0BB37319ABC1680528B190@AM8PR04MB7300.eurprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=nxp.com;
+authentication-results: cadence.com; dkim=none (message not signed)
+ header.d=none;cadence.com; dmarc=none action=none header.from=nxp.com;
 x-originating-ip: [180.164.158.209]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 145b9c02-e1a1-452b-6db3-08d87a1ab0b9
-x-ms-traffictypediagnostic: AM0PR0402MB3364:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR0402MB3364F119FC8F52F6470127748B160@AM0PR0402MB3364.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:741;
+x-ms-office365-filtering-correlation-id: 923acf57-47c9-45c8-f381-08d87a2c9bf3
+x-ms-traffictypediagnostic: AM9PR04MB7633:
+x-microsoft-antispam-prvs: <AM9PR04MB76338D2C2299AE87C8C972958B160@AM9PR04MB7633.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EzZ723uYj7wQf08vtot0+wAKlgu0P/nlNDN/I8AyIY76JcuY5BC/iazn9MQLVovqcwo4duJ58SoxObIKyU6Pff/CD3W2HxmdZEaIBd6yLSGkL0oH7PXEKPjm3SWjmTyDNglg3hOZXrVXbIhM9+pXom65SFcFmfSAXDBivEsWUvC7uE5doWprRYgcDPGiOwqd5xCJWhV79FBHaLjiSceYinOI3vzSpWPq8Scvavvwpvwf8CCPv/RTgj33oIvFaFRyqZ3Je0sCZYEahDAp1kUEVzkVw77Byl8Yq/5cvXkxLCuUKLWPDa4kBgu7OOe374m+3F3BhsuCDiY2o2xDeogsFA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7300.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(39860400002)(136003)(376002)(346002)(52536014)(316002)(4326008)(110136005)(76116006)(54906003)(2906002)(66476007)(66946007)(83380400001)(86362001)(44832011)(9686003)(66556008)(64756008)(66446008)(71200400001)(33656002)(6506007)(5660300002)(26005)(8936002)(186003)(55016002)(8676002)(7696005)(478600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: VRZgYCTLvj8bKMGEF6tyd3n6tggaqU2WCf1W/wPNgaQ3WyATg7qdw6rSpMZKDbtSiWAolgZJOaRERI8tv/eTiYhPDTzqpPzEIAb/n/Kx1cmHnpnLgsTNQlrbPxkfgHqTKw1t5i+ifYzjRBnufBZikcoWZHRfiTMj6G9S2H8OTBTAlvmj8zHcc2YuiOikd5BS2ft7mC8bEJZ3MY0mAxethBcEejq0799GBWNE1dG0qN2MI8mzA2sjbNDqIqIvti4ToZx+/jue4Q9GEeEI9262EnaweYfIvazMQZGub+gHCMg0vAjhCEuim64OuVd6hn7z+AjDluA7ekXPuIMzvk9gmcCTjPGI2TOQMi2RIQxh1n+QjDdOpbjdMju/U8l3HypqHImylV8v8sFr4PFWDQ8DyLxhwM8HpS+1Okqgrhh0v2LDgvhqlHzuWIkPbnNzjvs5HNcHs0vt0uZabwxCMZDFQ881yHHVGcWDv7USWhvvizqRUZHnCD+D8jknmYvr0y/NfZYEFHi4Ug0tYoIeqdGWTigs/dzYAXqJ7X+M6m/YvRphW4Ejt9qWt50JEbgQjPDCCVIH3xfYAl/p5br5eng1aDj5AHuAGAamOj4zl9ZqFnVhqwngAfyKNoHxLwjCN6zcmW9p7tfgK2eiw8eAAVsypA==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: FfNjPFABuIwEvA8joeXhnd5Bg6+oSI0mfsMqj0eTfrZcSmGXk3ypn/D43S8xPADtXp30nX+QgJE4TTkyAbZjKxFbEQJe/f5oaF6P0TaSHmprTimMZOe2Y88bRB/M96yA/VD/X3jX4Q3XMHORZN/JDq3JVbRxxg5637PoPwr6SQ+sHrPszkf53I/UjLusU8FrkcovR+ylHOJtlJmQYy2HDA108BHqclAnMW/VWSXKa1OB4V6J+7MeO6EgPKZOgReeAA78jIU+kYW4rbJLbftUai7iO03UR5gdksScEkiz5NDnA5xx7wpwBxlS6lxxUI7f
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7300.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(39860400002)(136003)(366004)(396003)(186003)(54906003)(55016002)(6506007)(26005)(44832011)(316002)(86362001)(478600001)(33656002)(7696005)(8936002)(76116006)(5660300002)(6916009)(4326008)(9686003)(2906002)(8676002)(83380400001)(4744005)(66946007)(66476007)(52536014)(64756008)(66446008)(71200400001)(66556008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: RrpmGF7Br7qXlnZkFK88hT0Oj3AAusk8DnssWrWzP4oZSZo+VWHVG0/IS72iAXHwt+HVehKRfh31/d4/VynlCIRxu2ELaEZDZ1AhO32qFWtWvUpRmBp8R9/nLv6mxpIprZrPTEk8GsYtAS25VhHkvflTOt8lvyZ7mZK0NHYCpnE+vCwzaGZbjW/T9iswk1OfkpkwHCPm3xkUB0xbELorNcKCpv8Y2UPygFd9LSc/wilX2OsGE56cFD7O63rM/PkX+r1gSqUuEvBYD5PFxf9zEmiQSBMGZ9e4icM6Mu1UhsX9yqeOW+KEYB36lh0jn6nJW62hKwICG/K9XVpaIIDO78qqAxyhTot2QzhW5RuoOLdUYh7FEMMpEtNUCnu5c47ivhzQutpvNDgXA20ylsEuTs/ahUvH6jPFSMk6K9Mp06XvqOOnPkZ7V12fBBpLVrqpONiyAONxatnPJ/u8cZaFxOxVThwgNYi88YHoy4KGNGSKdpBR3b6ORWz8SkT9tett3jaZXwsGFheDePmIUoaGO6OTO19PDrk/tGCxb8nR3yXlWYOtDSPgfgEhDYyf36n82PzqQLJ6G8Rv+FzWD0xnFotPug/T0LzpIB/d+u2+XthWcsSdEB+Xj++bQG/pLRGZjSRcM8qOTBzUj+Q+xeg+yg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7300.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 145b9c02-e1a1-452b-6db3-08d87a1ab0b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 01:50:32.4440
+X-MS-Exchange-CrossTenant-Network-Message-Id: 923acf57-47c9-45c8-f381-08d87a2c9bf3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 03:58:48.5296
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +RjwEwkP6Hr10LRDgKZP/ZD1ohuEU29RWepmkoVEx/6WvCZ0ylU4dkX62CiIU6+aLgEb54xh0xhUbJNQcFMDYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0402MB3364
+X-MS-Exchange-CrossTenant-userprincipalname: +h8YSvrW2V/QlObphQ3JPhpnYS9aDpbcyz9Yitq43xJoipJsd6NsxTeCZjgWOE5brdAE0I5Yh1RBfrGkFXeacA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7633
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-IA0KPiA+IENjOiBQYXdlbCBMYXN6Y3phayA8cGF3ZWxsQGNhZGVuY2UuY29tPg0KPiA+IENjOiBS
-b2dlciBRdWFkcm9zIDxyb2dlcnFAdGkuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIENo
-ZW4gPHBldGVyLmNoZW5AbnhwLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy91c2IvaG9zdC94
-aGNpLmMgfCAyICstDQo+ID4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS5oIHwgMSArDQo+ID4gIDIg
-ZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLmMgYi9kcml2ZXJzL3VzYi9ob3N0L3ho
-Y2kuYyBpbmRleA0KPiA+IDQ4MmZlOGM1ZTNiNC4uZmM3MmEwM2RjMjdmIDEwMDY0NA0KPiA+IC0t
-LSBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS5jDQo+ID4gKysrIGIvZHJpdmVycy91c2IvaG9zdC94
-aGNpLmMNCj4gPiBAQCAtMTkzLDcgKzE5Myw3IEBAIGludCB4aGNpX3Jlc2V0KHN0cnVjdCB4aGNp
-X2hjZCAqeGhjaSkNCj4gPiAgCSAqIFdpdGhvdXQgdGhpcyBkZWxheSwgdGhlIHN1YnNlcXVlbnQg
-SEMgcmVnaXN0ZXIgYWNjZXNzLA0KPiA+ICAJICogbWF5IHJlc3VsdCBpbiBhIHN5c3RlbSBoYW5n
-IHZlcnkgcmFyZWx5Lg0KPiA+ICAJICovDQo+ID4gLQlpZiAoeGhjaS0+cXVpcmtzICYgWEhDSV9J
-TlRFTF9IT1NUKQ0KPiA+ICsJaWYgKHhoY2ktPnF1aXJrcyAmIChYSENJX0lOVEVMX0hPU1QgfCBY
-SENJX0NETlNfSE9TVCkpDQo+ID4gIAkJdWRlbGF5KDEwMDApOw0KPiA+DQo+ID4gIAlyZXQgPSB4
-aGNpX2hhbmRzaGFrZSgmeGhjaS0+b3BfcmVncy0+Y29tbWFuZCwNCj4gPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy91c2IvaG9zdC94aGNpLmggYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2kuaCBpbmRleA0K
-PiA+IDhiZTg4Mzc5YzBmYi4uNGI3Mjc1YzczZWE1IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMv
-dXNiL2hvc3QveGhjaS5oDQo+ID4gKysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLmgNCj4gPiBA
-QCAtMTg3Nyw2ICsxODc3LDcgQEAgc3RydWN0IHhoY2lfaGNkIHsNCj4gPiAgI2RlZmluZSBYSENJ
-X1NOUFNfQlJPS0VOX1NVU1BFTkQgICAgQklUX1VMTCgzNSkNCj4gPiAgI2RlZmluZSBYSENJX1JF
-TkVTQVNfRldfUVVJUksJQklUX1VMTCgzNikNCj4gPiAgI2RlZmluZSBYSENJX1NLSVBfUEhZX0lO
-SVQJQklUX1VMTCgzNykNCj4gPiArI2RlZmluZSBYSENJX0NETlNfSE9TVAkJQklUX1VMTCgzOCkN
-Cj4gPg0KPiA+ICAJdW5zaWduZWQgaW50CQludW1fYWN0aXZlX2VwczsNCj4gPiAgCXVuc2lnbmVk
-IGludAkJbGltaXRfYWN0aXZlX2VwczsNCj4gPg0KPiANCj4gSXMgdGhlIFhIQ0lfQ0ROU19IT1NU
-IHF1aXJrIGJpdCBzZXQgaW4gc29tZSBvdGhlciBwYXRjaHNlcmllcz8NCj4gDQoNCkN1cnJlbnRs
-eSwgbm8sIG9ubHkgYXQgdGhlIGZ1bmN0aW9uIG9mIHhoY2lfcmVzZXQgaW4gdGhpcyBjb21taXQu
-DQoNClBldGVyDQoNCg0K
+=20
+> >
+> > A gentle ping.
+> >
+> > I assume that you should add this and the rest overdue cdsn3 patches
+> > as first to you ci-for-usb-next branch.
+> > Am I right?
+> >
+>=20
+> Hi Pawel,
+>=20
+> I queued them locally, and I waited for v5.10-rc1 which was out yesterday=
+, then
+> I will apply them, and add cdns3 patches to my kernel.org branch. Will up=
+date
+> you these two days.
+>=20
+> Peter
+
+Hi Pawel,
+
+The cdns3 -next patches pushed to: for-usb-next; cdns3 -fixes patches pushe=
+d to: for-usb-fixes.
+The git is: git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.gi=
+t
+
+Currently, I only pushed three of your patches, would you please review my =
+patches, thanks.
+
+Peter
