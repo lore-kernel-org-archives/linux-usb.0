@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27542C4363A
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5EA7C4363A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:14:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA0BD21741
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:11:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B60A207C4
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:14:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603757466;
-	bh=dtxnUm0ua7ly16BsJupjFXbtZC9il6+bpYkQ+3rFZaY=;
+	s=default; t=1603757641;
+	bh=k8n5ntisjntHlYtx2uja7AvfiRsSlnAeNMkxb8Nd0l4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=rE8T39GSiOuzEKG4Dlt9q+6uPlRga6X65oKtuVbjL9+Pgr011QL8TrVP6tiH7Jvu6
-	 Lv1WYsK6aoAE+RmjveoBbvSaWqAbK5uxKO+cIOm2FKzW3rot1XKs2o7SCO+NOkTxxH
-	 z2kFAVAwaRuP9XBOh2+HZR3wKSfEgDjbeIkbo9LY=
+	b=1y3R2EC80bUIorKLNHJgmcUdUr9ND6/pcHO/nTTaRUicSjRcxBEJ17/lugiCX8kYX
+	 kMnwFmZNteNq80xC6XYwdXs0D9atnzlLCFfOqJpw1bckv9wW/i1Nd5JXdRixPBpa4h
+	 H+DumOaXfZyKb7HSI4FiF/EEOiTsD7cLpPmlss5Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411680AbgJ0ALE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 20:11:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60456 "EHLO mail.kernel.org"
+        id S2439522AbgJ0ANz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 20:13:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33442 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2411668AbgJ0ALC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:11:02 -0400
+        id S2439267AbgJ0ALi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Oct 2020 20:11:38 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CE8B220754;
-        Tue, 27 Oct 2020 00:11:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2092F20791;
+        Tue, 27 Oct 2020 00:11:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757462;
-        bh=dtxnUm0ua7ly16BsJupjFXbtZC9il6+bpYkQ+3rFZaY=;
+        s=default; t=1603757497;
+        bh=k8n5ntisjntHlYtx2uja7AvfiRsSlnAeNMkxb8Nd0l4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UOsquY9iI5+93nuPZtYoxY+B77Ka6aDAI0Yda5EJoLJliWrbq4nqagyt7ZxEfQIgo
-         RrkOKrREHC5kiJ1MOUMw5bq6FF9tAEFtE/e6RTlscVZxk47gAEreVG7eWwZNxMBckH
-         +VY+goxx/lI4lHvxuCSd2srojZjmdtbG+E6qpiAo=
+        b=jgAokBSnCrLKcYsMxIhe99Ab/wTRWqQQv3N2qd/BOr/TpwB5irR3bXLi+cKyQuQ3s
+         Avc6S2CEbm0k5Zi+kpU8XAG1rTpjbtyDVEC38XJUdQznqyw2ceeEFg+3CcqurLQGky
+         6TQGXr5OXzjMGhQ+rz2dIHdwPN9la+ncg1hxtNS4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 15/30] USB: adutux: fix debugging
-Date:   Mon, 26 Oct 2020 20:10:29 -0400
-Message-Id: <20201027001044.1027349-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 11/25] USB: adutux: fix debugging
+Date:   Mon, 26 Oct 2020 20:11:09 -0400
+Message-Id: <20201027001123.1027642-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027001044.1027349-1-sashal@kernel.org>
-References: <20201027001044.1027349-1-sashal@kernel.org>
+In-Reply-To: <20201027001123.1027642-1-sashal@kernel.org>
+References: <20201027001123.1027642-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
-index 7fb0590187d40..a1bc516be154d 100644
+index ba5c0a4591ac9..012d97f9c30c7 100644
 --- a/drivers/usb/misc/adutux.c
 +++ b/drivers/usb/misc/adutux.c
 @@ -210,6 +210,7 @@ static void adu_interrupt_out_callback(struct urb *urb)
