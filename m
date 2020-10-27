@@ -5,52 +5,50 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D02C2D0A3
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:06:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27542C4363A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:11:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8388A20882
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:06:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA0BD21741
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Oct 2020 00:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603757203;
-	bh=wJ62ul0hJxjpwnHYX0IgXuJJQBdZh0S1SuuA9vr+mzI=;
+	s=default; t=1603757466;
+	bh=dtxnUm0ua7ly16BsJupjFXbtZC9il6+bpYkQ+3rFZaY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nnTdFL9fPgZenq+uh5AnY6euvmBdEB6otzPa2XkBstgfJ0kApmpnAT3f88/HVfpou
-	 9H7b/WI0KG/obKaZ5QwWafy8BF6LhiGgMe1/KGkw0XbrPCWOMYIuBg8H2hY+oMvbmw
-	 aTDTNI9WOsrQLaZj9UFaNdF/CWa6Lu4UTCtcrQbg=
+	b=rE8T39GSiOuzEKG4Dlt9q+6uPlRga6X65oKtuVbjL9+Pgr011QL8TrVP6tiH7Jvu6
+	 Lv1WYsK6aoAE+RmjveoBbvSaWqAbK5uxKO+cIOm2FKzW3rot1XKs2o7SCO+NOkTxxH
+	 z2kFAVAwaRuP9XBOh2+HZR3wKSfEgDjbeIkbo9LY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438779AbgJ0AGl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Oct 2020 20:06:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53180 "EHLO mail.kernel.org"
+        id S2411680AbgJ0ALE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Oct 2020 20:11:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60456 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437699AbgJ0AEi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:04:38 -0400
+        id S2411668AbgJ0ALC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Oct 2020 20:11:02 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A6512087C;
-        Tue, 27 Oct 2020 00:04:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CE8B220754;
+        Tue, 27 Oct 2020 00:11:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757078;
-        bh=wJ62ul0hJxjpwnHYX0IgXuJJQBdZh0S1SuuA9vr+mzI=;
+        s=default; t=1603757462;
+        bh=dtxnUm0ua7ly16BsJupjFXbtZC9il6+bpYkQ+3rFZaY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=quCuPOH9BIx+flvgLjLJgZMfiVl1/kmd99Q6UMkBLt5CLqBMrg3nyExEtJ5cBEGjc
-         2KsEdpAKHJsXtsHpVfSCbB6oJkaNUuuE+lDVYCBixqZYpYorjHn0slP3LUZfQBxeEe
-         gTU+wmvfJl4w8SvceMvaIrFHJeTC5xTDbLtYotFE=
+        b=UOsquY9iI5+93nuPZtYoxY+B77Ka6aDAI0Yda5EJoLJliWrbq4nqagyt7ZxEfQIgo
+         RrkOKrREHC5kiJ1MOUMw5bq6FF9tAEFtE/e6RTlscVZxk47gAEreVG7eWwZNxMBckH
+         +VY+goxx/lI4lHvxuCSd2srojZjmdtbG+E6qpiAo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Badhri Jagan Sridharan <badhri@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 18/60] usb: typec: tcpm: During PR_SWAP, source caps should be sent only after tSwapSourceStart
-Date:   Mon, 26 Oct 2020 20:03:33 -0400
-Message-Id: <20201027000415.1026364-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 15/30] USB: adutux: fix debugging
+Date:   Mon, 26 Oct 2020 20:10:29 -0400
+Message-Id: <20201027001044.1027349-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000415.1026364-1-sashal@kernel.org>
-References: <20201027000415.1026364-1-sashal@kernel.org>
+In-Reply-To: <20201027001044.1027349-1-sashal@kernel.org>
+References: <20201027001044.1027349-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,77 +57,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Badhri Jagan Sridharan <badhri@google.com>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit 6bbe2a90a0bb4af8dd99c3565e907fe9b5e7fd88 ]
+[ Upstream commit c56150c1bc8da5524831b1dac2eec3c67b89f587 ]
 
-The patch addresses the compliance test failures while running
-TD.PD.CP.E3, TD.PD.CP.E4, TD.PD.CP.E5 of the "Deterministic PD
-Compliance MOI" test plan published in https://www.usb.org/usbc.
-For a product to be Type-C compliant, it's expected that these tests
-are run on usb.org certified Type-C compliance tester as mentioned in
-https://www.usb.org/usbc.
+Handling for removal of the controller was missing at one place.
+Add it.
 
-The purpose of the tests TD.PD.CP.E3, TD.PD.CP.E4, TD.PD.CP.E5 is to
-verify the PR_SWAP response of the device. While doing so, the test
-asserts that Source Capabilities message is NOT received from the test
-device within tSwapSourceStart min (20 ms) from the time the last bit
-of GoodCRC corresponding to the RS_RDY message sent by the UUT was
-sent. If it does then the test fails.
-
-This is in line with the requirements from the USB Power Delivery
-Specification Revision 3.0, Version 1.2:
-"6.6.8.1 SwapSourceStartTimer
-The SwapSourceStartTimer Shall be used by the new Source, after a
-Power Role Swap or Fast Role Swap, to ensure that it does not send
-Source_Capabilities Message before the new Sink is ready to receive
-the
-Source_Capabilities Message. The new Source Shall Not send the
-Source_Capabilities Message earlier than tSwapSourceStart after the
-last bit of the EOP of GoodCRC Message sent in response to the PS_RDY
-Message sent by the new Source indicating that its power supply is
-ready."
-
-The patch makes sure that TCPM does not send the Source_Capabilities
-Message within tSwapSourceStart(20ms) by transitioning into
-SRC_STARTUP only after  tSwapSourceStart(20ms).
-
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Link: https://lore.kernel.org/r/20200817183828.1895015-1-badhri@google.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Link: https://lore.kernel.org/r/20200917112600.26508-1-oneukum@suse.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/typec/tcpm.c | 2 +-
- include/linux/usb/pd.h   | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/usb/misc/adutux.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/typec/tcpm.c b/drivers/usb/typec/tcpm.c
-index 29d72e9b0f017..7086ebb245320 100644
---- a/drivers/usb/typec/tcpm.c
-+++ b/drivers/usb/typec/tcpm.c
-@@ -3486,7 +3486,7 @@ static void run_state_machine(struct tcpm_port *port)
- 		 */
- 		tcpm_set_pwr_role(port, TYPEC_SOURCE);
- 		tcpm_pd_send_control(port, PD_CTRL_PS_RDY);
--		tcpm_set_state(port, SRC_STARTUP, 0);
-+		tcpm_set_state(port, SRC_STARTUP, PD_T_SWAP_SRC_START);
- 		break;
+diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
+index 7fb0590187d40..a1bc516be154d 100644
+--- a/drivers/usb/misc/adutux.c
++++ b/drivers/usb/misc/adutux.c
+@@ -210,6 +210,7 @@ static void adu_interrupt_out_callback(struct urb *urb)
  
- 	case VCONN_SWAP_ACCEPT:
-diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-index f2162e0fe531b..bdf4c88d2aa0a 100644
---- a/include/linux/usb/pd.h
-+++ b/include/linux/usb/pd.h
-@@ -451,6 +451,7 @@ static inline unsigned int rdo_max_power(u32 rdo)
- #define PD_T_ERROR_RECOVERY	100	/* minimum 25 is insufficient */
- #define PD_T_SRCSWAPSTDBY      625     /* Maximum of 650ms */
- #define PD_T_NEWSRC            250     /* Maximum of 275ms */
-+#define PD_T_SWAP_SRC_START	20	/* Minimum of 20ms */
- 
- #define PD_T_DRP_TRY		100	/* 75 - 150 ms */
- #define PD_T_DRP_TRYWAIT	600	/* 400 - 800 ms */
+ 	if (status != 0) {
+ 		if ((status != -ENOENT) &&
++		    (status != -ESHUTDOWN) &&
+ 		    (status != -ECONNRESET)) {
+ 			dev_dbg(&dev->udev->dev,
+ 				"%s :nonzero status received: %d\n", __func__,
 -- 
 2.25.1
 
