@@ -2,106 +2,99 @@ Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F762C4363A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F9FC388F7
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 447F72080D
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="bjStZG4h"
+	by mail.kernel.org (Postfix) with ESMTP id 51478207CD
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390513AbgJ1XnU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:43:20 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:30558 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390488AbgJ1XnT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 19:43:19 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603928599; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=EiJC9o2fMu6Zihqt6GhqK14gv4g0EzuW9oUn3J3Z+6c=; b=bjStZG4h81SX/sit7jMScCx2rNEXTV4LolEMij4zHLjxEiODLgEefiO+kwTqtLoZLAeQRTvz
- sB1qTsxmFp4Zgh7aGz3Y2qTDygnJcbe93XcqsHiuz0BtPi9oNoKbd3lCem+m/6wuZmFxiw/m
- A7NpRpAIIuvCU9kLsZuzq7dNBIU=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 5f9a02160e953497c76751f1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Oct 2020 23:43:18
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id A24E5C433B1; Wed, 28 Oct 2020 23:43:18 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B559AC43382;
-        Wed, 28 Oct 2020 23:43:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B559AC43382
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        Thinh.Nguyen@synopsys.com
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 1/2] usb: dwc3: gadget: Allow runtime suspend if UDC unbinded
-Date:   Wed, 28 Oct 2020 16:43:10 -0700
-Message-Id: <20201028234311.6464-2-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201028234311.6464-1-wcheng@codeaurora.org>
-References: <20201028234311.6464-1-wcheng@codeaurora.org>
+        id S2389165AbgJ1XnO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 19:43:14 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:39782 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388224AbgJ1Wvs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 18:51:48 -0400
+Received: by mail-pf1-f195.google.com with SMTP id e15so685340pfh.6;
+        Wed, 28 Oct 2020 15:51:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=88zJ9ycLYQdcGqRXYja6/gO2C1Ux6yzl679UI8xpjuk=;
+        b=mDAT2lviXSntEcMhARnMRFfdYuPdGTfEq+Ks1QELqZO8akz6HkytaYKwHoc8KhyU1e
+         uLNprLCtiYJw3sWMc4G9hDPkqnSsHtltWelpEPcOLVAn1hKEuwr6hJhoVCRDZ8zWf97R
+         lLxtn5IjHttyeSMgINQjIPSnX5+/oK1ezwrd9ETGw+DOQ9fohq2wdCRgkIXYi9wGRmUU
+         4eDk6wZYc9duhuA4Pj0SJb+E7r3bD676uIl4J73bqSHKwrvTOnGizVEvEz9mD7QeBjm8
+         r1JbzmusCwqxZN+Iak/DRjHMKftXFaPRiHuFmaD1DKHzKWWo/0pm5TteFwdoxfQ/ZbcC
+         FEPQ==
+X-Gm-Message-State: AOAM530lw6DG7xMF0tnysyIGOY+xne5s2gQsytlHBAyi8xEmTlk8ihnM
+        d94wMPfPCWMnAjbtrJ8Yhkig1Z4TWp0kG2Jx
+X-Google-Smtp-Source: ABdhPJx7FiiYGqO8p9vnvQI0SFfAk/Zy/DLS6frwPi9tU1Ev3+i3tWcwRUuf81mHMu9jTgX4SAzVww==
+X-Received: by 2002:a92:41cf:: with SMTP id o198mr4361886ila.262.1603857675192;
+        Tue, 27 Oct 2020 21:01:15 -0700 (PDT)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com. [209.85.166.170])
+        by smtp.gmail.com with ESMTPSA id v85sm2051225ilk.50.2020.10.27.21.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2020 21:01:14 -0700 (PDT)
+Received: by mail-il1-f170.google.com with SMTP id v18so3513249ilg.1;
+        Tue, 27 Oct 2020 21:01:14 -0700 (PDT)
+X-Received: by 2002:a92:cb8d:: with SMTP id z13mr4118140ilo.182.1603857669680;
+ Tue, 27 Oct 2020 21:01:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
+ <20201022135521.375211-1-m.v.b@runbox.com> <20201022135521.375211-2-m.v.b@runbox.com>
+ <4f367aba2f43b5e3807e0b01a5375e4a024ce765.camel@hadess.net>
+In-Reply-To: <4f367aba2f43b5e3807e0b01a5375e4a024ce765.camel@hadess.net>
+From:   Pany <pany@fedoraproject.org>
+Date:   Wed, 28 Oct 2020 04:00:57 +0000
+X-Gmail-Original-Message-ID: <CAE3RAxuUiejhQtByfgeORrjy6v=QAP4gPrv+L-Ez4roNNsQY=g@mail.gmail.com>
+Message-ID: <CAE3RAxuUiejhQtByfgeORrjy6v=QAP4gPrv+L-Ez4roNNsQY=g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] usbcore: Check both id_table and match() when both available
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>, linux-usb@vger.kernel.org,
+        stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DWC3 runtime suspend routine checks for the USB connected parameter to
-determine if the controller can enter into a low power state.  The
-connected state is only set to false after receiving a disconnect event.
-However, in the case of a device initiated disconnect (i.e. UDC unbind),
-the controller is halted and a disconnect event is never generated.  Set
-the connected flag to false if issuing a device initiated disconnect to
-allow the controller to be suspended.
+On Tue, Oct 27, 2020 at 6:25 PM Bastien Nocera <hadess@hadess.net> wrote:
+>
+> On Thu, 2020-10-22 at 09:55 -0400, M. Vefa Bicakci wrote:
+> > From: Bastien Nocera <hadess@hadess.net>
+> >
+> > From: Bastien Nocera <hadess@hadess.net>
+> >
+> > When a USB device driver has both an id_table and a match() function,
+> > make
+> > sure to check both to find a match, first matching the id_table, then
+> > checking the match() function.
+> >
+> > This makes it possible to have module autoloading done through the
+> > id_table when devices are plugged in, before checking for further
+> > device eligibility in the match() function.
+> >
+> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > Cc: <stable@vger.kernel.org> # 5.8
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Alan Stern <stern@rowland.harvard.edu>
+> > Co-developed-by: M. Vefa Bicakci <m.v.b@runbox.com>
+> > Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+>
+> You can also add my:
+> Tested-by: Bastien Nocera <hadess@hadess.net>
+>
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/usb/dwc3/gadget.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+This patch works well for me.
+Tested-by: Pan (Pany) YUAN <pany@fedoraproject.org>
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 5d879b7606d5..6364429b2122 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1995,6 +1995,11 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 	unsigned long		flags;
- 	int			ret;
- 
-+	if (pm_runtime_suspended(dwc->dev)) {
-+		pm_request_resume(dwc->dev);
-+		return 0;
-+	}
-+
- 	is_on = !!is_on;
- 
- 	/*
-@@ -2050,6 +2055,7 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 			dwc->ev_buf->lpos = (dwc->ev_buf->lpos + count) %
- 						dwc->ev_buf->length;
- 		}
-+		dwc->connected = false;
- 	}
- 
- 	ret = dwc3_gadget_run_stop(dwc, is_on, false);
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Regards,
+Pany
+pany@fedoraproject.org
