@@ -2,137 +2,170 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 080C2C5517A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC18C388F7
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:02:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B111720791
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603933286;
-	bh=pAXgAGuha2+xKcRRbHLg1pp4yYs653DUA9/8tvcyqJM=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=GsYiuvhFAdO9SzQBoBxMu0ZGWDaw9lvDltHeU0AI+FH/hn22mDEGrZm0OOP2hXfSA
-	 /Mt7Jah4nL5pvUHNOUTCupnsr3norqsh8R1pWspDylTOitLVqUkpus0DpTZQAJ7VPu
-	 yl+eEq0vty73Ih6P2MwoJYvuhicDWw2nbH/aeaUI=
+	by mail.kernel.org (Postfix) with ESMTP id 9F10220791
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:02:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="oJIJIy5Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731523AbgJ2BBZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 21:01:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60512 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731518AbgJ1WR1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:27 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95329246C2;
-        Wed, 28 Oct 2020 11:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603884621;
-        bh=pAXgAGuha2+xKcRRbHLg1pp4yYs653DUA9/8tvcyqJM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pbO/aKwvINygU21CbJM27RRUr2nqjYlnmp0tIdNGuK8Ub6uKyG8oV/qYFIgzxR6vF
-         Ejlw6u6iGu5EVhsjV4CTOdgvAP8OwamW5kshmWzeCH/zMFYm6/erH3Q6f/Lh4of5zg
-         Np/LAf9d0d1xxKA65MxsR5B0I5Z3mbvz7gectOdM=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        "Ahmed S . Darwish" <a.darwish@linutronix.de>
-Subject: [PATCH] USB: host: isp1362: delete isp1362_show_regs()
-Date:   Wed, 28 Oct 2020 12:31:07 +0100
-Message-Id: <20201028113107.2007742-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.29.1
+        id S1731095AbgJ1WN3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:13:29 -0400
+Received: from mail-eopbgr150057.outbound.protection.outlook.com ([40.107.15.57]:38469
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730948AbgJ1WNK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:13:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GmRrJWQLaLwjCfDYIWHSQpADFE9cc3bmyZx/A68uUZtRr9Ji3mb+ehf9pdiQpt7yj83N1zMaCMb/3ghonexnjL6cqlsfggR9UtHxLPaDWoG4CeStIJY/VszBHlEXEhQaA/58Ti+ixpnjXHmrfVY6T5xJbfhDDkBIX08ZDRacM6LqyLCp69PG79glamDbZXZiBZiHCOwNCD9OtmasVaTn1uw7crL0g4859/RlHXPx8m8xG85e/vMe4l+qP0MgvnaCAiIn0kStJPGKItOoOxdDb4nSVaNYuUTKINW6pjTCX5H5B9VMWSMxaIVkn1PgygakCPC9KQYR0iVCyn4fEqwiEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W53cW9J774EaPVUgxlukdA7jnhKcOyo4Z7vbn/GA0DU=;
+ b=XcQN9YJywuPC4mQXp+wDFnpU6Til9Y7JS/2b+zD3hq+KKxR2Ybh9AWugadxn1vWlG4U1N2DDTtue54yxuCynpDsf/Mw8sQHZPJULw7jn+PdjXxeyP4sxFZLIk0+MzXrib4b5gpW/PFEuebKutVrYoK0DQwF0eZJTJl/2T+R53PEFWa5SSn5+jI/riIPJYz0cE+zSyjAx8MoRmJOv2Sgtu/udpaDu7dnoAM7YXf7eZ9H9Y7NWJtq1vIvn+NSx3mGLtqADJY0phK+2r3M6T2Z+CLUs6O5c8b4p8f6EyPH0hxtKc5GSdzyeptddGIEh8CiR5ySLbTGWpluqKCyF4zwEig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W53cW9J774EaPVUgxlukdA7jnhKcOyo4Z7vbn/GA0DU=;
+ b=oJIJIy5Z/ocAoxg61PmShmF3F2U7OCJ4HmHvEdgdOz0e9fVbbigLnBeg30Xe9rph2nVQukn/3kq5VugT6m1F8A7fqD5EXJh58QIogBIWanetQZHy/gKkwoXROSCmwHlpSYrPSR0dUGJRVbw/bbvG74IRuPpaJdk3xqEx2W2upMY=
+Received: from AM8PR04MB7300.eurprd04.prod.outlook.com (2603:10a6:20b:1c7::12)
+ by AM0PR04MB5698.eurprd04.prod.outlook.com (2603:10a6:208:12a::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 28 Oct
+ 2020 07:35:52 +0000
+Received: from AM8PR04MB7300.eurprd04.prod.outlook.com
+ ([fe80::b902:6be0:622b:26c2]) by AM8PR04MB7300.eurprd04.prod.outlook.com
+ ([fe80::b902:6be0:622b:26c2%4]) with mapi id 15.20.3477.028; Wed, 28 Oct 2020
+ 07:35:52 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Pawel Laszczak <pawell@cadence.com>
+CC:     "balbi@kernel.org" <balbi@kernel.org>,
+        "rogerq@ti.com" <rogerq@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rahul Kumar <kurahul@cadence.com>
+Subject: RE: [PATCH v3] usb: cdns3: Variable 'length' set but not used
+Thread-Topic: [PATCH v3] usb: cdns3: Variable 'length' set but not used
+Thread-Index: AQHWoq98xx7XZYJdVkmeSngJp6ePZqmptLIAgAAh+NCAAQ3WQIAAid+AgAE3nRCAAApfgIAABAVA
+Date:   Wed, 28 Oct 2020 07:35:52 +0000
+Message-ID: <AM8PR04MB7300CE054149183918FF5C2F8B170@AM8PR04MB7300.eurprd04.prod.outlook.com>
+References: <20201015045529.2022-1-pawell@cadence.com>
+ <DM6PR07MB55290EA090C418457C1E293BDD190@DM6PR07MB5529.namprd07.prod.outlook.com>
+ <AM8PR04MB7300C4C0BB37319ABC1680528B190@AM8PR04MB7300.eurprd04.prod.outlook.com>
+ <AM8PR04MB73000CE28EC53B3402BFC5BE8B160@AM8PR04MB7300.eurprd04.prod.outlook.com>
+ <DM6PR07MB552997CD8216B5AFD522104CDD160@DM6PR07MB5529.namprd07.prod.outlook.com>
+ <AM8PR04MB7300DE47422D951CF74E006C8B170@AM8PR04MB7300.eurprd04.prod.outlook.com>
+ <DM6PR07MB55296E10F720D4B7431663A4DD170@DM6PR07MB5529.namprd07.prod.outlook.com>
+In-Reply-To: <DM6PR07MB55296E10F720D4B7431663A4DD170@DM6PR07MB5529.namprd07.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: cadence.com; dkim=none (message not signed)
+ header.d=none;cadence.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [180.164.158.209]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 251815f7-6339-40f5-efcc-08d87b141901
+x-ms-traffictypediagnostic: AM0PR04MB5698:
+x-microsoft-antispam-prvs: <AM0PR04MB569812E62CF6B02ABD5069728B170@AM0PR04MB5698.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UACneNX7sOCcY0E6u3sa/23rDkg/S350Fmjbdrvvgd2ZtYBfh75szN4p5/U4QL76Wu/3FXFrjESsSu3M8QF9QfJ9BObui9msp4U+rPP8YzS9xJ4pVSFEBBGvgatjwlLDPT9elk5kmGKX9JU79cz33K92Ahj/8aoMmuwhX92uj36DTJXr8dKUL355gUqk8lIpQiPn/8XAyuDhRPmAWk/Lgf1dsGIVq4zchOVfHjbAtqbFKZWhEqyNQcZlfJdY2dKiSNO3+fI1hj/DPNNg8zUeAHxNQ4aU6pa4sLrO4dM4AV9q+xAsRsAYbD4pD5jlSTeDVB81sbNGSJEfumZQxSyRRB9dpUKPLxt4Z/zjRVJzxrpg9gxUiZRdDyO96N51xrIMJNU+lJLhmH15b00nTSd9Lg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7300.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(39860400002)(376002)(396003)(366004)(186003)(2906002)(6916009)(54906003)(7696005)(83380400001)(71200400001)(52536014)(478600001)(5660300002)(6506007)(86362001)(45080400002)(9686003)(76116006)(8936002)(8676002)(316002)(966005)(55016002)(33656002)(66946007)(66476007)(26005)(44832011)(66556008)(4326008)(66446008)(64756008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: XdSuo3UYapn38m8DA4z1iI7jx/VIKNGvgcXSc3hLyuTVHRdf5vuQK/r6nJe8yXx6R65PyUIZ7px69h37QfC/6waXWoiemapiHa4D7fLRNER4Cj65/6hxzdLzxd7j4rvsP4eHleBCCxRhpQkCK6fMdf6/zRPTp/odPpecNQxrCGw+I/v88KonojGpVT59FVR+UXEpE7mxV6wCb8fCxhBoTaZPVl9xJd9lq1Z8VzjyZGPI6WqfUw73clVjPwPDu2vLOFQhBXwkvg7Vo8p9nCIWK/YMoJGv5mGIEr9eM4gbmehJO0Iqq3dUU7co+LC/KokOi8hff4gMRuJsiM9hHQ8ndIHQtBnT7ZPoK36EOZvyvgqc5DcPgh0Hy//A8CFjgB7k7I6ir9eaP/hQPuDQAF3eBozFiaEZFFdlbMyX+nRy1Rg2iMXyzpZFw2whq2GF6WGTzVSpmKQblm5gr52qPLPfkaVUTuMBHzz9XySP1Lb6kxjTOMpsrwpX/iCXD5D3RexuaCqIAtWIKFiFbgUVDM5du8zebtDr0W8Cf8VdkkYqZo0yDQDliq7dVvhpdWKmTcQm0r4RTCwlKqCogybJO6F/EDQZweP4PQgvPPm5oINP9KxlXnqp3A0zLuseiHq1/wXWCn0SmAjGI+3J5pXCrqr4Qg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7300.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 251815f7-6339-40f5-efcc-08d87b141901
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2020 07:35:52.1497
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eWdUA9beaQZZoKo6gl/Y8kTiTFfTTkPwIaDcYmcHbOjfGk6TRRBWPUITK9DVXs/2f1/P0CRmMIS3vpoZQBRUcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB5698
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-No one is calling this function, so it's pointless to keep around as it
-is triggering automated scanning tools to try to fix up the problems
-with it using in_interrupt().
+=20
+>=20
+> >
+> >> Peter,
+> >>
+> >> It looks like you missed the " [PATCH v3] usb: cdns3: Variable
+> >> 'length' set but not used"
+> >>
+> >> It's quite important because compiler complains for this when I use W=
+=3D1.
+> >>
+> >
+> >Pawel, it is the bug-fix, and located at branch: for-usb-fixes.
+>=20
+> But I can't see it in this branch:
+>=20
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.k=
+ern
+> el.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fpeter.chen%2Fusb.git%2Flo
+> g%2F%3Fh%3Dfor-usb-fixes%26qt%3Dgrep%26q%3Dcdns3&amp;data=3D04%7C
+> 01%7Cpeter.chen%40nxp.com%7Cc49c80ded3ec4bae70aa08d87b120467%7C
+> 686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637394664604902329%7
+> CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT
+> iI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DjtcT0U8ZptlBSwST00%2B
+> bMtCQDZDr%2B3PNMm69RrZWgDs%3D&amp;reserved=3D0
+>=20
+> I can see there only: usb: cdns3: Rids of duplicate error message.
+>=20
 
-So delete the thing.
+Thanks for notifying it, I have updated it.
 
-Reported-by: Thomas Gleixner <tglx@linutronix.de>
-Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Reported-by: Ahmed S. Darwish <a.darwish@linutronix.de>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/host/isp1362.h | 54 --------------------------------------
- 1 file changed, 54 deletions(-)
+Peter
 
-diff --git a/drivers/usb/host/isp1362.h b/drivers/usb/host/isp1362.h
-index 9bbfcc3fdd3c..208705b08d37 100644
---- a/drivers/usb/host/isp1362.h
-+++ b/drivers/usb/host/isp1362.h
-@@ -793,60 +793,6 @@ static void isp1362_write_fifo(struct isp1362_hcd *isp1362_hcd, void *buf, u16 l
- 			ISP1362_REG_NO(ISP1362_REG_##r), isp1362_read_reg16(d, r));	\
- }
- 
--static void __attribute__((__unused__)) isp1362_show_regs(struct isp1362_hcd *isp1362_hcd)
--{
--	isp1362_show_reg(isp1362_hcd, HCREVISION);
--	isp1362_show_reg(isp1362_hcd, HCCONTROL);
--	isp1362_show_reg(isp1362_hcd, HCCMDSTAT);
--	isp1362_show_reg(isp1362_hcd, HCINTSTAT);
--	isp1362_show_reg(isp1362_hcd, HCINTENB);
--	isp1362_show_reg(isp1362_hcd, HCFMINTVL);
--	isp1362_show_reg(isp1362_hcd, HCFMREM);
--	isp1362_show_reg(isp1362_hcd, HCFMNUM);
--	isp1362_show_reg(isp1362_hcd, HCLSTHRESH);
--	isp1362_show_reg(isp1362_hcd, HCRHDESCA);
--	isp1362_show_reg(isp1362_hcd, HCRHDESCB);
--	isp1362_show_reg(isp1362_hcd, HCRHSTATUS);
--	isp1362_show_reg(isp1362_hcd, HCRHPORT1);
--	isp1362_show_reg(isp1362_hcd, HCRHPORT2);
--
--	isp1362_show_reg(isp1362_hcd, HCHWCFG);
--	isp1362_show_reg(isp1362_hcd, HCDMACFG);
--	isp1362_show_reg(isp1362_hcd, HCXFERCTR);
--	isp1362_show_reg(isp1362_hcd, HCuPINT);
--
--	if (in_interrupt())
--		DBG(0, "%-12s[%02x]:     %04x\n", "HCuPINTENB",
--			 ISP1362_REG_NO(ISP1362_REG_HCuPINTENB), isp1362_hcd->irqenb);
--	else
--		isp1362_show_reg(isp1362_hcd, HCuPINTENB);
--	isp1362_show_reg(isp1362_hcd, HCCHIPID);
--	isp1362_show_reg(isp1362_hcd, HCSCRATCH);
--	isp1362_show_reg(isp1362_hcd, HCBUFSTAT);
--	isp1362_show_reg(isp1362_hcd, HCDIRADDR);
--	/* Access would advance fifo
--	 * isp1362_show_reg(isp1362_hcd, HCDIRDATA);
--	 */
--	isp1362_show_reg(isp1362_hcd, HCISTLBUFSZ);
--	isp1362_show_reg(isp1362_hcd, HCISTLRATE);
--	isp1362_show_reg(isp1362_hcd, HCINTLBUFSZ);
--	isp1362_show_reg(isp1362_hcd, HCINTLBLKSZ);
--	isp1362_show_reg(isp1362_hcd, HCINTLDONE);
--	isp1362_show_reg(isp1362_hcd, HCINTLSKIP);
--	isp1362_show_reg(isp1362_hcd, HCINTLLAST);
--	isp1362_show_reg(isp1362_hcd, HCINTLCURR);
--	isp1362_show_reg(isp1362_hcd, HCATLBUFSZ);
--	isp1362_show_reg(isp1362_hcd, HCATLBLKSZ);
--	/* only valid after ATL_DONE interrupt
--	 * isp1362_show_reg(isp1362_hcd, HCATLDONE);
--	 */
--	isp1362_show_reg(isp1362_hcd, HCATLSKIP);
--	isp1362_show_reg(isp1362_hcd, HCATLLAST);
--	isp1362_show_reg(isp1362_hcd, HCATLCURR);
--	isp1362_show_reg(isp1362_hcd, HCATLDTC);
--	isp1362_show_reg(isp1362_hcd, HCATLDTCTO);
--}
--
- static void isp1362_write_diraddr(struct isp1362_hcd *isp1362_hcd, u16 offset, u16 len)
- {
- 	len = (len + 1) & ~1;
--- 
-2.29.1
-
+> >
+> >> Thanks,
+> >> Pawel
+> >>
+> >> >> >
+> >> >> > A gentle ping.
+> >> >> >
+> >> >> > I assume that you should add this and the rest overdue cdsn3
+> >> >> > patches as first to you ci-for-usb-next branch.
+> >> >> > Am I right?
+> >> >> >
+> >> >>
+> >> >> Hi Pawel,
+> >> >>
+> >> >> I queued them locally, and I waited for v5.10-rc1 which was out
+> >> >> yesterday, then I will apply them, and add cdns3 patches to my
+> >> >> kernel.org branch. Will update you these two days.
+> >> >>
+> >> >> Peter
+> >> >
+> >> >Hi Pawel,
+> >> >
+> >> >The cdns3 -next patches pushed to: for-usb-next; cdns3 -fixes
+> >> >patches pushed
+> >> to: for-usb-fixes.
+> >> >The git is:
+> >> >git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
+> >> >
+> >> >Currently, I only pushed three of your patches, would you please
+> >> >review my
+> >> patches, thanks.
+> >> >
+> >> >Peter
