@@ -7,63 +7,83 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6852DC4363A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:22:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF1BC388F7
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:27:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15FEA206D9
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:22:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FE3720720
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603923754;
-	bh=BkH7NGQ3stg8sHIeUQW/CzjagGjDM1DLytvfTkbinSs=;
+	s=default; t=1603924035;
+	bh=U8N6vg6X2eYcSrQSkrm8NKGZN+U0c9/qNL8RW2RKxFY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=IRCbxX8JmC9mjtd/aSqrlYpLzfhhDzi/d1k2OD5giGXtBi7Ipgu8/1QhCBaljA229
-	 cYyqtxCmGDGNboxgX50V9mfLc2F8c8xujCsi8qawI9j6hkOExwqZlvL3UwYkTaV0xV
-	 5aqjBvY/YiCkcwtsdT7jPQ0wSKxLe9n83K0nLgYg=
+	b=HY2CrFiOp1L26zw5I/THXot0CDJSWeoObKP7k6pkMXA6lkv2Tcu6evVcizW3eyo0x
+	 5+wlgN4n3gg7ImGo0CR1PQcv9PIvqzYLBZjffBYBFdqWky8AXVB77UZczw+RJWm6SU
+	 AQ2oBfDBCK2X79NcOaV4WjSNLyFSV9jnm3GQ/gxc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732667AbgJ1WWZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:22:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36800 "EHLO mail.kernel.org"
+        id S1733008AbgJ1WYo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:24:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732650AbgJ1WWX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:22:23 -0400
+        id S1732655AbgJ1WWY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:22:24 -0400
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D0FEC24699;
-        Wed, 28 Oct 2020 09:37:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB76224689;
+        Wed, 28 Oct 2020 09:09:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603877875;
-        bh=BkH7NGQ3stg8sHIeUQW/CzjagGjDM1DLytvfTkbinSs=;
+        s=default; t=1603876192;
+        bh=U8N6vg6X2eYcSrQSkrm8NKGZN+U0c9/qNL8RW2RKxFY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=07Myxs/VbHsC6gZKtmfqw6TVY/h07QGwzR+LugaP6ilLnVi5V7AQD6SggKikQ1ZRc
-         y172F1gCKTpsYMp2PErCZQFbhxGMD4I8KWCR/xfpYcZvARpv4Xz8ncb5+/SIOJ42n/
-         Ls6qCxpEm2G2Hwh/bOeX4gOLspjxW5dUlJhXxARk=
-Date:   Wed, 28 Oct 2020 10:38:48 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org,
-        "Ahmed S . Darwish" <a.darwish@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/14] USB: serial: keyspan_pda: fix up write
- implementation
-Message-ID: <20201028093848.GD1953863@kroah.com>
-References: <20201025174600.27896-1-johan@kernel.org>
+        b=d9NrgKXpsS6WBfcM7CUhO4Y0J6crO+QvjUheK3Vjd1l/gAs06AMhfllfM1Kra4Ou2
+         e3w2jfHLO/PybGblgHPD2cu6h4wYzhjh0ZcdQ3VZKrHXG8eOdgwrnyweBLK0r5C/zR
+         8xxE/m2/ob9Uivgh2Mw2HlS/Q/zDGrh8OMAMpXl0=
+Date:   Wed, 28 Oct 2020 10:10:43 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Benjamin Berg <benjamin@sipsolutions.net>
+Cc:     linux-usb@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+        linux-kernel@vger.kernel.org, Benjamin Berg <bberg@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH 0/2] UCSI race condition resulting in wrong port state
+Message-ID: <20201028091043.GC1947336@kroah.com>
+References: <20201009144047.505957-1-benjamin@sipsolutions.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201025174600.27896-1-johan@kernel.org>
+In-Reply-To: <20201009144047.505957-1-benjamin@sipsolutions.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Oct 25, 2020 at 06:45:46PM +0100, Johan Hovold wrote:
-> This series fixes a number of long-standing issues with the keyspan_pda
-> driver and reworks its write implementation so that it can be used with
-> any line discipline or for a system console.
+On Fri, Oct 09, 2020 at 04:40:45PM +0200, Benjamin Berg wrote:
+> From: Benjamin Berg <bberg@redhat.com>
 > 
-> The last few patches cleans up the xircom device support and some style
-> issues.
+> Hi all,
+> 
+> so, I kept running in an issue where the UCSI port information was saying
+> that power was being delivered (online: 1), while no cable was attached.
+> 
+> The core of the problem is that there are scenarios where UCSI change
+> notifications are lost. This happens because querying the changes that
+> happened is done using the GET_CONNECTOR_STATUS command while clearing the
+> bitfield happens from the separate ACK command. Any change in between will
+> be lost.
+> 
+> Note that the problem may be almost invisible in the UI as e.g. GNOME will
+> still show the battery as discharging. But some policies like automatic
+> suspend may be applied incorrectly.
+> 
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> 
+> Benjamin Berg (2):
+>   usb: typec: ucsi: acpi: Always decode connector change information
+>   usb: typec: ucsi: Work around PPM losing change information
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Do these need to be backported to stable kernel releases?  If so, how
+far back?
+
+thjanks,
+
+greg k-h
