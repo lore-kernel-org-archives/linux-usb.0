@@ -2,116 +2,128 @@ Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C035C4363A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:44:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2B3C55179
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:44:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D69D324724
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:44:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99C0E246CD
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:44:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mKcfnYFd"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="PxtuVq7c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbgJ1VoO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 17:44:14 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:39106 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgJ1VoO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 17:44:14 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SDIqE1084639;
-        Wed, 28 Oct 2020 13:23:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=VlPPRQLYb5NDBYulhA5bdtSY+CCMDc55xkHOGMUz5cQ=;
- b=mKcfnYFdOzxp9VkqfnAbROOLlFqhHPQpWhYNn5JsneOvVFSUA4K5dKLFRlL7i/Ad+mud
- wx+HJmBEPl81aEepXjcR4WDE/HZeSVSo1KBFMAnFZjCFooYkpBZohnIL2B69fawCQkSO
- t5KsMKqaE4eQZGcHUv6mLuazJv/nUHx30Th4qV1ne5XtYN8qyNKWqAwJ4qwXtjTZHAQX
- FbWyToertD5fwt66/GgApYCQKMmjCmkyMvn+A4vsUSDdkg/KgONlkmgDHyrjdvHGEKW/
- 8OD1Z75fET0afjBexBt3H3LV3wxx71Aquy3N5T3FAqjOk3/5rgNgd2MCD84uYbDplJTz Vw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 34dgm44yra-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 28 Oct 2020 13:23:54 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SDM6ou045506;
-        Wed, 28 Oct 2020 13:23:54 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 34cx5yat52-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Oct 2020 13:23:54 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SDNqSZ010394;
-        Wed, 28 Oct 2020 13:23:52 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 28 Oct 2020 06:23:52 -0700
-Date:   Wed, 28 Oct 2020 16:23:46 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Amelie DELAUNAY <amelie.delaunay@st.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: typec: stusb160x: fix some signedness bugs
-Message-ID: <20201028132346.GP18329@kadam>
-References: <20201023112412.GD282278@mwanda>
- <625bf21d-e3bb-f952-9368-d93bee05a461@st.com>
+        id S1726710AbgJ1VoU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:44:20 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:29480 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726736AbgJ1VoT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 17:44:19 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09SGQuGg022296;
+        Wed, 28 Oct 2020 17:33:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=PhjbGo6AT3h6pHeNt+TM7wcroVWuKNsQjXY6gfKNQnY=;
+ b=PxtuVq7cjMr2dNJPMjoZSNpAc/83lfRFA0LI0VoQstyU753bcH78gWxlu+1BTXqmgJ7T
+ QRWN12FuZnYoevl9uNGnfQO+Yaj3WgWHeeXC7lV0dk6BXWgGG7H4hyf8buhKvSKLfJot
+ Y0zKKlojeE80WkrWqIIm8iTW0qnijza3unrDQnlHl43RIgQEkVnNvWBS6QarAg1fPOEU
+ BtUmXk3xV3kEziTvBaZm8zNsAz6a1hwz+C7K0HcIs9Szs05uqkt/a0noONIpejJ5h91f
+ 2vhE+mo/VUpF1SEiv92WNtax8PPJN63Q3sJx2nTRjlqFjkXAxYf1GbORC3Eing85G/yV Tg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 34ccf3tu0t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Oct 2020 17:33:09 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8DAC610002A;
+        Wed, 28 Oct 2020 17:33:08 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3AF91250433;
+        Wed, 28 Oct 2020 17:33:08 +0100 (CET)
+Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct 2020 17:33:07
+ +0100
+From:   Amelie Delaunay <amelie.delaunay@st.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>
+Subject: [PATCH v2 1/1] usb: typec: stusb160x: fix signedness comparison issue with enum variables
+Date:   Wed, 28 Oct 2020 17:33:09 +0100
+Message-ID: <20201028163309.12878-1-amelie.delaunay@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <625bf21d-e3bb-f952-9368-d93bee05a461@st.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010280090
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010280090
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG1NODE1.st.com (10.75.127.1) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-10-28_08:2020-10-28,2020-10-28 signatures=0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 01:26:16PM +0100, Amelie DELAUNAY wrote:
-> > @@ -567,9 +567,10 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
-> >   	if (!ret) {
-> >   		chip->pwr_opmode = typec_find_pwr_opmode(cap_str);
-> >   		/* Power delivery not yet supported */
-> > -		if (chip->pwr_opmode < 0 ||
-> > +		if ((int)chip->pwr_opmode < 0 ||
-> >   		    chip->pwr_opmode == TYPEC_PWR_MODE_PD) {
-> > -			ret = chip->pwr_opmode < 0 ? chip->pwr_opmode : -EINVAL;
-> > +			ret = (int)chip->pwr_opmode < 0 ? chip->pwr_opmode :
-> > +							  -EINVAL;
-> >   			dev_err(chip->dev, "bad power operation mode: %d\n",
-> >   				chip->pwr_opmode);
-> >   			return ret;
-> > 
-> 
-> 	if (!ret) {
-> 		ret = typec_find_pwr_opmode(cap_str);
-> 		/* Power delivery not yet supported */
-> 		if (ret < 0 || ret == TYPEC_PWR_MODE_PD) {
-> 			dev_err(chip->dev, "bad power operation mode: %d\n", ret);
-> 			return -EINVAL;
-> 		}
-> 		chip->pwr_opmode = ret;
-> 	}
-> 
-> 
-> So, which fix sounds better ? IMHO using ret make the code more readable.
+chip->port_type and chip->pwr_opmode are enums and when GCC considers them
+as unsigned, the conditions are never met.
+This patch takes advantage of the ret variable and fixes the following
+warnings:
+drivers/usb/typec/stusb160x.c:548 stusb160x_get_fw_caps() warn: unsigned 'chip->port_type' is never less than zero.
+drivers/usb/typec/stusb160x.c:570 stusb160x_get_fw_caps() warn: unsigned 'chip->pwr_opmode' is never less than zero.
 
-Yeah.  Your patch is nicer, but Greg *just* merged mine so it might
-be too late...
+Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C controller family")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
+---
+v2: Remove blank line
+---
+ drivers/usb/typec/stusb160x.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
+index da7f1957bcb3..2c6636e8535d 100644
+--- a/drivers/usb/typec/stusb160x.c
++++ b/drivers/usb/typec/stusb160x.c
+@@ -544,11 +544,10 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
+ 	 */
+ 	ret = fwnode_property_read_string(fwnode, "power-role", &cap_str);
+ 	if (!ret) {
+-		chip->port_type = typec_find_port_power_role(cap_str);
+-		if ((int)chip->port_type < 0) {
+-			ret = chip->port_type;
++		ret = typec_find_port_power_role(cap_str);
++		if (ret < 0)
+ 			return ret;
+-		}
++		chip->port_type = ret;
+ 	}
+ 	chip->capability.type = chip->port_type;
+ 
+@@ -565,16 +564,13 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
+ 	 */
+ 	ret = fwnode_property_read_string(fwnode, "power-opmode", &cap_str);
+ 	if (!ret) {
+-		chip->pwr_opmode = typec_find_pwr_opmode(cap_str);
++		ret = typec_find_pwr_opmode(cap_str);
+ 		/* Power delivery not yet supported */
+-		if ((int)chip->pwr_opmode < 0 ||
+-		    chip->pwr_opmode == TYPEC_PWR_MODE_PD) {
+-			ret = (int)chip->pwr_opmode < 0 ? chip->pwr_opmode :
+-							  -EINVAL;
+-			dev_err(chip->dev, "bad power operation mode: %d\n",
+-				chip->pwr_opmode);
+-			return ret;
++		if (ret < 0 || ret == TYPEC_PWR_MODE_PD) {
++			dev_err(chip->dev, "bad power operation mode: %d\n", ret);
++			return -EINVAL;
+ 		}
++		chip->pwr_opmode = ret;
+ 	}
+ 
+ 	return 0;
+-- 
+2.17.1
 
