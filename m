@@ -2,127 +2,132 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67990C4363A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB16EC4363A
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:45:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2E612076B
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:45:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="TUdb7FOx"
+	by mail.kernel.org (Postfix) with ESMTP id 678532080D
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:45:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729978AbgJ2Cpi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 22:45:38 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:39746 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726143AbgJ1Vdg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 17:33:36 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09SFkttw015934;
-        Wed, 28 Oct 2020 16:54:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=My//I8tAAL0mcppmcnPGDlZb1Fs1wApvMcb494W8c+M=;
- b=TUdb7FOxztuv9L0bhgSiWpJxFS1o4nX7zdL8NBWrTajSajyJSYyBDrbMVnOa80seVYZk
- 5cpUEMBy2n2JuCP/VnpRWW+7o10gsLB4XQB2Iwp9/4Dw5/FuyEhvRED6VCxlA5oaQ18/
- WbUxwmG49XZ9F/aqJ5ZdQg4LikWrvinUe9JpXBio5NQjk8/gUlJINjOgvbuUVmODsgAJ
- blEh6E8AxHiE8mXNxk2RlDWxe1bnMUNt5tq5NBlBOJlMx/i/61qktCtuMsyLfFCicEC4
- +q7UMnASGjjK7CwSAx7UXWsVrsRheGhr9smfdMoXHt6ti7RwA67ugWiTyLLLIJuTxghr 0A== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34ccffk8hs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Oct 2020 16:54:20 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C78BA100056;
-        Wed, 28 Oct 2020 16:54:17 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 03FF02B8A0E;
-        Wed, 28 Oct 2020 16:53:36 +0100 (CET)
-Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct 2020 16:53:35
- +0100
-From:   Amelie Delaunay <amelie.delaunay@st.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [PATCH 1/1] usb: typec: stusb160x: fix signedness comparison issue with enum variables
-Date:   Wed, 28 Oct 2020 16:53:37 +0100
-Message-ID: <20201028155337.9196-1-amelie.delaunay@st.com>
-X-Mailer: git-send-email 2.17.1
+        id S1725933AbgJ1Vdb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:33:31 -0400
+Received: from mga03.intel.com ([134.134.136.65]:44639 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725989AbgJ1VdT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 17:33:19 -0400
+IronPort-SDR: WWBH5O8v8CYXUns7dXSpcexJ0VURWOB7b3Huie9MIWTt9Lx+SpuJusVTJktKB3KqKfEEQ0H50I
+ DS0Z/RnA2oMw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="168432576"
+X-IronPort-AV: E=Sophos;i="5.77,428,1596524400"; 
+   d="scan'208";a="168432576"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2020 13:30:06 -0700
+IronPort-SDR: sPi8l1Pu+Wzuww4eNKfwbtJ+KGlavjQFFWFeEJJtYsIzyWnMm3q9FrCXnPuJOWjoOR+ttuOJdZ
+ 8++KmUPG7hvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,428,1596524400"; 
+   d="scan'208";a="323467805"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
+  by orsmga006.jf.intel.com with ESMTP; 28 Oct 2020 13:30:04 -0700
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>, Sandeep Singh <sandeep.singh@amd.com>,
+        Sanket Goswami <Sanket.Goswami@amd.com>,
+        stable@vger.kernel.org,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 2/3] usb: xhci: Workaround for S3 issue on AMD SNPS 3.0 xHC
+Date:   Wed, 28 Oct 2020 22:31:23 +0200
+Message-Id: <20201028203124.375344-3-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201028203124.375344-1-mathias.nyman@linux.intel.com>
+References: <20201028203124.375344-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-10-28_07:2020-10-28,2020-10-28 signatures=0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-chip->port_type and chip->pwr_opmode are enums and when GCC considers them
-as unsigned, the conditions are never met.
-This patch takes advantage of the ret variable and fixes the following
-warnings:
-drivers/usb/typec/stusb160x.c:548 stusb160x_get_fw_caps() warn: unsigned 'chip->port_type' is never less than zero.
-drivers/usb/typec/stusb160x.c:570 stusb160x_get_fw_caps() warn: unsigned 'chip->pwr_opmode' is never less than zero.
+From: Sandeep Singh <sandeep.singh@amd.com>
 
-Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C controller family")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
+On some platform of AMD, S3 fails with HCE and SRE errors. To fix this,
+need to disable a bit which is enable in sparse controller.
+
+Signed-off-by: Sanket Goswami <Sanket.Goswami@amd.com>
+Signed-off-by: Sandeep Singh <sandeep.singh@amd.com>
+Cc: stable@vger.kernel.org#v4.19+
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/typec/stusb160x.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ drivers/usb/host/xhci-pci.c | 17 +++++++++++++++++
+ drivers/usb/host/xhci.h     |  1 +
+ 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
-index da7f1957bcb3..8519d33bc3e7 100644
---- a/drivers/usb/typec/stusb160x.c
-+++ b/drivers/usb/typec/stusb160x.c
-@@ -544,11 +544,11 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
- 	 */
- 	ret = fwnode_property_read_string(fwnode, "power-role", &cap_str);
- 	if (!ret) {
--		chip->port_type = typec_find_port_power_role(cap_str);
--		if ((int)chip->port_type < 0) {
--			ret = chip->port_type;
-+		ret = typec_find_port_power_role(cap_str);
-+		if (ret < 0)
- 			return ret;
--		}
-+		chip->port_type = ret;
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index c26c06e5c88c..bf89172c43ca 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -23,6 +23,8 @@
+ #define SSIC_PORT_CFG2_OFFSET	0x30
+ #define PROG_DONE		(1 << 30)
+ #define SSIC_PORT_UNUSED	(1 << 31)
++#define SPARSE_DISABLE_BIT	17
++#define SPARSE_CNTL_ENABLE	0xC12C
+ 
+ /* Device for a quirk */
+ #define PCI_VENDOR_ID_FRESCO_LOGIC	0x1b73
+@@ -161,6 +163,9 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	    (pdev->device == 0x15e0 || pdev->device == 0x15e1))
+ 		xhci->quirks |= XHCI_SNPS_BROKEN_SUSPEND;
+ 
++	if (pdev->vendor == PCI_VENDOR_ID_AMD && pdev->device == 0x15e5)
++		xhci->quirks |= XHCI_DISABLE_SPARSE;
 +
- 	}
- 	chip->capability.type = chip->port_type;
+ 	if (pdev->vendor == PCI_VENDOR_ID_AMD)
+ 		xhci->quirks |= XHCI_TRUST_TX_LENGTH;
  
-@@ -565,16 +565,13 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
- 	 */
- 	ret = fwnode_property_read_string(fwnode, "power-opmode", &cap_str);
- 	if (!ret) {
--		chip->pwr_opmode = typec_find_pwr_opmode(cap_str);
-+		ret = typec_find_pwr_opmode(cap_str);
- 		/* Power delivery not yet supported */
--		if ((int)chip->pwr_opmode < 0 ||
--		    chip->pwr_opmode == TYPEC_PWR_MODE_PD) {
--			ret = (int)chip->pwr_opmode < 0 ? chip->pwr_opmode :
--							  -EINVAL;
--			dev_err(chip->dev, "bad power operation mode: %d\n",
--				chip->pwr_opmode);
--			return ret;
-+		if (ret < 0 || ret == TYPEC_PWR_MODE_PD) {
-+			dev_err(chip->dev, "bad power operation mode: %d\n", ret);
-+			return -EINVAL;
- 		}
-+		chip->pwr_opmode = ret;
- 	}
+@@ -498,6 +503,15 @@ static void xhci_pme_quirk(struct usb_hcd *hcd)
+ 	readl(reg);
+ }
  
- 	return 0;
++static void xhci_sparse_control_quirk(struct usb_hcd *hcd)
++{
++	u32 reg;
++
++	reg = readl(hcd->regs + SPARSE_CNTL_ENABLE);
++	reg &= ~BIT(SPARSE_DISABLE_BIT);
++	writel(reg, hcd->regs + SPARSE_CNTL_ENABLE);
++}
++
+ static int xhci_pci_suspend(struct usb_hcd *hcd, bool do_wakeup)
+ {
+ 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
+@@ -517,6 +531,9 @@ static int xhci_pci_suspend(struct usb_hcd *hcd, bool do_wakeup)
+ 	if (xhci->quirks & XHCI_SSIC_PORT_UNUSED)
+ 		xhci_ssic_port_unused_quirk(hcd, true);
+ 
++	if (xhci->quirks & XHCI_DISABLE_SPARSE)
++		xhci_sparse_control_quirk(hcd);
++
+ 	ret = xhci_suspend(xhci, do_wakeup);
+ 	if (ret && (xhci->quirks & XHCI_SSIC_PORT_UNUSED))
+ 		xhci_ssic_port_unused_quirk(hcd, false);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 8be88379c0fb..ebb359ebb261 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1877,6 +1877,7 @@ struct xhci_hcd {
+ #define XHCI_SNPS_BROKEN_SUSPEND    BIT_ULL(35)
+ #define XHCI_RENESAS_FW_QUIRK	BIT_ULL(36)
+ #define XHCI_SKIP_PHY_INIT	BIT_ULL(37)
++#define XHCI_DISABLE_SPARSE	BIT_ULL(38)
+ 
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
 -- 
-2.17.1
+2.25.1
 
