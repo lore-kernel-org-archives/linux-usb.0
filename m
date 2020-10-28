@@ -2,109 +2,261 @@ Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3444FC388F7
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B33C4363A
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:51:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCE732245A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:51:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17FF32064C
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 21:51:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="gMRn2fpo"
+	dkim=pass (2048-bit key) header.d=septs.pw header.i=@septs.pw header.b="eVATb9hB";
+	dkim=temperror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gMIQvjg+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728163AbgJ1VvS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 17:51:18 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:30492 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728154AbgJ1VvR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 17:51:17 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09SCR3Vw026363;
-        Wed, 28 Oct 2020 13:29:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=J0fT/Pr0SqznTWsYwQ3WSc2L6sAJOVcgXB3ekg2CHdg=;
- b=gMRn2fpoNmEzuhpxUTzc5VN+TB1BDz5XQ1K8sXmEw+Q63ceLh8FYQQJxAiE3C711LkCi
- 3q7Ubf/OdZWQ5+SCioLMvIC8koSpQkpBNE69HP4WXyIBBO6VhKDrlAc5K2v3nV2DpgAx
- spS3AUdwqLXfY01JxLImJjxDPK3CJGyMruKfxDt9Ry0mHeqTMf7zwp/TilGcL3ZNJ4uj
- WSR+fpihBMFYKfXV4YDmAiSt62jLcx5xFKYfN9xKdVzNA5C8YqkMvQvds9WyAwHrNV/I
- HFgWHV7hye54JmcEK/dcfDkxivypXcf7JKUSZky1e3k88q7pVNZrwk1VEY0cbhomIRgP Mg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34ccf3sat1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Oct 2020 13:29:16 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 203A010002A;
-        Wed, 28 Oct 2020 13:29:16 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 15A232C38DA;
-        Wed, 28 Oct 2020 13:29:16 +0100 (CET)
-Received: from lmecxl0995.lme.st.com (10.75.127.46) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
- 2020 13:29:15 +0100
-Subject: Re: [PATCH 1/2 v2] usb: typec: stusb160x: fix an IS_ERR() vs NULL
- check in probe
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
-References: <20201023114017.GE18329@kadam>
-From:   Amelie DELAUNAY <amelie.delaunay@st.com>
-Message-ID: <24d4a1f5-89fa-114d-8e3d-66d40d5dd1a6@st.com>
-Date:   Wed, 28 Oct 2020 13:29:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201023114017.GE18329@kadam>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-10-28_06:2020-10-26,2020-10-28 signatures=0
+        id S1728094AbgJ1Vux (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:50:53 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:47743 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728080AbgJ1Vuw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 17:50:52 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0D89E5C00FF;
+        Tue, 27 Oct 2020 20:34:31 -0400 (EDT)
+Received: from imap10 ([10.202.2.60])
+  by compute4.internal (MEProxy); Tue, 27 Oct 2020 20:34:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=septs.pw; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm1; bh=Ja47aWMrGVl24d72ElHpmwWeNgeb+5R
+        7HvbGB67pz5Q=; b=eVATb9hBulFdps0KWWIAWBlo4S2mfFLGxhiODMTrsSWeG+4
+        a5s3bDoTaVQIEFSEAptduz6LUzZfoIoUw0xUUDsAT75gZDj1rkD00ku/C9NprYQ1
+        zqSPkR7tYGIhnl/EMUFatoiAtOrVXXbzqzWAJwbLjzWJoq0HruIqJp85NTJBKPrs
+        JTwYOLqPPfUAKLhLoO05f8Lzef+zns4yuI4o94WC+Rk54W9bBKJt5h58fDRN5PFZ
+        KYVaUM9wuw/p7r4ReGw3/7xshp09Agv1DGm9Nh6NeZeZkVYjvGUDASjLtKscjq+k
+        /zFLG8XyxDEe/eC5ECpRILMeHs3ZQs4ooaaXLyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ja47aW
+        MrGVl24d72ElHpmwWeNgeb+5R7HvbGB67pz5Q=; b=gMIQvjg+OTvD3JnFdIqyUg
+        aQiBawpzrjb1uWp80z0yfRPhPFw87lf1b6KtJSap4wmdV6rA3pofNn4d7X/F+IDC
+        vsF1VUQIYc0lty/JgBd0/SKSYRYhk07ciw8Rk8F/nsly4JjkMyJ9s52VoFc688bV
+        uYC9blcpMQw12w0cbd2/ue5fzlZrw/jlgyQ//ei7MqKa+Vk5kEpDEV/j9PfG/EgD
+        /f4sJm2ASKTSnzPEpFoP6ZJWybYefirGfU9ypFD6RjpZER7Yw/qkvWMd9AN9Q1mr
+        aMR02u4Os2FU2F774gXnuli4oY80GA9by5oX37DB5EzShLtNmPc1/wzDmhBZzK6Q
+        ==
+X-ME-Sender: <xms:lryYXzHUVeRb1BH19SVqharH292Eso34-bcuZU2KVitV6c1UD48dug>
+    <xme:lryYXwV7UbgR5B7ktCnbZjEShiEq067g-WauAg3yyXxEdWvM6yieAiaCrcYn62uFW
+    CW6BMVatrja9Kqe_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrledtgddvfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdduhedmnecujfgurhepofgfggfkjghffffhvffutgesmhdtreerreer
+    jeenucfhrhhomhepfdgkihihihcuvegrohdfuceokhgvrhhnvghlsehsvghpthhsrdhpfi
+    eqnecuggftrfgrthhtvghrnheptdeihedvfeduhfefjeehffelledtudeifeeigfelgfet
+    gefhuedutddtteffieeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepkhgvrhhnvghlsehsvghpthhsrdhpfi
+X-ME-Proxy: <xmx:lryYX1I3NGVYwv33UiXHlakwdRIpCcKcVANlyGJtMIf2FJKHAfoCkw>
+    <xmx:lryYXxGmamH7idbfVoCLR7pMxfcICgPA2GmZhdam1cVaQhaEm2E6mw>
+    <xmx:lryYX5W_i10aGI7n961klpfVhTI7HArkp-igCMHHGzB8k1FImU6J-w>
+    <xmx:l7yYX4cCsHYUAMIvo3erKo5xgT5qEyGZXJEr51lv-snj9uu0x1AYOg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id AD64820496; Tue, 27 Oct 2020 20:34:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-529-g69105b1-fm-20201021.003-g69105b13
+Mime-Version: 1.0
+Message-Id: <06d58779-da02-4588-8871-0d05e794429f@www.fastmail.com>
+In-Reply-To: <20201027084317.GF4085@localhost>
+References: <17f8a2a3-ce0f-4be7-8544-8fdf286907d0@www.fastmail.com>
+ <20201027084317.GF4085@localhost>
+Date:   Wed, 28 Oct 2020 08:34:09 +0800
+From:   "Ziyi Cao" <kernel@septs.pw>
+To:     "Johan Hovold" <johan@kernel.org>
+Cc:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: =?UTF-8?Q?Re:_[PATCH_1/1]_usb:_serial:_option:_add_Quectel_EC200T_module?=
+ =?UTF-8?Q?_support?=
+Content-Type: multipart/mixed;
+ boundary=674061f4ba574e18bf31dae927b1c984
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Dan,
+--674061f4ba574e18bf31dae927b1c984
+Content-Type: text/plain
 
-Thanks for the patch!
+Hi Johan:
 
-On 10/23/20 1:40 PM, Dan Carpenter wrote:
-> The typec_register_port() function doesn't return NULL, it returns error
-> pointers.
-> 
-> Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C controller family")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+`lsusb -d 2c7c:6026 -v` dump, in attachment file.
 
-Reviewed-by: Amelie Delaunay <amelie.delaunay@st.com>
+Thanks.
 
-> ---
-> v2: Fix a typo in the commit message.  s/return error pointers/return NULL/.
->      Thanks, Walter!
+On Tue, Oct 27, 2020, at 16:43, Johan Hovold wrote:
+> On Tue, Oct 20, 2020 at 12:08:06AM +0800, Ziyi Cao wrote:
+> > Add usb product id of the Quectel EC200T module.
+> > 
+> > Signed-off-by: Ziyi Cao <kernel@septs.pw>
+> > ---
 > 
->   drivers/usb/typec/stusb160x.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> For reference, can you provide the output of "lsusb -v" for this device?
 > 
-> diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
-> index ce0bd7b3ad88..f7369e371dd4 100644
-> --- a/drivers/usb/typec/stusb160x.c
-> +++ b/drivers/usb/typec/stusb160x.c
-> @@ -729,8 +729,8 @@ static int stusb160x_probe(struct i2c_client *client)
->   	}
->   
->   	chip->port = typec_register_port(chip->dev, &chip->capability);
-> -	if (!chip->port) {
-> -		ret = -ENODEV;
-> +	if (IS_ERR(chip->port)) {
-> +		ret = PTR_ERR(chip->port);
->   		goto all_reg_disable;
->   	}
->   
-> 
+> Johan
+>
+--674061f4ba574e18bf31dae927b1c984
+Content-Disposition: attachment;filename="lsusb.txt"
+Content-Type: text/plain; name="lsusb.txt"
+Content-Transfer-Encoding: BASE64
+
+CkJ1cyAwMDEgRGV2aWNlIDAwNjogSUQgMmM3Yzo2MDI2IFF1ZWN0ZWwgV2lyZWxlc3MgU29s
+dXRpb25zIENvLiwgTHRkLiBBbmRyb2lkCkRldmljZSBEZXNjcmlwdG9yOgogIGJMZW5ndGgg
+ICAgICAgICAgICAgICAgMTgKICBiRGVzY3JpcHRvclR5cGUgICAgICAgICAxCiAgYmNkVVNC
+ICAgICAgICAgICAgICAgMi4wMAogIGJEZXZpY2VDbGFzcyAgICAgICAgICAyMzkgTWlzY2Vs
+bGFuZW91cyBEZXZpY2UKICBiRGV2aWNlU3ViQ2xhc3MgICAgICAgICAyIAogIGJEZXZpY2VQ
+cm90b2NvbCAgICAgICAgIDEgSW50ZXJmYWNlIEFzc29jaWF0aW9uCiAgYk1heFBhY2tldFNp
+emUwICAgICAgICA2NAogIGlkVmVuZG9yICAgICAgICAgICAweDJjN2MgUXVlY3RlbCBXaXJl
+bGVzcyBTb2x1dGlvbnMgQ28uLCBMdGQuCiAgaWRQcm9kdWN0ICAgICAgICAgIDB4NjAyNiAK
+ICBiY2REZXZpY2UgICAgICAgICAgICAzLjE4CiAgaU1hbnVmYWN0dXJlciAgICAgICAgICAg
+MSAKICBpUHJvZHVjdCAgICAgICAgICAgICAgICAyIAogIGlTZXJpYWwgICAgICAgICAgICAg
+ICAgIDMgCiAgYk51bUNvbmZpZ3VyYXRpb25zICAgICAgMQogIENvbmZpZ3VyYXRpb24gRGVz
+Y3JpcHRvcjoKICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgIGJEZXNjcmlwdG9y
+VHlwZSAgICAgICAgIDIKICAgIHdUb3RhbExlbmd0aCAgICAgICAweDAwZDEKICAgIGJOdW1J
+bnRlcmZhY2VzICAgICAgICAgIDUKICAgIGJDb25maWd1cmF0aW9uVmFsdWUgICAgIDEKICAg
+IGlDb25maWd1cmF0aW9uICAgICAgICAgIDAgCiAgICBibUF0dHJpYnV0ZXMgICAgICAgICAw
+eGUwCiAgICAgIFNlbGYgUG93ZXJlZAogICAgICBSZW1vdGUgV2FrZXVwCiAgICBNYXhQb3dl
+ciAgICAgICAgICAgICAgNTAwbUEKICAgIEludGVyZmFjZSBBc3NvY2lhdGlvbjoKICAgICAg
+Ykxlbmd0aCAgICAgICAgICAgICAgICAgOAogICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAg
+IDExCiAgICAgIGJGaXJzdEludGVyZmFjZSAgICAgICAgIDAKICAgICAgYkludGVyZmFjZUNv
+dW50ICAgICAgICAgMgogICAgICBiRnVuY3Rpb25DbGFzcyAgICAgICAgICAyIENvbW11bmlj
+YXRpb25zCiAgICAgIGJGdW5jdGlvblN1YkNsYXNzICAgICAgIDYgRXRoZXJuZXQgTmV0d29y
+a2luZwogICAgICBiRnVuY3Rpb25Qcm90b2NvbCAgICAgICAwIAogICAgICBpRnVuY3Rpb24g
+ICAgICAgICAgICAgICA1IAogICAgSW50ZXJmYWNlIERlc2NyaXB0b3I6CiAgICAgIGJMZW5n
+dGggICAgICAgICAgICAgICAgIDkKICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAgNAog
+ICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAgICAwCiAgICAgIGJBbHRlcm5hdGVTZXR0aW5n
+ICAgICAgIDAKICAgICAgYk51bUVuZHBvaW50cyAgICAgICAgICAgMQogICAgICBiSW50ZXJm
+YWNlQ2xhc3MgICAgICAgICAyIENvbW11bmljYXRpb25zCiAgICAgIGJJbnRlcmZhY2VTdWJD
+bGFzcyAgICAgIDYgRXRoZXJuZXQgTmV0d29ya2luZwogICAgICBiSW50ZXJmYWNlUHJvdG9j
+b2wgICAgICAwIAogICAgICBpSW50ZXJmYWNlICAgICAgICAgICAgICA1IAogICAgICBDREMg
+SGVhZGVyOgogICAgICAgIGJjZENEQyAgICAgICAgICAgICAgIDEuMTAKICAgICAgQ0RDIEV0
+aGVybmV0OgogICAgICAgIGlNYWNBZGRyZXNzICAgICAgICAgICAgICAgICAgICAgMTQgKD8/
+KQogICAgICAgIGJtRXRoZXJuZXRTdGF0aXN0aWNzICAgIDB4MDAwMDAwMDAKICAgICAgICB3
+TWF4U2VnbWVudFNpemUgICAgICAgICAgICAgICAxNTQ0CiAgICAgICAgd051bWJlck1DRmls
+dGVycyAgICAgICAgICAgIDB4MDAwMQogICAgICAgIGJOdW1iZXJQb3dlckZpbHRlcnMgICAg
+ICAgICAgICAgIDAKICAgICAgQ0RDIFVuaW9uOgogICAgICAgIGJNYXN0ZXJJbnRlcmZhY2Ug
+ICAgICAgIDAKICAgICAgICBiU2xhdmVJbnRlcmZhY2UgICAgICAgICAxIAogICAgICBFbmRw
+b2ludCBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDcKICAg
+ICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA1CiAgICAgICAgYkVuZHBvaW50QWRkcmVz
+cyAgICAgMHg4NSAgRVAgNSBJTgogICAgICAgIGJtQXR0cmlidXRlcyAgICAgICAgICAgIDMK
+ICAgICAgICAgIFRyYW5zZmVyIFR5cGUgICAgICAgICAgICBJbnRlcnJ1cHQKICAgICAgICAg
+IFN5bmNoIFR5cGUgICAgICAgICAgICAgICBOb25lCiAgICAgICAgICBVc2FnZSBUeXBlICAg
+ICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNrZXRTaXplICAgICAweDAwNDAgIDF4
+IDY0IGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAxNgogICAgSW50ZXJm
+YWNlIERlc2NyaXB0b3I6CiAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgICAg
+YkRlc2NyaXB0b3JUeXBlICAgICAgICAgNAogICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAg
+ICAxCiAgICAgIGJBbHRlcm5hdGVTZXR0aW5nICAgICAgIDAKICAgICAgYk51bUVuZHBvaW50
+cyAgICAgICAgICAgMAogICAgICBiSW50ZXJmYWNlQ2xhc3MgICAgICAgIDEwIENEQyBEYXRh
+CiAgICAgIGJJbnRlcmZhY2VTdWJDbGFzcyAgICAgIDAgCiAgICAgIGJJbnRlcmZhY2VQcm90
+b2NvbCAgICAgIDAgCiAgICAgIGlJbnRlcmZhY2UgICAgICAgICAgICAgIDUgCiAgICBJbnRl
+cmZhY2UgRGVzY3JpcHRvcjoKICAgICAgYkxlbmd0aCAgICAgICAgICAgICAgICAgOQogICAg
+ICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA0CiAgICAgIGJJbnRlcmZhY2VOdW1iZXIgICAg
+ICAgIDEKICAgICAgYkFsdGVybmF0ZVNldHRpbmcgICAgICAgMQogICAgICBiTnVtRW5kcG9p
+bnRzICAgICAgICAgICAyCiAgICAgIGJJbnRlcmZhY2VDbGFzcyAgICAgICAgMTAgQ0RDIERh
+dGEKICAgICAgYkludGVyZmFjZVN1YkNsYXNzICAgICAgMCAKICAgICAgYkludGVyZmFjZVBy
+b3RvY29sICAgICAgMCAKICAgICAgaUludGVyZmFjZSAgICAgICAgICAgICAgMCAKICAgICAg
+RW5kcG9pbnQgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICA3
+CiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAgNQogICAgICAgIGJFbmRwb2ludEFk
+ZHJlc3MgICAgIDB4ODcgIEVQIDcgSU4KICAgICAgICBibUF0dHJpYnV0ZXMgICAgICAgICAg
+ICAyCiAgICAgICAgICBUcmFuc2ZlciBUeXBlICAgICAgICAgICAgQnVsawogICAgICAgICAg
+U3luY2ggVHlwZSAgICAgICAgICAgICAgIE5vbmUKICAgICAgICAgIFVzYWdlIFR5cGUgICAg
+ICAgICAgICAgICBEYXRhCiAgICAgICAgd01heFBhY2tldFNpemUgICAgIDB4MDIwMCAgMXgg
+NTEyIGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMAogICAgICBFbmRw
+b2ludCBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDcKICAg
+ICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA1CiAgICAgICAgYkVuZHBvaW50QWRkcmVz
+cyAgICAgMHgwNiAgRVAgNiBPVVQKICAgICAgICBibUF0dHJpYnV0ZXMgICAgICAgICAgICAy
+CiAgICAgICAgICBUcmFuc2ZlciBUeXBlICAgICAgICAgICAgQnVsawogICAgICAgICAgU3lu
+Y2ggVHlwZSAgICAgICAgICAgICAgIE5vbmUKICAgICAgICAgIFVzYWdlIFR5cGUgICAgICAg
+ICAgICAgICBEYXRhCiAgICAgICAgd01heFBhY2tldFNpemUgICAgIDB4MDIwMCAgMXggNTEy
+IGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMAogICAgSW50ZXJmYWNl
+IERlc2NyaXB0b3I6CiAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgICAgYkRl
+c2NyaXB0b3JUeXBlICAgICAgICAgNAogICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAgICAy
+CiAgICAgIGJBbHRlcm5hdGVTZXR0aW5nICAgICAgIDAKICAgICAgYk51bUVuZHBvaW50cyAg
+ICAgICAgICAgMgogICAgICBiSW50ZXJmYWNlQ2xhc3MgICAgICAgMjU1IFZlbmRvciBTcGVj
+aWZpYyBDbGFzcwogICAgICBiSW50ZXJmYWNlU3ViQ2xhc3MgICAgICAwIAogICAgICBiSW50
+ZXJmYWNlUHJvdG9jb2wgICAgICAwIAogICAgICBpSW50ZXJmYWNlICAgICAgICAgICAgICA4
+IAogICAgICBFbmRwb2ludCBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAg
+ICAgICAgIDcKICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA1CiAgICAgICAgYkVu
+ZHBvaW50QWRkcmVzcyAgICAgMHg4NCAgRVAgNCBJTgogICAgICAgIGJtQXR0cmlidXRlcyAg
+ICAgICAgICAgIDIKICAgICAgICAgIFRyYW5zZmVyIFR5cGUgICAgICAgICAgICBCdWxrCiAg
+ICAgICAgICBTeW5jaCBUeXBlICAgICAgICAgICAgICAgTm9uZQogICAgICAgICAgVXNhZ2Ug
+VHlwZSAgICAgICAgICAgICAgIERhdGEKICAgICAgICB3TWF4UGFja2V0U2l6ZSAgICAgMHgw
+MjAwICAxeCA1MTIgYnl0ZXMKICAgICAgICBiSW50ZXJ2YWwgICAgICAgICAgICAgICAwCiAg
+ICAgIEVuZHBvaW50IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAgICAgICAg
+ICAgNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDUKICAgICAgICBiRW5kcG9p
+bnRBZGRyZXNzICAgICAweDAzICBFUCAzIE9VVAogICAgICAgIGJtQXR0cmlidXRlcyAgICAg
+ICAgICAgIDIKICAgICAgICAgIFRyYW5zZmVyIFR5cGUgICAgICAgICAgICBCdWxrCiAgICAg
+ICAgICBTeW5jaCBUeXBlICAgICAgICAgICAgICAgTm9uZQogICAgICAgICAgVXNhZ2UgVHlw
+ZSAgICAgICAgICAgICAgIERhdGEKICAgICAgICB3TWF4UGFja2V0U2l6ZSAgICAgMHgwMjAw
+ICAxeCA1MTIgYnl0ZXMKICAgICAgICBiSW50ZXJ2YWwgICAgICAgICAgICAgICAwCiAgICBJ
+bnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgYkxlbmd0aCAgICAgICAgICAgICAgICAgOQog
+ICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA0CiAgICAgIGJJbnRlcmZhY2VOdW1iZXIg
+ICAgICAgIDMKICAgICAgYkFsdGVybmF0ZVNldHRpbmcgICAgICAgMAogICAgICBiTnVtRW5k
+cG9pbnRzICAgICAgICAgICAzCiAgICAgIGJJbnRlcmZhY2VDbGFzcyAgICAgICAyNTUgVmVu
+ZG9yIFNwZWNpZmljIENsYXNzCiAgICAgIGJJbnRlcmZhY2VTdWJDbGFzcyAgICAgIDAgCiAg
+ICAgIGJJbnRlcmZhY2VQcm90b2NvbCAgICAgIDAgCiAgICAgIGlJbnRlcmZhY2UgICAgICAg
+ICAgICAgMTEgCiAgICAgICoqIFVOUkVDT0dOSVpFRDogIDA1IDI0IDAwIDEwIDAxCiAgICAg
+ICoqIFVOUkVDT0dOSVpFRDogIDA1IDI0IDAxIDAwIDAwCiAgICAgICoqIFVOUkVDT0dOSVpF
+RDogIDA0IDI0IDAyIDAyCiAgICAgICoqIFVOUkVDT0dOSVpFRDogIDA1IDI0IDA2IDAwIDAw
+CiAgICAgIEVuZHBvaW50IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAgICAg
+ICAgICAgNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDUKICAgICAgICBiRW5k
+cG9pbnRBZGRyZXNzICAgICAweDhjICBFUCAxMiBJTgogICAgICAgIGJtQXR0cmlidXRlcyAg
+ICAgICAgICAgIDMKICAgICAgICAgIFRyYW5zZmVyIFR5cGUgICAgICAgICAgICBJbnRlcnJ1
+cHQKICAgICAgICAgIFN5bmNoIFR5cGUgICAgICAgICAgICAgICBOb25lCiAgICAgICAgICBV
+c2FnZSBUeXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNrZXRTaXplICAg
+ICAweDAwMTAgIDF4IDE2IGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAx
+NgogICAgICBFbmRwb2ludCBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAg
+ICAgICAgIDcKICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA1CiAgICAgICAgYkVu
+ZHBvaW50QWRkcmVzcyAgICAgMHg4ZSAgRVAgMTQgSU4KICAgICAgICBibUF0dHJpYnV0ZXMg
+ICAgICAgICAgICAyCiAgICAgICAgICBUcmFuc2ZlciBUeXBlICAgICAgICAgICAgQnVsawog
+ICAgICAgICAgU3luY2ggVHlwZSAgICAgICAgICAgICAgIE5vbmUKICAgICAgICAgIFVzYWdl
+IFR5cGUgICAgICAgICAgICAgICBEYXRhCiAgICAgICAgd01heFBhY2tldFNpemUgICAgIDB4
+MDIwMCAgMXggNTEyIGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMAog
+ICAgICBFbmRwb2ludCBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAg
+ICAgIDcKICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA1CiAgICAgICAgYkVuZHBv
+aW50QWRkcmVzcyAgICAgMHgwZCAgRVAgMTMgT1VUCiAgICAgICAgYm1BdHRyaWJ1dGVzICAg
+ICAgICAgICAgMgogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIEJ1bGsKICAg
+ICAgICAgIFN5bmNoIFR5cGUgICAgICAgICAgICAgICBOb25lCiAgICAgICAgICBVc2FnZSBU
+eXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNrZXRTaXplICAgICAweDAy
+MDAgIDF4IDUxMiBieXRlcwogICAgICAgIGJJbnRlcnZhbCAgICAgICAgICAgICAgIDAKICAg
+IEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICA5
+CiAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDQKICAgICAgYkludGVyZmFjZU51bWJl
+ciAgICAgICAgNAogICAgICBiQWx0ZXJuYXRlU2V0dGluZyAgICAgICAwCiAgICAgIGJOdW1F
+bmRwb2ludHMgICAgICAgICAgIDMKICAgICAgYkludGVyZmFjZUNsYXNzICAgICAgIDI1NSBW
+ZW5kb3IgU3BlY2lmaWMgQ2xhc3MKICAgICAgYkludGVyZmFjZVN1YkNsYXNzICAgICAgMCAK
+ICAgICAgYkludGVyZmFjZVByb3RvY29sICAgICAgMCAKICAgICAgaUludGVyZmFjZSAgICAg
+ICAgICAgICAxMSAKICAgICAgKiogVU5SRUNPR05JWkVEOiAgMDUgMjQgMDAgMTAgMDEKICAg
+ICAgKiogVU5SRUNPR05JWkVEOiAgMDUgMjQgMDEgMDAgMDAKICAgICAgKiogVU5SRUNPR05J
+WkVEOiAgMDQgMjQgMDIgMDIKICAgICAgKiogVU5SRUNPR05JWkVEOiAgMDUgMjQgMDYgMDAg
+MDAKICAgICAgRW5kcG9pbnQgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAg
+ICAgICAgICA3CiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAgNQogICAgICAgIGJF
+bmRwb2ludEFkZHJlc3MgICAgIDB4OGEgIEVQIDEwIElOCiAgICAgICAgYm1BdHRyaWJ1dGVz
+ICAgICAgICAgICAgMwogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIEludGVy
+cnVwdAogICAgICAgICAgU3luY2ggVHlwZSAgICAgICAgICAgICAgIE5vbmUKICAgICAgICAg
+IFVzYWdlIFR5cGUgICAgICAgICAgICAgICBEYXRhCiAgICAgICAgd01heFBhY2tldFNpemUg
+ICAgIDB4MDAxMCAgMXggMTYgYnl0ZXMKICAgICAgICBiSW50ZXJ2YWwgICAgICAgICAgICAg
+IDE2CiAgICAgIEVuZHBvaW50IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAg
+ICAgICAgICAgNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDUKICAgICAgICBi
+RW5kcG9pbnRBZGRyZXNzICAgICAweDgyICBFUCAyIElOCiAgICAgICAgYm1BdHRyaWJ1dGVz
+ICAgICAgICAgICAgMgogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIEJ1bGsK
+ICAgICAgICAgIFN5bmNoIFR5cGUgICAgICAgICAgICAgICBOb25lCiAgICAgICAgICBVc2Fn
+ZSBUeXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNrZXRTaXplICAgICAw
+eDAyMDAgIDF4IDUxMiBieXRlcwogICAgICAgIGJJbnRlcnZhbCAgICAgICAgICAgICAgIDAK
+ICAgICAgRW5kcG9pbnQgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAg
+ICAgICA3CiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAgNQogICAgICAgIGJFbmRw
+b2ludEFkZHJlc3MgICAgIDB4MDEgIEVQIDEgT1VUCiAgICAgICAgYm1BdHRyaWJ1dGVzICAg
+ICAgICAgICAgMgogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIEJ1bGsKICAg
+ICAgICAgIFN5bmNoIFR5cGUgICAgICAgICAgICAgICBOb25lCiAgICAgICAgICBVc2FnZSBU
+eXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNrZXRTaXplICAgICAweDAy
+MDAgIDF4IDUxMiBieXRlcwogICAgICAgIGJJbnRlcnZhbCAgICAgICAgICAgICAgIDAK
+
+--674061f4ba574e18bf31dae927b1c984--
