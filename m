@@ -2,70 +2,143 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F259CC5DF9D
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F26CEC55179
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:22:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7A4E2064C
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603934545;
-	bh=TOtjzMjlAn8lGAogMZV7LLBrFOTyqGQyEyv8QCWDJfA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=VrBgyOFrvCJZTmqMiNjko3yBVhY83H9QC6iBZrUmgvIKcPtHSUyBs+WZKVOd/1RJi
-	 ZDbNAH2b0nsif17IR7ObYzZCmXITJ9SM76aDlMML19KFfXbAHzFpQSO5fKILFtrkrV
-	 yLGQUIvVqaqnm9z7QOKGwv7dpIrpPuuh6RRtXL6Y=
+	by mail.kernel.org (Postfix) with ESMTP id 9DF442064C
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:22:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BkKNwRWn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729603AbgJ1WEx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729446AbgJ1WEx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 28 Oct 2020 18:04:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50716 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729507AbgJ1WCX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:02:23 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C8DC247C3;
-        Wed, 28 Oct 2020 15:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603899607;
-        bh=TOtjzMjlAn8lGAogMZV7LLBrFOTyqGQyEyv8QCWDJfA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c+Pr7SPYBZubX2AcnRxqLtSD75us4g0ANpWOaWfihTN/eK0qbUxsh0lX1Etc8p6b+
-         eWW+s76w+ax0pNaHh08THwKV6oSrflk6yjAMQZUuOh2cLyJHa7aSuYLH6AFFKPUxPO
-         +vx6y0Mlh7qRM/STq3DQ0VtHgG2eDXQOSmhbOrsA=
-Date:   Wed, 28 Oct 2020 16:40:58 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Amelie DELAUNAY <amelie.delaunay@st.com>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: typec: stusb160x: fix some signedness bugs
-Message-ID: <20201028154058.GA2780014@kroah.com>
-References: <20201023112412.GD282278@mwanda>
- <625bf21d-e3bb-f952-9368-d93bee05a461@st.com>
- <20201028132346.GP18329@kadam>
- <9e3c4790-13d5-371a-52c9-8945faff66ab@st.com>
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42171 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729475AbgJ1WBK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 18:01:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603922468;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=d0E3QUw/g6o9o9JHCXUwGNfFscBzWeKeD7oM4X4IAdI=;
+        b=BkKNwRWnv15qRNtDQxdk2OtA68NxD8zo84h/0eCiek5aDW8JzQL++DzDRq0FBrjRKZtwUW
+        yV9gwPLPwCJe2f87SYa0LHYokrAdms09LEsV5YL24+KVxHDZhzp7htXMyqM31EwTZM3/G0
+        qM5/J211+WiIEpF1754KKx+NIu5m+78=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-RfN3J01fOM-Uq_b06Q6n5g-1; Wed, 28 Oct 2020 06:57:58 -0400
+X-MC-Unique: RfN3J01fOM-Uq_b06Q6n5g-1
+Received: by mail-ed1-f69.google.com with SMTP id cb27so1936012edb.11
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 03:57:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=d0E3QUw/g6o9o9JHCXUwGNfFscBzWeKeD7oM4X4IAdI=;
+        b=DD5LK4j0CfVpK7QE0jh5eISNiMWB9BljGr00cjvh6gwzjYjpNTR8EtXXGpH42r9t7h
+         AbWSgKNg88eLUOF/1PZh0Ddv/267YBlsfX4ihWGZyFyjC97oQFZK9IU9Z0ZQ7DRfYKWC
+         AGU8dUqhoxPDP3WMPyIzUVGq0m2RwT8Tj0Um4eS37NlA8XynXsQChOXVwaBvN+9lRjaD
+         WzicDhvMp2cXNhnX88k/XK8sBgd5QiZI2GonPSeu1EpP9mil7NNgAQWDsD/f71PmqtGa
+         TmfpYdOecinGM8OIQGvfHXUiQJd+gW6FKHp+ohVFGlJStf9/KnW99okF+dXt1X0khxPH
+         xjKg==
+X-Gm-Message-State: AOAM533FveT6V/jbqVCBDB9Ns9pIQSrhIPUYL8VP1kxW8qIghfqpU48P
+        SzOztS3Goy/A7ZfUzjFWtouWfjj9gsCk2l5693X4fLLV2KKUUqP64Auj64KY2AUMmk6UofQUFJK
+        FgczOLGeitFNe3RyY57kU
+X-Received: by 2002:a17:906:383:: with SMTP id b3mr6691379eja.351.1603882676672;
+        Wed, 28 Oct 2020 03:57:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoy+8dhL7T+UNmiZujbif7PLj7gwOkFVBJB4HmU7l9iVL4YlYVwAaOYKiWFov751i5BNkJCQ==
+X-Received: by 2002:a17:906:383:: with SMTP id b3mr6691360eja.351.1603882676412;
+        Wed, 28 Oct 2020 03:57:56 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id s12sm2670372edu.28.2020.10.28.03.57.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2020 03:57:55 -0700 (PDT)
+Subject: Re: New XHCI lockdep oops in 5.10-rc1
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb <linux-usb@vger.kernel.org>,
+        Mike Galbraith <efault@gmx.de>, Li Jun <jun.li@nxp.com>
+References: <01e273b8-beb9-ef8c-c2a4-925a11b07799@redhat.com>
+ <46dc20eb-bc98-c0f9-e72d-dd2a28e993a1@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <39e135d7-34ac-1347-65f2-2306ed746f4c@redhat.com>
+Date:   Wed, 28 Oct 2020 11:57:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e3c4790-13d5-371a-52c9-8945faff66ab@st.com>
+In-Reply-To: <46dc20eb-bc98-c0f9-e72d-dd2a28e993a1@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 03:38:54PM +0100, Amelie DELAUNAY wrote:
-> Hi Greg,
+Hi,
+
+On 10/28/20 10:31 AM, Mathias Nyman wrote:
+> On 27.10.2020 23.51, Hans de Goede wrote:
+>> Hi,
+>>
+>> I standard run my local kernel builds with lockdep enabled, booting 5.10-rc1 with lockdep enabled results in:
+>>
+>> [    3.339982] =====================================================
+>> [    3.339984] WARNING: HARDIRQ-safe -> HARDIRQ-unsafe lock order detected
+>> [    3.339987] 5.10.0-rc1pdx86+ #8 Not tainted
+>> [    3.339988] -----------------------------------------------------
+>> [    3.339991] systemd-udevd/386 [HC0[0]:SC0[0]:HE0:SE1] is trying to acquire:
+>> [    3.339993] ffffffffb1a94038 (pin_fs_lock){+.+.}-{2:2}, at: simple_pin_fs+0x22/0xa0
+>> [    3.339999] 
+>>                and this task is already holding:
+>> [    3.340002] ffff9e7b87fbc430 (&xhci->lock){-.-.}-{2:2}, at: xhci_alloc_streams+0x5f9/0x810
+>> [    3.340008] which would create a new lock dependency:
+>> [    3.340009]  (&xhci->lock){-.-.}-{2:2} -> (pin_fs_lock){+.+.}-{2:2}
+>> [    3.340013] 
+>>                but this new dependency connects a HARDIRQ-irq-safe lock:
+>> [    3.340016]  (&xhci->lock){-.-.}-{2:2}
 > 
-> I know I'm a bit late for the review, but is it still possible to fixup this
-> patch in your usb-linus branch?
+> Thanks, just read a similar report from Mike Galbraith <efault@gmx.de>
+> 
+> Looks like 673d74683627 ("usb: xhci: add debugfs support for ep with stream")
+> creates the new xhci debugfs stream files while holding the xhci->lock,
+> creating this dependency.
+> 
+> Below code should help, but I need to find my UAS drive to test it.
+> 
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 482fe8c5e3b4..d4a8d0efbbc4 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -3533,11 +3533,14 @@ static int xhci_alloc_streams(struct usb_hcd *hcd, struct usb_device *udev,
+>  		xhci_dbg(xhci, "Slot %u ep ctx %u now has streams.\n",
+>  			 udev->slot_id, ep_index);
+>  		vdev->eps[ep_index].ep_state |= EP_HAS_STREAMS;
+> -		xhci_debugfs_create_stream_files(xhci, vdev, ep_index);
+>  	}
+>  	xhci_free_command(xhci, config_cmd);
+>  	spin_unlock_irqrestore(&xhci->lock, flags);
+>  
+> +	for (i = 0; i < num_eps; i++) {
+> +		ep_index = xhci_get_endpoint_index(&eps[i]->desc);
+> +		xhci_debugfs_create_stream_files(xhci, vdev, ep_index);
+> +	}
+>  	/* Subtract 1 for stream 0, which drivers can't use */
+>  	return num_streams - 1;
+> 
 
-Send me a patch on top of the existing one and I will be glad to review
-and take it if needed.
+I can confirm that this patch fixes the lockdep oops.
 
-thanks,
+Regards,
 
-greg k-h
+Hans
+
+
