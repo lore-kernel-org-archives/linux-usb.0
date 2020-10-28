@@ -2,123 +2,105 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CF6C4363A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3DF2C4363A
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:04:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6256F2076B
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:01:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="QfWYuZw+"
+	by mail.kernel.org (Postfix) with ESMTP id 60AD120878
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603937070;
+	bh=m+YcHy2g6DFLyMEQJ27cDuh8VvcCWED7s6Fdc+aBhGI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=QE50EpKWClbQQi55EnpHg8AU9gt9q0PIcsdUd4K6BFdxDqWnTJjSrRqliWpVn+Z7P
+	 C4a6EJHl2HC8c40Gt/avOSb/GJ9HjYkgaj7B2wwJZ5rHYHIU+itjUvbzaf1HJfa96w
+	 uL7hchzXL9yrA07eGYDznFVfmsjoZ3QRH0jU6ReM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbgJ2CBV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 22:01:21 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:20991 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727863AbgJ2CBN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 22:01:13 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603936873; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=OY5Nx8k3+elJDqG8wO1WAHt4XhnVppU+ilRqg8xPj/c=; b=QfWYuZw+kWNINmrzMh5d+72oKS6BcJ2lrLY8Ea5rqO8sSlrdIRi/29TNcR/9ymzUwXSjTxzj
- CPkf47//NQNchyouFSoKD5j4BG87kjqu5UADOdshDBAOsProgNQproZMqA6BJnyIccfUGHiw
- ZqiqEJC61QBbstmaygYS7n2pFrI=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5f9a226020b52b32d78a4a7c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Oct 2020 02:01:04
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 2B229C433FF; Thu, 29 Oct 2020 02:01:03 +0000 (UTC)
-Received: from [10.110.82.132] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9B0EDC4339C;
-        Thu, 29 Oct 2020 02:01:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9B0EDC4339C
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-Subject: Re: [PATCH 2/2] usb: dwc3: gadget: Preserve UDC max speed setting
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "jackp@codeaurora.org" <jackp@codeaurora.org>
-References: <20201028234311.6464-1-wcheng@codeaurora.org>
- <20201028234311.6464-3-wcheng@codeaurora.org>
- <e6faade6-7c4c-5966-3afd-63be2deefa01@synopsys.com>
-From:   Wesley Cheng <wcheng@codeaurora.org>
-Message-ID: <6748f727-db76-b51c-4333-57467ae3013f@codeaurora.org>
-Date:   Wed, 28 Oct 2020 19:00:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+        id S2387450AbgJ2CER (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 22:04:17 -0400
+Received: from mail-ej1-f68.google.com ([209.85.218.68]:35304 "EHLO
+        mail-ej1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727261AbgJ1Vkv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 17:40:51 -0400
+Received: by mail-ej1-f68.google.com with SMTP id p5so1025855ejj.2;
+        Wed, 28 Oct 2020 14:40:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=V9wAxbakPGDl8B/UAvN8WqdKbhC7FBGBLyMgvNzfzck=;
+        b=IAFInqvHOk+gNfVIkwPSSdUOAdHENE37ifV1/ByqaHudHVV4RDlRxf67UwSKRSyeXW
+         LAabi3PfNPkkq2c0NMS5/lTfybXNuFTIuI6rIjuZrxv3jKSOYllsBgbuarsYM28zCHZ/
+         JoOLQDPB04ynXBrGfbcOJUiTjg4kzcdRmNCU3IKV/oD0gG+aY8LZuc6GupBzF1m416ki
+         IKdKU6nq+ba4K7QaUSW+DogM1GNP5FLuySTBM9vXaOMZOEPdFWVBdiwn7x1W95RPCHxR
+         BZRSi6YOBKNBGdjDlZRI3vQXkJSyNqfDu6dKa9TnyPx3zg6KYI9IJF+X02XH/6NkrYcl
+         bcMg==
+X-Gm-Message-State: AOAM532y2qyLA6yQHt5mtIdIMo0RqdDjzP248LDffba4YWjHFNqYxMV+
+        J/nqZf4cAoRI2mjhpPEagnKetQuub4dbTQ==
+X-Google-Smtp-Source: ABdhPJwc4yhmCVmHTTvbxjysd68szL7JtYIFqrQFSTV3F7c0shiKYPHnPjVuElX6eGi6KNeYsEu9fA==
+X-Received: by 2002:a19:8353:: with SMTP id f80mr2615326lfd.348.1603897267964;
+        Wed, 28 Oct 2020 08:01:07 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id x19sm551571lff.189.2020.10.28.08.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 08:01:05 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1kXmwj-0005BK-Ma; Wed, 28 Oct 2020 16:01:06 +0100
+Date:   Wed, 28 Oct 2020 16:01:05 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Helge Deller <deller@gmx.de>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: ftdi_sio: Fix serial port stall after resume
+Message-ID: <20201028150105.GJ4085@localhost>
+References: <20200929193327.GA13987@ls3530.fritz.box>
+ <20201008152103.GK26280@localhost>
+ <1aefc37b-8976-efda-f397-2d9492b1260a@gmx.de>
+ <20201027090043.GG4085@localhost>
+ <a2b84135-761b-6e9c-59d5-857bfa6d0281@gmx.de>
 MIME-Version: 1.0
-In-Reply-To: <e6faade6-7c4c-5966-3afd-63be2deefa01@synopsys.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2b84135-761b-6e9c-59d5-857bfa6d0281@gmx.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Wed, Oct 28, 2020 at 03:54:35PM +0100, Helge Deller wrote:
+> On 10/27/20 10:00 AM, Johan Hovold wrote:
+> > On Thu, Oct 08, 2020 at 08:16:02PM +0200, Helge Deller wrote:
 
-
-On 10/28/2020 5:43 PM, Thinh Nguyen wrote:
-> Hi,
+> >> My testcase is pretty simple:
+> >> 1. I use e.g. "minicom -D /dev/ttyUSB2". Serial connection works.
+> >> 2. I exit minicom.
+> >> 3. I suspend the workstation: "systemctl suspend"
+> >> 4. I wake up the machine and wait a few seconds.
+> >> 5. I start "minicom -D /dev/ttyUSB2" again. No transfers on the serial port.
+> >>
+> >> With my patch the minicom serial communications does work.
+> >> Another way to wake up the connection is to rmmod the driver and
+> >> insmod it again.
+> >
+> > Weird indeed. If you exit minicom before suspend and no other process is
+> > keeping the port open, then that write_latency_timer() above would never
+> > be executed.
+> >
+> > Could you enable some debugging and provide a dmesg log from a test
+> > cycle (open/close minicom, suspend/resume, open minicom)?
+> >
+> > 	echo file usb-serial.c +p > /sys/kernel/debug/dynamic_debug/control
 > 
-> Wesley Cheng wrote:
->> The USB gadget/UDC driver can restrict the DWC3 controller speed using
->> dwc3_gadget_set_speed().  Store this setting into a variable, in order for
->> this setting to persist across controller resets due to runtime PM.
-> 
-> Why do we need to do this? DCFG should persist unless we overwrite it.
-> The current PM shouldn't update the current speed setting.
-> 
-> BR,
-> Thinh
-> 
+> I enabled the debugging and tried a few times, but somehow I can not
+> reproduce the issue any longer.
+>
+> So, please drop my patch for now.
 
-Hi Thinh,
+Good to hear the problem's gone. :) Let us know if you run into it
+again.
 
-During runtime PM suspend, the dwc3_suspend_common() will call
-dwc3_core_exit().  On some platforms they register the DWC3 reset
-control to the DWC3 core driver (otherwise could be handled in the DWC3
-glue drivers), which will be asserted here:
-
-static void dwc3_core_exit(struct dwc3 *dwc)
-{
-...
-	reset_control_assert(dwc->reset);
-
-From the SNPS databook (Table 2-2 Resets for Registers) it mentions that
-assertion of the reset signal will reset the DCFG register.
-
-In addition to the above, with the change to allow runtime PM suspend
-during UDC unbind, we need a way to avoid writing to the DCFG during the
-UDC bind path. (if we entered suspend before re-binding the UDC)  If we
-add an early exit based on the PM state (in
-dwc3_gadget_set_udc_speed()), then we basically ignore the max speed
-request from the UDC/gadget layer.
-
-Since it looks like the DWC3 gadget driver doesn't like using
-synchronous PM runtime resumes, by going this route, we can allow the
-async runtime resume handler to do everything, such as writing the speed
-config and re-enabling the controller.
-
-Thanks
-
-Regards,
-Wesley Cheng
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Johan
