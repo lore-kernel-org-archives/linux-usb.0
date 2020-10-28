@@ -2,88 +2,124 @@ Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF1BC388F7
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A96FC55179
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:27:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FE3720720
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603924035;
-	bh=U8N6vg6X2eYcSrQSkrm8NKGZN+U0c9/qNL8RW2RKxFY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=HY2CrFiOp1L26zw5I/THXot0CDJSWeoObKP7k6pkMXA6lkv2Tcu6evVcizW3eyo0x
-	 5+wlgN4n3gg7ImGo0CR1PQcv9PIvqzYLBZjffBYBFdqWky8AXVB77UZczw+RJWm6SU
-	 AQ2oBfDBCK2X79NcOaV4WjSNLyFSV9jnm3GQ/gxc=
+	by mail.kernel.org (Postfix) with ESMTP id 23F8B20704
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:27:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g9QU+Foc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733008AbgJ1WYo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:24:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36834 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732655AbgJ1WWY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:22:24 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB76224689;
-        Wed, 28 Oct 2020 09:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603876192;
-        bh=U8N6vg6X2eYcSrQSkrm8NKGZN+U0c9/qNL8RW2RKxFY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d9NrgKXpsS6WBfcM7CUhO4Y0J6crO+QvjUheK3Vjd1l/gAs06AMhfllfM1Kra4Ou2
-         e3w2jfHLO/PybGblgHPD2cu6h4wYzhjh0ZcdQ3VZKrHXG8eOdgwrnyweBLK0r5C/zR
-         8xxE/m2/ob9Uivgh2Mw2HlS/Q/zDGrh8OMAMpXl0=
-Date:   Wed, 28 Oct 2020 10:10:43 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Benjamin Berg <benjamin@sipsolutions.net>
-Cc:     linux-usb@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, Benjamin Berg <bberg@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH 0/2] UCSI race condition resulting in wrong port state
-Message-ID: <20201028091043.GC1947336@kroah.com>
-References: <20201009144047.505957-1-benjamin@sipsolutions.net>
+        id S1733306AbgJ1W1g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733282AbgJ1W1e (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 18:27:34 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D79C0613CF;
+        Wed, 28 Oct 2020 15:27:34 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id bl9so564938qvb.10;
+        Wed, 28 Oct 2020 15:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JuzDUdCe2w+w28rdeAmQTlU9jyTM7YJ+llzJx19PImc=;
+        b=g9QU+Foc/no8WnHkeWW+oiFQMFS/hiNSaIlXiN1wtlZuqLDY0oenJ64/CZStC35fsF
+         Pl+0YZ18/sB+/oa3OPTLowJelNafPlRMP7AfI8yCyCEYL8z/IUSvdobX2KPkUdjxrdWA
+         zfshLOj6udgSjmOJ1P/rGwdozTW62K6FlbFm+e6/+ST+78ilg5dtp3BqzW1qm7poWMOF
+         1ks1t6CHVp3zVV1wVMeb05dcSBNkYl0kc0hww3xg9Cl37Rn11d5FeCW/uYXIvoOnmFFs
+         HByXVWBIJwFsSi0gQS305wwgEwXb8/VPr6KKJHjOJ+lCAg/nPXPfC8bpFUB3kaBCONOU
+         a3Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JuzDUdCe2w+w28rdeAmQTlU9jyTM7YJ+llzJx19PImc=;
+        b=spfWQxyDAldt5ef58KOXD+G+1G6gMK2yUkBenh8yk8jfWqK+sr6p/8Mc6parfBwmJW
+         beBlYrtGV1HXiQoFgdam/HnvOJuW8Sga2heqL0vSJTe4wQiVmkRSzXeHjPM1n3TKVnUe
+         wydve2W06KB13bQpJKiD74VZO9ds2QBtPQyuTzzFtsXWVgED1GAB8aWhnrZVZEXQy7bP
+         9/mUHrDjpY/qDts9rRsHP9C9pnXBiRLwd9wihykzH5RAtVQM01hPC7TU0sBhseiJJSJW
+         eONr1vTgi0UEV7iVtSKFhDviEu+uTErMoNEA1LpU1C1+V4INMWWRLloewnMu5wqsEl2m
+         mCwA==
+X-Gm-Message-State: AOAM533ycJpW07kKeCwLzXmNhXSniCiJrzNXu3kSq7yCp6Mhn9XKvXxw
+        Nr/g7Ekc2hSDxR+fezARtg6f198vk1uK2g==
+X-Google-Smtp-Source: ABdhPJwGQBMGdYPB8lUcMRQ3i+i6C4mdaUQc54gZfkunUxJSpzMfa6QVLivDoIz79GoJBhg43c32SQ==
+X-Received: by 2002:aa7:9622:0:b029:160:7bc:4d00 with SMTP id r2-20020aa796220000b029016007bc4d00mr7761490pfg.51.1603896201478;
+        Wed, 28 Oct 2020 07:43:21 -0700 (PDT)
+Received: from localhost (23.83.224.115.16clouds.com. [23.83.224.115])
+        by smtp.gmail.com with ESMTPSA id x7sm6285203pfr.61.2020.10.28.07.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 07:43:20 -0700 (PDT)
+Date:   Wed, 28 Oct 2020 22:43:15 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: Re: [PATCH v3] usb: dwc3: core: fix a issue about clear connect state
+Message-ID: <20201028144315.GA3766@nuc8i5>
+References: <20201020135806.30268-1-zhengdejin5@gmail.com>
+ <875z6wdq62.fsf@kernel.org>
+ <20201028125812.GA59692@nuc8i5>
+ <87y2jqlahc.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201009144047.505957-1-benjamin@sipsolutions.net>
+In-Reply-To: <87y2jqlahc.fsf@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 04:40:45PM +0200, Benjamin Berg wrote:
-> From: Benjamin Berg <bberg@redhat.com>
+On Wed, Oct 28, 2020 at 03:57:03PM +0200, Felipe Balbi wrote:
 > 
-> Hi all,
+> Hi,
 > 
-> so, I kept running in an issue where the UCSI port information was saying
-> that power was being delivered (online: 1), while no cable was attached.
+> Dejin Zheng <zhengdejin5@gmail.com> writes:
+> >> Dejin Zheng <zhengdejin5@gmail.com> writes:
+> >> > According to Synopsys Programming Guide chapter 2.2 Register Resets,
+> >> > it cannot reset the DCTL register by setting DCTL.CSFTRST for core soft
+> >> > reset, if DWC3 controller as a slave device and stay connected with a usb
+> >> > host, then, while rebooting linux, it will fail to reinitialize dwc3 as a
+> >> > slave device when the DWC3 controller did not power off. because the
+> >> > connection status is incorrect, so we also need to clear DCTL.RUN_STOP
+> >> > bit for disabling connect when doing core soft reset. There will still
+> >> > be other stale configuration in DCTL, so reset the other fields of DCTL
+> >> > to the default value 0.
+> >> 
+> >> This commit log is a bit hard to understand. When does this problem
+> >> actually happen? It seems like it's in the case of, perhaps, kexecing
+> >> into a new kernel, is that right?
+> >> 
+> > It happens when entering the kernel for the second time after the reboot
+> > command.
+> >
+> >> At the time dwc3_core_soft_reset() is called, the assumption is that
+> >> we're starting with a clean core, from power up. If we have stale
+> >> configuration from a previous run, we should fix this on the exit
+> >> path. Note that if we're reaching probe with pull up connected, we
+> >> already have issues elsewhere.
+> >> 
+> >> I think this is not the right fix for the problem.
+> >>
+> > I think you are right, Thinh also suggested me fix it on the exit path
+> > in the previous patch v2. Do you think I can do these cleanups in the
+> > shutdown hook of this driver? Balbi, is there a more suitable place to
+> > do this by your rich experience? Thanks!
 > 
-> The core of the problem is that there are scenarios where UCSI change
-> notifications are lost. This happens because querying the changes that
-> happened is done using the GET_CONNECTOR_STATUS command while clearing the
-> bitfield happens from the separate ACK command. Any change in between will
-> be lost.
-> 
-> Note that the problem may be almost invisible in the UI as e.g. GNOME will
-> still show the battery as discharging. But some policies like automatic
-> suspend may be applied incorrectly.
-> 
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> 
-> Benjamin Berg (2):
->   usb: typec: ucsi: acpi: Always decode connector change information
->   usb: typec: ucsi: Work around PPM losing change information
+> I don't think shutdown is called during removal, I'm not sure. I think
+> we had some fixes done in shutdown time, though. Test it out, but make
+> sure there are no issues with a regular modprobe cycle.
+>
+Balbi, thanks for your suggestions, I will do a test in the shutdown
+hook first.
+> -- 
+> balbi
 
-Do these need to be backported to stable kernel releases?  If so, how
-far back?
 
-thjanks,
-
-greg k-h
