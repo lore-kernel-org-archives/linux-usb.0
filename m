@@ -2,109 +2,106 @@ Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB43C55179
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F762C4363A
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 532FF207C4
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:29:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 447F72080D
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="bjStZG4h"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390346AbgJ1X3O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:29:14 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:36515 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390330AbgJ1X07 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 19:26:59 -0400
-Received: by mail-il1-f195.google.com with SMTP id p10so1259506ile.3;
-        Wed, 28 Oct 2020 16:26:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y4IyH/K1uoL8Sz48jVC4BVAm2CEzoTJ0RsS+KKnMacQ=;
-        b=BLE//ez4GjeFZ6QQVlM/RVLml8HQT8E3yiUvgMc/boq70EepmNi/K7hp85FsIU2Pux
-         y4QN5kuTarfGWgtX3qrNv9vB/kRiivitKmyaEEr1pOFNRJlBkhS+AGnjwNj/8HD7cw3J
-         3Wh4wumkpVVVOAVqpTehhMxa5JoNsGtxKVFRvvaL6F+xVtlyiUHRBYtUl5SLf1twAKn2
-         k1LN5OmxJe9bCKZHWGEctkqfTKSxRobT5FM5doOXbQVavGbGX/OjtXoujXbaj9NuBsNE
-         ruhZCB023bv7HXSwN2MIAkBT67ni43XI+2y8HW4fxqok8ZmT85h3WN9J+N8lp3+LxJfG
-         U8xg==
-X-Gm-Message-State: AOAM531jzmfw4lBbvUV51lX9iatLJ1tpzJ+CD9GfTpI9E+vX0DPmnU3I
-        6K4Huq87tXfOF0UtGzW2l65On3lIIJEgLl6z
-X-Google-Smtp-Source: ABdhPJxDZmVRDYaofDrlgJS4ZZywf3C3X2WrupX8H8e2FTYfMa40efu8pXkwnyFzdyqj8kF6899xcQ==
-X-Received: by 2002:a6b:bbc6:: with SMTP id l189mr4708130iof.145.1603857709465;
-        Tue, 27 Oct 2020 21:01:49 -0700 (PDT)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com. [209.85.166.174])
-        by smtp.gmail.com with ESMTPSA id u20sm1869597ilj.5.2020.10.27.21.01.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2020 21:01:49 -0700 (PDT)
-Received: by mail-il1-f174.google.com with SMTP id x7so2054397ili.5;
-        Tue, 27 Oct 2020 21:01:49 -0700 (PDT)
-X-Received: by 2002:a92:9e94:: with SMTP id s20mr4756389ilk.102.1603857708890;
- Tue, 27 Oct 2020 21:01:48 -0700 (PDT)
+        id S2390513AbgJ1XnU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 19:43:20 -0400
+Received: from z5.mailgun.us ([104.130.96.5]:30558 "EHLO z5.mailgun.us"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390488AbgJ1XnT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 19:43:19 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1603928599; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=EiJC9o2fMu6Zihqt6GhqK14gv4g0EzuW9oUn3J3Z+6c=; b=bjStZG4h81SX/sit7jMScCx2rNEXTV4LolEMij4zHLjxEiODLgEefiO+kwTqtLoZLAeQRTvz
+ sB1qTsxmFp4Zgh7aGz3Y2qTDygnJcbe93XcqsHiuz0BtPi9oNoKbd3lCem+m/6wuZmFxiw/m
+ A7NpRpAIIuvCU9kLsZuzq7dNBIU=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f9a02160e953497c76751f1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Oct 2020 23:43:18
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id A24E5C433B1; Wed, 28 Oct 2020 23:43:18 +0000 (UTC)
+Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B559AC43382;
+        Wed, 28 Oct 2020 23:43:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B559AC43382
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        Thinh.Nguyen@synopsys.com
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
+Subject: [PATCH 1/2] usb: dwc3: gadget: Allow runtime suspend if UDC unbinded
+Date:   Wed, 28 Oct 2020 16:43:10 -0700
+Message-Id: <20201028234311.6464-2-wcheng@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201028234311.6464-1-wcheng@codeaurora.org>
+References: <20201028234311.6464-1-wcheng@codeaurora.org>
 MIME-Version: 1.0
-References: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
- <20201022135521.375211-1-m.v.b@runbox.com> <20201022135521.375211-3-m.v.b@runbox.com>
- <c69233ce20acd04fcba780a0483a18031d9a541e.camel@hadess.net>
-In-Reply-To: <c69233ce20acd04fcba780a0483a18031d9a541e.camel@hadess.net>
-From:   Pany <pany@fedoraproject.org>
-Date:   Wed, 28 Oct 2020 04:01:37 +0000
-X-Gmail-Original-Message-ID: <CAE3RAxsG5JxV_7hVWxy9TLzfXY3aNKSe_L+V0Fxo-XpDe0wzKg@mail.gmail.com>
-Message-ID: <CAE3RAxsG5JxV_7hVWxy9TLzfXY3aNKSe_L+V0Fxo-XpDe0wzKg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] USB: apple-mfi-fastcharge: don't probe unhandled devices
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>, linux-usb@vger.kernel.org,
-        stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 2:03 PM Bastien Nocera <hadess@hadess.net> wrote:
->
-> On Thu, 2020-10-22 at 09:55 -0400, M. Vefa Bicakci wrote:
-> > From: Bastien Nocera <hadess@hadess.net>
-> >
-> > From: Bastien Nocera <hadess@hadess.net>
-> >
-> > Contrary to the comment above the id table, we didn't implement a
-> > match
-> > function. This meant that every single Apple device that was already
-> > plugged in to the computer would have its device driver reprobed
-> > when the apple-mfi-fastcharge driver was loaded, eg. the SD card
-> > reader
-> > could be reprobed when the apple-mfi-fastcharge after pivoting root
-> > during boot up and the module became available.
-> >
-> > Make sure that the driver probe isn't being run for unsupported
-> > devices by adding a match function that checks the product ID, in
-> > addition to the id_table checking the vendor ID.
-> >
-> > Fixes: 249fa8217b84 ("USB: Add driver to control USB fast charge for
-> > iOS devices")
-> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > Reported-by: Pany <pany@fedoraproject.org>
-> > Link: https://bugzilla.redhat.com/show_bug.cgi?id=1878347
-> > Link:
-> > https://lore.kernel.org/linux-usb/CAE3RAxt0WhBEz8zkHrVO5RiyEOasayy1QUAjsv-pB0fAbY1GSw@mail.gmail.com/
-> > Cc: <stable@vger.kernel.org> # 5.8
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > [m.v.b: Add Link and Reported-by tags to the commit message]
-> > Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
->
-> And along with the 1/2 patch:
-> Tested-by: Bastien Nocera <hadess@hadess.net>
->
+The DWC3 runtime suspend routine checks for the USB connected parameter to
+determine if the controller can enter into a low power state.  The
+connected state is only set to false after receiving a disconnect event.
+However, in the case of a device initiated disconnect (i.e. UDC unbind),
+the controller is halted and a disconnect event is never generated.  Set
+the connected flag to false if issuing a device initiated disconnect to
+allow the controller to be suspended.
 
-This patch works well for me.
-Tested-by: Pan (Pany) YUAN <pany@fedoraproject.org>
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+---
+ drivers/usb/dwc3/gadget.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 5d879b7606d5..6364429b2122 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1995,6 +1995,11 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 	unsigned long		flags;
+ 	int			ret;
+ 
++	if (pm_runtime_suspended(dwc->dev)) {
++		pm_request_resume(dwc->dev);
++		return 0;
++	}
++
+ 	is_on = !!is_on;
+ 
+ 	/*
+@@ -2050,6 +2055,7 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 			dwc->ev_buf->lpos = (dwc->ev_buf->lpos + count) %
+ 						dwc->ev_buf->length;
+ 		}
++		dwc->connected = false;
+ 	}
+ 
+ 	ret = dwc3_gadget_run_stop(dwc, is_on, false);
 -- 
-Regards,
-Pany
-pany@fedoraproject.org
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
