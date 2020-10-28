@@ -2,118 +2,137 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C17C55179
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 080C2C5517A
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47BE120790
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B111720791
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603933231;
-	bh=UqKkjkU3C8hjvC1W+LqFgUbMLuvOs2IpZy0kfqzvfg8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=BI0hw2YFx9skMnAx3BPEmmwtsoAoZf7FY1rKb/eI+1YinsFce6YfJjxlvOAI0dDzQ
-	 5nRuo9WFAD8h+OFUSDXLLG+JWgnZlkO8TNeLQRpnFdfW0NJU3nEIquVitDLQOcKkA0
-	 W4XmxvFCaN8cst2bgNI8D/7c5WJ+oRVQfFnARsPU=
+	s=default; t=1603933286;
+	bh=pAXgAGuha2+xKcRRbHLg1pp4yYs653DUA9/8tvcyqJM=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=GsYiuvhFAdO9SzQBoBxMu0ZGWDaw9lvDltHeU0AI+FH/hn22mDEGrZm0OOP2hXfSA
+	 /Mt7Jah4nL5pvUHNOUTCupnsr3norqsh8R1pWspDylTOitLVqUkpus0DpTZQAJ7VPu
+	 yl+eEq0vty73Ih6P2MwoJYvuhicDWw2nbH/aeaUI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403998AbgJ2BAK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 21:00:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60508 "EHLO mail.kernel.org"
+        id S1731523AbgJ2BBZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 21:01:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60512 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731540AbgJ1WR2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:28 -0400
-Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
+        id S1731518AbgJ1WR1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:27 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20CD124686;
-        Wed, 28 Oct 2020 09:13:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95329246C2;
+        Wed, 28 Oct 2020 11:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603876426;
-        bh=UqKkjkU3C8hjvC1W+LqFgUbMLuvOs2IpZy0kfqzvfg8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SiqDCILD6wNTBvBAUFBGvQkVhqRg0wHVOhKgBhkS60qwShkLk8DFMALEblRSpnbIB
-         EIMNR2fIr0KDGQMRSDqL0H0lp93uxTLXT6T06snFWHAO6V3vHmPO7jE1ac9Bn0pNZG
-         FGjdn/lQj0YHUHSMEnp1oumNbtzNms+iXXqFlUqQ=
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 31/56] usb: dwc3: fix kernel-doc markups
-In-Reply-To: <20201028090813.GB1947336@kroah.com>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
- <87ft60dujc.fsf@kernel.org> <20201028090813.GB1947336@kroah.com>
-Date:   Wed, 28 Oct 2020 11:13:34 +0200
-Message-ID: <874kmen269.fsf@kernel.org>
+        s=default; t=1603884621;
+        bh=pAXgAGuha2+xKcRRbHLg1pp4yYs653DUA9/8tvcyqJM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pbO/aKwvINygU21CbJM27RRUr2nqjYlnmp0tIdNGuK8Ub6uKyG8oV/qYFIgzxR6vF
+         Ejlw6u6iGu5EVhsjV4CTOdgvAP8OwamW5kshmWzeCH/zMFYm6/erH3Q6f/Lh4of5zg
+         Np/LAf9d0d1xxKA65MxsR5B0I5Z3mbvz7gectOdM=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "Ahmed S . Darwish" <a.darwish@linutronix.de>
+Subject: [PATCH] USB: host: isp1362: delete isp1362_show_regs()
+Date:   Wed, 28 Oct 2020 12:31:07 +0100
+Message-Id: <20201028113107.2007742-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+No one is calling this function, so it's pointless to keep around as it
+is triggering automated scanning tools to try to fix up the problems
+with it using in_interrupt().
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+So delete the thing.
 
-> On Tue, Oct 27, 2020 at 08:58:47AM +0200, Felipe Balbi wrote:
->>=20
->> Hi Mauro,
->>=20
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->> > There is a common comment marked, instead, with kernel-doc
->> > notation.
->> >
->> > Also, some identifiers have different names between their
->> > prototypes and the kernel-doc markup.
->> >
->> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->> > ---
->> >  drivers/usb/dwc3/core.c        | 2 +-
->> >  drivers/usb/dwc3/core.h        | 2 +-
->> >  drivers/usb/gadget/composite.c | 2 +-
->> >  drivers/usb/typec/mux.c        | 2 +-
->> >  include/linux/usb/composite.h  | 2 +-
->>=20
->> mind breaking this into 4 commits? One for dwc3, one for
->> gadget/composite, one for type/mux, and a final for composite.h.
->
-> I'll just take these all at once, it's easy enough :)
+Reported-by: Thomas Gleixner <tglx@linutronix.de>
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reported-by: Ahmed S. Darwish <a.darwish@linutronix.de>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/host/isp1362.h | 54 --------------------------------------
+ 1 file changed, 54 deletions(-)
 
-Sure thing, in that case:
+diff --git a/drivers/usb/host/isp1362.h b/drivers/usb/host/isp1362.h
+index 9bbfcc3fdd3c..208705b08d37 100644
+--- a/drivers/usb/host/isp1362.h
++++ b/drivers/usb/host/isp1362.h
+@@ -793,60 +793,6 @@ static void isp1362_write_fifo(struct isp1362_hcd *isp1362_hcd, void *buf, u16 l
+ 			ISP1362_REG_NO(ISP1362_REG_##r), isp1362_read_reg16(d, r));	\
+ }
+ 
+-static void __attribute__((__unused__)) isp1362_show_regs(struct isp1362_hcd *isp1362_hcd)
+-{
+-	isp1362_show_reg(isp1362_hcd, HCREVISION);
+-	isp1362_show_reg(isp1362_hcd, HCCONTROL);
+-	isp1362_show_reg(isp1362_hcd, HCCMDSTAT);
+-	isp1362_show_reg(isp1362_hcd, HCINTSTAT);
+-	isp1362_show_reg(isp1362_hcd, HCINTENB);
+-	isp1362_show_reg(isp1362_hcd, HCFMINTVL);
+-	isp1362_show_reg(isp1362_hcd, HCFMREM);
+-	isp1362_show_reg(isp1362_hcd, HCFMNUM);
+-	isp1362_show_reg(isp1362_hcd, HCLSTHRESH);
+-	isp1362_show_reg(isp1362_hcd, HCRHDESCA);
+-	isp1362_show_reg(isp1362_hcd, HCRHDESCB);
+-	isp1362_show_reg(isp1362_hcd, HCRHSTATUS);
+-	isp1362_show_reg(isp1362_hcd, HCRHPORT1);
+-	isp1362_show_reg(isp1362_hcd, HCRHPORT2);
+-
+-	isp1362_show_reg(isp1362_hcd, HCHWCFG);
+-	isp1362_show_reg(isp1362_hcd, HCDMACFG);
+-	isp1362_show_reg(isp1362_hcd, HCXFERCTR);
+-	isp1362_show_reg(isp1362_hcd, HCuPINT);
+-
+-	if (in_interrupt())
+-		DBG(0, "%-12s[%02x]:     %04x\n", "HCuPINTENB",
+-			 ISP1362_REG_NO(ISP1362_REG_HCuPINTENB), isp1362_hcd->irqenb);
+-	else
+-		isp1362_show_reg(isp1362_hcd, HCuPINTENB);
+-	isp1362_show_reg(isp1362_hcd, HCCHIPID);
+-	isp1362_show_reg(isp1362_hcd, HCSCRATCH);
+-	isp1362_show_reg(isp1362_hcd, HCBUFSTAT);
+-	isp1362_show_reg(isp1362_hcd, HCDIRADDR);
+-	/* Access would advance fifo
+-	 * isp1362_show_reg(isp1362_hcd, HCDIRDATA);
+-	 */
+-	isp1362_show_reg(isp1362_hcd, HCISTLBUFSZ);
+-	isp1362_show_reg(isp1362_hcd, HCISTLRATE);
+-	isp1362_show_reg(isp1362_hcd, HCINTLBUFSZ);
+-	isp1362_show_reg(isp1362_hcd, HCINTLBLKSZ);
+-	isp1362_show_reg(isp1362_hcd, HCINTLDONE);
+-	isp1362_show_reg(isp1362_hcd, HCINTLSKIP);
+-	isp1362_show_reg(isp1362_hcd, HCINTLLAST);
+-	isp1362_show_reg(isp1362_hcd, HCINTLCURR);
+-	isp1362_show_reg(isp1362_hcd, HCATLBUFSZ);
+-	isp1362_show_reg(isp1362_hcd, HCATLBLKSZ);
+-	/* only valid after ATL_DONE interrupt
+-	 * isp1362_show_reg(isp1362_hcd, HCATLDONE);
+-	 */
+-	isp1362_show_reg(isp1362_hcd, HCATLSKIP);
+-	isp1362_show_reg(isp1362_hcd, HCATLLAST);
+-	isp1362_show_reg(isp1362_hcd, HCATLCURR);
+-	isp1362_show_reg(isp1362_hcd, HCATLDTC);
+-	isp1362_show_reg(isp1362_hcd, HCATLDTCTO);
+-}
+-
+ static void isp1362_write_diraddr(struct isp1362_hcd *isp1362_hcd, u16 offset, u16 len)
+ {
+ 	len = (len + 1) & ~1;
+-- 
+2.29.1
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+ZNj4RHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQagOA//eyKwQho8ZS03MJ9gkVjfW8k7drtTAvLv
-tlCrKvWoTAD5NkAiTlbrtzZTxY8SHgYMiBItwXv9kKPpC5cLjoH7MbjDzWzQToSp
-YkqvksbI5s4RO/+Twl0qly1Nlp2l2pwMh/6iO3sh4rdonqCEg4ByRL2K4D1ALvG4
-i06dddOYUym21CX9d8FV6yebrKibdHfr8SAX51NhdyvVaGY2BzUF6qisRygtMzkf
-Ry4xkZRYsSBh6L/uGsLYQxtrvoKx5fsLKZHR6Zj8XsGYHA/gAMQ/SNOnl67klBLe
-ZriMVILmxRu4kOR8i9TOi7xLrDOkLBczrNCl3ZNaSHpmB86yFprOQVs7USjHjnjl
-0rCJYgmgK0zywCZC3FHH7tUL5WcWMR15hp40p56IkjalFd+cleXV1xjIu4kEuorX
-vj994var0ZVUariLvM6KuLn7T7pnFAEkhFhcoFDsdOkNHzI6wpBcijFLeKubthlv
-8dW3GQquRrOK6/ESE1CQAA6dAIls+QJmaWsMpWlf0Mos+6wZFZwbUjtLA9nFFY7Q
-1T0mYQVEgDZEvJIc8muWb8LS10nkQIiiVdRu+GfAqC+Efz+ysDhsqMtkelNHklx+
-NfnPcRbJfCngrrvHocL/4xteaDFPRaR2KegjmmIwaaEB4gl/72ZOCwD7A8habtN5
-TNXX4XBAyE8=
-=x6JJ
------END PGP SIGNATURE-----
---=-=-=--
