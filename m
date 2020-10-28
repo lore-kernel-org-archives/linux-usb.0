@@ -2,233 +2,106 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C756C4363A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 00:11:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E10A5C388F7
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 00:22:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27C6520754
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 00:11:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C15320782
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 00:22:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="lCmm40q1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390704AbgJ2AL3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 20:11:29 -0400
-Received: from mga05.intel.com ([192.55.52.43]:37313 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388084AbgJ2AL2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 20:11:28 -0400
-IronPort-SDR: 7yyhV8nJw/ySiDqjE0zzy5mZ/yxCucQABJdspjlMbzQXOAzfYR423JMcyJAi2Rd31eVXPl8NCn
- GcRz6CNOXQ3A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="253057916"
-X-IronPort-AV: E=Sophos;i="5.77,428,1596524400"; 
-   d="scan'208";a="253057916"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2020 17:11:27 -0700
-IronPort-SDR: xK6Lq7gMRNkMUj+eR9RdjpcHMi4UCmbhEydi4id3mLpBG32ZGscRN30WYcUyNGz0dMV11Uwzmb
- hK1jC1/uYqRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,428,1596524400"; 
-   d="scan'208";a="318782204"
-Received: from lkp-server02.sh.intel.com (HELO 0471ce7c9af6) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 28 Oct 2020 17:11:25 -0700
-Received: from kbuild by 0471ce7c9af6 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kXvXJ-0000Fn-4S; Thu, 29 Oct 2020 00:11:25 +0000
-Date:   Thu, 29 Oct 2020 08:11:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- aee9ddb1d3718d3ba05b50c51622d7792ae749c9
-Message-ID: <5f9a08ac.MLgRHiZDTrXi1Iz8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S2390831AbgJ2AWO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:22:14 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1414 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388930AbgJ1WiG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 18:38:06 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f9937530001>; Wed, 28 Oct 2020 02:18:11 -0700
+Received: from [10.2.171.164] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 09:18:01 +0000
+Subject: Re: [PATCH v4 10/16] dt-bindings: phy: tegra-xusb: Add nvidia,pmc
+ prop
+To:     Rob Herring <robh@kernel.org>, <thierry.reding@gmail.com>
+CC:     <gregkh@linuxfoundation.org>, <jonathanh@nvidia.com>,
+        <kishon@ti.com>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>
+References: <20201016130726.1378666-1-jckuo@nvidia.com>
+ <20201016130726.1378666-11-jckuo@nvidia.com> <20201019214046.GA3645734@bogus>
+X-Nvconfidentiality: public
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <4d190cc1-d01d-9064-0b28-ed7f48858ebd@nvidia.com>
+Date:   Wed, 28 Oct 2020 17:18:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20201019214046.GA3645734@bogus>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603876691; bh=Uicj8tp9XPp1EuN3JiOQD2NdkQG03jiexELbBTYXEFQ=;
+        h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=lCmm40q1pu/ss7empc91Sutt+HYjjOzzxXrZuqa59DIk+5YYJRBGBEU/rGxyI0PqZ
+         zlRqu9mMCv72cKIjAgLv2524f3MbhSAMJG73Bj3CGt7Bdddc2YINS8Rw5WtY3IXQ9D
+         1lAyChykD8CarsLI3vVHxCN70Fkf5DpVZifL017dGi1uBBOEcLxAbReMXAl2Xy+A7m
+         BOhOYGLtGGVTMzpek8DZ+qtGmpPKPWTEZyNSXv+TPVjF7yVeTMT52o/kVJQmFHh936
+         9E3gyu+qopP8HWSF1fXuTGG76wpdHxqdo7yaItJPAmeyOvpWh4wP1vE8hxyWLj91s5
+         zbFQogP8F0/Ow==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
-branch HEAD: aee9ddb1d3718d3ba05b50c51622d7792ae749c9  kcov, usb: only collect coverage from __usb_hcd_giveback_urb in softirq
+On 10/20/20 5:40 AM, Rob Herring wrote:
+> On Fri, Oct 16, 2020 at 09:07:20PM +0800, JC Kuo wrote:
+>> This commit describes the "nvidia,pmc" property for Tegra210 tegra-xusb
+>> PHY driver. It is a phandle and specifier referring to the Tegra210
+>> pmc@7000e400 node.
+>>
+>> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+>> ---
+>> v4:
+>>    new change to document "nvidia,pmc" prop
+>>
+>>  .../devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt      | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+>> index 38c5fa21f435..ea559baeb546 100644
+>> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+>> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+>> @@ -54,6 +54,7 @@ For Tegra210:
+>>  - avdd-pll-uerefe-supply: PLLE reference PLL power supply. Must supply 1.05 V.
+>>  - dvdd-pex-pll-supply: PCIe/USB3 PLL power supply. Must supply 1.05 V.
+>>  - hvdd-pex-pll-e-supply: High-voltage PLLE power supply. Must supply 1.8 V.
+>> +- nvidia,pmc: phandle and specifier referring to the Tegra210 pmc@7000e400 node.
+> 
+> 'Tegra210 pmc@7000e400' is kind of specific. Going to update this for 
+> every address and chip?
+> 
+> If there's only one PMC, you can just find the compatible PMC node. Then 
+> you don't need a DT update.
+> 
+> Rob
+> 
+Hi Rob,
+Thanks for your review and suggestion. Yes, there is only one PMC node. You mean
+I can retrieve the PMC node with the following code and if do do DT update is
+not required, right?
 
-elapsed time: 720m
+	np = of_find_compatible_node(NULL, NULL, "nvidia,tegra210-pmc");
 
-configs tested: 161
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-c6x                        evmc6457_defconfig
-sh                            titan_defconfig
-powerpc                     tqm8548_defconfig
-arm                          pxa168_defconfig
-mips                           ip22_defconfig
-sh                               alldefconfig
-sh                          r7780mp_defconfig
-mips                     loongson1b_defconfig
-sh                               j2_defconfig
-sh                        apsh4ad0a_defconfig
-powerpc                    socrates_defconfig
-powerpc64                           defconfig
-arm                         nhk8815_defconfig
-powerpc                     tqm8541_defconfig
-parisc                           alldefconfig
-arm                        spear6xx_defconfig
-riscv                    nommu_k210_defconfig
-nds32                             allnoconfig
-powerpc                     tqm8555_defconfig
-mips                        bcm47xx_defconfig
-sh                     sh7710voipgw_defconfig
-powerpc                  mpc866_ads_defconfig
-arm                         at91_dt_defconfig
-powerpc                     pseries_defconfig
-arm                        magician_defconfig
-arc                     haps_hs_smp_defconfig
-arm                      pxa255-idp_defconfig
-arm                        neponset_defconfig
-xtensa                  nommu_kc705_defconfig
-alpha                            alldefconfig
-arm                            lart_defconfig
-mips                      bmips_stb_defconfig
-m68k                        mvme147_defconfig
-sh                               allmodconfig
-powerpc                      bamboo_defconfig
-powerpc                     kmeter1_defconfig
-c6x                        evmc6474_defconfig
-powerpc                  iss476-smp_defconfig
-arc                          axs103_defconfig
-sh                           se7206_defconfig
-arm                          prima2_defconfig
-m68k                       m5249evb_defconfig
-mips                          rb532_defconfig
-sh                           se7343_defconfig
-sh                         ap325rxa_defconfig
-mips                           jazz_defconfig
-arm                            hisi_defconfig
-x86_64                              defconfig
-mips                          ath25_defconfig
-m68k                             allyesconfig
-mips                            e55_defconfig
-ia64                      gensparse_defconfig
-microblaze                          defconfig
-arm                        multi_v7_defconfig
-powerpc                     akebono_defconfig
-arm                       omap2plus_defconfig
-nds32                               defconfig
-powerpc                mpc7448_hpc2_defconfig
-powerpc                 mpc834x_mds_defconfig
-powerpc                   motionpro_defconfig
-mips                           gcw0_defconfig
-powerpc                 mpc8272_ads_defconfig
-mips                            ar7_defconfig
-h8300                       h8s-sim_defconfig
-powerpc                      pasemi_defconfig
-mips                         bigsur_defconfig
-xtensa                    smp_lx200_defconfig
-arm                          exynos_defconfig
-nds32                            alldefconfig
-um                           x86_64_defconfig
-arm                      tct_hammer_defconfig
-arm                              zx_defconfig
-mips                       bmips_be_defconfig
-arm                           viper_defconfig
-arm                        realview_defconfig
-powerpc                     skiroot_defconfig
-arm                          collie_defconfig
-powerpc                     ppa8548_defconfig
-arm                            zeus_defconfig
-sh                          rsk7264_defconfig
-powerpc                    klondike_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-nios2                               defconfig
-arc                              allyesconfig
-c6x                              allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20201026
-i386                 randconfig-a003-20201026
-i386                 randconfig-a005-20201026
-i386                 randconfig-a001-20201026
-i386                 randconfig-a006-20201026
-i386                 randconfig-a004-20201026
-i386                 randconfig-a002-20201028
-i386                 randconfig-a005-20201028
-i386                 randconfig-a003-20201028
-i386                 randconfig-a001-20201028
-i386                 randconfig-a004-20201028
-i386                 randconfig-a006-20201028
-x86_64               randconfig-a011-20201028
-x86_64               randconfig-a013-20201028
-x86_64               randconfig-a016-20201028
-x86_64               randconfig-a015-20201028
-x86_64               randconfig-a012-20201028
-x86_64               randconfig-a014-20201028
-i386                 randconfig-a016-20201028
-i386                 randconfig-a014-20201028
-i386                 randconfig-a015-20201028
-i386                 randconfig-a013-20201028
-i386                 randconfig-a012-20201028
-i386                 randconfig-a011-20201028
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a001-20201026
-x86_64               randconfig-a003-20201026
-x86_64               randconfig-a002-20201026
-x86_64               randconfig-a006-20201026
-x86_64               randconfig-a004-20201026
-x86_64               randconfig-a005-20201026
-x86_64               randconfig-a001-20201028
-x86_64               randconfig-a002-20201028
-x86_64               randconfig-a003-20201028
-x86_64               randconfig-a006-20201028
-x86_64               randconfig-a005-20201028
-x86_64               randconfig-a004-20201028
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+JC
