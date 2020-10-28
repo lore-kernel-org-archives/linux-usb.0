@@ -2,160 +2,85 @@ Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7A9C4363A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C74FC5DF9D
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:33:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA5932071A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:28:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SZDYNoXK"
+	by mail.kernel.org (Postfix) with ESMTP id C125920725
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 22:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603924388;
+	bh=oi2U7us0Hcp1WYV1n8AmO/ar4S9WEYcCsG7281Sylqk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ZPWfAHLIcIYcroxVwemhlKHbmHvQtaZkRUIACTInZRybxjcvhmlRAPjDf5trU5u9F
+	 3uINLW+4O2YVTDIMJQHdXRyUqXfzlKs5Ilo1XrZm1y8JJPdUg8wktAWnc34/pkCyoP
+	 yKi6IpnddOd0KJi+MyIGm22k3xXfxjTHTn9Zoli8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732872AbgJ1W2H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:28:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32241 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733273AbgJ1W11 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 18:27:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603924045;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fQ/qw+rpiAp4eyZfrSsyasyM1nQM1jdNbFppYd7vqPs=;
-        b=SZDYNoXKTNxbPENU1JFZW+XhTIyjJ83QF6Vdb5cWVlLiBnom2Lima+m6WLEof+3bspItOY
-        28AydZKSw7B3k8dTTfsSYcTr5a7RCwGhW9Pc0v6sQGhA0sOHmMA5kxeMvR9CA8jL9DtaKn
-        IIno9wwHs5zeTOtetGflKiHeZop2ikI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-mLbVNdTAMBSjOl0PESJvIw-1; Wed, 28 Oct 2020 08:25:23 -0400
-X-MC-Unique: mLbVNdTAMBSjOl0PESJvIw-1
-Received: by mail-ed1-f70.google.com with SMTP id bc27so823233edb.18
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 05:25:23 -0700 (PDT)
+        id S2388132AbgJ1WdG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:33:06 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:36301 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388137AbgJ1Wcq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Oct 2020 18:32:46 -0400
+Received: by mail-ed1-f68.google.com with SMTP id l16so1178525eds.3
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 15:32:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fQ/qw+rpiAp4eyZfrSsyasyM1nQM1jdNbFppYd7vqPs=;
-        b=hr0C0ioRQb2STFB/dbbUV1gArgfO+0WINPpM6cFq5BHlSmrJagqGbJdnQLuM6cFLn8
-         cs94pYbaEW5Ga7dGljgbjpgaUpBiNfs5++zbyTiC5A6hxqIIT5uqSJOka6wttvBv1sBi
-         /x/Y0fHHv9xfquaaCqyQ8lexDQ+B81mj2gl/D9n5RatNuT/afChBwxLAw1my4mhX9lge
-         6rqPIDEq1h0+jtuX9GuIDO4kY1rlxZy9d2cSe4qUMfT/Q+YbV7vZ3u4FXf8aI3ynI26M
-         cC8EqSNl5LxII7wNpVy1LHWWUcPLOjhOH82/TLMZw1U6EuK9Ek49X5AGKBQUeRBqel/u
-         DYtg==
-X-Gm-Message-State: AOAM532J9Q3xrRXthBFZ7RmEH6Rzp9XBOzjLcXs/w6SnyCSIwyaaqFsj
-        rUFxPLSz/1aXYI35KOADL/x70CBHBzfoJavhg12ZctWoZIKfpwwwPU4F8gHcYEJlgduFUfZAH4w
-        IWxQiiMivDYOTc8v9npuk
-X-Received: by 2002:aa7:d550:: with SMTP id u16mr2687426edr.147.1603887922525;
-        Wed, 28 Oct 2020 05:25:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3zS5a/7wd/Ixqrqur5/2TKJC4vFsWgenFuMVv5p6kleXO+dhizGOhkyFM4C6d5T8z4c6Tkg==
-X-Received: by 2002:aa7:d550:: with SMTP id u16mr2687408edr.147.1603887922333;
-        Wed, 28 Oct 2020 05:25:22 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id c17sm2764287edv.19.2020.10.28.05.25.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2020 05:25:21 -0700 (PDT)
-Subject: Re: New XHCI lockdep oops in 5.10-rc1
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        Mike Galbraith <efault@gmx.de>, Li Jun <jun.li@nxp.com>
-References: <01e273b8-beb9-ef8c-c2a4-925a11b07799@redhat.com>
- <46dc20eb-bc98-c0f9-e72d-dd2a28e993a1@linux.intel.com>
- <39e135d7-34ac-1347-65f2-2306ed746f4c@redhat.com>
- <ac6ce4a6-4250-27eb-8d7e-0a48b9adf5e5@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <4fbf02bb-7fd5-e792-ae4f-8bd50fa8e201@redhat.com>
-Date:   Wed, 28 Oct 2020 13:25:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AnD14m59RyCYZ+TEcZur1g3L2+9d5Dkc7pSDJYh9J2E=;
+        b=GB6HCSSPJC5bfcPbJCnd2Bvbs1/FvoMTX7HcE+rIU+WzQRu83MSQry3C9DAPYGWGst
+         B4nS4z0r858E/VbvenzZt7UWRHvxXl41Fxl7WMhqXUmuKAa7fid0C7gSK4ahmXsao2Qs
+         n5WwRLA69a2JE1efeGXO2R6OLr4lH1wBR4hog3GotYEdfFCSARJ22HOHiP5Wq/ZjiNAr
+         59Tz4Q3t4XoTb1G5lXc5avzjWHjhv57cC+NnU0VHFCXLwFs+Ikiv8Z7bs+R9xFtDBlGe
+         YIdemVsfa1DWcY3Ws51rNn9Yfq0CYGtuFG+JrxUgD+wAM6KWUTenMDRsfjlfEcvBmQYC
+         pvhQ==
+X-Gm-Message-State: AOAM532AhZR9PijppbI6cy6rjeGrBcG2rkG9hODpKhXFr9nX8WdwQxfv
+        qunwzrsKh4cxLaCZryEh7uAyeniCtTK1DA==
+X-Google-Smtp-Source: ABdhPJwjsYaQufcPYRu0rHRTbqnzc5qGI/FRLmxl91qefKThJlIHykh3mS/aIXDVq+NSZdTc8JWZSw==
+X-Received: by 2002:a19:2d15:: with SMTP id k21mr2345838lfj.276.1603869431773;
+        Wed, 28 Oct 2020 00:17:11 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id c21sm427151lfm.308.2020.10.28.00.17.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 00:17:10 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1kXfhm-0005m2-QG; Wed, 28 Oct 2020 08:17:10 +0100
+Date:   Wed, 28 Oct 2020 08:17:10 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Mychaela Falconia <mychaela.falconia@gmail.com>
+Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/3] a family of FTDI-based devices that need ftdi_sio
+ quirks
+Message-ID: <20201028071710.GI4085@localhost>
+References: <20200916015621.EFCDA374023F@freecalypso.org>
+ <20200929101330.GQ24441@localhost>
+ <CA+uuBqY83q+UiRsYxBckXvbtYf4sRxqB_8eXXPgEKAOqTwD=vg@mail.gmail.com>
+ <20201005105722.GN5141@localhost>
+ <CA+uuBqZ6JhCq1ydU-9A+en3QO=9zX9LuEJ8+P0YvEzUE+9sYoA@mail.gmail.com>
+ <CA+uuBqZSozH_513OyiDyuh1DcvPrCkBer=_wedLQEEFSbdDrkw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ac6ce4a6-4250-27eb-8d7e-0a48b9adf5e5@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+uuBqZSozH_513OyiDyuh1DcvPrCkBer=_wedLQEEFSbdDrkw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On Tue, Oct 27, 2020 at 12:18:13PM -0800, Mychaela Falconia wrote:
 
-On 10/28/20 1:22 PM, Mathias Nyman wrote:
-> On 28.10.2020 12.57, Hans de Goede wrote:
->> Hi,
->>
->> On 10/28/20 10:31 AM, Mathias Nyman wrote:
->>> On 27.10.2020 23.51, Hans de Goede wrote:
->>>> Hi,
->>>>
->>>> I standard run my local kernel builds with lockdep enabled, booting 5.10-rc1 with lockdep enabled results in:
->>>>
->>>> [    3.339982] =====================================================
->>>> [    3.339984] WARNING: HARDIRQ-safe -> HARDIRQ-unsafe lock order detected
->>>> [    3.339987] 5.10.0-rc1pdx86+ #8 Not tainted
->>>> [    3.339988] -----------------------------------------------------
->>>> [    3.339991] systemd-udevd/386 [HC0[0]:SC0[0]:HE0:SE1] is trying to acquire:
->>>> [    3.339993] ffffffffb1a94038 (pin_fs_lock){+.+.}-{2:2}, at: simple_pin_fs+0x22/0xa0
->>>> [    3.339999] 
->>>>                and this task is already holding:
->>>> [    3.340002] ffff9e7b87fbc430 (&xhci->lock){-.-.}-{2:2}, at: xhci_alloc_streams+0x5f9/0x810
->>>> [    3.340008] which would create a new lock dependency:
->>>> [    3.340009]  (&xhci->lock){-.-.}-{2:2} -> (pin_fs_lock){+.+.}-{2:2}
->>>> [    3.340013] 
->>>>                but this new dependency connects a HARDIRQ-irq-safe lock:
->>>> [    3.340016]  (&xhci->lock){-.-.}-{2:2}
->>>
->>> Thanks, just read a similar report from Mike Galbraith <efault@gmx.de>
->>>
->>> Looks like 673d74683627 ("usb: xhci: add debugfs support for ep with stream")
->>> creates the new xhci debugfs stream files while holding the xhci->lock,
->>> creating this dependency.
->>>
->>> Below code should help, but I need to find my UAS drive to test it.
->>>
->>> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
->>> index 482fe8c5e3b4..d4a8d0efbbc4 100644
->>> --- a/drivers/usb/host/xhci.c
->>> +++ b/drivers/usb/host/xhci.c
->>> @@ -3533,11 +3533,14 @@ static int xhci_alloc_streams(struct usb_hcd *hcd, struct usb_device *udev,
->>>  		xhci_dbg(xhci, "Slot %u ep ctx %u now has streams.\n",
->>>  			 udev->slot_id, ep_index);
->>>  		vdev->eps[ep_index].ep_state |= EP_HAS_STREAMS;
->>> -		xhci_debugfs_create_stream_files(xhci, vdev, ep_index);
->>>  	}
->>>  	xhci_free_command(xhci, config_cmd);
->>>  	spin_unlock_irqrestore(&xhci->lock, flags);
->>>  
->>> +	for (i = 0; i < num_eps; i++) {
->>> +		ep_index = xhci_get_endpoint_index(&eps[i]->desc);
->>> +		xhci_debugfs_create_stream_files(xhci, vdev, ep_index);
->>> +	}
->>>  	/* Subtract 1 for stream 0, which drivers can't use */
->>>  	return num_streams - 1;
->>>
->>
->> I can confirm that this patch fixes the lockdep oops.
+> In your October 5 argument you wrote:
 > 
-> Thanks, can I add your Tested-by: tag to it?
+> > Let me give this some more thought.
+> 
+> It has been 3 weeks - do you have any more thoughts that address my
+> not yet answered rebuttal arguments in defense of my patch?
 
-Yes please do:
+No, sorry, I haven't read your last mail yet. But don't worry it's not
+lost, and I've started processing patches again now that rc1 is out.
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-
-> I found a UAS device and could reproduce the original issue, and verify that the patch
-> resolves it for me as well.
-
-Great :)
-
-Regards,
-
-Hans
-
-
+Johan
