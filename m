@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF52C55178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83FCC55179
 	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:46:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 480EF2076D
+	by mail.kernel.org (Postfix) with ESMTP id 944BE207DE
 	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726848AbgJ2Jql (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726855AbgJ2Jql (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 29 Oct 2020 05:46:41 -0400
 Received: from mga03.intel.com ([134.134.136.65]:31459 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726843AbgJ2Jql (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Oct 2020 05:46:41 -0400
-IronPort-SDR: zC/A0SDaxyp+ggIvkOEm9iSY4+7wmBwitWIVSNiVBRa62YtIzxpyb1nkgk/qufDmy/cjy0VDp/
- BJTBERfFshJA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="168504717"
+        id S1726845AbgJ2Jqk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Oct 2020 05:46:40 -0400
+IronPort-SDR: GfHhA9aMgTAhK7o0n5n0ysqHSghWv1SAL+aE/mHkKuZ3qQ6xxufhP+iZKScWK64qs3E2u7zRTL
+ KiA/tZirbA/Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="168504716"
 X-IronPort-AV: E=Sophos;i="5.77,429,1596524400"; 
-   d="scan'208";a="168504717"
+   d="scan'208";a="168504716"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 02:46:40 -0700
-IronPort-SDR: IkYfbMI6UXriII5eEolUEBT07xXhybCrkzbTXDJQP+8cPuNvtbEtrFyFRi6458DUbrnwysmhTZ
- NZInAfzmI66g==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 02:46:39 -0700
+IronPort-SDR: g4UWBVGymIV1Dp7vaU6CpHWwt+BemayeO81G9PnDYOgChymKs5jnnGaom2IcKOafFus/SfxEnN
+ 5+VsrsMdVMVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,429,1596524400"; 
-   d="scan'208";a="536604867"
+   d="scan'208";a="350907877"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 29 Oct 2020 02:46:37 -0700
+  by orsmga008.jf.intel.com with ESMTP; 29 Oct 2020 02:46:37 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 272A15F2; Thu, 29 Oct 2020 11:46:37 +0200 (EET)
+        id 186EB453; Thu, 29 Oct 2020 11:46:37 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -45,9 +45,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Casey Bowman <casey.g.bowman@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 3/3] thunderbolt: Only configure USB4 wake for lane 0 adapters
-Date:   Thu, 29 Oct 2020 12:46:36 +0300
-Message-Id: <20201029094636.51818-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/3] thunderbolt: Add uaccess dependency to debugfs interface
+Date:   Thu, 29 Oct 2020 12:46:35 +0300
+Message-Id: <20201029094636.51818-2-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201029094636.51818-1-mika.westerberg@linux.intel.com>
 References: <20201029094636.51818-1-mika.westerberg@linux.intel.com>
@@ -57,32 +57,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Only USB4 lane 0 adapter has the USB4 port capability for wakes so only
-program wakes on such adapters.
+From: Casey Bowman <casey.g.bowman@intel.com>
 
-Fixes: b2911a593a70 ("thunderbolt: Enable wakes from system suspend")
+Some calls in the debugfs interface are made to the linux/uaccess.h header,
+but the header is not referenced. So, for x86_64 architectures, this
+dependency seems to be pulled in elsewhere, which leads to a successful
+compilation. However, on arm/arm64 architectures, it was found to error out
+on implicit declarations.
+
+This change fixes the implicit declaration error by adding the
+linux/uaccess.h header.
+
+Fixes: 54e418106c76 ("thunderbolt: Add debugfs interface")
+Signed-off-by: Casey Bowman <casey.g.bowman@intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/usb4.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/thunderbolt/debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 40f13579a3fe..f2583b4053e4 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -421,8 +421,12 @@ int usb4_switch_set_wake(struct tb_switch *sw, unsigned int flags)
- 	 * upstream USB4 port.
- 	 */
- 	tb_switch_for_each_port(sw, port) {
-+		if (!tb_port_is_null(port))
-+			continue;
- 		if (!route && tb_is_upstream_port(port))
- 			continue;
-+		if (!port->cap_usb4)
-+			continue;
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 3680b2784ea1..ed65d2b13964 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -9,6 +9,7 @@
  
- 		ret = tb_port_read(port, &val, TB_CFG_PORT,
- 				   port->cap_usb4 + PORT_CS_19, 1);
+ #include <linux/debugfs.h>
+ #include <linux/pm_runtime.h>
++#include <linux/uaccess.h>
+ 
+ #include "tb.h"
+ 
 -- 
 2.28.0
 
