@@ -2,190 +2,98 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E56B8C56202
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 08:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8580CC2D0A3
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:33:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E88620757
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 08:32:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bfs.de header.i=@bfs.de header.b="HhBNWZUl"
+	by mail.kernel.org (Postfix) with ESMTP id 2A0F92076D
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:33:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbgJ2Ico (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 04:32:44 -0400
-Received: from mx01-muc.bfs.de ([193.174.230.67]:49149 "EHLO mx01-muc.bfs.de"
+        id S1725929AbgJ2Jd1 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 05:33:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32952 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727781AbgJ2Icm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Oct 2020 04:32:42 -0400
-X-Greylist: delayed 640 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Oct 2020 04:32:40 EDT
-Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
-        by mx01-muc.bfs.de (Postfix) with ESMTPS id 6523C203C8;
-        Thu, 29 Oct 2020 09:21:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
-        t=1603959718;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CYQAH9csP8QGRDf7LtXxC+wt7BW/zX41/XbhhgtAe20=;
-        b=HhBNWZUlHfx/axhARbFs0Dd25Si5aj+/bm2vqSKwrFMgFQLRQYazJ0JQNiQEuX4SGFewaU
-        XNqfy+1Icx8O5tQ4+DDCB/j/aIzzkLCboJhYzgSZwKj9KB1j7ciO37C2sKhM+oR3mzxSUi
-        SvmYyaHMYnhnEvQ+OWzCUg7HaHH1u9Ek322r1vGyr0tOerhgGi6E/B5HJCyPPsOZLZUnaA
-        11NBRmet1Pdvf9vtr0wJIpsCh855DrC4TxGBDZ2SOG3dGJJBnZgRQqAH7DaW7ekiGquL/0
-        HvvUN+TagbBBNh3S3w8RO0LdtEQhfgO3URo1KGrXXgJhktSKcNh+fIa5tNmL3w==
-Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
- (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2106.2; Thu, 29 Oct
- 2020 09:21:57 +0100
-Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
- SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
- 15.01.2106.002; Thu, 29 Oct 2020 09:21:57 +0100
-From:   Walter Harms <wharms@bfs.de>
-To:     Amelie DELAUNAY <amelie.delaunay@st.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: AW: [PATCH 2/2] usb: typec: stusb160x: fix some signedness bugs
-Thread-Topic: [PATCH 2/2] usb: typec: stusb160x: fix some signedness bugs
-Thread-Index: AQHWqS8S3xHqI4tRUkqlroDZcdJWrKms5+4AgAFeuGw=
-Date:   Thu, 29 Oct 2020 08:21:57 +0000
-Message-ID: <f843e2866d6f421d83b4455582809a95@bfs.de>
-References: <20201023112412.GD282278@mwanda>,<625bf21d-e3bb-f952-9368-d93bee05a461@st.com>
-In-Reply-To: <625bf21d-e3bb-f952-9368-d93bee05a461@st.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.137.16.40]
-x-tm-as-product-ver: SMEX-14.0.0.3031-8.6.1012-25754.005
-x-tm-as-result: No-10--9.185000-5.000000
-x-tmase-matchedrid: 1w4R1hu8EHXRubRCcrbc5pzEHTUOuMX33dCmvEa6IiGoLZarzrrPmc3d
-        fdcf5CPdoWsJojAyUJyGDu7ShAWPZ3FhLHosE8p6fid4LSHtIANXjjsM2/DfxsuSXx71bvSLIZR
-        vYk3GLWq4YWZ0oVWPemVAX9X3abiHypZAXK5m7sRuh7qwx+D6T47P8sslRxoeqJNb9gU3W4vbJM
-        bTT9K/Ta3aC25avUua2v4PzRk1tzKasf4YibpLR/lZlPYYWH6dZ9CBzdVRKc7W3gJMbmpEll+vE
-        FKOZZiQ585VzGMOFzABi3kqJOK62QtuKBGekqUpm+MB6kaZ2g76kpEM3zHz8HW0K4TFHL9zQH0k
-        K6Hw87saFLZ7VYI8Taulqb26SWs8NwNxUX+px0HAEmceWg05FuqNmlaeXBL4ZXzBJxA4dXjG61L
-        W3xarQYiiduc0eATAz+phZh9BMadJA4+6YYiS7boOfFLgUu3n
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--9.185000-5.000000
-x-tmase-version: SMEX-14.0.0.3031-8.6.1012-25754.005
-x-tm-snts-smtp: 07A5B888ED6E5FB23C630DD95E134F535C28DC98D31275935501040763F82A3A2000:9
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1725372AbgJ2Jd0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Oct 2020 05:33:26 -0400
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 208257] Kingston USB flash drive repeatedly disconnected after
+ "Set SEL for device-initiated U2 failed."
+Date:   Thu, 29 Oct 2020 09:33:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jwrdegoede@fedoraproject.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-208257-208809-6xSKZsXWBA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208257-208809@https.bugzilla.kernel.org/>
+References: <bug-208257-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Authentication-Results: mx01-muc.bfs.de;
-        none
-X-Spamd-Result: default: False [0.83 / 7.00];
-         ARC_NA(0.00)[];
-         TO_DN_EQ_ADDR_SOME(0.00)[];
-         HAS_XOIP(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         BAYES_SPAM(0.83)[79.66%];
-         RCPT_COUNT_FIVE(0.00)[6];
-         DKIM_SIGNED(0.00)[];
-         NEURAL_HAM(-0.00)[-0.994];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[]
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-this is much better to read
-________________________________________
-Von: Amelie DELAUNAY [amelie.delaunay@st.com]
-Gesendet: Mittwoch, 28. Oktober 2020 13:26
-An: Dan Carpenter; Heikki Krogerus
-Cc: Greg Kroah-Hartman; linux-usb@vger.kernel.org; kernel-janitors@vger.ker=
-nel.org
-Betreff: Re: [PATCH 2/2] usb: typec: stusb160x: fix some signedness bugs
+https://bugzilla.kernel.org/show_bug.cgi?id=208257
 
-Hi Dan,
+Hans de Goede (jwrdegoede@fedoraproject.org) changed:
 
-On 10/23/20 1:24 PM, Dan Carpenter wrote:
-> These variables are enums but in this situation GCC will treat them as
-> unsigned so the conditions are never true.
->
-> Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C contro=
-ller family")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->   drivers/usb/typec/stusb160x.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.=
-c
-> index f7369e371dd4..da7f1957bcb3 100644
-> --- a/drivers/usb/typec/stusb160x.c
-> +++ b/drivers/usb/typec/stusb160x.c
-> @@ -545,7 +545,7 @@ static int stusb160x_get_fw_caps(struct stusb160x *ch=
-ip,
->       ret =3D fwnode_property_read_string(fwnode, "power-role", &cap_str)=
-;
->       if (!ret) {
->               chip->port_type =3D typec_find_port_power_role(cap_str);
-> -             if (chip->port_type < 0) {
-> +             if ((int)chip->port_type < 0) {
->                       ret =3D chip->port_type;
->                       return ret;
->               }
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jwrdegoede@fedoraproject.or
+                   |                            |g
 
-I was preparing a patch for this one, and it uses the ret instead of the
-cast:
-        ret =3D fwnode_property_read_string(fwnode, "power-role", &cap_str)=
-;
-        if (!ret) {
-                ret =3D typec_find_port_power_role(cap_str);
-                if (ret < 0)
-                        return ret;
-                chip->port_type =3D ret;
+--- Comment #9 from Hans de Goede (jwrdegoede@fedoraproject.org) ---
+I've (In reply to Julien Humbert from comment #8)
+> I asked for some help on the Red Hat Bugzilla, because I'm not sure how to
 
-        }
+I have prepared a Fedora kernel test-build with the patch added, this is
+currently building here:
+https://koji.fedoraproject.org/koji/taskinfo?taskID=54473681
 
-> @@ -567,9 +567,10 @@ static int stusb160x_get_fw_caps(struct stusb160x *c=
-hip,
->       if (!ret) {
->               chip->pwr_opmode =3D typec_find_pwr_opmode(cap_str);
->               /* Power delivery not yet supported */
-> -             if (chip->pwr_opmode < 0 ||
-> +             if ((int)chip->pwr_opmode < 0 ||
->                   chip->pwr_opmode =3D=3D TYPEC_PWR_MODE_PD) {
-> -                     ret =3D chip->pwr_opmode < 0 ? chip->pwr_opmode : -=
-EINVAL;
-> +                     ret =3D (int)chip->pwr_opmode < 0 ? chip->pwr_opmod=
-e :
-> +                                                       -EINVAL;
->                       dev_err(chip->dev, "bad power operation mode: %d\n"=
-,
->                               chip->pwr_opmode);
->                       return ret;
->
+Note it takes a couple of hour for the build to complete.
 
-        if (!ret) {
-                ret =3D typec_find_pwr_opmode(cap_str);
-                /* Power delivery not yet supported */
-                if (ret < 0 || ret =3D=3D TYPEC_PWR_MODE_PD) {
-                        dev_err(chip->dev, "bad power operation mode: %d\n"=
-, ret);
-                        return -EINVAL;
-                }
-                chip->pwr_opmode =3D ret;
-        }
+See here for some generic instructions on installing a kernel test-build
+directly from koji (the Fedora buildsystem):
+https://fedorapeople.org/~jwrdegoede/kernel-test-instructions.txt
 
+> compile the kernel with the patch, and I'm not even sure I could boot it on
+> my main computer which is using secure boot.
 
-So, which fix sounds better ? IMHO using ret make the code more readable.
+You will need to disable secure-boot I'm afraid as test kernel-builds are not
+signed.
 
-Regards,
-Amelie
+If you cannot do this from within your BIOS you can instead run:
+
+mokutil --disable-validation
+
+This will ask you to pick a password (I would advise using 123456789) and then
+on reboot will ask you to enter the nth char of the password a couple of times,
+to prove you have physical access to the machine *and* that it was you who
+requested the change.
+
+This temporarily disables validation at the shim level, once you are done you
+can re-enable validation by running:
+
+mokutil --enable-validation
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
