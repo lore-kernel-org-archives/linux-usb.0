@@ -1,227 +1,234 @@
-Return-Path: <SRS0=6o++=ED=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A507FC388F7
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C756C4363A
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 00:11:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BCE5207E8
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="aZOvN0Y+"
+	by mail.kernel.org (Postfix) with ESMTP id 27C6520754
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 00:11:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388237AbgJ1Xnw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:43:52 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:30558 "EHLO z5.mailgun.us"
+        id S2390704AbgJ2AL3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:11:29 -0400
+Received: from mga05.intel.com ([192.55.52.43]:37313 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390548AbgJ1Xn3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 19:43:29 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603928609; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=iLruRk+yzsd+wXgNUHke4eCh3gnpBqt5zQzovjo4slg=; b=aZOvN0Y+qhNDLNn65AHnf2qvo1ylmyKwNMkOKCW/M23uOh/uhSTjckEAEnYxic/4YLKDFhXS
- O703zUJM2hQ5z0/LbzTLpYKO0qsrPIg61gVwE9qmyAVs3tvptSDwlNxGqwgsG9JMBso7gOUJ
- 03U7TgUs4IPGROF7MAVIRkflM4o=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 5f9a02183500ab29c83580b1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Oct 2020 23:43:20
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 65AA1C433C9; Wed, 28 Oct 2020 23:43:20 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 53137C433A0;
-        Wed, 28 Oct 2020 23:43:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 53137C433A0
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        Thinh.Nguyen@synopsys.com
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 2/2] usb: dwc3: gadget: Preserve UDC max speed setting
-Date:   Wed, 28 Oct 2020 16:43:11 -0700
-Message-Id: <20201028234311.6464-3-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201028234311.6464-1-wcheng@codeaurora.org>
-References: <20201028234311.6464-1-wcheng@codeaurora.org>
+        id S2388084AbgJ2AL2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 20:11:28 -0400
+IronPort-SDR: 7yyhV8nJw/ySiDqjE0zzy5mZ/yxCucQABJdspjlMbzQXOAzfYR423JMcyJAi2Rd31eVXPl8NCn
+ GcRz6CNOXQ3A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="253057916"
+X-IronPort-AV: E=Sophos;i="5.77,428,1596524400"; 
+   d="scan'208";a="253057916"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2020 17:11:27 -0700
+IronPort-SDR: xK6Lq7gMRNkMUj+eR9RdjpcHMi4UCmbhEydi4id3mLpBG32ZGscRN30WYcUyNGz0dMV11Uwzmb
+ hK1jC1/uYqRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,428,1596524400"; 
+   d="scan'208";a="318782204"
+Received: from lkp-server02.sh.intel.com (HELO 0471ce7c9af6) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 28 Oct 2020 17:11:25 -0700
+Received: from kbuild by 0471ce7c9af6 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kXvXJ-0000Fn-4S; Thu, 29 Oct 2020 00:11:25 +0000
+Date:   Thu, 29 Oct 2020 08:11:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ aee9ddb1d3718d3ba05b50c51622d7792ae749c9
+Message-ID: <5f9a08ac.MLgRHiZDTrXi1Iz8%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB gadget/UDC driver can restrict the DWC3 controller speed using
-dwc3_gadget_set_speed().  Store this setting into a variable, in order for
-this setting to persist across controller resets due to runtime PM.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
+branch HEAD: aee9ddb1d3718d3ba05b50c51622d7792ae749c9  kcov, usb: only collect coverage from __usb_hcd_giveback_urb in softirq
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+elapsed time: 720m
+
+configs tested: 161
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+c6x                        evmc6457_defconfig
+sh                            titan_defconfig
+powerpc                     tqm8548_defconfig
+arm                          pxa168_defconfig
+mips                           ip22_defconfig
+sh                               alldefconfig
+sh                          r7780mp_defconfig
+mips                     loongson1b_defconfig
+sh                               j2_defconfig
+sh                        apsh4ad0a_defconfig
+powerpc                    socrates_defconfig
+powerpc64                           defconfig
+arm                         nhk8815_defconfig
+powerpc                     tqm8541_defconfig
+parisc                           alldefconfig
+arm                        spear6xx_defconfig
+riscv                    nommu_k210_defconfig
+nds32                             allnoconfig
+powerpc                     tqm8555_defconfig
+mips                        bcm47xx_defconfig
+sh                     sh7710voipgw_defconfig
+powerpc                  mpc866_ads_defconfig
+arm                         at91_dt_defconfig
+powerpc                     pseries_defconfig
+arm                        magician_defconfig
+arc                     haps_hs_smp_defconfig
+arm                      pxa255-idp_defconfig
+arm                        neponset_defconfig
+xtensa                  nommu_kc705_defconfig
+alpha                            alldefconfig
+arm                            lart_defconfig
+mips                      bmips_stb_defconfig
+m68k                        mvme147_defconfig
+sh                               allmodconfig
+powerpc                      bamboo_defconfig
+powerpc                     kmeter1_defconfig
+c6x                        evmc6474_defconfig
+powerpc                  iss476-smp_defconfig
+arc                          axs103_defconfig
+sh                           se7206_defconfig
+arm                          prima2_defconfig
+m68k                       m5249evb_defconfig
+mips                          rb532_defconfig
+sh                           se7343_defconfig
+sh                         ap325rxa_defconfig
+mips                           jazz_defconfig
+arm                            hisi_defconfig
+x86_64                              defconfig
+mips                          ath25_defconfig
+m68k                             allyesconfig
+mips                            e55_defconfig
+ia64                      gensparse_defconfig
+microblaze                          defconfig
+arm                        multi_v7_defconfig
+powerpc                     akebono_defconfig
+arm                       omap2plus_defconfig
+nds32                               defconfig
+powerpc                mpc7448_hpc2_defconfig
+powerpc                 mpc834x_mds_defconfig
+powerpc                   motionpro_defconfig
+mips                           gcw0_defconfig
+powerpc                 mpc8272_ads_defconfig
+mips                            ar7_defconfig
+h8300                       h8s-sim_defconfig
+powerpc                      pasemi_defconfig
+mips                         bigsur_defconfig
+xtensa                    smp_lx200_defconfig
+arm                          exynos_defconfig
+nds32                            alldefconfig
+um                           x86_64_defconfig
+arm                      tct_hammer_defconfig
+arm                              zx_defconfig
+mips                       bmips_be_defconfig
+arm                           viper_defconfig
+arm                        realview_defconfig
+powerpc                     skiroot_defconfig
+arm                          collie_defconfig
+powerpc                     ppa8548_defconfig
+arm                            zeus_defconfig
+sh                          rsk7264_defconfig
+powerpc                    klondike_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20201026
+i386                 randconfig-a003-20201026
+i386                 randconfig-a005-20201026
+i386                 randconfig-a001-20201026
+i386                 randconfig-a006-20201026
+i386                 randconfig-a004-20201026
+i386                 randconfig-a002-20201028
+i386                 randconfig-a005-20201028
+i386                 randconfig-a003-20201028
+i386                 randconfig-a001-20201028
+i386                 randconfig-a004-20201028
+i386                 randconfig-a006-20201028
+x86_64               randconfig-a011-20201028
+x86_64               randconfig-a013-20201028
+x86_64               randconfig-a016-20201028
+x86_64               randconfig-a015-20201028
+x86_64               randconfig-a012-20201028
+x86_64               randconfig-a014-20201028
+i386                 randconfig-a016-20201028
+i386                 randconfig-a014-20201028
+i386                 randconfig-a015-20201028
+i386                 randconfig-a013-20201028
+i386                 randconfig-a012-20201028
+i386                 randconfig-a011-20201028
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a001-20201026
+x86_64               randconfig-a003-20201026
+x86_64               randconfig-a002-20201026
+x86_64               randconfig-a006-20201026
+x86_64               randconfig-a004-20201026
+x86_64               randconfig-a005-20201026
+x86_64               randconfig-a001-20201028
+x86_64               randconfig-a002-20201028
+x86_64               randconfig-a003-20201028
+x86_64               randconfig-a006-20201028
+x86_64               randconfig-a005-20201028
+x86_64               randconfig-a004-20201028
+
 ---
- drivers/usb/dwc3/core.h   |   1 +
- drivers/usb/dwc3/gadget.c | 108 ++++++++++++++++++++------------------
- 2 files changed, 58 insertions(+), 51 deletions(-)
-
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 2f04b3e42bf1..390d3deef0ba 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1119,6 +1119,7 @@ struct dwc3 {
- 	u32			nr_scratch;
- 	u32			u1u2;
- 	u32			maximum_speed;
-+	u32			gadget_max_speed;
- 
- 	u32			ip;
- 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 6364429b2122..1a93b92a5e6f 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1941,6 +1941,61 @@ static void dwc3_stop_active_transfers(struct dwc3 *dwc)
- 	}
- }
- 
-+static void __dwc3_gadget_set_speed(struct dwc3 *dwc)
-+{
-+	u32			reg;
-+
-+	reg = dwc3_readl(dwc->regs, DWC3_DCFG);
-+	reg &= ~(DWC3_DCFG_SPEED_MASK);
-+
-+	/*
-+	 * WORKAROUND: DWC3 revision < 2.20a have an issue
-+	 * which would cause metastability state on Run/Stop
-+	 * bit if we try to force the IP to USB2-only mode.
-+	 *
-+	 * Because of that, we cannot configure the IP to any
-+	 * speed other than the SuperSpeed
-+	 *
-+	 * Refers to:
-+	 *
-+	 * STAR#9000525659: Clock Domain Crossing on DCTL in
-+	 * USB 2.0 Mode
-+	 */
-+	if (DWC3_VER_IS_PRIOR(DWC3, 220A) &&
-+	    !dwc->dis_metastability_quirk) {
-+		reg |= DWC3_DCFG_SUPERSPEED;
-+	} else {
-+		switch (dwc->gadget_max_speed) {
-+		case USB_SPEED_LOW:
-+			reg |= DWC3_DCFG_LOWSPEED;
-+			break;
-+		case USB_SPEED_FULL:
-+			reg |= DWC3_DCFG_FULLSPEED;
-+			break;
-+		case USB_SPEED_HIGH:
-+			reg |= DWC3_DCFG_HIGHSPEED;
-+			break;
-+		case USB_SPEED_SUPER:
-+			reg |= DWC3_DCFG_SUPERSPEED;
-+			break;
-+		case USB_SPEED_SUPER_PLUS:
-+			if (DWC3_IP_IS(DWC3))
-+				reg |= DWC3_DCFG_SUPERSPEED;
-+			else
-+				reg |= DWC3_DCFG_SUPERSPEED_PLUS;
-+			break;
-+		default:
-+			dev_err(dwc->dev, "invalid speed (%d)\n", dwc->gadget_max_speed);
-+
-+			if (DWC3_IP_IS(DWC3))
-+				reg |= DWC3_DCFG_SUPERSPEED;
-+			else
-+				reg |= DWC3_DCFG_SUPERSPEED_PLUS;
-+		}
-+	}
-+	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
-+}
-+
- static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on, int suspend)
- {
- 	u32			reg;
-@@ -1963,6 +2018,7 @@ static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on, int suspend)
- 		if (dwc->has_hibernation)
- 			reg |= DWC3_DCTL_KEEP_CONNECT;
- 
-+		__dwc3_gadget_set_speed(dwc);
- 		dwc->pullups_connected = true;
- 	} else {
- 		reg &= ~DWC3_DCTL_RUN_STOP;
-@@ -2318,59 +2374,9 @@ static void dwc3_gadget_set_speed(struct usb_gadget *g,
- {
- 	struct dwc3		*dwc = gadget_to_dwc(g);
- 	unsigned long		flags;
--	u32			reg;
- 
- 	spin_lock_irqsave(&dwc->lock, flags);
--	reg = dwc3_readl(dwc->regs, DWC3_DCFG);
--	reg &= ~(DWC3_DCFG_SPEED_MASK);
--
--	/*
--	 * WORKAROUND: DWC3 revision < 2.20a have an issue
--	 * which would cause metastability state on Run/Stop
--	 * bit if we try to force the IP to USB2-only mode.
--	 *
--	 * Because of that, we cannot configure the IP to any
--	 * speed other than the SuperSpeed
--	 *
--	 * Refers to:
--	 *
--	 * STAR#9000525659: Clock Domain Crossing on DCTL in
--	 * USB 2.0 Mode
--	 */
--	if (DWC3_VER_IS_PRIOR(DWC3, 220A) &&
--	    !dwc->dis_metastability_quirk) {
--		reg |= DWC3_DCFG_SUPERSPEED;
--	} else {
--		switch (speed) {
--		case USB_SPEED_LOW:
--			reg |= DWC3_DCFG_LOWSPEED;
--			break;
--		case USB_SPEED_FULL:
--			reg |= DWC3_DCFG_FULLSPEED;
--			break;
--		case USB_SPEED_HIGH:
--			reg |= DWC3_DCFG_HIGHSPEED;
--			break;
--		case USB_SPEED_SUPER:
--			reg |= DWC3_DCFG_SUPERSPEED;
--			break;
--		case USB_SPEED_SUPER_PLUS:
--			if (DWC3_IP_IS(DWC3))
--				reg |= DWC3_DCFG_SUPERSPEED;
--			else
--				reg |= DWC3_DCFG_SUPERSPEED_PLUS;
--			break;
--		default:
--			dev_err(dwc->dev, "invalid speed (%d)\n", speed);
--
--			if (DWC3_IP_IS(DWC3))
--				reg |= DWC3_DCFG_SUPERSPEED;
--			else
--				reg |= DWC3_DCFG_SUPERSPEED_PLUS;
--		}
--	}
--	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
--
-+	dwc->gadget_max_speed = speed;
- 	spin_unlock_irqrestore(&dwc->lock, flags);
- }
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
