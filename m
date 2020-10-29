@@ -2,64 +2,67 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59CB7C2D0A3
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:37:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A58C5517A
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:37:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E824C214DB
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:37:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C581218AC
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:37:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JJ6GlOAj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bjc7EFVW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729164AbgJ2HfW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 03:35:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55376 "EHLO
+        id S1728883AbgJ2HfT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 03:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728120AbgJ2HY5 (ORCPT
+        with ESMTP id S1726876AbgJ2HY5 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 03:24:57 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2797C05BD18
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:31:44 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id a27so1396328pfl.17
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:31:44 -0700 (PDT)
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F842C05BD34
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:32:05 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id w16so1311549ply.15
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=4aAjapW2g4WVwvkzNIoEg1ilkTogTj9VaUOLswnANNk=;
-        b=JJ6GlOAjBHTLhA8EVphhV5Znn5NxVNjWlRv6InenqyI0qLaS8YC9SToQ87d3rcDQpM
-         oyMEZZZJu/14exMxQa5m/Jg8qDk/qr0Ce9sw9jpm1eZl2QtNOA043FU24U0ACA+SqllG
-         dZE46eOiqf3a50VroFY+mOAs6MNvkX7PtKdcKiNQZdaXnSBOP+WsnS9r7d+ZiIIgWYbZ
-         Q082GGUCyaHEcJIJXKM2qw5A4R9w74j/P2bC5onv+mc+Y5clwr/p4+qwuGeHv316LN5P
-         l6OCAUh6Gb0LyS03a6U3QvQ11sLSDULSmjD8pegWyfJxkkvqiI4WLOIV8hFbW1io1it2
-         H6ZA==
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=IoB5J93gR+QUze+mf8kh5Lkrb9ZTRoUgNDrcGrdGKf0=;
+        b=Bjc7EFVW6XPepdSF7ku0VsGSN6t7tPM1ahLGmVXmJVJT45tQlAHhg8333I+uUQpCx3
+         /OkWRMBtly2rxTmJGaAPu8VKSG1R0+CNUrOxQ2pfQNh988x1rB2z/FW0MGz9HpTMRqxE
+         3uU/7EqqOfiGwr7tvP9fg+xOi//0THL48cuZPYYcYpJ8cE6ePgn5hFtScifeNWbRDpxW
+         EwxnVWbj/BaZYXQ/usgr2b1iEcU4T5uDdFSB+dAaV8ZQFEPGRlnbxQYfJSqLbd5zUmgJ
+         DMpI0+zPmsnCMNsqL9yJPjeNojVxZwA/NhSJTiacjsvpI3+Ol/I85nabFzNFNmPVPV2B
+         TNMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=4aAjapW2g4WVwvkzNIoEg1ilkTogTj9VaUOLswnANNk=;
-        b=uBzUd91XaOVJOP4ypJmxsqEgOcS/Po2OXG/v+MqHECluaMKp7K7yXv/UOnDL1u+4Wx
-         Y+VG2krBDG/hdJb7kL6RkzUzrDdQG46lFrgGjSR2Yn0Sh6gT0DBTAY8CuKB37aPDVvZl
-         0aWRGlwIUulyiKmBcrD50Muo39flfKZfAgdmdtHTng91qvtCgLhVF5rbRHWDthjEoCum
-         IfPDZ3OZr+u2u1SuulckwyKM2mnK4yU3aUehiZJFFV1NzGJH6eZ3bCNnmyWK1ZiOepUe
-         2/FugpkoKKkl6KVPgZEQ79qTwBumn+ej6gG5UtKkSTlSFgjSHKIdQERRIdVU+PIiboF+
-         ttgw==
-X-Gm-Message-State: AOAM532ZtLRa+Md7bDpmRT4e/j++2LV0rOYJxJBmvCnw/VsIDXORYRti
-        KSZM0v9c50RtsDzhXp0pgO0pFXpATJE=
-X-Google-Smtp-Source: ABdhPJwAa9PsaSb4fEU1nFvZeQwjIQfojniqqNUhMXA1K4oeSuR/CvJXHGufeGaCt/bg9RQFEa/eV9po/UE=
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=IoB5J93gR+QUze+mf8kh5Lkrb9ZTRoUgNDrcGrdGKf0=;
+        b=dc97b6MBJ+xLMLR72IETt0kVeh3IZLJF+qB8JOTPeuqdb8gVPhig+EY8KTy0pC6Ykv
+         Z6/dXbzZ7ukxsOR5K+UUzJ2j6wrCoyS6mJEOm+VIH9v8QSG8y2+Di34xDjpOhQCaenhz
+         vgwIed4g+XXgoUOO87Os7eaBnTiXhVIFt0AkghoZWVyNCpttfnW4HD+e9Bit4Q7klnz4
+         EfSNUztohQBi7a+AE7OYaky0PGhzbMS/Po/3gg/j5kuGxWLxkqzHwKyxGsnGgmO3l8uF
+         q3SvSnMOuAUWihlKMPnQVrjgMPyEBwB4gJkjRdFVAoVoIY+paL4ThLKdRnL2H+kGDIDU
+         An2A==
+X-Gm-Message-State: AOAM533fM+xp701K+i9yRWQGPsJiz+7ESXXGTGdrk1l9ClzK79/ZgHps
+        Oc8P2MNMNm/niqeHvQjkTm9Llbn/mGY=
+X-Google-Smtp-Source: ABdhPJzk09EJJdAKs9QaD6gdc9DEDB0lt0+OJt3h7YXZUQ0mQGXkJoMjlfxQmpHos1KMQ4s5ZEG6YB0tO3Y=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:aa7:8bcd:0:b029:160:cb7:b639 with SMTP id
- s13-20020aa78bcd0000b02901600cb7b639mr2761561pfd.78.1603953103909; Wed, 28
- Oct 2020 23:31:43 -0700 (PDT)
-Date:   Wed, 28 Oct 2020 23:31:28 -0700
-Message-Id: <20201029063138.1429760-1-badhri@google.com>
+ (user=badhri job=sendgmr) by 2002:a65:55ce:: with SMTP id k14mr2735983pgs.65.1603953124910;
+ Wed, 28 Oct 2020 23:32:04 -0700 (PDT)
+Date:   Wed, 28 Oct 2020 23:31:38 -0700
+In-Reply-To: <20201029063138.1429760-1-badhri@google.com>
+Message-Id: <20201029063138.1429760-11-badhri@google.com>
 Mime-Version: 1.0
+References: <20201029063138.1429760-1-badhri@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v12 00/10] TCPM support for FRS and AutoDischarge Disconnect
+Subject: [PATCH v12 10/10] usb: typec: tcpci_maxim: Fix uninitialized return variable
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -74,56 +77,50 @@ To:     Guenter Roeck <linux@roeck-us.net>,
         Badhri Jagan Sridharan <badhri@google.com>,
         Dan Carpenter <dan.carpenter@oracle.com>
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
+        linux-usb@vger.kernel.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+New smatch warnings:
+drivers/usb/typec/tcpm/tcpci_maxim.c:324 max_tcpci_irq() error: uninitialized symbol 'irq_return'.
+drivers/usb/typec/tcpm/tcpci_maxim.c:407 max_tcpci_probe() warn: passing zero to 'PTR_ERR'
 
-Addressed two comments in the series
-1. From Rob Herring: Maxim parts are generally named 'maxim,max[0-9]+'
-   https://lkml.org/lkml/2020/10/26/503
-   Changed all occurences of maxim,33359 to maxim,max33359.
+The change fixes the above warnings by initializing irq_return
+and replacing IS_ERR_OR_NULL with IS_ERR.
 
-2. Added a new patch to address warnings reported by Kernel test robot.
-   https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2354139.html
-   usb: typec: tcpci_maxim: Fix smatch warnings
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+---
+v12 is the first version of the patch in this series.
+---
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Heikki, now that Rob has reviewed the dts patches, the following patches
-are ready to be reviewed as well:
-usb: typec: tcpci_maxim: Fix the compatible string
-usb: typec: tcpm: Refactor logic for new-source-frs-typec-current
-
-Greatly appreciate all of your support reviewing the code.
-
-Thanks,
-Badhri.
-
-Badhri Jagan Sridharan (10):
-  dt-bindings: usb: Maxim type-c controller device tree binding document
-  usb: typec: tcpci_maxim: Fix the compatible string
-  usb: typec: tcpm: Refactor logic for new-source-frs-typec-current
-  usb: typec: tcpm: frs sourcing vbus callback
-  usb: typec: tcpci: frs sourcing vbus callback
-  usb: typec: tcpci_maxim: Fix vbus stuck on upon diconnecting sink
-  usb: typec: tcpm: Implement enabling Auto Discharge disconnect support
-  usb: typec: tcpci: Implement Auto discharge disconnect callbacks
-  usb: typec: tcpci_maxim: Enable auto discharge disconnect
-  usb: typec: tcpci_maxim: Fix smatch warnings
-
- .../bindings/usb/maxim,max33359.yaml          | 75 ++++++++++++++++
- drivers/usb/typec/tcpm/tcpci.c                | 72 ++++++++++++++-
- drivers/usb/typec/tcpm/tcpci.h                | 18 +++-
- drivers/usb/typec/tcpm/tcpci_maxim.c          | 35 ++++----
- drivers/usb/typec/tcpm/tcpm.c                 | 87 ++++++++++++++++---
- include/linux/usb/tcpm.h                      | 19 ++++
- 6 files changed, 274 insertions(+), 32 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-
-
-base-commit: aee9ddb1d3718d3ba05b50c51622d7792ae749c9
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index 536df4a7901a..c1797239bf08 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -343,7 +343,7 @@ static irqreturn_t max_tcpci_irq(int irq, void *dev_id)
+ {
+ 	struct max_tcpci_chip *chip = dev_id;
+ 	u16 status;
+-	irqreturn_t irq_return;
++	irqreturn_t irq_return = IRQ_HANDLED;
+ 	int ret;
+ 
+ 	if (!chip->port)
+@@ -445,7 +445,7 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+ 
+ 	max_tcpci_init_regs(chip);
+ 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
+-	if (IS_ERR_OR_NULL(chip->tcpci)) {
++	if (IS_ERR(chip->tcpci)) {
+ 		dev_err(&client->dev, "TCPCI port registration failed");
+ 		ret = PTR_ERR(chip->tcpci);
+ 		return PTR_ERR(chip->tcpci);
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
