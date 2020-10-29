@@ -2,103 +2,128 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0EFCC2D0A3
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:36:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59CB7C2D0A3
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:37:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD73F218AC
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:36:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E824C214DB
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:37:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JJ6GlOAj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729413AbgJ2Hgq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 03:36:46 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:36748 "EHLO aibo.runbox.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729275AbgJ2Hfu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Oct 2020 03:35:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-         s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
-        bh=JIqnWcDCMM2wCHeIge9wQlpKu0B7BGQ9QB0S6y9WG/I=; b=EDCb2IcCn21aQwUBPTQ4Q8rrOb
-        RYF5GwXx3W65puiA1TPBC3Wng0kjpjAg66YZpmPbIGUWFCYd8z+FCftiYR67EEky4OHXV6Bf7L5X4
-        vHIb66GuRfh6nGwK+/QUcScF9nVt9U5/xbR3hVE4jgoqZEiXMBwlJNIP+PY5FoYAD/tkQvjo/qnmK
-        lU7yV10ducDtL/tsC83ANXjs3RwUiIZZJofyMl14q7ExFSskaYoWMD0rjxoDq6nXo848JLDTCydi/
-        1T3BVL+mKH12QR6kSFRMZcVKSNargWv3vyjGMKN1tHzVbM95k3c6kXXmLYFzw2GoXc3W6C5QPXmxV
-        yXSh5jUg==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <m.v.b@runbox.com>)
-        id 1kXyh3-00042q-6d; Thu, 29 Oct 2020 04:33:41 +0100
-Received: by submission02.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        id 1kXygy-0008JZ-0D; Thu, 29 Oct 2020 04:33:36 +0100
-Subject: Re: [PATCH 1/2] usbcore: Check both id_table and match() when both
- available
-To:     Pany <pany@fedoraproject.org>, Bastien Nocera <hadess@hadess.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
-References: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
- <20201022135521.375211-1-m.v.b@runbox.com>
- <20201022135521.375211-2-m.v.b@runbox.com>
- <4f367aba2f43b5e3807e0b01a5375e4a024ce765.camel@hadess.net>
- <CAE3RAxuUiejhQtByfgeORrjy6v=QAP4gPrv+L-Ez4roNNsQY=g@mail.gmail.com>
-From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
-Message-ID: <299d5037-f8d7-b71a-f7e7-3a52c06221d2@runbox.com>
-Date:   Wed, 28 Oct 2020 23:33:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAE3RAxuUiejhQtByfgeORrjy6v=QAP4gPrv+L-Ez4roNNsQY=g@mail.gmail.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+        id S1729164AbgJ2HfW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 03:35:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728120AbgJ2HY5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 03:24:57 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2797C05BD18
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:31:44 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id a27so1396328pfl.17
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=4aAjapW2g4WVwvkzNIoEg1ilkTogTj9VaUOLswnANNk=;
+        b=JJ6GlOAjBHTLhA8EVphhV5Znn5NxVNjWlRv6InenqyI0qLaS8YC9SToQ87d3rcDQpM
+         oyMEZZZJu/14exMxQa5m/Jg8qDk/qr0Ce9sw9jpm1eZl2QtNOA043FU24U0ACA+SqllG
+         dZE46eOiqf3a50VroFY+mOAs6MNvkX7PtKdcKiNQZdaXnSBOP+WsnS9r7d+ZiIIgWYbZ
+         Q082GGUCyaHEcJIJXKM2qw5A4R9w74j/P2bC5onv+mc+Y5clwr/p4+qwuGeHv316LN5P
+         l6OCAUh6Gb0LyS03a6U3QvQ11sLSDULSmjD8pegWyfJxkkvqiI4WLOIV8hFbW1io1it2
+         H6ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=4aAjapW2g4WVwvkzNIoEg1ilkTogTj9VaUOLswnANNk=;
+        b=uBzUd91XaOVJOP4ypJmxsqEgOcS/Po2OXG/v+MqHECluaMKp7K7yXv/UOnDL1u+4Wx
+         Y+VG2krBDG/hdJb7kL6RkzUzrDdQG46lFrgGjSR2Yn0Sh6gT0DBTAY8CuKB37aPDVvZl
+         0aWRGlwIUulyiKmBcrD50Muo39flfKZfAgdmdtHTng91qvtCgLhVF5rbRHWDthjEoCum
+         IfPDZ3OZr+u2u1SuulckwyKM2mnK4yU3aUehiZJFFV1NzGJH6eZ3bCNnmyWK1ZiOepUe
+         2/FugpkoKKkl6KVPgZEQ79qTwBumn+ej6gG5UtKkSTlSFgjSHKIdQERRIdVU+PIiboF+
+         ttgw==
+X-Gm-Message-State: AOAM532ZtLRa+Md7bDpmRT4e/j++2LV0rOYJxJBmvCnw/VsIDXORYRti
+        KSZM0v9c50RtsDzhXp0pgO0pFXpATJE=
+X-Google-Smtp-Source: ABdhPJwAa9PsaSb4fEU1nFvZeQwjIQfojniqqNUhMXA1K4oeSuR/CvJXHGufeGaCt/bg9RQFEa/eV9po/UE=
+Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
+X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:f292:1cff:fee0:66cf])
+ (user=badhri job=sendgmr) by 2002:aa7:8bcd:0:b029:160:cb7:b639 with SMTP id
+ s13-20020aa78bcd0000b02901600cb7b639mr2761561pfd.78.1603953103909; Wed, 28
+ Oct 2020 23:31:43 -0700 (PDT)
+Date:   Wed, 28 Oct 2020 23:31:28 -0700
+Message-Id: <20201029063138.1429760-1-badhri@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
+Subject: [PATCH v12 00/10] TCPM support for FRS and AutoDischarge Disconnect
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 28/10/2020 00.00, Pany wrote:
-> On Tue, Oct 27, 2020 at 6:25 PM Bastien Nocera <hadess@hadess.net> wrote:
->>
->> On Thu, 2020-10-22 at 09:55 -0400, M. Vefa Bicakci wrote:
->>> From: Bastien Nocera <hadess@hadess.net>
->>>
->>> From: Bastien Nocera <hadess@hadess.net>
->>>
->>> When a USB device driver has both an id_table and a match() function,
->>> make
->>> sure to check both to find a match, first matching the id_table, then
->>> checking the match() function.
->>>
->>> This makes it possible to have module autoloading done through the
->>> id_table when devices are plugged in, before checking for further
->>> device eligibility in the match() function.
->>>
->>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
->>> Cc: <stable@vger.kernel.org> # 5.8
->>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Cc: Alan Stern <stern@rowland.harvard.edu>
->>> Co-developed-by: M. Vefa Bicakci <m.v.b@runbox.com>
->>> Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
->>
->> You can also add my:
->> Tested-by: Bastien Nocera <hadess@hadess.net>
->>
-> 
-> This patch works well for me.
-> Tested-by: Pan (Pany) YUAN <pany@fedoraproject.org>
+Hi all,
 
-I realize that I am a bit late to do this, but I would like to thank
-Bastien and Pany for their efforts in testing (Bastien and Pany) and
-co-developing (Bastien) the patches.
+Addressed two comments in the series
+1. From Rob Herring: Maxim parts are generally named 'maxim,max[0-9]+'
+   https://lkml.org/lkml/2020/10/26/503
+   Changed all occurences of maxim,33359 to maxim,max33359.
 
-Thanks as well to Greg Kroah-Hartman for committing the patches to
-the usb-linus branch of the usb git tree and for fixing up the patch
-descriptions while doing so.
+2. Added a new patch to address warnings reported by Kernel test robot.
+   https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2354139.html
+   usb: typec: tcpci_maxim: Fix smatch warnings
 
-Thanks everyone!
+Heikki, now that Rob has reviewed the dts patches, the following patches
+are ready to be reviewed as well:
+usb: typec: tcpci_maxim: Fix the compatible string
+usb: typec: tcpm: Refactor logic for new-source-frs-typec-current
 
-Vefa
+Greatly appreciate all of your support reviewing the code.
+
+Thanks,
+Badhri.
+
+Badhri Jagan Sridharan (10):
+  dt-bindings: usb: Maxim type-c controller device tree binding document
+  usb: typec: tcpci_maxim: Fix the compatible string
+  usb: typec: tcpm: Refactor logic for new-source-frs-typec-current
+  usb: typec: tcpm: frs sourcing vbus callback
+  usb: typec: tcpci: frs sourcing vbus callback
+  usb: typec: tcpci_maxim: Fix vbus stuck on upon diconnecting sink
+  usb: typec: tcpm: Implement enabling Auto Discharge disconnect support
+  usb: typec: tcpci: Implement Auto discharge disconnect callbacks
+  usb: typec: tcpci_maxim: Enable auto discharge disconnect
+  usb: typec: tcpci_maxim: Fix smatch warnings
+
+ .../bindings/usb/maxim,max33359.yaml          | 75 ++++++++++++++++
+ drivers/usb/typec/tcpm/tcpci.c                | 72 ++++++++++++++-
+ drivers/usb/typec/tcpm/tcpci.h                | 18 +++-
+ drivers/usb/typec/tcpm/tcpci_maxim.c          | 35 ++++----
+ drivers/usb/typec/tcpm/tcpm.c                 | 87 ++++++++++++++++---
+ include/linux/usb/tcpm.h                      | 19 ++++
+ 6 files changed, 274 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+
+
+base-commit: aee9ddb1d3718d3ba05b50c51622d7792ae749c9
+-- 
+2.29.1.341.ge80a0c044ae-goog
+
