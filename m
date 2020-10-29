@@ -2,122 +2,202 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC05CC5517A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:30:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C2AC55179
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:35:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A2F621D24
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:30:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D22F521D6C
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:35:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hYmdvmdD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728528AbgJ2HaX convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 03:30:23 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33914 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727906AbgJ2HaB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 03:30:01 -0400
-Received: by mail-pf1-f195.google.com with SMTP id o129so1635557pfb.1
-        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2020 00:29:59 -0700 (PDT)
+        id S1728769AbgJ2He5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 03:34:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728228AbgJ2HY6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 03:24:58 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE1F5C05BD19
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:31:46 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id b7so1664726ybn.3
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=red9HlHLr0z6n5FLosfx26Eg7reAfUvRpziqA15ulqU=;
+        b=hYmdvmdDS16Gjgv0H5F9XCMu0rc0O1990tkU0CWBSlxaZopO0acG4t3lsntbRTqG3F
+         vEldA98kKc7pIyGzQSsO2Gg3tbk079oL7rnmJk/KPFUi32LY2WHkzvaLnGKB+2Gk4rMe
+         3iZCsfNgpPANWTGuOPak0hDAc5+LHu0cV+80/3v0/GtlZnU1X1HMxe8P+t7jT932iU27
+         TMLOS9R1Y7DwxqcwHg3dODDeOJvUabslgOMTyTMKZGYwa0wwSur2yMP4aSY1iz99r5J+
+         J5kTud96cvz1wJtZf5DlOz6XRB9/N9g1QdTnA4/kkbTwAnW1bm7HF4fuia6g3XpFOT+x
+         O0KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kLnflbG9D/v2dA7LNdvu2mNwh0LIBnekNkTfNwOzZcQ=;
-        b=Dz2HQ0u+Fd5cmb4yeSi14Kb4wmHd9XZWVIe/6eQnj2CC4aWafK7QzkqMaXfpxs8eLd
-         tllyxnODlCS8ZyYqoZE07zEjdDXBXFAB4T+27UM2vGyca453cLlfLZhPpJtZG/738YhN
-         uD/tXLQu0man2kMiDO/lS88hrXUjNnVZZPTfLb0CtY9lBL0zCmHjLBPx/d7D8KdoHES0
-         EAbAaiqUupptfd80vFDt+QcmMSTBNiRXFfOdpZeKEDNbkc7MtX6LKp53b+TyO7akbRO4
-         +nCMc4J5CpP69YppfjYGHk7CZcTBwlfAgw/p0/1zgwu7BV1Vcd20pxEYz5p6Tfw/L4UK
-         t37w==
-X-Gm-Message-State: AOAM533kIbX0RBq16NSr9X77SQbLwjsd4FmNTkvhOPM49EziJCAPvqEj
-        Ex0+TA4UcWpRjOC3TlSXkL0J4icK4oFY2b7T
-X-Google-Smtp-Source: ABdhPJx6mdHF2c14PgHLZI52KEcl/4qqS8Xc5+PJTvyyFavBgZfxvmqfStxc7wK0BWa/sgGIzw/qDg==
-X-Received: by 2002:a05:6e02:bcb:: with SMTP id c11mr1921855ilu.285.1603949728780;
-        Wed, 28 Oct 2020 22:35:28 -0700 (PDT)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com. [209.85.166.45])
-        by smtp.gmail.com with ESMTPSA id q196sm1290520iod.17.2020.10.28.22.35.28
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2020 22:35:28 -0700 (PDT)
-Received: by mail-io1-f45.google.com with SMTP id s7so2071689iol.12
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 22:35:28 -0700 (PDT)
-X-Received: by 2002:a05:6602:214c:: with SMTP id y12mr2265234ioy.24.1603949727974;
- Wed, 28 Oct 2020 22:35:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <4cc0e162-c607-3fdf-30c9-1b3a77f6cf20@runbox.com>
- <20201022135521.375211-1-m.v.b@runbox.com> <20201022135521.375211-2-m.v.b@runbox.com>
- <4f367aba2f43b5e3807e0b01a5375e4a024ce765.camel@hadess.net>
- <CAE3RAxuUiejhQtByfgeORrjy6v=QAP4gPrv+L-Ez4roNNsQY=g@mail.gmail.com> <299d5037-f8d7-b71a-f7e7-3a52c06221d2@runbox.com>
-In-Reply-To: <299d5037-f8d7-b71a-f7e7-3a52c06221d2@runbox.com>
-From:   Pany <pany@fedoraproject.org>
-Date:   Thu, 29 Oct 2020 05:35:16 +0000
-X-Gmail-Original-Message-ID: <CAE3RAxsaUa=dEaSj7dVH1jtzGQpf1-4uMvDRxZnTpEBW+WpsoQ@mail.gmail.com>
-Message-ID: <CAE3RAxsaUa=dEaSj7dVH1jtzGQpf1-4uMvDRxZnTpEBW+WpsoQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] usbcore: Check both id_table and match() when both available
-To:     "M. Vefa Bicakci" <m.v.b@runbox.com>
-Cc:     Bastien Nocera <hadess@hadess.net>,
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=red9HlHLr0z6n5FLosfx26Eg7reAfUvRpziqA15ulqU=;
+        b=FN6ozz9E0hq/jLHdDEbucfqh5b3jueS9Sabw5NRGz0XSwo1ReJ0v1fFWTaXo3g96ea
+         pjl2siZqfS9IlApcWqrb2OT+xjxJukEgd4yDhSJROdZHPrO/r2ShfP4O/NaM+hqWBtYn
+         s5m9ngpZdlCISzM+khL87ep/OfbF7mVISgBTow6R/O5DVW9ZAMVE0nyh8gITQsWJpzEx
+         vOW/kMWSMKycDUCqXItnC8qL0gmMCMdFZknnJVbF2ggg+UBsbr8snDAMKWad/6YSuh0p
+         88gbQRxxX2d5AqsuW/PB5aZWpXmYXZxvOmrY4533ofZoAiPreqr8/WO0aUtygh6SLGvF
+         D8PA==
+X-Gm-Message-State: AOAM533fLxglX88PIhrYSRXgNrejDq9bd1wHWIYdrIgL/kK+2Z+yhU/y
+        5Y/3KcXrFUNN49oyO3P7y1xnNws+Hs8=
+X-Google-Smtp-Source: ABdhPJx9B5u4THeH7RGSi23I4CNHa9buz01P1kDJOiSo5UGLBnHM78cdaXrwi5PUSGuQ1ORilgcyFmBTR1o=
+Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
+X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:f292:1cff:fee0:66cf])
+ (user=badhri job=sendgmr) by 2002:a25:ae97:: with SMTP id b23mr4231414ybj.26.1603953105875;
+ Wed, 28 Oct 2020 23:31:45 -0700 (PDT)
+Date:   Wed, 28 Oct 2020 23:31:29 -0700
+In-Reply-To: <20201029063138.1429760-1-badhri@google.com>
+Message-Id: <20201029063138.1429760-2-badhri@google.com>
+Mime-Version: 1.0
+References: <20201029063138.1429760-1-badhri@google.com>
+X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
+Subject: [PATCH v12 01/10] dt-bindings: usb: Maxim type-c controller device
+ tree binding document
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 3:34 AM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
->
-> On 28/10/2020 00.00, Pany wrote:
-> > On Tue, Oct 27, 2020 at 6:25 PM Bastien Nocera <hadess@hadess.net> wrote:
-> >>
-> >> On Thu, 2020-10-22 at 09:55 -0400, M. Vefa Bicakci wrote:
-> >>> From: Bastien Nocera <hadess@hadess.net>
-> >>>
-> >>> From: Bastien Nocera <hadess@hadess.net>
-> >>>
-> >>> When a USB device driver has both an id_table and a match() function,
-> >>> make
-> >>> sure to check both to find a match, first matching the id_table, then
-> >>> checking the match() function.
-> >>>
-> >>> This makes it possible to have module autoloading done through the
-> >>> id_table when devices are plugged in, before checking for further
-> >>> device eligibility in the match() function.
-> >>>
-> >>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> >>> Cc: <stable@vger.kernel.org> # 5.8
-> >>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >>> Cc: Alan Stern <stern@rowland.harvard.edu>
-> >>> Co-developed-by: M. Vefa Bicakci <m.v.b@runbox.com>
-> >>> Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
-> >>
-> >> You can also add my:
-> >> Tested-by: Bastien Nocera <hadess@hadess.net>
-> >>
-> >
-> > This patch works well for me.
-> > Tested-by: Pan (Pany) YUAN <pany@fedoraproject.org>
->
-> I realize that I am a bit late to do this, but I would like to thank
-> Bastien and Pany for their efforts in testing (Bastien and Pany) and
-> co-developing (Bastien) the patches.
->
-> Thanks as well to Greg Kroah-Hartman for committing the patches to
-> the usb-linus branch of the usb git tree and for fixing up the patch
-> descriptions while doing so.
->
-> Thanks everyone!
->
-> Vefa
+Add device tree binding document for Maxim 33359 Type-C chip driver
 
-Thanks to Vefa, Bastien, and everyone for all your efforts! The patch
-is perfect.
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Changes since v1:
+- Changing patch version to v6 to fix version number confusion.
 
-I’m so honored to be part of this. Thanks again.
+Changes since v6:
+- Migrated to yaml format.
 
+Changes since v7:
+- Rebase on usb-next
+
+Changes since v8:
+- Fix errors from make dt_binding_check as suggested by
+  Rob Herring.
+
+Changes since v9:
+- additionalProperties: false as suggested by Rob Herring.
+
+Changes since v10:
+- Added the chip number to the binding as suggested by Rob Herring.
+- Renamed the filename as well.
+
+Changes since v11:
+Addressed comments from Rob Herring to rename from maxim,33359
+to maxim,max33359
+---
+ .../bindings/usb/maxim,max33359.yaml          | 75 +++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+new file mode 100644
+index 000000000000..93a19eda610b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/usb/maxim,max33359.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Maxim TCPCI Type-C PD controller DT bindings
++
++maintainers:
++  - Badhri Jagan Sridharan <badhri@google.com>
++
++description: Maxim TCPCI Type-C PD controller
++
++properties:
++  compatible:
++    enum:
++      - maxim,max33359
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  connector:
++    type: object
++    $ref: ../connector/usb-connector.yaml#
++    description:
++      Properties for usb c connector.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - connector
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/usb/pd.h>
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        maxtcpc@25 {
++            compatible = "maxim,max33359";
++            reg = <0x25>;
++            interrupt-parent = <&gpa8>;
++            interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
++
++            connector {
++                compatible = "usb-c-connector";
++                label = "USB-C";
++                data-role = "dual";
++                power-role = "dual";
++                try-power-role = "sink";
++                self-powered;
++                op-sink-microwatt = <2600000>;
++                new-source-frs-typec-current = <FRS_5V_1P5A>;
++                source-pdos = <PDO_FIXED(5000, 900,
++                                         PDO_FIXED_SUSPEND |
++                                         PDO_FIXED_USB_COMM |
++                                         PDO_FIXED_DATA_SWAP |
++                                         PDO_FIXED_DUAL_ROLE)>;
++                sink-pdos = <PDO_FIXED(5000, 3000,
++                                       PDO_FIXED_USB_COMM |
++                                       PDO_FIXED_DATA_SWAP |
++                                       PDO_FIXED_DUAL_ROLE)
++                                       PDO_FIXED(9000, 2000, 0)>;
++            };
++        };
++    };
++...
 -- 
-Regards,
-Pany
-pany@fedoraproject.org
+2.29.1.341.ge80a0c044ae-goog
+
