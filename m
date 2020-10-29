@@ -2,198 +2,132 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57393C2D0A3
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 17:11:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A44FBC2D0A3
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 17:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B19020759
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 17:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603991476;
-	bh=eQxINTQ9WUztpCEMXfFtGkf1CEuX4wparieeqom5AMQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=qIaVZgeXVwuCbX2dIFsKcBhOnMBFXyzhok2EFqkgm7mCJTXPGtIlWO7HvhpMEipHL
-	 CPFc3mY+nCxjxmvsxAsUU4PKTSjkJ80xC52mEAdZVLzn2L6bbCO5xuR27G+Q6Ae37J
-	 7UVCpaOM2adzRJa03/gd1PwYojsN2lgZ8bzqVjcg=
+	by mail.kernel.org (Postfix) with ESMTP id 27CF220790
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 17:43:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oSb5+LnI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eLaVTtpw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgJ2RLM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 13:11:12 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41442 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgJ2RLL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 13:11:11 -0400
-Received: by mail-oi1-f196.google.com with SMTP id k65so3758200oih.8;
-        Thu, 29 Oct 2020 10:11:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=daqWqpuDAfNvpsbFGrqlJS2OI1IH2cY0LSZL5HwouxY=;
-        b=Rrd7qFNrzEp6vGBpB87IFNbHrGZtZB72NGv8IkhCDchUSphyjedGKCTPMeopNS3JUm
-         6WypartV0bO5ib2vB6eWSzF1xFaXzPVWT1jXoDQgS8Cg8Sae/geCoR1QgyAYl9XUmfDi
-         zMoklLc7P7DHzU5F9A1G90j5K6rEofSbop/x/p2R27KOcbwLG3LMceT3i7IErXkudGVc
-         ZMKgMI2HQmV/7lhfuEjsV6d2M/4qpVAeWIwt2dXIr/rnqcwh1j4HwaeYDoSyNVZCymbk
-         fB4p4Ia2cc7/9wF9BXH4loTkz/k6B7JUhBMOFprNHu9H5TNL0HqVcj3pGQLIc3/rDw3J
-         sx9A==
-X-Gm-Message-State: AOAM531qkabFLgo2s/HRyWOiHXVwcBte1qkTehD5PHg1w+bePtxI9g7M
-        NWCO2Yimdh3meIxLXjQSbyjKBgIxwN/k4cwnIGk=
-X-Google-Smtp-Source: ABdhPJxHVLwwaj1HwM4KZ9eyEvCl8ngRu7uMhbpv0LI+oGCoQ46ibTmoYRFfdTtjLYGqMg4AKXDfDLyLRRFixn1sRxw=
-X-Received: by 2002:aca:30d7:: with SMTP id w206mr441009oiw.69.1603991470287;
- Thu, 29 Oct 2020 10:11:10 -0700 (PDT)
+        id S1727697AbgJ2Rn4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 13:43:56 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:35036 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726770AbgJ2Rnw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 13:43:52 -0400
+Date:   Thu, 29 Oct 2020 18:43:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1603993429;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qz333/mnT6zwsHHHgIzhzmyCPc/onyc+Oj7SaMXj7Ro=;
+        b=oSb5+LnIzbYAatm7Akr/OEdggzx6r7VjzY1q44oSsnA/unzmh3kage9a5tfwZ1sf9tjINn
+        SlaA6wBRtftRdYKTj9XKQxD0EGDyaC1f/88Cil0pZ4DL3ELVQ6kqVXZYSo9ycRcI6gdfgN
+        Pn51nP8B0FFsXUlvefAYw4n2XIeeGyxtfBLW95kSh+g8rtJMqNEmW53X6F4jWGQCgcklYw
+        XTgw0c/pRqxcaAPOIvzIHoOTKbk26dtWH+nUwrAGKT2Xsws2B1r41L1LxuQk80+UIXqMPA
+        N1oRzhOuDdXA2Xoz1lpErr6E//jwxhFApteM8OsXt0n+DOK4HMCoPNcQR02ezQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1603993429;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qz333/mnT6zwsHHHgIzhzmyCPc/onyc+Oj7SaMXj7Ro=;
+        b=eLaVTtpw94vZ2pJ1cJG68/e7QOyc8MIZV1eikiwyjq0raWwoLw91IC7ruLZWem4qE6L9wF
+        Oy3vIQXKCeriqhAw==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Mike Galbraith <efault@gmx.de>, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+        Li Jun <jun.li@nxp.com>, Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 3/3] xhci: Don't create stream debugfs files with
+ spinlock held.
+Message-ID: <20201029174348.omqiwjqy64tebg5z@linutronix.de>
+References: <20201028203124.375344-1-mathias.nyman@linux.intel.com>
+ <20201028203124.375344-4-mathias.nyman@linux.intel.com>
+ <1cbb8b7defb1db1d4747995c11ebebb3dd9a66ec.camel@gmx.de>
+ <30dd5079-375d-a2a3-cab3-1b2740661ea8@linux.intel.com>
+ <c8a67a65091404e528297ef5c6b9c59cdc03a2c9.camel@gmx.de>
+ <a5d5a21c-d6ff-1097-b9ca-e0147658c8c6@linux.intel.com>
+ <20201029113805.tdsissnjq4acemle@linutronix.de>
+ <29cf8ca3-0fe7-da51-c8ae-ad5c67af4dde@linux.intel.com>
 MIME-Version: 1.0
-References: <20201029105941.63410-1-heikki.krogerus@linux.intel.com> <20201029105941.63410-2-heikki.krogerus@linux.intel.com>
-In-Reply-To: <20201029105941.63410-2-heikki.krogerus@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 29 Oct 2020 18:10:59 +0100
-Message-ID: <CAJZ5v0gc6ihoNuh5eR4MW+uf9CBH=qoRjGeeOHxgvjmUnorPCg@mail.gmail.com>
-Subject: Re: [PATCHv2 1/3] software node: Power management operations for
- software nodes
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <29cf8ca3-0fe7-da51-c8ae-ad5c67af4dde@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 11:59 AM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> The software node specific PM operations make it possible to
-> handle most PM related quirks separately in their own
-> functions instead of conditionally in the device driver's
-> generic PM functions (and in some cases all over the
-> driver). The software node specific PM operations will also
-> reduce the need to pass platform data in some cases, for
-> example from a core MFD driver to the child device drivers,
-> as from now on the core MFD driver will be able to implement
-> the PM quirks directly for the child devices without the
-> need to touch the drivers of those child devices.
->
-> If a software node includes the PM operations, those PM
-> operations are always executed separately on top of the
-> other PM operations of the device, so the software node will
-> never replace any of the "normal" PM operations of the
-> device (including the PM domain's operations, class's or
-> bus's PM operations, the device drivers own operations, or
-> any other).
->
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
->  drivers/base/power/common.c |   8 +-
->  drivers/base/swnode.c       | 693 +++++++++++++++++++++++++++++++++++-
->  include/linux/property.h    |  10 +
->  3 files changed, 701 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
-> index bbddb267c2e69..b64cd4690ac63 100644
-> --- a/drivers/base/power/common.c
-> +++ b/drivers/base/power/common.c
-> @@ -109,8 +109,14 @@ int dev_pm_domain_attach(struct device *dev, bool power_on)
->         ret = acpi_dev_pm_attach(dev, power_on);
->         if (!ret)
->                 ret = genpd_dev_pm_attach(dev);
-> +       if (ret < 0)
-> +               return ret;
->
-> -       return ret < 0 ? ret : 0;
-> +       ret = software_node_dev_pm_attach(dev, power_on);
-> +       if (ret)
-> +               dev_pm_domain_detach(dev, power_on);
-> +
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(dev_pm_domain_attach);
->
-> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> index 010828fc785bc..595a9c240fede 100644
-> --- a/drivers/base/swnode.c
-> +++ b/drivers/base/swnode.c
-> @@ -8,6 +8,8 @@
->
->  #include <linux/device.h>
->  #include <linux/kernel.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/property.h>
->  #include <linux/slab.h>
->
-> @@ -48,6 +50,19 @@ EXPORT_SYMBOL_GPL(is_software_node);
->                                      struct swnode, fwnode) : NULL;     \
->         })
->
-> +static inline struct swnode *dev_to_swnode(struct device *dev)
-> +{
-> +       struct fwnode_handle *fwnode = dev_fwnode(dev);
-> +
-> +       if (!fwnode)
-> +               return NULL;
-> +
-> +       if (!is_software_node(fwnode))
-> +               fwnode = fwnode->secondary;
-> +
-> +       return to_swnode(fwnode);
-> +}
-> +
->  static struct swnode *
->  software_node_to_swnode(const struct software_node *node)
->  {
-> @@ -344,6 +359,673 @@ void property_entries_free(const struct property_entry *properties)
->  }
->  EXPORT_SYMBOL_GPL(property_entries_free);
->
-> +/* -------------------------------------------------------------------------- */
-> +/* Power management operations */
-> +
-> +/*
-> + * The power management operations in software nodes are handled with a power
-> + * management domain - a "wrapper" PM domain:
-> + *
-> + *   When PM operations are supplied as part of the software node, the primary
-> + *   PM domain of the device is stored and replaced with a device specific
-> + *   software node PM domain. The software node PM domain's PM operations, which
-> + *   are implemented below, will then always call the matching PM operation of
-> + *   the primary PM domain (which was stored) on top of the software node's own
-> + *   operation.
-> + *
-> + * If the device does not have primary PM domain, the software node PM wrapper
-> + * operations below will also call the classes, buses and device type's PM
-> + * operations, and of course the device driver's own PM operations if they are
-> + * implemented. The priority of those calls follows drivers/base/power/domain.c:
-> + *
-> + * 1) device type
-> + * 2) class
-> + * 3) bus
-> + * 4) driver
-> + *
-> + * NOTE. The software node PM operation is always called before the primary
-> + * PM domain with resume/on callbacks, and after the primary PM domain with
-> + * suspend/off callbacks. This order is used because the software node PM
-> + * operations are primarily meant to be used to implement quirks, quirks that
-> + * may be needed to power on the device to a point where it is even possible to
-> + * execute the primary PM domain's resume/on routines.
-> + */
+On 2020-10-29 15:08:06 [+0200], Mathias Nyman wrote:
+> 2. Lockdep issue #2, adding entries to radix tree during (stream) ring expansion with interrupts disabled and xhci->lock held.
+>    Cause: unknown, probably a patch since we started using radix trees for finding streams
+>    Fix: unknown.
+>    Comment: Discovered by Mike when testing fix for issue#1. I suspect it can be reproduced on 5.9 but is 
+>    probably really hard as it involves ring expansion.
 
-Well, this basically implements a wrapper PM domain that is somewhat
-more generic, as a concept, then software nodes PM.
+So lockdep complains with this:
+      CPU0                    CPU1
+      ----                    ----
+ lock(lock#2);
+                              local_irq_disable();
+                              lock(&xhci->lock);
+                              lock(lock#2);
+ <Interrupt>
+   lock(&xhci->lock);
 
-At least it is not specific to software nodes, so I'd prefer it to be
-defined generically.
+(https://lore.kernel.org/linux-usb/1cbb8b7defb1db1d4747995c11ebebb3dd9a66ec.camel@gmx.de/)
 
-Moreover, IIUC, this breaks if the "primary" PM domain callbacks try
-to get to the original PM domain via the dev->pm_domain pointer, which
-the genpd callbacks do.
+lockdep does not like that preload is used with disabled interrupts (in
+non-interrupt context) and acquires lock#2 (the local_lock) which could
+lead to a dead-lock as described above.
+The flaw in the logic above is that lock#2 on CPU0 != CPU1.
 
-Do we want to wrap the ACPI PM domain only, by any chance?  If so, it
-may be more straightforward to invoke swnode callbacks directly from
-there, if any.
+We could make lockdep happy and remove what it observes on CPU1 by doing
+this:
+
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 138ba4528dd3a..2cb8874c1c51f 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -197,12 +197,15 @@ static int xhci_insert_segment_mapping(struct radix_tree_root *trb_address_map,
+ 	if (radix_tree_lookup(trb_address_map, key))
+ 		return 0;
+ 
+-	ret = radix_tree_maybe_preload(mem_flags);
+-	if (ret)
+-		return ret;
+-	ret = radix_tree_insert(trb_address_map,
+-			key, ring);
+-	radix_tree_preload_end();
++	if (gfpflags_allow_blocking(mem_flags)) {
++		ret = radix_tree_maybe_preload(mem_flags);
++		if (ret)
++			return ret;
++	}
++	ret = radix_tree_insert(trb_address_map, key, ring);
++
++	if (gfpflags_allow_blocking(mem_flags))
++		radix_tree_preload_end();
+ 	return ret;
+ }
+ 
+
+There is no pre-load in GFP_ATOMIC case but it still acquires the
+local_lock.
+We might be able to drop radix_tree_maybe_preload(). I saw GFP_KERNEL
+only during enumeration from xhci_alloc_streams(). Later, while
+transfers were pending it came always from the scsi stack with disabled
+interrupts and xhci->lock acquired.
+
+> -Mathias
+
+Sebastian
