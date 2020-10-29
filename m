@@ -2,131 +2,120 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA692C2D0A3
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2EFC2D0A3
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 08:18:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63AF720719
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 07:57:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C687620791
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 08:18:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t9HiEqZt"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="C6HijSzU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732639AbgJ2H5l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 03:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726982AbgJ2HYj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Oct 2020 03:24:39 -0400
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D718C05BD33
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:32:03 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id s1so1191072qvq.13
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2020 23:32:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=nKf3Z+mHk5cb7eZEN7fINMBopCuZqqVu3IaAlKIkeXs=;
-        b=t9HiEqZt/3f3GeXjkmaqsb5El/ycYKoWr3IyT4FWs2UOLroNgdHLtnfC7ykWTlv075
-         q46OI5gr/9GMull6zNFeXZGP1o6Y6jNwnXvw8ztnKOj4WWPeaIfZS9t1QkOu9DEnXZ+W
-         Z8d3SR8X4NfBWwlVm/1JWG0H68PYCT0itGVReoNmFa3YhnKHHK4nabJeZM3wYU7tGYwu
-         6EtX+jS/hE+KIT6wY922SBz3f8L0IFgBH1CtJZ04F3oNdD7zrW9pC8BMS6cwTrd+H3R8
-         niWGehsFtUK1JikTzIAFIVJ31QXj1C2AFSxMqrjkCr2xarete3AVXJHfeEgwuVIaneip
-         FEyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=nKf3Z+mHk5cb7eZEN7fINMBopCuZqqVu3IaAlKIkeXs=;
-        b=YFsxrtD90dsksopB9p073aSn5up0Fn4Uv1iKVVUdLyw/zf0XUsaMMFyQB8Bapa00Nj
-         qFp6HX8RE99SL0CKoWvTovk86ABW1m2ji14Jhanlg6B1QBHg1kZeqRSywBwQtIWl0Mvr
-         7jqDKU3RTmzELcSnPXam4oKjnPgISlhdsu3qpZFLGpT3QCrAR0nryFBX8/vUvJqHPzse
-         ZhPkTzhZU7pOnugxnhz+TqJVDR/RMlXWYvR2TtOJECRxctoolpM3J5Ukaf1V2PHOveUZ
-         SPsB0X4Ao5XICJZ5k399voRBzkWiDQr20m8UCO2ytB1Bekx0ZhopYGEx+JRbF//4dwu5
-         MBTw==
-X-Gm-Message-State: AOAM530XIGG9FVNClE+aNPA+oxhK+Gdk0p042LBpWknI+53XfoPB/q4L
-        pjmEkBpzo4y8lAEu2c0N2/eUgzmOB0w=
-X-Google-Smtp-Source: ABdhPJzC8Nh3e06tzPC9UQDANnS/IIM2wxpWQY2rx0PpzZuyGIyOLX6ZfeIDfAWS9brwMzw6/5hRCMGzvlc=
-Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
-X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a0c:cc88:: with SMTP id f8mr2862585qvl.27.1603953122731;
- Wed, 28 Oct 2020 23:32:02 -0700 (PDT)
-Date:   Wed, 28 Oct 2020 23:31:37 -0700
-In-Reply-To: <20201029063138.1429760-1-badhri@google.com>
-Message-Id: <20201029063138.1429760-10-badhri@google.com>
-Mime-Version: 1.0
-References: <20201029063138.1429760-1-badhri@google.com>
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v12 09/10] usb: typec: tcpci_maxim: Enable auto discharge disconnect
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Prashant Malani <pmalani@chromium.org>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1726363AbgJ2ISg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 04:18:36 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:51459 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729651AbgJ2ISG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Oct 2020 04:18:06 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1603959485; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=rBO+gLxUOacuOrU8nhzUA2kRYlZuHbZRL7FH2c8gIMo=; b=C6HijSzU7K4/JYxW7A5Pc6/GPd2b3HUrI50SuXMsb5WZbbDuedq17cjB/Ez3BzTMsdRUwuG9
+ OOLEMDvZ8nbwvbVJUAHeOJw2v/xInXstWf7Q2jyG1ltLkLylIUVdzrhdB4ZGvZlQewz1cNTM
+ vsDTaKO2C/7w7s9sMGiVH+ig5KI=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 5f9a5f87562508bbca7ca0fa (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Oct 2020 06:21:59
+ GMT
+Sender: jackp=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id C9485C433FF; Thu, 29 Oct 2020 06:21:59 +0000 (UTC)
+Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jackp)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id A7B2AC433C9;
+        Thu, 29 Oct 2020 06:21:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A7B2AC433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
+From:   Jack Pham <jackp@codeaurora.org>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-usb@vger.kernel.org, Peter Chen <peter.chen@nxp.com>,
+        Jack Pham <jackp@codeaurora.org>, Ferry Toth <fntoth@gmail.com>
+Subject: [PATCH v2] usb: gadget: audio: Free requests only after callback
+Date:   Wed, 28 Oct 2020 23:21:44 -0700
+Message-Id: <20201029062144.3574-1-jackp@codeaurora.org>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable auto discharge disconnect for Maxim TCPC.
+As per the kernel doc for usb_ep_dequeue(), it states that "this
+routine is asynchronous, that is, it may return before the completion
+routine runs". And indeed since v5.0 the dwc3 gadget driver updated
+its behavior to place dequeued requests on to a cancelled list to be
+given back later after the endpoint is stopped.
 
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+The free_ep() was incorrectly assuming that a request was ready to
+be freed after calling dequeue which results in a use-after-free
+in dwc3 when it traverses its cancelled list. Fix this by moving
+the usb_ep_free_request() call to the callback itself in case the
+ep is disabled.
+
+Fixes: eb9fecb9e69b0 ("usb: gadget: f_uac2: split out audio core")
+Reported-and-tested-by: Ferry Toth <fntoth@gmail.com>
+Signed-off-by: Jack Pham <jackp@codeaurora.org>
 ---
-Changes since v1:
-- Changing patch version to v6 to fix version number confusion.
+v2: call free_request() in case of ep_dequeue() failure
 
-Changes since v6:
-- Rebase on usb-next.
+ drivers/usb/gadget/function/u_audio.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-Changes since v7:
-- Heikki's suggestion:
-Moved the actual write of TCPC_VBUS_SINK_DISCONNECT_THRES
-register to tcpci code.
-
-Changes since v8:
-- Moved the logic to program the default values of
-  TCPC_VBUS_SINK_DISCONNECT_THRESH into the tcpci code.
-
-Changes since v9:
-- none.
-
-Changes since v10:
--Added Reviewed-by: Heikki Krogerus
-
-Changes since v11:
-none
----
- drivers/usb/typec/tcpm/tcpci_maxim.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-index dd6171604362..536df4a7901a 100644
---- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-+++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-@@ -441,6 +441,7 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
- 	chip->data.TX_BUF_BYTE_x_hidden = true;
- 	chip->data.init = tcpci_init;
- 	chip->data.frs_sourcing_vbus = max_tcpci_frs_sourcing_vbus;
-+	chip->data.auto_discharge_disconnect = true;
+diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
+index e6d32c536781..6e69ccf02c95 100644
+--- a/drivers/usb/gadget/function/u_audio.c
++++ b/drivers/usb/gadget/function/u_audio.c
+@@ -89,7 +89,12 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
+ 	struct snd_uac_chip *uac = prm->uac;
  
- 	max_tcpci_init_regs(chip);
- 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
+ 	/* i/f shutting down */
+-	if (!prm->ep_enabled || req->status == -ESHUTDOWN)
++	if (!prm->ep_enabled) {
++		usb_ep_free_request(ep, req);
++		return;
++	}
++
++	if (req->status == -ESHUTDOWN)
+ 		return;
+ 
+ 	/*
+@@ -336,8 +341,9 @@ static inline void free_ep(struct uac_rtd_params *prm, struct usb_ep *ep)
+ 
+ 	for (i = 0; i < params->req_number; i++) {
+ 		if (prm->ureq[i].req) {
+-			usb_ep_dequeue(ep, prm->ureq[i].req);
+-			usb_ep_free_request(ep, prm->ureq[i].req);
++			if (usb_ep_dequeue(ep, prm->ureq[i].req))
++				usb_ep_free_request(ep, req);
++			/* else will be freed in u_audio_iso_complete() */
+ 			prm->ureq[i].req = NULL;
+ 		}
+ 	}
 -- 
-2.29.1.341.ge80a0c044ae-goog
+2.24.0
 
