@@ -2,122 +2,123 @@ Return-Path: <SRS0=RaDd=EE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D912DC4363A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:22:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CF6C4363A
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:01:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C60B20691
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 01:22:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6256F2076B
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 02:01:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="XeI5SrF6"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="QfWYuZw+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729579AbgJ1WEw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:04:52 -0400
-Received: from mail-eopbgr150072.outbound.protection.outlook.com ([40.107.15.72]:16774
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729468AbgJ1WBB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:01:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TO7oreyqx/zOITcqHYaEJBt73wvh0ZZ+zyOfSjgACFfRqqav2mFXxA+cDW+K1Jyy8WZgR3e+ZeprcK55gyg6bfKTXtyfN5OjBs+ZMhONqMUKV/pSRcDQf3z88jYlvCHyMwHGSTkugLQ5saqEB27ek+TWi7QMFE0pJw9iwFo9B6zERHt7jszz7+mq5JNlzo5QdFKOy0pi6ATT0WoKX1THWObyWnwjgRTF/cvV5Yw7QRQS/AoRLsNEf3QD/e51acN1Q93ODBE29lDmFwQRD4rdclgdkKAX5Xci6u+MQTbUtgZrKhJAHRyQnOOJPIcjResA4Wh/Fc2mlOGd6gqv95IIEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+X+JRNlUy/JyJXIvSDDUa9LrLPwjd6FWCg2LtfQe1z8=;
- b=fy4UgWa19GK/8EGWstN2P0kEKA66QzMJHvJzzhwh+FJVXwZPscXQ39ykV4vezwt8ZT+0za7fFIqKbvxxvaj0K1udxoLcssdK2lfcEjZnlY9rZsB9hR2z9HoY1/vnAqlguJZDwc/zBJvnhyt1oa7kRhrIKtm4B7h9lYEkC0KXmOKK8wD/Ehl9IqGuMt5XxOUu73QLKGhvoGmHCXFj91t0ylijoNxcmwcQODJ0dmkD+bVXqDIUWl9625ahKE1eZkmyG7hT9AUD0zcTHoNt9FkwprZ+wkvhgDWozkCfa0lBcZuokp5R3t4JpIiXycJHWJbRAlnfb8L13Izafzlz8EJkkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+X+JRNlUy/JyJXIvSDDUa9LrLPwjd6FWCg2LtfQe1z8=;
- b=XeI5SrF63IWwNPCgu5pSjO6VycqHbW/f58BJde9A/3HSkplJUTE5YcYleHyYPlWnjOKMEYUHptgjdHAz56N+9UEmiwqkCRLCD+K1YRNIqhhQuIH57fPfTPxjrakDfd2LbMpUQoXK3943D1+fNviMQn5lBIHxsrIxIcrmJ8yF4QQ=
-Received: from AM8PR04MB7300.eurprd04.prod.outlook.com (2603:10a6:20b:1c7::12)
- by AM9PR04MB7601.eurprd04.prod.outlook.com (2603:10a6:20b:285::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Wed, 28 Oct
- 2020 09:33:30 +0000
-Received: from AM8PR04MB7300.eurprd04.prod.outlook.com
- ([fe80::b902:6be0:622b:26c2]) by AM8PR04MB7300.eurprd04.prod.outlook.com
- ([fe80::b902:6be0:622b:26c2%4]) with mapi id 15.20.3477.028; Wed, 28 Oct 2020
- 09:33:30 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "pawell@cadence.com" <pawell@cadence.com>,
-        "rogerq@ti.com" <rogerq@ti.com>,
+        id S1727880AbgJ2CBV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Oct 2020 22:01:21 -0400
+Received: from z5.mailgun.us ([104.130.96.5]:20991 "EHLO z5.mailgun.us"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727863AbgJ2CBN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Oct 2020 22:01:13 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1603936873; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=OY5Nx8k3+elJDqG8wO1WAHt4XhnVppU+ilRqg8xPj/c=; b=QfWYuZw+kWNINmrzMh5d+72oKS6BcJ2lrLY8Ea5rqO8sSlrdIRi/29TNcR/9ymzUwXSjTxzj
+ CPkf47//NQNchyouFSoKD5j4BG87kjqu5UADOdshDBAOsProgNQproZMqA6BJnyIccfUGHiw
+ ZqiqEJC61QBbstmaygYS7n2pFrI=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 5f9a226020b52b32d78a4a7c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Oct 2020 02:01:04
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 2B229C433FF; Thu, 29 Oct 2020 02:01:03 +0000 (UTC)
+Received: from [10.110.82.132] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9B0EDC4339C;
+        Thu, 29 Oct 2020 02:01:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9B0EDC4339C
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+Subject: Re: [PATCH 2/2] usb: dwc3: gadget: Preserve UDC max speed setting
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         "balbi@kernel.org" <balbi@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>, Jun Li <jun.li@nxp.com>
-Subject: RE: [PATCH v2 0/3] usb: cdns3: three bug fixes for v5.10
-Thread-Topic: [PATCH v2 0/3] usb: cdns3: three bug fixes for v5.10
-Thread-Index: AQHWqA4SCeLvyFR85U61BCyloXYoeqmsw1oAgAAHHFA=
-Date:   Wed, 28 Oct 2020 09:33:30 +0000
-Message-ID: <AM8PR04MB73000068BE5ACE19DE88504D8B170@AM8PR04MB7300.eurprd04.prod.outlook.com>
-References: <20201022005505.24167-1-peter.chen@nxp.com>
- <20201028090716.GA1947336@kroah.com>
-In-Reply-To: <20201028090716.GA1947336@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=nxp.com;
-x-originating-ip: [180.164.158.209]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 3d3a04d0-74f9-41a4-f379-08d87b248836
-x-ms-traffictypediagnostic: AM9PR04MB7601:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM9PR04MB760169D4ED5E9F43F04C884D8B170@AM9PR04MB7601.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4kRII5vGdk+CuvSLoin70PHXcbLYTu+LaGrugJ945gBCDDabWhwd05W0yV9tXxpYmVeHCpg9vTWmOkEItHovim6Xtme9zJJsXot5isgSWgjHuMXDCzTG/HZRQ+R/7EsRvUNN+eDbB77CkjXoD+TA8NZGUALbYy2PBI788OfJ0rv1LJl9UWJq+k5T6SupuBeJL3lLOmoe/yA8UnyVF3xlOChVDHu1idmekOiQM8BRntCUBta3VJLv2yVLz2c9en5OTKwCM/BhbsX8h9ZplUGjIRcDjQuGWBz45a+0yVOsjAk5CWJ6k6sjSRaJ5Ub+DLwjnHCWhsPrQPJz0akQ+iJpow==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7300.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(66446008)(66556008)(66476007)(4326008)(5660300002)(52536014)(64756008)(33656002)(86362001)(8676002)(6916009)(83380400001)(316002)(6506007)(71200400001)(26005)(186003)(7696005)(44832011)(76116006)(8936002)(4744005)(2906002)(55016002)(66946007)(54906003)(478600001)(9686003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 8gMNrxogaVtprjaWmVLp2KfJKiWcfYltkSYTrb9g/1xmAPHUR3DQmW6/KwYZS+MmqfFE8jwfJlsY5h8H/YZ+KDy7SCLjA4gfvvZ8LoVrVYxnPBpiu+qhcZA3zxgFbil2063ecv0S35pXlec6dbiJS/0vNnTdOFcrH7A/vI3UQ6dG+KIr98UoJh+NsY7x04Mk2DeCFkp4Ulhxva/bEgbCKD/azvcJcoWwS8qFJGFCN8emrbCZ57U/4+XZYAuWhkl/PGj02cKa4/o1jjxhS7Xop2YaPHx4pEg4bgorgErxFxx9cqoc1gUcImAuY1m1I3kGdD4oKb+c/ImVG+QeAxsUnfgveFztn7eYFdxyXDZwmFtPFOdgC/kYmHv1tPFrn16uuxJGFIHflMxpl43VYcTkk4J4sGOhIpvlCbMpy5UMOMfHwgQD01s9/XExQ2oBm70qrL7rrEAF9EQwDzpEWFs1c7cYuSU8kUS96DrXLH97xtzzwApvJTu6Ex8/Zrnxw6OJdJCtNtkcWkfTP72nCfI05PaTMBneZFT4izpttcnQzLSFM22lMnWK//gXTD4ANJsmW11IO9XxS31E2efjde4fdekWP8Ym092e24xwB55aP3nuNf3HLtFyGq3+5K1pjashaLOek1h/ajcNv/eJo4ZvwA==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        "jackp@codeaurora.org" <jackp@codeaurora.org>
+References: <20201028234311.6464-1-wcheng@codeaurora.org>
+ <20201028234311.6464-3-wcheng@codeaurora.org>
+ <e6faade6-7c4c-5966-3afd-63be2deefa01@synopsys.com>
+From:   Wesley Cheng <wcheng@codeaurora.org>
+Message-ID: <6748f727-db76-b51c-4333-57467ae3013f@codeaurora.org>
+Date:   Wed, 28 Oct 2020 19:00:59 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7300.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d3a04d0-74f9-41a4-f379-08d87b248836
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2020 09:33:30.6281
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZQ99AKews1mSf40E0tuEkYDHg/XZh/KseVSWu2eaytpJ4QbVRBdvTJ6prDqfi9z6VO8dGEUMM1G2AknRq6F2qA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7601
-X-OriginatorOrg: nxp.com
+In-Reply-To: <e6faade6-7c4c-5966-3afd-63be2deefa01@synopsys.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-=20
-> On Thu, Oct 22, 2020 at 08:55:02AM +0800, Peter Chen wrote:
-> > Changes for v2:
-> > - Move position of explicit cast to unsigned int before ((p) << 24)
-> > [Patch 1/3]
-> > - No changes for other patches.
-> >
-> > Pawel Laszczak (1):
-> >   usb: cdns3: Fix on-chip memory overflow issue
-> >
-> > Peter Chen (2):
-> >   usb: cdns3: gadget: suspicious implicit sign extension
-> >   usb: cdns3: gadget: own the lock wrongly at the suspend routine
->=20
-> Are you going to send me patches to queue up for this driver any time soo=
-n?
-> I've seen lots of different ones fly by, but no "please take this" type o=
-f hint to
-> me, so I have no idea what to do at all...
->=20
 
-I will queue them up after reviewing, thanks.
 
-Peter
+On 10/28/2020 5:43 PM, Thinh Nguyen wrote:
+> Hi,
+> 
+> Wesley Cheng wrote:
+>> The USB gadget/UDC driver can restrict the DWC3 controller speed using
+>> dwc3_gadget_set_speed().  Store this setting into a variable, in order for
+>> this setting to persist across controller resets due to runtime PM.
+> 
+> Why do we need to do this? DCFG should persist unless we overwrite it.
+> The current PM shouldn't update the current speed setting.
+> 
+> BR,
+> Thinh
+> 
+
+Hi Thinh,
+
+During runtime PM suspend, the dwc3_suspend_common() will call
+dwc3_core_exit().  On some platforms they register the DWC3 reset
+control to the DWC3 core driver (otherwise could be handled in the DWC3
+glue drivers), which will be asserted here:
+
+static void dwc3_core_exit(struct dwc3 *dwc)
+{
+...
+	reset_control_assert(dwc->reset);
+
+From the SNPS databook (Table 2-2 Resets for Registers) it mentions that
+assertion of the reset signal will reset the DCFG register.
+
+In addition to the above, with the change to allow runtime PM suspend
+during UDC unbind, we need a way to avoid writing to the DCFG during the
+UDC bind path. (if we entered suspend before re-binding the UDC)  If we
+add an early exit based on the PM state (in
+dwc3_gadget_set_udc_speed()), then we basically ignore the max speed
+request from the UDC/gadget layer.
+
+Since it looks like the DWC3 gadget driver doesn't like using
+synchronous PM runtime resumes, by going this route, we can allow the
+async runtime resume handler to do everything, such as writing the speed
+config and re-enabling the controller.
+
+Thanks
+
+Regards,
+Wesley Cheng
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
