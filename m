@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F4BC2D0A3
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF52C55178
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:46:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85B6C2076D
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:46:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 480EF2076D
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Oct 2020 09:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgJ2Jqk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Oct 2020 05:46:40 -0400
-Received: from mga01.intel.com ([192.55.52.88]:50689 "EHLO mga01.intel.com"
+        id S1726848AbgJ2Jql (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Oct 2020 05:46:41 -0400
+Received: from mga03.intel.com ([134.134.136.65]:31459 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726843AbgJ2Jqk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Oct 2020 05:46:40 -0400
-IronPort-SDR: i3ZnRRVawtD3rMDYdZ1DFWx9Yj5weUmWK/yn3tGBPlRUPuGfrleUFYlTvoqFO3sydvsrGwaRFF
- TJcZodE1Z2cA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="186188388"
+        id S1726843AbgJ2Jql (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Oct 2020 05:46:41 -0400
+IronPort-SDR: zC/A0SDaxyp+ggIvkOEm9iSY4+7wmBwitWIVSNiVBRa62YtIzxpyb1nkgk/qufDmy/cjy0VDp/
+ BJTBERfFshJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="168504717"
 X-IronPort-AV: E=Sophos;i="5.77,429,1596524400"; 
-   d="scan'208";a="186188388"
+   d="scan'208";a="168504717"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 02:46:40 -0700
-IronPort-SDR: O2DvmzbKSZ8CZShnCNgE53ZtvYuOX1AiOLKk61jje68c7mHpXEs6fwvh5QnNFDEavqDT9GbnZa
- fy/xhoBHF10g==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 02:46:40 -0700
+IronPort-SDR: IkYfbMI6UXriII5eEolUEBT07xXhybCrkzbTXDJQP+8cPuNvtbEtrFyFRi6458DUbrnwysmhTZ
+ NZInAfzmI66g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,429,1596524400"; 
-   d="scan'208";a="361429942"
+   d="scan'208";a="536604867"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Oct 2020 02:46:37 -0700
+  by orsmga005.jf.intel.com with ESMTP; 29 Oct 2020 02:46:37 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 0BB894E1; Thu, 29 Oct 2020 11:46:36 +0200 (EET)
+        id 272A15F2; Thu, 29 Oct 2020 11:46:37 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -45,38 +45,44 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Casey Bowman <casey.g.bowman@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/3] thunderbolt: Fix memory leak if ida_simple_get() fails in enumerate_services()
-Date:   Thu, 29 Oct 2020 12:46:34 +0300
-Message-Id: <20201029094636.51818-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 3/3] thunderbolt: Only configure USB4 wake for lane 0 adapters
+Date:   Thu, 29 Oct 2020 12:46:36 +0300
+Message-Id: <20201029094636.51818-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201029094636.51818-1-mika.westerberg@linux.intel.com>
+References: <20201029094636.51818-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The svc->key field is not released as it should be if ida_simple_get()
-fails so fix that.
+Only USB4 lane 0 adapter has the USB4 port capability for wakes so only
+program wakes on such adapters.
 
-Fixes: 9aabb68568b4 ("thunderbolt: Fix to check return value of ida_simple_get")
-Cc: stable@vger.kernel.org
+Fixes: b2911a593a70 ("thunderbolt: Enable wakes from system suspend")
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/xdomain.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/thunderbolt/usb4.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 48907853732a..c00ad817042e 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -881,6 +881,7 @@ static void enumerate_services(struct tb_xdomain *xd)
+diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
+index 40f13579a3fe..f2583b4053e4 100644
+--- a/drivers/thunderbolt/usb4.c
++++ b/drivers/thunderbolt/usb4.c
+@@ -421,8 +421,12 @@ int usb4_switch_set_wake(struct tb_switch *sw, unsigned int flags)
+ 	 * upstream USB4 port.
+ 	 */
+ 	tb_switch_for_each_port(sw, port) {
++		if (!tb_port_is_null(port))
++			continue;
+ 		if (!route && tb_is_upstream_port(port))
+ 			continue;
++		if (!port->cap_usb4)
++			continue;
  
- 		id = ida_simple_get(&xd->service_ids, 0, 0, GFP_KERNEL);
- 		if (id < 0) {
-+			kfree(svc->key);
- 			kfree(svc);
- 			break;
- 		}
+ 		ret = tb_port_read(port, &val, TB_CFG_PORT,
+ 				   port->cap_usb4 + PORT_CS_19, 1);
 -- 
 2.28.0
 
