@@ -2,173 +2,113 @@ Return-Path: <SRS0=TW+4=EF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D110EC00A89
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 08:50:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F63C4742C
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 08:59:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 899FC22228
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 08:50:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61B6C2083B
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 08:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604048372;
+	bh=V55sGn2rj0SKqKDvY7u2Lm3iopy2BhrGvK4iQIktSRA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=qDiLQqnwrGA8E2lfvUySqvgGiNat9l+mkSZV38tgWPYwasnwxTt5vXO09sZ53k+yr
+	 FSiIWXDvuydS8UFBg2tJ8GfPbH3vMzFbFC3dQCqoMcCOP7YVYd2LupiXvLwvNdrWhn
+	 3YV6UVlaqS3VRFS7WlUGZ0NA9TizvBgIAe/YvQBc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbgJ3IuY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Oct 2020 04:50:24 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:6944 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726027AbgJ3IuY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Oct 2020 04:50:24 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMwWp1C68z70SB;
-        Fri, 30 Oct 2020 16:31:34 +0800 (CST)
-Received: from huawei.com (10.69.192.56) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
- 16:31:25 +0800
-From:   Luo Jiaxing <luojiaxing@huawei.com>
-To:     <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-        <andriy.shevchenko@linux.intel.com>
-CC:     <linux-kernel@vger.kernel.org>, <martin.petersen@oracle.com>,
-        <john.garry@huawei.com>, <himanshu.madhani@cavium.com>,
-        <felipe.balbi@linux.intel.com>, <gregkh@linuxfoundation.org>,
-        <uma.shankar@intel.com>, <anshuman.gupta@intel.com>,
-        <animesh.manna@intel.com>, <linux-usb@vger.kernel.org>,
-        <linux-scsi@vger.kernel.org>, <linuxarm@huawei.com>
-Subject: [PATCH v2 4/5] usb: dwc3: debugfs: Introduce DEFINE_SHOW_STORE_ATTRIBUTE
-Date:   Fri, 30 Oct 2020 16:32:01 +0800
-Message-ID: <1604046722-15531-5-git-send-email-luojiaxing@huawei.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1604046722-15531-1-git-send-email-luojiaxing@huawei.com>
+        id S1726120AbgJ3I73 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Oct 2020 04:59:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58332 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726077AbgJ3I72 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 30 Oct 2020 04:59:28 -0400
+Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6F61420709;
+        Fri, 30 Oct 2020 08:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604048367;
+        bh=V55sGn2rj0SKqKDvY7u2Lm3iopy2BhrGvK4iQIktSRA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=dis3A2JGF0hgWYzNCR5xz4msUqzYN+2ufj5b0yk/SDQpM2rzpJAErFfTV26Y7LYtp
+         IzicK8ePsep7pwJMLmbQp+FMSv9tIJ30ge3vS2Cale2dEdpyuyo5rYiX8khwF+a4iM
+         qNpZyNoCdCrfDbe2bZ9Aq8ieAijnZTtD7+5eyCQs=
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Luo Jiaxing <luojiaxing@huawei.com>, akpm@linux-foundation.org,
+        viro@zeniv.linux.org.uk, andriy.shevchenko@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, martin.petersen@oracle.com,
+        john.garry@huawei.com, himanshu.madhani@cavium.com,
+        gregkh@linuxfoundation.org, uma.shankar@intel.com,
+        anshuman.gupta@intel.com, animesh.manna@intel.com,
+        linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linuxarm@huawei.com
+Subject: Re: [PATCH v2 4/5] usb: dwc3: debugfs: Introduce
+ DEFINE_SHOW_STORE_ATTRIBUTE
+In-Reply-To: <1604046722-15531-5-git-send-email-luojiaxing@huawei.com>
 References: <1604046722-15531-1-git-send-email-luojiaxing@huawei.com>
+ <1604046722-15531-5-git-send-email-luojiaxing@huawei.com>
+Date:   Fri, 30 Oct 2020 10:59:18 +0200
+Message-ID: <87v9esks2h.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Seq instroduce a new helper marco DEFINE_SHOW_STORE_ATTRIBUTE for
-Read-Write file, So we apply it at dwc3 debugfs to reduce some duplicate
-code.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Luo Jiaxing <luojiaxing@huawei.com>
----
- drivers/usb/dwc3/debugfs.c | 52 ++++------------------------------------------
- 1 file changed, 4 insertions(+), 48 deletions(-)
+Luo Jiaxing <luojiaxing@huawei.com> writes:
 
-diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
-index 5da4f60..2b5de8d 100644
---- a/drivers/usb/dwc3/debugfs.c
-+++ b/drivers/usb/dwc3/debugfs.c
-@@ -348,11 +348,6 @@ static int dwc3_lsp_show(struct seq_file *s, void *unused)
- 	return 0;
- }
- 
--static int dwc3_lsp_open(struct inode *inode, struct file *file)
--{
--	return single_open(file, dwc3_lsp_show, inode->i_private);
--}
--
- static ssize_t dwc3_lsp_write(struct file *file, const char __user *ubuf,
- 			      size_t count, loff_t *ppos)
- {
-@@ -377,13 +372,7 @@ static ssize_t dwc3_lsp_write(struct file *file, const char __user *ubuf,
- 	return count;
- }
- 
--static const struct file_operations dwc3_lsp_fops = {
--	.open			= dwc3_lsp_open,
--	.write			= dwc3_lsp_write,
--	.read			= seq_read,
--	.llseek			= seq_lseek,
--	.release		= single_release,
--};
-+DEFINE_SHOW_STORE_ATTRIBUTE(dwc3_lsp);
- 
- static int dwc3_mode_show(struct seq_file *s, void *unused)
- {
-@@ -412,11 +401,6 @@ static int dwc3_mode_show(struct seq_file *s, void *unused)
- 	return 0;
- }
- 
--static int dwc3_mode_open(struct inode *inode, struct file *file)
--{
--	return single_open(file, dwc3_mode_show, inode->i_private);
--}
--
- static ssize_t dwc3_mode_write(struct file *file,
- 		const char __user *ubuf, size_t count, loff_t *ppos)
- {
-@@ -445,13 +429,7 @@ static ssize_t dwc3_mode_write(struct file *file,
- 	return count;
- }
- 
--static const struct file_operations dwc3_mode_fops = {
--	.open			= dwc3_mode_open,
--	.write			= dwc3_mode_write,
--	.read			= seq_read,
--	.llseek			= seq_lseek,
--	.release		= single_release,
--};
-+DEFINE_SHOW_STORE_ATTRIBUTE(dwc3_mode);
- 
- static int dwc3_testmode_show(struct seq_file *s, void *unused)
- {
-@@ -491,11 +469,6 @@ static int dwc3_testmode_show(struct seq_file *s, void *unused)
- 	return 0;
- }
- 
--static int dwc3_testmode_open(struct inode *inode, struct file *file)
--{
--	return single_open(file, dwc3_testmode_show, inode->i_private);
--}
--
- static ssize_t dwc3_testmode_write(struct file *file,
- 		const char __user *ubuf, size_t count, loff_t *ppos)
- {
-@@ -528,13 +501,7 @@ static ssize_t dwc3_testmode_write(struct file *file,
- 	return count;
- }
- 
--static const struct file_operations dwc3_testmode_fops = {
--	.open			= dwc3_testmode_open,
--	.write			= dwc3_testmode_write,
--	.read			= seq_read,
--	.llseek			= seq_lseek,
--	.release		= single_release,
--};
-+DEFINE_SHOW_STORE_ATTRIBUTE(dwc3_testmode);
- 
- static int dwc3_link_state_show(struct seq_file *s, void *unused)
- {
-@@ -564,11 +531,6 @@ static int dwc3_link_state_show(struct seq_file *s, void *unused)
- 	return 0;
- }
- 
--static int dwc3_link_state_open(struct inode *inode, struct file *file)
--{
--	return single_open(file, dwc3_link_state_show, inode->i_private);
--}
--
- static ssize_t dwc3_link_state_write(struct file *file,
- 		const char __user *ubuf, size_t count, loff_t *ppos)
- {
-@@ -620,13 +582,7 @@ static ssize_t dwc3_link_state_write(struct file *file,
- 	return count;
- }
- 
--static const struct file_operations dwc3_link_state_fops = {
--	.open			= dwc3_link_state_open,
--	.write			= dwc3_link_state_write,
--	.read			= seq_read,
--	.llseek			= seq_lseek,
--	.release		= single_release,
--};
-+DEFINE_SHOW_STORE_ATTRIBUTE(dwc3_link_state);
- 
- struct dwc3_ep_file_map {
- 	const char name[25];
--- 
-2.7.4
+> Seq instroduce a new helper marco DEFINE_SHOW_STORE_ATTRIBUTE for
+      ^^^^^^^^^^              ^^^^^
+      introduce               macro
 
+> Read-Write file, So we apply it at dwc3 debugfs to reduce some duplicate
+                   ^^                                            ^^^^^^^^^
+                   so                                            duplicated
+
+> code.
+
+to be fair, your commit is doing more than what it claims. Maybe update
+commit log with a "while at that, also use DEFINE_SHOW_ATTRIBUTE() where
+possible".
+
+> Signed-off-by: Luo Jiaxing <luojiaxing@huawei.com>
+
+other than that, this looks okay. Since it depends on the definition of
+DEFINE_SHOW_STORE_ATTRIBUTE:
+
+Acked-by: Felipe Balbi <balbi@kernel.org>
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+b1eYRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQbfWRAAk6T3bnYboy4kDtezxHaGWWVKcLnjDdre
+VHNP4AAPlI6z+jQrT6dkvS+83osjN2LMU+xP2IJdq4ZG6c/DGK/my7PUYiwwDxMk
+deH/BM+5v7M9Tit3TJEuM5maPE+I7lwDFPGsdHo5112uoiTE2R8FJaO/bL2cNzM5
+W9e/GbIIbLGi/BH01UrOeG1qPvPeb+G2YKlDyHFPZh0xyO6sBOy4WabuW2Uk4adl
+Ih5sOSz0DgyYvY/QKqAe+fKVByGluVgRStfNFUGNkKbhCi7s0ga1DkYrlsYs+zYY
+zrKdgyq9Wey1JmJ1JQ73PO5t3/94HjhsEEs8FltSZ4J2M6GRZM/hBH4uV/p45on3
+zfHuxnqQOxgUslXunWRhrXixlvwWeD8pL4zI6er6Cn7nlSauLYXvasmqjddPfCks
+xrijv+fTj7koWujLfKQ65nZY7PpcDszS/pV0URhcKO9X8+XN3IKh1KB1BFRxiuyA
+PUh1e8xtegr2YeJqsOpERVbTKhs5U6uFys13I1PbBHKPJ34QPotcRF0DWofQAioe
+rdZHxDnqSM8qvFiy21RtvujXQwbP0Yf3VvOlIn5JtlersaXoDEmIjM7TtNVGH+JZ
+mNI9t3iiX1w4QUx+VRRn1xkmpIn804eO4V7XlW4R14no+FTEAdjLe7BQM6//TCUm
+0j3r+KdUeZ8=
+=+rAO
+-----END PGP SIGNATURE-----
+--=-=-=--
