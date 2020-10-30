@@ -2,143 +2,163 @@ Return-Path: <SRS0=TW+4=EF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52248C4363A
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 14:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86174C4363A
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 15:15:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F14AE2224D
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 14:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604068360;
-	bh=H73aTFe9brejPhv93HXkvU3N5qlIm5iZsJBrgXyq5lE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=X60eJcb3gCKCT37MEG5KrXyL8YesQLQNGuicXGF2rP5JLBx/OenhzPP3bl5P7582V
-	 rH0wqBGPjra+7qxDfZgvQXbu0s3Mv4ryiNQQ29Qm8lvn3OUv1L2wSqTlaThWrqdI67
-	 JApLBGXVtgjwmmXtcbmEaYckX/KKwUPugzzg7las=
+	by mail.kernel.org (Postfix) with ESMTP id 171B620791
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Oct 2020 15:15:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzSDbIkS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbgJ3Ocg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Oct 2020 10:32:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34208 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725939AbgJ3Ocg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 30 Oct 2020 10:32:36 -0400
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0ACE820637;
-        Fri, 30 Oct 2020 14:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604068355;
-        bh=H73aTFe9brejPhv93HXkvU3N5qlIm5iZsJBrgXyq5lE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lN74zVv+y0LBSHf4rqFdraGgS8IsYFsifgokwyPkvmhZM55UCiMlrIHfZCg1QVVgU
-         o9cBQDDIypBFmI+kl3cU8EVY1agALeA8QRQln0r1KkgLuzHVsIyXbLhhl0zaPte5L3
-         xp79GoUiFbPxrvKlG0Qw73+iTpB9MyUMSFvjLnCw=
-Received: by mail-ot1-f44.google.com with SMTP id m22so5721796ots.4;
-        Fri, 30 Oct 2020 07:32:35 -0700 (PDT)
-X-Gm-Message-State: AOAM532+AooKztQEgVi3e6L5o9Hxz8J87AWONyyFMDbMqyt8XAJsIdGa
-        24psNRFQ0Nny5Rc/s0mKzVb89byBC02pYDvrDg==
-X-Google-Smtp-Source: ABdhPJw0/hZSGq4gZvXd4rAw3DV98IaGIIMxB5UmNkdeNZ6nvaElNZ6SNe1QYlhyoHVF6qp+lB3fHjsIxLDfBIhsRlU=
-X-Received: by 2002:a9d:62d1:: with SMTP id z17mr1974117otk.192.1604068354225;
- Fri, 30 Oct 2020 07:32:34 -0700 (PDT)
+        id S1726773AbgJ3PPp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Oct 2020 11:15:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726178AbgJ3PPp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Oct 2020 11:15:45 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2C2C0613CF;
+        Fri, 30 Oct 2020 08:15:45 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id x13so5466723pgp.7;
+        Fri, 30 Oct 2020 08:15:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=h7JEhToi6y0r0qaENRYWLa6TItN+W1AAZgf7V2tBFOA=;
+        b=LzSDbIkS1r2D7W3mbQD2H2LaM3v85qpLNz/NJh7Eqy5oYH5p3NIq1XNckFQoNKTTxw
+         q1Hl0F7kojt8JhRgmsw88WHaBAqe7yo1s6Sjcc+HJgGsWMFoVkod67MFClDIdp4Cdo7V
+         3WWDMkxBfemDHIc8bK5Fq4hDdsRqD/WmdG46tJKm3MLO+g4+izGMMzTF0R3KJt0gjo7o
+         ooUQxl4AiWVt91W/97aTUwQ0rurFdYFn1gqMbwiF64SuS/LbHZ3FoQTQxv1AOF2RryTJ
+         BnqR6eIfZ6DlHk/uv5Ys10fhkDrIEAxlgPXXko5mS5hbiZlLfT3665KLN0uRlx3biGf6
+         dwfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=h7JEhToi6y0r0qaENRYWLa6TItN+W1AAZgf7V2tBFOA=;
+        b=WYec23Bz0UmI5RBtUaEE9XMKh5hZMt61wwApsuxPXhBIV8nQqNbT31PTcx6DTxSBql
+         IBjp1cF+1/f51laaBUv0Y9Al4rknxEvVvpVQ4COB5TcJudiLt4lJTbXFtvYbLhEgQ34W
+         6qS4JZY4j9i/HPHkI+IpCHIpueDNAazExHnF9QwgIqAyQDm8Esci1y8RzeeZzG9QVBdX
+         y2qYxl5Soolis+i7q71BIV+IR3AysPGtjhrtdVcehHwaBYHUWGq521pz9QIj7I4sRqt7
+         IFvykRiIofoycQDub/uW8Lk0YfBMyUOuP+4UtvgdfUrRoVojmFpWombJDwBdZVB7AN7N
+         Dxrw==
+X-Gm-Message-State: AOAM531dEwkOlKS894HMn81I4sIkpXpCz+7qhNzTc1BFHE9dDMW3r4aK
+        laGNxgB1rMhyu1LdRSmTDPg=
+X-Google-Smtp-Source: ABdhPJzI1jaxOjZiRkPwNeMRQ7loDrLDM2QrsvU0jyOLEg/ssM/oIxyj10iYEwUEe8IRyWqahzG6Sw==
+X-Received: by 2002:a63:1365:: with SMTP id 37mr2630167pgt.247.1604070944766;
+        Fri, 30 Oct 2020 08:15:44 -0700 (PDT)
+Received: from localhost (23.83.224.115.16clouds.com. [23.83.224.115])
+        by smtp.gmail.com with ESMTPSA id b16sm2745870pju.16.2020.10.30.08.15.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 08:15:43 -0700 (PDT)
+Date:   Fri, 30 Oct 2020 23:15:40 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: Re: [PATCH v3] usb: dwc3: core: fix a issue about clear connect state
+Message-ID: <20201030151540.GA37515@nuc8i5>
+References: <20201020135806.30268-1-zhengdejin5@gmail.com>
+ <875z6wdq62.fsf@kernel.org>
+ <20201028125812.GA59692@nuc8i5>
+ <87y2jqlahc.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20201029095806.10648-1-amelie.delaunay@st.com>
- <20201029095806.10648-2-amelie.delaunay@st.com> <20201029154016.GA1917373@bogus>
- <860d5620-4fdf-6e01-9a04-3967d6fcfd6b@st.com> <CAKgpwJVGUR9aSfoMkQ=ZXysgqn+H6n0uJbk5W9SeGiB7VXptwQ@mail.gmail.com>
-In-Reply-To: <CAKgpwJVGUR9aSfoMkQ=ZXysgqn+H6n0uJbk5W9SeGiB7VXptwQ@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 30 Oct 2020 09:32:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLbuNTnonH2SqcmF5YF_EB4gTQdS6L3yFKF9pJmaypdKg@mail.gmail.com>
-Message-ID: <CAL_JsqLbuNTnonH2SqcmF5YF_EB4gTQdS6L3yFKF9pJmaypdKg@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 1/4] dt-bindings: connector: add power-opmode
- optional property to usb-connector
-To:     Jun Li <lijun.kernel@gmail.com>
-Cc:     Amelie DELAUNAY <amelie.delaunay@st.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y2jqlahc.fsf@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 8:55 PM Jun Li <lijun.kernel@gmail.com> wrote:
->
-> Amelie DELAUNAY <amelie.delaunay@st.com> =E4=BA=8E2020=E5=B9=B410=E6=9C=
-=8830=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=8812:52=E5=86=99=E9=81=93=
-=EF=BC=9A
+On Wed, Oct 28, 2020 at 03:57:03PM +0200, Felipe Balbi wrote:
+Hi Balbi and all:
+> 
+> Hi,
+> 
+> Dejin Zheng <zhengdejin5@gmail.com> writes:
+> >> Dejin Zheng <zhengdejin5@gmail.com> writes:
+> >> > According to Synopsys Programming Guide chapter 2.2 Register Resets,
+> >> > it cannot reset the DCTL register by setting DCTL.CSFTRST for core soft
+> >> > reset, if DWC3 controller as a slave device and stay connected with a usb
+> >> > host, then, while rebooting linux, it will fail to reinitialize dwc3 as a
+> >> > slave device when the DWC3 controller did not power off. because the
+> >> > connection status is incorrect, so we also need to clear DCTL.RUN_STOP
+> >> > bit for disabling connect when doing core soft reset. There will still
+> >> > be other stale configuration in DCTL, so reset the other fields of DCTL
+> >> > to the default value 0.
+> >> 
+> >> This commit log is a bit hard to understand. When does this problem
+> >> actually happen? It seems like it's in the case of, perhaps, kexecing
+> >> into a new kernel, is that right?
+> >> 
+> > It happens when entering the kernel for the second time after the reboot
+> > command.
 > >
-> >
-> >
-> > On 10/29/20 4:40 PM, Rob Herring wrote:
-> > > On Thu, Oct 29, 2020 at 10:58:03AM +0100, Amelie Delaunay wrote:
-> > >> Power operation mode may depends on hardware design, so, add the opt=
-ional
-> > >> property power-opmode for usb-c connector to select the power operat=
-ion
-> > >> mode capability.
-> > >>
-> > >> Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
-> > >> ---
-> > >>   .../bindings/connector/usb-connector.yaml      | 18 ++++++++++++++=
-++++
-> > >>   1 file changed, 18 insertions(+)
-> > >>
-> > >> diff --git a/Documentation/devicetree/bindings/connector/usb-connect=
-or.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > >> index 728f82db073d..200d19c60fd5 100644
-> > >> --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > >> +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > >> @@ -93,6 +93,24 @@ properties:
-> > >>         - device
-> > >>         - dual
-> > >>
-> > >> +  power-opmode:
-> > >
-> > > I've acked this version:
-> > >
-> > > https://lore.kernel.org/r/20201020093627.256885-2-badhri@google.com
->
-> That is a different property only for FRS.
->
-> > >
-> >
-> > frs is used for Fast Role Swap defined in USB PD spec.
-> > I understand it allows to get the same information but I'm wondering wh=
-y
-> > the property name is limited to -frs- in this case. What about a
-> > non-power delivery USB-C connector ?
->
-> It's only for FRS, FRS is in the scope of power delivery.
->
-> >
-> > Moreover, power-opmode property support is already merged in typec clas=
-s:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/drivers/usb/typec/class.c?h=3Dv5.10-rc1&id=3D12f3467b0d28369d3add7a0deb6=
-5fdac9b503c90
-> > and stusb160x driver uses it :(
-> >
-> > So, do I need to modify stusb160x driver (and bindings) to take into
-> > account this USB PD specific property?
->
-> Only Type-C w/o PD need this "power-opmode" property, so this
-> property is still required.
+> >> At the time dwc3_core_soft_reset() is called, the assumption is that
+> >> we're starting with a clean core, from power up. If we have stale
+> >> configuration from a previous run, we should fix this on the exit
+> >> path. Note that if we're reaching probe with pull up connected, we
+> >> already have issues elsewhere.
+> >> 
+> >> I think this is not the right fix for the problem.
+> >>
+> > I think you are right, Thinh also suggested me fix it on the exit path
+> > in the previous patch v2. Do you think I can do these cleanups in the
+> > shutdown hook of this driver? Balbi, is there a more suitable place to
+> > do this by your rich experience? Thanks!
+> 
+> I don't think shutdown is called during removal, I'm not sure. I think
+> we had some fixes done in shutdown time, though. Test it out, but make
+> sure there are no issues with a regular modprobe cycle.
+> 
+It has some errors in my commit message, I describe the process of linux
+restart is wrong. A PC is connected to our arm soc development board
+through the usb cable, the adb program runs via usb connection. there is
+a very important application in our linux system. when it goes wrong(halt
+or kernel panic), we want to restart linux. my wrong description happened
+here, when I manually kill this important application for testing, I
+thought it was calling the reboot command to restart linux, which is wrong.
+our real implementation is through watchdog, when the application no
+longer sets the watchdog and the watchdog times out, but watchdog can't 
+reset the whole soc. our soc has 3 cpu clusters, one cluster has a arm 
+Cortex R5 cpu for boot and security. one cluster has 2 arm Cortex A55 for
+linux system. the other cluster for android. when the Cortex R5 detect
+the watchdog timeout and want to restart linux system, it will stop Cortex
+A55 cpu to run, and load linux image to DDR memory from eMMC flash, then
+set Cortex A55 cpu to run new linux system, but it was not reset usb
+controller. so the usb controller's status is incorrect for boot new linux
+system.
 
-Yet we have the same set of values. So there's something common...
+   ------------------------------------------------------------------
+   |                                                                |
+   |	Boot and Security          Linux             Android        |
+   |	----------------     ----------------    ----------------   |
+   |	|  1 Cortex R5  |    | 2 Cortex A55 |    | 4 Cortex A72 |   |
+   |	|    cluster    |    |    cluster   |    |   cluster    |   |
+   |	|---------------|    |--------------|    |--------------|   |
+   |                                                                |
+   |                           SOC                                  |
+   |-----------------------------------------------------------------
 
-Rob
+Under normal circumstances, run the reboot command and rmmod the
+corresponding usb module, it will carry out the corresponding state
+processing, all of which can work well.
+
+Balbi, for this case, Currently, the way I can think of is to reset the
+DCTL register every initial time. Could you help me and give me some
+suggestions? thank you very much!
+
+BR,
+Dejin
+
+> -- 
+> balbi
+
+
