@@ -2,49 +2,63 @@ Return-Path: <SRS0=qLpr=EG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2D94C388F9
-	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 10:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 438DEC388F9
+	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 10:48:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A29DC2074F
-	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 10:15:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB07E208B6
+	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 10:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604139354;
-	bh=k55592a3MRtpfBWcY0/9Daew+ap/Hnqw9WgHoeOC8iU=;
+	s=default; t=1604141285;
+	bh=BjX4Rzpg+sTc1pFaK2dBIvWX5GQox68VpZGyGZ6e4fo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=R039O6FpJ7YmVcHSZYpa+k+6EQ4vhxL0OLPJ2PHOlgx7GdMArqgR02YxNEFjXZKaW
-	 V6/FeHLutzke3NF21+8nrfug2VP1SdOovB1UirFLlsSb+3SM+bYuueJ6A5ds6FtzcJ
-	 h9Q1qMovrd4jvK5reBIwF5ix1zwH0marTban+5DM=
+	b=HE5oFhQ0OdR79R49RGzkOQeAAT6z8JoCGFgRs66RV8eGmUd1vVnMIJ24txPZYHjaX
+	 DEWuGc8VQY1L9wfUuXuQ5znlEVLmxu62jS8/Qh0oXWDcolhXg1ev/E7ZW7Hl7XOqvp
+	 t2VgChKyzyNyKr0qNaobZin+0LucTBPSpCNkfsT4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbgJaKPx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 31 Oct 2020 06:15:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726719AbgJaKPx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 31 Oct 2020 06:15:53 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A356320719;
-        Sat, 31 Oct 2020 10:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604139353;
-        bh=k55592a3MRtpfBWcY0/9Daew+ap/Hnqw9WgHoeOC8iU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IjoOSwx1aldcP3qIhI51g/XfbX9os65sG5gI2D7zMhbISA367YwYkwNS/GJEUH3VW
-         S/xBy0zHqHuenak99Ou41lMPHAA/oUIaowxbQ7qyX5T9pOMWasvx0pPDDBXpSsJKui
-         fhDJF+yPwmGr4FRdb0TyVrLHUiY3jMREystzX69o=
-Date:   Sat, 31 Oct 2020 11:16:39 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
+        id S1726788AbgJaKsC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 31 Oct 2020 06:48:02 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43623 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbgJaKsC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 31 Oct 2020 06:48:02 -0400
+Received: by mail-lj1-f195.google.com with SMTP id d24so9600317ljg.10
+        for <linux-usb@vger.kernel.org>; Sat, 31 Oct 2020 03:47:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CYbpGfKqo2ahas0djGHZaq+qm1CqSl1MGVSORoPUwiA=;
+        b=nUngT2ffOZWAAVqVRumx5xk0CFMWmAfs4V92JlOQAHtbr6e3cz7WBahadoW++Krg9o
+         5w3YDLSC2r6GLDVZtKFsLRXBZMcipH8X9w+H9qCfPGd745kmIgqkREp01YATqZV9I0kv
+         pvLnfyHyk2uw1f34k9WBpEMrd5OQGFdSGfFfwjf4Aw/lBMXd65VjO967S7YnktfdjybF
+         A/WKjkE3o9x5I7o6jwud7C98hwFUPAxnOW0r//ANSWbhM3yy1164uLLP8dU8c5un5J0n
+         hgx9Oqj/xxb2HyE0PHaWdxnHQPgSBZ6FjHXbhn5liDJg9PwrmNLnXD+AKF2BYzuf9Nwc
+         0MmA==
+X-Gm-Message-State: AOAM5306kdzzdtvxZn7msi0oxi+iImlH9f1+kd/6+K94mlYFVnPxGawD
+        CA5G0/5MLqwW1SIzteSoB8Y=
+X-Google-Smtp-Source: ABdhPJw0e05TRc/a9z0qzbS6gplF2V20rQBH+hSJ9jxo76hcvCvizgnNyvigyZ1BTaelBMEJyDNFJg==
+X-Received: by 2002:a05:651c:10b:: with SMTP id a11mr2846168ljb.49.1604141278937;
+        Sat, 31 Oct 2020 03:47:58 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id m132sm876471lfa.34.2020.10.31.03.47.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2020 03:47:57 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1kYoQT-0008QY-I1; Sat, 31 Oct 2020 11:48:02 +0100
+Date:   Sat, 31 Oct 2020 11:48:01 +0100
+From:   Johan Hovold <johan@kernel.org>
 To:     Zhang Qilong <zhangqilong3@huawei.com>
-Cc:     hadess@hadess.net, linux-usb@vger.kernel.org
+Cc:     hadess@hadess.net, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org
 Subject: Re: [PATCH v2] USB: apple-mfi-fastcharge: fix reference leak in
  apple_mfi_fc_set_property
-Message-ID: <20201031101639.GA525736@kroah.com>
+Message-ID: <20201031104801.GN4085@localhost>
 References: <20201031101144.45164-1-zhangqilong3@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -57,7 +71,15 @@ X-Mailing-List: linux-usb@vger.kernel.org
 On Sat, Oct 31, 2020 at 06:11:44PM +0800, Zhang Qilong wrote:
 > pm_runtime_get_sync() will increment pm usage at first and it
 > will resume the device later. If runtime of the device is
-> active or has error(else....), resume operation will fail. If
+> active or has error(else....), resume operation will fail. 
+
+That's not a correct description; pm_runtime_get_sync() returns positive
+if the device was already active and that's not a failure (there's
+nothing to resume).
+
+Please fix up when resending.
+
+> If
 > we do not call put operation to decrease the reference, the
 > result is that this device cannot enter the idle state and
 > always stay busy or other non-idle state.
@@ -67,11 +89,22 @@ On Sat, Oct 31, 2020 at 06:11:44PM +0800, Zhang Qilong wrote:
 > ---
 >  drivers/usb/misc/apple-mfi-fastcharge.c | 4 +++-
 >  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/misc/apple-mfi-fastcharge.c b/drivers/usb/misc/apple-mfi-fastcharge.c
+> index b403094a6b3a..9e1ad4536e36 100644
+> --- a/drivers/usb/misc/apple-mfi-fastcharge.c
+> +++ b/drivers/usb/misc/apple-mfi-fastcharge.c
+> @@ -120,8 +120,10 @@ static int apple_mfi_fc_set_property(struct power_supply *psy,
+>  	dev_dbg(&mfi->udev->dev, "prop: %d\n", psp);
+>  
+>  	ret = pm_runtime_get_sync(&mfi->udev->dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(&mfi->udev->dev);
+>  		return ret;
+> +	}
+>  
+>  	switch (psp) {
+>  	case POWER_SUPPLY_PROP_CHARGE_TYPE:
 
-What changed from v1?  Always put that below the --- line.
-
-Can you fix that up and send a v3?
-
-thanks,
-
-greg k-h
+Johan
