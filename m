@@ -2,101 +2,96 @@ Return-Path: <SRS0=qLpr=EG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B617EC388F9
-	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 01:54:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F3CC00A89
+	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 03:29:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AD3D20756
-	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 01:54:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pfIilmua"
+	by mail.kernel.org (Postfix) with ESMTP id 999A22087E
+	for <linux-usb@archiver.kernel.org>; Sat, 31 Oct 2020 03:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbgJaByK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Oct 2020 21:54:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbgJaByK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Oct 2020 21:54:10 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14ADCC0613D5;
-        Fri, 30 Oct 2020 18:54:10 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id lt2so218764pjb.2;
-        Fri, 30 Oct 2020 18:54:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ldYdIZUCPtRBuaJd3Pfmcs1j7OO61x1AmnRQICBqUzw=;
-        b=pfIilmuapsdAVkjx4m5RZsgHZ5LIjYtlfPfHBC2bvVxkItkxpra0vgG5oyAomWe497
-         bfkqiSY5ZS51JZfyFDxmkYlwuVA3RHPYfh5nXO4RXJxqd/N/5MJfoGqyJFJSSDe2u4OY
-         FriSV1RR1XeQHIUxD20ovJlg1vW1cN83Eo7p/zCWUXTSFUG5YajWHa3E3mn+sUEvIQdM
-         VLVxqzNyMd06JWvKINowGEsKl9mdpXoAHIlmLNJi6KTtfiZuST/ggtedrVYnQSA79mSp
-         I3ZvKcNBQOzVkCDBYmrxdjESIAen3tRZFgLahFmCk1sw1nLbS3uP7ThU0vwJBRPuFUQT
-         /nMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ldYdIZUCPtRBuaJd3Pfmcs1j7OO61x1AmnRQICBqUzw=;
-        b=d54iLjSjJ1+xg44YNYYOxDKmP9he8sWs6jE9pSpFts2cwNNDy7KwgD7/zY9n6xC+y3
-         hYCfBPBs/REhjf2Fgufjb75IOTomp2OGaq35g+aaJ6lBNu0ZSVxcHZHuOlQpsYhWBhwz
-         DpMOENFTNFWf5gE2CqvGSlCWPi6fJ5u8uNgMMc0Vtnfw35fBNH9VBTM2GZE+Web1pKub
-         9MnfytpRRdPSFajiGdppIEqg2UXh7bBDzXOq9AsLHvJOSeKepMXuNRDI/So9ku/2e2XJ
-         i1IwWRePF4m57SPnLdWIRSUGy7nY+y8TDizhnjTAyKpaIIo9RbsUnDJf0H0pJvL3us+n
-         MZbQ==
-X-Gm-Message-State: AOAM533a2pEnEmv1Jv0sZa8eYmqr3PxvM0Ib7XlOUu59RGcLXxjZGy+W
-        UTpyZhiXRf9qbDuTmeYhdWCDsp8mcOs=
-X-Google-Smtp-Source: ABdhPJxHlrMNny19tXs0QOssYWqzqAQVpkpxSDP0CF2yFNWiVvbhgwUxPKMsjUzzzI/IVMKf0LYY9g==
-X-Received: by 2002:a17:902:7681:b029:d6:42d5:6af3 with SMTP id m1-20020a1709027681b02900d642d56af3mr11627028pll.12.1604109248831;
-        Fri, 30 Oct 2020 18:54:08 -0700 (PDT)
-Received: from [10.230.28.254] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id g22sm7152814pfh.147.2020.10.30.18.54.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2020 18:54:07 -0700 (PDT)
-Subject: Re: [PATCH -next v2] usb: Mark sync_all_pins() with static keyword
-To:     Zou Wei <zou_wei@huawei.com>, alcooperx@gmail.com,
-        gregkh@linuxfoundation.org, f.fainelli@gmail.com,
-        bcm-kernel-feedback-list@broadcom.com
-Cc:     linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <1604108889-15205-1-git-send-email-zou_wei@huawei.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <71fd1c46-a674-a3a8-666c-d4240a866470@gmail.com>
-Date:   Fri, 30 Oct 2020 18:54:06 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.4.0
+        id S1725800AbgJaD3g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Oct 2020 23:29:36 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2051 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbgJaD3g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Oct 2020 23:29:36 -0400
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CNPmp2j93zVjc3;
+        Sat, 31 Oct 2020 11:29:30 +0800 (CST)
+Received: from dggema706-chm.china.huawei.com (10.3.20.70) by
+ DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Sat, 31 Oct 2020 11:29:31 +0800
+Received: from dggema755-chm.china.huawei.com (10.1.198.197) by
+ dggema706-chm.china.huawei.com (10.3.20.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Sat, 31 Oct 2020 11:29:31 +0800
+Received: from dggema755-chm.china.huawei.com ([10.1.198.197]) by
+ dggema755-chm.china.huawei.com ([10.1.198.197]) with mapi id 15.01.1913.007;
+ Sat, 31 Oct 2020 11:29:31 +0800
+From:   zhangqilong <zhangqilong3@huawei.com>
+To:     Bastien Nocera <hadess@hadess.net>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIFVTQjogYXBwbGUtbWZpLWZhc3RjaGFyZ2U6IGZp?=
+ =?utf-8?B?eCByZWZlcmVuY2UgbGVhayBpbiBhcHBsZV9tZmlfZmNfc2V0X3Byb3BlcnR5?=
+Thread-Topic: [PATCH] USB: apple-mfi-fastcharge: fix reference leak in
+ apple_mfi_fc_set_property
+Thread-Index: AQHWrtU+FgDMggzbUkWKHEHOnIu8PamxCHtw
+Date:   Sat, 31 Oct 2020 03:29:31 +0000
+Message-ID: <02c9ff38b0c246c498a5e80dde5fb62b@huawei.com>
+References: <20201030154534.98294-1-zhangqilong3@huawei.com>
+ <0145bd8636cb9f384e5e9b7149a7d9a90bc56825.camel@hadess.net>
+In-Reply-To: <0145bd8636cb9f384e5e9b7149a7d9a90bc56825.camel@hadess.net>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.179.28]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <1604108889-15205-1-git-send-email-zou_wei@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 10/30/2020 6:48 PM, Zou Wei wrote:
-> Fix the following sparse warning:
-> 
-> ./brcmstb-usb-pinmap.c:219:6: warning: symbol 'sync_all_pins' was not declared. Should it be static?
-> 
-> The sync_all_pins has only call site within brcmstb-usb-pinmap.c
-> Mark it static as suggested.
-> 
-> Fixes: 517c4c44b323 ("usb: Add driver to allow any GPIO to be used for 7211 USB signals")
-
-Not sure if the Fixes: tag is entirely appropriate here, but sure, why not.
-
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
-
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
+PiANCj4gT24gRnJpLCAyMDIwLTEwLTMwIGF0IDIzOjQ1ICswODAwLCBaaGFuZyBRaWxvbmcgd3Jv
+dGU6DQo+ID4gcG1fcnVudGltZV9nZXRfc3luYygpIHdpbGwgaW5jcmVtZW50IHBtIHVzYWdlIGNv
+dW50ZXIgZXZlbiBpdCBmYWlsZWQuDQo+ID4gRm9yZ2V0dGluZyB0byBjYWxsIHBtX3J1bnRpbWVf
+cHV0X25vaWRsZSB3aWxsIHJlc3VsdCBpbiByZWZlcmVuY2UgbGVhaw0KPiA+IGluIGFwcGxlX21m
+aV9mY19zZXRfcHJvcGVydHksIHNvIHdlIHNob3VsZCBmaXggaXQuDQo+ID4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBaaGFuZyBRaWxvbmcgPHpoYW5ncWlsb25nM0BodWF3ZWkuY29tPg0KPiANCj4gSXQg
+bG9va3MgY29ycmVjdCwgYnV0IEkgZG9uJ3Qga25vdyB3aGV0aGVyIGl0J3MgbmVjZXNzYXJ5Lg0K
+PiBUaGVyZSdzIGEgYm9hdGxvYWQgb2YgdXNlcnMgb2YgdGhhdCBBUEkgdGhhdCBkb24ndCBldmVu
+IGNoZWNrIGZvciB0aGUNCj4gZ2V0X3N5bmMoKSByZXR2YWwsIGFuZCBsb2FkcyBtb3JlIHdoZXJl
+IGl0J3MgY2hlY2tlZCBidXQgbmV2ZXIgYWN0ZWQgdXBvbi4NCj4gDQo+IERvIHlvdSBpbnRlbmQg
+dG8gZml4IGFsbCB0aG9zZSBhcyB3ZWxsPw0KPiANCg0KcG1fcnVudGltZV9nZXRfc3luYyB3aWxs
+IGluY3JlYXNlIHRoZSByZWZlcmVuY2UgY291bnQgYXQgZmlyc3QsIGFuZCBpdCB3aWxsIHJlc3Vt
+ZSB0aGUgZGV2aWNlDQpsYXRlci4gSWYgcnVudGltZSBvZiB0aGUgZGV2aWNlIGlzIGFjdGl2ZSBv
+ciBoYXMgZXJyb3Ioc29tZXRoaW5nIGVsc2UuLi4uKSwgcmVzdW1lIHdpbGwgZmFpbGVkLiBJZiB3
+ZQ0KZG8gbm90IGNhbGwgcHV0IG9wZXJhdGlvbiB0byBkZWNyZWFzZSB0aGUgcmVmZXJlbmNlLCB0
+aGUgcmVzdWx0IGlzIHRoYXQgdGhpcyBkZXZpY2UgY2Fubm90IGVudGVyDQp0aGUgaWRsZSBzdGF0
+ZSBhbmQgYWx3YXlzIHN0YXkgYnVzeSBvciBvdGhlciBub24taWRsZSBzdGF0ZSwgbWF5YmUgaXQg
+Y29uc3VtZXMgbW9yZSBwb3dlciBvcg0KcmFpc2UgYWRkaXRpb25hbCBlcnJvcnMuLi4gQW5kIEkn
+bGwgdHJ5IHRvIGZpeCB0aGVtIDogKQ0KDQpUaGFua3MsIGJlc3Qgd2lzaCENCg0KWmhhbmcgUWls
+b25nDQoNCj4gPiAtLS0NCj4gPiDCoGRyaXZlcnMvdXNiL21pc2MvYXBwbGUtbWZpLWZhc3RjaGFy
+Z2UuYyB8IDQgKysrLQ0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBk
+ZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL21pc2MvYXBwbGUt
+bWZpLWZhc3RjaGFyZ2UuYw0KPiA+IGIvZHJpdmVycy91c2IvbWlzYy9hcHBsZS1tZmktZmFzdGNo
+YXJnZS5jDQo+ID4gaW5kZXggYjQwMzA5NGE2YjNhLi45ZTFhZDQ1MzZlMzYgMTAwNjQ0DQo+ID4g
+LS0tIGEvZHJpdmVycy91c2IvbWlzYy9hcHBsZS1tZmktZmFzdGNoYXJnZS5jDQo+ID4gKysrIGIv
+ZHJpdmVycy91c2IvbWlzYy9hcHBsZS1tZmktZmFzdGNoYXJnZS5jDQo+ID4gQEAgLTEyMCw4ICsx
+MjAsMTAgQEAgc3RhdGljIGludCBhcHBsZV9tZmlfZmNfc2V0X3Byb3BlcnR5KHN0cnVjdA0KPiA+
+IHBvd2VyX3N1cHBseSAqcHN5LA0KPiA+IMKgwqDCoMKgwqDCoMKgwqBkZXZfZGJnKCZtZmktPnVk
+ZXYtPmRldiwgInByb3A6ICVkXG4iLCBwc3ApOw0KPiA+DQo+ID4gwqDCoMKgwqDCoMKgwqDCoHJl
+dCA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMoJm1maS0+dWRldi0+ZGV2KTsNCj4gPiAtwqDCoMKgwqDC
+oMKgwqBpZiAocmV0IDwgMCkNCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAocmV0IDwgMCkgew0KPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwbV9ydW50aW1lX3B1dF9ub2lkbGUoJm1m
+aS0+dWRldi0+ZGV2KTsNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVy
+biByZXQ7DQo+ID4gK8KgwqDCoMKgwqDCoMKgfQ0KPiA+DQo+ID4gwqDCoMKgwqDCoMKgwqDCoHN3
+aXRjaCAocHNwKSB7DQo+ID4gwqDCoMKgwqDCoMKgwqDCoGNhc2UgUE9XRVJfU1VQUExZX1BST1Bf
+Q0hBUkdFX1RZUEU6DQo+IA0KDQo=
