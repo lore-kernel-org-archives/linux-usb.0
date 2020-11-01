@@ -2,152 +2,64 @@ Return-Path: <SRS0=Ykby=EH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5765C55178
-	for <linux-usb@archiver.kernel.org>; Sun,  1 Nov 2020 13:07:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 745C7C2D0A3
+	for <linux-usb@archiver.kernel.org>; Sun,  1 Nov 2020 16:20:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A66F0208B6
-	for <linux-usb@archiver.kernel.org>; Sun,  1 Nov 2020 13:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604236077;
-	bh=6wW6da8NV5Ji12C/+Ol0ymbD4lz0GyZ3uJRx/+gEQtw=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=q2ikQPqOj4OmBRFZxGK2w4Q8dGb14aVOFwnHf6rqsZf3yTo7Gj7Nnx7i89pefA5ue
-	 kPNTKKjBOCYD4JEX/QM4x1W/a3UGGcdjZ9n225lY29+cIA6jUkDGBfrTu2srOGSpaK
-	 CxfPHe76hqHDtxlk4gvAowAsRhH1QpfbKi0xRT8g=
+	by mail.kernel.org (Postfix) with ESMTP id 2E5E5222EA
+	for <linux-usb@archiver.kernel.org>; Sun,  1 Nov 2020 16:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726588AbgKANHy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 1 Nov 2020 08:07:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52620 "EHLO mail.kernel.org"
+        id S1726845AbgKAQU2 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 1 Nov 2020 11:20:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726496AbgKANHy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 1 Nov 2020 08:07:54 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 55F89208B6;
-        Sun,  1 Nov 2020 13:07:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604236073;
-        bh=6wW6da8NV5Ji12C/+Ol0ymbD4lz0GyZ3uJRx/+gEQtw=;
-        h=Date:From:To:Cc:Subject:From;
-        b=mT+1t6b2zMbtiqz4p2bRLx1R7rE+SnDuzEvPCYtTEBr5P2SFgnq7dyIEdbmj8l0fS
-         HePVDBDHY3n8ikkiwoGHZZvFv3iKA7cDSrNT6JWL6dWFt2nGq3qP1Q+soo4xWi3nZv
-         r6iKdMPiTyHRXmYPiXGTGC2cupfoGD+JTH0NSE4E=
-Date:   Sun, 1 Nov 2020 14:08:36 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB driver fixes for 5.10-rc2
-Message-ID: <20201101130836.GA4065915@kroah.com>
+        id S1726549AbgKAQU2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 1 Nov 2020 11:20:28 -0500
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 208891] Thunderbolt hotplug fails on HP x360 13t-aw000/86FA
+ with HP Thunderbolt 3 Dock
+Date:   Sun, 01 Nov 2020 16:20:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mattst88@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208891-208809-1szbuk4EQB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208891-208809@https.bugzilla.kernel.org/>
+References: <bug-208891-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The following changes since commit 3650b228f83adda7e5ee532e2b90429c03f7b9ec:
+https://bugzilla.kernel.org/show_bug.cgi?id=208891
 
-  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
+--- Comment #45 from Matt Turner (mattst88@gmail.com) ---
+> It would help if you can ship the device to me to our Finland office and if
+> the dock is also Intel I suggest to ship that too so I can replicate the
+> issue.
 
-are available in the Git repository at:
+Unfortunately my manager rejected that as an option, and I'm no longer in
+possession of the laptop.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.10-rc2
-
-for you to fetch changes up to 00c27a1df8ff5e99b383e2b4cbf947a4926fb534:
-
-  Merge tag 'usb-v5.10-rc2' of git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb into usb-linus (2020-10-30 11:46:49 +0100)
-
-----------------------------------------------------------------
-USB driver fixes for 5.10-rc2
-
-Here are a number of small bugfixes for reported issues in some USB
-drivers.  They include:
-	- typec bugfixes
-	- xhci bugfixes and lockdep warning fixes
-	- cdc-acm driver regression fix
-	- kernel doc fixes
-	- cdns3 driver bugfixes for a bunch of reported issues
-	- other tiny USB driver fixes
-
-All have been in linux-next with no reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Amelie Delaunay (2):
-      usb: typec: add missing MODULE_DEVICE_TABLE() to stusb160x
-      usb: typec: stusb160x: fix signedness comparison issue with enum variables
-
-Bastien Nocera (2):
-      usbcore: Check both id_table and match() when both available
-      USB: apple-mfi-fastcharge: don't probe unhandled devices
-
-Colin Ian King (1):
-      xhci: Fix sizeof() mismatch
-
-Dan Carpenter (2):
-      usb: typec: stusb160x: fix some signedness bugs
-      usb: typec: stusb160x: fix an IS_ERR() vs NULL check in probe
-
-Greg Kroah-Hartman (1):
-      Merge tag 'usb-v5.10-rc2' of git://git.kernel.org/.../peter.chen/usb into usb-linus
-
-Jerome Brunet (1):
-      usb: cdc-acm: fix cooldown mechanism
-
-Li Jun (1):
-      usb: typec: tcpm: reset hard_reset_count for any disconnect
-
-Mathias Nyman (1):
-      xhci: Don't create stream debugfs files with spinlock held.
-
-Mauro Carvalho Chehab (1):
-      usb: fix kernel-doc markups
-
-Pawel Laszczak (2):
-      usb: cdns3: Variable 'length' set but not used
-      usb: cdns3: Fix on-chip memory overflow issue
-
-Peter Chen (2):
-      usb: cdns3: gadget: suspicious implicit sign extension
-      usb: cdns3: gadget: own the lock wrongly at the suspend routine
-
-Ran Wang (1):
-      usb: host: fsl-mph-dr-of: check return of dma_set_mask()
-
-Sandeep Singh (1):
-      usb: xhci: Workaround for S3 issue on AMD SNPS 3.0 xHC
-
-Tang Bin (1):
-      usb: host: ehci-tegra: Fix error handling in tegra_ehci_probe()
-
- drivers/usb/cdns3/ep0.c                 |  65 +++++++++---------
- drivers/usb/cdns3/gadget.c              | 115 ++++++++++++++++++--------------
- drivers/usb/cdns3/gadget.h              |   5 +-
- drivers/usb/class/cdc-acm.c             |  12 ++--
- drivers/usb/class/cdc-acm.h             |   3 +-
- drivers/usb/core/driver.c               |  30 ++++++---
- drivers/usb/core/generic.c              |   4 +-
- drivers/usb/core/usb.h                  |   2 +
- drivers/usb/dwc3/core.c                 |   2 +-
- drivers/usb/dwc3/core.h                 |   2 +-
- drivers/usb/gadget/composite.c          |   2 +-
- drivers/usb/host/ehci-tegra.c           |   4 +-
- drivers/usb/host/fsl-mph-dr-of.c        |   9 ++-
- drivers/usb/host/xhci-mem.c             |   4 +-
- drivers/usb/host/xhci-pci.c             |  17 +++++
- drivers/usb/host/xhci.c                 |   5 +-
- drivers/usb/host/xhci.h                 |   1 +
- drivers/usb/misc/apple-mfi-fastcharge.c |  17 +++--
- drivers/usb/typec/mux.c                 |   2 +-
- drivers/usb/typec/stusb160x.c           |  24 +++----
- drivers/usb/typec/tcpm/tcpm.c           |   6 +-
- include/linux/usb/composite.h           |   2 +-
- 22 files changed, 195 insertions(+), 138 deletions(-)
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
