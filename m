@@ -2,110 +2,68 @@ Return-Path: <SRS0=da9n=EI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F57FC00A89
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 19:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDF1C388F9
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 20:22:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 023A420786
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 19:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604346541;
-	bh=7ZGOwAOPwqS8DzA3ybazC0/S7OIj9MQZxcvy8LdRx20=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=DM0yafD8taVIdFa+SzvhS1YN8GvSgyRTRjIGsynlm6ZmjMcfewFNw61NwzbvCSyc+
-	 uFsfRjFfz6/OiXLjb3B7jdqcnI9kVH8L+et6+W+oU0F2RWatF9K8ADlj1K2pOlec+I
-	 D9jvuksadDRG5b+hZL0wvKUw5kb22IOVTAYfPd+c=
+	by mail.kernel.org (Postfix) with ESMTP id 86F7322280
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 20:22:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="ft/Cg5xP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbgKBTsv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Nov 2020 14:48:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38104 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726744AbgKBTrZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 2 Nov 2020 14:47:25 -0500
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D594C2072C;
-        Mon,  2 Nov 2020 19:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604346445;
-        bh=7ZGOwAOPwqS8DzA3ybazC0/S7OIj9MQZxcvy8LdRx20=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SW8hA3RN+ysK8KYGsidvGCSnHjDO0NYRzynEvtNpsFhTWAvwQMzfYrc09zgkuGNOr
-         Z/0vcwDZUN4auG8PQpp+vMr3MBWMtqgO6EwrQqtk3oIPKAi8l405AnKx3si8TXNWEF
-         Ut1dUo5x0xRNPhLlBsEwsYOJ5EjlXJWvftl/xZ5g=
-Date:   Mon, 2 Nov 2020 11:47:18 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Hayes Wang <hayeswang@realtek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        nic_swsd <nic_swsd@realtek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Oliver Neukum <oliver@neukum.org>
-Subject: Re: [PATCH net-next v2] net/usb/r8153_ecm: support ECM mode for
- RTL8153
-Message-ID: <20201102114718.0118cc12@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <dc7fd1d4d1c544e8898224c7d9b54bda@realtek.com>
-References: <1394712342-15778-387-Taiwan-albertk@realtek.com>
-        <1394712342-15778-388-Taiwan-albertk@realtek.com>
-        <20201031160838.39586608@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-        <dc7fd1d4d1c544e8898224c7d9b54bda@realtek.com>
+        id S1726727AbgKBUWi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Nov 2020 15:22:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725791AbgKBUWi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 15:22:38 -0500
+Received: from canardo.mork.no (canardo.mork.no [IPv6:2001:4641::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264EFC0617A6;
+        Mon,  2 Nov 2020 12:22:37 -0800 (PST)
+Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
+        (authenticated bits=0)
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 0A2KMXKQ014540
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Mon, 2 Nov 2020 21:22:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1604348553; bh=uojg2NR0ohBut5/6/moKQi4nEIE4JiYjkuOK+bu/p80=;
+        h=From:To:Cc:Subject:References:Date:Message-ID:From;
+        b=ft/Cg5xPBVQWOb7YzZuZZzI4SgDnk6rjfUAXcZi6jJ/ApdVNjMOpWz0+GZpzILtto
+         bDXA26kOdJgvQSm97gCZkOmsW/+OMTPyvYu0+o0Zid4Ld2Or1S4GARlbVdz4arlJKl
+         9OQn5yBLBGAaV5xplIEoavLT8WjbtMWyArH6pSUE=
+Received: from bjorn by miraculix.mork.no with local (Exim 4.94)
+        (envelope-from <bjorn@mork.no>)
+        id 1kZgLY-000QL5-13; Mon, 02 Nov 2020 21:22:32 +0100
+From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To:     Daniele Palmas <dnlplm@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/1] net: usb: qmi_wwan: add Telit LE910Cx 0x1230 composition
+Organization: m
+References: <20201102110108.17244-1-dnlplm@gmail.com>
+Date:   Mon, 02 Nov 2020 21:22:31 +0100
+In-Reply-To: <20201102110108.17244-1-dnlplm@gmail.com> (Daniele Palmas's
+        message of "Mon, 2 Nov 2020 12:01:08 +0100")
+Message-ID: <87blgf5x14.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.102.4 at canardo
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 2 Nov 2020 07:20:15 +0000 Hayes Wang wrote:
-> Jakub Kicinski <kuba@kernel.org>
-> > Can you describe the use case in more detail?
-> > 
-> > AFAICT r8152 defines a match for the exact same device.
-> > Does it not mean that which driver is used will be somewhat random
-> > if both are built?  
-> 
-> I export rtl_get_version() from r8152. It would return none zero
-> value if r8152 could support this device. Both r8152 and r8153_ecm
-> would check the return value of rtl_get_version() in porbe().
-> Therefore, if rtl_get_version() return none zero value, the r8152
-> is used for the device with vendor mode. Otherwise, the r8153_ecm
-> is used for the device with ECM mode.
+Daniele Palmas <dnlplm@gmail.com> writes:
 
-Oh, I see, I missed that the rtl_get_version() checking is the inverse
-of r8152.
+> dd support for Telit LE910Cx 0x1230 composition:
+>
+> 0x1230: tty, adb, rmnet, audio, tty, tty, tty, tty
+>
+> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 
-> > > +/* Define these values to match your device */
-> > > +#define VENDOR_ID_REALTEK		0x0bda
-> > > +#define VENDOR_ID_MICROSOFT		0x045e
-> > > +#define VENDOR_ID_SAMSUNG		0x04e8
-> > > +#define VENDOR_ID_LENOVO		0x17ef
-> > > +#define VENDOR_ID_LINKSYS		0x13b1
-> > > +#define VENDOR_ID_NVIDIA		0x0955
-> > > +#define VENDOR_ID_TPLINK		0x2357  
-> > 
-> > $ git grep 0x2357 | grep -i tplink
-> > drivers/net/usb/cdc_ether.c:#define TPLINK_VENDOR_ID	0x2357
-> > drivers/net/usb/r8152.c:#define VENDOR_ID_TPLINK		0x2357
-> > drivers/usb/serial/option.c:#define TPLINK_VENDOR_ID			0x2357
-> > 
-> > $ git grep 0x17ef | grep -i lenovo
-> > drivers/hid/hid-ids.h:#define USB_VENDOR_ID_LENOVO		0x17ef
-> > drivers/hid/wacom.h:#define USB_VENDOR_ID_LENOVO	0x17ef
-> > drivers/net/usb/cdc_ether.c:#define LENOVO_VENDOR_ID	0x17ef
-> > drivers/net/usb/r8152.c:#define VENDOR_ID_LENOVO		0x17ef
-> > 
-> > Time to consolidate those vendor id defines perhaps?  
-> 
-> It seems that there is no such header file which I could include
-> or add the new vendor IDs.
-
-Please create one. (Adding Greg KH to the recipients, in case there is
-a reason that USB subsystem doesn't have a common vendor id header.)
-
-Also please make sure to add Oliver to the CC for v3, to make sure the
-reuse of CDC_ETHER is okay.
+Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
