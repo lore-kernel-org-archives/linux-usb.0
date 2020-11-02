@@ -2,105 +2,110 @@ Return-Path: <SRS0=da9n=EI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C226C00A89
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 11:31:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F58C388F2
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 11:47:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FF84223AC
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 11:31:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BFE1223BD
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 11:47:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="RHq+P4QI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w3v/425t"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgKBLbH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Nov 2020 06:31:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49150 "EHLO
+        id S1728714AbgKBLqW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Nov 2020 06:46:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728542AbgKBLbG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 06:31:06 -0500
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0AECC061A47
-        for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2020 03:31:05 -0800 (PST)
-Received: by mail-oo1-xc44.google.com with SMTP id v123so3277781ooa.5
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2020 03:31:05 -0800 (PST)
+        with ESMTP id S1728691AbgKBLqC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 06:46:02 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35132C0401C1
+        for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2020 03:45:54 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id p22so9079494wmg.3
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2020 03:45:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zAOiszuYUyIyWLQKIJG6bc55M3RXwlsKsxrmhc4uVW8=;
-        b=RHq+P4QISBX4bWERbI32Xd6fFCiT1evuu26nesDDnjre/0R7UEXgt1be1gQR9BjPkh
-         idJSK5mAMe+xk6rG5/lB1KsEHZ0Oe0XaC7T8lQCBUNGKH1gJL9gAmFOAY93Xa7n2fkfb
-         JRWdzEF70nhdCmjgOrlXQYuI7njHj/tX/iWss=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=d6wOWByAs5f7rPxO4TjrPC/r2b2juD5yTl6dq0Ru2bA=;
+        b=w3v/425to/PN6qqmfV7Xffc9tidXa3aIqhEw/99cZfikh0L1vYo6bZkLAbNLAM4WV/
+         6X3p5qEEAidUSJaQq09QNspMewmEXCBK6jydtHzEdJaSBrXiuxA8yLFclLzO7mAYbMLi
+         PIpFohCM/NaOn6gAOE0RzCn8V4qifhiHeKubhlDq/IZ4K3IIK6qZ1eWh9DdZor5riHqF
+         Jm9vxBUrSISCugSkpBuwXkanE2HaMBQYjTLZMyzQt3F+3RIZLPQeGAwbGGavDUt9RPDr
+         crBJDbEeOoPjTrk9FqN0pwve6L+6l3Eg3mjlNy46gwluXGWJ8x59UfpjkYTdCJo3D1QJ
+         Ub5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zAOiszuYUyIyWLQKIJG6bc55M3RXwlsKsxrmhc4uVW8=;
-        b=DlJ6FuNQoJ3hiThYilksUdKybyTuQXycGOBSoJL7sO/4tqe8R4tTaBQGQXFOo3SIHH
-         UoT+gSyMRAzw7SPRmK4GmSPZpyDWQkzS+mzyEL88QzuGVfDQabryqWDTfcUeNHpw91Sc
-         skw/zpkHt2EF9HclTpPqJg5to1zrCip9tLg8w/dkuDg988JsYy69osdWjZkhNvf8Xq7T
-         lmX79/jI+NVnd8IXglDSbJkvwF03oWa3CMiKtaXJMmlZYKcwS0+jGJzlUgR6NLH4sUTJ
-         le1rbuL4iNZE6Fr4y3me0FdmdadSvsezL/+sV7L8KLyuclK9KJ4J7DaRqGHuOVawzHNU
-         XR5Q==
-X-Gm-Message-State: AOAM5314+NZh36MFUM2cC7g/ze8UjMu6QfnBx8u1vcSQXH1lBmcYnOEK
-        NV6FTwhgNgdN/Nop0bHqK4riUc+cc1rKEGC+2rbW+A==
-X-Google-Smtp-Source: ABdhPJymTv/GY1o66DtI8nUb04RogVy4P/jau3IpWYQX9hL2oM8RWoh0Dt8euA0YAJD1frHT9NECvc2I9O/h/4i+Pzk=
-X-Received: by 2002:a4a:b503:: with SMTP id r3mr11571270ooo.28.1604316665320;
- Mon, 02 Nov 2020 03:31:05 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=d6wOWByAs5f7rPxO4TjrPC/r2b2juD5yTl6dq0Ru2bA=;
+        b=R2PzcAxXrlx7xveHEMEEcje0ElIZ6Yt4jOnRX1cODao+Z/UIEjPiGE8qq1H4rv+qyP
+         nVULgGgccThxK2uICHx8CQIZRDBa1v4Ka4g0olWn8DnXalfztUoWqkQDpz/nB2iRVxuU
+         eHpAOEJo8PjGFsAhsHu+RVoiNQGjIdiEc643HGuoOl72owGVXGa9GttLZGHU4Q2+TTli
+         ts5n1BF+eU1/5Z1hPb5huTg3W9c1cHm14cNygxe+UwCM4XX0YCcuZ0zNv+erAkwgLBXY
+         eGCgPF0l4YBmWt3dRYCxLPSOWzKYIe+la81XOA9+Rks6JjlWErMrPMXW+URE5VN/vnGH
+         IyMg==
+X-Gm-Message-State: AOAM53373sprrfLYt53JFi8di516Kazdu9iwDZL3FcbNruJUCOPwslTh
+        1TL2K4tiaApIujaMZ/TS3n3Vag==
+X-Google-Smtp-Source: ABdhPJyuV8hFjrgOthwkEdNUG99Fk5kK5NnRsdCIbtsCSyJsAfexvpjRgdIY4aDBFj1B9Ahew0rJiw==
+X-Received: by 2002:a1c:4e0e:: with SMTP id g14mr8861120wmh.9.1604317552974;
+        Mon, 02 Nov 2020 03:45:52 -0800 (PST)
+Received: from dell.default ([91.110.221.242])
+        by smtp.gmail.com with ESMTPSA id g66sm15545352wmg.37.2020.11.02.03.45.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2020 03:45:52 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     davem@davemloft.net
+Cc:     Lee Jones <lee.jones@linaro.org>, Jakub Kicinski <kuba@kernel.org>,
+        Hayes Wang <hayeswang@realtek.com>,
+        nic maintainers <nic_swsd@realtek.com>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 27/30] net: usb: r8152: Fix a couple of spelling errors in fw_phy_nc's docs
+Date:   Mon,  2 Nov 2020 11:45:09 +0000
+Message-Id: <20201102114512.1062724-28-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201102114512.1062724-1-lee.jones@linaro.org>
+References: <20201102114512.1062724-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-References: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604306433.git.yepeilin.cs@gmail.com>
- <72c954371ed9b1d050901b2d498a979017de8a3c.1604306433.git.yepeilin.cs@gmail.com>
- <20201102101044.GM401619@phenom.ffwll.local> <20201102111248.GA1558630@PWN>
-In-Reply-To: <20201102111248.GA1558630@PWN>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Mon, 2 Nov 2020 12:30:54 +0100
-Message-ID: <CAKMK7uGPnNM_96DgtJx0qqocNcro2y_skT21J-CqF9oX8651fA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] tty/vt: Avoid passing struct console_font_op to con_font_copy()
-To:     Peilin Ye <yepeilin.cs@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Thomas Winischhofer <thomas@winischhofer.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        George Kennedy <george.kennedy@oracle.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Peter Rosin <peda@axentia.se>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Nov 2, 2020 at 12:12 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
->
-> On Mon, Nov 02, 2020 at 11:10:44AM +0100, Daniel Vetter wrote:
-> > I'm not sure switching from int to unsigned just here makes much sense.
-> > All the console code is still using int con to index all the various
-> > arrays (I just checked fbcon.c code), and using int to index arrays is
-> > pretty standard. As long as we have the con < 0 check to catch evil
-> > userspace.
-> >
-> > There's still the switch from op to int for con_font_copy, but I think
-> > that's better done as part of the larger cleanup we already discussed. And
-> > then maybe also include patch 1 from this series in that rework.
->
-> I see. I think at the moment there's not much we can do for
-> con_font_get/set/default(). _get() and _default() use *op, and _set()
-> uses all except one field of *op. Maybe we can change the type of *op
-> from console_font_op to font_desc, after cleaning up everything else?
+Fixes the following W=1 kernel build warning(s):
 
-Yeah, for these one of the arguments should be the new font_desc, so
-that we can remove the op stuff properly. Opening up all the arguments
-without the font_desc doesn't make sense imo.
--Daniel
+ drivers/net/usb/r8152.c:992: warning: Function parameter or member 'mode_pre' not described in 'fw_phy_nc'
+ drivers/net/usb/r8152.c:992: warning: Function parameter or member 'mode_post' not described in 'fw_phy_nc'
+
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Hayes Wang <hayeswang@realtek.com>
+Cc: nic maintainers <nic_swsd@realtek.com>
+Cc: linux-usb@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/net/usb/r8152.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index cebe2dc15c3f0..b9b3d19a2e988 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -963,8 +963,8 @@ struct fw_phy_patch_key {
+  * @patch_en_addr: the register of enabling patch mode. Depends on chip.
+  * @patch_en_value: patch mode enabled mask. Depends on the firmware.
+  * @mode_reg: the regitster of switching the mode.
+- * @mod_pre: the mode needing to be set before loading the firmware.
+- * @mod_post: the mode to be set when finishing to load the firmware.
++ * @mode_pre: the mode needing to be set before loading the firmware.
++ * @mode_post: the mode to be set when finishing to load the firmware.
+  * @reserved: reserved space (unused)
+  * @bp_start: the start register of break points. Depends on chip.
+  * @bp_num: the break point number which needs to be set for this firmware.
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
