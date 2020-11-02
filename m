@@ -2,91 +2,110 @@ Return-Path: <SRS0=da9n=EI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE90C00A89
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:19:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B46C00A89
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:20:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D203A2223C
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:19:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="nsZLsvQc"
+	by mail.kernel.org (Postfix) with ESMTP id 7330B21556
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727950AbgKBHTZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Nov 2020 02:19:25 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:45793 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727306AbgKBHTZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 02:19:25 -0500
-X-UUID: 9a98dd67755a4dcfa854f04c12e4bed8-20201102
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=kZvapf7pIFQLgezOg35dcW/H2iGzgefNvWKVVQEly1I=;
-        b=nsZLsvQcckE23itrZnczCPTFpmeugos0n+XlbNRGCnr7DHYdLD3AfHOQzhyI5Y5mMtcscT+eJobaDCvHpRca9pLu1EZfEFf6wk/t+AsDxNBJC8tlOsnkBKUe0DTeC1sn2DOkXg+F6hm8rvKGpNVsSBXr0mFM5AQXYheor0z646E=;
-X-UUID: 9a98dd67755a4dcfa854f04c12e4bed8-20201102
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <macpaul.lin@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1505547485; Mon, 02 Nov 2020 15:19:01 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 2 Nov 2020 15:18:59 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 2 Nov 2020 15:18:59 +0800
-From:   Macpaul Lin <macpaul.lin@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Ainge Hsu <ainge.hsu@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Macpaul Lin <macpaul.lin@mediatek.com>,
-        Macpaul Lin <macpaul@gmail.com>
-Subject: [PATCH 1/2] dt-bindings: usb: mediatek,mtk-xhci: add keep-clock-on
-Date:   Mon, 2 Nov 2020 15:18:48 +0800
-Message-ID: <1604301530-31546-1-git-send-email-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
+        id S1728004AbgKBHUW convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Nov 2020 02:20:22 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:54151 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727306AbgKBHUW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 02:20:22 -0500
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 0A27KG1t8032712, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexmb04.realtek.com.tw[172.21.6.97])
+        by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 0A27KG1t8032712
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 2 Nov 2020 15:20:16 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.33) by
+ RTEXMB04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2044.4; Mon, 2 Nov 2020 15:20:16 +0800
+Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS04.realtek.com.tw (172.21.6.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 2 Nov 2020 15:20:15 +0800
+Received: from RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa]) by
+ RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa%3]) with mapi id
+ 15.01.2044.006; Mon, 2 Nov 2020 15:20:15 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        nic_swsd <nic_swsd@realtek.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH net-next v2] net/usb/r8153_ecm: support ECM mode for RTL8153
+Thread-Topic: [PATCH net-next v2] net/usb/r8153_ecm: support ECM mode for
+ RTL8153
+Thread-Index: AQHWrmwDnKDexsPDxUiMgOTBbfR/C6mx0pMAgAJFC4A=
+Date:   Mon, 2 Nov 2020 07:20:15 +0000
+Message-ID: <dc7fd1d4d1c544e8898224c7d9b54bda@realtek.com>
+References: <1394712342-15778-387-Taiwan-albertk@realtek.com>
+        <1394712342-15778-388-Taiwan-albertk@realtek.com>
+ <20201031160838.39586608@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <20201031160838.39586608@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.177.146]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T3B0aW9uICJtZWRpYXRlayxrZWVwLWNsb2NrLW9uIiBtZWFucyB0byBrZWVwIGNsb2NrIG9uIGR1
-cmluZyBzeXN0ZW0NCnN1c3BlbmQgYW5kIHJlc3VtZS4gU29tZSBwbGF0Zm9ybSB3aWxsIGZsdXNo
-IHJlZ2lzdGVyIHNldHRpbmdzIGlmIGNsb2NrIGhhcw0KYmVlbiBkaXNhYmxlZCB3aGVuIHN5c3Rl
-bSBpcyBzdXNwZW5kZWQuIFNldCB0aGlzIG9wdGlvbiB0byBhdm9pZCBjbG9jayBvZmYuDQoNClNp
-Z25lZC1vZmYtYnk6IE1hY3BhdWwgTGluIDxtYWNwYXVsLmxpbkBtZWRpYXRlay5jb20+DQotLS0N
-CiAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWssbXRrLXhoY2kueWFtbCB8ICAg
-IDcgKysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWssbXRrLXho
-Y2kueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWss
-bXRrLXhoY2kueWFtbA0KaW5kZXggZWE2OTZjOC4uYTk1NmRkZSAxMDA2NDQNCi0tLSBhL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWssbXRrLXhoY2kueWFtbA0K
-KysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9tZWRpYXRlayxtdGst
-eGhjaS55YW1sDQpAQCAtMTA0LDYgKzEwNCwxMiBAQCBwcm9wZXJ0aWVzOg0KICAgICBkZXNjcmlw
-dGlvbjogZW5hYmxlIFVTQiByZW1vdGUgd2FrZXVwLCBzZWUgcG93ZXIvd2FrZXVwLXNvdXJjZS50
-eHQNCiAgICAgdHlwZTogYm9vbGVhbg0KIA0KKyAgbWVkaWF0ZWssa2VlcC1jbG9jay1vbjoNCisg
-ICAgZGVzY3JpcHRpb246IHwNCisgICAgICBLZWVwIGNsb2NrIG9uIGR1cmluZyBzeXN0ZW0gc3Vz
-cGVuZCBhbmQgcmVzdW1lLiBTb21lIHBsYXRmb3JtIHdpbGwgZmx1c2gNCisgICAgICByZWdpc3Rl
-ciBzZXR0aW5ncyBpZiBjbG9jayBoYXMgYmVlbiBkaXNhYmxlZCB3aGVuIHN5c3RlbSBpcyBzdXNw
-ZW5kZWQuDQorICAgIHR5cGU6IGJvb2xlYW4NCisNCiAgIG1lZGlhdGVrLHN5c2Nvbi13YWtldXA6
-DQogICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3BoYW5kbGUtYXJy
-YXkNCiAgICAgbWF4SXRlbXM6IDENCkBAIC0xNzUsNiArMTgxLDcgQEAgZXhhbXBsZXM6DQogICAg
-ICAgICBpbW9kLWludGVydmFsLW5zID0gPDEwMDAwPjsNCiAgICAgICAgIG1lZGlhdGVrLHN5c2Nv
-bi13YWtldXAgPSA8JnBlcmljZmcgMHg0MDAgMT47DQogICAgICAgICB3YWtldXAtc291cmNlOw0K
-KyAgICAgICAgbWVkaWF0ZWssa2VlcC1jbG9jay1vbjsNCiAgICAgICAgIHVzYjMtbHBtLWNhcGFi
-bGU7DQogICAgIH07DQogLi4uDQotLSANCjEuNy45LjUNCg==
+Jakub Kicinski <kuba@kernel.org>
+[...]
+> Can you describe the use case in more detail?
+> 
+> AFAICT r8152 defines a match for the exact same device.
+> Does it not mean that which driver is used will be somewhat random
+> if both are built?
+
+I export rtl_get_version() from r8152. It would return none zero
+value if r8152 could support this device. Both r8152 and r8153_ecm
+would check the return value of rtl_get_version() in porbe().
+Therefore, if rtl_get_version() return none zero value, the r8152
+is used for the device with vendor mode. Otherwise, the r8153_ecm
+is used for the device with ECM mode.
+
+> > +/* Define these values to match your device */
+> > +#define VENDOR_ID_REALTEK		0x0bda
+> > +#define VENDOR_ID_MICROSOFT		0x045e
+> > +#define VENDOR_ID_SAMSUNG		0x04e8
+> > +#define VENDOR_ID_LENOVO		0x17ef
+> > +#define VENDOR_ID_LINKSYS		0x13b1
+> > +#define VENDOR_ID_NVIDIA		0x0955
+> > +#define VENDOR_ID_TPLINK		0x2357
+> 
+> $ git grep 0x2357 | grep -i tplink
+> drivers/net/usb/cdc_ether.c:#define TPLINK_VENDOR_ID	0x2357
+> drivers/net/usb/r8152.c:#define VENDOR_ID_TPLINK		0x2357
+> drivers/usb/serial/option.c:#define TPLINK_VENDOR_ID			0x2357
+> 
+> $ git grep 0x17ef | grep -i lenovo
+> drivers/hid/hid-ids.h:#define USB_VENDOR_ID_LENOVO		0x17ef
+> drivers/hid/wacom.h:#define USB_VENDOR_ID_LENOVO	0x17ef
+> drivers/net/usb/cdc_ether.c:#define LENOVO_VENDOR_ID	0x17ef
+> drivers/net/usb/r8152.c:#define VENDOR_ID_LENOVO		0x17ef
+> 
+> Time to consolidate those vendor id defines perhaps?
+
+It seems that there is no such header file which I could include
+or add the new vendor IDs.
+
+Best Regards,
+Hayes
+
+
 
