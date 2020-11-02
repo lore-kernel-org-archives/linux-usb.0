@@ -1,67 +1,83 @@
-Return-Path: <SRS0=Ykby=EH=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=da9n=EI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C2FC2D0A3
-	for <linux-usb@archiver.kernel.org>; Sun,  1 Nov 2020 18:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 697A1C2D0A3
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 02:16:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B251022254
-	for <linux-usb@archiver.kernel.org>; Sun,  1 Nov 2020 18:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604254188;
-	bh=Z54W7Qk2H4q8Z+clGtBsDFWOZLrGOSTXS7liRGCZzjY=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=aMJPXg1xUPaFfFB5hcrqFGF9CTCVvj3y/XXNYAP5hud8I02r6AIxZ2+iaU1eYhYah
-	 /mM3wryyyrVjwVMlUnGWjf9tVJfGNbVqfxi1v8zs5qoTNX1hxeq5ZErKxa679I2wHn
-	 j2X7P6ARhIbOMeikkBuaut22rgWTsMMXIafUXEOM=
+	by mail.kernel.org (Postfix) with ESMTP id 286B32224E
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 02:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727252AbgKASI5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 1 Nov 2020 13:08:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33318 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727111AbgKASI5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 1 Nov 2020 13:08:57 -0500
-Subject: Re: [GIT PULL] USB driver fixes for 5.10-rc2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604254136;
-        bh=Z54W7Qk2H4q8Z+clGtBsDFWOZLrGOSTXS7liRGCZzjY=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=Q1DaugrfKseNRJRUlx2mzZ93TlU149joNwgWOvM1DAKCMkTbcTQHWxCtaZTRSu8dQ
-         IVGH4jIkU2CHVnb577YdkXKN+RAuXM5CcnphaW1b7AkKyLPgs8sCrX7cRaPncUUF1D
-         uCpMSHSQlQDonBA1tshdk2paODlP7TtVkdUZNuzU=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20201101130836.GA4065915@kroah.com>
-References: <20201101130836.GA4065915@kroah.com>
-X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20201101130836.GA4065915@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.10-rc2
-X-PR-Tracked-Commit-Id: 00c27a1df8ff5e99b383e2b4cbf947a4926fb534
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9b5ff3c93cd323d26551a026c04929e1d2c1b68b
-Message-Id: <160425413676.10555.7301854808368217096.pr-tracker-bot@kernel.org>
-Date:   Sun, 01 Nov 2020 18:08:56 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        id S1727470AbgKBCQM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 1 Nov 2020 21:16:12 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7025 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727409AbgKBCQL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 1 Nov 2020 21:16:11 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CPc3D3g0mzhfYn;
+        Mon,  2 Nov 2020 10:16:08 +0800 (CST)
+Received: from huawei.com (10.90.53.225) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Mon, 2 Nov 2020
+ 10:16:07 +0800
+From:   Zhang Qilong <zhangqilong3@huawei.com>
+To:     <hadess@hadess.net>, <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>
+Subject: [PATCH -v3] USB: apple-mfi-fastcharge: fix reference leak in apple_mfi_fc_set_property
+Date:   Mon, 2 Nov 2020 10:26:50 +0800
+Message-ID: <20201102022650.67115-1-zhangqilong3@huawei.com>
+X-Mailer: git-send-email 2.26.0.106.g9fadedd
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.90.53.225]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Sun, 1 Nov 2020 14:08:36 +0100:
+pm_runtime_get_sync() will increment pm usage at first and it
+will resume the device later. If runtime of the device has
+error or device is in inaccessible state(or other error state),
+resume operation will fail. If we do not call put operation to
+decrease the reference, the result is that this device cannot
+enter the idle state and always stay busy or other non-idle
+state.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.10-rc2
+Fixes: 249fa8217b846 ("USB: Add driver to control USB fast charge for iOS devices")
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9b5ff3c93cd323d26551a026c04929e1d2c1b68b
+Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+---
+Changelog:
+v3
+- added changelog and fix the description.
+v2
+- added the description and fixes for reference leak details.
+---
+ drivers/usb/misc/apple-mfi-fastcharge.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thank you!
-
+diff --git a/drivers/usb/misc/apple-mfi-fastcharge.c b/drivers/usb/misc/apple-mfi-fastcharge.c
+index 579d8c84de42..9de0171b5177 100644
+--- a/drivers/usb/misc/apple-mfi-fastcharge.c
++++ b/drivers/usb/misc/apple-mfi-fastcharge.c
+@@ -120,8 +120,10 @@ static int apple_mfi_fc_set_property(struct power_supply *psy,
+ 	dev_dbg(&mfi->udev->dev, "prop: %d\n", psp);
+ 
+ 	ret = pm_runtime_get_sync(&mfi->udev->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_noidle(&mfi->udev->dev);
+ 		return ret;
++	}
+ 
+ 	switch (psp) {
+ 	case POWER_SUPPLY_PROP_CHARGE_TYPE:
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.17.1
+
