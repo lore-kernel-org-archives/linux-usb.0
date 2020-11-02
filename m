@@ -2,105 +2,96 @@ Return-Path: <SRS0=da9n=EI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC76C388F9
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:29:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F152FC4742C
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:35:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 647CB2223C
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:29:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBE8820719
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Nov 2020 07:35:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="MJI4YynX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OoKgxHDC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728074AbgKBH31 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Nov 2020 02:29:27 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:54779 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727743AbgKBH30 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 02:29:26 -0500
-X-UUID: 61977ac1706346fc9e706c7ab32b53f0-20201102
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=EwMAk6C90zx3ggLjTVwBgHjheE+if1MCBTaw2ieul20=;
-        b=MJI4YynXNnuMC61TASrV2gd2iOeqQ1Sf9E/FmvR4m3nq0/0Scz6pyi2e+eARahtjaC9vg/mE3h+UizLw4xU/2AmYoDnkgGzORyNHLxZSO8wn5SQ+W7jdErVnW2RAbnwv57vZlsuNupFabzzh90Y5EKGShM1bajzRwUIm1dX/dxg=;
-X-UUID: 61977ac1706346fc9e706c7ab32b53f0-20201102
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <macpaul.lin@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 436479442; Mon, 02 Nov 2020 15:19:03 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 2 Nov 2020 15:19:01 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 2 Nov 2020 15:19:01 +0800
-From:   Macpaul Lin <macpaul.lin@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Ainge Hsu <ainge.hsu@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Macpaul Lin <macpaul.lin@mediatek.com>,
-        Macpaul Lin <macpaul@gmail.com>
-Subject: [PATCH 2/2] usb: host: XHCI: xhci-mtk.c: support mediatek,keep-clock-on
-Date:   Mon, 2 Nov 2020 15:18:49 +0800
-Message-ID: <1604301530-31546-2-git-send-email-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1604301530-31546-1-git-send-email-macpaul.lin@mediatek.com>
-References: <1604301530-31546-1-git-send-email-macpaul.lin@mediatek.com>
+        id S1727950AbgKBHe6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Nov 2020 02:34:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40754 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727689AbgKBHe6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 02:34:58 -0500
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C94CC0617A6;
+        Sun,  1 Nov 2020 23:34:58 -0800 (PST)
+Received: by mail-ua1-x942.google.com with SMTP id y1so3664901uac.13;
+        Sun, 01 Nov 2020 23:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=jcub/V5PHC4+SEwinCH+yvg22FdW459DqPvHHN6CGCU=;
+        b=OoKgxHDC/RE2Xk4x6hntCvv+jB06IZwpSl+luRMl+q182/CX6tYZEypISW19jThP1X
+         0MVJKH4Xtz5GtvUVqbkngfjCrxw6yj7fKVOswDZ53y7bDAuIJynVXyX0WkTBd5ZCwsse
+         TOjWZaP8WaigFe8ugiwp4ZyHt7rtrX/27YF+r40bv5DihKNaaizyXCX4XFF5oQfhs4Bs
+         z5iG5OBofBBJTZBJWSQtQYQB8v0nK2tpSeWygfyof8BDetHXPPaSu8HybPYl9ZFPKndw
+         hV0RMzEkDuM2hhjmBdbcX1nwVksBfpD+r115Pj36Ab3c5hARGcUhkKJySS6Kl1lY8o93
+         iGmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=jcub/V5PHC4+SEwinCH+yvg22FdW459DqPvHHN6CGCU=;
+        b=hH7WWl1Y0bACT88DOkrywxVuY/A5xa42gBZ1vlwYmeFz1Pz11s6kxH2sdlD5pD08AQ
+         M3a31wltREiCxeHBMEN8A1ggLuzJRMXgMset8+GHeDTKqyna2CABBwcXUBkriRqZ6F6w
+         lIXBmpFIU0PbM9Uz+D9srygNYNuljhzvT7m4PfCu+WZ8iVJ+ZMREnZOM4juzZUfUsoiS
+         WhM7fdmjgqNVT+mMxf+CLHXP4Y63idMwWO75Qkq4jYLREPEMU2HPXDVyhuAoS5yXQ00R
+         2zTcoGFo0b7FpKaIW1ZqdsHaw6aDrogc6DX9td5W/JhYmwycp/tsOaPK4OlCvgZ+7AmP
+         IHDw==
+X-Gm-Message-State: AOAM530wkAYULlUe/5hoiDETzqbSuUYf7hSgOSYwrYED93hkAE6cqdPo
+        2ONMzp0dBfmwDee2huCYLl9YX4XVtH1K379HNhteY/h+SLKn8w==
+X-Google-Smtp-Source: ABdhPJz5csAPhcYN0p+3YMmXnIZqHfYWOpyp92yHXR/WeaeyKqdn57Lhd1sizJD81Dd5tXoCetVfFoXKb9fGX7fEcCc=
+X-Received: by 2002:ab0:23d5:: with SMTP id c21mr6953552uan.129.1604302497198;
+ Sun, 01 Nov 2020 23:34:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru> <20201020115959.2658-30-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201020115959.2658-30-Sergey.Semin@baikalelectronics.ru>
+From:   Jun Li <lijun.kernel@gmail.com>
+Date:   Mon, 2 Nov 2020 15:34:46 +0800
+Message-ID: <CAKgpwJWWg+fimuQOCcw=L0HZSwLYXNNCAV4ifzzG-HXfkFmazw@mail.gmail.com>
+Subject: Re: [PATCH 29/29] arm64: dts: qcom: Harmonize DWC USB3 DT nodes name
+To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-U29tZSBwbGF0Zm9ybSBkb3NlIG5vdCBzdXBwb3J0IHR1cm4gb2ZmIGNsb2NrIHdoZW4gc3lzdGVt
-IHN1c3BlbmRpbmcuDQpXZSBhZGQgYW4gb3B0aW9uICJtZWRpYXRlayxrZWVwLWNsb2NrLW9uIiBm
-b3IgZGlzdGlucXVpc2ggdGhlc2UgcGxhdGZvcm1zLg0KV2hlbiAibWVkaWF0ZWssa2VlcC1jbG9j
-ay1vbiIgaGFzIGJlZW4gc2V0LCB4aGNpLW10ayBkcml2ZXIgd2lsbCBza2lwDQp0dXJuaW5nIGNs
-b2NrIG9uIGFuZCBvZmYgZHVyaW5nIHN5c3RlbSBzdXNwZW5kIGFuZCByZXN1bWUuDQoNClNpZ25l
-ZC1vZmYtYnk6IE1hY3BhdWwgTGluIDxtYWNwYXVsLmxpbkBtZWRpYXRlay5jb20+DQotLS0NCiBk
-cml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMgfCAgICA5ICsrKysrKystLQ0KIGRyaXZlcnMvdXNi
-L2hvc3QveGhjaS1tdGsuaCB8ICAgIDEgKw0KIDIgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25z
-KCspLCAyIGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNp
-LW10ay5jIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jDQppbmRleCA0MzExZDRjLi5jNmMy
-ODA0IDEwMDY0NA0KLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jDQorKysgYi9kcml2
-ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMNCkBAIC00NjQsNiArNDY0LDkgQEAgc3RhdGljIGludCB4
-aGNpX210a19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KIAlvZl9wcm9wZXJ0
-eV9yZWFkX3UzMihub2RlLCAibWVkaWF0ZWssdTNwLWRpcy1tc2siLA0KIAkJCSAgICAgJm10ay0+
-dTNwX2Rpc19tc2spOw0KIA0KKwkvKiBrZWVwIGNsb2NrIG9uIHdoZW4gc3VzcGVuZGluZyBvbiBz
-b21lIHBsYXRmb3JtICovDQorCW10ay0+a2VlcF9jbGtfb24gPSBvZl9wcm9wZXJ0eV9yZWFkX2Jv
-b2wobm9kZSwgIm1lZGlhdGVrLGtlZXAtY2xvY2stb24iKTsNCisNCiAJcmV0ID0gdXNiX3dha2V1
-cF9vZl9wcm9wZXJ0eV9wYXJzZShtdGssIG5vZGUpOw0KIAlpZiAocmV0KSB7DQogCQlkZXZfZXJy
-KGRldiwgImZhaWxlZCB0byBwYXJzZSB1d2sgcHJvcGVydHlcbiIpOw0KQEAgLTYyNCw3ICs2Mjcs
-OCBAQCBzdGF0aWMgaW50IF9fbWF5YmVfdW51c2VkIHhoY2lfbXRrX3N1c3BlbmQoc3RydWN0IGRl
-dmljZSAqZGV2KQ0KIAlkZWxfdGltZXJfc3luYygmeGhjaS0+c2hhcmVkX2hjZC0+cmhfdGltZXIp
-Ow0KIA0KIAl4aGNpX210a19ob3N0X2Rpc2FibGUobXRrKTsNCi0JeGhjaV9tdGtfY2xrc19kaXNh
-YmxlKG10ayk7DQorCWlmICghbXRrLT5rZWVwX2Nsa19vbikNCisJCXhoY2lfbXRrX2Nsa3NfZGlz
-YWJsZShtdGspOw0KIAl1c2Jfd2FrZXVwX3NldChtdGssIHRydWUpOw0KIAlyZXR1cm4gMDsNCiB9
-DQpAQCAtNjM2LDcgKzY0MCw4IEBAIHN0YXRpYyBpbnQgX19tYXliZV91bnVzZWQgeGhjaV9tdGtf
-cmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikNCiAJc3RydWN0IHhoY2lfaGNkICp4aGNpID0gaGNk
-X3RvX3hoY2koaGNkKTsNCiANCiAJdXNiX3dha2V1cF9zZXQobXRrLCBmYWxzZSk7DQotCXhoY2lf
-bXRrX2Nsa3NfZW5hYmxlKG10ayk7DQorCWlmICghbXRrLT5rZWVwX2Nsa19vbikNCisJCXhoY2lf
-bXRrX2Nsa3NfZW5hYmxlKG10ayk7DQogCXhoY2lfbXRrX2hvc3RfZW5hYmxlKG10ayk7DQogDQog
-CXhoY2lfZGJnKHhoY2ksICIlczogcmVzdGFydCBwb3J0IHBvbGxpbmdcbiIsIF9fZnVuY19fKTsN
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmggYi9kcml2ZXJzL3VzYi9o
-b3N0L3hoY2ktbXRrLmgNCmluZGV4IGE5M2NmZTguLjM3NjM5YzUgMTAwNjQ0DQotLS0gYS9kcml2
-ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmgNCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tdGsu
-aA0KQEAgLTE1Miw2ICsxNTIsNyBAQCBzdHJ1Y3QgeGhjaV9oY2RfbXRrIHsNCiAJc3RydWN0IHJl
-Z21hcCAqdXdrOw0KIAl1MzIgdXdrX3JlZ19iYXNlOw0KIAl1MzIgdXdrX3ZlcnM7DQorCWJvb2wg
-a2VlcF9jbGtfb247DQogfTsNCiANCiBzdGF0aWMgaW5saW5lIHN0cnVjdCB4aGNpX2hjZF9tdGsg
-KmhjZF90b19tdGsoc3RydWN0IHVzYl9oY2QgKmhjZCkNCi0tIA0KMS43LjkuNQ0K
+Serge Semin <Sergey.Semin@baikalelectronics.ru> =E4=BA=8E2020=E5=B9=B410=E6=
+=9C=8820=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=888:04=E5=86=99=E9=81=
+=93=EF=BC=9A
+>
+> In accordance with the DWC USB3 bindings the corresponding node
+> name is suppose to comply with the Generic USB HCD DT schema, which
+> requires the USB nodes to have the name acceptable by the regexp:
+> "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
+> named.
 
+This need a counterpart driver change:
+drivers/usb/dwc3/dwc3-qcom.c
+dwc3_np =3D of_get_child_by_name(np, "dwc3");
+
+Li Jun
