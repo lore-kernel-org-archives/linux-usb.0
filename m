@@ -2,106 +2,267 @@ Return-Path: <SRS0=pmyG=EJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50AD8C2D0A3
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 20:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82673C4742C
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 21:14:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A9F120E65
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 20:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E6F821534
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 21:14:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729242AbgKCUHX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Nov 2020 15:07:23 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:47615 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1729217AbgKCUHW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Nov 2020 15:07:22 -0500
-Received: (qmail 1538831 invoked by uid 1000); 3 Nov 2020 15:07:16 -0500
-Date:   Tue, 3 Nov 2020 15:07:16 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Wesley Cheng <wcheng@codeaurora.org>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        Thinh.Nguyen@synopsys.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, jackp@codeaurora.org
-Subject: Re: [PATCH 1/2] usb: dwc3: gadget: Allow runtime suspend if UDC
- unbinded
-Message-ID: <20201103200716.GA1538425@rowland.harvard.edu>
-References: <20201028234311.6464-1-wcheng@codeaurora.org>
- <20201028234311.6464-2-wcheng@codeaurora.org>
- <20201029010748.GA1303156@rowland.harvard.edu>
- <a47d78f3-0a11-9de8-dbea-ad745d496845@codeaurora.org>
+        id S2388581AbgKCVOa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Nov 2020 16:14:30 -0500
+Received: from mga17.intel.com ([192.55.52.151]:8609 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388856AbgKCVOX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 3 Nov 2020 16:14:23 -0500
+IronPort-SDR: ZrHNVdR8l7pEH4v90PFAlNJ5ScxhL2WCshcsNBRwKwChSuJ5Ljgw4x0f7tDy8FFtpIHQ/by/Lt
+ g8DBvBLN9VAA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9794"; a="148979243"
+X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; 
+   d="scan'208";a="148979243"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2020 13:14:22 -0800
+IronPort-SDR: 1lJnmcTvUoJayQptWLxIAWkOLQFWgbfuxh6DVkF3o3vvL9EtibOJGlsEH2akICay+5Mgzdoyc8
+ ilgiTXoqVtbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; 
+   d="scan'208";a="363753825"
+Received: from lkp-server02.sh.intel.com (HELO e61783667810) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 03 Nov 2020 13:14:19 -0800
+Received: from kbuild by e61783667810 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1ka3dC-0000Vt-Ir; Tue, 03 Nov 2020 21:14:18 +0000
+Date:   Wed, 04 Nov 2020 05:13:51 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 35ad0d901eac56ac6af2e4d726f255486c1ee36c
+Message-ID: <5fa1c80f.l69HfciiY85x2PDF%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a47d78f3-0a11-9de8-dbea-ad745d496845@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Nov 03, 2020 at 11:02:25AM -0800, Wesley Cheng wrote:
-> 
-> 
-> On 10/28/2020 6:07 PM, Alan Stern wrote:
-> >> --- a/drivers/usb/dwc3/gadget.c
-> >> +++ b/drivers/usb/dwc3/gadget.c
-> >> @@ -1995,6 +1995,11 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
-> >>  	unsigned long		flags;
-> >>  	int			ret;
-> >>  
-> >> +	if (pm_runtime_suspended(dwc->dev)) {
-> >> +		pm_request_resume(dwc->dev);
-> >> +		return 0;
-> >> +	}
-> > 
-> > Isn't this racy?  What happens if the controller was active but a 
-> > runtime suspend occurs right here?
-> > 
-> > Alan Stern
-> > 
-> 
-> Hi Alan,
-> 
-> Ah, yes you're right.  I was hoping that the PM runtime layer would be
-> utilizing the spinlock when reading out the runtime status, but even
-> then, we wouldn't be able to catch intermediate states with this API
-> (i.e. RPM_RESUMING or RPM_SUSPENDING)
-> 
-> Tried a few different approaches, and came up with something like the
-> following:
-> 
-> static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
-> {
-> ...
-> 	ret = pm_runtime_get_sync(dwc->dev);
-> 	if (!ret) {
-> 		pm_runtime_put(dwc->dev);
-> 		return 0;
-> 	}
-> 	...
-> 	pm_runtime_put(dwc->dev);
-> 
-> 	return 0;
-> }
-> 
-> I think this should be good to address your concern.  The only way we
-> would be able to ensure that the runtime PM state doesn't enter
-> idle/suspend is if we increment the usage count for the duration we're
-> accessing the DWC3 registers.  With the synchronous PM runtime resume
-> call, we can also ensure that no pending runtime suspends are executing
-> in parallel while running this code.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
+branch HEAD: 35ad0d901eac56ac6af2e4d726f255486c1ee36c  usb: misc: brcmstb-usb-pinmap: Fix an IS_ERR() vs NULL check
 
-That's correct.
+elapsed time: 723m
 
-> The check for the zero return value would be for avoiding running the
-> DWC3 run stop sequence for the case where we executed the runtime PM
-> resume, as the DWC3 runtime PM resume routine will set the run stop bit
-> in there.
+configs tested: 195
+configs skipped: 3
 
-If you need to add an explanation of this subtle point in your email 
-message, then you should add a similar explanation as a comment in the 
-code.  And don't forget to check for ret < 0 (i.e., a resume error).
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Alan Stern
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+m68k                         amcore_defconfig
+sh                           sh2007_defconfig
+powerpc                     skiroot_defconfig
+powerpc                 mpc834x_mds_defconfig
+powerpc                     kilauea_defconfig
+mips                        nlm_xlp_defconfig
+mips                  cavium_octeon_defconfig
+mips                     loongson1b_defconfig
+arm                           h3600_defconfig
+powerpc                     sequoia_defconfig
+sh                        sh7757lcr_defconfig
+arm                        spear3xx_defconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                       rbtx49xx_defconfig
+arm                          exynos_defconfig
+arm                        neponset_defconfig
+arm                        oxnas_v6_defconfig
+arc                     nsimosci_hs_defconfig
+powerpc                    sam440ep_defconfig
+openrisc                         alldefconfig
+sh                             espt_defconfig
+arm                            xcep_defconfig
+arc                           tb10x_defconfig
+sh                          rsk7269_defconfig
+powerpc                      obs600_defconfig
+powerpc                mpc7448_hpc2_defconfig
+ia64                             alldefconfig
+arm                            zeus_defconfig
+powerpc                     tqm5200_defconfig
+ia64                          tiger_defconfig
+sh                         ecovec24_defconfig
+powerpc                   bluestone_defconfig
+arc                        vdk_hs38_defconfig
+arm                            qcom_defconfig
+m68k                          atari_defconfig
+powerpc                     taishan_defconfig
+arm                         palmz72_defconfig
+powerpc                 mpc85xx_cds_defconfig
+riscv                            alldefconfig
+powerpc                      arches_defconfig
+powerpc                    gamecube_defconfig
+arm                          pxa3xx_defconfig
+mips                     cu1830-neo_defconfig
+mips                      bmips_stb_defconfig
+powerpc                      katmai_defconfig
+arm                           spitz_defconfig
+powerpc                   currituck_defconfig
+powerpc                     redwood_defconfig
+arm                        shmobile_defconfig
+arm                         lubbock_defconfig
+arm                        vexpress_defconfig
+powerpc                     mpc512x_defconfig
+powerpc                    ge_imp3a_defconfig
+sh                          rsk7264_defconfig
+powerpc                     asp8347_defconfig
+powerpc                        fsp2_defconfig
+arm                          ep93xx_defconfig
+powerpc                  iss476-smp_defconfig
+arm                     davinci_all_defconfig
+arm                       omap2plus_defconfig
+sh                             sh03_defconfig
+arm                      pxa255-idp_defconfig
+sh                          rsk7203_defconfig
+powerpc                    adder875_defconfig
+powerpc                      cm5200_defconfig
+arm                        mvebu_v5_defconfig
+m68k                          sun3x_defconfig
+mips                           gcw0_defconfig
+xtensa                    smp_lx200_defconfig
+sparc64                             defconfig
+powerpc                     tqm8555_defconfig
+arm                           h5000_defconfig
+arm                         orion5x_defconfig
+nios2                            alldefconfig
+arm                            mmp2_defconfig
+arm                        cerfcube_defconfig
+mips                      maltaaprp_defconfig
+arm                          imote2_defconfig
+parisc                generic-64bit_defconfig
+sh                   secureedge5410_defconfig
+arm                          simpad_defconfig
+powerpc                      ppc44x_defconfig
+mips                      malta_kvm_defconfig
+sh                         apsh4a3a_defconfig
+powerpc                     ep8248e_defconfig
+arm                          pcm027_defconfig
+powerpc                     stx_gp3_defconfig
+arm                       aspeed_g5_defconfig
+powerpc                     pseries_defconfig
+arm                           viper_defconfig
+powerpc64                           defconfig
+arm                       imx_v6_v7_defconfig
+um                             i386_defconfig
+sh                   sh7770_generic_defconfig
+mips                           ip32_defconfig
+arm                             mxs_defconfig
+openrisc                            defconfig
+powerpc                       holly_defconfig
+arm                        mvebu_v7_defconfig
+powerpc                      tqm8xx_defconfig
+powerpc                      ep88xc_defconfig
+mips                     cu1000-neo_defconfig
+sh                               allmodconfig
+powerpc                         ps3_defconfig
+powerpc                     rainier_defconfig
+mips                       bmips_be_defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm                       spear13xx_defconfig
+arm                          pxa168_defconfig
+xtensa                  nommu_kc705_defconfig
+mips                        qi_lb60_defconfig
+arm                       versatile_defconfig
+sh                            shmin_defconfig
+powerpc                 canyonlands_defconfig
+h8300                     edosk2674_defconfig
+arm                       mainstone_defconfig
+xtensa                  audio_kc705_defconfig
+arm                         lpc18xx_defconfig
+nds32                             allnoconfig
+ia64                                defconfig
+xtensa                           allyesconfig
+nios2                         3c120_defconfig
+m68k                       m5475evb_defconfig
+sh                           se7751_defconfig
+powerpc                          g5_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20201103
+x86_64               randconfig-a005-20201103
+x86_64               randconfig-a003-20201103
+x86_64               randconfig-a002-20201103
+x86_64               randconfig-a006-20201103
+x86_64               randconfig-a001-20201103
+i386                 randconfig-a004-20201103
+i386                 randconfig-a006-20201103
+i386                 randconfig-a005-20201103
+i386                 randconfig-a001-20201103
+i386                 randconfig-a002-20201103
+i386                 randconfig-a003-20201103
+i386                 randconfig-a013-20201103
+i386                 randconfig-a015-20201103
+i386                 randconfig-a014-20201103
+i386                 randconfig-a016-20201103
+i386                 randconfig-a011-20201103
+i386                 randconfig-a012-20201103
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a012-20201103
+x86_64               randconfig-a015-20201103
+x86_64               randconfig-a011-20201103
+x86_64               randconfig-a013-20201103
+x86_64               randconfig-a014-20201103
+x86_64               randconfig-a016-20201103
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
