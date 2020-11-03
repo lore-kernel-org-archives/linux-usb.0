@@ -2,69 +2,51 @@ Return-Path: <SRS0=pmyG=EJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 568F5C388F7
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 21:24:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22464C388F7
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 21:25:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F01C9206B5
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 21:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604438669;
-	bh=HALgchb57rAXLtSMIP3lmNo87q6ksmJHJO3V6ecsLCQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=BgvIz0KIh2zp98MkOlaHphIUxnGXqSrlx341es3+XUnIIguLzXw61ZtGPO4NYWRpG
-	 IzxlsWmmyrs0/e05QnR9CX0eKVQFplIR5NqCY7SRl4uXRv3791mtStcmDnqIZH98YI
-	 SHHj+48eI23aKerJHnZOaTRFW4kyLkQ/Mtgan1Dk=
+	by mail.kernel.org (Postfix) with ESMTP id E8E43223C7
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 21:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388175AbgKCVYS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Nov 2020 16:24:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42156 "EHLO mail.kernel.org"
+        id S2387573AbgKCVCH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Nov 2020 16:02:07 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35726 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732214AbgKCVYR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 3 Nov 2020 16:24:17 -0500
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A5A5520757;
-        Tue,  3 Nov 2020 21:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604438656;
-        bh=HALgchb57rAXLtSMIP3lmNo87q6ksmJHJO3V6ecsLCQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=x61avsHdUHN3cJKBc+6xm+qujO63vwwbv23LPrMIP4GqRzUbrAoZqxd2GDOHXMGGv
-         Oh0lx7GZPV8VxKGnELUsouzcPv9P+hCCqRPWHt5IdKCTebsSmO7v9rRanbckqGv8q6
-         ZblhmXrTFXlmnj97PCBUG6xCC84AFaFpA4cE4PQo=
-Date:   Tue, 3 Nov 2020 13:24:12 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     =?UTF-8?B?QmrDuHJu?= Mork <bjorn@mork.no>
-Cc:     Daniele Palmas <dnlplm@gmail.com>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/1] net: usb: qmi_wwan: add Telit LE910Cx 0x1230
- composition
-Message-ID: <20201103132412.103c6c91@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <87blgf5x14.fsf@miraculix.mork.no>
-References: <20201102110108.17244-1-dnlplm@gmail.com>
-        <87blgf5x14.fsf@miraculix.mork.no>
+        id S2387562AbgKCVCG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 3 Nov 2020 16:02:06 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 6B2C8ACD9;
+        Tue,  3 Nov 2020 21:02:05 +0000 (UTC)
+Date:   Tue, 3 Nov 2020 12:40:14 -0800
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     johan@kernel.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Davidlohr Bueso <dbueso@suse.de>
+Subject: Re: [PATCH] usb/mos7720: process deferred urbs in a workqueue
+Message-ID: <20201103204014.3ue37owcras6cx7p@linux-p48b.lan>
+References: <20201102211450.5722-1-dave@stgolabs.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20201102211450.5722-1-dave@stgolabs.net>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 02 Nov 2020 21:22:31 +0100 Bj=C3=B8rn Mork wrote:
-> Daniele Palmas <dnlplm@gmail.com> writes:
->=20
-> > dd support for Telit LE910Cx 0x1230 composition:
-> >
-> > 0x1230: tty, adb, rmnet, audio, tty, tty, tty, tty
-> >
-> > Signed-off-by: Daniele Palmas <dnlplm@gmail.com> =20
->=20
-> Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
+On Mon, 02 Nov 2020, Bueso wrote:
 
-Applied, thanks!
+>There is
+>also no need anymore for atomic allocations.
+
+Bleh this is a brain fart - obviously not true as usb_submit_urb() is
+called under mos_parport->listlock. I'll send a v2 unless you have
+any objections.
+
+Thanks,
+Davidlohr
