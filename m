@@ -2,120 +2,131 @@ Return-Path: <SRS0=pmyG=EJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E016C388F9
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 14:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62924C2D0A3
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 16:15:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 012E1223AC
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 14:41:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="mtL1dX6X"
+	by mail.kernel.org (Postfix) with ESMTP id 1BEF0206CB
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 16:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604420144;
+	bh=dDSnEZsWeRQuzp5A2JaHrJaoDH+U2yZat/4bMvsaZj4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=TeZmbuAMY9NA0u7NLidAWsz9S+FgqsLKjZEOCx69koFMAWdplsqwpbgWcw3LyfxPZ
+	 MNBRJ/6/wJvo7cjg+qPQ5md4sbIsvfCCe5KZQrzH+VhEAdv0gRCAXkusfZ3zyDVt74
+	 FLXm4ALycgL0XME0NZnCE9ZsiIhq4yazl7aDKcfM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728035AbgKCOl1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Nov 2020 09:41:27 -0500
-Received: from mail-eopbgr80072.outbound.protection.outlook.com ([40.107.8.72]:48501
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727742AbgKCOkO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 3 Nov 2020 09:40:14 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MbBY4dF9dlU/GhoMAkQfX830waoisxvLJrKE1e3C3EAoDvNvzACDHPNM7UMd7QTa0yw5GTyCTeGP0kPSdOT1v50Z2QWZAmNB1MPcr7nfOnnFdn333jC1FOIskEdId6DaL9ZwFl84Z9sZlbQofn3tS0eCEGyFl5xHMuiBneNJdIotJ0RXRpmdUEerM/4IY7w+j5XPoPZUjjruGAMdSJh2zOz2nm0kv98QBMo1tUS1CFbjVK/5T1nQB2HqagwqsDe4DHdw8EwX4FScgcwo+qMvuWrnhMjt0G3VlpOvmkkMk+FDn+6ee8Quyayney3vHKIU6qbeOA45gKl2YFdIuYX47A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AmJhA46Tr3+EEA0mxLbZGVSVw+fkV+VRMZK4nS3zhxM=;
- b=b1dBXrOMYMLadFey7Jo+nu0/fWIOOQVV+D6Ebb9d97DZcJXlaQ2jSmIO03091lQAzdayKczSGdfTrrlHAKXw/hX/kXbfx+4VJmdAK/0ZdOUBo7SecS5vUFtbD0V8ZafO7AHKnTygz5rk/bP0UrHU3eFplzEeivTPc3G4v3NqHnHfOWabi5JkiQQ0jbuAI7xYNEOOJAf9MQ159JED2V6RA+berWqxDctdQ2nqPH+NPIybmu1Q49oocZhCUe0U+tJbl+iPMt2fQqcIB0gmdJIokLEAIvDgfWluxi3zCxYcaY6UUIHkXPCtAHcLD7XMyArs9SZIjEPdCL+rIcLDesN7Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AmJhA46Tr3+EEA0mxLbZGVSVw+fkV+VRMZK4nS3zhxM=;
- b=mtL1dX6X7xMTP9YIg44wFaHdp7e2q+Z1Zj/EuP6l4wmw36dfQad6aNzb6TvPeC6ZFlu35QauDtX0ZgBWSOh2US/Xja1VPWzgIQ/eeW8D6163iSj6Ev9Ur/hZG3ukv08thkcnEcKPCTRcfGkXVZP+5E7s0F01p6tZGAXM9FLUWoQ=
-Authentication-Results: cadence.com; dkim=none (message not signed)
- header.d=none;cadence.com; dmarc=none action=none header.from=nxp.com;
-Received: from AM8PR04MB7300.eurprd04.prod.outlook.com (2603:10a6:20b:1c7::12)
- by AM0PR04MB4004.eurprd04.prod.outlook.com (2603:10a6:208:57::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 14:40:11 +0000
-Received: from AM8PR04MB7300.eurprd04.prod.outlook.com
- ([fe80::b902:6be0:622b:26c2]) by AM8PR04MB7300.eurprd04.prod.outlook.com
- ([fe80::b902:6be0:622b:26c2%4]) with mapi id 15.20.3499.032; Tue, 3 Nov 2020
- 14:40:11 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     pawell@cadence.com, rogerq@ti.com
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org, linux-imx@nxp.com,
-        jun.li@nxp.com, Peter Chen <peter.chen@nxp.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH 1/2] usb: cdns3: gadget: initialize link_trb as NULL
-Date:   Tue,  3 Nov 2020 22:39:28 +0800
-Message-Id: <20201103143929.8257-1-peter.chen@nxp.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR03CA0141.apcprd03.prod.outlook.com
- (2603:1096:4:c8::14) To AM8PR04MB7300.eurprd04.prod.outlook.com
- (2603:10a6:20b:1c7::12)
+        id S1728029AbgKCQPi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Nov 2020 11:15:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48686 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727385AbgKCQPi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 3 Nov 2020 11:15:38 -0500
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EDFB8206CB;
+        Tue,  3 Nov 2020 16:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604420137;
+        bh=dDSnEZsWeRQuzp5A2JaHrJaoDH+U2yZat/4bMvsaZj4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gAG/XNiVvMMkHRgOWWHXMdJ1xNP4/zBqNHCedZoWa9/vTnORRwvFKm8UCbdYynj5G
+         01ECL3TJKshN2Zo7tr/7XBkkRdAC8J1SCHgg96ob22wgN0BgT1KILPet1GRAWt8xV9
+         3YVC0k6df05/yCHKanHyCtKWM4nMIWL1RyrcpLV0=
+Date:   Tue, 3 Nov 2020 08:15:35 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Hayes Wang <hayeswang@realtek.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        nic_swsd <nic_swsd@realtek.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Oliver Neukum <oliver@neukum.org>
+Subject: Re: [PATCH net-next v2] net/usb/r8153_ecm: support ECM mode for
+ RTL8153
+Message-ID: <20201103081535.7e92a495@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <20201103093241.GA79239@kroah.com>
+References: <1394712342-15778-387-Taiwan-albertk@realtek.com>
+        <1394712342-15778-388-Taiwan-albertk@realtek.com>
+        <20201031160838.39586608@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+        <dc7fd1d4d1c544e8898224c7d9b54bda@realtek.com>
+        <20201102114718.0118cc12@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+        <20201103093241.GA79239@kroah.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from b29397-desktop.ap.freescale.net (119.31.174.66) by SG2PR03CA0141.apcprd03.prod.outlook.com (2603:1096:4:c8::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.10 via Frontend Transport; Tue, 3 Nov 2020 14:40:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 09628d3d-a9c2-49db-c444-08d880065ded
-X-MS-TrafficTypeDiagnostic: AM0PR04MB4004:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR04MB40041EDF0411296798D433538B110@AM0PR04MB4004.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HnzxAd233rBow7MJkhXBZCCf0Dk16hA2EhhBCkZ50PHtbUmysR71EytZKZ8PoS4DJHR/I872zVRHZDCsPvkbnrRyBYJrDjYLgHxrlC+3ezEr+afOTWifbYEmD00eUTHDc1FtV3gK7ZksHfZy6uCi/zAtSYpPreY5Yh4a/sGJ+1zAmYCAHgEOvnxgeZsZbali4bNYFY/qsp7LJCxyFq/QJ985hXc+/fODfdwMg9/930PLiYGC1Xivo+fDI3kDgi2OhWN5lsE0OMS/e/ncS4KOLA++1GTVqHYFR/RqIkTLmWw3WpMZsk6vyrE75UMTVcZl
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7300.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(36756003)(44832011)(6666004)(6486002)(8936002)(52116002)(66476007)(66556008)(8676002)(66946007)(54906003)(4744005)(498600001)(5660300002)(4326008)(6512007)(2906002)(186003)(2616005)(956004)(86362001)(26005)(1076003)(16526019)(6506007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: TWodVSz/wdZK8nnqGVZGzTpNo2SIT7BdqBVBVmUFZBzTeS+VwnZSMKTHgfZEtSo/c+FIpxyXHKKgmM5p+bseDqTPylieNXEIuSm3ENYgg2T5mgRGtdq0QqM/H6Kb5iIHRotapCh6bP5hG68PMw6Ls8j9BSqBXHI4GQHNqJh1yR2No1NyDP3+ZQ5eSxW9MJF1IfeSuJPn8L8mBTKKX/hX3hrZkc6/DUPY7lJ8Xly3+gBD3zxWlb9Tp583t4uX0WJzup9LoPPydUKFPRpzyroZQdZO/UhaJFdS3rhkAJ7ci+k8Ls4d8VIoQXImYM6JswGB/yzi2DnU9t3ilKPXGuFJdSzSfIAN2JTdTT+DXOaVtC8RqJLN9p0EK6vfjBCBOWlj+ocK4kbFFbEMmLEiVXjhLuZ2m097ic0sRwyjIDjww3+TBTsw8zt1t3m1CJB2qn3BEkHFr6j4fiixq411zyUH24/Gyg3yzK9uyaA64dN9SBYZvC+/V0EMBMDZ71p5gMjUYUXogAi3hpBM9G3E2bl3H4yGWhAdL3jaO9uj0PdwPjYrMpeY7gIGzgSWGdYve4B1FnZ7CVG+aIdxUapB5XhIwtn19qrGSM3PjTcydUBy6NRvqHs7AHD+nC2wUKDVb8tmLd8tax2/T/dUkKQLHLTMBw==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09628d3d-a9c2-49db-c444-08d880065ded
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7300.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 14:40:11.0352
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nklZxT2sdWi7sE15f574MWcBn6/OTqv3wXHaR3LS+zwZv/DH0hoacFae9HKihzTRYZvj4HoxQdPwrdXe+W7V4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4004
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is an uninitialized variable "link_trb" usage at function cdns3_ep_run_transfer.
-Fixed it by initialize "link_trb" as NULL.
+On Tue, 3 Nov 2020 10:32:41 +0100 Greg Kroah-Hartman wrote:
+> On Mon, Nov 02, 2020 at 11:47:18AM -0800, Jakub Kicinski wrote:
+> > On Mon, 2 Nov 2020 07:20:15 +0000 Hayes Wang wrote:  
+> > > Jakub Kicinski <kuba@kernel.org>  
+> > > > Can you describe the use case in more detail?
+> > > > 
+> > > > AFAICT r8152 defines a match for the exact same device.
+> > > > Does it not mean that which driver is used will be somewhat random
+> > > > if both are built?    
+> > > 
+> > > I export rtl_get_version() from r8152. It would return none zero
+> > > value if r8152 could support this device. Both r8152 and r8153_ecm
+> > > would check the return value of rtl_get_version() in porbe().
+> > > Therefore, if rtl_get_version() return none zero value, the r8152
+> > > is used for the device with vendor mode. Otherwise, the r8153_ecm
+> > > is used for the device with ECM mode.  
+> > 
+> > Oh, I see, I missed that the rtl_get_version() checking is the inverse
+> > of r8152.
+> >   
+> > > > > +/* Define these values to match your device */
+> > > > > +#define VENDOR_ID_REALTEK		0x0bda
+> > > > > +#define VENDOR_ID_MICROSOFT		0x045e
+> > > > > +#define VENDOR_ID_SAMSUNG		0x04e8
+> > > > > +#define VENDOR_ID_LENOVO		0x17ef
+> > > > > +#define VENDOR_ID_LINKSYS		0x13b1
+> > > > > +#define VENDOR_ID_NVIDIA		0x0955
+> > > > > +#define VENDOR_ID_TPLINK		0x2357    
+> > > > 
+> > > > $ git grep 0x2357 | grep -i tplink
+> > > > drivers/net/usb/cdc_ether.c:#define TPLINK_VENDOR_ID	0x2357
+> > > > drivers/net/usb/r8152.c:#define VENDOR_ID_TPLINK		0x2357
+> > > > drivers/usb/serial/option.c:#define TPLINK_VENDOR_ID			0x2357
+> > > > 
+> > > > $ git grep 0x17ef | grep -i lenovo
+> > > > drivers/hid/hid-ids.h:#define USB_VENDOR_ID_LENOVO		0x17ef
+> > > > drivers/hid/wacom.h:#define USB_VENDOR_ID_LENOVO	0x17ef
+> > > > drivers/net/usb/cdc_ether.c:#define LENOVO_VENDOR_ID	0x17ef
+> > > > drivers/net/usb/r8152.c:#define VENDOR_ID_LENOVO		0x17ef
+> > > > 
+> > > > Time to consolidate those vendor id defines perhaps?    
+> > > 
+> > > It seems that there is no such header file which I could include
+> > > or add the new vendor IDs.  
+> > 
+> > Please create one. (Adding Greg KH to the recipients, in case there is
+> > a reason that USB subsystem doesn't have a common vendor id header.)  
+> 
+> There is a reason, it's a nightmare to maintain and handle merges for,
+> just don't do it.
 
-Cc: Dan Carpenter <dan.carpenter@oracle.com>
-Fixes: 4e218882eb5a ("usb: cdns3: gadget: improve the dump TRB operation
-	at cdns3_ep_run_transfer")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
----
- drivers/usb/cdns3/gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ah! Good that we asked :)
 
-diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
-index 26232917197a..ec1730109fd8 100644
---- a/drivers/usb/cdns3/gadget.c
-+++ b/drivers/usb/cdns3/gadget.c
-@@ -1114,7 +1114,7 @@ static int cdns3_ep_run_transfer(struct cdns3_endpoint *priv_ep,
- 	struct cdns3_device *priv_dev = priv_ep->cdns3_dev;
- 	struct cdns3_request *priv_req;
- 	struct cdns3_trb *trb;
--	struct cdns3_trb *link_trb;
-+	struct cdns3_trb *link_trb = NULL;
- 	dma_addr_t trb_dma;
- 	u32 togle_pcs = 1;
- 	int sg_iter = 0;
--- 
-2.17.1
+> Read the comments at the top of the pci_ids.h file if you are curious
+> why we don't even do this for PCI device ids anymore for the past 10+
+> years.
+> 
+> So no, please do not create such a common file, it is not needed or a
+> good idea.
 
+I wouldn't go that far, PCI subsystem just doesn't want everyone to add
+IDs to the shared file unless there is a reason.
+
+ *	Do not add new entries to this file unless the definitions
+ *	are shared between multiple drivers.
+
+Which seems quite reasonable. But it is most certainly your call :)
