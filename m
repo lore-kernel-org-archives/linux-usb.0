@@ -2,100 +2,99 @@ Return-Path: <SRS0=pmyG=EJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E5EC388F2
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 01:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35723C388F2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 03:01:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB92C2224E
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 01:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604366809;
-	bh=86wGNSI8JmYe8ggY2XcpLkC6ohVEoexUDpj4tCkLil0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=FVdCP7EaYnSE4jeRZtJr8L1FmUbo9NzfunQVqsAuPBf/V+1XIORTV1Br2Eyzia6TO
-	 flrNcuh0l+0Gsx4506yQK3rNDrUvoSR8KeN7/+pRj95efE0VVXYy7SgCG2e6OCW1i8
-	 TFy9LM6hQDeQRXYRTCm1l+/TmQpcT9UGeNf55Lzg=
+	by mail.kernel.org (Postfix) with ESMTP id 010F22074F
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Nov 2020 03:01:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="ZjjHKAJm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728025AbgKCB0m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Nov 2020 20:26:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33150 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727667AbgKCBTY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 2 Nov 2020 20:19:24 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94FBF22404;
-        Tue,  3 Nov 2020 01:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604366363;
-        bh=86wGNSI8JmYe8ggY2XcpLkC6ohVEoexUDpj4tCkLil0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=npx+dYgz2rvVnJbBw93neVx0ewJo03OnboZ4EoUxf+4adSg6ClX09xycLMrnD1N29
-         XXtHaudNdOA5c9PxK4Ox5WdGb2YQ7cINcokFQ0e8j4UtDwTCTrqeo/9AIjryMnt15+
-         kT0dt3idjbzbA80wejNttdPP2uCkf2oH58AZfOCo=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 32/35] usb: cdns3: gadget: suspicious implicit sign extension
-Date:   Mon,  2 Nov 2020 20:18:37 -0500
-Message-Id: <20201103011840.182814-32-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201103011840.182814-1-sashal@kernel.org>
-References: <20201103011840.182814-1-sashal@kernel.org>
+        id S1727334AbgKCDB0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Nov 2020 22:01:26 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:55180 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725913AbgKCDBZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Nov 2020 22:01:25 -0500
+X-UUID: 581aa52763b349b5bf4d0609cc4cda79-20201103
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=kA10xqguhONUPZrUmipFwStozwcyihpqFitOURXTXYs=;
+        b=ZjjHKAJmsjSRD31djYgnwRx8Z2/8qJ2wJk5n4HnOk/ViUD4bw4ZzyObjQ5pnpUuOWdAatvfCN8gSJdi2MM9cBKyVSChqUjYH+u/66/vAcYjYP56BCSOwxThKV6L+2HrNXNKNxiXTM/bypTR1zQpDfC4BH0X7dNplX+XJ/A2MNv8=;
+X-UUID: 581aa52763b349b5bf4d0609cc4cda79-20201103
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 745087011; Tue, 03 Nov 2020 11:01:20 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs08n1.mediatek.inc
+ (172.21.101.55) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 3 Nov
+ 2020 11:01:14 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 3 Nov 2020 11:01:11 +0800
+Message-ID: <1604372472.31607.18.camel@mhfsdcap03>
+Subject: Re: [PATCH 1/2] dt-bindings: usb: mediatek,mtk-xhci: add
+ keep-clock-on
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Macpaul Lin <macpaul.lin@mediatek.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Mathias Nyman" <mathias.nyman@intel.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Ainge Hsu" <ainge.hsu@mediatek.com>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        "Mediatek WSD Upstream" <wsd_upstream@mediatek.com>,
+        Macpaul Lin <macpaul@gmail.com>
+Date:   Tue, 3 Nov 2020 11:01:12 +0800
+In-Reply-To: <1604301530-31546-1-git-send-email-macpaul.lin@mediatek.com>
+References: <1604301530-31546-1-git-send-email-macpaul.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Peter Chen <peter.chen@nxp.com>
-
-[ Upstream commit 5fca3f062879f8e5214c56f3e3e2be6727900f5d ]
-
-The code:
-trb->length = cpu_to_le32(TRB_BURST_LEN(priv_ep->trb_burst_size)
-	       	| TRB_LEN(length));
-
-TRB_BURST_LEN(priv_ep->trb_burst_size) may be overflow for int 32 if
-priv_ep->trb_burst_size is equal or larger than 0x80;
-
-Below is the Coverity warning:
-sign_extension: Suspicious implicit sign extension: priv_ep->trb_burst_size
-with type u8 (8 bits, unsigned) is promoted in priv_ep->trb_burst_size << 24
-to type int (32 bits, signed), then sign-extended to type unsigned long
-(64 bits, unsigned). If priv_ep->trb_burst_size << 24 is greater than 0x7FFFFFFF,
-the upper bits of the result will all be 1.
-
-To fix it, it needs to add an explicit cast to unsigned int type for ((p) << 24).
-
-Reviewed-by: Jun Li <jun.li@nxp.com>
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/cdns3/gadget.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/cdns3/gadget.h b/drivers/usb/cdns3/gadget.h
-index 52765b098b9e1..28c4f6aca6891 100644
---- a/drivers/usb/cdns3/gadget.h
-+++ b/drivers/usb/cdns3/gadget.h
-@@ -1067,7 +1067,7 @@ struct cdns3_trb {
- #define TRB_TDL_SS_SIZE_GET(p)	(((p) & GENMASK(23, 17)) >> 17)
- 
- /* transfer_len bitmasks - bits 31:24 */
--#define TRB_BURST_LEN(p)	(((p) << 24) & GENMASK(31, 24))
-+#define TRB_BURST_LEN(p)	((unsigned int)((p) << 24) & GENMASK(31, 24))
- #define TRB_BURST_LEN_GET(p)	(((p) & GENMASK(31, 24)) >> 24)
- 
- /* Data buffer pointer bitmasks*/
--- 
-2.27.0
+SGkgTWFjcGF1bCwNCg0KT24gTW9uLCAyMDIwLTExLTAyIGF0IDE1OjE4ICswODAwLCBNYWNwYXVs
+IExpbiB3cm90ZToNCj4gT3B0aW9uICJtZWRpYXRlayxrZWVwLWNsb2NrLW9uIiBtZWFucyB0byBr
+ZWVwIGNsb2NrIG9uIGR1cmluZyBzeXN0ZW0NCj4gc3VzcGVuZCBhbmQgcmVzdW1lLiBTb21lIHBs
+YXRmb3JtIHdpbGwgZmx1c2ggcmVnaXN0ZXIgc2V0dGluZ3MgaWYgY2xvY2sgaGFzDQo+IGJlZW4g
+ZGlzYWJsZWQgd2hlbiBzeXN0ZW0gaXMgc3VzcGVuZGVkLiBTZXQgdGhpcyBvcHRpb24gdG8gYXZv
+aWQgY2xvY2sgb2ZmLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWFjcGF1bCBMaW4gPG1hY3BhdWwu
+bGluQG1lZGlhdGVrLmNvbT4NCj4gLS0tDQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy91c2Iv
+bWVkaWF0ZWssbXRrLXhoY2kueWFtbCB8ICAgIDcgKysrKysrKw0KDQpUaGlzIGRlcGVuZHMgb24g
+cmV2aWV3aW5nIHBhdGNoOg0KaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xp
+bnV4LW1lZGlhdGVrL3BhdGNoLzIwMjAxMDE0MDE0NDM0LjYyMjM5LTYtY2h1bmZlbmcueXVuQG1l
+ZGlhdGVrLmNvbS8NClt2Miw2LzhdIGR0LWJpbmRpbmdzOiB1c2I6IGNvbnZlcnQgbWVkaWF0ZWss
+IG10ay14aGNpLnR4dCB0byBZQU1MIHNjaGVtYQ0KDQpQbGVhc2UgYWRkIGl0IGFmdGVyICItLS0i
+LCB0aGFua3MNCg0KDQo+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspDQo+IA0KPiBk
+aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9tZWRpYXRl
+ayxtdGsteGhjaS55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9t
+ZWRpYXRlayxtdGsteGhjaS55YW1sDQo+IGluZGV4IGVhNjk2YzguLmE5NTZkZGUgMTAwNjQ0DQo+
+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWssbXRr
+LXhoY2kueWFtbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNi
+L21lZGlhdGVrLG10ay14aGNpLnlhbWwNCj4gQEAgLTEwNCw2ICsxMDQsMTIgQEAgcHJvcGVydGll
+czoNCj4gICAgICBkZXNjcmlwdGlvbjogZW5hYmxlIFVTQiByZW1vdGUgd2FrZXVwLCBzZWUgcG93
+ZXIvd2FrZXVwLXNvdXJjZS50eHQNCj4gICAgICB0eXBlOiBib29sZWFuDQo+ICANCj4gKyAgbWVk
+aWF0ZWssa2VlcC1jbG9jay1vbjoNCj4gKyAgICBkZXNjcmlwdGlvbjogfA0KPiArICAgICAgS2Vl
+cCBjbG9jayBvbiBkdXJpbmcgc3lzdGVtIHN1c3BlbmQgYW5kIHJlc3VtZS4gU29tZSBwbGF0Zm9y
+bSB3aWxsIGZsdXNoDQo+ICsgICAgICByZWdpc3RlciBzZXR0aW5ncyBpZiBjbG9jayBoYXMgYmVl
+biBkaXNhYmxlZCB3aGVuIHN5c3RlbSBpcyBzdXNwZW5kZWQuDQo+ICsgICAgdHlwZTogYm9vbGVh
+bg0KPiArDQo+ICAgIG1lZGlhdGVrLHN5c2Nvbi13YWtldXA6DQo+ICAgICAgJHJlZjogL3NjaGVt
+YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvcGhhbmRsZS1hcnJheQ0KPiAgICAgIG1heEl0ZW1z
+OiAxDQo+IEBAIC0xNzUsNiArMTgxLDcgQEAgZXhhbXBsZXM6DQo+ICAgICAgICAgIGltb2QtaW50
+ZXJ2YWwtbnMgPSA8MTAwMDA+Ow0KPiAgICAgICAgICBtZWRpYXRlayxzeXNjb24td2FrZXVwID0g
+PCZwZXJpY2ZnIDB4NDAwIDE+Ow0KPiAgICAgICAgICB3YWtldXAtc291cmNlOw0KPiArICAgICAg
+ICBtZWRpYXRlayxrZWVwLWNsb2NrLW9uOw0KPiAgICAgICAgICB1c2IzLWxwbS1jYXBhYmxlOw0K
+PiAgICAgIH07DQo+ICAuLi4NCg0K
 
