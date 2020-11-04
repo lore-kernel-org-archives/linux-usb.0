@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CED1C388F7
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 23:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C58AC6369E
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 23:49:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1895920825
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 23:48:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 184CF20825
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 23:49:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4gTaLsC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fy4CNvg3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387580AbgKDXsN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Nov 2020 18:48:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48248 "EHLO
+        id S2387683AbgKDXtB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Nov 2020 18:49:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733109AbgKDXpP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Nov 2020 18:45:15 -0500
+        with ESMTP id S1733100AbgKDXpL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Nov 2020 18:45:11 -0500
 Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE53C0613CF;
-        Wed,  4 Nov 2020 15:45:14 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id 74so173829lfo.5;
-        Wed, 04 Nov 2020 15:45:14 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841EAC0613CF;
+        Wed,  4 Nov 2020 15:45:11 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id b1so135117lfp.11;
+        Wed, 04 Nov 2020 15:45:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4GdfWHUaJuS5SoIO3s3NHsXGshyNXM4oAFxRbthWkgE=;
-        b=P4gTaLsCzg40YfN/+eDtmkytwvz3j6y/tLzbROBla8Lyn2uhMCZ9nQWk13kTV4Zk2I
-         bnHXdTZ7JCgH2482+Bsq/SEutpf++F4rOA54+MOWEZoP1878JraQZGvFkgpKLj9EJ9oB
-         Ur03LDACJy0Gk205Uogo9GuQ+XlgE8hF5XT1rgOzSpD2VK7CysF1SUQsEUWdgW7G/mUI
-         rYhkJpYmOhvAYzocuXFm3t15Z32tacpF1m+u4i6DQO3oVETuAQznjAJx8HWU0saop/GI
-         IZIcJRr08uQZnL9VfqjuEXvNgEuv/wV/5Cqn6nFXMW0PNPirIrgP8gZewdRK4OP6fS91
-         JzkQ==
+        bh=s2xq+lt/r2Mvqw9qSWZAnUmoqhbrNvrI4eJy0ZnOQ64=;
+        b=Fy4CNvg3obv1cUoJtvGJ21pgRv1s2vfQZ+17zG35XkFJhQGYivEOExVUbw2fEdaRGa
+         ++APIIMcHAGfK/1E9UJY24YPYHy4O2A9bQts/vv5m93fdQ9Ty43C78419zh7Bf2Vk6r9
+         eWJVZOlxAkZ9v7Ov0+UUojl1qFdIk+/oVtB43e+1brDo2GrOzQvvt5/leRClxlavjH+s
+         AAp/ILGa8GQVEJSYwfOTryVzVXbkOSIpE9V4g+GcD0T8TD4yXfHl7kDjwklc+guJZO9G
+         DEJIhAku8uEOKHuOLL0c0EpROBzWbTmnQkPSAJLtnb3obN2xwV8jKIKLXEQEzpvfiJ70
+         cqXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4GdfWHUaJuS5SoIO3s3NHsXGshyNXM4oAFxRbthWkgE=;
-        b=Vx2ie8dq7fKKA83ypRpo1CFYhqmOUXJYgo3SCAK6knNOWd3SGHpODOd7uB0Bih08EW
-         d4eJUd9MMTMorqr8qiSGzoDcRnHmi4Am+ZXple6rfXXSGpeb2MheyfCiDSa9JbDUnHdI
-         m8UMmn9z/9Z353XbtfMi9rGbuLQiigIFz16TZPB91TtdyxEvKjMtkuif5TApsnIIhzjd
-         Z+hGDG5xDwC9gQ9dtUtNxe2tnYlBqh9xgdU1ng2nCImKvthB+gQkdcdPVQWlMdOP7C0N
-         1HyFAH74n/yln8wQH+CKvmXc2C0wppnSj/hO7XJE34aGcGUo2qoz/MiC04CtN3kecLz/
-         fr6w==
-X-Gm-Message-State: AOAM532ZP6fPVt/Y6x86cgPp4kD8JvvxUiHke+qgYLB06EK7NV3b4MMj
-        Hh4VQ4nsFUHgB/+EMf91Bog=
-X-Google-Smtp-Source: ABdhPJznyaKA15G7U7xNtBj9EgmdWFE2bHuNPgYQzw2meXnv4UjsY+M6043F6TKa+k1IIrlJjtZbHA==
-X-Received: by 2002:ac2:562a:: with SMTP id b10mr47103lff.562.1604533512794;
-        Wed, 04 Nov 2020 15:45:12 -0800 (PST)
+        bh=s2xq+lt/r2Mvqw9qSWZAnUmoqhbrNvrI4eJy0ZnOQ64=;
+        b=d952vZdnxbRQLFKsTzD3DeSuo1xhTZy9gJZdK3OibRSILvGexbP+MU+T+OD5Vng+Ry
+         c9iu1CGkvDiGdmf9UVzCeGN15JHLNDR3I8fWQlhw/wrlAJm5+MypxfSXE8385nfOGl6H
+         B3HOmcprZjIshfwRskfZ7cFas7ctuotTw5zlFtSBjdZSSsV9Deeumit2qgavuDcEy6B2
+         XuNZEujQ1lh9cc30x7oWWMvMiglgKkiV9ceo8Jumv0BdpwzI1IUfdvXkwicKb6Fc+9uj
+         j/fRmXivwHN0W2n6aU/X1IqBOhZVjStfgvQBb6QuGPw9pFG3RFJdtcz69ACqIiqBo9Yv
+         z1sA==
+X-Gm-Message-State: AOAM530Xr3YAPbomxR43P0oep++3IRsmYBA39SApzlNV5HjS5B08u72a
+        38vIYwrMpjWf6EiqGbkovVw=
+X-Google-Smtp-Source: ABdhPJwqoSMi1rb7vw1Ft82ab6MuGmnvmcXXmGI4LnfUQssU2WJfQ903eLKfiwjg+DKW6GcnoqGrow==
+X-Received: by 2002:a19:6a07:: with SMTP id u7mr52539lfu.220.1604533509991;
+        Wed, 04 Nov 2020 15:45:09 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru. [109.252.192.83])
-        by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.11
+        by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 15:45:12 -0800 (PST)
+        Wed, 04 Nov 2020 15:45:09 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -82,9 +82,9 @@ Cc:     linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 12/30] drm/tegra: gr2d: Correct swapped device-tree compatibles
-Date:   Thu,  5 Nov 2020 02:44:09 +0300
-Message-Id: <20201104234427.26477-13-digetx@gmail.com>
+Subject: [PATCH v1 10/30] regulator: Allow skipping disabled regulators in regulator_check_consumers()
+Date:   Thu,  5 Nov 2020 02:44:07 +0300
+Message-Id: <20201104234427.26477-11-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -94,30 +94,172 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The device-tree compatibles are swapped in the code, correct them.
+Add option which allows regulator_check_consumers() to skip accounting of
+a disabled consumer regulators.
+
+This new option is needed for the NVIDIA Tegra voltage couplers in order
+to properly calculate a lowest possible voltage for the CORE regulator.
+The requirements of a disabled consumer regulators should not be accounted
+by the Tegra voltage balancers because disabled state means that hardware
+is inactive. In particular disabled state shouldn't be accounted for the
+consumers which belong to the CORE voltage domain, meanwhile CPU domain
+should continue to account the disabled state.
 
 Tested-by: Peter Geis <pgwipeout@gmail.com>
 Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/gr2d.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/regulator/core.c                       | 12 ++++++++----
+ drivers/soc/samsung/exynos-regulator-coupler.c |  2 +-
+ drivers/soc/tegra/regulators-tegra20.c         |  6 +++---
+ drivers/soc/tegra/regulators-tegra30.c         |  6 +++---
+ include/linux/regulator/coupler.h              |  6 ++++--
+ 5 files changed, 19 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
-index 1a0d3ba6e525..f30aa86e4c9f 100644
---- a/drivers/gpu/drm/tegra/gr2d.c
-+++ b/drivers/gpu/drm/tegra/gr2d.c
-@@ -162,8 +162,8 @@ static const struct gr2d_soc tegra30_gr2d_soc = {
- };
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index f258ded39ce0..015dcd8408d9 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -462,7 +462,8 @@ static int regulator_check_states(suspend_state_t state)
+  */
+ int regulator_check_consumers(struct regulator_dev *rdev,
+ 			      int *min_uV, int *max_uV,
+-			      suspend_state_t state)
++			      suspend_state_t state,
++			      bool skip_disabled_regulators)
+ {
+ 	struct regulator *regulator;
+ 	struct regulator_voltage *voltage;
+@@ -476,6 +477,9 @@ int regulator_check_consumers(struct regulator_dev *rdev,
+ 		if (!voltage->min_uV && !voltage->max_uV)
+ 			continue;
  
- static const struct of_device_id gr2d_match[] = {
--	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra20_gr2d_soc },
--	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra30_gr2d_soc },
-+	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra30_gr2d_soc },
-+	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra20_gr2d_soc },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, gr2d_match);
++		if (skip_disabled_regulators && !regulator->enable_count)
++			continue;
++
+ 		if (*max_uV > voltage->max_uV)
+ 			*max_uV = voltage->max_uV;
+ 		if (*min_uV < voltage->min_uV)
+@@ -3662,7 +3666,7 @@ static int regulator_get_optimal_voltage(struct regulator_dev *rdev,
+ 
+ 		ret = regulator_check_consumers(rdev,
+ 						&desired_min_uV,
+-						&desired_max_uV, state);
++						&desired_max_uV, state, false);
+ 		if (ret < 0)
+ 			return ret;
+ 
+@@ -3681,7 +3685,7 @@ static int regulator_get_optimal_voltage(struct regulator_dev *rdev,
+ 
+ 		ret = regulator_check_consumers(c_rdevs[i],
+ 						&tmp_min,
+-						&tmp_max, state);
++						&tmp_max, state, false);
+ 		if (ret < 0)
+ 			return ret;
+ 
+@@ -4119,7 +4123,7 @@ int regulator_sync_voltage(struct regulator *regulator)
+ 	if (ret < 0)
+ 		goto out;
+ 
+-	ret = regulator_check_consumers(rdev, &min_uV, &max_uV, 0);
++	ret = regulator_check_consumers(rdev, &min_uV, &max_uV, 0, false);
+ 	if (ret < 0)
+ 		goto out;
+ 
+diff --git a/drivers/soc/samsung/exynos-regulator-coupler.c b/drivers/soc/samsung/exynos-regulator-coupler.c
+index 61a156b44a48..9bd99a93e3e0 100644
+--- a/drivers/soc/samsung/exynos-regulator-coupler.c
++++ b/drivers/soc/samsung/exynos-regulator-coupler.c
+@@ -41,7 +41,7 @@ static int regulator_get_optimal_voltage(struct regulator_dev *rdev,
+ 
+ 		ret = regulator_check_consumers(c_rdevs[i],
+ 						&tmp_min,
+-						&tmp_max, state);
++						&tmp_max, state, false);
+ 		if (ret < 0)
+ 			return ret;
+ 
+diff --git a/drivers/soc/tegra/regulators-tegra20.c b/drivers/soc/tegra/regulators-tegra20.c
+index 8782e399a58c..8c31acb5fdc6 100644
+--- a/drivers/soc/tegra/regulators-tegra20.c
++++ b/drivers/soc/tegra/regulators-tegra20.c
+@@ -136,7 +136,7 @@ static int tegra20_core_rtc_update(struct tegra_regulator_coupler *tegra,
+ 		return err;
+ 
+ 	err = regulator_check_consumers(core_rdev, &core_min_uV, &core_max_uV,
+-					PM_SUSPEND_ON);
++					PM_SUSPEND_ON, true);
+ 	if (err)
+ 		return err;
+ 
+@@ -246,12 +246,12 @@ static int tegra20_cpu_voltage_update(struct tegra_regulator_coupler *tegra,
+ 		return err;
+ 
+ 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV, &cpu_max_uV,
+-					PM_SUSPEND_ON);
++					PM_SUSPEND_ON, false);
+ 	if (err)
+ 		return err;
+ 
+ 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV_consumers,
+-					&cpu_max_uV, PM_SUSPEND_ON);
++					&cpu_max_uV, PM_SUSPEND_ON, false);
+ 	if (err)
+ 		return err;
+ 
+diff --git a/drivers/soc/tegra/regulators-tegra30.c b/drivers/soc/tegra/regulators-tegra30.c
+index fcf824f73131..d92aafa736bc 100644
+--- a/drivers/soc/tegra/regulators-tegra30.c
++++ b/drivers/soc/tegra/regulators-tegra30.c
+@@ -164,7 +164,7 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
+ 		return err;
+ 
+ 	err = regulator_check_consumers(core_rdev, &core_min_uV, &core_max_uV,
+-					PM_SUSPEND_ON);
++					PM_SUSPEND_ON, true);
+ 	if (err)
+ 		return err;
+ 
+@@ -175,12 +175,12 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
+ 	cpu_min_uV = core_min_uV - max_spread;
+ 
+ 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV, &cpu_max_uV,
+-					PM_SUSPEND_ON);
++					PM_SUSPEND_ON, false);
+ 	if (err)
+ 		return err;
+ 
+ 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV_consumers,
+-					&cpu_max_uV, PM_SUSPEND_ON);
++					&cpu_max_uV, PM_SUSPEND_ON, false);
+ 	if (err)
+ 		return err;
+ 
+diff --git a/include/linux/regulator/coupler.h b/include/linux/regulator/coupler.h
+index 5f86824bd117..4e076567b823 100644
+--- a/include/linux/regulator/coupler.h
++++ b/include/linux/regulator/coupler.h
+@@ -55,7 +55,8 @@ int regulator_coupler_register(struct regulator_coupler *coupler);
+ const char *rdev_get_name(struct regulator_dev *rdev);
+ int regulator_check_consumers(struct regulator_dev *rdev,
+ 			      int *min_uV, int *max_uV,
+-			      suspend_state_t state);
++			      suspend_state_t state,
++			      bool skip_disabled_regulators);
+ int regulator_check_voltage(struct regulator_dev *rdev,
+ 			    int *min_uV, int *max_uV);
+ int regulator_get_voltage_rdev(struct regulator_dev *rdev);
+@@ -75,7 +76,8 @@ static inline const char *rdev_get_name(struct regulator_dev *rdev)
+ }
+ static inline int regulator_check_consumers(struct regulator_dev *rdev,
+ 					    int *min_uV, int *max_uV,
+-					    suspend_state_t state)
++					    suspend_state_t state,
++					    bool skip_disabled_regulators))
+ {
+ 	return -EINVAL;
+ }
 -- 
 2.27.0
 
