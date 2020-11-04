@@ -2,215 +2,86 @@ Return-Path: <SRS0=Q74q=EK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BF1C2D0A3
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 09:10:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5982C388F7
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 10:04:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2E122242B
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 09:10:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K1+Rdz5o"
+	by mail.kernel.org (Postfix) with ESMTP id 7DB58223AB
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Nov 2020 10:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604484283;
+	bh=G/oo+PnA1a44MDp+qWbntJq0+FsxVfHwcYYCvzHA4mQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=EH6k2qOGJnFe8WWzepo+lr/vVtZWsqecDtRL17EJyG1xw3cGkMBW4X6RQtHKue/ND
+	 RXDfhx67x29oaZ5S4G5BMFEDzBOKvUFafwHstHfDja449gQ7AvYiC9iRKlgjFiZA/i
+	 hqVhdiKNWXQNhNzkHDG0GTiFf8R4FH/KQXvLzXmU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728644AbgKDJG1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Nov 2020 04:06:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbgKDJGY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Nov 2020 04:06:24 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F6D8C061A4A
-        for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2020 01:06:24 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id c17so1814563wrc.11
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2020 01:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZVySsFYAxVyvKjZwFTKaFMnVATseHBsi4tJ0dIp9TLE=;
-        b=K1+Rdz5ogf/5T2jMdF3v9m88jLY/gNqsMKJm061QdgaEQGjK4st39GT4kTZK6c7eAv
-         3cJicgPoZBh9YEvxLFGZcZyHE0XnNqBy1XOiWQuoMPDL9faO4RhxQ9VP++HCtvthQR9S
-         799P3oQD3ZEWTAn8Z+1PDWW2WOSIRjZ/YNizWauRHAov45YgSsQGFvDCGkpGdXI1KiOg
-         QyMiZ+qAf84rNKlDHGrCMb3Z298LfBhK4STT2/MKrClXtDUj1+DxmNn50j9f2xT6h0lS
-         2FLRla4Vx5B06Pb85+k62n0XQr8agXXsfRziu37OjAXEKgzSYzjV1kzmZ4S3HLfgeg3X
-         jRpA==
+        id S1728523AbgKDKEk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Nov 2020 05:04:40 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:43802 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726691AbgKDKEj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Nov 2020 05:04:39 -0500
+Received: by mail-lf1-f68.google.com with SMTP id l28so26311966lfp.10;
+        Wed, 04 Nov 2020 02:04:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZVySsFYAxVyvKjZwFTKaFMnVATseHBsi4tJ0dIp9TLE=;
-        b=nAhtfBj3Gb0EF3+ZmpgN59YtB56Le1/QNAwyxry2KquDtp0Rxhbe/HxQWU1LT5wjj9
-         h1MohlTCTHl/zS6OqJW8K+ThgAz9SDN9ibUgPljxNgyxg5Hl0O5EeMnQCyzMM4hMpSe/
-         jPHB86dF/4zLncW8lrnWZD1kM7D/IJuYN0BPy3sYTGYCesm+GzgP8+ySYGbZ/GqPAIbp
-         Aa0X/pqvyBmhHmWq7J+3pVPKNbfEGJ5IJYDqvsAKQRsQHQ60ZHb6xSAiF+dSidO2OM22
-         YFlYNWRroj0v9dgz582of4kI3IBLAycnln2b15+TGVm2SAMU2hvWAjfEV+3I8FaPYW/j
-         mdYA==
-X-Gm-Message-State: AOAM531V1xsb8zXmgj/qWJWKY4zBKvO5iMxr7CkAciwKHq9ne8gJs6zj
-        PP9I3FnDjNtURZqvTZ4nUtFzhQ==
-X-Google-Smtp-Source: ABdhPJzn8d8Abh2QVS+FdXToKUqdpB6TwiMSAYlD5+ls0hMcq+h/pWmcBsJhdaEKInesWzdpNiQxsw==
-X-Received: by 2002:adf:e384:: with SMTP id e4mr31089426wrm.227.1604480782887;
-        Wed, 04 Nov 2020 01:06:22 -0800 (PST)
-Received: from dell.default ([91.110.221.242])
-        by smtp.gmail.com with ESMTPSA id e25sm1607823wrc.76.2020.11.04.01.06.20
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Us56OjDJl3ikuiXcYymCKFvIXiGMjNRM3PaU39vhbgA=;
+        b=XW1qqwqpOdMxd88OEUlcqUVfwqbt9FXe4QTPZ7CqTt1nv03AdOIqp4Y5366IJYGdI1
+         U8rRils1rkEsxWVc1ye148J/cagBxMQYQICf1BkHwWyvdWZEVdT7mBNuII10zhFWqspE
+         kovQyeSX8PvGMWQ+p5c+Ynwzjp19w6amqpYfpfzWcsjakDVaGQTMgDJvQcVPxnmXOmx3
+         OtS4QY9IeMuTBLlTh5o2EsVoANpO30uBZmoPOiCQ+uvt62ycBSmr4OzZf3R3eSrQWQIe
+         7My/JLV3DKPvo3qDjDLVFHA0OV69iFuTzCYYtqgXmNSpoloXTK5C2qW79du9K5kMBvVk
+         bcEw==
+X-Gm-Message-State: AOAM531SeUoZdwHzLU7byesR9XoevApUedaRqCGn6OF0B8Ca6mYhhb2/
+        Z846H19ULrwRd5CvNsN2LSk=
+X-Google-Smtp-Source: ABdhPJxAsUTgPYgntivfO9/Ue+OyiDmkMTximqsvwoFogZAD/kQia7gQbzc66OSA7GihlYKbm+qC0g==
+X-Received: by 2002:a19:6453:: with SMTP id b19mr9989882lfj.527.1604484277512;
+        Wed, 04 Nov 2020 02:04:37 -0800 (PST)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id 65sm363988lfl.68.2020.11.04.02.04.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 01:06:22 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     davem@davemloft.net, kuba@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
-        Dany Madden <drt@linux.ibm.com>,
-        Daris A Nevil <dnevil@snmc.com>,
-        Dustin McIntire <dustin@sensoria.com>,
-        Erik Stahlman <erik@vt.edu>,
-        Geoff Levand <geoff@infradead.org>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Ishizaki Kou <kou.ishizaki@toshiba.co.jp>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Jens Osterkamp <Jens.Osterkamp@de.ibm.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Allen <jallen@linux.vnet.ibm.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        John Williams <john.williams@xilinx.com>,
-        Juergen Gross <jgross@suse.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Lijun Pan <ljp@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        linux-usb@vger.kernel.org, Martin Habets <mhabets@solarflare.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        netdev@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
-        Paul Durrant <paul@xen.org>, Paul Mackerras <paulus@samba.org>,
-        Peter Cammaert <pc@denkart.be>,
-        Russell King <rmk@arm.linux.org.uk>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Santiago Leon <santi_leon@yahoo.com>,
-        Shannon Nelson <snelson@pensando.io>,
-        Song Liu <songliubraving@fb.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Sukadev Bhattiprolu <sukadev@linux.ibm.com>,
-        Thomas Falcon <tlfalcon@linux.vnet.ibm.com>,
-        Utz Bacher <utz.bacher@de.ibm.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        xen-devel@lists.xenproject.org, Yonghong Song <yhs@fb.com>
-Subject: [PATCH 00/12] [Set 2] Rid W=1 warnings in Net
-Date:   Wed,  4 Nov 2020 09:05:58 +0000
-Message-Id: <20201104090610.1446616-1-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Wed, 04 Nov 2020 02:04:36 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1kaFei-0003UG-IM; Wed, 04 Nov 2020 11:04:40 +0100
+Date:   Wed, 4 Nov 2020 11:04:40 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+        "Ahmed S . Darwish" <a.darwish@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/14] USB: serial: keyspan_pda: fix up write
+ implementation
+Message-ID: <20201104100440.GQ4085@localhost>
+References: <20201025174600.27896-1-johan@kernel.org>
+ <20201028093848.GD1953863@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201028093848.GD1953863@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+On Wed, Oct 28, 2020 at 10:38:48AM +0100, Greg Kroah-Hartman wrote:
+> On Sun, Oct 25, 2020 at 06:45:46PM +0100, Johan Hovold wrote:
+> > This series fixes a number of long-standing issues with the keyspan_pda
+> > driver and reworks its write implementation so that it can be used with
+> > any line discipline or for a system console.
+> > 
+> > The last few patches cleans up the xircom device support and some style
+> > issues.
+> 
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-This set is part of a larger effort attempting to clean-up W=1
-kernel builds, which are currently overwhelmingly riddled with
-niggly little warnings.
+Thanks for reviewing. Now applied for -next.
 
-This is the last set.
-
-Lee Jones (12):
-  net: usb: lan78xx: Remove lots of set but unused 'ret' variables
-  net: ethernet: smsc: smc911x: Mark 'status' as __maybe_unused
-  net: ethernet: xilinx: xilinx_emaclite: Document 'txqueue' even if it
-    is unused
-  net: ethernet: smsc: smc91x: Demote non-conformant kernel function
-    header
-  net: xen-netback: xenbus: Demote nonconformant kernel-doc headers
-  net: ethernet: ti: am65-cpsw-qos: Demote non-conformant function
-    header
-  net: ethernet: ti: am65-cpts: Document am65_cpts_rx_enable()'s 'en'
-    parameter
-  net: xen-netfront: Demote non-kernel-doc headers to standard comment
-    blocks
-  net: ethernet: ibm: ibmvnic: Fix some kernel-doc misdemeanours
-  net: ethernet: toshiba: ps3_gelic_net: Fix some kernel-doc
-    misdemeanours
-  net: ethernet: toshiba: spider_net: Document a whole bunch of function
-    parameters
-  net: ethernet: ibm: ibmvnic: Fix some kernel-doc issues
-
- drivers/net/ethernet/ibm/ibmvnic.c            |  27 ++-
- drivers/net/ethernet/smsc/smc911x.c           |   6 +-
- drivers/net/ethernet/smsc/smc91x.c            |   2 +-
- drivers/net/ethernet/ti/am65-cpsw-qos.c       |   2 +-
- drivers/net/ethernet/ti/am65-cpts.c           |   2 +-
- drivers/net/ethernet/toshiba/ps3_gelic_net.c  |   9 +-
- drivers/net/ethernet/toshiba/spider_net.c     |  18 +-
- drivers/net/ethernet/xilinx/xilinx_emaclite.c |   1 +
- drivers/net/usb/lan78xx.c                     | 212 +++++++++---------
- drivers/net/xen-netback/xenbus.c              |   4 +-
- drivers/net/xen-netfront.c                    |   6 +-
- 11 files changed, 141 insertions(+), 148 deletions(-)
-
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Andrii Nakryiko <andrii@kernel.org>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Cc: bpf@vger.kernel.org
-Cc: Daniel Borkmann <daniel@iogearbox.net>
-Cc: Dany Madden <drt@linux.ibm.com>
-Cc: Daris A Nevil <dnevil@snmc.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Dustin McIntire <dustin@sensoria.com>
-Cc: Erik Stahlman <erik@vt.edu>
-Cc: Geoff Levand <geoff@infradead.org>
-Cc: Grygorii Strashko <grygorii.strashko@ti.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Ishizaki Kou <kou.ishizaki@toshiba.co.jp>
-Cc: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Jens Osterkamp <Jens.Osterkamp@de.ibm.com>
-Cc: Jesper Dangaard Brouer <hawk@kernel.org>
-Cc: John Allen <jallen@linux.vnet.ibm.com>
-Cc: John Fastabend <john.fastabend@gmail.com>
-Cc: John Williams <john.williams@xilinx.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: KP Singh <kpsingh@chromium.org>
-Cc: Kurt Kanzenbach <kurt@linutronix.de>
-Cc: Lijun Pan <ljp@linux.ibm.com>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-usb@vger.kernel.org
-Cc: Martin Habets <mhabets@solarflare.com>
-Cc: Martin KaFai Lau <kafai@fb.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>
-Cc: netdev@vger.kernel.org
-Cc: Nicolas Pitre <nico@fluxnic.net>
-Cc: Paul Durrant <paul@xen.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Peter Cammaert <pc@denkart.be>
-Cc: Russell King <rmk@arm.linux.org.uk>
-Cc: Rusty Russell <rusty@rustcorp.com.au>
-Cc: Santiago Leon <santi_leon@yahoo.com>
-Cc: Shannon Nelson <snelson@pensando.io>
-Cc: Song Liu <songliubraving@fb.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Sukadev Bhattiprolu <sukadev@linux.ibm.com>
-Cc: Thomas Falcon <tlfalcon@linux.vnet.ibm.com>
-Cc: Utz Bacher <utz.bacher@de.ibm.com>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Woojung Huh <woojung.huh@microchip.com>
-Cc: xen-devel@lists.xenproject.org
-Cc: Yonghong Song <yhs@fb.com>
--- 
-2.25.1
-
+Johan
