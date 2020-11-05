@@ -2,95 +2,93 @@ Return-Path: <SRS0=y/Gp=EL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A68EBC00A89
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 10:52:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27398C388F7
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 10:56:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 509E2206FA
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 10:52:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604573551;
-	bh=dHIPFHJS8mksvgjLXcR/EsyhX2pv1p/eGxNVCgM8hrs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=qF1Gl2Nw7hbtNc65XF/Xf9h1P73MYPyMFDOD2KK5/kXek3gpV8oYjHcMIAznu6NTq
-	 Hszi8B+ZZ/RQ9KiSde9oATA9t40XdmjWh+8TKExUd2TGgjC8WjmAwHGnTygGNt1IhJ
-	 o1kjmwaegldg4fQP/ar7XxtY1f0pX+/jBQMownmA=
+	by mail.kernel.org (Postfix) with ESMTP id BCC8C2072C
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 10:56:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uJPNm/9f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730001AbgKEKw2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Nov 2020 05:52:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46274 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726152AbgKEKw2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 5 Nov 2020 05:52:28 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 090552151B;
-        Thu,  5 Nov 2020 10:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604573547;
-        bh=dHIPFHJS8mksvgjLXcR/EsyhX2pv1p/eGxNVCgM8hrs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SahJzWsZQ2bLQXz1f8iY+r1b4yVRcWcoXiB8i6+F7bLid+d1tYxE59d4wtS3l6Mn7
-         ObzQPGDxTuxKJfJu0KlO3Wa5uK+NYvW7uwd5uVBtppieLp8pOmWHDqtO5y3TdYZeC5
-         khmsdst29miRjXIvJ1SmUJ71LWLvyFL55QdqMncw=
-Date:   Thu, 5 Nov 2020 11:53:16 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     open list <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Shuah Khan <shuah@kernel.org>, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, pavel@denx.de,
-        linux- stable <stable@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 5.9 000/391] 5.9.4-rc1 review
-Message-ID: <20201105105316.GA4038994@kroah.com>
-References: <20201103203348.153465465@linuxfoundation.org>
- <CA+G9fYsrppNwC0S4vkrS8jGW4k2fgmbAzy=oMLV6X9=DHkznpw@mail.gmail.com>
+        id S1730152AbgKEK4p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Nov 2020 05:56:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730069AbgKEK4p (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Nov 2020 05:56:45 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11400C0613CF;
+        Thu,  5 Nov 2020 02:56:45 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id oq3so1952915ejb.7;
+        Thu, 05 Nov 2020 02:56:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=AtroSstUCyILeySaqdfODVVqHZHsfk6Z9ZPz46kg3Uk=;
+        b=uJPNm/9fX3Jf24EnO4xc7KbgtzTtSXE6BXX3IWTEed2qtNk5ipkQ8Z1P4a18M0vaBB
+         PyPSp9f5xIKMG4K02fxqMVRu2zqMNp5qbhUfs/28Tc7aFjxvSTYichUvs6rv+QMNLQvs
+         qit6fCGQagC0F0r6CWh3Z2MSoR1R01+beNFFYeTCZu5L0DamVlns97F8BtnfmJKURrgK
+         InncOII52BV2qICMswBBCDj4lsvtQDa7ARU8kCWybA3RDTUEzah4vqpXXHODsUUD4iYF
+         rxyeHksLagvVpemCUD5lI1xrMJDeh9vKmatgb/eBfhiBfr/wOjwahXKSe+mWoH/EAxx8
+         8Hzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=AtroSstUCyILeySaqdfODVVqHZHsfk6Z9ZPz46kg3Uk=;
+        b=M/utkE/CR4zCfdCTFzarRf3/D0JNRAIgtLiDXv74ch7NHelaAIE53HMhTIJ0JvBhK2
+         yKA+0WN+ifbW4Yb5N2SbC78a3saEJ3lmn6bg+GgqHEBfqxs/8qF31egaupgyed7LN1W1
+         u3PvkaffGkJF9qLnNXEOA3Vh1X/QzTNIKWxXYWN8edCTnHeXjMUJP2F9XGyUS7MomKUH
+         6RFdSPv0s4VsL4mDHnLiuIW63yBHxj91k5OTuRkaqb+U9/Y+A6Q33ekwe8Uyp93wMP82
+         2GMAmLDO9NUcCnxMqFYz6zs5pTLy4z/j3qtO4yr0dGbnliHdLKvrmnagdHB6I9wcIna8
+         oSyw==
+X-Gm-Message-State: AOAM533PlAtUK/BTlN7S3A19bnmwDJJlXWqasNwS4Xvop40T51mqFb9s
+        v2nQh2vp9kkLMh9NW4QD6Ck=
+X-Google-Smtp-Source: ABdhPJwImWuTsjbha72MzYhweiG73gxU/PCNOwPm29v3UZUaq05ZSrQ8wDTOcFlhqh+3kxKUrdtKJA==
+X-Received: by 2002:a17:906:a14c:: with SMTP id bu12mr1732678ejb.444.1604573803817;
+        Thu, 05 Nov 2020 02:56:43 -0800 (PST)
+Received: from skbuf ([188.25.2.177])
+        by smtp.gmail.com with ESMTPSA id o31sm656257edd.94.2020.11.05.02.56.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2020 02:56:43 -0800 (PST)
+Date:   Thu, 5 Nov 2020 12:56:42 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        Hayes Wang <hayeswang@realtek.com>
+Subject: Re: [PATCH net-next 3/5] r8152: add MCU typed read/write functions
+Message-ID: <20201105105642.pgdxxlytpindj5fq@skbuf>
+References: <20201103192226.2455-4-kabel@kernel.org>
+ <20201103214712.dzwpkj6d5val6536@skbuf>
+ <20201104065524.36a85743@kernel.org>
+ <20201104084710.wr3eq4orjspwqvss@skbuf>
+ <20201104112511.78643f6e@kernel.org>
+ <20201104113545.0428f3fe@kernel.org>
+ <20201104110059.whkku3zlck6spnzj@skbuf>
+ <20201104121053.44fae8c7@kernel.org>
+ <20201104121424.th4v6b3ucjhro5d3@skbuf>
+ <20201105105418.555d6e54@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+G9fYsrppNwC0S4vkrS8jGW4k2fgmbAzy=oMLV6X9=DHkznpw@mail.gmail.com>
+In-Reply-To: <20201105105418.555d6e54@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 12:42:46PM +0530, Naresh Kamboju wrote:
-> On Wed, 4 Nov 2020 at 02:07, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > This is the start of the stable review cycle for the 5.9.4 release.
-> > There are 391 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> >
-> > Responses should be made by Thu, 05 Nov 2020 20:29:58 +0000.
-> > Anything received after that time might be too late.
-> >
-> > The whole patch series can be found in one patch at:
-> >         https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.9.4-rc1.gz
-> > or in the git tree and branch at:
-> >         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.9.y
-> > and the diffstat can be found below.
-> >
-> > thanks,
-> >
-> > greg k-h
-> 
-> Results from Linaroâ€™s test farm.
-> No regressions on arm64, arm, x86_64, and i386.
-> 
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+On Thu, Nov 05, 2020 at 10:54:18AM +0100, Marek Behún wrote:
+> I thought that static inline functions are preferred to macros, since
+> compiler warns better if they are used incorrectly...
 
-Thanks for testing all of these and letting me know.
-
-greg k-h
+Citation needed. Also, how do static inline functions wrapped in macros
+(i.e. your patch) stack up against your claim about better warnings?
+I guess ease of maintainership should prevail here, and Hayes should
+have the final word. I don't really have any stake here.
