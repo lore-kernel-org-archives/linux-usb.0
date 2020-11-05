@@ -2,98 +2,101 @@ Return-Path: <SRS0=y/Gp=EL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61998C388F7
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 11:34:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 640A5C00A89
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 11:37:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DAAE20867
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 11:34:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1555F2224E
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 11:37:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604576075;
-	bh=Dxd/asuG1ffxD38m+faQ2D4wqGfZEZQQ/iK88SC6Vgw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=b9ZjW7LFyl57LCvhwvrsyT+ReVEUkZEhxcBV77kuuUnXpn2+rmateR3/EffBFVFoQ
-	 L1erbc3nLvEnIbThlnBpUG5iuoS/zK41UhUaUVkiIS4k2Xcd76PUhmV0uIIP8fL1wJ
-	 Vs3bU0VeD1iWnIrkWTm+pHUYKvZRv3QN6rfJZsGg=
+	s=default; t=1604576242;
+	bh=pBp+PSOlqYChMbjW9M+N2OTIL46RqNqDn9FBuRaY9bU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=EKKztwFc/fY2ENjvHTzugqyH2vRjP+GsSkaApI2rO8H5bXDMpgB1PZCGbH05VPo3F
+	 rQHxmb9IJJr2rLag5vz35kziumf6wbmzbrw95NiByGGUZZZwrydNLa4ZhQkWAcFGCg
+	 dTd+v6+IpO/LZFUgXEH+8c5WeiRZez8wyRELV4CI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730044AbgKELcE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Nov 2020 06:32:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53490 "EHLO mail.kernel.org"
+        id S1730525AbgKELhS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Nov 2020 06:37:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55408 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729898AbgKELa6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 5 Nov 2020 06:30:58 -0500
-Received: from localhost (otava-0257.koleje.cuni.cz [78.128.181.4])
+        id S1726996AbgKELhR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 5 Nov 2020 06:37:17 -0500
+Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C0B32078E;
-        Thu,  5 Nov 2020 11:30:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E8B220A8B;
+        Thu,  5 Nov 2020 11:37:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604575857;
-        bh=Dxd/asuG1ffxD38m+faQ2D4wqGfZEZQQ/iK88SC6Vgw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=RuUqKC6ALvHpg5g/xQ+Ff2j1vo5BlQDeHcKnmMHuDGGZXP76xIeJ9k6cXVTXNLYLD
-         9QX0GPbw2eYrNmMAm2KlDegUoCrLdR13v+rmerXMdwylI3ENeYH1OvU3JhHjjq4lGe
-         hkt2hXzrZ8O8onQz8m7gIiJqOilzosJd95iPf+gw=
-Date:   Thu, 5 Nov 2020 12:30:43 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Hayes Wang <hayeswang@realtek.com>
-Subject: Re: [PATCH net-next 3/5] r8152: add MCU typed read/write functions
-Message-ID: <20201105123043.3b114bec@kernel.org>
-In-Reply-To: <20201105105642.pgdxxlytpindj5fq@skbuf>
-References: <20201103192226.2455-4-kabel@kernel.org>
-        <20201103214712.dzwpkj6d5val6536@skbuf>
-        <20201104065524.36a85743@kernel.org>
-        <20201104084710.wr3eq4orjspwqvss@skbuf>
-        <20201104112511.78643f6e@kernel.org>
-        <20201104113545.0428f3fe@kernel.org>
-        <20201104110059.whkku3zlck6spnzj@skbuf>
-        <20201104121053.44fae8c7@kernel.org>
-        <20201104121424.th4v6b3ucjhro5d3@skbuf>
-        <20201105105418.555d6e54@kernel.org>
-        <20201105105642.pgdxxlytpindj5fq@skbuf>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        s=default; t=1604576235;
+        bh=pBp+PSOlqYChMbjW9M+N2OTIL46RqNqDn9FBuRaY9bU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Y+576v7iNcj4kMvB35eysruJOQdkR348xg5HcGVS+tQDPuC9XKkqsXpLQUoSBhsun
+         PdAvNWVMFWx4IIPB7wYaRk99EriNFgiEuUwNa8mObtwaUATKqOvyTaoveviaTkGLLa
+         IatMWOcPLeZ+E44kK/jPZYO+06UVwDVNk7wBFM2A=
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] xhci-pci: Allow host runtime PM as default for Intel
+ Maple Ridge xHCI
+In-Reply-To: <20201105110031.8691-1-mika.westerberg@linux.intel.com>
+References: <20201105110031.8691-1-mika.westerberg@linux.intel.com>
+Date:   Thu, 05 Nov 2020 13:37:10 +0200
+Message-ID: <87imakqbkp.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 5 Nov 2020 12:56:42 +0200
-Vladimir Oltean <olteanv@gmail.com> wrote:
 
-> On Thu, Nov 05, 2020 at 10:54:18AM +0100, Marek Beh=C3=BAn wrote:
-> > I thought that static inline functions are preferred to macros, since
-> > compiler warns better if they are used incorrectly... =20
->=20
-> Citation needed.
+Hi,
 
-Just search for substring "instead of macro" in git log, there are
-multiple such changes that were accepted since it provides better
-typechecking. I am not saying it is documented anywhere, just that I
-thought it was preffered.
+Mika Westerberg <mika.westerberg@linux.intel.com> writes:
+> Intel Maple Ridge is successor of Titan Ridge Thunderbolt controller. As
+> Titan Ridge this one also includes xHCI host controller. In order to
+> safe energy we should put it to low power state by default when idle.
+  ^^^^
+  save
 
-> Also, how do static inline functions wrapped in macros
-> (i.e. your patch) stack up against your claim about better warnings?
+> For this reason allow host runtime PM for Maple Ridge.
+>
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> ---
+>  drivers/usb/host/xhci-pci.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index bf89172c43ca..d17e463087df 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -55,6 +55,7 @@
+>  #define PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI		0x8a13
+>  #define PCI_DEVICE_ID_INTEL_CML_XHCI			0xa3af
+>  #define PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI		0x9a13
+> +#define PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI		0x1138
+>  
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
+> @@ -238,7 +239,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+>  	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
+>  	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
+>  	     pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
+> -	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
+> +	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI ||
+> +	     pdev->device == PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI))
+>  		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
 
-If they are defined as functions (they don't have to be inline,
-of course) instead of macros and they are used incorrectly, the compiler
-provides more readable warnings. (Yes, in current versions of gcc it is
-much better than in the past, but still there are more lines of
-warnings printed: "in expansion of macro"...).
+the ever growing list of quirks to *allow* PM :-) Perhaps the logic
+should be inverted here and call a quirk to something that *can't*
+handle PM?
 
-
-> I guess ease of maintainership should prevail here, and Hayes should
-> have the final word. I don't really have any stake here.
-
-Vladimir, your arguments are valid and I accept the reasoning.
-I too can see that the resulting code is a little awkward.
-
-Marek
-
-
+-- 
+balbi
