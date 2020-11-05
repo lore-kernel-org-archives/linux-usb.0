@@ -2,147 +2,88 @@ Return-Path: <SRS0=y/Gp=EL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE87C4741F
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 10:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB42EC388F7
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 11:00:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA8D62222B
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 10:57:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sMrO9GRU"
+	by mail.kernel.org (Postfix) with ESMTP id 5258B20729
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 11:00:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730073AbgKEK5Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Nov 2020 05:57:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726688AbgKEK5P (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Nov 2020 05:57:15 -0500
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF183C0613D2
-        for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2020 02:57:14 -0800 (PST)
-Received: by mail-vs1-xe41.google.com with SMTP id h5so520545vsp.3
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2020 02:57:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NZmePoLLIiaP7pYwZl5Ym7F23h4GkDT/CkXYHiP4lxo=;
-        b=sMrO9GRUiQTa3qJHIC5F27I3pHGV5/pX9nBuQ9TmRTxE01Ehxii8CB9TiezKwc2tYJ
-         3SHV/Rhxs7BmoKB4aJ9W24W7rjat8dvXU+F20+lfe5dyWM1qwmiRT2/Hz4E+yVMLYnPt
-         b7MnO/qq1/9P+on1rkNYRYvwC+wu1WaH12rx3rIlc9KubXnGg8K8RqrwvSVobVT1eBhL
-         S5jUjJHcPKtkeDXyshEdMUlmsFSrn0JHuPLo57AVegznV5Ma/kMzEcO9yRsB/eDD9c8G
-         VI/lxjTY1cQzy9HDsuMni9iMjRs1YrWj3PYOnqX2Fk0T+EROO60K2racmtEoxOny53Bc
-         Vckg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NZmePoLLIiaP7pYwZl5Ym7F23h4GkDT/CkXYHiP4lxo=;
-        b=ILU2zu53h/0D18f+HmZ0/JVicGtGSZ/Fc3Iysre22urEM6IfpbQlfcL2b+LwfBc16p
-         K336N/7o0WzD2tnwdP2LZrHGsX35vNt9SjNgvIVVdy6ONcBr4U5Sp8CKa/Kua+QYWjlT
-         1sWZyJPGRfT4el5MYK14aB+aHegr8g7pmftgV9ehC8jMEaE5CiFAyYrb7TJoFV7mkjns
-         G8bLNKuYjlXlpm3iBMJEzNqS+iDj+dcIknd2jMAa1kv5uGwo8ghQwKLLyt3ohFQWTx+s
-         WGxeeOBPIvy3IYIQRayVedicdhsWc8M9JcA61zQOLiBuamXf+Aa7n3ltBfbX9PwSVQa2
-         9C2A==
-X-Gm-Message-State: AOAM530Fx4bvcH1d3sYrf9nTbaFk057NWTcOd1UQ8SDtw9vWlZki0y8M
-        UovNKM6qjXKjEAt+j0VaOjHA/trPo4Pv5KHjcS0wgQ==
-X-Google-Smtp-Source: ABdhPJxaRHBJV2RUrIs2kqpAdWFFr8Yx3RVQqbiDwrHCSiI8zLcVccVJz2D9BrdKdQ25WwGzjdkbJ1OYioX7LFmCPEw=
-X-Received: by 2002:a67:310d:: with SMTP id x13mr785780vsx.19.1604573833960;
- Thu, 05 Nov 2020 02:57:13 -0800 (PST)
+        id S1727836AbgKELAe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Nov 2020 06:00:34 -0500
+Received: from mga12.intel.com ([192.55.52.136]:14533 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725827AbgKELAe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 5 Nov 2020 06:00:34 -0500
+IronPort-SDR: Z8PQfEDWqwIfmu+mBPh+jUI7d+MzS2bZvur1nMo4sdlliz2UoDX9qeDKmSPq9JNotWPdwYvGB4
+ Pnh1sw2ovRnA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="148642538"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="148642538"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 03:00:33 -0800
+IronPort-SDR: QGvzJNYN6F85Y52CIaYREDGsw01nqY+MkNTpxfTYecvOUG3446zFvZoHQGfVf+CVSH32ZuTjQi
+ ohh4e2nNwaFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="358387080"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2020 03:00:32 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id D30DD252; Thu,  5 Nov 2020 13:00:31 +0200 (EET)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] xhci-pci: Allow host runtime PM as default for Intel Maple Ridge xHCI
+Date:   Thu,  5 Nov 2020 14:00:31 +0300
+Message-Id: <20201105110031.8691-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20201104234427.26477-1-digetx@gmail.com> <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
- <20201105100603.skrirm7uke4s2xyl@vireshk-i7> <CAPDyKFoCJt5MBSKBJ8n1OAMdVsWHdwXTx0zFEcZw_F_gQ6Ug0w@mail.gmail.com>
- <20201105104009.oo4dc6a2gdcwduhk@vireshk-i7>
-In-Reply-To: <20201105104009.oo4dc6a2gdcwduhk@vireshk-i7>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 5 Nov 2020 11:56:37 +0100
-Message-ID: <CAPDyKFpQG98d6foc1U6fp3YEBdZ1vLqY9cmWxpUwXoKgDn+ojQ@mail.gmail.com>
-Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
- Tegra20/30 SoCs
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-pwm@vger.kernel.org,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 5 Nov 2020 at 11:40, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> On 05-11-20, 11:34, Ulf Hansson wrote:
-> > I am not objecting about scaling the voltage through a regulator,
-> > that's fine to me. However, encoding a power domain as a regulator
-> > (even if it may seem like a regulator) isn't. Well, unless Mark Brown
-> > has changed his mind about this.
-> >
-> > In this case, it seems like the regulator supply belongs in the
-> > description of the power domain provider.
->
-> Okay, I wasn't sure if it is a power domain or a regulator here. Btw,
-> how do we identify if it is a power domain or a regulator ?
+Intel Maple Ridge is successor of Titan Ridge Thunderbolt controller. As
+Titan Ridge this one also includes xHCI host controller. In order to
+safe energy we should put it to low power state by default when idle.
+For this reason allow host runtime PM for Maple Ridge.
 
-Good question. It's not a crystal clear line in between them, I think.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/usb/host/xhci-pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-A power domain to me, means that some part of a silicon (a group of
-controllers or just a single piece, for example) needs some kind of
-resource (typically a power rail) to be enabled to be functional, to
-start with. If there are operating points involved, that's also a
-clear indication to me, that it's not a regular regulator.
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index bf89172c43ca..d17e463087df 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -55,6 +55,7 @@
+ #define PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI		0x8a13
+ #define PCI_DEVICE_ID_INTEL_CML_XHCI			0xa3af
+ #define PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI		0x9a13
++#define PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI		0x1138
+ 
+ #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
+ #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
+@@ -238,7 +239,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
+ 	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
+ 	     pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
+-	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
++	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI ||
++	     pdev->device == PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI))
+ 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+ 
+ 	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
+-- 
+2.28.0
 
-Maybe we should try to specify this more exactly in some
-documentation, somewhere.
-
->
-> > > In case of Qcom earlier (when we added the performance-state stuff),
-> > > the eventual hardware was out of kernel's control and we didn't wanted
-> > > (allowed) to model it as a virtual regulator just to pass the votes to
-> > > the RPM. And so we did what we did.
-> > >
-> > > But if the hardware (where the voltage is required to be changed) is
-> > > indeed a regulator and is modeled as one, then what Dmitry has done
-> > > looks okay. i.e. add a supply in the device's node and microvolt
-> > > property in the DT entries.
-> >
-> > I guess I haven't paid enough attention how power domain regulators
-> > are being described then. I was under the impression that the CPUfreq
-> > case was a bit specific - and we had legacy bindings to stick with.
-> >
-> > Can you point me to some other existing examples of where power domain
-> > regulators are specified as a regulator in each device's node?
->
-> No, I thought it is a regulator here and not a power domain.
-
-Okay, thanks!
-
-Kind regards
-Uffe
