@@ -2,195 +2,154 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EABC388F2
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF785C2D0A3
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:38:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C96582087D
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:15:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HzLmr6Ja"
+	by mail.kernel.org (Postfix) with ESMTP id 4630420B80
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604644693;
+	bh=8s2RI5Ad2SsTPjgjKLg8JM/UTPhyIkCxxMtpB4xd+vk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=laFq1bdJqVTuAlMW1bpz5QSZ6/qiH5VxZRKN2ksBrInZiuzeLapJPYH9jCgvVZqRS
+	 i5DLpCtOgGlrnV7+zowWIYB8EtfsMHlbR6kVowWgRP+EBwHw3GI1fxNDEsOiJgq6Om
+	 ddDPa8hb53xvhnUp2yTZ8AfRLZbYXEjMGmP5lrrk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgKFGPc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 01:15:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbgKFGPR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 01:15:17 -0500
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3850C0613CF
-        for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2020 22:15:17 -0800 (PST)
-Received: by mail-pl1-x644.google.com with SMTP id 1so194855ple.2
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2020 22:15:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=F6tmY/1EFEb7yGiRngVYTKYYAOLMtuHBKlHb/X3FBro=;
-        b=HzLmr6JaFIcMravMY3wIPry/F1073BkN3VM3cd8Gi2O7jw7et61EBNfNlEzqqyIEDr
-         O9QiSB84NaObwQzvoVVuxKeOGt8VndPGxRzphlfH+7cLMvRgCXLb/PtEMTpcP1H83oxY
-         b+191SXYF8ylE2gKUBgugVqSge7yMZjugqqrlBWgxtA673su21UfCt+IML3oDpN4vxti
-         8gs+7/IuMoCGcBYg+3V7fWv1iCZUsugnMa0A4fQsRR3hvDwRfUGjQ+Urs3m1MNcObuQw
-         SCG2Y8JOLZc95bYGIDT0kkK9vrovP4jkrz7oM7qStmXfzFjQgjgOi7MZJht8PgCtGzrM
-         RfPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=F6tmY/1EFEb7yGiRngVYTKYYAOLMtuHBKlHb/X3FBro=;
-        b=oCXvaPcT5zMp/3OioH9CO8K6OnXYpcN1FuD2vCWSYRrkkjwWdrScoj/pNq8hX3KVzR
-         shvyVuwOXBVSqwycqiZkXiF2GqYWPWP1VohGRO0IdH3j8ObJf/DbHMS3Z/YbbJatbM0T
-         PfshXI0IA4vaVJDz0krV9gBsR65/AzSJ33SxVDwSYREsD6dHHjiwl0B2Vjx7GCtPKV1s
-         VAStIGdVcF3NZgvG9btspFMGSgFmU2de+tKe6pZ6Z8RrJHWXb31+y9A2uDMYOfGxuMoU
-         ULN8pL2KZ3Ii3MPjL34MXaIw82Y/W12R0XX+gpchDeheC1w2x73/0cINXkw683YfPVPF
-         Xg+Q==
-X-Gm-Message-State: AOAM531nYRHS7MckzRTOVzKNwl5vAMDl0QvECjzLeQnwJscrPTDv93R6
-        +FbLb3/bxof0Mfoo4KkJpKSyLg==
-X-Google-Smtp-Source: ABdhPJxg63tT7kf2/vWsP55uyoDC2lQuTRCTVcejh0K/L0eGZvU7H1zdtru1IjirtMh06PtAF/i6Ug==
-X-Received: by 2002:a17:902:9a83:b029:d6:e05e:c7e9 with SMTP id w3-20020a1709029a83b02900d6e05ec7e9mr430546plp.49.1604643317224;
-        Thu, 05 Nov 2020 22:15:17 -0800 (PST)
-Received: from localhost ([122.172.12.172])
-        by smtp.gmail.com with ESMTPSA id h16sm703800pjz.10.2020.11.05.22.15.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 05 Nov 2020 22:15:15 -0800 (PST)
-Date:   Fri, 6 Nov 2020 11:45:13 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        driver-dev <devel@driverdev.osuosl.org>,
-        linux-pwm@vger.kernel.org,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, linux-usb@vger.kernel.org,
-        "open list:SECURE DIGITAL HO..." <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage
- scaling
-Message-ID: <20201106061513.uyys7njcqcdlah67@vireshk-i7>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-18-digetx@gmail.com>
- <CAOh2x==sy1w7_oEV8=toC6uQnSN44wyOixbP_X0BrMsnm1AUFg@mail.gmail.com>
- <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
+        id S1726205AbgKFGiM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 01:38:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725837AbgKFGiM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 6 Nov 2020 01:38:12 -0500
+Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E095C208C3;
+        Fri,  6 Nov 2020 06:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604644691;
+        bh=8s2RI5Ad2SsTPjgjKLg8JM/UTPhyIkCxxMtpB4xd+vk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=YRcEG+3E3YuUqhRDp/knDmn8Wuew19eq1iRucQzS/JMoor22QstXWUTlP4VmDylGO
+         9CU++RdLi3HtYo+5dknb4hSjLTczR7kAvrXvWK2lbL//glBEar9SCV2cGeWFvan5og
+         oklR+D5f0Br9ZTi7T8HMsAQozT1ProxJT7Kla4UM=
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Ferry Toth <fntoth@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jack Pham <jackp@codeaurora.org>
+Subject: Re: BUG with linux 5.9.0 with dwc3 in gadget mode
+In-Reply-To: <ec15a515-6dbc-1224-a457-d5ac4a4db280@gmail.com>
+References: <913dccca-500d-1938-b199-6eb67cfb60cc@gmail.com>
+ <87a6wig461.fsf@kernel.org>
+ <a565dc52-27ab-f5be-4fee-5a8f96d66456@gmail.com>
+ <874kmpf583.fsf@kernel.org>
+ <d0aca346-353c-d74e-6f00-ccd2a4ed26ef@gmail.com>
+ <976cea12-e54e-fbca-6c53-e6ef5c554094@synopsys.com>
+ <645b6ddc-d4f5-3f5b-b85f-b3d27fc365f5@synopsys.com>
+ <2b6586e6-528c-86e8-9d92-0061bc44866d@gmail.com>
+ <aad327a8-95bc-40ec-abf7-ad216a02fad0@synopsys.com>
+ <2cc783ac-6b71-190b-49fc-9e2bceeacd4b@gmail.com>
+ <920590dc-5430-7f8b-b2e1-1a4c37f4dfbe@synopsys.com>
+ <CAHp75Vfs9AoOYSVGTpw30h11ptPOSPNf1AsWBKdiVrDL=9X3PQ@mail.gmail.com>
+ <0089306e-e2ca-9a53-6ffb-202d028050ce@gmail.com>
+ <CAHp75Vc0P746FhhohJ=wRccsQL4ewn+AECMw3yTD6cuGxHCG9Q@mail.gmail.com>
+ <30ab00e4-53ae-fd9e-1689-c94078a31625@gmail.com>
+ <871rhin1yt.fsf@kernel.org>
+ <ec15a515-6dbc-1224-a457-d5ac4a4db280@gmail.com>
+Date:   Fri, 06 Nov 2020 08:38:07 +0200
+Message-ID: <87eel7q9bk.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 05-11-20, 17:18, Dmitry Osipenko wrote:
-> 05.11.2020 12:58, Viresh Kumar пишет:
-> >> +static void sdhci_tegra_deinit_opp_table(void *data)
-> >> +{
-> >> +       struct device *dev = data;
-> >> +       struct opp_table *opp_table;
-> >> +
-> >> +       opp_table = dev_pm_opp_get_opp_table(dev);
-> > So you need to get an OPP table to put one :)
-> > You need to save the pointer returned by dev_pm_opp_set_regulators() instead.
-> 
-> This is intentional because why do we need to save the pointer if we're
-> not using it and we know that we could get this pointer using OPP API?
 
-Because it is highly inefficient and it doesn't follow the rules set
-by the OPP core. Hypothetically speaking, the OPP core is free to
-allocate the OPP table structure as much as it wants, and if you don't
-use the value returned back to you earlier (think of it as a cookie
-assigned to your driver), then it will eventually lead to memory leak.
+Hi,
 
-> This is exactly the same what I did for the CPUFreq driver [1] :)
+Ferry Toth <fntoth@gmail.com> writes:
+> Hi,
+>
+> Op 28-10-2020 om 10:18 schreef Felipe Balbi:
+>> Hi,
+>>
+>> Ferry Toth <fntoth@gmail.com> writes:
+>>> Op 27-10-2020 om 22:16 schreef Andy Shevchenko:
+>>>> On Tue, Oct 27, 2020 at 10:13 PM Ferry Toth <fntoth@gmail.com> wrote:
+>>>>> Op 22-10-2020 om 15:43 schreef Andy Shevchenko:
+>>>>>> On Thu, Oct 22, 2020 at 4:21 PM Thinh Nguyen <Thinh.Nguyen@synopsys.=
+com> wrote:
+>>>>>>> Ferry Toth wrote:
+>>>> ...
+>>>>
+>>>>>>> There are some fixes to dwc3 in kernel mainline. Is it possible to =
+test
+>>>>>>> this against linux-next?
+>>>>>> I think the best is to wait for v5.10-rc1 and retest.
+>>>> Can you give a try of v5.10-rc1?
+>>> Yes, I just tried:
+>>>
+>>> I booted in host mode, then flip the switch. Gadget come up, go down
+>>> once, then come up again and stay up.
+>> please collect trace events. It's important to figure out why it's going
+>> down, even if only once. Make sure to collect trace *and* dmesg so we
+>> can correlate trace with the reenumeration that should show up in dmesg.
+>>
+>> thanks
+>
+> Sorry, I had to replace mobo. Now back on this.
+>
+> As is, on Edison I can record with something like "perf record -e=20
+> 'dwc3:dwc3_gadget*' -e 'gadget:*' -g -a".
+> Then get the trace buffer with "perf script > gadget.txt". Then at each=20
+> trace point we get a stack trace like:
+>
+> file-storage=C2=A0=C2=A0 831 [001]=C2=A0 4445.240038: dwc3:dwc3_gadget_ep=
+_cmd: [FAILED=20
+> TO PARSE] name=3Dep4in cmd=3D524295 param0=3D0 param1=3D0 param2=3D0 cmd_=
+status=3D0
+>  =C2=A0=C2=A0 =C2=A0ffffffff9a35b7e7 __traceiter_dwc3_gadget_ep_cmd+0x37=
+=20
+> ([kernel.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff9a35b7e7 __traceiter_dwc3_gadget_ep_cmd+0x37=
+=20
+> ([kernel.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff9a35fa40 dwc3_send_gadget_ep_cmd+0x320 ([kern=
+el.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff9a3606d0 __dwc3_gadget_kick_transfer+0x200 ([=
+kernel.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff9a361114 dwc3_gadget_ep_queue+0xe4 ([kernel.k=
+allsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff9a3afc3a usb_ep_queue+0x2a ([kernel.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffffc047c301 start_transfer.isra.0+0x21 ([kernel.=
+kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffffc047c88a start_in_transfer.isra.0+0x3a ([kern=
+el.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffffc047c93d send_status+0x8d ([kernel.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffffc047dd05 fsg_main_thread+0x3c5 ([kernel.kalls=
+yms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff99c853b9 kthread+0xf9 ([kernel.kallsyms])
+>  =C2=A0=C2=A0 =C2=A0ffffffff99c01a32 ret_from_fork+0x22 ([kernel.kallsyms=
+])
+>
+> "perf list" shows the tracepoint events, the same as under=20
+> /sys/kernel/debug/tracing/events/
+>
+> Question is which points to trace (above command fills buffer to 35MB in=
+=20
+> 10sec). Do you have suggestions?
 
-I will strongly suggest you to save the pointer here and do the same
-in the cpufreq driver as well.
+don't enable any gadget event. Only dwc3 events. Also, enable *all* dwc3
+events. Usually, I avoid perf when doing this and just go straight to
+/sys/kernel/trace/.
 
-> >> +static int devm_sdhci_tegra_init_opp_table(struct device *dev)
-> >> +{
-> >> +       struct opp_table *opp_table;
-> >> +       const char *rname = "core";
-> >> +       int err;
-> >> +
-> >> +       /* voltage scaling is optional */
-> >> +       if (device_property_present(dev, "core-supply"))
-> >> +               opp_table = dev_pm_opp_set_regulators(dev, &rname, 1);
-> >> +       else
-> > 
-> >> +               opp_table = dev_pm_opp_get_opp_table(dev);
-
-To make it further clear, this will end up allocating an OPP table for
-you, which it shouldn't have.
-
-> > Nice. I didn't think that someone will end up abusing this API and so made it
-> > available for all, but someone just did that. I will fix that in the OPP core.
-
-To be fair, I allowed the cpufreq-dt driver to abuse it too, which I
-am going to fix shortly.
-
-> The dev_pm_opp_put_regulators() handles the case where regulator is
-> missing by acting as dev_pm_opp_get_opp_table(), but the
-> dev_pm_opp_set_regulators() doesn't do it. Hence I don't think this is
-> an abuse, but the OPP API drawback.
-
-I am not sure what you meant here. Normally you are required to call
-dev_pm_opp_put_regulators() only if you have called
-dev_pm_opp_set_regulators() earlier. And the refcount stays in
-balance.
-
-> > Any idea why you are doing what you are doing here ?
-> 
-> Two reasons:
-> 
-> 1. Voltage regulator is optional, but dev_pm_opp_set_regulators()
-> doesn't support optional regulators.
-> 
-> 2. We need to balance the opp_table refcount in order to use OPP API
-> without polluting code with if(have_regulator), hence the
-> dev_pm_opp_get_opp_table() is needed for taking the opp_table reference
-> to have the same refcount as in the case of the dev_pm_opp_set_regulators().
-
-I am going to send a patchset shortly after which this call to
-dev_pm_opp_get_opp_table() will fail, if it is called before adding
-the OPP table.
-
-> I guess we could make dev_pm_opp_set_regulators(dev, count) to accept
-> regulators count=0 and then act as dev_pm_opp_get_opp_table(dev), will
-> it be acceptable?
-
-Setting regulators for count as 0 doesn't sound good to me.
-
-But, I understand that you don't want to have that if (have_regulator)
-check, and it is a fair request. What I will instead do is, allow all
-dev_pm_opp_put*() API to start accepting a NULL pointer for the OPP
-table and fail silently. And so you won't be required to have this
-unwanted check. But you will be required to save the pointer returned
-back by dev_pm_opp_set_regulators(), which is the right thing to do
-anyways.
-
--- 
-viresh
+--=20
+balbi
