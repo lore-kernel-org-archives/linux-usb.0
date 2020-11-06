@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC56C56201
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D96DC5517A
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:58:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6867B22247
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:58:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4403322203
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:58:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="G+w1ZZpp"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="j2QBrG1V"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727591AbgKFQ6k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 11:58:40 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:12280 "EHLO
+        id S1727626AbgKFQ6l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 11:58:41 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:36752 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727474AbgKFQ6j (ORCPT
+        by vger.kernel.org with ESMTP id S1727498AbgKFQ6j (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 11:58:39 -0500
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6GvLoW020517;
-        Fri, 6 Nov 2020 17:58:14 +0100
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6GwCkp010238;
+        Fri, 6 Nov 2020 17:58:12 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=XenMXX7jpB+ldiDL9YwCU3HGZQwucqgew9IYEnutEX4=;
- b=G+w1ZZppV+wz4iskZtLF22i51Wp0PIbDYORQukZd9mV22WrkWZZn7KRPHXpIcLlK+KHk
- BCu8Jqr8cYsB66F+yIQRRyA1Iw7O91K60L/Zvgz9LCNMdIWMqd1N73PaqPt5/hoGmQjT
- 9z2fSyg2n7ujlrhcd1yocy28WRgyhnafwtASxLQZhTeMwF1dOuOAx7BcgZpqfTMPhTyx
- Ug+LxZD7yAj3MEK0JcpumUdmP2pO7xLml98DJdgf1Ni3dnshsfYxUklwtiF0FeBmP2L2
- tVgb+QJnAV4IsIwnV+CLf4TmYua+6384txXEHXlpx+cniBr5l753Zv61fmKyM9fPhlhB iQ== 
+ bh=EtuYOrqCs0Fxb2hFUZ6Z3gtrK51CMI3ATE1ilZwoDvo=;
+ b=j2QBrG1V7i2kBCF039Z8iWaiXy02wUAbisTh2iKRwpr4rkse3zZSQpMlyjW8oVjUKlHn
+ qbIRzf81F249tk52YIhE13ZpVKTX/bluMlcXsp4041CwxiyJVP7Rd72cTu7Zuc6PPMki
+ YLdeown922cGEy8i8uDMxomKUUIHQQNxPDLGFCnJGGrhQmDTWmaeSjYwxBkHYqE/2ywy
+ nM2KhXIBcv4xSYp2IWTj5g1ni9u3cJgo2Mq40Nafo6SepCo50kCtwocCkwEUuW4S9QIh
+ Xap67uGvSZySsLNbgyzWNTepr85J9Oo9yO6Jq7VFmgnrmknA5R9hR2bMMEhNnNo4LCWT BA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34h0328gra-1
+        by mx07-00178001.pphosted.com with ESMTP id 34gywrfkuk-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 Nov 2020 17:58:14 +0100
+        Fri, 06 Nov 2020 17:58:12 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 585DE10002A;
-        Fri,  6 Nov 2020 17:58:14 +0100 (CET)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E202810002A;
+        Fri,  6 Nov 2020 17:58:11 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 490A52C41F5;
-        Fri,  6 Nov 2020 17:58:14 +0100 (CET)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 17:58:13
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CC0D62C41F5;
+        Fri,  6 Nov 2020 17:58:11 +0100 (CET)
+Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 17:58:11
  +0100
 From:   Amelie Delaunay <amelie.delaunay@st.com>
 To:     Rob Herring <robh+dt@kernel.org>,
@@ -61,15 +61,15 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Amelie Delaunay <amelie.delaunay@st.com>,
         Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [PATCH v5 3/5] usb: typec: stusb160x: fix power-opmode property with typec-power-opmode
-Date:   Fri, 6 Nov 2020 17:58:03 +0100
-Message-ID: <20201106165805.31534-4-amelie.delaunay@st.com>
+Subject: [PATCH v5 1/5] dt-bindings: connector: add typec-power-opmode property to usb-connector
+Date:   Fri, 6 Nov 2020 17:58:01 +0100
+Message-ID: <20201106165805.31534-2-amelie.delaunay@st.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201106165805.31534-1-amelie.delaunay@st.com>
 References: <20201106165805.31534-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
+X-Originating-IP: [10.75.127.47]
 X-ClientProxiedBy: SFHDAG4NODE2.st.com (10.75.127.11) To SFHDAG3NODE2.st.com
  (10.75.127.8)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
@@ -78,28 +78,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Device tree property is named typec-power-opmode, not power-opmode.
+Power operation mode may depends on hardware design, so, add the optional
+property typec-power-opmode for usb-c connector to select the power
+operation mode capability.
 
-Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C controller family")
 Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/stusb160x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Bahdri, Rob,
 
-diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
-index 2a618f02f4f1..d21750bbbb44 100644
---- a/drivers/usb/typec/stusb160x.c
-+++ b/drivers/usb/typec/stusb160x.c
-@@ -562,7 +562,7 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
- 	 * Supported power operation mode can be configured through device tree
- 	 * else it is read from chip registers in stusb160x_get_caps.
- 	 */
--	ret = fwnode_property_read_string(fwnode, "power-opmode", &cap_str);
-+	ret = fwnode_property_read_string(fwnode, "typec-power-opmode", &cap_str);
- 	if (!ret) {
- 		ret = typec_find_pwr_opmode(cap_str);
- 		/* Power delivery not yet supported */
+I've added the exlusion with FRS property, but new FRS property name
+should be use here so, be careful.
+
+---
+ .../bindings/connector/usb-connector.yaml     | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index 62781518aefc..a84464b3e1f2 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -93,6 +93,24 @@ properties:
+       - device
+       - dual
+ 
++  typec-power-opmode:
++    description: Determines the power operation mode that the Type C connector
++      will support and will advertise through CC pins when it has no power
++      delivery support.
++      - "default" corresponds to default USB voltage and current defined by the
++        USB 2.0 and USB 3.2 specifications, 5V 500mA for USB 2.0 ports and
++        5V 900mA or 1500mA for USB 3.2 ports in single-lane or dual-lane
++        operation respectively.
++      - "1.5A" and "3.0A", 5V 1.5A and 5V 3.0A respectively, as defined in USB
++        Type-C Cable and Connector specification, when Power Delivery is not
++        supported.
++    allOf:
++      - $ref: /schemas/types.yaml#definitions/string
++    enum:
++      - default
++      - 1.5A
++      - 3.0A
++
+   # The following are optional properties for "usb-c-connector" with power
+   # delivery support.
+   source-pdos:
+@@ -192,6 +210,12 @@ allOf:
+         type:
+           const: micro
+ 
++anyOf:
++  - not:
++      required:
++        - typec-power-opmode
++        - new-source-frs-typec-current
++
+ additionalProperties: true
+ 
+ examples:
 -- 
 2.17.1
 
