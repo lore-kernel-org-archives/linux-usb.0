@@ -5,46 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF18C5517A
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:19:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7198BC2D0A3
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:20:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6765421D46
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:19:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12B1F20A8B
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:20:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="nIA9apAJ"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="euEg+Yvy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbgKFJTp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 04:19:45 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:44598 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726028AbgKFJTb (ORCPT
+        id S1726642AbgKFJTo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 04:19:44 -0500
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:58115 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726010AbgKFJTb (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 04:19:31 -0500
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A698CXu027453;
-        Fri, 6 Nov 2020 10:19:13 +0100
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6984US008664;
+        Fri, 6 Nov 2020 10:19:10 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=5CCBWSPpY2LWeU+v1BMKbE0dfzDcb6O0clQonhwRrS0=;
- b=nIA9apAJqAaWS3AH+IvbdzJ3ibhGlkUPdH58kTwQxdny2h3CXXF/hulK+r2i7cv5hrzZ
- Z/vZ5p1Rp3S1qmvHJ1JvfmUvKT3Og/NueTJKdNbpm6a1jPPeYVpgRCoCrhMLJN5msUMb
- 2noefRx7X4HYZgvOpW7sq3lFNAP8Z+BdJCyDPkVZoriwJj3ylNuFaKqYUYKZvlrS4w1M
- ZvzXADgkke3ziLfB9A7pEpXsQbcE2gCBPJt3cj1JXnEYjaey26sIDajZHIoNu3+ZOmnL
- 2IIEc/P+QkHMPGv1JoZlVP3oRIJDzd43SqP1jGtHiQuAi5gsRkR7vX2ednR5w5x/ZlLG 0Q== 
+ bh=6qq/quNVzbBGlASaodU021u7lBejVGsfqPJlwc9JOcI=;
+ b=euEg+Yvyqqg6lWYfcWv2ryupYlJKtPQJHMMQseV9aFHFzWfUM+w2Jv7ja2CJSRx5bGZD
+ 1WmIe2EYxow+rpxqgpiG5LpQXkHn9D3WOFZ9YPmOfH1Zbvno64GopgfN8Zp0cKE0q46r
+ qoplgLjC307ShZcj/udeaJCOg4yDzp/ddKOkjw83266NLE67vfezhsIOUZ87Q+Sd6UBl
+ u4SdJLXl9yORNjLHM3nvxmtWLUUXmSbInCm11CiyjMPU1EFpidexO/Xd1+JwkN/ez0fT
+ cYWXTaD+VsYcix/aVmErslH9cKLV1hz2Po684dCImxr2S/MP5W55zVuhky7MqJGW/F0L 3w== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34gywrd890-1
+        by mx07-00178001.pphosted.com with ESMTP id 34gyw1uws6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 Nov 2020 10:19:13 +0100
+        Fri, 06 Nov 2020 10:19:10 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6358D100034;
-        Fri,  6 Nov 2020 10:19:13 +0100 (CET)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E0A6C100034;
+        Fri,  6 Nov 2020 10:19:09 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 541EF233E9E;
-        Fri,  6 Nov 2020 10:19:13 +0100 (CET)
-Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 10:19:12
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D1D92233E9D;
+        Fri,  6 Nov 2020 10:19:09 +0100 (CET)
+Received: from localhost (10.75.127.46) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 10:19:09
  +0100
 From:   Amelie Delaunay <amelie.delaunay@st.com>
 To:     Rob Herring <robh+dt@kernel.org>,
@@ -61,16 +61,16 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Amelie Delaunay <amelie.delaunay@st.com>,
         Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [PATCH v4 5/5] ARM: multi_v7_defconfig: enable STUSB160X Type-C port controller support
-Date:   Fri, 6 Nov 2020 10:18:54 +0100
-Message-ID: <20201106091854.14958-6-amelie.delaunay@st.com>
+Subject: [PATCH v4 2/5] dt-bindings: usb: Add DT bindings for STUSB160x Type-C controller
+Date:   Fri, 6 Nov 2020 10:18:51 +0100
+Message-ID: <20201106091854.14958-3-amelie.delaunay@st.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201106091854.14958-1-amelie.delaunay@st.com>
 References: <20201106091854.14958-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG3NODE2.st.com
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG4NODE2.st.com (10.75.127.11) To SFHDAG3NODE2.st.com
  (10.75.127.8)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
  definitions=2020-11-06_03:2020-11-05,2020-11-06 signatures=0
@@ -78,28 +78,106 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable support for the STMicroelectronics STUSB160X USB Type-C port
-controller driver by turning on CONFIG_TYPEC and CONFIG_TYPEC_STUSB160X as
-modules.
+Add binding documentation for the STMicroelectronics STUSB160x Type-C port
+controller.
 
 Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
 ---
- arch/arm/configs/multi_v7_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/usb/st,stusb160x.yaml | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/st,stusb160x.yaml
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index a611b0c1e540..47eed80268e2 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -829,6 +829,8 @@ CONFIG_USB_CONFIGFS_F_HID=y
- CONFIG_USB_CONFIGFS_F_UVC=y
- CONFIG_USB_CONFIGFS_F_PRINTER=y
- CONFIG_USB_ETH=m
-+CONFIG_TYPEC=m
-+CONFIG_TYPEC_STUSB160X=m
- CONFIG_MMC=y
- CONFIG_MMC_BLOCK_MINORS=16
- CONFIG_MMC_ARMMMCI=y
+diff --git a/Documentation/devicetree/bindings/usb/st,stusb160x.yaml b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
+new file mode 100644
+index 000000000000..882450571db6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/usb/st,stusb160x.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: STMicroelectronics STUSB160x Type-C controller bindings
++
++maintainers:
++  - Amelie Delaunay <amelie.delaunay@st.com>
++
++properties:
++  compatible:
++    enum:
++      - st,stusb1600
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  vdd-supply:
++    description: main power supply (4.1V-22V)
++
++  vsys-supply:
++    description: low power supply (3.0V-5.5V)
++
++  vconn-supply:
++    description: power supply (2.7V-5.5V) used to supply VConn on CC pin in
++      source or dual power role
++
++  connector:
++    type: object
++
++    allOf:
++      - $ref: ../connector/usb-connector.yaml
++
++    properties:
++      compatible:
++        const: usb-c-connector
++
++      power-role: true
++
++      typec-power-opmode: true
++
++    required:
++      - compatible
++
++required:
++  - compatible
++  - reg
++  - connector
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c4 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec: stusb1600@28 {
++            compatible = "st,stusb1600";
++            reg = <0x28>;
++            vdd-supply = <&vbus_drd>;
++            vsys-supply = <&vdd_usb>;
++            interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
++            interrupt-parent = <&gpioi>;
++
++            typec_con: connector {
++                compatible = "usb-c-connector";
++                label = "USB-C";
++                power-role = "dual";
++                data-role = "dual";
++                typec-power-opmode = "default";
++
++                port {
++                    typec_con_ep: endpoint {
++                        remote-endpoint = <&usbotg_hs_ep>;
++                    };
++                };
++            };
++        };
++    };
++...
 -- 
 2.17.1
 
