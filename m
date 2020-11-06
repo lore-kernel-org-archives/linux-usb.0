@@ -6,65 +6,81 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A36C388F2
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA9EC55178
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:40:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F2D8206F9
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:36:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1602720936
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgKFHgS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 02:36:18 -0500
-Received: from mga11.intel.com ([192.55.52.93]:26692 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725842AbgKFHgS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 6 Nov 2020 02:36:18 -0500
-IronPort-SDR: lbkLOMzWeybjeFKzIeTPLywOMzGc6DVUyszgR2f/87Y98lCipjNv4jgVOAZrebCI2oBmGQejHq
- LYa3Ak1FewHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="166004523"
-X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="166004523"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 23:36:18 -0800
-IronPort-SDR: gLGsKSgpUPznoyv8n67Rw5M+68wGylzyacufXs32ZWTj5kic45/CUvM7VvmmP+fAkMWMJy5Mzg
- 4yPc4TwJ0y9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="427248745"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 05 Nov 2020 23:36:15 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Nov 2020 09:36:15 +0200
-Date:   Fri, 6 Nov 2020 09:36:15 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Prashant Malani <pmalani@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org, Benson Leung <bleung@chromium.org>
-Subject: Re: [PATCH v3 2/2] usb: typec: Expose Product Type VDOs via sysfs
-Message-ID: <20201106073615.GA4062920@kuha.fi.intel.com>
-References: <20201023214328.1262883-1-pmalani@chromium.org>
- <20201023214328.1262883-2-pmalani@chromium.org>
- <20201104174917.GC3913249@google.com>
+        id S1726050AbgKFHkH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 02:40:07 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:33275 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbgKFHkG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 02:40:06 -0500
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 0A67dxXoB015419, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexmb03.realtek.com.tw[172.21.6.96])
+        by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 0A67dxXoB015419
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Fri, 6 Nov 2020 15:39:59 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXMB03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2044.4; Fri, 6 Nov 2020 15:39:59 +0800
+Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2044.4; Fri, 6 Nov 2020 15:39:59 +0800
+Received: from RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa]) by
+ RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa%3]) with mapi id
+ 15.01.2044.006; Fri, 6 Nov 2020 15:39:59 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     =?utf-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>
+CC:     Vladimir Oltean <olteanv@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH net-next 3/5] r8152: add MCU typed read/write functions
+Thread-Topic: [PATCH net-next 3/5] r8152: add MCU typed read/write functions
+Thread-Index: AQHWshawQtN/T3fh9kiJgjvtG4xSCKm2a3wAgACIZwCAAC/9AIAAG2OAgAAC9ICAAAcNgIAAAsSAgAARvwCAAWswAIAAEW8AgAGRtDD//7jZgIAAkFAA
+Date:   Fri, 6 Nov 2020 07:39:59 +0000
+Message-ID: <96fee294b4ec41e6a389836cff3513fc@realtek.com>
+References: <20201103192226.2455-4-kabel@kernel.org>
+        <20201103214712.dzwpkj6d5val6536@skbuf> <20201104065524.36a85743@kernel.org>
+        <20201104084710.wr3eq4orjspwqvss@skbuf> <20201104112511.78643f6e@kernel.org>
+        <20201104113545.0428f3fe@kernel.org>    <20201104110059.whkku3zlck6spnzj@skbuf>
+        <20201104121053.44fae8c7@kernel.org>    <20201104121424.th4v6b3ucjhro5d3@skbuf>
+        <20201105105418.555d6e54@kernel.org>    <20201105105642.pgdxxlytpindj5fq@skbuf>
+        <21f6ca0a96d640558633d6296b81271a@realtek.com>
+ <20201106073947.6328280d@kernel.org>
+In-Reply-To: <20201106073947.6328280d@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.177.146]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201104174917.GC3913249@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 09:49:17AM -0800, Prashant Malani wrote:
-> Hi All,
-> 
-> Was wondering if there were any comments on v3 of this series?
-
-Sorry to keep you waiting with this...
-
-I'm still wondering if the patch 2/2 is what we should use. Right now
-I don't have really any better ideas. But give the rest of the week to
-think about this.
-
-thanks,
-
--- 
-heikki
+TWFyZWsgQmVow7puIDxrYWJlbEBrZXJuZWwub3JnPg0KPiBTZW50OiBGcmlkYXksIE5vdmVtYmVy
+IDYsIDIwMjAgMjo0MCBQTQ0KWy4uLl0NCj4gSGkgSGF5ZXMsDQo+IA0KPiBqdXN0IHRvIGJlIGNs
+ZWFyOg0KPiBBcmUgeW91IGFnYWluc3QgZGVmaW5pbmcgdGhlc2UgZnVuY3Rpb25zIHZpYSBtYWNy
+b3M/DQo+IElmIHNvLCBJIGNhbiBzaW1wbHkgcmV3cml0ZSB0aGlzIHNvIHRoYXQgaXQgZG9lcyBu
+b3QgdXNlIG1hY3Jvcy4uLg0KDQpJIHdvdWxkIGxpa2UgdGhlIHdheSB3aGljaCBsZXQgbWUgZmlu
+ZCB0aGUgc291cmNlIG9mIHRoZQ0KZnVuY3Rpb24gZWFzaWx5LiBJIGRvbid0IGxpa2UgdGhhdCBJ
+IGNvdWxkbid0IGZpbmQgd2hlcmUgdGhlc2UNCmZ1bmN0aW9ucyBhcmUgZGVmaW5lZCwgd2hlbiBJ
+IHNlYXJjaCB3aG9sZSB0aGUgc291cmNlIGNvZGUuDQoNCkZvciBleGFtcGxlLCBmb3IgdGhlIG1l
+dGhvZCB3aGljaCBWbGFkaW1pciBPbHRlYW4gcHJvdmlkZXMsDQp3aGVuIEkgc2VhcmNoIHRoZSBr
+ZXl3b3JkICJwbGFfb2NwX3JlYWRfYnl0ZSIsIEkgY291bGQgZWFzaWx5DQpmaW5kIG91dCB0aGF0
+IHRoZSBzb3VyY2UgZnVuY3Rpb24gaXMgIm9jcF9yZWFkX2J5dGUiLg0KSG93ZXZlciwgZm9yIHlv
+dXIgcGF0Y2gsIEkgY291bGQgb25seSBmaW5kIHdoZXJlIHRoZSBmdW5jdGlvbg0KaXMgdXNlZC4g
+SSB0aGluayBpdCBpcyBub3QgZnJpZW5kbHkgZm9yIHRoZSBuZXdiaWUgd2hvIGlzIG5vdA0KZmFt
+aWxpYXIgd2l0aCB0aGlzIGRyaXZlci4NCg0KSG93ZXZlciwgSSBkb24ndCB0aGluayBJIGFtIHRo
+ZSBkZWNpc2lvbiBtYWtlci4gVGhpcyBpcw0KanVzdCBteSB2aWV3Lg0KDQo+IE9yIGFyZSB5b3Ug
+YWdhaW5zdCBpbXBsZW1lbnRpbmcgdGhlc2UgZnVuY3Rpb25zIHRoZW1zZWx2ZXM/DQoNCk5vLg0K
+DQo+IA0KPiBCVFcsIHdoYXQgYWJvdXQgcGF0Y2ggNS81IHdoaWNoIGludHJvZHVjZXMgKl9tb2Rp
+ZnkgaGVscGVycz8NCg0KSXQgaXMgZmluZS4NCg0KQmVzdCBSZWdhcmRzLA0KSGF5ZXMNCg0KDQo=
