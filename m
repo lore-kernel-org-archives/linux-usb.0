@@ -2,376 +2,112 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D29C388F2
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C3DC388F2
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:40:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9A5C20B80
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:39:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67C4C20A8B
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 06:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604644806;
+	bh=GiGPlmQaMcWU78QAEwNQ8arJ3uGNdhsDjCSsXzQo0EU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=JYPcK/t/IaMbgVhv1gyTpjBLXlmpXOJPsmhPBH2z9u74ThBheQVlS1wJmwfVB6I74
+	 bs0fHIIB1c1LXf3DuPlNobbR/CjhyfvxrswQG9qbGXHClzALaP2thn3iqbIFySOqUS
+	 3occ1TyduEiQPxC2wmpNG2QW3Tc4ESN5ZJ5UH4nk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbgKFGjJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 01:39:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45908 "EHLO mx2.suse.de"
+        id S1726273AbgKFGkD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 01:40:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725830AbgKFGjJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 6 Nov 2020 01:39:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 524DCABCC;
-        Fri,  6 Nov 2020 06:39:06 +0000 (UTC)
-Date:   Thu, 5 Nov 2020 22:17:13 -0800
-From:   Davidlohr Bueso <dave@stgolabs.net>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Davidlohr Bueso <dbueso@suse.de>
-Subject: Re: [PATCH] usb/mos7720: process deferred urbs in a workqueue
-Message-ID: <20201106061713.lgghl4xnvdmkvges@linux-p48b.lan>
-References: <20201102211450.5722-1-dave@stgolabs.net>
- <20201103204014.3ue37owcras6cx7p@linux-p48b.lan>
- <20201104110657.GW4085@localhost>
- <20201104162534.GY4085@localhost>
- <20201105001307.lelve65nif344cfs@linux-p48b.lan>
- <20201105082540.GA4085@localhost>
+        id S1725830AbgKFGkD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 6 Nov 2020 01:40:03 -0500
+Received: from localhost (otava-0257.koleje.cuni.cz [78.128.181.4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F0B90208C3;
+        Fri,  6 Nov 2020 06:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604644802;
+        bh=GiGPlmQaMcWU78QAEwNQ8arJ3uGNdhsDjCSsXzQo0EU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=xAaknuNp+Jc/V7QEqbPG2MzFpa+LF3GMXI3qklPch4NU5atemKMikTkSJfXMItf5I
+         Bh2qP1Q9W7rgZi6TyNlzopO3Tx6aA/59trfC3l0lQeLH92M4bQu/C1oqepRX3QamNr
+         ep0pjhCvc8G2GNYjjjTAMyfmkDw5mBpoV3ERTrGY=
+Date:   Fri, 6 Nov 2020 07:39:47 +0100
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Hayes Wang <hayeswang@realtek.com>
+Cc:     Vladimir Oltean <olteanv@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH net-next 3/5] r8152: add MCU typed read/write functions
+Message-ID: <20201106073947.6328280d@kernel.org>
+In-Reply-To: <21f6ca0a96d640558633d6296b81271a@realtek.com>
+References: <20201103192226.2455-4-kabel@kernel.org>
+        <20201103214712.dzwpkj6d5val6536@skbuf>
+        <20201104065524.36a85743@kernel.org>
+        <20201104084710.wr3eq4orjspwqvss@skbuf>
+        <20201104112511.78643f6e@kernel.org>
+        <20201104113545.0428f3fe@kernel.org>
+        <20201104110059.whkku3zlck6spnzj@skbuf>
+        <20201104121053.44fae8c7@kernel.org>
+        <20201104121424.th4v6b3ucjhro5d3@skbuf>
+        <20201105105418.555d6e54@kernel.org>
+        <20201105105642.pgdxxlytpindj5fq@skbuf>
+        <21f6ca0a96d640558633d6296b81271a@realtek.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20201105082540.GA4085@localhost>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 05 Nov 2020, Johan Hovold wrote:
->On Wed, Nov 04, 2020 at 04:13:07PM -0800, Davidlohr Bueso wrote:
->> Also, but not strictly related to this. What do you think of deferring all
->> work in write_parport_reg_nonblock() unconditionally? I'd like to avoid
->> that mutex_trylock() because eventually I'll be re-adding a warn in the
->> locking code, but that would also simplify the code done here in the
->> nonblocking irq write. I'm not at all familiar with parport, but I would
->> think that restore_state context would not care.
->
->Sounds good to me. As long as the state is restored before submitting
->further requests we should be fine. That would even allow getting rid of
->write_parport_reg_nonblock() as you can restore the state using
->synchronous calls from the worker thread. Should simplify things quite a
->bit.
+On Fri, 6 Nov 2020 03:01:22 +0000
+Hayes Wang <hayeswang@realtek.com> wrote:
 
-What about something like the below (probably buggy)? I avoided messing with
-the completion in the work callback, like what prologue/epilogue does for all
-other synchronous calls, because when releasing we sync the work anyway and we
-need to account for scenarios where the work is scheduled but yet not running,
-so it would not be the best fit. And this also makes the flush_work() always
-wait for both writes, otherwise I was having the thread locklessly busy-wait
-on a flag that was set until both write_parport_reg_nonblock() calls returned
-before the flush such that all potential scheduled work was observed. Unless
-I missed something, the cleanup is considerable.
+> Vladimir Oltean <olteanv@gmail.com>
+> > Sent: Thursday, November 5, 2020 6:57 PM
+> > On Thu, Nov 05, 2020 at 10:54:18AM +0100, Marek Beh=C3=BAn wrote: =20
+> > > I thought that static inline functions are preferred to macros, since
+> > > compiler warns better if they are used incorrectly... =20
+> >=20
+> > Citation needed. Also, how do static inline functions wrapped in macros
+> > (i.e. your patch) stack up against your claim about better warnings?
+> > I guess ease of maintainership should prevail here, and Hayes should
+> > have the final word. I don't really have any stake here. =20
+>=20
+> I agree with Vladimir Oltean.
+>=20
+> I prefer to the way of easy maintaining.
+> I don't understand the advantage which you discuss.
+> However, if I am not familiar with the code, this patch
+> would let me take more time to find out the declarations
+> of these functions. This make it harder to trace the code.
 
-diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
-index 5a5d2a95070e..8a9408b94cb0 100644
---- a/drivers/usb/serial/mos7720.c
-+++ b/drivers/usb/serial/mos7720.c
-@@ -79,14 +79,6 @@ MODULE_DEVICE_TABLE(usb, id_table);
- #define DCR_INIT_VAL       0x0c	/* SLCTIN, nINIT */
- #define ECR_INIT_VAL       0x00	/* SPP mode */
+Hi Hayes,
 
--struct urbtracker {
--	struct mos7715_parport  *mos_parport;
--	struct list_head        urblist_entry;
--	struct kref             ref_count;
--	struct urb              *urb;
--	struct usb_ctrlrequest	*setup;
--};
--
- enum mos7715_pp_modes {
-	SPP = 0<<5,
-	PS2 = 1<<5,      /* moschip calls this 'NIBBLE' mode */
-@@ -96,12 +88,9 @@ enum mos7715_pp_modes {
- struct mos7715_parport {
-	struct parport          *pp;	       /* back to containing struct */
-	struct kref             ref_count;     /* to instance of this struct */
--	struct list_head        deferred_urbs; /* list deferred async urbs */
--	struct list_head        active_urbs;   /* list async urbs in flight */
--	spinlock_t              listlock;      /* protects list access */
-	bool                    msg_pending;   /* usb sync call pending */
-	struct completion       syncmsg_compl; /* usb sync call completed */
--	struct tasklet_struct   urb_tasklet;   /* for sending deferred urbs */
-+	struct work_struct      work;          /* restore deferred writes */
-	struct usb_serial       *serial;       /* back to containing struct */
-	__u8			shadowECR;     /* parallel port regs... */
-	__u8			shadowDCR;
-@@ -265,172 +254,6 @@ static void destroy_mos_parport(struct kref *kref)
-	kfree(mos_parport);
- }
+just to be clear:
+Are you against defining these functions via macros?
+If so, I can simply rewrite this so that it does not use macros...
 
--static void destroy_urbtracker(struct kref *kref)
--{
--	struct urbtracker *urbtrack =
--		container_of(kref, struct urbtracker, ref_count);
--	struct mos7715_parport *mos_parport = urbtrack->mos_parport;
--
--	usb_free_urb(urbtrack->urb);
--	kfree(urbtrack->setup);
--	kfree(urbtrack);
--	kref_put(&mos_parport->ref_count, destroy_mos_parport);
--}
--
--/*
-- * This runs as a tasklet when sending an urb in a non-blocking parallel
-- * port callback had to be deferred because the disconnect mutex could not be
-- * obtained at the time.
-- */
--static void send_deferred_urbs(struct tasklet_struct *t)
--{
--	int ret_val;
--	unsigned long flags;
--	struct mos7715_parport *mos_parport = from_tasklet(mos_parport, t,
--							   urb_tasklet);
--	struct urbtracker *urbtrack, *tmp;
--	struct list_head *cursor, *next;
--	struct device *dev;
--
--	/* if release function ran, game over */
--	if (unlikely(mos_parport->serial == NULL))
--		return;
--
--	dev = &mos_parport->serial->dev->dev;
--
--	/* try again to get the mutex */
--	if (!mutex_trylock(&mos_parport->serial->disc_mutex)) {
--		dev_dbg(dev, "%s: rescheduling tasklet\n", __func__);
--		tasklet_schedule(&mos_parport->urb_tasklet);
--		return;
--	}
--
--	/* if device disconnected, game over */
--	if (unlikely(mos_parport->serial->disconnected)) {
--		mutex_unlock(&mos_parport->serial->disc_mutex);
--		return;
--	}
--
--	spin_lock_irqsave(&mos_parport->listlock, flags);
--	if (list_empty(&mos_parport->deferred_urbs)) {
--		spin_unlock_irqrestore(&mos_parport->listlock, flags);
--		mutex_unlock(&mos_parport->serial->disc_mutex);
--		dev_dbg(dev, "%s: deferred_urbs list empty\n", __func__);
--		return;
--	}
--
--	/* move contents of deferred_urbs list to active_urbs list and submit */
--	list_for_each_safe(cursor, next, &mos_parport->deferred_urbs)
--		list_move_tail(cursor, &mos_parport->active_urbs);
--	list_for_each_entry_safe(urbtrack, tmp, &mos_parport->active_urbs,
--			    urblist_entry) {
--		ret_val = usb_submit_urb(urbtrack->urb, GFP_ATOMIC);
--		dev_dbg(dev, "%s: urb submitted\n", __func__);
--		if (ret_val) {
--			dev_err(dev, "usb_submit_urb() failed: %d\n", ret_val);
--			list_del(&urbtrack->urblist_entry);
--			kref_put(&urbtrack->ref_count, destroy_urbtracker);
--		}
--	}
--	spin_unlock_irqrestore(&mos_parport->listlock, flags);
--	mutex_unlock(&mos_parport->serial->disc_mutex);
--}
--
--/* callback for parallel port control urbs submitted asynchronously */
--static void async_complete(struct urb *urb)
--{
--	struct urbtracker *urbtrack = urb->context;
--	int status = urb->status;
--	unsigned long flags;
--
--	if (unlikely(status))
--		dev_dbg(&urb->dev->dev, "%s - nonzero urb status received: %d\n", __func__, status);
--
--	/* remove the urbtracker from the active_urbs list */
--	spin_lock_irqsave(&urbtrack->mos_parport->listlock, flags);
--	list_del(&urbtrack->urblist_entry);
--	spin_unlock_irqrestore(&urbtrack->mos_parport->listlock, flags);
--	kref_put(&urbtrack->ref_count, destroy_urbtracker);
--}
--
--static int write_parport_reg_nonblock(struct mos7715_parport *mos_parport,
--				      enum mos_regs reg, __u8 data)
--{
--	struct urbtracker *urbtrack;
--	int ret_val;
--	unsigned long flags;
--	struct usb_serial *serial = mos_parport->serial;
--	struct usb_device *usbdev = serial->dev;
--
--	/* create and initialize the control urb and containing urbtracker */
--	urbtrack = kmalloc(sizeof(struct urbtracker), GFP_ATOMIC);
--	if (!urbtrack)
--		return -ENOMEM;
--
--	urbtrack->urb = usb_alloc_urb(0, GFP_ATOMIC);
--	if (!urbtrack->urb) {
--		kfree(urbtrack);
--		return -ENOMEM;
--	}
--	urbtrack->setup = kmalloc(sizeof(*urbtrack->setup), GFP_ATOMIC);
--	if (!urbtrack->setup) {
--		usb_free_urb(urbtrack->urb);
--		kfree(urbtrack);
--		return -ENOMEM;
--	}
--	urbtrack->setup->bRequestType = (__u8)0x40;
--	urbtrack->setup->bRequest = (__u8)0x0e;
--	urbtrack->setup->wValue = cpu_to_le16(get_reg_value(reg, dummy));
--	urbtrack->setup->wIndex = cpu_to_le16(get_reg_index(reg));
--	urbtrack->setup->wLength = 0;
--	usb_fill_control_urb(urbtrack->urb, usbdev,
--			     usb_sndctrlpipe(usbdev, 0),
--			     (unsigned char *)urbtrack->setup,
--			     NULL, 0, async_complete, urbtrack);
--	kref_get(&mos_parport->ref_count);
--	urbtrack->mos_parport = mos_parport;
--	kref_init(&urbtrack->ref_count);
--	INIT_LIST_HEAD(&urbtrack->urblist_entry);
--
--	/*
--	 * get the disconnect mutex, or add tracker to the deferred_urbs list
--	 * and schedule a tasklet to try again later
--	 */
--	if (!mutex_trylock(&serial->disc_mutex)) {
--		spin_lock_irqsave(&mos_parport->listlock, flags);
--		list_add_tail(&urbtrack->urblist_entry,
--			      &mos_parport->deferred_urbs);
--		spin_unlock_irqrestore(&mos_parport->listlock, flags);
--		tasklet_schedule(&mos_parport->urb_tasklet);
--		dev_dbg(&usbdev->dev, "tasklet scheduled\n");
--		return 0;
--	}
--
--	/* bail if device disconnected */
--	if (serial->disconnected) {
--		kref_put(&urbtrack->ref_count, destroy_urbtracker);
--		mutex_unlock(&serial->disc_mutex);
--		return -ENODEV;
--	}
--
--	/* add the tracker to the active_urbs list and submit */
--	spin_lock_irqsave(&mos_parport->listlock, flags);
--	list_add_tail(&urbtrack->urblist_entry, &mos_parport->active_urbs);
--	spin_unlock_irqrestore(&mos_parport->listlock, flags);
--	ret_val = usb_submit_urb(urbtrack->urb, GFP_ATOMIC);
--	mutex_unlock(&serial->disc_mutex);
--	if (ret_val) {
--		dev_err(&usbdev->dev,
--			"%s: submit_urb() failed: %d\n", __func__, ret_val);
--		spin_lock_irqsave(&mos_parport->listlock, flags);
--		list_del(&urbtrack->urblist_entry);
--		spin_unlock_irqrestore(&mos_parport->listlock, flags);
--		kref_put(&urbtrack->ref_count, destroy_urbtracker);
--		return ret_val;
--	}
--	return 0;
--}
--
- /*
-  * This is the the common top part of all parallel port callback operations that
-  * send synchronous messages to the device.  This implements convoluted locking
-@@ -458,6 +281,10 @@ static int parport_prologue(struct parport *pp)
-	reinit_completion(&mos_parport->syncmsg_compl);
-	spin_unlock(&release_lock);
+Or are you against implementing these functions themselves? Should I
+abandon this at all?
 
-+	/* ensure writes from restore are submitted before new requests */
-+	if (work_pending(&mos_parport->work))
-+		flush_work(&mos_parport->work);
-+
-	mutex_lock(&mos_parport->serial->disc_mutex);
-	if (mos_parport->serial->disconnected) {
-		/* device disconnected */
-@@ -482,6 +309,28 @@ static inline void parport_epilogue(struct parport *pp)
-	complete(&mos_parport->syncmsg_compl);
- }
+BTW, what about patch 5/5 which introduces *_modify helpers?
+Patch 5/5 simplifies the driver a lot, IMO, changing this
 
-+static void deferred_restore_writes(struct work_struct *work)
-+{
-+	struct mos7715_parport *mos_parport;
-+
-+	mos_parport = container_of(work, struct mos7715_parport, work);
-+
-+	mutex_lock(&mos_parport->serial->disc_mutex);
-+
-+	/* if device disconnected, game over */
-+	if (mos_parport->serial->disconnected) {
-+		mutex_unlock(&mos_parport->serial->disc_mutex);
-+		return;
-+	}
-+
-+	write_mos_reg(mos_parport->serial, dummy, MOS7720_DCR,
-+		      mos_parport->shadowDCR);
-+	write_mos_reg(mos_parport->serial, dummy, MOS7720_ECR,
-+		      mos_parport->shadowECR);
-+	kref_put(&mos_parport->ref_count, destroy_mos_parport);
-+	mutex_unlock(&mos_parport->serial->disc_mutex);
-+}
-+
- static void parport_mos7715_write_data(struct parport *pp, unsigned char d)
- {
-	struct mos7715_parport *mos_parport = pp->private_data;
-@@ -639,12 +488,12 @@ static void parport_mos7715_restore_state(struct parport *pp,
-		spin_unlock(&release_lock);
-		return;
-	}
-+	kref_get(&mos_parport->ref_count);
-	mos_parport->shadowDCR = s->u.pc.ctr;
-	mos_parport->shadowECR = s->u.pc.ecr;
--	write_parport_reg_nonblock(mos_parport, MOS7720_DCR,
--				   mos_parport->shadowDCR);
--	write_parport_reg_nonblock(mos_parport, MOS7720_ECR,
--				   mos_parport->shadowECR);
-+
-+	/* defer synchronous writes outside of irq */
-+	schedule_work(&mos_parport->work);
-	spin_unlock(&release_lock);
- }
+  ocp_data =3D usb_ocp_read_word(tp, USB_PM_CTRL_STATUS);
+  ocp_data &=3D ~RESUME_INDICATE;
+  usb_ocp_write_word(tp, USB_PM_CTRL_STATUS, ocp_data);
 
-@@ -714,12 +563,9 @@ static int mos7715_parport_init(struct usb_serial *serial)
+into this
 
-	mos_parport->msg_pending = false;
-	kref_init(&mos_parport->ref_count);
--	spin_lock_init(&mos_parport->listlock);
--	INIT_LIST_HEAD(&mos_parport->active_urbs);
--	INIT_LIST_HEAD(&mos_parport->deferred_urbs);
-	usb_set_serial_data(serial, mos_parport); /* hijack private pointer */
-	mos_parport->serial = serial;
--	tasklet_setup(&mos_parport->urb_tasklet, send_deferred_urbs);
-+	INIT_WORK(&mos_parport->work, deferred_restore_writes);
-	init_completion(&mos_parport->syncmsg_compl);
+  usb_ocp_modify_word(tp, USB_PM_CTRL_STATUS, RESUME_INDICATE, 0);
 
-	/* cycle parallel port reset bit */
-@@ -1869,8 +1715,6 @@ static void mos7720_release(struct usb_serial *serial)
+Marek
 
-	if (le16_to_cpu(serial->dev->descriptor.idProduct)
-	    == MOSCHIP_DEVICE_ID_7715) {
--		struct urbtracker *urbtrack;
--		unsigned long flags;
-		struct mos7715_parport *mos_parport =
-			usb_get_serial_data(serial);
-
-@@ -1888,16 +1732,8 @@ static void mos7720_release(struct usb_serial *serial)
-		usb_set_serial_data(serial, NULL);
-		mos_parport->serial = NULL;
-
--		/* if tasklet currently scheduled, wait for it to complete */
--		tasklet_kill(&mos_parport->urb_tasklet);
--
--		/* unlink any urbs sent by the tasklet  */
--		spin_lock_irqsave(&mos_parport->listlock, flags);
--		list_for_each_entry(urbtrack,
--				    &mos_parport->active_urbs,
--				    urblist_entry)
--			usb_unlink_urb(urbtrack->urb);
--		spin_unlock_irqrestore(&mos_parport->listlock, flags);
-+		/* if work is currently scheduled, wait for it to complete */
-+		cancel_work_sync(&mos_parport->work);
-		parport_del_port(mos_parport->pp);
-
-		kref_put(&mos_parport->ref_count, destroy_mos_parport);
