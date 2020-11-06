@@ -2,60 +2,69 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 197C7C388F2
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A36C388F2
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:36:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B57B5208FE
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604646272;
-	bh=Q6YHNselajLVgVIOyZfpWCktbPPS2vgpXVESf/eQE0E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Q2hH68J0CbfWeXXYB8zep58SqPOebjk6LpPYZTiYTvlparNIHa1KuN1h6B4IK5hMC
-	 LEJC5ACUE9LEa2J8kZtUzfIvukTp4nD5M+W8sum9iyWpiFWZ+AgR1JafXrs1flM7R4
-	 ztrZVbd1KeP+8mlo/jTE8YJLb2xDBBv1GKNyX/Kc=
+	by mail.kernel.org (Postfix) with ESMTP id 6F2D8206F9
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 07:36:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726027AbgKFHE3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 02:04:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42202 "EHLO mail.kernel.org"
+        id S1726050AbgKFHgS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 02:36:18 -0500
+Received: from mga11.intel.com ([192.55.52.93]:26692 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725828AbgKFHE2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 6 Nov 2020 02:04:28 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AF8D6206F4;
-        Fri,  6 Nov 2020 07:04:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604646268;
-        bh=Q6YHNselajLVgVIOyZfpWCktbPPS2vgpXVESf/eQE0E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qCwQ3zhJof5EuJa2vzpXXKSp2L9onHMaG7LljxOA4p7skJ7OqbkkWOEvZzA8Jykl5
-         d/6e+2BdGUYudoEgPXldUxulIW7j1QaYwAzVuZKOkjVwKNfuDgiQqUH5cdUUtV1mMH
-         y4KNra6a/S8oGA7sPqurjCwRONWVDl49I0Pb5aTk=
-Date:   Fri, 6 Nov 2020 08:05:14 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     Tim Li <tim.li@dji.com>
-Cc:     "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Question: gadget: How to realize uvc and uac composite function?
-Message-ID: <20201106070514.GA2611613@kroah.com>
-References: <88a893988a394591968b139dcc750a2f@MAIL-MBX-cwP02.dji.com>
+        id S1725842AbgKFHgS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 6 Nov 2020 02:36:18 -0500
+IronPort-SDR: lbkLOMzWeybjeFKzIeTPLywOMzGc6DVUyszgR2f/87Y98lCipjNv4jgVOAZrebCI2oBmGQejHq
+ LYa3Ak1FewHg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="166004523"
+X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
+   d="scan'208";a="166004523"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 23:36:18 -0800
+IronPort-SDR: gLGsKSgpUPznoyv8n67Rw5M+68wGylzyacufXs32ZWTj5kic45/CUvM7VvmmP+fAkMWMJy5Mzg
+ 4yPc4TwJ0y9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
+   d="scan'208";a="427248745"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 05 Nov 2020 23:36:15 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Nov 2020 09:36:15 +0200
+Date:   Fri, 6 Nov 2020 09:36:15 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org, Benson Leung <bleung@chromium.org>
+Subject: Re: [PATCH v3 2/2] usb: typec: Expose Product Type VDOs via sysfs
+Message-ID: <20201106073615.GA4062920@kuha.fi.intel.com>
+References: <20201023214328.1262883-1-pmalani@chromium.org>
+ <20201023214328.1262883-2-pmalani@chromium.org>
+ <20201104174917.GC3913249@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <88a893988a394591968b139dcc750a2f@MAIL-MBX-cwP02.dji.com>
+In-Reply-To: <20201104174917.GC3913249@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 06, 2020 at 04:33:13AM +0000, Tim Li wrote:
-> This email and any attachments thereto may contain private, confidential, and privileged material for the sole use of the intended recipient. Any review, copying, or distribution of this email (or any attachments thereto) by others is strictly prohibited. If you are not the intended recipient, please contact the sender immediately and permanently delete the original and any copies of this email and any attachments thereto.
+On Wed, Nov 04, 2020 at 09:49:17AM -0800, Prashant Malani wrote:
+> Hi All,
+> 
+> Was wondering if there were any comments on v3 of this series?
 
-This footer is not compatible with posting on a public Linux mailing
-list, sorry.  Now deleted...
+Sorry to keep you waiting with this...
+
+I'm still wondering if the patch 2/2 is what we should use. Right now
+I don't have really any better ideas. But give the rest of the week to
+think about this.
+
+thanks,
+
+-- 
+heikki
