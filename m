@@ -5,46 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B07C2D0A3
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 11:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E41C2D0A3
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 11:46:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95B75206DB
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 11:46:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44FDA206F4
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 11:46:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="bIgHrpe2";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="a3A9LfYn"
+	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="G0MifP8m";
+	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="mZWNzMU5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727211AbgKFLpu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 06:45:50 -0500
-Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:45614 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726832AbgKFLpO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 06:45:14 -0500
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
-        by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6BfTHO006045;
-        Fri, 6 Nov 2020 03:44:22 -0800
+        id S1727286AbgKFLqR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 06:46:17 -0500
+Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:39448 "EHLO
+        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726891AbgKFLov (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 06:44:51 -0500
+Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
+        by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6BhNKx009744;
+        Fri, 6 Nov 2020 03:44:28 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=proofpoint;
- bh=kWG6z7ogMBqie/wkFxoIx/y3TjcdxEjYEqfYEupsgcQ=;
- b=bIgHrpe2dUDHF/JiJGCqw3c+JAc7fvUI4YxnPKxy0eARvA/57UQXbz7YWXwnT3bgEcbB
- GVAq3Yg+KUS/Pp3yL9JiwkbGgLE2JeB9yf8aeW565h0hzT3W5O26uKaiLbbBPWptjawZ
- aRdLG25kJCsIWPvXmi/agzPDUNgia2Q9pwwE9iI/ubvvhMP5/biKoLNq+iXUGCmFAL+x
- E4b8PZXefJfGjUWq31Hgd0vUABdoNast81/ZSGmEQUBPsHfXCzJMcaaX19vEXotZs3oO
- Kwu5fosbLQ42M+cnF8vTpd8xww6J1YoY/Lg8L+QTqDvAaeXS7aO6dyY4NkFuhOuW6RuF lQ== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
-        by mx0b-0014ca01.pphosted.com with ESMTP id 34h3gxac8m-1
+ bh=uClgMYJ8S/WxTNZFRQmiURCnjY+PPHkHr1YrvbfAJmg=;
+ b=G0MifP8m19FJXd0ww3MCD5arZ2tKpia0LvFSCFylWYqX+sVJkk7z+K2pSoQEto4dHHaF
+ d40k0MPXaLpLdP9pYbWsYH4PTIKHL7Kc0RnvQkZ4eF16ozvL6rNb+jo64K1nkStXZo8p
+ vvd0iTW9K5X4iMwSLiJnixThzOu8kpjVyiPn56Mrf6gm7blLSJIg0ySnGG/NJKQ/jA0c
+ lLoS5R9rjxytf0wDnV6BsesB/S8yDnkJTWYE6OSq311j3xfiy5J/+0Uk61+9criuD/jr
+ 0NDWjPpxXRY0I6j1MIOOPV/AWhP7ihDbVlLApv/tkZnjOzvMoqF0VowY1qbnnFsmJ/Oe rA== 
+Received: from nam02-cy1-obe.outbound.protection.outlook.com (mail-cys01nam02lp2054.outbound.protection.outlook.com [104.47.37.54])
+        by mx0a-0014ca01.pphosted.com with ESMTP id 34h4fvsr8w-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 Nov 2020 03:44:22 -0800
+        Fri, 06 Nov 2020 03:44:28 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KORCuY7k80OYjKL+uBGCSdNEu2W9/g+VoppLAoeQQ+CFlFAPjs9WD5JjwzwmLyZqf/Mc0XfM5UXt5f5Ybf73IMsJqITz2uqgjJSQfU4tnm0jlhjuSYrVoxQsaYyjcDKknm8X6U92KasbbqbUDPhnTLypDYyIIVEYcpiIHyaAg79F+DzRoAWzJBBjK2ADbZzKkWfxticnLNYTkvpvWI+6jmwdg0Fv44h8EVoYO+43Ijk4o5ic6NDh7o2mA91j6vPbHf0Q3w0cTI/yziH/ihtOcJTfIbrdgXyB/8FqdCmEA8W8C0ppOtCKIES0zGHdt4d1EPzqNhgZjGOrIkxDAuRWfg==
+ b=AHVloUICcBWaRir1xWzTHMlOwhYw2eoDM2F9VJBo7gOhGCH04jzywlLhDxZybBWcGUDMrb30MiwrTAnMRHY6+tskv9OcRcPqby0RNm7bjfxLdbnpwn12iQSISaSxkfCi7uojqZU6OVnZxq/p7gjcy4qucl9wwJY8ozNb2reO289OIa9VR0X0+ofmiN0xUQ4YeU+yfjBtyaXjoqChbcucXqrkj0BF+AYyiOqilvLHQsM817nQSJhTSqKaz/gKglShBI8YtF9YTEjQehwGJ5RlcJ6YLpvlulU9m2VYzYAJRNVa/K821qfg2gIykeOrZQ4dDYBKXADqL21HEW5SO89Nrg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kWG6z7ogMBqie/wkFxoIx/y3TjcdxEjYEqfYEupsgcQ=;
- b=WnB2XIXEgVH77xUXC4AphN9ujfBEMRAJjg1D2IXy9RlyHTTlcn5XW+eTdqiw0CtRZspVLq0Q3gf9O6kK8xlNr/FJRrad/1/6QQrHBdOYtUQOsvX8bX9QTV5q7xzsbURgmZApXOeCjSSAu/iXTiljiI9kRvU3MU1+1FRukuB3HntmYuRyidULsc6s8ssNoThVCLs6cdUciqVG6Iuvv5O5k49eVYSMWjyFXB6rM9mdy2nTLB858xyyfWM6Y+h1IfLVWR6UqvB9I499qQESjRGkhruoE+B62uXacSUS0sqpjaNCm5DteoPzHzAUragkXvBKKfLsphS6bzSCjfus93oxCg==
+ bh=uClgMYJ8S/WxTNZFRQmiURCnjY+PPHkHr1YrvbfAJmg=;
+ b=iaVS37g7OYtoEYFLf5OIZNHWDY9Vt0Voks2BbVGkIlXI5KRWydrZXQ4B9t4iEyoSjbN2BP+DjVW9x5rnRmGMdyvszsOdYi3FI3gSt+t10ARipiL6qSFEos+VoOXUtVPuME/zqDIudETbx2he7yS2vjwo1H2vYmQQBiG8x42oKp5VrI8HLCJJxaoFDMspbhfaBfKCChbD309IpdczNyaP+dJ8pkwp7KzEuBJtcx/aCAGVQAT2ajXe6QpyPbDjReOLblUiEUVSsUzu6dGaWhP3eMryVULtaGDeug+/3/qHk8Ucnxc9HOMANzAOh1K/7RD20ezK9DKoubsWJ3W2Vn/D7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  64.207.220.244) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
@@ -52,18 +52,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kWG6z7ogMBqie/wkFxoIx/y3TjcdxEjYEqfYEupsgcQ=;
- b=a3A9LfYnPSQeJ1ZR32Ia/qV9lmxkf+HQkLak7D5HBC8fD5jBpRvCaJ5U+jXnzzhDVhka2vCqauauA7w/3HUX5KGG9tvczi/J5OuJTtzhNRWBbtn43eMTIEDAI0zOjxzopIqoyLH5BVTPViFljlO3M3c5ZaDehiLLxYvK/baMFns=
-Received: from BN6PR14CA0040.namprd14.prod.outlook.com (2603:10b6:404:13f::26)
- by MN2PR07MB5949.namprd07.prod.outlook.com (2603:10b6:208:af::31) with
+ bh=uClgMYJ8S/WxTNZFRQmiURCnjY+PPHkHr1YrvbfAJmg=;
+ b=mZWNzMU5Xti6Is0t4jinMZXYMXCjP2RCjze+rrK0j/3B6iMcUxd8QbhDc/kSuOaAyS5maadmApaL0DodCLT9gcKCKn5TmiBIRmMg0ruq+Ri/++rxgiYD9NF9C9jehpclszYatw0Z3Mb1FH7uk7OIb3GW4wJZm7haILs8WxwlnOU=
+Received: from BN6PR19CA0052.namprd19.prod.outlook.com (2603:10b6:404:e3::14)
+ by BY5PR07MB6625.namprd07.prod.outlook.com (2603:10b6:a03:1a8::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Fri, 6 Nov
- 2020 11:44:19 +0000
-Received: from BN8NAM12FT031.eop-nam12.prod.protection.outlook.com
- (2603:10b6:404:13f:cafe::22) by BN6PR14CA0040.outlook.office365.com
- (2603:10b6:404:13f::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.22 via Frontend
- Transport; Fri, 6 Nov 2020 11:44:19 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Fri, 6 Nov
+ 2020 11:44:25 +0000
+Received: from BN8NAM12FT051.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:404:e3:cafe::c) by BN6PR19CA0052.outlook.office365.com
+ (2603:10b6:404:e3::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
+ Transport; Fri, 6 Nov 2020 11:44:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 64.207.220.244)
  smtp.mailfrom=cadence.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none
@@ -72,35 +72,35 @@ Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
  64.207.220.244 as permitted sender) receiver=protection.outlook.com;
  client-ip=64.207.220.244; helo=wcmailrelayl01.cadence.com;
 Received: from wcmailrelayl01.cadence.com (64.207.220.244) by
- BN8NAM12FT031.mail.protection.outlook.com (10.13.183.64) with Microsoft SMTP
+ BN8NAM12FT051.mail.protection.outlook.com (10.13.182.230) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.7 via Frontend Transport; Fri, 6 Nov 2020 11:44:18 +0000
+ 15.20.3541.7 via Frontend Transport; Fri, 6 Nov 2020 11:44:23 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id 0A6BiFAl094912
+        by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id 0A6BiFAt094912
         (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
-        Fri, 6 Nov 2020 03:44:16 -0800
+        Fri, 6 Nov 2020 03:44:22 -0800
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Fri, 6 Nov 2020 12:44:14 +0100
+ 15.0.1367.3; Fri, 6 Nov 2020 12:44:15 +0100
 Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Fri, 6 Nov 2020 12:44:14 +0100
+ 15.0.1367.3 via Frontend Transport; Fri, 6 Nov 2020 12:44:15 +0100
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
-        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0A6BiErw001563;
-        Fri, 6 Nov 2020 12:44:14 +0100
+        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0A6BiFLn001601;
+        Fri, 6 Nov 2020 12:44:15 +0100
 Received: (from pawell@localhost)
-        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0A6BiE5d001562;
-        Fri, 6 Nov 2020 12:44:14 +0100
+        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0A6BiFJH001600;
+        Fri, 6 Nov 2020 12:44:15 +0100
 From:   Pawel Laszczak <pawell@cadence.com>
 To:     <peter.chen@nxp.com>
 CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <balbi@kernel.org>,
         <colin.king@canonical.com>, <rogerq@ti.com>, <kurahul@cadence.com>,
         <nsekhar@ti.com>, Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH v2 01/10] usb: cdns3: Add support for DRD CDNSP
-Date:   Fri, 6 Nov 2020 12:42:51 +0100
-Message-ID: <20201106114300.1245-2-pawell@cadence.com>
+Subject: [PATCH v2 09/10] usb: cdns3: Change file names for cdns3 driver.
+Date:   Fri, 6 Nov 2020 12:42:59 +0100
+Message-ID: <20201106114300.1245-10-pawell@cadence.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201106114300.1245-1-pawell@cadence.com>
 References: <20201106114300.1245-1-pawell@cadence.com>
@@ -109,491 +109,163 @@ Content-Type: text/plain
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d73965ac-328d-4c51-4fd3-08d882494b83
-X-MS-TrafficTypeDiagnostic: MN2PR07MB5949:
-X-Microsoft-Antispam-PRVS: <MN2PR07MB5949E1A835668680C7DEF6A8DDED0@MN2PR07MB5949.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: 4f6af06a-6b76-4b6c-32e7-08d882494e79
+X-MS-TrafficTypeDiagnostic: BY5PR07MB6625:
+X-Microsoft-Antispam-PRVS: <BY5PR07MB66253BBD1E23CBE95E6C06EEDDED0@BY5PR07MB6625.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:152;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: T6drwzizm8xYoI8xuCi51iviMC6soIuPjr1CKMMDdAQ4ceH7y5pUkXtisw9Ph/Y2KYrPz/lw9hyWyeU9jrEmNX+LenHyrE400A0Xqxu7u2xZJvog26xSaV9w3O3Hab8DHJ0WSyhOGej+xfG5ihztwvCU+jMOQIqf8LiWZPTLNNSa5mhbGziLw5z6gtK9e1vpKZ1wS5EXDvfj/y5UOlccWU4eqiC2VfEgpjXR77Obc12j0rXszhj5goL4y2Bzd4hcgqFOUkkCoPKmV0jmG9cfvJRIpKOrxpi0gLWeD6frZq45WhVMYVenYVvDkdKmGgnROn1G7MOq76GWnH4aNwCsdRw8dlGqTc7LClv2lZ4UVX95sBobTGuLlbxJLtqQ/Tk7svs6m3HVam3UmxUpI0AXmo0h4gVngA+42nfoZ1y7V2g=
-X-Forefront-Antispam-Report: CIP:64.207.220.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:wcmailrelayl01.cadence.com;PTR:ErrorRetry;CAT:NONE;SFS:(4636009)(396003)(136003)(39860400002)(346002)(376002)(36092001)(46966005)(8936002)(8676002)(86362001)(2906002)(82310400003)(5660300002)(47076004)(82740400003)(6916009)(83380400001)(478600001)(81166007)(42186006)(54906003)(30864003)(70586007)(316002)(70206006)(6666004)(356005)(36906005)(186003)(336012)(36756003)(4326008)(2616005)(1076003)(426003)(107886003)(26005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: X2wtcmYjOLty4o+VMtvZpmG+aBDRiurpgGCByvz/9edR2oustjnd734YMq7CSqecdR6ACAb4y8KOmdVZL5lDGbAxA9wJXsU209H3qqIeHoAltkWKsY+FqVsjZYeNU3eXJRRcA7pHB9rCzCQIyURQ6ah4MEwEDNmiHBgUxMcqW9Wqv7c8T5vB+uhw0/k6epUSkJEmcVsKuedUWCbUUqwN1LWkqJeV1hfpXx/12ZRR5ytE9nyUP9J/xlwFAa+6cVcFR7030uNnSbRu8dCrrPuZ11FQTVR9j7QYDADY5o1oTNvb9DYQKXrqSBmk+jJr/W4N6YYyOhYaHOegcFWiecWvTRJ4m9yLw/JE1lSERvUPIdZaGarOD6bkz4r9C38p8rdbKoTBdNH/oetpFoeMA00iNKcSJ80nEkX8di4QYwYcu88=
+X-Forefront-Antispam-Report: CIP:64.207.220.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:wcmailrelayl01.cadence.com;PTR:ErrorRetry;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(396003)(39860400002)(36092001)(46966005)(1076003)(70206006)(82310400003)(70586007)(107886003)(83380400001)(26005)(8936002)(2906002)(186003)(5660300002)(36756003)(42186006)(47076004)(316002)(36906005)(81166007)(54906003)(356005)(4326008)(6916009)(82740400003)(478600001)(8676002)(336012)(6666004)(86362001)(426003)(2616005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 11:44:18.2556
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 11:44:23.2215
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d73965ac-328d-4c51-4fd3-08d882494b83
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f6af06a-6b76-4b6c-32e7-08d882494e79
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[64.207.220.244];Helo=[wcmailrelayl01.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT031.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT051.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR07MB5949
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR07MB6625
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-06_04:2020-11-05,2020-11-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0
- priorityscore=1501 malwarescore=0 impostorscore=0 lowpriorityscore=0
- adultscore=0 suspectscore=1 mlxlogscore=977 spamscore=0 bulkscore=0
- mlxscore=0 phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2011060086
+ definitions=2020-11-06_03:2020-11-05,2020-11-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 clxscore=1015 impostorscore=0 spamscore=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=1
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011060086
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Patch adds support for Cadence DRD Super Speed Plus controller(CDNSP).
-CDNSP DRD is a part of Cadence CDNSP controller.
-The DRD CDNSP controller has a lot of difference on hardware level but on
-software level is quite compatible with CDNS3 DRD. For this reason
-CDNS3 DRD part of CDNS3 driver was reused for CDNSP driver.
+Patch adds prefix cdns3- to all file names related only to
+cdsn3 driver.
 
 Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 ---
- drivers/usb/cdns3/core.c |  24 +++++++---
- drivers/usb/cdns3/core.h |   5 ++
- drivers/usb/cdns3/drd.c  | 101 +++++++++++++++++++++++++++------------
- drivers/usb/cdns3/drd.h  |  67 +++++++++++++++++++++-----
- 4 files changed, 148 insertions(+), 49 deletions(-)
+ drivers/usb/cdns3/Makefile                     | 6 +++---
+ drivers/usb/cdns3/{debug.h => cdns3-debug.h}   | 0
+ drivers/usb/cdns3/{ep0.c => cdns3-ep0.c}       | 4 ++--
+ drivers/usb/cdns3/{gadget.c => cdns3-gadget.c} | 4 ++--
+ drivers/usb/cdns3/{gadget.h => cdns3-gadget.h} | 0
+ drivers/usb/cdns3/{trace.c => cdns3-trace.c}   | 2 +-
+ drivers/usb/cdns3/{trace.h => cdns3-trace.h}   | 6 +++---
+ 7 files changed, 11 insertions(+), 11 deletions(-)
+ rename drivers/usb/cdns3/{debug.h => cdns3-debug.h} (100%)
+ rename drivers/usb/cdns3/{ep0.c => cdns3-ep0.c} (99%)
+ rename drivers/usb/cdns3/{gadget.c => cdns3-gadget.c} (99%)
+ rename drivers/usb/cdns3/{gadget.h => cdns3-gadget.h} (100%)
+ rename drivers/usb/cdns3/{trace.c => cdns3-trace.c} (89%)
+ rename drivers/usb/cdns3/{trace.h => cdns3-trace.h} (99%)
 
-diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
-index f2dedce3a40e..58a3cb0e2a5d 100644
---- a/drivers/usb/cdns3/core.c
-+++ b/drivers/usb/cdns3/core.c
-@@ -97,13 +97,23 @@ static int cdns3_core_init_role(struct cdns3 *cdns)
- 	 * can be restricted later depending on strap pin configuration.
- 	 */
- 	if (dr_mode == USB_DR_MODE_UNKNOWN) {
--		if (IS_ENABLED(CONFIG_USB_CDNS3_HOST) &&
--		    IS_ENABLED(CONFIG_USB_CDNS3_GADGET))
--			dr_mode = USB_DR_MODE_OTG;
--		else if (IS_ENABLED(CONFIG_USB_CDNS3_HOST))
--			dr_mode = USB_DR_MODE_HOST;
--		else if (IS_ENABLED(CONFIG_USB_CDNS3_GADGET))
--			dr_mode = USB_DR_MODE_PERIPHERAL;
-+		if (cdns->version == CDNSP_CONTROLLER_V2) {
-+			if (IS_ENABLED(CONFIG_USB_CDNSP_HOST) &&
-+			    IS_ENABLED(CONFIG_USB_CDNSP_GADGET))
-+				dr_mode = USB_DR_MODE_OTG;
-+			else if (IS_ENABLED(CONFIG_USB_CDNSP_HOST))
-+				dr_mode = USB_DR_MODE_HOST;
-+			else if (IS_ENABLED(CONFIG_USB_CDNSP_GADGET))
-+				dr_mode = USB_DR_MODE_PERIPHERAL;
-+		} else {
-+			if (IS_ENABLED(CONFIG_USB_CDNS3_HOST) &&
-+			    IS_ENABLED(CONFIG_USB_CDNS3_GADGET))
-+				dr_mode = USB_DR_MODE_OTG;
-+			else if (IS_ENABLED(CONFIG_USB_CDNS3_HOST))
-+				dr_mode = USB_DR_MODE_HOST;
-+			else if (IS_ENABLED(CONFIG_USB_CDNS3_GADGET))
-+				dr_mode = USB_DR_MODE_PERIPHERAL;
-+		}
- 	}
+diff --git a/drivers/usb/cdns3/Makefile b/drivers/usb/cdns3/Makefile
+index a4fdaabdbe18..01a9a9620044 100644
+--- a/drivers/usb/cdns3/Makefile
++++ b/drivers/usb/cdns3/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # define_trace.h needs to know how to find our header
+-CFLAGS_trace.o					:= -I$(src)
++CFLAGS_cdns3-trace.o				:= -I$(src)
+ CFLAGS_cdnsp-trace.o				:= -I$(src)
  
- 	/*
-diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
-index 8a40d53d5ede..3af8eb7ca844 100644
---- a/drivers/usb/cdns3/core.h
-+++ b/drivers/usb/cdns3/core.h
-@@ -53,7 +53,9 @@ struct cdns3_platform_data {
-  * @otg_res: the resource for otg
-  * @otg_v0_regs: pointer to base of v0 otg registers
-  * @otg_v1_regs: pointer to base of v1 otg registers
-+ * @otg_cdnsp_regs: pointer to base of CDNSP otg registers
-  * @otg_regs: pointer to base of otg registers
-+ * @otg_irq_regs: pointer to interrupt registers
-  * @otg_irq: irq number for otg controller
-  * @dev_irq: irq number for device controller
-  * @wakeup_irq: irq number for wakeup event, it is optional
-@@ -83,9 +85,12 @@ struct cdns3 {
- 	struct resource			otg_res;
- 	struct cdns3_otg_legacy_regs	*otg_v0_regs;
- 	struct cdns3_otg_regs		*otg_v1_regs;
-+	struct cdnsp_otg_regs		*otg_cdnsp_regs;
- 	struct cdns3_otg_common_regs	*otg_regs;
-+	struct cdns3_otg_irq_regs	*otg_irq_regs;
- #define CDNS3_CONTROLLER_V0	0
- #define CDNS3_CONTROLLER_V1	1
-+#define CDNSP_CONTROLLER_V2	2
- 	u32				version;
- 	bool				phyrst_a_enable;
+ cdns-usb-common-y				:= core.o drd.o
+@@ -10,10 +10,10 @@ obj-$(CONFIG_USB_CDNS3)				+= cdns3.o
+ obj-$(CONFIG_USB_CDNS_SUPPORT)			+= cdns-usb-common.o
  
-diff --git a/drivers/usb/cdns3/drd.c b/drivers/usb/cdns3/drd.c
-index 38ccd29e4cde..95863d44e3e0 100644
---- a/drivers/usb/cdns3/drd.c
-+++ b/drivers/usb/cdns3/drd.c
-@@ -2,13 +2,12 @@
- /*
-  * Cadence USBSS DRD Driver.
-  *
-- * Copyright (C) 2018-2019 Cadence.
-+ * Copyright (C) 2018-2020 Cadence.
-  * Copyright (C) 2019 Texas Instruments
-  *
-  * Author: Pawel Laszczak <pawell@cadence.com>
-  *         Roger Quadros <rogerq@ti.com>
-  *
-- *
-  */
- #include <linux/kernel.h>
- #include <linux/interrupt.h>
-@@ -28,8 +27,9 @@
-  *
-  * Returns 0 on success otherwise negative errno
-  */
--int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
-+static int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
- {
-+	u32 __iomem *override_reg;
- 	u32 reg;
+ cdns-usb-common-$(CONFIG_USB_CDNS_HOST) 	+= host.o
+-cdns3-$(CONFIG_USB_CDNS3_GADGET)		+= gadget.o ep0.o
++cdns3-$(CONFIG_USB_CDNS3_GADGET)		+= cdns3-gadget.o cdns3-ep0.o
  
- 	switch (mode) {
-@@ -39,11 +39,24 @@ int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
- 		break;
- 	case USB_DR_MODE_OTG:
- 		dev_dbg(cdns->dev, "Set controller to OTG mode\n");
--		if (cdns->version == CDNS3_CONTROLLER_V1) {
--			reg = readl(&cdns->otg_v1_regs->override);
-+
-+		if (cdns->version == CDNSP_CONTROLLER_V2)
-+			override_reg = &cdns->otg_cdnsp_regs->override;
-+		else if (cdns->version == CDNS3_CONTROLLER_V1)
-+			override_reg = &cdns->otg_v1_regs->override;
-+		else
-+			override_reg = &cdns->otg_v0_regs->ctrl1;
-+
-+		reg = readl(override_reg);
-+
-+		if (cdns->version != CDNS3_CONTROLLER_V0)
- 			reg |= OVERRIDE_IDPULLUP;
--			writel(reg, &cdns->otg_v1_regs->override);
-+		else
-+			reg |= OVERRIDE_IDPULLUP_V0;
+ ifneq ($(CONFIG_USB_CDNS3_GADGET),)
+-cdns3-$(CONFIG_TRACING)				+= trace.o
++cdns3-$(CONFIG_TRACING)				+= cdns3-trace.o
+ endif
  
-+		writel(reg, override_reg);
-+
-+		if (cdns->version == CDNS3_CONTROLLER_V1) {
- 			/*
- 			 * Enable work around feature built into the
- 			 * controller to address issue with RX Sensitivity
-@@ -55,10 +68,6 @@ int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
- 				reg |= PHYRST_CFG_PHYRST_A_ENABLE;
- 				writel(reg, &cdns->otg_v1_regs->phyrst_cfg);
- 			}
--		} else {
--			reg = readl(&cdns->otg_v0_regs->ctrl1);
--			reg |= OVERRIDE_IDPULLUP_V0;
--			writel(reg, &cdns->otg_v0_regs->ctrl1);
- 		}
+ obj-$(CONFIG_USB_CDNS3_PCI_WRAP)		+= cdns3-pci-wrap.o
+diff --git a/drivers/usb/cdns3/debug.h b/drivers/usb/cdns3/cdns3-debug.h
+similarity index 100%
+rename from drivers/usb/cdns3/debug.h
+rename to drivers/usb/cdns3/cdns3-debug.h
+diff --git a/drivers/usb/cdns3/ep0.c b/drivers/usb/cdns3/cdns3-ep0.c
+similarity index 99%
+rename from drivers/usb/cdns3/ep0.c
+rename to drivers/usb/cdns3/cdns3-ep0.c
+index d3121a32cc68..b0390fe9a396 100644
+--- a/drivers/usb/cdns3/ep0.c
++++ b/drivers/usb/cdns3/cdns3-ep0.c
+@@ -13,8 +13,8 @@
+ #include <linux/usb/composite.h>
+ #include <linux/iopoll.h>
  
- 		/*
-@@ -123,7 +132,7 @@ bool cdns3_is_device(struct cdns3 *cdns)
-  */
- static void cdns3_otg_disable_irq(struct cdns3 *cdns)
- {
--	writel(0, &cdns->otg_regs->ien);
-+	writel(0, &cdns->otg_irq_regs->ien);
- }
+-#include "gadget.h"
+-#include "trace.h"
++#include "cdns3-gadget.h"
++#include "cdns3-trace.h"
  
- /**
-@@ -133,7 +142,7 @@ static void cdns3_otg_disable_irq(struct cdns3 *cdns)
- static void cdns3_otg_enable_irq(struct cdns3 *cdns)
- {
- 	writel(OTGIEN_ID_CHANGE_INT | OTGIEN_VBUSVALID_RISE_INT |
--	       OTGIEN_VBUSVALID_FALL_INT, &cdns->otg_regs->ien);
-+	       OTGIEN_VBUSVALID_FALL_INT, &cdns->otg_irq_regs->ien);
- }
+ static struct usb_endpoint_descriptor cdns3_gadget_ep0_desc = {
+ 	.bLength = USB_DT_ENDPOINT_SIZE,
+diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
+similarity index 99%
+rename from drivers/usb/cdns3/gadget.c
+rename to drivers/usb/cdns3/cdns3-gadget.c
+index 9e0a82063873..d507a23c7047 100644
+--- a/drivers/usb/cdns3/gadget.c
++++ b/drivers/usb/cdns3/cdns3-gadget.c
+@@ -63,8 +63,8 @@
  
- /**
-@@ -144,16 +153,21 @@ static void cdns3_otg_enable_irq(struct cdns3 *cdns)
-  */
- int cdns3_drd_host_on(struct cdns3 *cdns)
- {
--	u32 val;
-+	u32 val, ready_bit;
- 	int ret;
- 
- 	/* Enable host mode. */
- 	writel(OTGCMD_HOST_BUS_REQ | OTGCMD_OTG_DIS,
- 	       &cdns->otg_regs->cmd);
- 
-+	if (cdns->version == CDNSP_CONTROLLER_V2)
-+		ready_bit = OTGSTS_CDNSP_XHCI_READY;
-+	else
-+		ready_bit = OTGSTS_CDNS3_XHCI_READY;
-+
- 	dev_dbg(cdns->dev, "Waiting till Host mode is turned on\n");
- 	ret = readl_poll_timeout_atomic(&cdns->otg_regs->sts, val,
--					val & OTGSTS_XHCI_READY, 1, 100000);
-+					val & ready_bit, 1, 100000);
- 
- 	if (ret)
- 		dev_err(cdns->dev, "timeout waiting for xhci_ready\n");
-@@ -189,17 +203,22 @@ void cdns3_drd_host_off(struct cdns3 *cdns)
-  */
- int cdns3_drd_gadget_on(struct cdns3 *cdns)
- {
--	int ret, val;
- 	u32 reg = OTGCMD_OTG_DIS;
-+	u32 ready_bit;
-+	int ret, val;
- 
- 	/* switch OTG core */
- 	writel(OTGCMD_DEV_BUS_REQ | reg, &cdns->otg_regs->cmd);
- 
- 	dev_dbg(cdns->dev, "Waiting till Device mode is turned on\n");
- 
-+	if (cdns->version == CDNSP_CONTROLLER_V2)
-+		ready_bit = OTGSTS_CDNSP_DEV_READY;
-+	else
-+		ready_bit = OTGSTS_CDNS3_DEV_READY;
-+
- 	ret = readl_poll_timeout_atomic(&cdns->otg_regs->sts, val,
--					val & OTGSTS_DEV_READY,
--					1, 100000);
-+					val & ready_bit, 1, 100000);
- 	if (ret) {
- 		dev_err(cdns->dev, "timeout waiting for dev_ready\n");
- 		return ret;
-@@ -244,7 +263,7 @@ static int cdns3_init_otg_mode(struct cdns3 *cdns)
- 
- 	cdns3_otg_disable_irq(cdns);
- 	/* clear all interrupts */
--	writel(~0, &cdns->otg_regs->ivect);
-+	writel(~0, &cdns->otg_irq_regs->ivect);
- 
- 	ret = cdns3_set_mode(cdns, USB_DR_MODE_OTG);
- 	if (ret)
-@@ -313,7 +332,7 @@ static irqreturn_t cdns3_drd_irq(int irq, void *data)
- 	if (cdns->in_lpm)
- 		return ret;
- 
--	reg = readl(&cdns->otg_regs->ivect);
-+	reg = readl(&cdns->otg_irq_regs->ivect);
- 
- 	if (!reg)
- 		return IRQ_NONE;
-@@ -332,7 +351,7 @@ static irqreturn_t cdns3_drd_irq(int irq, void *data)
- 		ret = IRQ_WAKE_THREAD;
- 	}
- 
--	writel(~0, &cdns->otg_regs->ivect);
-+	writel(~0, &cdns->otg_irq_regs->ivect);
- 	return ret;
- }
- 
-@@ -347,28 +366,43 @@ int cdns3_drd_init(struct cdns3 *cdns)
- 		return PTR_ERR(regs);
- 
- 	/* Detection of DRD version. Controller has been released
--	 * in two versions. Both are similar, but they have same changes
--	 * in register maps.
--	 * The first register in old version is command register and it's read
--	 * only, so driver should read 0 from it. On the other hand, in v1
--	 * the first register contains device ID number which is not set to 0.
--	 * Driver uses this fact to detect the proper version of
-+	 * in three versions. All are very similar and are software compatible,
-+	 * but they have same changes in register maps.
-+	 * The first register in oldest version is command register and it's
-+	 * read only. Driver should read 0 from it. On the other hand, in v1
-+	 * and v2 the first register contains device ID number which is not
-+	 * set to 0. Driver uses this fact to detect the proper version of
- 	 * controller.
- 	 */
- 	cdns->otg_v0_regs = regs;
- 	if (!readl(&cdns->otg_v0_regs->cmd)) {
- 		cdns->version  = CDNS3_CONTROLLER_V0;
- 		cdns->otg_v1_regs = NULL;
-+		cdns->otg_cdnsp_regs = NULL;
- 		cdns->otg_regs = regs;
-+		cdns->otg_irq_regs = (struct cdns3_otg_irq_regs *)
-+				     &cdns->otg_v0_regs->ien;
- 		writel(1, &cdns->otg_v0_regs->simulate);
- 		dev_dbg(cdns->dev, "DRD version v0 (%08x)\n",
- 			 readl(&cdns->otg_v0_regs->version));
- 	} else {
- 		cdns->otg_v0_regs = NULL;
- 		cdns->otg_v1_regs = regs;
-+		cdns->otg_cdnsp_regs = regs;
-+
- 		cdns->otg_regs = (void *)&cdns->otg_v1_regs->cmd;
--		cdns->version  = CDNS3_CONTROLLER_V1;
--		writel(1, &cdns->otg_v1_regs->simulate);
-+
-+		if (cdns->otg_cdnsp_regs->did == OTG_CDNSP_DID) {
-+			cdns->otg_irq_regs = (struct cdns3_otg_irq_regs *)
-+					      &cdns->otg_cdnsp_regs->ien;
-+			cdns->version  = CDNSP_CONTROLLER_V2;
-+		} else {
-+			cdns->otg_irq_regs = (struct cdns3_otg_irq_regs *)
-+					      &cdns->otg_v1_regs->ien;
-+			writel(1, &cdns->otg_v1_regs->simulate);
-+			cdns->version  = CDNS3_CONTROLLER_V1;
-+		}
-+
- 		dev_dbg(cdns->dev, "DRD version v1 (ID: %08x, rev: %08x)\n",
- 			 readl(&cdns->otg_v1_regs->did),
- 			 readl(&cdns->otg_v1_regs->rid));
-@@ -378,10 +412,17 @@ int cdns3_drd_init(struct cdns3 *cdns)
- 
- 	/* Update dr_mode according to STRAP configuration. */
- 	cdns->dr_mode = USB_DR_MODE_OTG;
--	if (state == OTGSTS_STRAP_HOST) {
-+
-+	if ((cdns->version == CDNSP_CONTROLLER_V2 &&
-+	     state == OTGSTS_CDNSP_STRAP_HOST) ||
-+	    (cdns->version != CDNSP_CONTROLLER_V2 &&
-+	     state == OTGSTS_STRAP_HOST)) {
- 		dev_dbg(cdns->dev, "Controller strapped to HOST\n");
- 		cdns->dr_mode = USB_DR_MODE_HOST;
--	} else if (state == OTGSTS_STRAP_GADGET) {
-+	} else if ((cdns->version == CDNSP_CONTROLLER_V2 &&
-+		    state == OTGSTS_CDNSP_STRAP_GADGET) ||
-+		   (cdns->version != CDNSP_CONTROLLER_V2 &&
-+		    state == OTGSTS_STRAP_GADGET)) {
- 		dev_dbg(cdns->dev, "Controller strapped to PERIPHERAL\n");
- 		cdns->dr_mode = USB_DR_MODE_PERIPHERAL;
- 	}
-diff --git a/drivers/usb/cdns3/drd.h b/drivers/usb/cdns3/drd.h
-index f1ccae285a16..ac60fa5633c5 100644
---- a/drivers/usb/cdns3/drd.h
-+++ b/drivers/usb/cdns3/drd.h
-@@ -1,8 +1,8 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Cadence USB3 DRD header file.
-+ * Cadence USB3 and USBSSP DRD header file.
-  *
-- * Copyright (C) 2018-2019 Cadence.
-+ * Copyright (C) 2018-2020 Cadence.
-  *
-  * Author: Pawel Laszczak <pawell@cadence.com>
-  */
-@@ -13,7 +13,7 @@
- #include <linux/phy/phy.h>
  #include "core.h"
+ #include "gadget-export.h"
+-#include "gadget.h"
+-#include "trace.h"
++#include "cdns3-gadget.h"
++#include "cdns3-trace.h"
+ #include "drd.h"
  
--/*  DRD register interface for version v1. */
-+/*  DRD register interface for version v1 of cdns3 driver. */
- struct cdns3_otg_regs {
- 	__le32 did;
- 	__le32 rid;
-@@ -38,7 +38,7 @@ struct cdns3_otg_regs {
- 	__le32 ctrl2;
- };
- 
--/*  DRD register interface for version v0. */
-+/*  DRD register interface for version v0 of cdns3 driver. */
- struct cdns3_otg_legacy_regs {
- 	__le32 cmd;
- 	__le32 sts;
-@@ -57,14 +57,45 @@ struct cdns3_otg_legacy_regs {
- 	__le32 ctrl1;
- };
- 
-+/* DRD register interface for cdnsp driver */
-+struct cdnsp_otg_regs {
-+	__le32 did;
-+	__le32 rid;
-+	__le32 cfgs1;
-+	__le32 cfgs2;
-+	__le32 cmd;
-+	__le32 sts;
-+	__le32 state;
-+	__le32 ien;
-+	__le32 ivect;
-+	__le32 tmr;
-+	__le32 simulate;
-+	__le32 adpbc_sts;
-+	__le32 adp_ramp_time;
-+	__le32 adpbc_ctrl1;
-+	__le32 adpbc_ctrl2;
-+	__le32 override;
-+	__le32 vbusvalid_dbnc_cfg;
-+	__le32 sessvalid_dbnc_cfg;
-+	__le32 susp_timing_ctrl;
-+};
-+
-+#define OTG_CDNSP_DID	0x0004034E
-+
- /*
-- * Common registers interface for both version of DRD.
-+ * Common registers interface for both CDNS3 and CDNSP version of DRD.
+ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
+diff --git a/drivers/usb/cdns3/gadget.h b/drivers/usb/cdns3/cdns3-gadget.h
+similarity index 100%
+rename from drivers/usb/cdns3/gadget.h
+rename to drivers/usb/cdns3/cdns3-gadget.h
+diff --git a/drivers/usb/cdns3/trace.c b/drivers/usb/cdns3/cdns3-trace.c
+similarity index 89%
+rename from drivers/usb/cdns3/trace.c
+rename to drivers/usb/cdns3/cdns3-trace.c
+index 459fa72d9c74..b9858acaef02 100644
+--- a/drivers/usb/cdns3/trace.c
++++ b/drivers/usb/cdns3/cdns3-trace.c
+@@ -8,4 +8,4 @@
   */
- struct cdns3_otg_common_regs {
- 	__le32 cmd;
- 	__le32 sts;
- 	__le32 state;
--	__le32 different1;
-+};
-+
-+/*
-+ * Interrupt related registers. This registers are mapped in different
-+ * location for CDNSP controller.
-+ */
-+struct cdns3_otg_irq_regs {
- 	__le32 ien;
- 	__le32 ivect;
- };
-@@ -92,9 +123,9 @@ struct cdns3_otg_common_regs {
- #define OTGCMD_DEV_BUS_DROP		BIT(8)
- /* Drop the bus for Host mode*/
- #define OTGCMD_HOST_BUS_DROP		BIT(9)
--/* Power Down USBSS-DEV. */
-+/* Power Down USBSS-DEV - only for CDNS3.*/
- #define OTGCMD_DEV_POWER_OFF		BIT(11)
--/* Power Down CDNSXHCI. */
-+/* Power Down CDNSXHCI - only for CDNS3. */
- #define OTGCMD_HOST_POWER_OFF		BIT(12)
  
- /* OTGIEN - bitmasks */
-@@ -123,20 +154,31 @@ struct cdns3_otg_common_regs {
- #define OTGSTS_OTG_NRDY_MASK		BIT(11)
- #define OTGSTS_OTG_NRDY(p)		((p) & OTGSTS_OTG_NRDY_MASK)
- /*
-- * Value of the strap pins.
-+ * Value of the strap pins for:
-+ * CDN3:
-  * 000 - no default configuration
-  * 010 - Controller initiall configured as Host
-  * 100 - Controller initially configured as Device
-+ * CDNSP:
-+ * 000 - No default configuration.
-+ * 010 - Controller initiall configured as Host.
-+ * 100 - Controller initially configured as Device.
-  */
- #define OTGSTS_STRAP(p)			(((p) & GENMASK(14, 12)) >> 12)
- #define OTGSTS_STRAP_NO_DEFAULT_CFG	0x00
- #define OTGSTS_STRAP_HOST_OTG		0x01
- #define OTGSTS_STRAP_HOST		0x02
- #define OTGSTS_STRAP_GADGET		0x04
-+#define OTGSTS_CDNSP_STRAP_HOST		0x01
-+#define OTGSTS_CDNSP_STRAP_GADGET	0x02
-+
- /* Host mode is turned on. */
--#define OTGSTS_XHCI_READY		BIT(26)
-+#define OTGSTS_CDNS3_XHCI_READY		BIT(26)
-+#define OTGSTS_CDNSP_XHCI_READY		BIT(27)
-+
- /* "Device mode is turned on .*/
--#define OTGSTS_DEV_READY		BIT(27)
-+#define OTGSTS_CDNS3_DEV_READY		BIT(27)
-+#define OTGSTS_CDNSP_DEV_READY		BIT(26)
+ #define CREATE_TRACE_POINTS
+-#include "trace.h"
++#include "cdns3-trace.h"
+diff --git a/drivers/usb/cdns3/trace.h b/drivers/usb/cdns3/cdns3-trace.h
+similarity index 99%
+rename from drivers/usb/cdns3/trace.h
+rename to drivers/usb/cdns3/cdns3-trace.h
+index 0a2a3269bfac..8648c7a7a9dd 100644
+--- a/drivers/usb/cdns3/trace.h
++++ b/drivers/usb/cdns3/cdns3-trace.h
+@@ -19,8 +19,8 @@
+ #include <asm/byteorder.h>
+ #include <linux/usb/ch9.h>
+ #include "core.h"
+-#include "gadget.h"
+-#include "debug.h"
++#include "cdns3-gadget.h"
++#include "cdns3-debug.h"
  
- /* OTGSTATE- bitmasks */
- #define OTGSTATE_DEV_STATE_MASK		GENMASK(2, 0)
-@@ -152,6 +194,8 @@ struct cdns3_otg_common_regs {
- #define OVERRIDE_IDPULLUP		BIT(0)
- /* Only for CDNS3_CONTROLLER_V0 version */
- #define OVERRIDE_IDPULLUP_V0		BIT(24)
-+/* Vbusvalid/Sesvalid override select. */
-+#define OVERRIDE_SESS_VLD_SEL		BIT(10)
+ #define CDNS3_MSG_MAX	500
  
- /* PHYRST_CFG - bitmasks */
- #define PHYRST_CFG_PHYRST_A_ENABLE     BIT(0)
-@@ -170,6 +214,5 @@ int cdns3_drd_gadget_on(struct cdns3 *cdns);
- void cdns3_drd_gadget_off(struct cdns3 *cdns);
- int cdns3_drd_host_on(struct cdns3 *cdns);
- void cdns3_drd_host_off(struct cdns3 *cdns);
--int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode);
+@@ -565,6 +565,6 @@ DEFINE_EVENT(cdns3_log_request_handled, cdns3_request_handled,
+ #define TRACE_INCLUDE_PATH .
  
- #endif /* __LINUX_CDNS3_DRD */
+ #undef TRACE_INCLUDE_FILE
+-#define TRACE_INCLUDE_FILE trace
++#define TRACE_INCLUDE_FILE cdns3-trace
+ 
+ #include <trace/define_trace.h>
 -- 
 2.17.1
 
