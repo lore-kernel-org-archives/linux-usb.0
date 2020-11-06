@@ -1,118 +1,73 @@
-Return-Path: <SRS0=y/Gp=EL=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DCE6C4742C
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 23:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83EA9C388F7
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 01:00:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 199492071A
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Nov 2020 23:29:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="ltzKKM40"
+	by mail.kernel.org (Postfix) with ESMTP id 31D9A20786
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 01:00:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604624432;
+	bh=Qh4FnoRV8X4BbV/hbtbCWzunfO90hTzfmBC2bEirE98=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=wz2CPzIr2BSD5ODNRNItQtU+Knuv2vc2PUQ4AQ/UHlFh60lIpzAAjsxT7pt9MIEX7
+	 NFvY6tL2BfRMVUWo347ReLlN2dfE7zkhMwZJwN+0nk+ZKpHqPFk6/vwwkIr7O3AXzZ
+	 wVED98vUmQUnL8t11vPgJ0LDXLJgCSWZgD7XSlj8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732744AbgKEX27 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Nov 2020 18:28:59 -0500
-Received: from z5.mailgun.us ([104.130.96.5]:35482 "EHLO z5.mailgun.us"
+        id S1732603AbgKFBA1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Nov 2020 20:00:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38090 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732632AbgKEX2r (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 5 Nov 2020 18:28:47 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1604618927; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=v3U3uqgxyr0I0+Y/blUz/qlnw3UtBamburl8xuGxoqk=; b=ltzKKM400syXsSPf/8o1PNJ7ghO4rmf9cHloTO9ZavEwNEEu6wwwQraHHVQOI8S3E+TKlFT2
- Rxk3XpLLaprLX3JqngcRWNNBbkeFiJalkL64NsQWiOdmYMavXIf7Zp3lrpjw8ZvWNoJIseB4
- Iyjnhhg67P8DI3Kl6bwL7WolkeU=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5fa48aaef00e907e28a35869 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 05 Nov 2020 23:28:46
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id CEAD8C43387; Thu,  5 Nov 2020 23:28:45 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        id S1729162AbgKFBA1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 5 Nov 2020 20:00:27 -0500
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 8986FC433C8;
-        Thu,  5 Nov 2020 23:28:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8986FC433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        stern@rowland.harvard.edu, Thinh.Nguyen@synopsys.com
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v2 1/2] usb: dwc3: gadget: Allow runtime suspend if UDC unbinded
-Date:   Thu,  5 Nov 2020 15:28:24 -0800
-Message-Id: <20201105232825.5233-2-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201105232825.5233-1-wcheng@codeaurora.org>
-References: <20201105232825.5233-1-wcheng@codeaurora.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id 86FEA20782;
+        Fri,  6 Nov 2020 01:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604624426;
+        bh=Qh4FnoRV8X4BbV/hbtbCWzunfO90hTzfmBC2bEirE98=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Qkcsy+0xEeI6F3HLonUPz2IEYnsH4fRrzUAxzw275JmjKrotiJ6SPEg2AhTBv2Sav
+         +WxPIObH7JafBnFDoYZX2Xvs89OOLeRS9tdFFWT/ZNVD6HlpqqSyZX9wniJK5C2e1M
+         56c6hcuirFMf1LkA6InWXSo9s4G1w72oHWsE0DNU=
+Date:   Thu, 5 Nov 2020 17:00:25 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Hayes Wang <hayeswang@realtek.com>
+Cc:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
+        <linux-kernel@vger.kernel.org>, <oliver@neukum.org>,
+        <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 RESEND] net/usb/r8153_ecm: support ECM mode
+ for RTL8153
+Message-ID: <20201105170025.5dc759bf@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <1394712342-15778-392-Taiwan-albertk@realtek.com>
+References: <1394712342-15778-387-Taiwan-albertk@realtek.com>
+        <1394712342-15778-392-Taiwan-albertk@realtek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DWC3 runtime suspend routine checks for the USB connected parameter to
-determine if the controller can enter into a low power state.  The
-connected state is only set to false after receiving a disconnect event.
-However, in the case of a device initiated disconnect (i.e. UDC unbind),
-the controller is halted and a disconnect event is never generated.  Set
-the connected flag to false if issuing a device initiated disconnect to
-allow the controller to be suspended.
+On Wed, 4 Nov 2020 10:19:22 +0800 Hayes Wang wrote:
+> Support ECM mode based on cdc_ether with relative mii functions,
+> when CONFIG_USB_RTL8152 is not set, or the device is not supported
+> by r8152 driver.
+> 
+> Both r8152 and r8153_ecm would check the return value of
+> rtl8152_get_version() in porbe(). If rtl8152_get_version()
+> return none zero value, the r8152 is used for the device
+> with vendor mode. Otherwise, the r8153_ecm is used for the
+> device with ECM mode.
+> 
+> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/usb/dwc3/gadget.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 5d879b7606d5..babf977cadc0 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2012,6 +2012,17 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 		}
- 	}
- 
-+	/*
-+	 * Check the return value for successful resume, or error.  For a
-+	 * successful resume, the DWC3 runtime PM resume routine will handle
-+	 * the run stop sequence, so avoid duplicate operations here.
-+	 */
-+	ret = pm_runtime_get_sync(dwc->dev);
-+	if (!ret || ret < 0) {
-+		pm_runtime_put(dwc->dev);
-+		return 0;
-+	}
-+
- 	/*
- 	 * Synchronize any pending event handling before executing the controller
- 	 * halt routine.
-@@ -2050,10 +2061,12 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 			dwc->ev_buf->lpos = (dwc->ev_buf->lpos + count) %
- 						dwc->ev_buf->length;
- 		}
-+		dwc->connected = false;
- 	}
- 
- 	ret = dwc3_gadget_run_stop(dwc, is_on, false);
- 	spin_unlock_irqrestore(&dwc->lock, flags);
-+	pm_runtime_put(dwc->dev);
- 
- 	return ret;
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Applied, thanks!
