@@ -2,113 +2,104 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD17C2D0A3
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E86D9C55ABD
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:58:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 162D722243
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604679436;
-	bh=mFvfLVgjYOVfPdT3RK/ROvn4MwcF3/s0DqTGilNu0UY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=GxCDZmltj99jmO6iT0/WNXj2As/MApZQcWaw5DXXasHsGF0Km19xtAB1/5AIJO7el
-	 fivzq8oW+EnAKTe3Mtg2WcvB98T3Kv0wvFH7uBhmVQv3mSUIFT2FEIM8v+0/y5ukXg
-	 DuvABHFvfiF/Wic43hfdcmgmPdKne7fzpOSWma8U=
+	by mail.kernel.org (Postfix) with ESMTP id 990F822202
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:58:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="tM/K12L4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbgKFQRM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 11:17:12 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44653 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726867AbgKFQRM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 11:17:12 -0500
-Received: by mail-ot1-f65.google.com with SMTP id f16so1692665otl.11;
-        Fri, 06 Nov 2020 08:17:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PHA0EidL03UfC8An9Xo/HRrV3J9easCIHZo3/RUQUy8=;
-        b=egqZg7iG01UaJgLSyAG3QFBmoGgdDPAeTbl35OBqRaoe+qFo+9sdcDT1wpZOaCAVH+
-         ZSBDgb5wmfVEwb8YuMmdUExI0zexWED7TMRptTHGRpJdNbVbu/6uMaitrD+WQE9QQMWV
-         NI6067UBcAQy5NEqSarO75FLjryvAaWvmObvUOtVDRBMxevNzt4vIL/xISIK9rooeQs+
-         FllaTksglZuI4cqU6sYakFnIRKFG/fIO02uep6Ti/xqtoojFSoLErDomRAshLt8/GEZ4
-         H5cpljj+xk5s1ZUTn//OKEBEtook77mQd0t2bB9Z+f+MQlRmvebyCFaoBAFm9LjSRX4v
-         haqA==
-X-Gm-Message-State: AOAM533GNTYFYxVhBuX29o666uxVPIPLQZwjpAVjd51m0SnQtXuefNBN
-        gDfIKLp63/veQf3K4wCr1g==
-X-Google-Smtp-Source: ABdhPJyUM2g1joTzdNeL4HLOcHzKbVxE71kOK6QziFU/66zPxzdPYxK0fs86RuyZf2tu+DP2kWBsow==
-X-Received: by 2002:a05:6830:c4:: with SMTP id x4mr1618752oto.183.1604679431223;
-        Fri, 06 Nov 2020 08:17:11 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n128sm353087oif.4.2020.11.06.08.17.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 08:17:10 -0800 (PST)
-Received: (nullmailer pid 3298198 invoked by uid 1000);
-        Fri, 06 Nov 2020 16:17:09 -0000
-Date:   Fri, 6 Nov 2020 10:17:09 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Amelie Delaunay <amelie.delaunay@st.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Jun Li <lijun.kernel@gmail.com>, linux-kernel@vger.kernel.org,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        linux-usb@vger.kernel.org,
+        id S1727505AbgKFQ6h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 11:58:37 -0500
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:50616 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726953AbgKFQ6g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 11:58:36 -0500
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6GwBWQ008264;
+        Fri, 6 Nov 2020 17:58:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=5CCBWSPpY2LWeU+v1BMKbE0dfzDcb6O0clQonhwRrS0=;
+ b=tM/K12L4+LE4GkKl6PBDhLmilx/H0ZuElKoV5K4Y8s6s2rgCNYQ9K5KqMnZPgeym9BDW
+ 26fBuS/aceArntsxivV4PXhRgFrI9w/a6zsYI013x7rvG6ROnEFkT9y/WelCVW6RuGMp
+ b02Vd+0GEFc7vzFc1cWIy2LcSfHN7hfFPybgO/RyFITHnhZih0I9ckhVQRzYgFIhLiSi
+ 9GrhfqpbKZs2aNXu6L68lZ3lUBf7sZB5fb0+xmFonzB5K+dMk3+zbVEBdJSVzijQo+vc
+ voQA5Qw9WTIXk9ymfWIq9eQ87moeaqQo2vrLLvPXhEHbGJKcmr26dwLgqnKTv2TuWjIo lA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 34h00ewjwu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 06 Nov 2020 17:58:17 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9FF0910002A;
+        Fri,  6 Nov 2020 17:58:16 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8CE002C41E8;
+        Fri,  6 Nov 2020 17:58:16 +0100 (CET)
+Received: from localhost (10.75.127.44) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 17:58:16
+ +0100
+From:   Amelie Delaunay <amelie.delaunay@st.com>
+To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Russell King <linux@armlinux.org.uk>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@st.com>,
+        Russell King <linux@armlinux.org.uk>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] dt-bindings: usb: Add DT bindings for STUSB160x
- Type-C controller
-Message-ID: <20201106161709.GA3297832@bogus>
-References: <20201106091854.14958-1-amelie.delaunay@st.com>
- <20201106091854.14958-3-amelie.delaunay@st.com>
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Jun Li <lijun.kernel@gmail.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>
+Subject: [PATCH v5 5/5] ARM: multi_v7_defconfig: enable STUSB160X Type-C port controller support
+Date:   Fri, 6 Nov 2020 17:58:05 +0100
+Message-ID: <20201106165805.31534-6-amelie.delaunay@st.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201106165805.31534-1-amelie.delaunay@st.com>
+References: <20201106165805.31534-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201106091854.14958-3-amelie.delaunay@st.com>
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-06_06:2020-11-05,2020-11-06 signatures=0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 06 Nov 2020 10:18:51 +0100, Amelie Delaunay wrote:
-> Add binding documentation for the STMicroelectronics STUSB160x Type-C port
-> controller.
-> 
-> Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
-> ---
->  .../devicetree/bindings/usb/st,stusb160x.yaml | 85 +++++++++++++++++++
->  1 file changed, 85 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/st,stusb160x.yaml
-> 
+Enable support for the STMicroelectronics STUSB160X USB Type-C port
+controller driver by turning on CONFIG_TYPEC and CONFIG_TYPEC_STUSB160X as
+modules.
 
+Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
+---
+ arch/arm/configs/multi_v7_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/st,stusb160x.yaml: 'additionalProperties' is a required property
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/st,stusb160x.yaml: ignoring, error in schema: 
-warning: no schema found in file: ./Documentation/devicetree/bindings/usb/st,stusb160x.yaml
-
-
-See https://patchwork.ozlabs.org/patch/1395559
-
-The base for the patch is generally the last rc1. Any dependencies
-should be noted.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index a611b0c1e540..47eed80268e2 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -829,6 +829,8 @@ CONFIG_USB_CONFIGFS_F_HID=y
+ CONFIG_USB_CONFIGFS_F_UVC=y
+ CONFIG_USB_CONFIGFS_F_PRINTER=y
+ CONFIG_USB_ETH=m
++CONFIG_TYPEC=m
++CONFIG_TYPEC_STUSB160X=m
+ CONFIG_MMC=y
+ CONFIG_MMC_BLOCK_MINORS=16
+ CONFIG_MMC_ARMMMCI=y
+-- 
+2.17.1
 
