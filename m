@@ -2,121 +2,77 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3598BC2D0A3
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50065C55178
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 17:01:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D53E222203
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 16:59:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="osKMH6zf"
+	by mail.kernel.org (Postfix) with ESMTP id 0956120720
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 17:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727393AbgKFQ6g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 11:58:36 -0500
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:56045 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726422AbgKFQ6f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 11:58:35 -0500
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6Gw7nD029551;
-        Fri, 6 Nov 2020 17:58:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=GozlANq+XkXoD4Q74QGPnPPxDV3VlqucsLYQ1hhMIvo=;
- b=osKMH6zfoiMC/79lUCvr2D56sQZvaNxunhEWee4CxvNhUeY+ClsJf1iG2nkz0VXeLAWi
- Ce9+gjQr7IZm1g86nTFj+5XmKTft5ICyAeAns2ThTqd6kosjNzWtqZ3j2IdjIZzppzWX
- ZXTzHoQOiyiXq2fJwPLydWL2yJaam+gvXf6ExAxkQVxUqIRccRq/4ltCgNqcpnkPdZ/4
- Kb+npNjyNvcYQr4zy1usu8r6dFFL+TKIodJmWJM7UTqGJ86yYSbk5JDzE+OcPGuVKKD2
- YWfqRyH0/R2A/PanP/7BsyavIBrmGztHxQL9+hmwO5XnPxtixjBCCxfTMsdzXjB61yFw GQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34gyw1x7ya-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 Nov 2020 17:58:11 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 86EA510002A;
-        Fri,  6 Nov 2020 17:58:10 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5FD4F2C41F5;
-        Fri,  6 Nov 2020 17:58:10 +0100 (CET)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 17:58:09
- +0100
-From:   Amelie Delaunay <amelie.delaunay@st.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Jun Li <lijun.kernel@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [PATCH v5 0/5] STUSB1600 support on STM32MP15xx-DKx
-Date:   Fri, 6 Nov 2020 17:58:00 +0100
-Message-ID: <20201106165805.31534-1-amelie.delaunay@st.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727889AbgKFRBo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 12:01:44 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:42579 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727887AbgKFRBm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 12:01:42 -0500
+Received: (qmail 47480 invoked by uid 1000); 6 Nov 2020 12:01:19 -0500
+Date:   Fri, 6 Nov 2020 12:01:19 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     syzbot <syzbot+92340f7b2b4789907fdb@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rafael@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: WARNING in input_register_device
+Message-ID: <20201106170119.GD47039@rowland.harvard.edu>
+References: <000000000000872b5405b36f8e31@google.com>
+ <20201106140336.GA3319902@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG7NODE3.st.com (10.75.127.21) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-06_06:2020-11-05,2020-11-06 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201106140336.GA3319902@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds missing bindings for Type-C typec-power-opmode property
-and STUSB160x Type-C port controllers [1].
-STUSB160x driver requires to get power operation mode via device tree,
-that's why this series also adds the optional DT property
-typec-power-opmode for usb-c-connector to select the power operation mode
-capability.
-Tested on stm32mp157c-dk2 [2], which has a Type-C connector managed by
-STUSB1600, and connected to USB OTG controller. 
+On Fri, Nov 06, 2020 at 03:03:36PM +0100, Greg KH wrote:
+> On Fri, Nov 06, 2020 at 04:43:17AM -0800, syzbot wrote:
+> > Hello,
+> > 
+> > syzbot found the following issue on:
+> > 
+> > HEAD commit:    9e39aef3 usb: misc: brcmstb-usb-pinmap: Make sync_all_pins..
+> > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=145ffa8a500000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=a05f5efbb00b1465
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=92340f7b2b4789907fdb
+> > compiler:       gcc (GCC) 10.1.0-syz 20200507
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=172ae7a8500000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13b24746500000
+> > 
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+92340f7b2b4789907fdb@syzkaller.appspotmail.com
+> > 
+> > microsoft 0003:045E:07DA.0001: unknown main item tag 0x0
+> > HID 045e:07da: Invalid code 65791 type 1
+> > ------------[ cut here ]------------
+> > init_uevent_argv: buffer size too small
+> > WARNING: CPU: 0 PID: 5 at lib/kobject_uevent.c:259 init_uevent_argv lib/kobject_uevent.c:259 [inline]
+> > WARNING: CPU: 0 PID: 5 at lib/kobject_uevent.c:259 kobject_uevent_env+0x1640/0x1680 lib/kobject_uevent.c:608
+> 
+> You gave it a device with a buffer that was "too small", and it rejected
+> it.
+> 
+> Which, aside from the huge warning message, is to be expected, so I
+> don't think this is really a bug here.
 
-[1] https://www.st.com/en/interfaces-and-transceivers/usb-type-c-and-power-delivery-controllers.html
-[2] https://www.st.com/en/evaluation-tools/stm32mp157c-dk2.html
+The issue is that syzbot thinks "WARNING" indicates a problem in the 
+kernel.  If the problem is really in the device then the message should 
+say "Warning" instead (not all caps).
 
-
-Amelie Delaunay (5):
-  dt-bindings: connector: add typec-power-opmode property to
-    usb-connector
-  dt-bindings: usb: Add DT bindings for STUSB160x Type-C controller
-  usb: typec: stusb160x: fix power-opmode property with
-    typec-power-opmode
-  ARM: dts: stm32: add STUSB1600 Type-C using I2C4 on stm32mp15xx-dkx
-  ARM: multi_v7_defconfig: enable STUSB160X Type-C port controller
-    support
-
----
-Changes in v5:
-- add additionalProperties to st,stusb160x yaml
-- add Heikki reviewed-by on stusb160x driver patch 3/5
-Changes in v4:
-- power-opmode DT property renamed to typec-power-opmode and mutually
-  exclusive condition with new-source-frs-typec-current added
-- Due to DT property renaming, patch 3/5 is added to update stusb160x
-  driver.
----
- .../bindings/connector/usb-connector.yaml     | 24 +++++
- .../devicetree/bindings/usb/st,stusb160x.yaml | 87 +++++++++++++++++++
- arch/arm/boot/dts/stm32mp15-pinctrl.dtsi      |  7 ++
- arch/arm/boot/dts/stm32mp15xx-dkx.dtsi        | 30 +++++++
- arch/arm/configs/multi_v7_defconfig           |  2 +
- drivers/usb/typec/stusb160x.c                 |  2 +-
- 6 files changed, 151 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/usb/st,stusb160x.yaml
-
--- 
-2.17.1
-
+Alan Stern
