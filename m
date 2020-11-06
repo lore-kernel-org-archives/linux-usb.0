@@ -2,93 +2,86 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF0BC55179
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:46:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1F4C2D0A3
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:50:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6AEC20867
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:46:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C618E22203
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604659604;
-	bh=tahmYF1Nfurdnp3mCBUJ0EVpaeoL8OPekPU5wmxuvzA=;
+	s=default; t=1604659816;
+	bh=14U16S6iZUV0HRhCrVQqjCD2le1kVg/6x260MH6aH9g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=KbJ5At0mrv9B+5rBNPIRnwSzJ3BLKEVnCEFMu9WqXIukkYs5DH2SfUh+owUoF9esi
-	 GCeWc053Nk4qd1KZTo71qrxYAvzN8KIe1mKfNkvQuZXhtcto1xL0I5TAdnPWPgUFBt
-	 GxLH43mKjGdYhD3Rsd2C6FZccrDhAcid35ZsSOrs=
+	b=alDnOH3e7sAvYYplFpKANVdGQaRaaZ/1PRHjCT5ickrHFhBMFve9ZziE7HSJyee38
+	 ZcpKUZWjMzlZGnZ6ZJk6ytNfpu0BtjlbqYNAcCVKc3dyi60HG7QB4Qgw7He3ZGg3AB
+	 B+2iiUgNbRnrNnUCOayMig5UF9wR6zrhygK9qDNs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726692AbgKFKql (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 05:46:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35592 "EHLO mail.kernel.org"
+        id S1726813AbgKFKuN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 05:50:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36536 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726010AbgKFKql (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 6 Nov 2020 05:46:41 -0500
+        id S1726317AbgKFKuN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 6 Nov 2020 05:50:13 -0500
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D844E206FA;
-        Fri,  6 Nov 2020 10:46:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C3FC6206FA;
+        Fri,  6 Nov 2020 10:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604659599;
-        bh=tahmYF1Nfurdnp3mCBUJ0EVpaeoL8OPekPU5wmxuvzA=;
+        s=default; t=1604659811;
+        bh=14U16S6iZUV0HRhCrVQqjCD2le1kVg/6x260MH6aH9g=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W6gsHh5mYniFvIDSCrjKOwicyBqCj3D4XuGTVvH7F3KnFBbE3jS1vxb5ONSZvY+f1
-         xvFom1RGaPnVr5qWWGKHOg4tqxqex1d3DNYIlb+aZCOOdU/sVgPFI5iU/U3oY7kP9b
-         hiB802vTvNuZsEsvGa3Jrket+5qbA/Q6NlD42oxg=
-Date:   Fri, 6 Nov 2020 11:47:25 +0100
+        b=t0QoVSB5i880mfiuWtsQyWqzOzvmkG3Eel8/ijfHPIlGlA18YXm63bPfHir1fTeyR
+         eEYBu95e8j2GywMOPrceTObxWPo4RbhlEymeUTxSbjjAg0EhuoAroCoRfBAAZcNsdY
+         d/WgOYRrAR6sWYCvcL0o7ENMXz6SOM08xC0ds3dE=
+Date:   Fri, 6 Nov 2020 11:50:58 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Benjamin Berg <benjamin@sipsolutions.net>
-Cc:     linux-usb@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, Benjamin Berg <bberg@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH 0/2] UCSI race condition resulting in wrong port state
-Message-ID: <20201106104725.GC2785199@kroah.com>
-References: <20201009144047.505957-1-benjamin@sipsolutions.net>
- <20201028091043.GC1947336@kroah.com>
+To:     Peilin Ye <yepeilin.cs@gmail.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Thomas Winischhofer <thomas@winischhofer.net>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        George Kennedy <george.kennedy@oracle.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 1/2] console: Remove dummy con_font_op() callback
+ implementations
+Message-ID: <20201106105058.GA2801856@kroah.com>
+References: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604128639.git.yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201028091043.GC1947336@kroah.com>
+In-Reply-To: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604128639.git.yepeilin.cs@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 10:10:43AM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Oct 09, 2020 at 04:40:45PM +0200, Benjamin Berg wrote:
-> > From: Benjamin Berg <bberg@redhat.com>
-> > 
-> > Hi all,
-> > 
-> > so, I kept running in an issue where the UCSI port information was saying
-> > that power was being delivered (online: 1), while no cable was attached.
-> > 
-> > The core of the problem is that there are scenarios where UCSI change
-> > notifications are lost. This happens because querying the changes that
-> > happened is done using the GET_CONNECTOR_STATUS command while clearing the
-> > bitfield happens from the separate ACK command. Any change in between will
-> > be lost.
-> > 
-> > Note that the problem may be almost invisible in the UI as e.g. GNOME will
-> > still show the battery as discharging. But some policies like automatic
-> > suspend may be applied incorrectly.
-> > 
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > 
-> > Benjamin Berg (2):
-> >   usb: typec: ucsi: acpi: Always decode connector change information
-> >   usb: typec: ucsi: Work around PPM losing change information
+On Sat, Oct 31, 2020 at 03:24:41AM -0400, Peilin Ye wrote:
+> `struct console_font` is a UAPI structure, thus ideally should not be
+> used for kernel internal abstraction. Remove some dummy .con_font_set,
+> .con_font_default and .con_font_copy `struct consw` callback
+> implementations, to make it cleaner.
 > 
-> Do these need to be backported to stable kernel releases?  If so, how
-> far back?
+> Patch "fbcon: Prevent global-out-of-bounds read in fbcon_copy_font()"
+> depends on this patch, so Cc: stable.
+> 
+> Cc: stable@vger.kernel.org
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> ---
+> Context: https://lore.kernel.org/lkml/CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com/
+> 
+>  drivers/usb/misc/sisusbvga/sisusb_con.c | 21 ---------------------
+>  drivers/video/console/dummycon.c        | 20 --------------------
+>  2 files changed, 41 deletions(-)
 
-Due to the lack of response, I guess they don't need to go to any stable
-kernel, so will queue them up for 5.11-rc1.
-
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
