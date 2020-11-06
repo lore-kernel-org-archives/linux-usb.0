@@ -2,90 +2,96 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E007AC2D0A3
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:50:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AC5C55178
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:51:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A50B206FA
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:50:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6005622244
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 10:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbgKFKug (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 05:50:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37636 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726201AbgKFKug (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 05:50:36 -0500
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7CABC0613CF;
-        Fri,  6 Nov 2020 02:50:35 -0800 (PST)
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94)
-        (envelope-from <benjamin@sipsolutions.net>)
-        id 1kazKC-002Ety-By; Fri, 06 Nov 2020 11:50:32 +0100
-Message-ID: <f27aa23400f3481b5a6369af0b842da090f3928f.camel@sipsolutions.net>
-Subject: Re: [PATCH 0/2] UCSI race condition resulting in wrong port state
-From:   Benjamin Berg <benjamin@sipsolutions.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Date:   Fri, 06 Nov 2020 11:50:26 +0100
-In-Reply-To: <20201106104725.GC2785199@kroah.com>
-References: <20201009144047.505957-1-benjamin@sipsolutions.net>
-         <20201028091043.GC1947336@kroah.com> <20201106104725.GC2785199@kroah.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-gZBt+xPAMnT5YQuOUb0U"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        id S1727083AbgKFKvH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 05:51:07 -0500
+Received: from mga01.intel.com ([192.55.52.88]:10300 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726201AbgKFKvH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 6 Nov 2020 05:51:07 -0500
+IronPort-SDR: YUjDNC0w3gjAySdPJymae9k9l3/r4WoXp+m0fr5e06kxnlarm9NoQRwVbg6shm/fkhTsDmnqHE
+ tJsY5W1x3dmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="187453480"
+X-IronPort-AV: E=Sophos;i="5.77,456,1596524400"; 
+   d="scan'208";a="187453480"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2020 02:51:06 -0800
+IronPort-SDR: lbbOiRuTeTRiQEc0yZcK//hJeV3DoVV7R2H31sSVvQu8ZS+wTeIh6mmzXWdSz7kpfYAPimOYxt
+ RSPvH84npPlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,456,1596524400"; 
+   d="scan'208";a="427289318"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 06 Nov 2020 02:51:02 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Nov 2020 12:51:01 +0200
+Date:   Fri, 6 Nov 2020 12:51:01 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Amelie Delaunay <amelie.delaunay@st.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Jun Li <lijun.kernel@gmail.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Fabrice Gasnier <fabrice.gasnier@st.com>
+Subject: Re: [PATCH v4 3/5] usb: typec: stusb160x: fix power-opmode property
+ with typec-power-opmode
+Message-ID: <20201106105101.GB4062920@kuha.fi.intel.com>
+References: <20201106091854.14958-1-amelie.delaunay@st.com>
+ <20201106091854.14958-4-amelie.delaunay@st.com>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
-X-malware-bazaar-2: OK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201106091854.14958-4-amelie.delaunay@st.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Fri, Nov 06, 2020 at 10:18:52AM +0100, Amelie Delaunay wrote:
+> Device tree property is named typec-power-opmode, not power-opmode.
+> 
+> Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C controller family")
+> Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
 
---=-gZBt+xPAMnT5YQuOUb0U
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Hi,
+> ---
+>  drivers/usb/typec/stusb160x.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
+> index 2a618f02f4f1..d21750bbbb44 100644
+> --- a/drivers/usb/typec/stusb160x.c
+> +++ b/drivers/usb/typec/stusb160x.c
+> @@ -562,7 +562,7 @@ static int stusb160x_get_fw_caps(struct stusb160x *chip,
+>  	 * Supported power operation mode can be configured through device tree
+>  	 * else it is read from chip registers in stusb160x_get_caps.
+>  	 */
+> -	ret = fwnode_property_read_string(fwnode, "power-opmode", &cap_str);
+> +	ret = fwnode_property_read_string(fwnode, "typec-power-opmode", &cap_str);
+>  	if (!ret) {
+>  		ret = typec_find_pwr_opmode(cap_str);
+>  		/* Power delivery not yet supported */
+> -- 
+> 2.17.1
 
-On Fri, 2020-11-06 at 11:47 +0100, Greg Kroah-Hartman wrote:
-> Due to the lack of response, I guess they don't need to go to any
-> stable kernel, so will queue them up for 5.11-rc1.
+thanks,
 
-Sorry, forgot to reply.
-
-Not including them in stable seems reasonable as I have not seen it
-cause major trouble in the wild so far (i.e. only one user report that
-seems related).
-
-Benjamin
-
---=-gZBt+xPAMnT5YQuOUb0U
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEED2NO4vMS33W8E4AFq6ZWhpmFY3AFAl+lKnMACgkQq6ZWhpmF
-Y3C+ExAAzkMLhyy2yTmk8rVa50dl3YJHDOiRPFcoacATqTDH7UmY6qYXdtGUz/oZ
-0foVypY87yiL9O0M0uDv5QOkOe03lp7d8pDp2uROdTh+6TXuSaCTTMhbwVdPMmXl
-ENtDma0ncgRHxVohDDulpLWqpN5yN9HxfyzXOJRf+EfbLgL4sZaI6napRbCHSbG1
-OJfyB0KXISHlhIJ6BvsCPLwMVP3NXjyzOuYZ2dzRouS+h6mopb+b0klkJJiVDvIq
-q0j/OQGq0qLthAIygMiO0/DXzhMaYA0UQT9JSukCSuOvQVzEgSW8aiQQnnT/sr0W
-yS4Z+R7c/+vwrlZWNJYKvHV47c32+ttXP6JUrRBBB/RueK4RXILz5rBG4i9M0gzI
-9DKTJZTfYoK6//+JjCaVAaKJ9EG0hn3UqI24tkE9gT4Ymbl+slwczK6VAuJM5viD
-1P3I26Ckj6yoB9Fyy3DVU0HCv4CIt4Mg8ter9FWL/FowdYMFJpyytd8iB7YGtiPL
-r42aOIyZCV0Rp00Tx9WFyEyFGDMzG9sAS46U2KeoXlrc4OGTldQwJVN7MsEUIUOG
-XKZsSwSFH50dAe8v442+kr1n1e/AVRJ/zx/CkKsjACXFCI0Emo6O1FkA7DZ5jpeT
-YlOU+EPzaHQAsbE4F0bBGtKUD8tV9VBDjksTvabAno4xNUuykWg=
-=TFJ4
------END PGP SIGNATURE-----
-
---=-gZBt+xPAMnT5YQuOUb0U--
-
+-- 
+heikki
