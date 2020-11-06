@@ -2,179 +2,118 @@ Return-Path: <SRS0=WR2x=EM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E8BC388F2
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAC4C55178
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:40:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 392E2208B3
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:20:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1632C20A8B
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Nov 2020 09:40:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="KVFfOrdL"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="QExinJOC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726630AbgKFJTo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Nov 2020 04:19:44 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:44608 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726190AbgKFJTc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 04:19:32 -0500
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A698DJp027462;
-        Fri, 6 Nov 2020 10:19:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=85cMq4TggMZAbc4+sAshrMoA2Vrgqngl/HoJ/KGRsVs=;
- b=KVFfOrdLB9MrFo4Fp2VflDBDKWZPRg4wbZvwgPpdyIor2rR5dfUWA9guSf+yHZ4aQaWu
- otPTV9Sh+eKv04Fkl3LsC7vNdPyvY8nDpew0fUwKmH32QyIwrf0LYQ/M1BU1Z/cO02j4
- bBfKRI6S4qrWOD/ti+6ongQeJnXgjqSrOhls8vs+tGMdRXqavMUubNJdlw/JqyiOJjiz
- 9WKDNUh/3HiyHD6Nxc/0Mk3W0tIfG5VTt7/mqnFoUjtnznn5X1Yuzi9+0VQ4D/tnuOyc
- j1EZHTVki94g0xtDgA26beNtXEB75s8eZoMMPCTvX0UHuPDv3jEv5ZciwplMAfEZeNGi 9g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34gywrd88u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 Nov 2020 10:19:12 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3B165100034;
-        Fri,  6 Nov 2020 10:19:12 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2BA7C233E9D;
-        Fri,  6 Nov 2020 10:19:12 +0100 (CET)
-Received: from localhost (10.75.127.45) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 10:19:11
- +0100
-From:   Amelie Delaunay <amelie.delaunay@st.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Jun Li <lijun.kernel@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
+        id S1726754AbgKFJkN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Nov 2020 04:40:13 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:60725 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726139AbgKFJkN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Nov 2020 04:40:13 -0500
+X-UUID: 98e6f12c83284343b59c84fff5705688-20201106
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=hwcTnf+x5JkMX4z/81xeJjmzHGsQ5Nx2TTLtSPHzhSo=;
+        b=QExinJOCt6PZPLpMdjxVoWAuhBkFexuBf6vhcx7bHETl+mSd4p0SGaXvWMOYGNN6sVbHhhVMUl5DWj/K7ldSMS/PVCxWfKFI2h9h1zYOnfNmOhdoJ7Xld3FdCl+EQo/XB9jclgpUie7EQhytzm7ShD/AG3E2q28kHQfF8/bqpJ0=;
+X-UUID: 98e6f12c83284343b59c84fff5705688-20201106
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+        (envelope-from <macpaul.lin@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 817783204; Fri, 06 Nov 2020 17:29:48 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 6 Nov 2020 17:29:46 +0800
+Received: from [172.21.77.33] (172.21.77.33) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 6 Nov 2020 17:29:46 +0800
+Message-ID: <1604654987.24301.23.camel@mtkswgap22>
+Subject: Re: [PATCH 1/2] dt-bindings: usb: mediatek,mtk-xhci: add
+ keep-clock-on
+From:   Macpaul Lin <macpaul.lin@mediatek.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        "Chunfeng Yun" <chunfeng.yun@mediatek.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [PATCH v4 4/5] ARM: dts: stm32: add STUSB1600 Type-C using I2C4 on stm32mp15xx-dkx
-Date:   Fri, 6 Nov 2020 10:18:53 +0100
-Message-ID: <20201106091854.14958-5-amelie.delaunay@st.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201106091854.14958-1-amelie.delaunay@st.com>
-References: <20201106091854.14958-1-amelie.delaunay@st.com>
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, Ainge Hsu <ainge.hsu@mediatek.com>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        "Mediatek WSD Upstream" <wsd_upstream@mediatek.com>,
+        Macpaul Lin <macpaul@gmail.com>
+Date:   Fri, 6 Nov 2020 17:29:47 +0800
+In-Reply-To: <20201104223926.GA54259@bogus>
+References: <1604301530-31546-1-git-send-email-macpaul.lin@mediatek.com>
+         <20201104223926.GA54259@bogus>
+Content-Type: text/plain; charset="ISO-8859-1"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-06_03:2020-11-05,2020-11-06 signatures=0
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds support for STUSB1600 USB Type-C port controller, used on
-I2C4 on stm32mp15xx-dkx.
-The default configuration on this board, on Type-C connector, is:
-- Dual Power Role (DRP), so set power-role to "dual";
-- Vbus limited to 500mA, so set typec-power-opmode to "default" (it means
-  500mA in USB 2.0).
-typec-power-opmode is used to reconfigure the STUSB1600 advertising of
-current capability when its NVM is not in line with the board layout.
-On stm32mp15xx-dkx, Vbus power source of STUSB1600 is 5V_VIN. So power
-operation mode depends on the power supply used. To avoid any power
-issues, it is better to limit Vbus to 500mA on this board.
-ALERT# is the interrupt pin of STUSB1600. It needs an external pull-up, and
-signal is active low.
-
-USB OTG controller ID and Vbus signals are not connected on stm32mp15xx-dkx
-boards, so disconnection are not detected.
-Without DWC2 usb-role-switch:
-- if you unplug the USB cable from the Type-C port, you have to manually
-disconnect the USB gadget:
-echo disconnect > /sys/devices/platform/soc/49000000.usb-otg/udc/49000000.usb-otg/soft_connect
-- Then you can plug the USB cable again in the Type-C port, and manually
-reconnect the USB gadget:
-echo connect > /sys/devices/platform/soc/49000000.usb-otg/udc/49000000.usb-otg/soft_connect
-With DWC2 usb-role-switch, USB gadget is dynamically disconnected or connected.
-
-Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
----
- arch/arm/boot/dts/stm32mp15-pinctrl.dtsi |  7 ++++++
- arch/arm/boot/dts/stm32mp15xx-dkx.dtsi   | 30 ++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
-
-diff --git a/arch/arm/boot/dts/stm32mp15-pinctrl.dtsi b/arch/arm/boot/dts/stm32mp15-pinctrl.dtsi
-index d84686e00370..d2e9e7ac3336 100644
---- a/arch/arm/boot/dts/stm32mp15-pinctrl.dtsi
-+++ b/arch/arm/boot/dts/stm32mp15-pinctrl.dtsi
-@@ -1591,6 +1591,13 @@
- 		};
- 	};
- 
-+	stusb1600_pins_a: stusb1600-0 {
-+		pins {
-+			pinmux = <STM32_PINMUX('I', 11, ANALOG)>;
-+			bias-pull-up;
-+		};
-+	};
-+
- 	uart4_pins_a: uart4-0 {
- 		pins1 {
- 			pinmux = <STM32_PINMUX('G', 11, AF6)>; /* UART4_TX */
-diff --git a/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi b/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
-index 93398cfae97e..ff324b151609 100644
---- a/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
-+++ b/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
-@@ -238,6 +238,30 @@
- 	/delete-property/dmas;
- 	/delete-property/dma-names;
- 
-+	stusb1600@28 {
-+		compatible = "st,stusb1600";
-+		reg = <0x28>;
-+		interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
-+		interrupt-parent = <&gpioi>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&stusb1600_pins_a>;
-+		status = "okay";
-+		vdd-supply = <&vin>;
-+
-+		connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C";
-+			power-role = "dual";
-+			typec-power-opmode = "default";
-+
-+			port {
-+				con_usbotg_hs_ep: endpoint {
-+					remote-endpoint = <&usbotg_hs_ep>;
-+				};
-+			};
-+		};
-+	};
-+
- 	pmic: stpmic@33 {
- 		compatible = "st,stpmic1";
- 		reg = <0x33>;
-@@ -648,6 +672,12 @@
- 	phy-names = "usb2-phy";
- 	usb-role-switch;
- 	status = "okay";
-+
-+	port {
-+		usbotg_hs_ep: endpoint {
-+			remote-endpoint = <&con_usbotg_hs_ep>;
-+		};
-+	};
- };
- 
- &usbphyc {
--- 
-2.17.1
+T24gV2VkLCAyMDIwLTExLTA0IGF0IDE2OjM5IC0wNjAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4g
+T24gTW9uLCBOb3YgMDIsIDIwMjAgYXQgMDM6MTg6NDhQTSArMDgwMCwgTWFjcGF1bCBMaW4gd3Jv
+dGU6DQo+ID4gT3B0aW9uICJtZWRpYXRlayxrZWVwLWNsb2NrLW9uIiBtZWFucyB0byBrZWVwIGNs
+b2NrIG9uIGR1cmluZyBzeXN0ZW0NCj4gPiBzdXNwZW5kIGFuZCByZXN1bWUuIFNvbWUgcGxhdGZv
+cm0gd2lsbCBmbHVzaCByZWdpc3RlciBzZXR0aW5ncyBpZiBjbG9jayBoYXMNCj4gPiBiZWVuIGRp
+c2FibGVkIHdoZW4gc3lzdGVtIGlzIHN1c3BlbmRlZC4gU2V0IHRoaXMgb3B0aW9uIHRvIGF2b2lk
+IGNsb2NrIG9mZi4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBNYWNwYXVsIExpbiA8bWFjcGF1
+bC5saW5AbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5n
+cy91c2IvbWVkaWF0ZWssbXRrLXhoY2kueWFtbCB8ICAgIDcgKysrKysrKw0KPiA+ICAxIGZpbGUg
+Y2hhbmdlZCwgNyBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWssbXRrLXhoY2kueWFtbCBiL0Rv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbWVkaWF0ZWssbXRrLXhoY2kueWFt
+bA0KPiA+IGluZGV4IGVhNjk2YzguLmE5NTZkZGUgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9tZWRpYXRlayxtdGsteGhjaS55YW1sDQo+ID4g
+KysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9tZWRpYXRlayxtdGst
+eGhjaS55YW1sDQo+ID4gQEAgLTEwNCw2ICsxMDQsMTIgQEAgcHJvcGVydGllczoNCj4gPiAgICAg
+IGRlc2NyaXB0aW9uOiBlbmFibGUgVVNCIHJlbW90ZSB3YWtldXAsIHNlZSBwb3dlci93YWtldXAt
+c291cmNlLnR4dA0KPiA+ICAgICAgdHlwZTogYm9vbGVhbg0KPiA+ICANCj4gPiArICBtZWRpYXRl
+ayxrZWVwLWNsb2NrLW9uOg0KPiA+ICsgICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgS2Vl
+cCBjbG9jayBvbiBkdXJpbmcgc3lzdGVtIHN1c3BlbmQgYW5kIHJlc3VtZS4gU29tZSBwbGF0Zm9y
+bSB3aWxsIGZsdXNoDQo+ID4gKyAgICAgIHJlZ2lzdGVyIHNldHRpbmdzIGlmIGNsb2NrIGhhcyBi
+ZWVuIGRpc2FibGVkIHdoZW4gc3lzdGVtIGlzIHN1c3BlbmRlZC4NCj4gPiArICAgIHR5cGU6IGJv
+b2xlYW4NCj4gPiArDQo+IA0KPiBUaGlzIHNob3VsZCBiZSBpbXBsaWVkIGJ5IHRoZSBjb21wYXRp
+YmxlIHN0cmluZy4NCg0KVGhpcyBzaG91bGQgYmUgYW4gcHJvcGVydHkgYWNjb3JkaW5nIHRvIHN5
+c3RlbS13aWRlIGRlc2lnbi4NCg0KTXRrLXhoY2kgbWF5IGJlIGFwcGxpZWQgdG8gZGlmZmVyZW50
+IHByb2R1Y3QgbGluZXMgZm9yIHRoZSBzYW1lIHBsYXRmb3JtDQooSUMpLiBTdXNwZW5kIG9uIHBo
+b25lIHN5c3RlbSBpcyBkaWZmZXJlbnQgdG8gdGFibGV0IG9yIGxhcHRvcC4gUGhvbmUncw0KcG93
+ZXIgbWFuYWdlbWVudCBtb2R1bGUgd2lsbCB0dXJuIG9mZiBYSENJJ3MgcG93ZXIgb25jZSB0aGUg
+Y2xvY2sgaGFzDQpiZWVuIHR1cm5lZCBvZmYuIEZvciBleGFtcGxlLCB0aGUgaGVhZHNldCBwbHVn
+Z2VkIGludG8gcGhvbmUgd29uJ3QgZG8NCmRpc2Nvbm5lY3QgYW5kIHJlLWVudW1lcmF0aW9uIGR1
+cmluZyBzeXN0ZW0gc3VzcGVuZC4gQ2xpY2sgYSBidXR0b24gb24NCnRoZSBoZWFkc2V0IHRvIHdh
+a2UtdXAgcGhvbmUgaXMgbmVjZXNzYXJ5LCBhbmQgdGhlbiwgWEhDSSBuZWVkcyByZWFkeSB0bw0K
+d29yayBpbW1lZGlhdGVseS4NCg0KSWYgdGhlIElDIGhhcyBiZWVuIGFwcGxpZWQgdG8gYSB0YWJs
+ZXQgb3IgbGFwdG9wIHByb2R1Y3QuIFdoZW4gc3lzdGVtIGlzDQpzdXNwZW5kaW5nLCB0aGUgaGVh
+ZHNldCB3aWxsIGJlIGRpc2Nvbm5lY3RlZC4gVGhlIGhlYWRzZXQgd2lsbCBkbw0KcmUtZW51bWVy
+YXRlIHdoZW4gc3lzdGVtIGlzIHdha2luZyB1cC4gSW4gdGhpcyBraW5kIG9mIGFwcGxpY2F0aW9u
+cywgdGhlDQpwb3dlciBvZiBYSENJIGNhbiBiZSB0dXJuZWQgb2ZmIHdpdGggY2xvY2suDQoNCj4g
+PiAgICBtZWRpYXRlayxzeXNjb24td2FrZXVwOg0KPiA+ICAgICAgJHJlZjogL3NjaGVtYXMvdHlw
+ZXMueWFtbCMvZGVmaW5pdGlvbnMvcGhhbmRsZS1hcnJheQ0KPiA+ICAgICAgbWF4SXRlbXM6IDEN
+Cj4gPiBAQCAtMTc1LDYgKzE4MSw3IEBAIGV4YW1wbGVzOg0KPiA+ICAgICAgICAgIGltb2QtaW50
+ZXJ2YWwtbnMgPSA8MTAwMDA+Ow0KPiA+ICAgICAgICAgIG1lZGlhdGVrLHN5c2Nvbi13YWtldXAg
+PSA8JnBlcmljZmcgMHg0MDAgMT47DQo+ID4gICAgICAgICAgd2FrZXVwLXNvdXJjZTsNCj4gPiAr
+ICAgICAgICBtZWRpYXRlayxrZWVwLWNsb2NrLW9uOw0KPiA+ICAgICAgICAgIHVzYjMtbHBtLWNh
+cGFibGU7DQo+ID4gICAgICB9Ow0KPiA+ICAuLi4NCj4gPiAtLSANCj4gPiAxLjcuOS41DQoNCkFm
+dGVyIGEgZGlzY3Vzc2lvbiB3aXRoIENodW5mZW5nLCBJJ2xsIHNlbmQgYSBuZXcgdmVyc2lvbiBm
+b3IgDQpEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL21lZGlhdGVrLG10ay14
+aGNpLnR4dCBiZWNhdXNlIHRoZQ0KWUFNTCBmaWxlIHN0aWxsIG5lZWQgdG8gYmUgcmV2aXNlZC4g
+VGhlIHByb3BlcnR5DQoibWVkaWF0ZWssa2VlcC1jbG9jay1vbiIgd2lsbCBiZSByZW5hbWVkIHRv
+ICJtZWRpYXRlayxzdHItY2xvY2stb24iIGZvcg0KaW1wbHlpbmcgaXQgcmVsYXRlcyB0byBzdXNw
+ZW5kL3Jlc3VtZSBjYXBhYmlsaXR5Lg0KDQpUaGFua3MuDQpNYWNwYXVsIExpbg0K
 
