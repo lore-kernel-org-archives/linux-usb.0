@@ -2,85 +2,94 @@ Return-Path: <SRS0=6kCz=EP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB5F8C2D0A3
-	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 09:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FB7C4741F
+	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 09:59:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A13A206ED
-	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 09:36:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36C77208FE
+	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 09:59:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbgKIJgK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 04:36:10 -0500
-Received: from smtp1.math.uni-bielefeld.de ([129.70.45.10]:57480 "EHLO
-        smtp1.math.uni-bielefeld.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725854AbgKIJgK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 Nov 2020 04:36:10 -0500
-X-Greylist: delayed 436 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 04:36:09 EST
-Received: from [192.168.0.100] (pc19f5ca4.dip0.t-ipconnect.de [193.159.92.164])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (3072 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by smtp1.math.uni-bielefeld.de (Postfix) with ESMTPSA id 601C66055B
-        for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2020 10:28:52 +0100 (CET)
-To:     linux-usb@vger.kernel.org
-From:   Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
-Subject: [bugreport] JMicron JMS567 kills AMD Renoir xHCI
-Message-ID: <5e1cc031-3615-75ae-8acc-1b63d8c7cfc6@math.uni-bielefeld.de>
-Date:   Mon, 9 Nov 2020 10:28:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1729283AbgKIJ7J convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 Nov 2020 04:59:09 -0500
+Received: from avasout03.plus.net ([84.93.230.244]:43640 "EHLO
+        avasout03.plus.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727906AbgKIJ7I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 Nov 2020 04:59:08 -0500
+X-Greylist: delayed 450 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 04:59:07 EST
+Received: from APOLLO ([212.159.61.44])
+        by smtp with ESMTPA
+        id c3phkQKUr99nqc3pjkiee0; Mon, 09 Nov 2020 09:51:36 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=Uoz4y94B c=1 sm=1 tr=0
+ a=AGp1duJPimIJhwGXxSk9fg==:117 a=AGp1duJPimIJhwGXxSk9fg==:17
+ a=IkcTkHD0fZMA:10 a=iox4zFpeAAAA:8 a=VwQbUJbxAAAA:8 a=FHr0T8F4GdMKzu9qLZQA:9
+ a=QEXdDO2ut3YA:10 a=WzC6qhA0u3u7Ye7llzcV:22 a=AjGcO6oz07-iQ99wixmX:22
+X-AUTH: perdrix52@:2500
+From:   "David C. Partridge" <david.partridge@perdrix.co.uk>
+To:     "'Oliver Neukum'" <oneukum@suse.com>, <linux-usb@vger.kernel.org>
+References: <004f01d6b5bd$d4f08ff0$7ed1afd0$@perdrix.co.uk> <eceedea7ca5d950eb8ea4d186a6b01a04d0a804f.camel@suse.com>
+In-Reply-To: <eceedea7ca5d950eb8ea4d186a6b01a04d0a804f.camel@suse.com>
+Subject: RE: Issues with LaCie USB3 drive and UAS
+Date:   Mon, 9 Nov 2020 09:51:29 -0000
+Message-ID: <001601d6b67d$e97a1e30$bc6e5a90$@perdrix.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 14.0
+Content-Language: en-gb
+Thread-Index: AQEj7PcoQVookx4f1d3/LPoLd4O7AAH2dKS3qxVtG9A=
+X-CMAE-Envelope: MS4wfHNWw/GHDNjzZoViyGJ4eskoIbGJoPlYx5ot5lCOQAjKlSrCFIgjhl3hxoRVT+2Jm2NOCwoMZ9d2gUwBBjCG2H6hiZqyc1ihU2mqHJRHTu5eeNLp132Y
+ Gr/oJM5IQgFde1TWr0wFZR6Bq4nsav62jj4Tn08qARei87LQf8hW3Nw9wRGYlGp+G9dyFZTYeZhkmQ==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Greetings,
+I'm sure you are right in your diagnosis (absent any knowledge to the contrary).
 
-I recently got a new notebook, a Dell G5 5505, mostly composed of AMD 
-hardware. After the initial hiccups most things work smoothly now, until 
-I tried to connect my backup drive (2TB HDD in a USB3 enclosure with 
-JMicron bridge):
-Nov  8 23:39:09 leena kernel: usb 1-2: new low-speed USB device number 2 
-using xhci_hcd
-Nov  8 23:39:19 leena kernel: xhci_hcd 0000:08:00.3: xHCI host not 
-responding to stop endpoint command.
-Nov  8 23:39:19 leena kernel: xhci_hcd 0000:08:00.3: USBSTS:
-Nov  8 23:39:19 leena kernel: xhci_hcd 0000:08:00.3: xHCI host 
-controller not responding, assume dead
-Nov  8 23:39:19 leena kernel: xhci_hcd 0000:08:00.3: HC died; cleaning up
-Nov  8 23:39:19 leena kernel: usb usb1-port2: couldn't allocate usb_device
-Nov  8 23:39:19 leena kernel: usb usb2-port2: couldn't allocate usb_device
+Now what's the treatment?  
 
-Sadly that's not a random hiccup, but reproducable. I did some research 
-and some sources recommended to add iommu=pt, but not changes here. The 
-BIOS of the G5 is kinda sparse, the only option looking relevant was 
-"USB emulation", but toggling it also did not change anything.
+Would uas black-list provide a work-araound? If so a detailed recipe will be needed by me ...
 
-I uploaded several logs:
-kernel_g5.log (full kernel log from the G5)
-lsusb_g5. log (lsusb log, JMicron not plugged in)
-lspci_g5.log (lspci log)
-lsusb_enclosure (lsusb excerpt for the JMicron, taken via a different 
-system)
+Fix to the code? Ideal, but takes lots longer, so a work-around may be needed for a while
 
-You can find the files here: 
-https://gist.github.com/tobiasjakobi/84b6d58d5c387cfb4bbba87e7a589ca8
+David
 
-The "different system" is another AMD based one (desktop, AMD Athlon 
-3000G, ASRock B450M-HDV R4.0). lspci says the following about the USB hw:
-01:00.0 USB controller: Advanced Micro Devices, Inc. [AMD] 400 Series 
-Chipset USB 3.1 XHCI Controller (rev 01)
-09:00.3 USB controller: Advanced Micro Devices, Inc. [AMD] Raven2 USB 3.1
 
-Anything I can do to help triage this problem?
+-----Original Message-----
+From: Oliver Neukum [mailto:oneukum@suse.com] 
+Sent: 09 November 2020 09:30
+To: David C. Partridge; linux-usb@vger.kernel.org
+Subject: Re: Issues with LaCie USB3 drive and UAS
 
-With best wishes,
-Tobias
+Am Sonntag, den 08.11.2020, 10:56 +0000 schrieb David C. Partridge:
+> LUbuntu 20.04.1
+> 
+> root@charon:/home/amonra# lsusb
+> Bus 002 Device 006: ID 059f:105f LaCie, Ltd 2Big Quadra USB3
+> 
+> Trying to format the above drive using mkfs.ext4 /dev/sdc2
+> 
+> Initially got a 120s Kernel timeout which I resolved by setting the timeout
+> to 0
+> 
+> However I got LOTS of message groups in the system log looking like this:
+> 
+> Nov 04 06:18:51 charon kernel: scsi host5: uas_eh_device_reset_handler start
+> Nov 04 06:18:51 charon kernel: sd 5:0:0:0: [sdc] tag#0 uas_zap_pending 0
+> uas-tag 1 inflight: 
+> Nov 04 06:18:51 charon kernel: sd 5:0:0:0: [sdc] tag#0 CDB: Write Same(10)
+> 41 00 e8 ea 47 fc 00 00 04 00
+
+Write Same? What you are seeing is that the error handling is running
+non-stop. I suspect that the device does not understand WRITE SAME.
+
+	Regards
+		Oliver
+
 
