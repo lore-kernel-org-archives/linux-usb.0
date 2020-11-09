@@ -2,100 +2,112 @@ Return-Path: <SRS0=6kCz=EP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F33C2D0A3
-	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 08:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3888C2D0A3
+	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 08:30:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FA3F20E65
-	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 08:29:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="QK965PRV";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="l6P/zTnZ"
+	by mail.kernel.org (Postfix) with ESMTP id 67C3920853
+	for <linux-usb@archiver.kernel.org>; Mon,  9 Nov 2020 08:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729236AbgKII3d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 03:29:33 -0500
-Received: from cable.insite.cz ([84.242.75.189]:53648 "EHLO cable.insite.cz"
+        id S1729673AbgKIIac (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 Nov 2020 03:30:32 -0500
+Received: from mga09.intel.com ([134.134.136.24]:61824 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726127AbgKII3d (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 9 Nov 2020 03:29:33 -0500
-X-Greylist: delayed 312 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 03:29:32 EST
-Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id 0A5BCA93253BA;
-        Mon,  9 Nov 2020 09:24:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1604910257; bh=GFxrZmOjHf1coQIZ1tOskOK/f3baZkB6oWTLPzXpIoY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=QK965PRVN184B0sSUibHV8LDjeZP1b6YeVUWkE+vPMzR6Nw1ea0+BvqoUbM1dVlvk
-         TZxi5t/UoTE/pPAemRcRmufhbOkkfWyQEX2NEvPzvqGAsM7JKCjlfBlxzqL7+7E4/x
-         c0luAoi5TDzVdhxG/SPV9PJnIBwm1Y9LHsxHm9PA=
-Received: from cable.insite.cz ([84.242.75.189])
-        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id bDuFcrYv9yJ3; Mon,  9 Nov 2020 09:24:11 +0100 (CET)
-Received: from [192.168.105.22] (ip28.insite.cz [81.0.237.28])
-        (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 7790AA93158DC;
-        Mon,  9 Nov 2020 09:24:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1604910251; bh=GFxrZmOjHf1coQIZ1tOskOK/f3baZkB6oWTLPzXpIoY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=l6P/zTnZu7xLX3vRtuzZnvQis65mA+6RXJsccfWKwyZODGmO+BR9yhV1e1iZdSaxb
-         ckaUe8KOZR0DFu+mlnPuX5sAPdZrXoasZ4WhZtOQKKREa6th2adeOUzAOcSpRkOoIJ
-         2TCCWt6bX3z80NoZ6U1y4tKl5Fi0DQvePR4mvyvw=
-Subject: Re: [PATCH 3/3] usb: gadget: u_audio: add real feedback
- implementation
-To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>, balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org, gschmottlach@gmail.com
-References: <1604794711-8661-1-git-send-email-ruslan.bilovol@gmail.com>
- <1604794711-8661-4-git-send-email-ruslan.bilovol@gmail.com>
-From:   Pavel Hofman <pavel.hofman@ivitera.com>
-Message-ID: <cbdd5e54-87e8-98f2-becb-692c125ae456@ivitera.com>
-Date:   Mon, 9 Nov 2020 09:24:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727959AbgKIIab (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 9 Nov 2020 03:30:31 -0500
+IronPort-SDR: 1tp1W1FqZI0CnPT3osPzUAerJifEmoUCHdZEs2rDBEwsc8CCvGZX6BRpZ6KUFvXsK4mTQunr7L
+ lmtVmIgCywGA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9799"; a="169920490"
+X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; 
+   d="scan'208";a="169920490"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 00:30:30 -0800
+IronPort-SDR: 0dlkP3SoKPUbSCXLDxZaWAkT515nHxmpaMd1Pxk2rXfZBKMHN7TGKZ5EuxVifEgq7ksf30Bx/S
+ BOftvLbXLlWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; 
+   d="scan'208";a="427920429"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 09 Nov 2020 00:30:28 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 09 Nov 2020 10:30:27 +0200
+Date:   Mon, 9 Nov 2020 10:30:27 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 5/6] usb: pd: Add captive Type C cable type
+Message-ID: <20201109083027.GG4062920@kuha.fi.intel.com>
+References: <20201106184104.939284-1-pmalani@chromium.org>
+ <20201106184104.939284-6-pmalani@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <1604794711-8661-4-git-send-email-ruslan.bilovol@gmail.com>
-Content-Type: text/plain; charset=iso-8859-2
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201106184104.939284-6-pmalani@chromium.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Bilovol,
+On Fri, Nov 06, 2020 at 10:41:08AM -0800, Prashant Malani wrote:
+> The USB Power Delivery Specification R3.0 adds a captive cable type
+> to the "USB Type-C plug to USB Type-C/Captive" field (Bits 19-18,
+> Passive/Active Cable VDO, Table 6-38 & 6-39).
+> 
+> Add the corresponding definition to the Cable VDO header. Also add a
+> helper macro to get the Type C cable connector type, when provided
+> the cable VDO.
+> 
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-Dne 08. 11. 20 v 1:18 Ruslan Bilovol napsal(a):
-> This adds interface between userspace and feedback
-> endpoint to report real feedback frequency to the Host.
-> 
-> Current implementation adds new userspace interface
-> ALSA mixer control "PCM Feedback Frequency Hz" (similar
-> to aloop driver's "PCM Rate Shift 100000" mixer control)
-> 
-> We allow +/-20% deviation of nominal sampling frequency,
-> that usually is more than enough in real-world usecases
-> 
-> Usage of this new control is easy to implement in
-> existing userspace tools like alsaloop from alsa-utils.
-> 
-> Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
->  drivers/usb/gadget/function/f_uac2.c  |  4 ++
->  drivers/usb/gadget/function/u_audio.c | 93 +++++++++++++++++++++++++++++++++++
->  drivers/usb/gadget/function/u_audio.h |  7 +++
->  3 files changed, 104 insertions(+)
+> 
+> Changes in v2:
+> - No changes.
+> 
+>  include/linux/usb/pd_vdo.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/usb/pd_vdo.h b/include/linux/usb/pd_vdo.h
+> index 68bdc4e2f5a9..8c5cb5830754 100644
+> --- a/include/linux/usb/pd_vdo.h
+> +++ b/include/linux/usb/pd_vdo.h
+> @@ -177,7 +177,7 @@
+>   * <31:28> :: Cable HW version
+>   * <27:24> :: Cable FW version
+>   * <23:20> :: Reserved, Shall be set to zero
+> - * <19:18> :: type-C to Type-A/B/C (00b == A, 01 == B, 10 == C)
+> + * <19:18> :: type-C to Type-A/B/C/Captive (00b == A, 01 == B, 10 == C, 11 == Captive)
+>   * <17>    :: Type-C to Plug/Receptacle (0b == plug, 1b == receptacle)
+>   * <16:13> :: cable latency (0001 == <10ns(~1m length))
+>   * <12:11> :: cable termination type (11b == both ends active VCONN req)
+> @@ -193,6 +193,7 @@
+>  #define CABLE_ATYPE		0
+>  #define CABLE_BTYPE		1
+>  #define CABLE_CTYPE		2
+> +#define CABLE_CAPTIVE		3
+>  #define CABLE_PLUG		0
+>  #define CABLE_RECEPTACLE	1
+>  #define CABLE_CURR_1A5		0
+> @@ -208,6 +209,7 @@
+>  	 | (tx1d) << 10 | (tx2d) << 9 | (rx1d) << 8 | (rx2d) << 7	\
+>  	 | ((cur) & 0x3) << 5 | (vps) << 4 | (sopp) << 3		\
+>  	 | ((usbss) & 0x7))
+> +#define VDO_TYPEC_CABLE_TYPE(vdo)	(((vdo) >> 18) & 0x3)
+>  
+>  /*
+>   * AMA VDO
+> -- 
+> 2.29.1.341.ge80a0c044ae-goog
 
-Thanks a lot for the great implementation. IIUC the control element sets
-integer frequency in Hz. Often the clocks deviate by small fractions of
-Hz. Please have you considered the value to be e.g. in 100th of Hz for
-finer control of the samplerate? Similar to the PCM Rate Shift which has
-a step 100000th of the samplerate.
+thanks,
 
-Thanks a lot.
-
-Best regards,
-
-Pavel.
+-- 
+heikki
