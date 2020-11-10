@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8907C388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC404C55ABD
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80D7C20870
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D5C22080A
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730154AbgKJJUG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Nov 2020 04:20:06 -0500
-Received: from mga07.intel.com ([134.134.136.100]:23648 "EHLO mga07.intel.com"
+        id S1730296AbgKJJUI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 04:20:08 -0500
+Received: from mga06.intel.com ([134.134.136.31]:56522 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728478AbgKJJUE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:20:04 -0500
-IronPort-SDR: QRLqcfc18pw9WlvDT494DfsrarOyFi3H0gjjBIG1hU2Kn36D7KHjVant3+VzGpQoeW2O45jyu6
- iNZSXVAJPPlw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="234110526"
+        id S1729938AbgKJJUG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 10 Nov 2020 04:20:06 -0500
+IronPort-SDR: PzILMtLCSN+zoi6aVzIeZ6PxYXNZDOyhg+UzAI+JQ4gRJCTqR3BUI5IWCipneJkzRNauGEDmNl
+ /vMXkQtL8yvg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="231571774"
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="234110526"
+   d="scan'208";a="231571774"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 01:20:03 -0800
-IronPort-SDR: 5eo22GK8LDiwSz4SCq2q/3H1mlF2mKTFFjCcZO1EaGfCEP2A5N5q6Tp2zzBpPiGwLX19eE3A/8
- Q+afRafzAvmg==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 01:20:04 -0800
+IronPort-SDR: gHFsslM869yINAiY2RtRC0+4C4fxRO6hLvhI8SeWC/XCc9T7hGFJAKOK+vS1Ct9lwUKkFwonAh
+ GB6PedjX+6EQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="360039274"
+   d="scan'208";a="354433528"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2020 01:20:01 -0800
+  by orsmga008.jf.intel.com with ESMTP; 10 Nov 2020 01:20:01 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 735FA56E; Tue, 10 Nov 2020 11:19:57 +0200 (EET)
+        id 8C27A5D4; Tue, 10 Nov 2020 11:19:57 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -48,9 +48,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         netdev@vger.kernel.org
-Subject: [PATCH v2 05/10] thunderbolt: Add functions for enabling and disabling lane bonding on XDomain
-Date:   Tue, 10 Nov 2020 12:19:52 +0300
-Message-Id: <20201110091957.17472-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 07/10] thunderbolt: Make it possible to allocate one directional DMA tunnel
+Date:   Tue, 10 Nov 2020 12:19:54 +0300
+Message-Id: <20201110091957.17472-8-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201110091957.17472-1-mika.westerberg@linux.intel.com>
 References: <20201110091957.17472-1-mika.westerberg@linux.intel.com>
@@ -60,193 +60,106 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Isaac Hazan <isaac.hazan@intel.com>
+With DMA tunnels it is possible that the service using it does not
+require bi-directional paths so make RX and TX optional (but of course
+one of them needs to be set).
 
-These can be used by service drivers to enable and disable lane bonding
-as needed.
-
-Signed-off-by: Isaac Hazan <isaac.hazan@intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Acked-by: Yehezkel Bernat <YehezkelShB@gmail.com>
 ---
- drivers/thunderbolt/switch.c  | 24 +++++++++++--
- drivers/thunderbolt/tb.h      |  3 ++
- drivers/thunderbolt/xdomain.c | 66 +++++++++++++++++++++++++++++++++++
- include/linux/thunderbolt.h   |  2 ++
- 4 files changed, 92 insertions(+), 3 deletions(-)
+ drivers/thunderbolt/tunnel.c | 50 ++++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 05a360901790..cdfd8cccfe19 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -503,12 +503,13 @@ static void tb_dump_port(struct tb *tb, struct tb_regs_port_header *port)
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 829b6ccdd5d4..dcdf9c7a9cae 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -34,9 +34,6 @@
+ #define TB_DP_AUX_PATH_OUT		1
+ #define TB_DP_AUX_PATH_IN		2
  
- /**
-  * tb_port_state() - get connectedness state of a port
-+ * @port: the port to check
+-#define TB_DMA_PATH_OUT			0
+-#define TB_DMA_PATH_IN			1
+-
+ static const char * const tb_tunnel_names[] = { "PCI", "DP", "DMA", "USB3" };
+ 
+ #define __TB_TUNNEL_PRINT(level, tunnel, fmt, arg...)                   \
+@@ -829,10 +826,10 @@ static void tb_dma_init_path(struct tb_path *path, unsigned int isb,
+  * @nhi: Host controller port
+  * @dst: Destination null port which the other domain is connected to
+  * @transmit_ring: NHI ring number used to send packets towards the
+- *		   other domain
++ *		   other domain. Set to %0 if TX path is not needed.
+  * @transmit_path: HopID used for transmitting packets
+  * @receive_ring: NHI ring number used to receive packets from the
+- *		  other domain
++ *		  other domain. Set to %0 if RX path is not needed.
+  * @reveive_path: HopID used for receiving packets
   *
-  * The port must have a TB_CAP_PHY (i.e. it should be a real port).
-  *
-  * Return: Returns an enum tb_port_state on success or an error code on failure.
-  */
--static int tb_port_state(struct tb_port *port)
-+int tb_port_state(struct tb_port *port)
+  * Return: Returns a tb_tunnel on success or NULL on failure.
+@@ -843,10 +840,19 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 				      int receive_path)
  {
- 	struct tb_cap_phy phy;
- 	int res;
-@@ -1008,7 +1009,16 @@ static int tb_port_set_link_width(struct tb_port *port, unsigned int width)
- 			     port->cap_phy + LANE_ADP_CS_1, 1);
+ 	struct tb_tunnel *tunnel;
++	size_t npaths = 0, i = 0;
+ 	struct tb_path *path;
+ 	u32 credits;
+ 
+-	tunnel = tb_tunnel_alloc(tb, 2, TB_TUNNEL_DMA);
++	if (receive_ring)
++		npaths++;
++	if (transmit_ring)
++		npaths++;
++
++	if (WARN_ON(!npaths))
++		return NULL;
++
++	tunnel = tb_tunnel_alloc(tb, npaths, TB_TUNNEL_DMA);
+ 	if (!tunnel)
+ 		return NULL;
+ 
+@@ -856,22 +862,28 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 
+ 	credits = tb_dma_credits(nhi);
+ 
+-	path = tb_path_alloc(tb, dst, receive_path, nhi, receive_ring, 0, "DMA RX");
+-	if (!path) {
+-		tb_tunnel_free(tunnel);
+-		return NULL;
++	if (receive_ring) {
++		path = tb_path_alloc(tb, dst, receive_path, nhi, receive_ring, 0,
++				     "DMA RX");
++		if (!path) {
++			tb_tunnel_free(tunnel);
++			return NULL;
++		}
++		tb_dma_init_path(path, TB_PATH_NONE, TB_PATH_SOURCE | TB_PATH_INTERNAL,
++				 credits);
++		tunnel->paths[i++] = path;
+ 	}
+-	tb_dma_init_path(path, TB_PATH_NONE, TB_PATH_SOURCE | TB_PATH_INTERNAL,
+-			 credits);
+-	tunnel->paths[TB_DMA_PATH_IN] = path;
+ 
+-	path = tb_path_alloc(tb, nhi, transmit_ring, dst, transmit_path, 0, "DMA TX");
+-	if (!path) {
+-		tb_tunnel_free(tunnel);
+-		return NULL;
++	if (transmit_ring) {
++		path = tb_path_alloc(tb, nhi, transmit_ring, dst, transmit_path, 0,
++				     "DMA TX");
++		if (!path) {
++			tb_tunnel_free(tunnel);
++			return NULL;
++		}
++		tb_dma_init_path(path, TB_PATH_SOURCE, TB_PATH_ALL, credits);
++		tunnel->paths[i++] = path;
+ 	}
+-	tb_dma_init_path(path, TB_PATH_SOURCE, TB_PATH_ALL, credits);
+-	tunnel->paths[TB_DMA_PATH_OUT] = path;
+ 
+ 	return tunnel;
  }
- 
--static int tb_port_lane_bonding_enable(struct tb_port *port)
-+/**
-+ * tb_port_lane_bonding_enable() - Enable bonding on port
-+ * @port: port to enable
-+ *
-+ * Enable bonding by setting the link width of the port and the
-+ * other port in case of dual link port.
-+ *
-+ * Return: %0 in case of success and negative errno in case of error
-+ */
-+int tb_port_lane_bonding_enable(struct tb_port *port)
- {
- 	int ret;
- 
-@@ -1038,7 +1048,15 @@ static int tb_port_lane_bonding_enable(struct tb_port *port)
- 	return 0;
- }
- 
--static void tb_port_lane_bonding_disable(struct tb_port *port)
-+/**
-+ * tb_port_lane_bonding_disable() - Disable bonding on port
-+ * @port: port to disable
-+ *
-+ * Disable bonding by setting the link width of the port and the
-+ * other port in case of dual link port.
-+ *
-+ */
-+void tb_port_lane_bonding_disable(struct tb_port *port)
- {
- 	port->dual_link_port->bonded = false;
- 	port->bonded = false;
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 3a826315049e..e98d3561648d 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -863,6 +863,9 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
- 
- int tb_port_get_link_speed(struct tb_port *port);
- int tb_port_get_link_width(struct tb_port *port);
-+int tb_port_state(struct tb_port *port);
-+int tb_port_lane_bonding_enable(struct tb_port *port);
-+void tb_port_lane_bonding_disable(struct tb_port *port);
- 
- int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
- int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 83a315f96934..65108216bfe3 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/device.h>
-+#include <linux/delay.h>
- #include <linux/kmod.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-@@ -21,6 +22,7 @@
- #define XDOMAIN_UUID_RETRIES			10
- #define XDOMAIN_PROPERTIES_RETRIES		60
- #define XDOMAIN_PROPERTIES_CHANGED_RETRIES	10
-+#define XDOMAIN_BONDING_WAIT			100  /* ms */
- 
- struct xdomain_request_work {
- 	struct work_struct work;
-@@ -1443,6 +1445,70 @@ void tb_xdomain_remove(struct tb_xdomain *xd)
- 		device_unregister(&xd->dev);
- }
- 
-+/**
-+ * tb_xdomain_lane_bonding_enable() - Enable lane bonding on XDomain
-+ * @xd: XDomain connection
-+ *
-+ * Lane bonding is disabled by default for XDomains. This function tries
-+ * to enable bonding by first enabling the port and waiting for the CL0
-+ * state.
-+ *
-+ * Return: %0 in case of success and negative errno in case of error.
-+ */
-+int tb_xdomain_lane_bonding_enable(struct tb_xdomain *xd)
-+{
-+	struct tb_port *port;
-+	int ret;
-+
-+	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
-+	if (!port->dual_link_port)
-+		return -ENODEV;
-+
-+	ret = tb_port_enable(port->dual_link_port);
-+	if (ret)
-+		return ret;
-+
-+	ret = tb_wait_for_port(port->dual_link_port, true);
-+	if (ret < 0)
-+		return ret;
-+	if (!ret)
-+		return -ENOTCONN;
-+
-+	ret = tb_port_lane_bonding_enable(port);
-+	if (ret) {
-+		tb_port_warn(port, "failed to enable lane bonding\n");
-+		return ret;
-+	}
-+
-+	tb_xdomain_update_link_attributes(xd);
-+
-+	dev_dbg(&xd->dev, "lane bonding enabled\n");
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(tb_xdomain_lane_bonding_enable);
-+
-+/**
-+ * tb_xdomain_lane_bonding_disable() - Disable lane bonding
-+ * @xd: XDomain connection
-+ *
-+ * Lane bonding is disabled by default for XDomains. If bonding has been
-+ * enabled, this function can be used to disable it.
-+ */
-+void tb_xdomain_lane_bonding_disable(struct tb_xdomain *xd)
-+{
-+	struct tb_port *port;
-+
-+	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
-+	if (port->dual_link_port) {
-+		tb_port_lane_bonding_disable(port);
-+		tb_port_disable(port->dual_link_port);
-+		tb_xdomain_update_link_attributes(xd);
-+
-+		dev_dbg(&xd->dev, "lane bonding disabled\n");
-+	}
-+}
-+EXPORT_SYMBOL_GPL(tb_xdomain_lane_bonding_disable);
-+
- /**
-  * tb_xdomain_enable_paths() - Enable DMA paths for XDomain connection
-  * @xd: XDomain connection
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index e441af88ed77..0a747f92847e 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -247,6 +247,8 @@ struct tb_xdomain {
- 	u8 depth;
- };
- 
-+int tb_xdomain_lane_bonding_enable(struct tb_xdomain *xd);
-+void tb_xdomain_lane_bonding_disable(struct tb_xdomain *xd);
- int tb_xdomain_enable_paths(struct tb_xdomain *xd, u16 transmit_path,
- 			    u16 transmit_ring, u16 receive_path,
- 			    u16 receive_ring);
 -- 
 2.28.0
 
