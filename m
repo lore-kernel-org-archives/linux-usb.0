@@ -2,236 +2,232 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEDAC388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 10:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE25C388F7
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 10:49:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69AC7206B2
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 10:38:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="r5dPlNsY"
+	by mail.kernel.org (Postfix) with ESMTP id ED2752076E
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 10:49:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbgKJKi6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Nov 2020 05:38:58 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:45283 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726219AbgKJKi5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Nov 2020 05:38:57 -0500
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Nov 2020 05:38:56 EST
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id cQwCkl89cNanzcQwFk5Qw2; Tue, 10 Nov 2020 11:31:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605004308; bh=sSUZeBbALipBVaAcCxxvxF92gzHg1s0qI8782LffVyw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=r5dPlNsY6mZo891vK/ccSQsEJK/hyKbIH9c8V+0MAAJmXvuCuJcBuJrvFw7nJ4nM/
-         xT7BlXeu2gpLnnlbhheZLhB/+B2Ae5XtJVpQ9OrhJVNOdZjZNW/Z5FUbf/UcBFGR+d
-         dO4F0qlSdJEFQxsmsDUa5L+Y+AEUIZe6n/7U07LiTkiSvjkA/QKsN129ryfRRkkHCe
-         muGrXMdpuJznHNQXW8zr7vpedfO4Z0iljm4ouATil+lvqMg7knpf+ShuMTeVPEl9U+
-         lSu04F5kHwAPf3EdciZA3MzS8jg3pYPBC6+9JSwgP45NO4BKSE+sVlIfi/Xqv+5kZV
-         6jW80gMLNU1FQ==
-Subject: Re: [PATCH v2] usb: gadget: uvc: fix multiple opens
-To:     thomas.haemmerle@wolfvision.net, gregkh@linuxfoundation.org
-Cc:     laurent.pinchart@ideasonboard.com, balbi@kernel.org,
-        linux-usb@vger.kernel.org, m.tretter@pengutronix.de,
-        linux-media@vger.kernel.org
-References: <20201105103758.GA4033354@kroah.com>
- <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2bf6f3b3-6475-9cd9-b6f9-dfc4b444c955@xs4all.nl>
-Date:   Tue, 10 Nov 2020 11:31:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729943AbgKJKt0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 05:49:26 -0500
+Received: from mga04.intel.com ([192.55.52.120]:5585 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726462AbgKJKt0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 10 Nov 2020 05:49:26 -0500
+IronPort-SDR: 4r7Nf5fcEso5Q0C/DrmXwxO0fm6ddrEc+pOsSDDs7k3VONkm97mfYOZKNzai5tsLl5TK1ud8mr
+ w+ZEeME4NnzQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167369891"
+X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
+   d="scan'208";a="167369891"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 02:49:24 -0800
+IronPort-SDR: SdZQD6pT3dVhjbj7KEnlziioZ8S80kp8pOROHf0uUpYYoh+fzCiaM88wKp0BmW4QIQ5iw4lB5k
+ UIAGTCAaggiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
+   d="scan'208";a="428325751"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 10 Nov 2020 02:49:22 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 10 Nov 2020 12:49:21 +0200
+Date:   Tue, 10 Nov 2020 12:49:21 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org, Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>
+Subject: Re: [PATCH v2 1/2] usb: typec: Add number of altmodes partner attr
+Message-ID: <20201110104921.GE1224435@kuha.fi.intel.com>
+References: <20201110061535.2163599-1-pmalani@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAWwltG6ZRf8zb9NVmxM+GJc07KHQ0legS+bi2bENofERX9Ov++J4NgpnTW4kTWoq2PVSMqvkjvqR8LFb5woK3qSDRlhh2qO+zdhcIZKfzrh4yGT/Y/P
- FR9tmNzMa/vnUnzoKVqZGtsqwqyIhm4+0fopz8/JLiM3coXofsooegHBwOfZXHov4cDTFAFwZ/XTQBNF3G/J6i31/WksFu86aGm8jFGOLnU6V40jS30jQde3
- j4v+vrPu5Ivu8yKG7I5HrwMYOo3+BB3P/XT3DywAm156Vna6/D3fp74ISrmdD0xDZf4OmQNIpaoxLFKQdvJ4OFMZdZ+xaUuE2IEBS4z5VbTnJmclORtdPWN1
- olfhpIuELTEw286DPWj5AWj5mX2qFU5/pzpuK6tVp6YOhS0A6IG8nSVfZ24eMLzVoFst8hmD+Otk3nChVGxdhVHJT4P6vw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201110061535.2163599-1-pmalani@chromium.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 10/11/2020 09:25, thomas.haemmerle@wolfvision.net wrote:
-> From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+On Mon, Nov 09, 2020 at 10:15:34PM -0800, Prashant Malani wrote:
+> Add a user-visible attribute for the number of alternate modes available
+> in a partner. This allows userspace to determine whether there are any
+> remaining alternate modes left to be registered by the kernel driver. It
+> can begin executing any policy state machine after all available
+> alternate modes have been registered with the connector class framework.
 > 
-> Currently, the UVC function is activated when open on the corresponding
-> v4l2 device is called.
-> On another open the activation of the function fails since the
-> deactivation counter in `usb_function_activate` equals 0. However the
-> error is not returned to userspace since the open of the v4l2 device is
-> successful.
+> This value is set to "-1" initially, signifying that a valid number of
+> alternate modes haven't been set for the partner.
 > 
-> On a close the function is deactivated (since deactivation counter still
-> equals 0) and the video is disabled in `uvc_v4l2_release`, although
-> another process potentially is streaming.
+> Also add a sysfs file which exposes this attribute. The file remains
+> hidden as long as the attribute value is -1.
 > 
-> Move activation of UVC function to subscription on UVC_EVENT_SETUP and
-> keep track of the number of subscribers (limited to 1) because there we
-> can guarantee for a userspace program utilizing UVC.
-> Extend the `struct uvc_file_handle` with member `bool connected` to tag 
-> it for a deactivation of the function.
-> 
-> With this a process is able to check capabilities of the v4l2 device
-> without deactivating the function for another process actually using the
-> device for UVC streaming.
-> 
-> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
-> v2:
->  - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
->    locked in v4l2-core) introduced in v1
->  - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
->    connected
 > 
->  drivers/usb/gadget/function/uvc.h      |  2 +
->  drivers/usb/gadget/function/uvc_v4l2.c | 56 +++++++++++++++++++++-----
->  2 files changed, 48 insertions(+), 10 deletions(-)
+> Changes in v2:
+> - Added ABI/testing documentation entry for added sysfs file.
+> - Changed name of the sysfs file to "number_of_alternate_modes" based on
+>   review comments.
+> - Added is_visible() logic suggested by Heikki in the comments of v1.
+> - Updated commit message.
 > 
-> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-> index 73da4f9a8d4c..0d0bcbffc8fd 100644
-> --- a/drivers/usb/gadget/function/uvc.h
-> +++ b/drivers/usb/gadget/function/uvc.h
-> @@ -117,6 +117,7 @@ struct uvc_device {
->  	enum uvc_state state;
->  	struct usb_function func;
->  	struct uvc_video video;
-> +	unsigned int connections;
+> v1:
+> https://lore.kernel.org/lkml/20200701003149.3101219-1-pmalani@chromium.org/
+> 
+>  Documentation/ABI/testing/sysfs-class-typec |  8 +++
+>  drivers/usb/typec/class.c                   | 66 ++++++++++++++++++++-
+>  include/linux/usb/typec.h                   |  1 +
+>  3 files changed, 74 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+> index b834671522d6..73ac7b461ae5 100644
+> --- a/Documentation/ABI/testing/sysfs-class-typec
+> +++ b/Documentation/ABI/testing/sysfs-class-typec
+> @@ -134,6 +134,14 @@ Description:
+>  		Shows if the partner supports USB Power Delivery communication:
+>  		Valid values: yes, no
 >  
->  	/* Descriptors */
->  	struct {
-> @@ -147,6 +148,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
->  struct uvc_file_handle {
->  	struct v4l2_fh vfh;
->  	struct uvc_video *device;
-> +	bool connected;
+> +What:		/sys/class/typec/<port>-partner/number_of_alternate_modes
+> +Date:		November 2020
+> +Contact:	Prashant Malani <pmalani@chromium.org>
+> +Description:
+> +		Shows the number of alternate modes which are advertised by the partner
+> +		during Power Delivery discovery. This file remains hidden until a value
+> +		greater than or equal to 0 is set by Type C port driver.
+> +
+>  What:		/sys/class/typec/<port>-partner>/identity/
+>  Date:		April 2017
+>  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 35eec707cb51..c7412ddbd311 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -33,6 +33,7 @@ struct typec_partner {
+>  	struct usb_pd_identity		*identity;
+>  	enum typec_accessory		accessory;
+>  	struct ida			mode_ids;
+> +	int				num_altmodes;
 >  };
 >  
->  #define to_uvc_file_handle(handle) \
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index 67922b1355e6..aee4888e17b1 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -228,17 +228,57 @@ static int
->  uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
->  			 const struct v4l2_event_subscription *sub)
+>  struct typec_port {
+> @@ -532,12 +533,43 @@ static ssize_t supports_usb_power_delivery_show(struct device *dev,
+>  }
+>  static DEVICE_ATTR_RO(supports_usb_power_delivery);
+>  
+> +static ssize_t number_of_alternate_modes_show(struct device *dev, struct device_attribute *attr,
+> +					      char *buf)
+> +{
+> +	struct typec_partner *p = to_typec_partner(dev);
+> +
+> +	return sysfs_emit(buf, "%d\n", p->num_altmodes);
+> +}
+> +static DEVICE_ATTR_RO(number_of_alternate_modes);
+> +
+>  static struct attribute *typec_partner_attrs[] = {
+>  	&dev_attr_accessory_mode.attr,
+>  	&dev_attr_supports_usb_power_delivery.attr,
+> +	&dev_attr_number_of_alternate_modes.attr,
+> +	NULL
+> +};
+> +
+> +static umode_t typec_partner_attr_is_visible(struct kobject *kobj, struct attribute *attr, int n)
+> +{
+> +	struct typec_partner *partner = to_typec_partner(kobj_to_dev(kobj));
+> +
+> +	if (attr == &dev_attr_number_of_alternate_modes.attr) {
+> +		if (partner->num_altmodes < 0)
+> +			return 0;
+> +	}
+> +
+> +	return attr->mode;
+> +}
+> +
+> +static struct attribute_group typec_partner_group = {
+> +	.is_visible = typec_partner_attr_is_visible,
+> +	.attrs = typec_partner_attrs
+> +};
+> +
+> +static const struct attribute_group *typec_partner_groups[] = {
+> +	&typec_partner_group,
+>  	NULL
+>  };
+> -ATTRIBUTE_GROUPS(typec_partner);
+>  
+>  static void typec_partner_release(struct device *dev)
 >  {
-> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> @@ -570,6 +602,37 @@ int typec_partner_set_identity(struct typec_partner *partner)
+>  }
+>  EXPORT_SYMBOL_GPL(typec_partner_set_identity);
+>  
+> +/**
+> + * typec_partner_set_num_altmodes - Set the number of available partner altmodes
+> + * @partner: The partner to be updated.
+> + * @num_alt_modes: The number of altmodes we want to specify as available.
+> + *
+> + * This routine is used to report the number of alternate modes supported by the
+> + * partner. This value is *not* enforced in alternate mode registration routines.
+> + *
+> + * @partner.num_altmodes is set to -1 on partner registration, denoting that
+> + * a valid value has not been set for it yet.
+> + *
+> + * Returns 0 on success or negative error number on failure.
+> + */
+> +int typec_partner_set_num_altmodes(struct typec_partner *partner, int num_altmodes)
+> +{
 > +	int ret;
 > +
->  	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
->  		return -EINVAL;
->  
-> -	return v4l2_event_subscribe(fh, sub, 2, NULL);
-> +	if ((sub->type == UVC_EVENT_SETUP) && (uvc->connections >= 1))
-> +		return -EBUSY;
+> +	if (num_altmodes < 0)
+> +		return -EINVAL;
 > +
-> +	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
+> +	partner->num_altmodes = num_altmodes;
+> +	ret = sysfs_update_group(&partner->dev.kobj, &typec_partner_group);
 > +	if (ret < 0)
 > +		return ret;
 > +
-> +	if (sub->type == UVC_EVENT_SETUP) {
-> +		uvc->connections++;
-> +		handle->connected = true;
-> +		uvc_function_connect(uvc);
-> +	}
-
-This makes no sense. Why would subscribing to a SETUP event
-mean that you are 'connected'?
-
-It should be possible to open a V4L2 device node any number of times,
-and any filehandle can subscribe to any event, but typically once
-userspace allocates buffers (VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS)
-then that filehandle is marked as the owner of the device and other
-open filehandles are no longer allowed to allocate buffers or stream video.
-
-See e.g. drivers/media/common/videobuf2/videobuf2-v4l2.c
-and vb2_ioctl_reqbufs and other vb2_ioctl_* functions.
-
-Unfortunately this UVC gadget driver is rather old and is not using
-these helper functions.
-
-Running 'v4l2-compliance' will likely fail on a lot of tests for this
-driver.
-
-This driver probably could use some TLC.
-
-Regards,
-
-	Hans
-
+> +	sysfs_notify(&partner->dev.kobj, NULL, "number_of_alternate_modes");
 > +
 > +	return 0;
 > +}
+> +EXPORT_SYMBOL_GPL(typec_partner_set_num_altmodes);
 > +
-> +static void uvc_v4l2_disable(struct uvc_device *uvc)
-> +{
-> +	if (--uvc->connections)
-> +		return;
-> +
-> +	uvc_function_disconnect(uvc);
-> +	uvcg_video_enable(&uvc->video, 0);
-> +	uvcg_free_buffers(&uvc->video.queue);
->  }
+>  /**
+>   * typec_partner_register_altmode - Register USB Type-C Partner Alternate Mode
+>   * @partner: USB Type-C Partner that supports the alternate mode
+> @@ -612,6 +675,7 @@ struct typec_partner *typec_register_partner(struct typec_port *port,
+>  	ida_init(&partner->mode_ids);
+>  	partner->usb_pd = desc->usb_pd;
+>  	partner->accessory = desc->accessory;
+> +	partner->num_altmodes = -1;
 >  
->  static int
->  uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
->  			   const struct v4l2_event_subscription *sub)
->  {
-> -	return v4l2_event_unsubscribe(fh, sub);
-> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-> +	int ret;
-> +
-> +	ret = v4l2_event_unsubscribe(fh, sub);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if ((sub->type == UVC_EVENT_SETUP) && handle->connected) {
-> +		uvc_v4l2_disable(uvc);
-> +		handle->connected = false;
-> +	}
-> +
-> +	return 0;
->  }
+>  	if (desc->identity) {
+>  		/*
+> diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+> index 6be558045942..bc6b1a71cb8a 100644
+> --- a/include/linux/usb/typec.h
+> +++ b/include/linux/usb/typec.h
+> @@ -126,6 +126,7 @@ struct typec_altmode_desc {
+>  	enum typec_port_data	roles;
+>  };
 >  
->  static long
-> @@ -293,7 +333,6 @@ uvc_v4l2_open(struct file *file)
->  	handle->device = &uvc->video;
->  	file->private_data = &handle->vfh;
->  
-> -	uvc_function_connect(uvc);
->  	return 0;
->  }
->  
-> @@ -303,14 +342,11 @@ uvc_v4l2_release(struct file *file)
->  	struct video_device *vdev = video_devdata(file);
->  	struct uvc_device *uvc = video_get_drvdata(vdev);
->  	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
-> -	struct uvc_video *video = handle->device;
-> -
-> -	uvc_function_disconnect(uvc);
->  
-> -	mutex_lock(&video->mutex);
-> -	uvcg_video_enable(video, 0);
-> -	uvcg_free_buffers(&video->queue);
-> -	mutex_unlock(&video->mutex);
-> +	mutex_lock(&uvc->video.mutex);
-> +	if (handle->connected)
-> +		uvc_v4l2_disable(uvc);
-> +	mutex_unlock(&uvc->video.mutex);
->  
->  	file->private_data = NULL;
->  	v4l2_fh_del(&handle->vfh);
-> 
+> +int typec_partner_set_num_altmodes(struct typec_partner *partner, int num_altmodes);
+>  struct typec_altmode
+>  *typec_partner_register_altmode(struct typec_partner *partner,
+>  				const struct typec_altmode_desc *desc);
+> -- 
+> 2.29.2.222.g5d2a92d10f8-goog
 
+thanks,
+
+-- 
+heikki
