@@ -2,129 +2,161 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B99C388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 08:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F607C55ABD
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:05:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDE4D2080A
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 08:56:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA7B720781
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:05:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="sTP4mDFQ";
-	dkim=temperror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iD9hVFzR"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="qNZMieX9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726827AbgKJI4G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Nov 2020 03:56:06 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:50041 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726721AbgKJI4G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Nov 2020 03:56:06 -0500
-X-Greylist: delayed 370 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Nov 2020 03:56:05 EST
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2E8685803CF;
-        Tue, 10 Nov 2020 03:49:55 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 10 Nov 2020 03:49:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=9s3HXA62aXEwuhDqThUDrB2tZR/
-        QFmCSXDsh87Vt2VQ=; b=sTP4mDFQaTuABEN3HT4ghPaXmUs+3q36wIKNgmenbJC
-        Thrv4yv9IBEmZSJ/GO1JXJ721q6Jq0Uhh63X151o/t7sulK4RmbrAs2jebzvHr96
-        zwn0wuYRNIbkh8MLkJIpfLRs8P05bz7vGmNNp1fvqV7OjZvo8ecStqAPSCYWC6Kf
-        4rkw1/5Y36NTJyoDeaurHSl7P2Lw3npS9zeuvAJ3j7NaXTfSdcIaQ9F0+rwrn9k6
-        UGDZlUJ6j/fEN5663LqKqKLGQPP8Q3JkRlIv9s/YmxnrYzsanyCnj0F0ZMGcXs/n
-        0y2wBAYvaAHD9AdUsHqVZ+7wWR88TScAiggD78Dvp6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9s3HXA
-        62aXEwuhDqThUDrB2tZR/QFmCSXDsh87Vt2VQ=; b=iD9hVFzRap+aS8KMlgoNbq
-        6YTx0nZBuZ3vn7lC+1uOzxq2tEweH8CUoBkGFiMNJsI4LmLeE/FmcEsPnkcYXNZj
-        wCcjGT8TSWrVBQbbYwYblOAQiPDUzy3ZvL9LOu7GNXrWNhDyLhP5WQPF56ne6G8J
-        S0qA/8mM2A0JPpg7ZM/QVqSpyOxnJzGXbiZR6SDhUZIAWrOwRI9QGjuYZQses3y2
-        VoforsK0qqCFYAno3aRB1FxGrXQYdonw6GqHVUGSCgZxSXG1xD1s3DKX6q1SajC6
-        Tt2xDT/LuEwm8zE3oOEGGEfoO+mcfZ91NIlc3pGdZroBa7rvWGao+K8ANKo32rzg
-        ==
-X-ME-Sender: <xms:MVSqX1XaQGH6eE-Mp7CA-6tXEILG5jMedm8iQ-RkxrSr6LYgwMb5Gg>
-    <xme:MVSqX1lwF_FyIBlwBTjkQO4Q93lBSdRh1r2ux7pxJbAk1Gz0kTKuV7XOLT6v0tunl
-    cHWMtiNXyvkLg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudduiedguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhephfduhe
-    ffteefjeekvdffffevveelfeehhfeutedtgfeigeetvdfhvedvfefhjeeknecuffhomhgr
-    ihhnpegthhgvtghkphgrthgthhdrphhlnecukfhppeekfedrkeeirdejgedrieegnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehk
-    rhhorghhrdgtohhm
-X-ME-Proxy: <xmx:MVSqXxYkV21P3H_SEpIh6oy7Bcz5rLphVsz76W69qlEDIiToY0R-1g>
-    <xmx:MVSqX4WNsXWWrDiwvgISWbyXvuCU-s-D1wIzEalQcKjTEaCAa-dflg>
-    <xmx:MVSqX_mDnqpPPnY_2u9RKSRaHPJG40wMtWmBaoA_hUrlAxZcPTDRtw>
-    <xmx:M1SqXx0OiBo8aUsWe5OqJZDqDQIuum2sW_gtC_Tszc5CO-BDkMuycA>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7CD553063081;
-        Tue, 10 Nov 2020 03:49:53 -0500 (EST)
-Date:   Tue, 10 Nov 2020 09:50:49 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Macpaul Lin <macpaul.lin@mediatek.com>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Alexander Tsoy <alexander@tsoy.me>,
-        Nicola Lunghi <nick83ola@gmail.com>,
-        Christopher Swenson <swenson@swenson.io>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        alsa-devel@alsa-project.org, Ainge Hsu <ainge.hsu@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Macpaul Lin <macpaul@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: disable 96khz support for HUAWEI
- USB-C HEADSET
-Message-ID: <X6pUaatZ7aML4sKq@kroah.com>
-References: <1604995443-30453-1-git-send-email-macpaul.lin@mediatek.com>
- <1604997774-13593-1-git-send-email-macpaul.lin@mediatek.com>
+        id S1728297AbgKJJFi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 04:05:38 -0500
+Received: from mail-am6eur05on2046.outbound.protection.outlook.com ([40.107.22.46]:4649
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729918AbgKJJEd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 10 Nov 2020 04:04:33 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SmwARdSlB7hn7QAOG3dP7eHdd40JjfMj3Xa+AUkj86lF/i6c2sUVx/u+9kzLu98Qsmp9B+WdMdFWiLhTspr/OGMS9cie/hmuD/591TzbgsFxkSgrc8IsL5z9TpHhJiGJW9UEQB6uPHNayNT/XpgdFIPcJsd+djBv8b+jiR1UDQrnyaClKh6N8Vncm3Woh1fQjiGtLu93F85SRRrpFf+pyulZPQ6rp8LZ5PKTHss59g/bxG6hQBY+vD7H7StWNXi67IJ4meoGR7PF8MqDy/wp4k54hk6pST/7PbGsjJkump3FBdSdYHGNhLvbKlDQFhv8lgLRaPu7rJV18d/bkwPTaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lDjsk7u013MgF83LT+Pset/+wwVxUPALm3raY4fbwqM=;
+ b=YC2tbgqB0oRQTyBJaLaXAHIXZWuXgjFVIxPHuoXWo9ywoYZ3HnBy5sSzy8otH3YWqCsFWSGXSrEd4CqxrcnczGNHLvLKkQBa9EFhmDQGp8sktLuycnUmyts9QS/gjAYnZViuDf0bfpztWlgu7JXEGv3zCkMkCrrJLPQfPCIe2/s8hd6bLyIEZumYsqy+R/kO/tosIGdRm7VJulZx0v6WX+Yp3wWN4K0+ndp8Z1HOCm3jGL/C+3ialTBQEh7dzqj6biMWpk9Sb9XiBw9x9mrjevlc0NcCNvlbDAj2whh42WXn+EXp90/yaNnWzjgY3AwYsXwe4KzNZJGH8JC3iEnRYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lDjsk7u013MgF83LT+Pset/+wwVxUPALm3raY4fbwqM=;
+ b=qNZMieX9N5rGGxyKw8UKfQas8tnOn+3SLozzfhgrmKglmFqMeJ+zjLKc90BIRb+eYEJ37rqt/Ukox8pbq+CCFic/ZpWtTOtr4IzgvHNWpTC0C36+Pwxv10ESo+Uzp/H983GCsl5/FokwwpmXgchJwjydrqDfwQYNbrtvJWlAYRs=
+Received: from DBBPR04MB7979.eurprd04.prod.outlook.com (2603:10a6:10:1ec::9)
+ by DB7PR04MB4492.eurprd04.prod.outlook.com (2603:10a6:5:39::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 10 Nov
+ 2020 09:04:29 +0000
+Received: from DBBPR04MB7979.eurprd04.prod.outlook.com
+ ([fe80::c8c:888f:3e0c:8d5c]) by DBBPR04MB7979.eurprd04.prod.outlook.com
+ ([fe80::c8c:888f:3e0c:8d5c%5]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
+ 09:04:29 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Pawel Laszczak <pawell@cadence.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "balbi@kernel.org" <balbi@kernel.org>,
+        "colin.king@canonical.com" <colin.king@canonical.com>,
+        "rogerq@ti.com" <rogerq@ti.com>,
+        "kurahul@cadence.com" <kurahul@cadence.com>,
+        "nsekhar@ti.com" <nsekhar@ti.com>
+Subject: Re: [PATCH v2 01/10] usb: cdns3: Add support for DRD CDNSP
+Thread-Topic: [PATCH v2 01/10] usb: cdns3: Add support for DRD CDNSP
+Thread-Index: AQHWtDJHpjDqwoW9QUS5Pv6rgaf5tanBGHYA
+Date:   Tue, 10 Nov 2020 09:04:28 +0000
+Message-ID: <20201110090400.GA22481@b29397-desktop>
+References: <20201106114300.1245-1-pawell@cadence.com>
+ <20201106114300.1245-2-pawell@cadence.com>
+In-Reply-To: <20201106114300.1245-2-pawell@cadence.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: cadence.com; dkim=none (message not signed)
+ header.d=none;cadence.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 2636498c-c62d-4c8a-6872-08d88557a193
+x-ms-traffictypediagnostic: DB7PR04MB4492:
+x-microsoft-antispam-prvs: <DB7PR04MB4492CD1918859E02315DDA7C8BE90@DB7PR04MB4492.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UipsO8qFb6BUh5BxI+huPoEsSt28lgrS5dyLGzcxllUM2Y5gTQuu/7iam5S7ZXcEjxwrX2917MiKKxZDLrtuo+HnocE10Y9Es1KyfmTXCyOCvmsZskmv/8BvOo6rqfIh6u/5RuX48SDyhyNcgrjhLQkIZDK2zcCHlJPRmvlKl7BMJBsL4pKJUeqdv+SWPeB0VCqBMGC22uyNsL5VGmVuskrkZp6ff7bsKHGhe3wTyVzBhhGXsJJC+UAeNYsQCAyO3US+k+BdmCEmfk0iWZuIw7Iep41l93c1j2zA8pk5c3qs+LOXIPZp8CB5+gDOvV2e
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7979.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(4636009)(376002)(39860400002)(366004)(396003)(346002)(136003)(2906002)(54906003)(33716001)(316002)(53546011)(6506007)(6512007)(9686003)(4326008)(8676002)(26005)(8936002)(86362001)(478600001)(5660300002)(66446008)(33656002)(1076003)(66556008)(66476007)(71200400001)(64756008)(6916009)(76116006)(6486002)(91956017)(186003)(66946007)(44832011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 0uJ22zCHQ782qYbP1F5W6tKU/laOCfUgpNnVeocbwiNBwxaCBygBldmRLjILsIayODUXE5RzhodT6FQdO5PNstpwp2RwAonIe6qfOQbh1o7Qp2nk7ZwDuznVFnT72c08QWUPNiwLlUyFDhYL+/bO40uoGyUwE7aeJlKdIpHXuGNstu+nWXxo/2TULbbDCzclJ4+ZAMyKSX4uWs2gK9Vm3/LrMVSiVT8/Qg0Vn2C8TNpMXMalWsYrkiaNDqkGHX+xZLw7pMlUP7OGXlMovr/ZiDbuiujAHqgqOTiUwO6VE7ggnQnXyLerE47DfTOjPfBpXF3DzOfRPcD1NY1x2k8sMdtD0JPBY61mW0T8lq3JRI93rNe8vJoTygTMFTS92J+JcuuzTlYoI/vUCn3AGrHIhKiCmdkT7n1ljIw7SP7xiY00wubuCwqiQSotPquZkZ/USuAy/VjyklAEtHyzTPDX2uCzAnE8gsAM1vtHb5QURkEqt6Oos/VetdOLc5WCkyuww1yT+hMt5d/sGxALtusUMg3DY7qewH1qqK3BFHHkv/vbV2KtCxVfJdeBk8OGBl1lHbZDwm3l13VhxMeAZpV3MUBuUhGQuHUaQpHw+5KnS1+eE0Tr93TUaiLfp6JTRQBLw94s/xqhne93s0TTegg+BA==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E42618A9350679448030016D2FFDF815@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1604997774-13593-1-git-send-email-macpaul.lin@mediatek.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7979.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2636498c-c62d-4c8a-6872-08d88557a193
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2020 09:04:29.0205
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fOBcWH04GTJs6qstun9tpEfvEQMngWHScQv7NaIapjCLNsoxWReESunCf1RZQuY32C8069nsGcswAgg36xZh4Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4492
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 04:42:54PM +0800, Macpaul Lin wrote:
-> The HUAWEI USB-C headset (VID:0x12d1, PID:0x3a07) reported it supports
-> 96khz. However there will be some random issue under 96khz.
-> Not sure if there is any alternate setting could be applied.
-> Hence 48khz is suggested to be applied at this moment.
-> 
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> Signed-off-by: Eddie Hung <eddie.hung@mediatek.com>
-> Cc: stable@vger.kernel.org
-> ---
-> Changes for v2:
->   - Fix build error.
->   - Add Cc: stable@vger.kernel.org
-> 
->  sound/usb/format.c |    6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/sound/usb/format.c b/sound/usb/format.c
-> index 1b28d01..7a4837b 100644
-> --- a/sound/usb/format.c
-> +++ b/sound/usb/format.c
-> @@ -202,6 +202,7 @@ static int parse_audio_format_rates_v1(struct snd_usb_audio *chip, struct audiof
->  		fp->rate_min = fp->rate_max = 0;
->  		for (r = 0, idx = offset + 1; r < nr_rates; r++, idx += 3) {
->  			unsigned int rate = combine_triple(&fmt[idx]);
-> +			struct usb_device *udev = chip->dev;
->  			if (!rate)
->  				continue;
->  			/* C-Media CM6501 mislabels its 96 kHz altsetting */
+On 20-11-06 12:42:51, Pawel Laszczak wrote:
+> - * Value of the strap pins.
+> + * Value of the strap pins for:
+> + * CDN3:
 
-Did you run this patch through checkpatch.pl?
+%/CDN3/CDNS3
 
+Peter
+>   * 000 - no default configuration
+>   * 010 - Controller initiall configured as Host
+>   * 100 - Controller initially configured as Device
+> + * CDNSP:
+> + * 000 - No default configuration.
+> + * 010 - Controller initiall configured as Host.
+> + * 100 - Controller initially configured as Device.
+>   */
+>  #define OTGSTS_STRAP(p)			(((p) & GENMASK(14, 12)) >> 12)
+>  #define OTGSTS_STRAP_NO_DEFAULT_CFG	0x00
+>  #define OTGSTS_STRAP_HOST_OTG		0x01
+>  #define OTGSTS_STRAP_HOST		0x02
+>  #define OTGSTS_STRAP_GADGET		0x04
+> +#define OTGSTS_CDNSP_STRAP_HOST		0x01
+> +#define OTGSTS_CDNSP_STRAP_GADGET	0x02
+> +
+>  /* Host mode is turned on. */
+> -#define OTGSTS_XHCI_READY		BIT(26)
+> +#define OTGSTS_CDNS3_XHCI_READY		BIT(26)
+> +#define OTGSTS_CDNSP_XHCI_READY		BIT(27)
+> +
+>  /* "Device mode is turned on .*/
+> -#define OTGSTS_DEV_READY		BIT(27)
+> +#define OTGSTS_CDNS3_DEV_READY		BIT(27)
+> +#define OTGSTS_CDNSP_DEV_READY		BIT(26)
+> =20
+>  /* OTGSTATE- bitmasks */
+>  #define OTGSTATE_DEV_STATE_MASK		GENMASK(2, 0)
+> @@ -152,6 +194,8 @@ struct cdns3_otg_common_regs {
+>  #define OVERRIDE_IDPULLUP		BIT(0)
+>  /* Only for CDNS3_CONTROLLER_V0 version */
+>  #define OVERRIDE_IDPULLUP_V0		BIT(24)
+> +/* Vbusvalid/Sesvalid override select. */
+> +#define OVERRIDE_SESS_VLD_SEL		BIT(10)
+> =20
+>  /* PHYRST_CFG - bitmasks */
+>  #define PHYRST_CFG_PHYRST_A_ENABLE     BIT(0)
+> @@ -170,6 +214,5 @@ int cdns3_drd_gadget_on(struct cdns3 *cdns);
+>  void cdns3_drd_gadget_off(struct cdns3 *cdns);
+>  int cdns3_drd_host_on(struct cdns3 *cdns);
+>  void cdns3_drd_host_off(struct cdns3 *cdns);
+> -int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode);
+> =20
+>  #endif /* __LINUX_CDNS3_DRD */
+> --=20
+> 2.17.1
+>=20
+
+--=20
+
+Thanks,
+Peter Chen=
