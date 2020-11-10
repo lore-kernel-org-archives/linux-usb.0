@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CAEAC4741F
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F50C4741F
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD7AF20789
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:38:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F7DC206D8
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730733AbgKJAit (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 19:38:49 -0500
+        id S1731192AbgKJAjA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 Nov 2020 19:39:00 -0500
 Received: from mga04.intel.com ([192.55.52.120]:25963 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730608AbgKJAis (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 9 Nov 2020 19:38:48 -0500
-IronPort-SDR: dFMXm2GE5FHXUWhkCiaOtLJEqlUscMM803h7GIdYgCr/ThiTaBoVpPb8tR9iUY/ZGQZHfXnsST
- K4cto56jIipA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167308563"
+        id S1731115AbgKJAi7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 9 Nov 2020 19:38:59 -0500
+IronPort-SDR: yK5iQr4Kw7DEnmET5ukiH0HgIYPEQegBgk5CrLuTuxftEkcyafwrKqW2dIXw2qQ6ByI/zmLCQv
+ 0hiVUy/S+myg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167308616"
 X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="167308563"
+   d="scan'208";a="167308616"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 16:38:48 -0800
-IronPort-SDR: 8+NyTaOfgOqfj3dSponRGgWOUyPbqwLPWrxFYMIP3BIM+0VuP4bODYMzSh+olKTJjaxzAuktwS
- Xne/VfvlYHzw==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 16:38:55 -0800
+IronPort-SDR: Fll814JwIQALSl+wpFokCLz5V0TOSBTozvUSSixxMgTKVHOtrRXJQdWC92ycZ0X2RnKysrwKD+
+ xtrXMCuDPDBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="354312344"
+   d="scan'208";a="354312366"
 Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
-  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2020 16:38:48 -0800
+  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2020 16:38:54 -0800
 From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
         enric.balletbo@collabora.com, rajmohan.mani@intel.com,
         azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH 3/8] usb: typec: intel_pmc_mux: Configure Thunderbolt cable generation bits
-Date:   Mon,  9 Nov 2020 16:37:11 -0800
-Message-Id: <20201110003716.5164-4-utkarsh.h.patel@intel.com>
+Subject: [PATCH 6/8] platform/chrome: cros_ec_typec: Use Thunderbolt 3 cable discover mode VDO in USB4 mode
+Date:   Mon,  9 Nov 2020 16:37:14 -0800
+Message-Id: <20201110003716.5164-7-utkarsh.h.patel@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
 References: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
@@ -50,36 +50,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Thunderbolt cable generation bits received as a part of Thunderbolt 3 cable
-discover mode VDO needs to be configured for Thunderbolt rounded and
-non-rounded cable support in the Thunderbolt alternate mode.
+Configure Thunderbolt3/USB4 cable generation value by filing Thunderbolt 3
+cable discover mode VDO to support rounded and non-rounded Thunderbolt3/
+USB4 cables.
+While we are here use Thunderbolt 3 cable discover mode VDO to fill active
+cable plug link training value.
 
+Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
 ---
- drivers/usb/typec/mux/intel_pmc_mux.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/platform/chrome/cros_ec_typec.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
-index d7f63b74c6b1..aa3211f1c4c3 100644
---- a/drivers/usb/typec/mux/intel_pmc_mux.c
-+++ b/drivers/usb/typec/mux/intel_pmc_mux.c
-@@ -256,6 +256,7 @@ static int
- pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
- {
- 	struct typec_thunderbolt_data *data = state->data;
-+	u8 cable_rounded = TBT_CABLE_ROUNDED_SUPPORT(data->cable_mode);
- 	u8 cable_speed = TBT_CABLE_SPEED(data->cable_mode);
- 	struct altmode_req req = { };
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 8111ed1fc574..b7416e82c3b3 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -514,8 +514,18 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
+ 	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
+ 		data.eudo |= EUDO_CABLE_TYPE_RE_TIMER << EUDO_CABLE_TYPE_SHIFT;
  
-@@ -284,6 +285,8 @@ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
- 
- 	req.mode_data |= PMC_USB_ALTMODE_CABLE_SPD(cable_speed);
- 
-+	req.mode_data |= PMC_USB_ALTMODE_TBT_GEN(cable_rounded);
+-	data.active_link_training = !!(pd_ctrl->control_flags &
+-				       USB_PD_CTRL_ACTIVE_LINK_UNIDIR);
++	/*
++	 * This driver does not have access to the identity information or
++	 * capabilities of the cable, so we don't know is it a real USB4 or
++	 * TBT3 cable. Therefore pretending that it's always TBT3 cable by
++	 * filling the TBT3 Cable VDO.
++	 */
++	data.tbt_cable_vdo = TBT_MODE;
 +
- 	return pmc_usb_command(port, (void *)&req, sizeof(req));
- }
++	if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_LINK_UNIDIR)
++		data.tbt_cable_vdo |= TBT_CABLE_LINK_TRAINING;
++
++	data.tbt_cable_vdo |= TBT_SET_CABLE_ROUNDED(pd_ctrl->cable_gen);
  
+ 	port->state.alt = NULL;
+ 	port->state.data = &data;
 -- 
 2.17.1
 
