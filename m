@@ -2,129 +2,242 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F57C388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 04:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4380C388F7
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 06:15:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76A432068D
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 04:09:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 570A520795
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 06:15:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrw9qPnE"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q//nWbDM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731194AbgKJEJI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 23:09:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53954 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731692AbgKJDxc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 9 Nov 2020 22:53:32 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0FACD207BC;
-        Tue, 10 Nov 2020 03:53:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604980410;
-        bh=wxReGi6HVGFdUbh0Mok77vUSY+a2MBXG85WHU4GVGms=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jrw9qPnEMCsnIH8R8uWd9FSjFkrmNln4FeBoEXCbVoWu5YD19rEw60NiwUW29FhMl
-         RWib5vCzqESCfawPb/ysO+DMvOJrbeus0tSPqk1TrnD+Kbl72x9ItrtABO8l0H8103
-         yfOyuOBMRZTqnf5+WSH9iJ1/dM/tkIKK/+lVJaCs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zqiang <qiang.zhang@windriver.com>,
-        syzbot+bd38200f53df6259e6bf@syzkaller.appspotmail.com,
-        Felipe Balbi <balbi@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 08/55] usb: raw-gadget: fix memory leak in gadget_setup
-Date:   Mon,  9 Nov 2020 22:52:31 -0500
-Message-Id: <20201110035318.423757-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201110035318.423757-1-sashal@kernel.org>
-References: <20201110035318.423757-1-sashal@kernel.org>
+        id S1728045AbgKJGPs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 01:15:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40484 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727089AbgKJGPr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Nov 2020 01:15:47 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9FFC0613CF
+        for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2020 22:15:47 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id i13so4480494pgm.9
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2020 22:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LCjaa2+ZDzyMpp6rXWIBgooM2TUDsF7cGfUV06VXLIQ=;
+        b=Q//nWbDM7rB33p5BDxBDwYhPt+E2lvFctSHuFsv4XgW5esX7EwMB2z3enN3ARlkvA/
+         h0RWtNah+ZfkNQv68Zhl9X/zvx4vM8HIAO1WaK+BRCtURckCOA1aH0J7emwHeScNzjMB
+         TO+1Y4bgPoL7qx42nXJQxkRcv2jCBgqMXt/wY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LCjaa2+ZDzyMpp6rXWIBgooM2TUDsF7cGfUV06VXLIQ=;
+        b=gY/o4xufjBqAuka/15/bIZCZ0VJbJKxSnI6r281iE0uoYqKbNJeaNXjxDl+GRZ799j
+         wDtvKyn+KP6PFmuUseh//KrOGyAXXKP7jSOJamhuO8geN3XaT/vvrCReFUPfM1A/RP/P
+         4FgSFx8snFTLLhDltyiUNpO5diCING48+1E/XTkUxTPy0g1PIjtP/q6rz8CBvKMpUc4F
+         KbIlm3EUtz68jy24d1lyaxY5Ktt+CaQhjfWWeAz7aL4SJFX+s2WJT+WaU+Rmem9Ssa7P
+         piW8ND6HSZ4CqFdOZKh3l8H1tvvELJyaf31WR6K0GEXF/9e3lCSnHd+f/7KT4FEdhCwN
+         cbaQ==
+X-Gm-Message-State: AOAM530ZuZ8gLjPfEjpIsQHUCJQVaapApjB3bTDDv1jFoaxMMcOuh0Hc
+        wii+KHR4Jx1yZ2dXctmgDnO9ww==
+X-Google-Smtp-Source: ABdhPJxBLQdt29k4/3op2GxtMZs7G0IH6QrJy72JpIt3FwQNDvQJ0isZGLLaR0RU2nSUU4qAmPZECQ==
+X-Received: by 2002:a17:90a:bb8b:: with SMTP id v11mr3346952pjr.57.1604988946611;
+        Mon, 09 Nov 2020 22:15:46 -0800 (PST)
+Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
+        by smtp.gmail.com with ESMTPSA id gw10sm1499932pjb.24.2020.11.09.22.15.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 22:15:45 -0800 (PST)
+From:   Prashant Malani <pmalani@chromium.org>
+To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>
+Subject: [PATCH v2 1/2] usb: typec: Add number of altmodes partner attr
+Date:   Mon,  9 Nov 2020 22:15:34 -0800
+Message-Id: <20201110061535.2163599-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Zqiang <qiang.zhang@windriver.com>
+Add a user-visible attribute for the number of alternate modes available
+in a partner. This allows userspace to determine whether there are any
+remaining alternate modes left to be registered by the kernel driver. It
+can begin executing any policy state machine after all available
+alternate modes have been registered with the connector class framework.
 
-[ Upstream commit 129aa9734559a17990ee933351c7b6956f1dba62 ]
+This value is set to "-1" initially, signifying that a valid number of
+alternate modes haven't been set for the partner.
 
-When fetch 'event' from event queue, after copy its address
-space content to user space, the 'event' the memory space
-pointed to by the 'event' pointer need be freed.
+Also add a sysfs file which exposes this attribute. The file remains
+hidden as long as the attribute value is -1.
 
-BUG: memory leak
-unreferenced object 0xffff888110622660 (size 32):
-  comm "softirq", pid 0, jiffies 4294941981 (age 12.480s)
-  hex dump (first 32 bytes):
-    02 00 00 00 08 00 00 00 80 06 00 01 00 00 40 00  ..............@.
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000efd29abd>] kmalloc include/linux/slab.h:554 [inline]
-    [<00000000efd29abd>] raw_event_queue_add drivers/usb/gadget/legacy/raw_gadget.c:66 [inline]
-    [<00000000efd29abd>] raw_queue_event drivers/usb/gadget/legacy/raw_gadget.c:225 [inline]
-    [<00000000efd29abd>] gadget_setup+0xf6/0x220 drivers/usb/gadget/legacy/raw_gadget.c:343
-    [<00000000952c4a46>] dummy_timer+0xb9f/0x14c0 drivers/usb/gadget/udc/dummy_hcd.c:1899
-    [<0000000074ac2c54>] call_timer_fn+0x38/0x200 kernel/time/timer.c:1415
-    [<00000000560a3a79>] expire_timers kernel/time/timer.c:1460 [inline]
-    [<00000000560a3a79>] __run_timers.part.0+0x319/0x400 kernel/time/timer.c:1757
-    [<000000009d9503d0>] __run_timers kernel/time/timer.c:1738 [inline]
-    [<000000009d9503d0>] run_timer_softirq+0x3d/0x80 kernel/time/timer.c:1770
-    [<000000009df27c89>] __do_softirq+0xcc/0x2c2 kernel/softirq.c:298
-    [<000000007a3f1a47>] asm_call_irq_on_stack+0xf/0x20
-    [<000000004a62cc2e>] __run_on_irqstack arch/x86/include/asm/irq_stack.h:26 [inline]
-    [<000000004a62cc2e>] run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:77 [inline]
-    [<000000004a62cc2e>] do_softirq_own_stack+0x32/0x40 arch/x86/kernel/irq_64.c:77
-    [<00000000b0086800>] invoke_softirq kernel/softirq.c:393 [inline]
-    [<00000000b0086800>] __irq_exit_rcu kernel/softirq.c:423 [inline]
-    [<00000000b0086800>] irq_exit_rcu+0x91/0xc0 kernel/softirq.c:435
-    [<00000000175f9523>] sysvec_apic_timer_interrupt+0x36/0x80 arch/x86/kernel/apic/apic.c:1091
-    [<00000000a348e847>] asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:631
-    [<0000000060661100>] native_safe_halt arch/x86/include/asm/irqflags.h:60 [inline]
-    [<0000000060661100>] arch_safe_halt arch/x86/include/asm/irqflags.h:103 [inline]
-    [<0000000060661100>] acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
-    [<0000000060661100>] acpi_idle_do_entry+0xc3/0xd0 drivers/acpi/processor_idle.c:517
-    [<000000003f413b99>] acpi_idle_enter+0x128/0x1f0 drivers/acpi/processor_idle.c:648
-    [<00000000f5e5afb8>] cpuidle_enter_state+0xc9/0x650 drivers/cpuidle/cpuidle.c:237
-    [<00000000d50d51fc>] cpuidle_enter+0x29/0x40 drivers/cpuidle/cpuidle.c:351
-    [<00000000d674baed>] call_cpuidle kernel/sched/idle.c:132 [inline]
-    [<00000000d674baed>] cpuidle_idle_call kernel/sched/idle.c:213 [inline]
-    [<00000000d674baed>] do_idle+0x1c8/0x250 kernel/sched/idle.c:273
-
-Reported-by: syzbot+bd38200f53df6259e6bf@syzkaller.appspotmail.com
-Signed-off-by: Zqiang <qiang.zhang@windriver.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
- drivers/usb/gadget/legacy/raw_gadget.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
-index e01e366d89cd5..062dfac303996 100644
---- a/drivers/usb/gadget/legacy/raw_gadget.c
-+++ b/drivers/usb/gadget/legacy/raw_gadget.c
-@@ -564,9 +564,12 @@ static int raw_ioctl_event_fetch(struct raw_dev *dev, unsigned long value)
- 		return -ENODEV;
- 	}
- 	length = min(arg.length, event->length);
--	if (copy_to_user((void __user *)value, event, sizeof(*event) + length))
-+	if (copy_to_user((void __user *)value, event, sizeof(*event) + length)) {
-+		kfree(event);
- 		return -EFAULT;
-+	}
+Changes in v2:
+- Added ABI/testing documentation entry for added sysfs file.
+- Changed name of the sysfs file to "number_of_alternate_modes" based on
+  review comments.
+- Added is_visible() logic suggested by Heikki in the comments of v1.
+- Updated commit message.
+
+v1:
+https://lore.kernel.org/lkml/20200701003149.3101219-1-pmalani@chromium.org/
+
+ Documentation/ABI/testing/sysfs-class-typec |  8 +++
+ drivers/usb/typec/class.c                   | 66 ++++++++++++++++++++-
+ include/linux/usb/typec.h                   |  1 +
+ 3 files changed, 74 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+index b834671522d6..73ac7b461ae5 100644
+--- a/Documentation/ABI/testing/sysfs-class-typec
++++ b/Documentation/ABI/testing/sysfs-class-typec
+@@ -134,6 +134,14 @@ Description:
+ 		Shows if the partner supports USB Power Delivery communication:
+ 		Valid values: yes, no
  
-+	kfree(event);
- 	return 0;
++What:		/sys/class/typec/<port>-partner/number_of_alternate_modes
++Date:		November 2020
++Contact:	Prashant Malani <pmalani@chromium.org>
++Description:
++		Shows the number of alternate modes which are advertised by the partner
++		during Power Delivery discovery. This file remains hidden until a value
++		greater than or equal to 0 is set by Type C port driver.
++
+ What:		/sys/class/typec/<port>-partner>/identity/
+ Date:		April 2017
+ Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 35eec707cb51..c7412ddbd311 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -33,6 +33,7 @@ struct typec_partner {
+ 	struct usb_pd_identity		*identity;
+ 	enum typec_accessory		accessory;
+ 	struct ida			mode_ids;
++	int				num_altmodes;
+ };
+ 
+ struct typec_port {
+@@ -532,12 +533,43 @@ static ssize_t supports_usb_power_delivery_show(struct device *dev,
  }
+ static DEVICE_ATTR_RO(supports_usb_power_delivery);
  
++static ssize_t number_of_alternate_modes_show(struct device *dev, struct device_attribute *attr,
++					      char *buf)
++{
++	struct typec_partner *p = to_typec_partner(dev);
++
++	return sysfs_emit(buf, "%d\n", p->num_altmodes);
++}
++static DEVICE_ATTR_RO(number_of_alternate_modes);
++
+ static struct attribute *typec_partner_attrs[] = {
+ 	&dev_attr_accessory_mode.attr,
+ 	&dev_attr_supports_usb_power_delivery.attr,
++	&dev_attr_number_of_alternate_modes.attr,
++	NULL
++};
++
++static umode_t typec_partner_attr_is_visible(struct kobject *kobj, struct attribute *attr, int n)
++{
++	struct typec_partner *partner = to_typec_partner(kobj_to_dev(kobj));
++
++	if (attr == &dev_attr_number_of_alternate_modes.attr) {
++		if (partner->num_altmodes < 0)
++			return 0;
++	}
++
++	return attr->mode;
++}
++
++static struct attribute_group typec_partner_group = {
++	.is_visible = typec_partner_attr_is_visible,
++	.attrs = typec_partner_attrs
++};
++
++static const struct attribute_group *typec_partner_groups[] = {
++	&typec_partner_group,
+ 	NULL
+ };
+-ATTRIBUTE_GROUPS(typec_partner);
+ 
+ static void typec_partner_release(struct device *dev)
+ {
+@@ -570,6 +602,37 @@ int typec_partner_set_identity(struct typec_partner *partner)
+ }
+ EXPORT_SYMBOL_GPL(typec_partner_set_identity);
+ 
++/**
++ * typec_partner_set_num_altmodes - Set the number of available partner altmodes
++ * @partner: The partner to be updated.
++ * @num_alt_modes: The number of altmodes we want to specify as available.
++ *
++ * This routine is used to report the number of alternate modes supported by the
++ * partner. This value is *not* enforced in alternate mode registration routines.
++ *
++ * @partner.num_altmodes is set to -1 on partner registration, denoting that
++ * a valid value has not been set for it yet.
++ *
++ * Returns 0 on success or negative error number on failure.
++ */
++int typec_partner_set_num_altmodes(struct typec_partner *partner, int num_altmodes)
++{
++	int ret;
++
++	if (num_altmodes < 0)
++		return -EINVAL;
++
++	partner->num_altmodes = num_altmodes;
++	ret = sysfs_update_group(&partner->dev.kobj, &typec_partner_group);
++	if (ret < 0)
++		return ret;
++
++	sysfs_notify(&partner->dev.kobj, NULL, "number_of_alternate_modes");
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(typec_partner_set_num_altmodes);
++
+ /**
+  * typec_partner_register_altmode - Register USB Type-C Partner Alternate Mode
+  * @partner: USB Type-C Partner that supports the alternate mode
+@@ -612,6 +675,7 @@ struct typec_partner *typec_register_partner(struct typec_port *port,
+ 	ida_init(&partner->mode_ids);
+ 	partner->usb_pd = desc->usb_pd;
+ 	partner->accessory = desc->accessory;
++	partner->num_altmodes = -1;
+ 
+ 	if (desc->identity) {
+ 		/*
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 6be558045942..bc6b1a71cb8a 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -126,6 +126,7 @@ struct typec_altmode_desc {
+ 	enum typec_port_data	roles;
+ };
+ 
++int typec_partner_set_num_altmodes(struct typec_partner *partner, int num_altmodes);
+ struct typec_altmode
+ *typec_partner_register_altmode(struct typec_partner *partner,
+ 				const struct typec_altmode_desc *desc);
 -- 
-2.27.0
+2.29.2.222.g5d2a92d10f8-goog
 
