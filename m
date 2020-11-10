@@ -2,106 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B55D6C388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 08:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD2F1C5517A
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 08:54:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 690492080A
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 08:43:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 754B02080A
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 08:54:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="KH2H+LIQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728905AbgKJInS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Nov 2020 03:43:18 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:51798 "EHLO
+        id S1729382AbgKJIym (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 03:54:42 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:60756 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726462AbgKJInP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Nov 2020 03:43:15 -0500
-X-UUID: 9a49a4eb747a4336a1463e66c6adc991-20201110
-X-UUID: 9a49a4eb747a4336a1463e66c6adc991-20201110
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw01.mediatek.com
+        with ESMTP id S1726213AbgKJIym (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Nov 2020 03:54:42 -0500
+X-UUID: a18501082d5a479dacaa74d1972b3a74-20201110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=busI8tzaIjOQfi9V2ZmeWHinzielzkKRRHvJYt8BzSk=;
+        b=KH2H+LIQukKINWY+XXSHqBPD93HBiZy5h4WIjX0APcCqh1576xUKNyIYc8c3gBV5H8IVRlcDUrur21gBgUsIoRZuv8R3Nx8BSPyZtpB7QzrrCmvm1vtJZLjfaSSLzt0GsHqncLwxzJmT6Ns7oen/gKA3S0mLt7T+3VNDVXKud3I=;
+X-UUID: a18501082d5a479dacaa74d1972b3a74-20201110
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
         (envelope-from <macpaul.lin@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 750161777; Tue, 10 Nov 2020 16:43:11 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 10 Nov 2020 16:43:08 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
+        with ESMTP id 1981452464; Tue, 10 Nov 2020 16:54:37 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 10 Nov 2020 16:54:30 +0800
+Received: from [172.21.77.33] (172.21.77.33) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 10 Nov 2020 16:43:09 +0800
+ Transport; Tue, 10 Nov 2020 16:54:30 +0800
+Message-ID: <1604998469.2817.3.camel@mtkswgap22>
+Subject: Re: [PATCH v2] ALSA: usb-audio: disable 96khz support for HUAWEI
+ USB-C HEADSET
 From:   Macpaul Lin <macpaul.lin@mediatek.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+To:     Greg KH <greg@kroah.com>
+CC:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Alexander Tsoy <alexander@tsoy.me>,
         Nicola Lunghi <nick83ola@gmail.com>,
-        Christopher Swenson <swenson@swenson.io>,
+        "Christopher Swenson" <swenson@swenson.io>,
         Nick Kossifidis <mickflemm@gmail.com>,
-        <alsa-devel@alsa-project.org>
-CC:     Ainge Hsu <ainge.hsu@mediatek.com>,
+        <alsa-devel@alsa-project.org>, Ainge Hsu <ainge.hsu@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Macpaul Lin <macpaul.lin@mediatek.com>,
         Macpaul Lin <macpaul@gmail.com>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
         <stable@vger.kernel.org>
-Subject: [PATCH v2] ALSA: usb-audio: disable 96khz support for HUAWEI USB-C HEADSET
-Date:   Tue, 10 Nov 2020 16:42:54 +0800
-Message-ID: <1604997774-13593-1-git-send-email-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1604995443-30453-1-git-send-email-macpaul.lin@mediatek.com>
+Date:   Tue, 10 Nov 2020 16:54:29 +0800
+In-Reply-To: <X6pUaatZ7aML4sKq@kroah.com>
 References: <1604995443-30453-1-git-send-email-macpaul.lin@mediatek.com>
+         <1604997774-13593-1-git-send-email-macpaul.lin@mediatek.com>
+         <X6pUaatZ7aML4sKq@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-Content-Type: text/plain
+X-TM-SNTS-SMTP: 6DB580D9FD98F3A3017B4D3065C7D004E39255AD44F7F8ECCD7CD23B23672D3B2000:8
 X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The HUAWEI USB-C headset (VID:0x12d1, PID:0x3a07) reported it supports
-96khz. However there will be some random issue under 96khz.
-Not sure if there is any alternate setting could be applied.
-Hence 48khz is suggested to be applied at this moment.
-
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-Signed-off-by: Eddie Hung <eddie.hung@mediatek.com>
-Cc: stable@vger.kernel.org
----
-Changes for v2:
-  - Fix build error.
-  - Add Cc: stable@vger.kernel.org
-
- sound/usb/format.c |    6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 1b28d01..7a4837b 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -202,6 +202,7 @@ static int parse_audio_format_rates_v1(struct snd_usb_audio *chip, struct audiof
- 		fp->rate_min = fp->rate_max = 0;
- 		for (r = 0, idx = offset + 1; r < nr_rates; r++, idx += 3) {
- 			unsigned int rate = combine_triple(&fmt[idx]);
-+			struct usb_device *udev = chip->dev;
- 			if (!rate)
- 				continue;
- 			/* C-Media CM6501 mislabels its 96 kHz altsetting */
-@@ -217,6 +218,11 @@ static int parse_audio_format_rates_v1(struct snd_usb_audio *chip, struct audiof
- 			    (chip->usb_id == USB_ID(0x041e, 0x4064) ||
- 			     chip->usb_id == USB_ID(0x041e, 0x4068)))
- 				rate = 8000;
-+			/* Huawei headset can't support 96kHz fully */
-+			if (rate == 96000 &&
-+			    chip->usb_id == USB_ID(0x12d1, 0x3a07) &&
-+			    le16_to_cpu(udev->descriptor.bcdDevice) == 0x49)
-+				continue;
- 
- 			fp->rate_table[fp->nr_rates] = rate;
- 			if (!fp->rate_min || rate < fp->rate_min)
--- 
-1.7.9.5
+T24gVHVlLCAyMDIwLTExLTEwIGF0IDA5OjUwICswMTAwLCBHcmVnIEtIIHdyb3RlOg0KPiBPbiBU
+dWUsIE5vdiAxMCwgMjAyMCBhdCAwNDo0Mjo1NFBNICswODAwLCBNYWNwYXVsIExpbiB3cm90ZToN
+Cj4gPiBUaGUgSFVBV0VJIFVTQi1DIGhlYWRzZXQgKFZJRDoweDEyZDEsIFBJRDoweDNhMDcpIHJl
+cG9ydGVkIGl0IHN1cHBvcnRzDQo+ID4gOTZraHouIEhvd2V2ZXIgdGhlcmUgd2lsbCBiZSBzb21l
+IHJhbmRvbSBpc3N1ZSB1bmRlciA5Nmtoei4NCj4gPiBOb3Qgc3VyZSBpZiB0aGVyZSBpcyBhbnkg
+YWx0ZXJuYXRlIHNldHRpbmcgY291bGQgYmUgYXBwbGllZC4NCj4gPiBIZW5jZSA0OGtoeiBpcyBz
+dWdnZXN0ZWQgdG8gYmUgYXBwbGllZCBhdCB0aGlzIG1vbWVudC4NCj4gPiANCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBNYWNwYXVsIExpbiA8bWFjcGF1bC5saW5AbWVkaWF0ZWsuY29tPg0KPiA+IFNpZ25l
+ZC1vZmYtYnk6IEVkZGllIEh1bmcgPGVkZGllLmh1bmdAbWVkaWF0ZWsuY29tPg0KPiA+IENjOiBz
+dGFibGVAdmdlci5rZXJuZWwub3JnDQo+ID4gLS0tDQo+ID4gQ2hhbmdlcyBmb3IgdjI6DQo+ID4g
+ICAtIEZpeCBidWlsZCBlcnJvci4NCj4gPiAgIC0gQWRkIENjOiBzdGFibGVAdmdlci5rZXJuZWwu
+b3JnDQo+ID4gDQo+ID4gIHNvdW5kL3VzYi9mb3JtYXQuYyB8ICAgIDYgKysrKysrDQo+ID4gIDEg
+ZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvc291
+bmQvdXNiL2Zvcm1hdC5jIGIvc291bmQvdXNiL2Zvcm1hdC5jDQo+ID4gaW5kZXggMWIyOGQwMS4u
+N2E0ODM3YiAxMDA2NDQNCj4gPiAtLS0gYS9zb3VuZC91c2IvZm9ybWF0LmMNCj4gPiArKysgYi9z
+b3VuZC91c2IvZm9ybWF0LmMNCj4gPiBAQCAtMjAyLDYgKzIwMiw3IEBAIHN0YXRpYyBpbnQgcGFy
+c2VfYXVkaW9fZm9ybWF0X3JhdGVzX3YxKHN0cnVjdCBzbmRfdXNiX2F1ZGlvICpjaGlwLCBzdHJ1
+Y3QgYXVkaW9mDQo+ID4gIAkJZnAtPnJhdGVfbWluID0gZnAtPnJhdGVfbWF4ID0gMDsNCj4gPiAg
+CQlmb3IgKHIgPSAwLCBpZHggPSBvZmZzZXQgKyAxOyByIDwgbnJfcmF0ZXM7IHIrKywgaWR4ICs9
+IDMpIHsNCj4gPiAgCQkJdW5zaWduZWQgaW50IHJhdGUgPSBjb21iaW5lX3RyaXBsZSgmZm10W2lk
+eF0pOw0KPiA+ICsJCQlzdHJ1Y3QgdXNiX2RldmljZSAqdWRldiA9IGNoaXAtPmRldjsNCj4gPiAg
+CQkJaWYgKCFyYXRlKQ0KPiA+ICAJCQkJY29udGludWU7DQo+ID4gIAkJCS8qIEMtTWVkaWEgQ002
+NTAxIG1pc2xhYmVscyBpdHMgOTYga0h6IGFsdHNldHRpbmcgKi8NCj4gDQo+IERpZCB5b3UgcnVu
+IHRoaXMgcGF0Y2ggdGhyb3VnaCBjaGVja3BhdGNoLnBsPw0KPiANCg0KSSd2ZSByYW4gY2hlY2tw
+YXRjaCBmb3IgdGhpcyBwYXRjaCB2MiwgYW5kIGl0IHNob3duDQoidG90YWw6IDAgZXJyb3JzLCAw
+IHdhcm5pbmdzIi4gV2UncmUgdXNpbmcgNS45LXJjMSBpbnRlcm5hbC4NCg0KSG93ZXZlciwgSSds
+bCBzZW5kIHBhdGNoIHYzIGFjY29yZGluZyB0byBUYWthc2hpJ3Mgc3VnZ2VzdGlvbi4NCg0KVGhh
+bmtzDQpNYWNwYXVsIExpbg0K
 
