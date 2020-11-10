@@ -2,85 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B102C4741F
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A26C2D0A3
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 02:28:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04EA020789
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9754B206D8
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 02:28:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A1HUlEtA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730249AbgKJAip (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 19:38:45 -0500
-Received: from mga04.intel.com ([192.55.52.120]:25963 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727311AbgKJAip (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 9 Nov 2020 19:38:45 -0500
-IronPort-SDR: +8RFbWz5M5zT6QGvTAYZU5254bHlLCwvqXU25vmSnsA4PDp5mxc0TaqexNH6+PxrzF0tH02hTw
- IHof8TZcf/rA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167308557"
-X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="167308557"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 16:38:44 -0800
-IronPort-SDR: V7L5k+e9r2CLbh30vomy9O2Tgbe0B4Bho+LcG2x6nM28dNscpaCQQBT/1gaui0RxYdoW2dEFYe
- uHMJskG2l9tQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="354312328"
-Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
-  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2020 16:38:44 -0800
-From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
-        enric.balletbo@collabora.com, rajmohan.mani@intel.com,
-        azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH 1/8] usb: typec: Correct the bit values for the Thunderbolt rounded/non-rounded cable support
-Date:   Mon,  9 Nov 2020 16:37:09 -0800
-Message-Id: <20201110003716.5164-2-utkarsh.h.patel@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
-References: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
+        id S1729336AbgKJC2P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 Nov 2020 21:28:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727311AbgKJC2P (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 Nov 2020 21:28:15 -0500
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841F5C0613CF;
+        Mon,  9 Nov 2020 18:28:15 -0800 (PST)
+Received: by mail-io1-xd44.google.com with SMTP id n129so12074659iod.5;
+        Mon, 09 Nov 2020 18:28:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=keYF4CkgxzM1pesky08YWn1U5fRMi55bwI9myTqfa/U=;
+        b=A1HUlEtAojTRba+JWBSh6M5Xdhez3Q1OvSMAOSpYW3rjeKA70euFOGo/ncD2l69gPJ
+         a5nHSD3s9GgjnXKmijeWT1YdOh2NiDod7oBqRiSPb+ykJM7RNK1EAxc2tzRfzC8R2SFA
+         /L4YlOoE3zb9lBTg/hYUY3xCCIw4iQ7S2VvDY0nQLaHiR5eGqyYQ1NbgeDJRpigpLVXz
+         Ux2FWSv8yYa+KVwKmaVxf4je9mDJyBCnDY8F2qIxDkqnMQ+5dObw7TXqhBIDqGH2PcB9
+         /DKOTj6vasZ5f1D5mkqCduukNOfo4zSFwIPcb4NYM3n8GGUyeMkzWjc9+ML8aMTiewhz
+         ojGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=keYF4CkgxzM1pesky08YWn1U5fRMi55bwI9myTqfa/U=;
+        b=LR1wpUVzNPxEDuOR0/+XLD4hrY9oR84SRZmjEcShdfUicDUW/yCClST+d63n9Cm/i8
+         qNNE5oNocnlJGrjVMUcdm8823tg//Tk+oVp2JCxF2OWbpToZsYZTriMsRojx2QDgW1zw
+         6PH+lmTp4rBX7pOfZJ5nMxQF4iRRh0LhpjTFKh+38EhURcYS8J6g1Frx12IPE5zI8Eg0
+         +9VJ6PHe+G8WEizOQHwPSaHc0dkq8su+Q5yr5/4cG+JJ61ec0WR9N/eEfycIE/h1djUG
+         LfFItXxCflNxxrVCv5qZb8ll2/u8Am0ZG8j637R0OtUsjA3xs7ruvjvi2XsJBAUcwJ/8
+         b7Mg==
+X-Gm-Message-State: AOAM530OcbmLLGr/Zo0Cua8HujJPkLHoLWYwlKenqzJCL+4VuZfrQh1j
+        gzMAVb5fUSpSBj7k6QD2RNjiJ9dTC2+inB/1q6liRrhDrdFN+Y/K
+X-Google-Smtp-Source: ABdhPJxDwrptMszZuKk2HnOQoODlBjgh6e630cLHfANreTNmB2DtR2JbwwGbwINv7gukrkuDGa/4uKyWHpXngx6bsiY=
+X-Received: by 2002:a5d:9842:: with SMTP id p2mr12619519ios.113.1604975295009;
+ Mon, 09 Nov 2020 18:28:15 -0800 (PST)
+MIME-Version: 1.0
+From:   app l <lipc198702@gmail.com>
+Date:   Tue, 10 Nov 2020 10:28:04 +0800
+Message-ID: <CAGaOi3Z5ezAiBB4-YxUa+so1s=PnVzVsfw9rAs3CGKExJHD-ow@mail.gmail.com>
+Subject: Question: gadget: How to realize uvc and uac composite function?
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rounded and non-rounded Thunderbolt cables are represented by two bits as
-per USB Type-C Connector specification v2.0 section F.2.6.
-Corrected that in the Thunderbolt 3 cable discover mode VDO.
+Hi,
+Version: 4.9 and uac1 driver is V5.9. I tested it based on 4.9 with
+backported dwc3 driver frome v5.9.
+1. According to configfs-usb-gadget-uvc, PC(Windows 10) can get ISO
+data normally;
+2. According to configfs-usb-gadget-uac1, PC(Windows 10) can  install
+audio driver normally(AC Interface,/Captue Input terminal/Speaker);
+3=E3=80=81uvc+uac1 composite device, PC(Windows 10) can get ISO data normal=
+ly,
+but PC shows that the uac1 driver installation failed(AC
+Interface/Capture Inactive/Playback Inactive). AC Interface/Capture
+Inactive/Playback Inactive all show the device cannot start code 10,
+The settings of the I/O device are incorrect or the configuration
+parameters of the driver are incorrect. Through the USB analyzer to
+capture the packet, I found that the Index value seems to be wrong
+when PC host to get the descriptor. The acquisition is Playback
+Inactive and Capture Inactive, and the PC did not send the command
+packet about uac1. It is difficult to debug it.
+I suspect that some parts of the uac1 descriptor need to be modified,
+but I don=E2=80=99t know which one to modify.
+I sincerely hope that everyone can give some suggestions or related
+patches to help me. Thanks very much!
 
-Fixes: ca469c292edc ("usb: typec: Add definitions for Thunderbolt 3 Alternate Mode")
-Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
----
- include/linux/usb/typec_tbt.h | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
-index 47c2d501ddce..aad648d14bb3 100644
---- a/include/linux/usb/typec_tbt.h
-+++ b/include/linux/usb/typec_tbt.h
-@@ -40,11 +40,16 @@ struct typec_thunderbolt_data {
- #define   TBT_CABLE_USB3_PASSIVE	2
- #define   TBT_CABLE_10_AND_20GBPS	3
- #define TBT_CABLE_ROUNDED		BIT(19)
-+#define TBT_CABLE_ROUNDED_SUPPORT(_vdo_) \
-+					(((_vdo_) & GENMASK(20, 19)) >> 19)
-+#define   TBT_GEN3_NON_ROUNDED                 0
-+#define   TBT_GEN3_GEN4_ROUNDED_NON_ROUNDED    1
- #define TBT_CABLE_OPTICAL		BIT(21)
- #define TBT_CABLE_RETIMER		BIT(22)
- #define TBT_CABLE_LINK_TRAINING		BIT(23)
- 
- #define TBT_SET_CABLE_SPEED(_s_)	(((_s_) & GENMASK(2, 0)) << 16)
-+#define TBT_SET_CABLE_ROUNDED(_g_)	(((_g_) & GENMASK(1, 0)) << 19)
- 
- /* TBT3 Device Enter Mode VDO bits */
- #define TBT_ENTER_MODE_CABLE_SPEED(s)	TBT_SET_CABLE_SPEED(s)
--- 
-2.17.1
-
+Regards,
+pengcheng
