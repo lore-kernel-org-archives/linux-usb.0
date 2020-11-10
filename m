@@ -2,40 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F21D1C5517A
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C049DC55ABD
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABBBF2080A
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E0CC20829
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 09:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731179AbgKJJU0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Nov 2020 04:20:26 -0500
+        id S1731421AbgKJJUd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 04:20:33 -0500
 Received: from mga09.intel.com ([134.134.136.24]:51675 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731404AbgKJJUW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:20:22 -0500
-IronPort-SDR: FVvMmgfExPR0vNp+Wt4fg+8YpAAmwEP1cfhivHMfRUU9/M3H+tQG6GTgT6ACEGUnqaWrGx7QPW
- wgUPIZPsYjsQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="170096892"
+        id S1731404AbgKJJU2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 10 Nov 2020 04:20:28 -0500
+IronPort-SDR: lU1KDyJRL6ACkVDAyLhme6Oh5PWFjK6gzuGX8F85Sa/i5RwBmeTMrF/EpshMjdNf4RMIq0c0ji
+ bfonaTvknbnQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="170096896"
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="170096892"
+   d="scan'208";a="170096896"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 01:20:00 -0800
-IronPort-SDR: c54hT1T5lZ8d7JzCSNSkxwPV5ymv6sI/qspykrPneEmfcgWjSoLM4lV5VwMPaiaOSKSmTpf7lR
- 60lPC/4x2EMA==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 01:20:01 -0800
+IronPort-SDR: o4iMPvjzEi7qNDTlmn1fuo2qHcxkTzcnVX+D71ICVj6s4SXZ+Hspm84X7RsWr4COXpjKPFpvpS
+ bKrVQUlv0JHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="308311814"
+   d="scan'208";a="327610483"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Nov 2020 01:19:58 -0800
+  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2020 01:19:58 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3CFC31EA; Tue, 10 Nov 2020 11:19:57 +0200 (EET)
+        id 63B444C7; Tue, 10 Nov 2020 11:19:57 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -47,74 +48,217 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         netdev@vger.kernel.org
-Subject: [PATCH v2 00/10] thunderbolt: Add DMA traffic test driver
-Date:   Tue, 10 Nov 2020 12:19:47 +0300
-Message-Id: <20201110091957.17472-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 04/10] thunderbolt: Add link_speed and link_width to XDomain
+Date:   Tue, 10 Nov 2020 12:19:51 +0300
+Message-Id: <20201110091957.17472-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201110091957.17472-1-mika.westerberg@linux.intel.com>
+References: <20201110091957.17472-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+From: Isaac Hazan <isaac.hazan@intel.com>
 
-This series adds a new Thunderbolt service driver that can be used on
-manufacturing floor to test that each Thunderbolt/USB4 port is functional.
-It can be done either using a special loopback dongle that has RX and TX
-lanes crossed, or by connecting a cable back to the host (for those who
-don't have these dongles).
+Link speed and link width are needed for checking expected values in
+case of using a loopback service.
 
-This takes advantage of the existing XDomain protocol and creates XDomain
-devices for the loops back to the host where the DMA traffic test driver
-can bind to.
+Signed-off-by: Isaac Hazan <isaac.hazan@intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Acked-by: Yehezkel Bernat <YehezkelShB@gmail.com>
+---
+ .../ABI/testing/sysfs-bus-thunderbolt         | 28 ++++++++
+ drivers/thunderbolt/switch.c                  |  9 ++-
+ drivers/thunderbolt/tb.h                      |  1 +
+ drivers/thunderbolt/xdomain.c                 | 65 +++++++++++++++++++
+ include/linux/thunderbolt.h                   |  4 ++
+ 5 files changed, 106 insertions(+), 1 deletion(-)
 
-The DMA traffic test driver creates a tunnel through the fabric and then
-sends and receives data frames over the tunnel checking for different
-errors.
-
-The previous version can be found here:
-
-  https://lore.kernel.org/linux-usb/20201104140030.6853-1-mika.westerberg@linux.intel.com/
-
-Changes from the previous version:
-
-  * Fix resource leak in tb_xdp_handle_request() (patch 2/10)
-  * Use debugfs_remove_recursive() in tb_service_debugfs_remove() (patch 6/10)
-  * Add tags from Yehezkel
-
-Isaac Hazan (4):
-  thunderbolt: Add link_speed and link_width to XDomain
-  thunderbolt: Add functions for enabling and disabling lane bonding on XDomain
-  thunderbolt: Add DMA traffic test driver
-  MAINTAINERS: Add Isaac as maintainer of Thunderbolt DMA traffic test driver
-
-Mika Westerberg (6):
-  thunderbolt: Do not clear USB4 router protocol adapter IFC and ISE bits
-  thunderbolt: Find XDomain by route instead of UUID
-  thunderbolt: Create XDomain devices for loops back to the host
-  thunderbolt: Create debugfs directory automatically for services
-  thunderbolt: Make it possible to allocate one directional DMA tunnel
-  thunderbolt: Add support for end-to-end flow control
-
- .../ABI/testing/sysfs-bus-thunderbolt         |  28 +
- MAINTAINERS                                   |   6 +
- drivers/net/thunderbolt.c                     |   2 +-
- drivers/thunderbolt/Kconfig                   |  13 +
- drivers/thunderbolt/Makefile                  |   3 +
- drivers/thunderbolt/ctl.c                     |   4 +-
- drivers/thunderbolt/debugfs.c                 |  24 +
- drivers/thunderbolt/dma_test.c                | 736 ++++++++++++++++++
- drivers/thunderbolt/nhi.c                     |  36 +-
- drivers/thunderbolt/path.c                    |  13 +-
- drivers/thunderbolt/switch.c                  |  33 +-
- drivers/thunderbolt/tb.h                      |   8 +
- drivers/thunderbolt/tunnel.c                  |  50 +-
- drivers/thunderbolt/xdomain.c                 | 148 +++-
- include/linux/thunderbolt.h                   |  18 +-
- 15 files changed, 1080 insertions(+), 42 deletions(-)
- create mode 100644 drivers/thunderbolt/dma_test.c
-
+diff --git a/Documentation/ABI/testing/sysfs-bus-thunderbolt b/Documentation/ABI/testing/sysfs-bus-thunderbolt
+index 0b4ab9e4b8f4..a91b4b24496e 100644
+--- a/Documentation/ABI/testing/sysfs-bus-thunderbolt
++++ b/Documentation/ABI/testing/sysfs-bus-thunderbolt
+@@ -1,3 +1,31 @@
++What:		/sys/bus/thunderbolt/devices/<xdomain>/rx_speed
++Date:		Feb 2021
++KernelVersion:	5.11
++Contact:	Isaac Hazan <isaac.hazan@intel.com>
++Description:	This attribute reports the XDomain RX speed per lane.
++		All RX lanes run at the same speed.
++
++What:		/sys/bus/thunderbolt/devices/<xdomain>/rx_lanes
++Date:		Feb 2021
++KernelVersion:	5.11
++Contact:	Isaac Hazan <isaac.hazan@intel.com>
++Description:	This attribute reports the number of RX lanes the XDomain
++		is using simultaneously through its upstream port.
++
++What:		/sys/bus/thunderbolt/devices/<xdomain>/tx_speed
++Date:		Feb 2021
++KernelVersion:	5.11
++Contact:	Isaac Hazan <isaac.hazan@intel.com>
++Description:	This attribute reports the XDomain TX speed per lane.
++		All TX lanes run at the same speed.
++
++What:		/sys/bus/thunderbolt/devices/<xdomain>/tx_lanes
++Date:		Feb 2021
++KernelVersion:	5.11
++Contact:	Isaac Hazan <isaac.hazan@intel.com>
++Description:	This attribute reports number of TX lanes the XDomain
++		is using simultaneously through its upstream port.
++
+ What: /sys/bus/thunderbolt/devices/.../domainX/boot_acl
+ Date:		Jun 2018
+ KernelVersion:	4.17
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index c73bbfe69ba1..05a360901790 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -932,7 +932,14 @@ int tb_port_get_link_speed(struct tb_port *port)
+ 	return speed == LANE_ADP_CS_1_CURRENT_SPEED_GEN3 ? 20 : 10;
+ }
+ 
+-static int tb_port_get_link_width(struct tb_port *port)
++/**
++ * tb_port_get_link_width() - Get current link width
++ * @port: Port to check (USB4 or CIO)
++ *
++ * Returns link width. Return values can be 1 (Single-Lane), 2 (Dual-Lane)
++ * or negative errno in case of failure.
++ */
++int tb_port_get_link_width(struct tb_port *port)
+ {
+ 	u32 val;
+ 	int ret;
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index a9995e21b916..3a826315049e 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -862,6 +862,7 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
+ 	     (p) = tb_next_port_on_path((src), (dst), (p)))
+ 
+ int tb_port_get_link_speed(struct tb_port *port);
++int tb_port_get_link_width(struct tb_port *port);
+ 
+ int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
+ int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index da229ac4e471..83a315f96934 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -942,6 +942,43 @@ static void tb_xdomain_restore_paths(struct tb_xdomain *xd)
+ 	}
+ }
+ 
++static inline struct tb_switch *tb_xdomain_parent(struct tb_xdomain *xd)
++{
++	return tb_to_switch(xd->dev.parent);
++}
++
++static int tb_xdomain_update_link_attributes(struct tb_xdomain *xd)
++{
++	bool change = false;
++	struct tb_port *port;
++	int ret;
++
++	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
++
++	ret = tb_port_get_link_speed(port);
++	if (ret < 0)
++		return ret;
++
++	if (xd->link_speed != ret)
++		change = true;
++
++	xd->link_speed = ret;
++
++	ret = tb_port_get_link_width(port);
++	if (ret < 0)
++		return ret;
++
++	if (xd->link_width != ret)
++		change = true;
++
++	xd->link_width = ret;
++
++	if (change)
++		kobject_uevent(&xd->dev.kobj, KOBJ_CHANGE);
++
++	return 0;
++}
++
+ static void tb_xdomain_get_uuid(struct work_struct *work)
+ {
+ 	struct tb_xdomain *xd = container_of(work, typeof(*xd),
+@@ -1053,6 +1090,8 @@ static void tb_xdomain_get_properties(struct work_struct *work)
+ 	xd->properties = dir;
+ 	xd->property_block_gen = gen;
+ 
++	tb_xdomain_update_link_attributes(xd);
++
+ 	tb_xdomain_restore_paths(xd);
+ 
+ 	mutex_unlock(&xd->lock);
+@@ -1159,9 +1198,35 @@ static ssize_t unique_id_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RO(unique_id);
+ 
++static ssize_t speed_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
++{
++	struct tb_xdomain *xd = container_of(dev, struct tb_xdomain, dev);
++
++	return sprintf(buf, "%u.0 Gb/s\n", xd->link_speed);
++}
++
++static DEVICE_ATTR(rx_speed, 0444, speed_show, NULL);
++static DEVICE_ATTR(tx_speed, 0444, speed_show, NULL);
++
++static ssize_t lanes_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
++{
++	struct tb_xdomain *xd = container_of(dev, struct tb_xdomain, dev);
++
++	return sprintf(buf, "%u\n", xd->link_width);
++}
++
++static DEVICE_ATTR(rx_lanes, 0444, lanes_show, NULL);
++static DEVICE_ATTR(tx_lanes, 0444, lanes_show, NULL);
++
+ static struct attribute *xdomain_attrs[] = {
+ 	&dev_attr_device.attr,
+ 	&dev_attr_device_name.attr,
++	&dev_attr_rx_lanes.attr,
++	&dev_attr_rx_speed.attr,
++	&dev_attr_tx_lanes.attr,
++	&dev_attr_tx_speed.attr,
+ 	&dev_attr_unique_id.attr,
+ 	&dev_attr_vendor.attr,
+ 	&dev_attr_vendor_name.attr,
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index 5db2b11ab085..e441af88ed77 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -179,6 +179,8 @@ void tb_unregister_property_dir(const char *key, struct tb_property_dir *dir);
+  * @lock: Lock to serialize access to the following fields of this structure
+  * @vendor_name: Name of the vendor (or %NULL if not known)
+  * @device_name: Name of the device (or %NULL if not known)
++ * @link_speed: Speed of the link in Gb/s
++ * @link_width: Width of the link (1 or 2)
+  * @is_unplugged: The XDomain is unplugged
+  * @resume: The XDomain is being resumed
+  * @needs_uuid: If the XDomain does not have @remote_uuid it will be
+@@ -223,6 +225,8 @@ struct tb_xdomain {
+ 	struct mutex lock;
+ 	const char *vendor_name;
+ 	const char *device_name;
++	unsigned int link_speed;
++	unsigned int link_width;
+ 	bool is_unplugged;
+ 	bool resume;
+ 	bool needs_uuid;
 -- 
 2.28.0
 
