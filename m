@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21413C2D0A3
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D80C2D0A3
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE9B7206D8
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E3EC206D8
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 00:39:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730846AbgKJAiw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 19:38:52 -0500
-Received: from mga04.intel.com ([192.55.52.120]:25963 "EHLO mga04.intel.com"
+        id S1731253AbgKJAjN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 Nov 2020 19:39:13 -0500
+Received: from mga04.intel.com ([192.55.52.120]:25974 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730790AbgKJAiu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 9 Nov 2020 19:38:50 -0500
-IronPort-SDR: P9S2hNSbYAiPSWqlTelFyfX/Gdls3BgUiGjC2WdExxO2Bmp23KqCzm18isuZGhXJJVuSp2BL87
- TzIXmw3ENwxQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167308568"
+        id S1731130AbgKJAjL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 9 Nov 2020 19:39:11 -0500
+IronPort-SDR: T2HXha+OnmeyGqV0UsAyU5NBsNogDJB7yIjYUBWSwMgellrWVKvmHewCPhzCqZyg0hl8uD4Fm1
+ Z7pVObWGgX1A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167308689"
 X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="167308568"
+   d="scan'208";a="167308689"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 16:38:50 -0800
-IronPort-SDR: O/Ttf5HRpmiY+MgxDf0+6LWfFh3Mr15pHDoxn6Xrm1BS2c566MK1aeLZbjbMkdGSArQ4oQAII5
- b6qsKRACVf6g==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 16:38:58 -0800
+IronPort-SDR: I8VpbswOaV7EmvvtK8g+7qrYToR7tuShwspPwrXpQWuCI2QE1D/JwSOM9n1je1OqVVHYWzAvBH
+ KkbDoJ9atiVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="354312348"
+   d="scan'208";a="354312394"
 Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
-  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2020 16:38:50 -0800
+  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2020 16:38:58 -0800
 From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
         enric.balletbo@collabora.com, rajmohan.mani@intel.com,
         azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH 4/8] usb: typec: Remove one bit support for the Thunderbolt rounded/non-rounded cable
-Date:   Mon,  9 Nov 2020 16:37:12 -0800
-Message-Id: <20201110003716.5164-5-utkarsh.h.patel@intel.com>
+Subject: [PATCH 8/8] usb: typec: Remove active_link_training variable from Enter_USB message
+Date:   Mon,  9 Nov 2020 16:37:16 -0800
+Message-Id: <20201110003716.5164-9-utkarsh.h.patel@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
 References: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
@@ -50,28 +50,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Two bits support for the Thunderbolt rounded/non-rounded cable has been
-added to the header file.
-Hence, removing unused TBT_CABLE_ROUNDED definition from the header file.
+Thunderbolt 3 cable discover mode VDO support has been added as part of
+Enter_USB message to fill details of active cable plug link training.
+Hence, removing unused variable active_link_training from Enter_USB
+message data structure.
 
-Fixes: ca469c292edc ("usb: typec: Add definitions for Thunderbolt 3 Alternate Mode")
 Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
 ---
- include/linux/usb/typec_tbt.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/linux/usb/typec.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
-index aad648d14bb3..63dd44b72e0c 100644
---- a/include/linux/usb/typec_tbt.h
-+++ b/include/linux/usb/typec_tbt.h
-@@ -39,7 +39,6 @@ struct typec_thunderbolt_data {
- #define   TBT_CABLE_USB3_GEN1		1
- #define   TBT_CABLE_USB3_PASSIVE	2
- #define   TBT_CABLE_10_AND_20GBPS	3
--#define TBT_CABLE_ROUNDED		BIT(19)
- #define TBT_CABLE_ROUNDED_SUPPORT(_vdo_) \
- 					(((_vdo_) & GENMASK(20, 19)) >> 19)
- #define   TBT_GEN3_NON_ROUNDED                 0
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index d91e09d9d91c..4a9608a15ac1 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -76,16 +76,10 @@ enum typec_orientation {
+  * struct enter_usb_data - Enter_USB Message details
+  * @eudo: Enter_USB Data Object
+  * @tbt_cable_vdo: TBT3 Cable Discover Mode Response
+- * @active_link_training: Active Cable Plug Link Training
+- *
+- * @active_link_training is a flag that should be set with uni-directional SBRX
+- * communication, and left 0 with passive cables and with bi-directional SBRX
+- * communication.
+  */
+ struct enter_usb_data {
+ 	u32			eudo;
+ 	u32			tbt_cable_vdo;
+-	unsigned char		active_link_training:1;
+ };
+ 
+ /*
 -- 
 2.17.1
 
