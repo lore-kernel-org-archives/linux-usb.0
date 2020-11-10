@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FB5C388F7
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 03:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BE2C4742C
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 03:59:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 631A620665
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 03:58:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52E972054F
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Nov 2020 03:59:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6gImZZ3"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOGw6hWX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387614AbgKJD4h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 Nov 2020 22:56:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58660 "EHLO mail.kernel.org"
+        id S2387523AbgKJD4O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 Nov 2020 22:56:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387673AbgKJD4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 9 Nov 2020 22:56:36 -0500
+        id S2387520AbgKJD4N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 9 Nov 2020 22:56:13 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A589820870;
-        Tue, 10 Nov 2020 03:56:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 547E820731;
+        Tue, 10 Nov 2020 03:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604980595;
-        bh=cG3vbnM8bx1OdB0QcQcJ72+101WCvZN42O7uuetWIYY=;
+        s=default; t=1604980573;
+        bh=6U9xVuBFhCt5nqfNxn//sTWcz874C1yrKV6OPWBMONY=;
         h=From:To:Cc:Subject:Date:From;
-        b=K6gImZZ3Gmh7LTvIe79Sh8z1sWFgbA8J09Qfr4qQvldWy3tss2YdjbiIxwKKHpoSN
-         SXSgZwXgJolx/sLaITp8TjczOkASWazs9Wv5tchwTmkxJmsDn8Mr5LuIhdiSflCXBN
-         n2D+Zz8ed0YpvazHMAoLOotx9tdP6tS20lGjNUXE=
+        b=SOGw6hWXx9VAOV92hg+3g6PW/IintHzRcLeynA6CJ6nTlAe+XqkdQzFhqxqZTXT+p
+         SF4uIa9eWtQt7BoAsAfSafy+28RpdiUyM30YJ34kYvp91MKYV+TtbnEcR21zv2Jjml
+         4z7bN0Mu8LpxcVVpAO6C39EiQ8nw/5WWucTPASlE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Evgeny Novikov <novikov@ispras.ru>,
         Pavel Andrianov <andrianov@ispras.ru>,
         Felipe Balbi <balbi@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 01/12] usb: gadget: goku_udc: fix potential crashes in probe
-Date:   Mon,  9 Nov 2020 22:56:22 -0500
-Message-Id: <20201110035633.425030-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/14] usb: gadget: goku_udc: fix potential crashes in probe
+Date:   Mon,  9 Nov 2020 22:55:57 -0500
+Message-Id: <20201110035611.424867-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-stable: review
@@ -75,7 +75,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/udc/goku_udc.c b/drivers/usb/gadget/udc/goku_udc.c
-index 5107987bd3538..d363224dce6f5 100644
+index 8433c22900dcb..0ed0d03651329 100644
 --- a/drivers/usb/gadget/udc/goku_udc.c
 +++ b/drivers/usb/gadget/udc/goku_udc.c
 @@ -1772,6 +1772,7 @@ static int goku_probe(struct pci_dev *pdev, const struct pci_device_id *id)
