@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D076C388F9
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:09:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4CE4C388F9
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47688206F1
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:09:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8ADF220709
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbgKKJJy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:09:54 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:39418 "EHLO
+        id S1726174AbgKKJJx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 04:09:53 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:38834 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbgKKJJ2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:28 -0500
+        with ESMTP id S1726644AbgKKJJL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:11 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id D6BD48001384;
-        Wed, 11 Nov 2020 09:09:18 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 8B0B98030171;
+        Wed, 11 Nov 2020 09:09:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 2Gw9uMX29L3G; Wed, 11 Nov 2020 12:09:18 +0300 (MSK)
+        with ESMTP id TZS9AUp4z0AJ; Wed, 11 Nov 2020 12:09:03 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>
+        Rob Herring <robh+dt@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
         Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -49,11 +49,10 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>, <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v4 18/18] dt-bindings: usb: qcom,dwc3: Validate DWC3 sub-node
-Date:   Wed, 11 Nov 2020 12:08:53 +0300
-Message-ID: <20201111090853.14112-19-Sergey.Semin@baikalelectronics.ru>
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 01/18] dt-bindings: usb: usb-hcd: Detach generic USB controller properties
+Date:   Wed, 11 Nov 2020 12:08:36 +0300
+Message-ID: <20201111090853.14112-2-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -64,53 +63,94 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Qualcomm msm8996/sc7180/sdm845 DWC3 compatible DT nodes are supposed to
-have a DWC USB3 compatible sub-node to describe a fully functioning USB
-interface. Let's use the available DWC USB3 DT schema to validate the
-Qualcomm DWC3 sub-nodes.
+There can be three distinctive types of the USB controllers: USB hosts,
+USB peripherals/gadgets and USB OTG, which can switch from one role to
+another. In order to have that hierarchy handled in the DT binding files,
+we need to collect common properties in a common DT schema and specific
+properties in dedicated schemas. Seeing the usb-hcd.yaml DT schema is
+dedicated for the USB host controllers only, let's move some common
+properties from there into the usb.yaml schema. So the later would be
+available to evaluate all currently supported types of the USB
+controllers.
 
-Note since the generic DWC USB3 DT node is supposed to be named as generic
-USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-nodes name
-regexp and fix the DT node example.
+While at it add an explicit "additionalProperties: true" into the
+usb-hcd.yaml as setting the additionalProperties/unevaluateProperties
+properties is going to be get mandatory soon.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
-Changelog v2:
-- Discard the "^dwc3@[0-9a-f]+$" nodes from being acceptable as sub-nodes.
+Changelog v4:
+- This is a new patch created as a result of the comment left
+  by Chunfeng Yun in v3
 ---
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ .../devicetree/bindings/usb/usb-hcd.yaml      | 14 ++-------
+ .../devicetree/bindings/usb/usb.yaml          | 29 +++++++++++++++++++
+ 2 files changed, 32 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/usb.yaml
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index dac10848dd7f..8f8d781e73a0 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -103,11 +103,8 @@ properties:
- # Required child node:
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 7263b7f2b510..81f3ad1419d8 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -9,18 +9,10 @@ title: Generic USB Host Controller Device Tree Bindings
+ maintainers:
+   - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
- patternProperties:
--  "^dwc3@[0-9a-f]+$":
--    type: object
+-properties:
+-  $nodename:
+-    pattern: "^usb(@.*)?"
++allOf:
++  - $ref: usb.yaml#
+ 
+-  phys:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
 -    description:
--      A child node must exist to represent the core DWC3 IP block
--      The content of the node is defined in dwc3.txt.
-+  "^usb@[0-9a-f]+$":
-+    $ref: snps,dwc3.yaml#
+-      List of all the USB PHYs on this HCD
+-
+-  phy-names:
+-    description:
+-      Name specifier for the USB PHY
++additionalProperties: true
  
- required:
-   - compatible
-@@ -160,7 +157,7 @@ examples:
- 
-             resets = <&gcc GCC_USB30_PRIM_BCR>;
- 
--            dwc3@a600000 {
-+            usb@a600000 {
-                 compatible = "snps,dwc3";
-                 reg = <0 0x0a600000 0 0xcd00>;
-                 interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
+ examples:
+   - |
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+new file mode 100644
+index 000000000000..941ad59fbac5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -0,0 +1,29 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/usb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic USB Controller Device Tree Bindings
++
++maintainers:
++  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++
++select: false
++
++properties:
++  $nodename:
++    pattern: "^usb(@.*)?"
++
++  phys:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      List of all the USB PHYs on this HCD
++
++  phy-names:
++    description:
++      Name specifier for the USB PHY
++
++additionalProperties: true
++
++...
 -- 
 2.28.0
 
