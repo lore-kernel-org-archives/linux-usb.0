@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3485C388F9
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF83C4742C
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FA532072C
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98A40206FB
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgKKJMG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:12:06 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:38934 "EHLO
+        id S1726633AbgKKJMA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 04:12:00 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:39428 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbgKKJJK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:10 -0500
+        with ESMTP id S1726614AbgKKJJe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:34 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id CD16F803073E;
-        Wed, 11 Nov 2020 09:09:05 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 908A2803202F;
+        Wed, 11 Nov 2020 09:09:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id qU-jSI3SHFlp; Wed, 11 Nov 2020 12:09:05 +0300 (MSK)
+        with ESMTP id URHAxb3Z8lke; Wed, 11 Nov 2020 12:09:14 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -51,9 +51,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 03/18] dt-bindings: usb: usb-drd: Add "otg-rev" property constraints
-Date:   Wed, 11 Nov 2020 12:08:38 +0300
-Message-ID: <20201111090853.14112-4-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v4 13/18] dt-bindings: usb: dwc3: Add Tx De-emphasis constraints
+Date:   Wed, 11 Nov 2020 12:08:48 +0300
+Message-ID: <20201111090853.14112-14-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -64,34 +64,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are only four OTG revisions are currently supported by the kernel:
-0x0100, 0x0120, 0x0130, 0x0200. Any another value is considered as
-invalid.
+In accordance with the driver comments the PIPE3 de-emphasis can be tuned
+to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
+property constraints so the DT schema would make sure the controller DT
+node is equipped with correct value.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
-Changelog v4:
-- Move the constraints to the usb-drd.yaml schema where the otg-rev
-  property is now defined.
+Changelog v2:
+- Grammar fix: "s/tunned/tuned"
+- Grammar fix: remove redundant "or" conjunction.
 ---
- Documentation/devicetree/bindings/usb/usb-drd.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-drd.yaml b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-index f3a64c46dcd0..f229fc8068d9 100644
---- a/Documentation/devicetree/bindings/usb/usb-drd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-@@ -18,6 +18,7 @@ properties:
-       features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
-       0x0200 or above.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0x0100, 0x0120, 0x0130, 0x0200]
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 4f68c5cd7a45..64579aed404f 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -153,6 +153,10 @@ properties:
+       The value driven to the PHY is controlled by the LTSSM during USB3
+       Compliance mode.
+     $ref: /schemas/types.yaml#/definitions/uint8
++    enum:
++      - 0 # -6dB de-emphasis
++      - 1 # -3.5dB de-emphasis
++      - 2 # No de-emphasis
  
-   dr_mode:
-     description:
+   snps,dis_u3_susphy_quirk:
+     description: When set core will disable USB3 suspend phy
 -- 
 2.28.0
 
