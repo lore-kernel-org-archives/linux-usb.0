@@ -7,55 +7,42 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF83C4742C
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55298C4742C
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:16:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 98A40206FB
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0842B206E3
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726633AbgKKJMA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:12:00 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:39428 "EHLO
+        id S1726863AbgKKJQf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 04:16:35 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:39690 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726614AbgKKJJe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:34 -0500
+        with ESMTP id S1726619AbgKKJQM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:16:12 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 908A2803202F;
-        Wed, 11 Nov 2020 09:09:14 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id A6B1D803017C;
+        Wed, 11 Nov 2020 09:16:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id URHAxb3Z8lke; Wed, 11 Nov 2020 12:09:14 +0300 (MSK)
+        with ESMTP id GdhkLU1_JnUs; Wed, 11 Nov 2020 12:16:09 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
+To:     Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Roger Quadros <rogerq@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 13/18] dt-bindings: usb: dwc3: Add Tx De-emphasis constraints
-Date:   Wed, 11 Nov 2020 12:08:48 +0300
-Message-ID: <20201111090853.14112-14-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
+        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 17/18] usb: dwc3: qcom: Detect DWC3 DT-nodes with "usb"-prefixed names
+Date:   Wed, 11 Nov 2020 12:15:51 +0300
+Message-ID: <20201111091552.15593-18-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201111091552.15593-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201111091552.15593-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -64,38 +51,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the driver comments the PIPE3 de-emphasis can be tuned
-to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
-property constraints so the DT schema would make sure the controller DT
-node is equipped with correct value.
+In accordance with the USB HCD/DRD schema all the USB controllers are
+supposed to have DT-nodes named with prefix "^usb(@.*)?".  Since the
+existing DT-nodes will be renamed in a subsequent patch let's first make
+sure the DWC3 Qualcomm driver supports them and second falls back to the
+deprecated naming so not to fail on the legacy DTS-files passed to the
+newer kernels.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Rob Herring <robh@kernel.org>
-
 ---
+ drivers/usb/dwc3/dwc3-qcom.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changelog v2:
-- Grammar fix: "s/tunned/tuned"
-- Grammar fix: remove redundant "or" conjunction.
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 4f68c5cd7a45..64579aed404f 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -153,6 +153,10 @@ properties:
-       The value driven to the PHY is controlled by the LTSSM during USB3
-       Compliance mode.
-     $ref: /schemas/types.yaml#/definitions/uint8
-+    enum:
-+      - 0 # -6dB de-emphasis
-+      - 1 # -3.5dB de-emphasis
-+      - 2 # No de-emphasis
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index e1e78e9824b1..661263e62f21 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -519,7 +519,8 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 	struct device		*dev = &pdev->dev;
+ 	int			ret;
  
-   snps,dis_u3_susphy_quirk:
-     description: When set core will disable USB3 suspend phy
+-	dwc3_np = of_get_child_by_name(np, "dwc3");
++	dwc3_np = of_get_child_by_name(np, "usb") ?:
++		  of_get_child_by_name(np, "dwc3");
+ 	if (!dwc3_np) {
+ 		dev_err(dev, "failed to find dwc3 core child\n");
+ 		return -ENODEV;
 -- 
 2.28.0
 
