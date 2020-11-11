@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C907C61DD8
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F60C4742C
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD5EC20709
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D995206F1
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726756AbgKKJJu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:09:50 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:38968 "EHLO
+        id S1726837AbgKKJKy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 04:10:54 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:39437 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726671AbgKKJJL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:11 -0500
+        with ESMTP id S1726710AbgKKJJp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:45 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id 59F58803017D;
-        Wed, 11 Nov 2020 09:09:06 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 1BC71803202B;
+        Wed, 11 Nov 2020 09:09:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id cDrI3XA_dWn7; Wed, 11 Nov 2020 12:09:05 +0300 (MSK)
+        with ESMTP id 8YDGWa54opJ6; Wed, 11 Nov 2020 12:09:12 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -51,9 +51,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 04/18] dt-bindings: usb: Add "ulpi/serial/hsic" PHY types
-Date:   Wed, 11 Nov 2020 12:08:39 +0300
-Message-ID: <20201111090853.14112-5-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v4 11/18] dt-bindings: usb: dwc3: Add interrupt-names property support
+Date:   Wed, 11 Nov 2020 12:08:46 +0300
+Message-ID: <20201111090853.14112-12-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -64,9 +64,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
-that can be specified in the phy_type HCD property. Add them to the
-enumeration of the acceptable values.
+The controller driver supports two types of DWC USB3 devices: with a
+common interrupt lane and with individual interrupts for each mode. Add
+support for both these cases to the DWC USB3 DT schema.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -74,38 +74,40 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Grammar fix: "s/PHY types can be/PHY types that can be"
+- Grammar fix: "s/both of these cases support/support for both these cases"
 - Drop quotes from around the string constants.
 
 Changelog v4:
-- Move the new PHY types definitions into the usb.yaml schema where the
-  phy_type property is now defined.
+- Discard the block scalar style modifier "|" from the interrupts property
+  description.
 ---
- Documentation/devicetree/bindings/usb/usb.yaml | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-index 991c02725e2b..6dc4821e63c3 100644
---- a/Documentation/devicetree/bindings/usb/usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb.yaml
-@@ -27,11 +27,13 @@ properties:
-   phy_type:
-     description:
-       Tells USB controllers that we want to configure the core to support a
--      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
--      this isn't passed via DT, USB controllers should default to HW
--      capability.
-+      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
-+      pin interface if ULPI is specified, Serial core/PHY interconnect if
-+      serial is specified and High-Speed Inter-Chip feature if HSIC is
-+      selected. In case this isn't passed via DT, USB controllers should
-+      default to HW capability.
-     $ref: /schemas/types.yaml#/definitions/string
--    enum: [utmi, utmi_wide]
-+    enum: [utmi, utmi_wide, ulpi, serial, hsic]
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 079617891da6..c205afd66b7c 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -31,8 +31,19 @@ properties:
+       const: snps,dwc3
  
-   maximum-speed:
-    description:
+   interrupts:
++    description:
++      It's either a single common DWC3 interrupt (dwc_usb3) or individual
++      interrupts for the host, gadget and DRD modes.
++    minItems: 1
++    maxItems: 3
++
++  interrupt-names:
+     minItems: 1
+     maxItems: 3
++    oneOf:
++      - const: dwc_usb3
++      - items:
++          enum: [host, peripheral, otg]
+ 
+   clocks:
+     description:
 -- 
 2.28.0
 
