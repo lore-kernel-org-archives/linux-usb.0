@@ -2,40 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893BFC388F9
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 10:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE373C5517A
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 11:21:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2276A2072C
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 10:55:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="toDLooxM"
+	by mail.kernel.org (Postfix) with ESMTP id 88F7220659
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 11:21:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbgKKKzi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 05:55:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59642 "EHLO mail.kernel.org"
+        id S1726148AbgKKLVw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 06:21:52 -0500
+Received: from mga14.intel.com ([192.55.52.115]:46369 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725870AbgKKKzh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 11 Nov 2020 05:55:37 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8B3292067D;
-        Wed, 11 Nov 2020 10:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605092137;
-        bh=GodoxXRF2t+6JT7hRI+txJdHXviHQTs0JxH5PSbAj+g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=toDLooxMUGSJSCWRPvdwJ3Znuh2nNtDIqIYTJFzR7wgsG3G6KIe57BIbKgNNa+Y64
-         GfgTktIfuVRC3xO1hTVMEYnU4mlDfY2XIY2jUMzp9NpxSuyZUak3H28IL6YAznGU4D
-         v5GkrxY6fH4sAUtrw92FqDBQec3i3oXytKjBzp0c=
-Date:   Wed, 11 Nov 2020 11:56:37 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        id S1726081AbgKKLVv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 11 Nov 2020 06:21:51 -0500
+IronPort-SDR: 3J+Qv1zQonDbYq5TavfPPlsXHjNQIS4iJLpGNEcZuyLZl1bCWuQi4oVbFD1NUYce8gA8F1VVT7
+ H/mwasmGtb2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="169348094"
+X-IronPort-AV: E=Sophos;i="5.77,469,1596524400"; 
+   d="scan'208";a="169348094"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 03:21:46 -0800
+IronPort-SDR: i9GSmkJyDyBIgNUenUzEob8HffyiVM1iloRBkNIR5RKr3OWvt8faVtA8lgixlCVI87wZvLwsLv
+ +uMbvOCW4lJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,469,1596524400"; 
+   d="scan'208";a="428716333"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 11 Nov 2020 03:21:43 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 11 Nov 2020 13:21:42 +0200
+Date:   Wed, 11 Nov 2020 13:21:42 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
         Prashant Malani <pmalani@chromium.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -43,52 +45,57 @@ Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
         Guenter Roeck <groeck@chromium.org>
 Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Set partner
  num_altmodes
-Message-ID: <X6vDZXI3Cp1pqRUr@kroah.com>
+Message-ID: <20201111112142.GQ1224435@kuha.fi.intel.com>
 References: <20201110061535.2163599-1-pmalani@chromium.org>
  <20201110061535.2163599-2-pmalani@chromium.org>
  <20201110105015.GF1224435@kuha.fi.intel.com>
  <ba6c1415-457b-1e8d-b604-fad603fe9be6@collabora.com>
  <20201111102846.GP1224435@kuha.fi.intel.com>
+ <X6vDZXI3Cp1pqRUr@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201111102846.GP1224435@kuha.fi.intel.com>
+In-Reply-To: <X6vDZXI3Cp1pqRUr@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 12:28:46PM +0200, Heikki Krogerus wrote:
-> On Tue, Nov 10, 2020 at 05:01:04PM +0100, Enric Balletbo i Serra wrote:
-> > Hi,
-> > 
-> > On 10/11/20 11:50, Heikki Krogerus wrote:
-> > > On Mon, Nov 09, 2020 at 10:15:36PM -0800, Prashant Malani wrote:
-> > >> Set the number of altmodes available for a registered partner using the
-> > >> Type C connector class framework routine.
-> > >>
-> > >> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+On Wed, Nov 11, 2020 at 11:56:37AM +0100, Greg KH wrote:
+> On Wed, Nov 11, 2020 at 12:28:46PM +0200, Heikki Krogerus wrote:
+> > On Tue, Nov 10, 2020 at 05:01:04PM +0100, Enric Balletbo i Serra wrote:
+> > > Hi,
 > > > 
-> > > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > On 10/11/20 11:50, Heikki Krogerus wrote:
+> > > > On Mon, Nov 09, 2020 at 10:15:36PM -0800, Prashant Malani wrote:
+> > > >> Set the number of altmodes available for a registered partner using the
+> > > >> Type C connector class framework routine.
+> > > >>
+> > > >> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> > > > 
+> > > > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > > 
 > > > 
+> > > Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> > > 
+> > > Heikki, would you like to take these two through your tree? It'd help if you can
+> > > create an inmutable branch so I can pick other cros_ec_typec patches on top of it.
 > > 
-> > Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> > I'm sorry, but I don't actually maintain a tree for the USB Type-C
+> > stuff.
 > > 
-> > Heikki, would you like to take these two through your tree? It'd help if you can
-> > create an inmutable branch so I can pick other cros_ec_typec patches on top of it.
+> > Greg, I'm sorry to bother you with this, but can you provide the
+> > immutable branch for Enric?
 > 
-> I'm sorry, but I don't actually maintain a tree for the USB Type-C
-> stuff.
+> My usb tree branches are always immutable :)
 > 
-> Greg, I'm sorry to bother you with this, but can you provide the
-> immutable branch for Enric?
+> > Maybe I should set up a tree for the USB Type-C stuff?
+> 
+> Or I can just take all of these patches as they depend on USB stuff more
+> than any other specific platform driver changes, right?
 
-My usb tree branches are always immutable :)
+Works for me.
 
-> Maybe I should set up a tree for the USB Type-C stuff?
+Br,
 
-Or I can just take all of these patches as they depend on USB stuff more
-than any other specific platform driver changes, right?
-
-thanks,
-
-greg k-h
+-- 
+heikki
