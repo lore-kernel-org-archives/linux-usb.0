@@ -2,90 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE2EC56201
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 07:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD4EC388F9
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 07:50:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51C9C20870
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 07:25:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4BC7206B5
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 07:50:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDbvs7kk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbgKKHZz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 02:25:55 -0500
-Received: from mga01.intel.com ([192.55.52.88]:62905 "EHLO mga01.intel.com"
+        id S1725929AbgKKHuB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 02:50:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54396 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726524AbgKKHZg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 11 Nov 2020 02:25:36 -0500
-IronPort-SDR: IT6p6vd1vGZukJJDn3WZAyN4RVHM/TdDCZvzhiVtopCXLWh/rtgRm/8mo9SArvKVefKTMpnR75
- EBEJOAsipYJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="188085460"
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
-   d="scan'208";a="188085460"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 23:25:29 -0800
-IronPort-SDR: msmPdEXzTHAN0BtSyPT/603HkxFtvLNOxC08MwlWv3bMdXZR2YXaUugg/t8aOuPjBlzWbF1IS8
- KK8U/vxPSsxw==
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
-   d="scan'208";a="356522742"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 23:25:26 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 11 Nov 2020 09:23:12 +0200
-Date:   Wed, 11 Nov 2020 09:23:12 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Isaac Hazan <isaac.hazan@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        "David S . Miller" <davem@davemloft.net>, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] thunderbolt: Add DMA traffic test driver
-Message-ID: <20201111072312.GI2495@lahna.fi.intel.com>
-References: <20201110091957.17472-1-mika.westerberg@linux.intel.com>
- <X6pdxfCFicGVqcM5@kroah.com>
+        id S1725859AbgKKHuB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 11 Nov 2020 02:50:01 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 767262072C;
+        Wed, 11 Nov 2020 07:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605081000;
+        bh=b1D63emCe62YsWyIwGooDXckAR+BvM/Vb11aWEL6sf4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RDbvs7kkjzIeUoDdRYtpPJG465oG0N3qJErc2MlHdC+gcCv2bckH4e6sLHK1q/XY3
+         m156vNuNiAp3Qdiop31erD3IkIX0MKxhfb/YKeHPZQquIoCgS5VCuR650aZ91626ev
+         EW59IksYqjXp3ZvtEAT11UpB30D2aIDjUeO1w3Lo=
+Date:   Wed, 11 Nov 2020 08:51:00 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Alberto Sentieri <22t@tripolho.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
+Subject: Re: kernel locks due to USB I/O
+Message-ID: <X6uX5IOhb2Pozbuq@kroah.com>
+References: <9428ae70-887e-b48b-f31c-f95d58f67c61@tripolho.com>
+ <20201110205114.GB204624@rowland.harvard.edu>
+ <8152190e-c962-e376-64fd-cc2ebf3e6104@tripolho.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X6pdxfCFicGVqcM5@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <8152190e-c962-e376-64fd-cc2ebf3e6104@tripolho.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 10:30:45AM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Nov 10, 2020 at 12:19:47PM +0300, Mika Westerberg wrote:
-> > Hi all,
-> > 
-> > This series adds a new Thunderbolt service driver that can be used on
-> > manufacturing floor to test that each Thunderbolt/USB4 port is functional.
-> > It can be done either using a special loopback dongle that has RX and TX
-> > lanes crossed, or by connecting a cable back to the host (for those who
-> > don't have these dongles).
-> > 
-> > This takes advantage of the existing XDomain protocol and creates XDomain
-> > devices for the loops back to the host where the DMA traffic test driver
-> > can bind to.
-> > 
-> > The DMA traffic test driver creates a tunnel through the fabric and then
-> > sends and receives data frames over the tunnel checking for different
-> > errors.
-> > 
-> > The previous version can be found here:
-> > 
-> >   https://lore.kernel.org/linux-usb/20201104140030.6853-1-mika.westerberg@linux.intel.com/
-> > 
-> > Changes from the previous version:
-> > 
-> >   * Fix resource leak in tb_xdp_handle_request() (patch 2/10)
-> >   * Use debugfs_remove_recursive() in tb_service_debugfs_remove() (patch 6/10)
-> >   * Add tags from Yehezkel
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Tue, Nov 10, 2020 at 06:42:17PM -0500, Alberto Sentieri wrote:
+> 1) The current Ubuntu Kernel is 5.4.0-53. Do you want me to upgrade it to
+> 5.9, from kernel.org? Or is there a Ubuntu 5.9 package that I can use? It
+> would be easy to do it If there is a Ubuntu package with 5.9, which I would
+> install and, after the tests, uninstall.
 
-Thanks!
+There might be a Ubuntu package, we don't know.
 
-Applied the series to thunderbolt.git/next.
+The issue is that the Ubuntu kernel you are using is an old one, and we
+(the community) have no idea what is in there.  We can help you if you
+use a kernel.org release, otherwise you really should get support from
+Ubuntu as you are relying on them for this type of thing (and probably
+paying them for support as you are using it in a corporate setting and
+relying on it, right?)
+
+> 2) Why do you believe that 5.9 would solve the problem? I am asking that
+> because I cannot change the production machine for a test if I cannot go
+> back to the original state. There is always a risk involved.
+
+You should always be able to choose a different kernel version at boot
+time, no need to ever get rid of your older one in case something goes
+wrong.
+
+There has been lots of changes in the past year of kernel development,
+as always, from 5.4 to 5.9, so something that we did then might have
+resolved this.  Maybe not, but we don't know if you can't try as to try
+to remember what we did a year ago is hard, as I am sure you can imagine
+:)
+
+> 3) It is one single thread dealing with all 36 devices. Each device has its
+> own co-routine (not preemptive), but all co-routines are executed by a
+> unique thread.
+
+Are you sure that these threads are not just getting stalled somehow
+when a response doesn't come back properly and are not timing out, which
+your userspace co-routines should be doing if the bus stalls, right?
+
+One thing to note, USB hubs are almost never tested with that many
+devices at once, so you might have to upgrade to one that says it really
+will work with that many devices, and provide enough power to them.  We
+have seen more low-power issues on USB hubs and connections over the
+years to know that this is a real issue, and one that the OS can't do
+much about, but can affect it.
+
+> 4) By network console, do you mean ssh? It dies as well when it locks. The
+> screen is the regular GNOME3 screen and nothing can be seen there. Every
+> time it locks they send a picture, and I cannot see anything meaningful
+> there. I am thinking about disabling GNOME3, but I need their blessing for
+> that.
+
+No, netconsole is something else, see the kernel documentation for the
+full details.
+
+thanks,
+
+greg k-h
