@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E82C63777
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE58C4742C
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C84E2072C
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDBC020756
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgKKJMF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:12:05 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:39420 "EHLO
+        id S1727028AbgKKJMH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 04:12:07 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:39002 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726685AbgKKJJ2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:28 -0500
+        with ESMTP id S1726670AbgKKJJK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:10 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id F12128001383;
-        Wed, 11 Nov 2020 09:09:17 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id D46D8803017C;
+        Wed, 11 Nov 2020 09:09:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 02Cuf__8BCZN; Wed, 11 Nov 2020 12:09:17 +0300 (MSK)
+        with ESMTP id xSFsh-m3_7gH; Wed, 11 Nov 2020 12:09:06 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>, Roger Quadros <rogerq@ti.com>
+        Rob Herring <robh+dt@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -39,6 +39,7 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
@@ -50,9 +51,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 17/18] dt-bindings: usb: keystone-dwc3: Validate DWC3 sub-node
-Date:   Wed, 11 Nov 2020 12:08:52 +0300
-Message-ID: <20201111090853.14112-18-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v4 05/18] dt-bindings: usb: usb-hcd: Add "tpl-support" property
+Date:   Wed, 11 Nov 2020 12:08:40 +0300
+Message-ID: <20201111090853.14112-6-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,10 +64,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TI Keystone DWC3 compatible DT node is supposed to have a DWC USB3
-compatible sub-node to describe a fully functioning USB interface.
-Since DWC USB3 has now got a DT schema describing its DT node, let's make
-sure the TI Keystone DWC3 sub-node passes validation against it.
+The host controller device might be designed to work for the particular
+products or applications. In that case its DT node is supposed to be
+equipped with the tpl-support property.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -75,25 +75,29 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 
 Changelog v2:
 - Grammar fix: "s/it'/its"
+- Discard '|' from the property description, since we don't need to preserve
+  the text formatting.
 ---
- Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
-index c1b19fc5d0a2..ca7fbe3ed22e 100644
---- a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
-@@ -64,9 +64,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 52cc84c400c0..9881ac10380d 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -17,6 +17,12 @@ properties:
+     description: Phandle of a companion device
+     $ref: /schemas/types.yaml#/definitions/phandle
  
- patternProperties:
-   "usb@[a-f0-9]+$":
--    type: object
--    description: This is the node representing the DWC3 controller instance
--      Documentation/devicetree/bindings/usb/dwc3.txt
-+    $ref: snps,dwc3.yaml#
++  tpl-support:
++    description:
++      Indicates if the Targeted Peripheral List is supported for given
++      targeted hosts (non-PC hosts).
++    type: boolean
++
+ additionalProperties: true
  
- required:
-   - compatible
+ examples:
 -- 
 2.28.0
 
