@@ -7,31 +7,35 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8C63C56202
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAE59C61DD8
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BD26206E3
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:11:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96C6A20759
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 09:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbgKKJLp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:11:45 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:39430 "EHLO
+        id S1726993AbgKKJMC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 04:12:02 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:39424 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726263AbgKKJJh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:37 -0500
+        with ESMTP id S1726691AbgKKJJa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 04:09:30 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mail.baikalelectronics.ru (Postfix) with ESMTP id C9BEE803202C;
-        Wed, 11 Nov 2020 09:09:13 +0000 (UTC)
+        by mail.baikalelectronics.ru (Postfix) with ESMTP id 26906803071C;
+        Wed, 11 Nov 2020 09:09:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
         by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id JzdDoCDXE_VP; Wed, 11 Nov 2020 12:09:13 +0300 (MSK)
+        with ESMTP id LlqsdPIFHgdt; Wed, 11 Nov 2020 12:09:16 +0300 (MSK)
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -42,17 +46,16 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 12/18] dt-bindings: usb: dwc3: Add synopsys,dwc3 compatible string
-Date:   Wed, 11 Nov 2020 12:08:47 +0300
-Message-ID: <20201111090853.14112-13-Sergey.Semin@baikalelectronics.ru>
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        <linux-amlogic@lists.infradead.org>
+Subject: [PATCH v4 16/18] dt-bindings: usb: meson-g12a-usb: Validate DWC2/DWC3 sub-nodes
+Date:   Wed, 11 Nov 2020 12:08:51 +0300
+Message-ID: <20201111090853.14112-17-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,42 +66,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
-expects the DWC USB3 DT node to have the compatible string with the
-"synopsys" vendor prefix. Let's add the corresponding compatible string to
-the controller DT schema, but mark it as deprecated seeing the Synopsys,
-Inc. is presented with just "snps" vendor prefix.
+Amlogic G12A USB DT sub-nodes are supposed to be compatible with the
+generic DWC USB2 and USB3 devices. Since now we've got DT schemas for
+both of the later IP cores let's make sure that the Amlogic G12A USB
+DT nodes are fully evaluated including the DWC sub-nodes.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
 ---
 
 Changelog v2:
-- Drop quotes from around the compat string constant.
-
-Changelog v4:
-- Get the patch back, since we can't discard the deprecated prefix from the
-  driver.
+- Use "oneOf: [dwc2.yaml#, snps,dwc3.yaml#]" instead of the bulky "if:
+  properties: compatibe: ..." statement.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml  | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index c205afd66b7c..4f68c5cd7a45 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -28,7 +28,10 @@ allOf:
- properties:
-   compatible:
-     contains:
--      const: snps,dwc3
-+      oneOf:
-+        - const: snps,dwc3
-+        - const: synopsys,dwc3
-+          deprecated: true
+diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+index a4b44a16aaef..7b2dc905c8ce 100644
+--- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
++++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+@@ -78,7 +78,9 @@ properties:
  
-   interrupts:
-     description:
+ patternProperties:
+   "^usb@[0-9a-f]+$":
+-    type: object
++    oneOf:
++      - $ref: dwc2.yaml#
++      - $ref: snps,dwc3.yaml#
+ 
+ additionalProperties: false
+ 
 -- 
 2.28.0
 
