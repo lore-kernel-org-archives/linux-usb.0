@@ -2,188 +2,162 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47333C55ABD
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 01:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF510C388F7
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 01:47:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE64921D91
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 01:38:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77C8221D91
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Nov 2020 01:47:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="HWIxa4MN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XG1NLhaz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732591AbgKKBiq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Nov 2020 20:38:46 -0500
-Received: from mga03.intel.com ([134.134.136.65]:51945 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732589AbgKKBil (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 10 Nov 2020 20:38:41 -0500
-IronPort-SDR: CFW0g1Q+lLfw7m2dpO6TN6z/icmEDanwRJ7IRGh5J3pRIBO4PvUfhYowYrE07KEtbD2jDAOixc
- XQhTpGtovrTQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="170187714"
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
-   d="scan'208";a="170187714"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 17:38:38 -0800
-IronPort-SDR: TwF3ER8Puo/NaoBaImTSrCL+JwSQ0fg9wZT7ay0B9tL5j/gqH1udypG4ucFyomNRVOWjYkLn44
- wg+ZIZdm8HKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
-   d="scan'208";a="530043476"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Nov 2020 17:38:38 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 10 Nov 2020 17:38:38 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 10 Nov 2020 17:38:38 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Tue, 10 Nov 2020 17:38:37 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lu1CL+StyEmoY2VVLh7bjQlToCF4b6moDSzJ5Eaequnm5tqflTxyqjppdS8b6m/Pzs6rlFPbLwXDZi8PJrgOKMvkmE++0+XY/e8hZp1St4rekZaAf/we6BuHP3I+HatChdiGD23kTEK84kBon8m8JneP5oIfJTfbs0uD4P65WzIW6y8ehxlMohtgGEHbgHu9rV0AR8UHKuKkBrENPWowKOYjrkvF2s/8v0adcwbC4llkHWNVWjPjj5Kho6KUyxD0a+LdFO/j1Fz4XyxB0Bp5QcFUXK/QSmSmaz+H4n8rMrYfEPQsTvOycA0IpB4UkrqvgqXBZcMttoV0BBtD4RWZ4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z1SG5z9IEC1xQYtZRl65ru1Zd+QVTE521fE4M/uAAtA=;
- b=CiUWaQTudSedjGqszokUAhXASdiAtqDDHu01fka3xdMWXkidqZeyBCrOE3Dzj/50z3npI0l6BLvPhQUIzWo0aYyC68ns1zgc2QiaRUPaW/3wsugDVFYq7IRX9j9egboiLHK3MOsSGkzDFGl4080ZIBDdIKFGMVh42/NleCpofxDn1rYtuqA+cI8M/BRKqP0xUBCGmN2IKVQGCE20RRQgYyB+WaqzuOXYOwKV5x4iER+3tZLAx4QLeOjlOQ+QSSHRrA5iD5oQFTuFWYR6JcJQskGUuqWf6usRYoqlRgxzN/GMIhp3/fVfYZsGdSZ2ZxylzDQej29hyMtQpjbevViKJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z1SG5z9IEC1xQYtZRl65ru1Zd+QVTE521fE4M/uAAtA=;
- b=HWIxa4MNj29jE7mQB2mS+x9MjJrHZ9E4sc9bEt7bAZBG1GjTbAtPJ97/IUYeEP84CzB5V/MuDx5Vbd1TynFPtiXbl8SAls4c0pvpxXIEgUlMBS6F0VUHKG3I4Kde3frvrk0UEGLL/VU4ldfzAD7NaTrUgicxVejrTcO4CApZB/w=
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com (2603:10b6:301:6a::31)
- by MW3PR11MB4538.namprd11.prod.outlook.com (2603:10b6:303:57::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Wed, 11 Nov
- 2020 01:38:36 +0000
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::ed62:6d3c:c9aa:4c4d]) by MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::ed62:6d3c:c9aa:4c4d%5]) with mapi id 15.20.3541.025; Wed, 11 Nov 2020
- 01:38:36 +0000
-From:   "Patel, Utkarsh H" <utkarsh.h.patel@intel.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "pmalani@chromium.org" <pmalani@chromium.org>,
-        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
-        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
-        "Shaikh, Azhar" <azhar.shaikh@intel.com>
-Subject: RE: [PATCH 2/8] platform/chrome: cros_ec_typec: Correct the
- Thunderbolt rounded/non-rounded cable support
-Thread-Topic: [PATCH 2/8] platform/chrome: cros_ec_typec: Correct the
- Thunderbolt rounded/non-rounded cable support
-Thread-Index: AQHWtvniYYs6KGJknEKpFjqe8iaM/6nBSV2AgACA5LA=
-Date:   Wed, 11 Nov 2020 01:38:36 +0000
-Message-ID: <MWHPR11MB00484E0077F00B83AE8258F7A9E80@MWHPR11MB0048.namprd11.prod.outlook.com>
-References: <20201110003716.5164-1-utkarsh.h.patel@intel.com>
- <20201110003716.5164-3-utkarsh.h.patel@intel.com>
- <20201110121855.GL1224435@kuha.fi.intel.com>
-In-Reply-To: <20201110121855.GL1224435@kuha.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [50.39.100.134]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 87f696d1-7f73-42d8-57ee-08d885e28227
-x-ms-traffictypediagnostic: MW3PR11MB4538:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW3PR11MB45380B61E47D9C9F9686F0D3A9E80@MW3PR11MB4538.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eDtBu2Vdcb/2UwYYjDIy05QgMomJ4YrBjLut3icLqm3AEPdAYhxqbjr7oJJYglqOp5kFFmumIUGenwIQFURzJvcCoMkvUQ7gE9JujznUVHJBdb78fAGRGmvcS42kKUi+Y/+pneohs6OL/SmhMDWhJUkZrvNdB9FRGs0I0nZAtLeCtTEsPIdgR5fUNjQAVTEKZZjj3Fl4IRHDE5t2SZuA9CKZB0huerkWE4fwjuOVnT11Zvo9hutzkcU0KG0BBoCx7T9++ByYhQdJfPCt4gV6M2GIvG1ojVCp5aqjJ+ONva9uQKu8q3NSi5HkI2wG/U4qfcF4McuXB88cTMWBVFHUWg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB0048.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(39860400002)(376002)(366004)(136003)(6916009)(52536014)(66946007)(8676002)(71200400001)(9686003)(64756008)(2906002)(5660300002)(33656002)(66476007)(8936002)(76116006)(4326008)(54906003)(316002)(53546011)(6506007)(478600001)(55016002)(86362001)(186003)(7696005)(83380400001)(26005)(66556008)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 4RbS/1SYEdHsUZCvGZ2YnS737Xg1n+3JUUuowC7LDI9olz60dziuNpF11VOcApuwRohHQQg67F032+Q1kNFgsTPIDuJv1IJrEt+m+HBegXfzu81T7aJS6XbzUtDOuHsJvj6AmAvIRz9cR0IkdVWBXQTp+XnrhmsfQpkHwB6YuD/Fcm6jc7pUSwT6RO8fCdgve6oJiRaYwXCjaRefq+gPk0Wjf0Ck+ZedgvewqqHLcEpgM2eVXLecaJcunGN/Ubl+zU5QTuuVPb/Y0T1HWWQLU9RkJWqyuDLgEcxtkxZ8N8FCS6Re+HmdMUCn6CfCAbW709ExdwBpywqDXxtU15l8yKeLgPg2fNhEcIbQxeRwf48rpiWe3XRVl+xR27YHSuNmTVCebitZ2PFLGPcFr+2GPAleEagbiHX0tXJ5x6g/4YDSoNlddPSq5gozgWRYeWFQsGdBKC7OEAxCnH9N6HDbdunL48YUYY3piYjXKrKURu8l0VlFdQRC8Wf6R00BYEWZou1VShZYbs6AoS/Tnmp8MV+KbC72Q5JO3Iwpa/rba9sJfybHLQi/gCu2nHjmMEMU4fU26omzVqEX8xjdpQ8aSsBOwsAvu7DcmLZqF31dlqgXKbyJOsRS7DpuyLsYZ7QliY1N/9p7twsN5P33KAv25e/Dp/25dJlhJe6Gbb2Q4hFTrAWEKVEVQpSG3bJmx8VtJ4u4iN2T8Cv/H1p5G7jrUWLR0NJ0IN3ZqvJ0qYFNtTPNbIbrKyVC/7nnm0oB0/Hvtk32UZ9DZk2MccHmg3nb4aCqiWWMEBGIZzDf/vTw9VKCB5cX74ww1BaDoucw+BCRWtqW9MQDL1iWRk8yc9V1/6iL3mZre4L0rkHvrxLGTtaMaMUmF8qQBR2OVySjU+umkLCxV2wfVKUBdrdHq+k+cg==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0048.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87f696d1-7f73-42d8-57ee-08d885e28227
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2020 01:38:36.5235
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GWI6MPHpWQQh732t36C0+aQaxob4j3tiV6EK4hcX2P2hKm7Sz5gfJAtBa2jJHJ7hk0oTdi+rHEbwkEh25XAGGmiok10RH27E0SAmRlMduW8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4538
-X-OriginatorOrg: intel.com
+        id S1731984AbgKKBra (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Nov 2020 20:47:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53728 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731610AbgKKBra (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Nov 2020 20:47:30 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3991FC0613D1
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2020 17:47:30 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id j2so736601ybb.12
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2020 17:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=FxgG6C8MNarNIrksAc2vZbdhW8ip0bCS/z9vVgyXDNc=;
+        b=XG1NLhaztaGy9uEIyJqVmQKwvkssXXvS2Zw2USFL0RJT2tfUR1g2p5CuJrbwHdzWHB
+         ejdaqHnxoveZbJSjTc8f5NxlXlOvbTXWKCxqp2VhTXu+nMfdtCo3uw1bKobNjHPpPqIZ
+         ewpqi/dESTPK86rhP2kLhYtjve+Sr/cwGhpRX/5yuZ7EVqKUXOmAyIug5bpICNnXY4cm
+         pgejCoywbt5Qx9j3KMLaP+VPN69gnia0q6Aj9Xxpykg3wY78IW5kuhPtmOufP/Y4enUw
+         HFI7h+m0rGp1cEq6B8EO9xp9Hdtnji6+q34+/3mnwSo1lNBawPPHhqaeetGXVVHEjtD4
+         TJxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=FxgG6C8MNarNIrksAc2vZbdhW8ip0bCS/z9vVgyXDNc=;
+        b=Mekbx+KiLwPvxWMZQWWsWHCSTo5GzR7wOqEma5QeXTacsmdbZpdDSy25q7Rp46hdNH
+         TK6O8WljkugU9DipMyQnTY/d1G9tipetLrRDuLEIritjuMl0aKwpa+L4kWjGH78owBuo
+         woqUc0QyHGxlwF8qXLtopu0FkuvqIEYC23kOTofjipPCEXSBWksl/ILYSuCnmZwWupnt
+         IlaLOcRGn+3EQ4gKY/KmDA2Zh3NuG39wr5APGMdVi1jWuxqizpG9eZdhtqV9IBCOy+RJ
+         Qm6/89NuV97u0NFUgN5Fprxr7oUtY9e+P5Sr/37IL/UCE7GPL3Csys6/0gr3uezLvNtJ
+         wdUQ==
+X-Gm-Message-State: AOAM531LCoL1S453ZE8eHsiy92Y22rFTaTz0cefEbVXgMDmFoYNFXQeS
+        fFi6F/1bqe8xPbp7hyU9byAzhQpiV63ANoXi3Jk=
+X-Google-Smtp-Source: ABdhPJxO9Fs0lN744pI3vERiDRD0xhvwSXC3poyrmXrPztNJ9LEnOYhMgqZheafU2uzfqtDyv71Wuvop9Lp6zl6YHlI=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:a5b:886:: with SMTP id
+ e6mr12574836ybq.473.1605059249452; Tue, 10 Nov 2020 17:47:29 -0800 (PST)
+Date:   Tue, 10 Nov 2020 17:47:14 -0800
+Message-Id: <20201111014716.260633-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
+Subject: [PATCH] usb: fix a few cases of -Wfallthrough
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Heikki,
+The "fallthrough" pseudo-keyword was added as a portable way to denote
+intentional fallthrough. Clang will still warn on cases where there is a
+fallthrough to an immediate break. Add explicit breaks for those cases.
 
-> -----Original Message-----
-> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Sent: Tuesday, November 10, 2020 4:19 AM
-> To: Patel, Utkarsh H <utkarsh.h.patel@intel.com>
-> Cc: linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org;
-> pmalani@chromium.org; enric.balletbo@collabora.com; Mani, Rajmohan
-> <rajmohan.mani@intel.com>; Shaikh, Azhar <azhar.shaikh@intel.com>
-> Subject: Re: [PATCH 2/8] platform/chrome: cros_ec_typec: Correct the
-> Thunderbolt rounded/non-rounded cable support
->=20
-> On Mon, Nov 09, 2020 at 04:37:10PM -0800, Utkarsh Patel wrote:
-> > Thunderbolt rounded/non-rounded cable support is two bits value.
-> > Correcting it as per the Thunderbolt 3 cable discover mode VDO changes
-> > done in the Thunderbolt 3 alternate mode header.
-> >
-> > Fixes: 5b30bd35aab4 ("platform/chrome: cros_ec_typec: Add TBT compat
-> > support")
->=20
-> Again the fix tag?
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ drivers/usb/core/config.c    | 1 +
+ drivers/usb/host/ehci-hcd.c  | 2 +-
+ drivers/usb/host/ohci-hcd.c  | 2 +-
+ drivers/usb/host/ohci-hub.c  | 1 +
+ drivers/usb/host/xhci-ring.c | 2 ++
+ 5 files changed, 6 insertions(+), 2 deletions(-)
 
-Ack. I will remove the fix tag in v2.
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index 562a730befda..b199eb65f378 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -1076,6 +1076,7 @@ int usb_get_bos_descriptor(struct usb_device *dev)
+ 		case USB_PTM_CAP_TYPE:
+ 			dev->bos->ptm_cap =
+ 				(struct usb_ptm_cap_descriptor *)buffer;
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+index 3575b7201881..e358ae17d51e 100644
+--- a/drivers/usb/host/ehci-hcd.c
++++ b/drivers/usb/host/ehci-hcd.c
+@@ -867,7 +867,7 @@ static int ehci_urb_enqueue (
+ 		 */
+ 		if (urb->transfer_buffer_length > (16 * 1024))
+ 			return -EMSGSIZE;
+-		/* FALLTHROUGH */
++		fallthrough;
+ 	/* case PIPE_BULK: */
+ 	default:
+ 		if (!qh_urb_transaction (ehci, urb, &qtd_list, mem_flags))
+diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+index 73e13e7c2b46..1f5e69314a17 100644
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -171,7 +171,7 @@ static int ohci_urb_enqueue (
+ 
+ 			/* 1 TD for setup, 1 for ACK, plus ... */
+ 			size = 2;
+-			/* FALLTHROUGH */
++			fallthrough;
+ 		// case PIPE_INTERRUPT:
+ 		// case PIPE_BULK:
+ 		default:
+diff --git a/drivers/usb/host/ohci-hub.c b/drivers/usb/host/ohci-hub.c
+index 44504c1751e0..f474f2f9c1e4 100644
+--- a/drivers/usb/host/ohci-hub.c
++++ b/drivers/usb/host/ohci-hub.c
+@@ -692,6 +692,7 @@ int ohci_hub_control(
+ 		case C_HUB_OVER_CURRENT:
+ 			ohci_writel (ohci, RH_HS_OCIC,
+ 					&ohci->regs->roothub.status);
++			break;
+ 		case C_HUB_LOCAL_POWER:
+ 			break;
+ 		default:
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 167dae117f73..eac43a7b7f23 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2418,6 +2418,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 			xhci_warn_ratelimited(xhci,
+ 					      "WARN Successful completion on short TX for slot %u ep %u: needs XHCI_TRUST_TX_LENGTH quirk?\n",
+ 					      slot_id, ep_index);
++		break;
+ 	case COMP_SHORT_PACKET:
+ 		break;
+ 	/* Completion codes for endpoint stopped state */
+@@ -2962,6 +2963,7 @@ static int prepare_ring(struct xhci_hcd *xhci, struct xhci_ring *ep_ring,
+ 		return -EINVAL;
+ 	case EP_STATE_HALTED:
+ 		xhci_dbg(xhci, "WARN halted endpoint, queueing URB anyway.\n");
++		break;
+ 	case EP_STATE_STOPPED:
+ 	case EP_STATE_RUNNING:
+ 		break;
+-- 
+2.29.2.222.g5d2a92d10f8-goog
 
->=20
-> > Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
-> > ---
-> >  drivers/platform/chrome/cros_ec_typec.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/platform/chrome/cros_ec_typec.c
-> > b/drivers/platform/chrome/cros_ec_typec.c
-> > index 31be31161350..8111ed1fc574 100644
-> > --- a/drivers/platform/chrome/cros_ec_typec.c
-> > +++ b/drivers/platform/chrome/cros_ec_typec.c
-> > @@ -438,8 +438,7 @@ static int cros_typec_enable_tbt(struct
-> cros_typec_data *typec,
-> >  	if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_LINK_UNIDIR)
-> >  		data.cable_mode |=3D TBT_CABLE_LINK_TRAINING;
-> >
-> > -	if (pd_ctrl->cable_gen)
-> > -		data.cable_mode |=3D TBT_CABLE_ROUNDED;
-> > +	data.cable_mode |=3D TBT_SET_CABLE_ROUNDED(pd_ctrl->cable_gen);
-> >
-> >  	/* Enter Mode VDO */
-> >  	data.enter_vdo =3D TBT_SET_CABLE_SPEED(pd_ctrl->cable_speed);
-> > --
-> > 2.17.1
->=20
-> thanks,
->=20
-> --
-> Heikki
-
-Sincerely,
-Utkarsh Patel.
