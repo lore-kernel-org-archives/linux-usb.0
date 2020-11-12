@@ -2,59 +2,59 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC84BC388F9
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 01:45:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC122C388F9
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 01:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 631B62076E
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 01:45:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 907C220791
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 01:45:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="T/tVtYvR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Rw6R2li2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728762AbgKLBei (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 20:34:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51024 "EHLO
+        id S1728755AbgKLBeg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Nov 2020 20:34:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728244AbgKLBZy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 20:25:54 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2412BC061A47
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2020 17:24:49 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id r186so2776534pgr.0
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2020 17:24:49 -0800 (PST)
+        with ESMTP id S1728240AbgKLBYY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 20:24:24 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91320C0613D6
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2020 17:24:24 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id w4so2716794pgg.13
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2020 17:24:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8DcGafbvQqN5zipJdHjKdMsCeDSLUNjhAWjdzvCFrZc=;
-        b=T/tVtYvRnLaFMK2pmzumn5f7ZTAvTiButF/Ax1Jt0pH7X3qp3pR2hoeIefvqYBu1Ao
-         jnV9/+1QKUrY0tIpFzLla2NR7UsZ1F64A6B7cggFN9mAb/iEEFg7GFs13j8tQyptCf3u
-         8s3PYSItYMbIVSZKPIZOIdW/d9KjM0m0OoNLw=
+        bh=+WCpS0aS+17iz7yDGMFlHKebZYZGUnged3i65MrwnzY=;
+        b=Rw6R2li2CgbtawGLsTK5QGL6oAaPcs+U3E1ANmP8AQMc+Y6eFkdzgco8i/9kxgcQgl
+         ecoIsAGV2mG6JWf6YYGswBZWhk9oDf+veHdh1x94Wq4uKFyqAqtRLFWKUzPM1mBSD2ZY
+         dcGQR4fw/A4SEtvsrclpc+YUaN2AyuREWTWbQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8DcGafbvQqN5zipJdHjKdMsCeDSLUNjhAWjdzvCFrZc=;
-        b=jUs8/UpZpkgqDchtChAJrmyZZiU5yj5JgfyQlzvHc1md0pQw9l0HibnMXIjAiXCRXL
-         IV81deHJJnkeF32VC8KOA+ZRl9CYg5sBb5iG8zmJhJvxRFgB+XzuzcaQEC4a0O8THUD0
-         FKkgqpbqi3SuHMRH7DeDJ+dcL4IkafQfQn7xi5EPD6j3rbd022zKb5fR2JmdEzFsZL3I
-         qxUyzeJDg9jFjypg7vQz1jQpyf/Zi14llVclX4ztV8woIh4wTmGK7ADSQw5Gt3VR2v3D
-         Rsqsxl0UzqhegU+tw/v0uTrMvmOzVKZ3ATP0pNbMQoKdHAjMSeZ5pIPZwHcZe46eb0Ot
-         qolg==
-X-Gm-Message-State: AOAM532CaASSnfpPfQbwLjvnt0wbifz/KyI14VPucHfny6hJaaotEAa+
-        d0+Uzwu1glPI8Xim6QDY2mnlE/L4Lz9oqA==
-X-Google-Smtp-Source: ABdhPJx6m8O9MvxH+06SSms5W0hAk08LkGKFpC/GeQI3hY+4VWoFN6J16BNCzuikI/G++uG3WTT/hw==
-X-Received: by 2002:a62:7b4a:0:b029:18b:b3f:3fe6 with SMTP id w71-20020a627b4a0000b029018b0b3f3fe6mr24914159pfc.80.1605144288719;
-        Wed, 11 Nov 2020 17:24:48 -0800 (PST)
+        bh=+WCpS0aS+17iz7yDGMFlHKebZYZGUnged3i65MrwnzY=;
+        b=PAv6Kd9Q8T3A5oQAuhncdXCU+yBY/XD2xFmWZJeKY/3JXsXWH4gsuNFlloy+pY157o
+         cfZlcFX/pAsZsrKrA9sj+GzcdD6GQ664c0/uwxYqhP9+WBCFdtO6UR4yAq7284zcqp47
+         R/hfNaEwihFU4fHUcUCDfgfoTd4lHeuoL+Nhc29XvXzxdC5CL7W7lzH0NPyHsiAOsvft
+         A2qQmyqkipPssWCOlpDfVTHkEVTkaQdqh2ryN+OfHnBgtF9QlYYlgO5RDbJqVGTparpF
+         qqd+Y4u+qAknzY6yAYbeUVDveKacbLSjhUSJySFN4c6tOu9NpwEHNrIkdXlC72oXVobS
+         RtCg==
+X-Gm-Message-State: AOAM533opTFETUHO2kFNWNV11/5jUtC/By2u86ZbSouq+YtpN1aUAuZJ
+        4u6sLZ8CFwixa74JXsu0gdBmdw==
+X-Google-Smtp-Source: ABdhPJxKMVOL/R+75gOff0QjpM/Vas8bo7F6Z2MVGZgM+wKhH4GMsLrRDoz2wZGZ8ceYXCdGEfXIHw==
+X-Received: by 2002:a63:e54a:: with SMTP id z10mr22639942pgj.297.1605144264113;
+        Wed, 11 Nov 2020 17:24:24 -0800 (PST)
 Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
-        by smtp.gmail.com with ESMTPSA id k25sm4057227pfi.42.2020.11.11.17.24.47
+        by smtp.gmail.com with ESMTPSA id k25sm4057227pfi.42.2020.11.11.17.24.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 17:24:48 -0800 (PST)
+        Wed, 11 Nov 2020 17:24:23 -0800 (PST)
 From:   Prashant Malani <pmalani@chromium.org>
 To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
@@ -62,9 +62,9 @@ To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 Cc:     Prashant Malani <pmalani@chromium.org>,
         Benson Leung <bleung@chromium.org>,
         Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH 3/3] platform/chrome: cros_ec_typec: Register plug altmodes
-Date:   Wed, 11 Nov 2020 17:23:32 -0800
-Message-Id: <20201112012329.1364975-4-pmalani@chromium.org>
+Subject: [PATCH 1/3] usb: typec: Add plug num_altmodes sysfs attr
+Date:   Wed, 11 Nov 2020 17:23:28 -0800
+Message-Id: <20201112012329.1364975-2-pmalani@chromium.org>
 X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
 In-Reply-To: <20201112012329.1364975-1-pmalani@chromium.org>
 References: <20201112012329.1364975-1-pmalani@chromium.org>
@@ -74,158 +74,177 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Modify the altmode registration (and unregistration) code so that it
-can be used by both partners and plugs.
+Add a field to the typec_plug struct to record the number of available
+altmodes as well as the corresponding sysfs attribute to expose this to
+userspace.
 
-Then, add code to register plug altmodes using the newly parameterized
-function. Also set the number of alternate modes for the plug using the
-associated Type C connector class function
-typec_plug_set_num_altmodes().
+This allows userspace to determine whether there are any
+remaining alternate modes left to be registered by the kernel driver. It
+can begin executing any policy state machine after all available
+alternate modes have been registered with the connector class framework.
+
+This value is set to "-1" initially, signifying that a valid number of
+alternate modes haven't been set for the plug. The sysfs file remains
+hidden as long as the attribute value is -1.
+
+We re-use the partner attribute for number_of_alternate_modes since the
+usage and name is similar, and update the corresponding *_show() command
+to support both partner and plugs.
 
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 50 ++++++++++++++++++++-----
- 1 file changed, 40 insertions(+), 10 deletions(-)
+ Documentation/ABI/testing/sysfs-class-typec |  9 +++
+ drivers/usb/typec/class.c                   | 77 ++++++++++++++++++++-
+ include/linux/usb/typec.h                   |  1 +
+ 3 files changed, 85 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index d2e154ae2362..65c5d0090ccd 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -67,6 +67,7 @@ struct cros_typec_port {
- 	bool sop_prime_disc_done;
- 	struct ec_response_typec_discovery *disc_data;
- 	struct list_head partner_mode_list;
-+	struct list_head plug_mode_list;
+diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+index 73ac7b461ae5..29eccf5fb8ed 100644
+--- a/Documentation/ABI/testing/sysfs-class-typec
++++ b/Documentation/ABI/testing/sysfs-class-typec
+@@ -204,6 +204,15 @@ Description:
+ 		- type-c
+ 		- captive
+ 
++What:		/sys/class/typec/<port>-<plug>/number_of_alternate_modes
++Date:		November 2020
++Contact:	Prashant Malani <pmalani@chromium.org>
++Description:
++		Shows the number of alternate modes which are advertised by the plug
++		associated with a particular cable during Power Delivery discovery.
++		This file remains hidden until a value greater than or equal to 0
++		is set by Type C port driver.
++
+ What:		/sys/class/typec/<port>-cable/identity/
+ Date:		April 2017
+ Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index c7412ddbd311..e68798599ca8 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -18,6 +18,7 @@ struct typec_plug {
+ 	struct device			dev;
+ 	enum typec_plug_index		index;
+ 	struct ida			mode_ids;
++	int				num_altmodes;
  };
  
- /* Platform-specific data for the Chrome OS EC Type C controller. */
-@@ -186,12 +187,15 @@ static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
- 	return ret;
+ struct typec_cable {
+@@ -536,9 +537,21 @@ static DEVICE_ATTR_RO(supports_usb_power_delivery);
+ static ssize_t number_of_alternate_modes_show(struct device *dev, struct device_attribute *attr,
+ 					      char *buf)
+ {
+-	struct typec_partner *p = to_typec_partner(dev);
++	struct typec_partner *partner;
++	struct typec_plug *plug;
++	int num_altmodes;
++
++	if (is_typec_partner(dev)) {
++		partner = to_typec_partner(dev);
++		num_altmodes = partner->num_altmodes;
++	} else if (is_typec_plug(dev)) {
++		plug = to_typec_plug(dev);
++		num_altmodes = plug->num_altmodes;
++	} else {
++		return 0;
++	}
+ 
+-	return sysfs_emit(buf, "%d\n", p->num_altmodes);
++	return sysfs_emit(buf, "%d\n", num_altmodes);
+ }
+ static DEVICE_ATTR_RO(number_of_alternate_modes);
+ 
+@@ -726,11 +739,70 @@ static void typec_plug_release(struct device *dev)
+ 	kfree(plug);
  }
  
--static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int port_num)
-+static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int port_num,
-+					   bool is_partner)
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
- 	struct cros_typec_altmode_node *node, *tmp;
-+	struct list_head *head;
- 
--	list_for_each_entry_safe(node, tmp, &port->partner_mode_list, list) {
-+	head = is_partner ? &port->partner_mode_list : &port->plug_mode_list;
-+	list_for_each_entry_safe(node, tmp, head, list) {
- 		list_del(&node->list);
- 		typec_unregister_altmode(node->amode);
- 		devm_kfree(typec->dev, node);
-@@ -203,7 +207,7 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
- 
--	cros_typec_unregister_altmodes(typec, port_num);
-+	cros_typec_unregister_altmodes(typec, port_num, true);
- 
- 	port->state.alt = NULL;
- 	port->state.mode = TYPEC_STATE_USB;
-@@ -224,6 +228,8 @@ static void cros_typec_remove_cable(struct cros_typec_data *typec,
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
- 
-+	cros_typec_unregister_altmodes(typec, port_num, false);
++static struct attribute *typec_plug_attrs[] = {
++	&dev_attr_number_of_alternate_modes.attr,
++	NULL
++};
 +
- 	typec_unregister_plug(port->plug);
- 	port->plug = NULL;
- 	typec_unregister_cable(port->cable);
-@@ -352,6 +358,7 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 		}
- 
- 		INIT_LIST_HEAD(&cros_port->partner_mode_list);
-+		INIT_LIST_HEAD(&cros_port->plug_mode_list);
- 	}
- 
- 	return 0;
-@@ -639,7 +646,11 @@ static int cros_typec_get_mux_info(struct cros_typec_data *typec, int port_num,
- 				     sizeof(req), resp, sizeof(*resp));
- }
- 
--static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_num)
-+/*
-+ * Helper function to register partner/plug altmodes.
-+ */
-+static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_num,
-+					bool is_partner)
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
- 	struct ec_response_typec_discovery *sop_disc = port->disc_data;
-@@ -657,7 +668,11 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
- 			desc.mode = j;
- 			desc.vdo = sop_disc->svids[i].mode_vdo[j];
- 
--			amode = typec_partner_register_altmode(port->partner, &desc);
-+			if (is_partner)
-+				amode = typec_partner_register_altmode(port->partner, &desc);
-+			else
-+				amode = typec_plug_register_altmode(port->plug, &desc);
++static umode_t typec_plug_attr_is_visible(struct kobject *kobj, struct attribute *attr, int n)
++{
++	struct typec_plug *plug = to_typec_plug(kobj_to_dev(kobj));
 +
- 			if (IS_ERR(amode)) {
- 				ret = PTR_ERR(amode);
- 				goto err_cleanup;
-@@ -672,21 +687,30 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
- 			}
- 
- 			node->amode = amode;
--			list_add_tail(&node->list, &port->partner_mode_list);
-+
-+			if (is_partner)
-+				list_add_tail(&node->list, &port->partner_mode_list);
-+			else
-+				list_add_tail(&node->list, &port->plug_mode_list);
- 			num_altmodes++;
- 		}
- 	}
- 
--	ret = typec_partner_set_num_altmodes(port->partner, num_altmodes);
-+	if (is_partner)
-+		ret = typec_partner_set_num_altmodes(port->partner, num_altmodes);
-+	else
-+		ret = typec_plug_set_num_altmodes(port->plug, num_altmodes);
-+
- 	if (ret < 0) {
--		dev_err(typec->dev, "Unable to set partner num_altmodes for port: %d\n", port_num);
-+		dev_err(typec->dev, "Unable to set %s num_altmodes for port: %d\n",
-+			is_partner ? "partner" : "plug", port_num);
- 		goto err_cleanup;
- 	}
- 
- 	return 0;
- 
- err_cleanup:
--	cros_typec_unregister_altmodes(typec, port_num);
-+	cros_typec_unregister_altmodes(typec, port_num, is_partner);
- 	return ret;
- }
- 
-@@ -774,6 +798,12 @@ static int cros_typec_handle_sop_prime_disc(struct cros_typec_data *typec, int p
- 		goto sop_prime_disc_exit;
- 	}
- 
-+	ret = cros_typec_register_altmodes(typec, port_num, false);
-+	if (ret < 0) {
-+		dev_err(typec->dev, "Failed to register plug altmodes, port: %d\n", port_num);
-+		goto sop_prime_disc_exit;
++	if (attr == &dev_attr_number_of_alternate_modes.attr) {
++		if (plug->num_altmodes < 0)
++			return 0;
 +	}
 +
- 	return 0;
++	return attr->mode;
++}
++
++static struct attribute_group typec_plug_group = {
++	.is_visible = typec_plug_attr_is_visible,
++	.attrs = typec_plug_attrs
++};
++
++static const struct attribute_group *typec_plug_groups[] = {
++	&typec_plug_group,
++	NULL
++};
++
+ static const struct device_type typec_plug_dev_type = {
+ 	.name = "typec_plug",
++	.groups = typec_plug_groups,
+ 	.release = typec_plug_release,
+ };
  
- sop_prime_disc_exit:
-@@ -815,7 +845,7 @@ static int cros_typec_handle_sop_disc(struct cros_typec_data *typec, int port_nu
- 		goto disc_exit;
- 	}
++/**
++ * typec_plug_set_num_altmodes - Set the number of available plug altmodes
++ * @plug: The plug to be updated.
++ * @num_altmodes: The number of altmodes we want to specify as available.
++ *
++ * This routine is used to report the number of alternate modes supported by the
++ * plug. This value is *not* enforced in alternate mode registration routines.
++ *
++ * @plug.num_altmodes is set to -1 on plug registration, denoting that
++ * a valid value has not been set for it yet.
++ *
++ * Returns 0 on success or negative error number on failure.
++ */
++int typec_plug_set_num_altmodes(struct typec_plug *plug, int num_altmodes)
++{
++	int ret;
++
++	if (num_altmodes < 0)
++		return -EINVAL;
++
++	plug->num_altmodes = num_altmodes;
++	ret = sysfs_update_group(&plug->dev.kobj, &typec_plug_group);
++	if (ret < 0)
++		return ret;
++
++	sysfs_notify(&plug->dev.kobj, NULL, "number_of_alternate_modes");
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(typec_plug_set_num_altmodes);
++
+ /**
+  * typec_plug_register_altmode - Register USB Type-C Cable Plug Alternate Mode
+  * @plug: USB Type-C Cable Plug that supports the alternate mode
+@@ -776,6 +848,7 @@ struct typec_plug *typec_register_plug(struct typec_cable *cable,
+ 	sprintf(name, "plug%d", desc->index);
  
--	ret = cros_typec_register_altmodes(typec, port_num);
-+	ret = cros_typec_register_altmodes(typec, port_num, true);
- 	if (ret < 0) {
- 		dev_err(typec->dev, "Failed to register partner altmodes, port: %d\n", port_num);
- 		goto disc_exit;
+ 	ida_init(&plug->mode_ids);
++	plug->num_altmodes = -1;
+ 	plug->index = desc->index;
+ 	plug->dev.class = typec_class;
+ 	plug->dev.parent = &cable->dev;
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index bc6b1a71cb8a..54475323f83b 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -130,6 +130,7 @@ int typec_partner_set_num_altmodes(struct typec_partner *partner, int num_altmod
+ struct typec_altmode
+ *typec_partner_register_altmode(struct typec_partner *partner,
+ 				const struct typec_altmode_desc *desc);
++int typec_plug_set_num_altmodes(struct typec_plug *plug, int num_altmodes);
+ struct typec_altmode
+ *typec_plug_register_altmode(struct typec_plug *plug,
+ 			     const struct typec_altmode_desc *desc);
 -- 
 2.29.2.222.g5d2a92d10f8-goog
 
