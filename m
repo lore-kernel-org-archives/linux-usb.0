@@ -2,112 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C900BC56201
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 01:45:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 916C3C56201
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 05:38:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ABEB2076E
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 01:45:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EF972168B
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 05:38:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XH00HgnQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a8wC6MGM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728752AbgKLBef (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Nov 2020 20:34:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50708 "EHLO
+        id S1729482AbgKLFil (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 00:38:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbgKLBXy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 20:23:54 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0462C0613D1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2020 17:23:53 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id z3so2951819pfb.10
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2020 17:23:53 -0800 (PST)
+        with ESMTP id S1728482AbgKLECN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Nov 2020 23:02:13 -0500
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28DDDC0613D1;
+        Wed, 11 Nov 2020 20:02:12 -0800 (PST)
+Received: by mail-il1-x141.google.com with SMTP id q1so4024831ilt.6;
+        Wed, 11 Nov 2020 20:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N7Lf2zyWERPVdu1htC4rXtjvkvXPb9GfV1THCOYFuzQ=;
-        b=XH00HgnQSvMCsYKU8m1dMFSTUu9rPajGK59TSV5XwegjFuF/OFM80jpJKt9b4w8HtO
-         DAEoq/eI0pSDbHL5YiiGx87azE4m2Kcm+iXSVBeegTQIX3hxH1OdMUpggeVIy1J4BuoC
-         Gns43J9xqLOkFd9XvKJIUMopKQO+xfIkJwLns=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=U+8jpjvx6PAYwsv1dXTnTLiw8GFCxCK+HvTqDAev6w4=;
+        b=a8wC6MGMvbtOwRwEqZ+bZ1sl1CkbTUaiQmrEtWsxDvDAjzqe3VbbnpcJaJrcKecJuK
+         Fk6cFG58xCPrj6NE8tF0zuGDWOowgbXLNeiA77pz6trKRETvUEGhVWaDWKPhFvkqe078
+         RxxIgCtxs29YzaoW2sRkK5+4Rc7HnYX29VZVLRmiOHYg7yTPjc/Dm+LssRvplsVmw4mP
+         7njwoiEeY1K84OppoLt280JYE3KL7SCjHX2xAgfgvGk3z9XmDsKTLUSSgjmS8eFWfuJy
+         azUziBo46TD/0pVBn0hDSE6NLNQsR4nBg6NYKQCJ2joWKigsgOjGpkZ4/q3+HEtX9Kb3
+         ikiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N7Lf2zyWERPVdu1htC4rXtjvkvXPb9GfV1THCOYFuzQ=;
-        b=QdIXGJLM0lHXX0+m1l6hNI9SanCxv0sKmu0m1/s9ZVgoMarg2C48E0LQVO+mlzwxbr
-         fkdN39XwYgzQUseJBEs1QKgW+9XLrsuwSWCzrz5GAKDo6SOfKT+aU/A6fqSz7WCnnqiZ
-         sM0a7/MPWsfDQxJcjhMcoChnBdOa+GO8e6T93JXbAJTqSuDABXnbUK0wGfOpmvkGO9xB
-         2Ati2oFIs58oEOVf8tCcOPFKilgmOuHjvtLCXIhUAg8cPwv+w8tgYHKawd7D1mnChFEg
-         87QYvXBkMfvSF5s19fooMZkyJ0cz/l1IZ/S5nJqoLMMSwOv9JAnO0f0cfTZhM12x+WMP
-         SX2A==
-X-Gm-Message-State: AOAM5311xL/bMwznsoFeimGsg6OKtW+t0YDSVuuOgomA5p8xBji9WJgK
-        hIs77Vhkf++JknnYZOhFEcKC7w==
-X-Google-Smtp-Source: ABdhPJyUs9WS/doQQJOar3CjKqcIF17wYM/oOgMOnZUo3GYSHnoTc1p0MtsJCj1qhMZAS7qduYBywg==
-X-Received: by 2002:a65:508a:: with SMTP id r10mr24784979pgp.307.1605144233091;
-        Wed, 11 Nov 2020 17:23:53 -0800 (PST)
-Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
-        by smtp.gmail.com with ESMTPSA id k25sm4057227pfi.42.2020.11.11.17.23.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 17:23:52 -0800 (PST)
-From:   Prashant Malani <pmalani@chromium.org>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
-        enric.balletbo@collabora.com
-Cc:     Prashant Malani <pmalani@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH 0/3] platform/chrome: cros_ec_typec: Add plug and plug altmodes
-Date:   Wed, 11 Nov 2020 17:23:25 -0800
-Message-Id: <20201112012329.1364975-1-pmalani@chromium.org>
-X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=U+8jpjvx6PAYwsv1dXTnTLiw8GFCxCK+HvTqDAev6w4=;
+        b=APDuR8icKO1agoIdFU9qlJyDiQjCKk6YDEtBMP5qHkoVo1Vupjt3/8N08QprQDQIUW
+         TdM/8OhXCzujlE9GKdr7SAlS444JyaRvYW5txDIXX1ifScnuhlfkpOC+cb7oX9cFKwj3
+         XJotbs8Ugqgwe7m9hu04tdiTEjXmk0NktqMQfaWIe45fQVIq0M8Ueea/W6TZ6uZ8LmI1
+         ZblT3emXjBeVY7r9bl0UkId9eW2AuEp/Bare8OkhY7eZ7hHFVAdihMH55QPV5bXeYxU+
+         rC49RyYeXOJcAMwgMWrZbR0QASOBgn+eLSOOu7FvPHJEooiiUcMKwuxScxBi4gOZGfit
+         pgVw==
+X-Gm-Message-State: AOAM5330r8iA6H9zLdylO6CRjNTsubLt6q9+3P/2UWo0KcwTdPCWizxn
+        M+/x0pbQL0/i6mD7FiBYUirBMhfABRCtbAif6gQ=
+X-Google-Smtp-Source: ABdhPJyHAbpI5VZ+WCYeQcIuPdX64cIeiZk0VZEGRdy1BKycJnmkGyJorCWba2P10ce/IdBwEtYcTz6BoKlhp+e0524=
+X-Received: by 2002:a92:5eda:: with SMTP id f87mr23102667ilg.131.1605153731335;
+ Wed, 11 Nov 2020 20:02:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAGaOi3Z5ezAiBB4-YxUa+so1s=PnVzVsfw9rAs3CGKExJHD-ow@mail.gmail.com>
+In-Reply-To: <CAGaOi3Z5ezAiBB4-YxUa+so1s=PnVzVsfw9rAs3CGKExJHD-ow@mail.gmail.com>
+From:   app l <lipc198702@gmail.com>
+Date:   Thu, 12 Nov 2020 12:02:00 +0800
+Message-ID: <CAGaOi3ZLiVUBaTX=humCVYp-tU1L61iY64HUCShfSeY38SZZsA@mail.gmail.com>
+Subject: Re: Question: gadget: How to realize uvc and uac composite function?
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series add plug registration support to the cros-ec-typec
-driver. It also adds support for registering alternate modes for the
-registered plug. These features utilize the API provided by the Type C
-connector class framework.
+Through the debug, the problem has been resolved, it can be recognized
+normally, and the windows driver can be loaded normally, thank you
 
-The first patch adds support to the connector class framework for the
-number_of_alternate_modes attribute (along with the relevant ABI
-documentation).
-
-The next two patches add plug registration, and then altmode
-registration for the plugs. The latter of these two patches utilizes the
-new function for plug number_of_alternate_modes introduced in the first patch.
-
-This series is based on top of the following branch and other patch
-series (applied in the order specified):
-- Branch: chrome-platform for-next [1], which is currently set to the
-  "Linux 5.10-rc1" tag.
-- cros-ec-typec: Patch series to register PD identity information + partner altmodes[2]
-- cros-ec-typec: Patch series to register cable[3]
-- cros-ec-typec: Patch series to add partner number_of_altmodes[4]
-
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/log/?h=for-next
-[2]: https://lore.kernel.org/lkml/20201029222738.482366-1-pmalani@chromium.org/
-[3]: https://lore.kernel.org/lkml/20201106184104.939284-1-pmalani@chromium.org/
-[4]: https://lore.kernel.org/lkml/20201110061535.2163599-1-pmalani@chromium.org/
-
-Prashant Malani (3):
-  usb: typec: Add plug num_altmodes sysfs attr
-  platform/chrome: cros_ec_typec: Register SOP' cable plug
-  platform/chrome: cros_ec_typec: Register plug altmodes
-
- Documentation/ABI/testing/sysfs-class-typec |  9 +++
- drivers/platform/chrome/cros_ec_typec.c     | 85 ++++++++++++++++-----
- drivers/usb/typec/class.c                   | 77 ++++++++++++++++++-
- include/linux/usb/typec.h                   |  1 +
- 4 files changed, 151 insertions(+), 21 deletions(-)
-
--- 
-2.29.2.222.g5d2a92d10f8-goog
-
+On Tue, Nov 10, 2020 at 10:28 AM app l <lipc198702@gmail.com> wrote:
+>
+> Hi,
+> Version: 4.9 and uac1 driver is V5.9. I tested it based on 4.9 with
+> backported dwc3 driver frome v5.9.
+> 1. According to configfs-usb-gadget-uvc, PC(Windows 10) can get ISO
+> data normally;
+> 2. According to configfs-usb-gadget-uac1, PC(Windows 10) can  install
+> audio driver normally(AC Interface,/Captue Input terminal/Speaker);
+> 3=E3=80=81uvc+uac1 composite device, PC(Windows 10) can get ISO data norm=
+ally,
+> but PC shows that the uac1 driver installation failed(AC
+> Interface/Capture Inactive/Playback Inactive). AC Interface/Capture
+> Inactive/Playback Inactive all show the device cannot start code 10,
+> The settings of the I/O device are incorrect or the configuration
+> parameters of the driver are incorrect. Through the USB analyzer to
+> capture the packet, I found that the Index value seems to be wrong
+> when PC host to get the descriptor. The acquisition is Playback
+> Inactive and Capture Inactive, and the PC did not send the command
+> packet about uac1. It is difficult to debug it.
+> I suspect that some parts of the uac1 descriptor need to be modified,
+> but I don=E2=80=99t know which one to modify.
+> I sincerely hope that everyone can give some suggestions or related
+> patches to help me. Thanks very much!
+>
+> Regards,
+> pengcheng
