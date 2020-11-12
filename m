@@ -4,70 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E39DC2D0A3
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:45:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCEBC2D0A3
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:49:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE5FC2224B
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:45:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3ABB32224B
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:49:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727932AbgKLNpv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Nov 2020 08:45:51 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7524 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727790AbgKLNpu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 08:45:50 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CX2t80HpXzhXmX;
-        Thu, 12 Nov 2020 21:45:36 +0800 (CST)
-Received: from localhost.localdomain (10.175.101.6) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 12 Nov 2020 21:45:35 +0800
-From:   Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
-To:     <zhangxiaoxu5@huawei.com>, <balbi@kernel.org>,
-        <linux-usb@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <jun.li@freescale.com>
-Subject: [PATCH] usb: gadget: ether: Fix wrong return value of eth_bind()
-Date:   Thu, 12 Nov 2020 08:48:20 -0500
-Message-ID: <20201112134820.2257361-1-zhangxiaoxu5@huawei.com>
-X-Mailer: git-send-email 2.25.4
+        id S1728400AbgKLNth (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 08:49:37 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7220 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727790AbgKLNtg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 08:49:36 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CX2yQ5rqHzkhhY;
+        Thu, 12 Nov 2020 21:49:18 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 12 Nov 2020 21:49:23 +0800
+From:   Chen Zhou <chenzhou10@huawei.com>
+To:     <balbi@kernel.org>
+CC:     <gregkh@linuxfoundation.org>, <weiyongjun1@huawei.com>,
+        <jun.li@freescale.com>, <rogerq@ti.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <chenzhou10@huawei.com>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH v2] usb: gadget: mass_storage: fix error return code in msg_bind()
+Date:   Thu, 12 Nov 2020 21:54:23 +0800
+Message-ID: <20201112135423.89536-1-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.101.6]
+X-Originating-IP: [10.175.113.25]
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the otg descriptor allocate failed, we should return -ENOMEM,
-rather than the 'status' from 'usb_string_ids_tab'.
+Fix to return a negative error code from the error handling case
+instead of 0 in function msg_bind(), as done elsewhere in this
+function.
 
-Fixes: 9b95236eebdb ("usb: gadget: ether: allocate and init otg descriptor by otg capabilities")
+Fixes: d86788979761 ("usb: gadget: mass_storage: allocate and init otg descriptor by otg capabilities")
 Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 ---
- drivers/usb/gadget/legacy/ether.c | 4 +++-
+ drivers/usb/gadget/legacy/mass_storage.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/legacy/ether.c b/drivers/usb/gadget/legacy/ether.c
-index 30313b233680..99c7fc0d1d59 100644
---- a/drivers/usb/gadget/legacy/ether.c
-+++ b/drivers/usb/gadget/legacy/ether.c
-@@ -403,8 +403,10 @@ static int eth_bind(struct usb_composite_dev *cdev)
+diff --git a/drivers/usb/gadget/legacy/mass_storage.c b/drivers/usb/gadget/legacy/mass_storage.c
+index 9ed22c5fb7fe..ac1741126619 100644
+--- a/drivers/usb/gadget/legacy/mass_storage.c
++++ b/drivers/usb/gadget/legacy/mass_storage.c
+@@ -175,8 +175,10 @@ static int msg_bind(struct usb_composite_dev *cdev)
  		struct usb_descriptor_header *usb_desc;
  
- 		usb_desc = usb_otg_descriptor_alloc(gadget);
+ 		usb_desc = usb_otg_descriptor_alloc(cdev->gadget);
 -		if (!usb_desc)
 +		if (!usb_desc) {
 +			status = -ENOMEM;
- 			goto fail1;
+ 			goto fail_string_ids;
 +		}
- 		usb_otg_descriptor_init(gadget, usb_desc);
+ 		usb_otg_descriptor_init(cdev->gadget, usb_desc);
  		otg_desc[0] = usb_desc;
  		otg_desc[1] = NULL;
 -- 
-2.25.4
+2.20.1
 
