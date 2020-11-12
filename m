@@ -2,106 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CF7C5517A
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22884C56201
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:59:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F13702053B
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:31:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="SLY8p2Or"
+	by mail.kernel.org (Postfix) with ESMTP id BD7032223C
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:59:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725966AbgKLHbY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Nov 2020 02:31:24 -0500
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:48350 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725884AbgKLHbY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 02:31:24 -0500
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AC7QKw2026884;
-        Wed, 11 Nov 2020 23:31:18 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pfpt0220;
- bh=Q5CSx4nNQG/6lho+5mk7KxoCzmyopquKcR2OAYFD2B8=;
- b=SLY8p2Or9tDCBzhq1OTVhaZVk1d7aqbZkg/18J4c2PaK6ZSkcNylN3n7HsqG6T2foHjV
- +ni8vKUtzUaqo+N7m37GAlbwAZB//wszyjTE6oFZ1PLamglWlacI0PeVqkxDjYa0ha/n
- AYS9KyAh/imiTQZxZqLjw34w3irOrhIAJoovBZoTNUNGUqaBCeBzg0MUWxYgSv1K4qxd
- Rko6YtLf52B052L+vfzugvCzc3KLHtEPxhUtLCVm9jLVHgDL9eVakkrlF1TjsZLd/Mrp
- pO1bXTJWZXIcj4FpDoAotr6UewjiVJUaurrX8seOy+jQo0YFiSC97dzYyk8z/lfna1/d Mw== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
-        by mx0a-0016f401.pphosted.com with ESMTP id 34nstuayc5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 11 Nov 2020 23:31:18 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 11 Nov
- 2020 23:31:16 -0800
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 11 Nov
- 2020 23:31:15 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 11 Nov 2020 23:31:15 -0800
-Received: from [10.193.39.169] (NN-LT0019.marvell.com [10.193.39.169])
-        by maili.marvell.com (Postfix) with ESMTP id E68873F7040;
-        Wed, 11 Nov 2020 23:31:12 -0800 (PST)
-Subject: Re: [EXT] Re: [PATCH v3 net-next 07/21] net: usb: aqc111: Add support
- for getting and setting of MAC address
-To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
-        Igor Russkikh <Igor.Russkikh@aquantia.com>
-CC:     <linux-usb@vger.kernel.org>, <davem@davemloft.net>,
-        <netdev@vger.kernel.org>, <andrew@lunn.ch>,
-        Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
-References: <cover.1542794577.git.igor.russkikh@aquantia.com>
- <8f92711d8479a3df65849e60fd92c727e1e1f78a.1542794577.git.igor.russkikh@aquantia.com>
- <7a866553-1333-4952-5fe6-45336235ebb2@gmail.com>
-From:   Igor Russkikh <irusskikh@marvell.com>
-Message-ID: <9ad88163-ba9a-f49d-4327-d25ad97a8041@marvell.com>
-Date:   Thu, 12 Nov 2020 10:31:11 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101
- Thunderbird/83.0
+        id S1727145AbgKLH7x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 02:59:53 -0500
+Received: from mailgw02.mediatek.com ([1.203.163.81]:15375 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727038AbgKLH7w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 02:59:52 -0500
+X-UUID: a2c8643f3bd4459b883aad85c2f55fad-20201112
+X-UUID: a2c8643f3bd4459b883aad85c2f55fad-20201112
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 711347120; Thu, 12 Nov 2020 15:59:48 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 12 Nov 2020 15:59:46 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 12 Nov 2020 15:59:45 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Al Cooper <alcooperx@gmail.com>, <linux-usb@vger.kernel.org>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v4 10/11] usb: gadget: bdc: fix checkpatch.pl spacing error
+Date:   Thu, 12 Nov 2020 15:59:33 +0800
+Message-ID: <1605167974-28502-10-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1605167974-28502-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1605167974-28502-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <7a866553-1333-4952-5fe6-45336235ebb2@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-12_02:2020-11-10,2020-11-12 signatures=0
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 1FA0D9B6C1E1E0C00DFF91C2648672AA9F47B0EEFA430DE0156835BE4A0F59A12000:8
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Anant,
+fix checkpatch.pl error:
+ERROR:SPACING: space prohibited before that ','
 
->>
->> +static int aqc111_set_mac_addr(struct net_device *net, void *p)
->> +{
->> +	struct usbnet *dev = netdev_priv(net);
->> +	int ret = 0;
->> +
->> +	ret = eth_mac_addr(net, p);
->> +	if (ret < 0)
->> +		return ret;
->> +
-> 
-> When eth_mac_addr() fails, from what I can see, it returns either -EBUSY, or
-> -EADDRNOTAVAIL.
-> Wouldn't it be a better idea to set a random MAC address instead, when
-> -EADDRNOTAVAIL is returned, so that the interface still comes up and is
-> usable?
-> 
-> I'm only asking because this feels similar to the discussion that can be 
-> found here.
->     https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.org_lkml_2020_10_2_305&d=DwIDaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=3kUjVPjrPMvlbd3rzgP63W0eewvCq4D-kzQRqaXHOqU&m=aJdSTt0SmQpKGqrsMm9TQ2mCWDH1Vc7arUp0xq-v6Ac&s=n-tXDyWIR5tPvrQ4DUasDgrocxKU3e_A-mh3Nv5JC5A&e=
+Cc: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+v4: no changes, but rebase on kernel 5.10-rc1
+v3: add acked-by Florian
+v2: add Cc Florian
+---
+ drivers/usb/gadget/udc/bdc/bdc_udc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Here in set_mac_addr driver is being asked to SET the specified mac.
-If it fails - device will most probably drop the packets designated for it.
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_udc.c b/drivers/usb/gadget/udc/bdc/bdc_udc.c
+index 0c1ab9548786..5ac0ef88334e 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_udc.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_udc.c
+@@ -530,7 +530,7 @@ int bdc_udc_init(struct bdc *bdc)
+ 
+ 	bdc->gadget.name = BRCM_BDC_NAME;
+ 	ret = devm_request_irq(bdc->dev, bdc->irq, bdc_udc_interrupt,
+-				IRQF_SHARED , BRCM_BDC_NAME, bdc);
++				IRQF_SHARED, BRCM_BDC_NAME, bdc);
+ 	if (ret) {
+ 		dev_err(bdc->dev,
+ 			"failed to request irq #%d %d\n",
+-- 
+2.18.0
 
-So I think no, you can't put here some random MAC.
-
-Regards,
-  Igor
