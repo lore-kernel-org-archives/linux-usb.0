@@ -2,111 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21026C56202
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:49:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D06BBC5519F
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:59:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE3F720A8B
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:49:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="DFRG3uh9"
+	by mail.kernel.org (Postfix) with ESMTP id 7DA6A22248
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 13:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728426AbgKLNtz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Nov 2020 08:49:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52964 "EHLO
+        id S1728231AbgKLN7O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 08:59:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728398AbgKLNty (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 08:49:54 -0500
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C98C0613D6
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 05:49:54 -0800 (PST)
-Received: by mail-qk1-x743.google.com with SMTP id n132so5248195qke.1
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 05:49:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Eg/RjAIZKwAbJrMIrbrRdkEGP27Yqte35m8OKOzH3B0=;
-        b=DFRG3uh9srwcvUG7AdAKgEet8jCSEWusYDlt6asbzD4TH5DL8lm0dKKLsXZo8GP/4o
-         wU0LGFXeuWEW69E84n+bIq8bGLGlLjQh3+eGLwy6oP3y3diCtIWd8zpxDSimsbsyr0IM
-         XFAG8hVgEFl05eBB1QyvHVgYsT/oKCkSq+9zLxaFcPaqCws3GrQVhhL9m5rsmKUh2WYH
-         tPkASd42zRcx92wm3BYYOdMpcfieGKGfPss/D0c/wN0Lbx19RlRuYXYzoZBBG/+fXESq
-         Q41k0dGYyCE1NVDPuMUyDA5huljco1w0nO0MH4KnL0AwzlJRzX4Fp969BkIs/2SpZct9
-         WRpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Eg/RjAIZKwAbJrMIrbrRdkEGP27Yqte35m8OKOzH3B0=;
-        b=d2ElNqIqqvil+c4X8D5wnQ0ONilq8xA7pVGJt5MaQl/4vohqGwf/bmDVDn8sXmR663
-         mDfrQU8fNIHBJy5XZRH1F0eJAn0j04wbUyOBs11q0LSA/Wg+bcXkI+1fFSIWdIZsQRtQ
-         sCuAIhfu+0TfHe8Dh+h/FfM6CjRwtgyOGCMRWX09L++N2zW7w0zNX6tMykY/3DQRSJas
-         mCzVd+1HY7mU5AiS/OJOU9Ju4tayDZi/If4gOyYLV7lSMvDOouZe70a7NxlAmENQcUfp
-         ugiRDeNzEaKerJp0O0AL4HdrhX1Y+0FiE7rQPSZsJ0kYhSESjnETKeS0mFYyyqplUNEX
-         GOEw==
-X-Gm-Message-State: AOAM532ZcGUcK3+0j75ONppDyZE+L+4bwjOU1/u8A4BnpjLGbxw1lhSK
-        7wpNPAJygANJFuC30oIOiobYqQ==
-X-Google-Smtp-Source: ABdhPJyiG+AWMVllInSFkDTazT0TjS77XHNnGJMdZGOKj8oXGaskcS+Y2DphXPV4+iJ0BQ/4jmIc5w==
-X-Received: by 2002:a05:620a:1539:: with SMTP id n25mr15856223qkk.258.1605188993531;
-        Thu, 12 Nov 2020 05:49:53 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id k11sm4930974qtu.45.2020.11.12.05.49.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 05:49:52 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kdCz2-003gor-0U; Thu, 12 Nov 2020 09:49:52 -0400
-Date:   Thu, 12 Nov 2020 09:49:52 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        David Miller <davem@davemloft.net>,
-        =?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
-        Igor Mitsyanko <imitsyanko@quantenna.com>,
-        Sergey Matyukevich <geomatsi@gmail.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Peter Korsgaard <jacmet@sunsite.dk>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        Jussi Kivilinna <jussi.kivilinna@iki.fi>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        linux-rdma@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH net-next 1/5] IB/hfi1: switch to core handling of rx/tx
- byte/packet counters
-Message-ID: <20201112134952.GS244516@ziepe.ca>
-References: <5fbe3a1f-6625-eadc-b1c9-f76f78debb94@gmail.com>
- <5093239e-2d3b-a716-3039-790abdb7a5ba@gmail.com>
- <20201111090355.63fe3898@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        with ESMTP id S1728134AbgKLN7O (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 08:59:14 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE71C0613D4
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 05:59:13 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id rRz9230044C55Sk01Rz9M2; Thu, 12 Nov 2020 14:59:09 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kdD80-001rT1-LT; Thu, 12 Nov 2020 14:59:08 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kdD80-00G2Ra-4E; Thu, 12 Nov 2020 14:59:08 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>, Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Drew Fustini <drew@pdp7.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] Revert "usb: musb: convert to devm_platform_ioremap_resource_byname"
+Date:   Thu, 12 Nov 2020 14:59:00 +0100
+Message-Id: <20201112135900.3822599-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201111090355.63fe3898@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 09:03:55AM -0800, Jakub Kicinski wrote:
-> On Tue, 10 Nov 2020 20:47:34 +0100 Heiner Kallweit wrote:
-> > Use netdev->tstats instead of a member of hfi1_ipoib_dev_priv for storing
-> > a pointer to the per-cpu counters. This allows us to use core
-> > functionality for statistics handling.
-> > 
-> > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> 
-> RDMA folks, ack for merging via net-next?
+This reverts commit 2d30e408a2a6b3443d3232593e3d472584a3e9f8.
 
-Yes OK
+On Beaglebone Black, where each interface has 2 children:
 
-Ack-by: Jason Gunthorpe <jgg@nvidia.com>
+    musb-dsps 47401c00.usb: can't request region for resource [mem 0x47401800-0x474019ff]
+    musb-hdrc musb-hdrc.1: musb_init_controller failed with status -16
+    musb-hdrc: probe of musb-hdrc.1 failed with error -16
+    musb-dsps 47401400.usb: can't request region for resource [mem 0x47401000-0x474011ff]
+    musb-hdrc musb-hdrc.0: musb_init_controller failed with status -16
+    musb-hdrc: probe of musb-hdrc.0 failed with error -16
 
-Jason
+Before, devm_ioremap_resource() was called on "dev" ("musb-hdrc.0" or
+"musb-hdrc.1"), after it is called on "&pdev->dev" ("47401400.usb" or
+"47401c00.usb"), leading to a duplicate region request, which fails.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/usb/musb/musb_dsps.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index 30085b2be7b90bf1..5892f3ce0cdc824d 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -429,10 +429,12 @@ static int dsps_musb_init(struct musb *musb)
+ 	struct platform_device *parent = to_platform_device(dev->parent);
+ 	const struct dsps_musb_wrapper *wrp = glue->wrp;
+ 	void __iomem *reg_base;
++	struct resource *r;
+ 	u32 rev, val;
+ 	int ret;
+ 
+-	reg_base = devm_platform_ioremap_resource_byname(parent, "control");
++	r = platform_get_resource_byname(parent, IORESOURCE_MEM, "control");
++	reg_base = devm_ioremap_resource(dev, r);
+ 	if (IS_ERR(reg_base))
+ 		return PTR_ERR(reg_base);
+ 	musb->ctrl_base = reg_base;
+-- 
+2.25.1
+
