@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22884C56201
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FD9C55ABD
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:59:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD7032223C
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:59:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4849E221FB
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 07:59:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727145AbgKLH7x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Nov 2020 02:59:53 -0500
-Received: from mailgw02.mediatek.com ([1.203.163.81]:15375 "EHLO
+        id S1727234AbgKLH74 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 02:59:56 -0500
+Received: from mailgw02.mediatek.com ([1.203.163.81]:53082 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727038AbgKLH7w (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 02:59:52 -0500
-X-UUID: a2c8643f3bd4459b883aad85c2f55fad-20201112
-X-UUID: a2c8643f3bd4459b883aad85c2f55fad-20201112
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        with ESMTP id S1726337AbgKLH7z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 02:59:55 -0500
+X-UUID: d49ad390e33948f98614d44f26ba119c-20201112
+X-UUID: d49ad390e33948f98614d44f26ba119c-20201112
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 711347120; Thu, 12 Nov 2020 15:59:48 +0800
+        with ESMTP id 67560328; Thu, 12 Nov 2020 15:59:45 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 12 Nov 2020 15:59:46 +0800
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 12 Nov 2020 15:59:43 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 Nov 2020 15:59:45 +0800
+ Transport; Thu, 12 Nov 2020 15:59:42 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>
@@ -42,22 +42,21 @@ CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v4 10/11] usb: gadget: bdc: fix checkpatch.pl spacing error
-Date:   Thu, 12 Nov 2020 15:59:33 +0800
-Message-ID: <1605167974-28502-10-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v4 07/11] usb: gadget: bdc: avoid precedence issues
+Date:   Thu, 12 Nov 2020 15:59:30 +0800
+Message-ID: <1605167974-28502-7-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1605167974-28502-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1605167974-28502-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 1FA0D9B6C1E1E0C00DFF91C2648672AA9F47B0EEFA430DE0156835BE4A0F59A12000:8
+X-TM-SNTS-SMTP: 95F7774C3FDDE88B504CA253E1ACD6A8E13B961122FA043DC203E6F10895C8DD2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-fix checkpatch.pl error:
-ERROR:SPACING: space prohibited before that ','
+Add () around macro argument to avoid precedence issues
 
 Cc: Florian Fainelli <f.fainelli@gmail.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
@@ -67,22 +66,67 @@ v4: no changes, but rebase on kernel 5.10-rc1
 v3: add acked-by Florian
 v2: add Cc Florian
 ---
- drivers/usb/gadget/udc/bdc/bdc_udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/bdc/bdc.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_udc.c b/drivers/usb/gadget/udc/bdc/bdc_udc.c
-index 0c1ab9548786..5ac0ef88334e 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_udc.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_udc.c
-@@ -530,7 +530,7 @@ int bdc_udc_init(struct bdc *bdc)
+diff --git a/drivers/usb/gadget/udc/bdc/bdc.h b/drivers/usb/gadget/udc/bdc/bdc.h
+index 658abeff59d4..f8d595804258 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc.h
++++ b/drivers/usb/gadget/udc/bdc/bdc.h
+@@ -86,20 +86,20 @@
+ #define BDC_EPSTS5	0x74
+ #define BDC_EPSTS6	0x78
+ #define BDC_EPSTS7	0x7c
+-#define BDC_SRRBAL(n)	(0x200 + (n * 0x10))
+-#define BDC_SRRBAH(n)	(0x204 + (n * 0x10))
+-#define BDC_SRRINT(n)	(0x208 + (n * 0x10))
+-#define BDC_INTCTLS(n)	(0x20c + (n * 0x10))
++#define BDC_SRRBAL(n)	(0x200 + ((n) * 0x10))
++#define BDC_SRRBAH(n)	(0x204 + ((n) * 0x10))
++#define BDC_SRRINT(n)	(0x208 + ((n) * 0x10))
++#define BDC_INTCTLS(n)	(0x20c + ((n) * 0x10))
  
- 	bdc->gadget.name = BRCM_BDC_NAME;
- 	ret = devm_request_irq(bdc->dev, bdc->irq, bdc_udc_interrupt,
--				IRQF_SHARED , BRCM_BDC_NAME, bdc);
-+				IRQF_SHARED, BRCM_BDC_NAME, bdc);
- 	if (ret) {
- 		dev_err(bdc->dev,
- 			"failed to request irq #%d %d\n",
+ /* Extended capability regs */
+ #define BDC_FSCNOC	0xcd4
+ #define BDC_FSCNIC	0xce4
+-#define NUM_NCS(p)	(p >> 28)
++#define NUM_NCS(p)	((p) >> 28)
+ 
+ /* Register bit fields and Masks */
+ /* BDC Configuration 0 */
+ #define BDC_PGS(p)	(((p) & (0x7 << 8)) >> 8)
+-#define BDC_SPB(p)	(p & 0x7)
++#define BDC_SPB(p)	((p) & 0x7)
+ 
+ /* BDC Capability1 */
+ #define BDC_P64		(1 << 0)
+@@ -113,7 +113,7 @@
+ #define BDC_CMD_DVC	0x1
+ #define BDC_CMD_CWS		(0x1 << 5)
+ #define BDC_CMD_CST(p)		(((p) & (0xf << 6))>>6)
+-#define BDC_CMD_EPN(p)		((p & 0x1f) << 10)
++#define BDC_CMD_EPN(p)		(((p) & 0x1f) << 10)
+ #define BDC_SUB_CMD_ADD		(0x1 << 17)
+ #define BDC_SUB_CMD_FWK		(0x4 << 17)
+ /* Reset sequence number */
+@@ -163,7 +163,7 @@
+ #define BDC_SPEED_HS	0x3
+ #define BDC_SPEED_SS	0x4
+ 
+-#define BDC_PST(p)	(p & 0xf)
++#define BDC_PST(p)	((p) & 0xf)
+ #define BDC_PST_MASK	0xf
+ 
+ /* USPPMS */
+@@ -228,7 +228,7 @@
+ /* status report defines */
+ #define SR_XSF		0
+ #define SR_USPC		4
+-#define SR_BD_LEN(p)    (p & 0xffffff)
++#define SR_BD_LEN(p)    ((p) & 0xffffff)
+ 
+ #define XSF_SUCC	0x1
+ #define XSF_SHORT	0x3
 -- 
 2.18.0
 
