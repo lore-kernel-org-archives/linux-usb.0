@@ -2,156 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C2FC61DD8
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 16:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B687C56202
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 17:05:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0395D21D40
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 16:59:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9462E21D91
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Nov 2020 17:05:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHDLJ02X"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHYu2GVH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgKLQ7m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Nov 2020 11:59:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725965AbgKLQ7l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 11:59:41 -0500
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C78C0613D1;
-        Thu, 12 Nov 2020 08:59:40 -0800 (PST)
-Received: by mail-lj1-x244.google.com with SMTP id y16so7019915ljk.1;
-        Thu, 12 Nov 2020 08:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Xt95colZf33mgot8tELeNlRansGBvck/Mt4yELIIDqY=;
-        b=fHDLJ02XfofqPoW/m/ty+7VMDDU5x/EGpHV/+Yy5G1qvgpLWH4Bj6qirnIfR2GOFHY
-         H2rsWty5fFNMq6aCx6XdDWhpV6BR3+tvp61A5zWYd6mxO3JGE39IAl69QXwXp/OPSLOc
-         dbjrfCbzaQBa8KcMu6SiyVtP5+MIJvDirOdjY9sY049RqEx6eY2eqm19yoWcz95sPsLg
-         NScSb7Br1t6cH2J6CRqeJIQlDccMferVM5GcIzWR9yGjzpka13Dd7CaUaJF4CwdiAUzW
-         byu4iX3gr3BVLIGe/LU4yPecdAgxDUtNUIthKeuggKFO5txc0jODLiR2lG9aCqUdXeXb
-         ScEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Xt95colZf33mgot8tELeNlRansGBvck/Mt4yELIIDqY=;
-        b=Quc5cZb8N4+lSjAXByxBevRjhOn/VQ2Thrux0j8xs6bVFAUTeqtv9SgrxK5/4P/ZQm
-         BM0ABVbCKLlQDSG2C3qu62ywTK8eWCuERI9B84iBATWsv8ujKu5EMW8HFnd4I3vvxnSf
-         Bszh8r3WtDjMFk1JZfaKCI3DWQuSalenbqtbgdcbM95CNeS1kTehqRXC9zQcvdtbgwAC
-         cYh4RaeIuuCJQtjuOvErAXiH0gcfZhrMniJIu//GRgzwDjWF1lVwEnlpGDm7V4u5bwWy
-         RkTNUnYqRT6cpl4BdnatDzQkwe0raEEu0zaPEf4ryEXsHq0QH5V750YBoBctnljBU3W9
-         5viA==
-X-Gm-Message-State: AOAM532B78c8CxzTjvVOmWdO915+aRw58/d2m59OVUEwXXbc7SvDqQ63
-        jbYG3IstePgOaAwD/vqnB4B0dvICp2E=
-X-Google-Smtp-Source: ABdhPJyl96aYzliFwkLljLShw56ErRaoK0Xab1vQjJi14A44PY75rTZLE8QOeBZnDRsExRlkCgmYqg==
-X-Received: by 2002:a2e:8315:: with SMTP id a21mr166883ljh.29.1605200379012;
-        Thu, 12 Nov 2020 08:59:39 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
-        by smtp.googlemail.com with ESMTPSA id t5sm691068lfc.75.2020.11.12.08.59.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2020 08:59:38 -0800 (PST)
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
- <20201110203257.GC5957@sirena.org.uk>
- <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
- <20201111115534.GA4847@sirena.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
-Date:   Thu, 12 Nov 2020 19:59:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        id S1726081AbgKLRE5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 12:04:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44456 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725903AbgKLRE4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 12 Nov 2020 12:04:56 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7C58621D7F;
+        Thu, 12 Nov 2020 17:04:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605200696;
+        bh=qEGu5uST4byz8XuJRMjnqZZkRabdlL6gGWmFkpschCo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BHYu2GVHYY7GTOmz8a4uXpdurzwymiO5oR5TaJepK0yXP8/vAgy/bZnVJSJMKOndk
+         rjlSioJxLgU6QdTh9CkDQqtecBYOJRLhVdj2NXpDoA33ovt17OdZeF9+SJXWOj7mX9
+         07jQPCTDECz06JDYesZpuDDdi/vLAakx5/Mbbpxo=
+Date:   Thu, 12 Nov 2020 18:05:53 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     John Boero <boeroboy@gmail.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: Null deref in kernel with USB webcams.
+Message-ID: <X61rce8GANHW1ysh@kroah.com>
+References: <CAO5W59jOWuRKizngF8vv9jb-zr_HnLC2eNxKqi3AYwg8KLwKoA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201111115534.GA4847@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO5W59jOWuRKizngF8vv9jb-zr_HnLC2eNxKqi3AYwg8KLwKoA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-11.11.2020 14:55, Mark Brown пишет:
-> On Wed, Nov 11, 2020 at 12:23:41AM +0300, Dmitry Osipenko wrote:
->> 10.11.2020 23:32, Mark Brown пишет:
-> 
->>>>> +	if (!device_property_present(dc->dev, "core-supply"))
->>>>> +		return;
-> 
->>>> This is a potentially heavy operation, so I think we should avoid that
->>>> here. How about you use devm_regulator_get_optional() in ->probe()? That
->>>> returns -ENODEV if no regulator was specified, in which case you can set
->>>> dc->core_reg = NULL and use that as the condition here.
-> 
->>> Or enumerate the configurable voltages after getting the regulator and
->>> handle that appropriately which would be more robust in case there's
->>> missing or unusual constraints.
-> 
->> I already changed that code to use regulator_get_optional() for v2.
-> 
-> That doesn't look entirely appropriate given that the core does most
-> likely require some kind of power to operate.
+On Thu, Nov 12, 2020 at 03:52:02PM +0000, John Boero wrote:
+> >From 54f9886454e9a28e8d943c1cef15df9c11555df7 Mon Sep 17 00:00:00 2001
+> From: JohnnyB <jboero@users.noreply.github.com>
 
-We will need to do this because older DTBs won't have that regulator and
-we want to keep them working.
+Why all this header here?
 
-Also, some device-trees won't have that regulator anyways because board
-schematics isn't available, and thus, we can't fix them.
+And the from: line doesn't match your Signed-off-by: line :(
 
->> Regarding the enumerating supported voltage.. I think this should be
->> done by the OPP core, but regulator core doesn't work well if
->> regulator_get() is invoked more than one time for the same device, at
->> least there is a loud debugfs warning about an already existing
+> Date: Thu, 12 Nov 2020 15:28:29 +0000
+> Subject: [PATCH] usb: core: Null deref in kernel with USB webcams.
 > 
-> I don't understand why this would be an issue - if nothing else the core
-> could just offer an interface to trigger the check.
-
-It's not an issue, I just described what happens when device driver
-tries to get a regulator twice.
-
-There was an issue once that check is added to the regulator core code.
-But perhaps not worth to discuss it for now because I don't remember
-details.
-
->> directory for a regulator. It's easy to check whether the debug
->> directory exists before creating it, like thermal framework does it for
->> example, but then there were some other more difficult issues.. I don't
->> recall what they were right now. Perhaps will be easier to simply get a
->> error from regulator_set_voltage() for now because it shouldn't ever
->> happen in practice, unless device-tree has wrong constraints.
+> Fixes: Ubuntu Launchpad bug 1827452
 > 
-> The constraints might not be wrong, there might be some board which has
-> a constraint somewhere for 
-> 
+> This is my first attempt at a kernel contribution so sorry if sloppy.
 
-In this case board's DT shouldn't specify unsupportable OPPs.
+No need to put this in the changelog text and have it be in the kernel
+for foever :)
+
+> 
+> There is some kind of race condition affecting Logitech
+> webcams that crash USB with a null dereference.
+> Affects raspberry pi devices as well as x86.
+> No check on dev before dereference.
+> Simple fix for issue experienced for months in
+> both x86 and arm/rpi environments.
+> 
+> Signed-off-by: John Boero <boeroboy@gmail.com>
+> 
+> ---
+> drivers/usb/core/usb.c | 6 +-----
+> 1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index d8756ffe513a..9b4ac4415f1a 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -272,13 +272,9 @@ EXPORT_SYMBOL_GPL(usb_find_alt_setting);
+> struct usb_interface *usb_ifnum_to_if(const struct usb_device *dev,
+>                                      unsigned ifnum)
+> {
+> -       struct usb_host_config *config = NULL;
+> +       struct usb_host_config *config = dev->actconfig;
+>        int i;
+> 
+> -       if (!dev)
+> -               return NULL;
+> -
+> -       config = dev->actconfig;
+>        if (!config)
+>                return NULL;
+>        for (i = 0; i < config->desc.bNumInterfaces; i++)
+
+This patch is corrupted and can not be applied, but also, it looks
+backwards, right?
+
+And how about we find the race condition and fix that instead of trying
+to paper over it here?
+
+thanks,
+
+greg k-h
