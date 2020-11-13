@@ -2,181 +2,221 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0367BC5519F
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 00:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A510AC63699
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 00:13:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A14552223F
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 00:06:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5099020872
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 00:13:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="niMmvWPE"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="a3g8ssQ0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbgKMAGy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Nov 2020 19:06:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36050 "EHLO
+        id S1726102AbgKMANF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Nov 2020 19:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726143AbgKMAGx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 19:06:53 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA964C0613D1
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 16:06:34 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id c17so7829095wrc.11
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 16:06:34 -0800 (PST)
+        with ESMTP id S1726101AbgKMANE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Nov 2020 19:13:04 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4018C0613D1
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 16:12:51 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id p22so6728002wmg.3
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2020 16:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ZVUOLs2+wec7oUYLZkwPoiWAkG2vGu94t71XbGuqA0A=;
-        b=niMmvWPEl0fnMO6tMTcfpoR9YBUgH9zZ+Dt+igR122IRwmctAz3bKbFzybFAGY4KTn
-         rBgHRqd+5WTm1+K4iHBPxBXjNjxewOhhq3oGz6A12hEUj5QytNgYQc7zZZPTM937L6b9
-         lEOGfiE06I38tAMZxkJMGCb0D7EryshByXQUhSVfAo2CFCgwzcJh909decva2s/PSriB
-         MkdMo50zmMS/bWfNuECwrXRWxamjBQJ/f7EM+wzu0BCr/N5nOHvprUi2hKLOvG4PZ6ie
-         bXk+lvywpWHOm1vL/5Y2ZAF9yEdl4HAxALCaKk/gg6n+JLKgWdBegvdV+Fj9yjwIlyJV
-         xcnQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=5aQjoHmKrLDA7704pKLy9Q0aTKPXPjODcZdmkkFaAvM=;
+        b=a3g8ssQ0AnZoCd/JTaE9Zur8XHCobId19WHZqBZ9OMzRvt0/2DWgwUGv4tIAYyA9ti
+         NTKWqXcty0BqPatWH4ydgNSlYEfib+xVdMhJarL7bhnykWoKfFJJb8yiHAj1X5m8lb2f
+         owZczQKIpJtxzDVx2PBtu93q39CfsSRQOlk2uYeFUhg66C4QhqUUCZ2hzU6VuuQkd5QX
+         w6yaLJItUN4m2PZRNeqqN0B5AG9dm1upZsdvjochKSzR2RFsqc2591uPSb/JrGvVYXtd
+         Qe5oS0H2xgfHUDs/HqK7+9HFeJq3AVWdVwrwfGYUWrgHki6ke5DRH7Wv5c3fY8j51Eoc
+         4Qfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ZVUOLs2+wec7oUYLZkwPoiWAkG2vGu94t71XbGuqA0A=;
-        b=hCg/RqDWrOf/vat6fXEvVaGFJZBs7qjN4dP7yixBIKJUAzEnVRk5Xx5c4CWaYz86HW
-         wFFeyfHMATHhHcuVzZ6GicmoQwd8x/HgDrpTT2FI8W6+7S8JZUitMEuAAp4c99QDQ81R
-         mtHLDhYB7an/LrnUQFtM2suh7ovWUwAQg1WDKnPBPU/XbqQOFN6wP95e++moVnqMyqLa
-         uj6G3sWQsKZGniaVqAx5HXnUHoEmTYizp57V+QIpfjDHwzgXboJLwQZrPEI5xc3zXOyp
-         rw7E3VjA5+eD8ieJT3nl3td6maIYOfcRWdXdYSIsGlbS9HZeXE6bov2bI309fSmv5gq+
-         bHPg==
-X-Gm-Message-State: AOAM532eldm/VeCxUfOa51Jm5eJTBQY/knfsz7dbDEy2LxFD+1NjO4RU
-        +Rw1seKn+bN/aLiLdakA4FnWbVcsd+87Ju18
-X-Google-Smtp-Source: ABdhPJz5fA46WACqLV9OOTCsKZrq/SjPVyoU2kKp5ypsUk30uRkroMV0nCS3uH3iuH+sVFpdC+luNA==
-X-Received: by 2002:adf:f083:: with SMTP id n3mr2382435wro.391.1605225993485;
-        Thu, 12 Nov 2020 16:06:33 -0800 (PST)
-Received: from localhost.localdomain ([2001:861:3a84:7260:5d3c:83d5:8524:33ca])
-        by smtp.googlemail.com with ESMTPSA id t11sm2010114wrm.8.2020.11.12.16.06.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 16:06:33 -0800 (PST)
-From:   Amjad Ouled-Ameur <aouledameur@baylibre.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Amjad Ouled-Ameur <aouledameur@baylibre.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=5aQjoHmKrLDA7704pKLy9Q0aTKPXPjODcZdmkkFaAvM=;
+        b=OlQG++j0pOQEC4NgHbfPsd9dbpndKR6PQ3djfdHnl2lzXjyM0CfcWHu/RGI2qrJCHN
+         9xBNtY/ImJjMl4aPBPhFyNWGCFrCD2GfKOEb3RgSDOmNLbHbOLejoRyZtm8IJArAMF7P
+         Y/vmll3v7Lqnwmv7W1NFA3oAp4Jphxu8bk+CoJKRENvlVF6uaXDWxZ5bndtGCXbnS55S
+         odpoBM45pYGsnFOzW/0VgaLlsb9E+MylHPO4dFmTx8kYNPcyFYXFxEmDpflnZ0Rt7yuP
+         2BbtBD3EXn/9Pl168OJwxg3QlWvl0gcwUXW+3M78Xl707lXpYgxFUt0t7XLkNK519G4X
+         Arng==
+X-Gm-Message-State: AOAM5311pWDzYFo1o0E6WoQ1GbiosPjYBhnaGQ/yyToEFDpuX5trTScU
+        GvXI3zN+De4dhgk9+fgkcX4CXw==
+X-Google-Smtp-Source: ABdhPJycOkoPoA49v+6wIv01mpIMZOe0z2s1IdIKn9+jEMRFcTEdNcyZ60fn59VzPo5JZPEvWCQN9g==
+X-Received: by 2002:a1c:4ca:: with SMTP id 193mr326206wme.137.1605226370583;
+        Thu, 12 Nov 2020 16:12:50 -0800 (PST)
+Received: from ?IPv6:2001:861:3a84:7260:5d3c:83d5:8524:33ca? ([2001:861:3a84:7260:5d3c:83d5:8524:33ca])
+        by smtp.gmail.com with ESMTPSA id v8sm8046333wmg.28.2020.11.12.16.12.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2020 16:12:49 -0800 (PST)
+Subject: Re: [PATCH v2] reset: make shared pulsed reset controls
+ re-triggerable
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-usb@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 2/3] usb: dwc3: meson-g12a: fix shared reset control use
-Date:   Fri, 13 Nov 2020 01:05:07 +0100
-Message-Id: <20201113000508.14702-3-aouledameur@baylibre.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201113000508.14702-1-aouledameur@baylibre.com>
-References: <20201113000508.14702-1-aouledameur@baylibre.com>
+        Jim Quinlan <james.quinlan@broadcom.com>
+References: <20201112230043.28987-1-aouledameur@baylibre.com>
+From:   Amjad Ouled-Ameur <aouledameur@baylibre.com>
+Message-ID: <96bce8ff-9601-e6cc-94b1-abd9583e19ae@baylibre.com>
+Date:   Fri, 13 Nov 2020 01:12:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201112230043.28987-1-aouledameur@baylibre.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-reset_control_(de)assert() calls are called on a shared reset line when
-reset_control_reset has been used. This is not allowed by the reset
-framework.
+Please find in this patchset [0] a use case of the reset_control_rearm() call
+on some of meson usb drivers:
 
-Use reset_control_rearm() call in suspend() and remove() as a way to state
-that the resource is no longer used, hence the shared reset line
-may be triggered again by other devices. Use reset_control_rearm() also in
-case probe fails after reset() has been called.
 
-reset_control_rearm() keeps use of triggered_count sane in the reset
-framework, use of reset_control_reset() on shared reset line should be
-balanced with reset_control_rearm().
+[0] https://lore.kernel.org/lkml/20201113000508.14702-1-aouledameur@baylibre.com/
 
-Signed-off-by: Amjad Ouled-Ameur <aouledameur@baylibre.com>
-Reported-by: Jerome Brunet <jbrunet@baylibre.com>
----
-Important:
-Please DO NOT merge before this patch [0] is merged, it adds 
-reset_control_rearm() call to the reset framework API.
+On 13/11/2020 00:00, Amjad Ouled-Ameur wrote:
 
-[0] https://lore.kernel.org/lkml/20201112230043.28987-1-aouledameur@baylib
-re.com/
-
- drivers/usb/dwc3/dwc3-meson-g12a.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-meson-g12a.c b/drivers/usb/dwc3/dwc3-meson-g12a.c
-index 417e05381b5d..3fec8f591c93 100644
---- a/drivers/usb/dwc3/dwc3-meson-g12a.c
-+++ b/drivers/usb/dwc3/dwc3-meson-g12a.c
-@@ -750,7 +750,7 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 
- 	ret = dwc3_meson_g12a_get_phys(priv);
- 	if (ret)
--		goto err_disable_clks;
-+		goto err_rearm;
- 
- 	ret = priv->drvdata->setup_regmaps(priv, base);
- 	if (ret)
-@@ -759,7 +759,7 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 	if (priv->vbus) {
- 		ret = regulator_enable(priv->vbus);
- 		if (ret)
--			goto err_disable_clks;
-+			goto err_rearm;
- 	}
- 
- 	/* Get dr_mode */
-@@ -772,13 +772,13 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 
- 	ret = priv->drvdata->usb_init(priv);
- 	if (ret)
--		goto err_disable_clks;
-+		goto err_rearm;
- 
- 	/* Init PHYs */
- 	for (i = 0 ; i < PHY_COUNT ; ++i) {
- 		ret = phy_init(priv->phys[i]);
- 		if (ret)
--			goto err_disable_clks;
-+			goto err_rearm;
- 	}
- 
- 	/* Set PHY Power */
-@@ -816,6 +816,9 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
- 	for (i = 0 ; i < PHY_COUNT ; ++i)
- 		phy_exit(priv->phys[i]);
- 
-+err_rearm:
-+	reset_control_rearm(priv->reset);
-+
- err_disable_clks:
- 	clk_bulk_disable_unprepare(priv->drvdata->num_clks,
- 				   priv->drvdata->clks);
-@@ -843,6 +846,8 @@ static int dwc3_meson_g12a_remove(struct platform_device *pdev)
- 	pm_runtime_put_noidle(dev);
- 	pm_runtime_set_suspended(dev);
- 
-+	reset_control_rearm(priv->reset);
-+
- 	clk_bulk_disable_unprepare(priv->drvdata->num_clks,
- 				   priv->drvdata->clks);
- 
-@@ -883,7 +888,7 @@ static int __maybe_unused dwc3_meson_g12a_suspend(struct device *dev)
- 		phy_exit(priv->phys[i]);
- 	}
- 
--	reset_control_assert(priv->reset);
-+	reset_control_rearm(priv->reset);
- 
- 	return 0;
- }
-@@ -893,7 +898,9 @@ static int __maybe_unused dwc3_meson_g12a_resume(struct device *dev)
- 	struct dwc3_meson_g12a *priv = dev_get_drvdata(dev);
- 	int i, ret;
- 
--	reset_control_deassert(priv->reset);
-+	ret = reset_control_reset(priv->reset);
-+	if (ret)
-+		return ret;
- 
- 	ret = priv->drvdata->usb_init(priv);
- 	if (ret)
--- 
-2.17.1
+> The current reset framework API does not allow to release what is done by
+> reset_control_reset(), IOW decrement triggered_count. Add the new
+> reset_control_rearm() call to do so.
+>
+> When reset_control_reset() has been called once, the counter
+> triggered_count, in the reset framework, is incremented i.e the resource
+> under the reset is in-use and the reset should not be done again.
+> reset_control_rearm() would be the way to state that the resource is
+> no longer used and, that from the caller's perspective, the reset can be
+> fired again if necessary.
+>
+> Signed-off-by: Amjad Ouled-Ameur <aouledameur@baylibre.com>
+> Reported-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+> Change since v1: [0]
+> * Renamed the new call from reset_control_(array_)resettable to
+> reset_control_(array_)rearm
+> * Open-coded reset_control_array_rearm to check for errors before
+> decrementing triggered_count because we cannot roll back in case an
+> error occurs while decrementing one of the rstc.
+> * Reworded the new call's description.
+>
+> [0] https://lore.kernel.org/lkml/20201001132758.12280-1-aouledameur@baylibre.com
+>
+>   drivers/reset/core.c  | 73 +++++++++++++++++++++++++++++++++++++++++++
+>   include/linux/reset.h |  1 +
+>   2 files changed, 74 insertions(+)
+>
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index a2df88e90011..34e89aa0fb5e 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -208,6 +208,39 @@ static int reset_control_array_reset(struct reset_control_array *resets)
+>   	return 0;
+>   }
+>   
+> +static int reset_control_array_rearm(struct reset_control_array *resets)
+> +{
+> +	struct reset_control *rstc;
+> +	int i;
+> +
+> +	for (i = 0; i < resets->num_rstcs; i++) {
+> +		rstc = resets->rstc[i];
+> +
+> +		if (!rstc)
+> +			continue;
+> +
+> +		if (WARN_ON(IS_ERR(rstc)))
+> +			return -EINVAL;
+> +
+> +		if (rstc->shared) {
+> +			if (WARN_ON(atomic_read(&rstc->deassert_count) != 0))
+> +				return -EINVAL;
+> +		} else {
+> +			if (!rstc->acquired)
+> +				return -EPERM;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < resets->num_rstcs; i++) {
+> +		rstc = resets->rstc[i];
+> +
+> +		if (rstc && rstc->shared)
+> +			WARN_ON(atomic_dec_return(&rstc->triggered_count) < 0);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static int reset_control_array_assert(struct reset_control_array *resets)
+>   {
+>   	int ret, i;
+> @@ -325,6 +358,46 @@ int reset_control_reset(struct reset_control *rstc)
+>   }
+>   EXPORT_SYMBOL_GPL(reset_control_reset);
+>   
+> +/**
+> + * reset_control_rearm - allow shared reset line to be re-triggered"
+> + * @rstc: reset controller
+> + *
+> + * On a shared reset line the actual reset pulse is only triggered once for the
+> + * lifetime of the reset_control instance, except if this call is used.
+> + *
+> + * Calls to this function must be balanced with calls to reset_control_reset,
+> + * a warning is thrown in case triggered_count ever dips below 0.
+> + *
+> + * Consumers must not use reset_control_(de)assert on shared reset lines when
+> + * reset_control_reset or reset_control_rearm have been used.
+> + *
+> + * If rstc is NULL the function will just return 0.
+> + */
+> +int reset_control_rearm(struct reset_control *rstc)
+> +{
+> +	if (!rstc)
+> +		return 0;
+> +
+> +	if (WARN_ON(IS_ERR(rstc)))
+> +		return -EINVAL;
+> +
+> +	if (reset_control_is_array(rstc))
+> +		return reset_control_array_rearm(rstc_to_array(rstc));
+> +
+> +	if (rstc->shared) {
+> +		if (WARN_ON(atomic_read(&rstc->deassert_count) != 0))
+> +			return -EINVAL;
+> +
+> +		WARN_ON(atomic_dec_return(&rstc->triggered_count) < 0);
+> +	} else {
+> +		if (!rstc->acquired)
+> +			return -EPERM;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(reset_control_rearm);
+> +
+>   /**
+>    * reset_control_assert - asserts the reset line
+>    * @rstc: reset controller
+> diff --git a/include/linux/reset.h b/include/linux/reset.h
+> index 05aa9f440f48..439fec7112a9 100644
+> --- a/include/linux/reset.h
+> +++ b/include/linux/reset.h
+> @@ -13,6 +13,7 @@ struct reset_control;
+>   #ifdef CONFIG_RESET_CONTROLLER
+>   
+>   int reset_control_reset(struct reset_control *rstc);
+> +int reset_control_rearm(struct reset_control *rstc);
+>   int reset_control_assert(struct reset_control *rstc);
+>   int reset_control_deassert(struct reset_control *rstc);
+>   int reset_control_status(struct reset_control *rstc);
 
