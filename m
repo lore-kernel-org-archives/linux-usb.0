@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E96C63697
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:27:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285C1C56202
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:27:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4895620B80
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:27:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0CAA20B80
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:27:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbgKMU1O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 13 Nov 2020 15:27:14 -0500
-Received: from mga06.intel.com ([134.134.136.31]:13739 "EHLO mga06.intel.com"
+        id S1726573AbgKMU1T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 13 Nov 2020 15:27:19 -0500
+Received: from mga06.intel.com ([134.134.136.31]:13742 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726534AbgKMU06 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 13 Nov 2020 15:26:58 -0500
-IronPort-SDR: gcp1kCNvvUDczGXxtjARdppfR7vaZqYGwyWnr6mrzplIQPaaEVuGPYMRfUxi3a7X77bEMI/DBJ
- b/VrUU4xosZg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9804"; a="232145827"
+        id S1726510AbgKMU04 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 13 Nov 2020 15:26:56 -0500
+IronPort-SDR: sDis2yQ7BfVTfchd60UJUXoqI0hYq0XMtIops3wQu7IR/gWZp5yD0e68HUKFi6GQtjRPzINIIz
+ 5pejLxsojNNg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9804"; a="232145823"
 X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; 
-   d="scan'208";a="232145827"
+   d="scan'208";a="232145823"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2020 12:26:55 -0800
-IronPort-SDR: 2bMsU2l9cUsP1l8qHlIF5iztInvDUKwPz07Sbc3fAG4ZkuNJoH3ZRIYCWxbmfTRKwPnC4rulOc
- 6eyehdPP1VWg==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2020 12:26:54 -0800
+IronPort-SDR: PwGPkE4CWgjf/mw2PfFOu+jtCzgDAjKQ8RVEreTUy/5RSENrh2eYtPvV3FM35PK6P/BNlguQK2
+ LOV/Rw/9nn2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; 
-   d="scan'208";a="367050287"
+   d="scan'208";a="367050275"
 Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
-  by orsmga007.jf.intel.com with ESMTP; 13 Nov 2020 12:26:55 -0800
+  by orsmga007.jf.intel.com with ESMTP; 13 Nov 2020 12:26:54 -0800
 From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
         enric.balletbo@collabora.com, rajmohan.mani@intel.com,
         azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH v2 6/8] platform/chrome: cros_ec_typec: Use Thunderbolt 3 cable discover mode VDO in USB4 mode
-Date:   Fri, 13 Nov 2020 12:25:01 -0800
-Message-Id: <20201113202503.6559-7-utkarsh.h.patel@intel.com>
+Subject: [PATCH v2 2/8] platform/chrome: cros_ec_typec: Correct the Thunderbolt rounded/non-rounded cable support
+Date:   Fri, 13 Nov 2020 12:24:57 -0800
+Message-Id: <20201113202503.6559-3-utkarsh.h.patel@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
 References: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
@@ -50,48 +50,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Configure Thunderbolt3/USB4 cable generation value by filing Thunderbolt 3
-cable discover mode VDO to support rounded and non-rounded Thunderbolt3/
-USB4 cables.
-While we are here use Thunderbolt 3 cable discover mode VDO to fill active
-cable plug link training value.
+Thunderbolt rounded/non-rounded cable support is two bits value. Correcting
+it as per the Thunderbolt 3 cable discover mode VDO changes done in the
+Thunderbolt 3 alternate mode header.
 
-Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
-
 --
 Changes in v2:
-- No change.
+- Removed the fixes tag as there is no functional implication.
 --
 ---
- drivers/platform/chrome/cros_ec_typec.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 8111ed1fc574..b7416e82c3b3 100644
+index 31be31161350..8111ed1fc574 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -514,8 +514,18 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
- 	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
- 		data.eudo |= EUDO_CABLE_TYPE_RE_TIMER << EUDO_CABLE_TYPE_SHIFT;
+@@ -438,8 +438,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+ 	if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_LINK_UNIDIR)
+ 		data.cable_mode |= TBT_CABLE_LINK_TRAINING;
  
--	data.active_link_training = !!(pd_ctrl->control_flags &
--				       USB_PD_CTRL_ACTIVE_LINK_UNIDIR);
-+	/*
-+	 * This driver does not have access to the identity information or
-+	 * capabilities of the cable, so we don't know is it a real USB4 or
-+	 * TBT3 cable. Therefore pretending that it's always TBT3 cable by
-+	 * filling the TBT3 Cable VDO.
-+	 */
-+	data.tbt_cable_vdo = TBT_MODE;
-+
-+	if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_LINK_UNIDIR)
-+		data.tbt_cable_vdo |= TBT_CABLE_LINK_TRAINING;
-+
-+	data.tbt_cable_vdo |= TBT_SET_CABLE_ROUNDED(pd_ctrl->cable_gen);
+-	if (pd_ctrl->cable_gen)
+-		data.cable_mode |= TBT_CABLE_ROUNDED;
++	data.cable_mode |= TBT_SET_CABLE_ROUNDED(pd_ctrl->cable_gen);
  
- 	port->state.alt = NULL;
- 	port->state.data = &data;
+ 	/* Enter Mode VDO */
+ 	data.enter_vdo = TBT_SET_CABLE_SPEED(pd_ctrl->cable_speed);
 -- 
 2.17.1
 
