@@ -2,81 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D48C55ABD
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23590C63697
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 21:28:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2ABB2224A
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:27:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E08B62225B
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 21:28:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RLTez745";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2U6qppHW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726322AbgKMU0z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 13 Nov 2020 15:26:55 -0500
-Received: from mga06.intel.com ([134.134.136.31]:13739 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725959AbgKMU0z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 13 Nov 2020 15:26:55 -0500
-IronPort-SDR: LR9y4xNGYzThyjgLcHe4mILatr9UH9UvxRu9fbeOdTV5TCRxf8UVmSNWghnieTJTvZkhRFUI8y
- +1hiPbTPf7PA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9804"; a="232145821"
-X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; 
-   d="scan'208";a="232145821"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2020 12:26:54 -0800
-IronPort-SDR: CqhIFSLesgsAuFyqq8Be0JaJui2gdTFsT/b+zQ7EQtpRMQhKbOHH7iq3Bg+hC2PuHSpoU+Sh4O
- hWb6u8ikTJVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; 
-   d="scan'208";a="367050268"
-Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
-  by orsmga007.jf.intel.com with ESMTP; 13 Nov 2020 12:26:54 -0800
-From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
-        enric.balletbo@collabora.com, rajmohan.mani@intel.com,
-        azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH v2 0/8] Thunderbolt3/USB4 cable rounded and active cable plug link training support
-Date:   Fri, 13 Nov 2020 12:24:55 -0800
-Message-Id: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726455AbgKMV2F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 13 Nov 2020 16:28:05 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:55278 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726583AbgKMV2D (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 13 Nov 2020 16:28:03 -0500
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1605302878;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=P4RP441BOauOir2Oa3cFxCUL2HeYPqIvw79teAEl2IE=;
+        b=RLTez745BUb554hoMEOpms0BwRb5TUG79OAOKkkHkIfpU4h1CeEm0vRxsJM6frqAfIckFz
+        xnYxoWLjxls2z3H86g4p85tS5wxwCmWXKpxsiIVlBR/Hc80zXkzj8spCBwHrL4ozcrxlxS
+        TkHjcUReWYN8LJyOTm1KsFyoQz+PMiYQ8KbdrAJZuPNjO05bu7HeeIR+bz1sF7ncRmgfLN
+        EWlHw8YkfkVN6/DRbDmRJYD4QIUg6RENF+iyxQfABDyUDYdM9zDoU0circFQe+R33B2/fB
+        qeIveBlFj+X7Xp2EW6eVcC7fkjAzAm9OM4EmR+bHcJi5Y49bQnNLVkh0SV5vBw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1605302878;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=P4RP441BOauOir2Oa3cFxCUL2HeYPqIvw79teAEl2IE=;
+        b=2U6qppHWrxw/IGFK2bbnL4ZBhTyFfsTtigoKs0FMOLSzrBGWiJ/Am6bBradTbTJ6SDo67v
+        wX94LOgDmYJ4DPCw==
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH] usb: Remove RUN_CONTEXT
+Date:   Fri, 13 Nov 2020 22:27:04 +0100
+Message-Id: <20201113212704.2243807-1-bigeasy@linutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series adds the support for Thunderbolt3/USB4 rounded and
-non-rounded frequencies cables and fixes the active cable plug link
-training support.
+The last user of RUN_CONTEXT was removed in commit
+   97c17beb3b668 ("[PATCH] ehci-hcd (1/2):  portability (2.4), tasklet,")
 
-Changes in v2:
-- Removed the fixes tag as there is no functional implication from patches
-  1/8, 2/8 and 4/8.
+There are no users of RUN_CONTEXT, remove it.
 
-Utkarsh Patel (8):
-  usb: typec: Correct the bit values for the Thunderbolt
-    rounded/non-rounded cable support
-  platform/chrome: cros_ec_typec: Correct the Thunderbolt
-    rounded/non-rounded cable support
-  usb: typec: intel_pmc_mux: Configure Thunderbolt cable generation bits
-  usb: typec: Remove one bit support for the Thunderbolt
-    rounded/non-rounded cable
-  usb: typec: Use Thunderbolt 3 cable discover mode VDO in Enter_USB
-    message
-  platform/chrome: cros_ec_typec: Use Thunderbolt 3 cable discover mode
-    VDO in USB4 mode
-  usb: typec: intel_pmc_mux: Configure active cable properties for USB4
-  usb: typec: Remove active_link_training variable from Enter_USB
-    message
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ include/linux/usb/hcd.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
- drivers/platform/chrome/cros_ec_typec.c | 17 +++++++++++++----
- drivers/usb/typec/mux/intel_pmc_mux.c   | 21 ++++++++++++++++++---
- include/linux/usb/typec.h               |  8 ++------
- include/linux/usb/typec_tbt.h           |  6 +++++-
- 4 files changed, 38 insertions(+), 14 deletions(-)
-
--- 
-2.17.1
+diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
+index 3dbb42c637c14..96281cd50ff66 100644
+--- a/include/linux/usb/hcd.h
++++ b/include/linux/usb/hcd.h
+@@ -734,10 +734,6 @@ static inline void usbmon_urb_complete(struct usb_bus =
+*bus, struct urb *urb,
+=20
+ /* random stuff */
+=20
+-#define	RUN_CONTEXT (in_irq() ? "in_irq" \
+-		: (in_interrupt() ? "in_interrupt" : "can sleep"))
+-
+-
+ /* This rwsem is for use only by the hub driver and ehci-hcd.
+  * Nobody else should touch it.
+  */
+--=20
+2.29.2
 
