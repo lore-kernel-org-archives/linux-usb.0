@@ -2,174 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 858C1C55ABD
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 17:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A53C6C55ABD
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:26:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D91022226
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 17:46:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JOxktDfZ"
+	by mail.kernel.org (Postfix) with ESMTP id 6A07222260
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 20:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbgKMRqs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 13 Nov 2020 12:46:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726759AbgKMRqr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 13 Nov 2020 12:46:47 -0500
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D37EFC061A04
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2020 09:46:45 -0800 (PST)
-Received: by mail-il1-x143.google.com with SMTP id y17so9218008ilg.4
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2020 09:46:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sm0dp8m6PYoCSpzYftgx2Y3mqZEh1Lp+bGdH0kDy5dk=;
-        b=JOxktDfZSV66zoJecCtVPD5DV3Oc5AicK13DHQg7s8MkflrIrX/+PMCP/1Vn5VC/D7
-         /x/RSybOc2X95HeMyLAw4c1vLiKJVRIirRtIHOEwBbcvpjOVAndGhpV1d/isxVanrZXd
-         Q1V5w7SZt1fdQIozxoxpp6KhEcDS2VISoLEKU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sm0dp8m6PYoCSpzYftgx2Y3mqZEh1Lp+bGdH0kDy5dk=;
-        b=qTQg9Gi3po6Kr8USxgfoNZ+zQzM93+P7qmtmHadvf2gR/jXRoxUUoTaxthn4K5VGQL
-         fLhLqUHYDQ/K55xpY3EyZlI/xuD/OJFyY5Ky9owtK28cDIWFkFe80ar1WMDROnWmyHYH
-         cOIItWFGzGBsuY56bN3HecDTNGRYdu1lzbPE//GM/Xwl+KyjuOiBbXr+mD1SooBUGFle
-         K8cbGY8Iok6FHHAodGH/zH9/BMYSAvz8nAyXnf7CtlgYjq20raAXW/z5sOo3h6h1/Apu
-         Ff9IsdrIorCStWnW2qkB2Z4FKOD9zriNC+P5Ps40Zqws6PrDVO++h8Zkkpzg99Fvxt1L
-         mXig==
-X-Gm-Message-State: AOAM531MFiDWX5LYiYbbwXz99Wlo5V34yRoUxVTQKlTMq1B88/k6t0C7
-        +uEs08nGJI1UWDXzSQBMFTcp2c++NiUNEg==
-X-Google-Smtp-Source: ABdhPJzkJd/du2JaXEEO+I8eBHlvnqsa7Fbuu4Q+CxUmhErClnXK++/Zonb9rRsW2jSUNHZqQq8h/g==
-X-Received: by 2002:a92:cb51:: with SMTP id f17mr730291ilq.64.1605289604832;
-        Fri, 13 Nov 2020 09:46:44 -0800 (PST)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id y14sm4772585ilb.66.2020.11.13.09.46.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 09:46:44 -0800 (PST)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     valentina.manea.m@gmail.com, shuah@kernel.org,
-        gregkh@linuxfoundation.org, keescook@chromium.org,
-        peterz@infradead.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/13] usb: usbip/vhci: convert seqno to seqnum_ops
-Date:   Fri, 13 Nov 2020 10:46:12 -0700
-Message-Id: <8c22e939de78436afc6112d8022771121d438a83.1605287778.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1605287778.git.skhan@linuxfoundation.org>
-References: <cover.1605287778.git.skhan@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726522AbgKMU05 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 13 Nov 2020 15:26:57 -0500
+Received: from mga06.intel.com ([134.134.136.31]:13739 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725959AbgKMU04 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 13 Nov 2020 15:26:56 -0500
+IronPort-SDR: DQRTFUfTiH8AOdwVl8kWn/xI5zMEirezSbi9K0qwbPx7vA09uyASlgU1IwbOtqkEOBbJNRLaFX
+ FO3uUQE8eGIw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9804"; a="232145824"
+X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; 
+   d="scan'208";a="232145824"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2020 12:26:54 -0800
+IronPort-SDR: vKKnmB9R8KKVlCCxVaMUZVnKsP4BGr4X6wOENHvwPN1MH0c7ZrqLMtNqziDFxPQhwURbCnuh80
+ OcUw3q5EuqzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; 
+   d="scan'208";a="367050277"
+Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
+  by orsmga007.jf.intel.com with ESMTP; 13 Nov 2020 12:26:54 -0800
+From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
+To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
+        enric.balletbo@collabora.com, rajmohan.mani@intel.com,
+        azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
+Subject: [PATCH v2 3/8] usb: typec: intel_pmc_mux: Configure Thunderbolt cable generation bits
+Date:   Fri, 13 Nov 2020 12:24:58 -0800
+Message-Id: <20201113202503.6559-4-utkarsh.h.patel@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
+References: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sequence Number api provides interfaces for unsigned atomic up counters
-leveraging atomic_t and atomic64_t ops underneath. Convert it to use
-seqnum_ops.
+Thunderbolt cable generation bits received as a part of Thunderbolt 3 cable
+discover mode VDO needs to be configured for Thunderbolt rounded and
+non-rounded cable support in the Thunderbolt alternate mode.
 
-atomic_t variables used for stats are atomic counters. Convert them to
-use seqnum_ops.
+Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+--
+Changes in v2:
+- No change.
+--
 ---
- drivers/usb/usbip/vhci.h     | 3 ++-
- drivers/usb/usbip/vhci_hcd.c | 7 ++++---
- drivers/usb/usbip/vhci_rx.c  | 5 +++--
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ drivers/usb/typec/mux/intel_pmc_mux.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/usbip/vhci.h b/drivers/usb/usbip/vhci.h
-index 5659dce1526e..cb76747f423b 100644
---- a/drivers/usb/usbip/vhci.h
-+++ b/drivers/usb/usbip/vhci.h
-@@ -15,6 +15,7 @@
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
- #include <linux/wait.h>
-+#include <linux/seqnum_ops.h>
+diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+index d7f63b74c6b1..aa3211f1c4c3 100644
+--- a/drivers/usb/typec/mux/intel_pmc_mux.c
++++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+@@ -256,6 +256,7 @@ static int
+ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
+ {
+ 	struct typec_thunderbolt_data *data = state->data;
++	u8 cable_rounded = TBT_CABLE_ROUNDED_SUPPORT(data->cable_mode);
+ 	u8 cable_speed = TBT_CABLE_SPEED(data->cable_mode);
+ 	struct altmode_req req = { };
  
- struct vhci_device {
- 	struct usb_device *udev;
-@@ -108,7 +109,7 @@ struct vhci_hcd {
- 	unsigned resuming:1;
- 	unsigned long re_timeout;
+@@ -284,6 +285,8 @@ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
  
--	atomic_t seqnum;
-+	struct seqnum32 seqnum;
+ 	req.mode_data |= PMC_USB_ALTMODE_CABLE_SPD(cable_speed);
  
- 	/*
- 	 * NOTE:
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 66cde5e5f796..57287165537c 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/seqnum_ops.h>
++	req.mode_data |= PMC_USB_ALTMODE_TBT_GEN(cable_rounded);
++
+ 	return pmc_usb_command(port, (void *)&req, sizeof(req));
+ }
  
- #include "usbip_common.h"
- #include "vhci.h"
-@@ -665,7 +666,7 @@ static void vhci_tx_urb(struct urb *urb, struct vhci_device *vdev)
- 
- 	spin_lock_irqsave(&vdev->priv_lock, flags);
- 
--	priv->seqnum = atomic_inc_return(&vhci_hcd->seqnum);
-+	priv->seqnum = seqnum32_inc_return(&vhci_hcd->seqnum);
- 	if (priv->seqnum == 0xffff)
- 		dev_info(&urb->dev->dev, "seqnum max\n");
- 
-@@ -921,7 +922,7 @@ static int vhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
- 			return -ENOMEM;
- 		}
- 
--		unlink->seqnum = atomic_inc_return(&vhci_hcd->seqnum);
-+		unlink->seqnum = seqnum32_inc_return(&vhci_hcd->seqnum);
- 		if (unlink->seqnum == 0xffff)
- 			pr_info("seqnum max\n");
- 
-@@ -1181,7 +1182,7 @@ static int vhci_start(struct usb_hcd *hcd)
- 		vdev->rhport = rhport;
- 	}
- 
--	atomic_set(&vhci_hcd->seqnum, 0);
-+	seqnum32_init(&vhci_hcd->seqnum);
- 
- 	hcd->power_budget = 0; /* no limit */
- 	hcd->uses_new_polling = 1;
-diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
-index 266024cbb64f..84620538093f 100644
---- a/drivers/usb/usbip/vhci_rx.c
-+++ b/drivers/usb/usbip/vhci_rx.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/kthread.h>
- #include <linux/slab.h>
-+#include <linux/seqnum_ops.h>
- 
- #include "usbip_common.h"
- #include "vhci.h"
-@@ -66,9 +67,9 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
- 	spin_unlock_irqrestore(&vdev->priv_lock, flags);
- 
- 	if (!urb) {
--		pr_err("cannot find a urb of seqnum %u max seqnum %d\n",
-+		pr_err("cannot find a urb of seqnum %u max seqnum %u\n",
- 			pdu->base.seqnum,
--			atomic_read(&vhci_hcd->seqnum));
-+			seqnum32_fetch(&vhci_hcd->seqnum));
- 		usbip_event_add(ud, VDEV_EVENT_ERROR_TCP);
- 		return;
- 	}
 -- 
-2.27.0
+2.17.1
 
