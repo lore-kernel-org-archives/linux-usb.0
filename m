@@ -5,55 +5,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B97C63777
-	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 08:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0483DC6369E
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 08:13:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68A1422254
+	by mail.kernel.org (Postfix) with ESMTP id A3BFA22252
 	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 08:13:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="XI1YpGcn"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="JcXJTBtF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726645AbgKNING (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 14 Nov 2020 03:13:06 -0500
-Received: from m42-4.mailgun.net ([69.72.42.4]:34208 "EHLO m42-4.mailgun.net"
+        id S1726647AbgKNINI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 14 Nov 2020 03:13:08 -0500
+Received: from z5.mailgun.us ([104.130.96.5]:53953 "EHLO z5.mailgun.us"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726465AbgKNINB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 14 Nov 2020 03:13:01 -0500
+        id S1726481AbgKNINI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 14 Nov 2020 03:13:08 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1605341580; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1605341587; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=gM6smahYGSlYh/yqa/mC96B6/Ar1CKsusJG/IRBqBuI=; b=XI1YpGcnbOTCPm1d4o3o2zjAhJAFKwPWehuGDa7rhaaYAhtZsczfNUKT87LbHEuQQr2tHF9L
- rGlF92Gg9Bv6cgimh1o4toYLGarElDmLKEEqrNnKkI+51kEOeWZN0JJawd+9nWCddDm5zn6Z
- ITelEoYLcuWS8OSS2ut4F/t/V3A=
-X-Mailgun-Sending-Ip: 69.72.42.4
+ Sender; bh=oYttXSsvr3yGBRboyetOc9UMCdoUc2jyN9VMkw7rr9U=; b=JcXJTBtFsvbVS6DBQnFmJSGv8Vs6RLqyYabwdbClfw8ZgLbWOJd7USDoUchvUVoYXtsm71cH
+ CqObJSPxIL0BxKwUvxKS3JY2d62Vk5ZO9dB8EX9hwk3YImN7ecDEFdl38L6Kz4sdEWm+i88D
+ IhwWdy11xJdPzqGsweAjhxRlkks=
+X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5faf9185c3c3b090043a987c (version=TLS1.2,
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5faf9185d3e05bb6db809355 (version=TLS1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 14 Nov 2020 08:12:53
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 84461C433CB; Sat, 14 Nov 2020 08:12:52 +0000 (UTC)
+        id 7A30FC433CB; Sat, 14 Nov 2020 08:12:53 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7BC87C433C8;
-        Sat, 14 Nov 2020 08:12:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7BC87C433C8
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id ACA04C433F0;
+        Sat, 14 Nov 2020 08:12:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ACA04C433F0
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
 To:     balbi@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 1/3] usb: dwc3: gadget: Introduce a DWC3 VBUS draw callback
-Date:   Sat, 14 Nov 2020 00:12:45 -0800
-Message-Id: <20201114081247.25063-2-wcheng@codeaurora.org>
+Subject: [PATCH 3/3] usb: gadget: configfs: Add a specific configFS reset callback
+Date:   Sat, 14 Nov 2020 00:12:47 -0800
+Message-Id: <20201114081247.25063-4-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201114081247.25063-1-wcheng@codeaurora.org>
 References: <20201114081247.25063-1-wcheng@codeaurora.org>
@@ -63,46 +63,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some devices support charging while in device mode.  In these situations,
-the USB gadget will notify the DWC3 gadget driver to modify the current
-based on the enumeration and device state.  The usb_phy_set_power() API
-will allow external charger entities to adjust the charge current through
-the notifier block.
+In order for configFS based USB gadgets to set the proper charge current
+for bus reset scenarios, expose a separate reset callback to set the
+current to 100mA based on the USB battery charging specification.
 
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- drivers/usb/dwc3/gadget.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/usb/gadget/configfs.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index c145da1d8ba5..69122f66978e 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2387,6 +2387,16 @@ static void dwc3_gadget_set_speed(struct usb_gadget *g,
- 	spin_unlock_irqrestore(&dwc->lock, flags);
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 56051bb97349..80ca7ff2fb97 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -1481,6 +1481,28 @@ static void configfs_composite_disconnect(struct usb_gadget *gadget)
+ 	spin_unlock_irqrestore(&gi->spinlock, flags);
  }
  
-+static int dwc3_gadget_vbus_draw(struct usb_gadget *g, unsigned int mA)
++static void configfs_composite_reset(struct usb_gadget *gadget)
 +{
-+	struct dwc3		*dwc = gadget_to_dwc(g);
++	struct usb_composite_dev *cdev;
++	struct gadget_info *gi;
++	unsigned long flags;
 +
-+	if (dwc->usb2_phy)
-+		return usb_phy_set_power(dwc->usb2_phy, mA);
++	cdev = get_gadget_data(gadget);
++	if (!cdev)
++		return;
 +
-+	return 0;
++	gi = container_of(cdev, struct gadget_info, cdev);
++	spin_lock_irqsave(&gi->spinlock, flags);
++	cdev = get_gadget_data(gadget);
++	if (!cdev || gi->unbind) {
++		spin_unlock_irqrestore(&gi->spinlock, flags);
++		return;
++	}
++
++	composite_reset(gadget);
++	spin_unlock_irqrestore(&gi->spinlock, flags);
 +}
 +
- static const struct usb_gadget_ops dwc3_gadget_ops = {
- 	.get_frame		= dwc3_gadget_get_frame,
- 	.wakeup			= dwc3_gadget_wakeup,
-@@ -2396,6 +2406,7 @@ static const struct usb_gadget_ops dwc3_gadget_ops = {
- 	.udc_stop		= dwc3_gadget_stop,
- 	.udc_set_speed		= dwc3_gadget_set_speed,
- 	.get_config_params	= dwc3_gadget_config_params,
-+	.vbus_draw		= dwc3_gadget_vbus_draw,
- };
+ static void configfs_composite_suspend(struct usb_gadget *gadget)
+ {
+ 	struct usb_composite_dev *cdev;
+@@ -1530,7 +1552,7 @@ static const struct usb_gadget_driver configfs_driver_template = {
+ 	.unbind         = configfs_composite_unbind,
  
- /* -------------------------------------------------------------------------- */
+ 	.setup          = configfs_composite_setup,
+-	.reset          = configfs_composite_disconnect,
++	.reset          = configfs_composite_reset,
+ 	.disconnect     = configfs_composite_disconnect,
+ 
+ 	.suspend	= configfs_composite_suspend,
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
