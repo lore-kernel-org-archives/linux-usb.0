@@ -2,105 +2,215 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 365D9C63697
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 23:21:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEBB4C64E7A
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 03:30:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD13C2076E
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Nov 2020 23:21:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmn1KPus"
+	by mail.kernel.org (Postfix) with ESMTP id 8270B223AB
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 03:30:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbgKMXVl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 13 Nov 2020 18:21:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45478 "EHLO mail.kernel.org"
+        id S1726348AbgKND37 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 13 Nov 2020 22:29:59 -0500
+Received: from mga12.intel.com ([192.55.52.136]:7808 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725885AbgKMXVk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 13 Nov 2020 18:21:40 -0500
-Received: from localhost (230.sub-72-107-127.myvzw.com [72.107.127.230])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D80E620759;
-        Fri, 13 Nov 2020 23:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605309700;
-        bh=MeuF6lURc8/pMzHwJ17dUsjKSA4WKxPWAWawNSgAn2o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=cmn1KPusFXT2IzXJCjbcpRzJlJN64rFvgmFhk5IpRMWguCE5iXcrbWRrzQIm1PXSd
-         ZNGItDZhEsL3+nIM22H4xKAcQoo+ccQ5xDroN+kTXzKseE3CuDpOD1nHLSWLgEzGTd
-         oVyApHmbApkRuX490+A2S9oW0Ifx1n7DxG/81Hok=
-Date:   Fri, 13 Nov 2020 17:21:38 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        johan@kernel.org, linux-usb@vger.kernel.org,
-        alberto.vignani@fastwebnet.it
-Subject: Re: [PATCH v2 1/2] PCI: Disable MSI for Pericom PCIe-USB adapter
-Message-ID: <20201113232138.GA1141907@bjorn-Precision-5520>
+        id S1726495AbgKND36 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 13 Nov 2020 22:29:58 -0500
+IronPort-SDR: SfBvmawSck6T9JK+9EXLMWMXTbGPWbrN4urvqinIWb5A2AXSYGdOYtX7Txy630ZrsaNcXxi5bq
+ cBxTKe5nc4/Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9804"; a="149828670"
+X-IronPort-AV: E=Sophos;i="5.77,477,1596524400"; 
+   d="scan'208";a="149828670"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2020 19:29:58 -0800
+IronPort-SDR: cUl0CCwzZ/fkQVPncr1yD4TVuPqU++V3r9KTo7NdeqKm36qSIvKexFcb0DOacwUpmQE9huz4BT
+ fg/Gf//D3ZzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,477,1596524400"; 
+   d="scan'208";a="542900882"
+Received: from lkp-server02.sh.intel.com (HELO 697932c29306) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 13 Nov 2020 19:29:56 -0800
+Received: from kbuild by 697932c29306 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kdmGC-0000eE-2h; Sat, 14 Nov 2020 03:29:56 +0000
+Date:   Sat, 14 Nov 2020 11:28:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ 6d853c9e4104b4fc8d55dc9cd3b99712aa347174
+Message-ID: <5faf4ef9.PG71B2lWi6/j88SZ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201106100526.17726-1-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 06, 2020 at 12:05:25PM +0200, Andy Shevchenko wrote:
-> Pericom PCIe-USB adapter advertises MSI, but documentation says
-> "The MSI Function is not implemented on this device." in the chapters
-> 7.3.27, 7.3.29-7.3.31.
-> 
-> Fixes: 306c54d0edb6 ("usb: hcd: Try MSI interrupts on PCI devices")
-> Datasheet: https://www.diodes.com/assets/Datasheets/PI7C9X440SL.pdf
-> Reported-by: alberto.vignani@fastwebnet.it
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
+branch HEAD: 6d853c9e4104b4fc8d55dc9cd3b99712aa347174  usb: cdc-acm: Add DISABLE_ECHO for Renesas USB Download mode
 
-Is there a URL to a problem report we can include here?
+elapsed time: 723m
 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> v2: dropped confusing word (David), added ifdeffery (Ben)
->  drivers/pci/quirks.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index f70692ac79c5..e66e0cc8f99b 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -5567,17 +5567,26 @@ static void pci_fixup_no_d0_pme(struct pci_dev *dev)
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ASMEDIA, 0x2142, pci_fixup_no_d0_pme);
->  
->  /*
-> - * Device [12d8:0x400e] and [12d8:0x400f]
-> + * Device 12d8:0x400e [OHCI] and 12d8:0x400f [EHCI]
-> + *
->   * These devices advertise PME# support in all power states but don't
->   * reliably assert it.
-> + *
-> + * These devices advertise MSI, but documentation (PI7C9X440SL.pdf) says
-> + * "The MSI Function is not implemented on this device." in the chapters
-> + * 7.3.27, 7.3.29-7.3.31.
->   */
-> -static void pci_fixup_no_pme(struct pci_dev *dev)
-> +static void pci_fixup_no_msi_no_pme(struct pci_dev *dev)
->  {
-> +#ifdef CONFIG_PCI_MSI
-> +	pci_info(dev, "The MSI is not implemented on this device, disabling it\n");
-> +	dev->no_msi = 1;
-> +#endif
->  	pci_info(dev, "PME# is unreliable, disabling it\n");
->  	dev->pme_support = 0;
->  }
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_PERICOM, 0x400e, pci_fixup_no_pme);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_PERICOM, 0x400f, pci_fixup_no_pme);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_PERICOM, 0x400e, pci_fixup_no_msi_no_pme);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_PERICOM, 0x400f, pci_fixup_no_msi_no_pme);
->  
->  static void apex_pci_fixup_class(struct pci_dev *pdev)
->  {
-> -- 
-> 2.28.0
-> 
+configs tested: 143
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                     sequoia_defconfig
+powerpc                       eiger_defconfig
+arm                        neponset_defconfig
+powerpc                     kmeter1_defconfig
+m68k                                defconfig
+m68k                        m5307c3_defconfig
+powerpc                      mgcoge_defconfig
+sh                          sdk7780_defconfig
+arm                         lubbock_defconfig
+mips                            e55_defconfig
+xtensa                  cadence_csp_defconfig
+nios2                            alldefconfig
+sh                          rsk7203_defconfig
+m68k                            q40_defconfig
+sh                             shx3_defconfig
+openrisc                    or1ksim_defconfig
+arm                         hackkit_defconfig
+powerpc                  storcenter_defconfig
+sparc                       sparc32_defconfig
+powerpc                     ppa8548_defconfig
+arm                          gemini_defconfig
+m68k                       m5249evb_defconfig
+arm                          iop32x_defconfig
+arm                          simpad_defconfig
+arm                           sunxi_defconfig
+powerpc                  mpc866_ads_defconfig
+sh                ecovec24-romimage_defconfig
+arm64                            alldefconfig
+arm                           h5000_defconfig
+powerpc                      pmac32_defconfig
+mips                   sb1250_swarm_defconfig
+sh                   sh7724_generic_defconfig
+alpha                            alldefconfig
+arm                         s3c6400_defconfig
+arm                         vf610m4_defconfig
+arm                      integrator_defconfig
+sh                         ecovec24_defconfig
+sh                           se7750_defconfig
+mips                           jazz_defconfig
+powerpc                      acadia_defconfig
+xtensa                          iss_defconfig
+nds32                            alldefconfig
+arm                       aspeed_g4_defconfig
+arm                         assabet_defconfig
+um                            kunit_defconfig
+xtensa                         virt_defconfig
+arm                        shmobile_defconfig
+powerpc64                           defconfig
+arm                           sama5_defconfig
+mips                           ip32_defconfig
+riscv                               defconfig
+sh                          kfr2r09_defconfig
+mips                     loongson1c_defconfig
+arm                   milbeaut_m10v_defconfig
+arm                           spitz_defconfig
+mips                         tb0226_defconfig
+m68k                        m5272c3_defconfig
+ia64                          tiger_defconfig
+arm                            xcep_defconfig
+mips                 decstation_r4k_defconfig
+arm                       imx_v4_v5_defconfig
+powerpc                     pq2fads_defconfig
+powerpc                    mvme5100_defconfig
+ia64                        generic_defconfig
+arm                           stm32_defconfig
+mips                        bcm63xx_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                 mpc8540_ads_defconfig
+powerpc                          g5_defconfig
+sparc                       sparc64_defconfig
+mips                      pistachio_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a006-20201113
+i386                 randconfig-a005-20201113
+i386                 randconfig-a002-20201113
+i386                 randconfig-a001-20201113
+i386                 randconfig-a003-20201113
+i386                 randconfig-a004-20201113
+x86_64               randconfig-a015-20201113
+x86_64               randconfig-a011-20201113
+x86_64               randconfig-a014-20201113
+x86_64               randconfig-a013-20201113
+x86_64               randconfig-a016-20201113
+x86_64               randconfig-a012-20201113
+i386                 randconfig-a012-20201113
+i386                 randconfig-a014-20201113
+i386                 randconfig-a016-20201113
+i386                 randconfig-a011-20201113
+i386                 randconfig-a015-20201113
+i386                 randconfig-a013-20201113
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a003-20201113
+x86_64               randconfig-a005-20201113
+x86_64               randconfig-a004-20201113
+x86_64               randconfig-a002-20201113
+x86_64               randconfig-a006-20201113
+x86_64               randconfig-a001-20201113
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
