@@ -2,139 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AB2AC6379D
-	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 08:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B06DEC5519F
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 10:09:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17C5022252
-	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 08:13:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A9892224B
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Nov 2020 10:09:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="XcOXGHJC"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Qjw1rBfC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+mn2N4kZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbgKNINJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 14 Nov 2020 03:13:09 -0500
-Received: from z5.mailgun.us ([104.130.96.5]:21085 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726643AbgKNINI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 14 Nov 2020 03:13:08 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1605341588; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=PKB5XOOkfINAZgloSMx1fyL8MXZucBTUB4IzGca1/Hc=; b=XcOXGHJCZvig5fvfpTaw0Bft5/KmjGTbfwrytRss9TotOUQ9D6XFz0ShzhDApj22ywQFCj3C
- GOmn5m1V0L9a81H3R6GiOS+v1ozaDYbFYOl+V4MYZPn4DAZdKlQMnlCUY1vtqx0c8Xx7xW3H
- 012AFfipJyHXQqLF99HtVnD5foI=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 5faf918557dd92cbec798498 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 14 Nov 2020 08:12:53
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E0482C433C8; Sat, 14 Nov 2020 08:12:52 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 21240C433C9;
-        Sat, 14 Nov 2020 08:12:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 21240C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 2/3] usb: gadget: composite: Split composite reset and disconnect
-Date:   Sat, 14 Nov 2020 00:12:46 -0800
-Message-Id: <20201114081247.25063-3-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201114081247.25063-1-wcheng@codeaurora.org>
-References: <20201114081247.25063-1-wcheng@codeaurora.org>
+        id S1726630AbgKNKI7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 14 Nov 2020 05:08:59 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:58216 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726513AbgKNKI7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 14 Nov 2020 05:08:59 -0500
+Date:   Sat, 14 Nov 2020 11:08:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1605348537;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1V50Zg78707rsYoL0SZ7xZ/U9FS3p3fLToTa/VAqyno=;
+        b=Qjw1rBfCFcEuR8CnmgQenZRD4keYorw+adBELGSQjv9QGABUKt/cELp+abq/O3YNvMTR6s
+        AcNh9+CYREgTzIFo3eEbOCDSuoMO0MOtFPe1X4KBA7gi/Nkw2ariBSC+sSrJiEpBeG4tNl
+        4kQ33Fru/VeN5piic4LQs1vD67QOPiXn7nVJj/mLMXgtofdWDy9eAJG5AV5SLH8D2DXEo2
+        5Wcf51JPpMXjFeRujaSxVStDgY9hIuOOMZ72XmoRVywBKreG6rfmnUwT/k/p9i7NejZlZT
+        Wc8jc9VlFU6kXM2EUZvbHeraWpRZGlu0smsbSzncVzFfU18RqEMcwkQOy6NfwA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1605348537;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1V50Zg78707rsYoL0SZ7xZ/U9FS3p3fLToTa/VAqyno=;
+        b=+mn2N4kZkUVhfImXfwb4ToV2qk8G8UTLvqO0dwReemQmX4NdBjupLHWWHPrcAszZOHCu65
+        zszoEwXZoJQDcbAA==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] usb: Remove RUN_CONTEXT
+Message-ID: <20201114100856.ncwcel2zd76n7ocv@linutronix.de>
+References: <20201113212704.2243807-1-bigeasy@linutronix.de>
+ <X68NBdTy2F/IeZ2Y@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <X68NBdTy2F/IeZ2Y@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a specific composite reset API to differentiate between disconnect and
-reset events.  This is needed for adjusting the current draw accordingly
-based on the USB battery charging specification.  The device is only allowed
-to draw the 500/900 mA (HS/SS) while in the CONFIGURED state, and only 100 mA
-in the connected and UNCONFIGURED state.
+On 2020-11-13 23:47:33 [+0100], Greg Kroah-Hartman wrote:
+> On Fri, Nov 13, 2020 at 10:27:04PM +0100, Sebastian Andrzej Siewior wrote:
+> > The last user of RUN_CONTEXT was removed in commit
+> >    97c17beb3b668 ("[PATCH] ehci-hcd (1/2):  portability (2.4), tasklet,")
+> 
+> I don't see that git commit id in Linus's tree, nor in my usb.git tree.
+> Where does it live?
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/usb/gadget/composite.c | 21 +++++++++++++++++++--
- include/linux/usb/composite.h  |  2 ++
- 2 files changed, 21 insertions(+), 2 deletions(-)
+As a archaeologist I have the history trees linked in my tree. This is
+from:
+   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git/commit/?id=97c17beb3b668c79ef5d056b3f687aa0be2d672f
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index 05b176c82cc5..a41f7fe4b518 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -2036,7 +2036,7 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 	return value;
- }
- 
--void composite_disconnect(struct usb_gadget *gadget)
-+static void __composite_disconnect(struct usb_gadget *gadget)
- {
- 	struct usb_composite_dev	*cdev = get_gadget_data(gadget);
- 	unsigned long			flags;
-@@ -2053,6 +2053,23 @@ void composite_disconnect(struct usb_gadget *gadget)
- 	spin_unlock_irqrestore(&cdev->lock, flags);
- }
- 
-+void composite_disconnect(struct usb_gadget *gadget)
-+{
-+	usb_gadget_vbus_draw(gadget, 0);
-+	__composite_disconnect(gadget);
-+}
-+
-+void composite_reset(struct usb_gadget *gadget)
-+{
-+	/*
-+	 * Section 1.4.13 Standard Downstream Port of the USB battery charging
-+	 * specification v1.2 states that a device connected on a SDP shall only
-+	 * draw at max 100mA while in a connected, but unconfigured state.
-+	 */
-+	usb_gadget_vbus_draw(gadget, 100);
-+	__composite_disconnect(gadget);
-+}
-+
- /*-------------------------------------------------------------------------*/
- 
- static ssize_t suspended_show(struct device *dev, struct device_attribute *attr,
-@@ -2373,7 +2390,7 @@ static const struct usb_gadget_driver composite_driver_template = {
- 	.unbind		= composite_unbind,
- 
- 	.setup		= composite_setup,
--	.reset		= composite_disconnect,
-+	.reset		= composite_reset,
- 	.disconnect	= composite_disconnect,
- 
- 	.suspend	= composite_suspend,
-diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
-index 2040696d75b6..0d8a71471512 100644
---- a/include/linux/usb/composite.h
-+++ b/include/linux/usb/composite.h
-@@ -525,6 +525,8 @@ extern struct usb_string *usb_gstrings_attach(struct usb_composite_dev *cdev,
- extern int usb_string_ids_n(struct usb_composite_dev *c, unsigned n);
- 
- extern void composite_disconnect(struct usb_gadget *gadget);
-+extern void composite_reset(struct usb_gadget *gadget);
-+
- extern int composite_setup(struct usb_gadget *gadget,
- 		const struct usb_ctrlrequest *ctrl);
- extern void composite_suspend(struct usb_gadget *gadget);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+> thanks,
+> 
+> greg k-h
 
+Sebastian
