@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF05CC844F5
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06EB8C844F7
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90E122227F
+	by mail.kernel.org (Postfix) with ESMTP id B9AF220855
 	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729557AbgKPMNi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Nov 2020 07:13:38 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:7919 "EHLO
+        id S1729342AbgKPMNu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Nov 2020 07:13:50 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:7920 "EHLO
         szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726754AbgKPMNh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 07:13:37 -0500
+        with ESMTP id S1728400AbgKPMNu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 07:13:50 -0500
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CZSdv0KDNz6wNx;
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CZSdv06fzz6v6S;
         Mon, 16 Nov 2020 20:13:23 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Nov 2020
- 20:13:30 +0800
+ 20:13:31 +0800
 From:   Zhang Qilong <zhangqilong3@huawei.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>
-Subject: [PATCH 1/2] usb: gadget: f_midi: Fix memleak in f_midi_alloc
-Date:   Mon, 16 Nov 2020 20:17:09 +0800
-Message-ID: <20201116121710.1546690-2-zhangqilong3@huawei.com>
+Subject: [PATCH 2/2] usb: gadget: Fix memleak in gadgetfs_fill_super
+Date:   Mon, 16 Nov 2020 20:17:10 +0800
+Message-ID: <20201116121710.1546690-3-zhangqilong3@huawei.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20201116121710.1546690-1-zhangqilong3@huawei.com>
 References: <20201116121710.1546690-1-zhangqilong3@huawei.com>
@@ -43,29 +43,29 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the error path, if midi is not null, we should to
-free the midi->id if necessary to prevent memleak.
+usb_get_gadget_udc_name will alloc memory for CHIP
+in "Enomem" branch. we should free it before error
+returns to prevent memleak.
 
-Fixes: b85e9de9e818d ("usb: gadget: f_midi: convert to new function interface with backward compatibility")
+Fixes: 175f712119c57 ("usb: gadget: provide interface for legacy gadgets to get UDC name")
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 ---
- drivers/usb/gadget/function/f_midi.c | 3 +++
+ drivers/usb/gadget/legacy/inode.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-index 85cb15734aa8..596fd7ce56fb 100644
---- a/drivers/usb/gadget/function/f_midi.c
-+++ b/drivers/usb/gadget/function/f_midi.c
-@@ -1345,7 +1345,10 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 1b430b36d0a6..3cefc27be098 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -2039,6 +2039,9 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+ 	return 0;
  
- setup_fail:
- 	mutex_unlock(&opts->lock);
-+	if (midi)
-+		kfree(midi->id);
- 	kfree(midi);
+ Enomem:
++	free(CHIP);
++	CHIP = NULL;
 +
- 	return ERR_PTR(status);
+ 	return -ENOMEM;
  }
  
 -- 
