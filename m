@@ -2,166 +2,189 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B73C4742C
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 10:32:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD62C4742C
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 10:42:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7FE02227F
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 10:32:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 007C920789
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 10:42:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="OIyzl28V"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="rtwxvogg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728750AbgKPJtc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Nov 2020 04:49:32 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:43144 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728744AbgKPJtb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 04:49:31 -0500
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20201116094919euoutp02bd10ec58a712029a9ed45ec6bf59877a~H9BQxMdmT3230832308euoutp02o
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2020 09:49:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20201116094919euoutp02bd10ec58a712029a9ed45ec6bf59877a~H9BQxMdmT3230832308euoutp02o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1605520159;
-        bh=UwB7hd06BgY+vzRM1GIKrF0SRX9dkSTSNo0qT/NjFac=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=OIyzl28V/ATOZh46GmXo0W+4xPgOGohLahQm14D532JT3BvZ0e+Fn3QUq7f4tLRaT
-         76VyIEGyCX+WYnfFsNK49diyuwPkQwMxsY22pTNaPcMbEOeGUs2psATcPlccWmCxtG
-         eEPh+DBI1corKHwMYBIDSEfBArMSXKEsR0iYJvBo=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20201116094312eucas1p17172ee21930f918bbba8e136c4477062~H876otzxD2126921269eucas1p1o;
-        Mon, 16 Nov 2020 09:43:12 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id AF.F1.27958.E7942BF5; Mon, 16
-        Nov 2020 09:42:22 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20201116091814eucas1p26556359eb8ecd5309657baf1d876888d~H8mIDeDxT1628416284eucas1p29;
-        Mon, 16 Nov 2020 09:18:13 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20201116091813eusmtrp1abe891aa09f56f1dd6f8581ca9bf18aa~H8mHHTeDy1967619676eusmtrp1G;
-        Mon, 16 Nov 2020 09:18:13 +0000 (GMT)
-X-AuditID: cbfec7f2-49bb5a8000006d36-a2-5fb2497ed355
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 99.CF.16282.5D342BF5; Mon, 16
-        Nov 2020 09:18:13 +0000 (GMT)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20201116091813eusmtip1bb50ddc74149e7a0b0ac3fef69280e84~H8mGvQcTV0475404754eusmtip1X;
-        Mon, 16 Nov 2020 09:18:13 +0000 (GMT)
-Subject: Re: [PATCH net-next] r8153_ecm: avoid to be prior to r8152 driver
-To:     Hayes Wang <hayeswang@realtek.com>, netdev@vger.kernel.org
-Cc:     nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <5f3db229-940c-c8ed-257b-0b4b3dd2afbb@samsung.com>
-Date:   Mon, 16 Nov 2020 10:18:13 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
-        Gecko/20100101 Thunderbird/78.4.3
-MIME-Version: 1.0
-In-Reply-To: <1394712342-15778-393-Taiwan-albertk@realtek.com>
-Content-Transfer-Encoding: 7bit
+        id S1727282AbgKPKC1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:02:27 -0500
+Received: from mail-am6eur05on2066.outbound.protection.outlook.com ([40.107.22.66]:38753
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726754AbgKPKC0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:02:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U6LbVl8CwRNzdiOVfCul4773QEVBeHwPMJ5pA/By5rC3gdQ0+EpJQMaizYybGw/ZyBAG5h8A+MoDTDvLlxPkcmx2+wOEy5bmUi6snXqydDJ+4dwaO8QmsRnOi3uy20NzySqZu3682W+keL/DHAgsWCNjifonkBkUVIQiJDMd1d8wjp4ICQ4lgIKb1YuEBgUUwZ0r+1FwB9WVnprgrsA2pmIW0Uq1hbnIa+Je/rGBAouZptSWHXtvaAk/rri5TSU6R6xZfd0rmXSGdkSBjZoYugt1pX9OfZc28WGPUuEgWPYTg06Oer0G0A8pt0seCo3LlB7BiGle6N2qhSqlDo3ntQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gN5OCwlKbtnQWUJva8+T9p4IRF6dWjJhljIKecm0KUU=;
+ b=aDXS716kpTWLq7KzPC4Ls9WQrqYRz21sjc3ryzC8J/GfkZJb3uYKkNs3d8PK32BB6tI53ic7yNzk4s59eKDiHcvN3UWlBBhZFi7XB0+IdiCcsHPvNeKI1cC6jpSqdSulvKcHiy62hJR1/k6UygipCmNi6AlIuTT6cz3aF7/PIUqkLbN/QSMLA0E9i8LLoK+VB8Cx5gTtWzUiSPUfEzTsobZUJpA02gDdf6N5N5+PTN4NG5+yxsto8X5P+AaIo0d5sTV/+e371zgFEVm4V0thaS/9ciDh8lKScWEw7EKe6pM0+MYxRXB+GEp6cFFM8B0aBdGAfxqygIaUlQEWAzJf4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gN5OCwlKbtnQWUJva8+T9p4IRF6dWjJhljIKecm0KUU=;
+ b=rtwxvoggsyPXV7x2Txe62honIc+tgW5xrr0MicUNzUd6XP8Q70iGCc+7oJt/Byg8e4gMI3/9QXFWXnh08hQdBAXEkxlUZ0V3Vh03ukEofC4nMnseLpx5zLjow11gzk5tuyvHfphqqaH0Hf1QyT/g/Yh9Gz7PXBzlO/A1bPwUuPQ=
+Received: from DBBPR04MB7979.eurprd04.prod.outlook.com (2603:10a6:10:1ec::9)
+ by DB6PR04MB3016.eurprd04.prod.outlook.com (2603:10a6:6:a::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21; Mon, 16 Nov 2020 10:02:22 +0000
+Received: from DBBPR04MB7979.eurprd04.prod.outlook.com
+ ([fe80::c8c:888f:3e0c:8d5c]) by DBBPR04MB7979.eurprd04.prod.outlook.com
+ ([fe80::c8c:888f:3e0c:8d5c%5]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
+ 10:02:22 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     "g@rowland.harvard.edu" <g@rowland.harvard.edu>,
+        Kyungtae Kim <kt0755@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>
+Subject: Re: WARNING in usb_composite_setup_continue
+Thread-Topic: WARNING in usb_composite_setup_continue
+Thread-Index: AQHWts63EhYqxw4n/06tOdNAYgT+7anBhpYAgAHSrwCAAN22AIAAdOWAgAEus4CAAHS5gIAEQhkA
+Date:   Mon, 16 Nov 2020 10:02:22 +0000
+Message-ID: <20201116100152.GA28313@b29397-desktop>
+References: <CAEAjamsxe9OuMVpHfox3w57HtGsE3mPXOty9bdXW-iPdx=TXMA@mail.gmail.com>
+ <CAEAjamsjFXWGSwUcCuUOeJ8s9EWGQP-Jvt40bG0Otav=xFb+5A@mail.gmail.com>
+ <20201110155650.GC190146@rowland.harvard.edu>
+ <20201111194710.GA245264@rowland.harvard.edu>
+ <20201112090042.GA19895@b29397-desktop>
+ <20201112155905.GB276702@rowland.harvard.edu>
+ <20201113100229.GB21517@b29397-desktop>
+ <20201113170015.GD322940@rowland.harvard.edu>
+In-Reply-To: <20201113170015.GD322940@rowland.harvard.edu>
+Accept-Language: en-US
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42LZduzned0pnpviDdruGVtMO9jDaHF51xw2
-        i0XLWpktji0Qs/jSO4vVgdXj8dvN7B6fN8kFMEVx2aSk5mSWpRbp2yVwZSzd/Iep4C5fxa3u
-        zSwNjBt4uhg5OSQETCQuLnvI3MXIxSEksIJRYt6O50wgCSGBL4wS19bEQiQ+M0r8+veVGaaj
-        qWkxG0RiOaPEqhmbmSCc94wSCyfeYwGpEhbwktj3dBNYh4iAncT0lxcYQWxmgWCJqU2fwWrY
-        BAwlut52sYHYvEA1ZxZNYQexWQRUJdrOtLKC2KICSRLbt2xnhagRlDg58wlYLydQ/bLNe9kg
-        ZspLbH87hxnCFpe49WQ+2EESAms5JC7/fMQIcbaLxINL89kgbGGJV8e3sEPYMhKnJ/ewQDQ0
-        M0o8PLeWHcLpYZS43DQDqtta4s65X0DdHEArNCXW79KHCDtK7Dq/mxUkLCHAJ3HjrSDEEXwS
-        k7ZNZ4YI80p0tAlBVKtJzDq+Dm7twQuXmCcwKs1C8tosJO/MQvLOLIS9CxhZVjGKp5YW56an
-        FhvmpZbrFSfmFpfmpesl5+duYgQmlNP/jn/awTj31Ue9Q4xMHIyHGCU4mJVEeF1MNsYL8aYk
-        VlalFuXHF5XmpBYfYpTmYFES5101e028kEB6YklqdmpqQWoRTJaJg1OqgSnF0P/uokX7T7Qx
-        HBYOL1t8Z2Hq5M1xG+Slws/2JVxIEjrsGXqG0eTqkn63tCNXe+sZVx56sGPFzM23/VsU79zf
-        miBYnbviqH5wqxYDf6HSq3NaPTL2RzN2nJPUf9J5NeBKzr6srjTHSQZPX1lcSLdWWztR5ESc
-        39QTRpYHlSbF3pf8tS757crUrhtr5xR4/JJeYee8+OVbrwMO1THOjyc++m9yM86G/cDUQkO1
-        xBunZPXz5hsoifxdt2PFlWd9pof3pt2QErP9wiw758/f1frf1+rd3X2o0Wrz2TbrkBtaLMfT
-        Kh9Vc3C+2JJYNj+n/NXjnzaXPt/hDP/7oZH9J2P//Ud3739Ysm33ZdaipxsilViKMxINtZiL
-        ihMB8/fWU5cDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRmVeSWpSXmKPExsVy+t/xu7pXnTfFG3xfbmox7WAPo8XlXXPY
-        LBYta2W2OLZAzOJL7yxWB1aPx283s3t83iQXwBSlZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdk
-        YqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl7F08x+mgrt8Fbe6N7M0MG7g6WLk5JAQMJFoalrM
-        1sXIxSEksJRR4lLbdmaIhIzEyWkNrBC2sMSfa11QRW8ZJZZ/3QFWJCzgJbHv6SYwW0TATmL6
-        ywuMXYwcHMwCwRJ7XxZA1B9jlJi3+RzYIDYBQ4mutyCDODl4gerPLJrCDmKzCKhKtJ1pBasR
-        FUiSmHn8LDtEjaDEyZlPWEBsTqD6ZZv3gvUyC5gBzXzIDGHLS2x/OwfKFpe49WQ+0wRGoVlI
-        2mchaZmFpGUWkpYFjCyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAiNo27GfW3Ywrnz1Ue8Q
-        IxMH4yFGCQ5mJRFeF5ON8UK8KYmVValF+fFFpTmpxYcYTYH+mcgsJZqcD4zhvJJ4QzMDU0MT
-        M0sDU0szYyVxXpMja+KFBNITS1KzU1MLUotg+pg4OKUamCSNWad4RD5PXBObd1HtM8usLX27
-        L9dc7N/v94l5T3rpxO03K/VlpP3iXz0+ZCZ20FlG2bOw1TVxftRy+4k1UwKKeR6Eai4tSbKK
-        //vr16+nD45Gr33lka3sy/I83viDeojM8nl3GLSMO8q3s81NPeZlKHDTZltab2fcojlamVda
-        GUzNtI/zCyUe2dwqu2HOga3xd0IE+387fzm7+NytUMPF4pb8z1J3non/eFCx3qJ9++HAzF1n
-        rn5xFM/5wNFXojf7crvfmu59J7/Y92f52Xv0Te56dLvf43iORU/n89/t6WoT760/U/Nhu/La
-        SVLCK9gbzk2cHrCwdQX/nKRA0YAJIfZ2WhEeeQyV669cUmIpzkg01GIuKk4EAAZ/iWYpAwAA
-X-CMS-MailID: 20201116091814eucas1p26556359eb8ecd5309657baf1d876888d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20201116065317eucas1p2a2d141857bbdd6b4998dd11937d52f56
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20201116065317eucas1p2a2d141857bbdd6b4998dd11937d52f56
-References: <7fd014f2-c9a5-e7ec-f1c6-b3e4bb0f6eb6@samsung.com>
-        <CGME20201116065317eucas1p2a2d141857bbdd6b4998dd11937d52f56@eucas1p2.samsung.com>
-        <1394712342-15778-393-Taiwan-albertk@realtek.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: rowland.harvard.edu; dkim=none (message not signed)
+ header.d=none;rowland.harvard.edu; dmarc=none action=none
+ header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 8d2baf78-8f72-499e-27eb-08d88a16b638
+x-ms-traffictypediagnostic: DB6PR04MB3016:
+x-microsoft-antispam-prvs: <DB6PR04MB3016AEA173679081B18428498BE30@DB6PR04MB3016.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yruSnvHX70pv61bdqGV9Cu7ZIJSC15WAOnjKb23G8PlkNdSormm9Fg1leh8B9pN6LrSrMAE4tvbxkaPZ6kcHbJRAq2jd+/+Iwh9SRm3R8Vz1LOxRDFi7F1dkqVzPahrqHh4MOjWY5knONF9cIWznhAz2nuG7FwbcxyU6c6Ny/dDE185nmOA5qZOv8dx7KSywUOs1BdI66fMdwGXLYF+tlaq+KEQRRIIypB/ygj1Zw+WNJYuouLMCX60LQJ5pN9XToemKnOR3OMD7yHi3YVCD2poQKswOl2Dl6udRV+aXBH9N++qEvNfB2BUrgpRLRwK3Gvl8N2WV752w8ZEMS1xi/A==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7979.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(478600001)(91956017)(316002)(6486002)(6512007)(54906003)(76116006)(66556008)(66476007)(66446008)(8936002)(66946007)(33716001)(86362001)(6506007)(9686003)(53546011)(64756008)(2906002)(6916009)(71200400001)(1076003)(4326008)(8676002)(83380400001)(5660300002)(33656002)(44832011)(186003)(7116003)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: OJ4MXMi4na7p4Z4m16EBmh+dOZyVcUH+YwY2TdFzlKJ32kgrWOrRbPt6M27stpNoBbC8YW2+WgcN5cAFDhAB5EylXKsl+VuABDUrsA+BJP9IgoMKi1sXOINBsFKXP9abV++hMUIzWGxSPc7infjJlqP/r0eF8YWrFv2j/lyt5Z3yJt75qxS639MLbo9xhbYT+8VXeV6MqPK8wkf6Kbi7dHLGjZjgcHwrMIWKtAqndM+s/f2jH/9ce+OBsPaacrvOcjKhADIJD2op4DA0V82Ep8XGar3DuRlxkmNpDndiZFQOLEec2QaZD4EI0hteCgaXQlWhDjBO5N1CHJQe91bwy+kQj0HFobNGxIJYQHScb1eNieQJ2oQk6LgiDwKztVKKPRO28lNx/2HO00yyknNv+sBbk2myfw1C43vST6Ca5ueWmV/evg4qCAQk5CWDFlMM99j32x2S//1yakengz5usPDi0y0VPVEzc+FF8OwtT6k98r6+ZQCFICmZ1Gx6FVsDYwDSQ0z9gu/U0fbr7AeMTBZYOXJk8oejY2cQR7dhBJ9jmVyu8yOv2sV+4Op7B6ayBhZbJJJ0RaOwb+0sUAyWUvQiITLdbn1xp14PlSIXwEp1ZT2f+VcjD5QZcaD1vbK9rqT1RCI9EgaaYYjY2RVZ5g==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <52FBC3838B2B7F4E9D32D131747E29FA@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7979.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d2baf78-8f72-499e-27eb-08d88a16b638
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2020 10:02:22.3126
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g+lVBCuJn8Eswk2OvQVuvDANhWtdNncPICMtq27vHPHeDsaZ3+E07hfoK44UwWeJcgBnmhIvr3N0mWadLxZeXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR04MB3016
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi
+On 20-11-13 12:00:15, Alan Stern wrote:
+> On Fri, Nov 13, 2020 at 10:02:58AM +0000, Peter Chen wrote:
+> > On 20-11-12 10:59:05, Alan Stern wrote:
+> > > This is why I think we will need to change the API.  There has to be =
+a=20
+> > > way to tell usb_composite_setup_continue() which SETUP it is being=20
+> > > called for.  A new SETUP or a disconnect should invalidate the old=20
+> > > SETUP, and then usb_composite_setup_continue() would ignore any calls=
+=20
+> > > that were for the old SETUP packet.
+> > >=20
+> >=20
+> > I think usb_composite_setup_continue logic has no issue, we only need t=
+o
+> > consider if changing WARN to DBG is necessary, FuzzUSB seems to be
+> > trigger panic for WARN.
+>=20
+> Yes, changing the WARN to DBG will make FuzzUSB happy.  But I still=20
+> think there is a logical flaw in the design of the API.
+>=20
+> > See below message on its trace log
+> > > Kernel panic - not syncing: panic_on_warn set ...
+> >=20
+> >=20
+> > For new SETUP, current composite layer makes sure the pending request
+> > will not get the status since the stage request is only queued when
+> > cdev->delayed_status is 1.
+> >=20
+> > But the UDC driver should make sure no new
+> > request if old request has not finished, consider the corner case that
+> > the new SETUP comes after the pending request calls usb_composite_setup=
+_continue
+> > and queues the status stage, then, the two zero-length packets from dev=
+ice
+> > will be the bus, but host only wants get one. Meanwhile, there is only =
+one
+> > request for composite device (see: usb_composite_dev.req), it means the
+> > composite layer can't handle multiple ep0 request.
+>=20
+> That's right.  Unfortunately, I think fixing this will require changes=20
+> to the UDC drivers as well as to the composite core.  Similar to what I=20
+> said earlier, there will have to be a way for the composite core to tell=
+=20
+> the UDC driver which SETUP packet the zero-length status reply is meant=20
+> for.
 
-On 16.11.2020 07:52, Hayes Wang wrote:
-> Avoid r8153_ecm is compiled as built-in, if r8152 driver is compiled
-> as modules. Otherwise, the r8153_ecm would be used, even though the
-> device is supported by r8152 driver.
->
-> Fixes: c1aedf015ebd ("net/usb/r8153_ecm: support ECM mode for RTL8153")
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+It needs the composite layer to support multiple requests for EP0, the
+effort is big. It is better the real problem is reported, then, it has
+environment to test the solution. The reported FuzzUSB issue is not this is=
+sue.
 
-Yes, this fixes this issue, although I would prefer a separate Kconfig 
-entry for r8153_ecm with proper dependencies instead of this ifdefs in 
-Makefile.
+>=20
+> > For disconnect event, it is an unexpected event between SETUP(DATA) sta=
+ge
+> > and status stage, and usb_composite_setup_continue just does nothing
+> > since the bus has already not at configured state.
+>=20
+> Yes.  But there still is another problem in the API.
+>=20
+> Suppose the host sends a Set-Interface request, and the function driver=20
+> is not able to handle it (maybe a memory allocation fails).  The gadget=20
+> should report this failure to the host by STALLing ep0.  But there is no=
+=20
+> way for the function driver to tell the composite core that the failure=20
+> occurred!
+>=20
+> You can see this problem in f_mass_storage.c.  If do_set_interface()=20
+> encounters an error, it will return a negative error code.  But the=20
+> caller (handle_exception()) ignores the return code!
+>=20
+> When Dave Brownell designed the Gadget and Composite APIs, he really did=
+=20
+> not give sufficient thought to the issues involved in delayed responses=20
+> to control-OUT transfers.
+>=20
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+We could add one parameter for usb_composite_setup_continue to indicate
+error occurred during function's deferred operation, and stall the ep0
+at usb_composite_setup_continue, do you think so?
 
-> ---
->   drivers/net/usb/Makefile | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/net/usb/Makefile b/drivers/net/usb/Makefile
-> index 99381e6bea78..98f4c100955e 100644
-> --- a/drivers/net/usb/Makefile
-> +++ b/drivers/net/usb/Makefile
-> @@ -13,7 +13,7 @@ obj-$(CONFIG_USB_LAN78XX)	+= lan78xx.o
->   obj-$(CONFIG_USB_NET_AX8817X)	+= asix.o
->   asix-y := asix_devices.o asix_common.o ax88172a.o
->   obj-$(CONFIG_USB_NET_AX88179_178A)      += ax88179_178a.o
-> -obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o r8153_ecm.o
-> +obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o
->   obj-$(CONFIG_USB_NET_CDC_EEM)	+= cdc_eem.o
->   obj-$(CONFIG_USB_NET_DM9601)	+= dm9601.o
->   obj-$(CONFIG_USB_NET_SR9700)	+= sr9700.o
-> @@ -41,3 +41,11 @@ obj-$(CONFIG_USB_NET_QMI_WWAN)	+= qmi_wwan.o
->   obj-$(CONFIG_USB_NET_CDC_MBIM)	+= cdc_mbim.o
->   obj-$(CONFIG_USB_NET_CH9200)	+= ch9200.o
->   obj-$(CONFIG_USB_NET_AQC111)	+= aqc111.o
-> +
-> +ifdef CONFIG_USB_NET_CDCETHER
-> +ifeq ($(CONFIG_USB_RTL8152), m)
-> +obj-$(CONFIG_USB_RTL8152)	+= r8153_ecm.o
-> +else
-> +obj-$(CONFIG_USB_NET_CDCETHER)	+= r8153_ecm.o
-> +endif
-> +endif
+--=20
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Thanks,
+Peter Chen=
