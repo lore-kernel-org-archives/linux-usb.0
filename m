@@ -2,61 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D4AC55ABD
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 09:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA86C4742C
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 10:22:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCE992078E
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 09:27:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oiq15DHy"
+	by mail.kernel.org (Postfix) with ESMTP id BA1A821527
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Nov 2020 10:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbgKPI42 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Nov 2020 03:56:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33434 "EHLO mail.kernel.org"
+        id S1728483AbgKPJpq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Nov 2020 04:45:46 -0500
+Received: from mga01.intel.com ([192.55.52.88]:5891 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727969AbgKPI42 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 16 Nov 2020 03:56:28 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A462216C4;
-        Mon, 16 Nov 2020 08:56:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605516986;
-        bh=JuwRTAad5mpY6IcjypNRwerZvbyZZ7G3ej1HDQ0SoEQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Oiq15DHyWlWIJtraM47ZZyfH5WPwRvOUCibtlDqAA3FNWIZnFJYyxG8XkUPKvsb9J
-         kefnyF5CIEvxf+nYXKBucl46SbSvQtz9hGKuDybu4dUlesWMA6jEuSDPzZgqKJ8L4I
-         nvEr9VWAby0soepyK/OLKT6+J3r9MRTxZeUvH6N8=
-Date:   Mon, 16 Nov 2020 09:57:16 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     USB list <linux-usb@vger.kernel.org>
-Subject: Re: [GIT PULL] usb: fixes for v5.10-rc5
-Message-ID: <X7I+7N+P5ukmOVl0@kroah.com>
-References: <DBBPR04MB79796D9ADEBB335ED878450D8BE30@DBBPR04MB7979.eurprd04.prod.outlook.com>
+        id S1726885AbgKPJpq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Nov 2020 04:45:46 -0500
+IronPort-SDR: NJatGgd18tVl4SD2dQ1+yZDspB9P9R7Rhp3QTpWy+3TBcKAV3b4FOJUqkSc/KCnIebohfMnnFa
+ fN3Q4VmcV4wA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9806"; a="188765839"
+X-IronPort-AV: E=Sophos;i="5.77,482,1596524400"; 
+   d="scan'208";a="188765839"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 01:45:45 -0800
+IronPort-SDR: gIP0rCAo4mkKsHuXyuTnpVM7aQjYg9hJrCd7ALKlccfDca1wa+Y3bWgMN9LX3BAFEUWhyuiBDj
+ SdijufW3CLdw==
+X-IronPort-AV: E=Sophos;i="5.77,482,1596524400"; 
+   d="scan'208";a="475465999"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 01:45:42 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1keb5w-0072IO-Mb; Mon, 16 Nov 2020 11:46:44 +0200
+Date:   Mon, 16 Nov 2020 11:46:44 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        johan@kernel.org, linux-usb@vger.kernel.org,
+        alberto.vignani@fastwebnet.it
+Subject: Re: [PATCH v2 1/2] PCI: Disable MSI for Pericom PCIe-USB adapter
+Message-ID: <20201116094644.GP4077@smile.fi.intel.com>
+References: <20201106100526.17726-1-andriy.shevchenko@linux.intel.com>
+ <20201113232138.GA1141907@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DBBPR04MB79796D9ADEBB335ED878450D8BE30@DBBPR04MB7979.eurprd04.prod.outlook.com>
+In-Reply-To: <20201113232138.GA1141907@bjorn-Precision-5520>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 08:41:14AM +0000, Peter Chen wrote:
-> The following changes since commit afaa2e745a246c5ab95103a65b1ed00101e1bc63:
+On Fri, Nov 13, 2020 at 05:21:38PM -0600, Bjorn Helgaas wrote:
+> On Fri, Nov 06, 2020 at 12:05:25PM +0200, Andy Shevchenko wrote:
+> > Pericom PCIe-USB adapter advertises MSI, but documentation says
+> > "The MSI Function is not implemented on this device." in the chapters
+> > 7.3.27, 7.3.29-7.3.31.
+> > 
+> > Fixes: 306c54d0edb6 ("usb: hcd: Try MSI interrupts on PCI devices")
+> > Datasheet: https://www.diodes.com/assets/Datasheets/PI7C9X440SL.pdf
+> > Reported-by: alberto.vignani@fastwebnet.it
 > 
->   USB: Add NO_LPM quirk for Kingston flash drive (2020-11-03 10:19:07 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git/ tags/usb-fixes-v5.10-rc5
+> Is there a URL to a problem report we can include here?
 
-Pulled and pushed out, thanks.
+You mean URL to email archives or something else?
 
-greg k-h
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
