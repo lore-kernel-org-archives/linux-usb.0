@@ -2,36 +2,39 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0225C63777
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D77C388F9
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:13:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 842382469B
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA00121D7E
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbgKQCMy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Nov 2020 21:12:54 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:7940 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726471AbgKQCMx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 21:12:53 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CZqGK6x1NzhZxY;
-        Tue, 17 Nov 2020 10:12:41 +0800 (CST)
+        id S1726690AbgKQCNB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Nov 2020 21:13:01 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:7925 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726591AbgKQCNB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 21:13:01 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CZqGM4hJCz6wf0;
+        Tue, 17 Nov 2020 10:12:43 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Tue, 17 Nov 2020
- 10:12:50 +0800
+ 10:12:51 +0800
 From:   Zhang Qilong <zhangqilong3@huawei.com>
 To:     <peter.chen@nxp.com>, <balbi@kernel.org>,
         <gregkh@linuxfoundation.org>, <sergei.shtylyov@gmail.com>
 CC:     <linux-usb@vger.kernel.org>
-Subject: [PATCH v2 0/2] usb: gadget: Fix two memleaks in error handling
-Date:   Tue, 17 Nov 2020 10:16:27 +0800
-Message-ID: <20201117021629.1470544-1-zhangqilong3@huawei.com>
+Subject: [PATCH v2 2/2] usb: gadget: Fix memleak in gadgetfs_fill_super
+Date:   Tue, 17 Nov 2020 10:16:29 +0800
+Message-ID: <20201117021629.1470544-3-zhangqilong3@huawei.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20201117021629.1470544-1-zhangqilong3@huawei.com>
+References: <20201117021629.1470544-1-zhangqilong3@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -41,21 +44,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch sets fix two memleaks before error returns.
+usb_get_gadget_udc_name will alloc memory for CHIP
+in "Enomem" branch. we should free it before error
+returns to prevent memleak.
+
+Fixes: 175f712119c57 ("usb: gadget: provide interface for legacy gadgets to get UDC name")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 ---
 Changelog:
 v2
-- add midi_free label in f_midi_alloc and use kfree in
-  gadgetfs_fill_super.
+- replace free with kfree.
+---
+ drivers/usb/gadget/legacy/inode.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Zhang Qilong (2):
-  usb: gadget: f_midi: Fix memleak in f_midi_alloc
-  usb: gadget: Fix memleak in gadgetfs_fill_super
-
- drivers/usb/gadget/function/f_midi.c | 10 +++++++---
- drivers/usb/gadget/legacy/inode.c    |  3 +++
- 2 files changed, 10 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 1b430b36d0a6..71e7d10dd76b 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -2039,6 +2039,9 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+ 	return 0;
+ 
+ Enomem:
++	kfree(CHIP);
++	CHIP = NULL;
++
+ 	return -ENOMEM;
+ }
+ 
 -- 
 2.25.4
 
