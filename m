@@ -2,25 +2,24 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1809C388F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0225C63777
 	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 566FD24699
+	by mail.kernel.org (Postfix) with ESMTP id 842382469B
 	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726524AbgKQCMx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Nov 2020 21:12:53 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:7941 "EHLO
+        id S1726554AbgKQCMy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Nov 2020 21:12:54 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:7940 "EHLO
         szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbgKQCMx (ORCPT
+        with ESMTP id S1726471AbgKQCMx (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 21:12:53 -0500
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CZqGK6S3zzhZvb;
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CZqGK6x1NzhZxY;
         Tue, 17 Nov 2020 10:12:41 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Tue, 17 Nov 2020
@@ -29,12 +28,10 @@ From:   Zhang Qilong <zhangqilong3@huawei.com>
 To:     <peter.chen@nxp.com>, <balbi@kernel.org>,
         <gregkh@linuxfoundation.org>, <sergei.shtylyov@gmail.com>
 CC:     <linux-usb@vger.kernel.org>
-Subject: [PATCH v2 1/2] usb: gadget: f_midi: Fix memleak in f_midi_alloc
-Date:   Tue, 17 Nov 2020 10:16:28 +0800
-Message-ID: <20201117021629.1470544-2-zhangqilong3@huawei.com>
+Subject: [PATCH v2 0/2] usb: gadget: Fix two memleaks in error handling
+Date:   Tue, 17 Nov 2020 10:16:27 +0800
+Message-ID: <20201117021629.1470544-1-zhangqilong3@huawei.com>
 X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201117021629.1470544-1-zhangqilong3@huawei.com>
-References: <20201117021629.1470544-1-zhangqilong3@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -44,57 +41,21 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the error path, if midi is not null, we should
-free the midi->id if necessary to prevent memleak.
-
-Fixes: b85e9de9e818d ("usb: gadget: f_midi: convert to new function interface with backward compatibility")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+This patch sets fix two memleaks before error returns.
 ---
 Changelog:
 v2
-- add midi_free label and fix description.
----
- drivers/usb/gadget/function/f_midi.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+- add midi_free label in f_midi_alloc and use kfree in
+  gadgetfs_fill_super.
 
-diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-index 85cb15734aa8..19d97940eeb9 100644
---- a/drivers/usb/gadget/function/f_midi.c
-+++ b/drivers/usb/gadget/function/f_midi.c
-@@ -1315,7 +1315,7 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
- 	midi->id = kstrdup(opts->id, GFP_KERNEL);
- 	if (opts->id && !midi->id) {
- 		status = -ENOMEM;
--		goto setup_fail;
-+		goto midi_free;
- 	}
- 	midi->in_ports = opts->in_ports;
- 	midi->out_ports = opts->out_ports;
-@@ -1327,7 +1327,7 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
- 
- 	status = kfifo_alloc(&midi->in_req_fifo, midi->qlen, GFP_KERNEL);
- 	if (status)
--		goto setup_fail;
-+		goto midi_free;
- 
- 	spin_lock_init(&midi->transmit_lock);
- 
-@@ -1343,9 +1343,13 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
- 
- 	return &midi->func;
- 
-+midi_free:
-+	if (midi)
-+		kfree(midi->id);
-+	kfree(midi);
- setup_fail:
- 	mutex_unlock(&opts->lock);
--	kfree(midi);
-+
- 	return ERR_PTR(status);
- }
- 
+Zhang Qilong (2):
+  usb: gadget: f_midi: Fix memleak in f_midi_alloc
+  usb: gadget: Fix memleak in gadgetfs_fill_super
+
+ drivers/usb/gadget/function/f_midi.c | 10 +++++++---
+ drivers/usb/gadget/legacy/inode.c    |  3 +++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
 -- 
 2.25.4
 
