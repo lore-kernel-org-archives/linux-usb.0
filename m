@@ -2,88 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C80D8C6369E
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 01:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1809C388F9
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BDF924696
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 01:50:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 566FD24699
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726948AbgKQBuL convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Nov 2020 20:50:11 -0500
-Received: from rtits2.realtek.com ([211.75.126.72]:55329 "EHLO
-        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgKQBuL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 20:50:11 -0500
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 0AH1o4WJ1014800, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexmb03.realtek.com.tw[172.21.6.96])
-        by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 0AH1o4WJ1014800
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 17 Nov 2020 09:50:04 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.33) by
- RTEXMB03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2044.4; Tue, 17 Nov 2020 09:50:03 +0800
-Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
- RTEXMBS04.realtek.com.tw (172.21.6.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 17 Nov 2020 09:50:03 +0800
-Received: from RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa]) by
- RTEXMB04.realtek.com.tw ([fe80::89f7:e6c3:b043:15fa%3]) with mapi id
- 15.01.2044.006; Tue, 17 Nov 2020 09:50:03 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        nic_swsd <nic_swsd@realtek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH net-next] r8153_ecm: avoid to be prior to r8152 driver
-Thread-Topic: [PATCH net-next] r8153_ecm: avoid to be prior to r8152 driver
-Thread-Index: AQHWu+Uk6MVFESXbN0aOZKSDeZR30KnJ9OqAgACBuYCAARgAcA==
-Date:   Tue, 17 Nov 2020 01:50:03 +0000
-Message-ID: <02f38e505a3a45389e2f3c06b2f6c850@realtek.com>
-References: <7fd014f2-c9a5-e7ec-f1c6-b3e4bb0f6eb6@samsung.com>
-        <CGME20201116065317eucas1p2a2d141857bbdd6b4998dd11937d52f56@eucas1p2.samsung.com>
-        <1394712342-15778-393-Taiwan-albertk@realtek.com>
-        <5f3db229-940c-c8ed-257b-0b4b3dd2afbb@samsung.com>
- <20201116090231.423afc8f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201116090231.423afc8f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.177.146]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1726524AbgKQCMx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Nov 2020 21:12:53 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:7941 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbgKQCMx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Nov 2020 21:12:53 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CZqGK6S3zzhZvb;
+        Tue, 17 Nov 2020 10:12:41 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Tue, 17 Nov 2020
+ 10:12:50 +0800
+From:   Zhang Qilong <zhangqilong3@huawei.com>
+To:     <peter.chen@nxp.com>, <balbi@kernel.org>,
+        <gregkh@linuxfoundation.org>, <sergei.shtylyov@gmail.com>
+CC:     <linux-usb@vger.kernel.org>
+Subject: [PATCH v2 1/2] usb: gadget: f_midi: Fix memleak in f_midi_alloc
+Date:   Tue, 17 Nov 2020 10:16:28 +0800
+Message-ID: <20201117021629.1470544-2-zhangqilong3@huawei.com>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20201117021629.1470544-1-zhangqilong3@huawei.com>
+References: <20201117021629.1470544-1-zhangqilong3@huawei.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.127.227]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org>
-> Sent: Tuesday, November 17, 2020 1:03 AM
-[...]
-> > Yes, this fixes this issue, although I would prefer a separate Kconfig
-> > entry for r8153_ecm with proper dependencies instead of this ifdefs in
-> > Makefile.
-> 
-> Agreed, this is what dependency resolution is for.
-> 
-> Let's just make this a separate Kconfig entry.
+In the error path, if midi is not null, we should
+free the midi->id if necessary to prevent memleak.
 
-Excuse me. I am not familiar with Kconfig.
+Fixes: b85e9de9e818d ("usb: gadget: f_midi: convert to new function interface with backward compatibility")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+---
+Changelog:
+v2
+- add midi_free label and fix description.
+---
+ drivers/usb/gadget/function/f_midi.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-I wish r8153_ecm could be used, even
-CONFIG_USB_RTL8152 is not defined.
-
-How should set it in Kconfig? 
-
-Best Regards,
-Hayes
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index 85cb15734aa8..19d97940eeb9 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -1315,7 +1315,7 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
+ 	midi->id = kstrdup(opts->id, GFP_KERNEL);
+ 	if (opts->id && !midi->id) {
+ 		status = -ENOMEM;
+-		goto setup_fail;
++		goto midi_free;
+ 	}
+ 	midi->in_ports = opts->in_ports;
+ 	midi->out_ports = opts->out_ports;
+@@ -1327,7 +1327,7 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
+ 
+ 	status = kfifo_alloc(&midi->in_req_fifo, midi->qlen, GFP_KERNEL);
+ 	if (status)
+-		goto setup_fail;
++		goto midi_free;
+ 
+ 	spin_lock_init(&midi->transmit_lock);
+ 
+@@ -1343,9 +1343,13 @@ static struct usb_function *f_midi_alloc(struct usb_function_instance *fi)
+ 
+ 	return &midi->func;
+ 
++midi_free:
++	if (midi)
++		kfree(midi->id);
++	kfree(midi);
+ setup_fail:
+ 	mutex_unlock(&opts->lock);
+-	kfree(midi);
++
+ 	return ERR_PTR(status);
+ }
+ 
+-- 
+2.25.4
 
