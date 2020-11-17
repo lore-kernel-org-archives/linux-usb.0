@@ -2,79 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C717AC5519F
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 18:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB592C2D0E4
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 18:20:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81BEE2462E
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 18:01:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 950D6221FD
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Nov 2020 18:20:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GAneKGoG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730038AbgKQSAt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Nov 2020 13:00:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46350 "EHLO
+        id S1730156AbgKQSTV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Nov 2020 13:19:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729918AbgKQSAt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Nov 2020 13:00:49 -0500
-X-Greylist: delayed 1452 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Nov 2020 10:00:48 PST
-Received: from moc6.cz (hosting.moc6.cz [IPv6:2a02:c60:c70:8900::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F30C0613CF;
-        Tue, 17 Nov 2020 10:00:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=moc6.cz;
-        s=mail20201116; h=Message-ID:Subject:Cc:To:From:Date:Reply-To:In-Reply-To;
-        bh=ENyjSleBoxU28yUIVg6xq5vz4ZwZ5cArdcaoaBhpfbE=; b=cVbIbsG+tSCPSwrYkk4HoY14Ee
-        rEONBpmJ5roN3oT7obH4zureIAKfrplrmDcQr/RW9LqVbQRM07D4XjGb+Eiy5sQ5PSyX8WsRe9F1g
-        v7kD6GHYRw7vsQ0ZFn86do+5Qka9phHb4FySFeAYX5zoOGUjjNgtJlqMFcSLI2bCf3JgSCm4ez2Sq
-        3LgLE7VjOIxRYJZpnax6OkzvoUN2UWTHO9dwexZi4Ffps+425xt7xBwnYDPbOVb096uS4aCtBycby
-        vAiEJ8FJekPENATjDBc02c/vaC1hwAJp9Zdckg3ndztdeJPYBYj3vJLhzmNHbT/G0e0wCO3zhSQq9
-        KILfQW5UAh3foJLXEO54hZahsu2OOwBascQTRy7G18HehymR7VxCvJ6RY8cQm72bkMtpbo4e1YGit
-        5DENpDQ3RvMM5pU8kR1PrykmAsTzrAIzXGvL1gJFuF75ZTU8xKC8EkH4FdxbpZPP2isjYlBLksYCB
-        QymVh2D608hITsTRLsqp2CO55NixmxTgCaeFQjUwSAyFNmxnUWm7qTxxG+Vriu89erF6ixMgbR0vc
-        w17qfu7kQNCA5S6YugnsVgdpoJ7lHvoz0qeKdO3Y+dyTia/sCAYl466ivij4t8V70PW0xh53eU114
-        CuBHAqzw2NTUk8L58Plj32sD5v620apozRfW4HT+0=;
-Received: from Debian-exim by moc6.cz with local (Exim 4.94)
-        (envelope-from <Debian-exim@moc6.cz>)
-         authenticated: Debian-exim
-        id 1kf4u7-002JN2-K6; Tue, 17 Nov 2020 18:36:31 +0100
-Date:   Tue, 17 Nov 2020 18:36:31 +0100
-From:   Filip Moc <dev@moc6.cz>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, Filip Moc <dev@moc6.cz>
-Subject: [PATCH] net: usb: qmi_wwan: Set DTR quirk for MR400
-Message-ID: <20201117173631.GA550981@moc6.cz>
+        with ESMTP id S1729115AbgKQSTU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Nov 2020 13:19:20 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A74C0613CF
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2020 10:19:20 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id m9so6974674pgb.4
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2020 10:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PCgrY2aBpRPAX/roDvuGOrFaxtGkBJ2lTrHl8BUGv4A=;
+        b=GAneKGoG2Io10/3LWlTWJUCwy28HHQcLayHqSU9hLDc4DmunSEd5mdQZMrKPmkQ9K3
+         VQsDq1foqZki5dv3xhpVdzzZEAZ+hPj4RYmNZ6zQ8bzjpp7X1LE+wzEe2kFcpktoCsQI
+         53QgOCJl6z5jYVsbLhNgHSsp0X1hj/8D2RGQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PCgrY2aBpRPAX/roDvuGOrFaxtGkBJ2lTrHl8BUGv4A=;
+        b=qcBMzLX9cppvtd8nXkLzq8bfDRUuMSmKKrJ8PMBKxXacxdwZtqdaMyqmAeJkp3bxdp
+         +KhcUMyy1Cu/mk72FUaA7iA8+SbfGAb5cNhzHmtXTirPQAsQmU6H9HHVO9pGWFPTNL+3
+         DXe9yUhz5eSb9YY6RcYOduf3L3OvLqFmKgUL/uzIxBm7b64U5yZuQw9SXxmlfMTaClBL
+         cMBi0k/L00wpPNMkLKPbGfRALjCMKERdY+rZxUzeoLdXqV0O9HUmhxdW8Pjcf8/I73II
+         X2CKCuPJYfIbB5tgtUWL8Rv8/5QlQJImNXg0uDEZlTRc90MRj+Ap+DjOCMHhTmXPSnbo
+         vM9A==
+X-Gm-Message-State: AOAM532kj/VoGdS6lE4HMDcBkJMlrye9W819BYzj1UeHjgLOw0ALJxGm
+        KEqkzppdqtyCvsWgtZSYim5XuA==
+X-Google-Smtp-Source: ABdhPJwlUD+zvvpBBQFbbbouktVbBndX2gMv7jTi96odnE9w+zMsgJQ5w5FlffK5mrpjCmRFe8rYQg==
+X-Received: by 2002:a63:7b55:: with SMTP id k21mr4516899pgn.256.1605637160286;
+        Tue, 17 Nov 2020 10:19:20 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
+        by smtp.gmail.com with ESMTPSA id l133sm22320736pfd.112.2020.11.17.10.19.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 10:19:19 -0800 (PST)
+Date:   Tue, 17 Nov 2020 10:19:18 -0800
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Utkarsh Patel <utkarsh.h.patel@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        heikki.krogerus@linux.intel.com, enric.balletbo@collabora.com,
+        rajmohan.mani@intel.com, azhar.shaikh@intel.com
+Subject: Re: [PATCH v2 6/8] platform/chrome: cros_ec_typec: Use Thunderbolt 3
+ cable discover mode VDO in USB4 mode
+Message-ID: <20201117181918.GB1819103@google.com>
+References: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
+ <20201113202503.6559-7-utkarsh.h.patel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20201113202503.6559-7-utkarsh.h.patel@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-LTE module MR400 embedded in TL-MR6400 v4 requires DTR to be set.
+Hi Utkarsh,
 
-Signed-off-by: Filip Moc <dev@moc6.cz>
----
- drivers/net/usb/qmi_wwan.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Nov 13, 2020 at 12:25:01PM -0800, Utkarsh Patel wrote:
+> Configure Thunderbolt3/USB4 cable generation value by filing Thunderbolt 3
+> cable discover mode VDO to support rounded and non-rounded Thunderbolt3/
+> USB4 cables.
+> While we are here use Thunderbolt 3 cable discover mode VDO to fill active
+> cable plug link training value.
+> 
+> Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+> 
+> --
+> Changes in v2:
+> - No change.
+> --
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index 8111ed1fc574..b7416e82c3b3 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -514,8 +514,18 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
+>  	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
+>  		data.eudo |= EUDO_CABLE_TYPE_RE_TIMER << EUDO_CABLE_TYPE_SHIFT;
+>  
+> -	data.active_link_training = !!(pd_ctrl->control_flags &
+> -				       USB_PD_CTRL_ACTIVE_LINK_UNIDIR);
+> +	/*
+> +	 * This driver does not have access to the identity information or
+> +	 * capabilities of the cable, so we don't know is it a real USB4 or
+> +	 * TBT3 cable. Therefore pretending that it's always TBT3 cable by
+> +	 * filling the TBT3 Cable VDO.
+> +	 */
+> +	data.tbt_cable_vdo = TBT_MODE;
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index afeb09b9624e..d166c321ee9b 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1047,7 +1047,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x05c6, 0x9011, 4)},
- 	{QMI_FIXED_INTF(0x05c6, 0x9021, 1)},
- 	{QMI_FIXED_INTF(0x05c6, 0x9022, 2)},
--	{QMI_FIXED_INTF(0x05c6, 0x9025, 4)},	/* Alcatel-sbell ASB TL131 TDD LTE  (China Mobile) */
-+	{QMI_QUIRK_SET_DTR(0x05c6, 0x9025, 4)},	/* Alcatel-sbell ASB TL131 TDD LTE (China Mobile) */
- 	{QMI_FIXED_INTF(0x05c6, 0x9026, 3)},
- 	{QMI_FIXED_INTF(0x05c6, 0x902e, 5)},
- 	{QMI_FIXED_INTF(0x05c6, 0x9031, 5)},
--- 
-2.28.0
+Is it safe to be making this assumption unconditionally? It might work for
+Intel Mux agent but is it guaranteed to be safe for any other future
+mux implementation? In other words, what if a "true" USB4 cable is
+connected which doesn't have the Thunderbolt SVID alt mode?
 
+(Pre-fetching some alternatives in case the answer is no)
+
+You might want to check with the Cros EC team if you can repurpose a bit of
+the "reserved" field for specifying whether the cable is TBT or not.
+
+Either that or see if there is a way to determine from the pd_ctrl->cable_speed
+whether the cable is actually TBT or not.
+
+Failing all the above, perhaps you'll have to wait for the PD discovery stuff
+to make it's way through review and use that (note that there may be
+timing issues between the Mux update event and PD discovery complete
+event reaching the port driver).
+
+Best regards,
+
+-Prashant
