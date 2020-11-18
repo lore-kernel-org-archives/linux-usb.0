@@ -2,181 +2,406 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2171C63697
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D39C64E7C
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:22:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D97720782
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:19:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="AswUwIlF"
+	by mail.kernel.org (Postfix) with ESMTP id 6F3E524656
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgKRITF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Nov 2020 03:19:05 -0500
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:56494 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726702AbgKRITF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:19:05 -0500
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20201118081853euoutp013f1d5689f318aff2f376df0d5083fffb~IjE3q5b9a3243032430euoutp01K
-        for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2020 08:18:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20201118081853euoutp013f1d5689f318aff2f376df0d5083fffb~IjE3q5b9a3243032430euoutp01K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1605687533;
-        bh=3AVGejOWI+zfnZDxmo65S7C/BS7eNSduGs7tvM+vBQM=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=AswUwIlFtluyPpe328WhTmE9xu+W0zV0sQBDqUkcQXWMeMEBzocNfJ3HzX+B4YZ8z
-         EZm0xq4x3tJkaCaSsKY8HEYvHJRI8rvY/NIE2pxSQhCl0W81nSTmL3hGF0ZRHbBFGT
-         sIlwc0W5vJdO7gqduZsjHcSgZq5Kf5WnAyll24kU=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20201118081848eucas1p190f13d67d8792baf8dcc71ee86879fb4~IjEy2Dazn0353103531eucas1p10;
-        Wed, 18 Nov 2020 08:18:48 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 59.C6.44805.8E8D4BF5; Wed, 18
-        Nov 2020 08:18:48 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20201118081847eucas1p1cd6b364d763afa452b93e81899602153~IjEyVDAL33175531755eucas1p1w;
-        Wed, 18 Nov 2020 08:18:47 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20201118081847eusmtrp28b147f583bb586c8f3f3935cc0ae3993~IjEyUc8kZ3115231152eusmtrp20;
-        Wed, 18 Nov 2020 08:18:47 +0000 (GMT)
-X-AuditID: cbfec7f4-b4fff7000000af05-f2-5fb4d8e814b8
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 43.F2.21957.7E8D4BF5; Wed, 18
-        Nov 2020 08:18:47 +0000 (GMT)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20201118081847eusmtip16ba6845d94231838352a8bf48b3a6e83~IjEx5XQom2356323563eusmtip1l;
-        Wed, 18 Nov 2020 08:18:47 +0000 (GMT)
-Subject: Re: [PATCH net-next v2] r8153_ecm: avoid to be prior to r8152
- driver
-To:     Hayes Wang <hayeswang@realtek.com>, netdev@vger.kernel.org
-Cc:     nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <4261c50d-4bf0-e861-dc1a-1332165db0ef@samsung.com>
-Date:   Wed, 18 Nov 2020 09:18:49 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
-        Gecko/20100101 Thunderbird/78.4.3
+        id S1727252AbgKRIV5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Nov 2020 03:21:57 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:45142 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726894AbgKRIV4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:21:56 -0500
+X-UUID: cde4731824b74a8582f11ddf7e081e48-20201118
+X-UUID: cde4731824b74a8582f11ddf7e081e48-20201118
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 2132649961; Wed, 18 Nov 2020 16:21:46 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 18 Nov 2020 16:21:45 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 18 Nov 2020 16:21:45 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Min Guo <min.guo@mediatek.com>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
+Subject: [PATCH v3 03/11] dt-bindings: phy: convert phy-mtk-xsphy.txt to YAML schema
+Date:   Wed, 18 Nov 2020 16:21:18 +0800
+Message-ID: <20201118082126.42701-3-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
+References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <1394712342-15778-394-Taiwan-albertk@realtek.com>
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LZduznOd0XN7bEG2y7w2Ex7WAPo8XlXXPY
-        LBYta2W2OLZAzOJL7yxWB1aPx283s3t83iQXwBTFZZOSmpNZllqkb5fAlfFi1hqWgr9CFYuX
-        72NrYLzB38XIySEhYCJxd1EnexcjF4eQwApGiQUXfzNBOF8YJe6efcQG4XxmlLhyaRdQGQdY
-        y+etehDx5YwSG2b9YAIZJSTwnlFiSY8JiC0s4C8x9dNPdhBbRMBOYvrLC4wgNrNAsMTUps8s
-        IDabgKFE19suNhCbF6jm6Jp3YDUsAqoSa/dtB5spKpAksX3LdlaIGkGJkzOfgPVyAtXvXv+G
-        BWKmvMT2t3OYIWxxiVtP5oN9ICGwg0Ni0aVPjBB/ukjMn/OVDcIWlnh1fAs7hC0j8X8nTEMz
-        o8TDc2vZIZweRonLTTOguq0l7pz7xQbyPrOApsT6XfqQkHCUePU/DsLkk7jxVhDiBj6JSdum
-        M0OEeSU62oQgZqhJzDq+Dm7rwQuXmCcwKs1C8tksJN/MQvLNLIS1CxhZVjGKp5YW56anFhvl
-        pZbrFSfmFpfmpesl5+duYgQmk9P/jn/Zwbj81Ue9Q4xMHIyHGCU4mJVEeF1MNsYL8aYkVlal
-        FuXHF5XmpBYfYpTmYFES503asiZeSCA9sSQ1OzW1ILUIJsvEwSnVwGR7zmaKxNNKp7Nsj4Ud
-        F72aUbzLNsnGr8As/vufzZ4WMz8dyAvfK6qz23DCIqm+8mWblqyIcleeuC4kL/3VueZ/v/Sd
-        /X08+yvDV+80OnE+y//H8fD+XfcvyL0qW/riblt4l3nhbkaNY4ckTuy4rpy7wq5+2qp3PZ1t
-        bIoemW42DPpFhZ+DzZ0uzuCfo/VJe8mH/T/sX79MXRex3eXJ+rsnE3+npXLcZxM05OwWXuG6
-        z2syo/98tYfKpYHP7vQ2ds79KLf6nKji7GVL72r261y4pbXvzc4XD3yPdr2MP3mwkn3CKtF7
-        u4Rc4p7F+p60/tnyfr2M3l+2x1U7Z7TJRdgu7XvttqS/U9TUL+FNApMSS3FGoqEWc1FxIgA5
-        HZwklQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRmVeSWpSXmKPExsVy+t/xu7rPb2yJN7g8VcVi2sEeRovLu+aw
-        WSxa1spscWyBmMWX3lmsDqwej99uZvf4vEkugClKz6Yov7QkVSEjv7jEVina0MJIz9DSQs/I
-        xFLP0Ng81srIVEnfziYlNSezLLVI3y5BL+PFrDUsBX+FKhYv38fWwHiDv4uRg0NCwETi81a9
-        LkYuDiGBpYwS+1b/YOpi5ASKy0icnNbACmELS/y51sUGUfSWUWLOpqeMIAlhAV+JtSt2s4PY
-        IgJ2EtNfXmAEGcosECyx92UBRP1RRom2nyfAhrIJGEp0vQUZxMnBC1R/dM07sDksAqoSa/dt
-        B6sRFUiSmHn8LDtEjaDEyZlPWEBsTqD63evfgNnMAmYS8zY/ZIaw5SW2v50DZYtL3Hoyn2kC
-        o9AsJO2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIHxs+3Yz807GOe9
-        +qh3iJGJg/EQowQHs5IIr4vJxngh3pTEyqrUovz4otKc1OJDjKZA/0xklhJNzgdGcF5JvKGZ
-        gamhiZmlgamlmbGSOO/WuWvihQTSE0tSs1NTC1KLYPqYODilGph8vY4ZPtp2I/yYx5vMkn/z
-        /7XLil199Lls19sjVdMma05Jf23K9XOTUGOf8JcNGWevLDqc8qgn28+85Oq1HRuOx5pyTn24
-        9phOW/O9j7P0D211PTlr5dyS808+vF9YqStf3h6xinHPFAdNffWQ8zFiL2euWL32pGVcwvI3
-        x94YLj5tWqbutqnblWsWp3PLsuxb03Xa7Gd3rosXVg/udJv/07gn7JlYeeik/5rOM/asZWjs
-        r+VelbKzbsHnTLuKw+a2Bubz1/AvjLGPj1nyef5Z6VoeVrNZHNpTly/YLrabe0IC61ux1DJn
-        Pa9ghlkzaqR9w1WnP+z58fJ7vKy1QPqdZXflzveesXmrXucdfDhViaU4I9FQi7moOBEAqBCf
-        aygDAAA=
-X-CMS-MailID: 20201118081847eucas1p1cd6b364d763afa452b93e81899602153
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20201118064440eucas1p27610e4adabc4f77b985b6e8271a1dbc3
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20201118064440eucas1p27610e4adabc4f77b985b6e8271a1dbc3
-References: <1394712342-15778-393-Taiwan-albertk@realtek.com>
-        <CGME20201118064440eucas1p27610e4adabc4f77b985b6e8271a1dbc3@eucas1p2.samsung.com>
-        <1394712342-15778-394-Taiwan-albertk@realtek.com>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi
+Convert phy-mtk-xsphy.txt to YAML schema mediatek,xsphy.yaml
 
-On 18.11.2020 07:43, Hayes Wang wrote:
-> Avoid r8153_ecm is compiled as built-in, if r8152 driver is compiled
-> as modules. Otherwise, the r8153_ecm would be used, even though the
-> device is supported by r8152 driver.
->
-> Fixes: c1aedf015ebd ("net/usb/r8153_ecm: support ECM mode for RTL8153")
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3:
+  1. remove type for property with standard unit suffix suggested by Rob
+  2. remove '|' for descritpion
+  3. fix yamllint warning
 
-Yes, this looks like a proper fix.
+v2:
+  1. modify description and compatible definition suggested by Rob
+---
+ .../bindings/phy/mediatek,xsphy.yaml          | 199 ++++++++++++++++++
+ .../devicetree/bindings/phy/phy-mtk-xsphy.txt | 109 ----------
+ 2 files changed, 199 insertions(+), 109 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+ delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-> ---
-> v2:
-> Use a separate Kconfig entry for r8153_ecm with proper dependencies.
->
->   drivers/net/usb/Kconfig  | 9 +++++++++
->   drivers/net/usb/Makefile | 3 ++-
->   2 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
-> index b46993d5f997..1e3719028780 100644
-> --- a/drivers/net/usb/Kconfig
-> +++ b/drivers/net/usb/Kconfig
-> @@ -628,4 +628,13 @@ config USB_NET_AQC111
->   	  This driver should work with at least the following devices:
->   	  * Aquantia AQtion USB to 5GbE
->   
-> +config USB_RTL8153_ECM
-> +	tristate "RTL8153 ECM support"
-> +	depends on USB_NET_CDCETHER && (USB_RTL8152 || USB_RTL8152=n)
-> +	default y
-> +	help
-> +	  This option supports ECM mode for RTL8153 ethernet adapter, when
-> +	  CONFIG_USB_RTL8152 is not set, or the RTL8153 device is not
-> +	  supported by r8152 driver.
-> +
->   endif # USB_NET_DRIVERS
-> diff --git a/drivers/net/usb/Makefile b/drivers/net/usb/Makefile
-> index 99381e6bea78..4964f7b326fb 100644
-> --- a/drivers/net/usb/Makefile
-> +++ b/drivers/net/usb/Makefile
-> @@ -13,7 +13,7 @@ obj-$(CONFIG_USB_LAN78XX)	+= lan78xx.o
->   obj-$(CONFIG_USB_NET_AX8817X)	+= asix.o
->   asix-y := asix_devices.o asix_common.o ax88172a.o
->   obj-$(CONFIG_USB_NET_AX88179_178A)      += ax88179_178a.o
-> -obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o r8153_ecm.o
-> +obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o
->   obj-$(CONFIG_USB_NET_CDC_EEM)	+= cdc_eem.o
->   obj-$(CONFIG_USB_NET_DM9601)	+= dm9601.o
->   obj-$(CONFIG_USB_NET_SR9700)	+= sr9700.o
-> @@ -41,3 +41,4 @@ obj-$(CONFIG_USB_NET_QMI_WWAN)	+= qmi_wwan.o
->   obj-$(CONFIG_USB_NET_CDC_MBIM)	+= cdc_mbim.o
->   obj-$(CONFIG_USB_NET_CH9200)	+= ch9200.o
->   obj-$(CONFIG_USB_NET_AQC111)	+= aqc111.o
-> +obj-$(CONFIG_USB_RTL8153_ECM)	+= r8153_ecm.o
-
-Best regards
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+new file mode 100644
+index 000000000000..598fd2b95c29
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+@@ -0,0 +1,199 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2020 MediaTek
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek XS-PHY Controller Device Tree Bindings
++
++maintainers:
++  - Chunfeng Yun <chunfeng.yun@mediatek.com>
++
++description: |
++  The XS-PHY controller supports physical layer functionality for USB3.1
++  GEN2 controller on MediaTek SoCs.
++
++  Banks layout of xsphy
++  ----------------------------------
++  port        offset    bank
++  u2 port0    0x0000    MISC
++              0x0100    FMREG
++              0x0300    U2PHY_COM
++  u2 port1    0x1000    MISC
++              0x1100    FMREG
++              0x1300    U2PHY_COM
++  u2 port2    0x2000    MISC
++              ...
++  u31 common  0x3000    DIG_GLB
++              0x3100    PHYA_GLB
++  u31 port0   0x3400    DIG_LN_TOP
++              0x3500    DIG_LN_TX0
++              0x3600    DIG_LN_RX0
++              0x3700    DIG_LN_DAIF
++              0x3800    PHYA_LN
++  u31 port1   0x3a00    DIG_LN_TOP
++              0x3b00    DIG_LN_TX0
++              0x3c00    DIG_LN_RX0
++              0x3d00    DIG_LN_DAIF
++              0x3e00    PHYA_LN
++              ...
++  DIG_GLB & PHYA_GLB are shared by U31 ports.
++
++properties:
++  $nodename:
++    pattern: "^xs-phy@[0-9a-f]+$"
++
++  compatible:
++    items:
++      - enum:
++          - mediatek,mt3611-xsphy
++          - mediatek,mt3612-xsphy
++      - const: mediatek,xsphy
++
++  reg:
++    description:
++      Register shared by multiple U3 ports, exclude port's private register,
++      if only U2 ports provided, shouldn't use the property.
++    maxItems: 1
++
++  "#address-cells":
++    enum: [1, 2]
++
++  "#size-cells":
++    enum: [1, 2]
++
++  ranges: true
++
++  mediatek,src-ref-clk-mhz:
++    description:
++      Frequency of reference clock for slew rate calibrate
++    default: 26
++
++  mediatek,src-coef:
++    description:
++      Coefficient for slew rate calibrate, depends on SoC process
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 17
++
++# Required child node:
++patternProperties:
++  "^usb-phy@[0-9a-f]+$":
++    type: object
++    description:
++      A sub-node is required for each port the controller provides.
++      Address range information including the usual 'reg' property
++      is used inside these nodes to describe the controller's topology.
++
++    properties:
++      reg:
++        maxItems: 1
++
++      clocks:
++        items:
++          - description: Reference clock, (HS is 48Mhz, SS/P is 24~27Mhz)
++
++      clock-names:
++        items:
++          - const: ref
++
++      "#phy-cells":
++        const: 1
++        description: |
++          The cells contain the following arguments.
++
++          - description: The PHY type
++              enum:
++                - PHY_TYPE_USB2
++                - PHY_TYPE_USB3
++
++      # The following optional vendor properties are only for debug or HQA test
++      mediatek,eye-src:
++        description:
++          The value of slew rate calibrate (U2 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 7
++
++      mediatek,eye-vrt:
++        description:
++          The selection of VRT reference voltage (U2 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 7
++
++      mediatek,eye-term:
++        description:
++          The selection of HS_TX TERM reference voltage (U2 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 7
++
++      mediatek,efuse-intr:
++        description:
++          The selection of Internal Resistor (U2/U3 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 63
++
++      mediatek,efuse-tx-imp:
++        description:
++          The selection of TX Impedance (U3 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 31
++
++      mediatek,efuse-rx-imp:
++        description:
++          The selection of RX Impedance (U3 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 31
++
++    required:
++      - reg
++      - clocks
++      - clock-names
++      - "#phy-cells"
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/phy/phy.h>
++
++    u3phy: xs-phy@11c40000 {
++        compatible = "mediatek,mt3611-xsphy", "mediatek,xsphy";
++        reg = <0x11c43000 0x0200>;
++        mediatek,src-ref-clk-mhz = <26>;
++        mediatek,src-coef = <17>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        u2port0: usb-phy@11c40000 {
++            reg = <0x11c40000 0x0400>;
++            clocks = <&clk48m>;
++            clock-names = "ref";
++            mediatek,eye-src = <4>;
++            #phy-cells = <1>;
++        };
++
++        u3port0: usb-phy@11c43000 {
++            reg = <0x11c43400 0x0500>;
++            clocks = <&clk26m>;
++            clock-names = "ref";
++            mediatek,efuse-intr = <28>;
++            #phy-cells = <1>;
++        };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt b/Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
+deleted file mode 100644
+index e7caefa0b9c2..000000000000
+--- a/Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
++++ /dev/null
+@@ -1,109 +0,0 @@
+-MediaTek XS-PHY binding
+---------------------------
+-
+-The XS-PHY controller supports physical layer functionality for USB3.1
+-GEN2 controller on MediaTek SoCs.
+-
+-Required properties (controller (parent) node):
+- - compatible	: should be "mediatek,<soc-model>-xsphy", "mediatek,xsphy",
+-		  soc-model is the name of SoC, such as mt3611 etc;
+-		  when using "mediatek,xsphy" compatible string, you need SoC specific
+-		  ones in addition, one of:
+-		  - "mediatek,mt3611-xsphy"
+-
+- - #address-cells, #size-cells : should use the same values as the root node
+- - ranges: must be present
+-
+-Optional properties (controller (parent) node):
+- - reg		: offset and length of register shared by multiple U3 ports,
+-		  exclude port's private register, if only U2 ports provided,
+-		  shouldn't use the property.
+- - mediatek,src-ref-clk-mhz	: u32, frequency of reference clock for slew rate
+-		  calibrate
+- - mediatek,src-coef	: u32, coefficient for slew rate calibrate, depends on
+-		  SoC process
+-
+-Required nodes	: a sub-node is required for each port the controller
+-		  provides. Address range information including the usual
+-		  'reg' property is used inside these nodes to describe
+-		  the controller's topology.
+-
+-Required properties (port (child) node):
+-- reg		: address and length of the register set for the port.
+-- clocks	: a list of phandle + clock-specifier pairs, one for each
+-		  entry in clock-names
+-- clock-names	: must contain
+-		  "ref": 48M reference clock for HighSpeed analog phy; and 26M
+-			reference clock for SuperSpeedPlus analog phy, sometimes is
+-			24M, 25M or 27M, depended on platform.
+-- #phy-cells	: should be 1
+-		  cell after port phandle is phy type from:
+-			- PHY_TYPE_USB2
+-			- PHY_TYPE_USB3
+-
+-The following optional properties are only for debug or HQA test
+-Optional properties (PHY_TYPE_USB2 port (child) node):
+-- mediatek,eye-src	: u32, the value of slew rate calibrate
+-- mediatek,eye-vrt	: u32, the selection of VRT reference voltage
+-- mediatek,eye-term	: u32, the selection of HS_TX TERM reference voltage
+-- mediatek,efuse-intr	: u32, the selection of Internal Resistor
+-
+-Optional properties (PHY_TYPE_USB3 port (child) node):
+-- mediatek,efuse-intr	: u32, the selection of Internal Resistor
+-- mediatek,efuse-tx-imp	: u32, the selection of TX Impedance
+-- mediatek,efuse-rx-imp	: u32, the selection of RX Impedance
+-
+-Banks layout of xsphy
+--------------------------------------------------------------
+-port        offset    bank
+-u2 port0    0x0000    MISC
+-            0x0100    FMREG
+-            0x0300    U2PHY_COM
+-u2 port1    0x1000    MISC
+-            0x1100    FMREG
+-            0x1300    U2PHY_COM
+-u2 port2    0x2000    MISC
+-            ...
+-u31 common  0x3000    DIG_GLB
+-            0x3100    PHYA_GLB
+-u31 port0   0x3400    DIG_LN_TOP
+-            0x3500    DIG_LN_TX0
+-            0x3600    DIG_LN_RX0
+-            0x3700    DIG_LN_DAIF
+-            0x3800    PHYA_LN
+-u31 port1   0x3a00    DIG_LN_TOP
+-            0x3b00    DIG_LN_TX0
+-            0x3c00    DIG_LN_RX0
+-            0x3d00    DIG_LN_DAIF
+-            0x3e00    PHYA_LN
+-            ...
+-
+-DIG_GLB & PHYA_GLB are shared by U31 ports.
+-
+-Example:
+-
+-u3phy: usb-phy@11c40000 {
+-	compatible = "mediatek,mt3611-xsphy", "mediatek,xsphy";
+-	reg = <0 0x11c43000 0 0x0200>;
+-	mediatek,src-ref-clk-mhz = <26>;
+-	mediatek,src-coef = <17>;
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-	ranges;
+-
+-	u2port0: usb-phy@11c40000 {
+-		reg = <0 0x11c40000 0 0x0400>;
+-		clocks = <&clk48m>;
+-		clock-names = "ref";
+-		mediatek,eye-src = <4>;
+-		#phy-cells = <1>;
+-	};
+-
+-	u3port0: usb-phy@11c43000 {
+-		reg = <0 0x11c43400 0 0x0500>;
+-		clocks = <&clk26m>;
+-		clock-names = "ref";
+-		mediatek,efuse-intr = <28>;
+-		#phy-cells = <1>;
+-	};
+-};
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.18.0
 
