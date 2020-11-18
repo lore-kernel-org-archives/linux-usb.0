@@ -2,106 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B904C64E75
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 15:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3F6C63798
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 15:56:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EE9724727
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 15:01:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16B91247BC
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 15:56:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p/2grwt8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727249AbgKRPBN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Nov 2020 10:01:13 -0500
-Received: from mga03.intel.com ([134.134.136.65]:37906 "EHLO mga03.intel.com"
+        id S1726304AbgKRP4O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Nov 2020 10:56:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51424 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726781AbgKRPBE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 18 Nov 2020 10:01:04 -0500
-IronPort-SDR: SBemjTiVyGvF9Yl1xjgsFa95MyhvgoXPvw38JPreCgtBi1qIDSt8GzMFE/b+HAWkAM5+OBjtxq
- 5qnm1LOFRNWg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="171224100"
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="171224100"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:01:04 -0800
-IronPort-SDR: 9KBkcqlFub0GAnpedm3ZCWLcSyFEdGqk3vFU7IBAgfWnB7Qwy5V3kjMIyBQl++YjHxy75tk9Nl
- leFMwrCC8RLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="430881579"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2020 07:01:02 -0800
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Prashant Malani <pmalani@chromium.org>
-Cc:     Benson Leung <bleung@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726920AbgKRP4O (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 18 Nov 2020 10:56:14 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AF366247B8;
+        Wed, 18 Nov 2020 15:56:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1605714972;
+        bh=GELHucXkKa7G3QtQ8cSbwCgNnr50MKNdiCNGTna4zK0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=p/2grwt89tBSwFvd8T1v6y71xnlybjf5sHdsiy2umfiSBcDmbfB9W081S9dnG917+
+         haJTt4lD9S4ylXS0lhM+8WH0Gt5Je2atuYkuWbL9GgnJjTgTGIoku8GXX4WqSmiC32
+         9xwoR+6TeyJv5v/xCCufP08cF0TwWHDWY/bzh+t0=
+Date:   Wed, 18 Nov 2020 16:56:57 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [RFC PATCH 1/3] usb: pd: DFP product types
-Date:   Wed, 18 Nov 2020 18:00:57 +0300
-Message-Id: <20201118150059.3419-2-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201118150059.3419-1-heikki.krogerus@linux.intel.com>
+Subject: Re: [RFC PATCH 3/3] usb: typec: Expose Product Type VDOs via sysfs
+Message-ID: <X7VESebL4CnS45hv@kroah.com>
 References: <20201118150059.3419-1-heikki.krogerus@linux.intel.com>
+ <20201118150059.3419-4-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201118150059.3419-4-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB Power Delivery Specification R3.0 introduced separate
-field for the DFP product type to the ID Header VDO.
+On Wed, Nov 18, 2020 at 06:00:59PM +0300, Heikki Krogerus wrote:
+> From: Prashant Malani <pmalani@chromium.org>
+> 
+> Interim. ABI doc missing.
+> 
+> A PD-capable device can return up to 3 Product Type VDOs as part of its
+> DiscoverIdentity Response (USB PD Spec, Rev 3.0, Version 2.0, Section
+> 6.4.4.3.1). Add sysfs attribute to expose these to userspace.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> [ heikki: Only one instead of three attribute files ]
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>'
+> ---
+>  drivers/usb/typec/class.c | 41 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 303f054181ff7..5e135678f5952 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -165,15 +165,55 @@ static ssize_t product_show(struct device *dev, struct device_attribute *attr,
+>  }
+>  static DEVICE_ATTR_RO(product);
+>  
+> +static ssize_t
+> +product_type_vdo_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	struct usb_pd_identity *id = get_pd_identity(dev);
+> +	size_t len = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < 3; i++) {
+> +		if (!id->vdo[i])
+> +			break;
+> +		len += sysfs_emit(buf, "%08x ", id->vdo[i]);
+> +	}
+> +
+> +	buf[len - 1] = '\n';
+> +
+> +	return len;
+> +}
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- include/linux/usb/pd_vdo.h | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+I don't understand what you are trying to print out here, documentation
+would be helpful :)
 
-diff --git a/include/linux/usb/pd_vdo.h b/include/linux/usb/pd_vdo.h
-index 68bdc4e2f5a90..704aaf826c5b4 100644
---- a/include/linux/usb/pd_vdo.h
-+++ b/include/linux/usb/pd_vdo.h
-@@ -103,17 +103,26 @@
-  * --------------------
-  * <31>     :: data capable as a USB host
-  * <30>     :: data capable as a USB device
-- * <29:27>  :: product type
-+ * <29:27>  :: product type (UFP / Cable)
-  * <26>     :: modal operation supported (1b == yes)
-- * <25:16>  :: Reserved, Shall be set to zero
-+ * <25:16>  :: product type (DFP)
-  * <15:0>   :: USB-IF assigned VID for this cable vendor
-  */
- #define IDH_PTYPE_UNDEF		0
- #define IDH_PTYPE_HUB		1
- #define IDH_PTYPE_PERIPH	2
-+#define IDH_PTYPE_PSD		3
-+#define IDH_PTYPE_AMA		5
-+#define IDH_PTYPE_VPD		6
-+
- #define IDH_PTYPE_PCABLE	3
- #define IDH_PTYPE_ACABLE	4
--#define IDH_PTYPE_AMA		5
-+
-+#define IDH_PTYPE_DFP_UNDEF	0
-+#define IDH_PTYPE_DFP_HUB	1
-+#define IDH_PTYPE_DFP_HOST	2
-+#define IDH_PTYPE_DFP_PB	3
-+#define IDH_PTYPE_DFP_AMC	4
- 
- #define VDO_IDH(usbh, usbd, ptype, is_modal, vid)		\
- 	((usbh) << 31 | (usbd) << 30 | ((ptype) & 0x7) << 27	\
-@@ -122,6 +131,7 @@
- #define PD_IDH_PTYPE(vdo)	(((vdo) >> 27) & 0x7)
- #define PD_IDH_VID(vdo)		((vdo) & 0xffff)
- #define PD_IDH_MODAL_SUPP(vdo)	((vdo) & (1 << 26))
-+#define PD_IDH_DFP_PTYPE(vdo)	(((vdo) >> 23) & 0x7)
- 
- /*
-  * Cert Stat VDO
--- 
-2.29.2
+> +
+> +static struct device_attribute dev_attr_product_type_vdo = {
+> +	.attr = {
+> +		.name = "product_type",
+> +		.mode = 0444,
+> +	},
+> +	.show = product_type_vdo_show,
+> +};
 
+DEVICE_ATTR_RO(product_type_vdo)?
+
+Why are you calling it "product_type" and not with the "vdo"?
+
+And you have to name it this, there's always __ATTR_RO(), never put a
+mode in "raw" numbers for a sysfs file if at all possible.
+
+thanks,
+
+greg k-h
