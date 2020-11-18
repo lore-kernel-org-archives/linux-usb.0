@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17CAEC63798
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7EEDC56202
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B78E622266
+	by mail.kernel.org (Postfix) with ESMTP id 629B9241A5
 	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbgKRIVx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Nov 2020 03:21:53 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:45142 "EHLO
+        id S1727045AbgKRIVw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Nov 2020 03:21:52 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:45156 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726894AbgKRIVw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:21:52 -0500
-X-UUID: d01967092c3347a2866b970cee53c797-20201118
-X-UUID: d01967092c3347a2866b970cee53c797-20201118
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        with ESMTP id S1726156AbgKRIVv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:21:51 -0500
+X-UUID: 9623b66b7f5c45a79e455b3bd3b55eee-20201118
+X-UUID: 9623b66b7f5c45a79e455b3bd3b55eee-20201118
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1038776888; Wed, 18 Nov 2020 16:21:47 +0800
+        with ESMTP id 54983553; Wed, 18 Nov 2020 16:21:46 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 18 Nov 2020 16:21:46 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 18 Nov 2020 16:21:45 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 18 Nov 2020 16:21:46 +0800
+ Transport; Wed, 18 Nov 2020 16:21:45 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
@@ -51,9 +51,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH v3 08/11] dt-bindings: usb: convert mediatek,musb.txt to YAML schema
-Date:   Wed, 18 Nov 2020 16:21:23 +0800
-Message-ID: <20201118082126.42701-8-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 05/11] dt-bindings: phy: convert phy-mtk-ufs.txt to YAML schema
+Date:   Wed, 18 Nov 2020 16:21:20 +0800
+Message-ID: <20201118082126.42701-5-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
 References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
@@ -64,167 +64,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert mediatek,musb.txt to YAML schema mediatek,musb.yaml
+Convert phy-mtk-ufs.txt to YAML schema mediatek,ufs-phy.yaml
 
-Cc: Min Guo <min.guo@mediatek.com>
+Cc: Stanley Chu <stanley.chu@mediatek.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 v3: add Reviewed-by Rob
-v2: new patch
+v2: fix binding check warning of reg in example
 ---
- .../devicetree/bindings/usb/mediatek,musb.txt |  57 ---------
- .../bindings/usb/mediatek,musb.yaml           | 113 ++++++++++++++++++
- 2 files changed, 113 insertions(+), 57 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/mediatek,musb.txt
- create mode 100644 Documentation/devicetree/bindings/usb/mediatek,musb.yaml
+ .../bindings/phy/mediatek,ufs-phy.yaml        | 64 +++++++++++++++++++
+ .../devicetree/bindings/phy/phy-mtk-ufs.txt   | 38 -----------
+ 2 files changed, 64 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
+ delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,musb.txt b/Documentation/devicetree/bindings/usb/mediatek,musb.txt
-deleted file mode 100644
-index 5eedb0296562..000000000000
---- a/Documentation/devicetree/bindings/usb/mediatek,musb.txt
-+++ /dev/null
-@@ -1,57 +0,0 @@
--MediaTek musb DRD/OTG controller
---------------------------------------------
--
--Required properties:
-- - compatible      : should be one of:
--                     "mediatek,mt2701-musb"
--                     ...
--                     followed by "mediatek,mtk-musb"
-- - reg             : specifies physical base address and size of
--                     the registers
-- - interrupts      : interrupt used by musb controller
-- - interrupt-names : must be "mc"
-- - phys            : PHY specifier for the OTG phy
-- - dr_mode         : should be one of "host", "peripheral" or "otg",
--                     refer to usb/generic.txt
-- - clocks          : a list of phandle + clock-specifier pairs, one for
--                     each entry in clock-names
-- - clock-names     : must contain "main", "mcu", "univpll"
--                     for clocks of controller
--
--Optional properties:
-- - power-domains   : a phandle to USB power domain node to control USB's
--                     MTCMOS
--
--Required child nodes:
-- usb connector node as defined in bindings/connector/usb-connector.yaml
--Optional properties:
-- - id-gpios        : input GPIO for USB ID pin.
-- - vbus-gpios      : input GPIO for USB VBUS pin.
-- - vbus-supply     : reference to the VBUS regulator, needed when supports
--                     dual-role mode
-- - usb-role-switch : use USB Role Switch to support dual-role switch, see
--                     usb/generic.txt.
--
--Example:
--
--usb2: usb@11200000 {
--	compatible = "mediatek,mt2701-musb",
--		     "mediatek,mtk-musb";
--	reg = <0 0x11200000 0 0x1000>;
--	interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
--	interrupt-names = "mc";
--	phys = <&u2port2 PHY_TYPE_USB2>;
--	dr_mode = "otg";
--	clocks = <&pericfg CLK_PERI_USB0>,
--		 <&pericfg CLK_PERI_USB0_MCU>,
--		 <&pericfg CLK_PERI_USB_SLV>;
--	clock-names = "main","mcu","univpll";
--	power-domains = <&scpsys MT2701_POWER_DOMAIN_IFR_MSC>;
--	usb-role-switch;
--	connector{
--		compatible = "gpio-usb-b-connector", "usb-b-connector";
--		type = "micro";
--		id-gpios = <&pio 44 GPIO_ACTIVE_HIGH>;
--		vbus-supply = <&usb_vbus>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,musb.yaml b/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
 new file mode 100644
-index 000000000000..3e60df4b91bb
+index 000000000000..3a9be82e7f13
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
-@@ -0,0 +1,113 @@
++++ b/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
+@@ -0,0 +1,64 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +# Copyright (c) 2020 MediaTek
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/usb/mediatek,musb.yaml#
++$id: http://devicetree.org/schemas/phy/mediatek,ufs-phy.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: MediaTek MUSB DRD/OTG Controller Device Tree Bindings
++title: MediaTek Universal Flash Storage (UFS) M-PHY binding
 +
 +maintainers:
-+  - Min Guo <min.guo@mediatek.com>
++  - Stanley Chu <stanley.chu@mediatek.com>
++  - Chunfeng Yun <chunfeng.yun@mediatek.com>
++
++description: |
++  UFS M-PHY nodes are defined to describe on-chip UFS M-PHY hardware macro.
++  Each UFS M-PHY node should have its own node.
++  To bind UFS M-PHY with UFS host controller, the controller node should
++  contain a phandle reference to UFS M-PHY node.
 +
 +properties:
 +  $nodename:
-+    pattern: '^usb@[0-9a-f]+$'
++    pattern: "^ufs-phy@[0-9a-f]+$"
 +
 +  compatible:
-+    items:
-+      - enum:
-+          - mediatek,mt2701-musb
-+      - const: mediatek,mtk-musb
++    const: mediatek,mt8183-ufsphy
 +
 +  reg:
 +    maxItems: 1
 +
-+  interrupts:
-+    maxItems: 1
-+
-+  interrupt-names:
-+    items:
-+      - const: mc
-+
 +  clocks:
 +    items:
-+      - description: The main/core clock
-+      - description: The system bus clock
-+      - description: The 48Mhz clock
++      - description: Unipro core control clock.
++      - description: M-PHY core control clock.
 +
 +  clock-names:
 +    items:
-+      - const: main
-+      - const: mcu
-+      - const: univpll
++      - const: unipro
++      - const: mp
 +
-+  phys:
-+    maxItems: 1
-+
-+  usb-role-switch:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: Support role switch. See usb/generic.txt
-+    type: boolean
-+
-+  dr_mode:
-+    enum:
-+      - host
-+      - otg
-+      - peripheral
-+
-+  power-domains:
-+    description: A phandle to USB power domain node to control USB's MTCMOS
-+    maxItems: 1
-+
-+  connector:
-+    $ref: /connector/usb-connector.yaml#
-+    description: Connector for dual role switch
-+    type: object
-+
-+dependencies:
-+  usb-role-switch: [ 'connector' ]
-+  connector: [ 'usb-role-switch' ]
++  "#phy-cells":
++    const: 0
 +
 +required:
 +  - compatible
 +  - reg
-+  - interrupts
-+  - interrupt-names
-+  - phys
++  - "#phy-cells"
 +  - clocks
 +  - clock-names
 +
@@ -232,35 +138,61 @@ index 000000000000..3e60df4b91bb
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/mt2701-clk.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/phy/phy.h>
-+    #include <dt-bindings/power/mt2701-power.h>
-+
-+    usb@11200000 {
-+        compatible = "mediatek,mt2701-musb", "mediatek,mtk-musb";
-+        reg = <0x11200000 0x1000>;
-+        interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-names = "mc";
-+        phys = <&u2port2 PHY_TYPE_USB2>;
-+        dr_mode = "otg";
-+        clocks = <&pericfg CLK_PERI_USB0>,
-+                 <&pericfg CLK_PERI_USB0_MCU>,
-+                 <&pericfg CLK_PERI_USB_SLV>;
-+        clock-names = "main","mcu","univpll";
-+        power-domains = <&scpsys MT2701_POWER_DOMAIN_IFR_MSC>;
-+        usb-role-switch;
-+
-+        connector{
-+            compatible = "gpio-usb-b-connector", "usb-b-connector";
-+            type = "micro";
-+            id-gpios = <&pio 44 GPIO_ACTIVE_HIGH>;
-+            vbus-supply = <&usb_vbus>;
-+        };
++    #include <dt-bindings/clock/mt8183-clk.h>
++    ufsphy: ufs-phy@11fa0000 {
++        compatible = "mediatek,mt8183-ufsphy";
++        reg = <0x11fa0000 0xc000>;
++        clocks = <&infracfg CLK_INFRA_UNIPRO_SCK>,
++                 <&infracfg CLK_INFRA_UFS_MP_SAP_BCLK>;
++        clock-names = "unipro", "mp";
++        #phy-cells = <0>;
 +    };
++
 +...
+diff --git a/Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt b/Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
+deleted file mode 100644
+index 5789029a1d42..000000000000
+--- a/Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
++++ /dev/null
+@@ -1,38 +0,0 @@
+-MediaTek Universal Flash Storage (UFS) M-PHY binding
+---------------------------------------------------------
+-
+-UFS M-PHY nodes are defined to describe on-chip UFS M-PHY hardware macro.
+-Each UFS M-PHY node should have its own node.
+-
+-To bind UFS M-PHY with UFS host controller, the controller node should
+-contain a phandle reference to UFS M-PHY node.
+-
+-Required properties for UFS M-PHY nodes:
+-- compatible         : Compatible list, contains the following controller:
+-                       "mediatek,mt8183-ufsphy" for ufs phy
+-                       persent on MT81xx chipsets.
+-- reg                : Address and length of the UFS M-PHY register set.
+-- #phy-cells         : This property shall be set to 0.
+-- clocks             : List of phandle and clock specifier pairs.
+-- clock-names        : List of clock input name strings sorted in the same
+-                       order as the clocks property. Following clocks are
+-                       mandatory.
+-                       "unipro": Unipro core control clock.
+-                       "mp": M-PHY core control clock.
+-
+-Example:
+-
+-	ufsphy: phy@11fa0000 {
+-		compatible = "mediatek,mt8183-ufsphy";
+-		reg = <0 0x11fa0000 0 0xc000>;
+-		#phy-cells = <0>;
+-
+-		clocks = <&infracfg_ao INFRACFG_AO_UNIPRO_SCK_CG>,
+-			 <&infracfg_ao INFRACFG_AO_UFS_MP_SAP_BCLK_CG>;
+-		clock-names = "unipro", "mp";
+-	};
+-
+-	ufshci@11270000 {
+-		...
+-		phys = <&ufsphy>;
+-	};
 -- 
 2.18.0
 
