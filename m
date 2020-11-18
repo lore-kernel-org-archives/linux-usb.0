@@ -4,206 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65136C8300C
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C9CC56202
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:57:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CF08221F1
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DCB452158C
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:57:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726920AbgKRIVv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Nov 2020 03:21:51 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:45142 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725772AbgKRIVu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:21:50 -0500
-X-UUID: d4cb1b71f33343f999d41a5840112809-20201118
-X-UUID: d4cb1b71f33343f999d41a5840112809-20201118
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1632059008; Wed, 18 Nov 2020 16:21:46 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 18 Nov 2020 16:21:46 +0800
-Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 18 Nov 2020 16:21:45 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh+dt@kernel.org>
-CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Min Guo <min.guo@mediatek.com>,
-        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH v3 06/11] dt-bindings: phy: convert HDMI PHY binding to YAML schema
-Date:   Wed, 18 Nov 2020 16:21:21 +0800
-Message-ID: <20201118082126.42701-6-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
-References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+        id S1727453AbgKRI4i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Nov 2020 03:56:38 -0500
+Received: from lucky1.263xmail.com ([211.157.147.135]:48304 "EHLO
+        lucky1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726658AbgKRI4h (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:56:37 -0500
+Received: from localhost (unknown [192.168.167.16])
+        by lucky1.263xmail.com (Postfix) with ESMTP id 3D2F7A5EB2;
+        Wed, 18 Nov 2020 16:56:26 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (250.19.126.124.broad.bjtelecom.net [124.126.19.250])
+        by smtp.263.net (postfix) whith ESMTP id P26978T140148616816384S1605689787381400_;
+        Wed, 18 Nov 2020 16:56:27 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <fbcb1dee2af695eef72cd5ac8d86c5a9>
+X-RL-SENDER: penghao@uniontech.com
+X-SENDER: penghao@uniontech.com
+X-LOGIN-NAME: penghao@uniontech.com
+X-FST-TO: gregkh@linuxfoundation.org
+X-SENDER-IP: 124.126.19.250
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 5
+X-System-Flag: 0
+From:   penghao <penghao@uniontech.com>
+To:     gregkh@linuxfoundation.org
+Cc:     johan@kernel.org, jonathan@jdcox.net, tomasz@meresinski.eu,
+        penghao@uniontech.com, hdegoede@redhat.com, dlaz@chromium.org,
+        kai.heng.feng@canonical.com, richard.o.dodd@gmail.com,
+        kerneldev@karsmulder.nl, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] USB: quirks: Add USB_QUIRK_DISCONNECT_SUSPEND quirk for Lenovo A630Z TIO built-in usb-audio card
+Date:   Wed, 18 Nov 2020 16:56:23 +0800
+Message-Id: <20201118085623.31221-1-penghao@uniontech.com>
+X-Mailer: git-send-email 2.11.0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert HDMI PHY binding to YAML schema mediatek,hdmi-phy.yaml
+Add a USB_QUIRK_DISCONNECT_SUSPEND quirk for the Lenovo TIO built-in
+usb-audio. when A630Z going into S3,the system immediately wakeup 7-8
+seconds later by usb-audio disconnect interrupt to avoids the issue.
 
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-v3: add Reviewed-by Rob
-v2: fix binding check warning of reg in example
----
- .../display/mediatek/mediatek,hdmi.txt        | 18 +---
- .../bindings/phy/mediatek,hdmi-phy.yaml       | 91 +++++++++++++++++++
- 2 files changed, 92 insertions(+), 17 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
+Seeking a better fix, we've tried a lot of things, including:
+ - Check that the device's power/wakeup is disabled
+ - Check that remote wakeup is off at the USB level
+ - All the quirks in drivers/usb/core/quirks.c
+   e.g. USB_QUIRK_RESET_RESUME,
+        USB_QUIRK_RESET,
+        USB_QUIRK_IGNORE_REMOTE_WAKEUP,
+        USB_QUIRK_NO_LPM.
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
-index 6b1c586403e4..b284ca51b913 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
-@@ -53,23 +53,7 @@ Required properties:
+but none of that makes any difference.
+
+There are no errors in the logs showing any suspend/resume-related issues.
+When the system wakes up due to the modem, log-wise it appears to be a
+normal resume.
+
+Introduce a quirk to disable the port during suspend when the modem is
+detected.
+
+Changes since v2
+ - Add Changes commit format
+
+Changes since v1
+ - Change subject form "ALSA" to "USB:"
+ - Adjust to approoriate line
+
+Signed-off-by: penghao <penghao@uniontech.com>
+---
+ drivers/usb/core/quirks.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 7c1198f80c23..25f655c2cd28 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -410,6 +410,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	{ USB_DEVICE(0x1532, 0x0116), .driver_info =
+ 			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
  
- HDMI PHY
- ========
--
--The HDMI PHY serializes the HDMI encoder's three channel 10-bit parallel
--output and drives the HDMI pads.
--
--Required properties:
--- compatible: "mediatek,<chip>-hdmi-phy"
--- the supported chips are mt2701, mt7623 and mt8173
--- reg: Physical base address and length of the module's registers
--- clocks: PLL reference clock
--- clock-names: must contain "pll_ref"
--- clock-output-names: must be "hdmitx_dig_cts" on mt8173
--- #phy-cells: must be <0>
--- #clock-cells: must be <0>
--
--Optional properties:
--- mediatek,ibias: TX DRV bias current for <1.65Gbps, defaults to 0xa
--- mediatek,ibias_up: TX DRV bias current for >1.65Gbps, defaults to 0x1c
-+See phy/mediatek,hdmi-phy.yaml
++	/* Lenovo ThinkCenter A630Z TI024Gen3 usb-audio */
++	{ USB_DEVICE(0x17ef, 0xa012), .driver_info =
++			USB_QUIRK_DISCONNECT_SUSPEND },
++
+ 	/* BUILDWIN Photo Frame */
+ 	{ USB_DEVICE(0x1908, 0x1315), .driver_info =
+ 			USB_QUIRK_HONOR_BNUMINTERFACES },
+@@ -430,6 +434,7 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	  USB_QUIRK_DELAY_CTRL_MSG },
  
- Example:
+ 	/* Corsair Strafe RGB */
++
+ 	{ USB_DEVICE(0x1b1c, 0x1b20), .driver_info = USB_QUIRK_DELAY_INIT |
+ 	  USB_QUIRK_DELAY_CTRL_MSG },
  
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
-new file mode 100644
-index 000000000000..96700bb8bc00
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
-@@ -0,0 +1,91 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (c) 2020 MediaTek
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/mediatek,hdmi-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek High Definition Multimedia Interface (HDMI) PHY binding
-+
-+maintainers:
-+  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-+  - Chunfeng Yun <chunfeng.yun@mediatek.com>
-+
-+description: |
-+  The HDMI PHY serializes the HDMI encoder's three channel 10-bit parallel
-+  output and drives the HDMI pads.
-+
-+properties:
-+  $nodename:
-+    pattern: "^hdmi-phy@[0-9a-f]+$"
-+
-+  compatible:
-+    enum:
-+      - mediatek,mt2701-hdmi-phy
-+      - mediatek,mt7623-hdmi-phy
-+      - mediatek,mt8173-hdmi-phy
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: PLL reference clock
-+
-+  clock-names:
-+    items:
-+      - const: pll_ref
-+
-+  clock-output-names:
-+    items:
-+      - const: hdmitx_dig_cts
-+
-+  "#phy-cells":
-+    const: 0
-+
-+  "#clock-cells":
-+    const: 0
-+
-+  mediatek,ibias:
-+    description:
-+      TX DRV bias current for < 1.65Gbps
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 63
-+    default: 0xa
-+
-+  mediatek,ibias_up:
-+    description:
-+      TX DRV bias current for >= 1.65Gbps
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 63
-+    default: 0x1c
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - clock-output-names
-+  - "#phy-cells"
-+  - "#clock-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/mt8173-clk.h>
-+    hdmi_phy: hdmi-phy@10209100 {
-+        compatible = "mediatek,mt8173-hdmi-phy";
-+        reg = <0x10209100 0x24>;
-+        clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
-+        clock-names = "pll_ref";
-+        clock-output-names = "hdmitx_dig_cts";
-+        mediatek,ibias = <0xa>;
-+        mediatek,ibias_up = <0x1c>;
-+        #clock-cells = <0>;
-+        #phy-cells = <0>;
-+    };
-+
-+...
 -- 
-2.18.0
+2.11.0
+
+
 
