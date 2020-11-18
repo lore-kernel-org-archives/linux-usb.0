@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F053C71155
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65136C8300C
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA10D22266
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CF08221F1
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 08:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727438AbgKRIWT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Nov 2020 03:22:19 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:50032 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725772AbgKRIVy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:21:54 -0500
-X-UUID: 6ad9b301e59b4516b06fc60b46943584-20201118
-X-UUID: 6ad9b301e59b4516b06fc60b46943584-20201118
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+        id S1726920AbgKRIVv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Nov 2020 03:21:51 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:45142 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725772AbgKRIVu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 03:21:50 -0500
+X-UUID: d4cb1b71f33343f999d41a5840112809-20201118
+X-UUID: d4cb1b71f33343f999d41a5840112809-20201118
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 588870499; Wed, 18 Nov 2020 16:21:48 +0800
+        with ESMTP id 1632059008; Wed, 18 Nov 2020 16:21:46 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Wed, 18 Nov 2020 16:21:46 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 18 Nov 2020 16:21:46 +0800
+ Transport; Wed, 18 Nov 2020 16:21:45 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
@@ -51,9 +51,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH v3 11/11] MAINTAINERS: update MediaTek PHY/USB entry
-Date:   Wed, 18 Nov 2020 16:21:26 +0800
-Message-ID: <20201118082126.42701-11-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 06/11] dt-bindings: phy: convert HDMI PHY binding to YAML schema
+Date:   Wed, 18 Nov 2020 16:21:21 +0800
+Message-ID: <20201118082126.42701-6-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
 References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
@@ -64,41 +64,146 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Due to the phy/usb bindings are converted into YAML schema and
-also renamed, update entries.
-Meanwhile add drivers/usb/host/mtk-xhci* files.
+Convert HDMI PHY binding to YAML schema mediatek,hdmi-phy.yaml
 
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-v3: no changes
-
-v2: new patch
+v3: add Reviewed-by Rob
+v2: fix binding check warning of reg in example
 ---
- MAINTAINERS | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../display/mediatek/mediatek,hdmi.txt        | 18 +---
+ .../bindings/phy/mediatek,hdmi-phy.yaml       | 91 +++++++++++++++++++
+ 2 files changed, 92 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b75f29..360c6131b866 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2084,7 +2084,7 @@ M:	Chunfeng Yun <chunfeng.yun@mediatek.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/phy/phy-mtk-*
-+F:	Documentation/devicetree/bindings/phy/mediatek,*
- F:	drivers/phy/mediatek/
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
+index 6b1c586403e4..b284ca51b913 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
+@@ -53,23 +53,7 @@ Required properties:
  
- ARM/Microchip (AT91) SoC support
-@@ -11139,6 +11139,8 @@ L:	linux-usb@vger.kernel.org
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
-+F:	Documentation/devicetree/bindings/usb/mediatek,*
-+F:	drivers/usb/host/xhci-mtk*
- F:	drivers/usb/mtu3/
+ HDMI PHY
+ ========
+-
+-The HDMI PHY serializes the HDMI encoder's three channel 10-bit parallel
+-output and drives the HDMI pads.
+-
+-Required properties:
+-- compatible: "mediatek,<chip>-hdmi-phy"
+-- the supported chips are mt2701, mt7623 and mt8173
+-- reg: Physical base address and length of the module's registers
+-- clocks: PLL reference clock
+-- clock-names: must contain "pll_ref"
+-- clock-output-names: must be "hdmitx_dig_cts" on mt8173
+-- #phy-cells: must be <0>
+-- #clock-cells: must be <0>
+-
+-Optional properties:
+-- mediatek,ibias: TX DRV bias current for <1.65Gbps, defaults to 0xa
+-- mediatek,ibias_up: TX DRV bias current for >1.65Gbps, defaults to 0x1c
++See phy/mediatek,hdmi-phy.yaml
  
- MEGACHIPS STDPXXXX-GE-B850V3-FW LVDS/DP++ BRIDGES
+ Example:
+ 
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
+new file mode 100644
+index 000000000000..96700bb8bc00
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2020 MediaTek
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/mediatek,hdmi-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek High Definition Multimedia Interface (HDMI) PHY binding
++
++maintainers:
++  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
++  - Chunfeng Yun <chunfeng.yun@mediatek.com>
++
++description: |
++  The HDMI PHY serializes the HDMI encoder's three channel 10-bit parallel
++  output and drives the HDMI pads.
++
++properties:
++  $nodename:
++    pattern: "^hdmi-phy@[0-9a-f]+$"
++
++  compatible:
++    enum:
++      - mediatek,mt2701-hdmi-phy
++      - mediatek,mt7623-hdmi-phy
++      - mediatek,mt8173-hdmi-phy
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: PLL reference clock
++
++  clock-names:
++    items:
++      - const: pll_ref
++
++  clock-output-names:
++    items:
++      - const: hdmitx_dig_cts
++
++  "#phy-cells":
++    const: 0
++
++  "#clock-cells":
++    const: 0
++
++  mediatek,ibias:
++    description:
++      TX DRV bias current for < 1.65Gbps
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 63
++    default: 0xa
++
++  mediatek,ibias_up:
++    description:
++      TX DRV bias current for >= 1.65Gbps
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 63
++    default: 0x1c
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - clock-output-names
++  - "#phy-cells"
++  - "#clock-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8173-clk.h>
++    hdmi_phy: hdmi-phy@10209100 {
++        compatible = "mediatek,mt8173-hdmi-phy";
++        reg = <0x10209100 0x24>;
++        clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
++        clock-names = "pll_ref";
++        clock-output-names = "hdmitx_dig_cts";
++        mediatek,ibias = <0xa>;
++        mediatek,ibias_up = <0x1c>;
++        #clock-cells = <0>;
++        #phy-cells = <0>;
++    };
++
++...
 -- 
 2.18.0
 
