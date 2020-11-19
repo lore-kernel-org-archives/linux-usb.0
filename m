@@ -5,46 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E16C8C63798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBC5C6369E
 	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 14:16:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7914222256
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 14:16:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEC9722210
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 14:16:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="eX3eQP0d";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="z2fulgCF"
+	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="qxcEeyP7";
+	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="CWh67bql"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727841AbgKSOPK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Nov 2020 09:15:10 -0500
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:36492 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727813AbgKSOPJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Nov 2020 09:15:09 -0500
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AJE6moV027517;
-        Thu, 19 Nov 2020 06:14:38 -0800
+        id S1727845AbgKSOPl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 19 Nov 2020 09:15:41 -0500
+Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:11104 "EHLO
+        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727816AbgKSOPL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Nov 2020 09:15:11 -0500
+Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
+        by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AJE91hQ001984;
+        Thu, 19 Nov 2020 06:14:43 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=proofpoint;
- bh=VTtMcaEUKxI+myrGv+xDd1cmY7s6474FY+k9QsQmwEs=;
- b=eX3eQP0d4+HTTmH/tYrhDrpvZzopsZCxJzi4rc9JcGQIANDDFAiV7wDlOPBGBN/j5+kj
- VPug+G6OfZvVcjXGz5YcxickvRMnlpjo8BAW7bw5BcYC/S0iUO4GiE/KnbAuvidkkB4K
- OKOMjQyozrYAK7elYBfJiCPPaxegtHgEtlD/ZbSimJrq9FIdWUfQ8XUMAW4Z4mF8XKT9
- V72hwnpIqHxynB9fZcC2CqZY3ltdoYJQrRTv4RpI3zQKmYgCAkIyyfe8iW0Xh8DvNc5m
- 3k8CtDGZNgn1IKZhQxFCY/ttemcWdAatE2TSHXFtyckSpECwirlT2wG4zml7Nkf00ACd FA== 
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2044.outbound.protection.outlook.com [104.47.74.44])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 34tcp24k3u-1
+ bh=2FRl9J8d7oWeZ0PugVlUhpMzlKLgpL865+PO9vJESJs=;
+ b=qxcEeyP7nQaVim8FjoQssjVNNkvB+StBy+kuVZoy3brXLnABAq8QX1f408gO5yxJXckG
+ fa7dvPNQrsf8HEJORRCpzNbivBYeByKN+nDQ55w8r8bIBGKJcAImqKKTwnxeDSHHt7Gl
+ mrZlc9MIfRIx93ysaegX/gRr9yY5HVQRoZB7v2dmxVIs4J0LZZIpin+On1QJiMDDGpWu
+ nPfzBqtJ0t2gy1+xY7Dniliuava1yamIlpXnf+MXVYG9Tzg3GrVU1K3VTcaJd7ocLh73
+ WZMtB07weYWMilVYrW5kNEdD4avVUWV+J3Msty2wYq/uxihIPUKLs9yVZC540Y9Zhwtb Ew== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+        by mx0b-0014ca01.pphosted.com with ESMTP id 34tbq34ytb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Nov 2020 06:14:37 -0800
+        Thu, 19 Nov 2020 06:14:43 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JtxXUQEWIOZOEzNOylzW81v/thhiWOOM/4fdcQM6jF01b7Z4P8gJX0fZ0IocoweTgMHX76pRtyUzE1FJ8N9uf86TZdIDEys4tGKFFBIGunsTSyW2UDRSgkVTHLl4ed2byYnn6A5GCbwy/ky9LUPjCTYbs1ePTpznplAWrWMbpjyFYAxMCQa2Hlkk5v20sx9cDq03PNFRlIWae3pb74FdogNh0UvN0eCGXsn1KM98IZKp+Jrb3/MM8iVvGum6xYfTOrg206v3X8XsG1RXeNpLZVtx5nBZKsrjHaqX3sQ3/GhzXIc7J/nrGm6zyScATXIl9Tpit/HeyQLdisORu4/i0A==
+ b=O/oUCgpcfllbfVVZTTePG0ImkOz2LRGTO/p8jxp1yLhm1uNqFRnqTsxYPSvaiytvEmNS1f4HZ6d1+KQU9W57yWM4sh7E35eKmo4u+Kip5SAlnE+Y+lMyS7z8TVb/4O4cZQ8INHxa6ygiydttQhsSt1IKYcPPKX4Ro0za7t7TL5Ie+BuX4HP35SfvK3FPXdtjmXNub0xQxVf3b29lx50Q8wMjGp3TWFivNJxgacz7gUapupgfS9cOcClwhlWiWGIRrnMY4cHVhNoWkeCiyPvOLU5rQ51MjVdYqERXN/UxucQYhV5RoPxlaehnJ8HFyMyi5IWBgCX61DDyPh926Z+16A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VTtMcaEUKxI+myrGv+xDd1cmY7s6474FY+k9QsQmwEs=;
- b=H247aqpzaCP17nYTYbhllRHcTccoERd9ii/75Eh+64HPUQgZIW3d8rt6agV2GA5NvmNECCnhlGkdif/3bVF7TcDpvyMapi8dChENW7oQ3MwX+8yr4NjI+dq+LMmhnPSULDnl9bm/UUbngVXCSAzXTuHbiB/d08JZFK9H8LIYRjNwiCDN5COcbtDE+VjcUD5kbdn8SMh/2wCafGlU4HqJ2dQSaBFqQ4hLBAmANJSDUTF7GYxge546LsImROxSgbySY/TGTN4M68+JsIJmbd1NAwHAx0eETNUNhkqX8U/ZK7guoR8Y2nadvqvdJ/G214dGSH6sY4cuscA3hX8kC32jRA==
+ bh=2FRl9J8d7oWeZ0PugVlUhpMzlKLgpL865+PO9vJESJs=;
+ b=IqCg6YDrg4clJwGrE1NZT2u+jK263YuuNzhDhgCILPMvTpLMghvPO/zK379/E+goMPb7zvMogFF5iiSx0fwZzulSZAL4JNx28t6b1LRIsHgZKw5pjmPsWw/0Tm842lGzeEsJ5UvUAJSuOR+f4mg5u9XmYbN4rzWoH8/2u8w/28VsV/kVg2HLCDVdGqN1+BbrayLGJu46xdV0GubyzDGEDLkmMLAMubqh/tkEecez9dNr0TfvijWM0T1O2sdhN7mUf1rAfbpncn91S5AZy4jbjexgMsdKkphdKBfIIVptneKGJW1Bb7nFK/uBOC3nKW1QdPBt/LJd8Y4e3wXcC3PlOA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  158.140.1.148) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
@@ -52,18 +52,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VTtMcaEUKxI+myrGv+xDd1cmY7s6474FY+k9QsQmwEs=;
- b=z2fulgCFd6OUfBj1GY6zPhfpHAGc1Zo7dpcY3BkU32CZsUIc97RGETNK4sMk2QPsgkTCQLvrGmw3w+n3JSTotuhE6pTaZfP6r7MFMLHxn1kM4LwqjQrhZvOWV9cKvHdkMloKEQobkd8QgcjJ8uWREdPBIgiYbjmqCyR10NzHIFQ=
-Received: from BN6PR02CA0040.namprd02.prod.outlook.com (2603:10b6:404:5f::26)
- by DM5PR0701MB3783.namprd07.prod.outlook.com (2603:10b6:4:7d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.22; Thu, 19 Nov
- 2020 14:14:33 +0000
-Received: from BN8NAM12FT059.eop-nam12.prod.protection.outlook.com
- (2603:10b6:404:5f:cafe::c3) by BN6PR02CA0040.outlook.office365.com
- (2603:10b6:404:5f::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21 via Frontend
- Transport; Thu, 19 Nov 2020 14:14:33 +0000
+ bh=2FRl9J8d7oWeZ0PugVlUhpMzlKLgpL865+PO9vJESJs=;
+ b=CWh67bqlEtj8nSrD090gtKG22+9fZZJ6ZtUp2IYCiDvBUaWXkSJbmyyWxXcSbpOCvUw+NX65MEF364riLOxvjo81wPwcX66HjEAPJSczNDOrLFCTbO+8Uk4FBVNrzgS/Zgix6Y0nQEftlvso6MNmGepmSXu+l3ssnqp7LBjBTEY=
+Received: from BN3PR03CA0083.namprd03.prod.outlook.com
+ (2a01:111:e400:7a4d::43) by SN6PR07MB5391.namprd07.prod.outlook.com
+ (2603:10b6:805:67::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Thu, 19 Nov
+ 2020 14:14:36 +0000
+Received: from BN8NAM12FT015.eop-nam12.prod.protection.outlook.com
+ (2a01:111:e400:7a4d:cafe::31) by BN3PR03CA0083.outlook.office365.com
+ (2a01:111:e400:7a4d::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Thu, 19 Nov 2020 14:14:35 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.148)
  smtp.mailfrom=cadence.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none
@@ -72,13 +72,13 @@ Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
  158.140.1.148 as permitted sender) receiver=protection.outlook.com;
  client-ip=158.140.1.148; helo=sjmaillnx2.cadence.com;
 Received: from sjmaillnx2.cadence.com (158.140.1.148) by
- BN8NAM12FT059.mail.protection.outlook.com (10.13.183.55) with Microsoft SMTP
+ BN8NAM12FT015.mail.protection.outlook.com (10.13.183.188) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.12 via Frontend Transport; Thu, 19 Nov 2020 14:14:33 +0000
+ 15.20.3589.12 via Frontend Transport; Thu, 19 Nov 2020 14:14:35 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 0AJEERJ7022418
+        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 0AJEERJB022418
         (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Thu, 19 Nov 2020 06:14:32 -0800
+        Thu, 19 Nov 2020 06:14:34 -0800
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
@@ -87,10 +87,10 @@ Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
  15.0.1367.3 via Frontend Transport; Thu, 19 Nov 2020 15:14:27 +0100
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
-        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0AJEERfj011752;
+        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0AJEERvo011791;
         Thu, 19 Nov 2020 15:14:27 +0100
 Received: (from pawell@localhost)
-        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0AJEER4H011745;
+        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0AJEERaJ011788;
         Thu, 19 Nov 2020 15:14:27 +0100
 From:   Pawel Laszczak <pawell@cadence.com>
 To:     <peter.chen@nxp.com>
@@ -98,9 +98,9 @@ CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <balbi@kernel.org>,
         <colin.king@canonical.com>, <rogerq@ti.com>, <kurahul@cadence.com>,
         <nsekhar@ti.com>, Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH v3 05/10] usb: cdns3: Changed type of gadget_dev in cdns structure
-Date:   Thu, 19 Nov 2020 15:13:02 +0100
-Message-ID: <20201119141307.8342-6-pawell@cadence.com>
+Subject: [PATCH v3 09/10] usb: cdns3: Change file names for cdns3 driver.
+Date:   Thu, 19 Nov 2020 15:13:06 +0100
+Message-ID: <20201119141307.8342-10-pawell@cadence.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201119141307.8342-1-pawell@cadence.com>
 References: <20201119141307.8342-1-pawell@cadence.com>
@@ -109,67 +109,163 @@ Content-Type: text/plain
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38454b6f-9bd5-4912-4079-08d88c957025
-X-MS-TrafficTypeDiagnostic: DM5PR0701MB3783:
-X-Microsoft-Antispam-PRVS: <DM5PR0701MB37831FAEFCBDD9B4457E48A1DDE00@DM5PR0701MB3783.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Office365-Filtering-Correlation-Id: 03423ad9-8945-4e4c-e913-08d88c9571bd
+X-MS-TrafficTypeDiagnostic: SN6PR07MB5391:
+X-Microsoft-Antispam-PRVS: <SN6PR07MB5391FCF03E19CE303CA99CFDDDE00@SN6PR07MB5391.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:152;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ei6VrmPvyBU/iEtb7XP8cjm8lZCp08nsFfnMSEBMVLYu67OD19hqlciEQvop5OLn8cI35fu8Rd0SDLtVJdGMOv6nJc++DA9qgI7oyJ60CQ+DQJTofNKKtZ84aAK5UjJMghGfeqWkOLT8pq2usZtFleNgW7jf8/SCz4EWOuui1sWD2H5aE6+j0t5eLkhM5B3WrzUotIlM+7bV5nYUBEHLIiv0IchRg1L0C3DMLcFmg8NvDNjvMWp2zE/s3BUiAaCGGbw5mzOrq2eZqRsUTAzQBuTe46d1tI2v2efM4PBoCfg69uoLsi1wnfIFzHfLt7eY8j8/DXyw9kfPvQ7roLfnWcsZxVceMhaN2rAncJ3RwTzWSVLJSBfy5kDT2dIt4mHrXfmfxJy0sPmjl42VfzWro/rP2O+kkjuGuqAYTSegfSs=
-X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(36092001)(46966005)(82740400003)(426003)(478600001)(6916009)(70586007)(336012)(356005)(8936002)(8676002)(82310400003)(2616005)(316002)(107886003)(42186006)(4326008)(83380400001)(54906003)(36756003)(47076004)(70206006)(1076003)(36906005)(7636003)(86362001)(26005)(2906002)(6666004)(186003)(5660300002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: YZdf238Hk32kKtfkrXLte7ZYf60uZnfCo3jFPUYboUj4J9cC9+io0q5V1DHiHh+BCrly8W44RRap508mmLy64ZJFlZCXSB85x2d+wcpYprgA2luBTwnIK0qbL0v0tb0q06kotNRQHyk07wWNCZzZTFX6uiPCne5FqEmYCQEeSIqbkprnj0vq3rTZL39hKDwq0B8lxzwqwC23nNzOMce5r+f4W/1V4T4ndi3Q+5eHfIbeYcuwn10rvO9pS9Xqz3czLP8PoWJrjRHME/gHkAu/bx81wIzg4TQ+jkTfebgjsqokrhF87D41GrgZYBY6nASnGLLXbZ++xhRq9AUlimlLN1p2Ll3VPOKxkWJjdCf3PUtrwgUoOlrf2eWSW3bBZmiIxV2CdIxtbiRpLMmlmXbdII2XVxEtbXWwi30Uf/zw1a0=
+X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(4636009)(39860400002)(136003)(346002)(376002)(396003)(36092001)(46966005)(107886003)(82740400003)(1076003)(426003)(356005)(336012)(70586007)(6666004)(8936002)(2616005)(8676002)(83380400001)(82310400003)(47076004)(36906005)(6916009)(7636003)(86362001)(26005)(478600001)(42186006)(316002)(54906003)(4326008)(36756003)(5660300002)(186003)(70206006)(2906002);DIR:OUT;SFP:1101;
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 14:14:33.1001
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 14:14:35.7813
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38454b6f-9bd5-4912-4079-08d88c957025
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03423ad9-8945-4e4c-e913-08d88c9571bd
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.148];Helo=[sjmaillnx2.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT059.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT015.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0701MB3783
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB5391
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
  definitions=2020-11-19_09:2020-11-19,2020-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 spamscore=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 phishscore=0
- clxscore=1015 bulkscore=0 suspectscore=1 adultscore=0 mlxlogscore=322
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 mlxscore=0
+ clxscore=1015 phishscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2011190107
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Patch changes the type for gadget_dev pointer in cdns structure from
-pointer to cdns3_device structure to void pointer.
-This filed is in reusable code and after this change it will be used to
-point to both cdns3_device or cdnsp_device objects.
+Patch adds prefix cdns3- to all file names related only to
+cdns3 driver.
 
 Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 ---
- drivers/usb/cdns3/core.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/cdns3/Makefile                     | 6 +++---
+ drivers/usb/cdns3/{debug.h => cdns3-debug.h}   | 0
+ drivers/usb/cdns3/{ep0.c => cdns3-ep0.c}       | 4 ++--
+ drivers/usb/cdns3/{gadget.c => cdns3-gadget.c} | 4 ++--
+ drivers/usb/cdns3/{gadget.h => cdns3-gadget.h} | 0
+ drivers/usb/cdns3/{trace.c => cdns3-trace.c}   | 2 +-
+ drivers/usb/cdns3/{trace.h => cdns3-trace.h}   | 6 +++---
+ 7 files changed, 11 insertions(+), 11 deletions(-)
+ rename drivers/usb/cdns3/{debug.h => cdns3-debug.h} (100%)
+ rename drivers/usb/cdns3/{ep0.c => cdns3-ep0.c} (99%)
+ rename drivers/usb/cdns3/{gadget.c => cdns3-gadget.c} (99%)
+ rename drivers/usb/cdns3/{gadget.h => cdns3-gadget.h} (100%)
+ rename drivers/usb/cdns3/{trace.c => cdns3-trace.c} (89%)
+ rename drivers/usb/cdns3/{trace.h => cdns3-trace.h} (99%)
 
-diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
-index f664eb2d8df4..cbd2e1cc8eb1 100644
---- a/drivers/usb/cdns3/core.h
-+++ b/drivers/usb/cdns3/core.h
-@@ -64,7 +64,7 @@ struct cdns3_platform_data {
-  * @roles: array of supported roles for this controller
-  * @role: current role
-  * @host_dev: the child host device pointer for cdns core
-- * @gadget_dev: the child gadget device pointer for cdns3 core
-+ * @gadget_dev: the child gadget device pointer
-  * @usb2_phy: pointer to USB2 PHY
-  * @usb3_phy: pointer to USB3 PHY
-  * @mutex: the mutex for concurrent code at driver
-@@ -104,7 +104,7 @@ struct cdns {
- 	struct cdns_role_driver	*roles[USB_ROLE_DEVICE + 1];
- 	enum usb_role			role;
- 	struct platform_device		*host_dev;
--	struct cdns3_device		*gadget_dev;
-+	void				*gadget_dev;
- 	struct phy			*usb2_phy;
- 	struct phy			*usb3_phy;
- 	/* mutext used in workqueue*/
+diff --git a/drivers/usb/cdns3/Makefile b/drivers/usb/cdns3/Makefile
+index a4fdaabdbe18..01a9a9620044 100644
+--- a/drivers/usb/cdns3/Makefile
++++ b/drivers/usb/cdns3/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # define_trace.h needs to know how to find our header
+-CFLAGS_trace.o					:= -I$(src)
++CFLAGS_cdns3-trace.o				:= -I$(src)
+ CFLAGS_cdnsp-trace.o				:= -I$(src)
+ 
+ cdns-usb-common-y				:= core.o drd.o
+@@ -10,10 +10,10 @@ obj-$(CONFIG_USB_CDNS3)				+= cdns3.o
+ obj-$(CONFIG_USB_CDNS_SUPPORT)			+= cdns-usb-common.o
+ 
+ cdns-usb-common-$(CONFIG_USB_CDNS_HOST) 	+= host.o
+-cdns3-$(CONFIG_USB_CDNS3_GADGET)		+= gadget.o ep0.o
++cdns3-$(CONFIG_USB_CDNS3_GADGET)		+= cdns3-gadget.o cdns3-ep0.o
+ 
+ ifneq ($(CONFIG_USB_CDNS3_GADGET),)
+-cdns3-$(CONFIG_TRACING)				+= trace.o
++cdns3-$(CONFIG_TRACING)				+= cdns3-trace.o
+ endif
+ 
+ obj-$(CONFIG_USB_CDNS3_PCI_WRAP)		+= cdns3-pci-wrap.o
+diff --git a/drivers/usb/cdns3/debug.h b/drivers/usb/cdns3/cdns3-debug.h
+similarity index 100%
+rename from drivers/usb/cdns3/debug.h
+rename to drivers/usb/cdns3/cdns3-debug.h
+diff --git a/drivers/usb/cdns3/ep0.c b/drivers/usb/cdns3/cdns3-ep0.c
+similarity index 99%
+rename from drivers/usb/cdns3/ep0.c
+rename to drivers/usb/cdns3/cdns3-ep0.c
+index d3121a32cc68..b0390fe9a396 100644
+--- a/drivers/usb/cdns3/ep0.c
++++ b/drivers/usb/cdns3/cdns3-ep0.c
+@@ -13,8 +13,8 @@
+ #include <linux/usb/composite.h>
+ #include <linux/iopoll.h>
+ 
+-#include "gadget.h"
+-#include "trace.h"
++#include "cdns3-gadget.h"
++#include "cdns3-trace.h"
+ 
+ static struct usb_endpoint_descriptor cdns3_gadget_ep0_desc = {
+ 	.bLength = USB_DT_ENDPOINT_SIZE,
+diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
+similarity index 99%
+rename from drivers/usb/cdns3/gadget.c
+rename to drivers/usb/cdns3/cdns3-gadget.c
+index 9e0a82063873..d507a23c7047 100644
+--- a/drivers/usb/cdns3/gadget.c
++++ b/drivers/usb/cdns3/cdns3-gadget.c
+@@ -63,8 +63,8 @@
+ 
+ #include "core.h"
+ #include "gadget-export.h"
+-#include "gadget.h"
+-#include "trace.h"
++#include "cdns3-gadget.h"
++#include "cdns3-trace.h"
+ #include "drd.h"
+ 
+ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
+diff --git a/drivers/usb/cdns3/gadget.h b/drivers/usb/cdns3/cdns3-gadget.h
+similarity index 100%
+rename from drivers/usb/cdns3/gadget.h
+rename to drivers/usb/cdns3/cdns3-gadget.h
+diff --git a/drivers/usb/cdns3/trace.c b/drivers/usb/cdns3/cdns3-trace.c
+similarity index 89%
+rename from drivers/usb/cdns3/trace.c
+rename to drivers/usb/cdns3/cdns3-trace.c
+index 459fa72d9c74..b9858acaef02 100644
+--- a/drivers/usb/cdns3/trace.c
++++ b/drivers/usb/cdns3/cdns3-trace.c
+@@ -8,4 +8,4 @@
+  */
+ 
+ #define CREATE_TRACE_POINTS
+-#include "trace.h"
++#include "cdns3-trace.h"
+diff --git a/drivers/usb/cdns3/trace.h b/drivers/usb/cdns3/cdns3-trace.h
+similarity index 99%
+rename from drivers/usb/cdns3/trace.h
+rename to drivers/usb/cdns3/cdns3-trace.h
+index 0a2a3269bfac..8648c7a7a9dd 100644
+--- a/drivers/usb/cdns3/trace.h
++++ b/drivers/usb/cdns3/cdns3-trace.h
+@@ -19,8 +19,8 @@
+ #include <asm/byteorder.h>
+ #include <linux/usb/ch9.h>
+ #include "core.h"
+-#include "gadget.h"
+-#include "debug.h"
++#include "cdns3-gadget.h"
++#include "cdns3-debug.h"
+ 
+ #define CDNS3_MSG_MAX	500
+ 
+@@ -565,6 +565,6 @@ DEFINE_EVENT(cdns3_log_request_handled, cdns3_request_handled,
+ #define TRACE_INCLUDE_PATH .
+ 
+ #undef TRACE_INCLUDE_FILE
+-#define TRACE_INCLUDE_FILE trace
++#define TRACE_INCLUDE_FILE cdns3-trace
+ 
+ #include <trace/define_trace.h>
 -- 
 2.17.1
 
