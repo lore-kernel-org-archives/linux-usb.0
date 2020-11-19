@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42964C6379D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D147AC6379F
 	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 06:34:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AE88208CA
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 06:34:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88ED72158C
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 06:34:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgKSGeC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Nov 2020 01:34:02 -0500
+        id S1726360AbgKSGeF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 19 Nov 2020 01:34:05 -0500
 Received: from mga18.intel.com ([134.134.136.126]:60908 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbgKSGeB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 19 Nov 2020 01:34:01 -0500
-IronPort-SDR: /L5LUNTVVq0s8aY0quwOFn8O1vueQf4Y5xmge95LLhbXOlZBmvcJROp4CmNmODmTA6TVKlpQMk
- pmduFnbbthEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="159012434"
+        id S1725802AbgKSGeF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 19 Nov 2020 01:34:05 -0500
+IronPort-SDR: dFSqme/PRaTOgSoiDV0NghUlgCZ6ipwW/Jj6kUftPGK2iRljIIODSaF/TjYVzXamArSvI3wjXR
+ bEnYPMNSL4Uw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="159012441"
 X-IronPort-AV: E=Sophos;i="5.77,489,1596524400"; 
-   d="scan'208";a="159012434"
+   d="scan'208";a="159012441"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 22:34:01 -0800
-IronPort-SDR: KZzoLQoZ0h1Ju8oxEB9l/PYn1IJ6qGGP+RLqskGpx5w/5XU8jmXCgzOCd2tVEDMvCTNdSpE40Q
- GCxdHPtRSr2w==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 22:34:04 -0800
+IronPort-SDR: 3UYDVX0MCer5gpeuzPlBIvQHTQlSAR4iYLrubaQxKGYYwV00I5UAPMYjyGJtq5vfn8V3ZQAAVq
+ 3yyfMOXUohqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,489,1596524400"; 
-   d="scan'208";a="544877897"
+   d="scan'208";a="544877929"
 Received: from uhpatel-desk4.jf.intel.com (HELO uhpatel-desk4.intel.com) ([10.23.15.15])
-  by orsmga005.jf.intel.com with ESMTP; 18 Nov 2020 22:34:01 -0800
+  by orsmga005.jf.intel.com with ESMTP; 18 Nov 2020 22:34:04 -0800
 From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     heikki.krogerus@linux.intel.com, pmalani@chromium.org,
         enric.balletbo@collabora.com, rajmohan.mani@intel.com,
         azhar.shaikh@intel.com, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH v3 2/4] platform/chrome: cros_ec_typec: Use Thunderbolt 3 cable discover mode VDO in USB4 mode
-Date:   Wed, 18 Nov 2020 22:32:09 -0800
-Message-Id: <20201119063211.2264-3-utkarsh.h.patel@intel.com>
+Subject: [PATCH v3 4/4] usb: typec: Remove active_link_training variable from Enter_USB message
+Date:   Wed, 18 Nov 2020 22:32:11 -0800
+Message-Id: <20201119063211.2264-5-utkarsh.h.patel@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201119063211.2264-1-utkarsh.h.patel@intel.com>
 References: <20201119063211.2264-1-utkarsh.h.patel@intel.com>
@@ -50,51 +50,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Configure Thunderbolt 3 cable generation value by filling Thunderbolt 3
-cable discover mode VDO to support rounded Thunderbolt 3 cables.
-While we are here use Thunderbolt 3 cable discover mode VDO to fill active
-cable plug link training value.
+Thunderbolt 3 cable discover mode VDO support has been added as part of
+Enter_USB message to fill details of active cable plug link training.
+Hence, removing unused variable active_link_training from Enter_USB
+message data structure.
 
-Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 --
 Changes in v3:
-- Added a check for cable's TBT support before filling TBT3 discover mode
-  VDO.
+- Rebased and Added Reviewed-by tag.
 
 Changes in v2:
 - No change.
 --
 ---
- drivers/platform/chrome/cros_ec_typec.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ include/linux/usb/typec.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 8111ed1fc574..68b17ee1d1ae 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -514,8 +514,18 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
- 	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
- 		data.eudo |= EUDO_CABLE_TYPE_RE_TIMER << EUDO_CABLE_TYPE_SHIFT;
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 25731ed863fa..d26824a30ff9 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -79,16 +79,10 @@ enum typec_orientation {
+  * @tbt_cable_vdo needs to be filled with details of active cable plug link
+  * training and cable rounded support when thunderbolt 3 cable is being used to
+  * create USB4 connection. Do not fill this in case of USB4 cable.
+- * @active_link_training: Active Cable Plug Link Training
+- *
+- * @active_link_training is a flag that should be set with uni-directional SBRX
+- * communication, and left 0 with passive cables and with bi-directional SBRX
+- * communication.
+  */
+ struct enter_usb_data {
+ 	u32			eudo;
+ 	u32			tbt_cable_vdo;
+-	unsigned char		active_link_training:1;
+ };
  
--	data.active_link_training = !!(pd_ctrl->control_flags &
--				       USB_PD_CTRL_ACTIVE_LINK_UNIDIR);
-+	/*
-+	 * Filling TBT3 Cable VDO when TBT3 cable is being used to establish
-+	 * USB4 connection.
-+	 */
-+	if (pd_ctrl->cable_gen) {
-+		data.tbt_cable_vdo = TBT_MODE;
-+
-+		if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_LINK_UNIDIR)
-+			data.tbt_cable_vdo |= TBT_CABLE_LINK_TRAINING;
-+
-+		data.tbt_cable_vdo |= TBT_SET_CABLE_ROUNDED(pd_ctrl->cable_gen);
-+	}
- 
- 	port->state.alt = NULL;
- 	port->state.data = &data;
+ /*
 -- 
 2.17.1
 
