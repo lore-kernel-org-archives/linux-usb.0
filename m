@@ -2,168 +2,143 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB83C63798
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 22:02:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 301A9C5519F
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 01:19:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 880B6246D4
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Nov 2020 22:02:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A282D246C0
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Nov 2020 01:19:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="luoz0i4O"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="HZnZgq5X";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="d1sBSzii"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbgKRWCK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Nov 2020 17:02:10 -0500
-Received: from mga07.intel.com ([134.134.136.100]:52742 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726255AbgKRWCJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 18 Nov 2020 17:02:09 -0500
-IronPort-SDR: Qujo/VrzFsgDCh71MaMdDwSyS9adO4OQymRqeLJLJmvuXGLNnwxAwEErxkZGVShxEE2hTurQ2Q
- Xl482Z1RtvRw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="235340047"
-X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="235340047"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:02:08 -0800
-IronPort-SDR: GG0gRlwKO9RcfOcJDZBy102wAcWo89RgJOGgz3Sd8Ke6AeaV5kc++0Yo8/i+mHEK5yGgMm/QwD
- L3ShUfTFMQug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="311409941"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Nov 2020 14:02:08 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 18 Nov 2020 14:02:07 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 18 Nov 2020 14:02:07 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Wed, 18 Nov 2020 14:02:07 -0800
+        id S1726920AbgKSBTk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Nov 2020 20:19:40 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:59662 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726457AbgKSBTj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Nov 2020 20:19:39 -0500
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 897C840104;
+        Thu, 19 Nov 2020 01:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1605748778; bh=0z9JYk2YqB1x2cKPa3AnR5B3kq1HAHsB3N4aMmld2PU=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=HZnZgq5XndSzdBBEhZa9QooSTxfLeT+Dw1Tbo0a7GqguvP9jaoMYB5LY8pFajTIGo
+         Ik/fZ7C554K6XOBVFu2EHEbKtSnA5U1kPpV2phB0ZddLpRwzpb7CWNt+uOA+w5XJNq
+         z81qRtHrIU5OBa6kCu2n4hiY2ba4BZZnNv5J2UMDdsuzw537maMmAJPRn1JNZPi07J
+         REdl56yFvsMyitSo/BypWTK5HsPEnk4IeDkSKpZYGm32yZW2vNNgVDXAo43afbP9Hk
+         onyGBhBNOuBXlwfaIHF9RAPoXb3oYPwJrU/Yj6LPX3Pa7pWqts0vJfNk0yfDe61my/
+         g9qq2cWxIBqJg==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 340F8A006F;
+        Thu, 19 Nov 2020 01:19:38 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+        by o365relay-in.synopsys.com (Postfix) with ESMTPS id E8DD3400DA;
+        Thu, 19 Nov 2020 01:19:37 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=joglekar@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="d1sBSzii";
+        dkim-atps=neutral
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kLe0S/SDsi3kQ+uW64kOD2sl5l3dJLaTPWqGpZ2IScGU2e/sNigWe/xHyi5M9Rr3jBJNMUAJifdA1OW3vyU4veblDLzPbFWXVG7bYyFgs/rcVsmBuPRF5302zpVRu2wjK7sTR0G0C3HHyFPJlrciYz1oy7IDy8BzLsApFKQmlk4acyooChJH+3sOb6ng6AMHc4MF5Im6RqgQgrVS+qFtTn94SEGExNg6m9SxMa3g5mJSyitCUiLMwN9yXGRs2+j2EXh2nNnDV7YyyRg3GRGn0vbkzqNceL3EgEO1QJJlnaAnk47gak9gc3SMdmABP/WDmrhtQQyz+rTYW2CnGjETLw==
+ b=klEjq+olMe4X6FxGbKXR0Sq9Sr0v6aiEUbyOVC9IVy1y+cPe4UxTwTVokf7Hteo8AEFr0re28rwjXBV74tKgbXo0o2vSPVqo/iMhLxcfcqCEMlYcrud+QR2sGj/kNZ9bZgWwh33Xz2eLts/AzxDJ8a1bNaHAJS9oE80DZPlFa34NEwHoOiGt2fwYZZTa6UtfIBAWJ7YV0+P1ln9ScDgw+J3VVCz+wdFZ3aVmDZNtwNjIkD2MAUjz3QD3y75h9h41KbNXRjjMYE6knn/ImgupI9YwLO4HP7iHkzr2Irf7g/uGHSD+Uik4S7QHgnW2m2JM2ihG/9/o54asP/RmezkiSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p0fe7CQ8bDsG4IEPjq+afeSDWWOZiycfnY4R2qua+k0=;
- b=hQe4m/uuczQ6oPM8SKhb7Vo7skwcZMyfNazehuFBDt9uHDNS0gokD2U6s2xbCPl+yJSngU+KtMwV4JYiwWNKXM8KGl2nJETLU0qGuPmFx5xcJulAxd4nHJna7287elIqAaMftcqDV5IQUlLRJT3KTn36gjZSoCf9afG31LeOSOjY38GHzsVIvqKmYEfb04qeANHnsW7mOYEG+vxK8qTG8TuPLw4NcMwcYGXW1NwA3a/Z90H9qPlK8n6hmKLDATomrMyXwSxapSm8Oa2l62nX1KRok+00ZDOluODjL3O67pBTjxMWfaDqzBKCwZ6Q6Ch55/GLzSKs/DDn2mfyMwvCTg==
+ bh=0z9JYk2YqB1x2cKPa3AnR5B3kq1HAHsB3N4aMmld2PU=;
+ b=Hm+jR2oDA8sswH8H/3CoGvxQteH2pAe9aUUKt4l3WdoNnovKYPTuBKxJKQiLwalLthGbvWMhZOHC01N/G7CJLZKVAsdErd+5ZeB5epXC1mtHYgkXCyHecqp5Fr9PgtkXT/Nwdh6TnSeK3l8UycxwLaI8WvBp3TLCmgzbZtQo1jYfuUpfZOTBkDohdX1AWy9UvSfDArWO8QqO0S1IGZQeDuXHX3iXh9jRVXIjH8dk2wYpm9PoxlGSW/aDgdacOCMOvCa3aRo5XpXUy1AdjVsUqwSfm9sMoU3xB8V7/5Q6FVuJlyzRMBeNbixHCFTL8rKOd/BLZvSfGUZvVCqof2xZSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p0fe7CQ8bDsG4IEPjq+afeSDWWOZiycfnY4R2qua+k0=;
- b=luoz0i4ODdkDRnwdnDg0jk1mqq+GTd5ls16qLKtXHPbw1xFrVJbWcwHXfbyjZCnPE1gP8C7++5UMXegmAYhDj6Vw6PTjxBvxVVgODBI7rwgYV2LInYtkNbCHgq4ibqXO6Fh2HwqIyw8wVtWNFgqCpUYbAaFdrL5E0Q1kVuwSbSQ=
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com (2603:10b6:301:6a::31)
- by CO1PR11MB5172.namprd11.prod.outlook.com (2603:10b6:303:95::12) with
+ bh=0z9JYk2YqB1x2cKPa3AnR5B3kq1HAHsB3N4aMmld2PU=;
+ b=d1sBSziidTkQn2LkzO39+ZV0RbxJbl5bUIF+WNmxPm3uRglYaN1JJEfdF82xCgIRYIqcHW/2doCQ015EU26CoXEAK1fX8J2Wq8hO+nHQHIA9cHfI/mfuTupy33SVt9N/2RiqwsP0I4VnFsK45xXKVul9RjzdUatvpfU3MSUelDg=
+Received: from BY5PR12MB4887.namprd12.prod.outlook.com (2603:10b6:a03:1c6::15)
+ by BYAPR12MB3144.namprd12.prod.outlook.com (2603:10b6:a03:d6::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Wed, 18 Nov
- 2020 22:02:06 +0000
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::ed62:6d3c:c9aa:4c4d]) by MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::ed62:6d3c:c9aa:4c4d%5]) with mapi id 15.20.3541.028; Wed, 18 Nov 2020
- 22:02:06 +0000
-From:   "Patel, Utkarsh H" <utkarsh.h.patel@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Thu, 19 Nov
+ 2020 01:19:36 +0000
+Received: from BY5PR12MB4887.namprd12.prod.outlook.com
+ ([fe80::58b2:3e92:2e08:9edf]) by BY5PR12MB4887.namprd12.prod.outlook.com
+ ([fe80::58b2:3e92:2e08:9edf%8]) with mapi id 15.20.3499.032; Thu, 19 Nov 2020
+ 01:19:36 +0000
+X-SNPS-Relay: synopsys.com
+From:   Tejas Joglekar <Tejas.Joglekar@synopsys.com>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+CC:     John Youn <John.Youn@synopsys.com>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
-        "pmalani@chromium.org" <pmalani@chromium.org>,
-        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
-        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
-        "Shaikh, Azhar" <azhar.shaikh@intel.com>
-Subject: RE: [PATCH v2 0/8] Thunderbolt3/USB4 cable rounded and active cable
- plug link training support
-Thread-Topic: [PATCH v2 0/8] Thunderbolt3/USB4 cable rounded and active cable
- plug link training support
-Thread-Index: AQHWuftXnI3dNY35T0mGuceb4bexK6nNzzUAgACj2uA=
-Date:   Wed, 18 Nov 2020 22:02:06 +0000
-Message-ID: <MWHPR11MB0048710972B015E9302C8008A9E10@MWHPR11MB0048.namprd11.prod.outlook.com>
-References: <20201113202503.6559-1-utkarsh.h.patel@intel.com>
- <X7ULfA//gU3vsIqd@kroah.com>
-In-Reply-To: <X7ULfA//gU3vsIqd@kroah.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v5 0/3] Add logic to consolidate TRBs for Synopsys xHC
+Thread-Topic: [PATCH v5 0/3] Add logic to consolidate TRBs for Synopsys xHC
+Thread-Index: AQHWo7zmdDYgLgZVXkaCKqwDDPH0oqmr1n8AgAFTDQCAAAqzAIAOMfkAgAiKJwCACNLogIABXfgAgAC7XIA=
+Date:   Thu, 19 Nov 2020 01:19:36 +0000
+Message-ID: <1eb38403-e92d-cda9-d39c-d0788c396e55@synopsys.com>
+References: <cover.1602853270.git.joglekar@synopsys.com>
+ <aa3865cf-1cbd-5d3d-8808-f89d6e0c044e@synopsys.com>
+ <09737ac8-66a0-564c-2f1c-60a92ec716b5@linux.intel.com>
+ <d84e4b5c-0d7a-50e2-25a1-5be1da9ca72a@synopsys.com>
+ <9e03c829-4ead-b35f-da28-6cd4906ac2cb@synopsys.com>
+ <ee43cef6-7899-fbf8-6f9b-c12269b320a6@synopsys.com>
+ <bee80593-4e7a-d754-7e44-57c690add934@synopsys.com>
+ <1a722f8c-975b-be9e-ab5f-522a3f317d3e@linux.intel.com>
+In-Reply-To: <1a722f8c-975b-be9e-ab5f-522a3f317d3e@linux.intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=intel.com;
-x-originating-ip: [134.134.136.193]
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [49.207.204.196]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3724c381-06fe-4c47-5989-08d88c0d96c2
-x-ms-traffictypediagnostic: CO1PR11MB5172:
+x-ms-office365-filtering-correlation-id: d3d73c61-c817-4ab0-fee8-08d88c292e20
+x-ms-traffictypediagnostic: BYAPR12MB3144:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CO1PR11MB5172791F957081AA7632FD2AA9E10@CO1PR11MB5172.namprd11.prod.outlook.com>
+x-microsoft-antispam-prvs: <BYAPR12MB3144C81F617AE4B45E0BB9EFA4E00@BYAPR12MB3144.namprd12.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fwD9e3183haBHBnzFmhRZJhT2TFBdH+AbaKZspon/vLiTFjOnJNvruuB/E/RtLV8Ex0O9zElPQlqnNlMngzSdnseYnejsws95mhSaLPXyqVAlA8sna5+vPCzCs7kKgK03th/4D1nBUUxAhsOkievZgfecePED9msaEtvr0tNukFdHMdeVk3QXhAKq9KHkHwFXHIKNJYJOL5NA9vIy6S9Ivw06IrHd407XefQv9EGwqUwlW7fWHOt/gw8NsXGmiv3JLbylOqsLwYG9CYR6l0jeSfEeZseK4x4p4+woGBRiS9ImjHVAgjcHVO/Q3Xc9+wQLHgedoyJ3Ay4WowqKXnHkQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB0048.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(9686003)(6916009)(8936002)(53546011)(478600001)(71200400001)(4744005)(33656002)(5660300002)(316002)(8676002)(2906002)(54906003)(86362001)(66946007)(186003)(26005)(83380400001)(55016002)(7696005)(76116006)(6506007)(4326008)(66476007)(64756008)(66556008)(66446008)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: eJ312QpqgZOljtlLA8m11es5QIHOwhaRILtB+ysckENyMRrqpdHxcvlemx5t63HBAbGANOQewMaOTWOIYf073733+biKcZKmauAscSFpWLIPETD8Ltd8pYgMOQRmiQLbTS1KzzEVxKHGKVUHMGZEPGjYJ+X+93efyghtZQFYyMc51v2r2tZo2EKRqecLMljLXGx05LHkU/3ki051xVZHDpHjb/QVpR0t2fiBW9Q1YTHjh5X+J4w40fDQgxvauj0JW2bwxztMpFLRGEpREOdJAv6orR50eYrQXAeNZo3EfvDuR/BhBpTzewNLRFBaE6KE0pDxx4ufty3Zh2hqLcQ4fLXcIylOPoa8cgWoIHwcy5LICrzoHOvkBvF6n+rhjvVFIZKXPkA+vTNE4kRkqjiaUMIcd4enhv2Xda+KofyCQ5cFzrqJKMmg0SoWfz+YT/kRrwu+7AdFu/obBJAo/DVJKVWAjtmneNlEIQK8i+PU25oBThMT1XRPHAWijyQtpWnFwo5p7zx89rBXyedlAvi/KChCm2mfOian1Jmu52+lZroFMWxmy5HtVieYj2VRINsWm19ZoVG/Vjjtp6zmrErr5UOuyPTEyhyxhecD6oxV5UuzKG/KX0xvvTH9nFXA+RJu6ewS/SS2i3JLFF9ZuAx3u865wuYNxJ6sSibY4L4fVoEPF7NmUCusjkt3h+kD0g3mP8MvtT7DiOAfI2cvj+eIoF5UzyoaUslH37Uz4de92VtPHJdUfYNME817oFYB1kfr7k+9rEeJWMYlEhWHSGoZnu4xZuOFeXVNiDkOmJrlNtMEyflrHRkW/X9fnoppW0Mjty2dvu5tePYePc/fAwo7fHlegohfaKSMc5Aw864p9RRyJAC1URwKaD1GvoqVxOulRd8coBChC6OVhPDcudyw6g==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: vEt+XikQr9ykeYHVyEyLbU/M8n2jgsYrBXXfm5sNPZLCOfR36JwWVMEXiL5i3j6e1RelFSofGa/DT8eknZwSzPvCh9mTsMDugU2HiEr+iSR9TGuOpH/e1cb4K8oGfQEYJPi2hsu5qaqguje5sKcwmcg7x9qIq2+mMm3niIjkwvWpHfnsD7JtfFx1+0DwppjwKKJlLFM154OxVtI6lqA4/FLNpHnkAN8C1BDpHgWyIgZ0DM2IAIwE1LDjACKPPTb8Rxh+W9+4dp544oBbpdZZYLJbbZZ5w5lH1e8EX70/IYu/jM1DliKxO7psIYwiEj1fy0jP2X1J02qqLLiG6zy9Cg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4887.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(39850400004)(366004)(136003)(6506007)(31686004)(316002)(8936002)(8676002)(4744005)(2906002)(86362001)(110136005)(6512007)(54906003)(2616005)(36756003)(66556008)(478600001)(53546011)(66946007)(66446008)(26005)(76116006)(91956017)(4326008)(66476007)(64756008)(6486002)(31696002)(55236004)(5660300002)(71200400001)(186003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: SH6ia8pesFzn55aq4uMd7beuFa8MfrvNvaMiMwEUu8wJRmEYIm+pm5ugsIaw74Fwi+Sp3G0KAy4Hp5LotZ2vnd2opN1C9BWmbHwqweelYoZUsX7+urnJf3qZ2lRlWHy8jxZiOm0hve7PvPzV9C9NZ0VH9cnPgdwhjb1xugxS7/5G5Wi13lKEbLRYvEKgOkPM213PHIx7NAHR0mIgo2GNPrkeW+AOeISTbQ2RoCLtcOqcKvBPAg38OgaIqjH/6uMMnTeQfHUEy5BjMM295UC//965JWHRENerlL6/r8Jj6R0MxgWjNUXIr0xFc+/4aH6BNYI8lvQSP4OcCAyzvrPItCIUhVPx7Em4sDoIsgFqmcYPJ6V3mjW/ziWbj2PJJLqVP7gPHmeAxJIuqrsZlF8au1PmBiP1mUBROJ25j3MxWZ6puYtCpJFCqeULhbe9Zxf6rSDI7FJiXcuaAqtpwramRC0pqrlpWWJtoAKvTnfoLuc3Ly3NPI/UvBVJ3eyEVw/Xy2n68OVSso4iltu0tFMOZjBGYL5Oicc/KyKslDewSel2tvDvLdbb70N+5iGLNtvm89n3Twm1FX7RJDZxcYOdKAZ7S4/oDuqdP2S3RGrH5SpflCVNVsSKUb4Imf7lVWtNrlBOJAmO1JUr4+0r7IF6DA==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <09068D0C910D564793E0E8E96F78AAAD@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0048.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3724c381-06fe-4c47-5989-08d88c0d96c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2020 22:02:06.3158
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4887.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3d73c61-c817-4ab0-fee8-08d88c292e20
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2020 01:19:36.7232
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P/PuwuY+GNtdC3R87NIY0KZPXuj+OcgMXT3POokJ5qh6qSpJWhs6brGpLldEpY9t6dCdcNLarhZKTvY6qTSTQmyxY8vAguXndXOSzfzSnhc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5172
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: 3a1COa2EHee69nBUQYy6KsqpWNwOxB0dfPuOi4YrGp01CIQJ8TuLnt8LWcGEeRfxyp9mWYgaQlkPOpeONOaP1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3144
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
-
-> -----Original Message-----
-> From: Greg KH <gregkh@linuxfoundation.org>
-> Sent: Wednesday, November 18, 2020 3:55 AM
-> To: Patel, Utkarsh H <utkarsh.h.patel@intel.com>
-> Cc: linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org;
-> heikki.krogerus@linux.intel.com; pmalani@chromium.org;
-> enric.balletbo@collabora.com; Mani, Rajmohan <rajmohan.mani@intel.com>;
-> Shaikh, Azhar <azhar.shaikh@intel.com>
-> Subject: Re: [PATCH v2 0/8] Thunderbolt3/USB4 cable rounded and active
-> cable plug link training support
->=20
-> On Fri, Nov 13, 2020 at 12:24:55PM -0800, Utkarsh Patel wrote:
-> > This patch series adds the support for Thunderbolt3/USB4 rounded and
-> > non-rounded frequencies cables and fixes the active cable plug link
-> > training support.
-> >
-> > Changes in v2:
-> > - Removed the fixes tag as there is no functional implication from patc=
-hes
-> >   1/8, 2/8 and 4/8.
->=20
-> I've queued up the first 4 patches of this series.  Feel free to redo the=
- rest and
-> resend.
-
-Thank you. I will send v3 with the rest of the patches.=20
-
->=20
-> thanks,
->=20
-> greg k-h
-
-Sincerely,
-Utkarsh Patel.
+T24gMTEvMTgvMjAyMCA3OjM5IFBNLCBNYXRoaWFzIE55bWFuIHdyb3RlOg0KPj4gQE1hdGhpYXM6
+IENhbiB5b3UgcGxlYXNlIHRha2UgdXAgMiBwYXRjaGVzIGFuZCBtYXkgYmUgRmVsaXBlIGNhbiB0
+YWtlIHVwIHRoZSBkd2MzID8NCj4+DQo+PiBJdCB3b3VsZCBoZWxwIGlmIHRoaXMgcGF0Y2ggc2Vy
+aWVzIGdvZXMgaW4gdXBjb21pbmcgcmMuDQo+Pg0KPiBTdXJlLCBhZGRlZCB0d28gZmlyc3QgcGF0
+Y2hlcyB0byBteSBmb3ItdXNiLW5leHQgYnJhbmNoLg0KPiBMZXQgdGhlbSBzaXQgdGhlcmUgZm9y
+IGEgd2hpbGUgdG8gZ2V0IHRoZW0gdGhyb3VnaCBzb21lIHRlc3RpbmcgbG9vcHMNCj4NCj4gLU1h
+dGhpYXMNCj4NClN1cmUsIHRoYW5rcyBNYXRoaWFzDQoNCg==
