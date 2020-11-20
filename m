@@ -2,77 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B15CC63777
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:31:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49156C63777
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:36:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D1E2422249
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:31:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6F5822254
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:36:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QQI+s1yU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgKTIbK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Nov 2020 03:31:10 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:37420 "EHLO cstnet.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725789AbgKTIbJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 20 Nov 2020 03:31:09 -0500
-Received: from localhost.localdomain (unknown [124.16.141.242])
-        by APP-05 (Coremail) with SMTP id zQCowACXnZXBfrdfIC9bAQ--.19653S2;
-        Fri, 20 Nov 2020 16:30:57 +0800 (CST)
-From:   Xu Wang <vulab@iscas.ac.cn>
-To:     gregkh@linuxfoundation.org, lee.jones@linaro.org,
-        gustavoars@kernel.org, chunfeng.yun@mediatek.com,
-        linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: fotg210-hcd: remove casting dma_alloc_coherent
-Date:   Fri, 20 Nov 2020 08:30:54 +0000
-Message-Id: <20201120083054.8973-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: zQCowACXnZXBfrdfIC9bAQ--.19653S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xw15CFWUWF1ktr1xZr43ZFb_yoW3Arb_Cw
-        15Xr93WrW2gFWqyrySyF9xAFWkta4rZry8ZFs7tr1aga4jqrn5Jry29r1rJa43G3yDXrZ8
-        C398Xr409a1kujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb2kYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
-        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
-        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r43MxAIw28I
-        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
-        IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-        z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU001v3UUUUU==
-X-Originating-IP: [124.16.141.242]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCwYGA1z4jl7uAQAAsT
+        id S1726826AbgKTIfw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Nov 2020 03:35:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56970 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725824AbgKTIfw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 20 Nov 2020 03:35:52 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 89CE422249;
+        Fri, 20 Nov 2020 08:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1605861351;
+        bh=tIxJKxqoDLTXmbqUoDmW42v8F6sWdb/G/JzerkWeM58=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QQI+s1yU0No8f3DanI86ICz7XccjfboP1FJlveIti0enUDRR5ozLmsF1POiozmV4y
+         yFpmK16JZl6/fv5rJ9R9qQDzCflZIFYreqVYvGpZsygZQI5KMsvsWgmbvYCYaFVzDv
+         1EBPQponTVekf79w4/BC7M74MSRQh0w73kSUFH4I=
+Date:   Fri, 20 Nov 2020 09:36:33 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Min Guo <min.guo@mediatek.com>
+Cc:     Bin Liu <b-liu@ti.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+        chunfeng.yun@mediatek.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] usb: musb: remove unused variable 'devctl'
+Message-ID: <X7eAEaTN/fM3fkkp@kroah.com>
+References: <20201117082125.7619-1-min.guo@mediatek.com>
+ <X7UKJtWtE0UZgqAQ@kroah.com>
+ <1605854930.3995.8.camel@mhfsdcap03>
+ <X7doKlP1k824LGGN@kroah.com>
+ <1605858126.3995.14.camel@mhfsdcap03>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1605858126.3995.14.camel@mhfsdcap03>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Remove casting the values returned by dma_alloc_coherent.
+On Fri, Nov 20, 2020 at 03:42:06PM +0800, Min Guo wrote:
+> On Fri, 2020-11-20 at 07:54 +0100, Greg Kroah-Hartman wrote:
+> > On Fri, Nov 20, 2020 at 02:48:50PM +0800, Min Guo wrote:
+> > > Hi greg k-h:
+> > > On Wed, 2020-11-18 at 12:48 +0100, Greg Kroah-Hartman wrote:
+> > > > On Tue, Nov 17, 2020 at 04:21:25PM +0800, min.guo@mediatek.com wrote:
+> > > > > From: Min Guo <min.guo@mediatek.com>
+> > > > > 
+> > > > > Remove unused 'devctl' variable to fix compile warnings:
+> > > > > 
+> > > > >     drivers/usb/musb/musbhsdma.c: In function 'dma_controller_irq':
+> > > > >     drivers/usb/musb/musbhsdma.c:324:8: warning: variable 'devctl' set
+> > > > >     but not used [-Wunused-but-set-variable]
+> > > > > 
+> > > > > Signed-off-by: Min Guo <min.guo@mediatek.com>
+> > > > > ---
+> > > > >  drivers/usb/musb/musbhsdma.c | 4 ----
+> > > > >  1 file changed, 4 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/usb/musb/musbhsdma.c b/drivers/usb/musb/musbhsdma.c
+> > > > > index 0aacfc8be5a1..7acd1635850d 100644
+> > > > > --- a/drivers/usb/musb/musbhsdma.c
+> > > > > +++ b/drivers/usb/musb/musbhsdma.c
+> > > > > @@ -321,8 +321,6 @@ irqreturn_t dma_controller_irq(int irq, void *private_data)
+> > > > >  				musb_channel->channel.status =
+> > > > >  					MUSB_DMA_STATUS_BUS_ABORT;
+> > > > >  			} else {
+> > > > > -				u8 devctl;
+> > > > > -
+> > > > >  				addr = musb_read_hsdma_addr(mbase,
+> > > > >  						bchannel);
+> > > > >  				channel->actual_len = addr
+> > > > > @@ -336,8 +334,6 @@ irqreturn_t dma_controller_irq(int irq, void *private_data)
+> > > > >  						< musb_channel->len) ?
+> > > > >  					"=> reconfig 0" : "=> complete");
+> > > > >  
+> > > > > -				devctl = musb_readb(mbase, MUSB_DEVCTL);
+> > > > 
+> > > > Are you sure that the hardware does not require this read to complete
+> > > > the command?  Lots of hardware is that way, so be very careful about
+> > > > this.  Did you test it?
+> > > 
+> > > I have tested this patch on Mediatek's platform, and not sure if it
+> > > will affect other vendors' platforms.
+> > > 
+> > > Dear Bin:
+> > > 
+> > > Does this patch will affect other vendors' platforms?
+> > 
+> > The hardware specs will answer this question, what do they say about
+> > this read?
+> 
+> Sorry, I didn't seen the comment on the hardware specs indicate that
+> devctl register needs to read once to take effect.
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
----
- drivers/usb/host/fotg210-hcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Perhaps you might want to add a comment here so that people will not
+keep making this same mistake when they run auto-checkers on the
+codebase?
 
-diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
-index 1d94fcfac2c2..8961492a4c53 100644
---- a/drivers/usb/host/fotg210-hcd.c
-+++ b/drivers/usb/host/fotg210-hcd.c
-@@ -1951,7 +1951,7 @@ static int fotg210_mem_init(struct fotg210_hcd *fotg210, gfp_t flags)
- 		goto fail;
- 
- 	/* Hardware periodic table */
--	fotg210->periodic = (__le32 *)
-+	fotg210->periodic =
- 		dma_alloc_coherent(fotg210_to_hcd(fotg210)->self.controller,
- 				fotg210->periodic_size * sizeof(__le32),
- 				&fotg210->periodic_dma, 0);
--- 
-2.17.1
+thanks,
 
+greg k-h
