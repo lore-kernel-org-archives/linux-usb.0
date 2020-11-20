@@ -2,140 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC1DBC63777
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAD1C5519F
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:41:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 609292224E
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:36:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0ACAF22244
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 08:41:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZaIuETKp"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1oBieG22"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727174AbgKTIg2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Nov 2020 03:36:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726529AbgKTIg1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Nov 2020 03:36:27 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8E5C0613CF
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2020 00:36:27 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id q5so7183499pfk.6
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2020 00:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=P8tCjphQcsFX+yvshUO1Kuefw2AH2A0LgC7HFq1U8TI=;
-        b=ZaIuETKp1Fjacx7TPouf0HrG3pxdX2zR8WuHLuFstSbLyveKDgsl2LohpSU6OPpNR1
-         U2cnPz7m3YVYQYi1vSbE8VvbOTvjEWfrUiqY45q2u+ZnGcRR2ugXX445EtZ+q8cyMqRl
-         pYA1w11Su77NwOINiIcWjbGTcX/zYrzmOufVU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=P8tCjphQcsFX+yvshUO1Kuefw2AH2A0LgC7HFq1U8TI=;
-        b=FHsFKL3kQu7uEqZ3jg2RfsE2ObqJ44QSf4IB475nnJWOITBHbGLaIHMQGI3Nuy9rGa
-         uEIKCJuzfE4ECS0nFM0s03UV5jBqCbxqrMXHJrYNBPKcgAo3JOxwMGttAPGepelUdYfE
-         TvLabQC1Zdv7+rzRXfY7ozzthsgc21spbpjkxF4viEUwnIosEMAMqN2imX+V6u3jd14/
-         tSXKMDFWSyQW1dMPd+o2N6yQIxgepUrSbnKlU/QWlfPJuMMDdG9Haom8NUUE51/uqH+N
-         szAJAOEl9jh1IkIIlnPwr+5dtXjSl4vsXOts0wyUeuzuhJ28EjmGNtLZDRGnlCQkRXto
-         DumQ==
-X-Gm-Message-State: AOAM531PufB0nP0h5CXPwxyb6EQ/clCZZpXePK07f/1Mkje/a6pv+wGA
-        r8ZuFI8eOAiw2I+4sw4wocsafL0ANZLvng==
-X-Google-Smtp-Source: ABdhPJzHfJSY1spSCgsVYSdN+P4nLes1SzhPq4/vwU/WASuzlKdR5JuJ5itVaTJKIIeRDKigDOhsvQ==
-X-Received: by 2002:a63:c944:: with SMTP id y4mr15788825pgg.435.1605861387253;
-        Fri, 20 Nov 2020 00:36:27 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
-        by smtp.gmail.com with ESMTPSA id e29sm2278921pgl.58.2020.11.20.00.36.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 00:36:26 -0800 (PST)
-Date:   Fri, 20 Nov 2020 00:36:25 -0800
-From:   Prashant Malani <pmalani@chromium.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Utkarsh Patel <utkarsh.h.patel@intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        enric.balletbo@collabora.com, rajmohan.mani@intel.com,
-        azhar.shaikh@intel.com
-Subject: Re: [PATCH v3 1/4] usb: typec: Use Thunderbolt 3 cable discover mode
- VDO in Enter_USB message
-Message-ID: <20201120083625.GB4160865@google.com>
-References: <20201119063211.2264-1-utkarsh.h.patel@intel.com>
- <20201119063211.2264-2-utkarsh.h.patel@intel.com>
- <20201120080514.GC4120550@kuha.fi.intel.com>
+        id S1727091AbgKTIkj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Nov 2020 03:40:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726558AbgKTIkj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 20 Nov 2020 03:40:39 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0002722244;
+        Fri, 20 Nov 2020 08:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1605861638;
+        bh=dMzZlCs5sLmUYyTkOdmbEULzF7orbNVTDESsGpFByl8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1oBieG22nyex1qdaCb4oeucEUir+1Bd12wZTeO9GLvXYsw+4eNO8YkgMk41OMMfls
+         gf40PB99fzXut/MsHbtH6TE2kwMPyfMx0lZV13QhhfBr0k67ZtiUvhwog08NpMh8vQ
+         Q/Wp4vLizAJaKYf0SC6ku6/TdFz+qpbbNLyzjr4Q=
+Date:   Fri, 20 Nov 2020 09:41:21 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        linux-kernel@vger.kernel.org, sfr@canb.auug.org.au,
+        linux-next@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: Fix num_altmodes kernel-doc error
+Message-ID: <X7eBMRWAopEYu78r@kroah.com>
+References: <20201120063523.4159877-1-pmalani@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201120080514.GC4120550@kuha.fi.intel.com>
+In-Reply-To: <20201120063523.4159877-1-pmalani@chromium.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 10:05:14AM +0200, Heikki Krogerus wrote:
-> On Wed, Nov 18, 2020 at 10:32:08PM -0800, Utkarsh Patel wrote:
-> > When Thunderbolt 3 cable is being used to create USB4 connection, use
-> > Thunderbolt 3 discover mode VDO to fill details such as active cable plug
-> > link training and cable rounded support.
-> > With USB4 cables, these VDO members need not be filled.
-> > 
-> > Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
-> > 
-> > --
-> > Changes in v3:
-> > - Changed the commit mesage to reflect why TBT3 VDO is being used.
-> > - Added more details in the header file about the usage of TBT3 VDO.
-> > 
-> > Changes in v2:
-> > - No change.
-> > --
-> > ---
-> >  include/linux/usb/typec.h | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-> > index 6be558045942..25731ed863fa 100644
-> > --- a/include/linux/usb/typec.h
-> > +++ b/include/linux/usb/typec.h
-> > @@ -75,6 +75,10 @@ enum typec_orientation {
-> >  /*
-> >   * struct enter_usb_data - Enter_USB Message details
-> >   * @eudo: Enter_USB Data Object
-> > + * @tbt_cable_vdo: TBT3 Cable Discover Mode Response
+On Thu, Nov 19, 2020 at 10:35:22PM -0800, Prashant Malani wrote:
+> The commit to introduce the num_altmodes attribute for partner had an
+> error where one of the parameters was named differently in the comment
+> and the function signature. Fix the version in the comment to align with
+> what is in the function signature.
 > 
-> This is fine..
+> This fixes the following htmldocs warning:
 > 
-> > + * @tbt_cable_vdo needs to be filled with details of active cable plug link
-> > + * training and cable rounded support when thunderbolt 3 cable is being used to
-> > + * create USB4 connection. Do not fill this in case of USB4 cable.
+> drivers/usb/typec/class.c:632: warning: Excess function parameter
+> 'num_alt_modes' description in 'typec_partner_set_num_altmodes'
 > 
-> But this is not. The description of the member tells what the member
-> contains, but it does not make sense to explain also how to use the
-> member in the same place.
+> Fixes: a0ccdc4a77a1 ("usb: typec: Add number of altmodes partner attr")
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-Slightly tangential question here:
+You forgot a "Reported-by:" tag here :(
 
-Is there a need to mention "active cable plug link training" and "cable
-rounded support" at all? Wouldn't it be sufficient to omit those in the
-description (in case some mux implementation wants to use the other fields
-of the VDO) ?
+I'll go add it by hand...
 
-> Instead you should explain how to use the
-> member in the description of the structure. So..
-> 
-> >   * @active_link_training: Active Cable Plug Link Training
-> >   *
-> >   * @active_link_training is a flag that should be set with uni-directional SBRX
-> 
-> Put it here. That will make this much more readable.
-> 
-> 
-> thanks,
-> 
-> -- 
-> heikki
+greg k-h
