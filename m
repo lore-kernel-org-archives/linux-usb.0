@@ -2,202 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BEAC2D0E4
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 15:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B73D6C64E75
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 15:26:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E13DC22269
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 15:16:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A69722252
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Nov 2020 15:26:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YjkzJDiU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729279AbgKTPPw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Nov 2020 10:15:52 -0500
-Received: from mail-io1-f71.google.com ([209.85.166.71]:55957 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729310AbgKTPPX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Nov 2020 10:15:23 -0500
-Received: by mail-io1-f71.google.com with SMTP id j10so7634813iog.22
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2020 07:15:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=80yJjBsEuVf/DBylCCzyw6/08YZwdhWrU0iJ9iRPg0w=;
-        b=fJChRTvh57rV/Li/K16xcV5scsB853bTCoPgLgxg+RlC8a9lRrVrNn+QCPYfFo+fLs
-         QYMsgpItqwpcOtFKa6eWzYYvuQTJAuDd7QfvwXeCkWerIgv4sUuW+N//zYaZl91Bh7tS
-         /0UyzrKrPQ3riLGv4Cp5eaEz4IlD9fRWpakNqfDypcNkWV57f53WKoSGtfJXVz87ZID5
-         D4IVVBtKkB84OzGPEtJWmsvea9sPtWcnioCdznelNR63WO3b3zE0+taK/XYP64oRDE3m
-         NzUtuQoOvFG/ys/n532Z9sOSZPtfAbrfNAB39WVq9Xnvvz+AD/qcBqIEhZD8ZpVxVy6c
-         EgTw==
-X-Gm-Message-State: AOAM530oUUrVREgaZCjYqaCfx9KNiwCALO6GbqXD9ikKjI4bJvx1UaRV
-        sDElQMlYOSIvw66XnyrPy1QAVm05CQSOHrcynm5l4MYtfl1r
-X-Google-Smtp-Source: ABdhPJw9LDTA8N9hZ4my4t5E+35mefe+zTbMD2qUDa755S1CR7PhUFMZVVVwPWMaAFT7feKNUth24eOxMxZRVDgCH/RT5TIpFQSG
+        id S1728739AbgKTP03 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Nov 2020 10:26:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33358 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728628AbgKTP03 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 20 Nov 2020 10:26:29 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E4D4122252;
+        Fri, 20 Nov 2020 15:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1605885989;
+        bh=P0HBOCBl1RMU/HixCoEPMKQrzhCV59wwxizWcfylWLI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YjkzJDiU9qPIa+ZlXYviHuFH55jhHzssMDi2sQiyrSGdd7yRj1eL6rrJ57lA4PJ4f
+         mnVQwNNIwtiJ8+4HqiZbZcxmcNSk7Seo8Ai+2SZFu8/Ow79q/hf7N5ZKonAGLVwBKj
+         8/UNs1FsZvfYusp6HegC6xR9HpZQzYZWCduQQtSY=
+Date:   Fri, 20 Nov 2020 16:27:11 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     manchette <manchette@free.fr>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: Webcam not working , HD Web Camera (18d1:0002)
+Message-ID: <X7fgT2+hqdCj7dyY@kroah.com>
+References: <6affe2b1-1f99-14c6-7cde-f73ca18576b0@free.fr>
 MIME-Version: 1.0
-X-Received: by 2002:a5e:a817:: with SMTP id c23mr13689091ioa.56.1605885320499;
- Fri, 20 Nov 2020 07:15:20 -0800 (PST)
-Date:   Fri, 20 Nov 2020 07:15:20 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000014163805b48b5063@google.com>
-Subject: memory leak in hub_event
-From:   syzbot <syzbot+44e64397bd81d5e84cba@syzkaller.appspotmail.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6affe2b1-1f99-14c6-7cde-f73ca18576b0@free.fr>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Fri, Nov 20, 2020 at 02:43:41PM +0100, manchette wrote:
+> Hello,
+> 
+> A webcam is not working here :
+> here is what i know of it :
+> 
+> System:    Host: linux-815u Kernel: 5.3.18-lp152.47-default x86_64 bits: 64
+> Desktop: KDE Plasma 5.18.5
+>            Distro: openSUSE Leap 15.2
 
-syzbot found the following issue on:
+That is a very old kernel version, you should at least upgrade to a
+modern one.
 
-HEAD commit:    4d02da97 Merge tag 'net-5.10-rc5' of git://git.kernel.org/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13a7d2b6500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c5353ac514ca5a43
-dashboard link: https://syzkaller.appspot.com/bug?extid=44e64397bd81d5e84cba
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14925089500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16810051500000
+> [19563.481204] usb 1-7: Product: HD Web Camera
+> [19563.481207] usb 1-7: Manufacturer: Ingenic Semiconductor CO., LTD.
+> [19563.481210] usb 1-7: SerialNumber: Ucamera001
+> [19563.488049] uvcvideo: Found UVC 1.00 device HD Web Camera (18d1:0002)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+44e64397bd81d5e84cba@syzkaller.appspotmail.com
+Looks like the driver is bound properly to the device, are you sure this
+device follows the correct UVC specification?
 
-BUG: memory leak
-unreferenced object 0xffff88810d5ff800 (size 2048):
-  comm "kworker/1:0", pid 17, jiffies 4294949188 (age 14.280s)
-  hex dump (first 32 bytes):
-    ff ff ff ff 31 00 00 00 00 00 00 00 00 00 00 00  ....1...........
-    00 00 00 00 00 00 00 00 00 00 00 00 03 00 00 00  ................
-  backtrace:
-    [<00000000f0428224>] kmalloc include/linux/slab.h:552 [inline]
-    [<00000000f0428224>] kzalloc include/linux/slab.h:664 [inline]
-    [<00000000f0428224>] usb_alloc_dev+0x32/0x450 drivers/usb/core/usb.c:582
-    [<000000001802b3dd>] hub_port_connect drivers/usb/core/hub.c:5128 [inline]
-    [<000000001802b3dd>] hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
-    [<000000001802b3dd>] port_event drivers/usb/core/hub.c:5508 [inline]
-    [<000000001802b3dd>] hub_event+0x118d/0x20d0 drivers/usb/core/hub.c:5590
-    [<0000000092d3650d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
-    [<00000000d4629ab0>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
-    [<000000003c358b45>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<000000003689dbb0>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+Try updating to a 5.9 kernel version, and if that doesn't work, send
+your log message to the linux-media developers, they can help you out
+better than we can.
 
-BUG: memory leak
-unreferenced object 0xffff888112544c40 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294949188 (age 14.280s)
-  hex dump (first 32 bytes):
-    31 2d 31 00 00 00 00 00 00 00 00 00 00 00 00 00  1-1.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000d0f4aa93>] kvasprintf+0x6c/0xf0 lib/kasprintf.c:25
-    [<000000005866b3ad>] kvasprintf_const+0x58/0x110 lib/kasprintf.c:49
-    [<00000000b590b008>] kobject_set_name_vargs+0x3b/0xe0 lib/kobject.c:289
-    [<00000000d251a578>] dev_set_name+0x63/0x90 drivers/base/core.c:2722
-    [<0000000075b37c03>] usb_alloc_dev+0x1ee/0x450 drivers/usb/core/usb.c:650
-    [<000000001802b3dd>] hub_port_connect drivers/usb/core/hub.c:5128 [inline]
-    [<000000001802b3dd>] hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
-    [<000000001802b3dd>] port_event drivers/usb/core/hub.c:5508 [inline]
-    [<000000001802b3dd>] hub_event+0x118d/0x20d0 drivers/usb/core/hub.c:5590
-    [<0000000092d3650d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
-    [<00000000d4629ab0>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
-    [<000000003c358b45>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<000000003689dbb0>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+good luck!
 
-BUG: memory leak
-unreferenced object 0xffff888112544ce0 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294949231 (age 13.850s)
-  hex dump (first 32 bytes):
-    00 4d 54 12 81 88 ff ff 00 00 00 00 00 00 00 00  .MT.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<000000005516ca37>] kmalloc include/linux/slab.h:557 [inline]
-    [<000000005516ca37>] kzalloc include/linux/slab.h:664 [inline]
-    [<000000005516ca37>] usb_get_configuration+0xce/0x1dd0 drivers/usb/core/config.c:887
-    [<000000009ab33a39>] usb_enumerate_device drivers/usb/core/hub.c:2387 [inline]
-    [<000000009ab33a39>] usb_new_device+0x1a9/0x2e0 drivers/usb/core/hub.c:2523
-    [<0000000069b10350>] hub_port_connect drivers/usb/core/hub.c:5222 [inline]
-    [<0000000069b10350>] hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
-    [<0000000069b10350>] port_event drivers/usb/core/hub.c:5508 [inline]
-    [<0000000069b10350>] hub_event+0x144a/0x20d0 drivers/usb/core/hub.c:5590
-    [<0000000092d3650d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
-    [<00000000d4629ab0>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
-    [<000000003c358b45>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<000000003689dbb0>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
-
-BUG: memory leak
-unreferenced object 0xffff888112544bc0 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294949247 (age 13.690s)
-  hex dump (first 32 bytes):
-    73 79 7a 00 00 00 00 00 00 00 00 00 00 00 00 00  syz.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b344f779>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000b344f779>] usb_cache_string+0x8a/0xf0 drivers/usb/core/message.c:1025
-    [<0000000074577e65>] usb_enumerate_device drivers/usb/core/hub.c:2397 [inline]
-    [<0000000074577e65>] usb_new_device+0x98/0x2e0 drivers/usb/core/hub.c:2523
-    [<0000000069b10350>] hub_port_connect drivers/usb/core/hub.c:5222 [inline]
-    [<0000000069b10350>] hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
-    [<0000000069b10350>] port_event drivers/usb/core/hub.c:5508 [inline]
-    [<0000000069b10350>] hub_event+0x144a/0x20d0 drivers/usb/core/hub.c:5590
-    [<0000000092d3650d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
-    [<00000000d4629ab0>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
-    [<000000003c358b45>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<000000003689dbb0>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
-
-BUG: memory leak
-unreferenced object 0xffff888112544cc0 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294949251 (age 13.650s)
-  hex dump (first 32 bytes):
-    73 79 7a 00 00 00 00 00 00 00 00 00 00 00 00 00  syz.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b344f779>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000b344f779>] usb_cache_string+0x8a/0xf0 drivers/usb/core/message.c:1025
-    [<000000003d5bd90b>] usb_enumerate_device drivers/usb/core/hub.c:2398 [inline]
-    [<000000003d5bd90b>] usb_new_device+0xae/0x2e0 drivers/usb/core/hub.c:2523
-    [<0000000069b10350>] hub_port_connect drivers/usb/core/hub.c:5222 [inline]
-    [<0000000069b10350>] hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
-    [<0000000069b10350>] port_event drivers/usb/core/hub.c:5508 [inline]
-    [<0000000069b10350>] hub_event+0x144a/0x20d0 drivers/usb/core/hub.c:5590
-    [<0000000092d3650d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
-    [<00000000d4629ab0>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
-    [<000000003c358b45>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<000000003689dbb0>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
-
-BUG: memory leak
-unreferenced object 0xffff888112544d40 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294949255 (age 13.610s)
-  hex dump (first 32 bytes):
-    73 79 7a 00 00 00 00 00 00 00 00 00 00 00 00 00  syz.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b344f779>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000b344f779>] usb_cache_string+0x8a/0xf0 drivers/usb/core/message.c:1025
-    [<000000007392d5f6>] usb_enumerate_device drivers/usb/core/hub.c:2400 [inline]
-    [<000000007392d5f6>] usb_new_device+0xc4/0x2e0 drivers/usb/core/hub.c:2523
-    [<0000000069b10350>] hub_port_connect drivers/usb/core/hub.c:5222 [inline]
-    [<0000000069b10350>] hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
-    [<0000000069b10350>] port_event drivers/usb/core/hub.c:5508 [inline]
-    [<0000000069b10350>] hub_event+0x144a/0x20d0 drivers/usb/core/hub.c:5590
-    [<0000000092d3650d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
-    [<00000000d4629ab0>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
-    [<000000003c358b45>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<000000003689dbb0>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
-
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+greg k-h
