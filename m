@@ -2,125 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DDB5C2D0E4
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 08:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBD3C63777
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 09:02:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AA302078E
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 08:34:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A24120738
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 09:02:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fXFKU7fx"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="fCnOyjvh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727812AbgKWIeB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 Nov 2020 03:34:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726602AbgKWIeB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Nov 2020 03:34:01 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161FFC0613CF
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2020 00:34:01 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id 131so14239265pfb.9
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2020 00:34:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=0A4rASELU5+xlUlaKp7Y1f4kgDQSlAUFy2uSvXnNK2I=;
-        b=fXFKU7fx0Ikmiy0bl2qWPUn4rtveXVtV/Qj82WP51J0KXgQCVq5/JB9FwOriYQVh2u
-         5a+oXdC027DUw157YklaNEXiela6N5fdk0d5IvL0ooVV5dDd/yxq//jdbZI9pmZu6pEa
-         VpTGjQGqBPIwUPK+8Mvxbz1jQi4wGcsfKfX9MUBYKbAbz9CqG0QVo9fvijuCEoFX+h2t
-         cyGGuE8lyhKyCqT6kJu0gnZVtJAC0E1Pq3FLGNZcfCwvSPllNyAlEax1xg7Kf1x+hFYk
-         sNEAl6e528HO7e/cQWfDjv+Ralb5ckuiDewP+G2dejZo0rTmCxje09pVPBKLr/9fRVFg
-         dtnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0A4rASELU5+xlUlaKp7Y1f4kgDQSlAUFy2uSvXnNK2I=;
-        b=jmoic0vHMKA0VbC5ZFn76lqEbrrRPpr1lypFqnXpxC5WOiUfLLYnFM6MWq0mFxVrQr
-         4SkP6I2sQ0fOZKkK7NEDTi8jkjsUkbSBapTbaWEVnkkUtulu5YuF8xwH8or5+hXEBcQZ
-         jeyVcQyQV7KsfTLDjAgXqkhFL0rZR9d8mQ9ORyL1/6toNjRXxENH/zy3Eg8HtCmdrNiU
-         Pp2IRf9fW4MWHUSKQKGcJ/yyrWMZqjt5MK9grZggY3TUb3OTLJdh/hCKA16FKR7uPyOp
-         5HIQYC2hQNNm+OthG3qwob8IUtt4fAWVkba5J0J44mgrbNrH7AjRiLAqbE0SokogS4bt
-         Ts/w==
-X-Gm-Message-State: AOAM531BSuTERmkJjC0gYWwLaDhx937JaSlGAHdra9E0hcKmGLVoAING
-        gwqE2Pb7KKPHtLD29GUkplM=
-X-Google-Smtp-Source: ABdhPJzchPLUlW2AF8pSSha7jNZiAqiNLRjQFAcHmUqQQdPCtJNfAtwSyLLpQd+4jXY/TvXpKk3OfQ==
-X-Received: by 2002:a17:90a:9f85:: with SMTP id o5mr22880689pjp.63.1606120440746;
-        Mon, 23 Nov 2020 00:34:00 -0800 (PST)
-Received: from [192.168.1.5] ([159.192.85.80])
-        by smtp.googlemail.com with ESMTPSA id t12sm10936208pfq.79.2020.11.23.00.33.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2020 00:34:00 -0800 (PST)
-Subject: Re: [PATCH] option: added support for Thales Cinterion MV31 option
- port.
-From:   Lars Melin <larsm17@gmail.com>
-To:     Giacinto Cifelli <gciofono@gmail.com>, linux-usb@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-References: <20201119115931.19050-1-gciofono@gmail.com>
- <981fe0c1-58be-21b8-0e6b-bd19d0b26ce5@gmail.com>
-Message-ID: <75d9e32b-416b-d084-9718-7b766e8ce1fc@gmail.com>
-Date:   Mon, 23 Nov 2020 15:33:57 +0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1727966AbgKWJCV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Nov 2020 04:02:21 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:32632 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727927AbgKWJCU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Nov 2020 04:02:20 -0500
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0AN8vb9P024874;
+        Mon, 23 Nov 2020 10:02:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=bY3Gi76L0pJYGKWD/yORpPP0H2/iyGpFzjwdkCphzbQ=;
+ b=fCnOyjvhrKCTM9dLel3EgXc8BVIrhDrk1bMB0gu0U758FpX8I+g6yh8Ew7bs8t+QOMK7
+ OGtH9awWPJummUfDqs7blPQ5ZN1y/Iq6FTPPnI3JFQCAEpJwpCm857Oa9Inw5NZRAuDd
+ +VaDGxZzsjdmJ/g3JpljOV/pv8LJHaHPwtLf2+MECZw3ZJiXhL1VAlN9vhDZYhg4mazr
+ HUN8DnDBEvfQWerLmLdom0J02bB0/Jhuktr6zW4qofA0inm6tfP7CoyfqpXsuYufO/KG
+ may3HmcnSM1apdOkNNbaRUq6SOTyrofNemDPjpTCFOmGqE1L2id9VJeJduZv5h/iojLD 1w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 34y0hj15a8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 23 Nov 2020 10:02:13 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4E88C10003A;
+        Mon, 23 Nov 2020 10:02:10 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3ABAB231F82;
+        Mon, 23 Nov 2020 10:02:10 +0100 (CET)
+Received: from localhost (10.75.127.44) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Nov 2020 10:01:20
+ +0100
+From:   Amelie Delaunay <amelie.delaunay@st.com>
+To:     Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>
+Subject: [PATCH 2/3] usb: dwc2: enable FS/LS PHY clock select on STM32MP15 FS OTG
+Date:   Mon, 23 Nov 2020 10:01:13 +0100
+Message-ID: <20201123090114.12641-3-amelie.delaunay@st.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201123090114.12641-1-amelie.delaunay@st.com>
+References: <20201123090114.12641-1-amelie.delaunay@st.com>
 MIME-Version: 1.0
-In-Reply-To: <981fe0c1-58be-21b8-0e6b-bd19d0b26ce5@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-23_02:2020-11-20,2020-11-23 signatures=0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-+ johan
+When the core is in FS host mode, using the FS transceiver, and a Low-Speed
+device is connected, transceiver clock is 6Mhz.
+So, to support Low-Speed devices, enable support of FS/LS Low Power mode,
+so that the PHY supplies a 6 MHz clock during Low-Speed mode.
 
-On 11/23/2020 15:20, Lars Melin wrote:
-> On 11/19/2020 18:59, Giacinto Cifelli wrote:
->> There is a single option port in this modem, and it is used as debug port
->>
->> Signed-off-by: Giacinto Cifelli <gciofono@gmail.com>
->> ---
->>   drivers/usb/serial/option.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
->> index 54ca85cc920d..3ad86a6e8487 100644
->> --- a/drivers/usb/serial/option.c
->> +++ b/drivers/usb/serial/option.c
->> @@ -424,6 +424,7 @@ static void option_instat_callback(struct urb *urb);
->>   #define CINTERION_PRODUCT_AHXX_2RMNET        0x0084
->>   #define CINTERION_PRODUCT_AHXX_AUDIO        0x0085
->>   #define CINTERION_PRODUCT_CLS8            0x00b0
->> +#define CINTERION_PRODUCT_EXS82            0x006c
->>   /* Olivetti products */
->>   #define OLIVETTI_VENDOR_ID            0x0b3c
->> @@ -1908,6 +1909,8 @@ static const struct usb_device_id option_ids[] = {
->>       { USB_DEVICE(SIEMENS_VENDOR_ID, CINTERION_PRODUCT_HC25_MDMNET) },
->>       { USB_DEVICE(SIEMENS_VENDOR_ID, CINTERION_PRODUCT_HC28_MDM) }, 
->> /* HC28 enumerates with Siemens or Cinterion VID depending on FW 
->> revision */
->>       { USB_DEVICE(SIEMENS_VENDOR_ID, CINTERION_PRODUCT_HC28_MDMNET) },
->> +    { USB_DEVICE_INTERFACE_CLASS(CINTERION_VENDOR_ID, 
->> CINTERION_PRODUCT_EXS82, 0xff),
->> +      .driver_info = RSVD(1) | RSVD(2) | RSVD(3) },
->>       { USB_DEVICE(OLIVETTI_VENDOR_ID, OLIVETTI_PRODUCT_OLICARD100),
->>         .driver_info = RSVD(4) },
->>       { USB_DEVICE(OLIVETTI_VENDOR_ID, OLIVETTI_PRODUCT_OLICARD120),
->>
-> 
-> There is only one interface in this device that should be driven by 
-> optiom, the first interface which likely is a diag interface.
-> All other interfaces are driven by CDC drivers and they will not be 
-> taken by option so no need for the blacklisting of them.
-> Remove the .driver_info line from the patch.
-> 
-> thanks
-> Lars
+Signed-off-by: Amelie Delaunay <amelie.delaunay@st.com>
+---
+ drivers/usb/dwc2/params.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index 0df693319f0a..9e5dd7f3f2f6 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -179,6 +179,8 @@ static void dwc2_set_stm32mp15_fsotg_params(struct dwc2_hsotg *hsotg)
+ 	p->activate_stm_id_vb_detection = true;
+ 	p->ahbcfg = GAHBCFG_HBSTLEN_INCR16 << GAHBCFG_HBSTLEN_SHIFT;
+ 	p->power_down = DWC2_POWER_DOWN_PARAM_NONE;
++	p->host_support_fs_ls_low_power = true;
++	p->host_ls_low_power_phy_clk = true;
+ }
+ 
+ static void dwc2_set_stm32mp15_hsotg_params(struct dwc2_hsotg *hsotg)
+-- 
+2.17.1
 
