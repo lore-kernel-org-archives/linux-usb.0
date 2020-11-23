@@ -2,134 +2,390 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FBAC63777
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 01:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C33DC63697
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 07:45:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85B422078B
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 01:12:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D96B42074B
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Nov 2020 07:45:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFTEetiI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgKWBLo convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 22 Nov 2020 20:11:44 -0500
-Received: from david.siemens.com.cn ([194.138.202.53]:44606 "EHLO
-        david.siemens.com.cn" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726630AbgKWBLo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 22 Nov 2020 20:11:44 -0500
-Received: from mail.siemens.com.cn (mail.siemens.com.cn [194.138.237.52])
-        by david.siemens.com.cn (8.14.9/8.14.9) with ESMTP id 0AN1BSHt020357
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 23 Nov 2020 09:11:29 +0800
-Received: from CNPEK01M02MSX.ad011.siemens.net (cnpek01m02msx.ad011.siemens.net [139.24.237.215])
-        by mail.siemens.com.cn (8.14.9/8.14.9) with ESMTP id 0AN1BP1c018969
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 23 Nov 2020 09:11:27 +0800
-Received: from CNPEK01M06MSX.ad011.siemens.net (139.24.237.223) by
- CNPEK01M02MSX.ad011.siemens.net (139.24.237.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 23 Nov 2020 09:11:24 +0800
-Received: from CNPEK01M06MSX.ad011.siemens.net ([139.24.237.223]) by
- CNPEK01M06MSX.ad011.siemens.net ([139.24.237.223]) with mapi id
- 15.01.2106.003; Mon, 23 Nov 2020 09:11:24 +0800
-From:   "Wang, Sheng Long" <shenglong.wang.ext@siemens.com>
-To:     Johan Hovold <johan@kernel.org>
-CC:     Sheng Long Wang <china_shenglong@163.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "lkp@intel.com" <lkp@intel.com>
-Subject: RE: [PATCH v6] usb-serial:cp210x: add support to software flow
- control
-Thread-Topic: [PATCH v6] usb-serial:cp210x: add support to software flow
- control
-Thread-Index: AQHWo2OeB9qO2j8ZGUeYQhba2pC/J6nF1h2AgAS8JjCAAA6LgIAKgkeg
-Content-Class: 
-Date:   Mon, 23 Nov 2020 01:11:24 +0000
-Message-ID: <496f2cc77b4d4c3a9b49410ac318b927@siemens.com>
-References: <20201016022428.9671-1-china_shenglong@163.com>
- <X66l44MqSlj774DL@localhost> <520e730958174cb39561a94d03e4727e@siemens.com>
- <X7Kq6fJ/VMnB3Nt0@localhost>
-In-Reply-To: <X7Kq6fJ/VMnB3Nt0@localhost>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcejAwNDNjYnhcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1jYmQyM2E0My0yZDI4LTExZWItYmU3MS1iMDBjZDE2OTA4NjRcYW1lLXRlc3RcY2JkMjNhNDUtMmQyOC0xMWViLWJlNzEtYjAwY2QxNjkwODY0Ym9keS50eHQiIHN6PSIyNjE1IiB0PSIxMzI1MDU2NzQ4MTY1NDU3NzIiIGg9IkN3bGFUMXFwZm93elYzbXYxZ0RzaGFQMlk2cz0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUhBQUFBRHM0eW1PTmNIV0FTYTBwTHA3VkdjZ0pyU2t1bnRVWnlBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUJBQUFBbytaL1dnQUFBQUFBQUFBQUFBQUFBQT09Ii8+PC9tZXRhPg==
-x-dg-rorf: true
-msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2020-11-23T01:11:21Z;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=b5033c27-e2f5-4078-bcd5-2c1ba15bdcdd;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
-document_confidentiality: Restricted
-x-originating-ip: [139.24.108.241]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1727057AbgKWHpV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Nov 2020 02:45:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbgKWHpV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Nov 2020 02:45:21 -0500
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03247C0613CF
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2020 23:45:21 -0800 (PST)
+Received: by mail-vs1-xe30.google.com with SMTP id y73so8624738vsc.5
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2020 23:45:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mly8w2bQw7hI7nAsWqMWyGpJd8PDkyFM0D9DrCDINE0=;
+        b=mFTEetiIxZa4VJtDN9jeDK2IX1C5edYAozp9D2muCh9rFQNz/5zGuT3Fdhnvf0sQK2
+         GClDD0/PwUoXgyO8/o8oZNSJdeSNA0/dejEGsOhtUhyhyuLdDRQ6YE+jtd8VM+bN2sHc
+         uDSxcd5gpFzyRET1nsEcIfyLmpD3He1OzrCggqZTGJBqqFSVnOTFDZJkjnNEBODXufhh
+         +xDdd6gCgIu62qGJNWvoQSSaOzWxteS39P009Q3p2t3ST+luZp9o1QjooFGEUTyXlbED
+         ZqTgYw0/wxbmnvmunLPW0l3S4P46QqEsSva2PLzpCiqPFpVQy7YurY6gfJv3B0HlxIiM
+         l5hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mly8w2bQw7hI7nAsWqMWyGpJd8PDkyFM0D9DrCDINE0=;
+        b=H2DangNMCO5Dpq3z7qETRmKXKw9+1MT6OSeBzjv1gHU7Pe6G1eWthTJUPlFi8JMMk3
+         9vlJpUKfbMvejIZEDCBeG5Z41QNaUi/RhwF/mMNZXM4HbrjST5f3TLRRJmpYH39L3EMN
+         IIyYGKy0sc2ZWXwmz+Zx5Bj2kPPV9WKf6ErurCDjU1xJXljusFZb9/zp6ohZb/0AKaH4
+         rX9qEFFu5yZFWlOr0TVUbC5CgkqrkMo8apVFtRfkuzBIgIhfDtS3udabU8/HH5OfdJxH
+         scMQJnl1t4idI/tqIspgdyuHt+SFVNYFTWDEhYbGulAZzc+qFoLc2uE3LHd+SyXcHEG5
+         sQZw==
+X-Gm-Message-State: AOAM530qm41LxJMZ0TAX/wgKtFPShx4k9khX1z9tRMwX9LSOq7y8dgcs
+        7HfSnSh6tOD/UOnH4iFCObp5GSao2WkO2FeQOfI=
+X-Google-Smtp-Source: ABdhPJwIrJ/Kfegw4AIl0E86SMSs2BV0Edrimwpkn3rvOSJ4Wcca0e+I8WtdUkjVL59b/R6Dk9eRhaNHvZPyV5JXO4g=
+X-Received: by 2002:a67:df8b:: with SMTP id x11mr17490712vsk.37.1606117520188;
+ Sun, 22 Nov 2020 23:45:20 -0800 (PST)
 MIME-Version: 1.0
+References: <20201119115931.19050-1-gciofono@gmail.com> <X7ePVj4C/wVWb5GL@localhost>
+In-Reply-To: <X7ePVj4C/wVWb5GL@localhost>
+From:   Giacinto Cifelli <gciofono@gmail.com>
+Date:   Mon, 23 Nov 2020 08:45:09 +0100
+Message-ID: <CAKSBH7E_nRw-B7LAb-jj78OW7YPjBu-iKwJA4keZzd-WiBDQEA@mail.gmail.com>
+Subject: Re: [PATCH] option: added support for Thales Cinterion MV31 option port.
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,  Johan
+Hi Johan,
 
-Do I add my  software flow control  patch directly to the branch you gave me now ? 
-https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/log/?h=cp210x-termios
+here is the short version: bus 1, dev 2 is the EXS82:
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+    |__ Port 1: Dev 2, If 0, Class=Human Interface Device, Driver=usbhid, 12M
+    |__ Port 2: Dev 3, If 0, Class=Hub, Driver=hub/7p, 12M
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/6p, 480M
+    |__ Port 1: Dev 2, If 0, Class=Vendor Specific Class, Driver=option, 480M
+    |__ Port 1: Dev 2, If 1, Class=Communications, Driver=cdc_acm, 480M
+    |__ Port 1: Dev 2, If 2, Class=CDC Data, Driver=cdc_acm, 480M
+    |__ Port 1: Dev 2, If 3, Class=Communications, Driver=cdc_acm, 480M
+    |__ Port 1: Dev 2, If 4, Class=CDC Data, Driver=cdc_acm, 480M
+    |__ Port 1: Dev 2, If 5, Class=Communications, Driver=cdc_ether, 480M
+    |__ Port 1: Dev 2, If 6, Class=CDC Data, Driver=cdc_ether, 480M
 
-Then, I also need the cp210x_ get_ terminus()  add ixoff / iXon handling?
+and here the long version (only the part concerning the device):
 
-Thanks!
+Bus 001 Device 002: ID 1e2d:006c
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 ?
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x1e2d
+  idProduct          0x006c
+  bcdDevice            0.00
+  iManufacturer           4
+  iProduct                3
+  iSerial                 5
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength          243
+    bNumInterfaces          7
+    bConfigurationValue     1
+    iConfiguration          2
+    bmAttributes         0xe0
+      Self Powered
+      Remote Wakeup
+    MaxPower              500mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass    255 Vendor Specific Subclass
+      bInterfaceProtocol    255 Vendor Specific Protocol
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x01  EP 1 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         1
+      bInterfaceCount         2
+      bFunctionClass          2 Communications
+      bFunctionSubClass       2 Abstract (modem)
+      bFunctionProtocol       1 AT-commands (v.25ter)
+      iFunction               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         2 Communications
+      bInterfaceSubClass      2 Abstract (modem)
+      bInterfaceProtocol      1 AT-commands (v.25ter)
+      iInterface              0
+      CDC Header:
+        bcdCDC               1.10
+      CDC ACM:
+        bmCapabilities       0x02
+          line coding and serial state
+      CDC Call Management:
+        bmCapabilities       0x03
+          call management
+          use DataInterface
+        bDataInterface          2
+      CDC Union:
+        bMasterInterface        1
+        bSlaveInterface         2
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               5
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0 Unused
+      bInterfaceProtocol      0
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x83  EP 3 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         3
+      bInterfaceCount         2
+      bFunctionClass          2 Communications
+      bFunctionSubClass       2 Abstract (modem)
+      bFunctionProtocol       1 AT-commands (v.25ter)
+      iFunction               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         2 Communications
+      bInterfaceSubClass      2 Abstract (modem)
+      bInterfaceProtocol      1 AT-commands (v.25ter)
+      iInterface              0
+      CDC Header:
+        bcdCDC               1.10
+      CDC ACM:
+        bmCapabilities       0x02
+          line coding and serial state
+      CDC Call Management:
+        bmCapabilities       0x03
+          call management
+          use DataInterface
+        bDataInterface          4
+      CDC Union:
+        bMasterInterface        3
+        bSlaveInterface         4
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               5
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        4
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0 Unused
+      bInterfaceProtocol      0
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x85  EP 5 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x03  EP 3 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         5
+      bInterfaceCount         2
+      bFunctionClass          2 Communications
+      bFunctionSubClass       2 Abstract (modem)
+      bFunctionProtocol       1 AT-commands (v.25ter)
+      iFunction               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        5
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         2 Communications
+      bInterfaceSubClass      6 Ethernet Networking
+      bInterfaceProtocol      0
+      iInterface              0
+      CDC Header:
+        bcdCDC               1.10
+      CDC Ethernet:
+        iMacAddress                      1 (??)
+        bmEthernetStatistics    0x00000000
+        wMaxSegmentSize              16384
+        wNumberMCFilters            0x0001
+        bNumberPowerFilters              0
+      CDC Union:
+        bMasterInterface        5
+        bSlaveInterface         6
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x86  EP 6 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               5
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        6
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0 Unused
+      bInterfaceProtocol      0
+      iInterface              0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        6
+      bAlternateSetting       1
+      bNumEndpoints           2
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0 Unused
+      bInterfaceProtocol      0
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x87  EP 7 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x04  EP 4 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
 
 
-With best regards,
-Wang Sheng Long
-Siemens Ltd., China
-RC-CN DI FA R&D SW
-Tianyuan road No.99
-611731 CHENGDU, China
-Mobil: +86 15281074996
-mailto:shenglong.wang.ext@siemens.com
-www.siemens.com/ingenuityforlife
+I did make a mistake on the name of the patch.  It should read EXS82
+and not MV31 (which will come a bit later, as soon as they make their
+mind for the final enumeration).
+Please let me know of any further comments, and I will re-submit with
+the right subject.
+Shall I add the lsusb output above in the patch comment?
+
+Thank you,
+Giacinto
 
 
------Original Message-----
-From: Johan Hovold <johan@kernel.org> 
-Sent: Tuesday, November 17, 2020 12:38 AM
-To: Wang, Sheng Long (EXT) (RC-CN DI FA BL IPC&C PRC4) <shenglong.wang.ext@siemens.com>
-Cc: Johan Hovold <johan@kernel.org>; Sheng Long Wang <china_shenglong@163.com>; gregkh@linuxfoundation.org; linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org; lkp@intel.com
-Subject: Re: [PATCH v6] usb-serial:cp210x: add support to software flow control
 
-[ Please avoid top posting. ]
-
-On Mon, Nov 16, 2020 at 07:56:10AM +0000, Wang, Sheng Long wrote:
-> Hi, Johan
-> 
-> Thank you very much for your reply!
-> 
-> You mean if we call cp210x_open()  When opening the device, because 
-> IXON  is set by default, the cp210x_get_termios() does not process 
-> IXON, So it is invalid IXON at this time.
-
-Right, with the current implementation you need to make sure that termios reflects the device state on open or your changes will never actually enable software flow control in the device.
-
-> As you said, It is very strange in cp210x_get_termios()  In the "get"
-> function to "set"  IXON.  In addition, the best way is to disable the 
-> IXON bit as you said.  If the user needs IXON, call set_ termios 
-> function, So I'm now in cp210x_get_termios()  Is it a temporary 
-> solution for terminos to handle IXON ?  I'm afraid it will need to be 
-> adjusted.
-
-No, I didn't mean that IXON should be disabled by default. I meant that the driver should make sure that the device settings matches termios on open, not the other way round.
-
-This unusual implementation has caused a number of issues in the past and it's been on my list fix up for some time. I finally got around to that today and I just CCed you on the result. That should simplify adding software flow control and allow more code to be shared with the hardware flow-control handling.
-
-I've pushed a branch for you here:
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/log/?h=cp210x-termios
-
-Johan
+On Fri, Nov 20, 2020 at 10:41 AM Johan Hovold <johan@kernel.org> wrote:
+>
+> On Thu, Nov 19, 2020 at 12:59:31PM +0100, Giacinto Cifelli wrote:
+> > There is a single option port in this modem, and it is used as debug port
+> >
+> > Signed-off-by: Giacinto Cifelli <gciofono@gmail.com>
+>
+> Can you post the output of "lsusb -v" for this device?
+>
+> Johan
