@@ -2,415 +2,260 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50A4C56202
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Nov 2020 19:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C4EC64E8A
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Nov 2020 21:10:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AB8F207BC
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Nov 2020 19:29:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7488C20857
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Nov 2020 21:10:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sa5FMfH6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AWR/7M4m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728535AbgKYT3F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Nov 2020 14:29:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58666 "EHLO
+        id S1731228AbgKYVKF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Nov 2020 16:10:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728524AbgKYT3F (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Nov 2020 14:29:05 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0776C0613D4
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2020 11:29:04 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id l11so4757072lfg.0
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2020 11:29:04 -0800 (PST)
+        with ESMTP id S1731455AbgKYVKF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Nov 2020 16:10:05 -0500
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CC99C09424D
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2020 13:10:04 -0800 (PST)
+Received: by mail-io1-xd42.google.com with SMTP id j23so3523710iog.6
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2020 13:10:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SSwxu+F81eJtg79qcmcy/Xc/znmBmPH7OrfZ9S8zxKQ=;
-        b=Sa5FMfH61npNduankmpR554wIUJ4/RZvfnik0usZw41zgtsVEiSRcvdzEXrCfWkPP8
-         3il34pIggsKHCBDOTr/XMLGle14yy3btPEivySRFj/n2oZNZt7+mEZBHDc/FabgRt0hR
-         U+SOH9u5KNTK64OXltcEeZTAKHJP5jxfENjNHJqDoFzYOJkgB6J8AplYMoSEsb83eBiv
-         aiO7K13KZzSFpxyhrGniZyt63d7EJgmiSGF3ws/ffGARTfIbZKSQ9lts4wtWCuXwni3/
-         ehCGSt2nS7mbWWyiowXegAe/OWegHWWqzYedW453OmJFb7f1AR2sOsKG/wFXU60DhELb
-         xO3Q==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5kDOOuMOjwqEdI4fOY8lF/zJwxoesF7EbkKd66qXZt4=;
+        b=AWR/7M4mhE4fi43nRvdimsQoF0WR0/yRvzcmpbbdNnukQZ4s3FUnDOA4HlPrcfy1KL
+         TnDV3Sp7ib0l66wO1u9Qkihqc0ymqk7uAD73hLx1Hbj+4zgGkd46Av0r6N17g4aWHL9f
+         T52peLS6H3gWn2HtVm1n8SJNqsSbmk3lehF9k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SSwxu+F81eJtg79qcmcy/Xc/znmBmPH7OrfZ9S8zxKQ=;
-        b=mw/XKZkUiyLfP5XGw/gbQhZNS64ZrfcTM4nS00/oa5wFY0zGgqz11ea04uuxV8itwN
-         2wtgwky/nxHJYdHlFOHb8grrQg6zm7MSULQ67C6JvkUiHBlqBkp1RCJSNy7jbSdDvx2o
-         j6fmrVAmm4kVjOlkDS7htCrNhcgJlHskVPMCX03JK9nq/Bhp1qtLaeVpBLSU2durKvJp
-         48kQJrMfekb64XrG27nNP34mqjFMQf5L1E4/3yiLdfamIGN8Tn25j3W1deFubO0uONAg
-         e/ApyxfxS3sYk28+0akob/18+C1aQPmH4gpKpT8z8nUm1yzhtBAibE6IoQ+NQxJJ9/SE
-         EJ3g==
-X-Gm-Message-State: AOAM5304/tshPEAF0uPh/Dz7tYTvWhEnQAVNVFYAijvf2sQp/iBCJGAH
-        zhB0CWMOqokkJw04YgqYU6/bJtnp0FnOyJGU0IU=
-X-Google-Smtp-Source: ABdhPJw0VDSOxl5SuCn+HDHe9+nVn73IPr/tMuiTvUtttOTV0pdgfea+YPn3vgjlD3631lWwHe7llYlky7UXg7j5GfA=
-X-Received: by 2002:ac2:4307:: with SMTP id l7mr158015lfh.304.1606332543137;
- Wed, 25 Nov 2020 11:29:03 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5kDOOuMOjwqEdI4fOY8lF/zJwxoesF7EbkKd66qXZt4=;
+        b=DCZ/jaYGbUP9DPH6V0KBbXUQZ3NZc3qXC6UHWABtQjGQ2INr6fyvWyUUkUhV0wUQ/d
+         Ek2UrxS3VBbLhcmFBJ6a8cYUx+WJbtfDKz1lvHv/SI959YYbKNnfpOMbcCFXYqgx4hW3
+         yt/aCqKY9EbkTeCCoiSR6ABi1hMD2wSYCFsx39eF7G+TawGpb+/unlLJIkQ9E5b0P3oR
+         3KU2d3USbrJrB+MtAVUn2D/k5xxv4kwC239G9Ya6R6ninO+5XBMDuoGzzlv8NmCFbkfB
+         q5QtIZF4Hy6Y5srCb5godzToXPlHiZSvmHgyrBKqBV+E/AeWgbPbYSi5tR1AqGTAOBMg
+         g21w==
+X-Gm-Message-State: AOAM530cxymYnVCyHymcdyk0eNYVrvKsvXa+X6hwvGFEIYRh+jeaX0yP
+        0+6sT4f4tYC7CllzWqzKM0y+Csi5HqJkazPL
+X-Google-Smtp-Source: ABdhPJx/eEsXFJ4LN0K87oZeE7bvP2eO9KEt7vLrempCPcmRQAJuuV8YImLC928PO4R7i7Khu5FszQ==
+X-Received: by 2002:a65:6547:: with SMTP id a7mr4391475pgw.198.1606338602870;
+        Wed, 25 Nov 2020 13:10:02 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id x30sm2796297pgc.86.2020.11.25.13.10.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 13:10:01 -0800 (PST)
+Date:   Wed, 25 Nov 2020 13:10:00 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Jakub Kicinski <kuba@kernel.org>, alsa-devel@alsa-project.org,
+        linux-atm-general@lists.sourceforge.net,
+        reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        linux-ide@vger.kernel.org, dm-devel@redhat.com,
+        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+        GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+        samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+        linux1394-devel@lists.sourceforge.net,
+        linux-afs@lists.infradead.org,
+        usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
+        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+        rds-devel@oss.oracle.com,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+        oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+        linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+        intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+        linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
+        nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
+        ceph-devel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        x86@kernel.org, linux-nfs@vger.kernel.org,
+        GR-Linux-NIC-Dev@marvell.com, linux-mm@kvack.org,
+        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
+        target-devel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
+ Clang
+Message-ID: <202011251240.1E67BE900@keescook>
+References: <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
+ <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
+ <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
+ <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
+ <20201123130348.GA3119@embeddedor>
+ <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
+ <202011241327.BB28F12F6@keescook>
+ <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
 MIME-Version: 1.0
-References: <1604794711-8661-1-git-send-email-ruslan.bilovol@gmail.com>
- <20201111092941.GJ14896@b29397-desktop> <CAB=otbSAGhDYxim9_fsyH4pZCLqgq+bxNJfv5hXqgQRVngVaig@mail.gmail.com>
- <CAMS2kBF5Gvhnf7AzdeSFeVeWBLhtHM_hHfTvMLTN-3Jkh=BwHw@mail.gmail.com> <CAB=otbTK0j03HjiLS-tqqaBTuavaFEJs49hpKPj2Df8e1_WN+A@mail.gmail.com>
-In-Reply-To: <CAB=otbTK0j03HjiLS-tqqaBTuavaFEJs49hpKPj2Df8e1_WN+A@mail.gmail.com>
-From:   Glenn Schmottlach <gschmottlach@gmail.com>
-Date:   Wed, 25 Nov 2020 14:28:51 -0500
-Message-ID: <CAMS2kBEnUDi5jKiNu5ZKihyucCikfoGor4n7=e+xX=7WU_rrog@mail.gmail.com>
-Subject: Re: [PATCH 0/3] UAC2 Gadget: feedback endpoint support
-To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Cc:     Peter Chen <peter.chen@nxp.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 2:52 PM Ruslan Bilovol <ruslan.bilovol@gmail.com> wrote:
->
-> On Fri, Nov 13, 2020 at 5:35 PM Glenn Schmottlach
-> <gschmottlach@gmail.com> wrote:
-> >
-> > On Thu, Nov 12, 2020 at 6:20 PM Ruslan Bilovol <ruslan.bilovol@gmail.com> wrote:
-> > >
-> > > On Wed, Nov 11, 2020 at 11:30 AM Peter Chen <peter.chen@nxp.com> wrote:
-> > > >
-> > > > On 20-11-08 02:18:28, Ruslan Bilovol wrote:
-> > > > > Current UAC2 gadget implements capture/sync paths
-> > > > > as two USB ISO ASYNC endpoints (IN and OUT).
-> > > > >
-> > > > > This violates USB spec which says that ISO ASYNC OUT endpoint
-> > > > > should have feedback companion endpoint.
-> > > > > See USB2.0 spec  "5.12.4.1 Synchronization Type": asynchronous
-> > > > > sink provides explicit feedback (isochronous pipe).
-> > > > > Interesting that for ISO ASYNC *IN* endpoint respective
-> > > > > feedback isn't required since source provides implicit
-> > > > > feedforward (data stream).
-> > > > >
-> > > > > While it's not an issue if UAC2 Gadget is connected to
-> > > > > Linux host (Linux ignores missing feedback endpoint),
-> > > > > with other hosts like Windows or MacOS the UAC2 Gadget
-> > > > > isn't enumerated due to missing feedback endpoint.
-> > > > >
-> > > > > This patch series adds feedback endpoint support to
-> > > > > UAC2 function, new control to UAC2 mixer which can
-> > > > > be used by userspace tools (like alsaloop from alsa-utils)
-> > > > > for updating feedback frequency reported to the host.
-> > > > > This is useful for usecases when UAC2 Gadget's audio
-> > > > > samples are played to another codec or audio card
-> > > > > with its own internal freerunning clock so host can
-> > > > > be notified that more/less samples are required.
-> > > > >
-> > > > > The alsaloop tool requires some (relatively small)
-> > > > > modifications in order to start support driving
-> > > > > feedback frequency through UAC2 mixer control.
-> > > > > That change will be sent as a separate patch
-> > > > > to ALSA community.
-> > > > >
-> > > > > Also added ability to switch ISO ASYNC OUT endpoint into
-> > > > > adaptive endpoint which doesn't require feedback endpoint
-> > > > > (as per USB spec).
-> > > > >
-> > > > > Ruslan Bilovol (3):
-> > > > >   usb: gadget: f_uac2/u_audio: add feedback endpoint support
-> > > > >   usb: gadget: f_uac2: add adaptive sync support for capture
-> > > > >   usb: gadget: u_audio: add real feedback implementation
-> > > >
-> > > > Hi Ruslan,
-> > > >
-> > > > I applied your patches, but WIN10 still can't recognize it well.
-> > > > The UAC1 is OK for WIN10 with the below same configuration.
-> > > > Any debug information you would like to know to check it?
-> > > >
-> > > >
-> > > > if [ "$FUNC" == "uac2" ]; then
-> > > > mkdir functions/$FUNC".0"
-> > > > echo 2 > functions/$FUNC".0"/p_ssize
-> > > > echo 48000 > functions/$FUNC".0"/p_srate
-> > > > echo 3 > functions/$FUNC".0"/p_chmask
-> > > >
-> > > > echo 2 > functions/$FUNC".0"/c_ssize
-> > > > echo 48000 > functions/$FUNC".0"/c_srate
-> > > > echo 3 > functions/$FUNC".0"/c_chmask
-> > > > #echo 4 > functions/$FUNC".0"/req_number
-> > > > ln -s functions/$FUNC".0" configs/c.1
-> > > > echo high-speed > /sys/kernel/config/usb_gadget/g1/max_speed
-> > > > fi
-> > > >
-> > >
-> > > Hmm... I just tested below config and it works fine with my Win10.
-> > > The only thing I noticed is Windows doesn't enable UAC2 gadget
-> > > by default, but this can be done from Win10 sound settings
-> > >
-> > > --------------------------------->8--------------------------------------
-> > > mkdir cfg
-> > > mount none cfg -t configfs
-> > > mkdir cfg/usb_gadget/g1
-> > > cd cfg/usb_gadget/g1
-> > > mkdir configs/c.1
-> > > mkdir functions/uac2.0
-> > >
-> > > # 44.1 kHz sample rate
-> > > echo 44100 > functions/uac2.0/c_srate
-> > > echo 44100 > functions/uac2.0/p_srate
-> > >
-> > > mkdir strings/0x409
-> > > mkdir configs/c.1/strings/0x409
-> > > echo 0x0101 > idProduct
-> > > echo 0x1d6b > idVendor
-> > > echo my-serial-num > strings/0x409/serialnumber
-> > > echo my-manufacturer > strings/0x409/manufacturer
-> > > echo "Test gadget" > strings/0x409/product
-> > > echo "Conf 1" > configs/c.1/strings/0x409/configuration
-> > > echo 120 > configs/c.1/MaxPower
-> > > ln -s functions/uac2.0 configs/c.1
-> > > echo musb-hdrc.0 > UDC
-> > > --------------------------------->8--------------------------------------
-> > >
-> > > Thanks,
-> > > Ruslan
-> >
-> > Hi Ruslan -
-> >
-> > With your configuration (above) Win10 was able to recognize and load
-> > the driver. What appears to prevent my configuration from loading is
-> > the fact that I selected 48K as my sample rate and my capture/playback
-> > channel mask includes more than two (2) channels. If I take your
-> > configuration and change the sample rate (c_srate/p_srate) to 48000
-> > Windows will fail to load the driver. Likewise, setting the
-> > c_chmask/p_chmask to 7 (three channels) will also cause the driver to
-> > fail to load.
-> >
-> > You mentioned there is an option in Win10 Sound Settings to "enable"
-> > UAC2 by default. I cannot find that option and I wonder if this is
-> > what is preventing me from changing the sample rate or channel mask?
-> > Could Windows be treating my audio gadget as a UAC1 device rather than
-> > a fully multi-channel audio device (even though the usbaudio2.sys
-> > driver is loaded)? Have you tried other configurations to verify your
-> > Win10 box supports more than two channels and a 44.1K sample rate? I
-> > look forward to your feedback and any suggestions you might offer.
-> >
->
-> I was able to reproduce the issue and prepared a patch below, please
-> try it and see if it fixes the issue.
->
-> Maximum data rates that I used were (AFAIR) 8 channel 192kHz/32bit,
-> but there is another issue with high data rate if someone uses so many
-> channels, very high sampling frequency or sample size that data can't
-> fit into allowed (by USB spec) max packet size of endpoint. In this case
-> need to decrease bInterval of endpoint.
-> I test it in a high-performance audio case so always use a minimal possible
-> bInterval (set to '1').
-> Of course in the future that need to be calculated dynamically depending on
-> the UAC2 settings
->
-> Please test patches below and see it it helps
->
-> ---------------------------------------------8<----------------------------------------
-> From 51516435bbf2486574ec7bc9fd4726677cd474a4 Mon Sep 17 00:00:00 2001
-> From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-> Date: Sun, 22 Nov 2020 21:05:38 +0200
-> Subject: [PATCH] usb: gadget: f_uac2: always increase endpoint max_packet_size
->  by one audio slot
->
-> As per UAC2 Audio Data Formats spec (2.3.1.1 USB Packets),
-> if the sampling rate is a constant, the allowable variation
-> of number of audio slots per virtual frame is +/- 1 audio slot.
->
-> It means that endpoint should be able to accept/send +1 audio
-> slot.
->
-> Previous endpoint max_packet_size calculation code
-> was adding sometimes +1 audio slot due to DIV_ROUND_UP
-> behaviour which was rounding up to closest integer.
-> However this doesn't work if the numbers are divisible.
->
-> It had no any impact with Linux hosts which ignore
-> this issue, but in case of more strict Windows it
-> caused rejected enumeration
->
-> Thus always add +1 audio slot to endpoint's max packet size
->
-> Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-> ---
->  drivers/usb/gadget/function/f_uac2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/usb/gadget/function/f_uac2.c
-> b/drivers/usb/gadget/function/f_uac2.c
-> index ebdb2a1..1698587 100644
-> --- a/drivers/usb/gadget/function/f_uac2.c
-> +++ b/drivers/usb/gadget/function/f_uac2.c
-> @@ -486,7 +486,7 @@ static void set_ep_max_packet_size(const struct
-> f_uac2_opts *uac2_opts,
->   }
->
->   max_packet_size = num_channels(chmask) * ssize *
-> - DIV_ROUND_UP(srate, factor / (1 << (ep_desc->bInterval - 1)));
-> + ((srate / (factor / (1 << (ep_desc->bInterval - 1)))) + 1);
->
->   if (!is_playback && (uac2_opts->c_sync == USB_ENDPOINT_SYNC_ASYNC))
->   max_packet_size = max_packet_size * FBACK_FREQ_MAX / 100;
-> --
-> 1.9.1
->
->
-> ---------------------------------------------8<----------------------------------------
-> From c8f2f2b414af672ec40841e75fb1ea761ae29122 Mon Sep 17 00:00:00 2001
-> From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-> Date: Sun, 16 Feb 2020 22:40:23 +0200
-> Subject: [PATCH] usb: gadget: f_uac2: change bInterval to 1 for
->  8ch/24bit/44.1kHz
->
-> With bInterval=4 one audio slot in case of 8ch/24bit/44.1kHz
-> exeeds MaxPacket size of ISO endpoint (>1024) and can't be
-> transferred in time.
-> USB spec ("5.6.3 Isochronous Transfer Packet Size Constraints")
-> says if we need to transfer more than 1024 it is a high speed, high
-> bandwidth endpoint and should have bInterval=1.
->
-> In the future, bInterval should be dynamically calculated
-> depending on bandwith requirementes
->
-> Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-> ---
->  drivers/usb/gadget/function/f_uac2.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/usb/gadget/function/f_uac2.c
-> b/drivers/usb/gadget/function/f_uac2.c
-> index 3633df6..fb9b875 100644
-> --- a/drivers/usb/gadget/function/f_uac2.c
-> +++ b/drivers/usb/gadget/function/f_uac2.c
-> @@ -281,7 +281,7 @@ enum {
->
->   .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
->   .wMaxPacketSize = cpu_to_le16(1024),
-> - .bInterval = 4,
-> + .bInterval = 1,
->  };
->
->  /* CS AS ISO OUT Endpoint */
-> @@ -358,7 +358,7 @@ enum {
->
->   .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
->   .wMaxPacketSize = cpu_to_le16(1024),
-> - .bInterval = 4,
-> + .bInterval = 1,
->  };
->
->  /* CS AS ISO IN Endpoint */
-> --
-> 1.9.1
->
->
-> ---------------------------------------------8<----------------------------------------
->
-> Thanks,
-> Ruslan
+On Tue, Nov 24, 2020 at 11:05:35PM -0800, James Bottomley wrote:
+> Now, what we have seems to be about 6 cases (at least what's been shown
+> in this thread) where a missing break would cause potentially user
+> visible issues.  That means the value of this isn't zero, but it's not
+> a no-brainer massive win either.  That's why I think asking what we've
+> invested vs the return isn't a useless exercise.
 
-Hi Ruslan -
+The number is much higher[1]. If it were 6 in the entire history of the
+kernel, I would agree with you. :) Some were fixed _before_ Gustavo's
+effort too, which I also count towards the idea of "this is a dangerous
+weakness in C, and now we have stopped it forever."
 
-I have had some mixed success with your additional patches. First, the
-UAC2 gadget does correctly register with Windows 10 but only for 1-31
-channels. For a fully specified channel map (32 channels):
+> But the broader point I'm making is just because the compiler people
+> come up with a shiny new warning doesn't necessarily mean the problem
+> it's detecting is one that causes us actual problems in the code base. 
+> I'd really be happier if we had a theory about what classes of CVE or
+> bug we could eliminate before we embrace the next new warning.
 
-c_chmask = 0xFFFFFFFF    ( Does not load)
-p_chmask = 0xFFFFFFFF   ( Does not load)
+But we did! It was long ago justified and documented[2], and even links to
+the CWE[3] for it. This wasn't random joy over discovering a new warning
+we could turn on, this was turning on a warning that the compiler folks
+finally gave us to handle an entire class of flaws. If we need to update
+the code-base to address it not a useful debate -- that was settled
+already, even if you're only discovering it now. :P. This last patch
+set is about finishing that work for Clang, which is correctly even
+more strict than GCC.
 
-the driver fails to load (code=10). This seems similar to the prior
-problem. Could there be another off-by-one problem here?
+-Kees
 
-With a 31 channel mask the Windows 10 usbaudio2.sys loads successfully, e.g.
+[1] https://outflux.net/slides/2019/lss/kspp.pdf calls out specific
+    numbers (about 6.5% of the patches fixed missing breaks):
+	v4.19:  3 of 129
+	v4.20:  2 of  59
+	v5.0:   3 of  56
+	v5.1:  10 of 100
+	v5.2:   6 of  71
+	v5.3:   7 of  69
 
-c_chmask = 0x7FFFFFFF (loads)
-p_chmask = 0x7FFFFFFF (loads)
+    And in the history of the kernel, it's been an ongoing source of
+    flaws:
 
-Once Windows 10 loads the driver successfully, however, I can't seem
-to select the device through Audacity on Windows. The device appears
-in the Windows "Device Manager" under "Sound, video and game
-controllers -> Source/Sink". How are you testing audio
-playback/capture under Windows? Perhaps my test approach is wrong?
+    $ l --no-merges | grep -i 'missing break' | wc -l
+    185
 
-I used the same approach on my Linux host where the USB UAC2 device
-appears as an ALSA device and I use speaker-test on the target
-(BeagleBone Black) to play and then capture the audio using Audacity
-on the Linux host. I was hoping to do the same or something similar
-under Windows.
+    The frequency of such errors being "naturally" found was pretty
+    steady until the static checkers started warning, and then it was
+    on the rise, but the full effort flushed the rest out, and now it's
+    dropped to almost zero:
 
-Below is the script I've been using on the target to configure my UAC2 device:
+      1 v2.6.12
+      3 v2.6.16.28
+      1 v2.6.17
+      1 v2.6.19
+      2 v2.6.21
+      1 v2.6.22
+      3 v2.6.24
+      3 v2.6.29
+      1 v2.6.32
+      1 v2.6.33
+      1 v2.6.35
+      4 v2.6.36
+      3 v2.6.38
+      2 v2.6.39
+      7 v3.0
+      2 v3.1
+      2 v3.2
+      2 v3.3
+      3 v3.4
+      1 v3.5
+      8 v3.6
+      7 v3.7
+      3 v3.8
+      6 v3.9
+      3 v3.10
+      2 v3.11
+      5 v3.12
+      5 v3.13
+      2 v3.14
+      4 v3.15
+      2 v3.16
+      3 v3.17
+      2 v3.18
+      2 v3.19
+      1 v4.0
+      2 v4.1
+      5 v4.2
+      4 v4.5
+      5 v4.7
+      6 v4.8
+      1 v4.9
+      3 v4.10
+      2 v4.11
+      6 v4.12
+      3 v4.13
+      2 v4.14
+      5 v4.15
+      2 v4.16
+      7 v4.18
+      2 v4.19
+      6 v4.20
+      3 v5.0
+     12 v5.1
+      3 v5.2
+      4 v5.3
+      2 v5.4
+      1 v5.8
 
-mkdir -p "/sys/kernel/config/usb_gadget/g_multi"
-echo "${idVendor:-0x11F5}" > "/sys/kernel/config/usb_gadget/g_multi/idVendor"
-echo "${idProduct:-0x0009}" > "/sys/kernel/config/usb_gadget/g_multi/idProduct"
-echo "${bcdDevice:-0x0001}" > "/sys/kernel/config/usb_gadget/g_multi/bcdDevice"
-echo "${bDeviceClass:-0x00}" >
-"/sys/kernel/config/usb_gadget/g_multi/bDeviceClass"
-echo "${bDeviceSubClass:-0x00}" >
-"/sys/kernel/config/usb_gadget/g_multi/bDeviceSubClass"
-echo "${bDeviceProtocol:-0x00}" >
-"/sys/kernel/config/usb_gadget/g_multi/bDeviceProtocol"
-echo "${bcdUSB:-0x0200}" > "/sys/kernel/config/usb_gadget/g_multi/bcdUSB"
-echo "${bMaxPacketSize0:-0x00}" >
-"/sys/kernel/config/usb_gadget/g_multi/bMaxPacketSize0"
-mkdir -p "/sys/kernel/config/usb_gadget/g_multi/strings/0x409"
-echo "${serialnumber:-000000000000}" >
-"/sys/kernel/config/usb_gadget/g_multi/strings/0x409/serialnumber"
-echo "${product:-UAC2}" >
-"/sys/kernel/config/usb_gadget/g_multi/strings/0x409/product"
-echo "${manufacturer:-www.acme.com}" >
-"/sys/kernel/config/usb_gadget/g_multi/strings/0x409/manufacturer"
-mkdir -p "/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0"
-echo "${req_number:-4}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/req_number"
-echo "${c_ssize:-4}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/c_ssize"
-echo "${c_srate:-48000}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/c_srate"
-echo "${c_chmask:-0x00000003}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/c_chmask"
-echo "${c_sync:-asynchronous}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/c_sync"
-echo "${p_ssize:-4}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/p_ssize"
-echo "${p_srate:-48000}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/p_srate"
-echo "${p_chmask:-0x00000003}" >
-"/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0/p_chmask"
-mkdir -p "/sys/kernel/config/usb_gadget/g_multi/configs/c.1"
-echo "${bmAttributes:-0x80}" >
-"/sys/kernel/config/usb_gadget/g_multi/configs/c.1/bmAttributes"
-echo "${MaxPower:-500}" >
-"/sys/kernel/config/usb_gadget/g_multi/configs/c.1/MaxPower"
-mkdir -p "/sys/kernel/config/usb_gadget/g_multi/configs/c.1/strings/0x409"
-echo "${configuration:-BeagleBone Composite}" >
-"/sys/kernel/config/usb_gadget/g_multi/configs/c.1/strings/0x409/configuration"
-ln -s "/sys/kernel/config/usb_gadget/g_multi/functions/uac2.usb0"
-"/sys/kernel/config/usb_gadget/g_multi/configs/c.1/uac2.usb0"
-mkdir -p "/sys/kernel/config/usb_gadget/g_multi/os_desc"
-ln -s "//sys/kernel/config/usb_gadget/g_multi/configs/c.1"
-"/sys/kernel/config/usb_gadget/g_multi/os_desc/c.1"
-echo "${qw_sign:-MSFT100}" >
-"/sys/kernel/config/usb_gadget/g_multi/os_desc/qw_sign"
-echo "${b_vendor_code:-0x00}" >
-"/sys/kernel/config/usb_gadget/g_multi/os_desc/b_vendor_code"
-echo "${use:-1}" > "/sys/kernel/config/usb_gadget/g_multi/os_desc/use"
 
-basename /sys/class/udc/* > /sys/kernel/config/usb_gadget/g_multi/UDC
+    And the reason it's fully zero, is because we still have the cases we're
+    cleaning up right now. Even this last one from v5.8 is specifically of
+    the same type this series addresses:
 
-This is only a two channel playback/capture configuration. I hoped to
-get this working under Windows before increasing my channel count to a
-full 32 channel mask with a 48K sample rate.
+        case 4:
+                color_index = TrueCModeIndex;
++               break;
+        default:
+                return;
+        }
 
-I look forward to hearing your suggestions and possibly pointing out
-where I've gone astray.
 
-Thanks,
+[2] https://www.kernel.org/doc/html/latest/process/deprecated.html#implicit-switch-case-fall-through
 
-Glenn
+	All switch/case blocks must end in one of:
+
+	break;
+	fallthrough;
+	continue;
+	goto <label>;
+	return [expression];
+
+[3] https://cwe.mitre.org/data/definitions/484.html
+
+-- 
+Kees Cook
