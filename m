@@ -2,93 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C00C71155
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 17:01:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A6FC64E7D
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 17:03:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A2932158C
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 17:01:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B51E2222B
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 17:03:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404114AbgKZRBk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Nov 2020 12:01:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33326 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404090AbgKZRBg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Nov 2020 12:01:36 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F55C0617A7
-        for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2020 09:01:36 -0800 (PST)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1kiKcr-0001Kj-AC; Thu, 26 Nov 2020 18:00:09 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1kiKch-0002rx-1n; Thu, 26 Nov 2020 17:59:59 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Geoff Levand <geoff@infradead.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Jens Axboe <axboe@kernel.dk>, Jim Paris <jim@jtan.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S2391614AbgKZRDT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Nov 2020 12:03:19 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:46790 "EHLO honk.sigxcpu.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391568AbgKZRDT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 26 Nov 2020 12:03:19 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by honk.sigxcpu.org (Postfix) with ESMTP id 1A4CDFB04;
+        Thu, 26 Nov 2020 18:03:17 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id MEhzIyxxQDjY; Thu, 26 Nov 2020 18:03:16 +0100 (CET)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+        id 991F74068F; Thu, 26 Nov 2020 18:03:15 +0100 (CET)
+From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org,
-        linux-block@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 1/2] ALSA: ppc: drop if block with always false condition
-Date:   Thu, 26 Nov 2020 17:59:49 +0100
-Message-Id: <20201126165950.2554997-1-u.kleine-koenig@pengutronix.de>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/1] usb: typec: tps6598x: Export some power supply properties
+Date:   Thu, 26 Nov 2020 18:03:14 +0100
+Message-Id: <cover.1606410063.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The remove callback is only called for devices that were probed
-successfully before. As the matching probe function cannot complete
-without error if dev->match_id != PS3_MATCH_ID_SOUND, we don't have to
-check this here.
+This allows downstream supplies and userspace to detect whether external power
+is supplied.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- sound/ppc/snd_ps3.c | 2 --
- 1 file changed, 2 deletions(-)
+The Librem 5 has the tp65982 in front of bq25980 charge controller.  Since that
+is capable of sinking and sourcing power the online property helps to decide
+what to do. It also makes upower happy.
 
-diff --git a/sound/ppc/snd_ps3.c b/sound/ppc/snd_ps3.c
-index 58bb49fff184..6ab796a5d936 100644
---- a/sound/ppc/snd_ps3.c
-+++ b/sound/ppc/snd_ps3.c
-@@ -1053,8 +1053,6 @@ static int snd_ps3_driver_remove(struct ps3_system_bus_device *dev)
- {
- 	int ret;
- 	pr_info("%s:start id=%d\n", __func__,  dev->match_id);
--	if (dev->match_id != PS3_MATCH_ID_SOUND)
--		return -ENXIO;
- 
- 	/*
- 	 * ctl and preallocate buffer will be freed in
+There will be follow up patches providing more properties but these need some
+more time to cook and i wanted to check if this is the right way to go?
+
+changes from v1
+  - As per review comments from Heikki Krogerus
+    https://lore.kernel.org/linux-usb/20201126123552.GP1008337@kuha.fi.intel.com/
+    - select POWER_SUPPLY
+    - use POWER_SUPPLY_USB_TYPE_PD when a PD contract got negotiated
+
+Guido Günther (1):
+  usb: typec: tps6598x: Export some power supply properties
+
+ drivers/usb/typec/Kconfig    |   1 +
+ drivers/usb/typec/tps6598x.c | 105 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 106 insertions(+)
+
 -- 
 2.29.2
 
