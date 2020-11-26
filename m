@@ -2,74 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF76CC63777
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 06:54:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BD3C6379D
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 08:18:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C4A921D7F
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 06:54:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92A4520B80
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Nov 2020 08:18:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="UCphCZhf"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eeMUG7qr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388182AbgKZGy1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Nov 2020 01:54:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36684 "EHLO mail.kernel.org"
+        id S1730128AbgKZISj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Nov 2020 03:18:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53364 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732132AbgKZGy0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 26 Nov 2020 01:54:26 -0500
-Received: from localhost.localdomain (unknown [180.164.155.184])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726162AbgKZISi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 26 Nov 2020 03:18:38 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C456620DD4;
-        Thu, 26 Nov 2020 06:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606373666;
-        bh=5Z9txHg2UFqQ7NQd1RgxRSaUOZ1cwrf26ByxIMYvDCM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UCphCZhfIgLMsBWd9J7Yywokv1gWjyUJQp/M3qWRbPTxYr4Ruuz2VrcLX9mO9KWzc
-         Uhlm6r+m++UjsS+i0PXNQhYmtx7xiN4TWKZncaYofeBWqghIxx/CrUccLe20CbQrzO
-         1+OA3Omt/qlQS9eNwzo3YHCVJbPl1mjzuhzz6GYw=
-From:   Peter Chen <peter.chen@kernel.org>
-To:     pawell@cadence.com, rogerq@ti.com
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org, linux-imx@nxp.com,
-        frank.li@nxp.com, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH 1/2] usb: cdns3: gadget: clear trb->length as zero after preparing every trb
-Date:   Thu, 26 Nov 2020 14:54:08 +0800
-Message-Id: <20201126065409.7533-1-peter.chen@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        by mail.kernel.org (Postfix) with ESMTPSA id A0C5620872;
+        Thu, 26 Nov 2020 08:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1606378718;
+        bh=ZVwgCSxOUjB5amUO0I9s5U68Y5DO93KiLrSMGRXD3s8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eeMUG7qrYs7sxhiyhs3+ujDVpYZGLVAdnu378vjYqmSK2/vTdwRUNOhBtpVCAqkSV
+         YEPFwRDpSdZe4cK96lblyKshnf4qaxiUt/U3LXEepEqenNiWjzuA8VDMUiH+Ubmbf5
+         XrDV3jfPq9iZuRLKqA5oFfo8ZxwOwLw3hw+11hww=
+Date:   Thu, 26 Nov 2020 09:19:42 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: typec: Add type sysfs attribute file for
+ partners
+Message-ID: <X79lHn+aEzFopTWv@kroah.com>
+References: <20201125120642.37156-1-heikki.krogerus@linux.intel.com>
+ <20201125120642.37156-3-heikki.krogerus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201125120642.37156-3-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Peter Chen <peter.chen@nxp.com>
+On Wed, Nov 25, 2020 at 03:06:42PM +0300, Heikki Krogerus wrote:
+> USB Power Delivery Specification defines a set of product
+> types for partners and cables. The product type can be read
+> from the ID Header VDO which is the first object in the
+> response to the Discover Identity command. This attribute
+> will display the product type of the partner. The cables
+> already have the attribute.
+> 
+> This sysfs attribute file is only created for the partners
+> and cables if the product type is really known in the
+> driver. Some interfaces do not give access to the Discover
+> Identity response from the partner or cable, but they may
+> still supply the product type separately in some cases.
+> 
+> When the product type of the partner or cable is detected,
+> uevent is also raised with PRODUCT_TYPE set to show the
+> actual product type (for example PRODUCT_TYPE=host).
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  Documentation/ABI/testing/sysfs-class-typec |  53 ++++++-
+>  drivers/usb/typec/class.c                   | 147 +++++++++++++++++---
+>  2 files changed, 181 insertions(+), 19 deletions(-)
 
-It clears trb->length as zero before preparing td, but if scatter
-buffer is used for td, there are several trbs within td, it needs to clear
-every trb->length as zero, otherwise, the default value for trb->length
-may not be zero after it begins to use the second round of trb rings.
+This patch doesn't apply against my usb-next branch (but patch 1/2 did).
+Can  you rebase this and resend it?
 
-Fixes: abc6b579048e ("usb: cdns3: gadget: using correct sg operations")
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
----
- drivers/usb/cdns3/gadget.c | 1 +
- 1 file changed, 1 insertion(+)
+thanks,
 
-diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
-index 365f30fb1159..0aa85cc07ff1 100644
---- a/drivers/usb/cdns3/gadget.c
-+++ b/drivers/usb/cdns3/gadget.c
-@@ -1260,6 +1260,7 @@ static int cdns3_ep_run_transfer(struct cdns3_endpoint *priv_ep,
- 		priv_req->end_trb = priv_ep->enqueue;
- 		cdns3_ep_inc_enq(priv_ep);
- 		trb = priv_ep->trb_pool + priv_ep->enqueue;
-+		trb->length = 0;
- 	} while (sg_iter < num_trb);
- 
- 	trb = priv_req->trb;
--- 
-2.17.1
-
+greg k-h
