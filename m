@@ -2,102 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3639C2D0E4
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Nov 2020 13:51:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 979F6C2D0E4
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Nov 2020 14:06:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1464320B1F
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Nov 2020 13:51:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33A9821D7A
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Nov 2020 14:06:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oaq4mlru"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VJ0TiIZe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730699AbgK0Nul (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Nov 2020 08:50:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41826 "EHLO mail.kernel.org"
+        id S1730699AbgK0OGJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Nov 2020 09:06:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46380 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730316AbgK0Nul (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 27 Nov 2020 08:50:41 -0500
+        id S1727653AbgK0OGI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 27 Nov 2020 09:06:08 -0500
 Received: from localhost (82-217-20-185.cable.dynamic.v4.ziggo.nl [82.217.20.185])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA27F2224A;
-        Fri, 27 Nov 2020 13:50:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8097D206CA;
+        Fri, 27 Nov 2020 14:06:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1606485040;
-        bh=uxMc+v5y4/CAVDXdUUY5D5KHB8dWir/j+6ArLkukR9Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oaq4mlruYrAHadOKy20SeMZh5bUP3ROfkvMrH9XFd86Tt9gOEDzVya9pXHn/umn/v
-         EuUOr/+e85Ffg0ARyJOHFd5sr7XQBqE4VoBTMZVOELk3rAiZQS32Ten1s08XyV211H
-         K/3Xjz9Wj41BAwR3H5iQ7HSg4YKJOmVr3BU/pIIg=
-Date:   Fri, 27 Nov 2020 14:50:37 +0100
+        s=korg; t=1606485968;
+        bh=l+ML/gM0MaklgpBNcmLG6VwzDWRbhWmTWpVYK6fwplg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VJ0TiIZeoIC+p9dPdQWKararEE9+orC9K+1k178hP/rXqGVfMD+HcTGMBVgsliARI
+         w5fmQJJXykd2jLE0+ps2z8H4LIbC0eGuefWay1vVaNjsPXHV5Cm2a1/D6UyjdK0u5M
+         yl/QiyMzQAwMZPaDrbZmiEuYeV93nVLAHnqhwclQ=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "taehyun.cho" <taehyun.cho@samsung.com>,
-        stable <stable@vger.kernel.org>,
-        Will McVicker <willmcvicker@google.com>
-Subject: Re: [PATCH 3/4] USB: gadget: f_fs: add SuperSpeed Plus support
-Message-ID: <X8EELU42XwBV9UV5@kroah.com>
-References: <20201126180937.255892-1-gregkh@linuxfoundation.org>
- <20201126180937.255892-3-gregkh@linuxfoundation.org>
- <20201127025517.GA22238@b29397-desktop>
+To:     balbi@kernel.org
+Cc:     peter.chen@nxp.com, willmcvicker@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        EJ Hsu <ejh@nvidia.com>, stable <stable@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2 1/5] USB: gadget: f_rndis: fix bitrate for SuperSpeed and above
+Date:   Fri, 27 Nov 2020 15:05:55 +0100
+Message-Id: <20201127140559.381351-2-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201127140559.381351-1-gregkh@linuxfoundation.org>
+References: <20201127140559.381351-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201127025517.GA22238@b29397-desktop>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 27, 2020 at 02:55:47AM +0000, Peter Chen wrote:
-> On 20-11-26 19:09:36, Greg Kroah-Hartman wrote:
-> > From: "taehyun.cho" <taehyun.cho@samsung.com>
-> > 
-> > Setup the descriptors for SuperSpeed Plus for f_fs. This allows the
-> > gadget to work properly without crashing at SuperSpeed rates.
-> > 
-> > Cc: Felipe Balbi <balbi@kernel.org>
-> > Cc: Peter Chen <peter.chen@nxp.com>
-> > Cc: stable <stable@vger.kernel.org>
-> > Signed-off-by: taehyun.cho <taehyun.cho@samsung.com>
-> > Signed-off-by: Will McVicker <willmcvicker@google.com>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  drivers/usb/gadget/function/f_fs.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> > index 046f770a76da..a34a7c96a1ab 100644
-> > --- a/drivers/usb/gadget/function/f_fs.c
-> > +++ b/drivers/usb/gadget/function/f_fs.c
-> > @@ -1327,6 +1327,7 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
-> >  		struct usb_endpoint_descriptor *desc;
-> >  
-> >  		switch (epfile->ffs->gadget->speed) {
-> > +		case USB_SPEED_SUPER_PLUS:
-> >  		case USB_SPEED_SUPER:
-> >  			desc_idx = 2;
-> >  			break;
-> > @@ -3222,6 +3223,10 @@ static int _ffs_func_bind(struct usb_configuration *c,
-> >  	func->function.os_desc_n =
-> >  		c->cdev->use_os_string ? ffs->interfaces_count : 0;
-> >  
-> > +	if (likely(super)) {
-> 
-> Why likely is used? Currently, there are still lots of HS devices on market
-> or on the development.
+From: Will McVicker <willmcvicker@google.com>
 
-It looks to be a cut/paste of the other tests above, all of which say
-"likely" which we all know is not true at all.  I'll leave this now, and
-add a patch that removes them all as this is NOT a function where it
-should be used at all.
+Align the SuperSpeed Plus bitrate for f_rndis to match f_ncm's ncm_bitrate
+defined by commit 1650113888fe ("usb: gadget: f_ncm: add SuperSpeed descriptors
+for CDC NCM").
 
-thanks for the review.
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: EJ Hsu <ejh@nvidia.com>
+Cc: Peter Chen <peter.chen@nxp.com>
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Will McVicker <willmcvicker@google.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/gadget/function/f_rndis.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/usb/gadget/function/f_rndis.c b/drivers/usb/gadget/function/f_rndis.c
+index 9534c8ab62a8..0739b05a0ef7 100644
+--- a/drivers/usb/gadget/function/f_rndis.c
++++ b/drivers/usb/gadget/function/f_rndis.c
+@@ -87,8 +87,10 @@ static inline struct f_rndis *func_to_rndis(struct usb_function *f)
+ /* peak (theoretical) bulk transfer rate in bits-per-second */
+ static unsigned int bitrate(struct usb_gadget *g)
+ {
++	if (gadget_is_superspeed(g) && g->speed >= USB_SPEED_SUPER_PLUS)
++		return 4250000000U;
+ 	if (gadget_is_superspeed(g) && g->speed == USB_SPEED_SUPER)
+-		return 13 * 1024 * 8 * 1000 * 8;
++		return 3750000000U;
+ 	else if (gadget_is_dualspeed(g) && g->speed == USB_SPEED_HIGH)
+ 		return 13 * 512 * 8 * 1000 * 8;
+ 	else
+-- 
+2.29.2
+
