@@ -2,61 +2,138 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+X-Spam-Status: No, score=-25.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7863DC64E7B
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Nov 2020 22:01:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D94B9C8301F
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Nov 2020 22:10:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32965223FD
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Nov 2020 22:01:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F08F2224D
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Nov 2020 22:10:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hf5IehI/"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kyzT9BRp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391122AbgK1WAv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 28 Nov 2020 17:00:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38368 "EHLO mail.kernel.org"
+        id S2389729AbgK1VuF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 28 Nov 2020 16:50:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390678AbgK1WAs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 28 Nov 2020 17:00:48 -0500
-Subject: Re: [GIT PULL] USB/PHY driver fixes for 5.10-rc6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606600808;
-        bh=4KSUhNjYMI1XH44Nc03wVJ8QmcR1pmMhqmSOesQ/xZU=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=hf5IehI/nfOGY3YC35VIi1Q1Crv8ss40XAWt0uwOXZgZDF3vt/GMKBou6JWSAzn4q
-         ab0ume6Eqj1EIWYhCOzAupNvdcbM7h0MN8R90c3rhR0U9I14hQnVrSu0jTYpWqyg4b
-         QMPvKssVWw5XjmnJsl+pjnJ1ODrUBloOnPkQtLSE=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <X8JBIBWUEgxr1lSY@kroah.com>
-References: <X8JBIBWUEgxr1lSY@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <X8JBIBWUEgxr1lSY@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.10-rc6
-X-PR-Tracked-Commit-Id: 484cfbe5fb61469a5f5a276258a8b3973164b56f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 67f34fa8893e6dfb0e8104c28ee6c5ce23a9e238
-Message-Id: <160660080815.28096.1107155279173363250.pr-tracker-bot@kernel.org>
-Date:   Sat, 28 Nov 2020 22:00:08 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1732557AbgK1TB7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 28 Nov 2020 14:01:59 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0A37921527;
+        Sat, 28 Nov 2020 12:21:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1606566108;
+        bh=Y0VLObZ7sDlZQU5Lu7IdF+WlaG5/Eqs/1V2TqTBE1rQ=;
+        h=Date:From:To:Cc:Subject:From;
+        b=kyzT9BRp074TPB7Lg53SGB10AYY8MYgf1+NR647LFyvKAOycbRxMMdYd035YapKrz
+         /JN69x1tr0xqkntq/9qAgNvX7SjXIieWpJXgtr0v7kW+TneVJ/xFMMyhGhKqHIsrog
+         NPV0eBpsbR4BOsBJy5RiGnmOAaFPq/sTNR/zYiXw=
+Date:   Sat, 28 Nov 2020 13:22:56 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB/PHY driver fixes for 5.10-rc6
+Message-ID: <X8JBIBWUEgxr1lSY@kroah.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Sat, 28 Nov 2020 13:22:56 +0100:
+The following changes since commit 09162bc32c880a791c6c0668ce0745cf7958f576:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.10-rc6
+  Linux 5.10-rc4 (2020-11-15 16:44:31 -0800)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/67f34fa8893e6dfb0e8104c28ee6c5ce23a9e238
+are available in the Git repository at:
 
-Thank you!
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.10-rc6
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+for you to fetch changes up to 484cfbe5fb61469a5f5a276258a8b3973164b56f:
+
+  usb: typec: stusb160x: fix power-opmode property with typec-power-opmode (2020-11-27 14:44:26 +0100)
+
+----------------------------------------------------------------
+USB / PHY driver fixes for 5.10-rc6
+
+Here are a few small USB and PHY driver fixes for 5.10-rc6.  They
+include:
+  - small PHY driver fixes to resolve reported issues
+  - USB quirks added for "broken" devices
+  - typec fixes for reported problems
+  - USB gadget fixes for small issues
+
+Full details are in the shortlog, nothing major in here and all have
+been in linux-next with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Al Cooper (1):
+      phy: usb: Fix incorrect clearing of tca_drv_sel bit in SETUP reg for 7211
+
+Alan Stern (2):
+      USB: core: Fix regression in Hercules audio card
+      USB: core: Change %pK for __user pointers to %px
+
+Amelie Delaunay (1):
+      usb: typec: stusb160x: fix power-opmode property with typec-power-opmode
+
+Bryan O'Donoghue (2):
+      phy: qualcomm: usb: Fix SuperSpeed PHY OF dependency
+      phy: qualcomm: Fix 28 nm Hi-Speed USB PHY OF dependency
+
+Colin Ian King (1):
+      phy: mediatek: fix spelling mistake in Kconfig "veriosn" -> "version"
+
+Geert Uytterhoeven (1):
+      phy: intel: PHY_INTEL_KEEMBAY_EMMC should depend on ARCH_KEEMBAY
+
+Greg Kroah-Hartman (2):
+      Merge tag 'usb-fixes-v5.10-rc5' of git://git.kernel.org/.../peter.chen/usb into usb-linus
+      Merge tag 'phy-fixes-5.10' of git://git.kernel.org/.../phy/linux-phy into usb-linus
+
+Marc Zyngier (1):
+      phy: tegra: xusb: Fix dangling pointer on probe failure
+
+Peter Chen (2):
+      usb: cdns3: gadget: initialize link_trb as NULL
+      usb: cdns3: gadget: calculate TD_SIZE based on TD
+
+Randy Dunlap (1):
+      usb: typec: qcom-pmic-typec: fix builtin build errors
+
+Stephen Boyd (1):
+      phy: qcom-qmp: Initialize another pointer to NULL
+
+Zhang Qilong (2):
+      usb: gadget: f_midi: Fix memleak in f_midi_alloc
+      usb: gadget: Fix memleak in gadgetfs_fill_super
+
+Zou Wei (1):
+      phy: cpcap-usb: Use IRQF_ONESHOT
+
+penghao (1):
+      USB: quirks: Add USB_QUIRK_DISCONNECT_SUSPEND quirk for Lenovo A630Z TIO built-in usb-audio card
+
+ drivers/phy/broadcom/phy-brcm-usb-init-synopsys.c |  5 -----
+ drivers/phy/intel/Kconfig                         |  2 +-
+ drivers/phy/mediatek/Kconfig                      |  2 +-
+ drivers/phy/motorola/phy-cpcap-usb.c              |  3 ++-
+ drivers/phy/qualcomm/Kconfig                      |  4 ++--
+ drivers/phy/qualcomm/phy-qcom-qmp.c               |  2 +-
+ drivers/phy/tegra/xusb.c                          |  1 +
+ drivers/usb/cdns3/gadget.c                        | 26 ++++++++++++-----------
+ drivers/usb/core/devio.c                          | 14 ++++++------
+ drivers/usb/core/quirks.c                         | 10 +++++++++
+ drivers/usb/gadget/function/f_midi.c              | 10 ++++++---
+ drivers/usb/gadget/legacy/inode.c                 |  3 +++
+ drivers/usb/typec/Kconfig                         |  1 +
+ drivers/usb/typec/stusb160x.c                     |  2 +-
+ 14 files changed, 51 insertions(+), 34 deletions(-)
