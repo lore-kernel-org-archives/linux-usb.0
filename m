@@ -8,64 +8,64 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E3B0C83013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFBAEC83017
 	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 590382080C
+	by mail.kernel.org (Postfix) with ESMTP id 9E85F2080C
 	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LRMgPa2d"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qhxudp8P"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387477AbgK2QIV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 29 Nov 2020 11:08:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39296 "EHLO
+        id S2387556AbgK2QIa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 29 Nov 2020 11:08:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728236AbgK2QIU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:08:20 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AEA3C061A4C;
-        Sun, 29 Nov 2020 08:07:18 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id b23so5088900pls.11;
-        Sun, 29 Nov 2020 08:07:18 -0800 (PST)
+        with ESMTP id S2387408AbgK2QIL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:08:11 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E63C061A4A;
+        Sun, 29 Nov 2020 08:07:08 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id w4so8391166pgg.13;
+        Sun, 29 Nov 2020 08:07:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ulF9m3lqljtgmnGhz+SzghBzSRKlHANlsmi6yEyMAeU=;
-        b=LRMgPa2dW5KmBLDrlMn8DAlzYuuCRsoXCIZVDU/n1JTBvWM5lPI8PUKoSl0GAvVhqf
-         sJo/NOOweogMOpuK4Y7GpetLA0ee064PrQqEkIdCN9fpJNgmnnOhbO2sxxu3yN6pbJL7
-         VmWDEQTikyWSE0M/zenKQqYCJ9FwEET/FhPShQIBXs6UiTUEl5NHDNz1E5KiCdwbhRNe
-         mFpdIf9PFijkovCghAQB8kU5uSoUxBM/GnQETMAeR6OikXXwDQAWirCTnGKaFcBHxlMx
-         DYckY+ezfq7FC/kSPfUu8SK15SF2c8Ys1Mhh34fMMPFBHbokcRkMBJJ84HJkb/1Y1Eub
-         UrWg==
+        bh=sDOpWxXfNZ312yhyl51Y7bEUu6zDTfPu30AJ2VVW3j8=;
+        b=qhxudp8PVkUP/lbksQXE9i19mfvs5SKAqy9qF0dpjvCKwPdYU5iAE4xU95CkqDaUAl
+         w95Qi+sgXd4F73f3188Itu00YzjCDQkeuUtKtrNz/y7u+8A50mVX5o3z36u2fGRn4IT0
+         ASch1WGw1OpaHHChIJPd75zYQDAFJ/6gQ0BTbkKOBjOYOc+LNxChVJUPNppAFwsJnWQ/
+         8TC6P8BMCsH03BuQCBIZlVonTVSbtfJfrNw17JFJITq8aKOCg1VgNLO/VUAVN0+Xd53R
+         UAcOAlYZWNUH0T+g6eq7vNI+433fq5k4hq3XC+HElBSO+jZJBIT0MP2OVvQ/zdc6pfEi
+         m2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ulF9m3lqljtgmnGhz+SzghBzSRKlHANlsmi6yEyMAeU=;
-        b=FmfjljMLVe/JzW64rVZA54/F0XodVxqZbU+O1+g9EipaTsYORTkn5boCwuHnA27REU
-         k9DPPjgQZmTcHUR8GbHo1RDfGGvWIQnpTXsv5erpedqyq1yF8JrbNSk6GD25W3osqzdO
-         3aHbYXynoOvXYpPxThwcy0TEuL7/EG8LNCmJsrrUfK+WLvFBRL63jraXsM399ur7Zt+K
-         BST448ZC3s1sCfW5UvlWAPmFvDworhSJqrk3Kd3FUAkWngw7tDHUS/YtiL0pODWEZAjF
-         TWR9Pjt8dDi6Fe7xFTLMLkT+878tb0qWlgkh3nXR4nws4dejbuSFIEBFNGx1YI5iYIQz
-         pRRQ==
-X-Gm-Message-State: AOAM531N5GECxAblfBm/21JDSjgGuTFsGU8AjX+QKwSoOODY9mvn9Bui
-        jJTi6Bydk+NWeonkGzdeM/w=
-X-Google-Smtp-Source: ABdhPJyKtNmL5wNGicC6Geed00X/lthoJxMcyxq1jRzaURDjTcMrD+MgRLqJfnkUSchyiGmL2Wzt2A==
-X-Received: by 2002:a17:902:76c5:b029:d6:a399:8231 with SMTP id j5-20020a17090276c5b02900d6a3998231mr14718033plt.3.1606666037690;
-        Sun, 29 Nov 2020 08:07:17 -0800 (PST)
+        bh=sDOpWxXfNZ312yhyl51Y7bEUu6zDTfPu30AJ2VVW3j8=;
+        b=JzCDIUyW+UkdgwRK+hR4BMmXBrjQlKMkzyhkq0z0yaH80jYuIiY7kn+ADE6ohfu2w9
+         jRqDDDTJhoNE9pcaKP5yHHKa/ljWGZSHOi7Zv6KL0md1YUkJLs3ExuoEyJ7jO+Wo9UEt
+         PM8W8tnoSvDWO32qUrCYmmmHgWg2ueITr2X2QPOXcOLmrkXxwPlnPPDR/BYMSmknUEdJ
+         lU6FIMHvknFAd31wiZDMIRlsNLekRMn9c4cwog+ewfTavmSzyKencAFVbu/IS8UtEBqh
+         /FHq9Wb3l3EOVd+CYVifIymqto2yYiICD4Ccpag5nIwYyVhC9qV7IYlXbRHB3H/v6FaP
+         bVOQ==
+X-Gm-Message-State: AOAM533ItNVtDtnMZoDEBotXDI/jM/oaf+i+smFQoLuD+v1AYgV3RecB
+        kEM61E3vCkltpl1EOaD0nMw=
+X-Google-Smtp-Source: ABdhPJxIQD+H77NlTQboQEfL3ak09BrLLoNfkuvPrIu+GxZvnK6Rw1IYaKC5G7DzWFrMurunGnaNoA==
+X-Received: by 2002:a63:455e:: with SMTP id u30mr14244106pgk.113.1606666027735;
+        Sun, 29 Nov 2020 08:07:07 -0800 (PST)
 Received: from localhost.localdomain ([49.207.196.188])
-        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.07.14
+        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.07.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 08:07:16 -0800 (PST)
+        Sun, 29 Nov 2020 08:07:07 -0800 (PST)
 From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
+        Johan Hovold <johan@kernel.org>,
         Anant Thazhemadam <anant.thazhemadam@gmail.com>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/15] usb: misc: ldusb: update to use usb_control_msg_send()
-Date:   Sun, 29 Nov 2020 21:36:08 +0530
-Message-Id: <20201129160612.1908074-12-anant.thazhemadam@gmail.com>
+Subject: [PATCH 08/15] usb: misc: idmouse: update to use usb_control_msg_send()
+Date:   Sun, 29 Nov 2020 21:36:05 +0530
+Message-Id: <20201129160612.1908074-9-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
 References: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
@@ -79,37 +79,30 @@ The newer usb_control_msg_{send|recv}() API are an improvement on the
 existing usb_control_msg() as it ensures that a short read/write is treated
 as an error, data can be used off the stack, and raw usb pipes need not be
 created in the calling functions.
-For this reason, the instance of usb_control_msg_send() has been replaced
-with usb_control_msg_send() appropriately.
+For this reason, the instance of usb_control_msg() has been replaced with
+usb_control_msg_send() appropriately.
 
 Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- drivers/usb/misc/ldusb.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/misc/idmouse.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/misc/ldusb.c b/drivers/usb/misc/ldusb.c
-index 670e4d91e9ca..259ead4edecb 100644
---- a/drivers/usb/misc/ldusb.c
-+++ b/drivers/usb/misc/ldusb.c
-@@ -573,15 +573,13 @@ static ssize_t ld_usb_write(struct file *file, const char __user *buffer,
- 	}
+diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
+index e9437a176518..52126441a633 100644
+--- a/drivers/usb/misc/idmouse.c
++++ b/drivers/usb/misc/idmouse.c
+@@ -56,8 +56,9 @@ static const struct usb_device_id idmouse_table[] = {
+ #define FTIP_SCROLL  0x24
  
- 	if (dev->interrupt_out_endpoint == NULL) {
--		/* try HID_REQ_SET_REPORT=9 on control_endpoint instead of interrupt_out_endpoint */
--		retval = usb_control_msg(interface_to_usbdev(dev->intf),
--					 usb_sndctrlpipe(interface_to_usbdev(dev->intf), 0),
--					 9,
-+		retval = usb_control_msg_send(interface_to_usbdev(dev->intf),
-+					 0, 9,
- 					 USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,
- 					 1 << 8, 0,
- 					 dev->interrupt_out_buffer,
- 					 bytes_to_write,
--					 USB_CTRL_SET_TIMEOUT);
-+					 USB_CTRL_SET_TIMEOUT, GFP_KERNEL);
- 		if (retval < 0)
- 			dev_err(&dev->intf->dev,
- 				"Couldn't submit HID_REQ_SET_REPORT %d\n",
+ #define ftip_command(dev, command, value, index) \
+-	usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0), command, \
+-	USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT, value, index, NULL, 0, 1000)
++	usb_control_msg_send(dev->udev, 0, command, \
++	USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT, \
++	value, index, NULL, 0, 1000, GFP_KERNEL)
+ 
+ MODULE_DEVICE_TABLE(usb, idmouse_table);
+ 
 -- 
 2.25.1
 
