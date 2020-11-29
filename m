@@ -5,66 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3967C71156
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2677EC8300F
+	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B97C20829
+	by mail.kernel.org (Postfix) with ESMTP id E512E20829
 	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qr+FI5l1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMsPwpWl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387518AbgK2QIP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 29 Nov 2020 11:08:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39294 "EHLO
+        id S1726669AbgK2QIT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 29 Nov 2020 11:08:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387477AbgK2QIO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:08:14 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFE00C0613CF;
-        Sun, 29 Nov 2020 08:07:14 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id b6so8722117pfp.7;
-        Sun, 29 Nov 2020 08:07:14 -0800 (PST)
+        with ESMTP id S2387527AbgK2QIQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:08:16 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81995C061A51;
+        Sun, 29 Nov 2020 08:07:24 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id b23so5088975pls.11;
+        Sun, 29 Nov 2020 08:07:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bgdeRrn/rBQnDRJ3mL6h7kSEUvCqL6QpWixhCtowYGU=;
-        b=qr+FI5l194+d+QM2vNdpKDJu5l5aSlTiazCzx9nRfePYryhUbJGMJdxF+STdfR+y8I
-         eL8z3JQdPNh75TwgYsYKQpMHeNOMzoHWgG0/y9eF2qwd6md9QnewGv+Rez5Firj5iqaL
-         ttQMv2nc3Me95DZkWeftQUM67bNtGJB2nuzB7tOVVz8BYbfrlT+sNpYHeci6rwQMlisj
-         APBbZNrVNLJcxLfRILXqRihz09riJVhD+u6QKTbwwkV/a9ASrqrbOitYpiR5HyJd0NIN
-         HJ84lWM2SrAr8G19o2gbNQ2xKA1y6duFuEkaDf/GFTCz+Xq/dGh4cXyvrMOegn1hQYSI
-         JvjA==
+        bh=Dyffzvu2x+IL6U+7i1kbp8EqPJ/1pVi63LQoMYA85l0=;
+        b=nMsPwpWlX30Gdz+D4p5oJnKAalzTiXcWuDf3LvY4/Wu73B9BkGvZb4XjRCS8IpbBwk
+         AlBgYK04qm0F5GbDkzzY/UutaY9u+SK2KzvH/9PvU8P+QCGkUKaoed/VQv6qneu+C2ht
+         tnPDf3C/EG+/nglY4Nm1u9c6mXdC9TrUO8GWfUq0UXpFN2whCvlUMY4e/sRoGkYXSpsK
+         mNIIRPRdxoopDkfSyo+27Xid300gt/NQ5lrOcAAPeYIcIALkh73aK4agLYbE+A1GEnbp
+         7vUtNMeSXozuYEo5Mie1PbxuhZGT+U4AApAKAFxfS37GnJEIJ+Stowlod00WKDYP05aM
+         jKXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bgdeRrn/rBQnDRJ3mL6h7kSEUvCqL6QpWixhCtowYGU=;
-        b=CtfladR8A795EqX7El89g6YqZhNaEC4aPnYXg1CbMEhb3X4ydH6JiCL8NB268dHMP2
-         Bm98Pmlb/1TrkSMaCGa0xCDm0FODsCtq0NihlxmmkQhahFMJ4NJY57t6qTDvESOghKaP
-         tCKXQcXNAub2yiXEWyh32z1dJ6IRsYWNKfm6HNglgibnkjIKBKutzqaBV4ZumX3fKjtf
-         o2Bu07E36Y/X1b1LYc/mcPy5icY0SzViAg0zQZ9x1A+PN6GTum/NTphkymQn5gfUv5ha
-         e55o+4Ykua4qS30j/NMuUQssg02JlhB7LqQ3btddEHQP/pjEU8QdosXJyq/O6GNcv87n
-         fUMQ==
-X-Gm-Message-State: AOAM532pumUA3exr4KkHQkpMt5T+ZEGb2DI56Zhk28CbdKQdmmT+AvsS
-        ITqHSeqKUC53EXKO0GA+SHk=
-X-Google-Smtp-Source: ABdhPJz7v8pqOW8HbAt4OAC8CJIPaQr22L2+ae0oPP67b13Heqip3VN/9OBZhY8k6g10Rc9FEbsKrQ==
-X-Received: by 2002:a17:90a:fcc:: with SMTP id 70mr8498192pjz.168.1606666034208;
-        Sun, 29 Nov 2020 08:07:14 -0800 (PST)
+        bh=Dyffzvu2x+IL6U+7i1kbp8EqPJ/1pVi63LQoMYA85l0=;
+        b=jaUZ0O6Xi/9eXypj7EcLu06GfTcrL2meuzICjQQZZLsC7qJZnn3KVfw6WaK6zmMslN
+         TF0H3mA85iaAgtdRJnFoqlPcnUMnXzlVqRK+pL5f1hz21JYPDjMJM4mW3uFai+lYDOR9
+         s3q/HUxPOcpV98knaupFhGnWZ7BOuVeIdbfzZM6XDOsHL4PCdduB/eh3vGF+nYbUTEki
+         Gt1HoS9NgqwQai7hXfXrVa3JePtuXzrYWFevZhI1Y9/36IClUbA6T05SpJmh9QmjiXz0
+         Z1QzNrJKQAjN50wRvbbVcRW5q+ZASvxd6N1aMfAnp1j3/B6PMD2m3WTz3EBnnBThmnxY
+         Ee2w==
+X-Gm-Message-State: AOAM5333Dmx8OfSQ/phKYBPowbKY/IaR20ix06jRZXUis0O+uebN413u
+        hJEOU9MRsr7stvH9mvmPS0TUlcgi8gCv0KYsPiM=
+X-Google-Smtp-Source: ABdhPJyo3SMxgU0SiNj6hrUlwAvMCQAi4hrhDk3yQETtLUBO9+uDp4nUnHXvo3Dov36OtFQ0WxnOAw==
+X-Received: by 2002:a17:902:aa8e:b029:da:1c87:e1a7 with SMTP id d14-20020a170902aa8eb02900da1c87e1a7mr15008136plr.40.1606666043964;
+        Sun, 29 Nov 2020 08:07:23 -0800 (PST)
 Received: from localhost.localdomain ([49.207.196.188])
-        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.07.11
+        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.07.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 08:07:13 -0800 (PST)
+        Sun, 29 Nov 2020 08:07:23 -0800 (PST)
 From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Anant Thazhemadam <anant.thazhemadam@gmail.com>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/15] usb: misc: isight_firmware: update to use usb_control_msg_send()
-Date:   Sun, 29 Nov 2020 21:36:07 +0530
-Message-Id: <20201129160612.1908074-11-anant.thazhemadam@gmail.com>
+Subject: [PATCH 13/15] usb: misc: trancevibrator: update to use usb_control_msg_send()
+Date:   Sun, 29 Nov 2020 21:36:10 +0530
+Message-Id: <20201129160612.1908074-14-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
 References: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
@@ -78,64 +78,35 @@ The newer usb_control_msg_{send|recv}() API are an improvement on the
 existing usb_control_msg() as it ensures that a short read/write is treated
 as an error, data can be used off the stack, and raw usb pipes need not be
 created in the calling functions.
-For this reason, the instances of usb_control_msg() have been replaced with
-usb_control_msg_send(), and return value checking has also been
-appropriately enforced.
+For this reason, the instance of usb_control_msg() has been replaced with
+usb_control_msg_send() and the return value checking condition has also
+been modified appropriately.
 
 Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- drivers/usb/misc/isight_firmware.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/usb/misc/trancevibrator.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/misc/isight_firmware.c b/drivers/usb/misc/isight_firmware.c
-index 4d30095d6ad2..d3fa6fa81e6c 100644
---- a/drivers/usb/misc/isight_firmware.c
-+++ b/drivers/usb/misc/isight_firmware.c
-@@ -53,11 +53,11 @@ static int isight_firmware_load(struct usb_interface *intf,
- 	ptr = firmware->data;
+diff --git a/drivers/usb/misc/trancevibrator.c b/drivers/usb/misc/trancevibrator.c
+index a3dfc77578ea..2c36ee249b4b 100644
+--- a/drivers/usb/misc/trancevibrator.c
++++ b/drivers/usb/misc/trancevibrator.c
+@@ -59,12 +59,12 @@ static ssize_t speed_store(struct device *dev, struct device_attribute *attr,
+ 	dev_dbg(&tv->udev->dev, "speed = %d\n", tv->speed);
  
- 	buf[0] = 0x01;
--	if (usb_control_msg
--	    (dev, usb_sndctrlpipe(dev, 0), 0xa0, 0x40, 0xe600, 0, buf, 1,
--	     300) != 1) {
-+	ret = usb_control_msg_send(dev, 0, 0xa0, 0x40, 0xe600,
-+				   0, buf, 1, 300, GFP_KERNEL);
-+	if (ret != 0) {
- 		printk(KERN_ERR
--		       "Failed to initialise isight firmware loader\n");
-+			"Failed to initialise isight firmware loader\n");
- 		ret = -ENODEV;
- 		goto out;
- 	}
-@@ -86,11 +86,11 @@ static int isight_firmware_load(struct usb_interface *intf,
- 
- 			ptr += llen;
- 
--			if (usb_control_msg
--			    (dev, usb_sndctrlpipe(dev, 0), 0xa0, 0x40, req, 0,
--			     buf, llen, 300) != llen) {
-+			ret = usb_control_msg_send(dev, 0, 0xa0, 0x40, req, 0,
-+						   buf, llen, 300, GFP_KERNEL);
-+			if (ret != 0) {
- 				printk(KERN_ERR
--				       "Failed to load isight firmware\n");
-+					"Failed to load isight firmware\n");
- 				ret = -ENODEV;
- 				goto out;
- 			}
-@@ -99,9 +99,9 @@ static int isight_firmware_load(struct usb_interface *intf,
- 	}
- 
- 	buf[0] = 0x00;
--	if (usb_control_msg
--	    (dev, usb_sndctrlpipe(dev, 0), 0xa0, 0x40, 0xe600, 0, buf, 1,
--	     300) != 1) {
-+	ret = usb_control_msg_send(dev, 0, 0xa0, 0x40, 0xe600,
-+				   0, buf, 1, 300, GFP_KERNEL);
-+	if (ret != 0) {
- 		printk(KERN_ERR "isight firmware loading completion failed\n");
- 		ret = -ENODEV;
- 	}
+ 	/* Set speed */
+-	retval = usb_control_msg(tv->udev, usb_sndctrlpipe(tv->udev, 0),
++	retval = usb_control_msg_send(tv->udev, 0,
+ 				 0x01, /* vendor request: set speed */
+ 				 USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+ 				 tv->speed, /* speed value */
+-				 0, NULL, 0, USB_CTRL_GET_TIMEOUT);
+-	if (retval) {
++				 0, NULL, 0, USB_CTRL_GET_TIMEOUT, GFP_KERNEL);
++	if (retval == 0) {
+ 		tv->speed = old;
+ 		dev_dbg(&tv->udev->dev, "retval = %d\n", retval);
+ 		return retval;
 -- 
 2.25.1
 
