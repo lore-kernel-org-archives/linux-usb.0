@@ -3,106 +3,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFBAEC83017
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B200EC3E8C5
+	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:16:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E85F2080C
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:08:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 667B32080C
+	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:16:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qhxudp8P"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xNrqMzko"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387556AbgK2QIa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 29 Nov 2020 11:08:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387408AbgK2QIL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:08:11 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E63C061A4A;
-        Sun, 29 Nov 2020 08:07:08 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id w4so8391166pgg.13;
-        Sun, 29 Nov 2020 08:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sDOpWxXfNZ312yhyl51Y7bEUu6zDTfPu30AJ2VVW3j8=;
-        b=qhxudp8PVkUP/lbksQXE9i19mfvs5SKAqy9qF0dpjvCKwPdYU5iAE4xU95CkqDaUAl
-         w95Qi+sgXd4F73f3188Itu00YzjCDQkeuUtKtrNz/y7u+8A50mVX5o3z36u2fGRn4IT0
-         ASch1WGw1OpaHHChIJPd75zYQDAFJ/6gQ0BTbkKOBjOYOc+LNxChVJUPNppAFwsJnWQ/
-         8TC6P8BMCsH03BuQCBIZlVonTVSbtfJfrNw17JFJITq8aKOCg1VgNLO/VUAVN0+Xd53R
-         UAcOAlYZWNUH0T+g6eq7vNI+433fq5k4hq3XC+HElBSO+jZJBIT0MP2OVvQ/zdc6pfEi
-         m2uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sDOpWxXfNZ312yhyl51Y7bEUu6zDTfPu30AJ2VVW3j8=;
-        b=JzCDIUyW+UkdgwRK+hR4BMmXBrjQlKMkzyhkq0z0yaH80jYuIiY7kn+ADE6ohfu2w9
-         jRqDDDTJhoNE9pcaKP5yHHKa/ljWGZSHOi7Zv6KL0md1YUkJLs3ExuoEyJ7jO+Wo9UEt
-         PM8W8tnoSvDWO32qUrCYmmmHgWg2ueITr2X2QPOXcOLmrkXxwPlnPPDR/BYMSmknUEdJ
-         lU6FIMHvknFAd31wiZDMIRlsNLekRMn9c4cwog+ewfTavmSzyKencAFVbu/IS8UtEBqh
-         /FHq9Wb3l3EOVd+CYVifIymqto2yYiICD4Ccpag5nIwYyVhC9qV7IYlXbRHB3H/v6FaP
-         bVOQ==
-X-Gm-Message-State: AOAM533ItNVtDtnMZoDEBotXDI/jM/oaf+i+smFQoLuD+v1AYgV3RecB
-        kEM61E3vCkltpl1EOaD0nMw=
-X-Google-Smtp-Source: ABdhPJxIQD+H77NlTQboQEfL3ak09BrLLoNfkuvPrIu+GxZvnK6Rw1IYaKC5G7DzWFrMurunGnaNoA==
-X-Received: by 2002:a63:455e:: with SMTP id u30mr14244106pgk.113.1606666027735;
-        Sun, 29 Nov 2020 08:07:07 -0800 (PST)
-Received: from localhost.localdomain ([49.207.196.188])
-        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.07.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 08:07:07 -0800 (PST)
-From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>,
-        Anant Thazhemadam <anant.thazhemadam@gmail.com>
+        id S1726961AbgK2QQy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 29 Nov 2020 11:16:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59764 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725468AbgK2QQy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 29 Nov 2020 11:16:54 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A618F2080C;
+        Sun, 29 Nov 2020 16:16:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1606666567;
+        bh=iuhl6jqcqemEjueLeX9RtQtS5Hlomxs0uN0YI18a/qU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xNrqMzkok3fomfue06G87svG+7XNZu+9H5o29JzHXDZ4ONw6uwPp7MukHSivZZdwx
+         mu/rttiqKzrft1tu5KwQuh86tv/e7R7hQ8ybf/nLWUnEXr4No3mII6GXw+jVyJ5LMQ
+         yfw8ENRAoAxyAkIcYP830FlYNzNg2vJvs1+P9RO0=
+Date:   Sun, 29 Nov 2020 17:16:03 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/15] usb: misc: idmouse: update to use usb_control_msg_send()
-Date:   Sun, 29 Nov 2020 21:36:05 +0530
-Message-Id: <20201129160612.1908074-9-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
+Subject: Re: [PATCH 03/15] usb: misc: cytherm: update to use
+ usb_control_msg_recv()
+Message-ID: <X8PJQzUZymkClmbE@kroah.com>
 References: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
+ <20201129160612.1908074-4-anant.thazhemadam@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201129160612.1908074-4-anant.thazhemadam@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The newer usb_control_msg_{send|recv}() API are an improvement on the
-existing usb_control_msg() as it ensures that a short read/write is treated
-as an error, data can be used off the stack, and raw usb pipes need not be
-created in the calling functions.
-For this reason, the instance of usb_control_msg() has been replaced with
-usb_control_msg_send() appropriately.
+On Sun, Nov 29, 2020 at 09:36:00PM +0530, Anant Thazhemadam wrote:
+> The newer usb_control_msg_{send|recv}() API are an improvement on the
+> existing usb_control_msg() as it ensures that a short read/write is treated
+> as an error, data can be used off the stack, and raw usb pipes need not be
+> created in the calling functions.
+> For this reason, the instance of usb_control_msg() has been replaced with
+> usb_control_msg_recv().
+> 
+> The return value checking enforced by callers of the updated function have
+> also been appropriately updated.
+> 
+> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+> ---
+>  drivers/usb/misc/cytherm.c | 42 +++++++++++++++++++-------------------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/usb/misc/cytherm.c b/drivers/usb/misc/cytherm.c
+> index 3e3802aaefa3..75fa4d806a77 100644
+> --- a/drivers/usb/misc/cytherm.c
+> +++ b/drivers/usb/misc/cytherm.c
+> @@ -51,12 +51,12 @@ static int vendor_command(struct usb_device *dev, unsigned char request,
+>  			  unsigned char value, unsigned char index,
+>  			  void *buf, int size)
+>  {
+> -	return usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
+> -			       request, 
+> -			       USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+> -			       value, 
+> -			       index, buf, size,
+> -			       USB_CTRL_GET_TIMEOUT);
+> +	return usb_control_msg_recv(dev, 0,
+> +				    request,
+> +				    USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+> +				    value,
+> +				    index, buf, size,
+> +				    USB_CTRL_GET_TIMEOUT, GFP_KERNEL);
+>  }
+>  
+>  
+> @@ -95,14 +95,14 @@ static ssize_t brightness_store(struct device *dev, struct device_attribute *att
+>  	/* Set brightness */
+>  	retval = vendor_command(cytherm->udev, WRITE_RAM, BRIGHTNESS, 
+>  				cytherm->brightness, buffer, 8);
+> -	if (retval)
+> -		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+> +	if (!retval)
+> +		dev_dbg(&cytherm->udev->dev, "brightness set correctly\n");
+>  	/* Inform µC that we have changed the brightness setting */
+>  	retval = vendor_command(cytherm->udev, WRITE_RAM, BRIGHTNESS_SEM,
+>  				0x01, buffer, 8);
+> -	if (retval)
+> -		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+> -   
+> +	if (!retval)
+> +		dev_dbg(&cytherm->udev->dev, "µC informed of change in brightness setting\n");
+> +
+>  	kfree(buffer);
+>     
+>  	return count;
 
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
----
- drivers/usb/misc/idmouse.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+There's no more need to dynamically allocate the buffer variable here
+now, right?  It can be on the stack as the change you made above allows
+that to work properly, no need to allocate the buffer twice in a row
+(once here and once in the USB core).
 
-diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
-index e9437a176518..52126441a633 100644
---- a/drivers/usb/misc/idmouse.c
-+++ b/drivers/usb/misc/idmouse.c
-@@ -56,8 +56,9 @@ static const struct usb_device_id idmouse_table[] = {
- #define FTIP_SCROLL  0x24
- 
- #define ftip_command(dev, command, value, index) \
--	usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0), command, \
--	USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT, value, index, NULL, 0, 1000)
-+	usb_control_msg_send(dev->udev, 0, command, \
-+	USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT, \
-+	value, index, NULL, 0, 1000, GFP_KERNEL)
- 
- MODULE_DEVICE_TABLE(usb, idmouse_table);
- 
--- 
-2.25.1
+That would make these functions less complex, always a good thing.
 
+You should check this on the other patches in this series as well.
+
+thanks,
+
+greg k-h
