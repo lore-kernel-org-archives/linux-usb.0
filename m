@@ -2,146 +2,203 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581AAC64E7B
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:07:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDA0C3E8C5
+	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:07:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FF712074A
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:07:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C5AB2074A
+	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 16:07:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sTynAWyU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTT+7/Dy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgK2QHN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 29 Nov 2020 11:07:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39116 "EHLO
+        id S1727981AbgK2QHb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 29 Nov 2020 11:07:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbgK2QHM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:07:12 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40E3AC0613CF;
-        Sun, 29 Nov 2020 08:06:32 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id t3so8394513pgi.11;
-        Sun, 29 Nov 2020 08:06:32 -0800 (PST)
+        with ESMTP id S1725468AbgK2QHb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 11:07:31 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DEDC0613D4;
+        Sun, 29 Nov 2020 08:06:51 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id l17so8429517pgk.1;
+        Sun, 29 Nov 2020 08:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ALXc7Qe3C+ECWCLA5rktXhPD6AeZz9/f+AYmP6J+Vt8=;
-        b=sTynAWyUtWwL/d3vDk5zw41PYTBK9FCyUHdlkoYPNtuThJP2wcn+UXaGNH3aXnpzfu
-         TvyNCSQLIJ9tWQaNjeTr4dk6wuukzZO6Nc9o/wGh/R2QKLo5ftL74DnSmJUjPhP21QKq
-         v4zwI8oS5lnzyhJ65kY+/pameNzrSc9h/Ky8W+hylha6+gl3SB4p28ejhzfNFPdouB+L
-         IDk2LbHb8wYfNbKxpJHLJ7zPA6zckQF+Fsssnj+qBijjAtw+sToNv9r1U5u9MFG7vH+R
-         J5j6aqNF/fW+j599Y8w1hhq0xw4BxuTnuTERG/fw+6cwpNvUSAe0P96VhsUIckPCDgTp
-         yFCg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wYgJ36S1d93ExxyZRxjjA6kLMdxalPYMh/Ef3UGOiwQ=;
+        b=bTT+7/DyFAtjDaSlJcGjkyPWp3JqxBfCQYatinU9uZ1zytBCosuJT80ZZXPx9PdOUT
+         9QzgUqrkUva1MldSbOlcyax5WH9IpV2xmeTiOXety5CPjt5AImUoNyqs2qFqsSn+3v2Z
+         F73CPOx1ss1YWhWEez0ejdVpixxz+f/6zOiWaKaz/hOelkQ4yEbMvUTi0okA7bk1Ehan
+         rTRg+cRxU2fOGGZjR/fBZ1Y6MjlFu+EgmBjr2JqbXmkF3xMCuB03OQj4bbKcUXTUd0xp
+         LJROBMgxqJ/l12jHDwcynEjh8G4j4VSSRv7lRLl32LgbuIDe5jiJ9oV+gR6CTxaxj2zU
+         N8sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ALXc7Qe3C+ECWCLA5rktXhPD6AeZz9/f+AYmP6J+Vt8=;
-        b=aTxGE2NntcUD7cO9324qaIYGTeDuStgqxzo1GvQQqyh0W9/KM6i/APrB04W5VOkkTm
-         I2AHkwWPW6BHMuQMo2vNsoU5T2/HWmM6QjyaMlKBOwSDLypgLHq7PYL1SXssi5o7OWTW
-         dnapN/iovsEKSZmYvy35iLLl7eMPBKg6pe1SSWYcpu+hud3pJLS+HmLInlwSTuPwMjnC
-         ANiCgBDY4spDEMQNoezYBtXoN3T4aexOyurE1DsqB+MtbnLuww6iRwV5+3PXxeA/0l3E
-         OKluOWv8qOUhRrItNo+VNsB3KAiqFj6+i6XXB7maHvyW4VNke92Py9sWSdPnttAysrzM
-         h/bQ==
-X-Gm-Message-State: AOAM530NP6Nhb7pu4QernO+c434y5ZEamKOP/SXK5Giy/0p3CsddEe1W
-        6ihWLPg2OOVERz/IDjJFXgo=
-X-Google-Smtp-Source: ABdhPJz5LSVSwgMMUQ4+CLBco7tWDqMUukYtlB/zr1LasR2Q3+m+66oVmJPVr52SzwS3ITOXdjNX6g==
-X-Received: by 2002:a63:484d:: with SMTP id x13mr13699870pgk.301.1606665990252;
-        Sun, 29 Nov 2020 08:06:30 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wYgJ36S1d93ExxyZRxjjA6kLMdxalPYMh/Ef3UGOiwQ=;
+        b=ALnsTrLlo7uyKIxm29F99jnl+SbPZ9EIklYecPBhiOJd81m3Ap7jh67nuNKXgYXeZY
+         vjF0ljHnJs+5G2C1JGXDS6LuwIvsE8bhlbcQ95V6mC+qXgvsF5vr4VAZAxywtdXoXazR
+         A2J1FeBfgkSTE6hWE17OLKHPQHr+b2cRu5sUemvhfB77mkBpoxH1t3JDERJNqHCmPnJc
+         U6SGogos+AY4tZvlNClxzzWbSlUGPpoOJeIqOk5rfVGdF3aiiPdhDtuc+9IaS7owuNuS
+         +LQvQomN81aSh6LDlpfOTisFQ2uSQhr8uIM6JWC2OiuYA80CyieMXvXxJDO+P/LBQ/r3
+         DfUw==
+X-Gm-Message-State: AOAM533Wd2Ny5JslIrC0awADLp9g2LVTynMoCCF5b8pf9N/+zGTmI+pN
+        7ezDpTdUHf/wza9MjDw+7mM=
+X-Google-Smtp-Source: ABdhPJyutdZ0cpo1qS5hyIx4JVtcFmG0PF5e8CI4v4xhEXBCa6Skb4vPtTVRqs9evx/ZUTDaNZRKpw==
+X-Received: by 2002:a62:5b05:0:b029:197:fafb:50f3 with SMTP id p5-20020a625b050000b0290197fafb50f3mr15050321pfb.76.1606666010509;
+        Sun, 29 Nov 2020 08:06:50 -0800 (PST)
 Received: from localhost.localdomain ([49.207.196.188])
-        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.06.26
+        by smtp.gmail.com with ESMTPSA id u3sm13496837pfu.47.2020.11.29.08.06.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 08:06:29 -0800 (PST)
+        Sun, 29 Nov 2020 08:06:49 -0800 (PST)
 From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH 00/15] drivers: usb: misc: update to use usb_control_msg_{send|recv}()
-Date:   Sun, 29 Nov 2020 21:35:57 +0530
-Message-Id: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 03/15] usb: misc: cytherm: update to use usb_control_msg_recv()
+Date:   Sun, 29 Nov 2020 21:36:00 +0530
+Message-Id: <20201129160612.1908074-4-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
+References: <20201129160612.1908074-1-anant.thazhemadam@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+The newer usb_control_msg_{send|recv}() API are an improvement on the
+existing usb_control_msg() as it ensures that a short read/write is treated
+as an error, data can be used off the stack, and raw usb pipes need not be
+created in the calling functions.
+For this reason, the instance of usb_control_msg() has been replaced with
+usb_control_msg_recv().
 
-The new usb_control_msg_{send|recv}() API provides an improved way of 
-using usb_control_msg(). Using this, short reads/writes are considered
-as errors, data can be used off the stack, and the need for the calling
-function to create a raw usb pipe is eliminated.
-This patch series aims to update existing instances of usb_control_msg() 
-in drivers/usb/misc to usb_control_msg_{send|recv}() appropriately, and
-also update the return value checking mechanisms in place (if any), as
-necessary so nothing breaks.
+The return value checking enforced by callers of the updated function have
+also been appropriately updated.
 
-I was however unable to update one instance of usb_control_msg() in 
-drivers/usb/misc/apple-mfi-fastcharge.c.
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+---
+ drivers/usb/misc/cytherm.c | 42 +++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-The return value checking mechanism present here, is as follows.
-	if (retval) {
-		dev_dbg(&mfi->udev->dev, "retval = %d\n", retval);
-		return retval;
-	}
-
-	mfi->charge_type = val->intval;
-
-	return 0;
-
-This implies that mfi->charge_type = val->intval only when number of
-bytes transferred = 0, and the return value is directly returned 
-otherwise. Since the new API doesn't return the number of bytes 
-transferred, I wasn't quite sure how this instance could be updated.
-In case this check is logically incorrect, a patch with a fix 
-can be sent in as well.
-
-
-Anant Thazhemadam (15):
-  usb: misc: appledisplay: update to use the
-    usb_control_msg_{send|recv}() API
-  usb: misc: cypress_cy7c63: update to use usb_control_msg_recv()
-  usb: misc: cytherm: update to use usb_control_msg_recv()
-  usb: misc: ehset: update to use the usb_control_msg_{send|recv}() API
-  usb: misc: emi26: update to use usb_control_msg_send()
-  usb: misc: emi62: update to use usb_control_msg_send()
-  usb: misc: ezusb: update to use usb_control_msg_send()
-  usb: misc: idmouse: update to use usb_control_msg_send()
-  usb: misc: iowarrior: update to use the usb_control_msg_{send|recv}()
-    API
-  usb: misc: isight_firmware: update to use usb_control_msg_send()
-  usb: misc: ldusb: update to use usb_control_msg_send()
-  usb: misc: lvstest: update to use the usb_control_msg_{send|recv}()
-    API
-  usb: misc: trancevibrator: update to use usb_control_msg_send()
-  usb: misc: usbsevseg: update to use usb_control_msg_send()
-  usb: misc: usbtest: update to use the usb_control_msg_{send|recv}()
-    API
-
- drivers/usb/misc/appledisplay.c    | 46 ++++++++------------
- drivers/usb/misc/cypress_cy7c63.c  | 10 ++---
- drivers/usb/misc/cytherm.c         | 42 +++++++++---------
- drivers/usb/misc/ehset.c           | 70 +++++++++++++-----------------
- drivers/usb/misc/emi26.c           | 14 +-----
- drivers/usb/misc/emi62.c           | 14 +-----
- drivers/usb/misc/ezusb.c           | 16 +------
- drivers/usb/misc/idmouse.c         |  5 ++-
- drivers/usb/misc/iowarrior.c       | 34 +++++++--------
- drivers/usb/misc/isight_firmware.c | 22 +++++-----
- drivers/usb/misc/ldusb.c           |  8 ++--
- drivers/usb/misc/lvstest.c         | 30 ++++++-------
- drivers/usb/misc/trancevibrator.c  |  6 +--
- drivers/usb/misc/usbsevseg.c       | 52 +++++++---------------
- drivers/usb/misc/usbtest.c         | 63 +++++++++++++--------------
- 15 files changed, 180 insertions(+), 252 deletions(-)
-
+diff --git a/drivers/usb/misc/cytherm.c b/drivers/usb/misc/cytherm.c
+index 3e3802aaefa3..75fa4d806a77 100644
+--- a/drivers/usb/misc/cytherm.c
++++ b/drivers/usb/misc/cytherm.c
+@@ -51,12 +51,12 @@ static int vendor_command(struct usb_device *dev, unsigned char request,
+ 			  unsigned char value, unsigned char index,
+ 			  void *buf, int size)
+ {
+-	return usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
+-			       request, 
+-			       USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+-			       value, 
+-			       index, buf, size,
+-			       USB_CTRL_GET_TIMEOUT);
++	return usb_control_msg_recv(dev, 0,
++				    request,
++				    USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_OTHER,
++				    value,
++				    index, buf, size,
++				    USB_CTRL_GET_TIMEOUT, GFP_KERNEL);
+ }
+ 
+ 
+@@ -95,14 +95,14 @@ static ssize_t brightness_store(struct device *dev, struct device_attribute *att
+ 	/* Set brightness */
+ 	retval = vendor_command(cytherm->udev, WRITE_RAM, BRIGHTNESS, 
+ 				cytherm->brightness, buffer, 8);
+-	if (retval)
+-		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
++	if (!retval)
++		dev_dbg(&cytherm->udev->dev, "brightness set correctly\n");
+ 	/* Inform µC that we have changed the brightness setting */
+ 	retval = vendor_command(cytherm->udev, WRITE_RAM, BRIGHTNESS_SEM,
+ 				0x01, buffer, 8);
+-	if (retval)
+-		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+-   
++	if (!retval)
++		dev_dbg(&cytherm->udev->dev, "µC informed of change in brightness setting\n");
++
+ 	kfree(buffer);
+    
+ 	return count;
+@@ -130,14 +130,14 @@ static ssize_t temp_show(struct device *dev, struct device_attribute *attr, char
+ 
+ 	/* read temperature */
+ 	retval = vendor_command(cytherm->udev, READ_RAM, TEMP, 0, buffer, 8);
+-	if (retval)
+-		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
++	if (!retval)
++		dev_dbg(&cytherm->udev->dev, "read temperature successfully\n");
+ 	temp = buffer[1];
+    
+ 	/* read sign */
+ 	retval = vendor_command(cytherm->udev, READ_RAM, SIGN, 0, buffer, 8);
+-	if (retval)
+-		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
++	if (!retval)
++		dev_dbg(&cytherm->udev->dev, "read sign successfully\n");
+ 	sign = buffer[1];
+ 
+ 	kfree(buffer);
+@@ -165,8 +165,8 @@ static ssize_t button_show(struct device *dev, struct device_attribute *attr, ch
+ 
+ 	/* check button */
+ 	retval = vendor_command(cytherm->udev, READ_RAM, BUTTON, 0, buffer, 8);
+-	if (retval)
+-		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
++	if (!retval)
++		dev_dbg(&cytherm->udev->dev, "checked button successfully\n");
+    
+ 	retval = buffer[1];
+ 
+@@ -193,7 +193,7 @@ static ssize_t port0_show(struct device *dev, struct device_attribute *attr, cha
+ 		return 0;
+ 
+ 	retval = vendor_command(cytherm->udev, READ_PORT, 0, 0, buffer, 8);
+-	if (retval)
++	if (!retval)
+ 		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+ 
+ 	retval = buffer[1];
+@@ -226,7 +226,7 @@ static ssize_t port0_store(struct device *dev, struct device_attribute *attr, co
+    
+ 	retval = vendor_command(cytherm->udev, WRITE_PORT, 0,
+ 				tmp, buffer, 8);
+-	if (retval)
++	if (!retval)
+ 		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+ 
+ 	kfree(buffer);
+@@ -248,7 +248,7 @@ static ssize_t port1_show(struct device *dev, struct device_attribute *attr, cha
+ 		return 0;
+ 
+ 	retval = vendor_command(cytherm->udev, READ_PORT, 1, 0, buffer, 8);
+-	if (retval)
++	if (!retval)
+ 		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+    
+ 	retval = buffer[1];
+@@ -281,7 +281,7 @@ static ssize_t port1_store(struct device *dev, struct device_attribute *attr, co
+    
+ 	retval = vendor_command(cytherm->udev, WRITE_PORT, 1,
+ 				tmp, buffer, 8);
+-	if (retval)
++	if (!retval)
+ 		dev_dbg(&cytherm->udev->dev, "retval = %d\n", retval);
+ 
+ 	kfree(buffer);
 -- 
 2.25.1
 
