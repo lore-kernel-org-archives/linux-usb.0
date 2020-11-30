@@ -2,125 +2,151 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACA7C64E7B
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 17:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA4DC64E7B
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Nov 2020 01:21:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84FE12080C
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Nov 2020 17:34:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C36722076A
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Nov 2020 01:21:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sP8kFzR6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728106AbgK2ReL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 29 Nov 2020 12:34:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52442 "EHLO
+        id S1726915AbgK3BVN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 29 Nov 2020 20:21:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbgK2ReK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 12:34:10 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A166BC0617A7
-        for <linux-usb@vger.kernel.org>; Sun, 29 Nov 2020 09:33:30 -0800 (PST)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1kjQYS-0006zE-4U; Sun, 29 Nov 2020 18:32:08 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1kjQYH-0003Mg-0E; Sun, 29 Nov 2020 18:31:57 +0100
-Date:   Sun, 29 Nov 2020 18:31:53 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Takashi Iwai <tiwai@suse.de>, Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Geoff Levand <geoff@infradead.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Jens Axboe <axboe@kernel.dk>,
-        Jim Paris <jim@jtan.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org,
-        linux-block@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 2/2] powerpc/ps3: make system bus's remove and shutdown
- callbacks return void
-Message-ID: <20201129173153.jbt3epcxnasbemir@pengutronix.de>
-References: <20201126165950.2554997-1-u.kleine-koenig@pengutronix.de>
- <20201126165950.2554997-2-u.kleine-koenig@pengutronix.de>
- <s5hv9dphnoh.wl-tiwai@suse.de>
+        with ESMTP id S1726470AbgK3BVM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Nov 2020 20:21:12 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23761C0613CF;
+        Sun, 29 Nov 2020 17:20:27 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id bj5so5560667plb.4;
+        Sun, 29 Nov 2020 17:20:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p9neIC2nP4AkQG8eY+IlQyOgSSMBX6Quf44ZMyRQcc0=;
+        b=sP8kFzR69H9wb2BgjF9BVHIprW940obj2C3GgnE5KiSsX26HBnzEte+yBu2/xs7nF7
+         NxupZizj41Df2KVAP5epghac0sLnIf7LavS+NbHqe+FL+QFaBn7Vju807Efy/ok7gVUX
+         nuF1iWP1zWKzNdiOEID78J8vIvzwl+P3+puPkRITotCQf2iDU60datuh+gjF4GA52+Pg
+         zt3zEcrhy4VuB/y6cuXINykKyw7eNvlSqQ7fJoYpvW6UBAeRn7z5nlWHsye2gYlmQL6J
+         MvxkDVnS1o8zMn+vNK+DLn/8udePoShPcOGn6ZHQAJG8o9rM0tiNggs4FafYaCYmEbRf
+         JDzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p9neIC2nP4AkQG8eY+IlQyOgSSMBX6Quf44ZMyRQcc0=;
+        b=X6+RUEhQiPqbmWtka0uQsuCAcAc1EONLS75ec5mqKFTWFeMjgnSLSmApiJAIxcISZx
+         sizEz5d6+qm3qSu1UPNFqTYuGvIxzHUNKsjYel/eqy4QAQ1hmCPaeMZ5DGAPGN9rn0Cj
+         2hAzU70kg8P3+zDH9DzGs8FQIcWf/FvH1WghD2DvH7md9oYJYQPtMGpG1XPFGLkhaePE
+         kEeRbx1aimNcEfjIjJVQ6RGykXxQj0GTrB8fTL/8Qnwr7Flgq2vp+xyl9uFZAv9eLEVz
+         92vEu7sb4zPH3Q1FwfaQtG7Blzt7XLwcwLd+C4KTiFpyJcDOtSenpUYRCH2IlazZo8FF
+         1alg==
+X-Gm-Message-State: AOAM530+cJQ+r7tQt5gTBuyyh7FAq4Dw4RBpmE3eLHbsigC7WSSGquzt
+        8Pyw8LhrVH70XbQTUklmdf0dR4pGSAwV3S6ogaE=
+X-Google-Smtp-Source: ABdhPJywNIp8bBDK+nxoBIkEXPB7hi3yXNEqpvBhNXKu3OFZe7JfHWZbeDitlY1UswE1xADVZpOxVA==
+X-Received: by 2002:a17:90a:b782:: with SMTP id m2mr10256163pjr.185.1606699226333;
+        Sun, 29 Nov 2020 17:20:26 -0800 (PST)
+Received: from localhost.localdomain ([49.207.196.188])
+        by smtp.gmail.com with ESMTPSA id l10sm20002567pjg.3.2020.11.29.17.20.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Nov 2020 17:20:25 -0800 (PST)
+From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v2 00/15] drivers: usb: misc: update to use usb_control_msg_{send|recv}()
+Date:   Mon, 30 Nov 2020 06:48:04 +0530
+Message-Id: <20201130011819.2576481-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q5fwi2prasbljs5f"
-Content-Disposition: inline
-In-Reply-To: <s5hv9dphnoh.wl-tiwai@suse.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+The new usb_control_msg_{send|recv}() API provides an improved way of 
+using usb_control_msg(). Using this, short reads/writes are considered
+as errors, data can be used off the stack, and the need for the calling
+function to create a raw usb pipe is eliminated.
+This patch series aims to update existing instances of usb_control_msg() 
+in drivers/usb/misc to usb_control_msg_{send|recv}() appropriately, and
+also update the return value checking mechanisms in place (if any), as
+necessary so nothing breaks.
 
---q5fwi2prasbljs5f
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I was however unable to update one instance of usb_control_msg() in 
+drivers/usb/misc/apple-mfi-fastcharge.c.
 
-Hello Michael,
+The return value checking mechanism present here, is as follows.
+	if (retval) {
+		dev_dbg(&mfi->udev->dev, "retval = %d\n", retval);
+		return retval;
+	}
 
-On Sat, Nov 28, 2020 at 09:48:30AM +0100, Takashi Iwai wrote:
-> On Thu, 26 Nov 2020 17:59:50 +0100,
-> Uwe Kleine-K=F6nig wrote:
-> >=20
-> > The driver core ignores the return value of struct device_driver::remove
-> > because there is only little that can be done. For the shutdown callback
-> > it's ps3_system_bus_shutdown() which ignores the return value.
-> >=20
-> > To simplify the quest to make struct device_driver::remove return void,
-> > let struct ps3_system_bus_driver::remove return void, too. All users
-> > already unconditionally return 0, this commit makes it obvious that
-> > returning an error code is a bad idea and ensures future users behave
-> > accordingly.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> For the sound bit:
-> Acked-by: Takashi Iwai <tiwai@suse.de>
+	mfi->charge_type = val->intval;
 
-assuming that you are the one who will apply this patch: Note that it
-depends on patch 1 that Takashi already applied to his tree. So you
-either have to wait untils patch 1 appears in some tree that you merge
-before applying, or you have to take patch 1, too. (With Takashi
-optinally dropping it then.)
+	return 0;
 
-Best regards
-Uwe
+This implies that mfi->charge_type = val->intval only when number of
+bytes transferred = 0, and the return value is directly returned 
+otherwise. Since the new API doesn't return the number of bytes 
+transferred, I wasn't quite sure how this instance could be updated.
+In case this check is logically incorrect, a patch with a fix 
+can be sent in as well.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Changes in v2:
 
---q5fwi2prasbljs5f
-Content-Type: application/pgp-signature; name="signature.asc"
+  * Buffer variables that were previously dynamically allocated are no
+    longer dynamically allocated unless they have a variable length
+    (since that threw a warning).
+    
 
------BEGIN PGP SIGNATURE-----
+Anant Thazhemadam (15):
+  usb: misc: appledisplay: update to use the
+    usb_control_msg_{send|recv}() API
+  usb: misc: cypress_cy7c63: update to use usb_control_msg_recv()
+  usb: misc: cytherm: update to use usb_control_msg_recv()
+  usb: misc: ehset: update to use the usb_control_msg_{send|recv}() API
+  usb: misc: emi26: update to use usb_control_msg_send()
+  usb: misc: emi62: update to use usb_control_msg_send()
+  usb: misc: ezusb: update to use usb_control_msg_send()
+  usb: misc: idmouse: update to use usb_control_msg_send()
+  usb: misc: iowarrior: update to use the usb_control_msg_{send|recv}()
+    API
+  usb: misc: isight_firmware: update to use usb_control_msg_send()
+  usb: misc: ldusb: update to use usb_control_msg_send()
+  usb: misc: lvstest: update to use the usb_control_msg_{send|recv}()
+    API
+  usb: misc: trancevibrator: update to use usb_control_msg_send()
+  usb: misc: usbsevseg: update to use usb_control_msg_send()
+  usb: misc: usbtest: update to use the usb_control_msg_{send|recv}()
+    API
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/D2wYACgkQwfwUeK3K
-7AmmxQf+IiMtqhw/kONuYhwVAdprYhlgZyY9iZSe5xHA/6/1zNmBbfhPRm6PfStb
-RRMTewx97J4joVbCv7OhlZBsoA7lnpUKJD05Qt7eXIEMdnuscbTx8YZr/z94s9/Y
-/ElFT8e2Wx6crnEbjWeFcYVTLkGgf1pnUhpFmTq4LwQqqV5lQWUu6JMnS8THMhay
-RCwTJR+P84Nw4wv39uvWN4LFmuDeM5hjnPjoEFBbnAeUtQr62AAh7itX8pTNEyZp
-t6M09QdoxpJWDPe/vRxYZSZdsuE+vXsCuMWH5Kyo0hodOX9m6JpOhsPm/YiaCK5B
-IW1LSeEeHe9uPQSACw7mkNft9x6Zfg==
-=TO3P
------END PGP SIGNATURE-----
+ drivers/usb/misc/appledisplay.c    |  46 +++++------
+ drivers/usb/misc/cypress_cy7c63.c  |  21 ++---
+ drivers/usb/misc/cytherm.c         | 128 ++++++++++-------------------
+ drivers/usb/misc/ehset.c           |  76 ++++++++---------
+ drivers/usb/misc/emi26.c           |  31 ++-----
+ drivers/usb/misc/emi62.c           |  30 ++-----
+ drivers/usb/misc/ezusb.c           |  16 +---
+ drivers/usb/misc/idmouse.c         |   5 +-
+ drivers/usb/misc/iowarrior.c       |  34 ++++----
+ drivers/usb/misc/isight_firmware.c |  30 +++----
+ drivers/usb/misc/ldusb.c           |   8 +-
+ drivers/usb/misc/lvstest.c         |  38 ++++-----
+ drivers/usb/misc/trancevibrator.c  |   4 +-
+ drivers/usb/misc/usbsevseg.c       |  60 ++++----------
+ drivers/usb/misc/usbtest.c         |  69 +++++++---------
+ 15 files changed, 216 insertions(+), 380 deletions(-)
 
---q5fwi2prasbljs5f--
+-- 
+2.25.1
+
