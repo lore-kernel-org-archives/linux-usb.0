@@ -2,102 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6768BC64E7B
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Nov 2020 11:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B170DC64E7B
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Nov 2020 11:34:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A675206C0
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Nov 2020 11:31:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="thJv2e9C"
+	by mail.kernel.org (Postfix) with ESMTP id 66F5F206C0
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Nov 2020 11:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbgK3Lbg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Nov 2020 06:31:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726345AbgK3Lbf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Nov 2020 06:31:35 -0500
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B272CC0613D2;
-        Mon, 30 Nov 2020 03:30:55 -0800 (PST)
-Received: by mail-qt1-x844.google.com with SMTP id u21so1992067qtw.11;
-        Mon, 30 Nov 2020 03:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=M+trhuPUBFP3JQwxSSGofs1PCXGPO8zUFhxjN+RxJTk=;
-        b=thJv2e9CevkDgp9T99+nyHwvCqRFoB33hNNgH+NJXQkDqjbFavjlPNE6x7H0gDP7sM
-         ePz0GCv8LCr5HtNk94F9riuL/c5Z6V/h3PJx9MmaJgeZSXww5AtnyMrFvWITWG68WWuY
-         WUetkGkcBn7COkmcOS5fikctSpkzDBgpYvFcv4EhchgWa3i73iUOZ84RZjnJAppCYa6K
-         7+QpGzZRgo87escIpsJDJu5VnyMs2gwcioyw+uNqr/5onw/m1Z1O9MsM4RklycW7KzSJ
-         gcxuiHIqAh/WY/a3RVf2l5klfpdOv9fQD42R7Xy6Cj+9KKLRWFsqvSpEdPsXlUYJMRFU
-         1s/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=M+trhuPUBFP3JQwxSSGofs1PCXGPO8zUFhxjN+RxJTk=;
-        b=aTbJWEgAzpXHPreQHc6XSCAwHvrBiZHmqMNvAVmDE9bbBWbeuEH5Vv9LdLhO0Uolmj
-         CJCxw8aIhVqbL/yMssFYHDJ7bZz1ZVNP4Q66ljVeqylHmmaXHeUVvJcKW/Ob16sJ0+Zu
-         FMozNr9Y5bZb+O8AF6Gs1XKa0NeSTvcZoE7tc98+7UPKBIoOxFnupTuKk4vYmMyqaLzU
-         //dLro0zaNWm05RaVaN4qZyGyLwr5yiUHPUe6Pouj9lgUm9jCR9LfGtQUKTGfYL5GUQR
-         fTgsFVy+go/hIPfFzaAjJhDFBYnPfVduQOEHgtcOlrQ2hWm8OgHHIfHbb3xDu62X7pN4
-         ym2Q==
-X-Gm-Message-State: AOAM533pgp09li2Cz4QewRzRmJtsB4tj/f+KohZEhaN5t9An5yfpk8Oi
-        N0SU/H5ukoR8J92BPI5z6uprzChGOP3Piw==
-X-Google-Smtp-Source: ABdhPJyJrp5D8aX96IDFdmbDR+W80+MzTyXPsDOGHMDq4gXqm3VOwlb1wJRj0FKh3/1sPxILvU/phw==
-X-Received: by 2002:ac8:4507:: with SMTP id q7mr21413019qtn.49.1606735854824;
-        Mon, 30 Nov 2020 03:30:54 -0800 (PST)
-Received: from localhost.localdomain ([177.194.72.74])
-        by smtp.gmail.com with ESMTPSA id o13sm14307852qkm.78.2020.11.30.03.30.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 03:30:54 -0800 (PST)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     gregkh@linuxfoundation.org
-Cc:     Peter.Chen@nxp.com, linux-usb@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>, stable@vger.kernel.org
-Subject: [PATCH v2] usb: chipidea: ci_hdrc_imx: Pass DISABLE_DEVICE_STREAMING flag to imx6ul
-Date:   Mon, 30 Nov 2020 08:30:47 -0300
-Message-Id: <20201130113047.9659-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729168AbgK3LeY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Nov 2020 06:34:24 -0500
+Received: from mga02.intel.com ([134.134.136.20]:48127 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728345AbgK3LeY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 30 Nov 2020 06:34:24 -0500
+IronPort-SDR: 6bwMl23HWPklERCjpNJhocn8nmlG5OW6DQH814+w5NGEBOUDinc3NRVRCP/DhMDIJ1fXOpD4NS
+ HsrH3TNxoAFA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="159671766"
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
+   d="scan'208";a="159671766"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 03:32:44 -0800
+IronPort-SDR: WDj5bXBzENd2PdlqqxP9H80inRwHBSG6pBwd3vyhf2qPim9xOt82IzkQuhjDOG1gyUbwiz3kA9
+ jeJiHF8W3OSg==
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
+   d="scan'208";a="549061268"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 03:32:41 -0800
+Received: by lahna (sSMTP sendmail emulation); Mon, 30 Nov 2020 13:32:38 +0200
+Date:   Mon, 30 Nov 2020 13:32:38 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [GIT PULL] Thunderbolt/USB4 fix for v5.10-rc7
+Message-ID: <20201130113238.GT5246@lahna.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-According to the i.MX6UL Errata document:
-https://www.nxp.com/docs/en/errata/IMX6ULCE.pdf
+Hi Greg,
 
-ERR007881 also affects i.MX6UL, so pass the
-CI_HDRC_DISABLE_DEVICE_STREAMING flag to workaround the issue.
+The following changes since commit 09162bc32c880a791c6c0668ce0745cf7958f576:
 
-Cc: <stable@vger.kernel.org>
-Fixes: 52fe568e5d71 ("usb: chipidea: imx: add imx6ul usb support")
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v1:
-- Use the CI_HDRC_DISABLE_DEVICE_STREAMING flag instead - Peter
+  Linux 5.10-rc4 (2020-11-15 16:44:31 -0800)
 
- drivers/usb/chipidea/ci_hdrc_imx.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-index 25c65accf089..5e07a0a86d11 100644
---- a/drivers/usb/chipidea/ci_hdrc_imx.c
-+++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-@@ -57,7 +57,8 @@ static const struct ci_hdrc_imx_platform_flag imx6sx_usb_data = {
- 
- static const struct ci_hdrc_imx_platform_flag imx6ul_usb_data = {
- 	.flags = CI_HDRC_SUPPORTS_RUNTIME_PM |
--		CI_HDRC_TURN_VBUS_EARLY_ON,
-+		CI_HDRC_TURN_VBUS_EARLY_ON |
-+		CI_HDRC_DISABLE_DEVICE_STREAMING,
- };
- 
- static const struct ci_hdrc_imx_platform_flag imx7d_usb_data = {
--- 
-2.17.1
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.10-rc7
 
+for you to fetch changes up to 600c0849cf86b75d86352f59745226273290986a:
+
+  thunderbolt: Fix use-after-free in remove_unplugged_switch() (2020-11-19 17:44:10 +0300)
+
+----------------------------------------------------------------
+thunderbolt: Fix for v5.10-rc7
+
+This includes a single fix for use-after-free bug after resume from
+hibernation.
+
+----------------------------------------------------------------
+Mika Westerberg (1):
+      thunderbolt: Fix use-after-free in remove_unplugged_switch()
+
+ drivers/thunderbolt/icm.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
