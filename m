@@ -2,232 +2,296 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3CFC64E90
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDA4C64E7A
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:16:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 697D920857
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:01:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2145206B6
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:16:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.b="SdWsd4Q2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730850AbgLANAg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Dec 2020 08:00:36 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:44942 "EHLO honk.sigxcpu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729889AbgLANAf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Dec 2020 08:00:35 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id A1D02FB03;
-        Tue,  1 Dec 2020 13:59:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
-        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LjPCbbz6B9Wz; Tue,  1 Dec 2020 13:59:52 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 588E74068F; Tue,  1 Dec 2020 13:59:50 +0100 (CET)
-From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        id S2390491AbgLANQg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Dec 2020 08:16:36 -0500
+Received: from gproxy10-pub.mail.unifiedlayer.com ([69.89.20.226]:45969 "EHLO
+        gproxy10-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727700AbgLANQg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Dec 2020 08:16:36 -0500
+Received: from cmgw12.unifiedlayer.com (unknown [10.9.0.12])
+        by gproxy10.mail.unifiedlayer.com (Postfix) with ESMTP id 6054114050C
+        for <linux-usb@vger.kernel.org>; Tue,  1 Dec 2020 06:15:54 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id k5VZkbQYCeMJHk5VakiC5l; Tue, 01 Dec 2020 06:15:54 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.3 cv=SKZsqtnH c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=IkcTkHD0fZMA:10:nop_charset_1
+ a=zTNgK-yGK50A:10:nop_rcvd_month_year
+ a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=1XWaLZrsAAAA:8
+ a=khyp7Ak2u8PIEQnDyBEA:9 a=QEXdDO2ut3YA:10:nop_charset_2
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=7ka/1rY/g9Kk1I3I9nz4mhdbzJ2LfAjoUaS0mkSz+Ps=; b=SdWsd4Q2l0HwwbeEyQlXx9fbJG
+        U0JDX08pA/27CMFUxeQgqCvYvLcIpklubR2JgY8pEW0n0mxyFOu8DYB+IklMzsjYDGEJft5LLy6kh
+        OOn//I+GJYVnZQFtKeH5mX7uO1MtFVn3U4iwLDiH8QLxQRaEUcF2L/T5D59H6Un6RMZoP8EmJWcfO
+        SETIAX5p7iUvskKUpAOzgVXtr3zQ8KCXl0dYdMi2qkucl0fPkeptEbFTrAczD50TwtbAGTiNjwDP6
+        r7TuyJbUYvnqwPMnl66i3Umn6IlejAAXKC5xMMuFzVzLLOU8F+n4a365IjTLThIGncBI7vK/rjfDi
+        hbPWAwaQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:59902 helo=localhost)
+        by bh-25.webhostbox.net with esmtpa (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1kk5VZ-000756-DT; Tue, 01 Dec 2020 13:15:53 +0000
+Date:   Tue, 1 Dec 2020 05:15:52 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 2/2] usb: typec: tps6598x: Export some power supply properties
-Date:   Tue,  1 Dec 2020 13:59:50 +0100
-Message-Id: <ee2df27df04e6ff01d15255665458be1000dcfa8.1606827507.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1606827507.git.agx@sigxcpu.org>
-References: <cover.1606827507.git.agx@sigxcpu.org>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] usb: typec: tcpm: Introduce vsafe0v for vbus
+Message-ID: <20201201131552.GB232197@roeck-us.net>
+References: <20201201013246.32034-1-badhri@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201201013246.32034-1-badhri@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1kk5VZ-000756-DT
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:59902
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 16
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This allows downstream supplies and userspace to detect
-whether external power is supplied.
+On Mon, Nov 30, 2020 at 05:32:44PM -0800, Badhri Jagan Sridharan wrote:
+> TCPM at present lacks the notion of VSAFE0V. There
+> are three vbus threshold levels that are critical to track:
+> a. vSafe5V         - VBUS “5 volts” as defined by the USB
+>                      PD specification.
+> b. vSinkDisconnect - Threshold used for transition from
+>                      Attached.SNK to Unattached.SNK.
+> c. vSafe0V         - VBUS “0 volts” as defined by the USB
+>                      PD specification.
+> 
+> Tracking vSafe0V is crucial for entry into Try.SNK and
+> Attached.SRC and turning vbus back on by the source in
+> response to hard reset.
+> 
+> From "4.5.2.2.8.2 Exiting from AttachWait.SRC State" section
+> in the Type-C spec:
+> 
+> "The port shall transition to Attached.SRC when VBUS is at
+> vSafe0V and the SRC.Rd state is detected on exactly one of
+> the CC1 or CC2 pins for at least tCCDebounce."
+> 
+> "A DRP that strongly prefers the Sink role may optionally
+> transition to Try.SNK instead of Attached.SRC when VBUS
+> is at vSafe0V and the SRC.Rd state is detected on exactly
+> one of the CC1 or CC2 pins for at least tCCDebounce."
+> 
+> From "7.1.5 Response to Hard Resets" section in the PD spec:
+> 
+> "After establishing the vSafe0V voltage condition on VBUS,
+> the Source Shall wait tSrcRecover before re-applying VCONN
+> and restoring VBUS to vSafe5V."
+> 
+> vbus_present in the TCPM code tracks vSafe5V(vbus_present is true)
+> and vSinkDisconnect(vbus_present is false).
+> 
+> This change adds is_vbus_vsafe0v callback which when set makes
+> TCPM query for vSafe0V voltage level when needed.
+> 
+> Since not all TCPC controllers might have the capability
+> to report vSafe0V, TCPM assumes that vSafe0V is same as
+> vSinkDisconnect when is_vbus_vsafe0v callback is not set.
+> This allows TCPM to continue to support controllers which don't
+> have the support for reporting vSafe0V.
+> 
+> Introducing vSafe0V helps fix the failure reported at
+> "Step 15. CVS verifies PUT remains in AttachWait.SRC for 500ms"
+> of "TD 4.7.2 Try. SNK DRP Connect DRP Test" of
+> "Universal Serial Bus Type-C (USB Type-C) Functional Test
+> Specification Chapters 4 and 5". Here the compliance tester
+> intentionally maintains vbus at greater than vSafe0V and expects
+> the Product under test to stay in AttachWait.SRC till vbus drops
+> to vSafe0V.
+> 
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 63 +++++++++++++++++++++++++++++------
+>  include/linux/usb/tcpm.h      |  6 ++++
+>  2 files changed, 58 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 3bbc1f10af49..10a065eef73e 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -258,7 +258,19 @@ struct tcpm_port {
+>  	bool attached;
+>  	bool connected;
+>  	enum typec_port_type port_type;
+> +
+> +	/*
+> +	 * Set to true when vbus is greater than VSAFE5V min.
+> +	 * Set to false when vbus falls below vSinkDisconnect max threshold.
+> +	 */
+>  	bool vbus_present;
+> +
+> +	/*
+> +	 * Set to true when vbus is less than VSAFE0V max.
+> +	 * Set to false when vbus is greater than VSAFE0V max.
+> +	 */
+> +	bool vbus_vsafe0v;
+> +
+>  	bool vbus_never_low;
+>  	bool vbus_source;
+>  	bool vbus_charge;
+> @@ -3094,7 +3106,7 @@ static void run_state_machine(struct tcpm_port *port)
+>  		else if (tcpm_port_is_audio(port))
+>  			tcpm_set_state(port, AUDIO_ACC_ATTACHED,
+>  				       PD_T_CC_DEBOUNCE);
+> -		else if (tcpm_port_is_source(port))
+> +		else if (tcpm_port_is_source(port) && port->vbus_vsafe0v)
+>  			tcpm_set_state(port,
+>  				       tcpm_try_snk(port) ? SNK_TRY
+>  							  : SRC_ATTACHED,
+> @@ -4097,6 +4109,12 @@ static void _tcpm_pd_vbus_on(struct tcpm_port *port)
+>  {
+>  	tcpm_log_force(port, "VBUS on");
+>  	port->vbus_present = true;
+> +	/*
+> +	 * When vbus_present is true i.e. Voltage at VBUS is greater than VSAFE5V implicitly
+> +	 * states that vbus is not at VSAFE0V, hence clear the vbus_vsafe0v flag here.
+> +	 */
+> +	port->vbus_vsafe0v = false;
+> +
+>  	switch (port->state) {
+>  	case SNK_TRANSITION_SINK_VBUS:
+>  		port->explicit_contract = true;
+> @@ -4186,16 +4204,8 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
+>  	case SNK_HARD_RESET_SINK_OFF:
+>  		tcpm_set_state(port, SNK_HARD_RESET_WAIT_VBUS, 0);
+>  		break;
+> -	case SRC_HARD_RESET_VBUS_OFF:
+> -		/*
+> -		 * After establishing the vSafe0V voltage condition on VBUS, the Source Shall wait
+> -		 * tSrcRecover before re-applying VCONN and restoring VBUS to vSafe5V.
+> -		 */
+> -		tcpm_set_state(port, SRC_HARD_RESET_VBUS_ON, PD_T_SRC_RECOVER);
+> -		break;
+>  	case HARD_RESET_SEND:
+>  		break;
+> -
+>  	case SNK_TRY:
+>  		/* Do nothing, waiting for timeout */
+>  		break;
+> @@ -4266,6 +4276,28 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
+>  	}
+>  }
+>  
+> +static void _tcpm_pd_vbus_vsafe0v(struct tcpm_port *port)
+> +{
+> +	tcpm_log_force(port, "VBUS VSAFE0V");
+> +	port->vbus_vsafe0v = true;
+> +	switch (port->state) {
+> +	case SRC_HARD_RESET_VBUS_OFF:
+> +		/*
+> +		 * After establishing the vSafe0V voltage condition on VBUS, the Source Shall wait
+> +		 * tSrcRecover before re-applying VCONN and restoring VBUS to vSafe5V.
+> +		 */
+> +		tcpm_set_state(port, SRC_HARD_RESET_VBUS_ON, PD_T_SRC_RECOVER);
+> +		break;
+> +	case SRC_ATTACH_WAIT:
+> +		if (tcpm_port_is_source(port))
+> +			tcpm_set_state(port, tcpm_try_snk(port) ? SNK_TRY : SRC_ATTACHED,
+> +				       PD_T_CC_DEBOUNCE);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+> +
+>  static void _tcpm_pd_hard_reset(struct tcpm_port *port)
+>  {
+>  	tcpm_log_force(port, "Received hard reset");
+> @@ -4301,10 +4333,19 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
+>  			bool vbus;
+>  
+>  			vbus = port->tcpc->get_vbus(port->tcpc);
+> -			if (vbus)
+> +			if (vbus) {
+>  				_tcpm_pd_vbus_on(port);
+> -			else
+> +			} else {
+>  				_tcpm_pd_vbus_off(port);
+> +				/*
+> +				 * When TCPC does not support detecting vsafe0v voltage level,
+> +				 * treat vbus absent as vsafe0v. Else invoke is_vbus_vsafe0v
+> +				 * to see if vbus has discharge to VSAFE0V.
+> +				 */
+> +				if (!port->tcpc->is_vbus_vsafe0v ||
+> +				    port->tcpc->is_vbus_vsafe0v(port->tcpc) > 0)
+> +					_tcpm_pd_vbus_vsafe0v(port);
+> +			}
+>  		}
+>  		if (events & TCPM_CC_EVENT) {
+>  			enum typec_cc_status cc1, cc2;
+> diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+> index e68aaa12886f..615d4532c028 100644
+> --- a/include/linux/usb/tcpm.h
+> +++ b/include/linux/usb/tcpm.h
+> @@ -98,6 +98,11 @@ enum tcpm_transmit_type {
+>   *		will be turned on. requested_vbus_voltage is set to 0 when vbus
+>   *		is going to disappear knowingly i.e. during PR_SWAP and
+>   *		HARD_RESET etc.
+> + * @is_vbus_vsafe0v:
+> + *		Optional; TCPCI spec based TCPC implementations are expected to
+> + *		detect VSAFE0V voltage level at vbus. When detection of VSAFE0V
+> + *		is supported by TCPC, set this callback for TCPM to query
+> + *		whether vbus is at VSAFE0V when needed.
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/Kconfig    |   1 +
- drivers/usb/typec/tps6598x.c | 105 +++++++++++++++++++++++++++++++++++
- 2 files changed, 106 insertions(+)
+Return values ?
 
-diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-index 772b07e9f188..365f905a8e49 100644
---- a/drivers/usb/typec/Kconfig
-+++ b/drivers/usb/typec/Kconfig
-@@ -64,6 +64,7 @@ config TYPEC_HD3SS3220
- config TYPEC_TPS6598X
- 	tristate "TI TPS6598x USB Power Delivery controller driver"
- 	depends on I2C
-+	select POWER_SUPPLY
- 	select REGMAP_I2C
- 	select USB_ROLE_SWITCH
- 	help
-diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
-index 3db33bb622c3..d7fc2813b4ee 100644
---- a/drivers/usb/typec/tps6598x.c
-+++ b/drivers/usb/typec/tps6598x.c
-@@ -9,6 +9,7 @@
- #include <linux/i2c.h>
- #include <linux/acpi.h>
- #include <linux/module.h>
-+#include <linux/power_supply.h>
- #include <linux/regmap.h>
- #include <linux/interrupt.h>
- #include <linux/usb/typec.h>
-@@ -55,6 +56,7 @@ enum {
- };
- 
- /* TPS_REG_POWER_STATUS bits */
-+#define TPS_POWER_STATUS_CONNECTION	BIT(0)
- #define TPS_POWER_STATUS_SOURCESINK	BIT(1)
- #define TPS_POWER_STATUS_PWROPMODE(p)	(((p) & GENMASK(3, 2)) >> 2)
- 
-@@ -96,8 +98,25 @@ struct tps6598x {
- 	struct typec_partner *partner;
- 	struct usb_pd_identity partner_identity;
- 	struct usb_role_switch *role_sw;
-+	struct typec_capability typec_cap;
-+
-+	struct power_supply *psy;
-+	struct power_supply_desc psy_desc;
-+	enum power_supply_usb_type usb_type;
-+};
-+
-+static enum power_supply_property tps6598x_psy_props[] = {
-+	POWER_SUPPLY_PROP_USB_TYPE,
-+	POWER_SUPPLY_PROP_ONLINE,
- };
- 
-+static enum power_supply_usb_type tps6598x_psy_usb_types[] = {
-+	POWER_SUPPLY_USB_TYPE_C,
-+	POWER_SUPPLY_USB_TYPE_PD,
-+};
-+
-+static const char *tps6598x_psy_name_prefix = "tps6598x-source-psy-";
-+
- /*
-  * Max data bytes for Data1, Data2, and other registers. See ch 1.3.2:
-  * https://www.ti.com/lit/ug/slvuan1a/slvuan1a.pdf
-@@ -248,6 +267,8 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
- 	if (desc.identity)
- 		typec_partner_set_identity(tps->partner);
- 
-+	power_supply_changed(tps->psy);
-+
- 	return 0;
- }
- 
-@@ -260,6 +281,7 @@ static void tps6598x_disconnect(struct tps6598x *tps, u32 status)
- 	typec_set_pwr_role(tps->port, TPS_STATUS_PORTROLE(status));
- 	typec_set_vconn_role(tps->port, TPS_STATUS_VCONN(status));
- 	tps6598x_set_data_role(tps, TPS_STATUS_DATAROLE(status), false);
-+	power_supply_changed(tps->psy);
- }
- 
- static int tps6598x_exec_cmd(struct tps6598x *tps, const char *cmd,
-@@ -467,6 +489,85 @@ static const struct regmap_config tps6598x_regmap_config = {
- 	.max_register = 0x7F,
- };
- 
-+static int tps6598x_psy_get_online(struct tps6598x *tps,
-+				   union power_supply_propval *val)
-+{
-+	int ret;
-+	u16 pwr_status;
-+
-+	ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
-+	if (ret < 0)
-+		return ret;
-+
-+	if ((pwr_status & TPS_POWER_STATUS_CONNECTION) &&
-+	    (pwr_status & TPS_POWER_STATUS_SOURCESINK)) {
-+		val->intval = 1;
-+	} else {
-+		val->intval = 0;
-+	}
-+	return 0;
-+}
-+
-+static int tps6598x_psy_get_prop(struct power_supply *psy,
-+				 enum power_supply_property psp,
-+				 union power_supply_propval *val)
-+{
-+	struct tps6598x *tps = power_supply_get_drvdata(psy);
-+	u16 pwr_status;
-+	int ret = 0;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_USB_TYPE:
-+		ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
-+		if (ret < 0)
-+			return ret;
-+		if (TPS_POWER_STATUS_PWROPMODE(pwr_status) == TYPEC_PWR_MODE_PD)
-+			val->intval = POWER_SUPPLY_USB_TYPE_PD;
-+		else
-+			val->intval = POWER_SUPPLY_USB_TYPE_C;
-+		break;
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		ret = tps6598x_psy_get_online(tps, val);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int devm_tps6598_psy_register(struct tps6598x *tps)
-+{
-+	struct power_supply_config psy_cfg = {};
-+	const char *port_dev_name = dev_name(tps->dev);
-+	size_t psy_name_len = strlen(tps6598x_psy_name_prefix) +
-+				     strlen(port_dev_name) + 1;
-+	char *psy_name;
-+
-+	psy_cfg.drv_data = tps;
-+	psy_cfg.fwnode = dev_fwnode(tps->dev);
-+	psy_name = devm_kzalloc(tps->dev, psy_name_len, GFP_KERNEL);
-+	if (!psy_name)
-+		return -ENOMEM;
-+
-+	snprintf(psy_name, psy_name_len, "%s%s", tps6598x_psy_name_prefix,
-+		 port_dev_name);
-+	tps->psy_desc.name = psy_name;
-+	tps->psy_desc.type = POWER_SUPPLY_TYPE_USB;
-+	tps->psy_desc.usb_types = tps6598x_psy_usb_types;
-+	tps->psy_desc.num_usb_types = ARRAY_SIZE(tps6598x_psy_usb_types);
-+	tps->psy_desc.properties = tps6598x_psy_props;
-+	tps->psy_desc.num_properties = ARRAY_SIZE(tps6598x_psy_props);
-+	tps->psy_desc.get_property = tps6598x_psy_get_prop;
-+
-+	tps->usb_type = POWER_SUPPLY_USB_TYPE_C;
-+
-+	tps->psy = devm_power_supply_register(tps->dev, &tps->psy_desc,
-+					       &psy_cfg);
-+	return PTR_ERR_OR_ZERO(tps->psy);
-+}
-+
- static int tps6598x_probe(struct i2c_client *client)
- {
- 	struct typec_capability typec_cap = { };
-@@ -560,6 +661,10 @@ static int tps6598x_probe(struct i2c_client *client)
- 		goto err_role_put;
- 	}
- 
-+	ret = devm_tps6598_psy_register(tps);
-+	if (ret)
-+		return ret;
-+
- 	tps->port = typec_register_port(&client->dev, &typec_cap);
- 	if (IS_ERR(tps->port)) {
- 		ret = PTR_ERR(tps->port);
--- 
-2.29.2
+>   */
+>  struct tcpc_dev {
+>  	struct fwnode_handle *fwnode;
+> @@ -128,6 +133,7 @@ struct tcpc_dev {
+>  	int (*enable_auto_vbus_discharge)(struct tcpc_dev *dev, bool enable);
+>  	int (*set_auto_vbus_discharge_threshold)(struct tcpc_dev *dev, enum typec_pwr_opmode mode,
+>  						 bool pps_active, u32 requested_vbus_voltage);
+> +	int (*is_vbus_vsafe0v)(struct tcpc_dev *dev);
 
+I don't really see the point of returning an int here. If an error is
+returned, it should be checked. However, that is not currently the case;
+an error is treated as "false" return. As such, the function may as well
+return true/false (and false if an error is observed).
+
+>  };
+>  
+>  struct tcpm_port;
+> -- 
+> 2.29.2.454.gaff20da3a2-goog
+> 
