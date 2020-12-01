@@ -5,62 +5,65 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2C4C64E8A
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 04:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D8BC71156
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 04:23:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49BC4206DF
+	by mail.kernel.org (Postfix) with ESMTP id 07140206DF
 	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 04:23:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="btWG3ONs"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OuGsA4bI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728157AbgLAEXX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Nov 2020 23:23:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36616 "EHLO
+        id S1728264AbgLAEXd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Nov 2020 23:23:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727976AbgLAEXW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Nov 2020 23:23:22 -0500
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96259C0613D2
-        for <linux-usb@vger.kernel.org>; Mon, 30 Nov 2020 20:22:42 -0800 (PST)
-Received: by mail-pf1-x44a.google.com with SMTP id s201so187363pfs.1
-        for <linux-usb@vger.kernel.org>; Mon, 30 Nov 2020 20:22:42 -0800 (PST)
+        with ESMTP id S1728222AbgLAEXc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Nov 2020 23:23:32 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE7A8C0613D6
+        for <linux-usb@vger.kernel.org>; Mon, 30 Nov 2020 20:22:46 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id j138so843098ybg.20
+        for <linux-usb@vger.kernel.org>; Mon, 30 Nov 2020 20:22:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=N92L65vs0hZN6sbhv8nMQq5Z7xcM5ZZapP+dkcKSuqU=;
-        b=btWG3ONsCv6PeV3rp4vVFHmjusgTjmABN+C30bO1SGVHFSe6C36HvYYA8ndJREdbxs
-         FdRSol/vyFkUDbPfE0BGjqgIfP37sh8D79rUvGOjEJxaSCEo/lJ5WbKrojuDYEkil0N+
-         1Z/MKpcDZ3RoBNQpKReNzbAidMoH0Iw1fCPmVGzMh98X1F6RkR5NUawp4sWtcw9dOfvB
-         zITNk/XOaHGym+CMM3ICvOROcfCqzjA1azMME4Yhi6SCpQvXs6B+j0WtIi8VNfEYg3qY
-         gy61pPYTEdsQJ9IkJftP19SqoDustePtMHzucxxnYGok0ncgMcv0+65nuxpgMfao1Q1Q
-         rGYg==
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=bC8qMXf4pH6iBEVDPsaERolWnb2dJIL28RYsjRFL4/A=;
+        b=OuGsA4bIHE5xZZ1z4RzofmK9egUx94o1mLQ5bpMdfkbNE7xKreyWzJk6j/9Mj5xbZb
+         YWaNjZ1grDkIt9Wc8qZm3g3Veaten0YwFjrX53TnFUDOLlhtqKwBOgb5srL/VgyezwS0
+         yh0H8NainQEcPowFXaiRD8SuXt4NQ82chBrewgQQzUya65WJrzge2sRniYZ6v+HyddOU
+         vhVIz4Bezo5nSSOQlLi1Sy9NmBd642kqT3oOFbAHqHRBD1HoCDZLWEh+Hs1QGX/mKvxJ
+         Dg5m9nYE59rmtVt1jZ1arK6gaPNFtD9gjNdFwNO+6evjZD6ugklTH/1HbCy0wtxhlbGK
+         TjJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=N92L65vs0hZN6sbhv8nMQq5Z7xcM5ZZapP+dkcKSuqU=;
-        b=XQfrJ3nY01Zm9gaxpogrOK4r+xxyRMy+3rorzpW/gmkNMf5iTFRwzRicK1VDtFjh2w
-         JSHJ/Bj3bYsalSQvcCmiM7rrNzVgkCGteCM3YPZK+Ij7yk72I4mpmjqgKNXWJ11PazOX
-         1i7ilt2vFxZdy/s6zhDSM95HPiN5T5XwGJKzss/RCK5qwVpIvd6p4N1qqkzTMWFCPAD4
-         zuHA+fO5Y42XOthCktkQytoMTnxgZuabr+wb9QsZbCzCTPXccXPhtDK36gJpGaQJKlwP
-         2bNX2F9+pXm8BfaaiP3aYMkgos2gWAQ0bdHCUaGC2z1s1bO0Cy+YoF4ikjr9Tg5eQcmu
-         y1KA==
-X-Gm-Message-State: AOAM533xvQT/c7YKbyP4h4QEAUt46eizdMIk37bXl7xnILW4X9M51cxR
-        JbWtTztuz1wUfBuEo/Vhw9xy9QaxhjI=
-X-Google-Smtp-Source: ABdhPJxhNSfzVMCAuC/49qFFxX8y+9/ZZDYhsrntdi227pnDJ6CxFEJDZzTM3YSri7VOtC1aCo1lP0v350Q=
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=bC8qMXf4pH6iBEVDPsaERolWnb2dJIL28RYsjRFL4/A=;
+        b=V1T/DzMPskcJLzKqTDf0lCyVSmhEi3VCg+8tYVqOUXkwxWEjdPpy74tcds2JPuNEhf
+         HUTIP7BzsVPVmgt17zHBET8KPO7cpU2ltg1pGI/Y109FJsrMvGuD7nUL1JCtv1yzxpiA
+         a0cf+xtS+xWq4TsiPVIuWcLtl9U55tXdFrBwU2tv7gqJIk2l4ZnjQpyAa5/Tr+sIIC6a
+         +ig2TVW1PIxkt99RBRQdd6km0luttdpvl05R17ccc791C0vZsmSA4XwG2bmjSBFKCmZO
+         qjJU0BHbtlhmQqphSGI0xzuNrcIwh24n7d3EFnFvMiinqLivx55vGAvtzqFZkVGZeths
+         ba2w==
+X-Gm-Message-State: AOAM533ZvA9dTKZqtr6hSg6sMLm83kIlGcuSyU6bdraJFoULWFiigbxQ
+        eIfGEV3Hl5FMnfVTwnlmGpJYylAEhSY=
+X-Google-Smtp-Source: ABdhPJxCH5ojX6Uhs9hJnvfU6H42pJRzjAhULVlA1rHh9/GgO6bdgHO05pZcIcA7YYvBWpHwJxGlpSD3PGY=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:f292:1cff:fee0:66cf])
- (user=badhri job=sendgmr) by 2002:a17:90a:460a:: with SMTP id
- w10mr121176pjg.1.1606796561660; Mon, 30 Nov 2020 20:22:41 -0800 (PST)
-Date:   Mon, 30 Nov 2020 20:22:34 -0800
-Message-Id: <20201201042237.414235-1-badhri@google.com>
+ (user=badhri job=sendgmr) by 2002:a25:40c5:: with SMTP id n188mr1159179yba.116.1606796566005;
+ Mon, 30 Nov 2020 20:22:46 -0800 (PST)
+Date:   Mon, 30 Nov 2020 20:22:36 -0800
+In-Reply-To: <20201201042237.414235-1-badhri@google.com>
+Message-Id: <20201201042237.414235-3-badhri@google.com>
 Mime-Version: 1.0
+References: <20201201042237.414235-1-badhri@google.com>
 X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: [PATCH v1 1/4] usb: typec: tcpm: Pass down negotiated rev to update
- retry count
+Subject: [PATCH v1 3/4] usb: typec: tcpci: Update retry count based on the
+ negotiated rev
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -72,51 +75,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-nRetryCount was updated from 3 to 2 between PD2.0 and PD3.0 spec.
-nRetryCount in "Table 6-34 Counter parameters" of the PD 2.0
-spec is set to 3, whereas, nRetryCount in "Table 6-59 Counter
-parameters" is set to 2.
-
-Pass down negotiated rev in pd_transmit so that low level chip
-drivers can update the retry count accordingly before attempting
-packet transmission.
-
-This helps in passing "TEST.PD.PORT.ALL.02" of the
-"Power Delivery Merged" test suite which was initially failing
-with "The UUT did not retransmit the message nReryCount times"
+By default the driver sets the retry count to 3 (Default for PD 2.0).
+Update this to 2, if the negotiated rev is PD 3.0.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 2 +-
- include/linux/usb/tcpm.h      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/typec/tcpm/tcpci.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 3bbc1f10af49..c73bc3a8356a 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -667,7 +667,7 @@ static int tcpm_pd_transmit(struct tcpm_port *port,
- 		tcpm_log(port, "PD TX, type: %#x", type);
+diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+index 12d983a75510..98a2455f779f 100644
+--- a/drivers/usb/typec/tcpm/tcpci.c
++++ b/drivers/usb/typec/tcpm/tcpci.c
+@@ -18,7 +18,8 @@
  
- 	reinit_completion(&port->tx_complete);
--	ret = port->tcpc->pd_transmit(port->tcpc, type, msg);
-+	ret = port->tcpc->pd_transmit(port->tcpc, type, msg, port->negotiated_rev);
+ #include "tcpci.h"
+ 
+-#define	PD_RETRY_COUNT				3
++#define	PD_RETRY_COUNT_DEFAULT			3
++#define	PD_RETRY_COUNT_3_0_OR_HIGHER		2
+ #define	AUTO_DISCHARGE_DEFAULT_THRESHOLD_MV	3500
+ #define	AUTO_DISCHARGE_PD_HEADROOM_MV		850
+ #define	AUTO_DISCHARGE_PPS_HEADROOM_MV		1250
+@@ -447,9 +448,8 @@ static int tcpci_set_vbus(struct tcpc_dev *tcpc, bool source, bool sink)
+ 	return 0;
+ }
+ 
+-static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
+-			     enum tcpm_transmit_type type,
+-			     const struct pd_message *msg)
++static int tcpci_pd_transmit(struct tcpc_dev *tcpc, enum tcpm_transmit_type type,
++			     const struct pd_message *msg, unsigned int negotiated_rev)
+ {
+ 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+ 	u16 header = msg ? le16_to_cpu(msg->header) : 0;
+@@ -497,7 +497,9 @@ static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
+ 		}
+ 	}
+ 
+-	reg = (PD_RETRY_COUNT << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
++	/* nRetryCount is 3 in PD2.0 spec where 2 in PD3.0 spec */
++	reg = ((negotiated_rev > PD_REV20 ? PD_RETRY_COUNT_3_0_OR_HIGHER : PD_RETRY_COUNT_DEFAULT)
++	       << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
+ 	ret = regmap_write(tcpci->regmap, TCPC_TRANSMIT, reg);
  	if (ret < 0)
  		return ret;
- 
-diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-index e68aaa12886f..efaedd7e8a18 100644
---- a/include/linux/usb/tcpm.h
-+++ b/include/linux/usb/tcpm.h
-@@ -121,7 +121,7 @@ struct tcpc_dev {
- 			      enum typec_cc_status cc);
- 	int (*try_role)(struct tcpc_dev *dev, int role);
- 	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
--			   const struct pd_message *msg);
-+			   const struct pd_message *msg, unsigned int negotiated_rev);
- 	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
- 	int (*enable_frs)(struct tcpc_dev *dev, bool enable);
- 	void (*frs_sourcing_vbus)(struct tcpc_dev *dev);
 -- 
 2.29.2.454.gaff20da3a2-goog
 
