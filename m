@@ -2,84 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADBEC64E7A
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 042EFC71156
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:01:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14EE0207FF
+	by mail.kernel.org (Postfix) with ESMTP id B7D6F2084C
 	for <linux-usb@archiver.kernel.org>; Tue,  1 Dec 2020 13:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729978AbgLANAe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Dec 2020 08:00:34 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:44932 "EHLO honk.sigxcpu.org"
+        id S1730920AbgLANAy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Dec 2020 08:00:54 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:44966 "EHLO honk.sigxcpu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729889AbgLANAe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Dec 2020 08:00:34 -0500
+        id S1730781AbgLANAy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Dec 2020 08:00:54 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 6DCD8FB02;
-        Tue,  1 Dec 2020 13:59:52 +0100 (CET)
+        by honk.sigxcpu.org (Postfix) with ESMTP id 1AAAAFB06;
+        Tue,  1 Dec 2020 14:00:13 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
         by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id GaQEwOE91eEA; Tue,  1 Dec 2020 13:59:50 +0100 (CET)
+        with ESMTP id jBBmTbO464kn; Tue,  1 Dec 2020 14:00:12 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 4EF634026B; Tue,  1 Dec 2020 13:59:50 +0100 (CET)
-From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        id 220794068E; Tue,  1 Dec 2020 14:00:12 +0100 (CET)
+Date:   Tue, 1 Dec 2020 14:00:12 +0100
+From:   Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 1/2] usb: typec: tps6598x: Select USB_ROLE_SWITCH and REGMAP_I2C
-Date:   Tue,  1 Dec 2020 13:59:49 +0100
-Message-Id: <af9cbe1691d4fe9ab4dcdd4657b555520be8fb0d.1606827507.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1606827507.git.agx@sigxcpu.org>
-References: <cover.1606827507.git.agx@sigxcpu.org>
+        USB <linux-usb@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] usb: typec: tps6598x: Export some power supply
+ properties
+Message-ID: <20201201130012.GA303449@bogon.m.sigxcpu.org>
+References: <cover.1606481420.git.agx@sigxcpu.org>
+ <91c27b323786445f6b33c6a7e89e93755d05e3a2.1606481420.git.agx@sigxcpu.org>
+ <CAHp75VeLZtm85Y=3QMkPGb332wn05-zr-_mrrwXvnqLhazR1Gg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VeLZtm85Y=3QMkPGb332wn05-zr-_mrrwXvnqLhazR1Gg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is more in line with what tcpm does and will be needed
-to avoid recursive dependency like
+Hi,
+On Mon, Nov 30, 2020 at 08:35:26PM +0200, Andy Shevchenko wrote:
+> On Fri, Nov 27, 2020 at 2:57 PM Guido Günther <agx@sigxcpu.org> wrote:
+> >
+> > This allows downstream supplies and userspace to detect
+> > whether external power is supplied.
+> 
+> > +       if (!(pwr_status & TPS_POWER_STATUS_CONNECTION) ||
+> > +           !(pwr_status & TPS_POWER_STATUS_SOURCESINK)) {
+> > +               val->intval = 0;
+> > +       } else {
+> > +               val->intval = 1;
+> > +       }
+> 
+> Can we please use positive conditionals (which usually are easier to
+> read)?
 
- > drivers/power/supply/Kconfig:2:error: recursive dependency detected!
-   drivers/power/supply/Kconfig:2: symbol POWER_SUPPLY is selected by TYPEC_TPS6598X
-   drivers/usb/typec/Kconfig:64: symbol TYPEC_TPS6598X depends on REGMAP_I2C
-   drivers/base/regmap/Kconfig:19: symbol REGMAP_I2C is selected by CHARGER_ADP5061
-   drivers/power/supply/Kconfig:93: symbol CHARGER_ADP5061 depends on POWER_SUPPLY
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+Make sense. Fixed in v4.
+ -- Guido
 
-when selecting POWER_SUPPLY.
-
-Signed-off-by: Guido GÃ¼nther <agx@sigxcpu.org>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-index 6c5908a37ee8..772b07e9f188 100644
---- a/drivers/usb/typec/Kconfig
-+++ b/drivers/usb/typec/Kconfig
-@@ -64,8 +64,8 @@ config TYPEC_HD3SS3220
- config TYPEC_TPS6598X
- 	tristate "TI TPS6598x USB Power Delivery controller driver"
- 	depends on I2C
--	depends on REGMAP_I2C
--	depends on USB_ROLE_SWITCH || !USB_ROLE_SWITCH
-+	select REGMAP_I2C
-+	select USB_ROLE_SWITCH
- 	help
- 	  Say Y or M here if your system has TI TPS65982 or TPS65983 USB Power
- 	  Delivery controller.
--- 
-2.29.2
-
+> 
+>        if ((pwr_status & TPS_POWER_STATUS_CONNECTION) &&
+>            (pwr_status & TPS_POWER_STATUS_SOURCESINK)) {
+>                val->intval = 1;
+>        } else {
+>                val->intval = 0;
+>        }
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
