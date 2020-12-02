@@ -2,46 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA28C64E7C
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 13:27:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD76C64E7B
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 13:27:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F26E22202
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 13:27:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 254A12223C
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 13:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727878AbgLBN1V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Dec 2020 08:27:21 -0500
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:45992 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726556AbgLBN1V (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 08:27:21 -0500
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0B2DIU85005094;
-        Wed, 2 Dec 2020 05:26:17 -0800
+        id S1728004AbgLBN1X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Dec 2020 08:27:23 -0500
+Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:49382 "EHLO
+        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726979AbgLBN1W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 08:27:22 -0500
+Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
+        by mx0b-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0B2DObdM002317;
+        Wed, 2 Dec 2020 05:26:13 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=proofpoint;
- bh=VTtMcaEUKxI+myrGv+xDd1cmY7s6474FY+k9QsQmwEs=;
- b=hyczcB3uvkkoLUDgdZLRPDhYRg0a62qZU9eyTUGLljtDVltv8zkQQM0mjxji1z9j9nIx
- oinf1o2W7EQ68BD7lbI1ad3XfS4q8kVUapiO48fqSaMRiv9wCGTh1nWuytPkpLvlq11H
- LSYNtKo6l9OBKYVKTClmrVS9UMTJ7iO4yY8fu3P3jbqOqHDG2qqmdWuMFx01HdAEjPTv
- bZtMlWVKW9kSiTMfCH/c61zG0Mnvr2pzTeZhvO1NtgY6dX+aXN+p2B71WxFFz22r/2zv
- mhOfewXzIcBJUQHbIGRL1iTZdRf+1e2IubUmS33mSiPVWierwDJjOGCjwlVwL2vOV8hv 5Q== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 355vn4jjv6-1
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=proofpoint;
+ bh=wPXYXslqCDRuIzffFK3EYlekozDbrjgt3zYg2StZ4Ro=;
+ b=TpXKjUNc5g7XBKU7MkViKSYcZu1eY9+Rg6XTvE5FEJrTAI2DsAH4nfJDcr1Zn9adiBQl
+ YOCodESlzqH3W2DW+7bpyK/58udu/t9FPdyI9/UKKBmwIWdU75aHdE9qJmAWgkkHt+WW
+ /w7mludAJiTeCmz2szw9w28dKHzkp63EjqaTnqCkdetZyf3y9J2vnh3xrfXT5s+5PMBU
+ Al2iz8vebqwdM7goNjgTymvHc/+w9s8LZFnWXRhHzTYKrVTcA3dTRFdyn9748HDitlwp
+ RJyQTICtAwgBigRGaXyk2UbdN20Ka5OfiZktN3SmpJ0o4+Mf49lUkcw7IGo3TyQkRj6O 7w== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2103.outbound.protection.outlook.com [104.47.58.103])
+        by mx0b-0014ca01.pphosted.com with ESMTP id 355vn6apgh-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Dec 2020 05:26:16 -0800
+        Wed, 02 Dec 2020 05:26:12 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aSLyNtnjuyz1m9RucpbHMwn6B9fwMmCSA5WR3mS6FVJe5G00qAVs93Rx8CDDJzJHF+BIXrCgq9jKHLz3FutbqMbYcsZbLGs+2CzeimSGZ7SJAqB2VTrN97TxJeFImytYapbIrLKYT0K5uHyrcb2CVY9SfzqKbjFeVavQ1/XzVZKcC+1y6lV8gR2Yw98Cg3FsgUYF0M0x9vBQuDzurj2tiTLpaaUYUEZxf0aduWJsm+DrqB6nHE8QIWOJgwMe0BB0hMS5kkqpAN+audQihhMQAJvZ9VA1fKTu53RAU9r3gMd5zL4G0Bc+3VuPxEuISeuMt23joPGlgmh4MCQpqsGCtA==
+ b=JrdGj88JZ5LzRy42vwoLTmYZJnHcDp+wAK83amydYh4I3uWge91pq4rYBN2DSzPMC6CxkbFFVoCZePpNllpGDdKS7VqSeqmlJfMKR+7UshJ7EFGP5DxphdBdFo9nkVr6++4IjQ3ccvW62BQd4jkLy4ekVpQLxuePSYoV4xjsb4Qr/5A1ZKtPxHohe4xT49z7/IJjaYc8gnR7fYF1bjib3zjH1SGVl+kzT4Setn1T2GP5cmGbqq8VCLavooecxsNBymHtG5SpFD/Y5ab+8r39Dn0nBJjJC2pgHshfDhqfRE8Z65bwSJMzw1/Y0MfcWRKVzDJeEsZwt++sdKcVzKEXLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VTtMcaEUKxI+myrGv+xDd1cmY7s6474FY+k9QsQmwEs=;
- b=fwGEXijbDtVWQD5pjFp7hBXSQGgOg4vAsc9YeZnVFvxOw9eY3pJxLaolxyYweidGb0QP4E7CYbC1NeiuzlyCymHUHnMlFr0XeBzpC3gw67YFxXZSiLDCmEdbYRvT3IrsjcdU6PnfrD20PxVcGMaY5yiSMO97JF2JNuU22FKshlNJioaGJYqBMbFshY3ArhAh1Z16sZgriX++aL9UbyLyFtlBxvWS5LSjATyaSrngbKOM5FwnRknWyWKjYVv/Kp1imNg0+zG3jmlBUg8YYkvFLsS3N/rXqMCU2ScaamL37Vvd+eB+ZrYDKIfD38pO/bIjEhdmRL0+obqsBQb6S4U6iA==
+ bh=wPXYXslqCDRuIzffFK3EYlekozDbrjgt3zYg2StZ4Ro=;
+ b=DqkyI+c8n1w76nWymbqf3fVW9xbyYR+ZUmapPRckZJuAcet2y83Wwk6alwTTXXEtkIusK4pnvJbw3l1GBM52sShvpFNtqgdtuyV7LopbHRmFir7CKdVqQxk4ZQVPqAdkukk5n9Y+V129Pc5hXkUhpTrgTmXeA2k13an6YZr0pdY6HsPB8VdwA3tRRCAo6E0v3iDc32Uy0B6MnE0AtiOpTjSRbAbwqj7KqA7NoYkVRKbwkFC83ZCMDB4FUceO4tuweeaMsCWmzJL419LS6g/GalzhjHpNNRyU4jy5RF5AUqo7OWOZtT2U6r6JhdU9vy6zZ9GABrYwrB7X4hui0vex9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  158.140.1.148) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
@@ -49,18 +49,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VTtMcaEUKxI+myrGv+xDd1cmY7s6474FY+k9QsQmwEs=;
- b=qcD3wMBeggPU5m0Z1fytsuoiRMN9tfw3RRpw1Gwe6qw2f3mNB8LpM7CfhMoyerC8XvOEt4x+Y2scAeC6RBYLaBGTBolq73jjJ0HQ3n9c+RhvIKMsqMTzH+lo7Mmt4EOQubY3qOnYI6rO99tlVTpsJdvLLbS3jWjUV2IjivwV4SU=
-Received: from MWHPR14CA0034.namprd14.prod.outlook.com (2603:10b6:300:12b::20)
- by BYAPR07MB5157.namprd07.prod.outlook.com (2603:10b6:a03:6c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Wed, 2 Dec
- 2020 13:26:12 +0000
-Received: from MW2NAM12FT028.eop-nam12.prod.protection.outlook.com
- (2603:10b6:300:12b:cafe::79) by MWHPR14CA0034.outlook.office365.com
- (2603:10b6:300:12b::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
- Transport; Wed, 2 Dec 2020 13:26:12 +0000
+ bh=wPXYXslqCDRuIzffFK3EYlekozDbrjgt3zYg2StZ4Ro=;
+ b=XYrzS2dYvCTFEJalqUhTcZ6Bz0ZWDquI9XsZuFyuEulTVWXopz4vXy7VYy9oqjRQbG5qsTK5iQpccatc4NCtYSjP+3IoA7wdAxDW5QL6LkgNeSu01ItGCsVVdqRVIFlhsbcdIa3nu0O8XLIkuEJX1yVH/MmiNn+0eqS+6ToSBsM=
+Received: from DM6PR13CA0002.namprd13.prod.outlook.com (2603:10b6:5:bc::15) by
+ MW2PR07MB4121.namprd07.prod.outlook.com (2603:10b6:907:9::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.29; Wed, 2 Dec 2020 13:26:10 +0000
+Received: from DM6NAM12FT053.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:5:bc:cafe::5d) by DM6PR13CA0002.outlook.office365.com
+ (2603:10b6:5:bc::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.5 via Frontend
+ Transport; Wed, 2 Dec 2020 13:26:10 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.148)
  smtp.mailfrom=cadence.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none
@@ -69,13 +68,13 @@ Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
  158.140.1.148 as permitted sender) receiver=protection.outlook.com;
  client-ip=158.140.1.148; helo=sjmaillnx2.cadence.com;
 Received: from sjmaillnx2.cadence.com (158.140.1.148) by
- MW2NAM12FT028.mail.protection.outlook.com (10.13.181.238) with Microsoft SMTP
+ DM6NAM12FT053.mail.protection.outlook.com (10.13.179.125) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.11 via Frontend Transport; Wed, 2 Dec 2020 13:26:12 +0000
+ 15.20.3611.11 via Frontend Transport; Wed, 2 Dec 2020 13:26:09 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 0B2DQ6oB007337
+        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 0B2DQ6o6007337
         (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Wed, 2 Dec 2020 05:26:11 -0800
+        Wed, 2 Dec 2020 05:26:08 -0800
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
@@ -84,89 +83,176 @@ Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
  15.0.1367.3 via Frontend Transport; Wed, 2 Dec 2020 14:26:06 +0100
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
-        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0B2DQ6Xc010807;
+        by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0B2DQ68l010786;
         Wed, 2 Dec 2020 14:26:06 +0100
 Received: (from pawell@localhost)
-        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0B2DQ6ww010806;
-        Wed, 2 Dec 2020 14:26:06 +0100
+        by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0B2DQ5ZJ010785;
+        Wed, 2 Dec 2020 14:26:05 +0100
 From:   Pawel Laszczak <pawell@cadence.com>
 To:     <peter.chen@nxp.com>
 CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <balbi@kernel.org>,
         <colin.king@canonical.com>, <rogerq@ti.com>, <kurahul@cadence.com>,
         <nsekhar@ti.com>, Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH v4 05/10] usb: cdns3: Changed type of gadget_dev in cdns structure
-Date:   Wed, 2 Dec 2020 14:25:43 +0100
-Message-ID: <20201202132548.10736-6-pawell@cadence.com>
+Subject: [PATCH v4 00/10] Introduced new Cadence USBSSP DRD Driver.
+Date:   Wed, 2 Dec 2020 14:25:38 +0100
+Message-ID: <20201202132548.10736-1-pawell@cadence.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20201202132548.10736-1-pawell@cadence.com>
-References: <20201202132548.10736-1-pawell@cadence.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7842077b-8d93-4865-1b59-08d896c5d6a3
-X-MS-TrafficTypeDiagnostic: BYAPR07MB5157:
-X-Microsoft-Antispam-PRVS: <BYAPR07MB51575D8E645CF91974EC7A55DDF30@BYAPR07MB5157.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Office365-Filtering-Correlation-Id: 95516d5e-5b26-4b84-b1d7-08d896c5d50c
+X-MS-TrafficTypeDiagnostic: MW2PR07MB4121:
+X-Microsoft-Antispam-PRVS: <MW2PR07MB4121C8B3D5E6A760A4A50DD2DDF30@MW2PR07MB4121.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dOL0YwUch7x+WQLZLlXWHdYjZ3APK3YNsWWmASvRc/UGFwxU9iVO7/AZYQ7kE2vpbmU3d/p+UybEmNPaI4kL8RTc+8IZIqX0KRb+GfOd6am7jXUeECljcp1AxF1xfHVM6ECgQcE5COTuNPT3aWPuYnJSXdhMlZVMBvzTqUd5Pdf4ln53IMW3tAOxFo2WP+ZybLcZzjOW3RGOojRm+qOI7xchF0rYyxC7FF5O4V89R7zc1mm9Al8ym8EuNpSY7XcUovG8OD4CgJlKN04eZxuW9zsGGUIm8t7/oxO38pg5pnSXD5YTpDjsacU5Iq8TbfN5eMnsSW9bSNHYfK1RinFP5d52qltwG/NSgX366tnrFc4AlTt8YZYjfRuh0yKT5T8cHPCV7GTJ+RQpFEB/fZbVFpaGnZDvEp3OJAZNsntzBAQ=
-X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(36092001)(46966005)(54906003)(1076003)(7636003)(2616005)(186003)(336012)(42186006)(5660300002)(26005)(82310400003)(86362001)(478600001)(83380400001)(426003)(6916009)(107886003)(356005)(8676002)(2906002)(47076004)(6666004)(36756003)(70586007)(70206006)(36906005)(8936002)(82740400003)(316002)(4326008);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: iN338GvxnjAp4Hs4JqciEqCuSzI3HluwvryDL6MRsuZe1TLoSYbqjQs8iKkbsYU6MVVeox1pRbCp8gBya8DnCX0mBxjBnaLIdNO+5JB47TJ/r/kpiLPn9S4zjhMCGos5SJQNhHUaGNS+Il9kUA2dySpqB6AUi/mNuabDRJosI4mSf17x/uCHeDQz02xSUB2Uey2OmxXMkdNZYsKKszcwIhKgyfpRKXUXYbhx1n+5mWQLFqQy7LltiE8himG7Vg5JsuDqoGDY7wqO3a2dDXc9deIKHLQpi1fPuy86s2AcSXLtxBNEr6n5K40OrFT1JAz/D8ZtfxyZ2tu45F5z0YSxgzlal/5RiPkk76ILTGQpOlMRf1ltx2o7xFO8rt6QeojWVoJ7yGZuFCwa98Nn1lgomieWXz2f8nh+WUaI1aYKAvM=
+X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(36092001)(46966005)(6666004)(426003)(336012)(1076003)(5660300002)(8676002)(54906003)(2906002)(42186006)(6916009)(316002)(36906005)(8936002)(186003)(47076004)(478600001)(82740400003)(107886003)(26005)(4326008)(70206006)(7636003)(356005)(83380400001)(2616005)(82310400003)(70586007)(86362001)(36756003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2020 13:26:12.6102
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2020 13:26:09.9068
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7842077b-8d93-4865-1b59-08d896c5d6a3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95516d5e-5b26-4b84-b1d7-08d896c5d50c
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.148];Helo=[sjmaillnx2.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT028.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT053.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB5157
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR07MB4121
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
  definitions=2020-12-02_06:2020-11-30,2020-12-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 mlxscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=1 adultscore=0
- bulkscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- mlxlogscore=337 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2012020080
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 mlxlogscore=699
+ adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
+ suspectscore=1 malwarescore=0 phishscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012020081
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Patch changes the type for gadget_dev pointer in cdns structure from
-pointer to cdns3_device structure to void pointer.
-This filed is in reusable code and after this change it will be used to
-point to both cdns3_device or cdnsp_device objects.
+This patch introduce new Cadence USBSS DRD driver to linux kernel.
 
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+The Cadence USBSS DRD Controller is a highly configurable IP Core which
+can be instantiated as Dual-Role Device (DRD), Peripheral Only and
+Host Only (XHCI)configurations.
+
+The current driver has been validated with FPGA burned. We have support
+for PCIe bus, which is used on FPGA prototyping.
+
+The host side of USBSS-DRD controller is compliance with XHCI
+specification, so it works with standard XHCI Linux driver.
+
+The device side of USBSS DRD controller is compliant with XHCI.
+The architecture for device side is almost the same as for host side,
+and most of the XHCI specification can be used to understand how
+this controller operates.
+
+This controller and driver support Full Speed, Hight Speed, Supper Speed
+and Supper Speed Plus USB protocol.
+
+The prefix cdnsp used in driver has chosen by analogy to cdn3 driver.
+The last letter of this acronym means PLUS. The formal name of controller
+is USBSSP but it's to generic so I've decided to use CDNSP.
+
+The patch 1: adds support for DRD CDNSP.
+The patch 2: separates common code that can be reusable by cdnsp driver.
+The patch 3: moves reusable code to separate module.
+The patch 4: changes prefixes in reusable code from cdns3 to common cdns.
+The patch 5: adopts gadget_dev pointer in cdns structure to make possible 
+             use it in both drivers.
+The patches 6-8: add the main part of driver and has been intentionally
+             split into 3 part. In my opinion such division should not
+             affect understanding and reviewing the driver, and cause that
+             main patch (7/8) is little smaller. Patch 6 introduces main
+             header file for driver, 7 is the main part that implements all
+             functionality of driver and 8 introduces tracepoints.
+The patch 9: Adds cdns3 prefixes to files related with USBSS driver.
+the patch 10: Adds USBSSP DRD IP driver entry to MAINTAINERS file.
+
+Changlog from v3:
+- added 'T' to MAINTAINERS file for CDNSP entry
+- updated common code with latest cdns3 fixes
+
+Changlog from v2:
+- removed not used pdev parameter from cdnsp_read/wite_64 functions
+- fixed incorrect value assigned to CDNSP_ENDPOINTS_NUM (32 -> 31)
+- replaced some constant value with CDNSP_ENDPOINTS_NUM macro
+- replaced 'true' with '1' in bits description in cdnsp-gadget.h file
+- fixed some typos
+- some other less important changes suggested by Peter Chen
+
+Changlog from v1:
+- updated common code to latest cdns3 driver
+- moved cdnsp driver files to cdns3 as sugested by Peter Chan
+- removed duplicate code from cdnsp_ep0_set_config function
+- added cdns3 prefixes to file related with USBSS driver
+- updated MAINTAINERS file
+- fixed issue with U1
+- fixed issue with L1
+- some less improtant changes sugested by Chunfeng Yun
 ---
- drivers/usb/cdns3/core.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
-index f664eb2d8df4..cbd2e1cc8eb1 100644
---- a/drivers/usb/cdns3/core.h
-+++ b/drivers/usb/cdns3/core.h
-@@ -64,7 +64,7 @@ struct cdns3_platform_data {
-  * @roles: array of supported roles for this controller
-  * @role: current role
-  * @host_dev: the child host device pointer for cdns core
-- * @gadget_dev: the child gadget device pointer for cdns3 core
-+ * @gadget_dev: the child gadget device pointer
-  * @usb2_phy: pointer to USB2 PHY
-  * @usb3_phy: pointer to USB3 PHY
-  * @mutex: the mutex for concurrent code at driver
-@@ -104,7 +104,7 @@ struct cdns {
- 	struct cdns_role_driver	*roles[USB_ROLE_DEVICE + 1];
- 	enum usb_role			role;
- 	struct platform_device		*host_dev;
--	struct cdns3_device		*gadget_dev;
-+	void				*gadget_dev;
- 	struct phy			*usb2_phy;
- 	struct phy			*usb3_phy;
- 	/* mutext used in workqueue*/
+Pawel Laszczak (10):
+  usb: cdns3: Add support for DRD CDNSP
+  usb: cdns3: Split core.c into cdns3-plat and core.c file
+  usb: cdns3: Moves reusable code to separate module
+  usb: cdns3: Refactoring names in reusable code
+  usb: cdns3: Changed type of gadget_dev in cdns structure
+  usb: cdnsp: Device side header file for CDNSP driver
+  usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver
+  usb: cdnsp: Add tracepoints for CDNSP driver
+  usb: cdns3: Change file names for cdns3 driver.
+  MAINTAINERS: add Cadence USBSSP DRD IP driver entry
+
+ MAINTAINERS                                   |    9 +
+ drivers/usb/Makefile                          |    2 +
+ drivers/usb/cdns3/Kconfig                     |   61 +-
+ drivers/usb/cdns3/Makefile                    |   30 +-
+ drivers/usb/cdns3/{debug.h => cdns3-debug.h}  |    0
+ drivers/usb/cdns3/{ep0.c => cdns3-ep0.c}      |    4 +-
+ .../usb/cdns3/{gadget.c => cdns3-gadget.c}    |   28 +-
+ .../usb/cdns3/{gadget.h => cdns3-gadget.h}    |    0
+ drivers/usb/cdns3/cdns3-imx.c                 |    2 +-
+ drivers/usb/cdns3/cdns3-plat.c                |  315 +++
+ drivers/usb/cdns3/{trace.c => cdns3-trace.c}  |    2 +-
+ drivers/usb/cdns3/{trace.h => cdns3-trace.h}  |    6 +-
+ drivers/usb/cdns3/cdnsp-debug.h               |  583 ++++
+ drivers/usb/cdns3/cdnsp-ep0.c                 |  495 ++++
+ drivers/usb/cdns3/cdnsp-gadget.c              | 2017 ++++++++++++++
+ drivers/usb/cdns3/cdnsp-gadget.h              | 1600 +++++++++++
+ drivers/usb/cdns3/cdnsp-mem.c                 | 1325 +++++++++
+ drivers/usb/cdns3/cdnsp-pci.c                 |  255 ++
+ drivers/usb/cdns3/cdnsp-ring.c                | 2439 +++++++++++++++++
+ drivers/usb/cdns3/cdnsp-trace.c               |   12 +
+ drivers/usb/cdns3/cdnsp-trace.h               |  840 ++++++
+ drivers/usb/cdns3/core.c                      |  455 +--
+ drivers/usb/cdns3/core.h                      |   54 +-
+ drivers/usb/cdns3/drd.c                       |  222 +-
+ drivers/usb/cdns3/drd.h                       |   94 +-
+ drivers/usb/cdns3/gadget-export.h             |   22 +-
+ drivers/usb/cdns3/host-export.h               |   13 +-
+ drivers/usb/cdns3/host.c                      |   22 +-
+ 28 files changed, 10400 insertions(+), 507 deletions(-)
+ rename drivers/usb/cdns3/{debug.h => cdns3-debug.h} (100%)
+ rename drivers/usb/cdns3/{ep0.c => cdns3-ep0.c} (99%)
+ rename drivers/usb/cdns3/{gadget.c => cdns3-gadget.c} (99%)
+ rename drivers/usb/cdns3/{gadget.h => cdns3-gadget.h} (100%)
+ create mode 100644 drivers/usb/cdns3/cdns3-plat.c
+ rename drivers/usb/cdns3/{trace.c => cdns3-trace.c} (89%)
+ rename drivers/usb/cdns3/{trace.h => cdns3-trace.h} (99%)
+ create mode 100644 drivers/usb/cdns3/cdnsp-debug.h
+ create mode 100644 drivers/usb/cdns3/cdnsp-ep0.c
+ create mode 100644 drivers/usb/cdns3/cdnsp-gadget.c
+ create mode 100644 drivers/usb/cdns3/cdnsp-gadget.h
+ create mode 100644 drivers/usb/cdns3/cdnsp-mem.c
+ create mode 100644 drivers/usb/cdns3/cdnsp-pci.c
+ create mode 100644 drivers/usb/cdns3/cdnsp-ring.c
+ create mode 100644 drivers/usb/cdns3/cdnsp-trace.c
+ create mode 100644 drivers/usb/cdns3/cdnsp-trace.h
+
 -- 
 2.17.1
 
