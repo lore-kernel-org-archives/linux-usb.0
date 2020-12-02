@@ -2,75 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0049C64E7C
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 11:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A271C64E7C
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 11:40:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A28420709
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 11:39:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D1E122203
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 11:40:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbgLBLjK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Dec 2020 06:39:10 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58750 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726091AbgLBLjK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 2 Dec 2020 06:39:10 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1606909104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1GqSivLmdbAiQt1qsV0GqxPEcUo5BouV73hU5fYo14I=;
-        b=RwU3d2s4MiYaHqmqTgYCCy3jOofyTM+HdQYiJBBd8ZrDLJxlEGszAzfKRxxKE5qnbljyDe
-        Shv6UNnHrRHUpvdYpO6gpGPqQVTY1sMbCUUkNX0oByG579/g16cfiPWJJ/sgNJBv5LgWbJ
-        f7XftIq412cBRWABJjsLvn3/jmafnTQ=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2EC11AB63;
-        Wed,  2 Dec 2020 11:38:24 +0000 (UTC)
-Message-ID: <612be9a9cd6ffdb9492781e174859c7b4e694a86.camel@suse.com>
-Subject: Re: Issues with LaCie USB3 drive and UAS
-From:   Oliver Neukum <oneukum@suse.com>
-To:     "David C. Partridge" <david.partridge@perdrix.co.uk>,
-        linux-usb@vger.kernel.org
-Date:   Wed, 02 Dec 2020 12:38:19 +0100
-In-Reply-To: <000001d6c89c$086812e0$193838a0$@perdrix.co.uk>
-References: <004f01d6b5bd$d4f08ff0$7ed1afd0$@perdrix.co.uk>
-                                      <eceedea7ca5d950eb8ea4d186a6b01a04d0a804f.camel@suse.com>
-                                       <001601d6b67d$e97a1e30$bc6e5a90$@perdrix.co.uk>
-                                 <aebf92944c1ecb256d21108ce092165a0fd904db.camel@suse.com>
-                               <001b01d6b68a$79937fa0$6cba7ee0$@perdrix.co.uk>
-                                 <007901d6b6ab$f0f66230$d2e32690$@perdrix.co.uk>
-                         <43abe2af0352f17f93e2453a86e2ed47b9913b6a.camel@suse.com>
-                       <000f01d6c326$1eea3f50$5cbebdf0$@perdrix.co.uk>
-                 <d478123862a7e94898aaa771c21cc8cb0a3819fc.camel@suse.com>
-                 <008101d6c3d7$2427ee70$6c77cb50$@perdrix.co.uk>
-         <11ea70180f52b4965a451b3970891e0f547c777b.camel@suse.com>
-         <000001d6c89c$086812e0$193838a0$@perdrix.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S1728494AbgLBLkf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Dec 2020 06:40:35 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34231 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbgLBLkc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 06:40:32 -0500
+Received: by mail-lj1-f196.google.com with SMTP id y16so3247160ljk.1;
+        Wed, 02 Dec 2020 03:40:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=01vHtzx/5aEVlHEVhq/PMF1AoVHq8PWDJZfl0akHsik=;
+        b=KEpQBNlPZ/0JC6t0QmcsaXPH4Vh8x77zoMbnpzOQLBVpfYWSkjtXTS9IV8UiBNfbdo
+         uEkMJjBHkZ9qRb7WXvBwdxlKlbcyUWuogbglBysSEXRwhsuY1zX1l47hsmuBAf0aUy6e
+         92dRUA03f/uj04NZH21Yuk7sDkQaw4/MDjgVhXsl+BfXZg4piAYWE/JNCIm9w9ED93xZ
+         K/OSM3WHWVP56Wo5yTJIiX2vj6ZxAHyvi1sObve1Vv7Pk7TBexK0lq8s9N5FE6zy6aHh
+         4RU4fGHC5EUaFcgevTol/HNgQYerLOagi6bbzZhkz20bDRP+dBIJfF+KV2Em2nU3Fsin
+         4Ffw==
+X-Gm-Message-State: AOAM531UUR8uOn3tOK2uaZuK2BznwbJn4+BkGT+u2J2c4wYgck4t0T0x
+        PqrNGwj9eTINOLR0wkkQAsOCRblauzEjbw==
+X-Google-Smtp-Source: ABdhPJxOqwspvf/MmAVckgjGG6+2wsOWl7R7BrdrJxygrukymZb8YLK6+3N4jhC7EqalwUGrJGESWQ==
+X-Received: by 2002:a2e:3518:: with SMTP id z24mr1019450ljz.310.1606909189303;
+        Wed, 02 Dec 2020 03:39:49 -0800 (PST)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id x11sm379239lfe.96.2020.12.02.03.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 03:39:47 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@xi.terra>)
+        id 1kkQUc-00072t-Or; Wed, 02 Dec 2020 12:40:18 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jiri Slaby <jirislaby@kernel.org>,
+        "Mychaela N . Falconia" <falcon@freecalypso.org>,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 2/7] tty: use const parameters in port-flag accessors
+Date:   Wed,  2 Dec 2020 12:39:37 +0100
+Message-Id: <20201202113942.27024-3-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201202113942.27024-1-johan@kernel.org>
+References: <20201202113942.27024-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Mittwoch, den 02.12.2020, 11:12 +0000 schrieb David C. Partridge:
+Declare the port parameter to the flag-test accessors as const.
 
-Hi,
+This is currently mostly cosmetic as the accessors are already inlined.
 
+Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ include/linux/tty.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> A helpful person on the Ubuntu forums sent me a patched usb-storage.ko that was built using your patch file.
-
-that is nice to hear, sorry but I am no good with Ubuntu stuff.
-However, the problem is that you need uas.ko.
-
-The log is showing a curious failure. Did you disconnect the device?
-
-	Regards
-		Oliver
-
+diff --git a/include/linux/tty.h b/include/linux/tty.h
+index eca7fd5e9fd0..3ebeb7fbe332 100644
+--- a/include/linux/tty.h
++++ b/include/linux/tty.h
+@@ -605,7 +605,7 @@ static inline struct tty_port *tty_port_get(struct tty_port *port)
+ }
+ 
+ /* If the cts flow control is enabled, return true. */
+-static inline bool tty_port_cts_enabled(struct tty_port *port)
++static inline bool tty_port_cts_enabled(const struct tty_port *port)
+ {
+ 	return test_bit(TTY_PORT_CTS_FLOW, &port->iflags);
+ }
+@@ -615,7 +615,7 @@ static inline void tty_port_set_cts_flow(struct tty_port *port, bool val)
+ 	assign_bit(TTY_PORT_CTS_FLOW, &port->iflags, val);
+ }
+ 
+-static inline bool tty_port_active(struct tty_port *port)
++static inline bool tty_port_active(const struct tty_port *port)
+ {
+ 	return test_bit(TTY_PORT_ACTIVE, &port->iflags);
+ }
+@@ -625,7 +625,7 @@ static inline void tty_port_set_active(struct tty_port *port, bool val)
+ 	assign_bit(TTY_PORT_ACTIVE, &port->iflags, val);
+ }
+ 
+-static inline bool tty_port_check_carrier(struct tty_port *port)
++static inline bool tty_port_check_carrier(const struct tty_port *port)
+ {
+ 	return test_bit(TTY_PORT_CHECK_CD, &port->iflags);
+ }
+@@ -635,7 +635,7 @@ static inline void tty_port_set_check_carrier(struct tty_port *port, bool val)
+ 	assign_bit(TTY_PORT_CHECK_CD, &port->iflags, val);
+ }
+ 
+-static inline bool tty_port_suspended(struct tty_port *port)
++static inline bool tty_port_suspended(const struct tty_port *port)
+ {
+ 	return test_bit(TTY_PORT_SUSPENDED, &port->iflags);
+ }
+@@ -645,7 +645,7 @@ static inline void tty_port_set_suspended(struct tty_port *port, bool val)
+ 	assign_bit(TTY_PORT_SUSPENDED, &port->iflags, val);
+ }
+ 
+-static inline bool tty_port_initialized(struct tty_port *port)
++static inline bool tty_port_initialized(const struct tty_port *port)
+ {
+ 	return test_bit(TTY_PORT_INITIALIZED, &port->iflags);
+ }
+@@ -655,7 +655,7 @@ static inline void tty_port_set_initialized(struct tty_port *port, bool val)
+ 	assign_bit(TTY_PORT_INITIALIZED, &port->iflags, val);
+ }
+ 
+-static inline bool tty_port_kopened(struct tty_port *port)
++static inline bool tty_port_kopened(const struct tty_port *port)
+ {
+ 	return test_bit(TTY_PORT_KOPENED, &port->iflags);
+ }
+-- 
+2.26.2
 
