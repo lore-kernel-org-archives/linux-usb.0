@@ -2,209 +2,191 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B25C64E8A
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 06:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13154C64E7C
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 08:58:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AB34221FB
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 06:58:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD6C9221E9
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Dec 2020 08:58:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728741AbgLBG6z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Dec 2020 01:58:55 -0500
-Received: from mail-eopbgr70079.outbound.protection.outlook.com ([40.107.7.79]:62055
-        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726202AbgLBG6z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 2 Dec 2020 01:58:55 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hbXasXtkim2qXmwQzIPegISJPSnyWJsHy3/vS5a2wFxujRJkIWNwCmfuERNibm4jYHkl/F9BQeSdoCtcwFaUf4j60yfg5ZC7AttT/rbxHK213UJgknbVDuiunIZz5LfhgiTSPCY3jlhgiwrc/xY7nHRwishSK3WtB9n/H1ODd+zQWouQypibcCXi9WWdGme1nVf9rKpKsZaMHKND1Z6FqdHJk7wrplXrk5BvZGtr3GMQ7zsJtSNWmSuD3dflLNsiJW2uhcov9yv0325cO9ySrY00tj1nUdpf+4JFhGQk2guaH/zr1P7wh01BCsG2w12zWufCS4P5I6eI3hSGcwq4sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ACvv8oQsKNkQqfs+kIxJLdY++C06m+FNf9XmV4oxlXE=;
- b=nPi/HPMkjyfnHJn3yotZRInT8LFNVjeRuETQxUDRb5hmd5l4M9WlMfi5HhJ0Hzg1MzZ2vQSKmn0qV/B0VgL0+DceIyifDY0EROGUhZsuEYl9hc0p2N62pu8TcT9IwSBqcCzOVKO6Jp0MyAe/YPUuEgrKhA6o3Uny8IZwHcAx9e4Q2E5FTFF3DYSL91jzRjqLiXJvmfVh4r76aByr0QjzZjqH9+bLg9557IAQZjAzWi4zspY6YUNXo8eFEaOLVtOOXBrwLXpUElafy+jKvPAzxi3uidZBaAuI5nS67K6JqxygXdkC8OobtS0gtOXEH8RMNDDn+qi+Ni5KTwNKKdxiUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ACvv8oQsKNkQqfs+kIxJLdY++C06m+FNf9XmV4oxlXE=;
- b=YGksQJxt7viPbjW81bUd735NeZ+DiNCqsyJOyjHqartURe86cJqOjjM1fu9bzg3QOwZBDMvZSiQOBs9ZwBDOPIiL7UNIKSyRHVjQqgHfboDlpFhq9KVYLHdGGeNEDsur6SsYe2pPumFf00CjDNYLceNiGJJIrAWdkP+VDwBF9ME=
-Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
- by VI1PR0402MB2911.eurprd04.prod.outlook.com (2603:10a6:800:b8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Wed, 2 Dec
- 2020 06:58:04 +0000
-Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
- ([fe80::b035:d158:c99c:57c6]) by VE1PR04MB6528.eurprd04.prod.outlook.com
- ([fe80::b035:d158:c99c:57c6%7]) with mapi id 15.20.3611.032; Wed, 2 Dec 2020
- 06:58:04 +0000
-From:   Jun Li <jun.li@nxp.com>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        id S1729013AbgLBI6s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Dec 2020 03:58:48 -0500
+Received: from mga06.intel.com ([134.134.136.31]:60111 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728480AbgLBI6r (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Dec 2020 03:58:47 -0500
+IronPort-SDR: 0TZnOfxn6T5fpdnipNG1vfcKS+zIxvWfAvbhjO67LZcGRurHUxC3wxRQgrHX9SKgH01DtlHJSh
+ TBaoyk/6eQMw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="234588687"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="234588687"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 00:57:05 -0800
+IronPort-SDR: AFF0GSwbUqo1qU+TpI7/aKK6PQ9T/WaJdKUw4zH2xFjETa19MMgx7XeroXvilGMeFbHKteJwKy
+ wabg0w12+9xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="345796824"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga002.jf.intel.com with ESMTP; 02 Dec 2020 00:57:04 -0800
+Subject: Re: [PATCH] usb: host: xhci: wait USB2 port enter suspend for bus
+ suspend
+To:     Jun Li <jun.li@nxp.com>,
         "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         Peter Chen <peter.chen@nxp.com>
-Subject: RE: [PATCH] usb: host: xhci: wait USB2 port enter suspend for bus
- suspend
-Thread-Topic: [PATCH] usb: host: xhci: wait USB2 port enter suspend for bus
- suspend
-Thread-Index: AQHWsdO/dqhU2/rHA0iX6fFqD5cydKnh7hWwgAEpFgCAAC0PYA==
-Date:   Wed, 2 Dec 2020 06:58:04 +0000
-Message-ID: <VE1PR04MB65282E8B0E8D2C0100FCE18D89F30@VE1PR04MB6528.eurprd04.prod.outlook.com>
 References: <1604402250-16434-1-git-send-email-jun.li@nxp.com>
  <VE1PR04MB6528A9C9B77B4F2A9CFF9C0D89F40@VE1PR04MB6528.eurprd04.prod.outlook.com>
  <9b8d9be1-a6e4-e861-1d91-a62a97ac3add@linux.intel.com>
-In-Reply-To: <9b8d9be1-a6e4-e861-1d91-a62a97ac3add@linux.intel.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [119.31.174.71]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 30fbb543-4469-4b92-5645-08d8968f9e03
-x-ms-traffictypediagnostic: VI1PR0402MB2911:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR0402MB29115A4DA869391D2F3E2A4089F30@VI1PR0402MB2911.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FNmbHc/C+mfoAeJquv/70fxPCmnhKRszYqh6LnkCRuPNE0PHzFle38ZtFtYW8stfyinOiKKd8H7XtM4s/bREyho0DQpeQY/EZv+rutGzCLMGEfJaGru08N/HAL9SAPjiQIQQP5h6iT+dzNT20P++REGMwSuv8MP6kYpmb6QnCpSROurD+xL+8cAfA+nrRZoZlUSaUTl/IsDObUHL2l4etQ4VMhfw8RCRFKpwo4O+AqwmAZ8OAh1/PxpKdD8U9MZ1PTxlizQH78ngVItWqElBuvc3B7MDJL54bMo/auxx1+XaMC8Lse9yvZKzJn/C11YscjfvTOHSxneTRlIdHYzing==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(7696005)(15650500001)(66946007)(71200400001)(8676002)(44832011)(52536014)(2906002)(53546011)(6506007)(110136005)(8936002)(26005)(66476007)(64756008)(66446008)(186003)(478600001)(55016002)(83380400001)(86362001)(4326008)(33656002)(316002)(9686003)(66556008)(5660300002)(76116006)(54906003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?WW11cGNzV0pSMEZCd25Wc1Y0Q0NnTlJqVWNPanpKbG40anBzY2tyalFoVUlj?=
- =?utf-8?B?NjQrd2ZDQWV3ek9vVUt1SXJIRis2M1JTZkgva0VpNmVrT01rMXRXaVgrZXJv?=
- =?utf-8?B?T0JyREdaN1FlOXY1YUswaHJwbjRqMksrK0hSMUo0NXlXdUFQT2RtaXBQclFE?=
- =?utf-8?B?Slc0Y0xkYmdScGwvVmJVMmdRS2RHMXFjRXErMkRpREtCNTRwbWxrSzhHZFhT?=
- =?utf-8?B?NHZxRHYvUUJXZUxTZ0dVM3pIT2ZROTY4OXh4UnNORHVNbGFlMG1NOStsakZX?=
- =?utf-8?B?dXAyUldLUXJ4M1ZMU3k5VGRGemdnUWhYVUNHci82NW1WSnkvVG16bm5hcHM1?=
- =?utf-8?B?MktaZnhFSDBtNXNmT3g5bWdEdmRYNTJ2NmV3QmR2Z3lEbnpDdTVwaFo0STRh?=
- =?utf-8?B?dE1XVEl6QjJ1QVFYWlEraENlcjJVRERXeWZQNHJqRG9xWVN0bE1DQ0Yxay9E?=
- =?utf-8?B?a3FObVlBcGt2UURWdVJxZzh4dUUrQUpBQTVOOFp6UFRBM2VydmMxOEhzU3dh?=
- =?utf-8?B?Z1M2a1ZlZDgyK2JRSkk4dWJoWmdKbnNONWx3bm5YNzk0ZTlmQTQrcGNDOFE0?=
- =?utf-8?B?NFNJRHY5RlpQQzZwdDRqS0s0N1NaN053bm5KK21WbHA1aUlTTitsWWs3cTV1?=
- =?utf-8?B?azhhZ29yd1pZYStJM3Y5WTlpZ0o1dVViaElwVVFGdk8vVzRmWDVXcTJsUmpm?=
- =?utf-8?B?VDhhMklDbVdEbUo3TlB3TlJZTFlxY1BZdVN5WVdqL29UenBqckdMOWFJaTJS?=
- =?utf-8?B?V2ozZFBvQnJjY1lyN0Uzd3pBbCtXYWh4N0tZZ3p4T1VOTlVNdGx6UjhrSnow?=
- =?utf-8?B?L05iWXQvSHF6THZXbWh2SS9kRzlPZm9idlZ4SmZLZjFDeDZRb1hJL09HMkpp?=
- =?utf-8?B?c1VRUXZ2RXREa2hQRDBmRWdxRFNYMjFLUzltL3kwYXRrdTB4aFpnNTE1dzds?=
- =?utf-8?B?d3pCU1lRbi81bThuVTkyaEhUN2hGcDNkcDlmWERsSngxT3NRSW9YMFRkZ3NP?=
- =?utf-8?B?eitzaENJWmlyYVlFWDNaN25LYXFyMVZwVHZwcEpoWDNqNjJSRG1MdjBxNTlv?=
- =?utf-8?B?MFo5aEU4ck5VT3VYOEl3enQxRFVENXRzalBkaXkvWGQvWldGNDBYVFdxenVJ?=
- =?utf-8?B?N3EvN1RYMnNNcWxQUmF0ZGhiejgzNzdNR1JDWGNkeDFWMlRFdnYzYmVkZHVq?=
- =?utf-8?B?NnBxTElSWWpMQkJHL0lOZ2w0bXRLMVIzMG9OYXcybXpmejhPSzg3SnVvT1VT?=
- =?utf-8?B?NTVWVTdZWm9hYWdWL2VwekJLeWpUWUJZVW9ScWlQYzcwT01YTk5tZXJGL3h4?=
- =?utf-8?Q?Ag+xz2+HMzOwg=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <VE1PR04MB65282E8B0E8D2C0100FCE18D89F30@VE1PR04MB6528.eurprd04.prod.outlook.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ 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 fiD/
+Message-ID: <0ff0ea34-bf51-9b23-84a3-a67d63214751@linux.intel.com>
+Date:   Wed, 2 Dec 2020 10:58:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6528.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30fbb543-4469-4b92-5645-08d8968f9e03
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2020 06:58:04.7604
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u0SVqpfTeM8yJFNxv7JAzZmbWVsB2P4XzANLS/P1VRxY4zbCL/jMjT22sS/BE0zM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2911
+In-Reply-To: <VE1PR04MB65282E8B0E8D2C0100FCE18D89F30@VE1PR04MB6528.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWF0aGlhcyBOeW1hbiA8
-bWF0aGlhcy5ueW1hbkBsaW51eC5pbnRlbC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgRGVjZW1i
-ZXIgMiwgMjAyMCA3OjU1IEFNDQo+IFRvOiBKdW4gTGkgPGp1bi5saUBueHAuY29tPjsgbWF0aGlh
-cy5ueW1hbkBpbnRlbC5jb20NCj4gQ2M6IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyBsaW51
-eC11c2JAdmdlci5rZXJuZWwub3JnOyBQZXRlciBDaGVuDQo+IDxwZXRlci5jaGVuQG54cC5jb20+
-DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIHVzYjogaG9zdDogeGhjaTogd2FpdCBVU0IyIHBvcnQg
-ZW50ZXIgc3VzcGVuZCBmb3IgYnVzDQo+IHN1c3BlbmQNCj4gDQo+IEhpDQo+IA0KPiBPbiAxLjEy
-LjIwMjAgOC4xMiwgSnVuIExpIHdyb3RlOg0KPiA+IEhpLA0KPiA+DQo+ID4+IC0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IEp1biBMaSA8anVuLmxpQG54cC5jb20+DQo+ID4+
-IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDMsIDIwMjAgNzoyMyBQTQ0KPiA+PiBUbzogbWF0aGlh
-cy5ueW1hbkBpbnRlbC5jb20NCj4gPj4gQ2M6IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyBs
-aW51eC11c2JAdmdlci5rZXJuZWwub3JnOyBQZXRlciBDaGVuDQo+ID4+IDxwZXRlci5jaGVuQG54
-cC5jb20+DQo+ID4+IFN1YmplY3Q6IFtQQVRDSF0gdXNiOiBob3N0OiB4aGNpOiB3YWl0IFVTQjIg
-cG9ydCBlbnRlciBzdXNwZW5kIGZvcg0KPiA+PiBidXMgc3VzcGVuZA0KPiA+Pg0KPiA+PiBJZiB0
-aGUgY29ubmVjdGVkIFVTQjIgZGV2aWNlIHdha2V1cCBpcyBub3QgZW5hYmxlZC9zdXBwb3J0ZWQs
-IHRoZQ0KPiA+PiBsaW5rIHN0YXRlIG1heSBzdGlsbCBiZSBVMCB3aGVuIGRvIHhoY2kgYnVzIHN1
-c3BlbmQsIGFmdGVyIHdlIHN1c3BlbmQNCj4gPj4gcG9ydHMgaW4gVTAsIHdlIG5lZWQgZ2l2ZSB0
-aW1lIHRvIGRldmljZSB0byBlbnRlciBzdXNwZW5kIGJlZm9yZSBkbw0KPiA+PiBmdXJ0aGVyIHN1
-c3BlbmQgb3BlcmF0aW9ucyAoZS5nLiBzeXN0ZW0gc3VzcGVuZCksIG90aGVyd2lzZSB3ZSBtYXkN
-Cj4gPj4gZW50ZXIgc3lzdGVtIHN1c3BlbmQgd2l0aCBsaW5rIHN0YXRlIGF0IFUwLg0KPiANCj4g
-DQo+IFdoYXQgc2lkZS1lZmZlY3RzIGhhdmUgeW91IG9ic2VydmVkIGlmIGJ1cyBzdXNwZW5kIHJl
-dHVybnMgd2hpbGUgYSBwb3J0IGlzDQo+IHN0aWxsIHRyYW5zaXRpb25pbmcgdG8gVTM/DQoNCkkg
-Zm91bmQgYSByZWFsIHByb2JsZW0gb24gcmVtb3RlIHdha2V1cCBieSBVU0IyIGRldmljZSBkaXNj
-b25uZWN0DQpvbiByb290IHBvcnQsIHRoYXQgZGV2aWNlKGUuZy4gVWRpc2spIGl0c2VsZiBkb2Vz
-IG5vdCBzdXBwb3J0IHJlbW90ZQ0Kd2FrZXVwLCB0aGUgcmVtb3RlIHdha2V1cCBoYXMgcHJvYmxl
-bSBpZiBJIGVuYWJsZSBVU0IyIERQRE0gd2FrZXVwDQp3aGVuIFVTQjIgYnVzIGF0IFUwLg0KDQo+
-IA0KPiBJIGNhbid0IHJlY2FsbCB3aHkgd2UgZW5kIHVwIHdpdGggcG9ydHMgaW4gVTAgaW4gYnVz
-IHN1c3BlbmQgYW55bW9yZS4NCj4gSSB0aGluayB0aGF0IGluIHN5c3RlbSBzdXNwZW5kIHRoZSBs
-aW5rIHNob3VsZCBiZSBwdXQgdG8gVTMgYWxyZWFkeSB3aGVuDQo+IHRoZSB1c2IgZGV2aWNlIGlz
-IHN1c3BlbmRlZCwgYmVmb3JlIHRoZSBidXMgc3VzcGVuZHMsIGV2ZW4gaWYgaXQgZG9lc24ndA0K
-PiBzdXBwb3J0IHJlbW90ZSB3YWtldXAuDQoNCkkgYWxzbyB0aG91Z2h0IHNvIGJ1dCBhY3R1YWxs
-eSBub3QsIHNlZSBiZWxvdyBpbiB1c2JfcG9ydF9zdXNwZW5kKCk6DQoNCiAgMTIgICAgICAgICBp
-ZiAoaHViX2lzX3N1cGVyc3BlZWQoaHViLT5oZGV2KSkNCiAgMTMgICAgICAgICAgICAgICAgIHN0
-YXR1cyA9IGh1Yl9zZXRfcG9ydF9saW5rX3N0YXRlKGh1YiwgcG9ydDEsIFVTQl9TU19QT1JUX0xT
-X1UzKTsgDQogIDE0IA0KICAxNSAgICAgICAgIC8qDQogIDE2ICAgICAgICAgICogRm9yIHN5c3Rl
-bSBzdXNwZW5kLCB3ZSBkbyBub3QgbmVlZCB0byBlbmFibGUgdGhlIHN1c3BlbmQgZmVhdHVyZQ0K
-ICAxNyAgICAgICAgICAqIG9uIGluZGl2aWR1YWwgVVNCLTIgcG9ydHMuICBUaGUgZGV2aWNlcyB3
-aWxsIGF1dG9tYXRpY2FsbHkgZ28NCiAgMTggICAgICAgICAgKiBpbnRvIHN1c3BlbmQgYSBmZXcg
-bXMgYWZ0ZXIgdGhlIHJvb3QgaHViIHN0b3BzIHNlbmRpbmcgcGFja2V0cy4NCiAgMTkgICAgICAg
-ICAgKiBUaGUgVVNCIDIuMCBzcGVjIGNhbGxzIHRoaXMgImdsb2JhbCBzdXNwZW5kIi4NCiAgMjAg
-ICAgICAgICAgKg0KICAyMSAgICAgICAgICAqIEhvd2V2ZXIsIG1hbnkgVVNCIGh1YnMgaGF2ZSBh
-IGJ1ZzogVGhleSBkb24ndCByZWxheSB3YWtldXAgcmVxdWVzdHMNCiAgMjIgICAgICAgICAgKiBm
-cm9tIGEgZG93bnN0cmVhbSBwb3J0IGlmIHRoZSBwb3J0J3Mgc3VzcGVuZCBmZWF0dXJlIGlzbid0
-IG9uLg0KICAyMyAgICAgICAgICAqIFRoZXJlZm9yZSB3ZSB3aWxsIHR1cm4gb24gdGhlIHN1c3Bl
-bmQgZmVhdHVyZSBpZiB1ZGV2IG9yIGFueSBvZiBpdHMNCiAgMjQgICAgICAgICAgKiBkZXNjZW5k
-YW50cyBpcyBlbmFibGVkIGZvciByZW1vdGUgd2FrZXVwLg0KICAyNSAgICAgICAgICAqLw0KICAy
-NiAgICAgICAgIGVsc2UgaWYgKFBNU0dfSVNfQVVUTyhtc2cpIHx8IHVzYl93YWtldXBfZW5hYmxl
-ZF9kZXNjZW5kYW50cyh1ZGV2KSA+IDApDQogIDI3ICAgICAgICAgICAgICAgICBzdGF0dXMgPSBz
-ZXRfcG9ydF9mZWF0dXJlKGh1Yi0+aGRldiwgcG9ydDEsDQogIDI4ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgVVNCX1BPUlRfRkVBVF9TVVNQRU5EKTsNCiAgMjkgICAgICAgICBlbHNl
-IHsNCiAgMzAgICAgICAgICAgICAgICAgIHJlYWxseV9zdXNwZW5kID0gZmFsc2U7DQogIDMxICAg
-ICAgICAgICAgICAgICBzdGF0dXMgPSAwOw0KICAzMiAgICAgICAgIH0NCg0KdXNiX3dha2V1cF9l
-bmFibGVkX2Rlc2NlbmRhbnRzKHVkZXYpID4gMCBpcyBub3QgdHJ1ZSwgaWYgdGhlIGRldmljZSBp
-dHNlbGYNCmRvZXMgbm90IHN1cHBvcnQgcmVtb3RlIHdha2V1cC4NCg0KPiANCj4gRG8geW91IGtu
-b3cgdGhlIHJlYXNvbiB3aHkgdGhlIGRldmljZSBpcyBpbiBVMCBpbiBidXMgc3VzcGVuZCBpbiB5
-b3VyIGNhc2U/DQo+IENvdWxkIHRoYXQgYmUgdGhlIHJlYWwgcHJvYmxlbSB0aGF0IG5lZWRzIHRv
-IGJlIGZpeGVkPw0KDQpTZWUgYWJvdmUuDQoNCj4gDQo+ID4+DQo+ID4+IFNpZ25lZC1vZmYtYnk6
-IExpIEp1biA8anVuLmxpQG54cC5jb20+DQo+ID4+IC0tLQ0KPiA+PiAgZHJpdmVycy91c2IvaG9z
-dC94aGNpLWh1Yi5jIHwgNiArKysrKysNCj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlv
-bnMoKykNCj4gPj4NCj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1odWIu
-Yw0KPiA+PiBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1odWIuYyBpbmRleCBjNzk5Y2E1Li4xZTA1
-NGQwIDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktaHViLmMNCj4gPj4g
-KysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLWh1Yi5jDQo+ID4+IEBAIC0xNTk4LDYgKzE1OTgs
-NyBAQCBpbnQgeGhjaV9idXNfc3VzcGVuZChzdHJ1Y3QgdXNiX2hjZCAqaGNkKQ0KPiA+PiAgCXN0
-cnVjdCB4aGNpX2h1YiAqcmh1YjsNCj4gPj4gIAlzdHJ1Y3QgeGhjaV9wb3J0ICoqcG9ydHM7DQo+
-ID4+ICAJdTMyIHBvcnRzY19idWZbVVNCX01BWENISUxEUkVOXTsNCj4gPj4gKwlib29sIHdhaXRf
-cG9ydF9lbnRlcl91MyA9IGZhbHNlOw0KPiA+PiAgCWJvb2wgd2FrZV9lbmFibGVkOw0KPiA+Pg0K
-PiA+PiAgCXJodWIgPSB4aGNpX2dldF9yaHViKGhjZCk7DQo+ID4+IEBAIC0xNzA2LDEyICsxNzA3
-LDE3IEBAIGludCB4aGNpX2J1c19zdXNwZW5kKHN0cnVjdCB1c2JfaGNkICpoY2QpDQo+ID4+ICAJ
-CQkJeGhjaV9zdG9wX2RldmljZSh4aGNpLCBzbG90X2lkLCAxKTsNCj4gPj4gIAkJCQlzcGluX2xv
-Y2tfaXJxc2F2ZSgmeGhjaS0+bG9jaywgZmxhZ3MpOw0KPiA+PiAgCQkJfQ0KPiA+PiArCQkJd2Fp
-dF9wb3J0X2VudGVyX3UzID0gdHJ1ZTsNCj4gDQo+IEkgZG9uJ3QgdGhpbmsgIndhaXRfcG9ydF9l
-bnRlcl91MyIgaXMgbmVlZGVkLiBJZiB4aGNpX2J1c19zdXNwZW5kKCkgbmVlZHMNCj4gdG8gc2V0
-IGEgcG9ydCBsaW5rIHRvIFUzIGl0IHdpbGwgYWxzbyBzZXQgYSBiaXQgaW4gYnVzX3N0YXRlLT5i
-dXNfc3VzcGVuZGVkDQo+IA0KDQpBZ3JlZSBhZnRlciBjaGVjay4NCg0KPiA+PiAgCQl9DQo+ID4+
-ICAJCXdyaXRlbChwb3J0c2NfYnVmW3BvcnRfaW5kZXhdLCBwb3J0c1twb3J0X2luZGV4XS0+YWRk
-cik7DQo+ID4+ICAJfQ0KPiA+PiAgCWhjZC0+c3RhdGUgPSBIQ19TVEFURV9TVVNQRU5ERUQ7DQo+
-ID4+ICAJYnVzX3N0YXRlLT5uZXh0X3N0YXRlY2hhbmdlID0gamlmZmllcyArIG1zZWNzX3RvX2pp
-ZmZpZXMoMTApOw0KPiA+PiAgCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnhoY2ktPmxvY2ssIGZs
-YWdzKTsNCj4gPj4gKw0KPiA+PiArCWlmICh3YWl0X3BvcnRfZW50ZXJfdTMpDQo+ID4+ICsJCXVz
-bGVlcF9yYW5nZSg1MDAwLCAxMDAwMCk7DQo+IA0KPiBGaXJzdCB0aG91Z2h0IHdlIHNob3VsZCBw
-b2xsIHRoZSByZWdpc3RlcihzKSBhbmQgd2FpdCBmb3IgcG9ydHMgdG8gZW50ZXINCj4gVTMsIGJ1
-dCB0aGUgbW9yZSBjb21tb24gY2FzZSB3aGVyZSBhIGRldmljZSBpcyBzdXNwZW5kZWQgYW5kIGxp
-bmsgcHV0IHRvDQo+IFUzIHdpdGggYQ0KPiBVU0IyIFNldFBvcnRGZWF0dXJlKFBPUlRfU1VTUEVO
-RCkgYWxzbyBqdXN0IHNsZWVwcyBmb3IgMTBtcywgc28gZG9pbmcgaXQNCj4gZm9yIHRoaXMgc3Bl
-Y2lhbCBjYXNlIHNob3VsZCBiZSBvayBhcyB3ZWxsLg0KPiANCj4gaWYgKGJ1c19zdGF0ZS0+YnVz
-X3N1c3BlbmRlZCkNCj4gCXVzbGVlcF9yYW5nZSg1MDAwLCAxMDAwMCkNCg0KSSB3aWxsIHNlbmQg
-eW91ciBwcm9wb3NhbCBpZiBubyBtb3JlIGNvbW1lbnRzLg0KDQpUaGFua3MNCkxpIEp1bg0KPiAN
-Cj4gLU1hdGhpYXMNCg0K
+On 2.12.2020 8.58, Jun Li wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Sent: Wednesday, December 2, 2020 7:55 AM
+>> To: Jun Li <jun.li@nxp.com>; mathias.nyman@intel.com
+>> Cc: gregkh@linuxfoundation.org; linux-usb@vger.kernel.org; Peter Chen
+>> <peter.chen@nxp.com>
+>> Subject: Re: [PATCH] usb: host: xhci: wait USB2 port enter suspend for bus
+>> suspend
+>>
+>> Hi
+>>
+>> On 1.12.2020 8.12, Jun Li wrote:
+>>> Hi,
+>>>
+>>>> -----Original Message-----
+>>>> From: Jun Li <jun.li@nxp.com>
+>>>> Sent: Tuesday, November 3, 2020 7:23 PM
+>>>> To: mathias.nyman@intel.com
+>>>> Cc: gregkh@linuxfoundation.org; linux-usb@vger.kernel.org; Peter Chen
+>>>> <peter.chen@nxp.com>
+>>>> Subject: [PATCH] usb: host: xhci: wait USB2 port enter suspend for
+>>>> bus suspend
+>>>>
+>>>> If the connected USB2 device wakeup is not enabled/supported, the
+>>>> link state may still be U0 when do xhci bus suspend, after we suspend
+>>>> ports in U0, we need give time to device to enter suspend before do
+>>>> further suspend operations (e.g. system suspend), otherwise we may
+>>>> enter system suspend with link state at U0.
+>>
+>>
+>> What side-effects have you observed if bus suspend returns while a port is
+>> still transitioning to U3?
+> 
+> I found a real problem on remote wakeup by USB2 device disconnect
+> on root port, that device(e.g. Udisk) itself does not support remote
+> wakeup, the remote wakeup has problem if I enable USB2 DPDM wakeup
+> when USB2 bus at U0.
+> 
+>>
+>> I can't recall why we end up with ports in U0 in bus suspend anymore.
+>> I think that in system suspend the link should be put to U3 already when
+>> the usb device is suspended, before the bus suspends, even if it doesn't
+>> support remote wakeup.
+> 
+> I also thought so but actually not, see below in usb_port_suspend():
+> 
+>   12         if (hub_is_superspeed(hub->hdev))
+>   13                 status = hub_set_port_link_state(hub, port1, USB_SS_PORT_LS_U3); 
+>   14 
+>   15         /*
+>   16          * For system suspend, we do not need to enable the suspend feature
+>   17          * on individual USB-2 ports.  The devices will automatically go
+>   18          * into suspend a few ms after the root hub stops sending packets.
+>   19          * The USB 2.0 spec calls this "global suspend".
+>   20          *
+>   21          * However, many USB hubs have a bug: They don't relay wakeup requests
+>   22          * from a downstream port if the port's suspend feature isn't on.
+>   23          * Therefore we will turn on the suspend feature if udev or any of its
+>   24          * descendants is enabled for remote wakeup.
+>   25          */
+>   26         else if (PMSG_IS_AUTO(msg) || usb_wakeup_enabled_descendants(udev) > 0)
+>   27                 status = set_port_feature(hub->hdev, port1,
+>   28                                 USB_PORT_FEAT_SUSPEND);
+>   29         else {
+>   30                 really_suspend = false;
+>   31                 status = 0;
+>   32         }
+> 
+> usb_wakeup_enabled_descendants(udev) > 0 is not true, if the device itself
+> does not support remote wakeup.
+> 
+
+You're right, link isn't set to U3 in this case. 
+
+...
+>>
+>> if (bus_state->bus_suspended)
+>> 	usleep_range(5000, 10000)
+> 
+> I will send your proposal if no more comments.
+
+Yes, thanks, no more comments.
+
+-Mathias
+
