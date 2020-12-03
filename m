@@ -2,131 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C66CC6369E
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 02:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A04C64E7C
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 03:10:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE81821D7A
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 02:13:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0137221D91
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 03:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729481AbgLCCMs convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Dec 2020 21:12:48 -0500
-Received: from avasout01.plus.net ([84.93.230.227]:52103 "EHLO
-        avasout01.plus.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbgLCCMs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 21:12:48 -0500
-Received: from APOLLO ([212.159.61.44])
-        by smtp with ESMTPA
-        id ke6Bkqa98n8O7ke6CkZfze; Thu, 03 Dec 2020 02:12:01 +0000
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=Ld6nFgXi c=1 sm=1 tr=0
- a=AGp1duJPimIJhwGXxSk9fg==:117 a=AGp1duJPimIJhwGXxSk9fg==:17
- a=IkcTkHD0fZMA:10 a=iox4zFpeAAAA:8 a=VwQbUJbxAAAA:8 a=ZT0X36KOlGUsngzDnxcA:9
- a=QEXdDO2ut3YA:10 a=WzC6qhA0u3u7Ye7llzcV:22 a=AjGcO6oz07-iQ99wixmX:22
-X-AUTH: perdrix52@:2500
-From:   "David C. Partridge" <david.partridge@perdrix.co.uk>
-To:     "'Oliver Neukum'" <oneukum@suse.com>, <linux-usb@vger.kernel.org>
-References: <004f01d6b5bd$d4f08ff0$7ed1afd0$@perdrix.co.uk>                                      <eceedea7ca5d950eb8ea4d186a6b01a04d0a804f.camel@suse.com>                                       <001601d6b67d$e97a1e30$bc6e5a90$@perdrix.co.uk>                                 <aebf92944c1ecb256d21108ce092165a0fd904db.camel@suse.com>                               <001b01d6b68a$79937fa0$6cba7ee0$@perdrix.co.uk>                                 <007901d6b6ab$f0f66230$d2e32690$@perdrix.co.uk>                         <43abe2af0352f17f93e2453a86e2ed47b9913b6a.camel@suse.com>                       <000f01d6c326$1eea3f50$5cbebdf0$@perdrix.co.uk>                 <d478123862a7e94898aaa771c21cc8cb0a3819fc.camel@suse.com>                 <008101d6c3d7$2427ee70$6c77cb50$@perdrix.co.uk>         <11ea70180f52b4965a451b3970891e0f547c777b.camel@suse.com>         <000001d6c89c$086812e0$193838a0$@perdrix.co.uk> <612be9a9cd6ffdb9492781e174859c7b4e694a86.camel@suse.com>
-In-Reply-To: <612be9a9cd6ffdb9492781e174859c7b4e694a86.camel@suse.com>
-Subject: RE: Issues with LaCie USB3 drive and UAS
-Date:   Thu, 3 Dec 2020 02:11:59 -0000
-Message-ID: <000301d6c919$af7a94e0$0e6fbea0$@perdrix.co.uk>
+        id S1729608AbgLCDKN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Dec 2020 22:10:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbgLCDKM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 22:10:12 -0500
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92333C061A4F
+        for <linux-usb@vger.kernel.org>; Wed,  2 Dec 2020 19:09:32 -0800 (PST)
+Received: by mail-pj1-x1042.google.com with SMTP id z12so316041pjn.1
+        for <linux-usb@vger.kernel.org>; Wed, 02 Dec 2020 19:09:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3HPjMiZ7r2vmNOesKbXHx10R/RkIYQVQPBYwT6NlQG0=;
+        b=HYvUEoGI49+MPUkaFo90T8oSv8t7B1B2PHAwPzjXWy8nnUV00Ioup69H2B2Vnt4yaG
+         EUON+5/nB36QJdMsrhFNnr47nFjhPBpBrrsEtK7Q3Nw6Uenez408SBlRqp5lrChHC4Ot
+         n6yjmD0hXKg0UzAfOetXQoVKoJ3Pl/DBY68hY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3HPjMiZ7r2vmNOesKbXHx10R/RkIYQVQPBYwT6NlQG0=;
+        b=EJrYHEDPwdoe1GB2RK590lakLV+m66wLhzs11tdbl6632R++wjDkFsXWZeCov6n477
+         0Xc/TfssZi25warMF8U2QNKY6YUTY0M7hyI5t0MNnHfLChEC+UohaK7idH6Okm/vpOIZ
+         K/elcOI3I2chV7yZQELPXcDR7GXWW7igMiT8COH4XUjFrDDj82FcO3jOcht2bfXG9uiS
+         W1s+Zf2t1KI/znNbXqxyhPx3JB84BmnRPRP518LsCvoYApDICuMWcrWlgKbGpixUUl1p
+         IEExucArp2K1Yd6j+ajX8Wln3MW1QrG3BEr5xpBK+QG2SjyJWs80zJSrVklONdQ1/bWg
+         U2Sw==
+X-Gm-Message-State: AOAM532Qp8nbtAlV6jmcz1omdY5XVyYETjOtaNyYN3SaNjXd2r8utlHd
+        q7X4fmXYYlwev05nHSW0TMc0mOR1KtoBxQ==
+X-Google-Smtp-Source: ABdhPJzs72jPCb9LAJ1dMuGsiqN51JYGYYwg3t/CRgNmlP43eFWmRBSPNyHjGxY6tO1qMFv17oK6RA==
+X-Received: by 2002:a17:90a:9f98:: with SMTP id o24mr1032229pjp.207.1606964971450;
+        Wed, 02 Dec 2020 19:09:31 -0800 (PST)
+Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
+        by smtp.gmail.com with ESMTPSA id 14sm437080pfz.54.2020.12.02.19.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 19:09:30 -0800 (PST)
+From:   Prashant Malani <pmalani@chromium.org>
+To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        heikki.krogerus@linux.intel.com
+Cc:     bleung@chromium.org, Prashant Malani <pmalani@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] usb: typec: Add bus type for plug alt modes
+Date:   Wed,  2 Dec 2020 19:08:47 -0800
+Message-Id: <20201203030846.51669-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQEj7PcoQVookx4f1d3/LPoLd4O7AAH2dKS3AXO3T8ACPDV8AQK5Jqf9AfTPe88CoAnckwML8I43Acv3vzcCAy63SAJfP5HDAb+vYkUBebTJRKp/F7gQ
-Content-Language: en-gb
-X-CMAE-Envelope: MS4wfLsokk8ObWkyhvtiRh4XZjmFXFvte+RaEomrZL16IwlZfTMRdXxaDoXGqNyypXu8iT9c+rK8a5qaPVVG49xjz+WDnDo/Xd3OGI71Ly/NIikstMf1Vijp
- QvGstmnXobTMPKarjLpnnrfzzzMgALyydrWaJjF3d2z0s1PUZFYKZFRdrjHdqV7SLZS5OhaAuTpNtQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Now with uas.ko	and usb-storage.ko 
+Add the Type C bus for plug alternate modes which are being
+registered via the Type C connector class. This ensures that udev events
+get generated when plug alternate modes are registered (and not just for
+partner/port alternate modes), even though the Type C bus doesn't link
+plug alternate mode devices to alternate mode drivers.
 
-Dec 03 02:05:56 charon kernel: usb 2-1: new SuperSpeed Gen 1 USB device number 2 using xhci_hcd
-Dec 03 02:05:56 charon kernel: usb 2-1: New USB device found, idVendor=059f, idProduct=105f, bcdDevice= 0.01
-Dec 03 02:05:56 charon kernel: usb 2-1: New USB device strings: Mfr=2, Product=3, SerialNumber=1
-Dec 03 02:05:56 charon kernel: usb 2-1: Product: 2Big Quadra USB3
-Dec 03 02:05:56 charon kernel: usb 2-1: Manufacturer: LaCie
-Dec 03 02:05:56 charon kernel: usb 2-1: SerialNumber: 00000000250e9e711084
-Dec 03 02:05:56 charon mtp-probe[3108]: checking bus 2, device 2: "/sys/devices/pci0000:00/0000:00:14.0/usb2/2-1"
-Dec 03 02:05:56 charon mtp-probe[3108]: bus: 2, device: 2 was not an MTP device
-Dec 03 02:05:56 charon kernel: usb_storage: loading out-of-tree module taints kernel.
-Dec 03 02:05:56 charon kernel: usb_storage: module verification failed: signature and/or required key missing - tainting kernel
-Dec 03 02:05:56 charon kernel: usbcore: registered new interface driver usb-storage
-Dec 03 02:05:56 charon kernel: scsi host5: uas
-Dec 03 02:05:56 charon kernel: usbcore: registered new interface driver uas
-Dec 03 02:05:56 charon kernel: scsi 5:0:0:0: Direct-Access     LaCie    2Big Quadra v3   051E PQ: 0 ANSI: 6
-Dec 03 02:05:56 charon kernel: sd 5:0:0:0: Attached scsi generic sg3 type 0
-Dec 03 02:05:56 charon mtp-probe[3117]: checking bus 2, device 2: "/sys/devices/pci0000:00/0000:00:14.0/usb2/2-1"
-Dec 03 02:05:56 charon mtp-probe[3117]: bus: 2, device: 2 was not an MTP device
-Dec 03 02:05:56 charon kernel: sd 5:0:0:0: [sdc] 7814025564 512-byte logical blocks: (4.00 TB/3.64 TiB)
-Dec 03 02:05:56 charon kernel: sd 5:0:0:0: [sdc] Write Protect is off
-Dec 03 02:05:56 charon kernel: sd 5:0:0:0: [sdc] Mode Sense: 43 00 00 00
-Dec 03 02:05:56 charon kernel: sd 5:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-Dec 03 02:06:13 charon kernel: usb 2-1: USB disconnect, device number 2
-Dec 03 02:06:13 charon kernel: sd 5:0:0:0: [sdc] Optimal transfer size 33553920 bytes
-Dec 03 02:06:14 charon kernel: sd 5:0:0:0: [sdc] Read Capacity(16) failed: Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK
-Dec 03 02:06:14 charon kernel: sd 5:0:0:0: [sdc] Sense not available.
-Dec 03 02:06:14 charon kernel: sd 5:0:0:0: [sdc] Read Capacity(10) failed: Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK
-Dec 03 02:06:14 charon kernel: sd 5:0:0:0: [sdc] Sense not available.
-Dec 03 02:06:14 charon kernel: sd 5:0:0:0: [sdc] 0 512-byte logical blocks: (0 B/0 B)
-Dec 03 02:06:14 charon kernel: sd 5:0:0:0: [sdc] Attached SCSI disk
-Dec 03 02:06:15 charon kernel: usb 2-1: new SuperSpeed Gen 1 USB device number 3 using xhci_hcd
-Dec 03 02:06:15 charon kernel: usb 2-1: New USB device found, idVendor=059f, idProduct=105f, bcdDevice= 0.01
-Dec 03 02:06:15 charon kernel: usb 2-1: New USB device strings: Mfr=2, Product=3, SerialNumber=1
-Dec 03 02:06:15 charon kernel: usb 2-1: Product: 2Big Quadra USB3
-Dec 03 02:06:15 charon kernel: usb 2-1: Manufacturer: LaCie
-Dec 03 02:06:15 charon kernel: usb 2-1: SerialNumber: 00000000250e9e711084
-Dec 03 02:06:15 charon kernel: scsi host5: uas
-Dec 03 02:06:15 charon kernel: scsi 5:0:0:0: Direct-Access     LaCie    2Big Quadra v3   051E PQ: 0 ANSI: 6
-Dec 03 02:06:15 charon kernel: sd 5:0:0:0: Attached scsi generic sg3 type 0
-Dec 03 02:06:15 charon kernel: sd 5:0:0:0: [sdc] 7814025564 512-byte logical blocks: (4.00 TB/3.64 TiB)
-Dec 03 02:06:15 charon kernel: sd 5:0:0:0: [sdc] Write Protect is off
-Dec 03 02:06:15 charon kernel: sd 5:0:0:0: [sdc] Mode Sense: 43 00 00 00
-Dec 03 02:06:15 charon kernel: sd 5:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-Dec 03 02:06:15 charon mtp-probe[3209]: checking bus 2, device 3: "/sys/devices/pci0000:00/0000:00:14.0/usb2/2-1"
-Dec 03 02:06:15 charon mtp-probe[3209]: bus: 2, device: 3 was not an MTP device
-Dec 03 02:06:15 charon mtp-probe[3212]: checking bus 2, device 3: "/sys/devices/pci0000:00/0000:00:14.0/usb2/2-1"
-Dec 03 02:06:15 charon mtp-probe[3212]: bus: 2, device: 3 was not an MTP device
-Dec 03 02:06:46 charon kernel: sd 5:0:0:0: tag#28 uas_eh_abort_handler 0 uas-tag 1 inflight: IN 
-Dec 03 02:06:46 charon kernel: sd 5:0:0:0: tag#28 CDB: Report supported operation codes a3 0c 01 12 00 00 00 00 02 00 00 00
-Dec 03 02:06:46 charon kernel: scsi host5: uas_eh_device_reset_handler start
-Dec 03 02:06:47 charon kernel: usb 2-1: reset SuperSpeed Gen 1 USB device number 3 using xhci_hcd
-Dec 03 02:06:47 charon kernel: scsi host5: uas_eh_device_reset_handler success
-Dec 03 02:07:17 charon kernel: scsi host5: uas_eh_device_reset_handler start
-Dec 03 02:07:17 charon kernel: sd 5:0:0:0: tag#28 uas_zap_pending 0 uas-tag 1 inflight: 
-Dec 03 02:07:17 charon kernel: sd 5:0:0:0: tag#28 CDB: Report supported operation codes a3 0c 01 12 00 00 00 00 02 00 00 00
-Dec 03 02:07:17 charon kernel: usb 2-1: reset SuperSpeed Gen 1 USB device number 3 using xhci_hcd
-Dec 03 02:07:17 charon kernel: scsi host5: uas_eh_device_reset_handler success
+Update the Type C bus documentation to mention that there
+are alternate mode devices for plugs as well.
 
------Original Message-----
-From: Oliver Neukum [mailto:oneukum@suse.com] 
-Sent: 02 December 2020 11:38
-To: David C. Partridge; linux-usb@vger.kernel.org
-Subject: Re: Issues with LaCie USB3 drive and UAS
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ Documentation/driver-api/usb/typec_bus.rst | 6 +++---
+ drivers/usb/typec/class.c                  | 8 ++++++--
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-Am Mittwoch, den 02.12.2020, 11:12 +0000 schrieb David C. Partridge:
-
-Hi,
-
-
-> A helpful person on the Ubuntu forums sent me a patched usb-storage.ko that was built using your patch file.
-
-that is nice to hear, sorry but I am no good with Ubuntu stuff.
-However, the problem is that you need uas.ko.
-
-The log is showing a curious failure. Did you disconnect the device?
-
-	Regards
-		Oliver
-
+diff --git a/Documentation/driver-api/usb/typec_bus.rst b/Documentation/driver-api/usb/typec_bus.rst
+index 21c890ae17e5..7874d2f37d9f 100644
+--- a/Documentation/driver-api/usb/typec_bus.rst
++++ b/Documentation/driver-api/usb/typec_bus.rst
+@@ -15,9 +15,9 @@ modes by using the SVID and the mode number.
+ 
+ :ref:`USB Type-C Connector Class <typec>` provides a device for every alternate
+ mode a port supports, and separate device for every alternate mode the partner
+-supports. The drivers for the alternate modes are bound to the partner alternate
+-mode devices, and the port alternate mode devices must be handled by the port
+-drivers.
++or cable plug supports. The drivers for the alternate modes are bound to the
++partner alternate mode devices, and the port alternate mode devices must be
++handled by the port drivers.
+ 
+ When a new partner alternate mode device is registered, it is linked to the
+ alternate mode device of the port that the partner is attached to, that has
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 35eec707cb51..74061a699f16 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -478,8 +478,12 @@ typec_register_altmode(struct device *parent,
+ 	if (!is_port)
+ 		typec_altmode_set_partner(alt);
+ 
+-	/* The partners are bind to drivers */
+-	if (is_typec_partner(parent))
++	/*
++	 * The partners are bind to drivers.
++	 * Also set the bus field for plug alt modes so that the udev event occurs on device
++	 * registration.
++	 */
++	if (is_typec_partner(parent) || is_typec_plug(parent))
+ 		alt->adev.dev.bus = &typec_bus;
+ 
+ 	ret = device_register(&alt->adev.dev);
+-- 
+2.29.2.454.gaff20da3a2-goog
 
