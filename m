@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-22.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6996FC83018
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 13:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC4D1C84465
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 13:39:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8D5020449
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 13:39:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D38820637
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 13:39:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436505AbgLCNaO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Dec 2020 08:30:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47780 "EHLO mail.kernel.org"
+        id S2436741AbgLCNat (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Dec 2020 08:30:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47840 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436491AbgLCNaO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 3 Dec 2020 08:30:14 -0500
+        id S2436675AbgLCNas (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 3 Dec 2020 08:30:48 -0500
 From:   Sasha Levin <sashal@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
@@ -27,12 +27,12 @@ Cc:     Yves-Alexis Perez <corsac@corsac.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 16/39] usbnet: ipheth: fix connectivity with iOS 14
-Date:   Thu,  3 Dec 2020 08:28:10 -0500
-Message-Id: <20201203132834.930999-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 10/23] usbnet: ipheth: fix connectivity with iOS 14
+Date:   Thu,  3 Dec 2020 08:29:22 -0500
+Message-Id: <20201203132935.931362-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201203132834.930999-1-sashal@kernel.org>
-References: <20201203132834.930999-1-sashal@kernel.org>
+In-Reply-To: <20201203132935.931362-1-sashal@kernel.org>
+References: <20201203132935.931362-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,7 +75,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/ipheth.c b/drivers/net/usb/ipheth.c
-index b09b45382faf5..207e59e74935a 100644
+index 8c01fbf68a895..345576f1a7470 100644
 --- a/drivers/net/usb/ipheth.c
 +++ b/drivers/net/usb/ipheth.c
 @@ -59,7 +59,7 @@
