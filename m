@@ -2,185 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 917FBC19437
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 15:01:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 179A9C4361A
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 15:08:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D846A20798
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 14:24:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AECD4217BA
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 15:08:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388372AbgLCOYG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Dec 2020 09:24:06 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:55111 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728159AbgLCOYG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Dec 2020 09:24:06 -0500
-Received: from orion.localdomain ([95.118.71.13]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MQMmF-1kXoui1iF7-00MIsk; Thu, 03 Dec 2020 15:21:33 +0100
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH] drivers: usb: core: prefer pr_*() macros over bare printk()
-Date:   Thu,  3 Dec 2020 15:21:32 +0100
-Message-Id: <20201203142132.30334-1-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-X-Provags-ID: V03:K1:s8lRoK9f6+7jquvtZUrT18jiSFd37BWHB1ug0mmSZC+a5t++lE0
- j0mMKA1/7/gxo6I7ZtulJRkf7JD5WBuZPokXzazJg4ZdvJXK038GGynk0EuVrsIKIj6Cdex
- GoTtazE6J+S6qX6MhW5vTKe2+7WZnhygfrnxMeB36k3d1L2pNTicydexW3SGi+iA4Zn8O2h
- JVoypRL7udA4jYNODvRiw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tbzYR0dE85U=:NDcLe2wVGM2S3PcxI+9+WU
- nsuCVYx+KR3Xey0uyd/T54SLip1Kw8eLybEjjZvWvHFdk9lOj/dhvhc/Bi3/3V1cmwtSPtFLS
- H47OhN2JBPJdxOQgDtLDXwpw010PigRuAKxM/EBgLya1pzhk4G/IzkO5KD4GN79YWhzjC7Hrd
- yY/6cbhyjdQ/SeMH8F6nnHqlpisurkf6ByDUue5/t83U285g0qLx6s5tEs7ep3pgNVifX05Vc
- LC69ktB53ju/cihNTJntVIwdWSYM9Yq7p0HsuQ2mtd9k6I+lLqt1EyDeYc0iWIP8nz0nczfNB
- /Ku9sU1Mkh64qdpZbKcd49YTGrRrNG3On0Y8LIafpz001GrkhZtW/aefTor2rbv7gyDs9weYf
- zGym94prTOBA+F3Igao7k0ZT8XkInLkPyNIQfV84zlQ3EigSTC0lM3v8rcyAa
+        id S1728955AbgLCPIQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Dec 2020 10:08:16 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:55113 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727107AbgLCPIP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Dec 2020 10:08:15 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 7A6BE5C0184;
+        Thu,  3 Dec 2020 10:07:08 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 03 Dec 2020 10:07:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=qjmrN0EMSMkCmVySFWGLotHkKSP
+        KAsJveSwCM7F6yRc=; b=ReF171xAodVbvadX9n4Zy788Arxmf0LddxLFy9FHigt
+        Zc0ADz6952zMEaY0NOyEiGF6HydQb+RxYUWijQr6NGMjIb2rYbEhYtaOWoNnmQBw
+        pDwq/sXmW/MSdY8ceaFlakvBmmdf+rGEJj8eORzDehyxUauzMT4MHKwaovwdtQpq
+        eCy3QmZlcGJ/n+N5nT5Qu97CsNH/nJsOYIYwmr8gvDKlREpej+7VCp5JbK411CUZ
+        MzSpm6OE0pP98V07HJFRfJ4qKk8EbVaGd2cN/q5fz07uCrssnVf+px4ZgC0fV+ZO
+        fId1GUrrv8NKnuIPwoZFaszoXkpL3D9+IL/8zZp1DVQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qjmrN0
+        EMSMkCmVySFWGLotHkKSPKAsJveSwCM7F6yRc=; b=m7knTswj5Z0E/lvAOxkSO+
+        7SF30E0R9QOweFPVnCS4valu/zcSkhFwUuaMiJbSOs+ZJ5EU5ZgEXC16a1Pg3H+J
+        Td5EU+bGsrvniBA86GTML8duFW5oK9LuFv+sTGUi9b60QHhdBo6+RbhJ4/GMxPR2
+        837JLHVvJbwbQNnpyKYqhKj1JLJXJvo+uAG4J0PAlBUD4BEbQkdfDQgufsj+JXHx
+        LmxPrBTsaQOCy22FWwHSacon1Ul9QEnkAbrEYIT/apD6bdPVE5jXDEpnvFGeYqsE
+        ec1pXEiBggK2R19/QZ61a9NtW94eBIzskUwa3/aNYJwcm4kiIEFjmSrqZhvbVsyw
+        ==
+X-ME-Sender: <xms:HP_IX9sxE4cTgNexyNZCe0hmN2up4m-cjr9G-8PNxhY3zh64bENELw>
+    <xme:HP_IX2Z9UAo7-E4Aby0Ojgl_nHuokak4ijsWN2JYyYVdxTr7t_2EKPLFcs3DgB14R
+    rgDLqs7mRIdhA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeiiedgjeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepveeuheejgfffgfeivddukedvkedtleelleeghfeljeeiue
+    eggeevueduudekvdetnecukfhppeekfedrkeeirdejgedrieegnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtoh
+    hm
+X-ME-Proxy: <xmx:HP_IX9r9G2RfcPyR6PI5bx9aX39nPFEsU-D2VwPMgnelvzee8KuJtQ>
+    <xmx:HP_IX7_en5jd2FPgztq6jEFBmcFTIuXYOT0mGRl1_Eglc1DZD_Vgtw>
+    <xmx:HP_IX896RKcUMEQJVWA367wpLEoFyi2JK92x7JypymNcqGClhTJeeA>
+    <xmx:HP_IX8dfLNrkCTzeXJYuCU7KYQ3zTcuuIcLWvvskGIcBnZgBmxkAfA>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id EB4F224005D;
+        Thu,  3 Dec 2020 10:07:07 -0500 (EST)
+Date:   Thu, 3 Dec 2020 16:08:16 +0100
+From:   Greg KH <greg@kroah.com>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] drivers: usb: core: prefer pr_*() macros over bare
+ printk()
+Message-ID: <X8j/YHJwhpOs9hPC@kroah.com>
+References: <20201203142132.30334-1-info@metux.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201203142132.30334-1-info@metux.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-pr_*() printing helpers are preferred over using bare printk().
+On Thu, Dec 03, 2020 at 03:21:32PM +0100, Enrico Weigelt, metux IT consult wrote:
+> pr_*() printing helpers are preferred over using bare printk().
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- drivers/usb/core/devio.c | 10 +++++-----
- drivers/usb/core/file.c  |  5 ++---
- drivers/usb/core/hcd.c   |  2 +-
- drivers/usb/core/hub.c   |  2 +-
- drivers/usb/core/sysfs.c |  2 +-
- drivers/usb/core/usb.c   |  5 ++---
- 6 files changed, 12 insertions(+), 14 deletions(-)
+Sure, but that's not what you are doing here in this patch :(
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 533236366a03..c65651b28ac4 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -1169,7 +1169,7 @@ static int do_proc_control(struct usb_dev_state *ps,
- 		snoop_urb(dev, NULL, pipe, max(i, 0), min(i, 0), COMPLETE, NULL, 0);
- 	}
- 	if (i < 0 && i != -EPIPE) {
--		dev_printk(KERN_DEBUG, &dev->dev, "usbfs: USBDEVFS_CONTROL "
-+		dev_dbg(&dev->dev, "usbfs: USBDEVFS_CONTROL "
- 			   "failed cmd %s rqt %u rq %u len %u ret %d\n",
- 			   current->comm, ctrl->bRequestType, ctrl->bRequest,
- 			   ctrl->wLength, i);
-@@ -1861,8 +1861,8 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
- 	}
- 
- 	if (ret) {
--		dev_printk(KERN_DEBUG, &ps->dev->dev,
--			   "usbfs: usb_submit_urb returned %d\n", ret);
-+		dev_dbg(&ps->dev->dev,
-+			"usbfs: usb_submit_urb returned %d\n", ret);
- 		snoop_urb(ps->dev, as->userurb, as->urb->pipe,
- 				0, ret, COMPLETE, NULL, 0);
- 		async_removepending(as);
-@@ -2785,13 +2785,13 @@ int __init usb_devio_init(void)
- 	retval = register_chrdev_region(USB_DEVICE_DEV, USB_DEVICE_MAX,
- 					"usb_device");
- 	if (retval) {
--		printk(KERN_ERR "Unable to register minors for usb_device\n");
-+		pr_err("Unable to register minors for usb_device\n");
- 		goto out;
- 	}
- 	cdev_init(&usb_device_cdev, &usbdev_file_operations);
- 	retval = cdev_add(&usb_device_cdev, USB_DEVICE_DEV, USB_DEVICE_MAX);
- 	if (retval) {
--		printk(KERN_ERR "Unable to get usb_device major %d\n",
-+		pr_err("Unable to get usb_device major %d\n",
- 		       USB_DEVICE_MAJOR);
- 		goto error_cdev;
- 	}
-diff --git a/drivers/usb/core/file.c b/drivers/usb/core/file.c
-index 558890ada0e5..760866d38f8a 100644
---- a/drivers/usb/core/file.c
-+++ b/drivers/usb/core/file.c
-@@ -91,7 +91,7 @@ static int init_usb_class(void)
- 	usb_class->class = class_create(THIS_MODULE, "usbmisc");
- 	if (IS_ERR(usb_class->class)) {
- 		result = PTR_ERR(usb_class->class);
--		printk(KERN_ERR "class_create failed for usb devices\n");
-+		pr_err("class_create failed for usb devices\n");
- 		kfree(usb_class);
- 		usb_class = NULL;
- 		goto exit;
-@@ -123,8 +123,7 @@ int usb_major_init(void)
- 
- 	error = register_chrdev(USB_MAJOR, "usb", &usb_fops);
- 	if (error)
--		printk(KERN_ERR "Unable to get major %d for usb devices\n",
--		       USB_MAJOR);
-+		pr_err("Unable to get major %d for usb devices\n", USB_MAJOR);
- 
- 	return error;
- }
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 2c6b9578a7d3..ef74cb8b58e6 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -2979,7 +2979,7 @@ void usb_mon_deregister (void)
- {
- 
- 	if (mon_ops == NULL) {
--		printk(KERN_ERR "USB: monitor was not registered\n");
-+		pr_err("USB: monitor was not registered\n");
- 		return;
- 	}
- 	mon_ops = NULL;
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 17202b2ee063..b542db35ee3f 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -5674,7 +5674,7 @@ static struct usb_driver hub_driver = {
- int usb_hub_init(void)
- {
- 	if (usb_register(&hub_driver) < 0) {
--		printk(KERN_ERR "%s: can't register hub driver\n",
-+		pr_err("%s: can't register hub driver\n",
- 			usbcore_name);
- 		return -1;
- 	}
-diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-index 8d134193fa0c..7b09c35c3928 100644
---- a/drivers/usb/core/sysfs.c
-+++ b/drivers/usb/core/sysfs.c
-@@ -448,7 +448,7 @@ static void warn_level(void)
- 
- 	if (!level_warned) {
- 		level_warned = 1;
--		printk(KERN_WARNING "WARNING! power/level is deprecated; "
-+		pr_warn("WARNING! power/level is deprecated; "
- 				"use power/control instead\n");
- 	}
- }
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 9b4ac4415f1a..5f67e5f511c1 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -241,7 +241,7 @@ struct usb_host_interface *usb_find_alt_setting(
- 		if (intf_cache->altsetting[i].desc.bAlternateSetting == alt_num)
- 			return &intf_cache->altsetting[i];
- 
--	printk(KERN_DEBUG "Did not find alt setting %u for intf %u, "
-+	pr_debug("Did not find alt setting %u for intf %u, "
- 			"config %u\n", alt_num, iface_num,
- 			config->desc.bConfigurationValue);
- 	return NULL;
-@@ -846,8 +846,7 @@ int __usb_get_extra_descriptor(char *buffer, unsigned size,
- 		header = (struct usb_descriptor_header *)buffer;
- 
- 		if (header->bLength < 2 || header->bLength > size) {
--			printk(KERN_ERR
--				"%s: bogus descriptor, type %d length %d\n",
-+			pr_err("%s: bogus descriptor, type %d length %d\n",
- 				usbcore_name,
- 				header->bDescriptorType,
- 				header->bLength);
--- 
-2.11.0
+Please fix up and resend.
 
+greg k-h
