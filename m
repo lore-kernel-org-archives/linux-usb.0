@@ -2,81 +2,105 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC95C6369E
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 03:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3DD9C83013
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 03:20:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADC7322203
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 03:16:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7919321D91
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Dec 2020 03:20:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729740AbgLCDQ2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Dec 2020 22:16:28 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.22]:10391 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729724AbgLCDQX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 22:16:23 -0500
-X-Greylist: delayed 482 seconds by postgrey-1.27 at vger.kernel.org; Wed, 02 Dec 2020 22:16:22 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1606965145;
-        s=strato-dkim-0002; d=aiyionpri.me;
-        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
-        Subject:Sender;
-        bh=xpm4kfSvb2+EMaMQUQN6rpKq8IYaRIgm9jSxMhIT5Bc=;
-        b=puQlA3NeoF67g0M1HmGEHkJIUouwmUm1MG1pl/lLeEvmauJ5/xKc/7NKpEBpiouHqF
-        cD2nrQJajc6C+ddOdG6mqENRFflMOZt/e4jlBUlH11eAbhsu04bfT9Hclb01VYUHFAHD
-        C9R15ET/n2SBxa2hTK8ctq/PS3JuAfWFJ5C3XuXGkWkr2a8s+F47rmWMccUO4yHML12R
-        isg3btCGvqcumtZN3UzWp9tTPa5dUoBiWXuK/mvVR+XS9/01O6M/89oWK97bHO/SYiyT
-        hoxc/VonSn7CqcNlTUscctD4UxD5Otv3BEGw5B2xe+AjdSU8L5dW8WherjdNVAzMnSWY
-        iEEg==
-X-RZG-AUTH: ":IWkkdEmxcvCtRDtHUQOu48a0Nfy9hOkboq9r6d0vrgVDHZTjCI3RMwuZyUMg713B4qSDlwrG0lQguDZ8OYgibd2Y7MdGo21Hac8="
-X-RZG-CLASS-ID: mo00
-Received: from chromia.speedport.ip
-        by smtp.strato.de (RZmta 47.3.4 AUTH)
-        with ESMTPSA id k0aec2wB334N1Dz
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Thu, 3 Dec 2020 04:04:23 +0100 (CET)
-From:   Jan-Niklas Burfeind <kernel@aiyionpri.me>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org,
-        Jan-Niklas Burfeind <kernel@aiyionpri.me>
-Subject: [PATCH] USB: serial: ch341: add new Product ID for CH341A
-Date:   Thu,  3 Dec 2020 04:03:59 +0100
-Message-Id: <20201203030359.52583-1-kernel@aiyionpri.me>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1729753AbgLCDTy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Dec 2020 22:19:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727550AbgLCDTy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Dec 2020 22:19:54 -0500
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8A7C061A4D
+        for <linux-usb@vger.kernel.org>; Wed,  2 Dec 2020 19:19:13 -0800 (PST)
+Received: by mail-pg1-x54a.google.com with SMTP id c4so534277pgb.0
+        for <linux-usb@vger.kernel.org>; Wed, 02 Dec 2020 19:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=aVI0c4MQz9foni25ng7Y69WIZ6p+uDOXMFX4qOhpuAk=;
+        b=NkIn+mcN47DbJuzIZJhgN3zy20b//ayDYIx0oyuIu3zBT6nac8suDDKbYAarCdyf0H
+         1xFhkmpTVt2l+TnGSXI/WMoF0/bjT1wN/3beiAsyE3zke5+XYD1ofDA2G2JQprAX0Iqc
+         7vjQnIiEyl1y1pHwUbEoMpfB10adu4kLIBtaejt337VPKwthcQfRdPzA1EaKgWMAxdws
+         OANpPljB4DaUsgDh6r7rYFUdkAtD59z0qJcaNsvmbuCryUabecl/GWeomDB8RjkvUDDR
+         Q8ti84ucd4GCGrbZ7/YxyaD6q5ZjpUUsJXCzmlB/09TeLXC9JXVbIm5Y0ZrxdV2V4YIk
+         Kbug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=aVI0c4MQz9foni25ng7Y69WIZ6p+uDOXMFX4qOhpuAk=;
+        b=U988Pv7kZqCYqS9YW2Uf1OAVXr/3sS3FkNbFh82abJufAT6kO/PuaGHRmQ/LyewOKB
+         RrEIrHpVfcSct2YXfjUvVOKbQlpxMMCSLOi52tpRneHRzfQNbbzPd/unzF/PBAM3H786
+         hhBc595dc4ZXakGWnjJOCh3eterSyRq+b3RIMIShzJY34MsMAU8b8ix5y8+0WO/9itfp
+         fCPlain19L0H/B0TXmmnl6DFxKPYvL2KJdwpux2TN+/mfaL5RjcPS5gQeM0gxMzzaWip
+         VgSStafysvG6u8xB94W806r0KFK3clhYPmfS7gQq3o9VNUArOyG3PUF4LUzDG0VFAUOn
+         ayMw==
+X-Gm-Message-State: AOAM532Gh9EevuqZaL+O+12taHakhboZxo0uSi9Lb2S9ve+QduCqAdYv
+        sx1jX+GsHdKX0pmlkddt8EgICKMiQYM=
+X-Google-Smtp-Source: ABdhPJyCB+n+29Ka48OvL7Dlkk6mk0yvvRNkd4HPOkHoIfQddlG0SnGo96HmGHmyQtG3VIOsmZGDoF0Rimg=
+Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
+X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:f292:1cff:fee0:66cf])
+ (user=badhri job=sendgmr) by 2002:a17:90a:460a:: with SMTP id
+ w10mr500462pjg.1.1606965552918; Wed, 02 Dec 2020 19:19:12 -0800 (PST)
+Date:   Wed,  2 Dec 2020 19:19:08 -0800
+Message-Id: <20201203031908.1491542-1-badhri@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.576.ga3fc446d84-goog
+Subject: [PATCH v1] usb: typec: tcpm: Clear send_discover in tcpm_check_send_discover
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Badhri Jagan Sridharan <badhri@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add PID for CH340 that's found on a ch341 based Programmer made by keeyees.
-The specific device that contains the serial converter is described
-here: http://www.keeyees.com/a/Products/ej/36.html
+tcpm_check_send_discover does not clear the send_discover flag
+when any of the following conditions are not met.
+1. data_role is TYPEC_HOST
+2. link is pd_capable
 
-The driver works flawlessly as soon as the new PID (0x5512) is added to
-it.
+Discovery indentity would anyways not be attempted during
+the current session anymore when the above conditions are not
+met. Hence clear the send_discover flag here to prevent
+tcpm_enable_frs_work from rescheduling indefinetly.
 
-Signed-off-by: Jan-Niklas Burfeind <kernel@aiyionpri.me>
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
- drivers/usb/serial/ch341.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/typec/tcpm/tcpm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
-index a2e2f56c88cd..b157a230178d 100644
---- a/drivers/usb/serial/ch341.c
-+++ b/drivers/usb/serial/ch341.c
-@@ -84,6 +84,7 @@ static const struct usb_device_id id_table[] = {
- 	{ USB_DEVICE(0x4348, 0x5523) },
- 	{ USB_DEVICE(0x1a86, 0x7522) },
- 	{ USB_DEVICE(0x1a86, 0x7523) },
-+	{ USB_DEVICE(0x1a86, 0x5512) },
- 	{ USB_DEVICE(0x1a86, 0x5523) },
- 	{ },
- };
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 3bbc1f10af49..012135ade7b1 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -3035,10 +3035,9 @@ static inline enum tcpm_state unattached_state(struct tcpm_port *port)
+ static void tcpm_check_send_discover(struct tcpm_port *port)
+ {
+ 	if (port->data_role == TYPEC_HOST && port->send_discover &&
+-	    port->pd_capable) {
++	    port->pd_capable)
+ 		tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0);
+-		port->send_discover = false;
+-	}
++	port->send_discover = false;
+ }
+ 
+ static void tcpm_swap_complete(struct tcpm_port *port, int result)
 -- 
-2.29.2
+2.29.2.576.ga3fc446d84-goog
 
