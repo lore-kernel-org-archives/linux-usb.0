@@ -2,112 +2,137 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B6E6C4361A
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 18:09:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6EFAC19425
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 18:22:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E95B222C7B
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 18:09:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A727722B4E
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 18:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729619AbgLDSJe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 13:09:34 -0500
-Received: from cable.insite.cz ([84.242.75.189]:56035 "EHLO cable.insite.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729483AbgLDSJe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Dec 2020 13:09:34 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id CF922AA0444D0;
-        Fri,  4 Dec 2020 19:08:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1607105325; bh=o7FsbjM80BhNXsDLxh4YLbiDij+ygDMOOkC2zc5EIX0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=saUCt/yLpNKOgzw24mIDDTFKcKVTT15tUv3kU9bPx9q9OLK8nmX3HNUjXuvaK6Da0
-         +8Roc+mclci8PQx/ErnQiegP3DjEBLhOJwHGq0aOhq4rESnYsfjQthgUUuYIF15frx
-         hyRl/V87962P/M1wB77JRKSzjbx5E9/1LqLnYtHg=
-Received: from cable.insite.cz ([84.242.75.189])
-        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 4bTLIq0AHqhf; Fri,  4 Dec 2020 19:08:39 +0100 (CET)
-Received: from [192.168.105.22] (ip28.insite.cz [81.0.237.28])
-        (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 8FD23AA0444C3;
-        Fri,  4 Dec 2020 19:08:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1607105319; bh=o7FsbjM80BhNXsDLxh4YLbiDij+ygDMOOkC2zc5EIX0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ouOJD1cdf+GhaBhwYoGRG8YwYLRC7/Lg/Q8NBGxLhZ9hXnqFm+pWdo2iPsbv3IZyf
-         TQ05W0LxTqbscasA97J5Bl7hC0IAZWL0iMa/UDBkhWkEYVZmTqQWJ8Gfsb1gL6RxRm
-         kJcKCdzV8gH180ED/SIZOwdtUKOGiie+lK0Pez3g=
-Subject: Re: [PATCH 0/3] UAC2 Gadget: feedback endpoint support
-To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Cc:     Jerome Brunet <jbrunet@baylibre.com>,
-        Glenn Schmottlach <gschmottlach@gmail.com>,
-        Peter Chen <peter.chen@nxp.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <1604794711-8661-1-git-send-email-ruslan.bilovol@gmail.com>
- <20201111092941.GJ14896@b29397-desktop>
- <CAB=otbSAGhDYxim9_fsyH4pZCLqgq+bxNJfv5hXqgQRVngVaig@mail.gmail.com>
- <CAMS2kBF5Gvhnf7AzdeSFeVeWBLhtHM_hHfTvMLTN-3Jkh=BwHw@mail.gmail.com>
- <CAB=otbTK0j03HjiLS-tqqaBTuavaFEJs49hpKPj2Df8e1_WN+A@mail.gmail.com>
- <1jblfk8di1.fsf@starbuckisacylon.baylibre.com>
- <8bf995b1-7b95-4c79-fbe8-275f29716c0e@ivitera.com>
- <CAB=otbS0RdXyLEHrkHXWZN+S-CKwdBONifrH11hiAf-3SL9cSQ@mail.gmail.com>
-From:   Pavel Hofman <pavel.hofman@ivitera.com>
-Message-ID: <c33f2009-254d-5017-3917-a34d45b55b55@ivitera.com>
-Date:   Fri, 4 Dec 2020 19:08:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726447AbgLDSWf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 13:22:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729615AbgLDSWc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Dec 2020 13:22:32 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C85AC061A51
+        for <linux-usb@vger.kernel.org>; Fri,  4 Dec 2020 10:21:52 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id d18so6799762edt.7
+        for <linux-usb@vger.kernel.org>; Fri, 04 Dec 2020 10:21:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=ZRVh9nEjQvUMIF508xcL3n/raN8xu3HvHHn5B7tzkG0=;
+        b=EL5y9hBpj6GRCi8l2vMDH/FJOG7I547GwjN3OeZBqD9nmmw0IxEmOsLiaNfedZBxuH
+         uo9dBI345APAYZYJLOY4NQd1d0GfZzxIMQv0ZKIbg8aj4tm5Ea8h2h93Pgs1qSxhgK43
+         pnL56vHL4OqCk4budJq7WliGWde5V/7JnsLAfd9CH5hxrMUpfTYppRgzIWEcKA1fArrp
+         x9CwcP9mn+vU+lJGNWLh3JAQikVmuQ+WDocQOfOwmAcHpQ6aG3oZ/9MUjroSge+kQmQd
+         xD6rw8KRt3YvK4AEQ/i0Q1JedpG8SBPITyje4+hhxHAaIKXdCCMTn7RHEbFI51JviXbf
+         g9NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=ZRVh9nEjQvUMIF508xcL3n/raN8xu3HvHHn5B7tzkG0=;
+        b=N/CO2OZ2dBx4x+pI30Ph1bmTUFpV0TgjOqJ1woi2rGHyBzA3yqnkoUf6cCuvT/KNVk
+         didPshCBxtOtFmBlw7WitQvA6bSUMtT5JwCX0A5AsDW9lTHTrZiF56+WF+/WPoyWT08x
+         gZS5rfYMl+I5eHO3OUALGpqutZ8GsaPZ4QXo24QJhrcizGPG4Qs5lcl6B32c0wjIvPAK
+         V2sT9wi3a62FwquXi7tfWKxXyrBTJE3yukjGFAjX5n0aKNY7MWR3hSh8Yr5+W1ujaPfz
+         0pkSQisTZtlPdpQ0rD9ZR/8LtUe66UatLLh8GjwFaRam97UVjUPb1BEXyHaJIMKyjrty
+         NgSA==
+X-Gm-Message-State: AOAM5338HCunDqjLTnjUrKXf58NpBgrOMdqJdK4dCtVya1/ozVHJ3jML
+        bUJflabrK2/6XbnKU5lGIEJhRScDBoGWf6ni+jgcDA==
+X-Google-Smtp-Source: ABdhPJxhhWwBPD60dOctXmgKnIbCBK7ZM990qyfx3XJkIdxJ4AWmvXsllEsnGRPblHC7nDFEIFiU8tWNG27BjMCSIdo=
+X-Received: by 2002:aa7:da8f:: with SMTP id q15mr8747868eds.239.1607106110881;
+ Fri, 04 Dec 2020 10:21:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAB=otbS0RdXyLEHrkHXWZN+S-CKwdBONifrH11hiAf-3SL9cSQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Fri, 4 Dec 2020 23:51:39 +0530
+Message-ID: <CA+G9fYuJF-L+qHJ3ufqD+M2w20LgeqMC0rhqv7oZagOA7iJMDg@mail.gmail.com>
+Subject: BUG: KCSAN: data-race in mutex_spin_on_owner+0xef/0x1b0
+To:     open list <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org, lkft-triage@lists.linaro.org,
+        rcu@vger.kernel.org, kasan-dev <kasan-dev@googlegroups.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Marco Elver <elver@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Thierry Reding <treding@nvidia.com>,
+        mathias.nyman@linux.intel.com, Qian Cai <cai@lca.pw>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+LKFT started testing KCSAN enabled kernel from the linux next tree.
+Here we have found BUG: KCSAN: data-race in mutex_spin_on_owner
+and several more KCSAN BUGs.
 
-Dne 04. 12. 20 v 15:39 Ruslan Bilovol napsal(a):
-> On Thu, Nov 26, 2020 at 3:44 PM Pavel Hofman <pavel.hofman@ivitera.com> wrote:
->>
->> Dne 26. 11. 20 v 14:16 Jerome Brunet napsal(a):
->>>
->>>> Maximum data rates that I used were (AFAIR) 8 channel 192kHz/32bit,
->>>> but there is another issue with high data rate if someone uses so many
->>>> channels, very high sampling frequency or sample size that data can't
->>>> fit into allowed (by USB spec) max packet size of endpoint. In this case
->>>> need to decrease bInterval of endpoint.
->>
->> Should anyone test the patches with RPi4 dwc2 as the gadget, please note
->> the recently accepted patch
->> https://patchwork.kernel.org/project/linux-usb/patch/e9e7d070-593c-122f-3a5c-2435bb147ab2@ivitera.com/
->> which allows using full 1024 bytes maxpacketsize on EP OUT. It is not an
->> enumeration issue, but the old (= existing) RX FIFO size drops data with
->> packet sizes above 960 bytes.
-> 
-> Thanks for bringing this to our attention. Does it affect RPi 3 as well?
-> I'm going to test feedback feature on this board
+This report is from an x86_64 machine clang-11 linux next 20201201.
+Since we are running for the first time we do not call this regression.
 
-It configures the dwc2 IP of the broadcom which IIRC is in all RPis. The
-affected files bcm283x-rpi-usb-otg.dtsi and
-bcm283x-rpi-usb-peripheral.dtsi do not seem RPi4 specific. But I had
-only RPi4 to analyze the problem and check the fix.
+[    4.745161] usbcore: registered new interface driver cdc_ether
+[    4.751281] ==================================================================
+[    4.756653] usbcore: registered new interface driver net1080
+[    4.752139] BUG: KCSAN: data-race in mutex_spin_on_owner+0xef/0x1b0
+[    4.752139]
+[    4.752139] race at unknown origin, with read to 0xffff90a80098b034
+of 4 bytes by task 252 on cpu 1:
+[    4.769781] usbcore: registered new interface driver cdc_subset
+[    4.752139]  mutex_spin_on_owner+0xef/0x1b0
+[    4.752139]  __mutex_lock+0x69d/0x820
+[    4.752139]  __mutex_lock_slowpath+0x13/0x20
+[    4.781657] usbcore: registered new interface driver zaurus
+[    4.752139]  mutex_lock+0x9d/0xb0
+[    4.752139]  ata_eh_acquire+0x2e/0x80
+[    4.752139]  ata_msleep+0x91/0xa0
+[    4.792317] usbcore: registered new interface driver cdc_ncm
+[    4.752139]  sata_link_debounce+0x1ad/0x2f0
+[    4.752139]  sata_link_resume+0x32f/0x4a0
+[    4.752139]  sata_link_hardreset+0x456/0x640
+[    4.802369] usbcore: registered new interface driver r8153_ecm
+[    4.752139]  ahci_do_hardreset+0x177/0x230
+[    4.752139]  ahci_hardreset+0x23/0x40
+[    4.752139]  ata_eh_reset+0x91e/0x1bb0
+[    4.810641] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    4.810482]  ata_eh_recover+0x79b/0x2bd0
+[    4.810482]  sata_pmp_error_handler+0x7d1/0x1340
+[    4.810482]  ahci_error_handler+0x7c/0xc0
+[    4.819247] ehci-pci: EHCI PCI platform driver
+[    4.810482]  ata_scsi_port_error_handler+0x708/0xd30
+[    4.810482]  ata_scsi_error+0x128/0x160
+[    4.826321] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    4.810482]  scsi_error_handler+0x26d/0x700
+[    4.810482]  kthread+0x20b/0x220
+[    4.836069] ohci-pci: OHCI PCI platform driver
+[    4.810482]  ret_from_fork+0x22/0x30
+[    4.810482]
+[    4.844397] uhci_hcd: USB Universal Host Controller Interface driver
+[    4.810482] Reported by Kernel Concurrency Sanitizer on:
+[    4.810482] CPU: 1 PID: 252 Comm: scsi_eh_1 Not tainted
+5.10.0-rc6-next-20201201 #2
+[    4.810482] Hardware name: Supermicro SYS-5019S-ML/X11SSH-F, BIOS
+2.2 05/23/2018
+[    4.855343] xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    4.810482] ==================================================================
 
-Ruslan, please what do you think about the existing behaviour of gaudio
-in case of USB stream disconnection? The elapsed-period callback stops
-being called and the user space will eventually time out. How about
-closing the PCM stream immediately in case of a problem in the USB
-layer? E.g. some SPDIF receivers do that in case of change in the
-incoming samplerate
-https://github.com/torvalds/linux/blob/master/sound/i2c/other/ak4117.c#L503
-.
+metadata:
+    git_repo: https://gitlab.com/aroxell/lkft-linux-next
+    target_arch: x86
+    toolchain: clang-11
+    git_describe: next-20201201
+    kernel_version: 5.10.0-rc6
+    download_url: https://builds.tuxbuild.com/1l8eiWgGMi6W4aDobjAAlOleFVl/
 
-Thanks a lot for the great work.
+full test log link,
+https://lkft.validation.linaro.org/scheduler/job/2002643#L831
 
-With regards,
-
-Pavel.
+-- 
+Linaro LKFT
+https://lkft.linaro.org
