@@ -2,95 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61908C4361A
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 08:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AF98C4361B
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 08:52:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BE8C227C3
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 08:44:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC1CC227BF
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 08:52:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728811AbgLDIoc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 03:44:32 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21]:33710 "EHLO cstnet.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727056AbgLDIoc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Dec 2020 03:44:32 -0500
-X-Greylist: delayed 397 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Dec 2020 03:44:21 EST
-Received: from localhost.localdomain (unknown [124.16.141.242])
-        by APP-01 (Coremail) with SMTP id qwCowAC3v1cg9clf1czZAA--.26586S2;
-        Fri, 04 Dec 2020 16:36:49 +0800 (CST)
-From:   Xu Wang <vulab@iscas.ac.cn>
-To:     hminas@synopsys.com, gregkh@linuxfoundation.org,
-        p.zabel@pengutronix.de, lgirdwood@gmail.com, broonie@kernel.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: dwc2: Remove redundant null check before clk_prepare_enable/clk_disable_unprepare
-Date:   Fri,  4 Dec 2020 08:36:44 +0000
-Message-Id: <20201204083644.2704-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowAC3v1cg9clf1czZAA--.26586S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFy8CFyfJF4DuFW8uF4UArb_yoWDtwc_W3
-        W8WrsrJF15ZwsFyr9Fk34DAr9FgF1vvF4xXF1IvrW3ta43WrWUZryjvrZxZ3yDX3yjyF9r
-        Cr4UGrWxCr43ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbFkYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z2
-        80aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
-        zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx
-        8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s02
-        6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-        I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-        6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-        0_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
-        JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUc9mRUUUUU
-X-Originating-IP: [124.16.141.242]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCggAA1z4jMgD1gAAs0
+        id S1729278AbgLDIvo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 03:51:44 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36130 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729242AbgLDIvo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Dec 2020 03:51:44 -0500
+Received: by mail-lf1-f67.google.com with SMTP id v14so6634262lfo.3
+        for <linux-usb@vger.kernel.org>; Fri, 04 Dec 2020 00:51:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5w0hnPaOEyit9bMPDiziBUhUR6rIaAP/djUPTNbCDHM=;
+        b=Lqy9hJnXrIcJH2gqJDsAeCZ7QMRF0hZOqYIbY60av6UvREXtohnIS/rW7E+b538Iy4
+         O2IJO2sW2BFe8Z5YWIpTmAGvFKcDvAFo/wf7IJFOu+yl+E+mplFoP5CioEeIWZaIkOMQ
+         hmQY7LOagaHaE5ufy7vCPZWSkoH9FeltxJT5oBtOqsB1hPhcegNRdm6mTI/d+4lhi8Zv
+         e4wMRASCnfbHVzwGqDH/UTjn3X47h+e0pBytmptDmpCtwr+G8fAJ8jyQdF+pBaD/O9Ug
+         91wTjmKQ/2lsOtUZgBuP7UCWAMVyoGh58CpSnuK+xGeJELVbp/xgj5nKleNsYqhfyhr9
+         4O/A==
+X-Gm-Message-State: AOAM531F/wTsZ1F1ehHtvkl4IgHSGEIvd6R3ElVZRahlFaSsSx9NlK/w
+        4nKV1u5XdFP0n41LoooW46I=
+X-Google-Smtp-Source: ABdhPJx9tp/c1u3Oi+Tl0QxWR5wiVvQwIU27hm64cAdJpEp977ymTzIGoIxBwRcsH31dAHrXKx6Kjg==
+X-Received: by 2002:a19:ad6:: with SMTP id 205mr3047186lfk.522.1607071862532;
+        Fri, 04 Dec 2020 00:51:02 -0800 (PST)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id m13sm1451599ljg.30.2020.12.04.00.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Dec 2020 00:51:01 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@xi.terra>)
+        id 1kl6oR-0005EN-1A; Fri, 04 Dec 2020 09:51:35 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Himadri Pandya <himadrispandya@gmail.com>,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 1/3] USB: core: drop pipe-type check from new control-message helpers
+Date:   Fri,  4 Dec 2020 09:51:08 +0100
+Message-Id: <20201204085110.20055-2-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201204085110.20055-1-johan@kernel.org>
+References: <20201204085110.20055-1-johan@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Because clk_prepare_enable() and clk_disable_unprepare() already checked
-NULL clock parameter, so the additional checks are unnecessary, just
-remove them.
+The new control-message helpers include a pipe-type check which is
+almost completely redundant.
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+Control messages are generally sent to the default pipe which always
+exists and is of the correct type since its endpoint representation is
+created by USB core as part of enumeration for all devices.
+
+There is currently only one instance of a driver in the tree which use
+a control endpoint other than endpoint 0 (and it does not use the new
+helpers).
+
+Drivers should be testing for the existence of their resources at probe
+rather than at runtime, but to catch drivers failing to do so USB core
+already does a sanity check on URB submission and triggers a WARN().
+Having the same sanity check done in the helper only suppresses the
+warning without allowing us to find and fix the drivers.
+
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/dwc2/platform.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/usb/core/message.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index 5f18acac7406..ba2b491c7f82 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
-@@ -143,11 +143,9 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index c4e876050074..a04b01247117 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -204,9 +204,6 @@ int usb_control_msg_send(struct usb_device *dev, __u8 endpoint, __u8 request,
+ 	int ret;
+ 	u8 *data = NULL;
  
--	if (hsotg->clk) {
--		ret = clk_prepare_enable(hsotg->clk);
--		if (ret)
--			return ret;
--	}
-+	ret = clk_prepare_enable(hsotg->clk);
-+	if (ret)
-+		return ret;
+-	if (usb_pipe_type_check(dev, pipe))
+-		return -EINVAL;
+-
+ 	if (size) {
+ 		data = kmemdup(driver_data, size, memflags);
+ 		if (!data)
+@@ -273,7 +270,7 @@ int usb_control_msg_recv(struct usb_device *dev, __u8 endpoint, __u8 request,
+ 	int ret;
+ 	u8 *data;
  
- 	if (hsotg->uphy) {
- 		ret = usb_phy_init(hsotg->uphy);
-@@ -195,8 +193,7 @@ static int __dwc2_lowlevel_hw_disable(struct dwc2_hsotg *hsotg)
- 	if (ret)
- 		return ret;
+-	if (!size || !driver_data || usb_pipe_type_check(dev, pipe))
++	if (!size || !driver_data)
+ 		return -EINVAL;
  
--	if (hsotg->clk)
--		clk_disable_unprepare(hsotg->clk);
-+	clk_disable_unprepare(hsotg->clk);
- 
- 	return 0;
- }
+ 	data = kmalloc(size, memflags);
 -- 
-2.17.1
+2.26.2
 
