@@ -2,91 +2,153 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD96C2BB48
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B94C19425
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 17:06:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D07E22B2A
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A07622B43
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 17:06:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730834AbgLDQs3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 11:48:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57444 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729262AbgLDQs3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Dec 2020 11:48:29 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 712F122AED;
-        Fri,  4 Dec 2020 16:47:48 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1klEFG-00G234-Mr; Fri, 04 Dec 2020 16:47:46 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Johan Hovold <johan@kernel.org>,
+        id S2388516AbgLDRFr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 12:05:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388510AbgLDRFq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Dec 2020 12:05:46 -0500
+Received: from latitanza.investici.org (latitanza.investici.org [IPv6:2001:888:2000:56::19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1612C08E85E;
+        Fri,  4 Dec 2020 09:04:50 -0800 (PST)
+Received: from mx3.investici.org (unknown [127.0.0.1])
+        by latitanza.investici.org (Postfix) with ESMTP id 4CnfF12X1nz8shk;
+        Fri,  4 Dec 2020 17:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=privacyrequired.com;
+        s=stigmate; t=1607101445;
+        bh=CNSPo3rU73iLufUhzAAlkyJdrqDxV3HykhrbciRVVqg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CAj2903IlbaunC80bM+z7sehEdvvySRvMXF2B7QVSeGl9c1o2+R49o1Johhg6BSQ4
+         Q4EMyEP3bIuGgoqirMK1uT98XPrJ1OTptjksAJf1V5Duw6RhXyRn+MKAiMRbwunKkr
+         vE228J0uaZtyVw5ECCzsQr3hgtGk8lvECyg5M/Pg=
+Received: from [82.94.249.234] (mx3.investici.org [82.94.249.234]) (Authenticated sender: laniel_francis@privacyrequired.com) by localhost (Postfix) with ESMTPSA id 4CnfDy1SRgz8sfb;
+        Fri,  4 Dec 2020 17:04:02 +0000 (UTC)
+From:   laniel_francis@privacyrequired.com
+To:     Russell King <linux@armlinux.org.uk>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Bin Liu <b-liu@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel-team@android.com
-Subject: [PATCH 1/4] gpiolib: cdev: Flag invalid GPIOs as used
-Date:   Fri,  4 Dec 2020 16:47:36 +0000
-Message-Id: <20201204164739.781812-2-maz@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201204164739.781812-1-maz@kernel.org>
-References: <20201204164739.781812-1-maz@kernel.org>
+        Jessica Yu <jeyu@kernel.org>
+Cc:     Francis Laniel <laniel_francis@privacyrequired.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [RFC PATCH v1 00/12] Replace strstarts() by str_has_prefix()
+Date:   Fri,  4 Dec 2020 18:03:06 +0100
+Message-Id: <20201204170319.20383-1-laniel_francis@privacyrequired.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linus.walleij@linaro.org, bgolaszewski@baylibre.com, johan@kernel.org, gregkh@linuxfoundation.org, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When reporting the state of a GPIO to userspace, we never check
-for the actual validity of the line, meaning we report invalid
-lines as being usable. A subsequent request will fail though,
-which is an inconsistent behaviour from a userspace perspective.
+From: Francis Laniel <laniel_francis@privacyrequired.com>
 
-Instead, let's check for the validity of the line and report it
-as used if it is invalid. This allows a tool such as gpioinfo
-to report something sensible:
+Hi.
 
-gpiochip3 - 4 lines:
-	line   0:      unnamed       unused   input  active-high
-	line   1:      unnamed       kernel   input  active-high [used]
-	line   2:      unnamed       kernel   input  active-high [used]
-	line   3:      unnamed       unused   input  active-high
 
-In this example, lines 1 and 2 are invalid, and cannot be used by
-userspace.
+First, I hope you are fine and the same for your relatives.
 
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/gpio/gpiolib-cdev.c | 1 +
- 1 file changed, 1 insertion(+)
+In this patch set, I replaced all calls to strstarts() by calls to
+str_has_prefix().
+Indeed, the kernel has two functions to test if a string begins with an other:
+1. strstarts() which returns a bool, so 1 if the string begins with the prefix,
+0 otherwise.
+2. str_has_prefix() which returns the length of the prefix or 0.
 
-diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
-index e9faeaf65d14..a0fcb4ccaa02 100644
---- a/drivers/gpio/gpiolib-cdev.c
-+++ b/drivers/gpio/gpiolib-cdev.c
-@@ -1910,6 +1910,7 @@ static void gpio_desc_to_lineinfo(struct gpio_desc *desc,
- 	    test_bit(FLAG_USED_AS_IRQ, &desc->flags) ||
- 	    test_bit(FLAG_EXPORT, &desc->flags) ||
- 	    test_bit(FLAG_SYSFS, &desc->flags) ||
-+	    !gpiochip_line_is_valid(gc, info->offset) ||
- 	    !ok_for_pinctrl)
- 		info->flags |= GPIO_V2_LINE_FLAG_USED;
- 
+str_has_prefix() was introduced later than strstarts(), in commit 495d714ad140
+which also stated that str_has_prefix() should replace strstarts().
+This is what this patch set does.
+
+Concerning the patches, the modifications cover different areas of the kernel.
+I compiled all of them and they compile smoothly.
+Unfortunately, I did not test all of them, so here are the status of the patches
+regarding test:
+1. Tested with qemu-system-arm using insmod.
+2. I do not have access to a bcm47xx MIPS CPU an qemu-system-mips does not
+emulate this board.
+3. Tested with qemu-system-x86_64 calling
+crypto_alloc_skcipher("essiv(authenc(hmac(sha256),cbc(aes)),sha256)", 0, 0)
+through LKDTM.
+4. Tested with qemu-system-x86_64 using crypsetup.
+5. I do not have access to a renesas board and I lack some context to test it
+with qemu-system-arm.
+6. I do not have access to an OMAP board and I lack some context to test it with
+qemu-system-arm.
+7. I did not find how to boot from the EFI_STUB with qemu. If you know how to
+do, I would be happy to try running this code.
+8. I ran qemu-system-x86_64 with a floppy disk attached but impossible to go
+through this module code...
+9. I do not have access to a bcm63xx MIPS CPU an qemu-system-mips does not
+emulate this board.
+10. Tested with qemu-system-x86_64 using insmod.
+11. I do not have access to an AM335x or DA8xx platforms and I lack some context
+to test it with qemu-system-arm.
+
+If you see a way to improve the patches or if I did something wrong with the
+mail do not hesitate to ask.
+
+
+Best regards.
+
+Francis Laniel (12):
+  arm: Replace strstarts() by str_has_prefix().
+  mips: Replace strstarts() by str_has_prefix().
+  crypto: Replace strstarts() by str_has_prefix().
+  device-mapper: Replace strstarts() by str_has_prefix().
+  renesas: Replace strstarts() by str_has_prefix().
+  omap: Replace strstarts() by str_has_prefix().
+  efi: Replace strstarts() by str_has_prefix().
+  ide: Replace strstarts() by str_has_prefix().
+  mips: Replace strstarts() by str_has_prefix().
+  module: Replace strstarts() by str_has_prefix().
+  musb: Replace strstarts() by str_has_prefix().
+  string.h: Remove strstarts().
+
+ arch/arm/kernel/module.c                      | 12 +++++------
+ arch/mips/bcm47xx/board.c                     |  4 ++--
+ arch/mips/bcm63xx/boards/board_bcm963xx.c     |  2 +-
+ crypto/essiv.c                                |  2 +-
+ .../firmware/efi/libstub/efi-stub-helper.c    |  2 +-
+ drivers/firmware/efi/libstub/gop.c            | 10 +++++-----
+ drivers/gpu/drm/omapdrm/dss/base.c            |  2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  2 +-
+ drivers/ide/ide-floppy.c                      |  4 ++--
+ drivers/md/dm-crypt.c                         |  4 ++--
+ drivers/usb/musb/musb_cppi41.c                |  4 ++--
+ drivers/usb/musb/musb_debugfs.c               | 20 +++++++++----------
+ include/linux/string.h                        | 10 ----------
+ kernel/module.c                               |  6 +++---
+ 14 files changed, 37 insertions(+), 47 deletions(-)
+
 -- 
-2.28.0
+2.20.1
 
