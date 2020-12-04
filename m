@@ -3,100 +3,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 143F3C4361A
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 12:15:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A10CAC193FE
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 12:27:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFFFF229EF
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 12:15:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73FEC22A84
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 12:27:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728565AbgLDMPv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 07:15:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47580 "EHLO mail.kernel.org"
+        id S1730136AbgLDM1C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 07:27:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49432 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728508AbgLDMPu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Dec 2020 07:15:50 -0500
-Date:   Fri, 4 Dec 2020 13:16:26 +0100
+        id S1725999AbgLDM1B (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 4 Dec 2020 07:27:01 -0500
+Date:   Fri, 4 Dec 2020 13:27:37 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1607084110;
-        bh=xTd4S5HqClLYRg3BR9qLMX4bWJdUsXlibw9xY/ufDI0=;
+        s=korg; t=1607084781;
+        bh=5ebofhpVPy4UKtYFXXHqpuhHZO5gUGMZqGFwE1rw1ss=;
         h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1rShSnDWhVkoFneGHmVxnMryf0POKRTq4s+mjosSBBpwpgHel6lWtxlUJ7ea/8aGS
-         N+WTzhs1Oz74TvrBEp/Ad9JII8O59mho6Oz1TUp+stP8uaFxadOTz9mC+k6SVWne4y
-         tUHCipDtTm46PiHAj9TIPYKgp3Qqv/Yke3qadFbQ=
+        b=nx7QIpJGKIOuusn60xqK9bgHOZ1+ofcFhhDTaZHP5FNlHKGEQTaxNmUOr4VhLVRyA
+         gWLZg5rnSwtolOyR0ooEOGK1EBFctgltjDdE3Cxg9A7Kz0iEACF3NhWRkleSuXc2yz
+         BylPcgfmcWtqyIHIeTJTdohcxC/xvejKZLi8Eb5k=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org,
-        Himadri Pandya <himadrispandya@gmail.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: kl5kusb105: fix memleak on open
-Message-ID: <X8oomifWO//FvDMT@kroah.com>
-References: <20201204085519.20230-1-johan@kernel.org>
- <X8oYPir8HfGEoTzB@localhost>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [GIT PULL] USB-serial fixes for 5.10-rc7
+Message-ID: <X8orORkm8jedQC8j@kroah.com>
+References: <X8oaJPqNvhGB/2Sd@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X8oYPir8HfGEoTzB@localhost>
+In-Reply-To: <X8oaJPqNvhGB/2Sd@localhost>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 04, 2020 at 12:06:38PM +0100, Johan Hovold wrote:
-> On Fri, Dec 04, 2020 at 09:55:19AM +0100, Johan Hovold wrote:
-> > Fix memory leak of control-message transfer buffer on successful open().
-> > 
-> > Fixes: 6774d5f53271 ("USB: serial: kl5kusb105: fix open error path")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > ---
-> > 
-> > While reviewing Himadri's control-message series I noticed we have a
-> > related bug in klsi_105_open() that needs fixing.
-> > 
-> > 
-> >  drivers/usb/serial/kl5kusb105.c | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/usb/serial/kl5kusb105.c b/drivers/usb/serial/kl5kusb105.c
-> > index 5ee48b0650c4..5f6b82ebccc5 100644
-> > --- a/drivers/usb/serial/kl5kusb105.c
-> > +++ b/drivers/usb/serial/kl5kusb105.c
-> > @@ -276,12 +276,12 @@ static int  klsi_105_open(struct tty_struct *tty, struct usb_serial_port *port)
-> >  	priv->cfg.unknown2 = cfg->unknown2;
-> >  	spin_unlock_irqrestore(&priv->lock, flags);
-> >  
-> > +	kfree(cfg);
-> > +
-> >  	/* READ_ON and urb submission */
-> >  	rc = usb_serial_generic_open(tty, port);
-> > -	if (rc) {
-> > -		retval = rc;
-> > -		goto err_free_cfg;
-> > -	}
-> > +	if (rc)
-> > +		return rc;
-> >  
-> >  	rc = usb_control_msg(port->serial->dev,
-> >  			     usb_sndctrlpipe(port->serial->dev, 0),
-> > @@ -324,8 +324,6 @@ static int  klsi_105_open(struct tty_struct *tty, struct usb_serial_port *port)
-> >  			     KLSI_TIMEOUT);
-> >  err_generic_close:
-> >  	usb_serial_generic_close(port);
-> > -err_free_cfg:
-> > -	kfree(cfg);
-> >  
-> >  	return retval;
-> >  }
+On Fri, Dec 04, 2020 at 12:14:44PM +0100, Johan Hovold wrote:
+> The following changes since commit 09162bc32c880a791c6c0668ce0745cf7958f576:
 > 
-> I've applied this one now so that I can include it in my pull-request
-> for -rc7.
+>   Linux 5.10-rc4 (2020-11-15 16:44:31 -0800)
 > 
-> Greg, just let me know if you think I should hold this one off for 5.11
-> instead.
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-5.10-rc7
 
-Nope, it's fine to take this now, thanks.
+Pulled and pushed out, thanks.
 
 greg k-h
