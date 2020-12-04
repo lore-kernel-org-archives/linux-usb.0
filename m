@@ -2,78 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED574C4167B
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:13:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84108C19437
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4B5B22838
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:13:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60BBB229C9
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387750AbgLDQNb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 11:13:31 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:44693 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727970AbgLDQNb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Dec 2020 11:13:31 -0500
-Received: (qmail 1143058 invoked by uid 1000); 4 Dec 2020 11:12:49 -0500
-Date:   Fri, 4 Dec 2020 11:12:49 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Bui Quang Minh <minhquangbui99@gmail.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
+        id S1730952AbgLDQsc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 11:48:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57462 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728997AbgLDQs3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 4 Dec 2020 11:48:29 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EF0BB22B2A;
+        Fri,  4 Dec 2020 16:47:48 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1klEFH-00G234-8M; Fri, 04 Dec 2020 16:47:47 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Jules Irenge <jbi.octave@gmail.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: dummy-hcd: Fix uninitialized array use in init()
-Message-ID: <20201204161249.GA1141609@rowland.harvard.edu>
-References: <1607063090-3426-1-git-send-email-minhquangbui99@gmail.com>
+        kernel-team@android.com
+Subject: [PATCH 2/4] USB: serial: ftdi_sio: Report the valid GPIO lines to gpiolib
+Date:   Fri,  4 Dec 2020 16:47:37 +0000
+Message-Id: <20201204164739.781812-3-maz@kernel.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201204164739.781812-1-maz@kernel.org>
+References: <20201204164739.781812-1-maz@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1607063090-3426-1-git-send-email-minhquangbui99@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linus.walleij@linaro.org, bgolaszewski@baylibre.com, johan@kernel.org, gregkh@linuxfoundation.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 04, 2020 at 06:24:49AM +0000, Bui Quang Minh wrote:
-> This error path
-> 
-> 	err_add_pdata:
-> 		for (i = 0; i < mod_data.num; i++)
-> 			kfree(dum[i]);
-> 
-> can be triggered when not all dum's elements are initialized.
-> 
-> Fix this by initializing all dum's elements to NULL.
-> 
-> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
-> ---
->  drivers/usb/gadget/udc/dummy_hcd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-> index 0eeaead..a2cf009 100644
-> --- a/drivers/usb/gadget/udc/dummy_hcd.c
-> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
-> @@ -2734,7 +2734,7 @@ static int __init init(void)
->  {
->  	int	retval = -ENOMEM;
->  	int	i;
-> -	struct	dummy *dum[MAX_NUM_UDC];
-> +	struct	dummy *dum[MAX_NUM_UDC] = {};
->  
->  	if (usb_disabled())
->  		return -ENODEV;
+Since it is pretty common for only some of the CBUS lines to be
+valid as GPIO lines, let's report such validity to the rest of
+the kernel.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+---
+ drivers/usb/serial/ftdi_sio.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Does this initialization end up using less memory than an explicit 
-memset() call?
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index e0f4c3d9649c..13e575f16bcd 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -2002,6 +2002,19 @@ static int ftdi_gpio_direction_output(struct gpio_chip *gc, unsigned int gpio,
+ 	return result;
+ }
+ 
++static int ftdi_gpio_init_valid_mask(struct gpio_chip *gc,
++				     unsigned long *valid_mask,
++				     unsigned int ngpios)
++{
++	struct usb_serial_port *port = gpiochip_get_data(gc);
++	struct ftdi_private *priv = usb_get_serial_port_data(port);
++	unsigned long map = priv->gpio_altfunc;
++
++	bitmap_complement(valid_mask, &map, ngpios);
++
++	return 0;
++}
++
+ static int ftdi_read_eeprom(struct usb_serial *serial, void *dst, u16 addr,
+ 				u16 nbytes)
+ {
+@@ -2173,6 +2186,7 @@ static int ftdi_gpio_init(struct usb_serial_port *port)
+ 	priv->gc.get_direction = ftdi_gpio_direction_get;
+ 	priv->gc.direction_input = ftdi_gpio_direction_input;
+ 	priv->gc.direction_output = ftdi_gpio_direction_output;
++	priv->gc.init_valid_mask = ftdi_gpio_init_valid_mask;
+ 	priv->gc.get = ftdi_gpio_get;
+ 	priv->gc.set = ftdi_gpio_set;
+ 	priv->gc.get_multiple = ftdi_gpio_get_multiple;
+-- 
+2.28.0
 
-Alan Stern
