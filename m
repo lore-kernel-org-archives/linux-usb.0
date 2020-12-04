@@ -2,33 +2,32 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA57C1B0D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A2DC2BBCD
 	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEF65229C9
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C79022CBE
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 16:48:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730903AbgLDQsb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 11:48:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57492 "EHLO mail.kernel.org"
+        id S1730709AbgLDQs3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 11:48:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57418 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729262AbgLDQsa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Dec 2020 11:48:30 -0500
+        id S1728997AbgLDQs2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 4 Dec 2020 11:48:28 -0500
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BB68422AAF;
-        Fri,  4 Dec 2020 16:47:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CBBEC229C9;
+        Fri,  4 Dec 2020 16:47:47 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1klEFH-00G234-PO; Fri, 04 Dec 2020 16:47:48 +0000
+        id 1klEFF-00G234-Lh; Fri, 04 Dec 2020 16:47:45 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-kernel@vger.kernel.org
@@ -37,12 +36,10 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         kernel-team@android.com
-Subject: [PATCH 3/4] USB: serial: ftdi_sio: Log the CBUS GPIO validity
-Date:   Fri,  4 Dec 2020 16:47:38 +0000
-Message-Id: <20201204164739.781812-4-maz@kernel.org>
+Subject: [PATCH 0/4] USB: ftdio_sio: GPIO validity fixes
+Date:   Fri,  4 Dec 2020 16:47:35 +0000
+Message-Id: <20201204164739.781812-1-maz@kernel.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201204164739.781812-1-maz@kernel.org>
-References: <20201204164739.781812-1-maz@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 62.31.163.78
@@ -53,40 +50,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The validity of the ftdi CBUS GPIO is pretty hidden so far,
-and finding out *why* some GPIOs don't work is sometimes
-hard to identify. So let's help the user by displaying the
-map of the CBUS pins that are valid for a GPIO.
+Having recently tried to use the CBUS GPIOs that come thanks to the
+ftdio_sio driver, it occurred to me that the driver has a couple of
+usability issues:
 
-Also, tell the user about the magic ftx-prog tool that can
-make GPIOs appear: https://github.com/richardeoin/ftx-prog
+- it advertises potential GPIOs that are reserved to other uses (LED
+  control, or something else)
 
-Suggested-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/usb/serial/ftdi_sio.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+- it returns an odd error (-ENODEV), instead of the expected -EINVAL
+  when a line is unavailable, leading to a difficult diagnostic
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 13e575f16bcd..b9d3b33891fc 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -2012,6 +2012,15 @@ static int ftdi_gpio_init_valid_mask(struct gpio_chip *gc,
- 
- 	bitmap_complement(valid_mask, &map, ngpios);
- 
-+	if (bitmap_empty(valid_mask, ngpios))
-+		dev_warn(&port->dev, "No usable GPIO\n");
-+	else
-+		dev_info(&port->dev, "Enabling CBUS%*pbl for GPIO\n",
-+			 ngpios, valid_mask);
-+
-+	if (!bitmap_full(valid_mask, ngpios))
-+		dev_warn_once(&port->dev, "Consider using a tool such as ftx-prog to enable GPIOs if required\n");
-+
- 	return 0;
- }
- 
+We address the issues in a number of ways:
+
+- Stop reporting invalid GPIO lines as valid to userspace. It
+  definitely seems odd to do so. Instead, report the line as being
+  used, making the userspace interface a bit more consistent.
+
+- Implement the init_valid_mask() callback in the ftdi_sio driver,
+  allowing it to report which lines are actually valid.
+
+- As suggested by Linus, give an indication to the user of why some of
+  the GPIO lines are unavailable, and point them to a useful tool
+  (once per boot). It is a bit sad that there next to no documentation
+  on how to use these CBUS pins.
+
+- Drop the error reporting code, which has become useless at this
+  point.
+
+Tested with a couple of FTDI devices (FT230X and FT231X) and various
+CBUS configurations.
+
+Marc Zyngier (4):
+  gpiolib: cdev: Flag invalid GPIOs as used
+  USB: serial: ftdi_sio: Report the valid GPIO lines to gpiolib
+  USB: serial: ftdi_sio: Log the CBUS GPIO validity
+  USB: serial: ftdi_sio: Drop GPIO line checking dead code
+
+ drivers/gpio/gpiolib-cdev.c   |  1 +
+ drivers/usb/serial/ftdi_sio.c | 26 +++++++++++++++++++++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
+
 -- 
 2.28.0
 
