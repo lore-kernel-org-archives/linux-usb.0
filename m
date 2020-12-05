@@ -2,69 +2,261 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D56A7C4361B
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3403CC19437
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF26622838
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0886322838
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729373AbgLEST2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729325AbgLEST2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sat, 5 Dec 2020 13:19:28 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:57943 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728238AbgLESCy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 13:02:54 -0500
-Received: (qmail 1179704 invoked by uid 1000); 5 Dec 2020 10:15:11 -0500
-Date:   Sat, 5 Dec 2020 10:15:11 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Minh =?iso-8859-1?B?Qvlp?= Quang <minhquangbui99@gmail.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
+Received: from mx.baikalelectronics.com ([94.125.187.42]:53310 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727496AbgLERqr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:46:47 -0500
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Jules Irenge <jbi.octave@gmail.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: dummy-hcd: Fix uninitialized array use in init()
-Message-ID: <20201205151511.GA1179536@rowland.harvard.edu>
-References: <1607063090-3426-1-git-send-email-minhquangbui99@gmail.com>
- <20201204161249.GA1141609@rowland.harvard.edu>
- <CACtPs=Gg3C0KxdFnETHujAyis4hhKnCdV4_ZWqprHkXCXahFvw@mail.gmail.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 07/19] dt-bindings: usb: Convert xHCI bindings to DT schema
+Date:   Sat, 5 Dec 2020 18:24:14 +0300
+Message-ID: <20201205152427.29537-8-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACtPs=Gg3C0KxdFnETHujAyis4hhKnCdV4_ZWqprHkXCXahFvw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Dec 05, 2020 at 07:47:01PM +0700, Minh Bùi Quang wrote:
-> Vào Th 6, 4 thg 12, 2020 vào lúc 23:12 Alan Stern
-> <stern@rowland.harvard.edu> đã viết:
-> > Does this initialization end up using less memory than an explicit
-> > memset() call?
-> 
-> You mean speed?
+Currently the DT bindings of Generic xHCI Controllers are described by
+means of the legacy text file. Since such format is deprecated in favor of
+the DT schema, let's convert the Generic xHCI Controllers bindings file to
+the corresponding yaml files. There will be two of them: a DT schema for
+the xHCI controllers on a generic platform and a DT schema validating a
+generic xHCI controllers properties. The later will be used to validate
+the xHCI controllers, which aside from some vendor-specific features
+support the basic xHCI functionality.
 
-No, I mean memory space.
+An xHCI-compatible DT node shall support the standard USB HCD properties
+and custom ones like: usb2-lpm-disable, usb3-lpm-capable,
+quirk-broken-port-ped and imod-interval-ns. In addition if a generic xHCI
+controller is being validated against the DT schema it is also supposed to
+be equipped with mandatory compatible string, single registers range,
+single interrupts source, and is supposed to optionally contain up to two
+reference clocks for the controller core and CSRs.
 
-A memset call requires a certain amount of instruction space (to push 
-the arguments and make the call) but no static data space.  
-Initialization requires some instruction space (to copy the data) and 
-static data space as well (to hold the data that is to be copied).
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Alan Stern
+---
 
-> In my opinion, there is no difference in speed between 2 ways.
-> When I compile this array initialization using gcc 5.4.0,  this
-> initialization becomes
-> mov instructions when MAX_NUM_UDC=2 and becomes rep stos when
-> MAX_NUM_UDC=32. I think it makes no difference when comparing with memset()
-> 
-> Thanks,
-> Quang Minh
+Changelog v2:
+- Add explicit "additionalProperties: true" to the usb-xhci.yaml schema,
+  since additionalProperties/unevaluatedProperties are going to be mandary
+  for each binding.
+---
+ .../devicetree/bindings/usb/generic-xhci.yaml | 63 +++++++++++++++++++
+ .../devicetree/bindings/usb/usb-xhci.txt      | 41 ------------
+ .../devicetree/bindings/usb/usb-xhci.yaml     | 42 +++++++++++++
+ 3 files changed, 105 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/generic-xhci.yaml
+ delete mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+new file mode 100644
+index 000000000000..1ea1d49a8175
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: USB xHCI Controller Device Tree Bindings
++
++maintainers:
++  - Mathias Nyman <mathias.nyman@intel.com>
++
++allOf:
++  - $ref: "usb-xhci.yaml#"
++
++properties:
++  compatible:
++    oneOf:
++      - description: Generic xHCI device
++        const: generic-xhci
++      - description: Armada 37xx/375/38x/8k SoCs
++        items:
++          - enum:
++              - marvell,armada3700-xhci
++              - marvell,armada-375-xhci
++              - marvell,armada-380-xhci
++              - marvell,armada-8k-xhci
++          - const: generic-xhci
++      - description: Broadcom STB SoCs with xHCI
++        const: brcm,bcm7445-xhci
++      - description: Generic xHCI device
++        const: xhci-platform
++        deprecated: true
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 2
++
++  clock-names:
++    minItems: 1
++    items:
++      - const: core
++      - const: reg
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++examples:
++  - |
++    usb@f0931000 {
++      compatible = "generic-xhci";
++      reg = <0xf0931000 0x8c8>;
++      interrupts = <0x0 0x4e 0x0>;
++    };
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+deleted file mode 100644
+index 0c5cff84a969..000000000000
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-USB xHCI controllers
+-
+-Required properties:
+-  - compatible: should be one or more of
+-
+-    - "generic-xhci" for generic XHCI device
+-    - "marvell,armada3700-xhci" for Armada 37xx SoCs
+-    - "marvell,armada-375-xhci" for Armada 375 SoCs
+-    - "marvell,armada-380-xhci" for Armada 38x SoCs
+-    - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
+-    - "xhci-platform" (deprecated)
+-
+-    When compatible with the generic version, nodes must list the
+-    SoC-specific version corresponding to the platform first
+-    followed by the generic version.
+-
+-  - reg: should contain address and length of the standard XHCI
+-    register set for the device.
+-  - interrupts: one XHCI interrupt should be described here.
+-
+-Optional properties:
+-  - clocks: reference to the clocks
+-  - clock-names: mandatory if there is a second clock, in this case
+-    the name must be "core" for the first clock and "reg" for the
+-    second one
+-  - usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
+-  - usb3-lpm-capable: determines if platform is USB3 LPM capable
+-  - quirk-broken-port-ped: set if the controller has broken port disable mechanism
+-  - imod-interval-ns: default interrupt moderation interval is 5000ns
+-  - phys : see usb-hcd.yaml in the current directory
+-
+-additionally the properties from usb-hcd.yaml (in the current directory) are
+-supported.
+-
+-
+-Example:
+-	usb@f0931000 {
+-		compatible = "generic-xhci";
+-		reg = <0xf0931000 0x8c8>;
+-		interrupts = <0x0 0x4e 0x0>;
+-	};
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+new file mode 100644
+index 000000000000..965f87fef702
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/usb-xhci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic USB xHCI Controller Device Tree Bindings
++
++maintainers:
++  - Mathias Nyman <mathias.nyman@intel.com>
++
++allOf:
++  - $ref: "usb-hcd.yaml#"
++
++properties:
++  usb2-lpm-disable:
++    description: Indicates if we don't want to enable USB2 HW LPM
++    type: boolean
++
++  usb3-lpm-capable:
++    description: Determines if platform is USB3 LPM capable
++    type: boolean
++
++  quirk-broken-port-ped:
++    description: Set if the controller has broken port disable mechanism
++    type: boolean
++
++  imod-interval-ns:
++    description: Interrupt moderation interval
++    default: 5000
++
++additionalProperties: true
++
++examples:
++  - |
++    usb@f0930000 {
++      compatible = "generic-xhci";
++      reg = <0xf0930000 0x8c8>;
++      interrupts = <0x0 0x4e 0x0>;
++      usb2-lpm-disable;
++      usb3-lpm-capable;
++    };
+-- 
+2.29.2
+
