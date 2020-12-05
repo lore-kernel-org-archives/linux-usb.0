@@ -3,104 +3,182 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF7AC4361B
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 20:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D11C4361A
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 03:12:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A63A22CA2
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Dec 2020 20:10:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A1D022E00
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 03:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730797AbgLDUKQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Dec 2020 15:10:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726441AbgLDUKQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Dec 2020 15:10:16 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D161CC061A4F
-        for <linux-usb@vger.kernel.org>; Fri,  4 Dec 2020 12:09:35 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1klHOU-00044M-E8; Fri, 04 Dec 2020 21:09:30 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1klHOS-00028b-4u; Fri, 04 Dec 2020 21:09:28 +0100
-Date:   Fri, 4 Dec 2020 21:09:27 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Alan Stern <stern@rowland.harvard.edu>, kernel@pengutronix.de,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] ARM: sa11111: make sa1111 bus's remove callback return
- void
-Message-ID: <20201204200927.p354eli7uqr776sp@pengutronix.de>
-References: <20201126114724.2028511-1-u.kleine-koenig@pengutronix.de>
- <X8pOiU2a6BjfFuov@kroah.com>
+        id S1728100AbgLEDM2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Dec 2020 22:12:28 -0500
+Received: from mga06.intel.com ([134.134.136.31]:4559 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725967AbgLEDM2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 4 Dec 2020 22:12:28 -0500
+IronPort-SDR: zvHAJw6TF5x7unwcyFBz+BeI1lFOtsZQRl7giMgT47MystOdiMqdFOXS7qSTZlUZgLUak8eYZ+
+ Eer8v8RXVN8Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9825"; a="235086787"
+X-IronPort-AV: E=Sophos;i="5.78,394,1599548400"; 
+   d="scan'208";a="235086787"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2020 19:11:47 -0800
+IronPort-SDR: jeSFiH1b+uRM5m4nsxOHi7Chxdkvzth/xJpSZVSYQZ0NVTm/fv49BaloDXPsJL7nmJ6GdYBNNk
+ 3Jfhvv7FEmjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,394,1599548400"; 
+   d="scan'208";a="551193656"
+Received: from lkp-server01.sh.intel.com (HELO 47754f1311fc) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 04 Dec 2020 19:11:45 -0800
+Received: from kbuild by 47754f1311fc with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1klNz6-00003q-ND; Sat, 05 Dec 2020 03:11:44 +0000
+Date:   Sat, 05 Dec 2020 11:11:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ a4b98a7512f18534ce33a7e98e49115af59ffa00
+Message-ID: <5fcafa6d.wWiA3FtQguBwHhCT%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ylbalxyvhyuipbv3"
-Content-Disposition: inline
-In-Reply-To: <X8pOiU2a6BjfFuov@kroah.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
+branch HEAD: a4b98a7512f18534ce33a7e98e49115af59ffa00  usb: gadget: f_fs: Use local copy of descriptors for userspace copy
 
---ylbalxyvhyuipbv3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 722m
 
-Hey Greg,
+configs tested: 111
+configs skipped: 3
 
-On Fri, Dec 04, 2020 at 03:58:17PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Nov 26, 2020 at 12:47:24PM +0100, Uwe Kleine-K=F6nig wrote:
-> > The driver core ignores the return value of struct device_driver::remove
-> > because there is only little that can be done. To simplify the quest to
-> > make this function return void, let struct sa1111_driver::remove return
-> > void, too. All users already unconditionally return 0, this commit makes
-> > it obvious that returning an error code is a bad idea and ensures future
-> > users behave accordingly.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Thanks, can I interpret this also as an Ack to take the change affecting
-drivers/usb via Russell's tree?
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+m68k                          amiga_defconfig
+sh                          r7785rp_defconfig
+sh                         microdev_defconfig
+m68k                       m5275evb_defconfig
+nios2                            allyesconfig
+parisc                generic-64bit_defconfig
+powerpc                     sbc8548_defconfig
+powerpc                     skiroot_defconfig
+sh                          lboxre2_defconfig
+powerpc                      ep88xc_defconfig
+arm                         bcm2835_defconfig
+powerpc                      acadia_defconfig
+arm                         assabet_defconfig
+powerpc                   motionpro_defconfig
+mips                           jazz_defconfig
+powerpc                        cell_defconfig
+ia64                             alldefconfig
+powerpc                     tqm5200_defconfig
+arc                         haps_hs_defconfig
+arm                           spitz_defconfig
+arm                          exynos_defconfig
+arm                          pxa3xx_defconfig
+openrisc                         alldefconfig
+powerpc                      mgcoge_defconfig
+arm                         s3c2410_defconfig
+openrisc                    or1ksim_defconfig
+mips                  maltasmvp_eva_defconfig
+arm                        trizeps4_defconfig
+arm                        spear3xx_defconfig
+powerpc                    amigaone_defconfig
+powerpc               mpc834x_itxgp_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20201204
+x86_64               randconfig-a006-20201204
+x86_64               randconfig-a002-20201204
+x86_64               randconfig-a001-20201204
+x86_64               randconfig-a005-20201204
+x86_64               randconfig-a003-20201204
+i386                 randconfig-a005-20201204
+i386                 randconfig-a004-20201204
+i386                 randconfig-a001-20201204
+i386                 randconfig-a002-20201204
+i386                 randconfig-a006-20201204
+i386                 randconfig-a003-20201204
+i386                 randconfig-a014-20201204
+i386                 randconfig-a013-20201204
+i386                 randconfig-a011-20201204
+i386                 randconfig-a015-20201204
+i386                 randconfig-a012-20201204
+i386                 randconfig-a016-20201204
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                           allyesconfig
 
-Best regards
-Uwe
+clang tested configs:
+x86_64               randconfig-a004-20201205
+x86_64               randconfig-a006-20201205
+x86_64               randconfig-a002-20201205
+x86_64               randconfig-a001-20201205
+x86_64               randconfig-a005-20201205
+x86_64               randconfig-a003-20201205
+x86_64               randconfig-a016-20201204
+x86_64               randconfig-a012-20201204
+x86_64               randconfig-a014-20201204
+x86_64               randconfig-a013-20201204
+x86_64               randconfig-a015-20201204
+x86_64               randconfig-a011-20201204
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ylbalxyvhyuipbv3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/Kl3QACgkQwfwUeK3K
-7AlmhAf9F7NmYPLA9RAjwasWctkMau78khxkjBLaMDlVTgkU2ks5nm72b6Baizsn
-HKBguMwdF4uWzLd4LfifNzAsUtf3SWkcWxVpW20nH8NqFeLUuoz6u0i/JgqfaTdO
-mgeqyp3pZ2SrfQz6fq2Rp83YM7VAFvVCxFaNun248simpRrW+hPsKSybO2FIgDWU
-guqc8F23dbEStinvA7B5aUkvzHWvE4C4pDCBVzRWt4V8iSY8B6MbHCazRS0SKLhr
-sDA4sM9DCfiDTlDz5jrhkPkMIHiYa8oq8nAQ5Fd3B4i7OUIXOo+gp4PDTuxyW8kB
-7BBjNp17gStSdxi8As6ZKCP+OFvoKQ==
-=8a5x
------END PGP SIGNATURE-----
-
---ylbalxyvhyuipbv3--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
