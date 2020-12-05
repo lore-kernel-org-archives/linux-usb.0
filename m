@@ -2,54 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20BE0C2BBD4
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:43:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D10AC433FE
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:54:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE2C122EBF
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:43:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C147C2310B
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727892AbgLESnI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:43:08 -0500
-Received: from ns2.baikalelectronics.ru ([94.125.187.42]:53190 "EHLO
-        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727088AbgLEQzv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 11:55:51 -0500
+        id S1726043AbgLESyh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Dec 2020 13:54:37 -0500
+Received: from ns2.baikalchip.ru ([94.125.187.42]:53406 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725372AbgLESyh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 13:54:37 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+To:     Felipe Balbi <balbi@kernel.org>,
+        John Youn <John.Youn@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        David Cohen <david.a.cohen@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Roger Quadros <rogerq@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 04/19] dt-bindings: usb: Add "ulpi/serial/hsic" PHY types
-Date:   Sat, 5 Dec 2020 18:24:11 +0300
-Message-ID: <20201205152427.29537-5-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Felipe Balbi <balbi@ti.com>
+Subject: [PATCH v4 1/3] usb: dwc3: ulpi: Use VStsDone to detect PHY regs access completion
+Date:   Sat, 5 Dec 2020 16:55:19 +0300
+Message-ID: <20201205135521.28344-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205135521.28344-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201205135521.28344-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -58,48 +45,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
-that can be specified in the phy_type HCD property. Add them to the
-enumeration of the acceptable values.
+In accordance with [1] the DWC_usb3 core sets the GUSB2PHYACCn.VStsDone
+bit when the PHY vendor control access is done and clears it when the
+application initiates a new transaction. The doc doesn't say anything
+about the GUSB2PHYACCn.VStsBsy flag serving for the same purpose. Moreover
+we've discovered that the VStsBsy flag can be cleared before the VStsDone
+bit. So using the former as a signal of the PHY control registers
+completion might be dangerous. Let's have the VStsDone flag utilized
+instead then.
 
+[1] Synopsys DesignWare Cores SuperSpeed USB 3.0 xHCI Host Controller
+    Databook, 2.70a, December 2013, p.388
+
+Fixes: 88bc9d194ff6 ("usb: dwc3: add ULPI interface support")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 ---
 
-Changelog v2:
-- Grammar fix: "s/PHY types can be/PHY types that can be"
-- Drop quotes from around the string constants.
-
-Changelog v4:
-- Move the new PHY types definitions into the usb.yaml schema where the
-  phy_type property is now defined.
+Changelog v3:
+- Add Fixes tag to the commit log.
 ---
- Documentation/devicetree/bindings/usb/usb.yaml | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/usb/dwc3/core.h | 1 +
+ drivers/usb/dwc3/ulpi.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-index 991c02725e2b..6dc4821e63c3 100644
---- a/Documentation/devicetree/bindings/usb/usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb.yaml
-@@ -27,11 +27,13 @@ properties:
-   phy_type:
-     description:
-       Tells USB controllers that we want to configure the core to support a
--      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
--      this isn't passed via DT, USB controllers should default to HW
--      capability.
-+      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
-+      pin interface if ULPI is specified, Serial core/PHY interconnect if
-+      serial is specified and High-Speed Inter-Chip feature if HSIC is
-+      selected. In case this isn't passed via DT, USB controllers should
-+      default to HW capability.
-     $ref: /schemas/types.yaml#/definitions/string
--    enum: [utmi, utmi_wide]
-+    enum: [utmi, utmi_wide, ulpi, serial, hsic]
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 2f95f08ca511..1b241f937d8f 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -285,6 +285,7 @@
  
-   maximum-speed:
-    description:
+ /* Global USB2 PHY Vendor Control Register */
+ #define DWC3_GUSB2PHYACC_NEWREGREQ	BIT(25)
++#define DWC3_GUSB2PHYACC_DONE		BIT(24)
+ #define DWC3_GUSB2PHYACC_BUSY		BIT(23)
+ #define DWC3_GUSB2PHYACC_WRITE		BIT(22)
+ #define DWC3_GUSB2PHYACC_ADDR(n)	(n << 16)
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index aa213c9815f6..3cc4f4970c05 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -24,7 +24,7 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc)
+ 
+ 	while (count--) {
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+-		if (!(reg & DWC3_GUSB2PHYACC_BUSY))
++		if (reg & DWC3_GUSB2PHYACC_DONE)
+ 			return 0;
+ 		cpu_relax();
+ 	}
 -- 
 2.29.2
 
