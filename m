@@ -2,75 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0B30C4167B
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:36:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D56A7C4361B
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFD52229C4
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:36:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF26622838
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbgLESgE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:36:04 -0500
-Received: from ns2.chip.baikal.ru ([94.125.187.42]:53350 "EHLO
-        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729597AbgLESTh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 13:19:37 -0500
-From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S1729373AbgLEST2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Dec 2020 13:19:28 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:57943 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728238AbgLESCy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 13:02:54 -0500
+Received: (qmail 1179704 invoked by uid 1000); 5 Dec 2020 10:15:11 -0500
+Date:   Sat, 5 Dec 2020 10:15:11 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Minh =?iso-8859-1?B?Qvlp?= Quang <minhquangbui99@gmail.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 09/10] usb: dwc3: qcom: Detect DWC3 DT-nodes with "usb"-prefixed names
-Date:   Sat, 5 Dec 2020 18:56:20 +0300
-Message-ID: <20201205155621.3045-10-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru>
+        Corentin Labbe <clabbe@baylibre.com>,
+        Jules Irenge <jbi.octave@gmail.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: dummy-hcd: Fix uninitialized array use in init()
+Message-ID: <20201205151511.GA1179536@rowland.harvard.edu>
+References: <1607063090-3426-1-git-send-email-minhquangbui99@gmail.com>
+ <20201204161249.GA1141609@rowland.harvard.edu>
+ <CACtPs=Gg3C0KxdFnETHujAyis4hhKnCdV4_ZWqprHkXCXahFvw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACtPs=Gg3C0KxdFnETHujAyis4hhKnCdV4_ZWqprHkXCXahFvw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the USB HCD/DRD schema all the USB controllers are
-supposed to have DT-nodes named with prefix "^usb(@.*)?".  Since the
-existing DT-nodes will be renamed in a subsequent patch let's first make
-sure the DWC3 Qualcomm driver supports them and second falls back to the
-deprecated naming so not to fail on the legacy DTS-files passed to the
-newer kernels.
+On Sat, Dec 05, 2020 at 07:47:01PM +0700, Minh Bùi Quang wrote:
+> Vào Th 6, 4 thg 12, 2020 vào lúc 23:12 Alan Stern
+> <stern@rowland.harvard.edu> đã viết:
+> > Does this initialization end up using less memory than an explicit
+> > memset() call?
+> 
+> You mean speed?
 
-Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/usb/dwc3/dwc3-qcom.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+No, I mean memory space.
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index c703d552bbcf..49ad8d507d37 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -630,7 +630,8 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
- 	struct device		*dev = &pdev->dev;
- 	int			ret;
- 
--	dwc3_np = of_get_child_by_name(np, "dwc3");
-+	dwc3_np = of_get_child_by_name(np, "usb") ?:
-+		  of_get_child_by_name(np, "dwc3");
- 	if (!dwc3_np) {
- 		dev_err(dev, "failed to find dwc3 core child\n");
- 		return -ENODEV;
--- 
-2.29.2
+A memset call requires a certain amount of instruction space (to push 
+the arguments and make the call) but no static data space.  
+Initialization requires some instruction space (to copy the data) and 
+static data space as well (to hold the data that is to be copied).
 
+Alan Stern
+
+> In my opinion, there is no difference in speed between 2 ways.
+> When I compile this array initialization using gcc 5.4.0,  this
+> initialization becomes
+> mov instructions when MAX_NUM_UDC=2 and becomes rep stos when
+> MAX_NUM_UDC=32. I think it makes no difference when comparing with memset()
+> 
+> Thanks,
+> Quang Minh
