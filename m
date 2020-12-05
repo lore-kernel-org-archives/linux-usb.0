@@ -2,22 +2,22 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF878C1B0D8
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFEBC2BBD4
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D46322E00
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 481D022E00
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728859AbgLESTX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:19:23 -0500
-Received: from ns2.baikalelectronics.ru ([94.125.187.42]:53268 "EHLO
+        id S1727482AbgLESTW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Dec 2020 13:19:22 -0500
+Received: from ns2.chip.baikal.ru ([94.125.187.42]:53276 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727185AbgLERkK (ORCPT
+        by vger.kernel.org with ESMTP id S1727099AbgLERkK (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:40:10 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 13/19] dt-bindings: usb: dwc3: Add Tx De-emphasis constraints
-Date:   Sat, 5 Dec 2020 18:24:20 +0300
-Message-ID: <20201205152427.29537-14-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v5 05/19] dt-bindings: usb: usb-hcd: Add "tpl-support" property
+Date:   Sat, 5 Dec 2020 18:24:12 +0300
+Message-ID: <20201205152427.29537-6-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,10 +58,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the driver comments the PIPE3 de-emphasis can be tuned
-to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
-property constraints so the DT schema would make sure the controller DT
-node is equipped with correct value.
+The host controller device might be designed to work for the particular
+products or applications. In that case its DT node is supposed to be
+equipped with the tpl-support property.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -69,27 +68,30 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Grammar fix: "s/tunned/tuned"
-- Grammar fix: remove redundant "or" conjunction.
+- Grammar fix: "s/it'/its"
+- Discard '|' from the property description, since we don't need to preserve
+  the text formatting.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index b1890558affe..e39ad899c92e 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -156,6 +156,10 @@ properties:
-       The value driven to the PHY is controlled by the LTSSM during USB3
-       Compliance mode.
-     $ref: /schemas/types.yaml#/definitions/uint8
-+    enum:
-+      - 0 # -6dB de-emphasis
-+      - 1 # -3.5dB de-emphasis
-+      - 2 # No de-emphasis
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 52cc84c400c0..9881ac10380d 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -17,6 +17,12 @@ properties:
+     description: Phandle of a companion device
+     $ref: /schemas/types.yaml#/definitions/phandle
  
-   snps,dis_u3_susphy_quirk:
-     description: When set core will disable USB3 suspend phy
++  tpl-support:
++    description:
++      Indicates if the Targeted Peripheral List is supported for given
++      targeted hosts (non-PC hosts).
++    type: boolean
++
+ additionalProperties: true
+ 
+ examples:
 -- 
 2.29.2
 
