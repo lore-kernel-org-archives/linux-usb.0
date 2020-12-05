@@ -2,53 +2,40 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A51DCC2BB40
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FF0C1B0D8
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:40:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C33022EBF
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:39:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0CCC230FD
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:40:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728947AbgLESTZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:19:25 -0500
-Received: from ns2.chip.baikal.ru ([94.125.187.42]:53298 "EHLO
+        id S1728898AbgLESTY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Dec 2020 13:19:24 -0500
+Received: from mx.baikalchip.com ([94.125.187.42]:53294 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727605AbgLERoE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:44:04 -0500
+        by vger.kernel.org with ESMTP id S1727530AbgLERmh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:42:37 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+To:     Felipe Balbi <balbi@kernel.org>,
+        John Youn <John.Youn@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        David Cohen <david.a.cohen@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Roger Quadros <rogerq@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 19/19] dt-bindings: usb: intel,keembay-dwc3: Validate DWC3 sub-node
-Date:   Sat, 5 Dec 2020 18:24:26 +0300
-Message-ID: <20201205152427.29537-20-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 3/3] usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression
+Date:   Sat, 5 Dec 2020 16:55:21 +0300
+Message-ID: <20201205135521.28344-4-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205135521.28344-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201205135521.28344-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -57,53 +44,86 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Intel Keem Bay DWC3 compatible DT nodes are supposed to have a DWC USB3
-compatible sub-node to describe a fully functioning USB interface. Let's
-use the available DWC USB3 DT schema to validate the Qualcomm DWC3
-sub-nodes.
+First of all the commit e0082698b689 ("usb: dwc3: ulpi: conditionally
+resume ULPI PHY") introduced the Suspend USB2.0 HS/FS/LS PHY regression,
+as by design of the fix any attempt to read/write from/to the PHY control
+registers will completely disable the PHY suspension, which consequently
+will increase the USB bus power consumption. Secondly the fix won't work
+well for the very first attempt of the ULPI PHY control registers IO,
+because after disabling the USB2.0 PHY suspension functionality it will
+still take some time for the bus to resume from the sleep state if one has
+been reached before it. So the very first PHY register read/write
+operation will take more time than the busy-loop provides and the IO
+timeout error might be returned anyway.
 
-Note since the generic DWC USB3 DT node is supposed to be named as generic
-USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-nodes name
-regexp and fix the DT node example.
+Here we suggest to fix the denoted problems in the following way. First of
+all let's not disable the Suspend USB2.0 HS/FS/LS PHY functionality so to
+make the controller and the USB2.0 bus more power efficient. Secondly
+instead of that we'll extend the PHY IO op wait procedure with 1 - 1.2 ms
+sleep if the PHY suspension is enabled (1ms should be enough as by LPM
+specification it is at most how long it takes for the USB2.0 bus to resume
+from L1 (Sleep) state). Finally in case if the USB2.0 PHY suspension
+functionality has been disabled on the DWC USB3 controller setup procedure
+we'll compensate the USB bus resume process latency by extending the
+busy-loop attempts counter.
 
+Fixes: e0082698b689 ("usb: dwc3: ulpi: conditionally resume ULPI PHY")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
+ drivers/usb/dwc3/ulpi.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-Changelog v5:
-- This is a new patch created for the new Intel Keem Bay bindings file,
-  which has been added just recently.
----
- .../devicetree/bindings/usb/intel,keembay-dwc3.yaml      | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml b/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
-index dd32c10ce6c7..43b91ab62004 100644
---- a/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
-@@ -34,11 +34,8 @@ properties:
- # Required child node:
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index 54c877f7b51d..f23f4c9a557e 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -24,7 +24,7 @@
+ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ {
+ 	unsigned long ns = 5L * DWC3_ULPI_BASE_DELAY;
+-	unsigned int count = 1000;
++	unsigned int count = 10000;
+ 	u32 reg;
  
- patternProperties:
--  "^dwc3@[0-9a-f]+$":
--    type: object
--    description:
--      A child node must exist to represent the core DWC3 IP block.
--      The content of the node is defined in dwc3.txt.
-+  "^usb@[0-9a-f]+$":
-+    $ref: snps,dwc3.yaml#
+ 	if (addr >= ULPI_EXT_VENDOR_SPECIFIC)
+@@ -33,6 +33,10 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc, u8 addr, bool read)
+ 	if (read)
+ 		ns += DWC3_ULPI_BASE_DELAY;
  
- required:
-   - compatible
-@@ -68,7 +65,7 @@ examples:
-           #address-cells = <1>;
-           #size-cells = <1>;
++	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
++	if (reg & DWC3_GUSB2PHYCFG_SUSPHY)
++		usleep_range(1000, 1200);
++
+ 	while (count--) {
+ 		ndelay(ns);
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+@@ -50,12 +54,6 @@ static int dwc3_ulpi_read(struct device *dev, u8 addr)
+ 	u32 reg;
+ 	int ret;
  
--          dwc3@34000000 {
-+          usb@34000000 {
-                 compatible = "snps,dwc3";
-                 reg = <0x34000000 0x10000>;
-                 interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
+-	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+-	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
+-		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
+-		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+-	}
+-
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
+ 
+@@ -73,12 +71,6 @@ static int dwc3_ulpi_write(struct device *dev, u8 addr, u8 val)
+ 	struct dwc3 *dwc = dev_get_drvdata(dev);
+ 	u32 reg;
+ 
+-	reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+-	if (reg & DWC3_GUSB2PHYCFG_SUSPHY) {
+-		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
+-		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+-	}
+-
+ 	reg = DWC3_GUSB2PHYACC_NEWREGREQ | DWC3_ULPI_ADDR(addr);
+ 	reg |= DWC3_GUSB2PHYACC_WRITE | val;
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYACC(0), reg);
 -- 
 2.29.2
 
