@@ -7,25 +7,29 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3403CC19437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41953C4167B
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0886322838
+	by mail.kernel.org (Postfix) with ESMTP id 1F0EF22CF6
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:38:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729325AbgLEST2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:19:28 -0500
-Received: from mx.baikalelectronics.com ([94.125.187.42]:53310 "EHLO
+        id S1729240AbgLEST1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Dec 2020 13:19:27 -0500
+Received: from ns2.chip.baikal.ru ([94.125.187.42]:53283 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727496AbgLERqr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:46:47 -0500
+        by vger.kernel.org with ESMTP id S1727827AbgLERqo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:46:44 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -36,18 +40,16 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 07/19] dt-bindings: usb: Convert xHCI bindings to DT schema
-Date:   Sat, 5 Dec 2020 18:24:14 +0300
-Message-ID: <20201205152427.29537-8-Sergey.Semin@baikalelectronics.ru>
+        Rob Herring <robh@kernel.org>,
+        <linux-amlogic@lists.infradead.org>
+Subject: [PATCH v5 15/19] dt-bindings: usb: meson-g12a-usb: Fix FL-adj property value
+Date:   Sat, 5 Dec 2020 18:24:22 +0300
+Message-ID: <20201205152427.29537-16-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,205 +60,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently the DT bindings of Generic xHCI Controllers are described by
-means of the legacy text file. Since such format is deprecated in favor of
-the DT schema, let's convert the Generic xHCI Controllers bindings file to
-the corresponding yaml files. There will be two of them: a DT schema for
-the xHCI controllers on a generic platform and a DT schema validating a
-generic xHCI controllers properties. The later will be used to validate
-the xHCI controllers, which aside from some vendor-specific features
-support the basic xHCI functionality.
+An empty snps,quirk-frame-length-adjustment won't cause any change
+performed by the driver. Moreover the DT schema validation will fail,
+since it expects the property being assigned with some value. So set
+fix the example by setting a valid FL-adj value in accordance with
+Neil Armstrong comment.
 
-An xHCI-compatible DT node shall support the standard USB HCD properties
-and custom ones like: usb2-lpm-disable, usb3-lpm-capable,
-quirk-broken-port-ped and imod-interval-ns. In addition if a generic xHCI
-controller is being validated against the DT schema it is also supposed to
-be equipped with mandatory compatible string, single registers range,
-single interrupts source, and is supposed to optionally contain up to two
-reference clocks for the controller core and CSRs.
-
+Link: https://lore.kernel.org/linux-usb/20201010224121.12672-16-Sergey.Semin@baikalelectronics.ru/
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
 ---
 
-Changelog v2:
-- Add explicit "additionalProperties: true" to the usb-xhci.yaml schema,
-  since additionalProperties/unevaluatedProperties are going to be mandary
-  for each binding.
+Note the same problem is in the DT source file
+arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi .
 ---
- .../devicetree/bindings/usb/generic-xhci.yaml | 63 +++++++++++++++++++
- .../devicetree/bindings/usb/usb-xhci.txt      | 41 ------------
- .../devicetree/bindings/usb/usb-xhci.yaml     | 42 +++++++++++++
- 3 files changed, 105 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/generic-xhci.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.txt
- create mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.yaml
+ .../devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-new file mode 100644
-index 000000000000..1ea1d49a8175
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: USB xHCI Controller Device Tree Bindings
-+
-+maintainers:
-+  - Mathias Nyman <mathias.nyman@intel.com>
-+
-+allOf:
-+  - $ref: "usb-xhci.yaml#"
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - description: Generic xHCI device
-+        const: generic-xhci
-+      - description: Armada 37xx/375/38x/8k SoCs
-+        items:
-+          - enum:
-+              - marvell,armada3700-xhci
-+              - marvell,armada-375-xhci
-+              - marvell,armada-380-xhci
-+              - marvell,armada-8k-xhci
-+          - const: generic-xhci
-+      - description: Broadcom STB SoCs with xHCI
-+        const: brcm,bcm7445-xhci
-+      - description: Generic xHCI device
-+        const: xhci-platform
-+        deprecated: true
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    minItems: 1
-+    items:
-+      - const: core
-+      - const: reg
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+examples:
-+  - |
-+    usb@f0931000 {
-+      compatible = "generic-xhci";
-+      reg = <0xf0931000 0x8c8>;
-+      interrupts = <0x0 0x4e 0x0>;
-+    };
-diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
-deleted file mode 100644
-index 0c5cff84a969..000000000000
---- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--USB xHCI controllers
--
--Required properties:
--  - compatible: should be one or more of
--
--    - "generic-xhci" for generic XHCI device
--    - "marvell,armada3700-xhci" for Armada 37xx SoCs
--    - "marvell,armada-375-xhci" for Armada 375 SoCs
--    - "marvell,armada-380-xhci" for Armada 38x SoCs
--    - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
--    - "xhci-platform" (deprecated)
--
--    When compatible with the generic version, nodes must list the
--    SoC-specific version corresponding to the platform first
--    followed by the generic version.
--
--  - reg: should contain address and length of the standard XHCI
--    register set for the device.
--  - interrupts: one XHCI interrupt should be described here.
--
--Optional properties:
--  - clocks: reference to the clocks
--  - clock-names: mandatory if there is a second clock, in this case
--    the name must be "core" for the first clock and "reg" for the
--    second one
--  - usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
--  - usb3-lpm-capable: determines if platform is USB3 LPM capable
--  - quirk-broken-port-ped: set if the controller has broken port disable mechanism
--  - imod-interval-ns: default interrupt moderation interval is 5000ns
--  - phys : see usb-hcd.yaml in the current directory
--
--additionally the properties from usb-hcd.yaml (in the current directory) are
--supported.
--
--
--Example:
--	usb@f0931000 {
--		compatible = "generic-xhci";
--		reg = <0xf0931000 0x8c8>;
--		interrupts = <0x0 0x4e 0x0>;
--	};
-diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
-new file mode 100644
-index 000000000000..965f87fef702
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
-@@ -0,0 +1,42 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/usb-xhci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Generic USB xHCI Controller Device Tree Bindings
-+
-+maintainers:
-+  - Mathias Nyman <mathias.nyman@intel.com>
-+
-+allOf:
-+  - $ref: "usb-hcd.yaml#"
-+
-+properties:
-+  usb2-lpm-disable:
-+    description: Indicates if we don't want to enable USB2 HW LPM
-+    type: boolean
-+
-+  usb3-lpm-capable:
-+    description: Determines if platform is USB3 LPM capable
-+    type: boolean
-+
-+  quirk-broken-port-ped:
-+    description: Set if the controller has broken port disable mechanism
-+    type: boolean
-+
-+  imod-interval-ns:
-+    description: Interrupt moderation interval
-+    default: 5000
-+
-+additionalProperties: true
-+
-+examples:
-+  - |
-+    usb@f0930000 {
-+      compatible = "generic-xhci";
-+      reg = <0xf0930000 0x8c8>;
-+      interrupts = <0x0 0x4e 0x0>;
-+      usb2-lpm-disable;
-+      usb3-lpm-capable;
-+    };
+diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+index c0058332b967..1eda16dd4ee0 100644
+--- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
++++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+@@ -229,6 +229,6 @@ examples:
+               interrupts = <30>;
+               dr_mode = "host";
+               snps,dis_u2_susphy_quirk;
+-              snps,quirk-frame-length-adjustment;
++              snps,quirk-frame-length-adjustment = <0x20>;
+           };
+     };
 -- 
 2.29.2
 
