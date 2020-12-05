@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 582F3C1B087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF878C1B0D8
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24A3622EBF
+	by mail.kernel.org (Postfix) with ESMTP id 7D46322E00
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728803AbgLESTX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728859AbgLESTX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sat, 5 Dec 2020 13:19:23 -0500
-Received: from mx.baikalelectronics.ru ([94.125.187.42]:53272 "EHLO
+Received: from ns2.baikalelectronics.ru ([94.125.187.42]:53268 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727165AbgLERkK (ORCPT
+        by vger.kernel.org with ESMTP id S1727185AbgLERkK (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:40:10 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 11/19] dt-bindings: usb: dwc3: Add interrupt-names property support
-Date:   Sat, 5 Dec 2020 18:24:18 +0300
-Message-ID: <20201205152427.29537-12-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v5 13/19] dt-bindings: usb: dwc3: Add Tx De-emphasis constraints
+Date:   Sat, 5 Dec 2020 18:24:20 +0300
+Message-ID: <20201205152427.29537-14-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,9 +58,10 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The controller driver supports two types of DWC USB3 devices: with a
-common interrupt lane and with individual interrupts for each mode. Add
-support for both these cases to the DWC USB3 DT schema.
+In accordance with the driver comments the PIPE3 de-emphasis can be tuned
+to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
+property constraints so the DT schema would make sure the controller DT
+node is equipped with correct value.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -68,40 +69,27 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Grammar fix: "s/both of these cases support/support for both these cases"
-- Drop quotes from around the string constants.
-
-Changelog v4:
-- Discard the block scalar style modifier "|" from the interrupts property
-  description.
+- Grammar fix: "s/tunned/tuned"
+- Grammar fix: remove redundant "or" conjunction.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index f645fd918421..94ede43586f7 100644
+index b1890558affe..e39ad899c92e 100644
 --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -34,8 +34,19 @@ properties:
-       const: snps,dwc3
+@@ -156,6 +156,10 @@ properties:
+       The value driven to the PHY is controlled by the LTSSM during USB3
+       Compliance mode.
+     $ref: /schemas/types.yaml#/definitions/uint8
++    enum:
++      - 0 # -6dB de-emphasis
++      - 1 # -3.5dB de-emphasis
++      - 2 # No de-emphasis
  
-   interrupts:
-+    description:
-+      It's either a single common DWC3 interrupt (dwc_usb3) or individual
-+      interrupts for the host, gadget and DRD modes.
-+    minItems: 1
-+    maxItems: 3
-+
-+  interrupt-names:
-     minItems: 1
-     maxItems: 3
-+    oneOf:
-+      - const: dwc_usb3
-+      - items:
-+          enum: [host, peripheral, otg]
- 
-   clocks:
-     description:
+   snps,dis_u3_susphy_quirk:
+     description: When set core will disable USB3 suspend phy
 -- 
 2.29.2
 
