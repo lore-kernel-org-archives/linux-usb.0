@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8809EC1B0D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A51DCC2BB40
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:39:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5597D230FD
+	by mail.kernel.org (Postfix) with ESMTP id 8C33022EBF
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:39:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728986AbgLESTZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728947AbgLESTZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sat, 5 Dec 2020 13:19:25 -0500
-Received: from mx.baikalelectronics.com ([94.125.187.42]:53290 "EHLO
+Received: from ns2.chip.baikal.ru ([94.125.187.42]:53298 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727558AbgLERoE (ORCPT
+        by vger.kernel.org with ESMTP id S1727605AbgLERoE (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:44:04 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -25,7 +25,8 @@ To:     Mathias Nyman <mathias.nyman@intel.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -39,16 +40,13 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 08/19] dt-bindings: usb: xhci: Add Broadcom STB v2 compatible device
-Date:   Sat, 5 Dec 2020 18:24:15 +0300
-Message-ID: <20201205152427.29537-9-Sergey.Semin@baikalelectronics.ru>
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 19/19] dt-bindings: usb: intel,keembay-dwc3: Validate DWC3 sub-node
+Date:   Sat, 5 Dec 2020 18:24:26 +0300
+Message-ID: <20201205152427.29537-20-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -59,32 +57,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For some reason the "brcm,xhci-brcm-v2" compatible string has been missing
-in the original bindings file. Add it to the Generic xHCI Controllers DT
-schema since the controller driver expects it to be supported.
+Intel Keem Bay DWC3 compatible DT nodes are supposed to have a DWC USB3
+compatible sub-node to describe a fully functioning USB interface. Let's
+use the available DWC USB3 DT schema to validate the Qualcomm DWC3
+sub-nodes.
+
+Note since the generic DWC USB3 DT node is supposed to be named as generic
+USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-nodes name
+regexp and fix the DT node example.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/usb/generic-xhci.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-index 1ea1d49a8175..23d73df96ea3 100644
---- a/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-@@ -26,7 +26,9 @@ properties:
-               - marvell,armada-8k-xhci
-           - const: generic-xhci
-       - description: Broadcom STB SoCs with xHCI
--        const: brcm,bcm7445-xhci
-+        enum:
-+          - brcm,xhci-brcm-v2
-+          - brcm,bcm7445-xhci
-       - description: Generic xHCI device
-         const: xhci-platform
-         deprecated: true
+---
+
+Changelog v5:
+- This is a new patch created for the new Intel Keem Bay bindings file,
+  which has been added just recently.
+---
+ .../devicetree/bindings/usb/intel,keembay-dwc3.yaml      | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml b/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
+index dd32c10ce6c7..43b91ab62004 100644
+--- a/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
+@@ -34,11 +34,8 @@ properties:
+ # Required child node:
+ 
+ patternProperties:
+-  "^dwc3@[0-9a-f]+$":
+-    type: object
+-    description:
+-      A child node must exist to represent the core DWC3 IP block.
+-      The content of the node is defined in dwc3.txt.
++  "^usb@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
+ 
+ required:
+   - compatible
+@@ -68,7 +65,7 @@ examples:
+           #address-cells = <1>;
+           #size-cells = <1>;
+ 
+-          dwc3@34000000 {
++          usb@34000000 {
+                 compatible = "snps,dwc3";
+                 reg = <0x34000000 0x10000>;
+                 interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.29.2
 
