@@ -2,38 +2,53 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 227BDC19437
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:40:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7020FC19437
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E87D022E00
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:40:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4AB0C22E00
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728927AbgLESTY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:19:24 -0500
-Received: from ns2.chip.baikal.ru ([94.125.187.42]:53283 "EHLO
+        id S1728835AbgLESTX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Dec 2020 13:19:23 -0500
+Received: from mx.chip.baikal.ru ([94.125.187.42]:53266 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727621AbgLERnP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:43:15 -0500
+        by vger.kernel.org with ESMTP id S1727169AbgLERkK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:40:10 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Felipe Balbi <balbi@kernel.org>,
-        John Youn <John.Youn@synopsys.com>,
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        David Cohen <david.a.cohen@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v4 0/3] usb: dwc3: ulpi: Fix UPLI registers read/write ops
-Date:   Sat, 5 Dec 2020 16:55:18 +0300
-Message-ID: <20201205135521.28344-1-Sergey.Semin@baikalelectronics.ru>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 12/19] dt-bindings: usb: dwc3: Add synopsys,dwc3 compatible string
+Date:   Sat, 5 Dec 2020 18:24:19 +0300
+Message-ID: <20201205152427.29537-13-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -42,79 +57,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Our Baikal-T1 SoC is equipped with DWC USB3 IP core as a USB2.0 bus
-controller. In general the DWC USB3 driver is working well for it except
-the ULPI-bus part. We've found out that the DWC USB3 ULPI-bus driver detected
-PHY with VID:PID tuple as 0x0000:0x0000, which of course wasn't true since
-it was supposed to be 0x0424:0x0006. After a short digging inside the
-ulpi.c code and studying the DWC USB3 documentation, it has been
-discovered that the ULPI bus IO ops didn't work quite correct. The
-busy-loop had stopped waiting before the actual operation was finished. We
-found out that the problem was caused by several bugs hidden in the DWC
-USB3 ULPI-bus IO implementation.
+The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
+expects the DWC USB3 DT node to have the compatible string with the
+"synopsys" vendor prefix. Let's add the corresponding compatible string to
+the controller DT schema, but mark it as deprecated seeing the Synopsys,
+Inc. is presented with just "snps" vendor prefix.
 
-First of all in accordance with the DWC USB3 databook [1] the ULPI IO
-busy-loop is supposed to use the GUSB2PHYACCn.VStsDone flag as an
-indication of the PHY vendor control access completion. Instead it polled
-the GUSB2PHYACCn.VStsBsy flag, which as we discovered can be cleared a
-bit before the VStsDone flag.
-
-Secondly having the simple counter-based loop in the modern kernel is
-really a weak design of the busy-looping pattern especially seeing the
-ULPI operations delay can be easily estimated [2], since the bus clock is
-fixed to 60MHz.
-
-Finally the root cause of the denoted in the prologue problem was due to
-the Suspend PHY DWC USB3 feature perception. The commit e0082698b689
-("usb: dwc3: ulpi: conditionally resume ULPI PHY") introduced the Suspend
-USB2.0 HS/FS/LS PHY regression as the Low-power consumption mode would be
-disable after a first attempt to read/write from the ULPI PHY control
-registers, and still didn't fix the problem it was originally intended for
-since the very first attempt of the ULPI PHY control registers IO would
-need much more time than the busy-loop provided. So instead of disabling
-the Suspend USB2.0 HS/FS/LS PHY feature we suggest to just extend the
-busy-loop delay in case if the GUSB2PHYCFGn.SusPHY flag set to 1. By doing
-so we'll eliminate the regression and fix the false busy-loop timeout
-problem.
-
-[1] Synopsys DesignWare Cores SuperSpeed USB 3.0 xHCI Host Controller
-    Databook, 2.70a, December 2013, p.388
-
-[2] UTMI+ Low Pin Interface (ULPI) Specification, Revision 1.1,
-    October 20, 2004, pp. 30 - 36.
-
-Link: https://lore.kernel.org/linux-usb/20201010222351.7323-1-Sergey.Semin@baikalelectronics.ru
-Changelog v2:
-- Add Heikki'es acked-byt tag.
-- Resend the series so it wouldn't be lost but merged in the kernel 5.10.
-
-Link: https://lore.kernel.org/linux-usb/20201026164050.30380-1-Sergey.Semin@baikalelectronics.ru
-Changelog v3:
-- Add Fixes tag to the commit log of the patch:
-  [PATCH 1/3] usb: dwc3: ulpi: Use VStsDone to detect PHY regs access completion
-
-Link: https://lore.kernel.org/linux-usb/20201111090254.12842-1-Sergey.Semin@baikalelectronics.ru
-Changelog v4:
-- Just resend.
-
-Fixes: e0082698b689 ("usb: dwc3: ulpi: conditionally resume ULPI PHY")
-Fixes: 88bc9d194ff6 ("usb: dwc3: add ULPI interface support")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 
-Serge Semin (3):
-  usb: dwc3: ulpi: Use VStsDone to detect PHY regs access completion
-  usb: dwc3: ulpi: Replace CPU-based busyloop with Protocol-based one
-  usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression
+---
 
- drivers/usb/dwc3/core.h |  1 +
- drivers/usb/dwc3/ulpi.c | 38 +++++++++++++++++++++-----------------
- 2 files changed, 22 insertions(+), 17 deletions(-)
+Changelog v2:
+- Drop quotes from around the compat string constant.
 
+Changelog v4:
+- Get the patch back, since we can't discard the deprecated prefix from the
+  driver.
+---
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 94ede43586f7..b1890558affe 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -31,7 +31,10 @@ allOf:
+ properties:
+   compatible:
+     contains:
+-      const: snps,dwc3
++      oneOf:
++        - const: snps,dwc3
++        - const: synopsys,dwc3
++          deprecated: true
+ 
+   interrupts:
+     description:
 -- 
 2.29.2
 
