@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47ED5C2BB3F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 608C8C2BB48
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:39:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 150FD23125
+	by mail.kernel.org (Postfix) with ESMTP id 35E602332A
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:39:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729068AbgLEST0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729160AbgLEST0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sat, 5 Dec 2020 13:19:26 -0500
-Received: from ns2.baikalelectronics.ru ([94.125.187.42]:53296 "EHLO
+Received: from ns2.baikalelectronics.com ([94.125.187.42]:53288 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727561AbgLERoE (ORCPT
+        by vger.kernel.org with ESMTP id S1727534AbgLERoE (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:44:04 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 14/19] dt-bindings: usb: dwc3: Add Frame Length Adj constraints
-Date:   Sat, 5 Dec 2020 18:24:21 +0300
-Message-ID: <20201205152427.29537-15-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v5 06/19] dt-bindings: usb: Add generic "usb-phy" property
+Date:   Sat, 5 Dec 2020 18:24:13 +0300
+Message-ID: <20201205152427.29537-7-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,30 +58,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the IP core databook the
-snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
-Let's make sure the DT schema applies a correct constraints on the
-property.
+Even though the Generic PHY framework is the more preferable way of
+setting the USB PHY up, there are still many dts-files and DT bindings
+which rely on having the legacy "usb-phy" specified to attach particular
+USB PHYs to USB cores. Let's have the "usb-phy" property described in
+the generic USB HCD binding file so it would be validated against the
+nodes in which it's specified. Mark the property as deprecated to
+discourage the developers from using it.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index e39ad899c92e..feb41f3e6b21 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -243,6 +243,8 @@ properties:
-       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
-       incorrect.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0x3f
- 
-   snps,rx-thr-num-pkt-prd:
+---
+
+Changelog v2:
+- Discard '|' from the property description, since we don't need to
+  preserve the text formatting.
+
+Changelog v4:
+- Move the "usb-phy" property definition into the usb.yaml schema where
+  all generic USB properties are now defined.
+---
+ Documentation/devicetree/bindings/usb/usb.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+index 6dc4821e63c3..5400893d693e 100644
+--- a/Documentation/devicetree/bindings/usb/usb.yaml
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -24,6 +24,13 @@ properties:
      description:
+       Name specifier for the USB PHY
+ 
++  usb-phy:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      List of all the USB PHYs on this HCD to be accepted by the legacy USB
++      Physical Layer subsystem.
++    deprecated: true
++
+   phy_type:
+     description:
+       Tells USB controllers that we want to configure the core to support a
 -- 
 2.29.2
 
