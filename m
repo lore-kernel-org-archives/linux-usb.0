@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7020FC19437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 582F3C1B087
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AB0C22E00
+	by mail.kernel.org (Postfix) with ESMTP id 24A3622EBF
 	for <linux-usb@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728835AbgLESTX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728803AbgLESTX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sat, 5 Dec 2020 13:19:23 -0500
-Received: from mx.chip.baikal.ru ([94.125.187.42]:53266 "EHLO
+Received: from mx.baikalelectronics.ru ([94.125.187.42]:53272 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727169AbgLERkK (ORCPT
+        by vger.kernel.org with ESMTP id S1727165AbgLERkK (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Dec 2020 12:40:10 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -43,10 +43,11 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 12/19] dt-bindings: usb: dwc3: Add synopsys,dwc3 compatible string
-Date:   Sat, 5 Dec 2020 18:24:19 +0300
-Message-ID: <20201205152427.29537-13-Sergey.Semin@baikalelectronics.ru>
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 11/19] dt-bindings: usb: dwc3: Add interrupt-names property support
+Date:   Sat, 5 Dec 2020 18:24:18 +0300
+Message-ID: <20201205152427.29537-12-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -57,41 +58,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
-expects the DWC USB3 DT node to have the compatible string with the
-"synopsys" vendor prefix. Let's add the corresponding compatible string to
-the controller DT schema, but mark it as deprecated seeing the Synopsys,
-Inc. is presented with just "snps" vendor prefix.
+The controller driver supports two types of DWC USB3 devices: with a
+common interrupt lane and with individual interrupts for each mode. Add
+support for both these cases to the DWC USB3 DT schema.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
 Changelog v2:
-- Drop quotes from around the compat string constant.
+- Grammar fix: "s/both of these cases support/support for both these cases"
+- Drop quotes from around the string constants.
 
 Changelog v4:
-- Get the patch back, since we can't discard the deprecated prefix from the
-  driver.
+- Discard the block scalar style modifier "|" from the interrupts property
+  description.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 94ede43586f7..b1890558affe 100644
+index f645fd918421..94ede43586f7 100644
 --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -31,7 +31,10 @@ allOf:
- properties:
-   compatible:
-     contains:
--      const: snps,dwc3
-+      oneOf:
-+        - const: snps,dwc3
-+        - const: synopsys,dwc3
-+          deprecated: true
+@@ -34,8 +34,19 @@ properties:
+       const: snps,dwc3
  
    interrupts:
++    description:
++      It's either a single common DWC3 interrupt (dwc_usb3) or individual
++      interrupts for the host, gadget and DRD modes.
++    minItems: 1
++    maxItems: 3
++
++  interrupt-names:
+     minItems: 1
+     maxItems: 3
++    oneOf:
++      - const: dwc_usb3
++      - items:
++          enum: [host, peripheral, otg]
+ 
+   clocks:
      description:
 -- 
 2.29.2
