@@ -2,289 +2,156 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96BEBC433FE
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Dec 2020 21:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2F7C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 02:01:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B6192368A
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Dec 2020 21:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D890238EE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 02:01:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbgLGVjV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Dec 2020 16:39:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbgLGVjU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Dec 2020 16:39:20 -0500
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A586C061749;
-        Mon,  7 Dec 2020 13:38:40 -0800 (PST)
-Received: by mail-oi1-x243.google.com with SMTP id p126so17124154oif.7;
-        Mon, 07 Dec 2020 13:38:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fp+XSE87F3iLp7Dlxf2aak8AAriStSITfn65Gda9+GE=;
-        b=mGAE1jODrID43AIb6FNCpb/ciDI+BgiheYuYFxMZnGYfBmRBukfLPgxaLsaRi6e29a
-         cjTKvzt0cg29mOIp6JWrvL6lMxfyOQl5FjXhon4c/Zg+kmjHmGe+xO+D3Do0cq7UFLeN
-         PgAxGH28IG5gHyZxKz5PhvGC284/RE2GLmOtQOiZq3ZvGTIHnGBv8pSgww29IUyoFYWj
-         EG1Y0sFQ89iSDgUWYligOp7hN4B260FZasbjtw1taH6oz7t679Tz4q2XDndjVrd9wJEp
-         Vd7XXG/4bLhTy7V+620ptcjwe0DFKQaqHg1UUzTPMwdq7mY2TLE/TVSviwIOuQf48iRo
-         Dugg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=fp+XSE87F3iLp7Dlxf2aak8AAriStSITfn65Gda9+GE=;
-        b=Xa6gz97oECb/Z3hygIk3kOKEgcdQBXm6iAgRv03BeVlpolw7L7F+uQg65d6ZFyGJqt
-         Gi/o9xHTb1vPwMT8RgkIVekCYryTfOvnFl6JJ9bmkNga5ib7LqPoRQc7W+XL0uu26nwP
-         cA241kbgePGdM61CVAn4ZD0Z3Ks8jYLEPIRrUIVt89c3KNMHOPQ4+M89b5OaF5XWaLKw
-         LAsbxYGtx6PT6gjwOH/bHg1r1FoVi76Z+WOK55H7YZqd38pK96HbCCvx/dmkvSuGw1UD
-         k60eHyLrewf4XoeV9njxkmCah5mxRheUsRZx3T74MtQKMraq7vRLw96h4kY/g9pzb7jw
-         Xm0w==
-X-Gm-Message-State: AOAM533pDJ0nwWJMbthrkpvKnsNOYl/jxeKBejn2sTt6Ha9SgQ8mN3+V
-        qZOeiOieqLiJROVEno3lvKEIHbfzTrg=
-X-Google-Smtp-Source: ABdhPJxKqkp8WCyD3OCJKpdGT6S1dQt8iDXaCbyB65Muv3BDsdq0Dnx/7nGqAcLQJE1FXXlyV1GmKQ==
-X-Received: by 2002:aca:df83:: with SMTP id w125mr574954oig.165.1607377119581;
-        Mon, 07 Dec 2020 13:38:39 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q18sm2615194ood.35.2020.12.07.13.38.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Dec 2020 13:38:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH v2] usb: typec: tcpm: Pass down negotiated rev to update
- retry count
-To:     Badhri Jagan Sridharan <badhri@google.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201202031733.647808-1-badhri@google.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <6caf1208-06cb-739e-c19c-adf4a453f242@roeck-us.net>
-Date:   Mon, 7 Dec 2020 13:38:36 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727678AbgLHCBX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Dec 2020 21:01:23 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:51429 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725877AbgLHCBX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Dec 2020 21:01:23 -0500
+X-UUID: 8a664c262b164f2bb78d63554f53e19a-20201208
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=AnfMsxCsqIaWPXAofU2Qh3nt/yEpA1Nncyh3grmr2Hs=;
+        b=a2h/GOb3tMmj4tVWWW0Z8TUR3FBZ3HuPCXErjJgQio5LqJUJMEZR1tVd2u1BuMDPlmDLv2O+NDJZ8PcqVt24FAPKEqv1uNg6UFJa56TTUYvo2315Fqbm9h8UgU9F6hHw+HODvloC9Xj/ab+g8IgGqFF1/2dzNy25Nb0tHM+TMbc=;
+X-UUID: 8a664c262b164f2bb78d63554f53e19a-20201208
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1168966895; Tue, 08 Dec 2020 10:00:35 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 8 Dec
+ 2020 10:00:23 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 8 Dec 2020 10:00:26 +0800
+Message-ID: <1607392825.23328.5.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 07/11] dt-bindings: phy: convert MIP DSI PHY binding
+ to YAML schema
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Kishon Vijay Abraham I" <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        "Matthias Brugger" <matthias.bgg@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        "Min Guo" <min.guo@mediatek.com>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
+Date:   Tue, 8 Dec 2020 10:00:25 +0800
+In-Reply-To: <20201207211920.GA841059@robh.at.kernel.org>
+References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
+         <20201118082126.42701-7-chunfeng.yun@mediatek.com>
+         <20201207211920.GA841059@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20201202031733.647808-1-badhri@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: BA25879DABC571C822341F4AC2ABA120CA9AACE0D97F7DEA60AC1AC6A1D432792000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 12/1/20 7:17 PM, Badhri Jagan Sridharan wrote:
-> nRetryCount was updated from 3 to 2 between PD2.0 and PD3.0 spec.
-> nRetryCount in "Table 6-34 Counter parameters" of the PD 2.0
-> spec is set to 3, whereas, nRetryCount in "Table 6-59 Counter
-> parameters" is set to 2.
-> 
-> Pass down negotiated rev in pd_transmit so that low level chip
-> drivers can update the retry count accordingly before attempting
-> packet transmission.
-> 
-> This helps in passing "TEST.PD.PORT.ALL.02" of the
-> "Power Delivery Merged" test suite which was initially failing
-> with "The UUT did not retransmit the message nReryCount times"
-> 
-> In fusb302 & tcpci drivers, by default the driver sets the retry
-> count to 3 (Default for PD 2.0). Update this to 2,
-> if the negotiated rev is PD 3.0.
-> 
-> In wcove, since the retry count is intentionally set to max, leaving
-> it as is.
-> 
-> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
-> Changes since V1:
-> -Squashed tcpm and client patches to one as suggested by Heikki.
-> ---
->  drivers/usb/typec/tcpm/fusb302.c | 16 +++++++++++-----
->  drivers/usb/typec/tcpm/tcpci.c   | 12 +++++++-----
->  drivers/usb/typec/tcpm/tcpm.c    |  2 +-
->  drivers/usb/typec/tcpm/wcove.c   |  3 ++-
->  include/linux/usb/tcpm.h         |  2 +-
->  5 files changed, 22 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-> index 99562cc65ca6..ebc46b9f776c 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -343,12 +343,11 @@ static int fusb302_sw_reset(struct fusb302_chip *chip)
->  	return ret;
->  }
->  
-> -static int fusb302_enable_tx_auto_retries(struct fusb302_chip *chip)
-> +static int fusb302_enable_tx_auto_retries(struct fusb302_chip *chip, u8 retry_count)
->  {
->  	int ret = 0;
->  
-> -	ret = fusb302_i2c_set_bits(chip, FUSB_REG_CONTROL3,
-> -				   FUSB_REG_CONTROL3_N_RETRIES_3 |
-> +	ret = fusb302_i2c_set_bits(chip, FUSB_REG_CONTROL3, retry_count |
->  				   FUSB_REG_CONTROL3_AUTO_RETRY);
->  
->  	return ret;
-> @@ -399,7 +398,7 @@ static int tcpm_init(struct tcpc_dev *dev)
->  	ret = fusb302_sw_reset(chip);
->  	if (ret < 0)
->  		return ret;
-> -	ret = fusb302_enable_tx_auto_retries(chip);
-> +	ret = fusb302_enable_tx_auto_retries(chip, FUSB_REG_CONTROL3_N_RETRIES_3);
->  	if (ret < 0)
->  		return ret;
->  	ret = fusb302_init_interrupt(chip);
-> @@ -1017,7 +1016,7 @@ static const char * const transmit_type_name[] = {
->  };
->  
->  static int tcpm_pd_transmit(struct tcpc_dev *dev, enum tcpm_transmit_type type,
-> -			    const struct pd_message *msg)
-> +			    const struct pd_message *msg, unsigned int negotiated_rev)
->  {
->  	struct fusb302_chip *chip = container_of(dev, struct fusb302_chip,
->  						 tcpc_dev);
-> @@ -1026,6 +1025,13 @@ static int tcpm_pd_transmit(struct tcpc_dev *dev, enum tcpm_transmit_type type,
->  	mutex_lock(&chip->lock);
->  	switch (type) {
->  	case TCPC_TX_SOP:
-> +		/* nRetryCount 3 in P2.0 spec, whereas 2 in PD3.0 spec */
-> +		ret = fusb302_enable_tx_auto_retries(chip, negotiated_rev > PD_REV20 ?
-> +						     FUSB_REG_CONTROL3_N_RETRIES_2 :
-> +						     FUSB_REG_CONTROL3_N_RETRIES_3);
-> +		if (ret < 0)
-> +			fusb302_log(chip, "Cannot update retry count ret=%d", ret);
-> +
->  		ret = fusb302_pd_send_message(chip, msg);
->  		if (ret < 0)
->  			fusb302_log(chip,
-> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-> index 12d983a75510..98a2455f779f 100644
-> --- a/drivers/usb/typec/tcpm/tcpci.c
-> +++ b/drivers/usb/typec/tcpm/tcpci.c
-> @@ -18,7 +18,8 @@
->  
->  #include "tcpci.h"
->  
-> -#define	PD_RETRY_COUNT				3
-> +#define	PD_RETRY_COUNT_DEFAULT			3
-> +#define	PD_RETRY_COUNT_3_0_OR_HIGHER		2
->  #define	AUTO_DISCHARGE_DEFAULT_THRESHOLD_MV	3500
->  #define	AUTO_DISCHARGE_PD_HEADROOM_MV		850
->  #define	AUTO_DISCHARGE_PPS_HEADROOM_MV		1250
-> @@ -447,9 +448,8 @@ static int tcpci_set_vbus(struct tcpc_dev *tcpc, bool source, bool sink)
->  	return 0;
->  }
->  
-> -static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
-> -			     enum tcpm_transmit_type type,
-> -			     const struct pd_message *msg)
-> +static int tcpci_pd_transmit(struct tcpc_dev *tcpc, enum tcpm_transmit_type type,
-> +			     const struct pd_message *msg, unsigned int negotiated_rev)
->  {
->  	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
->  	u16 header = msg ? le16_to_cpu(msg->header) : 0;
-> @@ -497,7 +497,9 @@ static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
->  		}
->  	}
->  
-> -	reg = (PD_RETRY_COUNT << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
-> +	/* nRetryCount is 3 in PD2.0 spec where 2 in PD3.0 spec */
-> +	reg = ((negotiated_rev > PD_REV20 ? PD_RETRY_COUNT_3_0_OR_HIGHER : PD_RETRY_COUNT_DEFAULT)
-> +	       << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
->  	ret = regmap_write(tcpci->regmap, TCPC_TRANSMIT, reg);
->  	if (ret < 0)
->  		return ret;
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 3bbc1f10af49..c73bc3a8356a 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -667,7 +667,7 @@ static int tcpm_pd_transmit(struct tcpm_port *port,
->  		tcpm_log(port, "PD TX, type: %#x", type);
->  
->  	reinit_completion(&port->tx_complete);
-> -	ret = port->tcpc->pd_transmit(port->tcpc, type, msg);
-> +	ret = port->tcpc->pd_transmit(port->tcpc, type, msg, port->negotiated_rev);
->  	if (ret < 0)
->  		return ret;
->  
-> diff --git a/drivers/usb/typec/tcpm/wcove.c b/drivers/usb/typec/tcpm/wcove.c
-> index 9b745f432c91..79ae63950050 100644
-> --- a/drivers/usb/typec/tcpm/wcove.c
-> +++ b/drivers/usb/typec/tcpm/wcove.c
-> @@ -356,7 +356,8 @@ static int wcove_set_pd_rx(struct tcpc_dev *tcpc, bool on)
->  
->  static int wcove_pd_transmit(struct tcpc_dev *tcpc,
->  			     enum tcpm_transmit_type type,
-> -			     const struct pd_message *msg)
-> +			     const struct pd_message *msg,
-> +			     unsigned int negotiated_rev)
->  {
->  	struct wcove_typec *wcove = tcpc_to_wcove(tcpc);
->  	unsigned int info = 0;
-> diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-> index e68aaa12886f..efaedd7e8a18 100644
-> --- a/include/linux/usb/tcpm.h
-> +++ b/include/linux/usb/tcpm.h
-> @@ -121,7 +121,7 @@ struct tcpc_dev {
->  			      enum typec_cc_status cc);
->  	int (*try_role)(struct tcpc_dev *dev, int role);
->  	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
-> -			   const struct pd_message *msg);
-> +			   const struct pd_message *msg, unsigned int negotiated_rev);
->  	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
->  	int (*enable_frs)(struct tcpc_dev *dev, bool enable);
->  	void (*frs_sourcing_vbus)(struct tcpc_dev *dev);
-> 
+T24gTW9uLCAyMDIwLTEyLTA3IGF0IDE1OjE5IC0wNjAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4g
+T24gV2VkLCBOb3YgMTgsIDIwMjAgYXQgMDQ6MjE6MjJQTSArMDgwMCwgQ2h1bmZlbmcgWXVuIHdy
+b3RlOg0KPiA+IENvbnZlcnQgTUlQSSBEU0kgUEhZIGJpbmRpbmcgdG8gWUFNTCBzY2hlbWEgbWVk
+aWF0ZWssZHNpLXBoeS55YW1sDQo+ID4gDQo+ID4gQ2M6IENodW4tS3VhbmcgSHUgPGNodW5rdWFu
+Zy5odUBrZXJuZWwub3JnPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZl
+bmcueXVuQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiB2MzogbmV3IHBhdGNoDQo+ID4gLS0t
+DQo+ID4gIC4uLi9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQgICAgICAgICB8IDE4
+ICstLS0NCj4gPiAgLi4uL2JpbmRpbmdzL3BoeS9tZWRpYXRlayxkc2ktcGh5LnlhbWwgICAgICAg
+IHwgODMgKysrKysrKysrKysrKysrKysrKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDg0IGluc2Vy
+dGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BoeS9tZWRpYXRlayxkc2ktcGh5LnlhbWwNCj4g
+PiANCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rp
+c3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZHNpLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQNCj4gPiBpbmRleCBm
+MDZmMjRkNDA1YTUuLjgyMzhhODY2ODZiZSAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkc2kudHh0DQo+
+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0
+ZWsvbWVkaWF0ZWssZHNpLnR4dA0KPiA+IEBAIC0yMiwyMyArMjIsNyBAQCBSZXF1aXJlZCBwcm9w
+ZXJ0aWVzOg0KPiA+ICBNSVBJIFRYIENvbmZpZ3VyYXRpb24gTW9kdWxlDQo+ID4gID09PT09PT09
+PT09PT09PT09PT09PT09PT09PT0NCj4gPiAgDQo+ID4gLVRoZSBNSVBJIFRYIGNvbmZpZ3VyYXRp
+b24gbW9kdWxlIGNvbnRyb2xzIHRoZSBNSVBJIEQtUEhZLg0KPiA+IC0NCj4gPiAtUmVxdWlyZWQg
+cHJvcGVydGllczoNCj4gPiAtLSBjb21wYXRpYmxlOiAibWVkaWF0ZWssPGNoaXA+LW1pcGktdHgi
+DQo+ID4gLS0gdGhlIHN1cHBvcnRlZCBjaGlwcyBhcmUgbXQyNzAxLCA3NjIzLCBtdDgxNzMgYW5k
+IG10ODE4My4NCj4gPiAtLSByZWc6IFBoeXNpY2FsIGJhc2UgYWRkcmVzcyBhbmQgbGVuZ3RoIG9m
+IHRoZSBjb250cm9sbGVyJ3MgcmVnaXN0ZXJzDQo+ID4gLS0gY2xvY2tzOiBQTEwgcmVmZXJlbmNl
+IGNsb2NrDQo+ID4gLS0gY2xvY2stb3V0cHV0LW5hbWVzOiBuYW1lIG9mIHRoZSBvdXRwdXQgY2xv
+Y2sgbGluZSB0byB0aGUgRFNJIGVuY29kZXINCj4gPiAtLSAjY2xvY2stY2VsbHM6IG11c3QgYmUg
+PDA+Ow0KPiA+IC0tICNwaHktY2VsbHM6IG11c3QgYmUgPDA+Lg0KPiA+IC0NCj4gPiAtT3B0aW9u
+YWwgcHJvcGVydGllczoNCj4gPiAtLSBkcml2ZS1zdHJlbmd0aC1taWNyb2FtcDogYWRqdXN0IGRy
+aXZpbmcgY3VycmVudCwgc2hvdWxkIGJlIDMwMDAgfiA2MDAwLiBBbmQNCj4gPiAtCQkJCQkJICAg
+dGhlIHN0ZXAgaXMgMjAwLg0KPiA+IC0tIG52bWVtLWNlbGxzOiBBIHBoYW5kbGUgdG8gdGhlIGNh
+bGlicmF0aW9uIGRhdGEgcHJvdmlkZWQgYnkgYSBudm1lbSBkZXZpY2UuIElmDQo+ID4gLSAgICAg
+ICAgICAgICAgIHVuc3BlY2lmaWVkIGRlZmF1bHQgdmFsdWVzIHNoYWxsIGJlIHVzZWQuDQo+ID4g
+LS0gbnZtZW0tY2VsbC1uYW1lczogU2hvdWxkIGJlICJjYWxpYnJhdGlvbi1kYXRhIg0KPiA+ICtT
+ZWUgcGh5L21lZGlhdGVrLGRzaS1waHkueWFtbA0KPiA+ICANCj4gPiAgRXhhbXBsZToNCj4gPiAg
+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkv
+bWVkaWF0ZWssZHNpLXBoeS55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L3BoeS9tZWRpYXRlayxkc2ktcGh5LnlhbWwNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+
+IGluZGV4IDAwMDAwMDAwMDAwMC4uODdmOGRmMjUxYWIwDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+
+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvbWVkaWF0ZWssZHNp
+LXBoeS55YW1sDQo+ID4gQEAgLTAsMCArMSw4MyBAQA0KPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVu
+dGlmaWVyOiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkNCj4gPiArIyBDb3B5cmlnaHQg
+KGMpIDIwMjAgTWVkaWFUZWsNCj4gPiArJVlBTUwgMS4yDQo+ID4gKy0tLQ0KPiA+ICskaWQ6IGh0
+dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL3BoeS9tZWRpYXRlayxkc2ktcGh5LnlhbWwjDQo+
+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1s
+Iw0KPiA+ICsNCj4gPiArdGl0bGU6IE1lZGlhVGVrIE1JUEkgRGlzcGxheSBTZXJpYWwgSW50ZXJm
+YWNlIChEU0kpIFBIWSBiaW5kaW5nDQo+ID4gKw0KPiA+ICttYWludGFpbmVyczoNCj4gPiArICAt
+IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPg0KPiA+ICsgIC0gQ2h1bmZl
+bmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KPiA+ICsNCj4gPiArZGVzY3JpcHRp
+b246IFRoZSBNSVBJIERTSSBQSFkgc3VwcG9ydHMgdXAgdG8gNC1sYW5lIG91dHB1dC4NCj4gPiAr
+DQo+ID4gK3Byb3BlcnRpZXM6DQo+ID4gKyAgJG5vZGVuYW1lOg0KPiA+ICsgICAgcGF0dGVybjog
+Il5kc2ktcGh5QFswLTlhLWZdKyQiDQo+ID4gKw0KPiA+ICsgIGNvbXBhdGlibGU6DQo+ID4gKyAg
+ICBlbnVtOg0KPiA+ICsgICAgICAtIG1lZGlhdGVrLG10MjcwMS1taXBpLXR4DQo+ID4gKyAgICAg
+IC0gbWVkaWF0ZWssbXQ3NjIzLW1pcGktdHgNCj4gPiArICAgICAgLSBtZWRpYXRlayxtdDgxNzMt
+bWlwaS10eA0KPiA+ICsNCj4gPiArICByZWc6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsN
+Cj4gPiArICBjbG9ja3M6DQo+ID4gKyAgICBpdGVtczoNCj4gPiArICAgICAgLSBkZXNjcmlwdGlv
+bjogUExMIHJlZmVyZW5jZSBjbG9jaw0KPiA+ICsNCj4gPiArICBjbG9jay1vdXRwdXQtbmFtZXM6
+DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsNCj4gPiArICAiI3BoeS1jZWxscyI6DQo+ID4g
+KyAgICBjb25zdDogMA0KPiA+ICsNCj4gPiArICAiI2Nsb2NrLWNlbGxzIjoNCj4gPiArICAgIGNv
+bnN0OiAwDQo+ID4gKw0KPiA+ICsgIG52bWVtLWNlbGxzOg0KPiA+ICsgICAgbWF4SXRlbXM6IDEN
+Cj4gPiArICAgIGRlc2NyaXB0aW9uOiBBIHBoYW5kbGUgdG8gdGhlIGNhbGlicmF0aW9uIGRhdGEg
+cHJvdmlkZWQgYnkgYSBudm1lbSBkZXZpY2UsDQo+ID4gKyAgICAgIGlmIHVuc3BlY2lmaWVkLCBk
+ZWZhdWx0IHZhbHVlcyBzaGFsbCBiZSB1c2VkLg0KPiA+ICsNCj4gPiArICBudm1lbS1jZWxsLW5h
+bWVzOg0KPiA+ICsgICAgaXRlbXM6DQo+ID4gKyAgICAgIC0gY29uc3Q6IGNhbGlicmF0aW9uLWRh
+dGENCj4gPiArDQo+ID4gKyAgZHJpdmUtc3RyZW5ndGgtbWljcm9hbXA6DQo+ID4gKyAgICBkZXNj
+cmlwdGlvbjogYWRqdXN0IGRyaXZpbmcgY3VycmVudCwgdGhlIHN0ZXAgaXMgMjAwLg0KPiANCj4g
+bXVsdGlwbGVPZjogMjAwDQpHb3QgaXQuDQo+IA0KPiA+ICsgICAgJHJlZjogL3NjaGVtYXMvdHlw
+ZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyDQo+IA0KPiBDYW4gZHJvcC4gU3RhbmRhcmQgdW5p
+dCBzdWZmaXhlcyBoYXZlIGEgdHlwZSBhbHJlYWR5Lg0KT2ssIHRoYW5rcyBhIGxvdA0KDQo+IA0K
+PiA+ICsgICAgbWluaW11bTogMjAwMA0KPiA+ICsgICAgbWF4aW11bTogNjAwMA0KPiA+ICsgICAg
+ZGVmYXVsdDogNDYwMA0KPiA+ICsNCj4gPiArcmVxdWlyZWQ6DQo+ID4gKyAgLSBjb21wYXRpYmxl
+DQo+ID4gKyAgLSByZWcNCj4gPiArICAtIGNsb2Nrcw0KPiA+ICsgIC0gY2xvY2stb3V0cHV0LW5h
+bWVzDQo+ID4gKyAgLSAiI3BoeS1jZWxscyINCj4gPiArICAtICIjY2xvY2stY2VsbHMiDQo+ID4g
+Kw0KPiA+ICthZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UNCj4gPiArDQo+ID4gK2V4YW1wbGVz
+Og0KPiA+ICsgIC0gfA0KPiA+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2Nsb2NrL210ODE3
+My1jbGsuaD4NCj4gPiArICAgIGRzaS1waHlAMTAyMTUwMDAgew0KPiA+ICsgICAgICAgIGNvbXBh
+dGlibGUgPSAibWVkaWF0ZWssbXQ4MTczLW1pcGktdHgiOw0KPiA+ICsgICAgICAgIHJlZyA9IDww
+eDEwMjE1MDAwIDB4MTAwMD47DQo+ID4gKyAgICAgICAgY2xvY2tzID0gPCZjbGsyNm0+Ow0KPiA+
+ICsgICAgICAgIGNsb2NrLW91dHB1dC1uYW1lcyA9ICJtaXBpX3R4MF9wbGwiOw0KPiA+ICsgICAg
+ICAgIGRyaXZlLXN0cmVuZ3RoLW1pY3JvYW1wID0gPDQwMDA+Ow0KPiA+ICsgICAgICAgIG52bWVt
+LWNlbGxzPSA8Jm1pcGlfdHhfY2FsaWJyYXRpb24+Ow0KPiA+ICsgICAgICAgIG52bWVtLWNlbGwt
+bmFtZXMgPSAiY2FsaWJyYXRpb24tZGF0YSI7DQo+ID4gKyAgICAgICAgI2Nsb2NrLWNlbGxzID0g
+PDA+Ow0KPiA+ICsgICAgICAgICNwaHktY2VsbHMgPSA8MD47DQo+ID4gKyAgICB9Ow0KPiA+ICsN
+Cj4gPiArLi4uDQo+ID4gLS0gDQo+ID4gMi4xOC4wDQo+ID4gDQoNCg==
 
