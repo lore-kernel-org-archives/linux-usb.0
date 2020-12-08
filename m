@@ -2,222 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A50EC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A67F2C2BB40
 	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B458723A82
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:43:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6776623A9A
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:43:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729053AbgLHJmm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:42:42 -0500
-Received: from mga03.intel.com ([134.134.136.65]:5315 "EHLO mga03.intel.com"
+        id S1729074AbgLHJms (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:42:48 -0500
+Received: from smtp1-g21.free.fr ([212.27.42.1]:43512 "EHLO smtp1-g21.free.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729048AbgLHJmm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 8 Dec 2020 04:42:42 -0500
-IronPort-SDR: UaVGsJTzEG9vco19WpUdBeLZ9djh1xb6UgWdkqdQQSz8mtmb9g8BTkhqNEDF3laVrwjpyIWs3P
- 0YA/ztFTDBiw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="173974977"
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="173974977"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 01:40:56 -0800
-IronPort-SDR: Yf2OTZjQ+5IKifG9szxu0O5HLMLkC4+NgOlmjQxRiug9fzB6zRSKkcluwzoKzyUOSzcLCyd29O
- SGY8tsQ491Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="437322055"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 08 Dec 2020 01:40:53 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 08 Dec 2020 11:40:53 +0200
-Date:   Tue, 8 Dec 2020 11:40:52 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: tcpm: Pass down negotiated rev to update
- retry count
-Message-ID: <20201208094052.GG680328@kuha.fi.intel.com>
-References: <20201202031733.647808-1-badhri@google.com>
+        id S1727982AbgLHJms (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 8 Dec 2020 04:42:48 -0500
+Received: from [IPv6:2a01:e0a:255:1000:c8c5:d1bc:5841:24db] (unknown [IPv6:2a01:e0a:255:1000:c8c5:d1bc:5841:24db])
+        (Authenticated sender: duncan.sands@free.fr)
+        by smtp1-g21.free.fr (Postfix) with ESMTPSA id B0972B0051B;
+        Tue,  8 Dec 2020 10:41:52 +0100 (CET)
+Subject: Re: [PATCH 3/3] drivers: usb: atm: use pr_err() and pr_warn() instead
+ of raw printk()
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org
+Cc:     accessrunner-general@lists.sourceforge.net,
+        linux-usb@vger.kernel.org
+References: <20201208093206.24780-1-info@metux.net>
+ <20201208093206.24780-3-info@metux.net>
+From:   Duncan Sands <duncan.sands@free.fr>
+Message-ID: <f5c8d260-f617-4efe-c45e-b5846c24e3c0@free.fr>
+Date:   Tue, 8 Dec 2020 10:41:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201202031733.647808-1-badhri@google.com>
+In-Reply-To: <20201208093206.24780-3-info@metux.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 07:17:33PM -0800, Badhri Jagan Sridharan wrote:
-> nRetryCount was updated from 3 to 2 between PD2.0 and PD3.0 spec.
-> nRetryCount in "Table 6-34 Counter parameters" of the PD 2.0
-> spec is set to 3, whereas, nRetryCount in "Table 6-59 Counter
-> parameters" is set to 2.
+On 12/8/20 10:32 AM, Enrico Weigelt, metux IT consult wrote:
+> Since we have the nice helpers pr_err() and pr_warn(), use them instead
+> of raw printk().
 > 
-> Pass down negotiated rev in pd_transmit so that low level chip
-> drivers can update the retry count accordingly before attempting
-> packet transmission.
-> 
-> This helps in passing "TEST.PD.PORT.ALL.02" of the
-> "Power Delivery Merged" test suite which was initially failing
-> with "The UUT did not retransmit the message nReryCount times"
-> 
-> In fusb302 & tcpci drivers, by default the driver sets the retry
-> count to 3 (Default for PD 2.0). Update this to 2,
-> if the negotiated rev is PD 3.0.
-> 
-> In wcove, since the retry count is intentionally set to max, leaving
-> it as is.
-> 
-> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Acked-by: Duncan Sands <duncan.sands@free.fr>
 
 > ---
-> Changes since V1:
-> -Squashed tcpm and client patches to one as suggested by Heikki.
-> ---
->  drivers/usb/typec/tcpm/fusb302.c | 16 +++++++++++-----
->  drivers/usb/typec/tcpm/tcpci.c   | 12 +++++++-----
->  drivers/usb/typec/tcpm/tcpm.c    |  2 +-
->  drivers/usb/typec/tcpm/wcove.c   |  3 ++-
->  include/linux/usb/tcpm.h         |  2 +-
->  5 files changed, 22 insertions(+), 13 deletions(-)
+>   drivers/usb/atm/usbatm.c  | 2 +-
+>   drivers/usb/atm/xusbatm.c | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-> index 99562cc65ca6..ebc46b9f776c 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -343,12 +343,11 @@ static int fusb302_sw_reset(struct fusb302_chip *chip)
->  	return ret;
->  }
->  
-> -static int fusb302_enable_tx_auto_retries(struct fusb302_chip *chip)
-> +static int fusb302_enable_tx_auto_retries(struct fusb302_chip *chip, u8 retry_count)
->  {
->  	int ret = 0;
->  
-> -	ret = fusb302_i2c_set_bits(chip, FUSB_REG_CONTROL3,
-> -				   FUSB_REG_CONTROL3_N_RETRIES_3 |
-> +	ret = fusb302_i2c_set_bits(chip, FUSB_REG_CONTROL3, retry_count |
->  				   FUSB_REG_CONTROL3_AUTO_RETRY);
->  
->  	return ret;
-> @@ -399,7 +398,7 @@ static int tcpm_init(struct tcpc_dev *dev)
->  	ret = fusb302_sw_reset(chip);
->  	if (ret < 0)
->  		return ret;
-> -	ret = fusb302_enable_tx_auto_retries(chip);
-> +	ret = fusb302_enable_tx_auto_retries(chip, FUSB_REG_CONTROL3_N_RETRIES_3);
->  	if (ret < 0)
->  		return ret;
->  	ret = fusb302_init_interrupt(chip);
-> @@ -1017,7 +1016,7 @@ static const char * const transmit_type_name[] = {
->  };
->  
->  static int tcpm_pd_transmit(struct tcpc_dev *dev, enum tcpm_transmit_type type,
-> -			    const struct pd_message *msg)
-> +			    const struct pd_message *msg, unsigned int negotiated_rev)
->  {
->  	struct fusb302_chip *chip = container_of(dev, struct fusb302_chip,
->  						 tcpc_dev);
-> @@ -1026,6 +1025,13 @@ static int tcpm_pd_transmit(struct tcpc_dev *dev, enum tcpm_transmit_type type,
->  	mutex_lock(&chip->lock);
->  	switch (type) {
->  	case TCPC_TX_SOP:
-> +		/* nRetryCount 3 in P2.0 spec, whereas 2 in PD3.0 spec */
-> +		ret = fusb302_enable_tx_auto_retries(chip, negotiated_rev > PD_REV20 ?
-> +						     FUSB_REG_CONTROL3_N_RETRIES_2 :
-> +						     FUSB_REG_CONTROL3_N_RETRIES_3);
-> +		if (ret < 0)
-> +			fusb302_log(chip, "Cannot update retry count ret=%d", ret);
-> +
->  		ret = fusb302_pd_send_message(chip, msg);
->  		if (ret < 0)
->  			fusb302_log(chip,
-> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-> index 12d983a75510..98a2455f779f 100644
-> --- a/drivers/usb/typec/tcpm/tcpci.c
-> +++ b/drivers/usb/typec/tcpm/tcpci.c
-> @@ -18,7 +18,8 @@
->  
->  #include "tcpci.h"
->  
-> -#define	PD_RETRY_COUNT				3
-> +#define	PD_RETRY_COUNT_DEFAULT			3
-> +#define	PD_RETRY_COUNT_3_0_OR_HIGHER		2
->  #define	AUTO_DISCHARGE_DEFAULT_THRESHOLD_MV	3500
->  #define	AUTO_DISCHARGE_PD_HEADROOM_MV		850
->  #define	AUTO_DISCHARGE_PPS_HEADROOM_MV		1250
-> @@ -447,9 +448,8 @@ static int tcpci_set_vbus(struct tcpc_dev *tcpc, bool source, bool sink)
->  	return 0;
->  }
->  
-> -static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
-> -			     enum tcpm_transmit_type type,
-> -			     const struct pd_message *msg)
-> +static int tcpci_pd_transmit(struct tcpc_dev *tcpc, enum tcpm_transmit_type type,
-> +			     const struct pd_message *msg, unsigned int negotiated_rev)
->  {
->  	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
->  	u16 header = msg ? le16_to_cpu(msg->header) : 0;
-> @@ -497,7 +497,9 @@ static int tcpci_pd_transmit(struct tcpc_dev *tcpc,
->  		}
->  	}
->  
-> -	reg = (PD_RETRY_COUNT << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
-> +	/* nRetryCount is 3 in PD2.0 spec where 2 in PD3.0 spec */
-> +	reg = ((negotiated_rev > PD_REV20 ? PD_RETRY_COUNT_3_0_OR_HIGHER : PD_RETRY_COUNT_DEFAULT)
-> +	       << TCPC_TRANSMIT_RETRY_SHIFT) | (type << TCPC_TRANSMIT_TYPE_SHIFT);
->  	ret = regmap_write(tcpci->regmap, TCPC_TRANSMIT, reg);
->  	if (ret < 0)
->  		return ret;
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 3bbc1f10af49..c73bc3a8356a 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -667,7 +667,7 @@ static int tcpm_pd_transmit(struct tcpm_port *port,
->  		tcpm_log(port, "PD TX, type: %#x", type);
->  
->  	reinit_completion(&port->tx_complete);
-> -	ret = port->tcpc->pd_transmit(port->tcpc, type, msg);
-> +	ret = port->tcpc->pd_transmit(port->tcpc, type, msg, port->negotiated_rev);
->  	if (ret < 0)
->  		return ret;
->  
-> diff --git a/drivers/usb/typec/tcpm/wcove.c b/drivers/usb/typec/tcpm/wcove.c
-> index 9b745f432c91..79ae63950050 100644
-> --- a/drivers/usb/typec/tcpm/wcove.c
-> +++ b/drivers/usb/typec/tcpm/wcove.c
-> @@ -356,7 +356,8 @@ static int wcove_set_pd_rx(struct tcpc_dev *tcpc, bool on)
->  
->  static int wcove_pd_transmit(struct tcpc_dev *tcpc,
->  			     enum tcpm_transmit_type type,
-> -			     const struct pd_message *msg)
-> +			     const struct pd_message *msg,
-> +			     unsigned int negotiated_rev)
->  {
->  	struct wcove_typec *wcove = tcpc_to_wcove(tcpc);
->  	unsigned int info = 0;
-> diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-> index e68aaa12886f..efaedd7e8a18 100644
-> --- a/include/linux/usb/tcpm.h
-> +++ b/include/linux/usb/tcpm.h
-> @@ -121,7 +121,7 @@ struct tcpc_dev {
->  			      enum typec_cc_status cc);
->  	int (*try_role)(struct tcpc_dev *dev, int role);
->  	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
-> -			   const struct pd_message *msg);
-> +			   const struct pd_message *msg, unsigned int negotiated_rev);
->  	int (*set_bist_data)(struct tcpc_dev *dev, bool on);
->  	int (*enable_frs)(struct tcpc_dev *dev, bool enable);
->  	void (*frs_sourcing_vbus)(struct tcpc_dev *dev);
-> -- 
-> 2.29.2.576.ga3fc446d84-goog
+> diff --git a/drivers/usb/atm/usbatm.c b/drivers/usb/atm/usbatm.c
+> index 56fe30d247da..1c90aa273a41 100644
+> --- a/drivers/usb/atm/usbatm.c
+> +++ b/drivers/usb/atm/usbatm.c
+> @@ -1278,7 +1278,7 @@ EXPORT_SYMBOL_GPL(usbatm_usb_disconnect);
+>   static int __init usbatm_usb_init(void)
+>   {
+>   	if (sizeof(struct usbatm_control) > sizeof_field(struct sk_buff, cb)) {
+> -		printk(KERN_ERR "%s unusable with this kernel!\n", usbatm_driver_name);
+> +		pr_err("%s unusable with this kernel!\n", usbatm_driver_name);
+>   		return -EIO;
+>   	}
+>   
+> diff --git a/drivers/usb/atm/xusbatm.c b/drivers/usb/atm/xusbatm.c
+> index ffc9810070a3..0befbf63d1cc 100644
+> --- a/drivers/usb/atm/xusbatm.c
+> +++ b/drivers/usb/atm/xusbatm.c
+> @@ -179,7 +179,7 @@ static int __init xusbatm_init(void)
+>   	    num_vendor != num_product ||
+>   	    num_vendor != num_rx_endpoint ||
+>   	    num_vendor != num_tx_endpoint) {
+> -		printk(KERN_WARNING "xusbatm: malformed module parameters\n");
+> +		pr_warn("xusbatm: malformed module parameters\n");
+>   		return -EINVAL;
+>   	}
+>   
+> 
 
--- 
-heikki
