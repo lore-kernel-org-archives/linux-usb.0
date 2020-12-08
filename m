@@ -2,109 +2,228 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 142E5C1B0D9
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 20:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FDEC2BBCD
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 20:23:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0E462388C
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 20:20:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D912D2388C
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 20:23:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgLHUTU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 15:19:20 -0500
-Received: from avasout01.plus.net ([84.93.230.227]:51733 "EHLO
-        avasout01.plus.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbgLHUSP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 15:18:15 -0500
-Received: from APOLLO ([212.159.61.44])
-        by smtp with ESMTPA
-        id mjAKkz4Uqn8O7mjALkcUPK; Tue, 08 Dec 2020 20:00:58 +0000
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=Ld6nFgXi c=1 sm=1 tr=0
- a=AGp1duJPimIJhwGXxSk9fg==:117 a=AGp1duJPimIJhwGXxSk9fg==:17
- a=kj9zAlcOel0A:10 a=P1kZ4gAsAAAA:8 a=iox4zFpeAAAA:8 a=VwQbUJbxAAAA:8
- a=TLdEE8NKXQqG-gpGWbIA:9 a=CjuIK1q_8ugA:10 a=fn9vMg-Z9CMH7MoVPInU:22
- a=WzC6qhA0u3u7Ye7llzcV:22 a=AjGcO6oz07-iQ99wixmX:22
-X-AUTH: perdrix52@:2500
-From:   "David C. Partridge" <david.partridge@perdrix.co.uk>
-To:     "'Alan Stern'" <stern@rowland.harvard.edu>
-Cc:     "'Oliver Neukum'" <oneukum@suse.com>, <linux-usb@vger.kernel.org>
-References: <11ea70180f52b4965a451b3970891e0f547c777b.camel@suse.com> <000001d6c89c$086812e0$193838a0$@perdrix.co.uk> <000301d6c919$af7a94e0$0e6fbea0$@perdrix.co.uk> <918e298941f820a7cc3310c95dc211cca7596dba.camel@suse.com> <000e01d6c980$d9a75f70$8cf61e50$@perdrix.co.uk> <005601d6cc87$2fa608f0$8ef21ad0$@perdrix.co.uk> <36ac7a79c4b24f9f68b3543d18a51ec9af0a4933.camel@suse.com> <000701d6cd7c$236ec8b0$6a4c5a10$@perdrix.co.uk> <20201208162722.GC1298255@rowland.harvard.edu> <000801d6cd81$dc303370$94909a50$@perdrix.co.uk> <20201208174515.GG1298255@rowland.harvard.edu>
-In-Reply-To: <20201208174515.GG1298255@rowland.harvard.edu>
-Subject: RE: Issues with LaCie USB3 drive and UAS
-Date:   Tue, 8 Dec 2020 20:00:52 -0000
-Message-ID: <003e01d6cd9c$d8777cf0$896676d0$@perdrix.co.uk>
+        id S1727942AbgLHUVm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 15:21:42 -0500
+Received: from gproxy7-pub.mail.unifiedlayer.com ([70.40.196.235]:49226 "EHLO
+        gproxy7-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727608AbgLHUVl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 15:21:41 -0500
+Received: from cmgw10.unifiedlayer.com (unknown [10.9.0.10])
+        by gproxy7.mail.unifiedlayer.com (Postfix) with ESMTP id 6F47A216542
+        for <linux-usb@vger.kernel.org>; Tue,  8 Dec 2020 12:32:47 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id mij8klmpWDlydmij9kXvYY; Tue, 08 Dec 2020 12:32:47 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.3 cv=OpthNR3t c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
+ a=zTNgK-yGK50A:10:nop_rcvd_month_year
+ a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=1XWaLZrsAAAA:8
+ a=_jlGtV7tAAAA:8 a=38KwAB6pZVTB5d0M5wMA:9 a=CjuIK1q_8ugA:10:nop_charset_2
+ a=nlm17XC03S6CtCLSeiRr:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=celeI7BAwb3saL5Jcd38eO0ob4H5Jz7CGRjTmFIRp1o=; b=Ld03cWmsj3PcFBuDPDCEsNIx6v
+        6ri4cBP0yi1G2g5ZyOWth99Q8/MJSeshkSZ4vcnDdBGL5nDDKUxRhjdK8xGrmkD2Bc3VTkWMu8e0D
+        4BevcESS7KIeEhzug0AX0BEVLZCCxX0X0Z1rQBeDM4H+n8INRjVvCXClTuqc4I+LxytEsqUeRsKc/
+        7iKzpi0X1kQE+SESQCzNymSYsLWGgFQhBAR+N8BH2rZYevmdc/gWIJHbsQd8juAH8QA9LxEIMJN7+
+        j+QjxSUeLHu+uWNZMraP1wYCcQhG8Ax6HF8WfxWqeGgnkJCnmmXQAWU9qJ4/j0qIkuINCIBYJIFJo
+        QjR4Hjdg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:40866 helo=localhost)
+        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1kmij8-001tFs-Ec; Tue, 08 Dec 2020 19:32:46 +0000
+Date:   Tue, 8 Dec 2020 11:32:45 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] usb: typec: tcpci: Add support to report vSafe0V
+Message-ID: <20201208193245.GB71189@roeck-us.net>
+References: <20201202040840.663578-1-badhri@google.com>
+ <20201202040840.663578-2-badhri@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQJfP5HDkXWJEZOH15z/N9BPLD1dpgG/r2JFAdm0H9gDCO/tjgMSOm1iAh4l/iEBj9gVBwK4lVYdAUVD4c0Bv1AblAGAacOEqDe4LsA=
-X-CMAE-Envelope: MS4wfHdr3+OPjIKptzR6YE5HpKypwZ+m7WLqR8aN8UJU+cOjHjx32t4eFJVP2/fP84zx2QEr0GdCtyHzvOvd1kHTCg9qlN432SRurEbjS3Al13PM658oug0a
- EGyL3QH9V3smk2t/cF6eLXIuXLimfDxmOKBK/WayUDhUVZZVzdqP7BBu89TnEMsFGpe5YthcCF6HQA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201202040840.663578-2-badhri@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1kmij8-001tFs-Ec
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:40866
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 7
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Thank you to both Oliver and to you.
-
-I'll chase up the supplier over the cable.
-
-Would I be right to assume that this LaCie device (and other Seagate USB
-devices) will the added to the database of quirks? So that when Oliver's fix
-goes "mainstream" no-one will need to add options for modprobe?
-
-Hmm I wonder how long it will take the Ubuntu Kernel to catch up with
-Olivers patch?
-
-Thanks again,
-David
-
------Original Message-----
-From: 'Alan Stern' <stern@rowland.harvard.edu> 
-Sent: 08 December 2020 17:45
-To: David C. Partridge <david.partridge@perdrix.co.uk>
-Cc: 'Oliver Neukum' <oneukum@suse.com>; linux-usb@vger.kernel.org
-Subject: Re: Issues with LaCie USB3 drive and UAS
-
-On Tue, Dec 08, 2020 at 04:47:44PM -0000, David C. Partridge wrote:
-> >This is puzzling.  The device connected at SuperSpeed in the previous
-> tests.  Clearly this is related to the warning in the preceding line (the
-> port failed to configure its link partner).
+On Tue, Dec 01, 2020 at 08:08:39PM -0800, Badhri Jagan Sridharan wrote:
+> This change adds vbus_vsafe0v which when set, makes TCPM
+> query for VSAFE0V by assigning the tcpc.is_vbus_vsafe0v callback.
+> Also enables ALERT.ExtendedStatus which is triggered when
+> status of EXTENDED_STATUS.vSafe0V changes.
+> EXTENDED_STATUS.vSafe0V is set when vbus is at vSafe0V and
+> cleared otherwise.
 > 
-> >What could have happened?  A problem in the cable?
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
+> Changes since v1:
+> - Removed logic for checking TCPC_POWER_STATUS_MASK reg
+>   read in the irq handler. Sending that as a separate patch.
+> ---
+>  drivers/usb/typec/tcpm/tcpci.c | 39 +++++++++++++++++++++++++++++-----
+>  drivers/usb/typec/tcpm/tcpci.h |  6 ++++++
+>  2 files changed, 40 insertions(+), 5 deletions(-)
 > 
-> Previous test was using a 3m long cable.
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> index 12d983a75510..f938d9876ce9 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -402,6 +402,19 @@ static int tcpci_get_vbus(struct tcpc_dev *tcpc)
+>  	return !!(reg & TCPC_POWER_STATUS_VBUS_PRES);
+>  }
+>  
+> +static bool tcpci_is_vbus_vsafe0v(struct tcpc_dev *tcpc)
+> +{
+> +	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+> +	unsigned int reg;
+> +	int ret;
+> +
+> +	ret = regmap_read(tcpci->regmap, TCPC_EXTENDED_STATUS, &reg);
+> +	if (ret < 0)
+> +		return false;
+> +
+> +	return !!(reg & TCPC_EXTENDED_STATUS_VSAFE0V);
+> +}
+> +
+>  static int tcpci_set_vbus(struct tcpc_dev *tcpc, bool source, bool sink)
+>  {
+>  	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+> @@ -554,12 +567,22 @@ static int tcpci_init(struct tcpc_dev *tcpc)
+>  		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS;
+>  	if (tcpci->controls_vbus)
+>  		reg |= TCPC_ALERT_POWER_STATUS;
+> +	/* Enable VSAFE0V status interrupt when detecting VSAFE0V is supported */
+> +	if (tcpci->data->vbus_vsafe0v) {
+> +		reg |= TCPC_ALERT_EXTENDED_STATUS;
+> +		ret = regmap_write(tcpci->regmap, TCPC_EXTENDED_STATUS_MASK,
+> +				   TCPC_EXTENDED_STATUS_VSAFE0V);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+>  	return tcpci_write16(tcpci, TCPC_ALERT_MASK, reg);
+>  }
+>  
+>  irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>  {
+>  	u16 status;
+> +	int ret;
+> +	unsigned int raw;
+>  
+>  	tcpci_read16(tcpci, TCPC_ALERT, &status);
+>  
+> @@ -575,15 +598,12 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>  		tcpm_cc_change(tcpci->port);
+>  
+>  	if (status & TCPC_ALERT_POWER_STATUS) {
+> -		unsigned int reg;
+> -
+> -		regmap_read(tcpci->regmap, TCPC_POWER_STATUS_MASK, &reg);
+> -
+> +		regmap_read(tcpci->regmap, TCPC_POWER_STATUS_MASK, &raw);
+>  		/*
+>  		 * If power status mask has been reset, then the TCPC
+>  		 * has reset.
+>  		 */
+> -		if (reg == 0xff)
+> +		if (raw == 0xff)
+>  			tcpm_tcpc_reset(tcpci->port);
+>  		else
+>  			tcpm_vbus_change(tcpci->port);
+> @@ -622,6 +642,12 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>  		tcpm_pd_receive(tcpci->port, &msg);
+>  	}
+>  
+> +	if (status & TCPC_ALERT_EXTENDED_STATUS) {
+> +		ret = regmap_read(tcpci->regmap, TCPC_EXTENDED_STATUS, &raw);
+> +		if (!ret && (raw & TCPC_EXTENDED_STATUS_VSAFE0V))
+> +			tcpm_vbus_change(tcpci->port);
+> +	}
+> +
+>  	if (status & TCPC_ALERT_RX_HARD_RST)
+>  		tcpm_pd_hard_reset(tcpci->port);
+>  
+> @@ -699,6 +725,9 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
+>  			tcpci_set_auto_vbus_discharge_threshold;
+>  	}
+>  
+> +	if (tcpci->data->vbus_vsafe0v)
+> +		tcpci->tcpc.is_vbus_vsafe0v = tcpci_is_vbus_vsafe0v;
+> +
+>  	err = tcpci_parse_config(tcpci);
+>  	if (err < 0)
+>  		return ERR_PTR(err);
+> diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
+> index 3fe313655f0c..116a69c85e38 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.h
+> +++ b/drivers/usb/typec/tcpm/tcpci.h
+> @@ -49,6 +49,9 @@
+>  #define TCPC_TCPC_CTRL_ORIENTATION	BIT(0)
+>  #define TCPC_TCPC_CTRL_BIST_TM		BIT(1)
+>  
+> +#define TCPC_EXTENDED_STATUS		0x20
+> +#define TCPC_EXTENDED_STATUS_VSAFE0V	BIT(0)
+> +
+>  #define TCPC_ROLE_CTRL			0x1a
+>  #define TCPC_ROLE_CTRL_DRP		BIT(6)
+>  #define TCPC_ROLE_CTRL_RP_VAL_SHIFT	4
+> @@ -155,11 +158,14 @@ struct tcpci;
+>   *		is sourcing vbus.
+>   * @auto_discharge_disconnect:
+>   *		Optional; Enables TCPC to autonously discharge vbus on disconnect.
+> + * @vbus_vsafe0v:
+> + *		optional; Set when TCPC can detect whether vbus is at VSAFE0V.
+>   */
+>  struct tcpci_data {
+>  	struct regmap *regmap;
+>  	unsigned char TX_BUF_BYTE_x_hidden:1;
+>  	unsigned char auto_discharge_disconnect:1;
+> +	unsigned char vbus_vsafe0v:1;
+>  
+>  	int (*init)(struct tcpci *tcpci, struct tcpci_data *data);
+>  	int (*set_vconn)(struct tcpci *tcpci, struct tcpci_data *data,
+> -- 
+> 2.29.2.576.ga3fc446d84-goog
 > 
-> Tried again with a 1m cable:
-> 
-> Dec 08 16:38:30 charon kernel: usb 2-1: new SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-...
-
-So it worked.
-
-> I then tried again using the 3m long cable and got the same error as
-before
-> and connected at high-speed not SuperSpeed
-> 
-> Should I expect problems with a 3m long cable or does this say the 3m long
-> cable is faulty? 
-
-IT depends on the thickness (gauge) of the wires inside the cable.  
-There's a table (11-3) in the USB-3.1 spec that lists maximum cable 
-length for a variety of gauges.
-
-For AWG 28 the maximum cable length is 0.8 meters.  For AWG 20 the 
-maximum length is 5.3 meters.  Your cable is likely to be somewhere in 
-that range, but I don't know where.
-
-On the bright side, it looks like you have found the answer to all the 
-problems.  :-)
-
-Alan Stern
-
