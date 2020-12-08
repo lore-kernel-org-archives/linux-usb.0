@@ -2,86 +2,64 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A09C1B0D9
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7297EC4361B
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:38:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93E8A23A52
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:35:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DEB223A84
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:38:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728699AbgLHJfB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:35:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:47375 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727482AbgLHJfA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 04:35:00 -0500
-Received: from orion.localdomain ([95.117.39.192]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MDhQt-1ktUBK0RVv-00AoTj; Tue, 08 Dec 2020 10:32:09 +0100
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     duncan.sands@free.fr, accessrunner-general@lists.sourceforge.net,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 3/3] drivers: usb: atm: use pr_err() and pr_warn() instead of raw printk()
-Date:   Tue,  8 Dec 2020 10:32:06 +0100
-Message-Id: <20201208093206.24780-3-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20201208093206.24780-1-info@metux.net>
-References: <20201208093206.24780-1-info@metux.net>
-X-Provags-ID: V03:K1:MmyerTd2PpR2Z6zqetbr9VnuqB7jfj2Aq2+ftbj5b6kC3eQIVeu
- 7d26a0rA1zLDCHdQ3SGbT88WgDRZvu8MNw8D4CNpu7T7B0LEdbP4z/dbCBXTy1fLT/gxSOv
- O3f5+OHRIJVEf4NZvbICGJA+BJmlBZ+tYbYWBxSX8BZE6DEyrQNV6xF7kEIkV0stP9uD4rt
- zzybvbZ4M8ZnlzmZjSZPg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GAEp16o9VWk=:EfpMJ1HqMj/DZqe+yxrE/+
- 6I72SeZLrLcSS0oY4uzrv452BWQiEGw7ozIebcsKaQ0Dq23ryGUEC4wSrKrogFDbkMWrXaf2f
- VeFqQlHZ3JsTMaRk9mdS26f4F6fCNNXOIt91NzvNWOJr2ftnK+mgasM4qLeVdS3vNKjL0zPdT
- V5g65FpTxJT4W9dKv51TrtmZrGIxC1+xnwsjvG+tV2sIgV7+mHXIjnUi9S6T/dGar1VeHQQs2
- n5BdpKBHADOLf5Wti2eKjka4wf6ONmAJdVSdYxyHiQUtgMv/73pbqcci9ohTeIa7pIeeSfb7r
- cztuk9qGu0Aq6+Pr1vctxKmZ41gBHk4rAOPFFkL7iREvkbPIp5d0gAopnEBJapw/lxz3WzG76
- 1ycO45OeG94LrOKz2MEr5zpWD/ZTzpGmc/oA2VhSkOGaLBd5AVa92PW3YPaA5
+        id S1727815AbgLHJiw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:38:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44888 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727193AbgLHJiw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 8 Dec 2020 04:38:52 -0500
+Date:   Tue, 8 Dec 2020 10:39:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1607420291;
+        bh=uXVXr8V5MoxbQwULnMEUI/UL4zWwl6hY2nFTRCM5Vwk=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FFjqMOANQmdQgwTH5wi2E3nKB36STztUTednoAzpTzIoy5mxiGBZ0wY7PdDpdV91J
+         U+m55eHHaWUq/k7MPou4W5iLOS59/Ynw11Rl6kixqGaIdteAp4f/tRgJzqXWwweyuY
+         k0DAzSUcife/aO6anPrJ5d4hhygVPjGrKEIBhVpE=
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH 4/5] xhci-pci: Allow host runtime PM as default for Intel
+ Maple Ridge xHCI
+Message-ID: <X89JxxWX25kiUsdk@kroah.com>
+References: <20201208092912.1773650-1-mathias.nyman@linux.intel.com>
+ <20201208092912.1773650-5-mathias.nyman@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201208092912.1773650-5-mathias.nyman@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since we have the nice helpers pr_err() and pr_warn(), use them instead
-of raw printk().
+On Tue, Dec 08, 2020 at 11:29:11AM +0200, Mathias Nyman wrote:
+> From: Mika Westerberg <mika.westerberg@linux.intel.com>
+> 
+> Intel Maple Ridge is successor of Titan Ridge Thunderbolt controller. As
+> Titan Ridge this one also includes xHCI host controller. In order to
+> safe energy we should put it to low power state by default when idle.
+> For this reason allow host runtime PM for Maple Ridge.
+> 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> ---
+>  drivers/usb/host/xhci-pci.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- drivers/usb/atm/usbatm.c  | 2 +-
- drivers/usb/atm/xusbatm.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Should this be backported to stable kernels too?
 
-diff --git a/drivers/usb/atm/usbatm.c b/drivers/usb/atm/usbatm.c
-index 56fe30d247da..1c90aa273a41 100644
---- a/drivers/usb/atm/usbatm.c
-+++ b/drivers/usb/atm/usbatm.c
-@@ -1278,7 +1278,7 @@ EXPORT_SYMBOL_GPL(usbatm_usb_disconnect);
- static int __init usbatm_usb_init(void)
- {
- 	if (sizeof(struct usbatm_control) > sizeof_field(struct sk_buff, cb)) {
--		printk(KERN_ERR "%s unusable with this kernel!\n", usbatm_driver_name);
-+		pr_err("%s unusable with this kernel!\n", usbatm_driver_name);
- 		return -EIO;
- 	}
- 
-diff --git a/drivers/usb/atm/xusbatm.c b/drivers/usb/atm/xusbatm.c
-index ffc9810070a3..0befbf63d1cc 100644
---- a/drivers/usb/atm/xusbatm.c
-+++ b/drivers/usb/atm/xusbatm.c
-@@ -179,7 +179,7 @@ static int __init xusbatm_init(void)
- 	    num_vendor != num_product ||
- 	    num_vendor != num_rx_endpoint ||
- 	    num_vendor != num_tx_endpoint) {
--		printk(KERN_WARNING "xusbatm: malformed module parameters\n");
-+		pr_warn("xusbatm: malformed module parameters\n");
- 		return -EINVAL;
- 	}
- 
--- 
-2.11.0
+thanks,
 
+greg k-h
