@@ -2,85 +2,160 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463D3C1B0D9
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 20:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA44C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 23:46:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16D1523AC8
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 20:36:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BF1B23A5A
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 23:46:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731474AbgLHUgW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 15:36:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40322 "EHLO
+        id S1730326AbgLHXqI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 18:46:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726758AbgLHUgW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 15:36:22 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2293CC061794;
-        Tue,  8 Dec 2020 12:35:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=/DyOBoLOqAhQxAxeB3gv8SslfqThYQTnekcdauSyF8E=; b=eclshOGA8AQxjO7k4z6TbvPjul
-        2v4/mP20Q3YHTbbo4ykJtyOfhlcvVIpvFzCizjov1HdftKQ9TMI/jDMo2x83Frx5Cbwq10cwAunYK
-        Wjpp8mtGKZfJq1p4GaAcXbtYv6odtis66bb8yAO/4mkMFfNtd1lvHw+doYzA/yJDSJ5HaURsqgDGf
-        teEY3b2DlnWoHR5LpEWKl8+9Qzq+M9SNBHadiNKJcqm9txzplu+Aa5Yt6WoadI1xZ5gB0sXwlUjVh
-        Y5t82sbyRrssYU70ohY1qg5RhoiHHZevWvmd4tj31W5Zpoi1dURauWWGhrTb5Fo+nh0XQ/I/hQo5y
-        ARdowvmQ==;
-Received: from [2601:1c0:6280:3f0::1494] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmj5J-0000Vp-47; Tue, 08 Dec 2020 19:55:41 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Peter Chen <peter.chen@nxp.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@ti.com>, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH -next] usb: cdns3: fix build when PM_SLEEP is not set
-Date:   Tue,  8 Dec 2020 11:55:35 -0800
-Message-Id: <20201208195535.30024-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        with ESMTP id S1730312AbgLHXqH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 18:46:07 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4368CC0613D6
+        for <linux-usb@vger.kernel.org>; Tue,  8 Dec 2020 15:45:21 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id c12so175736pfo.10
+        for <linux-usb@vger.kernel.org>; Tue, 08 Dec 2020 15:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yOCVuAKud10PIJTv8iPXgZJtUqb9EqW2D73UVatsILw=;
+        b=C4+PcK+/ORS0a1Oi66iXuWdF7Y2wtYlDIWlmqI0PZ13LoKh1blc3FfywDyGJoB6dZB
+         BRbNxBDjq1k292vaxBzqvRan3cstZFCKHtKw088dn3QRHhBaCcIx9afmRcBkuoCAXhdL
+         PzYwO5BkDS6swOkFgzQpl/8OCqRxpBK6zXpOU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yOCVuAKud10PIJTv8iPXgZJtUqb9EqW2D73UVatsILw=;
+        b=h846gA7q0KxQUDcLLXZSzTB3FkwNF3/PLVhxlG6VnvTNWw/szpsmi7G+RK5VuSMWyx
+         LC+Pe8tLc6xX2nQhIv08/i2b+6x+SnsHwYE5lGjaoImRO6A4Pbtvagf1plNHbQ4HtO5k
+         aprWcm4ZHsQ0Ps5h4+h15fw1PxbxxRHIi1O8GqLJecVuG1zb0clwCyya/eNRbxBpD1YS
+         YLvHa5/spJMYMjOyRpL3DWG7nIalAOzZp0gz3hGAp4E20I43UtMKnes9Y2Z93rP8/P7/
+         py62Fs0P3tR7Z5UPQDoVciihj0eAHKGdM9aV/CC1WdQDx1o4FCWi0a9NWIAt1H9RLoEo
+         lVHA==
+X-Gm-Message-State: AOAM531iGpP8OKnw1d6NFqf4GgdVGsk4KJjnERQfg0g9tt973suGk/8O
+        QczoOvC8qYXbylQyM3242TXjxA==
+X-Google-Smtp-Source: ABdhPJyvPcCiKEX7ONzVKFWom43k5I7abeSnOkUhBj4DSzT25k5f2V4W40gIC5h6VbUPiGiqfeD7Rw==
+X-Received: by 2002:a63:5a52:: with SMTP id k18mr400053pgm.407.1607471120842;
+        Tue, 08 Dec 2020 15:45:20 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
+        by smtp.gmail.com with ESMTPSA id u12sm280658pfn.88.2020.12.08.15.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 15:45:20 -0800 (PST)
+Date:   Tue, 8 Dec 2020 15:45:19 -0800
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
+Message-ID: <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
+References: <20201203030846.51669-1-pmalani@chromium.org>
+ <20201208093734.GD680328@kuha.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201208093734.GD680328@kuha.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix build error when CONFIG_PM_SLEEP is not enabled by adding
-stubs for the PM_SLEEP functions.
+Hi Heikki,
 
-../drivers/usb/cdns3/cdns3-plat.c: In function ‘cdns3_controller_resume’:
-../drivers/usb/cdns3/cdns3-plat.c:246:2: error: implicit declaration of function ‘cdns_resume’; did you mean ‘cdns_remove’? [-Werror=implicit-function-declaration]
-  cdns_resume(cdns, !PMSG_IS_AUTO(msg));
-  ^~~~~~~~~~~
+Thanks a lot for looking at the patch.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Peter Chen <peter.chen@nxp.com>
-Cc: Pawel Laszczak <pawell@cadence.com>
-Cc: Roger Quadros <rogerq@ti.com>
-Cc: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/cdns3/core.h |    5 +++++
- 1 file changed, 5 insertions(+)
+On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+>
+> On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
+> > Add the Type C bus for plug alternate modes which are being
+> > registered via the Type C connector class. This ensures that udev events
+> > get generated when plug alternate modes are registered (and not just for
+> > partner/port alternate modes), even though the Type C bus doesn't link
+> > plug alternate mode devices to alternate mode drivers.
+>
+> I still don't understand how is the uevent related to the bus? If you
+> check the device_add() function, on line 2917, kobject_uevent() is
+> called unconditionally. The device does not need a bus for that event
+> to be generated.
 
---- linux-next-20201208.orig/drivers/usb/cdns3/core.h
-+++ linux-next-20201208/drivers/usb/cdns3/core.h
-@@ -127,5 +127,10 @@ int cdns_remove(struct cdns *cdns);
- #ifdef CONFIG_PM_SLEEP
- int cdns_resume(struct cdns *cdns, u8 set_active);
- int cdns_suspend(struct cdns *cdns);
-+#else /* CONFIG_PM_SLEEP */
-+static inline int cdns_resume(struct cdns *cdns, u8 set_active)
-+{ return 0; }
-+static inline int cdns_suspend(struct cdns *cdns)
-+{ return 0; }
- #endif /* CONFIG_PM_SLEEP */
- #endif /* __LINUX_CDNS3_CORE_H */
+My initial thought process was to see what is the difference in the adev device
+initialization between partner altmode and plug altmode (the only difference I saw in
+typec_register_altmode() was regarding the bus field).
+
+Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
+so we don't know if it succeeded or not.
+
+In the case of cable plug altmode, I see it fail with the following error[1]:
+
+[  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
+
+I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
+
+static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
+{
+	struct kobj_type *ktype = get_ktype(kobj);
+
+	if (ktype == &device_ktype) {
+		struct device *dev = kobj_to_dev(kobj);
+		if (dev->bus)
+			return 1;
+		if (dev->class)
+			return 1;
+	}
+	return 0;
+}
+
+So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
+so this check likely returns 1 in that case.
+
+In case the provided fix is not right or acceptable, an alternative I can think of is:
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index c13779ea3200..ecb4c7546aae 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -517,6 +517,9 @@ typec_register_altmode(struct device *parent,
+        if (is_typec_partner(parent))
+                alt->adev.dev.bus = &typec_bus;
+ 
++       if (is_typec_plug(parent))
++               alt->adev.dev.class = typec_class;
++
+        ret = device_register(&alt->adev.dev);
+        if (ret) {
+                dev_err(parent, "failed to register alternate mode (%d)\n",
+
+This too ensures that the filter function returns a 1.
+
+Kindly LMK which way (if any) would you prefer.
+
+>
+> Also, I don't understand how are the cable plug alt modes now
+> prevented from being bind to the alt mode drivers?
+
+Sorry about this; I am unable to test this out. I just based the observation on the line in Documentation/driver-api/usb/typec_bus.rst
+(Cable Plug Alternate Modes) : "The alternate mode drivers are not bound to cable plug alternate mode devices,
+only to the partner alternate mode devices" . I don't completely understand the bus.c code yet, so assumed that the code
+there checked for the partner type during bind attempts.
+
+Of course, based on what the eventual solution is, this statement may no longer be required and I can remove it from the commit message <or>
+I can amend the Documentation to specify that cable plug alt modes can bind to alt mode drivers.
+
+Thanks,
+
+-Prashant
+
+[1] https://elixir.bootlin.com/linux/v5.10-rc7/source/lib/kobject_uevent.c#L516
+[2] https://elixir.bootlin.com/linux/v5.10-rc7/source/drivers/base/core.c#L1840
