@@ -2,100 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90EF7C19437
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 05:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 790E0C4167B
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 07:22:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B8FF2080C
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 05:14:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4503C23A69
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 07:22:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725940AbgLHFOd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 00:14:33 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:39990 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725791AbgLHFOd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 00:14:33 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B85CpMI047510;
-        Mon, 7 Dec 2020 23:12:51 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1607404371;
-        bh=EPY4xqNnNXYsKpQoLpiUx0Ymy0gzS8hZazWoKAWQL8Q=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=AuYICTq9YxO2wHEFboLScc4iMgKFkUWVh+8umkng1efoXxNl7nNOdEgTRJ/j1/+ah
-         7276PfJXksp/DUKA9mENHgKmM/ZDBnECQXWDCo42mcDf9xqJzbdKoolOEEyizOq8Cq
-         R2MBMDiM7XFv3O2W4S5lFVvO0EG2XElE0TbTs0kc=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B85Cp1T004344
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 7 Dec 2020 23:12:51 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 7 Dec
- 2020 23:12:51 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 7 Dec 2020 23:12:51 -0600
-Received: from [10.24.69.198] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B85CjEp095316;
-        Mon, 7 Dec 2020 23:12:46 -0600
-Subject: Re: [RESEND PATCH] MAINTAINERS: Add myself as a reviewer for CADENCE
- USB3 DRD IP DRIVER
-To:     Aswath Govindraju <a-govindraju@ti.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Peter Chen <peter.chen@nxp.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        "Quadros, Roger" <rogerq@ti.com>
-References: <20201208050806.15382-1-a-govindraju@ti.com>
-From:   Sekhar Nori <nsekhar@ti.com>
-Message-ID: <80b6d061-2d35-c8e9-81ed-8fd67445410c@ti.com>
-Date:   Tue, 8 Dec 2020 10:42:44 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726896AbgLHHWK convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 02:22:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725972AbgLHHWK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 8 Dec 2020 02:22:10 -0500
+From:   bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 206603] Regression: Thunderbolt 3 Dock USB not working when
+ connecting it for the second time
+Date:   Tue, 08 Dec 2020 07:21:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: D-12twm7qq8vgi7o@maildrop.cc
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-206603-208809-pApZ7SOn6v@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206603-208809@https.bugzilla.kernel.org/>
+References: <bug-206603-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20201208050806.15382-1-a-govindraju@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-+ Peter, Pawel and Roger for their acks.
+https://bugzilla.kernel.org/show_bug.cgi?id=206603
 
-On 08/12/20 10:38 AM, Aswath Govindraju wrote:
-> I would like to help in reviewing CADENCE USB3 DRD IP DRIVER patches
-> 
-> Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
-> ---
-> 
-> Resending the patch to add more viewers.
-> 
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6aac0f845f34..ff9bd7d18d94 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3861,6 +3861,7 @@ CADENCE USB3 DRD IP DRIVER
->  M:	Peter Chen <peter.chen@nxp.com>
->  M:	Pawel Laszczak <pawell@cadence.com>
->  M:	Roger Quadros <rogerq@ti.com>
-> +R:	Aswath Govindraju <a-govindraju@ti.com>
->  L:	linux-usb@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
-> -- 
-> 2.17.1
-> 
+Wayne (D-12twm7qq8vgi7o@maildrop.cc) changed:
 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |PATCH_ALREADY_AVAILABLE
+
+--- Comment #2 from Wayne (D-12twm7qq8vgi7o@maildrop.cc) ---
+I tried again today and I'm no longer able to reproduce the problem (using
+Linux 5.8 now). Closing.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
