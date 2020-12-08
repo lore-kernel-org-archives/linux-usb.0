@@ -2,96 +2,104 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D90ECC433FE
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69095C4361B
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:30:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A78FB23A82
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:30:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 214D523A81
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:30:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728992AbgLHJ3s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:29:48 -0500
-Received: from mga06.intel.com ([134.134.136.31]:9880 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726840AbgLHJ3s (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 8 Dec 2020 04:29:48 -0500
-IronPort-SDR: hIKufqaBf61eXI1S68LZbO+GDfxnRwwH0Fl3fcUJIqzqr7vmdpy28sSPY1XeUqSZGEojM2ymjT
- Rn8zciwPACgw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="235460676"
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="235460676"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 01:28:00 -0800
-IronPort-SDR: p+/JsKho2B+Y1GSO717BDW92gaBrq64HzZxu+SkoOpFYQMYpFRyy+jY2LiT/DmiWKwTCdhhAUX
- czHMHUr54s4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="552165887"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by orsmga005.jf.intel.com with ESMTP; 08 Dec 2020 01:27:58 -0800
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>,
-        Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
-        Tejas Joglekar <joglekar@synopsys.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 1/5] usb: xhci: Set quirk for XHCI_SG_TRB_CACHE_SIZE_QUIRK
-Date:   Tue,  8 Dec 2020 11:29:08 +0200
-Message-Id: <20201208092912.1773650-2-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201208092912.1773650-1-mathias.nyman@linux.intel.com>
-References: <20201208092912.1773650-1-mathias.nyman@linux.intel.com>
+        id S1728921AbgLHJaQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:30:16 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:40768 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727845AbgLHJaQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 04:30:16 -0500
+Received: by mail-lj1-f193.google.com with SMTP id x23so11314467lji.7;
+        Tue, 08 Dec 2020 01:29:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Bl1BpzFHK81haaQNi3dHDZIBtyotDgiUUbLCQGH6GfI=;
+        b=SQBhODFnNvXBiJfUCF9Uwf1e+3Lk9eLuJRYWOODP2VPL4hre93105NtZmTq6F4aFHf
+         gomzq23ms1ACmm+OrwURakYdLdtnPilbRjNxT75vfUVau7nmT8yOIFW6YwKMco0dCSpl
+         /X/2nTrYymYfjzzcYh159xUeA4T+KiM247MZSkgfTCu6C4p3shXqpjOKpbVuE29zV/X1
+         zWu/balRE2gpUMSddvqwKbTPDZjPizbmCXptFGusM1WmCxfbc3uc4Yl1e8o2QST32/qE
+         REyv9x8iVZVuw7bbkCHgtWvsoal4IrXKaZvX/aV4mrX7JV4pdfCRXgcgtcH46mbWAfbT
+         DMpw==
+X-Gm-Message-State: AOAM532V78+ywnX4O/bESjXHBZXGODNsrIbXJAfzwQwt/yFEgWfNZFVE
+        kEJtmGqDBbOAO3hwLjhjyc6ahzoB4qh2/g==
+X-Google-Smtp-Source: ABdhPJzHrVV9YWmfaaFMMWTV5pgu/BNkM/0NoXuaq4HsnWzuDQU6v34rrJi6vLLFiflu1MxTNKokfA==
+X-Received: by 2002:a2e:9990:: with SMTP id w16mr10427297lji.111.1607419767923;
+        Tue, 08 Dec 2020 01:29:27 -0800 (PST)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id e10sm3172455lfn.115.2020.12.08.01.29.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 01:29:27 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1kmZJs-0002TL-Vz; Tue, 08 Dec 2020 10:30:05 +0100
+Date:   Tue, 8 Dec 2020 10:30:04 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Jiri Slaby <jirislaby@kernel.org>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Mychaela Falconia <mychaela.falconia@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Mychaela N . Falconia" <falcon@freecalypso.org>,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] tty: add flag to suppress ready signalling on open
+Message-ID: <X89HnHOUy9519yhU@localhost>
+References: <20201130153742.9163-1-johan@kernel.org>
+ <CA+uuBqYmzJMiY75LrA_uKb_uL2=7oQTrzCFksb2ehT0XMXxrbw@mail.gmail.com>
+ <c8f3e485-54c6-99c7-4888-6eef2e174bf6@kernel.org>
+ <X8d/Ac5Z4bT/W7ZA@localhost>
+ <a58e3a7b-58bb-0430-2344-8e8155758e45@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a58e3a7b-58bb-0430-2344-8e8155758e45@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tejas Joglekar <Tejas.Joglekar@synopsys.com>
+On Fri, Dec 04, 2020 at 07:58:53AM +0100, Jiri Slaby wrote:
+> On 02. 12. 20, 12:48, Johan Hovold wrote:
+> >>> but I question the
+> >>> usefulness of doing so, as it is a chicken and egg problem: one needs
+> >>> to open the tty device in order to do termios ioctls on it, and if
+> >>> that initial open triggers DTR/RTS hardware actions, then the end user
+> >>> is still screwed.  If Johan or someone else can see a potential use
+> >>> case for manipulating this new flag via termios (as opposed to sysfs
+> >>> or USB-ID-based driver quirks), perhaps you could elaborate on it?
+> >>
+> >> We would need to (ab)use another open flag (e.g. O_DIRECT). I am not
+> >> biased to either of solutions.
+> > 
+> > Forgot to mention that using open-flags would prevent using standard
+> > utilities like cat, echo and terminal programs. So for that reason a
+> > termios and/or sysfs interface is also preferred.
+> 
+> Nope, I meant it differently. You set it up once using the special open 
+> flag. Like with setserial, one sets I/O port, irqs etc. and then uses 
+> standard tools as the port is already set up (marked as NORDY in this
+> case).
 
-This commit uses the private data passed by parent device
-to set the quirk for Synopsys xHC. This patch fixes the
-SNPS xHC hang issue when the data is scattered across
-small buffers which does not make atleast MPS size for
-given TRB cache size of SNPS xHC.
+Ok, but leaving the open flag abuse aside, that would still require a
+custom tool to do the setup.
 
-Signed-off-by: Tejas Joglekar <joglekar@synopsys.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-plat.c | 3 +++
- drivers/usb/host/xhci.h      | 1 +
- 2 files changed, 4 insertions(+)
+There are also no other examples of such an interface with a "sticky"
+open flag affecting later opens. But you probably meant that the open
+flag only affects the current open, and then the termios flag is used
+to make the setting stick. 
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index aa2d35f98200..4d34f6005381 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -333,6 +333,9 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 	if (priv && (priv->quirks & XHCI_SKIP_PHY_INIT))
- 		hcd->skip_phy_initialization = 1;
- 
-+	if (priv && (priv->quirks & XHCI_SG_TRB_CACHE_SIZE_QUIRK))
-+		xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
-+
- 	ret = usb_add_hcd(hcd, irq, IRQF_SHARED);
- 	if (ret)
- 		goto disable_usb_phy;
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index ebb359ebb261..d90c0d5df3b3 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1878,6 +1878,7 @@ struct xhci_hcd {
- #define XHCI_RENESAS_FW_QUIRK	BIT_ULL(36)
- #define XHCI_SKIP_PHY_INIT	BIT_ULL(37)
- #define XHCI_DISABLE_SPARSE	BIT_ULL(38)
-+#define XHCI_SG_TRB_CACHE_SIZE_QUIRK	BIT_ULL(39)
- 
- 	unsigned int		num_active_eps;
- 	unsigned int		limit_active_eps;
--- 
-2.25.1
+Note that having a udev rule handle this at boot using a sysfs interface
+does not require any custom tools at all.
 
+And in theory nothing prevents extending/abusing POSIX with such an open
+behaviour later.
+
+Johan
