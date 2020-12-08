@@ -2,152 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC2B5C1B0D8
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 16:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E702EC4361B
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 16:07:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A503623B08
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 16:05:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA85A23ACA
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 16:07:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730356AbgLHQFP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 11:05:15 -0500
-Received: from mail-io1-f71.google.com ([209.85.166.71]:40013 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730339AbgLHQFO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 11:05:14 -0500
-Received: by mail-io1-f71.google.com with SMTP id l18so4065208iok.7
-        for <linux-usb@vger.kernel.org>; Tue, 08 Dec 2020 08:04:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to:cc;
-        bh=hpv3KpgmoGcPwhMUS1qClauW4ZVADBQBTB64O2CLwR4=;
-        b=nUp+kz5fQ8AE/fbrqQskuX8pajxJqvYZRC+lq0x3hWKEexBqknNg0YYwI3lTlr5Og0
-         s2kis8h2ikNkehps8K9wtM8Ml77BzYpYLEGRDnxNpZ5gYcuwfRsFGK1aWabMXiv9Mem+
-         jqddoaTUqcK3/yoY85+TRDu9RVbbuOG9r1Mairuql6cXdGeZVZ/k55djfhR9a9E4+lGX
-         XOcLvyhwBcWyxEszQ1UBiWhMzKabgWoAOFOFcalxMJtM43/TclhLOciGyWWCu5sfYGO1
-         K38WdSI5iHm2hP17XFNkmOy8P/GXVBZsoJeceZKaXiOsypTqQjgXmGaMBUECYUzxhzhB
-         itqA==
-X-Gm-Message-State: AOAM532k5NiTiP/QvFxoKJYkazdcBXQsMVUb1u9MaduZyKEAX0UrFgqV
-        ljJshrY54SlGCsOLW9AihWmRDXVL4ymeA9sZnRi/6RPfzURB
-X-Google-Smtp-Source: ABdhPJxIGVVsKJL/d5PRR20afDIr8XtYWWU72tQIziAZzpTGYJm0Fp5YA4Zy8Ze/FdzNzHEb6E3CdYhJpubtEzHDbKXmyUhRLSD/
+        id S1730281AbgLHQHi convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 11:07:38 -0500
+Received: from avasout01.plus.net ([84.93.230.227]:35452 "EHLO
+        avasout01.plus.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730247AbgLHQHh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 11:07:37 -0500
+Received: from APOLLO ([212.159.61.44])
+        by smtp with ESMTPA
+        id mfVpkyoMHn8O7mfVqkcNNC; Tue, 08 Dec 2020 16:06:50 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=Ld6nFgXi c=1 sm=1 tr=0
+ a=AGp1duJPimIJhwGXxSk9fg==:117 a=AGp1duJPimIJhwGXxSk9fg==:17
+ a=IkcTkHD0fZMA:10 a=ylTo23Gykdq9n7kNIIgA:9 a=QEXdDO2ut3YA:10
+X-AUTH: perdrix52@:2500
+From:   "David C. Partridge" <david.partridge@perdrix.co.uk>
+To:     "'Oliver Neukum'" <oneukum@suse.com>, <linux-usb@vger.kernel.org>
+References: <004f01d6b5bd$d4f08ff0$7ed1afd0$@perdrix.co.uk>                                                   <eceedea7ca5d950eb8ea4d186a6b01a04d0a804f.camel@suse.com>                                                <001601d6b67d$e97a1e30$bc6e5a90$@perdrix.co.uk>                                           <aebf92944c1ecb256d21108ce092165a0fd904db.camel@suse.com>                                             <001b01d6b68a$79937fa0$6cba7ee0$@perdrix.co.uk>                                           <007901d6b6ab$f0f66230$d2e32690$@perdrix.co.uk>                                         <43abe2af0352f17f93e2453a86e2ed47b9913b6a.camel@suse.com>                                     <000f01d6c326$1eea3f50$5cbebdf0$@perdrix.co.uk>                           <d478123862a7e94898aaa771c21cc8cb0a3819fc.camel@suse.com>                               <008101d6c3d7$2427ee70$6c77cb50$@perdrix.co.uk>                         <11ea70180f52b4965a451b3970891e0f547c777b.camel@suse.com>                       <0000
+ 01d6c89c$086812e0$193838a0$@perdrix.co.uk>                 < 6
+        12be9a9cd6ffd b9492781e174859c7b4e694a86.camel@suse.com>                 <000301d6c919$af7a94e0$0e6fbea0$@perdrix.co.uk>         <918e298941f820a7cc3310c95dc211cca7596dba.camel@suse.com>       <000e01d6c980$d9a75f70$8cf61e50$@perdrix.co.uk>         <005601d6cc87$2fa608f0$8ef21ad0$@perdrix.co.uk> <36ac7a79c4b24f9f68b3543d18a51ec9af0a4933.camel@suse.com>
+In-Reply-To: <36ac7a79c4b24f9f68b3543d18a51ec9af0a4933.camel@suse.com>
+Subject: RE: Issues with LaCie USB3 drive and UAS
+Date:   Tue, 8 Dec 2020 16:06:49 -0000
+Message-ID: <000701d6cd7c$236ec8b0$6a4c5a10$@perdrix.co.uk>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1003:: with SMTP id n3mr13962774ilj.189.1607443467522;
- Tue, 08 Dec 2020 08:04:27 -0800 (PST)
-Date:   Tue, 08 Dec 2020 08:04:27 -0800
-In-Reply-To: <20201208160425.GA1298255@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e0d6f805b5f61882@google.com>
-Subject: Re: Re: general protection fault in tower_disconnect
-From:   syzbot <syzbot+9be25235b7a69b24d117@syzkaller.appspotmail.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        legousb-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, starblue@users.sourceforge.net,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQEj7PcoQVookx4f1d3/LPoLd4O7AAH2dKS3AXO3T8ACPDV8AQK5Jqf9AfTPe88CoAnckwML8I43Acv3vzcCAy63SAJfP5HDAb+vYkUBoOXfxAHZtB/YAwjv7Y4DEjptYgIeJf4hAY/YFQeqKXw0sA==
+X-CMAE-Envelope: MS4wfJAtctP38PCh/6tjOjMas2SnGgdN25pIUxMQI0vcatZagj2sJHKG5El6mkTEmOeP2vxv3VmfoXAvS58AxOb6W6rVhApUQaQ+qGR5HOe7NJygB+2NTtrQ
+ gYKqArABK0BdcB3+iZrw4ZFgmL7b6KUqQgzgkQy0/i0ii9bTMlLGPk0PK91sLrO7jpKjUqhMyIWtHg==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> On Tue, Dec 08, 2020 at 03:53:16AM -0800, syzbot wrote:
->> Hello,
->> 
->> syzbot found the following issue on:
->> 
->> HEAD commit:    08a02f95 USB: add RESET_RESUME quirk for Snapscan 1212
->> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
->> console output: https://syzkaller.appspot.com/x/log.txt?x=1435927b500000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=d24ee9ecd7ce968e
->> dashboard link: https://syzkaller.appspot.com/bug?extid=9be25235b7a69b24d117
->> compiler:       gcc (GCC) 10.1.0-syz 20200507
->> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15145f07500000
->> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16b99413500000
->> 
->> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->> Reported-by: syzbot+9be25235b7a69b24d117@syzkaller.appspotmail.com
->> 
->> usb 1-1: USB disconnect, device number 2
->> general protection fault, probably for non-canonical address 0xdffffc0000000013: 0000 [#1] SMP KASAN
->> KASAN: null-ptr-deref in range [0x0000000000000098-0x000000000000009f]
->> CPU: 0 PID: 7 Comm: kworker/0:1 Not tainted 5.10.0-rc7-syzkaller #0
->> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
->> Workqueue: usb_hub_wq hub_event
->> RIP: 0010:tower_disconnect+0x53/0x360 drivers/usb/misc/legousbtower.c:848
->> Code: 03 80 3c 02 00 0f 85 15 03 00 00 48 8b ab a8 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 8d bd 98 00 00 00 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 06 0f 8e 7b 02 00 00 48 c7 c6 40 07 bb 87 48
->> RSP: 0018:ffffc9000007f7c0 EFLAGS: 00010202
->> RAX: dffffc0000000000 RBX: ffff888117ec0000 RCX: ffffffff8381f807
->> RDX: 0000000000000013 RSI: ffffffff83bab792 RDI: 0000000000000098
->> RBP: 0000000000000000 R08: 0000000000000001 R09: ffffffff898cc4ef
->> R10: 0000000000000002 R11: 0000000000000000 R12: ffff888117ec0090
->> R13: ffff888117ec0078 R14: ffff888117ec0030 R15: ffff888117ec0098
->> FS:  0000000000000000(0000) GS:ffff8881f6a00000(0000) knlGS:0000000000000000
->> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> CR2: 00007f557af47550 CR3: 00000001090f3000 CR4: 00000000001506f0
->> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->> Call Trace:
->>  usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:458
->>  __device_release_driver+0x3bd/0x6f0 drivers/base/dd.c:1154
->>  device_release_driver_internal drivers/base/dd.c:1185 [inline]
->>  device_release_driver+0x26/0x40 drivers/base/dd.c:1208
->>  bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:533
->>  device_del+0x502/0xec0 drivers/base/core.c:3115
->>  usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1413
->>  usb_disconnect.cold+0x27d/0x780 drivers/usb/core/hub.c:2218
->>  hub_port_connect drivers/usb/core/hub.c:5074 [inline]
->>  hub_port_connect_change drivers/usb/core/hub.c:5363 [inline]
->>  port_event drivers/usb/core/hub.c:5509 [inline]
->>  hub_event+0x1c8a/0x42d0 drivers/usb/core/hub.c:5591
->>  process_one_work+0x933/0x1520 kernel/workqueue.c:2272
->>  worker_thread+0x64c/0x1120 kernel/workqueue.c:2418
->>  kthread+0x38c/0x460 kernel/kthread.c:292
->>  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
->> Modules linked in:
->> ---[ end trace 5aeb1d199be5d5f2 ]---
->> RIP: 0010:tower_disconnect+0x53/0x360 drivers/usb/misc/legousbtower.c:848
->> Code: 03 80 3c 02 00 0f 85 15 03 00 00 48 8b ab a8 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 8d bd 98 00 00 00 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 06 0f 8e 7b 02 00 00 48 c7 c6 40 07 bb 87 48
->> RSP: 0018:ffffc9000007f7c0 EFLAGS: 00010202
->> RAX: dffffc0000000000 RBX: ffff888117ec0000 RCX: ffffffff8381f807
->> RDX: 0000000000000013 RSI: ffffffff83bab792 RDI: 0000000000000098
->> RBP: 0000000000000000 R08: 0000000000000001 R09: ffffffff898cc4ef
->> R10: 0000000000000002 R11: 0000000000000000 R12: ffff888117ec0090
->> R13: ffff888117ec0078 R14: ffff888117ec0030 R15: ffff888117ec0098
->> FS:  0000000000000000(0000) GS:ffff8881f6a00000(0000) knlGS:0000000000000000
->> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> CR2: 00007f557af47550 CR3: 00000001090f3000 CR4: 00000000001506f0
->> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->
-> This is a simple thinko.
->
-> Alan Stern
->
-> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing 08a02f95
+>> 2-1: USB disconnect, device number 2
 
-want 2 args (repo, branch), got 3
+>Again, did you plug the cable or did the device spontaneously disconnect?
 
->
-> Index: usb-devel/drivers/usb/misc/legousbtower.c
-> ===================================================================
-> --- usb-devel.orig/drivers/usb/misc/legousbtower.c
-> +++ usb-devel/drivers/usb/misc/legousbtower.c
-> @@ -797,7 +797,7 @@ static int tower_probe(struct usb_interf
->  				      &get_version_reply,
->  				      sizeof(get_version_reply),
->  				      1000, GFP_KERNEL);
-> -	if (!result) {
-> +	if (result) {
->  		dev_err(idev, "get version request failed: %d\n", result);
->  		retval = result;
->  		goto error;
->
-> -- 
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20201208160425.GA1298255%40rowland.harvard.edu.
+That was a spontaneous disconnect.
+
+> In this case, could you retry with
+> usb-storage quirks=059f:105f:kf
+
+Sure! The results are in general a lot more promising (apart from the first line) - plus I was able to read/write files without problems:
+
+Dec 08 15:47:48 charon kernel: usb usb2-port6: config error
+Dec 08 15:47:49 charon kernel: usb 1-6: new high-speed USB device number 4 using xhci_hcd
+Dec 08 15:47:49 charon kernel: usb 1-6: New USB device found, idVendor=059f, idProduct=105f, bcdDevice= 0.01
+Dec 08 15:47:49 charon kernel: usb 1-6: New USB device strings: Mfr=2, Product=3, SerialNumber=1
+Dec 08 15:47:49 charon kernel: usb 1-6: Product: 2Big Quadra USB3
+Dec 08 15:47:49 charon kernel: usb 1-6: Manufacturer: LaCie
+Dec 08 15:47:49 charon kernel: usb 1-6: SerialNumber: 00000000250e9e711084
+Dec 08 15:47:49 charon mtp-probe[5230]: checking bus 1, device 4: "/sys/devices/pci0000:00/0000:00:14.0/usb1/1-6"
+Dec 08 15:47:49 charon mtp-probe[5230]: bus: 1, device: 4 was not an MTP device
+Dec 08 15:47:49 charon kernel: usb_storage: loading out-of-tree module taints kernel.
+Dec 08 15:47:49 charon kernel: usb_storage: module verification failed: signature and/or required key missing - tainting kernel
+Dec 08 15:47:49 charon kernel: usbcore: registered new interface driver usb-storage
+Dec 08 15:47:49 charon kernel: scsi host5: uas
+Dec 08 15:47:49 charon kernel: usbcore: registered new interface driver uas
+Dec 08 15:47:49 charon kernel: scsi 5:0:0:0: Direct-Access     LaCie    2Big Quadra v3   051E PQ: 0 ANSI: 6
+Dec 08 15:47:49 charon mtp-probe[5239]: checking bus 1, device 4: "/sys/devices/pci0000:00/0000:00:14.0/usb1/1-6"
+Dec 08 15:47:49 charon mtp-probe[5239]: bus: 1, device: 4 was not an MTP device
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: Attached scsi generic sg3 type 0
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: [sdc] 7814025564 512-byte logical blocks: (4.00 TB/3.64 TiB)
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: [sdc] Write Protect is off
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: [sdc] Mode Sense: 43 00 00 00
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: [sdc] Optimal transfer size 33553920 bytes
+Dec 08 15:47:49 charon kernel:  sdc: sdc1 sdc2
+Dec 08 15:47:49 charon kernel: sd 5:0:0:0: [sdc] Attached SCSI disk
+Dec 08 15:47:55 charon polkitd(authority=local)[760]: Operator of unix-session:7 successfully authenticated as unix-user:amonra to gain ONE-SHOT authorization for action org.freedesktop.udisks2.filesystem-mount-other-seat for system-bus-name::1.135 [/usr/libexec/gvfs-udisks2-volume-monitor] (owned by unix-user:amonra)
+Dec 08 15:47:55 charon kernel: exfat: module is from the staging directory, the quality is unknown, you have been warned.
+Dec 08 15:47:55 charon kernel: exFAT: Version 1.3.0
+Dec 08 15:47:55 charon kernel: [EXFAT] trying to mount...
+Dec 08 15:47:55 charon kernel: [EXFAT] mounted successfully
+Dec 08 15:47:55 charon systemd[1]: Created slice system-clean\x2dmount\x2dpoint.slice.
+Dec 08 15:47:55 charon systemd[1]: Finished Clean the /media/amonra/4TB mount point.
+
