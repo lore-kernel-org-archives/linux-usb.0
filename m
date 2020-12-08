@@ -2,89 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 458D3C2BB40
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:31:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A30B9C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:35:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2ECB23A82
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:31:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A4BF23A52
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 09:35:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727628AbgLHJbL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:31:11 -0500
-Received: from mga06.intel.com ([134.134.136.31]:9880 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727647AbgLHJbJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 8 Dec 2020 04:31:09 -0500
-IronPort-SDR: EpuG0Is5mpxz04LUMxvuNPg59oPi5mfayyu3HbtnQ/YESagqJ3XE4X5LwxuV54FKHhwPHoVe+Q
- /vgF5fFs1Giw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="235460690"
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="235460690"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 01:28:05 -0800
-IronPort-SDR: WxvaFur0yDIiDmMlYGy9Zgfon1C4YclRnrikl+aJzSNBGdUudJhgcNpXnXYd6bfpdo5FIiLjHI
- VnwGSkWX+04A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="552165906"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by orsmga005.jf.intel.com with ESMTP; 08 Dec 2020 01:28:04 -0800
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 4/5] xhci-pci: Allow host runtime PM as default for Intel Maple Ridge xHCI
-Date:   Tue,  8 Dec 2020 11:29:11 +0200
-Message-Id: <20201208092912.1773650-5-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201208092912.1773650-1-mathias.nyman@linux.intel.com>
-References: <20201208092912.1773650-1-mathias.nyman@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727771AbgLHJfA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:35:00 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:55307 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726584AbgLHJe7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 04:34:59 -0500
+Received: from orion.localdomain ([95.117.39.192]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M8hlZ-1kqiDJ1wwb-004mb7; Tue, 08 Dec 2020 10:32:08 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     duncan.sands@free.fr, accessrunner-general@lists.sourceforge.net,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 1/3] drivers: usb: atm: reduce noise
+Date:   Tue,  8 Dec 2020 10:32:04 +0100
+Message-Id: <20201208093206.24780-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:iSgMJMzCNUTd221b4ZZkoUHSLM4f7iwwAPT7Elb1vOnULyrJnNr
+ 3bazwtfUVGsfuSO0cSygFbaTm6cajstD8lMNd/JmBPt4DpC9uf/WMtWEZd4MNguqkn6vGh9
+ kLZ9t1Xn4gkACfSKgCar+//SOGDOClxV7SY8rzG/SZzltKnAawbYMUt3svgcvV4QsNpPvL5
+ O9VcNumL/0tpNQSeBbCrw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7XLfjbf7OQ0=:7zc+8I1V8VTU6ktfQyvqu7
+ 5lcISjwfr+iumYsKiR/YsehQseA7WtANLNQrLIUjXpIYM9Cg9MSRE8rj8flsrG6esdAC0zi+4
+ UR5CWGUvv4qghaG4dL6ecMAMsaiHJMz8Rv9iNhGv/MWUVgxUFCzThqPVyyrLm7B+HXfnCAjY3
+ QPk2GhVw6Q27BFbUC9EyqsQUu00Xttu16Q0uJmSO+YTu/IDPkuM4FIhwakKnTuYUfCUj2fn6C
+ EDihV2S/Ry0+8XSWScr2PUA98o0Ps+r9j8QuXfofjIWa6aKhrUaFUOi3BsudC1aSUazN/Tfuw
+ z6nDdhSeCpSV/dhQGMmQaqBMczBxqtKonxmuuu1VYYQOm7gvRdcc4FQOwJlzkS1PSRLFxHHp5
+ DiiKowD5KpTFyBrdkzHtiB04B6oi0NcJwb8sEi5A8RMX+VwffUleMUOqpUMlL
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+If drivers work correctly, they should remain silent.
 
-Intel Maple Ridge is successor of Titan Ridge Thunderbolt controller. As
-Titan Ridge this one also includes xHCI host controller. In order to
-safe energy we should put it to low power state by default when idle.
-For this reason allow host runtime PM for Maple Ridge.
-
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 ---
- drivers/usb/host/xhci-pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/atm/cxacru.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 5f94d7edeb37..84da8406d5b4 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -56,6 +56,7 @@
- #define PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI		0x8a13
- #define PCI_DEVICE_ID_INTEL_CML_XHCI			0xa3af
- #define PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI		0x9a13
-+#define PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI		0x1138
+diff --git a/drivers/usb/atm/cxacru.c b/drivers/usb/atm/cxacru.c
+index e62a770a5d3b..0114cc54e622 100644
+--- a/drivers/usb/atm/cxacru.c
++++ b/drivers/usb/atm/cxacru.c
+@@ -810,9 +810,6 @@ static int cxacru_atm_start(struct usbatm_data *usbatm_instance,
+ 	mutex_unlock(&instance->poll_state_serialize);
+ 	mutex_unlock(&instance->adsl_state_serialize);
  
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
-@@ -240,7 +241,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_XHCI ||
- 	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
- 	     pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
--	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI))
-+	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI ||
-+	     pdev->device == PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI))
- 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
- 
- 	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
+-	printk(KERN_INFO "%s%d: %s %pM\n", atm_dev->type, atm_dev->number,
+-			usbatm_instance->description, atm_dev->esi);
+-
+ 	if (start_polling)
+ 		cxacru_poll_status(&instance->poll_work.work);
+ 	return 0;
 -- 
-2.25.1
+2.11.0
 
