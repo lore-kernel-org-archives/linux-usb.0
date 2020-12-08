@@ -2,133 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F982C433FE
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 12:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B77DC433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 12:43:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AF9623A5B
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 12:20:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8C9223A5B
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Dec 2020 12:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729265AbgLHMUV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Dec 2020 07:20:21 -0500
-Received: from mga03.intel.com ([134.134.136.65]:14714 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725803AbgLHMUV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 8 Dec 2020 07:20:21 -0500
-IronPort-SDR: Ohkrp7HYgXlBlIi8r66D1D7gKWhVMocEVrl+oiZbXfgU/AZr1eLBf7UDtYLTYPPDFb8Iod3pHp
- gWGgcsAMEXiw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="173993416"
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="173993416"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 04:18:35 -0800
-IronPort-SDR: wump9c68YpxnOeC4Vud614DuRAxIvM0ln4it36wuWs4A+sxKWsja46QDA/Y/SYLlyZuwZXSNli
- XBT4lS3Cv+6g==
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="363615082"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 04:18:32 -0800
-Received: by lahna (sSMTP sendmail emulation); Tue, 08 Dec 2020 14:18:30 +0200
-Date:   Tue, 8 Dec 2020 14:18:30 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-usb@vger.kernel.org
-Subject: [GIT PULL] Thunderbolt/USB4 changes for v5.11 merge window
-Message-ID: <20201208121830.GC5246@lahna.fi.intel.com>
+        id S1729561AbgLHMmq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Dec 2020 07:42:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729550AbgLHMmp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Dec 2020 07:42:45 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45092C061794
+        for <linux-usb@vger.kernel.org>; Tue,  8 Dec 2020 04:42:05 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id ga15so24400613ejb.4
+        for <linux-usb@vger.kernel.org>; Tue, 08 Dec 2020 04:42:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tx7so5XKh7FIt1CA8a0h/fwFWUTtxj/iNvR1h5PSzgs=;
+        b=X9IfdZ07CRaiRKxilHDYeGeCj7zned0+KK4/c2hUOKGBFsLX4mL5lpbLbO4tW8eFx+
+         S1SPRlOnL119OUpixgUVUsaanEf+Inh54zdDT4arb83ADCp1T0ZRxNlpvvuyUtlVq6BL
+         /B0K29s1R81mTX/7k9+yGB2VfH4gAsqUMKzGZ61+GP37udF5so1UcUvtNiP7Fpv2W/uN
+         LzcRJM+sfvD2NRyYdvW6qhzTCOb3GpRgDp0uyTJd209DJESVQL1CXmjfLWhEqyMYh6Lc
+         bNoqBEzhWivPk5Uy/g7HHyJWaOQm3flu8ayUQzLrpGpuM2LIEJMnhhJV5/be7zf/ZZQI
+         8FGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tx7so5XKh7FIt1CA8a0h/fwFWUTtxj/iNvR1h5PSzgs=;
+        b=lomhzZ1odGydzVAqW8VFSIwNBYDn8kpjE3+eNAJFNeJl0kbifrKIKhhzk752OvS44o
+         ETN774+W4RGRnzb2JgiPUk9HDyydZG2ekULSx/yhYcBk00hfjKAvWbJwCtQJCCBuo+mf
+         WN4vaWxoLlbL6Sxcrd9jkOqyfbT4g6xV+QD5kLmCqEM1kjI2BTe1DeqrWQ0OCndrN/ZF
+         bV2aqhR+Jds+iu2QRuR4eljuj/z0ng9pNpnWrtCFdzPY7v7W8IzrO0qJXlx3W78Yuzsg
+         eYee25bbyIspFKVrHEWSaLrot7HwVEDBN4/opKBjeOfutx288rG3s+jTv/chnQg35ABj
+         Ja3A==
+X-Gm-Message-State: AOAM533vwNWSApsz/XmS5auCcpp0DteLYKBJzzQwPzVrJDssaZyOKyeA
+        cYNuk+8xHKW1MD+3MzqRpzA2ZdfLWhsJ0g/Ejo8IvA==
+X-Google-Smtp-Source: ABdhPJy7t/No4fH1h4DsAU+2EaLD5XR/kFCUDJ6y6e6XetS2CV9vhLSdpVaPVEmxxKbl8FmphDgHIKYlvueG5WlWgi8=
+X-Received: by 2002:a17:906:38c3:: with SMTP id r3mr2523260ejd.193.1607431323939;
+ Tue, 08 Dec 2020 04:42:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20201122170822.21715-1-mani@kernel.org> <20201122170822.21715-3-mani@kernel.org>
+ <CACRpkdbY-aZB1BAD=JkZAHA+OQvpH12AD3tLAp6Nf1hwr74s9A@mail.gmail.com>
+ <X8ZmfbQp7/BGgxec@localhost> <CACRpkdZJdxqxUEQaKUHctHRSQAUpYZJtuxonwVd_ZFAsLBbKrA@mail.gmail.com>
+ <X89OOUOG0x0SSxXA@localhost>
+In-Reply-To: <X89OOUOG0x0SSxXA@localhost>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 8 Dec 2020 13:41:52 +0100
+Message-ID: <CACRpkdavm7GG8HdV1xk0W_b1EzUmvF0kKAGnp0u6t42NAWa9iA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] usb: serial: xr_serial: Add gpiochip support
+To:     Johan Hovold <johan@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        patong.mxl@gmail.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Angelo Dureghello <angelo.dureghello@timesys.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+On Tue, Dec 8, 2020 at 10:57 AM Johan Hovold <johan@kernel.org> wrote:
+> [Me]
 
-The following changes since commit f8394f232b1eab649ce2df5c5f15b0e528c92091:
+> > A better approach might be to create an array of names
+> > prepended with something device-unique like the USB
+> > bus topology? Or do we need a helper to help naming the
+> > GPIOs? What would be helpful here?
+> >
+> > name = kasprintf(GFP_KERNEL, "%s-NAME", topology_str);
+>
+> Well we started discussing this back when we only had the sysfs
+> interface which suffered from the same problem. I thought the chardev
+> interface was supposed to get rid of the assumption of a flat name
+> space? Perhaps in v3 of the ABI. ;P
 
-  Linux 5.10-rc3 (2020-11-08 16:10:16 -0800)
+It's "mostly true" that the line names are unique per-chip actually,
+because people don't like the nasty warning message. I wonder
+if anything would really break if I go in and make a patch to
+enforce it, since all drivers passing ->names in the gpiochip
+are in the kernel we can check them all.
 
-are available in the Git repository at:
+If the names are unique-per-chip, we can add a restriction like this
+with the requirement:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.11-rc1
+depends on !GPIO_SYSFS
 
-for you to fetch changes up to db0746e3399ee87ee5f957880811da16faa89fb8:
+so it can't even be compiled in if someone is using the sysfs.
 
-  thunderbolt: Add support for Intel Maple Ridge (2020-11-30 14:39:24 +0300)
+That should solve the situation where people are (ab)using
+the sysfs and getting name collisions as a result.
 
-----------------------------------------------------------------
-thunderbolt: Changes for v5.11 merge window
+Then it should be fine for any driver to provide a names array
+provided all the names are unique on that gpiochip.
 
-This includes following Thunderbolt/USB4 changes for v5.11 merge window:
+I doubt it would break anything, but let's see what Geert says.
+He has some special usecases in the gpio-aggregator driver
+which will incidentally look for just linenames when
+aggregating gpios, but I feel it is a bit thick for it to work
+with multiple hot-pluggable GPIO chips as well, I don't think
+that is its usecase. (We all want to be perfect but...)
 
-  * DMA traffic test driver
+> But what about any other non-pluggable
+> IC, which provides a few named GPIO lines and of which there could be
+> more than one in a system?
 
-  * USB4 router NVM upgrade improvements
+I think if there are such, and the lines are unique per-chip
+we should make the drivers depend on !GPIO_SYSFS.
 
-  * USB4 router operations proxy implementation available in the recent
-    Intel Connection Manager firmwares
+> The topology is already encoded in sysfs and it seems backwards to have
+> each and every gpio driver reconstruct it.
 
-  * Support for Intel Maple Ridge discrete Thunderbolt 4 controller
+I agree.
 
-  * A couple of cleanups and minor improvements.
+I think if this driver already has unique line-names per-gpiochip
+we could actually make it depend on !GPIO_SYSFS and
+just add the names.
 
-----------------------------------------------------------------
-Isaac Hazan (4):
-      thunderbolt: Add link_speed and link_width to XDomain
-      thunderbolt: Add functions for enabling and disabling lane bonding on XDomain
-      thunderbolt: Add DMA traffic test driver
-      MAINTAINERS: Add Isaac as maintainer of Thunderbolt DMA traffic test driver
-
-Mika Westerberg (18):
-      thunderbolt: Do not clear USB4 router protocol adapter IFC and ISE bits
-      thunderbolt: Find XDomain by route instead of UUID
-      thunderbolt: Create XDomain devices for loops back to the host
-      thunderbolt: Create debugfs directory automatically for services
-      thunderbolt: Make it possible to allocate one directional DMA tunnel
-      thunderbolt: Add support for end-to-end flow control
-      thunderbolt: Move max_boot_acl field to correct place in struct icm
-      thunderbolt: Log which connection manager implementation is used
-      thunderbolt: Log adapter numbers in decimal in path activation/deactivation
-      thunderbolt: Keep the parent runtime resumed for a while on device disconnect
-      thunderbolt: Return -ENOTCONN when ERR_CONN is received
-      thunderbolt: Perform USB4 router NVM upgrade in two phases
-      thunderbolt: Pass metadata directly to usb4_switch_op()
-      thunderbolt: Pass TX and RX data directly to usb4_switch_op()
-      thunderbolt: Add connection manager specific hooks for USB4 router operations
-      thunderbolt: Move constants for USB4 router operations to tb_regs.h
-      thunderbolt: Add USB4 router operation proxy for firmware connection manager
-      thunderbolt: Add support for Intel Maple Ridge
-
- Documentation/ABI/testing/sysfs-bus-thunderbolt |  28 +
- MAINTAINERS                                     |   6 +
- drivers/net/thunderbolt.c                       |   2 +-
- drivers/thunderbolt/Kconfig                     |  13 +
- drivers/thunderbolt/Makefile                    |   3 +
- drivers/thunderbolt/ctl.c                       |   7 +-
- drivers/thunderbolt/debugfs.c                   |  24 +
- drivers/thunderbolt/dma_test.c                  | 736 ++++++++++++++++++++++++
- drivers/thunderbolt/icm.c                       | 240 +++++++-
- drivers/thunderbolt/nhi.c                       |  36 +-
- drivers/thunderbolt/nhi.h                       |   1 +
- drivers/thunderbolt/path.c                      |  17 +-
- drivers/thunderbolt/switch.c                    |  53 +-
- drivers/thunderbolt/tb.c                        |   2 +
- drivers/thunderbolt/tb.h                        |  22 +
- drivers/thunderbolt/tb_msgs.h                   |  28 +
- drivers/thunderbolt/tb_regs.h                   |  14 +
- drivers/thunderbolt/tunnel.c                    |  50 +-
- drivers/thunderbolt/usb4.c                      | 269 +++++----
- drivers/thunderbolt/xdomain.c                   | 148 ++++-
- include/linux/thunderbolt.h                     |  18 +-
- 21 files changed, 1553 insertions(+), 164 deletions(-)
- create mode 100644 drivers/thunderbolt/dma_test.c
+Yours,
+Linus Walleij
