@@ -2,78 +2,125 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89470C433FE
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 09:30:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB26C4361B
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 09:37:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44FAE23B7B
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 09:30:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4047225AA
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 09:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729279AbgLIJ3j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Dec 2020 04:29:39 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:9140 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727273AbgLIJ3j (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Dec 2020 04:29:39 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CrWtw3ZdRz15YWk;
-        Wed,  9 Dec 2020 17:28:24 +0800 (CST)
-Received: from ubuntu.network (10.175.138.68) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 9 Dec 2020 17:28:48 +0800
-From:   Zheng Yongjun <zhengyongjun3@huawei.com>
-To:     <johan@kernel.org>, <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Zheng Yongjun <zhengyongjun3@huawei.com>
-Subject: [PATCH -next] usb: serial: simplify the ark3116_write_reg()
-Date:   Wed, 9 Dec 2020 17:29:17 +0800
-Message-ID: <20201209092917.20681-1-zhengyongjun3@huawei.com>
-X-Mailer: git-send-email 2.22.0
+        id S1728957AbgLIJgq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Dec 2020 04:36:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47694 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729046AbgLIJgq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Dec 2020 04:36:46 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9214C0613D6
+        for <linux-usb@vger.kernel.org>; Wed,  9 Dec 2020 01:36:05 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id s30so2201667lfc.4
+        for <linux-usb@vger.kernel.org>; Wed, 09 Dec 2020 01:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7HVozN5AHG/Y9Pr4H7WM0Q2+ceA7g7F5TP2nZ6SuOwI=;
+        b=hh/+pNwH+UZekebc+079X4G8sJsk4E1IMIIKvCXtTDxOynqA8XqfknGLh1g0ZQWbVN
+         KZUmsn6DE6UvJRP0XyVij32ntRHKdtlSx9uBCn7Q39ikz/xCg8uXFGjE1SJ0Nln/2C/7
+         yGSZZybbXFAt/g+yH+kaB29rWONoXd5m/08qc2o7AdCNJmrbINdbuQQZFWKkBZhOA2ze
+         4YhG73RxDPBCTMBozrA29lz/VeyB7P8eZbuK0eyWFj9ATQRX8irHV6rkWzj7Fkl+ULx1
+         UbDpbkeiT4tEV8hjdgzaSADvb2YnoKNMRWOqUPETj7ZgDRtQrIEDVZrQ5AcrKIv8ls0A
+         EzxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7HVozN5AHG/Y9Pr4H7WM0Q2+ceA7g7F5TP2nZ6SuOwI=;
+        b=Vnn2Juu7csNzuMWc7RSi/WY7JHdV+x3WRtICEqkuE5y9P+QS3Pyao2voFjv7cJ1ilC
+         DFnZJDCfnl+GED3SLkHbo1XosRRDt0YkgD1vS05hvbBpZtYn3Yf1tQphmWh31kWO4/N9
+         kUoDZsisgNFX7Cn5gZViHYoz9u2mGOi0czph+UKPMBi00D1ghyaPRHz9O4jFyvzSMaW0
+         fou7VrhXxofelFJFA9uHbRmqEjt2DzFss/Si4YtJXrqBvpnAQJGh4qIm54pnq02EzAwN
+         iXeZqsfNy+6cPe3gX+5lOyKz60tzOM8uIQF0TT1ekWq0y+RyHB0bhg7/I+AtQghcTsFY
+         8s6A==
+X-Gm-Message-State: AOAM530NsAyc7qBWUwrTCUf43BsMLkzVEK/UjyBIi8mIFC4Oa9SJIcAw
+        YukRaH+jVXdLD/nN+Y4rEaxbUS9T7l9uumo55t29qleTlXG9Aw==
+X-Google-Smtp-Source: ABdhPJzoXcb7GFOWYSpMVM71M9A5Q12QNayCfIfDT2VAFUEWJ7wnbIRD/8Jwbm5Vt8NPCvdqrkAQdTP8gpuuKstvH3U=
+X-Received: by 2002:a19:8384:: with SMTP id f126mr657330lfd.649.1607506564366;
+ Wed, 09 Dec 2020 01:36:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.138.68]
-X-CFilter-Loop: Reflected
+References: <20201204164739.781812-1-maz@kernel.org> <20201204164739.781812-4-maz@kernel.org>
+ <X848LXNv3GRmmSXA@localhost> <02b461244a33d5eb0620cfaa13c2b03e@kernel.org> <X85IC5NvcWikXfZY@localhost>
+In-Reply-To: <X85IC5NvcWikXfZY@localhost>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 9 Dec 2020 10:35:53 +0100
+Message-ID: <CACRpkda+JJ9ZMmwPcA_Rc0tgqKQw+VTgfVyp8PsZG55VM82uzg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] USB: serial: ftdi_sio: Log the CBUS GPIO validity
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Simplify the return expression.
+On Mon, Dec 7, 2020 at 4:19 PM Johan Hovold <johan@kernel.org> wrote:
+> On Mon, Dec 07, 2020 at 03:00:37PM +0000, Marc Zyngier wrote:
+> > On 2020-12-07 14:29, Johan Hovold wrote:
+> > > On Fri, Dec 04, 2020 at 04:47:38PM +0000, Marc Zyngier wrote:
+>
+> > >> +  if (!bitmap_full(valid_mask, ngpios))
+> > >> +          dev_warn_once(&port->dev, "Consider using a tool such as ftx-prog
+> > >> to enable GPIOs if required\n");
+> > >> +
+> > >
+> > > And again, this is not something that belongs in the logs of just about
+> > > every system with an attached ftdi device.
+> >
+> > Fine by me, this patch can be dropped without issue. After all,
+> > I now know how to deal with these chips.
+> >
+> > > While not possible to combine with the valid_mask approach, this is
+> > > something which we could otherwise add to the request() callback for
+> > > the
+> > > first request that fails due to the mux configuration.
+> >
+> > That was Linus' initial suggestion. But I think a consistent user
+> > API is more important than free advise in the kernel log.
+>
+> I tend to agree. So since your valid-mask approach clearly has some
+> merit in that it marks the lines in use when using the new cdev
+> interface, perhaps we should stick with that.
 
-Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
----
- drivers/usb/serial/ark3116.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+It sounds like we agree that this patch sans prints is acceptable.
 
-diff --git a/drivers/usb/serial/ark3116.c b/drivers/usb/serial/ark3116.c
-index 71a9206ea1e2..0f9fa0e7c50e 100644
---- a/drivers/usb/serial/ark3116.c
-+++ b/drivers/usb/serial/ark3116.c
-@@ -77,16 +77,11 @@ struct ark3116_private {
- static int ark3116_write_reg(struct usb_serial *serial,
- 			     unsigned reg, __u8 val)
- {
--	int result;
- 	 /* 0xfe 0x40 are magic values taken from original driver */
--	result = usb_control_msg(serial->dev,
--				 usb_sndctrlpipe(serial->dev, 0),
--				 0xfe, 0x40, val, reg,
--				 NULL, 0, ARK_TIMEOUT);
--	if (result)
--		return result;
--
--	return 0;
-+	return usb_control_msg(serial->dev,
-+			       usb_sndctrlpipe(serial->dev, 0),
-+			       0xfe, 0x40, val, reg,
-+			       NULL, 0, ARK_TIMEOUT);
- }
- 
- static int ark3116_read_reg(struct usb_serial *serial,
--- 
-2.22.0
+It makes things better so let's go with that.
 
+The problem for the user is that the line looks to be
+"used by the kernel" (true in some sense) but they have no
+idea what to do about it and that the ftx-prog will solve
+their hacking problem.
+
+It's a matter of taste admittedly, I have noticed that some
+subsystem maintainers are "dmesg minimalists" and want
+as little as possible in dmesg while some are "dmesg maximalists"
+and want as much messages and help as possible for
+users in dmesg. I tend toward the latter but it's not like
+I don't see the beauty and feeling of control that comes
+with a clean dmesg.
+
+My usual argument is that different loglevels exist for a
+reason and those who don't want advice can just filter out
+anything but errors or worse. But it seems they don't really wanna
+hear that because on their pet systems KERN_INFO it is on
+by default so it bothers them.
+
+Yours,
+Linus Walleij
