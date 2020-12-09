@@ -2,136 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,BIGNUM_EMAILS,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E25ABC2BBCA
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 10:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D952C4167B
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 11:02:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9509233FD
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 10:59:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C596B2337F
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Dec 2020 11:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730297AbgLIK7Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Dec 2020 05:59:25 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:48132 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730299AbgLIK7S (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Dec 2020 05:59:18 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B9AtLuJ186493;
-        Wed, 9 Dec 2020 10:58:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=VBnui0KuexPbRNCI2rw85UA2jumdEKtxwcjAMYb+9aM=;
- b=NqILz/Txkjtov/9TSIsh9pLIeHHm8imj2b/x2egSS5++74v5vR+kExXyT3TdyjWl5wna
- kezZ811JWLkeCfFBXXynFzQnc31wbwsnuK81L+GdVqHwdE18XfDWyTPP4i6EnyfOdg10
- TJ0QkvTL4Cz7sUUkWuA4PwjtV2Eh5TOPXDAbATrN+dGLnf2ZDOc5OYmLGv3aadoUh0YZ
- Mfa8gjpj3IJuWzPj0Jrlil8B6LZqhrxiS88ETdQK0BYZas5kGMtTChz51r6NO/tVi+3V
- fc3BhoojP4hHNwUqGxzoAsC31sYhQ6tljj5InpVoJ0cgjna1dFIbIsrktJmdAnjdZvyE 5g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 357yqbymyn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 09 Dec 2020 10:58:36 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B9Asfr6157362;
-        Wed, 9 Dec 2020 10:58:35 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 358kyuf9um-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 09 Dec 2020 10:58:35 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B9AwXaA032463;
-        Wed, 9 Dec 2020 10:58:34 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 09 Dec 2020 02:58:33 -0800
-Date:   Wed, 9 Dec 2020 13:58:26 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     pawell@cadence.com
-Cc:     linux-usb@vger.kernel.org
-Subject: [bug report] usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD
- Driver
-Message-ID: <X9Ct0tXbtETTy+dq@mwanda>
+        id S1730387AbgLILCA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Dec 2020 06:02:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730267AbgLILBx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Dec 2020 06:01:53 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3CAC061793;
+        Wed,  9 Dec 2020 03:01:12 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id f17so960985pge.6;
+        Wed, 09 Dec 2020 03:01:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MKsZH2+iAwgUh8UDFh2dZripOeDuPzMh57usXeoy0CY=;
+        b=PtobN+qkKZTUIm3Z46jtCxqfPZ5qOx/6dvovA1iYTJVDHmFO+a2rhs1758yYTQ+k4H
+         o+5J6j5AcNAMVeVpAp7vrMoSmL9KXngG20Ofzoa8DD8mtK+wyf/NJjewzF9hQAzLYLtI
+         6jblrmw8z2XCD01SDZV2iVGyQGwZjOwtsWcq617+ls42mGL8ToyUg5SD6LFXYUW2U6h3
+         U9LjeXul43ThJ2AMcEjBnViTOaJBQvRRg4jzV9bisZIWbW2Uza4DWd52hGGr6Rd9fNfk
+         jQhCZKyX4NjyrFTdnLHHi2jtUoUgnyNgsrm+7bZIwv6MRpisKQreDrwtfpcx3O+Un+PG
+         /rnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MKsZH2+iAwgUh8UDFh2dZripOeDuPzMh57usXeoy0CY=;
+        b=tiShoyIbXXM14gt+VqGDTvbTN0ybOMGh/KnUHQdnkqgapcrDzZNnNCnbx9hbXFg1uz
+         fNw5jSwSQzJNuvcyV4+RZM8nDvkOW8L0LVVVFb8opthLrCcew5upV5HnaoAKyWpQvjhq
+         HHk0AbMMNwUs8WPo5tEMofNwnJy8hKqHPRz8YULKGKsCP+AyT9JB8ZvxLm0PauZMykbI
+         PV/53LJaz3w2WjRtg34ofjxQXSUNRmUKEhix5vk4ddAy1c1iMpFEeVUvXXz3E3jAmMTC
+         +LVmfwnZD3wQ3J+hFjNNsCilX4x3xnHhg1FCQeLIRUFp9udAnkxBIvAIRwUdFpCJ+D9W
+         Aw8A==
+X-Gm-Message-State: AOAM532JbjzXP99PqudCrnGvLYAzjrRNB5R3u7EC23/9KatbdXM/jAo6
+        YjKSXwdNU4D82oO0dYIw62br/Q3XOEsP88KbTNU=
+X-Google-Smtp-Source: ABdhPJwjF1FoXl7fnHNaReES/WUirms9U5/ouIHB3iXXpgcsDfMHSybf0Zo8utSHuKkU9Lhpmt1u/VwzL8L8+w3d1qc=
+X-Received: by 2002:a63:b1e:: with SMTP id 30mr1440855pgl.203.1607511672453;
+ Wed, 09 Dec 2020 03:01:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 mlxscore=0
- malwarescore=0 suspectscore=3 mlxlogscore=999 bulkscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012090076
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 mlxlogscore=999
- clxscore=1015 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012090076
+References: <4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com> <CAHp75VfBtRS=BA83Q4U9hJ14bO4wW_o44CKs=DBOtWnzqTXO3w@mail.gmail.com>
+In-Reply-To: <CAHp75VfBtRS=BA83Q4U9hJ14bO4wW_o44CKs=DBOtWnzqTXO3w@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 9 Dec 2020 13:02:01 +0200
+Message-ID: <CAHp75VezKrQAVf4ceJnHq5R8niwMqCme5N5dW0deyVYP3GjO8A@mail.gmail.com>
+Subject: Re: [PATCH] PCI: Remove pci_try_set_mwi
+To:     Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ion Badulescu <ionut@badula.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Adam Radford <aradford@gmail.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        James Smart <james.smart@broadcom.com>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-ide@vger.kernel.org, dmaengine <dmaengine@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        linux-parisc@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        SCSI development list <linux-scsi@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello Pawel Laszczak,
+On Wed, Dec 9, 2020 at 12:59 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Wed, Dec 9, 2020 at 10:35 AM Heiner Kallweit <hkallweit1@gmail.com> wrote:
 
-The patch d40a169aab24: "usb: cdnsp: cdns3 Add main part of Cadence
-USBSSP DRD Driver" from Dec 7, 2020, leads to the following static
-checker warning:
+...
 
-	drivers/usb/cdns3/cdnsp-mem.c:1229 cdnsp_mem_init()
-	warn: use 'flags' here instead of GFP_XXX?
+> > -int pci_try_set_mwi(struct pci_dev *dev)
+> > -{
+>
+> > -#ifdef PCI_DISABLE_MWI
+> > -       return 0;
+> > -#else
+> > -       return pci_set_mwi(dev);
+> > -#endif
+>
+> This seems still valid case for PowerPC and SH.
 
-drivers/usb/cdns3/cdnsp-mem.c
-  1206  int cdnsp_mem_init(struct cdnsp_device *pdev, gfp_t flags)
-                                                      ^^^^^^^^^^^
+I see that pci_set_mwi() also has the ifdeffery (I thought it's only
+here), so it's fine.
 
-  1207  {
-  1208          struct device *dev = pdev->dev;
-  1209          int ret = -ENOMEM;
-  1210          unsigned int val;
-  1211          dma_addr_t dma;
-  1212          u32 page_size;
-  1213          u64 val_64;
-  1214  
-  1215          /*
-  1216           * Use 4K pages, since that's common and the minimum the
-  1217           * controller supports
-  1218           */
-  1219          page_size = 1 << 12;
-  1220  
-  1221          val = readl(&pdev->op_regs->config_reg);
-  1222          val |= ((val & ~MAX_DEVS) | CDNSP_DEV_MAX_SLOTS) | CONFIG_U3E;
-  1223          writel(val, &pdev->op_regs->config_reg);
-  1224  
-  1225          /*
-  1226           * Doorbell array must be physically contiguous
-  1227           * and 64-byte (cache line) aligned.
-  1228           */
-  1229          pdev->dcbaa = dma_alloc_coherent(dev, sizeof(*pdev->dcbaa),
-  1230                                           &dma, GFP_KERNEL);
+> > -}
+> > -EXPORT_SYMBOL(pci_try_set_mwi);
 
-There is only one caller for cdnsp_mem_init() and flags is GFP_KERNEL.
-It's better to just remove the argument because it's not useful.
-
-  1231          if (!pdev->dcbaa)
-  1232                  return -ENOMEM;
-  1233  
-  1234          memset(pdev->dcbaa, 0, sizeof(*pdev->dcbaa));
-  1235          pdev->dcbaa->dma = dma;
-  1236  
-  1237          cdnsp_write_64(dma, &pdev->op_regs->dcbaa_ptr);
-  1238  
-  1239          /*
-  1240           * Initialize the ring segment pool.  The ring must be a contiguous
-  1241           * structure comprised of TRBs. The TRBs must be 16 byte aligned,
-  1242           * however, the command ring segment needs 64-byte aligned segments
-  1243           * and our use of dma addresses in the trb_address_map radix tree needs
-  1244           * TRB_SEGMENT_SIZE alignment, so driver pick the greater alignment
-  1245           * need.
-  1246           */
-  1247          pdev->segment_pool = dma_pool_create("CDNSP ring segments", dev,
-  1248                                               TRB_SEGMENT_SIZE, TRB_SEGMENT_SIZE,
-  1249                                               page_size);
-
-regards,
-dan carpenter
+-- 
+With Best Regards,
+Andy Shevchenko
