@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33873C2BB9A
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C453C2BB40
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5DD823D9A
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 028AD23D9A
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388876AbgLJJTe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S2388867AbgLJJTe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 10 Dec 2020 04:19:34 -0500
-Received: from ns2.baikalchip.com ([94.125.187.42]:36918 "EHLO
+Received: from mx.baikalchip.com ([94.125.187.42]:36924 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728990AbgLJJTc (ORCPT
+        by vger.kernel.org with ESMTP id S1731582AbgLJJTc (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:19:32 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
@@ -25,15 +25,14 @@ To:     Felipe Balbi <balbi@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Santosh Shilimkar <ssantosh@kernel.org>
+        Khuong Dinh <khuong@os.amperecomputing.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v4 06/10] arm: dts: keystone: Harmonize DWC USB3 DT nodes name
-Date:   Thu, 10 Dec 2020 12:17:51 +0300
-Message-ID: <20201210091756.18057-7-Sergey.Semin@baikalelectronics.ru>
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 08/10] arm64: dts: apm: Harmonize DWC USB3 DT nodes name
+Date:   Thu, 10 Dec 2020 12:17:53 +0300
+Message-ID: <20201210091756.18057-9-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -48,50 +47,55 @@ In accordance with the DWC USB3 bindings the corresponding node
 name is suppose to comply with the Generic USB HCD DT schema, which
 requires the USB nodes to have the name acceptable by the regexp:
 "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
-named.
+named despite of the warning comment about possible backward
+compatibility issues.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arm/boot/dts/keystone-k2e.dtsi | 4 ++--
- arch/arm/boot/dts/keystone.dtsi     | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/apm/apm-shadowcat.dtsi | 4 ++--
+ arch/arm64/boot/dts/apm/apm-storm.dtsi     | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/boot/dts/keystone-k2e.dtsi b/arch/arm/boot/dts/keystone-k2e.dtsi
-index fa1b8499c5a7..b8f152e7af7f 100644
---- a/arch/arm/boot/dts/keystone-k2e.dtsi
-+++ b/arch/arm/boot/dts/keystone-k2e.dtsi
-@@ -52,7 +52,7 @@ &soc0 {
- 
- 		usb: usb@2680000 {
- 			interrupts = <GIC_SPI 152 IRQ_TYPE_EDGE_RISING>;
--			dwc3@2690000 {
-+			usb@2690000 {
- 				interrupts = <GIC_SPI 152 IRQ_TYPE_EDGE_RISING>;
- 			};
+diff --git a/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi b/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
+index a83c82c50e29..832dd85b00bd 100644
+--- a/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
++++ b/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
+@@ -597,8 +597,8 @@ serial0: serial@10600000 {
+ 			interrupts = <0x0 0x4c 0x4>;
  		};
-@@ -78,7 +78,7 @@ keystone_usb1: usb@25000000 {
- 			dma-ranges;
- 			status = "disabled";
  
--			usb1: dwc3@25010000 {
-+			usb1: usb@25010000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x25010000 0x70000>;
- 				interrupts = <GIC_SPI 414 IRQ_TYPE_EDGE_RISING>;
-diff --git a/arch/arm/boot/dts/keystone.dtsi b/arch/arm/boot/dts/keystone.dtsi
-index 8d046a1b690c..fc9fdc857ae8 100644
---- a/arch/arm/boot/dts/keystone.dtsi
-+++ b/arch/arm/boot/dts/keystone.dtsi
-@@ -217,7 +217,7 @@ keystone_usb0: usb@2680000 {
- 			dma-ranges;
+-		/* Do not change dwusb name, coded for backward compatibility */
+-		usb0: dwusb@19000000 {
++		/* Node-name might need to be coded as dwusb for backward compatibility */
++		usb0: usb@19000000 {
  			status = "disabled";
+ 			compatible = "snps,dwc3";
+ 			reg =  <0x0 0x19000000 0x0 0x100000>;
+diff --git a/arch/arm64/boot/dts/apm/apm-storm.dtsi b/arch/arm64/boot/dts/apm/apm-storm.dtsi
+index 0f37e77f5459..1520a945b7f9 100644
+--- a/arch/arm64/boot/dts/apm/apm-storm.dtsi
++++ b/arch/arm64/boot/dts/apm/apm-storm.dtsi
+@@ -923,8 +923,8 @@ sata3: sata@1a800000 {
+ 			phy-names = "sata-phy";
+ 		};
  
--			usb0: dwc3@2690000 {
-+			usb0: usb@2690000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x2690000 0x70000>;
- 				interrupts = <GIC_SPI 393 IRQ_TYPE_EDGE_RISING>;
+-		/* Do not change dwusb name, coded for backward compatibility */
+-		usb0: dwusb@19000000 {
++		/* Node-name might need to be coded as dwusb for backward compatibility */
++		usb0: usb@19000000 {
+ 			status = "disabled";
+ 			compatible = "snps,dwc3";
+ 			reg =  <0x0 0x19000000 0x0 0x100000>;
+@@ -933,7 +933,7 @@ usb0: dwusb@19000000 {
+ 			dr_mode = "host";
+ 		};
+ 
+-		usb1: dwusb@19800000 {
++		usb1: usb@19800000 {
+ 			status = "disabled";
+ 			compatible = "snps,dwc3";
+ 			reg =  <0x0 0x19800000 0x0 0x100000>;
 -- 
 2.29.2
 
