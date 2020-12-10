@@ -2,243 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DEE2C4361B
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 07:08:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E16E5C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 08:51:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D2C42313E
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 07:08:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94A3F22D58
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 08:51:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbgLJHI0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 02:08:26 -0500
-Received: from mga09.intel.com ([134.134.136.24]:65019 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725812AbgLJHIS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Dec 2020 02:08:18 -0500
-IronPort-SDR: C7klen4JTU9QVpJDnFYRjr0m0qHXRSqEcm13Dz4oXznL7Q2o7FRrQ9AoT39rlp4bBnys+4zdYr
- BHAhgNNwgNDA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="174355033"
-X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="174355033"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 23:07:32 -0800
-IronPort-SDR: VRHpRvRwehkBsNAGikdAJWCZ1rcsko+81FZa1wvs8rx6pI587MW7+jFb+wQYneFRwDqv0W6dPH
- 0AWMuyraJ2iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="542741300"
-Received: from lkp-server01.sh.intel.com (HELO ecc0cebe68d1) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Dec 2020 23:07:31 -0800
-Received: from kbuild by ecc0cebe68d1 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1knG30-00007r-RK; Thu, 10 Dec 2020 07:07:30 +0000
-Date:   Thu, 10 Dec 2020 15:07:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 8010622c86ca5bb44bc98492f5968726fc7c7a21
-Message-ID: <5fd1c92c.oRKeSKKitYV9f/2/%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1732949AbgLJIva (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 03:51:30 -0500
+Received: from mx.baikalelectronics.ru ([94.125.187.42]:36002 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388308AbgLJIvL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 03:51:11 -0500
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Felipe Balbi <balbi@kernel.org>,
+        John Youn <John.Youn@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        David Cohen <david.a.cohen@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Felipe Balbi <balbi@ti.com>
+Subject: [PATCH v5 1/3] usb: dwc3: ulpi: Use VStsDone to detect PHY regs access completion
+Date:   Thu, 10 Dec 2020 11:50:06 +0300
+Message-ID: <20201210085008.13264-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201210085008.13264-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201210085008.13264-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
-branch HEAD: 8010622c86ca5bb44bc98492f5968726fc7c7a21  USB: UAS: introduce a quirk to set no_write_same
+In accordance with [1] the DWC_usb3 core sets the GUSB2PHYACCn.VStsDone
+bit when the PHY vendor control access is done and clears it when the
+application initiates a new transaction. The doc doesn't say anything
+about the GUSB2PHYACCn.VStsBsy flag serving for the same purpose. Moreover
+we've discovered that the VStsBsy flag can be cleared before the VStsDone
+bit. So using the former as a signal of the PHY control registers
+completion might be dangerous. Let's have the VStsDone flag utilized
+instead then.
 
-i386-tinyconfig vmlinux size:
+[1] Synopsys DesignWare Cores SuperSpeed USB 3.0 xHCI Host Controller
+    Databook, 2.70a, December 2013, p.388
 
-+-------+------------------------------+-------------------------------------------+
-| DELTA |            SYMBOL            |                  COMMIT                   |
-+-------+------------------------------+-------------------------------------------+
-| +1822 | TOTAL                        | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +105 | TOTAL                        | 93837812a5dc Merge 5.10-rc7 into usb-next |
-| +1751 | TEXT                         | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +104 | TEXT                         | 93837812a5dc Merge 5.10-rc7 into usb-next |
-|   +68 | BSS                          | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +774 | seq_read_iter()              | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +255 | __add_to_page_cache_locked() | 93837812a5dc Merge 5.10-rc7 into usb-next |
-|  +250 | __invalidate_mapping_pages() | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +225 | intel_pmu_drain_pebs_icl()   | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +224 | intel_pmu_drain_pebs_nhm()   | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +201 | intel_pmu_drain_pebs_core()  | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +117 | init.text                    | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  +103 | collect_syscall()            | 93837812a5dc Merge 5.10-rc7 into usb-next |
-|   +68 | dummy_iregs                  | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|   +66 | perf_event_aux_event()       | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|   +66 | perf_log_throttle()          | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|   -69 | __sb_start_write()           | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|   -78 | __ptrace_may_access()        | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  -250 | __invalidate_mapping_pages() | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  -255 | __add_to_page_cache_locked() | 93837812a5dc Merge 5.10-rc7 into usb-next |
-|  -356 | __intel_pmu_pebs_event()     | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-|  -470 | seq_read()                   | 3650b228f83a..8010622c86ca (ALL COMMITS)  |
-+-------+------------------------------+-------------------------------------------+
-
-elapsed time: 726m
-
-configs tested: 144
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                 mpc837x_mds_defconfig
-h8300                               defconfig
-xtensa                           alldefconfig
-mips                      loongson3_defconfig
-powerpc                     ppa8548_defconfig
-sh                        edosk7705_defconfig
-sh                          r7780mp_defconfig
-powerpc                   lite5200b_defconfig
-mips                           ip32_defconfig
-sh                            migor_defconfig
-powerpc                      tqm8xx_defconfig
-arc                        vdk_hs38_defconfig
-powerpc                      walnut_defconfig
-ia64                         bigsur_defconfig
-m68k                         apollo_defconfig
-powerpc                     tqm8555_defconfig
-riscv                            allmodconfig
-mips                           gcw0_defconfig
-sh                          kfr2r09_defconfig
-sh                           se7724_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                           viper_defconfig
-arm                         socfpga_defconfig
-alpha                            alldefconfig
-arm                        vexpress_defconfig
-powerpc                      makalu_defconfig
-mips                         tb0219_defconfig
-mips                  maltasmvp_eva_defconfig
-mips                     cu1000-neo_defconfig
-powerpc                     rainier_defconfig
-arm                          pcm027_defconfig
-mips                          ath25_defconfig
-powerpc                 mpc834x_mds_defconfig
-arm                        oxnas_v6_defconfig
-s390                                defconfig
-arm                        spear6xx_defconfig
-arm                         s3c6400_defconfig
-mips                         db1xxx_defconfig
-mips                            ar7_defconfig
-arm                       versatile_defconfig
-powerpc                        icon_defconfig
-powerpc                     tqm8541_defconfig
-m68k                             alldefconfig
-arm                          ep93xx_defconfig
-arm                        cerfcube_defconfig
-arm                       multi_v4t_defconfig
-riscv                    nommu_k210_defconfig
-powerpc                 mpc8540_ads_defconfig
-arm                           tegra_defconfig
-sh                             shx3_defconfig
-powerpc                      pmac32_defconfig
-mips                          ath79_defconfig
-nios2                            alldefconfig
-arm                       aspeed_g5_defconfig
-powerpc                 canyonlands_defconfig
-sh                      rts7751r2d1_defconfig
-mips                         bigsur_defconfig
-mips                           xway_defconfig
-mips                         cobalt_defconfig
-mips                        nlm_xlp_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20201209
-i386                 randconfig-a005-20201209
-i386                 randconfig-a001-20201209
-i386                 randconfig-a002-20201209
-i386                 randconfig-a006-20201209
-i386                 randconfig-a003-20201209
-i386                 randconfig-a001-20201210
-i386                 randconfig-a004-20201210
-i386                 randconfig-a003-20201210
-i386                 randconfig-a002-20201210
-i386                 randconfig-a005-20201210
-i386                 randconfig-a006-20201210
-x86_64               randconfig-a016-20201209
-x86_64               randconfig-a012-20201209
-x86_64               randconfig-a013-20201209
-x86_64               randconfig-a014-20201209
-x86_64               randconfig-a015-20201209
-x86_64               randconfig-a011-20201209
-i386                 randconfig-a013-20201209
-i386                 randconfig-a014-20201209
-i386                 randconfig-a011-20201209
-i386                 randconfig-a015-20201209
-i386                 randconfig-a012-20201209
-i386                 randconfig-a016-20201209
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a004-20201209
-x86_64               randconfig-a006-20201209
-x86_64               randconfig-a005-20201209
-x86_64               randconfig-a001-20201209
-x86_64               randconfig-a002-20201209
-x86_64               randconfig-a003-20201209
-x86_64               randconfig-a003-20201210
-x86_64               randconfig-a006-20201210
-x86_64               randconfig-a002-20201210
-x86_64               randconfig-a005-20201210
-x86_64               randconfig-a004-20201210
-x86_64               randconfig-a001-20201210
+Fixes: 88bc9d194ff6 ("usb: dwc3: add ULPI interface support")
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+Changelog v3:
+- Add Fixes tag to the commit log.
+---
+ drivers/usb/dwc3/core.h | 1 +
+ drivers/usb/dwc3/ulpi.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 2f95f08ca511..1b241f937d8f 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -285,6 +285,7 @@
+ 
+ /* Global USB2 PHY Vendor Control Register */
+ #define DWC3_GUSB2PHYACC_NEWREGREQ	BIT(25)
++#define DWC3_GUSB2PHYACC_DONE		BIT(24)
+ #define DWC3_GUSB2PHYACC_BUSY		BIT(23)
+ #define DWC3_GUSB2PHYACC_WRITE		BIT(22)
+ #define DWC3_GUSB2PHYACC_ADDR(n)	(n << 16)
+diff --git a/drivers/usb/dwc3/ulpi.c b/drivers/usb/dwc3/ulpi.c
+index aa213c9815f6..3cc4f4970c05 100644
+--- a/drivers/usb/dwc3/ulpi.c
++++ b/drivers/usb/dwc3/ulpi.c
+@@ -24,7 +24,7 @@ static int dwc3_ulpi_busyloop(struct dwc3 *dwc)
+ 
+ 	while (count--) {
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYACC(0));
+-		if (!(reg & DWC3_GUSB2PHYACC_BUSY))
++		if (reg & DWC3_GUSB2PHYACC_DONE)
+ 			return 0;
+ 		cpu_relax();
+ 	}
+-- 
+2.29.2
+
