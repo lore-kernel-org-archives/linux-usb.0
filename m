@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EE9C2BBD5
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A007C2BB40
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1526B23D6C
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54C912343B
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388784AbgLJJQK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 04:16:10 -0500
-Received: from ns2.baikalelectronics.ru ([94.125.187.42]:36712 "EHLO
+        id S2388935AbgLJJQM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 04:16:12 -0500
+Received: from mx.baikalelectronics.ru ([94.125.187.42]:36714 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730988AbgLJJL7 (ORCPT
+        by vger.kernel.org with ESMTP id S1730714AbgLJJL7 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:11:59 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -26,7 +26,10 @@ To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Roger Quadros <rogerq@ti.com>
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -34,20 +37,19 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 17/19] dt-bindings: usb: keystone-dwc3: Validate DWC3 sub-node
-Date:   Thu, 10 Dec 2020 12:09:41 +0300
-Message-ID: <20201210090944.16283-18-Sergey.Semin@baikalelectronics.ru>
+        Rob Herring <robh@kernel.org>,
+        <linux-amlogic@lists.infradead.org>
+Subject: [PATCH v6 16/19] dt-bindings: usb: meson-g12a-usb: Validate DWC2/DWC3 sub-nodes
+Date:   Thu, 10 Dec 2020 12:09:40 +0300
+Message-ID: <20201210090944.16283-17-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,37 +60,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TI Keystone DWC3 compatible DT node is supposed to have a DWC USB3
-compatible sub-node to describe a fully functioning USB interface.
-Since DWC USB3 has now got a DT schema describing its DT node, let's make
-sure the TI Keystone DWC3 sub-node passes validation against it.
+Amlogic G12A USB DT sub-nodes are supposed to be compatible with the
+generic DWC USB2 and USB3 devices. Since now we've got DT schemas for
+both of the later IP cores let's make sure that the Amlogic G12A USB
+DT nodes are fully evaluated including the DWC sub-nodes.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
 ---
 
 Changelog v2:
-- Grammar fix: "s/it'/its"
+- Use "oneOf: [dwc2.yaml#, snps,dwc3.yaml#]" instead of the bulky "if:
+  properties: compatibe: ..." statement.
 ---
- Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml  | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
-index c1b19fc5d0a2..ca7fbe3ed22e 100644
---- a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
-@@ -64,9 +64,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+index 1eda16dd4ee0..e349fa5de606 100644
+--- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
++++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+@@ -79,7 +79,9 @@ properties:
  
  patternProperties:
-   "usb@[a-f0-9]+$":
+   "^usb@[0-9a-f]+$":
 -    type: object
--    description: This is the node representing the DWC3 controller instance
--      Documentation/devicetree/bindings/usb/dwc3.txt
-+    $ref: snps,dwc3.yaml#
++    oneOf:
++      - $ref: dwc2.yaml#
++      - $ref: snps,dwc3.yaml#
  
- required:
-   - compatible
+ additionalProperties: false
+ 
 -- 
 2.29.2
 
