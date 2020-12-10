@@ -7,27 +7,25 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 775FCC2BB9A
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F7DC4361B
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:13:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C78D22C7D
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:12:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE44B2343B
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388577AbgLJJMX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 04:12:23 -0500
-Received: from ns2.baikalelectronics.ru ([94.125.187.42]:36726 "EHLO
+        id S2388639AbgLJJNE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 04:13:04 -0500
+Received: from mx.baikalelectronics.ru ([94.125.187.42]:36714 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731905AbgLJJMS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:12:18 -0500
+        by vger.kernel.org with ESMTP id S1732329AbgLJJMT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:12:19 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -36,6 +34,8 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Manu Gautam <mgautam@codeaurora.org>,
         Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 09/19] dt-bindings: usb: renesas-xhci: Refer to the usb-xhci.yaml file
-Date:   Thu, 10 Dec 2020 12:09:33 +0300
-Message-ID: <20201210090944.16283-10-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 05/19] dt-bindings: usb: usb-hcd: Add "tpl-support" property
+Date:   Thu, 10 Dec 2020 12:09:29 +0300
+Message-ID: <20201210090944.16283-6-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,41 +58,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With minor peculiarities (like uploading some vendor-specific firmware)
-these are just Generic xHCI controllers fully compatible with its
-properties. Make sure the Renesas USB xHCI DT nodes are also validated
-against the Generic xHCI DT schema.
+The host controller device might be designed to work for the particular
+products or applications. In that case its DT node is supposed to be
+equipped with the tpl-support property.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-index 0f078bd0a3e5..7e5ed196b52c 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
-@@ -11,7 +11,7 @@ maintainers:
-   - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+
+Changelog v2:
+- Grammar fix: "s/it'/its"
+- Discard '|' from the property description, since we don't need to preserve
+  the text formatting.
+---
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 52cc84c400c0..9881ac10380d 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -17,6 +17,12 @@ properties:
+     description: Phandle of a companion device
+     $ref: /schemas/types.yaml#/definitions/phandle
  
- allOf:
--  - $ref: "usb-hcd.yaml"
-+  - $ref: "usb-xhci.yaml"
- 
- properties:
-   compatible:
-@@ -69,7 +69,7 @@ required:
-   - power-domains
-   - resets
- 
--additionalProperties: false
-+unevaluatedProperties: false
++  tpl-support:
++    description:
++      Indicates if the Targeted Peripheral List is supported for given
++      targeted hosts (non-PC hosts).
++    type: boolean
++
+ additionalProperties: true
  
  examples:
-   - |
 -- 
 2.29.2
 
