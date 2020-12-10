@@ -2,101 +2,153 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A59C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1080AC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFE8723C43
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:04:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CCD5023B99
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727618AbgLJJEi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 04:04:38 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:44399 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbgLJJEi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:04:38 -0500
-Received: by mail-lf1-f66.google.com with SMTP id m25so7098020lfc.11;
-        Thu, 10 Dec 2020 01:04:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3g/PlbOq96E099kgmLST992B1AZT0J96fn+u0TM9mng=;
-        b=PWI0yePTw/E6TXKgfLwZ+qfbt4Ph3oukG81EdMMai5jEYP3FHikI39wwYNnVsiwFqT
-         dJMLD2cmqZ1mRakIFlIl8R7MT3TOywvyTwZlUSg3tDRqFb5/1OvILi+EqwIcMXLMR605
-         WSXGby6LscSJ1hl/mnnvDPRC68MxRIqB78cK3ZcXWlKJHq/Npv4nhOvpbKX1TriutAaZ
-         C5nn+bLCCt9QTAsd6c3SmAdDkbLNJW96u+ypQSlStVmoGDsS15DCB8CTbVBM8af3uR3j
-         oaC3sL/wW9tAT6VvWhaQ5FExTCbbjDcMat92uU/KsZbNO/XSNvmyn5D87q5FX9uwkxl/
-         kXwg==
-X-Gm-Message-State: AOAM530jV98ZBlqSkA8Uf2pCR1SLXNRDnZbPfUCFwlEx7yqCi9Aw1sK1
-        35Vh1ZQNdlXTZt9iB6kPhFUxGm7GfclkyQ==
-X-Google-Smtp-Source: ABdhPJzEKqC84s1D4PcuOfAAovvcwrOyiY4Y5N+Qozl9Z3CQbXNZ4/q49R6pR7R8PCmoCyWvh9EF2w==
-X-Received: by 2002:a19:ecb:: with SMTP id 194mr1527898lfo.70.1607591035832;
-        Thu, 10 Dec 2020 01:03:55 -0800 (PST)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
-        by smtp.gmail.com with ESMTPSA id j20sm539444ljc.47.2020.12.10.01.03.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 01:03:55 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1knHsJ-0008A1-T6; Thu, 10 Dec 2020 10:04:36 +0100
-Date:   Thu, 10 Dec 2020 10:04:35 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        patong.mxl@gmail.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Angelo Dureghello <angelo.dureghello@timesys.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v5 2/3] usb: serial: xr_serial: Add gpiochip support
-Message-ID: <X9Hko/EkonmDx+Ay@localhost>
-References: <20201122170822.21715-1-mani@kernel.org>
- <20201122170822.21715-3-mani@kernel.org>
- <CACRpkdbY-aZB1BAD=JkZAHA+OQvpH12AD3tLAp6Nf1hwr74s9A@mail.gmail.com>
- <X8ZmfbQp7/BGgxec@localhost>
- <CACRpkdZJdxqxUEQaKUHctHRSQAUpYZJtuxonwVd_ZFAsLBbKrA@mail.gmail.com>
- <X89OOUOG0x0SSxXA@localhost>
- <CACRpkdavm7GG8HdV1xk0W_b1EzUmvF0kKAGnp0u6t42NAWa9iA@mail.gmail.com>
- <X9DsWahl6UDwZwBn@localhost>
- <CACRpkdYm-j9QcK8hgNrC33KruWE17Q0F4+T=UanE7PCEZEtu6w@mail.gmail.com>
- <X9HiGaIzk4UaZG7i@localhost>
+        id S2388280AbgLJJLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 04:11:17 -0500
+Received: from ns2.baikalchip.com ([94.125.187.42]:36172 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730702AbgLJJLR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:11:17 -0500
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Roger Quadros <rogerq@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-snps-arc@lists.infradead.org>, <linux-mips@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v6 01/19] dt-bindings: usb: usb-hcd: Detach generic USB controller properties
+Date:   Thu, 10 Dec 2020 12:09:25 +0300
+Message-ID: <20201210090944.16283-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X9HiGaIzk4UaZG7i@localhost>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 09:53:45AM +0100, Johan Hovold wrote:
-> On Wed, Dec 09, 2020 at 05:25:32PM +0100, Linus Walleij wrote:
-> > On Wed, Dec 9, 2020 at 4:24 PM Johan Hovold <johan@kernel.org> wrote:
+There can be three distinctive types of the USB controllers: USB hosts,
+USB peripherals/gadgets and USB OTG, which can switch from one role to
+another. In order to have that hierarchy handled in the DT binding files,
+we need to collect common properties in a common DT schema and specific
+properties in dedicated schemas. Seeing the usb-hcd.yaml DT schema is
+dedicated for the USB host controllers only, let's move some common
+properties from there into the usb.yaml schema. So the later would be
+available to evaluate all currently supported types of the USB
+controllers.
 
-> > > So it sounds like there's nothing preventing per-chip-unique names in
-> > > the rest of gpiolib and the new chardev interface then? Are the
-> > > user-space libraries able to cope with it, etc?
-> > 
-> > Yes the documentation refers to libgpiod a very well maintained
-> > library:
-> > https://www.kernel.org/doc/html/latest/driver-api/gpio/using-gpio.html
-> > https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
-> 
-> Just did a super quick check and it seems libgpiod still assumes a flat
-> name space. For example, gpiod_chip_find_line() returns only the first
-> line found that matches a name. Shouldn't be impossible to extend, but
-> just want to make sure this flat namespace assumption hasn't been to
-> heavily relied upon.
+While at it add an explicit "additionalProperties: true" into the
+usb-hcd.yaml as setting the additionalProperties/unevaluateProperties
+properties is going to be get mandatory soon.
 
-That should have been gpiod_line_find() (which in turn uses the above
-mentioned helper for per-chip lookups).
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Johan
+---
+
+Changelog v4:
+- This is a new patch created as a result of the comment left
+  by Chunfeng Yun in v3
+
+Changelog v5:
+- Discard duplicated additionalProperties property definition.
+---
+ .../devicetree/bindings/usb/usb-hcd.yaml      | 14 ++-------
+ .../devicetree/bindings/usb/usb.yaml          | 29 +++++++++++++++++++
+ 2 files changed, 31 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/usb.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index b545b087b342..81f3ad1419d8 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -9,18 +9,8 @@ title: Generic USB Host Controller Device Tree Bindings
+ maintainers:
+   - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ 
+-properties:
+-  $nodename:
+-    pattern: "^usb(@.*)?"
+-
+-  phys:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    description:
+-      List of all the USB PHYs on this HCD
+-
+-  phy-names:
+-    description:
+-      Name specifier for the USB PHY
++allOf:
++  - $ref: usb.yaml#
+ 
+ additionalProperties: true
+ 
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+new file mode 100644
+index 000000000000..941ad59fbac5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -0,0 +1,29 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/usb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic USB Controller Device Tree Bindings
++
++maintainers:
++  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++
++select: false
++
++properties:
++  $nodename:
++    pattern: "^usb(@.*)?"
++
++  phys:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      List of all the USB PHYs on this HCD
++
++  phy-names:
++    description:
++      Name specifier for the USB PHY
++
++additionalProperties: true
++
++...
+-- 
+2.29.2
+
