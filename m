@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 628E6C2BBD5
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31460C3526D
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A98C23D6C
+	by mail.kernel.org (Postfix) with ESMTP id 0463A23D9B
 	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388267AbgLJJQL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 04:16:11 -0500
-Received: from ns2.chip.baikal.ru ([94.125.187.42]:36716 "EHLO
+        id S2388201AbgLJJLQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 04:11:16 -0500
+Received: from ns2.baikalelectronics.ru ([94.125.187.42]:36312 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2388411AbgLJJL7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:11:59 -0500
+        by vger.kernel.org with ESMTP id S1730455AbgLJJLQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:11:16 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <linuxppc-dev@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 14/19] dt-bindings: usb: dwc3: Add Frame Length Adj constraints
-Date:   Thu, 10 Dec 2020 12:09:38 +0300
-Message-ID: <20201210090944.16283-15-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 04/19] dt-bindings: usb: Add "ulpi/serial/hsic" PHY types
+Date:   Thu, 10 Dec 2020 12:09:28 +0300
+Message-ID: <20201210090944.16283-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,29 +58,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the IP core databook the
-snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
-Let's make sure the DT schema applies a correct constraints on the
-property.
+Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
+that can be specified in the phy_type HCD property. Add them to the
+enumeration of the acceptable values.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index e01a9a93d74a..2247da77eac1 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -243,6 +243,8 @@ properties:
-       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
-       incorrect.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0x3f
+---
+
+Changelog v2:
+- Grammar fix: "s/PHY types can be/PHY types that can be"
+- Drop quotes from around the string constants.
+
+Changelog v4:
+- Move the new PHY types definitions into the usb.yaml schema where the
+  phy_type property is now defined.
+---
+ Documentation/devicetree/bindings/usb/usb.yaml | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+index aab74c671ccc..53144c4600c0 100644
+--- a/Documentation/devicetree/bindings/usb/usb.yaml
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -27,11 +27,13 @@ properties:
+   phy_type:
+     description:
+       Tells USB controllers that we want to configure the core to support a
+-      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
+-      this isn't passed via DT, USB controllers should default to HW
+-      capability.
++      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
++      pin interface if ULPI is specified, Serial core/PHY interconnect if
++      serial is specified and High-Speed Inter-Chip feature if HSIC is
++      selected. In case this isn't passed via DT, USB controllers should
++      default to HW capability.
+     $ref: /schemas/types.yaml#/definitions/string
+-    enum: [utmi, utmi_wide]
++    enum: [utmi, utmi_wide, ulpi, serial, hsic]
  
-   snps,rx-thr-num-pkt-prd:
+   maximum-speed:
      description:
 -- 
 2.29.2
