@@ -2,125 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20C4DC2BB40
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 17:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF00C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 18:58:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6BEC23DE3
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 17:47:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5681B23DB3
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 18:58:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392664AbgLJRrm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 12:47:42 -0500
-Received: from gproxy4-pub.mail.unifiedlayer.com ([69.89.23.142]:59253 "EHLO
-        gproxy4-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387836AbgLJRo7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 12:44:59 -0500
-Received: from cmgw11.unifiedlayer.com (unknown [10.9.0.11])
-        by gproxy4.mail.unifiedlayer.com (Postfix) with ESMTP id BC021175EA2
-        for <linux-usb@vger.kernel.org>; Thu, 10 Dec 2020 10:43:49 -0700 (MST)
-Received: from bh-25.webhostbox.net ([208.91.199.152])
-        by cmsmtp with ESMTP
-        id nPynkyRCEdCH5nPynk1P0k; Thu, 10 Dec 2020 10:43:49 -0700
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.3 cv=G5cy7es5 c=1 sm=1 tr=0
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
- a=zTNgK-yGK50A:10:nop_rcvd_month_year
- a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=1XWaLZrsAAAA:8
- a=_jlGtV7tAAAA:8 a=QyXUC8HyAAAA:8 a=ag1SF4gXAAAA:8 a=cOPUhUyyOuhHbND_QhoA:9
- a=CjuIK1q_8ugA:10:nop_charset_2 a=nlm17XC03S6CtCLSeiRr:22
- a=Yupwre4RP9_Eg_Bd0iYG:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=DJPibpTBI7ibES47Gz9om6shkGvNBtaQ4yr+2oUWILs=; b=Q6adGXIOQorfAD2KGYjHgscRi4
-        29PK73BFnvitInNkn0YKR4XA79OIuQmB7+NYFQmLpzWT2yd18gsSgurPQ/I/zsMhCrS6HGo9gSEFB
-        73RYB/Dj1Xt+J4dl9VY3qMsdjJmyzI8lVXuvbMBL0dWNeR4Opl+0fRNJB4DR39O2Nk0J+s0HUIfEq
-        ZNXAQk3zAXXhHIAQsJevchWUHxIniugQV2Eg0koDmLGX4wyctqmRrGLl8j3ap+C5LW+uBUwfAulFu
-        C6TifT8GC8Xjg2/7+jgexyWGshV7jKzEdGbOYibKWI+n6gOB45GscoF+9E39zqLyEpHFYmIoptLEF
-        lrxWI6Ow==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:60456 helo=localhost)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <linux@roeck-us.net>)
-        id 1knPym-001SVA-T7; Thu, 10 Dec 2020 17:43:49 +0000
-Date:   Thu, 10 Dec 2020 09:43:48 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle Tso <kyletso@google.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Will McVicker <willmcvicker@google.com>
-Subject: Re: [PATCH 3/5] USB: typec: tcpm: Fix PR_SWAP error handling
-Message-ID: <20201210174348.GD107395@roeck-us.net>
-References: <20201210160521.3417426-1-gregkh@linuxfoundation.org>
- <20201210160521.3417426-4-gregkh@linuxfoundation.org>
+        id S2393272AbgLJS6Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 13:58:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393266AbgLJS6H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 13:58:07 -0500
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F01BC0613CF
+        for <linux-usb@vger.kernel.org>; Thu, 10 Dec 2020 10:57:25 -0800 (PST)
+Received: by mail-vk1-xa41.google.com with SMTP id w190so1471872vkg.13
+        for <linux-usb@vger.kernel.org>; Thu, 10 Dec 2020 10:57:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=89ETQBahwfQbokMIPaPBbY34+Gcb1bOyU5ZoPKDVcLY=;
+        b=MttlDK1+8tbWkGyYEQUVRuwpKxeMMntNkgsLXLbOcY+cdy+6ftnGwV9DuuDfP92w1m
+         W2xThlhrF9jI0resoHnnvlQvfEOewwuXYcEYKD3Ig7aUENL+j4x5l/WkOo+tDi1Ym1xL
+         f3l37CxypmgAyMMALCHmSz5YZMXYUA/hjwrNGXys3FJdAVidAJaB7NXAQJW20Q0lI+x6
+         E4AcUytF1V7IImwstqZrX19JL8KESW37HGFylqMn7K44e4T7iaguzWxjqJwe+XNaBt2S
+         WU7gDRexrqIts8sTb841cdCF4YGIoItGFacqB5W2WO1A4xUIeCvlbAZetBMnM+QGYcr4
+         QMHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=89ETQBahwfQbokMIPaPBbY34+Gcb1bOyU5ZoPKDVcLY=;
+        b=YID537XeSxIwxiZG8OEZvMjGk1f+W5tTs2gj3QA4vwH21EJkogQs3EqMgiqxeWoE89
+         9VNGprtTGrTe4UnQpD9pxWvNm2j+nmtZJ92ocktroPeRqQRaVLU+xZnHhAfKFZZ1R98l
+         6uF8+n9Ij43+MPORcj24mYyDkUsMmL7b6g+VMGXw3w/2vBu9CZ1fzr60qEyelMO8ugrw
+         GmOXJNp/lkzpoN0ZBAHsYKE1HID3ZaLTofg7gk6rfXeOaWpXOG88nc9bOIaVbHQSVJVp
+         fiQea3jtcAg5k91PuCVAOcfUkGXmhzRNN2gbVHVmIFWxSRHpzkDS3I8PMBXAJLRfBTWd
+         8TAA==
+X-Gm-Message-State: AOAM533K6L1prfDoSgZRxs5nRSGNCXBTsO1Uyql34shqFf6wrLVfaCs1
+        wCDLvBJhTF+8htrdg7KfmziM0G0MFA7NdTdF5Vy6Ow==
+X-Google-Smtp-Source: ABdhPJxyg/RRfgpJFHX+2N5KdkecP634kvYKPLS9rvWdmoEMyKhfZBfFjzAhCxAbOlAFErwUbk1ZD0ve9Ldb+V69IQw=
+X-Received: by 2002:a1f:aed2:: with SMTP id x201mr10850305vke.22.1607626644059;
+ Thu, 10 Dec 2020 10:57:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201210160521.3417426-4-gregkh@linuxfoundation.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1knPym-001SVA-T7
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:60456
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 20
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+References: <20201210160521.3417426-1-gregkh@linuxfoundation.org>
+ <20201210160521.3417426-6-gregkh@linuxfoundation.org> <20201210174548.GF107395@roeck-us.net>
+In-Reply-To: <20201210174548.GF107395@roeck-us.net>
+From:   Badhri Jagan Sridharan <badhri@google.com>
+Date:   Thu, 10 Dec 2020 10:56:48 -0800
+Message-ID: <CAPTae5JBj1PgZw7=00ZPuT8OZP7=SNSAcPBtaiQ_LyxZm7UhNw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] USB: typec: tcpci: Add Bleed discharge to
+ POWER_CONTROL definition
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        USB <linux-usb@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kyle Tso <kyletso@google.com>,
+        Will McVicker <willmcvicker@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 05:05:19PM +0100, Greg Kroah-Hartman wrote:
-> From: Kyle Tso <kyletso@google.com>
-> 
-> PD rev3.0 8.3.3.16.3.6 PE_PRS_SRC_SNK_Wait_Source_on State
-> The Policy Enging Shall transition to the ErrorRecovery state when the
-> PSSourceOnTimer times out ...
-> 
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: Badhri Jagan Sridharan <badhri@google.com>
-> Signed-off-by: Kyle Tso <kyletso@google.com>
-> Signed-off-by: Will McVicker <willmcvicker@google.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hi Guenter,
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Yes I will send a follow up patch to update tcpci_maxim.c.
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 0efda59bb104..d51c45961893 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -3728,7 +3728,7 @@ static void run_state_machine(struct tcpm_port *port)
->  			tcpm_set_state(port, ERROR_RECOVERY, 0);
->  			break;
->  		}
-> -		tcpm_set_state_cond(port, SNK_UNATTACHED, PD_T_PS_SOURCE_ON);
-> +		tcpm_set_state(port, ERROR_RECOVERY, PD_T_PS_SOURCE_ON);
->  		break;
->  	case PR_SWAP_SRC_SNK_SINK_ON:
->  		/* Set the vbus disconnect threshold for implicit contract */
-> -- 
-> 2.29.2
-> 
+Thanks,
+Badhri
+
+
+On Thu, Dec 10, 2020 at 9:45 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Thu, Dec 10, 2020 at 05:05:21PM +0100, Greg Kroah-Hartman wrote:
+> > From: Badhri Jagan Sridharan <badhri@google.com>
+> >
+> > "Table 4-19. POWER_CONTROL Register Definition" from tcpci spec
+> > defines BIT(3) as the control bit for bleed discharge.
+> >
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> > Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > Cc: Kyle Tso <kyletso@google.com>
+> > Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> > Signed-off-by: Will McVicker <willmcvicker@google.com>
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> Just wondering - is that going to be used in a follow-up commit ?
+>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+>
+> Guenter
+>
+> > ---
+> >  drivers/usb/typec/tcpm/tcpci.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
+> > index 116a69c85e38..c3c7d07d9b4e 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci.h
+> > +++ b/drivers/usb/typec/tcpm/tcpci.h
+> > @@ -72,6 +72,7 @@
+> >
+> >  #define TCPC_POWER_CTRL                      0x1c
+> >  #define TCPC_POWER_CTRL_VCONN_ENABLE BIT(0)
+> > +#define TCPC_POWER_CTRL_BLEED_DISCHARGE      BIT(3)
+> >  #define TCPC_POWER_CTRL_AUTO_DISCHARGE       BIT(4)
+> >  #define TCPC_FAST_ROLE_SWAP_EN               BIT(7)
+> >
+> > --
+> > 2.29.2
+> >
