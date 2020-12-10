@@ -2,72 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D27C4167B
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 13:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0837DC1B0D9
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 13:43:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9D562312D
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 13:39:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7E692311B
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 13:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389446AbgLJNjA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 08:39:00 -0500
-Received: from mail-io1-f72.google.com ([209.85.166.72]:51695 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389584AbgLJNio (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 08:38:44 -0500
-Received: by mail-io1-f72.google.com with SMTP id h206so3898799iof.18
-        for <linux-usb@vger.kernel.org>; Thu, 10 Dec 2020 05:38:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=kgFGcmgPC8j3KRHWZ4y5Gyk/Fnf8f4ATjgdtBg1RD1A=;
-        b=jvxI+cGhoKz999A+09gOdUFpaCc4WZZWQfjXYdZlsczDZPJOWVgoEaBSBq4nXfFceb
-         i7fSuootAQJGrXpr5kV0oYPCCsS14Kt6L5w6q+Ra0Y+1QKqWT0oiEN7zESnp3ncxq+wf
-         Toq5y7mAQEmJBTNNY/z0AXyX2yxPll+USsVhsN4z8ipsgkXUHFyalOCmzNMWgYuWD0H2
-         lqb1UaKgFGX2lBYz4163PmAcDXb5YQDoHzRnqheCd/ZqjGSIfh4lbb1GLOOIclyM3aFk
-         N3j8AnTE5mPFJP0Z5o78RiCr2Lu3/MzU1gUZkPP2KUnYqy4EtKGmcTjbSiVWqMGrfq1q
-         ckUA==
-X-Gm-Message-State: AOAM531dE8MnFI2/SDsl5gQDTzOw6puhGD88Lept+Y8NymkrS5t3F7Sl
-        aaXRPWbIoXmnkLvxOF699Recvq5JXNXPhkFRpdyzxrYBn+QI
-X-Google-Smtp-Source: ABdhPJzKakhL76WLvBKzOxJhMiSEhpIghvxAoWZtBw/Qc29GbG//xqYBqwgWc4mVrw77xaQMi6jiEciSsZGZBgCigzE046DPqG0C
-MIME-Version: 1.0
-X-Received: by 2002:a05:6602:1653:: with SMTP id y19mr8510977iow.90.1607607483982;
- Thu, 10 Dec 2020 05:38:03 -0800 (PST)
-Date:   Thu, 10 Dec 2020 05:38:03 -0800
-In-Reply-To: <X9GiwQsABTa/zC/t@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000056a2905b61c496c@google.com>
-Subject: Re: WARNING in cm109_input_ev/usb_submit_urb
-From:   syzbot <syzbot+150f793ac5bc18eee150@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, eli.billauer@gmail.com,
-        gregkh@linuxfoundation.org, gustavoars@kernel.org,
-        ingrassia@epigenesys.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        vulab@iscas.ac.cn
-Content-Type: text/plain; charset="UTF-8"
+        id S2389334AbgLJNnR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 08:43:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732601AbgLJNnR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 10 Dec 2020 08:43:17 -0500
+From:   Peter Chen <peter.chen@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     pawell@cadence.com, rogerq@ti.com, robh+dt@kernel.org,
+        frowand.list@gmail.com
+Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com, a-govindraju@ti.com,
+        frank.li@nxp.com, devicetree@vger.kernel.org,
+        Peter Chen <peter.chen@nxp.com>
+Subject: [PATCH 2/2] usb: cdns3: imx: assign platform_data_length for auxdata structure
+Date:   Thu, 10 Dec 2020 21:42:15 +0800
+Message-Id: <20201210134215.20424-2-peter.chen@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201210134215.20424-1-peter.chen@kernel.org>
+References: <20201210134215.20424-1-peter.chen@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+From: Peter Chen <peter.chen@nxp.com>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+In this case, the OF code will call platform_device_add_data to
+allocate platform_data using kmalloc, and avoid kfree issue when
+unload module. It fixed below oops:
 
-Reported-and-tested-by: syzbot+150f793ac5bc18eee150@syzkaller.appspotmail.com
+log1:
+[  333.501593] Unable to handle kernel paging request at virtual address 000000000004ae48
+[  333.509558] Mem abort info:
+[  333.512369]   ESR = 0x96000006
+[  333.515476]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  333.520847]   SET = 0, FnV = 0
+[  333.523986]   EA = 0, S1PTW = 0
+[  333.527193] Data abort info:
+[  333.530124]   ISV = 0, ISS = 0x00000006
+[  333.534004]   CM = 0, WnR = 0
+[  333.536988] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000885d73000
+[  333.543497] [000000000004ae48] pgd=0000000000000000, p4d=0000000000000000
+[  333.550354] Internal error: Oops: 96000006 [#1] PREEMPT SMP
+[  333.555936] Modules linked in: fsl_jr_uio caam_jr caamkeyblob_desc caamhash_desc caamalg_desc crypto_engine rng_core authenc libdes crct10dif_
+ce mxc_jpeg_encdec phy_mxs_usb phy_cadence_salvo imx8_media_dev(C) caam error [last unloaded: cdns3]
+[  333.577484] CPU: 3 PID: 168 Comm: kworker/3:38 Tainted: G         C        5.10.0-rc4-04454-gd479340c061 #30
+[  333.587313] Hardware name: Freescale i.MX8QXP MEK (DT)
+[  333.592471] Workqueue: rcu_gp srcu_invoke_callbacks
+[  333.597359] pstate: a0000005 (NzCv daif -PAN -UAO -TCO BTYPE=--)
+[  333.603373] pc : kfree+0x78/0x3a0
+[  333.606690] lr : platform_device_release+0x28/0x58
+[  333.611481] sp : ffff8000135bbc20
+[  333.614800] x29: ffff8000135bbc20 x28: ffff800012146000
+[  333.620125] x27: ffff00083fa06470 x26: ffff800010108cb0
+[  333.625442] x25: 0080000000000000 x24: ffff80001240f000
+[  333.630767] x23: ffff0008012ef000 x22: ffff800010875478
+[  333.636093] x21: ffff8000092b90c8 x20: ffff000804bf1b00
+[  333.641418] x19: 000000000004ae40 x18: 0000000000000000
+[  333.646735] x17: 0000000000000000 x16: 0000000000000000
+[  333.652052] x15: 0000000000000000 x14: 0000000000000000
+[  333.657368] x13: 0000000000000002 x12: 0000000000000000
+[  333.662685] x11: 0000000000000040 x10: 0000000000000a00
+[  333.668000] x9 : ffff800010875478 x8 : fefefefefefefeff
+[  333.673319] x7 : 0000000000000018 x6 : ffff00080101006c
+[  333.678644] x5 : ffff00083fa5c300 x4 : 0000000000000000
+[  333.683969] x3 : 0000000000000002 x2 : 0000000000000000
+[  333.689286] x1 : 0000000000000030 x0 : fffffdffffe00000
+[  333.694605] Call trace:
+[  333.697059]  kfree+0x78/0x3a0
+[  333.700027]  platform_device_release+0x28/0x58
+[  333.704476]  device_release+0x38/0x90
+[  333.708144]  kobject_put+0x78/0x208
+[  333.711633]  __device_link_free_srcu+0x50/0x78
+[  333.716082]  srcu_invoke_callbacks+0xf4/0x168
+[  333.720445]  process_one_work+0x1c8/0x480
+[  333.724460]  worker_thread+0x50/0x420
+[  333.728124]  kthread+0x148/0x168
+[  333.731355]  ret_from_fork+0x10/0x18
+[  333.734940] Code: b26babe0 d34cfe73 f2dfbfe0 8b131813 (f9400660)
+[  333.741049] ---[ end trace 9a41d9fcbc0885e6 ]---
+[  333.745671] Kernel panic - not syncing: Oops: Fatal exception in interrupt
+[  333.752551] SMP: stopping secondary CPUs
+[  333.756485] Kernel Offset: disabled
+[  333.759979] CPU features: 0x0240002,20002008
+[  333.764251] Memory Limit: none
 
-Tested on:
+log2:
+[  160.400179]  kfree+0x78/0x3a0
+[  160.403147]  platform_device_release+0x28/0x58
+[  160.407595]  device_release+0x38/0x90
+[  160.411264]  kobject_put+0x78/0x208
+[  160.414753]  klist_children_put+0x1c/0x28
+[  160.418766]  klist_next+0xac/0x128
+[  160.422172]  device_for_each_child+0x4c/0xa8
+[  160.426453]  cdns_imx_remove+0x2c/0x40 [cdns3_imx]
+[  160.431251]  platform_drv_remove+0x30/0x50
+[  160.435353]  device_release_driver_internal+0x114/0x1e8
+[  160.440580]  driver_detach+0x54/0xe0
+[  160.444163]  bus_remove_driver+0x60/0xd8
+[  160.448087]  driver_unregister+0x34/0x60
+[  160.452013]  platform_driver_unregister+0x18/0x20
+[  160.456726]  cdns_imx_driver_exit+0x14/0x478 [cdns3_imx]
+[  160.462042]  __arm64_sys_delete_module+0x180/0x258
+[  160.466837]  el0_svc_common.constprop.0+0x70/0x168
+[  160.471631]  do_el0_svc+0x28/0x88
+[  160.474950]  el0_sync_handler+0x158/0x160
+[  160.478961]  el0_sync+0x140/0x180
 
-commit:         f6d088b4 Input: cm109 - do not stomp on control URB
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=af17f186e004b5ef
-dashboard link: https://syzkaller.appspot.com/bug?extid=150f793ac5bc18eee150
-compiler:       clang version 11.0.0 (https://github.com/llvm/llvm-project.git ca2dcbd030eadbf0aa9b660efe864ff08af6e18b)
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
+---
+ drivers/usb/cdns3/cdns3-imx.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Note: testing is done by a robot and is best-effort only.
+diff --git a/drivers/usb/cdns3/cdns3-imx.c b/drivers/usb/cdns3/cdns3-imx.c
+index f03562c76a50..67c9b789d3b2 100644
+--- a/drivers/usb/cdns3/cdns3-imx.c
++++ b/drivers/usb/cdns3/cdns3-imx.c
+@@ -158,6 +158,7 @@ static const struct of_dev_auxdata cdns_imx_auxdata[] = {
+ 	{
+ 		.compatible = "cdns,usb3",
+ 		.platform_data = &cdns_imx_pdata,
++		.platform_data_length = sizeof(cdns_imx_pdata),
+ 	},
+ 	{},
+ };
+-- 
+2.17.1
+
