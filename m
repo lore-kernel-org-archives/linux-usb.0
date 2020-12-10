@@ -2,36 +2,36 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB35C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 17:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBF8C1B0E3
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 17:47:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCFE323E1E
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 17:44:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4092C23EB4
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 17:47:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729195AbgLJRnf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 12:43:35 -0500
-Received: from gproxy8-pub.mail.unifiedlayer.com ([67.222.33.93]:59738 "EHLO
-        gproxy8-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2392703AbgLJRn0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 12:43:26 -0500
-Received: from cmgw11.unifiedlayer.com (unknown [10.9.0.11])
-        by gproxy8.mail.unifiedlayer.com (Postfix) with ESMTP id 8E1A01AB056
-        for <linux-usb@vger.kernel.org>; Thu, 10 Dec 2020 10:42:38 -0700 (MST)
+        id S2392894AbgLJRqo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 12:46:44 -0500
+Received: from gproxy7-pub.mail.unifiedlayer.com ([70.40.196.235]:57153 "EHLO
+        gproxy7-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2392872AbgLJRqa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 12:46:30 -0500
+Received: from cmgw10.unifiedlayer.com (unknown [10.9.0.10])
+        by gproxy7.mail.unifiedlayer.com (Postfix) with ESMTP id 0D1DF215D21
+        for <linux-usb@vger.kernel.org>; Thu, 10 Dec 2020 10:45:50 -0700 (MST)
 Received: from bh-25.webhostbox.net ([208.91.199.152])
         by cmsmtp with ESMTP
-        id nPxekyQssdCH5nPxek1Oht; Thu, 10 Dec 2020 10:42:38 -0700
+        id nQ0jk2rtVDlydnQ0jkoc7t; Thu, 10 Dec 2020 10:45:49 -0700
 X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.3 cv=G5cy7es5 c=1 sm=1 tr=0
+X-Authority-Analysis: v=2.3 cv=A9VCwZeG c=1 sm=1 tr=0
  a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
  a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
  a=zTNgK-yGK50A:10:nop_rcvd_month_year
  a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=1XWaLZrsAAAA:8
- a=_jlGtV7tAAAA:8 a=QyXUC8HyAAAA:8 a=ag1SF4gXAAAA:8 a=D6N0on24dROpF_i51M8A:9
+ a=_jlGtV7tAAAA:8 a=QyXUC8HyAAAA:8 a=ag1SF4gXAAAA:8 a=h6dpbDeaCvH9cfnFbJwA:9
  a=CjuIK1q_8ugA:10:nop_charset_2 a=nlm17XC03S6CtCLSeiRr:22
  a=Yupwre4RP9_Eg_Bd0iYG:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -40,18 +40,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=5YmuPWHMOh1EdgGQP6M1KGAXCwcz4J5xaPKG0AP1b4k=; b=gXzub4Ll2eI0H9XXwQ0eH3zg+4
-        zskkV1eXoJ+IlcBbXI5u9ZZ8RGiVtB2Jh28Sq9Vfa6qa3n4LLmB9rugZNgGwEOlQ6nEXYekSZ34Fz
-        U+2VAPvPJW0WSSZF43O4TTsAHuxzOnmAPzTDg3wF9tmLUc8UARwgBenP87iRXaXWB53WStp9JL/y5
-        mmK1VaMCHi1vJVnYVpf+Gso9G69/OfdfPd/uKwQBi2T27nZ6WPGc4Oiyd5uQ9Gwx90UROSa1FShCd
-        cwzMQdrjErw73SPylExhcXnHsUBTKL2smWj6BaMuRwoVewpNb4ZgvURU+rK26evDFwmLQvbZ1UTVk
-        ptZHEUEw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:60448 helo=localhost)
+        bh=mSi37/KpQzHqxnLEaea2i61ySgFWJyTbS2I2jXpx2RM=; b=dyB7ImVu+uo/rGuqR0DETKUOZ9
+        sJ5HGIBXYbcJfkiGfWBDDnKtrlzKyLaawoVcKUKDEl6pPdwwez6COUrz+8QOCAawseoihM7GSyocD
+        kNYcSAq7RxZnn4ZI0B1S5fOGn6xacsJNzvXuGMbYG3sRUoD7U323sttv0TjgbXY3WHyqWN37Ct+qm
+        AVTEYQkYsasYMmwr6fW1CKz/Ets6aDz0VIDSSy9gp4UAMco27EL66V3Hb0LRfyGKgeqZNQORhd68G
+        CNjQWcceOSJxUNBrQDJxk4jZ/8mYSG7SUsM7hgoEJzgyLxQ5mxeYbv8mRxoKcpeE+VtDY5M5i+O/i
+        Wyrk8f0w==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:60464 helo=localhost)
         by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <linux@roeck-us.net>)
-        id 1knPxd-001SBJ-Mk; Thu, 10 Dec 2020 17:42:37 +0000
-Date:   Thu, 10 Dec 2020 09:42:36 -0800
+        id 1knQ0j-001TFC-5D; Thu, 10 Dec 2020 17:45:49 +0000
+Date:   Thu, 10 Dec 2020 09:45:48 -0800
 From:   Guenter Roeck <linux@roeck-us.net>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
@@ -59,15 +59,15 @@ Cc:     heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
         Badhri Jagan Sridharan <badhri@google.com>,
         Kyle Tso <kyletso@google.com>,
         Will McVicker <willmcvicker@google.com>
-Subject: Re: [PATCH 1/5] USB: typec: tcpm: Prevent log overflow by removing
- old entries
-Message-ID: <20201210174236.GB107395@roeck-us.net>
+Subject: Re: [PATCH 5/5] USB: typec: tcpci: Add Bleed discharge to
+ POWER_CONTROL definition
+Message-ID: <20201210174548.GF107395@roeck-us.net>
 References: <20201210160521.3417426-1-gregkh@linuxfoundation.org>
- <20201210160521.3417426-2-gregkh@linuxfoundation.org>
+ <20201210160521.3417426-6-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201210160521.3417426-2-gregkh@linuxfoundation.org>
+In-Reply-To: <20201210160521.3417426-6-gregkh@linuxfoundation.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
@@ -77,96 +77,54 @@ X-AntiAbuse: Sender Address Domain - roeck-us.net
 X-BWhitelist: no
 X-Source-IP: 108.223.40.66
 X-Source-L: No
-X-Exim-ID: 1knPxd-001SBJ-Mk
+X-Exim-ID: 1knQ0j-001TFC-5D
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:60448
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:60464
 X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 5
+X-Email-Count: 34
 X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
 X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 05:05:17PM +0100, Greg Kroah-Hartman wrote:
+On Thu, Dec 10, 2020 at 05:05:21PM +0100, Greg Kroah-Hartman wrote:
 > From: Badhri Jagan Sridharan <badhri@google.com>
 > 
-> TCPM logs overflow once the logbuffer is full. Clear old entries and
-> allow logging the newer ones as the newer would be more relevant to the
-> issue being debugged.
+> "Table 4-19. POWER_CONTROL Register Definition" from tcpci spec
+> defines BIT(3) as the control bit for bleed discharge.
 > 
-> Also, do not reset the logbuffer tail as end users might take back to
-> back bugreports which would result in an empty buffer.
-> 
-
-Historically, the reason for not doing this was that, once a problem occurs,
-the log would fill up quickly (typically with reconnect attempts), and the
-actual reason for the problem would be overwritten. Maybe that reasoning
-no longer applies; I just wanted to point out that there _was_ a reason for
-not clearing old log entries.
-
-Guenter
-
 > Cc: Guenter Roeck <linux@roeck-us.net>
 > Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > Cc: Kyle Tso <kyletso@google.com>
 > Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 > Signed-off-by: Will McVicker <willmcvicker@google.com>
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Just wondering - is that going to be used in a follow-up commit ?
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+Guenter
+
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 16 +++-------------
->  1 file changed, 3 insertions(+), 13 deletions(-)
+>  drivers/usb/typec/tcpm/tcpci.h | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index cedc6cf82d61..0ceeab50ed64 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -470,12 +470,6 @@ static bool tcpm_port_is_disconnected(struct tcpm_port *port)
+> diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
+> index 116a69c85e38..c3c7d07d9b4e 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.h
+> +++ b/drivers/usb/typec/tcpm/tcpci.h
+> @@ -72,6 +72,7 @@
 >  
->  #ifdef CONFIG_DEBUG_FS
+>  #define TCPC_POWER_CTRL			0x1c
+>  #define TCPC_POWER_CTRL_VCONN_ENABLE	BIT(0)
+> +#define TCPC_POWER_CTRL_BLEED_DISCHARGE	BIT(3)
+>  #define TCPC_POWER_CTRL_AUTO_DISCHARGE	BIT(4)
+>  #define TCPC_FAST_ROLE_SWAP_EN		BIT(7)
 >  
-> -static bool tcpm_log_full(struct tcpm_port *port)
-> -{
-> -	return port->logbuffer_tail ==
-> -		(port->logbuffer_head + 1) % LOG_BUFFER_ENTRIES;
-> -}
-> -
->  __printf(2, 0)
->  static void _tcpm_log(struct tcpm_port *port, const char *fmt, va_list args)
->  {
-> @@ -495,11 +489,6 @@ static void _tcpm_log(struct tcpm_port *port, const char *fmt, va_list args)
->  
->  	vsnprintf(tmpbuffer, sizeof(tmpbuffer), fmt, args);
->  
-> -	if (tcpm_log_full(port)) {
-> -		port->logbuffer_head = max(port->logbuffer_head - 1, 0);
-> -		strcpy(tmpbuffer, "overflow");
-> -	}
-> -
->  	if (port->logbuffer_head < 0 ||
->  	    port->logbuffer_head >= LOG_BUFFER_ENTRIES) {
->  		dev_warn(port->dev,
-> @@ -519,6 +508,9 @@ static void _tcpm_log(struct tcpm_port *port, const char *fmt, va_list args)
->  		  (unsigned long)ts_nsec, rem_nsec / 1000,
->  		  tmpbuffer);
->  	port->logbuffer_head = (port->logbuffer_head + 1) % LOG_BUFFER_ENTRIES;
-> +	if (port->logbuffer_head == port->logbuffer_tail)
-> +		port->logbuffer_tail =
-> +			(port->logbuffer_tail + 1) % LOG_BUFFER_ENTRIES;
->  
->  abort:
->  	mutex_unlock(&port->logbuffer_lock);
-> @@ -622,8 +614,6 @@ static int tcpm_debug_show(struct seq_file *s, void *v)
->  		seq_printf(s, "%s\n", port->logbuffer[tail]);
->  		tail = (tail + 1) % LOG_BUFFER_ENTRIES;
->  	}
-> -	if (!seq_has_overflowed(s))
-> -		port->logbuffer_tail = tail;
->  	mutex_unlock(&port->logbuffer_lock);
->  
->  	return 0;
 > -- 
 > 2.29.2
 > 
