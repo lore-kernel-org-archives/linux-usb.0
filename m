@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D11C4167B
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCAAC4361B
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9497423C43
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C597223D99
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Dec 2020 09:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388977AbgLJJTn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Dec 2020 04:19:43 -0500
-Received: from ns2.baikalchip.ru ([94.125.187.42]:36928 "EHLO
+        id S2388948AbgLJJTk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Dec 2020 04:19:40 -0500
+Received: from mx.baikalchip.ru ([94.125.187.42]:36922 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2388889AbgLJJTh (ORCPT
+        by vger.kernel.org with ESMTP id S2388887AbgLJJTh (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Dec 2020 04:19:37 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
@@ -25,15 +25,15 @@ To:     Felipe Balbi <balbi@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
+        Patrice Chotard <patrice.chotard@st.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v4 09/10] usb: dwc3: qcom: Detect DWC3 DT-nodes with "usb"-prefixed names
-Date:   Thu, 10 Dec 2020 12:17:54 +0300
-Message-ID: <20201210091756.18057-10-Sergey.Semin@baikalelectronics.ru>
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v4 07/10] arm: dts: stih407-family: Harmonize DWC USB3 DT nodes name
+Date:   Thu, 10 Dec 2020 12:17:52 +0300
+Message-ID: <20201210091756.18057-8-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -44,33 +44,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the USB HCD/DRD schema all the USB controllers are
-supposed to have DT-nodes named with prefix "^usb(@.*)?".  Since the
-existing DT-nodes will be renamed in a subsequent patch let's first make
-sure the DWC3 Qualcomm driver supports them and second falls back to the
-deprecated naming so not to fail on the legacy DTS-files passed to the
-newer kernels.
+In accordance with the DWC USB3 bindings the corresponding node
+name is suppose to comply with the Generic USB HCD DT schema, which
+requires the USB nodes to have the name acceptable by the regexp:
+"^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
+named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Patrice Chotard <patrice.chotard@st.com>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/stih407-family.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index c703d552bbcf..49ad8d507d37 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -630,7 +630,8 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
- 	struct device		*dev = &pdev->dev;
- 	int			ret;
+diff --git a/arch/arm/boot/dts/stih407-family.dtsi b/arch/arm/boot/dts/stih407-family.dtsi
+index 23a1746f3baa..2352f76b5a69 100644
+--- a/arch/arm/boot/dts/stih407-family.dtsi
++++ b/arch/arm/boot/dts/stih407-family.dtsi
+@@ -681,7 +681,7 @@ st_dwc3: dwc3@8f94000 {
  
--	dwc3_np = of_get_child_by_name(np, "dwc3");
-+	dwc3_np = of_get_child_by_name(np, "usb") ?:
-+		  of_get_child_by_name(np, "dwc3");
- 	if (!dwc3_np) {
- 		dev_err(dev, "failed to find dwc3 core child\n");
- 		return -ENODEV;
+ 			status = "disabled";
+ 
+-			dwc3: dwc3@9900000 {
++			dwc3: usb@9900000 {
+ 				compatible	= "snps,dwc3";
+ 				reg		= <0x09900000 0x100000>;
+ 				interrupts	= <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.29.2
 
