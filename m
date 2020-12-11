@@ -2,88 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB1B1C4361B
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 09:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05775C1B0D8
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 09:51:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D4CA23F36
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 09:10:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CB7923FB3
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 09:51:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437382AbgLKJKR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Dec 2020 04:10:17 -0500
-Received: from mga07.intel.com ([134.134.136.100]:22818 "EHLO mga07.intel.com"
+        id S2405701AbgLKJu4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Dec 2020 04:50:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33370 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437380AbgLKJJg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 11 Dec 2020 04:09:36 -0500
-IronPort-SDR: II/BeZN6xv/vABlwIfBEvFAuGfnmt1GpfwQ8BhcL7TJb4wJFvpSH5f7UZI6n9saam5zPXQ29Ac
- HxbFdblwJ8Gg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="238506406"
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
-   d="scan'208";a="238506406"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 01:07:49 -0800
-IronPort-SDR: l527EIwNxdBh3kL0K6XFwTD0QsiMPp59nJVNTDaqJc8QUz8KqhkaLFgSqxd534FWTUn6srN4dl
- BwkD5i+ST+Lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
-   d="scan'208";a="440791417"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 11 Dec 2020 01:07:47 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 11 Dec 2020 11:07:46 +0200
-Date:   Fri, 11 Dec 2020 11:07:46 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Zheng Yongjun <zhengyongjun3@huawei.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH -next] usb: ucsi: convert comma to semicolon
-Message-ID: <20201211090746.GI1594451@kuha.fi.intel.com>
-References: <20201211085510.2928-1-zhengyongjun3@huawei.com>
+        id S2405697AbgLKJug (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 11 Dec 2020 04:50:36 -0500
+Date:   Fri, 11 Dec 2020 10:51:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1607680195;
+        bh=KfnnTbyhW9cEnhDdS2A2BabQv9rkQ9R9/uwQ7zQenDU=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gkvAYD4J//LFYp1f/GASrM/j+6P40EJHY6tR6glxzz5+I6Nre2lKwLsKN+OYge0iX
+         FoLPmfybi7SGjtnNj7RS2iklpOMyX8bcSImgwpq+zS9zy861bPAoWPouOqLdKWg5o0
+         0LD95q2jJb1Ku1cUz8vYhOWLlLlYT9V3vrym4Ado=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Badhri Jagan Sridharan <badhri@google.com>, linux@roeck-us.net,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>,
+        Will McVicker <willmcvicker@google.com>
+Subject: Re: [PATCH 0/5] USB: typec: various patches
+Message-ID: <X9NBC04aLNZG2RWI@kroah.com>
+References: <20201210160521.3417426-1-gregkh@linuxfoundation.org>
+ <20201211083010.GD1594451@kuha.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201211085510.2928-1-zhengyongjun3@huawei.com>
+In-Reply-To: <20201211083010.GD1594451@kuha.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 04:55:10PM +0800, Zheng Yongjun wrote:
-> Replace a comma between expression statements by a semicolon.
+On Fri, Dec 11, 2020 at 10:30:10AM +0200, Heikki Krogerus wrote:
+> On Thu, Dec 10, 2020 at 05:05:16PM +0100, Greg Kroah-Hartman wrote:
+> > In digging through a large set of proposed typec patches for the Android
+> > common kernel, I've picked out 5 "easy" patches that should all go
+> > upstream (they all should go upstream, just will take a while to clean
+> > them up it seems...)
 > 
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
->  drivers/usb/typec/ucsi/psy.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Cool. Is there already support for the new Enter_USB message? Badhri,
+> maybe you know more about this, if somebody is working on that or not?
 > 
-> diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
-> index 571a51e16234..56bf56517f75 100644
-> --- a/drivers/usb/typec/ucsi/psy.c
-> +++ b/drivers/usb/typec/ucsi/psy.c
-> @@ -220,11 +220,11 @@ int ucsi_register_port_psy(struct ucsi_connector *con)
->  		return -ENOMEM;
->  
->  	con->psy_desc.name = psy_name;
-> -	con->psy_desc.type = POWER_SUPPLY_TYPE_USB,
-> +	con->psy_desc.type = POWER_SUPPLY_TYPE_USB;
->  	con->psy_desc.usb_types = ucsi_psy_usb_types;
->  	con->psy_desc.num_usb_types = ARRAY_SIZE(ucsi_psy_usb_types);
-> -	con->psy_desc.properties = ucsi_psy_props,
-> -	con->psy_desc.num_properties = ARRAY_SIZE(ucsi_psy_props),
-> +	con->psy_desc.properties = ucsi_psy_props;
-> +	con->psy_desc.num_properties = ARRAY_SIZE(ucsi_psy_props);
->  	con->psy_desc.get_property = ucsi_psy_get_prop;
->  
->  	con->psy = power_supply_register(dev, &con->psy_desc, &psy_cfg);
-> -- 
-> 2.22.0
+> FWIW, for all except the first patch 1/5:
+> 
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-thanks,
+Thanks, will drop patch 1 from the queue.
 
--- 
-heikki
+greg k-h
