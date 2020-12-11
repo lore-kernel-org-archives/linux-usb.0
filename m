@@ -2,154 +2,148 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 209E5C4361B
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 21:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D059FC433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 22:17:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CAB562409B
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 21:22:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0D7123E20
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 22:17:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394181AbgLKUL6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Dec 2020 15:11:58 -0500
-Received: from mail-il1-f197.google.com ([209.85.166.197]:46213 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726522AbgLKULw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 15:11:52 -0500
-Received: by mail-il1-f197.google.com with SMTP id q5so8083708ilc.13
-        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 12:11:36 -0800 (PST)
+        id S2390624AbgLKVPa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Dec 2020 16:15:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389043AbgLKVPQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 16:15:16 -0500
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BC2C0613CF
+        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 13:14:33 -0800 (PST)
+Received: by mail-vs1-xe43.google.com with SMTP id j140so5565389vsd.4
+        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 13:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=txHS+fz8k2KCZchJH18l2B/VJee2wpafojXlxjFkEbg=;
+        b=otkvC/jwZ6/TwBEwk8oFLDidR9riZ9p5DgsQkEY3PN512N5dW2pSmXvH/2N7I2vxfE
+         8hrJlwATglONGcw7U9+YNlWby6XrsVNAUrJcoMNeSqks0ep3SVuf5QAGkZpxc0NvAqGs
+         TA2xVTwilegZknQ/fogGir5d+Fz25s0R5fcYSSXNTOXA93R/Upxy/TZiKmITWpLx0ez0
+         14ME01ASVtVMrUz/sDeqBSodRBDowO1Lyp1wi6TifzWPEHt7tbvJvLUlxRebS2+e+5ww
+         V+yP0s3Wq6w96sl1UgCMEXrUB2p5HUr0MCPKdavJGFM40pOfqHpvGl4jd+vXry+VCkAz
+         FXnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=GVX9/CI9tqNteYCMCXCHoxN97w4Mon0uddpJWLCYX+I=;
-        b=m0//yD/rY95+wfWRLRKYBaf6IxuIYFseYx0FRPH1QcW8Y7S/Z6Fhi6NZ6NFZd+BT5H
-         ShbGid6hu1g/vxFzF7FmI9FM4vSst/UNu7MpwUiz9+IO4E/A16jephaVpf0A8vrEwYXL
-         XvpTq47HrSq1pl+/TFvwXAWjBwOsESUZ7mJ608p4KxztXUE1aTjZ/uaZqxfXsKnrh3aa
-         PmSxKDDTnaGb0Ut5MpLVkhkqZb0MGHZMYyxXoBWpGeDKV5O0Y/FJeeO+YCo4AO6y0aNc
-         eP7RlCB5fGBj9ftxUDq0efqWNVtdt9QYkfSuhXevKjFAnwUG7WfQnPbta1OhcvrTn/bV
-         Zg5A==
-X-Gm-Message-State: AOAM533qNNNnLBGfLi0QJwMHsTDBLc91rTU9iPIPEyg05tMkfj6n2zVF
-        rR/CMoyKBxkNXpYbB7q0fP1+Krwf+7r8BqQ9iXHKMkpNzNly
-X-Google-Smtp-Source: ABdhPJwXNSJv0Y70GjITxLk1OWWjifb3kjnuZjeSFNwQ923sGU+t9wnYNMf+SDVllS6HdZw0W/vkXQ4Ruz8LOaa4xr6x15QjyLuF
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=txHS+fz8k2KCZchJH18l2B/VJee2wpafojXlxjFkEbg=;
+        b=jf0YojIvfZttWQBWRWss4eSON4m/yJTQ93T95D8iPmb8TVJQgSKs9D8aQTs6Gr4Zaw
+         RU2DTcQFq7tL0sX7S+gBVUV8115+4KrYSSTS8TSH5Pqjzu+3dfS50d+0n2QM0D39qjhm
+         NUH2PJFu3IyC2jWobETtX0JqRs+VksrO0UULfJsdKyrV692AUFnpgZU4iXlI+5FURxz2
+         3kG/YJzn4W10txrLno9j6oPFTJ4P+a+lX9Lh1NUCZtI1uzURmdqZAvViShq+Uwn4+21o
+         UufaBffi3B69VJeX7dUx0stQ5DGSHjguhMgh2MwPefzKsljYqKvnPbqi5ia9sMs4HOiR
+         RRaw==
+X-Gm-Message-State: AOAM5320yN0+HVpJlTPhKYK0mZFEmofSU7KqN2XAeEdZgcISvbYYdNuy
+        7syV+gjDmvRJcQTvxtO2dtwv8Zoo66ug8xLx1afHAQ==
+X-Google-Smtp-Source: ABdhPJxo2FKH409N1kD1rgcfWzlRx8HLzrM1OluGECInBFfXh1oOzQaZdd9NzAeVfCXlNd9u1KtZ/e5R5s9rCd06iqk=
+X-Received: by 2002:a67:32d4:: with SMTP id y203mr14611389vsy.30.1607721272917;
+ Fri, 11 Dec 2020 13:14:32 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a02:ce8a:: with SMTP id y10mr17286758jaq.102.1607717471175;
- Fri, 11 Dec 2020 12:11:11 -0800 (PST)
-Date:   Fri, 11 Dec 2020 12:11:11 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c4ccad05b635e468@google.com>
-Subject: KASAN: slab-out-of-bounds Read in rtl_fw_do_work
-From:   syzbot <syzbot+7b774a105bad5f282322@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, davem@davemloft.net, kuba@kernel.org,
-        kvalo@codeaurora.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, pkshih@realtek.com,
-        syzkaller-bugs@googlegroups.com
+References: <20201211142421.15389-1-semen.protsenko@linaro.org> <20201211144936.GT4077@smile.fi.intel.com>
+In-Reply-To: <20201211144936.GT4077@smile.fi.intel.com>
+From:   Sam Protsenko <semen.protsenko@linaro.org>
+Date:   Fri, 11 Dec 2020 23:14:21 +0200
+Message-ID: <CAPLW+4nBeWAmgzUU7dvEYiGBN6=GxZ4+nFZQ3+jaM=OPrDDyTw@mail.gmail.com>
+Subject: Re: [PATCH] usb: dwc3: drd: Avoid error when extcon is missing
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        John Stultz <john.stultz@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Fri, 11 Dec 2020 at 16:48, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Fri, Dec 11, 2020 at 04:24:21PM +0200, Sam Protsenko wrote:
+> > If "port" node is missing in PHY controller node, dwc3_get_extcon()
+> > isn't able to find extcon device. This is perfectly fine in case when
+> > "usb-role-switch" or OTG is used, but next misleading error message is
+> > printed in that case, from of_graph_get_remote_node():
+> >
+> >     OF: graph: no port node found in /phy@1234abcd
+> >
+> > Avoid printing that message by checking if port node exists in PHY node
+> > before calling of_graph_get_remote_node().
+>
+> So, this has to be v2...
+> Anyway, see below.
+>
+> ...
+>
+> >  static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
+> >  {
+> >       struct device *dev = dwc->dev;
+> > -     struct device_node *np_phy, *np_conn;
+> > -     struct extcon_dev *edev;
+> > +     struct device_node *np_phy;
+> > +     struct extcon_dev *edev = NULL;
+> >       const char *name;
+> >
+> >       if (device_property_read_bool(dev, "extcon"))
+> > @@ -462,15 +462,22 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
+> >               return edev;
+> >       }
+> >
+> > +     /*
+> > +      * Try to get extcon device from USB PHY controller's "port" node.
+> > +      * Check if it has the "port" node first, to avoid printing the error
+> > +      * message from underlying code, as it's a valid case: extcon device
+> > +      * (and "port" node) may be missing in case of "usb-role-switch" or OTG
+> > +      * mode.
+> > +      */
+> >       np_phy = of_parse_phandle(dev->of_node, "phys", 0);
+> > -     np_conn = of_graph_get_remote_node(np_phy, -1, -1);
+> > +     if (of_graph_is_present(np_phy)) {
+> > +             struct device_node *np_conn;
+> >
+> > -     if (np_conn)
+> > -             edev = extcon_find_edev_by_node(np_conn);
+> > -     else
+> > -             edev = NULL;
+> > -
+> > -     of_node_put(np_conn);
+> > +             np_conn = of_graph_get_remote_node(np_phy, -1, -1);
+> > +             if (np_conn)
+> > +                     edev = extcon_find_edev_by_node(np_conn);
+> > +             of_node_put(np_conn);
+> > +     }
+> >       of_node_put(np_phy);
+> >
+> >       return edev;
+>
+>
+> Why not do it slightly different, i.e.
+>
+> -       np_conn = of_graph_get_remote_node(np_phy, -1, -1);
+> +       if (of_graph_is_present(np_phy))
+> +               np_conn = of_graph_get_remote_node(np_phy, -1, -1);
+> +       else
+> +               np_conn = NULL;
+>
+> ?
+>
 
-syzbot found the following issue on:
+Thanks for the review, Andy! I'll address this in v3.
 
-HEAD commit:    3db4c21c usb: typec: tcpm: Update vbus_vsafe0v on init
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=179809f3500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d24ee9ecd7ce968e
-dashboard link: https://syzkaller.appspot.com/bug?extid=7b774a105bad5f282322
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7b774a105bad5f282322@syzkaller.appspotmail.com
-
-usb 1-1: Direct firmware load for rtlwifi/rtl8192cufw.bin failed with error -2
-==================================================================
-BUG: KASAN: slab-out-of-bounds in rtl_fw_do_work+0x407/0x430 drivers/net/wireless/realtek/rtlwifi/core.c:87
-Read of size 8 at addr ffff888142b2ff58 by task kworker/0:6/7385
-
-CPU: 0 PID: 7385 Comm: kworker/0:6 Not tainted 5.10.0-rc7-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: events request_firmware_work_func
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x107/0x163 lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0xae/0x4c8 mm/kasan/report.c:385
- __kasan_report mm/kasan/report.c:545 [inline]
- kasan_report.cold+0x1f/0x37 mm/kasan/report.c:562
- rtl_fw_do_work+0x407/0x430 drivers/net/wireless/realtek/rtlwifi/core.c:87
- request_firmware_work_func+0x12c/0x230 drivers/base/firmware_loader/main.c:1079
- process_one_work+0x933/0x1520 kernel/workqueue.c:2272
- worker_thread+0x64c/0x1120 kernel/workqueue.c:2418
- kthread+0x38c/0x460 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
-
-Allocated by task 16159:
- kasan_save_stack+0x1b/0x40 mm/kasan/common.c:48
- kasan_set_track mm/kasan/common.c:56 [inline]
- __kasan_kmalloc.constprop.0+0xc2/0xd0 mm/kasan/common.c:461
- kmalloc include/linux/slab.h:557 [inline]
- tomoyo_realpath_from_path+0xc3/0x620 security/tomoyo/realpath.c:254
- tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
- tomoyo_path_number_perm+0x1d5/0x590 security/tomoyo/file.c:723
- security_file_ioctl+0x50/0xb0 security/security.c:1481
- __do_sys_ioctl fs/ioctl.c:747 [inline]
- __se_sys_ioctl fs/ioctl.c:739 [inline]
- __x64_sys_ioctl+0xb3/0x200 fs/ioctl.c:739
- do_syscall_64+0x2d/0x40 arch/x86/entry/common.c:46
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-Freed by task 16159:
- kasan_save_stack+0x1b/0x40 mm/kasan/common.c:48
- kasan_set_track+0x1c/0x30 mm/kasan/common.c:56
- kasan_set_free_info+0x1b/0x30 mm/kasan/generic.c:355
- __kasan_slab_free+0x102/0x140 mm/kasan/common.c:422
- slab_free_hook mm/slub.c:1544 [inline]
- slab_free_freelist_hook+0x5d/0x150 mm/slub.c:1577
- slab_free mm/slub.c:3142 [inline]
- kfree+0xe5/0x5e0 mm/slub.c:4124
- tomoyo_realpath_from_path+0x191/0x620 security/tomoyo/realpath.c:291
- tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
- tomoyo_path_number_perm+0x1d5/0x590 security/tomoyo/file.c:723
- security_file_ioctl+0x50/0xb0 security/security.c:1481
- __do_sys_ioctl fs/ioctl.c:747 [inline]
- __se_sys_ioctl fs/ioctl.c:739 [inline]
- __x64_sys_ioctl+0xb3/0x200 fs/ioctl.c:739
- do_syscall_64+0x2d/0x40 arch/x86/entry/common.c:46
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-The buggy address belongs to the object at ffff888142b2e000
- which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 3928 bytes to the right of
- 4096-byte region [ffff888142b2e000, ffff888142b2f000)
-The buggy address belongs to the page:
-page:00000000104f6cd2 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x142b28
-head:00000000104f6cd2 order:3 compound_mapcount:0 compound_pincount:0
-flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 dead000000000100 dead000000000122 ffff888100042140
-raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff888142b2fe00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888142b2fe80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888142b2ff00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                                                    ^
- ffff888142b2ff80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888142b30000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
