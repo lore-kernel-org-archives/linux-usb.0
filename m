@@ -2,73 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DC4C1B0D9
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 08:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F386BC4361B
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 09:10:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26A3623F38
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 08:57:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E6C923F37
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 09:10:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437211AbgLKIz6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Dec 2020 03:55:58 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:9871 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437204AbgLKIzh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 03:55:37 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Csl2f2XsZz7CWl;
-        Fri, 11 Dec 2020 16:54:18 +0800 (CST)
-Received: from ubuntu.network (10.175.138.68) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 11 Dec 2020 16:54:43 +0800
-From:   Zheng Yongjun <zhengyongjun3@huawei.com>
-To:     <heikki.krogerus@linux.intel.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <gregkh@linuxfoundation.org>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>
-Subject: [PATCH -next] usb: ucsi: convert comma to semicolon
-Date:   Fri, 11 Dec 2020 16:55:10 +0800
-Message-ID: <20201211085510.2928-1-zhengyongjun3@huawei.com>
-X-Mailer: git-send-email 2.22.0
+        id S2392898AbgLKJJV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Dec 2020 04:09:21 -0500
+Received: from mga05.intel.com ([192.55.52.43]:51339 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437181AbgLKJJA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 11 Dec 2020 04:09:00 -0500
+IronPort-SDR: baVjBVjxQNU1PIPXnMBNqX5T3t4wFsWmfUc+gFA0IW2W8hM6gih2A/WozncznzLSIqoQ8wSlPQ
+ Cpz63QYxtBDg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="259118787"
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
+   d="scan'208";a="259118787"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 01:07:14 -0800
+IronPort-SDR: wlouibNHW3+Of0jRa8i2kIbqHU1E4EEsEoyDMr3CJZ9+PmPljnWtHK90is7VdRORYZHK9nwbb4
+ qcvvc7DveReA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
+   d="scan'208";a="440791163"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 11 Dec 2020 01:07:12 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 11 Dec 2020 11:07:11 +0200
+Date:   Fri, 11 Dec 2020 11:07:11 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Zheng Yongjun <zhengyongjun3@huawei.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] usb: typec: tcpm: convert comma to semicolon
+Message-ID: <20201211090711.GH1594451@kuha.fi.intel.com>
+References: <20201211085553.2982-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.138.68]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201211085553.2982-1-zhengyongjun3@huawei.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Replace a comma between expression statements by a semicolon.
+On Fri, Dec 11, 2020 at 04:55:53PM +0800, Zheng Yongjun wrote:
+> Replace a comma between expression statements by a semicolon.
+> 
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 
-Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
----
- drivers/usb/typec/ucsi/psy.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
-index 571a51e16234..56bf56517f75 100644
---- a/drivers/usb/typec/ucsi/psy.c
-+++ b/drivers/usb/typec/ucsi/psy.c
-@@ -220,11 +220,11 @@ int ucsi_register_port_psy(struct ucsi_connector *con)
- 		return -ENOMEM;
- 
- 	con->psy_desc.name = psy_name;
--	con->psy_desc.type = POWER_SUPPLY_TYPE_USB,
-+	con->psy_desc.type = POWER_SUPPLY_TYPE_USB;
- 	con->psy_desc.usb_types = ucsi_psy_usb_types;
- 	con->psy_desc.num_usb_types = ARRAY_SIZE(ucsi_psy_usb_types);
--	con->psy_desc.properties = ucsi_psy_props,
--	con->psy_desc.num_properties = ARRAY_SIZE(ucsi_psy_props),
-+	con->psy_desc.properties = ucsi_psy_props;
-+	con->psy_desc.num_properties = ARRAY_SIZE(ucsi_psy_props);
- 	con->psy_desc.get_property = ucsi_psy_get_prop;
- 
- 	con->psy = power_supply_register(dev, &con->psy_desc, &psy_cfg);
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index a6fae1f86505..4451507d600c 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -5024,14 +5024,14 @@ static int devm_tcpm_psy_register(struct tcpm_port *port)
+>  	snprintf(psy_name, psy_name_len, "%s%s", tcpm_psy_name_prefix,
+>  		 port_dev_name);
+>  	port->psy_desc.name = psy_name;
+> -	port->psy_desc.type = POWER_SUPPLY_TYPE_USB,
+> +	port->psy_desc.type = POWER_SUPPLY_TYPE_USB;
+>  	port->psy_desc.usb_types = tcpm_psy_usb_types;
+>  	port->psy_desc.num_usb_types = ARRAY_SIZE(tcpm_psy_usb_types);
+> -	port->psy_desc.properties = tcpm_psy_props,
+> -	port->psy_desc.num_properties = ARRAY_SIZE(tcpm_psy_props),
+> -	port->psy_desc.get_property = tcpm_psy_get_prop,
+> -	port->psy_desc.set_property = tcpm_psy_set_prop,
+> -	port->psy_desc.property_is_writeable = tcpm_psy_prop_writeable,
+> +	port->psy_desc.properties = tcpm_psy_props;
+> +	port->psy_desc.num_properties = ARRAY_SIZE(tcpm_psy_props);
+> +	port->psy_desc.get_property = tcpm_psy_get_prop;
+> +	port->psy_desc.set_property = tcpm_psy_set_prop;
+> +	port->psy_desc.property_is_writeable = tcpm_psy_prop_writeable;
+>  
+>  	port->usb_type = POWER_SUPPLY_USB_TYPE_C;
+>  
+> -- 
+> 2.22.0
+
+thanks,
+
 -- 
-2.22.0
-
+heikki
