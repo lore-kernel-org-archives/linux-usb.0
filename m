@@ -2,163 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98EA7C4361B
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 23:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B17C47435
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Dec 2020 01:00:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CE5C2225E
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 23:34:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 882302343E
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Dec 2020 01:00:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407025AbgLKWt1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Dec 2020 17:49:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60364 "EHLO mail.kernel.org"
+        id S2405772AbgLKORp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Dec 2020 09:17:45 -0500
+Received: from mga14.intel.com ([192.55.52.115]:41044 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394011AbgLKWtT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 11 Dec 2020 17:49:19 -0500
-X-Gm-Message-State: AOAM5313Hs3LDR3j5REIZ+4NC3zAsehRiuOC+DdrzIFEyNrZCwNm4uoP
-        5tngIEUWy52Jt9j6UGbGB5cLqsey+TH8qfUwqg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607726919;
-        bh=9kZNymVdIQdokRAKswxv73AN4tdhSwyYcUymBCQ55Ic=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hfxGOydcbMt0JjYq6ERbodgzYugBbj5r6D8hPDOOyYvDnnQPOGwQXYqduJbwHc1Rt
-         8Eh4MdG8RgJwHYa1stna5N/rHLQE+bN32BJK6ic1Pu86SB9Jkz/K7qSz8kht1pLKMc
-         r2bm6vIJyIDi6IspadzII6gUbYNrpQKyVoHmdpcmcZtYJVbp6oSTWXDPA3gsE+wXbg
-         wLIXS5s9VJ3OltUs04v6uzu9XjbwNlR4umrcJMhSI3PI1On/t1o66Yypqx11KYwYQT
-         2JPV1Z/4bATMscD9WUVU95VkXJzEjhlPe07PuEvh9J1WHCL+T68QSjQMcf11oDa8sT
-         sNyaC7aTJAMmA==
-X-Google-Smtp-Source: ABdhPJwK8ZorGU0TFVJZH5c/4e3AauDieEoMVL2guTtxGD4PK2qnMlMawIC4UeCIoBz67Lan/AhY/UipOcj6bzR90cw=
-X-Received: by 2002:a17:906:c20f:: with SMTP id d15mr12958728ejz.341.1607726917615;
- Fri, 11 Dec 2020 14:48:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20201211060429.20027-1-a-govindraju@ti.com> <062c861a-b35e-06cd-2bda-a2d3f5034290@ti.com>
-In-Reply-To: <062c861a-b35e-06cd-2bda-a2d3f5034290@ti.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 11 Dec 2020 16:48:25 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJoq20v7wj0x9Nzp2dFeeEunEmschF+VTXMtPdLwg1izA@mail.gmail.com>
-Message-ID: <CAL_JsqJoq20v7wj0x9Nzp2dFeeEunEmschF+VTXMtPdLwg1izA@mail.gmail.com>
-Subject: Re: [PATCH v4] dt-bindings: usb: Add new compatible string for AM64 SoC
-To:     Aswath Govindraju <a-govindraju@ti.com>
-Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
+        id S2392467AbgLKORN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 11 Dec 2020 09:17:13 -0500
+IronPort-SDR: qq/4De6eCPqwrVfx8GPQkXuCpgpSzD4tLD8havXGCnDnj7wMURw3K3f7DdV49vgx+NaOlFE5fp
+ qIDKEyHzwWHA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="173669261"
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
+   d="scan'208";a="173669261"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 06:15:24 -0800
+IronPort-SDR: ENbV8zVbC8ATmpe21dWVwIvKWHRJBscF/ML/5oqXEI44K2+fV5ZbuEzVPNkCnbxdh7SaJM4iNZ
+ a2R3zwhMf6mw==
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
+   d="scan'208";a="322078624"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 06:15:22 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1knjDc-00Dfqf-PO; Fri, 11 Dec 2020 16:16:24 +0200
+Date:   Fri, 11 Dec 2020 16:16:24 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sam Protsenko <semen.protsenko@linaro.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Roger Quadros <rogerq@ti.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH 2/2] usb: dwc3: drd: Avoid error when extcon is missing
+Message-ID: <20201211141624.GQ4077@smile.fi.intel.com>
+References: <20201210203318.6914-1-semen.protsenko@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201210203318.6914-1-semen.protsenko@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 6:04 AM Aswath Govindraju <a-govindraju@ti.com> wrote:
->
-> Hi,
-> On 11/12/20 11:34 am, Aswath Govindraju wrote:
-> > Add compatible string in j721e-usb binding file as the same USB subsystem
-> > is present in AM64.
-> >
-> > Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
-> > ---
-> >
-> > Changes since v3:
-> > - used enum instead of anyOf.
-> >
-> > Changes since v2:
-> > - added changes done over the versions.
-> >
-> > Changes since v1:
-> > - replaced the '\t' at the beginning of the lines with spaces as it was
-> >   causing the dt_binding_check to fail.
-> >
-> >  Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> > index 388245b91a55..1a5c7bbb40d1 100644
-> > --- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> > +++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> > @@ -11,8 +11,9 @@ maintainers:
-> >
-> >  properties:
-> >    compatible:
-> > -    items:
-> > -      - const: ti,j721e-usb
-> > +    enum:
-> > +      - ti,j721e-usb
-> > +      - ti,am64-usb
-> >
->
-> I am trying to use the compatible strings in the following manner
->
-> ```
-> compatible = "ti,am64-usb", "ti,j721e-usb";
->
-> ```
-> If I use above patch I am getting an error while doing a dtbs check.
->
-> ```
-> /home/gsaswath/src/ti-linux-kernel/arch/arm64/boot/dts/ti/k3-am642-evm.dt.yaml:
-> cdns-usb@f900000: compatible: Additional items are not allowed
-> ('ti,j721e-usb' was unexpected)
->         From schema:
-> /home/gsaswath/src/ti-linux-kernel/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> /home/gsaswath/src/ti-linux-kernel/arch/arm64/boot/dts/ti/k3-am642-evm.dt.yaml:
-> cdns-usb@f900000: compatible: ['ti,am64-usb', 'ti,j721e-usb'] is too long
->         From schema:
-> /home/gsaswath/src/ti-linux-kernel/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
->
-> ```
->
->
-> I have looked around for examples but I am unable to find a similar
-> case. I tried using anyOf in the following manner
+On Thu, Dec 10, 2020 at 10:33:18PM +0200, Sam Protsenko wrote:
+> If "port" node is missing in PHY controller node, dwc3_get_extcon()
+> isn't able to find extcon device. This is perfectly fine in case when
+> "usb-role-switch" or OTG is used, but next misleading error message is
+> printed in that case, from of_graph_get_remote_node():
+> 
+>     OF: graph: no port node found in /phy@1234abcd
+> 
+> Avoid printing that message by checking if port node exists in PHY node
+> before calling of_graph_get_remote_node().
 
-You didn't look hard enough. There are lots.
+By some reason you have two separate messages (missed --thread when run `git
+format-patch ...`?).
 
-> ```
-> compatible:
->      anyOf:
->         - const: ti,am64-usb
->         - const: ti,j721e-usb
+In any case I think it should be dropped or reworked and resent since patch 1/2
+got comments.
 
-This is really no different than a single 'enum' with the 2 values.
-'anyOf' means one or more in the list are true, but more than 1 is
-impossible here.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-If you have different possible lengths of values, then you need
-'oneOf' for each case and then 'items' when you have a value with
-multiple entries:
 
-oneOf:
-  - const: ti,j721e-usb
-  - items:
-      - const: ti,am64-usb
-      - const: ti,j721e-usb
-
-> ```
->
-> But I am getting an error
->
-> ```
-> /home/gsaswath/src/ti-linux-kernel/Documentation/devicetree/bindings/usb/ti,j721e-usb.example.dt.yaml:
-> cdns_usb@4104000: compatible: 'anyOf' conditional failed, one must be fixed:
->         Additional items are not allowed ('ti,j721e-usb' was unexpected)
->         ['ti,am64-usb', 'ti,j721e-usb'] is too long
->         'ti,j721e-usb' was expected
-> ```
->
-> Doesn't anyof mean that the compatible strings can be used in any
-> combination ??
->
-> Thanks,
-> Aswath
->
-> >    reg:
-> >      description: module registers
-> >
->
