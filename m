@@ -2,148 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D059FC433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 22:17:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84770C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 22:25:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0D7123E20
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 22:17:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4309A23A33
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Dec 2020 22:25:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390624AbgLKVPa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Dec 2020 16:15:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50734 "EHLO
+        id S2395505AbgLKVTN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Dec 2020 16:19:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389043AbgLKVPQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 16:15:16 -0500
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BC2C0613CF
-        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 13:14:33 -0800 (PST)
-Received: by mail-vs1-xe43.google.com with SMTP id j140so5565389vsd.4
-        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 13:14:33 -0800 (PST)
+        with ESMTP id S2405690AbgLKVSy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 16:18:54 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E409C061794
+        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 13:18:13 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id y19so15187445lfa.13
+        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 13:18:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=txHS+fz8k2KCZchJH18l2B/VJee2wpafojXlxjFkEbg=;
-        b=otkvC/jwZ6/TwBEwk8oFLDidR9riZ9p5DgsQkEY3PN512N5dW2pSmXvH/2N7I2vxfE
-         8hrJlwATglONGcw7U9+YNlWby6XrsVNAUrJcoMNeSqks0ep3SVuf5QAGkZpxc0NvAqGs
-         TA2xVTwilegZknQ/fogGir5d+Fz25s0R5fcYSSXNTOXA93R/Upxy/TZiKmITWpLx0ez0
-         14ME01ASVtVMrUz/sDeqBSodRBDowO1Lyp1wi6TifzWPEHt7tbvJvLUlxRebS2+e+5ww
-         V+yP0s3Wq6w96sl1UgCMEXrUB2p5HUr0MCPKdavJGFM40pOfqHpvGl4jd+vXry+VCkAz
-         FXnQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=f4jyCtqfsT6bFiaWz4C37nQaMqaYNh8RgdovwPFEFag=;
+        b=L3C22yj6e7mZ1ae57EoqyLDdn2C7A5WvAmk6sNlRZpg6sSQUZHSCL8MDBYRH6RamIL
+         9keusa18auHJbx1LOkaR/b2OUBPql7KMG/JZoaRdLcwZtOzSnvAZc1mAMaF736/50DcK
+         C/3iRmO1bgVi5fvLa8QvITGzz+u7Mw1bIcTyx35XZgivj2DtZM7t2NLOi9brMjl/Prk8
+         3vzl2qVg2x1voOpXo157jfVsnC0BhUZEV4T5sRqJCu1T49fx1r5WImUlTjShqpYJuL+V
+         in9ZR9GOy/E0fQfIf5E1y446bJ6PffMqN9Ln65O0/zkDYghex69Ee5CzJeiQQ29cdax4
+         6lTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=txHS+fz8k2KCZchJH18l2B/VJee2wpafojXlxjFkEbg=;
-        b=jf0YojIvfZttWQBWRWss4eSON4m/yJTQ93T95D8iPmb8TVJQgSKs9D8aQTs6Gr4Zaw
-         RU2DTcQFq7tL0sX7S+gBVUV8115+4KrYSSTS8TSH5Pqjzu+3dfS50d+0n2QM0D39qjhm
-         NUH2PJFu3IyC2jWobETtX0JqRs+VksrO0UULfJsdKyrV692AUFnpgZU4iXlI+5FURxz2
-         3kG/YJzn4W10txrLno9j6oPFTJ4P+a+lX9Lh1NUCZtI1uzURmdqZAvViShq+Uwn4+21o
-         UufaBffi3B69VJeX7dUx0stQ5DGSHjguhMgh2MwPefzKsljYqKvnPbqi5ia9sMs4HOiR
-         RRaw==
-X-Gm-Message-State: AOAM5320yN0+HVpJlTPhKYK0mZFEmofSU7KqN2XAeEdZgcISvbYYdNuy
-        7syV+gjDmvRJcQTvxtO2dtwv8Zoo66ug8xLx1afHAQ==
-X-Google-Smtp-Source: ABdhPJxo2FKH409N1kD1rgcfWzlRx8HLzrM1OluGECInBFfXh1oOzQaZdd9NzAeVfCXlNd9u1KtZ/e5R5s9rCd06iqk=
-X-Received: by 2002:a67:32d4:: with SMTP id y203mr14611389vsy.30.1607721272917;
- Fri, 11 Dec 2020 13:14:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20201211142421.15389-1-semen.protsenko@linaro.org> <20201211144936.GT4077@smile.fi.intel.com>
-In-Reply-To: <20201211144936.GT4077@smile.fi.intel.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=f4jyCtqfsT6bFiaWz4C37nQaMqaYNh8RgdovwPFEFag=;
+        b=olmI/k+PvxNVMOj+LxW3HfcY5cZZskaROcAoEluPRtBW2C/XHN8C/GiQa6Hi3qlL8O
+         9wvsu9bgqteQgL4IuB/kh8XoKIO2rSKLA4hjG9SJjdGBA2ZhV0K1om1ppiO4wBAFOpms
+         xeYV8bKfcCpbzHnF5E3UOUIpP02x58LWN8pu0gA5eLxPu6bsBXyHUXDwMi/yRENOq92W
+         SCa61LBHdXDKKQXZmqFTGkTWo3i0aOrxZb5FuXDS8WdKmt2aRicxumit7pNewCED/+ja
+         0QXqz+6S+fPrS466KR6mAXGNwqpXqRfCbSkKRTh/CGfu3GC1LDf4VsYqVEzwOphOI/bi
+         WzuA==
+X-Gm-Message-State: AOAM531BSgSbypVHOk4A8lUVg+is40XzNRPM/KQ91XHJuFDE5pal3E3O
+        rPTonOw3zDj0SliUYpzSpWmw8iSyPlYeJpMbrV4=
+X-Google-Smtp-Source: ABdhPJyRxtky3At4bdPpe8TSi8A5QyQyiqt6v8+Uu//6gJ5iv2ZUBFFXIOtHkhC7C8FtiMgLMeG/Mg==
+X-Received: by 2002:a19:8c13:: with SMTP id o19mr5397732lfd.573.1607721491314;
+        Fri, 11 Dec 2020 13:18:11 -0800 (PST)
+Received: from localhost ([31.134.121.151])
+        by smtp.gmail.com with ESMTPSA id z26sm808501lja.125.2020.12.11.13.18.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Dec 2020 13:18:10 -0800 (PST)
 From:   Sam Protsenko <semen.protsenko@linaro.org>
-Date:   Fri, 11 Dec 2020 23:14:21 +0200
-Message-ID: <CAPLW+4nBeWAmgzUU7dvEYiGBN6=GxZ4+nFZQ3+jaM=OPrDDyTw@mail.gmail.com>
-Subject: Re: [PATCH] usb: dwc3: drd: Avoid error when extcon is missing
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>,
+To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        John Stultz <john.stultz@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        John Stultz <john.stultz@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 1/2] usb: dwc3: drd: Avoid error when extcon is missing
+Date:   Fri, 11 Dec 2020 23:19:15 +0200
+Message-Id: <20201211211916.6259-2-semen.protsenko@linaro.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201211211916.6259-1-semen.protsenko@linaro.org>
+References: <20201211211916.6259-1-semen.protsenko@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 11 Dec 2020 at 16:48, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Fri, Dec 11, 2020 at 04:24:21PM +0200, Sam Protsenko wrote:
-> > If "port" node is missing in PHY controller node, dwc3_get_extcon()
-> > isn't able to find extcon device. This is perfectly fine in case when
-> > "usb-role-switch" or OTG is used, but next misleading error message is
-> > printed in that case, from of_graph_get_remote_node():
-> >
-> >     OF: graph: no port node found in /phy@1234abcd
-> >
-> > Avoid printing that message by checking if port node exists in PHY node
-> > before calling of_graph_get_remote_node().
->
-> So, this has to be v2...
-> Anyway, see below.
->
-> ...
->
-> >  static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
-> >  {
-> >       struct device *dev = dwc->dev;
-> > -     struct device_node *np_phy, *np_conn;
-> > -     struct extcon_dev *edev;
-> > +     struct device_node *np_phy;
-> > +     struct extcon_dev *edev = NULL;
-> >       const char *name;
-> >
-> >       if (device_property_read_bool(dev, "extcon"))
-> > @@ -462,15 +462,22 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
-> >               return edev;
-> >       }
-> >
-> > +     /*
-> > +      * Try to get extcon device from USB PHY controller's "port" node.
-> > +      * Check if it has the "port" node first, to avoid printing the error
-> > +      * message from underlying code, as it's a valid case: extcon device
-> > +      * (and "port" node) may be missing in case of "usb-role-switch" or OTG
-> > +      * mode.
-> > +      */
-> >       np_phy = of_parse_phandle(dev->of_node, "phys", 0);
-> > -     np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-> > +     if (of_graph_is_present(np_phy)) {
-> > +             struct device_node *np_conn;
-> >
-> > -     if (np_conn)
-> > -             edev = extcon_find_edev_by_node(np_conn);
-> > -     else
-> > -             edev = NULL;
-> > -
-> > -     of_node_put(np_conn);
-> > +             np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-> > +             if (np_conn)
-> > +                     edev = extcon_find_edev_by_node(np_conn);
-> > +             of_node_put(np_conn);
-> > +     }
-> >       of_node_put(np_phy);
-> >
-> >       return edev;
->
->
-> Why not do it slightly different, i.e.
->
-> -       np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-> +       if (of_graph_is_present(np_phy))
-> +               np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-> +       else
-> +               np_conn = NULL;
->
-> ?
->
+If "port" node is missing in PHY controller node, dwc3_get_extcon()
+isn't able to find extcon device. This is perfectly fine in case when
+"usb-role-switch" or OTG is used, but next misleading error message is
+printed in that case, from of_graph_get_remote_node():
 
-Thanks for the review, Andy! I'll address this in v3.
+    OF: graph: no port node found in /phy@1234abcd
 
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+Avoid printing that message by checking if port node exists in PHY node
+before calling of_graph_get_remote_node().
+
+Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+Changes in v3:
+  - Split patch into two patches: logic diff and style diff
+
+ drivers/usb/dwc3/drd.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 3e1c1aacf002..312a4d060e80 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -463,7 +463,10 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
+ 	}
+ 
+ 	np_phy = of_parse_phandle(dev->of_node, "phys", 0);
+-	np_conn = of_graph_get_remote_node(np_phy, -1, -1);
++	if (of_graph_is_present(np_phy))
++		np_conn = of_graph_get_remote_node(np_phy, -1, -1);
++	else
++		np_conn = NULL;
+ 
+ 	if (np_conn)
+ 		edev = extcon_find_edev_by_node(np_conn);
+-- 
+2.29.2
+
