@@ -2,135 +2,153 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C75EC4CC62
-	for <linux-usb@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BA1C54F5B
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E032423770
-	for <linux-usb@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 707D223A33
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406152AbgLKOYK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Dec 2020 09:24:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43744 "EHLO
+        id S2387999AbgLLAEn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Dec 2020 19:04:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406071AbgLKOX5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 09:23:57 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B85AC0613D3
-        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 06:23:17 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id e7so11034203ljg.10
-        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 06:23:17 -0800 (PST)
+        with ESMTP id S2391635AbgLLAEZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Dec 2020 19:04:25 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01715C061793
+        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 16:03:44 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id h19so15673727lfc.12
+        for <linux-usb@vger.kernel.org>; Fri, 11 Dec 2020 16:03:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Pa/fm99iryRnuTvK4YNJZzODKVc6xYBM6NTI2XpGVhs=;
-        b=lD6VhF+fvXgWE0Gnwlp9urtW35R2rCf3C0CtDbKE4hO/wPYTwWL4efibV8JQuyevcY
-         lAij6XqTCN9Tq4EOQr41flBjaXWZiRP1g1futK+174+dE1nCJaNbjlVj3mTDHsLGfCLG
-         3M2eEjCQulf7L+6vEB0NdyDlqYMD9QrxsRPb6LjcU3AGxBQJ09IVbgB9TfXkmvkCsFJK
-         aJwriADEJPehX4I7NvUTkbK+JvWYFUaU1aT2PLl7dETNER0LeOndcRHniBrB7NzP9Dnw
-         GdCrAAP7qVETAT6kAv2M+R2b+iSt32s1fInudcAVgQXFYn1TZHK9abyjDUd1mkVFtKGQ
-         Mjow==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SfxY10PKBlgSw6/Fq87LV1LDFIW7NSQj7nViKjsG+no=;
+        b=Wv11Q6mHv1gO+UaNIbL3zUo9qxZ+sUkHbR3bPMfJXBP7hbTgQJTAEuD7NrSlyu5iSs
+         GZY1MvMu2QY+1vgHEbL861U/AW0MFtcrwrOHtO4nQCZsil9oq4+HwCAMi/NszMkxMXcs
+         ds5ydgWlDwUByKmBJHOLU77zHHsuw/a7lcOdiMC2bVLJETcemZlkqkrQWC2BWBZupm5O
+         Ue+0Yhb6R/g69gA0RI1FZdiQU9o4+4dZ9aLzJLwqSUtMbO2GDNouFSMO1ZXgWm0a7wqg
+         w8WCrN9NuJEg+zwXtoHzuXzhY2Q/8zobMukCOIfDB1fFkLkQvxoFPsZCgnjNzr+tEXJU
+         VaxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Pa/fm99iryRnuTvK4YNJZzODKVc6xYBM6NTI2XpGVhs=;
-        b=OKYz6jeAiu06znmYcqiyCjf8aafkxb1+Gxa1eVfEi0rWjiYDsXiVc9c5JCrL4l6pBT
-         asQYm4FGA0eAjvNz4ezgTeB5qWDnL+rCK/Rc1/DNBcaKVLHNTxw0ZhAMvd8c2kTiT0iS
-         SZvfqLaN6jRgQRKQq25afDvKBzL0b4d5X6AsOoD1h1OCJj2uzF7/4Q/wARvMLEJnjG4Z
-         rSZ8dIYQXLdqd37xoH5kWmuK6lpxigs9cdxyDMMTOAtUUWZE4PiZhbtqstiOmFPNg/s8
-         wFSfAlHgvcWWVsUA7ROwhuXtnPnfq+Z8sh5uryOyCEe+ckFKcx1EkYyjJTHNbNYD3qeb
-         2pWA==
-X-Gm-Message-State: AOAM531t7a9uXEfNV41O7d7llnoTZntfOxJFxV0N0m/XVPAIpG5mcbZX
-        bnyqvZ6VABNKoa7jqbzsc0dGU7klPSwy3W6e5pw=
-X-Google-Smtp-Source: ABdhPJwwL8LO3ZRdckr4onuGIoqembgDEjAuLbfvijPAlfmQ3CK/ku37eLNcaJHcJE05gUjaUDYarQ==
-X-Received: by 2002:a2e:94d:: with SMTP id 74mr4981137ljj.104.1607696595420;
-        Fri, 11 Dec 2020 06:23:15 -0800 (PST)
-Received: from localhost ([31.134.121.151])
-        by smtp.gmail.com with ESMTPSA id v11sm251264ljg.128.2020.12.11.06.23.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 06:23:14 -0800 (PST)
-From:   Sam Protsenko <semen.protsenko@linaro.org>
-To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH] usb: dwc3: drd: Avoid error when extcon is missing
-Date:   Fri, 11 Dec 2020 16:24:21 +0200
-Message-Id: <20201211142421.15389-1-semen.protsenko@linaro.org>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SfxY10PKBlgSw6/Fq87LV1LDFIW7NSQj7nViKjsG+no=;
+        b=YefEUHQk5DqGVO+m4ftS/3CkoHecTDZMhTpoX/EZxWtxcP7/7wFK+UnDiHwOQWqoxt
+         XBkiKtS1QmSK5dJMtjxvLTnV0eiows5Dow8/Q0b/aIKB0jL6M4epUWwIJNTsTMnCff6C
+         BXVI49Ob8TQ3C2ac5ayTNml1UZrlBb32Hx898iDjDFrS3AnqokBkO6I/ex7OW60Q8cV9
+         +iXBwEukn9CGGHAyl8nfvTralDgDs8hnp/Sq3thRZAZSQOKIalFo28buPer1GZqrLzpF
+         WrsQvZWHWYvlN+6RJ5bdkTZmPux6eeNjhYvR9lVFFyxJsxyIYPYujsrKmQNAZuk0wJxQ
+         78ng==
+X-Gm-Message-State: AOAM531akyjA2v7hvaFpFLsp8l5U7cnVW1rqaCmXYqk8EfW8ka0J5uoV
+        yAFE77fZCo8EErDd91HVaNRrWd05mjL3VcwxHhSHGg==
+X-Google-Smtp-Source: ABdhPJx3IAmrcEpXXMHnifRqVgVvTeCANVyRGmMptZidgvCOnkz50UFCvqUVtOhvhNSlPjj6hHub2Zi1irgcEhjEmys=
+X-Received: by 2002:a2e:3503:: with SMTP id z3mr5506252ljz.74.1607731423405;
+ Fri, 11 Dec 2020 16:03:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201122170822.21715-1-mani@kernel.org> <20201122170822.21715-3-mani@kernel.org>
+ <CACRpkdbY-aZB1BAD=JkZAHA+OQvpH12AD3tLAp6Nf1hwr74s9A@mail.gmail.com>
+ <X8ZmfbQp7/BGgxec@localhost> <CACRpkdZJdxqxUEQaKUHctHRSQAUpYZJtuxonwVd_ZFAsLBbKrA@mail.gmail.com>
+ <X89OOUOG0x0SSxXA@localhost> <CACRpkdavm7GG8HdV1xk0W_b1EzUmvF0kKAGnp0u6t42NAWa9iA@mail.gmail.com>
+ <X9DsWahl6UDwZwBn@localhost> <CACRpkdYm-j9QcK8hgNrC33KruWE17Q0F4+T=UanE7PCEZEtu6w@mail.gmail.com>
+ <X9HiGaIzk4UaZG7i@localhost>
+In-Reply-To: <X9HiGaIzk4UaZG7i@localhost>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 12 Dec 2020 01:03:32 +0100
+Message-ID: <CACRpkdZ6MUzRe9m=NrqA_5orhZXDtWj+qoFMHX7v6Zjsx-rVGg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] usb: serial: xr_serial: Add gpiochip support
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        patong.mxl@gmail.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Angelo Dureghello <angelo.dureghello@timesys.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If "port" node is missing in PHY controller node, dwc3_get_extcon()
-isn't able to find extcon device. This is perfectly fine in case when
-"usb-role-switch" or OTG is used, but next misleading error message is
-printed in that case, from of_graph_get_remote_node():
+On Thu, Dec 10, 2020 at 9:53 AM Johan Hovold <johan@kernel.org> wrote:
+> On Wed, Dec 09, 2020 at 05:25:32PM +0100, Linus Walleij wrote:
 
-    OF: graph: no port node found in /phy@1234abcd
+> I just replied to that thread, but to summarize, you can't rely on
+> having the sysfs code detect collisions since that will trigger a bunch
+> of nasty warnings and backtraces. We also don't want the sysfs interface
+> for a specific USB device to depend on probe order (only the first one
+> plugged in gets to use the line names). And adding line names now could
+> in fact be what breaks currently working scripts.
 
-Avoid printing that message by checking if port node exists in PHY node
-before calling of_graph_get_remote_node().
+Yes the sysfs ABI is very volatile and easy to break.
 
-Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
----
- drivers/usb/dwc3/drd.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+As pointed out in the other reply, sysfs base GPIO number is all
+wibbly-wobbly on anything hot-pluggable so in a way I feel it
+is the right thing to disallow sysfs altogether on hotpluggable
+devices.
 
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index 3e1c1aacf002..eaf389d3f3c5 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -441,8 +441,8 @@ static int dwc3_drd_notifier(struct notifier_block *nb,
- static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
- {
- 	struct device *dev = dwc->dev;
--	struct device_node *np_phy, *np_conn;
--	struct extcon_dev *edev;
-+	struct device_node *np_phy;
-+	struct extcon_dev *edev = NULL;
- 	const char *name;
- 
- 	if (device_property_read_bool(dev, "extcon"))
-@@ -462,15 +462,22 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
- 		return edev;
- 	}
- 
-+	/*
-+	 * Try to get extcon device from USB PHY controller's "port" node.
-+	 * Check if it has the "port" node first, to avoid printing the error
-+	 * message from underlying code, as it's a valid case: extcon device
-+	 * (and "port" node) may be missing in case of "usb-role-switch" or OTG
-+	 * mode.
-+	 */
- 	np_phy = of_parse_phandle(dev->of_node, "phys", 0);
--	np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-+	if (of_graph_is_present(np_phy)) {
-+		struct device_node *np_conn;
- 
--	if (np_conn)
--		edev = extcon_find_edev_by_node(np_conn);
--	else
--		edev = NULL;
--
--	of_node_put(np_conn);
-+		np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-+		if (np_conn)
-+			edev = extcon_find_edev_by_node(np_conn);
-+		of_node_put(np_conn);
-+	}
- 	of_node_put(np_phy);
- 
- 	return edev;
--- 
-2.29.2
+> > I am strongly encouraging any developer with a few spare cycles
+> > on their hands to go and implement the debugfs facility because
+> > we can make it so much better than the sysfs, easier and
+> > more convenient for testing etc.
+>
+> Don't you run the risk of having people enable debugfs in production
+> systems now just so they can use the old-style interface?
 
+That risk always exist of course. For this and many other reasons.
+I just have to trust developers to understand that debugfs is named
+debugfs for a reason.
+
+> Side note: if you skip the "export" part of the interface, how would you
+> indicate that a line is already in use or not available (e.g.
+> gpio-range-reserved)?
+
+The idea is that if you poke around there you know what you're
+doing or ready to face the consequences.
+
+I am thinking if people want to toggle LEDs and switches from
+debugfs for testing and hacking they'd be alright with corrupting
+the SPI interface if they make mistakes.
+
+The chardev ABI is the only thing which we really designed with
+some users, multiple users, compatibility and security in mind,
+yet we had to revamp it once from scratch...
+
+> Just did a super quick check and it seems libgpiod still assumes a flat
+> name space. For example, gpiod_chip_find_line() returns only the first
+> line found that matches a name. Shouldn't be impossible to extend, but
+> just want to make sure this flat namespace assumption hasn't been to
+> heavily relied upon.
+
+The unique way to identify a GPIO is gpiochip instance (with
+topology from sysfs) and then a line number on that chip.
+This is done e.g. in the example tool
+tools/gpio/gpio-hammer.c
+
+As you can see the tool doesn't use these line names.
+
+The line names are really like symbolic links or something.
+But they are indeed in a flat namespace so we should try to
+at least make them unique if it turns out people love to use
+these.
+
+As it is now system designers mostly use device tree to assign
+line names and they try to make these unique because they don't
+like the nasty warnings from gpiolib.
+
+If I google for the phrase "Detected name collision for GPIO name"
+I just find the code, our discussions and some USB serial devices
+warning about this so far.
+
+Maybe we should just make a patch to disallow it?
+
+Yours,
+Linus Walleij
