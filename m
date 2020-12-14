@@ -2,62 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BAC0C4361B
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Dec 2020 11:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E814FC4361B
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Dec 2020 11:22:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7029229C6
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Dec 2020 11:16:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFA88229C6
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Dec 2020 11:22:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407568AbgLNLQE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Dec 2020 06:16:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57610 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405890AbgLNLP1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 14 Dec 2020 06:15:27 -0500
-Date:   Mon, 14 Dec 2020 12:15:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1607944487;
-        bh=HDoCs0i40as9FdOu20ZMj7f7mZdTXpbQA5ft49WMWKs=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Lsu/33aRzvKhPTEEgA8qED3W/dmOtb3ISebxgMQvYkFP6Sy6v21tcVdfDW+5hGzb4
-         KQKL6qB9RvAHrN0CHhnWvcddRRpLIU0rueK0G9fC5xJTK18fMvzoaXFKH990OxEy73
-         zWPrBYmmNNlEjezpoIgdYFCsIonk5YO7iHD3DA2c=
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Joachim Schwender <joachim.schwender@web.de>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: kernel 5.9.14 USB scanner detection fails
-Message-ID: <X9dJaI+WkVby/2ZN@kroah.com>
-References: <4028b5c8-3f4b-4266-423b-a7c9652e653d@web.de>
+        id S2407662AbgLNLVz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Dec 2020 06:21:55 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:9603 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730396AbgLNLVk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Dec 2020 06:21:40 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cvf7X2cShzM52m;
+        Mon, 14 Dec 2020 19:20:08 +0800 (CST)
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 14 Dec 2020 19:20:44 +0800
+From:   Zou Wei <zou_wei@huawei.com>
+To:     <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Zou Wei <zou_wei@huawei.com>
+Subject: [PATCH -next] usb: xhci: remove unused variable
+Date:   Mon, 14 Dec 2020 19:32:11 +0800
+Message-ID: <1607945531-15059-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4028b5c8-3f4b-4266-423b-a7c9652e653d@web.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.103.112]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Dec 14, 2020 at 11:36:17AM +0100, Joachim Schwender wrote:
-> lsusb lists my scanner:
-> Bus 001 Device 002: ID 04a9:190f Canon, Inc. CanoScan LiDE 220
-> 
-> 
-> kernel 4.9.14:
-> sane-find-scanner   or scanimage -L  does not detect the scanner.
-> lsusb still shows the above line.
-> 
-> kernel 4.9.12:
-> with the same .config compiled worked as expected, scanner is detected
-> and works.
+Fix variable set but not used compilation warnings:
 
-"4.9" or "5.9"?
+drivers/usb/host/xhci.c:1338:15: warning: variable ‘len’ set but not used [-Wunused-but-set-variable]
+  unsigned int len;
+               ^~~
 
-And can you run 'git bisect' between the two kernel releases to find the
-offending commit that causes the problem?
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/usb/host/xhci.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-thanks,
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 91ab81c..24e5a0f 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1335,7 +1335,6 @@ static bool xhci_urb_temp_buffer_required(struct usb_hcd *hcd,
+ 
+ static void xhci_unmap_temp_buf(struct usb_hcd *hcd, struct urb *urb)
+ {
+-	unsigned int len;
+ 	unsigned int buf_len;
+ 	enum dma_data_direction dir;
+ 
+@@ -1351,10 +1350,10 @@ static void xhci_unmap_temp_buf(struct usb_hcd *hcd, struct urb *urb)
+ 				 dir);
+ 
+ 	if (usb_urb_dir_in(urb))
+-		len = sg_pcopy_from_buffer(urb->sg, urb->num_sgs,
+-					   urb->transfer_buffer,
+-					   buf_len,
+-					   0);
++		sg_pcopy_from_buffer(urb->sg, urb->num_sgs,
++				     urb->transfer_buffer,
++				     buf_len,
++				     0);
+ 
+ 	urb->transfer_flags &= ~URB_DMA_MAP_SINGLE;
+ 	kfree(urb->transfer_buffer);
+-- 
+2.6.2
 
-greg k-h
