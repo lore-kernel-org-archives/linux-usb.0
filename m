@@ -2,59 +2,59 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60906C1B0E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99CB3C2BB40
 	for <linux-usb@archiver.kernel.org>; Mon, 14 Dec 2020 11:09:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31CDD229C6
+	by mail.kernel.org (Postfix) with ESMTP id 695A5229C5
 	for <linux-usb@archiver.kernel.org>; Mon, 14 Dec 2020 11:09:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730191AbgLNLJE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Dec 2020 06:09:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
+        id S2407674AbgLNLHU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Dec 2020 06:07:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbgLNLH5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Dec 2020 06:07:57 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 564A6C0617A7
-        for <linux-usb@vger.kernel.org>; Mon, 14 Dec 2020 03:06:36 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id u18so29112832lfd.9
-        for <linux-usb@vger.kernel.org>; Mon, 14 Dec 2020 03:06:36 -0800 (PST)
+        with ESMTP id S2390255AbgLNLHN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Dec 2020 06:07:13 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE0AC061793
+        for <linux-usb@vger.kernel.org>; Mon, 14 Dec 2020 03:06:32 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id o13so5954566lfr.3
+        for <linux-usb@vger.kernel.org>; Mon, 14 Dec 2020 03:06:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=91Fi62YRIS4Qn6KO/9qSSfAEFCCwvmrnELKnrs1gSak=;
-        b=RXm958TAHnbV81cWTdfZkaz4J2LXVnX/G/QULCB45ONmQNZXongcyH33ltdJe7f41l
-         Q1kIQu7mBQoDBJWkAoWR18X3cQ2DLwsIGjGzLAhI9yrzq18I0mRP3L8Z5BIz3BJI25L5
-         pWt1ERh+q6OzxwH4JypYTbRwv9PKb0BDrKpVF42mfCO6L5vQBzf0JSn/tok7vNwfLj0S
-         OW3kBImVFwHPLODQLrK2fI5vQp7uxLBv6HTGx2t/hCIuKh/d60C522wl0c4Wcg4FdtIa
-         uYcBBrLA13hRFAVmfGzBkejieX+SHjB8nlIvIFKvb11fyEWURrplk7nPeOyehSIMcHnV
-         nHfg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dV2ATFpp82f3puHBoSuNF7OINlKucj96jVBrKaQtfvk=;
+        b=f2zr68kFm8jY1AIIkhcI8flmhCXrjq8nD+QkC+7U9EqeZLFcIbySZOo2BHAk3hD8fG
+         K79sb/0u402Nept/UUANSfr21h7AQ0SvB0wJatlEOIHVLZs84k61wEkTujTjGJyBF55O
+         xGLXiRw3UYofkjx+JYBbpzVtNwldfIrCdSHVAQi72Oxstvl6cKnAbzzc/oXyoL97/wiR
+         KDhnDlUg2r+K7NrLy+RHpWt205dAPg+Wb6gX5w2f39V+TmM9UGM/3/2+yGf/PANppb5V
+         PNet7nk22ZsNj7P32cgfSwDu9qsdliNpz7qUY2bu5O8RXZiqNEJERRtKsKQigM1v+Dye
+         8omA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=91Fi62YRIS4Qn6KO/9qSSfAEFCCwvmrnELKnrs1gSak=;
-        b=KPL7o7hEnFqZTV+OQb+5p3pLd9DscLlQIO44eDSJImWwe7KPrE37uCjshNQ8WWcIOJ
-         rM8wCg03umbGyo2uPphnXKj2yqB0B4C9XmHlzA3UvDBJNNIyCipj0U65Xb2OI2W4/rpO
-         V+3Tw/kQg1jHt82Wb+lFeghqm8xnV+dT5LMtRAempG0rXBsYPUA14cmyAGA6IZ7t0j37
-         ERhLuW0xwjmzAR6/6rjV39PMGeSr9p10F7zQK22XCbmOme5KqbdWddqj10AmZKJ61OlJ
-         FiwXnu5e7BNiQm7c4nnYe5hOxV+25G+UvQ3VwpHYVAY9ZhYO0VJicLiOeo4n4oHbOuGm
-         dmWw==
-X-Gm-Message-State: AOAM533QMe2iEEXEjLmitWpPtdzTLsenSdUgEKsEPnadOMHxIpqVWyvO
-        6gtg3ItPF5s8euJSE+wQ4nlxZb825sANdHs7
-X-Google-Smtp-Source: ABdhPJzSzQh01E26X3BXk3jup3Yn066amJXzbnjsaisJb1HdHAeGSPBNzo+Fgl5Y/4Q67+7wpABz6A==
-X-Received: by 2002:a2e:9151:: with SMTP id q17mr10479296ljg.475.1607943994446;
-        Mon, 14 Dec 2020 03:06:34 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dV2ATFpp82f3puHBoSuNF7OINlKucj96jVBrKaQtfvk=;
+        b=az+3gyVlvS4uW82BepE+xjimlEkDWI/YpwueQ+IICDj+v+H7EyRDihB1SCA2PXYd3t
+         zEXF6OGypJgNTJ2YcNbJqpOgRky3Le3HbeLcKYxBC8ylj34uYiTgkezH9f2+kkJ5//dD
+         mC+BW420rmPWHNnz8s8Q67a8fMGPxqRCPL9BV5ImV86U+M8tl/DS3u/EBRxARLxUd+L4
+         hQlt39Oenxo6KTtsH8MQu3l/XUWQ5ke1x0YPKRtXhRm5hgiEDnZXt6q3t8teK5JKeSth
+         1WtDnZJ0fWKQsBY2S0ejnWwpWjNAGLjFJOM0olvrGQTtq/Py1+HMw5b/O017xZyVep2/
+         V18A==
+X-Gm-Message-State: AOAM531QQmtfeFu8b9Yva7B4+KgFjRH9VvmGOxxYTPRD0nKpXuK6ynjn
+        0n0ROHhy2bx3kyJpdlDVgalpa77NJXHLWp55
+X-Google-Smtp-Source: ABdhPJx9dYzZhY3Lo8Qf63HhlVJtwo0GTXla3Lptn2PZGE9qiNMUMosq3WfCQtTZfSv1N5pNNiAAhw==
+X-Received: by 2002:a19:ed6:: with SMTP id 205mr9757848lfo.159.1607943990877;
+        Mon, 14 Dec 2020 03:06:30 -0800 (PST)
 Received: from localhost ([31.134.121.151])
-        by smtp.gmail.com with ESMTPSA id f26sm1199576ljg.137.2020.12.14.03.06.33
+        by smtp.gmail.com with ESMTPSA id h21sm183488lji.89.2020.12.14.03.06.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 03:06:33 -0800 (PST)
+        Mon, 14 Dec 2020 03:06:30 -0800 (PST)
 From:   Sam Protsenko <semen.protsenko@linaro.org>
 To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Felipe Balbi <balbi@kernel.org>,
@@ -62,75 +62,37 @@ Cc:     Felipe Balbi <balbi@kernel.org>,
         John Stultz <john.stultz@linaro.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 2/2] usb: dwc3: drd: Improve dwc3_get_extcon() style
-Date:   Mon, 14 Dec 2020 13:07:41 +0200
-Message-Id: <20201214110741.8512-3-semen.protsenko@linaro.org>
+Subject: [PATCH v4 0/2] usb: dwc3: drd: Check graph presence for extcon
+Date:   Mon, 14 Dec 2020 13:07:39 +0200
+Message-Id: <20201214110741.8512-1-semen.protsenko@linaro.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201214110741.8512-1-semen.protsenko@linaro.org>
-References: <20201214110741.8512-1-semen.protsenko@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The previous change ("usb: dwc3: drd: Avoid error when extcon is
-missing") changed the code flow in dwc3_get_extcon() function, leading
-to unnecessary if-branch. This patch does housekeeping by reworking the
-code for obtaining an extcon device from the "port" node.
+dwc3 shows error message on probe if port node wasn't found in PHY
+controller node. But that is actually a valid case for the role switch
+mode and OTG mode. This patch series makes sure to hide that error
+message and also does a bit of refactoring for that code. Similar patch
+(for different subsystem) already exists in kernel tree:
+commit ea5bc3b15e0f ("drm/of: Make drm_of_find_panel_or_bridge() to
+check graph's presence"), and the whole `of_graph_is_present()' function
+was implemented exactly for this kind of situation.
 
-Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-Changes in v4:
-  - Moved the comment from patch 2/2 to 1/2
-  - Fixed typos in commit message
-Changes in v3:
-  - Split patch into two patches: logic diff and style diff
+In v2 submission this was a single patch. But in offline discussion with
+Andy Shevchenko it was decided it's better to split it into two patches
+in order to provide the minimal change for further possible backporting,
+and then do all style related changes on top of it in the second patch.
 
- drivers/usb/dwc3/drd.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+Sam Protsenko (2):
+  usb: dwc3: drd: Avoid error when extcon is missing
+  usb: dwc3: drd: Improve dwc3_get_extcon() style
 
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index da428cf2eb5b..e2b68bb770d1 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -441,8 +441,8 @@ static int dwc3_drd_notifier(struct notifier_block *nb,
- static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
- {
- 	struct device *dev = dwc->dev;
--	struct device_node *np_phy, *np_conn;
--	struct extcon_dev *edev;
-+	struct device_node *np_phy;
-+	struct extcon_dev *edev = NULL;
- 	const char *name;
- 
- 	if (device_property_read_bool(dev, "extcon"))
-@@ -470,17 +470,14 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
- 	 * or OTG mode.
- 	 */
- 	np_phy = of_parse_phandle(dev->of_node, "phys", 0);
--	if (of_graph_is_present(np_phy))
--		np_conn = of_graph_get_remote_node(np_phy, -1, -1);
--	else
--		np_conn = NULL;
--
--	if (np_conn)
--		edev = extcon_find_edev_by_node(np_conn);
--	else
--		edev = NULL;
-+	if (of_graph_is_present(np_phy)) {
-+		struct device_node *np_conn;
- 
--	of_node_put(np_conn);
-+		np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-+		if (np_conn)
-+			edev = extcon_find_edev_by_node(np_conn);
-+		of_node_put(np_conn);
-+	}
- 	of_node_put(np_phy);
- 
- 	return edev;
+ drivers/usb/dwc3/drd.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
 -- 
 2.29.2
 
