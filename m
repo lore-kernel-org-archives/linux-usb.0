@@ -2,60 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69EC9C4361B
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 20:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 420FDC2BB48
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 20:31:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A0CD22510
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 20:31:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D03522573
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 20:31:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727884AbgLOUXu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Dec 2020 15:23:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40686 "EHLO
+        id S1728002AbgLOUbe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Dec 2020 15:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727785AbgLOUXM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Dec 2020 15:23:12 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D54C0611CF;
-        Tue, 15 Dec 2020 12:21:54 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id m25so42701790lfc.11;
-        Tue, 15 Dec 2020 12:21:53 -0800 (PST)
+        with ESMTP id S1727407AbgLOUWa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Dec 2020 15:22:30 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3338CC0611CB;
+        Tue, 15 Dec 2020 12:21:50 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id o13so19543998lfr.3;
+        Tue, 15 Dec 2020 12:21:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NiGZvLOgQKcEvFh0a0FUmNFhvqrnqyE23ruUDRJZB2I=;
-        b=QjcxInygzQDn5Q2Y6w1yyIP9hqWYhCCfGUb1W83mJ/+Q9j1XajUymEW5oudaawQQx3
-         sFiuMMVA2EbvB09FJeDuu2094e4N2OwgcjopoSObtRdOJ5ux0ozEcJsS1xCaz23axWoX
-         LrDC/gEMFSxKR4vhI9C82VJvtM5t/YZrOGcHgjtmCdjwbjk62KXeAdFeQRVih9Xf5HtS
-         ArCSyOwSoVyujV3IvFShs7Ac/8bEQCQH1bZhT//7nCp0KiHfBtcsVwIyzWciFkjhIqWE
-         VizNSwRqUzgzH0Lh+JTUmaz3BV0ez2Dtc9KgzHQjnhTb5rOiTv01EKnOGd3U9Uj4+bpE
-         sffA==
+        bh=LriiNL0B11yYagEvJlZ6UmmXdC2w+0m3jsvBoyDUI6o=;
+        b=sqXDROPHjiEo8SSapQPDVr7rhunD8MVwGxgEGOC+ehECyoZ5Q8ialUnLVCibLkE2iG
+         C3KlwG1z/kzVkD6cAJL9SRTQtK5cUNn9dEiwI11oY+riSK8WDrAFvBf3tF2/EmeWwyc2
+         U5QAA5//otRWq7UWoleDKLDWN6Z6c5AUp7qsTxs/qwx8vU7M9bhsszq8TUw28kso80kT
+         ThX5rWoU9Qe6Q+kEVId69jCOgG6ax3KndtjCpUFYSCTQG3xiZr118GTFCSOO+XZeLjnB
+         Lks0Cd5EQVJLokEzVoYMCWrjFMGoixFjjhbVHp03dumgwzQ+TsosR6Qv968cZHqDEtaX
+         AGRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NiGZvLOgQKcEvFh0a0FUmNFhvqrnqyE23ruUDRJZB2I=;
-        b=I5QvqleGQRmCgjC1BAnT1KSybQUw3qVk/NfpvtZGkhrjVIn/XcpaIOAZXcq4oSm9Wj
-         pqUunPI5vZ6XipfOXBaJy3Gnl5orJYjyN9HKbXWxiRUHssQ0JWLri1IyzkUSrpCOKPpr
-         JolvIFwDC+gZbv6Mqo5ibOdWnp3eJwlObYneDgDbUQgKzRhZ9MvppHDWunSa5CuBRkXV
-         4tQac3Uw+kYoYeQ8DSAVE8sXTdJiFH05GvwVh+NH8vLRQcSg/RgMTC3WVm7d+TI2HJ51
-         okxNSX47QyAwFMXnMXDNwLVum3Px/4FzaXKJ55yX2GJ9H0pytAkYvbvtGrfQP4RltWNu
-         b2FA==
-X-Gm-Message-State: AOAM533IXrtQ1kkyUhL5T8qkmZi/gXevluN6o5oNw27xcD2Lr8Qzl220
-        FaY4yqZE4CCRyRG3sm6CmWM=
-X-Google-Smtp-Source: ABdhPJzkaum52qZSSRrn3kFMmBxupTarz67eo18LBFI2iCUwfw9etjBbHdWJgNUEg8mbU5ApFg35/Q==
-X-Received: by 2002:a19:a0c:: with SMTP id 12mr11822065lfk.436.1608063712582;
-        Tue, 15 Dec 2020 12:21:52 -0800 (PST)
+        bh=LriiNL0B11yYagEvJlZ6UmmXdC2w+0m3jsvBoyDUI6o=;
+        b=NLJk5JCmCRnXCZxmfuU2gTaLA6hix3czhL1GxI+s1lSwCUwx5mtDu2v4CmWtLtJvKV
+         U4aGebNKukrW6kvhCH8z/pXKJuZZ72LXwBt3Od3BMeiUURALahwoevrjIDNFhoxlbpBu
+         91RsSAARLGm9jjgYArYH2moyXbF7BTGkvPu1k2U6gAxQbbuwO4mNwUl8tjUQPtslN7ut
+         nX7KqxCr5DuGo/7oYAw5OUJUda/4P/A9bI2cZ6W3x1VNccWqhwZ74aK8fHsXtT6nhOeU
+         2YiBDKVKCaZgacnOoe/fPrK3PxduZk4LBSFdOhsUlIiyVvYbvWOJZSRF/yf5NSmmYJx3
+         GCiA==
+X-Gm-Message-State: AOAM5329Hq8mxF6g7Dz7kGdRGJSsV/aLdUdAV1Q5sLVjo56mPgl3eew8
+        dFbTdv3PY30kMYn544pGSrg=
+X-Google-Smtp-Source: ABdhPJysasr/WNHPbS8QIonxwxP0+d6mrPjENnI+gCKrV7n9xXi9IiyHLsGaomzqkuMtIr+4tGUMwg==
+X-Received: by 2002:a2e:760c:: with SMTP id r12mr13059020ljc.11.1608063708724;
+        Tue, 15 Dec 2020 12:21:48 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id f3sm2873711ljp.114.2020.12.15.12.21.51
+        by smtp.gmail.com with ESMTPSA id f3sm2873711ljp.114.2020.12.15.12.21.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Dec 2020 12:21:52 -0800 (PST)
+        Tue, 15 Dec 2020 12:21:48 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -68,9 +68,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v1 8/8] ARM: tegra_defconfig: Enable USB_CHIPIDEA and remove USB_EHCI_TEGRA
-Date:   Tue, 15 Dec 2020 23:21:13 +0300
-Message-Id: <20201215202113.30394-9-digetx@gmail.com>
+Subject: [PATCH v1 4/8] usb: chipidea: tegra: Rename UDC to USB
+Date:   Tue, 15 Dec 2020 23:21:09 +0300
+Message-Id: <20201215202113.30394-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201215202113.30394-1-digetx@gmail.com>
 References: <20201215202113.30394-1-digetx@gmail.com>
@@ -80,33 +80,187 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The ehci-tegra driver was superseded by the generic ChipIdea USB driver,
-update the tegra's defconfig accordingly.
+Rename all occurrences in the code from "udc" to "usb" and change the
+Kconfig entry in order to show that this driver supports USB modes other
+than device-only mode. The follow up patch will add host-mode support and
+it will be cleaner to perform the renaming separately, i.e. in this patch.
 
+Tested-by: Matt Merhar <mattmerhar@protonmail.com>
+Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+Tested-by: Peter Geis <pgwipeout@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/configs/tegra_defconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/usb/chipidea/Kconfig         |  2 +-
+ drivers/usb/chipidea/ci_hdrc_tegra.c | 78 ++++++++++++++--------------
+ 2 files changed, 40 insertions(+), 40 deletions(-)
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 74739a52a8ad..ae0709265493 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -237,12 +237,13 @@ CONFIG_USB=y
- CONFIG_USB_XHCI_HCD=y
- CONFIG_USB_XHCI_TEGRA=y
- CONFIG_USB_EHCI_HCD=y
--CONFIG_USB_EHCI_TEGRA=y
- CONFIG_USB_ACM=y
- CONFIG_USB_WDM=y
- CONFIG_USB_STORAGE=y
- CONFIG_USB_CHIPIDEA=y
- CONFIG_USB_CHIPIDEA_UDC=y
-+CONFIG_USB_CHIPIDEA_HOST=y
-+CONFIG_USB_CHIPIDEA_TEGRA=y
- CONFIG_USB_GADGET=y
- CONFIG_MMC=y
- CONFIG_MMC_BLOCK_MINORS=16
+diff --git a/drivers/usb/chipidea/Kconfig b/drivers/usb/chipidea/Kconfig
+index 8bafcfc6080d..8685ead6ccc7 100644
+--- a/drivers/usb/chipidea/Kconfig
++++ b/drivers/usb/chipidea/Kconfig
+@@ -53,7 +53,7 @@ config USB_CHIPIDEA_GENERIC
+ 	default USB_CHIPIDEA
+ 
+ config USB_CHIPIDEA_TEGRA
+-	tristate "Enable Tegra UDC glue driver" if EMBEDDED
++	tristate "Enable Tegra USB glue driver" if EMBEDDED
+ 	depends on OF
+ 	depends on USB_CHIPIDEA_UDC
+ 	default USB_CHIPIDEA
+diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
+index 10eaaba2a3f0..d8efa80aa1c2 100644
+--- a/drivers/usb/chipidea/ci_hdrc_tegra.c
++++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+@@ -12,7 +12,7 @@
+ 
+ #include "ci.h"
+ 
+-struct tegra_udc {
++struct tegra_usb {
+ 	struct ci_hdrc_platform_data data;
+ 	struct platform_device *dev;
+ 
+@@ -20,15 +20,15 @@ struct tegra_udc {
+ 	struct clk *clk;
+ };
+ 
+-struct tegra_udc_soc_info {
++struct tegra_usb_soc_info {
+ 	unsigned long flags;
+ };
+ 
+-static const struct tegra_udc_soc_info tegra_udc_soc_info = {
++static const struct tegra_usb_soc_info tegra_udc_soc_info = {
+ 	.flags = CI_HDRC_REQUIRES_ALIGNED_DMA,
+ };
+ 
+-static const struct of_device_id tegra_udc_of_match[] = {
++static const struct of_device_id tegra_usb_of_match[] = {
+ 	{
+ 		.compatible = "nvidia,tegra20-udc",
+ 		.data = &tegra_udc_soc_info,
+@@ -45,16 +45,16 @@ static const struct of_device_id tegra_udc_of_match[] = {
+ 		/* sentinel */
+ 	}
+ };
+-MODULE_DEVICE_TABLE(of, tegra_udc_of_match);
++MODULE_DEVICE_TABLE(of, tegra_usb_of_match);
+ 
+-static int tegra_udc_probe(struct platform_device *pdev)
++static int tegra_usb_probe(struct platform_device *pdev)
+ {
+-	const struct tegra_udc_soc_info *soc;
+-	struct tegra_udc *udc;
++	const struct tegra_usb_soc_info *soc;
++	struct tegra_usb *usb;
+ 	int err;
+ 
+-	udc = devm_kzalloc(&pdev->dev, sizeof(*udc), GFP_KERNEL);
+-	if (!udc)
++	usb = devm_kzalloc(&pdev->dev, sizeof(*usb), GFP_KERNEL);
++	if (!usb)
+ 		return -ENOMEM;
+ 
+ 	soc = of_device_get_match_data(&pdev->dev);
+@@ -63,69 +63,69 @@ static int tegra_udc_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	udc->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+-	if (IS_ERR(udc->phy)) {
+-		err = PTR_ERR(udc->phy);
++	usb->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
++	if (IS_ERR(usb->phy)) {
++		err = PTR_ERR(usb->phy);
+ 		dev_err(&pdev->dev, "failed to get PHY: %d\n", err);
+ 		return err;
+ 	}
+ 
+-	udc->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(udc->clk)) {
+-		err = PTR_ERR(udc->clk);
++	usb->clk = devm_clk_get(&pdev->dev, NULL);
++	if (IS_ERR(usb->clk)) {
++		err = PTR_ERR(usb->clk);
+ 		dev_err(&pdev->dev, "failed to get clock: %d\n", err);
+ 		return err;
+ 	}
+ 
+-	err = clk_prepare_enable(udc->clk);
++	err = clk_prepare_enable(usb->clk);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "failed to enable clock: %d\n", err);
+ 		return err;
+ 	}
+ 
+ 	/* setup and register ChipIdea HDRC device */
+-	udc->data.name = "tegra-udc";
+-	udc->data.flags = soc->flags;
+-	udc->data.usb_phy = udc->phy;
+-	udc->data.capoffset = DEF_CAPOFFSET;
+-
+-	udc->dev = ci_hdrc_add_device(&pdev->dev, pdev->resource,
+-				      pdev->num_resources, &udc->data);
+-	if (IS_ERR(udc->dev)) {
+-		err = PTR_ERR(udc->dev);
++	usb->data.name = "tegra-usb";
++	usb->data.flags = soc->flags;
++	usb->data.usb_phy = usb->phy;
++	usb->data.capoffset = DEF_CAPOFFSET;
++
++	usb->dev = ci_hdrc_add_device(&pdev->dev, pdev->resource,
++				      pdev->num_resources, &usb->data);
++	if (IS_ERR(usb->dev)) {
++		err = PTR_ERR(usb->dev);
+ 		dev_err(&pdev->dev, "failed to add HDRC device: %d\n", err);
+ 		goto fail_power_off;
+ 	}
+ 
+-	platform_set_drvdata(pdev, udc);
++	platform_set_drvdata(pdev, usb);
+ 
+ 	return 0;
+ 
+ fail_power_off:
+-	clk_disable_unprepare(udc->clk);
++	clk_disable_unprepare(usb->clk);
+ 	return err;
+ }
+ 
+-static int tegra_udc_remove(struct platform_device *pdev)
++static int tegra_usb_remove(struct platform_device *pdev)
+ {
+-	struct tegra_udc *udc = platform_get_drvdata(pdev);
++	struct tegra_usb *usb = platform_get_drvdata(pdev);
+ 
+-	ci_hdrc_remove_device(udc->dev);
+-	clk_disable_unprepare(udc->clk);
++	ci_hdrc_remove_device(usb->dev);
++	clk_disable_unprepare(usb->clk);
+ 
+ 	return 0;
+ }
+ 
+-static struct platform_driver tegra_udc_driver = {
++static struct platform_driver tegra_usb_driver = {
+ 	.driver = {
+-		.name = "tegra-udc",
+-		.of_match_table = tegra_udc_of_match,
++		.name = "tegra-usb",
++		.of_match_table = tegra_usb_of_match,
+ 	},
+-	.probe = tegra_udc_probe,
+-	.remove = tegra_udc_remove,
++	.probe = tegra_usb_probe,
++	.remove = tegra_usb_remove,
+ };
+-module_platform_driver(tegra_udc_driver);
++module_platform_driver(tegra_usb_driver);
+ 
+-MODULE_DESCRIPTION("NVIDIA Tegra USB device mode driver");
++MODULE_DESCRIPTION("NVIDIA Tegra USB driver");
+ MODULE_AUTHOR("Thierry Reding <treding@nvidia.com>");
+ MODULE_LICENSE("GPL v2");
 -- 
 2.29.2
 
