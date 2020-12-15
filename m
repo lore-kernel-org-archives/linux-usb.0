@@ -2,184 +2,220 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 886A5C2BB9A
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 06:57:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA48C4361B
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 06:57:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50EE822287
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 06:57:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 127B822285
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 06:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726552AbgLOG4q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Dec 2020 01:56:46 -0500
-Received: from mail-eopbgr750058.outbound.protection.outlook.com ([40.107.75.58]:44263
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        id S1726810AbgLOG5A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Dec 2020 01:57:00 -0500
+Received: from mail-eopbgr50085.outbound.protection.outlook.com ([40.107.5.85]:62277
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726356AbgLOG4O (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Dec 2020 01:56:14 -0500
+        id S1726147AbgLOG4s (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Dec 2020 01:56:48 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oUo6BYld+Mb14uDAyT/FTN5LdAxymI42bMJ2E85AVvI9xQF4g3fPOd3n7zEntkYq+IQxoGCl23f1w1ulCIQ7RmFembvjM5RmlZDX80M7ZD8XFCVgQdIY9t4dYhp1A19vrdMsGDJsYC9bkh/VhwH5u113nTY5crYXOJVPranYJKNR3ktK5vZ0ueXfx0pA7kkAAjwRlyZ6DWTqtTjqxsim+V+s9G/UDvuUgh2EAuPmfSqO7isn7FHh31fEQJ7KrfwCuFsWd7a/3UGwQbDOAqAwQW4W30XFW7FpMq3a8MMYuyffhWnWFLhJSo48ruI22gVruRZIuzT7qvZ0J7S36qvMQQ==
+ b=OhmLCXzz+xlBDAKSYfd9P7dwQ81id3SRpiQ12P2WWgX7hbbsPP+PZISrMFrYIhpVQ71KODK7qidU+IYKSCNuvgvK5roPw4tyDGdLWU/ld2aZlXtnFJHBQrjYXH+kEuJ/Bxd9q/sG+tK2+vs9pWGhhgqQz4OII5/OzZC8dL2R1w2taKXJIz5qgISOqkm2qWS+uY8HCvh0sM6ecEQl7elCeokYq6sHO12yFB7b7m36wncUQeEsXVDeyR+Y9I1sGlGZ1+SNkHPKxyI4Q1FlN86de+P4hXbVMUoLcsq6Lwmx4uy+uXeKFpjooEqyAXISyJUL3ViDMPgtwT39YudIv+mlTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MvW/J7ZlJgURjmLOAOl3/+zZKHyhlov0w7H/73sc5i4=;
- b=B8mCQ7CGYwAUfEw4E3AFeJMtWZCaIxFuJpVli7i536rNLsX+e61lkc/rGBFOo24sVfBFWCj4Z/YApLeR2jmiUG98OAbuEB6FZSlzqTW07c7BKDtTWCCToumUQYzh+qkjap2r3uHN9Oold9nhsTuIz5CYogsXbANC3o3iZqT6QnkKxlIWFqYDVlYEmGXj1sPDTnvALQAil7mrVwCCud7ym9tQWWpG8+KyZ5yipLCHVevC3bOQxw6TMZtBgYUscX8K0+n9CBofKeKcPVyxC5vASkFrVXe8GioYIEivN7nuwgZy9g3YkW1r2mySxRX0E5c5EtLucrI+51JSYsfR0jl1aA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ bh=3oAIdKj7QxAjfb9wbpYnMr4GRG2PhWSC/0yFGdwb6kA=;
+ b=ksuA6HSC1lnj5NMdpmWFshKO5UInQYV1aWiJN1lAvZCZvBtLuyFdW/Alx8gSe/9miPZJrLC2luQQEQMSCT82uepbveHQukJxbSwvYSq87tYC0xLsZBq9qVaSADVsLszebq5lLsPVEuWw1RBphKQ/ieqo60fT+vGIO4oGdCMvRhTGeaxSvXoHPM/tupywD1VjnDrU659ZtIC5yCknLxsHmZlPzcdBrXG4rbenlsbNmCsdVWEkSTdYyZsDvoDOuVKX2Qm6u5asf5rH4UX7s0oQAKG106qXu0OTs/r6OWjPcTMhZs9l7Gy1Ak2IWsIKFv9mu5OTvp8S3eU7qwYXBFyc2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MvW/J7ZlJgURjmLOAOl3/+zZKHyhlov0w7H/73sc5i4=;
- b=Te0XWevU8btowGIafmVjjkiqg61VlKpjt/D2PI223CXzFL/eXqu0JMBZ3JaclwjLPmSuymMGlPgMK4sUO/ZfF2vCPaHLVDhea9IyFtsOGJ/uTptuCzTdZ+GYf8+oPAXR3LllHuGaR1KKl45nscmYFedSSvwST8WYsSlNj8+d57U=
-Received: from CY4PR13CA0043.namprd13.prod.outlook.com (2603:10b6:903:99::29)
- by BL0PR02MB5394.namprd02.prod.outlook.com (2603:10b6:208:37::23) with
+ bh=3oAIdKj7QxAjfb9wbpYnMr4GRG2PhWSC/0yFGdwb6kA=;
+ b=IiM8ns/CDWE3Wt+hLIJd9aykn7tYb0Rp290o3zngf2aEXYM01oBd7DGvOVH8010nZVu2TgOLrmHAyp3DHUfiLPyZ3bmPn9LHTwWmR7/JVuxn1Vo3rxdZA4bqd1AFIS9SLpX/hhNScBj6ZSfm87kv9ug1rAlHI+rVozTl8KM8YRU=
+Received: from DBBPR04MB7979.eurprd04.prod.outlook.com (2603:10a6:10:1ec::9)
+ by DBBPR04MB7787.eurprd04.prod.outlook.com (2603:10a6:10:1e3::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.24; Tue, 15 Dec
- 2020 06:55:26 +0000
-Received: from CY1NAM02FT060.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:99:cafe::ee) by CY4PR13CA0043.outlook.office365.com
- (2603:10b6:903:99::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.9 via Frontend
- Transport; Tue, 15 Dec 2020 06:55:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT060.mail.protection.outlook.com (10.152.74.252) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3654.12 via Frontend Transport; Tue, 15 Dec 2020 06:55:26 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 14 Dec 2020 22:55:13 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 14 Dec 2020 22:55:13 -0800
-Envelope-to: git@xilinx.com,
- michal.simek@xilinx.com,
- balbi@kernel.org,
- robh+dt@kernel.org,
- gregkh@linuxfoundation.org,
- linux-arm-kernel@lists.infradead.org,
- p.zabel@pengutronix.de,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-Received: from [172.23.64.106] (port=59594 helo=xhdvnc125.xilinx.com)
-        by smtp.xilinx.com with esmtp (Exim 4.90)
-        (envelope-from <manish.narani@xilinx.com>)
-        id 1kp4El-0006EC-8R; Mon, 14 Dec 2020 22:55:07 -0800
-Received: by xhdvnc125.xilinx.com (Postfix, from userid 16987)
-        id 3A29A121066; Tue, 15 Dec 2020 12:24:53 +0530 (IST)
-From:   Manish Narani <manish.narani@xilinx.com>
-To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
-        <michal.simek@xilinx.com>, <balbi@kernel.org>,
-        <p.zabel@pengutronix.de>
-CC:     <git@xilinx.com>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Manish Narani <manish.narani@xilinx.com>
-Subject: [RESEND PATCH v3 1/2] dt-bindings: usb: dwc3-xilinx: Add documentation for Versal DWC3 Controller
-Date:   Tue, 15 Dec 2020 12:24:50 +0530
-Message-ID: <1608015291-52007-2-git-send-email-manish.narani@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1608015291-52007-1-git-send-email-manish.narani@xilinx.com>
-References: <1608015291-52007-1-git-send-email-manish.narani@xilinx.com>
+ 2020 06:55:59 +0000
+Received: from DBBPR04MB7979.eurprd04.prod.outlook.com
+ ([fe80::c8c:888f:3e0c:8d5c]) by DBBPR04MB7979.eurprd04.prod.outlook.com
+ ([fe80::c8c:888f:3e0c:8d5c%5]) with mapi id 15.20.3654.026; Tue, 15 Dec 2020
+ 06:55:59 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Pawel Laszczak <pawell@cadence.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rahul Kumar <kurahul@cadence.com>
+Subject: Re: [PATCH 1/2] usb: cdnsp: Fixes for sparse warnings
+Thread-Topic: [PATCH 1/2] usb: cdnsp: Fixes for sparse warnings
+Thread-Index: AQHW0hE5ErykXup8f0OHrdJAnR2K6an3m6wAgAAGMgCAAAmhAIAAA1uAgAALkAA=
+Date:   Tue, 15 Dec 2020 06:55:59 +0000
+Message-ID: <20201215065530.GC18223@b29397-desktop>
+References: <20201214120344.26344-1-pawell@cadence.com>
+ <20201215050528.GB2142@b29397-desktop>
+ <BYAPR07MB5381FB3C8AF9039D8C30E8AFDDC60@BYAPR07MB5381.namprd07.prod.outlook.com>
+ <20201215060206.GB18223@b29397-desktop>
+ <BYAPR07MB5381C42748CC8276E9D21F15DDC60@BYAPR07MB5381.namprd07.prod.outlook.com>
+In-Reply-To: <BYAPR07MB5381C42748CC8276E9D21F15DDC60@BYAPR07MB5381.namprd07.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.9.4 (2018-02-28)
+authentication-results: cadence.com; dkim=none (message not signed)
+ header.d=none;cadence.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 37ab193b-83b1-402f-1cec-08d8a0c67a9f
+x-ms-traffictypediagnostic: DBBPR04MB7787:
+x-microsoft-antispam-prvs: <DBBPR04MB778703D14CFA0464F3863DD98BC60@DBBPR04MB7787.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:374;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: le4xcOVLa+Jw+HHK0NHd2I/55AHNDbSEWnnC420QH4ew5F9qTKfjPnr0h8Z8aveu0mOQzl5NxOWeNpxSQlUiWLruq/siro2Qnava9owe+aTj6LNLDyZ5v8FtQF0DvlTq8lAGy/11NZXstXmraKDZ09rB2OzbRy+Sa1EJvDhtpiqCH3vITvPFf5q4Z8nnUDny+nVO18RZINj3mTBj6CprFQYV4VkX7xvsXaGXNOqSxaX0X2kmyyZ7OWAqyFkKrHPPwVJrKceRR+EJzHsACOubTl4qaZ+uT4YbFOdKY4y6lMyxVcE1LQgcEyCKNT7cF+9P1ZTJ17gRCQHiUDsPVweGwRhqs5KAlrBBlB5k7t2cvoT4c184kQK2VUXQHlqAwavR5KWfa+uwsD5OaqFWLDxUeQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7979.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(7916004)(376002)(136003)(346002)(396003)(366004)(39860400002)(9686003)(66556008)(66446008)(66476007)(8936002)(5660300002)(64756008)(54906003)(316002)(66946007)(71200400001)(44832011)(83380400001)(26005)(53546011)(91956017)(6916009)(76116006)(2906002)(4326008)(186003)(1076003)(33716001)(478600001)(6506007)(6486002)(8676002)(86362001)(33656002)(45080400002)(6512007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?huXeRCqIJgSh/tmH22kU0WhPxjJaTf2MVlER4kcEFSmMc3uNnEXEpwAPonEG?=
+ =?us-ascii?Q?+N1ExxD87nyg9sq4c7o5tEVjIN3eLbS/vueKUX8O0s1Cx8/ETudEsXDrfq+b?=
+ =?us-ascii?Q?5dOFoIPE/nQ/BjbHBSiupyMz6OzDtYqXou5/+1VCdvw/QRTuu+DSxu27Jw0g?=
+ =?us-ascii?Q?gl5sQgVS51kEyzwvlTSKEnTO/rvTz1BRwmfRxAYA+2zjXsiwvxphLwtUKOof?=
+ =?us-ascii?Q?ESS2mwlV+KmjPu8TAgmrdPATiy6lr2sdf5h02ACwCgF6asJTicYBVQRbgg+1?=
+ =?us-ascii?Q?ecJJQngcrU6exuBIZA28eA9MqvLA7JKpzNdpt3Wr6lvjzAOQahRfGa6w1BBv?=
+ =?us-ascii?Q?NSA+jM1A53zBo7bURKnToNTcC+Dx/wbw2lU6WRAaAb+f3+qpJ60HMyU9vYsu?=
+ =?us-ascii?Q?XW2IItp8e7W7WtbKbKMrrW7z4lWRUHCIBHbSesuRsvKeXM7CdmOrnJxdsrEc?=
+ =?us-ascii?Q?wTlDuJOCdVzMz0WdZGEue+H0dfnaLTEyJ2Wo540YBKPJJA8da5XXmOpAvFIv?=
+ =?us-ascii?Q?jLrEO+qYwkJQMdXPQNNWKfC7wob/IfawXL3e1i+lPjvk8HuW9TMF0bgGTEjK?=
+ =?us-ascii?Q?mDx8BAVSyOgQJMjLW0WHZxJvVWIoR0x8aXc1agBM17q5umwXeaXf6wBHBb5g?=
+ =?us-ascii?Q?XvyFgduj4qX6+5B8pdS9w1smJR/EY1HqNwy1JVMobIV2MhcI2KPFaJppnbAW?=
+ =?us-ascii?Q?X062AENbSszcoUzeJrhX/nFy2aRm2pTDJPPPkvNNrtNw1y6l53UoJbKBbuzA?=
+ =?us-ascii?Q?JYG9Rai84ItWCmxhsLZP6VOV9kdBB8Yf3KY7TZKXAuaDaxp/f556Ar1TbpR7?=
+ =?us-ascii?Q?uCp6Rk6xXdjgX3K+vdP5J6VZoOfw/QajQpI7AEkaK1wh8imlTN1R0Qagt7vc?=
+ =?us-ascii?Q?rr9NjTPvlXb9tSnNsz5QPRtXs3DzwAdqQmeKVvm9fHgJqXo1qv1ictSg5p5q?=
+ =?us-ascii?Q?yW+SPcJZzw9lhsUe3qexntWK86n9PZ6969Nluob2YGRlNpebwY72RwyMdKCq?=
+ =?us-ascii?Q?LNGi?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <30A7C3A0F7ED8244A65862E9026232C2@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: af2f505c-99e4-4192-451f-08d8a0c666c6
-X-MS-TrafficTypeDiagnostic: BL0PR02MB5394:
-X-Microsoft-Antispam-PRVS: <BL0PR02MB53946B371FEB490C5658D80CC1C60@BL0PR02MB5394.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IolXB51d0u22sKyNUyDMU8UIUDQJpnHZLLVUmiqD5gdyloNYZ83FICMlxdlX3M47BJvn2HKpwJM4XFAoKbf0YTADEVr6pYNsK3W6H/F2252FLdv4o5IHKoqSZ7Naba0oHIbCldEWTMJEr+ACi//MEUsA4GATFuNdAitxoJwdfacFu2hXuySWZXM6vROHCI6twFQq207QQRZ0RSIeigr1s1UtzThUTrbzrzcaJxIDQL7JPoYnlm49bCP538iIiiHzJqIz/V6ejMJ7kCYLZtcGgqgo6oz/JFMAoTbzH96KqL/TI9Dus3FIf9fJMfTsD4z5uSnKBf8W9XkqGi1ytgoVkJYlEiZaNm4tJU8Piubep/dLRtVVbB+EUoXrgAbkfONoKWriY0WuQuqBWc1/BnLn9nk0eitXZB5i2A8OADGuhW8=
-X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(46966005)(4326008)(26005)(426003)(47076004)(8676002)(82310400003)(70206006)(44832011)(2906002)(36756003)(6266002)(107886003)(2616005)(186003)(70586007)(42186006)(508600001)(8936002)(336012)(356005)(5660300002)(110136005)(7636003)(54906003)(83380400001)(36906005)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 06:55:26.0534
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7979.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37ab193b-83b1-402f-1cec-08d8a0c67a9f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 06:55:59.3006
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: af2f505c-99e4-4192-451f-08d8a0c666c6
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT060.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB5394
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: w3iHhBwyI2mPPcjUStsuLQ8L0wD6xTsAuVrLskTkTEUVpu4N6EPIyB5/gPU4RuL9b0A9p2oqOheAGLM97P/DUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7787
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add documentation for Versal DWC3 controller. Add required property
-'reg' for the same. Also add optional properties for snps,dwc3.
+On 20-12-15 06:14:07, Pawel Laszczak wrote:
+> >On 20-12-15 05:27:38, Pawel Laszczak wrote:
+> >> >
+> >> >
+> >> >On 20-12-14 13:03:44, Pawel Laszczak wrote:
+> >> >> Patch fixes all sparse warnings in cdsnp driver.
+> >> >>
+> >> >> It fixes the following warnings:
+> >> >> cdnsp-ring.c:1441: warning: incorrect type in assignment
+> >> >> cdnsp-ring.c:1444: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-ring.c:2200: warning: dubious: x | !y
+> >> >> cdnsp-gadget.c:501: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:504: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-gadget.c:507: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-gadget.c:508: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-gadget.c:509: warning: invalid assignment: |=3D
+> >> >> cdnsp-gadget.c:510: warning: cast from restricted __le32
+> >> >> cdnsp-gadget.c:558: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:561: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-gadget.c:570: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-gadget.c:1571: warning: incorrect type in argument 1
+> >> >> cdnsp-gadget.c:1602: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-gadget.c:1760: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:1762: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:1763: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:1764: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:1765: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:1766: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:1767: warning: incorrect type in assignment
+> >> >> cdnsp-gadget.c:458: warning: cast truncates bits from constant valu=
+e
+> >> >>                     (ffffffff07ffffff becomes 7ffffff)
+> >> >> cdnsp-gadget.c:666: warning: cast truncates bits from constant valu=
+e
+> >> >>                     (ffffffff07ffffff becomes 7ffffff)
+> >> >> cdnsp-mem.c:762: warning: incorrect type in assignment
+> >> >> cdnsp-mem.c:763: warning: incorrect type in assignment
+> >> >> cdnsp-mem.c:928: warning: cast from restricted __le16
+> >> >> cdnsp-mem.c:1187: warning: incorrect type in assignment
+> >> >> cdnsp-mem.c:1191: warning: incorrect type in assignment
+> >> >> cdnsp-ep0.c:142: warning: incorrect type in assignment
+> >> >> cdnsp-ep0.c:144: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-ep0.c:147: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-ep0.c:148: warning: restricted __le32 degrades to integer
+> >> >> cdnsp-ep0.c:179: warning: incorrect type in argument 1
+> >> >> cdnsp-ep0.c:311: warning: incorrect type in argument 1
+> >> >> cdnsp-ep0.c:469: warning: incorrect type in assignment
+> >> >> cdnsp-trace.h:611:1: warning: cast from restricted __le32
+> >> >>
+> >> >> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+> >> >> Reported-by: kernel test robot <lkp@intel.com>
+> >> >
+> >> >Hi Pawel,
+> >> >
+> >> >The Reported-by tag should be above your Sob tag, I will change it.
+> >> >Except the patch reported build error by kernel test robot, I will ap=
+ply
+> >> >your other four patches after finishing the compile test.
+> >> >
+> >> >Peter
+> >>
+> >> Hi Peter,
+> >>
+> >> I'm going to fix the "usb: cdns3: Adds missing __iomem markers"  today=
+.
+> >> I haven't  seen any issue on ARCH=3Dparisc. Maybe it's some specific r=
+iscv arch issue.
+> >>
+> >> I believe that:
+> >> [auto build test WARNING on next-20201211]
+> >> [cannot apply to peter.chen-usb/ci-for-usb-next v5.10 v5.10-rc7 v5.10-=
+rc6 v5.10]
+> >>
+> >> is not the problem. I based on  peter.chen-usb/for-usb-next.
+> >>
+> >> Also I can't open the url from kernel test robot report.
+> >> Maybe there is some temporary issue with server.
+> >>
+> >
+> >Thanks for checking it, I have already pushed your other four patches.
+> >Besides, there is still a build error issue for new cdns3 driver.
+> >
+> >https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Furld=
+efense.com%2Fv3%2F__https%3A%2F%2Fwww.spinics.net%2Flists%2Flinux-&amp;data=
+=3D04%7C01%7Cpeter.chen%40nxp.com%7Cf036cd7630664c9e0c5c08d8a0c0a637%7C686e=
+a1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637436096594708469%7CUnknown%7CTWFpb=
+GZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7=
+C1000&amp;sdata=3DDLBFVB2px5GgA6Y%2FTU4DrfVru6z3P4RXz2x7BSpdE4o%3D&amp;rese=
+rved=3D0
+> >usb/msg206073.html__;!!EHscmS1ygiU1lA!X6rYk64ILtzjyHW903LAhBRjMKi9C2eyJW=
+EXVlEZm0ly2BiNzY2wK46Ulq7q5w$
+> >
+>=20
+> Did you applied: [PATCH] usb: cdnsp: Fix for undefined reference to `usb_=
+hcd_is_primary_hcd' ?
+>=20
 
-Signed-off-by: Manish Narani <manish.narani@xilinx.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/usb/dwc3-xilinx.txt     | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+Applied now.
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt b/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt
-index 4aae5b2cef56..0629f48cc807 100644
---- a/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt
-+++ b/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt
-@@ -1,7 +1,8 @@
- Xilinx SuperSpeed DWC3 USB SoC controller
- 
- Required properties:
--- compatible:	Should contain "xlnx,zynqmp-dwc3"
-+- compatible:	May contain "xlnx,zynqmp-dwc3" or "xlnx,versal-dwc3"
-+- reg:		Base address and length of the register control block
- - clocks:	A list of phandles for the clocks listed in clock-names
- - clock-names:	Should contain the following:
-   "bus_clk"	 Master/Core clock, have to be >= 125 MHz for SS
-@@ -13,12 +14,22 @@ Required child node:
- A child node must exist to represent the core DWC3 IP block. The name of
- the node is not important. The content of the node is defined in dwc3.txt.
- 
-+Optional properties for snps,dwc3:
-+- dma-coherent:	Enable this flag if CCI is enabled in design. Adding this
-+		flag configures Global SoC bus Configuration Register and
-+		Xilinx USB 3.0 IP - USB coherency register to enable CCI.
-+- interrupt-names: Should contain the following:
-+  "dwc_usb3"	USB gadget mode interrupts
-+  "otg"		USB OTG mode interrupts
-+  "hiber"	USB hibernation interrupts
-+
- Example device node:
- 
- 		usb@0 {
- 			#address-cells = <0x2>;
- 			#size-cells = <0x1>;
- 			compatible = "xlnx,zynqmp-dwc3";
-+			reg = <0x0 0xff9d0000 0x0 0x100>;
- 			clock-names = "bus_clk" "ref_clk";
- 			clocks = <&clk125>, <&clk125>;
- 			ranges;
-@@ -26,7 +37,9 @@ Example device node:
- 			dwc3@fe200000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x0 0xfe200000 0x40000>;
--				interrupts = <0x0 0x41 0x4>;
-+				interrupt-names = "dwc_usb3", "otg", "hiber";
-+				interrupts = <0 65 4>, <0 69 4>, <0 75 4>;
- 				dr_mode = "host";
-+				dma-coherent;
- 			};
- 		};
--- 
-2.17.1
+--=20
 
+Thanks,
+Peter Chen=
