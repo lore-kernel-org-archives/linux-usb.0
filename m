@@ -2,184 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A8F8C4361B
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 16:02:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30E47C2BB9A
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 18:19:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61FC1224F4
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 16:02:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E72CE2255F
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 18:19:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730683AbgLOQBq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Dec 2020 11:01:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730483AbgLOP6B (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Dec 2020 10:58:01 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28413C0617A7
-        for <linux-usb@vger.kernel.org>; Tue, 15 Dec 2020 07:57:21 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id g25so178461wmh.1
-        for <linux-usb@vger.kernel.org>; Tue, 15 Dec 2020 07:57:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mpupbpAiHl0Cv1mnbMYjW/iwG3YQylB90NQFwucdsm8=;
-        b=JSvEUtIUXnrz/2Wmqi5jSql/ZAxPn9o7S77Vg2jWo/+tgsJ22H46lm8OYKbZicrNIP
-         mt14h73b0ZhGZLkgnzfwuF+jzUDxRZ3KbAd2LDfWFZmw6OTyC6QZnEeclh4/mwC5P5FB
-         nMo3nYPOcQxGD3mxKf7g7A8wK7VhCa8qb1shpCIL7bWcjPZOerMin9v6Fsp2jDlea657
-         qdZiHlQA6yoI/whfhhZUP5hPFowUfdzXFcMlE+MrAYvF/PRRetJmR0a1FFtqRYtv71IL
-         Oao+h03eF+ZPTGoz8ZWnFNsC/kTb7JVRJoIFWZqf/2N+WQO7RqyNnmiLwAaA8bYZCcX7
-         W5qQ==
+        id S1731358AbgLOST1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Dec 2020 13:19:27 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37118 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728004AbgLOSTZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Dec 2020 13:19:25 -0500
+Received: by mail-ot1-f65.google.com with SMTP id o11so20312081ote.4;
+        Tue, 15 Dec 2020 10:19:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mpupbpAiHl0Cv1mnbMYjW/iwG3YQylB90NQFwucdsm8=;
-        b=MYhl5zIhqxNaA0c0ptdRKAuHVqsVrUg0N6Pvumg0p4NcyTndA8XCPXjFPrXGqk+qbJ
-         88G751zZ2zImWEXLAh0WSCTcItah1YTgPTCr9UikK9Ibfgpcgtc19JpIggV75Sb6T6cf
-         PAIZMLFAazNjXi/5gL9gCMsoxtlVL+F3QQfLagvyK95ealovrveCMtsTKQr7M12Yvon+
-         1PYohKDc0VFiyhgmVDgAa4nZjl1Ge0LDXPx0FntFUBb4bh1xIlpbzp962oAnuE3oTxew
-         hqPsyWw8WGKd37utfyq99g0vbzyLtuM8jidOw/jyoHNtoT2iFZk6uG3z5mX3zyju0CvD
-         FeLQ==
-X-Gm-Message-State: AOAM5305j+XIwkNrh8vjP5T1jW8oElrZTI0InvgEQ3jnHMBmeIQs85vW
-        7lOdHILQXW+Q4r24r0qvkeE=
-X-Google-Smtp-Source: ABdhPJy9UgFtQAUDeoPanZMPcoiV1qo+9ROY4Zmg4uRmWWxE3Bn0qdoePdB2oc4zd47aJOhULMhMwA==
-X-Received: by 2002:a05:600c:218a:: with SMTP id e10mr33322961wme.27.1608047839902;
-        Tue, 15 Dec 2020 07:57:19 -0800 (PST)
-Received: from egonzo.toto.net.toto.net ([88.123.121.14])
-        by smtp.gmail.com with ESMTPSA id c10sm38792018wrb.92.2020.12.15.07.57.18
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9Za31ObBsxdpTjFd/k1MSNzpI1hhAUb59NU7Vy2qyuM=;
+        b=a5vQQGLXbCnytr5LxR9v3+ttlYM0jmUmZpKzqbjBhWa2Z4LOFxJS1+38/1BBCWveE7
+         mEtMIEMHGe4ttyn2f5cQgOqs5kZ8Vy83n6iS4Xb8goAbRtCwIQfZjEbhxnpsBSqsxOZt
+         uMcWX/HikzxBL0fS6kb42MXKWHCCmqZS/Hr/kGAa4lrPCgXbygidzkY1tDlepODfQIhJ
+         ub2nvmqNTmIIARWC+5emwNPy7opTMSON19zoRtgZD5gcx+GzVj4B8tDJ/sNaAH/AHZAn
+         YJiXeTX7d3fUrJeN99NEarcjMGUevLSzuqK1bSf4MMFJJEjmV7fpHbIecMp/MDKgbMGZ
+         tlMw==
+X-Gm-Message-State: AOAM532e0FLtCWcV4bRoAKozUVXBJSnnQB8utNno6vEcQbFL5Cehn+m1
+        dk0Of8NIUYO2gi6qDtNIGg==
+X-Google-Smtp-Source: ABdhPJyLnlu8EMNR937aY6Yy1rLtfQbCSpj6kIaoagnNiNo1wWWkxaDaJLNyRG2qdJYuwXvPzf4ZRQ==
+X-Received: by 2002:a05:6830:12cf:: with SMTP id a15mr24521499otq.217.1608056324303;
+        Tue, 15 Dec 2020 10:18:44 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n13sm587583otk.58.2020.12.15.10.18.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Dec 2020 07:57:19 -0800 (PST)
-From:   Dave Penkler <dpenkler@gmail.com>
-To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Cc:     guido.kiener@rohde-schwarz.com, john.harvey@non.keysight.com,
-        jian-wei_wu@keysight.com, gabe.jones@ni.com, dpenkler@gmail.com
-Subject: [PATCH 1/4] USB: usbtmc: Fix reading stale status byte
-Date:   Tue, 15 Dec 2020 16:56:18 +0100
-Message-Id: <20201215155621.9592-2-dpenkler@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201215155621.9592-1-dpenkler@gmail.com>
-References: <20201215155621.9592-1-dpenkler@gmail.com>
+        Tue, 15 Dec 2020 10:18:43 -0800 (PST)
+Received: (nullmailer pid 4147585 invoked by uid 1000);
+        Tue, 15 Dec 2020 18:18:42 -0000
+Date:   Tue, 15 Dec 2020 12:18:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Aswath Govindraju <a-govindraju@ti.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Roger Quadros <rogerq@ti.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6] dt-bindings: usb: Add new compatible string for AM64
+ SoC
+Message-ID: <20201215181842.GA4147555@robh.at.kernel.org>
+References: <20201215042549.7956-1-a-govindraju@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201215042549.7956-1-a-govindraju@ti.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The ioctl USBTMC488_IOCTL_READ_STB either returns a cached status byte
-(STB) sent by the device due to a service request (SRQ) condition or
-the STB obtained from a query to the device with a READ_STATUS_BYTE
-control message.
+On Tue, 15 Dec 2020 09:55:49 +0530, Aswath Govindraju wrote:
+> Add compatible string in j721e-usb binding file as the same USB subsystem
+> is present in AM64.
+> 
+> Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+> ---
+> 
+> Changes since v5:
+>  - Added const as the type for objects in items.
+> 
+> Changes since v4:
+>  - used oneOf instead of enum, as the schema has to convey that the strings
+>    ti,j721e-usb and ti,am64-usb can be used combined or seperately in the
+>    DT nodes.
+> 
+> Changes since v3:
+>  - used enum instead of anyOf.
+> 
+> Changes since v2:
+>  - added changes done over the versions.
+> 
+> Changes since v1:
+>  - replaced the '\t' at the beginning of the lines with spaces as it was
+>   causing the dt_binding_check to fail.
+> 
+>  Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
 
-When the query is interrupted by an SRQ message on the interrupt pipe,
-the ioctl still returns the requested STB while the STB of the
-out-of-band SRQ message is cached for the next call of this
-ioctl. However the cached SRQ STB represents a state that was previous
-to the last returned STB.  Furthermore the cached SRQ STB can be stale
-and not reflect the current state of the device.
-
-The fixed ioctl now always reads the STB from the device and if the
-associated file descriptor has the srq_asserted bit set it ors in the
-RQS bit to the returned STB and clears the srq_asserted bit conformant
-to subclass USB488 devices.
-
-Signed-off-by: Dave Penkler <dpenkler@gmail.com>
-Reviewed-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
-Tested-by: Jian-Wei Wu <jian-wei_wu@keysight.com>
----
- drivers/usb/class/usbtmc.c | 46 +++++++++++++++++++++-----------------
- 1 file changed, 25 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/usb/class/usbtmc.c b/drivers/usb/class/usbtmc.c
-index b222b777e6a4..189f06dcb7d3 100644
---- a/drivers/usb/class/usbtmc.c
-+++ b/drivers/usb/class/usbtmc.c
-@@ -475,33 +475,17 @@ static int usbtmc_ioctl_abort_bulk_out(struct usbtmc_device_data *data)
- 	return usbtmc_ioctl_abort_bulk_out_tag(data, data->bTag_last_write);
- }
- 
--static int usbtmc488_ioctl_read_stb(struct usbtmc_file_data *file_data,
--				void __user *arg)
-+static int usbtmc_get_stb(struct usbtmc_file_data *file_data, __u8 *stb)
- {
- 	struct usbtmc_device_data *data = file_data->data;
- 	struct device *dev = &data->intf->dev;
--	int srq_asserted = 0;
- 	u8 *buffer;
- 	u8 tag;
--	__u8 stb;
- 	int rv;
- 
- 	dev_dbg(dev, "Enter ioctl_read_stb iin_ep_present: %d\n",
- 		data->iin_ep_present);
- 
--	spin_lock_irq(&data->dev_lock);
--	srq_asserted = atomic_xchg(&file_data->srq_asserted, srq_asserted);
--	if (srq_asserted) {
--		/* a STB with SRQ is already received */
--		stb = file_data->srq_byte;
--		spin_unlock_irq(&data->dev_lock);
--		rv = put_user(stb, (__u8 __user *)arg);
--		dev_dbg(dev, "stb:0x%02x with srq received %d\n",
--			(unsigned int)stb, rv);
--		return rv;
--	}
--	spin_unlock_irq(&data->dev_lock);
--
- 	buffer = kmalloc(8, GFP_KERNEL);
- 	if (!buffer)
- 		return -ENOMEM;
-@@ -548,13 +532,12 @@ static int usbtmc488_ioctl_read_stb(struct usbtmc_file_data *file_data,
- 				data->iin_bTag, tag);
- 		}
- 
--		stb = data->bNotify2;
-+		*stb = data->bNotify2;
- 	} else {
--		stb = buffer[2];
-+		*stb = buffer[2];
- 	}
- 
--	rv = put_user(stb, (__u8 __user *)arg);
--	dev_dbg(dev, "stb:0x%02x received %d\n", (unsigned int)stb, rv);
-+	dev_dbg(dev, "stb:0x%02x received %d\n", (unsigned int)*stb, rv);
- 
-  exit:
- 	/* bump interrupt bTag */
-@@ -567,6 +550,27 @@ static int usbtmc488_ioctl_read_stb(struct usbtmc_file_data *file_data,
- 	return rv;
- }
- 
-+static int usbtmc488_ioctl_read_stb(struct usbtmc_file_data *file_data,
-+				void __user *arg)
-+{
-+	int srq_asserted = 0;
-+	__u8 stb;
-+	int rv;
-+
-+	rv = usbtmc_get_stb(file_data, &stb);
-+
-+	if (rv > 0) {
-+		srq_asserted = atomic_xchg(&file_data->srq_asserted,
-+					srq_asserted);
-+		if (srq_asserted)
-+			stb |= 0x40; /* Set RQS bit */
-+
-+		rv = put_user(stb, (__u8 __user *)arg);
-+	}
-+	return rv;
-+
-+}
-+
- static int usbtmc488_ioctl_wait_srq(struct usbtmc_file_data *file_data,
- 				    __u32 __user *arg)
- {
--- 
-2.29.2
-
+Reviewed-by: Rob Herring <robh@kernel.org>
