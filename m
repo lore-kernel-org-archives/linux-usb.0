@@ -2,522 +2,272 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67DB7C4361B
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 06:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 743F0C4361B
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 09:44:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22A7822286
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 06:58:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 25747206F8
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 09:44:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbgLOG6G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Dec 2020 01:58:06 -0500
-Received: from mail-mw2nam12on2046.outbound.protection.outlook.com ([40.107.244.46]:55210
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725816AbgLOG4d (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Dec 2020 01:56:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nwm4yNbDhSnKCjYgEK73o+9UsWefhoPlYd4FuZCai0648lJxLLOFHo9ZIumCOld8anusj6oV0we8b4+FVFZBWWs9Nx7BggKe8G359T1pO3iyBrxXFyFKXSwiY/6dlGHGKOgERqfFeJgISNascy+WA/hMBv75AAAASzrhdMWk64IQW5eREL6yRbFZW/9oas2pGvBEbu46ExTrgT09qElLZ1TBjxM42UqdP0Tg/A/nRqGBHdshxnLZQiNWMyDZKcAC4qjDCc3MdTTK6WSrtscELUF9CYbgo8KyIewwY2IYFyU5/kvJuKx6d6WGBepJe+9/AfghqX/UaZnFml7Thy/A1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Pa9OkRjqkYr9t0+3B8TynpOYrDRdr0YOTzoudfWp1E=;
- b=SvnB4LY66OK+E5QWNTjhllidagzJmWqzDv52MaF0B+h/WQ2S4mK/Npb30fbgHkyYYGtph7sQFBqzXe3B5RM2n+UIJDsJgmmHG21rb51rJZwGbgqBDFPYj/JPEcIvdO+v7H75DK0ldqWu5zr1RZDKO7BYcx2O04y+O/D2kbunuBFtmG18C1cww7Hi0Z/neygmrx00duKm3TTTQQ89YYuEpw2R3WhL9rJBabqBffRXiUb2/sIyIyHjormgsni7lxnLnNuyf+GTSxUTm76wxZ2ZX0/4f3ErNrRtY3LZTBh1zud32H++a07r2ssl3PmyBrwksZR/4eDV+2n2sQPKklgeTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Pa9OkRjqkYr9t0+3B8TynpOYrDRdr0YOTzoudfWp1E=;
- b=qL19+Pvqkxr2iRNZ5Sc3R1AyT8ian9ZFtLtBP4MWGNoAaI5MjMylv93rchhFGoguYsufbQ7nY4Pjq3mFbFCP185EvoLMcR/TgaexZkc7Gffpc5hsh7L2BtibvPReeSzS53Zru7Nakfn0+ZSlwEIyeGeq9ICsx8t9epQB2yy/68c=
-Received: from CY1PR03CA0039.namprd03.prod.outlook.com (2603:10b6:600::49) by
- BYAPR02MB4662.namprd02.prod.outlook.com (2603:10b6:a03:44::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12; Tue, 15 Dec 2020 06:55:40 +0000
-Received: from CY1NAM02FT009.eop-nam02.prod.protection.outlook.com
- (2603:10b6:600:0:cafe::c1) by CY1PR03CA0039.outlook.office365.com
- (2603:10b6:600::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Tue, 15 Dec 2020 06:55:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT009.mail.protection.outlook.com (10.152.75.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3654.12 via Frontend Transport; Tue, 15 Dec 2020 06:55:40 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 14 Dec 2020 22:55:21 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 14 Dec 2020 22:55:21 -0800
-Envelope-to: git@xilinx.com,
- michal.simek@xilinx.com,
- balbi@kernel.org,
- robh+dt@kernel.org,
- gregkh@linuxfoundation.org,
- linux-arm-kernel@lists.infradead.org,
- p.zabel@pengutronix.de,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-Received: from [172.23.64.106] (port=59607 helo=xhdvnc125.xilinx.com)
-        by smtp.xilinx.com with esmtp (Exim 4.90)
-        (envelope-from <manish.narani@xilinx.com>)
-        id 1kp4Ey-0006Id-Dv; Mon, 14 Dec 2020 22:55:21 -0800
-Received: by xhdvnc125.xilinx.com (Postfix, from userid 16987)
-        id 4A03C1222C5; Tue, 15 Dec 2020 12:24:53 +0530 (IST)
-From:   Manish Narani <manish.narani@xilinx.com>
-To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
-        <michal.simek@xilinx.com>, <balbi@kernel.org>,
-        <p.zabel@pengutronix.de>
-CC:     <git@xilinx.com>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Manish Narani <manish.narani@xilinx.com>
-Subject: [RESEND PATCH v3 2/2] usb: dwc3: Add driver for Xilinx platforms
-Date:   Tue, 15 Dec 2020 12:24:51 +0530
-Message-ID: <1608015291-52007-3-git-send-email-manish.narani@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1608015291-52007-1-git-send-email-manish.narani@xilinx.com>
-References: <1608015291-52007-1-git-send-email-manish.narani@xilinx.com>
+        id S1728439AbgLOJnt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Dec 2020 04:43:49 -0500
+Received: from mga03.intel.com ([134.134.136.65]:33092 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728274AbgLOJns (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Dec 2020 04:43:48 -0500
+IronPort-SDR: wAfYFWDhJZNemo318IBP9lZhqHDXCCzryiHOcIKaMriswibz7Mn1gFVbibf5bO3fLki8jy/vY0
+ l2wjk7JYcAug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9835"; a="174961846"
+X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
+   d="scan'208";a="174961846"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2020 01:43:06 -0800
+IronPort-SDR: mTHtB6rWBVWNkZrA0YykfSPuXbJ+B3VEC0skdBj1aqS2B9weKZgDOLKkthRL4cTRsjNSIW+UDQ
+ +KMlgxFqo0BQ==
+X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
+   d="scan'208";a="336752969"
+Received: from shao2-debian.sh.intel.com (HELO [10.239.13.117]) ([10.239.13.117])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2020 01:43:02 -0800
+Subject: Re: [kbuild-all] Re: [PATCH] usb: cdns3: Adds missing __iomem markers
+To:     Peter Chen <peter.chen@nxp.com>, kernel test robot <lkp@intel.com>
+Cc:     Pawel Laszczak <pawell@cadence.com>,
+        "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
+        "rogerq@ti.com" <rogerq@ti.com>,
+        "a-govindraju@ti.com" <a-govindraju@ti.com>,
+        "nsekhar@ti.com" <nsekhar@ti.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kurahul@cadence.com" <kurahul@cadence.com>
+References: <20201214125043.29710-1-pawell@cadence.com>
+ <202012142359.ZshcbBoP-lkp@intel.com> <20201215055812.GA18223@b29397-desktop>
+From:   Rong Chen <rong.a.chen@intel.com>
+Message-ID: <9bdcfed8-a48a-075b-0a1e-9a00c817824a@intel.com>
+Date:   Tue, 15 Dec 2020 17:42:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cc3dfc09-c6b1-47e0-a3a3-08d8a0c66f21
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4662:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB4662E50EC69A45631E60E62EC1C60@BYAPR02MB4662.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QxoRTm3gtiVsQf5u1Ffbq6CEAFccdEt3de5T14gGP0eJHTJx66LDMnk38exRHUdzykQlyfBe8IQC18cnBqT6Z9cJs9fDn4UR1rukYXNQx1fZWFy4a3HtGhJsM/MfBoHy92HFK6sx5VlRFfwX5f3b586W+1uG+UAbRzPB+8YOlHt1iw/ei/n4YvPy7cuY5WXlGfnXuBN7O3s8QG6V301i99HPUTvKdi/iCOTelrYJivvSfS/WDaP5OORgl414JMKFTp4/fF/HtkOd1r80ybWtfnHDj/VFH0S3+CHlVGLgIU3N5ptw3kSDp7G7TuAyuNfaCULN8sTuZz3bu94Y28GAkJiSnvirJ2I3lga3kOkGiUCXdtimHl1vCGgu+w3VfRyoOurYBmKdkfhEk3ijCKcZ9rdNRN8vQvqjZHtxkNQoTQo=
-X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(46966005)(6266002)(426003)(36756003)(8936002)(186003)(30864003)(70586007)(336012)(8676002)(70206006)(4326008)(2616005)(47076004)(36906005)(508600001)(7636003)(44832011)(2906002)(5660300002)(356005)(110136005)(26005)(42186006)(54906003)(107886003)(82310400003)(83380400001)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 06:55:40.0749
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc3dfc09-c6b1-47e0-a3a3-08d8a0c66f21
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT009.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4662
+In-Reply-To: <20201215055812.GA18223@b29397-desktop>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a new driver for supporting Xilinx platforms. This driver is used
-for some sequence of operations required for Xilinx USB controllers.
-This driver is also used to choose between PIPE clock coming from SerDes
-and the Suspend Clock. Before the controller is out of reset, the clock
-selection should be changed to PIPE clock in order to make the USB
-controller work. There is a register added in Xilinx USB controller
-register space for the same.
 
-Signed-off-by: Manish Narani <manish.narani@xilinx.com>
----
- drivers/usb/dwc3/Kconfig          |   9 +
- drivers/usb/dwc3/Makefile         |   1 +
- drivers/usb/dwc3/dwc3-of-simple.c |   1 -
- drivers/usb/dwc3/dwc3-xilinx.c    | 334 ++++++++++++++++++++++++++++++
- 4 files changed, 344 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/dwc3/dwc3-xilinx.c
 
-diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-index 7a2304565a73..0e00e6dfccd8 100644
---- a/drivers/usb/dwc3/Kconfig
-+++ b/drivers/usb/dwc3/Kconfig
-@@ -139,4 +139,13 @@ config USB_DWC3_QCOM
- 	  for peripheral mode support.
- 	  Say 'Y' or 'M' if you have one such device.
- 
-+config USB_DWC3_XILINX
-+	tristate "Xilinx Platforms"
-+	depends on (ARCH_ZYNQMP || ARCH_VERSAL) && OF
-+	default USB_DWC3
-+	help
-+	  Support Xilinx SoCs with DesignWare Core USB3 IP.
-+	  This driver handles both ZynqMP and Versal SoC operations.
-+	  Say 'Y' or 'M' if you have one such device.
-+
- endif
-diff --git a/drivers/usb/dwc3/Makefile b/drivers/usb/dwc3/Makefile
-index ae86da0dc5bd..add567578b1f 100644
---- a/drivers/usb/dwc3/Makefile
-+++ b/drivers/usb/dwc3/Makefile
-@@ -51,3 +51,4 @@ obj-$(CONFIG_USB_DWC3_MESON_G12A)	+= dwc3-meson-g12a.o
- obj-$(CONFIG_USB_DWC3_OF_SIMPLE)	+= dwc3-of-simple.o
- obj-$(CONFIG_USB_DWC3_ST)		+= dwc3-st.o
- obj-$(CONFIG_USB_DWC3_QCOM)		+= dwc3-qcom.o
-+obj-$(CONFIG_USB_DWC3_XILINX)		+= dwc3-xilinx.o
-diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
-index e62ecd22b3ed..71fd620c5161 100644
---- a/drivers/usb/dwc3/dwc3-of-simple.c
-+++ b/drivers/usb/dwc3/dwc3-of-simple.c
-@@ -172,7 +172,6 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
- 
- static const struct of_device_id of_dwc3_simple_match[] = {
- 	{ .compatible = "rockchip,rk3399-dwc3" },
--	{ .compatible = "xlnx,zynqmp-dwc3" },
- 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
- 	{ .compatible = "sprd,sc9860-dwc3" },
- 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
-diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
-new file mode 100644
-index 000000000000..7e485951d2f7
---- /dev/null
-+++ b/drivers/usb/dwc3/dwc3-xilinx.c
-@@ -0,0 +1,334 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/**
-+ * dwc3-xilinx.c - Xilinx DWC3 controller specific glue driver
-+ *
-+ * Authors: Manish Narani <manish.narani@xilinx.com>
-+ *          Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <linux/clk.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/of_platform.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/reset.h>
-+#include <linux/of_address.h>
-+#include <linux/delay.h>
-+#include <linux/firmware/xlnx-zynqmp.h>
-+#include <linux/io.h>
-+
-+#include <linux/phy/phy.h>
-+
-+/* USB phy reset mask register */
-+#define XLNX_USB_PHY_RST_EN			0x001C
-+#define XLNX_PHY_RST_MASK			0x1
-+
-+/* Xilinx USB 3.0 IP Register */
-+#define XLNX_USB_TRAFFIC_ROUTE_CONFIG		0x005C
-+#define XLNX_USB_TRAFFIC_ROUTE_FPD		0x1
-+
-+/* Versal USB Reset ID */
-+#define VERSAL_USB_RESET_ID			0xC104036
-+
-+#define XLNX_USB_FPD_PIPE_CLK			0x7c
-+#define PIPE_CLK_DESELECT			1
-+#define PIPE_CLK_SELECT				0
-+#define XLNX_USB_FPD_POWER_PRSNT		0x80
-+#define PIPE_POWER_ON				1
-+#define PIPE_POWER_OFF				0
-+
-+struct dwc3_xlnx {
-+	int				num_clocks;
-+	struct clk_bulk_data		*clks;
-+	struct device			*dev;
-+	void __iomem			*regs;
-+	int				(*pltfm_init)(struct dwc3_xlnx *data);
-+};
-+
-+static void dwc3_xlnx_mask_phy_rst(struct dwc3_xlnx *priv_data, bool mask)
-+{
-+	u32 reg;
-+
-+	/*
-+	 * Enable or disable ULPI PHY reset from USB Controller.
-+	 * This does not actually reset the phy, but just controls
-+	 * whether USB controller can or cannot reset ULPI PHY.
-+	 */
-+	reg = readl(priv_data->regs + XLNX_USB_PHY_RST_EN);
-+
-+	if (mask)
-+		reg &= ~XLNX_PHY_RST_MASK;
-+	else
-+		reg |= XLNX_PHY_RST_MASK;
-+
-+	writel(reg, priv_data->regs + XLNX_USB_PHY_RST_EN);
-+}
-+
-+static int dwc3_xlnx_init_versal(struct dwc3_xlnx *priv_data)
-+{
-+	struct device		*dev = priv_data->dev;
-+	int			ret;
-+
-+	dwc3_xlnx_mask_phy_rst(priv_data, false);
-+
-+	/* Assert and De-assert reset */
-+	ret = zynqmp_pm_reset_assert(VERSAL_USB_RESET_ID,
-+				     PM_RESET_ACTION_ASSERT);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "failed to assert Reset\n");
-+		return ret;
-+	}
-+
-+	ret = zynqmp_pm_reset_assert(VERSAL_USB_RESET_ID,
-+				     PM_RESET_ACTION_RELEASE);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "failed to De-assert Reset\n");
-+		return ret;
-+	}
-+
-+	dwc3_xlnx_mask_phy_rst(priv_data, true);
-+
-+	return 0;
-+}
-+
-+static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
-+{
-+	struct device		*dev = priv_data->dev;
-+	struct reset_control	*crst, *hibrst, *apbrst;
-+	struct phy		*usb3_phy;
-+	int			ret;
-+	u32			reg;
-+
-+	crst = devm_reset_control_get_exclusive(dev, "usb_crst");
-+	if (IS_ERR(crst)) {
-+		ret = PTR_ERR(crst);
-+		dev_err_probe(dev, ret,
-+			      "failed to get core reset signal\n");
-+		goto err;
-+	}
-+
-+	hibrst = devm_reset_control_get_exclusive(dev, "usb_hibrst");
-+	if (IS_ERR(hibrst)) {
-+		ret = PTR_ERR(hibrst);
-+		dev_err_probe(dev, ret,
-+			      "failed to get hibernation reset signal\n");
-+		goto err;
-+	}
-+
-+	apbrst = devm_reset_control_get_exclusive(dev, "usb_apbrst");
-+	if (IS_ERR(apbrst)) {
-+		ret = PTR_ERR(apbrst);
-+		dev_err_probe(dev, ret,
-+			      "failed to get APB reset signal\n");
-+		goto err;
-+	}
-+
-+	ret = reset_control_assert(crst);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to assert core reset\n");
-+		goto err;
-+	}
-+
-+	ret = reset_control_assert(hibrst);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to assert hibernation reset\n");
-+		goto err;
-+	}
-+
-+	ret = reset_control_assert(apbrst);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to assert APB reset\n");
-+		goto err;
-+	}
-+
-+	usb3_phy = devm_phy_get(dev, "usb3-phy");
-+
-+	ret = phy_init(usb3_phy);
-+	if (ret < 0) {
-+		phy_exit(usb3_phy);
-+		goto err;
-+	}
-+
-+	ret = reset_control_deassert(apbrst);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to release APB reset\n");
-+		goto err;
-+	}
-+
-+	/* Set PIPE Power Present signal in FPD Power Present Register*/
-+	writel(PIPE_POWER_ON, priv_data->regs + XLNX_USB_FPD_POWER_PRSNT);
-+
-+	/* Set the PIPE Clock Select bit in FPD PIPE Clock register */
-+	writel(PIPE_CLK_SELECT, priv_data->regs + XLNX_USB_FPD_PIPE_CLK);
-+
-+	ret = reset_control_deassert(crst);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to release core reset\n");
-+		goto err;
-+	}
-+
-+	ret = reset_control_deassert(hibrst);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to release hibernation reset\n");
-+		goto err;
-+	}
-+
-+	ret = phy_power_on(usb3_phy);
-+	if (ret < 0) {
-+		phy_exit(usb3_phy);
-+		goto err;
-+	}
-+
-+	/*
-+	 * This routes the USB DMA traffic to go through FPD path instead
-+	 * of reaching DDR directly. This traffic routing is needed to
-+	 * make SMMU and CCI work with USB DMA.
-+	 */
-+	if (of_dma_is_coherent(dev->of_node) || device_iommu_mapped(dev)) {
-+		reg = readl(priv_data->regs + XLNX_USB_TRAFFIC_ROUTE_CONFIG);
-+		reg |= XLNX_USB_TRAFFIC_ROUTE_FPD;
-+		writel(reg, priv_data->regs + XLNX_USB_TRAFFIC_ROUTE_CONFIG);
-+	}
-+
-+err:
-+	return ret;
-+}
-+
-+static const struct of_device_id dwc3_xlnx_of_match[] = {
-+	{
-+		.compatible = "xlnx,zynqmp-dwc3",
-+		.data = &dwc3_xlnx_init_zynqmp,
-+	},
-+	{
-+		.compatible = "xlnx,versal-dwc3",
-+		.data = &dwc3_xlnx_init_versal,
-+	},
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, dwc3_xlnx_of_match);
-+
-+static int dwc3_xlnx_probe(struct platform_device *pdev)
-+{
-+	struct dwc3_xlnx		*priv_data;
-+	struct device			*dev = &pdev->dev;
-+	struct device_node		*np = dev->of_node;
-+	const struct of_device_id	*match;
-+	void __iomem			*regs;
-+	int				ret;
-+
-+	priv_data = devm_kzalloc(dev, sizeof(*priv_data), GFP_KERNEL);
-+	if (!priv_data)
-+		return -ENOMEM;
-+
-+	regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(regs)) {
-+		ret = PTR_ERR(regs);
-+		dev_err_probe(dev, ret, "failed to map registers\n");
-+		return ret;
-+	}
-+
-+	match = of_match_node(dwc3_xlnx_of_match, pdev->dev.of_node);
-+
-+	priv_data->pltfm_init = match->data;
-+	priv_data->regs = regs;
-+	priv_data->dev = dev;
-+
-+	platform_set_drvdata(pdev, priv_data);
-+
-+	ret = devm_clk_bulk_get_all(priv_data->dev, &priv_data->clks);
-+	if (ret < 0)
-+		return ret;
-+
-+	priv_data->num_clocks = ret;
-+
-+	ret = clk_bulk_prepare_enable(priv_data->num_clocks, priv_data->clks);
-+	if (ret)
-+		return ret;
-+
-+	ret = priv_data->pltfm_init(priv_data);
-+	if (ret)
-+		goto err_clk_put;
-+
-+	ret = of_platform_populate(np, NULL, NULL, dev);
-+	if (ret)
-+		goto err_clk_put;
-+
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+	pm_suspend_ignore_children(dev, false);
-+	pm_runtime_get_sync(dev);
-+
-+	return 0;
-+
-+err_clk_put:
-+	clk_bulk_disable_unprepare(priv_data->num_clocks, priv_data->clks);
-+	clk_bulk_put_all(priv_data->num_clocks, priv_data->clks);
-+
-+	return ret;
-+}
-+
-+static int dwc3_xlnx_remove(struct platform_device *pdev)
-+{
-+	struct dwc3_xlnx	*priv_data = platform_get_drvdata(pdev);
-+	struct device		*dev = &pdev->dev;
-+
-+	of_platform_depopulate(dev);
-+
-+	clk_bulk_disable_unprepare(priv_data->num_clocks, priv_data->clks);
-+	clk_bulk_put_all(priv_data->num_clocks, priv_data->clks);
-+	priv_data->num_clocks = 0;
-+
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_noidle(dev);
-+	pm_runtime_set_suspended(dev);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused dwc3_xlnx_suspend_common(struct device *dev)
-+{
-+	struct dwc3_xlnx *priv_data = dev_get_drvdata(dev);
-+
-+	clk_bulk_disable(priv_data->num_clocks, priv_data->clks);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused dwc3_xlnx_resume_common(struct device *dev)
-+{
-+	struct dwc3_xlnx *priv_data = dev_get_drvdata(dev);
-+
-+	return clk_bulk_enable(priv_data->num_clocks, priv_data->clks);
-+}
-+
-+static int __maybe_unused dwc3_xlnx_runtime_idle(struct device *dev)
-+{
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_autosuspend(dev);
-+
-+	return 0;
-+}
-+
-+static UNIVERSAL_DEV_PM_OPS(dwc3_xlnx_dev_pm_ops, dwc3_xlnx_suspend_common,
-+			    dwc3_xlnx_resume_common, dwc3_xlnx_runtime_idle);
-+
-+static struct platform_driver dwc3_xlnx_driver = {
-+	.probe		= dwc3_xlnx_probe,
-+	.remove		= dwc3_xlnx_remove,
-+	.driver		= {
-+		.name		= "dwc3-xilinx",
-+		.of_match_table	= dwc3_xlnx_of_match,
-+		.pm		= &dwc3_xlnx_dev_pm_ops,
-+	},
-+};
-+
-+module_platform_driver(dwc3_xlnx_driver);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("Xilinx DWC3 controller specific glue driver");
-+MODULE_AUTHOR("Manish Narani <manish.narani@xilinx.com>");
-+MODULE_AUTHOR("Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>");
--- 
-2.17.1
+On 12/15/20 1:58 PM, Peter Chen wrote:
+> On 20-12-14 23:35:56, kernel test robot wrote:
+>> Hi Pawel,
+>>
+>> I love your patch! Perhaps something to improve:
+>>
+>> [auto build test WARNING on next-20201211]
+>> [cannot apply to peter.chen-usb/ci-for-usb-next v5.10 v5.10-rc7 v5.10-rc6 v5.10]
+> Sorry, I changed the branch name to reflect the branch does not only queue
+> chipidea USB patches.
+>
+> next branch: for-usb-next
+> fixes branch: for-usb-fixes
+>
+> Peter
+
+Hi Peter,
+
+Thanks for the feedback, we'll update it on the CI system.
+
+Best Regards,
+Rong Chen
+
+>
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-format-patch&amp;data=04%7C01%7Cpeter.chen%40nxp.com%7C6ce79474794448ae12b008d8a045f9ce%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637435572341553421%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Cy3huYNzWiJ57OKmzmaleCT14gcFr8RyYDnqTfZWNG4%3D&amp;reserved=0]
+>>
+>> url:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommits%2FPawel-Laszczak%2Fusb-cdns3-Adds-missing-__iomem-markers%2F20201214-205353&amp;data=04%7C01%7Cpeter.chen%40nxp.com%7C6ce79474794448ae12b008d8a045f9ce%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637435572341553421%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=x5XoDUUskeGteTFaPjgS24Hrbb712XqMqaIkqwXWu14%3D&amp;reserved=0
+>> base:    3cc2bd440f2171f093b3a8480a4b54d8c270ed38
+>> config: riscv-allmodconfig (attached as .config)
+>> compiler: riscv64-linux-gcc (GCC) 9.3.0
+>> reproduce (this is a W=1 build):
+>>          wget https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fmake.cross&amp;data=04%7C01%7Cpeter.chen%40nxp.com%7C6ce79474794448ae12b008d8a045f9ce%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637435572341553421%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=jAavg0T3itnjkbHXADvePHHgtYeqiVTBt%2BoatHT0VHU%3D&amp;reserved=0 -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommit%2F315bfcf1e0604de6ecfc1856cf5820876390f16c&amp;data=04%7C01%7Cpeter.chen%40nxp.com%7C6ce79474794448ae12b008d8a045f9ce%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637435572341553421%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=SQ75IXxfld6HMRIFkZ%2F8Z4YqxnFP%2F%2BZ%2BsYZIycNeO%2FA%3D&amp;reserved=0
+>>          git remote add linux-review https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux&amp;data=04%7C01%7Cpeter.chen%40nxp.com%7C6ce79474794448ae12b008d8a045f9ce%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637435572341553421%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=ZVS4723WbEO03hbsLXJ%2B%2FmB5EZElulY7lAsMEMatiko%3D&amp;reserved=0
+>>          git fetch --no-tags linux-review Pawel-Laszczak/usb-cdns3-Adds-missing-__iomem-markers/20201214-205353
+>>          git checkout 315bfcf1e0604de6ecfc1856cf5820876390f16c
+>>          # save the attached .config to linux build tree
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=riscv
+>>
+>> If you fix the issue, kindly add following tag as appropriate
+>> Reported-by: kernel test robot <lkp@intel.com>
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     In file included from arch/riscv/include/asm/io.h:23,
+>>                      from include/linux/io.h:13,
+>>                      from include/linux/irq.h:20,
+>>                      from include/asm-generic/hardirq.h:17,
+>>                      from ./arch/riscv/include/generated/asm/hardirq.h:1,
+>>                      from include/linux/hardirq.h:10,
+>>                      from include/linux/interrupt.h:11,
+>>                      from drivers/usb/cdns3/drd.c:13:
+>>     drivers/usb/cdns3/drd.c: In function 'cdns_otg_disable_irq':
+>>     drivers/usb/cdns3/drd.c:159:31: error: dereferencing pointer to incomplete type 'struct cdns_otg_irq_reg'
+>>       159 |  writel(0, &cdns->otg_irq_regs->ien);
+>>           |                               ^~
+>>     arch/riscv/include/asm/mmio.h:93:76: note: in definition of macro 'writel_cpu'
+>>        93 | #define writel_cpu(v, c) ((void)__raw_writel((__force u32)cpu_to_le32(v), (c)))
+>>           |                                                                            ^
+>>     drivers/usb/cdns3/drd.c:159:2: note: in expansion of macro 'writel'
+>>       159 |  writel(0, &cdns->otg_irq_regs->ien);
+>>           |  ^~~~~~
+>>     drivers/usb/cdns3/drd.c: In function 'cdns_drd_init':
+>>     drivers/usb/cdns3/drd.c:409:22: error: assignment to 'struct cdns_otg_irq_reg *' from incompatible pointer type 'struct cdns_otg_irq_regs *' [-Werror=incompatible-pointer-types]
+>>       409 |   cdns->otg_irq_regs = (struct cdns_otg_irq_regs __iomem  *)
+>>           |                      ^
+>>     In file included from include/linux/byteorder/little_endian.h:5,
+>>                      from arch/riscv/include/uapi/asm/byteorder.h:10,
+>>                      from include/asm-generic/bitops/le.h:6,
+>>                      from arch/riscv/include/asm/bitops.h:202,
+>>                      from include/linux/bitops.h:32,
+>>                      from include/linux/kernel.h:11,
+>>                      from drivers/usb/cdns3/drd.c:12:
+>>>> drivers/usb/cdns3/drd.c:421:33: warning: passing argument 1 of '__raw_readl' makes pointer from integer without a cast [-Wint-conversion]
+>>       421 |   if (readl(cdns->otg_cdnsp_regs->did) == OTG_CDNSP_DID) {
+>>           |             ~~~~~~~~~~~~~~~~~~~~^~~~~
+>>           |                                 |
+>>           |                                 __le32 {aka unsigned int}
+>>     include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition of macro '__le32_to_cpu'
+>>        34 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>>           |                                                   ^
+>>     arch/riscv/include/asm/mmio.h:140:47: note: in expansion of macro 'readl_cpu'
+>>       140 | #define readl(c) ({ u32 __v; __io_br(); __v = readl_cpu(c); __io_ar(__v); __v; })
+>>           |                                               ^~~~~~~~~
+>>     drivers/usb/cdns3/drd.c:421:7: note: in expansion of macro 'readl'
+>>       421 |   if (readl(cdns->otg_cdnsp_regs->did) == OTG_CDNSP_DID) {
+>>           |       ^~~~~
+>>     In file included from arch/riscv/include/asm/io.h:23,
+>>                      from include/linux/io.h:13,
+>>                      from include/linux/irq.h:20,
+>>                      from include/asm-generic/hardirq.h:17,
+>>                      from ./arch/riscv/include/generated/asm/hardirq.h:1,
+>>                      from include/linux/hardirq.h:10,
+>>                      from include/linux/interrupt.h:11,
+>>                      from drivers/usb/cdns3/drd.c:13:
+>>     arch/riscv/include/asm/mmio.h:63:60: note: expected 'const volatile void *' but argument is of type '__le32' {aka 'unsigned int'}
+>>        63 | static inline u32 __raw_readl(const volatile void __iomem *addr)
+>>           |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>>     drivers/usb/cdns3/drd.c:422:23: error: assignment to 'struct cdns_otg_irq_reg *' from incompatible pointer type 'struct cdns_otg_irq_regs *' [-Werror=incompatible-pointer-types]
+>>       422 |    cdns->otg_irq_regs = (struct cdns_otg_irq_regs __iomem *)
+>>           |                       ^
+>>     drivers/usb/cdns3/drd.c:426:23: error: assignment to 'struct cdns_otg_irq_reg *' from incompatible pointer type 'struct cdns_otg_irq_regs *' [-Werror=incompatible-pointer-types]
+>>       426 |    cdns->otg_irq_regs = (struct cdns_otg_irq_regs __iomem *)
+>>           |                       ^
+>>     cc1: some warnings being treated as errors
+>>
+>> vim +/__raw_readl +421 drivers/usb/cdns3/drd.c
+>>
+>>     383	
+>>     384	int cdns_drd_init(struct cdns *cdns)
+>>     385	{
+>>     386		void __iomem *regs;
+>>     387		u32 state;
+>>     388		int ret;
+>>     389	
+>>     390		regs = devm_ioremap_resource(cdns->dev, &cdns->otg_res);
+>>     391		if (IS_ERR(regs))
+>>     392			return PTR_ERR(regs);
+>>     393	
+>>     394		/* Detection of DRD version. Controller has been released
+>>     395		 * in three versions. All are very similar and are software compatible,
+>>     396		 * but they have same changes in register maps.
+>>     397		 * The first register in oldest version is command register and it's
+>>     398		 * read only. Driver should read 0 from it. On the other hand, in v1
+>>     399		 * and v2 the first register contains device ID number which is not
+>>     400		 * set to 0. Driver uses this fact to detect the proper version of
+>>     401		 * controller.
+>>     402		 */
+>>     403		cdns->otg_v0_regs = regs;
+>>     404		if (!readl(&cdns->otg_v0_regs->cmd)) {
+>>     405			cdns->version  = CDNS3_CONTROLLER_V0;
+>>     406			cdns->otg_v1_regs = NULL;
+>>     407			cdns->otg_cdnsp_regs = NULL;
+>>     408			cdns->otg_regs = regs;
+>>     409			cdns->otg_irq_regs = (struct cdns_otg_irq_regs __iomem  *)
+>>     410					     &cdns->otg_v0_regs->ien;
+>>     411			writel(1, &cdns->otg_v0_regs->simulate);
+>>     412			dev_dbg(cdns->dev, "DRD version v0 (%08x)\n",
+>>     413				 readl(&cdns->otg_v0_regs->version));
+>>     414		} else {
+>>     415			cdns->otg_v0_regs = NULL;
+>>     416			cdns->otg_v1_regs = regs;
+>>     417			cdns->otg_cdnsp_regs = regs;
+>>     418	
+>>     419			cdns->otg_regs = (void __iomem *)&cdns->otg_v1_regs->cmd;
+>>     420	
+>>   > 421			if (readl(cdns->otg_cdnsp_regs->did) == OTG_CDNSP_DID) {
+>>     422				cdns->otg_irq_regs = (struct cdns_otg_irq_regs __iomem *)
+>>     423						      &cdns->otg_cdnsp_regs->ien;
+>>     424				cdns->version  = CDNSP_CONTROLLER_V2;
+>>     425			} else {
+>>     426				cdns->otg_irq_regs = (struct cdns_otg_irq_regs __iomem *)
+>>     427						      &cdns->otg_v1_regs->ien;
+>>     428				writel(1, &cdns->otg_v1_regs->simulate);
+>>     429				cdns->version  = CDNS3_CONTROLLER_V1;
+>>     430			}
+>>     431	
+>>     432			dev_dbg(cdns->dev, "DRD version v1 (ID: %08x, rev: %08x)\n",
+>>     433				 readl(&cdns->otg_v1_regs->did),
+>>     434				 readl(&cdns->otg_v1_regs->rid));
+>>     435		}
+>>     436	
+>>     437		state = OTGSTS_STRAP(readl(&cdns->otg_regs->sts));
+>>     438	
+>>     439		/* Update dr_mode according to STRAP configuration. */
+>>     440		cdns->dr_mode = USB_DR_MODE_OTG;
+>>     441	
+>>     442		if ((cdns->version == CDNSP_CONTROLLER_V2 &&
+>>     443		     state == OTGSTS_CDNSP_STRAP_HOST) ||
+>>     444		    (cdns->version != CDNSP_CONTROLLER_V2 &&
+>>     445		     state == OTGSTS_STRAP_HOST)) {
+>>     446			dev_dbg(cdns->dev, "Controller strapped to HOST\n");
+>>     447			cdns->dr_mode = USB_DR_MODE_HOST;
+>>     448		} else if ((cdns->version == CDNSP_CONTROLLER_V2 &&
+>>     449			    state == OTGSTS_CDNSP_STRAP_GADGET) ||
+>>     450			   (cdns->version != CDNSP_CONTROLLER_V2 &&
+>>     451			    state == OTGSTS_STRAP_GADGET)) {
+>>     452			dev_dbg(cdns->dev, "Controller strapped to PERIPHERAL\n");
+>>     453			cdns->dr_mode = USB_DR_MODE_PERIPHERAL;
+>>     454		}
+>>     455	
+>>     456		ret = devm_request_threaded_irq(cdns->dev, cdns->otg_irq,
+>>     457						cdns_drd_irq,
+>>     458						cdns_drd_thread_irq,
+>>     459						IRQF_SHARED,
+>>     460						dev_name(cdns->dev), cdns);
+>>     461		if (ret) {
+>>     462			dev_err(cdns->dev, "couldn't get otg_irq\n");
+>>     463			return ret;
+>>     464		}
+>>     465	
+>>     466		state = readl(&cdns->otg_regs->sts);
+>>     467		if (OTGSTS_OTG_NRDY(state)) {
+>>     468			dev_err(cdns->dev, "Cadence USB3 OTG device not ready\n");
+>>     469			return -ENODEV;
+>>     470		}
+>>     471	
+>>     472		return 0;
+>>     473	}
+>>     474	
+>>
+>> ---
+>> 0-DAY CI Kernel Test Service, Intel Corporation
+>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;data=04%7C01%7Cpeter.chen%40nxp.com%7C6ce79474794448ae12b008d8a045f9ce%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637435572341553421%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=v9fQGKZKobtIysXu43lCekV%2FoXCc2EZZXIxoTtQpSdw%3D&amp;reserved=0
+>
+>
 
