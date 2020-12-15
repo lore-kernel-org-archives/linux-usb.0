@@ -2,129 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A36CAC4361B
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 19:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B066EC4361B
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 20:23:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DD1022B2D
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 19:32:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8216E22475
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Dec 2020 20:23:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbgLOTch (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Dec 2020 14:32:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60996 "EHLO
+        id S1727693AbgLOUWg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Dec 2020 15:22:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725821AbgLOTcg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Dec 2020 14:32:36 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 892F8C0617A6
-        for <linux-usb@vger.kernel.org>; Tue, 15 Dec 2020 11:31:56 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1kpG39-0005rH-7o; Tue, 15 Dec 2020 20:31:55 +0100
-Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1kpG37-0003Mz-SC; Tue, 15 Dec 2020 20:31:53 +0100
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, mathias.nyman@intel.com
-Subject: [PATCH] xhci: fix U1/U2 handling for hardware with XHCI_INTEL_HOST quirk set
-Date:   Tue, 15 Dec 2020 20:31:47 +0100
-Message-Id: <20201215193147.11738-1-m.grzeschik@pengutronix.de>
+        with ESMTP id S1727653AbgLOUW1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Dec 2020 15:22:27 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38692C061257;
+        Tue, 15 Dec 2020 12:21:47 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id a9so42739612lfh.2;
+        Tue, 15 Dec 2020 12:21:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wtdH0LNE+NSh6TW8ldGVLX31qyTyLDOz4GRbXPCqTQ0=;
+        b=JJAwolf5vyTCjYLv6qT+h+KCPXlFFnj5p/D/kGRQVyqeVQv5XWe+HzpA5di+MRXj1E
+         9tzQGum618T5dEEjjTJ3Yn7QC8TPgeMhRdmAPkBBCrtiizeMzT37UnN+Vw166bORwWAD
+         /folXNiPFzJeJvBdZOcze9xzFX2fQVEJxIkwwcA6ZmX8/gL5oDEKG/557dNdp9R8dEDN
+         035G5Sjp3t0m3wnzJdwn5p8UqcdJzTZryi4BHo8W6xeY7lc9tJ5AjdIzAtnuGHC9hbYA
+         5eH1CDY4ulErdyh92YwUhm99TR2cBBVYofUTsKCGIM9jL/eNGA3GkjzRt/sbuS3L+oEV
+         gOSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wtdH0LNE+NSh6TW8ldGVLX31qyTyLDOz4GRbXPCqTQ0=;
+        b=J+K8gGgdrp+YzB5x+PcGBWdHxdIL1OZ8MKjHfNu9InILSll9yoRrEyI0SWBB/AkboQ
+         5lpWe9DL0lKysZl+3SF/hhdnXK+E6Rw4hglRYApctkJrfQA4VIVZVFbLbTraXLNw0CVM
+         9Z9Hv5ZBYCj0DtyEcr11CntqzrBxrJ6LQ+4cxZxUmA6flI5OVOscNyoEJngOTJQxFFUh
+         vlh8IPUPENiRKr51ZEYQVMtnKUOfldjc2ozJOTVrYJkeqK4f4ziKsOoO+EELfrs7BLyg
+         /sE1R7j010mlZcmQZw/r1wQej2bRtA5mF/ooOzTgGCwS2cl7sIb84vFrkqcFC2H1XVcs
+         bf7w==
+X-Gm-Message-State: AOAM532zdaUVO+MSldK7GpVDwjSnrLQsdTJiJWfzphuMBsC7I076C7fL
+        xfiQxxdSsb47dsNgDojzAVU=
+X-Google-Smtp-Source: ABdhPJzITjqOSIEwAgaIe7Ic1rXMNJAekEbaepZ8B4LNaIUWC63Ul7cV5BeIKu5fRvTPGZ4cIoi1Dg==
+X-Received: by 2002:a2e:b0d5:: with SMTP id g21mr13163485ljl.372.1608063705777;
+        Tue, 15 Dec 2020 12:21:45 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.gmail.com with ESMTPSA id f3sm2873711ljp.114.2020.12.15.12.21.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Dec 2020 12:21:45 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Felipe Balbi <balbi@kernel.org>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/8] usb: phy: tegra: Add delay after power up
+Date:   Tue, 15 Dec 2020 23:21:06 +0300
+Message-Id: <20201215202113.30394-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201215202113.30394-1-digetx@gmail.com>
+References: <20201215202113.30394-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The commit 0472bf06c6fd ("xhci: Prevent U1/U2 link pm states if exit
-latency is too long") was constraining the xhci code not to allow U1/U2
-sleep states if the latency to wake up from the U-states reached the
-service interval of an periodic endpoint. This fix was not taking into
-account that in case the quirk XHCI_INTEL_HOST is set, the wakeup time
-will be calculated and configured differently.
+The PHY hardware needs the delay of 2ms after power up, otherwise initial
+interrupt may be lost if USB controller is accessed before PHY is settled
+down. Previously this issue was masked by implicit delays, but now it pops
+up after squashing the older ehci-tegra driver into the ChipIdea driver.
 
-It checks for u1_params.mel/u2_params.mel as a limit. But the code could
-decide to write another MEL into the hardware. This leads to broken
-cases where not enough bandwidth is available for other devices:
-
-usb 1-2: can't set config #1, error -28
-
-This patch is fixing that case by checking for timeout_ns after the
-wakeup time was calculated depending on the quirks.
-
-Fixes: 0472bf06c6fd ("xhci: Prevent U1/U2 link pm states if exit latency is too long")
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Tested-by: Matt Merhar <mattmerhar@protonmail.com>
+Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+Tested-by: Peter Geis <pgwipeout@gmail.com>
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/usb/host/xhci.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/usb/phy/phy-tegra-usb.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index f4cedcaee14b3..0385ef9cb628b 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4640,19 +4640,19 @@ static u16 xhci_calculate_u1_timeout(struct xhci_hcd *xhci,
- {
- 	unsigned long long timeout_ns;
+diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+index 03a333797382..cee9c9dbb775 100644
+--- a/drivers/usb/phy/phy-tegra-usb.c
++++ b/drivers/usb/phy/phy-tegra-usb.c
+@@ -784,6 +784,9 @@ static int tegra_usb_phy_power_on(struct tegra_usb_phy *phy)
  
-+	if (xhci->quirks & XHCI_INTEL_HOST)
-+		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
-+	else
-+		timeout_ns = udev->u1_params.sel;
+ 	phy->powered_on = true;
+ 
++	/* let PHY to settle down */
++	usleep_range(2000, 2500);
 +
- 	/* Prevent U1 if service interval is shorter than U1 exit latency */
- 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
--		if (xhci_service_interval_to_ns(desc) <= udev->u1_params.mel) {
-+		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
- 			dev_dbg(&udev->dev, "Disable U1, ESIT shorter than exit latency\n");
- 			return USB3_LPM_DISABLED;
- 		}
- 	}
+ 	return 0;
+ }
  
--	if (xhci->quirks & XHCI_INTEL_HOST)
--		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
--	else
--		timeout_ns = udev->u1_params.sel;
--
- 	/* The U1 timeout is encoded in 1us intervals.
- 	 * Don't return a timeout of zero, because that's USB3_LPM_DISABLED.
- 	 */
-@@ -4704,19 +4704,19 @@ static u16 xhci_calculate_u2_timeout(struct xhci_hcd *xhci,
- {
- 	unsigned long long timeout_ns;
- 
-+	if (xhci->quirks & XHCI_INTEL_HOST)
-+		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
-+	else
-+		timeout_ns = udev->u2_params.sel;
-+
- 	/* Prevent U2 if service interval is shorter than U2 exit latency */
- 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
--		if (xhci_service_interval_to_ns(desc) <= udev->u2_params.mel) {
-+		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
- 			dev_dbg(&udev->dev, "Disable U2, ESIT shorter than exit latency\n");
- 			return USB3_LPM_DISABLED;
- 		}
- 	}
- 
--	if (xhci->quirks & XHCI_INTEL_HOST)
--		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
--	else
--		timeout_ns = udev->u2_params.sel;
--
- 	/* The U2 timeout is encoded in 256us intervals */
- 	timeout_ns = DIV_ROUND_UP_ULL(timeout_ns, 256 * 1000);
- 	/* If the necessary timeout value is bigger than what we can set in the
 -- 
 2.29.2
 
