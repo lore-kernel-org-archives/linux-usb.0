@@ -2,168 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MIME_BASE64_TEXT,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA6AC2BBCA
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Dec 2020 09:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC09C4361B
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Dec 2020 11:52:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48B872313F
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Dec 2020 09:54:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12B8623382
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Dec 2020 11:52:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbgLPJyW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Dec 2020 04:54:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbgLPJyW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Dec 2020 04:54:22 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5851AC0613D6;
-        Wed, 16 Dec 2020 01:53:41 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id x20so27250555lfe.12;
-        Wed, 16 Dec 2020 01:53:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7K3VpldibCJw6SR86Fx4bZqIehnXTqNoL7QsytzTCAc=;
-        b=MCsSEYUFTM5ED71OJrR4OvHrul5rKb2rZfsb9lpjqhVue+kFhn/63N+a1R6iu9nOd3
-         7mXbTNwTMd2DEdcawUDoyBx7WEdXMCneOi85Cbcb9voGoUO0N8jy1mGHG83W7AGJV8Hu
-         dnhLxUxrxv7KTnhY771KDlhHhRHG7rJ2zXIkmJiqEeN1KRN1H9naF19XTfYB0wbSfdsp
-         P7Z+Qsi1guvpcOHUstliWTG9lyqCYNc9TdGOYH130yEZP7AdEdpxeg+bdFFgfY9kEs7q
-         6eTIf/nNbdwtEkXAiSihsYhWfZdq+eUyFmFeQqv9h7EdZ36KYTp84Y7/9+woigzZDIY+
-         c6jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7K3VpldibCJw6SR86Fx4bZqIehnXTqNoL7QsytzTCAc=;
-        b=eP+JraMe3VUZ9V1+zEMJYjFpAnYo9rurF8rs5J9t3VeNwZOs36UQbsAv9PXIRYncup
-         mHMXsYPiM57hV8ViQwujr+UPUbRUvfvlhd/FoBEqMApDF4TJ0UUB87GJph7Q90c3AwH3
-         fNW3B/7cKr7JaMtJrvzGIUKgN7sJOHj2aVI3+tz0J0V13aEjgRkMgdQPakmjcrnUsR9k
-         H/TtSck/cUp1jPLKl0TUXgzgVyQSlBhH4izmHb1J+/oXBwRbWGmresws9qYrV4Kb/Byc
-         xjhUtGLqmQhQRLGlsJcDbjhKRdepUmPV1ZWoV2E0u+iODSC85SM4qYWi7+GMneOXa1C6
-         KsnA==
-X-Gm-Message-State: AOAM532xu+SK/n4rhSupRR4GDqK4fluVbRub1d9ZJH/VAF2MYIovJl1q
-        CvBeWanavoIY3jBMws7U7qLdRPkoJjs=
-X-Google-Smtp-Source: ABdhPJyamCAlvp8liqxG/4XrSDjc3YQnFT3rNYbzlQrL2kZ4cunu94BG58qoGFfLCcNFWM8z8Dj1jw==
-X-Received: by 2002:a05:6512:3e6:: with SMTP id n6mr4456172lfq.262.1608112419754;
-        Wed, 16 Dec 2020 01:53:39 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id y3sm209998ljc.131.2020.12.16.01.53.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Dec 2020 01:53:39 -0800 (PST)
-Subject: Re: [PATCH v1 5/8] usb: chipidea: tegra: Support host mode
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        id S1725973AbgLPLwO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Dec 2020 06:52:14 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:34413 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725824AbgLPLwO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Dec 2020 06:52:14 -0500
+X-UUID: fdf872da8e62467c8bb69f306ccaa594-20201216
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=EhM5bUedZiGi+gUkZ9oWBBRQVQNZKqOj1hTnbNAjz8M=;
+        b=VTUcV/YXdfpQFoklALtkDCzneF/F7yPNOCR3K7it15OGuwX6MRIOjygGZBqGiuXwLv6HL4MVAyjwVpoONnGRJL5ctCPq+rolu9+WVK2zE8DlLrh1/3AYEi4UxZWCQ/uSFXC8LMupqiEz6wGoBExWTDa/nnLXeyUt7IN683Kcay4=;
+X-UUID: fdf872da8e62467c8bb69f306ccaa594-20201216
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1742747652; Wed, 16 Dec 2020 19:51:27 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 16 Dec 2020 19:51:25 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 16 Dec 2020 19:51:25 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Felipe Balbi <balbi@kernel.org>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20201215202113.30394-1-digetx@gmail.com>
- <20201215202113.30394-6-digetx@gmail.com>
- <20201216060732.GB5595@b29397-desktop>
- <bb617167-e6a4-221e-5e3b-c9d7a1b50c87@gmail.com>
- <DBBPR04MB79794F5CC440279AF94A48448BC50@DBBPR04MB7979.eurprd04.prod.outlook.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <78b8b868-fa72-cffa-b3c2-5a73a02d02b0@gmail.com>
-Date:   Wed, 16 Dec 2020 12:53:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+        Ikjoon Jang <ikjn@chromium.org>
+Subject: [PATCH 2/3] usb: xhci-mtk: fix UAS issue by XHCI_BROKEN_STREAMS quirk
+Date:   Wed, 16 Dec 2020 19:51:24 +0800
+Message-ID: <20201216115125.5886-2-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20201216115125.5886-1-chunfeng.yun@mediatek.com>
+References: <20201216115125.5886-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <DBBPR04MB79794F5CC440279AF94A48448BC50@DBBPR04MB7979.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 16A401981E0BC0AB1C65443D744871EF4B75EBA9A7655DE5439D5904123EC1B42000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-16.12.2020 12:32, Peter Chen пишет:
->  
->>>>
->>>>  struct tegra_usb_soc_info {
->>>>  	unsigned long flags;
->>>> +	unsigned int txfifothresh;
->>>> +	enum usb_dr_mode dr_mode;
->>>> +};
->>>> +
->>>> +static const struct tegra_usb_soc_info tegra20_ehci_soc_info = {
->>>> +	.flags = CI_HDRC_REQUIRES_ALIGNED_DMA |
->>>> +		 CI_HDRC_OVERRIDE_PHY_CONTROL,
->>>> +	.dr_mode = USB_DR_MODE_HOST,
->>>> +	.txfifothresh = 10,
->>>> +};
->>>> +
->>>> +static const struct tegra_usb_soc_info tegra30_ehci_soc_info = {
->>>> +	.flags = CI_HDRC_REQUIRES_ALIGNED_DMA |
->>>> +		 CI_HDRC_OVERRIDE_PHY_CONTROL
->>>> +	.dr_mode = USB_DR_MODE_HOST,
->>>> +	.txfifothresh = 16,
->>>>  };
->>>>
->>>>  static const struct tegra_usb_soc_info tegra_udc_soc_info = {
->>>> -	.flags = CI_HDRC_REQUIRES_ALIGNED_DMA,
->>>> +	.flags = CI_HDRC_REQUIRES_ALIGNED_DMA |
->>>> +		 CI_HDRC_OVERRIDE_PHY_CONTROL,
->>>> +	.dr_mode = USB_DR_MODE_UNKNOWN,
->>>>  };
->>>
->>> What's the usage for this dr_mode? Does these three SoCs only supports
->>> single mode, it usually sets dr_mode at board dts file to indicate USB
->>> role for this board.
->>
->> All Tegra SoCs have three USB controllers.  Only one of these three controllers
->> supports peripheral / OTG modes, the other two controllers are fixed to the
->> host mode and device trees do not specify the dr_mode for the host
->> controllers.
->>
->> Hence we need to enforce the dr_mode=host for the host-mode controllers.
->>
->> For UDC the default mode is "unknown" because actual mode comes from a
->> board's device tree.
->>
-> 
-> You could add dr_mode property at usb node of soc.dtsi to fulfill that.
-
-This will break older DTBs, we can't do this.
-
-...
->>>>  static int ehci_ci_portpower(struct usb_hcd *hcd, int portnum, bool
->>>> enable)  {
->>>>  	struct ehci_hcd *ehci = hcd_to_ehci(hcd); @@ -160,14 +166,14 @@
->>>> static int host_start(struct ci_hdrc *ci)
->>>>  		pinctrl_select_state(ci->platdata->pctl,
->>>>  				     ci->platdata->pins_host);
->>>>
->>>> +	ci->hcd = hcd;
->>>> +
->>>>  	ret = usb_add_hcd(hcd, 0, 0);
->>>>  	if (ret) {
->>>>  		goto disable_reg;
->>>>  	} else {
->>>>  		struct usb_otg *otg = &ci->otg;
->>>>
->>>> -		ci->hcd = hcd;
->>>> -
->>>
->>> Why this changed?
->>
->> The ci->hcd is used by tegra_usb_notify_event() to handle reset event and the
->> reset happens once usb_add_hcd() is invoked.  Hence we need to pre-assign
->> the hcd pointer, otherwise there will be a NULL dereference.
-> 
-> Get it, please set ci->hcd as NULL at error path.
-
-Ok, thanks.
+VGhlIDAuOTYgeEhDSSBjb250cm9sbGVyIG9uIHNvbWUgcGxhdGZvcm1zIGRvZXMgbm90IHN1cHBv
+cnQNCmJ1bGsgc3RyZWFtIGV2ZW4gSENDUEFSQU1TIHNheXMgc3VwcG9ydGluZywgZHVlIHRvIE1h
+eFBTQVNpemUNCmlzIHNldCBhIG5vbi16ZXJvIGRlZmF1bHQgdmFsdWUgYnkgbWlzdGFrZSwgaGVy
+ZSB1c2UNClhIQ0lfQlJPS0VOX1NUUkVBTVMgcXVpcmsgdG8gZml4IGl0Lg0KDQpGaXhlczogOTRh
+NjMxZDkxYWQzICgidXNiOiB4aGNpLW10azogY2hlY2sgaGNjX3BhcmFtcyBhZnRlciBhZGRpbmcg
+cHJpbWFyeSBoY2QiKQ0KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5A
+bWVkaWF0ZWsuY29tPg0KLS0tDQogZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jIHwgNyArKysr
+KystDQogZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5oIHwgMSArDQogMiBmaWxlcyBjaGFuZ2Vk
+LCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+dXNiL2hvc3QveGhjaS1tdGsuYyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tdGsuYw0KaW5kZXgg
+OGYzMjFmMzlhYjk2Li4wOGRhYjk3NGQ4NDcgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9ob3N0
+L3hoY2ktbXRrLmMNCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tdGsuYw0KQEAgLTM5NSw2
+ICszOTUsOSBAQCBzdGF0aWMgdm9pZCB4aGNpX210a19xdWlya3Moc3RydWN0IGRldmljZSAqZGV2
+LCBzdHJ1Y3QgeGhjaV9oY2QgKnhoY2kpDQogCXhoY2ktPnF1aXJrcyB8PSBYSENJX1NQVVJJT1VT
+X1NVQ0NFU1M7DQogCWlmIChtdGstPmxwbV9zdXBwb3J0KQ0KIAkJeGhjaS0+cXVpcmtzIHw9IFhI
+Q0lfTFBNX1NVUFBPUlQ7DQorDQorCWlmIChtdGstPmJyb2tlbl9zdHJlYW1zKQ0KKwkJeGhjaS0+
+cXVpcmtzIHw9IFhIQ0lfQlJPS0VOX1NUUkVBTVM7DQogfQ0KIA0KIC8qIGNhbGxlZCBkdXJpbmcg
+cHJvYmUoKSBhZnRlciBjaGlwIHJlc2V0IGNvbXBsZXRlcyAqLw0KQEAgLTQ2MCw2ICs0NjMsOCBA
+QCBzdGF0aWMgaW50IHhoY2lfbXRrX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYp
+DQogCQlyZXR1cm4gcmV0Ow0KIA0KIAltdGstPmxwbV9zdXBwb3J0ID0gb2ZfcHJvcGVydHlfcmVh
+ZF9ib29sKG5vZGUsICJ1c2IzLWxwbS1jYXBhYmxlIik7DQorCW10ay0+YnJva2VuX3N0cmVhbXMg
+PQ0KKwkJb2ZfcHJvcGVydHlfcmVhZF9ib29sKG5vZGUsICJtZWRpYXRlayxicm9rZW5fc3RyZWFt
+c19xdWlyayIpOw0KIAkvKiBvcHRpb25hbCBwcm9wZXJ0eSwgaWdub3JlIHRoZSBlcnJvciBpZiBp
+dCBkb2VzIG5vdCBleGlzdCAqLw0KIAlvZl9wcm9wZXJ0eV9yZWFkX3UzMihub2RlLCAibWVkaWF0
+ZWssdTNwLWRpcy1tc2siLA0KIAkJCSAgICAgJm10ay0+dTNwX2Rpc19tc2spOw0KQEAgLTU0Niw3
+ICs1NTEsNyBAQCBzdGF0aWMgaW50IHhoY2lfbXRrX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZp
+Y2UgKnBkZXYpDQogCWlmIChyZXQpDQogCQlnb3RvIHB1dF91c2IzX2hjZDsNCiANCi0JaWYgKEhD
+Q19NQVhfUFNBKHhoY2ktPmhjY19wYXJhbXMpID49IDQpDQorCWlmICghbXRrLT5icm9rZW5fc3Ry
+ZWFtcyAmJiBIQ0NfTUFYX1BTQSh4aGNpLT5oY2NfcGFyYW1zKSA+PSA0KQ0KIAkJeGhjaS0+c2hh
+cmVkX2hjZC0+Y2FuX2RvX3N0cmVhbXMgPSAxOw0KIA0KIAlyZXQgPSB1c2JfYWRkX2hjZCh4aGNp
+LT5zaGFyZWRfaGNkLCBpcnEsIElSUUZfU0hBUkVEKTsNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Vz
+Yi9ob3N0L3hoY2ktbXRrLmggYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmgNCmluZGV4IGE5
+M2NmZTgxNzkwNC4uODZhYTQ5Nzg5MTVlIDEwMDY0NA0KLS0tIGEvZHJpdmVycy91c2IvaG9zdC94
+aGNpLW10ay5oDQorKysgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmgNCkBAIC0xNDcsNiAr
+MTQ3LDcgQEAgc3RydWN0IHhoY2lfaGNkX210ayB7DQogCXN0cnVjdCBwaHkgKipwaHlzOw0KIAlp
+bnQgbnVtX3BoeXM7DQogCWJvb2wgbHBtX3N1cHBvcnQ7DQorCWJvb2wgYnJva2VuX3N0cmVhbXM7
+DQogCS8qIHVzYiByZW1vdGUgd2FrZXVwICovDQogCWJvb2wgdXdrX2VuOw0KIAlzdHJ1Y3QgcmVn
+bWFwICp1d2s7DQotLSANCjIuMTguMA0K
 
