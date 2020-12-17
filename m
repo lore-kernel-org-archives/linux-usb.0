@@ -2,61 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B1DC2BBCA
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Dec 2020 15:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F96C4361B
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Dec 2020 15:06:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4576723977
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Dec 2020 15:03:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2762D235F9
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Dec 2020 15:06:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728426AbgLQPDM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Dec 2020 10:03:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
+        id S1728652AbgLQPGH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Dec 2020 10:06:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727394AbgLQPDM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Dec 2020 10:03:12 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0753C061794;
-        Thu, 17 Dec 2020 07:02:31 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id i9so26926733wrc.4;
-        Thu, 17 Dec 2020 07:02:31 -0800 (PST)
+        with ESMTP id S1728680AbgLQPGG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Dec 2020 10:06:06 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4D7C0611C5;
+        Thu, 17 Dec 2020 07:04:57 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id g185so6003417wmf.3;
+        Thu, 17 Dec 2020 07:04:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=vL6UODLD0sWqJcZPYNQCNPrMnCLRar1aQteLA5mURjA=;
-        b=fp8IktJ8To5v2kEgpGOM/nXnVnp3WgdnTiAXa1yv14ytq3mYv6jFVLrFOHXTi5i/D6
-         uazegOhqfItoeigWtNcSh8EEI3VafuzqQ+1kuwDTGEz9WJI6r8rukJDrVpm4Ua0kYxFo
-         N9c+Tk+ME0AvBMDM9wV/TfR5FUg+2sURxaEAbrN0o9DIJznLK2K55iPQSMKbGqiMwmyk
-         jMU9tmtVJ5SQs8AqO/VYnlh00ZZ5dd5WmhGcOwyrvxc9414QUL7MVWGbq2ssdY2hd7le
-         0pguALwDBk9xRQBXsvrk9kB53BDNz5zFCQGGFas/McPf5dEstRxYx/wi2AVANDhcY1Q3
-         R/0w==
+        bh=bwrKelRIw2P46W12+V8LfoBE7/ASZSlAN9pQ3TxWDLo=;
+        b=oUp0+y3zuKEpg0X6dwedwVaRgcvY+s5BET0TxUEpClDImHGCFOMZZP54NbHNBk7fOp
+         emm7Mju7/9eAFJwxr5AkUnNFRWU8iVyICeZElbyNwD0X84JBLMIighc4e7wiW1W3i/ht
+         8g0I//ZG36+6VMdrUpPjYroBUnaGSZGI9g/xEZrknjvUuBBETxXZHuzf7FMYLhc93C4y
+         5oAReoMp0IHAUAHWJTHMWRBKbgTICFqhEKPpOx+mb+yW44ZQ1nKRGbtnZGJSa8xRzv06
+         Pr/bwwu6ept+g0aNU0QLdGBPTBQHBJadQhJd4wZwWeuFnSSdb/yRc0ElVolNYtYURSFt
+         93zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vL6UODLD0sWqJcZPYNQCNPrMnCLRar1aQteLA5mURjA=;
-        b=lbCYHxZDkJg8pY5ePd4cwi7aheaoUD251JZf9cYaweX+12I1+h7M8RNdkNXxg71jMG
-         RfUTzT2SPfNUDXIeMkr8T9/724cdhZJDPBg8igwVjjPlNG4HFVsp/I4sXW0fiGIxXd1q
-         Dle2aejbqor4iqLur2b/SINnAWmQlMHqAfXjJMl+2DDpyBMPMuoxVena5GSEncJpwZHS
-         Gg/ajUZrX+ATql0XzcyPI7zpYmn1J6uFbYYb30bZrpaEZsvjBD2a0OedIPU+AVoOJ3Gi
-         vZ84pDUQ/hHushxP4rpLlN94TamxB3y/Z7bctNw/eYr3z+PAwbHz4yZN+faBRMTiwMyg
-         g0CA==
-X-Gm-Message-State: AOAM533T2xtnFwh1PG8NSOF+NUidcIv80N/FhWMOxdSLn+Qn6X4pd5Df
-        ZE68kDXG9VqNRmO3/QUmPPQ=
-X-Google-Smtp-Source: ABdhPJxR8odVpv2JcMMWASVApMOOn/CEb0NsFnlSpprbTzqitHWue2Ai9Trd3po7aTTnBKpntB6PTw==
-X-Received: by 2002:a5d:4349:: with SMTP id u9mr43137225wrr.319.1608217350410;
-        Thu, 17 Dec 2020 07:02:30 -0800 (PST)
+        bh=bwrKelRIw2P46W12+V8LfoBE7/ASZSlAN9pQ3TxWDLo=;
+        b=c0TROpf89sRrPUWTuhN7qkNbp1eXzCyHPnVuocFE0qGfGJWNuKReNQiLQCVugMLCCV
+         pRVS7SmOnKIYOnho81ykt9T1PtO5OFVNY0cEDzeaKsYRoOkGcSxgU6EIceKQUqW58KLY
+         SLAacXjLrMr0XZiJgrkNhsiJZcZpsniG/bLgw51Jienvo3ShaQS5BQxlWJqtolovsASy
+         I/jdJjS8XHfoalZWaYQsXp/JTZoZynqc2N5NJjIKqvL3kOCK8Mp5spXTcPq4p4dlSApN
+         y1PkiXBnFKhNYYiHhv4DaHvdZUQSPSutyJhUmUHwTu11aV5U/EH8dhmjdGC/LIP61Mr6
+         I0Xw==
+X-Gm-Message-State: AOAM532XciwHG7Npbyo8AeeldyuBTxsxi1fZfQKM9fRzRBwDTaickHWx
+        q9fc+65COcWS5HskyTrLAJ8=
+X-Google-Smtp-Source: ABdhPJwT9E/2K5P9r3w096GSn0TBFSMl9RpbNpnEnAqqthFNtWMWsfFCAcz2fBMSCXM1q/uBmAyaMg==
+X-Received: by 2002:a1c:c204:: with SMTP id s4mr8965841wmf.73.1608217496297;
+        Thu, 17 Dec 2020 07:04:56 -0800 (PST)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id q17sm9063519wrr.53.2020.12.17.07.02.28
+        by smtp.gmail.com with ESMTPSA id c81sm8877583wmd.6.2020.12.17.07.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 07:02:29 -0800 (PST)
-Date:   Thu, 17 Dec 2020 16:02:27 +0100
+        Thu, 17 Dec 2020 07:04:55 -0800 (PST)
+Date:   Thu, 17 Dec 2020 16:04:53 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,116 +69,105 @@ Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
         Peter Geis <pgwipeout@gmail.com>,
         Ion Agorria <ion@agorria.com>, linux-tegra@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/8] usb: chipidea: tegra: Support runtime PM
-Message-ID: <X9tzA4q8mv2j13yo@ulmo>
+Subject: Re: [PATCH v2 2/8] usb: phy: tegra: Support waking up from a low
+ power mode
+Message-ID: <X9tzlWYKRS9FY9q3@ulmo>
 References: <20201217094007.19336-1-digetx@gmail.com>
- <20201217094007.19336-7-digetx@gmail.com>
- <X9tgD+KSU1bIvht5@ulmo>
- <28468e30-a832-9774-bed3-ac986aef8831@gmail.com>
+ <20201217094007.19336-3-digetx@gmail.com>
+ <X9teRPo/MadN79NI@ulmo>
+ <3c204a61-86ae-1bbe-1442-527831f15232@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OW10L9f0L2MzRxHp"
+        protocol="application/pgp-signature"; boundary="cOXpBbUiKUTaRQTC"
 Content-Disposition: inline
-In-Reply-To: <28468e30-a832-9774-bed3-ac986aef8831@gmail.com>
+In-Reply-To: <3c204a61-86ae-1bbe-1442-527831f15232@gmail.com>
 User-Agent: Mutt/2.0.3 (a51f058f) (2020-12-04)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
---OW10L9f0L2MzRxHp
+--cOXpBbUiKUTaRQTC
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 17, 2020 at 04:45:03PM +0300, Dmitry Osipenko wrote:
-> 17.12.2020 16:41, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Thu, Dec 17, 2020 at 12:40:05PM +0300, Dmitry Osipenko wrote:
-> >> Tegra PHY driver now supports waking up controller from a low power mo=
-de.
-> >> Enable runtime PM in order to put controller into the LPM during idle.
-> >>
-> >> Tested-by: Matt Merhar <mattmerhar@protonmail.com>
-> >> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-> >> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> >> Tested-by: Ion Agorria <ion@agorria.com>
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >>  drivers/usb/chipidea/ci_hdrc_tegra.c | 13 ++++++++++---
-> >>  1 file changed, 10 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipid=
-ea/ci_hdrc_tegra.c
-> >> index 5fccdeeefc64..655671159511 100644
-> >> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-> >> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-> >> @@ -38,21 +38,24 @@ struct tegra_usb_soc_info {
+On Thu, Dec 17, 2020 at 04:47:50PM +0300, Dmitry Osipenko wrote:
+> 17.12.2020 16:33, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> +	/* PHY won't resume if reset is asserted */
+> >> +	if (phy->wakeup_enabled)
+> >> +		goto chrg_cfg0;
 > >> =20
-> >>  static const struct tegra_usb_soc_info tegra20_ehci_soc_info =3D {
-> >>  	.flags =3D CI_HDRC_REQUIRES_ALIGNED_DMA |
-> >> -		 CI_HDRC_OVERRIDE_PHY_CONTROL,
-> >> +		 CI_HDRC_OVERRIDE_PHY_CONTROL |
-> >> +		 CI_HDRC_SUPPORTS_RUNTIME_PM,
-> >>  	.dr_mode =3D USB_DR_MODE_HOST,
-> >>  	.txfifothresh =3D 10,
-> >>  };
+> >>  	val =3D readl_relaxed(base + USB_SUSP_CTRL);
+> >>  	val |=3D UTMIP_RESET;
+> >>  	writel_relaxed(val, base + USB_SUSP_CTRL);
 > >> =20
-> >>  static const struct tegra_usb_soc_info tegra30_ehci_soc_info =3D {
-> >>  	.flags =3D CI_HDRC_REQUIRES_ALIGNED_DMA |
-> >> -		 CI_HDRC_OVERRIDE_PHY_CONTROL,
-> >> +		 CI_HDRC_OVERRIDE_PHY_CONTROL |
-> >> +		 CI_HDRC_SUPPORTS_RUNTIME_PM,
-> >>  	.dr_mode =3D USB_DR_MODE_HOST,
-> >>  	.txfifothresh =3D 16,
-> >>  };
-> >> =20
-> >>  static const struct tegra_usb_soc_info tegra_udc_soc_info =3D {
-> >>  	.flags =3D CI_HDRC_REQUIRES_ALIGNED_DMA |
-> >> -		 CI_HDRC_OVERRIDE_PHY_CONTROL,
-> >> +		 CI_HDRC_OVERRIDE_PHY_CONTROL |
-> >> +		 CI_HDRC_SUPPORTS_RUNTIME_PM,
-> >>  	.dr_mode =3D USB_DR_MODE_UNKNOWN,
-> >>  };
-> >> =20
-> >> @@ -323,6 +326,10 @@ static int tegra_usb_probe(struct platform_device=
- *pdev)
-> >>  	usb->data.hub_control =3D tegra_ehci_hub_control;
-> >>  	usb->data.notify_event =3D tegra_usb_notify_event;
-> >> =20
-> >> +	/* Tegra PHY driver currently doesn't support LPM for ULPI */
-> >> +	if (of_usb_get_phy_mode(pdev->dev.of_node) =3D=3D USBPHY_INTERFACE_M=
-ODE_ULPI)
-> >> +		usb->data.flags &=3D ~CI_HDRC_SUPPORTS_RUNTIME_PM;
-> >> +
+> >> +chrg_cfg0:
+> > I found this diffcult to read until I realized that it was basically
+> > just the equivalent of this:
 > >=20
-> > Does this prevent the wakeup_enabled from being set for ULPI PHYs?
+> > 	if (!phy->wakeup_enabled) {
+> > 		val =3D readl_relaxed(base + USB_SUSP_CTRL);
+> > 		val |=3D UTMIP_RESET;
+> > 		writel_relaxed(val, base + USB_SUSP_CTRL);
+> > 	}
+> >=20
+> >>  	val =3D readl_relaxed(base + UTMIP_BAT_CHRG_CFG0);
+> >>  	val |=3D UTMIP_PD_CHRG;
+> >>  	writel_relaxed(val, base + UTMIP_BAT_CHRG_CFG0);
+> >> =20
+> >> +	if (phy->wakeup_enabled)
+> >> +		goto xcvr_cfg1;
+> >> +
+> >>  	val =3D readl_relaxed(base + UTMIP_XCVR_CFG0);
+> >>  	val |=3D UTMIP_FORCE_PD_POWERDOWN | UTMIP_FORCE_PD2_POWERDOWN |
+> >>  	       UTMIP_FORCE_PDZI_POWERDOWN;
+> >>  	writel_relaxed(val, base + UTMIP_XCVR_CFG0);
+> >> =20
+> >> +xcvr_cfg1:
+> > Similarly, I think this is more readable as:
+> >=20
+> > 	if (!phy->wakeup_enabled) {
+> > 		val =3D readl_relaxed(base + UTMIP_XCVR_CFG0);
+> > 		val |=3D UTMIP_FORCE_PD_POWERDOWN | UTMIP_FORCE_PD2_POWERDOWN |
+> > 		       UTMIP_FORCE_PDZI_POWERDOWN;
+> > 		writel_relaxed(val, base + UTMIP_XCVR_CFG0);
+> > 	}
+> >=20
+> >>  	val =3D readl_relaxed(base + UTMIP_XCVR_CFG1);
+> >>  	val |=3D UTMIP_FORCE_PDDISC_POWERDOWN | UTMIP_FORCE_PDCHRP_POWERDOWN=
+ |
+> >>  	       UTMIP_FORCE_PDDR_POWERDOWN;
+> >>  	writel_relaxed(val, base + UTMIP_XCVR_CFG1);
+> >> =20
+> >> +	if (phy->wakeup_enabled) {
+> > Which then also matches the style of this conditional here.
 >=20
-> Yes
+> I'll change it in v3, thanks.
 
-Okay, it should be fine then to keep that WARN_ONCE in that prior patch
-since we should really only get there if there's something seriously
-wrong.
+Given that my other comment about the WARN_ONCE seems to have been
+resolved, with the above gotos replaced by conditionals as I suggested:
 
-Thierry
+Acked-by: Thierry Reding <treding@nvidia.com>
 
---OW10L9f0L2MzRxHp
+--cOXpBbUiKUTaRQTC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl/bcwMACgkQ3SOs138+
-s6GiVRAApwu7yA+zMkklRAeRtXQxIO8UzUaDfB7k3WhRCO64o7ryP6SCQo92O65J
-dRKf5ahUn+eGlKrWTvpzM+WLpXo1RU3Lta63xM3zDmuyO2NH9ut9+G5NRJv4aHtL
-VoydZvONdKJZ4VnDL27ARNwqO8fh/rAm06eVQKzSl7pKMzHgjCTMOyMl6knUiCij
-8gVsOEiBEs2G8+UW3M5J/k6Q2tAhcoemJ27ZcRzdpOEko6nZLBgmW4d937TimfYz
-15IWWWk7Zix1F/qcuYj4lYPGfnkVijyP73nLgW7t9FbVQYIq0ni16hQWOMMo3ClP
-35Yxr2S0Ova1BBTriG++BqfN4cBvIpghlseb0BjIxPbWkFznErIiySGGC4zixUVM
-wErInEvZIAPS5M4Gj4Le3hHTCjdUwFktIIAoExwFp+ttUsI1G4VmW/dEcOH0ZqM7
-nns4jWreNtZwtk450CtdtQMcAPan12JhvanuPm97h+dDZpDqFQVhZAA0Lk5/8Bo/
-Trx8BTsyMRV4jOtKCVcNarsdN/5NefWZ0zwizgMDX5EmkmKm5Hbh4UZO5DzJfKGf
-sHg2k7l4lsw+V7UeK/SL5RzjchaCEoIkFHBHyeoUwhKGl8VyTkxGoh4nsBvCSu2A
-SGI5Gmok+hfna8WEXgl/qhv6NPACdW9EnC5YxuUyjuC45Mf0XTk=
-=m/92
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl/bc5UACgkQ3SOs138+
+s6EBzxAAq3HvcNtFiWElWKh9GGfrXYJAGBC3RHJPAOe0lYIfQlvBBbCnatiPqEEm
+IfdoQcNF0EejAYZ6TvkUvICIpbJ9gNv2mes7MW+7qg4+rml76dAcVlPde0lap9oj
+1J0qKl9bcwckRsCIHsa+A0NK2vf1BO/Slh4y5YqHJf6F2cU0YZBjX5DiqjYnaDyD
+tx7CuZDcuwaUDHSfSZECL2fCmqdSkcUrXI3tLGTnS4OUualtZUh843Lf8fWoouAj
+7ZHuA+SYx+ZgTbM7OZczx2h7mBYb4LGHAIkqyj57ZFu5GZozZBgZ+oqIp9QRw343
+UoznZj/kpj64oNQI3WG8ecSG8vhObHRzgpqiX7+OzhAXMceRr41SuXglJOiqpi2d
+/uk8i1sqG+SVET1BjsPukhQXetvt5QwaXQly2vMad/vNkUrzrAlefjSduKJ2i5Gz
+1p4eDwpRpQ+VLZy/6zCOJjGmXUJAfCA+tUfCKcJwvaaVyLcjcKczCBomHdcwLrQG
+Nii7y1ctcHxG5mhTxHDbgx9cQtWqVuSosDylVp7MZweJTYTVIHDJ/EG/Q9IUqcCh
+aSj99DKpY8LMB+fvCgz+6oF2iBvjC2NoinOcV0s5AtXFbX9VDc1SO8EpLPaxhWX+
+5S7dZkM2aJBlL8IWSNKCorDvcOSaU0yX/n3Ho/hEZz0OuBhht9M=
+=E4e/
 -----END PGP SIGNATURE-----
 
---OW10L9f0L2MzRxHp--
+--cOXpBbUiKUTaRQTC--
