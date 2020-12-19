@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F012C3526C
-	for <linux-usb@archiver.kernel.org>; Sat, 19 Dec 2020 12:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37886C35273
+	for <linux-usb@archiver.kernel.org>; Sat, 19 Dec 2020 13:02:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E832D23B86
-	for <linux-usb@archiver.kernel.org>; Sat, 19 Dec 2020 12:58:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DBCC23C41
+	for <linux-usb@archiver.kernel.org>; Sat, 19 Dec 2020 13:02:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727348AbgLSM54 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 19 Dec 2020 07:57:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44168 "EHLO mail.kernel.org"
+        id S1726989AbgLSNCP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 19 Dec 2020 08:02:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726752AbgLSM5g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 19 Dec 2020 07:57:36 -0500
+        id S1727986AbgLSM7G (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 19 Dec 2020 07:59:06 -0500
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To:     linux-kernel@vger.kernel.org
@@ -26,12 +26,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         stable@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Thomas Winischhofer <thomas@winischhofer.net>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 5.10 14/16] USB: sisusbvga: Make console support depend on BROKEN
-Date:   Sat, 19 Dec 2020 13:57:21 +0100
-Message-Id: <20201219125339.772799620@linuxfoundation.org>
+Subject: [PATCH 5.9 43/49] USB: sisusbvga: Make console support depend on BROKEN
+Date:   Sat, 19 Dec 2020 13:58:47 +0100
+Message-Id: <20201219125346.774463378@linuxfoundation.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201219125339.066340030@linuxfoundation.org>
-References: <20201219125339.066340030@linuxfoundation.org>
+In-Reply-To: <20201219125344.671832095@linuxfoundation.org>
+References: <20201219125344.671832095@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
