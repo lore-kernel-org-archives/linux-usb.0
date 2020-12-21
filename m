@@ -2,97 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F5DC433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 16:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF913C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 17:10:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E163B22CAF
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 16:27:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A157022BF3
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 17:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725869AbgLUQ1V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Dec 2020 11:27:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33410 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725849AbgLUQ1V (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Dec 2020 11:27:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1608567955;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=KgDwPayZceRj0ay5WxA4Idk2hKnb73d2HewcvKPRHSI=;
-        b=XHfR1s9wZcAMCr7fYLMQxKrHfsA47F2pnBdTb+FpX4425ihnzd2OHYBrUR+l3CU3G9MpH9
-        3gmbalz9Y3CgZNNLFVeTSJSFYsTsFhHenUtxBQKTxCg12h9EUDxU1etOxjakjdEsryyPmp
-        wDY0OPCPTxEtB9AqrtmHztml/bPtcVc=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-kFZIui-uPw6h3yxdDPtScQ-1; Mon, 21 Dec 2020 11:25:53 -0500
-X-MC-Unique: kFZIui-uPw6h3yxdDPtScQ-1
-Received: by mail-oi1-f200.google.com with SMTP id f15so5682156oig.11
-        for <linux-usb@vger.kernel.org>; Mon, 21 Dec 2020 08:25:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KgDwPayZceRj0ay5WxA4Idk2hKnb73d2HewcvKPRHSI=;
-        b=H8X8e+vdfVLB4xjwjBrDZaPEENXfPnE3efg9Vl6h/Zu0oJtYfYSm2qlwpWqQDatzQS
-         kdiM8d53UOshIuNw2iuQ5vbnilE0OqFn6C25xYqy4+4n4T8HtUFdXOm9IaaNa85NwuRl
-         x5lVRzAakg2Be+L1/+JkCScfPEQLcVhGkLNpdvmm8UMn5njmV5nNbqcvch+IfQINdmni
-         OCtDIq89bDPw2feenZ702pZm+Fbjob2ycwcwT5wmxZuyAJTo+2V7UXPYz0mZqqmwB+Oa
-         kj6ykIfK31oA8df2Qn3pvc7AK49pIRoe/Vzgn2AvTWzQJPDD0C4S1HruwtX7zFOqMGKD
-         9rzw==
-X-Gm-Message-State: AOAM53133QuKTM6a8X/SIOVtbKfNaA/4XafwIFXC92Ihkn0e8TUfhdrI
-        oqgqAvUO9sd92NpRlsLuQZL7M8cRO3I4MABqt+2/9YodYMtnBXKftVvysvxKQXk/KyJp1oVZ4sT
-        haDeZi9OJ7Ugay24cRCyN
-X-Received: by 2002:a4a:11c2:: with SMTP id 185mr12124316ooc.85.1608567952624;
-        Mon, 21 Dec 2020 08:25:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyFJxJULTiskpg9tHuVN2y6KgrzO2t2HGJPJ0ft+RMn1qj5mMl9GLBJUBmnPWOaE+zJBPpY1g==
-X-Received: by 2002:a4a:11c2:: with SMTP id 185mr12124312ooc.85.1608567952470;
-        Mon, 21 Dec 2020 08:25:52 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id b188sm137341oif.49.2020.12.21.08.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 08:25:51 -0800 (PST)
-From:   trix@redhat.com
-To:     b-liu@ti.com, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] usb: musb: add printf attribute to log function
-Date:   Mon, 21 Dec 2020 08:25:47 -0800
-Message-Id: <20201221162547.3756889-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+        id S1725865AbgLURJv convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Dec 2020 12:09:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58208 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725825AbgLURJv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Dec 2020 12:09:51 -0500
+From:   bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 210801] TopSeed Technology Corp. eHome Infrared Transceiver
+ spams log with Error: urb status = -71
+Date:   Mon, 21 Dec 2020 17:09:10 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210801-208809-me2Scyxda1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210801-208809@https.bugzilla.kernel.org/>
+References: <bug-210801-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=210801
 
-Attributing the function allows the compiler to more thoroughly
-check the use of the function with -Wformat and similar flags.
+--- Comment #2 from Alan Stern (stern@rowland.harvard.edu) ---
+There are two things you can do to help solve the problem.  The first is to use
+git bisect to find the kernel change which caused the error messages to start
+appearing.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/usb/musb/musb_debug.h | 1 +
- 1 file changed, 1 insertion(+)
+The second is to capture some usbmon traces (see Documentation/usb/usbmon.rst
+in the kernel source).  Comparing a trace from the current kernel with a trace
+from an earlier kernel where the errors don't appear might provide some clues.
 
-diff --git a/drivers/usb/musb/musb_debug.h b/drivers/usb/musb/musb_debug.h
-index e5b3506c7b3f..dfc0d02695fa 100644
---- a/drivers/usb/musb/musb_debug.h
-+++ b/drivers/usb/musb/musb_debug.h
-@@ -17,6 +17,7 @@
- #define INFO(fmt, args...) yprintk(KERN_INFO, fmt, ## args)
- #define ERR(fmt, args...) yprintk(KERN_ERR, fmt, ## args)
- 
-+__printf(2, 3)
- void musb_dbg(struct musb *musb, const char *fmt, ...);
- 
- #ifdef CONFIG_DEBUG_FS
 -- 
-2.27.0
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
