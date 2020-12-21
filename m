@@ -2,94 +2,129 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BE2C433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 15:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8D0C433DB
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 16:26:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CEE322BEA
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 15:10:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B06922B51
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Dec 2020 16:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725783AbgLUPJ6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Dec 2020 10:09:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33456 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725777AbgLUPJ6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Dec 2020 10:09:58 -0500
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@nxp.com>
-Cc:     Jun Li <jun.li@nxp.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: host: xhci-plat: fix support for XHCI_SKIP_PHY_INIT quirk
-Date:   Mon, 21 Dec 2020 16:09:03 +0100
-Message-Id: <20201221150903.26630-1-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S1725807AbgLUQ0d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Dec 2020 11:26:33 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:45557 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725780AbgLUQ0d (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Dec 2020 11:26:33 -0500
+Received: (qmail 437704 invoked by uid 1000); 21 Dec 2020 11:25:51 -0500
+Date:   Mon, 21 Dec 2020 11:25:51 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Jun Li <lijun.kernel@gmail.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: port power is on again after turning off by user space
+Message-ID: <20201221162551.GB436749@rowland.harvard.edu>
+References: <DBBPR04MB79793525394F70DE397E24038BC60@DBBPR04MB7979.eurprd04.prod.outlook.com>
+ <CAKgpwJXMFSHxi7vE5cOxkYPTnY74oB-SKf3FikerCzFDLYqcbw@mail.gmail.com>
+ <20201215051402.GC2142@b29397-desktop>
+ <DBBPR04MB79790C8D243173467AE94D4E8BC60@DBBPR04MB7979.eurprd04.prod.outlook.com>
+ <20201215155541.GA195633@rowland.harvard.edu>
+ <20201216025549.GA5595@b29397-desktop>
+ <20201216155144.GA238371@rowland.harvard.edu>
+ <20201221053659.GA26433@b29397-desktop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201221053659.GA26433@b29397-desktop>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently init_quirk callbacks for xhci platform drivers are called
-xhci_plat_setup() function which is called after chip reset completes.
-It happens in the middle of the usb_add_hcd() function.
+On Mon, Dec 21, 2020 at 05:37:29AM +0000, Peter Chen wrote:
+> On 20-12-16 10:51:44, Alan Stern wrote:
+> > On Wed, Dec 16, 2020 at 02:56:20AM +0000, Peter Chen wrote:
+> > > On 20-12-15 10:55:41, Alan Stern wrote:
+> > > > You've got the general idea.
+> > > > 
+> > > > Normally ports are owned by the hub driver.  If one of them loses power 
+> > > > for some reason (for example, the user turns it off), the hub driver 
+> > > > will turn the power back on.  This is because the hub driver wants 
+> > > > ports to be powered at all times unless they are in runtime suspend.
+> > > > 
+> > > > The way to prevent the hub driver from managing the port power is to 
+> > > > claim the port for the user, by issuing the USBDEVFS_CLAIM_PORT ioctl.  
+> > > > Also, when that is done, the kernel wno't try to manage a device 
+> > > > attached to the port -- that is, the kernel won't automatically install 
+> > > > a configuration for a new device and it won't try to probe drivers for 
+> > > > the device's interfaces if the user installs a config.
+> > > > 
+> > > 
+> > > Alan, we have several use cases for power switchable HUB, one of the use
+> > > cases is USB port is managed by kernel (eg, needs mass storage
+> > > class), but needs to toggle port power, is it reasonable we add a sysfs
+> > > entry to support it?
+> > 
+> > Can you give more information about your use cases?  After all, if the 
+> > port power is turned off then the port can't possibly handle 
+> > mass-storage devices -- or anything else.
+> 
+> Sorry, Alan. Due to holiday season, the U.S team doesn't reply me the
+> use case. I think the basic use cases are emulate the hot-plug test for
+> USB devices, the USB devices could be Flash Drive on market or DUT (Device
+> Under test) for the same controller works at device mode. Assume one
+> typical test case:
+> 
+> Plug in Flash Drive at port 1-1.1 during the boots up:
+> 
+> while (1) {
+> - Check Flash Drive is there (eg, cat /proc/partitions)
+> - Turn port 1 at 1-1 off
+> - Check Flash Drive is gone
+> - Turn port 1 at 1-1 on
+> }
 
-But XHCI_SKIP_PHY_INIT quirk is checked in the xhci_plat_probe() function
-prior calling usb_add_hcd() function. Therefore this XHCI_SKIP_PHY_INIT
-currently does nothing as prior xhci_plat_setup() it is not set.
+Okay.  This can be done as follows:
 
-Quirk XHCI_SKIP_PHY_INIT is only setting hcd->skip_phy_initialization value
-which really needs to be set prior calling usb_add_hcd() as this function
-at its beginning skips PHY init if this member is set.
+while (1) {
+- Check Flash Drive is there (eg, cat /proc/partitions)
+- Claim port 1 on 1-1
+- Turn port 1 at 1-1 off
+- Check Flash Drive is gone
+- Release port 1 on 1-1
+- Turn port 1 at 1-1 on
+- Delay for 10 seconds (time for device probing)
+}
 
-This patch fixes implementation of the XHCI_SKIP_PHY_INIT quirk by calling
-init_quirk callbacks (via xhci_priv_init_quirk()) prior checking if
-XHCI_SKIP_PHY_INIT is set.
 
-Fixes: f768e718911e0 ("usb: host: xhci-plat: add priv quirk for skip PHY initialization")
-Signed-off-by: Pali Rohár <pali@kernel.org>
----
- drivers/usb/host/xhci-plat.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+> > On the other hand, if the port is managed by the kernel then the kernel 
+> > (not the user) should be responsible for deciding whether or not to 
+> > turn off the port's power.
+> > 
+> > If there's some real reason for turning the port power off for an 
+> > extended period of time, the user can claim the port and turn off the 
+> > power.  Then later on, the user can release the port and turn the power 
+> > back on.
+> > 
+> 
+> Yes, I think this is one of the use cases. We want power power control
+> at one application (A), but different with our test application(B), it means
+> if the user claims the port, and power off using A, then the A will end.
+> After the B finished running, A runs again for power on, but at this time,
+> the port owner has changed.
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 4d34f6005381..58704c5b002b 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -89,13 +89,6 @@ static void xhci_plat_quirks(struct device *dev, struct xhci_hcd *xhci)
- /* called during probe() after chip reset completes */
- static int xhci_plat_setup(struct usb_hcd *hcd)
- {
--	int ret;
--
--
--	ret = xhci_priv_init_quirk(hcd);
--	if (ret)
--		return ret;
--
- 	return xhci_gen_setup(hcd, xhci_plat_quirks);
- }
- 
-@@ -330,6 +323,13 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 
- 	hcd->tpl_support = of_usb_host_tpl_support(sysdev->of_node);
- 	xhci->shared_hcd->tpl_support = hcd->tpl_support;
-+
-+	if (priv) {
-+		ret = xhci_priv_init_quirk(hcd);
-+		if (ret)
-+			goto disable_usb_phy;
-+	}
-+
- 	if (priv && (priv->quirks & XHCI_SKIP_PHY_INIT))
- 		hcd->skip_phy_initialization = 1;
- 
--- 
-2.20.1
+Yes, that won't work.  If you want to keep the port power turned off 
+then you have to keep the usbfs device file open -- which means your 
+program A must not end and then restart.
 
+(Acutally, I'm not certain about that.  If you claim a port, turn off 
+its power, and then release the port, I don't remember whether the hub 
+driver will then turn the power back on right away.  It might not.  
+But in any case, it isn't good programming to release a port without 
+turning its power back on.)
+
+Can A be rewritten so that it doesn't end when B is running?
+
+ALan Stern
