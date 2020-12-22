@@ -2,144 +2,142 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B918CC433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B947C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:36:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89F6B2310D
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:24:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDFE523103
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:36:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725964AbgLVJYL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Dec 2020 04:24:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53146 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725947AbgLVJYK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Dec 2020 04:24:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C88DF23103;
-        Tue, 22 Dec 2020 09:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608629009;
-        bh=qCqELfT57AvpMFFVLIkE1zpXaxirvic0pVHoJrdiDf0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VXG6q1jDnolpc2Kco5fiYlkd1rYrT7BhErvPLh1wTOdPE3UaR8NT5QnzffHEX5/Y3
-         3Mq4rBK4Q4NVT/7dMsnRGi9seBbVZhH1wlEfWRgffmC/7H3AgoVcUKpRjjWTDELEbU
-         yPmZb+25uO9fYz8uhk1Yx6j/YrkntiJGSx3DNrPY8tBBvV0ayJiTR5BoAQmtjs6n2i
-         CGmxviehaIdo/3+OZC90LSBzdi7XHGPd8sccX5LV9An1akhAlMUJo4CS8PbHZHfP6m
-         XIUF0vPu0AkFve+KcXryLWhkKVFDpG1Wu8JULU3qT6V4ZIUl3OjhTR6nj6mkNdPH3M
-         nbqooLM6dhBPA==
-Received: by pali.im (Postfix)
-        id 7CA6C848; Tue, 22 Dec 2020 10:23:27 +0100 (CET)
-Date:   Tue, 22 Dec 2020 10:23:27 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jun Li <jun.li@nxp.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: host: xhci-plat: fix support for XHCI_SKIP_PHY_INIT
- quirk
-Message-ID: <20201222092327.jq5b7g4bffeccq3o@pali>
-References: <20201221150903.26630-1-pali@kernel.org>
- <20201222021416.GB4706@b29397-desktop>
+        id S1725913AbgLVJfp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Dec 2020 04:35:45 -0500
+Received: from mailgw02.mediatek.com ([1.203.163.81]:3991 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725895AbgLVJfo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Dec 2020 04:35:44 -0500
+X-UUID: 1f47d6a946494a5996f43e801bdcac1f-20201222
+X-UUID: 1f47d6a946494a5996f43e801bdcac1f-20201222
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 253076222; Tue, 22 Dec 2020 17:34:59 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 22 Dec 2020 17:34:57 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 22 Dec 2020 17:34:55 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Ikjoon Jang <ikjn@chromium.org>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Zhanyong Wang <zhangyong.wang@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Zhanyong Wang <zhanyong.wang@mediatek.com>
+Subject: [RFC PATCH v3 5/5] arm64: dts: mt8192: add SSUSB related nodes
+Date:   Tue, 22 Dec 2020 17:34:42 +0800
+Message-ID: <1608629682-8535-5-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1608629682-8535-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1608629682-8535-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201222021416.GB4706@b29397-desktop>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 13DABBDEFD78ED4A7DB3C280B058F72B960972A49665467DDC424A771ACA78A32000:8
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tuesday 22 December 2020 02:14:45 Peter Chen wrote:
-> On 20-12-21 16:09:03, Pali Rohár wrote:
-> > Currently init_quirk callbacks for xhci platform drivers are called
-> > xhci_plat_setup() function which is called after chip reset completes.
-> > It happens in the middle of the usb_add_hcd() function.
-> > 
-> > But XHCI_SKIP_PHY_INIT quirk is checked in the xhci_plat_probe() function
-> > prior calling usb_add_hcd() function. Therefore this XHCI_SKIP_PHY_INIT
-> > currently does nothing as prior xhci_plat_setup() it is not set.
-> > 
-> > Quirk XHCI_SKIP_PHY_INIT is only setting hcd->skip_phy_initialization value
-> > which really needs to be set prior calling usb_add_hcd() as this function
-> > at its beginning skips PHY init if this member is set.
-> > 
-> > This patch fixes implementation of the XHCI_SKIP_PHY_INIT quirk by calling
-> > init_quirk callbacks (via xhci_priv_init_quirk()) prior checking if
-> > XHCI_SKIP_PHY_INIT is set.
-> > 
-> > Fixes: f768e718911e0 ("usb: host: xhci-plat: add priv quirk for skip PHY initialization")
-> > Signed-off-by: Pali Rohár <pali@kernel.org>
-> > ---
-> >  drivers/usb/host/xhci-plat.c | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-> > index 4d34f6005381..58704c5b002b 100644
-> > --- a/drivers/usb/host/xhci-plat.c
-> > +++ b/drivers/usb/host/xhci-plat.c
-> > @@ -89,13 +89,6 @@ static void xhci_plat_quirks(struct device *dev, struct xhci_hcd *xhci)
-> >  /* called during probe() after chip reset completes */
-> >  static int xhci_plat_setup(struct usb_hcd *hcd)
-> >  {
-> > -	int ret;
-> > -
-> > -
-> > -	ret = xhci_priv_init_quirk(hcd);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> >  	return xhci_gen_setup(hcd, xhci_plat_quirks);
-> >  }
-> >  
-> > @@ -330,6 +323,13 @@ static int xhci_plat_probe(struct platform_device *pdev)
-> >  
-> >  	hcd->tpl_support = of_usb_host_tpl_support(sysdev->of_node);
-> >  	xhci->shared_hcd->tpl_support = hcd->tpl_support;
-> > +
-> > +	if (priv) {
-> > +		ret = xhci_priv_init_quirk(hcd);
-> > +		if (ret)
-> > +			goto disable_usb_phy;
-> > +	}
-> > +
-> >  	if (priv && (priv->quirks & XHCI_SKIP_PHY_INIT))
-> >  		hcd->skip_phy_initialization = 1;
-> >  
-> 
-> Hi Pali,
-> 
-> What's problem you have met? In structure xhci_plat_priv, the quirks are
-> defined at .quirks entry which is got at below code. .init_quirk is the
-> routine if special initializations are needed.
+From: Zhanyong Wang <zhanyong.wang@mediatek.com>
 
-Hello!
+Add SSUSB related nodes for mt8192
 
-I'm talking about .init_quirk. And if XHCI_SKIP_PHY_INIT quirk is set in
-this function then has no effect.
+Signed-off-by: Zhanyong Wang <zhanyong.wang@mediatek.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3: rename node as 'usb' instead of xhci
 
-I'm working currently on patch for xhci mvebu which conditionally enable
-or disable XHCI_SKIP_PHY_INIT quirk (it is going to fix existing
-regression since v5.1 kernel) and without this patch XHCI_SKIP_PHY_INIT
-quirk from the init_quirk does not work.
+v2: include phy.h file
 
-> 	if (pdev->dev.of_node)
-> 		priv_match = of_device_get_match_data(&pdev->dev);
-> 	else
-> 		priv_match = dev_get_platdata(&pdev->dev);
-> 
-> 	if (priv_match) {
-> 		priv = hcd_to_xhci_priv(hcd);
-> 		/* Just copy data for now */
-> 		*priv = *priv_match;
-> 	}
-> -- 
-> 
-> Thanks,
-> Peter Chen
+Depends on:
+https://patchwork.kernel.org/patch/11713559/
+[v4,1/3] arm64: dts: Add Mediatek SoC MT8192 and evaluation board dts and Makefile
+---
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi | 49 ++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+index 69d45c7b31f1..82d9f6eee404 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+@@ -9,6 +9,7 @@
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/pinctrl/mt8192-pinfunc.h>
++#include <dt-bindings/phy/phy.h>
+ 
+ / {
+ 	compatible = "mediatek,mt8192";
+@@ -416,6 +417,54 @@
+ 			status = "disabled";
+ 		};
+ 
++		xhci: usb@11200000 {
++			compatible = "mediatek,mt8192-xhci",
++				     "mediatek,mtk-xhci";
++			reg = <0 0x11200000 0 0x1000>,
++			      <0 0x11203e00 0 0x0100>;
++			reg-names = "mac", "ippc";
++			interrupts-extended = <&gic GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>,
++					      <&pio 211 IRQ_TYPE_LEVEL_LOW>;
++			phys = <&u2port0 PHY_TYPE_USB2>,
++			       <&u3port0 PHY_TYPE_USB3>;
++			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_SEL>,
++					  <&topckgen CLK_TOP_SSUSB_XHCI_SEL>;
++			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
++						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
++			clocks = <&infracfg CLK_INFRA_SSUSB>,
++				 <&infracfg CLK_INFRA_SSUSB_XHCI>,
++				 <&apmixedsys CLK_APMIXED_USBPLL>;
++			clock-names = "sys_ck", "xhci_ck", "ref_ck";
++			mediatek,syscon-wakeup = <&pericfg 0x420 3>;
++			#address-cells = <2>;
++			#size-cells = <2>;
++		};
++
++		u3phy0: usb-phy@11e40000 {
++			compatible = "mediatek,mt8192-tphy",
++				     "mediatek,generic-tphy-v2";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++			status = "okay";
++
++			u2port0: usb-phy@11e40000 {
++				reg = <0 0x11e40000 0 0x700>;
++				clocks = <&clk26m>;
++				clock-names = "ref";
++				#phy-cells = <1>;
++				status = "okay";
++			};
++
++			u3port0: usb-phy@11e40700 {
++				reg = <0 0x11e40700 0 0x900>;
++				clocks = <&clk26m>;
++				clock-names = "ref";
++				#phy-cells = <1>;
++				status = "okay";
++			};
++		};
++
+ 		audsys: syscon@11210000 {
+ 			compatible = "mediatek,mt8192-audsys", "syscon";
+ 			reg = <0 0x11210000 0 0x1000>;
+-- 
+2.18.0
+
