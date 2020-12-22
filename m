@@ -2,296 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 633DCC43331
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A4BC433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:53:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3232C23332
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:36:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00A102312E
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Dec 2020 09:53:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726187AbgLVJf6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Dec 2020 04:35:58 -0500
-Received: from mailgw02.mediatek.com ([1.203.163.81]:64058 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725882AbgLVJf5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Dec 2020 04:35:57 -0500
-X-UUID: df371734ab3c44b999c85cbc534ca34f-20201222
-X-UUID: df371734ab3c44b999c85cbc534ca34f-20201222
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1067787219; Tue, 22 Dec 2020 17:34:54 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 22 Dec 2020 17:34:52 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Dec 2020 17:34:50 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Ikjoon Jang <ikjn@chromium.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Zhanyong Wang <zhangyong.wang@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Zhanyong Wang <zhanyong.wang@mediatek.com>,
-        Yaqii Wu <yaqii.wu@mediatek.com>
-Subject: [RFC PATCH v3 1/5] usb: xhci-mtk: improve bandwidth scheduling with multi-TT
-Date:   Tue, 22 Dec 2020 17:34:38 +0800
-Message-ID: <1608629682-8535-1-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
+        id S1725854AbgLVJxc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Dec 2020 04:53:32 -0500
+Received: from smtprelay0042.hostedemail.com ([216.40.44.42]:45686 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725811AbgLVJxc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Dec 2020 04:53:32 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 1A3B21822186D;
+        Tue, 22 Dec 2020 09:52:51 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: straw06_580ca3a2745f
+X-Filterd-Recvd-Size: 3803
+Received: from XPS-9350.home (unknown [47.151.137.21])
+        (Authenticated sender: joe@perches.com)
+        by omf15.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 22 Dec 2020 09:52:50 +0000 (UTC)
+Message-ID: <6ea843411793073040bb8d518fca84f5b66b86aa.camel@perches.com>
+Subject: Re: [PATCH] usb: musb: add printf attribute to log function
+From:   Joe Perches <joe@perches.com>
+To:     Greg KH <gregkh@linuxfoundation.org>, trix@redhat.com
+Cc:     b-liu@ti.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 22 Dec 2020 01:52:48 -0800
+In-Reply-To: <X+Gzvo3vPBFGKAy+@kroah.com>
+References: <20201221162547.3756889-1-trix@redhat.com>
+         <X+Gzvo3vPBFGKAy+@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 9F5E60664AA303661E69680B986883877310DF91EE64BD122A745F1CB41CA4E52000:8
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Zhanyong Wang <zhanyong.wang@mediatek.com>
+On Tue, 2020-12-22 at 09:52 +0100, Greg KH wrote:
+> On Mon, Dec 21, 2020 at 08:25:47AM -0800, trix@redhat.com wrote:
+> > From: Tom Rix <trix@redhat.com>
+> > 
+> > Attributing the function allows the compiler to more thoroughly
+> > check the use of the function with -Wformat and similar flags.
+> > 
+> > Signed-off-by: Tom Rix <trix@redhat.com>
+> > ---
+> >  drivers/usb/musb/musb_debug.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/usb/musb/musb_debug.h b/drivers/usb/musb/musb_debug.h
+> > index e5b3506c7b3f..dfc0d02695fa 100644
+> > --- a/drivers/usb/musb/musb_debug.h
+> > +++ b/drivers/usb/musb/musb_debug.h
+> > @@ -17,6 +17,7 @@
+> >  #define INFO(fmt, args...) yprintk(KERN_INFO, fmt, ## args)
+> >  #define ERR(fmt, args...) yprintk(KERN_ERR, fmt, ## args)
+> >  
+> > 
+> > +__printf(2, 3)
+> >  void musb_dbg(struct musb *musb, const char *fmt, ...);
+> 
+> While I understand the need for this, did this find any problems?
+> If not, then it's not worth adding,
 
-After inserted the usb type-c 3.5mm dongle with headset, dmesg showed:
-usb 1-1.1: new full-speed USB device number 5 using xhci-mtk
-usb 1-1.1: New USB device found, idVendor=05ac, idProduct=110a, bcdDevice=26.11
-usb 1-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-usb 1-1.1: Product: USB-C to 3.5mm Headphone Jack Adapter
-usb 1-1.1: Manufacturer: Apple, Inc.
-usb 1-1.1: SerialNumber: DWH915501TFJKLTAM
-xhci-mtk 11200000.xhci: Not enough bandwidth!
-usb 1-1.1: can't set config #2, error -28
+I have to disagree with that Greg.  While the driver isn't in active
+development, a trivial mod to make it less likely a defect is introduced
+by any additional code is still a useful addition.
 
-improve low-speed/full-speed INT/ISOC bandwidth scheduling with USB
-muli-TT.
+> the driver-specific debugging macros
+> should be removed entirely and just use dev_dbg() and friends instead.
 
-Signed-off-by: Yaqii Wu <yaqii.wu@mediatek.com>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2~v3: no changes
----
- drivers/usb/host/xhci-mtk-sch.c | 91 ++++++++++++++++++++++++++++-----
- drivers/usb/host/xhci-mtk.h     |  8 ++-
- 2 files changed, 84 insertions(+), 15 deletions(-)
- mode change 100644 => 100755 drivers/usb/host/xhci-mtk-sch.c
+Read the suggested change I posted in reply.
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-old mode 100644
-new mode 100755
-index 45c54d56ecbd..94292b9bbc63
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -383,7 +383,9 @@ static int check_sch_tt(struct usb_device *udev,
- 	u32 fs_budget_start;
- 	u32 start_ss, last_ss;
- 	u32 start_cs, last_cs;
--	int i;
-+	u32 num_esit, base;
-+	int i, j;
-+	u32 tmp;
- 
- 	start_ss = offset % 8;
- 	fs_budget_start = (start_ss + 1) % 8;
-@@ -398,10 +400,13 @@ static int check_sch_tt(struct usb_device *udev,
- 		if (!(start_ss == 7 || last_ss < 6))
- 			return -ERANGE;
- 
--		for (i = 0; i < sch_ep->cs_count; i++)
--			if (test_bit(offset + i, tt->split_bit_map))
-+		for (i = 0; i < sch_ep->cs_count; i++) {
-+			if (test_bit(offset + i, tt->ss_bit_map))
- 				return -ERANGE;
- 
-+			if (test_bit(offset + i, tt->cs_bit_map))
-+				return -ERANGE;
-+		}
- 	} else {
- 		u32 cs_count = DIV_ROUND_UP(sch_ep->maxpkt, FS_PAYLOAD_MAX);
- 
-@@ -428,8 +433,10 @@ static int check_sch_tt(struct usb_device *udev,
- 		if (cs_count > 7)
- 			cs_count = 7; /* HW limit */
- 
--		for (i = 0; i < cs_count + 2; i++) {
--			if (test_bit(offset + i, tt->split_bit_map))
-+		if (test_bit(offset, tt->ss_bit_map))
-+			return -ERANGE;
-+		for (i = 0; i < cs_count; i++) {
-+			if (test_bit(offset + 2 + i, tt->cs_bit_map))
- 				return -ERANGE;
- 		}
- 
-@@ -445,11 +452,22 @@ static int check_sch_tt(struct usb_device *udev,
- 			sch_ep->num_budget_microframes = sch_ep->esit;
- 	}
- 
-+	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
-+	for (i = 0; i < num_esit; i++) {
-+		base = sch_ep->offset + i * sch_ep->esit;
-+		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
-+			tmp = tt->fs_bus_bw[base + j]
-+			      + sch_ep->bw_cost_per_microframe;
-+			if (tmp > FS_PAYLOAD_MAX)
-+				return -ERANGE;
-+		}
-+	}
-+
- 	return 0;
- }
- 
- static void update_sch_tt(struct usb_device *udev,
--	struct mu3h_sch_ep_info *sch_ep)
-+	struct mu3h_sch_ep_info *sch_ep, bool used)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
- 	u32 base, num_esit;
-@@ -458,11 +476,52 @@ static void update_sch_tt(struct usb_device *udev,
- 	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
- 	for (i = 0; i < num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
--		for (j = 0; j < sch_ep->num_budget_microframes; j++)
--			set_bit(base + j, tt->split_bit_map);
-+		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
-+			if (used)
-+				set_bit(base + j, tt->split_bit_map);
-+			else
-+				clear_bit(base + j, tt->split_bit_map);
-+		}
-+
-+		if (sch_ep->ep_type == ISOC_OUT_EP) {
-+			for (j = 0; j < sch_ep->num_budget_microframes; j++) {
-+				if (used) {
-+					set_bit(base + j, tt->ss_bit_map);
-+					set_bit(base + j, tt->cs_bit_map);
-+					tt->fs_bus_bw[base + j] +=
-+						sch_ep->bw_cost_per_microframe;
-+				} else {
-+					clear_bit(base + j, tt->ss_bit_map);
-+					clear_bit(base + j, tt->cs_bit_map);
-+					tt->fs_bus_bw[base + j] -=
-+						sch_ep->bw_cost_per_microframe;
-+				}
-+			}
-+		} else {
-+			if (used)
-+				set_bit(base, tt->ss_bit_map);
-+			else
-+				clear_bit(base, tt->ss_bit_map);
-+
-+			for (j = 0; j < sch_ep->cs_count; j++) {
-+				if (used) {
-+					set_bit(base + 2 + j, tt->cs_bit_map);
-+
-+					tt->fs_bus_bw[base + 2 + j] +=
-+						sch_ep->bw_cost_per_microframe;
-+				} else {
-+					clear_bit(base + 2 + j, tt->cs_bit_map);
-+					tt->fs_bus_bw[base + 2 + j] -=
-+						sch_ep->bw_cost_per_microframe;
-+				}
-+			}
-+		}
- 	}
- 
--	list_add_tail(&sch_ep->tt_endpoint, &tt->ep_list);
-+	if (used)
-+		list_add_tail(&sch_ep->tt_endpoint, &tt->ep_list);
-+	else
-+		list_del(&sch_ep->tt_endpoint);
- }
- 
- static int check_sch_bw(struct usb_device *udev,
-@@ -470,6 +529,7 @@ static int check_sch_bw(struct usb_device *udev,
- {
- 	u32 offset;
- 	u32 esit;
-+	u32 boundary;
- 	u32 min_bw;
- 	u32 min_index;
- 	u32 worst_bw;
-@@ -487,10 +547,13 @@ static int check_sch_bw(struct usb_device *udev,
- 	 */
- 	min_bw = ~0;
- 	min_index = 0;
-+	boundary = esit;
- 	min_cs_count = sch_ep->cs_count;
- 	min_num_budget = sch_ep->num_budget_microframes;
- 	for (offset = 0; offset < esit; offset++) {
- 		if (is_fs_or_ls(udev->speed)) {
-+			if (sch_ep->ep_type != ISOC_OUT_EP)
-+				boundary = esit + 1;
- 			ret = check_sch_tt(udev, sch_ep, offset);
- 			if (ret)
- 				continue;
-@@ -498,7 +561,7 @@ static int check_sch_bw(struct usb_device *udev,
- 				tt_offset_ok = true;
- 		}
- 
--		if ((offset + sch_ep->num_budget_microframes) > sch_ep->esit)
-+		if ((offset + sch_ep->num_budget_microframes) > boundary)
- 			break;
- 
- 		worst_bw = get_max_bw(sch_bw, sch_ep, offset);
-@@ -532,7 +595,7 @@ static int check_sch_bw(struct usb_device *udev,
- 		if (!tt_offset_ok)
- 			return -ERANGE;
- 
--		update_sch_tt(udev, sch_ep);
-+		update_sch_tt(udev, sch_ep, 1);
- 	}
- 
- 	/* update bus bandwidth info */
-@@ -696,12 +759,12 @@ void xhci_mtk_drop_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
- 
- 	list_for_each_entry(sch_ep, &sch_bw->bw_ep_list, endpoint) {
- 		if (sch_ep->ep == ep) {
--			update_bus_bw(sch_bw, sch_ep, 0);
--			list_del(&sch_ep->endpoint);
- 			if (is_fs_or_ls(udev->speed)) {
--				list_del(&sch_ep->tt_endpoint);
-+				update_sch_tt(udev, sch_ep, 0);
- 				drop_tt(udev);
- 			}
-+			update_bus_bw(sch_bw, sch_ep, 0);
-+			list_del(&sch_ep->endpoint);
- 			kfree(sch_ep);
- 			break;
- 		}
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index a93cfe817904..323b281933b9 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -21,12 +21,18 @@
- 
- /**
-  * @split_bit_map: used to avoid split microframes overlay
-+ * @ss_bit_map: used to avoid start split microframes overlay
-+ * @cs_bit_map: used to avoid complete split microframes overlay
-+ * @fs_bus_bw: array to keep track of bandwidth already used at full speed
-  * @ep_list: Endpoints using this TT
-  * @usb_tt: usb TT related
-  * @tt_port: TT port number
-  */
- struct mu3h_sch_tt {
- 	DECLARE_BITMAP(split_bit_map, XHCI_MTK_MAX_ESIT);
-+	DECLARE_BITMAP(ss_bit_map, XHCI_MTK_MAX_ESIT);
-+	DECLARE_BITMAP(cs_bit_map, XHCI_MTK_MAX_ESIT + 1);
-+	u32 fs_bus_bw[XHCI_MTK_MAX_ESIT];
- 	struct list_head ep_list;
- 	struct usb_tt *usb_tt;
- 	int tt_port;
-@@ -42,7 +48,7 @@ struct mu3h_sch_tt {
-  * two bandwidth domains, one for IN eps and another for OUT eps.
-  */
- struct mu3h_sch_bw_info {
--	u32 bus_bw[XHCI_MTK_MAX_ESIT];
-+	u32 bus_bw[XHCI_MTK_MAX_ESIT + 1];
- 	struct list_head bw_ep_list;
- };
- 
--- 
-2.18.0
+btw: the musb_dbg function is actually a trace function and not a
+dmesg/logging mechanism.
+
+drivers/usb/musb/musb_trace.c:void musb_dbg(struct musb *musb, const char *fmt, ...)
+drivers/usb/musb/musb_trace.c-{
+drivers/usb/musb/musb_trace.c-  struct va_format vaf;
+drivers/usb/musb/musb_trace.c-  va_list args;
+drivers/usb/musb/musb_trace.c-
+drivers/usb/musb/musb_trace.c-  va_start(args, fmt);
+drivers/usb/musb/musb_trace.c-  vaf.fmt = fmt;
+drivers/usb/musb/musb_trace.c-  vaf.va = &args;
+drivers/usb/musb/musb_trace.c-
+drivers/usb/musb/musb_trace.c-  trace_musb_log(musb, &vaf);
+drivers/usb/musb/musb_trace.c-
+drivers/usb/musb/musb_trace.c-  va_end(args);
+drivers/usb/musb/musb_trace.c-}
+
+drivers/usb/musb/musb_trace.h:TRACE_EVENT(musb_log,
+drivers/usb/musb/musb_trace.h-  TP_PROTO(struct musb *musb, struct va_format *vaf),
+drivers/usb/musb/musb_trace.h-  TP_ARGS(musb, vaf),
+drivers/usb/musb/musb_trace.h-  TP_STRUCT__entry(
+drivers/usb/musb/musb_trace.h-          __string(name, dev_name(musb->controller))
+drivers/usb/musb/musb_trace.h-          __dynamic_array(char, msg, MUSB_MSG_MAX)
+drivers/usb/musb/musb_trace.h-  ),
+drivers/usb/musb/musb_trace.h-  TP_fast_assign(
+drivers/usb/musb/musb_trace.h-          __assign_str(name, dev_name(musb->controller));
+drivers/usb/musb/musb_trace.h-          vsnprintf(__get_str(msg), MUSB_MSG_MAX, vaf->fmt, *vaf->va);
+drivers/usb/musb/musb_trace.h-  ),
+drivers/usb/musb/musb_trace.h-  TP_printk("%s: %s", __get_str(name), __get_str(msg))
+drivers/usb/musb/musb_trace.h-);
+
+Is that trace mechanism useful though?  I think it's somewhat odd.
 
