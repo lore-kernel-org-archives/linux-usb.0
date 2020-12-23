@@ -2,93 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB858C4332B
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38413C43331
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:51:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E55622573
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:44:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16D8F22D73
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:51:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729952AbgLWCod (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Dec 2020 21:44:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49956 "EHLO mail.kernel.org"
+        id S1731079AbgLWCuK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Dec 2020 21:50:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728662AbgLWCWv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:22:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F42A22A99;
-        Wed, 23 Dec 2020 02:22:35 +0000 (UTC)
+        id S1729533AbgLWCuI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:50:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DBB332256F;
+        Wed, 23 Dec 2020 02:49:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690156;
-        bh=70J+aBobIR4CTICimnNAgLI1F8pKSO0ZZzo/AfAcl3Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L2y1Lmd5lyFOP6pszpCyIhyVRgxXMbqSF5q0i/C/1b4X+fmi7suWljYRwfk2iLivV
-         vRDsn71ggl0vsS7IQBgGc41yDIBpQay7ygsyXKrUZXGbZfpGdxWhcs/vqA3JR3IqUv
-         WZFnAQgXiM+zYrQIihZSci3kRubD6RlFxusmDl5Fe5ip8fpgDsucUwCZH2o4VAJ0De
-         znDcJP9Ruo6io61jAJ2F43pm3bh75MvNCl5hNjLtPQu0f7+FfqyPiNnnPDMc6Xe+Iy
-         DJAIw1PTIIDQYjr9pTUM/mOIlnIIjB1eNxBtXuLP6R6PFSFDwylw1yiAXV4UOKT2CZ
-         P9tZue8pgmI/w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kyle Tso <kyletso@google.com>, Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Will McVicker <willmcvicker@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 75/87] USB: typec: tcpm: Fix PR_SWAP error handling
-Date:   Tue, 22 Dec 2020 21:20:51 -0500
-Message-Id: <20201223022103.2792705-75-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022103.2792705-1-sashal@kernel.org>
-References: <20201223022103.2792705-1-sashal@kernel.org>
+        s=k20201202; t=1608691768;
+        bh=eS4fWQh/jaxSMtCZ4b30PYeWYMXX9WVqGZxVxgBaCjA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tqNxEfPhUKCrxH1as8VAfyxu6FNEFS4WWJWysumBmamEe79YCgYp8AcSvhaYmbyW4
+         khuN6WcOcls+mPGylfKkWzPiVkPn1Msh80E5cJv3vjfvomjg4zAEK+c7suR7DxXhPG
+         MlTJvt8Q3nutK+lA5+dxEA5IFavxR6OKtpnQiXW4WjO497CcQ3nE16MAOIfLxLRcVu
+         SBoj051RKD36lQc5v14wmKurFtoK21RooSjNIxKnSyRRJpntWWM8vTOcJqf1c+Eoq4
+         SK5xzYoCG5ocNwhJsLfqNvLbbvn86yOBao20RYGpjHURtP3aXXCWog478xWtjMoX2o
+         WfJkLA9nUdY0A==
+Date:   Tue, 22 Dec 2020 18:49:26 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Roland Dreier <roland@kernel.org>
+Cc:     Oliver Neukum <oliver@neukum.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: cdc_ncm kernel log spam with trendnet 2.5G USB adapter
+Message-ID: <20201222184926.35382198@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201219222140.4161646-1-roland@kernel.org>
+References: <3a9b2c8c275d56d9c7904cf9b5177047b196173d.camel@neukum.org>
+        <20201219222140.4161646-1-roland@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kyle Tso <kyletso@google.com>
+On Sat, 19 Dec 2020 14:21:40 -0800 Roland Dreier wrote:
+> (Apologies, trying one more time with a better mailer)
+> 
+> Sorry it took so long, but I finally got a chance to test the patches.  They
+> seem to work well, but they only get rid of the downlink / uplink speed spam -
+> I still get the following filling my kernel log with a patched kernel:
+> 
+>   [   29.830383] cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+>   [   29.894359] cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+>   [   29.958601] cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+>   [   30.022473] cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+>   [   30.086548] cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+> 
+> with the below patch on top of your 3, then my kernel log is clean.
+> 
+> Please apply your patches plus my patch, and feel free to add
+> 
+> Tested-by: Roland Dreier <roland@kernel.org>
+> 
+> to the other three.
 
-[ Upstream commit 301a633c1b5b2caa4c4b97a83270d4a1d60c53bf ]
+Hi Ronald, thanks for the patch.
 
-PD rev3.0 8.3.3.16.3.6 PE_PRS_SRC_SNK_Wait_Source_on State
-The Policy Enging Shall transition to the ErrorRecovery state when the
-PSSourceOnTimer times out ...
+I'm not sure what the story here is but if this change is expected to
+get into the networking tree we'll need a fresh posting. This sort of
+scissored reply does not get into patchwork.
 
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Kyle Tso <kyletso@google.com>
-Signed-off-by: Will McVicker <willmcvicker@google.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Link: https://lore.kernel.org/r/20201210160521.3417426-4-gregkh@linuxfoundation.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/typec/tcpm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Subject: [PATCH] CDC-NCM: remove "connected" log message
+> 
+> The cdc_ncm driver passes network connection notifications up to
+> usbnet_link_change(), which is the right place for any logging.
+> Remove the netdev_info() duplicating this from the driver itself.
+> 
+> This stops devices such as my "TRENDnet USB 10/100/1G/2.5G LAN"
+> (ID 20f4:e02b) adapter from spamming the kernel log with
+> 
+>     cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+> 
+> messages every 60 msec or so.
+> 
+> Signed-off-by: Roland Dreier <roland@kernel.org>
+> ---
+>  drivers/net/usb/cdc_ncm.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+> index a45fcc44facf..50d3a4e6d445 100644
+> --- a/drivers/net/usb/cdc_ncm.c
+> +++ b/drivers/net/usb/cdc_ncm.c
+> @@ -1850,9 +1850,6 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
+>  		 * USB_CDC_NOTIFY_NETWORK_CONNECTION notification shall be
+>  		 * sent by device after USB_CDC_NOTIFY_SPEED_CHANGE.
+>  		 */
+> -		netif_info(dev, link, dev->net,
+> -			   "network connection: %sconnected\n",
+> -			   !!event->wValue ? "" : "dis");
+>  		usbnet_link_change(dev, !!event->wValue, 0);
+>  		break;
+>  
 
-diff --git a/drivers/usb/typec/tcpm.c b/drivers/usb/typec/tcpm.c
-index af41d4dce3adb..9c901e3b17472 100644
---- a/drivers/usb/typec/tcpm.c
-+++ b/drivers/usb/typec/tcpm.c
-@@ -3455,7 +3455,7 @@ static void run_state_machine(struct tcpm_port *port)
- 			tcpm_set_state(port, ERROR_RECOVERY, 0);
- 			break;
- 		}
--		tcpm_set_state_cond(port, SNK_UNATTACHED, PD_T_PS_SOURCE_ON);
-+		tcpm_set_state(port, ERROR_RECOVERY, PD_T_PS_SOURCE_ON);
- 		break;
- 	case PR_SWAP_SRC_SNK_SINK_ON:
- 		tcpm_set_state(port, SNK_STARTUP, 0);
--- 
-2.27.0
-
+It sounds like you're getting tens of those messages a second, we can
+remove the message but the device is still generating spurious events,
+wasting CPU cycles. Was blocking those events deemed unfeasible? 
