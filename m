@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27873C04AAA
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E08C43332
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:30:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14F692222D
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:23:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6A8C22525
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Dec 2020 02:30:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730043AbgLWCXi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Dec 2020 21:23:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52686 "EHLO mail.kernel.org"
+        id S1730631AbgLWCZx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Dec 2020 21:25:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54254 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730033AbgLWCXh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:23:37 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7294422A99;
-        Wed, 23 Dec 2020 02:23:18 +0000 (UTC)
+        id S1730624AbgLWCZw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:25:52 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E6AEF229C5;
+        Wed, 23 Dec 2020 02:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690199;
-        bh=emF2QKwDnHejaOpSs86sRk+/kZdCHjtSJ6FcUUjQrvw=;
+        s=k20201202; t=1608690335;
+        bh=qOD3J0qah8tfhOMeHNnIkftANTBwEaXCTYbcvwhJPZc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mClP8FiCav8rBehJWBDdleawUB61TCyq7Z2QucaOe0L1tkWMZjUNEtPGJ8uucmloN
-         LmcwBcIf8ddEIuj91b6t/kJ0VmcpGnP9P7XYYHB5BN+xSITU80qxP0TrqFMtyRvFoa
-         kyN5FjwomSL2ap4RUu6AoSo9iwpICsNplSSGXHlvvA0VmNVw2HEljTnQVLjEERJaGY
-         LW1+IQNvcqBb4mHxzQBWYNRRtdtyX5XDbsrNLhisHiDTl5pCsjosudLltcEdHikguB
-         nBc5JWlfvs76juNw3ihei1eWXJ7ViOoPMoK6tn1KaIGDSVssWFBDAgSjiu5q7IAmcA
-         rH//35sJO/cnQ==
+        b=Bou3VYruHW3szheA9nFLvWs8vmBVo4TebgrJErBE6Pw0/+1URcjXzE+nOsL7BOWji
+         MfTrqi3GPlECjwO8Wtjqdcb3czeI8s8+NY2RfUWLwrlQmeszf7z6KqTVIzdI7ADAU0
+         DlM2ABiel9EGKJxafpVPQZYePFnxzsmQpxq+Ymaaf6eGcBQnyz24pQoIJZ9iRVdtj/
+         2JMtudzsfuaUl/scMOCtkk89h4tdAKDlxAKUKo56TuhJH0AL0RTY8jLC9WVAIl1+th
+         j/Z28x1wKFcSrz1xyQNUSDEFUHfJwM/k/nHciipMhdNpAOxZJbRGoTKI3XAA5w1lVQ
+         K66Sh/1rbhWZA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Evgeny Novikov <novikov@ispras.ru>,
@@ -38,12 +38,12 @@ Cc:     Evgeny Novikov <novikov@ispras.ru>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 21/66] media: zr364xx: propagate errors from zr364xx_start_readpipe()
-Date:   Tue, 22 Dec 2020 21:22:07 -0500
-Message-Id: <20201223022253.2793452-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 15/38] media: zr364xx: propagate errors from zr364xx_start_readpipe()
+Date:   Tue, 22 Dec 2020 21:24:53 -0500
+Message-Id: <20201223022516.2794471-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022253.2793452-1-sashal@kernel.org>
-References: <20201223022253.2793452-1-sashal@kernel.org>
+In-Reply-To: <20201223022516.2794471-1-sashal@kernel.org>
+References: <20201223022516.2794471-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 24 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-index d30f129a9db75..fe87e2159dae1 100644
+index 2d56cccaa4747..505e08ddde2bb 100644
 --- a/drivers/media/usb/zr364xx/zr364xx.c
 +++ b/drivers/media/usb/zr364xx/zr364xx.c
-@@ -1352,6 +1352,7 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+@@ -1359,6 +1359,7 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
  {
  	struct zr364xx_pipeinfo *pipe = cam->pipe;
  	unsigned long i;
@@ -82,7 +82,7 @@ index d30f129a9db75..fe87e2159dae1 100644
  
  	DBG("board init: %p\n", cam);
  	memset(pipe, 0, sizeof(*pipe));
-@@ -1384,9 +1385,8 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+@@ -1392,9 +1393,8 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
  
  	if (i == 0) {
  		printk(KERN_INFO KBUILD_MODNAME ": out of memory. Aborting\n");
@@ -94,7 +94,7 @@ index d30f129a9db75..fe87e2159dae1 100644
  	} else
  		cam->buffer.dwFrames = i;
  
-@@ -1401,9 +1401,17 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+@@ -1409,9 +1409,17 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
  	/*** end create system buffers ***/
  
  	/* start read pipe */
@@ -113,7 +113,7 @@ index d30f129a9db75..fe87e2159dae1 100644
  }
  
  static int zr364xx_probe(struct usb_interface *intf,
-@@ -1602,10 +1610,19 @@ static int zr364xx_resume(struct usb_interface *intf)
+@@ -1610,10 +1618,19 @@ static int zr364xx_resume(struct usb_interface *intf)
  	if (!cam->was_streaming)
  		return 0;
  
