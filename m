@@ -2,113 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F3F4C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Dec 2020 13:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB06C4332D
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Dec 2020 13:26:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04D9622287
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Dec 2020 13:25:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E25C4224B8
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Dec 2020 13:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727968AbgLXNYo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Dec 2020 08:24:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47714 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726609AbgLXNYo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 24 Dec 2020 08:24:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A7CC82222B;
-        Thu, 24 Dec 2020 13:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608816243;
-        bh=7MYzM6Rsb/0XmQQeH1H74pjQzsefTE8icYXdZ4+lk3w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cjkHcljfayChBM7bhmH6OmN6sdcEFF8hCcVo9So6S1Zc1y79Kua6CpSYZTzvBLUh9
-         s6Urys1bsCn+MIuDukfYPcy8gZ38/Qx9j0grVeMoS3iUnt0pyoLza8l/xa9I0rdzLN
-         6eNOAUaWr3+HEqjXy7ZQYmO1mh7lUWHIAB5K8R8RslYbivlseyJ5VO6JgjW5tJ1hOt
-         w1h6KR85bdfQRUAVxwMpD7N5C3HJK8xx0+ufuhm/egl5iFRc3CjzlYegpC3OoED0x6
-         IvWWzjl9gUvbPBPcQaQlKj+HeaGoUXwz+gkjlEitSbul7VZRoSc/t3qhsmLd4ZeTic
-         VxfyhA4K35+2Q==
-Received: by pali.im (Postfix)
-        id 83C01829; Thu, 24 Dec 2020 14:24:01 +0100 (CET)
-Date:   Thu, 24 Dec 2020 14:24:01 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: host: xhci: mvebu: make USB 3.0 PHY optional for
- Armada 3720
-Message-ID: <20201224132401.7inh5ae7aaqvooxe@pali>
-References: <20201223162403.10897-1-pali@kernel.org>
- <20201224055425.GA27629@b29397-desktop>
- <20201224125347.z2ka7itpxuvboghq@pali>
- <DBBPR04MB797907A4C3D7666B867AE2F08BDD0@DBBPR04MB7979.eurprd04.prod.outlook.com>
+        id S1729144AbgLXN0A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Dec 2020 08:26:00 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:9923 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728535AbgLXNZ7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Dec 2020 08:25:59 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D1rQd17CQzhvxG;
+        Thu, 24 Dec 2020 21:24:41 +0800 (CST)
+Received: from ubuntu.network (10.175.138.68) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 24 Dec 2020 21:25:08 +0800
+From:   Zheng Yongjun <zhengyongjun3@huawei.com>
+To:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <gregkh@linuxfoundation.org>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: [PATCH v2 -next] usb: host: use DEFINE_MUTEX() for mutex lock
+Date:   Thu, 24 Dec 2020 21:25:45 +0800
+Message-ID: <20201224132545.31677-1-zhengyongjun3@huawei.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DBBPR04MB797907A4C3D7666B867AE2F08BDD0@DBBPR04MB7979.eurprd04.prod.outlook.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.138.68]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thursday 24 December 2020 13:15:21 Peter Chen wrote:
->  
-> > > > +	/* Old bindings miss the PHY handle */
-> > > > +	phy = of_phy_get(dev->of_node, "usb3-phy");
-> > > > +	if (IS_ERR(phy) && PTR_ERR(phy) == -EPROBE_DEFER)
-> > > > +		return -EPROBE_DEFER;
-> > >
-> > > Doesn't need to judge IS_ERR(phy).
-> > 
-> > Ok, I can remove it. I used same condition which is already in SATA and PCIe
-> > phy code.
-> > 
-> > > > +	else if (IS_ERR(phy))
-> > > > +		goto phy_out;
-> > > > +
-> > > > +	ret = phy_init(phy);
-> > > > +	if (ret)
-> > > > +		goto phy_put;
-> > > > +
-> > > > +	ret = phy_set_mode(phy, PHY_MODE_USB_HOST_SS);
-> > > > +	if (ret)
-> > > > +		goto phy_exit;
-> > > > +
-> > > > +	ret = phy_power_on(phy);
-> > > > +	if (ret == -EOPNOTSUPP) {
-> > > > +		/* Skip initializatin of XHCI PHY when it is unsupported by
-> > firmware */
-> > > > +		dev_warn(dev, "PHY unsupported by firmware\n");
-> > > > +		xhci->quirks |= XHCI_SKIP_PHY_INIT;
-> > > > +	}
-> > > > +	if (ret)
-> > > > +		goto phy_exit;
-> > > > +
-> > > > +	phy_power_off(phy);
-> > > > +phy_exit:
-> > > > +	phy_exit(phy);
-> > > > +phy_put:
-> > > > +	of_phy_put(phy);
-> > > > +phy_out:
-> > > > +
-> > >
-> > > You do power on and off again only want to know if PHY has already
-> > > powered at ATF, right?
-> > 
-> > I need to know if power on/off procedure is supported by ATF. And if not
-> > (indicated by -EOPNOTSUPP) then I need to ensure that usb hdc code would not
-> > try to call phy_power_on() as it would cause failure as described in the commit
-> > message. You can look at those other two commits for PCIe and SATA. Same
-> > thing is needed for USB.
-> 
-> If not supported by ATF, then where to power on and off PHY since no other place calls PHY APIs? Is it always on?
+mutex lock can be initialized automatically with DEFINE_MUTEX()
+rather than explicitly calling mutex_init().
 
-Yes, in this case (when -EOPNOTSUPP is returned) SMC API is not
-supported by ATF, and PHY is always on.
+Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+---
+ drivers/usb/host/u132-hcd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/usb/host/u132-hcd.c b/drivers/usb/host/u132-hcd.c
+index 995bc52d2d22..fb692719a03a 100644
+--- a/drivers/usb/host/u132-hcd.c
++++ b/drivers/usb/host/u132-hcd.c
+@@ -78,7 +78,7 @@ static DECLARE_WAIT_QUEUE_HEAD(u132_hcd_wait);
+ * u132_module_lock exists to protect access to global variables
+ *
+ */
+-static struct mutex u132_module_lock;
++static DEFINE_MUTEX(u132_module_lock);
+ static int u132_exiting;
+ static int u132_instances;
+ /*
+@@ -3190,7 +3190,6 @@ static int __init u132_hcd_init(void)
+ 	int retval;
+ 	u132_instances = 0;
+ 	u132_exiting = 0;
+-	mutex_init(&u132_module_lock);
+ 	if (usb_disabled())
+ 		return -ENODEV;
+ 	printk(KERN_INFO "driver %s\n", hcd_name);
+-- 
+2.22.0
+
