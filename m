@@ -2,148 +2,505 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396EEC433E6
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Dec 2020 06:13:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC401C43381
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Dec 2020 07:54:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 095772332A
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Dec 2020 06:13:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B341123340
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Dec 2020 07:54:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725832AbgLYGNZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Dec 2020 01:13:25 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:30251 "EHLO
+        id S1729085AbgLYHxy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Dec 2020 02:53:54 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:33244 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725781AbgLYGNY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Dec 2020 01:13:24 -0500
-X-UUID: 01b1ac4c049641bd9e070389b7f5466b-20201225
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=6uQYTXdICvOcbpvLdkCR21Rtp+nLkicnEhalJcMTfBQ=;
-        b=osOE7VGB949RFAaD3VNFajzl5u1GmD2MOt/1guYmkSjchc2IOemPgpCIVSZ0T0zOWo3BI68mUWRjyVresfCP1Mg5g3ofgIDiQA0lMgYog6ArMdj6OO1JSP2x3C/pzQTklyvTOqPWVXp4/0C8eHTi2K2QcAL5kdboTXi/Que9xfY=;
-X-UUID: 01b1ac4c049641bd9e070389b7f5466b-20201225
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        with ESMTP id S1726041AbgLYHxt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Dec 2020 02:53:49 -0500
+X-UUID: 6e2c0df1aa384df8a61823ba5c0b094f-20201225
+X-UUID: 6e2c0df1aa384df8a61823ba5c0b094f-20201225
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 836817307; Fri, 25 Dec 2020 14:12:27 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 25 Dec
- 2020 14:12:22 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 25 Dec 2020 14:12:22 +0800
-Message-ID: <1608876743.7499.38.camel@mhfsdcap03>
-Subject: Re: [PATCH 2/3] usb: xhci-mtk: fix UAS issue by XHCI_BROKEN_STREAMS
- quirk
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 351312584; Fri, 25 Dec 2020 15:53:01 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 25 Dec 2020 15:52:59 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 25 Dec 2020 15:52:59 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Nicolas Boichat <drinkcat@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        "Ikjoon Jang" <ikjn@chromium.org>
-Date:   Fri, 25 Dec 2020 14:12:23 +0800
-In-Reply-To: <20201221193533.GB407645@robh.at.kernel.org>
-References: <20201216115125.5886-1-chunfeng.yun@mediatek.com>
-         <20201216115125.5886-2-chunfeng.yun@mediatek.com>
-         <CANMq1KDBmuoBNeizm9+f1yJgqF9oMqU5k26KfZrSdjrPQm_LwA@mail.gmail.com>
-         <1608171557.23328.53.camel@mhfsdcap03>
-         <CANMq1KA4L4PPRgHTmeisfSWu4qgjgNVFZRvxeuAOyq2_TimELA@mail.gmail.com>
-         <1608186230.23328.78.camel@mhfsdcap03>
-         <20201221193533.GB407645@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Min Guo <min.guo@mediatek.com>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>,
+        Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v5 10/11] dt-bindings: usb: convert mediatek,mtu3.txt to YAML schema
+Date:   Fri, 25 Dec 2020 15:52:57 +0800
+Message-ID: <20201225075258.33352-10-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20201225075258.33352-1-chunfeng.yun@mediatek.com>
+References: <20201225075258.33352-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: CC79322889513D177F84654F153801002F6ADCE607B6FD4D675B9BFE8D94AAAF2000:8
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 231E1ED5455F88D0D139D668A785E99FEE2DA6596986E5DB595015C8D78BB15E2000:8
 X-MTK:  N
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gTW9uLCAyMDIwLTEyLTIxIGF0IDEyOjM1IC0wNzAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4g
-T24gVGh1LCBEZWMgMTcsIDIwMjAgYXQgMDI6MjM6NTBQTSArMDgwMCwgQ2h1bmZlbmcgWXVuIHdy
-b3RlOg0KPiA+IE9uIFRodSwgMjAyMC0xMi0xNyBhdCAxMTozMiArMDgwMCwgTmljb2xhcyBCb2lj
-aGF0IHdyb3RlOg0KPiA+ID4gT24gVGh1LCBEZWMgMTcsIDIwMjAgYXQgMTA6MTkgQU0gQ2h1bmZl
-bmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+
-ID4gT24gV2VkLCAyMDIwLTEyLTE2IGF0IDIwOjI4ICswODAwLCBOaWNvbGFzIEJvaWNoYXQgd3Jv
-dGU6DQo+ID4gPiA+ID4gT24gV2VkLCBEZWMgMTYsIDIwMjAgYXQgNzo1MyBQTSBDaHVuZmVuZyBZ
-dW4gPGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+ID4gPiA+ID4NCj4gPiA+
-ID4gPiA+IFRoZSAwLjk2IHhIQ0kgY29udHJvbGxlciBvbiBzb21lIHBsYXRmb3JtcyBkb2VzIG5v
-dCBzdXBwb3J0DQo+ID4gPiA+ID4gPiBidWxrIHN0cmVhbSBldmVuIEhDQ1BBUkFNUyBzYXlzIHN1
-cHBvcnRpbmcsIGR1ZSB0byBNYXhQU0FTaXplDQo+ID4gPiA+ID4gPiBpcyBzZXQgYSBub24temVy
-byBkZWZhdWx0IHZhbHVlIGJ5IG1pc3Rha2UsIGhlcmUgdXNlDQo+ID4gPiA+ID4gPiBYSENJX0JS
-T0tFTl9TVFJFQU1TIHF1aXJrIHRvIGZpeCBpdC4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBG
-aXhlczogOTRhNjMxZDkxYWQzICgidXNiOiB4aGNpLW10azogY2hlY2sgaGNjX3BhcmFtcyBhZnRl
-ciBhZGRpbmcgcHJpbWFyeSBoY2QiKQ0KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQ2h1bmZl
-bmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KPiA+ID4gPiA+ID4gLS0tDQo+ID4g
-PiA+ID4gPiAgZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jIHwgNyArKysrKystDQo+ID4gPiA+
-ID4gPiAgZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5oIHwgMSArDQo+ID4gPiA+ID4gPiAgMiBm
-aWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jIGIv
-ZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jDQo+ID4gPiA+ID4gPiBpbmRleCA4ZjMyMWYzOWFi
-OTYuLjA4ZGFiOTc0ZDg0NyAxMDA2NDQNCj4gPiA+ID4gPiA+IC0tLSBhL2RyaXZlcnMvdXNiL2hv
-c3QveGhjaS1tdGsuYw0KPiA+ID4gPiA+ID4gKysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLW10
-ay5jDQo+ID4gPiA+ID4gPiBAQCAtMzk1LDYgKzM5NSw5IEBAIHN0YXRpYyB2b2lkIHhoY2lfbXRr
-X3F1aXJrcyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCB4aGNpX2hjZCAqeGhjaSkNCj4gPiA+
-ID4gPiA+ICAgICAgICAgeGhjaS0+cXVpcmtzIHw9IFhIQ0lfU1BVUklPVVNfU1VDQ0VTUzsNCj4g
-PiA+ID4gPiA+ICAgICAgICAgaWYgKG10ay0+bHBtX3N1cHBvcnQpDQo+ID4gPiA+ID4gPiAgICAg
-ICAgICAgICAgICAgeGhjaS0+cXVpcmtzIHw9IFhIQ0lfTFBNX1NVUFBPUlQ7DQo+ID4gPiA+ID4g
-PiArDQo+ID4gPiA+ID4gPiArICAgICAgIGlmIChtdGstPmJyb2tlbl9zdHJlYW1zKQ0KPiA+ID4g
-PiA+ID4gKyAgICAgICAgICAgICAgIHhoY2ktPnF1aXJrcyB8PSBYSENJX0JST0tFTl9TVFJFQU1T
-Ow0KPiA+ID4gPiA+ID4gIH0NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAgLyogY2FsbGVkIGR1
-cmluZyBwcm9iZSgpIGFmdGVyIGNoaXAgcmVzZXQgY29tcGxldGVzICovDQo+ID4gPiA+ID4gPiBA
-QCAtNDYwLDYgKzQ2Myw4IEBAIHN0YXRpYyBpbnQgeGhjaV9tdGtfcHJvYmUoc3RydWN0IHBsYXRm
-b3JtX2RldmljZSAqcGRldikNCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICByZXR1cm4gcmV0
-Ow0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICAgICAgICAgbXRrLT5scG1fc3VwcG9ydCA9IG9m
-X3Byb3BlcnR5X3JlYWRfYm9vbChub2RlLCAidXNiMy1scG0tY2FwYWJsZSIpOw0KPiA+ID4gPiA+
-ID4gKyAgICAgICBtdGstPmJyb2tlbl9zdHJlYW1zID0NCj4gPiA+ID4gPiA+ICsgICAgICAgICAg
-ICAgICBvZl9wcm9wZXJ0eV9yZWFkX2Jvb2wobm9kZSwgIm1lZGlhdGVrLGJyb2tlbl9zdHJlYW1z
-X3F1aXJrIik7DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBXb3VsZCBpdCBiZSBiZXR0ZXIgdG8gYWRk
-IGEgZGF0YSBmaWVsZCB0byBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkDQo+ID4gPiA+ID4gbXRrX3hoY2lf
-b2ZfbWF0Y2gsIGFuZCBlbmFibGUgdGhpcyBxdWlyayBvbiBtZWRpYXRlayxtdDgxNzMteGhjaSBv
-bmx5Pw0KPiA+ID4gPiBUaGlzIGlzIHRoZSBjb21tb24gaXNzdWUgZm9yIGFsbCBTb0NzIChiZWZv
-cmUgMjAxNi4wNikgd2l0aCAwLjk2IHhIQ0kNCj4gPiA+ID4gd2hlbiB0aGUgY29udHJvbGxlciBk
-b24ndCBzdXBwb3J0IGJ1bGsgc3RyZWFtLiBJZiBlbmFibGUgdGhpcyBxdWlyayBvbmx5DQo+ID4g
-PiA+IGZvciBtdDgxNzMsIHRoZW4gZm9yIG90aGVyIFNvQ3MsIHRoZSBjb21wYXRpYmxlIG5lZWQg
-aW5jbHVkZQ0KPiA+ID4gPiAibWVkaWF0ZWssbXQ4MTczLXhoY2kiIGluIGR0cywgdGhpcyBtYXkg
-YmUgbm90IGZsZXhpYmxlIGZvciBzb21lIGNhc2VzLA0KPiA+ID4gPiBlLmcuIGEgbmV3IFNvQyBo
-YXMgdGhlIGJyb2tlbiBzdHJlYW0gYXMgbXQ4MTczLCBidXQgYWxzbyBoYXMgYW5vdGhlcg0KPiA+
-ID4gPiBkaWZmZXJlbnQgcXVpcmssIHRoZSB3YXkgeW91IHN1Z2dlc3RlZCB3aWxsIG5vdCBoYW5k
-bGUgaXQuDQo+ID4gPiANCj4gPiA+IEl0IGNhbiwgd2UgZG8gdGhpcyByZWd1bGFybHkgZm9yIG1h
-bnkgb3RoZXIgY29tcG9uZW50cy4gT25lIGV4YW1wbGU6DQo+ID4gPiBodHRwczovL2VsaXhpci5i
-b290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvaTJjL2J1c3Nlcy9pMmMtbXQ2
-NXh4LmMjTDQwMg0KPiA+ID4gDQo+ID4gR290IGl0LiBJbmRlZWQgd29ya3Mgd2hlbiBhZGQgY29t
-cGF0aWJsZSBwcml2YXRlIGRhdGEuDQo+ID4gDQo+ID4gRHVlIHRvIG1hbnkgU29DcyBzdXBwb3J0
-cyBVU0IgYW5kIG5vdCB1cHN0cmVhbSwgSSdkIHByZWZlciB0byBhdm9pZA0KPiA+IGFkZGluZyBu
-ZXcgY29tcGF0aWJsZSBpbiBkcml2ZXIgd2hlbiBzdXBwb3J0IG5ldyBTb0NzLCBhbmQgbGVhdmUg
-dGhlDQo+ID4gY29kZSBhcyBzaW1wbGUgYXMgcG9zc2libGUuDQo+IA0KPiBOby4gVGhlIHByb2Js
-ZW0gaXMgYWRkaW5nIG5ldyBmaXhlcyByZXF1aXJlcyB1cGRhdGluZyB0aGUgRFQuIFRoYXQgd291
-bGQgDQo+IGJlIGZpbmUgaWYgeW91IGtuZXcgYWxsIHBvc3NpYmxlIGlzc3VlcyBhbmQgcXVpcmtz
-IHVwIGZyb250LiBZb3UgbWF5IGZvciANCj4gc29tZSwgYnV0IHlvdSB3b24ndCBjYXRjaCB0aGVt
-IGFsbC4NClllcy4NCkJ1dCBhbGwgU29DcyB1c2UgdGhlIGdlbmVyaWMgY29tcGF0aWJsZSAibWVk
-aWF0ZWssbXRrLXhoY2kiIGV4Y2VwdA0KbXRrODE3My4gYXMgZm9sbG93aW5nOg0KY29tcGF0aWJs
-ZSA9ICJtZWRpYXRlayxtdDxTb0M+LXhoY2kiLCAibWVkaWF0ZWssbXRrLXhoY2kiOw0KDQpJdCBt
-YXkgYmUgYSBsaXR0bGUgbWVzc3kgd2hlbiB0aGUgZHJpdmVyIGZpbGwgbWFueSBjb21wYXRpYmxl
-cyBhZnRlcg0Kc3VwcG9ydGluZyBzZXZlcmFsIHRlbnMgb3IgaHVuZHJlZHMgU29Dcy4NCg0KSSds
-bCB0aGluayBhYm91dCBpdCBhZ2Fpbi4gDQo+IA0KPiBTYXZlIERUIHByb3BlcnRpZXMgZm9yIHBl
-ciBib2FyZCBxdWlya3MvZmVhdHVyZXMsIG5vdCBwZXIgU29DIG9uZXMuDQpUaGlzIGlzIGZvciBV
-U0IgSVAgcXVpcmtzL2ZlYXR1cmUsIG5vdCBib2FyZCBvciBTb0MNCg0KVGhhbmtzDQoNCj4gDQo+
-ID4gDQo+ID4gPiA+IEFuZCBJIHBsYW4gdG8gcmVtb3ZlICJtZWRpYXRlayxtdDgxNzMteGhjaSIg
-aW4gbXRrX3hoY2lfb2ZfbWF0Y2ggYWZ0ZXINCj4gPiA+ID4gY29udmVydGluZyB0aGUgYmluZGlu
-ZyB0byBZTUFMLg0KPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gKElNSE8gdXNiMy1scG0t
-Y2FwYWJsZSBkZXRlY3Rpb24gc2hvdWxkIGFsc28gYmUgZG9uZSBpbiB0aGUgc2FtZSB3YXkpDQo+
-IA0KPiBJIHRlbmQgdG8gYWdyZWUsIGJ1dCBhbSBtb3JlIHRvbGVyYWJsZSBvZiBzdGFuZGFyZCBV
-U0IgZmVhdHVyZXMgdGhhbiANCj4gc3BlY2lmaWMgSVAgYmxvY2sgcXVpcmtzLg0KPiANCj4gUm9i
-DQoNCg==
+Convert mediatek,mtu3.txt to YAML schema mediatek,mtu3.yaml
+
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v5: changes suggested by Rob
+  1. remove unnecessary maxItems
+  2. define all phys supported
+
+v4:
+  1. refer to usb-drd.yaml insstead of usb/generic.txt
+  the following ones suggested by Rob:
+  2. add the number of phys supported
+  3. fix indentation of wakeup
+  4. add examples for port and connector
+
+v3:
+  1. fix yamllint warning
+  2. remove pinctrl* properties
+  3. remove unnecessary '|'
+  4. drop unused labels in example
+
+v2: new patch
+---
+ .../devicetree/bindings/usb/mediatek,mtu3.txt | 108 -------
+ .../bindings/usb/mediatek,mtu3.yaml           | 287 ++++++++++++++++++
+ 2 files changed, 287 insertions(+), 108 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+deleted file mode 100644
+index a82ca438aec1..000000000000
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
++++ /dev/null
+@@ -1,108 +0,0 @@
+-The device node for Mediatek USB3.0 DRD controller
+-
+-Required properties:
+- - compatible : should be "mediatek,<soc-model>-mtu3", "mediatek,mtu3",
+-	soc-model is the name of SoC, such as mt8173, mt2712 etc,
+-	when using "mediatek,mtu3" compatible string, you need SoC specific
+-	ones in addition, one of:
+-	- "mediatek,mt8173-mtu3"
+- - reg : specifies physical base address and size of the registers
+- - reg-names: should be "mac" for device IP and "ippc" for IP port control
+- - interrupts : interrupt used by the device IP
+- - power-domains : a phandle to USB power domain node to control USB's
+-	mtcmos
+- - vusb33-supply : regulator of USB avdd3.3v
+- - clocks : a list of phandle + clock-specifier pairs, one for each
+-	entry in clock-names
+- - clock-names : must contain "sys_ck" for clock of controller,
+-	the following clocks are optional:
+-	"ref_ck", "mcu_ck" and "dma_ck";
+- - phys : see usb-hcd.yaml in the current directory
+- - dr_mode : should be one of "host", "peripheral" or "otg",
+-	refer to usb/generic.txt
+-
+-Optional properties:
+- - #address-cells, #size-cells : should be '2' if the device has sub-nodes
+-	with 'reg' property
+- - ranges : allows valid 1:1 translation between child's address space and
+-	parent's address space
+- - extcon : external connector for vbus and idpin changes detection, needed
+-	when supports dual-role mode.
+-	it's considered valid for compatibility reasons, not allowed for
+-	new bindings, and use "usb-role-switch" property instead.
+- - vbus-supply : reference to the VBUS regulator, needed when supports
+-	dual-role mode.
+-	it's considered valid for compatibility reasons, not allowed for
+-	new bindings, and put into a usb-connector node.
+-	see connector/usb-connector.yaml.
+- - pinctrl-names : a pinctrl state named "default" is optional, and need be
+-	defined if auto drd switch is enabled, that means the property dr_mode
+-	is set as "otg", and meanwhile the property "mediatek,enable-manual-drd"
+-	is not set.
+- - pinctrl-0 : pin control group
+-	See: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
+-
+- - maximum-speed : valid arguments are "super-speed", "high-speed" and
+-	"full-speed"; refer to usb/generic.txt
+- - usb-role-switch : use USB Role Switch to support dual-role switch, but
+-	not extcon; see usb/generic.txt.
+- - enable-manual-drd : supports manual dual-role switch via debugfs; usually
+-	used when receptacle is TYPE-A and also wants to support dual-role
+-	mode.
+- - wakeup-source: enable USB remote wakeup of host mode.
+- - mediatek,syscon-wakeup : phandle to syscon used to access the register
+-	of the USB wakeup glue layer between SSUSB and SPM; it depends on
+-	"wakeup-source", and has two arguments:
+-	- the first one : register base address of the glue layer in syscon;
+-	- the second one : hardware version of the glue layer
+-		- 1 : used by mt8173 etc
+-		- 2 : used by mt2712 etc
+- - mediatek,u3p-dis-msk : mask to disable u3ports, bit0 for u3port0,
+-	bit1 for u3port1, ... etc;
+-
+-additionally the properties from usb-hcd.yaml (in the current directory) are
+-supported.
+-
+-Sub-nodes:
+-The xhci should be added as subnode to mtu3 as shown in the following example
+-if host mode is enabled. The DT binding details of xhci can be found in:
+-Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
+-
+-The port would be added as subnode if use "usb-role-switch" property.
+-	see graph.txt
+-
+-Example:
+-ssusb: usb@11271000 {
+-	compatible = "mediatek,mt8173-mtu3";
+-	reg = <0 0x11271000 0 0x3000>,
+-	      <0 0x11280700 0 0x0100>;
+-	reg-names = "mac", "ippc";
+-	interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_LOW>;
+-	phys = <&phy_port0 PHY_TYPE_USB3>,
+-	       <&phy_port1 PHY_TYPE_USB2>;
+-	power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
+-	clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>,
+-		 <&pericfg CLK_PERI_USB0>,
+-		 <&pericfg CLK_PERI_USB1>;
+-	clock-names = "sys_ck", "ref_ck";
+-	vusb33-supply = <&mt6397_vusb_reg>;
+-	vbus-supply = <&usb_p0_vbus>;
+-	extcon = <&extcon_usb>;
+-	dr_mode = "otg";
+-	wakeup-source;
+-	mediatek,syscon-wakeup = <&pericfg 0x400 1>;
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-	ranges;
+-
+-	usb_host: xhci@11270000 {
+-		compatible = "mediatek,mt8173-xhci";
+-		reg = <0 0x11270000 0 0x1000>;
+-		reg-names = "mac";
+-		interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_LOW>;
+-		power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
+-		clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>;
+-		clock-names = "sys_ck", "ref_ck";
+-		vusb33-supply = <&mt6397_vusb_reg>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+new file mode 100644
+index 000000000000..f5c04b9d2de9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -0,0 +1,287 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2020 MediaTek
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/mediatek,mtu3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek USB3 DRD Controller Device Tree Bindings
++
++maintainers:
++  - Chunfeng Yun <chunfeng.yun@mediatek.com>
++
++allOf:
++  - $ref: "usb-drd.yaml"
++
++description: |
++  The DRD controller has a glue layer IPPC (IP Port Control), and its host is
++  based on xHCI.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - mediatek,mt2712-mtu3
++          - mediatek,mt8173-mtu3
++          - mediatek,mt8183-mtu3
++      - const: mediatek,mtu3
++
++  reg:
++    items:
++      - description: the registers of device MAC
++      - description: the registers of IP Port Control
++
++  reg-names:
++    items:
++      - const: mac
++      - const: ippc
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    description: A phandle to USB power domain node to control USB's MTCMOS
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    items:
++      - description: Controller clock used by normal mode
++      - description: Reference clock used by low power mode etc
++      - description: Mcu bus clock for register access
++      - description: DMA bus clock for data transfer
++
++  clock-names:
++    minItems: 1
++    items:
++      - const: sys_ck  # required, others are optional
++      - const: ref_ck
++      - const: mcu_ck
++      - const: dma_ck
++
++  phys:
++    description:
++      List of all the USB PHYs used, it's better to keep the sequence
++      as the hardware layout.
++    minItems: 1
++    items:
++      - description: USB2/HS PHY    # required, others are optional
++      - description: USB3/SS(P) PHY
++      - description: USB2/HS PHY    # the following for backward compatible
++      - description: USB3/SS(P) PHY
++      - description: USB2/HS PHY
++      - description: USB3/SS(P) PHY
++      - description: USB2/HS PHY
++      - description: USB3/SS(P) PHY
++      - description: USB2/HS PHY
++
++  vusb33-supply:
++    description: Regulator of USB AVDD3.3v
++
++  vbus-supply:
++    deprecated: true
++    description: |
++      Regulator of USB VBUS5v, needed when supports dual-role mode.
++      Particularly, if use an output GPIO to control a VBUS regulator, should
++      model it as a regulator. See bindings/regulator/fixed-regulator.yaml
++      It's considered valid for compatibility reasons, not allowed for
++      new bindings, and put into a usb-connector node.
++
++  dr_mode:
++    enum: [host, peripheral, otg]
++    default: otg
++
++  maximum-speed:
++    enum: [super-speed-plus, super-speed, high-speed, full-speed]
++
++  "#address-cells":
++    enum: [1, 2]
++
++  "#size-cells":
++    enum: [1, 2]
++
++  ranges: true
++
++  extcon:
++    deprecated: true
++    description: |
++      Phandle to the extcon device detecting the IDDIG/VBUS state, neede
++      when supports dual-role mode.
++      It's considered valid for compatibility reasons, not allowed for
++      new bindings, and use "usb-role-switch" property instead.
++
++  usb-role-switch:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: Support role switch.
++    type: boolean
++
++  connector:
++    $ref: /connector/usb-connector.yaml#
++    description:
++      Connector for dual role switch, especially for "gpio-usb-b-connector"
++    type: object
++
++  port:
++    description:
++      Any connector to the data bus of this controller should be modelled
++      using the OF graph bindings specified, if the "usb-role-switch"
++      property is used. See graph.txt
++    type: object
++
++  enable-manual-drd:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      supports manual dual-role switch via debugfs; usually used when
++      receptacle is TYPE-A and also wants to support dual-role mode.
++    type: boolean
++
++  wakeup-source:
++    description: enable USB remote wakeup, see power/wakeup-source.txt
++    type: boolean
++
++  mediatek,syscon-wakeup:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    maxItems: 1
++    description:
++      A phandle to syscon used to access the register of the USB wakeup glue
++      layer between xHCI and SPM, the field should always be 3 cells long.
++    items:
++      items:
++        - description:
++            The first cell represents a phandle to syscon
++        - description:
++            The second cell represents the register base address of the glue
++            layer in syscon
++        - description:
++            The third cell represents the hardware version of the glue layer,
++            1 is used by mt8173 etc, 2 is used by mt2712 etc
++          enum: [1, 2]
++
++  mediatek,u3p-dis-msk:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: The mask to disable u3ports, bit0 for u3port0,
++      bit1 for u3port1, ... etc
++
++# Required child node when support dual-role
++patternProperties:
++  "^usb@[0-9a-f]+$":
++    type: object
++    $ref: /usb/mediatek,mtk-xhci.yaml#
++    description:
++      The xhci should be added as subnode to mtu3 as shown in the following
++      example if the host mode is enabled.
++
++dependencies:
++  connector: [ 'usb-role-switch' ]
++  port: [ 'usb-role-switch' ]
++  wakeup-source: [ 'mediatek,syscon-wakeup' ]
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  # Dual role switch by extcon
++  - |
++    #include <dt-bindings/clock/mt8173-clk.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/phy/phy.h>
++    #include <dt-bindings/power/mt8173-power.h>
++
++    usb@11271000 {
++        compatible = "mediatek,mt8173-mtu3", "mediatek,mtu3";
++        reg = <0x11271000 0x3000>, <0x11280700 0x0100>;
++        reg-names = "mac", "ippc";
++        interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_LOW>;
++        phys = <&phy_port0 PHY_TYPE_USB3>, <&phy_port1 PHY_TYPE_USB2>;
++        power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
++        clocks = <&topckgen CLK_TOP_USB30_SEL>;
++        clock-names = "sys_ck";
++        vusb33-supply = <&mt6397_vusb_reg>;
++        vbus-supply = <&usb_p0_vbus>;
++        extcon = <&extcon_usb>;
++        dr_mode = "otg";
++        wakeup-source;
++        mediatek,syscon-wakeup = <&pericfg 0x400 1>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        xhci: usb@11270000 {
++            compatible = "mediatek,mt8173-xhci", "mediatek,mtk-xhci";
++            reg = <0x11270000 0x1000>;
++            reg-names = "mac";
++            interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_LOW>;
++            power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
++            clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>;
++            clock-names = "sys_ck", "ref_ck";
++            vusb33-supply = <&mt6397_vusb_reg>;
++        };
++    };
++
++  # Enable/disable device by an input gpio for VBUS pin
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/power/mt2712-power.h>
++
++    usb@112c1000 {
++        compatible = "mediatek,mt2712-mtu3", "mediatek,mtu3";
++        reg = <0x112c1000 0x3000>, <0x112d0700 0x0100>;
++        reg-names = "mac", "ippc";
++        interrupts = <GIC_SPI 248 IRQ_TYPE_LEVEL_LOW>;
++        phys = <&u2port2 PHY_TYPE_USB2>;
++        power-domains = <&scpsys MT2712_POWER_DOMAIN_USB2>;
++        clocks = <&topckgen CLK_TOP_USB30_SEL>;
++        clock-names = "sys_ck";
++        dr_mode = "peripheral";
++        usb-role-switch;
++
++        connector {
++            compatible = "gpio-usb-b-connector", "usb-b-connector";
++            type = "micro";
++            vbus-gpios = <&pio 13 GPIO_ACTIVE_HIGH>;
++        };
++    };
++
++  # Dual role switch with type-c
++  - |
++    usb@11201000 {
++        compatible ="mediatek,mt8183-mtu3", "mediatek,mtu3";
++        reg = <0x11201000 0x2e00>, <0x11203e00 0x0100>;
++        reg-names = "mac", "ippc";
++        interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
++        phys = <&u2port0 PHY_TYPE_USB2>;
++        clocks = <&clk26m>;
++        clock-names = "sys_ck";
++        mediatek,syscon-wakeup = <&pericfg 0x400 1>;
++        wakeup-source;
++        dr_mode = "otg";
++        usb-role-switch;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        host: usb@11200000 {
++            compatible = "mediatek,mt8183-xhci", "mediatek,mtk-xhci";
++            reg = <0x11200000 0x1000>;
++            reg-names = "mac";
++            interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_LOW>;
++            clocks = <&clk26m>;
++            clock-names = "sys_ck";
++        };
++
++        port {
++            usb_role_sw: endpoint {
++                remote-endpoint = <&hs_ep>;
++            };
++        };
++    };
++
++...
+-- 
+2.18.0
 
