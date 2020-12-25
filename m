@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E19AC04AAF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D69C04AB1
 	for <linux-usb@archiver.kernel.org>; Fri, 25 Dec 2020 07:55:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69A612312F
+	by mail.kernel.org (Postfix) with ESMTP id CC8E723130
 	for <linux-usb@archiver.kernel.org>; Fri, 25 Dec 2020 07:55:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729323AbgLYHyh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Dec 2020 02:54:37 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:43127 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725866AbgLYHxr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Dec 2020 02:53:47 -0500
-X-UUID: bea1a74fec414a4f92a8cf735b085e02-20201225
-X-UUID: bea1a74fec414a4f92a8cf735b085e02-20201225
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        id S1729406AbgLYHy6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Dec 2020 02:54:58 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:33211 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729399AbgLYHy5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Dec 2020 02:54:57 -0500
+X-UUID: 587eddb5383e45959de1aa45a27d3ba9-20201225
+X-UUID: 587eddb5383e45959de1aa45a27d3ba9-20201225
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 292591423; Fri, 25 Dec 2020 15:53:01 +0800
+        with ESMTP id 1847833142; Fri, 25 Dec 2020 15:53:00 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
  mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 25 Dec 2020 15:53:00 +0800
+ 15.0.1497.2; Fri, 25 Dec 2020 15:52:59 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 25 Dec 2020 15:52:58 +0800
+ Transport; Fri, 25 Dec 2020 15:52:57 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>
 CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -51,12 +51,10 @@ CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>,
         Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: [PATCH v5 09/11] dt-bindings: usb: convert mediatek,mtk-xhci.txt to YAML schema
-Date:   Fri, 25 Dec 2020 15:52:56 +0800
-Message-ID: <20201225075258.33352-9-chunfeng.yun@mediatek.com>
+Subject: [PATCH v5 01/11] dt-bindings: usb: convert usb-device.txt to YAML schema
+Date:   Fri, 25 Dec 2020 15:52:48 +0800
+Message-ID: <20201225075258.33352-1-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20201225075258.33352-1-chunfeng.yun@mediatek.com>
-References: <20201225075258.33352-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -64,298 +62,293 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert mediatek,mtk-xhci.txt to YAML schema mediatek,mtk-xhci.yaml
+Convert usb-device.txt to YAML schema usb-device.yaml
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v5: changes suggested by Rob
-  1. refer to usb-xhci.yaml instead of usb-hcd.yaml
-  2. remove unnecessary maxItems
-  3. add items for all phys may be supported
-  4. change pattern, and limit pattern length of patternProperties
+v5: changes suggested by Rob:
+  1. limit the pattern length
+  2. remove properties description for hard wired USB devices in usb-hcd.yaml
 
-v4: update it according to Rob's suggestion
-  1. modify dictionary of phys
-  2. fix endentation in "mediatek,syscon-wakeup" items
-  3. remove reference to usb-hcd.yaml
+    depends on series:
+    https://patchwork.kernel.org/project/linux-usb/list/?series=399561
+    [v6,00/19] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
+
+v4: no changes, update dependent series:
+    https://patchwork.kernel.org/project/linux-usb/list/?series=399561
+    [v6,00/19] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
 
 v3:
-  1. fix yamllint warning
-  2. remove pinctrl* properties supported by default suggested by Rob
-  3. drop unused labels
-  4. modify description of mediatek,syscon-wakeup
-  5. remove type of imod-interval-ns
+  1. remove $nodenmae and items key word for compatilbe;
+  2. add additionalProperties;
 
-v2: new patch
+  The followings are suggested by Rob:
+  3. merge the following patch
+    [v2,1/4] dt-bindings: usb: convert usb-device.txt to YAML schema
+    [v2,2/4] dt-bindings: usb: add properties for hard wired devices
+  4. define the unit-address for hard-wired device in usb-hcd.yaml,
+     also define its 'reg' and 'compatible';
+  5. This series is base on Serge's series:
+    https://patchwork.kernel.org/project/linux-usb/cover/20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru/
+    [v4,00/18] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
+
+v2 changes suggested by Rob:
+  1. modify pattern to support any USB class
+  2. convert usb-device.txt into usb-device.yaml
 ---
- .../bindings/usb/mediatek,mtk-xhci.txt        | 121 ------------
- .../bindings/usb/mediatek,mtk-xhci.yaml       | 178 ++++++++++++++++++
- 2 files changed, 178 insertions(+), 121 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
- create mode 100644 Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+ .../devicetree/bindings/usb/usb-device.txt    | 102 --------------
+ .../devicetree/bindings/usb/usb-device.yaml   | 124 ++++++++++++++++++
+ .../devicetree/bindings/usb/usb-hcd.yaml      |  19 +++
+ 3 files changed, 143 insertions(+), 102 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/usb-device.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/usb-device.yaml
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
+diff --git a/Documentation/devicetree/bindings/usb/usb-device.txt b/Documentation/devicetree/bindings/usb/usb-device.txt
 deleted file mode 100644
-index 42d8814f903a..000000000000
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
+index 036be172b1ae..000000000000
+--- a/Documentation/devicetree/bindings/usb/usb-device.txt
 +++ /dev/null
-@@ -1,121 +0,0 @@
--MT8173 xHCI
+@@ -1,102 +0,0 @@
+-Generic USB Device Properties
 -
--The device node for Mediatek SOC USB3.0 host controller
+-Usually, we only use device tree for hard wired USB device.
+-The reference binding doc is from:
+-http://www.devicetree.org/open-firmware/bindings/usb/usb-1_0.ps
 -
--There are two scenarios: the first one only supports xHCI driver;
--the second one supports dual-role mode, and the host is based on xHCI
--driver. Take account of backward compatibility, we divide bindings
--into two parts.
+-Four types of device-tree nodes are defined: "host-controller nodes"
+-representing USB host controllers, "device nodes" representing USB devices,
+-"interface nodes" representing USB interfaces and "combined nodes"
+-representing simple USB devices.
 -
--1st: only supports xHCI driver
--------------------------------------------------------------------------
+-A combined node shall be used instead of a device node and an interface node
+-for devices of class 0 or 9 (hub) with a single configuration and a single
+-interface.
 -
--Required properties:
-- - compatible : should be "mediatek,<soc-model>-xhci", "mediatek,mtk-xhci",
--	soc-model is the name of SoC, such as mt8173, mt2712 etc, when using
--	"mediatek,mtk-xhci" compatible string, you need SoC specific ones in
--	addition, one of:
--	- "mediatek,mt8173-xhci"
-- - reg : specifies physical base address and size of the registers
-- - reg-names: should be "mac" for xHCI MAC and "ippc" for IP port control
-- - interrupts : interrupt used by the controller
-- - power-domains : a phandle to USB power domain node to control USB's
--	mtcmos
-- - vusb33-supply : regulator of USB avdd3.3v
+-A "hub node" is a combined node or an interface node that represents a USB
+-hub.
 -
-- - clocks : a list of phandle + clock-specifier pairs, one for each
--	entry in clock-names
-- - clock-names : must contain
--	"sys_ck": controller clock used by normal mode,
--	the following ones are optional:
--	"ref_ck": reference clock used by low power mode etc,
--	"mcu_ck": mcu_bus clock for register access,
--	"dma_ck": dma_bus clock for data transfer by DMA,
--	"xhci_ck": controller clock
 -
-- - phys : see usb-hcd.yaml in the current directory
+-Required properties for device nodes:
+-- compatible: "usbVID,PID", where VID is the vendor id and PID the product id.
+-  The textual representation of VID and PID shall be in lower case hexadecimal
+-  with leading zeroes suppressed. The other compatible strings from the above
+-  standard binding could also be used, but a device adhering to this binding
+-  may leave out all except for "usbVID,PID".
+-- reg: the number of the USB hub port or the USB host-controller port to which
+-  this device is attached. The range is 1-255.
 -
--Optional properties:
-- - wakeup-source : enable USB remote wakeup;
-- - mediatek,syscon-wakeup : phandle to syscon used to access the register
--	of the USB wakeup glue layer between xHCI and SPM; it depends on
--	"wakeup-source", and has two arguments:
--	- the first one : register base address of the glue layer in syscon;
--	- the second one : hardware version of the glue layer
--		- 1 : used by mt8173 etc
--		- 2 : used by mt2712 etc
-- - mediatek,u3p-dis-msk : mask to disable u3ports, bit0 for u3port0,
--	bit1 for u3port1, ... etc;
-- - vbus-supply : reference to the VBUS regulator;
-- - usb3-lpm-capable : supports USB3.0 LPM
-- - pinctrl-names : a pinctrl state named "default" must be defined
-- - pinctrl-0 : pin control group
--	See: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-- - imod-interval-ns: default interrupt moderation interval is 5000ns
 -
--additionally the properties from usb-hcd.yaml (in the current directory) are
--supported.
+-Required properties for device nodes with interface nodes:
+-- #address-cells: shall be 2
+-- #size-cells: shall be 0
 -
--Example:
--usb30: usb@11270000 {
--	compatible = "mediatek,mt8173-xhci";
--	reg = <0 0x11270000 0 0x1000>,
--	      <0 0x11280700 0 0x0100>;
--	reg-names = "mac", "ippc";
--	interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_LOW>;
--	power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
--	clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>,
--		 <&pericfg CLK_PERI_USB0>,
--		 <&pericfg CLK_PERI_USB1>;
--	clock-names = "sys_ck", "ref_ck";
--	phys = <&phy_port0 PHY_TYPE_USB3>,
--	       <&phy_port1 PHY_TYPE_USB2>;
--	vusb33-supply = <&mt6397_vusb_reg>;
--	vbus-supply = <&usb_p1_vbus>;
--	usb3-lpm-capable;
--	mediatek,syscon-wakeup = <&pericfg 0x400 1>;
--	wakeup-source;
--	imod-interval-ns = <10000>;
--};
 -
--2nd: dual-role mode with xHCI driver
--------------------------------------------------------------------------
+-Required properties for interface nodes:
+-- compatible: "usbifVID,PID.configCN.IN", where VID is the vendor id, PID is
+-  the product id, CN is the configuration value and IN is the interface
+-  number. The textual representation of VID, PID, CN and IN shall be in lower
+-  case hexadecimal with leading zeroes suppressed. The other compatible
+-  strings from the above standard binding could also be used, but a device
+-  adhering to this binding may leave out all except for
+-  "usbifVID,PID.configCN.IN".
+-- reg: the interface number and configuration value
 -
--In the case, xhci is added as subnode to mtu3. An example and the DT binding
--details of mtu3 can be found in:
--Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+-The configuration component is not included in the textual representation of
+-an interface-node unit address for configuration 1.
 -
--Required properties:
-- - compatible : should be "mediatek,<soc-model>-xhci", "mediatek,mtk-xhci",
--	soc-model is the name of SoC, such as mt8173, mt2712 etc, when using
--	"mediatek,mtk-xhci" compatible string, you need SoC specific ones in
--	addition, one of:
--	- "mediatek,mt8173-xhci"
-- - reg : specifies physical base address and size of the registers
-- - reg-names: should be "mac" for xHCI MAC
-- - interrupts : interrupt used by the host controller
-- - power-domains : a phandle to USB power domain node to control USB's
--	mtcmos
-- - vusb33-supply : regulator of USB avdd3.3v
 -
-- - clocks : a list of phandle + clock-specifier pairs, one for each
--	entry in clock-names
-- - clock-names : must contain "sys_ck", and the following ones are optional:
--	"ref_ck", "mcu_ck" and "dma_ck", "xhci_ck"
+-Required properties for combined nodes:
+-- compatible: "usbVID,PID", where VID is the vendor id and PID the product id.
+-  The textual representation of VID and PID shall be in lower case hexadecimal
+-  with leading zeroes suppressed. The other compatible strings from the above
+-  standard binding could also be used, but a device adhering to this binding
+-  may leave out all except for "usbVID,PID".
+-- reg: the number of the USB hub port or the USB host-controller port to which
+-  this device is attached. The range is 1-255.
 -
--Optional properties:
-- - vbus-supply : reference to the VBUS regulator;
-- - usb3-lpm-capable : supports USB3.0 LPM
+-
+-Required properties for hub nodes with device nodes:
+-- #address-cells: shall be 1
+-- #size-cells: shall be 0
+-
+-
+-Required properties for host-controller nodes with device nodes:
+-- #address-cells: shall be 1
+-- #size-cells: shall be 0
+-
 -
 -Example:
--usb30: usb@11270000 {
--	compatible = "mediatek,mt8173-xhci";
--	reg = <0 0x11270000 0 0x1000>;
--	reg-names = "mac";
--	interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_LOW>;
--	power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
--	clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>;
--	clock-names = "sys_ck", "ref_ck";
--	vusb33-supply = <&mt6397_vusb_reg>;
--	usb3-lpm-capable;
+-
+-&usb1 {	/* host controller */
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-
+-	hub@1 {		/* hub connected to port 1 */
+-		compatible = "usb5e3,608";
+-		reg = <1>;
+-	};
+-
+-	device@2 {	/* device connected to port 2 */
+-		compatible = "usb123,4567";
+-		reg = <2>;
+-	};
+-
+-	device@3 { 	/* device connected to port 3 */
+-		compatible = "usb123,abcd";
+-		reg = <3>;
+-
+-		#address-cells = <2>;
+-		#size-cells = <0>;
+-
+-		interface@0 {	/* interface 0 of configuration 1 */
+-			compatible = "usbif123,abcd.config1.0";
+-			reg = <0 1>;
+-		};
+-
+-		interface@0,2 {	/* interface 0 of configuration 2 */
+-			compatible = "usbif123,abcd.config2.0";
+-			reg = <0 2>;
+-		};
+-	};
 -};
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
 new file mode 100644
-index 000000000000..38b1fe18aa79
+index 000000000000..7bb25a45427d
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -0,0 +1,178 @@
++++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+@@ -0,0 +1,124 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (c) 2020 MediaTek
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
++$id: http://devicetree.org/schemas/usb/usb-device.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: MediaTek USB3 xHCI Device Tree Bindings
++title: The device tree bindings for the Generic USB Device
 +
 +maintainers:
-+  - Chunfeng Yun <chunfeng.yun@mediatek.com>
-+
-+allOf:
-+  - $ref: "usb-xhci.yaml"
++  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +
 +description: |
-+  There are two scenarios:
-+  case 1: only supports xHCI driver;
-+  case 2: supports dual-role mode, and the host is based on xHCI driver.
++  Usually, we only use device tree for hard wired USB device.
++  The reference binding doc is from:
++  http://www.devicetree.org/open-firmware/bindings/usb/usb-1_0.ps
++
++  Four types of device-tree nodes are defined: "host-controller nodes"
++  representing USB host controllers, "device nodes" representing USB devices,
++  "interface nodes" representing USB interfaces and "combined nodes"
++  representing simple USB devices.
++
++  A combined node shall be used instead of a device node and an interface node
++  for devices of class 0 or 9 (hub) with a single configuration and a single
++  interface.
++
++  A "hub node" is a combined node or an interface node that represents a USB
++  hub.
 +
 +properties:
-+  # common properties for both case 1 and case 2
 +  compatible:
-+    items:
-+      - enum:
-+          - mediatek,mt2712-xhci
-+          - mediatek,mt7622-xhci
-+          - mediatek,mt7629-xhci
-+          - mediatek,mt8173-xhci
-+          - mediatek,mt8183-xhci
-+      - const: mediatek,mtk-xhci
++    pattern: "^usb[0-9a-f]{1,4},[0-9a-f]{1,4}$"
++    description: Device nodes or combined nodes.
++      "usbVID,PID", where VID is the vendor id and PID the product id.
++      The textual representation of VID and PID shall be in lower case
++      hexadecimal with leading zeroes suppressed. The other compatible
++      strings from the above standard binding could also be used,
++      but a device adhering to this binding may leave out all except
++      for "usbVID,PID".
 +
 +  reg:
-+    minItems: 1
-+    items:
-+      - description: the registers of xHCI MAC
-+      - description: the registers of IP Port Control
-+
-+  reg-names:
-+    minItems: 1
-+    items:
-+      - const: mac
-+      - const: ippc  # optional, only needed for case 1.
-+
-+  interrupts:
++    description: the number of the USB hub port or the USB host-controller
++      port to which this device is attached. The range is 1-255.
 +    maxItems: 1
 +
-+  power-domains:
-+    description: A phandle to USB power domain node to control USB's MTCMOS
-+    maxItems: 1
++  "#address-cells":
++    description: should be 1 for hub nodes with device nodes,
++      should be 2 for device nodes with interface nodes.
++    enum: [1, 2]
 +
-+  clocks:
-+    minItems: 1
-+    items:
-+      - description: Controller clock used by normal mode
-+      - description: Reference clock used by low power mode etc
-+      - description: Mcu bus clock for register access
-+      - description: DMA bus clock for data transfer
-+      - description: controller clock
++  "#size-cells":
++    const: 0
 +
-+  clock-names:
-+    minItems: 1
-+    items:
-+      - const: sys_ck  # required, the following ones are optional
-+      - const: ref_ck
-+      - const: mcu_ck
-+      - const: dma_ck
-+      - const: xhci_ck
++patternProperties:
++  "^interface@[0-9a-f]{1,2}(,[0-9a-f]{1,2})$":
++    type: object
++    description: USB interface nodes.
++      The configuration component is not included in the textual
++      representation of an interface-node unit address for configuration 1.
 +
-+  phys:
-+    description:
-+      List of all PHYs used on this HCD, it's better to keep PHYs in order
-+      as the hardware layout
-+    minItems: 1
-+    items:
-+      - description: USB2/HS PHY    # required, others are optional
-+      - description: USB3/SS(P) PHY
-+      - description: USB2/HS PHY
-+      - description: USB3/SS(P) PHY
-+      - description: USB2/HS PHY
-+      - description: USB3/SS(P) PHY
-+      - description: USB2/HS PHY
-+      - description: USB3/SS(P) PHY
-+      - description: USB2/HS PHY
++    properties:
++      compatible:
++        pattern: "^usbif[0-9a-f]{1,4},[0-9a-f]{1,4}.config[0-9a-f]{1,2}.[0-9a-f]{1,2}$"
++        description: Interface nodes.
++          "usbifVID,PID.configCN.IN", where VID is the vendor id, PID is
++          the product id, CN is the configuration value and IN is the interface
++          number. The textual representation of VID, PID, CN and IN shall be
++          in lower case hexadecimal with leading zeroes suppressed.
++          The other compatible strings from the above standard binding could
++          also be used, but a device adhering to this binding may leave out
++          all except for "usbifVID,PID.configCN.IN".
 +
-+  vusb33-supply:
-+    description: Regulator of USB AVDD3.3v
++      reg:
++        description: should be 2 cells long, the first cell represents
++          the interface number and the second cell represents the
++          configuration value.
++        maxItems: 1
 +
-+  vbus-supply:
-+    description: Regulator of USB VBUS5v
++required:
++  - compatile
++  - reg
 +
-+  usb3-lpm-capable:
-+    description: supports USB3.0 LPM
-+    type: boolean
++additionalProperties: true
 +
-+  imod-interval-ns:
-+    description:
-+      Interrupt moderation interval value, it is 8 times as much as that
-+      defined in the xHCI spec on MTK's controller.
-+    default: 5000
++examples:
++  #hub connected to port 1
++  #device connected to port 2
++  #device connected to port 3
++  #    interface 0 of configuration 1
++  #    interface 0 of configuration 2
++  - |
++    usb@11270000 {
++        reg = <0x11270000 0x1000>;
++        interrupts = <0x0 0x4e 0x0>;
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
-+  # the following properties are only used for case 1
-+  wakeup-source:
-+    description: enable USB remote wakeup, see power/wakeup-source.txt
-+    type: boolean
++        hub@1 {
++            compatible = "usb5e3,608";
++            reg = <1>;
++        };
 +
-+  mediatek,syscon-wakeup:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    maxItems: 1
-+    description:
-+      A phandle to syscon used to access the register of the USB wakeup glue
-+      layer between xHCI and SPM, the field should always be 3 cells long.
-+    items:
-+      items:
-+        - description:
-+            The first cell represents a phandle to syscon
-+        - description:
-+            The second cell represents the register base address of the glue
-+            layer in syscon
-+        - description:
-+            The third cell represents the hardware version of the glue layer,
-+            1 is used by mt8173 etc, 2 is used by mt2712 etc
-+          enum: [1, 2]
++        device@2 {
++            compatible = "usb123,4567";
++            reg = <2>;
++        };
 +
-+  mediatek,u3p-dis-msk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The mask to disable u3ports, bit0 for u3port0,
-+      bit1 for u3port1, ... etc
++        device@3 {
++            compatible = "usb123,abcd";
++            reg = <3>;
 +
++            #address-cells = <2>;
++            #size-cells = <0>;
++
++            interface@0 {
++                compatible = "usbif123,abcd.config1.0";
++                reg = <0 1>;
++            };
++
++            interface@0,2 {
++                compatible = "usbif123,abcd.config2.0";
++                reg = <0 2>;
++            };
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 9881ac10380d..56853c17af66 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -23,6 +23,18 @@ properties:
+       targeted hosts (non-PC hosts).
+     type: boolean
+ 
 +  "#address-cells":
 +    const: 1
 +
@@ -363,48 +356,26 @@ index 000000000000..38b1fe18aa79
 +    const: 0
 +
 +patternProperties:
-+  "@[0-9a-f]{1}$":
++  "^.*@[0-9a-f]{1,2}$":
++    description: The hard wired USB devices
 +    type: object
-+    description: The hard wired USB devices.
++    $ref: /usb/usb-device.yaml
 +
-+dependencies:
-+  wakeup-source: [ 'mediatek,syscon-wakeup' ]
+ additionalProperties: true
+ 
+ examples:
+@@ -30,4 +42,11 @@ examples:
+     usb {
+         phys = <&usb2_phy1>, <&usb3_phy1>;
+         phy-names = "usb";
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/mt8173-clk.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/phy/phy.h>
-+    #include <dt-bindings/power/mt8173-power.h>
-+
-+    usb@11270000 {
-+        compatible = "mediatek,mt8173-xhci", "mediatek,mtk-xhci";
-+        reg = <0x11270000 0x1000>, <0x11280700 0x0100>;
-+        reg-names = "mac", "ippc";
-+        interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_LOW>;
-+        power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
-+        clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>;
-+        clock-names = "sys_ck", "ref_ck";
-+        phys = <&u3port0 PHY_TYPE_USB3>, <&u2port1 PHY_TYPE_USB2>;
-+        vusb33-supply = <&mt6397_vusb_reg>;
-+        vbus-supply = <&usb_p1_vbus>;
-+        imod-interval-ns = <10000>;
-+        mediatek,syscon-wakeup = <&pericfg 0x400 1>;
-+        wakeup-source;
-+        usb3-lpm-capable;
-+    };
-+...
++        hub@1 {
++            compatible = "usb5e3,610";
++            reg = <1>;
++        };
+     };
 -- 
 2.18.0
 
