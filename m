@@ -2,181 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4BAAC433DB
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Dec 2020 11:23:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0E39C433E6
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Dec 2020 13:46:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A14F42078B
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Dec 2020 11:23:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B36A20897
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Dec 2020 13:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbgL0LXU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Dec 2020 06:23:20 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:43973 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726075AbgL0LXT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Dec 2020 06:23:19 -0500
-Received: from aptenodytes (lns-bzn-59-82-252-129-67.adsl.proxad.net [82.252.129.67])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id F2D05200002;
-        Sun, 27 Dec 2020 11:22:35 +0000 (UTC)
-Date:   Sun, 27 Dec 2020 12:22:34 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Hamish Martin <hamish.martin@alliedtelesis.co.nz>
-Cc:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] usb: ohci: Default to per-port over-current
- protection
-Message-ID: <X+huemxT9XOeDi5E@aptenodytes>
-References: <20200910212512.16670-1-hamish.martin@alliedtelesis.co.nz>
+        id S1726114AbgL0Npp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Dec 2020 08:45:45 -0500
+Received: from gofer.mess.org ([88.97.38.141]:43109 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726085AbgL0Npo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 27 Dec 2020 08:45:44 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 82A21C634D; Sun, 27 Dec 2020 13:45:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1609076702; bh=U5FwOOLb7pgg8vrdfl12PWCnlc5piNmkT5R2/yMxG8s=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FnBh7tm4xaYRafGn76R/MeqvRc/jS3iZgzPXV92hl+Rkts+GqYrJ+9616DM+uiE8/
+         BaP0QiBhFYp4CnATy+U8ORQ7QZUAUyMlEDmphtaooW0e8L9snRX5hBVDKOPerUXbIo
+         H6Bm4HiTqkYJrvx1mn0KfAeeYttNV3eOYAbU4Xld03pvy14uSes0ycXjYmOM94W+uA
+         65s3FFXeb8mmqs8SKzM8XqSKkBG8Gb+pv+A3PNiHbSWDUUFtlqaz1yNVtJfq/TBTXS
+         /QchDjq3ln99oUv29seAfieM+KwUFITnz+JDzuEII1NYbRhSxKzMpxlIotYieuEDDv
+         fSA/AaZ9sjqGQ==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     Georgi Bakalski <georgi.bakalski@gmail.com>
+Subject: [PATCH 2/2] cdc-acm: blacklist another IR Droid device
+Date:   Sun, 27 Dec 2020 13:45:02 +0000
+Message-Id: <20201227134502.4548-2-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201227134502.4548-1-sean@mess.org>
+References: <20201227134502.4548-1-sean@mess.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Smv2TijY037QtWlE"
-Content-Disposition: inline
-In-Reply-To: <20200910212512.16670-1-hamish.martin@alliedtelesis.co.nz>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+This device is supported by the IR Toy driver.
 
---Smv2TijY037QtWlE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Georgi Bakalski <georgi.bakalski@gmail.com>
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/usb/class/cdc-acm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Hi,
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index f52f1bc0559f..781905745812 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1895,6 +1895,10 @@ static const struct usb_device_id acm_ids[] = {
+ 	{ USB_DEVICE(0x04d8, 0xfd08),
+ 	.driver_info = IGNORE_DEVICE,
+ 	},
++
++	{ USB_DEVICE(0x04d8, 0xf58b),
++	.driver_info = IGNORE_DEVICE,
++	},
+ #endif
+ 
+ 	/*Samsung phone in firmware update mode */
+-- 
+2.29.2
 
-On Fri 11 Sep 20, 09:25, Hamish Martin wrote:
-> Some integrated OHCI controller hubs do not expose all ports of the hub
-> to pins on the SoC. In some cases the unconnected ports generate
-> spurious over-current events. For example the Broadcom 56060/Ranger 2 SoC
-> contains a nominally 3 port hub but only the first port is wired.
->=20
-> Default behaviour for ohci-platform driver is to use global over-current
-> protection mode (AKA "ganged"). This leads to the spurious over-current
-> events affecting all ports in the hub.
->=20
-> We now alter the default to use per-port over-current protection.
-
-This specific patch lead to breaking OHCI on my mom's laptop (whom was about
-to buy a new one thinking the hardware had failed). I get no OHCI interrupt=
- at
-all and no USB 1 device is ever detected.
-
-I haven't really found a reasonable explanation about why that is, but here
-are some notes I was able to collect:
-- The issue showed up on 5.8,18 and 5.9.15, which don't include the patch
-  from this series that sets distrust_firmware =3D false; This results in t=
-he NPS
-  bit being set via OHCI_QUIRK_HUB_POWER.
-- Adding val &=3D ~RH_A_PSM; (as was done before this change) solves the is=
-sue
-  which is weird because the bit is supposed to be inactive when NPS is set;
-- Setting ohci_hcd.distrust_firmware=3D0 in the cmdline results in not sett=
-ing
-  the NPS bit and also solves the issue;
-- The initial value of the register at function entry is 0x1001104 (PSM bit
-  is set, NPS is unset);
-- The OHCI controller is the following:
-00:03.0 USB controller: Silicon Integrated Systems [SiS] USB 1.1 Controller=
- (rev 0f) (prog-if 10 [OHCI])
-	Subsystem: ASUSTeK Computer Inc. Device 1aa7
-
-Does that make any sense to you?
-
-I really wonder what a proper fix could be and here are some suggestions:
-- Adding a specific quirk to clear the PSM bit for this hardware which seem=
-s to
-  consider the bit regardless of NPS;
-- Adding the patch that sets distrust_firmware =3D false to stable branches;
-
-What do you think?
-
-Cheers,
-
-Paul
-
-> This patch results in the following configuration changes depending
-> on quirks:
-> - For quirk OHCI_QUIRK_SUPERIO no changes. These systems remain set up
->   for ganged power switching and no over-current protection.
-> - For quirk OHCI_QUIRK_AMD756 or OHCI_QUIRK_HUB_POWER power switching
->   remains at none, while over-current protection is now guaranteed to be
->   set to per-port rather than the previous behaviour where it was either
->   none or global over-current protection depending on the value at
->   function entry.
->=20
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
-> ---
->=20
-> Notes:
->     Changes in v2:
->     - remove clearing of RH_A_PSM in OHCI_QUIRK_HUB_POWER block.
->=20
->  drivers/usb/host/ohci-hcd.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
-> index dd37e77dae00..2845ea328a06 100644
-> --- a/drivers/usb/host/ohci-hcd.c
-> +++ b/drivers/usb/host/ohci-hcd.c
-> @@ -673,20 +673,24 @@ static int ohci_run (struct ohci_hcd *ohci)
-> =20
->  	/* handle root hub init quirks ... */
->  	val =3D roothub_a (ohci);
-> -	val &=3D ~(RH_A_PSM | RH_A_OCPM);
-> +	/* Configure for per-port over-current protection by default */
-> +	val &=3D ~RH_A_NOCP;
-> +	val |=3D RH_A_OCPM;
->  	if (ohci->flags & OHCI_QUIRK_SUPERIO) {
-> -		/* NSC 87560 and maybe others */
-> +		/* NSC 87560 and maybe others.
-> +		 * Ganged power switching, no over-current protection.
-> +		 */
->  		val |=3D RH_A_NOCP;
-> -		val &=3D ~(RH_A_POTPGT | RH_A_NPS);
-> -		ohci_writel (ohci, val, &ohci->regs->roothub.a);
-> +		val &=3D ~(RH_A_POTPGT | RH_A_NPS | RH_A_PSM | RH_A_OCPM);
->  	} else if ((ohci->flags & OHCI_QUIRK_AMD756) ||
->  			(ohci->flags & OHCI_QUIRK_HUB_POWER)) {
->  		/* hub power always on; required for AMD-756 and some
-> -		 * Mac platforms.  ganged overcurrent reporting, if any.
-> +		 * Mac platforms.
->  		 */
->  		val |=3D RH_A_NPS;
-> -		ohci_writel (ohci, val, &ohci->regs->roothub.a);
->  	}
-> +	ohci_writel(ohci, val, &ohci->regs->roothub.a);
-> +
->  	ohci_writel (ohci, RH_HS_LPSC, &ohci->regs->roothub.status);
->  	ohci_writel (ohci, (val & RH_A_NPS) ? 0 : RH_B_PPCM,
->  						&ohci->regs->roothub.b);
-> --=20
-> 2.28.0
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---Smv2TijY037QtWlE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/obnoACgkQ3cLmz3+f
-v9H38Qf/bak2ehuKVY7Ky7MD+Yo2z98TvUwbvJMz4t6ncISe+LaeOfCjnVEiw0Gp
-TUZA2OUDR9pTFuPg7KwYzOGGvRR2DV+b3YDNOawTs2enzC62ToFldHGUuezdL/kN
-Zatg86b4vECQDldjqKNmVP7Z8ttu31RXzdOBi0CVZNNz94m+ytsA5d966G43iVmB
-/bLz5kQ+j9MDQulx+IUQcALDUAEoIG9hGoqPNN8/Ci/Xex1ul3N2giRxk2SQk0hB
-n4V/1Nwif4TWUdwHnH7WI4JWGey7+rTODDR4uxDfedzL6+dgHeXuIX2aSA0LbcQu
-m9fcSb1m6aXjK2f8VQoPajo3wUY2KQ==
-=khjv
------END PGP SIGNATURE-----
-
---Smv2TijY037QtWlE--
