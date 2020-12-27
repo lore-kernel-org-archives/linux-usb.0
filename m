@@ -2,97 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A78B7C433DB
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Dec 2020 16:56:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7446BC433DB
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Dec 2020 01:58:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69B5F207E8
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Dec 2020 16:56:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 330A020867
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Dec 2020 01:58:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726185AbgLZQxM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Dec 2020 11:53:12 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:46723 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726010AbgLZQxM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Dec 2020 11:53:12 -0500
-Received: (qmail 607118 invoked by uid 1000); 26 Dec 2020 11:52:30 -0500
-Date:   Sat, 26 Dec 2020 11:52:30 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Vincent Pelletier <plr.vincent@gmail.com>
+        id S1726173AbgL0Btp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Dec 2020 20:49:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbgL0Bto (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Dec 2020 20:49:44 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F179C0613CF
+        for <linux-usb@vger.kernel.org>; Sat, 26 Dec 2020 17:49:04 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id z12so4130619pjn.1
+        for <linux-usb@vger.kernel.org>; Sat, 26 Dec 2020 17:49:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rvoZwIIkGbNzMPEeuZedp4bprfT1khhUX1S+1EJV7Eo=;
+        b=UrUm3t5bMEup8NqBWMUCwroxSb4f65zFj1RYJZhGcneTXJNOgJTu7e/ETtoKCXU2bj
+         8f5Ic81pR1sNa5GhFdLSikkd4Xc34rTeNAGty9I5Lwasj+KeRG7VGQ326w+wJz9pshK1
+         5wMoE3K7gU7XvgVwFGIqfw8b+MJuqltvDawSTiYTyiuKZEGk6G7xSGU7t7y4iU3tUUIO
+         xLPM7OL2AT7Jbiu8BWX5n8rwnShuYTAyjxpeNBcs5EfEKzXSDsGkLNd8CrPE6nz9XobH
+         wwiHO/2ysG6pZtefcrs8fRXGgb76RYSE+PPEpwhNWKiaZjXqomo0mUOgYzUU0lJGD8c9
+         S7cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rvoZwIIkGbNzMPEeuZedp4bprfT1khhUX1S+1EJV7Eo=;
+        b=qs1gysY+do951vBW817GCccF+AN8OW3OMSEZgpU/7SVDtBoyrAaRvsWIvCKsQZ5KdS
+         2G3PmexL5fD/ZMIyE2tZF4CHDmrd1mzVO+YoEkhEJU37Q6f+mAmNFVKkpKUA/yfR6Zui
+         Z4bWTJhD1iDIUALQATWxPiKkIMLAsgWk7A8uBJpwCPEA/vJd+rt3saAPHiqtc3liTUIb
+         lsLi0WG5XFPwnSZbUuB3nLNyg3d7FeBE4bRGuLIZNlNar1tI+VtAbR40HPZPQ8rT/gXr
+         qMECwzoy+6USvlSbH1fcDAL8/XGF2wczV3xtvrfTRD/yzJWkSvURlfYTKIsUUuBryWi6
+         AFqw==
+X-Gm-Message-State: AOAM533aRjskNp2cO36FS0J25vJ2izH9uDk4S45CnT8J1Kt7KwSxTIWb
+        r51EabQX9ul+PMk31dnteHh2LqYVMW2MlQ==
+X-Google-Smtp-Source: ABdhPJyeRx6L7fA47FjNjK6BuWGRuDQMC1PoucA1mocp7SQPmZ7ly6Np1+OL9sskn0gRc1MDzj5OMA==
+X-Received: by 2002:a17:90a:e604:: with SMTP id j4mr14987527pjy.19.1609033743895;
+        Sat, 26 Dec 2020 17:49:03 -0800 (PST)
+Received: from localhost.lan ([2400:4070:175b:7500::7a7])
+        by smtp.gmail.com with ESMTPSA id z11sm32740159pfj.191.2020.12.26.17.49.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Dec 2020 17:49:03 -0800 (PST)
+Received: from localhost (localhost [IPv6:::1])
+        by localhost.lan (Postfix) with ESMTPSA id 5D19A900908;
+        Sun, 27 Dec 2020 01:49:00 +0000 (GMT)
+Date:   Sun, 27 Dec 2020 01:49:00 +0000
+From:   Vincent Pelletier <plr.vincent@gmail.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
 Cc:     Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
 Subject: Re: dwc2 gadget rejecting new AIO transfer when bus is suspended
-Message-ID: <20201226165230.GB606763@rowland.harvard.edu>
+Message-ID: <20201227014900.2ff91bab@gmail.com>
+In-Reply-To: <20201226165230.GB606763@rowland.harvard.edu>
 References: <20201224125012.4df1d26c@gmail.com>
- <ff11cf43-f185-b123-6cb5-f218ef148d89@synopsys.com>
- <20201226004627.657ba339@gmail.com>
+        <ff11cf43-f185-b123-6cb5-f218ef148d89@synopsys.com>
+        <20201226004627.657ba339@gmail.com>
+        <20201226165230.GB606763@rowland.harvard.edu>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201226004627.657ba339@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Dec 26, 2020 at 12:46:27AM +0000, Vincent Pelletier wrote:
-> Hello Artur,
-> 
-> On Fri, 25 Dec 2020 10:56:02 +0000, Artur Petrosyan <Arthur.Petrosyan@synopsys.com> wrote:
-> > According your debug log core enters suspend on receiving an 
-> > GINTSTS_ErlySusp interrupt. It means that the driver goes to L2 state 
-> > (suspend). In suspend mode accepting and processing EP requests can lead 
-> > to unexpected behavior. That is why the driver rejects EP request with 
-> > -EAGAIN.
-> > 
-> > As core may use power saving modes which are initiated by the Suspend 
-> > interrupt, then in any suspend mode whether it is hibernation or partial 
-> > power down the core registers are not available. This is why we avoid to 
-> > get new EP requests.
+Hello Alan,
 
-This seems like a design mistake.  Even though the controller may be in 
-a low-power state, there's no reason the UDC driver can't accept new 
-requests or unlink old ones.  It even ought to be willing to halt 
-endpoints.
+On Sat, 26 Dec 2020 11:52:30 -0500, Alan Stern <stern@rowland.harvard.edu> wrote:
+> The kernel shouldn't have to sit on anything.  The requests should be 
+> accepted immediately.
 
-None of these actions require the driver to touch the hardware.  The 
-hardware-specific parts of the actions can be carried out when the 
-controller returns to full power.
+I must have used this sentence incorrectly: I meant what you described,
+the kernel accepting the transfer and the module submitting it to
+hardware whenever able.
 
-> This is my understanding from reading the commit history, yes.
-> 
-> But from userland's point of view this causes a weird situation:
-> - sequence 1:
->   - userland submits buffer (ex: to receive the next host request)
->   - UDC is suspended
->   - UDC is awoken by host initiating a transfer
->   Result: the AIO completes successfully, the suspension was completely
->   invisible to userland, and I'm happy.
-> - sequence 2:
->   - UDC is suspended
->   - userland submits buffer (ex: to receive the next host request)
->   Result: the AIO completes with an error, the suspension got in the
->   way, and I'm confused about what I need to make my code do to
->   recover: should I change my IO completion codepath so that it
->   resubmits any EAGAIN completion, hoping to catch the UDC at a time it
->   is awoken so the AIO finally sticks and everything can sleep until an
->   actual transfer completion ?
+Also, strictly speaking (and to avoid confusion if I failed further at
+English expression in my previous emails) aio_submit itself does
+succeed, so in a sense the kernel already accepts the transfer. The
+issue is that the transfer completion happens immediately after, with
+this EAGAIN status.
 
-Indeed, the same problem will occur with synchronous (non-AIO) 
-submissions.
-
-> I do not know if it makes sense from a kernel point of view, but would
-> it be possible for the dwc2 module to sit on the AIO requests while the
-> controller is suspended, and submit them when it wakes up rather than
-> failing them immediately and sending them back to userland ?
-> I expect that this code actually knows (without polling) when the
-> controller is awoken.
-
-The kernel shouldn't have to sit on anything.  The requests should be 
-accepted immediately.
-
-Alan Stern
+Regards,
+-- 
+Vincent Pelletier
