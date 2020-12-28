@@ -2,129 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4587C433E9
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 16:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F2AC43333
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 16:49:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAA132245C
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 16:43:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CD3922B37
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 16:49:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634527AbgL1QnY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Dec 2020 11:43:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45248 "EHLO mail.kernel.org"
+        id S1727940AbgL1Mwx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Dec 2020 07:52:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49798 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2634514AbgL1QnX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Dec 2020 11:43:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 44975223E8;
-        Mon, 28 Dec 2020 16:42:42 +0000 (UTC)
+        id S1727802AbgL1Mwx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Dec 2020 07:52:53 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FD2C22583;
+        Mon, 28 Dec 2020 12:51:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1609173762;
-        bh=et/TI3auscafsOCmFdm/6umOhwDg24QVF34LygtTsbA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Mx9Q0+8G6VN1K0DgbVZQHG7iDB8j8KPrf0XwMHvxZgmWPSumcXcJqMVPI/PK3IcG1
-         mL1IJIbakA1k+z5BbI83eFI59XJTNSb28To5zQ48vtROykcumC1A78795u5jnAx6Fs
-         IjoCKP5G/sZ4574p9YXISZthJg9o70wQM4UBIsz4=
-Date:   Mon, 28 Dec 2020 17:44:04 +0100
+        s=korg; t=1609159910;
+        bh=ZQx4jiJYSqq0ifLV2fS+ihkyAB+CjY19pTM7Afr80S8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hXM5KtDEGlWkUHKjUuqoNvB2GkzcLJY/FFO9N5C500A/6ATVvuIi1ZCt2u+AkRQZ1
+         lKFWf7R35Fy4TfboK2LEvjNjUqRBHBKl5hXPg4efrJh6wDKFipy/rQ60KA0WSIbtyn
+         REsVWE9be0y8JE6FagQsPA90dtF5vVt1LGBicmN4=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Michael Sweet <msweet@msweet.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH] USB printer gadget (usb_f_printer) to use default q_len
- value
-Message-ID: <X+oLVDDKWE7dq62l@kroah.com>
-References: <38D8A36C-BD7B-4072-B608-D5E36D8523E2@msweet.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Winischhofer <thomas@winischhofer.net>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 4.4 018/132] USB: sisusbvga: Make console support depend on BROKEN
+Date:   Mon, 28 Dec 2020 13:48:22 +0100
+Message-Id: <20201228124847.289840307@linuxfoundation.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201228124846.409999325@linuxfoundation.org>
+References: <20201228124846.409999325@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <38D8A36C-BD7B-4072-B608-D5E36D8523E2@msweet.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Dec 28, 2020 at 11:25:18AM -0500, Michael Sweet wrote:
-> [Resending as requested]
-> 
-> Hi,
-> 
-> I've been doing some work on Linux-based printer firmware lately (https://www.msweet.org/pappl) and part of that includes support for USB printer gadgets - right now the legacy printer class 1/2 stuff, but soon class 4 IPP-USB.  Since I also want to support functions other than printing (serial for debugging, mass storage for access to SD cards, etc.) I've been working to configure the printer gadget using configfs. After spending a few days puzzling over why the legacy g_printer gadget worked but usb_f_printer didn't I discovered that the default q_len value for the new driver is *0*, which prevents any IO from occurring!  Moreover, once you've configured things and assigned the UDC it is basically impossible to change q_len, so if your Linux distro of choice does any "helpful" initialization for you then you are out of luck...
-> 
-> The following patch uses a default q_len value of 10 (which is what the legacy g_printer driver uses) to minimize the possibility that you end up with a non-working printer gadget.
-> 
-> 
-> diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-> index 9c7ed2539ff7..4f3161005e4f 100644
-> --- a/drivers/usb/gadget/function/f_printer.c
-> +++ b/drivers/usb/gadget/function/f_printer.c
-> @@ -50,6 +50,8 @@
-> #define GET_PORT_STATUS		1
-> #define SOFT_RESET		2
-> 
-> +#define DEFAULT_Q_LEN		10 /* same as legacy g_printer gadget */
-> +
-> static int major, minors;
-> static struct class *usb_gadget_class;
-> static DEFINE_IDA(printer_ida);
-> @@ -1317,6 +1319,9 @@ static struct usb_function_instance *gprinter_alloc_inst(void)
-> 	opts->func_inst.free_func_inst = gprinter_free_inst;
-> 	ret = &opts->func_inst;
-> 
-> +	/* Make sure q_len is initialized, otherwise the bound device can't support read/write! */
-> +	opts->q_len = DEFAULT_Q_LEN;
-> +
-> 	mutex_lock(&printer_ida_lock);
-> 
-> 	if (ida_is_empty(&printer_ida)) {
-> 
-> 
-> ________________________
-> Michael Sweet
-> 
-> 
-> 
+From: Thomas Gleixner <tglx@linutronix.de>
 
-Hi,
+commit 862ee699fefe1e6d6f2c1518395f0b999b8beb15 upstream.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+The console part of sisusbvga is broken vs. printk(). It uses in_atomic()
+to detect contexts in which it cannot sleep despite the big fat comment in
+preempt.h which says: Do not use in_atomic() in driver code.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+in_atomic() does not work on kernels with CONFIG_PREEMPT_COUNT=n which
+means that spin/rw_lock held regions are not detected by it.
 
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/email-clients.txt in order to fix this.
+There is no way to make this work by handing context information through to
+the driver and this only can be solved once the core printk infrastructure
+supports sleepable console drivers.
 
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/SubmittingPatches and resend it after
-  adding that line.  Note, the line needs to be in the body of the
-  email, before the patch, not at the bottom of the patch or in the
-  email signature.
+Make it depend on BROKEN for now.
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
+Fixes: 1bbb4f2035d9 ("[PATCH] USB: sisusb[vga] update")
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Winischhofer <thomas@winischhofer.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/r/20201019101109.603244207@linutronix.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
+---
+ drivers/usb/misc/sisusbvga/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+--- a/drivers/usb/misc/sisusbvga/Kconfig
++++ b/drivers/usb/misc/sisusbvga/Kconfig
+@@ -15,7 +15,7 @@ config USB_SISUSBVGA
+ 
+ config USB_SISUSBVGA_CON
+ 	bool "Text console and mode switching support" if USB_SISUSBVGA
+-	depends on VT
++	depends on VT && BROKEN
+ 	select FONT_8x16
+ 	---help---
+ 	  Say Y here if you want a VGA text console via the USB dongle or
 
-thanks,
 
-greg k-h's patch email bot
