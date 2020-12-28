@@ -2,60 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08FA0C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5140FC4332B
 	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 14:35:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D45132053B
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 14:35:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39D72206D4
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 14:35:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505218AbgL1Oe4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Dec 2020 09:34:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42946 "EHLO mail.kernel.org"
+        id S2505272AbgL1OfG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Dec 2020 09:35:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43016 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2505214AbgL1Oey (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Dec 2020 09:34:54 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 881F120791;
-        Mon, 28 Dec 2020 14:34:13 +0000 (UTC)
+        id S2505254AbgL1OfD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Dec 2020 09:35:03 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 450D7223E8;
+        Mon, 28 Dec 2020 14:34:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1609166054;
-        bh=xe0wR3KHiGn8vh4lma29Zb/h+UfPiNjDTTW1JdihMJ0=;
+        s=korg; t=1609166062;
+        bh=Is9XbTyMnMpitr/me80eTOa4UNjGDk+Wd80fgtYldQ4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JoI/ME2zcugn+e8yO4HbEIs7Zg1kKglS1/RWutXAJEI7LA/goTS/Qcqy9R0gUIfnN
-         WfrsyCSPTf3jiQAQ6FjKjGO9WXmZ1a5Fq6YrCZHXDsqnbKnrara+WzC4fMIhv4ZFYw
-         +GX9dzbfiE3mgx7gn687DlqWnb6/QsVhmuIpJ5Fw=
-Date:   Mon, 28 Dec 2020 15:24:36 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Zheng Yongjun <zhengyongjun3@huawei.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 -next] usb: misc: use DEFINE_MUTEX() for mutex lock
-Message-ID: <X+nqpDpLg91ZFw61@kroah.com>
-References: <20201224132555.31734-1-zhengyongjun3@huawei.com>
+        b=tPoiBHW7srGkxORxbM7TK7a5ex8WPPKpJrx4I5G7I2z40mOwgIhNk8NhDN62iw7+5
+         v34g7D3GJPQlvh5OptOaGxZLvXWvOjS8mLnWL5+zER/kgmto4vPFHS6U/+YVrmFA3Q
+         22CgJMOdfhwQoDYFYKhUnBWI3klip+UBoOAGn0vg=
+Date:   Mon, 28 Dec 2020 15:30:03 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Ikjoon Jang <ikjn@chromium.org>
+Cc:     linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Zhanyong Wang <zhanyong.wang@mediatek.com>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] usb: xhci-mtk: fix unreleased bandwidth data
+Message-ID: <X+nr65vhINCw8fCL@kroah.com>
+References: <20201214131640.v3.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
+ <20201214163945.v4.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201224132555.31734-1-zhengyongjun3@huawei.com>
+In-Reply-To: <20201214163945.v4.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Dec 24, 2020 at 09:25:55PM +0800, Zheng Yongjun wrote:
-> mutex lock can be initialized automatically with DEFINE_MUTEX()
-> rather than explicitly calling mutex_init().
+On Mon, Dec 14, 2020 at 04:39:53PM +0800, Ikjoon Jang wrote:
+> xhci-mtk has hooks on add_endpoint() and drop_endpoint() from xhci
+> to handle its own sw bandwidth managements and stores bandwidth data
+> into internal table every time add_endpoint() is called,
+> so when bandwidth allocation fails at one endpoint, all earlier
+> allocation from the same interface could still remain at the table.
 > 
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-> ---
->  drivers/usb/misc/ftdi-elan.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> This patch adds two more hooks from check_bandwidth() and
+> reset_bandwidth(), and make mtk-xhci to releases all failed endpoints
+> from reset_bandwidth().
+> 
+> Fixes: 4b0f7a77fb3c ("usb: xhci-mtk: supports bandwidth scheduling with multi-TT")
 
-What changed from v1?  That always goes below the --- line.
+This is not a git commit id that is in Linus's tree :(
 
-Please fix up and send a v3.
-
-thanks,
-
-greg k-h
