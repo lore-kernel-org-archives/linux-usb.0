@@ -2,80 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64D83C433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 17:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7044C433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 23:14:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 371F0229C4
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 17:19:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B503223C8
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 23:14:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727768AbgL1RTG convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Dec 2020 12:19:06 -0500
-Received: from mail.msweet.org ([173.255.209.91]:54870 "EHLO mail.msweet.org"
+        id S1730595AbgL1Wzv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Dec 2020 17:55:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52094 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727660AbgL1RTG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Dec 2020 12:19:06 -0500
-Received: from [10.0.1.64] (host-148-170-144-200.public.eastlink.ca [148.170.144.200])
-        by mail.msweet.org (Postfix) with ESMTPSA id 9EE5E81BF3;
-        Mon, 28 Dec 2020 17:18:25 +0000 (UTC)
-From:   Michael R Sweet <msweet@msweet.org>
-Content-Type: text/plain;
-        charset=us-ascii
-Content-Transfer-Encoding: 8BIT
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: [PATCH] Fix default q_len for usb_f_printer gadget driver
-Message-Id: <9DFB1605-63A5-46DB-A5A4-B59B315D8115@msweet.org>
-Date:   Mon, 28 Dec 2020 12:18:24 -0500
-Cc:     Michael Sweet <msweet@msweet.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
+        id S1729515AbgL1VbR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Dec 2020 16:31:17 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EE6FF208D5;
+        Mon, 28 Dec 2020 21:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609191037;
+        bh=mBn4kEKq5fTLloy0XBZkBU+UnHh4E+qddzACieSTL5o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dwJFsqIfvpiuVWwDDR5yo9uHaiibQuIrhyfWpZIIE8NBF4EMbcKgW3h1kdvRZAyxZ
+         VKFSISthzvHbGqCKSeGIqbPLPSqP6au7wxnJOQ5M8sqBHW1cWA4Q5pSb3BaYgtbOfj
+         PG4/YYLHZPYscR7sbiF7T4xnnGSve66/0WKFHDNsLNcWT7n6yJTftHYy1vGh10ieSc
+         GrmDMk/8BVMgZneIkGxRjShnjbt1j3EtGDLp2vKTo3GqQZfe7VDINJyW2+FJCQPXlV
+         ncf0wA+6CTVUrzROsqf7zhUVHmFSb6lG1L69zcU4Nf0XWHwz9nO57YTntmPgRfKHud
+         BtVMD0gSOpRFQ==
+Date:   Mon, 28 Dec 2020 13:30:36 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Roland Dreier <roland@kernel.org>
+Cc:     Oliver Neukum <oliver@neukum.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] CDC-NCM: remove "connected" log message
+Message-ID: <20201228133036.3a2e9fb5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <X+RJEI+1AR5E0z3z@kroah.com>
+References: <20201222184926.35382198@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20201224032116.2453938-1-roland@kernel.org>
+        <X+RJEI+1AR5E0z3z@kroah.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The usb_f_printer gadget driver uses a default q_len value of *0* which prevents
-any IO from occurring.  Moreover, once the driver is instantiated it is
-impossible to change the q_len value.
+On Thu, 24 Dec 2020 08:53:52 +0100 Greg KH wrote:
+> On Wed, Dec 23, 2020 at 07:21:16PM -0800, Roland Dreier wrote:
+> > The cdc_ncm driver passes network connection notifications up to
+> > usbnet_link_change(), which is the right place for any logging.
+> > Remove the netdev_info() duplicating this from the driver itself.
+> > 
+> > This stops devices such as my "TRENDnet USB 10/100/1G/2.5G LAN"
+> > (ID 20f4:e02b) adapter from spamming the kernel log with
+> > 
+> >     cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+> > 
+> > messages every 60 msec or so.
+> > 
+> > Signed-off-by: Roland Dreier <roland@kernel.org>
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-The following patch uses a default q_len value of 10 which matches the legacy
-g_printer gadget driver.  This minimizes the possibility that you end up with a
-non-working printer gadget.  It is still possible to set the q_len to a
-different value using the configfs path of the same name.
-
-Signed-off-by: Michael R Sweet <msweet@msweet.org>
----
-drivers/usb/gadget/function/f_printer.c | 5 +++++
-1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index 9c7ed2539ff7..4f3161005e4f 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -50,6 +50,8 @@
-#define GET_PORT_STATUS		1
-#define SOFT_RESET		2
-
-+#define DEFAULT_Q_LEN		10 /* same as legacy g_printer gadget */
-+
-static int major, minors;
-static struct class *usb_gadget_class;
-static DEFINE_IDA(printer_ida);
-@@ -1317,6 +1319,9 @@ static struct usb_function_instance *gprinter_alloc_inst(void)
-	opts->func_inst.free_func_inst = gprinter_free_inst;
-	ret = &opts->func_inst;
-
-+	/* Make sure q_len is initialized, otherwise the bound device can't support read/write! */
-+	opts->q_len = DEFAULT_Q_LEN;
-+
-	mutex_lock(&printer_ida_lock);
-
-	if (ida_is_empty(&printer_ida)) {
--- 
-2.17.1
-
+Applied to net and queued for LTS, thanks!
