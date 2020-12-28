@@ -2,65 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A00ADC43331
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 14:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21420C43217
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 14:43:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77E6820715
+	by mail.kernel.org (Postfix) with ESMTP id EB9A2206DC
 	for <linux-usb@archiver.kernel.org>; Mon, 28 Dec 2020 14:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502185AbgL1OnC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Dec 2020 09:43:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46800 "EHLO mail.kernel.org"
+        id S2503358AbgL1OnQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Dec 2020 09:43:16 -0500
+Received: from mga04.intel.com ([192.55.52.120]:33641 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2502252AbgL1OnB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Dec 2020 09:43:01 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8FB4D20715;
-        Mon, 28 Dec 2020 14:42:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1609166541;
-        bh=c271oTiYg2uwOY8EyI856TeAGbtlRbxssE+37OQ3U5U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DYgEE5Hu7snUL/lt/JZS2EqLe+Ntjr7y7B/AWsiyfRzKOcDbCPSlxP6PBt8Cafd9N
-         1+3Oewz3zPaYeAkW/Z0Lt5llbdm6Qcl57PLiV+3acFroEbMlPCz21SZHywlCudF5g4
-         sIYIfM4kebakYq/ww4wIy0D9SNixacpomgz739t8=
-Date:   Mon, 28 Dec 2020 15:43:42 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Pawel Laszczak <pawell@cadence.com>
-Cc:     peter.chen@nxp.com, linux-usb@vger.kernel.org, kurahul@cadence.com,
-        dan.carpenter@oracle.com
-Subject: Re: [PATCH] usb: cdnsp: fix error handling in cdnsp_mem_init()
-Message-ID: <X+nvHj8gXnji8SuP@kroah.com>
-References: <20201211095053.1948-1-pawell@cadence.com>
+        id S2392309AbgL1OnP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Dec 2020 09:43:15 -0500
+IronPort-SDR: s+2ifm1Log9zAqv8DJVy2nV9yEAiEh42cXcT8chVHQV7JfnXMucZJU6M2ugnDjSenP50NR8rSB
+ jGiH0nofJHcg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9847"; a="173810166"
+X-IronPort-AV: E=Sophos;i="5.78,455,1599548400"; 
+   d="scan'208";a="173810166"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 06:41:29 -0800
+IronPort-SDR: 6wSThdINNqqGiTNuIvXXSLMz/k2olhZeii0RDz3JKnqnTLFcINlsW3D6J4FHz9OHru4QNIubhj
+ jYzOpM9Y22Xw==
+X-IronPort-AV: E=Sophos;i="5.78,455,1599548400"; 
+   d="scan'208";a="459788908"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 06:41:28 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kttjC-000EUB-Mw; Mon, 28 Dec 2020 16:42:30 +0200
+Date:   Mon, 28 Dec 2020 16:42:30 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Brad Campbell <brad@fnarfbargle.com>
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: Patch "usb: hcd: Try MSI interrupts on PCI devices" breaks
+ usb-audio on my machine
+Message-ID: <20201228144230.GW4077@smile.fi.intel.com>
+References: <ad10644a-ac7f-d2e5-304c-edb5d2f0d0a0@fnarfbargle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201211095053.1948-1-pawell@cadence.com>
+In-Reply-To: <ad10644a-ac7f-d2e5-304c-edb5d2f0d0a0@fnarfbargle.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 10:50:53AM +0100, Pawel Laszczak wrote:
-> This function uses "One Function Cleans up Everything" style and that's
-> basically impossible to do correctly. It's cleaner to write it with
-> "clean up the most recent allocation".
+On Mon, Dec 28, 2020 at 07:19:49PM +0800, Brad Campbell wrote:
+> G'day Andy,
 > 
-> Patch fixes two isues:
-> 1. If pdev->dcbaa = dma_alloc_coherent() fails then that leads to a NULL
->    dereference inside the cdnsp_free_priv_device() function.
-> 2. if cdnsp_alloc_priv_device() fails that leads to a double free because
->    we free pdev->out_ctx.bytes in several places.
+> Commit 306c54d0edb6ba94d39877524dddebaad7770cf2 in kernel 5.9 breaks
+> usb-audio on my machine.
 > 
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Tested-by: Pawel Laszczak <pawell@cadence.com>
-> ---
->  drivers/usb/cdns3/cdnsp-mem.c | 36 +++++++++++++++++++++++------------
->  1 file changed, 24 insertions(+), 12 deletions(-)
+> I have a 2011 iMac with a pair of Apple Thunderbolt displays. Both Thunderbolt
+> displays have internal usb-audio devices. This patch causes the audio to stutter
+> terribly. Reverting it resolves the issue on any kernel up to and
+> including 5.10.3.
+> 
+> Booting with pci=nomsi fixes the audio issues, but causes all sorts of
+> other problems (like broken Thunderbolt display routing), so that's a non-starter.
+> 
+> The usb audio devices would appear to be on the Pericom USB controllers in the displays.
+> It wouldn't be the first peculiarity I've had on this machine due to the early Thunderbolt
+> implementation.
+> 
+> The issue is pretty much identical with the sound card on both monitors.
 
-This file isn't in 5.11-rc1 :(
+Thanks for the report!
+
+Funny that previous mail in my mailbox is exactly about this issue for
+PI7C9X440SL, i.e. fix [1] I made for v5.11 and Sasha ported to v5.10
+(mentioned previous mail). Can you try to apply [1] and confirm issue gone?
+
+[1]: f83c37941e88 ("PCI: Disable MSI for Pericom PCIe-USB adapter")
+
+
+>            |                               +-04.0-[39-69]----00.0-[3a-44]--+-00.0-[3b-3d]----00.0-[3c-3d]----03.0-[3d]--+-00.0  Pericom Semiconductor PI7C9X442SL USB OHCI Controller
+>            |                               |                               |                                            +-00.1  Pericom Semiconductor PI7C9X442SL USB OHCI Controller
+>            |                               |                               |                                            \-00.2  Pericom Semiconductor PI7C9X442SL USB EHCI Controller
+
+>            |                               +-05.0-[6a-9a]----00.0-[6b-72]--+-00.0-[6c-6e]----00.0-[6d-6e]----03.0-[6e]--+-00.0  Pericom Semiconductor PI7C9X442SL USB OHCI Controller
+>            |                               |                               |                                            +-00.1  Pericom Semiconductor PI7C9X442SL USB OHCI Controller
+>            |                               |                               |                                            \-00.2  Pericom Semiconductor PI7C9X442SL USB EHCI Controller
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
