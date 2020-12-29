@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B13C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 02:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD2FCC433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 03:04:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 504E8207A6
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 02:58:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 923F4207B6
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 03:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgL2C5z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Dec 2020 21:57:55 -0500
-Received: from mga09.intel.com ([134.134.136.24]:27042 "EHLO mga09.intel.com"
+        id S1727739AbgL2DD7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Dec 2020 22:03:59 -0500
+Received: from mga06.intel.com ([134.134.136.31]:21841 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726014AbgL2C5y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Dec 2020 21:57:54 -0500
-IronPort-SDR: 8f4FZ2vJz4ROQVFaJAiZERH1KIQ+4lz6tb2VMEvHS5cjhioSMyfCq5SH6g0U52ZMbLjaS8m+IE
- wAFGO8JLhAYg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="176604621"
+        id S1727630AbgL2DD5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Dec 2020 22:03:57 -0500
+IronPort-SDR: KuUXjm0AQ7UbAkQ5DAOWfBzatBBM2C/n4bUmqnRCkI089OQ02YUJcxBQcoBDNCUSO1AoEq4O1i
+ R4CQSM4GIsUg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="238003718"
 X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; 
-   d="scan'208";a="176604621"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 18:57:13 -0800
-IronPort-SDR: 2kLgzbRabbsjvtRvr3pz2Tqbwx4YbL63zREAAnMfGmPcodWjwDDD6IsQeKXSjnjHA2NDCQhUKw
- ZXp6db3Vu/XA==
+   d="scan'208";a="238003718"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 19:03:15 -0800
+IronPort-SDR: VOFhWCFmMBL1nU3juGCdATwchmpPIm82YEyPfZBvEqDTXTYfn1YVLI3kbCkj+9QCTUxK+5PUZB
+ yMvxocMJhQLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; 
-   d="scan'208";a="564858851"
+   d="scan'208";a="392958303"
 Received: from lkp-server02.sh.intel.com (HELO 4242b19f17ef) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 28 Dec 2020 18:57:12 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 28 Dec 2020 19:03:14 -0800
 Received: from kbuild by 4242b19f17ef with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1ku5CC-0003HX-4Q; Tue, 29 Dec 2020 02:57:12 +0000
-Date:   Tue, 29 Dec 2020 10:56:48 +0800
+        id 1ku5I0-0003Hj-Un; Tue, 29 Dec 2020 03:03:12 +0000
+Date:   Tue, 29 Dec 2020 11:03:02 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- 9389044f27081d6ec77730c36d5bf9a1288bcda2
-Message-ID: <5fea9af0.JK0mWK84AcJVNzo3%lkp@intel.com>
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 32510cf5e554e8f2cecafea8b8cc11daa4afb9e6
+Message-ID: <5fea9c66.wjsJZ7kFXoZjCr/y%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -51,12 +51,12 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
-branch HEAD: 9389044f27081d6ec77730c36d5bf9a1288bcda2  usb: gadget: f_uac2: reset wMaxPacketSize
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-testing
+branch HEAD: 32510cf5e554e8f2cecafea8b8cc11daa4afb9e6  usb: gadget: u_audio: factorize ssize to alsa fmt conversion
 
-elapsed time: 720m
+elapsed time: 722m
 
-configs tested: 140
+configs tested: 141
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -73,11 +73,6 @@ powerpc                     rainier_defconfig
 powerpc                        warp_defconfig
 ia64                            zx1_defconfig
 arm                            mps2_defconfig
-m68k                          hp300_defconfig
-powerpc                    ge_imp3a_defconfig
-mips                  maltasmvp_eva_defconfig
-powerpc                    klondike_defconfig
-powerpc                     taishan_defconfig
 powerpc                     tqm8541_defconfig
 sh                           se7722_defconfig
 sh                 kfr2r09-romimage_defconfig
@@ -87,6 +82,11 @@ powerpc                     powernv_defconfig
 arm                     am200epdkit_defconfig
 riscv                               defconfig
 riscv                          rv32_defconfig
+sh                           se7705_defconfig
+sh                      rts7751r2d1_defconfig
+arm                         axm55xx_defconfig
+arm                         socfpga_defconfig
+sparc                               defconfig
 mips                        workpad_defconfig
 nios2                            alldefconfig
 um                           x86_64_defconfig
@@ -98,7 +98,6 @@ sh                               j2_defconfig
 csky                                defconfig
 sparc                       sparc32_defconfig
 powerpc                      pmac32_defconfig
-arm                            qcom_defconfig
 arm                         at91_dt_defconfig
 sh                           se7751_defconfig
 arm                      footbridge_defconfig
@@ -107,14 +106,16 @@ powerpc                    adder875_defconfig
 arm                           tegra_defconfig
 mips                            gpr_defconfig
 arm                           sunxi_defconfig
-arm                         socfpga_defconfig
 sh                          kfr2r09_defconfig
 powerpc                    socrates_defconfig
 sh                     sh7710voipgw_defconfig
+powerpc                     mpc5200_defconfig
+mips                           xway_defconfig
+powerpc                mpc7448_hpc2_defconfig
+mips                            e55_defconfig
 arm                           h5000_defconfig
 sh                        dreamcast_defconfig
 powerpc                      makalu_defconfig
-sh                      rts7751r2d1_defconfig
 powerpc                       ebony_defconfig
 mips                        jmr3927_defconfig
 arm                   milbeaut_m10v_defconfig
@@ -123,6 +124,7 @@ powerpc                     kilauea_defconfig
 mips                malta_kvm_guest_defconfig
 arc                     haps_hs_smp_defconfig
 mips                      fuloong2e_defconfig
+mips                  maltasmvp_eva_defconfig
 arm                      jornada720_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
@@ -148,7 +150,6 @@ parisc                           allyesconfig
 s390                                defconfig
 i386                             allyesconfig
 sparc                            allyesconfig
-sparc                               defconfig
 i386                               tinyconfig
 i386                                defconfig
 mips                             allyesconfig
@@ -174,18 +175,18 @@ x86_64               randconfig-a016-20201228
 x86_64               randconfig-a012-20201228
 x86_64               randconfig-a011-20201228
 x86_64               randconfig-a013-20201228
-i386                 randconfig-a014-20201228
-i386                 randconfig-a012-20201228
-i386                 randconfig-a016-20201228
-i386                 randconfig-a011-20201228
-i386                 randconfig-a015-20201228
-i386                 randconfig-a013-20201228
 i386                 randconfig-a011-20201227
 i386                 randconfig-a016-20201227
 i386                 randconfig-a012-20201227
 i386                 randconfig-a014-20201227
 i386                 randconfig-a015-20201227
 i386                 randconfig-a013-20201227
+i386                 randconfig-a014-20201228
+i386                 randconfig-a012-20201228
+i386                 randconfig-a016-20201228
+i386                 randconfig-a011-20201228
+i386                 randconfig-a015-20201228
+i386                 randconfig-a013-20201228
 riscv                            allyesconfig
 riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
