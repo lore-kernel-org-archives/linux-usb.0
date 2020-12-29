@@ -2,219 +2,191 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D9DC4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10502C4332E
 	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 11:49:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0413120867
+	by mail.kernel.org (Postfix) with ESMTP id E2D86206DC
 	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 11:49:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgL2LtG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Dec 2020 06:49:06 -0500
-Received: from mail-db8eur05on2086.outbound.protection.outlook.com ([40.107.20.86]:50497
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726354AbgL2Lsg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 29 Dec 2020 06:48:36 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ok1k4mWCHUXIVhHcU5ZMQvZCeX1aiU9mL/O2ITjQl50tI+YfHXk7z2XIK79pbb4/4WsGtNVaFamvmUBtetgRXIq3S8JhCQcm+x0VM0W96mDJZvd1XUxxY1S47/0HPALWN2Fa2/dIxzNVfs6CYBi3TmNNLW+h6e8UFlqYSvt/591dhG0i2cKnPGGTAoMsNo5WPrsnxVFSf1P1fGoSdsZZnhjw7QZ2iNOtV4R4hi7rmb80Qooy0MU/r06+uvCjupFtbDc5TuLEuWu+ou7zdMPFKtUWQHIf8GBF1sBnEp62NXgrMcDubXX77t0IQklJuo9tYlOmEgiYB3kNsp9cIFWjig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wxN7nDy6tJZnbK3PjRnVd1h6xDMixzZSHlIYLZJckXo=;
- b=H2ickL7UJfYFYUCK7Z+CLpa2rlzzb8eP5WL6MLUw2JBh1QBlFNPcwITcIuqGDMyMvWutVZrl+dCZa/9ZlNGQyc6jnhZIWLGbjM7rC6SQbocJ3GmIMcOJuc9wjLuyKRHAV31mpHymHHHpXSKy1BAxJz+BWed3Coy0URwz1GQFlDgfMJNJdDvGitYy3/vnTPDEEySHtPMi0ShcWfVCjo0R6IBYfoDlfNgn7NGyaBq+b0y0L7akE9ZsE2ILS/WUeWts+qZsDOhG7QMtE8+pU298G3eLyTd+TW7j/PQcN8a6j2t7z1fT4nbSHul7EwcXuGz6Ro6JJG2QlHty797GPRr8ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wxN7nDy6tJZnbK3PjRnVd1h6xDMixzZSHlIYLZJckXo=;
- b=dtJ/KXCabQEmkWv+IJV2A+YOmUh8eFrPPctmfA0N3e70eILZUf4hZAP9xN1gIgw4VhdzKYRf6iNTFN8+0Vlv3+5ZnTcWMDCnjgr9Am4ZG3hczmb7fGCSBP9HCL/91p+lIO4oAPHQyfNdYO/3h6OoWRzkJXqAxzoFbChmW1Qvroc=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=nxp.com;
-Received: from VE1PR04MB6528.eurprd04.prod.outlook.com (2603:10a6:803:127::18)
- by VE1PR04MB6653.eurprd04.prod.outlook.com (2603:10a6:803:122::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27; Tue, 29 Dec
- 2020 11:47:09 +0000
-Received: from VE1PR04MB6528.eurprd04.prod.outlook.com
- ([fe80::b035:d158:c99c:57c6]) by VE1PR04MB6528.eurprd04.prod.outlook.com
- ([fe80::b035:d158:c99c:57c6%7]) with mapi id 15.20.3700.031; Tue, 29 Dec 2020
- 11:47:09 +0000
-From:   Li Jun <jun.li@nxp.com>
-To:     gregkh@linuxfoundation.org, shawnguo@kernel.org, robh+dt@kernel.org
-Cc:     balbi@kernel.org, krzk@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, l.stach@pengutronix.de, jun.li@nxp.com,
-        aisheng.dong@nxp.com, peng.fan@nxp.com, peter.chen@nxp.com
-Subject: [PATCH RESEND v5 3/4] arm64: dtsi: imx8mp: add usb nodes
-Date:   Tue, 29 Dec 2020 19:37:45 +0800
-Message-Id: <1609241866-9508-4-git-send-email-jun.li@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1609241866-9508-1-git-send-email-jun.li@nxp.com>
-References: <1609241866-9508-1-git-send-email-jun.li@nxp.com>
-Content-Type: text/plain
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR06CA0173.apcprd06.prod.outlook.com
- (2603:1096:1:1e::27) To VE1PR04MB6528.eurprd04.prod.outlook.com
- (2603:10a6:803:127::18)
+        id S1726618AbgL2LtA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Dec 2020 06:49:00 -0500
+Received: from mail-il1-f197.google.com ([209.85.166.197]:33411 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726502AbgL2Ls7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Dec 2020 06:48:59 -0500
+Received: by mail-il1-f197.google.com with SMTP id j20so12623692ilk.0
+        for <linux-usb@vger.kernel.org>; Tue, 29 Dec 2020 03:48:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=JOZgCXpkUZswDNwQmwX9dSjR3h4q3CZh2nUlh1kJOFc=;
+        b=gxdRnyVewRZUndYJYi6oKSpnrmr03mSV+IHMQ1nEN/S/a6uDen03KUIbFJLtw0JXVx
+         leFk7esvO2/RGH8I7OQlGrZsGdLBHNPoqJqw/pj/AmXs3EafIVPwWsEEiWSSlVFIMt+G
+         IC/fbJ5xXlriXVi8pMlSUbABTpDh6tNPqZqbjtowPzApSHhtTZkaGXGANRxcibIkeQ59
+         JZ4vgC/uLTHpcx3hkJ3lmCQ6OztHulzxeCDLskLsfLE4mrLsSmiqs4EwYn1hL8htNPf9
+         ZYiColhWcxXUTXyGabqDSscKRJ++wvIFsn841CiovXSVXePL1VIX5fjk9nPteO1fbqIv
+         DRqg==
+X-Gm-Message-State: AOAM533mjDFJ3JetSecFc20jd3B0DZt9xQJtDhJEsNVP0YO+ra2XWFhp
+        zOm5+uP7ReAjQkyTGFLW7/fdqPu45lDV7T/3lgGKAZQOPAMM
+X-Google-Smtp-Source: ABdhPJzWAQgvIRQpeLp8MuL127xUxAfsC/IjBTyiLyMS8SJBETz2IwLwtlOu9Fqdg3X2+93wJPb++3vwvcQhVuNwm314KbplHJNB
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by SG2PR06CA0173.apcprd06.prod.outlook.com (2603:1096:1:1e::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 11:47:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fd7dc1ae-ae95-4358-ad1b-08d8abef7975
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6653:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB66533788386E321764E08AE589D80@VE1PR04MB6653.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:849;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 63YvHa2SRDghLkMJoRgPTW7TdpY9IBpQYZ9FqzrY/vNrB39CX2qVOyfEEm0thC7XZshrE6F776UzunU2iAYj2ggVSXJc10wyvss9HxJmiZWnv5a0t9fi9H0iSLnTk6+mu1VkS4aKV8uhNfUqHhoTOBj0tu8HFtiDCZtsG0v3cUMRPTYCHGKT8QV97A/+wbiAC1EqcfgXZ45DijLj/fx1qTHICnZ28gIFUsHR7ZWkNcsBNJvIF361KF/j6jr19rlnkq0q1ZUPJLjqfkiSVwe5hNmr2xanPRTdsEiYWujGmfYb8HZmZtjTKY8mI8hrVFSAVnmILT4trFR094VcUwleWb7qj7n4csUb0E+fHaHKbUcGYujvqw3wgcmuaM1JexQdQwMkqGKHZ2+4CLPkPObU0RFlvwoGqpEAOOKczMGXbf3jT+J3CiKIYG1wpMLd8PTFUPI7vSdmchc+7/W3EnO392niAMP8vpKFwl7A9v9iog0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6528.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(6506007)(66476007)(4326008)(83380400001)(26005)(8676002)(66946007)(956004)(2616005)(2906002)(69590400010)(5660300002)(66556008)(16526019)(6512007)(498600001)(6666004)(8936002)(7416002)(52116002)(186003)(86362001)(36756003)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zAEkT38sA5Aj3Xl9NMOEtL7VVwUu5Ogug0j5Fr8G3QRJ2wUV6/00FSqh6igQ?=
- =?us-ascii?Q?+6vnvzXQO+zVdcSsBLp1JmOccqi511G37TKsoTIGbsU0oxLoh6cyVz1+cIGj?=
- =?us-ascii?Q?GqPJzzp8Fgh4VcLzK+EX29dNhiObWkNHrCsPq0q8KSgEgSYj9JpN0nYgPicM?=
- =?us-ascii?Q?NLg+uZOV4MaSBYugYHAd1DO4iNLfRbJpoZPY3631agbf3anyJ1kJwvW7GiCi?=
- =?us-ascii?Q?cRMj2lUeRLQJ3sL0IwMx/IeFjfC+tvsKyMOTgbHSNukv/cuv38lXpfWWowP3?=
- =?us-ascii?Q?3D7H5RCVcU/IRSgUcB/fus+qcNhY6T0K1bLxR6RPkkrIIAd0S9nc4GIGyjxg?=
- =?us-ascii?Q?nRChxY0CXNXs2kEwbKb26EksSDbMNrUr7mdq/4VSvWpK5iuZMU4OFZ1yIQU7?=
- =?us-ascii?Q?aE8PAWi7ORV1+HGrrpw2XA/weJmbgmolwSrgaUXdI/i7JgCApzyNeKZeVhv6?=
- =?us-ascii?Q?1ghjxDmPj/fred9eF+oQ1NhzG2oxx1B1fh/0uezmJmhn+w9giTKraMHgsht6?=
- =?us-ascii?Q?ByHQmPdiq9v5IgkoUOzXHWy3M2AxxqZpYUen5UwRn04KqVQpFYqfN1km6StQ?=
- =?us-ascii?Q?Xu4iWBqgRwKcFK6FwZhNajKs9ZUwup678653MC8+cCqLXYiAuNytSLjb/mbV?=
- =?us-ascii?Q?jazeMrVEBOrt262GYhE2s1frUACxL+vNCY1pKRVCEYJ6T7AgnIhFyuerktNa?=
- =?us-ascii?Q?4iRkeSW5fGFO5ucwJFCpS39cjVHdVcfQc8DtfrPtcV2dbYyCfFu27mwiya6I?=
- =?us-ascii?Q?0nT0JLaMhHJbifJp/LLHA+k49ptbc32wCQs0k+qpVvajniw++ArQAbsxYiif?=
- =?us-ascii?Q?jtdfEzVgX7zz9H/NlmGPhyHM0u9bUunsOI/9qu23JtnbVjhd+DxC3+5fnYCb?=
- =?us-ascii?Q?brSesfGLQ2tO380S5Jp7WmwOUcSBvgvRVoJqDGm34xBHhSyvzkPoYkh9FVFl?=
- =?us-ascii?Q?PSTdrYE3d7dyLzSYJsefOiGxzVd8m9ZBUi6n4xafz3AMGXKqUJNyiFL1SsCc?=
- =?us-ascii?Q?M+yM?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6528.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2020 11:47:09.4454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd7dc1ae-ae95-4358-ad1b-08d8abef7975
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HJWm4iPO14RE8GCGVsZQMUtNm6+D+g3jfredli9U1zyVGy2V8nJV8iQhwVWRQqza
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6653
+X-Received: by 2002:a6b:c9cb:: with SMTP id z194mr39516938iof.110.1609242498310;
+ Tue, 29 Dec 2020 03:48:18 -0800 (PST)
+Date:   Tue, 29 Dec 2020 03:48:18 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000078275b05b798f7df@google.com>
+Subject: INFO: task hung in usbdev_open (2)
+From:   syzbot <syzbot+b73659f5bb96fac34820@syzkaller.appspotmail.com>
+To:     gregkh@linuxfoundation.org, jeremy.linton@arm.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
+        viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-imx8mp integrates 2 identical dwc3 based USB3 controllers and
-Synopsys phys, each instance has additional wakeup logic to
-support low power mode, so the glue layer need a node with dwc3
-core sub node.
+Hello,
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-Signed-off-by: Li Jun <jun.li@nxp.com>
+syzbot found the following issue on:
+
+HEAD commit:    5c8fe583 Linux 5.11-rc1
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13ecd077500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a6998cf893b79850
+dashboard link: https://syzkaller.appspot.com/bug?extid=b73659f5bb96fac34820
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b73659f5bb96fac34820@syzkaller.appspotmail.com
+
+INFO: task syz-executor.1:24596 blocked for more than 143 seconds.
+      Not tainted 5.11.0-rc1-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor.1  state:D stack:28136 pid:24596 ppid:  8491 flags:0x00004004
+Call Trace:
+ context_switch kernel/sched/core.c:4313 [inline]
+ __schedule+0x90c/0x21a0 kernel/sched/core.c:5064
+ schedule+0xcf/0x270 kernel/sched/core.c:5143
+ schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:5202
+ __mutex_lock_common kernel/locking/mutex.c:1033 [inline]
+ __mutex_lock+0x81a/0x1110 kernel/locking/mutex.c:1103
+ device_lock include/linux/device.h:725 [inline]
+ usbdev_open+0x19d/0x930 drivers/usb/core/devio.c:1029
+ chrdev_open+0x266/0x770 fs/char_dev.c:414
+ do_dentry_open+0x4b9/0x11b0 fs/open.c:817
+ do_open fs/namei.c:3254 [inline]
+ path_openat+0x1b9a/0x2730 fs/namei.c:3371
+ do_filp_open+0x17e/0x3c0 fs/namei.c:3398
+ do_sys_openat2+0x16d/0x420 fs/open.c:1172
+ do_sys_open fs/open.c:1188 [inline]
+ __do_sys_open fs/open.c:1196 [inline]
+ __se_sys_open fs/open.c:1192 [inline]
+ __x64_sys_open+0x119/0x1c0 fs/open.c:1192
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x417d91
+RSP: 002b:00007f6b4f064810 EFLAGS: 00000293 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 6666666666666667 RCX: 0000000000417d91
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 00007f6b4f064840
+RBP: 000000000119bfc0 R08: 000000000000000f R09: 2330302f6273752f
+R10: 00007f6b4f0659d0 R11: 0000000000000293 R12: 000000000119bf8c
+R13: 00007ffcee50333f R14: 00007f6b4f0659c0 R15: 000000000119bf8c
+
+Showing all locks held in the system:
+2 locks held by kworker/u4:4/164:
+ #0: ffff8880b9f34c58 (&rq->lock){-.-.}-{2:2}, at: newidle_balance+0x789/0xe50 kernel/sched/fair.c:10642
+ #1: ffffc900015afda8 ((work_completion)(&(&bat_priv->nc.work)->work)){+.+.}-{0:0}, at: process_one_work+0x8a5/0x15f0 kernel/workqueue.c:2250
+1 lock held by khungtaskd/1660:
+ #0: ffffffff8b363860 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x53/0x260 kernel/locking/lockdep.c:6254
+1 lock held by in:imklog/8320:
+ #0: ffff8880153ced70 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0xe9/0x100 fs/file.c:949
+2 locks held by rs:main Q:Reg/8325:
+5 locks held by kworker/0:16/16221:
+ #0: ffff888014df2538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff888014df2538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: atomic64_set include/asm-generic/atomic-instrumented.h:856 [inline]
+ #0: ffff888014df2538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: atomic_long_set include/asm-generic/atomic-long.h:41 [inline]
+ #0: ffff888014df2538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:616 [inline]
+ #0: ffff888014df2538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:643 [inline]
+ #0: ffff888014df2538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x871/0x15f0 kernel/workqueue.c:2246
+ #1: ffffc900166bfda8 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x8a5/0x15f0 kernel/workqueue.c:2250
+ #2: ffff888144c5e218 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:725 [inline]
+ #2: ffff888144c5e218 (&dev->mutex){....}-{3:3}, at: hub_event+0x1c5/0x42d0 drivers/usb/core/hub.c:5537
+ #3: ffff8880640a6578 (&port_dev->status_lock){+.+.}-{3:3}, at: usb_lock_port drivers/usb/core/hub.c:3030 [inline]
+ #3: ffff8880640a6578 (&port_dev->status_lock){+.+.}-{3:3}, at: hub_port_connect drivers/usb/core/hub.c:5154 [inline]
+ #3: ffff8880640a6578 (&port_dev->status_lock){+.+.}-{3:3}, at: hub_port_connect_change drivers/usb/core/hub.c:5363 [inline]
+ #3: ffff8880640a6578 (&port_dev->status_lock){+.+.}-{3:3}, at: port_event drivers/usb/core/hub.c:5509 [inline]
+ #3: ffff8880640a6578 (&port_dev->status_lock){+.+.}-{3:3}, at: hub_event+0x216c/0x42d0 drivers/usb/core/hub.c:5591
+ #4: ffff888144b57768 (hcd->address0_mutex){+.+.}-{3:3}, at: hub_port_init+0x1b2/0x2dd0 drivers/usb/core/hub.c:4582
+1 lock held by syz-executor.1/24596:
+ #0: ffff888144c5e218 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:725 [inline]
+ #0: ffff888144c5e218 (&dev->mutex){....}-{3:3}, at: usbdev_open+0x19d/0x930 drivers/usb/core/devio.c:1029
+
+=============================================
+
+NMI backtrace for cpu 1
+CPU: 1 PID: 1660 Comm: khungtaskd Not tainted 5.11.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:79 [inline]
+ dump_stack+0x107/0x163 lib/dump_stack.c:120
+ nmi_cpu_backtrace.cold+0x44/0xd7 lib/nmi_backtrace.c:105
+ nmi_trigger_cpumask_backtrace+0x1b3/0x230 lib/nmi_backtrace.c:62
+ trigger_all_cpu_backtrace include/linux/nmi.h:146 [inline]
+ check_hung_uninterruptible_tasks kernel/hung_task.c:209 [inline]
+ watchdog+0xd43/0xfa0 kernel/hung_task.c:294
+ kthread+0x3b1/0x4a0 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 164 Comm: kworker/u4:4 Not tainted 5.11.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: bat_events batadv_nc_worker
+RIP: 0010:bytes_is_nonzero mm/kasan/generic.c:84 [inline]
+RIP: 0010:memory_is_nonzero mm/kasan/generic.c:101 [inline]
+RIP: 0010:memory_is_poisoned_n mm/kasan/generic.c:127 [inline]
+RIP: 0010:memory_is_poisoned mm/kasan/generic.c:158 [inline]
+RIP: 0010:check_memory_region_inline mm/kasan/generic.c:176 [inline]
+RIP: 0010:check_memory_region+0xde/0x180 mm/kasan/generic.c:185
+Code: 74 f2 48 89 c2 b8 01 00 00 00 48 85 d2 75 56 5b 5d 41 5c c3 48 85 d2 74 5e 48 01 ea eb 09 48 83 c0 01 48 39 d0 74 50 80 38 00 <74> f2 eb d4 41 bc 08 00 00 00 48 89 ea 45 29 dc 4d 8d 1c 2c eb 0c
+RSP: 0018:ffffc900015afa38 EFLAGS: 00000046
+RAX: fffffbfff1d7ab0d RBX: fffffbfff1d7ab0e RCX: ffffffff81582ac7
+RDX: fffffbfff1d7ab0e RSI: 0000000000000008 RDI: ffffffff8ebd5868
+RBP: fffffbfff1d7ab0d R08: 0000000000000000 R09: ffffffff8ebd586f
+R10: fffffbfff1d7ab0d R11: 0000000000000000 R12: 000000000000067c
+R13: 0000000000000004 R14: dffffc0000000000 R15: ffff888011704108
+FS:  0000000000000000(0000) GS:ffff8880b9e00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f934008f010 CR3: 0000000010ed3000 CR4: 0000000000350ef0
+Call Trace:
+ instrument_atomic_read include/linux/instrumented.h:71 [inline]
+ test_bit include/asm-generic/bitops/instrumented-non-atomic.h:134 [inline]
+ hlock_class kernel/locking/lockdep.c:198 [inline]
+ check_wait_context kernel/locking/lockdep.c:4531 [inline]
+ __lock_acquire+0x707/0x5500 kernel/locking/lockdep.c:4782
+ lock_acquire kernel/locking/lockdep.c:5437 [inline]
+ lock_acquire+0x29d/0x740 kernel/locking/lockdep.c:5402
+ rcu_lock_acquire include/linux/rcupdate.h:253 [inline]
+ rcu_read_lock include/linux/rcupdate.h:642 [inline]
+ batadv_nc_purge_orig_hash net/batman-adv/network-coding.c:404 [inline]
+ batadv_nc_worker+0x12d/0xe50 net/batman-adv/network-coding.c:715
+ process_one_work+0x98d/0x15f0 kernel/workqueue.c:2275
+ worker_thread+0x64c/0x1120 kernel/workqueue.c:2421
+ kthread+0x3b1/0x4a0 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 82 +++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index ecccfbb..22db53f 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -788,5 +788,87 @@
- 			reg = <0x3d800000 0x400000>;
- 			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
- 		};
-+
-+		usb3_phy0: usb-phy@381f0040 {
-+			compatible = "fsl,imx8mp-usb-phy";
-+			reg = <0x381f0040 0x40>;
-+			clocks = <&clk IMX8MP_CLK_USB_PHY_ROOT>;
-+			clock-names = "phy";
-+			assigned-clocks = <&clk IMX8MP_CLK_USB_PHY_REF>;
-+			assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
-+			#phy-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		usb3_0: usb@32f10100 {
-+			compatible = "fsl,imx8mp-dwc3";
-+			reg = <0x32f10100 0x8>;
-+			clocks = <&clk IMX8MP_CLK_HSIO_ROOT>,
-+				 <&clk IMX8MP_CLK_USB_ROOT>;
-+			clock-names = "hsio", "suspend";
-+			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			dma-ranges = <0x40000000 0x40000000 0xc0000000>;
-+			ranges;
-+			status = "disabled";
-+
-+			usb_dwc3_0: dwc3@38100000 {
-+				compatible = "snps,dwc3";
-+				reg = <0x38100000 0x10000>;
-+				clocks = <&clk IMX8MP_CLK_HSIO_AXI>,
-+					 <&clk IMX8MP_CLK_USB_CORE_REF>,
-+					 <&clk IMX8MP_CLK_USB_ROOT>;
-+				clock-names = "bus_early", "ref", "suspend";
-+				assigned-clocks = <&clk IMX8MP_CLK_HSIO_AXI>;
-+				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
-+				assigned-clock-rates = <500000000>;
-+				interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb3_phy0>, <&usb3_phy0>;
-+				phy-names = "usb2-phy", "usb3-phy";
-+				snps,dis-u2-freeclk-exists-quirk;
-+			};
-+
-+		};
-+
-+		usb3_phy1: usb-phy@382f0040 {
-+			compatible = "fsl,imx8mp-usb-phy";
-+			reg = <0x382f0040 0x40>;
-+			clocks = <&clk IMX8MP_CLK_USB_PHY_ROOT>;
-+			clock-names = "phy";
-+			assigned-clocks = <&clk IMX8MP_CLK_USB_PHY_REF>;
-+			assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
-+			#phy-cells = <0>;
-+		};
-+
-+		usb3_1: usb@32f10108 {
-+			compatible = "fsl,imx8mp-dwc3";
-+			reg = <0x32f10108 0x8>;
-+			clocks = <&clk IMX8MP_CLK_HSIO_ROOT>,
-+				 <&clk IMX8MP_CLK_USB_ROOT>;
-+			clock-names = "hsio", "suspend";
-+			interrupts = <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			dma-ranges = <0x40000000 0x40000000 0xc0000000>;
-+			ranges;
-+			status = "disabled";
-+
-+			usb_dwc3_1: dwc3@38200000 {
-+				compatible = "snps,dwc3";
-+				reg = <0x38200000 0x10000>;
-+				clocks = <&clk IMX8MP_CLK_HSIO_AXI>,
-+					 <&clk IMX8MP_CLK_USB_CORE_REF>,
-+					 <&clk IMX8MP_CLK_USB_ROOT>;
-+				clock-names = "bus_early", "ref", "suspend";
-+				assigned-clocks = <&clk IMX8MP_CLK_HSIO_AXI>;
-+				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
-+				assigned-clock-rates = <500000000>;
-+				interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb3_phy1>, <&usb3_phy1>;
-+				phy-names = "usb2-phy", "usb3-phy";
-+				snps,dis-u2-freeclk-exists-quirk;
-+			};
-+		};
- 	};
- };
--- 
-2.7.4
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
