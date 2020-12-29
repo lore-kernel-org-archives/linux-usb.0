@@ -7,110 +7,106 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F8EC43381
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 23:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42731C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 23:06:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9381122287
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 23:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BA5621D1B
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Dec 2020 23:06:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbgL2XEb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Dec 2020 18:04:31 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:50055 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726400AbgL2XEb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Dec 2020 18:04:31 -0500
+        id S1726292AbgL2XGC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Dec 2020 18:06:02 -0500
+Received: from m43-15.mailgun.net ([69.72.43.15]:39420 "EHLO
+        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726161AbgL2XGC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Dec 2020 18:06:02 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1609283047; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1609283141; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=2d0I99qrwmmdvzEFtybxhPdqQAQhHjHkB4hWT6pek3A=; b=I7XeRcg/Tb3/1dDO3PiSegxMixpj32aMaVsCiJmCYeanfmimgqBZ3iK7BkR6w5M5CkQOo4hJ
- uCHTtZb/3CZZbpbxaG6qyzBnxeNAUxYC1DvpSYWoEITx/0eD86m9yzRkSjog5g7kN296ij1g
- dYlKlU2wxbiFRrZYjiCIPw/6Jno=
-X-Mailgun-Sending-Ip: 198.61.254.31
+ bh=v3U3uqgxyr0I0+Y/blUz/qlnw3UtBamburl8xuGxoqk=; b=N153ULmRcC8AOuOlLcGRohBqOB/bgc1IH3nP58+vd7JfI1j+jrJ3u3JrU3SutxQ8e3W7zAVL
+ 6KbMAMbjWyU8b1yEyrpjwWw6nFfqP5Zm6sl9fx4/CiKaQqqonT2re2DvKuab16aNWiJ7YltD
+ IZZbfRyrCLwFrVofwZL0IF7e4ow=
+X-Mailgun-Sending-Ip: 69.72.43.15
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5febb5cadb8e07fa6ce10c29 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Dec 2020 23:03:38
+ 5febb645db8e07fa6ce2cb34 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Dec 2020 23:05:41
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 1925BC43461; Tue, 29 Dec 2020 23:03:38 +0000 (UTC)
+        id 167D5C433ED; Tue, 29 Dec 2020 23:05:41 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 244D1C43463;
-        Tue, 29 Dec 2020 23:03:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 244D1C43463
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 26D36C433CA;
+        Tue, 29 Dec 2020 23:05:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 26D36C433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     peter.chen@nxp.com, balbi@kernel.org, gregkh@linuxfoundation.org
+To:     balbi@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 3/3] usb: gadget: configfs: Add a specific configFS reset callback
-Date:   Tue, 29 Dec 2020 15:03:31 -0800
-Message-Id: <1609283011-21997-4-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v2 1/2] usb: dwc3: gadget: Allow runtime suspend if UDC unbinded
+Date:   Tue, 29 Dec 2020 15:05:35 -0800
+Message-Id: <1609283136-22140-2-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1609283011-21997-1-git-send-email-wcheng@codeaurora.org>
-References: <1609283011-21997-1-git-send-email-wcheng@codeaurora.org>
+In-Reply-To: <1609283136-22140-1-git-send-email-wcheng@codeaurora.org>
+References: <1609283136-22140-1-git-send-email-wcheng@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In order for configFS based USB gadgets to set the proper charge current
-for bus reset scenarios, expose a separate reset callback to set the
-current to 100mA based on the USB battery charging specification.
+The DWC3 runtime suspend routine checks for the USB connected parameter to
+determine if the controller can enter into a low power state.  The
+connected state is only set to false after receiving a disconnect event.
+However, in the case of a device initiated disconnect (i.e. UDC unbind),
+the controller is halted and a disconnect event is never generated.  Set
+the connected flag to false if issuing a device initiated disconnect to
+allow the controller to be suspended.
 
-Reviewed-by: Peter Chen <peter.chen@nxp.com>
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- drivers/usb/gadget/configfs.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/gadget.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
-index 56051bb97349..80ca7ff2fb97 100644
---- a/drivers/usb/gadget/configfs.c
-+++ b/drivers/usb/gadget/configfs.c
-@@ -1481,6 +1481,28 @@ static void configfs_composite_disconnect(struct usb_gadget *gadget)
- 	spin_unlock_irqrestore(&gi->spinlock, flags);
- }
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 5d879b7606d5..babf977cadc0 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2012,6 +2012,17 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 		}
+ 	}
  
-+static void configfs_composite_reset(struct usb_gadget *gadget)
-+{
-+	struct usb_composite_dev *cdev;
-+	struct gadget_info *gi;
-+	unsigned long flags;
-+
-+	cdev = get_gadget_data(gadget);
-+	if (!cdev)
-+		return;
-+
-+	gi = container_of(cdev, struct gadget_info, cdev);
-+	spin_lock_irqsave(&gi->spinlock, flags);
-+	cdev = get_gadget_data(gadget);
-+	if (!cdev || gi->unbind) {
-+		spin_unlock_irqrestore(&gi->spinlock, flags);
-+		return;
++	/*
++	 * Check the return value for successful resume, or error.  For a
++	 * successful resume, the DWC3 runtime PM resume routine will handle
++	 * the run stop sequence, so avoid duplicate operations here.
++	 */
++	ret = pm_runtime_get_sync(dwc->dev);
++	if (!ret || ret < 0) {
++		pm_runtime_put(dwc->dev);
++		return 0;
 +	}
 +
-+	composite_reset(gadget);
-+	spin_unlock_irqrestore(&gi->spinlock, flags);
-+}
-+
- static void configfs_composite_suspend(struct usb_gadget *gadget)
- {
- 	struct usb_composite_dev *cdev;
-@@ -1530,7 +1552,7 @@ static const struct usb_gadget_driver configfs_driver_template = {
- 	.unbind         = configfs_composite_unbind,
+ 	/*
+ 	 * Synchronize any pending event handling before executing the controller
+ 	 * halt routine.
+@@ -2050,10 +2061,12 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 			dwc->ev_buf->lpos = (dwc->ev_buf->lpos + count) %
+ 						dwc->ev_buf->length;
+ 		}
++		dwc->connected = false;
+ 	}
  
- 	.setup          = configfs_composite_setup,
--	.reset          = configfs_composite_disconnect,
-+	.reset          = configfs_composite_reset,
- 	.disconnect     = configfs_composite_disconnect,
+ 	ret = dwc3_gadget_run_stop(dwc, is_on, false);
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
++	pm_runtime_put(dwc->dev);
  
- 	.suspend	= configfs_composite_suspend,
+ 	return ret;
+ }
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
