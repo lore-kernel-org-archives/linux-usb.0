@@ -2,123 +2,178 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D87C433E9
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 01:54:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEDEC433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 04:36:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42A7521973
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 01:54:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AE0D2222A
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 04:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbgLaByg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Dec 2020 20:54:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726503AbgLaByf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Dec 2020 20:54:35 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C38FC061573
-        for <linux-usb@vger.kernel.org>; Wed, 30 Dec 2020 17:53:55 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id ga15so23945658ejb.4
-        for <linux-usb@vger.kernel.org>; Wed, 30 Dec 2020 17:53:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l5RnW5MfeIeSRSrKh76K7AjTpXxgx5uRGRT87Sb/M7k=;
-        b=GmSv+VBBi3t2aFfvIArlLItl/50GVmlDot1OCgNqQIHfYU5C15sC7e1T6Ya9L0lcmX
-         +NTX+nOo1CbjyS0dfavEgXI1Amni1F2lLX+zHfG07R0A7ISSUzUWrjxxa/A89CZnrsRM
-         sC9IDmQyyY7regbTLT/M3xoZ3Ch0cnmhWLqSExNyqhoC8OSconT4hIciXU6akPBywyiT
-         NPronYSAsn+XBAnzDzhtMLkd13hBg9W5qYfThzintsPqaPhDFWy7X3LM24pRWwlSV/4G
-         CmYIcLDZwKfBj+fgd/eU8whq14eGHV/M8sCDkJz6nB9UzuP4bcc6dTaVp/EwTb3+X7YM
-         Ldvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l5RnW5MfeIeSRSrKh76K7AjTpXxgx5uRGRT87Sb/M7k=;
-        b=PhIPha40bxJluaY5f53XNwaCYRjGAFchbI5wNJA8zYuD5qr1haaX8f6TBsyHBb4grP
-         2Lz7c8DpUiu+fWTSDa1ZtgT/4EQseHUJK0TpSkFEZbj8mUErKqdgu3OIhILoIJaLIwfr
-         ay9PtZaZNLsIgGM42CDIDXp7R4nBNdjqiVdWTKIVntP3tL8hKGDPae+mUiv+KwHLw/1s
-         /S+3/xXcveK/wrj/u2pMbJZTWeeiq9cQ0DGFtauz/eQxkcLo5ukuN3lNsRYuVYE9TfQF
-         unS2u/4afwc894Yzhq0VFrXRDNUhR2Emz7im9vKicyuGCLgQo+t/rIQlpQmXgfVmSHQt
-         VxEg==
-X-Gm-Message-State: AOAM530fmeesDzWNMMohuGGIo13RW1nyVekECb6WKL282dNp3lwMxfJI
-        kv4Gej3wpwNeifIKUpGjl/azmlXA6f5Y4BUgJPT3gg==
-X-Google-Smtp-Source: ABdhPJxz6GHroCCd8RghHLfGAMqA4gDhhU6xQITNRnw+X4rDzpgCfFD62pdQH9DV4Nfbq7UP1ZrCOzgTmUzAi+XiOdo=
-X-Received: by 2002:a17:906:5182:: with SMTP id y2mr52769429ejk.92.1609379633910;
- Wed, 30 Dec 2020 17:53:53 -0800 (PST)
+        id S1726333AbgLaEeh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Dec 2020 23:34:37 -0500
+Received: from mga04.intel.com ([192.55.52.120]:33496 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726037AbgLaEeg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 30 Dec 2020 23:34:36 -0500
+IronPort-SDR: icyvQ3ZvKOV3cNRIrmcdnOYC8SCElKJUcSrUhONTIFZR5O2Z7CQrhbtwf2iOm7v7if3XDdAgAD
+ hIrBABpEjxhA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9850"; a="174090212"
+X-IronPort-AV: E=Sophos;i="5.78,463,1599548400"; 
+   d="scan'208";a="174090212"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2020 20:33:56 -0800
+IronPort-SDR: i2jlEiim+mPz0+ZtYAmNvc/pzvpSxt4BCwat/5Hv9wu3B6E80x+A8jKu9HcM8RYYPacOC3Ul3E
+ wTzUXZdeMaCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,463,1599548400"; 
+   d="scan'208";a="348097429"
+Received: from lkp-server02.sh.intel.com (HELO 4242b19f17ef) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Dec 2020 20:33:55 -0800
+Received: from kbuild by 4242b19f17ef with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kupes-0004gr-Cr; Thu, 31 Dec 2020 04:33:54 +0000
+Date:   Thu, 31 Dec 2020 12:33:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ c318840fb2a42ce25febc95c4c19357acf1ae5ca
+Message-ID: <5fed54a4.hxgarp6V2Cf/F2Ig%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20201230211918.63508-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20201230211918.63508-1-andriy.shevchenko@linux.intel.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 30 Dec 2020 22:53:42 -0300
-Message-ID: <CAAEAJfCiUx+NepjxBvoupShks9MTpN9ihzBywqt0at4ekkFASQ@mail.gmail.com>
-Subject: Re: [RFT][PATCH v1] media: zr364xx: Fix memory leak in ->probe()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        royale@zerezo.com, USB <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        syzbot <syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hey Andy,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
+branch HEAD: c318840fb2a42ce25febc95c4c19357acf1ae5ca  USB: Gadget: dummy-hcd: Fix shift-out-of-bounds bug
 
-Thank you for the patch.
+elapsed time: 722m
 
-On Wed, 30 Dec 2020 at 18:22, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> When ->probe() fails in some cases it may not free resources.
-> Replace few separated calls by v4l2_device_put() to clean up
-> everything.
->
-> Reported-by: syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> I have no hardware and hadn't done any test of this.
->
+configs tested: 108
+configs skipped: 2
 
-For bugs with reproducers such as this one, syzbot will test your
-patches really quickly.
-Just push the patch somewhere and then reply to syzbot bug report mail with
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-#syz test: git://repo/address.git commit-hash
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+nios2                            alldefconfig
+powerpc                      pcm030_defconfig
+x86_64                              defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                        bcm63xx_defconfig
+mips                        qi_lb60_defconfig
+arm                         vf610m4_defconfig
+microblaze                          defconfig
+sh                     sh7710voipgw_defconfig
+arm                         s3c6400_defconfig
+mips                           rs90_defconfig
+h8300                    h8300h-sim_defconfig
+sh                             shx3_defconfig
+mips                   sb1250_swarm_defconfig
+m68k                         apollo_defconfig
+sh                          sdk7780_defconfig
+mips                    maltaup_xpa_defconfig
+arm                        cerfcube_defconfig
+mips                      maltaaprp_defconfig
+s390                       zfcpdump_defconfig
+xtensa                    xip_kc705_defconfig
+powerpc                 mpc832x_rdb_defconfig
+sh                        edosk7760_defconfig
+parisc                           allyesconfig
+powerpc                  iss476-smp_defconfig
+mips                     loongson1b_defconfig
+mips                     loongson1c_defconfig
+x86_64                           alldefconfig
+m68k                           sun3_defconfig
+mips                           ip22_defconfig
+powerpc                      ppc44x_defconfig
+powerpc                    sam440ep_defconfig
+arc                     haps_hs_smp_defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a005-20201230
+x86_64               randconfig-a001-20201230
+x86_64               randconfig-a006-20201230
+x86_64               randconfig-a002-20201230
+x86_64               randconfig-a004-20201230
+x86_64               randconfig-a003-20201230
+i386                 randconfig-a005-20201230
+i386                 randconfig-a006-20201230
+i386                 randconfig-a004-20201230
+i386                 randconfig-a003-20201230
+i386                 randconfig-a002-20201230
+i386                 randconfig-a001-20201230
+i386                 randconfig-a016-20201230
+i386                 randconfig-a014-20201230
+i386                 randconfig-a012-20201230
+i386                 randconfig-a015-20201230
+i386                 randconfig-a011-20201230
+i386                 randconfig-a013-20201230
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-You can experiment with syzbot by replying only to syzbot's mail address.
+clang tested configs:
+x86_64               randconfig-a015-20201230
+x86_64               randconfig-a014-20201230
+x86_64               randconfig-a016-20201230
+x86_64               randconfig-a011-20201230
+x86_64               randconfig-a013-20201230
+x86_64               randconfig-a012-20201230
 
-See https://github.com/google/syzkaller/blob/master/docs/syzbot.md#testing-patches
-for more details.
-
-Cheers,
-Ezequiel
-
-
->  drivers/media/usb/zr364xx/zr364xx.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-> index 1e1c6b4d1874..5b9e31af57cf 100644
-> --- a/drivers/media/usb/zr364xx/zr364xx.c
-> +++ b/drivers/media/usb/zr364xx/zr364xx.c
-> @@ -1533,9 +1533,7 @@ static int zr364xx_probe(struct usb_interface *intf,
->         return 0;
->
->  fail:
-> -       v4l2_ctrl_handler_free(hdl);
-> -       v4l2_device_unregister(&cam->v4l2_dev);
-> -       kfree(cam);
-> +       v4l2_device_put(&cam->v4l2_dev);
->         return err;
->  }
->
-> --
-> 2.29.2
->
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
