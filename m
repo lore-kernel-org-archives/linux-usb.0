@@ -2,120 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E1FC433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 00:16:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC60C433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 01:54:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A75F223C8
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 00:16:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05AC121973
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Dec 2020 01:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgLaAQC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Dec 2020 19:16:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58512 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbgLaAQB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Dec 2020 19:16:01 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B43C061573;
-        Wed, 30 Dec 2020 16:15:20 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id x16so23778995ejj.7;
-        Wed, 30 Dec 2020 16:15:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UvoSlfKOzR9aXfOXBsJ3GswM+8uOh9HphZSo/bhng8w=;
-        b=bvKYG0KdYqYIkJ1r680vMvyx7fx2qEYMXWN0/N9RhRGWeQNhC/O9N5KguxoLJlk8zv
-         ZGcV6SfiJ2qw+foQq3MtDJYXKfmNNK/6OdYAnB4r4YkddVSRbDch1R0v6mgBV53KccxZ
-         FYOSrd+Ipsaq55fseR2FSmEF8uJ+svXVsW4GZkfwEIfPBmorV0+vjQq2ubveZE3RHVsZ
-         L37trk87jql5wejgQUy3mB/KPJZ6V2io2xgWYRvkLw39FtKaXbCb5YxoAKvw6qOtEIPl
-         Av3ZjkqFZjTIHlgMN52IBy9QbjCrMjh2+cmmlKZoc2ejnXm6oeoPMVjBMRYs1p4Jax6h
-         81ng==
+        id S1726504AbgLaByf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Dec 2020 20:54:35 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:54371 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726499AbgLaByf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Dec 2020 20:54:35 -0500
+Received: by mail-io1-f71.google.com with SMTP id w26so7752481iox.21
+        for <linux-usb@vger.kernel.org>; Wed, 30 Dec 2020 17:54:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UvoSlfKOzR9aXfOXBsJ3GswM+8uOh9HphZSo/bhng8w=;
-        b=sDa/mpE4japMGwQyHvNZ0V1nbaj0dx1gMo2QiOu1XxaHQroKCgyoqRxtJGrSpZqW7D
-         nrd8y/ONHxevVaCmhA+tdmf3tS79mTFFlSC9Fd18Ha6WTJU8McaL1tG4J3TupaAct45K
-         k0cBeippgHLKW/+S42hALgWTUAImvTzAuN1QxrRgxhZMTrTRgetTQbCQqZJahPfKEmZW
-         p6iwnFLk6hTWXplMi3fRdXawqVHw0Oe+UbShv73Fjs85qEbAgwmlI4K8pWili0B/sGJ/
-         zv1ILEPPUKgMQFSYjNPUT5mCdI9pznyEl7445DN006c+vQ7sJLzv1Kwah+GpuBWORePG
-         Va9Q==
-X-Gm-Message-State: AOAM530NaWTBRMoM+Dyqb7oHLCQ2zGc8xJ12aKabqfBwW83dTsohG1qk
-        dGxklBSdKNz0ckcg1l67ifDjPaBZYOxgwVpQP1W1uiOtpmQ=
-X-Google-Smtp-Source: ABdhPJxb748s3jA7OM4MHs5iwBkFjZbItUx/Lu8HznegChgjdipD9BsFFy2yu4F2Cr4zjR0SwZf8mS7qLieMUFj76ZQ=
-X-Received: by 2002:a17:906:4050:: with SMTP id y16mr49846386ejj.537.1609373719461;
- Wed, 30 Dec 2020 16:15:19 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to:cc;
+        bh=FdZTn6oLt2h1f5MhJVFstju7o/Z0EftaGAcqBWG7ncY=;
+        b=MRdG1Fo077Gk9AbaFKX0fkllUUrzzOTgTkr+j6GoS9BegcHZXTuzyRI8GF8/y2wzKb
+         4z0UT4yn8raUUvDuNln3uSClURt7oRSSbGMg6XXzTmz2yBelgVu1JpsmGoNl5vdImjDJ
+         VJ99v3Q2sdHft0dXAkl35kRuFTjeols5Mbwpp0pCaC/n6CUVxjQVwolJGyvJ4oh0vswG
+         8y4oAFrfiMXI//tGSVhuJfkX8kjyUj987jQNIFSj6fCsctjuvr1H4xJ0g4qqpmBKHgOW
+         oUzH8S+sRd7BEcMXKt0J0Guj8wvA6wPT+dCHkdGR0n3xWZrAmJ4fwSWkXFTN1dSrPKqJ
+         si8g==
+X-Gm-Message-State: AOAM530ZSokOe+5Mo8wD4Id0CkUdw7PkpmitW0OdMmYnQzd2DGnjY0m3
+        q3N/sNzp5ugDELbG/4xe6EZ5UN940ivKq3VBvsTVCXBT9w4G
+X-Google-Smtp-Source: ABdhPJy/+c5PxXndhI52KzY/wHMyn6U0qATIbhO7SwFEiBz9oJu3s57OASzyLH4AS5ZUKKQmR2T508uqUp4ZAhFV60iXvdn/Y0c4
 MIME-Version: 1.0
-References: <20201004162908.3216898-1-martin.blumenstingl@googlemail.com>
- <20201004162908.3216898-4-martin.blumenstingl@googlemail.com>
- <CACRpkdZo-U_cAhbKb4E+d+p+5FenXkGYW0RXxyk4M5uyEPCpzw@mail.gmail.com>
- <CAFBinCCLubmDvxfabQHx2-ucgAsm1NArMUrtPx-UA2nX5xoFFA@mail.gmail.com> <CAFBinCAZXJ2=fTQuAUyW1hNeJDHY3_pxo4UhxUaOZC=i1bpFxw@mail.gmail.com>
-In-Reply-To: <CAFBinCAZXJ2=fTQuAUyW1hNeJDHY3_pxo4UhxUaOZC=i1bpFxw@mail.gmail.com>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Thu, 31 Dec 2020 01:15:08 +0100
-Message-ID: <CAFBinCAYGZC0jXPozScJugsX+8P_BOm1Zj8+f+RE9fMjhbKbJw@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] gpio: ej1x8: Add GPIO driver for Etron Tech Inc. EJ168/EJ188/EJ198
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
+X-Received: by 2002:a92:bb84:: with SMTP id x4mr54012722ilk.298.1609379634982;
+ Wed, 30 Dec 2020 17:53:54 -0800 (PST)
+Date:   Wed, 30 Dec 2020 17:53:54 -0800
+In-Reply-To: <CAAEAJfCiUx+NepjxBvoupShks9MTpN9ihzBywqt0at4ekkFASQ@mail.gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000073b51105b7b8e52d@google.com>
+Subject: Re: Re: [RFT][PATCH v1] media: zr364xx: Fix memory leak in ->probe()
+From:   syzbot <syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     andriy.shevchenko@linux.intel.com, ezequiel@vanguardiasur.com.ar,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, royale@zerezo.com,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Linus,
+> Hey Andy,
+>
+> Thank you for the patch.
+>
+> On Wed, 30 Dec 2020 at 18:22, Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+>>
+>> When ->probe() fails in some cases it may not free resources.
+>> Replace few separated calls by v4l2_device_put() to clean up
+>> everything.
+>>
+>> Reported-by: syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
+>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> ---
+>> I have no hardware and hadn't done any test of this.
+>>
+>
+> For bugs with reproducers such as this one, syzbot will test your
+> patches really quickly.
+> Just push the patch somewhere and then reply to syzbot bug report mail with
+>
+> #syz test: git://repo/address.git commit-hash
 
-On Mon, Dec 21, 2020 at 4:28 PM Martin Blumenstingl
-<martin.blumenstingl@googlemail.com> wrote:
->
-> Hi Linus,
->
-> On Wed, Oct 7, 2020 at 9:44 PM Martin Blumenstingl
-> <martin.blumenstingl@googlemail.com> wrote:
-> [...]
-> > > As noted on the earlier patches I think this should be folded into the
-> > > existing XHCI USB driver in drivers/usb/host/xhci-pci.c or, if that
-> > > gets messy, as a separate bolt-on, something like
-> > > xhci-pci-gpio.[c|h] in the drivers/usb/host/* directory.
-> > > You can use a Kconfig symbol for the GPIO portions or not.
-> > OK, I will do that if there are no objections from other developers
-> > I am intending to place the relevant code in xhci-pci-etron.c, similar
-> > to what we already have with xhci-pci-renesas.c
-> I tried this and unfortunately there's a catch.
-> the nice thing about having a separate GPIO driver means that the
-> xhci-pci driver doesn't need to know about it.
->
-> I implemented xhci-pci-etron.c and gave it a Kconfig option.
-> xhci-pci is then calling into xhci-pci-etron (through some
-> etron_xhci_pci_probe function).
-> unfortunately this means that xhci-pci now depends on xhci-pci-etron.
-> for xhci-pci-renesas this is fine (I think) because that part of the
-> code is needed to get the xHCI controller going
-> but for xhci-pci-etron this is a different story: the GPIO controller
-> is entirely optional and only used on few devices
->
-> my goal is (at some point in the future) to have the GPIO driver in OpenWrt.
-> I am not sure if they would accept a patch where xhci-pci would then
-> pull in the dependencies for that Etron controller, even though most
-> boards don't need it.
->
-> Please let me know if you have any idea on how to solve this.
-next week I have some free time to work on this
-I am still interested in any ideas that you have about this
+"git://repo/address.git" does not look like a valid git repo address.
 
-
-Best regards,
-Martin
+>
+> You can experiment with syzbot by replying only to syzbot's mail address.
+>
+> See https://github.com/google/syzkaller/blob/master/docs/syzbot.md#testing-patches
+> for more details.
+>
+> Cheers,
+> Ezequiel
+>
+>
+>>  drivers/media/usb/zr364xx/zr364xx.c | 4 +---
+>>  1 file changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
+>> index 1e1c6b4d1874..5b9e31af57cf 100644
+>> --- a/drivers/media/usb/zr364xx/zr364xx.c
+>> +++ b/drivers/media/usb/zr364xx/zr364xx.c
+>> @@ -1533,9 +1533,7 @@ static int zr364xx_probe(struct usb_interface *intf,
+>>         return 0;
+>>
+>>  fail:
+>> -       v4l2_ctrl_handler_free(hdl);
+>> -       v4l2_device_unregister(&cam->v4l2_dev);
+>> -       kfree(cam);
+>> +       v4l2_device_put(&cam->v4l2_dev);
+>>         return err;
+>>  }
+>>
+>> --
+>> 2.29.2
+>>
