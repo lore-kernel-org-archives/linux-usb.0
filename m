@@ -2,102 +2,55 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F25BC433E6
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Jan 2021 14:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0156C433E6
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Jan 2021 14:57:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C2D72225E
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Jan 2021 14:54:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99A67221E5
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Jan 2021 14:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725889AbhADOxw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Jan 2021 09:53:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50394 "EHLO mail.kernel.org"
+        id S1727457AbhADO5F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Jan 2021 09:57:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726396AbhADOxw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 4 Jan 2021 09:53:52 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8893B2076D;
-        Mon,  4 Jan 2021 14:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609771991;
-        bh=J+3vsxzw9vXTfriidHRxRTH6/fVGpXe4m4jfb5Ltbx4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MWpaEk6mFeku11oDrBQxQZJJtPsTRy0uGKqjRG14b1Nqc8TJ+FEtR80ofSIjS3UND
-         htXPNxIuZze2KGDFD4cSDzWaNt3ftnJRvuiP2yMHBBBiM6teiQovsIQaDAo2QTKCIh
-         q6cf2AwrCMS1+hc4t1cSjjRs/hDbUQr7yccFatF8TXmql6ozZ+1I4f/40dIFH+hgqe
-         UR3KtmrBk3iB02glQakhz/T88YIt4OCiHvHzA43ceKM1uBZ+78UqYTFWpDzU0uJdxW
-         udVNQH+xNDnOWnM/kfm4krbbkaNvu6JQD4fTFLCZA0wQF+jbT4LVaLtZg0K0F+dYVi
-         xZq6BnveTBWZw==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1kwREL-0000YP-31; Mon, 04 Jan 2021 15:53:09 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Pete Zaitcev <zaitcev@redhat.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
+        id S1727042AbhADO5F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 4 Jan 2021 09:57:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 82590221E5;
+        Mon,  4 Jan 2021 14:56:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1609772185;
+        bh=f6C+nbf18LWcQ5y/0LW9mVgHTTgacG4/qJ2lViUGn4U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2pTrZkV2wYOIfw0aucykAsQuQ5t00RCVQoTmtLYzv7VZcdU+MZQwi/LzDnUsX3lQf
+         pppoGUkcbJoBb4QAYf6YosiJEbiiRIeL4b/pEEIBdsRgvarCYjoNhquFhqnGrIIIfl
+         oxYPfOAkxs+0+UlbND+peCsauSmrx/0RW+yP9aso=
+Date:   Mon, 4 Jan 2021 15:57:51 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org,
         Dan Carpenter <dan.carpenter@oracle.com>,
-        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH] USB: usblp: fix DMA to stack
-Date:   Mon,  4 Jan 2021 15:53:02 +0100
-Message-Id: <20210104145302.2087-1-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        stable <stable@vger.kernel.org>
+Subject: Re: [PATCH] USB: serial: iuu_phoenix: fix DMA from stack
+Message-ID: <X/Ms7xMPzdgWs8Fx@kroah.com>
+References: <20210104145007.28093-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210104145007.28093-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Stack-allocated buffers cannot be used for DMA (on all architectures).
+On Mon, Jan 04, 2021 at 03:50:07PM +0100, Johan Hovold wrote:
+> Stack-allocated buffers cannot be used for DMA (on all architectures) so
+> allocate the flush command buffer using kmalloc().
+> 
+> Fixes: 60a8fc017103 ("USB: add iuu_phoenix driver")
+> Cc: stable <stable@vger.kernel.org>     # 2.6.25
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Replace the HP-channel macro with a helper function that allocates a
-dedicated transfer buffer so that it can continue to be used with
-arguments from the stack.
-
-Note that the buffer is cleared on allocation as usblp_ctrl_msg()
-returns success also on short transfers (the buffer is only used for
-debugging).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/class/usblp.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
-index 67cbd42421be..134dc2005ce9 100644
---- a/drivers/usb/class/usblp.c
-+++ b/drivers/usb/class/usblp.c
-@@ -274,8 +274,25 @@ static int usblp_ctrl_msg(struct usblp *usblp, int request, int type, int dir, i
- #define usblp_reset(usblp)\
- 	usblp_ctrl_msg(usblp, USBLP_REQ_RESET, USB_TYPE_CLASS, USB_DIR_OUT, USB_RECIP_OTHER, 0, NULL, 0)
- 
--#define usblp_hp_channel_change_request(usblp, channel, buffer) \
--	usblp_ctrl_msg(usblp, USBLP_REQ_HP_CHANNEL_CHANGE_REQUEST, USB_TYPE_VENDOR, USB_DIR_IN, USB_RECIP_INTERFACE, channel, buffer, 1)
-+static int usblp_hp_channel_change_request(struct usblp *usblp, int channel, u8 *new_channel)
-+{
-+	u8 *buf;
-+	int ret;
-+
-+	buf = kzalloc(1, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	ret = usblp_ctrl_msg(usblp, USBLP_REQ_HP_CHANNEL_CHANGE_REQUEST,
-+			USB_TYPE_VENDOR, USB_DIR_IN, USB_RECIP_INTERFACE,
-+			channel, buf, 1);
-+	if (ret == 0)
-+		*new_channel = buf[0];
-+
-+	kfree(buf);
-+
-+	return ret;
-+}
- 
- /*
-  * See the description for usblp_select_alts() below for the usage
--- 
-2.26.2
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
