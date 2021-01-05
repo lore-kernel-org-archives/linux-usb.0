@@ -2,764 +2,266 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C495C43381
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 16:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F5CC433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 16:49:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B37D22CF7
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 16:41:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6083322D0A
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 16:49:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729802AbhAEQlD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Jan 2021 11:41:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48862 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729268AbhAEQlC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Jan 2021 11:41:02 -0500
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBACC06179F
-        for <linux-usb@vger.kernel.org>; Tue,  5 Jan 2021 08:40:14 -0800 (PST)
-Received: by mail-qk1-x749.google.com with SMTP id a17so265441qko.11
-        for <linux-usb@vger.kernel.org>; Tue, 05 Jan 2021 08:40:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=i4aAQM+hqwBh+Ur3XpmiJbNBr0p3KU+G6lrv4SZLhzw=;
-        b=W79TxhC3uuAk9sBSSDlByVsuK08zKgv9thSYWeYMmFY8ZbvNmUe4VaPleYD1avUDct
-         G4uouv231ItaYrIk8xlmiKCFkdaAkdhdCOiRV+F2RfvQa92DLMwNDRVmuMHllutAa6B6
-         UrWKr+sIHWPjb1cStMbLp7sun9QOe4WagPlUD5vDUbz3SgGRpPmRO7z3AsxIfw8T21yX
-         TkA1f+LI9UrA1yby0t3EHSbpq0HMZ8jUuL44G1FFmmvrVVduehMsPHku0ZZV/7uzoPxX
-         oOj75ccyl7pv72J3VzqJcndaZ9biXQCGURBCuMdDnjdoBom5L5q5RjOkYsiOcLt+EhFn
-         ZCdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=i4aAQM+hqwBh+Ur3XpmiJbNBr0p3KU+G6lrv4SZLhzw=;
-        b=oht/ncD8aHpLlX34LbMKDK6J5QG4jGLkt0D7hycMjsx2fw0ZS1ojf4OrSuvRl8EwQv
-         SH8mj29WqSL3fmmNzp5enkmhujdAtCqWL4i1fej5M7KWnWUg4ddHPQxQZwfPfCUnFeP2
-         MGSOOmlUo5p4CAA7rIV+6SZJBHtmp4Q+3cNrtwAp4YpAd8JtUxC3KNs1bxSiN/G92VcY
-         +5o6U2V++H99veV73aLKmDEjBkrVp5P7PrgltlMdwQkkneFqASqGMDag9NA4MxuK3LXq
-         9fl8aSTfiiUssu2URoaUAc0KfugDCpElTvsnIKs2oYeB3muNudlBViswYDVRBv4Qt1gw
-         MqGw==
-X-Gm-Message-State: AOAM5310+SYg6KgLHqD2aubitCOpYK1MoQR4y75cIYqiEwrIKm0C3dS8
-        PnpqDOw+TNv3oO2GFD1SqqOrZWjKKfhk
-X-Google-Smtp-Source: ABdhPJyzVcZ3svx44ZLwvk1FBmXG7xduf9j5GUh5IkG6KpE2BT8TSWgtRVdKkJn/m5PbA+4tdryfnVmvJ5Dp
-Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
-X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:3e52:82ff:fe5b:30db])
- (user=kyletso job=sendgmr) by 2002:a05:6214:1868:: with SMTP id
- eh8mr217058qvb.50.1609864814109; Tue, 05 Jan 2021 08:40:14 -0800 (PST)
-Date:   Wed,  6 Jan 2021 00:39:26 +0800
-In-Reply-To: <20210105163927.1376770-1-kyletso@google.com>
-Message-Id: <20210105163927.1376770-3-kyletso@google.com>
-Mime-Version: 1.0
-References: <20210105163927.1376770-1-kyletso@google.com>
-X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
-Subject: [PATCH v5 2/3] usb: typec: tcpm: Protocol Error handling
-From:   Kyle Tso <kyletso@google.com>
-To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle Tso <kyletso@google.com>,
-        Will McVicker <willmcvicker@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726132AbhAEQtM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Jan 2021 11:49:12 -0500
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:22876 "EHLO
+        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725838AbhAEQtM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Jan 2021 11:49:12 -0500
+Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
+        by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 105GgeJr030208;
+        Tue, 5 Jan 2021 11:48:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=Bk7ECmJ4hTFkUPuGMX7KM0AvF7R1rfVhTpBXOx04Q2Q=;
+ b=Abpt/7QBLpMCMP+2ASH1PgrTatf6NY0VWCduulUpD/aod753lY/DreHD7XBAKjiWFbFP
+ F7brUaUXgJLF6VbsyWm0DmepRMjffGzO200oGNOWNIXBeItqlPIxiUx5tPxiD+8aDQwM
+ PgQtDmX2jCd2kW10R5LYUmAS5ulkS73CYtGoJ/XZJp2CVeP31uhoJUohddjEizKUKkzZ
+ 5fNWLZ7CkREvBOkgUsQcmnqwmrBlA9/QfIRYKOMxufTEh610DRuoYU/YVUAB55tCr/Ab
+ uNqlRO6eqklzIp9rrfzc7oY/BfYzioroGeznJcEHJMYJFH56EACRw+v8V0hNbfc5fwAc Vw== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0a-00154904.pphosted.com with ESMTP id 35tms8j2yc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Jan 2021 11:48:26 -0500
+Received: from pps.filterd (m0089483.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 105GjMea050024;
+        Tue, 5 Jan 2021 11:48:25 -0500
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+        by mx0b-00154901.pphosted.com with ESMTP id 35vtqr989h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 05 Jan 2021 11:48:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C9YNCd2LJ+oOJPIX7bZFCPk6bFjcNQs7UtPW3X6Z1ODtUv/AurUu1Z84oSb66GyNYNvfFOnc+4GfAqgP2Tm4cPEltyD+j9zQYN+9F+4M7mC7NmwV0cGTzCJY7pSl0elL7u3Y720ArZ+3mkZVTzZ3fmcQDuwgXFwyS6Zq9M+bsaEXP7eIahd7FYIqlg6RiagLCjh2TE25Et+niXypVzyDwicZBLm6dgfvbD5/RSAHviPVrFpDyH8L9j0Y8ThpRXbNz/Bq8py0VKafcgx68seiFNB4CDcemKj3DnH04IOw8C7hAwlCLIKWkZcmw5CuIbhDpJMSjw4KNlDq8sHu83o/NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bk7ECmJ4hTFkUPuGMX7KM0AvF7R1rfVhTpBXOx04Q2Q=;
+ b=Bq9CmkFII3FteJ98oF0SbBgDS+JlriZKZfHeOFudhgbAhdFSb4TzmQlMYALUq6N5L50GuJX6uYFW3w2loQ6sKMrn4AZw8hG/kIhcU0B+pOfXJMwBmG3/Mg5pfLA3Pf754Nv0xm5eimcRpF539F0BnNTqg9Ry5025vV7vTRTxAaqf50auwi2r0POC67atgTfrzz6sahPgaKWRrkRbV8DvIst+MihIJgV6juDMpzY5o+ufIN3x1R0clKsMqhccTVGRudVGzJG2xHgXWagsvVrH85pgkdrQ71ReFtcpd5pgmEAPuVRq9/gMSkeWD/tyUwJTQ6Ija6q5YfwkU9v2a5HR0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com;
+ s=selector1-Dell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bk7ECmJ4hTFkUPuGMX7KM0AvF7R1rfVhTpBXOx04Q2Q=;
+ b=OfQOZuKlJQ03tMNUZW8ovuyNgkERgdHHB25ZEC6mOLisCie8oUuZVuik1FD2DGzDh3elCpThHpejjYvN/0bBDPJ7I2gxk8mpGdgRzQ6vahK1PlZrA+X38YCrlTV2qQHGPl10lGm8ycbtE/qHoQ0UTifQ+Mhi5tOrYN/8cZkUCgg=
+Received: from SA1PR19MB4926.namprd19.prod.outlook.com (2603:10b6:806:1a6::18)
+ by SA1PR19MB5023.namprd19.prod.outlook.com (2603:10b6:806:1a9::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.23; Tue, 5 Jan
+ 2021 16:48:23 +0000
+Received: from SA1PR19MB4926.namprd19.prod.outlook.com
+ ([fe80::e14a:eb33:4847:6cba]) by SA1PR19MB4926.namprd19.prod.outlook.com
+ ([fe80::e14a:eb33:4847:6cba%3]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
+ 16:48:23 +0000
+From:   "Limonciello, Mario" <Mario.Limonciello@dell.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <yehezkelshb@gmail.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Christian Kellner <christian@kellner.me>
+Subject: RE: [PATCH 2/2] thunderbolt: Add support for de-authorizing devices
+Thread-Topic: [PATCH 2/2] thunderbolt: Add support for de-authorizing devices
+Thread-Index: AQHW40UbuPmeFcyxZ0GCSFVJ5I1lb6oZDcWAgAAtgACAAAEnwA==
+Date:   Tue, 5 Jan 2021 16:48:23 +0000
+Message-ID: <SA1PR19MB4926E78435DD9276364D0818FAD10@SA1PR19MB4926.namprd19.prod.outlook.com>
+References: <20210105092808.15817-1-mika.westerberg@linux.intel.com>
+ <20210105092808.15817-2-mika.westerberg@linux.intel.com>
+ <CA+CmpXuFcirdh_bp1=MmXr9KHJ2XdoMiBL9ORyntoFcxpJyJYA@mail.gmail.com>
+ <20210105163624.GH968855@lahna.fi.intel.com>
+In-Reply-To: <20210105163624.GH968855@lahna.fi.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-01-05T16:48:19.6759421Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=fe10b2e7-e1a2-4072-9a92-2a6452f20b61;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=Dell.com;
+x-originating-ip: [76.251.167.31]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 93d437a5-be03-4e81-0b6f-08d8b199b722
+x-ms-traffictypediagnostic: SA1PR19MB5023:
+x-microsoft-antispam-prvs: <SA1PR19MB50232D9F3368A27063F9CC1FFAD10@SA1PR19MB5023.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +jj0bFPtSvGoYg1Gqc/u5Vyfm2GTVDG4Kd7OlYN93OWYkn+da1wFynCY7d7ZFmd1klTE4QcRRo1RBkANW3N3LHdp7+SSZ+1Gm8oAeHvYkuTd56RL9PWvYoKwa91U75VpMzt8cEayvb4gRzmO6l+Z0r1MBM8vOTK8Hqp5uDQ090ns+ic3mAriBQgFnW0y6w9uwgjf1gd+rxYHGZQ9VmIXCqMqYa4+UBJNfiDB3hWiKzkUVORxVitFfhsYXn4hmbwi6gbW6dWDQxUwWZx6E364kjGs/v85KLzsYSa8h1RNg/zfIa9TyYqmiMflmbq2jQ7iW1Yae1+dSD0cXfhz0AzVtgCUudnLlhe7jMqR5kmF21a8nCHyc7BULm5gdDJ6EOBEIdmk61fPhIN6aVQMuCn1Sw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR19MB4926.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(6506007)(316002)(54906003)(4326008)(5660300002)(9686003)(2906002)(66476007)(52536014)(86362001)(110136005)(64756008)(786003)(83380400001)(26005)(66446008)(66556008)(66946007)(71200400001)(76116006)(8936002)(33656002)(53546011)(478600001)(186003)(55016002)(8676002)(7696005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?pF9BlfUk5O9URv+CYxutww3moWtFjzkoL2Uwg2og70GLxTBvpNNOnwVRd6w8?=
+ =?us-ascii?Q?1SgMPn8xh0TbWYYVFPWg+Al/toXRoHLTS4YTQpPBKtKGllo/CHe9LoCc2bFQ?=
+ =?us-ascii?Q?KWKsRYfvAZdmq4bE3YJ7tTCEyA91fRQIhLdOFK4D9TAQm7X5+Ckv2IgP7VHF?=
+ =?us-ascii?Q?GkWe0LufyeOp4+87/sruhkQ98FENBH1TdzBhLuWIDx+84tHLnmsCtXj8PCsM?=
+ =?us-ascii?Q?LOAgtTWJl5CPOdR5TDdcpH6oPdYa0PJ0nkDO+RfaNUajvoyj4YYH6FH3UEIY?=
+ =?us-ascii?Q?fgTzv84Q4RYoejzG9PHD+mE25+Gf84/d6aeIONgK8A28cXQZYuIPj6jPP2KY?=
+ =?us-ascii?Q?ifJKfa873lRIwFcnr2BkbBYzVq91Fxeu0n+9L4CJYXDBnFGYyt7pVKvH44bs?=
+ =?us-ascii?Q?jgDb0jLffw3KuV3nbrkih/iwlE7/IW76Wpciy+g+xdEB2Vb4vS1FNLpyFO0q?=
+ =?us-ascii?Q?MfR3HNTHXWonJxSZmXDplCmPdwE8wdVXUOto0SUvGVmZZ8NK3gRSaVNf5wQx?=
+ =?us-ascii?Q?2tKrNqIDKvI/yiNmQAJqihLO4drGybJPQAl6U8UNbZgvZGQCCLI+9G2NdMi3?=
+ =?us-ascii?Q?LlSK5nMQMcRqGlEICtOp4w/pvJXEDY/90Tidz90sg/4vvGUB05vSKeUnZ+2R?=
+ =?us-ascii?Q?9YkgOwl94n6Z0FJGyrIO1/lfy9B1A3jC09YPWILQoeJ1axfWyxVpqtLsztX5?=
+ =?us-ascii?Q?WTJ/TMBS+A92unI0xdyx4q89KyLmLazyS3D8nAL22j+s6L1fqNUpRjU+215f?=
+ =?us-ascii?Q?veXSCHMGQpzVhASeWLAWTGOWMM9LUQ7SnPaGqF5knxMvWDulcGE7+uWmf8g1?=
+ =?us-ascii?Q?fo3HSOm9T1KPQ2HeYLXRZwQBomGZqFrAmSnlZlRzKGgHBzDqKoWsaaNx1niH?=
+ =?us-ascii?Q?YnsCHih77+1uAR4aWCHgjpkX/yr/qss24aKu+l7mIlDgCLCdpW4Ei5imvBPP?=
+ =?us-ascii?Q?Nzi/Gjbp1ypwJroJpVoZexB+H6aPcHf3+UdX8XUN6Fs=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR19MB4926.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93d437a5-be03-4e81-0b6f-08d8b199b722
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2021 16:48:23.2782
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xgnXu98hRIswDO8WvNnxVYaYPXQ0LwVklmueLB+IAqA/1cX7esetAx6ZVbRBpc9w9/iGSNxPKhXNCnHElzTVcAFxOGMYTm0ba64o/Ibv0X4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB5023
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2021-01-05_03:2021-01-05,2021-01-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ mlxscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501 bulkscore=0
+ mlxlogscore=999 clxscore=1011 adultscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101050101
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101050101
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PD3.0 Spec 6.8.1 describes how to handle Protocol Error. There are
-general rules defined in Table 6-61 which regulate incoming Message
-handling. If the incoming Message is unexpected, unsupported, or
-unrecognized, Protocol Error occurs. Follow the rules to handle these
-situations. Also consider PD2.0 connection (PD2.0 Spec Table 6-36) for
-backward compatibilities.
+> -----Original Message-----
+> From: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Sent: Tuesday, January 5, 2021 10:36
+> To: Yehezkel Bernat
+> Cc: linux-usb@vger.kernel.org; Michael Jamet; Lukas Wunner; Andreas Noeve=
+r;
+> Christian Kellner; Limonciello, Mario
+> Subject: Re: [PATCH 2/2] thunderbolt: Add support for de-authorizing devi=
+ces
+>=20
+>=20
+> [EXTERNAL EMAIL]
+>=20
+> Hi,
+>=20
+> On Tue, Jan 05, 2021 at 03:53:33PM +0200, Yehezkel Bernat wrote:
+> > On Tue, Jan 5, 2021 at 11:28 AM Mika Westerberg
+> > <mika.westerberg@linux.intel.com> wrote:
+> > >
+> > > In some cases it is useful to be able de-authorize devices. For examp=
+le
+> > > if user logs out the userspace can have a policy that disconnects PCI=
+e
+> > > devices until logged in again. This is only possible for software bas=
+ed
+> > > connection manager as it directly controls the tunnels.
+> > >
+> > > For this reason make the authorized attribute accept writing 0 which
+> > > makes the software connection manager to tear down the corresponding
+> > > PCIe tunnel. Userspace can check if this is supported by reading a ne=
+w
+> > > domain attribute deauthorization, that holds 1 in that case.
 
-To know the types of AMS in all the recipient's states, identify those
-AMS who are initiated by the port partner but not yet recorded in the
-current code.
+Just another idea, rather than the value of a new "deauthorize" attribute i=
+ndicating
+whether this is supported how about instead a "connection_manager" attribut=
+e?
 
-Besides, introduce a new state CHUNK_NOT_SUPP to delay the NOT_SUPPORTED
-message after receiving a chunked message.
+My thought being userspace can potentially make a judgement call from the i=
+nformation
+on how tunnels are going to behave (particularly in long chains from the su=
+spend/resume
+cycle coming back differently).
 
-Signed-off-by: Kyle Tso <kyletso@google.com>
-Signed-off-by: Will McVicker <willmcvicker@google.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 346 +++++++++++++++++++++++++---------
- include/linux/usb/pd.h        |   1 +
- 2 files changed, 257 insertions(+), 90 deletions(-)
+> >
+> > What a great feature! Thanks for implementing it.
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 9fb3ec176f42..a951307d669d 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -143,7 +143,8 @@
- 	S(PORT_RESET),				\
- 	S(PORT_RESET_WAIT_OFF),			\
- 						\
--	S(AMS_START)
-+	S(AMS_START),				\
-+	S(CHUNK_NOT_SUPP)
- 
- #define FOREACH_AMS(S)				\
- 	S(NONE_AMS),				\
-@@ -433,6 +434,7 @@ struct tcpm_port {
- 	/* Collision Avoidance and Atomic Message Sequence */
- 	enum tcpm_state upcoming_state;
- 	enum tcpm_ams ams;
-+	enum tcpm_ams next_ams;
- 	bool in_ams;
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -1214,7 +1216,8 @@ static int tcpm_ams_start(struct tcpm_port *port, enum tcpm_ams ams)
- 
- 	tcpm_log(port, "AMS %s start", tcpm_ams_str[ams]);
- 
--	if (!tcpm_ams_interruptible(port) && ams != HARD_RESET) {
-+	if (!tcpm_ams_interruptible(port) &&
-+	    !(ams == HARD_RESET || ams == SOFT_RESET_AMS)) {
- 		port->upcoming_state = INVALID_STATE;
- 		tcpm_log(port, "AMS %s not interruptible, aborting",
- 			 tcpm_ams_str[port->ams]);
-@@ -1232,11 +1235,10 @@ static int tcpm_ams_start(struct tcpm_port *port, enum tcpm_ams ams)
- 			tcpm_set_state(port, HARD_RESET_START, 0);
- 			return ret;
- 		} else if (ams == SOFT_RESET_AMS) {
--			if (!port->explicit_contract) {
--				port->upcoming_state = INVALID_STATE;
-+			if (!port->explicit_contract)
- 				tcpm_set_cc(port, tcpm_rp_cc(port));
--				return ret;
--			}
-+			tcpm_set_state(port, SOFT_RESET_SEND, 0);
-+			return ret;
- 		} else if (tcpm_vdm_ams(port)) {
- 			/* tSinkTx is enforced in vdm_run_state_machine */
- 			if (port->negotiated_rev >= PD_REV30)
-@@ -1453,6 +1455,9 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 	case CMDT_INIT:
- 		switch (cmd) {
- 		case CMD_DISCOVER_IDENT:
-+			if (PD_VDO_VID(p[0]) != USB_SID_PD)
-+				break;
-+
- 			/* 6.4.4.3.1: Only respond as UFP (device) */
- 			if (port->data_role == TYPEC_DEVICE &&
- 			    port->nr_snk_vdo) {
-@@ -1538,22 +1543,37 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 				return 0;
- 			}
- 			break;
-+		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
-+			break;
- 		default:
-+			/* Unrecognized SVDM */
-+			response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
-+			rlen = 1;
- 			break;
- 		}
- 		break;
- 	case CMDT_RSP_NAK:
- 		tcpm_ams_finish(port);
- 		switch (cmd) {
-+		case CMD_DISCOVER_IDENT:
-+		case CMD_DISCOVER_SVID:
-+		case CMD_DISCOVER_MODES:
-+		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
-+			break;
- 		case CMD_ENTER_MODE:
- 			/* Back to USB Operation */
- 			*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
- 			return 0;
- 		default:
-+			/* Unrecognized SVDM */
-+			response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
-+			rlen = 1;
- 			break;
- 		}
- 		break;
- 	default:
-+		response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
-+		rlen = 1;
- 		break;
- 	}
- 
-@@ -1589,8 +1609,12 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 		port->vdm_state = VDM_STATE_DONE;
- 	}
- 
--	if (PD_VDO_SVDM(p[0]))
-+	if (PD_VDO_SVDM(p[0])) {
- 		rlen = tcpm_pd_svdm(port, adev, p, cnt, response, &adev_action);
-+	} else {
-+		if (port->negotiated_rev >= PD_REV30)
-+			tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-+	}
- 
- 	/*
- 	 * We are done with any state stored in the port struct now, except
-@@ -2042,6 +2066,71 @@ static int tcpm_set_auto_vbus_discharge_threshold(struct tcpm_port *port,
- 	return ret;
- }
- 
-+static void tcpm_pd_handle_state(struct tcpm_port *port,
-+				 enum tcpm_state state,
-+				 enum tcpm_ams ams,
-+				 unsigned int delay_ms)
-+{
-+	switch (port->state) {
-+	case SRC_READY:
-+	case SNK_READY:
-+		port->ams = ams;
-+		tcpm_set_state(port, state, delay_ms);
-+		break;
-+	/* 8.3.3.4.1.1 and 6.8.1 power transitioning */
-+	case SNK_TRANSITION_SINK:
-+	case SNK_TRANSITION_SINK_VBUS:
-+	case SRC_TRANSITION_SUPPLY:
-+		tcpm_set_state(port, HARD_RESET_SEND, 0);
-+		break;
-+	default:
-+		if (!tcpm_ams_interruptible(port)) {
-+			tcpm_set_state(port, port->pwr_role == TYPEC_SOURCE ?
-+				       SRC_SOFT_RESET_WAIT_SNK_TX :
-+				       SNK_SOFT_RESET,
-+				       0);
-+		} else {
-+			/* process the Message 6.8.1 */
-+			port->upcoming_state = state;
-+			port->next_ams = ams;
-+			tcpm_set_state(port, ready_state(port), delay_ms);
-+		}
-+		break;
-+	}
-+}
-+
-+static void tcpm_pd_handle_msg(struct tcpm_port *port,
-+			       enum pd_msg_request message,
-+			       enum tcpm_ams ams)
-+{
-+	switch (port->state) {
-+	case SRC_READY:
-+	case SNK_READY:
-+		port->ams = ams;
-+		tcpm_queue_message(port, message);
-+		break;
-+	/* PD 3.0 Spec 8.3.3.4.1.1 and 6.8.1 */
-+	case SNK_TRANSITION_SINK:
-+	case SNK_TRANSITION_SINK_VBUS:
-+	case SRC_TRANSITION_SUPPLY:
-+		tcpm_set_state(port, HARD_RESET_SEND, 0);
-+		break;
-+	default:
-+		if (!tcpm_ams_interruptible(port)) {
-+			tcpm_set_state(port, port->pwr_role == TYPEC_SOURCE ?
-+				       SRC_SOFT_RESET_WAIT_SNK_TX :
-+				       SNK_SOFT_RESET,
-+				       0);
-+		} else {
-+			port->next_ams = ams;
-+			tcpm_set_state(port, ready_state(port), 0);
-+			/* 6.8.1 process the Message */
-+			tcpm_queue_message(port, message);
-+		}
-+		break;
-+	}
-+}
-+
- static void tcpm_pd_data_request(struct tcpm_port *port,
- 				 const struct pd_message *msg)
- {
-@@ -2055,9 +2144,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 
- 	switch (type) {
- 	case PD_DATA_SOURCE_CAP:
--		if (port->pwr_role != TYPEC_SINK)
--			break;
--
- 		for (i = 0; i < cnt; i++)
- 			port->source_caps[i] = le32_to_cpu(msg->payload[i]);
- 
-@@ -2073,12 +2159,27 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 		 * to comply with 6.2.1.1.5 of the USB PD 3.0 spec. We don't
- 		 * support Rev 1.0 so just do nothing in that scenario.
- 		 */
--		if (rev == PD_REV10)
-+		if (rev == PD_REV10) {
-+			if (port->ams == GET_SOURCE_CAPABILITIES)
-+				tcpm_ams_finish(port);
- 			break;
-+		}
- 
- 		if (rev < PD_MAX_REV)
- 			port->negotiated_rev = rev;
- 
-+		if (port->pwr_role == TYPEC_SOURCE) {
-+			if (port->ams == GET_SOURCE_CAPABILITIES)
-+				tcpm_pd_handle_state(port, SRC_READY, NONE_AMS,
-+						     0);
-+			/* Unexpected Source Capabilities */
-+			else
-+				tcpm_pd_handle_msg(port,
-+					   port->negotiated_rev < PD_REV30 ?
-+					   PD_MSG_CTRL_REJECT :
-+					   PD_MSG_CTRL_NOT_SUPP,
-+					   NONE_AMS);
-+		} else if (port->state == SNK_WAIT_CAPABILITIES) {
- 		/*
- 		 * This message may be received even if VBUS is not
- 		 * present. This is quite unexpected; see USB PD
-@@ -2092,30 +2193,48 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 		 * but be prepared to keep waiting for VBUS after it was
- 		 * handled.
- 		 */
--		tcpm_set_state(port, SNK_NEGOTIATE_CAPABILITIES, 0);
-+			port->ams = POWER_NEGOTIATION;
-+			tcpm_set_state(port, SNK_NEGOTIATE_CAPABILITIES, 0);
-+		} else {
-+			if (port->ams == GET_SOURCE_CAPABILITIES)
-+				tcpm_ams_finish(port);
-+			tcpm_pd_handle_state(port, SNK_NEGOTIATE_CAPABILITIES,
-+					     POWER_NEGOTIATION, 0);
-+		}
- 		break;
- 	case PD_DATA_REQUEST:
--		if (port->pwr_role != TYPEC_SOURCE ||
--		    cnt != 1) {
--			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
--			break;
--		}
--
- 		/*
- 		 * Adjust revision in subsequent message headers, as required,
- 		 * to comply with 6.2.1.1.5 of the USB PD 3.0 spec. We don't
- 		 * support Rev 1.0 so just reject in that scenario.
- 		 */
- 		if (rev == PD_REV10) {
--			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
-+			tcpm_pd_handle_msg(port,
-+					   port->negotiated_rev < PD_REV30 ?
-+					   PD_MSG_CTRL_REJECT :
-+					   PD_MSG_CTRL_NOT_SUPP,
-+					   NONE_AMS);
- 			break;
- 		}
- 
- 		if (rev < PD_MAX_REV)
- 			port->negotiated_rev = rev;
- 
-+		if (port->pwr_role != TYPEC_SOURCE || cnt != 1) {
-+			tcpm_pd_handle_msg(port,
-+					   port->negotiated_rev < PD_REV30 ?
-+					   PD_MSG_CTRL_REJECT :
-+					   PD_MSG_CTRL_NOT_SUPP,
-+					   NONE_AMS);
-+			break;
-+		}
-+
- 		port->sink_request = le32_to_cpu(msg->payload[0]);
--		tcpm_set_state(port, SRC_NEGOTIATE_CAPABILITIES, 0);
-+		if (port->state == SRC_SEND_CAPABILITIES)
-+			tcpm_set_state(port, SRC_NEGOTIATE_CAPABILITIES, 0);
-+		else
-+			tcpm_pd_handle_state(port, SRC_NEGOTIATE_CAPABILITIES,
-+					     POWER_NEGOTIATION, 0);
- 		break;
- 	case PD_DATA_SINK_CAP:
- 		/* We don't do anything with this at the moment... */
-@@ -2136,16 +2255,23 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 
- 		port->nr_sink_caps = cnt;
- 		port->sink_cap_done = true;
--		tcpm_set_state(port, SNK_READY, 0);
-+		if (port->ams == GET_SINK_CAPABILITIES)
-+			tcpm_pd_handle_state(port, ready_state(port), NONE_AMS,
-+					     0);
-+		/* Unexpected Sink Capabilities */
-+		else
-+			tcpm_pd_handle_msg(port,
-+					   port->negotiated_rev < PD_REV30 ?
-+					   PD_MSG_CTRL_REJECT :
-+					   PD_MSG_CTRL_NOT_SUPP,
-+					   NONE_AMS);
- 		break;
- 	case PD_DATA_VENDOR_DEF:
- 		tcpm_handle_vdm_request(port, msg->payload, cnt);
- 		break;
- 	case PD_DATA_BIST:
--		if (port->state == SRC_READY || port->state == SNK_READY) {
--			port->bist_request = le32_to_cpu(msg->payload[0]);
--			tcpm_set_state(port, BIST_RX, 0);
--		}
-+		port->bist_request = le32_to_cpu(msg->payload[0]);
-+		tcpm_pd_handle_state(port, BIST_RX, BIST, 0);
- 		break;
- 	case PD_DATA_ALERT:
- 		tcpm_handle_alert(port, msg->payload, cnt);
-@@ -2153,10 +2279,17 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
- 	case PD_DATA_BATT_STATUS:
- 	case PD_DATA_GET_COUNTRY_INFO:
- 		/* Currently unsupported */
--		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-+		tcpm_pd_handle_msg(port, port->negotiated_rev < PD_REV30 ?
-+				   PD_MSG_CTRL_REJECT :
-+				   PD_MSG_CTRL_NOT_SUPP,
-+				   NONE_AMS);
- 		break;
- 	default:
--		tcpm_log(port, "Unhandled data message type %#x", type);
-+		tcpm_pd_handle_msg(port, port->negotiated_rev < PD_REV30 ?
-+				   PD_MSG_CTRL_REJECT :
-+				   PD_MSG_CTRL_NOT_SUPP,
-+				   NONE_AMS);
-+		tcpm_log(port, "Unrecognized data message type %#x", type);
- 		break;
- 	}
- }
-@@ -2181,26 +2314,12 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 	case PD_CTRL_PING:
- 		break;
- 	case PD_CTRL_GET_SOURCE_CAP:
--		switch (port->state) {
--		case SRC_READY:
--		case SNK_READY:
--			tcpm_queue_message(port, PD_MSG_DATA_SOURCE_CAP);
--			break;
--		default:
--			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
--			break;
--		}
-+		tcpm_pd_handle_msg(port, PD_MSG_DATA_SOURCE_CAP,
-+				   GET_SOURCE_CAPABILITIES);
- 		break;
- 	case PD_CTRL_GET_SINK_CAP:
--		switch (port->state) {
--		case SRC_READY:
--		case SNK_READY:
--			tcpm_queue_message(port, PD_MSG_DATA_SINK_CAP);
--			break;
--		default:
--			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
--			break;
--		}
-+		tcpm_pd_handle_msg(port, PD_MSG_DATA_SINK_CAP,
-+					GET_SINK_CAPABILITIES);
- 		break;
- 	case PD_CTRL_GOTO_MIN:
- 		break;
-@@ -2239,6 +2358,11 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 			tcpm_set_state(port, FR_SWAP_SNK_SRC_NEW_SINK_READY, 0);
- 			break;
- 		default:
-+			tcpm_pd_handle_state(port,
-+					     port->pwr_role == TYPEC_SOURCE ?
-+					     SRC_SOFT_RESET_WAIT_SNK_TX :
-+					     SNK_SOFT_RESET,
-+					     NONE_AMS, 0);
- 			break;
- 		}
- 		break;
-@@ -2285,6 +2409,11 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 			tcpm_set_state(port, ready_state(port), 0);
- 			break;
- 		default:
-+			tcpm_pd_handle_state(port,
-+					     port->pwr_role == TYPEC_SOURCE ?
-+					     SRC_SOFT_RESET_WAIT_SNK_TX :
-+					     SNK_SOFT_RESET,
-+					     NONE_AMS, 0);
- 			break;
- 		}
- 		break;
-@@ -2301,8 +2430,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 			tcpm_set_state(port, SNK_TRANSITION_SINK, 0);
- 			break;
- 		case SOFT_RESET_SEND:
--			port->message_id = 0;
--			port->rx_msgid = -1;
- 			if (port->ams == SOFT_RESET_AMS)
- 				tcpm_ams_finish(port);
- 			if (port->pwr_role == TYPEC_SOURCE) {
-@@ -2325,57 +2452,47 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 			tcpm_set_state(port, FR_SWAP_SNK_SRC_TRANSITION_TO_OFF, 0);
- 			break;
- 		default:
-+			tcpm_pd_handle_state(port,
-+					     port->pwr_role == TYPEC_SOURCE ?
-+					     SRC_SOFT_RESET_WAIT_SNK_TX :
-+					     SNK_SOFT_RESET,
-+					     NONE_AMS, 0);
- 			break;
- 		}
- 		break;
- 	case PD_CTRL_SOFT_RESET:
-+		port->ams = SOFT_RESET_AMS;
- 		tcpm_set_state(port, SOFT_RESET, 0);
- 		break;
- 	case PD_CTRL_DR_SWAP:
--		if (port->typec_caps.data != TYPEC_PORT_DRD) {
--			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
--			break;
--		}
- 		/*
- 		 * XXX
- 		 * 6.3.9: If an alternate mode is active, a request to swap
- 		 * alternate modes shall trigger a port reset.
- 		 */
--		switch (port->state) {
--		case SRC_READY:
--		case SNK_READY:
--			tcpm_set_state(port, DR_SWAP_ACCEPT, 0);
--			break;
--		default:
--			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
--			break;
--		}
-+		if (port->typec_caps.data != TYPEC_PORT_DRD)
-+			tcpm_pd_handle_msg(port,
-+					   port->negotiated_rev < PD_REV30 ?
-+					   PD_MSG_CTRL_REJECT :
-+					   PD_MSG_CTRL_NOT_SUPP,
-+					   NONE_AMS);
-+		else
-+			tcpm_pd_handle_state(port, DR_SWAP_ACCEPT,
-+					     DATA_ROLE_SWAP, 0);
- 		break;
- 	case PD_CTRL_PR_SWAP:
--		if (port->port_type != TYPEC_PORT_DRP) {
--			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
--			break;
--		}
--		switch (port->state) {
--		case SRC_READY:
--		case SNK_READY:
--			tcpm_set_state(port, PR_SWAP_ACCEPT, 0);
--			break;
--		default:
--			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
--			break;
--		}
-+		if (port->port_type != TYPEC_PORT_DRP)
-+			tcpm_pd_handle_msg(port,
-+					   port->negotiated_rev < PD_REV30 ?
-+					   PD_MSG_CTRL_REJECT :
-+					   PD_MSG_CTRL_NOT_SUPP,
-+					   NONE_AMS);
-+		else
-+			tcpm_pd_handle_state(port, PR_SWAP_ACCEPT,
-+					     POWER_ROLE_SWAP, 0);
- 		break;
- 	case PD_CTRL_VCONN_SWAP:
--		switch (port->state) {
--		case SRC_READY:
--		case SNK_READY:
--			tcpm_set_state(port, VCONN_SWAP_ACCEPT, 0);
--			break;
--		default:
--			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
--			break;
--		}
-+		tcpm_pd_handle_state(port, VCONN_SWAP_ACCEPT, VCONN_SWAP, 0);
- 		break;
- 	case PD_CTRL_GET_SOURCE_CAP_EXT:
- 	case PD_CTRL_GET_STATUS:
-@@ -2383,10 +2500,19 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
- 	case PD_CTRL_GET_PPS_STATUS:
- 	case PD_CTRL_GET_COUNTRY_CODES:
- 		/* Currently not supported */
--		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-+		tcpm_pd_handle_msg(port,
-+				   port->negotiated_rev < PD_REV30 ?
-+				   PD_MSG_CTRL_REJECT :
-+				   PD_MSG_CTRL_NOT_SUPP,
-+				   NONE_AMS);
- 		break;
- 	default:
--		tcpm_log(port, "Unhandled ctrl message type %#x", type);
-+		tcpm_pd_handle_msg(port,
-+				   port->negotiated_rev < PD_REV30 ?
-+				   PD_MSG_CTRL_REJECT :
-+				   PD_MSG_CTRL_NOT_SUPP,
-+				   NONE_AMS);
-+		tcpm_log(port, "Unrecognized ctrl message type %#x", type);
- 		break;
- 	}
- }
-@@ -2398,11 +2524,14 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
- 	unsigned int data_size = pd_ext_header_data_size_le(msg->ext_msg.header);
- 
- 	if (!(msg->ext_msg.header & PD_EXT_HDR_CHUNKED)) {
-+		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
- 		tcpm_log(port, "Unchunked extended messages unsupported");
- 		return;
- 	}
- 
- 	if (data_size > PD_EXT_MAX_CHUNK_DATA) {
-+		tcpm_pd_handle_state(port, CHUNK_NOT_SUPP, NONE_AMS,
-+				     PD_T_CHUNK_NOT_SUPP);
- 		tcpm_log(port, "Chunk handling not yet supported");
- 		return;
- 	}
-@@ -2415,16 +2544,19 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
- 		 */
- 		if (msg->ext_msg.data[USB_PD_EXT_SDB_EVENT_FLAGS] &
- 		    USB_PD_EXT_SDB_PPS_EVENTS)
--			tcpm_set_state(port, GET_PPS_STATUS_SEND, 0);
-+			tcpm_pd_handle_state(port, GET_PPS_STATUS_SEND,
-+					     GETTING_SOURCE_SINK_STATUS, 0);
-+
- 		else
--			tcpm_set_state(port, ready_state(port), 0);
-+			tcpm_pd_handle_state(port, ready_state(port), NONE_AMS,
-+					     0);
- 		break;
- 	case PD_EXT_PPS_STATUS:
- 		/*
- 		 * For now the PPS status message is used to clear events
- 		 * and nothing more.
- 		 */
--		tcpm_set_state(port, ready_state(port), 0);
-+		tcpm_pd_handle_state(port, ready_state(port), NONE_AMS, 0);
- 		break;
- 	case PD_EXT_SOURCE_CAP_EXT:
- 	case PD_EXT_GET_BATT_CAP:
-@@ -2438,10 +2570,11 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
- 	case PD_EXT_FW_UPDATE_RESPONSE:
- 	case PD_EXT_COUNTRY_INFO:
- 	case PD_EXT_COUNTRY_CODES:
--		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-+		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
- 		break;
- 	default:
--		tcpm_log(port, "Unhandled extended message type %#x", type);
-+		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
-+		tcpm_log(port, "Unrecognized extended message type %#x", type);
- 		break;
- 	}
- }
-@@ -2554,7 +2687,14 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
- 			tcpm_pd_send_control(port, PD_CTRL_NOT_SUPP);
- 			break;
- 		case PD_MSG_DATA_SINK_CAP:
--			tcpm_pd_send_sink_caps(port);
-+			ret = tcpm_pd_send_sink_caps(port);
-+			if (ret < 0) {
-+				tcpm_log(port,
-+					 "Unable to send snk caps, ret=%d",
-+					 ret);
-+				tcpm_set_state(port, SNK_SOFT_RESET, 0);
-+			}
-+			tcpm_ams_finish(port);
- 			break;
- 		case PD_MSG_DATA_SOURCE_CAP:
- 			ret = tcpm_pd_send_source_caps(port);
-@@ -2564,8 +2704,11 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
- 					 ret);
- 				tcpm_set_state(port, SOFT_RESET_SEND, 0);
- 			} else if (port->pwr_role == TYPEC_SOURCE) {
-+				tcpm_ams_finish(port);
- 				tcpm_set_state(port, HARD_RESET_SEND,
- 					       PD_T_SENDER_RESPONSE);
-+			} else {
-+				tcpm_ams_finish(port);
- 			}
- 			break;
- 		default:
-@@ -3584,6 +3727,11 @@ static void run_state_machine(struct tcpm_port *port)
- 
- 		if (port->ams != NONE_AMS)
- 			tcpm_ams_finish(port);
-+		if (port->next_ams != NONE_AMS) {
-+			port->ams = port->next_ams;
-+			port->next_ams = NONE_AMS;
-+		}
-+
- 		/*
- 		 * If previous AMS is interrupted, switch to the upcoming
- 		 * state.
-@@ -3824,6 +3972,11 @@ static void run_state_machine(struct tcpm_port *port)
- 
- 		if (port->ams != NONE_AMS)
- 			tcpm_ams_finish(port);
-+		if (port->next_ams != NONE_AMS) {
-+			port->ams = port->next_ams;
-+			port->next_ams = NONE_AMS;
-+		}
-+
- 		/*
- 		 * If previous AMS is interrupted, switch to the upcoming
- 		 * state.
-@@ -3971,6 +4124,7 @@ static void run_state_machine(struct tcpm_port *port)
- 		port->message_id = 0;
- 		port->rx_msgid = -1;
- 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-+		tcpm_ams_finish(port);
- 		if (port->pwr_role == TYPEC_SOURCE) {
- 			port->upcoming_state = SRC_SEND_CAPABILITIES;
- 			tcpm_ams_start(port, POWER_NEGOTIATION);
-@@ -4007,6 +4161,7 @@ static void run_state_machine(struct tcpm_port *port)
- 		break;
- 	case DR_SWAP_SEND_TIMEOUT:
- 		tcpm_swap_complete(port, -ETIMEDOUT);
-+		tcpm_ams_finish(port);
- 		tcpm_set_state(port, ready_state(port), 0);
- 		break;
- 	case DR_SWAP_CHANGE_DR:
-@@ -4019,6 +4174,7 @@ static void run_state_machine(struct tcpm_port *port)
- 				       TYPEC_HOST);
- 			port->send_discover = true;
- 		}
-+		tcpm_ams_finish(port);
- 		tcpm_set_state(port, ready_state(port), 0);
- 		break;
- 
-@@ -4146,6 +4302,7 @@ static void run_state_machine(struct tcpm_port *port)
- 
- 	case VCONN_SWAP_ACCEPT:
- 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-+		tcpm_ams_finish(port);
- 		tcpm_set_state(port, VCONN_SWAP_START, 0);
- 		break;
- 	case VCONN_SWAP_SEND:
-@@ -4263,6 +4420,13 @@ static void run_state_machine(struct tcpm_port *port)
- 		port->upcoming_state = INVALID_STATE;
- 		tcpm_set_state(port, upcoming_state, 0);
- 		break;
-+
-+	/* Chunk state */
-+	case CHUNK_NOT_SUPP:
-+		tcpm_pd_send_control(port, PD_CTRL_NOT_SUPP);
-+		tcpm_set_state(port, port->pwr_role == TYPEC_SOURCE ?
-+			       SRC_READY : SNK_READY, 0);
-+		break;
- 	default:
- 		WARN(1, "Unexpected port state %d\n", port->state);
- 		break;
-@@ -4692,6 +4856,8 @@ static void _tcpm_pd_hard_reset(struct tcpm_port *port)
- 
- 	if (port->ams != NONE_AMS)
- 		port->ams = NONE_AMS;
-+	if (port->hard_reset_count < PD_N_HARD_RESET_COUNT)
-+		port->ams = HARD_RESET;
- 	/*
- 	 * If we keep receiving hard reset requests, executing the hard reset
- 	 * must have failed. Revert to error recovery if that happens.
-diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-index 79599b90ba55..272454f9cd67 100644
---- a/include/linux/usb/pd.h
-+++ b/include/linux/usb/pd.h
-@@ -480,6 +480,7 @@ static inline unsigned int rdo_max_power(u32 rdo)
- #define PD_T_SWAP_SRC_START	20	/* Minimum of 20ms */
- #define PD_T_BIST_CONT_MODE	50	/* 30 - 60 ms */
- #define PD_T_SINK_TX		16	/* 16 - 20 ms */
-+#define PD_T_CHUNK_NOT_SUPP	42	/* 40 - 50 ms */
- 
- #define PD_T_DRP_TRY		100	/* 75 - 150 ms */
- #define PD_T_DRP_TRYWAIT	600	/* 400 - 800 ms */
--- 
-2.29.2.729.g45daf8777d-goog
+I agree, this sounds like a great idea.
 
+> >
+> > BTW, is there any general way to disable the device operations before s=
+uch a
+> > disconnection? The user has a way to stop removable disks, for example,=
+ but
+> > maybe other devices need additional precaution from the user (eGPU?).
+>=20
+> There are ways but it depends on the driver, I guess. For instance eGPUS
+> at the moment (the ones I've tested) simply crash as their driver does
+> not support hot-remove ;-)
+>=20
+> What ends up happening is essentially PCIe hot-remove so drivers that
+> are prepared for that should be fine. Of course if you had mounted
+> filesystem behind the PCIe link that was torn down you end up losing
+> your data, so the user interface should make sure the user is aware of
+> that.
+
+I think it's also worth mentioning this risk in the thunderbolt.rst documen=
+tation
+directly.
+
+>=20
+> > >                 Possible values are supported:
+> > >
+> > > -               =3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > > +               =3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +               0   The device will be de-authorized (only supported =
+if
+> > > +                   deauthorization attribute under domain contains 1=
+)
+> > >                 1   The device will be authorized and connected
+> > > -               =3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > > +               =3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >
+> > >                 When key attribute contains 32 byte hex string the
+> possible
+> > >                 values are:
+> >
+> > As 0 is available for 'secure' security level too, you may want to refl=
+ect
+> it in
+> > the documentation here somehow.
+>=20
+> OK.
+>=20
+> > > +static int disapprove_switch(struct device *dev, void *data)
+> >
+> > Maybe it's better to mark `data` as `__maybe_unused`?
+>=20
+> Or rename `data` as `unused`? I think in ACPI side we are doing that
+> but sure, I'll change it.
