@@ -5,57 +5,57 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 377A5C43381
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 19:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F514C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 19:02:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E705F22D57
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 19:02:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC90522D58
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Jan 2021 19:02:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730570AbhAETBu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Jan 2021 14:01:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
+        id S1730773AbhAETCI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Jan 2021 14:02:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729925AbhAETBt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Jan 2021 14:01:49 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60176C06179E;
-        Tue,  5 Jan 2021 11:00:47 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id y24so1833305edt.10;
-        Tue, 05 Jan 2021 11:00:47 -0800 (PST)
+        with ESMTP id S1730731AbhAETCH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Jan 2021 14:02:07 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC9EC0617A3;
+        Tue,  5 Jan 2021 11:00:55 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id u19so1925350edx.2;
+        Tue, 05 Jan 2021 11:00:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mNfzPBhLMMZWAzE97w1+ZZWCiryTh9dlLPyVpfooGOM=;
-        b=htjenFF8D1wjRCV3Ivb7XsHIeCHimPGwGS2vuqUQM1szLxo7iNRaUPr0j5UQSyh838
-         M9lHVFoIKQisFHKPJEYMX0TPnYxmdiycPagXmEL5LnARRCIep2pYeuiVZCfz7sv9k+iy
-         u8L6iEtVRj1jiyR22zkYxi24d5xHEgRbvGJM1p3ZqXPnXIaNZuO9Fk5UA+A69hClpIup
-         RpS6hCqZhtFo3SvTeU1SSoqOHA+cy5BcR9d/deiGTtNdOXL1mfJemeHwtgYvcl66JlTI
-         zSu3YJJ/PEMtTfAUPW0I0K2mw37nolU4LqM6g68W/BVIxz82ESI2k66h2BM6h5c0DvL6
-         uAnA==
+        bh=GLvxCKLmR2t5WVjRUZehiWKIjudvryuha5j5MLp+E+U=;
+        b=qumLfxH/uosKGVeB1d+uK3MGmbPBDq3Tefsa6LeB4yOaqE4sDVmjq8n88J3Af9SWID
+         zE/OzdCWUBmYqSDveMUrnjfExUwlKcXIKocVP4DRlKfB8X7dPGqH22aeXXE/q6RuD9Zb
+         LQwfxmfEdGl3TbU+0kKPfiVdt/xC2UzgwNEoAb2tjMddMwrS4DBZLCzfkVXqKzIo0zW3
+         CP9CZwsQphbG9aViNf0hnIKUqOBDi3ElTHZlnmNm2VBSM393jCAQK5YMPuys8IGY0V7X
+         +dfIzPdUu6R7MiLk9T5blM730FvW/A6il2bYDlUbIgzJ1vBpdu7ow9UXKeZzSiAcXlmL
+         98eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mNfzPBhLMMZWAzE97w1+ZZWCiryTh9dlLPyVpfooGOM=;
-        b=ohL7RT28V2IpzJCZaGllNiPK1H7SZTOtPmV4Ko+5GAiBtEd1LShUU8Qh22MvBM0YM6
-         GKpyvVlZZ10hH8ftE1zRIh2+Ic/25oJvUqDJpC06+gwL+h1uNWW/W1b3TG8oba51ae4f
-         DR0Dbf7LSYya/C4UJ4NRHJ+rJEKzuYc0S/OBN5MzPBcx6ilDJQjXBm/UiEo/TUytKlic
-         3ZWzsxOPmFBNBTGjNORCxQWs2ieWeFPMem5cscqS42uu8Y1YLFcm0Z2AxzxWoIoEY+p+
-         zDK/OUs1Gx0KHUIO3YF2qIqQEtWMhW5zJn8Km9ULxw1HZFF0BF7lZfl2/FjmU1WR/pg4
-         HZlQ==
-X-Gm-Message-State: AOAM530QfN09NfIE6zMrGWv1uX+OTARffmgPNTYgwPvUZTOpv9Q0Cx8A
-        lOsl+MQr5OsANP3obyo8WZY=
-X-Google-Smtp-Source: ABdhPJx4rUUBv+jkf79k31dTgo8if/HFn3r0jcnyalTjeVo11EAzybHYg2Gskk4tCRAHxNA1SnVCyA==
-X-Received: by 2002:a50:ec18:: with SMTP id g24mr1236916edr.6.1609873246100;
-        Tue, 05 Jan 2021 11:00:46 -0800 (PST)
+        bh=GLvxCKLmR2t5WVjRUZehiWKIjudvryuha5j5MLp+E+U=;
+        b=MWtGXN+NbRv2wHJEFBYPCFMQ/iOrrzCIDIwwFJBynsegB+rB1cVCx6g23V+vDBPX48
+         VD62MXH8CNrzBJgD6OuzXN1DM0dMACtmwgm83vouBqKWeYCin0VwPtfp7o/CT4xcD5I1
+         Cz1Y+Wyu+V5/n4UU6zo9K23VTbkBWjhZnI1xjt/qXiTTR+3ovmTGE875l0tewMQTbjR3
+         M4ib0aFzwPpVyOJ9Yf1uBsYkWOR7qnCpGwvGP9VZD7ybDvVU28lU1pJOt62HpNblPDr3
+         OIhCnR/UBA2hmvesJdxSm29O2Q3N9ea0bCO5V2zHkfPaYPYO6YwHLlY/4CcfbcNWw5NL
+         jZVA==
+X-Gm-Message-State: AOAM530FSiRNQCUfVs8q+SpBGQcoXhY/dpSqcTBCtMJgB2G0KS3kM6sd
+        XXXtNjHUwk7OHrozhADcA2k=
+X-Google-Smtp-Source: ABdhPJy8kPqxEk8FQReSydm1oqxA729aS1Dqn6n2NIipxNBNdXArGt1146Pufkl9aVpc3ocJnHwq7g==
+X-Received: by 2002:a05:6402:3546:: with SMTP id f6mr1184932edd.242.1609873253835;
+        Tue, 05 Jan 2021 11:00:53 -0800 (PST)
 Received: from localhost.localdomain (5-12-227-87.residential.rdsnet.ro. [5.12.227.87])
-        by smtp.gmail.com with ESMTPSA id z13sm205084edq.48.2021.01.05.11.00.44
+        by smtp.gmail.com with ESMTPSA id z13sm205084edq.48.2021.01.05.11.00.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 11:00:45 -0800 (PST)
+        Tue, 05 Jan 2021 11:00:53 -0800 (PST)
 From:   Vladimir Oltean <olteanv@gmail.com>
 To:     "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
@@ -86,9 +86,9 @@ Cc:     netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
         intel-wired-lan@lists.osuosl.org, linux-parisc@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
         dev@openvswitch.org
-Subject: [RFC PATCH v2 net-next 01/12] net: mark dev_base_lock for deprecation
-Date:   Tue,  5 Jan 2021 20:58:51 +0200
-Message-Id: <20210105185902.3922928-2-olteanv@gmail.com>
+Subject: [RFC PATCH v2 net-next 05/12] s390/appldata_net_sum: hold the netdev lists lock when retrieving device statistics
+Date:   Tue,  5 Jan 2021 20:58:55 +0200
+Message-Id: <20210105185902.3922928-6-olteanv@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210105185902.3922928-1-olteanv@gmail.com>
 References: <20210105185902.3922928-1-olteanv@gmail.com>
@@ -100,93 +100,54 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-There is a movement to eliminate the usage of dev_base_lock, which
-exists since as far as I could track the kernel history down (the
-"7a2deb329241 Import changeset" commit from the bitkeeper branch).
+In the effort of making .ndo_get_stats64 be able to sleep, we need to
+ensure the callers of dev_get_stats do not use atomic context.
 
-The dev_base_lock approach has multiple issues:
-- It is global and not per netns.
-- Its meaning has mutated over the years and the vast majority of
-  current users is using it to protect against changes of network device
-  state, as opposed to changes of the interface list.
-- It is overlapping with other protection mechanisms introduced in the
-  meantime, which have higher performance for readers, like RCU
-  introduced in 2009 by Eric Dumazet for kernel 2.6.
+In the case of the appldata driver, an RCU read-side critical section is
+used to ensure the integrity of the list of network interfaces, because
+the driver iterates through all net devices in the netns to aggregate
+statistics. We still need some protection against an interface
+registering or deregistering, and the writer-side lock, the netns's
+mutex, is fine for that, because it offers sleepable context.
 
-The old comment that I just deleted made this distinction: writers
-protect only against readers by holding dev_base_lock, whereas they need
-to protect against other writers by holding the RTNL mutex. This is
-slightly confusing/incorrect, since a rwlock_t cannot have more than one
-concurrently running writer, so that explanation does not justify why
-the RTNL mutex would be necessary.
+The ops->callback function is called from under appldata_ops_mutex
+protection, so this is proof that the context is sleepable and holding
+a mutex is therefore fine.
 
-Instead, Stephen Hemminger makes this clarification here:
-https://lore.kernel.org/netdev/20201129211230.4d704931@hermes.local/T/#u
-
-| There are really two different domains being covered by locks here.
-|
-| The first area is change of state of network devices. This has traditionally
-| been covered by RTNL because there are places that depend on coordinating
-| state between multiple devices. RTNL is too big and held too long but getting
-| rid of it is hard because there are corner cases (like state changes from userspace
-| for VPN devices).
-|
-| The other area is code that wants to do read access to look at list of devices.
-| These pure readers can/should be converted to RCU by now. Writers should hold RTNL.
-
-This patch edits the comment for dev_base_lock, minimizing its role in
-the protection of network interface lists, and clarifies that it is has
-other purposes as well.
-
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: linux-s390@vger.kernel.org
 Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 ---
- net/core/dev.c | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+ arch/s390/appldata/appldata_net_sum.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index a46334906c94..2aa613d22318 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -169,23 +169,22 @@ static int call_netdevice_notifiers_extack(unsigned long val,
- static struct napi_struct *napi_by_id(unsigned int napi_id);
+diff --git a/arch/s390/appldata/appldata_net_sum.c b/arch/s390/appldata/appldata_net_sum.c
+index 59c282ca002f..4db886980cba 100644
+--- a/arch/s390/appldata/appldata_net_sum.c
++++ b/arch/s390/appldata/appldata_net_sum.c
+@@ -78,8 +78,9 @@ static void appldata_get_net_sum_data(void *data)
+ 	tx_dropped = 0;
+ 	collisions = 0;
  
- /*
-- * The @dev_base_head list is protected by @dev_base_lock and the rtnl
-- * semaphore.
-- *
-- * Pure readers hold dev_base_lock for reading, or rcu_read_lock()
-- *
-- * Writers must hold the rtnl semaphore while they loop through the
-- * dev_base_head list, and hold dev_base_lock for writing when they do the
-- * actual updates.  This allows pure readers to access the list even
-- * while a writer is preparing to update it.
-- *
-- * To put it another way, dev_base_lock is held for writing only to
-- * protect against pure readers; the rtnl semaphore provides the
-- * protection against other writers.
-- *
-- * See, for example usages, register_netdevice() and
-- * unregister_netdevice(), which must be called with the rtnl
-- * semaphore held.
-+ * The network interface list of a netns (@net->dev_base_head) and the hash
-+ * tables per ifindex (@net->dev_index_head) and per name (@net->dev_name_head)
-+ * are protected using the following rules:
-+ *
-+ * Pure readers should hold rcu_read_lock() which should protect them against
-+ * concurrent changes to the interface lists made by the writers. Pure writers
-+ * must serialize by holding the RTNL mutex while they loop through the list
-+ * and make changes to it.
-+ *
-+ * It is also possible to hold the global rwlock_t @dev_base_lock for
-+ * protection (holding its read side as an alternative to rcu_read_lock, and
-+ * its write side as an alternative to the RTNL mutex), however this should not
-+ * be done in new code, since it is deprecated and pending removal.
-+ *
-+ * One other role of @dev_base_lock is to protect against changes in the
-+ * operational state of a network interface.
-  */
- DEFINE_RWLOCK(dev_base_lock);
- EXPORT_SYMBOL(dev_base_lock);
+-	rcu_read_lock();
+-	for_each_netdev_rcu(&init_net, dev) {
++	netif_lists_lock(&init_net);
++
++	for_each_netdev(&init_net, dev) {
+ 		const struct rtnl_link_stats64 *stats;
+ 		struct rtnl_link_stats64 temp;
+ 
+@@ -95,7 +96,8 @@ static void appldata_get_net_sum_data(void *data)
+ 		collisions += stats->collisions;
+ 		i++;
+ 	}
+-	rcu_read_unlock();
++
++	netif_lists_unlock(&init_net);
+ 
+ 	net_data->nr_interfaces = i;
+ 	net_data->rx_packets = rx_packets;
 -- 
 2.25.1
 
