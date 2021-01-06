@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD06C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90545C4332B
 	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26B2B23121
+	by mail.kernel.org (Postfix) with ESMTP id 59D262311F
 	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727058AbhAFNib (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Jan 2021 08:38:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48946 "EHLO
+        id S1727019AbhAFNi3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Jan 2021 08:38:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727031AbhAFNi3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:38:29 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7034C06135F
-        for <linux-usb@vger.kernel.org>; Wed,  6 Jan 2021 05:37:12 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id qw4so4967127ejb.12
-        for <linux-usb@vger.kernel.org>; Wed, 06 Jan 2021 05:37:12 -0800 (PST)
+        with ESMTP id S1726501AbhAFNi2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:38:28 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E14DC06135B
+        for <linux-usb@vger.kernel.org>; Wed,  6 Jan 2021 05:37:10 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id ce23so5020215ejb.8
+        for <linux-usb@vger.kernel.org>; Wed, 06 Jan 2021 05:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jMFwjDy/Cb2t1FpYK1S0P8jc5Da5ImJmRl86sM+aIPk=;
-        b=hcw+HELw6+n621TvSxRMA6A84EGzFGLBubtMuoWWoBQK2ra4z+kYXSgFsrJ9QlgfSO
-         T+JoKmnIfj4coHADMramA+JIL0jAMfJMf66p6Sn/NZWj3+F/R7Ipl4iTz89qp97SbjRo
-         lAXG4jYm9ktwhZAEkW7qCelPEQYbfE902wSYGOMXunoEzJ2dUgQSWUQEdRRHjvzLcvJ2
-         vSJk7cjLUonMBxS0On49z9BFvKtroadzDU9Iz2umCncnzZiX8ACBcBTmJo/5TYm8jTHU
-         7kH+G13texDDVEqoUWWgC2hRBXMoFds78AQsiynF3KN+1g5ap4lcbGVRD5oTFlKU4jgB
-         39ew==
+        bh=EeqCcTaM9uvJ+oUlpZc6QqWpLGu/QRph3nZs6qZSs40=;
+        b=SYg4zbGWg3hS7QGGgC6xByH65gg9gDp3bagriZ4Qy2fVe4+8PuT8FdnWmdC+11XeQI
+         bBKpAWPMsL+qwm/mLQ2KzrNLRrKWD468oOnpHN17cX0HFGV8JFmwNUIuDW+8pgtV/9BI
+         onh7FoeC7kXzwF9w3MogcxQf+zmhmCEFyVYqG4E/+XNOZ0VtHQz/mQXB0M7jv7/bbZ+Z
+         t+bcaqaBeh/vlFyjSHHfcho/j1La8TWGyjG0jnn0dBQN3OTz407pq+Umk+Zb0YOdElAk
+         VQRCVFWg6+kioOAclDx89+7L/h4in3iLkJpE+lw85MzPMO7oH9BqlRw01yKtnl/gXKl0
+         +V7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jMFwjDy/Cb2t1FpYK1S0P8jc5Da5ImJmRl86sM+aIPk=;
-        b=ir/MzBbmuxxwSN7riCp66geiZ3AQBExNL2ZAVkCgWNhcYtQT5/RNxozPgg93wF+bNK
-         L6CSvS7Ea63uPzxe2xVKYMizS8qmVLjMzrOfxBbTKRwUbYngOGjb3eFNRH09CLZ2PV97
-         upt+Nu8FyVQ9QFR+ElPdP06NZo+30XUqvFqoZ535XDe0dTv2Ck77tXr57VfgffMxPv1v
-         E6m0eLCLj3YnPvzhhWtBebU7LdL9CO9t1PT/0tiJT12CfIMesaa9llsiAfnxxdxOJ8ov
-         wDisiWw/bQRqbWgGqXrWvEAm6aT5bVvMEMEHb21cOqRCAaQjy9Bo+TYyXA+7w0yhtpus
-         8XmQ==
-X-Gm-Message-State: AOAM530ugQUDEJU/hx8nv0owqShgpNEryjv2uPk3s8f5XVkiqQTnkYHH
-        7AV/dgIRQFVfAXmrilpF7XprzA==
-X-Google-Smtp-Source: ABdhPJzPjr2phle+6BlSN3F/cEU/QBwoLNEZacKP2OTz7iuHYHYfQv8QqRVdKmHF9oxvROZmevrfhg==
-X-Received: by 2002:a17:906:5f97:: with SMTP id a23mr3027841eju.128.1609940231514;
-        Wed, 06 Jan 2021 05:37:11 -0800 (PST)
+        bh=EeqCcTaM9uvJ+oUlpZc6QqWpLGu/QRph3nZs6qZSs40=;
+        b=eP4QbPVLjaErmlv5KmSMxHNZ/400/PkitEfPg2+eMcmytCol84JiLMOjzVcIAOjChr
+         8GI9ZbBXAV/Y/f3DMyEtxOF91uuT4l7s/kEE77RDHNrCmspOHu/FtloZSfkmiwdDD9aa
+         hVdTYH7CkD4SdrsBwsF6+JkNZfTpudAr/TwfPQ1cp1sRZ5t2vhSgF49TvOxwz+Cn3CfR
+         X2Ejo6i2qJKUkurKxIeTNK65WKsFjB2fFd8AXs2s8Ic/1pZtjfhts8JpFiiIiCexbbkK
+         WbNRTQqi0y5glbdriXkR+ngikc1CT7QWwfak8jVKLcy/IjeXJJIWorzvmd7QzuW3uPz2
+         OqoQ==
+X-Gm-Message-State: AOAM532gr1HgWTCisWh4nIrQRwrXRgXPoxFzN4VLDE/hFMO0OgPTJpQ1
+        yIiMnPqNOvYRQbB9rWha1NIm/A==
+X-Google-Smtp-Source: ABdhPJwC9ki5CDdYpvYkHbirBbP2qKR4RcLxWRZRHQSIpcoH71TJ7ccWEfKFjVefbUPsSqgWGpEiEg==
+X-Received: by 2002:a17:906:4d47:: with SMTP id b7mr2798016ejv.420.1609940229125;
+        Wed, 06 Jan 2021 05:37:09 -0800 (PST)
 Received: from localhost.localdomain (82-65-169-74.subs.proxad.net. [82.65.169.74])
-        by smtp.googlemail.com with ESMTPSA id n20sm1259275ejo.83.2021.01.06.05.37.10
+        by smtp.googlemail.com with ESMTPSA id n20sm1259275ejo.83.2021.01.06.05.37.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 05:37:10 -0800 (PST)
+        Wed, 06 Jan 2021 05:37:08 -0800 (PST)
 From:   Jerome Brunet <jbrunet@baylibre.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -62,9 +62,9 @@ Cc:     Jerome Brunet <jbrunet@baylibre.com>,
         Ruslan Bilovol <ruslan.bilovol@gmail.com>,
         Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] usb: gadget: u_audio: clean up locking
-Date:   Wed,  6 Jan 2021 14:36:52 +0100
-Message-Id: <20210106133652.512178-6-jbrunet@baylibre.com>
+Subject: [PATCH v2 3/5] usb: gadget: u_audio: factorize ssize to alsa fmt conversion
+Date:   Wed,  6 Jan 2021 14:36:50 +0100
+Message-Id: <20210106133652.512178-4-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106133652.512178-1-jbrunet@baylibre.com>
 References: <20210106133652.512178-1-jbrunet@baylibre.com>
@@ -75,124 +75,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-snd_pcm_stream_lock() is held when the ALSA .trigger() callback is called.
-The lock of 'struct uac_rtd_params' is not necessary since all its locking
-operation are done under the snd_pcm_stream_lock() too.
-
-Also, usb_request .complete() is called with irqs disabled, so saving and
-restoring the irqs is not necessary.
+Factorize format related code common to the capture and playback path.
 
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- drivers/usb/gadget/function/u_audio.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
+ drivers/usb/gadget/function/u_audio.c | 43 +++++++++++++--------------
+ 1 file changed, 21 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index 1d12657b3b73..e985630fbe6e 100644
+index 71dd9f16c246..045f237472a7 100644
 --- a/drivers/usb/gadget/function/u_audio.c
 +++ b/drivers/usb/gadget/function/u_audio.c
-@@ -36,9 +36,8 @@ struct uac_rtd_params {
- 	void *rbuf;
+@@ -244,6 +244,25 @@ static snd_pcm_uframes_t uac_pcm_pointer(struct snd_pcm_substream *substream)
+ 	return bytes_to_frames(substream->runtime, prm->hw_ptr);
+ }
  
- 	unsigned int max_psize;	/* MaxPacketSize of endpoint */
--	struct usb_request **reqs;
- 
--	spinlock_t lock;
-+	struct usb_request **reqs;
- };
- 
- struct snd_uac_chip {
-@@ -74,7 +73,6 @@ static const struct snd_pcm_hardware uac_pcm_hardware = {
- static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
++static u64 uac_ssize_to_fmt(int ssize)
++{
++	u64 ret;
++
++	switch (ssize) {
++	case 3:
++		ret = SNDRV_PCM_FMTBIT_S24_3LE;
++		break;
++	case 4:
++		ret = SNDRV_PCM_FMTBIT_S32_LE;
++		break;
++	default:
++		ret = SNDRV_PCM_FMTBIT_S16_LE;
++		break;
++	}
++
++	return ret;
++}
++
+ static int uac_pcm_open(struct snd_pcm_substream *substream)
  {
- 	unsigned int pending;
--	unsigned long flags, flags2;
- 	unsigned int hw_ptr;
- 	int status = req->status;
- 	struct snd_pcm_substream *substream;
-@@ -105,16 +103,14 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- 	if (!substream)
- 		goto exit;
- 
--	snd_pcm_stream_lock_irqsave(substream, flags2);
-+	snd_pcm_stream_lock(substream);
- 
- 	runtime = substream->runtime;
- 	if (!runtime || !snd_pcm_running(substream)) {
--		snd_pcm_stream_unlock_irqrestore(substream, flags2);
-+		snd_pcm_stream_unlock(substream);
- 		goto exit;
- 	}
- 
--	spin_lock_irqsave(&prm->lock, flags);
--
+ 	struct snd_uac_chip *uac = snd_pcm_substream_chip(substream);
+@@ -269,34 +288,14 @@ static int uac_pcm_open(struct snd_pcm_substream *substream)
  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
- 		/*
- 		 * For each IN packet, take the quotient of the current data
-@@ -141,8 +137,6 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- 
- 	hw_ptr = prm->hw_ptr;
- 
--	spin_unlock_irqrestore(&prm->lock, flags);
--
- 	/* Pack USB load in ALSA ring buffer */
- 	pending = runtime->dma_bytes - hw_ptr;
- 
-@@ -166,12 +160,10 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- 		}
- 	}
- 
--	spin_lock_irqsave(&prm->lock, flags);
- 	/* update hw_ptr after data is copied to memory */
- 	prm->hw_ptr = (hw_ptr + req->actual) % runtime->dma_bytes;
- 	hw_ptr = prm->hw_ptr;
--	spin_unlock_irqrestore(&prm->lock, flags);
--	snd_pcm_stream_unlock_irqrestore(substream, flags2);
-+	snd_pcm_stream_unlock(substream);
- 
- 	if ((hw_ptr % snd_pcm_lib_period_bytes(substream)) < req->actual)
- 		snd_pcm_period_elapsed(substream);
-@@ -187,7 +179,6 @@ static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 	struct uac_rtd_params *prm;
- 	struct g_audio *audio_dev;
- 	struct uac_params *params;
--	unsigned long flags;
- 	int err = 0;
- 
- 	audio_dev = uac->audio_dev;
-@@ -198,8 +189,6 @@ static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 	else
- 		prm = &uac->c_prm;
- 
--	spin_lock_irqsave(&prm->lock, flags);
--
- 	/* Reset */
- 	prm->hw_ptr = 0;
- 
-@@ -216,8 +205,6 @@ static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 		err = -EINVAL;
- 	}
- 
--	spin_unlock_irqrestore(&prm->lock, flags);
--
- 	/* Clear buffer after Play stops */
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK && !prm->ss)
- 		memset(prm->rbuf, 0, prm->max_psize * params->req_number);
-@@ -280,14 +267,12 @@ static int uac_pcm_open(struct snd_pcm_substream *substream)
- 	runtime->hw = uac_pcm_hardware;
- 
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		spin_lock_init(&uac->p_prm.lock);
+ 		spin_lock_init(&uac->p_prm.lock);
  		runtime->hw.rate_min = p_srate;
- 		runtime->hw.formats = uac_ssize_to_fmt(p_ssize);
+-		switch (p_ssize) {
+-		case 3:
+-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S24_3LE;
+-			break;
+-		case 4:
+-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
+-			break;
+-		default:
+-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
+-			break;
+-		}
++		runtime->hw.formats = uac_ssize_to_fmt(p_ssize);
  		runtime->hw.channels_min = num_channels(p_chmask);
  		runtime->hw.period_bytes_min = 2 * uac->p_prm.max_psize
  						/ runtime->hw.periods_min;
  	} else {
--		spin_lock_init(&uac->c_prm.lock);
+ 		spin_lock_init(&uac->c_prm.lock);
  		runtime->hw.rate_min = c_srate;
- 		runtime->hw.formats = uac_ssize_to_fmt(c_ssize);
+-		switch (c_ssize) {
+-		case 3:
+-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S24_3LE;
+-			break;
+-		case 4:
+-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
+-			break;
+-		default:
+-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
+-			break;
+-		}
++		runtime->hw.formats = uac_ssize_to_fmt(c_ssize);
  		runtime->hw.channels_min = num_channels(c_chmask);
+ 		runtime->hw.period_bytes_min = 2 * uac->c_prm.max_psize
+ 						/ runtime->hw.periods_min;
 -- 
 2.29.2
 
