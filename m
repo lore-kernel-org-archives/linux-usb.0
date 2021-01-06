@@ -2,153 +2,104 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90545C4332B
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F52EC4360C
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:46:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59D262311F
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EB6C2311B
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:46:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727019AbhAFNi3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Jan 2021 08:38:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48930 "EHLO
+        id S1727556AbhAFNqB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Jan 2021 08:46:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbhAFNi2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:38:28 -0500
+        with ESMTP id S1727270AbhAFNqA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:46:00 -0500
 Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E14DC06135B
-        for <linux-usb@vger.kernel.org>; Wed,  6 Jan 2021 05:37:10 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id ce23so5020215ejb.8
-        for <linux-usb@vger.kernel.org>; Wed, 06 Jan 2021 05:37:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14A57C06134C;
+        Wed,  6 Jan 2021 05:45:20 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id g20so5167292ejb.1;
+        Wed, 06 Jan 2021 05:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EeqCcTaM9uvJ+oUlpZc6QqWpLGu/QRph3nZs6qZSs40=;
-        b=SYg4zbGWg3hS7QGGgC6xByH65gg9gDp3bagriZ4Qy2fVe4+8PuT8FdnWmdC+11XeQI
-         bBKpAWPMsL+qwm/mLQ2KzrNLRrKWD468oOnpHN17cX0HFGV8JFmwNUIuDW+8pgtV/9BI
-         onh7FoeC7kXzwF9w3MogcxQf+zmhmCEFyVYqG4E/+XNOZ0VtHQz/mQXB0M7jv7/bbZ+Z
-         t+bcaqaBeh/vlFyjSHHfcho/j1La8TWGyjG0jnn0dBQN3OTz407pq+Umk+Zb0YOdElAk
-         VQRCVFWg6+kioOAclDx89+7L/h4in3iLkJpE+lw85MzPMO7oH9BqlRw01yKtnl/gXKl0
-         +V7w==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FeJdQ/c5c3Yk5ETXkZRfgUT36HQYoNuNNY5hhZyt1Zw=;
+        b=hSC55QP6a+jYHRxCa+TgeWcHTDjcrHo0Y56fHl+KSs4kIqESl4MXCSckZ+YoDGe1N0
+         /ucn8xl1M5eSFXXgKAf04Kdczt/jlyFXX6QL+vDWgU0YMY88lU7ODUlncMy+A0k7Wb6V
+         gVY7Bc4nzPmw/XGlLPm0coTTox5ZeDmqtbdHN8b860ei4H2rqMTSuhrdd0rcInFouw/R
+         cyZPXO5ttKNNn14k60uqEsiwL/JKgt0wSxikJkAXAQY6yzhVxNF5Qz43HSCti7/04Ll0
+         m7cWPj+mnCMh+dijqzjx0K0KRLo/a9/g5MhNQaIIRCFDWqsLT1u/5cNwY0E+1g59Xx54
+         Nf5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EeqCcTaM9uvJ+oUlpZc6QqWpLGu/QRph3nZs6qZSs40=;
-        b=eP4QbPVLjaErmlv5KmSMxHNZ/400/PkitEfPg2+eMcmytCol84JiLMOjzVcIAOjChr
-         8GI9ZbBXAV/Y/f3DMyEtxOF91uuT4l7s/kEE77RDHNrCmspOHu/FtloZSfkmiwdDD9aa
-         hVdTYH7CkD4SdrsBwsF6+JkNZfTpudAr/TwfPQ1cp1sRZ5t2vhSgF49TvOxwz+Cn3CfR
-         X2Ejo6i2qJKUkurKxIeTNK65WKsFjB2fFd8AXs2s8Ic/1pZtjfhts8JpFiiIiCexbbkK
-         WbNRTQqi0y5glbdriXkR+ngikc1CT7QWwfak8jVKLcy/IjeXJJIWorzvmd7QzuW3uPz2
-         OqoQ==
-X-Gm-Message-State: AOAM532gr1HgWTCisWh4nIrQRwrXRgXPoxFzN4VLDE/hFMO0OgPTJpQ1
-        yIiMnPqNOvYRQbB9rWha1NIm/A==
-X-Google-Smtp-Source: ABdhPJwC9ki5CDdYpvYkHbirBbP2qKR4RcLxWRZRHQSIpcoH71TJ7ccWEfKFjVefbUPsSqgWGpEiEg==
-X-Received: by 2002:a17:906:4d47:: with SMTP id b7mr2798016ejv.420.1609940229125;
-        Wed, 06 Jan 2021 05:37:09 -0800 (PST)
-Received: from localhost.localdomain (82-65-169-74.subs.proxad.net. [82.65.169.74])
-        by smtp.googlemail.com with ESMTPSA id n20sm1259275ejo.83.2021.01.06.05.37.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FeJdQ/c5c3Yk5ETXkZRfgUT36HQYoNuNNY5hhZyt1Zw=;
+        b=BnV2oVCrMlTC89OoErCOxl0yjy4UjswSXm285rp9ZZJp0tUu3RtSL/kX1xX3RYBj3O
+         fUeh/7i8zVNsRxc/6CwSGKxZvMUWmN3+hdxnmh80t7xXUtjwWb015TH+jgAtbDYUzN1h
+         4exVuYeOXbtc3YByCL9w3fVHNxyAqPeTllrOlR8DYymbyEEfsX2US+J6MIKAj95f9JRw
+         uaw/DJ5uy5nQf/ZZ9Hovy4LqPTapmPcP3mDCuoFiBHuNtvaOcwKC+2JaEjqGUE94Vw9A
+         dHXUv5DYjZwRKqXOMw6bOT8ATczRtVmldUu8JVqFdqxRnPWlEfWNMaVQGoKiBdvUWmJj
+         YUZg==
+X-Gm-Message-State: AOAM533YEtyqcBjYWWV7yemnnHvukJcw5NLRk2uw4W+68qivpOG2p7Vs
+        15tyVy1v5z5u/ezyV7FjqGQ=
+X-Google-Smtp-Source: ABdhPJy+1yovqw8J45ec7rwvhTOy5Zsk9UBBbrIpibmzvsCCOp1GbbwivAw4eZio5ckmV8dO4hgrRQ==
+X-Received: by 2002:a17:906:2984:: with SMTP id x4mr2962425eje.239.1609940718823;
+        Wed, 06 Jan 2021 05:45:18 -0800 (PST)
+Received: from skbuf (5-12-227-87.residential.rdsnet.ro. [5.12.227.87])
+        by smtp.gmail.com with ESMTPSA id z26sm1470222edl.71.2021.01.06.05.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 05:37:08 -0800 (PST)
-From:   Jerome Brunet <jbrunet@baylibre.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jerome Brunet <jbrunet@baylibre.com>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] usb: gadget: u_audio: factorize ssize to alsa fmt conversion
-Date:   Wed,  6 Jan 2021 14:36:50 +0100
-Message-Id: <20210106133652.512178-4-jbrunet@baylibre.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210106133652.512178-1-jbrunet@baylibre.com>
-References: <20210106133652.512178-1-jbrunet@baylibre.com>
+        Wed, 06 Jan 2021 05:45:18 -0800 (PST)
+Date:   Wed, 6 Jan 2021 15:45:16 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jiri Benc <jbenc@redhat.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Eric Dumazet <edumazet@google.com>,
+        George McCollister <george.mccollister@gmail.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Taehee Yoo <ap420073@gmail.com>,
+        Jiri Pirko <jiri@mellanox.com>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Westphal <fw@strlen.de>, linux-s390@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-parisc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+        dev@openvswitch.org
+Subject: Re: [RFC PATCH v2 net-next 00/12] Make .ndo_get_stats64 sleepable
+Message-ID: <20210106134516.jnh2b5p5oww4cghz@skbuf>
+References: <20210105185902.3922928-1-olteanv@gmail.com>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210105185902.3922928-1-olteanv@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Factorize format related code common to the capture and playback path.
+On Tue, Jan 05, 2021 at 08:58:50PM +0200, Vladimir Oltean wrote:
+> This is marked as Request For Comments for a reason.
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- drivers/usb/gadget/function/u_audio.c | 43 +++++++++++++--------------
- 1 file changed, 21 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index 71dd9f16c246..045f237472a7 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -244,6 +244,25 @@ static snd_pcm_uframes_t uac_pcm_pointer(struct snd_pcm_substream *substream)
- 	return bytes_to_frames(substream->runtime, prm->hw_ptr);
- }
- 
-+static u64 uac_ssize_to_fmt(int ssize)
-+{
-+	u64 ret;
-+
-+	switch (ssize) {
-+	case 3:
-+		ret = SNDRV_PCM_FMTBIT_S24_3LE;
-+		break;
-+	case 4:
-+		ret = SNDRV_PCM_FMTBIT_S32_LE;
-+		break;
-+	default:
-+		ret = SNDRV_PCM_FMTBIT_S16_LE;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static int uac_pcm_open(struct snd_pcm_substream *substream)
- {
- 	struct snd_uac_chip *uac = snd_pcm_substream_chip(substream);
-@@ -269,34 +288,14 @@ static int uac_pcm_open(struct snd_pcm_substream *substream)
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
- 		spin_lock_init(&uac->p_prm.lock);
- 		runtime->hw.rate_min = p_srate;
--		switch (p_ssize) {
--		case 3:
--			runtime->hw.formats = SNDRV_PCM_FMTBIT_S24_3LE;
--			break;
--		case 4:
--			runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
--			break;
--		default:
--			runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
--			break;
--		}
-+		runtime->hw.formats = uac_ssize_to_fmt(p_ssize);
- 		runtime->hw.channels_min = num_channels(p_chmask);
- 		runtime->hw.period_bytes_min = 2 * uac->p_prm.max_psize
- 						/ runtime->hw.periods_min;
- 	} else {
- 		spin_lock_init(&uac->c_prm.lock);
- 		runtime->hw.rate_min = c_srate;
--		switch (c_ssize) {
--		case 3:
--			runtime->hw.formats = SNDRV_PCM_FMTBIT_S24_3LE;
--			break;
--		case 4:
--			runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
--			break;
--		default:
--			runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
--			break;
--		}
-+		runtime->hw.formats = uac_ssize_to_fmt(c_ssize);
- 		runtime->hw.channels_min = num_channels(c_chmask);
- 		runtime->hw.period_bytes_min = 2 * uac->c_prm.max_psize
- 						/ runtime->hw.periods_min;
--- 
-2.29.2
-
+If nobody has any objections, I will remove the memory leaks I
+introduced to check if anybody is paying attention, and I will resubmit
+this as a non-RFC series.
