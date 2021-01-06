@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CDF5C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F83C433E6
 	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D384D23124
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AE2E23136
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbhAFNi2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Jan 2021 08:38:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48928 "EHLO
+        id S1727099AbhAFNig (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Jan 2021 08:38:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbhAFNi2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:38:28 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 453C9C06135A
-        for <linux-usb@vger.kernel.org>; Wed,  6 Jan 2021 05:37:09 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id j16so4468188edr.0
-        for <linux-usb@vger.kernel.org>; Wed, 06 Jan 2021 05:37:09 -0800 (PST)
+        with ESMTP id S1727027AbhAFNi3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:38:29 -0500
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CD6CC06135E
+        for <linux-usb@vger.kernel.org>; Wed,  6 Jan 2021 05:37:11 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id ga15so5080761ejb.4
+        for <linux-usb@vger.kernel.org>; Wed, 06 Jan 2021 05:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UTSIWNrCdfFZGrfLRZuDMagz0Cnd73ZK/iAZinL3Hdk=;
-        b=z4y0UhlLkVRbZwM3AYQ8WT/PFQO5q/ewfILqGNVWDDSMNZ3Dr694H0d6AwNfgq+ISL
-         FdSNQMMAd0pT0ZKv3rBEBj9s5p1d/TBNyPHUpQe0Z73m+HSZJAq86rGi4NbhDsMJmlBf
-         xt32C+2TcJPryWI7lUZBIucFO8LIuFBGBQGsRDRpm4I5kF5Z1qFOC1XFeoC/PO5SHU3E
-         6M321HF23UdseRxzEJYX3DeJdDCy44rJgNUdxHrubStKupfWATezQ04igbAJekVSFdy5
-         4kwsTwcjTEWkozYqZZGv4hV3qMn5BMZyqBq8+5kIEKRWq90/NIyqM91iN5MC+ZvFokk/
-         CCbQ==
+        bh=W9smjvmBrXS956ZqDnNmJ0jm4AV+owA3S3+oE2oCsDc=;
+        b=mVLKEpdBbpPhnWhJ1Fg67spUEXzH9vbPYksVD5A9g/p8rNULEVaFO8Nsmntljq9aQ6
+         +UtH/0mz0Agr7If7rd4x5F/3hgGeuKqM5sYwE2OCWTX3FICeUSaN280NDpgsdt06Xg/G
+         C3pO3I7QdP4S7HjdvbxwhkYEPo5Z07OL6Wflm4UEM1rS+Tiz9IPlB4LT4ztr6VhBxQmi
+         7JZHZzuh4etylydOc9R8DKvM6A3Rz6yYNTek8QxoHWqD9ee9PGTxpWgK+nUDHanleGHh
+         Hwq+ieSkR7hBh61a6VxDzDr4RQBGGvTQNa0Ua2CDKlypGbSxCY92LdzrumcyyCUdUfuG
+         de4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UTSIWNrCdfFZGrfLRZuDMagz0Cnd73ZK/iAZinL3Hdk=;
-        b=t6iy7sfNQYia/8jLcLsrtkgibPQ6Yxemu1o+Ezop9aC76bUYo9mTH2qcQv8AdRIovK
-         nuczzFdfz7OMks5TRNr1TEFusclwMZJ5VOYPTMFto78dXRWVEPPt7RgCj+mRHj+aGOUb
-         3PXqnOr7ANR/dR78pmtQZERbaPAkMBTud8WSN5gVoYW+BPGK0S3hXsNRUntxeSXgZaeV
-         Bs467WxIK2nxDYdMPRj3niUtBS7hFKC5SyKqZoTAMPTXUABvm8Fyqj69PsKuzsy1DL3V
-         76Dokrd6A+MW5asCwcoH7G/tS6kJPd9hiS3ITynplcPMITbUyu9vy4dioG446C6SnDei
-         X3+Q==
-X-Gm-Message-State: AOAM532QexAkjOCkx6M87Bu0G6ahNUzGf0g0B+epoMSGIiUSM1/BdqFp
-        6M+r1kwO6VLFuV704fAo7D0cBA==
-X-Google-Smtp-Source: ABdhPJxTST/UKEVGGXaHxa8sUjQ9TOJ57dlm4hVgN3wyZhrouwJGt0HYUWmDq8U+NVaEhXraKxMb6w==
-X-Received: by 2002:a50:bac4:: with SMTP id x62mr3927427ede.59.1609940228024;
-        Wed, 06 Jan 2021 05:37:08 -0800 (PST)
+        bh=W9smjvmBrXS956ZqDnNmJ0jm4AV+owA3S3+oE2oCsDc=;
+        b=agvL9KQuYiDbshLInuuNMWf4bGeUrPXnLXf7/zRF99eXsU82P1SxMkJwK7f8ZhfYrh
+         3xghDA4l7ZPEtm4rDD4+ixyhhz0aQv4j8J7Ngbph5mn52GHxM3IJCHGGHG7iGU7QIEr3
+         5Rt6w48rsRRzFdMyqT0HwrdkrM8pEkZ2mJSuSMHEsm5buQ/d0qlAlMOIk1lREEjtDfA+
+         kp/Z/cwoj+iX8yaRk4Lnk+wTsWcGNl5qgtaruGELqLeLSCqHFfdygoaj1LpQ3EilOKOB
+         UgxkD2aWJs6kVyLn1m5v9tGCW+7o6XQGV4AHnoC1dgL+0lXGOnrRSAA+vgv2maY1DDl7
+         gRVQ==
+X-Gm-Message-State: AOAM531/PNQrHIYVfFE24E9LizyQodtv6t86KVbqdF6+66ScHESxDtG7
+        LTs1+1d+WLJrd8Hd9ELTbObEhQ==
+X-Google-Smtp-Source: ABdhPJwUM8ViGRlmjo3b0dkpWRCB0Qwg1XcWV/GSMOF6D4xI9X2ewpG8JuLaLBPqMjUL6Ji4CLKJ8g==
+X-Received: by 2002:a17:906:3b55:: with SMTP id h21mr2939265ejf.184.1609940230302;
+        Wed, 06 Jan 2021 05:37:10 -0800 (PST)
 Received: from localhost.localdomain (82-65-169-74.subs.proxad.net. [82.65.169.74])
-        by smtp.googlemail.com with ESMTPSA id n20sm1259275ejo.83.2021.01.06.05.37.07
+        by smtp.googlemail.com with ESMTPSA id n20sm1259275ejo.83.2021.01.06.05.37.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 05:37:07 -0800 (PST)
+        Wed, 06 Jan 2021 05:37:09 -0800 (PST)
 From:   Jerome Brunet <jbrunet@baylibre.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -62,9 +62,9 @@ Cc:     Jerome Brunet <jbrunet@baylibre.com>,
         Ruslan Bilovol <ruslan.bilovol@gmail.com>,
         Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/5] usb: gadget: f_uac2: reset wMaxPacketSize
-Date:   Wed,  6 Jan 2021 14:36:49 +0100
-Message-Id: <20210106133652.512178-3-jbrunet@baylibre.com>
+Subject: [PATCH v2 4/5] usb: gadget: u_audio: remove struct uac_req
+Date:   Wed,  6 Jan 2021 14:36:51 +0100
+Message-Id: <20210106133652.512178-5-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106133652.512178-1-jbrunet@baylibre.com>
 References: <20210106133652.512178-1-jbrunet@baylibre.com>
@@ -75,147 +75,174 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With commit 913e4a90b6f9 ("usb: gadget: f_uac2: finalize wMaxPacketSize according to bandwidth")
-wMaxPacketSize is computed dynamically but the value is never reset.
+'struct uac_req' purpose is to link 'struct usb_request' to the
+corresponding 'struct uac_rtd_params'. However member req is never
+used. Using the context of the usb request, we can keep track of the
+corresponding 'struct uac_rtd_params' just as well, without allocating
+extra memory.
 
-Because of this, the actual maximum packet size can only decrease each time
-the audio gadget is instantiated.
-
-Reset the endpoint maximum packet size and mark wMaxPacketSize as dynamic
-to solve the problem.
-
-Fixes: 913e4a90b6f9 ("usb: gadget: f_uac2: finalize wMaxPacketSize according to bandwidth")
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- drivers/usb/gadget/function/f_uac2.c | 69 ++++++++++++++++++++++------
- 1 file changed, 55 insertions(+), 14 deletions(-)
+ drivers/usb/gadget/function/u_audio.c | 58 ++++++++++++---------------
+ 1 file changed, 26 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 3633df6d7610..5d960b6603b6 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -271,7 +271,7 @@ static struct usb_endpoint_descriptor fs_epout_desc = {
+diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
+index 045f237472a7..1d12657b3b73 100644
+--- a/drivers/usb/gadget/function/u_audio.c
++++ b/drivers/usb/gadget/function/u_audio.c
+@@ -23,11 +23,6 @@
+ #define PRD_SIZE_MAX	PAGE_SIZE
+ #define MIN_PERIODS	4
  
- 	.bEndpointAddress = USB_DIR_OUT,
- 	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
--	.wMaxPacketSize = cpu_to_le16(1023),
-+	/* .wMaxPacketSize = DYNAMIC */
- 	.bInterval = 1,
+-struct uac_req {
+-	struct uac_rtd_params *pp; /* parent param */
+-	struct usb_request *req;
+-};
+-
+ /* Runtime data params for one stream */
+ struct uac_rtd_params {
+ 	struct snd_uac_chip *uac; /* parent chip */
+@@ -41,7 +36,7 @@ struct uac_rtd_params {
+ 	void *rbuf;
+ 
+ 	unsigned int max_psize;	/* MaxPacketSize of endpoint */
+-	struct uac_req *ureq;
++	struct usb_request **reqs;
+ 
+ 	spinlock_t lock;
  };
+@@ -82,10 +77,9 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
+ 	unsigned long flags, flags2;
+ 	unsigned int hw_ptr;
+ 	int status = req->status;
+-	struct uac_req *ur = req->context;
+ 	struct snd_pcm_substream *substream;
+ 	struct snd_pcm_runtime *runtime;
+-	struct uac_rtd_params *prm = ur->pp;
++	struct uac_rtd_params *prm = req->context;
+ 	struct snd_uac_chip *uac = prm->uac;
  
-@@ -280,7 +280,7 @@ static struct usb_endpoint_descriptor hs_epout_desc = {
- 	.bDescriptorType = USB_DT_ENDPOINT,
+ 	/* i/f shutting down */
+@@ -339,11 +333,11 @@ static inline void free_ep(struct uac_rtd_params *prm, struct usb_ep *ep)
+ 	params = &audio_dev->params;
  
- 	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
--	.wMaxPacketSize = cpu_to_le16(1024),
-+	/* .wMaxPacketSize = DYNAMIC */
- 	.bInterval = 4,
- };
- 
-@@ -348,7 +348,7 @@ static struct usb_endpoint_descriptor fs_epin_desc = {
- 
- 	.bEndpointAddress = USB_DIR_IN,
- 	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
--	.wMaxPacketSize = cpu_to_le16(1023),
-+	/* .wMaxPacketSize = DYNAMIC */
- 	.bInterval = 1,
- };
- 
-@@ -357,7 +357,7 @@ static struct usb_endpoint_descriptor hs_epin_desc = {
- 	.bDescriptorType = USB_DT_ENDPOINT,
- 
- 	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
--	.wMaxPacketSize = cpu_to_le16(1024),
-+	/* .wMaxPacketSize = DYNAMIC */
- 	.bInterval = 4,
- };
- 
-@@ -444,12 +444,28 @@ struct cntrl_range_lay3 {
- 	__le32	dRES;
- } __packed;
- 
--static void set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
-+static int set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
- 	struct usb_endpoint_descriptor *ep_desc,
--	unsigned int factor, bool is_playback)
-+	enum usb_device_speed speed, bool is_playback)
- {
- 	int chmask, srate, ssize;
--	u16 max_packet_size;
-+	u16 max_size_bw, max_size_ep;
-+	unsigned int factor;
-+
-+	switch (speed) {
-+	case USB_SPEED_FULL:
-+		max_size_ep = 1023;
-+		factor = 1000;
-+		break;
-+
-+	case USB_SPEED_HIGH:
-+		max_size_ep = 1024;
-+		factor = 8000;
-+		break;
-+
-+	default:
-+		return -EINVAL;
-+	}
- 
- 	if (is_playback) {
- 		chmask = uac2_opts->p_chmask;
-@@ -461,10 +477,12 @@ static void set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
- 		ssize = uac2_opts->c_ssize;
+ 	for (i = 0; i < params->req_number; i++) {
+-		if (prm->ureq[i].req) {
+-			if (usb_ep_dequeue(ep, prm->ureq[i].req))
+-				usb_ep_free_request(ep, prm->ureq[i].req);
++		if (prm->reqs[i]) {
++			if (usb_ep_dequeue(ep, prm->reqs[i]))
++				usb_ep_free_request(ep, prm->reqs[i]);
+ 			/* else will be freed in u_audio_iso_complete() */
+-			prm->ureq[i].req = NULL;
++			prm->reqs[i] = NULL;
+ 		}
  	}
  
--	max_packet_size = num_channels(chmask) * ssize *
-+	max_size_bw = num_channels(chmask) * ssize *
- 		DIV_ROUND_UP(srate, factor / (1 << (ep_desc->bInterval - 1)));
--	ep_desc->wMaxPacketSize = cpu_to_le16(min_t(u16, max_packet_size,
--				le16_to_cpu(ep_desc->wMaxPacketSize)));
-+	ep_desc->wMaxPacketSize = cpu_to_le16(min_t(u16, max_size_bw,
-+						    max_size_ep));
-+
-+	return 0;
- }
+@@ -372,22 +366,21 @@ int u_audio_start_capture(struct g_audio *audio_dev)
+ 	usb_ep_enable(ep);
  
- /* Use macro to overcome line length limitation */
-@@ -670,10 +688,33 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 	for (i = 0; i < params->req_number; i++) {
+-		if (!prm->ureq[i].req) {
++		if (!prm->reqs[i]) {
+ 			req = usb_ep_alloc_request(ep, GFP_ATOMIC);
+ 			if (req == NULL)
+ 				return -ENOMEM;
+ 
+-			prm->ureq[i].req = req;
+-			prm->ureq[i].pp = prm;
++			prm->reqs[i] = req;
+ 
+ 			req->zero = 0;
+-			req->context = &prm->ureq[i];
++			req->context = prm;
+ 			req->length = req_len;
+ 			req->complete = u_audio_iso_complete;
+ 			req->buf = prm->rbuf + i * ep->maxpacket;
+ 		}
+ 
+-		if (usb_ep_queue(ep, prm->ureq[i].req, GFP_ATOMIC))
++		if (usb_ep_queue(ep, prm->reqs[i], GFP_ATOMIC))
+ 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
  	}
  
- 	/* Calculate wMaxPacketSize according to audio bandwidth */
--	set_ep_max_packet_size(uac2_opts, &fs_epin_desc, 1000, true);
--	set_ep_max_packet_size(uac2_opts, &fs_epout_desc, 1000, false);
--	set_ep_max_packet_size(uac2_opts, &hs_epin_desc, 8000, true);
--	set_ep_max_packet_size(uac2_opts, &hs_epout_desc, 8000, false);
-+	ret = set_ep_max_packet_size(uac2_opts, &fs_epin_desc, USB_SPEED_FULL,
-+				     true);
-+	if (ret < 0) {
-+		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
-+		return ret;
-+	}
-+
-+	ret = set_ep_max_packet_size(uac2_opts, &fs_epout_desc, USB_SPEED_FULL,
-+				     false);
-+	if (ret < 0) {
-+		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
-+		return ret;
-+	}
-+
-+	ret = set_ep_max_packet_size(uac2_opts, &hs_epin_desc, USB_SPEED_HIGH,
-+				     true);
-+	if (ret < 0) {
-+		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
-+		return ret;
-+	}
-+
-+	ret = set_ep_max_packet_size(uac2_opts, &hs_epout_desc, USB_SPEED_HIGH,
-+				     false);
-+	if (ret < 0) {
-+		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
-+		return ret;
-+	}
+@@ -450,22 +443,21 @@ int u_audio_start_playback(struct g_audio *audio_dev)
+ 	usb_ep_enable(ep);
  
- 	if (EPOUT_EN(uac2_opts)) {
- 		agdev->out_ep = usb_ep_autoconfig(gadget, &fs_epout_desc);
+ 	for (i = 0; i < params->req_number; i++) {
+-		if (!prm->ureq[i].req) {
++		if (!prm->reqs[i]) {
+ 			req = usb_ep_alloc_request(ep, GFP_ATOMIC);
+ 			if (req == NULL)
+ 				return -ENOMEM;
+ 
+-			prm->ureq[i].req = req;
+-			prm->ureq[i].pp = prm;
++			prm->reqs[i] = req;
+ 
+ 			req->zero = 0;
+-			req->context = &prm->ureq[i];
++			req->context = prm;
+ 			req->length = req_len;
+ 			req->complete = u_audio_iso_complete;
+ 			req->buf = prm->rbuf + i * ep->maxpacket;
+ 		}
+ 
+-		if (usb_ep_queue(ep, prm->ureq[i].req, GFP_ATOMIC))
++		if (usb_ep_queue(ep, prm->reqs[i], GFP_ATOMIC))
+ 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 	}
+ 
+@@ -510,9 +502,10 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+ 		uac->c_prm.uac = uac;
+ 		prm->max_psize = g_audio->out_ep_maxpsize;
+ 
+-		prm->ureq = kcalloc(params->req_number, sizeof(struct uac_req),
+-				GFP_KERNEL);
+-		if (!prm->ureq) {
++		prm->reqs = kcalloc(params->req_number,
++				    sizeof(struct usb_request *),
++				    GFP_KERNEL);
++		if (!prm->reqs) {
+ 			err = -ENOMEM;
+ 			goto fail;
+ 		}
+@@ -532,9 +525,10 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+ 		uac->p_prm.uac = uac;
+ 		prm->max_psize = g_audio->in_ep_maxpsize;
+ 
+-		prm->ureq = kcalloc(params->req_number, sizeof(struct uac_req),
+-				GFP_KERNEL);
+-		if (!prm->ureq) {
++		prm->reqs = kcalloc(params->req_number,
++				    sizeof(struct usb_request *),
++				    GFP_KERNEL);
++		if (!prm->reqs) {
+ 			err = -ENOMEM;
+ 			goto fail;
+ 		}
+@@ -587,8 +581,8 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+ snd_fail:
+ 	snd_card_free(card);
+ fail:
+-	kfree(uac->p_prm.ureq);
+-	kfree(uac->c_prm.ureq);
++	kfree(uac->p_prm.reqs);
++	kfree(uac->c_prm.reqs);
+ 	kfree(uac->p_prm.rbuf);
+ 	kfree(uac->c_prm.rbuf);
+ 	kfree(uac);
+@@ -610,8 +604,8 @@ void g_audio_cleanup(struct g_audio *g_audio)
+ 	if (card)
+ 		snd_card_free(card);
+ 
+-	kfree(uac->p_prm.ureq);
+-	kfree(uac->c_prm.ureq);
++	kfree(uac->p_prm.reqs);
++	kfree(uac->c_prm.reqs);
+ 	kfree(uac->p_prm.rbuf);
+ 	kfree(uac->c_prm.rbuf);
+ 	kfree(uac);
 -- 
 2.29.2
 
