@@ -2,75 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6451DC433E6
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 11:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82068C433E6
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2009D22C9F
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 11:26:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5451F2311C
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Jan 2021 13:38:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726059AbhAFL0J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Jan 2021 06:26:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52388 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725905AbhAFL0I (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 6 Jan 2021 06:26:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1815C22B37;
-        Wed,  6 Jan 2021 11:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609932328;
-        bh=dKDGsUfUFlfnuTfp1bAUM+cB+B1BsbaavEtFCZGIEy8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L2eKcFBg22hLd9qDr4Scn+aHenc2YEWAQEeN4vOmQcP3xP2Th0tEjDgXi9EBSUUec
-         NKj8FQ4YcSMKx4oTARcCGLTOUXQu2hxIj9FbzI+P/gO11bB4WjwUrlmbca3lvkRNko
-         jHMMEbB85a/fO+K40wOvMAt7hV/kh2Vs/XSSRKrt9qnIpn8szs1xaMm7rKNR+2d+td
-         A9GAV2BO/4OIFNkZi2hTxbNMpRhXMzGXl2I9AouxM4KXzzMgQUpdZnB5ZdPzgiTOmd
-         bMTLcT9EhkTSUrsE9yzvBzD9jy9lvl0O3NgyDDsYNVy3hmf0gPTHfzuS0J0wVflYWx
-         sE4JJfoK6FfFg==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1kx6wP-00076G-OS; Wed, 06 Jan 2021 12:25:25 +0100
-Date:   Wed, 6 Jan 2021 12:25:25 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Pete Zaitcev <zaitcev@redhat.com>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] USB: usblp: fix DMA to stack
-Message-ID: <X/WeJfWKtFEebpMC@hovoldconsulting.com>
-References: <20210104145302.2087-1-johan@kernel.org>
- <20210104113736.0af1ce0a@suzdal.zaitcev.lan>
+        id S1726824AbhAFNhu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Jan 2021 08:37:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726808AbhAFNhs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jan 2021 08:37:48 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442D7C061357
+        for <linux-usb@vger.kernel.org>; Wed,  6 Jan 2021 05:37:08 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id c7so4403811edv.6
+        for <linux-usb@vger.kernel.org>; Wed, 06 Jan 2021 05:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mTKp7Q6ON2dW5g8WxlLxPPWuU/dM5NtfKl7JdpUhkyQ=;
+        b=tg7dAOXk4CYwqY0t8U52DZtiOl5U0NCSq3yA1LUuUEG1E8pNyB30rU35PWIk9DGFvU
+         O4q1x6tqEv6EyeSh2neLePQgVjOD/oPoTBMAQd6TM8oZlFkvWYqu+b+rhu7Jv3mGCS95
+         MVuGunVtzjU+ci4mQe6zVySG6jfz0alNjuSNdCdNt5lLr+N08TYdC9zUhxMbccB2tjlE
+         snW5RoUMvd5/ZpeW4DQ2ANsLcQy6NhXrmxTwh7fGZZrCyiWssFaBv+t4zCX3JFvnRtgD
+         VIUoOCdUTqfDtsnD6es+pTFw8UptiXnP5OojO6DcDw/xN2WQhr0NvCwGdMam5in5xj1M
+         OLkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mTKp7Q6ON2dW5g8WxlLxPPWuU/dM5NtfKl7JdpUhkyQ=;
+        b=pTST+qSkARG9ZSrFFSJiFYA1B1tJsZjacWwHdyMkhXZ+E8JcoQwo6mhpJp/fKxNHCb
+         GV4BQ1Wg5jEQwZGEJYIza2jrXoHooyu5kGsskdBZiZzH0vV7+hqft/NZa5VIFFrJyOux
+         08GqrOGaoLMOV7zZh6osRsiS59xkvs3JZO9Jst5uMljFigmt9Nhzasrz2WUV0HekCmJj
+         CRlZBWnglPOaYAYBHOyzkmrSD5FIF0pcvkx0WhYDf7o3s78rKJpz6HOdDIH5Zppg4oFH
+         yFnIVyD4r3OKH8Pc3F1uilF2dFWBIwzvepn/1qe25P+7nMKGgtr8M4oIbR4FbKBKu9Ko
+         Wtkg==
+X-Gm-Message-State: AOAM530BiCj8pULlYedSojX08vPSNs1NvoVbQ/hpRM/bQ+REE9M87Kw2
+        HlgzAxeEkGsnGfCYSW13NbGaFw==
+X-Google-Smtp-Source: ABdhPJxJsn3ynxCdwwuAtQAgpObVIwXnASNQNPImD0uKNhZ3vTlasph4oiIihP2pnaIjq57WyrzwFQ==
+X-Received: by 2002:a50:e8c4:: with SMTP id l4mr3903622edn.337.1609940226992;
+        Wed, 06 Jan 2021 05:37:06 -0800 (PST)
+Received: from localhost.localdomain (82-65-169-74.subs.proxad.net. [82.65.169.74])
+        by smtp.googlemail.com with ESMTPSA id n20sm1259275ejo.83.2021.01.06.05.37.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jan 2021 05:37:06 -0800 (PST)
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jack Pham <jackp@codeaurora.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ferry Toth <fntoth@gmail.com>, Peter Chen <peter.chen@nxp.com>,
+        Jerome Brunet <jbrunet@baylibre.com>
+Subject: [PATCH v2 1/5] usb: gadget: u_audio: Free requests only after callback
+Date:   Wed,  6 Jan 2021 14:36:48 +0100
+Message-Id: <20210106133652.512178-2-jbrunet@baylibre.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210106133652.512178-1-jbrunet@baylibre.com>
+References: <20210106133652.512178-1-jbrunet@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210104113736.0af1ce0a@suzdal.zaitcev.lan>
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 04, 2021 at 11:37:36AM -0600, Pete Zaitcev wrote:
-> On Mon,  4 Jan 2021 15:53:02 +0100
-> Johan Hovold <johan@kernel.org> wrote:
-> 
-> > +++ b/drivers/usb/class/usblp.c
-> > -#define usblp_hp_channel_change_request(usblp, channel, buffer) \
-> > -	usblp_ctrl_msg(usblp, USBLP_REQ_HP_CHANNEL_CHANGE_REQUEST, USB_TYPE_VENDOR, USB_DIR_IN, USB_RECIP_INTERFACE, channel, buffer, 1)
-> > +static int usblp_hp_channel_change_request(struct usblp *usblp, int channel, u8 *new_channel)
-> 
-> Acked-By: Pete Zaitcev <zaitcev@redhat.com>
-> 
-> I would probably get rid of the buffer pointer and return
-> new_channel & 0xFF in case of success. That would kill
-> the newChannel too, and there's no need to debage u8 versus
-> unsigned char. But this is good enough. A function is better
-> than trying to cram the kfree() into the clause of the switch.
+From: Jack Pham <jackp@codeaurora.org>
 
-Yeah, I wanted a minimal change suitable for stable and the helper was
-already there to be used for this.
+As per the kernel doc for usb_ep_dequeue(), it states that "this
+routine is asynchronous, that is, it may return before the completion
+routine runs". And indeed since v5.0 the dwc3 gadget driver updated
+its behavior to place dequeued requests on to a cancelled list to be
+given back later after the endpoint is stopped.
 
-Johan
+The free_ep() was incorrectly assuming that a request was ready to
+be freed after calling dequeue which results in a use-after-free
+in dwc3 when it traverses its cancelled list. Fix this by moving
+the usb_ep_free_request() call to the callback itself in case the
+ep is disabled.
+
+Fixes: eb9fecb9e69b0 ("usb: gadget: f_uac2: split out audio core")
+Reported-and-tested-by: Ferry Toth <fntoth@gmail.com>
+Reviewed-and-tested-by: Peter Chen <peter.chen@nxp.com>
+Signed-off-by: Jack Pham <jackp@codeaurora.org>
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ drivers/usb/gadget/function/u_audio.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
+index e6d32c536781..71dd9f16c246 100644
+--- a/drivers/usb/gadget/function/u_audio.c
++++ b/drivers/usb/gadget/function/u_audio.c
+@@ -89,7 +89,12 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
+ 	struct snd_uac_chip *uac = prm->uac;
+ 
+ 	/* i/f shutting down */
+-	if (!prm->ep_enabled || req->status == -ESHUTDOWN)
++	if (!prm->ep_enabled) {
++		usb_ep_free_request(ep, req);
++		return;
++	}
++
++	if (req->status == -ESHUTDOWN)
+ 		return;
+ 
+ 	/*
+@@ -336,8 +341,9 @@ static inline void free_ep(struct uac_rtd_params *prm, struct usb_ep *ep)
+ 
+ 	for (i = 0; i < params->req_number; i++) {
+ 		if (prm->ureq[i].req) {
+-			usb_ep_dequeue(ep, prm->ureq[i].req);
+-			usb_ep_free_request(ep, prm->ureq[i].req);
++			if (usb_ep_dequeue(ep, prm->ureq[i].req))
++				usb_ep_free_request(ep, prm->ureq[i].req);
++			/* else will be freed in u_audio_iso_complete() */
+ 			prm->ureq[i].req = NULL;
+ 		}
+ 	}
+-- 
+2.29.2
+
