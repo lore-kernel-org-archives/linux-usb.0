@@ -2,136 +2,121 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A4EC433DB
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Jan 2021 16:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5BBCC433DB
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Jan 2021 16:14:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B98B23118
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Jan 2021 16:07:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 841CC23118
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Jan 2021 16:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728108AbhAGQHt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Jan 2021 11:07:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726427AbhAGQHs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Jan 2021 11:07:48 -0500
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851AEC0612F4
-        for <linux-usb@vger.kernel.org>; Thu,  7 Jan 2021 08:07:08 -0800 (PST)
-Received: by mail-il1-x12a.google.com with SMTP id w12so7166576ilm.12
-        for <linux-usb@vger.kernel.org>; Thu, 07 Jan 2021 08:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3IzI8VC5SlTwuSuEK7ziAV/KFCK+RlX2Dd03bryPF+w=;
-        b=njhcKWYRQhaLhVPNoAj59Ur7vfMeaA7olvF2bUe5vwGAq2m48l7GymJjoQdaX0G2y3
-         eSRu0WbVLJkdJoVhhrHnuQO5MNfcKLbIviVl1bYQsXrzAR4BhQHkNZEiQkBPNMmmAfXi
-         QuGOaRpoeobhURwg8WVS22OZ/DYNfNJv3qf4aVqEZuLgSSPGozm0UDaKFr06AeB7UO0s
-         0V7Fnmlh4FWRIg+XS7SE7bCcmKs9V8PP0pAxqdDsUZ1QRtttm+fPvmgWyAUH9S38YXOe
-         CvNGW++dCE2aGhLd2ul4t8/rw/YWhrHLXZ+VyCyOE86CbPZWeHVUwWHVRxoYXIVZc6q2
-         eomQ==
+        id S1728498AbhAGQOM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Jan 2021 11:14:12 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:33874 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728437AbhAGQOL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Jan 2021 11:14:11 -0500
+Received: by mail-il1-f198.google.com with SMTP id c72so7059500ila.1
+        for <linux-usb@vger.kernel.org>; Thu, 07 Jan 2021 08:13:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3IzI8VC5SlTwuSuEK7ziAV/KFCK+RlX2Dd03bryPF+w=;
-        b=EXrEEWF6X6FzvQNNsOs0N7C1YeYHOM3hO7Ea+a5cTB8H3JXoZkOFhRZqgloUaZ83tt
-         OnXmblZtDmXDeYTpF+k2uvvgJCfeRY3sEYwEBNG8hyyx32eY4CAofTirU7ICj+aoFIqZ
-         iu1VaBhc0NcYu1jTJc9kOWtUA3d7iif9vjoz/zW/aw4CNj03yZqXCQTuuZGtUrW5PYmU
-         1URP71HiCGJ1pEN1BtQlznTX0n9zL50hw+GlSXlOMb8rr2GKxYa8CbxKQtrF2eMVyN1a
-         kjzjs0y2DMvRIe+DlliomJWmAbBJgN9Rt+dTwBTvMUNmLQAndRBcfYtvO4TCvyL1u3AC
-         InLw==
-X-Gm-Message-State: AOAM533uSx8F7ckzXUWSLeY3ahsjeLd8m9HYJ0BH7lcb3qgvhyhsjhLN
-        aPxIyYUTrWfvmNuQT3pKw5j5PTcUvoKYea4d
-X-Google-Smtp-Source: ABdhPJxkTtkjzVKqMjsJuClIk9kyJbfTS/XgB5bN1Sn9678t7ge4ZYfgJMtJkrLus7DeQMMxhYBI+g==
-X-Received: by 2002:a92:6706:: with SMTP id b6mr10136537ilc.121.1610035627726;
-        Thu, 07 Jan 2021 08:07:07 -0800 (PST)
-Received: from google.com ([2601:285:8380:9270::28bc])
-        by smtp.gmail.com with ESMTPSA id f3sm4650407ilu.74.2021.01.07.08.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 08:07:06 -0800 (PST)
-Date:   Thu, 7 Jan 2021 09:07:04 -0700
-From:   Ross Zwisler <zwisler@google.com>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "kernel@collabora.com" <kernel@collabora.com>
-Subject: Re: xhci problem -> general protection fault
-Message-ID: <X/cxqGgHu5NraH+s@google.com>
-References: <CAGRrVHwC=3qs00CTzPkrVPzXBnpcxfjRCKjgaYK9Hjt0GRfObg@mail.gmail.com>
- <ee24e656-f898-6b0b-ea91-9875390abb72@linux.intel.com>
- <CAGRrVHwgxtPF89niHV3N58SaDb7q5jWde_g7-yVxGPcKhemsaw@mail.gmail.com>
- <b6eba37b-c78b-fc99-5aca-f9e5856e80ac@linux.intel.com>
- <X8+22DeNDn1A7X+N@google.com>
- <068b49cd-4afa-7adb-572b-634b1728744d@linux.intel.com>
- <X9EdVbO08Y8Ohih5@google.com>
- <f75d6e13-d1f7-0282-f93d-be4693e82e29@linux.intel.com>
- <CAGRrVHyJcMCAEHMzRFbaD7ibZZd1oDbYWzmz-j+=1U5esR8gOw@mail.gmail.com>
- <52b0d136-3fcc-ad7f-8e53-140c077489be@linux.intel.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=bTMytF+N4TDmJ9rHn8WRoyCXgqj8j9/O59RQj+Q1ud0=;
+        b=BOXVQ+gfbQFVUuX8UXsB38M4M5aDsZYTnTE4gyGFTf94W+dexwJtySsCk3TpysFc2b
+         BFNOXgvRvl3MsLCQrcjTztL/RSl4gaOPr+2CgIZkt7KzK5YvlL0AvWWYpbMk4nFfsOQZ
+         hehxtSQFm5Vao00sGCwsIKJJAi3H/bL6qTpUCLcrQqIpIJ4qZ4QsPPPYh9Wva0jSEPlK
+         t7+YD1N8WrfF5mL+VU9aNsKbjKCcByKkp0dPJ01Iojyp5Tme/MiJ6BYo6V1vLxO/K+jy
+         SK1hcrzLKTknJW5MOuMjPC2ZYYpjNvYvHWWqxQTM1G7iPtJfrRSyNNcN0gbCZd/MvFaO
+         V0wA==
+X-Gm-Message-State: AOAM532k+MC+IuaDf6roQn7tWRC9b2KWREf3r9MZqQ6X8Tn6wcVPBl7n
+        NLiIVt2kz0r5YltVnVZmdbCJm0AXZFkny94mlyAX4d+2zrZg
+X-Google-Smtp-Source: ABdhPJw+qti4Ox3Xawufw2SDiFU1QenfWARf9q+8K76Ppo/Ixx7OsPObSBWhforkGN3mwVFPzbLl9ghGYutsNFBhJW4XoHCsljny
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <52b0d136-3fcc-ad7f-8e53-140c077489be@linux.intel.com>
+X-Received: by 2002:a05:6e02:188d:: with SMTP id o13mr8460240ilu.233.1610036010763;
+ Thu, 07 Jan 2021 08:13:30 -0800 (PST)
+Date:   Thu, 07 Jan 2021 08:13:30 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007f4ec105b851b870@google.com>
+Subject: WARNING in __usbhid_submit_report
+From:   syzbot <syzbot+c44943d43677810db388@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, andreyknvl@google.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 07, 2021 at 10:57:19AM +0200, Mathias Nyman wrote:
-> On 6.1.2021 20.52, Ross Zwisler wrote:
-> > On Wed, Dec 30, 2020 at 5:31 AM Mathias Nyman <mathias.nyman@linux.intel.com> wrote:
-> > <>
-> >> I was able to reproduce the issue with two USB devices on a different system.
-> >>
-> >> I saw that the new incorrect dequeue pointer sometimes had the higher 32 bits
-> >> incorrect while the lower bits were correct.
-> >> So this looks like a memory access order issue.
-> >>
-> >> The command TRB is 16 bytes. The xhci driver writes it in four 4 byte chunks.
-> >> Even if the driver writes the chunk that sets the cycle bit last, handing the TRB
-> >> over to the controller, it appears that the actual write order can be different.
-> >> The controller ends up reading a command TRB with updated cycle bit but old bogus
-> >> values in the "new dequeue pointer" field.
-> >>
-> >> Adding a write memory barrier before writing the cycle bit solved the issue in my case.
-> >>
-> >> Whole patch series is updated, added write memory barrier, and rebased on 5.10.
-> >> It can be found force-updated in the same rewrite_halt_stop_handling branch:
-> >>
-> >> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git rewrite_halt_stop_handling
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=rewrite_halt_stop_handling
-> >>
-> >> Does this work for you?
-> > 
-> > Yes, it does!!  I verified that I'm able to reproduce the issue in less than
-> > 10 seconds with this commit which is the HEAD~1 of your series:
-> > 
-> > a7d053d207121 xhci: handle halting transfer event properly after endpoint stop and halt raced.
-> > 
-> > With this commit (the final commit in your series, adding a single patch): 
-> > 
-> > 96887d191a88c xhci: make sure TRB is fully written before giving it to the controller
-> > 
-> > I ran cleanly for over 20 minutes and haven't been able to reproduce the
-> > issue.  It looks like the wmb() added in that patch makes all the difference!
-> > 
-> > Thank you for the fix, and you can add this tag to the series:
-> > 
-> > Tested-by: Ross Zwisler <zwisler@google.com>
-> > 
-> 
-> Great, thanks for testing.
-> 
-> I think it makes sense to cherry pick that one-liner wmb() patch first to 5.11 and stable,
-> then add rest of the rewrite later.
-> 
-> -Mathias
+Hello,
 
-Makes sense to me.  FWIW I've verified that v5.10 reproduces the issue easily,
-and v5.10 with just the wmb() patch does not.
+syzbot found the following issue on:
 
-Thanks again for the fix!
+HEAD commit:    ed054e4e USB: gadget: f_printer: set a default q_len
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=172880e7500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c8ac36d562a4f043
+dashboard link: https://syzkaller.appspot.com/bug?extid=c44943d43677810db388
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1516acc7500000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15658b57500000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c44943d43677810db388@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 4394 at mm/page_alloc.c:4974 __alloc_pages_nodemask+0x569/0x690 mm/page_alloc.c:5009
+Modules linked in:
+CPU: 0 PID: 4394 Comm: syz-executor446 Not tainted 5.11.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:__alloc_pages_nodemask+0x569/0x690 mm/page_alloc.c:4974
+Code: 00 00 0c 00 0f 85 94 00 00 00 4c 89 c2 44 89 e6 44 89 f7 c6 44 24 70 00 4c 89 6c 24 58 e8 0f da ff ff 49 89 c7 e9 2f fd ff ff <0f> 0b e9 f7 fd ff ff 4c 89 44 24 18 4c 89 44 24 10 89 74 24 0c 4c
+RSP: 0018:ffffc90000207b98 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 1ffff92000040f77 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: dffffc0000000000 RDI: 0000000000040a20
+RBP: 0000000000000000 R08: 00000000ffffffff R09: 0000000000000000
+R10: ffffffff8169a911 R11: 0000000000000000 R12: 0000000000000012
+R13: 0000000000000012 R14: 0000000000000000 R15: ffff8881020e2958
+FS:  0000000000fa6880(0000) GS:ffff8881f6a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557339925678 CR3: 000000010239d000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ alloc_pages_current+0x18c/0x2a0 mm/mempolicy.c:2267
+ alloc_pages include/linux/gfp.h:547 [inline]
+ kmalloc_order+0x2e/0xb0 mm/slab_common.c:837
+ kmalloc_order_trace+0x14/0x110 mm/slab_common.c:853
+ __usbhid_submit_report+0x56a/0xd50 drivers/hid/usbhid/hid-core.c:590
+ usbhid_submit_report drivers/hid/usbhid/hid-core.c:640 [inline]
+ usbhid_request+0x7b/0xf0 drivers/hid/usbhid/hid-core.c:1274
+ hid_hw_request include/linux/hid.h:1072 [inline]
+ hiddev_ioctl+0x513/0x1630 drivers/hid/usbhid/hiddev.c:726
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
+ do_syscall_64+0x2d/0x40 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x445cb9
+Code: e8 5c ad 02 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 1b cd fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007fff01168048 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 0000000000445cb9
+RDX: 0000000020000040 RSI: 00000000400c4808 RDI: 0000000000000004
+RBP: 00000000006d0018 R08: 000000000000000b R09: 00000000004002e0
+R10: 000000000000000f R11: 0000000000000246 R12: 0000000000402e60
+R13: 0000000000402ef0 R14: 0000000000000000 R15: 0000000000000000
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
