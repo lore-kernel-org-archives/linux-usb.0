@@ -2,149 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF94AC433E6
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 19:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6EBCC433E9
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 20:39:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB59723A04
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 19:19:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8184E23A9D
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 20:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728872AbhAHTTZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Jan 2021 14:19:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43576 "EHLO
+        id S1729560AbhAHUjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Jan 2021 15:39:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726650AbhAHTTZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jan 2021 14:19:25 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C433FC061381
-        for <linux-usb@vger.kernel.org>; Fri,  8 Jan 2021 11:18:44 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id s26so25450993lfc.8
-        for <linux-usb@vger.kernel.org>; Fri, 08 Jan 2021 11:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ozbpLtkK1xvRTK+jwsC/Xn8VvSovcm0+oA0TWoxuKes=;
-        b=REri6ss5W8tvw++tDJHa6Tj2j4DNNmbizybl3TpCOkP38qlwzLJL3iRDH7m/iGR88P
-         KKogFPJnAi3XbSxBoOCLhMhQtWw2FK8m1e/Opk5TYu1FtVmOAlVcihIgg0EBhL0EdZGc
-         CbwCuj8pEebcxR8ZblMQORCBY38zzkSYAB7gk4WXEIoVwoMBjKLijfznN2jiU5upNMZb
-         mphSVuEwfY0CQI1aG0II4jxKl3pd+VdlF705kzvT3hj50Zgu0uc2PyqDJLpEHdfGTu3J
-         gDXLVc1budnOYeU9tZLX9zd3zIpC1ToycjGkxxgsCeJ9jVf5DhhwfSaZKi1DqgLzbWFq
-         Q8QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ozbpLtkK1xvRTK+jwsC/Xn8VvSovcm0+oA0TWoxuKes=;
-        b=ExGVlyWx1so/B/CAIWToXvMfOvMnApUb0o/jVgKEP6uyFMKJ/PAbG+yYDoEfXKgTXy
-         HP53g/ey9/l1UbuzgelGCgoRtDf04npa+H96EjOSGxFxJ88CrrqcT6Twnf02+lGkF+ss
-         aD/OPSsvgZseVVnn7IMzTsI/2bOunJWVGJOSwMSdR9C83P502xOv0ekvFpoCIEuGl87U
-         sS6sJisYqDBlsM7jl3xrISUrEFXhiyWmjzWkldNofDWc84vOwiuD9GIoOd1XwttIk4ai
-         X0Q976bylUsGN3TL9ePeN52sszGHyCGH9/2s8aKyghhYmpiPQARifrETHQs6Ml1MSV9b
-         0RQw==
-X-Gm-Message-State: AOAM5317CkeBgHzohL2SbsdY91KBbH8hhHIt56zXy6hfPLLy3l23Zkib
-        x8zavu5b9MyzKVfLXzTmpJnOtcNkUTSxHz9uRUYXEA==
-X-Google-Smtp-Source: ABdhPJxx2DQBiILCuOPqsqJgdHwSJDlbEqnxDQdO81BLoZ6Je4piriGPaWJvYOymof0WkMoIdkFIKsl++hELe3lzdB4=
-X-Received: by 2002:a2e:b001:: with SMTP id y1mr2310498ljk.257.1610133523015;
- Fri, 08 Jan 2021 11:18:43 -0800 (PST)
+        with ESMTP id S1729547AbhAHUjT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jan 2021 15:39:19 -0500
+X-Greylist: delayed 593 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 08 Jan 2021 12:38:39 PST
+Received: from ficht.host.rs.currently.online (ficht.host.rs.currently.online [IPv6:2a01:4f8:120:614b::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3F6C061381;
+        Fri,  8 Jan 2021 12:38:39 -0800 (PST)
+Received: from carbon.srv.schuermann.io (carbon.srv.schuermann.io [178.63.44.188])
+        by ficht.host.rs.currently.online (Postfix) with ESMTPS id EC01C1E995;
+        Fri,  8 Jan 2021 20:28:10 +0000 (UTC)
+From:   Leon Schuermann <leon@is.currently.online>
+To:     oliver@neukum.org, davem@davemloft.net
+Cc:     hayeswang@realtek.com, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, Leon Schuermann <leon@is.currently.online>
+Subject: [PATCH 1/1] r8152: Add Lenovo Powered USB-C Travel Hub
+Date:   Fri,  8 Jan 2021 21:27:27 +0100
+Message-Id: <20210108202727.11728-2-leon@is.currently.online>
+In-Reply-To: <20210108202727.11728-1-leon@is.currently.online>
+References: <20210108202727.11728-1-leon@is.currently.online>
 MIME-Version: 1.0
-References: <20210108015115.27920-1-john.stultz@linaro.org> <87bldzwr6x.fsf@kernel.org>
-In-Reply-To: <87bldzwr6x.fsf@kernel.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Fri, 8 Jan 2021 11:18:32 -0800
-Message-ID: <CALAqxLWdWj9=a-7NGDzJyrfyRABwKnJM7EQo3Zm+k9JqAhPz+g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] usb: dwc3: Trigger a GCTL soft reset when
- switching modes in DRD
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>, Yu Chen <chenyu56@huawei.com>,
-        Tejas Joglekar <tejas.joglekar@synopsys.com>,
-        Yang Fei <fei.yang@intel.com>,
-        YongQin Liu <yongqin.liu@linaro.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Jun Li <lijun.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Roger Quadros <rogerq@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jan 8, 2021 at 4:26 AM Felipe Balbi <balbi@kernel.org> wrote:
->
->
-> Hi,
->
-> John Stultz <john.stultz@linaro.org> writes:
-> > From: Yu Chen <chenyu56@huawei.com>
-> >
-> > Just resending this, as discussion died out a bit and I'm not
-> > sure how to make further progress. See here for debug data that
-> > was requested last time around:
-> >   https://lore.kernel.org/lkml/CALAqxLXdnaUfJKx0aN9xWwtfWVjMWigPpy2aqsNj56yvnbU80g@mail.gmail.com/
-> >
-> > With the current dwc3 code on the HiKey960 we often see the
-> > COREIDLE flag get stuck off in __dwc3_gadget_start(), which
-> > seems to prevent the reset irq and causes the USB gadget to
-> > fail to initialize.
-> >
-> > We had seen occasional initialization failures with older
-> > kernels but with recent 5.x era kernels it seemed to be becoming
-> > much more common, so I dug back through some older trees and
-> > realized I dropped this quirk from Yu Chen during upstreaming
-> > as I couldn't provide a proper rational for it and it didn't
-> > seem to be necessary. I now realize I was wrong.
-> >
-> > After resubmitting the quirk, Thinh Nguyen pointed out that it
-> > shouldn't be a quirk at all and it is actually mentioned in the
-> > programming guide that it should be done when switching modes
-> > in DRD.
-> >
-> > So, to avoid these !COREIDLE lockups seen on HiKey960, this
-> > patch issues GCTL soft reset when switching modes if the
-> > controller is in DRD mode.
-> >
-> > Cc: Felipe Balbi <balbi@kernel.org>
-> > Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
-> > Cc: Yang Fei <fei.yang@intel.com>
-> > Cc: YongQin Liu <yongqin.liu@linaro.org>
-> > Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> > Cc: Thinh Nguyen <thinhn@synopsys.com>
-> > Cc: Jun Li <lijun.kernel@gmail.com>
-> > Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: linux-usb@vger.kernel.org
-> > Signed-off-by: Yu Chen <chenyu56@huawei.com>
-> > Signed-off-by: John Stultz <john.stultz@linaro.org>
-> > ---
-> > v2:
-> > * Rework to always call the GCTL soft reset in DRD mode,
-> >   rather then using a quirk as suggested by Thinh Nguyen
-> >
-> > v3:
-> > * Move GCTL soft reset under the spinlock as suggested by
-> >   Thinh Nguyen
->
-> Because this is such an invasive change, I would prefer that we get
-> Tested-By tags from a good fraction of the users before applying these
-> two changes.
+This USB-C Hub (17ef:721e) based on the Realtek RTL8153B chip used to
+work with the cdc_ether driver. However, using this driver, with the
+system suspended the device sends pause-frames as soon as the receive
+buffer fills up. This produced substantial network load, up to the
+point where some Ethernet switches stopped processing packets
+altogether.
 
-I'm happy to reach out to folks to try to get that. Though I'm
-wondering if it would be better to put it behind a dts quirk flag, as
-originally proposed?
-   https://lore.kernel.org/lkml/20201021181803.79650-1-john.stultz@linaro.org/
+Using the Realtek driver (r8152) fixes this issue. Pause frames are no
+longer sent while the host system is suspended.
 
-That way folks can enable it for devices as they need?
+Signed-off-by: Leon Schuermann <leon@is.currently.online>
+Tested-by: Leon Schuermann <leon@is.currently.online>
+---
+ drivers/net/usb/cdc_ether.c | 7 +++++++
+ drivers/net/usb/r8152.c     | 1 +
+ 2 files changed, 8 insertions(+)
 
-Again, I'm not trying to force this in as-is, just mostly sending it
-out again for discussion to understand what other approach might work.
+diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+index 8c1d61c2cbac..6aaa0675c28a 100644
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -793,6 +793,13 @@ static const struct usb_device_id	products[] = {
+ 	.driver_info = 0,
+ },
+ 
++/* Lenovo Powered USB-C Travel Hub (4X90S92381, based on Realtek RTL8153) */
++{
++	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0x721e, USB_CLASS_COMM,
++			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
++	.driver_info = 0,
++},
++
+ /* ThinkPad USB-C Dock Gen 2 (based on Realtek RTL8153) */
+ {
+ 	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0xa387, USB_CLASS_COMM,
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index c448d6089821..67cd6986634f 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -6877,6 +6877,7 @@ static const struct usb_device_id rtl8152_table[] = {
+ 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7205)},
+ 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x720c)},
+ 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7214)},
++	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x721e)},
+ 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0xa387)},
+ 	{REALTEK_USB_DEVICE(VENDOR_ID_LINKSYS, 0x0041)},
+ 	{REALTEK_USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff)},
+-- 
+2.29.2
 
-thanks
--john
